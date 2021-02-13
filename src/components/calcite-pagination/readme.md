@@ -35,9 +35,10 @@ These can be passed straight to the `calcite-pagination` component:
 
 ## Events
 
-| Event                     | Description                                 | Type                                   |
-| ------------------------- | ------------------------------------------- | -------------------------------------- |
-| `calcitePaginationUpdate` | Emitted whenever the selected page changes. | `CustomEvent<CalcitePaginationDetail>` |
+| Event                     | Description                                                                                                                              | Type                                   |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| `calcitePaginationChange` | Emitted whenever the selected page changes.                                                                                              | `CustomEvent<CalcitePaginationDetail>` |
+| `calcitePaginationUpdate` | <span style="color:red">**[DEPRECATED]**</span> use calcitePaginationChange instead<br/><br/>Emitted whenever the selected page changes. | `CustomEvent<CalcitePaginationDetail>` |
 
 ## Methods
 
