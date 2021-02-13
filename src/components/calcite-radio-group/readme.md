@@ -17,9 +17,9 @@
 
 ## Events
 
-| Event                     | Description | Type               |
-| ------------------------- | ----------- | ------------------ |
-| `calciteRadioGroupChange` |             | `CustomEvent<any>` |
+| Event                     | Description                                                           | Type                  |
+| ------------------------- | --------------------------------------------------------------------- | --------------------- |
+| `calciteRadioGroupChange` | Fired when the selected option changes, event detail is the new value | `CustomEvent<string>` |
 
 ## Methods
 

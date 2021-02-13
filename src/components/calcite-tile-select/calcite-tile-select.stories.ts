@@ -24,8 +24,8 @@ export const Light = (): string => html`
     heading="${text("heading", "Tile heading lorem ipsum")}"
     ${boolean("hidden", false)}
     icon="${select("icon", iconNames, "layer")}"
-    name="${text("name", "tile-select-demo")}"
-    show-input="${select("show-input", ["left", "right", "none"], "left")}"
+    ${boolean("input-enabled", false)}
+    input-alignment="${select("input-alignment", ["start", "end"], "start")}"
     type="${select("type", ["radio", "checkbox"], "radio")}"
     value="${text("value", "one")}"
   >
@@ -45,7 +45,8 @@ export const Dark = (): string => html`
     ${boolean("hidden", false)}
     icon="${select("icon", iconNames, "layer")}"
     name="${text("name", "tile-select-demo")}"
-    show-input="${select("show-input", ["left", "right", "none"], "left")}"
+    ${boolean("input-enabled", false)}
+    input-alignment="${select("input-alignment", ["start", "end"], "start")}"
     theme="dark"
     type="${select("type", ["radio", "checkbox"], "radio")}"
     value="${text("value", "one")}"
