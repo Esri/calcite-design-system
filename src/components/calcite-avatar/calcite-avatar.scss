@@ -8,15 +8,15 @@
 }
 
 :host([scale="s"]) {
-  @apply w-6 h-6 text--3;
+  @apply w-6 h-6 text--3h;
 }
 
 :host([scale="m"]) {
-  @apply w-8 h-8 text--2;
+  @apply w-8 h-8 text--2h;
 }
 
 :host([scale="l"]) {
-  @apply w-10 h-10 text--1;
+  @apply w-10 h-10 text--1h;
 }
 
 .icon {
