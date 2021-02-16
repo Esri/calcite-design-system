@@ -1,57 +1,54 @@
 :host {
   @extend %component-host;
-  @extend %component-spacing;
-  display: block;
+  @apply block;
 }
 
 :host([open]) {
-  border-bottom: 1px solid var(--calcite-ui-border-3);
+  @apply border-b border-color-3;
 }
 
 :host(:last-child) {
-  border-bottom: none;
+  @apply border-b-0;
 }
 
 .toggle {
-  background-color: transparent;
-  border: none;
-  color: var(--calcite-ui-text-2);
-  font-family: theme("fontFamily.sans");
-  font-weight: theme("fontWeight.normal");
-  width: 100%;
+  @apply bg-transparent
+    border-0
+    font-normal
+    font-sans
+    text-color-2
+    w-full;
 }
 
 .toggle--switch,
 .section-header {
-  align-items: center;
-  cursor: pointer;
-  display: flex;
-  margin: var(--calcite-spacing-quarter) 0;
-  padding: var(--calcite-spacing-half) 0;
-  user-select: none;
-  font-size: theme("fontSize.-1");
-  @include focus-style-base();
+  @apply cursor-pointer
+    flex
+    focus-base
+    items-center
+    my-1
+    py-2
+    select-none
+    text--1h;
   &:focus {
-    @include focus-style-outset();
+    @apply focus-outset;
   }
   &:hover {
-    color: var(--calcite-ui-text-1);
+    @apply text-color-1;
   }
 }
 
 .section-header__text {
-  margin: 0 var(--calcite-spacing-quarter);
+  @apply mx-1;
 }
 
 .toggle--switch {
-  justify-content: space-between;
+  @apply justify-between;
   calcite-switch {
-    pointer-events: none;
-    margin: 0 0 0 var(--calcite-spacing-half);
+    @apply pointer-events-none ml-2;
   }
 }
 
 .calcite--rtl .toggle--switch calcite-switch {
-  margin-left: 0;
-  margin-right: var(--calcite-spacing-half);
+  @apply ml-0 mr-2;
 }

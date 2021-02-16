@@ -1,37 +1,29 @@
 /* Shared styles for header elements */
 .header {
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: var(--calcite-ui-text-2);
-  fill: var(--calcite-ui-text-2);
+  @apply m-0 flex items-center justify-between text-color-2 fill-color-2;
 }
 
 .heading {
-  padding: 0;
-  margin: 0;
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: 1.5;
+  @apply p-0 m-0 font-medium leading-normal;
 }
 
 .header .heading {
-  flex: 1 0 auto;
-  padding: var(--calcite-spacing-half) var(--calcite-spacing-half);
+  @apply p-2;
+  flex: 1 0 auto; // TODO jrowlingson -
 }
 
 h1.heading {
-  font-size: theme("fontSize.2");
+  font-size: theme("fontSize.2h");
 }
 
 h2.heading {
-  font-size: theme("fontSize.1");
+  font-size: theme("fontSize.1h");
 }
 
 h3.heading {
-  font-size: theme("fontSize.0");
+  font-size: theme("fontSize.0h");
 }
 h4.heading,
 h5.heading {
-  font-size: theme("fontSize.-1");
+  font-size: theme("fontSize.-1h");
 }

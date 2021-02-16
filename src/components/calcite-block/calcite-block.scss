@@ -1,7 +1,5 @@
 :host {
   @extend %component-host;
-  @extend %component-spacing;
-
   @apply flex
     flex-grow-0
     flex-shrink-0
@@ -17,7 +15,7 @@
   flex-basis: auto;
 }
 
-@import "../../assets/styles/header";
+@import "../../assets/styles/header"; // TODO jrowlingson - extract?
 
 .header {
   @apply justify-start p-0;
@@ -51,9 +49,8 @@
     border-none
     cursor-pointer
     text-left
-    focus-base;
-
-  background-color: transparent;
+    focus-base
+    bg-transparent;
   &:hover {
     @apply bg-foreground-2;
   }
@@ -140,9 +137,6 @@ calcite-scrim {
 }
 
 :host([disabled]) {
-  pointer-events: none;
-  user-select: none;
-
   @apply pointer-events-none select-none;
 
   .header-container {
