@@ -1,4 +1,4 @@
-import { Component, Host, h, Element, Prop, Watch, State } from "@stencil/core";
+import { Component, Host, h, Element, Prop, Watch, State, forceUpdate } from "@stencil/core";
 import { CSS, ICONS, TEXT } from "./resources";
 import { focusElement } from "../../utils/dom";
 import { VNode } from "@stencil/core/internal";
@@ -7,7 +7,8 @@ import { PopperPlacement } from "../../utils/popper";
 import { Placement } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 
-const SUPPORTED_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
+const SUPPORTED_BUTTON_NAV_KEYS = ["ArrowUp", "ArrowDown"];
+const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
 
 @Component({
   tag: "calcite-action-menu",
@@ -79,13 +80,6 @@ export class CalciteActionMenu {
    */
   @Prop({ reflect: true, mutable: true }) open = false;
 
-  @Watch("open")
-  openHandler(open: boolean): void {
-    if (!open) {
-      this.activeMenuItemIndex = -1;
-    }
-  }
-
   /**
    * Determines where the component will be positioned relative to the referenceElement.
    */
@@ -144,7 +138,9 @@ export class CalciteActionMenu {
         icon={ICONS.menu}
         id={menuButtonId}
         label={menuLabel}
-        onClick={this.toggleOpen}
+        onClick={this.menuButtonClick}
+        onKeyDown={this.menuButtonKeyDown}
+        onKeyUp={this.menuButtonKeyUp}
         ref={this.setMenuButonRef}
         text={optionsText}
         textEnabled={expanded}
@@ -166,7 +162,7 @@ export class CalciteActionMenu {
     } = this;
     const label = intlOptions || TEXT.options;
     const activeAction = actions[activeMenuItemIndex];
-    const activeDescendantId = activeAction ? activeAction.id : null;
+    const activeDescendantId = activeAction?.id || null;
 
     return (
       <calcite-popover
@@ -182,7 +178,6 @@ export class CalciteActionMenu {
           aria-labelledby={menuButtonId}
           class={CSS.menu}
           id={menuId}
-          onBlur={this.onBlur}
           onKeyDown={this.menuActionsContainerKeyDown}
           onKeyUp={this.menuActionsContainerKeyUp}
           ref={(el) => (this.menuEl = el)}
@@ -211,6 +206,10 @@ export class CalciteActionMenu {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  menuButtonClick = (): void => {
+    this.toggleOpen();
+  };
 
   setMenuButonRef = (node: HTMLCalciteActionElement): void => {
     this.menuButtonEl = node;
@@ -242,18 +241,54 @@ export class CalciteActionMenu {
     return !!supportedKeys.find((k) => k === key);
   }
 
+  menuButtonKeyUp = (event: KeyboardEvent): void => {
+    const { key } = event;
+
+    if (SUPPORTED_BUTTON_NAV_KEYS.indexOf(key) === -1) {
+      return;
+    }
+
+    event.preventDefault();
+
+    const { actions } = this;
+
+    if (!actions || actions.length === 0) {
+      return;
+    }
+
+    this.toggleOpen(true);
+
+    this.handleActionNavigation(key, actions);
+  };
+
+  menuButtonKeyDown = (event: KeyboardEvent): void => {
+    const { key } = event;
+
+    if (SUPPORTED_BUTTON_NAV_KEYS.indexOf(key) === -1) {
+      return;
+    }
+
+    event.preventDefault();
+  };
+
   menuActionsContainerKeyDown = (event: KeyboardEvent): void => {
     const { key } = event;
+
+    if (key === "Tab") {
+      this.open = false;
+      return;
+    }
 
     if (key === " " || key === "Enter") {
       event.preventDefault();
       const { actions } = this;
       const action = actions[this.activeMenuItemIndex];
       action?.click();
+      this.toggleOpen(false);
       return;
     }
 
-    if (SUPPORTED_NAV_KEYS.indexOf(key) !== -1) {
+    if (SUPPORTED_MENU_NAV_KEYS.indexOf(key) !== -1) {
       event.preventDefault();
     }
   };
@@ -261,17 +296,14 @@ export class CalciteActionMenu {
   menuActionsContainerKeyUp = (event: KeyboardEvent): void => {
     const { key } = event;
 
-    const isNavigationKey = SUPPORTED_NAV_KEYS.indexOf(key) !== -1;
+    const isNavigationKey = SUPPORTED_MENU_NAV_KEYS.indexOf(key) !== -1;
 
     if (isNavigationKey) {
       event.preventDefault();
     }
 
     if (key === "Escape") {
-      this.open = false;
-      // todo: better focus??
-      focusElement(this.menuButtonEl);
-      setTimeout(() => focusElement(this.menuButtonEl), 300);
+      this.toggleOpen(false);
       return;
     }
 
@@ -288,6 +320,8 @@ export class CalciteActionMenu {
   };
 
   handleActionNavigation = (key: string, actions: HTMLCalciteActionElement[]): void => {
+    const currentIndex = this.activeMenuItemIndex;
+
     if (key === "Home") {
       this.activeMenuItemIndex = 0;
     }
@@ -297,31 +331,27 @@ export class CalciteActionMenu {
     }
 
     if (key === "ArrowUp") {
-      this.activeMenuItemIndex = getRoundRobinIndex(this.activeMenuItemIndex - 1, actions.length);
+      this.activeMenuItemIndex = getRoundRobinIndex(Math.max(currentIndex - 1, -1), actions.length);
     }
 
     if (key === "ArrowDown") {
-      this.activeMenuItemIndex = getRoundRobinIndex(this.activeMenuItemIndex + 1, actions.length);
+      this.activeMenuItemIndex = getRoundRobinIndex(currentIndex + 1, actions.length);
     }
   };
 
-  toggleOpen = (): void => {
-    this.open = !this.open;
+  toggleOpen = (value = !this.open): void => {
+    this.open = value;
+    this.activeMenuItemIndex = -1;
+
+    forceUpdate(this);
 
     // todo: better focus??
-    if (this.open) {
-      focusElement(this.menuEl);
-      setTimeout(() => focusElement(this.menuEl), 100);
+    if (value) {
+      //focusElement(this.menuEl);
+      setTimeout(() => focusElement(this.menuEl), 0);
+    } else {
+      //focusElement(this.menuButtonEl);
+      setTimeout(() => focusElement(this.menuButtonEl), 0);
     }
-  };
-
-  onBlur = (event: FocusEvent): void => {
-    // todo:
-    console.log({ event });
-    if (!this.open || event.composedPath().includes(this.menuEl)) {
-      return;
-    }
-
-    this.open = false;
   };
 }
