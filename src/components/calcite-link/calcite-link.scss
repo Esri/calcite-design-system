@@ -2,13 +2,11 @@
 // light theme
 :host {
   display: inline;
-  --calcite-blue-accessible: #{$h-bb-070};
   --calcite-link-blue-underline: #{rgba($h-bb-070, 0.4)};
 }
 
 // dark theme
 :host([theme="dark"]) {
-  --calcite-blue-accessible: #{$d-bb-420};
   --calcite-link-blue-underline: #{rgba($d-bb-420, 0.4)};
 }
 
@@ -107,7 +105,7 @@
 :host {
   span,
   a {
-    @include link-style(var(--calcite-blue-accessible), var(--calcite-ui-blue-1), var(--calcite-link-blue-underline));
+    @include link-style(var(--calcite-ui-text-link), var(--calcite-ui-brand), var(--calcite-link-blue-underline));
   }
 }
 

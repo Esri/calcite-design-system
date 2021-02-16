@@ -1,6 +1,7 @@
 import { Component, Element, Host, h, Prop, Listen, VNode, Watch } from "@stencil/core";
-import { Theme, Width } from "../interfaces";
+import { Alignment, Theme, Width } from "../interfaces";
 import { TileSelectType } from "./interfaces";
+import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-tile-select",
@@ -56,8 +57,11 @@ export class CalciteTileSelect {
     this.input.name = newName;
   }
 
-  /** The side of the tile that the radio or checkbox appears. */
-  @Prop({ reflect: true }) showInput: "left" | "right" | "none" = "left";
+  /** Display an interactive radio or checkbox. */
+  @Prop({ reflect: true }) inputEnabled = false;
+
+  /** The side of the tile that the radio or checkbox appears on when inputEnabled is true. */
+  @Prop({ reflect: true }) inputAlignment: Extract<"end" | "start", Alignment> = "start";
 
   /** The theme of the tile select. */
   @Prop({ reflect: true }) theme: Theme = "light";
@@ -186,8 +190,10 @@ export class CalciteTileSelect {
   }
 
   render(): VNode {
+    const dir = getElementDir(this.el);
+
     return (
-      <Host>
+      <Host dir={dir}>
         <calcite-tile
           active={this.checked}
           description={this.description}

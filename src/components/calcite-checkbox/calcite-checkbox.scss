@@ -1,5 +1,5 @@
 :host-context([theme="light"]) {
-  --calcite-ui-border-4: $blk-100;
+  --calcite-ui-border-input: $blk-100;
 }
 :host-context([theme="dark"]) {
   @include calcite-theme-dark();
@@ -28,7 +28,7 @@
     overflow: hidden;
     display: inline-block;
     background-color: var(--calcite-ui-foreground-1);
-    box-shadow: inset 0 0 0 1px var(--calcite-ui-border-4);
+    box-shadow: inset 0 0 0 1px var(--calcite-ui-border-input);
     fill: var(--calcite-ui-background);
     pointer-events: none;
     box-sizing: border-box;
@@ -44,20 +44,20 @@
 :host(:hover),
 :host([hovered]) {
   .check-svg {
-    box-shadow: inset 0 0 0 2px var(--calcite-ui-blue-1);
+    box-shadow: inset 0 0 0 2px var(--calcite-ui-brand);
   }
 }
 :host([checked]),
 :host([indeterminate]) {
   .check-svg {
-    background-color: var(--calcite-ui-blue-1);
-    box-shadow: inset 0 0 0 1px var(--calcite-ui-blue-1);
+    background-color: var(--calcite-ui-brand);
+    box-shadow: inset 0 0 0 1px var(--calcite-ui-brand);
   }
 }
 :host(:focus),
 :host([focused]) {
   .check-svg {
-    @include focus-box-shadow(inset 0 0 0 1px var(--calcite-ui-blue-1));
+    @include focus-box-shadow(inset 0 0 0 1px var(--calcite-ui-brand));
   }
 }
 :host([disabled]) {

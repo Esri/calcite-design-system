@@ -101,11 +101,11 @@
 }
 
 :host(:focus:not([disabled])) .day {
-  box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1), 0 0 0 4px var(--calcite-ui-blue-1);
+  box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1), 0 0 0 4px var(--calcite-ui-brand);
 }
 
 :host([selected]) .day {
-  background-color: var(--calcite-ui-blue-1) !important;
+  background-color: var(--calcite-ui-brand) !important;
   color: var(--calcite-ui-foreground-1) !important;
   font-weight: 500;
   z-index: 1;

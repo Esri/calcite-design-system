@@ -111,7 +111,7 @@ export class CalciteSlider {
     if (this.histogram) {
       this.hasHistogram = true;
     }
-    this.calciteSliderUpdate.emit();
+    this.emitChange();
   }
 
   componentDidRender(): void {
@@ -672,37 +672,37 @@ export class CalciteSlider {
       case "ArrowRight":
         e.preventDefault();
         this[this.activeProp] = this.bound(value + this.step, this.activeProp);
-        this.calciteSliderUpdate.emit();
+        this.emitChange();
         break;
       case "ArrowDown":
       case "ArrowLeft":
         e.preventDefault();
         this[this.activeProp] = this.bound(value - this.step, this.activeProp);
-        this.calciteSliderUpdate.emit();
+        this.emitChange();
         break;
       case "PageUp":
         if (this.pageStep) {
           e.preventDefault();
           this[this.activeProp] = this.bound(value + this.pageStep, this.activeProp);
-          this.calciteSliderUpdate.emit();
+          this.emitChange();
         }
         break;
       case "PageDown":
         if (this.pageStep) {
           e.preventDefault();
           this[this.activeProp] = this.bound(value - this.pageStep, this.activeProp);
-          this.calciteSliderUpdate.emit();
+          this.emitChange();
         }
         break;
       case "Home":
         e.preventDefault();
         this[this.activeProp] = this.bound(this.min, this.activeProp);
-        this.calciteSliderUpdate.emit();
+        this.emitChange();
         break;
       case "End":
         e.preventDefault();
         this[this.activeProp] = this.bound(this.max, this.activeProp);
-        this.calciteSliderUpdate.emit();
+        this.emitChange();
         break;
     }
   }
@@ -720,7 +720,7 @@ export class CalciteSlider {
       }
     }
     this[prop] = this.bound(num, prop);
-    this.calciteSliderUpdate.emit();
+    this.emitChange();
     switch (prop) {
       default:
       case "maxValue":
@@ -744,6 +744,15 @@ export class CalciteSlider {
    * :warning: Will be fired frequently during drag. If you are performing any
    * expensive operations consider using a debounce or throttle to avoid
    * locking up the main thread.
+   */
+  @Event() calciteSliderChange: EventEmitter;
+
+  /**
+   * Fires on all updates to the slider.
+   * :warning: Will be fired frequently during drag. If you are performing any
+   * expensive operations consider using a debounce or throttle to avoid
+   * locking up the main thread.
+   * @deprecated use calciteSliderChange instead
    */
   @Event() calciteSliderUpdate: EventEmitter;
 
@@ -859,8 +868,14 @@ export class CalciteSlider {
       } else {
         this[this.dragProp] = this.bound(value, this.dragProp);
       }
-      this.calciteSliderUpdate.emit();
+
+      this.emitChange();
     }
+  }
+
+  private emitChange(): void {
+    this.calciteSliderChange.emit();
+    this.calciteSliderUpdate.emit();
   }
 
   private dragEnd(): void {

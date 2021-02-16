@@ -27,7 +27,7 @@
 }
 
 .overflow-hidden {
-  @apply overflow-hidden;
+  overflow: hidden;
 }
 
 [calcite-hydrated-hidden] {

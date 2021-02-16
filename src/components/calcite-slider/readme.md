@@ -39,7 +39,7 @@ If you'd like to allow an upper and lower value selection (two handles), you can
 | `minValue`     | `min-value`     | Currently selected lower number (if multi-select)                  | `number`            | `undefined` |
 | `pageStep`     | `page-step`     | Interval to move on page up/page down keys                         | `number`            | `undefined` |
 | `precise`      | `precise`       | Use finer point for handles                                        | `boolean`           | `undefined` |
-| `snap`         | `snap`          | Snap selection along the step interval                             | `boolean`           | `true`      |
+| `snap`         | `snap`          | When true, enables snap selection along the step interval          | `boolean`           | `false`     |
 | `step`         | `step`          | Interval to move on up/down keys                                   | `number`            | `1`         |
 | `theme`        | `theme`         | Select theme (light or dark)                                       | `"dark" \| "light"` | `undefined` |
 | `ticks`        | `ticks`         | Show tick marks on the number line at provided interval            | `number`            | `undefined` |
@@ -47,9 +47,10 @@ If you'd like to allow an upper and lower value selection (two handles), you can
 
 ## Events
 
-| Event                 | Description                                                                                                                                                                                                   | Type               |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
-| `calciteSliderUpdate` | Fires on all updates to the slider. :warning: Will be fired frequently during drag. If you are performing any expensive operations consider using a debounce or throttle to avoid locking up the main thread. | `CustomEvent<any>` |
+| Event                 | Description                                                                                                                                                                                                                                                                                            | Type               |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------ |
+| `calciteSliderChange` | Fires on all updates to the slider. :warning: Will be fired frequently during drag. If you are performing any expensive operations consider using a debounce or throttle to avoid locking up the main thread.                                                                                          | `CustomEvent<any>` |
+| `calciteSliderUpdate` | <span style="color:red">**[DEPRECATED]**</span> use calciteSliderChange instead<br/><br/>Fires on all updates to the slider. :warning: Will be fired frequently during drag. If you are performing any expensive operations consider using a debounce or throttle to avoid locking up the main thread. | `CustomEvent<any>` |
 
 ## Methods
 
