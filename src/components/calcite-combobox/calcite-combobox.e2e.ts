@@ -442,7 +442,7 @@ describe("calcite-combobox", () => {
     });
   });
 
-  it("works correctly inside a shadowRoot", async () => {
+  it.skip("works correctly inside a shadowRoot", async () => {
     const page = await newE2EPage();
     await page.setContent(`
       <div></div>

@@ -30,10 +30,10 @@ export class CalciteInputMessage {
   @Prop({ reflect: true }) icon: boolean | string;
 
   /** specify the scale of the input, defaults to m */
-  @Prop({ reflect: true }) scale: Scale = "m";
+  @Prop({ reflect: true, mutable: true }) scale: Scale = "m";
 
   /** specify the status of the input field, determines message and icons */
-  @Prop({ reflect: true }) status: Status = "idle";
+  @Prop({ reflect: true, mutable: true }) status: Status = "idle";
 
   /** specify the theme, defaults to light */
   @Prop({ reflect: true }) theme: Theme;
