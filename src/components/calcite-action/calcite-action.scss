@@ -1,123 +1,113 @@
 :host {
   @extend %component-host;
-  @extend %component-spacing;
-  display: flex;
-  background-color: transparent;
+  @apply flex bg-transparent;
 }
 
 :host([disabled]) {
-  pointer-events: none;
+  @apply pointer-events-none;
 }
 
 .button {
+  @apply bg-foreground-1
+    border-none
+    cursor-pointer
+    fill-color-3
+    flex
+    focus-base
+    items-center
+    justify-start
+    m-0
+    relative
+    text--2h
+    text-color-3;
   font-family: inherit;
-  display: flex;
-  color: var(--calcite-ui-text-3);
-  fill: var(--calcite-ui-text-3);
-  background-color: var(--calcite-ui-foreground-1);
-  margin: 0;
-  justify-content: flex-start;
-  align-items: center;
-  border: none;
   width: auto;
-  cursor: pointer;
   text-align: unset;
-  position: relative;
-  font-size: theme("fontSize.-2");
-  @include focus-style-base();
-  &:hover,
-  &:focus {
-    background-color: var(--calcite-ui-foreground-2);
-    color: var(--calcite-ui-text-1);
-    fill: var(--calcite-ui-text-1);
+  &:hover {
+    @apply bg-foreground-2 text-color-1 fill-color-1;
   }
 
   &:focus {
-    background-color: var(--calcite-ui-foreground-2);
-    color: var(--calcite-ui-text-1);
-    fill: var(--calcite-ui-text-1);
-    @include focus-style-inset();
+    @apply bg-foreground-2 text-color-1 fill-color-1 focus-inset;
   }
 
   &:active {
-    background-color: var(--calcite-ui-foreground-3);
+    @apply bg-foreground-3;
   }
 
   .icon-container {
-    min-width: 1rem;
-    min-height: 1rem;
-    margin: 0;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    pointer-events: none;
+    @apply flex
+      items-center
+      justify-center
+      m-0
+      pointer-events-none;
+    min-width: theme("spacing.4");
+    min-height: theme("spacing.4");
   }
 
   .text-container {
-    color: inherit;
-    line-height: 1rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin: 0;
-    opacity: 0;
-    width: 0;
-    transition: opacity $transition, margin $transition, width $transition;
+    @apply leading-none
+      truncate
+      m-0
+      w-0
+      opacity-0
+      ease-in-out
+      duration-150
+      transition-opacity;
+    transition-property: margin;
+    transition-property: width;
   }
 
   .text-container--visible {
-    flex: 1 1 auto;
-    opacity: 1;
+    @apply flex-auto opacity-100;
     width: auto;
   }
 }
 
 :host([scale="s"]) .button {
-  padding: var(--calcite-spacing-half) var(--calcite-spacing-half);
+  @apply p-2;
 }
 
 :host([scale="m"]) .button {
-  padding: var(--calcite-spacing) var(--calcite-spacing);
+  @apply p-4;
 }
 
 :host([scale="l"]) .button {
-  padding: var(--calcite-spacing-plus-quarter) var(--calcite-spacing-plus-quarter);
-  @include font-size(-1);
+  @apply p-5 text--1h;
 }
 
 // Compact
 :host([scale="s"][compact]) .button,
 :host([scale="m"][compact]) .button,
 :host([scale="l"][compact]) .button {
-  padding-left: 0;
-  padding-right: 0;
+  @apply px-0;
 }
 
 .slot-container {
-  display: flex;
+  @apply flex;
 }
 
 .slot-container--hidden {
-  display: none;
+  @apply hidden;
 }
 
 .button--text-visible {
-  width: 100%;
+  @apply w-full;
 
   .icon-container {
-    margin: 0 var(--calcite-spacing-half) 0 0;
+    @apply m-0 mr-2;
   }
   .text-container--visible {
-    margin: 0 var(--calcite-spacing-half) 0 0;
+    @apply m-0 mr-2;
   }
 }
 
 .button--text-visible.calcite--rtl {
   .icon-container {
-    margin: 0 0 0 var(--calcite-spacing-half);
+    @apply m-0 ml-2;
   }
   .text-container--visible {
-    margin: 0 0 0 var(--calcite-spacing-half);
+    @apply m-0 ml-2;
   }
 }
 
@@ -125,122 +115,116 @@
 :host([active]) .button:hover,
 :host([active]) .button:focus,
 :host([active][loading]) .button {
-  color: var(--calcite-ui-text-1);
-  fill: var(--calcite-ui-text-1);
-  background-color: var(--calcite-ui-foreground-3);
+  @apply text-color-1 fill-color-1 bg-foreground-3;
 }
 
 :host([appearance="clear"]) .button {
-  background-color: transparent;
-  transition: box-shadow $transition;
+  @apply bg-transparent
+    transition-shadow
+    duration-150
+    ease-in-out;
 }
 
 :host([appearance="clear"]) .button:hover,
 :host([appearance="clear"]) .button:focus {
-  background-color: transparent;
-  box-shadow: 0 0 0 2px var(--calcite-ui-border-1) inset;
+  @apply bg-transparent;
+  box-shadow: 0 0 0 2px theme("borderColor.color.1") inset;
 }
 
 :host([active][appearance="clear"]) .button,
 :host([active][appearance="clear"]) .button:hover,
 :host([active][appearance="clear"]) .button:focus {
-  color: var(--calcite-ui-text-1);
-  fill: var(--calcite-ui-text-1);
-  background-color: var(--calcite-ui-foreground-3);
+  @apply text-color-1 fill-color-1 bg-foreground-3;
 }
 
 :host([appearance="clear"][loading]) .button,
 :host([appearance="clear"][disabled]) .button {
-  background-color: transparent;
+  @apply bg-transparent;
 }
 
 :host([loading]) .button,
 :host([loading]) .button:hover,
 :host([loading]) .button:focus {
-  background-color: var(--calcite-ui-foreground-1);
+  @apply bg-foreground-1;
   .text-container {
     @apply opacity-disabled;
   }
 }
 
 :host([loading]) calcite-loader[inline] {
-  color: var(--calcite-ui-text-3);
-  margin-right: 0;
+  @apply mr-0 text-color-3;
 }
 
 :host([disabled]) .button,
 :host([disabled]) .button:hover,
 :host([disabled]) .button:focus {
-  cursor: default;
-  @apply opacity-disabled;
-  background-color: var(--calcite-ui-foreground-1);
+  @apply cursor-default opacity-disabled bg-foreground-1;
 }
 
 :host([disabled][active]) .button,
 :host([disabled][active]) .button:hover,
 :host([disabled][active]) .button:focus {
-  @apply opacity-disabled;
-  background-color: var(--calcite-ui-foreground-3);
+  @apply opacity-disabled bg-foreground-3;
 }
 
 :host([indicator]) .button--text-visible,
 :host([indicator][scale="s"]) .button--text-visible,
 :host([indicator][scale="l"]) .button--text-visible {
-  padding-right: var(--calcite-spacing);
+  @apply pr-4;
 }
 
 :host([indicator]) .button::after {
   content: "";
-  border-radius: 50%;
-  width: var(--calcite-spacing-half);
-  height: var(--calcite-spacing-half);
-  border: var(--calcite-spacing-eighth) solid var(--calcite-ui-foreground-1);
-  background-color: var(--calcite-ui-brand);
-  position: absolute;
-  bottom: var(--calcite-spacing-half);
-  right: var(--calcite-spacing-half);
-  z-index: 1;
+  @apply absolute
+    border-2
+    bg-brand
+    rounded-full
+    h-2
+    w-2
+    z-10;
+  border-color: theme("colors.background.foreground.1");
+  bottom: theme("spacing.2");
+  right: theme("spacing.2");
 }
 
 :host([indicator][scale="s"]) .button::after {
-  bottom: var(--calcite-spacing-quarter);
-  right: var(--calcite-spacing-quarter);
+  bottom: theme("spacing.1");
+  right: theme("spacing.1");
 }
 
 :host([indicator][scale="l"]) .button::after {
-  bottom: var(--calcite-spacing-half);
-  right: var(--calcite-spacing-half);
+  bottom: theme("spacing.2");
+  right: theme("spacing.2");
 }
 
 :host([indicator]) .calcite--rtl::after {
-  right: unset;
-  left: var(--calcite-spacing-quarter);
+  @apply right-auto;
+  left: theme("spacing.1");
 }
 
 :host([indicator]) .button--text-visible.calcite--rtl {
-  padding-right: var(--calcite-spacing-three-quarters);
-  padding-left: var(--calcite-spacing);
+  @apply pr-3 pl-4;
 }
 
 :host([indicator]) .button:hover::after,
 :host([indicator]) .button:focus::after {
-  border-color: var(--calcite-ui-foreground-1);
+  border-color: theme("colors.background.foreground.1");
 }
 
 :host([indicator][active]) .button::after {
-  border-color: var(--calcite-ui-foreground-3);
+  border-color: theme("colors.background.foreground.3");
 }
 
 :host([indicator]) .button--text-visible::after,
 :host([indicator][scale="s"]) .button--text-visible::after,
 :host([indicator][scale="l"]) .button--text-visible::after {
-  bottom: unset;
-  right: var(--calcite-spacing-half);
+  @apply bottom-auto;
+  right: theme("spacing.2");
 }
 
 :host([indicator]) .button--text-visible.calcite--rtl::after,
 :host([indicator][scale="s"]) .button--text-visible.calcite--rtl::after,
 :host([indicator][scale="l"]) .button--text-visible.calcite--rtl::after {
-  right: unset;
-  left: var(--calcite-spacing-half);
+  @apply right-auto;
+  left: theme("spacing.2");
 }
