@@ -11,7 +11,7 @@
 
 // scale variables
 :host([scale="s"]) {
-  --calcite-alert-width: 40rem; // TODO -- max width
+  --calcite-alert-width: theme("maxWidth.xl");
   --calcite-alert-spacing-token-small: theme("spacing.2"); // // TODO - jrowlingson why?
   --calcite-alert-spacing-token-large: theme("spacing.4");
   @include slotted("alert-title", "*") {
@@ -26,7 +26,7 @@
 }
 
 :host([scale="m"]) {
-  --calcite-alert-width: 50rem; // TODO -- max-width
+  --calcite-alert-width: theme("maxWidth.3xl");
   --calcite-alert-spacing-token-small: theme("spacing.4");
   --calcite-alert-spacing-token-large: theme("spacing.6");
   @include slotted("alert-title", "*") {
@@ -41,7 +41,7 @@
 }
 
 :host([scale="l"]) {
-  --calcite-alert-width: 60rem;
+  --calcite-alert-width: theme("maxWidth.4xl");
   --calcite-alert-spacing-token-small: theme("spacing.5");
   --calcite-alert-spacing-token-large: theme("spacing.8");
   @include slotted("alert-title", "*") {
@@ -89,12 +89,11 @@
 }
 
 :host([active]:not([queued])) {
-  @apply max-h-full opacity-0 pointer-events-auto;
-  transform: translate3d(0, -$baseline, 0);
-  border-top-width: 3px; // TODO
+  @apply max-h-full opacity-0 pointer-events-auto border-t-2;
+  transform: translate3d(0, -$baseline, 0); // TODO jrowlingson - transform-gpu
 
   @media only screen and (max-width: $viewport-medium) {
-    transform: translate3d(0, 0, 0); // TODO
+    transform: translate3d(0, 0, 0);
   }
 }
 
