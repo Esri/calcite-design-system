@@ -55,7 +55,7 @@ export class CalciteAction {
   @Prop() intlLoading?: string = TEXT.loading;
 
   /**
-   * Label of the action, exposed on hover. If no label is provided, the label inherits what's provided for the `text` prop.
+   * The label of the action. If no label is provided, the label inherits what's provided for the `text` prop.
    */
   @Prop() label?: string;
 
