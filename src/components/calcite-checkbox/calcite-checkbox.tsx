@@ -244,7 +244,7 @@ export class CalciteCheckbox {
   render(): VNode {
     if (this.el.textContent) {
       return (
-        <Host aria-checked={this.checked.toString()} role="checkbox">
+        <Host>
           <div class="hasLabel">
             <svg class="check-svg" viewBox="0 0 16 16">
               <path d={this.getPath()} />
@@ -257,7 +257,7 @@ export class CalciteCheckbox {
       );
     }
     return (
-      <Host aria-checked={this.checked.toString()} role="checkbox">
+      <Host>
         <svg class="check-svg" viewBox="0 0 16 16">
           <path d={this.getPath()} />
         </svg>
