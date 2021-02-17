@@ -21,6 +21,7 @@ This is a living document defining our best practices and reasoning for authorin
 - [Custom Themes](#custom-themes)
 - [Unique IDs for Components](#unique-ids-for-components)
 - [Prerendering/SSR](#prerendering-and-ssr)
+- [Writing Tests](#writing-tests)
 
 <!-- /TOC -->
 
@@ -503,3 +504,11 @@ const elements = this.el.shadowRoot ? this.el.shadowRoot.querySelector("slot").a
 ```
 
 To ensure that all components are compatible for prerendering a prerender build is done as part of `npm test`.
+
+## Writing Tests
+
+### Prevent logging unnecessary messaging in the build
+
+When writing tests, prevent emitting console warnings by stubbing them.
+
+Console warnings can end up polluting the build output messaging that makes it more difficult to identify real issues. Instead of emitting `console.warn()`, be sure to stub `console.warn` in the tests in order to prevent them from displaying in the build.
