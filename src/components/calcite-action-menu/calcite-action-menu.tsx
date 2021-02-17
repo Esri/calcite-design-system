@@ -102,7 +102,7 @@ export class CalciteActionMenu {
 
   @Watch("activeMenuItemIndex")
   activeMenuItemIndexHandler(): void {
-    this.getActions();
+    this.updateActions(this.actions);
   }
 
   // --------------------------------------------------------------------------
@@ -201,14 +201,21 @@ export class CalciteActionMenu {
   };
 
   updateAction = (action: HTMLCalciteActionElement, index: number): void => {
+    const { guid, activeMenuItemIndex } = this;
+    const id = `${guid}-action-${index}`;
+
     action.tabIndex = -1;
     action.setAttribute("role", "menuitem");
 
     if (!action.id) {
-      action.id = `${this.guid}-action-${index}`;
+      action.id = id;
     }
 
-    action.active = index === this.activeMenuItemIndex;
+    action.active = index === activeMenuItemIndex;
+  };
+
+  updateActions = (actions: HTMLCalciteActionElement[]): void => {
+    actions?.forEach(this.updateAction);
   };
 
   getActions = (): void => {
@@ -218,7 +225,7 @@ export class CalciteActionMenu {
         ?.assignedElements({ flatten: true })
         .filter((el) => el.tagName === "CALCITE-ACTION") as HTMLCalciteActionElement[]) || [];
 
-    actions.forEach(this.updateAction);
+    this.updateActions(actions);
 
     this.actions = actions;
   };
@@ -229,28 +236,26 @@ export class CalciteActionMenu {
 
   menuButtonKeyUp = (event: KeyboardEvent): void => {
     const { key } = event;
+    const { actions } = this;
 
-    if (SUPPORTED_BUTTON_NAV_KEYS.indexOf(key) === -1) {
+    if (!this.isValidKey(key, SUPPORTED_BUTTON_NAV_KEYS)) {
       return;
     }
 
     event.preventDefault();
 
-    const { actions } = this;
-
-    if (!actions || actions.length === 0) {
+    if (!actions.length) {
       return;
     }
 
     this.toggleOpen(true);
-
     this.handleActionNavigation(key, actions);
   };
 
   menuButtonKeyDown = (event: KeyboardEvent): void => {
     const { key } = event;
 
-    if (SUPPORTED_BUTTON_NAV_KEYS.indexOf(key) === -1) {
+    if (!this.isValidKey(key, SUPPORTED_BUTTON_NAV_KEYS)) {
       return;
     }
 
@@ -259,6 +264,7 @@ export class CalciteActionMenu {
 
   menuActionsContainerKeyDown = (event: KeyboardEvent): void => {
     const { key } = event;
+    const { actions, activeMenuItemIndex } = this;
 
     if (key === "Tab") {
       this.open = false;
@@ -267,45 +273,36 @@ export class CalciteActionMenu {
 
     if (key === " " || key === "Enter") {
       event.preventDefault();
-      const { actions } = this;
-      const action = actions[this.activeMenuItemIndex];
-      if (action) {
-        action.click();
-      } else {
-        this.toggleOpen(false);
-      }
+      const action = actions[activeMenuItemIndex];
+      action ? action.click() : this.toggleOpen(false);
       return;
     }
 
-    if (SUPPORTED_MENU_NAV_KEYS.indexOf(key) !== -1) {
+    if (this.isValidKey(key, SUPPORTED_MENU_NAV_KEYS)) {
       event.preventDefault();
     }
   };
 
   menuActionsContainerKeyUp = (event: KeyboardEvent): void => {
     const { key } = event;
-
-    const isNavigationKey = SUPPORTED_MENU_NAV_KEYS.indexOf(key) !== -1;
-
-    if (isNavigationKey) {
-      event.preventDefault();
-    }
+    const { actions } = this;
 
     if (key === "Escape") {
       this.toggleOpen(false);
       return;
     }
 
-    const { actions } = this;
-
-    if (!actions || actions.length === 0) {
+    if (!this.isValidKey(key, SUPPORTED_MENU_NAV_KEYS)) {
       return;
     }
 
-    if (isNavigationKey) {
-      this.handleActionNavigation(key, actions);
+    event.preventDefault();
+
+    if (!actions.length) {
       return;
     }
+
+    this.handleActionNavigation(key, actions);
   };
 
   handleActionNavigation = (key: string, actions: HTMLCalciteActionElement[]): void => {
