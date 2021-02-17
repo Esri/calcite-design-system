@@ -180,10 +180,8 @@ export class CalciteActionMenu {
   render(): VNode {
     return (
       <Host>
-        <div class={CSS.menuContainer}>
-          {this.renderMenuButton()}
-          {this.renderMenuItems()}
-        </div>
+        {this.renderMenuButton()}
+        {this.renderMenuItems()}
       </Host>
     );
   }
@@ -214,10 +212,11 @@ export class CalciteActionMenu {
   };
 
   getActions = (): void => {
-    const actions = this.el
-      .querySelector("slot")
-      .assignedElements({ flatten: true })
-      .filter((el) => el.tagName === "CALCITE-ACTION") as HTMLCalciteActionElement[];
+    const actions =
+      (this.el
+        .querySelector("slot")
+        ?.assignedElements({ flatten: true })
+        .filter((el) => el.tagName === "CALCITE-ACTION") as HTMLCalciteActionElement[]) || [];
 
     actions.forEach(this.updateAction);
 
