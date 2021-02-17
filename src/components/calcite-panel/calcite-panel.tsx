@@ -72,11 +72,6 @@ export class CalcitePanel {
   @Prop() intlBack?: string;
 
   /**
-   * 'Open' text string for the menu.
-   */
-  @Prop() intlOpen?: string;
-
-  /**
    * Specifies the maxiumum height of the panel.
    */
   @Prop({ reflect: true }) heightScale: Scale;
@@ -312,15 +307,13 @@ export class CalcitePanel {
   }
 
   renderMenu(): VNode {
-    const { el, intlClose, intlOpen, intlOptions, menuOpen } = this;
+    const { el, intlOptions, menuOpen } = this;
 
     const hasMenuItems = getSlotted(el, SLOTS.headerMenuActions);
 
     return hasMenuItems ? (
       <calcite-action-menu
         flipPlacements={["top", "bottom"]}
-        intlClose={intlClose}
-        intlOpen={intlOpen}
         intlOptions={intlOptions}
         open={menuOpen}
         placement="bottom-end"

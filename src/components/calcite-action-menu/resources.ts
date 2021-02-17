@@ -9,7 +9,5 @@ export const ICONS = {
 };
 
 export const TEXT = {
-  close: "Close",
-  open: "Open",
   options: "Options"
 };

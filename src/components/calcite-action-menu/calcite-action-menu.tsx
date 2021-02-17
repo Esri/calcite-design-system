@@ -62,16 +62,6 @@ export class CalciteActionMenu {
   @Prop() intlOptions?: string;
 
   /**
-   * 'Close' text string for the menu.
-   */
-  @Prop() intlClose?: string;
-
-  /**
-   * 'Open' text string for the menu.
-   */
-  @Prop() intlOpen?: string;
-
-  /**
    * Offset the position of the menu away from the reference element.
    */
   @Prop({ reflect: true }) offsetDistance = 0;
@@ -122,11 +112,8 @@ export class CalciteActionMenu {
   // --------------------------------------------------------------------------
 
   renderMenuButton(): VNode {
-    const { menuButtonId, menuId, open, intlOpen, intlOptions, intlClose, expanded } = this;
-    const closeLabel = intlClose || TEXT.close;
-    const openLabel = intlOpen || TEXT.open;
+    const { menuButtonId, menuId, open, intlOptions, expanded } = this;
     const optionsText = intlOptions || TEXT.options;
-    const menuLabel = open ? closeLabel : openLabel;
 
     return (
       <calcite-action
@@ -134,11 +121,10 @@ export class CalciteActionMenu {
         aria-controls={menuId}
         aria-expanded={open.toString()}
         aria-haspopup="true"
-        aria-label={menuLabel}
         class={CSS.menuButton}
         icon={ICONS.menu}
         id={menuButtonId}
-        label={menuLabel}
+        label={optionsText}
         onClick={this.menuButtonClick}
         onKeyDown={this.menuButtonKeyDown}
         onKeyUp={this.menuButtonKeyUp}
@@ -284,8 +270,11 @@ export class CalciteActionMenu {
       event.preventDefault();
       const { actions } = this;
       const action = actions[this.activeMenuItemIndex];
-      action?.click();
-      this.toggleOpen(false);
+      if (action) {
+        action.click();
+      } else {
+        this.toggleOpen(false);
+      }
       return;
     }
 
