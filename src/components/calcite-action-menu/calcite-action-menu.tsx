@@ -1,4 +1,4 @@
-import { Component, Host, h, Element, Prop, Watch, State, forceUpdate } from "@stencil/core";
+import { Component, Host, h, Element, Prop, Watch, State } from "@stencil/core";
 import { CSS, ICONS, TEXT } from "./resources";
 import { focusElement } from "../../utils/dom";
 import { VNode } from "@stencil/core/internal";
@@ -343,15 +343,11 @@ export class CalciteActionMenu {
     this.open = value;
     this.activeMenuItemIndex = -1;
 
-    forceUpdate(this);
-
     // todo: better focus??
     if (value) {
-      //focusElement(this.menuEl);
-      setTimeout(() => focusElement(this.menuEl), 0);
+      setTimeout(() => focusElement(this.menuEl), 300);
     } else {
-      //focusElement(this.menuButtonEl);
-      setTimeout(() => focusElement(this.menuButtonEl), 0);
+      focusElement(this.menuButtonEl);
     }
   };
 }
