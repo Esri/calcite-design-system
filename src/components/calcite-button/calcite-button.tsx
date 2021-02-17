@@ -1,6 +1,6 @@
 import { Component, Element, h, Host, Method, Prop, Build, State, VNode } from "@stencil/core";
 import { CSS, TEXT } from "./resources";
-import { getElementDir } from "../../utils/dom";
+import { getAttributes, getElementDir } from "../../utils/dom";
 import { ButtonAlignment, ButtonAppearance, ButtonColor } from "./interfaces";
 import { FlipContext, Scale, Theme, Width } from "../interfaces";
 
@@ -100,7 +100,23 @@ export class CalciteButton {
 
   render(): VNode {
     const dir = getElementDir(this.el);
-    const attributes = this.getAttributes();
+    const attributes = getAttributes(this.el, [
+      "appearance",
+      "alignment",
+      "calcite-hydrated",
+      "class",
+      "color",
+      "dir",
+      "icon-start",
+      "icon-end",
+      "id",
+      "split-child",
+      "loading",
+      "scale",
+      "slot",
+      "width",
+      "theme"
+    ]);
     const Tag = this.childElType;
 
     const loader = (
@@ -205,30 +221,6 @@ export class CalciteButton {
       });
       this.observer.observe(this.el, { childList: true, subtree: true });
     }
-  }
-
-  private getAttributes(): Record<string, any> {
-    // spread attributes from the component to rendered child, filtering out props
-    const props = [
-      "appearance",
-      "alignment",
-      "calcite-hydrated",
-      "class",
-      "color",
-      "dir",
-      "icon-start",
-      "icon-end",
-      "id",
-      "splitChild",
-      "loading",
-      "scale",
-      "slot",
-      "width",
-      "theme"
-    ];
-    return Array.from(this.el.attributes)
-      .filter((a) => a && !props.includes(a.name))
-      .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
   }
 
   //--------------------------------------------------------------------------
