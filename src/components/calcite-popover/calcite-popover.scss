@@ -16,7 +16,8 @@ $image_max_height: 200px;
   position: relative;
   display: flex;
   overflow: hidden;
-  flex-direction: column nowrap;
+  flex-wrap: nowrap;
+  flex-direction: column;
   color: var(--calcite-ui-text-1);
 }
 
