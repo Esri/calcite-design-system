@@ -95,7 +95,7 @@ export class CalciteDatePicker {
   @Prop() start?: string;
 
   /** Selected end date */
-  @Prop() end?: string;
+  @Prop({ mutable: true }) end?: string;
 
   /** Disables the default behaviour on the third click of narrowing or extending the range and instead starts a new range. */
   @Prop() proximitySelectionDisabled?: boolean = false;
