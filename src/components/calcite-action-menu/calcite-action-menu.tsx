@@ -9,6 +9,7 @@ import { guid } from "../../utils/guid";
 
 const SUPPORTED_BUTTON_NAV_KEYS = ["ArrowUp", "ArrowDown"];
 const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
+const MENU_ANIMATION_DELAY_MS = 50;
 
 @Component({
   tag: "calcite-action-menu",
@@ -343,9 +344,8 @@ export class CalciteActionMenu {
     this.open = value;
     this.activeMenuItemIndex = -1;
 
-    // todo: better focus??
     if (value) {
-      setTimeout(() => focusElement(this.menuEl), 300);
+      setTimeout(() => focusElement(this.menuEl), MENU_ANIMATION_DELAY_MS);
     } else {
       focusElement(this.menuButtonEl);
     }
