@@ -6,9 +6,9 @@ export function nodeListToArray<T extends Element>(nodeList: HTMLCollectionOf<T>
 
 type Direction = "ltr" | "rtl";
 
-export function getAttributes(el: HTMLElement, ignoredAttributes: string[]): Record<string, any> {
+export function getAttributes(el: HTMLElement, blockList: string[]): Record<string, any> {
   return Array.from(el.attributes)
-    .filter((a) => a && !ignoredAttributes.includes(a.name))
+    .filter((a) => a && !blockList.includes(a.name))
     .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
 }
 
