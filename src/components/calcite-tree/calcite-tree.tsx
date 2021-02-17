@@ -40,6 +40,9 @@ export class CalciteTree {
   /** Select theme (light or dark) */
   @Prop({ reflect: true }) theme: Theme;
 
+  /** @internal If this tree is nested within another tree, set to false */
+  @Prop({ reflect: true, mutable: true }) root = true;
+
   /** Specify the scale of the tree, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: Extract<"s" | "m", Scale> = "m";
 
@@ -195,24 +198,4 @@ export class CalciteTree {
   //--------------------------------------------------------------------------
 
   @Event() calciteTreeSelect: EventEmitter<TreeSelectDetail>;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  //--------------------------------------------------------------------------
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
-  /** @internal If this tree is nested within another tree, set to false */
-  @Prop({ reflect: true }) root = true;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
 }
