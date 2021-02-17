@@ -24,11 +24,6 @@ export class CalciteActionGroup {
    */
   @Prop({ reflect: true }) expanded = false;
 
-  @Watch("expanded")
-  expandedHandler(): void {
-    this.menuOpen = false;
-  }
-
   /**
    * 'Options' text string for the actions menu.
    */
@@ -37,7 +32,12 @@ export class CalciteActionGroup {
   /**
    * Opens the action menu.
    */
-  @Prop({ reflect: true }) menuOpen = false;
+  @Prop({ reflect: true, mutable: true }) menuOpen = false;
+
+  @Watch("expanded")
+  expandedHandler(): void {
+    this.menuOpen = false;
+  }
 
   // --------------------------------------------------------------------------
   //
