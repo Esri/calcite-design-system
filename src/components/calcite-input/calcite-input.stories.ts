@@ -6,7 +6,6 @@ import { html } from "../../tests/utils";
 
 export default {
   title: "Components/Controls/Input",
-
   parameters: {
     notes: readme
   }
