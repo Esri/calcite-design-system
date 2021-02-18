@@ -27,6 +27,8 @@ const COMBO_BOX_ITEM = "calcite-combobox-item";
 
 const DEFAULT_PLACEMENT = "bottom-start";
 
+const TRANSITION_DURATION = 150;
+
 interface ItemData {
   label: string;
   value: string;
@@ -59,7 +61,7 @@ export class CalciteCombobox {
     if (oldValue && !newValue) {
       setTimeout(() => {
         this.hideList = true;
-      }, 150);
+      }, TRANSITION_DURATION);
     } else if (!oldValue && newValue) {
       this.hideList = false;
     }
