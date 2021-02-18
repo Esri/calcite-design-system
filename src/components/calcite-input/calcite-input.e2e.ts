@@ -427,7 +427,7 @@ describe("calcite-input", () => {
     expect(element.getAttribute("value")).toBe(defaultValue);
     await element.callMethod("setFocus");
     await page.$eval("calcite-input input", (input: HTMLInputElement): void => {
-      input.setSelectionRange(defaultValue.length, defaultValue.length);
+      input.setSelectionRange(input.value.length, input.value.length);
     });
     expect(calciteInputInput).toHaveReceivedEventTimes(0);
     await page.keyboard.press("e");
