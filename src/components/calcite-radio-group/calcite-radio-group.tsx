@@ -63,7 +63,7 @@ export class CalciteRadioGroup {
   /**
    * The group's selected item.
    */
-  @Prop() selectedItem: HTMLCalciteRadioGroupItemElement;
+  @Prop({ mutable: true }) selectedItem: HTMLCalciteRadioGroupItemElement;
 
   @Watch("selectedItem")
   protected handleSelectedItemChange<T extends HTMLCalciteRadioGroupItemElement>(

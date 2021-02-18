@@ -5,13 +5,13 @@
 // theme variables
 // light theme
 :host {
-  --calcite-switch-hover-handle-border: var(--calcite-ui-blue-2);
-  --calcite-switch-switched-track-background: var(--calcite-ui-blue-2);
-  --calcite-switch-switched-track-border: var(--calcite-ui-blue-2);
-  --calcite-switch-switched-handle-border: var(--calcite-ui-blue-1);
-  --calcite-switch-switched-hover-track-background: var(--calcite-ui-blue-2);
-  --calcite-switch-switched-hover-track-border: var(--calcite-ui-blue-2);
-  --calcite-switch-switched-hover-handle-border: var(--calcite-ui-blue-3);
+  --calcite-switch-hover-handle-border: var(--calcite-ui-brand);
+  --calcite-switch-switched-track-background: var(--calcite-ui-brand);
+  --calcite-switch-switched-track-border: var(--calcite-ui-brand);
+  --calcite-switch-switched-handle-border: var(--calcite-ui-brand);
+  --calcite-switch-switched-hover-track-background: var(--calcite-ui-brand);
+  --calcite-switch-switched-hover-track-border: var(--calcite-ui-brand);
+  --calcite-switch-switched-hover-handle-border: var(--calcite-ui-brand-hover);
 }
 
 // sizes
@@ -85,18 +85,13 @@
   right: auto;
   background-color: var(--calcite-ui-foreground-1);
   border-radius: 30px;
-  border: 2px solid var(--calcite-ui-border-4);
+  border: 2px solid var(--calcite-ui-border-input);
   pointer-events: none;
   transition: all $transition;
 }
 
 :host(:hover),
 :host(:focus) {
-  .track {
-    background-color: var(--calcite-ui-foreground-3);
-    border-color: var(--calcite-ui-border-1);
-  }
-
   .handle {
     border-color: var(--calcite-switch-hover-handle-border);
     box-shadow: inset 0 0 0 1px var(--calcite-switch-hover-handle-border);

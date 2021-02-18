@@ -4,5 +4,6 @@ export const CSS = {
 };
 
 export const SLOTS = {
-  actionBar: "action-bar"
+  actionBar: "action-bar",
+  header: "header"
 };

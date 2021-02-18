@@ -124,10 +124,10 @@
   font-weight: 500;
   &:before {
     opacity: 1;
-    color: var(--calcite-ui-blue-1);
+    color: var(--calcite-ui-brand);
   }
   & calcite-icon {
-    color: var(--calcite-ui-blue-1);
+    color: var(--calcite-ui-brand);
   }
 }
 
@@ -207,7 +207,7 @@
 }
 
 :host([active]) .dropdown-item-check-icon {
-  color: var(--calcite-ui-blue-1);
+  color: var(--calcite-ui-brand);
   opacity: 1;
 }
 

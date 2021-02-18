@@ -9,7 +9,9 @@ import {
   Build,
   Watch,
   VNode,
-  Method
+  Method,
+  Event,
+  EventEmitter
 } from "@stencil/core";
 import { getLocaleData, DateLocaleData } from "../calcite-date-picker/utils";
 import { getElementDir } from "../../utils/dom";
@@ -116,6 +118,21 @@ export class CalciteInputDatePicker {
   calciteDaySelectHandler(): void {
     this.active = false;
   }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+  /**
+   * Trigger calcite date change when a user changes the date.
+   */
+  @Event() calciteDatePickerChange: EventEmitter<Date>;
+
+  /**
+   * Trigger calcite date change when a user changes the date range.
+   */
+  @Event() calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
 
   //--------------------------------------------------------------------------
   //

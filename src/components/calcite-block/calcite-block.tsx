@@ -62,7 +62,7 @@ export class CalciteBlock {
   /**
    * When true, the block's content will be displayed.
    */
-  @Prop({ reflect: true }) open = false;
+  @Prop({ reflect: true, mutable: true }) open = false;
 
   /**
    * Block summary.

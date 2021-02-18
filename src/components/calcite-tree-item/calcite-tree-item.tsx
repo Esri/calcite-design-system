@@ -53,6 +53,21 @@ export class CalciteTreeItem {
     items.forEach((item) => (item.parentExpanded = newValue));
   }
 
+  /** @internal Is the parent of this item expanded? */
+  @Prop() parentExpanded = false;
+
+  /** @internal What level of depth is this item at? */
+  @Prop({ reflect: true, mutable: true }) depth = -1;
+
+  /** @internal Does this tree item have a tree inside it? */
+  @Prop({ reflect: true, mutable: true }) hasChildren: boolean = null;
+
+  /** @internal Draw lines (set on parent) */
+  @Prop({ reflect: true, mutable: true }) lines: boolean;
+
+  /** @internal Scale of the parent tree, defaults to m */
+  @Prop({ reflect: true, mutable: true }) scale: "s" | "m";
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -287,21 +302,6 @@ export class CalciteTreeItem {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-
-  /** @internal Is the parent of this item expanded? */
-  @Prop() parentExpanded = false;
-
-  /** @internal What level of depth is this item at? */
-  @Prop({ reflect: true }) depth = -1;
-
-  /** @internal Does this tree item have a tree inside it? */
-  @Prop({ reflect: true }) hasChildren: boolean = null;
-
-  /** @internal Draw lines (set on parent) */
-  @Prop({ reflect: true }) lines: boolean;
-
-  /** @internal Scale of the parent tree, defaults to m */
-  @Prop({ reflect: true }) scale: "s" | "m";
 
   @State() private selectionMode: TreeSelectionMode;
 

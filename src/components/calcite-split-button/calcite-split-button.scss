@@ -40,11 +40,11 @@
   --seperator-color: var(--calcite-ui-foreground-1);
 
   &:host([color="blue"]) {
-    --bg-color: var(--calcite-ui-blue-1);
+    --bg-color: var(--calcite-ui-brand);
   }
 
   &:host([color="red"]) {
-    --bg-color: var(--calcite-ui-red-1);
+    --bg-color: var(--calcite-ui-danger);
   }
 
   &:host([color="light"]) {
@@ -64,13 +64,13 @@
   --bg-color: var(--calcite-ui-foreground-1);
 
   &:host([color="blue"]) {
-    --border-color: var(--calcite-ui-blue-3);
-    --seperator-color: var(--calcite-ui-blue-3);
+    --border-color: var(--calcite-ui-brand-press);
+    --seperator-color: var(--calcite-ui-brand-press);
   }
 
   &:host([color="red"]) {
-    --border-color: var(--calcite-ui-red-3);
-    --seperator-color: var(--calcite-ui-red-3);
+    --border-color: var(--calcite-ui-danger-press);
+    --seperator-color: var(--calcite-ui-danger-press);
   }
 
   &:host([color="light"]) {

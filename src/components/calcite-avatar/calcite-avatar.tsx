@@ -28,7 +28,7 @@ export class CalciteAvatar {
   @Prop({ reflect: true }) theme: Theme;
 
   /** specify the scale of the avatar, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: Scale = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** src to an image (remember to add a token if the user is private) */
   @Prop() thumbnail: string;
@@ -47,12 +47,6 @@ export class CalciteAvatar {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-
-  connectedCallback() {
-    // prop validations
-    const scale = ["s", "m", "l"];
-    if (!scale.includes(this.scale)) this.scale = "m";
-  }
 
   render() {
     const dir = getElementDir(this.el);

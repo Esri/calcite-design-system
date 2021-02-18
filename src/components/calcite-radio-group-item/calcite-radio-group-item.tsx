@@ -56,7 +56,7 @@ export class CalciteRadioGroupItem {
   /**
    * The control's value.
    */
-  @Prop()
+  @Prop({ mutable: true })
   value: any | null;
 
   //--------------------------------------------------------------------------

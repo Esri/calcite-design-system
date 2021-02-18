@@ -18,6 +18,7 @@
 | `scale`        | `scale`          | specify the scale of the date picker               | `"l" \| "m" \| "s"` | `undefined` |
 | `selected`     | `selected`       | Date is the current selected date of the picker    | `boolean`           | `false`     |
 | `startOfRange` | `start-of-range` | Date is the start of date range                    | `boolean`           | `false`     |
+| `value`        | --               | Date value for the day.                            | `Date`              | `undefined` |
 
 ## Events
 

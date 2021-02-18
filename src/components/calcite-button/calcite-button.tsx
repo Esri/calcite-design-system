@@ -92,7 +92,7 @@ export class CalciteButton {
 
   componentWillLoad(): void {
     if (Build.isBrowser) {
-      this.updateHasText();
+      this.updateHasContent();
       const elType = this.el.getAttribute("type");
       this.type = this.childElType === "button" && elType ? elType : "submit";
     }
@@ -137,10 +137,13 @@ export class CalciteButton {
       </span>
     );
 
+    const className = this.hasContent ? { ["class"]: CSS.contentSlotted } : null;
+
     return (
-      <Host dir={dir} hasText={this.hasText}>
+      <Host dir={dir}>
         <Tag
           {...attributes}
+          {...className}
           disabled={this.disabled}
           onClick={this.handleClick}
           ref={(el) => (this.childEl = el)}
@@ -148,7 +151,7 @@ export class CalciteButton {
         >
           {this.loading ? loader : null}
           {this.iconStart ? iconStartEl : null}
-          {this.hasText ? contentEl : null}
+          {this.hasContent ? contentEl : null}
           {this.iconEnd ? iconEndEl : null}
         </Tag>
       </Host>
@@ -184,17 +187,21 @@ export class CalciteButton {
   /** the node type of the rendered child element */
   private childElType?: "a" | "button" = "button";
 
-  /** determine if there is slotted text for styling purposes */
-  @State() private hasText?: boolean = false;
+  /** determine if there is slotted content for styling purposes */
+  @State() private hasContent?: boolean = false;
 
-  private updateHasText() {
-    this.hasText = this.el.textContent.trim().length > 0;
+  private updateHasContent() {
+    const slottedContent = this.el.textContent.trim().length > 0 || this.el.childNodes.length > 0;
+    this.hasContent =
+      this.el.childNodes.length === 1 && this.el.childNodes[0]?.nodeName === "#text"
+        ? this.el.textContent?.trim().length > 0
+        : slottedContent;
   }
 
   private setupTextContentObserver() {
     if (Build.isBrowser) {
       this.observer = new MutationObserver(() => {
-        this.updateHasText();
+        this.updateHasContent();
       });
       this.observer.observe(this.el, { childList: true, subtree: true });
     }
@@ -204,9 +211,11 @@ export class CalciteButton {
     // spread attributes from the component to rendered child, filtering out props
     const props = [
       "appearance",
+      "alignment",
+      "calcite-hydrated",
+      "class",
       "color",
       "dir",
-      "hasText",
       "icon-start",
       "icon-end",
       "id",

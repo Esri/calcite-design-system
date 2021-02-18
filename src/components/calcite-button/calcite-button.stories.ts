@@ -18,7 +18,6 @@ export const Simple = (): string => html`
     color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     ${boolean("round", false)}
-    ${boolean("floating", false)}
     href="${text("href", "")}"
     ${boolean("loading", false)}
     ${boolean("disabled", false)}
@@ -33,7 +32,6 @@ export const WithIconStart = (): string => html`
     color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     ${boolean("round", false)}
-    ${boolean("floating", false)}
     href="${text("href", "")}"
     ${boolean("loading", false)}
     ${boolean("disabled", false)}
@@ -53,7 +51,6 @@ export const WithIconEnd = (): string => html`
     color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     ${boolean("round", false)}
-    ${boolean("floating", false)}
     href="${text("href", "")}"
     ${boolean("loading", false)}
     ${boolean("disabled", false)}
@@ -73,7 +70,6 @@ export const WithIconStartAndIconEnd = (): string => html`
     color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     ${boolean("round", false)}
-    ${boolean("floating", false)}
     href="${text("href", "")}"
     ${boolean("loading", false)}
     ${boolean("disabled", false)}
@@ -151,7 +147,6 @@ export const DarkMode = (): string => html`
     color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     ${boolean("round", false)}
-    ${boolean("floating", false)}
     href="${text("href", "")}"
     ${boolean("loading", false)}
     ${boolean("disabled", false)}

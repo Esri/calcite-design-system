@@ -9,6 +9,7 @@ This is a living document defining our best practices and reasoning for authorin
 - [Light Theme/Dark Theme](#light-themedark-theme)
 - [Form Elements and Custom Inputs](#form-elements-and-custom-inputs)
 - [Component Responsibilities](#component-responsibilities)
+- [Focus support](#focus-support)
 - [Event Names](#event-names)
 - [Private Events](#private-events)
 - [Event Details](#event-details)
@@ -95,12 +96,12 @@ To make this work, inside a component's SASS file, _you must use colors from the
 ```scss
 // 🙅‍♀️ using the sass var will not correctly inherit or change in light/dark mode
 :host {
-  color: $ui-blue-1;
+  color: $ui-brand-light;
 }
 
 // 👍 using the CSS var will inherit correctly
 :host {
-  color: var(--calcite-ui-blue-1);
+  color: var(--calcite-ui-brand);
 }
 ```
 
@@ -110,7 +111,7 @@ Since Calcite Components might be used in many different contexts such as config
 
 ```css
 :root {
-  --calcite-ui-blue-1: red;
+  --calcite-ui-brand: red;
 }
 ```
 
@@ -118,7 +119,7 @@ You can apply these overrides to individual components as well:
 
 ```css
 calcite-slider {
-  --calcite-ui-blue-1: red;
+  --calcite-ui-brand: red;
 }
 ```
 
@@ -126,7 +127,7 @@ Or, add a class to the specific instance:
 
 ```css
 .my-custom-theme {
-  --calcite-ui-blue-1: red;
+  --calcite-ui-brand: red;
 }
 ```
 
@@ -146,34 +147,7 @@ All components have been constructed to inherit their `font-family`. This enable
 
 ### Palette
 
-The current light theme colors and their hex values can be found below:
-
-| CSS variable name           | Hex value |
-| --------------------------- | --------- |
-| `--calcite-ui-blue-1`       | `#007ac2` |
-| `--calcite-ui-blue-2`       | `#2890ce` |
-| `--calcite-ui-blue-3`       | `#00619b` |
-| `--calcite-ui-green-1`      | `#35ac46` |
-| `--calcite-ui-green-2`      | `#50ba5f` |
-| `--calcite-ui-green-3`      | `#288835` |
-| `--calcite-ui-yellow-1`     | `#edd317` |
-| `--calcite-ui-yellow-2`     | `#f9e54e` |
-| `--calcite-ui-yellow-3`     | `#d9bc00` |
-| `--calcite-ui-red-1`        | `#d83020` |
-| `--calcite-ui-red-2`        | `#e65240` |
-| `--calcite-ui-red-3`        | `#a82b1e` |
-| `--calcite-ui-background`   | `#f8f8f8` |
-| `--calcite-ui-foreground-1` | `#ffffff` |
-| `--calcite-ui-foreground-2` | `#f3f3f3` |
-| `--calcite-ui-foreground-3` | `#eaeaea` |
-| `--calcite-ui-text-1`       | `#151515` |
-| `--calcite-ui-text-2`       | `#4a4a4a` |
-| `--calcite-ui-text-3`       | `#6a6a6a` |
-| `--calcite-ui-border-1`     | `#cacaca` |
-| `--calcite-ui-border-2`     | `#dfdfdf` |
-| `--calcite-ui-border-3`     | `#eaeaea` |
-| `--calcite-ui-border-4`     | `#9f9f9f` |
-| `--calcite-ui-border-5`     | `#757575` |
+The current light theme colors and their hex values can be found [here](https://esri.github.io/calcite-colors/).
 
 **Discussed In**:
 
@@ -258,6 +232,25 @@ However components are allowed to:
 - [Should tabs support syncing and loading from localstorage](https://github.com/ArcGIS/calcite-components/pull/27) . **Yes** because such feature are difficult to implement for **Sites** and would require lots of additional JavaScript work on the part of teams and authors
 - [Should switch support a label](https://github.com/ArcGIS/calcite-components/pull/24#discussion_r289424140). **No** because label place
 
+## Focus support
+
+Components with focusable content, must implement the following pattern:
+
+```ts
+interface FocusableComponent {
+  setFocus(focusId?: FocusId): Promise<void>; // focusId should be supported if there is more than one supported focus target
+}
+
+type FocusId = string;
+```
+
+**Note**: Implementations can use the [`focusElement`](https://github.com/Esri/calcite-components/blob/f2bb61828f3da54b7dcb5fb1dade12b85d82331e/src/utils/dom.ts#L41-L47) helper to handle focusing both native and calcite components.
+
+Examples:
+
+- [`calcite-color`](https://github.com/Esri/calcite-components/blob/78a70a805324689d516130816a69f031e39c5338/src/components/calcite-color/calcite-color.tsx#L409-L413)
+- [`calcite-panel` (supports `focusId`)](https://github.com/Esri/calcite-components/blob/f2bb61828f3da54b7dcb5fb1dade12b85d82331e/src/components/calcite-panel/calcite-panel.tsx#L298-L311)
+
 ## Event Names
 
 Event names should be treated like global variables since they can collide with any other event names and global variables. As such follow these guidelines when naming events.
@@ -268,6 +261,7 @@ Event names should be treated like global variables since they can collide with 
   - Bad: `change`
   - Good: `calciteTabChange`
 - If an existing event can be listened to, don't create a new custom event. For example, there is no need to create a `calciteButtonClick` event because a standard `click` event will still be fired from the element.
+- For consistency, use `calcite<ComponentName>Change` for value change events.
 
 **Discussed In:**
 

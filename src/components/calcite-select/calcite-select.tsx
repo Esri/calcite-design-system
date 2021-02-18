@@ -75,7 +75,8 @@ export class CalciteSelect {
    * The component theme.
    */
   @Prop({
-    reflect: true
+    reflect: true,
+    mutable: true
   })
   theme: Theme;
 
