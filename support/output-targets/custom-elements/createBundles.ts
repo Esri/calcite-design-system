@@ -1,10 +1,12 @@
+import { CollectionManifest, JsonDocs } from "@stencil/core/internal";
+
 const { promises: fs } = require("fs");
 
 (async () => {
-  console.log("generating component wrappers");
+  console.log("generating component bundles");
 
-  let componentsManifest: any;
-  let componentsUsageReport: any;
+  let componentsManifest: CollectionManifest;
+  let componentsUsageReport: JsonDocs;
 
   try {
     console.log("reading doc");
@@ -24,24 +26,21 @@ const { promises: fs } = require("fs");
   }
 
   if (!componentsManifest || !componentsUsageReport) {
-    console.log("could not generate wrappers");
+    console.log("could not generate bundles");
     process.exit(-1);
   }
 
-  const wrapperDir = `${__dirname}/wrappers`;
+  const bundleDir = `${__dirname}/bundles`;
 
   try {
-    await fs.mkdir(wrapperDir);
+    await fs.mkdir(bundleDir);
   } catch (e) {
-    console.log("wrapper dir already exists");
+    console.log("bundle dir already exists");
   }
 
-  componentsManifest.bundles.forEach(async (bundle: { components: string[] }) => {
-    const { components } = bundle;
-
+  for (const { components } of componentsManifest.bundles) {
     const componentNamespacePrefix = /^calcite/;
-    const wrapperName = components[0].replace(componentNamespacePrefix, "").replace("-", "");
-
+    const bundleName = components[0].replace(componentNamespacePrefix, "").replace("-", "");
     const componentDeps = new Set<string>();
 
     components.forEach((comp) => {
@@ -49,21 +48,20 @@ const { promises: fs } = require("fs");
       addDeps(comp, componentDeps);
     });
 
-    const allComps = Array.from(componentDeps);
+    const allComponents = Array.from(componentDeps);
 
-    const source = `import { ${allComps.map((comp) => toCamelCase(comp)).join(", ")} } from "../index";
+    const source = `import { ${allComponents.map((component) => toCamelCase(component)).join(", ")} } from "../index";
 import { register } from "../utils";
 register({
-  ${allComps.map((comp) => `"${comp}": ${toCamelCase(comp)}`).join(",")}
+  ${allComponents.map((component) => `"${component}": ${toCamelCase(component)}`).join(",")}
 });
 `;
 
-    const sourceFile = `${wrapperDir}/${wrapperName}.ts`;
-
+    const sourceFile = `${bundleDir}/${bundleName}.ts`;
     await fs.writeFile(sourceFile, source);
-  });
+  }
 
-  console.log("component wrappers generated");
+  console.log("component bundles generated");
 
   function toCamelCase(kebabCased: string): string {
     return kebabCased
@@ -73,14 +71,13 @@ register({
   }
 
   function addDeps(tag: string, candidates: Set<string>): void {
-    const found = componentsUsageReport.components.find((comp: { tag: string }) => comp.tag === tag);
+    const found = componentsUsageReport.components.find((comp: { tag }) => comp.tag === tag);
 
     if (!found) {
       return;
     }
 
     const { dependencies, dependencyGraph } = found;
-
     const depsToCheck = [tag, ...dependencies];
 
     depsToCheck.forEach((dep: string) => dependencyGraph[dep]?.forEach((d: string) => candidates.add(d)));

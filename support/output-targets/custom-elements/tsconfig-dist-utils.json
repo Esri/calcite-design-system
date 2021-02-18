@@ -5,5 +5,5 @@
     "outDir": "../../../dist/custom-elements",
     "rootDirs": [".", "../../../dist/custom-elements/"]
   },
-  "include": ["wrappers", "utils.ts"]
+  "include": ["bundles", "utils.ts"]
 }
