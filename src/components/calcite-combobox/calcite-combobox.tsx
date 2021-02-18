@@ -54,7 +54,15 @@ export class CalciteCombobox {
   /** Open and close combobox */
   @Prop({ reflect: true, mutable: true }) active = false;
 
-  @Watch("active") activeHandler(): void {
+  @Watch("active") activeHandler(newValue: boolean, oldValue: boolean): void {
+    // when closing, wait transition time then hide to prevent overscroll
+    if (oldValue && !newValue) {
+      setTimeout(() => {
+        this.hideList = true;
+      }, 150);
+    } else if (!oldValue && newValue) {
+      this.hideList = false;
+    }
     this.reposition();
   }
 
@@ -259,6 +267,8 @@ export class CalciteCombobox {
   @State() visibleItems: HTMLCalciteComboboxItemElement[] = [];
 
   @State() needsIcon: boolean;
+
+  @State() hideList = !this.active;
 
   @State() activeItemIndex = -1;
 
@@ -679,7 +689,7 @@ export class CalciteCombobox {
   }
 
   renderPopperContainer(): VNode {
-    const { active, maxScrollerHeight, setMenuEl, setListContainerEl } = this;
+    const { active, maxScrollerHeight, setMenuEl, setListContainerEl, hideList } = this;
     const classes = {
       "list-container": true,
       [PopperCSS.animation]: true,
@@ -691,7 +701,7 @@ export class CalciteCombobox {
     return (
       <div aria-hidden="true" class="popper-container" ref={setMenuEl}>
         <div class={classes} ref={setListContainerEl} style={style}>
-          <ul class="list">
+          <ul class={{ list: true, "list--hide": hideList }}>
             <slot />
           </ul>
         </div>
