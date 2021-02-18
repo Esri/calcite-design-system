@@ -5,7 +5,7 @@ import { TEXT } from "./resources";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 
 export default {
-  title: "App Components/Tip",
+  title: "Components/App/Tip",
   parameters: {
     backgrounds: darkBackground,
     notes: readme

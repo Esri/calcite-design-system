@@ -4,7 +4,7 @@ import { darkBackground } from "../../../.storybook/utils";
 import { html } from "../../tests/utils";
 
 export default {
-  title: "Components/Inline Editable",
+  title: "Components/Controls/Inline Editable",
 
   parameters: {
     notes: readme

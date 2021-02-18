@@ -5,7 +5,7 @@ import readme from "./readme.md";
 import { html } from "../../tests/utils";
 
 export default {
-  title: "Components/Tile Select",
+  title: "Components/Tiles/Tile Select",
 
   parameters: {
     notes: readme

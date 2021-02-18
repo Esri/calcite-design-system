@@ -5,7 +5,7 @@ import readme from "./readme.md";
 import { html } from "../../tests/utils";
 
 export default {
-  title: "Components/Radio Button",
+  title: "Components/Controls/Radio/Radio Button",
 
   parameters: {
     notes: readme
