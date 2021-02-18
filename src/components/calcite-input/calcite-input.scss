@@ -143,7 +143,7 @@
 
   & input:focus,
   & textarea:focus {
-    border-color: var(--calcite-ui-blue-1);
+    border-color: var(--calcite-ui-brand);
     color: var(--calcite-ui-text-1);
   }
   & input[readonly],
@@ -555,7 +555,7 @@ input[type="time"]::-webkit-clear-button {
 }
 
 // status
-$inputStatusColors: "invalid" var(--calcite-ui-red-1), "valid" var(--calcite-ui-green-1),
+$inputStatusColors: "invalid" var(--calcite-ui-danger), "valid" var(--calcite-ui-success),
   "idle" var(--calcite-ui-text-2);
 
 @each $statusColor in $inputStatusColors {

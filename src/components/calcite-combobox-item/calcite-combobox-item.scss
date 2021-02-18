@@ -124,7 +124,7 @@ ul {
 
 .label--selected .icon {
   @apply opacity-100;
-  color: var(--calcite-ui-blue-1);
+  color: var(--calcite-ui-brand);
 }
 
 :host(:hover[disabled]) .icon {

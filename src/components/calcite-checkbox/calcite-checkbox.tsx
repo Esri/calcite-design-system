@@ -63,7 +63,7 @@ export class CalciteCheckbox {
   }
 
   /** The id attribute of the checkbox.  When omitted, a globally unique identifier is used. */
-  @Prop({ reflect: true }) guid: string;
+  @Prop({ reflect: true, mutable: true }) guid: string;
 
   /** The hovered state of the checkbox. */
   @Prop({ reflect: true, mutable: true }) hovered = false;
@@ -228,10 +228,18 @@ export class CalciteCheckbox {
     this.input.name = this.name;
     this.input.onblur = this.onInputBlur.bind(this);
     this.input.onfocus = this.onInputFocus.bind(this);
+    this.input.style.setProperty("bottom", "0", "important");
+    this.input.style.setProperty("left", "0", "important");
     this.input.style.setProperty("margin", "0", "important");
-    this.input.style.setProperty("opacity", "0", "important");
+    this.input.style.setProperty("opacity", "0.3", "important");
     this.input.style.setProperty("padding", "0", "important");
     this.input.style.setProperty("position", "absolute", "important");
+    this.input.style.setProperty("right", "0", "important");
+    this.input.style.setProperty(
+      "top",
+      this.el.textContent ? (this.scale === "s" ? "0.125em" : "0.25em") : "0",
+      "important"
+    );
     this.input.style.setProperty("transform", "none", "important");
     this.input.style.setProperty("z-index", "-1", "important");
     this.input.type = "checkbox";
@@ -244,7 +252,7 @@ export class CalciteCheckbox {
   render(): VNode {
     if (this.el.textContent) {
       return (
-        <Host aria-checked={this.checked.toString()} role="checkbox">
+        <Host>
           <div class="hasLabel">
             <svg class="check-svg" viewBox="0 0 16 16">
               <path d={this.getPath()} />
@@ -257,7 +265,7 @@ export class CalciteCheckbox {
       );
     }
     return (
-      <Host aria-checked={this.checked.toString()} role="checkbox">
+      <Host>
         <svg class="check-svg" viewBox="0 0 16 16">
           <path d={this.getPath()} />
         </svg>

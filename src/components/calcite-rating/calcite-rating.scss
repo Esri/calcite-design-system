@@ -54,14 +54,14 @@
 
 .average,
 .fraction {
-  color: var(--calcite-ui-yellow-1);
+  color: var(--calcite-ui-warning);
 }
 
 .hovered,
 .selected,
 :host([read-only]) .average,
 :host([read-only]) .fraction {
-  color: var(--calcite-ui-blue-1);
+  color: var(--calcite-ui-brand);
 }
 
 .hovered:not(.selected) {

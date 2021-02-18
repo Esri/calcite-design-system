@@ -108,8 +108,8 @@ export class CalciteDatePickerMonthHeader {
             aria-label={this.intlPrevMonth}
             class="chevron"
             href="#"
-            onClick={this.nextMonthClick}
-            onKeyDown={this.nextMonthKeydown}
+            onClick={this.prevMonthClick}
+            onKeyDown={this.prevMonthKeydown}
             role="button"
             tabindex={this.prevMonthDate.getMonth() === activeMonth ? -1 : 0}
           >
@@ -150,8 +150,8 @@ export class CalciteDatePickerMonthHeader {
             aria-label={this.intlNextMonth}
             class="chevron"
             href="#"
-            onClick={this.prevMonthClick}
-            onKeyDown={this.prevMonthKeydown}
+            onClick={this.nextMonthClick}
+            onKeyDown={this.nextMonthKeydown}
             role="button"
             tabindex={this.nextMonthDate.getMonth() === activeMonth ? -1 : 0}
           >

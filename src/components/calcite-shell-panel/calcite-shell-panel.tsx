@@ -1,6 +1,17 @@
-import { Component, Event, EventEmitter, Host, Prop, Watch, h, VNode } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  Host,
+  Prop,
+  Watch,
+  h,
+  VNode
+} from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
 import { Position, Scale } from "../interfaces";
+import { getSlotted } from "../../utils/dom";
 
 /**
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the panel.
@@ -51,6 +62,13 @@ export class CalciteShellPanel {
 
   // --------------------------------------------------------------------------
   //
+  //  Private Properties
+  //
+  // --------------------------------------------------------------------------
+  @Element() el: HTMLCalciteShellPanelElement;
+
+  // --------------------------------------------------------------------------
+  //
   //  Events
   //
   // --------------------------------------------------------------------------
@@ -67,10 +85,13 @@ export class CalciteShellPanel {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { collapsed, detached, position } = this;
+    const { collapsed, detached, el, position } = this;
+
+    const hasHeader = getSlotted(el, SLOTS.header);
 
     const contentNode = (
       <div class={{ [CSS.content]: true, [CSS.contentDetached]: detached }} hidden={collapsed}>
+        {hasHeader ? <slot name={SLOTS.header} /> : null}
         <slot />
       </div>
     );

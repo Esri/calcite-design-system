@@ -17,11 +17,11 @@ $spacing: $baseline/2;
   padding: $spacing;
 }
 :host(:not([embed])[href]:hover) {
-  box-shadow: 0 0 0 2px var(--calcite-ui-blue-1);
+  box-shadow: 0 0 0 2px var(--calcite-ui-brand);
   cursor: pointer;
 }
 :host(:not([embed])[href]:active) {
-  box-shadow: 0 0 0 3px var(--calcite-ui-blue-1);
+  box-shadow: 0 0 0 3px var(--calcite-ui-brand);
 }
 :host([icon][heading]:not([description]):not([embed])) {
   padding: unset;

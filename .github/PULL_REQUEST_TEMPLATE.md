@@ -4,7 +4,7 @@
 
 <!--
 
-Please make sure the PR title and/or commit message adheres to the https://conventionalcommits.org/ specification.
+Please make sure the PR title and/or commit message adheres to the https://www.conventionalcommits.org/en/v1.0.0/ specification.
 
 Note: If your PR only has one commit and it is NOT semantic, you will need to either
 
