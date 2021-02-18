@@ -166,6 +166,7 @@ export class CalciteInput {
   }
 
   componentWillLoad(): void {
+    this.defaultValue = this.value;
     this.childElType = this.type === "textarea" ? "textarea" : "input";
     this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
   }
@@ -256,6 +257,7 @@ export class CalciteInput {
       <this.childElType
         {...attributes}
         autofocus={this.autofocus ? true : null}
+        defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
         max={this.maxString}
         min={this.minString}
@@ -348,6 +350,9 @@ export class CalciteInput {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  /** keep track of the initial value */
+  private defaultValue: string;
 
   /** keep track of the rendered child type */
   private childElType?: "input" | "textarea" = "input";
