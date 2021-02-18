@@ -20,6 +20,7 @@ export const create: () => Config = () => ({
     },
     { components: ["calcite-button"] },
     { components: ["calcite-card"] },
+    { components: ["calcite-checkbox"] },
     { components: ["calcite-chip"] },
     { components: ["calcite-color", "calcite-color-hex-input", "calcite-color-swatch"] },
     { components: ["calcite-combobox"] },
