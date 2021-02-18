@@ -163,6 +163,12 @@ export class CalciteInput {
   connectedCallback(): void {
     this.status = getElementProp(this.el, "status", this.status);
     this.scale = getElementProp(this.el, "scale", this.scale);
+    this.form = this.el.closest("form");
+    this.form?.addEventListener("reset", this.reset);
+  }
+
+  disconnectedCallback(): void {
+    this.form?.removeEventListener("reset", this.reset);
   }
 
   componentWillLoad(): void {
@@ -351,6 +357,8 @@ export class CalciteInput {
   //
   //--------------------------------------------------------------------------
 
+  private form: HTMLFormElement;
+
   /** keep track of the initial value */
   private defaultValue: string;
 
@@ -377,6 +385,10 @@ export class CalciteInput {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private reset = (): void => {
+    this.value = this.defaultValue;
+  };
 
   private inputInputHandler = (e) => {
     this.value = e.target.value;
