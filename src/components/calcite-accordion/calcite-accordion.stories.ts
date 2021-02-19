@@ -5,7 +5,7 @@ import { iconNames } from "../../../.storybook/helpers";
 import { select, text } from "@storybook/addon-knobs";
 import accordionReadme from "./readme.md";
 import accordionItemReadme from "../calcite-accordion-item/readme.md";
-import simpleSvgPlaceholder from "../../utils/simpleSvgPlaceholder";
+import { placeholderImage } from "../../tests/utils";
 
 const createAccordionAttributes: (options?: { except: string[] }) => Attributes = ({ except } = { except: [] }) => {
   const group = "accordion";
@@ -104,7 +104,7 @@ const createAccordionItemAttributes: (options?: { icon?: boolean; group?: string
   return icon ? iconAttribute.concat(defaultAttributes) : defaultAttributes;
 };
 
-const accordionItemContent = `Custom content here<br/><img src="${simpleSvgPlaceholder({
+const accordionItemContent = `Custom content here<br/><img src="${placeholderImage({
   width: 200,
   height: 133
 })}"><br/>More custom content here`;
