@@ -6,6 +6,16 @@ import { ColorValue } from "./interfaces";
 import SpyInstance = jest.SpyInstance;
 
 describe("calcite-color", () => {
+  let consoleSpy: SpyInstance;
+
+  beforeEach(
+    () =>
+      (consoleSpy = jest.spyOn(console, "warn").mockImplementation(() => {
+        // hide warning messages during test
+      }))
+  );
+  afterEach(() => consoleSpy.mockClear());
+
   it("is accessible", async () => {
     await accessible("calcite-color");
     await accessible("<calcite-color allow-empty value=''></calcite-color>");
@@ -310,7 +320,6 @@ describe("calcite-color", () => {
 
   describe("unsupported value handling", () => {
     let page: E2EPage;
-    let consoleSpy: SpyInstance;
 
     async function assertUnsupportedValue(page: E2EPage, unsupportedValue: string | null): Promise<void> {
       const picker = await page.find("calcite-color");
@@ -332,7 +341,6 @@ describe("calcite-color", () => {
       page = await newE2EPage({
         html: "<calcite-color></calcite-color>"
       });
-      consoleSpy = jest.spyOn(console, "warn");
     });
 
     afterEach(() => jest.clearAllMocks());

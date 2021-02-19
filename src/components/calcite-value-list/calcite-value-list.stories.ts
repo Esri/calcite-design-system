@@ -6,7 +6,7 @@ import { html } from "../../tests/utils";
 const { dir, theme } = ATTRIBUTES;
 
 export default {
-  title: "App Components/Value List",
+  title: "Components/App/Value List",
   parameters: {
     backgrounds: darkBackground,
     notes: readme

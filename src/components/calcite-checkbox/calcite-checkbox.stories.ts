@@ -5,7 +5,7 @@ import { html } from "../../tests/utils";
 import readme from "./readme.md";
 
 export default {
-  title: "Components/Checkbox",
+  title: "Components/Controls/Checkbox",
 
   parameters: {
     notes: readme

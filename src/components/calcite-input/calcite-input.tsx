@@ -86,6 +86,9 @@ export class CalciteInput {
     this.minString = this.min?.toString() || null;
   }
 
+  /** maximum length of text input */
+  @Prop({ reflect: true }) maxlength?: number;
+
   /** specify the placement of the number buttons */
   @Prop({ reflect: true }) numberButtonType?: InputPlacement = "vertical";
 
@@ -266,6 +269,7 @@ export class CalciteInput {
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
         max={this.maxString}
+        maxlength={this.maxlength}
         min={this.minString}
         onBlur={this.inputBlurHandler}
         onFocus={this.inputFocusHandler}
