@@ -29,9 +29,9 @@ export class CalciteShell {
   @Prop({ reflect: true }) theme: Theme;
 
   /**
-   * Used to set the component's color scheme.
+   * Positions the center content behind any calcite-shell-panels.
    */
-  @Prop({ reflect: true }) overlayContent?: boolean;
+  @Prop({ reflect: true }) contentBehind?: boolean;
 
   // --------------------------------------------------------------------------
   //
@@ -58,7 +58,7 @@ export class CalciteShell {
       <div
         class={{
           [CSS.content]: true,
-          [CSS.overlayContent]: !!this.overlayContent
+          [CSS.contentBehind]: !!this.contentBehind
         }}
       >
         <slot />
