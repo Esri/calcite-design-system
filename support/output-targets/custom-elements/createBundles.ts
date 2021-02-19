@@ -1,6 +1,5 @@
 import { CollectionManifest, JsonDocs } from "@stencil/core/internal";
-
-const { promises: fs } = require("fs");
+import { promises as fs } from "fs";
 
 (async () => {
   console.log("generating component bundles");
