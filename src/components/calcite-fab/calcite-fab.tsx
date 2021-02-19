@@ -19,7 +19,7 @@ export class CalciteFab {
   /**
    * Used to set the button's appearance. Default is outline.
    */
-  @Prop({ reflect: true }) appearance: Appearance = "outline";
+  @Prop({ reflect: true }) appearance: Extract<"solid" | "outline", Appearance> = "outline";
 
   /**
    * Used to set the button's color. Default is light.
