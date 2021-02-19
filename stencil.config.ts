@@ -20,6 +20,7 @@ export const create: () => Config = () => ({
     },
     { components: ["calcite-button"] },
     { components: ["calcite-card"] },
+    { components: ["calcite-checkbox"] },
     { components: ["calcite-chip"] },
     { components: ["calcite-color", "calcite-color-hex-input", "calcite-color-swatch"] },
     { components: ["calcite-combobox"] },
@@ -74,6 +75,7 @@ export const create: () => Config = () => ({
     { type: "dist-custom-elements-bundle" },
     { type: "dist" },
     { type: "docs-readme" },
+    { type: "docs-json", file: "./dist/extras/docs-json.json" },
     { type: "custom", name: "preact", generator: generatePreactTypes },
     {
       type: "www",

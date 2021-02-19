@@ -430,6 +430,8 @@ describe("calcite-combobox", () => {
       await element.click();
 
       await items[1].click();
+      await page.waitForChanges();
+
       selected = await page.find("calcite-combobox >>> .selected-icon");
       icon = await selected.getProperty("icon");
       expect(icon).toBe("beaker");

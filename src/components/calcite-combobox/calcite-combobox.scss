@@ -153,6 +153,11 @@
   padding: 0;
 }
 
+.list--hide {
+  height: 0;
+  overflow: hidden;
+}
+
 .chip {
   margin-right: var(--calcite-combobox-item-spacing-unit-s);
   margin-bottom: var(--calcite-combobox-item-spacing-unit-s);
