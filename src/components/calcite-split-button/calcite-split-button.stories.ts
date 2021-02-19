@@ -5,7 +5,7 @@ import readme from "./readme.md";
 import { html } from "../../tests/utils";
 
 export default {
-  title: "Components/Split Button",
+  title: "Components/Buttons/Split Button",
 
   parameters: {
     notes: readme

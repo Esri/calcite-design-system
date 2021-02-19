@@ -56,7 +56,7 @@ const locales = [
 ];
 
 export default {
-  title: "Components/InputDatePicker",
+  title: "Components/Controls/InputDatePicker",
 
   parameters: {
     notes: readme

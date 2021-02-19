@@ -3,7 +3,6 @@
   @extend %component-spacing;
   display: flex;
   overflow: hidden;
-  transition: height $transition;
   background-color: transparent;
   border-left: 1px solid var(--calcite-ui-border-3);
   border-right: 1px solid var(--calcite-ui-border-3);

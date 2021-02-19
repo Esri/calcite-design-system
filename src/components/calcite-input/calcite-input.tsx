@@ -12,7 +12,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementDir, getElementProp, setRequestedIcon } from "../../utils/dom";
+import { getAttributes, getElementDir, getElementProp, setRequestedIcon } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { INPUT_TYPE_ICONS } from "./calcite-input.resources";
 import { InputPlacement } from "./interfaces";
@@ -85,6 +85,9 @@ export class CalciteInput {
   minWatcher(): void {
     this.minString = this.min?.toString() || null;
   }
+
+  /** maximum length of text input */
+  @Prop({ reflect: true }) maxlength?: number;
 
   /** specify the placement of the number buttons */
   @Prop({ reflect: true }) numberButtonType?: InputPlacement = "vertical";
@@ -188,7 +191,24 @@ export class CalciteInput {
 
   render(): VNode {
     const dir = getElementDir(this.el);
-    const attributes = this.getAttributes();
+
+    const attributes = getAttributes(this.el, [
+      "alignment",
+      "dir",
+      "clearable",
+      "min",
+      "max",
+      "step",
+      "value",
+      "icon",
+      "loading",
+      "prefix-text",
+      "scale",
+      "status",
+      "suffix-text",
+      "theme",
+      "number-button-type"
+    ]);
 
     const loader = (
       <div class="calcite-input-loading">
@@ -258,6 +278,7 @@ export class CalciteInput {
         autofocus={this.autofocus ? true : null}
         disabled={this.disabled ? true : null}
         max={this.maxString}
+        maxlength={this.maxlength}
         min={this.minString}
         onBlur={this.inputBlurHandler}
         onFocus={this.inputFocusHandler}
@@ -394,30 +415,6 @@ export class CalciteInput {
 
   private setDisabledAction(): void {
     if (this.slottedActionEl) (this.slottedActionEl as HTMLElement).setAttribute("disabled", "");
-  }
-
-  private getAttributes(): Record<string, any> {
-    // spread attributes from the component to rendered child, filtering out props
-    const props = [
-      "alignment",
-      "dir",
-      "clearable",
-      "min",
-      "max",
-      "step",
-      "value",
-      "icon",
-      "loading",
-      "prefix-text",
-      "scale",
-      "status",
-      "suffix-text",
-      "theme",
-      "number-button-type"
-    ];
-    return Array.from(this.el.attributes)
-      .filter((a) => a && !props.includes(a.name))
-      .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
   }
 
   private clearInputValue = () => {
