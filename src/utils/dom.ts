@@ -6,6 +6,12 @@ export function nodeListToArray<T extends Element>(nodeList: HTMLCollectionOf<T>
 
 type Direction = "ltr" | "rtl";
 
+export function getAttributes(el: HTMLElement, blockList: string[]): Record<string, any> {
+  return Array.from(el.attributes)
+    .filter((a) => a && !blockList.includes(a.name))
+    .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
+}
+
 export function getElementDir(el: HTMLElement): Direction {
   return getElementProp(el, "dir", "ltr") as Direction;
 }
