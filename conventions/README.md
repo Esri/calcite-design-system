@@ -509,6 +509,8 @@ To ensure that all components are compatible for prerendering a prerender build 
 
 ### Prevent logging unnecessary messaging in the build
 
-When writing tests, prevent emitting console warnings by stubbing them.
+**This is only necessary if a component's test will produce a lot of console messages in a test run.**
 
-Console warnings can end up polluting the build output messaging that makes it more difficult to identify real issues. Instead of emitting `console.warn()`, be sure to stub `console.warn` in the tests in order to prevent them from displaying in the build.
+As a best practice when writing tests, prevent emitting console warnings by stubbing them. Depending on the tested component, this may also apply to other console APIs.
+
+Console warnings can end up polluting the build output messaging that makes it more difficult to identify real issues. By stubbing `console.warn`, you can prevent warning messages from displaying in the build. See `calcite-color.e2e` for an example.
