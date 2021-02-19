@@ -112,7 +112,7 @@ export class CalciteInput {
 
   @Watch("step")
   stepWatcher(): void {
-    this.stepString = this.step.toString() || null;
+    this.stepString = this.step?.toString() || null;
   }
 
   /** optionally add suffix  **/
