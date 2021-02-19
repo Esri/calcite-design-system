@@ -7,7 +7,7 @@ import { html } from "../../tests/utils";
 const { dir, theme } = ATTRIBUTES;
 
 export default {
-  title: "App Components/Tip Manager",
+  title: "Components/App/Tip Manager",
   parameters: {
     backgrounds: darkBackground,
     notes: readme

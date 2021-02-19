@@ -7,7 +7,7 @@ import panelReadme from "../calcite-shell-panel/readme.md";
 import { html } from "../../tests/utils";
 
 export default {
-  title: "App Components/Shell",
+  title: "Components/App/Shell",
   parameters: {
     backgrounds: darkBackground,
     notes: {

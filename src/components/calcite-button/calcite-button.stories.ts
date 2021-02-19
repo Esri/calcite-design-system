@@ -5,7 +5,7 @@ import { html } from "../../tests/utils";
 import readme from "./readme.md";
 
 export default {
-  title: "Components/Button",
+  title: "Components/Buttons/Button",
 
   parameters: {
     notes: readme
