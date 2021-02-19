@@ -385,7 +385,6 @@ export class CalciteCombobox {
         itemsToProcess++;
       }
     });
-
     return maxScrollerHeight;
   }
 

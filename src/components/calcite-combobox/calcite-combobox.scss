@@ -154,7 +154,8 @@
 }
 
 .list--hide {
-  display: none;
+  height: 0;
+  overflow: hidden;
 }
 
 .chip {
