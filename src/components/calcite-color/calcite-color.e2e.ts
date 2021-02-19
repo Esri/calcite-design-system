@@ -410,6 +410,26 @@ describe("calcite-color", () => {
       await inputOrHexInput.callMethod("setFocus");
       await page.waitForChanges();
 
+      const tagName = inputOrHexInput.tagName.toLocaleLowerCase();
+
+      await page.$eval(
+        "calcite-color",
+        (el: HTMLCalciteColorElement, tagName): void => {
+          const tag = el.shadowRoot.querySelector(tagName);
+          const input = tag.shadowRoot?.querySelector("input") || tag.querySelector("input");
+
+          if (!input) {
+            return;
+          }
+
+          const inputType = input.type;
+          input.type = "text";
+          input.setSelectionRange(input.value.length, input.value.length);
+          input.type = inputType;
+        },
+        tagName
+      );
+
       const currentValue = await inputOrHexInput.getProperty("value");
 
       for (let i = 0; i < currentValue.length; i++) {

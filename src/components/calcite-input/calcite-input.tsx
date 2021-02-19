@@ -166,9 +166,16 @@ export class CalciteInput {
   connectedCallback(): void {
     this.status = getElementProp(this.el, "status", this.status);
     this.scale = getElementProp(this.el, "scale", this.scale);
+    this.form = this.el.closest("form");
+    this.form?.addEventListener("reset", this.reset);
+  }
+
+  disconnectedCallback(): void {
+    this.form?.removeEventListener("reset", this.reset);
   }
 
   componentWillLoad(): void {
+    this.defaultValue = this.value;
     this.childElType = this.type === "textarea" ? "textarea" : "input";
     this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
   }
@@ -276,6 +283,7 @@ export class CalciteInput {
       <this.childElType
         {...attributes}
         autofocus={this.autofocus ? true : null}
+        defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
         max={this.maxString}
         maxlength={this.maxlength}
@@ -370,6 +378,11 @@ export class CalciteInput {
   //
   //--------------------------------------------------------------------------
 
+  private form: HTMLFormElement;
+
+  /** keep track of the initial value */
+  private defaultValue: string;
+
   /** keep track of the rendered child type */
   private childElType?: "input" | "textarea" = "input";
 
@@ -393,6 +406,10 @@ export class CalciteInput {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private reset = (): void => {
+    this.value = this.defaultValue;
+  };
 
   private inputInputHandler = (e) => {
     this.value = e.target.value;
