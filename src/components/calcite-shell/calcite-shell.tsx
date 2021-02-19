@@ -28,6 +28,11 @@ export class CalciteShell {
    */
   @Prop({ reflect: true }) theme: Theme;
 
+  /**
+   * Used to set the component's color scheme.
+   */
+  @Prop({ reflect: true }) overlayContent?: boolean;
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -50,7 +55,12 @@ export class CalciteShell {
 
   renderContent(): VNode {
     return (
-      <div class={CSS.content}>
+      <div
+        class={{
+          [CSS.content]: true,
+          [CSS.overlayContent]: !!this.overlayContent
+        }}
+      >
         <slot />
       </div>
     );
