@@ -84,7 +84,7 @@
   </calcite-button>
 
 
-  <calcite-alert color="red" id="alert-one" scale="s" auto-dismiss>
+  <calcite-alert label="this is an alert" color="red" id="alert-one" scale="s" auto-dismiss>
 
     <div slot="alert-title">Something failed - scale s</div>
     <div slot="alert-message">
@@ -95,18 +95,18 @@
   </calcite-alert>
 
   <!-- test prop validation theme -->
-  <calcite-alert color="green" id="alert-two" icon theme="bleme">
+  <calcite-alert label="this is an alert" color="green" id="alert-two" icon theme="bleme">
     <div slot="alert-message">
       2 Successfully updated <em>Portland Restaurants</em> feature layer
     </div>
     <calcite-link slot="alert-link" title="my action">Do thing</calcite-link>
   </calcite-alert>
 
-  <calcite-alert id="alert-three" icon theme="dark">
+  <calcite-alert label="this is an alert" id="alert-three" icon theme="dark">
     <div slot="alert-message">3 A general piece of information</div>
   </calcite-alert>
 
-  <calcite-alert color="yellow" scale="l" id="alert-four" icon>
+  <calcite-alert label="this is an alert" color="yellow" scale="l" id="alert-four" icon>
     <div slot="alert-title">
       This may put you close to your credit limit - Scale large
     </div>
@@ -116,12 +116,12 @@
     <calcite-link slot="alert-link" title="my action">Manage credits</calcite-link>
   </calcite-alert>
 
-  <calcite-alert id="alert-five">
+  <calcite-alert label="this is an alert" id="alert-five">
     <div slot="alert-message">5 A general piece of information</div>
   </calcite-alert>
 
   <!-- test prop validation color -->
-  <calcite-alert color="misspelled" id="alert-six" icon>
+  <calcite-alert label="this is an alert" color="misspelled" id="alert-six" icon>
     <div slot="alert-title">You can't add a polygon to this layer</div>
     <div slot="alert-message">
       6 Some kind of made up thing about another thing
@@ -129,7 +129,7 @@
     <calcite-link slot="alert-link" title="my action">Take action</calcite-link>
   </calcite-alert>
 
-  <calcite-alert color="green" id="alert-seven" theme="dark">
+  <calcite-alert label="this is an alert" color="green" id="alert-seven" theme="dark">
     <div slot="alert-title">Layer duplicated</div>
     <div slot="alert-message">
       7 Successfully duplicated <em>Portland Restaurants</em> feature
@@ -139,39 +139,39 @@
     </calcite-link>
   </calcite-alert>
 
-  <calcite-alert color="red" id="alert-eight" auto-dismiss icon>
+  <calcite-alert label="this is an alert" color="red" id="alert-eight" auto-dismiss icon>
     <div slot="alert-title">You can't do that</div>
     <div slot="alert-message">8 Sorry bud</div>
   </calcite-alert>
 
   <!-- test prop validation duration -->
-  <calcite-alert id="alert-nine" theme="dark" auto-dismiss auto-dismiss-duration="blast">
+  <calcite-alert label="this is an alert" id="alert-nine" theme="dark" auto-dismiss auto-dismiss-duration="blast">
     <div slot="alert-message">9 A general piece of information</div>
     <calcite-link slot="alert-link" theme="dark" title="my action">Take action
     </calcite-link>
   </calcite-alert>
 
-  <calcite-alert id="alert-ten" auto-dismiss auto-dismiss-duration="medium">
+  <calcite-alert label="this is an alert" id="alert-ten" auto-dismiss auto-dismiss-duration="medium">
     <div slot="alert-message">10 A general piece of information</div>
   </calcite-alert>
 
-  <calcite-alert id="alert-eleven" auto-dismiss auto-dismiss-duration="slow">
+  <calcite-alert label="this is an alert" id="alert-eleven" auto-dismiss auto-dismiss-duration="slow">
     <div slot="alert-message">11 A general piece of information</div>
     <calcite-link slot="alert-link" title="my action">Take action</calcite-link>
   </calcite-alert>
-  <calcite-alert id="alert-twelve" icon="layer">
+  <calcite-alert label="this is an alert" id="alert-twelve" icon="layer">
     <div slot="alert-message">12 A custom icon</div>
   </calcite-alert>
 
-  <calcite-alert id="alert-thirteen" color="green" icon="plus">
+  <calcite-alert label="this is an alert" id="alert-thirteen" color="green" icon="plus">
     <div slot="alert-message">13 Another icon</div>
     <calcite-link slot="alert-link" title="my action">Take action</calcite-link>
   </calcite-alert>
-  <calcite-alert data-custom-id="myalert1" auto-dismiss auto-dismiss-duration="slow">
+  <calcite-alert label="this is an alert" data-custom-id="myalert1" auto-dismiss auto-dismiss-duration="slow">
     <div slot="alert-message">14 Generated GUID</div>
     <calcite-link slot="alert-link" title="my action">Take action</calcite-link>
   </calcite-alert>
-  <calcite-alert data-custom-id="myalert2" auto-dismiss auto-dismiss-duration="slow">
+  <calcite-alert label="this is an alert" data-custom-id="myalert2" auto-dismiss auto-dismiss-duration="slow">
     <div slot="alert-message">15 Generated GUID</div>
     <calcite-link slot="alert-link" title="my action">Take action</calcite-link>
   </calcite-alert>
