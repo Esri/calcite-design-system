@@ -513,4 +513,4 @@ To ensure that all components are compatible for prerendering a prerender build 
 
 As a best practice when writing tests, prevent emitting console warnings by stubbing them. Depending on the tested component, this may also apply to other console APIs.
 
-Console warnings can end up polluting the build output messaging that makes it more difficult to identify real issues. By stubbing `console.warn`, you can prevent warning messages from displaying in the build. See `calcite-color.e2e` for an example.
+Console warnings can end up polluting the build output messaging that makes it more difficult to identify real issues. By stubbing `console.warn`, you can prevent warning messages from displaying in the build. See [`calcite-color.e2e`](https://github.com/Esri/calcite-components/blob/af0c6cb/src/components/calcite-color/calcite-color.e2e.ts#L9-L17) for an example.
