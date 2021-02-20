@@ -100,7 +100,9 @@ export class CalciteInputTimePicker {
   };
 
   private inputInputHandler = (event: CustomEvent): void => {
-    this.value = event.detail.value;
+    if (this.validateTimeString(event.detail.value)) {
+      this.value = event.detail.value;
+    }
   };
 
   @Listen("keydown")
@@ -168,7 +170,20 @@ export class CalciteInputTimePicker {
   //
   // --------------------------------------------------------------------------
 
-  private convertValueToTime = (value: string): Time => {
+  private stringContainsOnlyNumbers(string): boolean {
+    const letters = /^[A-Za-z]+$/;
+    const numbers = /^[0-9]+$/;
+    const letterMatch = string.match(letters);
+    const numberMatch = string.match(numbers);
+    const hasLetters = Array.isArray(letterMatch);
+    const hasNumbers = Array.isArray(numberMatch);
+    if (hasNumbers && !hasLetters) {
+      return true;
+    }
+    return false;
+  }
+
+  private parseTimeString = (value: string): Time => {
     const [hour, minute, second] = value ? value.split(":") : ["--", "--", "--"];
     return {
       hour,
@@ -180,6 +195,28 @@ export class CalciteInputTimePicker {
   private setInputEl = (el: HTMLCalciteInputElement): void => {
     this.inputEl = el;
   };
+
+  private validateTimeString = (value: string): boolean => {
+    const splitValue = value.split(":");
+    if (splitValue.length > 1) {
+      const hour = splitValue[0];
+      const minute = splitValue[1];
+      const second = splitValue[2];
+      const hourAsNumber = parseInt(splitValue[0]);
+      const minuteAsNumber = parseInt(splitValue[1]);
+      const secondAsNumber = parseInt(splitValue[2]);
+      const hourValid = hour && this.stringContainsOnlyNumbers(hour) && !isNaN(hourAsNumber) && hourAsNumber >= 0 && hourAsNumber < 24;
+      const minuteValid = minute && this.stringContainsOnlyNumbers(minute) && !isNaN(minuteAsNumber) && minuteAsNumber >= 0 && minuteAsNumber < 60;
+      const secondValid = second && this.stringContainsOnlyNumbers(second) && !isNaN(secondAsNumber) && secondAsNumber >= 0 && secondAsNumber < 60;
+      if (
+        (hourValid && minuteValid && !second) ||
+        (hourValid && minuteValid && secondValid)
+      ) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -198,7 +235,7 @@ export class CalciteInputTimePicker {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { hour, minute, second } = this.convertValueToTime(this.value);
+    const { hour, minute, second } = this.parseTimeString(this.value);
     return (
       <Host>
         <calcite-input
@@ -213,7 +250,7 @@ export class CalciteInputTimePicker {
           scale={this.scale}
           step={this.step}
           theme={this.theme}
-          type="time"
+          // type="time"
           value={this.value}
         />
         <calcite-popover
