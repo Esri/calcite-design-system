@@ -112,7 +112,7 @@ export class CalciteInput {
 
   @Watch("step")
   stepWatcher(): void {
-    this.maxString = this.max?.toString() || null;
+    this.stepString = this.step?.toString() || null;
   }
 
   /** optionally add suffix  **/
@@ -178,12 +178,12 @@ export class CalciteInput {
     this.defaultValue = this.value;
     this.childElType = this.type === "textarea" ? "textarea" : "input";
     this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
-  }
-
-  componentDidLoad(): void {
     this.minString = this.min?.toString();
     this.maxString = this.max?.toString();
     this.stepString = this.step?.toString();
+  }
+
+  componentDidLoad(): void {
     this.slottedActionEl = this.el.querySelector("[slot=input-action]");
     if (this.disabled) this.setDisabledAction();
   }
