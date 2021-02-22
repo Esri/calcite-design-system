@@ -1,15 +1,15 @@
 import {
   Component,
-  h,
-  Prop,
-  Event,
   Element,
-  Host,
+  Event,
   EventEmitter,
+  h,
+  Host,
   Listen,
-  Watch,
+  Method,
+  Prop,
   VNode,
-  Method
+  Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { focusElement, getElementDir } from "../../utils/dom";
@@ -118,7 +118,7 @@ export class CalciteCheckbox {
     focusElement(this.input);
   }
 
-  // --------------------------------------------------------------------------
+  //--------------------------------------------------------------------------
   //
   //  Private Methods
   //

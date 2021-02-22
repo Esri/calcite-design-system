@@ -1,15 +1,15 @@
 import {
   Component,
-  Host,
-  h,
-  Listen,
-  Prop,
   Element,
-  Watch,
   Event,
   EventEmitter,
+  h,
+  Host,
+  Listen,
+  Method,
+  Prop,
   VNode,
-  Method
+  Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { focusElement, getElementDir } from "../../utils/dom";
