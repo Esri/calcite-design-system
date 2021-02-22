@@ -23,7 +23,7 @@ export const Simple = (): string => {
         ${boolean("docked", false)}
         ${boolean("disable-escape", false)}
         ${boolean("no-padding", false)}
-        close-label="${text("close-label", "Close")}"
+        intl-close="${text("intl-close", "Close")}"
       >
         <h3 slot="header">Small Modal</h3>
         <div slot="content">
@@ -71,7 +71,7 @@ export const DarkMode = (): string => {
     ${boolean("docked", false)}
     ${boolean("disable-escape", false)}
     ${boolean("no-padding", false)}
-    close-label="${text("close-label", "Close")}"
+    intl-close="${text("intl-close", "Close")}"
   >
     <h3 slot="header">Small Modal</h3>
     <div slot="content">
