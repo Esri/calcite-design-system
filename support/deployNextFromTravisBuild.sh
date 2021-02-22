@@ -5,7 +5,7 @@
 
 function deployable {
   local LOG_START=${1:-HEAD}
-  local LOG_END="${2:-HEAD}"
+  local LOG_END=${2:-HEAD}
 
   if \
   { git log "${LOG_START}..${LOG_END}" --format='%s' | cut -d: -f1 | sort -u | sed -e 's/([^)]*)//' | grep -q -i -E '^feat|fix$' ; } || \
