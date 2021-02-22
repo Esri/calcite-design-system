@@ -3,7 +3,7 @@ import { Attribute, Attributes, createComponentHTML as create, darkBackground } 
 import blockReadme from "./readme.md";
 import sectionReadme from "../calcite-block-section/readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { html } from "../../tests/utils";
+import { html, placeholderImage } from "../../tests/utils";
 
 export default {
   title: "Components/App/Block",
@@ -147,11 +147,11 @@ export const basic = (): string =>
       ${create(
         "calcite-block-section",
         createSectionAttributes(),
-        `<img alt="demo" src="https://placeimg.com/320/240/animals" />`
+        `<img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />`
       )}
 
       <calcite-block-section text="Nature" open>
-        <img alt="demo" src="https://placeimg.com/320/240/nature" />
+        <img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />
       </calcite-block-section>
     `
   );

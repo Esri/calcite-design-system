@@ -2,7 +2,7 @@ import { select } from "@storybook/addon-knobs";
 import { iconNames, boolean } from "../../../.storybook/helpers";
 import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
-import { html } from "../../tests/utils";
+import { html, placeholderImage } from "../../tests/utils";
 
 export default {
   title: "Components/Chip",
@@ -46,7 +46,7 @@ export const WithImage = (): string => html`
       color="${select("color", ["blue", "red", "yellow", "green", "grey"], "grey")}"
       ${boolean("dismissible", false)}
     >
-      <img alt="" slot="chip-image" src="https://placekitten.com/50/50" />
+      <img alt="" slot="chip-image" src="${placeholderImage({ width: 50, height: 50 })}" />
       My great chip</calcite-chip
     >
   </div>

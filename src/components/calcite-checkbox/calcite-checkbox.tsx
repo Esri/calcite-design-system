@@ -1,17 +1,18 @@
 import {
   Component,
-  h,
-  Prop,
-  Event,
   Element,
-  Host,
+  Event,
   EventEmitter,
+  h,
+  Host,
   Listen,
-  Watch,
-  VNode
+  Method,
+  Prop,
+  VNode,
+  Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { getElementDir } from "../../utils/dom";
+import { focusElement, getElementDir } from "../../utils/dom";
 import { Scale, Theme } from "../interfaces";
 
 @Component({
@@ -105,6 +106,17 @@ export class CalciteCheckbox {
   private initialChecked: boolean;
 
   private input: HTMLInputElement;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  @Method()
+  async setFocus(): Promise<void> {
+    focusElement(this.input);
+  }
 
   //--------------------------------------------------------------------------
   //
