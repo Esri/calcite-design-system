@@ -4,13 +4,13 @@
 # based on https://github.com/conventional-changelog/standard-version/issues/192#issuecomment-610494804
 
 function deployable {
-  local LOG_END="${1:-HEAD}"
-  local LOG_START=${2:-HEAD}
+  local LOG_START=${1:-HEAD}
+  local LOG_END=${2:-HEAD}
 
   if \
-  { git log "$( git describe --tags --abbrev=0 $LOG_START)..${LOG_END}" --format='%s' | cut -d: -f1 | sort -u | sed -e 's/([^)]*)//' | grep -q -i -E '^feat|fix$' ; } || \
-  { git log "$( git describe --tags --abbrev=0 $LOG_START)..${LOG_END}" --format='%s' | cut -d: -f1 | sort -u | sed -e 's/([^)]*)//' | grep -q -E '\!$' ; } || \
-  { git log "$( git describe --tags --abbrev=0 $LOG_START)..${LOG_END}" --format='%b' | grep -q -E '^BREAKING CHANGE:' ; }
+  { git log "${LOG_START}..${LOG_END}" --format='%s' | cut -d: -f1 | sort -u | sed -e 's/([^)]*)//' | grep -q -i -E '^feat|fix$' ; } || \
+  { git log "${LOG_START}..${LOG_END}" --format='%s' | cut -d: -f1 | sort -u | sed -e 's/([^)]*)//' | grep -q -E '\!$' ; } || \
+  { git log "${LOG_START}..${LOG_END}" --format='%b' | grep -q -E '^BREAKING CHANGE:' ; }
   then
     echo 0 # successful
   fi
@@ -20,15 +20,19 @@ function latestCommit {
   echo $( git rev-parse $1 )
 }
 
+function mostRecentTag {
+  echo $( git describe --tags --abbrev=0 $1)
+}
+
 echo "Determining build deployability 🔍"
 
-if [ ! $( deployable ) ]
+if [ ! $( deployable $( mostRecentTag HEAD ) ) ]
 then
   echo "No changes since the previous release, skipping ⛔"
 else
   git checkout master --quiet && git fetch --quiet >> .npmrc 2> /dev/null
 
-  if [ $( latestCommit master ) != $( latestCommit origin/master) ] && [ $( deployable origin/master origin/master) ]
+  if [ $( latestCommit master ) != $( latestCommit origin/master) ] && [ $( deployable master origin/master) ]
   then
     echo "Deployment build is outdated, aborting ⛔️"
   else
