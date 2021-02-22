@@ -11,14 +11,14 @@ const SUPPORTED_BUTTON_NAV_KEYS = ["ArrowUp", "ArrowDown"];
 const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
 const MENU_ANIMATION_DELAY_MS = 50;
 
+/**
+ * @slot - A slot for adding `calcite-action`s.
+ */
 @Component({
   tag: "calcite-action-menu",
   styleUrl: "calcite-action-menu.scss",
   shadow: true
 })
-/**
- * @slot - A slot for adding `calcite-action`s.
- */
 export class CalciteActionMenu {
   // --------------------------------------------------------------------------
   //
@@ -27,12 +27,12 @@ export class CalciteActionMenu {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.observer.observe(this.el, { childList: true, subtree: true });
+    this.mutationObserver.observe(this.el, { childList: true, subtree: true });
     this.getActions();
   }
 
   disconnectedCallback(): void {
-    this.observer.disconnect();
+    this.mutationObserver.disconnect();
   }
 
   // --------------------------------------------------------------------------
@@ -88,9 +88,9 @@ export class CalciteActionMenu {
 
   menuEl: HTMLDivElement;
 
-  actions: HTMLCalciteActionElement[] = [];
+  actionElements: HTMLCalciteActionElement[] = [];
 
-  observer = new MutationObserver(() => this.getActions());
+  mutationObserver = new MutationObserver(() => this.getActions());
 
   guid = `calcite-action-menu-${guid()}`;
 
@@ -102,7 +102,7 @@ export class CalciteActionMenu {
 
   @Watch("activeMenuItemIndex")
   activeMenuItemIndexHandler(): void {
-    this.updateActions(this.actions);
+    this.updateActions(this.actionElements);
   }
 
   // --------------------------------------------------------------------------
@@ -128,7 +128,7 @@ export class CalciteActionMenu {
         onClick={this.menuButtonClick}
         onKeyDown={this.menuButtonKeyDown}
         onKeyUp={this.menuButtonKeyUp}
-        ref={this.setMenuButonRef}
+        ref={this.setMenuButtonRef}
         text={optionsText}
         textEnabled={expanded}
       />
@@ -137,7 +137,7 @@ export class CalciteActionMenu {
 
   renderMenuItems(): VNode {
     const {
-      actions,
+      actionElements,
       activeMenuItemIndex,
       open,
       menuButtonId,
@@ -148,7 +148,7 @@ export class CalciteActionMenu {
       placement
     } = this;
     const label = intlOptions || TEXT.options;
-    const activeAction = actions[activeMenuItemIndex];
+    const activeAction = actionElements[activeMenuItemIndex];
     const activeDescendantId = activeAction?.id || null;
 
     return (
@@ -196,7 +196,7 @@ export class CalciteActionMenu {
     this.toggleOpen();
   };
 
-  setMenuButonRef = (node: HTMLCalciteActionElement): void => {
+  setMenuButtonRef = (node: HTMLCalciteActionElement): void => {
     this.menuButtonEl = node;
   };
 
@@ -219,15 +219,15 @@ export class CalciteActionMenu {
   };
 
   getActions = (): void => {
-    const actions =
+    const actionElements =
       (this.el
         .querySelector("slot")
         ?.assignedElements({ flatten: true })
         .filter((el) => el.tagName === "CALCITE-ACTION") as HTMLCalciteActionElement[]) || [];
 
-    this.updateActions(actions);
+    this.updateActions(actionElements);
 
-    this.actions = actions;
+    this.actionElements = actionElements;
   };
 
   isValidKey(key: string, supportedKeys: string[]): boolean {
@@ -236,7 +236,7 @@ export class CalciteActionMenu {
 
   menuButtonKeyUp = (event: KeyboardEvent): void => {
     const { key } = event;
-    const { actions } = this;
+    const { actionElements } = this;
 
     if (!this.isValidKey(key, SUPPORTED_BUTTON_NAV_KEYS)) {
       return;
@@ -244,12 +244,12 @@ export class CalciteActionMenu {
 
     event.preventDefault();
 
-    if (!actions.length) {
+    if (!actionElements.length) {
       return;
     }
 
     this.toggleOpen(true);
-    this.handleActionNavigation(key, actions);
+    this.handleActionNavigation(key, actionElements);
   };
 
   menuButtonKeyDown = (event: KeyboardEvent): void => {
@@ -264,7 +264,7 @@ export class CalciteActionMenu {
 
   menuActionsContainerKeyDown = (event: KeyboardEvent): void => {
     const { key } = event;
-    const { actions, activeMenuItemIndex } = this;
+    const { actionElements, activeMenuItemIndex } = this;
 
     if (key === "Tab") {
       this.open = false;
@@ -273,7 +273,7 @@ export class CalciteActionMenu {
 
     if (key === " " || key === "Enter") {
       event.preventDefault();
-      const action = actions[activeMenuItemIndex];
+      const action = actionElements[activeMenuItemIndex];
       action ? action.click() : this.toggleOpen(false);
       return;
     }
@@ -285,7 +285,7 @@ export class CalciteActionMenu {
 
   menuActionsContainerKeyUp = (event: KeyboardEvent): void => {
     const { key } = event;
-    const { actions } = this;
+    const { actionElements } = this;
 
     if (key === "Escape") {
       this.toggleOpen(false);
@@ -298,11 +298,11 @@ export class CalciteActionMenu {
 
     event.preventDefault();
 
-    if (!actions.length) {
+    if (!actionElements.length) {
       return;
     }
 
-    this.handleActionNavigation(key, actions);
+    this.handleActionNavigation(key, actionElements);
   };
 
   handleActionNavigation = (key: string, actions: HTMLCalciteActionElement[]): void => {

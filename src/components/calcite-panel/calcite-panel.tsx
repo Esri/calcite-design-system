@@ -7,12 +7,12 @@ import {
   Method,
   Prop,
   Watch,
-  h
+  h,
+  VNode
 } from "@stencil/core";
 import { CSS, ICONS, SLOTS, TEXT } from "./resources";
 import { getElementDir, getSlotted } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
-import { VNode } from "@stencil/core/internal";
 import { Scale, Theme } from "../interfaces";
 
 /**

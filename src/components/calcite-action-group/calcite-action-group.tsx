@@ -3,15 +3,15 @@ import { SLOTS } from "./resources";
 import { VNode } from "@stencil/core/internal";
 import { getSlotted } from "../../utils/dom";
 
+/**
+ * @slot - A slot for adding a group of `calcite-action`s.
+ * @slot menu-actions - a slot for adding an overflow menu with actions inside a dropdown.
+ */
 @Component({
   tag: "calcite-action-group",
   styleUrl: "calcite-action-group.scss",
   shadow: true
 })
-/**
- * @slot - A slot for adding a group of `calcite-action`s.
- * @slot menu-actions - a slot for adding an overflow menu with actions inside a dropdown.
- */
 export class CalciteActionGroup {
   // --------------------------------------------------------------------------
   //
@@ -25,7 +25,7 @@ export class CalciteActionGroup {
   @Prop({ reflect: true }) expanded = false;
 
   /**
-   * 'Options' text string for the actions menu.
+   * Text string for the actions menu.
    */
   @Prop() intlOptions?: string;
 
