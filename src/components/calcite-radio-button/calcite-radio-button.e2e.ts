@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 
 describe("calcite-radio-button", () => {
   it("renders", async () => renders("calcite-radio-button"));
@@ -32,6 +32,11 @@ describe("calcite-radio-button", () => {
     const value = await selected.getProperty("value");
     expect(value).toBe("third");
   });
+
+  it("is focusable", () =>
+    focusable("calcite-radio-button", {
+      focusTargetSelector: "input[type=radio]"
+    }));
 
   it("reflects", async () =>
     reflects("calcite-radio-button", [

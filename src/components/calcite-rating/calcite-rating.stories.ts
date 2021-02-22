@@ -5,7 +5,7 @@ import readme from "./readme.md";
 import { html } from "../../tests/utils";
 
 export default {
-  title: "Components/Rating",
+  title: "Components/Controls/Rating",
 
   parameters: {
     notes: readme

@@ -1,18 +1,18 @@
 import {
   Component,
-  Host,
-  h,
-  Listen,
-  Prop,
   Element,
-  Watch,
   Event,
   EventEmitter,
+  h,
+  Host,
+  Listen,
+  Method,
+  Prop,
   VNode,
-  Method
+  Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { getElementDir } from "../../utils/dom";
+import { focusElement, getElementDir } from "../../utils/dom";
 import { Scale, Theme } from "../interfaces";
 
 @Component({
@@ -134,6 +134,17 @@ export class CalciteRadioButton {
   private radio: HTMLCalciteRadioElement;
 
   private rootNode: HTMLElement;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  @Method()
+  async setFocus(): Promise<void> {
+    focusElement(this.inputEl);
+  }
 
   //--------------------------------------------------------------------------
   //
