@@ -2,6 +2,29 @@ import { newE2EPage } from "@stencil/core/testing";
 import { focusable, HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-input", () => {
+  it("should handle valueAsNumber", async () => {
+    const defaultValue = "3.14";
+
+    const page = await newE2EPage({
+      html: `<calcite-input type="text" value="${defaultValue}"></calcite-input>`
+    });
+    await page.waitForChanges();
+
+    const calciteInput = await page.find("calcite-input");
+    expect(await calciteInput.getProperty("value")).toEqual(defaultValue);
+    expect(await calciteInput.getProperty("valueAsNumber")).toEqual(3.14);
+
+    calciteInput.setProperty("valueAsNumber", 9000.001);
+    await page.waitForChanges();
+
+    expect(await calciteInput.getProperty("value")).toEqual("9000.001");
+
+    calciteInput.setProperty("value", "Not-A-Number");
+    await page.waitForChanges();
+
+    expect(await calciteInput.getProperty("valueAsNumber")).toEqual(null);
+  });
+
   it("honors form reset", async () => {
     const defaultValue = "defaultValue";
 

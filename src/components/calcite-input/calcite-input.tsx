@@ -144,11 +144,20 @@ export class CalciteInput {
   @Prop({ mutable: true, reflect: true }) value?: string = "";
 
   @Watch("value")
-  valueWatcher(): void {
+  valueWatcher(value: string): void {
+    this.setValueAsNumber(value);
     this.calciteInputInput.emit({
       element: this.childEl,
-      value: this.value
+      value
     });
+  }
+
+  /** input value as a number */
+  @Prop({ mutable: true, reflect: true }) valueAsNumber?: number = null;
+
+  @Watch("valueAsNumber")
+  valueAsNumberWatcher(valueAsNumber: number): void {
+    this.setValue(valueAsNumber);
   }
 
   @Watch("icon")
@@ -168,6 +177,14 @@ export class CalciteInput {
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.form = this.el.closest("form");
     this.form?.addEventListener("reset", this.reset);
+
+    const { valueAsNumber, value } = this;
+
+    if (valueAsNumber !== null) {
+      this.setValue(valueAsNumber);
+    } else if (value) {
+      this.setValueAsNumber(value);
+    }
   }
 
   disconnectedCallback(): void {
@@ -406,6 +423,23 @@ export class CalciteInput {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private setValue = (valueAsNumber: number): void => {
+    this.value = this.getValueFromNumber(valueAsNumber);
+  };
+
+  private getValueFromNumber = (value: number): string => {
+    return value?.toString() || "";
+  };
+
+  private setValueAsNumber = (value: string): void => {
+    this.valueAsNumber = this.getValueAsNumber(value);
+  };
+
+  private getValueAsNumber = (value: string): number => {
+    const parsed = parseFloat(value);
+    return !isNaN(parsed) ? parsed : null;
+  };
 
   private reset = (): void => {
     this.value = this.defaultValue;
