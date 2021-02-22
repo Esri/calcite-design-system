@@ -8,10 +8,11 @@ import {
   EventEmitter,
   Listen,
   Watch,
-  VNode
+  VNode,
+  Method
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { getElementDir } from "../../utils/dom";
+import { focusElement, getElementDir } from "../../utils/dom";
 import { Scale, Theme } from "../interfaces";
 
 @Component({
@@ -107,6 +108,17 @@ export class CalciteCheckbox {
   private input: HTMLInputElement;
 
   //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  @Method()
+  async setFocus(): Promise<void> {
+    focusElement(this.input);
+  }
+
+  // --------------------------------------------------------------------------
   //
   //  Private Methods
   //
