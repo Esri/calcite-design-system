@@ -240,7 +240,7 @@ export const DarkThemeFooterButtonsTooltipsDropdown = (): string => html`
         alt=""
         slot="thumbnail"
         src="${placeholderImage({ width: 260, height: 160 })}"
-        style="width:260px;height:160px"
+        style="width: 260px; height: 160px;"
       />
       <h3 slot="title">Portland Businesses</h3>
       <span slot="subtitle"
