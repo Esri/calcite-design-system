@@ -153,7 +153,7 @@ export class CalciteInput {
   }
 
   /** input value as a number */
-  @Prop({ mutable: true, reflect: true }) valueAsNumber?: number = null;
+  @Prop({ mutable: true }) valueAsNumber?: number = null;
 
   @Watch("valueAsNumber")
   valueAsNumberWatcher(valueAsNumber: number): void {
@@ -315,6 +315,7 @@ export class CalciteInput {
         tabIndex={this.disabled ? -1 : null}
         type={this.type}
         value={this.value}
+        valueAsNumber={this.valueAsNumber}
       >
         {this.value}
       </this.childElType>,
