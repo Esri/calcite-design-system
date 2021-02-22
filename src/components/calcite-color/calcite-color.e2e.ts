@@ -1,7 +1,7 @@
 import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
 
-import { CSS, DEFAULT_STORAGE_KEY_PREFIX, DIMENSIONS, TEXT } from "./resources";
-import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
+import { CSS, DEFAULT_COLOR, DEFAULT_STORAGE_KEY_PREFIX, DIMENSIONS, TEXT } from "./resources";
+import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import { ColorValue } from "./interfaces";
 import SpyInstance = jest.SpyInstance;
 
@@ -169,6 +169,47 @@ describe("calcite-color", () => {
   };
 
   describe("color format", () => {
+    describe("when set initially", () => {
+      let page: E2EPage;
+      let spy: EventSpy;
+
+      beforeEach(async () => {
+        page = await newE2EPage();
+        spy = await page.spyOnEvent("calciteColorChange");
+      });
+
+      function assertNoChangeEvents(): void {
+        expect(spy).toHaveReceivedEventTimes(0);
+      }
+
+      // this suite uses a subset of supported formats as other tests cover the rest
+
+      it("changes the default value to the format", async () => {
+        await page.setContent("<calcite-color format='rgb'></calcite-color>");
+        const color = await page.find("calcite-color");
+
+        expect(await color.getProperty("value")).toEqual(DEFAULT_COLOR.rgb().round().object());
+        assertNoChangeEvents();
+      });
+
+      it("initial value and format are both set if compatible", async () => {
+        const initialValue = "rgb(255, 128, 255)";
+        await page.setContent(`<calcite-color format='rgb-css' value='${initialValue}'></calcite-color>`);
+        const color = await page.find("calcite-color");
+
+        expect(await color.getProperty("value")).toEqual(initialValue);
+        assertNoChangeEvents();
+      });
+
+      it("falls back to format-compliant default if initial value is not compatible with initial format", async () => {
+        await page.setContent("<calcite-color format='hsl-css' value='#f00f00'></calcite-color>");
+        const color = await page.find("calcite-color");
+
+        expect(await color.getProperty("value")).toEqual(DEFAULT_COLOR.hsl().round().string());
+        assertNoChangeEvents();
+      });
+    });
+
     it("allows specifying the color value format", async () => {
       const page = await newE2EPage({
         html: "<calcite-color></calcite-color>"
@@ -298,12 +339,12 @@ describe("calcite-color", () => {
 
     const expectedColorSamples = [
       "#ff0000",
-      "#ffdb00",
-      "#47ff00",
-      "#00ff8e",
-      "#0094ff",
-      "#4700ff",
-      "#ff00db",
+      "#ffdd00",
+      "#48ff00",
+      "#00ff91",
+      "#0095ff",
+      "#4800ff",
+      "#ff00dd",
       "#ff0000"
     ];
 
