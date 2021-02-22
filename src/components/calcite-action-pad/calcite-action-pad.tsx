@@ -46,7 +46,7 @@ export class CalciteActionPad {
   /**
    * Indicates whether widget is expanded.
    */
-  @Prop({ reflect: true }) expanded = false;
+  @Prop({ reflect: true, mutable: true }) expanded = false;
 
   @Watch("expanded")
   expandedHandler(expanded: boolean): void {

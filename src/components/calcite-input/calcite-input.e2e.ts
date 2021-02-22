@@ -2,6 +2,37 @@ import { newE2EPage } from "@stencil/core/testing";
 import { focusable, HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-input", () => {
+  it("honors form reset", async () => {
+    const defaultValue = "defaultValue";
+
+    const page = await newE2EPage({
+      html: `
+      <form>
+        <calcite-input type="text" value="${defaultValue}"></calcite-input>
+      </form>
+      `
+    });
+
+    await page.waitForChanges();
+
+    const calciteInput = await page.find("calcite-input");
+    expect(await calciteInput.getProperty("value")).toEqual(defaultValue);
+
+    await calciteInput.callMethod("setFocus");
+    await page.keyboard.press("a");
+
+    await page.$eval("form", (form: HTMLFormElement): void => {
+      form.reset();
+    });
+
+    await page.waitForChanges();
+
+    expect(await calciteInput.getProperty("value")).toEqual(defaultValue);
+
+    const inputInput = await calciteInput.find("input");
+    expect(await inputInput.getProperty("value")).toEqual(defaultValue);
+  });
+
   it("renders", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-input></calcite-input>");
@@ -385,19 +416,23 @@ describe("calcite-input", () => {
   });
 
   it("when value changes, event is received", async () => {
+    const defaultValue = "John Doe";
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-input value="John Doe"></calcite-input>
+    <calcite-input value="${defaultValue}"></calcite-input>
     `);
 
     const calciteInputInput = await page.spyOnEvent("calciteInputInput");
     const element = await page.find("calcite-input");
-    expect(element.getAttribute("value")).toBe("John Doe");
+    expect(element.getAttribute("value")).toBe(defaultValue);
     await element.callMethod("setFocus");
+    await page.$eval("calcite-input input", (input: HTMLInputElement): void => {
+      input.setSelectionRange(input.value.length, input.value.length);
+    });
     expect(calciteInputInput).toHaveReceivedEventTimes(0);
     await page.keyboard.press("e");
     await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("John Doee");
+    expect(element.getAttribute("value")).toBe(`${defaultValue}e`);
     expect(calciteInputInput).toHaveReceivedEventTimes(1);
   });
 

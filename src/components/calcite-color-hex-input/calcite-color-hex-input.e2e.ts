@@ -189,6 +189,20 @@ describe("calcite-color-hex-input", () => {
 
     async function clearText(): Promise<void> {
       await input.callMethod("setFocus");
+
+      await page.$eval("calcite-color-hex-input", (el: HTMLCalciteColorHexInputElement): void => {
+        const input = el.shadowRoot?.querySelector("input");
+
+        if (!input) {
+          return;
+        }
+
+        const inputType = input.type;
+        input.type = "text";
+        input.setSelectionRange(input.value.length, input.value.length);
+        input.type = inputType;
+      });
+
       await page.keyboard.press("Backspace");
       await page.keyboard.press("Backspace");
       await page.keyboard.press("Backspace");

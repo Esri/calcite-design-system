@@ -10,7 +10,7 @@ import {
   Prop,
   VNode
 } from "@stencil/core";
-import { getElementDir, getElementProp } from "../../utils/dom";
+import { getAttributes, getElementDir, getElementProp } from "../../utils/dom";
 import { ItemKeyboardEvent, ItemRegistration } from "../calcite-dropdown/interfaces";
 import { getKey } from "../../utils/key";
 import { FlipContext } from "../interfaces";
@@ -96,7 +96,16 @@ export class CalciteDropdownItem {
   }
 
   render(): VNode {
-    const attributes = this.getAttributes();
+    const attributes = getAttributes(this.el, [
+      "icon-start",
+      "icon-end",
+      "active",
+      "has-text",
+      "is-link",
+      "dir",
+      "id",
+      "theme"
+    ]);
     const dir = getElementDir(this.el);
     const scale = getElementProp(this.el, "scale", "m");
     const iconScale = scale === "l" ? "m" : "s";
@@ -269,14 +278,6 @@ export class CalciteDropdownItem {
       requestedDropdownItem: this.el,
       requestedDropdownGroup: this.parentDropdownGroupEl
     });
-  }
-
-  private getAttributes(): Record<string, any> {
-    // spread attributes from the component to rendered child, filtering out props
-    const props = ["icon-start", "icon-end", "active", "hasText", "isLink", "dir", "id", "theme"];
-    return Array.from(this.el.attributes)
-      .filter((a) => a && !props.includes(a.name))
-      .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
   }
 
   private getItemPosition(): number {

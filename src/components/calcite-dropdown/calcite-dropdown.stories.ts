@@ -7,7 +7,7 @@ import readme3 from "../calcite-dropdown-item/readme.md";
 import { html } from "../../tests/utils";
 
 export default {
-  title: "Components/Dropdown",
+  title: "Components/Buttons/Dropdown",
 
   parameters: {
     notes: [readme1, readme2, readme3]

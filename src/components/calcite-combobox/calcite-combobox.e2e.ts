@@ -430,6 +430,8 @@ describe("calcite-combobox", () => {
       await element.click();
 
       await items[1].click();
+      await page.waitForChanges();
+
       selected = await page.find("calcite-combobox >>> .selected-icon");
       icon = await selected.getProperty("icon");
       expect(icon).toBe("beaker");
@@ -459,6 +461,8 @@ describe("calcite-combobox", () => {
         shadowRoot.append(document.querySelector("template").content.cloneNode(true));
       </script>
     `);
+
+    await page.waitForChanges();
 
     const combobox = await page.find("div >>> calcite-combobox");
     const input = await page.find("div >>> calcite-combobox >>> .wrapper");

@@ -1,4 +1,4 @@
-@include popperHost();
+@include popperHost(999);
 @include popperArrow();
 
 .container {

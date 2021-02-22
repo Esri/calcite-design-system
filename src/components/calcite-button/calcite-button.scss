@@ -159,10 +159,18 @@
   .icon--start {
     margin-right: auto;
   }
+  a,
+  button {
+    text-align: unset;
+  }
 }
 :host([alignment="icon-end-space-between"]:not([width="auto"])) {
   .icon--end {
     margin-left: auto;
+  }
+  a,
+  button {
+    text-align: unset;
   }
 }
 :host([dir="rtl"][alignment="icon-start-space-between"]:not([width="auto"])) {

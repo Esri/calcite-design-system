@@ -10,7 +10,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
+import { getAttributes, getElementDir } from "../../utils/dom";
 import { FocusRequest } from "./interfaces";
 import { Alignment, Scale, Status, Theme } from "../interfaces";
 
@@ -93,14 +93,6 @@ export class CalciteLabel {
   //
   //--------------------------------------------------------------------------
 
-  private getAttributes(): Record<string, any> {
-    // spread attributes from the component to rendered child, filtering out props
-    const props = ["disabled", "id", "layout", "scale", "status", "theme"];
-    return Array.from(this.el.attributes)
-      .filter((a) => a && !props.includes(a.name))
-      .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
-  }
-
   private handleCalciteHtmlForClicks = (target: HTMLElement) => {
     // 1. has htmlFor
     if (!this.for) return;
@@ -164,7 +156,14 @@ export class CalciteLabel {
   }
 
   render(): VNode {
-    const attributes = this.getAttributes();
+    const attributes = getAttributes(this.el, [
+      "disabled",
+      "id",
+      "layout",
+      "scale",
+      "status",
+      "theme"
+    ]);
     const dir = getElementDir(this.el);
     return (
       <Host dir={dir}>

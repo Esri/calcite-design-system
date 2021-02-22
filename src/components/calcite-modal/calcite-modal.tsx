@@ -46,7 +46,7 @@ export class CalciteModal {
   //
   //--------------------------------------------------------------------------
   /** Add the active attribute to open the modal */
-  @Prop() active?: boolean;
+  @Prop({ mutable: true }) active?: boolean;
 
   /** Optionally pass a function to run before close */
   @Prop() beforeClose: (el: HTMLElement) => Promise<void> = () => Promise.resolve();

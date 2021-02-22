@@ -5,8 +5,7 @@ import readme from "./readme.md";
 import { html } from "../../tests/utils";
 
 export default {
-  title: "Components/Input",
-
+  title: "Components/Controls/Input",
   parameters: {
     notes: readme
   }
@@ -74,16 +73,16 @@ export const WithLabelAndInputMessage = (): string => html`
         step="${number("step", 1)}"
         prefix-text="${text("prefix-text", "", "Input")}"
         suffix-text="${text("suffix-text", "", "Input")}"
-        ${boolean("loading", false, "Input")}
-        ${boolean("autofocus", false, "Input")}
-        ${boolean("required", false, "Input")}
+        ${boolean("loading", false)}
+        ${boolean("autofocus", false)}
+        ${boolean("required", false)}
         value="${text("value", "", "Input")}"
         placeholder="${text("placeholder", "Placeholder text", "Input")}"
       >
       </calcite-input>
       <calcite-input-message
-        ${boolean("active", true, "Input Message")}
-        ${boolean("icon", false, "Input Message")}
+        ${boolean("active", true)}
+        ${boolean("icon", false)}
         icon="${select("icon", iconNames, "", "Input Message")}"
         type="${select("type", ["default", "floating"], "default", "Input Message")}"
         >${text("input message text", "My great input message", "Input Message")}</calcite-input-message

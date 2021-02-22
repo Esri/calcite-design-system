@@ -21,6 +21,7 @@ This is a living document defining our best practices and reasoning for authorin
 - [Custom Themes](#custom-themes)
 - [Unique IDs for Components](#unique-ids-for-components)
 - [Prerendering/SSR](#prerendering-and-ssr)
+- [Writing Tests](#writing-tests)
 
 <!-- /TOC -->
 
@@ -503,3 +504,13 @@ const elements = this.el.shadowRoot ? this.el.shadowRoot.querySelector("slot").a
 ```
 
 To ensure that all components are compatible for prerendering a prerender build is done as part of `npm test`.
+
+## Writing Tests
+
+### Prevent logging unnecessary messaging in the build
+
+**This is only necessary if a component's test will produce a lot of console messages in a test run.**
+
+As a best practice when writing tests, prevent emitting console warnings by stubbing them. Depending on the tested component, this may also apply to other console APIs.
+
+Console warnings can end up polluting the build output messaging that makes it more difficult to identify real issues. By stubbing `console.warn`, you can prevent warning messages from displaying in the build. See [`calcite-color.e2e`](https://github.com/Esri/calcite-components/blob/af0c6cb/src/components/calcite-color/calcite-color.e2e.ts#L9-L17) for an example.
