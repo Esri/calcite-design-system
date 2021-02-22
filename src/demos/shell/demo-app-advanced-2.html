@@ -142,7 +142,7 @@
                 </section>
                 <calcite-block heading="2018 Total Population (Esri)" summary="County - Town" open collapsible>
                   <calcite-icon icon="label" scale="m" slot="icon"></calcite-icon>
-                  <calcite-action slot="control" icon="ellipsis" scale="s"></calcite-action>
+                  <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="s"></calcite-action>
                   <section class="form-section">
                     <calcite-label scale="s" for="">
                       Label attribute
@@ -157,7 +157,7 @@
                 </calcite-block>
                 <calcite-block heading="NAME" summary="Continent - State province" open collapsible>
                   <calcite-icon icon="label" scale="m" slot="icon"></calcite-icon>
-                  <calcite-action slot="control" icon="ellipsis" scale="s"></calcite-action>
+                  <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="s"></calcite-action>
                   <section class="form-section">
                     <section class="form-section">
                       <calcite-label scale="s" for="">
@@ -179,7 +179,7 @@
                   collapsible
                 >
                   <calcite-icon icon="label" scale="m" slot="icon"></calcite-icon>
-                  <calcite-action slot="control" icon="ellipsis" scale="s"></calcite-action>
+                  <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="s"></calcite-action>
                   <section class="form-section">
                     <section class="form-section">
                       <calcite-label scale="s" for="">
@@ -195,7 +195,7 @@
                   </section>
                 </calcite-block>
                 <calcite-fab slot="fab" id="label-fab" text="Add label class"></calcite-fab>
-                <calcite-tooltip reference-element="label-fab" disable-pointer>
+                <calcite-tooltip label="tooltip" reference-element="label-fab" disable-pointer>
                   Add label class
                 </calcite-tooltip>
               </calcite-panel>
@@ -260,7 +260,7 @@
           <footer slot="shell-footer">Footer</footer>
         </calcite-shell>
       </div>
-      <calcite-popover placement="right-start" reference-element="action-pad-button" add-click-handle class="popover">
+      <calcite-popover label="right start popover" placement="right-start" reference-element="action-pad-button" add-click-handle class="popover">
         <calcite-panel theme="light">
           <h3 class="heading" slot="header-content">WE CARE A LOT</h3>
           <calcite-pick-list filter-enabled filter-sticky>

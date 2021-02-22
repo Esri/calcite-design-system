@@ -23,6 +23,13 @@
   <body>
     <calcite-button href="/">Home</calcite-button>
     <h1>Calcite Input</h1>
+
+    <form id="myForm">
+      <calcite-input type="text" value="Initial"></calcite-input>
+      <input value="Initial" />
+      <button type="reset">Reset</button>
+    </form>
+
     <div style="text-align: center">
       <calcite-input value="My great value" prefix-text="pre" icon="banana" suffix-text="suf"> </calcite-input>
       <div
@@ -968,7 +975,7 @@
                 Create username
                 <calcite-input
                   suffix-text="@maps.esri.com"
-                  id="validate-input-example-username"
+                  id="validate-input-example-username2"
                   placeholder="Enter username"
                   required
                 >

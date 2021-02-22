@@ -7,7 +7,7 @@ const { dir, position, theme } = ATTRIBUTES;
 import { TEXT } from "./resources";
 
 export default {
-  title: "App Components/Action Pad",
+  title: "Components/App/Action Pad",
   parameters: {
     backgrounds: darkBackground,
     notes: readme

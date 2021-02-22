@@ -4,7 +4,7 @@ import { boolean } from "../../../.storybook/helpers";
 import { html } from "../../tests/utils";
 
 export default {
-  title: "Components/Tile Select Group"
+  title: "Components/Tiles/Tile Select Group"
 };
 
 export const Light = (): string => html`

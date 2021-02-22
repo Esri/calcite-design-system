@@ -5,7 +5,7 @@ import readme from "./readme.md";
 import { html } from "../../tests/utils";
 
 export default {
-  title: "Components/Switch",
+  title: "Components/Controls/Switch",
 
   parameters: {
     notes: readme

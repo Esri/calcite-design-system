@@ -36,9 +36,9 @@
   <calcite-button scale="s" data-scale="l" class="scale-selector">Large</calcite-button>
   <h1>Calcite Loader</h1>
   <h2>Standard</h2>
-  <calcite-loader active></calcite-loader>
+  <calcite-loader label="loading" active></calcite-loader>
   <h2>Determinate</h2>
-  <calcite-loader active type="determinate" value="0" id="loader-determinate" text="Determinate loader">
+  <calcite-loader label="loading" active type="determinate" value="0" id="loader-determinate" text="Determinate loader">
   </calcite-loader>
   <div style="text-align: center">
     <calcite-button id="replay" appearance="transparent" icon="refresh">Replay</calcite-button>
@@ -81,7 +81,7 @@
   </script>
   <h2>Inline</h2>
   <div style="display: inline-flex;align-items: center;justify-content: center;width: 100%;">
-    <calcite-loader active inline></calcite-loader><span style="margin:0 10px">Inline Loader</span>
+    <calcite-loader label="loading" active inline></calcite-loader><span style="margin:0 10px">Inline Loader</span>
   </div>
   <h2>Custom theme</h2>
   <style>
@@ -91,9 +91,9 @@
       --calcite-ui-brand-press: #338033;
     }
   </style>
-  <calcite-loader active class="green"></calcite-loader>
+  <calcite-loader label="loading" active class="green"></calcite-loader>
   <h2>Loading Text</h2>
-  <calcite-loader active text="optional loading text&hellip;" type="indeterminate"></calcite-loader>
+  <calcite-loader label="loading" active text="optional loading text&hellip;" type="indeterminate"></calcite-loader>
 </body>
 
 </html>
