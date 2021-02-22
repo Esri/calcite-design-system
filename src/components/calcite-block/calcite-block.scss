@@ -1,3 +1,5 @@
+@import "../../assets/styles/tailwind-base";
+
 :host {
   @extend %component-host;
   @apply flex
@@ -15,7 +17,7 @@
   flex-basis: auto;
 }
 
-@import "../../assets/styles/header"; // TODO jrowlingson - extract?
+@import "../../assets/styles/header";
 
 .header {
   @apply justify-start p-0;
@@ -99,7 +101,6 @@ calcite-handle {
     fill-current
     m-0
     mr-4;
-
   flex-basis: theme("spacing.4");
 }
 
@@ -127,9 +128,9 @@ calcite-scrim {
 
 :host([open]) {
   @apply my-3;
-  box-shadow: 1px 0 0 var(--calcite-ui-border-1) inset;
+  box-shadow: 1px 0 0 theme("borderColor.color.1") inset;
   &.calcite--rtl {
-    box-shadow: -1px 0 0 var(--calcite-ui-border-1) inset;
+    box-shadow: -1px 0 0 theme("borderColor.color.1") inset;
   }
   .header .title .heading {
     @apply text-color-1;
