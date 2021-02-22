@@ -315,7 +315,6 @@ export class CalciteInput {
         tabIndex={this.disabled ? -1 : null}
         type={this.type}
         value={this.value}
-        valueAsNumber={this.valueAsNumber}
       >
         {this.value}
       </this.childElType>,
