@@ -20,7 +20,7 @@ describe("calcite-action-menu", () => {
       },
       {
         propertyName: "flipPlacements",
-        defaultValue: []
+        defaultValue: undefined
       },
       {
         propertyName: "intlOptions",
