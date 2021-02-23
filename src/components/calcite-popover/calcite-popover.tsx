@@ -368,8 +368,8 @@ export class CalcitePopover {
   }
 
   render(): VNode {
+    const { _referenceElement, el, label, open, disablePointer } = this;
     const rtl = getElementDir(el) === "rtl";
-    const { _referenceElement, label, open, disablePointer } = this;
     const displayed = _referenceElement && open;
     const hidden = !displayed;
     const arrowNode = !disablePointer ? (
