@@ -1,19 +1,19 @@
 // scale variants for child
-:host-context([scale="s"]) {
+:host([scale="s"]) {
   --calcite-accordion-item-spacing-unit: #{$baseline/3};
   --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit)
     var(--calcite-accordion-item-spacing-unit);
   @apply text--2;
 }
 
-:host-context([scale="m"]) {
+:host([scale="m"]) {
   --calcite-accordion-item-spacing-unit: #{$baseline/2};
   --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit)
     var(--calcite-accordion-item-spacing-unit);
   @apply text--1;
 }
 
-:host-context([scale="l"]) {
+:host([scale="l"]) {
   --calcite-accordion-item-spacing-unit: #{$baseline};
   --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit)
     var(--calcite-accordion-item-spacing-unit);
@@ -50,11 +50,11 @@
   --calcite-accordion-item-background: var(--calcite-ui-foreground-1);
 }
 
-:host-context([appearance="minimal"]) {
+:host([appearance="minimal"]) {
   --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit) 0;
 }
 
-:host-context([appearance="transparent"]) {
+:host([appearance="transparent"]) {
   --calcite-accordion-item-border: transparent;
   --calcite-accordion-item-background: transparent;
 }
