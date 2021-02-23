@@ -19,7 +19,7 @@ _Note_: this project assumes you have the light and dark theme variables defined
 To add Calcite's Tailwind configuration to your project you can simply import it in your `tailwind.config.js` file:
 
 ```js
-var calciteTheme = require("@esri/calcite-tailwind/tailwind.config");
+var calciteTheme = require("@esri/calcite-tailwind");
 
 module.exports = {
   purge: ["./public/**/*.html"], // make sure to purge any unused CSS by passing in your HTML here
@@ -36,7 +36,7 @@ A static CSS file is also provided at `dist/tailwind.css`. When using this optio
 
 In HTML, you can use the classes directly:
 
-```
+```html
 <div class="container">
   <p class="font-medium text-0 mb-4">
 </div>
