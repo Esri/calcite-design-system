@@ -9,7 +9,7 @@
   background-color: var(--calcite-ui-foreground-1);
 }
 
-:host-context([theme="dark"]) {
+:host([theme="dark"]) {
   @include calcite-theme-dark();
 }
 

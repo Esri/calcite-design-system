@@ -9,12 +9,12 @@ $tab-margin: 1.25rem;
 }
 
 // only ie11 and chrome will run this, others have logical properties
-:host-context([dir="rtl"]) {
+:host([dir="rtl"]) {
   margin-right: 0;
   margin-left: $tab-margin;
 }
 
-:host-context([theme="dark"]) {
+:host([theme="dark"]) {
   @include calcite-theme-dark();
 }
 

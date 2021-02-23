@@ -1,7 +1,7 @@
-:host-context([theme="light"]) {
+:host([theme="light"]) {
   --calcite-ui-border-input: $blk-100;
 }
-:host-context([theme="dark"]) {
+:host([theme="dark"]) {
   @include calcite-theme-dark();
 }
 :host([scale="s"]) {
