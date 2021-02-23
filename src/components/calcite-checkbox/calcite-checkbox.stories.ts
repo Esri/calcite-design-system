@@ -13,28 +13,24 @@ export default {
 };
 
 export const Simple = (): string => html`
-  <label>
-    <calcite-checkbox
-      ${boolean("checked", true)}
-      ${boolean("disabled", false)}
-      ${boolean("indeterminate", false)}
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-    ></calcite-checkbox>
-    Text for the checkbox
-  </label>
+  <calcite-checkbox
+    ${boolean("checked", true)}
+    ${boolean("disabled", false)}
+    ${boolean("indeterminate", false)}
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+    >Text for the checkbox</calcite-checkbox
+  >
 `;
 
 export const DarkMode = (): string => html`
-  <label>
-    <calcite-checkbox
-      theme="dark"
-      ${boolean("checked", true)}
-      ${boolean("disabled", false)}
-      ${boolean("indeterminate", false)}
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      >Text for the checkbox</calcite-checkbox
-    >
-  </label>
+  <calcite-checkbox
+    theme="dark"
+    ${boolean("checked", true)}
+    ${boolean("disabled", false)}
+    ${boolean("indeterminate", false)}
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+    >Text for the checkbox</calcite-checkbox
+  >
 `;
 
 DarkMode.story = {
