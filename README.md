@@ -2,6 +2,10 @@
 
 The calcite-tailwind repository holds the tailwind configuration used to build calcite-components.
 
+:warning: Warning! :warning:
+
+> This package is currently in its very early stages of development. The Tailwind config will change as we begin to adopt it. Until version 1.0.0 minor versions could contain breaking changes to class names!
+
 ## Install
 
 If you use npm, installation is as easy as:
