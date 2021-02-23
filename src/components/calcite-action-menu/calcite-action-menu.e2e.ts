@@ -1,4 +1,4 @@
-import { accessible, hidden, renders } from "../../tests/commonTests";
+import { accessible, hidden, renders, defaults, reflects } from "../../tests/commonTests";
 
 describe("calcite-action-menu", () => {
   it("renders", async () => renders("calcite-action-menu"));
@@ -11,4 +11,52 @@ describe("calcite-action-menu", () => {
       <calcite-action text="Add" icon="plus"></calcite-action>
     </calcite-action-menu>
     `));
+
+  it("defaults", async () =>
+    defaults("calcite-action-menu", [
+      {
+        propertyName: "expanded",
+        defaultValue: false
+      },
+      {
+        propertyName: "flipPlacements",
+        defaultValue: []
+      },
+      {
+        propertyName: "intlOptions",
+        defaultValue: "false"
+      },
+      {
+        propertyName: "offsetDistance",
+        defaultValue: 0
+      },
+      {
+        propertyName: "open",
+        defaultValue: false
+      },
+      {
+        propertyName: "placement",
+        defaultValue: "auto"
+      }
+    ]));
+
+  it("reflects", async () =>
+    reflects("calcite-action-menu", [
+      {
+        propertyName: "expanded",
+        value: true
+      },
+      {
+        propertyName: "offsetDistance",
+        value: 0
+      },
+      {
+        propertyName: "open",
+        value: true
+      },
+      {
+        propertyName: "placement",
+        value: "auto"
+      }
+    ]));
 });
