@@ -1,7 +1,3 @@
-:host([theme="light"]) {
-  --calcite-ui-border-input: $blk-100;
-}
-
 :host([scale="s"]) {
   --calcite-checkbox-size: theme("fontSize.-2");
   --calcite-checkbox-grid-gap: theme("spacing.2");
