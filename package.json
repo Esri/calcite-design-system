@@ -36,12 +36,12 @@
     "tailwindcss": "^1.7.2"
   },
   "devDependencies": {
+    "@storybook/storybook-deployer": "^2.8.7",
     "autoprefixer": "^9.8.6",
     "concurrently": "^6.0.0",
     "cross-env": "^7.0.3",
     "cssnano": "^4.1.10",
     "gh-release": "3.5.0",
-    "git-directory-deploy": "^1.5.1",
     "live-server": "^1.2.1",
     "postcss-cli": "^7.1.1"
   },
@@ -50,6 +50,6 @@
     "start": "cross-env NODE_ENV=development concurrently \"postcss tailwind.css -o docs/tailwind.css --watch\"  \"live-server ./docs\" ",
     "docs": "cross-env NODE_ENV=production concurrently \"postcss tailwind.css -o docs/tailwind.css --config ./docs/postcss.config.js\"",
     "dist": "cross-env NODE_ENV=production postcss tailwind.css -o dist/tailwind.css",
-    "gh-pages": "npm run docs && git-directory-deploy --directory dist --branch gh-pages"
+    "gh-pages": "npm run docs && storybook-to-ghpages --existing-output-dir=docs"
   }
 }
