@@ -126,7 +126,6 @@ export class CalciteComboboxItem {
     if (this.disabled) {
       return;
     }
-
     this.isSelected = !this.isSelected;
     this.calciteComboboxItemChange.emit(this.el);
   };

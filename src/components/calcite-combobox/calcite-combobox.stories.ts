@@ -20,7 +20,7 @@ export const Simple = (): string => html`
       label="demo combobox"
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"
-      selection-mode="${select("selection-mode", ["multi", "single"], "multi")}"
+      selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       ${boolean("disabled", false)}
       ${boolean("allow-custom-values", false)}
@@ -52,7 +52,7 @@ export const Single = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox
       label="demo combobox"
-      selection-mode="${select("selection-mode", ["multi", "single"], "single")}"
+      selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "single")}"
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -80,7 +80,7 @@ export const DarkTheme = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox
       label="demo combobox"
-      selection-mode="${select("selection-mode", ["multi", "single"], "multi")}"
+      selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"
       theme="dark"
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"
@@ -120,7 +120,7 @@ export const Rtl = (): string => html`
     <calcite-combobox
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"
-      selection-mode="${select("selection-mode", ["multi", "single"], "multi")}"
+      selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"
       dir="rtl"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       ${boolean("disabled", false)}
