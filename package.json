@@ -41,12 +41,15 @@
     "cross-env": "^7.0.3",
     "cssnano": "^4.1.10",
     "gh-release": "3.5.0",
+    "git-directory-deploy": "^1.5.1",
     "live-server": "^1.2.1",
     "postcss-cli": "^7.1.1"
   },
   "scripts": {
     "release": "gh-release",
     "start": "cross-env NODE_ENV=development concurrently \"postcss tailwind.css -o docs/tailwind.css --watch\"  \"live-server ./docs\" ",
-    "dist": "cross-env NODE_ENV=production postcss tailwind.css -o dist/tailwind.css"
+    "docs": "cross-env NODE_ENV=production concurrently \"postcss tailwind.css -o docs/tailwind.css --config ./docs/postcss.config.js\"",
+    "dist": "cross-env NODE_ENV=production postcss tailwind.css -o dist/tailwind.css",
+    "gh-pages": "npm run docs && git-directory-deploy --directory dist --branch gh-pages"
   }
 }

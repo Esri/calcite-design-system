@@ -66,3 +66,7 @@ git push origin fix/something
 3. Run `npm run dist` to make sure the `dist/` files are updated.
 4. Make sure `Esri/calcite-tailwind` is up-to-date with your changes (via Pull Request).
 5. Run `npm run release`. If prompted enter your GitHub credentials.
+
+## Updating the documentation
+
+1. `npm run gh-pages` to build the docs and deploy to https://esri.github.io/calcite-tailwind
