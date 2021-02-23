@@ -50,6 +50,7 @@
     "start": "cross-env NODE_ENV=development concurrently \"postcss tailwind.css -o docs/tailwind.css --watch\"  \"live-server ./docs\" ",
     "docs": "cross-env NODE_ENV=production concurrently \"postcss tailwind.css -o docs/tailwind.css --config ./docs/postcss.config.js\"",
     "dist": "cross-env NODE_ENV=production postcss tailwind.css -o dist/tailwind.css",
-    "gh-pages": "npm run docs && storybook-to-ghpages --existing-output-dir=docs"
+    "gh-pages": "npm run docs && storybook-to-ghpages --existing-output-dir=docs",
+    "postgh-pages": "git checkout -- docs"
   }
 }
