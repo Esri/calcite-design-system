@@ -24,7 +24,7 @@ describe("calcite-action-menu", () => {
       },
       {
         propertyName: "intlOptions",
-        defaultValue: "false"
+        defaultValue: undefined
       },
       {
         propertyName: "offsetDistance",
