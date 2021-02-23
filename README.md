@@ -1,4 +1,4 @@
-# Calcite Base
+# Calcite Tailwind
 
 The calcite-tailwind repository holds the tailwind configuration used to build calcite-components.
 
