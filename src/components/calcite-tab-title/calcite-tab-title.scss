@@ -14,10 +14,6 @@ $tab-margin: 1.25rem;
   margin-left: $tab-margin;
 }
 
-:host-context([theme="dark"]) {
-  @include calcite-theme-dark();
-}
-
 :host([layout="center"]) {
   flex-basis: 200px;
   text-align: center;

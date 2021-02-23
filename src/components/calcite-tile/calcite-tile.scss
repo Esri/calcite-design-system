@@ -1,6 +1,3 @@
-:host-context([theme="dark"]) {
-  @include calcite-theme-dark();
-}
 $spacing: $baseline/2;
 
 :host {
