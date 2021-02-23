@@ -54,7 +54,7 @@ $image_max_height: 200px;
   }
 }
 
-:host([dir="rtl"]) {
+.calcite--rtl {
   .close-button {
     border-radius: var(--calcite-border-radius) 0 0 0;
   }

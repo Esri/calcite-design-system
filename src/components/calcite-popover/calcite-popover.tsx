@@ -22,6 +22,8 @@ import {
 import { StrictModifiers, Placement, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import { Theme } from "../interfaces";
+import { getElementDir } from "../../utils/dom";
+import { CSS_UTILITY } from "../../utils/resources";
 
 export type FocusId = "close-button";
 
@@ -366,6 +368,7 @@ export class CalcitePopover {
   }
 
   render(): VNode {
+    const rtl = getElementDir(el) === "rtl";
     const { _referenceElement, label, open, disablePointer } = this;
     const displayed = _referenceElement && open;
     const hidden = !displayed;
@@ -383,6 +386,7 @@ export class CalcitePopover {
       >
         <div
           class={{
+            [CSS_UTILITY.rtl]: rtl,
             [PopperCSS.animation]: true,
             [PopperCSS.animationActive]: displayed
           }}
