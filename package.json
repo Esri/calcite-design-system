@@ -1,0 +1,52 @@
+{
+  "name": "@esri/calcite-tailwind",
+  "version": "0.1.0",
+  "description": "Shared Tailwind CSS Configuration for Esri's Calcite Design System",
+  "homepage": "https://github.com/Esri/calcite-tailwind",
+  "main": "tailwind.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Esri/calcite-tailwind.git"
+  },
+  "author": {
+    "name": "Esri"
+  },
+  "contributors": [
+    {
+      "name": "Julio Ochoa",
+      "email": "jochoa@esri.com"
+    },
+    {
+      "name": "Adam Tirella",
+      "email": "atirella@esri.com"
+    },
+    {
+      "name": "Paul Pederson",
+      "email": "ppederson@esri.com"
+    }
+  ],
+  "license": "SEE LICENSE IN README.md",
+  "bugs": {
+    "url": "https://github.com/esri/calcite-tailwind/issues"
+  },
+  "files": [
+    "dist/"
+  ],
+  "dependencies": {
+    "tailwindcss": "^1.7.2"
+  },
+  "devDependencies": {
+    "concurrently": "^6.0.0",
+    "cross-env": "^7.0.3",
+    "gh-release": "3.5.0",
+    "live-server": "^1.2.1",
+    "postcss-cli": "^7.1.1",
+    "autoprefixer": "^9.8.6"
+  },
+  "scripts": {
+    "release": "gh-release",
+    "start": "cross-env NODE_ENV=development concurrently \"postcss tailwind.css -o docs/tailwind.css --watch\"  \"live-server ./docs\" ",
+    "development": "cross-env NODE_ENV=development postcss tailwind.css -o docs/tailwind.css",
+    "production": "cross-env NODE_ENV=production postcss tailwind.css -o dist/tailwind.css"
+  }
+}
