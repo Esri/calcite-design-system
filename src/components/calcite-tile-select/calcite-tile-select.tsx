@@ -1,4 +1,15 @@
-import { Component, Element, Host, h, Prop, Listen, VNode, Watch, State } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Host,
+  h,
+  Prop,
+  Listen,
+  VNode,
+  Watch,
+  State,
+  Method
+} from "@stencil/core";
 import { Alignment, Theme, Width } from "../interfaces";
 import { TileSelectType } from "./interfaces";
 import { getElementDir } from "../../utils/dom";
@@ -88,6 +99,17 @@ export class CalciteTileSelect {
 
   /** The focused state of the tile-select. */
   @State() focused = false;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  @Method()
+  async setFocus(): Promise<void> {
+    this.input.setFocus();
+  }
 
   //--------------------------------------------------------------------------
   //
