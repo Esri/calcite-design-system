@@ -17,7 +17,7 @@ describe("calcite-alert", () => {
     </calcite-alert>
   `));
 
-  it("is accessible with auto-dismiss", async () =>
+  it.skip("is accessible with auto-dismiss", async () =>
     accessible(`
     <calcite-alert active auto-dismiss auto-dismiss-duration="slow" label="test">
     ${alertContent}
