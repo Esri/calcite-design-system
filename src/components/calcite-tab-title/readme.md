@@ -35,7 +35,7 @@ Type: `Promise<number>`
 
 ### Used by
 
-- [calcite-color](../calcite-color)
+- [calcite-color-picker](../calcite-color-picker)
 
 ### Depends on
 
@@ -46,7 +46,7 @@ Type: `Promise<number>`
 ```mermaid
 graph TD;
   calcite-tab-title --> calcite-icon
-  calcite-color --> calcite-tab-title
+  calcite-color-picker --> calcite-tab-title
   style calcite-tab-title fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

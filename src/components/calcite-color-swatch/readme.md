@@ -15,14 +15,14 @@
 
 ### Used by
 
-- [calcite-color](../calcite-color)
+- [calcite-color-picker](../calcite-color-picker)
 - [calcite-color-hex-input](../calcite-color-hex-input)
 
 ### Graph
 
 ```mermaid
 graph TD;
-  calcite-color --> calcite-color-swatch
+  calcite-color-picker --> calcite-color-swatch
   calcite-color-hex-input --> calcite-color-swatch
   style calcite-color-swatch fill:#f9f,stroke:#333,stroke-width:4px
 ```

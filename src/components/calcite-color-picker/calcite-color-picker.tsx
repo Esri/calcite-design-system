@@ -33,11 +33,11 @@ const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
 const defaultFormat = "auto";
 
 @Component({
-  tag: "calcite-color",
-  styleUrl: "calcite-color.scss",
+  tag: "calcite-color-picker",
+  styleUrl: "calcite-color-picker.scss",
   shadow: true
 })
-export class CalciteColor {
+export class CalciteColorPicker {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -45,7 +45,7 @@ export class CalciteColor {
   //--------------------------------------------------------------------------
 
   @Element()
-  el: HTMLCalciteColorElement;
+  el: HTMLCalciteColorPickerElement;
 
   //--------------------------------------------------------------------------
   //
@@ -95,7 +95,7 @@ export class CalciteColor {
   @Prop() format: Format = defaultFormat;
 
   @Watch("format")
-  handleFormatChange(format: CalciteColor["format"]): void {
+  handleFormatChange(format: CalciteColorPicker["format"]): void {
     this.mode = format === "auto" ? this.mode : format;
     this.value = this.toValue(this.color);
   }

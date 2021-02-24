@@ -17,13 +17,13 @@ import {
   isValidHex,
   normalizeHex,
   rgbToHex
-} from "../calcite-color/utils";
+} from "../calcite-color-picker/utils";
 import Color from "color";
 import { CSS } from "./resources";
 import { Scale, Theme } from "../interfaces";
-import { RGB } from "../calcite-color/interfaces";
+import { RGB } from "../calcite-color-picker/interfaces";
 import { focusElement, getElementDir } from "../../utils/dom";
-import { TEXT } from "../calcite-color/resources";
+import { TEXT } from "../calcite-color-picker/resources";
 import { getKey } from "../../utils/key";
 
 const DEFAULT_COLOR = Color();

@@ -1,4 +1,4 @@
-# calcite-color
+# calcite-color-picker
 
 <!-- Auto Generated Below -->
 
@@ -69,14 +69,14 @@ Type: `Promise<void>`
 
 ```mermaid
 graph TD;
-  calcite-color --> calcite-tab-title
-  calcite-color --> calcite-tab
-  calcite-color --> calcite-input
-  calcite-color --> calcite-color-hex-input
-  calcite-color --> calcite-tabs
-  calcite-color --> calcite-tab-nav
-  calcite-color --> calcite-button
-  calcite-color --> calcite-color-swatch
+  calcite-color-picker --> calcite-tab-title
+  calcite-color-picker --> calcite-tab
+  calcite-color-picker --> calcite-input
+  calcite-color-picker --> calcite-color-hex-input
+  calcite-color-picker --> calcite-tabs
+  calcite-color-picker --> calcite-tab-nav
+  calcite-color-picker --> calcite-button
+  calcite-color-picker --> calcite-color-swatch
   calcite-tab-title --> calcite-icon
   calcite-input --> calcite-progress
   calcite-input --> calcite-icon
@@ -84,7 +84,7 @@ graph TD;
   calcite-color-hex-input --> calcite-color-swatch
   calcite-button --> calcite-loader
   calcite-button --> calcite-icon
-  style calcite-color fill:#f9f,stroke:#333,stroke-width:4px
+  style calcite-color-picker fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ---
