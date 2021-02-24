@@ -93,6 +93,9 @@ export class CalciteInputTimePicker {
 
   private inputBlurHandler = (): void => {
     this.popoverOpen = false;
+    if (!this.validateTimeString(this.inputEl.value)) {
+      this.inputEl.value = this.value;
+    }
   };
 
   private inputFocusHandler = (): void => {
@@ -100,7 +103,7 @@ export class CalciteInputTimePicker {
   };
 
   private inputInputHandler = (event: CustomEvent): void => {
-    if (this.validateTimeString(event.detail.value)) {
+    if (this.validateTimeString(event.detail.value) || !event.detail.value) {
       this.value = event.detail.value;
     }
   };
@@ -205,18 +208,30 @@ export class CalciteInputTimePicker {
       const hourAsNumber = parseInt(splitValue[0]);
       const minuteAsNumber = parseInt(splitValue[1]);
       const secondAsNumber = parseInt(splitValue[2]);
-      const hourValid = hour && this.stringContainsOnlyNumbers(hour) && !isNaN(hourAsNumber) && hourAsNumber >= 0 && hourAsNumber < 24;
-      const minuteValid = minute && this.stringContainsOnlyNumbers(minute) && !isNaN(minuteAsNumber) && minuteAsNumber >= 0 && minuteAsNumber < 60;
-      const secondValid = second && this.stringContainsOnlyNumbers(second) && !isNaN(secondAsNumber) && secondAsNumber >= 0 && secondAsNumber < 60;
-      if (
-        (hourValid && minuteValid && !second) ||
-        (hourValid && minuteValid && secondValid)
-      ) {
+      const hourValid =
+        hour &&
+        this.stringContainsOnlyNumbers(hour) &&
+        !isNaN(hourAsNumber) &&
+        hourAsNumber >= 0 &&
+        hourAsNumber < 24;
+      const minuteValid =
+        minute &&
+        this.stringContainsOnlyNumbers(minute) &&
+        !isNaN(minuteAsNumber) &&
+        minuteAsNumber >= 0 &&
+        minuteAsNumber < 60;
+      const secondValid =
+        second &&
+        this.stringContainsOnlyNumbers(second) &&
+        !isNaN(secondAsNumber) &&
+        secondAsNumber >= 0 &&
+        secondAsNumber < 60;
+      if ((hourValid && minuteValid && !second) || (hourValid && minuteValid && secondValid)) {
         return true;
       }
     }
     return false;
-  }
+  };
 
   //--------------------------------------------------------------------------
   //
