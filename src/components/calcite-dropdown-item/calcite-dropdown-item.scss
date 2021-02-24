@@ -1,8 +1,3 @@
-// ie11 theme
-:host-context([theme="dark"]) {
-  @include calcite-theme-dark();
-}
-
 :host([scale="s"]) {
   @apply text--2 pr-3 pl-6 py-2;
 }

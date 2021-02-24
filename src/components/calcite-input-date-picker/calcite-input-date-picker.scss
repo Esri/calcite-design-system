@@ -17,10 +17,6 @@
   line-height: 0; // fixes height in ie11
 }
 
-:host-context([theme="dark"]) {
-  @include calcite-theme-dark();
-}
-
 :host([scale="s"]) {
   max-width: 216px;
 }

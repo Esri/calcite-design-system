@@ -242,6 +242,7 @@ export class CalciteCheckbox {
     this.input.style.setProperty("left", "0", "important");
     this.input.style.setProperty("margin", "0", "important");
     this.input.style.setProperty("opacity", "0", "important");
+    this.input.style.setProperty("outline", "none", "important");
     this.input.style.setProperty("padding", "0", "important");
     this.input.style.setProperty("position", "absolute", "important");
     this.input.style.setProperty("right", "0", "important");
@@ -251,6 +252,7 @@ export class CalciteCheckbox {
       "important"
     );
     this.input.style.setProperty("transform", "none", "important");
+    this.input.style.setProperty("-webkit-appearance", "none", "important");
     this.input.style.setProperty("z-index", "-1", "important");
     this.input.type = "checkbox";
     if (this.value) {

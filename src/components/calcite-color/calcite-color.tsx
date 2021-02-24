@@ -657,8 +657,8 @@ export class CalciteColor {
   //
   //--------------------------------------------------------------------------
 
-  private internalColorSet(color: Color | null): void {
-    if (colorEqual(color, this.color)) {
+  private internalColorSet(color: Color | null, skipEqual = true): void {
+    if (skipEqual && colorEqual(color, this.color)) {
       return;
     }
 
@@ -956,7 +956,7 @@ export class CalciteColor {
       } = this;
       const hue = (360 / width) * x;
 
-      this.internalColorSet(this.baseColorFieldColor.hue(hue));
+      this.internalColorSet(this.baseColorFieldColor.hue(hue), false);
     };
   };
 

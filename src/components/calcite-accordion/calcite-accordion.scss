@@ -1,7 +1,3 @@
-:host-context([theme="dark"]) {
-  @include calcite-theme-dark();
-}
-
 // scale variants for child
 :host([scale="s"]) {
   --calcite-accordion-item-spacing-unit: #{$baseline/3};

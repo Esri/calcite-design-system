@@ -14,6 +14,7 @@ describe("calcite-color", () => {
         // hide warning messages during test
       }))
   );
+
   afterEach(() => consoleSpy.mockClear());
 
   it("is accessible", async () => {
@@ -357,6 +358,35 @@ describe("calcite-color", () => {
 
       x += offsetX;
     }
+
+    // clicking on the slider when the color won't change by hue adjustments
+
+    picker.setProperty("value", "#000");
+    changes++;
+    await page.waitForChanges();
+    x = 0;
+
+    type TestWindow = {
+      internalColor: HTMLCalciteColorElement["color"];
+    } & Window &
+      typeof globalThis;
+
+    await page.evaluateHandle(() => {
+      const color = document.querySelector("calcite-color");
+      (window as TestWindow).internalColor = color.color;
+    });
+
+    const middleOfSlider = mediumScaleDimensions.slider.width / 2;
+    await page.mouse.click(x + middleOfSlider, sliderHeight);
+    await page.waitForChanges();
+
+    const internalColorChanged = await page.evaluate(() => {
+      const color = document.querySelector("calcite-color");
+      return (window as TestWindow).internalColor !== color.color;
+    });
+
+    expect(internalColorChanged).toBe(true);
+    expect(spy).toHaveReceivedEventTimes(changes);
   });
 
   describe("unsupported value handling", () => {
@@ -383,8 +413,6 @@ describe("calcite-color", () => {
         html: "<calcite-color></calcite-color>"
       });
     });
-
-    afterEach(() => jest.clearAllMocks());
 
     it("ignores unsupported value types", () => assertUnsupportedValue(page, "unsupported-color-format"));
 
