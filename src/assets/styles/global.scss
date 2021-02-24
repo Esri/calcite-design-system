@@ -12,6 +12,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
+  --calcite-ui-foreground-current: #c7eaff;
   --calcite-border-radius: 3px;
   --calcite-ui-opacity-disabled: 0.5;
 
@@ -20,10 +21,12 @@
 
 [theme="dark"] {
   @include calcite-theme-dark();
+  --calcite-ui-foreground-current: #214155;
 }
 
 [theme="light"] {
   @include calcite-theme-light();
+  --calcite-ui-foreground-current: #c7eaff;
 }
 
 .overflow-hidden {

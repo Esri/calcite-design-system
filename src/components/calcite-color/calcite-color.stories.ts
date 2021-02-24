@@ -6,7 +6,7 @@ import hexInputReadme from "../calcite-color-hex-input/readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 
 export default {
-  title: "Components/Color",
+  title: "Components/Controls/Color",
 
   parameters: {
     notes: [colorReadme, hexInputReadme, swatchReadme]

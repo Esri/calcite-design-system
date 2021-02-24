@@ -33,7 +33,7 @@ describe("calcite-combobox", () => {
       <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
       <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
     </calcite-combobox>`);
-
+    const eventSpy = await page.spyOnEvent("calciteComboboxFilterChange", "window");
     await page.keyboard.press("Tab");
     await page.keyboard.type("one");
 
@@ -51,6 +51,9 @@ describe("calcite-combobox", () => {
 
     expect(item1Visible).toBe(true);
     expect(item2Visible).toBe(false);
+    expect(eventSpy).toHaveReceivedEventTimes(1);
+    expect(await eventSpy.lastEvent.detail.visibleItems.length).toBe(1);
+    expect(await eventSpy.lastEvent.detail.text).toBe("one");
   });
 
   it("should control max items displayed", async () => {
@@ -430,6 +433,8 @@ describe("calcite-combobox", () => {
       await element.click();
 
       await items[1].click();
+      await page.waitForChanges();
+
       selected = await page.find("calcite-combobox >>> .selected-icon");
       icon = await selected.getProperty("icon");
       expect(icon).toBe("beaker");
@@ -459,6 +464,8 @@ describe("calcite-combobox", () => {
         shadowRoot.append(document.querySelector("template").content.cloneNode(true));
       </script>
     `);
+
+    await page.waitForChanges();
 
     const combobox = await page.find("div >>> calcite-combobox");
     const input = await page.find("div >>> calcite-combobox >>> .wrapper");

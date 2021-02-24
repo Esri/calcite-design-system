@@ -27,6 +27,8 @@ const COMBO_BOX_ITEM = "calcite-combobox-item";
 
 const DEFAULT_PLACEMENT = "bottom-start";
 
+const TRANSITION_DURATION = 150;
+
 interface ItemData {
   label: string;
   value: string;
@@ -54,7 +56,15 @@ export class CalciteCombobox {
   /** Open and close combobox */
   @Prop({ reflect: true, mutable: true }) active = false;
 
-  @Watch("active") activeHandler(): void {
+  @Watch("active") activeHandler(newValue: boolean, oldValue: boolean): void {
+    // when closing, wait transition time then hide to prevent overscroll
+    if (oldValue && !newValue) {
+      setTimeout(() => {
+        this.hideList = true;
+      }, TRANSITION_DURATION);
+    } else if (!oldValue && newValue) {
+      this.hideList = false;
+    }
     this.reposition();
   }
 
@@ -208,6 +218,12 @@ export class CalciteCombobox {
   /** Called when the selected items set changes */
   @Event() calciteLookupChange: EventEmitter<HTMLCalciteComboboxItemElement[]>;
 
+  /** Called when the user has entered text to filter the options list */
+  @Event() calciteComboboxFilterChange: EventEmitter<{
+    visibleItems: HTMLCalciteComboboxItemElement[];
+    text: string;
+  }>;
+
   @Event() calciteComboboxChipDismiss: EventEmitter;
 
   // --------------------------------------------------------------------------
@@ -259,6 +275,8 @@ export class CalciteCombobox {
   @State() visibleItems: HTMLCalciteComboboxItemElement[] = [];
 
   @State() needsIcon: boolean;
+
+  @State() hideList = !this.active;
 
   @State() activeItemIndex = -1;
 
@@ -373,7 +391,6 @@ export class CalciteCombobox {
         itemsToProcess++;
       }
     });
-
     return maxScrollerHeight;
   }
 
@@ -415,6 +432,7 @@ export class CalciteCombobox {
     });
 
     this.visibleItems = this.getVisibleItems();
+    this.calciteComboboxFilterChange.emit({ visibleItems: [...this.visibleItems], text: value });
   }, 100);
 
   toggleSelection(item: HTMLCalciteComboboxItemElement, value = !item.selected): void {
@@ -679,7 +697,7 @@ export class CalciteCombobox {
   }
 
   renderPopperContainer(): VNode {
-    const { active, maxScrollerHeight, setMenuEl, setListContainerEl } = this;
+    const { active, maxScrollerHeight, setMenuEl, setListContainerEl, hideList } = this;
     const classes = {
       "list-container": true,
       [PopperCSS.animation]: true,
@@ -691,7 +709,7 @@ export class CalciteCombobox {
     return (
       <div aria-hidden="true" class="popper-container" ref={setMenuEl}>
         <div class={classes} ref={setListContainerEl} style={style}>
-          <ul class="list">
+          <ul class={{ list: true, "list--hide": hideList }}>
             <slot />
           </ul>
         </div>

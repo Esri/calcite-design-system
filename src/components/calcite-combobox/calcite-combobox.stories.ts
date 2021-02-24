@@ -7,7 +7,7 @@ import readme2 from "../calcite-combobox-item/readme.md";
 import { html } from "../../tests/utils";
 
 export default {
-  title: "Components/Combobox",
+  title: "Components/Controls/Combobox",
 
   parameters: {
     notes: [readme1, readme2]

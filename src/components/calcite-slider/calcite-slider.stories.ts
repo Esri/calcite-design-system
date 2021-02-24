@@ -5,7 +5,7 @@ import readme from "./readme.md";
 import { html } from "../../tests/utils";
 
 export default {
-  title: "Components/Slider",
+  title: "Components/Controls/Slider",
 
   parameters: {
     notes: readme

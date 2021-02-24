@@ -21,10 +21,6 @@
   display: inline-block;
 }
 
-:host-context([theme="dark"]) {
-  @include calcite-theme-dark();
-}
-
 :host([disabled]) {
   .split-button__divider-container {
     opacity: var(--calcite-ui-opacity-disabled);

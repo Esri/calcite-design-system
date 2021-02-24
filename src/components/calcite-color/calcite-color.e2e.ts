@@ -1,11 +1,22 @@
 import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
 
-import { CSS, DEFAULT_STORAGE_KEY_PREFIX, DIMENSIONS, TEXT } from "./resources";
-import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
+import { CSS, DEFAULT_COLOR, DEFAULT_STORAGE_KEY_PREFIX, DIMENSIONS, TEXT } from "./resources";
+import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import { ColorValue } from "./interfaces";
 import SpyInstance = jest.SpyInstance;
 
 describe("calcite-color", () => {
+  let consoleSpy: SpyInstance;
+
+  beforeEach(
+    () =>
+      (consoleSpy = jest.spyOn(console, "warn").mockImplementation(() => {
+        // hide warning messages during test
+      }))
+  );
+
+  afterEach(() => consoleSpy.mockClear());
+
   it("is accessible", async () => {
     await accessible("calcite-color");
     await accessible("<calcite-color allow-empty value=''></calcite-color>");
@@ -159,6 +170,47 @@ describe("calcite-color", () => {
   };
 
   describe("color format", () => {
+    describe("when set initially", () => {
+      let page: E2EPage;
+      let spy: EventSpy;
+
+      beforeEach(async () => {
+        page = await newE2EPage();
+        spy = await page.spyOnEvent("calciteColorChange");
+      });
+
+      function assertNoChangeEvents(): void {
+        expect(spy).toHaveReceivedEventTimes(0);
+      }
+
+      // this suite uses a subset of supported formats as other tests cover the rest
+
+      it("changes the default value to the format", async () => {
+        await page.setContent("<calcite-color format='rgb'></calcite-color>");
+        const color = await page.find("calcite-color");
+
+        expect(await color.getProperty("value")).toEqual(DEFAULT_COLOR.rgb().round().object());
+        assertNoChangeEvents();
+      });
+
+      it("initial value and format are both set if compatible", async () => {
+        const initialValue = "rgb(255, 128, 255)";
+        await page.setContent(`<calcite-color format='rgb-css' value='${initialValue}'></calcite-color>`);
+        const color = await page.find("calcite-color");
+
+        expect(await color.getProperty("value")).toEqual(initialValue);
+        assertNoChangeEvents();
+      });
+
+      it("falls back to format-compliant default if initial value is not compatible with initial format", async () => {
+        await page.setContent("<calcite-color format='hsl-css' value='#f00f00'></calcite-color>");
+        const color = await page.find("calcite-color");
+
+        expect(await color.getProperty("value")).toEqual(DEFAULT_COLOR.hsl().round().string());
+        assertNoChangeEvents();
+      });
+    });
+
     it("allows specifying the color value format", async () => {
       const page = await newE2EPage({
         html: "<calcite-color></calcite-color>"
@@ -288,12 +340,12 @@ describe("calcite-color", () => {
 
     const expectedColorSamples = [
       "#ff0000",
-      "#ffdb00",
-      "#47ff00",
-      "#00ff8e",
-      "#0094ff",
-      "#4700ff",
-      "#ff00db",
+      "#ffdd00",
+      "#48ff00",
+      "#00ff91",
+      "#0095ff",
+      "#4800ff",
+      "#ff00dd",
       "#ff0000"
     ];
 
@@ -306,11 +358,39 @@ describe("calcite-color", () => {
 
       x += offsetX;
     }
+
+    // clicking on the slider when the color won't change by hue adjustments
+
+    picker.setProperty("value", "#000");
+    changes++;
+    await page.waitForChanges();
+    x = 0;
+
+    type TestWindow = {
+      internalColor: HTMLCalciteColorElement["color"];
+    } & Window &
+      typeof globalThis;
+
+    await page.evaluateHandle(() => {
+      const color = document.querySelector("calcite-color");
+      (window as TestWindow).internalColor = color.color;
+    });
+
+    const middleOfSlider = mediumScaleDimensions.slider.width / 2;
+    await page.mouse.click(x + middleOfSlider, sliderHeight);
+    await page.waitForChanges();
+
+    const internalColorChanged = await page.evaluate(() => {
+      const color = document.querySelector("calcite-color");
+      return (window as TestWindow).internalColor !== color.color;
+    });
+
+    expect(internalColorChanged).toBe(true);
+    expect(spy).toHaveReceivedEventTimes(changes);
   });
 
   describe("unsupported value handling", () => {
     let page: E2EPage;
-    let consoleSpy: SpyInstance;
 
     async function assertUnsupportedValue(page: E2EPage, unsupportedValue: string | null): Promise<void> {
       const picker = await page.find("calcite-color");
@@ -332,10 +412,7 @@ describe("calcite-color", () => {
       page = await newE2EPage({
         html: "<calcite-color></calcite-color>"
       });
-      consoleSpy = jest.spyOn(console, "warn");
     });
-
-    afterEach(() => jest.clearAllMocks());
 
     it("ignores unsupported value types", () => assertUnsupportedValue(page, "unsupported-color-format"));
 
@@ -401,6 +478,26 @@ describe("calcite-color", () => {
     const clearAndEnterValue = async (page: E2EPage, inputOrHexInput: E2EElement, value: string): Promise<void> => {
       await inputOrHexInput.callMethod("setFocus");
       await page.waitForChanges();
+
+      const tagName = inputOrHexInput.tagName.toLocaleLowerCase();
+
+      await page.$eval(
+        "calcite-color",
+        (el: HTMLCalciteColorElement, tagName): void => {
+          const tag = el.shadowRoot.querySelector(tagName);
+          const input = tag.shadowRoot?.querySelector("input") || tag.querySelector("input");
+
+          if (!input) {
+            return;
+          }
+
+          const inputType = input.type;
+          input.type = "text";
+          input.setSelectionRange(input.value.length, input.value.length);
+          input.type = inputType;
+        },
+        tagName
+      );
 
       const currentValue = await inputOrHexInput.getProperty("value");
 

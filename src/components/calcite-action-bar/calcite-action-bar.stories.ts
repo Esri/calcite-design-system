@@ -7,7 +7,7 @@ const { dir, position, theme } = ATTRIBUTES;
 import { TEXT } from "./resources";
 
 export default {
-  title: "App Components/Action Bar",
+  title: "Components/App/Action Bar",
   parameters: {
     backgrounds: darkBackground,
     notes: readme
