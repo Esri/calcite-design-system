@@ -1,7 +1,3 @@
-:host-context([theme="dark"]) {
-  @include calcite-theme-dark();
-}
-
 // explicit px values until we add a spacing unit and new font scale to base
 :host([scale="s"]) {
   --calcite-pagination-spacing: 4px 8px;

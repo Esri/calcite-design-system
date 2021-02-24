@@ -33,7 +33,7 @@ describe("calcite-combobox", () => {
       <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
       <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
     </calcite-combobox>`);
-
+    const eventSpy = await page.spyOnEvent("calciteComboboxFilterChange", "window");
     await page.keyboard.press("Tab");
     await page.keyboard.type("one");
 
@@ -51,6 +51,9 @@ describe("calcite-combobox", () => {
 
     expect(item1Visible).toBe(true);
     expect(item2Visible).toBe(false);
+    expect(eventSpy).toHaveReceivedEventTimes(1);
+    expect(await eventSpy.lastEvent.detail.visibleItems.length).toBe(1);
+    expect(await eventSpy.lastEvent.detail.text).toBe("one");
   });
 
   it("should control max items displayed", async () => {

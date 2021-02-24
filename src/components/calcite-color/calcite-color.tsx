@@ -12,7 +12,7 @@ import {
 } from "@stencil/core";
 
 import Color from "color";
-import { ColorMode, ColorValue, InternalColor, ColorAppearance } from "./interfaces";
+import { ColorAppearance, ColorMode, ColorValue, InternalColor } from "./interfaces";
 import { Scale, Theme } from "../interfaces";
 import {
   CSS,
@@ -29,7 +29,8 @@ import { throttle } from "lodash-es";
 import { getKey } from "../../utils/key";
 
 const throttleFor60FpsInMs = 16;
-const defaultColor = normalizeHex(DEFAULT_COLOR.hex());
+const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
+const defaultFormat = "auto";
 
 @Component({
   tag: "calcite-color",
@@ -91,7 +92,7 @@ export class CalciteColor {
    *
    * When "auto", the format will be inferred from `value` when set.
    */
-  @Prop() format: Format = "auto";
+  @Prop() format: Format = defaultFormat;
 
   @Watch("format")
   handleFormatChange(format: CalciteColor["format"]): void {
@@ -204,7 +205,7 @@ export class CalciteColor {
   @Prop({
     mutable: true
   })
-  value: ColorValue | null = defaultColor;
+  value: ColorValue | null = defaultValue;
 
   @Watch("value")
   handleValueChange(value: ColorValue | null, oldValue: ColorValue | null): void {
@@ -424,8 +425,13 @@ export class CalciteColor {
     if (this.storageId && localStorage.getItem(storageKey)) {
       this.savedColors = JSON.parse(localStorage.getItem(storageKey));
     }
+    const { color, format, value } = this;
 
-    this.handleValueChange(this.value, defaultColor);
+    const initialValueDefault = format !== "auto" ? this.toValue(color, format) : defaultValue;
+    const initialValue = format !== "auto" && value === defaultValue ? initialValueDefault : value;
+
+    this.handleValueChange(initialValue, initialValueDefault);
+
     this.updateDimensions(this.scale);
   }
 
@@ -662,25 +668,24 @@ export class CalciteColor {
     this.colorUpdateLocked = false;
   }
 
-  private toValue(color: Color | null): ColorValue | null {
+  private toValue(color: Color | null, format: SupportedMode = this.mode): ColorValue | null {
     if (!color) {
       return null;
     }
 
-    const { mode } = this;
     const hexMode = "hex";
 
-    if (mode.includes(hexMode)) {
-      return normalizeHex(color[hexMode]());
+    if (format.includes(hexMode)) {
+      return normalizeHex(color.round()[hexMode]());
     }
 
-    if (mode.includes("-css")) {
-      return color[mode.replace("-css", "").replace("a", "")]().string();
+    if (format.includes("-css")) {
+      return color[format.replace("-css", "").replace("a", "")]().round().string();
     }
 
-    const colorObject = color[mode]().round().object();
+    const colorObject = color[format]().round().object();
 
-    if (mode.endsWith("a")) {
+    if (format.endsWith("a")) {
       // normalize alpha prop
       colorObject.a = colorObject.alpha;
       delete colorObject.alpha;

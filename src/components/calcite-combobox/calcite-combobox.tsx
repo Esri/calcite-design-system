@@ -218,6 +218,12 @@ export class CalciteCombobox {
   /** Called when the selected items set changes */
   @Event() calciteLookupChange: EventEmitter<HTMLCalciteComboboxItemElement[]>;
 
+  /** Called when the user has entered text to filter the options list */
+  @Event() calciteComboboxFilterChange: EventEmitter<{
+    visibleItems: HTMLCalciteComboboxItemElement[];
+    text: string;
+  }>;
+
   @Event() calciteComboboxChipDismiss: EventEmitter;
 
   // --------------------------------------------------------------------------
@@ -426,6 +432,7 @@ export class CalciteCombobox {
     });
 
     this.visibleItems = this.getVisibleItems();
+    this.calciteComboboxFilterChange.emit({ visibleItems: [...this.visibleItems], text: value });
   }, 100);
 
   toggleSelection(item: HTMLCalciteComboboxItemElement, value = !item.selected): void {

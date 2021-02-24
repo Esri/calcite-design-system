@@ -3,12 +3,21 @@ $image_max_height: 200px;
 @include popperHost();
 @include popperArrow();
 
+:host {
+  pointer-events: none;
+}
+
+:host([open]) {
+  pointer-events: initial;
+}
+
 .container {
   background: var(--calcite-ui-foreground-1);
   position: relative;
   display: flex;
   overflow: hidden;
-  flex-direction: column nowrap;
+  flex-wrap: nowrap;
+  flex-direction: column;
   color: var(--calcite-ui-text-1);
 }
 
@@ -45,7 +54,7 @@ $image_max_height: 200px;
   }
 }
 
-:host-context([dir="rtl"]) {
+.calcite--rtl {
   .close-button {
     border-radius: var(--calcite-border-radius) 0 0 0;
   }

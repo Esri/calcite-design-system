@@ -1,7 +1,3 @@
-:host-context([theme="dark"]) {
-  @include calcite-theme-dark();
-}
-
 .header {
   display: flex;
   justify-content: space-between;
