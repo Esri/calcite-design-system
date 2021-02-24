@@ -136,7 +136,7 @@ export class CalciteTabTitle {
         role="tab"
         tabindex={this.disabled ? "-1" : "0"}
       >
-        <Tag>
+        <Tag class={{ rtl: dir === "rtl" }}>
           {this.iconStart ? iconStartEl : null}
           <slot />
           {this.iconEnd ? iconEndEl : null}

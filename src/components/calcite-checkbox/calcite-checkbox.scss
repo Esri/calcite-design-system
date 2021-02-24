@@ -1,9 +1,3 @@
-:host-context([theme="light"]) {
-  --calcite-ui-border-input: $blk-100;
-}
-:host-context([theme="dark"]) {
-  @include calcite-theme-dark();
-}
 :host([scale="s"]) {
   --calcite-checkbox-size: theme("fontSize.-2");
   --calcite-checkbox-grid-gap: theme("spacing.2");

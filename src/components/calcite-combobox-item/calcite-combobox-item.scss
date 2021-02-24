@@ -1,7 +1,3 @@
-:host-context([theme="dark"]) {
-  @include calcite-theme-dark();
-}
-
 :host([scale="s"]) {
   @apply text--2;
   --calcite-combobox-item-spacing-unit-l: theme("spacing.3");
