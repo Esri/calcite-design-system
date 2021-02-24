@@ -527,7 +527,7 @@ describe("calcite-color-picker", () => {
       });
 
       const updateColorWithAllInputs = async (assertColorUpdate: (value: ColorValue) => void): Promise<void> => {
-        const hexInput = await page.find(`calcite-color-picker >>> calcite-color-hex-input`);
+        const hexInput = await page.find(`calcite-color-picker >>> calcite-color-picker-hex-input`);
 
         await clearAndEnterValue(page, hexInput, "abc");
 
@@ -657,7 +657,7 @@ describe("calcite-color-picker", () => {
             html: "<calcite-color-picker value='#fff000'></calcite-color-picker>"
           });
 
-          const hexInput = await page.find(`calcite-color-picker >>> calcite-color-hex-input`);
+          const hexInput = await page.find(`calcite-color-picker >>> calcite-color-picker-hex-input`);
 
           expect(await hexInput.getProperty("value")).toBe("#fff000");
 
@@ -684,7 +684,7 @@ describe("calcite-color-picker", () => {
           });
           const picker = await page.find("calcite-color-picker");
 
-          const hexInput = await page.find(`calcite-color-picker >>> calcite-color-hex-input`);
+          const hexInput = await page.find(`calcite-color-picker >>> calcite-color-picker-hex-input`);
           await clearAndEnterValue(page, hexInput, "abc");
 
           expect(await picker.getProperty("value")).toBe("#aabbcc");
@@ -772,7 +772,7 @@ describe("calcite-color-picker", () => {
             html: "<calcite-color-picker allow-empty value=''></calcite-color-picker>"
           });
 
-          const hexInput = await page.find(`calcite-color-picker >>> calcite-color-hex-input`);
+          const hexInput = await page.find(`calcite-color-picker >>> calcite-color-picker-hex-input`);
 
           expect(await hexInput.getProperty("value")).toBe(null);
 
@@ -800,7 +800,7 @@ describe("calcite-color-picker", () => {
             });
             const picker = await page.find("calcite-color-picker");
 
-            const hexInput = await page.find(`calcite-color-picker >>> calcite-color-hex-input`);
+            const hexInput = await page.find(`calcite-color-picker >>> calcite-color-picker-hex-input`);
             await clearAndEnterValue(page, hexInput, "");
 
             expect(await picker.getProperty("value")).toBe(null);
@@ -948,7 +948,9 @@ describe("calcite-color-picker", () => {
       await page.waitForChanges();
       await saveColor.click();
 
-      const savedColors = await page.findAll(`calcite-color-picker >>> .${CSS.savedColors} calcite-color-swatch`);
+      const savedColors = await page.findAll(
+        `calcite-color-picker >>> .${CSS.savedColors} calcite-color-picker-swatch`
+      );
       expect(savedColors).toHaveLength(3);
     });
 
@@ -957,7 +959,9 @@ describe("calcite-color-picker", () => {
         html: `<calcite-color-picker storage-id=${storageId}></calcite-color-picker>`
       });
 
-      const savedColors = await page.findAll(`calcite-color-picker >>> .${CSS.savedColors} calcite-color-swatch`);
+      const savedColors = await page.findAll(
+        `calcite-color-picker >>> .${CSS.savedColors} calcite-color-picker-swatch`
+      );
       expect(savedColors).toHaveLength(3);
     });
 
@@ -979,7 +983,7 @@ describe("calcite-color-picker", () => {
       await saveColor.click();
 
       const saved: E2EElement[] = await page.findAll(
-        `calcite-color-picker >>> .${CSS.savedColors} calcite-color-swatch`
+        `calcite-color-picker >>> .${CSS.savedColors} calcite-color-picker-swatch`
       );
       let expectedSaved = 3;
 
@@ -989,9 +993,9 @@ describe("calcite-color-picker", () => {
         await swatch.click();
         await removeColor.click();
 
-        expect(await page.findAll(`calcite-color-picker >>> .${CSS.savedColors} calcite-color-swatch`)).toHaveLength(
-          --expectedSaved
-        );
+        expect(
+          await page.findAll(`calcite-color-picker >>> .${CSS.savedColors} calcite-color-picker-swatch`)
+        ).toHaveLength(--expectedSaved);
       }
     });
 

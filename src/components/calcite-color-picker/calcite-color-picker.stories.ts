@@ -1,15 +1,13 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
 import { Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
 import colorReadme from "./readme.md";
-import swatchReadme from "../calcite-color-swatch/readme.md";
-import hexInputReadme from "../calcite-color-hex-input/readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 
 export default {
-  title: "Components/Controls/Color",
+  title: "Components/Controls/ColorPicker",
 
   parameters: {
-    notes: [colorReadme, hexInputReadme, swatchReadme]
+    notes: colorReadme
   }
 };
 
