@@ -8,7 +8,8 @@ import {
   Listen,
   Event,
   EventEmitter,
-  State
+  State,
+  Method
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { Time } from "../calcite-time-picker/calcite-time-picker";
@@ -165,6 +166,17 @@ export class CalciteInputTimePicker {
     } else if (closestHost !== this.el) {
       this.popoverOpen = false;
     }
+  }
+
+  // --------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  // --------------------------------------------------------------------------
+
+  @Method()
+  async setFocus(): Promise<void> {
+    this.inputEl.setFocus();
   }
 
   // --------------------------------------------------------------------------
