@@ -16,6 +16,6 @@ jobs:
           exempt-issue-labels: "0 - new,1 - assigned"
           days-before-issue-stale: 30
           days-before-issue-close: 7
-          days-before-pr-close: 3
           days-before-pr-stale: 7
+          days-before-pr-close: 3
           delete-branch: true
