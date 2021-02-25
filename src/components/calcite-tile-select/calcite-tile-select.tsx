@@ -1,4 +1,15 @@
-import { Component, Element, Host, h, Prop, Listen, VNode, Watch } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Host,
+  h,
+  Prop,
+  Listen,
+  VNode,
+  Watch,
+  State,
+  Method
+} from "@stencil/core";
 import { Alignment, Theme, Width } from "../interfaces";
 import { TileSelectType } from "./interfaces";
 import { getElementDir } from "../../utils/dom";
@@ -36,9 +47,6 @@ export class CalciteTileSelect {
 
   /** The disabled state of the tile select. */
   @Prop({ reflect: true }) disabled = false;
-
-  /** The focused state of the tile select. */
-  @Prop({ reflect: true, mutable: true }) focused = false;
 
   /** The heading text that appears between the icon and description of the tile. */
   @Prop({ reflect: true }) heading?: string;
@@ -85,6 +93,26 @@ export class CalciteTileSelect {
 
   //--------------------------------------------------------------------------
   //
+  //  State
+  //
+  //--------------------------------------------------------------------------
+
+  /** The focused state of the tile-select. */
+  @State() focused = false;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  @Method()
+  async setFocus(): Promise<void> {
+    this.input.setFocus();
+  }
+
+  //--------------------------------------------------------------------------
+  //
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
@@ -101,7 +129,7 @@ export class CalciteTileSelect {
   calciteCheckboxFocusedChangeEvent(event: CustomEvent): void {
     const checkbox = event.target as HTMLCalciteCheckboxElement;
     if (checkbox === this.input) {
-      this.focused = checkbox.focused;
+      this.focused = event.detail;
     }
   }
 
@@ -194,14 +222,16 @@ export class CalciteTileSelect {
 
     return (
       <Host dir={dir}>
-        <calcite-tile
-          active={this.checked}
-          description={this.description}
-          embed
-          heading={this.heading}
-          icon={this.icon}
-        />
-        <slot />
+        <div class={{ focused: this.focused, root: true }}>
+          <calcite-tile
+            active={this.checked}
+            description={this.description}
+            embed
+            heading={this.heading}
+            icon={this.icon}
+          />
+          <slot />
+        </div>
       </Host>
     );
   }

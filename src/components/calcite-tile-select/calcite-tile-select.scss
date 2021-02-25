@@ -1,11 +1,12 @@
 $spacing: $baseline/2;
 
-:host {
+.root {
   background-color: var(--calcite-ui-foreground-1);
   box-shadow: 0 0 0 1px var(--calcite-ui-border-2);
   box-sizing: border-box;
   cursor: pointer;
   display: inline-block;
+  height: 100%;
   max-width: 300px;
   padding: $spacing;
   position: relative;
@@ -15,30 +16,41 @@ $spacing: $baseline/2;
 }
 
 :host(:hover) {
-  @apply z-20;
-  box-shadow: 0 0 0 1px var(--calcite-ui-border-1);
-}
-:host([checked]) {
-  @apply z-30;
-  box-shadow: 0 0 0 1px var(--calcite-ui-brand);
+  .root {
+    @apply z-20;
+    box-shadow: 0 0 0 1px var(--calcite-ui-border-1);
+  }
 }
 
-:host([focused]) {
+:host([checked]) {
+  .root {
+    @apply z-30;
+    box-shadow: 0 0 0 1px var(--calcite-ui-brand);
+  }
+}
+
+.root.focused {
   @apply z-30;
 }
 
 :host(:not([input-enabled]):hover) {
-  box-shadow: 0 0 0 1px var(--calcite-ui-brand);
+  .root {
+    box-shadow: 0 0 0 1px var(--calcite-ui-brand);
+  }
 }
 
-:host(:not([input-enabled])[focused]) {
-  box-shadow: 0 0 0 1px var(--calcite-ui-brand), inset 0 0 0 2px var(--calcite-ui-foreground-1),
-    inset 0 0 0 5px var(--calcite-ui-brand);
+:host(:not([input-enabled])) {
+  .root.focused {
+    box-shadow: 0 0 0 1px var(--calcite-ui-brand), inset 0 0 0 2px var(--calcite-ui-foreground-1),
+      inset 0 0 0 5px var(--calcite-ui-brand);
+  }
 }
 
 :host([width="full"]) {
-  max-width: none;
-  display: block;
+  .root {
+    max-width: none;
+    display: block;
+  }
 }
 
 :host(:not([input-enabled])) {
@@ -49,14 +61,18 @@ $spacing: $baseline/2;
 }
 
 :host([heading]:not([icon]):not([description])) {
-  align-items: center;
+  .root {
+    align-items: center;
+  }
 }
 
 :host([input-enabled][input-alignment="start"][icon][heading][description]),
 :host([input-enabled][input-alignment="start"]:not([icon])[heading]:not([description])) {
-  display: inline-grid;
-  grid-gap: $spacing;
-  grid-template-columns: max-content 1fr;
+  .root {
+    display: inline-grid;
+    grid-gap: $spacing;
+    grid-template-columns: max-content 1fr;
+  }
   ::slotted(calcite-checkbox),
   ::slotted(calcite-radio-button) {
     order: 0;
@@ -101,9 +117,11 @@ $spacing: $baseline/2;
 }
 
 :host([input-enabled][input-alignment="end"][heading]:not([icon]):not([description])) {
-  display: inline-grid;
-  grid-gap: $spacing;
-  grid-template-columns: max-content 1fr;
+  .root {
+    display: inline-grid;
+    grid-gap: $spacing;
+    grid-template-columns: max-content 1fr;
+  }
   ::slotted(calcite-checkbox),
   ::slotted(calcite-radio-button) {
     justify-self: flex-end;
