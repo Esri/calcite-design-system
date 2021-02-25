@@ -288,7 +288,7 @@
     );
   }
 }
-:host([appearance="solid"][color="light"]) {
+:host([appearance="solid"][color="neutral"]) {
   button,
   a {
     @include btn-solid(
@@ -299,7 +299,7 @@
     );
   }
 }
-:host([appearance="solid"][color="dark"]) {
+:host([appearance="solid"][color="inverse"]) {
   button,
   a {
     @include btn-solid(
@@ -364,7 +364,7 @@
     );
   }
 }
-:host([appearance="outline"][color="light"]) {
+:host([appearance="outline"][color="neutral"]) {
   button,
   a {
     @include btn-outline-clear(
@@ -377,7 +377,7 @@
     );
   }
 }
-:host([appearance="outline"][color="dark"]) {
+:host([appearance="outline"][color="inverse"]) {
   button,
   a {
     @include btn-outline-clear(
@@ -416,7 +416,7 @@
     );
   }
 }
-:host([appearance="clear"][color="light"]) {
+:host([appearance="clear"][color="neutral"]) {
   button,
   a {
     @include btn-outline-clear(
@@ -429,7 +429,7 @@
     );
   }
 }
-:host([appearance="clear"][color="dark"]) {
+:host([appearance="clear"][color="inverse"]) {
   button,
   a {
     @include btn-outline-clear(
@@ -486,16 +486,16 @@
     @include btn-transparent(var(--calcite-ui-danger-press));
   }
 }
-:host([appearance="transparent"][color="light"]) {
-  button,
-  a {
-    @include btn-transparent(var(--calcite-ui-foreground-1));
-  }
-}
-:host([appearance="transparent"][color="dark"]) {
+:host([appearance="transparent"][color="neutral"]) {
   button,
   a {
     @include btn-transparent(var(--calcite-ui-text-1));
+  }
+}
+:host([appearance="transparent"][color="inverse"]) {
+  button,
+  a {
+    @include btn-transparent(var(--calcite-ui-foreground-1));
   }
 }
 

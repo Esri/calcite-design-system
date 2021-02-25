@@ -43,12 +43,12 @@
     --bg-color: var(--calcite-ui-danger);
   }
 
-  &:host([color="light"]) {
+  &:host([color="neutral"]) {
     --bg-color: var(--calcite-ui-foreground-3);
     --seperator-color: var(--calcite-ui-text-1);
   }
 
-  &:host([color="dark"]) {
+  &:host([color="inverse"]) {
     --bg-color: #{$blk-180};
     --seperator-color: #{$blk-000};
   }
@@ -69,14 +69,14 @@
     --seperator-color: var(--calcite-ui-danger-press);
   }
 
-  &:host([color="light"]) {
+  &:host([color="neutral"]) {
     --border-color: var(--calcite-ui-foreground-3);
     --seperator-color: var(--calcite-ui-text-1);
   }
 
-  &:host([color="dark"]) {
+  &:host([color="inverse"]) {
     --border-color: #{$blk-180};
-    --seperator-color: var(--calcite-ui-text-1);
+    --seperator-color: var(--calcite-ui-background);
   }
 }
 
@@ -84,17 +84,29 @@
 :host([appearance="transparent"]) {
   --bg-color: transparent;
 
-  &:host([color="light"]) {
+  &:host([color="neutral"]) {
     --seperator-color: var(--calcite-ui-background);
   }
 
-  &:host([color="dark"]) {
+  &:host([color="inverse"]) {
     --seperator-color: #{$blk-220};
+  }
+}
+
+:host([appearance="outline"]) {
+  &:host([color="neutral"]) {
+    --seperator-color: var(--calcite-ui-background);
+  }
+  &:host([color="inverse"]) {
+    --seperator-color: #{$blk-180};
   }
 }
 
 :host([appearance="transparent"]) {
   --border-color: transparent;
+  &:host([color="inverse"]) {
+    --seperator-color: var(--calcite-ui-background);
+  }
 }
 
 .split-button__divider-container {
