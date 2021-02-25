@@ -215,4 +215,46 @@ describe("calcite-tip-manager", () => {
       expect(selectedTip.id).toEqual("two");
     });
   });
+
+    it('provides the ability to override --calcite-tip-manager-height CSS variable', async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        `<calcite-tip-manager>
+          <calcite-tip>did you know?</calcite-tip>
+        </calcite-tip-manager>`
+      );
+      const div = await page.find("calcite-tip-manager >>> .tip-container");
+
+      // default
+      let heightStyle = await (await div.getComputedStyle()).getPropertyValue("height");
+      expect(heightStyle).toEqual("108px");
+
+      // override
+      await page.evaluate(async () => {
+        const tipManager = document.querySelector("calcite-tip-manager");
+        (tipManager as HTMLElement).style.setProperty("--calcite-tip-manager-height", "40vh")
+      });
+      heightStyle = await (await div.getComputedStyle()).getPropertyValue("height");
+      expect(heightStyle).toEqual("240px");
+    });
+
+    it('provides the ability to override --calcite-tip-max-width CSS variable', async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        `<calcite-tip-manager><calcite-tip>a tip...</calcite-tip></calcite-tip-manager>`
+      );
+      const tip = await page.find("calcite-tip");
+
+      // default
+      let widthStyle = await (await tip.getComputedStyle()).getPropertyValue("max-width");
+      expect(widthStyle).toEqual("540px");
+
+      // override
+      await page.evaluate(async () => {
+        const tipManager = document.querySelector("calcite-tip-manager");
+        (tipManager as HTMLElement).style.setProperty("--calcite-tip-max-width", "90px")
+      });
+      widthStyle = await (await tip.getComputedStyle()).getPropertyValue("max-width");
+      expect(widthStyle).toEqual("90px");
+    });
 });
