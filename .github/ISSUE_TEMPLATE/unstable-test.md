@@ -12,6 +12,8 @@ assignees: ""
 
 **Which test(s)?:** <!-- list unstable test(s) or suite -->
 
+**Test error or URL to failed Travis build:** <!-- https://travis-ci.com/github/Esri/calcite-components/builds/<number> -->
+
 **PR that skipped the test:** #
 
-## Additional Info <!-- any info that may help track down the issue -->
+## Additional Info <!-- any info that may help fix the test -->
