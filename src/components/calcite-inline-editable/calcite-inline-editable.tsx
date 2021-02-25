@@ -106,7 +106,7 @@ export class CalciteInlineEditable {
                 appearance="transparent"
                 aria-label={this.intlEnableEditing}
                 class="calcite-inline-editable-enable-editing-button"
-                color="dark"
+                color="neutral"
                 disabled={this.disabled}
                 iconStart="pencil"
                 onClick={this.enableEditingHandler}
@@ -121,7 +121,7 @@ export class CalciteInlineEditable {
                   appearance="transparent"
                   aria-label={this.intlCancelEditing}
                   class="calcite-inline-editable-cancel-editing-button"
-                  color="dark"
+                  color="neutral"
                   disabled={this.disabled}
                   iconStart="x"
                   onClick={this.cancelEditingHandler}
