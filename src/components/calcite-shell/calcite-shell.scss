@@ -36,6 +36,14 @@
   width: 100%;
 }
 
+.content ::slotted(calcite-panel),
+.content ::slotted(calcite-flow) {
+  height: 100%;
+  max-height: unset;
+  max-width: unset;
+  width: 100%;
+}
+
 .content--behind {
   position: absolute;
   left: 0;
