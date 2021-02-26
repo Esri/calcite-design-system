@@ -2,18 +2,18 @@ import { newE2EPage } from "@stencil/core/testing";
 import { CSS } from "./resources";
 import { accessible, defaults, reflects, renders } from "../../tests/commonTests";
 
-describe("calcite-color-swatch", () => {
-  it("renders", () => renders("calcite-color-swatch"));
+describe("calcite-color-picker-swatch", () => {
+  it("renders", () => renders("calcite-color-picker-swatch"));
 
   it("is accessible", async () => {
-    await accessible("calcite-color-swatch");
-    await accessible(`<calcite-color-swatch active></calcite-color-swatch>`);
-    await accessible(`<calcite-color-swatch color='#c0ffee'></calcite-color-swatch>`);
-    await accessible(`<calcite-color-swatch active color='#c0ffee'></calcite-color-swatch>`);
+    await accessible("calcite-color-picker-swatch");
+    await accessible(`<calcite-color-picker-swatch active></calcite-color-picker-swatch>`);
+    await accessible(`<calcite-color-picker-swatch color='#c0ffee'></calcite-color-picker-swatch>`);
+    await accessible(`<calcite-color-picker-swatch active color='#c0ffee'></calcite-color-picker-swatch>`);
   });
 
   it("has defaults", () =>
-    defaults("calcite-color-swatch", [
+    defaults("calcite-color-picker-swatch", [
       {
         propertyName: "active",
         defaultValue: false
@@ -21,7 +21,7 @@ describe("calcite-color-swatch", () => {
     ]));
 
   it("reflects", () =>
-    reflects("calcite-color-swatch", [
+    reflects("calcite-color-picker-swatch", [
       {
         propertyName: "active",
         value: true
@@ -31,9 +31,9 @@ describe("calcite-color-swatch", () => {
   describe("accepts CSS color strings", () => {
     it("supports rgb", async () => {
       const page = await newE2EPage({
-        html: "<calcite-color-swatch color='rgb(255, 255, 255)'></calcite-color-swatch>"
+        html: "<calcite-color-picker-swatch color='rgb(255, 255, 255)'></calcite-color-picker-swatch>"
       });
-      const swatch = await page.find(`calcite-color-swatch >>> .${CSS.swatch} rect`);
+      const swatch = await page.find(`calcite-color-picker-swatch >>> .${CSS.swatch} rect`);
       const style = await swatch.getComputedStyle();
 
       expect(style["fill"]).toBe("rgb(255, 255, 255)");
@@ -41,9 +41,9 @@ describe("calcite-color-swatch", () => {
 
     it("supports keywords", async () => {
       const page = await newE2EPage({
-        html: "<calcite-color-swatch color='chartreuse'></calcite-color-swatch>"
+        html: "<calcite-color-picker-swatch color='chartreuse'></calcite-color-picker-swatch>"
       });
-      const swatch = await page.find(`calcite-color-swatch >>> .${CSS.swatch} rect`);
+      const swatch = await page.find(`calcite-color-picker-swatch >>> .${CSS.swatch} rect`);
       const style = await swatch.getComputedStyle();
 
       expect(style["fill"]).toBe("rgb(127, 255, 0)");
@@ -51,9 +51,9 @@ describe("calcite-color-swatch", () => {
 
     it("supports hsl", async () => {
       const page = await newE2EPage({
-        html: "<calcite-color-swatch color='hsl(120, 100%, 97%)'></calcite-color-swatch>"
+        html: "<calcite-color-picker-swatch color='hsl(120, 100%, 97%)'></calcite-color-picker-swatch>"
       });
-      const swatch = await page.find(`calcite-color-swatch >>> .${CSS.swatch} rect`);
+      const swatch = await page.find(`calcite-color-picker-swatch >>> .${CSS.swatch} rect`);
       const style = await swatch.getComputedStyle();
 
       expect(style["fill"]).toBe("rgb(240, 255, 240)");
@@ -61,9 +61,9 @@ describe("calcite-color-swatch", () => {
 
     it("supports hex", async () => {
       const page = await newE2EPage({
-        html: "<calcite-color-swatch color='#ff8200'></calcite-color-swatch>"
+        html: "<calcite-color-picker-swatch color='#ff8200'></calcite-color-picker-swatch>"
       });
-      const swatch = await page.find(`calcite-color-swatch >>> .${CSS.swatch} rect`);
+      const swatch = await page.find(`calcite-color-picker-swatch >>> .${CSS.swatch} rect`);
 
       const style = await swatch.getComputedStyle();
 
@@ -75,13 +75,13 @@ describe("calcite-color-swatch", () => {
     // this is probably better suited for a screenshot test
 
     const page = await newE2EPage({
-      html: "<calcite-color-swatch color'#beefee'></calcite-color-swatch>"
+      html: "<calcite-color-picker-swatch color'#beefee'></calcite-color-picker-swatch>"
     });
-    const swatchRect = await page.find(`calcite-color-swatch >>> .${CSS.swatch} rect`);
+    const swatchRect = await page.find(`calcite-color-picker-swatch >>> .${CSS.swatch} rect`);
 
     expect(swatchRect.getAttribute("rx")).toBe("0");
 
-    const swatch = await page.find(`calcite-color-swatch`);
+    const swatch = await page.find(`calcite-color-picker-swatch`);
     swatch.setProperty("active", true);
     await page.waitForChanges();
 

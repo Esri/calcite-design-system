@@ -15,9 +15,9 @@
 
 ## Events
 
-| Event                        | Description                         | Type               |
-| ---------------------------- | ----------------------------------- | ------------------ |
-| `calciteColorHexInputChange` | Emitted when the hex value changes. | `CustomEvent<any>` |
+| Event                              | Description                         | Type               |
+| ---------------------------------- | ----------------------------------- | ------------------ |
+| `calciteColorPickerHexInputChange` | Emitted when the hex value changes. | `CustomEvent<any>` |
 
 ## Methods
 
@@ -33,23 +33,23 @@ Type: `Promise<void>`
 
 ### Used by
 
-- [calcite-color](../calcite-color)
+- [calcite-color-picker](../calcite-color-picker)
 
 ### Depends on
 
 - [calcite-input](../calcite-input)
-- [calcite-color-swatch](../calcite-color-swatch)
+- [calcite-color-picker-swatch](src/components/calcite-color-picker-swatch)
 
 ### Graph
 
 ```mermaid
 graph TD;
-  calcite-color-hex-input --> calcite-input
-  calcite-color-hex-input --> calcite-color-swatch
+  calcite-color-picker-hex-input --> calcite-input
+  calcite-color-picker-hex-input --> calcite-color-picker-swatch
   calcite-input --> calcite-progress
   calcite-input --> calcite-icon
-  calcite-color --> calcite-color-hex-input
-  style calcite-color-hex-input fill:#f9f,stroke:#333,stroke-width:4px
+  calcite-color-picker --> calcite-color-picker-hex-input
+  style calcite-color-picker-hex-input fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ---

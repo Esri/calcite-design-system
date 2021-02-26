@@ -4,11 +4,11 @@ import { COLORS, CSS } from "./resources";
 import { Scale, Theme } from "../interfaces";
 
 @Component({
-  tag: "calcite-color-swatch",
-  styleUrl: "calcite-color-swatch.scss",
+  tag: "calcite-color-picker-swatch",
+  styleUrl: "calcite-color-picker-swatch.scss",
   shadow: true
 })
-export class CalciteColorSwatch {
+export class CalciteColorPickerSwatch {
   //--------------------------------------------------------------------------
   //
   //  Properties
