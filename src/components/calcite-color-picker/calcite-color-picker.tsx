@@ -527,7 +527,7 @@ export class CalciteColorPicker {
                   appearance="transparent"
                   aria-label={intlDeleteColor}
                   class={CSS.deleteColor}
-                  color="dark"
+                  color="neutral"
                   disabled={noColor}
                   iconStart="minus"
                   onClick={this.deleteColor}
@@ -538,7 +538,7 @@ export class CalciteColorPicker {
                   appearance="transparent"
                   aria-label={intlSaveColor}
                   class={CSS.saveColor}
-                  color="dark"
+                  color="neutral"
                   disabled={noColor}
                   iconStart="plus"
                   onClick={this.saveColor}
