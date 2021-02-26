@@ -78,6 +78,7 @@ export class CalciteNotice {
   updateRequestedIcon(): void {
     this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
   }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -98,7 +99,10 @@ export class CalciteNotice {
       <button
         aria-label={this.intlClose}
         class="notice-close"
-        onClick={() => this.close()}
+        onClick={() => {
+          this.active = false;
+          this.calciteNoticeClose.emit();
+        }}
         ref={() => this.closeButton}
       >
         <calcite-icon icon="x" scale="m" />
@@ -139,19 +143,6 @@ export class CalciteNotice {
   //  Public Methods
   //
   //--------------------------------------------------------------------------
-
-  /** close the notice emit the `calciteNoticeClose` event - <calcite-notice> listens for this */
-  @Method() async close(): Promise<void> {
-    this.active = false;
-    this.calciteNoticeClose.emit();
-  }
-
-  /** open the notice and emit the `calciteNoticeOpen` event - <calcite-notice> listens for this  */
-  @Method() async open(): Promise<void> {
-    this.active = true;
-    this.calciteNoticeOpen.emit();
-  }
-
   /** focus the close button, if present and requested */
   @Method()
   async setFocus(): Promise<void> {
