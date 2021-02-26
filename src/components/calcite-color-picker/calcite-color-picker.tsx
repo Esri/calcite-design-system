@@ -227,7 +227,7 @@ export class CalciteColorPicker {
     }
 
     if (this.colorUpdateLocked) {
-      this.calciteColorChange.emit();
+      this.calciteColorPickerChange.emit();
       return;
     }
 
@@ -236,7 +236,7 @@ export class CalciteColorPicker {
 
     if (modeChanged || colorChanged) {
       this.color = color;
-      this.calciteColorChange.emit();
+      this.calciteColorPickerChange.emit();
     }
   }
   //--------------------------------------------------------------------------
@@ -282,7 +282,7 @@ export class CalciteColorPicker {
   //--------------------------------------------------------------------------
 
   @Event()
-  calciteColorChange: EventEmitter;
+  calciteColorPickerChange: EventEmitter;
 
   private handleTabActivate = (event: Event): void => {
     this.channelMode = (event.currentTarget as HTMLElement).getAttribute(
@@ -492,7 +492,7 @@ export class CalciteColorPicker {
                   allowEmpty={allowEmpty}
                   class={CSS.control}
                   dir={elementDir}
-                  onCalciteColorHexInputChange={this.handleHexInputChange}
+                  onCalciteColorPickerHexInputChange={this.handleHexInputChange}
                   ref={this.storeHexInputRef}
                   scale={hexInputScale}
                   theme={theme}

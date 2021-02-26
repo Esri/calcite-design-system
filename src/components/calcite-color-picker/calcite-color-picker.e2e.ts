@@ -152,7 +152,7 @@ describe("calcite-color-picker", () => {
     });
     const picker = await page.find("calcite-color-picker");
 
-    const spy = await picker.spyOnEvent("calciteColorChange");
+    const spy = await picker.spyOnEvent("calciteColorPickerChange");
 
     picker.setProperty("value", "#FF00FF");
     await page.waitForChanges();
@@ -176,7 +176,7 @@ describe("calcite-color-picker", () => {
 
       beforeEach(async () => {
         page = await newE2EPage();
-        spy = await page.spyOnEvent("calciteColorChange");
+        spy = await page.spyOnEvent("calciteColorPickerChange");
       });
 
       function assertNoChangeEvents(): void {
@@ -257,7 +257,7 @@ describe("calcite-color-picker", () => {
       html: "<calcite-color-picker></calcite-color-picker>"
     });
     const picker = await page.find("calcite-color-picker");
-    const spy = await picker.spyOnEvent("calciteColorChange");
+    const spy = await picker.spyOnEvent("calciteColorPickerChange");
 
     const supportedStringFormats = [
       supportedFormatToSampleValue.hex,
@@ -293,7 +293,7 @@ describe("calcite-color-picker", () => {
       html: "<calcite-color-picker value='#000' scale='m'></calcite-color-picker>"
     });
     const picker = await page.find(`calcite-color-picker`);
-    const spy = await picker.spyOnEvent("calciteColorChange");
+    const spy = await picker.spyOnEvent("calciteColorPickerChange");
     let changes = 0;
     const mediumScaleDimensions = DIMENSIONS.m;
     const widthOffset = 0.5;
@@ -394,7 +394,7 @@ describe("calcite-color-picker", () => {
 
     async function assertUnsupportedValue(page: E2EPage, unsupportedValue: string | null): Promise<void> {
       const picker = await page.find("calcite-color-picker");
-      const spy = await picker.spyOnEvent("calciteColorChange");
+      const spy = await picker.spyOnEvent("calciteColorPickerChange");
       const currentValue = await picker.getProperty("value");
       picker.setProperty("value", unsupportedValue);
       await page.waitForChanges();
