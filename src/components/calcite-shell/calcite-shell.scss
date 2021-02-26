@@ -36,8 +36,8 @@
   width: 100%;
 }
 
-.content ::slotted(calcite-panel),
-.content ::slotted(calcite-flow) {
+.content--behind ::slotted(calcite-panel),
+.content--behind ::slotted(calcite-flow) {
   height: 100%;
   max-height: unset;
   max-width: unset;
