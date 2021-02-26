@@ -145,7 +145,7 @@ describe("calcite-color-picker-hex-input", () => {
     });
 
     const input = await page.find("calcite-color-picker-hex-input");
-    const spy = await input.spyOnEvent("calciteColorHexInputChange");
+    const spy = await input.spyOnEvent("calciteColorPickerHexInputChange");
 
     await input.setProperty("value", "#abcdef");
     await page.waitForChanges();

@@ -38,9 +38,9 @@
 
 ## Events
 
-| Event                | Description | Type               |
-| -------------------- | ----------- | ------------------ |
-| `calciteColorChange` |             | `CustomEvent<any>` |
+| Event                      | Description | Type               |
+| -------------------------- | ----------- | ------------------ |
+| `calciteColorPickerChange` |             | `CustomEvent<any>` |
 
 ## Methods
 
