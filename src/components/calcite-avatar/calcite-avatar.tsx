@@ -1,6 +1,6 @@
 import { Component, Element, h, Host, Prop, State } from "@stencil/core";
 import { getElementDir, getElementTheme } from "../../utils/dom";
-import { isValidHex } from "../calcite-color/utils";
+import { isValidHex } from "../calcite-color-picker/utils";
 import { Scale, Theme } from "../interfaces";
 import { hexToHue, stringToHex } from "./utils";
 

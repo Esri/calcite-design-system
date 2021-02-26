@@ -29,13 +29,13 @@ Type: `Promise<number>`
 
 ### Used by
 
-- [calcite-color](../calcite-color)
+- [calcite-color-picker](../calcite-color-picker)
 
 ### Graph
 
 ```mermaid
 graph TD;
-  calcite-color --> calcite-tab
+  calcite-color-picker --> calcite-tab
   style calcite-tab fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
