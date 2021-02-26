@@ -118,7 +118,7 @@ export class CalciteInput {
   /** optionally add suffix  **/
   @Prop() suffixText?: string;
 
-  /** specify the alignment of dropdown, defaults to left */
+  /** specify the theme (light or dark) */
   @Prop({ reflect: true }) theme: Theme;
 
   /** specify the input type */

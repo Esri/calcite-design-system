@@ -28,21 +28,17 @@ describe("calcite-combobox", () => {
   });
 
   it("should filter the items in listbox when typing into the input", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-combobox>
-      <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
-      <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
-    </calcite-combobox>`);
-    const eventSpy = await page.spyOnEvent("calciteComboboxFilterChange", "window");
+    const page = await newE2EPage({
+      html: html` <calcite-combobox>
+        <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
+        <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
+      </calcite-combobox>`
+    });
+
+    const eventSpy = await page.spyOnEvent("calciteComboboxFilterChange");
     await page.keyboard.press("Tab");
     await page.keyboard.type("one");
-
-    await page.evaluate(() => {
-      const combobox = document.querySelector("calcite-combobox");
-      const input = combobox.shadowRoot.querySelector("input");
-      input.value = "one";
-      input.dispatchEvent(new Event("input"));
-    });
+    await page.waitForChanges();
 
     const items = await page.findAll("calcite-combobox-item");
     await items[1].waitForNotVisible();

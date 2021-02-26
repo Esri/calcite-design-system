@@ -1,4 +1,4 @@
-# calcite-color
+# calcite-color-picker
 
 <!-- Auto Generated Below -->
 
@@ -38,9 +38,9 @@
 
 ## Events
 
-| Event                | Description | Type               |
-| -------------------- | ----------- | ------------------ |
-| `calciteColorChange` |             | `CustomEvent<any>` |
+| Event                      | Description | Type               |
+| -------------------------- | ----------- | ------------------ |
+| `calciteColorPickerChange` |             | `CustomEvent<any>` |
 
 ## Methods
 
@@ -59,32 +59,32 @@ Type: `Promise<void>`
 - [calcite-tab-title](../calcite-tab-title)
 - [calcite-tab](../calcite-tab)
 - [calcite-input](../calcite-input)
-- [calcite-color-hex-input](../calcite-color-hex-input)
+- [calcite-color-picker-hex-input](src/components/calcite-color-picker-hex-input)
 - [calcite-tabs](../calcite-tabs)
 - [calcite-tab-nav](../calcite-tab-nav)
 - [calcite-button](../calcite-button)
-- [calcite-color-swatch](../calcite-color-swatch)
+- [calcite-color-picker-swatch](src/components/calcite-color-picker-swatch)
 
 ### Graph
 
 ```mermaid
 graph TD;
-  calcite-color --> calcite-tab-title
-  calcite-color --> calcite-tab
-  calcite-color --> calcite-input
-  calcite-color --> calcite-color-hex-input
-  calcite-color --> calcite-tabs
-  calcite-color --> calcite-tab-nav
-  calcite-color --> calcite-button
-  calcite-color --> calcite-color-swatch
+  calcite-color-picker --> calcite-tab-title
+  calcite-color-picker --> calcite-tab
+  calcite-color-picker --> calcite-input
+  calcite-color-picker --> calcite-color-picker-hex-input
+  calcite-color-picker --> calcite-tabs
+  calcite-color-picker --> calcite-tab-nav
+  calcite-color-picker --> calcite-button
+  calcite-color-picker --> calcite-color-picker-swatch
   calcite-tab-title --> calcite-icon
   calcite-input --> calcite-progress
   calcite-input --> calcite-icon
-  calcite-color-hex-input --> calcite-input
-  calcite-color-hex-input --> calcite-color-swatch
+  calcite-color-picker-hex-input --> calcite-input
+  calcite-color-picker-hex-input --> calcite-color-picker-swatch
   calcite-button --> calcite-loader
   calcite-button --> calcite-icon
-  style calcite-color fill:#f9f,stroke:#333,stroke-width:4px
+  style calcite-color-picker fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ---

@@ -28,13 +28,13 @@ calcite-tabs uses several sub-components ([calcite-tab-nav](../calcite-tab-nav),
 
 ### Used by
 
-- [calcite-color](../calcite-color)
+- [calcite-color-picker](../calcite-color-picker)
 
 ### Graph
 
 ```mermaid
 graph TD;
-  calcite-color --> calcite-tabs
+  calcite-color-picker --> calcite-tabs
   style calcite-tabs fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
