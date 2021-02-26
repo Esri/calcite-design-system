@@ -12,18 +12,7 @@ import {
   Listen
 } from "@stencil/core";
 import { Scale, Theme } from "../interfaces";
-
-const numberKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-
-type AmPm = "--" | "AM" | "PM";
-
-type MinuteOrSecond = "minute" | "second";
-
-export interface Time {
-  hour: string;
-  minute: string;
-  second?: string;
-}
+import { AmPm, formatNumberAsTimeString, MinuteOrSecond, numberKeys, Time } from "./utils";
 
 @Component({
   tag: "calcite-time-picker",
@@ -280,10 +269,6 @@ export class CalciteTimePicker {
     this.activeEl = event.target as HTMLSpanElement;
   };
 
-  private formatNumberAsTimeString(number: number): string {
-    return number >= 0 && number <= 9 ? `0${number}` : number.toString();
-  }
-
   private getAmPm = (): AmPm => {
     if (this.hour === "--") return "--";
     const hourAsNumber = parseInt(this.hour);
@@ -305,7 +290,7 @@ export class CalciteTimePicker {
         }
       }
       if (hourAsNumber > 12) {
-        return this.formatNumberAsTimeString(hourAsNumber - 12);
+        return formatNumberAsTimeString(hourAsNumber - 12);
       }
     }
     return this.hour;
@@ -480,13 +465,13 @@ export class CalciteTimePicker {
     this.timeChanged = true;
     switch (key) {
       case "hour":
-        this.hour = typeof value === "number" ? this.formatNumberAsTimeString(value) : value;
+        this.hour = typeof value === "number" ? formatNumberAsTimeString(value) : value;
         break;
       case "minute":
-        this.minute = typeof value === "number" ? this.formatNumberAsTimeString(value) : value;
+        this.minute = typeof value === "number" ? formatNumberAsTimeString(value) : value;
         break;
       case "second":
-        this.second = typeof value === "number" ? this.formatNumberAsTimeString(value) : value;
+        this.second = typeof value === "number" ? formatNumberAsTimeString(value) : value;
         break;
       case "ampm":
         if (this.hour === "--") {
@@ -495,10 +480,10 @@ export class CalciteTimePicker {
           const hourAsNumber = parseInt(this.hour);
           switch (value) {
             case "AM":
-              this.hour = this.formatNumberAsTimeString(hourAsNumber - 12);
+              this.hour = formatNumberAsTimeString(hourAsNumber - 12);
               break;
             case "PM":
-              this.hour = this.formatNumberAsTimeString(hourAsNumber + 12);
+              this.hour = formatNumberAsTimeString(hourAsNumber + 12);
               break;
           }
           this.ampm = value as AmPm;

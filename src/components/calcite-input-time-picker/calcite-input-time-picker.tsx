@@ -12,7 +12,7 @@ import {
   Method
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { Time } from "../calcite-time-picker/calcite-time-picker";
+import { formatNumberAsTimeString, Time } from "../calcite-time-picker/utils";
 import { Theme } from "../interfaces";
 
 @Component({
@@ -94,8 +94,9 @@ export class CalciteInputTimePicker {
 
   private inputBlurHandler = (): void => {
     this.popoverOpen = false;
-    if (!this.validateTimeString(this.inputEl.value)) {
-      this.inputEl.value = this.value;
+    const newValue = this.parseTimeString(this.inputEl.value);
+    if (newValue) {
+      this.inputEl.value = newValue;
     }
   };
 
@@ -104,7 +105,7 @@ export class CalciteInputTimePicker {
   };
 
   private inputInputHandler = (event: CustomEvent): void => {
-    if (this.validateTimeString(event.detail.value) || !event.detail.value) {
+    if (this.parseTimeString(event.detail.value) !== null || !event.detail.value) {
       this.value = event.detail.value;
     }
   };
@@ -185,6 +186,16 @@ export class CalciteInputTimePicker {
   //
   // --------------------------------------------------------------------------
 
+  private convertStringToTime = (value: string): Time => {
+    const timeString = this.parseTimeString(value);
+    const [hour, minute, second] = timeString ? timeString.split(":") : ["--", "--", "--"];
+    return {
+      hour,
+      minute,
+      second: second || (hour !== "--" && minute !== "--" ? "00" : "--")
+    };
+  };
+
   private stringContainsOnlyNumbers(string): boolean {
     const letters = /^[A-Za-z]+$/;
     const numbers = /^[0-9]+$/;
@@ -198,51 +209,50 @@ export class CalciteInputTimePicker {
     return false;
   }
 
-  private parseTimeString = (value: string): Time => {
-    const [hour, minute, second] = value ? value.split(":") : ["--", "--", "--"];
-    return {
-      hour,
-      minute,
-      second: second || (hour !== "--" && minute !== "--" ? "00" : "--")
-    };
-  };
-
   private setInputEl = (el: HTMLCalciteInputElement): void => {
     this.inputEl = el;
   };
 
-  private validateTimeString = (value: string): boolean => {
-    const splitValue = value.split(":");
-    if (splitValue.length > 1) {
-      const hour = splitValue[0];
-      const minute = splitValue[1];
-      const second = splitValue[2];
-      const hourAsNumber = parseInt(splitValue[0]);
-      const minuteAsNumber = parseInt(splitValue[1]);
-      const secondAsNumber = parseInt(splitValue[2]);
-      const hourValid =
-        hour &&
-        this.stringContainsOnlyNumbers(hour) &&
-        !isNaN(hourAsNumber) &&
-        hourAsNumber >= 0 &&
-        hourAsNumber < 24;
-      const minuteValid =
-        minute &&
-        this.stringContainsOnlyNumbers(minute) &&
-        !isNaN(minuteAsNumber) &&
-        minuteAsNumber >= 0 &&
-        minuteAsNumber < 60;
-      const secondValid =
-        second &&
-        this.stringContainsOnlyNumbers(second) &&
-        !isNaN(secondAsNumber) &&
-        secondAsNumber >= 0 &&
-        secondAsNumber < 60;
-      if ((hourValid && minuteValid && !second) || (hourValid && minuteValid && secondValid)) {
-        return true;
+  private parseTimeString = (value: string): string => {
+    if (value) {
+      const splitValue = value.split(":");
+      if (splitValue.length > 1) {
+        const hour = splitValue[0];
+        const minute = splitValue[1];
+        const second = splitValue[2];
+        const hourAsNumber = parseInt(splitValue[0]);
+        const minuteAsNumber = parseInt(splitValue[1]);
+        const secondAsNumber = parseInt(splitValue[2]);
+        const hourValid =
+          hour &&
+          this.stringContainsOnlyNumbers(hour) &&
+          !isNaN(hourAsNumber) &&
+          hourAsNumber >= 0 &&
+          hourAsNumber < 24;
+        const minuteValid =
+          minute &&
+          this.stringContainsOnlyNumbers(minute) &&
+          !isNaN(minuteAsNumber) &&
+          minuteAsNumber >= 0 &&
+          minuteAsNumber < 60;
+        const secondValid =
+          second &&
+          this.stringContainsOnlyNumbers(second) &&
+          !isNaN(secondAsNumber) &&
+          secondAsNumber >= 0 &&
+          secondAsNumber < 60;
+        if ((hourValid && minuteValid && !second) || (hourValid && minuteValid && secondValid)) {
+          let newValue = `${formatNumberAsTimeString(hourAsNumber)}:${formatNumberAsTimeString(
+            minuteAsNumber
+          )}`;
+          if (secondValid) {
+            newValue = `${newValue}:${formatNumberAsTimeString(secondAsNumber)}`;
+          }
+          return newValue;
+        }
       }
     }
-    return false;
+    return null;
   };
 
   //--------------------------------------------------------------------------
@@ -262,7 +272,7 @@ export class CalciteInputTimePicker {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { hour, minute, second } = this.parseTimeString(this.value);
+    const { hour, minute, second } = this.convertStringToTime(this.value);
     return (
       <Host>
         <calcite-input
@@ -277,7 +287,7 @@ export class CalciteInputTimePicker {
           scale={this.scale}
           step={this.step}
           theme={this.theme}
-          // type="time"
+          type="time"
           value={this.value}
         />
         <calcite-popover
