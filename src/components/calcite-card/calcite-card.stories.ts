@@ -77,9 +77,9 @@ export const FooterTextButtonsTooltips = (): string => html`
       <span slot="subtitle">Johnathan Smith</span>
       <span slot="footer-leading">Nov 25, 2018</span>
       <div slot="footer-trailing">
-        <calcite-button id="card-icon-test-6" scale="s" appearance="transparent" color="dark" icon-start="circle">
+        <calcite-button id="card-icon-test-6" scale="s" appearance="transparent" color="neutral" icon-start="circle">
         </calcite-button>
-        <calcite-button id="card-icon-test-7" scale="s" appearance="transparent" color="dark" icon-start="circle">
+        <calcite-button id="card-icon-test-7" scale="s" appearance="transparent" color="neutral" icon-start="circle">
         </calcite-button>
       </div>
     </calcite-card>
@@ -113,12 +113,12 @@ export const FooterButtonsTooltipsDropdown = (): string => html`
       <br />
       View Count: 0
     </div>
-    <calcite-button slot="footer-leading" color="light" scale="s" icon-start='circle'></calcite-button>
+    <calcite-button slot="footer-leading" color="neutral" scale="s" icon-start='circle'></calcite-button>
     <div slot="footer-trailing">
-      <calcite-button scale="s" color="light" id="card-icon-test-2" icon-start='circle'></calcite-button>
-      <calcite-button scale="s" color="light" id="card-icon-test-1" icon-start='circle'></calcite-button>
+      <calcite-button scale="s" color="neutral" id="card-icon-test-2" icon-start='circle'></calcite-button>
+      <calcite-button scale="s" color="neutral" id="card-icon-test-1" icon-start='circle'></calcite-button>
       <calcite-dropdown>
-        <calcite-button id="card-icon-test-5" slot="dropdown-trigger" scale="s" color="light" icon-start='circle'></calcite-button>
+        <calcite-button id="card-icon-test-5" slot="dropdown-trigger" scale="s" color="neutral" icon-start='circle'></calcite-button>
         <calcite-dropdown-group selection-mode="none">
           <calcite-dropdown-item>View details</calcite-dropdown-item>
           <calcite-dropdown-item>Duplicate</calcite-dropdown-item>
@@ -217,9 +217,9 @@ export const DarkThemeFooterTextButtonsTooltips = (): string => html`
       <span slot="subtitle">Johnathan Smith</span>
       <span slot="footer-leading">Nov 25, 2018</span>
       <div slot="footer-trailing">
-        <calcite-button id="card-icon-test-6" scale="s" appearance="transparent" color="dark" icon-start="circle">
+        <calcite-button id="card-icon-test-6" scale="s" appearance="transparent" color="neutral" icon-start="circle">
         </calcite-button>
-        <calcite-button id="card-icon-test-7" scale="s" appearance="transparent" color="dark" icon-start="circle">
+        <calcite-button id="card-icon-test-7" scale="s" appearance="transparent" color="neutral" icon-start="circle">
         </calcite-button>
       </div>
     </calcite-card>
@@ -254,14 +254,26 @@ export const DarkThemeFooterButtonsTooltipsDropdown = (): string => html`
         <br />
         View Count: 0
       </div>
-      <calcite-button slot="footer-leading" color="dark" scale="s" icon-start="circle"></calcite-button>
+      <calcite-button slot="footer-leading" color="neutral" scale="s" icon-start="circle"></calcite-button>
       <div slot="footer-trailing">
-        <calcite-button theme="dark" color="dark" scale="s" id="card-icon-test-2" icon-start="circle"></calcite-button>
-        <calcite-button theme="dark" color="dark" scale="s" id="card-icon-test-1" icon-start="circle"></calcite-button>
+        <calcite-button
+          theme="dark"
+          color="neutral"
+          scale="s"
+          id="card-icon-test-2"
+          icon-start="circle"
+        ></calcite-button>
+        <calcite-button
+          theme="dark"
+          color="neutral"
+          scale="s"
+          id="card-icon-test-1"
+          icon-start="circle"
+        ></calcite-button>
         <calcite-dropdown>
           <calcite-button
             theme="dark"
-            color="dark"
+            color="neutral"
             id="card-icon-test-5"
             slot="dropdown-trigger"
             scale="s"

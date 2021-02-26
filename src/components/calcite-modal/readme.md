@@ -6,7 +6,7 @@ calcite modal allows you to show a modal/dialog to your users. The modal handles
 <calcite-modal aria-labelledby="modal-title">
   <h3 slot="header" id="modal-title">Title of the modal</h3>
   <div slot="content">The actual content of the modal</div>
-  <calcite-button slot="back" color="light" appearance="outline" icon="chevron-left" width="full">
+  <calcite-button slot="back" color="neutral" appearance="outline" icon="chevron-left" width="full">
     Back
   </calcite-button>
   <calcite-button slot="secondary" width="full" appearance="outline"> Cancel </calcite-button>
