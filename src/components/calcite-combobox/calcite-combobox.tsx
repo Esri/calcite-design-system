@@ -21,9 +21,10 @@ import { createPopper, updatePopper, CSS as PopperCSS } from "../../utils/popper
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import { Scale, Theme } from "../interfaces";
-import { ComboboxSelectionMode } from "./interfaces";
+import { ComboboxSelectionMode, AncestorElement } from "./interfaces";
 
 const COMBO_BOX_ITEM = "calcite-combobox-item";
+const COMBO_BOX_ITEM_GROUP = "calcite-combobox-item-group";
 
 const DEFAULT_PLACEMENT = "bottom-start";
 
@@ -56,10 +57,12 @@ export class CalciteCombobox {
   /** Open and close combobox */
   @Prop({ reflect: true, mutable: true }) active = false;
 
-  @Watch("active") activeHandler(newValue: boolean, oldValue: boolean): void {
+  @Watch("active")
+  activeHandler(newValue: boolean, oldValue: boolean): void {
+    clearTimeout(this.hideListTimeout);
     // when closing, wait transition time then hide to prevent overscroll
     if (oldValue && !newValue) {
-      setTimeout(() => {
+      this.hideListTimeout = window.setTimeout(() => {
         this.hideList = true;
       }, TRANSITION_DURATION);
     } else if (!oldValue && newValue) {
@@ -122,7 +125,8 @@ export class CalciteCombobox {
     this.calciteComboboxChipDismiss.emit(event.detail);
   }
 
-  @Listen("keydown") keydownHandler(event: KeyboardEvent): void {
+  @Listen("keydown")
+  keydownHandler(event: KeyboardEvent): void {
     const key = getKey(event.key, getElementDir(this.el));
 
     switch (key) {
@@ -189,7 +193,8 @@ export class CalciteCombobox {
   //
   //--------------------------------------------------------------------------
 
-  @Method() async reposition(): Promise<void> {
+  @Method()
+  async reposition(): Promise<void> {
     const { popper, menuEl } = this;
     const modifiers = this.getModifiers();
     popper
@@ -202,7 +207,8 @@ export class CalciteCombobox {
       : this.createPopper();
   }
 
-  @Method() async setFocus(): Promise<void> {
+  @Method()
+  async setFocus(): Promise<void> {
     this.active = true;
     this.textInput?.focus();
     this.activeChipIndex = -1;
@@ -268,6 +274,8 @@ export class CalciteCombobox {
   //--------------------------------------------------------------------------
   @State() items: HTMLCalciteComboboxItemElement[] = [];
 
+  @State() groupItems: HTMLCalciteComboboxItemGroupElement[] = [];
+
   @State() selectedItems: HTMLCalciteComboboxItemElement[] = [];
 
   @State() selectedItem: HTMLCalciteComboboxItemElement;
@@ -287,7 +295,8 @@ export class CalciteCombobox {
   @State() text = "";
 
   /** when search text is cleared, reset active to  */
-  @Watch("text") textHandler(): void {
+  @Watch("text")
+  textHandler(): void {
     this.updateActiveItemIndex(-1);
   }
 
@@ -296,6 +305,9 @@ export class CalciteCombobox {
   data: ItemData[];
 
   observer: MutationObserver = null;
+
+  /** animation timeout for hiding the list  */
+  private hideListTimeout: number;
 
   private guid: string = guid();
 
@@ -317,6 +329,10 @@ export class CalciteCombobox {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  setFocusClick = (): void => {
+    this.setFocus();
+  };
 
   setInactiveIfNotContained = (event: Event): void => {
     if (!this.active || event.composedPath().includes(this.el)) {
@@ -397,7 +413,9 @@ export class CalciteCombobox {
   private calculateSingleItemHeight(item: HTMLCalciteComboboxItemElement): number {
     let height = item.offsetHeight;
     // if item has children items, don't count their height twice
-    const children = item.querySelectorAll<HTMLCalciteComboboxItemElement>("calcite-combobox-item");
+    const children = item.querySelectorAll<HTMLCalciteComboboxItemElement>(
+      "calcite-combobox-item-group, calcite-combobox-item"
+    );
     children.forEach((child) => {
       height -= child.offsetHeight;
     });
@@ -413,16 +431,26 @@ export class CalciteCombobox {
     }
   };
 
+  getTextValue = (el: AncestorElement): string => {
+    return el
+      ? el.tagName === "CALCITE-COMBOBOX-ITEM-GROUP"
+        ? (el as HTMLCalciteComboboxItemGroupElement).label
+        : (el as HTMLCalciteComboboxItemElement).value
+      : null;
+  };
+
   filterItems = debounce((value: string): void => {
     const filteredData = filter(this.data, value);
     const values = filteredData.map((item) => item.value);
-    this.items.forEach((item) => {
-      const hidden = values.indexOf(item.value) === -1;
+    const items = [...this.groupItems, ...this.items];
+    items.forEach((item) => {
+      const hidden = values.indexOf(this.getTextValue(item)) === -1;
       item.hidden = hidden;
       const [parent, grandparent] = item.anscestors;
       if (
         (parent || grandparent) &&
-        (values.indexOf(parent?.value) > -1 || values.indexOf(grandparent?.value) > -1)
+        (values.indexOf(this.getTextValue(parent)) > -1 ||
+          values.indexOf(this.getTextValue(grandparent)) > -1)
       ) {
         item.hidden = false;
       }
@@ -436,6 +464,10 @@ export class CalciteCombobox {
   }, 100);
 
   toggleSelection(item: HTMLCalciteComboboxItemElement, value = !item.selected): void {
+    if (!item) {
+      return;
+    }
+
     if (this.selectionMode === "multi") {
       item.selected = value;
       this.selectedItems = this.getSelectedItems();
@@ -477,6 +509,7 @@ export class CalciteCombobox {
 
   updateItems = (): void => {
     this.items = this.getItems();
+    this.groupItems = this.getGroupItems();
     this.data = this.getData();
     this.selectedItems = this.getSelectedItems();
     this.visibleItems = this.getVisibleItems();
@@ -506,6 +539,10 @@ export class CalciteCombobox {
   getItems(): HTMLCalciteComboboxItemElement[] {
     const items = Array.from(this.el.querySelectorAll(COMBO_BOX_ITEM));
     return items.filter((item) => !item.disabled);
+  }
+
+  getGroupItems(): HTMLCalciteComboboxItemGroupElement[] {
+    return Array.from(this.el.querySelectorAll(COMBO_BOX_ITEM_GROUP));
   }
 
   addCustomChip(value: string): void {
@@ -761,7 +798,7 @@ export class CalciteCombobox {
             "wrapper--active": active,
             "wrapper--single": single
           }}
-          onClick={() => this.setFocus()}
+          onClick={this.setFocusClick}
           ref={this.setReferenceEl}
           role="combobox"
         >
