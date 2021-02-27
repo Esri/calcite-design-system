@@ -41,9 +41,8 @@
   }
 }
 
-//TODO: need values for these width-* doesn't work because it brings the width property
 :host([width="auto"]) {
-  --calcite-notice-width: auto;
+  --calcite-notice-width: theme("width[auto]");
 }
 
 :host([width="half"]) {
@@ -51,14 +50,13 @@
 }
 
 :host([width="full"]) {
-  --calcite-notice-width: 100%;
+  --calcite-notice-width: theme("width[full]");
 }
 
-//TODO: more items needed here
 :host {
   @apply hidden
     text-left 
-    my-0 
+    my-0
     mx-auto
     box-border
     max-w-full
@@ -80,9 +78,8 @@
   }
 }
 
-//FIXME: Is this done right? border-l-0 for order left none?
 :host([dir="rtl"]) {
-  @apply text-right border-l-0;
+  @apply text-right;
   border-left: none;
   border-right: 0px solid;
 }
@@ -166,7 +163,6 @@
   }
 }
 
-//TODO: Should these vars use tailwind with @apply or theme?
 $noticeColors: "blue" var(--calcite-ui-brand), "red" var(--calcite-ui-danger), "yellow" var(--calcite-ui-warning),
   "green" var(--calcite-ui-success);
 
