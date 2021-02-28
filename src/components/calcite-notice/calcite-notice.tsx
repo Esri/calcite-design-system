@@ -99,10 +99,7 @@ export class CalciteNotice {
       <button
         aria-label={this.intlClose}
         class="notice-close"
-        onClick={() => {
-          this.active = false;
-          this.calciteNoticeClose.emit();
-        }}
+        onClick={this.close}
         ref={() => this.closeButton}
       >
         <calcite-icon icon="x" scale="m" />
@@ -154,6 +151,16 @@ export class CalciteNotice {
       this.closeButton.focus();
     }
   }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+  private close = (): void => {
+    this.active = false;
+    this.calciteNoticeClose.emit();
+  };
 
   //--------------------------------------------------------------------------
   //
