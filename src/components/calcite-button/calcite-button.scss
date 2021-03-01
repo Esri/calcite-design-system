@@ -4,18 +4,12 @@
   display: inline-block;
   width: auto;
   vertical-align: middle;
-  --calcite-button-dark: #{$blk-180};
-  --calcite-button-dark-hover: #{$blk-170};
-  --calcite-button-dark-press: #{$blk-190};
   --calcite-button-transparent-hover: rgba(0, 0, 0, 0.05);
   --calcite-button-transparent-press: rgba(0, 0, 0, 0.08);
 }
 
 // dark theme
 :host([theme="dark"]) {
-  --calcite-button-dark: #{$blk-180};
-  --calcite-button-dark-hover: #{$blk-190};
-  --calcite-button-dark-press: #{$blk-170};
   --calcite-button-transparent-hover: rgba(255, 255, 255, 0.05);
   --calcite-button-transparent-press: rgba(255, 255, 255, 0.08);
 }
@@ -288,7 +282,7 @@
     );
   }
 }
-:host([appearance="solid"][color="light"]) {
+:host([appearance="solid"][color="neutral"]) {
   button,
   a {
     @include btn-solid(
@@ -299,13 +293,13 @@
     );
   }
 }
-:host([appearance="solid"][color="dark"]) {
+:host([appearance="solid"][color="inverse"]) {
   button,
   a {
     @include btn-solid(
-      var(--calcite-button-dark),
-      var(--calcite-button-dark-hover),
-      var(--calcite-button-dark-press),
+      var(--calcite-ui-inverse),
+      var(--calcite-ui-inverse-hover),
+      var(--calcite-ui-inverse-press),
       $blk-000
     );
   }
@@ -364,7 +358,7 @@
     );
   }
 }
-:host([appearance="outline"][color="light"]) {
+:host([appearance="outline"][color="neutral"]) {
   button,
   a {
     @include btn-outline-clear(
@@ -377,14 +371,14 @@
     );
   }
 }
-:host([appearance="outline"][color="dark"]) {
+:host([appearance="outline"][color="inverse"]) {
   button,
   a {
     @include btn-outline-clear(
       var(--calcite-ui-foreground-1),
-      $blk-180,
-      $blk-190,
-      $blk-170,
+      var(--calcite-ui-inverse),
+      var(--calcite-ui-inverse-press),
+      var(--calcite-ui-inverse-hover),
       var(--calcite-ui-text-1),
       var(--calcite-ui-text-1)
     );
@@ -416,7 +410,7 @@
     );
   }
 }
-:host([appearance="clear"][color="light"]) {
+:host([appearance="clear"][color="neutral"]) {
   button,
   a {
     @include btn-outline-clear(
@@ -429,14 +423,14 @@
     );
   }
 }
-:host([appearance="clear"][color="dark"]) {
+:host([appearance="clear"][color="inverse"]) {
   button,
   a {
     @include btn-outline-clear(
       transparent,
-      $blk-180,
-      $blk-190,
-      $blk-170,
+      var(--calcite-ui-inverse),
+      var(--calcite-ui-inverse-press),
+      var(--calcite-ui-inverse-hover),
       var(--calcite-ui-text-1),
       var(--calcite-ui-text-1)
     );
@@ -486,16 +480,16 @@
     @include btn-transparent(var(--calcite-ui-danger-press));
   }
 }
-:host([appearance="transparent"][color="light"]) {
-  button,
-  a {
-    @include btn-transparent(var(--calcite-ui-foreground-1));
-  }
-}
-:host([appearance="transparent"][color="dark"]) {
+:host([appearance="transparent"][color="neutral"]) {
   button,
   a {
     @include btn-transparent(var(--calcite-ui-text-1));
+  }
+}
+:host([appearance="transparent"][color="inverse"]) {
+  button,
+  a {
+    @include btn-transparent(var(--calcite-ui-foreground-1));
   }
 }
 
