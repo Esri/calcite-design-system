@@ -2,6 +2,7 @@ import { Component, Element, Event, EventEmitter, Host, Prop, h, VNode } from "@
 import { Theme } from "../interfaces";
 import { CSS, ICONS, SLOTS, TEXT } from "./resources";
 import { getSlotted } from "../../utils/dom";
+import { HeadingLevel, HeadingWizard } from "../functional/HeadingWizard";
 
 /**
  * @slot thumbnail - A slot for adding an HTML image element to the tip.
@@ -31,6 +32,11 @@ export class CalciteTip {
    * The heading of the tip.
    */
   @Prop() heading?: string;
+
+  /**
+   * Number at which section headings should start for this component.
+   */
+  @Prop() headingLevel: HeadingLevel = 3;
 
   /**
    * The selected state of the tip if it is being used inside a `calcite-tip-manager`.
@@ -85,11 +91,13 @@ export class CalciteTip {
   // --------------------------------------------------------------------------
 
   renderHeader(): VNode {
-    const { heading } = this;
+    const { heading, headingLevel } = this;
 
     return heading ? (
       <header class={CSS.header}>
-        <h3 class={CSS.heading}>{heading}</h3>
+        <HeadingWizard class={CSS.heading} level={headingLevel}>
+          {heading}
+        </HeadingWizard>
       </header>
     ) : null;
   }

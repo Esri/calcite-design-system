@@ -14,6 +14,7 @@ import {
 import { CSS, ICONS, TEXT } from "./resources";
 import { getElementDir } from "../../utils/dom";
 import { Theme } from "../interfaces";
+import { HeadingLevel, HeadingWizard } from "../functional/HeadingWizard";
 
 /**
  * @slot - A slot for adding `calcite-tip`s.
@@ -39,6 +40,11 @@ export class CalciteTipManager {
     this.direction = null;
     this.calciteTipManagerToggle.emit();
   }
+
+  /**
+   * Number at which section headings should start for this component.
+   */
+  @Prop() headingLevel: HeadingLevel = 2;
 
   /**
    * Alternate text for closing the tip.
@@ -258,7 +264,7 @@ export class CalciteTipManager {
   }
 
   render(): VNode {
-    const { closed, direction, groupTitle, selectedIndex, intlClose, total } = this;
+    const { closed, direction, headingLevel, groupTitle, selectedIndex, intlClose, total } = this;
 
     const closeLabel = intlClose || TEXT.close;
 
@@ -276,9 +282,9 @@ export class CalciteTipManager {
           tabIndex={0}
         >
           <header class={CSS.header}>
-            <h2 class={CSS.heading} key={selectedIndex}>
+            <HeadingWizard class={CSS.heading} level={headingLevel}>
               {groupTitle}
-            </h2>
+            </HeadingWizard>
             <calcite-action
               class={CSS.close}
               icon={ICONS.close}

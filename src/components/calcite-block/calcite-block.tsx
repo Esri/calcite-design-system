@@ -3,6 +3,7 @@ import { CSS, SLOTS, TEXT } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 import { Theme } from "../interfaces";
 import { getElementDir, getSlotted, getElementTheme } from "../../utils/dom";
+import { HeadingLevel, HeadingWizard } from "../functional/HeadingWizard";
 
 /**
  * @slot icon - A slot for adding a trailing header icon.
@@ -40,6 +41,11 @@ export class CalciteBlock {
    * Block heading.
    */
   @Prop() heading: string;
+
+  /**
+   * Number at which section headings should start for this component.
+   */
+  @Prop() headingLevel: HeadingLevel = 4;
 
   /**
    * Tooltip used for the toggle when expanded.
@@ -135,7 +141,8 @@ export class CalciteBlock {
       loading,
       open,
       summary,
-      intlLoading
+      intlLoading,
+      headingLevel
     } = this;
 
     const toggleLabel = open ? intlCollapse || TEXT.collapse : intlExpand || TEXT.expand;
@@ -149,7 +156,9 @@ export class CalciteBlock {
           </div>
         ) : null}
         <div class={CSS.title}>
-          <h4 class={CSS.heading}>{heading}</h4>
+          <HeadingWizard class={CSS.heading} level={headingLevel}>
+            {heading}
+          </HeadingWizard>
           {summary ? <div class={CSS.summary}>{summary}</div> : null}
         </div>
       </header>
