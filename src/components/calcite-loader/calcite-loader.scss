@@ -14,20 +14,20 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 }
 
 :host([scale="s"]) {
-  --loader-font-size: theme("fontSize.-3");
+  --loader-font-size: theme("fontSize.-2");
   --loader-size: theme("spacing.8");
   --loader-size-inline: theme("spacing.3");
 }
 
 :host([scale="m"]) {
-  --loader-font-size: theme("fontSize.-2");
-  --loader-size: theme("spacing.12");
+  --loader-font-size: theme("fontSize.0");
+  --loader-size: theme("spacing.16");
   --loader-size-inline: theme("spacing.4");
 }
 
 :host([scale="l"]) {
-  --loader-font-size: theme("fontSize.-1");
-  --loader-size: theme("spacing.20");
+  --loader-font-size: theme("fontSize.2");
+  --loader-size: theme("spacing.24");
   --loader-size-inline: theme("spacing.5");
 }
 
