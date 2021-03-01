@@ -28,6 +28,11 @@ export class CalciteShell {
    */
   @Prop({ reflect: true }) theme: Theme;
 
+  /**
+   * Positions the center content behind any calcite-shell-panels.
+   */
+  @Prop({ reflect: true }) contentBehind?: boolean;
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -50,7 +55,12 @@ export class CalciteShell {
 
   renderContent(): VNode {
     return (
-      <div class={CSS.content}>
+      <div
+        class={{
+          [CSS.content]: true,
+          [CSS.contentBehind]: !!this.contentBehind
+        }}
+      >
         <slot />
       </div>
     );
