@@ -9,9 +9,9 @@ interface HeadingWizardProps extends JSXBase.HTMLAttributes {
 
 // (∩｀-´)⊃━☆ﾟ.*･｡ﾟ
 export const HeadingWizard: FunctionalComponent<HeadingWizardProps> = (props, children) => {
-  const Heading = `h${props.level}`;
+  const HeadingTag = `h${props.level}`;
 
   delete props.level;
 
-  return <Heading {...props}>{children}</Heading>;
+  return <HeadingTag {...props}>{children}</HeadingTag>;
 };
