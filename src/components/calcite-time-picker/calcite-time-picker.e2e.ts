@@ -4,23 +4,26 @@ import { accessible, defaults, hidden, reflects, renders } from "../../tests/com
 describe("calcite-time-picker", () => {
   it("renders", async () => renders("calcite-time-picker"));
 
-  it("is accessible", async () => accessible(`<calcite-time-picker></calcite-time-picker>`));
+  it("is accessible", async () => accessible(`<calcite-time-picker hour="00" minute="00"></calcite-time-picker>`));
 
   it("has defaults", async () =>
     defaults("calcite-time-picker", [
-      { propertyName: "embed", defaultValue: false },
-      { propertyName: "focused", defaultValue: false },
-      { propertyName: "hidden", defaultValue: false },
+      { propertyName: "hour", defaultValue: "--" },
+      { propertyName: "hourDisplayFormat", defaultValue: "12" },
+      { propertyName: "minute", defaultValue: "--" },
+      { propertyName: "second", defaultValue: "--" },
+      { propertyName: "scale", defaultValue: "m" },
+      { propertyName: "step", defaultValue: 60 },
       { propertyName: "theme", defaultValue: "light" }
     ]));
 
   it("reflects", async () =>
     reflects("calcite-time-picker", [
-      { propertyName: "active", value: true },
-      { propertyName: "embed", value: true },
-      { propertyName: "focused", value: true },
-      { propertyName: "href", value: "http://www.esri.com" },
-      { propertyName: "icon", value: "layers" },
+      { propertyName: "hour", value: "--" },
+      { propertyName: "minute", value: "--" },
+      { propertyName: "second", value: "--" },
+      { propertyName: "scale", value: "m" },
+      { propertyName: "step", value: 60 },
       { propertyName: "theme", value: "light" }
     ]));
 

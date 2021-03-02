@@ -541,7 +541,6 @@ export class CalciteTimePicker {
             </button>
             <span
               aria-label="Hour"
-              aria-placeholder="--"
               aria-valuemax="23"
               aria-valuemin="1"
               aria-valuenow={this.hour !== "--" ? parseInt(this.hour) : undefined}
@@ -578,7 +577,6 @@ export class CalciteTimePicker {
             </button>
             <span
               aria-label="Minute"
-              aria-placeholder="--"
               aria-valuemax="12"
               aria-valuemin="1"
               aria-valuenow={this.minute !== "--" ? parseInt(this.minute) : undefined}
@@ -614,7 +612,6 @@ export class CalciteTimePicker {
               </button>
               <span
                 aria-label="Second"
-                aria-placeholder="--"
                 aria-valuemax="59"
                 aria-valuemin="0"
                 aria-valuenow={this.second !== "--" ? parseInt(this.second) : undefined}
@@ -651,7 +648,6 @@ export class CalciteTimePicker {
               </button>
               <span
                 aria-label="AM/PM"
-                aria-placeholder="--"
                 aria-valuemax="2"
                 aria-valuemin="1"
                 aria-valuenow={this.ampm !== "--" ? (this.ampm === "AM" ? "1" : "2") : undefined}
