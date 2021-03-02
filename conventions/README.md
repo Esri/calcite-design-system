@@ -21,6 +21,7 @@ This is a living document defining our best practices and reasoning for authorin
 - [Custom Themes](#custom-themes)
 - [Unique IDs for Components](#unique-ids-for-components)
 - [Prerendering/SSR](#prerendering-and-ssr)
+- [Cleaning up resources](#cleaning-up-resources)
 - [Tests](#tests)
   - [Writing Tests](#writing-tests)
   - [Unstable Tests](#unstable-tests)
@@ -506,6 +507,25 @@ const elements = this.el.shadowRoot ? this.el.shadowRoot.querySelector("slot").a
 ```
 
 To ensure that all components are compatible for prerendering a prerender build is done as part of `npm test`.
+
+## Cleaning up resources
+
+Ensure all components clean up their resources.
+
+### Timeouts
+
+When using `setTimeout()`, make sure that you clear the timeout using `clearTimeout()` in cases where the same timeout may be called again before the first timeout has finished or if the handler is no longer needed. For example, the handler may no longer need to be called if the component was disconnected from the DOM.
+
+Example:
+
+```tsx
+menuFocusTimeout: number;
+
+focusMenu(): void => {
+  clearTimeout(this.menuFocusTimeout);
+  this.menuFocusTimeout = window.setTimeout(() => focusElement(this.menuEl), 100);
+}
+```
 
 ## Tests
 
