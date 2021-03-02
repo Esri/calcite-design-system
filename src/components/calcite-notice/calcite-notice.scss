@@ -37,7 +37,7 @@
     @apply text-0-snug mb-1;
   }
   ::slotted(calcite-link) {
-    @apply text-0-snug 
+    @apply text-0-snug;
   }
 }
 
@@ -46,7 +46,7 @@
 }
 
 :host([width="half"]) {
-  --calcite-notice-width: 50%;
+  --calcite-notice-width: theme("width[1/2]");
 }
 
 :host([width="full"]) {
