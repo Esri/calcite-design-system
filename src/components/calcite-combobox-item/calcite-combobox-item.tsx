@@ -15,7 +15,7 @@ import { getElementDir, getElementProp } from "../../utils/dom";
 import { CSS } from "./resources";
 import { guid } from "../../utils/guid";
 import { ComboboxAncestorElement } from "../calcite-combobox/interfaces";
-import { ComboboxAncestorSelector } from "../calcite-combobox/resources";
+import { getAncestors } from "../calcite-combobox/utils";
 
 @Component({
   tag: "calcite-combobox-item",
@@ -81,13 +81,7 @@ export class CalciteComboboxItem {
   // --------------------------------------------------------------------------
 
   componentWillLoad(): void {
-    const parent: ComboboxAncestorElement = this.el.parentElement?.closest(
-      ComboboxAncestorSelector
-    );
-    const grandparent: ComboboxAncestorElement = parent?.parentElement?.closest(
-      ComboboxAncestorSelector
-    );
-    this.anscestors = [parent, grandparent].filter((el) => el);
+    this.anscestors = getAncestors(this.el);
     this.hasDefaultSlot = this.el.querySelector(":not([slot])") !== null;
   }
 
@@ -138,11 +132,10 @@ export class CalciteComboboxItem {
   };
 
   getDepth(): number {
-    const parent = this.el.parentElement?.closest(ComboboxAncestorSelector);
+    const [parent, grandparent] = getAncestors(this.el);
     if (!parent) {
       return 0;
     }
-    const grandparent = parent.parentElement?.closest(ComboboxAncestorSelector);
     if (!grandparent) {
       return 1;
     }

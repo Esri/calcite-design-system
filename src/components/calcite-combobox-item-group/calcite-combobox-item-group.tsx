@@ -1,6 +1,6 @@
 import { Component, Host, Prop, h, VNode, Element } from "@stencil/core";
 import { CSS } from "./resources";
-import { ComboboxAncestorSelector } from "../calcite-combobox/resources";
+import { getAncestors } from "../calcite-combobox/utils";
 import { guid } from "../../utils/guid";
 import { ComboboxAncestorElement } from "../calcite-combobox/interfaces";
 
@@ -29,13 +29,7 @@ export class CalciteComboboxItemGroup {
   // --------------------------------------------------------------------------
 
   componentWillLoad(): void {
-    const parent: ComboboxAncestorElement = this.el.parentElement?.closest(
-      ComboboxAncestorSelector
-    );
-    const grandparent: ComboboxAncestorElement = parent?.parentElement?.closest(
-      ComboboxAncestorSelector
-    );
-    this.anscestors = [parent, grandparent].filter((el) => el);
+    this.anscestors = getAncestors(this.el);
   }
 
   // --------------------------------------------------------------------------
