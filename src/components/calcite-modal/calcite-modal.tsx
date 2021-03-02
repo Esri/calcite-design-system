@@ -204,6 +204,8 @@ export class CalciteModal {
 
   modalContent: HTMLDivElement;
 
+  focusTimeout: number;
+
   //--------------------------------------------------------------------------
   //
   //  Event Listeners
@@ -293,8 +295,9 @@ export class CalciteModal {
   private open() {
     this.previousActiveElement = document.activeElement as HTMLElement;
     this.isActive = true;
+    clearTimeout(this.focusTimeout);
     // wait for the modal to open, then handle focus.
-    setTimeout(() => {
+    this.focusTimeout = window.setTimeout(() => {
       this.focusElement(this.firstFocus);
       this.calciteModalOpen.emit();
     }, 300);

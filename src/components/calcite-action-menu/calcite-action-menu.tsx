@@ -84,6 +84,8 @@ export class CalciteActionMenu {
 
   @Element() el: HTMLCalciteActionMenuElement;
 
+  menuFocusTimeout: number;
+
   menuButtonEl: HTMLCalciteActionElement;
 
   menuEl: HTMLDivElement;
@@ -328,9 +330,13 @@ export class CalciteActionMenu {
   toggleOpen = (value = !this.open): void => {
     this.open = value;
     this.activeMenuItemIndex = -1;
+    clearTimeout(this.menuFocusTimeout);
 
     if (value) {
-      setTimeout(() => focusElement(this.menuEl), MENU_ANIMATION_DELAY_MS);
+      this.menuFocusTimeout = window.setTimeout(
+        () => focusElement(this.menuEl),
+        MENU_ANIMATION_DELAY_MS
+      );
     } else {
       focusElement(this.menuButtonEl);
     }

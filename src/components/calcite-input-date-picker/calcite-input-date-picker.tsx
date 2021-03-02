@@ -304,6 +304,8 @@ export class CalciteInputDatePicker {
 
   private endWrapper: HTMLDivElement;
 
+  private endInputFocusTimeout: number;
+
   @Watch("layout")
   @Watch("focusedInput")
   setReferenceEl(): void {
@@ -511,8 +513,10 @@ export class CalciteInputDatePicker {
     this.startAsDate = startDate;
     this.endAsDate = endDate;
 
+    clearTimeout(this.endInputFocusTimeout);
+
     if (startDate && this.focusedInput === "start") {
-      setTimeout(() => this.endInput?.setFocus(), 150);
+      this.endInputFocusTimeout = window.setTimeout(() => this.endInput?.setFocus(), 150);
     }
   };
 
