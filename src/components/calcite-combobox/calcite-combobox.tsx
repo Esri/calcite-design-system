@@ -433,7 +433,7 @@ export class CalciteCombobox {
 
   getTextValue = (el: ComboboxAncestorElement): string => {
     return el
-      ? el.tagName.toLowerCase() === ComboboxItemGroup
+      ? el.tagName === ComboboxItemGroup
         ? (el as HTMLCalciteComboboxItemGroupElement).label
         : (el as HTMLCalciteComboboxItemElement).value
       : null;
@@ -444,18 +444,18 @@ export class CalciteCombobox {
     const values = filteredData.map((item) => item.value);
     const items = [...this.groupItems, ...this.items];
     items.forEach((item) => {
-      const hidden = values.indexOf(this.getTextValue(item)) === -1;
+      const hidden = !values.includes(this.getTextValue(item));
       item.hidden = hidden;
-      const [parent, grandparent] = item.anscestors;
+      const [parent, grandparent] = item.ancestors;
       if (
         (parent || grandparent) &&
-        (values.indexOf(this.getTextValue(parent)) > -1 ||
-          values.indexOf(this.getTextValue(grandparent)) > -1)
+        (values.includes(this.getTextValue(parent)) ||
+          values.includes(this.getTextValue(grandparent)))
       ) {
         item.hidden = false;
       }
       if (!hidden) {
-        item.anscestors.forEach((anscestor) => (anscestor.hidden = false));
+        item.ancestors.forEach((anscestor) => (anscestor.hidden = false));
       }
     });
 
@@ -537,7 +537,9 @@ export class CalciteCombobox {
   }
 
   getItems(): HTMLCalciteComboboxItemElement[] {
-    const items = Array.from(this.el.querySelectorAll(ComboboxItem));
+    const items: HTMLCalciteComboboxItemElement[] = Array.from(
+      this.el.querySelectorAll(ComboboxItem)
+    );
     return items.filter((item) => !item.disabled);
   }
 
@@ -550,7 +552,7 @@ export class CalciteCombobox {
     if (existingItem) {
       this.toggleSelection(existingItem, true);
     } else {
-      const item = document.createElement(ComboboxItem);
+      const item = document.createElement(ComboboxItem) as HTMLCalciteComboboxItemElement;
       item.value = value;
       item.textLabel = value;
       item.guid = guid();

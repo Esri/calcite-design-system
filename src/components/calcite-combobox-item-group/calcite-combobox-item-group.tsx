@@ -17,7 +17,7 @@ export class CalciteComboboxItemGroup {
   // --------------------------------------------------------------------------
 
   /** Parent and grandparent combobox items, this is set internally for use from combobox */
-  @Prop({ mutable: true }) anscestors: ComboboxAncestorElement[];
+  @Prop({ mutable: true }) ancestors: ComboboxAncestorElement[];
 
   /** Title of the group */
   @Prop() label!: string;
@@ -29,7 +29,7 @@ export class CalciteComboboxItemGroup {
   // --------------------------------------------------------------------------
 
   componentWillLoad(): void {
-    this.anscestors = getAncestors(this.el);
+    this.ancestors = getAncestors(this.el);
   }
 
   // --------------------------------------------------------------------------
@@ -40,7 +40,6 @@ export class CalciteComboboxItemGroup {
 
   @Element() el: HTMLCalciteComboboxItemGroupElement;
 
-  /** Unique identifier, used for accessibility */
   guid: string = guid();
 
   // --------------------------------------------------------------------------

@@ -39,7 +39,7 @@ export class CalciteComboboxItem {
   @Prop() active = false;
 
   /** Parent and grandparent combobox items, this is set internally for use from combobox */
-  @Prop({ mutable: true }) anscestors: ComboboxAncestorElement[];
+  @Prop({ mutable: true }) ancestors: ComboboxAncestorElement[];
 
   /** Unique identifier, used for accessibility */
   @Prop() guid: string = guid();
@@ -81,7 +81,7 @@ export class CalciteComboboxItem {
   // --------------------------------------------------------------------------
 
   componentWillLoad(): void {
-    this.anscestors = getAncestors(this.el);
+    this.ancestors = getAncestors(this.el);
     this.hasDefaultSlot = this.el.querySelector(":not([slot])") !== null;
   }
 

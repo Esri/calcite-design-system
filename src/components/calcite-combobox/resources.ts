@@ -1,5 +1,5 @@
-export const ComboboxAncestorSelector = "calcite-combobox-item-group, calcite-combobox-item";
-export const ComboboxItem = "calcite-combobox-item";
-export const ComboboxItemGroup = "calcite-combobox-item-group";
+export const ComboboxAncestorSelector = "CALCITE-COMBOBOX-ITEM-GROUP, CALCITE-COMBOBOX-ITEM";
+export const ComboboxItem = "CALCITE-COMBOBOX-ITEM";
+export const ComboboxItemGroup = "CALCITE-COMBOBOX-ITEM-GROUP";
 export const ComboboxDefaultPlacement = "bottom-start";
 export const ComboboxTransitionDuration = 150;
