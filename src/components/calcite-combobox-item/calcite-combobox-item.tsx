@@ -14,7 +14,8 @@ import {
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { CSS } from "./resources";
 import { guid } from "../../utils/guid";
-import { AncestorElement } from "../calcite-combobox/interfaces";
+import { ComboboxAncestorElement } from "../calcite-combobox/interfaces";
+import { ComboboxAncestorSelector } from "../calcite-combobox/resources";
 
 @Component({
   tag: "calcite-combobox-item",
@@ -38,7 +39,7 @@ export class CalciteComboboxItem {
   @Prop() active = false;
 
   /** Parent and grandparent combobox items, this is set internally for use from combobox */
-  @Prop({ mutable: true }) anscestors: AncestorElement[];
+  @Prop({ mutable: true }) anscestors: ComboboxAncestorElement[];
 
   /** Unique identifier, used for accessibility */
   @Prop() guid: string = guid();
@@ -80,11 +81,11 @@ export class CalciteComboboxItem {
   // --------------------------------------------------------------------------
 
   componentWillLoad(): void {
-    const parent: AncestorElement = this.el.parentElement?.closest(
-      "calcite-combobox-item-group, calcite-combobox-item"
+    const parent: ComboboxAncestorElement = this.el.parentElement?.closest(
+      ComboboxAncestorSelector
     );
-    const grandparent: AncestorElement = parent?.parentElement?.closest(
-      "calcite-combobox-item-group, calcite-combobox-item"
+    const grandparent: ComboboxAncestorElement = parent?.parentElement?.closest(
+      ComboboxAncestorSelector
     );
     this.anscestors = [parent, grandparent].filter((el) => el);
     this.hasDefaultSlot = this.el.querySelector(":not([slot])") !== null;
@@ -137,11 +138,11 @@ export class CalciteComboboxItem {
   };
 
   getDepth(): number {
-    const parent = this.el.parentElement?.closest("calcite-combobox-item");
+    const parent = this.el.parentElement?.closest(ComboboxAncestorSelector);
     if (!parent) {
       return 0;
     }
-    const grandparent = parent.parentElement?.closest("calcite-combobox-item");
+    const grandparent = parent.parentElement?.closest(ComboboxAncestorSelector);
     if (!grandparent) {
       return 1;
     }

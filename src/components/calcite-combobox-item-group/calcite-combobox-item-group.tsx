@@ -1,7 +1,8 @@
 import { Component, Host, Prop, h, VNode, Element } from "@stencil/core";
 import { CSS } from "./resources";
+import { ComboboxAncestorSelector } from "../calcite-combobox/resources";
 import { guid } from "../../utils/guid";
-import { AncestorElement } from "../calcite-combobox/interfaces";
+import { ComboboxAncestorElement } from "../calcite-combobox/interfaces";
 
 @Component({
   tag: "calcite-combobox-item-group",
@@ -16,7 +17,7 @@ export class CalciteComboboxItemGroup {
   // --------------------------------------------------------------------------
 
   /** Parent and grandparent combobox items, this is set internally for use from combobox */
-  @Prop({ mutable: true }) anscestors: AncestorElement[];
+  @Prop({ mutable: true }) anscestors: ComboboxAncestorElement[];
 
   /** Title of the group */
   @Prop() label!: string;
@@ -28,11 +29,11 @@ export class CalciteComboboxItemGroup {
   // --------------------------------------------------------------------------
 
   componentWillLoad(): void {
-    const parent: AncestorElement = this.el.parentElement?.closest(
-      "calcite-combobox-item-group, calcite-combobox-item"
+    const parent: ComboboxAncestorElement = this.el.parentElement?.closest(
+      ComboboxAncestorSelector
     );
-    const grandparent: AncestorElement = parent?.parentElement?.closest(
-      "calcite-combobox-item-group, calcite-combobox-item"
+    const grandparent: ComboboxAncestorElement = parent?.parentElement?.closest(
+      ComboboxAncestorSelector
     );
     this.anscestors = [parent, grandparent].filter((el) => el);
   }
@@ -59,7 +60,7 @@ export class CalciteComboboxItemGroup {
       <Host>
         <ul aria-labelledby={this.guid} role="group">
           <li id={this.guid} role="presentation">
-            <span class={CSS.title}>{this.label}</span>
+            <span class={CSS.label}>{this.label}</span>
           </li>
           <slot />
         </ul>

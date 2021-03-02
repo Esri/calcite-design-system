@@ -21,14 +21,14 @@ import { createPopper, updatePopper, CSS as PopperCSS } from "../../utils/popper
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import { Scale, Theme } from "../interfaces";
-import { ComboboxSelectionMode, AncestorElement } from "./interfaces";
-
-const COMBO_BOX_ITEM = "calcite-combobox-item";
-const COMBO_BOX_ITEM_GROUP = "calcite-combobox-item-group";
-
-const DEFAULT_PLACEMENT = "bottom-start";
-
-const TRANSITION_DURATION = 150;
+import { ComboboxSelectionMode, ComboboxAncestorElement } from "./interfaces";
+import {
+  ComboboxAncestorSelector,
+  ComboboxItem,
+  ComboboxItemGroup,
+  ComboboxDefaultPlacement,
+  ComboboxTransitionDuration
+} from "./resources";
 
 interface ItemData {
   label: string;
@@ -64,7 +64,7 @@ export class CalciteCombobox {
     if (oldValue && !newValue) {
       this.hideListTimeout = window.setTimeout(() => {
         this.hideList = true;
-      }, TRANSITION_DURATION);
+      }, ComboboxTransitionDuration);
     } else if (!oldValue && newValue) {
       this.hideList = false;
     }
@@ -201,7 +201,7 @@ export class CalciteCombobox {
       ? updatePopper({
           el: menuEl,
           modifiers,
-          placement: DEFAULT_PLACEMENT,
+          placement: ComboboxDefaultPlacement,
           popper
         })
       : this.createPopper();
@@ -382,7 +382,7 @@ export class CalciteCombobox {
     this.popper = createPopper({
       el: menuEl,
       modifiers,
-      placement: DEFAULT_PLACEMENT,
+      placement: ComboboxDefaultPlacement,
       referenceEl
     });
   }
@@ -414,7 +414,7 @@ export class CalciteCombobox {
     let height = item.offsetHeight;
     // if item has children items, don't count their height twice
     const children = item.querySelectorAll<HTMLCalciteComboboxItemElement>(
-      "calcite-combobox-item-group, calcite-combobox-item"
+      ComboboxAncestorSelector
     );
     children.forEach((child) => {
       height -= child.offsetHeight;
@@ -431,9 +431,9 @@ export class CalciteCombobox {
     }
   };
 
-  getTextValue = (el: AncestorElement): string => {
+  getTextValue = (el: ComboboxAncestorElement): string => {
     return el
-      ? el.tagName === "CALCITE-COMBOBOX-ITEM-GROUP"
+      ? el.tagName.toLowerCase() === ComboboxItemGroup
         ? (el as HTMLCalciteComboboxItemGroupElement).label
         : (el as HTMLCalciteComboboxItemElement).value
       : null;
@@ -537,12 +537,12 @@ export class CalciteCombobox {
   }
 
   getItems(): HTMLCalciteComboboxItemElement[] {
-    const items = Array.from(this.el.querySelectorAll(COMBO_BOX_ITEM));
+    const items = Array.from(this.el.querySelectorAll(ComboboxItem));
     return items.filter((item) => !item.disabled);
   }
 
   getGroupItems(): HTMLCalciteComboboxItemGroupElement[] {
-    return Array.from(this.el.querySelectorAll(COMBO_BOX_ITEM_GROUP));
+    return Array.from(this.el.querySelectorAll(ComboboxItemGroup));
   }
 
   addCustomChip(value: string): void {
@@ -550,7 +550,7 @@ export class CalciteCombobox {
     if (existingItem) {
       this.toggleSelection(existingItem, true);
     } else {
-      const item = document.createElement("calcite-combobox-item");
+      const item = document.createElement(ComboboxItem);
       item.value = value;
       item.textLabel = value;
       item.guid = guid();

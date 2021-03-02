@@ -5,4 +5,4 @@ export interface listItem {
 
 export type ComboboxSelectionMode = "single" | "multi";
 
-export type AncestorElement = HTMLCalciteComboboxItemElement | HTMLCalciteComboboxItemGroupElement;
+export type ComboboxAncestorElement = HTMLCalciteComboboxItemElement | HTMLCalciteComboboxItemGroupElement;
