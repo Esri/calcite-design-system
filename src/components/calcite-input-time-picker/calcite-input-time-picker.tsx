@@ -245,7 +245,7 @@ export class CalciteInputTimePicker {
           let newValue = `${formatNumberAsTimeString(hourAsNumber)}:${formatNumberAsTimeString(
             minuteAsNumber
           )}`;
-          if (secondValid) {
+          if (secondValid && this.step !== 60) {
             newValue = `${newValue}:${formatNumberAsTimeString(secondAsNumber)}`;
           }
           return newValue;

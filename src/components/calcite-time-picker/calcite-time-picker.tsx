@@ -231,7 +231,8 @@ export class CalciteTimePicker {
     }
   };
 
-  private decrementAmPm = (): void => {
+  private decrementAmPm = (event?: KeyboardEvent | MouseEvent): void => {
+    if (event && event instanceof KeyboardEvent && event.key !== "Enter") return;
     switch (this.ampm) {
       case "--":
       case "AM":
@@ -243,7 +244,8 @@ export class CalciteTimePicker {
     }
   };
 
-  private decrementHour = (): void => {
+  private decrementHour = (event?: KeyboardEvent | MouseEvent): void => {
+    if (event && event instanceof KeyboardEvent && event.key !== "Enter") return;
     switch (this.hour) {
       case "--":
         this.setTime("hour", 0);
@@ -270,11 +272,13 @@ export class CalciteTimePicker {
     }
   };
 
-  private decrementMinute = (): void => {
+  private decrementMinute = (event?: KeyboardEvent | MouseEvent): void => {
+    if (event && event instanceof KeyboardEvent && event.key !== "Enter") return;
     this.decrementMinuteOrSecond("minute");
   };
 
-  private decrementSecond = (): void => {
+  private decrementSecond = (event?: KeyboardEvent | MouseEvent): void => {
+    if (event && event instanceof KeyboardEvent && event.key !== "Enter") return;
     this.decrementMinuteOrSecond("second");
   };
 
@@ -364,7 +368,8 @@ export class CalciteTimePicker {
     }
   };
 
-  private incrementAmPm = (): void => {
+  private incrementAmPm = (event?: KeyboardEvent | MouseEvent): void => {
+    if (event && event instanceof KeyboardEvent && event.key !== "Enter") return;
     switch (this.ampm) {
       case "--":
       case "PM":
@@ -376,7 +381,8 @@ export class CalciteTimePicker {
     }
   };
 
-  private incrementHour = (): void => {
+  private incrementHour = (event?: KeyboardEvent | MouseEvent): void => {
+    if (event && event instanceof KeyboardEvent && event.key !== "Enter") return;
     switch (this.hour) {
       case "--":
         this.setTime("hour", 1);
@@ -403,11 +409,13 @@ export class CalciteTimePicker {
     }
   };
 
-  private incrementMinute = (): void => {
+  private incrementMinute = (event?: KeyboardEvent | MouseEvent): void => {
+    if (event && event instanceof KeyboardEvent && event.key !== "Enter") return;
     this.incrementMinuteOrSecond("minute");
   };
 
-  private incrementSecond = (): void => {
+  private incrementSecond = (event?: KeyboardEvent | MouseEvent): void => {
+    if (event && event instanceof KeyboardEvent && event.key !== "Enter") return;
     this.incrementMinuteOrSecond("second");
   };
 
@@ -530,15 +538,16 @@ export class CalciteTimePicker {
       <Host>
         <div class="time-picker">
           <div>
-            <button
+            <span
               aria-label="increase hour"
-              class="top-left"
+              class="shift top-left"
               onClick={this.incrementHour}
+              onKeyDown={this.incrementHour}
+              role="button"
               tabIndex={-1}
-              type="button"
             >
               <calcite-icon icon="chevronup" scale={iconScale} />
-            </button>
+            </span>
             <span
               aria-label="Hour"
               aria-placeholder="--"
@@ -546,7 +555,7 @@ export class CalciteTimePicker {
               aria-valuemin="1"
               aria-valuenow={this.hour !== "--" ? parseInt(this.hour) : undefined}
               aria-valuetext={this.hour !== "--" ? this.hour : undefined}
-              class="hour"
+              class="hour input"
               onBlur={this.hourBlurHandler}
               onFocus={this.focusHandler}
               onKeyDown={this.hourKeyDownHandler}
@@ -556,26 +565,29 @@ export class CalciteTimePicker {
             >
               {this.getDisplayHour()}
             </span>
-            <button
+            <span
               aria-label="decrease hour"
-              class="bottom-left"
+              class="shift bottom-left"
               onClick={this.decrementHour}
+              onKeyDown={this.decrementHour}
+              role="button"
               tabIndex={-1}
-              type="button"
             >
               <calcite-icon icon="chevrondown" scale={iconScale} />
-            </button>
+            </span>
           </div>
           <span class="colon">:</span>
           <div>
-            <button
+            <span
               aria-label="increase minute"
+              class="shift"
               onClick={this.incrementMinute}
+              onKeyDown={this.incrementMinute}
+              role="button"
               tabIndex={-1}
-              type="button"
             >
               <calcite-icon icon="chevronup" scale={iconScale} />
-            </button>
+            </span>
             <span
               aria-label="Minute"
               aria-placeholder="--"
@@ -583,7 +595,7 @@ export class CalciteTimePicker {
               aria-valuemin="1"
               aria-valuenow={this.minute !== "--" ? parseInt(this.minute) : undefined}
               aria-valuetext={this.minute !== "--" ? this.minute : undefined}
-              class="minute"
+              class="minute input"
               onFocus={this.focusHandler}
               onKeyDown={this.minuteKeyDownHandler}
               ref={(el) => (this.minuteEl = el)}
@@ -592,26 +604,30 @@ export class CalciteTimePicker {
             >
               {this.minute}
             </span>
-            <button
+            <span
               aria-label="decrease minute"
+              class="shift"
               onClick={this.decrementMinute}
+              onKeyDown={this.decrementMinute}
+              role="button"
               tabIndex={-1}
-              type="button"
             >
               <calcite-icon icon="chevrondown" scale={iconScale} />
-            </button>
+            </span>
           </div>
           {includeSeconds && <span class="colon">:</span>}
           {includeSeconds && (
             <div>
-              <button
+              <span
                 aria-label="increase second"
+                class="shift"
                 onClick={this.incrementSecond}
+                onKeyDown={this.incrementSecond}
+                role="button"
                 tabIndex={-1}
-                type="button"
               >
                 <calcite-icon icon="chevronup" scale={iconScale} />
-              </button>
+              </span>
               <span
                 aria-label="Second"
                 aria-placeholder="--"
@@ -619,7 +635,7 @@ export class CalciteTimePicker {
                 aria-valuemin="0"
                 aria-valuenow={this.second !== "--" ? parseInt(this.second) : undefined}
                 aria-valuetext={this.second !== "--" ? this.second : undefined}
-                class="second"
+                class="second input"
                 onFocus={this.focusHandler}
                 onKeyDown={this.secondKeyDownHandler}
                 ref={(el) => (this.secondEl = el)}
@@ -628,27 +644,30 @@ export class CalciteTimePicker {
               >
                 {this.second}
               </span>
-              <button
+              <span
                 aria-label="decrease second"
+                class="shift"
                 onClick={this.decrementSecond}
+                onKeyDown={this.decrementSecond}
+                role="button"
                 tabIndex={-1}
-                type="button"
               >
                 <calcite-icon icon="chevrondown" scale={iconScale} />
-              </button>
+              </span>
             </div>
           )}
           {this.hourDisplayFormat === "12" && (
             <div>
-              <button
+              <span
                 aria-label="switch to am or pm"
-                class="top-right"
+                class="shift top-right"
                 onClick={this.incrementAmPm}
+                onKeyDown={this.incrementAmPm}
+                role="button"
                 tabIndex={-1}
-                type="button"
               >
                 <calcite-icon icon="chevronup" scale={iconScale} />
-              </button>
+              </span>
               <span
                 aria-label="AM/PM"
                 aria-placeholder="--"
@@ -656,7 +675,7 @@ export class CalciteTimePicker {
                 aria-valuemin="1"
                 aria-valuenow={this.ampm !== "--" ? (this.ampm === "AM" ? "1" : "2") : undefined}
                 aria-valuetext={this.ampm !== "--" ? this.ampm : undefined}
-                class="ampm"
+                class="ampm input"
                 onFocus={this.focusHandler}
                 onKeyDown={this.amPmKeyDownHandler}
                 ref={(el) => (this.amPmEl = el)}
@@ -665,15 +684,16 @@ export class CalciteTimePicker {
               >
                 {this.ampm}
               </span>
-              <button
+              <span
                 aria-label="switch to am or pm"
-                class="bottom-right"
+                class="shift bottom-right"
                 onClick={this.decrementAmPm}
+                onKeyDown={this.decrementAmPm}
+                role="button"
                 tabIndex={-1}
-                type="button"
               >
                 <calcite-icon icon="chevrondown" scale={iconScale} />
-              </button>
+              </span>
             </div>
           )}
         </div>
