@@ -205,6 +205,8 @@ export class CalciteInlineEditable {
 
   private enableEditingButton: HTMLCalciteButtonElement;
 
+  private editingFocusTimeout: number;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -231,7 +233,8 @@ export class CalciteInlineEditable {
   private cancelEditing = () => {
     this.inputElement.value = this.valuePriorToEditing;
     this.disableEditing();
-    setTimeout(() => this.enableEditingButton.setFocus(), 100);
+    clearTimeout(this.editingFocusTimeout);
+    this.editingFocusTimeout = window.setTimeout(() => this.enableEditingButton.setFocus(), 100);
     this.calciteInlineEditableEditingCancel.emit();
   };
 
