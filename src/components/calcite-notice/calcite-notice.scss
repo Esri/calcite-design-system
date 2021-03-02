@@ -9,7 +9,7 @@
     @apply text--2-snug mb-1;
   }
   ::slotted(calcite-link) {
-    @apply text--2-snug mb-1;
+    @apply text--2-snug;
   }
 }
 
@@ -23,7 +23,7 @@
     @apply text--1-snug mb-1;
   }
   ::slotted(calcite-link) {
-    @apply text--1-snug mb-1;
+    @apply text--1-snug;
   }
 }
 
@@ -37,7 +37,7 @@
     @apply text-0-snug mb-1;
   }
   ::slotted(calcite-link) {
-    @apply text-0-snug mb-1;
+    @apply text-0-snug 
   }
 }
 
