@@ -12,7 +12,6 @@ import {
   Listen,
   Method
 } from "@stencil/core";
-import { focusElement } from "../../utils/dom";
 import { Scale, Theme } from "../interfaces";
 import { AmPm, formatNumberAsTimeString, MinuteOrSecond, numberKeys, Time } from "./utils";
 
@@ -200,7 +199,7 @@ export class CalciteTimePicker {
 
   @Method()
   async setFocus(): Promise<void> {
-    focusElement(this.hourEl);
+    this.hourEl.focus();
   }
 
   // --------------------------------------------------------------------------

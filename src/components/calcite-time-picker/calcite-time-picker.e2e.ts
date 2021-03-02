@@ -1,5 +1,4 @@
-// import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, focusable, reflects, renders } from "../../tests/commonTests";
 
 describe("calcite-time-picker", () => {
   it("renders", async () => renders("calcite-time-picker"));
@@ -27,5 +26,8 @@ describe("calcite-time-picker", () => {
       { propertyName: "theme", value: "light" }
     ]));
 
-  it("honors hidden attribute", async () => hidden("calcite-time-picker"));
+  it("should focus the hour input", async () =>
+    focusable(`calcite-time-picker`, {
+      focusTargetSelector: "span.hour"
+    }));
 });

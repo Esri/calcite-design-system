@@ -129,12 +129,16 @@ export class CalciteInputTimePicker {
   }
 
   @Listen("calciteTimePickerBlur")
-  timePickerBlurHandler(): void {
+  timePickerBlurHandler(event: CustomEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
     this.popoverOpen = false;
   }
 
   @Listen("calciteTimePickerChange")
   timePickerChangeHandler(event: CustomEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
     if (event.detail) {
       const { hour, minute, second } = event.detail as Time;
       if (hour !== "--" && minute !== "--") {
@@ -150,7 +154,9 @@ export class CalciteInputTimePicker {
   }
 
   @Listen("calciteTimePickerFocus")
-  timePickerFocusHandler(): void {
+  timePickerFocusHandler(event: CustomEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
     this.popoverOpen = true;
   }
 
