@@ -97,6 +97,8 @@ export class CalciteInputTimePicker {
     const newValue = this.parseTimeString(this.inputEl.value);
     if (newValue) {
       this.inputEl.value = newValue;
+    } else {
+      this.inputEl.value = this.parseTimeString(this.value);
     }
   };
 
@@ -251,7 +253,7 @@ export class CalciteInputTimePicker {
           let newValue = `${formatNumberAsTimeString(hourAsNumber)}:${formatNumberAsTimeString(
             minuteAsNumber
           )}`;
-          if (secondValid) {
+          if (secondValid && this.step !== 60) {
             newValue = `${newValue}:${formatNumberAsTimeString(secondAsNumber)}`;
           }
           return newValue;
@@ -269,6 +271,12 @@ export class CalciteInputTimePicker {
 
   connectedCallback() {
     this.guid = this.el.id || `calcite-input-time-picker-${guid()}`;
+  }
+
+  componentDidLoad() {
+    if (this.value) {
+      this.inputEl.value = this.parseTimeString(this.value);
+    }
   }
 
   // --------------------------------------------------------------------------

@@ -14,65 +14,58 @@
   z-index: 200;
 }
 
-button {
-  align-items: center;
-  @apply bg-foreground-1;
-  border: none;
-  cursor: pointer;
-  display: inline-flex;
-  justify-content: center;
-  margin: 0;
-  -moz-appearance: none;
-  padding: 0;
-  -webkit-appearance: none;
-  &:hover,
-  &:focus {
-    @apply bg-foreground-2;
-  }
-  &:focus {
-    outline: none;
-  }
-  &:active {
-    @apply bg-foreground-3;
-  }
-  &.top-left {
-    border-top-left-radius: var(--calcite-border-radius);
-  }
-  &.bottom-left {
-    border-bottom-left-radius: var(--calcite-border-radius);
-  }
-  &.top-right {
-    border-top-right-radius: var(--calcite-border-radius);
-  }
-  &.bottom-right {
-    border-bottom-right-radius: var(--calcite-border-radius);
-  }
-  calcite-icon {
-    color: var(--calcite-ui-text-3);
-  }
-}
-
 span {
   align-items: center;
   @apply bg-foreground-1;
   display: inline-flex;
-  font-weight: var(--calcite-ui-text-weight-medium);
   justify-content: center;
-  position: relative;
-  z-index: 200;
-  &:hover:not(.colon) {
-    box-shadow: inset 0 0 0 2px var(--calcite-ui-foreground-2);
+
+  &.shift {
+    cursor: pointer;
+    &:hover,
+    &:focus {
+      @apply bg-foreground-2;
+    }
+    &:focus {
+      outline: none;
+    }
+    &:active {
+      @apply bg-foreground-3;
+    }
+    &.top-left {
+      border-top-left-radius: var(--calcite-border-radius);
+    }
+    &.bottom-left {
+      border-bottom-left-radius: var(--calcite-border-radius);
+    }
+    &.top-right {
+      border-top-right-radius: var(--calcite-border-radius);
+    }
+    &.bottom-right {
+      border-bottom-right-radius: var(--calcite-border-radius);
+    }
+    calcite-icon {
+      color: var(--calcite-ui-text-3);
+    }
   }
-  &:focus,
-  &:hover:focus {
-    box-shadow: inset 0 0 0 2px var(--calcite-ui-brand);
-    outline: none;
+
+  &.input {
+    font-weight: var(--calcite-ui-text-weight-medium);
+    position: relative;
+    z-index: 200;
+    &:hover:not(.colon) {
+      box-shadow: inset 0 0 0 2px var(--calcite-ui-foreground-2);
+    }
+    &:focus,
+    &:hover:focus {
+      box-shadow: inset 0 0 0 2px var(--calcite-ui-brand);
+      outline: none;
+    }
   }
 }
 
 :host([scale="s"]) {
   font-size: 14px;
-  button,
   span {
     height: 24px;
     width: 40px;
@@ -104,7 +97,6 @@ span {
 
 :host([scale="m"]) {
   font-size: 16px;
-  button,
   span {
     height: 32px;
     width: 44px;
@@ -136,7 +128,6 @@ span {
 
 :host([scale="l"]) {
   font-size: 20px;
-  button,
   span {
     height: 48px;
     width: 64px;
