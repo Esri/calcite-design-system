@@ -1,52 +1,46 @@
 :host {
   @extend %component-host;
   @extend %component-spacing;
-  display: flex;
+  @apply flex w-full;
   padding: var(--calcite-spacing-half) var(--calcite-spacing-half);
-  width: 100%;
 }
 
 label {
-  align-items: center;
-  display: flex;
+  @apply flex items-center overflow-hidden relative w-full;
   margin: 0 var(--calcite-spacing-quarter);
-  overflow: hidden;
-  position: relative;
-  width: 100%;
 }
 
 input[type="text"] {
-  background-color: transparent;
-  border: 0;
-  font-family: inherit;
-  @include font-size(-2);
-  margin-bottom: 2px;
+  @apply bg-transparent 
+    border-none
+    font-inherit 
+    text--2h 
+    mb-1 
+    w-full;
   padding: var(--calcite-spacing-quarter) var(--calcite-spacing-quarter) var(--calcite-spacing-quarter)
     var(--calcite-spacing-plus-half);
   transition: padding $transition, box-shadow $transition;
-  width: 100%;
   &::-ms-clear {
-    display: none;
+    @apply hidden;
   }
 }
 
 .search-icon {
-  color: var(--calcite-ui-text-2);
-  display: flex;
-  left: 0;
-  position: absolute;
+  @apply flex 
+    left-0 
+    absolute 
+    text-color-2;
   transition: left $transition, right $transition, opacity $transition;
 }
 
 .calcite--rtl .search-icon {
-  left: unset;
+  @apply right-0;
   right: 0;
 }
 
 input[type="text"]:focus {
-  border-color: var(--calcite-ui-brand);
+  @apply border-color-brand outline-none;
   box-shadow: 0 2px 0 var(--calcite-ui-brand);
-  outline: none;
   padding-left: var(--calcite-spacing-quarter);
   padding-right: var(--calcite-spacing-quarter);
   & ~ .search-icon {
