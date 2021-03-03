@@ -50,9 +50,10 @@
     text-0h
     text-color-3
     cursor-pointer
-    font-inherit;
-  border-top: 2px solid transparent;
-  border-bottom: 2px solid transparent;
+    font-inherit
+    border-b-2
+    border-t-2;
+  border: 0 solid transparent;
   &:hover {
     @apply text-color-1;
     transition: all $transition;
