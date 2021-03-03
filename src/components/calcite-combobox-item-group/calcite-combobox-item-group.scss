@@ -1,28 +1,23 @@
-:host {
-  --calcite-combobox-item-indent-start-1: var(--calcite-combobox-item-spacing-indent-1);
-  --calcite-combobox-item-indent-end-1: unset;
-  --calcite-combobox-item-indent-start-2: var(--calcite-combobox-item-spacing-indent-2);
-  --calcite-combobox-item-indent-end-2: unset;
-}
-
-:host([dir="rtl"]) {
-  --calcite-combobox-item-indent-start-1: unset;
-  --calcite-combobox-item-indent-end-1: var(--calcite-combobox-item-spacing-indent-1);
-  --calcite-combobox-item-indent-start-2: unset;
-  --calcite-combobox-item-indent-end-2: var(--calcite-combobox-item-spacing-indent-2);
-}
-
 :host,
 ul {
   @apply flex flex-col m-0 p-0 outline-none;
 }
 
 .label {
-  @apply flex box-border w-full min-w-full items-center text-color-3 relative;
-  transition: $transition;
-  padding: var(--calcite-combobox-item-spacing-unit-s);
+  border: 0 solid;
+  @apply block box-border text-color-2 border-b border-b-color-3 font-bold cursor-default word-break;
+  padding: var(--calcite-combobox-item-spacing-unit-m) 0;
+  margin: 0 var(--calcite-combobox-item-spacing-unit-l);
 }
 
-.title {
-  padding: 0 var(--calcite-combobox-item-spacing-unit-s);
+:host([scale="s"]) {
+  @apply text--2;
+}
+
+:host([scale="m"]) {
+  @apply text--1;
+}
+
+:host([scale="l"]) {
+  @apply text-1;
 }
