@@ -15,7 +15,7 @@ import { getElementDir, getElementProp } from "../../utils/dom";
 import { CSS } from "./resources";
 import { guid } from "../../utils/guid";
 import { ComboboxChildElement } from "../calcite-combobox/interfaces";
-import { getAncestors } from "../calcite-combobox/utils";
+import { getAncestors, getDepth } from "../calcite-combobox/utils";
 
 @Component({
   tag: "calcite-combobox-item",
@@ -131,16 +131,6 @@ export class CalciteComboboxItem {
     this.calciteComboboxItemChange.emit(this.el);
   };
 
-  getDepth(): number {
-    const [parent, grandparent] = getAncestors(this.el);
-    if (!parent) {
-      return 0;
-    }
-    if (!grandparent) {
-      return 1;
-    }
-    return 2;
-  }
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -148,8 +138,8 @@ export class CalciteComboboxItem {
   // --------------------------------------------------------------------------
 
   renderIcon(scale: string, isSingle: boolean): VNode {
-    const { icon, disabled, isSelected } = this;
-    const level = `${CSS.icon}--indent-${this.getDepth()}`;
+    const { icon, el, disabled, isSelected } = this;
+    const level = `${CSS.icon}--indent-${getDepth(el)}`;
     const iconScale = scale !== "l" ? "s" : "m";
     const defaultIcon = isSingle ? "dot" : "check";
     const iconPath = disabled ? "circle-disallowed" : defaultIcon;

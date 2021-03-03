@@ -1,3 +1,27 @@
+:host([scale="s"]) {
+  @apply text--2;
+  --calcite-combobox-item-spacing-unit-l: theme("spacing.3");
+  --calcite-combobox-item-spacing-unit-s: theme("spacing.2");
+  --calcite-combobox-item-spacing-indent-1: theme("spacing.2");
+  --calcite-combobox-item-spacing-indent-2: theme("spacing.4");
+}
+
+:host([scale="m"]) {
+  @apply text--1;
+  --calcite-combobox-item-spacing-unit-l: theme("spacing.4");
+  --calcite-combobox-item-spacing-unit-s: theme("spacing.3");
+  --calcite-combobox-item-spacing-indent-1: theme("spacing.3");
+  --calcite-combobox-item-spacing-indent-2: theme("spacing.6");
+}
+
+:host([scale="l"]) {
+  @apply text-0;
+  --calcite-combobox-item-spacing-unit-l: theme("spacing.5");
+  --calcite-combobox-item-spacing-unit-s: theme("spacing.4");
+  --calcite-combobox-item-spacing-indent-1: theme("spacing.4");
+  --calcite-combobox-item-spacing-indent-2: theme("spacing.8");
+}
+
 :host {
   --calcite-combobox-item-indent-start-1: var(--calcite-combobox-item-spacing-indent-1);
   --calcite-combobox-item-indent-end-1: unset;
@@ -21,8 +45,23 @@ ul {
   @apply flex box-border w-full min-w-full items-center text-color-3 relative;
   transition: $transition;
   padding: var(--calcite-combobox-item-spacing-unit-s);
+  margin-bottom: -1px;
+  border-bottom: 1px solid var(--calcite-ui-border-3);
+  color: var(--calcite-ui-text-2);
+  font-weight: 600;
+  word-wrap: break-word;
 }
 
 .title {
-  padding: 0 var(--calcite-combobox-item-spacing-unit-s);
+  display: block;
+}
+
+.title--indent-1 {
+  padding-left: var(--calcite-combobox-item-indent-start-1);
+  padding-right: var(--calcite-combobox-item-indent-end-1);
+}
+
+.title--indent-2 {
+  padding-left: var(--calcite-combobox-item-indent-start-2);
+  padding-right: var(--calcite-combobox-item-indent-end-2);
 }
