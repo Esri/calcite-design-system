@@ -70,40 +70,36 @@
   @apply ml-0 mr-2;
 }
 
-// inline
-@mixin link-style($color, $color-hover, $border-color) {
-  @apply inline 
-    p-0 
-    border-none 
-    bg-transparent 
-    relative;
-  color: $color;
-  line-height: inherit;
-  white-space: initial;
-  background-image: linear-gradient(currentColor, currentColor), linear-gradient($border-color, $border-color);
-  background-position: 0% 100%, 100% 100%;
-  background-repeat: no-repeat, no-repeat;
-  background-size: 0% 1px, 100% 1px;
-  transition: all 0.15s ease-in-out, background-size 0.3s ease-in-out;
-
-  &:hover,
-  &:focus {
-    color: $color-hover;
-    background-size: 100% 1px, 100% 1px;
-    & .calcite-link--icon {
-      fill: $color-hover;
-    }
-  }
-  &:active {
-    color: $color;
-    background-size: 100% 2px, 100% 2px;
-  }
-}
-
 :host {
   span,
   a {
-    @include link-style(var(--calcite-ui-text-link), var(--calcite-ui-brand), var(--calcite-link-blue-underline));
+    @apply inline 
+      p-0 
+      border-none 
+      bg-transparent 
+      relative
+      text-color-link;
+    line-height: inherit;
+    white-space: initial;
+    background-image: linear-gradient(currentColor, currentColor),
+      linear-gradient(var(--calcite-link-blue-underline), var(--calcite-link-blue-underline));
+    background-position: 0% 100%, 100% 100%;
+    background-repeat: no-repeat, no-repeat;
+    background-size: 0% 1px, 100% 1px;
+    transition: all 0.15s ease-in-out, background-size 0.3s ease-in-out;
+  }
+  &:hover,
+  &:focus {
+    //FIXME: Should these 2 also use text-color-link?
+    color: var(--calcite-ui-brand);
+    background-size: 100% 1px, 100% 1px;
+    & .calcite-link--icon {
+      fill: var(--calcite-ui-brand);
+    }
+  }
+  &:active {
+    @apply text-color-link;
+    background-size: 100% 2px, 100% 2px;
   }
 }
 
