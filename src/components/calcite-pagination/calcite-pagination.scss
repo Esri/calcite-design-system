@@ -70,9 +70,7 @@
 .next {
   padding: var(--calcite-pagination-spacing);
   &:hover {
-    @apply bg-foreground-2;
-    //FIXME: Does we have a brand color for text?
-    color: var(--calcite-ui-brand);
+    @apply bg-foreground-2 text-color-link;
   }
   &:active {
     @apply bg-foreground-3;
@@ -80,8 +78,7 @@
   &.is-disabled {
     @apply bg-transparent pointer-events-none;
     & > calcite-icon {
-      //FIXME: There is no tailwind item for this, right?
-      opacity: var(--calcite-ui-opacity-disabled);
+      @apply opacity-disabled;
     }
   }
 }
