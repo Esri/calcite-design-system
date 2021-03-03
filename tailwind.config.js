@@ -8,7 +8,8 @@ module.exports = {
         1: "var(--calcite-ui-border-1)",
         2: "var(--calcite-ui-border-2)",
         3: "var(--calcite-ui-border-3)",
-        input: "var(--calcite-ui-border-input)"
+        input: "var(--calcite-ui-border-input)",
+        transparent: theme("colors.transparent")
       },
       "color-brand": theme("colors.brand"),
       "color-brand-hover": theme("colors.brand-hover"),
@@ -20,6 +21,13 @@ module.exports = {
       "color-danger-hover": theme("colors.danger-hover"),
       "color-danger-press": theme("colors.danger-press"),
     }),
+    borderWidth: {
+      "0": "0px",
+      "2": "2px",
+      "3": "3px",
+      "4": "4px",
+      "8": "8px"
+    },
     colors: {
       "brand": "var(--calcite-ui-brand)",
       "brand-hover": "var(--calcite-brand-hover)",
@@ -242,6 +250,24 @@ module.exports = {
       const utilities = Object.assign({}, ...colorMap);
 
       addUtilities(utilities, variants('borderColor'));
+    },
+    ({ addUtilities, variants }) => {
+      const styles = [
+        'solid',
+        'dashed',
+        'dotted',
+        'double',
+        'none',
+      ];
+      const stylesMap = styles.map(style => ({
+        [`.border-t-${style}`]: {borderTopStyle: style},
+        [`.border-r-${style}`]: {borderRightStyle: style},
+        [`.border-b-${style}`]: {borderBottomStyle: style},
+        [`.border-l-${style}`]: {borderLeftStyle: style},
+      }));
+      const utilities = Object.assign({}, ...stylesMap);
+
+      addUtilities(utilities, variants('borderStyle'));
     },
   ],
   future: {
