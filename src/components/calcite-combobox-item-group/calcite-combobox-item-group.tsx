@@ -1,8 +1,9 @@
 import { Component, Host, Prop, h, VNode, Element } from "@stencil/core";
 import { CSS } from "./resources";
-import { getAncestors } from "../calcite-combobox/utils";
+import { getAncestors, getDepth } from "../calcite-combobox/utils";
 import { guid } from "../../utils/guid";
 import { ComboboxChildElement } from "../calcite-combobox/interfaces";
+import { getElementDir, getElementProp } from "../../utils/dom";
 
 @Component({
   tag: "calcite-combobox-item-group",
@@ -49,10 +50,15 @@ export class CalciteComboboxItemGroup {
   // --------------------------------------------------------------------------
 
   render(): VNode {
+    const { el } = this;
+    const scale = getElementProp(el, "scale", "m");
+    const dir = getElementDir(el);
+    const indent = `${CSS.label}--indent-${getDepth(el)}`;
+
     return (
-      <Host>
-        <ul aria-labelledby={this.guid} role="group">
-          <li class={CSS.label} id={this.guid} role="presentation">
+      <Host dir={dir} scale={scale}>
+        <ul aria-labelledby={this.guid} class={CSS.list} role="group">
+          <li class={{ [CSS.label]: true, [indent]: true }} id={this.guid} role="presentation">
             <span class={CSS.title}>{this.label}</span>
           </li>
           <slot />
