@@ -232,6 +232,12 @@ module.exports = {
         ".focus-inset": {
           "outline": "2px solid var(--calcite-ui-brand)",
           "outline-offset": "-2px"
+        },
+        ".transition-default": {
+          "transition-property": "all",
+          "transition-duration": "150ms",
+          "transition-timing-function": "ease-in-out",
+          "transition-delay": "0s"
         }
       }
       addUtilities(newUtilities);
