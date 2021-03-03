@@ -13,21 +13,18 @@
 }
 
 :host([scale="s"]) {
-  --calcite-label-margin-bottom: theme("spacing.3");
   label {
-    @apply text--2;
+    @apply text--2 mb-3;
   }
 }
 :host([scale="m"]) {
-  --calcite-label-margin-bottom: theme("spacing[3.5]");
   label {
-    @apply text--1;
+    @apply text--1 mb-3.5;
   }
 }
 :host([scale="l"]) {
-  --calcite-label-margin-bottom: theme("spacing.4");
   label {
-    @apply text-1;
+    @apply text-1 mb-4;
   }
 }
 
@@ -38,7 +35,6 @@
     mr-0 
     ml-0
     leading-snug;
-  margin-bottom: var(--calcite-label-margin-bottom, $baseline);
 }
 
 :host([layout="default"]) {
@@ -56,7 +52,7 @@
 
 :host([layout="inline-space-between"]) {
   label {
-    @apply justify-between
+    @apply justify-between;
   }
 }
 
