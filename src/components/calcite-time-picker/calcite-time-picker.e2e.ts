@@ -1,3 +1,4 @@
+import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, focusable, reflects, renders } from "../../tests/commonTests";
 
 describe("calcite-time-picker", () => {
@@ -26,8 +27,293 @@ describe("calcite-time-picker", () => {
       { propertyName: "theme", value: "light" }
     ]));
 
-  it("should focus the hour input", async () =>
+  it("should focus the first input when setFocus is called", async () =>
     focusable(`calcite-time-picker`, {
-      focusTargetSelector: "span.hour"
+      shadowFocusTargetSelector: "span.hour"
     }));
+
+  describe("keyboard accessibility", () => {
+    it("tabbing focuses each input in the correct sequence", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker hour-display-format="12" step="1"></calcite-time-picker>`);
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      expect(
+        await page.$eval(
+          "calcite-time-picker",
+          (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+          "span.hour"
+        )
+      ).toBe(true);
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      expect(
+        await page.$eval(
+          "calcite-time-picker",
+          (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+          "span.minute"
+        )
+      ).toBe(true);
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      expect(
+        await page.$eval(
+          "calcite-time-picker",
+          (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+          "span.second"
+        )
+      ).toBe(true);
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      expect(
+        await page.$eval(
+          "calcite-time-picker",
+          (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+          "span.ampm"
+        )
+      ).toBe(true);
+    });
+
+    it("pressing right and left arrow keys focuses each input in the correct sequence", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker hour-display-format="12" step="1"></calcite-time-picker>`);
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      expect(
+        await page.$eval(
+          "calcite-time-picker",
+          (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+          "span.hour"
+        )
+      ).toBe(true);
+
+      await page.keyboard.press("ArrowRight");
+      await page.waitForChanges();
+
+      expect(
+        await page.$eval(
+          "calcite-time-picker",
+          (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+          "span.minute"
+        )
+      ).toBe(true);
+
+      await page.keyboard.press("ArrowRight");
+      await page.waitForChanges();
+
+      expect(
+        await page.$eval(
+          "calcite-time-picker",
+          (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+          "span.second"
+        )
+      ).toBe(true);
+
+      await page.keyboard.press("ArrowRight");
+      await page.waitForChanges();
+
+      expect(
+        await page.$eval(
+          "calcite-time-picker",
+          (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+          "span.ampm"
+        )
+      ).toBe(true);
+
+      await page.keyboard.press("ArrowLeft");
+      await page.waitForChanges();
+
+      expect(
+        await page.$eval(
+          "calcite-time-picker",
+          (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+          "span.second"
+        )
+      ).toBe(true);
+
+      await page.keyboard.press("ArrowLeft");
+      await page.waitForChanges();
+
+      expect(
+        await page.$eval(
+          "calcite-time-picker",
+          (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+          "span.minute"
+        )
+      ).toBe(true);
+
+      await page.keyboard.press("ArrowLeft");
+      await page.waitForChanges();
+
+      expect(
+        await page.$eval(
+          "calcite-time-picker",
+          (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+          "span.hour"
+        )
+      ).toBe(true);
+    });
+
+    it("ArrowUp key increments hour property correctly", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const hour = await page.find("calcite-time-picker >>> span.hour");
+
+      await hour.click();
+
+      for (let i = 1; i < 24; i++) {
+        await page.keyboard.press("ArrowUp");
+        expect(await timePicker.getProperty("hour")).toBe(`${i < 10 ? 0 : ""}${i}`);
+      }
+      await page.keyboard.press("ArrowUp");
+      expect(await timePicker.getProperty("hour")).toBe("00");
+    });
+
+    it("ArrowDown key decrements hour property correctly", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const hour = await page.find("calcite-time-picker >>> span.hour");
+
+      await hour.click();
+
+      await page.keyboard.press("ArrowDown");
+      expect(await timePicker.getProperty("hour")).toBe("00");
+      for (let i = 23; i > 0; i--) {
+        await page.keyboard.press("ArrowDown");
+        expect(await timePicker.getProperty("hour")).toBe(`${i < 10 ? 0 : ""}${i}`);
+      }
+    });
+
+    it("ArrowUp key increments minute property correctly", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const minute = await page.find("calcite-time-picker >>> span.minute");
+
+      await minute.click();
+
+      for (let i = 0; i < 60; i++) {
+        await page.keyboard.press("ArrowUp");
+        expect(await timePicker.getProperty("minute")).toBe(`${i < 10 ? 0 : ""}${i}`);
+      }
+      await page.keyboard.press("ArrowUp");
+      expect(await timePicker.getProperty("minute")).toBe("00");
+    });
+
+    it("ArrowDown key decrements minute property correctly", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const minute = await page.find("calcite-time-picker >>> span.minute");
+
+      await minute.click();
+
+      for (let i = 59; i >= 0; i--) {
+        await page.keyboard.press("ArrowDown");
+        expect(await timePicker.getProperty("minute")).toBe(`${i < 10 ? 0 : ""}${i}`);
+      }
+      await page.keyboard.press("ArrowDown");
+      expect(await timePicker.getProperty("minute")).toBe("59");
+    });
+
+    it("ArrowUp key increments second property correctly", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker step="1"></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const second = await page.find("calcite-time-picker >>> span.second");
+
+      await second.click();
+
+      for (let i = 0; i < 60; i++) {
+        await page.keyboard.press("ArrowUp");
+        expect(await timePicker.getProperty("second")).toBe(`${i < 10 ? 0 : ""}${i}`);
+      }
+      await page.keyboard.press("ArrowUp");
+      expect(await timePicker.getProperty("second")).toBe("00");
+    });
+
+    it("ArrowDown key decrements second property correctly", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker step="1"></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const second = await page.find("calcite-time-picker >>> span.second");
+
+      await second.click();
+
+      for (let i = 59; i >= 0; i--) {
+        await page.keyboard.press("ArrowDown");
+        expect(await timePicker.getProperty("second")).toBe(`${i < 10 ? 0 : ""}${i}`);
+      }
+      await page.keyboard.press("ArrowDown");
+      expect(await timePicker.getProperty("second")).toBe("59");
+    });
+
+    it("ArrowUp key increments ampm property correctly", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker hour-display-format="12"></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const ampm = await page.find("calcite-time-picker >>> span.ampm");
+
+      await ampm.click();
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+
+      expect(ampm.textContent).toBe("AM");
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+
+      expect(ampm.textContent).toBe("PM");
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+
+      expect(ampm.textContent).toBe("AM");
+
+      await page.keyboard.press("Backspace");
+      await page.waitForChanges();
+
+      expect(ampm.textContent).toBe("--");
+    });
+
+    it("ArrowDown key decrements ampm property correctly", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker hour-display-format="12"></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const ampm = await page.find("calcite-time-picker >>> span.ampm");
+
+      await ampm.click();
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+
+      expect(ampm.textContent).toBe("PM");
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+
+      expect(ampm.textContent).toBe("AM");
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+
+      expect(ampm.textContent).toBe("PM");
+
+      await page.keyboard.press("Backspace");
+      await page.waitForChanges();
+
+      expect(ampm.textContent).toBe("--");
+    });
+  });
 });
