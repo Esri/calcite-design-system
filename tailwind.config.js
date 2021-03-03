@@ -30,8 +30,8 @@ module.exports = {
     },
     colors: {
       "brand": "var(--calcite-ui-brand)",
-      "brand-hover": "var(--calcite-brand-hover)",
-      "brand-press": "var(--calcite-brand-press)",
+      "brand-hover": "var(--calcite-ui-brand-hover)",
+      "brand-press": "var(--calcite-ui-brand-press)",
       "info": "var(--calcite-ui-info)",
       "success": "var(--calcite-ui-success)",
       "warning": "var(--calcite-ui-warning)",
