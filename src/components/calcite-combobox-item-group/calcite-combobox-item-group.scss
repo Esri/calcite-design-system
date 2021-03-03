@@ -56,14 +56,9 @@
 }
 
 .title {
-  display: block;
-  flex: 1 1 auto;
+  border: 0 solid;
+  @apply block flex-1 border-b-color-3 border-b -mb-px text-color-2 font-bold word-break;
   padding: var(--calcite-combobox-item-spacing-unit-s) 0;
-  border-bottom: 1px solid var(--calcite-ui-border-3);
-  margin-bottom: -1px;
   margin-left: var(--calcite-combobox-item-spacing-unit-s);
   margin-right: var(--calcite-combobox-item-spacing-unit-s);
-  color: var(--calcite-ui-text-2);
-  font-weight: 600;
-  word-wrap: break-word;
 }
