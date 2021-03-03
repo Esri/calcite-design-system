@@ -2,11 +2,15 @@
   @extend %component-host;
   @extend %component-spacing;
   @apply flex w-full;
+  //FIXME: Should all of the CSS vars be repalced with tailwind? There are a lot of them.
   padding: var(--calcite-spacing-half) var(--calcite-spacing-half);
 }
 
 label {
-  @apply flex items-center overflow-hidden relative w-full;
+  @apply flex 
+    items-center 
+    overflow-hidden 
+    relative w-full;
   margin: 0 var(--calcite-spacing-quarter);
 }
 
@@ -35,7 +39,6 @@ input[type="text"] {
 
 .calcite--rtl .search-icon {
   @apply right-0;
-  right: 0;
 }
 
 input[type="text"]:focus {
