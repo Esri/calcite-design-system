@@ -52,8 +52,8 @@ export class CalciteComboboxItemGroup {
     return (
       <Host>
         <ul aria-labelledby={this.guid} role="group">
-          <li id={this.guid} role="presentation">
-            <span class={CSS.label}>{this.label}</span>
+          <li class={CSS.label} id={this.guid} role="presentation">
+            <span class={CSS.title}>{this.label}</span>
           </li>
           <slot />
         </ul>

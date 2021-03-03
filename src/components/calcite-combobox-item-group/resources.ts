@@ -1,3 +1,4 @@
 export const CSS = {
-  label: "label"
+  label: "label",
+  title: "title"
 };
