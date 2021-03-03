@@ -2,8 +2,7 @@
   @extend %component-host;
   @extend %component-spacing;
   @apply flex w-full;
-  //FIXME: Should all of the CSS vars be repalced with tailwind? There are a lot of them.
-  padding: var(--calcite-spacing-half) var(--calcite-spacing-half);
+  padding: theme("spacing.2");
 }
 
 label {
@@ -11,7 +10,7 @@ label {
     items-center 
     overflow-hidden 
     relative w-full;
-  margin: 0 var(--calcite-spacing-quarter);
+  margin: 0 theme("spacing.1");
 }
 
 input[type="text"] {
@@ -21,8 +20,7 @@ input[type="text"] {
     text--2h 
     mb-1 
     w-full;
-  padding: var(--calcite-spacing-quarter) var(--calcite-spacing-quarter) var(--calcite-spacing-quarter)
-    var(--calcite-spacing-plus-half);
+  padding: theme("spacing.1") theme("spacing.1") theme("spacing.1") theme("spacing.6");
   transition: padding $transition, box-shadow $transition;
   &::-ms-clear {
     @apply hidden;
@@ -44,20 +42,20 @@ input[type="text"] {
 input[type="text"]:focus {
   @apply border-color-brand outline-none;
   box-shadow: 0 2px 0 var(--calcite-ui-brand);
-  padding-left: var(--calcite-spacing-quarter);
-  padding-right: var(--calcite-spacing-quarter);
+  padding-left: theme("spacing.1");
+  padding-right: theme("spacing.1");
   & ~ .search-icon {
     left: calc(var(--calcite-icon-size) * -1);
-    opacity: 0;
+    @apply opacity-0;
   }
 }
 
 .calcite--rtl {
   input[type="text"] {
-    padding-left: var(--calcite-spacing-quarter);
-    padding-right: var(--calcite-spacing-plus-half);
+    padding-left: theme("spacing.1");
+    padding-right: theme("spacing.6");
     &:focus {
-      padding-right: var(--calcite-spacing-plus-quarter);
+      padding-right: theme("spacing.5");
       & ~ .search-icon {
         right: calc(var(--calcite-icon-size) * -1);
       }
@@ -66,12 +64,12 @@ input[type="text"]:focus {
 }
 
 .clear-button {
-  color: var(--calcite-ui-text-2);
-  background: none;
-  border: 0;
-  cursor: pointer;
+  @apply text-color-2 
+    bg-none 
+    border-0 
+    cursor-pointer;
   &:hover,
   &:focus {
-    color: var(--calcite-ui-text-1);
+    @apply text-color-1;
   }
 }
