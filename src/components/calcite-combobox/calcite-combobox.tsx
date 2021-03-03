@@ -21,9 +21,9 @@ import { createPopper, updatePopper, CSS as PopperCSS } from "../../utils/popper
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import { Scale, Theme } from "../interfaces";
-import { ComboboxSelectionMode, ComboboxAncestorElement } from "./interfaces";
+import { ComboboxSelectionMode, ComboboxChildElement } from "./interfaces";
 import {
-  ComboboxAncestorSelector,
+  ComboboxChildSelector,
   ComboboxItem,
   ComboboxItemGroup,
   ComboboxDefaultPlacement,
@@ -252,7 +252,7 @@ export class CalciteCombobox {
 
   componentDidLoad(): void {
     this.observer?.observe(this.el, { childList: true, subtree: true });
-    this.maxScrollerHeight = this.getMaxScrollerHeight(this.items);
+    this.maxScrollerHeight = this.getMaxScrollerHeight(this.getCombinedItems());
   }
 
   componentDidRender(): void {
@@ -397,7 +397,7 @@ export class CalciteCombobox {
     this.popper = null;
   }
 
-  private getMaxScrollerHeight(items: HTMLCalciteComboboxItemElement[]): number {
+  private getMaxScrollerHeight(items: ComboboxChildElement[]): number {
     const { maxItems } = this;
     let itemsToProcess = 0;
     let maxScrollerHeight = 0;
@@ -410,12 +410,10 @@ export class CalciteCombobox {
     return maxScrollerHeight;
   }
 
-  private calculateSingleItemHeight(item: HTMLCalciteComboboxItemElement): number {
+  private calculateSingleItemHeight(item: ComboboxChildElement): number {
     let height = item.offsetHeight;
     // if item has children items, don't count their height twice
-    const children = item.querySelectorAll<HTMLCalciteComboboxItemElement>(
-      ComboboxAncestorSelector
-    );
+    const children = item.querySelectorAll<ComboboxChildElement>(ComboboxChildSelector);
     children.forEach((child) => {
       height -= child.offsetHeight;
     });
@@ -431,7 +429,11 @@ export class CalciteCombobox {
     }
   };
 
-  getTextValue = (el: ComboboxAncestorElement): string => {
+  getCombinedItems(): ComboboxChildElement[] {
+    return [...this.groupItems, ...this.items];
+  }
+
+  getTextValue = (el: ComboboxChildElement): string => {
     return el
       ? el.tagName === ComboboxItemGroup
         ? (el as HTMLCalciteComboboxItemGroupElement).label
@@ -442,7 +444,7 @@ export class CalciteCombobox {
   filterItems = debounce((value: string): void => {
     const filteredData = filter(this.data, value);
     const values = filteredData.map((item) => item.value);
-    const items = [...this.groupItems, ...this.items];
+    const items = this.getCombinedItems();
     items.forEach((item) => {
       const hidden = !values.includes(this.getTextValue(item));
       item.hidden = hidden;

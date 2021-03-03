@@ -1,8 +1,8 @@
-import { ComboboxAncestorElement } from "./interfaces";
-import { ComboboxAncestorSelector } from "./resources";
+import { ComboboxChildElement } from "./interfaces";
+import { ComboboxChildSelector } from "./resources";
 
-export function getAncestors(element: HTMLElement): ComboboxAncestorElement[] {
-  const parent: ComboboxAncestorElement = element.parentElement?.closest(ComboboxAncestorSelector);
-  const grandparent: ComboboxAncestorElement = parent?.parentElement?.closest(ComboboxAncestorSelector);
+export function getAncestors(element: HTMLElement): ComboboxChildElement[] {
+  const parent: ComboboxChildElement = element.parentElement?.closest(ComboboxChildSelector);
+  const grandparent: ComboboxChildElement = parent?.parentElement?.closest(ComboboxChildSelector);
   return [parent, grandparent].filter((el) => el);
 }

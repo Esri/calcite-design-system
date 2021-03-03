@@ -2,7 +2,7 @@ import { Component, Host, Prop, h, VNode, Element } from "@stencil/core";
 import { CSS } from "./resources";
 import { getAncestors } from "../calcite-combobox/utils";
 import { guid } from "../../utils/guid";
-import { ComboboxAncestorElement } from "../calcite-combobox/interfaces";
+import { ComboboxChildElement } from "../calcite-combobox/interfaces";
 
 @Component({
   tag: "calcite-combobox-item-group",
@@ -17,7 +17,7 @@ export class CalciteComboboxItemGroup {
   // --------------------------------------------------------------------------
 
   /** Parent and grandparent combobox items, this is set internally for use from combobox */
-  @Prop({ mutable: true }) ancestors: ComboboxAncestorElement[];
+  @Prop({ mutable: true }) ancestors: ComboboxChildElement[];
 
   /** Title of the group */
   @Prop() label!: string;

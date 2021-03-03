@@ -14,7 +14,7 @@ import {
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { CSS } from "./resources";
 import { guid } from "../../utils/guid";
-import { ComboboxAncestorElement } from "../calcite-combobox/interfaces";
+import { ComboboxChildElement } from "../calcite-combobox/interfaces";
 import { getAncestors } from "../calcite-combobox/utils";
 
 @Component({
@@ -39,7 +39,7 @@ export class CalciteComboboxItem {
   @Prop() active = false;
 
   /** Parent and grandparent combobox items, this is set internally for use from combobox */
-  @Prop({ mutable: true }) ancestors: ComboboxAncestorElement[];
+  @Prop({ mutable: true }) ancestors: ComboboxChildElement[];
 
   /** Unique identifier, used for accessibility */
   @Prop() guid: string = guid();
