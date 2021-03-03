@@ -53,13 +53,13 @@ export class CalciteComboboxItemGroup {
     const { el } = this;
     const scale = getElementProp(el, "scale", "m");
     const dir = getElementDir(el);
-    const level = `${CSS.title}--indent-${getDepth(el)}`;
+    const indent = `${CSS.label}--indent-${getDepth(el)}`;
 
     return (
       <Host dir={dir} scale={scale}>
-        <ul aria-labelledby={this.guid} role="group">
-          <li class={CSS.label} id={this.guid} role="presentation">
-            <span class={{ [CSS.title]: true, [level]: true }}>{this.label}</span>
+        <ul aria-labelledby={this.guid} class={CSS.list} role="group">
+          <li class={{ [CSS.label]: true, [indent]: true }} id={this.guid} role="presentation">
+            <span class={CSS.title}>{this.label}</span>
           </li>
           <slot />
         </ul>
