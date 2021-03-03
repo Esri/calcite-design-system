@@ -1,12 +1,12 @@
 # Travis Webhook Instructions
 
-## Make sure travis is installed with Homebrew
+## Make sure travis is installed with gem or Homebrew
 
-`brew install travis`
+`gem install travis` or `brew install travis`
 
 ## Login to travis
 
-Create a personal access token on github.
+Create a [personal access token on GitHub](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token).
 
 `travis login --pro -g <github token>`
 
