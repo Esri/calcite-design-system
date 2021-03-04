@@ -22,6 +22,7 @@ module.exports = {
       "color-danger-press": theme("colors.danger-press"),
     }),
     borderWidth: {
+      default: '1px',
       "0": "0px",
       "2": "2px",
       "3": "3px",
