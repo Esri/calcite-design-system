@@ -1,23 +1,6 @@
 # calcite-pagination
 
-Calcite pagination allows users to select a page from a paginated API. The component is meant to interface with responses from ArcGIS REST services, so the props share names with [response properties](https://developers.arcgis.com/rest/users-groups-and-items/search.htm) from various search endpoints.
-
-For example, after querying the search API, you'll get back a response similar to the following:
-
-```JSON
-{
-  "total": 2021,
-  "start": 1,
-  "num": 100,
-  "results": []
-}
-```
-
-These can be passed straight to the `calcite-pagination` component:
-
-```html
-<calcite-pagination start="1" num="100" total="2021"></calcite-pagination>
-```
+`calcite-pagination` allows users to select a page from a paginated API.
 
 <!-- Auto Generated Below -->
 
