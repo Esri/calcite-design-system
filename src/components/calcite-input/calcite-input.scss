@@ -129,8 +129,8 @@
 :host {
   & input,
   & textarea {
-    @apply text-color-1;
-    border: 1px solid var(--calcite-ui-border-1);
+    border: 1px solid;
+    @apply text-color-1 border-color-input;
 
     &::placeholder,
     &:-ms-input-placeholder,
@@ -188,7 +188,7 @@
   @apply block absolute pointer-events-none;
   transition: $transition;
   top: calc(50% - 9px);
-  left: $baseline/2;
+  left: theme("spacing.2");
   margin: 1px auto 0;
   z-index: 1;
 }
@@ -200,7 +200,7 @@
 
 :host([dir="rtl"]) .calcite-input-icon {
   left: unset;
-  right: $baseline/2;
+  right: theme("spacing.2");
 }
 
 // hide browser default clear
@@ -220,6 +220,7 @@ input[type="time"]::-webkit-clear-button {
 }
 
 .calcite-input-clear-button {
+  border: 1px solid;
   @apply flex 
     self-stretch 
     items-center 
@@ -230,8 +231,8 @@ input[type="time"]::-webkit-clear-button {
     pointer-events-auto 
     bg-foreground-1 
     border-l-0
-    order-4;
-  border: 1px solid var(--calcite-ui-border-1);
+    order-4
+    border-color-input;
   transition: $transition;
   &:hover,
   &:focus {
@@ -247,8 +248,8 @@ input[type="time"]::-webkit-clear-button {
 
 :host([dir="rtl"]) {
   .calcite-input-clear-button {
-    border-left: 1px solid var(--calcite-ui-border-1);
-    @apply border-r-0;
+    border-left: 1px solid;
+    @apply border-r-0 border-color-input;
   }
 }
 
@@ -275,6 +276,7 @@ input[type="time"]::-webkit-clear-button {
 // prefix and suffix
 .calcite-input-prefix,
 .calcite-input-suffix {
+  border: 1px solid;
   @apply flex 
     items-center 
     content-center 
@@ -285,8 +287,8 @@ input[type="time"]::-webkit-clear-button {
     box-border 
     font-medium 
     bg-background 
-    text-color-2;
-  border: 1px solid var(--calcite-ui-border-1);
+    text-color-2
+    border-color-input;
   line-height: 1;
 }
 
@@ -398,8 +400,8 @@ input[type="time"]::-webkit-clear-button {
 }
 
 .calcite-input-number-button-item.number-button-item-horizontal[data-adjustment="down"] {
-  border-left: 1px solid var(--calcite-ui-border-1);
-  @apply border-r-0;
+  border-left: 1px solid;
+  @apply border-r-0 border-color-input;
 }
 
 .calcite-input-number-button-item.number-button-item-horizontal[data-adjustment="up"] {
@@ -407,12 +409,12 @@ input[type="time"]::-webkit-clear-button {
 }
 :host([dir="rtl"]) {
   .calcite-input-number-button-item.number-button-item-horizontal[data-adjustment="down"] {
-    border-right: 1px solid var(--calcite-ui-border-1);
-    @apply border-l-0;
+    border-right: 1px solid;
+    @apply border-l-0 border-color-input;
   }
   .calcite-input-number-button-item.number-button-item-horizontal[data-adjustment="up"] {
-    border-left: 1px solid var(--calcite-ui-border-1);
-    @apply border-r-0;
+    border-left: 1px solid;
+    @apply border-r-0 border-color-input;
   }
 }
 
@@ -421,6 +423,7 @@ input[type="time"]::-webkit-clear-button {
 }
 
 .calcite-input-number-button-item {
+  border: 1px solid;
   @apply flex 
     self-center 
     items-center 
@@ -430,10 +433,10 @@ input[type="time"]::-webkit-clear-button {
     px-2
     pointer-events-auto
     bg-foreground-1
-    border-l-0;
+    border-l-0
+    border-color-input;
   max-height: theme("height[1/2]");
   min-height: theme("height[1/2]");
-  border: 1px solid var(--calcite-ui-border-1);
   transition: background-color 0.15s ease-in-out;
   & calcite-icon {
     @apply pointer-events-none;
@@ -449,8 +452,8 @@ input[type="time"]::-webkit-clear-button {
 
 :host([dir="rtl"])[number-button-type="vertical"] {
   .calcite-input-number-button-item {
-    @apply border-r-0;
-    border-left: 1px solid var(--calcite-ui-border-1);
+    border-left: 1px solid;
+    @apply border-r-0 border-color-input;
   }
 }
 
@@ -522,9 +525,9 @@ input[type="time"]::-webkit-clear-button {
 :host([type="file"]) {
   & input,
   textarea {
-    @apply cursor-pointer p-4 text-center;
-    border: 1px dashed $blk-040;
+    border: 1px solid;
     background-color: $blk-005;
+    @apply cursor-pointer p-4 text-center border-color-3 bg-background;
   }
 }
 
