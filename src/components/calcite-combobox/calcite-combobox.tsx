@@ -224,6 +224,7 @@ export class CalciteCombobox {
     text: string;
   }>;
 
+  /** Called when a selected item in the combobox is dismissed via its chip **/
   @Event() calciteComboboxChipDismiss: EventEmitter;
 
   // --------------------------------------------------------------------------
