@@ -198,7 +198,7 @@ export class CalciteTree {
   //--------------------------------------------------------------------------
 
   /**
-   * @todo doc
+   * Emitted when user selects/deselects tree items. An object including an array of selected items will be passed in the event's `detail` property.
    */
   @Event() calciteTreeSelect: EventEmitter<TreeSelectDetail>;
 }
