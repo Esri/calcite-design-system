@@ -42,7 +42,7 @@ export class CalciteSwitch {
   @Prop({ reflect: true, mutable: true }) value?: string = "";
 
   /**
-   * @todo doc
+   * Fires when the switched value has changed.
    */
   @Event() calciteSwitchChange: EventEmitter;
 
