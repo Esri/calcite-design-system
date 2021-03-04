@@ -1,5 +1,5 @@
 import { Component, Element, h, Host, Method, Prop, VNode } from "@stencil/core";
-import { focusElement, getElementDir } from "../../utils/dom";
+import { getAttributes, focusElement, getElementDir } from "../../utils/dom";
 import { FlipContext, Theme } from "../interfaces";
 
 /** @slot default text slot for link text */
@@ -79,7 +79,7 @@ export class CalciteLink {
       />
     );
 
-    const attributes = this.getAttributes();
+    const attributes = getAttributes(this.el, ["dir", "icon-end", "icon-start", "id", "theme"]);
     const Tag = this.childElType;
     const role = this.childElType === "span" ? "link" : null;
     const tabIndex = this.disabled ? -1 : this.childElType === "span" ? 0 : null;
@@ -129,14 +129,6 @@ export class CalciteLink {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
-  private getAttributes(): Record<string, any> {
-    // spread attributes from the component to rendered child, filtering out props
-    const props = ["dir", "icon-end", "icon-start", "id", "theme"];
-    return Array.from(this.el.attributes)
-      .filter((a) => a && !props.includes(a.name))
-      .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
-  }
 
   private storeTagRef = (el: CalciteLink["childEl"]): void => {
     this.childEl = el;

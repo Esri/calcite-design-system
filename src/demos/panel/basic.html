@@ -23,11 +23,11 @@
 
         <h2>Header properties</h2>
         <calcite-panel heading="I'm using heading" summary="I'm using summary">
-          <calcite-action icon="banana" slot="header-actions-end"></calcite-action>
-          <calcite-action icon="banana" slot="header-actions-end"></calcite-action>
-          <calcite-action icon="banana" slot="header-actions-start"></calcite-action>
-          <calcite-action icon="banana" slot="header-actions-start"></calcite-action>
-          <calcite-action icon="banana" text="cool banana" text-enabled slot="header-menu-actions"></calcite-action>
+          <calcite-action label="cool banana" icon="banana" slot="header-actions-end"></calcite-action>
+          <calcite-action label="cool banana" icon="banana" slot="header-actions-end"></calcite-action>
+          <calcite-action label="cool banana" icon="banana" slot="header-actions-start"></calcite-action>
+          <calcite-action label="cool banana" icon="banana" slot="header-actions-start"></calcite-action>
+          <calcite-action label="cool banana" icon="banana" text="cool banana" text-enabled slot="header-menu-actions"></calcite-action>
             <calcite-action icon="banana" text="cool banana" text-enabled slot="header-menu-actions"></calcite-action>
           <p>I'm using the properties.</p>
           <img src="https://via.placeholder.com/300x400" alt="placeholder" />
@@ -43,9 +43,9 @@
 
         <h2>With Header Actions</h2>
         <calcite-panel>
-          <calcite-action icon="left" onclick="console.log('left clicked');" slot="header-actions-start"></calcite-action>
+          <calcite-action label="icon left" icon="left" onclick="console.log('left clicked');" slot="header-actions-start"></calcite-action>
           <div slot="header-content">panel 3 header</div>
-          <calcite-action icon="right" onclick="console.log('right clicked');" slot="header-actions-end"></calcite-action>
+          <calcite-action label="icon right" icon="right" onclick="console.log('right clicked');" slot="header-actions-end"></calcite-action>
           <p>Buttons in the top left and right. Mainly for calcite-actions and not plain buttons.</p>
         </calcite-panel>
 
@@ -166,11 +166,11 @@
           <calcite-panel heading="I'm using heading" summary="I'm using summary">
             <p>I'm using the properties.</p>
           </calcite-panel>
-          
+
           <calcite-panel>
-            <calcite-action onclick="console.log('left clicked');" icon="left" slot="header-actions-start"></calcite-action>
+            <calcite-action label="icon left" onclick="console.log('left clicked');" icon="left" slot="header-actions-start"></calcite-action>
             <div slot="header-content">panel 3 header</div>
-            <calcite-action onclick="console.log('right clicked');" icon="right" slot="header-actions-end"></calcite-action>
+            <calcite-action label="icon right" onclick="console.log('right clicked');" icon="right" slot="header-actions-end"></calcite-action>
             <p>Button positions are reversed!</p>
           </calcite-panel>
 

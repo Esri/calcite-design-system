@@ -9,7 +9,9 @@ import {
   Build,
   Watch,
   VNode,
-  Method
+  Method,
+  Event,
+  EventEmitter
 } from "@stencil/core";
 import { getLocaleData, DateLocaleData } from "../calcite-date-picker/utils";
 import { getElementDir } from "../../utils/dom";
@@ -75,7 +77,7 @@ export class CalciteInputDatePicker {
   @Prop() intlNextMonth?: string = TEXT.nextMonth;
 
   /** BCP 47 language tag for desired language and country format */
-  @Prop() locale?: string = document.documentElement.lang || "en-US";
+  @Prop() locale?: string = document.documentElement.lang || "en";
 
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
@@ -116,6 +118,21 @@ export class CalciteInputDatePicker {
   calciteDaySelectHandler(): void {
     this.active = false;
   }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+  /**
+   * Trigger calcite date change when a user changes the date.
+   */
+  @Event() calciteDatePickerChange: EventEmitter<Date>;
+
+  /**
+   * Trigger calcite date change when a user changes the date range.
+   */
+  @Event() calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
 
   //--------------------------------------------------------------------------
   //
@@ -286,6 +303,8 @@ export class CalciteInputDatePicker {
   private startWrapper: HTMLDivElement;
 
   private endWrapper: HTMLDivElement;
+
+  private endInputFocusTimeout: number;
 
   @Watch("layout")
   @Watch("focusedInput")
@@ -494,8 +513,10 @@ export class CalciteInputDatePicker {
     this.startAsDate = startDate;
     this.endAsDate = endDate;
 
+    clearTimeout(this.endInputFocusTimeout);
+
     if (startDate && this.focusedInput === "start") {
-      setTimeout(() => this.endInput?.setFocus(), 150);
+      this.endInputFocusTimeout = window.setTimeout(() => this.endInput?.setFocus(), 150);
     }
   };
 

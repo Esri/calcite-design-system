@@ -32,7 +32,7 @@ export class CalciteOption {
   /**
    * The option label.
    */
-  @Prop()
+  @Prop({ mutable: true })
   label: string;
 
   /**
@@ -46,7 +46,7 @@ export class CalciteOption {
   /**
    * The value associated with this option.
    */
-  @Prop()
+  @Prop({ mutable: true })
   value: any;
 
   @Watch("disabled")

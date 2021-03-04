@@ -63,13 +63,11 @@
 }
 
 .close {
-  @apply m-0 appearance-none border-none text-color-1 order-2 cursor-pointer;
+  @apply m-0 appearance-none border-none text-color-1 order-2 cursor-pointer rounded-tr bg-transparent;
   @include focus-style-base();
   padding: var(--calcite-modal-padding);
   flex: 0 0 auto;
   transition: all 0.15s ease-in-out;
-  background-color: transparent;
-  border-radius: 0 var(--calcite-border-radius) 0 0;
   calcite-icon {
     pointer-events: none;
     vertical-align: -2px;
@@ -79,15 +77,15 @@
   }
   &:hover,
   &:focus {
-    background-color: var(--calcite-ui-foreground-2);
+    @apply bg-foreground-2;
   }
   &:active {
-    background-color: var(--calcite-ui-foreground-3);
+    @apply bg-foreground-2;
   }
 }
 
 :host([dir="rtl"]) .close {
-  border-radius: var(--calcite-border-radius) 0 0 0;
+  @apply rounded-tl rounded-tr-none;
 }
 
 .title {

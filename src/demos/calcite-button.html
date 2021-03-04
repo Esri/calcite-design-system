@@ -19,6 +19,10 @@
       color: white;
       padding: 1rem;
     }
+    .custom-button-size {
+      height: 44px;
+      width: 44px;
+    }
   </style>
   <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
   <link rel="stylesheet" href="../build/calcite.css" />
@@ -38,19 +42,33 @@
     </calcite-button>
   </div>
   <h3>Icons</h3>
-  <calcite-button icon-start="plus">
-  </calcite-button>
+  <calcite-button icon-start="plus" icon-start="layer" ></calcite-button>
   <calcite-button icon-end="plus">Long Expression
   </calcite-button>
   <calcite-button icon-start="layer" icon-end="chevron-down">Long Expression
   </calcite-button>
   <calcite-button icon-start="layer" icon-end="chevron-down" loading>Loading
   </calcite-button>
-  <calcite-button icon-start="layer" icon-end="chevron-down" appearance="transparent" color="dark" loading>Loading
+  <calcite-button icon-start="layer" icon-end="chevron-down" appearance="transparent" color="inverse" loading>Loading
   </calcite-button>
   <calcite-button icon-start="layer" icon-end="chevron-down"></calcite-button>
   <calcite-button icon-start="layer" icon-end="chevron-down" loading></calcite-button>
-  <calcite-button dir="rtl" icon-start="plus" icon-end="plus"></calcite-button>
+  <calcite-button icon-start="plus" icon-end="plus"></calcite-button>
+  <h3>Icons RTL</h3>
+  <div dir="rtl">
+  <calcite-button icon-start="plus" icon-start="layer" ></calcite-button>
+  <calcite-button icon-end="plus">Long Expression
+  </calcite-button>
+  <calcite-button icon-start="layer" icon-end="chevron-down">Long Expression
+  </calcite-button>
+  <calcite-button icon-start="layer" icon-end="chevron-down" loading>Loading
+  </calcite-button>
+  <calcite-button icon-start="layer" icon-end="chevron-down" appearance="transparent" color="inverse" loading>Loading
+  </calcite-button>
+  <calcite-button icon-start="layer" icon-end="chevron-down"></calcite-button>
+  <calcite-button icon-start="layer" icon-end="chevron-down" loading></calcite-button>
+  <calcite-button icon-start="plus" icon-end="plus"></calcite-button>
+</div>
   <h3>Alignment</h3>
   <calcite-button icon-start="banana" icon-end="chevron-down" appearance="outline" width="half" alignment="center">Alignment center (default)</calcite-button>
   <calcite-button icon-start="banana" icon-end="chevron-down" appearance="outline" width="half" alignment="start">Alignment start</calcite-button>
@@ -66,102 +84,8 @@
   <calcite-button dir="rtl" icon-start="banana" icon-end="chevron-down" appearance="outline" width="half" alignment="icon-start-space-between">Alignment icon-start-space-between</calcite-button>
   <calcite-button dir="rtl" icon-start="banana" icon-end="chevron-down" appearance="outline" width="half" alignment="icon-end-space-between">Alignment icon-end-space-between</calcite-button>
 
-  <h3>FAB with custom positioned container</h3>
-
-  <div style="height:300px;width:200px;overflow:scroll;position:relative;display:inline-flex;flex-direction:column">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius, sem id ullamcorper volutpat, nibh risus
-    semper tellus, quis ultrices nisl metus in nunc. Aenean ut eleifend lectus. Mauris rutrum dolor felis, at
-    volutpat massa aliquam a. In sit amet tortor lobortis, scelerisque dui quis, sodales tellus. Pellentesque
-    lobortis ligula nunc, ac convallis lacus sollicitudin id. Etiam bibendum mi sit amet enim auctor, eget porta
-    massa hendrerit. Phasellus in ex ut diam dictum mattis. Sed cursus placerat enim ut dignissim. Donec venenatis
-    maximus consequat.
-
-    Mauris sit amet odio mattis, aliquet quam sit amet, egestas leo. Ut auctor leo in tortor maximus, in aliquet
-    mauris venenatis. Curabitur fringilla odio sed hendrerit ornare. Donec sodales augue lacus, laoreet vulputate
-    odio feugiat id. Aliquam viverra a purus ultrices molestie. Integer faucibus urna felis, at feugiat eros
-    malesuada quis. Morbi luctus urna quis risus molestie egestas. Vestibulum magna est, mollis vitae tempor quis,
-    pulvinar aliquet erat. Maecenas a elit ut purus porttitor auctor. Suspendisse id ligula consectetur, venenatis
-    quam eget, aliquam erat. Sed lobortis sapien id scelerisque fringilla. Quisque eget erat a augue condimentum
-    ullamcorper a semper lorem. Nunc elementum rutrum pharetra. Sed consequat sem eget ex lacinia posuere. Duis a
-    libero aliquam, imperdiet ipsum sed, volutpat nisl.
-
-    <div class="sticky-example" id="calcite-fab-tooltip">
-      <calcite-button round floating icon-start="plus"></calcite-button>
-    </div>
-    <calcite-tooltip theme="dark" placement="top" reference-element="calcite-fab-tooltip">Add new
-    </calcite-tooltip>
-  </div>
-  <div style="height:300px;width:200px;overflow:scroll;position:relative;display:inline-flex;flex-direction:column">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius, sem id ullamcorper volutpat, nibh risus
-    semper tellus, quis ultrices nisl metus in nunc. Aenean ut eleifend lectus. Mauris rutrum dolor felis, at
-    volutpat massa aliquam a. In sit amet tortor lobortis, scelerisque dui quis, sodales tellus. Pellentesque
-    lobortis ligula nunc, ac convallis lacus sollicitudin id. Etiam bibendum mi sit amet enim auctor, eget porta
-    massa hendrerit. Phasellus in ex ut diam dictum mattis. Sed cursus placerat enim ut dignissim. Donec venenatis
-    maximus consequat.
-
-    Mauris sit amet odio mattis, aliquet quam sit amet, egestas leo. Ut auctor leo in tortor maximus, in aliquet
-    mauris venenatis. Curabitur fringilla odio sed hendrerit ornare. Donec sodales augue lacus, laoreet vulputate
-    odio feugiat id. Aliquam viverra a purus ultrices molestie. Integer faucibus urna felis, at feugiat eros
-    malesuada quis. Morbi luctus urna quis risus molestie egestas. Vestibulum magna est, mollis vitae tempor quis,
-    pulvinar aliquet erat. Maecenas a elit ut purus porttitor auctor. Suspendisse id ligula consectetur, venenatis
-    quam eget, aliquam erat. Sed lobortis sapien id scelerisque fringilla. Quisque eget erat a augue condimentum
-    ullamcorper a semper lorem. Nunc elementum rutrum pharetra. Sed consequat sem eget ex lacinia posuere. Duis a
-    libero aliquam, imperdiet ipsum sed, volutpat nisl.
-
-    <div class="sticky-example" id="calcite-fab-tooltip">
-      <calcite-button floating icon-start="plus" icon-end="layer"></calcite-button>
-    </div>
-    <calcite-tooltip theme="dark" placement="top" reference-element="calcite-fab-tooltip">Add new
-    </calcite-tooltip>
-  </div>
-  <div style="height:300px;width:200px;overflow:scroll;position:relative;display:inline-flex;flex-direction:column">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius, sem id ullamcorper volutpat, nibh risus
-    semper tellus, quis ultrices nisl metus in nunc. Aenean ut eleifend lectus. Mauris rutrum dolor felis, at
-    volutpat massa aliquam a. In sit amet tortor lobortis, scelerisque dui quis, sodales tellus. Pellentesque
-    lobortis ligula nunc, ac convallis lacus sollicitudin id. Etiam bibendum mi sit amet enim auctor, eget porta
-    massa hendrerit. Phasellus in ex ut diam dictum mattis. Sed cursus placerat enim ut dignissim. Donec venenatis
-    maximus consequat.
-
-    Mauris sit amet odio mattis, aliquet quam sit amet, egestas leo. Ut auctor leo in tortor maximus, in aliquet
-    mauris venenatis. Curabitur fringilla odio sed hendrerit ornare. Donec sodales augue lacus, laoreet vulputate
-    odio feugiat id. Aliquam viverra a purus ultrices molestie. Integer faucibus urna felis, at feugiat eros
-    malesuada quis. Morbi luctus urna quis risus molestie egestas. Vestibulum magna est, mollis vitae tempor quis,
-    pulvinar aliquet erat. Maecenas a elit ut purus porttitor auctor. Suspendisse id ligula consectetur, venenatis
-    quam eget, aliquam erat. Sed lobortis sapien id scelerisque fringilla. Quisque eget erat a augue condimentum
-    ullamcorper a semper lorem. Nunc elementum rutrum pharetra. Sed consequat sem eget ex lacinia posuere. Duis a
-    libero aliquam, imperdiet ipsum sed, volutpat nisl.
-
-    <div class="sticky-example">
-      <calcite-button scale="s" floating appearance="outline" icon-start="plus"></calcite-button>
-    </div>
-  </div>
-
-  <div style="height:300px;width:200px;overflow:scroll;position:relative;display:inline-flex;flex-direction:column">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius, sem id ullamcorper volutpat, nibh risus
-    semper tellus, quis ultrices nisl metus in nunc. Aenean ut eleifend lectus. Mauris rutrum dolor felis, at
-    volutpat massa aliquam a. In sit amet tortor lobortis, scelerisque dui quis, sodales tellus. Pellentesque
-    lobortis ligula nunc, ac convallis lacus sollicitudin id. Etiam bibendum mi sit amet enim auctor, eget porta
-    massa hendrerit. Phasellus in ex ut diam dictum mattis. Sed cursus placerat enim ut dignissim. Donec venenatis
-    maximus consequat.
-
-    Mauris sit amet odio mattis, aliquet quam sit amet, egestas leo. Ut auctor leo in tortor maximus, in aliquet
-    mauris venenatis. Curabitur fringilla odio sed hendrerit ornare. Donec sodales augue lacus, laoreet vulputate
-    odio feugiat id. Aliquam viverra a purus ultrices molestie. Integer faucibus urna felis, at feugiat eros
-    malesuada quis. Morbi luctus urna quis risus molestie egestas. Vestibulum magna est, mollis vitae tempor quis,
-    pulvinar aliquet erat. Maecenas a elit ut purus porttitor auctor. Suspendisse id ligula consectetur, venenatis
-    quam eget, aliquam erat. Sed lobortis sapien id scelerisque fringilla. Quisque eget erat a augue condimentum
-    ullamcorper a semper lorem. Nunc elementum rutrum pharetra. Sed consequat sem eget ex lacinia posuere. Duis a
-    libero aliquam, imperdiet ipsum sed, volutpat nisl.
-
-    <div class="sticky-example">
-      <calcite-button round floating icon-start="plus">Do this thing
-      </calcite-button>
-    </div>
-  </div>
-
-
   <h3>Normal Lockup</h3>
-  <calcite-button color="light" appearance='outline' icon-start="chevronLeft">
+  <calcite-button color="neutral" appearance='outline' icon-start="chevronLeft">
     Back</calcite-button>
   <calcite-button appearance='outline'>Cancel</calcite-button>
   <calcite-button>Submit</calcite-button>
@@ -215,8 +139,8 @@
   <h3>Type: Solid (default)</h3>
   <calcite-button title="blue solid button">blue solid button</calcite-button>
   <calcite-button title="red solid button" color='red'>red solid button</calcite-button>
-  <calcite-button title="light solid button" color='light'>light solid button</calcite-button>
-  <calcite-button title="dark solid button" color='dark'>dark solid button</calcite-button>
+  <calcite-button title="neutral solid button" color='neutral'>neutral solid button</calcite-button>
+  <calcite-button title="inverse solid button" color='inverse'>inverse solid button</calcite-button>
   <br />
   <br />
   <h5>Theme="dark" on blue /red</h5>
@@ -224,17 +148,17 @@
     <calcite-button theme="dark" title="blue solid button">blue solid button</calcite-button>
     <calcite-button theme="dark" title="red solid button" color='red'>red solid button</calcite-button>
 
-    <calcite-button theme="dark" title="light solid button" color='light'>light solid button</calcite-button>
-    <calcite-button theme="dark" title="dark solid button" color='dark'>dark solid button</calcite-button>
+    <calcite-button theme="dark" title="neutral solid button" color='neutral'>neutral solid button</calcite-button>
+    <calcite-button theme="dark" title="inverse solid button" color='inverse'>inverse solid button</calcite-button>
   </div>
 
 
   <h3>Type: Outline</h3>
   <calcite-button title="blue outline button" appearance='outline'>blue outline button</calcite-button>
   <calcite-button title="red outline button" appearance='outline' color='red'>red outline button</calcite-button>
-  <calcite-button title="light outline button" appearance='outline' color='light'>light outline button
+  <calcite-button title="neutral outline button" appearance='outline' color='neutral'>neutral outline button
   </calcite-button>
-  <calcite-button title="dark outline button" appearance='outline' color='dark'>dark outline button
+  <calcite-button title="inverse outline button" appearance='outline' color='inverse'>inverse outline button
   </calcite-button>
   <br />
   <br />
@@ -244,10 +168,10 @@
     </calcite-button>
     <calcite-button theme="dark" title="red outline button" appearance='outline' color='red'>red outline button
     </calcite-button>
-    <calcite-button theme="dark" title="light outline button" appearance='outline' color='light'>light outline
+    <calcite-button theme="dark" title="neutral outline button" appearance='outline' color='neutral'>neutral outline
       button
     </calcite-button>
-    <calcite-button theme="dark" title="dark outline button" appearance='outline' color='dark'>dark outline button
+    <calcite-button theme="dark" title="inverse outline button" appearance='outline' color='inverse'>inverse outline button
     </calcite-button>
   </div>
 
@@ -255,8 +179,8 @@
   <calcite-button title="blue clear button" appearance='clear'>blue clear button</calcite-button>
   <calcite-button title="red clear button" appearance='clear' color='red'>red clear button</calcite-button>
 
-  <calcite-button title="light clear button" appearance='clear' color='light'>light clear button</calcite-button>
-  <calcite-button title="dark clear button" appearance='clear' color='dark'>dark clear button</calcite-button>
+  <calcite-button title="neutral clear button" appearance='clear' color='neutral'>neutral clear button</calcite-button>
+  <calcite-button title="inverse clear button" appearance='clear' color='inverse'>inverse clear button</calcite-button>
   <br />
   <br />
   <h5>Theme="dark" on blue /red</h5>
@@ -264,9 +188,9 @@
     <calcite-button theme="dark" title="blue clear button" appearance='clear'>blue clear button</calcite-button>
     <calcite-button theme="dark" title="red clear button" appearance='clear' color='red'>red clear button
     </calcite-button>
-    <calcite-button theme="dark" title="light clear button" appearance='clear' color='light'>light clear button
+    <calcite-button theme="dark" title="neutral clear button" appearance='clear' color='neutral'>neutral clear button
     </calcite-button>
-    <calcite-button theme="dark" title="dark clear button" appearance='clear' color='dark'>dark clear button</calcite-button>
+    <calcite-button theme="dark" title="inverse clear button" appearance='clear' color='inverse'>inverse clear button</calcite-button>
   </div>
 
 
@@ -280,9 +204,9 @@
   <calcite-button title="red transparent button" appearance='transparent' color='red'>red transparent button
   </calcite-button>
 
-  <calcite-button title="light transparent button" appearance='transparent' color='light'>light transparent button
+  <calcite-button title="neutral transparent button" appearance='transparent' color='neutral'>neutral transparent button
   </calcite-button>
-  <calcite-button title="dark transparent button" appearance='transparent' color='dark'>dark transparent button
+  <calcite-button title="inverse transparent button" appearance='transparent' color='inverse'>inverse transparent button
   </calcite-button>
   <br />
   <br />
@@ -293,18 +217,18 @@
     <calcite-button theme="dark" title="red transparent button" appearance='transparent' color='red'>red
       transparent button
     </calcite-button>
-    <calcite-button theme="dark" title="light transparent button" appearance='transparent' color='light'>light
+    <calcite-button theme="dark" title="neutral transparent button" appearance='transparent' color='neutral'>neutral
       transparent
       button
     </calcite-button>
-    <calcite-button theme="dark" title="dark transparent button" appearance='transparent' color='dark'>dark transparent
+    <calcite-button theme="dark" title="inverse transparent button" appearance='transparent' color='inverse'>inverse transparent
       button
     </calcite-button>
   </div>
 
   <h3>Disabled</h3>
   <calcite-button title="blue solid button" disabled>blue solid button</calcite-button>
-  <calcite-button icon-start='launch' title="dark solid button" color='dark' disabled>dark solid button</calcite-button>
+  <calcite-button icon-start='launch' title="inverse solid button" color='inverse' disabled>inverse solid button</calcite-button>
   <calcite-button title="blue clear button" appearance='clear' disabled>blue clear button</calcite-button>
   <calcite-button title="blue clear button" appearance='transparent' disabled>blue clear button</calcite-button>
   </calcite-button>
@@ -312,7 +236,7 @@
   <br />
   <div class="demo-background-dark">
     <calcite-button theme="dark" title="blue solid button" disabled>blue solid button</calcite-button>
-    <calcite-button theme="dark" icon-start='launch' title="dark solid button" color='dark' disabled>dark solid button
+    <calcite-button theme="dark" icon-start='launch' title="inverse solid button" color='inverse' disabled>inverse solid button
     </calcite-button>
     <calcite-button theme="dark" title="blue clear button" appearance='clear' disabled>blue clear button
     </calcite-button>
@@ -363,9 +287,9 @@
 
   <h3>Icons, and icons in combination with loader</h3>
   <h5>pass path data - recommend using Calcite UI Icon Filled variants @ 24.</h5>
-  <calcite-button appearance="outline" color="light" icon-start='check-circle'></calcite-button>
+  <calcite-button appearance="outline" color="neutral" icon-start='check-circle'></calcite-button>
   <calcite-button onclick="loadingButton(this, 3000)" icon-start='check-circle'></calcite-button>
-  <calcite-button appearance="outline" color="dark" icon-start='check-circle'>
+  <calcite-button appearance="outline" color="inverse" icon-start='check-circle'>
     Download icon end</calcite-button>
   <calcite-button scale="l" appearance="outline" icon-start='download-to'>
     Download</calcite-button>
@@ -377,7 +301,18 @@
     Delete this (loader)</calcite-button>
   <calcite-button color='red' scale="l" appearance="outline" onclick="loadingButton(this, 3000)" icon-start='trash'>
     Delete this (loader)</calcite-button>
-
+<h3>Icons placed inside slot: plain svg (height constrained), calcite-icons (height constrained), using icon-start</h3>
+<calcite-button class="custom-button-size">
+  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+    <path
+      fill="#fff"
+      d="M22.117 7H7.883A.883.883 0 0 0 7 7.883v14.234c0 .487.396.883.883.883H15v-7h-3v-2h3v-.992c0-2.066 1.277-3.192 3.121-3.192.883 0 1.879.066 1.879.096V12h-1.764c-1.002 0-1.236.148-1.236.848V14h2.73l-.911 2H17v7h5.117a.884.884 0 0 0 .883-.883V7.883A.883.883 0 0 0 22.117 7z"
+    />
+  </svg>
+</calcite-button>
+<calcite-button class="custom-button-size" color="inverse"><calcite-icon scale="m" icon="layer"></calcite-icon></calcite-button>
+<calcite-button class="custom-button-size"><calcite-icon scale="l" icon="layer"></calcite-icon>
+</calcite-button>
+<calcite-button icon-start="layer"></calcite-button>
 </body>
-
 </html>

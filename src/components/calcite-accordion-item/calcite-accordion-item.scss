@@ -1,8 +1,4 @@
-//ie11 fixes
-:host-context([theme="dark"]) {
-  @include calcite-theme-dark();
-}
-
+// host-content() is being used to support IE11 styling in this component.
 // scale variants for child
 :host-context([scale="s"]) {
   --calcite-accordion-item-spacing-unit: #{$baseline/3};

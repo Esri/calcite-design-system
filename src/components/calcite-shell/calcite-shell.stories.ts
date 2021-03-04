@@ -4,10 +4,10 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 const { dir, position, scale, theme } = ATTRIBUTES;
 import readme from "./readme.md";
 import panelReadme from "../calcite-shell-panel/readme.md";
-import { html } from "../../tests/utils";
+import { html, placeholderImage } from "../../tests/utils";
 
 export default {
-  title: "App Components/Shell",
+  title: "Components/App/Shell",
   parameters: {
     backgrounds: darkBackground,
     notes: {
@@ -154,7 +154,7 @@ const centerRowAdvancedHTML = html`
   <calcite-tip-manager slot="center-row">
     <calcite-tip-group group-title="Astronomy">
       <calcite-tip heading="The Red Rocks and Blue Water">
-        <img slot="thumbnail" src="https://placeimg.com/1000/600/city" alt="This is an image." />
+        <img slot="thumbnail" src="${placeholderImage({ width: 1000, height: 600 })}" alt="This is an image." />
         <p>
           This tip is how a tip should really look. It has a landscape or square image and a small amount of text
           content. This paragraph is in an "info" slot.
@@ -168,14 +168,14 @@ const centerRowAdvancedHTML = html`
         <a href="http://www.esri.com">This is the "link" slot.</a>
       </calcite-tip>
       <calcite-tip heading="The Long Trees">
-        <img slot="thumbnail" src="https://placeimg.com/1000/600/nature" alt="This is an image." />
+        <img slot="thumbnail" src="${placeholderImage({ width: 1000, height: 600 })}" alt="This is an image." />
         <p>This tip has an image that is a pretty tall. And the text will run out before the end of the image.</p>
         <p>In astronomy, the terms object and body are often used interchangeably.</p>
         <a href="http://www.esri.com">View Esri</a>
       </calcite-tip>
     </calcite-tip-group>
     <calcite-tip heading="Square Nature">
-      <img slot="thumbnail" src="https://placeimg.com/1000/1000/nature" alt="This is an image." />
+      <img slot="thumbnail" src="${placeholderImage({ width: 1000, height: 1000 })}" alt="This is an image." />
       <p>This tip has an image that is square. And the text will run out before the end of the image.</p>
       <p>In astronomy, the terms object and body are often used interchangeably.</p>
       <p>
@@ -250,7 +250,7 @@ const advancedTrailingPanelHTMl = html`
       <calcite-action slot="header-menu-actions" text="Cool thing" text-enabled></calcite-action>
       <calcite-block collapsible open heading="Contextual Content" summary="Select goodness">
         <calcite-block-content>
-          <img alt="demo" src="https://placeimg.com/640/480/any" width="100%" />
+          <img alt="demo" src="${placeholderImage({ width: 640, height: 480 })}" width="100%" />
           <calcite-block-section text="Cool things">
             <calcite-action text="Cool thing" text-enabled></calcite-action>
             <calcite-action text="Cool thing" text-enabled></calcite-action>
@@ -274,7 +274,7 @@ const advancedTrailingPanelHTMl = html`
             <calcite-action text="Cool thing" text-enabled></calcite-action>
             <calcite-action text="Cool thing" text-enabled></calcite-action>
           </calcite-block-section>
-          <img alt="demo" src="https://placeimg.com/640/480/any" width="100%" />
+          <img alt="demo" src="${placeholderImage({ width: 640, height: 480 })}" width="100%" />
           <calcite-block-section text="Neat things">
             <calcite-action text="Cool thing" text-enabled></calcite-action>
             <calcite-action text="Cool thing" text-enabled></calcite-action>
@@ -289,7 +289,7 @@ const advancedTrailingPanelHTMl = html`
             <calcite-action text="Cool thing" text-enabled></calcite-action>
             <calcite-action text="Cool thing" text-enabled></calcite-action>
           </calcite-block-section>
-          <img alt="demo" src="https://placeimg.com/640/480/nature" width="100%" />
+          <img alt="demo" src="${placeholderImage({ width: 640, height: 480 })}" width="100%" />
           <calcite-block-section text="Neat things">
             <calcite-action text="Cool thing" text-enabled></calcite-action>
             <calcite-action text="Cool thing" text-enabled></calcite-action>

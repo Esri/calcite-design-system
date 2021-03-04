@@ -1,10 +1,4 @@
-:host-context([theme="dark"]) {
-  @include calcite-theme-dark();
-  --calcite-ui-foreground-current: #214155;
-}
-
 :host {
-  --calcite-ui-foreground-current: #c7eaff;
   display: flex;
   justify-content: center;
   outline: none;

@@ -1,6 +1,18 @@
-import { Component, Element, Host, h, Prop, Listen, VNode, Watch } from "@stencil/core";
-import { Theme, Width } from "../interfaces";
+import {
+  Component,
+  Element,
+  Host,
+  h,
+  Prop,
+  Listen,
+  VNode,
+  Watch,
+  State,
+  Method
+} from "@stencil/core";
+import { Alignment, Theme, Width } from "../interfaces";
 import { TileSelectType } from "./interfaces";
+import { getElementDir } from "../../utils/dom";
 
 @Component({
   tag: "calcite-tile-select",
@@ -36,9 +48,6 @@ export class CalciteTileSelect {
   /** The disabled state of the tile select. */
   @Prop({ reflect: true }) disabled = false;
 
-  /** The focused state of the tile select. */
-  @Prop({ reflect: true, mutable: true }) focused = false;
-
   /** The heading text that appears between the icon and description of the tile. */
   @Prop({ reflect: true }) heading?: string;
 
@@ -56,8 +65,11 @@ export class CalciteTileSelect {
     this.input.name = newName;
   }
 
-  /** The side of the tile that the radio or checkbox appears. */
-  @Prop({ reflect: true }) showInput: "left" | "right" | "none" = "left";
+  /** Display an interactive radio or checkbox. */
+  @Prop({ reflect: true }) inputEnabled = false;
+
+  /** The side of the tile that the radio or checkbox appears on when inputEnabled is true. */
+  @Prop({ reflect: true }) inputAlignment: Extract<"end" | "start", Alignment> = "start";
 
   /** The theme of the tile select. */
   @Prop({ reflect: true }) theme: Theme = "light";
@@ -81,6 +93,26 @@ export class CalciteTileSelect {
 
   //--------------------------------------------------------------------------
   //
+  //  State
+  //
+  //--------------------------------------------------------------------------
+
+  /** The focused state of the tile-select. */
+  @State() focused = false;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  @Method()
+  async setFocus(): Promise<void> {
+    this.input.setFocus();
+  }
+
+  //--------------------------------------------------------------------------
+  //
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
@@ -97,7 +129,7 @@ export class CalciteTileSelect {
   calciteCheckboxFocusedChangeEvent(event: CustomEvent): void {
     const checkbox = event.target as HTMLCalciteCheckboxElement;
     if (checkbox === this.input) {
-      this.focused = checkbox.focused;
+      this.focused = event.detail;
     }
   }
 
@@ -186,16 +218,20 @@ export class CalciteTileSelect {
   }
 
   render(): VNode {
+    const dir = getElementDir(this.el);
+
     return (
-      <Host>
-        <calcite-tile
-          active={this.checked}
-          description={this.description}
-          embed
-          heading={this.heading}
-          icon={this.icon}
-        />
-        <slot />
+      <Host dir={dir}>
+        <div class={{ focused: this.focused, root: true }}>
+          <calcite-tile
+            active={this.checked}
+            description={this.description}
+            embed
+            heading={this.heading}
+            icon={this.icon}
+          />
+          <slot />
+        </div>
       </Host>
     );
   }

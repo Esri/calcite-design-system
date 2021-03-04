@@ -43,7 +43,7 @@ export class CalciteRating {
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /** the value of the rating component */
-  @Prop({ reflect: true }) value = 0;
+  @Prop({ reflect: true, mutable: true }) value = 0;
 
   /** is the rating component in a selectable mode */
   @Prop({ reflect: true }) readOnly = false;

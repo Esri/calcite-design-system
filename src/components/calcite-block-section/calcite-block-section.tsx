@@ -34,7 +34,7 @@ export class CalciteBlockSection {
   /**
    * When true, the block's section content will be displayed.
    */
-  @Prop({ reflect: true }) open = false;
+  @Prop({ reflect: true, mutable: true }) open = false;
 
   /**
    * Text displayed in the button.

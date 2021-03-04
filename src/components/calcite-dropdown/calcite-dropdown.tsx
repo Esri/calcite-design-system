@@ -312,6 +312,8 @@ export class CalciteDropdown {
 
   private referenceEl: HTMLDivElement;
 
+  private dropdownFocusTimeout: number;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -493,9 +495,13 @@ export class CalciteDropdown {
     this.calciteDropdownOpen.emit();
     this.active = !this.active;
     const animationDelayInMs = 50;
+    clearTimeout(this.dropdownFocusTimeout);
 
     if (this.active) {
-      setTimeout(() => this.focusOnFirstActiveOrFirstItem(), animationDelayInMs);
+      this.dropdownFocusTimeout = window.setTimeout(
+        () => this.focusOnFirstActiveOrFirstItem(),
+        animationDelayInMs
+      );
     } else {
       this.calciteDropdownClose.emit();
     }

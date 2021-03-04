@@ -6,7 +6,7 @@ import readme2 from "../calcite-radio-group-item/readme.md";
 import { html } from "../../tests/utils";
 
 export default {
-  title: "Components/Radio Group",
+  title: "Components/Controls/Radio/Radio Group",
 
   parameters: {
     notes: [readme1, readme2]

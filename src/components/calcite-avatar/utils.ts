@@ -1,5 +1,5 @@
-import { RGB } from "../calcite-color/interfaces";
-import { hexToRGB } from "../calcite-color/utils";
+import { RGB } from "../calcite-color-picker/interfaces";
+import { hexToRGB } from "../calcite-color-picker/utils";
 
 /**
  * Convert a string to a valid hex by hashing its contents

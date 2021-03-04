@@ -5,7 +5,7 @@ import readme from "./readme.md";
 import { html } from "../../tests/utils";
 
 export default {
-  title: "Components/Tile Select",
+  title: "Components/Tiles/Tile Select",
 
   parameters: {
     notes: readme
@@ -23,9 +23,9 @@ export const Light = (): string => html`
     ${boolean("focused", false)}
     heading="${text("heading", "Tile heading lorem ipsum")}"
     ${boolean("hidden", false)}
-    icon="${select("icon", iconNames, iconNames[296])}"
-    name="${text("name", "tile-select-demo")}"
-    show-input="${select("show-input", ["left", "right", "none"], "left")}"
+    icon="${select("icon", iconNames, "layer")}"
+    ${boolean("input-enabled", false)}
+    input-alignment="${select("input-alignment", ["start", "end"], "start")}"
     type="${select("type", ["radio", "checkbox"], "radio")}"
     value="${text("value", "one")}"
   >
@@ -43,9 +43,10 @@ export const Dark = (): string => html`
     ${boolean("focused", false)}
     heading="${text("heading", "Tile heading lorem ipsum")}"
     ${boolean("hidden", false)}
-    icon="${select("icon", iconNames, iconNames[296])}"
+    icon="${select("icon", iconNames, "layer")}"
     name="${text("name", "tile-select-demo")}"
-    show-input="${select("show-input", ["left", "right", "none"], "left")}"
+    ${boolean("input-enabled", false)}
+    input-alignment="${select("input-alignment", ["start", "end"], "start")}"
     theme="dark"
     type="${select("type", ["radio", "checkbox"], "radio")}"
     value="${text("value", "one")}"
