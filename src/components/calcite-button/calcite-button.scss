@@ -1,25 +1,15 @@
-:host-context([theme="dark"]) {
-  @include calcite-theme-dark();
-}
-
 // theme variables
 // light theme
 :host {
   display: inline-block;
   width: auto;
   vertical-align: middle;
-  --calcite-button-dark: #{$blk-180};
-  --calcite-button-dark-hover: #{$blk-170};
-  --calcite-button-dark-press: #{$blk-190};
   --calcite-button-transparent-hover: rgba(0, 0, 0, 0.05);
   --calcite-button-transparent-press: rgba(0, 0, 0, 0.08);
 }
 
 // dark theme
 :host([theme="dark"]) {
-  --calcite-button-dark: #{$blk-180};
-  --calcite-button-dark-hover: #{$blk-190};
-  --calcite-button-dark-press: #{$blk-170};
   --calcite-button-transparent-hover: rgba(255, 255, 255, 0.05);
   --calcite-button-transparent-press: rgba(255, 255, 255, 0.08);
 }
@@ -69,6 +59,8 @@
 }
 
 .content {
+  display: flex;
+  flex-basis: auto;
   margin-left: $baseline/3;
   margin-right: $baseline/3;
 }
@@ -157,10 +149,18 @@
   .icon--start {
     margin-right: auto;
   }
+  a,
+  button {
+    text-align: unset;
+  }
 }
 :host([alignment="icon-end-space-between"]:not([width="auto"])) {
   .icon--end {
     margin-left: auto;
+  }
+  a,
+  button {
+    text-align: unset;
   }
 }
 :host([dir="rtl"][alignment="icon-start-space-between"]:not([width="auto"])) {
@@ -177,15 +177,22 @@
 }
 
 // only two icons
-:host([alignment="center"]:not([hastext="true"])) {
-  .icon--start + .icon--end {
-    margin-left: $baseline/3;
+:host([alignment="center"]) {
+  a:not(.content--slotted),
+  button:not(.content--slotted) {
+    .icon--start + .icon--end {
+      margin-left: $baseline/3;
+    }
   }
 }
-:host([dir="rtl"][alignment="center"]:not([hastext="true"])) {
-  .icon--start + .icon--end {
-    margin-left: unset;
-    margin-right: $baseline/3;
+
+:host([dir="rtl"][alignment="center"]) {
+  a:not(.content--slotted),
+  button:not(.content--slotted) {
+    .icon--start + .icon--end {
+      margin-left: unset;
+      margin-right: $baseline/3;
+    }
   }
 }
 
@@ -275,7 +282,7 @@
     );
   }
 }
-:host([appearance="solid"][color="light"]) {
+:host([appearance="solid"][color="neutral"]) {
   button,
   a {
     @include btn-solid(
@@ -286,13 +293,13 @@
     );
   }
 }
-:host([appearance="solid"][color="dark"]) {
+:host([appearance="solid"][color="inverse"]) {
   button,
   a {
     @include btn-solid(
-      var(--calcite-button-dark),
-      var(--calcite-button-dark-hover),
-      var(--calcite-button-dark-press),
+      var(--calcite-ui-inverse),
+      var(--calcite-ui-inverse-hover),
+      var(--calcite-ui-inverse-press),
       $blk-000
     );
   }
@@ -351,7 +358,7 @@
     );
   }
 }
-:host([appearance="outline"][color="light"]) {
+:host([appearance="outline"][color="neutral"]) {
   button,
   a {
     @include btn-outline-clear(
@@ -364,14 +371,14 @@
     );
   }
 }
-:host([appearance="outline"][color="dark"]) {
+:host([appearance="outline"][color="inverse"]) {
   button,
   a {
     @include btn-outline-clear(
       var(--calcite-ui-foreground-1),
-      $blk-180,
-      $blk-190,
-      $blk-170,
+      var(--calcite-ui-inverse),
+      var(--calcite-ui-inverse-press),
+      var(--calcite-ui-inverse-hover),
       var(--calcite-ui-text-1),
       var(--calcite-ui-text-1)
     );
@@ -403,7 +410,7 @@
     );
   }
 }
-:host([appearance="clear"][color="light"]) {
+:host([appearance="clear"][color="neutral"]) {
   button,
   a {
     @include btn-outline-clear(
@@ -416,14 +423,14 @@
     );
   }
 }
-:host([appearance="clear"][color="dark"]) {
+:host([appearance="clear"][color="inverse"]) {
   button,
   a {
     @include btn-outline-clear(
       transparent,
-      $blk-180,
-      $blk-190,
-      $blk-170,
+      var(--calcite-ui-inverse),
+      var(--calcite-ui-inverse-press),
+      var(--calcite-ui-inverse-hover),
       var(--calcite-ui-text-1),
       var(--calcite-ui-text-1)
     );
@@ -473,16 +480,16 @@
     @include btn-transparent(var(--calcite-ui-danger-press));
   }
 }
-:host([appearance="transparent"][color="light"]) {
-  button,
-  a {
-    @include btn-transparent(var(--calcite-ui-foreground-1));
-  }
-}
-:host([appearance="transparent"][color="dark"]) {
+:host([appearance="transparent"][color="neutral"]) {
   button,
   a {
     @include btn-transparent(var(--calcite-ui-text-1));
+  }
+}
+:host([appearance="transparent"][color="inverse"]) {
+  button,
+  a {
+    @include btn-transparent(var(--calcite-ui-foreground-1));
   }
 }
 
@@ -495,13 +502,13 @@ $btnScales: "s" 12px 1.33 7px 12px, "m" 14px 1.15 13px 20px, "l" 18px 1.2 15px 2
   $padding-y: nth($btnScale, 4);
   $padding-x: nth($btnScale, 5);
 
-  :host([scale="#{$name}"][hastext]:not([appearance="transparent"])) button,
-  :host([scale="#{$name}"][hastext]:not([appearance="transparent"])) a {
+  :host([scale="#{$name}"]:not([appearance="transparent"])) button.content--slotted,
+  :host([scale="#{$name}"]:not([appearance="transparent"])) a.content--slotted {
     @include btn-scale($font-size, $line-height, $padding-y, $padding-x);
   }
   // accomodate for transparent buttons not having borders
-  :host([scale="#{$name}"][hastext][appearance="transparent"]) button,
-  :host([scale="#{$name}"][hastext][appearance="transparent"]) a {
+  :host([scale="#{$name}"][appearance="transparent"]) button.content--slotted,
+  :host([scale="#{$name}"][appearance="transparent"]) a.content--slotted {
     $compensated-padding-y: $padding-y + 1px;
     @include btn-scale($font-size, $line-height, $compensated-padding-y, $padding-x);
   }
@@ -515,8 +522,8 @@ $btnScales2: "s" 12px 32px, "m" 14px 44px, "l" 18px 56px;
   $font-size: nth($btnScale, 2);
   $size: nth($btnScale, 3);
 
-  :host([scale="#{$name}"]:not([hastext])) button,
-  :host([scale="#{$name}"]:not([hastext])) a {
+  :host([scale="#{$name}"]) button:not(.content--slotted),
+  :host([scale="#{$name}"]) a:not(.content--slotted) {
     @include btn-scale-notext($font-size, $size);
   }
 }
@@ -529,8 +536,8 @@ $btnScales3: "s" 12px 32px, "m" 14px 44px, "l" 18px 56px;
   $font-size: nth($btnScale, 2);
   $size: nth($btnScale, 3);
 
-  :host([scale="#{$name}"][icon-start][icon-end]:not([hastext])) button,
-  :host([scale="#{$name}"][icon-start][icon-end]:not([hastext])) a {
+  :host([scale="#{$name}"][icon-start][icon-end]) button:not(.content--slotted),
+  :host([scale="#{$name}"][icon-start][icon-end]) a:not(.content--slotted) {
     @include btn-scale-notext-two-icons($font-size, $size);
   }
 }

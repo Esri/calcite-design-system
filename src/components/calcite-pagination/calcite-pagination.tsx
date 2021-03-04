@@ -36,7 +36,7 @@ export class CalcitePagination {
   @Prop() num = 20;
 
   /** index of item that should begin the page */
-  @Prop() start = 1;
+  @Prop({ mutable: true }) start = 1;
 
   /** total number of items */
   @Prop() total = 0;

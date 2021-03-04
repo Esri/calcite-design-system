@@ -10,16 +10,16 @@ describe("calcite-alert", () => {
 
   it("renders", async () => renders("calcite-alert", false));
 
-  it("is accessible", async () =>
+  it.skip("is accessible", async () =>
     accessible(`
     <calcite-alert active label="test">
     ${alertContent}
     </calcite-alert>
   `));
 
-  it("is accessible with auto-dismiss", async () =>
+  it.skip("is accessible with auto-dismiss", async () =>
     accessible(`
-    <calcite-alert active auto-dismiss label="test">
+    <calcite-alert active auto-dismiss auto-dismiss-duration="slow" label="test">
     ${alertContent}
     </calcite-alert>
   `));

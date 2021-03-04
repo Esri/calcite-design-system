@@ -137,23 +137,6 @@ describe("calcite-panel", () => {
     expect(menuContainer).toBeNull();
   });
 
-  it("should render menu button when there are header-menu-actions", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
-      `<calcite-panel>
-        <calcite-action slot="${SLOTS.headerMenuActions}" text="hello"></calcite-action>
-        <calcite-action slot="${SLOTS.headerMenuActions}" text="hello2"></calcite-action>
-      </calcite-panel>`
-    );
-
-    const menuButton = await page.find(`calcite-panel >>> .${CSS.menuButton}`);
-    const menuContainer = await page.find(`calcite-panel >>> .${CSS.menuContainer}`);
-
-    expect(menuButton).not.toBeNull();
-    expect(menuContainer).not.toBeNull();
-  });
-
   it("menuOpen should show/hide when toggled", async () => {
     const page = await newE2EPage();
 
@@ -174,7 +157,7 @@ describe("calcite-panel", () => {
 
     await page.waitForChanges();
 
-    const menu = await page.find(`calcite-panel >>> .${CSS.menu}`);
+    const menu = await page.find(`calcite-panel >>> calcite-action-menu`);
 
     expect(menu).not.toBeNull();
 
@@ -182,13 +165,9 @@ describe("calcite-panel", () => {
 
     expect(menuVisible).toBe(true);
 
-    const menuButton = await page.find(`calcite-panel >>> .${CSS.menuButton}`);
+    const menuOpen = await menu.getProperty("open");
 
-    expect(menuButton).not.toBeNull();
-
-    const menuButtonVisible = await menuButton.isVisible();
-
-    expect(menuButtonVisible).toBe(true);
+    expect(menuOpen).toBe(true);
   });
 
   it("should not render start or end actions containers when there are no start or end actions", async () => {

@@ -83,7 +83,7 @@ export class CalciteDatePicker {
   @Prop() intlNextMonth?: string = TEXT.nextMonth;
 
   /** BCP 47 language tag for desired language and country format */
-  @Prop() locale?: string = document.documentElement.lang || "en-US";
+  @Prop() locale?: string = document.documentElement.lang || "en";
 
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
@@ -95,7 +95,7 @@ export class CalciteDatePicker {
   @Prop() start?: string;
 
   /** Selected end date */
-  @Prop() end?: string;
+  @Prop({ mutable: true }) end?: string;
 
   /** Disables the default behaviour on the third click of narrowing or extending the range and instead starts a new range. */
   @Prop() proximitySelectionDisabled?: boolean = false;

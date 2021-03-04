@@ -88,4 +88,23 @@ describe("calcite-shell", () => {
 
     expect(mainReversed).not.toBeNull();
   });
+
+  it("should place content behind", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(`<calcite-shell content-behind>
+    <calcite-shell-panel slot="${SLOTS.primaryPanel}" position="end">
+      <p>Primary Content</p>
+    </calcite-shell-panel>
+    <calcite-shell-panel slot="${SLOTS.contextualPanel}" position="start">
+      <p>Primary Content</p>
+    </calcite-shell-panel>
+  </calcite-shell>`);
+
+    await page.waitForChanges();
+
+    const mainReversed = await page.find(`calcite-shell >>> .${CSS.contentBehind}`);
+
+    expect(mainReversed).not.toBeNull();
+  });
 });

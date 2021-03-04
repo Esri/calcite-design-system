@@ -45,8 +45,7 @@
 
       const view = new MapView({
         container: "viewDiv",
-        map: webmap,
-        padding: {left: 49, right: 385}
+        map: webmap
       });
       view.when(function() {
         var layerList = new LayerList({
@@ -69,9 +68,9 @@
               <calcite-action-group>
                 <calcite-action text="Save" icon="save" indicator>
                 </calcite-action>
-                <calcite-action icon="map" text="New">
+                <calcite-action text-enabled icon="map" text="New" slot="menu-actions">
                 </calcite-action>
-                <calcite-action icon="collection" text="Open">
+                <calcite-action text-enabled icon="collection" text="Open" slot="menu-actions">
                 </calcite-action>
             </calcite-action-group>
             <calcite-action-group>
@@ -96,7 +95,7 @@
               <calcite-panel heading="Layers" height-scale="l" width-scale="m">
                   <div id="layerlist-container"></div>
                   <calcite-fab slot="fab" id="layer-fab" text="Add layers"></calcite-fab>
-                  <calcite-tooltip reference-element="layer-fab" disable-pointer>Add layers</calcite-tooltip>
+                  <calcite-tooltip label="tooltip" reference-element="layer-fab" disable-pointer>Add layers</calcite-tooltip>
               </calcite-panel>
           </calcite-shell-panel>
 
@@ -107,17 +106,17 @@
                 <calcite-action text="Styles" icon="shapes"> </calcite-action>
                 <calcite-action text="Filter" icon="layer-filter"> </calcite-action>
                 <calcite-action text="Configure pop-ups" icon="popup" active> </calcite-action>
-                <calcite-action text="Configure attributes" icon="feature-details"> </calcite-action>
-                <calcite-action text="Labels" icon="label"> </calcite-action>
-                <calcite-action text="Tablew" icon="table"> </calcite-action>
+                <calcite-action text-enabled text="Configure attributes" icon="feature-details" slot="menu-actions"> </calcite-action>
+                <calcite-action text-enabled text="Labels" icon="label" slot="menu-actions"> </calcite-action>
+                <calcite-action text-enabled text="Tablew" icon="table" slot="menu-actions"> </calcite-action>
               </calcite-action-group>
               <calcite-action-group>
                 <calcite-action icon="search" text="Search"></calcite-action>
                 <calcite-action icon="measure" text="Measure"></calcite-action>
-                <calcite-action icon="road-sign" text="Directions"></calcite-action>
-                <calcite-action icon="point" text="Location"></calcite-action>
-                <calcite-action icon="pencil-square" text="Edit" disabled></calcite-action>
-                <calcite-action icon="clock" text="Time" disabled></calcite-action>
+                <calcite-action text-enabled icon="road-sign" text="Directions" slot="menu-actions"></calcite-action>
+                <calcite-action text-enabled icon="point" text="Location" slot="menu-actions"></calcite-action>
+                <calcite-action text-enabled icon="pencil-square" text="Edit" disabled slot="menu-actions"></calcite-action>
+                <calcite-action text-enabled icon="clock" text="Time" disabled slot="menu-actions"></calcite-action>
               </calcite-action-group>
               <calcite-action-group slot="bottom-actions">
                 <calcite-action text="Tips" id="tip-manager-button">
@@ -133,7 +132,7 @@
               >
               <calcite-action slot="header-actions-end" icon="x" text="Close">
               </calcite-action>
-              
+
                 <calcite-block heading="Title"  summary="County: {NAME}" collapsible>
                     <calcite-icon icon="title" scale="m" slot="icon"></calcite-icon>
                     <div class="combo-control">
@@ -141,32 +140,34 @@
                             <button class="combo-button__main">
                             County: {NAME}
                             </button>
-                            <calcite-action class="combo-action" scale="s" icon="code"></calcite-action>
+                            <calcite-action label="code icon" class="combo-action" scale="s" icon="code"></calcite-action>
                         </div>
                     </div>
                 </calcite-block>
                 <calcite-sortable-list>
                   <calcite-block drag-handle heading="Attributes" summary="2/98" collapsible>
                     <calcite-icon icon="feature-details" scale="m" slot="icon"></calcite-icon>
-                    <calcite-action slot="control" icon="ellipsis" scale="m"></calcite-action>
+                    <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
                     </calcite-button>
                     <calcite-value-list drag-enabled>
                       <calcite-value-list-item
                         label="2018 Total Households (Esri)"
+                        value="Households"
                         description="{TOTHH_CY}"
                       ></calcite-value-list-item>
                       <calcite-value-list-item
                         label="2018 Average Household Size (Esri)"
+                        value="Household"
                         description="{AVGHHSZ_CY}"
                       ></calcite-value-list-item>
                     </calcite-value-list>
                     <div class="row">
-                        <calcite-button id="attribute-add" round icon="plus" scale="s" width="full" color="light">Select attributes</calcite-button>
+                        <calcite-button id="attribute-add" round icon="plus" scale="s" width="full" color="neutral">Select attributes</calcite-button>
                     </div>
                   </calcite-block>
                   <calcite-block drag-handle heading="Image" collapsible>
                     <calcite-icon icon="image" scale="m" slot="icon"></calcite-icon>
-                    <calcite-action slot="control" icon="ellipsis" scale="m"></calcite-action>
+                    <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
                     <section class="form-section">
                       <label>
                         URL
@@ -216,12 +217,12 @@
                   </calcite-block>
                   <calcite-block drag-handle heading="Text" summary="Cool. he {expression/..." collapsible>
                     <calcite-icon icon="image" scale="m" slot="icon"></calcite-icon>
-                    <calcite-action slot="control" icon="ellipsis" scale="m"></calcite-action>
+                    <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
                     <button class="multiline-button">Cool. he {expression/expr1} population is {expression/expr2}%...</button>
                   </calcite-block>
                 </calcite-sortable-list>
                 <calcite-fab slot="fab" id="label-fab" text="Add label class"></calcite-fab>
-                <calcite-tooltip reference-element="label-fab" disable-pointer>
+                <calcite-tooltip label="tootltip" reference-element="label-fab" disable-pointer>
                   Add label class
                 </calcite-tooltip>
               </calcite-panel>
@@ -285,7 +286,7 @@
           <footer slot="shell-footer">Footer</footer>
         </calcite-shell>
       </div>
-      <calcite-popover placement="right-start" reference-element="action-pad-button" add-click-handle class="popover">
+      <calcite-popover label="right start popover" placement="right-start" reference-element="action-pad-button" add-click-handle class="popover">
         <calcite-panel theme="light">
           <h3 class="heading" slot="header-content">WE CARE A LOT</h3>
           <calcite-pick-list filter-enabled filter-sticky>

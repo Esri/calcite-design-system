@@ -12,6 +12,10 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
+  --calcite-ui-foreground-current: #c7eaff;
+  --calcite-ui-inverse: #{$blk-180};
+  --calcite-ui-inverse-hover: #{$blk-170};
+  --calcite-ui-inverse-press: #{$blk-190};
   --calcite-border-radius: 3px;
   --calcite-ui-opacity-disabled: 0.5;
 
@@ -20,14 +24,23 @@
 
 [theme="dark"] {
   @include calcite-theme-dark();
+  --calcite-ui-foreground-current: #214155;
+  --calcite-ui-inverse: #{$blk-180};
+  --calcite-ui-inverse-hover: #{$blk-190};
+  --calcite-ui-inverse-press: #{$blk-170};
 }
 
 [theme="light"] {
   @include calcite-theme-light();
+  --calcite-ui-foreground-current: #c7eaff;
+  --calcite-ui-foreground-inverse: #{$blk-180};
+  --calcite-ui-inverse: #{$blk-180};
+  --calcite-ui-inverse-hover: #{$blk-170};
+  --calcite-ui-inverse-press: #{$blk-190};
 }
 
 .overflow-hidden {
-  @apply overflow-hidden;
+  overflow: hidden;
 }
 
 [calcite-hydrated-hidden] {

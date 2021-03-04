@@ -145,12 +145,12 @@
                       </calcite-action>
                     </calcite-value-list-item>
                   </calcite-value-list>
-                  
+
                   <!-- Using Button -->
                   <calcite-label scale="s">
                     It's a label (btn).
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-button slot="input-action" appearance="transparent" color="dark" icon-start="brackets-curly" scale="s"></calcite-button>
+                      <calcite-button slot="input-action" appearance="transparent" color="neutral" icon-start="brackets-curly" scale="s"></calcite-button>
                     </calcite-input>
                   </calcite-label>
                   <!-- Using Action -->
@@ -183,9 +183,9 @@
                     </calcite-label>
                   </calcite-block-section>
                 </calcite-block>
-                
+
                 <calcite-block heading="With control" summary="Collapsible" collapsible>
-                  <calcite-action slot="control" icon="ellipsis" scale="m"></calcite-action>
+                  <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
@@ -226,7 +226,7 @@
                   </calcite-label>
                 </calcite-block>
                 <calcite-block heading="With control" summary="Not collapsible">
-                  <calcite-action slot="control" icon="ellipsis" scale="m"></calcite-action>
+                  <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
@@ -290,7 +290,7 @@
                 </calcite-block>
                 <calcite-block heading="With icon and control and long stuff" summary="Collapsible" collapsible>
                   <calcite-icon icon="title" scale="m" slot="icon"></calcite-icon>
-                  <calcite-action slot="control" icon="ellipsis" scale="m"></calcite-action>
+                  <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
@@ -312,7 +312,7 @@
                 </calcite-block>
                 <calcite-block heading="With icon and control" summary="Not collapsible">
                   <calcite-icon icon="title" scale="m" slot="icon"></calcite-icon>
-                  <calcite-action slot="control" icon="ellipsis" scale="m"></calcite-action>
+                  <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
@@ -379,7 +379,7 @@
                   summary="Collapsible"
                   collapsible
                 >
-                  <calcite-action slot="control" icon="ellipsis" scale="m"></calcite-action>
+                  <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
@@ -400,7 +400,7 @@
                   </calcite-label>
                 </calcite-block>
                 <calcite-block drag-handle heading="Drag + Basicwithcontrolandsomeextratext" summary="Not collapsible">
-                  <calcite-action slot="control" icon="ellipsis" scale="m"></calcite-action>
+                  <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
@@ -465,7 +465,7 @@
 
                 <calcite-block drag-handle heading="Basic with icon and control" summary="Collapsible" collapsible>
                   <calcite-icon icon="title" scale="m" slot="icon"></calcite-icon>
-                  <calcite-action slot="control" icon="ellipsis" scale="m"></calcite-action>
+                  <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
@@ -487,7 +487,7 @@
                 </calcite-block>
                 <calcite-block drag-handle heading="Basic with icon and control" summary="Not collapsible">
                   <calcite-icon icon="title" scale="m" slot="icon"></calcite-icon>
-                  <calcite-action slot="control" icon="ellipsis" scale="m"></calcite-action>
+                  <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
@@ -509,7 +509,7 @@
                 </calcite-block>
 
                 <calcite-fab slot="fab" id="label-fab" text="Add label class"></calcite-fab>
-                <calcite-tooltip reference-element="label-fab" disable-pointer>
+                <calcite-tooltip label="tooltip" reference-element="label-fab" disable-pointer>
                   Add label class
                 </calcite-tooltip>
                 <calcite-button slot="footer-actions" appearance="outline" width="half">Cancel</calcite-button>
@@ -575,7 +575,7 @@
           <footer slot="shell-footer">Footer</footer>
         </calcite-shell>
       </div>
-      <calcite-popover placement="right-start" reference-element="action-pad-button" add-click-handle class="popover">
+      <calcite-popover label="right start popover" placement="right-start" reference-element="action-pad-button" add-click-handle class="popover">
         <calcite-panel theme="light">
           <h3 class="heading" slot="header-content">WE CARE A LOT</h3>
           <calcite-pick-list filter-enabled filter-sticky>

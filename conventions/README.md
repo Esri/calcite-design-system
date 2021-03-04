@@ -10,6 +10,7 @@ This is a living document defining our best practices and reasoning for authorin
 - [Form Elements and Custom Inputs](#form-elements-and-custom-inputs)
 - [Component Responsibilities](#component-responsibilities)
 - [Props](#props)
+- [Focus support](#focus-support)
 - [Event Names](#event-names)
 - [Private Events](#private-events)
 - [Event Details](#event-details)
@@ -21,6 +22,10 @@ This is a living document defining our best practices and reasoning for authorin
 - [Custom Themes](#custom-themes)
 - [Unique IDs for Components](#unique-ids-for-components)
 - [Prerendering/SSR](#prerendering-and-ssr)
+- [Cleaning up resources](#cleaning-up-resources)
+- [Tests](#tests)
+  - [Writing Tests](#writing-tests)
+  - [Unstable Tests](#unstable-tests)
 
 <!-- /TOC -->
 
@@ -235,6 +240,25 @@ However components are allowed to:
 ## Props
 
 Private/internal props should be annotated accordingly to avoid exposing them in the doc and/or API. You can do this by using the `@private`/`@internal` [JSDoc](https://jsdoc.app/) tags.
+
+## Focus support
+
+Components with focusable content, must implement the following pattern:
+
+```ts
+interface FocusableComponent {
+  setFocus(focusId?: FocusId): Promise<void>; // focusId should be supported if there is more than one supported focus target
+}
+
+type FocusId = string;
+```
+
+**Note**: Implementations can use the [`focusElement`](https://github.com/Esri/calcite-components/blob/f2bb61828f3da54b7dcb5fb1dade12b85d82331e/src/utils/dom.ts#L41-L47) helper to handle focusing both native and calcite components.
+
+Examples:
+
+- [`calcite-color`](https://github.com/Esri/calcite-components/blob/78a70a805324689d516130816a69f031e39c5338/src/components/calcite-color/calcite-color.tsx#L409-L413)
+- [`calcite-panel` (supports `focusId`)](https://github.com/Esri/calcite-components/blob/f2bb61828f3da54b7dcb5fb1dade12b85d82331e/src/components/calcite-panel/calcite-panel.tsx#L298-L311)
 
 ## Event Names
 
@@ -488,3 +512,40 @@ const elements = this.el.shadowRoot ? this.el.shadowRoot.querySelector("slot").a
 ```
 
 To ensure that all components are compatible for prerendering a prerender build is done as part of `npm test`.
+
+## Cleaning up resources
+
+Ensure all components clean up their resources.
+
+### Timeouts
+
+When using `setTimeout()`, make sure that you clear the timeout using `clearTimeout()` in cases where the same timeout may be called again before the first timeout has finished or if the handler is no longer needed. For example, the handler may no longer need to be called if the component was disconnected from the DOM.
+
+Example:
+
+```tsx
+menuFocusTimeout: number;
+
+focusMenu(): void => {
+  clearTimeout(this.menuFocusTimeout);
+  this.menuFocusTimeout = window.setTimeout(() => focusElement(this.menuEl), 100);
+}
+```
+
+## Tests
+
+### Writing Tests
+
+#### Prevent logging unnecessary messaging in the build
+
+**This is only necessary if a component's test will produce a lot of console messages in a test run.**
+
+As a best practice when writing tests, prevent emitting console warnings by stubbing them. Depending on the tested component, this may also apply to other console APIs.
+
+Console warnings can end up polluting the build output messaging that makes it more difficult to identify real issues. By stubbing `console.warn`, you can prevent warning messages from displaying in the build. See [`calcite-color.e2e`](https://github.com/Esri/calcite-components/blob/af0c6cb/src/components/calcite-color/calcite-color.e2e.ts#L9-L17) for an example.
+
+### Unstable Tests
+
+If you notice that a test fails intermittently during local or CI test runs, it is unstable and must be skipped to avoid holding up test runs, builds and deployments.
+
+To skip a test, use the `skip` method that's available on [tests, or suites](https://jestjs.io/docs/en/api#methods) and submit a pull request. Once that's done, please create a follow-up issue by [choosing](https://github.com/Esri/calcite-components/issues/new/choose) the unstable test template and filling it out.

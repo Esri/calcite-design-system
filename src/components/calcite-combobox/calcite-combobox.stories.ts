@@ -7,7 +7,7 @@ import readme2 from "../calcite-combobox-item/readme.md";
 import { html } from "../../tests/utils";
 
 export default {
-  title: "Components/Combobox",
+  title: "Components/Controls/Combobox",
 
   parameters: {
     notes: [readme1, readme2]
@@ -49,7 +49,7 @@ export const Simple = (): string => html`
 `;
 
 export const Single = (): string => html`
-  <div style="width:400px;max-width:100%;background-color:white;padding:100px"">
+  <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox
       label="demo combobox"
       selection-mode="${select("selection-mode", ["multi", "single"], "single")}"
@@ -63,7 +63,7 @@ export const Single = (): string => html`
       <calcite-combobox-item icon="article" value="article" text-label="Article"></calcite-combobox-item>
       <calcite-combobox-item icon="attachment" value="attachment" text-label="Attachment"></calcite-combobox-item>
       <calcite-combobox-item icon="banana" value="banana" text-label="Banana"></calcite-combobox-item>
-      <calcite-combobox-item icon="battery" value="-battery" text-label="Batterycharging"></calcite-combobox-item>
+      <calcite-combobox-item icon="battery3" value="battery" text-label="Batterycharging"></calcite-combobox-item>
       <calcite-combobox-item icon="beaker" value="beaker" text-label="Beaker"></calcite-combobox-item>
       <calcite-combobox-item icon="bell" value="bell" text-label="Bell"></calcite-combobox-item>
       <calcite-combobox-item icon="bookmark" value="bookmark" text-label="Bookmark"></calcite-combobox-item>

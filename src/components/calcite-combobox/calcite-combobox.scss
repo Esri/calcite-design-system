@@ -3,10 +3,6 @@
   position: relative;
 }
 
-:host-context([theme="dark"]) {
-  @include calcite-theme-dark();
-}
-
 :host([disabled]) {
   @apply pointer-events-none select-none opacity-50;
 }
@@ -151,6 +147,11 @@
   display: block;
   margin: 0;
   padding: 0;
+}
+
+.list--hide {
+  height: 0;
+  overflow: hidden;
 }
 
 .chip {

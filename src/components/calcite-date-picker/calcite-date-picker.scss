@@ -9,10 +9,6 @@
   background-color: var(--calcite-ui-foreground-1);
 }
 
-:host-context([theme="dark"]) {
-  @include calcite-theme-dark();
-}
-
 :host([scale="s"]) {
   max-width: 216px;
 }
