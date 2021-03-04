@@ -1,9 +1,3 @@
-:host-context([theme="light"]) {
-  --calcite-ui-border-input: $blk-100;
-}
-:host-context([theme="dark"]) {
-  @include calcite-theme-dark();
-}
 :host([scale="s"]) {
   --calcite-checkbox-size: theme("fontSize.-2");
   --calcite-checkbox-grid-gap: theme("spacing.2");
@@ -40,6 +34,10 @@
     align-items: center;
     --calcite-label-margin-bottom: 0;
   }
+  ::slotted(input) {
+    width: var(--calcite-checkbox-size);
+    height: var(--calcite-checkbox-size);
+  }
 }
 :host(:hover),
 :host([hovered]) {
@@ -54,9 +52,8 @@
     box-shadow: inset 0 0 0 1px var(--calcite-ui-brand);
   }
 }
-:host(:focus),
-:host([focused]) {
-  .check-svg {
+:host {
+  .focused .check-svg {
     @include focus-box-shadow(inset 0 0 0 1px var(--calcite-ui-brand));
   }
 }

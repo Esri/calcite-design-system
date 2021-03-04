@@ -2,6 +2,7 @@ $popper-transform-bottom: translateY(-5px);
 $popper-transform-top: translateY(5px);
 $popper-transform-left: translateX(5px);
 $popper-transform-right: translateX(-5px);
+$popper-default-z-index: 900;
 
 :root {
   --calcite-popper-transition: #{$transition};
@@ -76,10 +77,10 @@ $popper-transform-right: translateX(-5px);
   }
 }
 
-@mixin popperContainer {
+@mixin popperContainer($zIndex: $popper-default-z-index) {
   display: block;
   position: absolute;
-  z-index: 999;
+  z-index: $zIndex;
   transform: scale(0);
 }
 
@@ -93,9 +94,9 @@ $popper-transform-right: translateX(-5px);
   visibility: visible;
 }
 
-@mixin popperHost {
+@mixin popperHost($zIndex: $popper-default-z-index) {
   :host {
-    @include popperContainer();
+    @include popperContainer($zIndex);
   }
 
   @include popperHostAnim();

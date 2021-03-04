@@ -1,7 +1,6 @@
-import { Component, Element, Event, EventEmitter, Host, Prop, h } from "@stencil/core";
+import { Component, Element, Event, EventEmitter, Host, Prop, h, VNode } from "@stencil/core";
 import { Theme } from "../interfaces";
 import { CSS, ICONS, SLOTS, TEXT } from "./resources";
-import { VNode } from "@stencil/core/internal";
 import { getSlotted } from "../../utils/dom";
 
 /**

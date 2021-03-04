@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { HYDRATED_ATTR } from "../../tests/commonTests";
+import { focusable, HYDRATED_ATTR } from "../../tests/commonTests";
+import { html } from "../../tests/utils";
 
 describe("calcite-modal properties", () => {
   it("renders", async () => {
@@ -158,6 +159,34 @@ describe("calcite-modal accessibility checks", () => {
     expect(document.activeElement).toEqual($button);
   });
 
+  describe("setFocus", () => {
+    const createModalHTML = (contentHTML?: string) => `<calcite-modal active>${contentHTML}</calcite-modal>`;
+
+    const closeButtonFocusId = "close-button";
+    const closeButtonTargetSelector = ".close";
+    const focusableContentTargetClass = "test";
+
+    const focusableContentHTML = html`<h3 slot="header">Title</h3>
+      <p slot="content">This is the content <button class=${focusableContentTargetClass}>test</button></p>`;
+
+    it("focuses focusable content by default", async () =>
+      focusable(createModalHTML(focusableContentHTML), {
+        focusTargetSelector: `.${focusableContentTargetClass}`
+      }));
+
+    it("focuses close button if there is no focusable content", async () =>
+      focusable(createModalHTML(), {
+        focusId: closeButtonFocusId,
+        shadowFocusTargetSelector: closeButtonTargetSelector
+      }));
+
+    it.skip("can focus close button directly", async () =>
+      focusable(createModalHTML(focusableContentHTML), {
+        focusId: closeButtonFocusId,
+        shadowFocusTargetSelector: closeButtonTargetSelector
+      }));
+  });
+
   it("has correct aria role/attribute", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-modal></calcite-modal>`);
@@ -168,7 +197,7 @@ describe("calcite-modal accessibility checks", () => {
 
   it("closes when Escape key is pressed", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-modal close-label="test"></calcite-modal>`);
+    await page.setContent(`<calcite-modal intl-close="test"></calcite-modal>`);
     const modal = await page.find("calcite-modal");
     await modal.setProperty("active", true);
     await page.waitForChanges();
@@ -180,7 +209,7 @@ describe("calcite-modal accessibility checks", () => {
 
   it("closes and allows re-opening when Escape key is pressed", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-modal close-label="test"></calcite-modal>`);
+    await page.setContent(`<calcite-modal intl-close="test"></calcite-modal>`);
     const modal = await page.find("calcite-modal");
     await modal.setProperty("active", true);
     await page.waitForChanges();
@@ -195,7 +224,7 @@ describe("calcite-modal accessibility checks", () => {
 
   it("closes when Close button is clicked", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-modal close-label="test"></calcite-modal>`);
+    await page.setContent(`<calcite-modal intl-close="test"></calcite-modal>`);
     const modal = await page.find("calcite-modal");
     const button = await page.find("calcite-modal >>> .close");
     await modal.setProperty("active", true);
@@ -208,7 +237,7 @@ describe("calcite-modal accessibility checks", () => {
 
   it("closes and allows re-opening when Close button  is clicked", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-modal close-label="test"></calcite-modal>`);
+    await page.setContent(`<calcite-modal intl-close="test"></calcite-modal>`);
     const modal = await page.find("calcite-modal");
     const button = await page.find("calcite-modal >>> .close");
     await modal.setProperty("active", true);

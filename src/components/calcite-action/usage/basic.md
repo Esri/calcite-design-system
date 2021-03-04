@@ -1,12 +1,12 @@
-#### Without text
+#### Without text displayed
 
 Renders a `calcite-action` that displays only an icon and a tooltip label.
 
 ```html
-<calcite-action label="Performs my custom action" icon="plus"></calcite-action>
+<calcite-action label="Performs my custom action" text="My Custom Action" icon="plus"></calcite-action>
 ```
 
-#### With text
+#### With text displayed
 
 Renders a `calcite-action` that displays text along side an icon and a tooltip label.
 
@@ -19,5 +19,5 @@ Renders a `calcite-action` that displays text along side an icon and a tooltip l
 Renders a `calcite-action` that has a clear background.
 
 ```html
-<calcite-action appearance="clear" icon="layers"></calcite-action>
+<calcite-action appearance="clear" text="Layers" icon="layers"></calcite-action>
 ```

@@ -1,5 +1,5 @@
-import { FunctionalComponent, h, Host } from "@stencil/core";
-import { JSXBase, VNode } from "@stencil/core/internal";
+import { FunctionalComponent, h, Host, VNode } from "@stencil/core";
+import { JSXBase } from "@stencil/core/internal";
 import { CSS } from "./resources";
 import { getElementDir, getElementTheme } from "../../utils/dom";
 import { handleFilter } from "./shared-list-logic";

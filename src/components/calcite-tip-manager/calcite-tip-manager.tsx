@@ -32,7 +32,7 @@ export class CalciteTipManager {
   /**
    * Alternate text for closing the `calcite-tip-manager`.
    */
-  @Prop({ reflect: true }) closed = false;
+  @Prop({ reflect: true, mutable: true }) closed = false;
 
   @Watch("closed")
   closedChangeHandler(): void {

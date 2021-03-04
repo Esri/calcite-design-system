@@ -1,7 +1,3 @@
-:host-context([theme="dark"]) {
-  @include calcite-theme-dark();
-}
-
 :host([alignment="start"]),
 :host([alignment="end"][dir="rtl"]) {
   @apply text-left;

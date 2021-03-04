@@ -48,6 +48,7 @@ describe("calcite-input-date-picker", () => {
     const date = await page.find("calcite-input-date-picker");
 
     await date.click();
+    await page.waitForChanges();
     const calendar = await page.find("calcite-input-date-picker >>> .calendar-picker-wrapper");
 
     expect(await calendar.isVisible()).toBe(true);

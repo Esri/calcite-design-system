@@ -178,7 +178,7 @@
 
       <calcite-label>
         Calcite Label wrapping Calcite Date
-        <calcite-date></calcite-date>
+        <calcite-input-date-picker></calcite-input-date-picker>
       </calcite-label>
 
       <calcite-label>
@@ -294,7 +294,7 @@
 
       <calcite-label>
         Calcite Label Wrapping Calcite Select
-        <calcite-select name="wrapping-calcite-select">
+        <calcite-select label="calcite select" name="wrapping-calcite-select">
           <calcite-option>high</calcite-option>
           <calcite-option>medium</calcite-option>
           <calcite-option>low</calcite-option>
@@ -303,7 +303,7 @@
 
       <calcite-label for="wrapping-calcite-select-with-for">
         Calcite Label Wrapping Calcite Select With For
-        <calcite-select id="wrapping-calcite-select-with-for" name="wrapping-calcite-select-with-for">
+        <calcite-select label="calcite select" id="wrapping-calcite-select-with-for" name="wrapping-calcite-select-with-for">
           <calcite-option>high</calcite-option>
           <calcite-option>medium</calcite-option>
           <calcite-option>low</calcite-option>
@@ -387,12 +387,12 @@
       <calcite-label for="sibling-calcite-date">
         Sibling Calcite Label to Calcite Date
       </calcite-label>
-      <calcite-date id="sibling-calcite-date"></calcite-date>
+      <calcite-input-date-picker id="sibling-calcite-date"></calcite-input-date-picker>
 
       <calcite-label for="sibling-calcite-date-wrapped-in-span">
         <span>Sibling Calcite Label wrapped in span to Calcite Date</span>
       </calcite-label>
-      <calcite-date id="sibling-calcite-date-wrapped-in-span"></calcite-date>
+      <calcite-input-date-picker id="sibling-calcite-date-wrapped-in-span"></calcite-input-date-picker>
 
       <calcite-label for="sibling-calcite-inline-editable">
         Sibling Calcite Label to Calcite Inline Editable
@@ -421,12 +421,12 @@
       <calcite-input id="sibling-calcite-input-wrapped-in-span" value="calcite input"></calcite-input>
 
       <calcite-label for="sibling-calcite-radio">Sibling Calcite Label to Calcite Radio Buttons</calcite-label>
-      <calcite-radio-button id="sibling-calcite-radio" name="sibling-calcite-radio"></calcite-radio-button>
-      <calcite-radio-button name="sibling-calcite-radio"></calcite-radio-button>
+      <calcite-radio-button value="one" id="sibling-calcite-radio" name="sibling-calcite-radio"></calcite-radio-button>
+      <calcite-radio-button value="two" name="sibling-calcite-radio"></calcite-radio-button>
 
       <calcite-label for="sibling-calcite-radio-wrapped-in-span"><span>Sibling Calcite Label wrapped in span to Calcite Radio Buttons</span></calcite-label>
-      <calcite-radio-button id="sibling-calcite-radio-wrapped-in-span" name="sibling-calcite-radio-wrapped-in-span"></calcite-radio-button>
-      <calcite-radio-button name="sibling-calcite-radio-wrapped-in-span"></calcite-radio-button>
+      <calcite-radio-button value="one" id="sibling-calcite-radio-wrapped-in-span" name="sibling-calcite-radio-wrapped-in-span"></calcite-radio-button>
+      <calcite-radio-button value="two" name="sibling-calcite-radio-wrapped-in-span"></calcite-radio-button>
 
       <calcite-label for="sibling-calcite-radio-button-group">
         Sibling Calcite Label to Calcite Radio Button Group
@@ -471,7 +471,7 @@
       </calcite-radio-group>
 
       <calcite-label for="sibling-calcite-select">Sibling Calcite Label to Calcite Select</calcite-label>
-      <calcite-select id="sibling-calcite-select" name="sibling-calcite-select">
+      <calcite-select label="calcite select" id="sibling-calcite-select" name="sibling-calcite-select">
         <calcite-option>high</calcite-option>
         <calcite-option>medium</calcite-option>
         <calcite-option>low</calcite-option>
@@ -480,7 +480,7 @@
       <calcite-label for="sibling-calcite-select-wrapped-in-span">
         <span>Sibling Calcite Label wrapped in span to Calcite Select</span>
       </calcite-label>
-      <calcite-select id="sibling-calcite-select-wrapped-in-span" name="sibling-calcite-select-wrapped-in-span">
+      <calcite-select label="calcite select" id="sibling-calcite-select-wrapped-in-span" name="sibling-calcite-select-wrapped-in-span">
         <calcite-option>high</calcite-option>
         <calcite-option>medium</calcite-option>
         <calcite-option>low</calcite-option>

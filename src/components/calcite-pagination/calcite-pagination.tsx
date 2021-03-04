@@ -36,7 +36,7 @@ export class CalcitePagination {
   @Prop() num = 20;
 
   /** index of item that should begin the page */
-  @Prop() start = 1;
+  @Prop({ mutable: true }) start = 1;
 
   /** total number of items */
   @Prop() total = 0;
@@ -66,10 +66,16 @@ export class CalcitePagination {
   //
   //--------------------------------------------------------------------------
 
-  /** Emitted whenever the selected page changes.
-   * @event calcitePaginationUpdate
+  /**
+   * Emitted whenever the selected page changes.
+   * @deprecated use calcitePaginationChange instead
    */
   @Event() calcitePaginationUpdate: EventEmitter<CalcitePaginationDetail>;
+
+  /**
+   * Emitted whenever the selected page changes.
+   */
+  @Event() calcitePaginationChange: EventEmitter<CalcitePaginationDetail>;
 
   // --------------------------------------------------------------------------
   //
@@ -118,11 +124,14 @@ export class CalcitePagination {
   }
 
   private emitUpdate() {
-    this.calcitePaginationUpdate.emit({
+    const changePayload = {
       start: this.start,
       total: this.total,
       num: this.num
-    });
+    };
+
+    this.calcitePaginationChange.emit(changePayload);
+    this.calcitePaginationUpdate.emit(changePayload);
   }
 
   //--------------------------------------------------------------------------

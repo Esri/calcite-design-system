@@ -1,6 +1,3 @@
-:host-context([theme="dark"]) {
-  @include calcite-theme-dark();
-}
 :host {
   cursor: pointer;
   display: inline-block;

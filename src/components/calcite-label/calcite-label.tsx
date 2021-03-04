@@ -10,7 +10,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
+import { getAttributes, getElementDir } from "../../utils/dom";
 import { FocusRequest } from "./interfaces";
 import { Alignment, Scale, Status, Theme } from "../interfaces";
 
@@ -38,20 +38,19 @@ export class CalciteLabel {
   @Prop({ reflect: true }) alignment: Alignment = "start";
 
   /** specify the status of the label and any child input / input messages */
-  @Prop({ mutable: true, reflect: true }) status: Status = "idle";
+  @Prop({ reflect: true }) status: Status = "idle";
 
   /** The id of the input associated with the label */
   @Prop({ reflect: true }) for: string;
 
   /** specify the scale of the input, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: Scale = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** specify theme of the label and its any child input / input messages */
   @Prop({ reflect: true }) theme: Theme;
 
   /** is the wrapped element positioned inline with the label slotted text */
-  @Prop({ mutable: true, reflect: true }) layout: "inline" | "inline-space-between" | "default" =
-    "default";
+  @Prop({ reflect: true }) layout: "inline" | "inline-space-between" | "default" = "default";
 
   /** eliminates any space around the label */
   @Prop() disableSpacing?: boolean;
@@ -93,14 +92,6 @@ export class CalciteLabel {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
-  private getAttributes(): Record<string, any> {
-    // spread attributes from the component to rendered child, filtering out props
-    const props = ["disabled", "id", "layout", "scale", "status", "theme"];
-    return Array.from(this.el.attributes)
-      .filter((a) => a && !props.includes(a.name))
-      .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
-  }
 
   private handleCalciteHtmlForClicks = (target: HTMLElement) => {
     // 1. has htmlFor
@@ -160,23 +151,19 @@ export class CalciteLabel {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback(): void {
-    const status = ["invalid", "valid", "idle"];
-    if (!status.includes(this.status)) this.status = "idle";
-
-    const layout = ["inline", "inline-space-between", "default"];
-    if (!layout.includes(this.layout)) this.layout = "default";
-
-    const scale = ["s", "m", "l"];
-    if (!scale.includes(this.scale)) this.scale = "m";
-  }
-
   componentDidLoad(): void {
     if (this.disabled) this.setDisabledControls();
   }
 
   render(): VNode {
-    const attributes = this.getAttributes();
+    const attributes = getAttributes(this.el, [
+      "disabled",
+      "id",
+      "layout",
+      "scale",
+      "status",
+      "theme"
+    ]);
     const dir = getElementDir(this.el);
     return (
       <Host dir={dir}>

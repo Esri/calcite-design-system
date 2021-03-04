@@ -12,7 +12,7 @@ import {
 } from "@stencil/core";
 
 import Color from "color";
-import { ColorMode, ColorValue, InternalColor, ColorAppearance } from "./interfaces";
+import { ColorAppearance, ColorMode, ColorValue, InternalColor } from "./interfaces";
 import { Scale, Theme } from "../interfaces";
 import {
   CSS,
@@ -29,14 +29,15 @@ import { throttle } from "lodash-es";
 import { getKey } from "../../utils/key";
 
 const throttleFor60FpsInMs = 16;
-const defaultColor = normalizeHex(DEFAULT_COLOR.hex());
+const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
+const defaultFormat = "auto";
 
 @Component({
-  tag: "calcite-color",
-  styleUrl: "calcite-color.scss",
+  tag: "calcite-color-picker",
+  styleUrl: "calcite-color-picker.scss",
   shadow: true
 })
-export class CalciteColor {
+export class CalciteColorPicker {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -44,7 +45,7 @@ export class CalciteColor {
   //--------------------------------------------------------------------------
 
   @Element()
-  el: HTMLCalciteColorElement;
+  el: HTMLCalciteColorPickerElement;
 
   //--------------------------------------------------------------------------
   //
@@ -91,10 +92,10 @@ export class CalciteColor {
    *
    * When "auto", the format will be inferred from `value` when set.
    */
-  @Prop() format: Format = "auto";
+  @Prop() format: Format = defaultFormat;
 
   @Watch("format")
-  handleFormatChange(format: CalciteColor["format"]): void {
+  handleFormatChange(format: CalciteColorPicker["format"]): void {
     this.mode = format === "auto" ? this.mode : format;
     this.value = this.toValue(this.color);
   }
@@ -204,7 +205,7 @@ export class CalciteColor {
   @Prop({
     mutable: true
   })
-  value: ColorValue | null = defaultColor;
+  value: ColorValue | null = defaultValue;
 
   @Watch("value")
   handleValueChange(value: ColorValue | null, oldValue: ColorValue | null): void {
@@ -226,7 +227,7 @@ export class CalciteColor {
     }
 
     if (this.colorUpdateLocked) {
-      this.calciteColorChange.emit();
+      this.calciteColorPickerChange.emit();
       return;
     }
 
@@ -235,7 +236,7 @@ export class CalciteColor {
 
     if (modeChanged || colorChanged) {
       this.color = color;
-      this.calciteColorChange.emit();
+      this.calciteColorPickerChange.emit();
     }
   }
   //--------------------------------------------------------------------------
@@ -252,7 +253,7 @@ export class CalciteColor {
 
   private fieldAndSliderRenderingContext: CanvasRenderingContext2D;
 
-  private hexInputNode: HTMLCalciteColorHexInputElement;
+  private hexInputNode: HTMLCalciteColorPickerHexInputElement;
 
   private hueThumbState: "idle" | "hover" | "drag" = "idle";
 
@@ -281,7 +282,7 @@ export class CalciteColor {
   //--------------------------------------------------------------------------
 
   @Event()
-  calciteColorChange: EventEmitter;
+  calciteColorPickerChange: EventEmitter;
 
   private handleTabActivate = (event: Event): void => {
     this.channelMode = (event.currentTarget as HTMLElement).getAttribute(
@@ -294,7 +295,7 @@ export class CalciteColor {
   private handleHexInputChange = (event: Event): void => {
     event.stopPropagation();
     const { allowEmpty, color } = this;
-    const input = event.target as HTMLCalciteColorHexInputElement;
+    const input = event.target as HTMLCalciteColorPickerHexInputElement;
     const hex = input.value;
 
     if (allowEmpty && !hex) {
@@ -310,7 +311,7 @@ export class CalciteColor {
   };
 
   private handleSavedColorSelect = (event: Event): void => {
-    const swatch = event.currentTarget as HTMLCalciteColorSwatchElement;
+    const swatch = event.currentTarget as HTMLCalciteColorPickerSwatchElement;
     this.internalColorSet(Color(swatch.color));
   };
 
@@ -424,8 +425,13 @@ export class CalciteColor {
     if (this.storageId && localStorage.getItem(storageKey)) {
       this.savedColors = JSON.parse(localStorage.getItem(storageKey));
     }
+    const { color, format, value } = this;
 
-    this.handleValueChange(this.value, defaultColor);
+    const initialValueDefault = format !== "auto" ? this.toValue(color, format) : defaultValue;
+    const initialValue = format !== "auto" && value === defaultValue ? initialValueDefault : value;
+
+    this.handleValueChange(initialValue, initialValueDefault);
+
     this.updateDimensions(this.scale);
   }
 
@@ -482,11 +488,11 @@ export class CalciteColor {
                 >
                   {intlHex}
                 </span>
-                <calcite-color-hex-input
+                <calcite-color-picker-hex-input
                   allowEmpty={allowEmpty}
                   class={CSS.control}
                   dir={elementDir}
-                  onCalciteColorHexInputChange={this.handleHexInputChange}
+                  onCalciteColorPickerHexInputChange={this.handleHexInputChange}
                   ref={this.storeHexInputRef}
                   scale={hexInputScale}
                   theme={theme}
@@ -521,7 +527,7 @@ export class CalciteColor {
                   appearance="transparent"
                   aria-label={intlDeleteColor}
                   class={CSS.deleteColor}
-                  color="dark"
+                  color="neutral"
                   disabled={noColor}
                   iconStart="minus"
                   onClick={this.deleteColor}
@@ -532,7 +538,7 @@ export class CalciteColor {
                   appearance="transparent"
                   aria-label={intlSaveColor}
                   class={CSS.saveColor}
-                  color="dark"
+                  color="neutral"
                   disabled={noColor}
                   iconStart="plus"
                   onClick={this.saveColor}
@@ -545,7 +551,7 @@ export class CalciteColor {
               <div class={CSS.savedColors}>
                 {[
                   ...savedColors.map((color) => (
-                    <calcite-color-swatch
+                    <calcite-color-picker-swatch
                       active={selectedColorInHex === color}
                       class={CSS.savedColor}
                       color={color}
@@ -566,7 +572,7 @@ export class CalciteColor {
     );
   }
 
-  private storeHexInputRef = (node: HTMLCalciteColorHexInputElement): void => {
+  private storeHexInputRef = (node: HTMLCalciteColorPickerHexInputElement): void => {
     this.hexInputNode = node;
   };
 
@@ -651,8 +657,8 @@ export class CalciteColor {
   //
   //--------------------------------------------------------------------------
 
-  private internalColorSet(color: Color | null): void {
-    if (colorEqual(color, this.color)) {
+  private internalColorSet(color: Color | null, skipEqual = true): void {
+    if (skipEqual && colorEqual(color, this.color)) {
       return;
     }
 
@@ -662,25 +668,24 @@ export class CalciteColor {
     this.colorUpdateLocked = false;
   }
 
-  private toValue(color: Color | null): ColorValue | null {
+  private toValue(color: Color | null, format: SupportedMode = this.mode): ColorValue | null {
     if (!color) {
       return null;
     }
 
-    const { mode } = this;
     const hexMode = "hex";
 
-    if (mode.includes(hexMode)) {
-      return normalizeHex(color[hexMode]());
+    if (format.includes(hexMode)) {
+      return normalizeHex(color.round()[hexMode]());
     }
 
-    if (mode.includes("-css")) {
-      return color[mode.replace("-css", "").replace("a", "")]().string();
+    if (format.includes("-css")) {
+      return color[format.replace("-css", "").replace("a", "")]().round().string();
     }
 
-    const colorObject = color[mode]().round().object();
+    const colorObject = color[format]().round().object();
 
-    if (mode.endsWith("a")) {
+    if (format.endsWith("a")) {
       // normalize alpha prop
       colorObject.a = colorObject.alpha;
       delete colorObject.alpha;
@@ -951,7 +956,7 @@ export class CalciteColor {
       } = this;
       const hue = (360 / width) * x;
 
-      this.internalColorSet(this.baseColorFieldColor.hue(hue));
+      this.internalColorSet(this.baseColorFieldColor.hue(hue), false);
     };
   };
 

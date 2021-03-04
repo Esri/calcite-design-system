@@ -11,7 +11,13 @@ export const create: () => Config = () => ({
   bundles: [
     { components: ["calcite-accordion", "calcite-accordion-item"] },
     {
-      components: ["calcite-action", "calcite-action-group", "calcite-action-bar", "calcite-action-pad"]
+      components: [
+        "calcite-action",
+        "calcite-action-group",
+        "calcite-action-menu",
+        "calcite-action-bar",
+        "calcite-action-pad"
+      ]
     },
     { components: ["calcite-alert"] },
     { components: ["calcite-avatar"] },
@@ -20,8 +26,9 @@ export const create: () => Config = () => ({
     },
     { components: ["calcite-button"] },
     { components: ["calcite-card"] },
+    { components: ["calcite-checkbox"] },
     { components: ["calcite-chip"] },
-    { components: ["calcite-color", "calcite-color-hex-input", "calcite-color-swatch"] },
+    { components: ["calcite-color-picker", "calcite-color-picker-hex-input", "calcite-color-picker-swatch"] },
     { components: ["calcite-combobox"] },
     {
       components: [
@@ -74,6 +81,7 @@ export const create: () => Config = () => ({
     { type: "dist-custom-elements-bundle" },
     { type: "dist" },
     { type: "docs-readme" },
+    { type: "docs-json", file: "./dist/extras/docs-json.json" },
     { type: "custom", name: "preact", generator: generatePreactTypes },
     {
       type: "www",

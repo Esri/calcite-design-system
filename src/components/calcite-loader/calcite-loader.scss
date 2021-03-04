@@ -1,126 +1,75 @@
-$loader-size-small: 32;
-$loader-size-medium: 56;
-$loader-size-large: 80;
-
-$loader-size-small-inline: 12;
-$loader-size-medium-inline: 16;
-$loader-size-large-inline: 20;
-
-$loader-scale: 56;
 $stroke-width: 3;
-$stroke-width-inline: 2;
-$loader-padding: 4rem;
+$loader-scale: 54;
 $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 
-/**
-  Segment variables
-  - size      length of the segment (0 - 100)
-  - growth    how much the segment grows during the animation
-              (size + growth should not exceed 100)
-  - duration  how long the segment takes to rotate 360° (seconds)
-*/
-$segment-1-size: 10;
-$segment-1-growth: 40;
-$segment-1-duration: 0.72s;
-$segment-2-size: 20;
-$segment-2-growth: 30;
-$segment-2-duration: 0.96s;
-$segment-3-size: 5;
-$segment-3-growth: 45;
-$segment-3-duration: 1.16s;
-
 :host {
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  display: none;
-  padding-bottom: $loader-padding;
-  padding-top: $loader-padding;
-  margin-left: auto;
-  margin-right: auto;
+  @apply items-center relative justify-center hidden mx-auto opacity-100 py-16;
   min-height: var(--loader-size);
+  font-size: var(--loader-font-size);
   stroke: var(--calcite-ui-brand);
   stroke-width: $stroke-width;
   fill: none;
-  opacity: 1;
   transform: scale(1, 1);
   animation: loader-color-shift 6s alternate-reverse infinite linear;
 }
 
 :host([scale="s"]) {
-  --loader-size: #{$loader-size-small + 1}px;
-  --loader-size-inline: #{$loader-size-small-inline + 1}px;
-  @include font-size(-3);
-  .loader__percentage {
-    font-size: 0.625rem;
-  }
+  --loader-font-size: theme("fontSize.-2");
+  --loader-size: theme("spacing.8");
+  --loader-size-inline: theme("spacing.3");
 }
+
 :host([scale="m"]) {
-  --loader-size: #{$loader-size-medium + 1}px;
-  --loader-size-inline: #{$loader-size-medium-inline + 1}px;
-  @include font-size(-2);
-  .loader__percentage {
-    font-size: 0.875rem;
-  }
+  --loader-font-size: theme("fontSize.0");
+  --loader-size: theme("spacing.16");
+  --loader-size-inline: theme("spacing.4");
 }
+
 :host([scale="l"]) {
-  --loader-size: #{$loader-size-large + 1}px;
-  --loader-size-inline: #{$loader-size-large-inline + 1}px;
-  @include font-size(-1);
-  .loader__percentage {
-    font-size: 1.25rem;
-  }
+  --loader-font-size: theme("fontSize.2");
+  --loader-size: theme("spacing.24");
+  --loader-size-inline: theme("spacing.5");
 }
 
 :host([no-padding]) {
-  padding-top: 0;
-  padding-bottom: 0;
+  @apply py-0;
 }
 
 :host([active]) {
-  display: flex;
+  @apply flex;
 }
 
 .loader__text {
-  display: block;
-  margin-top: calc(var(--loader-size) + 3rem);
-  text-align: center;
+  @apply block text-center;
+  margin-top: calc(var(--loader-size) + theme("spacing.6"));
 }
 
 .loader__percentage {
-  display: block;
+  @apply block absolute text-color-1 text-center;
+  font-size: var(--loader-font-size);
   width: var(--loader-size);
-  position: absolute;
-  top: $loader-padding;
+  top: theme("spacing.16");
   left: 50%;
   margin-left: calc(var(--loader-size) / 2 * -1);
   margin-top: calc(var(--loader-size) / 2);
-  text-align: center;
-  color: var(--calcite-ui-text-1);
   line-height: 0.25;
   transform: scale(1, 1);
 }
 
 .loader__svgs {
+  @apply absolute overflow-visible opacity-100;
   width: var(--loader-size);
   height: var(--loader-size);
-  position: absolute;
-  top: $loader-padding;
+  top: theme("spacing.16");
   left: 50%;
   margin-left: calc(var(--loader-size) / 2 * -1);
-  overflow: visible;
-  opacity: 1;
   transform: scale(1, 1);
 }
 
 .loader__svg {
+  @apply absolute overflow-visible top-0 left-0 origin-center;
   width: var(--loader-size);
   height: var(--loader-size);
-  position: absolute;
-  top: 0;
-  left: 0;
-  overflow: visible;
-  transform-origin: center;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
   // by default the animation is rotation for ie. and edge
@@ -141,25 +90,19 @@ $segment-3-duration: 1.16s;
 }
 
 :host([type="determinate"]) {
+  @apply animate-none;
   stroke: var(--calcite-ui-border-3);
-  animation: none;
   .loader__svg--3 {
+    @apply animate-none;
     stroke: var(--calcite-ui-brand);
     stroke-dasharray: $loader-circumference;
     transform: rotate(-90deg);
-    animation: none;
     transition: all 100ms linear;
   }
 }
 
 :host([inline]) {
-  stroke: currentColor;
-  stroke-width: $stroke-width-inline;
-  animation: none;
-  margin: 0;
-  padding-bottom: 0;
-  padding-top: 0;
-  position: relative;
+  @apply relative m-0 py-0 animate-none stroke-current stroke-2;
   height: var(--loader-size-inline);
   min-height: var(--loader-size-inline);
   width: var(--loader-size-inline);
@@ -168,18 +111,16 @@ $segment-3-duration: 1.16s;
 }
 
 :host([inline][dir="rtl"]) {
+  @apply mr-0;
   margin-left: var(--loader-size-inline) / 2;
-  margin-right: 0;
 }
 
 :host([active][inline]) {
-  display: inline-block;
+  @apply inline-block;
 }
 
 :host([inline]) .loader__svgs {
-  top: 0;
-  left: 0;
-  margin: 0;
+  @apply top-0 left-0 m-0;
   width: var(--loader-size-inline);
   height: var(--loader-size-inline);
 }
@@ -190,26 +131,34 @@ $segment-3-duration: 1.16s;
 }
 
 :host([complete]) {
-  opacity: 0;
+  @apply opacity-0;
   transform: scale(0.75, 0.75);
   transform-origin: center;
   transition: opacity 200ms linear 1000ms, transform 200ms linear 1000ms;
 }
 
 :host([complete]) .loader__svgs {
-  opacity: 0;
+  @apply opacity-0;
   transform: scale(0.75, 0.75);
   transform-origin: center;
   transition: opacity 180ms linear 800ms, transform 180ms linear 800ms;
 }
 
 :host([complete]) .loader__percentage {
-  color: var(--calcite-ui-brand);
+  color: theme("colors.brand");
   transform: scale(1.05, 1.05);
   transform-origin: center;
   transition: color 200ms linear, transform 200ms linear;
 }
 
+/**
+  Segment variables
+  - i         index (1-3)
+  - size      length of the segment (0 - 100)
+  - growth    how much the segment grows during the animation
+              (size + growth should not exceed 100)
+  - duration  how long the segment takes to rotate 360° (seconds)
+*/
 @mixin generateSegment($i, $size, $growth, $duration) {
   $circumference: $loader-circumference / $loader-scale * 100%;
   $length: ($size / 100) * $circumference;
@@ -234,9 +183,9 @@ $segment-3-duration: 1.16s;
   }
 }
 
-@include generateSegment(1, $segment-1-size, $segment-1-growth, $segment-1-duration);
-@include generateSegment(2, $segment-2-size, $segment-2-growth, $segment-2-duration);
-@include generateSegment(3, $segment-3-size, $segment-3-growth, $segment-3-duration);
+@include generateSegment(1, 10, 40, 0.72s);
+@include generateSegment(2, 20, 30, 0.96s);
+@include generateSegment(3, 05, 45, 1.16s);
 
 @keyframes loader-color-shift {
   0% {

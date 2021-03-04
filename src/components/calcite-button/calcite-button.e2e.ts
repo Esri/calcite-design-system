@@ -125,7 +125,6 @@ describe("calcite-button", () => {
     expect(element).toHaveAttribute(HYDRATED_ATTR);
     expect(elementAsLink).not.toBeNull();
     expect(elementAsButton).toBeNull();
-    expect(elementAsLink).toHaveClass("mycustomclass");
     expect(elementAsLink).toEqualAttribute("href", "google.com");
     expect(elementAsLink).toEqualAttribute("rel", "noopener noreferrer");
     expect(elementAsLink).toEqualAttribute("target", "_blank");
@@ -146,7 +145,6 @@ describe("calcite-button", () => {
     expect(element).toHaveAttribute(HYDRATED_ATTR);
     expect(elementAsLink).toBeNull();
     expect(elementAsButton).not.toBeNull();
-    expect(elementAsButton).toHaveClass("mycustomclass");
     expect(elementAsButton).toEqualAttribute("type", "reset");
     expect(elementAsButton).toEqualAttribute("name", "myname");
     expect(iconStart).toBeNull();
@@ -256,17 +254,31 @@ describe("calcite-button", () => {
     expect(loader).not.toBeNull();
   });
 
-  it("hastext is true when text is present", async () => {
+  it("hascontent class is present on rendered child when content (as text) is present", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-button>Continue</calcite-button>`);
-    const element = await page.find("calcite-button");
-    expect(element).toHaveAttribute("hastext");
+    const elementAsButton = await page.find("calcite-button >>> button");
+    expect(elementAsButton).toHaveClass(CSS.contentSlotted);
   });
 
-  it("hastext is false when text is not present", async () => {
+  it("hascontent class is present on rendered child when content (as element) is present", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-button><calcite-icon icon="banana" /></calcite-button>`);
+    const elementAsButton = await page.find("calcite-button >>> button");
+    expect(elementAsButton).toHaveClass(CSS.contentSlotted);
+  });
+
+  it("hascontent class is present on rendered child when content (as text and element) is present", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-button>Banana <calcite-icon icon="banana" /></calcite-button>`);
+    const elementAsButton = await page.find("calcite-button >>> button");
+    expect(elementAsButton).toHaveClass(CSS.contentSlotted);
+  });
+
+  it("hascontent class is not present on rendered child when content is not present", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-button icon-start='plus'></calcite-button>`);
-    const element = await page.find("calcite-button");
-    expect(element).not.toHaveAttribute("hastext");
+    const elementAsButton = await page.find("calcite-button >>> button");
+    expect(elementAsButton).not.toHaveClass(CSS.contentSlotted);
   });
 });

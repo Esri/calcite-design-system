@@ -12,6 +12,24 @@ describe("calcite-popover", () => {
     );
   });
 
+  it("should have zIndex of 900", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`
+    );
+
+    await page.waitForChanges();
+
+    const popover = await page.find(`calcite-popover`);
+
+    await page.waitForChanges();
+
+    const style = await popover.getComputedStyle();
+
+    expect(style.zIndex).toBe("900");
+  });
+
   it("is accessible when closed", async () =>
     accessible(`<calcite-popover label="test" reference-element="ref"></calcite-popover><div id="ref">😄</div>`));
 

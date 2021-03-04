@@ -1,6 +1,6 @@
 import { Component, Element, Host, Method, Prop, h, VNode } from "@stencil/core";
 import { Appearance, Scale, Theme } from "../interfaces";
-import { FabColor } from "./interfaces";
+import { ButtonColor } from "../calcite-button/interfaces";
 import { CSS, ICONS } from "./resources";
 import { focusElement, getElementDir } from "../../utils/dom";
 
@@ -19,12 +19,12 @@ export class CalciteFab {
   /**
    * Used to set the button's appearance. Default is outline.
    */
-  @Prop({ reflect: true }) appearance: Appearance = "outline";
+  @Prop({ reflect: true }) appearance: Extract<"solid" | "outline", Appearance> = "outline";
 
   /**
    * Used to set the button's color. Default is light.
    */
-  @Prop({ reflect: true }) color: FabColor = "light";
+  @Prop({ reflect: true }) color: ButtonColor = "neutral";
 
   /**
    * When true, disabled prevents interaction. This state shows items with lower opacity/grayed.

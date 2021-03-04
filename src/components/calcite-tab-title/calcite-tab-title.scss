@@ -8,16 +8,6 @@ $tab-margin: 1.25rem;
   margin-inline-end: $tab-margin;
 }
 
-// only ie11 and chrome will run this, others have logical properties
-:host-context([dir="rtl"]) {
-  margin-right: 0;
-  margin-left: $tab-margin;
-}
-
-:host-context([theme="dark"]) {
-  @include calcite-theme-dark();
-}
-
 :host([layout="center"]) {
   flex-basis: 200px;
   text-align: center;
@@ -99,18 +89,8 @@ span {
   margin-right: $baseline/3;
 }
 
-:host([hastext][dir="rtl"]) .calcite-tab-title--icon.icon-start {
-  margin-right: 0;
-  margin-left: $baseline/3;
-}
-
 :host([hastext]) .calcite-tab-title--icon.icon-end {
   margin-left: $baseline/3;
-}
-
-:host([hastext][dir="rtl"]) .calcite-tab-title--icon.icon-end {
-  margin-left: 0;
-  margin-right: $baseline/3;
 }
 
 // compensate for spacing when no hastext and two icons
@@ -120,7 +100,23 @@ span {
   }
 }
 
-:host([icon-start][icon-end][dir="rtl"]) {
+// right to left
+:host .rtl {
+  margin-right: 0;
+  margin-left: $tab-margin;
+}
+
+:host([hastext]) .rtl .calcite-tab-title--icon.icon-end {
+  margin-left: 0;
+  margin-right: $baseline/3;
+}
+
+:host([hastext]) .rtl .calcite-tab-title--icon.icon-start {
+  margin-right: 0;
+  margin-left: $baseline/3;
+}
+
+:host([icon-start][icon-end]) .rtl {
   .calcite-tab-title--icon:first-child {
     margin-right: 0;
     margin-left: $baseline/3;

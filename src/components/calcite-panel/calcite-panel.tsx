@@ -7,16 +7,13 @@ import {
   Method,
   Prop,
   Watch,
-  h
+  h,
+  VNode
 } from "@stencil/core";
 import { CSS, ICONS, SLOTS, TEXT } from "./resources";
-import { focusElement, getElementDir, getSlotted } from "../../utils/dom";
+import { getElementDir, getSlotted } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
-import { VNode } from "@stencil/core/internal";
 import { Scale, Theme } from "../interfaces";
-import { getRoundRobinIndex } from "../../utils/array";
-
-const SUPPORTED_ARROW_KEYS = ["ArrowUp", "ArrowDown"];
 
 /**
  * @slot header-actions-start - a slot for adding actions or content to the start side of the panel header.
@@ -75,11 +72,6 @@ export class CalcitePanel {
   @Prop() intlBack?: string;
 
   /**
-   * 'Open' text string for the menu.
-   */
-  @Prop() intlOpen?: string;
-
-  /**
    * Specifies the maxiumum height of the panel.
    */
   @Prop({ reflect: true }) heightScale: Scale;
@@ -102,7 +94,7 @@ export class CalcitePanel {
   /**
    * 'Options' text string for the actions menu.
    */
-  @Prop() intlOptions?: string = TEXT.options;
+  @Prop() intlOptions?: string;
 
   /**
    * Used to set the component's color scheme.
@@ -136,8 +128,6 @@ export class CalcitePanel {
   backButtonEl: HTMLCalciteActionElement;
 
   dismissButtonEl: HTMLCalciteActionElement;
-
-  menuButtonEl: HTMLCalciteActionElement;
 
   containerEl: HTMLElement;
 
@@ -175,10 +165,6 @@ export class CalcitePanel {
     this.containerEl = node;
   };
 
-  setMenuButonRef = (node: HTMLCalciteActionElement): void => {
-    this.menuButtonEl = node;
-  };
-
   setDismissRef = (node: HTMLCalciteActionElement): void => {
     this.dismissButtonEl = node;
   };
@@ -203,90 +189,6 @@ export class CalcitePanel {
 
   backButtonClick = (): void => {
     this.calcitePanelBackClick.emit();
-  };
-
-  queryActions(): HTMLCalciteActionElement[] {
-    return getSlotted<HTMLCalciteActionElement>(this.el, SLOTS.headerActionsEnd, {
-      all: true
-    });
-  }
-
-  isValidKey(key: string, supportedKeys: string[]): boolean {
-    return !!supportedKeys.find((k) => k === key);
-  }
-
-  toggleMenuOpen = (): void => {
-    this.menuOpen = !this.menuOpen;
-  };
-
-  menuButtonKeyDown = (event: KeyboardEvent): void => {
-    const { key } = event;
-    const { menuOpen } = this;
-
-    if (!this.isValidKey(key, SUPPORTED_ARROW_KEYS)) {
-      return;
-    }
-
-    const actions = this.queryActions();
-    const { length } = actions;
-
-    if (!length) {
-      return;
-    }
-
-    event.preventDefault();
-
-    if (!menuOpen) {
-      this.menuOpen = true;
-    }
-
-    if (key === "ArrowUp") {
-      const lastAction = actions[length - 1];
-      focusElement(lastAction);
-    }
-
-    if (key === "ArrowDown") {
-      const firstAction = actions[0];
-      focusElement(firstAction);
-    }
-  };
-
-  menuActionsKeydown = (event: KeyboardEvent): void => {
-    const { key, target } = event;
-
-    if (!this.isValidKey(key, SUPPORTED_ARROW_KEYS)) {
-      return;
-    }
-
-    const actions = this.queryActions();
-    const { length } = actions;
-    const currentIndex = actions.indexOf(target as HTMLCalciteActionElement);
-
-    if (!length || currentIndex === -1) {
-      return;
-    }
-
-    event.preventDefault();
-
-    if (key === "ArrowUp") {
-      const value = getRoundRobinIndex(currentIndex - 1, length);
-      const previousAction = actions[value];
-      focusElement(previousAction);
-    }
-
-    if (key === "ArrowDown") {
-      const value = getRoundRobinIndex(currentIndex + 1, length);
-      const nextAction = actions[value];
-      focusElement(nextAction);
-    }
-  };
-
-  menuActionsContainerKeyDown = (event: KeyboardEvent): void => {
-    const { key } = event;
-
-    if (key === "Escape") {
-      this.menuOpen = false;
-    }
   };
 
   // --------------------------------------------------------------------------
@@ -404,57 +306,20 @@ export class CalcitePanel {
     ) : null;
   }
 
-  renderMenuItems(): VNode {
-    const { menuOpen, menuButtonEl, intlOptions } = this;
-
-    return (
-      <calcite-popover
-        disablePointer={true}
-        flipPlacements={["bottom-end", "top-end"]}
-        label={intlOptions}
-        offsetDistance={0}
-        onKeyDown={this.menuActionsKeydown}
-        open={menuOpen}
-        placement="bottom-end"
-        referenceElement={menuButtonEl}
-      >
-        <div class={CSS.menu}>
-          <slot name={SLOTS.headerMenuActions} />
-        </div>
-      </calcite-popover>
-    );
-  }
-
-  renderMenuButton(): VNode {
-    const { menuOpen, intlOpen, intlClose } = this;
-    const closeLabel = intlClose || TEXT.close;
-    const openLabel = intlOpen || TEXT.open;
-
-    const menuLabel = menuOpen ? closeLabel : openLabel;
-
-    return (
-      <calcite-action
-        aria-label={menuLabel}
-        class={CSS.menuButton}
-        icon={ICONS.menu}
-        onClick={this.toggleMenuOpen}
-        onKeyDown={this.menuButtonKeyDown}
-        ref={this.setMenuButonRef}
-        text={menuLabel}
-      />
-    );
-  }
-
   renderMenu(): VNode {
-    const { el } = this;
+    const { el, intlOptions, menuOpen } = this;
 
     const hasMenuItems = getSlotted(el, SLOTS.headerMenuActions);
 
     return hasMenuItems ? (
-      <div class={CSS.menuContainer} onKeyDown={this.menuActionsContainerKeyDown}>
-        {this.renderMenuButton()}
-        {this.renderMenuItems()}
-      </div>
+      <calcite-action-menu
+        flipPlacements={["top", "bottom"]}
+        intlOptions={intlOptions}
+        open={menuOpen}
+        placement="bottom-end"
+      >
+        <slot name={SLOTS.headerMenuActions} />
+      </calcite-action-menu>
     ) : null;
   }
 

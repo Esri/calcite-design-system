@@ -1,15 +1,13 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
 import { Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
 import colorReadme from "./readme.md";
-import swatchReadme from "../calcite-color-swatch/readme.md";
-import hexInputReadme from "../calcite-color-hex-input/readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 
 export default {
-  title: "Components/Color",
+  title: "Components/Controls/ColorPicker",
 
   parameters: {
-    notes: [colorReadme, hexInputReadme, swatchReadme]
+    notes: colorReadme
   }
 };
 
@@ -41,7 +39,7 @@ const createColorAttributes: () => Attributes = () => {
 };
 
 export const Simple = (): string =>
-  create("calcite-color", [
+  create("calcite-color-picker", [
     ...createColorAttributes(),
     {
       name: "value",
@@ -50,7 +48,7 @@ export const Simple = (): string =>
   ]);
 
 export const DarkMode = (): string =>
-  create("calcite-color", [
+  create("calcite-color-picker", [
     ...createColorAttributes(),
     { name: "theme", value: "dark" },
     {
@@ -64,7 +62,7 @@ DarkMode.story = {
 };
 
 export const AllowingEmpty = (): string =>
-  create("calcite-color", [
+  create("calcite-color-picker", [
     ...createColorAttributes(),
     { name: "allow-empty", value: true },
     { name: "value", value: text("value", "") }

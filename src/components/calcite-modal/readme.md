@@ -1,7 +1,6 @@
 # calcite-modal
 
-`calcite-modal` allows you to show a modal/dialog to your users. The modal handles fenci
-ng focus and animating in/out.
+`calcite-modal` allows you to show a modal/dialog to your users. The modal handles fencing focus and animating in/out.
 
 <!-- Auto Generated Below -->
 
@@ -35,7 +34,7 @@ ng focus and animating in/out.
 
 ### `focusElement(el?: HTMLElement) => Promise<void>`
 
-Focus first interactive element
+<span style="color:red">**[DEPRECATED]**</span> use `setFocus` instead.<br/><br/>Focus first interactive element
 
 #### Returns
 
@@ -44,6 +43,17 @@ Type: `Promise<void>`
 ### `scrollContent(top?: number, left?: number) => Promise<void>`
 
 Set the scroll top of the modal content
+
+#### Returns
+
+Type: `Promise<void>`
+
+### `setFocus(focusId?: "close-button") => Promise<void>`
+
+Sets focus on the component.
+
+By default, will try to focus on any focusable content. If there is none, it will focus on the close button.
+If you want to focus on the close button, you can use the `close-button` focus ID.
 
 #### Returns
 

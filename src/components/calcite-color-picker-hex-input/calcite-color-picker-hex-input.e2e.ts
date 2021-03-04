@@ -1,20 +1,20 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, focusable, reflects, renders } from "../../tests/commonTests";
-import { isValidHex, normalizeHex } from "../calcite-color/utils";
+import { isValidHex, normalizeHex } from "../calcite-color-picker/utils";
 import { CSS } from "./resources";
-import { TEXT } from "../calcite-color/resources";
+import { TEXT } from "../calcite-color-picker/resources";
 
-describe("calcite-color-hex-input", () => {
-  it("renders", () => renders("calcite-color-hex-input"));
+describe("calcite-color-picker-hex-input", () => {
+  it("renders", () => renders("calcite-color-picker-hex-input"));
 
   it("is accessible", async () => {
-    await accessible("calcite-color-hex-input");
-    await accessible("<calcite-color-hex-input color='#c0ffee'></calcite-color-hex-input>");
-    await accessible("<calcite-color-hex-input allow-empty color=''></calcite-color-hex-input>");
+    await accessible("calcite-color-picker-hex-input");
+    await accessible("<calcite-color-picker-hex-input color='#c0ffee'></calcite-color-picker-hex-input>");
+    await accessible("<calcite-color-picker-hex-input allow-empty color=''></calcite-color-picker-hex-input>");
   });
 
   it("has defaults", () =>
-    defaults("calcite-color-hex-input", [
+    defaults("calcite-color-picker-hex-input", [
       {
         propertyName: "allowEmpty",
         defaultValue: false
@@ -34,40 +34,40 @@ describe("calcite-color-hex-input", () => {
     ]));
 
   it("reflects", () =>
-    reflects("calcite-color-hex-input", [
+    reflects("calcite-color-picker-hex-input", [
       {
         propertyName: "value",
         value: "#ffffff"
       }
     ]));
 
-  it("can be focused", async () => focusable("calcite-color-hex-input"));
+  it("can be focused", async () => focusable("calcite-color-picker-hex-input"));
 
   it("supports no color", async () => {
     const page = await newE2EPage({
-      html: "<calcite-color-hex-input allow-empty></calcite-color-hex-input>"
+      html: "<calcite-color-picker-hex-input allow-empty></calcite-color-picker-hex-input>"
     });
 
-    const input = await page.find(`calcite-color-hex-input`);
+    const input = await page.find(`calcite-color-picker-hex-input`);
     await input.setProperty("value", null);
     await page.waitForChanges();
 
     expect(await input.getProperty("value")).toBe(null);
     expect(input.getAttribute("value")).toBe(null);
 
-    const internalInput = await page.find(`calcite-color-hex-input >>> .${CSS.input}`);
+    const internalInput = await page.find(`calcite-color-picker-hex-input >>> .${CSS.input}`);
     expect(await internalInput.getProperty("value")).toBe("");
 
-    const internalSwatch = await page.find(`calcite-color-hex-input >>> .${CSS.preview}`);
+    const internalSwatch = await page.find(`calcite-color-picker-hex-input >>> .${CSS.preview}`);
     expect(internalSwatch).toBe(null);
   });
 
   it("accepts shorthand hex", async () => {
     const page = await newE2EPage({
-      html: "<calcite-color-hex-input></calcite-color-hex-input>"
+      html: "<calcite-color-picker-hex-input></calcite-color-picker-hex-input>"
     });
 
-    const input = await page.find(`calcite-color-hex-input`);
+    const input = await page.find(`calcite-color-picker-hex-input`);
     await input.setProperty("value", "#fff");
     await page.waitForChanges();
 
@@ -76,10 +76,10 @@ describe("calcite-color-hex-input", () => {
 
   it("accepts longhand hex", async () => {
     const page = await newE2EPage({
-      html: "<calcite-color-hex-input></calcite-color-hex-input>"
+      html: "<calcite-color-picker-hex-input></calcite-color-picker-hex-input>"
     });
 
-    const input = await page.find(`calcite-color-hex-input`);
+    const input = await page.find(`calcite-color-picker-hex-input`);
     await input.setProperty("value", "#fafafa");
     await page.waitForChanges();
 
@@ -88,10 +88,10 @@ describe("calcite-color-hex-input", () => {
 
   it("normalizes value when initialized", async () => {
     const page = await newE2EPage({
-      html: "<calcite-color-hex-input value='#f0f'></calcite-color-hex-input>"
+      html: "<calcite-color-picker-hex-input value='#f0f'></calcite-color-picker-hex-input>"
     });
     await page.waitForChanges();
-    const input = await page.find(`calcite-color-hex-input`);
+    const input = await page.find(`calcite-color-picker-hex-input`);
 
     expect(await input.getProperty("value")).toBe("#ff00ff");
   });
@@ -99,9 +99,9 @@ describe("calcite-color-hex-input", () => {
   it("ignores invalid hex", async () => {
     const hex = "#b33f33";
     const page = await newE2EPage({
-      html: `<calcite-color-hex-input value='${hex}'></calcite-color-hex-input>`
+      html: `<calcite-color-picker-hex-input value='${hex}'></calcite-color-picker-hex-input>`
     });
-    const input = await page.find(`calcite-color-hex-input`);
+    const input = await page.find(`calcite-color-picker-hex-input`);
 
     await input.setProperty("value", null);
     await page.waitForChanges();
@@ -141,11 +141,11 @@ describe("calcite-color-hex-input", () => {
 
   it("emits event when color changes", async () => {
     const page = await newE2EPage({
-      html: "<calcite-color-hex-input value='#b33f33'></calcite-color-hex-input>"
+      html: "<calcite-color-picker-hex-input value='#b33f33'></calcite-color-picker-hex-input>"
     });
 
-    const input = await page.find("calcite-color-hex-input");
-    const spy = await input.spyOnEvent("calciteColorHexInputChange");
+    const input = await page.find("calcite-color-picker-hex-input");
+    const spy = await input.spyOnEvent("calciteColorPickerHexInputChange");
 
     await input.setProperty("value", "#abcdef");
     await page.waitForChanges();
@@ -189,6 +189,20 @@ describe("calcite-color-hex-input", () => {
 
     async function clearText(): Promise<void> {
       await input.callMethod("setFocus");
+
+      await page.$eval("calcite-color-picker-hex-input", (el: HTMLCalciteColorHexInputElement): void => {
+        const input = el.shadowRoot?.querySelector("input");
+
+        if (!input) {
+          return;
+        }
+
+        const inputType = input.type;
+        input.type = "text";
+        input.setSelectionRange(input.value.length, input.value.length);
+        input.type = inputType;
+      });
+
       await page.keyboard.press("Backspace");
       await page.keyboard.press("Backspace");
       await page.keyboard.press("Backspace");
@@ -204,10 +218,10 @@ describe("calcite-color-hex-input", () => {
 
     beforeEach(async () => {
       page = await newE2EPage({
-        html: `<calcite-color-hex-input value=${startingHex}></calcite-color-hex-input>`
+        html: `<calcite-color-picker-hex-input value=${startingHex}></calcite-color-picker-hex-input>`
       });
 
-      input = await page.find("calcite-color-hex-input");
+      input = await page.find("calcite-color-picker-hex-input");
     });
 
     describe("when color value is required", () => {

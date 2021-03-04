@@ -2,6 +2,7 @@ import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 import { CSS } from "./resources";
 import { html } from "../../tests/utils";
+import { CSS_UTILITY } from "../../utils/resources";
 
 describe("calcite-action-bar", () => {
   it("renders", async () => renders("calcite-action-bar"));
@@ -101,6 +102,22 @@ describe("calcite-action-bar", () => {
       const textEnabled = await button.getProperty("textEnabled");
 
       expect(textEnabled).toBe(true);
+    });
+
+    describe("when el direction is 'rtl'", () => {
+      it("should render child action expand toggle with correct class", async () => {
+        const page = await newE2EPage();
+        await page.setContent(`
+          <calcite-action-bar dir='rtl'>
+            <calcite-action text="Add" icon="plus"></calcite-action>
+          </calcite-action-bar>
+        `);
+        const buttonGroup = await page.find(`calcite-action-bar >>> .${CSS.actionGroupBottom}`);
+        const actionEl = await buttonGroup.find("calcite-action");
+        await actionEl.click();
+        const button = await actionEl.shadowRoot.querySelector("button");
+        expect(button).toHaveClass(CSS_UTILITY.rtl);
+      });
     });
 
     it("should not have bottomGroup when not expandable", async () => {

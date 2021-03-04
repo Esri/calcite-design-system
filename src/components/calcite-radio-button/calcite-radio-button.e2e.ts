@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 
 describe("calcite-radio-button", () => {
   it("renders", async () => renders("calcite-radio-button"));
@@ -32,6 +32,11 @@ describe("calcite-radio-button", () => {
     const value = await selected.getProperty("value");
     expect(value).toBe("third");
   });
+
+  it("is focusable", () =>
+    focusable("calcite-radio-button", {
+      focusTargetSelector: "input[type=radio]"
+    }));
 
   it("reflects", async () =>
     reflects("calcite-radio-button", [
@@ -414,5 +419,30 @@ describe("calcite-radio-button", () => {
 
     expect(await one.getProperty("checked")).toBe(false);
     expect(await two.getProperty("checked")).toBe(true);
+  });
+
+  it("disallows !important style overrides on the hidden input", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <style>
+        input {
+          margin: unset !important;
+          opacity: unset !important;
+          padding: unset !important;
+          position: unset !important;
+          transform: unset !important;
+          z-index: unset !important;
+        }
+      </style>
+      <calcite-radio-button></calcite-radio-button>
+    `);
+    const input = await page.find("input");
+    const style = await input.getComputedStyle();
+    expect(style["margin"]).toBe("0px");
+    expect(style["opacity"]).toBe("0");
+    expect(style["padding"]).toBe("0px");
+    expect(style["position"]).toBe("absolute");
+    expect(style["transform"]).toBe("none");
+    expect(style["z-index"]).toBe("-1");
   });
 });

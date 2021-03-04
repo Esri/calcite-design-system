@@ -8,7 +8,7 @@ import { SLOTS, TEXT } from "../calcite-panel/resources";
 import { html } from "../../tests/utils";
 
 export default {
-  title: "App Components/Flow",
+  title: "Components/App/Flow",
   parameters: {
     backgrounds: darkBackground,
     notes: {

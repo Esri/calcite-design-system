@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
+import { html } from "../../tests/utils";
 
 describe("calcite-tile-select", () => {
   it("renders", async () => renders("calcite-tile-select"));
@@ -10,7 +11,6 @@ describe("calcite-tile-select", () => {
     defaults("calcite-tile-select", [
       { propertyName: "checked", defaultValue: false },
       { propertyName: "disabled", defaultValue: false },
-      { propertyName: "focused", defaultValue: false },
       { propertyName: "hidden", defaultValue: false },
       { propertyName: "width", defaultValue: "auto" },
       { propertyName: "theme", defaultValue: "light" }
@@ -21,18 +21,14 @@ describe("calcite-tile-select", () => {
       { propertyName: "checked", value: true },
       { propertyName: "description", value: "My Tile Select Description." },
       { propertyName: "disabled", value: true },
-      { propertyName: "focused", value: true },
       { propertyName: "heading", value: "My Tile Select Heading" },
       { propertyName: "hidden", value: true },
       { propertyName: "icon", value: "layers" },
+      { propertyName: "inputAlignment", value: "start" },
       { propertyName: "name", value: "my-tile-select" },
-      { propertyName: "show-input", value: "left" },
-      { propertyName: "show-input", value: "right" },
-      { propertyName: "show-input", value: "none" },
+      { propertyName: "inputEnabled", value: true },
       { propertyName: "theme", value: "light" },
-      { propertyName: "theme", value: "dark" },
       { propertyName: "type", value: "radio" },
-      { propertyName: "type", value: "checkbox" },
       { propertyName: "width", value: "auto" },
       { propertyName: "value", value: "option one" }
     ]));
@@ -114,4 +110,14 @@ describe("calcite-tile-select", () => {
     firstRadioButton = await page.find("calcite-checkbox");
     expect(firstRadioButton).toBeNull();
   });
+
+  it("focuses calcite-checkbox when setFocus method is called", async () =>
+    focusable(html`<calcite-tile-select type="checkbox"></calcite-tile-select>`, {
+      focusTargetSelector: "input[type=checkbox]"
+    }));
+
+  it("focuses calcite-radio-button when setFocus method is called", async () =>
+    focusable(html`<calcite-tile-select type="radio"></calcite-tile-select>`, {
+      focusTargetSelector: "input[type=radio]"
+    }));
 });
