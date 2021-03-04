@@ -9,6 +9,7 @@ This is a living document defining our best practices and reasoning for authorin
 - [Light Theme/Dark Theme](#light-themedark-theme)
 - [Form Elements and Custom Inputs](#form-elements-and-custom-inputs)
 - [Component Responsibilities](#component-responsibilities)
+- [Props](#props)
 - [Focus support](#focus-support)
 - [Event Names](#event-names)
 - [Private Events](#private-events)
@@ -235,6 +236,10 @@ However components are allowed to:
 
 - [Should tabs support syncing and loading from localstorage](https://github.com/ArcGIS/calcite-components/pull/27) . **Yes** because such feature are difficult to implement for **Sites** and would require lots of additional JavaScript work on the part of teams and authors
 - [Should switch support a label](https://github.com/ArcGIS/calcite-components/pull/24#discussion_r289424140). **No** because label place
+
+## Props
+
+Private/internal props should be annotated accordingly to avoid exposing them in the doc and/or API. You can do this by using the `@private`/`@internal` [JSDoc](https://jsdoc.app/) tags.
 
 ## Focus support
 
