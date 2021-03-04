@@ -132,7 +132,8 @@ export class CalciteRadioGroupItem {
   //--------------------------------------------------------------------------
 
   /**
-   * @todo doc
+   * Fires when the item has been selected.
+   * @internal
    */
   @Event()
   calciteRadioGroupItemChange: EventEmitter;
