@@ -6,20 +6,17 @@
   @apply flex 
     items-center 
     self-stretch 
-    content-center 
-    bg-transparent 
+    justify-center
     text-color-2 
-    bg-foreground-3 
     bg-transparent 
     border-none 
-    cursor-move;
+    cursor-move
+    focus-base;
   padding: theme("spacing.3") theme("spacing.1");
-  @apply cursor-move;
   line-height: 0;
   &:hover {
     @apply bg-foreground-2 text-color-2;
   }
-  @apply focus-base;
   &:focus {
     @apply text-color-1 focus-inset;
   }
