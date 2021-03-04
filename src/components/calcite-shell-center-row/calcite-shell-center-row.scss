@@ -2,6 +2,7 @@
   @extend %component-host;
   @extend %component-spacing;
   display: flex;
+  flex: 1 1 auto;
   overflow: hidden;
   background-color: transparent;
   border-left: 1px solid var(--calcite-ui-border-3);
