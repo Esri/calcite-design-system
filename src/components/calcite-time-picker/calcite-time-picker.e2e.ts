@@ -559,36 +559,17 @@ describe("calcite-time-picker", () => {
       const hour = await page.find("calcite-time-picker >>> span.hour");
 
       await hour.click();
-      await page.keyboard.press("1");
-      await page.keyboard.press("0");
-      await page.waitForChanges();
 
-      expect(await timePicker.getProperty("hour")).toBe("10");
-      expect(hour.textContent).toBe("10");
+      for (let i = 10; i < 13; i++) {
+        const [key1, key2] = i.toString().split("");
 
-      await page.keyboard.press("1");
-      await page.waitForChanges();
+        await page.keyboard.press(key1);
+        await page.keyboard.press(key2);
+        await page.waitForChanges();
 
-      expect(await timePicker.getProperty("hour")).toBe("01");
-      expect(hour.textContent).toBe("01");
-
-      await page.keyboard.press("1");
-      await page.waitForChanges();
-
-      expect(await timePicker.getProperty("hour")).toBe("11");
-      expect(hour.textContent).toBe("11");
-
-      await page.keyboard.press("1");
-      await page.waitForChanges();
-
-      expect(await timePicker.getProperty("hour")).toBe("01");
-      expect(hour.textContent).toBe("01");
-
-      await page.keyboard.press("2");
-      await page.waitForChanges();
-
-      expect(await timePicker.getProperty("hour")).toBe("12");
-      expect(hour.textContent).toBe("12");
+        expect(await timePicker.getProperty("hour")).toBe(`${key1}${key2}`);
+        expect(hour.textContent).toBe(`${key1}${key2}`);
+      }
 
       for (let i = 13; i < 100; i++) {
         const [key1, key2] = i.toString().split("");
@@ -599,6 +580,99 @@ describe("calcite-time-picker", () => {
 
         expect(await timePicker.getProperty("hour")).toBe(`0${key2}`);
         expect(hour.textContent).toBe(`0${key2}`);
+      }
+    });
+
+    it("restricts typing to valid hour values for 24-hour format", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker hour-display-format="24" step="1"></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const hour = await page.find("calcite-time-picker >>> span.hour");
+
+      await hour.click();
+
+      for (let i = 10; i < 24; i++) {
+        const [key1, key2] = i.toString().split("");
+
+        await page.keyboard.press(key1);
+        await page.keyboard.press(key2);
+        await page.waitForChanges();
+
+        expect(await timePicker.getProperty("hour")).toBe(`${key1}${key2}`);
+        expect(hour.textContent).toBe(`${key1}${key2}`);
+      }
+
+      for (let i = 24; i < 100; i++) {
+        const [key1, key2] = i.toString().split("");
+
+        await page.keyboard.press(key1);
+        await page.keyboard.press(key2);
+        await page.waitForChanges();
+
+        expect(await timePicker.getProperty("hour")).toBe(`0${key2}`);
+        expect(hour.textContent).toBe(`0${key2}`);
+      }
+    });
+
+    it("restricts typing to valid minute values", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker step="1"></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const minute = await page.find("calcite-time-picker >>> span.minute");
+
+      await minute.click();
+
+      for (let i = 10; i < 60; i++) {
+        const [key1, key2] = i.toString().split("");
+
+        await page.keyboard.press(key1);
+        await page.keyboard.press(key2);
+        await page.waitForChanges();
+
+        expect(await timePicker.getProperty("minute")).toBe(`${key1}${key2}`);
+        expect(minute.textContent).toBe(`${key1}${key2}`);
+      }
+
+      for (let i = 60; i < 100; i++) {
+        const [key1, key2] = i.toString().split("");
+
+        await page.keyboard.press(key1);
+        await page.keyboard.press(key2);
+        await page.waitForChanges();
+
+        expect(await timePicker.getProperty("minute")).toBe(`0${key2}`);
+        expect(minute.textContent).toBe(`0${key2}`);
+      }
+    });
+
+    it("restricts typing to valid second values", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker step="1"></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const second = await page.find("calcite-time-picker >>> span.second");
+
+      await second.click();
+
+      for (let i = 10; i < 60; i++) {
+        const [key1, key2] = i.toString().split("");
+
+        await page.keyboard.press(key1);
+        await page.keyboard.press(key2);
+        await page.waitForChanges();
+
+        expect(await timePicker.getProperty("second")).toBe(`${key1}${key2}`);
+        expect(second.textContent).toBe(`${key1}${key2}`);
+      }
+
+      for (let i = 60; i < 100; i++) {
+        const [key1, key2] = i.toString().split("");
+
+        await page.keyboard.press(key1);
+        await page.keyboard.press(key2);
+        await page.waitForChanges();
+
+        expect(await timePicker.getProperty("second")).toBe(`0${key2}`);
+        expect(second.textContent).toBe(`0${key2}`);
       }
     });
   });
