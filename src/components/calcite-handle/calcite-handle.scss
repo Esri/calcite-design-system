@@ -1,30 +1,26 @@
 :host {
-  display: flex;
+  @apply flex;
 }
 
 .handle {
-  display: flex;
-  align-items: center;
-  align-self: stretch;
-  justify-content: center;
-  padding: var(--calcite-spacing-three-quarters) var(--calcite-spacing-quarter);
-  background-color: var(--calcite-ui-foreground-3);
-  background-color: transparent;
-  border: none;
-  color: var(--calcite-ui-border-3);
+  @apply flex 
+    items-center 
+    self-stretch 
+    justify-center
+    text-color-2 
+    bg-transparent 
+    border-none 
+    cursor-move
+    focus-base;
+  padding: theme("spacing.3") theme("spacing.1");
   line-height: 0;
-  cursor: move;
   &:hover {
-    background-color: var(--calcite-ui-foreground-2);
-    color: var(--calcite-app-foreground);
+    @apply bg-foreground-2 text-color-2;
   }
-  @include focus-style-base();
   &:focus {
-    color: var(--calcite-ui-text-1);
-    @include focus-style-inset();
+    @apply text-color-1 focus-inset;
   }
   &--activated {
-    background-color: var(--calcite-ui-foreground-3);
-    color: var(--calcite-ui-text-1);
+    @apply bg-foreground-3 text-color-1;
   }
 }

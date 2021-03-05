@@ -55,7 +55,10 @@ export class CalciteCheckbox {
   /** The id attribute of the checkbox.  When omitted, a globally unique identifier is used. */
   @Prop({ reflect: true, mutable: true }) guid: string;
 
-  /** The hovered state of the checkbox. */
+  /**
+   * The hovered state of the checkbox.
+   * @private
+   */
   @Prop({ reflect: true, mutable: true }) hovered = false;
 
   /**
