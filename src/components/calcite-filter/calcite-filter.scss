@@ -1,7 +1,6 @@
 :host {
   @extend %component-host;
-  @extend %component-spacing;
-  @apply flex w-full p-2;;
+  @apply flex w-full p-2;
 }
 
 label {
@@ -45,7 +44,7 @@ input[type="text"]:focus {
   @apply border-color-brand outline-none pl-1 pr-1;
   box-shadow: 0 2px 0 var(--calcite-ui-brand);
   & ~ .search-icon {
-    left: calc(var(--calcite-icon-size) * -1);
+    left: calc(theme("spacing.4") * -1);
     @apply opacity-0;
   }
 }
@@ -56,7 +55,7 @@ input[type="text"]:focus {
     &:focus {
       @apply pr-5;
       & ~ .search-icon {
-        right: calc(var(--calcite-icon-size) * -1);
+        right: calc(theme("spacing.4") * -1);
       }
     }
   }
