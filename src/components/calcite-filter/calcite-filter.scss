@@ -1,12 +1,12 @@
 :host {
   @extend %component-host;
   @extend %component-spacing;
-  display: flex;
-  padding: var(--calcite-spacing-half) var(--calcite-spacing-half);
-  width: 100%;
+  @apply flex w-full;
+  padding: theme("width[1/2]");
 }
 
 label {
+  @apply flex items-center
   align-items: center;
   display: flex;
   margin: 0 var(--calcite-spacing-quarter);
