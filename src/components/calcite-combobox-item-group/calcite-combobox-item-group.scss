@@ -1,0 +1,64 @@
+:host([scale="s"]) {
+  @apply text--2;
+  --calcite-combobox-item-spacing-unit-l: theme("spacing.3");
+  --calcite-combobox-item-spacing-unit-s: theme("spacing.2");
+  --calcite-combobox-item-spacing-indent-1: theme("spacing.2");
+  --calcite-combobox-item-spacing-indent-2: theme("spacing.4");
+}
+
+:host([scale="m"]) {
+  @apply text--1;
+  --calcite-combobox-item-spacing-unit-l: theme("spacing.4");
+  --calcite-combobox-item-spacing-unit-s: theme("spacing.3");
+  --calcite-combobox-item-spacing-indent-1: theme("spacing.3");
+  --calcite-combobox-item-spacing-indent-2: theme("spacing.6");
+}
+
+:host([scale="l"]) {
+  @apply text-0;
+  --calcite-combobox-item-spacing-unit-l: theme("spacing.5");
+  --calcite-combobox-item-spacing-unit-s: theme("spacing.4");
+  --calcite-combobox-item-spacing-indent-1: theme("spacing.4");
+  --calcite-combobox-item-spacing-indent-2: theme("spacing.8");
+}
+
+:host {
+  --calcite-combobox-item-indent-start-1: var(--calcite-combobox-item-spacing-indent-1);
+  --calcite-combobox-item-indent-end-1: unset;
+  --calcite-combobox-item-indent-start-2: var(--calcite-combobox-item-spacing-indent-2);
+  --calcite-combobox-item-indent-end-2: unset;
+}
+
+:host([dir="rtl"]) {
+  --calcite-combobox-item-indent-start-1: unset;
+  --calcite-combobox-item-indent-end-1: var(--calcite-combobox-item-spacing-indent-1);
+  --calcite-combobox-item-indent-start-2: unset;
+  --calcite-combobox-item-indent-end-2: var(--calcite-combobox-item-spacing-indent-2);
+}
+
+:host,
+.list {
+  @apply flex flex-col m-0 p-0 outline-none;
+}
+
+.label {
+  @apply box-border w-full max-w-full min-w-0 text-color-3 flex;
+}
+
+.label--indent-1 {
+  padding-left: var(--calcite-combobox-item-indent-start-1);
+  padding-right: var(--calcite-combobox-item-indent-end-1);
+}
+
+.label--indent-2 {
+  padding-left: var(--calcite-combobox-item-indent-start-2);
+  padding-right: var(--calcite-combobox-item-indent-end-2);
+}
+
+.title {
+  border: 0 solid;
+  @apply block flex-1 border-b-color-3 border-b -mb-px text-color-2 font-bold word-break;
+  padding: var(--calcite-combobox-item-spacing-unit-s) 0;
+  margin-left: var(--calcite-combobox-item-spacing-unit-s);
+  margin-right: var(--calcite-combobox-item-spacing-unit-s);
+}
