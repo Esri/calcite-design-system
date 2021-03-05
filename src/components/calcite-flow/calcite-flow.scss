@@ -1,7 +1,5 @@
 :host {
-  //FIXME: Should these extend be removed?
   @extend %component-host;
-  @extend %component-spacing;
   @apply flex 
     items-stretch 
     bg-transparent 
