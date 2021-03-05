@@ -1,13 +1,6 @@
 :host {
-  @apply flex 
-    relative 
-    box-border
-    bg-foreground-1
-    text-color-2
-    text--1-wrap;
-  * {
-    @apply box-border;
-  }
+  @extend %component-host;
+  @apply flex relative;
 
   max-height: var(--calcite-panel-max-height);
   width: var(--calcite-panel-width);
