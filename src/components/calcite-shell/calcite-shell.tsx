@@ -62,7 +62,7 @@ export class CalciteShell {
       <div
         class={{
           [CSS.content]: true,
-          [CSS.contentBehind]: true
+          [CSS.contentBehind]: !!this.contentBehind
         }}
       >
         <slot />
