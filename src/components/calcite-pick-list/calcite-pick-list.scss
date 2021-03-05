@@ -1,24 +1,30 @@
 :host {
-  @extend %component-host;
   @extend %component-spacing;
-  align-items: stretch;
-  background-color: transparent;
-  display: flex;
+  * {
+    @apply box-border;
+  }
+  @apply box-border 
+    bg-foreground-1 
+    text-color-2 
+    text--1-wrap
+    items-stretch
+    bg-transparent
+    flex
+    flex-col
+    relative;
   flex: 1 0 auto;
-  flex-flow: column;
+  //FIXME: Where is this coming from?
   padding-bottom: var(--calcite-cap-spacing);
-  position: relative;
 }
 
 header {
-  background-color: var(--calcite-ui-foreground-1);
-  display: flex;
-  justify-content: flex-end;
-  align-items: stretch;
-  margin-bottom: var(--calcite-spacing-quarter);
+  @apply bg-foreground-1 
+    flex 
+    justify-end 
+    items-stretch;
+  margin-bottom: theme("spacing.1");
   &.sticky {
-    position: sticky;
-    top: 0;
+    @apply sticky top-0;
     z-index: 1;
   }
   @apply shadow-border-bottom;
@@ -29,12 +35,11 @@ calcite-filter {
 }
 
 calcite-scrim {
-  display: flex;
+  @apply flex flex-col pointer-events-none;
   flex: 0 0 auto;
-  flex-flow: column;
-  pointer-events: none;
 }
 
 :host([loading][disabled]) {
+  //FIXME: not sure what to do with this one.
   min-height: 2rem;
 }
