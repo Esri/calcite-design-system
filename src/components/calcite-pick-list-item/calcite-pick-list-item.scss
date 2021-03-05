@@ -1,6 +1,5 @@
 :host {
   @extend %component-host;
-  @extend %component-spacing;
   @apply items-stretch 
     flex 
     text-color-1 
@@ -9,7 +8,6 @@
   margin: 0 0 1px 0;
   transition: background-color $transition;
   animation: calcite-fade-in $transition;
-  --calcite-icon-dot-size: 16px;
 }
 
 :host(:hover) {
@@ -25,8 +23,7 @@
 }
 
 .icon-dot {
-  width: calc(var(--calcite-icon-dot-size) / 2);
-  margin: calc(var(--calcite-icon-dot-size) / 2);
+  @apply w-2 m-2;
   &:before {
     content: "\2022";
   }
