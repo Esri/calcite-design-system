@@ -1,69 +1,70 @@
 // scale variables
 :host([scale="s"]) {
-  --calcite-notice-spacing-token-small: #{$baseline/2};
-  --calcite-notice-spacing-token-large: #{$baseline/1.5};
+  --calcite-notice-spacing-token-small: theme("spacing.2");
+  --calcite-notice-spacing-token-large: theme("spacing.3");
   @include slotted("notice-title", "*") {
-    @include font-size(-2);
+    @apply text--1-wrap mb-1;
   }
   @include slotted("notice-message", "*") {
-    @include font-size(-3);
+    @apply text--2-wrap mb-1;
   }
   ::slotted(calcite-link) {
-    @include font-size(-3);
+    @apply text--2-wrap;
   }
 }
 
 :host([scale="m"]) {
-  --calcite-notice-spacing-token-small: #{$baseline/1.5};
-  --calcite-notice-spacing-token-large: #{$baseline};
+  --calcite-notice-spacing-token-small: theme("spacing.3");
+  --calcite-notice-spacing-token-large: theme("spacing.4");
   @include slotted("notice-title", "*") {
-    @include font-size(-1);
+    @apply text-0-wrap mb-1;
   }
   @include slotted("notice-message", "*") {
-    @include font-size(-2);
+    @apply text--1-wrap mb-1;
   }
   ::slotted(calcite-link) {
-    @include font-size(-2);
+    @apply text--1-wrap;
   }
 }
 
 :host([scale="l"]) {
-  --calcite-notice-spacing-token-small: #{$baseline/1.25};
-  --calcite-notice-spacing-token-large: #{$baseline * 1.25};
+  --calcite-notice-spacing-token-small: theme("spacing.5");
+  --calcite-notice-spacing-token-large: theme("spacing.6");
   @include slotted("notice-title", "*") {
-    @include font-size(0);
+    @apply text-1-wrap mb-1;
   }
   @include slotted("notice-message", "*") {
-    @include font-size(-1);
+    @apply text-0-wrap mb-1;
   }
   ::slotted(calcite-link) {
-    @include font-size(-1);
+    @apply text-0-wrap;
   }
 }
 
 :host([width="auto"]) {
-  --calcite-notice-width: auto;
+  --calcite-notice-width: theme("width[auto]");
 }
 
 :host([width="half"]) {
-  --calcite-notice-width: 50%;
+  --calcite-notice-width: theme("width[1/2]");
 }
 
 :host([width="full"]) {
-  --calcite-notice-width: 100%;
+  --calcite-notice-width: theme("width[full]");
 }
 
 :host {
-  display: none;
-  text-align: left;
-  margin: 0 auto;
-  box-sizing: border-box;
+  @apply hidden
+    text-left 
+    my-0
+    mx-auto
+    box-border
+    max-w-full
+    opacity-0
+    pointer-events-none
+    bg-foreground-1;
   width: var(--calcite-notice-width);
-  max-width: 100%;
   max-height: 0;
-  background-color: var(--calcite-ui-foreground-1);
-  opacity: 0;
-  pointer-events: none;
   transition: $transition;
   border-left: 0px solid;
   box-shadow: 0 0 0 0 transparent;
@@ -71,51 +72,46 @@
 
 // focus styles
 .notice-close {
-  @include focus-style-base();
+  @apply focus-base;
   &:focus {
-    @include focus-style-inset();
+    @apply focus-inset;
   }
 }
 
 :host([dir="rtl"]) {
-  text-align: right;
+  @apply text-right;
   border-left: none;
   border-right: 0px solid;
 }
 
 :host([active]) {
-  @apply shadow-1;
-  display: flex;
-  align-items: center;
-  opacity: 1;
-  max-height: 100%;
-  pointer-events: initial;
-  border-width: 3px;
+  @apply flex
+    shadow-1 
+    items-center 
+    opacity-100 
+    max-h-full 
+    border-2 
+    pointer-events-auto;
 }
 
 @include slotted("notice-title", "*") {
-  color: var(--calcite-ui-text-1);
-  margin: 0;
-  font-weight: 500;
+  @apply m-0 font-medium text-color-1;
 }
 
 @include slotted("notice-message", "*") {
-  display: inline;
-  margin: 0;
-  font-weight: 400;
+  @apply inline m-0 font-normal text-color-2;
   margin-right: var(--calcite-notice-spacing-token-small);
-  color: var(--calcite-ui-text-2);
 }
 
 :host([dir="rtl"]) {
   @include slotted("notice-message", "*") {
-    margin-right: 0;
+    @apply mr-0;
     margin-left: var(--calcite-notice-spacing-token-small);
   }
 }
 
 @mixin notice-element-base() {
-  box-sizing: border-box;
+  @apply box-border;
   padding: var(--calcite-notice-spacing-token-small) var(--calcite-notice-spacing-token-large);
   flex: 0 0 auto;
   transition: all 0.15s ease-in-out;
@@ -123,11 +119,8 @@
 
 .notice-content {
   @include notice-element-base;
-  display: flex;
-  flex-direction: column;
+  @apply flex flex-col min-w-0 break-words;
   flex: 1 1 0;
-  min-width: 0;
-  word-wrap: break-word;
   padding: var(--calcite-notice-spacing-token-small) var(--calcite-notice-spacing-token-small)
     var(--calcite-notice-spacing-token-small) 0;
 
@@ -151,28 +144,22 @@
   }
 }
 .notice-icon {
+  @apply flex items-center;
   @include notice-element-base;
-  display: flex;
-  align-items: center;
 }
 
 .notice-close {
+  @apply self-stretch bg-transparent border-none outline-none cursor-pointer text-color-3;
   @include notice-element-base;
-  align-self: stretch;
-  background-color: transparent;
   -webkit-appearance: none;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  color: var(--calcite-ui-text-3);
 
   &:hover,
   &:focus {
-    background-color: var(--calcite-ui-foreground-2);
+    @apply bg-foreground-2;
   }
 
   &:active {
-    background-color: var(--calcite-ui-foreground-3);
+    @apply bg-foreground-3;
   }
 }
 
