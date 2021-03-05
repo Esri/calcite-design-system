@@ -521,13 +521,12 @@ input[type="time"]::-webkit-clear-button {
   }
 }
 
-// file input
+// file input/but
 :host([type="file"]) {
   & input,
   textarea {
-    border: 1px solid;
-    background-color: $blk-005;
-    @apply cursor-pointer p-4 text-center border-color-3 bg-background;
+    border: 1px dashed;
+    @apply cursor-pointer p-4 text-center border-color-input bg-foreground-1;
   }
 }
 
