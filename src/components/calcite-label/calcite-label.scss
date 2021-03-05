@@ -59,8 +59,7 @@
 // disabled styles
 :host([disabled]) {
   & > label {
-    @apply pointer-events-none;
-    opacity: var(--calcite-ui-opacity-disabled);
+    @apply pointer-events-none opacity-disabled;
   }
   ::slotted(*) {
     @apply pointer-events-none;
