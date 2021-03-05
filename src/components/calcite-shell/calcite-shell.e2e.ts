@@ -19,6 +19,16 @@ describe("calcite-shell", () => {
     expect(header).toBeNull();
   });
 
+  it("content node should always be present", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(`<calcite-shell></calcite-shell>`);
+
+    const content = await page.find(`calcite-shell >>> .${CSS.content}`);
+
+    expect(content).not.toBeNull();
+  });
+
   it("footer should be present when defined", async () => {
     const page = await newE2EPage();
 
