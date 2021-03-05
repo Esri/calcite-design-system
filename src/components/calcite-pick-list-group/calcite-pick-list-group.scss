@@ -1,14 +1,6 @@
 :host {
-  * {
-    @apply box-border;
-  }
-  @apply box-border 
-  bg-foreground-1 
-  text-color-2 
-  text--1-wrap;
-  background-color: transparent;
-  display: block;
-  margin-bottom: var(--calcite-spacing-quarter);
+  @extend %component-host;
+  @apply bg-transparent block mb-1;
 }
 
 :host(:last-child) {
