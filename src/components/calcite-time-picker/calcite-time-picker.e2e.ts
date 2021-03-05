@@ -551,6 +551,56 @@ describe("calcite-time-picker", () => {
         await page.keyboard.press("Backspace");
       }
     });
+
+    it("restricts typing to valid hour values for 12-hour format", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker hour-display-format="12" step="1"></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const hour = await page.find("calcite-time-picker >>> span.hour");
+
+      await hour.click();
+      await page.keyboard.press("1");
+      await page.keyboard.press("0");
+      await page.waitForChanges();
+
+      expect(await timePicker.getProperty("hour")).toBe("10");
+      expect(hour.textContent).toBe("10");
+
+      await page.keyboard.press("1");
+      await page.waitForChanges();
+
+      expect(await timePicker.getProperty("hour")).toBe("01");
+      expect(hour.textContent).toBe("01");
+
+      await page.keyboard.press("1");
+      await page.waitForChanges();
+
+      expect(await timePicker.getProperty("hour")).toBe("11");
+      expect(hour.textContent).toBe("11");
+
+      await page.keyboard.press("1");
+      await page.waitForChanges();
+
+      expect(await timePicker.getProperty("hour")).toBe("01");
+      expect(hour.textContent).toBe("01");
+
+      await page.keyboard.press("2");
+      await page.waitForChanges();
+
+      expect(await timePicker.getProperty("hour")).toBe("12");
+      expect(hour.textContent).toBe("12");
+
+      for (let i = 13; i < 100; i++) {
+        const [key1, key2] = i.toString().split("");
+
+        await page.keyboard.press(key1);
+        await page.keyboard.press(key2);
+        await page.waitForChanges();
+
+        expect(await timePicker.getProperty("hour")).toBe(`0${key2}`);
+        expect(hour.textContent).toBe(`0${key2}`);
+      }
+    });
   });
 
   describe("time behavior", () => {
