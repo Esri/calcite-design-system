@@ -126,7 +126,7 @@ calcite-scrim {
 }
 
 .header-actions {
-  @apply flex items-stretch; 
+  @apply flex items-stretch;
   flex-flow: row nowrap;
 }
 
@@ -146,11 +146,12 @@ calcite-scrim {
 }
 
 .content-container {
-  @apply self-stretch bg-background flex flex-auto overflow-auto flex;
+  @apply items-stretch bg-background flex flex-auto overflow-auto flex;
   flex-flow: column nowrap;
 }
 
 .footer {
+  border-top: 1px solid;
   @apply bg-foreground-1 border-t-color-3 flex justify-evenly sticky bottom-0 w-full;
   flex: 0 0 auto;
   min-height: theme("spacing.12");
