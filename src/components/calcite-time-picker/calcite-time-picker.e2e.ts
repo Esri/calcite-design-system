@@ -675,6 +675,47 @@ describe("calcite-time-picker", () => {
         expect(second.textContent).toBe(`0${key2}`);
       }
     });
+
+    it("allows typing 00 for hour in 12-hour format, but when the hour is blurred, the display hour is updated to show 12", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker hour-display-format="12" step="1"></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const hour = await page.find("calcite-time-picker >>> span.hour");
+      const ampm = await page.find("calcite-time-picker >>> span.ampm");
+
+      await hour.click();
+      await page.keyboard.press("0");
+      await page.keyboard.press("0");
+      await page.waitForChanges();
+
+      expect(await timePicker.getProperty("hour")).toBe("00");
+      expect(hour.textContent).toBe("00");
+      expect(ampm.textContent).toBe("AM");
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      expect(await timePicker.getProperty("hour")).toBe("00");
+      expect(hour.textContent).toBe("12");
+      expect(ampm.textContent).toBe("AM");
+    });
+
+    it("allows typing AM and PM for 12-hour format", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker hour-display-format="12" step="1"></calcite-time-picker>`);
+      const ampm = await page.find("calcite-time-picker >>> span.ampm");
+
+      await ampm.click();
+      await page.keyboard.press("a");
+      await page.waitForChanges();
+
+      expect(ampm.textContent).toBe("AM");
+
+      await page.keyboard.press("p");
+      await page.waitForChanges();
+
+      expect(ampm.textContent).toBe("PM");
+    });
   });
 
   describe("time behavior", () => {
