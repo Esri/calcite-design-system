@@ -461,6 +461,51 @@ describe("calcite-time-picker", () => {
         expect(second.textContent).toBe("--");
       }
     });
+
+    it("allows typing single digit values for hour, minute and second and pads the value and display with a leading zero", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker hour-display-format="24" step="1"></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const hour = await page.find("calcite-time-picker >>> span.hour");
+      const minute = await page.find("calcite-time-picker >>> span.minute");
+      const second = await page.find("calcite-time-picker >>> span.second");
+
+      await page.keyboard.press("Tab");
+
+      for (let i = 0; i < 10; i++) {
+        await page.keyboard.press(i.toString());
+        await page.waitForChanges();
+
+        expect(await timePicker.getProperty("hour")).toBe(`0${i}`);
+        expect(hour.textContent).toBe(`0${i}`);
+
+        await page.keyboard.press("Backspace");
+      }
+
+      await page.keyboard.press("Tab");
+
+      for (let i = 0; i < 10; i++) {
+        await page.keyboard.press(i.toString());
+        await page.waitForChanges();
+
+        expect(await timePicker.getProperty("minute")).toBe(`0${i}`);
+        expect(minute.textContent).toBe(`0${i}`);
+
+        await page.keyboard.press("Backspace");
+      }
+
+      await page.keyboard.press("Tab");
+
+      for (let i = 0; i < 10; i++) {
+        await page.keyboard.press(i.toString());
+        await page.waitForChanges();
+
+        expect(await timePicker.getProperty("second")).toBe(`0${i}`);
+        expect(second.textContent).toBe(`0${i}`);
+
+        await page.keyboard.press("Backspace");
+      }
+    });
   });
 
   describe("time behavior", () => {
