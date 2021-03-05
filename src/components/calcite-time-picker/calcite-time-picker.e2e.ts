@@ -2,6 +2,35 @@ import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, focusable, reflects, renders } from "../../tests/commonTests";
 import { formatNumberAsTimeString } from "./utils";
 
+const letterKeys = [
+  "a",
+  "b",
+  "c",
+  "d",
+  "e",
+  "f",
+  "g",
+  "h",
+  "i",
+  "j",
+  "k",
+  "l",
+  "m",
+  "n",
+  "o",
+  "p",
+  "q",
+  "r",
+  "s",
+  "t",
+  "u",
+  "v",
+  "w",
+  "x",
+  "y",
+  "z"
+];
+
 describe("calcite-time-picker", () => {
   it("renders", async () => renders("calcite-time-picker"));
 
@@ -365,6 +394,72 @@ describe("calcite-time-picker", () => {
       await page.waitForChanges();
 
       expect(ampm.textContent).toBe("--");
+    });
+
+    it("typing letter keys changes nothing for hour, minute and second in 24-hour format", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker hour-display-format="24" step="1"></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const hour = await page.find("calcite-time-picker >>> span.hour");
+      const minute = await page.find("calcite-time-picker >>> span.minute");
+      const second = await page.find("calcite-time-picker >>> span.second");
+
+      await hour.click();
+
+      for (let i = 0; i >= letterKeys.length; i++) {
+        await page.keyboard.press(letterKeys[i]);
+        expect(await timePicker.getProperty("hour")).toBe("--");
+        expect(hour.textContent).toBe("--");
+      }
+
+      await minute.click();
+
+      for (let i = 0; i >= letterKeys.length; i++) {
+        await page.keyboard.press(letterKeys[i]);
+        expect(await timePicker.getProperty("minute")).toBe("--");
+        expect(minute.textContent).toBe("--");
+      }
+
+      await second.click();
+
+      for (let i = 0; i >= letterKeys.length; i++) {
+        await page.keyboard.press(letterKeys[i]);
+        expect(await timePicker.getProperty("second")).toBe("--");
+        expect(second.textContent).toBe("--");
+      }
+    });
+
+    it("typing letter keys changes nothing for hour, minute and second in 12-hour format", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker hour-display-format="12" step="1"></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const hour = await page.find("calcite-time-picker >>> span.hour");
+      const minute = await page.find("calcite-time-picker >>> span.minute");
+      const second = await page.find("calcite-time-picker >>> span.second");
+
+      await hour.click();
+
+      for (let i = 0; i >= letterKeys.length; i++) {
+        await page.keyboard.press(letterKeys[i]);
+        expect(await timePicker.getProperty("hour")).toBe("--");
+        expect(hour.textContent).toBe("--");
+      }
+
+      await minute.click();
+
+      for (let i = 0; i >= letterKeys.length; i++) {
+        await page.keyboard.press(letterKeys[i]);
+        expect(await timePicker.getProperty("minute")).toBe("--");
+        expect(minute.textContent).toBe("--");
+      }
+
+      await second.click();
+
+      for (let i = 0; i >= letterKeys.length; i++) {
+        await page.keyboard.press(letterKeys[i]);
+        expect(await timePicker.getProperty("second")).toBe("--");
+        expect(second.textContent).toBe("--");
+      }
     });
   });
 
