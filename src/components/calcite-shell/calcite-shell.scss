@@ -43,8 +43,8 @@
 .content ::slotted(calcite-shell-center-row),
 .content ::slotted(calcite-panel),
 .content ::slotted(calcite-flow) {
+  align-self: stretch;
   flex: 1 1 auto;
-  width: 100%;
   max-height: unset;
 }
 
@@ -59,7 +59,7 @@
   z-index: 0;
 }
 
-.content.content--behind ::slotted(calcite-shell-center-row) {
+::slotted(calcite-shell-center-row) {
   width: unset;
 }
 
@@ -72,6 +72,11 @@
 ::slotted(calcite-shell-center-row) {
   position: relative;
   z-index: 1;
+}
+
+slot[name="center-row"]::slotted(calcite-shell-center-row:not([detached])) {
+  border-left: 1px solid var(--calcite-ui-border-3);
+  border-right: 1px solid var(--calcite-ui-border-3);
 }
 
 ::slotted(calcite-tip-manager) {
