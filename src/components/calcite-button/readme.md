@@ -1,9 +1,5 @@
 # calcite-button
 
-You can programmatically focus a `calcite-button` with the `setFocus()` method:
-
-`<div onclick=document.querySelector('#my-button').setFocus()>Focus!</div>`
-
 <!-- Auto Generated Below -->
 
 ## Usage
