@@ -1,12 +1,6 @@
 :host {
-  @apply box-border;
-  * {
-    @apply box-border;
-  }
-  @apply bg-foreground-1 
-    text-color-2
-    text--1h 
-    bg-transparent;
+  @extend %component-host;
+  @apply bg-transparent;
 }
 
 calcite-button {
