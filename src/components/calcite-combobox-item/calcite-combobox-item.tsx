@@ -14,6 +14,8 @@ import {
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { CSS } from "./resources";
 import { guid } from "../../utils/guid";
+import { ComboboxChildElement } from "../calcite-combobox/interfaces";
+import { getAncestors, getDepth } from "../calcite-combobox/utils";
 
 @Component({
   tag: "calcite-combobox-item",
@@ -37,7 +39,7 @@ export class CalciteComboboxItem {
   @Prop() active = false;
 
   /** Parent and grandparent combobox items, this is set internally for use from combobox */
-  @Prop({ mutable: true }) anscestors: HTMLCalciteComboboxItemElement[];
+  @Prop({ mutable: true }) ancestors: ComboboxChildElement[];
 
   /** Unique identifier, used for accessibility */
   @Prop() guid: string = guid();
@@ -79,9 +81,7 @@ export class CalciteComboboxItem {
   // --------------------------------------------------------------------------
 
   componentWillLoad(): void {
-    const parent = this.el.parentElement?.closest("calcite-combobox-item");
-    const grandparent = parent?.parentElement?.closest("calcite-combobox-item");
-    this.anscestors = [parent, grandparent].filter((el) => el);
+    this.ancestors = getAncestors(this.el);
     this.hasDefaultSlot = this.el.querySelector(":not([slot])") !== null;
   }
 
@@ -131,17 +131,6 @@ export class CalciteComboboxItem {
     this.calciteComboboxItemChange.emit(this.el);
   };
 
-  getDepth(): number {
-    const parent = this.el.parentElement?.closest("calcite-combobox-item");
-    if (!parent) {
-      return 0;
-    }
-    const grandparent = parent.parentElement?.closest("calcite-combobox-item");
-    if (!grandparent) {
-      return 1;
-    }
-    return 2;
-  }
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -149,8 +138,8 @@ export class CalciteComboboxItem {
   // --------------------------------------------------------------------------
 
   renderIcon(scale: string, isSingle: boolean): VNode {
-    const { icon, disabled, isSelected } = this;
-    const level = `${CSS.icon}--indent-${this.getDepth()}`;
+    const { icon, el, disabled, isSelected } = this;
+    const level = `${CSS.icon}--indent-${getDepth(el)}`;
     const iconScale = scale !== "l" ? "s" : "m";
     const defaultIcon = isSingle ? "dot" : "check";
     const iconPath = disabled ? "circle-disallowed" : defaultIcon;

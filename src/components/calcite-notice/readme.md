@@ -1,9 +1,5 @@
 # calcite-notice
 
-You can programmatically focus the close button of a `dismissible` `calcite-notice` with the `setFocus()` method:
-
-`<div onclick=document.querySelector('#my-notice').setFocus()>Focus!</div>`
-
 <!-- Auto Generated Below -->
 
 ## Properties

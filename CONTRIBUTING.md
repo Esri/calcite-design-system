@@ -30,6 +30,7 @@ If something isn't working the way you expected, please take a look at [previous
 You don't _have to_ but we recommend installing TypeScript, TSLint, TailwindCSS, Prettier and EditorConfig extensions for your editor of choice.
 
 #### VS Code
+
 - https://code.visualstudio.com/
 - https://atom.io/packages/atom-typescript
 - https://github.com/Microsoft/TypeScript-Sublime-Plugin
