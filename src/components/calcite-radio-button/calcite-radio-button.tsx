@@ -57,7 +57,10 @@ export class CalciteRadioButton {
     this.inputEl.disabled = disabled;
   }
 
-  /** The focused state of the radio button. */
+  /**
+   * The focused state of the radio button.
+   * @private
+   */
   @Prop({ mutable: true, reflect: true }) focused = false;
 
   @Watch("focused")
@@ -81,7 +84,10 @@ export class CalciteRadioButton {
     this.inputEl.hidden = newHidden;
   }
 
-  /** The hovered state of the radio button. */
+  /**
+   * The hovered state of the radio button.
+   * @private
+   */
   @Prop({ reflect: true, mutable: true }) hovered = false;
 
   /** The name of the radio button.  <code>name</code> is passed as a property automatically from <code>calcite-radio-button-group</code>. */

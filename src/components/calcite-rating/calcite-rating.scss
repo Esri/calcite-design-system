@@ -1,18 +1,15 @@
+:host {
+  --calcite-rating-spacing-unit: theme("spacing.2");
+  @apply flex items-center relative;
+  width: fit-content;
+}
+
 :host([scale="s"]) {
   --calcite-rating-spacing-unit: theme("spacing.1");
 }
 
-:host {
-  --calcite-rating-spacing-unit: theme("spacing.2");
-}
-
 :host([scale="l"]) {
   --calcite-rating-spacing-unit: theme("spacing.3");
-}
-
-:host {
-  @apply flex items-center relative;
-  width: fit-content;
 }
 
 :host([disabled]) {
@@ -32,17 +29,16 @@
 }
 
 :host([dir="rtl"]) .wrapper {
-  margin-right: 0;
+  @apply mr-0;
   margin-left: var(--calcite-rating-spacing-unit);
 }
 
 .star {
   @include focus-style-base();
-  @apply relative inline-block;
-  color: var(--calcite-ui-border-1);
+  @apply relative inline-block cursor-pointer;
+  color: theme("borderColor.color.1");
   transition: $transition;
   transform: scale(1);
-  cursor: pointer;
   &:active {
     transform: scale(1.1);
   }
@@ -54,14 +50,14 @@
 
 .average,
 .fraction {
-  color: var(--calcite-ui-warning);
+  color: theme("colors.warning");
 }
 
 .hovered,
 .selected,
 :host([read-only]) .average,
 :host([read-only]) .fraction {
-  color: var(--calcite-ui-brand);
+  color: theme("colors.brand");
 }
 
 .hovered:not(.selected) {
@@ -69,40 +65,34 @@
 }
 
 :host .fraction {
-  position: absolute;
-  overflow: hidden;
-  pointer-events: none;
-  top: 0;
-  left: 0;
+  @apply absolute overflow-hidden pointer-events-none top-0 left-0;
   transition: $transition;
 }
 
 :host([dir="rtl"]) .fraction {
-  right: 0;
-  left: unset;
+  @apply right-0 left-auto;
 }
 
 // rating count
 calcite-chip {
-  cursor: default;
-  pointer-events: none;
+  @apply cursor-default pointer-events-none;
 }
 
 .number--average {
-  font-weight: 700;
+  @apply font-bold;
 }
 
 .number--count {
+  @apply text-color-2;
   font-style: italic;
-  color: var(--calcite-ui-text-2);
   &:not(:first-child) {
     margin-left: var(--calcite-rating-spacing-unit);
   }
 }
 
 :host([dir="rtl"]) .number--count:not(:first-child) {
+  @apply ml-0;
   margin-right: var(--calcite-rating-spacing-unit);
-  margin-left: 0;
 }
 
 .visually-hidden {

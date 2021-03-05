@@ -14,6 +14,9 @@ import { getElementProp } from "../../utils/dom";
 import { Scale, Theme } from "../interfaces";
 import { TEXT } from "./resources";
 
+/**
+ * @slot - slot for rendering a `<calcite-input>`
+ */
 @Component({
   tag: "calcite-inline-editable",
   scoped: true,
