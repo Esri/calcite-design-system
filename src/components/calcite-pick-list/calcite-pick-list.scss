@@ -1,20 +1,7 @@
 :host {
-  @extend %component-spacing;
-  * {
-    @apply box-border;
-  }
-  @apply box-border 
-    bg-foreground-1 
-    text-color-2 
-    text--1-wrap
-    items-stretch
-    bg-transparent
-    flex
-    flex-col
-    relative;
+  @extend %component-host;
+  @apply items-stretch bg-transparent flex flex-col relative pb-0;
   flex: 1 0 auto;
-  //FIXME: Where is this coming from?
-  padding-bottom: var(--calcite-cap-spacing);
 }
 
 header {
@@ -40,6 +27,6 @@ calcite-scrim {
 }
 
 :host([loading][disabled]) {
-  //FIXME: not sure what to do with this one.
+  //FIXME: not sure what to do with this one. can I user theme("spacing.4")?
   min-height: 2rem;
 }
