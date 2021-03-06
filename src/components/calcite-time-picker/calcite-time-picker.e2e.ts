@@ -702,18 +702,51 @@ describe("calcite-time-picker", () => {
 
     it("allows typing AM and PM for 12-hour format", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-time-picker hour-display-format="12" step="1"></calcite-time-picker>`);
+      await page.setContent(`<calcite-time-picker hour-display-format="12" step="1" hour="00"></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const hour = await page.find("calcite-time-picker >>> span.hour");
       const ampm = await page.find("calcite-time-picker >>> span.ampm");
 
       await ampm.click();
       await page.keyboard.press("a");
       await page.waitForChanges();
 
+      expect(await timePicker.getProperty("hour")).toBe("00");
+      expect(hour.textContent).toBe("12");
       expect(ampm.textContent).toBe("AM");
 
       await page.keyboard.press("p");
       await page.waitForChanges();
 
+      expect(await timePicker.getProperty("hour")).toBe("12");
+      expect(hour.textContent).toBe("12");
+      expect(ampm.textContent).toBe("PM");
+    });
+
+    it("typing am and pm multiple times when they are already set doesn't affect the hour", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker hour-display-format="12" step="1" hour="00"></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const hour = await page.find("calcite-time-picker >>> span.hour");
+      const ampm = await page.find("calcite-time-picker >>> span.ampm");
+
+      await ampm.click();
+      await page.keyboard.press("a");
+      await page.keyboard.press("a");
+      await page.keyboard.press("a");
+      await page.waitForChanges();
+
+      expect(await timePicker.getProperty("hour")).toBe("00");
+      expect(hour.textContent).toBe("12");
+      expect(ampm.textContent).toBe("AM");
+
+      await page.keyboard.press("p");
+      await page.keyboard.press("p");
+      await page.keyboard.press("p");
+      await page.waitForChanges();
+
+      expect(await timePicker.getProperty("hour")).toBe("12");
+      expect(hour.textContent).toBe("12");
       expect(ampm.textContent).toBe("PM");
     });
   });
