@@ -108,13 +108,13 @@ calcite-scrim {
     text-overflow: ellipsis;
   }
   .heading {
-    @apply font-medium mt-0 mx-0 mb-1 text-0-wrap;
+    @apply font-bold mt-0 mx-0 mb-1 text-0-wrap;
     &:only-child {
       @apply mb-0;
     }
   }
   .summary {
-    @apply text-color-3 text-2-wrap;
+    @apply text-color-2 text--1-wrap;
   }
 }
 
