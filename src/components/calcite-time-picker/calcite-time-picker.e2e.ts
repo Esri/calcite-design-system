@@ -2,6 +2,35 @@ import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, focusable, reflects, renders } from "../../tests/commonTests";
 import { formatNumberAsTimeString } from "./utils";
 
+const letterKeys = [
+  "a",
+  "b",
+  "c",
+  "d",
+  "e",
+  "f",
+  "g",
+  "h",
+  "i",
+  "j",
+  "k",
+  "l",
+  "m",
+  "n",
+  "o",
+  "p",
+  "q",
+  "r",
+  "s",
+  "t",
+  "u",
+  "v",
+  "w",
+  "x",
+  "y",
+  "z"
+];
+
 describe("calcite-time-picker", () => {
   it("renders", async () => renders("calcite-time-picker"));
 
@@ -365,6 +394,600 @@ describe("calcite-time-picker", () => {
       await page.waitForChanges();
 
       expect(ampm.textContent).toBe("--");
+    });
+
+    it("typing letter keys changes nothing for hour, minute and second in 24-hour format", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker hour-display-format="24" step="1"></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const hour = await page.find("calcite-time-picker >>> span.hour");
+      const minute = await page.find("calcite-time-picker >>> span.minute");
+      const second = await page.find("calcite-time-picker >>> span.second");
+
+      await hour.click();
+
+      for (let i = 0; i >= letterKeys.length; i++) {
+        await page.keyboard.press(letterKeys[i]);
+        expect(await timePicker.getProperty("hour")).toBe("--");
+        expect(hour.textContent).toBe("--");
+      }
+
+      await minute.click();
+
+      for (let i = 0; i >= letterKeys.length; i++) {
+        await page.keyboard.press(letterKeys[i]);
+        expect(await timePicker.getProperty("minute")).toBe("--");
+        expect(minute.textContent).toBe("--");
+      }
+
+      await second.click();
+
+      for (let i = 0; i >= letterKeys.length; i++) {
+        await page.keyboard.press(letterKeys[i]);
+        expect(await timePicker.getProperty("second")).toBe("--");
+        expect(second.textContent).toBe("--");
+      }
+    });
+
+    it("typing letter keys changes nothing for hour, minute and second in 12-hour format", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker hour-display-format="12" step="1"></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const hour = await page.find("calcite-time-picker >>> span.hour");
+      const minute = await page.find("calcite-time-picker >>> span.minute");
+      const second = await page.find("calcite-time-picker >>> span.second");
+
+      await hour.click();
+
+      for (let i = 0; i >= letterKeys.length; i++) {
+        await page.keyboard.press(letterKeys[i]);
+        expect(await timePicker.getProperty("hour")).toBe("--");
+        expect(hour.textContent).toBe("--");
+      }
+
+      await minute.click();
+
+      for (let i = 0; i >= letterKeys.length; i++) {
+        await page.keyboard.press(letterKeys[i]);
+        expect(await timePicker.getProperty("minute")).toBe("--");
+        expect(minute.textContent).toBe("--");
+      }
+
+      await second.click();
+
+      for (let i = 0; i >= letterKeys.length; i++) {
+        await page.keyboard.press(letterKeys[i]);
+        expect(await timePicker.getProperty("second")).toBe("--");
+        expect(second.textContent).toBe("--");
+      }
+    });
+
+    it("allows typing single digit values for hour, minute and second and pads the value and display with a leading zero for 24-hour format", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker hour-display-format="24" step="1"></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const hour = await page.find("calcite-time-picker >>> span.hour");
+      const minute = await page.find("calcite-time-picker >>> span.minute");
+      const second = await page.find("calcite-time-picker >>> span.second");
+
+      await page.keyboard.press("Tab");
+
+      for (let i = 0; i < 10; i++) {
+        await page.keyboard.press(i.toString());
+        await page.waitForChanges();
+
+        expect(await timePicker.getProperty("hour")).toBe(`0${i}`);
+        expect(hour.textContent).toBe(`0${i}`);
+
+        await page.keyboard.press("Backspace");
+      }
+
+      await page.keyboard.press("Tab");
+
+      for (let i = 0; i < 10; i++) {
+        await page.keyboard.press(i.toString());
+        await page.waitForChanges();
+
+        expect(await timePicker.getProperty("minute")).toBe(`0${i}`);
+        expect(minute.textContent).toBe(`0${i}`);
+
+        await page.keyboard.press("Backspace");
+      }
+
+      await page.keyboard.press("Tab");
+
+      for (let i = 0; i < 10; i++) {
+        await page.keyboard.press(i.toString());
+        await page.waitForChanges();
+
+        expect(await timePicker.getProperty("second")).toBe(`0${i}`);
+        expect(second.textContent).toBe(`0${i}`);
+
+        await page.keyboard.press("Backspace");
+      }
+    });
+
+    it("allows typing single digit values for hour, minute and second and pads the value and display with a leading zero for 12-hour format", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker hour-display-format="12" step="1"></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const hour = await page.find("calcite-time-picker >>> span.hour");
+      const minute = await page.find("calcite-time-picker >>> span.minute");
+      const second = await page.find("calcite-time-picker >>> span.second");
+
+      await page.keyboard.press("Tab");
+
+      for (let i = 0; i < 10; i++) {
+        await page.keyboard.press(i.toString());
+        await page.waitForChanges();
+
+        expect(await timePicker.getProperty("hour")).toBe(`0${i}`);
+        expect(hour.textContent).toBe(`0${i}`);
+
+        await page.keyboard.press("Backspace");
+      }
+
+      await page.keyboard.press("Tab");
+
+      for (let i = 0; i < 10; i++) {
+        await page.keyboard.press(i.toString());
+        await page.waitForChanges();
+
+        expect(await timePicker.getProperty("minute")).toBe(`0${i}`);
+        expect(minute.textContent).toBe(`0${i}`);
+
+        await page.keyboard.press("Backspace");
+      }
+
+      await page.keyboard.press("Tab");
+
+      for (let i = 0; i < 10; i++) {
+        await page.keyboard.press(i.toString());
+        await page.waitForChanges();
+
+        expect(await timePicker.getProperty("second")).toBe(`0${i}`);
+        expect(second.textContent).toBe(`0${i}`);
+
+        await page.keyboard.press("Backspace");
+      }
+    });
+
+    it("restricts typing to valid hour values for 12-hour format", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker hour-display-format="12" step="1"></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const hour = await page.find("calcite-time-picker >>> span.hour");
+
+      await hour.click();
+
+      for (let i = 10; i < 13; i++) {
+        const [key1, key2] = i.toString().split("");
+
+        await page.keyboard.press(key1);
+        await page.keyboard.press(key2);
+        await page.waitForChanges();
+
+        expect(await timePicker.getProperty("hour")).toBe(`${key1}${key2}`);
+        expect(hour.textContent).toBe(`${key1}${key2}`);
+      }
+
+      for (let i = 13; i < 100; i++) {
+        const [key1, key2] = i.toString().split("");
+
+        await page.keyboard.press(key1);
+        await page.keyboard.press(key2);
+        await page.waitForChanges();
+
+        expect(await timePicker.getProperty("hour")).toBe(`0${key2}`);
+        expect(hour.textContent).toBe(`0${key2}`);
+      }
+    });
+
+    it("restricts typing to valid hour values for 24-hour format", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker hour-display-format="24" step="1"></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const hour = await page.find("calcite-time-picker >>> span.hour");
+
+      await hour.click();
+
+      for (let i = 10; i < 24; i++) {
+        const [key1, key2] = i.toString().split("");
+
+        await page.keyboard.press(key1);
+        await page.keyboard.press(key2);
+        await page.waitForChanges();
+
+        expect(await timePicker.getProperty("hour")).toBe(`${key1}${key2}`);
+        expect(hour.textContent).toBe(`${key1}${key2}`);
+      }
+
+      for (let i = 24; i < 100; i++) {
+        const [key1, key2] = i.toString().split("");
+
+        await page.keyboard.press(key1);
+        await page.keyboard.press(key2);
+        await page.waitForChanges();
+
+        expect(await timePicker.getProperty("hour")).toBe(`0${key2}`);
+        expect(hour.textContent).toBe(`0${key2}`);
+      }
+    });
+
+    it("restricts typing to valid minute values", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker step="1"></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const minute = await page.find("calcite-time-picker >>> span.minute");
+
+      await minute.click();
+
+      for (let i = 10; i < 60; i++) {
+        const [key1, key2] = i.toString().split("");
+
+        await page.keyboard.press(key1);
+        await page.keyboard.press(key2);
+        await page.waitForChanges();
+
+        expect(await timePicker.getProperty("minute")).toBe(`${key1}${key2}`);
+        expect(minute.textContent).toBe(`${key1}${key2}`);
+      }
+
+      for (let i = 60; i < 100; i++) {
+        const [key1, key2] = i.toString().split("");
+
+        await page.keyboard.press(key1);
+        await page.keyboard.press(key2);
+        await page.waitForChanges();
+
+        expect(await timePicker.getProperty("minute")).toBe(`0${key2}`);
+        expect(minute.textContent).toBe(`0${key2}`);
+      }
+    });
+
+    it("restricts typing to valid second values", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker step="1"></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const second = await page.find("calcite-time-picker >>> span.second");
+
+      await second.click();
+
+      for (let i = 10; i < 60; i++) {
+        const [key1, key2] = i.toString().split("");
+
+        await page.keyboard.press(key1);
+        await page.keyboard.press(key2);
+        await page.waitForChanges();
+
+        expect(await timePicker.getProperty("second")).toBe(`${key1}${key2}`);
+        expect(second.textContent).toBe(`${key1}${key2}`);
+      }
+
+      for (let i = 60; i < 100; i++) {
+        const [key1, key2] = i.toString().split("");
+
+        await page.keyboard.press(key1);
+        await page.keyboard.press(key2);
+        await page.waitForChanges();
+
+        expect(await timePicker.getProperty("second")).toBe(`0${key2}`);
+        expect(second.textContent).toBe(`0${key2}`);
+      }
+    });
+
+    it("allows typing 00 for hour in 12-hour format, but when the hour is blurred, the display hour is updated to show 12", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker hour-display-format="12" step="1"></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const hour = await page.find("calcite-time-picker >>> span.hour");
+      const ampm = await page.find("calcite-time-picker >>> span.ampm");
+
+      await hour.click();
+      await page.keyboard.press("0");
+      await page.keyboard.press("0");
+      await page.waitForChanges();
+
+      expect(await timePicker.getProperty("hour")).toBe("00");
+      expect(hour.textContent).toBe("00");
+      expect(ampm.textContent).toBe("AM");
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      expect(await timePicker.getProperty("hour")).toBe("00");
+      expect(hour.textContent).toBe("12");
+      expect(ampm.textContent).toBe("AM");
+    });
+
+    it("allows typing AM and PM for 12-hour format", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker hour-display-format="12" step="1"></calcite-time-picker>`);
+      const ampm = await page.find("calcite-time-picker >>> span.ampm");
+
+      await ampm.click();
+      await page.keyboard.press("a");
+      await page.waitForChanges();
+
+      expect(ampm.textContent).toBe("AM");
+
+      await page.keyboard.press("p");
+      await page.waitForChanges();
+
+      expect(ampm.textContent).toBe("PM");
+    });
+  });
+
+  describe("time behavior", () => {
+    it("hour, display hour and AM/PM set correctly as hour changes for 12-hour display format", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker hour-display-format="12" hour="00"></calcite-time-picker>`);
+
+      const timePicker = await page.find("calcite-time-picker");
+      const hour = await page.find("calcite-time-picker >>> span.hour");
+      const ampm = await page.find("calcite-time-picker >>> span.ampm");
+
+      expect(ampm.textContent).toBe("AM");
+
+      await hour.click();
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+
+      expect(await timePicker.getProperty("hour")).toBe("23");
+      expect(hour.textContent).toBe("11");
+      expect(ampm.textContent).toBe("PM");
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+
+      expect(await timePicker.getProperty("hour")).toBe("00");
+      expect(hour.textContent).toBe("12");
+      expect(ampm.textContent).toBe("AM");
+    });
+
+    it("changing AM/PM updates hour property correctly for 12-hour display format", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker hour-display-format="12" hour="00"></calcite-time-picker>`);
+
+      const timePicker = await page.find("calcite-time-picker");
+      const hour = await page.find("calcite-time-picker >>> span.hour");
+      const ampm = await page.find("calcite-time-picker >>> span.ampm");
+
+      expect(await timePicker.getProperty("hour")).toBe("00");
+      expect(ampm.textContent).toBe("AM");
+
+      await ampm.click();
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+
+      expect(await timePicker.getProperty("hour")).toBe("12");
+      expect(hour.textContent).toBe("12");
+      expect(ampm.textContent).toBe("PM");
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+
+      expect(await timePicker.getProperty("hour")).toBe("00");
+      expect(hour.textContent).toBe("12");
+      expect(ampm.textContent).toBe("AM");
+    });
+
+    it("hour-up button increments hour property and display hour correctly for 24-hour display format", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker hour-display-format="24"></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const hour = await page.find("calcite-time-picker >>> span.hour");
+      const hourUp = await page.find("calcite-time-picker >>> span.hour-up");
+
+      for (let i = 1; i < 24; i++) {
+        await hourUp.click();
+        await page.waitForChanges();
+
+        expect(await timePicker.getProperty("hour")).toBe(`${formatNumberAsTimeString(i)}`);
+        expect(hour.textContent).toBe(formatNumberAsTimeString(i));
+      }
+
+      await hourUp.click();
+      await page.waitForChanges();
+
+      expect(await timePicker.getProperty("hour")).toBe("00");
+      expect(hour.textContent).toBe("00");
+    });
+
+    it("hour-down button decrements hour property and display hour correctly for 24-hour display format", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker hour-display-format="24"></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const hour = await page.find("calcite-time-picker >>> span.hour");
+      const hourdown = await page.find("calcite-time-picker >>> span.hour-down");
+
+      await hourdown.click();
+      await page.waitForChanges();
+
+      expect(await timePicker.getProperty("hour")).toBe("00");
+      expect(hour.textContent).toBe("00");
+
+      for (let i = 23; i > 0; i--) {
+        await hourdown.click();
+        await page.waitForChanges();
+
+        expect(await timePicker.getProperty("hour")).toBe(`${formatNumberAsTimeString(i)}`);
+        expect(hour.textContent).toBe(formatNumberAsTimeString(i));
+      }
+    });
+
+    it("hour-up button increments hour property and display hour correctly for 12-hour display format", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker hour-display-format="12"></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const hour = await page.find("calcite-time-picker >>> span.hour");
+      const hourup = await page.find("calcite-time-picker >>> span.hour-up");
+
+      for (let i = 1; i < 24; i++) {
+        await hourup.click();
+        await page.waitForChanges();
+
+        expect(await timePicker.getProperty("hour")).toBe(`${formatNumberAsTimeString(i)}`);
+        expect(hour.textContent).toBe(i > 12 ? formatNumberAsTimeString(i - 12) : formatNumberAsTimeString(i));
+      }
+
+      await hourup.click();
+
+      expect(await timePicker.getProperty("hour")).toBe("00");
+    });
+
+    it("hour-down button decrements hour property and display hour correctly for 12-hour display format", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker hour-display-format="12"></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const hour = await page.find("calcite-time-picker >>> span.hour");
+      const hourdown = await page.find("calcite-time-picker >>> span.hour-down");
+
+      await hourdown.click();
+      await page.waitForChanges();
+
+      expect(await timePicker.getProperty("hour")).toBe("00");
+      expect(hour.textContent).toBe("12");
+
+      for (let i = 23; i > 0; i--) {
+        await hourdown.click();
+        await page.waitForChanges();
+
+        expect(await timePicker.getProperty("hour")).toBe(`${formatNumberAsTimeString(i)}`);
+        expect(hour.textContent).toBe(i > 12 ? formatNumberAsTimeString(i - 12) : formatNumberAsTimeString(i));
+      }
+    });
+
+    it("minute-up button increments minute property correctly", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const minute = await page.find("calcite-time-picker >>> span.minute");
+      const minuteup = await page.find("calcite-time-picker >>> span.minute-up");
+
+      for (let i = 0; i < 60; i++) {
+        await minuteup.click();
+        await page.waitForChanges();
+
+        expect(await timePicker.getProperty("minute")).toBe(`${formatNumberAsTimeString(i)}`);
+        expect(minute.textContent).toBe(`${formatNumberAsTimeString(i)}`);
+      }
+
+      await minuteup.click();
+      await page.waitForChanges();
+
+      expect(await timePicker.getProperty("minute")).toBe("00");
+      expect(minute.textContent).toBe("00");
+    });
+
+    it("minute-down button decrements minute property correctly", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const minute = await page.find("calcite-time-picker >>> span.minute");
+      const minutedown = await page.find("calcite-time-picker >>> span.minute-down");
+
+      for (let i = 59; i >= 0; i--) {
+        await minutedown.click();
+        await page.waitForChanges();
+
+        expect(await timePicker.getProperty("minute")).toBe(`${formatNumberAsTimeString(i)}`);
+        expect(minute.textContent).toBe(`${formatNumberAsTimeString(i)}`);
+      }
+
+      await minutedown.click();
+      await page.waitForChanges();
+
+      expect(await timePicker.getProperty("minute")).toBe("59");
+      expect(minute.textContent).toBe("59");
+    });
+
+    it("second-up button increments second property correctly", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker step="1"></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const second = await page.find("calcite-time-picker >>> span.second");
+      const secondup = await page.find("calcite-time-picker >>> span.second-up");
+
+      for (let i = 0; i < 60; i++) {
+        await secondup.click();
+        await page.waitForChanges();
+
+        expect(await timePicker.getProperty("second")).toBe(`${formatNumberAsTimeString(i)}`);
+        expect(second.textContent).toBe(`${formatNumberAsTimeString(i)}`);
+      }
+
+      await secondup.click();
+      await page.waitForChanges();
+
+      expect(await timePicker.getProperty("second")).toBe("00");
+      expect(second.textContent).toBe("00");
+    });
+
+    it("second-down button decrements second property correctly", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker step="1"></calcite-time-picker>`);
+      const timePicker = await page.find("calcite-time-picker");
+      const second = await page.find("calcite-time-picker >>> span.second");
+      const seconddown = await page.find("calcite-time-picker >>> span.second-down");
+
+      for (let i = 59; i >= 0; i--) {
+        await seconddown.click();
+        await page.waitForChanges();
+
+        expect(await timePicker.getProperty("second")).toBe(`${formatNumberAsTimeString(i)}`);
+        expect(second.textContent).toBe(`${formatNumberAsTimeString(i)}`);
+      }
+
+      await seconddown.click();
+      await page.waitForChanges();
+
+      expect(await timePicker.getProperty("second")).toBe("59");
+      expect(second.textContent).toBe("59");
+    });
+
+    it("ampm-up button increments ampm property correctly", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker hour-display-format="12"></calcite-time-picker>`);
+      const ampm = await page.find("calcite-time-picker >>> span.ampm");
+      const ampmup = await page.find("calcite-time-picker >>> span.ampm-up");
+
+      await ampmup.click();
+      await page.waitForChanges();
+
+      expect(ampm.textContent).toBe("AM");
+
+      await ampmup.click();
+      await page.waitForChanges();
+
+      expect(ampm.textContent).toBe("PM");
+
+      await ampmup.click();
+      await page.waitForChanges();
+
+      expect(ampm.textContent).toBe("AM");
+    });
+
+    it("ampm-down button decrements ampm property correctly", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-time-picker hour-display-format="12"></calcite-time-picker>`);
+      const ampm = await page.find("calcite-time-picker >>> span.ampm");
+      const ampmdown = await page.find("calcite-time-picker >>> span.ampm-down");
+
+      await ampmdown.click();
+      await page.waitForChanges();
+
+      expect(ampm.textContent).toBe("PM");
+
+      await ampmdown.click();
+      await page.waitForChanges();
+
+      expect(ampm.textContent).toBe("AM");
+
+      await ampmdown.click();
+      await page.waitForChanges();
+
+      expect(ampm.textContent).toBe("PM");
     });
   });
 });

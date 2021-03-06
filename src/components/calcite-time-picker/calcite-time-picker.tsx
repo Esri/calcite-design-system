@@ -539,7 +539,7 @@ export class CalciteTimePicker {
           <div>
             <span
               aria-label="increase hour"
-              class="shift top-left"
+              class="hour-up shift top-left"
               onClick={this.incrementHour}
               onKeyDown={this.incrementHour}
               role="button"
@@ -565,7 +565,7 @@ export class CalciteTimePicker {
             </span>
             <span
               aria-label="decrease hour"
-              class="shift bottom-left"
+              class="hour-down shift bottom-left"
               onClick={this.decrementHour}
               onKeyDown={this.decrementHour}
               role="button"
@@ -578,7 +578,7 @@ export class CalciteTimePicker {
           <div>
             <span
               aria-label="increase minute"
-              class="shift"
+              class="minute-up shift"
               onClick={this.incrementMinute}
               onKeyDown={this.incrementMinute}
               role="button"
@@ -603,7 +603,7 @@ export class CalciteTimePicker {
             </span>
             <span
               aria-label="decrease minute"
-              class="shift"
+              class="minute-down shift"
               onClick={this.decrementMinute}
               onKeyDown={this.decrementMinute}
               role="button"
@@ -617,7 +617,7 @@ export class CalciteTimePicker {
             <div>
               <span
                 aria-label="increase second"
-                class="shift"
+                class="second-up shift"
                 onClick={this.incrementSecond}
                 onKeyDown={this.incrementSecond}
                 role="button"
@@ -642,7 +642,7 @@ export class CalciteTimePicker {
               </span>
               <span
                 aria-label="decrease second"
-                class="shift"
+                class="second-down shift"
                 onClick={this.decrementSecond}
                 onKeyDown={this.decrementSecond}
                 role="button"
@@ -656,7 +656,7 @@ export class CalciteTimePicker {
             <div>
               <span
                 aria-label="switch to am or pm"
-                class="shift top-right"
+                class="ampm-up shift top-right"
                 onClick={this.incrementAmPm}
                 onKeyDown={this.incrementAmPm}
                 role="button"
@@ -681,7 +681,7 @@ export class CalciteTimePicker {
               </span>
               <span
                 aria-label="switch to am or pm"
-                class="shift bottom-right"
+                class="ampm-down shift bottom-right"
                 onClick={this.decrementAmPm}
                 onKeyDown={this.decrementAmPm}
                 role="button"
