@@ -10,7 +10,7 @@
 
 .track {
   @apply z-0 w-full overflow-hidden;
-  background: theme("borderColor.3");
+  background: theme("borderColor.color.3");
 }
 
 .bar {
