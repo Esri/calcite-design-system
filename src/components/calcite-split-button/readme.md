@@ -2,18 +2,6 @@
 
 The calcite-split-button control is one that combines a button with a dropdown menu in order to provide a primary action along with one or more related secondary options / actions. It's useful for grouping related actions or options for users, while elevating a commonly-used or default action for easier access. Its inner content populates the control's dropdown menu, and is thus expected to be valid `calcite-dropdown` content.
 
-Basic Usage:
-
-```html
-<calcite-split-button primary-icon-start="save" primary-text="Primary Option">
-  <calcite-dropdown-group selection-mode="none">
-    <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-    <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-    <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-  </calcite-dropdown-group>
-</calcite-split-button>
-```
-
 <!-- Auto Generated Below -->
 
 ## Properties

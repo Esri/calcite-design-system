@@ -12,6 +12,15 @@ describe("calcite-combobox", () => {
       </calcite-combobox>
   `));
 
+  it("is accessible with item group", async () =>
+    accessible(`
+      <calcite-combobox label="Trees" value="Trees">
+        <calcite-combobox-item-group label="Conifers">
+          <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
+        </calcite-combobox-item-group>
+      </calcite-combobox>
+  `));
+
   it("should show the listbox when it receives focus", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-combobox>
@@ -80,7 +89,42 @@ describe("calcite-combobox", () => {
     await element.click();
     await page.waitForChanges();
 
-    const items = await page.findAll("calcite-combobox-item");
+    const items = await page.findAll("calcite-combobox-item, calcite-combobox-item-group");
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].isIntersectingViewport()).toBe(i < maxItems);
+    }
+  });
+
+  it("should control max items displayed with group", async () => {
+    const page = await newE2EPage();
+
+    const maxItems = 8;
+
+    await page.setContent(`
+      <calcite-combobox max-items="${maxItems}">
+        <calcite-combobox-item id="item-0" value="item-0" text-label="item-0">
+          <calcite-combobox-item id="item-1" value="item-1" text-label="item-1"></calcite-combobox-item>
+          <calcite-combobox-item id="item-2" value="item-2" text-label="item-2"></calcite-combobox-item>
+          <calcite-combobox-item id="item-3" value="item-3" text-label="item-3"></calcite-combobox-item>
+          <calcite-combobox-item id="item-4" value="item-4" text-label="item-4"></calcite-combobox-item>
+          <calcite-combobox-item id="item-5" value="item-5" text-label="item-5"></calcite-combobox-item>
+        </calcite-combobox-item>
+        <calcite-combobox-item-group id="item-6" label="item-6">
+          <calcite-combobox-item id="item-7" value="item-7" text-label="item-7"></calcite-combobox-item>
+          <calcite-combobox-item id="item-8" value="item-8" text-label="item-8"></calcite-combobox-item>
+          <calcite-combobox-item id="item-9" value="item-9" text-label="item-9"></calcite-combobox-item>
+          <calcite-combobox-item id="item-10" value="item-10" text-label="item-10"></calcite-combobox-item>
+        </calcite-combobox-item-group>
+      </calcite-combobox>
+    `);
+    await page.waitForChanges();
+
+    const element = await page.find("calcite-combobox");
+    await element.click();
+    await page.waitForChanges();
+
+    const items = await page.findAll("calcite-combobox-item, calcite-combobox-item-group");
 
     for (let i = 0; i < items.length; i++) {
       expect(await items[i].isIntersectingViewport()).toBe(i < maxItems);
@@ -171,7 +215,9 @@ describe("calcite-combobox", () => {
           <calcite-combobox>
             <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
             <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
-            <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+            <calcite-combobox-item-group label="Last Item">
+              <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+            </calcite-combobox-item-group>
           </calcite-combobox>
         `
       );
@@ -238,7 +284,9 @@ describe("calcite-combobox", () => {
           <calcite-combobox>
             <calcite-combobox-item id="one" value="one" text-label="one" selected></calcite-combobox-item>
             <calcite-combobox-item id="two" value="two" text-label="two" selected></calcite-combobox-item>
-            <calcite-combobox-item id="three" value="three" text-label="three" selected></calcite-combobox-item>
+            <calcite-combobox-item-group label="Last Item">
+              <calcite-combobox-item id="three" value="three" text-label="three" selected></calcite-combobox-item>
+            </calcite-combobox-item-group>
           </calcite-combobox>
         `
       );

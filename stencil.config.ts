@@ -29,7 +29,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-checkbox"] },
     { components: ["calcite-chip"] },
     { components: ["calcite-color-picker", "calcite-color-picker-hex-input", "calcite-color-picker-swatch"] },
-    { components: ["calcite-combobox"] },
+    { components: ["calcite-combobox", "calcite-combobox-item-group", "calcite-combobox-item"] },
     {
       components: [
         "calcite-input-date-picker",
