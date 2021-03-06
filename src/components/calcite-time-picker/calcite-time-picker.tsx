@@ -500,10 +500,14 @@ export class CalciteTimePicker {
           const hourAsNumber = parseInt(this.hour);
           switch (value) {
             case "AM":
-              this.hour = formatNumberAsTimeString(hourAsNumber - 12);
+              if (this.ampm === "PM") {
+                this.hour = formatNumberAsTimeString(hourAsNumber - 12);
+              }
               break;
             case "PM":
-              this.hour = formatNumberAsTimeString(hourAsNumber + 12);
+              if (this.ampm === "AM") {
+                this.hour = formatNumberAsTimeString(hourAsNumber + 12);
+              }
               break;
           }
           this.ampm = value as AmPm;
