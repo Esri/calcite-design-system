@@ -1,8 +1,7 @@
 :host {
   .radio {
-    border-radius: 100%;
-    box-shadow: inset 0 0 0 1px var(--calcite-ui-border-1);
-    cursor: pointer;
+    @apply rounded-full cursor-pointer border;
+    box-shadow: inset 0 0 0 1px var(--calcite-ui-border-input);
     transition: all 0.15s ease-in-out;
   }
 }
@@ -14,20 +13,19 @@
 }
 :host([disabled]) {
   .radio {
-    cursor: default;
-    opacity: var(--calcite-ui-opacity-disabled);
+    @apply cursor-default opacity-disabled;
   }
 }
 :host([hovered][disabled]) {
   .radio {
-    box-shadow: inset 0 0 0 1px var(--calcite-ui-border-1);
+    box-shadow: inset 0 0 0 1px var(--calcite-ui-border-input);
   }
 }
 :host([scale="s"]) {
   .radio {
-    height: 12px;
-    min-width: 12px;
-    max-width: 12px;
+    @apply h-3;
+    min-width: theme("spacing.3");
+    max-width: theme("spacing.3");
   }
 }
 :host([scale="s"][checked]),
@@ -44,6 +42,7 @@
 }
 :host([scale="m"]) {
   .radio {
+    //FIXME: Both figma and current code here have 14, but it's not a tailwind value
     height: 14px;
     min-width: 14px;
     max-width: 14px;
@@ -63,6 +62,7 @@
 }
 :host([scale="l"]) {
   .radio {
+    //FIXME: Both figma and current code here have 14, but it's not a tailwind value
     height: 20px;
     min-width: 20px;
     max-width: 20px;
@@ -81,5 +81,5 @@
   }
 }
 :host([hidden]) {
-  display: none;
+  @apply hidden;
 }
