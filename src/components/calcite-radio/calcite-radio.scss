@@ -63,9 +63,9 @@
 :host([scale="l"]) {
   .radio {
     //FIXME: Both figma and current code here have 14, but it's not a tailwind value
-    height: 20px;
-    min-width: 20px;
-    max-width: 20px;
+    @apply h-5;
+    min-width: theme("spacing.5");
+    max-width: theme("spacing.5");
   }
 }
 :host([scale="l"][checked]),
