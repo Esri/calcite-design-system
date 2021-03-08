@@ -3,9 +3,9 @@
   @apply items-stretch 
     flex 
     text-color-1 
-    shadow-border-bottom;
-  //FIXME: should this be changed to tailwind values or left as is?
-  margin: 0 0 1px 0;
+    shadow-border-bottom
+    m-0
+    mb-px;
   transition: background-color $transition;
   animation: calcite-fade-in $transition;
 }
@@ -16,8 +16,7 @@
 
 .icon {
   @apply items-center flex my-0 mx-2 opacity-0;
-  //FIXME: There is no color text for brand?
-  color: var(--calcite-ui-brand);
+  color: theme("colors.brand");
   flex: 0 0 auto;
   line-height: 0;
 }
