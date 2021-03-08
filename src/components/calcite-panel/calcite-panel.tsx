@@ -10,10 +10,11 @@ import {
   h,
   VNode
 } from "@stencil/core";
-import { CSS, ICONS, SLOTS, TEXT } from "./resources";
+import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
 import { getElementDir, getSlotted } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { Scale, Theme } from "../interfaces";
+import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
 
 /**
  * @slot header-actions-start - a slot for adding actions or content to the start side of the panel header.
@@ -60,6 +61,11 @@ export class CalcitePanel {
    * Displays a close button in the trailing side of the header.
    */
   @Prop({ reflect: true }) dismissible = false;
+
+  /**
+   * Number at which section headings should start for this component.
+   */
+  @Prop() headingLevel: HeadingLevel = HEADING_LEVEL;
 
   /**
    * Shows a back button in the header.
@@ -239,8 +245,13 @@ export class CalcitePanel {
   }
 
   renderHeaderContent(): VNode {
-    const { heading, summary } = this;
-    const headingNode = heading ? <h3 class={CSS.heading}>{heading}</h3> : null;
+    const { heading, headingLevel, summary } = this;
+    const headingNode = heading ? (
+      <CalciteHeading class={CSS.heading} level={headingLevel}>
+        {heading}
+      </CalciteHeading>
+    ) : null;
+
     const summaryNode = summary ? <span class={CSS.summary}>{summary}</span> : null;
 
     return headingNode || summaryNode ? (

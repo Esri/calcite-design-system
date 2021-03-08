@@ -14,6 +14,10 @@ describe("calcite-date-picker", () => {
         defaultValue: TEXT.prevMonth
       },
       {
+        propertyName: "headingLevel",
+        defaultValue: 2
+      },
+      {
         propertyName: "intlNextMonth",
         defaultValue: TEXT.nextMonth
       },

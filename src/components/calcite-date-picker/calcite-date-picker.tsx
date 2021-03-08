@@ -15,11 +15,12 @@ import {
 import { getLocaleData, DateLocaleData } from "./utils";
 import { getElementDir } from "../../utils/dom";
 import { dateFromRange, dateFromISO, dateToISO, getDaysDiff } from "../../utils/date";
-
+import { HeadingLevel } from "../functional/CalciteHeading";
 import { getKey } from "../../utils/key";
 import { TEXT } from "./calcite-date-picker-resources";
 
 import { DateRangeChange } from "./interfaces";
+import { HEADING_LEVEL } from "./resources";
 
 @Component({
   assetsDirs: ["assets"],
@@ -45,6 +46,11 @@ export class CalciteDatePicker {
 
   /** Selected date */
   @Prop() value?: string;
+
+  /**
+   * Number at which section headings should start for this component.
+   */
+  @Prop() headingLevel: HeadingLevel = HEADING_LEVEL;
 
   /** Selected date as full date object*/
   @Prop({ mutable: true }) valueAsDate?: Date;
@@ -346,6 +352,7 @@ export class CalciteDatePicker {
         <calcite-date-picker-month-header
           activeDate={activeDate}
           dir={dir}
+          headingLevel={this.headingLevel}
           intlNextMonth={this.intlNextMonth}
           intlPrevMonth={this.intlPrevMonth}
           localeData={this.localeData}
