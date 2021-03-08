@@ -1,18 +1,15 @@
 :host([active]) section {
-  display: block;
+  @apply block;
 }
 
 :host {
-  display: none;
-  z-index: 1;
+  @apply hidden z-10;
 }
 
 :host([active]) {
-  display: block;
+  @apply block;
 }
 
 section {
-  height: 100%;
-  width: 100%;
-  display: none;
+  @apply h-full w-full hidden;
 }
