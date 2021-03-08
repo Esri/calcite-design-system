@@ -1,17 +1,22 @@
 class DemoForm extends HTMLElement {
   connectedCallback() {
-    const form = this.querySelector("form");
-    form.addEventListener("submit", this.onFormSubmit);
+    this.addEventListener("submit", this.onFormSubmit);
+    this.addEventListener("formdata", this.onFormData);
   }
+
   disconnectedCallback() {
-    const form = this.querySelector("form");
-    form.removeEventListener("submit", this.onFormSubmit);
+    this.removeEventListener("submit", this.onFormSubmit);
+    this.removeEventListener("formdata", this.onFormData);
   }
+
   onFormSubmit(event) {
     event.preventDefault();
-    const formData = new FormData(event.target);
+    new FormData(event.target);
+  }
+
+  onFormData(event) {
     const data = {};
-    for (const pair of formData.entries()) {
+    for (const pair of event.formData.entries()) {
       data[pair[0]] = pair[1];
     }
     console.log(data);
