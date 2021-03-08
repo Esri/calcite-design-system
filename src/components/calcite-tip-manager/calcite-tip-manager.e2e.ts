@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS, TEXT } from "./resources";
-import { accessible } from "../../tests/commonTests";
+import { accessible, defaults } from "../../tests/commonTests";
 
 describe("calcite-tip-manager", () => {
   describe("first render", () => {
@@ -18,6 +18,14 @@ describe("calcite-tip-manager", () => {
       const title = await page.find(`calcite-tip-manager >>> .${CSS.heading}`);
       expect(title.innerText).toBe(TEXT.defaultGroupTitle);
     });
+
+    it("has property defaults", async () =>
+      defaults("calcite-tip-manager", [
+        {
+          propertyName: "headingLevel",
+          defaultValue: 2
+        }
+      ]));
 
     it("is accessible", async () =>
       accessible(

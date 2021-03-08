@@ -1,11 +1,19 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, hidden, renders } from "../../tests/commonTests";
+import { accessible, hidden, renders, defaults } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-tip", () => {
   it("renders", async () => renders("calcite-tip"));
 
   it("honors hidden attribute", async () => hidden("calcite-tip"));
+
+  it("has property defaults", async () =>
+    defaults("calcite-tip", [
+      {
+        propertyName: "headingLevel",
+        defaultValue: 3
+      }
+    ]));
 
   it("is accessible", async () => accessible(`<calcite-tip heading="sample"><p>not dismissible</p></calcite-tip>`));
 
