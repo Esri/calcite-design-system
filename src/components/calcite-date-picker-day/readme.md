@@ -22,10 +22,9 @@
 
 ## Events
 
-| Event              | Description                         | Type               |
-| ------------------ | ----------------------------------- | ------------------ |
-| `calciteDayHover`  | Emitted when user hovers over a day | `CustomEvent<any>` |
-| `calciteDaySelect` | Emitted when user selects day       | `CustomEvent<any>` |
+| Event              | Description                   | Type               |
+| ------------------ | ----------------------------- | ------------------ |
+| `calciteDaySelect` | Emitted when user selects day | `CustomEvent<any>` |
 
 ## Dependencies
 

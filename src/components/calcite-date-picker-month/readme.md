@@ -20,8 +20,6 @@
 | Event                               | Description                               | Type               |
 | ----------------------------------- | ----------------------------------------- | ------------------ |
 | `calciteDatePickerActiveDateChange` | Active date for the user keyboard access. | `CustomEvent<any>` |
-| `calciteDatePickerHover`            | Event emitted when user hovers the date.  | `CustomEvent<any>` |
-| `calciteDatePickerMouseOut`         |                                           | `CustomEvent<any>` |
 | `calciteDatePickerSelect`           | Event emitted when user selects the date. | `CustomEvent<any>` |
 
 ## Dependencies

@@ -11,12 +11,6 @@
 | `expanded` | `expanded` | True if the item is in an expanded state | `boolean` | `false` |
 | `selected` | `selected` | Is the item currently selected           | `boolean` | `false` |
 
-## Events
-
-| Event                   | Description | Type                                |
-| ----------------------- | ----------- | ----------------------------------- |
-| `calciteTreeItemSelect` |             | `CustomEvent<TreeItemSelectDetail>` |
-
 ## Dependencies
 
 ### Depends on

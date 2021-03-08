@@ -8,7 +8,7 @@
 | ----------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------ |
 | `allowEmpty`      | `allow-empty`       | When false, empty color (null) will be allowed as a value. Otherwise, a color value is always enforced by the component. When true, clearing the input and blurring will restore the last valid color set. When false, it will set it to empty. | `boolean`                                                                                                                                  | `false`            |
 | `appearance`      | `appearance`        | specify the appearance - default (containing border), or minimal (no containing border)                                                                                                                                                         | `"default" \| "minimal"`                                                                                                                   | `"default"`        |
-| `format`          | `format`            | The format of the value property. When "auto", the format will be inferred from `value` when set.                                                                                                                                               | `"auto" \| "hex" \| "hexa" \| "hsl" \| "hsl-css" \| "hsla" \| "hsla-css" \| "hsv" \| "hsva" \| "rgb" \| "rgb-css" \| "rgba" \| "rgba-css"` | `"auto"`           |
+| `format`          | `format`            | The format of the value property. When "auto", the format will be inferred from `value` when set.                                                                                                                                               | `"auto" \| "hex" \| "hexa" \| "hsl" \| "hsl-css" \| "hsla" \| "hsla-css" \| "hsv" \| "hsva" \| "rgb" \| "rgb-css" \| "rgba" \| "rgba-css"` | `defaultFormat`    |
 | `hideChannels`    | `hide-channels`     | When true, hides the RGB/HSV channel inputs                                                                                                                                                                                                     | `boolean`                                                                                                                                  | `false`            |
 | `hideHex`         | `hide-hex`          | When true, hides the hex input                                                                                                                                                                                                                  | `boolean`                                                                                                                                  | `false`            |
 | `hideSaved`       | `hide-saved`        | When true, hides the saved colors section                                                                                                                                                                                                       | `boolean`                                                                                                                                  | `false`            |
@@ -34,13 +34,13 @@
 | `scale`           | `scale`             | The scale of the color picker.                                                                                                                                                                                                                  | `"l" \| "m" \| "s"`                                                                                                                        | `"m"`              |
 | `storageId`       | `storage-id`        | Storage ID for colors.                                                                                                                                                                                                                          | `string`                                                                                                                                   | `undefined`        |
 | `theme`           | `theme`             | The component's theme.                                                                                                                                                                                                                          | `"dark" \| "light"`                                                                                                                        | `"light"`          |
-| `value`           | `value`             | The color value. This value can be either a {@link https://developer.mozilla.org/en-US/docs/Web/CSS/color\|CSS string} a RGB, HSL or HSV object. The type will be preserved as the color is updated.                                            | `HSL \| HSL & ObjectWithAlpha \| HSV \| HSV & ObjectWithAlpha \| RGB \| RGB & ObjectWithAlpha \| string`                                   | `defaultColor`     |
+| `value`           | `value`             | The color value. This value can be either a {@link https://developer.mozilla.org/en-US/docs/Web/CSS/color\|CSS string} a RGB, HSL or HSV object. The type will be preserved as the color is updated.                                            | `HSL \| HSL & ObjectWithAlpha \| HSV \| HSV & ObjectWithAlpha \| RGB \| RGB & ObjectWithAlpha \| string`                                   | `defaultValue`     |
 
 ## Events
 
-| Event                      | Description | Type               |
-| -------------------------- | ----------- | ------------------ |
-| `calciteColorPickerChange` |             | `CustomEvent<any>` |
+| Event                      | Description                             | Type               |
+| -------------------------- | --------------------------------------- | ------------------ |
+| `calciteColorPickerChange` | Fires when the color value has changed. | `CustomEvent<any>` |
 
 ## Methods
 
@@ -59,11 +59,11 @@ Type: `Promise<void>`
 - [calcite-tab-title](../calcite-tab-title)
 - [calcite-tab](../calcite-tab)
 - [calcite-input](../calcite-input)
-- [calcite-color-picker-hex-input](src/components/calcite-color-picker-hex-input)
+- [calcite-color-picker-hex-input](../calcite-color-picker-hex-input)
 - [calcite-tabs](../calcite-tabs)
 - [calcite-tab-nav](../calcite-tab-nav)
 - [calcite-button](../calcite-button)
-- [calcite-color-picker-swatch](src/components/calcite-color-picker-swatch)
+- [calcite-color-picker-swatch](../calcite-color-picker-swatch)
 
 ### Graph
 

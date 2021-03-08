@@ -25,9 +25,9 @@
 
 ## Events
 
-| Event                 | Description | Type                              |
-| --------------------- | ----------- | --------------------------------- |
-| `calciteRatingChange` |             | `CustomEvent<{ value: number; }>` |
+| Event                 | Description                              | Type                              |
+| --------------------- | ---------------------------------------- | --------------------------------- |
+| `calciteRatingChange` | Fires when the rating value has changed. | `CustomEvent<{ value: number; }>` |
 
 ## Methods
 

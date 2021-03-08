@@ -143,10 +143,10 @@ Renders a single panel with actions in an action bar.
 
 ## Properties
 
-| Property | Attribute | Description                               | Type                | Default     |
-| -------- | --------- | ----------------------------------------- | ------------------- | ----------- |
-| `content-behind` | Used to place the content of the default slot behind other slots. | `boolean` | `false` |
-| `theme`  | `theme`   | Used to set the component's color scheme. | `"dark" \| "light"` | `undefined` |
+| Property        | Attribute        | Description                                                   | Type                | Default     |
+| --------------- | ---------------- | ------------------------------------------------------------- | ------------------- | ----------- |
+| `contentBehind` | `content-behind` | Positions the center content behind any calcite-shell-panels. | `boolean`           | `undefined` |
+| `theme`         | `theme`          | Used to set the component's color scheme.                     | `"dark" \| "light"` | `undefined` |
 
 ## Slots
 
@@ -158,7 +158,6 @@ Renders a single panel with actions in an action bar.
 | `"primary-panel"`    | A slot for adding the leading `calcite-shell-panel`.                                                                                     |
 | `"shell-footer"`     | A slot for adding footer content. This content will be positioned at the bottom of the shell.                                            |
 | `"shell-header"`     | A slot for adding header content. This content will be positioned at the top of the shell.                                               |
-| `"center-row"`     | A slot for secondary content. This content will be positioned at the bottom of the shell above content. It's supported but not recommended to use this slot when `content-behind` is `false`. |
 
 ---
 

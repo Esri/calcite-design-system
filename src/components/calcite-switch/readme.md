@@ -4,6 +4,24 @@
 
 <!-- Auto Generated Below -->
 
+## Usage
+
+### Basic
+
+```html
+<label> <calcite-switch switched></calcite-switch> Switch is on </label>
+```
+
+### Framework-integration
+
+You can optionally pass in a checkbox. This is useful when using a framework like React to get around their synthetic event handling:
+
+```jsx
+<calcite-switch>
+  <input name="myCheckbox" type="checkbox" onChange={this.handleInputChange} />
+</calcite-switch>
+```
+
 ## Properties
 
 | Property   | Attribute  | Description                        | Type                | Default     |
@@ -17,9 +35,9 @@
 
 ## Events
 
-| Event                 | Description | Type               |
-| --------------------- | ----------- | ------------------ |
-| `calciteSwitchChange` |             | `CustomEvent<any>` |
+| Event                 | Description                                | Type               |
+| --------------------- | ------------------------------------------ | ------------------ |
+| `calciteSwitchChange` | Fires when the switched value has changed. | `CustomEvent<any>` |
 
 ## Dependencies
 

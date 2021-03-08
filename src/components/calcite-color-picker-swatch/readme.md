@@ -16,7 +16,7 @@
 ### Used by
 
 - [calcite-color-picker](../calcite-color-picker)
-- [calcite-color-picker-hex-input](src/components/calcite-color-picker-hex-input)
+- [calcite-color-picker-hex-input](../calcite-color-picker-hex-input)
 
 ### Graph
 
