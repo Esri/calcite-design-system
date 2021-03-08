@@ -70,7 +70,8 @@ export class CalciteStepper {
   //--------------------------------------------------------------------------
 
   /**
-   * @todo doc?
+   * This event fires when the active stepper item has changed.
+   * @internal
    */
   @Event() calciteStepperItemChange: EventEmitter;
 

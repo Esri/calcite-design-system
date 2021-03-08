@@ -59,7 +59,7 @@ export class CalciteAccordion {
   //--------------------------------------------------------------------------
 
   /**
-   * @todo doc
+   * @internal
    */
   @Event() calciteAccordionChange: EventEmitter;
 
