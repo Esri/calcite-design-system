@@ -5,6 +5,7 @@
   @apply mb-0 items-center inline-flex gap-2;
 }
 :host([disabled]) {
+  @apply cursor-pointer;
   cursor: default;
   & > ::slotted(calcite-label) {
     @apply cursor-default;
