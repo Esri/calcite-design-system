@@ -6,7 +6,6 @@
 }
 :host([disabled]) {
   @apply cursor-pointer;
-  cursor: default;
   & > ::slotted(calcite-label) {
     @apply cursor-default;
   }
