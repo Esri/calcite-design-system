@@ -1,80 +1,73 @@
 :host {
   @extend %component-host;
-  @extend %component-spacing;
-  display: flex;
-  padding: var(--calcite-spacing-half) var(--calcite-spacing-half);
-  width: 100%;
+  @apply flex w-full p-2;
 }
 
 label {
-  align-items: center;
-  display: flex;
-  margin: 0 var(--calcite-spacing-quarter);
-  overflow: hidden;
-  position: relative;
-  width: 100%;
+  @apply flex 
+    items-center 
+    overflow-hidden 
+    relative w-full
+    mx-1
+    my-0;
 }
 
 input[type="text"] {
-  background-color: transparent;
-  border: 0;
-  font-family: inherit;
-  @include font-size(-2);
-  margin-bottom: 2px;
-  padding: var(--calcite-spacing-quarter) var(--calcite-spacing-quarter) var(--calcite-spacing-quarter)
-    var(--calcite-spacing-plus-half);
+  @apply bg-transparent 
+    border-none
+    font-inherit 
+    text--2h 
+    mb-1 
+    w-full
+    py-1
+    pr-1
+    pl-6;
   transition: padding $transition, box-shadow $transition;
-  width: 100%;
   &::-ms-clear {
-    display: none;
+    @apply hidden;
   }
 }
 
 .search-icon {
-  color: var(--calcite-ui-text-2);
-  display: flex;
-  left: 0;
-  position: absolute;
+  @apply flex 
+    left-0 
+    absolute 
+    text-color-2;
   transition: left $transition, right $transition, opacity $transition;
 }
 
 .calcite--rtl .search-icon {
-  left: unset;
-  right: 0;
+  @apply right-0;
 }
 
 input[type="text"]:focus {
-  border-color: var(--calcite-ui-brand);
+  @apply border-color-brand outline-none pl-1 pr-1;
   box-shadow: 0 2px 0 var(--calcite-ui-brand);
-  outline: none;
-  padding-left: var(--calcite-spacing-quarter);
-  padding-right: var(--calcite-spacing-quarter);
   & ~ .search-icon {
-    left: calc(var(--calcite-icon-size) * -1);
-    opacity: 0;
+    left: calc(theme("spacing.4") * -1);
+    @apply opacity-0;
   }
 }
 
 .calcite--rtl {
   input[type="text"] {
-    padding-left: var(--calcite-spacing-quarter);
-    padding-right: var(--calcite-spacing-plus-half);
+    @apply pl-1 pr-6;
     &:focus {
-      padding-right: var(--calcite-spacing-plus-quarter);
+      @apply pr-5;
       & ~ .search-icon {
-        right: calc(var(--calcite-icon-size) * -1);
+        right: calc(theme("spacing.4") * -1);
       }
     }
   }
 }
 
 .clear-button {
-  color: var(--calcite-ui-text-2);
-  background: none;
-  border: 0;
-  cursor: pointer;
+  @apply text-color-2 
+    bg-none 
+    border-0 
+    cursor-pointer;
   &:hover,
   &:focus {
-    color: var(--calcite-ui-text-1);
+    @apply text-color-1;
   }
 }
