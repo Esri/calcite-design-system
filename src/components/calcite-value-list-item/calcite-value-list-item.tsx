@@ -119,7 +119,6 @@ export class CalciteValueListItem {
 
   /**
    * Emitted whenever the remove button is pressed.
-   * @event calciteListItemRemove
    */
   @Event() calciteListItemRemove: EventEmitter<void>; // wrapped pick-list-item emits this
 

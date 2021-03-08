@@ -14,5 +14,8 @@ jobs:
           close-issue-message: "This issue has been automatically closed due to inactivity."
           close-pr-message: "This PR has been automatically closed due to inactivity."
           exempt-issue-labels: "0 - new,1 - assigned"
-          days-before-stale: 60
-          days-before-close: 14
+          days-before-issue-stale: 30
+          days-before-issue-close: 7
+          days-before-pr-stale: 7
+          days-before-pr-close: 3
+          delete-branch: true

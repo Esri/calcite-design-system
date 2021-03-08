@@ -18,4 +18,11 @@ If this is component-related, please verify that:
 - [ ] feature or fix has a corresponding test
 - [ ] changes have been tested with demo page in Edge
 
+---
+
+If this is skipping an unstable test:
+
+- include info about the test failure
+- submit an unstable-test issue by [choosing](https://github.com/Esri/calcite-components/issues/new/choose) the unstable test template and filling it out
+
 -->

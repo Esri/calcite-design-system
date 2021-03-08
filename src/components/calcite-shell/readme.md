@@ -143,20 +143,22 @@ Renders a single panel with actions in an action bar.
 
 ## Properties
 
-| Property | Attribute | Description                               | Type                | Default     |
-| -------- | --------- | ----------------------------------------- | ------------------- | ----------- |
-| `theme`  | `theme`   | Used to set the component's color scheme. | `"dark" \| "light"` | `undefined` |
+| Property         | Attribute                                                         | Description                               | Type                | Default     |
+| ---------------- | ----------------------------------------------------------------- | ----------------------------------------- | ------------------- | ----------- |
+| `content-behind` | Used to place the content of the default slot behind other slots. | `boolean`                                 | `false`             |
+| `theme`          | `theme`                                                           | Used to set the component's color scheme. | `"dark" \| "light"` | `undefined` |
 
 ## Slots
 
-| Slot                 | Description                                                                                                                              |
-| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-|                      | A slot for adding content to the shell. This content will appear between any leading and trailing panels added to the shell. (eg. a map) |
-| `"bottom-panel"`     | A slot for adding a bottom floating panel such as a chart or `calcite-tip-manager`.                                                      |
-| `"contextual-panel"` | A slot for adding the trailing `calcite-shell-panel`.                                                                                    |
-| `"primary-panel"`    | A slot for adding the leading `calcite-shell-panel`.                                                                                     |
-| `"shell-footer"`     | A slot for adding footer content. This content will be positioned at the bottom of the shell.                                            |
-| `"shell-header"`     | A slot for adding header content. This content will be positioned at the top of the shell.                                               |
+| Slot                 | Description                                                                                                                                                                                   |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|                      | A slot for adding content to the shell. This content will appear between any leading and trailing panels added to the shell. (eg. a map)                                                      |
+| `"bottom-panel"`     | A slot for adding a bottom floating panel such as a chart or `calcite-tip-manager`.                                                                                                           |
+| `"contextual-panel"` | A slot for adding the trailing `calcite-shell-panel`.                                                                                                                                         |
+| `"primary-panel"`    | A slot for adding the leading `calcite-shell-panel`.                                                                                                                                          |
+| `"shell-footer"`     | A slot for adding footer content. This content will be positioned at the bottom of the shell.                                                                                                 |
+| `"shell-header"`     | A slot for adding header content. This content will be positioned at the top of the shell.                                                                                                    |
+| `"center-row"`       | A slot for secondary content. This content will be positioned at the bottom of the shell above content. It's supported but not recommended to use this slot when `content-behind` is `false`. |
 
 ---
 

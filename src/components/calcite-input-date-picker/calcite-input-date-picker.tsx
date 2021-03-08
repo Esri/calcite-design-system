@@ -77,7 +77,7 @@ export class CalciteInputDatePicker {
   @Prop() intlNextMonth?: string = TEXT.nextMonth;
 
   /** BCP 47 language tag for desired language and country format */
-  @Prop() locale?: string = document.documentElement.lang || "en-US";
+  @Prop() locale?: string = document.documentElement.lang || "en";
 
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
@@ -304,6 +304,8 @@ export class CalciteInputDatePicker {
 
   private endWrapper: HTMLDivElement;
 
+  private endInputFocusTimeout: number;
+
   @Watch("layout")
   @Watch("focusedInput")
   setReferenceEl(): void {
@@ -511,8 +513,10 @@ export class CalciteInputDatePicker {
     this.startAsDate = startDate;
     this.endAsDate = endDate;
 
+    clearTimeout(this.endInputFocusTimeout);
+
     if (startDate && this.focusedInput === "start") {
-      setTimeout(() => this.endInput?.setFocus(), 150);
+      this.endInputFocusTimeout = window.setTimeout(() => this.endInput?.setFocus(), 150);
     }
   };
 

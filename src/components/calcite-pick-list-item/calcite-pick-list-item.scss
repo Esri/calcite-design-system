@@ -1,34 +1,28 @@
 :host {
   @extend %component-host;
-  @extend %component-spacing;
-  align-items: stretch;
-  display: flex;
-  margin: 0 0 1px 0;
-  color: var(--calcite-ui-text-1);
+  @apply items-stretch 
+    flex 
+    text-color-1 
+    shadow-border-bottom
+    m-0
+    mb-px;
   transition: background-color $transition;
   animation: calcite-fade-in $transition;
-  @apply shadow-border-bottom;
-
-  --calcite-icon-dot-size: 16px;
 }
 
 :host(:hover) {
-  background-color: var(--calcite-ui-foreground-2);
+  @apply bg-foreground-2;
 }
 
 .icon {
-  align-items: center;
-  color: var(--calcite-ui-brand);
-  display: flex;
+  @apply items-center flex my-0 mx-2 opacity-0;
+  color: theme("colors.brand");
   flex: 0 0 auto;
   line-height: 0;
-  margin: 0 var(--calcite-spacing-half);
-  opacity: 0;
 }
 
 .icon-dot {
-  width: calc(var(--calcite-icon-dot-size) / 2);
-  margin: calc(var(--calcite-icon-dot-size) / 2);
+  @apply w-2 m-2;
   &:before {
     content: "\2022";
   }
@@ -36,57 +30,39 @@
 
 :host([selected]) .icon {
   transition: opacity $transition;
-  opacity: 1;
+  @apply opacity-100;
 }
 
 .label {
-  background-color: transparent;
-  display: flex;
-  flex: 1 1 auto;
-  padding: var(--calcite-spacing-three-quarters);
-  align-items: center;
-  cursor: pointer;
-  @include focus-style-base();
+  @apply bg-transparent flex flex-auto p-3 items-center cursor-pointer focus-base;
   &:focus {
-    @include focus-style-inset();
+    @apply focus-inset;
   }
 }
 
 .text-container {
-  display: flex;
+  @apply flex overflow-hidden pointer-events-none py-0 px-1;
   flex-flow: column nowrap;
-  overflow: hidden;
-  pointer-events: none;
-  padding: 0 var(--calcite-spacing-quarter);
 }
 
 .title {
-  @include font-size(-4);
-  @include word-break();
-  @apply text-color-1;
+  @apply text--2-wrap word-break text-color-1;
 }
 
 .description {
-  color: var(--calcite-ui-text-3);
-  font-family: var(--calcite-code-family);
-  margin-top: var(--calcite-spacing-quarter);
-  @include font-size(-4);
-  @include word-break();
+  @apply text-color-3 font-mono mt-1 text--2-wrap word-break;
 }
 
 .actions {
-  align-items: stretch;
-  display: flex;
+  @apply items-stretch flex justify-end m-0;
   flex: 0 0 auto;
-  justify-self: flex-end;
-  margin: 0;
 }
 
 .actions--start ~ .label {
-  padding-left: var(--calcite-spacing-quarter);
+  @apply pl-1;
 }
 
 .calcite--rtl .actions--start ~ .label {
   padding-left: unset;
-  padding-right: var(--calcite-spacing-quarter);
+  @apply pr-1;
 }

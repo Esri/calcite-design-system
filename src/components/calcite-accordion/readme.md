@@ -1,16 +1,6 @@
 # calcite-accordion
 
-Calcite-accordion can be used to present content in collapseable sections. Configuration options exist for visual style (theme, icon-position, scale, appearance), and selection functionality. Selection modes include "multi", "single", and "single-persist".
-
-A basic implementation looks like this:
-
-```html
-<calcite-accordion>
-  <calcite-accordion-item item-title="Accordion Item">Accordion Section Content </calcite-accordion-item>
-  <calcite-accordion-item item-title="Accordion Item 2" active>Accordion Section Content </calcite-accordion-item>
-  <calcite-accordion-item item-title="Accordion Item 3">>Accordion Section Content </calcite-accordion-item>
-</calcite-accordion>
-```
+`calcite-accordion` can be used to present content in collapsible sections. Configuration options exist for visual style (theme, icon-position, scale, appearance), and selection functionality. Selection modes include "multi", "single", and "single-persist".
 
 <!-- Auto Generated Below -->
 

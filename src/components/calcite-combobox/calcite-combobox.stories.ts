@@ -20,7 +20,7 @@ export const Simple = (): string => html`
       label="demo combobox"
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"
-      selection-mode="${select("selection-mode", ["multi", "single"], "multi")}"
+      selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       ${boolean("disabled", false)}
       ${boolean("allow-custom-values", false)}
@@ -49,10 +49,10 @@ export const Simple = (): string => html`
 `;
 
 export const Single = (): string => html`
-  <div style="width:400px;max-width:100%;background-color:white;padding:100px"">
+  <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox
       label="demo combobox"
-      selection-mode="${select("selection-mode", ["multi", "single"], "single")}"
+      selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "single")}"
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -63,7 +63,7 @@ export const Single = (): string => html`
       <calcite-combobox-item icon="article" value="article" text-label="Article"></calcite-combobox-item>
       <calcite-combobox-item icon="attachment" value="attachment" text-label="Attachment"></calcite-combobox-item>
       <calcite-combobox-item icon="banana" value="banana" text-label="Banana"></calcite-combobox-item>
-      <calcite-combobox-item icon="battery" value="-battery" text-label="Batterycharging"></calcite-combobox-item>
+      <calcite-combobox-item icon="battery3" value="battery" text-label="Batterycharging"></calcite-combobox-item>
       <calcite-combobox-item icon="beaker" value="beaker" text-label="Beaker"></calcite-combobox-item>
       <calcite-combobox-item icon="bell" value="bell" text-label="Bell"></calcite-combobox-item>
       <calcite-combobox-item icon="bookmark" value="bookmark" text-label="Bookmark"></calcite-combobox-item>
@@ -80,7 +80,7 @@ export const DarkTheme = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox
       label="demo combobox"
-      selection-mode="${select("selection-mode", ["multi", "single"], "multi")}"
+      selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"
       theme="dark"
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"
@@ -120,7 +120,7 @@ export const Rtl = (): string => html`
     <calcite-combobox
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"
-      selection-mode="${select("selection-mode", ["multi", "single"], "multi")}"
+      selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"
       dir="rtl"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       ${boolean("disabled", false)}

@@ -1,4 +1,4 @@
-import { isValidHex } from "../calcite-color/utils";
+import { isValidHex } from "../calcite-color-picker/utils";
 import { hexToHue, rgbToHue, stringToHex } from "./utils";
 
 describe("stringToHex", () => {

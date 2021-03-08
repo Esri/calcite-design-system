@@ -1,8 +1,7 @@
 :host {
   @extend %component-host;
-  @extend %component-spacing;
-  display: flex;
-  position: relative;
+  @apply flex relative;
+
   max-height: var(--calcite-panel-max-height);
   width: var(--calcite-panel-width);
   max-width: var(--calcite-panel-max-width);
@@ -19,23 +18,23 @@
 @import "../../assets/styles/header";
 
 .container {
-  align-items: stretch;
-  background-color: var(--calcite-ui-background);
-  height: 100%;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-flow: column;
+  @apply flex
+    flex-col 
+    items-stretch 
+    bg-background 
+    h-full 
+    w-full 
+    p-0 
+    m-0;
 }
 
 calcite-scrim {
-  align-items: stretch;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-flow: column;
-  pointer-events: none;
+  @apply flex 
+    flex-col 
+    items-stretch 
+    w-full 
+    h-full 
+    pointer-events-none;
 }
 
 :host([height-scale="s"]) {
@@ -69,117 +68,102 @@ calcite-scrim {
 }
 
 .container[hidden] {
-  display: none;
+  @apply hidden;
 }
 
 :host([loading]) .container,
 :host([disabled]) .container {
-  position: relative;
+  @apply relative;
   z-index: 1;
 }
 
 .header {
-  align-items: stretch;
-  background-color: var(--calcite-ui-foreground-1);
+  border-bottom: 1px solid;
+  @apply items-stretch 
+    bg-foreground-1 
+    justify-start 
+    sticky 
+    top-0 
+    border-b-color-3 
+    w-full;
   flex: 0 0 auto;
-  justify-content: flex-start;
-  min-height: var(--calcite-header-min-height);
-  position: sticky;
-  top: 0;
+  min-height: theme("spacing.12");
   z-index: 2;
-  border-bottom: 1px solid var(--calcite-ui-border-3);
   width: 100%;
 }
 
 .header-content {
-  display: block;
-  overflow: hidden;
-  margin-right: auto;
-  padding: var(--calcite-spacing) var(--calcite-spacing-three-quarters);
+  @apply block 
+    overflow-hidden 
+    mr-auto 
+    py-4 
+    px-3;
   .heading,
   .summary {
-    padding: 0;
-    display: block;
-    overflow: hidden;
+    @apply p-0 
+      block 
+      overflow-hidden 
+      whitespace-no-wrap 
+      w-full;
     text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 100%;
   }
   .heading {
-    font-weight: var(--calcite-font-weight-medium);
-    margin: 0 0 var(--calcite-spacing-quarter);
-    font-size: var(--calcite-font-size-0);
+    @apply font-bold mt-0 mx-0 mb-1 text-0-wrap;
     &:only-child {
-      margin-bottom: 0;
+      @apply mb-0;
     }
   }
   .summary {
-    color: var(--calcite-ui-text-3);
-    font-size: var(--calcite-font-size--2);
+    @apply text-color-2 text--1-wrap;
   }
 }
 
 .header-actions {
-  align-items: stretch;
-  display: flex;
+  @apply flex items-stretch;
   flex-flow: row nowrap;
 }
 
 .menu-container:only-child {
-  margin-left: auto;
+  @apply ml-auto;
 }
 
 .menu-button {
-  align-self: stretch;
-  flex: 0 1 auto;
-  height: 100%;
-  position: relative;
+  @apply self-stretch 
+    flex-initial 
+    h-full 
+    relative;
 }
 .menu {
-  min-width: var(--calcite-menu-min-width);
+  min-width: theme("spacing.40");
   flex-flow: column nowrap;
 }
 
 .content-container {
-  align-items: stretch;
-  background-color: var(--calcite-ui-background);
-  display: flex;
+  @apply items-stretch bg-background flex flex-auto overflow-auto flex;
   flex-flow: column nowrap;
-  flex: 1 1 auto;
-  overflow: auto;
 }
 
 .footer {
-  background-color: var(--calcite-ui-foreground-1);
-  border-top: 1px solid var(--calcite-ui-border-3);
-  display: flex;
+  border-top: 1px solid;
+  @apply bg-foreground-1 border-t-color-3 flex justify-evenly sticky bottom-0 w-full;
   flex: 0 0 auto;
-  justify-content: space-evenly;
-  min-height: var(--calcite-footer-min-height);
-  padding: var(--calcite-spacing-half) var(--calcite-spacing-half);
-  position: sticky;
-  bottom: 0;
-  width: 100%;
+  min-height: theme("spacing.12");
+  padding: theme("spacing.2");
 }
 
 .calcite--rtl {
   .header-content {
-    margin-left: auto;
+    @apply ml-auto;
     margin-right: unset;
   }
   .menu-container:only-child {
+    @apply mr-auto;
     margin-left: unset;
-    margin-right: auto;
   }
 }
 
 .fab-container {
-  position: sticky;
+  @apply inline-block sticky my-0 mx-auto bottom-0 left-0 right-0;
   z-index: 1;
-  bottom: 0;
-  display: inline-block;
-  margin: 0 auto;
-  padding: var(--calcite-spacing-half) var(--calcite-spacing-half);
-  left: 0;
-  right: 0;
+  padding: theme("spacing.2");
 }

@@ -15,7 +15,7 @@ export default {
 export const Simple = (): string => html`
   <calcite-button
     appearance="${select("appearance", ["solid", "clear", "outline", "transparent"], "solid")}"
-    color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
+    color="${select("color", ["blue", "red", "neutral", "inverse"], "blue")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     ${boolean("round", false)}
     href="${text("href", "")}"
@@ -29,7 +29,7 @@ export const Simple = (): string => html`
 export const WithIconStart = (): string => html`
   <calcite-button
     appearance="${select("appearance", ["solid", "clear", "outline", "transparent"], "solid")}"
-    color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
+    color="${select("color", ["blue", "red", "neutral", "inverse"], "blue")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     ${boolean("round", false)}
     href="${text("href", "")}"
@@ -48,7 +48,7 @@ WithIconStart.story = {
 export const WithIconEnd = (): string => html`
   <calcite-button
     appearance="${select("appearance", ["solid", "clear", "outline", "transparent"], "solid")}"
-    color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
+    color="${select("color", ["blue", "red", "neutral", "inverse"], "blue")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     ${boolean("round", false)}
     href="${text("href", "")}"
@@ -67,7 +67,7 @@ WithIconEnd.story = {
 export const WithIconStartAndIconEnd = (): string => html`
   <calcite-button
     appearance="${select("appearance", ["solid", "clear", "outline", "transparent"], "solid")}"
-    color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
+    color="${select("color", ["blue", "red", "neutral", "inverse"], "blue")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     ${boolean("round", false)}
     href="${text("href", "")}"
@@ -121,14 +121,14 @@ export const SideBySide = (): string => html`
     <calcite-button
       width="half"
       appearance="${select("appearance", ["solid", "clear", "outline", "transparent"], "outline")}"
-      color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
+      color="${select("color", ["blue", "red", "neutral", "inverse"], "blue")}"
     >
       ${text("text", "Back")}
     </calcite-button>
     <calcite-button
       width="half"
       appearance="${select("appearance-2", ["solid", "clear", "outline", "transparent"], "solid")}"
-      color="${select("color-2", ["blue", "red", "dark", "light"], "blue")}"
+      color="${select("color-2", ["blue", "red", "neutral", "inverse"], "blue")}"
       icon-start="${select("icon-start", iconNames, iconNames[0])}"
     >
       ${text("text-2", "Some long string")}
@@ -144,7 +144,7 @@ export const DarkMode = (): string => html`
   <calcite-button
     theme="dark"
     appearance="${select("appearance", ["solid", "clear", "outline", "transparent"], "solid")}"
-    color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
+    color="${select("color", ["blue", "red", "neutral", "inverse"], "blue")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     ${boolean("round", false)}
     href="${text("href", "")}"

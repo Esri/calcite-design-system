@@ -9,10 +9,12 @@ This is a living document defining our best practices and reasoning for authorin
 - [Light Theme/Dark Theme](#light-themedark-theme)
 - [Form Elements and Custom Inputs](#form-elements-and-custom-inputs)
 - [Component Responsibilities](#component-responsibilities)
+- [Events](#events)
+  - [Event Names](#event-names)
+  - [Private Events](#private-events)
+  - [Event Details](#event-details)
+- [Props](#props)
 - [Focus support](#focus-support)
-- [Event Names](#event-names)
-- [Private Events](#private-events)
-- [Event Details](#event-details)
 - [CSS Class Names](#css-class-names)
 - [assets](#assets)
 - [a11y](#a11y)
@@ -21,7 +23,10 @@ This is a living document defining our best practices and reasoning for authorin
 - [Custom Themes](#custom-themes)
 - [Unique IDs for Components](#unique-ids-for-components)
 - [Prerendering/SSR](#prerendering-and-ssr)
-- [Writing Tests](#writing-tests)
+- [Cleaning up resources](#cleaning-up-resources)
+- [Tests](#tests)
+  - [Writing Tests](#writing-tests)
+  - [Unstable Tests](#unstable-tests)
 
 <!-- /TOC -->
 
@@ -233,6 +238,50 @@ However components are allowed to:
 - [Should tabs support syncing and loading from localstorage](https://github.com/ArcGIS/calcite-components/pull/27) . **Yes** because such feature are difficult to implement for **Sites** and would require lots of additional JavaScript work on the part of teams and authors
 - [Should switch support a label](https://github.com/ArcGIS/calcite-components/pull/24#discussion_r289424140). **No** because label place
 
+## Events
+
+All public events should be documented with [JSDoc](https://jsdoc.app/).
+
+### Event Names
+
+Event names should be treated like global variables since they can collide with any other event names and global variables. As such follow these guidelines when naming events.
+
+- Name events list `Component + Event name` for example the `change` event on `<calcite-tabs>` should be named `calciteTabsChange`.
+- Always prefix event names with `calcite` and never use an event name used by existing DOM standards https://developer.mozilla.org/en-US/docs/Web/Events.
+- For example:
+  - Bad: `change`
+  - Good: `calciteTabChange`
+- If an existing event can be listened to, don't create a new custom event. For example, there is no need to create a `calciteButtonClick` event because a standard `click` event will still be fired from the element.
+- For consistency, use `calcite<ComponentName>Change` for value change events.
+
+**Discussed In:**
+
+- https://github.com/Esri/calcite-components/pull/24/files/3446c89010e3ef0421803d68d627aba2e7c4bfa0#r289430227
+
+### Private/Internal Events
+
+If you need to use events to pass information inside your components for example to communicate between parents and children make sure you call `event.stopPropagation();` and `event.preventDefault();` to prevent the event from reaching outside the component.
+
+Also, make sure to add the `@internal` JSDoc tag to hide an event from the generated doc or `@private` to hide it from both the doc and generated type declarations.
+
+### Event Details
+
+Only attach additional data to your event if that data cannot be determined from the state of the component. This is because events also get a reference to the component that fired the event. For example you do not need to pass anything exposed as a `@Prop()` in the event details.
+
+```tsx
+@Listen("calciteCustomEvent") customEventHandler(
+  event: CustomEvent
+) {
+  console.log(event.target.prop); // event.target is the component that fired the event.
+}
+```
+
+`<calcite-tab-nav>` is also an example of this. The `event.details.tab` item contains the index of the selected tab or the tab name which cannot be easily determined from the state of `<calcite-tab-nav>` in some cases so it makes sense to include in the event.
+
+## Props
+
+Private/internal props should be annotated accordingly to avoid exposing them in the doc and/or API. You can do this by using the `@private`/`@internal` [JSDoc](https://jsdoc.app/) tags.
+
 ## Focus support
 
 Components with focusable content, must implement the following pattern:
@@ -251,40 +300,6 @@ Examples:
 
 - [`calcite-color`](https://github.com/Esri/calcite-components/blob/78a70a805324689d516130816a69f031e39c5338/src/components/calcite-color/calcite-color.tsx#L409-L413)
 - [`calcite-panel` (supports `focusId`)](https://github.com/Esri/calcite-components/blob/f2bb61828f3da54b7dcb5fb1dade12b85d82331e/src/components/calcite-panel/calcite-panel.tsx#L298-L311)
-
-## Event Names
-
-Event names should be treated like global variables since they can collide with any other event names and global variables. As such follow these guidelines when naming events.
-
-- Name events list `Component + Event name` for example the `change` event on `<calcite-tabs>` should be named `calciteTabsChange`.
-- Always prefix event names with `calcite` and never use an event name used by existing DOM standards https://developer.mozilla.org/en-US/docs/Web/Events.
-- For example:
-  - Bad: `change`
-  - Good: `calciteTabChange`
-- If an existing event can be listened to, don't create a new custom event. For example, there is no need to create a `calciteButtonClick` event because a standard `click` event will still be fired from the element.
-- For consistency, use `calcite<ComponentName>Change` for value change events.
-
-**Discussed In:**
-
-- https://github.com/Esri/calcite-components/pull/24/files/3446c89010e3ef0421803d68d627aba2e7c4bfa0#r289430227
-
-## Private Events
-
-If you need to use events to pass information inside your components for example to communicate between parents and children make sure you call `event.stopPropagation();` and `event.preventDefault();` to prevent the event from reaching outside the component.
-
-## Event Details
-
-Only attach additional data to your event if that data cannot be determined from the state of the component. This is because events also get a reference to the component that fired the event. For example you do not need to pass anything exposed as a `@Prop()` in the event details.
-
-```tsx
-@Listen("calciteCustomEvent") customEventHandler(
-  event: CustomEvent
-) {
-  console.log(event.target.prop); // event.target is the component that fired the event.
-}
-```
-
-`<calcite-tab-nav>` is also an example of this. The `event.details.tab` item contains the index of the selected tab or the tab name which cannot be easily determined from the state of `<calcite-tab-nav>` in some cases so it makes sense to include in the event.
 
 ## CSS Class Names
 
@@ -505,12 +520,39 @@ const elements = this.el.shadowRoot ? this.el.shadowRoot.querySelector("slot").a
 
 To ensure that all components are compatible for prerendering a prerender build is done as part of `npm test`.
 
-## Writing Tests
+## Cleaning up resources
 
-### Prevent logging unnecessary messaging in the build
+Ensure all components clean up their resources.
+
+### Timeouts
+
+When using `setTimeout()`, make sure that you clear the timeout using `clearTimeout()` in cases where the same timeout may be called again before the first timeout has finished or if the handler is no longer needed. For example, the handler may no longer need to be called if the component was disconnected from the DOM.
+
+Example:
+
+```tsx
+menuFocusTimeout: number;
+
+focusMenu(): void => {
+  clearTimeout(this.menuFocusTimeout);
+  this.menuFocusTimeout = window.setTimeout(() => focusElement(this.menuEl), 100);
+}
+```
+
+## Tests
+
+### Writing Tests
+
+#### Prevent logging unnecessary messaging in the build
 
 **This is only necessary if a component's test will produce a lot of console messages in a test run.**
 
 As a best practice when writing tests, prevent emitting console warnings by stubbing them. Depending on the tested component, this may also apply to other console APIs.
 
 Console warnings can end up polluting the build output messaging that makes it more difficult to identify real issues. By stubbing `console.warn`, you can prevent warning messages from displaying in the build. See [`calcite-color.e2e`](https://github.com/Esri/calcite-components/blob/af0c6cb/src/components/calcite-color/calcite-color.e2e.ts#L9-L17) for an example.
+
+### Unstable Tests
+
+If you notice that a test fails intermittently during local or CI test runs, it is unstable and must be skipped to avoid holding up test runs, builds and deployments.
+
+To skip a test, use the `skip` method that's available on [tests, or suites](https://jestjs.io/docs/en/api#methods) and submit a pull request. Once that's done, please create a follow-up issue by [choosing](https://github.com/Esri/calcite-components/issues/new/choose) the unstable test template and filling it out.

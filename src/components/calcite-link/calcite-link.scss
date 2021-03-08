@@ -13,18 +13,18 @@
 // link base
 :host a,
 :host span {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @apply flex 
+    relative 
+    items-center 
+    justify-center 
+    rounded-none 
+    border-none 
+    font-inherit 
+    cursor-pointer;
   text-decoration: none;
-  border-radius: 0;
-  border: none;
   line-height: inherit;
   font-size: inherit;
-  font-family: inherit;
   -webkit-appearance: none;
-  cursor: pointer;
   transition: $transition;
   &:hover {
     text-decoration: none;
@@ -34,9 +34,9 @@
 // focus styles
 :host a,
 :host span {
-  @include focus-style-base();
+  @apply focus-base;
   &:focus {
-    @include focus-style-inset();
+    @apply focus-inset;
   }
 }
 
@@ -46,66 +46,60 @@
 
 // disabled styles
 :host([disabled]) {
-  pointer-events: none;
+  @apply pointer-events-none;
   span,
   a {
-    pointer-events: none;
+    @apply pointer-events-none;
     opacity: var(--calcite-ui-opacity-disabled);
   }
 }
 // icon positioning and styles
 :host .calcite-link--icon.icon-start {
-  margin-right: $baseline/3;
+  @apply mr-2;
 }
 
 :host([dir="rtl"]) .calcite-link--icon.icon-start {
-  margin-right: 0;
-  margin-left: $baseline/3;
+  @apply mr-0 ml-2;
 }
 
 :host .calcite-link--icon.icon-end {
-  margin-left: $baseline/3;
+  @apply ml-2;
 }
 
 :host([dir="rtl"]) .calcite-link--icon.icon-end {
-  margin-left: 0;
-  margin-right: $baseline/3;
-}
-
-// inline
-@mixin link-style($color, $color-hover, $border-color) {
-  display: inline;
-  padding: 0;
-  border: none;
-  color: $color;
-  line-height: inherit;
-  white-space: initial;
-  background-color: transparent;
-  position: relative;
-  background-image: linear-gradient(currentColor, currentColor), linear-gradient($border-color, $border-color);
-  background-position: 0% 100%, 100% 100%;
-  background-repeat: no-repeat, no-repeat;
-  background-size: 0% 1px, 100% 1px;
-  transition: all 0.15s ease-in-out, background-size 0.3s ease-in-out;
-
-  &:hover,
-  &:focus {
-    color: $color-hover;
-    background-size: 100% 1px, 100% 1px;
-    & .calcite-link--icon {
-      fill: $color-hover;
-    }
-  }
-  &:active {
-    color: $color;
-    background-size: 100% 2px, 100% 2px;
-  }
+  @apply ml-0 mr-2;
 }
 
 :host {
   span,
   a {
-    @include link-style(var(--calcite-ui-text-link), var(--calcite-ui-brand), var(--calcite-link-blue-underline));
+    @apply inline 
+      p-0 
+      border-none 
+      bg-transparent 
+      relative
+      text-color-link;
+    line-height: inherit;
+    white-space: initial;
+    background-image: linear-gradient(currentColor, currentColor),
+      linear-gradient(var(--calcite-link-blue-underline), var(--calcite-link-blue-underline));
+    background-position: 0% 100%, 100% 100%;
+    background-repeat: no-repeat, no-repeat;
+    background-size: 0% 1px, 100% 1px;
+    transition: all 0.15s ease-in-out, background-size 0.3s ease-in-out;
+  }
+  &:hover,
+  &:focus {
+    //FIXME: Should these 2 also use text-color-link?
+    color: var(--calcite-ui-brand);
+    background-size: 100% 1px, 100% 1px;
+    & .calcite-link--icon {
+      fill: var(--calcite-ui-brand);
+    }
+  }
+  &:active {
+    @apply text-color-link;
+    background-size: 100% 2px, 100% 2px;
   }
 }
 

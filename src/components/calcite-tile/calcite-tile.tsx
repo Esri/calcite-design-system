@@ -22,7 +22,10 @@ export class CalciteTile {
   /** The embed mode of the tile.  When true, renders without a border and padding for use by other components. */
   @Prop({ reflect: true }) embed = false;
 
-  /** The focused state of the tile. */
+  /**
+   * The focused state of the tile.
+   * @private
+   */
   @Prop({ reflect: true }) focused = false;
 
   /** The heading text that appears between the icon and description of the tile. */
