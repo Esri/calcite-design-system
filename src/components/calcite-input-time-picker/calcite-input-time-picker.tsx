@@ -45,7 +45,7 @@ export class CalciteInputTimePicker {
   @Prop({ reflect: true, mutable: true }) guid: string;
 
   /** The name of the time input */
-  @Prop({ reflect: true }) name?: string = "";
+  @Prop({ reflect: true }) name?: string;
 
   /** The scale (size) of the time input */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
@@ -292,7 +292,7 @@ export class CalciteInputTimePicker {
         <calcite-input
           disabled={this.disabled}
           icon="clock"
-          id={`${this.guid}-input`}
+          id={`${this.guid}-calcite-input`}
           name={this.name}
           onCalciteInputBlur={this.inputBlurHandler}
           onCalciteInputFocus={this.inputFocusHandler}
