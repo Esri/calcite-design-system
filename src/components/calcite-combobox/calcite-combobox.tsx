@@ -29,6 +29,7 @@ import {
   ComboboxDefaultPlacement,
   ComboboxTransitionDuration
 } from "./resources";
+import { getItemAncestors, getItemChildren, hasActiveChildren } from "./utils";
 
 interface ItemData {
   label: string;
@@ -86,7 +87,11 @@ export class CalciteCombobox {
   /** Allow entry of custom values which are not in the original set of items */
   @Prop() allowCustomValues: boolean;
 
-  /** specify the selection mode - multi (allow any number of selected items), single (only one selction), defaults to multi */
+  /** specify the selection mode
+   * - multi: allow any number of selected items (default)
+   * - single: only one selection)
+   * - ancestors: like multi, but show ancestors of selected items as selected, only deepest children shown in chips
+   */
   @Prop({ reflect: true }) selectionMode: ComboboxSelectionMode = "multi";
 
   /** Specify the scale of the combobox, defaults to m */
@@ -175,7 +180,7 @@ export class CalciteCombobox {
       case "Backspace":
         if (this.activeChipIndex > -1) {
           this.removeActiveChip();
-        } else if (!this.text && this.selectionMode === "multi") {
+        } else if (!this.text && this.isMulti()) {
           this.removeLastChip();
         }
         break;
@@ -471,8 +476,9 @@ export class CalciteCombobox {
       return;
     }
 
-    if (this.selectionMode === "multi") {
+    if (this.isMulti()) {
       item.selected = value;
+      this.updateAncestors(item);
       this.selectedItems = this.getSelectedItems();
       this.calciteLookupChange.emit(this.selectedItems);
       this.resetText();
@@ -490,6 +496,26 @@ export class CalciteCombobox {
     }
   }
 
+  updateAncestors(item: HTMLCalciteComboboxItemElement): void {
+    if (this.selectionMode !== "ancestors") {
+      return;
+    }
+    const ancestors = getItemAncestors(item);
+    const children = getItemChildren(item);
+    if (item.selected) {
+      ancestors.forEach((el) => {
+        (el as HTMLCalciteComboboxItemElement).selected = true;
+      });
+    } else {
+      children.forEach((el) => (el.selected = false));
+      [...ancestors].forEach((el) => {
+        if (!hasActiveChildren(el)) {
+          el.selected = false;
+        }
+      });
+    }
+  }
+
   getVisibleItems(): HTMLCalciteComboboxItemElement[] {
     return this.items.filter((item) => !item.hidden);
   }
@@ -497,7 +523,10 @@ export class CalciteCombobox {
   getSelectedItems(): HTMLCalciteComboboxItemElement[] {
     return (
       this.items
-        .filter((item) => item.selected)
+        .filter(
+          (item) =>
+            item.selected && (this.selectionMode !== "ancestors" || !hasActiveChildren(item))
+        )
         /** Preserve order of entered tags */
         .sort((a, b) => {
           const aIdx = this.selectedItems.indexOf(a);
@@ -644,6 +673,10 @@ export class CalciteCombobox {
     }
   }
 
+  isMulti(): boolean {
+    return this.selectionMode === "multi" || this.selectionMode === "ancestors";
+  }
+
   comboboxFocusHandler = (): void => {
     this.active = true;
     this.textInput.focus();
@@ -660,9 +693,12 @@ export class CalciteCombobox {
   //--------------------------------------------------------------------------
 
   renderChips(): VNode[] {
-    const { activeChipIndex, scale } = this;
+    const { activeChipIndex, scale, selectionMode } = this;
     return this.selectedItems.map((item, i) => {
       const chipClasses = { chip: true, "chip--active": activeChipIndex === i };
+      const ancestors = [...getItemAncestors(item)].reverse();
+      const pathLabel = [...ancestors, item].map((el) => el.textLabel);
+      const label = selectionMode !== "ancestors" ? item.textLabel : pathLabel.join(" / ");
       return (
         <calcite-chip
           class={chipClasses}
@@ -674,7 +710,7 @@ export class CalciteCombobox {
           scale={scale}
           value={item.value}
         >
-          {item.textLabel}
+          {label}
         </calcite-chip>
       );
     });
