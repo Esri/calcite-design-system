@@ -693,7 +693,7 @@ export class CalciteCombobox {
 
   renderChips(): VNode[] {
     const { activeChipIndex, scale, selectionMode } = this;
-    return (this.selectedItems || []).map((item, i) => {
+    return this.selectedItems.map((item, i) => {
       const chipClasses = { chip: true, "chip--active": activeChipIndex === i };
       const ancestors = [...getItemAncestors(item)].reverse();
       const pathLabel = [...ancestors, item].map((el) => el.textLabel);
