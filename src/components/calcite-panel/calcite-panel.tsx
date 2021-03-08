@@ -140,19 +140,16 @@ export class CalcitePanel {
   /**
    * Emitted when the close button has been clicked.
    */
-
   @Event() calcitePanelDismissedChange: EventEmitter;
 
   /**
    * Emitted when the content has been scrolled.
    */
-
   @Event() calcitePanelScroll: EventEmitter;
 
   /**
    * Emitted when the back button has been clicked.
    */
-
   @Event() calcitePanelBackClick: EventEmitter;
 
   // --------------------------------------------------------------------------

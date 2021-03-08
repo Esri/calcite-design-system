@@ -110,6 +110,7 @@ export class CalciteDatePickerDay {
 
   /**
    * Emitted when user hovers over a day
+   * @internal
    */
   @Event() calciteDayHover: EventEmitter;
 

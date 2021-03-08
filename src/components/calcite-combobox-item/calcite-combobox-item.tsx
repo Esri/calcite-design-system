@@ -93,7 +93,6 @@ export class CalciteComboboxItem {
 
   /**
    * Emitted whenever the item is selected or unselected.
-   * @event calciteComboboxItemChange
    */
   @Event() calciteComboboxItemChange: EventEmitter;
 

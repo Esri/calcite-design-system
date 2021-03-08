@@ -67,6 +67,9 @@ export class CalciteFilter {
   //
   // --------------------------------------------------------------------------
 
+  /**
+   * This event fires when the filter text changes.
+   */
   @Event() calciteFilterChange: EventEmitter;
 
   // --------------------------------------------------------------------------

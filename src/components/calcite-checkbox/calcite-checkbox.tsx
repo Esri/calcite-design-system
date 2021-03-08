@@ -146,7 +146,11 @@ export class CalciteCheckbox {
   /** Emitted when the checkbox checked status changes */
   @Event() calciteCheckboxChange: EventEmitter;
 
-  /** Emitted when the checkbox focused state changes */
+  /**
+   * Emitted when the checkbox focused state changes
+   *
+   * @internal
+   */
   @Event() calciteCheckboxFocusedChange: EventEmitter;
 
   //--------------------------------------------------------------------------
