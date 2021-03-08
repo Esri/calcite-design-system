@@ -18,7 +18,7 @@
 }
 
 .indeterminate {
-  width: theme("width.[1/5]");
+  @apply w-1/5;
   animation: looping-progress-bar-ani 2200ms linear infinite;
 }
 
