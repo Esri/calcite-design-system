@@ -3,12 +3,15 @@ import { JSXBase } from "@stencil/core/internal";
 
 export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
-interface HeadingWizardProps extends JSXBase.HTMLAttributes {
+interface CalciteHeadingProps extends JSXBase.HTMLAttributes {
   level: HeadingLevel;
 }
 
-// (∩｀-´)⊃━☆ﾟ.*･｡ﾟ
-export const HeadingWizard: FunctionalComponent<HeadingWizardProps> = (props, children) => {
+export function ConstrainHeadingLevel(level: number): HeadingLevel {
+  return Math.min(Math.max(Math.ceil(level), 1), 6) as HeadingLevel;
+}
+
+export const CalciteHeading: FunctionalComponent<CalciteHeadingProps> = (props, children) => {
   const HeadingTag = `h${props.level}`;
 
   delete props.level;

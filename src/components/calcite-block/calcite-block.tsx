@@ -1,9 +1,9 @@
 import { Component, Element, Event, EventEmitter, Host, Prop, h, VNode } from "@stencil/core";
-import { CSS, SLOTS, TEXT } from "./resources";
+import { CSS, SLOTS, TEXT, HEADING_LEVEL } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 import { Theme } from "../interfaces";
 import { getElementDir, getSlotted, getElementTheme } from "../../utils/dom";
-import { HeadingLevel, HeadingWizard } from "../functional/HeadingWizard";
+import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
 
 /**
  * @slot icon - A slot for adding a trailing header icon.
@@ -45,7 +45,7 @@ export class CalciteBlock {
   /**
    * Number at which section headings should start for this component.
    */
-  @Prop() headingLevel: HeadingLevel = 4;
+  @Prop() headingLevel: HeadingLevel = HEADING_LEVEL;
 
   /**
    * Tooltip used for the toggle when expanded.
@@ -156,9 +156,9 @@ export class CalciteBlock {
           </div>
         ) : null}
         <div class={CSS.title}>
-          <HeadingWizard class={CSS.heading} level={headingLevel}>
+          <CalciteHeading class={CSS.heading} level={headingLevel}>
             {heading}
-          </HeadingWizard>
+          </CalciteHeading>
           {summary ? <div class={CSS.summary}>{summary}</div> : null}
         </div>
       </header>

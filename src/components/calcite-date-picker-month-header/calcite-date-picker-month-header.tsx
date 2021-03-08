@@ -22,6 +22,7 @@ import {
 import { getKey } from "../../utils/key";
 import { DateLocaleData } from "../calcite-date-picker/utils";
 import { Scale } from "../interfaces";
+import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
 
 @Component({
   tag: "calcite-date-picker-month-header",
@@ -48,6 +49,11 @@ export class CalciteDatePickerMonthHeader {
 
   /** Focused date with indicator (will become selected date if user proceeds) */
   @Prop() activeDate: Date;
+
+  /**
+   * Number at which section headings should start for this component.
+   */
+  @Prop() headingLevel: HeadingLevel;
 
   /** Minimum date of the calendar below which is disabled. */
   @Prop() min: Date;
@@ -116,9 +122,9 @@ export class CalciteDatePickerMonthHeader {
             <calcite-icon dir={dir} flip-rtl icon="chevron-left" scale={iconScale} />
           </a>
           <div class={{ text: true, "text--reverse": reverse }}>
-            <span aria-level="2" class="month" role="heading">
+            <CalciteHeading class="month" level={this.headingLevel}>
               {localizedMonth}
-            </span>
+            </CalciteHeading>
             <span class="year-wrap">
               <input
                 class={{
