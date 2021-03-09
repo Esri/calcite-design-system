@@ -98,7 +98,7 @@ describe("TailwindCSS config", () => {
     describe("when using @apply with borderColor utility selectors", () => {
       it("should reference theme's CSS variables", async () => {
         const inputCss = `
-          .border-style {
+          .border-side-style {
             @apply border-b-color-1
               border-t-color-2
               border-r-color-3
@@ -106,11 +106,49 @@ describe("TailwindCSS config", () => {
           }
         `;
         const outputCss = `
-          .border-style {
+          .border-side-style {
             border-bottom-color: ${tailwindConfigStub.theme.borderColor.color[1]};
             border-top-color: ${tailwindConfigStub.theme.borderColor.color[2]};
             border-right-color: ${tailwindConfigStub.theme.borderColor.color[3]};
             border-left-color: ${tailwindConfigStub.theme.colors["danger-hover"]};
+          }
+        `;
+        expect(await generatePluginUtilitiesCSS(fullConfig, inputCss)).toEqual(minifyCss(outputCss));
+      });
+    });
+
+    describe("when using @apply with borderSideStyle utility selectors", () => {
+      it("should reference theme's CSS variables with border-side style", async () => {
+        const inputCss = `
+          .border-side-style {
+            @apply border-t-3
+              border-t-solid
+              border-t-color-danger
+              border-r
+              border-r-dotted
+              border-r-color-input
+              border-b
+              border-b-dashed
+              border-b-color-1
+              border-l
+              border-l-double
+              border-l-color-3;
+          }
+        `;
+        const outputCss = `
+          .border-side-style {
+            border-top-width: ${tailwindConfigStub.theme.borderWidth[3]};
+            border-top-style: solid;
+            border-top-color: ${tailwindConfigStub.theme.borderColor["color-danger"]};
+            border-right-width: ${tailwindConfigStub.theme.borderWidth["default"]};
+            border-right-style: dotted;
+            border-right-color: ${tailwindConfigStub.theme.borderColor.color.input};
+            border-bottom-width: ${tailwindConfigStub.theme.borderWidth["default"]};
+            border-bottom-style: dashed;
+            border-bottom-color: ${tailwindConfigStub.theme.borderColor.color[1]};
+            border-left-width: ${tailwindConfigStub.theme.borderWidth["default"]};
+            border-left-style: double;
+            border-left-color: ${tailwindConfigStub.theme.borderColor.color[3]};
           }
         `;
         expect(await generatePluginUtilitiesCSS(fullConfig, inputCss)).toEqual(minifyCss(outputCss));

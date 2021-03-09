@@ -6,7 +6,8 @@ export default {
         1: "var(--calcite-ui-border-1)",
         2: "var(--calcite-ui-border-2)",
         3: "var(--calcite-ui-border-3)",
-        input: "var(--calcite-ui-border-input)"
+        input: "var(--calcite-ui-border-input)",
+        transparent: "transparent"
       },
       "color-brand": "var(--calcite-ui-brand)",
       "color-brand-hover": "var(--calcite-ui-brand-hover)",
@@ -224,7 +225,7 @@ export default {
       full: "9999px",
       half: "50%"
     },
-    borderWidth: { "0": "0", "2": "2px", "4": "4px", "8": "8px", default: "1px" },
+    borderWidth: { "0": "0px", "2": "2px", "3": "3px", "4": "4px", "8": "8px", default: "1px" },
     boxShadow: {
       "0": "0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04)",
       "1": "0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04)",
@@ -261,7 +262,8 @@ export default {
         "1": "var(--calcite-ui-border-1)",
         "2": "var(--calcite-ui-border-2)",
         "3": "var(--calcite-ui-border-3)",
-        input: "var(--calcite-ui-border-input)"
+        input: "var(--calcite-ui-border-input)",
+        transparent: "transparent"
       },
       "color-brand": "var(--calcite-ui-brand)",
       "color-brand-hover": "var(--calcite-ui-brand-hover)",
@@ -281,7 +283,7 @@ export default {
       "100": "1",
       disabled: "0.5"
     },
-    divideWidth: { "0": "0", "2": "2px", "4": "4px", "8": "8px", default: "1px" },
+    divideWidth: { "0": "0px", "2": "2px", "3": "3px", "4": "4px", "8": "8px", default: "1px" },
     fill: {
       current: "currentColor",
       color: {
