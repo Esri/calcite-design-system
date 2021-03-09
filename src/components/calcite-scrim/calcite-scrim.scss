@@ -1,7 +1,5 @@
 :host {
-  display: flex;
-  position: relative;
-  pointer-events: none;
+  @apply flex relative pointer-events-none;
   --calcite-scrim-background: #{rgba($blk-000, 0.75)};
 }
 
@@ -12,30 +10,21 @@
 
 @keyframes calcite-scrim-fade-in {
   0% {
-    opacity: 0;
+    @apply bg-opacity-0;
   }
   100% {
-    opacity: 1;
+    @apply text-opacity-100;
   }
 }
 
 .scrim {
-  align-items: center;
+  @apply flex content-center items-center absolute bottom-0 left-0 right-0 top-0 select-none;
   animation: calcite-scrim-fade-in 250ms ease-in-out;
   background-color: var(--calcite-scrim-background);
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  user-select: none;
   z-index: 2;
 }
 
 .content {
-  position: relative;
+  @apply relative text-color-2;
   z-index: 1;
-  color: var(--calcite-ui-text-2);
 }
