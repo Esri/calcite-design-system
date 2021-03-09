@@ -85,8 +85,7 @@ export class CalciteSortableList {
   // --------------------------------------------------------------------------
 
   /**
-   * Emmitted when the order of the list has changed.
-   * @event calciteListOrderChange
+   * Emitted when the order of the list has changed.
    */
   @Event() calciteListOrderChange: EventEmitter;
 

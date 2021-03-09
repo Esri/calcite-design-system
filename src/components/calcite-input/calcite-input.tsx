@@ -362,10 +362,19 @@ export class CalciteInput {
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * @internal
+   */
   @Event() calciteInputFocus: EventEmitter;
 
+  /**
+   * @internal
+   */
   @Event() calciteInputBlur: EventEmitter;
 
+  /**
+   * This event fires when the value of the input changes.
+   */
   @Event({ eventName: "calciteInputInput", cancelable: true }) calciteInputInput: EventEmitter;
 
   //--------------------------------------------------------------------------

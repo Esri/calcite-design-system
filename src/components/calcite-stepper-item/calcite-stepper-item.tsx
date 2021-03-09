@@ -80,10 +80,19 @@ export class CalciteStepperItem {
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * @internal
+   */
   @Event() calciteStepperItemKeyEvent: EventEmitter;
 
+  /**
+   * @internal
+   */
   @Event() calciteStepperItemSelect: EventEmitter;
 
+  /**
+   * @internal
+   */
   @Event() calciteStepperItemRegister: EventEmitter;
 
   //--------------------------------------------------------------------------

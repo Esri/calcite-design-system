@@ -54,6 +54,10 @@ export class CalciteShell {
   }
 
   renderContent(): VNode {
+    return !!this.contentBehind ? this.renderContentBehind() : this.renderContentInline();
+  }
+
+  renderContentBehind(): VNode {
     return (
       <div
         class={{
@@ -64,6 +68,21 @@ export class CalciteShell {
         <slot />
       </div>
     );
+  }
+
+  renderContentInline(): VNode {
+    return (
+      <div class={CSS.content}>
+        <slot />
+        {this.renderCenterRow()}
+      </div>
+    );
+  }
+
+  renderCenterRow(): VNode {
+    const hasCenterRow = !!getSlotted(this.el, SLOTS.centerRow);
+
+    return hasCenterRow ? <slot name={SLOTS.centerRow} /> : null;
   }
 
   renderFooter(): VNode {
@@ -88,7 +107,7 @@ export class CalciteShell {
       <div class={mainClasses}>
         <slot name={SLOTS.primaryPanel} />
         {this.renderContent()}
-        <slot name={SLOTS.centerRow} />
+        {!!this.contentBehind ? this.renderCenterRow() : null}
         <slot name={SLOTS.contextualPanel} />
       </div>
     );

@@ -1,28 +1,24 @@
 :host {
   @extend %component-host;
-  @extend %component-spacing;
-  background-color: transparent;
-  display: block;
-  margin-bottom: var(--calcite-spacing-quarter);
+  @apply bg-transparent block mb-1;
 }
 
 :host(:last-child) {
-  margin-bottom: 0;
+  @apply mb-0;
 }
 
 @import "../../assets/styles/header";
 
 h3.heading {
-  @include font-size(-2);
-  color: var(--calcite-ui-text-3);
-  margin: var(--calcite-spacing-half) var(--calcite-spacing);
+  @apply text--1-wrap text-color-3;
+  margin: theme("spacing.2") theme("spacing.4");
 }
 
 .container--indented {
-  margin-left: var(--calcite-spacing-plus-half);
+  margin-left: theme("spacing.6");
 }
 
 .calcite--rtl.container--indented {
-  margin-left: 0;
-  margin-right: var(--calcite-spacing-plus-half);
+  @apply ml-0;
+  margin-right: theme("spacing.6");
 }

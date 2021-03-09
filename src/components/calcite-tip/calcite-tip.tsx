@@ -1,7 +1,8 @@
 import { Component, Element, Event, EventEmitter, Host, Prop, h, VNode } from "@stencil/core";
 import { Theme } from "../interfaces";
-import { CSS, ICONS, SLOTS, TEXT } from "./resources";
+import { CSS, ICONS, SLOTS, TEXT, HEADING_LEVEL } from "./resources";
 import { getSlotted } from "../../utils/dom";
+import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
 
 /**
  * @slot thumbnail - A slot for adding an HTML image element to the tip.
@@ -31,6 +32,11 @@ export class CalciteTip {
    * The heading of the tip.
    */
   @Prop() heading?: string;
+
+  /**
+   * Number at which section headings should start for this component.
+   */
+  @Prop() headingLevel: HeadingLevel = HEADING_LEVEL;
 
   /**
    * The selected state of the tip if it is being used inside a `calcite-tip-manager`.
@@ -85,11 +91,13 @@ export class CalciteTip {
   // --------------------------------------------------------------------------
 
   renderHeader(): VNode {
-    const { heading } = this;
+    const { heading, headingLevel } = this;
 
     return heading ? (
       <header class={CSS.header}>
-        <h3 class={CSS.heading}>{heading}</h3>
+        <CalciteHeading class={CSS.heading} level={headingLevel}>
+          {heading}
+        </CalciteHeading>
       </header>
     ) : null;
   }

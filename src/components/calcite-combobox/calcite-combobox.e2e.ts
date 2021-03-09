@@ -157,6 +157,62 @@ describe("calcite-combobox", () => {
       expect(chip).toBeNull();
     });
 
+    it("should select parent in ancestor selection mode", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-combobox selection-mode="ancestors">
+          <calcite-combobox-item value="one" text-label="one">
+            <calcite-combobox-item value="child1" text-label="child1"></calcite-combobox-item>
+          </calcite-combobox-item>
+        </calcite-combobox>`
+      });
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      const cbox = await page.find("calcite-combobox");
+      const item1 = await cbox.find("calcite-combobox-item[value=child1]");
+      await item1.click();
+
+      const parent = await cbox.find("calcite-combobox-item[value=one]");
+      expect(parent).toBeDefined();
+      expect(parent).toHaveAttribute("selected");
+
+      const chips = await page.findAll("calcite-combobox >>> calcite-chip");
+      expect(chips.length).toBe(1);
+    });
+
+    it("should clear children in ancestor selection mode", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-combobox selection-mode="ancestors">
+          <calcite-combobox-item value="parent" text-label="parent">
+            <calcite-combobox-item value="child1" text-label="child1"></calcite-combobox-item>
+            <calcite-combobox-item value="child2" text-label="child2"></calcite-combobox-item>
+          </calcite-combobox-item>
+        </calcite-combobox>`
+      });
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      const cbox = await page.find("calcite-combobox");
+      const parent = await cbox.find("calcite-combobox-item[value=parent]");
+      const parentItem = await cbox.find("calcite-combobox-item[value=parent] >>> li");
+      const item1 = await cbox.find("calcite-combobox-item[value=child1]");
+      const item2 = await cbox.find("calcite-combobox-item[value=child2]");
+      await item1.click();
+      await item2.click();
+      await page.waitForChanges();
+      let chips = await page.findAll("calcite-combobox >>> calcite-chip");
+      expect(chips.length).toBe(2);
+      expect(parent).toHaveAttribute("selected");
+      await parentItem.click();
+      chips = await page.findAll("calcite-combobox >>> calcite-chip");
+      expect(chips.length).toBe(0);
+      expect(parent).not.toHaveAttribute("selected");
+      expect(item1).not.toHaveAttribute("selected");
+      expect(item2).not.toHaveAttribute("selected");
+    });
+
     it("clicking a chip should remove the selected item", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-combobox>

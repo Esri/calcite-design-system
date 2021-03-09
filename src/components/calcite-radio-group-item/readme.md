@@ -12,12 +12,6 @@
 | `iconPosition` | `icon-position` | optionally used with icon, select where to position the icon       | `"end" \| "start"` | `"start"`   |
 | `value`        | `value`         | The control's value.                                               | `any`              | `undefined` |
 
-## Events
-
-| Event                         | Description | Type               |
-| ----------------------------- | ----------- | ------------------ |
-| `calciteRadioGroupItemChange` |             | `CustomEvent<any>` |
-
 ## Dependencies
 
 ### Depends on

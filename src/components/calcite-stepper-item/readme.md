@@ -15,14 +15,6 @@ individual `calcite-stepper-item` item
 | `itemSubtitle` | `item-subtitle` | pass a title for the stepper item                                    | `string`  | `undefined` |
 | `itemTitle`    | `item-title`    | pass a title for the stepper item                                    | `string`  | `undefined` |
 
-## Events
-
-| Event                        | Description | Type               |
-| ---------------------------- | ----------- | ------------------ |
-| `calciteStepperItemKeyEvent` |             | `CustomEvent<any>` |
-| `calciteStepperItemRegister` |             | `CustomEvent<any>` |
-| `calciteStepperItemSelect`   |             | `CustomEvent<any>` |
-
 ## Dependencies
 
 ### Depends on

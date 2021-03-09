@@ -13,9 +13,9 @@
 
 ## Events
 
-| Event                 | Description | Type               |
-| --------------------- | ----------- | ------------------ |
-| `calciteFilterChange` |             | `CustomEvent<any>` |
+| Event                 | Description                                    | Type               |
+| --------------------- | ---------------------------------------------- | ------------------ |
+| `calciteFilterChange` | This event fires when the filter text changes. | `CustomEvent<any>` |
 
 ## Dependencies
 

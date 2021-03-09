@@ -93,7 +93,6 @@ export class CalciteComboboxItem {
 
   /**
    * Emitted whenever the item is selected or unselected.
-   * @event calciteComboboxItemChange
    */
   @Event() calciteComboboxItemChange: EventEmitter;
 
@@ -126,7 +125,6 @@ export class CalciteComboboxItem {
     if (this.disabled) {
       return;
     }
-
     this.isSelected = !this.isSelected;
     this.calciteComboboxItemChange.emit(this.el);
   };

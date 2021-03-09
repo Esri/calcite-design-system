@@ -4,7 +4,7 @@ $image_max_height: 200px;
 @include popperArrow();
 
 :host {
-  pointer-events: none;
+  @apply pointer-events-none;
 }
 
 :host([open]) {
@@ -12,45 +12,45 @@ $image_max_height: 200px;
 }
 
 .container {
-  background: var(--calcite-ui-foreground-1);
-  position: relative;
-  display: flex;
-  overflow: hidden;
-  flex-wrap: nowrap;
-  flex-direction: column;
-  color: var(--calcite-ui-text-1);
+  @apply bg-foreground-1 
+    relative 
+    flex 
+    overflow-hidden 
+    flex-no-wrap 
+    flex-col 
+    text-color-1;
 }
 
 .content {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
-  line-height: 24px;
+  @apply flex 
+    flex-row 
+    justify-between 
+    justify-start;
+  line-height: theme("spacing.6");
 }
 // focus styles
 .close-button {
-  @include focus-style-base();
+  @apply focus-base;
   &:focus {
-    @include focus-style-inset();
+    @apply focus-inset;
   }
 }
 
 .close-button {
-  display: block;
+  @apply block 
+    p-3 
+    border-none 
+    text-color-1 
+    cursor-pointer 
+    bg-foreground-1;
   flex: 0 0 auto;
-  padding: 12px;
-  border: none;
   border-radius: 0 var(--calcite-border-radius) 0 0;
-  color: var(--calcite-ui-text-1);
-  cursor: pointer;
-  background: var(--calcite-ui-foreground-1);
   z-index: 1;
   &:hover {
-    background: var(--calcite-ui-foreground-2);
+    @apply bg-foreground-2;
   }
   &:active {
-    background: var(--calcite-ui-foreground-3);
+    @apply bg-foreground-3;
   }
 }
 
@@ -61,20 +61,20 @@ $image_max_height: 200px;
 }
 
 .image-container {
-  overflow: hidden;
+  @apply overflow-hidden;
   max-height: $image_max_height;
+  //FIXME: Should this m-1?
   margin: 5px;
 }
 
 slot[name="image"]::slotted(img) {
-  height: auto;
-  width: 100%;
+  @apply h-auto w-full object-cover;
   max-height: $image_max_height;
-  object-position: 50% 50%;
-  object-fit: cover;
+  //FIXME: Will this work?
+  object-position: theme("width[1/2]") theme("width[1/2]");
 }
 
 ::slotted(calcite-panel),
 ::slotted(calcite-flow) {
-  height: 100%;
+  @apply h-full;
 }

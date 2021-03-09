@@ -3,6 +3,7 @@ export interface listItem {
   value: string;
 }
 
-export type ComboboxSelectionMode = "single" | "multi";
+export type ComboboxSelectionMode = "single" | "multi" | "ancestors";
 
 export type ComboboxChildElement = HTMLCalciteComboboxItemElement | HTMLCalciteComboboxItemGroupElement;
+

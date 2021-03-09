@@ -157,10 +157,19 @@ export class CalciteInlineEditable {
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * @internal
+   */
   @Event() calciteInlineEditableEditingCancel: EventEmitter;
 
+  /**
+   * @internal
+   */
   @Event() calciteInlineEditableChangesConfirm: EventEmitter;
 
+  /**
+   * @internal
+   */
   @Event() calciteInlineEditableEnableEditingChange: EventEmitter;
 
   //--------------------------------------------------------------------------

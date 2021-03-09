@@ -2,6 +2,16 @@
 
 <!-- Auto Generated Below -->
 
+## Usage
+
+### Focusing
+
+You can programmatically focus a `calcite-link` with the `setFocus()` method:
+
+```html
+<div onclick=document.querySelector('#my-link').setFocus()>Focus!</div>
+```
+
 ## Properties
 
 | Property      | Attribute       | Description                                                                                      | Type                         | Default     |

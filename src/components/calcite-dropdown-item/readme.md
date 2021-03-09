@@ -12,12 +12,6 @@
 | `iconFlipRtl` | `icon-flip-rtl` | flip the icon(s) in rtl                                                                    | `"both" \| "end" \| "start"` | `undefined` |
 | `iconStart`   | `icon-start`    | optionally pass an icon to display at the start of an item - accepts calcite ui icon names | `string`                     | `undefined` |
 
-## Events
-
-| Event                       | Description | Type               |
-| --------------------------- | ----------- | ------------------ |
-| `calciteDropdownItemSelect` |             | `CustomEvent<any>` |
-
 ## Methods
 
 ### `setFocus() => Promise<void>`

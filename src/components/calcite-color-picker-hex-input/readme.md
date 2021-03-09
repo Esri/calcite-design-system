@@ -38,7 +38,7 @@ Type: `Promise<void>`
 ### Depends on
 
 - [calcite-input](../calcite-input)
-- [calcite-color-picker-swatch](src/components/calcite-color-picker-swatch)
+- [calcite-color-picker-swatch](../calcite-color-picker-swatch)
 
 ### Graph
 

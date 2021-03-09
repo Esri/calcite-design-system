@@ -132,7 +132,6 @@ export class CalcitePickListItem {
 
   /**
    * Emitted whenever the item is selected or unselected.
-   * @event calciteListItemChange
    */
   @Event() calciteListItemChange: EventEmitter<{
     item: HTMLCalcitePickListItemElement;
@@ -143,20 +142,17 @@ export class CalcitePickListItem {
 
   /**
    * Emitted whenever the remove button is pressed.
-   * @event calciteListItemRemove
    */
   @Event() calciteListItemRemove: EventEmitter<void>;
 
   /**
    * Emitted whenever the the item's label, description, value or metadata properties are modified.
-   * @event calciteListItemPropsChange
    * @internal
    */
   @Event() calciteListItemPropsChange: EventEmitter<void>;
 
   /**
    * Emitted whenever the the item's value property is modified.
-   * @event calciteListItemValueChange
    * @internal
    */
   @Event() calciteListItemValueChange: EventEmitter<{

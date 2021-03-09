@@ -119,7 +119,6 @@ export class CalcitePickList<
 
   /**
    * Emitted when any of the item selections have changed.
-   * @event calciteListChange
    */
   @Event() calciteListChange: EventEmitter;
 

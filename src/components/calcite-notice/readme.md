@@ -2,6 +2,16 @@
 
 <!-- Auto Generated Below -->
 
+## Usage
+
+### Basic
+
+You can programmatically focus the close button of a `dismissible` `calcite-notice` with the `setFocus()` method:
+
+```html
+<div onclick=document.querySelector('#my-notice').setFocus()>Focus!</div>
+```
+
 ## Properties
 
 | Property      | Attribute     | Description                                                                                                                                            | Type                                     | Default      |
@@ -23,22 +33,6 @@
 | `calciteNoticeOpen`  | Fired when an Notice is opened | `CustomEvent<any>` |
 
 ## Methods
-
-### `close() => Promise<void>`
-
-close the notice emit the `calciteNoticeClose` event - <calcite-notice> listens for this
-
-#### Returns
-
-Type: `Promise<void>`
-
-### `open() => Promise<void>`
-
-open the notice and emit the `calciteNoticeOpen` event - <calcite-notice> listens for this
-
-#### Returns
-
-Type: `Promise<void>`
 
 ### `setFocus() => Promise<void>`
 
