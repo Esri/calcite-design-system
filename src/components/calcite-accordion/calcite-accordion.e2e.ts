@@ -154,4 +154,26 @@ describe("calcite-accordion", () => {
     expect(await item2Content.isVisible()).toBe(true);
     expect(await item3Content.isVisible()).toBe(false);
   });
+
+  it("should emit the change event", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-accordion>
+    ${accordionContent}
+    </calcite-accordion>`);
+    const element = await page.find("calcite-accordion");
+    const eventSpy = await page.spyOnEvent("calciteAccordionChange", "window");
+    const item1 = await element.find("calcite-accordion-item[id='1']");
+    const item2 = await element.find("calcite-accordion-item[id='2']");
+    const item3 = await element.find("calcite-accordion-item[id='3']");
+    await item3.click();
+    await page.waitForChanges();
+    expect(eventSpy).toHaveReceivedEventTimes(1);
+    await item2.click();
+    await page.waitForChanges();
+    expect(eventSpy).toHaveReceivedEventTimes(2);
+    await item1.click();
+    await page.waitForChanges();
+    expect(eventSpy).toHaveReceivedEventTimes(3);
+  });
 });

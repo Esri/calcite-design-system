@@ -62,11 +62,6 @@ export class CalciteAccordionItem {
   /**
    * @internal
    */
-  @Event() calciteAccordionItemClose: EventEmitter;
-
-  /**
-   * @internal
-   */
   @Event() calciteAccordionItemRegister: EventEmitter;
 
   //--------------------------------------------------------------------------
@@ -94,7 +89,6 @@ export class CalciteAccordionItem {
   render(): VNode {
     const dir = getElementDir(this.el);
     const iconScale = this.scale !== "l" ? "s" : "m";
-
     const iconEl = <calcite-icon class="accordion-item-icon" icon={this.icon} scale={iconScale} />;
 
     return (
@@ -161,8 +155,7 @@ export class CalciteAccordionItem {
 
   @Listen("calciteAccordionChange", { target: "body" })
   updateActiveItemOnChange(event: CustomEvent): void {
-    this.requestedAccordionItem = event.detail
-      .requestedAccordionItem as HTMLCalciteAccordionItemElement;
+    this.requestedAccordionItem = event.detail as HTMLCalciteAccordionItemElement;
     this.determineActiveItem();
   }
 
@@ -219,9 +212,7 @@ export class CalciteAccordionItem {
   }
 
   private emitRequestedItem(): void {
-    this.calciteAccordionItemSelect.emit({
-      requestedAccordionItem: this.el as HTMLCalciteAccordionItemElement
-    });
+    this.calciteAccordionItemSelect.emit(this.el as HTMLCalciteAccordionItemElement);
   }
 
   private getItemPosition(): number {

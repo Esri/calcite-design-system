@@ -127,10 +127,8 @@ export class CalciteAccordion {
   }
 
   @Listen("calciteAccordionItemSelect") updateActiveItemOnChange(event: CustomEvent): void {
-    this.requestedAccordionItem = event.detail.requestedAccordionItem;
-    this.calciteAccordionChange.emit({
-      requestedAccordionItem: this.requestedAccordionItem
-    });
+    this.requestedAccordionItem = event.detail;
+    this.calciteAccordionChange.emit(this.requestedAccordionItem);
   }
 
   //--------------------------------------------------------------------------
