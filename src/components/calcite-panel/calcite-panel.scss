@@ -108,7 +108,7 @@ calcite-scrim {
     text-overflow: ellipsis;
   }
   .heading {
-    @apply font-bold mt-0 mx-0 mb-1 text-0-wrap;
+    @apply font-medium mt-0 mx-0 mb-1 text-0-wrap;
     &:only-child {
       @apply mb-0;
     }
