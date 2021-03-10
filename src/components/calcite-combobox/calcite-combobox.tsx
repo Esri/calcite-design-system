@@ -120,7 +120,8 @@ export class CalciteCombobox {
   calciteChipDismissHandler(event: CustomEvent<HTMLCalciteChipElement>): void {
     this.active = false;
 
-    const comboboxItem = this.items.find((item) => item === event.detail["data-item"]);
+    const eventComboboxItem = event.detail["data-item"];
+    const comboboxItem = this.items.find((item) => item === eventComboboxItem);
 
     if (comboboxItem) {
       this.toggleSelection(comboboxItem, false);
