@@ -1,12 +1,11 @@
 :host {
   @extend %component-host;
-  @extend %component-spacing;
-  align-items: stretch;
-  background-color: transparent;
-  display: flex;
+  @apply items-stretch 
+    bg-transparent 
+    flex 
+    flex-col 
+    relative;
   flex: 0 0 auto;
-  flex-flow: column;
-  position: relative;
 }
 
 calcite-value-list-item:last-of-type {
@@ -14,26 +13,22 @@ calcite-value-list-item:last-of-type {
 }
 
 header {
-  background-color: var(--calcite-ui-foreground-1);
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-bottom: var(--calcite-spacing-quarter);
+  @apply bg-foreground-1 
+    flex 
+    justify-end 
+    items-center 
+    mb-1;
   &.sticky {
-    position: sticky;
-    top: 0;
-    z-index: 1;
+    @apply sticky top-0 z-10;
   }
   @apply shadow-border-bottom;
 }
 
 calcite-filter {
-  margin-bottom: 1px;
+  @apply mb-px;
 }
 
 calcite-scrim {
-  display: flex;
+  @apply flex flex-col pointer-events-auto;
   flex: 0 0 auto;
-  flex-flow: column;
-  pointer-events: none;
 }
