@@ -116,20 +116,6 @@ export class CalciteCombobox {
     this.toggleSelection(event.detail);
   }
 
-  @Listen("calciteChipDismiss")
-  calciteChipDismissHandler(event: CustomEvent<HTMLCalciteChipElement>): void {
-    this.active = false;
-
-    const eventComboboxItem = event.detail["data-item"];
-    const comboboxItem = this.items.find((item) => item === eventComboboxItem);
-
-    if (comboboxItem) {
-      this.toggleSelection(comboboxItem, false);
-    }
-
-    this.calciteComboboxChipDismiss.emit(event.detail);
-  }
-
   @Listen("keydown")
   keydownHandler(event: KeyboardEvent): void {
     const key = getKey(event.key, getElementDir(this.el));
@@ -336,12 +322,28 @@ export class CalciteCombobox {
   //
   // --------------------------------------------------------------------------
 
+  calciteChipDismissHandler = (
+    event: CustomEvent<HTMLCalciteChipElement>,
+    comboboxItem: HTMLCalciteComboboxItemElement
+  ): void => {
+    this.active = false;
+
+    const selection = this.items.find((item) => item === comboboxItem);
+
+    if (selection) {
+      this.toggleSelection(selection, false);
+    }
+
+    this.calciteComboboxChipDismiss.emit(event.detail);
+  };
+
   setFocusClick = (): void => {
     this.setFocus();
   };
 
   setInactiveIfNotContained = (event: Event): void => {
-    if (!this.active || event.composedPath().includes(this.el)) {
+    const composedPath = event.composedPath();
+    if (!this.active || composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
       return;
     }
 
@@ -702,12 +704,12 @@ export class CalciteCombobox {
       return (
         <calcite-chip
           class={chipClasses}
-          data-item={item}
           dismissLabel={"remove tag"}
           dismissible
           icon={item.icon}
           id={`chip-${item.guid}`}
           key={item.value}
+          onCalciteChipDismiss={(event) => this.calciteChipDismissHandler(event, item)}
           scale={scale}
           value={item.value}
         >
