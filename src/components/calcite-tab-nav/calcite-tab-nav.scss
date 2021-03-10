@@ -7,9 +7,10 @@
     w-full
     overflow-auto
     justify-start
-    scrolling-touch
-    p-1
-    -m-1;
+    scrolling-touch;
+  // workaround for outset focus within a scrolling container
+  padding: theme("padding.1");
+  margin: theme("margin.-1");
 }
 
 :host([layout="center"]) .tab-nav {
@@ -23,8 +24,8 @@
     right-0
     bottom-0
     absolute
-    overflow-hidden
-    h-0.5;
+    overflow-hidden;
+  height: theme("height[0.5]");
 }
 
 .tab-nav-active-indicator {
@@ -32,9 +33,9 @@
     bottom-0
     block
     transition-all
-    ease-out
-    bg-brand
-    h-0.5;
+    ease-out;
+  background: theme("colors.brand");
+  height: theme("height[0.5]");
 }
 
 :host([position="below"]) .tab-nav-active-indicator {
