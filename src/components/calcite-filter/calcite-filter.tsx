@@ -7,12 +7,13 @@ import {
   Prop,
   State,
   h,
-  VNode
+  VNode,
+  Method
 } from "@stencil/core";
 import { debounce, forIn } from "lodash-es";
 import { CSS, ICONS, TEXT } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
-import { getElementDir } from "../../utils/dom";
+import { focusElement, getElementDir } from "../../utils/dom";
 
 const filterDebounceInMs = 250;
 
@@ -71,6 +72,20 @@ export class CalciteFilter {
    * This event fires when the filter text changes.
    */
   @Event() calciteFilterChange: EventEmitter;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  // --------------------------------------------------------------------------
+
+  /**
+   * Focuses the filter input.
+   */
+  @Method()
+  async setFocus(): Promise<void> {
+    focusElement(this.textInput);
+  }
 
   // --------------------------------------------------------------------------
   //

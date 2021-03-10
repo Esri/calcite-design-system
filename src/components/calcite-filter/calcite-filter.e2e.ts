@@ -1,5 +1,5 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, hidden, renders } from "../../tests/commonTests";
+import { accessible, focusable, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-filter", () => {
   it("renders", async () => renders("calcite-filter"));
@@ -7,6 +7,8 @@ describe("calcite-filter", () => {
   it("honors hidden attribute", async () => hidden("calcite-filter"));
 
   it("is accessible", async () => accessible("calcite-filter"));
+
+  it("is focusable", async () => focusable("calcite-filter"));
 
   describe("strings", () => {
     it("should update the filter placeholder when a string is provided", async () => {
