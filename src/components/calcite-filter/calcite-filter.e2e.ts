@@ -112,6 +112,12 @@ describe("calcite-filter", () => {
             description: "developer",
             value: "jon",
             metadata: { haircolor: "brown", favoriteBand: "Hippity Hops" }
+          },
+          {
+            name: "regex",
+            description: "regex",
+            value: "regex",
+            metadata: { haircolor: "rainbow", favoriteBand: "regex()" }
           }
         ];
       });
@@ -146,6 +152,20 @@ describe("calcite-filter", () => {
       expect(event.detail).toBeDefined();
       expect(event.detail.length).toBe(1);
       expect(event.detail.find((element) => element.value === "franco")).toBeDefined();
+    });
+
+    it("should escape regex", async () => {
+      const waitForEvent = page.waitForEvent("calciteFilterChange");
+      await page.evaluate(() => {
+        const filter = document.querySelector("calcite-filter");
+        const filterInput = filter.shadowRoot.querySelector("input");
+        filterInput.value = "regex()";
+        filterInput.dispatchEvent(new Event("input"));
+      });
+      const event = await waitForEvent;
+      expect(event.detail).toBeDefined();
+      expect(event.detail.length).toBe(1);
+      expect(event.detail.find((element) => element.value === "regex")).toBeDefined();
     });
   });
 });
