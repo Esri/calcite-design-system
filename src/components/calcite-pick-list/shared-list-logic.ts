@@ -241,6 +241,7 @@ let groups: Set<HTMLCalcitePickListGroupElement>;
 export function handleFilter<T extends Lists>(this: List<T>, event: CustomEvent): void {
   const filteredData = event.detail;
   const values = filteredData.map((item) => item.value);
+  let hasSelectedMatch = false;
 
   if (!groups) {
     groups = new Set<HTMLCalcitePickListGroupElement>();
@@ -257,6 +258,10 @@ export function handleFilter<T extends Lists>(this: List<T>, event: CustomEvent)
     const matches = values.includes(item.value);
 
     item.hidden = !matches;
+
+    if (!hasSelectedMatch) {
+      hasSelectedMatch = matches && item.selected;
+    }
 
     return matches;
   });
@@ -283,6 +288,10 @@ export function handleFilter<T extends Lists>(this: List<T>, event: CustomEvent)
   });
 
   groups.clear();
+
+  if (matchedItems.length > 0 && !hasSelectedMatch && !this.multiple) {
+    toggleSingleSelectItemTabbing(matchedItems[0], true);
+  }
 }
 
 export type ItemData = {
