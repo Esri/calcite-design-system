@@ -1,7 +1,7 @@
-import { forIn } from "lodash-es";
+import { escapeRegExp, forIn } from "lodash-es";
 
 export const filter = (data: Array<object>, value: string): Array<any> => {
-  const regex = new RegExp(value, "ig");
+  const regex = new RegExp(escapeRegExp(value), "ig");
 
   if (data.length === 0) {
     console.warn(`No data was passed to the filter function.
