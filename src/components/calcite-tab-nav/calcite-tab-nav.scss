@@ -23,8 +23,8 @@
     right-0
     bottom-0
     absolute
-    overflow-hidden;
-  height: 3px;
+    overflow-hidden
+    h-0.5;
 }
 
 .tab-nav-active-indicator {
@@ -32,9 +32,9 @@
     bottom-0
     block
     transition-all
-    ease-out;
-  background: var(--calcite-ui-brand);
-  height: 3px;
+    ease-out
+    bg-brand
+    h-0.5;
 }
 
 :host([position="below"]) .tab-nav-active-indicator {
