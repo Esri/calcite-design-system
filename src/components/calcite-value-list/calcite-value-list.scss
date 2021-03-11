@@ -4,8 +4,9 @@
     bg-transparent 
     flex 
     flex-col 
-    relative;
-  flex: 0 0 auto;
+    relative
+    flex-shrink-0
+    flex-grow-0;
 }
 
 calcite-value-list-item:last-of-type {
@@ -29,6 +30,9 @@ calcite-filter {
 }
 
 calcite-scrim {
-  @apply flex flex-col pointer-events-auto;
-  flex: 0 0 auto;
+  @apply flex 
+    flex-col 
+    pointer-events-none
+    flex-shrink-0
+    flex-grow-0;
 }
