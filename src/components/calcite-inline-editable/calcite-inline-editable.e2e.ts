@@ -27,10 +27,10 @@ describe("calcite-inline-editable", () => {
       expect(element).not.toHaveAttribute("loading");
     });
 
-    it("uses a wrapping label's scale and theme when none are provided", async () => {
+    it("uses a wrapping label's scale when none are provided", async () => {
       page = await newE2EPage();
       await page.setContent(`
-      <calcite-label theme="dark" scale="l">
+      <calcite-label scale="l">
         <calcite-inline-editable>
           <calcite-input/>
         </calcite-inline-editable>
@@ -39,22 +39,20 @@ describe("calcite-inline-editable", () => {
       await page.waitForChanges();
       const element = await page.find("calcite-inline-editable");
       expect(element).toEqualAttribute("scale", "l");
-      expect(element).toEqualAttribute("theme", "dark");
     });
 
-    it("uses a child input's scale and theme when none are provided", async () => {
+    it("uses a child input's scale when none are provided", async () => {
       page = await newE2EPage();
       await page.setContent(`
       <calcite-label>
         <calcite-inline-editable>
-          <calcite-input theme="dark" scale="l"/>
+          <calcite-input scale="l"/>
         </calcite-inline-editable>
       </calcite-label>
       `);
       await page.waitForChanges();
       const element = await page.find("calcite-inline-editable");
       expect(element).toEqualAttribute("scale", "l");
-      expect(element).toEqualAttribute("theme", "dark");
     });
 
     it("renders requested props when valid props are provided", async () => {

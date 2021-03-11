@@ -71,7 +71,7 @@ export class CalciteRadioButtonGroup {
   }
 
   /** The color theme of the radio button group. */
-  @Prop({ reflect: true }) theme: Theme = "light";
+  @Prop({ reflect: true }) theme: Theme;
 
   @Watch("theme")
   onThemeChange(): void {
