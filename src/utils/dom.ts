@@ -16,10 +16,6 @@ export function getElementDir(el: HTMLElement): Direction {
   return getElementProp(el, "dir", "ltr") as Direction;
 }
 
-export function getElementTheme(el: HTMLElement): Theme {
-  return getElementProp(el, "theme", "light") as Theme;
-}
-
 export function getElementProp(el: Element, prop: string, fallbackValue: any, crossShadowBoundary = false): any {
   const selector = `[${prop}]`;
   const closest = crossShadowBoundary ? closestElementCrossShadowBoundary(selector, el) : el.closest(selector);
