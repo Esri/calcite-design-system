@@ -1,5 +1,3 @@
-import { Theme } from "../components/interfaces";
-
 export function nodeListToArray<T extends Element>(nodeList: HTMLCollectionOf<T> | NodeListOf<T> | T[]): T[] {
   return Array.isArray(nodeList) ? nodeList : Array.from(nodeList);
 }
