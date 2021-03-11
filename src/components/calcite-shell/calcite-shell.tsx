@@ -60,6 +60,7 @@ export class CalciteShell {
   renderContentBehind(): VNode {
     return (
       <div
+        key="content-behind"
         class={{
           [CSS.content]: true,
           [CSS.contentBehind]: !!this.contentBehind
@@ -72,7 +73,7 @@ export class CalciteShell {
 
   renderContentInline(): VNode {
     return (
-      <div class={CSS.content}>
+      <div key="content-inline" class={CSS.content}>
         <slot />
         {this.renderCenterRow()}
       </div>
