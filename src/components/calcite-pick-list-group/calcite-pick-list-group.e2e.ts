@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS } from "./resources";
-import { accessible } from "../../tests/commonTests";
+import { accessible, defaults } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 
 describe("calcite-pick-list-group", () => {
@@ -15,6 +15,14 @@ describe("calcite-pick-list-group", () => {
       </calcite-pick-list>
     `);
   });
+
+  it("has property defaults", async () =>
+    defaults("calcite-pick-list-group", [
+      {
+        propertyName: "headingLevel",
+        defaultValue: 3
+      }
+    ]));
 
   it("should render", async () => {
     const page = await newE2EPage();

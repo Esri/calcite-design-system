@@ -1,12 +1,16 @@
 # calcite-tab
 
-calcite-tab wraps the content you would like to appear when that tab is selected:
+<!-- Auto Generated Below -->
+
+## Usage
+
+### Basic
+
+`calcite-tab` wraps the content you would like to appear when that tab is selected:
 
 ```html
-<calcite-tab> My stuff! </calcite-tab>
+<calcite-tab>My stuff!</calcite-tab>
 ```
-
-<!-- Auto Generated Below -->
 
 ## Properties
 
@@ -29,13 +33,13 @@ Type: `Promise<number>`
 
 ### Used by
 
-- [calcite-color](../calcite-color)
+- [calcite-color-picker](../calcite-color-picker)
 
 ### Graph
 
 ```mermaid
 graph TD;
-  calcite-color --> calcite-tab
+  calcite-color-picker --> calcite-tab
   style calcite-tab fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

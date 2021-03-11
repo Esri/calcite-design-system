@@ -16,7 +16,7 @@ import {
 import { getLocaleData, DateLocaleData } from "../calcite-date-picker/utils";
 import { getElementDir } from "../../utils/dom";
 import { dateFromRange, inRange, dateFromISO, parseDateString, sameDate } from "../../utils/date";
-
+import { HeadingLevel } from "../functional/CalciteHeading";
 import { getKey } from "../../utils/key";
 import { TEXT } from "../calcite-date-picker/calcite-date-picker-resources";
 
@@ -46,6 +46,11 @@ export class CalciteInputDatePicker {
   //--------------------------------------------------------------------------
   /** Selected date */
   @Prop() value?: string;
+
+  /**
+   * Number at which section headings should start for this component.
+   */
+  @Prop() headingLevel: HeadingLevel;
 
   /** Selected date as full date object*/
   @Prop({ mutable: true }) valueAsDate?: Date;
@@ -77,7 +82,7 @@ export class CalciteInputDatePicker {
   @Prop() intlNextMonth?: string = TEXT.nextMonth;
 
   /** BCP 47 language tag for desired language and country format */
-  @Prop() locale?: string = document.documentElement.lang || "en-US";
+  @Prop() locale?: string = document.documentElement.lang || "en";
 
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
@@ -230,6 +235,7 @@ export class CalciteInputDatePicker {
                   activeRange={this.focusedInput}
                   dir={dir}
                   endAsDate={this.endAsDate}
+                  headingLevel={this.headingLevel}
                   intlNextMonth={this.intlNextMonth}
                   intlPrevMonth={this.intlPrevMonth}
                   locale={this.locale}
@@ -303,6 +309,8 @@ export class CalciteInputDatePicker {
   private startWrapper: HTMLDivElement;
 
   private endWrapper: HTMLDivElement;
+
+  private endInputFocusTimeout: number;
 
   @Watch("layout")
   @Watch("focusedInput")
@@ -511,8 +519,10 @@ export class CalciteInputDatePicker {
     this.startAsDate = startDate;
     this.endAsDate = endDate;
 
+    clearTimeout(this.endInputFocusTimeout);
+
     if (startDate && this.focusedInput === "start") {
-      setTimeout(() => this.endInput?.setFocus(), 150);
+      this.endInputFocusTimeout = window.setTimeout(() => this.endInput?.setFocus(), 150);
     }
   };
 

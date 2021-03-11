@@ -8,7 +8,6 @@
 | --------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ----------- |
 | `checked`       | `checked`       | The checked state of the checkbox.                                                                                                            | `boolean`           | `false`     |
 | `disabled`      | `disabled`      | True if the checkbox is disabled                                                                                                              | `boolean`           | `false`     |
-| `focused`       | `focused`       | The focused state of the checkbox.                                                                                                            | `boolean`           | `false`     |
 | `guid`          | `guid`          | The id attribute of the checkbox. When omitted, a globally unique identifier is used.                                                         | `string`            | `undefined` |
 | `hovered`       | `hovered`       | The hovered state of the checkbox.                                                                                                            | `boolean`           | `false`     |
 | `indeterminate` | `indeterminate` | True if the checkbox is initially indeterminate, which is independent from its checked state https://css-tricks.com/indeterminate-checkboxes/ | `boolean`           | `false`     |
@@ -19,10 +18,17 @@
 
 ## Events
 
-| Event                          | Description                                      | Type               |
-| ------------------------------ | ------------------------------------------------ | ------------------ |
-| `calciteCheckboxChange`        | Emitted when the checkbox checked status changes | `CustomEvent<any>` |
-| `calciteCheckboxFocusedChange` | Emitted when the checkbox focused state changes  | `CustomEvent<any>` |
+| Event                   | Description                                      | Type               |
+| ----------------------- | ------------------------------------------------ | ------------------ |
+| `calciteCheckboxChange` | Emitted when the checkbox checked status changes | `CustomEvent<any>` |
+
+## Methods
+
+### `setFocus() => Promise<void>`
+
+#### Returns
+
+Type: `Promise<void>`
 
 ## Dependencies
 

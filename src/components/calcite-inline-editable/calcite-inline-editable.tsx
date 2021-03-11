@@ -14,6 +14,9 @@ import { getElementProp } from "../../utils/dom";
 import { Scale, Theme } from "../interfaces";
 import { TEXT } from "./resources";
 
+/**
+ * @slot - slot for rendering a `<calcite-input>`
+ */
 @Component({
   tag: "calcite-inline-editable",
   scoped: true,
@@ -106,7 +109,7 @@ export class CalciteInlineEditable {
                 appearance="transparent"
                 aria-label={this.intlEnableEditing}
                 class="calcite-inline-editable-enable-editing-button"
-                color="dark"
+                color="neutral"
                 disabled={this.disabled}
                 iconStart="pencil"
                 onClick={this.enableEditingHandler}
@@ -121,7 +124,7 @@ export class CalciteInlineEditable {
                   appearance="transparent"
                   aria-label={this.intlCancelEditing}
                   class="calcite-inline-editable-cancel-editing-button"
-                  color="dark"
+                  color="neutral"
                   disabled={this.disabled}
                   iconStart="x"
                   onClick={this.cancelEditingHandler}
@@ -154,10 +157,19 @@ export class CalciteInlineEditable {
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * @internal
+   */
   @Event() calciteInlineEditableEditingCancel: EventEmitter;
 
+  /**
+   * @internal
+   */
   @Event() calciteInlineEditableChangesConfirm: EventEmitter;
 
+  /**
+   * @internal
+   */
   @Event() calciteInlineEditableEnableEditingChange: EventEmitter;
 
   //--------------------------------------------------------------------------
@@ -205,6 +217,8 @@ export class CalciteInlineEditable {
 
   private enableEditingButton: HTMLCalciteButtonElement;
 
+  private editingFocusTimeout: number;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -231,7 +245,8 @@ export class CalciteInlineEditable {
   private cancelEditing = () => {
     this.inputElement.value = this.valuePriorToEditing;
     this.disableEditing();
-    setTimeout(() => this.enableEditingButton.setFocus(), 100);
+    clearTimeout(this.editingFocusTimeout);
+    this.editingFocusTimeout = window.setTimeout(() => this.enableEditingButton.setFocus(), 100);
     this.calciteInlineEditableEditingCancel.emit();
   };
 

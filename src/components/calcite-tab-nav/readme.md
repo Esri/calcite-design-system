@@ -21,13 +21,13 @@ The tab-nav groups several [calcite-tab-title](../calcite-tab-title) components 
 
 ### Used by
 
-- [calcite-color](../calcite-color)
+- [calcite-color-picker](../calcite-color-picker)
 
 ### Graph
 
 ```mermaid
 graph TD;
-  calcite-color --> calcite-tab-nav
+  calcite-color-picker --> calcite-tab-nav
   style calcite-tab-nav fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

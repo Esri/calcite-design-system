@@ -1,64 +1,37 @@
 # calcite-inline-editable
 
-### Attributes
+<!-- Auto Generated Below -->
 
-#### Custom attributes
+## Usage
 
-#### Native attributes
-
-### Slots
-
-- there is a single slot for rendering a `<calcite-input>`
-
-### Events
-
-#### Custom events
-
-You can listen for the following custom events from emitted `<calcite-inline-editable>`:
-
-The events don't have a custom payload. In most cases, listening for these events should not be necessary if an `afterConfirm` method is used in combination with `controls`.
-
-```
-  input.addEventListener("calciteInlineEditableEnableEditingChange", doSomething);
-  input.addEventListener("calciteInlineEditableEditingCancel", doSomething);
-  input.addEventListener("calciteInlineEditableChangesConfirm", doSomething);
-
-```
-
-### Usage
+### Basic
 
 There is no need to set a theme or scale on the `<calcite-inline-editable>` component, as it inherits these values from the wrapped `<calcite-input>`, or the closest parent component where these props are set.
 
-#### Structure
-
-##### Basic (disables editing on blur)
-
-```
+```html
 <calcite-inline-editable>
   <calcite-input value="Entered value" placeholder="My placeholder"></calcite-input>
 </calcite-inline-editable>
 ```
 
-##### With explicit save/cancel controls
+### With-label
 
+```html
+<calcite-label>
+  My great label
+  <calcite-inline-editable controls>
+    <calcite-input value="Entered value" placeholder="My placeholder"></calcite-input>
+  </calcite-inline-editable>
+</calcite-label>
 ```
+
+### With-save-and-cancel-controls
+
+```html
 <calcite-inline-editable controls>
   <calcite-input value="Entered value" placeholder="My placeholder"></calcite-input>
 </calcite-inline-editable>
 ```
-
-##### With a label
-
-```
-<calcite-label>
-    My great label
-    <calcite-inline-editable controls>
-      <calcite-input value="Entered value" placeholder="My placeholder"></calcite-input>
-    </calcite-inline-editable>
-</calcite-label>
-```
-
-<!-- Auto Generated Below -->
 
 ## Properties
 
@@ -75,13 +48,11 @@ There is no need to set a theme or scale on the `<calcite-inline-editable>` comp
 | `scale`              | `scale`                | specify the scale of the inline-editable component, defaults to the scale of the wrapped calcite-input or the scale of the closest wrapping component with a set scale | `"l" \| "m" \| "s"`   | `undefined`                |
 | `theme`              | `theme`                | specify the theme of the inline-editable component, defaults to the theme of the wrapped calcite-input or the theme of the closest wrapping component with a set theme | `"dark" \| "light"`   | `undefined`                |
 
-## Events
+## Slots
 
-| Event                                      | Description | Type               |
-| ------------------------------------------ | ----------- | ------------------ |
-| `calciteInlineEditableChangesConfirm`      |             | `CustomEvent<any>` |
-| `calciteInlineEditableEditingCancel`       |             | `CustomEvent<any>` |
-| `calciteInlineEditableEnableEditingChange` |             | `CustomEvent<any>` |
+| Slot | Description                            |
+| ---- | -------------------------------------- |
+|      | slot for rendering a `<calcite-input>` |
 
 ## Dependencies
 

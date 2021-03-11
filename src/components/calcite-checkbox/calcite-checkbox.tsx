@@ -8,6 +8,7 @@ import {
   Listen,
   Method,
   Prop,
+  State,
   VNode,
   Watch
 } from "@stencil/core";
@@ -51,22 +52,13 @@ export class CalciteCheckbox {
     this.input.disabled = disabled;
   }
 
-  /** The focused state of the checkbox. */
-  @Prop({ mutable: true, reflect: true }) focused = false;
-
-  @Watch("focused")
-  focusedChanged(focused: boolean): void {
-    if (focused && !this.el.hasAttribute("hidden")) {
-      this.input.focus();
-    } else {
-      this.input.blur();
-    }
-  }
-
   /** The id attribute of the checkbox.  When omitted, a globally unique identifier is used. */
   @Prop({ reflect: true, mutable: true }) guid: string;
 
-  /** The hovered state of the checkbox. */
+  /**
+   * The hovered state of the checkbox.
+   * @private
+   */
   @Prop({ reflect: true, mutable: true }) hovered = false;
 
   /**
@@ -109,6 +101,15 @@ export class CalciteCheckbox {
 
   //--------------------------------------------------------------------------
   //
+  //  State
+  //
+  //--------------------------------------------------------------------------
+
+  /** The focused state of the checkbox. */
+  @State() focused = false;
+
+  //--------------------------------------------------------------------------
+  //
   //  Public Methods
   //
   //--------------------------------------------------------------------------
@@ -130,7 +131,7 @@ export class CalciteCheckbox {
   private toggle = (): void => {
     if (!this.disabled) {
       this.checked = !this.checked;
-      this.focused = true;
+      focusElement(this.input);
       this.indeterminate = false;
       this.calciteCheckboxChange.emit();
     }
@@ -145,7 +146,11 @@ export class CalciteCheckbox {
   /** Emitted when the checkbox checked status changes */
   @Event() calciteCheckboxChange: EventEmitter;
 
-  /** Emitted when the checkbox focused state changes */
+  /**
+   * Emitted when the checkbox focused state changes
+   *
+   * @internal
+   */
   @Event() calciteCheckboxFocusedChange: EventEmitter;
 
   //--------------------------------------------------------------------------
@@ -192,12 +197,12 @@ export class CalciteCheckbox {
 
   private onInputBlur() {
     this.focused = false;
-    this.calciteCheckboxFocusedChange.emit();
+    this.calciteCheckboxFocusedChange.emit(false);
   }
 
   private onInputFocus() {
     this.focused = true;
-    this.calciteCheckboxFocusedChange.emit();
+    this.calciteCheckboxFocusedChange.emit(true);
   }
 
   //--------------------------------------------------------------------------
@@ -267,7 +272,7 @@ export class CalciteCheckbox {
     if (this.el.textContent) {
       return (
         <Host>
-          <div class="hasLabel">
+          <div class={{ focused: this.focused, hasLabel: true }}>
             <svg class="check-svg" viewBox="0 0 16 16">
               <path d={this.getPath()} />
             </svg>
@@ -280,10 +285,12 @@ export class CalciteCheckbox {
     }
     return (
       <Host>
-        <svg class="check-svg" viewBox="0 0 16 16">
-          <path d={this.getPath()} />
-        </svg>
-        <slot />
+        <div class={{ focused: this.focused }}>
+          <svg class="check-svg" viewBox="0 0 16 16">
+            <path d={this.getPath()} />
+          </svg>
+          <slot />
+        </div>
       </Host>
     );
   }

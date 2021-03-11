@@ -143,9 +143,10 @@ Renders a single panel with actions in an action bar.
 
 ## Properties
 
-| Property | Attribute | Description                               | Type                | Default     |
-| -------- | --------- | ----------------------------------------- | ------------------- | ----------- |
-| `theme`  | `theme`   | Used to set the component's color scheme. | `"dark" \| "light"` | `undefined` |
+| Property        | Attribute        | Description                                                   | Type                | Default     |
+| --------------- | ---------------- | ------------------------------------------------------------- | ------------------- | ----------- |
+| `contentBehind` | `content-behind` | Positions the center content behind any calcite-shell-panels. | `boolean`           | `undefined` |
+| `theme`         | `theme`          | Used to set the component's color scheme.                     | `"dark" \| "light"` | `undefined` |
 
 ## Slots
 

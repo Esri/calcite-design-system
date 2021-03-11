@@ -2,6 +2,12 @@
 
 Calcite stepper can be used to present a stepper workflow to a user. It has configurable display options for layout (horizontal or vertical), and the ability to automatically render status icons, and step numbers.
 
+<!-- Auto Generated Below -->
+
+## Usage
+
+### Basic
+
 ```html
 <calcite-stepper icon numbered id="my-example-stepper">
   <calcite-stepper-item item-title="Choose method" item-subtitle="Add members without sending invitations" complete>
@@ -17,8 +23,6 @@ Calcite stepper can be used to present a stepper workflow to a user. It has conf
 </calcite-stepper>
 ```
 
-<!-- Auto Generated Below -->
-
 ## Properties
 
 | Property   | Attribute  | Description                                             | Type                         | Default        |
@@ -28,12 +32,6 @@ Calcite stepper can be used to present a stepper workflow to a user. It has conf
 | `numbered` | `numbered` | optionally display the number next to the step title    | `boolean`                    | `false`        |
 | `scale`    | `scale`    | specify the scale of stepper, defaults to m             | `"l" \| "m" \| "s"`          | `"m"`          |
 | `theme`    | `theme`    | specify the theme of stepper, defaults to light         | `"dark" \| "light"`          | `undefined`    |
-
-## Events
-
-| Event                      | Description | Type               |
-| -------------------------- | ----------- | ------------------ |
-| `calciteStepperItemChange` |             | `CustomEvent<any>` |
 
 ## Methods
 

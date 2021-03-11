@@ -1,12 +1,16 @@
 # calcite-button
 
-You can programmatically focus a `calcite-button` with the `setFocus()` method:
-
-`<div onclick=document.querySelector('#my-button').setFocus()>Focus!</div>`
-
 <!-- Auto Generated Below -->
 
 ## Usage
+
+### Focusing
+
+You can programmatically focus a `calcite-button` with the `setFocus()` method:
+
+```html
+<div onclick=document.querySelector('#my-button').setFocus()>Focus!</div>
+```
 
 ### Internals
 
@@ -14,8 +18,17 @@ You can programmatically focus a `calcite-button` with the `setFocus()` method:
 
 Any additional attributes set on `<calcite-button>` are passed to the internal `<a>` or `<button>` tag. For example:
 
-- `<calcite-button href="https://github.com/esri/calcite-components target="_blank">Calcite Components on GitHub</calcite-button>` would set `target="_blank` On the internal `<a>`.
-- `<calcite-button type="submit">Submit</calcite-button>` would set `type="submit"` On the internal `<button>`.
+- ```html
+  <calcite-button href="https://github.com/esri/calcite-components target="_blank">Calcite Components on GitHub</calcite-button>
+  ```
+
+  would set `target="_blank` On the internal `<a>`.
+
+- ```html
+  <calcite-button type="submit">Submit</calcite-button>
+  ```
+
+  would set `type="submit"` On the internal `<button>`.
 
 ## Properties
 
@@ -23,7 +36,7 @@ Any additional attributes set on `<calcite-button>` are passed to the internal `
 | ------------- | --------------- | -------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | -------------- |
 | `alignment`   | `alignment`     | optionally specify alignment of button elements.                                                   | `"center" \| "end" \| "icon-end-space-between" \| "icon-start-space-between" \| "space-between" \| "start"` | `"center"`     |
 | `appearance`  | `appearance`    | specify the appearance style of the button, defaults to solid.                                     | `"clear" \| "outline" \| "solid" \| "transparent"`                                                          | `"solid"`      |
-| `color`       | `color`         | specify the color of the button, defaults to blue                                                  | `"blue" \| "dark" \| "light" \| "red"`                                                                      | `"blue"`       |
+| `color`       | `color`         | specify the color of the button, defaults to blue                                                  | `"blue" \| "inverse" \| "neutral" \| "red"`                                                                 | `"blue"`       |
 | `disabled`    | `disabled`      | is the button disabled                                                                             | `boolean`                                                                                                   | `undefined`    |
 | `href`        | `href`          | optionally pass a href - used to determine if the component should render as a button or an anchor | `string`                                                                                                    | `undefined`    |
 | `iconEnd`     | `icon-end`      | optionally pass an icon to display at the end of a button - accepts calcite ui icon names          | `string`                                                                                                    | `undefined`    |
@@ -49,7 +62,7 @@ Type: `Promise<void>`
 
 ### Used by
 
-- [calcite-color](../calcite-color)
+- [calcite-color-picker](../calcite-color-picker)
 - [calcite-fab](../calcite-fab)
 - [calcite-inline-editable](../calcite-inline-editable)
 - [calcite-split-button](../calcite-split-button)
@@ -65,7 +78,7 @@ Type: `Promise<void>`
 graph TD;
   calcite-button --> calcite-loader
   calcite-button --> calcite-icon
-  calcite-color --> calcite-button
+  calcite-color-picker --> calcite-button
   calcite-fab --> calcite-button
   calcite-inline-editable --> calcite-button
   calcite-split-button --> calcite-button

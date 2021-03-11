@@ -40,3 +40,5 @@ export const TEXT = {
   open: "Open",
   options: "Options"
 };
+
+export const HEADING_LEVEL = 3;

@@ -1,11 +1,10 @@
 :host {
-  display: flex;
+  @apply flex;
   max-width: 100vw;
 }
 :host([layout="horizontal"]) {
-  flex-direction: row;
-  flex-wrap: wrap;
+  @apply flex-row flex-wrap;
 }
 :host([layout="vertical"]) {
-  flex-direction: column;
+  @apply flex-col;
 }

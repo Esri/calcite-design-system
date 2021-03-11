@@ -19,6 +19,9 @@ import { InputPlacement } from "./interfaces";
 import { Position } from "../interfaces";
 import { guid } from "../../utils/guid";
 
+/**
+ * @slot `calcite-action` - A slot for positioning a button next to an input
+ */
 @Component({
   tag: "calcite-input",
   styleUrl: "calcite-input.scss",
@@ -122,13 +125,17 @@ export class CalciteInput {
   /** optionally add suffix  **/
   @Prop() suffixText?: string;
 
-  /** specify the alignment of dropdown, defaults to left */
+  /** specify the theme (light or dark) */
   @Prop({ reflect: true }) theme: Theme;
 
   /** The name of the input */
   @Prop() name?: string = "";
 
-  /** specify the input type */
+  /**
+   * specify the input type
+   *
+   * Note that the following types add type-specific icons by default: `date`, `email`, `password`, `search`, `tel`, `time`
+   */
   @Prop({ reflect: true }) type:
     | "color"
     | "date"
@@ -373,10 +380,19 @@ export class CalciteInput {
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * @internal
+   */
   @Event() calciteInputFocus: EventEmitter;
 
+  /**
+   * @internal
+   */
   @Event() calciteInputBlur: EventEmitter;
 
+  /**
+   * This event fires when the value of the input changes.
+   */
   @Event({ eventName: "calciteInputInput", cancelable: true }) calciteInputInput: EventEmitter;
 
   //--------------------------------------------------------------------------

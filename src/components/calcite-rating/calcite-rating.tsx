@@ -72,6 +72,9 @@ export class CalciteRating {
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * Fires when the rating value has changed.
+   */
   @Event() calciteRatingChange: EventEmitter<{ value: number }>;
 
   //--------------------------------------------------------------------------

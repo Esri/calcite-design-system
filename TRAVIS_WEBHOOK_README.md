@@ -1,18 +1,14 @@
 # Travis Webhook Instructions
 
-## Make sure travis is installed with gem
+## Make sure travis is installed with gem or Homebrew
 
-`gem install travis`
+`gem install travis` or `brew install travis`
 
 ## Login to travis
 
-`travis login --pro`
+Create a [personal access token on GitHub](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token).
 
-It will prompt you for the following:
-
-- GitHub/Travis Username.
-- GitHub/Travis Password.
-- GitHub/Travis two factor authentication key.
+`travis login --pro -g <github token>`
 
 ## Encrypt the webhook url
 

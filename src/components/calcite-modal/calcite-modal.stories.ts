@@ -31,7 +31,7 @@ export const Simple = (): string => {
             The small modal is perfect for short confirmation dialogs or very compact interfaces with few elements.
           </p>
         </div>
-        <calcite-button slot="back" color="light" appearance="outline" icon="chevron-left" width="full">Back</calcite-button>
+        <calcite-button slot="back" color="neutral" appearance="outline" icon="chevron-left" width="full">Back</calcite-button>
         <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
         <calcite-button slot="primary" width="full">Save</calcite-button>
       </calcite-modal>
@@ -51,7 +51,7 @@ export const CustomSize = (): string => {
             Below this size, the modal will become fullscreen.
           </p>
         </div>
-        <calcite-button slot="back" color="light" appearance="outline" icon="chevron-left" width="full">Back</calcite-button>
+        <calcite-button slot="back" color="neutral" appearance="outline" icon="chevron-left" width="full">Back</calcite-button>
         <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
         <calcite-button slot="primary" width="full">Save</calcite-button>
       </calcite-modal>
@@ -79,7 +79,7 @@ export const DarkMode = (): string => {
         The small modal is perfect for short confirmation dialogs or very compact interfaces with few elements.
       </p>
     </div>
-    <calcite-button theme="dark" slot="back" color="light" appearance="outline" icon="chevron-left" width="full">Back</calcite-button>
+    <calcite-button theme="dark" slot="back" color="neutral" appearance="outline" icon="chevron-left" width="full">Back</calcite-button>
     <calcite-button theme="dark" slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
     <calcite-button theme="dark" slot="primary" width="full">Save</calcite-button>
   </calcite-modal>

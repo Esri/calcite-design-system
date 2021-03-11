@@ -40,8 +40,7 @@ export class CalciteHandle {
   // --------------------------------------------------------------------------
 
   /**
-   * Emmitted when the the handle is activated and the up or down arrow key is pressed.
-   * @event calciteHandleNudge
+   * Emitted when the the handle is activated and the up or down arrow key is pressed.
    */
   @Event() calciteHandleNudge: EventEmitter;
 

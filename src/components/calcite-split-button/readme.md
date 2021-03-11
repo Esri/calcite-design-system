@@ -2,7 +2,11 @@
 
 The calcite-split-button control is one that combines a button with a dropdown menu in order to provide a primary action along with one or more related secondary options / actions. It's useful for grouping related actions or options for users, while elevating a commonly-used or default action for easier access. Its inner content populates the control's dropdown menu, and is thus expected to be valid `calcite-dropdown` content.
 
-Basic Usage:
+<!-- Auto Generated Below -->
+
+## Usage
+
+### Basic
 
 ```html
 <calcite-split-button primary-icon-start="save" primary-text="Primary Option">
@@ -14,14 +18,12 @@ Basic Usage:
 </calcite-split-button>
 ```
 
-<!-- Auto Generated Below -->
-
 ## Properties
 
 | Property             | Attribute               | Description                                                                                              | Type                                               | Default     |
 | -------------------- | ----------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ----------- |
 | `appearance`         | `appearance`            | specify the appearance style of the button, defaults to solid.                                           | `"clear" \| "outline" \| "solid" \| "transparent"` | `"solid"`   |
-| `color`              | `color`                 | specify the color of the control, defaults to blue                                                       | `"blue" \| "dark" \| "light" \| "red"`             | `"blue"`    |
+| `color`              | `color`                 | specify the color of the control, defaults to blue                                                       | `"blue" \| "inverse" \| "neutral" \| "red"`        | `"blue"`    |
 | `disabled`           | `disabled`              | is the control disabled                                                                                  | `boolean`                                          | `undefined` |
 | `dropdownIconType`   | `dropdown-icon-type`    | specify the icon used for the dropdown menu, defaults to chevron                                         | `"caret" \| "chevron" \| "ellipsis" \| "overflow"` | `"chevron"` |
 | `dropdownLabel`      | `dropdown-label`        | aria label for overflow button                                                                           | `string`                                           | `undefined` |

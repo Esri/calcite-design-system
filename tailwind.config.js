@@ -8,7 +8,8 @@ module.exports = {
         1: "var(--calcite-ui-border-1)",
         2: "var(--calcite-ui-border-2)",
         3: "var(--calcite-ui-border-3)",
-        input: "var(--calcite-ui-border-input)"
+        input: "var(--calcite-ui-border-input)",
+        transparent: theme("colors.transparent")
       },
       "color-brand": theme("colors.brand"),
       "color-brand-hover": theme("colors.brand-hover"),
@@ -20,10 +21,18 @@ module.exports = {
       "color-danger-hover": theme("colors.danger-hover"),
       "color-danger-press": theme("colors.danger-press"),
     }),
+    borderWidth: {
+      default: '1px',
+      "0": "0px",
+      "2": "2px",
+      "3": "3px",
+      "4": "4px",
+      "8": "8px"
+    },
     colors: {
       "brand": "var(--calcite-ui-brand)",
-      "brand-hover": "var(--calcite-brand-hover)",
-      "brand-press": "var(--calcite-brand-press)",
+      "brand-hover": "var(--calcite-ui-brand-hover)",
+      "brand-press": "var(--calcite-ui-brand-press)",
       "info": "var(--calcite-ui-info)",
       "success": "var(--calcite-ui-success)",
       "warning": "var(--calcite-ui-warning)",
@@ -67,7 +76,9 @@ module.exports = {
       6: "var(--calcite-font-size-6)",      // 48px
       7: "var(--calcite-font-size-7)",      // 56px
       8: "var(--calcite-font-size-8)",      // 64px
-      // TODO: temp selectors to be renamed before closing https://github.com/Esri/calcite-components/issues/1500
+      // TODO: temp selectors to be renamed before closing https://github.com/Esri/calcite-components/issues/1500.
+      // at this point all existing instances of text-N should be replaced with either text-Nh or text-N-wrap and we
+      // should be able to safely drop the "h" suffix.
       "-3h": [ "var(--calcite-font-size--3)", { lineHeight: '0.75rem' } ], // 10px (0.625rem)
       "-2h": [ "var(--calcite-font-size--2)", { lineHeight: '1rem' } ],    // 12px (0.75rem)
       "-1h": [ "var(--calcite-font-size--1)", { lineHeight: '1rem' } ],    // 14px (0.875rem)
@@ -80,6 +91,18 @@ module.exports = {
       "6h": [ "var(--calcite-font-size-6)", { lineHeight: '4rem' } ],      // 48px (3rem)
       "7h": [ "var(--calcite-font-size-7)", { lineHeight: '4rem' } ],      // 56px (3.5rem)
       "8h": [ "var(--calcite-font-size-8)", { lineHeight: '5rem' } ],      // 64px (4rem)
+      "-3-wrap": [ "var(--calcite-font-size--3)", { lineHeight: '1.375' } ],
+      "-2-wrap": [ "var(--calcite-font-size--2)", { lineHeight: '1.375' } ],
+      "-1-wrap": [ "var(--calcite-font-size--1)", { lineHeight: '1.375' } ],
+      "0-wrap": [ "var(--calcite-font-size-0)", { lineHeight: '1.375' } ],
+      "1-wrap": [ "var(--calcite-font-size-1)", { lineHeight: '1.375' } ],
+      "2-wrap": [ "var(--calcite-font-size-2)", { lineHeight: '1.375' } ],
+      "3-wrap": [ "var(--calcite-font-size-3)", { lineHeight: '1.25' } ],
+      "4-wrap": [ "var(--calcite-font-size-4)", { lineHeight: '1.25' } ],
+      "5-wrap": [ "var(--calcite-font-size-5)", { lineHeight: '1.25' } ],
+      "6-wrap": [ "var(--calcite-font-size-6)", { lineHeight: '1.25' } ],
+      "7-wrap": [ "var(--calcite-font-size-7)", { lineHeight: '1.25' } ],
+      "8-wrap": [ "var(--calcite-font-size-8)", { lineHeight: '1.25' } ],
     },
     fontWeight: {
       // assets/styles/_type
@@ -212,6 +235,12 @@ module.exports = {
         ".focus-inset": {
           "outline": "2px solid var(--calcite-ui-brand)",
           "outline-offset": "-2px"
+        },
+        ".transition-default": {
+          "transition-property": "all",
+          "transition-duration": "150ms",
+          "transition-timing-function": "ease-in-out",
+          "transition-delay": "0s"
         }
       }
       addUtilities(newUtilities);
@@ -230,6 +259,24 @@ module.exports = {
       const utilities = Object.assign({}, ...colorMap);
 
       addUtilities(utilities, variants('borderColor'));
+    },
+    ({ addUtilities, variants }) => {
+      const styles = [
+        'solid',
+        'dashed',
+        'dotted',
+        'double',
+        'none',
+      ];
+      const stylesMap = styles.map(style => ({
+        [`.border-t-${style}`]: {borderTopStyle: style},
+        [`.border-r-${style}`]: {borderRightStyle: style},
+        [`.border-b-${style}`]: {borderBottomStyle: style},
+        [`.border-l-${style}`]: {borderLeftStyle: style},
+      }));
+      const utilities = Object.assign({}, ...stylesMap);
+
+      addUtilities(utilities, variants('borderStyle'));
     },
   ],
   future: {

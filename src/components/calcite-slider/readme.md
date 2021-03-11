@@ -1,10 +1,18 @@
 # calcite-slider
 
-Range selection component for selecting single or multiple numeric values inside a given range:
+Range selection component for selecting single or multiple numeric values inside a given range.
+
+<!-- Auto Generated Below -->
+
+## Usage
+
+### Basic
 
 ```html
 <calcite-slider min="1" max="100" value="50" step="1"></calcite-slider>
 ```
+
+### Two-handles
 
 If you'd like to allow an upper and lower value selection (two handles), you can set `min-value` and `max-value` rather than `value`. Note: these are mutually exclusive.
 
@@ -19,8 +27,6 @@ If you'd like to allow an upper and lower value selection (two handles), you can
   max-label="Temperature (upper)"
 ></calcite-slider>
 ```
-
-<!-- Auto Generated Below -->
 
 ## Properties
 
