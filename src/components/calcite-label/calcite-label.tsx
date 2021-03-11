@@ -192,11 +192,9 @@ export class CalciteLabel {
   //--------------------------------------------------------------------------
 
   private setDisabledControls() {
-    this.labelEl?.childNodes.forEach((item) => {
+    this.labelEl?.childNodes.forEach((item: HTMLElement) => {
       if (item.nodeName.includes("CALCITE")) {
-        this.disabled
-          ? (item as HTMLElement).setAttribute("disabled", "")
-          : (item as HTMLElement).removeAttribute("disabled");
+        this.disabled ? item.setAttribute("disabled", "") : item.removeAttribute("disabled");
       }
     });
   }

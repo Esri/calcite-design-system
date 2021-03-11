@@ -450,10 +450,11 @@ export class CalciteInput {
     if (!this.slottedActionEl) {
       return;
     }
+    const slottedActionEl = this.slottedActionEl as HTMLElement;
 
     this.disabled
-      ? ((this.slottedActionEl as HTMLElement) as HTMLElement).setAttribute("disabled", "")
-      : ((this.slottedActionEl as HTMLElement) as HTMLElement).removeAttribute("disabled");
+      ? slottedActionEl.setAttribute("disabled", "")
+      : slottedActionEl.removeAttribute("disabled");
   }
 
   private clearInputValue = () => {
