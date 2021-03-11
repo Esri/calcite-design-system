@@ -1,15 +1,21 @@
 :host {
   @extend %component-host;
-  @apply items-stretch bg-transparent flex flex-col relative pb-0;
-  flex: 1 0 auto;
+  @apply items-stretch 
+    bg-transparent 
+    flex 
+    flex-col 
+    relative 
+    pb-0 
+    flex-grow 
+    flex-shrink-0;
 }
 
 header {
   @apply bg-foreground-1 
     flex 
     justify-end 
-    items-stretch;
-  margin-bottom: theme("spacing.1");
+    items-stretch
+    mb-1;
   &.sticky {
     @apply sticky top-0;
     z-index: 1;
@@ -18,7 +24,7 @@ header {
 }
 
 calcite-filter {
-  margin-bottom: 1px;
+  @apply mb-px;
 }
 
 calcite-scrim {
@@ -27,6 +33,5 @@ calcite-scrim {
 }
 
 :host([loading][disabled]) {
-  //FIXME: not sure what to do with this one. can I user theme("spacing.4")?
   min-height: 2rem;
 }
