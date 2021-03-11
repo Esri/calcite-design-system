@@ -56,9 +56,7 @@ describe("calcite-input-time-picker", () => {
 
   it("changing hour, minute and second values in the input reflects in the input, input-time-picker and time-picker for 24-hour display format", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-input-time-picker hour-display-format="24" value="00:00:00" step="1"></calcite-input-time-picker>`
-    );
+    await page.setContent(`<calcite-input-time-picker hour-display-format="24" step="1"></calcite-input-time-picker>`);
 
     const input = await page.find("calcite-input");
     const inputTimePicker = await page.find("calcite-input-time-picker");
@@ -67,85 +65,100 @@ describe("calcite-input-time-picker", () => {
     const minuteEl = await page.find("calcite-time-picker >>> span.minute");
     const secondEl = await page.find("calcite-time-picker >>> span.second");
 
-    // For some reason I have to start with a default value, then delete the values to get the following tests to work.
-    expect(await input.getProperty("value")).toBe("00:00:00");
-    expect(await inputTimePicker.getProperty("value")).toBe("00:00:00");
+    for (let second = 0; second < 60; second++) {
+      const date = new Date(0);
+      date.setSeconds(second);
 
-    await input.callMethod("setFocus");
-    await page.keyboard.press("Backspace");
-    await page.keyboard.press("ArrowRight");
-    await page.keyboard.press("Backspace");
-    await page.keyboard.press("ArrowRight");
-    await page.keyboard.press("Backspace");
-    await page.waitForChanges();
+      const expectedValue = date.toISOString().substr(11, 8);
+      const expectedHour = expectedValue.substr(0, 2);
+      const expectedMinute = expectedValue.substr(3, 2);
+      const expectedSecond = expectedValue.substr(6, 2);
 
-    expect(await input.getProperty("value")).toBe("");
-    expect(await inputTimePicker.getProperty("value")).toBe("");
-    expect(await timePicker.getProperty("hour")).toBe("--");
-    expect(await timePicker.getProperty("minute")).toBe("--");
-    expect(await timePicker.getProperty("second")).toBe("--");
-    expect(hourEl.textContent).toBe("--");
-    expect(minuteEl.textContent).toBe("--");
-    expect(secondEl.textContent).toBe("--");
+      input.setProperty("value", expectedValue);
 
-    for (let hour = 1; hour === 23; hour++) {
-      await page.keyboard.press("ArrowLeft");
-      await page.keyboard.press("ArrowLeft");
-      await page.keyboard.press("ArrowUp");
-      await page.keyboard.press("ArrowRight");
+      await page.waitForChanges();
 
-      for (let minute = 0; minute === 59; minute++) {
-        await page.keyboard.press("ArrowUp");
-        await page.waitForChanges();
+      const inputValue = await input.getProperty("value");
+      const inputTimePickerValue = await inputTimePicker.getProperty("value");
+      const timePickerHourValue = await timePicker.getProperty("hour");
+      const timePickerMinuteValue = await timePicker.getProperty("minute");
+      const timePickerSecondValue = await timePicker.getProperty("second");
+      const timePickerHourText = hourEl.textContent;
+      const timePickerMinuteText = minuteEl.textContent;
+      const timePickerSecondText = secondEl.textContent;
 
-        const inputValue = await input.getProperty("value");
-        const inputTimePickerValue = await inputTimePicker.getProperty("value");
-        const timePickerHourValue = await timePicker.getProperty("hour");
-        const timePickerMinuteValue = await timePicker.getProperty("minute");
-        const timePickerHourText = hourEl.textContent;
-        const timePickerMinuteText = minuteEl.textContent;
+      expect(inputValue).toBe(expectedValue);
+      expect(inputTimePickerValue).toBe(expectedValue);
+      expect(timePickerHourValue).toBe(expectedHour);
+      expect(timePickerMinuteValue).toBe(expectedMinute);
+      expect(timePickerSecondValue).toBe(expectedSecond);
+      expect(timePickerHourText).toBe(expectedHour);
+      expect(timePickerMinuteText).toBe(expectedMinute);
+      expect(timePickerSecondText).toBe(expectedSecond);
+    }
 
-        const expectedValue = `${formatNumberAsTimeString(hour)}:${formatNumberAsTimeString(minute)}`;
-        const expectedHourValue = formatNumberAsTimeString(hour);
-        const expectedMinuteValue = formatNumberAsTimeString(minute);
+    for (let minute = 0; minute < 60; minute++) {
+      const date = new Date(0);
+      date.setMinutes(minute);
 
-        expect(inputValue).toBe(expectedValue);
-        expect(inputTimePickerValue).toBe(expectedValue);
-        expect(timePickerHourValue).toBe(expectedHourValue);
-        expect(timePickerMinuteValue).toBe(expectedMinuteValue);
-        expect(timePickerHourText).toBe(expectedHourValue);
-        expect(timePickerMinuteText).toBe(expectedMinuteValue);
+      const expectedValue = date.toISOString().substr(11, 8);
+      const expectedHour = expectedValue.substr(0, 2);
+      const expectedMinute = expectedValue.substr(3, 2);
+      const expectedSecond = expectedValue.substr(6, 2);
 
-        await page.keyboard.press("ArrowRight");
+      input.setProperty("value", expectedValue);
 
-        for (let second = 0; second === 59; second++) {
-          await page.keyboard.press("ArrowUp");
-          await page.waitForChanges();
+      await page.waitForChanges();
 
-          const inputValue = await input.getProperty("value");
-          const inputTimePickerValue = await inputTimePicker.getProperty("value");
-          const timePickerHourValue = await timePicker.getProperty("hour");
-          const timePickerMinuteValue = await timePicker.getProperty("minute");
-          const timePickerSecondValue = await timePicker.getProperty("second");
-          const timePickerHourText = hourEl.textContent;
-          const timePickerMinuteText = minuteEl.textContent;
-          const timePickerSecondText = secondEl.textContent;
+      const inputValue = await input.getProperty("value");
+      const inputTimePickerValue = await inputTimePicker.getProperty("value");
+      const timePickerHourValue = await timePicker.getProperty("hour");
+      const timePickerMinuteValue = await timePicker.getProperty("minute");
+      const timePickerSecondValue = await timePicker.getProperty("second");
+      const timePickerHourText = hourEl.textContent;
+      const timePickerMinuteText = minuteEl.textContent;
+      const timePickerSecondText = secondEl.textContent;
 
-          const expectedValue = `${formatNumberAsTimeString(hour)}:${formatNumberAsTimeString(minute)}`;
-          const expectedHourValue = formatNumberAsTimeString(hour);
-          const expectedMinuteValue = formatNumberAsTimeString(minute);
-          const expectedSecondValue = formatNumberAsTimeString(second);
+      expect(inputValue).toBe(expectedValue);
+      expect(inputTimePickerValue).toBe(expectedValue);
+      expect(timePickerHourValue).toBe(expectedHour);
+      expect(timePickerMinuteValue).toBe(expectedMinute);
+      expect(timePickerSecondValue).toBe(expectedSecond);
+      expect(timePickerHourText).toBe(expectedHour);
+      expect(timePickerMinuteText).toBe(expectedMinute);
+      expect(timePickerSecondText).toBe(expectedSecond);
+    }
 
-          expect(inputValue).toBe(expectedValue);
-          expect(inputTimePickerValue).toBe(expectedValue);
-          expect(timePickerHourValue).toBe(expectedHourValue);
-          expect(timePickerMinuteValue).toBe(expectedMinuteValue);
-          expect(timePickerSecondValue).toBe(expectedSecondValue);
-          expect(timePickerHourText).toBe(expectedHourValue);
-          expect(timePickerMinuteText).toBe(expectedMinuteValue);
-          expect(timePickerSecondText).toBe(expectedSecondValue);
-        }
-      }
+    for (let hour = 0; hour < 24; hour++) {
+      const date = new Date(0);
+      date.setHours(hour);
+
+      const expectedValue = date.toISOString().substr(11, 8);
+      const expectedHour = expectedValue.substr(0, 2);
+      const expectedMinute = expectedValue.substr(3, 2);
+      const expectedSecond = expectedValue.substr(6, 2);
+
+      input.setProperty("value", expectedValue);
+
+      await page.waitForChanges();
+
+      const inputValue = await input.getProperty("value");
+      const inputTimePickerValue = await inputTimePicker.getProperty("value");
+      const timePickerHourValue = await timePicker.getProperty("hour");
+      const timePickerMinuteValue = await timePicker.getProperty("minute");
+      const timePickerSecondValue = await timePicker.getProperty("second");
+      const timePickerHourText = hourEl.textContent;
+      const timePickerMinuteText = minuteEl.textContent;
+      const timePickerSecondText = secondEl.textContent;
+
+      expect(inputValue).toBe(expectedValue);
+      expect(inputTimePickerValue).toBe(expectedValue);
+      expect(timePickerHourValue).toBe(expectedHour);
+      expect(timePickerMinuteValue).toBe(expectedMinute);
+      expect(timePickerSecondValue).toBe(expectedSecond);
+      expect(timePickerHourText).toBe(expectedHour);
+      expect(timePickerMinuteText).toBe(expectedMinute);
+      expect(timePickerSecondText).toBe(expectedSecond);
     }
   });
 });
