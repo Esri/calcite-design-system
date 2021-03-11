@@ -20,8 +20,9 @@
     bg-background 
     flex 
     p-0 
-    pointer-events-auto;
-  flex-flow: column nowrap;
+    pointer-events-auto
+    flex-col
+    flex-no-wrap;
   width: var(--calcite-shell-panel-width);
   max-width: var(--calcite-shell-panel-max-width);
   min-width: var(--calcite-shell-panel-min-width);
