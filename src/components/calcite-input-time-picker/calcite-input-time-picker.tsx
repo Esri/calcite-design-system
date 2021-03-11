@@ -44,6 +44,9 @@ export class CalciteInputTimePicker {
   /** The id attribute of the input time picker.  When omitted, a globally unique identifier is used. */
   @Prop({ reflect: true, mutable: true }) guid: string;
 
+  /** Format of the hour value (12-hour or 24-hour) (this will be replaced by locale eventually) */
+  @Prop({ reflect: true }) hourDisplayFormat: "12" | "24" = "12";
+
   /** The name of the time input */
   @Prop({ reflect: true }) name?: string;
 
@@ -308,11 +311,12 @@ export class CalciteInputTimePicker {
           corner-appearance="round"
           label="Time Picker"
           open={this.popoverOpen}
-          referenceElement={`${this.guid}-input`}
+          referenceElement={`${this.guid}-calcite-input`}
           theme={this.theme}
         >
           <calcite-time-picker
             hour={hour}
+            hour-display-format={this.hourDisplayFormat}
             minute={minute}
             scale={this.scale}
             second={second}
