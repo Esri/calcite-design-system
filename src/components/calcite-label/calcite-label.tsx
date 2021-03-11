@@ -60,7 +60,7 @@ export class CalciteLabel {
 
   @Watch("disabled")
   disabledWatcher(): void {
-    if (this.disabled) this.setDisabledControls();
+    this.setDisabledControls();
   }
   //--------------------------------------------------------------------------
   //
@@ -155,7 +155,7 @@ export class CalciteLabel {
   //--------------------------------------------------------------------------
 
   componentDidLoad(): void {
-    if (this.disabled) this.setDisabledControls();
+    this.setDisabledControls();
   }
 
   render(): VNode {
@@ -194,7 +194,9 @@ export class CalciteLabel {
   private setDisabledControls() {
     this.labelEl?.childNodes.forEach((item) => {
       if (item.nodeName.includes("CALCITE")) {
-        (item as HTMLElement).setAttribute("disabled", "");
+        this.disabled
+          ? (item as HTMLElement).setAttribute("disabled", "")
+          : (item as HTMLElement).removeAttribute("disabled");
       }
     });
   }
