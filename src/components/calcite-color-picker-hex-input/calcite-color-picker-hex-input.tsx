@@ -99,7 +99,7 @@ export class CalciteColorPickerHexInput {
   /**
    * The component's theme.
    */
-  @Prop({ reflect: true }) theme: Theme = "light";
+  @Prop({ reflect: true }) theme: Theme;
 
   /**
    * The hex value.

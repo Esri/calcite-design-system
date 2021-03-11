@@ -12,8 +12,7 @@ describe("calcite-radio-button-group", () => {
   it("has defaults", async () =>
     defaults("calcite-radio-button-group", [
       { propertyName: "layout", defaultValue: "horizontal" },
-      { propertyName: "scale", defaultValue: "m" },
-      { propertyName: "theme", defaultValue: "light" }
+      { propertyName: "scale", defaultValue: "m" }
     ]));
 
   it("honors hidden attribute", async () => {
@@ -313,11 +312,9 @@ describe("calcite-radio-button-group", () => {
     const name = await radio.getProperty("name");
     const scale = await radio.getProperty("scale");
     const required = await radio.getProperty("required");
-    const theme = await radio.getProperty("theme");
     expect(name).toBe("radio");
     expect(scale).toBe("m");
     expect(required).toBe(false);
-    expect(theme).toBe("light");
   });
 
   it("appropriately triggers the custom change event", async () => {

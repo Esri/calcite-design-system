@@ -137,10 +137,6 @@ describe("calcite-color-picker", () => {
         defaultValue: "m"
       },
       {
-        propertyName: "theme",
-        defaultValue: "light"
-      },
-      {
         propertyName: "value",
         defaultValue: "#007ac2"
       }

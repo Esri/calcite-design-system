@@ -1,5 +1,3 @@
-import { Theme } from "../components/interfaces";
-
 export function nodeListToArray<T extends Element>(nodeList: HTMLCollectionOf<T> | NodeListOf<T> | T[]): T[] {
   return Array.isArray(nodeList) ? nodeList : Array.from(nodeList);
 }
@@ -14,10 +12,6 @@ export function getAttributes(el: HTMLElement, blockList: string[]): Record<stri
 
 export function getElementDir(el: HTMLElement): Direction {
   return getElementProp(el, "dir", "ltr") as Direction;
-}
-
-export function getElementTheme(el: HTMLElement): Theme {
-  return getElementProp(el, "theme", "light") as Theme;
 }
 
 export function getElementProp(el: Element, prop: string, fallbackValue: any, crossShadowBoundary = false): any {
