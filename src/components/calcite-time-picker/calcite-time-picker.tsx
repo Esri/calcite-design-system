@@ -54,7 +54,7 @@ export class CalciteTimePicker {
   @Prop({ reflect: true }) step = 60;
 
   /** The color theme of the time-picker */
-  @Prop({ reflect: true }) theme: Theme = "light";
+  @Prop({ reflect: true }) theme: Theme;
 
   @Watch("hour")
   hourChanged(newHour: string): void {

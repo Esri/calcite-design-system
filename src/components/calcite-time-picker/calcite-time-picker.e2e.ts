@@ -43,8 +43,7 @@ describe("calcite-time-picker", () => {
       { propertyName: "minute", defaultValue: "--" },
       { propertyName: "second", defaultValue: "--" },
       { propertyName: "scale", defaultValue: "m" },
-      { propertyName: "step", defaultValue: 60 },
-      { propertyName: "theme", defaultValue: "light" }
+      { propertyName: "step", defaultValue: 60 }
     ]));
 
   it("reflects", async () =>
@@ -53,8 +52,7 @@ describe("calcite-time-picker", () => {
       { propertyName: "minute", value: "--" },
       { propertyName: "second", value: "--" },
       { propertyName: "scale", value: "m" },
-      { propertyName: "step", value: 60 },
-      { propertyName: "theme", value: "light" }
+      { propertyName: "step", value: 60 }
     ]));
 
   it("should focus the first input when setFocus is called", async () =>

@@ -12,8 +12,7 @@ describe("calcite-input-time-picker", () => {
       { propertyName: "active", defaultValue: false },
       { propertyName: "disabled", defaultValue: false },
       { propertyName: "scale", defaultValue: "m" },
-      { propertyName: "step", defaultValue: 60 },
-      { propertyName: "theme", defaultValue: "light" }
+      { propertyName: "step", defaultValue: 60 }
     ]));
 
   it("reflects", async () =>
@@ -24,7 +23,6 @@ describe("calcite-input-time-picker", () => {
       { propertyName: "name", value: "my-name" },
       { propertyName: "scale", value: "m" },
       { propertyName: "step", value: 60 },
-      { propertyName: "theme", value: "light" },
       { propertyName: "value", value: "00:00" }
     ]));
 

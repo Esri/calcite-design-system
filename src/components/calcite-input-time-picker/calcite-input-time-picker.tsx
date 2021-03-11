@@ -57,7 +57,7 @@ export class CalciteInputTimePicker {
   @Prop({ reflect: true }) step = 60;
 
   /** The color theme of the time-picker */
-  @Prop({ reflect: true }) theme: Theme = "light";
+  @Prop({ reflect: true }) theme: Theme;
 
   /** The selected time */
   @Prop({ reflect: true, mutable: true }) value?: string;
