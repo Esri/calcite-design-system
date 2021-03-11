@@ -122,7 +122,7 @@ export class CalciteRadioButton {
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /** The color theme of the radio button, <code>theme</code> is passed as a property automatically from <code>calcite-radio-button-group</code>. */
-  @Prop({ reflect: true }) theme: Theme = "light";
+  @Prop({ reflect: true }) theme: Theme;
 
   /** The value of the radio button. */
   @Prop({ reflect: true }) value!: string;

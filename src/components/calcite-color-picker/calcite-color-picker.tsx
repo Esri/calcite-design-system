@@ -192,7 +192,7 @@ export class CalciteColorPicker {
   @Prop({
     reflect: true
   })
-  theme: Theme = "light";
+  theme: Theme;
 
   /**
    * The color value.

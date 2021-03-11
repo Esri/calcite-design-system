@@ -41,7 +41,7 @@ export class CalciteTile {
   @Prop({ reflect: true }) icon?: string;
 
   /** The theme of the tile. */
-  @Prop({ reflect: true }) theme: Theme = "light";
+  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //
