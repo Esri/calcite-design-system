@@ -2,6 +2,57 @@
 
 <!-- Auto Generated Below -->
 
+## Usage
+
+### Basic
+
+```html
+<calcite-input value="Entered value" placeholder="My placeholder"></calcite-input>
+```
+
+### Native-events
+
+You can also listen for native events emitted from `<calcite-input>`.
+
+You must use `focusin`/`focusout` instead of `focus`/`blur` because these events bubble up from the rendered child element rendered inside of `<calcite-input>`
+
+All events return an element and a value:
+
+```js
+input.addEventListener("change", logChange);
+input.addEventListener("focusin", logFocus);
+input.addEventListener("focusout", logBlur);
+
+function logChange() {
+  console.log(event.target.element);
+  console.log(event.target.value);
+}
+```
+
+### With-label
+
+Using a wrapping `calcite-input` component lets consumers set the status attribute once and have it propagate to any child elements
+
+```html
+<calcite-label>
+  My great label
+  <calcite-input status="“invalid”" placeholder="“Enter" your information”></calcite-input>
+  <calcite-input-message status="“invalid”" active
+    >Here’s something you should know about this input</calcite-input-message
+  >
+</calcite-label>
+```
+
+### With-message
+
+```html
+<calcite-label status="valid">
+  My great label
+  <calcite-input placeholder="“Enter" your information”></calcite-input>
+  <calcite-input-message active>Here’s something you should know about this input</calcite-input-message>
+</calcite-label>
+```
+
 ## Properties
 
 | Property           | Attribute            | Description                                                                                                                                                                                                                                  | Type                                                                                                                                                                                   | Default      |
@@ -14,6 +65,7 @@
 | `iconFlipRtl`      | `icon-flip-rtl`      | flip the icon in rtl                                                                                                                                                                                                                         | `boolean`                                                                                                                                                                              | `undefined`  |
 | `loading`          | `loading`            | specify if the input is in loading state                                                                                                                                                                                                     | `boolean`                                                                                                                                                                              | `false`      |
 | `max`              | `max`                | input max                                                                                                                                                                                                                                    | `number`                                                                                                                                                                               | `undefined`  |
+| `maxlength`        | `maxlength`          | maximum length of text input                                                                                                                                                                                                                 | `number`                                                                                                                                                                               | `undefined`  |
 | `min`              | `min`                | input min                                                                                                                                                                                                                                    | `number`                                                                                                                                                                               | `undefined`  |
 | `numberButtonType` | `number-button-type` | specify the placement of the number buttons                                                                                                                                                                                                  | `"horizontal" \| "none" \| "vertical"`                                                                                                                                                 | `"vertical"` |
 | `placeholder`      | `placeholder`        | explicitly whitelist placeholder attribute                                                                                                                                                                                                   | `string`                                                                                                                                                                               | `undefined`  |
@@ -23,17 +75,15 @@
 | `status`           | `status`             | specify the status of the input field, determines message and icons                                                                                                                                                                          | `"idle" \| "invalid" \| "valid"`                                                                                                                                                       | `"idle"`     |
 | `step`             | `step`               | input step                                                                                                                                                                                                                                   | `"any" \| number`                                                                                                                                                                      | `undefined`  |
 | `suffixText`       | `suffix-text`        | optionally add suffix \*                                                                                                                                                                                                                     | `string`                                                                                                                                                                               | `undefined`  |
-| `theme`            | `theme`              | specify the alignment of dropdown, defaults to left                                                                                                                                                                                          | `"dark" \| "light"`                                                                                                                                                                    | `undefined`  |
-| `type`             | `type`               | specify the input type                                                                                                                                                                                                                       | `"color" \| "date" \| "datetime-local" \| "email" \| "file" \| "image" \| "month" \| "number" \| "password" \| "search" \| "tel" \| "text" \| "textarea" \| "time" \| "url" \| "week"` | `"text"`     |
+| `theme`            | `theme`              | specify the theme (light or dark)                                                                                                                                                                                                            | `"dark" \| "light"`                                                                                                                                                                    | `undefined`  |
+| `type`             | `type`               | specify the input type Note that the following types add type-specific icons by default: `date`, `email`, `password`, `search`, `tel`, `time`                                                                                                | `"color" \| "date" \| "datetime-local" \| "email" \| "file" \| "image" \| "month" \| "number" \| "password" \| "search" \| "tel" \| "text" \| "textarea" \| "time" \| "url" \| "week"` | `"text"`     |
 | `value`            | `value`              | input value                                                                                                                                                                                                                                  | `string`                                                                                                                                                                               | `""`         |
 
 ## Events
 
-| Event               | Description | Type               |
-| ------------------- | ----------- | ------------------ |
-| `calciteInputBlur`  |             | `CustomEvent<any>` |
-| `calciteInputFocus` |             | `CustomEvent<any>` |
-| `calciteInputInput` |             | `CustomEvent<any>` |
+| Event               | Description                                           | Type               |
+| ------------------- | ----------------------------------------------------- | ------------------ |
+| `calciteInputInput` | This event fires when the value of the input changes. | `CustomEvent<any>` |
 
 ## Methods
 
@@ -45,12 +95,18 @@ focus the rendered child element
 
 Type: `Promise<void>`
 
+## Slots
+
+| Slot                 | Description                                      |
+| -------------------- | ------------------------------------------------ |
+| `"`calcite-action`"` | A slot for positioning a button next to an input |
+
 ## Dependencies
 
 ### Used by
 
 - [calcite-color-picker](../calcite-color-picker)
-- [calcite-color-picker-hex-input](src/components/calcite-color-picker-hex-input)
+- [calcite-color-picker-hex-input](../calcite-color-picker-hex-input)
 - [calcite-input-date-picker](../calcite-input-date-picker)
 
 ### Depends on

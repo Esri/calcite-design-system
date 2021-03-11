@@ -4,6 +4,25 @@ Calcite stepper can be used to present a stepper workflow to a user. It has conf
 
 <!-- Auto Generated Below -->
 
+## Usage
+
+### Basic
+
+```html
+<calcite-stepper icon numbered id="my-example-stepper">
+  <calcite-stepper-item item-title="Choose method" item-subtitle="Add members without sending invitations" complete>
+    Step 1 Content Goes Here
+  </calcite-stepper-item>
+  <calcite-stepper-item item-title="Compile member list" error> Step 2 Content Goes Here </calcite-stepper-item>
+  <calcite-stepper-item item-title="Set member properties" item-subtitle="Some subtext" active>
+    Step 3 Content Goes Here
+  </calcite-stepper-item>
+  <calcite-stepper-item item-title="Confirm and complete" item-subtitle="Disabled example" disabled>
+    Step 4 Content Goes Here
+  </calcite-stepper-item>
+</calcite-stepper>
+```
+
 ## Properties
 
 | Property   | Attribute  | Description                                             | Type                         | Default        |
@@ -13,12 +32,6 @@ Calcite stepper can be used to present a stepper workflow to a user. It has conf
 | `numbered` | `numbered` | optionally display the number next to the step title    | `boolean`                    | `false`        |
 | `scale`    | `scale`    | specify the scale of stepper, defaults to m             | `"l" \| "m" \| "s"`          | `"m"`          |
 | `theme`    | `theme`    | specify the theme of stepper, defaults to light         | `"dark" \| "light"`          | `undefined`    |
-
-## Events
-
-| Event                      | Description | Type               |
-| -------------------------- | ----------- | ------------------ |
-| `calciteStepperItemChange` |             | `CustomEvent<any>` |
 
 ## Methods
 

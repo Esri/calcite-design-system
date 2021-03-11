@@ -8,15 +8,15 @@ The `calcite-action` component lives in either a `calcite-action-bar` or `calcit
 
 ### Basic
 
-#### Without text
+#### Without text displayed
 
 Renders a `calcite-action` that displays only an icon and a tooltip label.
 
 ```html
-<calcite-action label="Performs my custom action" icon="plus"></calcite-action>
+<calcite-action label="Performs my custom action" text="My Custom Action" icon="plus"></calcite-action>
 ```
 
-#### With text
+#### With text displayed
 
 Renders a `calcite-action` that displays text along side an icon and a tooltip label.
 
@@ -29,7 +29,7 @@ Renders a `calcite-action` that displays text along side an icon and a tooltip l
 Renders a `calcite-action` that has a clear background.
 
 ```html
-<calcite-action appearance="clear" icon="layers"></calcite-action>
+<calcite-action appearance="clear" text="Layers" icon="layers"></calcite-action>
 ```
 
 ## Properties
@@ -69,6 +69,7 @@ Type: `Promise<void>`
 ### Used by
 
 - [calcite-action-bar](../calcite-action-bar)
+- [calcite-action-menu](../calcite-action-menu)
 - [calcite-action-pad](../calcite-action-pad)
 - [calcite-panel](../calcite-panel)
 - [calcite-pick-list-item](../calcite-pick-list-item)
@@ -87,6 +88,7 @@ graph TD;
   calcite-action --> calcite-loader
   calcite-action --> calcite-icon
   calcite-action-bar --> calcite-action
+  calcite-action-menu --> calcite-action
   calcite-action-pad --> calcite-action
   calcite-panel --> calcite-action
   calcite-pick-list-item --> calcite-action

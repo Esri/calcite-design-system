@@ -23,3 +23,5 @@ export const SLOTS = {
   icon: "icon",
   control: "control"
 };
+
+export const HEADING_LEVEL = 4;

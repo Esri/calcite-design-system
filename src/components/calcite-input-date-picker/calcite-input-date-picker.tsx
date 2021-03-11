@@ -16,7 +16,7 @@ import {
 import { getLocaleData, DateLocaleData } from "../calcite-date-picker/utils";
 import { getElementDir } from "../../utils/dom";
 import { dateFromRange, inRange, dateFromISO, parseDateString, sameDate } from "../../utils/date";
-
+import { HeadingLevel } from "../functional/CalciteHeading";
 import { getKey } from "../../utils/key";
 import { TEXT } from "../calcite-date-picker/calcite-date-picker-resources";
 
@@ -46,6 +46,11 @@ export class CalciteInputDatePicker {
   //--------------------------------------------------------------------------
   /** Selected date */
   @Prop() value?: string;
+
+  /**
+   * Number at which section headings should start for this component.
+   */
+  @Prop() headingLevel: HeadingLevel;
 
   /** Selected date as full date object*/
   @Prop({ mutable: true }) valueAsDate?: Date;
@@ -230,6 +235,7 @@ export class CalciteInputDatePicker {
                   activeRange={this.focusedInput}
                   dir={dir}
                   endAsDate={this.endAsDate}
+                  headingLevel={this.headingLevel}
                   intlNextMonth={this.intlNextMonth}
                   intlPrevMonth={this.intlPrevMonth}
                   locale={this.locale}

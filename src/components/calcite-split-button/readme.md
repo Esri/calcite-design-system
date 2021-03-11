@@ -4,12 +4,26 @@ The calcite-split-button control is one that combines a button with a dropdown m
 
 <!-- Auto Generated Below -->
 
+## Usage
+
+### Basic
+
+```html
+<calcite-split-button primary-icon-start="save" primary-text="Primary Option">
+  <calcite-dropdown-group selection-mode="none">
+    <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+    <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+    <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+  </calcite-dropdown-group>
+</calcite-split-button>
+```
+
 ## Properties
 
 | Property             | Attribute               | Description                                                                                              | Type                                               | Default     |
 | -------------------- | ----------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ----------- |
 | `appearance`         | `appearance`            | specify the appearance style of the button, defaults to solid.                                           | `"clear" \| "outline" \| "solid" \| "transparent"` | `"solid"`   |
-| `color`              | `color`                 | specify the color of the control, defaults to blue                                                       | `"blue" \| "dark" \| "light" \| "red"`             | `"blue"`    |
+| `color`              | `color`                 | specify the color of the control, defaults to blue                                                       | `"blue" \| "inverse" \| "neutral" \| "red"`        | `"blue"`    |
 | `disabled`           | `disabled`              | is the control disabled                                                                                  | `boolean`                                          | `undefined` |
 | `dropdownIconType`   | `dropdown-icon-type`    | specify the icon used for the dropdown menu, defaults to chevron                                         | `"caret" \| "chevron" \| "ellipsis" \| "overflow"` | `"chevron"` |
 | `dropdownLabel`      | `dropdown-label`        | aria label for overflow button                                                                           | `string`                                           | `undefined` |

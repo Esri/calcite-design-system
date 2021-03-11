@@ -98,8 +98,12 @@ graph TD;
   calcite-action-pad --> calcite-action-group
   calcite-action-pad --> calcite-action
   calcite-action-pad --> calcite-tooltip-manager
+  calcite-action-group --> calcite-action-menu
+  calcite-action-menu --> calcite-action
+  calcite-action-menu --> calcite-popover
   calcite-action --> calcite-loader
   calcite-action --> calcite-icon
+  calcite-popover --> calcite-icon
   style calcite-action-pad fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

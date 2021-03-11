@@ -4,6 +4,54 @@
 
 <!-- Auto Generated Below -->
 
+## Usage
+
+### Basic
+
+Customize the modal by passing your content into multiple named slots: `header` (title-area of the modal), `content` (main body of the modal), and up to three modal actions: primary, secondary, and back.
+
+```html
+<calcite-modal aria-labelledby="modal-title">
+  <h3 slot="header" id="modal-title">Title of the modal</h3>
+  <div slot="content">The actual content of the modal</div>
+  <calcite-button slot="back" color="neutral" appearance="outline" icon="chevron-left" width="full">
+    Back
+  </calcite-button>
+  <calcite-button slot="secondary" width="full" appearance="outline"> Cancel </calcite-button>
+  <calcite-button slot="primary" width="full"> Save </calcite-button>
+</calcite-modal>
+```
+
+Notice above we've used the `aria-labelledby` attribute, relating it to the title of the modal. In order to ensure good accessibility, it's recommended that you use either an `aria-label` or `aria-labelledby` attribute so screen readers can infer what the subject matter of your modal is.
+
+### Open
+
+To open a modal, add the `active` prop:
+
+```html
+<calcite-modal active></calcite-modal>
+```
+
+Once the opening animation is complete, the `calciteModalOpen` event will be fired.
+
+To close the modal, simply remove the attribute. This will run your before close method (if provided, see below) and fire the `calciteModalClose` event after the animation and teardown is complete.
+
+### Reacting-before-close
+
+If you'd like to perform some actions prior to closing (ie. warning users they will lose their changes) you can pass a function to the `beforeClose` property. This method will be called prior to close and should return a [`Promise`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise):
+
+```js
+function beforeClose() {
+  return new Promise((resolve) => {
+    // do something async
+    resolve(); // this will trigger the close animation
+  });
+}
+
+const modal = document.getElementById("my-modal");
+modal.beforeClose = beforeClose;
+```
+
 ## Properties
 
 | Property             | Attribute              | Description                                                                                                 | Type                                 | Default                   |

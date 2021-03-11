@@ -88,7 +88,7 @@ Renders a value list with label editing and single select.
 | Event                    | Description                                           | Type               |
 | ------------------------ | ----------------------------------------------------- | ------------------ |
 | `calciteListChange`      | Emitted when any of the item selections have changed. | `CustomEvent<any>` |
-| `calciteListOrderChange` | Emmitted when the order of the list has changed.      | `CustomEvent<any>` |
+| `calciteListOrderChange` | Emitted when the order of the list has changed.       | `CustomEvent<any>` |
 
 ## Methods
 
