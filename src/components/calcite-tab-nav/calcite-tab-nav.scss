@@ -24,8 +24,8 @@
     right-0
     bottom-0
     absolute
-    overflow-hidden;
-  height: theme("height[0.5]");
+    overflow-hidden
+    h-0.5;
 }
 
 .tab-nav-active-indicator {
@@ -33,9 +33,9 @@
     bottom-0
     block
     transition-all
-    ease-out;
-  background: theme("colors.brand");
-  height: theme("height[0.5]");
+    ease-out
+    bg-brand
+    h-0.5;
 }
 
 :host([position="below"]) .tab-nav-active-indicator {
