@@ -555,7 +555,7 @@ export class CalciteTimePicker {
 
   render(): VNode {
     const iconScale = this.scale === "s" || this.scale === "m" ? "s" : "m";
-    const includeSeconds = this.step !== 60 ? true : false;
+    const includeSeconds = this.step !== 60;
     return (
       <Host>
         <div class="time-picker">
