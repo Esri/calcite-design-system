@@ -5,7 +5,7 @@ import { formatNumberAsTimeString } from "../../utils/time";
 describe("calcite-input-time-picker", () => {
   it("renders", async () => renders("calcite-input-time-picker"));
 
-  it("is accessible", async () => accessible(`<calcite-input-time-picker></calcite-input-time-picker>`));
+  it("is accessible", async () => accessible(`calcite-input-time-picker`));
 
   it("has defaults", async () =>
     defaults("calcite-input-time-picker", [
