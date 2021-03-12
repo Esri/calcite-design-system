@@ -14,24 +14,27 @@ export default {
 
 export const LightTheme = (): string => html`
   <calcite-time-picker
-    ${boolean("disabled", false)}
     ${boolean("hidden", false)}
+    hour="${text("hour", "10")}"
     hour-display-format="${select("hour-display-format", ["12", "24"], "12")}"
+    minute="${text("minute", "37")}"
     name="${text("name", "basic")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
+    second="${text("second", "0")}"
     step="${number("step", 1)}"
-    value="${text("value", "")}"
   >
   </calcite-time-picker>
 `;
 
 export const DarkTheme = (): string => html`
   <calcite-time-picker
-    ${boolean("disabled", false)}
     ${boolean("hidden", false)}
+    hour="${text("hour", "22")}"
     hour-display-format="${select("hour-display-format", ["12", "24"], "12")}"
+    minute="${text("minute", "37")}"
     name="${text("name", "basic")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
+    second="${text("second", "0")}"
     step="${number("step", 1)}"
     theme="dark"
     value="${text("value", "")}"

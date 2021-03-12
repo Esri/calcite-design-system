@@ -16,11 +16,11 @@ export const LightTheme = (): string => html`
   <calcite-input-time-picker
     ${boolean("disabled", false)}
     ${boolean("hidden", false)}
-    hour-display-format="${select("hour-display-format", ["12", "24"], "24")}"
-    name="${text("name", "basic")}"
+    hour-display-format="${select("hour-display-format", ["12", "24"], "12")}"
+    name="${text("name", "light")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     step="${number("step", 1)}"
-    value="${text("value", "")}"
+    value="${text("value", "10:37")}"
   >
   </calcite-input-time-picker>
 `;
@@ -29,12 +29,12 @@ export const DarkTheme = (): string => html`
   <calcite-input-time-picker
     ${boolean("disabled", false)}
     ${boolean("hidden", false)}
-    hour-display-format="${select("hour-display-format", ["12", "24"], "24")}"
-    name="${text("name", "basic")}"
+    hour-display-format="${select("hour-display-format", ["12", "24"], "12")}"
+    name="${text("name", "dark")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     step="${number("step", 1)}"
     theme="dark"
-    value="${text("value", "00:00")}"
+    value="${text("value", "22:37")}"
   >
   </calcite-input-time-picker>
 `;
