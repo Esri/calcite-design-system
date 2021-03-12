@@ -7,10 +7,9 @@
     w-full
     overflow-auto
     justify-start
-    scrolling-touch;
-  // workaround for outset focus within a scrolling container
-  padding: theme("padding.1");
-  margin: theme("margin.-1");
+    scrolling-touch
+    p-1
+    -m-1;
 }
 
 :host([layout="center"]) .tab-nav {
@@ -20,8 +19,7 @@
 // prevent indicator overflow in horizontal scrolling situations
 .tab-nav-active-indicator-container {
   @apply w-full
-    left-0
-    right-0
+    inset-x-0
     bottom-0
     absolute
     overflow-hidden

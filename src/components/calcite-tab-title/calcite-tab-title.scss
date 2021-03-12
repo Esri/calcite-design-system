@@ -12,8 +12,8 @@
 :host([position="below"]) a {
   @apply border-b-0
     border-t-2
-    border-t-solid
     border-t-color-transparent;
+  border-top-style: solid;
 }
 
 :host a {
@@ -52,16 +52,16 @@ span {
     truncate
     border-b-2
     border-b-color-transparent
-    border-b-solid
     w-full
     h-full
     flex
     justify-center
     text-color-3
-    text--1
+    text--1h
     transition-default
     px-0
     py-2;
+  border-bottom-style: solid;
 }
 
 span {
