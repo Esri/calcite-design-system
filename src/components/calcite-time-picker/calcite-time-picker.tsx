@@ -528,6 +528,18 @@ export class CalciteTimePicker {
     }
   }
 
+  componentDidLoad() {
+    if (this.hour) {
+      this.hour = formatNumberAsTimeString(parseInt(this.hour));
+    }
+    if (this.minute) {
+      this.minute = formatNumberAsTimeString(parseInt(this.minute));
+    }
+    if (this.second) {
+      this.second = formatNumberAsTimeString(parseInt(this.second));
+    }
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
