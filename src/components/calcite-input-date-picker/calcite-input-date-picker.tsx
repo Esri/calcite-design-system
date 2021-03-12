@@ -61,6 +61,12 @@ export class CalciteInputDatePicker {
   /** Selected end date as full date object*/
   @Prop({ mutable: true }) endAsDate?: Date;
 
+  /** Earliest allowed date as full date object */
+  @Prop({ mutable: true }) minAsDate?: Date;
+
+  /** Latest allowed date as full date object */
+  @Prop({ mutable: true }) maxAsDate?: Date;
+
   /** Earliest allowed date ("yyyy-mm-dd") */
   @Prop() min?: string;
 
@@ -175,8 +181,17 @@ export class CalciteInputDatePicker {
     if (this.start) {
       this.setStartAsDate(dateFromISO(this.start));
     }
+
     if (this.end) {
       this.setEndAsDate(dateFromISO(this.end));
+    }
+
+    if (this.min) {
+      this.minAsDate = dateFromISO(this.min);
+    }
+
+    if (this.max) {
+      this.maxAsDate = dateFromISO(this.max);
     }
 
     this.createPopper();
@@ -187,10 +202,14 @@ export class CalciteInputDatePicker {
   }
 
   render(): VNode {
-    const min = dateFromISO(this.min);
-    const max = dateFromISO(this.max);
-    const date = dateFromRange(this.range ? this.startAsDate : this.valueAsDate, min, max);
-    const endDate = this.range ? dateFromRange(this.endAsDate, min, max) : null;
+    const date = dateFromRange(
+      this.range ? this.startAsDate : this.valueAsDate,
+      this.minAsDate,
+      this.maxAsDate
+    );
+    const endDate = this.range
+      ? dateFromRange(this.endAsDate, this.minAsDate, this.maxAsDate)
+      : null;
     const formattedEndDate = endDate ? endDate.toLocaleDateString(this.locale) : "";
     const formattedDate = date ? date.toLocaleDateString(this.locale) : "";
     const dir = getElementDir(this.el);
@@ -240,7 +259,9 @@ export class CalciteInputDatePicker {
                   intlPrevMonth={this.intlPrevMonth}
                   locale={this.locale}
                   max={this.max}
+                  maxAsDate={this.maxAsDate}
                   min={this.min}
+                  minAsDate={this.minAsDate}
                   onCalciteDatePickerChange={this.handleDateChange}
                   onCalciteDatePickerRangeChange={this.handleDateRangeChange}
                   proximitySelectionDisabled={this.proximitySelectionDisabled}
