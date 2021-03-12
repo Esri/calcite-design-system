@@ -35,9 +35,6 @@ export class CalciteInputTimePicker {
   //
   //--------------------------------------------------------------------------
 
-  /** The active state of the time input.  When true, the time input popup is displayed. */
-  @Prop({ reflect: true }) active = false;
-
   /** The disabled state of the time input */
   @Prop({ reflect: true }) disabled?: boolean = false;
 
