@@ -26,7 +26,6 @@ calcite-pick-list-item {
     border-none 
     text-color-1
     cursor-move;
-  line-height: 0;
   &:hover {
     @apply bg-foreground-2 text-color-1;
   }
