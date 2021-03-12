@@ -296,7 +296,6 @@ export class CalciteInputTimePicker {
           value={this.value}
         />
         <calcite-popover
-          corner-appearance="round"
           label="Time Picker"
           open={this.popoverOpen}
           referenceElement={`${this.guid}-calcite-input`}

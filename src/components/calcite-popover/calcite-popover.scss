@@ -19,11 +19,7 @@ $image_max_height: 200px;
     flex-no-wrap
     flex-col
     text-color-1;
-}
-:host([corner-appearance="round"]) {
-  .container {
-    border-radius: var(--calcite-border-radius);
-  }
+  border-radius: var(--calcite-border-radius);
 }
 
 .content {
