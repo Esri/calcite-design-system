@@ -21,6 +21,7 @@ import {
   stringContainsOnlyNumbers,
   Time
 } from "../../utils/time";
+import { toHaveNoViolations } from "jest-axe";
 
 @Component({
   tag: "calcite-time-picker",
@@ -47,6 +48,42 @@ export class CalciteTimePicker {
 
   /** Format of the hour value (12-hour or 24-hour) (this will be replaced by locale eventually) */
   @Prop({ reflect: true }) hourDisplayFormat: "12" | "24" = "12";
+
+  /** aria-label for the hour input */
+  @Prop() intlHour = "hour";
+
+  /** aria-label for the hour down button */
+  @Prop() intlHourDown = "decrease hour";
+
+  /** aria-label for the hour up button */
+  @Prop() intlHourUp = "increase hour";
+
+  /** aria-label for the meridiem (am/pm) input */
+  @Prop() intlMeridiem = "AM/PM";
+
+  /** aria-label for the meridiem (am/pm) down button */
+  @Prop() intlMeridiemDown = "decrease AM/PM";
+
+  /** aria-label for the meridiem (am/pm) up button */
+  @Prop() intlMeridiemUp = "increase AM/PM";
+
+  /** aria-label for the minute input */
+  @Prop() intlMinute = "minute";
+
+  /** aria-label for the minute down button */
+  @Prop() intlMinuteDown = "decrease minute";
+
+  /** aria-label for the minute up button */
+  @Prop() intlMinuteUp = "increase minute";
+
+  /** aria-label for the second input */
+  @Prop() intlSecond = "second";
+
+  /** aria-label for the second down button */
+  @Prop() intlSecondDown = "decrease second";
+
+  /** aria-label for the second up button */
+  @Prop() intlSecondUp = "increase second";
 
   /** The minute value */
   @Prop({ reflect: true, mutable: true }) minute?: string = "--";
@@ -561,7 +598,7 @@ export class CalciteTimePicker {
         <div class="time-picker">
           <div>
             <span
-              aria-label="increase hour"
+              aria-label={this.intlHourUp}
               class="hour-up shift top-left"
               onClick={this.incrementHour}
               onKeyDown={this.incrementHour}
@@ -571,7 +608,7 @@ export class CalciteTimePicker {
               <calcite-icon icon="chevronup" scale={iconScale} />
             </span>
             <span
-              aria-label="Hour"
+              aria-label={this.intlHour}
               aria-valuemax="23"
               aria-valuemin="1"
               aria-valuenow={this.hour !== "--" ? parseInt(this.hour) : undefined}
@@ -587,7 +624,7 @@ export class CalciteTimePicker {
               {this.getDisplayHour()}
             </span>
             <span
-              aria-label="decrease hour"
+              aria-label={this.intlHourDown}
               class="hour-down shift bottom-left"
               onClick={this.decrementHour}
               onKeyDown={this.decrementHour}
@@ -600,7 +637,7 @@ export class CalciteTimePicker {
           <span class="colon">:</span>
           <div>
             <span
-              aria-label="increase minute"
+              aria-label={this.intlMinuteUp}
               class="minute-up shift"
               onClick={this.incrementMinute}
               onKeyDown={this.incrementMinute}
@@ -610,7 +647,7 @@ export class CalciteTimePicker {
               <calcite-icon icon="chevronup" scale={iconScale} />
             </span>
             <span
-              aria-label="Minute"
+              aria-label={this.intlMinute}
               aria-valuemax="12"
               aria-valuemin="1"
               aria-valuenow={this.minute !== "--" ? parseInt(this.minute) : undefined}
@@ -625,7 +662,7 @@ export class CalciteTimePicker {
               {this.minute}
             </span>
             <span
-              aria-label="decrease minute"
+              aria-label={this.intlMinuteDown}
               class="minute-down shift"
               onClick={this.decrementMinute}
               onKeyDown={this.decrementMinute}
@@ -639,7 +676,7 @@ export class CalciteTimePicker {
           {includeSeconds && (
             <div>
               <span
-                aria-label="increase second"
+                aria-label={this.intlSecondUp}
                 class="second-up shift"
                 onClick={this.incrementSecond}
                 onKeyDown={this.incrementSecond}
@@ -649,7 +686,7 @@ export class CalciteTimePicker {
                 <calcite-icon icon="chevronup" scale={iconScale} />
               </span>
               <span
-                aria-label="Second"
+                aria-label={this.intlSecond}
                 aria-valuemax="59"
                 aria-valuemin="0"
                 aria-valuenow={this.second !== "--" ? parseInt(this.second) : undefined}
@@ -664,7 +701,7 @@ export class CalciteTimePicker {
                 {this.second}
               </span>
               <span
-                aria-label="decrease second"
+                aria-label={this.intlSecondDown}
                 class="second-down shift"
                 onClick={this.decrementSecond}
                 onKeyDown={this.decrementSecond}
@@ -678,7 +715,7 @@ export class CalciteTimePicker {
           {this.hourDisplayFormat === "12" && (
             <div>
               <span
-                aria-label="switch to am or pm"
+                aria-label={this.intlMeridiemUp}
                 class="ampm-up shift top-right"
                 onClick={this.incrementAmPm}
                 onKeyDown={this.incrementAmPm}
@@ -688,7 +725,7 @@ export class CalciteTimePicker {
                 <calcite-icon icon="chevronup" scale={iconScale} />
               </span>
               <span
-                aria-label="AM/PM"
+                aria-label={this.intlMeridiem}
                 aria-valuemax="2"
                 aria-valuemin="1"
                 aria-valuenow={this.ampm !== "--" ? (this.ampm === "AM" ? "1" : "2") : undefined}
@@ -703,7 +740,7 @@ export class CalciteTimePicker {
                 {this.ampm}
               </span>
               <span
-                aria-label="switch to am or pm"
+                aria-label={this.intlMeridiemDown}
                 class="ampm-down shift bottom-right"
                 onClick={this.decrementAmPm}
                 onKeyDown={this.decrementAmPm}
