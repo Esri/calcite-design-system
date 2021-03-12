@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, focusable, reflects, renders } from "../../tests/commonTests";
-import { formatNumberAsTimeString } from "../calcite-time-picker/utils";
+import { formatNumberAsTimeString } from "../../utils/time";
 
 describe("calcite-input-time-picker", () => {
   it("renders", async () => renders("calcite-input-time-picker"));

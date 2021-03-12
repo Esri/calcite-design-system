@@ -20,7 +20,7 @@ import {
   numberKeys,
   stringContainsOnlyNumbers,
   Time
-} from "./utils";
+} from "../../utils/time";
 
 @Component({
   tag: "calcite-time-picker",

@@ -12,11 +12,7 @@ import {
   Method
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import {
-  formatNumberAsTimeString,
-  stringContainsOnlyNumbers,
-  Time
-} from "../calcite-time-picker/utils";
+import { formatNumberAsTimeString, stringContainsOnlyNumbers, Time } from "../../utils/time";
 import { Theme } from "../interfaces";
 
 @Component({

@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, focusable, reflects, renders } from "../../tests/commonTests";
-import { formatNumberAsTimeString } from "./utils";
+import { formatNumberAsTimeString } from "../../utils/time";
 
 const letterKeys = [
   "a",
