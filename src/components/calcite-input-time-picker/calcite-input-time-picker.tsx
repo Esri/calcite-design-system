@@ -12,7 +12,11 @@ import {
   Method
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { formatNumberAsTimeString, Time } from "../calcite-time-picker/utils";
+import {
+  formatNumberAsTimeString,
+  stringContainsOnlyNumbers,
+  Time
+} from "../calcite-time-picker/utils";
 import { Theme } from "../interfaces";
 
 @Component({
@@ -204,19 +208,6 @@ export class CalciteInputTimePicker {
     };
   };
 
-  private stringContainsOnlyNumbers(string): boolean {
-    const letters = /^[A-Za-z]+$/;
-    const numbers = /^[0-9]+$/;
-    const letterMatch = string.match(letters);
-    const numberMatch = string.match(numbers);
-    const hasLetters = Array.isArray(letterMatch);
-    const hasNumbers = Array.isArray(numberMatch);
-    if (hasNumbers && !hasLetters) {
-      return true;
-    }
-    return false;
-  }
-
   private setInputEl = (el: HTMLCalciteInputElement): void => {
     this.inputEl = el;
   };
@@ -233,19 +224,19 @@ export class CalciteInputTimePicker {
         const secondAsNumber = parseInt(splitValue[2]);
         const hourValid =
           hour &&
-          this.stringContainsOnlyNumbers(hour) &&
+          stringContainsOnlyNumbers(hour) &&
           !isNaN(hourAsNumber) &&
           hourAsNumber >= 0 &&
           hourAsNumber < 24;
         const minuteValid =
           minute &&
-          this.stringContainsOnlyNumbers(minute) &&
+          stringContainsOnlyNumbers(minute) &&
           !isNaN(minuteAsNumber) &&
           minuteAsNumber >= 0 &&
           minuteAsNumber < 60;
         const secondValid =
           second &&
-          this.stringContainsOnlyNumbers(second) &&
+          stringContainsOnlyNumbers(second) &&
           !isNaN(secondAsNumber) &&
           secondAsNumber >= 0 &&
           secondAsNumber < 60;

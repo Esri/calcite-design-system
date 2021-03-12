@@ -13,7 +13,14 @@ import {
   Method
 } from "@stencil/core";
 import { Scale, Theme } from "../interfaces";
-import { AmPm, formatNumberAsTimeString, MinuteOrSecond, numberKeys, Time } from "./utils";
+import {
+  AmPm,
+  formatNumberAsTimeString,
+  MinuteOrSecond,
+  numberKeys,
+  stringContainsOnlyNumbers,
+  Time
+} from "./utils";
 
 @Component({
   tag: "calcite-time-picker",
@@ -529,13 +536,13 @@ export class CalciteTimePicker {
   }
 
   componentDidLoad() {
-    if (this.hour) {
+    if (stringContainsOnlyNumbers(this.hour)) {
       this.hour = formatNumberAsTimeString(parseInt(this.hour));
     }
-    if (this.minute) {
+    if (stringContainsOnlyNumbers(this.minute)) {
       this.minute = formatNumberAsTimeString(parseInt(this.minute));
     }
-    if (this.second) {
+    if (stringContainsOnlyNumbers(this.second)) {
       this.second = formatNumberAsTimeString(parseInt(this.second));
     }
   }
