@@ -21,7 +21,6 @@ import {
   stringContainsOnlyNumbers,
   Time
 } from "../../utils/time";
-import { toHaveNoViolations } from "jest-axe";
 
 @Component({
   tag: "calcite-time-picker",
