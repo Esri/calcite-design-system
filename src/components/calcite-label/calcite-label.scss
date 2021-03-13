@@ -13,21 +13,18 @@
 }
 
 :host([scale="s"]) {
-  --calcite-label-margin-bottom: theme("spacing.2");
   label {
-    @apply text--2h;
+    @apply text--2h mb-3;
   }
 }
 :host([scale="m"]) {
-  --calcite-label-margin-bottom: theme("spacing[3]");
   label {
-    @apply text--1h;
+    @apply text--1h mb-3.5;
   }
 }
 :host([scale="l"]) {
-  --calcite-label-margin-bottom: theme("spacing.4");
   label {
-    @apply text-1h;
+    @apply text-1h mb-4;
   }
 }
 
@@ -38,7 +35,6 @@
     mr-0 
     ml-0
     leading-snug;
-  margin-bottom: var(--calcite-label-margin-bottom);
 }
 
 :host([layout="default"]) {
@@ -56,15 +52,14 @@
 
 :host([layout="inline-space-between"]) {
   label {
-    @apply justify-between
+    @apply justify-between;
   }
 }
 
 // disabled styles
 :host([disabled]) {
   & > label {
-    @apply pointer-events-none;
-    opacity: var(--calcite-ui-opacity-disabled);
+    @apply pointer-events-none opacity-disabled;
   }
   ::slotted(*) {
     @apply pointer-events-none;
