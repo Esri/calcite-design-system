@@ -592,6 +592,9 @@ export class CalciteTimePicker {
   render(): VNode {
     const iconScale = this.scale === "s" || this.scale === "m" ? "s" : "m";
     const includeSeconds = this.step !== 60;
+    const hourIsNumber = stringContainsOnlyNumbers(this.hour);
+    const minuteIsNumber = stringContainsOnlyNumbers(this.minute);
+    const secondIsNumber = stringContainsOnlyNumbers(this.second);
     return (
       <Host>
         <div class="time-picker">
@@ -610,7 +613,7 @@ export class CalciteTimePicker {
               aria-label={this.intlHour}
               aria-valuemax="23"
               aria-valuemin="1"
-              aria-valuenow={this.hour !== "--" ? parseInt(this.hour) : undefined}
+              aria-valuenow={hourIsNumber && parseInt(this.hour)}
               aria-valuetext={this.hour !== "--" ? this.hour : undefined}
               class="hour input"
               onBlur={this.hourBlurHandler}
@@ -649,7 +652,7 @@ export class CalciteTimePicker {
               aria-label={this.intlMinute}
               aria-valuemax="12"
               aria-valuemin="1"
-              aria-valuenow={this.minute !== "--" ? parseInt(this.minute) : undefined}
+              aria-valuenow={minuteIsNumber && parseInt(this.minute)}
               aria-valuetext={this.minute !== "--" ? this.minute : undefined}
               class="minute input"
               onFocus={this.focusHandler}
@@ -688,7 +691,7 @@ export class CalciteTimePicker {
                 aria-label={this.intlSecond}
                 aria-valuemax="59"
                 aria-valuemin="0"
-                aria-valuenow={this.second !== "--" ? parseInt(this.second) : undefined}
+                aria-valuenow={secondIsNumber && parseInt(this.second)}
                 aria-valuetext={this.second !== "--" ? this.second : undefined}
                 class="second input"
                 onFocus={this.focusHandler}
