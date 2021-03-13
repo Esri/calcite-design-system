@@ -17,7 +17,6 @@ describe("calcite-input-time-picker", () => {
   it("reflects", async () =>
     reflects(`calcite-input-time-picker`, [
       { propertyName: "disabled", value: true },
-      { propertyName: "guid", value: "my-id" },
       { propertyName: "name", value: "my-name" },
       { propertyName: "scale", value: "m" },
       { propertyName: "step", value: 60 },

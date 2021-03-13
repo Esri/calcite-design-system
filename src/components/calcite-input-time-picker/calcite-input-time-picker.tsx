@@ -38,9 +38,6 @@ export class CalciteInputTimePicker {
   /** The disabled state of the time input */
   @Prop({ reflect: true }) disabled?: boolean = false;
 
-  /** The id attribute of the input time picker.  When omitted, a globally unique identifier is used. */
-  @Prop({ reflect: true, mutable: true }) guid: string;
-
   /** Format of the hour value (12-hour or 24-hour) (this will be replaced by locale eventually) */
   @Prop({ reflect: true }) hourDisplayFormat: "12" | "24" = "12";
 
@@ -64,6 +61,8 @@ export class CalciteInputTimePicker {
   //  Private Properties
   //
   //--------------------------------------------------------------------------
+
+  private guid: string;
 
   private inputEl: HTMLCalciteInputElement;
 
