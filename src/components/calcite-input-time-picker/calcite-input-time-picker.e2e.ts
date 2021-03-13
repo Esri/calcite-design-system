@@ -9,7 +9,6 @@ describe("calcite-input-time-picker", () => {
 
   it("has defaults", async () =>
     defaults("calcite-input-time-picker", [
-      { propertyName: "active", defaultValue: false },
       { propertyName: "disabled", defaultValue: false },
       { propertyName: "scale", defaultValue: "m" },
       { propertyName: "step", defaultValue: 60 }
@@ -17,7 +16,6 @@ describe("calcite-input-time-picker", () => {
 
   it("reflects", async () =>
     reflects(`calcite-input-time-picker`, [
-      { propertyName: "active", value: true },
       { propertyName: "disabled", value: true },
       { propertyName: "guid", value: "my-id" },
       { propertyName: "name", value: "my-name" },
@@ -32,8 +30,9 @@ describe("calcite-input-time-picker", () => {
     }));
 
   it("opens the time picker on input keyboard focus", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-input-time-picker></calcite-input-time-picker>`);
+    const page = await newE2EPage({
+      html: `<calcite-input-time-picker></calcite-input-time-picker>`
+    });
     const popover = await page.find("calcite-popover");
 
     await page.keyboard.press("Tab");
@@ -43,8 +42,9 @@ describe("calcite-input-time-picker", () => {
   });
 
   it("opens the time picker on input click", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-input-time-picker></calcite-input-time-picker>`);
+    const page = await newE2EPage({
+      html: `<calcite-input-time-picker></calcite-input-time-picker>`
+    });
     const input = await page.find("input");
     const popover = await page.find("calcite-popover");
 
@@ -55,8 +55,9 @@ describe("calcite-input-time-picker", () => {
   });
 
   it("changing hour, minute and second values in the input reflects in the input, input-time-picker and time-picker for 24-hour display format", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-input-time-picker hour-display-format="24" step="1"></calcite-input-time-picker>`);
+    const page = await newE2EPage({
+      html: `<calcite-input-time-picker hour-display-format="24" step="1"></calcite-input-time-picker>`
+    });
 
     const input = await page.find("calcite-input");
     const inputTimePicker = await page.find("calcite-input-time-picker");
@@ -163,8 +164,9 @@ describe("calcite-input-time-picker", () => {
   });
 
   it("changing hour, minute and second values in the input reflects in the input, input-time-picker and time-picker for 12-hour display format", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-input-time-picker hour-display-format="12" step="1"></calcite-input-time-picker>`);
+    const page = await newE2EPage({
+      html: `<calcite-input-time-picker hour-display-format="12" step="1"></calcite-input-time-picker>`
+    });
 
     const input = await page.find("calcite-input");
     const inputTimePicker = await page.find("calcite-input-time-picker");
