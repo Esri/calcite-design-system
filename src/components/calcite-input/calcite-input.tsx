@@ -58,7 +58,7 @@ export class CalciteInput {
 
   @Watch("disabled")
   disabledWatcher(): void {
-    if (this.disabled) this.setDisabledAction();
+    this.setDisabledAction();
   }
 
   /** The id attribute of the calcite-input.  When omitted, a globally unique identifier is used. */
@@ -200,7 +200,7 @@ export class CalciteInput {
 
   componentDidLoad(): void {
     this.slottedActionEl = this.el.querySelector("[slot=input-action]");
-    if (this.disabled) this.setDisabledAction();
+    this.setDisabledAction();
   }
 
   get isTextarea(): boolean {
@@ -464,7 +464,14 @@ export class CalciteInput {
   };
 
   private setDisabledAction(): void {
-    if (this.slottedActionEl) (this.slottedActionEl as HTMLElement).setAttribute("disabled", "");
+    if (!this.slottedActionEl) {
+      return;
+    }
+    const slottedActionEl = this.slottedActionEl as HTMLElement;
+
+    this.disabled
+      ? slottedActionEl.setAttribute("disabled", "")
+      : slottedActionEl.removeAttribute("disabled");
   }
 
   private clearInputValue = () => {
