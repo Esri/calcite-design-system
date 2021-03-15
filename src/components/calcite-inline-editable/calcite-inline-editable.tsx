@@ -67,7 +67,7 @@ export class CalciteInlineEditable {
   @Prop({ reflect: true, mutable: true }) scale?: Scale;
 
   /** specify the theme of the inline-editable component, defaults to the theme of the wrapped calcite-input or the theme of the closest wrapping component with a set theme */
-  @Prop({ reflect: true, mutable: true }) theme?: Theme;
+  @Prop({ reflect: true }) theme?: Theme;
 
   /** when controls, specify a callback to be executed prior to disabling editing. when provided, loading state will be handled automatically. */
   @Prop() afterConfirm?: () => Promise<void>;
@@ -83,8 +83,6 @@ export class CalciteInlineEditable {
     this.inputElement.disabled = this.disabled;
     this.scale =
       this.scale || this.inputElement.scale || getElementProp(this.el, "scale", undefined);
-    this.theme =
-      this.theme || this.inputElement.theme || getElementProp(this.el, "theme", undefined);
   }
 
   componentDidLoad() {
