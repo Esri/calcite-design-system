@@ -612,7 +612,7 @@ export class CalciteTimePicker {
               role="button"
               tabIndex={-1}
             >
-              <calcite-icon icon="chevronup" scale={iconScale} />
+              <calcite-icon icon="chevron-up" scale={iconScale} />
             </span>
             <span
               aria-label={this.intlHour}
@@ -645,7 +645,7 @@ export class CalciteTimePicker {
               role="button"
               tabIndex={-1}
             >
-              <calcite-icon icon="chevrondown" scale={iconScale} />
+              <calcite-icon icon="chevron-down" scale={iconScale} />
             </span>
           </div>
           <span class={CSS.delimiter}>:</span>
@@ -661,7 +661,7 @@ export class CalciteTimePicker {
               role="button"
               tabIndex={-1}
             >
-              <calcite-icon icon="chevronup" scale={iconScale} />
+              <calcite-icon icon="chevron-up" scale={iconScale} />
             </span>
             <span
               aria-label={this.intlMinute}
@@ -692,7 +692,7 @@ export class CalciteTimePicker {
               role="button"
               tabIndex={-1}
             >
-              <calcite-icon icon="chevrondown" scale={iconScale} />
+              <calcite-icon icon="chevron-down" scale={iconScale} />
             </span>
           </div>
           {includeSeconds && <span class={CSS.delimiter}>:</span>}
@@ -709,7 +709,7 @@ export class CalciteTimePicker {
                 role="button"
                 tabIndex={-1}
               >
-                <calcite-icon icon="chevronup" scale={iconScale} />
+                <calcite-icon icon="chevron-up" scale={iconScale} />
               </span>
               <span
                 aria-label={this.intlSecond}
@@ -740,7 +740,7 @@ export class CalciteTimePicker {
                 role="button"
                 tabIndex={-1}
               >
-                <calcite-icon icon="chevrondown" scale={iconScale} />
+                <calcite-icon icon="chevron-down" scale={iconScale} />
               </span>
             </div>
           )}
@@ -758,7 +758,7 @@ export class CalciteTimePicker {
                 role="button"
                 tabIndex={-1}
               >
-                <calcite-icon icon="chevronup" scale={iconScale} />
+                <calcite-icon icon="chevron-up" scale={iconScale} />
               </span>
               <span
                 aria-label={this.intlMeridiem}
@@ -792,7 +792,7 @@ export class CalciteTimePicker {
                 role="button"
                 tabIndex={-1}
               >
-                <calcite-icon icon="chevrondown" scale={iconScale} />
+                <calcite-icon icon="chevron-down" scale={iconScale} />
               </span>
             </div>
           )}
