@@ -18,7 +18,7 @@ span {
   display: inline-flex;
   justify-content: center;
 
-  &.shift {
+  &.button {
     cursor: pointer;
     &:hover,
     &:focus {
@@ -50,7 +50,7 @@ span {
   &.input {
     font-weight: var(--calcite-ui-text-weight-medium);
     position: relative;
-    &:hover:not(.colon) {
+    &:hover:not(.delimiter) {
       box-shadow: inset 0 0 0 2px var(--calcite-ui-foreground-2);
     }
     &:focus,
@@ -67,7 +67,7 @@ span {
     height: 24px;
     width: 40px;
   }
-  .colon {
+  .delimiter {
     height: 72px;
   }
 }
@@ -98,7 +98,7 @@ span {
     height: 32px;
     width: 44px;
   }
-  .colon {
+  .delimiter {
     height: 96px;
   }
 }
@@ -129,7 +129,7 @@ span {
     height: 48px;
     width: 64px;
   }
-  .colon {
+  .delimiter {
     height: 144px;
   }
 }

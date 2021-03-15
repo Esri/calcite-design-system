@@ -1,0 +1,22 @@
+export const CSS = {
+  bottomLeft: "bottom-left",
+  bottomRight: "bottom-right",
+  button: "button",
+  delimiter: "delimiter",
+  hour: "hour",
+  hourDown: "hour-down",
+  hourUp: "hour-up",
+  input: "input",
+  meridiem: "meridiem",
+  meridiemDown: "meridiem-down",
+  meridiemUp: "meridiem-up",
+  minute: "minute",
+  minuteDown: "minute-down",
+  minuteUp: "minute-up",
+  second: "second",
+  secondDown: "second-down",
+  secondUp: "second-up",
+  timePicker: "time-picker",
+  topLeft: "top-left",
+  topRight: "top-right"
+};

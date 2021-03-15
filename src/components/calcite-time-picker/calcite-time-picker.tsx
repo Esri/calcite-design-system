@@ -21,6 +21,7 @@ import {
   stringContainsOnlyNumbers,
   Time
 } from "../../utils/time";
+import { CSS } from "./resources";
 
 @Component({
   tag: "calcite-time-picker",
@@ -597,11 +598,15 @@ export class CalciteTimePicker {
     const secondIsNumber = stringContainsOnlyNumbers(this.second);
     return (
       <Host>
-        <div class="time-picker">
+        <div class={CSS.timePicker}>
           <div>
             <span
               aria-label={this.intlHourUp}
-              class="hour-up shift top-left"
+              class={{
+                [CSS.button]: true,
+                [CSS.hourUp]: true,
+                [CSS.topLeft]: true
+              }}
               onClick={this.incrementHour}
               onKeyDown={this.incrementHour}
               role="button"
@@ -615,7 +620,10 @@ export class CalciteTimePicker {
               aria-valuemin="1"
               aria-valuenow={hourIsNumber && parseInt(this.hour)}
               aria-valuetext={this.hour !== "--" ? this.hour : undefined}
-              class="hour input"
+              class={{
+                [CSS.input]: true,
+                [CSS.hour]: true
+              }}
               onBlur={this.hourBlurHandler}
               onFocus={this.focusHandler}
               onKeyDown={this.hourKeyDownHandler}
@@ -627,7 +635,11 @@ export class CalciteTimePicker {
             </span>
             <span
               aria-label={this.intlHourDown}
-              class="hour-down shift bottom-left"
+              class={{
+                [CSS.button]: true,
+                [CSS.hourDown]: true,
+                [CSS.bottomLeft]: true
+              }}
               onClick={this.decrementHour}
               onKeyDown={this.decrementHour}
               role="button"
@@ -636,11 +648,14 @@ export class CalciteTimePicker {
               <calcite-icon icon="chevrondown" scale={iconScale} />
             </span>
           </div>
-          <span class="colon">:</span>
+          <span class={CSS.delimiter}>:</span>
           <div>
             <span
               aria-label={this.intlMinuteUp}
-              class="minute-up shift"
+              class={{
+                [CSS.button]: true,
+                [CSS.minuteUp]: true
+              }}
               onClick={this.incrementMinute}
               onKeyDown={this.incrementMinute}
               role="button"
@@ -654,7 +669,10 @@ export class CalciteTimePicker {
               aria-valuemin="1"
               aria-valuenow={minuteIsNumber && parseInt(this.minute)}
               aria-valuetext={this.minute !== "--" ? this.minute : undefined}
-              class="minute input"
+              class={{
+                [CSS.input]: true,
+                [CSS.minute]: true
+              }}
               onFocus={this.focusHandler}
               onKeyDown={this.minuteKeyDownHandler}
               ref={(el) => (this.minuteEl = el)}
@@ -665,7 +683,10 @@ export class CalciteTimePicker {
             </span>
             <span
               aria-label={this.intlMinuteDown}
-              class="minute-down shift"
+              class={{
+                [CSS.button]: true,
+                [CSS.minuteDown]: true
+              }}
               onClick={this.decrementMinute}
               onKeyDown={this.decrementMinute}
               role="button"
@@ -674,12 +695,15 @@ export class CalciteTimePicker {
               <calcite-icon icon="chevrondown" scale={iconScale} />
             </span>
           </div>
-          {includeSeconds && <span class="colon">:</span>}
+          {includeSeconds && <span class={CSS.delimiter}>:</span>}
           {includeSeconds && (
             <div>
               <span
                 aria-label={this.intlSecondUp}
-                class="second-up shift"
+                class={{
+                  [CSS.button]: true,
+                  [CSS.secondUp]: true
+                }}
                 onClick={this.incrementSecond}
                 onKeyDown={this.incrementSecond}
                 role="button"
@@ -693,7 +717,10 @@ export class CalciteTimePicker {
                 aria-valuemin="0"
                 aria-valuenow={secondIsNumber && parseInt(this.second)}
                 aria-valuetext={this.second !== "--" ? this.second : undefined}
-                class="second input"
+                class={{
+                  [CSS.input]: true,
+                  [CSS.second]: true
+                }}
                 onFocus={this.focusHandler}
                 onKeyDown={this.secondKeyDownHandler}
                 ref={(el) => (this.secondEl = el)}
@@ -704,7 +731,10 @@ export class CalciteTimePicker {
               </span>
               <span
                 aria-label={this.intlSecondDown}
-                class="second-down shift"
+                class={{
+                  [CSS.button]: true,
+                  [CSS.secondDown]: true
+                }}
                 onClick={this.decrementSecond}
                 onKeyDown={this.decrementSecond}
                 role="button"
@@ -718,7 +748,11 @@ export class CalciteTimePicker {
             <div>
               <span
                 aria-label={this.intlMeridiemUp}
-                class="ampm-up shift top-right"
+                class={{
+                  [CSS.button]: true,
+                  [CSS.meridiemUp]: true,
+                  [CSS.topRight]: true
+                }}
                 onClick={this.incrementAmPm}
                 onKeyDown={this.incrementAmPm}
                 role="button"
@@ -732,7 +766,10 @@ export class CalciteTimePicker {
                 aria-valuemin="1"
                 aria-valuenow={this.ampm !== "--" ? (this.ampm === "AM" ? "1" : "2") : undefined}
                 aria-valuetext={this.ampm !== "--" ? this.ampm : undefined}
-                class="ampm input"
+                class={{
+                  [CSS.input]: true,
+                  [CSS.meridiem]: true
+                }}
                 onFocus={this.focusHandler}
                 onKeyDown={this.amPmKeyDownHandler}
                 ref={(el) => (this.amPmEl = el)}
@@ -743,7 +780,11 @@ export class CalciteTimePicker {
               </span>
               <span
                 aria-label={this.intlMeridiemDown}
-                class="ampm-down shift bottom-right"
+                class={{
+                  [CSS.button]: true,
+                  [CSS.meridiemDown]: true,
+                  [CSS.bottomRight]: true
+                }}
                 onClick={this.decrementAmPm}
                 onKeyDown={this.decrementAmPm}
                 role="button"
