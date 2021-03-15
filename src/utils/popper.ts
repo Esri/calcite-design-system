@@ -2,8 +2,21 @@ import { Placement, Instance as Popper, createPopper as setupPopper, StrictModif
 import { getElementDir } from "./dom";
 
 type PlacementRtl = "leading-start" | "leading" | "leading-end" | "trailing-end" | "trailing" | "trailing-start";
+type VariationRtl =
+  | "leading-leading"
+  | "leading-trailing"
+  | "trailing-leading"
+  | "trailing-trailing"
+  | "top-leading"
+  | "top-trailing"
+  | "bottom-leading"
+  | "bottom-trailing"
+  | "right-leading"
+  | "right-trailing"
+  | "left-leading"
+  | "left-trailing";
 
-export type PopperPlacement = Placement | PlacementRtl;
+export type PopperPlacement = Placement | PlacementRtl | VariationRtl;
 
 export const CSS = {
   animation: "calcite-popper-anim",
@@ -11,13 +24,19 @@ export const CSS = {
 };
 
 export function getPlacement(el: HTMLElement, placement: PopperPlacement): Placement {
-  const values = ["left", "right"];
+  const placements = ["left", "right"];
+  const variations = ["start", "end"];
 
   if (getElementDir(el) === "rtl") {
-    values.reverse();
+    placements.reverse();
+    variations.reverse();
   }
 
-  return placement.replace(/leading/gi, values[0]).replace(/trailing/gi, values[1]) as Placement;
+  return placement
+    .replace(/-leading/gi, `-${variations[0]}`)
+    .replace(/-trailing/gi, `-${variations[1]}`)
+    .replace(/leading/gi, placements[0])
+    .replace(/trailing/gi, placements[1]) as Placement;
 }
 
 export function createPopper({
