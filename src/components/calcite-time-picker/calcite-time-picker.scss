@@ -1,31 +1,31 @@
 :host {
-  @apply text-color-1;
-  display: inline-block;
-  font-weight: 500;
-  user-select: none;
+  @apply text-color-1
+    inline-block
+    font-medium
+    select-none;
 }
 
 .time-picker {
-  @apply shadow-2;
-  align-items: center;
+  @apply shadow-2
+    items-center
+    flex;
   border-radius: var(--calcite-border-radius);
-  display: flex;
 }
 
 span {
-  align-items: center;
-  @apply bg-foreground-1;
-  display: inline-flex;
-  justify-content: center;
+  @apply items-center
+    bg-foreground-1
+    inline-flex
+    justify-center;
 
   &.button {
-    cursor: pointer;
+    @apply cursor-pointer;
     &:hover,
     &:focus {
       @apply bg-foreground-2;
     }
     &:focus {
-      outline: none;
+      @apply outline-none;
     }
     &:active {
       @apply bg-foreground-3;
@@ -43,20 +43,19 @@ span {
       border-bottom-right-radius: var(--calcite-border-radius);
     }
     calcite-icon {
-      color: var(--calcite-ui-text-3);
+      @apply text-color-3;
     }
   }
 
   &.input {
-    font-weight: var(--calcite-ui-text-weight-medium);
-    position: relative;
-    &:hover:not(.delimiter) {
+    @apply font-medium relative;
+    &:hover {
       box-shadow: inset 0 0 0 2px var(--calcite-ui-foreground-2);
     }
     &:focus,
     &:hover:focus {
+      @apply outline-none;
       box-shadow: inset 0 0 0 2px var(--calcite-ui-brand);
-      outline: none;
     }
   }
 }
