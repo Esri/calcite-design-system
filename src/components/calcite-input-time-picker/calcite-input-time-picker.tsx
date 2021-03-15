@@ -124,7 +124,7 @@ export class CalciteInputTimePicker {
 
   @Listen("keyup")
   keyUpHandler(event: KeyboardEvent): void {
-    if (event.key === "Escape" && this.open === true) {
+    if (event.key === "Escape" && this.open) {
       this.open = false;
     }
   }
@@ -208,42 +208,43 @@ export class CalciteInputTimePicker {
   };
 
   private parseTimeString = (value: string): string => {
-    if (value) {
-      const splitValue = value.split(":");
-      if (splitValue.length > 1) {
-        const hour = splitValue[0];
-        const minute = splitValue[1];
-        const second = splitValue[2];
-        const hourAsNumber = parseInt(splitValue[0]);
-        const minuteAsNumber = parseInt(splitValue[1]);
-        const secondAsNumber = parseInt(splitValue[2]);
-        const hourValid =
-          hour &&
-          stringContainsOnlyNumbers(hour) &&
-          !isNaN(hourAsNumber) &&
-          hourAsNumber >= 0 &&
-          hourAsNumber < 24;
-        const minuteValid =
-          minute &&
-          stringContainsOnlyNumbers(minute) &&
-          !isNaN(minuteAsNumber) &&
-          minuteAsNumber >= 0 &&
-          minuteAsNumber < 60;
-        const secondValid =
-          second &&
-          stringContainsOnlyNumbers(second) &&
-          !isNaN(secondAsNumber) &&
-          secondAsNumber >= 0 &&
-          secondAsNumber < 60;
-        if ((hourValid && minuteValid && !second) || (hourValid && minuteValid && secondValid)) {
-          let newValue = `${formatNumberAsTimeString(hourAsNumber)}:${formatNumberAsTimeString(
-            minuteAsNumber
-          )}`;
-          if (secondValid && this.step !== 60) {
-            newValue = `${newValue}:${formatNumberAsTimeString(secondAsNumber)}`;
-          }
-          return newValue;
+    if (!value) {
+      return null;
+    }
+    const splitValue = value.split(":");
+    if (splitValue.length > 1) {
+      const hour = splitValue[0];
+      const minute = splitValue[1];
+      const second = splitValue[2];
+      const hourAsNumber = parseInt(splitValue[0]);
+      const minuteAsNumber = parseInt(splitValue[1]);
+      const secondAsNumber = parseInt(splitValue[2]);
+      const hourValid =
+        hour &&
+        stringContainsOnlyNumbers(hour) &&
+        !isNaN(hourAsNumber) &&
+        hourAsNumber >= 0 &&
+        hourAsNumber < 24;
+      const minuteValid =
+        minute &&
+        stringContainsOnlyNumbers(minute) &&
+        !isNaN(minuteAsNumber) &&
+        minuteAsNumber >= 0 &&
+        minuteAsNumber < 60;
+      const secondValid =
+        second &&
+        stringContainsOnlyNumbers(second) &&
+        !isNaN(secondAsNumber) &&
+        secondAsNumber >= 0 &&
+        secondAsNumber < 60;
+      if ((hourValid && minuteValid && !second) || (hourValid && minuteValid && secondValid)) {
+        let newValue = `${formatNumberAsTimeString(hourAsNumber)}:${formatNumberAsTimeString(
+          minuteAsNumber
+        )}`;
+        if (secondValid && this.step !== 60) {
+          newValue = `${newValue}:${formatNumberAsTimeString(secondAsNumber)}`;
         }
+        return newValue;
       }
     }
     return null;

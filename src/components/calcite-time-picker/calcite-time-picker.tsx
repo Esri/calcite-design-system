@@ -144,10 +144,8 @@ export class CalciteTimePicker {
   /** The am/pm value */
   @State() meridiem: Meridiem = "--";
 
-  /** The display version of the hour */
   @State() displayHour: string = this.getDisplayHour();
 
-  /** Whether the hour is being edited while focused */
   @State() editingHourWhileFocused = false;
 
   //--------------------------------------------------------------------------
@@ -253,53 +251,58 @@ export class CalciteTimePicker {
   // --------------------------------------------------------------------------
 
   private decrementHour = (event?: KeyboardEvent | MouseEvent): void => {
-    if (event && event instanceof KeyboardEvent && event.key !== "Enter") return;
+    if (event && event instanceof KeyboardEvent && event.key !== "Enter") {
+      return;
+    }
+    let newHour;
     switch (this.hour) {
       case "--":
-        this.setTime("hour", 0);
+        newHour = 0;
         break;
       case "00":
-        this.setTime("hour", 23);
+        newHour = 23;
         break;
       default:
-        this.setTime("hour", parseInt(this.hour) - 1);
+        newHour = parseInt(this.hour) - 1;
         break;
     }
+    this.setTime("hour", newHour);
   };
 
   private decrementMeridiem = (event?: KeyboardEvent | MouseEvent): void => {
-    if (event && event instanceof KeyboardEvent && event.key !== "Enter") return;
-    switch (this.meridiem) {
-      case "--":
-      case "AM":
-        this.setTime("meridiem", "PM");
-        break;
-      case "PM":
-        this.setTime("meridiem", "AM");
-        break;
+    if (event && event instanceof KeyboardEvent && event.key !== "Enter") {
+      return;
     }
+    const newMeridiem = this.meridiem === "PM" ? "AM" : "PM";
+    this.setTime("meridiem", newMeridiem);
   };
 
   private decrementMinuteOrSecond = (key: MinuteOrSecond): void => {
+    let newValue;
     if (this[key] === "--") {
-      this.setTime(key, 59);
+      newValue = 59;
     } else {
       const valueAsNumber = parseInt(this[key]);
       if (valueAsNumber === 0) {
-        this.setTime(key, 59);
+        newValue = 59;
       } else {
-        this.setTime(key, valueAsNumber - 1);
+        newValue = valueAsNumber - 1;
       }
     }
+    this.setTime(key, newValue);
   };
 
   private decrementMinute = (event?: KeyboardEvent | MouseEvent): void => {
-    if (event && event instanceof KeyboardEvent && event.key !== "Enter") return;
+    if (event && event instanceof KeyboardEvent && event.key !== "Enter") {
+      return;
+    }
     this.decrementMinuteOrSecond("minute");
   };
 
   private decrementSecond = (event?: KeyboardEvent | MouseEvent): void => {
-    if (event && event instanceof KeyboardEvent && event.key !== "Enter") return;
+    if (event && event instanceof KeyboardEvent && event.key !== "Enter") {
+      return;
+    }
     this.decrementMinuteOrSecond("second");
   };
 
@@ -308,13 +311,11 @@ export class CalciteTimePicker {
   };
 
   private getMeridiem = (): Meridiem => {
-    if (this.hour === "--") return "--";
-    const hourAsNumber = parseInt(this.hour);
-    if (hourAsNumber >= 0 && hourAsNumber <= 11) {
-      return "AM";
-    } else {
-      return "PM";
+    if (this.hour === "--") {
+      return "--";
     }
+    const hourAsNumber = parseInt(this.hour);
+    return hourAsNumber >= 0 && hourAsNumber <= 11 ? "AM" : "PM";
   };
 
   private getDisplayHour(): string {
@@ -350,28 +351,30 @@ export class CalciteTimePicker {
     if (numberKeys.includes(event.key)) {
       this.editingHourWhileFocused = true;
       const keyAsNumber = parseInt(event.key);
+      let newHour;
       if (this.hour === "--") {
-        this.setTime("hour", keyAsNumber);
+        newHour = keyAsNumber;
       } else {
         switch (this.hourDisplayFormat) {
           case "12":
             if (this.hour === "01" && keyAsNumber >= 0 && keyAsNumber <= 2) {
-              this.setTime("hour", `1${keyAsNumber}`);
+              newHour = `1${keyAsNumber}`;
             } else {
-              this.setTime("hour", keyAsNumber);
+              newHour = keyAsNumber;
             }
             break;
           case "24":
             if (this.hour === "01") {
-              this.setTime("hour", `1${keyAsNumber}`);
+              newHour = `1${keyAsNumber}`;
             } else if (this.hour === "02" && keyAsNumber >= 0 && keyAsNumber <= 3) {
-              this.setTime("hour", `2${keyAsNumber}`);
+              newHour = `2${keyAsNumber}`;
             } else {
-              this.setTime("hour", keyAsNumber);
+              newHour = keyAsNumber;
             }
             break;
         }
       }
+      this.setTime("hour", newHour);
     } else {
       switch (event.key) {
         case "Backspace":
@@ -390,53 +393,38 @@ export class CalciteTimePicker {
   };
 
   private incrementMeridiem = (event?: KeyboardEvent | MouseEvent): void => {
-    if (event && event instanceof KeyboardEvent && event.key !== "Enter") return;
-    switch (this.meridiem) {
-      case "--":
-      case "PM":
-        this.setTime("meridiem", "AM");
-        break;
-      case "AM":
-        this.setTime("meridiem", "PM");
-        break;
+    if (event && event instanceof KeyboardEvent && event.key !== "Enter") {
+      return;
     }
+    const newMeridiem = this.meridiem === "AM" ? "PM" : "AM";
+    this.setTime("meridiem", newMeridiem);
   };
 
   private incrementHour = (event?: KeyboardEvent | MouseEvent): void => {
-    if (event && event instanceof KeyboardEvent && event.key !== "Enter") return;
-    switch (this.hour) {
-      case "--":
-        this.setTime("hour", 1);
-        break;
-      case "23":
-        this.setTime("hour", 0);
-        break;
-      default:
-        this.setTime("hour", parseInt(this.hour) + 1);
-        break;
+    if (event && event instanceof KeyboardEvent && event.key !== "Enter") {
+      return;
     }
+    const newHour = this.hour === "--" ? 1 : this.hour === "23" ? 0 : parseInt(this.hour) + 1;
+    this.setTime("hour", newHour);
   };
 
   private incrementMinuteOrSecond = (key: MinuteOrSecond): void => {
-    if (this[key] === "--") {
-      this.setTime(key, 0);
-    } else {
-      const valueAsNumber = parseInt(this[key]);
-      if (valueAsNumber === 59) {
-        this.setTime(key, 0);
-      } else {
-        this.setTime(key, valueAsNumber + 1);
-      }
-    }
+    const valueAsNumber = parseInt(this[key]);
+    const newValue = this[key] === "--" ? 0 : valueAsNumber === 59 ? 0 : valueAsNumber + 1;
+    this.setTime(key, newValue);
   };
 
   private incrementMinute = (event?: KeyboardEvent | MouseEvent): void => {
-    if (event && event instanceof KeyboardEvent && event.key !== "Enter") return;
+    if (event && event instanceof KeyboardEvent && event.key !== "Enter") {
+      return;
+    }
     this.incrementMinuteOrSecond("minute");
   };
 
   private incrementSecond = (event?: KeyboardEvent | MouseEvent): void => {
-    if (event && event instanceof KeyboardEvent && event.key !== "Enter") return;
+    if (event && event instanceof KeyboardEvent && event.key !== "Enter") {
+      return;
+    }
     this.incrementMinuteOrSecond("second");
   };
 
@@ -465,16 +453,18 @@ export class CalciteTimePicker {
   private minuteKeyDownHandler = (event: KeyboardEvent): void => {
     if (numberKeys.includes(event.key)) {
       const keyAsNumber = parseInt(event.key);
+      let newMinute;
       if (this.minute.startsWith("0")) {
         const minuteAsNumber = parseInt(this.minute);
         if (minuteAsNumber > 5) {
-          this.setTime("minute", keyAsNumber);
+          newMinute = keyAsNumber;
         } else {
-          this.setTime("minute", `${minuteAsNumber}${keyAsNumber}`);
+          newMinute = `${minuteAsNumber}${keyAsNumber}`;
         }
       } else {
-        this.setTime("minute", keyAsNumber);
+        newMinute = keyAsNumber;
       }
+      this.setTime("minute", newMinute);
     } else {
       switch (event.key) {
         case "Backspace":
@@ -495,16 +485,18 @@ export class CalciteTimePicker {
   private secondKeyDownHandler = (event: KeyboardEvent): void => {
     if (numberKeys.includes(event.key)) {
       const keyAsNumber = parseInt(event.key);
+      let newSecond;
       if (this.second.startsWith("0")) {
         const secondAsNumber = parseInt(this.second);
         if (secondAsNumber > 5) {
-          this.setTime("second", keyAsNumber);
+          newSecond = keyAsNumber;
         } else {
-          this.setTime("second", `${secondAsNumber}${keyAsNumber}`);
+          newSecond = `${secondAsNumber}${keyAsNumber}`;
         }
       } else {
-        this.setTime("second", keyAsNumber);
+        newSecond = keyAsNumber;
       }
+      this.setTime("second", newSecond);
     } else {
       switch (event.key) {
         case "Backspace":
