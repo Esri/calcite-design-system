@@ -40,6 +40,7 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes> = (
               aria-label={filterPlaceholder}
               data={dataForFilter}
               dir={getElementDir(el)}
+              disabled={loading || disabled}
               onCalciteFilterChange={handleFilter}
               placeholder={filterPlaceholder}
             />

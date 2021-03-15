@@ -36,6 +36,11 @@ export class CalciteFilter {
   @Prop() data: object[];
 
   /**
+   * When true, disabled prevents interaction. This state shows items with lower opacity/grayed.
+   */
+  @Prop({ reflect: true }) disabled = false;
+
+  /**
    * A text label that will appear on the clear button.
    */
   @Prop() intlClear?: string;
@@ -147,12 +152,15 @@ export class CalciteFilter {
 
   render(): VNode {
     const rtl = getElementDir(this.el) === "rtl";
+    const { disabled } = this;
 
     return (
       <Host>
+        {disabled ? <calcite-scrim /> : null}
         <label class={rtl ? CSS_UTILITY.rtl : null}>
           <input
             aria-label={this.intlLabel || TEXT.filterLabel}
+            disabled={this.disabled}
             onInput={this.inputHandler}
             placeholder={this.placeholder}
             ref={(el): void => {
