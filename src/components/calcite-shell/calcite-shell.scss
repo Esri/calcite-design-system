@@ -3,13 +3,10 @@
   @apply w-full 
     h-full 
     absolute 
-    top-0 
-    bottom-0 
-    left-0 
-    right-0 
     flex 
     flex-col 
-    overflow-hidden;
+    overflow-hidden
+    inset-0;
   --calcite-shell-tip-spacing: 26vw;
 }
 
@@ -20,11 +17,11 @@
     flex 
     flex-row 
     relative 
+    border-0
     border-t
-    border-t-color-3 
     border-b
-    border-b-color-3 
     border-solid
+    border-3-color
     justify-between 
     overflow-hidden;
 }
@@ -37,11 +34,11 @@
   @apply h-full 
     overflow-auto 
     w-full 
+    border-0
     border-l 
-    border-l-color-3 
     border-r 
-    border-r-color-3
-    border-solid;
+    border-solid
+    border-color-3;
   flex-flow: column nowrap;
 }
 
@@ -55,10 +52,7 @@
 .content--behind {
   @apply border-0 
     absolute 
-    left-0 
-    right-0 
-    bottom-0 
-    top-0 
+    inset-0
     z-0;
   display: initial;
 }
@@ -78,9 +72,7 @@
 }
 
 slot[name="center-row"]::slotted(calcite-shell-center-row:not([detached])) {
-  border-left: 1px solid;
-  border-right: 1px solid;
-  @apply border-l-color-3 border-r-color-3;
+  @apply border-l border-r border-color-3;
 }
 
 ::slotted(calcite-tip-manager) {
