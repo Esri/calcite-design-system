@@ -28,13 +28,3 @@ header {
 calcite-filter {
   @apply mb-px;
 }
-
-calcite-scrim {
-  @apply flex
-  absolute
-  z-50
-  flex-col
-  items-stretch
-  w-full
-  h-full;
-}

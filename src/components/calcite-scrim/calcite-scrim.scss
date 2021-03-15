@@ -1,6 +1,15 @@
 :host {
-  display: flex;
-  position: relative;
+  @apply flex
+  absolute
+  z-50
+  flex-col
+  items-stretch
+  w-full
+  h-full
+  top-0
+  left-0
+  bottom-0
+  right-0;
   --calcite-scrim-background: #{rgba($blk-000, 0.75)};
 }
 
@@ -19,16 +28,16 @@
 }
 
 .scrim {
-  overflow: hidden;
-  align-items: center;
+  @apply flex
+  absolute
+  select-none
+  overflow-hidden
+  justify-center
+  top-0
+  left-0
+  bottom-0
+  right-0
+  items-center;
   animation: calcite-scrim-fade-in 250ms ease-in-out;
   background-color: var(--calcite-scrim-background);
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  user-select: none;
 }

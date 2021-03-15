@@ -1,5 +1,9 @@
 :host {
   @extend %component-host;
+  @apply flex w-full;
+}
+
+.container {
   @apply flex w-full p-2;
 }
 
@@ -70,15 +74,4 @@ input[type="text"]:focus {
   &:focus {
     @apply text-color-1;
   }
-}
-
-calcite-scrim {
-  margin: -0.5rem;
-  @apply flex
-  absolute
-  z-50
-  flex-col
-  items-stretch
-  w-full
-  h-full;
 }

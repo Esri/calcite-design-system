@@ -157,31 +157,33 @@ export class CalciteFilter {
     return (
       <Host>
         {disabled ? <calcite-scrim /> : null}
-        <label class={rtl ? CSS_UTILITY.rtl : null}>
-          <input
-            aria-label={this.intlLabel || TEXT.filterLabel}
-            disabled={this.disabled}
-            onInput={this.inputHandler}
-            placeholder={this.placeholder}
-            ref={(el): void => {
-              this.textInput = el;
-            }}
-            type="text"
-            value=""
-          />
-          <div class={CSS.searchIcon}>
-            <calcite-icon icon={ICONS.search} scale="s" />
-          </div>
-        </label>
-        {!this.empty ? (
-          <button
-            aria-label={this.intlClear || TEXT.clear}
-            class={CSS.clearButton}
-            onClick={this.clear}
-          >
-            <calcite-icon icon={ICONS.close} />
-          </button>
-        ) : null}
+        <div class={CSS.container}>
+          <label class={rtl ? CSS_UTILITY.rtl : null}>
+            <input
+              aria-label={this.intlLabel || TEXT.filterLabel}
+              disabled={this.disabled}
+              onInput={this.inputHandler}
+              placeholder={this.placeholder}
+              ref={(el): void => {
+                this.textInput = el;
+              }}
+              type="text"
+              value=""
+            />
+            <div class={CSS.searchIcon}>
+              <calcite-icon icon={ICONS.search} scale="s" />
+            </div>
+          </label>
+          {!this.empty ? (
+            <button
+              aria-label={this.intlClear || TEXT.clear}
+              class={CSS.clearButton}
+              onClick={this.clear}
+            >
+              <calcite-icon icon={ICONS.close} />
+            </button>
+          ) : null}
+        </div>
       </Host>
     );
   }

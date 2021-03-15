@@ -118,16 +118,6 @@ calcite-handle {
   grid-area: control;
 }
 
-calcite-scrim {
-  @apply flex
-    absolute
-    z-50
-    flex-col
-    items-stretch
-    w-full
-    h-full;
-}
-
 .calcite--rtl {
   .icon {
     @apply ml-0 mr-3;
