@@ -119,7 +119,14 @@ calcite-handle {
 }
 
 calcite-scrim {
-  @apply pointer-events-none;
+  @apply flex
+    absolute
+    z-50
+    flex-col
+    items-stretch
+    w-full
+    h-full
+    pointer-events-none;
 }
 
 .calcite--rtl {

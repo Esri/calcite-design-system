@@ -32,8 +32,12 @@ calcite-filter {
 }
 
 calcite-scrim {
-  display: flex;
-  flex: 0 0 auto;
-  flex-flow: column;
-  pointer-events: none;
+  @apply flex
+    flex-col
+    items-stretch
+    w-full
+    h-full
+    absolute
+    z-50
+    pointer-events-none;
 }

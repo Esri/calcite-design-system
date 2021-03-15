@@ -433,11 +433,8 @@ export class CalcitePanel {
 
     return (
       <Host>
-        {loading || disabled ? (
-          <calcite-scrim loading={loading}>{panelNode}</calcite-scrim>
-        ) : (
-          panelNode
-        )}
+        {loading || disabled ? <calcite-scrim loading={loading} /> : null}
+        {panelNode}
       </Host>
     );
   }

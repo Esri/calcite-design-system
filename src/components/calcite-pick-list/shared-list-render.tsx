@@ -46,13 +46,8 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes> = (
           ) : null}
           <slot name="menu-actions" />
         </header>
-        {loading || disabled ? (
-          <calcite-scrim loading={loading} theme={theme}>
-            {defaultSlot}
-          </calcite-scrim>
-        ) : (
-          defaultSlot
-        )}
+        {loading || disabled ? <calcite-scrim loading={loading} theme={theme} /> : null}
+        {defaultSlot}
       </section>
     </Host>
   );
