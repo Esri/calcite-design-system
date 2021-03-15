@@ -2,7 +2,7 @@ import { Component, Element, Event, EventEmitter, Host, Prop, h, VNode } from "@
 import { CSS, SLOTS, TEXT, HEADING_LEVEL } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 import { Theme } from "../interfaces";
-import { getElementDir, getSlotted, getElementTheme } from "../../utils/dom";
+import { getElementDir, getSlotted } from "../../utils/dom";
 import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
 
 /**
@@ -117,12 +117,12 @@ export class CalciteBlock {
   // --------------------------------------------------------------------------
 
   renderScrim(): VNode {
-    const { disabled, loading, el } = this;
+    const { disabled, loading, theme } = this;
 
     const defaultSlot = <slot />;
 
     return loading || disabled ? (
-      <calcite-scrim loading={loading} theme={getElementTheme(el)}>
+      <calcite-scrim loading={loading} theme={theme}>
         {defaultSlot}
       </calcite-scrim>
     ) : (

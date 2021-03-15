@@ -67,6 +67,12 @@ export class CalciteDatePicker {
   /** Selected end date as full date object*/
   @Prop({ mutable: true }) endAsDate?: Date;
 
+  /** Earliest allowed date as full date object */
+  @Prop({ mutable: true }) minAsDate?: Date;
+
+  /** Latest allowed date as full date object */
+  @Prop({ mutable: true }) maxAsDate?: Date;
+
   @Watch("startAsDate")
   @Watch("endAsDate")
   handleRangeChange(): void {
@@ -168,21 +174,34 @@ export class CalciteDatePicker {
     if (this.start) {
       this.setStartAsDate(dateFromISO(this.start));
     }
+
     if (this.end) {
       this.setEndAsDate(dateFromISO(this.end));
+    }
+
+    if (this.min) {
+      this.minAsDate = dateFromISO(this.min);
+    }
+
+    if (this.max) {
+      this.maxAsDate = dateFromISO(this.max);
     }
   }
 
   render(): VNode {
-    const min = dateFromISO(this.min);
-    const max = dateFromISO(this.max);
-    const date = dateFromRange(this.range ? this.startAsDate : this.valueAsDate, min, max);
+    const date = dateFromRange(
+      this.range ? this.startAsDate : this.valueAsDate,
+      this.minAsDate,
+      this.maxAsDate
+    );
     const activeStartDate = this.range
-      ? this.getActiveStartDate(date, min, max)
-      : this.getActiveDate(date, min, max);
+      ? this.getActiveStartDate(date, this.minAsDate, this.maxAsDate)
+      : this.getActiveDate(date, this.minAsDate, this.maxAsDate);
     let activeDate = activeStartDate;
-    const endDate = this.range ? dateFromRange(this.endAsDate, min, max) : null;
-    const activeEndDate = this.getActiveEndDate(endDate, min, max);
+    const endDate = this.range
+      ? dateFromRange(this.endAsDate, this.minAsDate, this.maxAsDate)
+      : null;
+    const activeEndDate = this.getActiveEndDate(endDate, this.minAsDate, this.maxAsDate);
     if (
       (this.activeRange === "end" ||
         (this.hoverRange?.focused === "end" && (!this.proximitySelectionDisabled || endDate))) &&
@@ -193,8 +212,8 @@ export class CalciteDatePicker {
     if (this.range && this.mostRecentRangeValue) {
       activeDate = this.mostRecentRangeValue;
     }
-    const minDate = this.activeRange === "start" ? min : date || min;
-    const maxDate = max;
+    const minDate = this.activeRange === "start" ? this.minAsDate : date || this.maxAsDate;
+    const maxDate = this.maxAsDate;
     const dir = getElementDir(this.el);
 
     return (

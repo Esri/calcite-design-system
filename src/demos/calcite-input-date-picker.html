@@ -32,6 +32,9 @@
   <script>
     var picker = document.getElementById("basic-date-picker");
     picker.addEventListener("calciteDatePickerChange", console.log);
+    picker.valueAsDate = new Date();
+    picker.maxAsDate = new Date();
+    picker.min = "2021-01-01";
   </script>
 
   <h2>Initial Value (from ISO 8601 string)</h2>
