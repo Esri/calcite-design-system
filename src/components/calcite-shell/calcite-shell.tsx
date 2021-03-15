@@ -53,37 +53,27 @@ export class CalciteShell {
     return hasHeader ? <slot name={SLOTS.header} /> : null;
   }
 
-  renderContent(): VNode {
-    return !!this.contentBehind ? this.renderContentBehind() : this.renderContentInline();
-  }
+  renderContent(): VNode[] {
+    const content = !!this.contentBehind
+      ? [
+          <div
+            class={{
+              [CSS.content]: true,
+              [CSS.contentBehind]: !!this.contentBehind
+            }}
+          >
+            <slot />
+          </div>,
+          <slot name="center-row" />
+        ]
+      : [
+          <div class={CSS.content}>
+            <slot />
+            <slot name="center-row" />
+          </div>
+        ];
 
-  renderContentBehind(): VNode {
-    return (
-      <div
-        key="content-behind"
-        class={{
-          [CSS.content]: true,
-          [CSS.contentBehind]: !!this.contentBehind
-        }}
-      >
-        <slot />
-      </div>
-    );
-  }
-
-  renderContentInline(): VNode {
-    return (
-      <div key="content-inline" class={CSS.content}>
-        <slot />
-        {this.renderCenterRow()}
-      </div>
-    );
-  }
-
-  renderCenterRow(): VNode {
-    const hasCenterRow = !!getSlotted(this.el, SLOTS.centerRow);
-
-    return hasCenterRow ? <slot name={SLOTS.centerRow} /> : null;
+    return content;
   }
 
   renderFooter(): VNode {
@@ -108,7 +98,6 @@ export class CalciteShell {
       <div class={mainClasses}>
         <slot name={SLOTS.primaryPanel} />
         {this.renderContent()}
-        {!!this.contentBehind ? this.renderCenterRow() : null}
         <slot name={SLOTS.contextualPanel} />
       </div>
     );
