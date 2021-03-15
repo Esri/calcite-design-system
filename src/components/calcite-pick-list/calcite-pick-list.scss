@@ -10,7 +10,7 @@
     flex-shrink-0;
 }
 
-header {
+:host([filter-enabled]) header {
   @apply bg-foreground-1
     flex
     justify-end

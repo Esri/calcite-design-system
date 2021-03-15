@@ -13,7 +13,7 @@ calcite-value-list-item:last-of-type {
   @apply shadow-none;
 }
 
-header {
+:host([filter-enabled]) header {
   @apply bg-foreground-1
     flex
     justify-end
