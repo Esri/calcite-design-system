@@ -1,24 +1,22 @@
 :host([scale="s"]) {
-  //FIXME: I don't know if this is allowed. :D
   --calcite-stepper-item-spacing-unit-s: theme("borderWidth.2");
   --calcite-stepper-item-spacing-unit-m: theme("spacing.1");
   --calcite-stepper-item-spacing-unit-l: theme("spacing.2");
-  @apply text--2-wrap;
-}
-
-:host([scale="m"]) {
-  //FIXME: What values should these be!?
-  --calcite-stepper-item-spacing-unit-s: #{$baseline/6};
-  --calcite-stepper-item-spacing-unit-m: #{$baseline/3};
-  --calcite-stepper-item-spacing-unit-l: #{$baseline/1.5};
   @apply text--1-wrap;
 }
 
-:host([scale="l"]) {
+:host([scale="m"]) {
   --calcite-stepper-item-spacing-unit-s: theme("spacing.1");
   --calcite-stepper-item-spacing-unit-m: theme("spacing.2");
-  --calcite-stepper-item-spacing-unit-l: theme("spacing.4");
+  --calcite-stepper-item-spacing-unit-l: theme("spacing.3");
   @apply text-0-wrap;
+}
+
+:host([scale="l"]) {
+  --calcite-stepper-item-spacing-unit-s: theme("spacing.2");
+  --calcite-stepper-item-spacing-unit-m: theme("spacing.3");
+  --calcite-stepper-item-spacing-unit-l: theme("spacing.4");
+  @apply text-1-wrap;
 }
 
 :host {
@@ -29,9 +27,10 @@
     no-underline
     outline-none
     relative
-    border-t-3
+    border-0
+    border-t-2
     border-solid
-    border-t-color-3
+    border-t-color-2
     cursor-pointer;
 
   transition: $transition;
