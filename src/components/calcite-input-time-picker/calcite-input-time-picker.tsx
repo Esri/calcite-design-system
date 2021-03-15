@@ -72,7 +72,7 @@ export class CalciteInputTimePicker {
   //
   //--------------------------------------------------------------------------
 
-  @State() popoverOpen = false;
+  @State() open = false;
 
   //--------------------------------------------------------------------------
   //
@@ -92,7 +92,7 @@ export class CalciteInputTimePicker {
   //--------------------------------------------------------------------------
 
   private inputBlurHandler = (): void => {
-    this.popoverOpen = false;
+    this.open = false;
     const newValue = this.parseTimeString(this.inputEl.value);
     if (newValue) {
       this.inputEl.value = newValue;
@@ -102,7 +102,7 @@ export class CalciteInputTimePicker {
   };
 
   private inputFocusHandler = (): void => {
-    this.popoverOpen = true;
+    this.open = true;
   };
 
   private inputInputHandler = (event: CustomEvent): void => {
@@ -124,8 +124,8 @@ export class CalciteInputTimePicker {
 
   @Listen("keyup")
   keyUpHandler(event: KeyboardEvent): void {
-    if (event.key === "Escape" && this.popoverOpen === true) {
-      this.popoverOpen = false;
+    if (event.key === "Escape" && this.open === true) {
+      this.open = false;
     }
   }
 
@@ -133,7 +133,7 @@ export class CalciteInputTimePicker {
   timePickerBlurHandler(event: CustomEvent): void {
     event.preventDefault();
     event.stopPropagation();
-    this.popoverOpen = false;
+    this.open = false;
   }
 
   @Listen("calciteTimePickerChange")
@@ -158,7 +158,7 @@ export class CalciteInputTimePicker {
   timePickerFocusHandler(event: CustomEvent): void {
     event.preventDefault();
     event.stopPropagation();
-    this.popoverOpen = true;
+    this.open = true;
   }
 
   @Listen("click", { target: "window" })
@@ -170,9 +170,9 @@ export class CalciteInputTimePicker {
     const closestLabel = target.closest("calcite-label") as HTMLCalciteLabelElement;
     if (closestLabel && closestLabel.for === this.guid) {
       this.inputEl.setFocus();
-      this.popoverOpen = true;
+      this.open = true;
     } else if (closestHost !== this.el) {
-      this.popoverOpen = false;
+      this.open = false;
     }
   }
 
@@ -292,7 +292,7 @@ export class CalciteInputTimePicker {
         />
         <calcite-popover
           label="Time Picker"
-          open={this.popoverOpen}
+          open={this.open}
           referenceElement={`${this.guid}-calcite-input`}
           theme={this.theme}
         >
