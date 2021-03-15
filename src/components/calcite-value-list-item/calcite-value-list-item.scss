@@ -1,17 +1,14 @@
 :host {
   @extend %component-host;
-  @extend %component-spacing;
-  margin-bottom: 1px;
-  display: flex;
+  @apply mb-px flex shadow-border-bottom;
   transition: background-color $transition, box-shadow $transition;
-  @apply shadow-border-bottom;
 }
 
 calcite-pick-list-item {
-  box-shadow: none;
-  flex-grow: 1;
-  position: relative;
-  margin: 0;
+  @apply shadow-none 
+    flex-grow 
+    relative 
+    m-0;
 }
 
 :host([active]),
@@ -20,25 +17,23 @@ calcite-pick-list-item {
 }
 
 .handle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 var(--calcite-spacing-quarter);
-  background-color: transparent;
-  border: none;
-  color: var(--calcite-ui-border-1);
-  line-height: 0;
-  cursor: move;
+  @apply flex 
+    items-center 
+    justify-center 
+    py-0 
+    px-1 
+    bg-transparent 
+    border-none 
+    text-color-1
+    cursor-move;
   &:hover {
-    background-color: var(--calcite-ui-foreground-2);
-    color: var(--calcite-ui-text-1);
+    @apply bg-foreground-2 text-color-1;
   }
-  @include focus-style-base();
+  @apply focus-base;
   &:focus {
-    @include focus-style-inset();
+    @apply focus-inset;
   }
   &--activated {
-    background-color: var(--calcite-ui-foreground-3);
-    color: var(--calcite-ui-text-1);
+    @apply bg-foreground-3 text-color-1;
   }
 }
