@@ -33,11 +33,10 @@ calcite-filter {
 
 calcite-scrim {
   @apply flex
-    flex-col
-    items-stretch
-    w-full
-    h-full
-    absolute
-    z-50
-    pointer-events-none;
+  absolute
+  z-50
+  flex-col
+  items-stretch
+  w-full
+  h-full;
 }

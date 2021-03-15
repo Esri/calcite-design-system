@@ -1,7 +1,6 @@
 :host {
   display: flex;
   position: relative;
-  pointer-events: none;
   --calcite-scrim-background: #{rgba($blk-000, 0.75)};
 }
 
@@ -20,6 +19,7 @@
 }
 
 .scrim {
+  overflow: hidden;
   align-items: center;
   animation: calcite-scrim-fade-in 250ms ease-in-out;
   background-color: var(--calcite-scrim-background);
