@@ -20,10 +20,10 @@
 
 @keyframes calcite-scrim-fade-in {
   0% {
-    opacity: 0;
+    @apply bg-opacity-0;
   }
   100% {
-    opacity: 1;
+    @apply text-opacity-100;
   }
 }
 
@@ -32,11 +32,11 @@
   absolute
   select-none
   overflow-hidden
-  justify-center
   top-0
   left-0
   bottom-0
   right-0
+  content-center
   items-center;
   animation: calcite-scrim-fade-in 250ms ease-in-out;
   background-color: var(--calcite-scrim-background);
