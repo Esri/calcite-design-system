@@ -6,10 +6,7 @@
   items-stretch
   w-full
   h-full
-  top-0
-  left-0
-  bottom-0
-  right-0;
+  inset-0;
   --calcite-scrim-background: #{rgba($blk-000, 0.75)};
 }
 
@@ -32,10 +29,7 @@
   absolute
   select-none
   overflow-hidden
-  top-0
-  left-0
-  bottom-0
-  right-0
+  inset-0
   content-center
   items-center;
   animation: calcite-scrim-fade-in 250ms ease-in-out;
