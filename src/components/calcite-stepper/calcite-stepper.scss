@@ -1,23 +1,22 @@
 :host {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  position: relative;
-  justify-content: space-between;
-  align-items: stretch;
-  width: 100%;
-  min-width: 100%;
+  @apply flex 
+    flex-row 
+    flex-wrap 
+    relative 
+    justify-between 
+    items-stretch 
+    w-full 
+    min-w-full;
 }
 
 :host([layout="vertical"]) {
-  flex-direction: column;
-  flex: 1 auto auto;
+  @apply flex-col flex-auto;
 }
 
 :host ::slotted(.calcite-stepper-content) {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  width: 100%;
-  min-width: 100%;
+  @apply flex
+    flex-col
+    flex-wrap
+    w-full
+    min-w-full;
 }
