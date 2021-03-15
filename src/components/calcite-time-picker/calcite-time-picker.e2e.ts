@@ -58,7 +58,7 @@ describe("calcite-time-picker", () => {
 
   it("should focus the first input when setFocus is called", async () =>
     focusable(`calcite-time-picker`, {
-      shadowFocusTargetSelector: `.${CSS.hour}`
+      shadowFocusTargetSelector: `span.${CSS.hour}`
     }));
 
   describe("keyboard accessibility", () => {
@@ -351,60 +351,60 @@ describe("calcite-time-picker", () => {
       expect(await timePicker.getProperty("second")).toBe("59");
     });
 
-    it("ArrowUp key increments ampm property correctly", async () => {
+    it("ArrowUp key increments meridiem property correctly", async () => {
       const page = await newE2EPage({
         html: `<calcite-time-picker hour-display-format="12"></calcite-time-picker>`
       });
-      const ampm = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
+      const meridiem = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
 
-      await ampm.click();
+      await meridiem.click();
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
 
-      expect(ampm.textContent).toBe("AM");
-
-      await page.keyboard.press("ArrowUp");
-      await page.waitForChanges();
-
-      expect(ampm.textContent).toBe("PM");
+      expect(meridiem.textContent).toBe("AM");
 
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
 
-      expect(ampm.textContent).toBe("AM");
+      expect(meridiem.textContent).toBe("PM");
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+
+      expect(meridiem.textContent).toBe("AM");
 
       await page.keyboard.press("Backspace");
       await page.waitForChanges();
 
-      expect(ampm.textContent).toBe("--");
+      expect(meridiem.textContent).toBe("--");
     });
 
-    it("ArrowDown key decrements ampm property correctly", async () => {
+    it("ArrowDown key decrements meridiem property correctly", async () => {
       const page = await newE2EPage({
         html: `<calcite-time-picker hour-display-format="12"></calcite-time-picker>`
       });
-      const ampm = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
+      const meridiem = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
 
-      await ampm.click();
+      await meridiem.click();
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
 
-      expect(ampm.textContent).toBe("PM");
-
-      await page.keyboard.press("ArrowDown");
-      await page.waitForChanges();
-
-      expect(ampm.textContent).toBe("AM");
+      expect(meridiem.textContent).toBe("PM");
 
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
 
-      expect(ampm.textContent).toBe("PM");
+      expect(meridiem.textContent).toBe("AM");
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+
+      expect(meridiem.textContent).toBe("PM");
 
       await page.keyboard.press("Backspace");
       await page.waitForChanges();
 
-      expect(ampm.textContent).toBe("--");
+      expect(meridiem.textContent).toBe("--");
     });
 
     it("typing letter keys changes nothing for hour, minute and second in 24-hour format", async () => {
@@ -701,7 +701,7 @@ describe("calcite-time-picker", () => {
       });
       const timePicker = await page.find("calcite-time-picker");
       const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
-      const ampm = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
+      const meridiem = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
 
       await hour.click();
       await page.keyboard.press("0");
@@ -710,14 +710,14 @@ describe("calcite-time-picker", () => {
 
       expect(await timePicker.getProperty("hour")).toBe("00");
       expect(hour.textContent).toBe("00");
-      expect(ampm.textContent).toBe("AM");
+      expect(meridiem.textContent).toBe("AM");
 
       await page.keyboard.press("Tab");
       await page.waitForChanges();
 
       expect(await timePicker.getProperty("hour")).toBe("00");
       expect(hour.textContent).toBe("12");
-      expect(ampm.textContent).toBe("AM");
+      expect(meridiem.textContent).toBe("AM");
     });
 
     it("allows typing AM and PM for 12-hour format", async () => {
@@ -726,22 +726,22 @@ describe("calcite-time-picker", () => {
       });
       const timePicker = await page.find("calcite-time-picker");
       const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
-      const ampm = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
+      const meridiem = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
 
-      await ampm.click();
+      await meridiem.click();
       await page.keyboard.press("a");
       await page.waitForChanges();
 
       expect(await timePicker.getProperty("hour")).toBe("00");
       expect(hour.textContent).toBe("12");
-      expect(ampm.textContent).toBe("AM");
+      expect(meridiem.textContent).toBe("AM");
 
       await page.keyboard.press("p");
       await page.waitForChanges();
 
       expect(await timePicker.getProperty("hour")).toBe("12");
       expect(hour.textContent).toBe("12");
-      expect(ampm.textContent).toBe("PM");
+      expect(meridiem.textContent).toBe("PM");
     });
 
     it("typing am and pm multiple times when they are already set doesn't affect the hour", async () => {
@@ -750,9 +750,9 @@ describe("calcite-time-picker", () => {
       });
       const timePicker = await page.find("calcite-time-picker");
       const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
-      const ampm = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
+      const meridiem = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
 
-      await ampm.click();
+      await meridiem.click();
       await page.keyboard.press("a");
       await page.keyboard.press("a");
       await page.keyboard.press("a");
@@ -760,7 +760,7 @@ describe("calcite-time-picker", () => {
 
       expect(await timePicker.getProperty("hour")).toBe("00");
       expect(hour.textContent).toBe("12");
-      expect(ampm.textContent).toBe("AM");
+      expect(meridiem.textContent).toBe("AM");
 
       await page.keyboard.press("p");
       await page.keyboard.press("p");
@@ -769,7 +769,7 @@ describe("calcite-time-picker", () => {
 
       expect(await timePicker.getProperty("hour")).toBe("12");
       expect(hour.textContent).toBe("12");
-      expect(ampm.textContent).toBe("PM");
+      expect(meridiem.textContent).toBe("PM");
     });
   });
 
@@ -781,9 +781,9 @@ describe("calcite-time-picker", () => {
 
       const timePicker = await page.find("calcite-time-picker");
       const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
-      const ampm = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
+      const meridiem = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
 
-      expect(ampm.textContent).toBe("AM");
+      expect(meridiem.textContent).toBe("AM");
 
       await hour.click();
       await page.keyboard.press("ArrowDown");
@@ -791,14 +791,14 @@ describe("calcite-time-picker", () => {
 
       expect(await timePicker.getProperty("hour")).toBe("23");
       expect(hour.textContent).toBe("11");
-      expect(ampm.textContent).toBe("PM");
+      expect(meridiem.textContent).toBe("PM");
 
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
 
       expect(await timePicker.getProperty("hour")).toBe("00");
       expect(hour.textContent).toBe("12");
-      expect(ampm.textContent).toBe("AM");
+      expect(meridiem.textContent).toBe("AM");
     });
 
     it("changing AM/PM updates hour property correctly for 12-hour display format", async () => {
@@ -808,25 +808,25 @@ describe("calcite-time-picker", () => {
 
       const timePicker = await page.find("calcite-time-picker");
       const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
-      const ampm = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
+      const meridiem = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
 
       expect(await timePicker.getProperty("hour")).toBe("00");
-      expect(ampm.textContent).toBe("AM");
+      expect(meridiem.textContent).toBe("AM");
 
-      await ampm.click();
+      await meridiem.click();
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
 
       expect(await timePicker.getProperty("hour")).toBe("12");
       expect(hour.textContent).toBe("12");
-      expect(ampm.textContent).toBe("PM");
+      expect(meridiem.textContent).toBe("PM");
 
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
 
       expect(await timePicker.getProperty("hour")).toBe("00");
       expect(hour.textContent).toBe("12");
-      expect(ampm.textContent).toBe("AM");
+      expect(meridiem.textContent).toBe("AM");
     });
 
     it("hour-up button increments hour property and display hour correctly for 24-hour display format", async () => {
@@ -1011,50 +1011,50 @@ describe("calcite-time-picker", () => {
       expect(second.textContent).toBe("59");
     });
 
-    it("ampm-up button increments ampm property correctly", async () => {
+    it("meridiem-up button increments meridiem property correctly", async () => {
       const page = await newE2EPage({
         html: `<calcite-time-picker hour-display-format="12"></calcite-time-picker>`
       });
-      const ampm = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
-      const ampmup = await page.find("calcite-time-picker >>> span.ampm-up");
+      const meridiem = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
+      const meridiemup = await page.find("calcite-time-picker >>> span.meridiem-up");
 
-      await ampmup.click();
+      await meridiemup.click();
       await page.waitForChanges();
 
-      expect(ampm.textContent).toBe("AM");
+      expect(meridiem.textContent).toBe("AM");
 
-      await ampmup.click();
+      await meridiemup.click();
       await page.waitForChanges();
 
-      expect(ampm.textContent).toBe("PM");
+      expect(meridiem.textContent).toBe("PM");
 
-      await ampmup.click();
+      await meridiemup.click();
       await page.waitForChanges();
 
-      expect(ampm.textContent).toBe("AM");
+      expect(meridiem.textContent).toBe("AM");
     });
 
-    it("ampm-down button decrements ampm property correctly", async () => {
+    it("meridiem-down button decrements meridiem property correctly", async () => {
       const page = await newE2EPage({
         html: `<calcite-time-picker hour-display-format="12"></calcite-time-picker>`
       });
-      const ampm = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
-      const ampmdown = await page.find("calcite-time-picker >>> span.ampm-down");
+      const meridiem = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
+      const meridiemdown = await page.find("calcite-time-picker >>> span.meridiem-down");
 
-      await ampmdown.click();
+      await meridiemdown.click();
       await page.waitForChanges();
 
-      expect(ampm.textContent).toBe("PM");
+      expect(meridiem.textContent).toBe("PM");
 
-      await ampmdown.click();
+      await meridiemdown.click();
       await page.waitForChanges();
 
-      expect(ampm.textContent).toBe("AM");
+      expect(meridiem.textContent).toBe("AM");
 
-      await ampmdown.click();
+      await meridiemdown.click();
       await page.waitForChanges();
 
-      expect(ampm.textContent).toBe("PM");
+      expect(meridiem.textContent).toBe("PM");
     });
   });
 });

@@ -1,4 +1,4 @@
-export type AmPm = "--" | "AM" | "PM";
+export type Meridiem = "--" | "AM" | "PM";
 
 export type MinuteOrSecond = "minute" | "second";
 
