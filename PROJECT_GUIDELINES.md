@@ -142,6 +142,34 @@ We follow Stencil's suggested component structure. See their [style guide](https
 
 Be sure to set `shadow: true` in Stencil's `@Component` options to make sure styles are encapsulated in our Calcite design system. This helps keep our components consistent across applications.
 
+##### Avoid complex CSS selectors
+
+Avoid complex CSS selectors and move logic into the component. As a general rule, if using more than 1 attribute in the CSS selector, use a class and move the logic into the component.
+
+For example, instead of a complex CSS selector as demonstrated below:
+
+```css
+[dir="rtl"][alignment="icon-end-space-between"]:not([width="auto"]) {
+  /* ... */
+}
+```
+
+Add a class to handle the logic in the component class.
+
+```tsx
+<div
+  class={{
+    [CSS.myClass]: rtl && alignment === "icon-end-space-between" && width !== "auto"
+  }}
+/>
+```
+
+```css
+.myClass {
+  /* ... */
+}
+```
+
 #### Utils
 
 ##### Unique IDs for components

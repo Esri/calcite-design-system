@@ -5,7 +5,7 @@ import readme from "./readme.md";
 import { html } from "../../tests/utils";
 
 export default {
-  title: "Components/Split Button",
+  title: "Components/Buttons/Split Button",
 
   parameters: {
     notes: readme
@@ -15,7 +15,7 @@ export default {
 export const Simple = (): string => html`
   <calcite-split-button
     appearance="${select("appearance", ["solid", "outline", "clear", "transparent"], "solid")}"
-    color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
+    color="${select("color", ["blue", "red", "neutral", "inverse"], "blue")}"
     scale="${select("size", ["s", "m", "l"], "m")}"
     ${boolean("loading", false)}
     ${boolean("disabled", false)}
@@ -35,7 +35,7 @@ export const Simple = (): string => html`
 
 export const SimplePrimaryIconEnd = (): string => html`
   <calcite-split-button
-    color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
+    color="${select("color", ["blue", "red", "neutral", "inverse"], "blue")}"
     scale="${select("size", ["s", "m", "l"], "m")}"
     ${boolean("loading", false)}
     ${boolean("disabled", false)}
@@ -59,7 +59,7 @@ SimplePrimaryIconEnd.story = {
 
 export const SimplePrimaryIconStartAndPrimaryIconEnd = (): string => html`
   <calcite-split-button
-    color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
+    color="${select("color", ["blue", "red", "neutral", "inverse"], "blue")}"
     scale="${select("size", ["s", "m", "l"], "m")}"
     ${boolean("loading", false)}
     ${boolean("disabled", false)}
@@ -86,7 +86,7 @@ export const Rtl = (): string => html`
   <div dir="rtl">
     <calcite-split-button
       appearance="${select("appearance", ["solid", "outline", "clear", "transparent"], "solid")}"
-      color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
+      color="${select("color", ["blue", "red", "neutral", "inverse"], "blue")}"
       scale="${select("size", ["s", "m", "l"], "m")}"
       ${boolean("loading", false)}
       ${boolean("disabled", false)}
@@ -111,7 +111,7 @@ Rtl.story = {
 export const DarkMode = (): string => html`
   <calcite-split-button
     appearance="${select("appearance", ["solid", "outline", "clear", "transparent"], "solid")}"
-    color="${select("color", ["blue", "red", "dark", "light"], "blue")}"
+    color="${select("color", ["blue", "red", "neutral", "inverse"], "blue")}"
     scale="${select("size", ["s", "m", "l"], "m")}"
     ${boolean("loading", false)}
     ${boolean("disabled", false)}

@@ -5,7 +5,7 @@ import readme from "./readme.md";
 import { html } from "../../tests/utils";
 
 export default {
-  title: "Components/Tile",
+  title: "Components/Tiles/Tile",
 
   parameters: {
     notes: readme
@@ -23,7 +23,7 @@ export const Light = (): string => html`
     heading="${text("heading", "Tile heading lorem ipsum")}"
     ${boolean("hidden", false)}
     href="${text("href", "#")}"
-    icon="${select("icon", iconNames, iconNames[296])}"
+    icon="${select("icon", iconNames, "layer")}"
   >
   </calcite-tile>
 `;
@@ -39,7 +39,7 @@ export const Dark = (): string => html`
     heading="${text("heading", "Tile heading lorem ipsum")}"
     ${boolean("hidden", false)}
     href="${text("href", "#")}"
-    icon="${select("icon", iconNames, iconNames[296])}"
+    icon="${select("icon", iconNames, "layer")}"
     theme="dark"
   >
   </calcite-tile>

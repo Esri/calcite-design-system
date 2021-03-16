@@ -1,6 +1,12 @@
 # calcite-tabs
 
-calcite-tabs uses several sub-components ([calcite-tab-nav](../calcite-tab-nav), [calcite-tab](../calcite-tab), [calcite-tab-title](../calcite-tab-title)) to create a tabbed interface with optional client side storage. Place your content inside of the `<calcite-tab>` element:
+<!-- Auto Generated Below -->
+
+## Usage
+
+### Basic
+
+`calcite-tabs` uses several sub-components ([calcite-tab-nav](../calcite-tab-nav), [calcite-tab](../calcite-tab), [calcite-tab-title](../calcite-tab-title)) to create a tabbed interface with optional client side storage. Place your content inside of the `<calcite-tab>` element:
 
 ```html
 <calcite-tabs>
@@ -14,8 +20,6 @@ calcite-tabs uses several sub-components ([calcite-tab-nav](../calcite-tab-nav),
 </calcite-tabs>
 ```
 
-<!-- Auto Generated Below -->
-
 ## Properties
 
 | Property   | Attribute  | Description                                                                      | Type                   | Default     |
@@ -28,13 +32,13 @@ calcite-tabs uses several sub-components ([calcite-tab-nav](../calcite-tab-nav),
 
 ### Used by
 
-- [calcite-color](../calcite-color)
+- [calcite-color-picker](../calcite-color-picker)
 
 ### Graph
 
 ```mermaid
 graph TD;
-  calcite-color --> calcite-tabs
+  calcite-color-picker --> calcite-tabs
   style calcite-tabs fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

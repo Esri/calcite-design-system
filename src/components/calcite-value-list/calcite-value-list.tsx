@@ -31,6 +31,7 @@ import {
 } from "../calcite-pick-list/shared-list-logic";
 import List from "../calcite-pick-list/shared-list-render";
 import { getRoundRobinIndex } from "../../utils/array";
+import { Theme } from "../interfaces";
 
 /**
  * @slot - A slot for adding `calcite-pick-list-item` elements or `calcite-pick-list-group` elements. Items are displayed as a vertical list.
@@ -88,6 +89,9 @@ export class CalciteValueList<
    */
   @Prop({ reflect: true }) multiple = false;
 
+  /** Select theme (light or dark) */
+  @Prop({ reflect: true }) theme: Theme;
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -138,13 +142,11 @@ export class CalciteValueList<
 
   /**
    * Emitted when any of the item selections have changed.
-   * @event calciteListChange
    */
   @Event() calciteListChange: EventEmitter;
 
   /**
-   * Emmitted when the order of the list has changed.
-   * @event calciteListOrderChange
+   * Emitted when the order of the list has changed.
    */
   @Event() calciteListOrderChange: EventEmitter;
 
@@ -220,7 +222,9 @@ export class CalciteValueList<
   keyDownHandler = (event: KeyboardEvent): void => {
     const handleElement = event
       .composedPath()
-      .find((item: HTMLElement) => item.dataset?.jsHandle) as HTMLCalciteHandleElement;
+      .find(
+        (item: HTMLElement) => item.dataset?.jsHandle !== undefined
+      ) as HTMLCalciteHandleElement;
 
     const item = event
       .composedPath()

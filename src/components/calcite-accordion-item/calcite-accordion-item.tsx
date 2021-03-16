@@ -49,12 +49,24 @@ export class CalciteAccordionItem {
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * @internal
+   */
   @Event() calciteAccordionItemKeyEvent: EventEmitter;
 
+  /**
+   * @internal
+   */
   @Event() calciteAccordionItemSelect: EventEmitter;
 
+  /**
+   * @internal
+   */
   @Event() calciteAccordionItemClose: EventEmitter;
 
+  /**
+   * @internal
+   */
   @Event() calciteAccordionItemRegister: EventEmitter;
 
   //--------------------------------------------------------------------------

@@ -1,5 +1,11 @@
 # calcite-alert
 
+<!-- Auto Generated Below -->
+
+## Usage
+
+### Basic
+
 A single instance of an alert. Multiple alerts will aggregate in a queue.
 
 ```html
@@ -14,8 +20,6 @@ A single instance of an alert. Multiple alerts will aggregate in a queue.
   <a slot="alert-link" href="#">Retry</a>
 </calcite-alert>
 ```
-
-<!-- Auto Generated Below -->
 
 ## Properties
 

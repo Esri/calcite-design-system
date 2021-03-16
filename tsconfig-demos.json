@@ -1,7 +1,4 @@
 {
   "extends": "./tsconfig-base",
-  "compilerOptions": {
-    "target": "es5"
-  },
-  "include": ["src/demos"]
+  "include": ["src/demos", "src/components.d.ts"]
 }

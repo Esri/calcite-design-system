@@ -7,12 +7,13 @@ import {
   Prop,
   State,
   h,
-  VNode
+  VNode,
+  Method
 } from "@stencil/core";
 import { debounce, forIn } from "lodash-es";
 import { CSS, ICONS, TEXT } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
-import { getElementDir } from "../../utils/dom";
+import { focusElement, getElementDir } from "../../utils/dom";
 
 const filterDebounceInMs = 250;
 
@@ -67,7 +68,24 @@ export class CalciteFilter {
   //
   // --------------------------------------------------------------------------
 
+  /**
+   * This event fires when the filter text changes.
+   */
   @Event() calciteFilterChange: EventEmitter;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  // --------------------------------------------------------------------------
+
+  /**
+   * Focuses the filter input.
+   */
+  @Method()
+  async setFocus(): Promise<void> {
+    focusElement(this.textInput);
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -109,10 +127,16 @@ export class CalciteFilter {
     this.calciteFilterChange.emit(result);
   }, filterDebounceInMs);
 
-  inputHandler = (event: Event): void => {
+  inputHandler = (event: InputEvent): void => {
     const target = event.target as HTMLInputElement;
     this.empty = target.value === "";
     this.filter(target.value);
+  };
+
+  keyDownHandler = ({ key }: KeyboardEvent): void => {
+    if (key === "Escape") {
+      this.clear();
+    }
   };
 
   clear = (): void => {
@@ -136,6 +160,7 @@ export class CalciteFilter {
           <input
             aria-label={this.intlLabel || TEXT.filterLabel}
             onInput={this.inputHandler}
+            onKeyDown={this.keyDownHandler}
             placeholder={this.placeholder}
             ref={(el): void => {
               this.textInput = el;

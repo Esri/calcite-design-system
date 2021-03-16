@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { HYDRATED_ATTR } from "../../tests/commonTests";
+import { focusable, HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-checkbox", () => {
   it("renders with correct default attributes", async () => {
@@ -9,7 +9,6 @@ describe("calcite-checkbox", () => {
     const calciteCheckbox = await page.find("calcite-checkbox");
 
     expect(calciteCheckbox).toHaveAttribute(HYDRATED_ATTR);
-    expect(calciteCheckbox).toEqualAttribute("role", "checkbox");
     expect(calciteCheckbox).not.toHaveAttribute("checked");
     expect(calciteCheckbox).not.toHaveAttribute("indeterminate");
   });
@@ -40,7 +39,7 @@ describe("calcite-checkbox", () => {
     expect(input).not.toHaveAttribute("checked");
     expect(await input.getProperty("checked")).toBe(false);
 
-    calciteCheckbox.click();
+    await calciteCheckbox.click();
 
     await page.waitForChanges();
 
@@ -87,7 +86,7 @@ describe("calcite-checkbox", () => {
     expect(calciteCheckbox).not.toHaveAttribute("checked");
     expect(input).not.toHaveAttribute("checked");
 
-    calciteCheckbox.click();
+    await calciteCheckbox.click();
 
     await page.waitForChanges();
 
@@ -126,7 +125,7 @@ describe("calcite-checkbox", () => {
     expect(input).not.toHaveAttribute("checked");
     expect(await input.getProperty("checked")).toBe(false);
 
-    paragraph.click();
+    await paragraph.click();
 
     await page.waitForChanges();
 
@@ -153,7 +152,7 @@ describe("calcite-checkbox", () => {
     expect(input).not.toHaveAttribute("checked");
     expect(await input.getProperty("checked")).toBe(false);
 
-    label.click();
+    await label.click();
 
     await page.waitForChanges();
 
@@ -180,7 +179,7 @@ describe("calcite-checkbox", () => {
     expect(input).not.toHaveAttribute("checked");
     expect(await input.getProperty("checked")).toBe(false);
 
-    label.click();
+    await label.click();
 
     await page.waitForChanges();
 
@@ -207,7 +206,7 @@ describe("calcite-checkbox", () => {
     expect(input).not.toHaveAttribute("checked");
     expect(await input.getProperty("checked")).toBe(false);
 
-    label.click();
+    await label.click();
 
     await page.waitForChanges();
 
@@ -232,7 +231,7 @@ describe("calcite-checkbox", () => {
     expect(input).not.toHaveAttribute("checked");
     expect(await input.getProperty("checked")).toBe(false);
 
-    label.click();
+    await label.click();
 
     await page.waitForChanges();
 
@@ -321,4 +320,9 @@ describe("calcite-checkbox", () => {
     expect(await unchecked.getProperty("checked")).toBe(false);
     expect(await checked.getProperty("checked")).toBe(true);
   });
+
+  it("is focusable", () =>
+    focusable("calcite-checkbox", {
+      focusTargetSelector: "input[type=checkbox]"
+    }));
 });

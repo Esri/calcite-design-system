@@ -28,6 +28,11 @@ export class CalciteShell {
    */
   @Prop({ reflect: true }) theme: Theme;
 
+  /**
+   * Positions the center content behind any calcite-shell-panels.
+   */
+  @Prop({ reflect: true }) contentBehind?: boolean;
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -48,12 +53,27 @@ export class CalciteShell {
     return hasHeader ? <slot name={SLOTS.header} /> : null;
   }
 
-  renderContent(): VNode {
-    return (
-      <div class={CSS.content}>
-        <slot />
-      </div>
-    );
+  renderContent(): VNode[] {
+    const content = !!this.contentBehind
+      ? [
+          <div
+            class={{
+              [CSS.content]: true,
+              [CSS.contentBehind]: !!this.contentBehind
+            }}
+          >
+            <slot />
+          </div>,
+          <slot name="center-row" />
+        ]
+      : [
+          <div class={CSS.content}>
+            <slot />
+            <slot name="center-row" />
+          </div>
+        ];
+
+    return content;
   }
 
   renderFooter(): VNode {
@@ -78,7 +98,6 @@ export class CalciteShell {
       <div class={mainClasses}>
         <slot name={SLOTS.primaryPanel} />
         {this.renderContent()}
-        <slot name={SLOTS.centerRow} />
         <slot name={SLOTS.contextualPanel} />
       </div>
     );

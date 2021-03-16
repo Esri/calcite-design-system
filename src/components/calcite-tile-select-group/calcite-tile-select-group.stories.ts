@@ -1,9 +1,10 @@
 import { select } from "@storybook/addon-knobs";
 import { darkBackground } from "../../../.storybook/utils";
+import { boolean } from "../../../.storybook/helpers";
 import { html } from "../../tests/utils";
 
 export default {
-  title: "Components/Tile Select Group"
+  title: "Components/Tiles/Tile Select Group"
 };
 
 export const Light = (): string => html`
@@ -14,7 +15,8 @@ export const Light = (): string => html`
       heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
       icon="layers"
       name="light"
-      show-input="${select("show-input", ["left", "right", "none"], "left")}"
+      ${boolean("input-enabled", false)}
+      input-alignment="${select("input-alignment", ["start", "end"], "start")}"
       type="${select("type", ["radio", "checkbox"], "radio")}"
       value="one"
     >
@@ -24,7 +26,8 @@ export const Light = (): string => html`
       heading="Tile title lorem ipsum"
       icon="layers"
       name="light"
-      show-input="${select("show-input", ["left", "right", "none"], "left")}"
+      ${boolean("input-enabled", false)}
+      input-alignment="${select("input-alignment", ["start", "end"], "start")}"
       type="${select("type", ["radio", "checkbox"], "radio")}"
       value="two"
     >
@@ -34,7 +37,8 @@ export const Light = (): string => html`
       heading="Tile title lorem ipsum"
       icon="layers"
       name="light"
-      show-input="${select("show-input", ["left", "right", "none"], "left")}"
+      ${boolean("input-enabled", false)}
+      input-alignment="${select("input-alignment", ["start", "end"], "start")}"
       type="${select("type", ["radio", "checkbox"], "radio")}"
       value="three"
     >
@@ -45,7 +49,8 @@ export const Light = (): string => html`
       heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
       icon="layers"
       name="light"
-      show-input="${select("show-input", ["left", "right", "none"], "left")}"
+      ${boolean("input-enabled", false)}
+      input-alignment="${select("input-alignment", ["start", "end"], "start")}"
       type="${select("type", ["radio", "checkbox"], "radio")}"
       value="four"
     >
@@ -61,7 +66,8 @@ export const Dark = (): string => html`
     heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
     icon="layers"
     name="dark"
-    show-input="${select("show-input", ["left", "right", "none"], "left")}"
+    ${boolean("input-enabled", false)}
+    input-alignment="${select("input-alignment", ["start", "end"], "start")}"
     theme="dark"
     type="${select("type", ["radio", "checkbox"], "radio")}"
     value="one"
@@ -72,7 +78,8 @@ export const Dark = (): string => html`
     heading="Tile title lorem ipsum"
     icon="layers"
     name="dark"
-    show-input="${select("show-input", ["left", "right", "none"], "left")}"
+    ${boolean("input-enabled", false)}
+    input-alignment="${select("input-alignment", ["start", "end"], "start")}"
     theme="dark"
     type="${select("type", ["radio", "checkbox"], "radio")}"
     value="two"
@@ -83,7 +90,8 @@ export const Dark = (): string => html`
     heading="Tile title lorem ipsum"
     icon="layers"
     name="dark"
-    show-input="${select("show-input", ["left", "right", "none"], "left")}"
+    ${boolean("input-enabled", false)}
+    input-alignment="${select("input-alignment", ["start", "end"], "start")}"
     theme="dark"
     type="${select("type", ["radio", "checkbox"], "radio")}"
     value="three"
@@ -95,7 +103,8 @@ export const Dark = (): string => html`
     heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
     icon="layers"
     name="dark"
-    show-input="${select("show-input", ["left", "right", "none"], "left")}"
+    ${boolean("input-enabled", false)}
+    input-alignment="${select("input-alignment", ["start", "end"], "start")}"
     theme="dark"
     type="${select("type", ["radio", "checkbox"], "radio")}"
     value="four"

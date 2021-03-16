@@ -1,17 +1,17 @@
-import { Theme } from "../components/interfaces";
-
 export function nodeListToArray<T extends Element>(nodeList: HTMLCollectionOf<T> | NodeListOf<T> | T[]): T[] {
   return Array.isArray(nodeList) ? nodeList : Array.from(nodeList);
 }
 
 type Direction = "ltr" | "rtl";
 
-export function getElementDir(el: HTMLElement): Direction {
-  return getElementProp(el, "dir", "ltr") as Direction;
+export function getAttributes(el: HTMLElement, blockList: string[]): Record<string, any> {
+  return Array.from(el.attributes)
+    .filter((a) => a && !blockList.includes(a.name))
+    .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
 }
 
-export function getElementTheme(el: HTMLElement): Theme {
-  return getElementProp(el, "theme", "light") as Theme;
+export function getElementDir(el: HTMLElement): Direction {
+  return getElementProp(el, "dir", "ltr") as Direction;
 }
 
 export function getElementProp(el: Element, prop: string, fallbackValue: any, crossShadowBoundary = false): any {

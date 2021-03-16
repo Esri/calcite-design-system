@@ -22,7 +22,19 @@ const calcite_placements = placements.concat([
   "leading-end",
   "trailing-end",
   "trailing",
-  "trailing-start"
+  "trailing-start",
+  "leading-leading",
+  "leading-trailing",
+  "trailing-leading",
+  "trailing-trailing",
+  "top-leading",
+  "top-trailing",
+  "bottom-leading",
+  "bottom-trailing",
+  "right-leading",
+  "right-trailing",
+  "left-leading",
+  "left-trailing"
 ]);
 
 const contentHTML = `

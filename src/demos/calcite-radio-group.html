@@ -199,6 +199,23 @@
       <calcite-radio-group-item value="2" checked></calcite-radio-group-item>
       <calcite-radio-group-item value="3" checked></calcite-radio-group-item>
     </calcite-radio-group>
+
+    <h3 class="leader-1">Change Event</h3>
+
+    <calcite-radio-group class="js-group">
+      <calcite-radio-group-item value="1"></calcite-radio-group-item>
+      <calcite-radio-group-item value="2"></calcite-radio-group-item>
+      <calcite-radio-group-item value="3"></calcite-radio-group-item>
+    </calcite-radio-group>
+
+    <p>Currently selected value: <span class="js-value">n/a</span></p>
+
+    <script>
+      document.querySelector(".js-group").addEventListener("calciteRadioGroupChange", function (e) {
+        document.querySelector(".js-value").innerHTML = e.detail;
+      });
+    </script>
+
     <br />
     <br />
     <div class="demo-background-dark">

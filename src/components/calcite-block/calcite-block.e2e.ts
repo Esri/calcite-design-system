@@ -14,6 +14,10 @@ describe("calcite-block", () => {
         defaultValue: false
       },
       {
+        propertyName: "headingLevel",
+        defaultValue: 4
+      },
+      {
         propertyName: "open",
         defaultValue: false
       }

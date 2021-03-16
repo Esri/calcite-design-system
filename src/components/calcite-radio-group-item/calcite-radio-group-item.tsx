@@ -56,7 +56,7 @@ export class CalciteRadioGroupItem {
   /**
    * The control's value.
    */
-  @Prop()
+  @Prop({ mutable: true })
   value: any | null;
 
   //--------------------------------------------------------------------------
@@ -131,6 +131,10 @@ export class CalciteRadioGroupItem {
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * Fires when the item has been selected.
+   * @internal
+   */
   @Event()
   calciteRadioGroupItemChange: EventEmitter;
 
@@ -169,7 +173,7 @@ export class CalciteRadioGroupItem {
 
     this.inputProxy.value = this.value;
     if (this.checked) {
-      this.inputProxy.setAttribute("checked", "true");
+      this.inputProxy.setAttribute("checked", "");
     } else {
       this.inputProxy.removeAttribute("checked");
     }

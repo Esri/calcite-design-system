@@ -29,6 +29,7 @@ import {
   removeItem
 } from "./shared-list-logic";
 import List from "./shared-list-render";
+import { Theme } from "../interfaces";
 
 /**
  * @slot - A slot for adding `calcite-pick-list-item` elements or `calcite-pick-list-group` elements. Items are displayed as a vertical list.
@@ -76,6 +77,9 @@ export class CalcitePickList<
    */
   @Prop({ reflect: true }) multiple = false;
 
+  /** Select theme (light or dark) */
+  @Prop({ reflect: true }) theme: Theme;
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -119,7 +123,6 @@ export class CalcitePickList<
 
   /**
    * Emitted when any of the item selections have changed.
-   * @event calciteListChange
    */
   @Event() calciteListChange: EventEmitter;
 

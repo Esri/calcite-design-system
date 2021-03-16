@@ -1,6 +1,14 @@
 # calcite-pagination
 
-Calcite pagination allows users to select a page from a paginated API. The component is meant to interface with responses from ArcGIS REST services, so the props share names with [response properties](https://developers.arcgis.com/rest/users-groups-and-items/search.htm) from various search endpoints.
+`calcite-pagination` allows users to select a page from a paginated API.
+
+<!-- Auto Generated Below -->
+
+## Usage
+
+### Basic
+
+The component is meant to interface with responses from ArcGIS REST services, so the props share names with [response properties](https://developers.arcgis.com/rest/users-groups-and-items/search.htm) from various search endpoints.
 
 For example, after querying the search API, you'll get back a response similar to the following:
 
@@ -19,8 +27,6 @@ These can be passed straight to the `calcite-pagination` component:
 <calcite-pagination start="1" num="100" total="2021"></calcite-pagination>
 ```
 
-<!-- Auto Generated Below -->
-
 ## Properties
 
 | Property            | Attribute             | Description                                       | Type                | Default              |
@@ -35,9 +41,10 @@ These can be passed straight to the `calcite-pagination` component:
 
 ## Events
 
-| Event                     | Description                                 | Type                                   |
-| ------------------------- | ------------------------------------------- | -------------------------------------- |
-| `calcitePaginationUpdate` | Emitted whenever the selected page changes. | `CustomEvent<CalcitePaginationDetail>` |
+| Event                     | Description                                                                                                                              | Type                                   |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| `calcitePaginationChange` | Emitted whenever the selected page changes.                                                                                              | `CustomEvent<CalcitePaginationDetail>` |
+| `calcitePaginationUpdate` | <span style="color:red">**[DEPRECATED]**</span> use calcitePaginationChange instead<br/><br/>Emitted whenever the selected page changes. | `CustomEvent<CalcitePaginationDetail>` |
 
 ## Methods
 

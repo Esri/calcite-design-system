@@ -27,10 +27,10 @@ describe("calcite-inline-editable", () => {
       expect(element).not.toHaveAttribute("loading");
     });
 
-    it("uses a wrapping label's scale and theme when none are provided", async () => {
+    it("uses a wrapping label's scale when none are provided", async () => {
       page = await newE2EPage();
       await page.setContent(`
-      <calcite-label theme="dark" scale="l">
+      <calcite-label scale="l">
         <calcite-inline-editable>
           <calcite-input/>
         </calcite-inline-editable>
@@ -39,22 +39,20 @@ describe("calcite-inline-editable", () => {
       await page.waitForChanges();
       const element = await page.find("calcite-inline-editable");
       expect(element).toEqualAttribute("scale", "l");
-      expect(element).toEqualAttribute("theme", "dark");
     });
 
-    it("uses a child input's scale and theme when none are provided", async () => {
+    it("uses a child input's scale when none are provided", async () => {
       page = await newE2EPage();
       await page.setContent(`
       <calcite-label>
         <calcite-inline-editable>
-          <calcite-input theme="dark" scale="l"/>
+          <calcite-input scale="l"/>
         </calcite-inline-editable>
       </calcite-label>
       `);
       await page.waitForChanges();
       const element = await page.find("calcite-inline-editable");
       expect(element).toEqualAttribute("scale", "l");
-      expect(element).toEqualAttribute("theme", "dark");
     });
 
     it("renders requested props when valid props are provided", async () => {
@@ -204,6 +202,9 @@ describe("calcite-inline-editable", () => {
       await element.click();
       const cancelEditingButton = await element.find(".calcite-inline-editable-cancel-editing-button");
       expect(input.getAttribute("value")).toBe("John Doe");
+      await page.$eval("calcite-input input", (input: HTMLInputElement): void => {
+        input.setSelectionRange(input.value.length, input.value.length);
+      });
       await input.type("typo");
       expect(input.getAttribute("value")).toBe("John Doetypo");
       await cancelEditingButton.click();
@@ -218,6 +219,9 @@ describe("calcite-inline-editable", () => {
       const input = await element.find("calcite-input");
       await element.click();
       expect(input.getAttribute("value")).toBe("John Doe");
+      await page.$eval("calcite-input input", (input: HTMLInputElement): void => {
+        input.setSelectionRange(input.value.length, input.value.length);
+      });
       await input.type("typo");
       expect(input.getAttribute("value")).toBe("John Doetypo");
       await page.keyboard.press("Escape");
@@ -244,6 +248,9 @@ describe("calcite-inline-editable", () => {
       const enableEditingButton = await element.find(".calcite-inline-editable-enable-editing-button");
       await enableEditingButton.click();
       const confirmChangesButton = await element.find(".calcite-inline-editable-confirm-changes-button");
+      await page.$eval("calcite-input input", (input: HTMLInputElement): void => {
+        input.setSelectionRange(input.value.length, input.value.length);
+      });
       await input.type("Moe");
       await confirmChangesButton.click();
       expect(calciteInlineEditableChangesConfirm).toHaveReceivedEventTimes(1);
@@ -264,6 +271,9 @@ describe("calcite-inline-editable", () => {
       const enableEditingButton = await element.find(".calcite-inline-editable-enable-editing-button");
       await enableEditingButton.click();
       const confirmChangesButton = await element.find(".calcite-inline-editable-confirm-changes-button");
+      await page.$eval("calcite-input input", (input: HTMLInputElement): void => {
+        input.setSelectionRange(input.value.length, input.value.length);
+      });
       await input.type("Moe");
       await confirmChangesButton.click();
       expect(calciteInlineEditableChangesConfirm).toHaveReceivedEventTimes(1);
@@ -285,6 +295,9 @@ describe("calcite-inline-editable", () => {
       const enableEditingButton = await element.find(".calcite-inline-editable-enable-editing-button");
       await enableEditingButton.click();
       const confirmChangesButton = await element.find(".calcite-inline-editable-confirm-changes-button");
+      await page.$eval("calcite-input input", (input: HTMLInputElement): void => {
+        input.setSelectionRange(input.value.length, input.value.length);
+      });
       await input.type("Moe");
       await confirmChangesButton.click();
       expect(calciteInlineEditableChangesConfirm).toHaveReceivedEventTimes(1);

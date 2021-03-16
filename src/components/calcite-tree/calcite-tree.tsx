@@ -40,6 +40,9 @@ export class CalciteTree {
   /** Select theme (light or dark) */
   @Prop({ reflect: true }) theme: Theme;
 
+  /** @internal If this tree is nested within another tree, set to false */
+  @Prop({ reflect: true, mutable: true }) root = true;
+
   /** Specify the scale of the tree, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: Extract<"s" | "m", Scale> = "m";
 
@@ -55,7 +58,6 @@ export class CalciteTree {
 
   componentWillRender(): void {
     const parent: HTMLCalciteTreeElement = this.el.parentElement.closest("calcite-tree");
-    // this.theme = getElementTheme(this.el);
     this.lines = parent ? parent.lines : this.lines;
     this.scale = parent ? parent.scale : this.scale;
     this.selectionMode = parent ? parent.selectionMode : this.selectionMode;
@@ -194,25 +196,8 @@ export class CalciteTree {
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * Emitted when user selects/deselects tree items. An object including an array of selected items will be passed in the event's `detail` property.
+   */
   @Event() calciteTreeSelect: EventEmitter<TreeSelectDetail>;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  //--------------------------------------------------------------------------
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
-  /** @internal If this tree is nested within another tree, set to false */
-  @Prop({ reflect: true }) root = true;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
 }

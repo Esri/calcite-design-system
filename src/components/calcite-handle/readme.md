@@ -10,9 +10,9 @@
 
 ## Events
 
-| Event                | Description                                                                        | Type               |
-| -------------------- | ---------------------------------------------------------------------------------- | ------------------ |
-| `calciteHandleNudge` | Emmitted when the the handle is activated and the up or down arrow key is pressed. | `CustomEvent<any>` |
+| Event                | Description                                                                       | Type               |
+| -------------------- | --------------------------------------------------------------------------------- | ------------------ |
+| `calciteHandleNudge` | Emitted when the the handle is activated and the up or down arrow key is pressed. | `CustomEvent<any>` |
 
 ## Methods
 

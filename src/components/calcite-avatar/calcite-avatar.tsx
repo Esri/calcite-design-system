@@ -1,6 +1,6 @@
 import { Component, Element, h, Host, Prop, State } from "@stencil/core";
-import { getElementDir, getElementTheme } from "../../utils/dom";
-import { isValidHex } from "../calcite-color/utils";
+import { getElementDir } from "../../utils/dom";
+import { isValidHex } from "../calcite-color-picker/utils";
 import { Scale, Theme } from "../interfaces";
 import { hexToHue, stringToHex } from "./utils";
 
@@ -28,7 +28,7 @@ export class CalciteAvatar {
   @Prop({ reflect: true }) theme: Theme;
 
   /** specify the scale of the avatar, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: Scale = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** src to an image (remember to add a token if the user is private) */
   @Prop() thumbnail: string;
@@ -47,14 +47,6 @@ export class CalciteAvatar {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-
-  connectedCallback() {
-    // prop validations
-    const scale = ["s", "m", "l"];
-    if (!scale.includes(this.scale)) {
-      this.scale = "m";
-    }
-  }
 
   render() {
     const dir = getElementDir(this.el);
@@ -102,8 +94,7 @@ export class CalciteAvatar {
    * Generate a valid background color that is consistent and unique to this user
    */
   private generateFillColor() {
-    const { userId, username, fullName } = this;
-    const theme = getElementTheme(this.el);
+    const { userId, username, fullName, theme } = this;
     const id = userId && `#${userId.substr(userId.length - 6)}`;
     const name = username || fullName || "";
     const hex = id && isValidHex(id) ? id : stringToHex(name);

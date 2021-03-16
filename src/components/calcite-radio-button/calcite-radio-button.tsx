@@ -1,18 +1,18 @@
 import {
   Component,
-  Host,
-  h,
-  Listen,
-  Prop,
   Element,
-  Watch,
   Event,
   EventEmitter,
+  h,
+  Host,
+  Listen,
+  Method,
+  Prop,
   VNode,
-  Method
+  Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { getElementDir } from "../../utils/dom";
+import { focusElement, getElementDir } from "../../utils/dom";
 import { Scale, Theme } from "../interfaces";
 
 @Component({
@@ -43,8 +43,8 @@ export class CalciteRadioButton {
     if (newChecked) {
       this.uncheckOtherRadioButtonsInGroup();
     }
-    if (this.input) {
-      this.input.checked = newChecked;
+    if (this.inputEl) {
+      this.inputEl.checked = newChecked;
     }
     this.calciteRadioButtonCheckedChange.emit(newChecked);
   }
@@ -54,36 +54,42 @@ export class CalciteRadioButton {
 
   @Watch("disabled")
   disabledChanged(disabled: boolean): void {
-    this.input.disabled = disabled;
+    this.inputEl.disabled = disabled;
   }
 
-  /** The focused state of the radio button. */
+  /**
+   * The focused state of the radio button.
+   * @private
+   */
   @Prop({ mutable: true, reflect: true }) focused = false;
 
   @Watch("focused")
   focusedChanged(focused: boolean): void {
-    if (!this.input) {
+    if (!this.inputEl) {
       return;
     }
     if (focused && !this.el.hasAttribute("hidden")) {
-      this.input.focus();
+      this.inputEl.focus();
     } else {
-      this.input.blur();
+      this.inputEl.blur();
     }
   }
 
   /** The id attribute of the radio button.  When omitted, a globally unique identifier is used. */
-  @Prop({ reflect: true }) guid: string;
+  @Prop({ reflect: true, mutable: true }) guid: string;
 
   /** The radio button's hidden status.  When a radio button is hidden it is not focusable or checkable. */
   @Prop({ reflect: true }) hidden = false;
 
   @Watch("hidden")
   hiddenChanged(newHidden: boolean): void {
-    this.input.hidden = newHidden;
+    this.inputEl.hidden = newHidden;
   }
 
-  /** The hovered state of the radio button. */
+  /**
+   * The hovered state of the radio button.
+   * @private
+   */
   @Prop({ reflect: true, mutable: true }) hovered = false;
 
   /** The name of the radio button.  <code>name</code> is passed as a property automatically from <code>calcite-radio-button-group</code>. */
@@ -94,8 +100,8 @@ export class CalciteRadioButton {
     if (this.name === newName) {
       return;
     }
-    if (this.input) {
-      this.input.name = newName;
+    if (this.inputEl) {
+      this.inputEl.name = newName;
     }
     this.checkLastRadioButton();
     const currentValue: HTMLInputElement = this.rootNode.querySelector(
@@ -111,14 +117,14 @@ export class CalciteRadioButton {
 
   @Watch("required")
   requiredChanged(required: boolean): void {
-    this.input.required = required;
+    this.inputEl.required = required;
   }
 
   /** The scale (size) of the radio button.  <code>scale</code> is passed as a property automatically from <code>calcite-radio-button-group</code>. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /** The color theme of the radio button, <code>theme</code> is passed as a property automatically from <code>calcite-radio-button-group</code>. */
-  @Prop({ reflect: true }) theme: Theme = "light";
+  @Prop({ reflect: true }) theme: Theme;
 
   /** The value of the radio button. */
   @Prop({ reflect: true }) value!: string;
@@ -131,11 +137,22 @@ export class CalciteRadioButton {
 
   private initialChecked: boolean;
 
-  private input: HTMLInputElement;
+  private inputEl: HTMLInputElement;
 
   private radio: HTMLCalciteRadioElement;
 
   private rootNode: HTMLElement;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  @Method()
+  async setFocus(): Promise<void> {
+    focusElement(this.inputEl);
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -166,6 +183,10 @@ export class CalciteRadioButton {
   async emitCheckedChange(): Promise<void> {
     this.calciteRadioButtonCheckedChange.emit();
   }
+
+  private setInputEl = (el): void => {
+    this.inputEl = el;
+  };
 
   private uncheckAllRadioButtonsInGroup(): void {
     const otherRadioButtons = Array.from(
@@ -202,20 +223,25 @@ export class CalciteRadioButton {
   //
   //--------------------------------------------------------------------------
 
-  /** Fires only when the radio button is checked.  This behavior is identical to the native HTML input element.
+  /**
+   * Fires only when the radio button is checked.  This behavior is identical to the native HTML input element.
    * Since this event does not fire when the radio button is unchecked, it's not recommended to attach a listener for this event
    * directly on the element, but instead either attach it to a node that contains all of the radio buttons in the group
    * or use the calciteRadioButtonGroupChange event if using this with calcite-radio-button-group.
    */
   @Event() calciteRadioButtonChange: EventEmitter;
 
-  /** Fires when the checked property changes.  This is an internal event used for styling purposes only.
+  /**
+   * Fires when the checked property changes.  This is an internal event used for styling purposes only.
    * Use calciteRadioButtonChange or calciteRadioButtonGroupChange for responding to changes in the checked value for forms.
    * @internal
    */
   @Event() calciteRadioButtonCheckedChange: EventEmitter;
 
-  /** Fires when the radio button is either focused or blurred. */
+  /**
+   * Fires when the radio button is either focused or blurred.
+   * @internal
+   */
   @Event() calciteRadioButtonFocusedChange: EventEmitter;
 
   //--------------------------------------------------------------------------
@@ -250,7 +276,16 @@ export class CalciteRadioButton {
 
   private formResetHandler = (): void => {
     this.checked = this.initialChecked;
-    this.initialChecked && this.input?.setAttribute("checked", "");
+    this.initialChecked && this.inputEl?.setAttribute("checked", "");
+  };
+
+  private hideInputEl = (): void => {
+    this.inputEl.style.setProperty("margin", "0", "important");
+    this.inputEl.style.setProperty("opacity", "0", "important");
+    this.inputEl.style.setProperty("padding", "0", "important");
+    this.inputEl.style.setProperty("position", "absolute", "important");
+    this.inputEl.style.setProperty("transform", "none", "important");
+    this.inputEl.style.setProperty("z-index", "-1", "important");
   };
 
   private onInputBlur = (): void => {
@@ -283,8 +318,9 @@ export class CalciteRadioButton {
   }
 
   componentDidLoad(): void {
+    this.hideInputEl();
     if (this.focused) {
-      this.input.focus();
+      this.inputEl.focus();
     }
   }
 
@@ -320,7 +356,6 @@ export class CalciteRadioButton {
   }
 
   render(): VNode {
-    const inputStyle = { opacity: "0", position: "fixed", zIndex: "-1" };
     return (
       <Host labeled={!!this.el.textContent}>
         <input
@@ -332,9 +367,8 @@ export class CalciteRadioButton {
           name={this.name}
           onBlur={this.onInputBlur}
           onFocus={this.onInputFocus}
-          ref={(el) => (this.input = el)}
+          ref={this.setInputEl}
           required={this.required}
-          style={inputStyle}
           type="radio"
           value={this.value}
         />

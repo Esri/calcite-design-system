@@ -45,8 +45,14 @@ export class CalciteDropdownGroup {
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * @internal
+   */
   @Event() calciteDropdownGroupRegister: EventEmitter<GroupRegistration>;
 
+  /**
+   * @internal
+   */
   @Event() calciteDropdownItemChange: EventEmitter;
 
   // --------------------------------------------------------------------------

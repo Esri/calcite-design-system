@@ -47,6 +47,24 @@ describe("calcite-radio-group", () => {
     expect(selectedValue).toBe("3");
   });
 
+  it("fires change event, passing selected item", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-radio-group>
+          <calcite-radio-group-item value="1">one</calcite-radio-group-item>
+          <calcite-radio-group-item value="2">two</calcite-radio-group-item>
+          <calcite-radio-group-item value="3">three</calcite-radio-group-item>
+        </calcite-radio-group>`
+    );
+    const element = await page.find("calcite-radio-group");
+    const eventSpy = await element.spyOnEvent("calciteRadioGroupChange");
+    expect(eventSpy).not.toHaveReceivedEvent();
+    const item = await page.find("calcite-radio-group-item");
+    await item.click();
+    expect(eventSpy).toHaveReceivedEvent();
+    expect(eventSpy).toHaveReceivedEventDetail("1");
+  });
+
   describe("keyboard navigation", () => {
     it("selects item with left and arrow keys", async () => {
       const page = await newE2EPage();

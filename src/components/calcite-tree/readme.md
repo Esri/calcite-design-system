@@ -1,5 +1,11 @@
 # calcite-tree
 
+<!-- Auto Generated Below -->
+
+## Usage
+
+### Basic
+
 `<calcite-tree>` can be used as a sidebar navigation tree with optional lines and different selection modes.
 
 ```html
@@ -18,8 +24,6 @@
 </calcite-tree>
 ```
 
-<!-- Auto Generated Below -->
-
 ## Properties
 
 | Property        | Attribute        | Description                                                                  | Type                                                                                                                   | Default                    |
@@ -31,9 +35,9 @@
 
 ## Events
 
-| Event               | Description | Type                            |
-| ------------------- | ----------- | ------------------------------- |
-| `calciteTreeSelect` |             | `CustomEvent<TreeSelectDetail>` |
+| Event               | Description                                                                                                                                     | Type                            |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
+| `calciteTreeSelect` | Emitted when user selects/deselects tree items. An object including an array of selected items will be passed in the event's `detail` property. | `CustomEvent<TreeSelectDetail>` |
 
 ---
 

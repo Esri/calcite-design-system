@@ -41,6 +41,9 @@ export class CalciteSwitch {
   /** The value of the checkbox input */
   @Prop({ reflect: true, mutable: true }) value?: string = "";
 
+  /**
+   * Fires when the switched value has changed.
+   */
   @Event() calciteSwitchChange: EventEmitter;
 
   private observer: MutationObserver;

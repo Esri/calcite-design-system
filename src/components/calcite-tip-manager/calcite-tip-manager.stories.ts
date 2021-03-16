@@ -3,11 +3,11 @@ import { Attributes, createComponentHTML as create, darkBackground } from "../..
 import readme from "./readme.md";
 import { TEXT } from "./resources";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { html } from "../../tests/utils";
+import { html, placeholderImage } from "../../tests/utils";
 const { dir, theme } = ATTRIBUTES;
 
 export default {
-  title: "App Components/Tip Manager",
+  title: "Components/App/Tip Manager",
   parameters: {
     backgrounds: darkBackground,
     notes: readme
@@ -56,7 +56,7 @@ export const basic = (): string =>
     html`
       <calcite-tip-group group-title="Astronomy">
         <calcite-tip heading="The Red Rocks and Blue Water">
-          <img slot="thumbnail" src="https://placeimg.com/1000/600/city" alt="This is an image." />
+          <img slot="thumbnail" src="${placeholderImage({ width: 1000, height: 600 })}" alt="This is an image." />
           <p>
             This tip is how a tip should really look. It has a landscape or square image and a small amount of text
             content. This paragraph is in an "info" slot.
@@ -70,14 +70,14 @@ export const basic = (): string =>
           <a href="http://www.esri.com">This is the "link" slot.</a>
         </calcite-tip>
         <calcite-tip heading="The Long Trees">
-          <img slot="thumbnail" src="https://placeimg.com/1000/600/nature" alt="This is an image." />
+          <img slot="thumbnail" src="${placeholderImage({ width: 1000, height: 600 })}" alt="This is an image." />
           <p>This tip has an image that is a pretty tall. And the text will run out before the end of the image.</p>
           <p>In astronomy, the terms object and body are often used interchangeably.</p>
           <a href="http://www.esri.com">View Esri</a>
         </calcite-tip>
       </calcite-tip-group>
       <calcite-tip heading="Square Nature">
-        <img slot="thumbnail" src="https://placeimg.com/1000/1000/nature" alt="This is an image." />
+        <img slot="thumbnail" src="${placeholderImage({ width: 1000, height: 1000 })}" alt="This is an image." />
         <p>This tip has an image that is square. And the text will run out before the end of the image.</p>
         <p>In astronomy, the terms object and body are often used interchangeably.</p>
         <p>

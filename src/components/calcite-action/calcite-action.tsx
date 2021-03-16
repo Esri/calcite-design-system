@@ -1,4 +1,4 @@
-import { Component, Element, Host, Method, Prop, h, forceUpdate } from "@stencil/core";
+import { Component, Element, Host, Method, Prop, h, forceUpdate, VNode } from "@stencil/core";
 
 import { Appearance, Scale, Theme } from "../interfaces";
 
@@ -7,7 +7,6 @@ import { CSS, TEXT } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 
 import { getElementDir } from "../../utils/dom";
-import { VNode } from "@stencil/core/internal";
 
 /**
  * @slot - A slot for adding a `calcite-icon`.
@@ -55,7 +54,7 @@ export class CalciteAction {
   @Prop() intlLoading?: string = TEXT.loading;
 
   /**
-   * Label of the action, exposed on hover. If no label is provided, the label inherits what's provided for the `text` prop.
+   * The label of the action. If no label is provided, the label inherits what's provided for the `text` prop.
    */
   @Prop() label?: string;
 

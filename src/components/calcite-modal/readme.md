@@ -1,12 +1,20 @@
 # calcite-modal
 
-calcite modal allows you to show a modal/dialog to your users. The modal handles fencing focus and animating in/out. Customize the modal by passing your content into multiple named slots: `header` (title-area of the modal), `content` (main body of the modal), and up to three modal actions: primary, secondary, and back.
+`calcite-modal` allows you to show a modal/dialog to your users. The modal handles fencing focus and animating in/out.
+
+<!-- Auto Generated Below -->
+
+## Usage
+
+### Basic
+
+Customize the modal by passing your content into multiple named slots: `header` (title-area of the modal), `content` (main body of the modal), and up to three modal actions: primary, secondary, and back.
 
 ```html
 <calcite-modal aria-labelledby="modal-title">
   <h3 slot="header" id="modal-title">Title of the modal</h3>
   <div slot="content">The actual content of the modal</div>
-  <calcite-button slot="back" color="light" appearance="outline" icon="chevron-left" width="full">
+  <calcite-button slot="back" color="neutral" appearance="outline" icon="chevron-left" width="full">
     Back
   </calcite-button>
   <calcite-button slot="secondary" width="full" appearance="outline"> Cancel </calcite-button>
@@ -15,6 +23,8 @@ calcite modal allows you to show a modal/dialog to your users. The modal handles
 ```
 
 Notice above we've used the `aria-labelledby` attribute, relating it to the title of the modal. In order to ensure good accessibility, it's recommended that you use either an `aria-label` or `aria-labelledby` attribute so screen readers can infer what the subject matter of your modal is.
+
+### Open
 
 To open a modal, add the `active` prop:
 
@@ -26,9 +36,9 @@ Once the opening animation is complete, the `calciteModalOpen` event will be fir
 
 To close the modal, simply remove the attribute. This will run your before close method (if provided, see below) and fire the `calciteModalClose` event after the animation and teardown is complete.
 
-### beforeClose
+### Reacting-before-close
 
-If you'd like to perform some actions prior to closing (ie. warning users they will lose their changes) you can pass a function to the `beforeClose` property. This method will be called prior to close and should return a Promise:
+If you'd like to perform some actions prior to closing (ie. warning users they will lose their changes) you can pass a function to the `beforeClose` property. This method will be called prior to close and should return a [`Promise`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise):
 
 ```js
 function beforeClose() {
@@ -37,10 +47,10 @@ function beforeClose() {
     resolve(); // this will trigger the close animation
   });
 }
+
+const modal = document.getElementById("my-modal");
 modal.beforeClose = beforeClose;
 ```
-
-<!-- Auto Generated Below -->
 
 ## Properties
 
@@ -72,7 +82,7 @@ modal.beforeClose = beforeClose;
 
 ### `focusElement(el?: HTMLElement) => Promise<void>`
 
-Focus first interactive element
+<span style="color:red">**[DEPRECATED]**</span> use `setFocus` instead.<br/><br/>Focus first interactive element
 
 #### Returns
 
@@ -81,6 +91,17 @@ Type: `Promise<void>`
 ### `scrollContent(top?: number, left?: number) => Promise<void>`
 
 Set the scroll top of the modal content
+
+#### Returns
+
+Type: `Promise<void>`
+
+### `setFocus(focusId?: "close-button") => Promise<void>`
+
+Sets focus on the component.
+
+By default, will try to focus on any focusable content. If there is none, it will focus on the close button.
+If you want to focus on the close button, you can use the `close-button` focus ID.
 
 #### Returns
 

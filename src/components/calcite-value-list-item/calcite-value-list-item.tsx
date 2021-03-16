@@ -119,7 +119,6 @@ export class CalciteValueListItem {
 
   /**
    * Emitted whenever the remove button is pressed.
-   * @event calciteListItemRemove
    */
   @Event() calciteListItemRemove: EventEmitter<void>; // wrapped pick-list-item emits this
 
@@ -186,7 +185,7 @@ export class CalciteValueListItem {
             [CSS.handle]: true,
             [CSS.handleActivated]: this.handleActivated
           }}
-          data-js-handle="true"
+          data-js-handle
           onBlur={this.handleBlur}
           onKeyDown={this.handleKeyDown}
           role="button"

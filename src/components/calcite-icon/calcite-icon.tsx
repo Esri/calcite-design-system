@@ -6,10 +6,10 @@ import { Scale, Theme } from "../interfaces";
 import { CalciteIconPath, CalciteMultiPathEntry } from "@esri/calcite-ui-icons";
 
 @Component({
-  assetsDirs: ["assets"],
   tag: "calcite-icon",
   styleUrl: "calcite-icon.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
 export class CalciteIcon {
   //--------------------------------------------------------------------------

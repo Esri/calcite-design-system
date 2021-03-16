@@ -5,7 +5,7 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 const { appearance, dir, scale, theme } = ATTRIBUTES;
 
 export default {
-  title: "App Components/Action",
+  title: "Components/App/Action",
   parameters: {
     backgrounds: darkBackground,
     notes: readme

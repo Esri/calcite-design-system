@@ -1,36 +1,32 @@
 :host {
-  display: flex;
+  border: 1px solid;
+  @apply flex border-color-input bg-foreground-1;
   width: fit-content;
-  border: 1px solid var(--calcite-ui-border-1);
-  background-color: var(--calcite-ui-foreground-1);
 }
 
 :host([layout="vertical"]) {
-  flex-direction: column;
-  align-items: start;
-  align-self: flex-start;
+  @apply flex-col items-start self-start;
 }
 
 // radio group width for full
 
 :host([width="full"]) {
-  width: 100%;
+  @apply w-full;
   ::slotted(calcite-radio-group-item) {
-    flex: 1 1 auto;
+    @apply flex-auto;
   }
 }
 
 :host([width="full"][layout="vertical"]) ::slotted(calcite-radio-group-item) {
-  justify-content: start;
+  @apply justify-start;
 }
 
 ::slotted(calcite-radio-group-item[checked]),
 ::slotted(calcite-radio-group-item:focus) {
-  z-index: 0;
+  @apply z-0;
 }
 
 // disabled styles
 :host([disabled]) {
-  opacity: var(--calcite-ui-opacity-disabled);
-  pointer-events: none;
+  @apply opacity-disabled pointer-events-none;
 }

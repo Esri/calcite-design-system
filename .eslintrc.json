@@ -6,8 +6,7 @@
     "plugin:@stencil/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:jest/recommended",
-    "prettier",
-    "prettier/@typescript-eslint"
+    "prettier"
   ],
   "ignorePatterns": ["dist", "docs", "www"],
   "parser": "@typescript-eslint/parser",

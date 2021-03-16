@@ -12,9 +12,9 @@
 
 ## Events
 
-| Event                    | Description                                      | Type               |
-| ------------------------ | ------------------------------------------------ | ------------------ |
-| `calciteListOrderChange` | Emmitted when the order of the list has changed. | `CustomEvent<any>` |
+| Event                    | Description                                     | Type               |
+| ------------------------ | ----------------------------------------------- | ------------------ |
+| `calciteListOrderChange` | Emitted when the order of the list has changed. | `CustomEvent<any>` |
 
 ## Slots
 

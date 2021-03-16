@@ -22,7 +22,10 @@ export class CalciteTile {
   /** The embed mode of the tile.  When true, renders without a border and padding for use by other components. */
   @Prop({ reflect: true }) embed = false;
 
-  /** The focused state of the tile. */
+  /**
+   * The focused state of the tile.
+   * @private
+   */
   @Prop({ reflect: true }) focused = false;
 
   /** The heading text that appears between the icon and description of the tile. */
@@ -38,7 +41,7 @@ export class CalciteTile {
   @Prop({ reflect: true }) icon?: string;
 
   /** The theme of the tile. */
-  @Prop({ reflect: true }) theme: Theme = "light";
+  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //
@@ -71,7 +74,7 @@ export class CalciteTile {
     return (
       <Host>
         {this.href ? (
-          <calcite-link href={this.href} theme={this.theme} user-select="false">
+          <calcite-link href={this.href} theme={this.theme}>
             {this.renderTile()}
           </calcite-link>
         ) : (

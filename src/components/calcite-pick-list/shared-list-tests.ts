@@ -111,6 +111,43 @@ export function keyboardNavigation(listType: ListType): void {
         expect(await getFocusedItemValue(page)).toEqual("one");
       });
     });
+
+    it("navigating items after filtering", async () => {
+      const page = await newE2EPage({
+        html: `
+        <calcite-${listType}-list filter-enabled>
+          <calcite-${listType}-list-item value="one" label="One" selected></calcite-${listType}-list-item>
+          <calcite-${listType}-list-item value="two" label="Two"></calcite-${listType}-list-item>
+        </calcite-${listType}-list>
+      `
+      });
+      const filter = await page.find(`calcite-${listType}-list >>> calcite-filter`);
+      await filter.callMethod("setFocus");
+
+      await page.keyboard.type("one");
+      await page.waitForEvent("calciteFilterChange");
+
+      await page.keyboard.press("Tab");
+      await page.keyboard.press("Tab");
+
+      expect(await getFocusedItemValue(page)).toEqual("one");
+
+      await filter.callMethod("setFocus");
+      await page.waitForChanges();
+
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.waitForChanges();
+
+      await page.keyboard.type("two");
+      await page.waitForEvent("calciteFilterChange");
+
+      await page.keyboard.press("Tab");
+      await page.keyboard.press("Tab");
+
+      expect(await getFocusedItemValue(page)).toEqual("two");
+    });
   });
 }
 
@@ -303,7 +340,7 @@ export function filterBehavior(listType: ListType): void {
 
   beforeEach(async () => {
     page = await newE2EPage();
-    await page.setContent(`<calcite-${listType}-list filter-enabled="true">
+    await page.setContent(`<calcite-${listType}-list filter-enabled>
         <calcite-${listType}-list-item value="1" label="One" description="uno"></calcite-${listType}-list-item>
         <calcite-${listType}-list-item value="2" label="Two" description="dos"></calcite-${listType}-list-item>
       </calcite-${listType}-list>`);

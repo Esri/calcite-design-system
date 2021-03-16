@@ -79,7 +79,7 @@ const createOptionGroupAttributes: () => Attributes = () => {
 };
 
 export default {
-  title: "Components/Select",
+  title: "Components/Controls/Select",
   parameters: {
     backgrounds: darkBackground,
     notes: {

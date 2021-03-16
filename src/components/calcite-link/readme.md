@@ -1,10 +1,16 @@
 # calcite-link
 
+<!-- Auto Generated Below -->
+
+## Usage
+
+### Focusing
+
 You can programmatically focus a `calcite-link` with the `setFocus()` method:
 
-`<div onclick=document.querySelector('#my-link').setFocus()>Focus!</div>`
-
-<!-- Auto Generated Below -->
+```html
+<div onclick=document.querySelector('#my-link').setFocus()>Focus!</div>
+```
 
 ## Properties
 
@@ -16,7 +22,6 @@ You can programmatically focus a `calcite-link` with the `setFocus()` method:
 | `iconFlipRtl` | `icon-flip-rtl` | flip the icon(s) in rtl                                                                          | `"both" \| "end" \| "start"` | `undefined` |
 | `iconStart`   | `icon-start`    | optionally pass an icon to display at the start of a button - accepts calcite ui icon names      | `string`                     | `undefined` |
 | `theme`       | `theme`         | Select theme (light or dark)                                                                     | `"dark" \| "light"`          | `undefined` |
-| `userSelect`  | `user-select`   | Allows the text to be selectable                                                                 | `boolean`                    | `true`      |
 
 ## Methods
 

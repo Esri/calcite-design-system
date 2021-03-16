@@ -52,7 +52,7 @@ export class CalciteStepper {
   @Prop({ reflect: true }) theme: Theme;
 
   /** @internal */
-  @Prop() requestedContent: HTMLElement[] | NodeListOf<any>;
+  @Prop({ mutable: true }) requestedContent: HTMLElement[] | NodeListOf<any>;
 
   // watch for removal of disabled to register step
   @Watch("requestedContent") contentWatcher(): void {
@@ -70,6 +70,10 @@ export class CalciteStepper {
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * This event fires when the active stepper item has changed.
+   * @internal
+   */
   @Event() calciteStepperItemChange: EventEmitter;
 
   //--------------------------------------------------------------------------

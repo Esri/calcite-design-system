@@ -12,12 +12,15 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementDir, getElementProp, setRequestedIcon } from "../../utils/dom";
+import { getAttributes, getElementDir, getElementProp, setRequestedIcon } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { INPUT_TYPE_ICONS } from "./calcite-input.resources";
 import { InputPlacement } from "./interfaces";
 import { Position } from "../interfaces";
 
+/**
+ * @slot `calcite-action` - A slot for positioning a button next to an input
+ */
 @Component({
   tag: "calcite-input",
   styleUrl: "calcite-input.scss",
@@ -54,9 +57,7 @@ export class CalciteInput {
 
   @Watch("disabled")
   disabledWatcher(): void {
-    if (this.disabled) {
-      this.setDisabledAction();
-    }
+    this.setDisabledAction();
   }
 
   /** when used as a boolean set to true, show a default recommended icon for certain
@@ -88,39 +89,46 @@ export class CalciteInput {
     this.minString = this.min?.toString() || null;
   }
 
+  /** maximum length of text input */
+  @Prop({ reflect: true }) maxlength?: number;
+
   /** specify the placement of the number buttons */
   @Prop({ reflect: true }) numberButtonType?: InputPlacement = "vertical";
 
   /** explicitly whitelist placeholder attribute */
   @Prop() placeholder: string;
 
-  /** optionally add prefix  **/
+  /** optionally add prefix  */
   @Prop() prefixText?: string;
 
   /** is the input required */
   @Prop() required = false;
 
   /** specify the scale of the input, defaults to m */
-  @Prop({ reflect: true }) scale: Scale = "m";
+  @Prop({ mutable: true, reflect: true }) scale: Scale = "m";
 
   /** specify the status of the input field, determines message and icons */
-  @Prop({ reflect: true }) status: Status = "idle";
+  @Prop({ mutable: true, reflect: true }) status: Status = "idle";
 
   /** input step */
-  @Prop({ reflect: true }) step?: number;
+  @Prop({ reflect: true }) step?: number | "any";
 
   @Watch("step")
   stepWatcher(): void {
-    this.maxString = this.max?.toString() || null;
+    this.stepString = this.step?.toString() || null;
   }
 
   /** optionally add suffix  **/
   @Prop() suffixText?: string;
 
-  /** specify the alignment of dropdown, defaults to left */
+  /** specify the theme (light or dark) */
   @Prop({ reflect: true }) theme: Theme;
 
-  /** specify the input type */
+  /**
+   * specify the input type
+   *
+   * Note that the following types add type-specific icons by default: `date`, `email`, `password`, `search`, `tel`, `time`
+   */
   @Prop({ reflect: true }) type:
     | "color"
     | "date"
@@ -165,21 +173,26 @@ export class CalciteInput {
   connectedCallback(): void {
     this.status = getElementProp(this.el, "status", this.status);
     this.scale = getElementProp(this.el, "scale", this.scale);
+    this.form = this.el.closest("form");
+    this.form?.addEventListener("reset", this.reset);
+  }
+
+  disconnectedCallback(): void {
+    this.form?.removeEventListener("reset", this.reset);
   }
 
   componentWillLoad(): void {
+    this.defaultValue = this.value;
     this.childElType = this.type === "textarea" ? "textarea" : "input";
     this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
-  }
-
-  componentDidLoad(): void {
     this.minString = this.min?.toString();
     this.maxString = this.max?.toString();
     this.stepString = this.step?.toString();
+  }
+
+  componentDidLoad(): void {
     this.slottedActionEl = this.el.querySelector("[slot=input-action]");
-    if (this.disabled) {
-      this.setDisabledAction();
-    }
+    this.setDisabledAction();
   }
 
   get isTextarea(): boolean {
@@ -192,7 +205,24 @@ export class CalciteInput {
 
   render(): VNode {
     const dir = getElementDir(this.el);
-    const attributes = this.getAttributes();
+
+    const attributes = getAttributes(this.el, [
+      "alignment",
+      "dir",
+      "clearable",
+      "min",
+      "max",
+      "step",
+      "value",
+      "icon",
+      "loading",
+      "prefix-text",
+      "scale",
+      "status",
+      "suffix-text",
+      "theme",
+      "number-button-type"
+    ]);
 
     const loader = (
       <div class="calcite-input-loading">
@@ -260,8 +290,10 @@ export class CalciteInput {
       <this.childElType
         {...attributes}
         autofocus={this.autofocus ? true : null}
+        defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
         max={this.maxString}
+        maxlength={this.maxlength}
         min={this.minString}
         onBlur={this.inputBlurHandler}
         onFocus={this.inputFocusHandler}
@@ -330,10 +362,19 @@ export class CalciteInput {
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * @internal
+   */
   @Event() calciteInputFocus: EventEmitter;
 
+  /**
+   * @internal
+   */
   @Event() calciteInputBlur: EventEmitter;
 
+  /**
+   * This event fires when the value of the input changes.
+   */
   @Event({ eventName: "calciteInputInput", cancelable: true }) calciteInputInput: EventEmitter;
 
   //--------------------------------------------------------------------------
@@ -352,6 +393,11 @@ export class CalciteInput {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  private form: HTMLFormElement;
+
+  /** keep track of the initial value */
+  private defaultValue: string;
 
   /** keep track of the rendered child type */
   private childElType?: "input" | "textarea" = "input";
@@ -377,6 +423,10 @@ export class CalciteInput {
   //
   //--------------------------------------------------------------------------
 
+  private reset = (): void => {
+    this.value = this.defaultValue;
+  };
+
   private inputInputHandler = (e) => {
     this.value = e.target.value;
   };
@@ -399,33 +449,14 @@ export class CalciteInput {
   };
 
   private setDisabledAction(): void {
-    if (this.slottedActionEl) {
-      (this.slottedActionEl as HTMLElement).setAttribute("disabled", "");
+    if (!this.slottedActionEl) {
+      return;
     }
-  }
+    const slottedActionEl = this.slottedActionEl as HTMLElement;
 
-  private getAttributes(): Record<string, any> {
-    // spread attributes from the component to rendered child, filtering out props
-    const props = [
-      "alignment",
-      "dir",
-      "clearable",
-      "min",
-      "max",
-      "step",
-      "value",
-      "icon",
-      "loading",
-      "prefix-text",
-      "scale",
-      "status",
-      "suffix-text",
-      "theme",
-      "number-button-type"
-    ];
-    return Array.from(this.el.attributes)
-      .filter((a) => a && !props.includes(a.name))
-      .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
+    this.disabled
+      ? slottedActionEl.setAttribute("disabled", "")
+      : slottedActionEl.removeAttribute("disabled");
   }
 
   private clearInputValue = () => {
@@ -439,7 +470,7 @@ export class CalciteInput {
     if (this.childElType === "input" && this.type === "number") {
       const inputMax = this.maxString ? parseFloat(this.maxString) : null;
       const inputMin = this.minString ? parseFloat(this.minString) : null;
-      const inputStep = this.stepString ? parseFloat(this.stepString) : 1;
+      const inputStep = Number(this.stepString) > 0 ? parseFloat(this.stepString) : 1;
       let inputVal = this.value && this.value !== "" ? parseFloat(this.value) : 0;
 
       switch (e.target.dataset.adjustment) {

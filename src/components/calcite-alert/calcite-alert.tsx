@@ -249,6 +249,10 @@ export class CalciteAlert {
   /** the slotted alert link child element  */
   private alertLinkEl?: HTMLCalciteLinkElement;
 
+  private autoDismissTimeout: number;
+
+  private queueTimeout: number;
+
   /** the computed icon to render */
   /* @internal */
   @State() requestedIcon?: string;
@@ -263,8 +267,12 @@ export class CalciteAlert {
   private determineActiveAlert(): void {
     if (this.queue?.[0] === this.el) {
       this.openAlert();
+      clearTimeout(this.autoDismissTimeout);
       if (this.autoDismiss) {
-        setTimeout(() => this.closeAlert(), DURATIONS[this.autoDismissDuration]);
+        this.autoDismissTimeout = window.setTimeout(
+          () => this.closeAlert(),
+          DURATIONS[this.autoDismissDuration]
+        );
       }
     } else {
       return;
@@ -286,7 +294,8 @@ export class CalciteAlert {
 
   /** emit the opened alert and the queue */
   private openAlert(): void {
-    setTimeout(() => (this.queued = false), 300);
+    clearTimeout(this.queueTimeout);
+    this.queueTimeout = window.setTimeout(() => (this.queued = false), 300);
     this.calciteAlertOpen.emit({
       el: this.el,
       queue: this.queue

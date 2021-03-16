@@ -38,7 +38,7 @@ export async function fetchIcon({ icon, scale }: FetchIconProps): Promise<Calcit
     return iconCache[id];
   }
   if (!requestCache[id]) {
-    requestCache[id] = fetch(getAssetPath(`./assets/${id}.json`))
+    requestCache[id] = fetch(getAssetPath(`./assets/calcite-icon/${id}.json`))
       .then((resp) => resp.json())
       .catch(() => {
         console.error(`"${id}" is not a valid calcite-ui-icon name`);

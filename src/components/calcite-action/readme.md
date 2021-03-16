@@ -8,15 +8,15 @@ The `calcite-action` component lives in either a `calcite-action-bar` or `calcit
 
 ### Basic
 
-#### Without text
+#### Without text displayed
 
 Renders a `calcite-action` that displays only an icon and a tooltip label.
 
 ```html
-<calcite-action label="Performs my custom action" icon="plus"></calcite-action>
+<calcite-action label="Performs my custom action" text="My Custom Action" icon="plus"></calcite-action>
 ```
 
-#### With text
+#### With text displayed
 
 Renders a `calcite-action` that displays text along side an icon and a tooltip label.
 
@@ -29,7 +29,7 @@ Renders a `calcite-action` that displays text along side an icon and a tooltip l
 Renders a `calcite-action` that has a clear background.
 
 ```html
-<calcite-action appearance="clear" icon="layers"></calcite-action>
+<calcite-action appearance="clear" text="Layers" icon="layers"></calcite-action>
 ```
 
 ## Properties
@@ -43,7 +43,7 @@ Renders a `calcite-action` that has a clear background.
 | `icon`              | `icon`         | The name of the icon to display. The value of this property must match the icon name from https://esri.github.io/calcite-ui-icons/. | `string`                          | `undefined`    |
 | `indicator`         | `indicator`    | Indicates unread changes.                                                                                                           | `boolean`                         | `false`        |
 | `intlLoading`       | `intl-loading` | string to override English loading text                                                                                             | `string`                          | `TEXT.loading` |
-| `label`             | `label`        | Label of the action, exposed on hover. If no label is provided, the label inherits what's provided for the `text` prop.             | `string`                          | `undefined`    |
+| `label`             | `label`        | The label of the action. If no label is provided, the label inherits what's provided for the `text` prop.                           | `string`                          | `undefined`    |
 | `loading`           | `loading`      | When true, content is waiting to be loaded. This state shows a busy indicator.                                                      | `boolean`                         | `false`        |
 | `scale`             | `scale`        | Specifies the size of the action.                                                                                                   | `"l" \| "m" \| "s"`               | `"m"`          |
 | `text` _(required)_ | `text`         | Text that accompanies the action icon.                                                                                              | `string`                          | `undefined`    |
@@ -69,6 +69,7 @@ Type: `Promise<void>`
 ### Used by
 
 - [calcite-action-bar](../calcite-action-bar)
+- [calcite-action-menu](../calcite-action-menu)
 - [calcite-action-pad](../calcite-action-pad)
 - [calcite-panel](../calcite-panel)
 - [calcite-pick-list-item](../calcite-pick-list-item)
@@ -87,6 +88,7 @@ graph TD;
   calcite-action --> calcite-loader
   calcite-action --> calcite-icon
   calcite-action-bar --> calcite-action
+  calcite-action-menu --> calcite-action
   calcite-action-pad --> calcite-action
   calcite-panel --> calcite-action
   calcite-pick-list-item --> calcite-action
