@@ -242,9 +242,13 @@ export class CalciteButton {
         const targetFormSubmitFunction = targetForm.onsubmit as () => void;
         switch (this.type) {
           case "submit":
-            if (targetFormSubmitFunction) targetFormSubmitFunction();
-            else if (targetForm.checkValidity()) targetForm.submit();
-            else targetForm.reportValidity();
+            if (targetFormSubmitFunction) {
+              targetFormSubmitFunction();
+            } else if (targetForm.checkValidity()) {
+              targetForm.submit();
+            } else {
+              targetForm.reportValidity();
+            }
             break;
           case "reset":
             targetForm.reset();

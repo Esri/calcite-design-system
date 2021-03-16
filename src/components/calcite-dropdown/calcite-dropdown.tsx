@@ -215,7 +215,9 @@ export class CalciteDropdown {
 
   @Listen("calciteDropdownOpen", { target: "window" })
   closeCalciteDropdownOnOpenEvent(e: Event): void {
-    if (e.target !== this.el) this.active = false;
+    if (e.target !== this.el) {
+      this.active = false;
+    }
   }
 
   @Listen("mouseenter")
@@ -242,10 +244,15 @@ export class CalciteDropdown {
     const isLastItem = this.itemIndex(itemToFocus) === this.items.length - 1;
     switch (getKey(keyboardEvent.key)) {
       case "Tab":
-        if (isLastItem && !keyboardEvent.shiftKey) this.closeCalciteDropdown();
-        else if (isFirstItem && keyboardEvent.shiftKey) this.closeCalciteDropdown();
-        else if (keyboardEvent.shiftKey) this.focusPrevItem(itemToFocus);
-        else this.focusNextItem(itemToFocus);
+        if (isLastItem && !keyboardEvent.shiftKey) {
+          this.closeCalciteDropdown();
+        } else if (isFirstItem && keyboardEvent.shiftKey) {
+          this.closeCalciteDropdown();
+        } else if (keyboardEvent.shiftKey) {
+          this.focusPrevItem(itemToFocus);
+        } else {
+          this.focusNextItem(itemToFocus);
+        }
         break;
       case "ArrowDown":
         this.focusNextItem(itemToFocus);
@@ -269,8 +276,12 @@ export class CalciteDropdown {
     this.updateSelectedItems();
     event.stopPropagation();
     this.calciteDropdownSelect.emit();
-    if (!this.disableCloseOnSelect || event.detail.requestedDropdownGroup.selectionMode === "none")
+    if (
+      !this.disableCloseOnSelect ||
+      event.detail.requestedDropdownGroup.selectionMode === "none"
+    ) {
       this.closeCalciteDropdown();
+    }
   }
 
   @Listen("calciteDropdownGroupRegister")

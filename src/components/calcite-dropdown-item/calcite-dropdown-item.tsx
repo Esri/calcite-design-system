@@ -88,7 +88,9 @@ export class CalciteDropdownItem {
   connectedCallback(): void {
     this.selectionMode = getElementProp(this.el, "selection-mode", "single");
     this.parentDropdownGroupEl = this.el.closest("calcite-dropdown-group");
-    if (this.selectionMode === "none") this.active = false;
+    if (this.selectionMode === "none") {
+      this.active = false;
+    }
   }
 
   componentWillLoad(): void {
@@ -202,7 +204,9 @@ export class CalciteDropdownItem {
         break;
       case "Enter":
         this.emitRequestedItem();
-        if (this.href) this.childLink.click();
+        if (this.href) {
+          this.childLink.click();
+        }
         break;
       case "Escape":
         this.calciteDropdownCloseRequest.emit();
@@ -262,12 +266,17 @@ export class CalciteDropdownItem {
   private determineActiveItem(): void {
     switch (this.selectionMode) {
       case "multi":
-        if (this.el === this.requestedDropdownItem) this.active = !this.active;
+        if (this.el === this.requestedDropdownItem) {
+          this.active = !this.active;
+        }
         break;
 
       case "single":
-        if (this.el === this.requestedDropdownItem) this.active = true;
-        else if (this.requestedDropdownGroup === this.parentDropdownGroupEl) this.active = false;
+        if (this.el === this.requestedDropdownItem) {
+          this.active = true;
+        } else if (this.requestedDropdownGroup === this.parentDropdownGroupEl) {
+          this.active = false;
+        }
         break;
 
       case "none":

@@ -113,11 +113,15 @@ export class CalciteStepperItem {
     this.itemPosition = this.getItemPosition();
     this.itemContent = this.getItemContent();
     this.registerStepperItem();
-    if (this.active) this.emitRequestedItem();
+    if (this.active) {
+      this.emitRequestedItem();
+    }
   }
 
   componentDidUpdate(): void {
-    if (this.active) this.emitRequestedItem();
+    if (this.active) {
+      this.emitRequestedItem();
+    }
   }
 
   render(): VNode {

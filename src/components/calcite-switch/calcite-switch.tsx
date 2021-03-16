@@ -55,7 +55,9 @@ export class CalciteSwitch {
       hasLabel(e.detail.labelEl, this.el)
     ) {
       this.el.focus();
-    } else return;
+    } else {
+      return;
+    }
   }
 
   @Listen("click") onClick(e: MouseEvent): void {
