@@ -46,10 +46,6 @@ const createAttributes: () => Attributes = () => [
   {
     name: "theme",
     value: select("theme", theme.values, theme.defaultValue)
-  },
-  {
-    name: "style",
-    value: "height: 400px"
   }
 ];
 

@@ -66,10 +66,6 @@ const createFlowItemAttributes: (group: string) => Attributes = (group) => {
     {
       name: "intl-close",
       value: text("intlClose", TEXT.close, group)
-    },
-    {
-      name: "style",
-      value: "height: 400px"
     }
   ];
 };
