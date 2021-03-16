@@ -42,6 +42,7 @@
       }
     ],
     "@typescript-eslint/no-explicit-any": "off",
+    "curly": "error",
     "jest/expect-expect": "off",
     "jest/no-export": "warn",
     "lines-between-class-members": ["error", "always"],
