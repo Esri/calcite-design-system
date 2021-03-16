@@ -63,7 +63,10 @@
 :host([dir="rtl"]) .select {
   padding-right: var(--calcite-select-spacing);
   border-right: solid 1px;
-  @apply border-color-1 border-l-0;
+  @apply border-0 
+    border-r
+    border-r-solid
+    border-color-1;
 }
 
 // override user agent stylesheet disabled styling
