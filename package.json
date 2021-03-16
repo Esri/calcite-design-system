@@ -101,6 +101,7 @@
     "axe-core": "4.1.2",
     "babel-loader": "8.2.2",
     "chalk": "4.1.0",
+    "cheerio": "1.0.0-rc.5",
     "chokidar": "3.5.1",
     "concurrently": "6.0.0",
     "cpy-cli": "^3.1.1",
