@@ -63,11 +63,11 @@
     border 
     border-solid 
     border-color-2 
-    pointer-events-auto;
+    pointer-events-auto
+    transition-default;
   width: var(--calcite-switch-track-width);
   height: var(--calcite-switch-track-height);
   border-radius: 30px;
-  transition: all $transition;
 }
 
 .handle {
@@ -77,13 +77,13 @@
     bg-foreground-1 
     border-2 
     border-solid 
-    border-color-input;
+    border-color-input
+    transition-default;
   width: var(--calcite-switch-handle-size);
   height: var(--calcite-switch-handle-size);
   top: -1px;
   left: -1px;
   border-radius: 30px;
-  transition: all $transition;
 }
 
 :host(:hover),
