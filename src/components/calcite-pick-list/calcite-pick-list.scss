@@ -1,19 +1,19 @@
 :host {
   @extend %component-host;
-  @apply items-stretch 
-    bg-transparent 
-    flex 
-    flex-col 
-    relative 
-    pb-0 
-    flex-grow 
+  @apply items-stretch
+    bg-transparent
+    flex
+    flex-col
+    relative
+    pb-0
+    flex-grow
     flex-shrink-0;
 }
 
-header {
-  @apply bg-foreground-1 
-    flex 
-    justify-end 
+:host([filter-enabled]) header {
+  @apply bg-foreground-1
+    flex
+    justify-end
     items-stretch
     mb-1;
   &.sticky {
@@ -25,11 +25,6 @@ header {
 
 calcite-filter {
   @apply mb-px;
-}
-
-calcite-scrim {
-  @apply flex flex-col pointer-events-none;
-  flex: 0 0 auto;
 }
 
 :host([loading][disabled]) {

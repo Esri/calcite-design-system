@@ -19,22 +19,13 @@
 
 .container {
   @apply flex
-    flex-col 
-    items-stretch 
-    bg-background 
-    h-full 
-    w-full 
-    p-0 
+    flex-col
+    items-stretch
+    bg-background
+    h-full
+    w-full
+    p-0
     m-0;
-}
-
-calcite-scrim {
-  @apply flex 
-    flex-col 
-    items-stretch 
-    w-full 
-    h-full 
-    pointer-events-none;
 }
 
 :host([height-scale="s"]) {
@@ -79,12 +70,12 @@ calcite-scrim {
 
 .header {
   border-bottom: 1px solid;
-  @apply items-stretch 
-    bg-foreground-1 
-    justify-start 
-    sticky 
-    top-0 
-    border-b-color-3 
+  @apply items-stretch
+    bg-foreground-1
+    justify-start
+    sticky
+    top-0
+    border-b-color-3
     w-full;
   flex: 0 0 auto;
   min-height: theme("spacing.12");
@@ -93,17 +84,17 @@ calcite-scrim {
 }
 
 .header-content {
-  @apply block 
-    overflow-hidden 
-    mr-auto 
-    py-4 
+  @apply block
+    overflow-hidden
+    mr-auto
+    py-4
     px-3;
   .heading,
   .summary {
-    @apply p-0 
-      block 
-      overflow-hidden 
-      whitespace-no-wrap 
+    @apply p-0
+      block
+      overflow-hidden
+      whitespace-no-wrap
       w-full;
     text-overflow: ellipsis;
   }
@@ -128,9 +119,9 @@ calcite-scrim {
 }
 
 .menu-button {
-  @apply self-stretch 
-    flex-initial 
-    h-full 
+  @apply self-stretch
+    flex-initial
+    h-full
     relative;
 }
 .menu {

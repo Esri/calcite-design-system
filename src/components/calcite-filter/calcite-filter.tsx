@@ -36,6 +36,11 @@ export class CalciteFilter {
   @Prop() data: object[];
 
   /**
+   * When true, disabled prevents interaction. This state shows items with lower opacity/grayed.
+   */
+  @Prop({ reflect: true }) disabled = false;
+
+  /**
    * A text label that will appear on the clear button.
    */
   @Prop() intlClear?: string;
@@ -153,34 +158,39 @@ export class CalciteFilter {
 
   render(): VNode {
     const rtl = getElementDir(this.el) === "rtl";
+    const { disabled } = this;
 
     return (
       <Host>
-        <label class={rtl ? CSS_UTILITY.rtl : null}>
-          <input
-            aria-label={this.intlLabel || TEXT.filterLabel}
-            onInput={this.inputHandler}
-            onKeyDown={this.keyDownHandler}
-            placeholder={this.placeholder}
-            ref={(el): void => {
-              this.textInput = el;
-            }}
-            type="text"
-            value=""
-          />
-          <div class={CSS.searchIcon}>
-            <calcite-icon icon={ICONS.search} scale="s" />
-          </div>
-        </label>
-        {!this.empty ? (
-          <button
-            aria-label={this.intlClear || TEXT.clear}
-            class={CSS.clearButton}
-            onClick={this.clear}
-          >
-            <calcite-icon icon={ICONS.close} />
-          </button>
-        ) : null}
+        {disabled ? <calcite-scrim /> : null}
+        <div class={CSS.container}>
+          <label class={rtl ? CSS_UTILITY.rtl : null}>
+            <input
+              aria-label={this.intlLabel || TEXT.filterLabel}
+              disabled={this.disabled}
+              onInput={this.inputHandler}
+              onKeyDown={this.keyDownHandler}
+              placeholder={this.placeholder}
+              ref={(el): void => {
+                this.textInput = el;
+              }}
+              type="text"
+              value=""
+            />
+            <div class={CSS.searchIcon}>
+              <calcite-icon icon={ICONS.search} scale="s" />
+            </div>
+          </label>
+          {!this.empty ? (
+            <button
+              aria-label={this.intlClear || TEXT.clear}
+              class={CSS.clearButton}
+              onClick={this.clear}
+            >
+              <calcite-icon icon={ICONS.close} />
+            </button>
+          ) : null}
+        </div>
       </Host>
     );
   }
