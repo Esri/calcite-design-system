@@ -1,27 +1,26 @@
 :host([scale="s"]) {
-  --calcite-stepper-item-spacing-unit-s: theme("borderWidth.2");
-  --calcite-stepper-item-spacing-unit-m: theme("spacing.1");
-  --calcite-stepper-item-spacing-unit-l: theme("spacing.2");
+  --calcite-stepper-item-spacing-unit-s: theme("spacing.1");
+  --calcite-stepper-item-spacing-unit-m: theme("spacing.3");
+  --calcite-stepper-item-spacing-unit-l: theme("spacing.4");
   @apply text--1-wrap;
 }
 
 :host([scale="m"]) {
-  --calcite-stepper-item-spacing-unit-s: theme("spacing.1");
-  --calcite-stepper-item-spacing-unit-m: theme("spacing.2");
-  --calcite-stepper-item-spacing-unit-l: theme("spacing.3");
+  --calcite-stepper-item-spacing-unit-s: theme("spacing.2");
+  --calcite-stepper-item-spacing-unit-m: theme("spacing.4");
+  --calcite-stepper-item-spacing-unit-l: theme("spacing.5");
   @apply text-0-wrap;
 }
 
 :host([scale="l"]) {
-  --calcite-stepper-item-spacing-unit-s: theme("spacing.2");
-  --calcite-stepper-item-spacing-unit-m: theme("spacing.3");
-  --calcite-stepper-item-spacing-unit-l: theme("spacing.4");
+  --calcite-stepper-item-spacing-unit-s: theme("spacing.3");
+  --calcite-stepper-item-spacing-unit-m: theme("spacing.5");
+  --calcite-stepper-item-spacing-unit-l: theme("spacing.6");
   @apply text-1-wrap;
 }
 
 :host {
   @apply flex 
-    flex-1 
     flex-col
     text-color-3
     no-underline
@@ -59,19 +58,26 @@
 :host .stepper-item-content,
 :host .stepper-item-header {
   padding: var(--calcite-stepper-item-spacing-unit-l) var(--calcite-stepper-item-spacing-unit-m);
-  @apply pl-0 text-left;
-  transition: $transition;
+  @apply pl-0 
+    text-left 
+    duration-150 
+    ease-in-out;
 }
 
 :host([dir="rtl"]) .stepper-item-content,
 :host([dir="rtl"]) .stepper-item-header {
-  @apply pr-0 text-right;
+  @apply pr-0
+    text-right
+    duration-150 
+    ease-in-out;
   padding-left: initial;
 }
 
 :host .stepper-item-header * {
-  @apply inline-flex items-center;
-  transition: $transition;
+  @apply inline-flex
+    items-center
+    duration-150 
+    ease-in-out;
 }
 
 :host .stepper-item-content {
@@ -81,15 +87,16 @@
 // stepper item icon
 //todo rtl
 :host .stepper-item-icon {
-  margin-right: var(--calcite-stepper-item-spacing-unit-l);
-  margin-top: var(--calcite-stepper-item-spacing-unit-s);
+  margin-right: var(--calcite-stepper-item-spacing-unit-m);
   @apply text-color-3 
+    mt-0
     opacity-disabled 
     inline-flex 
     flex-shrink-0
-    self-start;
-  height: theme("spacing.3");
-  transition: $transition;
+    self-start
+    h-3
+    duration-150 
+    ease-in-out;
 }
 
 :host([dir="rtl"]) .stepper-item-icon {
@@ -123,9 +130,11 @@
 }
 
 :host .stepper-item-number {
-  @apply font-bold text-color-3;
+  @apply font-bold
+  text-color-3
+  duration-150 
+  ease-in-out;
   margin-right: var(--calcite-stepper-item-spacing-unit-l);
-  transition: $transition;
 }
 
 :host([dir="rtl"]) .stepper-item-number {
@@ -196,45 +205,57 @@
 
 // vertical layout
 :host([layout="vertical"]) {
-  flex: 1 1 auto;
-  border-top: 0;
-  border-left: 3px solid var(--calcite-ui-border-3);
-  padding: 0 0 0 var(--calcite-stepper-item-spacing-unit-l);
-  margin: 0 0 var(--calcite-stepper-item-spacing-unit-m) 0;
+  @apply flex-auto
+    border-t-0
+    border-l-3
+    border-solid
+    border-color-3
+    py-0
+    pr-0
+    mx-0
+    mt-0;
+  padding-left: var(--calcite-stepper-item-spacing-unit-l);
+  margin-bottom: var(--calcite-stepper-item-spacing-unit-m);
 
   & .stepper-item-icon {
-    margin: var(--calcite-stepper-item-spacing-unit-m) 0 0 auto;
+    @apply mr-0 mb-0 ml-auto order-3;
+    margin-top: var(--calcite-stepper-item-spacing-unit-m);
     padding-left: var(--calcite-stepper-item-spacing-unit-l);
-    order: 3;
   }
   & .stepper-item-header {
-    padding-right: 0;
+    @apply pr-0;
   }
   & .stepper-item-content {
-    padding: 0;
+    @apply p-0;
   }
 }
 
 // only show the content for vertical items
 :host([layout="vertical"][active]) {
   & .stepper-item-content {
-    display: flex;
+    @apply flex;
     & ::slotted(:last-child) {
       margin-bottom: var(--calcite-stepper-item-spacing-unit-l);
     }
   }
 }
 :host([layout="vertical"][dir="rtl"]) {
-  border-left: 0;
-  border-right: 3px solid var(--calcite-ui-border-3);
-  padding: 0 var(--calcite-stepper-item-spacing-unit-l) 0 0;
+  @apply border-l-0
+    border-r-3
+    border-color-3
+    py-0
+    pl-0;
+  padding-right: var(--calcite-stepper-item-spacing-unit-l);
   & .stepper-item-icon {
-    margin: var(--calcite-stepper-item-spacing-unit-m) auto 0 0;
-    padding-left: 0;
+    @apply mr-auto 
+    mb-0 
+    mr-0
+    pl-0;
+    margin-top: var(--calcite-stepper-item-spacing-unit-m);
     padding-right: var(--calcite-stepper-item-spacing-unit-l);
   }
   & .stepper-item-header {
-    padding-left: 0;
+    @apply pl-0;
     padding-right: intial;
   }
 }
@@ -243,10 +264,10 @@
   border-color: rgba($h-bb-060, 0.5);
 }
 :host([layout="vertical"][error]) {
-  border-color: var(--calcite-ui-danger);
+  @apply border-color-danger;
 }
 :host([layout="vertical"][active]) {
-  border-color: var(--calcite-ui-brand);
+  @apply border-color-brand;
 }
 :host([layout="vertical"]:hover:not([disabled]):not([active])),
 :host([layout="vertical"]:focus:not([disabled]):not([active])) {
