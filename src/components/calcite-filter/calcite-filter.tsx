@@ -132,10 +132,16 @@ export class CalciteFilter {
     this.calciteFilterChange.emit(result);
   }, filterDebounceInMs);
 
-  inputHandler = (event: Event): void => {
+  inputHandler = (event: InputEvent): void => {
     const target = event.target as HTMLInputElement;
     this.empty = target.value === "";
     this.filter(target.value);
+  };
+
+  keyDownHandler = ({ key }: KeyboardEvent): void => {
+    if (key === "Escape") {
+      this.clear();
+    }
   };
 
   clear = (): void => {
@@ -161,8 +167,8 @@ export class CalciteFilter {
           <label class={rtl ? CSS_UTILITY.rtl : null}>
             <input
               aria-label={this.intlLabel || TEXT.filterLabel}
-              disabled={this.disabled}
               onInput={this.inputHandler}
+              onKeyDown={this.keyDownHandler}
               placeholder={this.placeholder}
               ref={(el): void => {
                 this.textInput = el;
