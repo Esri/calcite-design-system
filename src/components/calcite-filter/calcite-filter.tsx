@@ -167,6 +167,7 @@ export class CalciteFilter {
           <label class={rtl ? CSS_UTILITY.rtl : null}>
             <input
               aria-label={this.intlLabel || TEXT.filterLabel}
+              disabled={this.disabled}
               onInput={this.inputHandler}
               onKeyDown={this.keyDownHandler}
               placeholder={this.placeholder}
