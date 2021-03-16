@@ -36,8 +36,9 @@
 }
 
 .select {
-  border: solid 1px;
   @apply appearance-none 
+    border
+    border-solid
     border-r-0
     bg-foreground-1 
     border-color-1 
@@ -62,7 +63,6 @@
 
 :host([dir="rtl"]) .select {
   padding-right: var(--calcite-select-spacing);
-  border-right: solid 1px;
   @apply border-0 
     border-r
     border-r-solid
