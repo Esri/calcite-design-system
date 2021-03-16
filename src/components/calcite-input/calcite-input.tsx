@@ -327,7 +327,7 @@ export class CalciteInput {
     ];
 
     return (
-      <Host dir={dir}>
+      <Host dir={dir} onClick={this.clickHandler}>
         <div class="calcite-input-wrapper">
           {this.type === "number" && this.numberButtonType === "horizontal"
             ? numberButtonsHorizontalDown
@@ -434,6 +434,12 @@ export class CalciteInput {
   //
   //--------------------------------------------------------------------------
 
+  private clickHandler = (e: MouseEvent): void => {
+    if (e.target !== this.slottedActionEl) {
+      this.setFocus();
+    }
+  };
+
   private reset = (): void => {
     this.value = this.defaultValue;
   };
@@ -449,10 +455,7 @@ export class CalciteInput {
     });
   };
 
-  private inputFocusHandler = (e) => {
-    if (e.target !== this.slottedActionEl) {
-      this.setFocus();
-    }
+  private inputFocusHandler = () => {
     this.calciteInputFocus.emit({
       element: this.childEl,
       value: this.value
