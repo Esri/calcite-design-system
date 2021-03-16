@@ -1,6 +1,6 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { CSS, ICON_TYPES } from "./resources";
-import { accessible, hidden, renders } from "../../tests/commonTests";
+import { accessible, hidden, renders, focusable } from "../../tests/commonTests";
 import {
   selectionAndDeselection,
   filterBehavior,
@@ -21,6 +21,21 @@ describe("calcite-value-list", () => {
         <calcite-value-list-item label="Sample" value="one"></calcite-value-list-item>
       </calcite-value-list>
     `));
+
+  describe("when setFocus method is called", () => {
+    it("should focus filter", () =>
+      focusable(
+        html`
+          <calcite-value-list filter-enabled>
+            <calcite-value-list-item label="Sample" value="one"></calcite-value-list-item>
+          </calcite-value-list>
+        `,
+        {
+          focusId: "filter",
+          shadowFocusTargetSelector: "calcite-filter"
+        }
+      ));
+  });
 
   describe("Selection and Deselection", () => {
     selectionAndDeselection("value");

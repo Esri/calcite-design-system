@@ -12,6 +12,7 @@ import {
 } from "@stencil/core";
 import { ICON_TYPES } from "./resources";
 import {
+  FocusId,
   calciteListItemChangeHandler,
   calciteListItemValueChangeHandler,
   cleanUpObserver,
@@ -100,6 +101,8 @@ export class CalcitePickList<
 
   emitCalciteListChange: () => void;
 
+  filterEl: HTMLCalciteFilterElement;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -163,6 +166,10 @@ export class CalcitePickList<
     }
   }
 
+  setFilterEl = (el: HTMLCalciteFilterElement): void => {
+    this.filterEl = el;
+  };
+
   deselectSiblingItems = deselectSiblingItems.bind(this);
 
   selectSiblings = selectSiblings.bind(this);
@@ -185,8 +192,8 @@ export class CalcitePickList<
   }
 
   @Method()
-  async setFocus(): Promise<void> {
-    return setFocus.call(this);
+  async setFocus(focusId?: FocusId): Promise<void> {
+    return setFocus.call(this, focusId);
   }
 
   // --------------------------------------------------------------------------
