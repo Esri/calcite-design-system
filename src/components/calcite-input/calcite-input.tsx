@@ -360,13 +360,6 @@ export class CalciteInput {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click")
-  clickHandler(event: MouseEvent): void {
-    if (event.target === this.el) {
-      this.setFocus();
-    }
-  }
-
   @Listen("keydown")
   keyDownHandler(e: KeyboardEvent): void {
     if (this.isClearable && getKey(e.key) === "Escape") {
@@ -456,7 +449,8 @@ export class CalciteInput {
     });
   };
 
-  private inputFocusHandler = () => {
+  private inputFocusHandler = (e) => {
+    if (e.target !== this.slottedActionEl) this.setFocus();
     this.calciteInputFocus.emit({
       element: this.childEl,
       value: this.value
