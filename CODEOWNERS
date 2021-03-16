@@ -1,8 +1,2 @@
 # These owners will be the default owners for everything in the repo.
-*         @esri/calcite-components
-
-# docs:
-/docs/**  @esri/all-esri-members
-
-# Template and assets
-*.md      @esri/all-esri-members
+*     @esri/calcite-components-reviewers
