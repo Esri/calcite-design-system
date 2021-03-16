@@ -275,7 +275,7 @@ export class CalciteInputTimePicker {
   render(): VNode {
     const { hour, minute, second } = this.convertStringToTime(this.value);
     return (
-      <Host>
+      <Host role="combobox">
         <calcite-input
           disabled={this.disabled}
           icon="clock"

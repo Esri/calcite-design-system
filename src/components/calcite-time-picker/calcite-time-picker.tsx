@@ -589,9 +589,9 @@ export class CalciteTimePicker {
     const minuteIsNumber = stringContainsOnlyNumbers(this.minute);
     const secondIsNumber = stringContainsOnlyNumbers(this.second);
     return (
-      <Host>
+      <Host role="listbox">
         <div class={CSS.timePicker}>
-          <div>
+          <div role="group">
             <span
               aria-label={this.intlHourUp}
               class={{
@@ -641,7 +641,7 @@ export class CalciteTimePicker {
             </span>
           </div>
           <span class={CSS.delimiter}>:</span>
-          <div>
+          <div role="group">
             <span
               aria-label={this.intlMinuteUp}
               class={{
@@ -689,7 +689,7 @@ export class CalciteTimePicker {
           </div>
           {includeSeconds && <span class={CSS.delimiter}>:</span>}
           {includeSeconds && (
-            <div>
+            <div role="group">
               <span
                 aria-label={this.intlSecondUp}
                 class={{
@@ -737,7 +737,7 @@ export class CalciteTimePicker {
             </div>
           )}
           {this.hourDisplayFormat === "12" && (
-            <div>
+            <div role="group">
               <span
                 aria-label={this.intlMeridiemUp}
                 class={{
