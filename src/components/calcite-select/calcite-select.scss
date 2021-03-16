@@ -87,9 +87,8 @@ select:disabled {
     pointer-events-none 
     absolute 
     right-0 
-    bottom-0 
-    top-0
-    py-0 px-2;
+    inset-y-0
+    px-2;
 }
 
 :host([dir="rtl"]) .icon-container {
