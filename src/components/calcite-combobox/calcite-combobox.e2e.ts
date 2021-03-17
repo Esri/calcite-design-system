@@ -547,11 +547,11 @@ describe("calcite-combobox", () => {
     });
   });
 
-  it("respects the always-visible item property", async () => {
+  it("respects the constant item property", async () => {
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-combobox selection-mode="single">
-        <calcite-combobox-item id="one" always-visible value="one" text-label="One"></calcite-combobox-item>
+        <calcite-combobox-item id="one" constant value="one" text-label="One"></calcite-combobox-item>
         <calcite-combobox-item id="two" value="two" text-label="Two"></calcite-combobox-item>
         <calcite-combobox-item id="three" value="three" text-label="Three"></calcite-combobox-item>
       </calcite-combobox>

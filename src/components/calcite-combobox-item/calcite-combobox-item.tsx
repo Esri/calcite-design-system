@@ -59,7 +59,7 @@ export class CalciteComboboxItem {
   @Prop({ reflect: true }) value!: string;
 
   /** Don't filter this item based on the search text */
-  @Prop({ reflect: true }) alwaysVisible: boolean;
+  @Prop({ reflect: true }) constant: boolean;
 
   // --------------------------------------------------------------------------
   //
