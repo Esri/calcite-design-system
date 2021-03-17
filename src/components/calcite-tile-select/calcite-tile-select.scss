@@ -1,4 +1,4 @@
-$spacing: theme("spacing.2");
+$spacing: theme("spacing.3");
 
 .root {
   @apply bg-foreground-1
@@ -6,14 +6,14 @@ $spacing: theme("spacing.2");
   cursor-pointer
   inline-block
   h-full
-  p-2
+  p-3
   relative
   duration-150
   ease-in-out
   align-top
   z-10;
   box-shadow: 0 0 0 1px var(--calcite-ui-border-2);
-  max-width: theme("spacing.48");
+  max-width: 300px;
 }
 
 :host(:hover) {
@@ -69,7 +69,9 @@ $spacing: theme("spacing.2");
 :host([input-enabled][input-alignment="start"][icon][heading][description]),
 :host([input-enabled][input-alignment="start"]:not([icon])[heading]:not([description])) {
   .root {
-    @apply inline-grid gap-2 grid-cols-1;
+    @apply inline-grid;
+    grid-gap: $spacing;
+    grid-template-columns: max-content 1fr;
   }
   ::slotted(calcite-checkbox),
   ::slotted(calcite-radio-button) {
@@ -116,7 +118,9 @@ $spacing: theme("spacing.2");
 
 :host([input-enabled][input-alignment="end"][heading]:not([icon]):not([description])) {
   .root {
-    @apply inline-grid gap-2 grid-cols-1;
+    @apply inline-grid;
+    grid-gap: $spacing;
+    grid-template-columns: max-content 1fr;
   }
   ::slotted(calcite-checkbox),
   ::slotted(calcite-radio-button) {
