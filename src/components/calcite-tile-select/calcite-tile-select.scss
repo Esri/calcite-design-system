@@ -1,18 +1,19 @@
-$spacing: $baseline/2;
+$spacing: theme("spacing.2");
 
 .root {
-  background-color: var(--calcite-ui-foreground-1);
+  @apply bg-foreground-1
+  box-border
+  cursor-pointer
+  inline-block
+  h-full
+  p-2
+  relative
+  duration-150
+  ease-in-out
+  align-top
+  z-10;
   box-shadow: 0 0 0 1px var(--calcite-ui-border-2);
-  box-sizing: border-box;
-  cursor: pointer;
-  display: inline-block;
-  height: 100%;
-  max-width: 300px;
-  padding: $spacing;
-  position: relative;
-  transition: $transition;
-  vertical-align: top;
-  @apply z-10;
+  max-width: theme("spacing.48");
 }
 
 :host(:hover) {
@@ -48,8 +49,7 @@ $spacing: $baseline/2;
 
 :host([width="full"]) {
   .root {
-    max-width: none;
-    display: block;
+    @apply max-w-none block;
   }
 }
 
@@ -62,30 +62,28 @@ $spacing: $baseline/2;
 
 :host([heading]:not([icon]):not([description])) {
   .root {
-    align-items: center;
+    @apply items-center;
   }
 }
 
 :host([input-enabled][input-alignment="start"][icon][heading][description]),
 :host([input-enabled][input-alignment="start"]:not([icon])[heading]:not([description])) {
   .root {
-    display: inline-grid;
-    grid-gap: $spacing;
-    grid-template-columns: max-content 1fr;
+    @apply inline-grid gap-2 grid-cols-1;
   }
   ::slotted(calcite-checkbox),
   ::slotted(calcite-radio-button) {
     order: 0;
   }
   calcite-tile {
-    order: 1;
+    @apply order-1;
   }
 }
 
 :host([input-enabled][input-alignment="start"][icon][heading]:not([description])) {
   ::slotted(calcite-checkbox),
   ::slotted(calcite-radio-button) {
-    position: absolute;
+    @apply absolute;
     top: $spacing;
     left: $spacing;
   }
@@ -102,7 +100,7 @@ $spacing: $baseline/2;
 :host([input-enabled][input-alignment="end"][icon][heading]) {
   ::slotted(calcite-checkbox),
   ::slotted(calcite-radio-button) {
-    position: absolute;
+    @apply absolute;
     top: $spacing;
     right: $spacing;
   }
@@ -118,21 +116,18 @@ $spacing: $baseline/2;
 
 :host([input-enabled][input-alignment="end"][heading]:not([icon]):not([description])) {
   .root {
-    display: inline-grid;
-    grid-gap: $spacing;
-    grid-template-columns: max-content 1fr;
+    @apply inline-grid gap-2 grid-cols-1;
   }
   ::slotted(calcite-checkbox),
   ::slotted(calcite-radio-button) {
-    justify-self: flex-end;
+    @apply justify-end;
   }
 }
 
 :host([hidden]) {
-  display: none;
+  @apply hidden;
 }
 
 :host([disabled]) {
-  @apply opacity-disabled;
-  pointer-events: none;
+  @apply opacity-disabled pointer-events-none;
 }
