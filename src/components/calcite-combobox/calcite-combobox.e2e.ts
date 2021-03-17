@@ -547,6 +547,28 @@ describe("calcite-combobox", () => {
     });
   });
 
+  it("respects the always-visible item property", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-combobox selection-mode="single">
+        <calcite-combobox-item id="one" always-visible value="one" text-label="One"></calcite-combobox-item>
+        <calcite-combobox-item id="two" value="two" text-label="Two"></calcite-combobox-item>
+        <calcite-combobox-item id="three" value="three" text-label="Three"></calcite-combobox-item>
+      </calcite-combobox>
+    `);
+
+    await page.waitForChanges();
+    const input = await page.find("calcite-combobox >>> .wrapper");
+    await input.click();
+    await page.keyboard.type("two");
+    const one = await (await page.find("#one")).isVisible();
+    const two = await (await page.find("#two")).isVisible();
+    const three = await (await page.find("#three")).isVisible();
+    expect(one).toBeTruthy();
+    expect(two).toBeTruthy();
+    expect(three).toBeTruthy();
+  });
+
   it("works correctly inside a shadowRoot", async () => {
     const page = await newE2EPage();
     await page.setContent(`

@@ -555,6 +555,7 @@ export class CalciteCombobox {
 
   getData(): ItemData[] {
     return this.items.map((item) => ({
+      alwaysVisible: item.alwaysVisible,
       value: item.value,
       label: item.textLabel,
       guid: item.guid
