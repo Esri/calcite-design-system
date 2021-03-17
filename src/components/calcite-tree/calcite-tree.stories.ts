@@ -53,6 +53,7 @@ export const Simple = (): string => html`
     ${boolean("lines", false)}
     selection-mode="${select("selection-mode", ["single", "multi", "children", "multi-children"], "single")}"
     size="${select("size", ["s", "m"], "m")}"
+    ${boolean("input-enabled", false)}
   >
     ${treeItems}
   </calcite-tree>
@@ -64,6 +65,7 @@ export const DarkMode = (): string => html`
     ${boolean("lines", false)}
     selection-mode="${select("selection-mode", ["single", "multi", "children", "multi-children"], "single")}"
     size="${select("size", ["s", "m"], "m")}"
+    ${boolean("input-enabled", false)}
   >
     ${treeItems}
   </calcite-tree>

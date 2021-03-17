@@ -118,6 +118,7 @@
   line-height: 0;
   padding-left: var(--calcite-tree-checkbox-padding-start);
   padding-right: var(--calcite-tree-checkbox-padding-end);
+  outline: none;
 }
 
 .calcite-tree-label {
@@ -199,7 +200,7 @@
   }
 }
 
-:host([checkboxes]) .calcite-tree-node:before {
+:host([input-enabled]) .calcite-tree-node:before {
   display: none;
 }
 

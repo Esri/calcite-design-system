@@ -29,7 +29,7 @@ describe("calcite-tree", () => {
   it("should correctly select tree in ancestors selection mode", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <calcite-tree checkboxes selection-mode="ancestors">
+      <calcite-tree input-enabled selection-mode="ancestors">
         <calcite-tree-item id="one"><span>One</span></calcite-tree-item>
         <calcite-tree-item id="two">
           <span>Two</span>

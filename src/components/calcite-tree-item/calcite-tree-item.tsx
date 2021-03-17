@@ -66,14 +66,14 @@ export class CalciteTreeItem {
   @Prop({ reflect: true, mutable: true }) lines: boolean;
 
   /** @internal Display checkboxes (set on parent) */
-  @Prop({ reflect: true, mutable: true }) checkboxes: boolean;
+  @Prop({ reflect: true, mutable: true }) inputEnabled: boolean;
 
   /** @internal Scale of the parent tree, defaults to m */
   @Prop({ reflect: true, mutable: true }) scale: "s" | "m";
 
   /**
    * @internal
-   * In ancestor selection mode using checkboxes,
+   * In ancestor selection mode using inputEnabled,
    * show as indeterminate when only some children are selected
    **/
   @Prop({ reflect: true }) indeterminate: boolean;
@@ -98,7 +98,7 @@ export class CalciteTreeItem {
     this.selectionMode = parentTree.selectionMode;
     this.scale = parentTree.scale || "m";
     this.lines = parentTree.lines;
-    this.checkboxes = parentTree.checkboxes;
+    this.inputEnabled = parentTree.inputEnabled;
 
     let nextParentTree;
     while (parentTree) {
@@ -122,7 +122,7 @@ export class CalciteTreeItem {
         scale="s"
       />
     ) : null;
-    const checkbox = this.checkboxes ? (
+    const checkbox = this.inputEnabled ? (
       <label class="calcite-tree-label">
         <calcite-checkbox
           checked={this.selected}
@@ -196,7 +196,7 @@ export class CalciteTreeItem {
   iconClickHandler = (event: Event): void => {
     event.stopPropagation();
     this.expanded = !this.expanded;
-    if (!this.checkboxes) {
+    if (!this.inputEnabled) {
       this.calciteTreeItemSelect.emit({
         modifyCurrentSelection: (event as any).shiftKey,
         forceToggle: true
@@ -212,6 +212,7 @@ export class CalciteTreeItem {
       modifyCurrentSelection: (event as any).shiftKey,
       forceToggle: true
     });
+    this.el.focus();
   };
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
