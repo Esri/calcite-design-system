@@ -1,12 +1,13 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { ICON_TYPES } from "./resources";
-import { accessible, hidden, renders, focusable } from "../../tests/commonTests";
+import { accessible, hidden, renders } from "../../tests/commonTests";
 import {
   selectionAndDeselection,
   filterBehavior,
   disabledStates,
   keyboardNavigation,
-  itemRemoval
+  itemRemoval,
+  focusing
 } from "./shared-list-tests";
 import { html } from "../../tests/utils";
 
@@ -21,21 +22,6 @@ describe("calcite-pick-list", () => {
         <calcite-pick-list-item label="Sample" value="one"></calcite-pick-list-item>
       </calcite-pick-list>
     `));
-
-  describe("when setFocus method is called", () => {
-    it("should focus filter", () =>
-      focusable(
-        html`
-          <calcite-pick-list filter-enabled>
-            <calcite-value-list-item label="Sample" value="one"></calcite-value-list-item>
-          </calcite-pick-list>
-        `,
-        {
-          focusId: "filter",
-          shadowFocusTargetSelector: "calcite-filter"
-        }
-      ));
-  });
 
   describe("Selection and Deselection", () => selectionAndDeselection("pick"));
 
@@ -183,4 +169,6 @@ describe("calcite-pick-list", () => {
   describe("item removal", () => itemRemoval("pick"));
 
   describe("disabled states", () => disabledStates("pick"));
+
+  describe("setFocus", () => focusing("pick"));
 });
