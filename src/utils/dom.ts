@@ -40,7 +40,7 @@ export interface CalciteFocusableElement extends HTMLElement {
   setFocus?: () => void;
 }
 
-export function focusElement(el: CalciteFocusableElement): void {
+export async function focusElement(el: CalciteFocusableElement): Promise<void> {
   if (!el) {
     return;
   }

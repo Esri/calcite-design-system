@@ -6,7 +6,8 @@ import {
   filterBehavior,
   disabledStates,
   keyboardNavigation,
-  itemRemoval
+  itemRemoval,
+  focusing
 } from "../calcite-pick-list/shared-list-tests";
 import { dragAndDrop, html } from "../../tests/utils";
 
@@ -62,6 +63,8 @@ describe("calcite-value-list", () => {
   describe("disabled states", () => {
     disabledStates("value");
   });
+
+  describe("setFocus", () => focusing("value"));
 
   describe("drag and drop", () => {
     async function createSimpleValueList(): Promise<E2EPage> {
