@@ -193,12 +193,12 @@ export class CalciteTreeItem {
     });
   }
 
-  iconClickHandler = (event: Event): void => {
+  iconClickHandler = (event: MouseEvent): void => {
     event.stopPropagation();
     this.expanded = !this.expanded;
     if (!this.inputEnabled) {
       this.calciteTreeItemSelect.emit({
-        modifyCurrentSelection: (event as any).shiftKey,
+        modifyCurrentSelection: event.shiftKey,
         forceToggle: true
       });
     }
