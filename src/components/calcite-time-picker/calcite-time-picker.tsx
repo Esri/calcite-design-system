@@ -589,7 +589,7 @@ export class CalciteTimePicker {
     const minuteIsNumber = stringContainsOnlyNumbers(this.minute);
     const secondIsNumber = stringContainsOnlyNumbers(this.second);
     return (
-      <Host role="listbox">
+      <Host>
         <div class={CSS.timePicker}>
           <div role="group">
             <span

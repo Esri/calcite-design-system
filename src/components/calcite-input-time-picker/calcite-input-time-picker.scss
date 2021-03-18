@@ -1,4 +1,4 @@
 :host {
-  display: inline-block;
-  user-select: none;
+  @apply inline-block
+    select-none;
 }

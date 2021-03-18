@@ -62,9 +62,9 @@ export class CalciteInputTimePicker {
   //
   //--------------------------------------------------------------------------
 
-  private guid: string;
-
   private inputEl: HTMLCalciteInputElement;
+
+  private referenceElementId: string = guid();
 
   //--------------------------------------------------------------------------
   //
@@ -168,7 +168,7 @@ export class CalciteInputTimePicker {
       "calcite-input-time-picker"
     ) as HTMLCalciteInputTimePickerElement;
     const closestLabel = target.closest("calcite-label") as HTMLCalciteLabelElement;
-    if (closestLabel && closestLabel.for === this.guid) {
+    if (closestLabel && closestLabel.for === this.el.id) {
       this.inputEl.setFocus();
       this.open = true;
     } else if (closestHost !== this.el) {
@@ -256,10 +256,6 @@ export class CalciteInputTimePicker {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback() {
-    this.guid = this.el.id || `calcite-input-time-picker-${guid()}`;
-  }
-
   componentDidLoad() {
     if (this.value) {
       this.inputEl.value = this.parseTimeString(this.value);
@@ -274,27 +270,36 @@ export class CalciteInputTimePicker {
 
   render(): VNode {
     const { hour, minute, second } = this.convertStringToTime(this.value);
+    const popoverId = `${this.referenceElementId}-popover`;
     return (
-      <Host role="combobox">
-        <calcite-input
-          disabled={this.disabled}
-          icon="clock"
-          id={`${this.guid}-calcite-input`}
-          name={this.name}
-          onCalciteInputBlur={this.inputBlurHandler}
-          onCalciteInputFocus={this.inputFocusHandler}
-          onCalciteInputInput={this.inputInputHandler}
-          ref={this.setInputEl}
-          scale={this.scale}
-          step={this.step}
-          theme={this.theme}
-          type="time"
-          value={this.value}
-        />
+      <Host>
+        <div
+          aria-controls={popoverId}
+          aria-haspopup="dialog"
+          aria-label={this.name}
+          aria-owns={popoverId}
+          id={this.referenceElementId}
+          role="combobox"
+        >
+          <calcite-input
+            disabled={this.disabled}
+            icon="clock"
+            name={this.name}
+            onCalciteInputBlur={this.inputBlurHandler}
+            onCalciteInputFocus={this.inputFocusHandler}
+            onCalciteInputInput={this.inputInputHandler}
+            ref={this.setInputEl}
+            scale={this.scale}
+            step={this.step}
+            theme={this.theme}
+            value={this.value}
+          />
+        </div>
         <calcite-popover
+          id={popoverId}
           label="Time Picker"
           open={this.open}
-          referenceElement={`${this.guid}-calcite-input`}
+          referenceElement={this.referenceElementId}
           theme={this.theme}
         >
           <calcite-time-picker
