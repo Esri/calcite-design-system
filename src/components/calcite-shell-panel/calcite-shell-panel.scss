@@ -29,6 +29,22 @@
   transition: max-height $transition, max-width $transition;
 }
 
+.content__header,
+.content__body {
+  @apply flex
+  flex-col
+  flex-no-wrap
+  items-stretch;
+}
+
+.content__header {
+  @apply flex-initial;
+}
+
+.content__body {
+  @apply flex-auto overflow-hidden;
+}
+
 :host([width-scale="s"]) .content {
   --calcite-shell-panel-width: 12vw;
   --calcite-shell-panel-max-width: 300px;
