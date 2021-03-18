@@ -1,33 +1,34 @@
 :host {
-  display: flex;
-  justify-content: center;
-  outline: none;
-  color: var(--calcite-ui-text-3);
-  cursor: pointer;
+  @apply flex
+    justify-center
+    outline-none
+    text-color-3
+    cursor-pointer
+    min-w-0;
   width: calc(100% / 7);
-  min-width: 0;
 }
 
 .day-v-wrapper {
-  flex: 1 1 auto;
+  @apply flex-auto;
 }
 
 .day {
-  display: flex;
-  border-radius: 100%;
-  @include font-size(-2);
-  justify-content: center;
-  align-items: center;
-  line-height: 1;
-  color: var(--calcite-ui-text-3);
-  transition: all $transition;
+  @apply flex
+    rounded-full
+    text--2h
+    justify-center
+    items-center
+    leading-none
+    text-color-3
+    duration-150
+    ease-in-out
+    opacity-disabled;
   background: none;
   box-shadow: 0 0 0 2px transparent, 0 0 0 0px transparent;
-  opacity: var(--calcite-ui-opacity-disabled);
 }
 
 .text {
-  margin: 1px 0 0 1px;
+  @apply mt-px mr-0 mb-0 ml-px;
 }
 
 :host([scale="s"]) {
@@ -38,6 +39,7 @@
     @apply p-0;
   }
   .day {
+    //FIXME: This needs to be refactored by design first
     height: 27px;
     width: 27px;
     @apply text--2;
@@ -52,6 +54,7 @@
     @apply px-1;
   }
   .day {
+    //FIXME: This needs to be refactored by design first
     height: 33px;
     width: 33px;
     @apply text--1;
@@ -66,6 +69,7 @@
     @apply px-1;
   }
   .day {
+    //FIXME: This needs to be refactored by design first
     height: 43px;
     width: 43px;
     @apply text-0;
@@ -73,19 +77,18 @@
 }
 
 :host([current-month]) .day {
-  opacity: 1;
+  @apply opacity-100;
 }
 
 :host([disabled]) {
   cursor: default;
-  opacity: 0.2;
+  @apply bg-opacity-25;
 }
 
 :host(:hover:not([disabled])),
 :host([active]:not([range])) {
   & .day {
-    background-color: var(--calcite-ui-foreground-2);
-    color: var(--calcite-ui-text-1);
+    @apply bg-foreground-2 text-color-1;
   }
 }
 
@@ -99,14 +102,15 @@
 }
 
 :host([selected]) .day {
+  @apply font-medium;
   background-color: var(--calcite-ui-brand) !important;
   color: var(--calcite-ui-foreground-1) !important;
-  font-weight: 500;
   z-index: 1;
 }
 
 :host([range][selected]) {
   .day-wrapper {
+    //FIXME Does this exist as a tailwind value?
     background-color: var(--calcite-ui-foreground-current);
   }
 }
@@ -114,6 +118,7 @@
 :host([start-of-range][dir="ltr"]),
 :host([end-of-range][dir="rtl"]) {
   .day-wrapper {
+    //FIXME: Not sure about these values
     border-top-left-radius: 40%;
     border-bottom-left-radius: 40%;
     box-shadow: inset 4px 0 var(--calcite-ui-foreground-1);
@@ -154,21 +159,20 @@
   background-color: var(--calcite-ui-foreground-current);
 
   .day {
-    color: var(--calcite-ui-text-1);
+    @apply text-color-1;
   }
 }
 
 :host([highlighted]:not([active]:focus)) .day {
-  border-radius: 0;
-  color: var(--calcite-ui-text-1);
+  @apply rounded-none text-color-1;
 }
 
 :host([range-hover]:not([selected])) {
   .day-wrapper {
-    background-color: var(--calcite-ui-foreground-2);
+    @apply bg-foreground-2;
   }
   .day {
-    border-radius: 0;
+    @apply rounded-none;
   }
 }
 
@@ -181,8 +185,7 @@
     var(--calcite-ui-foreground-2),
     var(--calcite-ui-foreground-2)
   );
-  border-radius: 0;
-  box-shadow: none;
+  @apply rounded-none shadow-none;
 }
 
 :host([start-of-range][range-hover][dir="ltr"]) .day-wrapper,
@@ -194,8 +197,7 @@
     var(--calcite-ui-foreground-2),
     var(--calcite-ui-foreground-2)
   );
-  border-radius: 0;
-  box-shadow: none;
+  @apply rounded-none shadow-none;
 }
 
 :host(:hover[range-hover]:not([selected]).focused--end[dir="ltr"]),
@@ -206,7 +208,7 @@
     box-shadow: inset -4px 0 var(--calcite-ui-foreground-1);
   }
   .day {
-    border-radius: 100%;
+    @apply rounded-full;
     box-shadow: -2px 0 var(--calcite-ui-foreground-1);
   }
 }
@@ -236,7 +238,7 @@
 :host([start-of-range].hover--inside-range.focused--end),
 :host([end-of-range].hover--inside-range.focused--start) {
   .day-wrapper {
-    background-color: var(--calcite-ui-foreground-2);
+    @apply bg-foreground-2;
   }
 }
 
