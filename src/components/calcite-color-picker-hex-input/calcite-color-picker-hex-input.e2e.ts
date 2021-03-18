@@ -190,7 +190,7 @@ describe("calcite-color-picker-hex-input", () => {
     async function clearText(): Promise<void> {
       await input.callMethod("setFocus");
 
-      await page.$eval("calcite-color-picker-hex-input", (el: HTMLCalciteColorHexInputElement): void => {
+      await page.$eval("calcite-color-picker-hex-input", (el: HTMLCalciteColorPickerHexInputElement): void => {
         const input = el.shadowRoot?.querySelector("input");
 
         if (!input) {

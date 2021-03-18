@@ -10,8 +10,7 @@ describe("calcite-tile", () => {
     defaults("calcite-tile", [
       { propertyName: "embed", defaultValue: false },
       { propertyName: "focused", defaultValue: false },
-      { propertyName: "hidden", defaultValue: false },
-      { propertyName: "theme", defaultValue: "light" }
+      { propertyName: "hidden", defaultValue: false }
     ]));
 
   it("reflects", async () =>

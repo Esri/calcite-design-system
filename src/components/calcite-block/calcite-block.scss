@@ -118,10 +118,6 @@ calcite-handle {
   grid-area: control;
 }
 
-calcite-scrim {
-  @apply pointer-events-none;
-}
-
 .calcite--rtl {
   .icon {
     @apply ml-0 mr-3;

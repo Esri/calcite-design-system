@@ -1,5 +1,5 @@
 import { Component, Element, h, Host, Prop, State } from "@stencil/core";
-import { getElementDir, getElementTheme } from "../../utils/dom";
+import { getElementDir } from "../../utils/dom";
 import { isValidHex } from "../calcite-color-picker/utils";
 import { Scale, Theme } from "../interfaces";
 import { hexToHue, stringToHex } from "./utils";
@@ -94,8 +94,7 @@ export class CalciteAvatar {
    * Generate a valid background color that is consistent and unique to this user
    */
   private generateFillColor() {
-    const { userId, username, fullName } = this;
-    const theme = getElementTheme(this.el);
+    const { userId, username, fullName, theme } = this;
     const id = userId && `#${userId.substr(userId.length - 6)}`;
     const name = username || fullName || "";
     const hex = id && isValidHex(id) ? id : stringToHex(name);

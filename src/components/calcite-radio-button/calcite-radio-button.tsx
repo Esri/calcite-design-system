@@ -65,7 +65,9 @@ export class CalciteRadioButton {
 
   @Watch("focused")
   focusedChanged(focused: boolean): void {
-    if (!this.inputEl) return;
+    if (!this.inputEl) {
+      return;
+    }
     if (focused && !this.el.hasAttribute("hidden")) {
       this.inputEl.focus();
     } else {
@@ -122,7 +124,7 @@ export class CalciteRadioButton {
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /** The color theme of the radio button, <code>theme</code> is passed as a property automatically from <code>calcite-radio-button-group</code>. */
-  @Prop({ reflect: true }) theme: Theme = "light";
+  @Prop({ reflect: true }) theme: Theme;
 
   /** The value of the radio button. */
   @Prop({ reflect: true }) value!: string;
@@ -281,7 +283,7 @@ export class CalciteRadioButton {
     this.inputEl.style.setProperty("margin", "0", "important");
     this.inputEl.style.setProperty("opacity", "0", "important");
     this.inputEl.style.setProperty("padding", "0", "important");
-    this.inputEl.style.setProperty("position", "absolute", "important");
+    this.inputEl.style.setProperty("position", "fixed", "important");
     this.inputEl.style.setProperty("transform", "none", "important");
     this.inputEl.style.setProperty("z-index", "-1", "important");
   };

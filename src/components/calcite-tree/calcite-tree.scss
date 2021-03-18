@@ -1,4 +1,3 @@
 :host {
-  display: block;
-  outline: none;
+  @apply block outline-none;
 }

@@ -12,8 +12,9 @@ export default {
 };
 
 export const Simple = (): string => html`
-  <div tabindex="0" style="position: relative; width: 400px; height: 400px; overflow: auto;">
-    <calcite-scrim ${boolean("loading", false)}>
+  <div tabindex="0" style="position: relative; width: 400px; height: 400px">
+    <calcite-scrim ${boolean("loading", false)}></calcite-scrim>
+    <div style="width: 400px; height: 400px; overflow: auto">
       <p>
         Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor
         quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean
@@ -36,13 +37,14 @@ export const Simple = (): string => html`
           Pellentesque fermentum dolor. Aliquam quam lectus, facilisis auctor, ultrices ut, elementum vulputate, nunc.
         </li>
       </ul>
-    </calcite-scrim>
+    </div>
   </div>
 `;
 
 export const DarkMode = (): string => html`
-  <div tabindex="0" style="position: relative; width: 400px; height: 400px; overflow: auto;">
-    <calcite-scrim theme="dark" ${boolean("loading", false)}>
+  <div tabindex="0" style="position: relative; width: 400px; height: 400px">
+    <calcite-scrim theme="dark" ${boolean("loading", false)}></calcite-scrim>
+    <div style="width: 400px; height: 400px; overflow: auto">
       <p>
         Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor
         quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean
@@ -65,7 +67,7 @@ export const DarkMode = (): string => html`
           Pellentesque fermentum dolor. Aliquam quam lectus, facilisis auctor, ultrices ut, elementum vulputate, nunc.
         </li>
       </ul>
-    </calcite-scrim>
+    </div>
   </div>
 `;
 

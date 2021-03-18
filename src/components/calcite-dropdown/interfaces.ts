@@ -1,3 +1,5 @@
+import { PopperPlacement } from "../../utils/popper";
+
 export interface ItemRegistration {
   position: number;
 }
@@ -18,3 +20,17 @@ export interface RegisteredItem {
   item: HTMLCalciteDropdownItemElement;
   position: number;
 }
+
+export type DropdownPlacement = Extract<
+  PopperPlacement,
+  | "top-start"
+  | "top"
+  | "top-end"
+  | "bottom-start"
+  | "bottom"
+  | "bottom-end"
+  | "top-leading"
+  | "top-trailing"
+  | "bottom-leading"
+  | "bottom-trailing"
+>;

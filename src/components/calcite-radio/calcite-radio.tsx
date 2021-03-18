@@ -38,7 +38,7 @@ export class CalciteRadio {
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /** The color theme of the radio, */
-  @Prop({ reflect: true }) theme: Theme = "light";
+  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //

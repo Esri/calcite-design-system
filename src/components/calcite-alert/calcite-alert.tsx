@@ -52,7 +52,9 @@ export class CalciteAlert {
 
   @Watch("active")
   watchActive(): void {
-    if (this.active && !this.queued) this.calciteAlertRegister.emit();
+    if (this.active && !this.queued) {
+      this.calciteAlertRegister.emit();
+    }
     if (!this.active) {
       this.queue = this.queue.filter((e) => e !== this.el);
       this.calciteAlertSync.emit({ queue: this.queue });
@@ -97,7 +99,9 @@ export class CalciteAlert {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    if (this.active && !this.queued) this.calciteAlertRegister.emit();
+    if (this.active && !this.queued) {
+      this.calciteAlertRegister.emit();
+    }
   }
 
   componentWillLoad(): void {
@@ -215,9 +219,13 @@ export class CalciteAlert {
   /** focus either the slotted alert-link or the close button */
   @Method()
   async setFocus(): Promise<void> {
-    if (!this.closeButton && !this.alertLinkEl) return;
-    else if (this.alertLinkEl) this.alertLinkEl.setFocus();
-    else if (this.closeButton) this.closeButton.focus();
+    if (!this.closeButton && !this.alertLinkEl) {
+      return;
+    } else if (this.alertLinkEl) {
+      this.alertLinkEl.setFocus();
+    } else if (this.closeButton) {
+      this.closeButton.focus();
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -266,7 +274,9 @@ export class CalciteAlert {
           DURATIONS[this.autoDismissDuration]
         );
       }
-    } else return;
+    } else {
+      return;
+    }
   }
 
   /** close and emit the closed alert and the queue */

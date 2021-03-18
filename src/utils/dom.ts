@@ -1,5 +1,3 @@
-import { Theme } from "../components/interfaces";
-
 export function nodeListToArray<T extends Element>(nodeList: HTMLCollectionOf<T> | NodeListOf<T> | T[]): T[] {
   return Array.isArray(nodeList) ? nodeList : Array.from(nodeList);
 }
@@ -16,10 +14,6 @@ export function getElementDir(el: HTMLElement): Direction {
   return getElementProp(el, "dir", "ltr") as Direction;
 }
 
-export function getElementTheme(el: HTMLElement): Theme {
-  return getElementProp(el, "theme", "light") as Theme;
-}
-
 export function getElementProp(el: Element, prop: string, fallbackValue: any, crossShadowBoundary = false): any {
   const selector = `[${prop}]`;
   const closest = crossShadowBoundary ? closestElementCrossShadowBoundary(selector, el) : el.closest(selector);
@@ -32,7 +26,9 @@ function closestElementCrossShadowBoundary<E extends Element = Element>(
 ): E | null {
   // based on https://stackoverflow.com/q/54520554/194216
   function closestFrom(el): E | null {
-    if (!el || el === document || el === window) return null;
+    if (!el || el === document || el === window) {
+      return null;
+    }
     const found = el.closest(selector);
     return found ? found : closestFrom(el.getRootNode().host);
   }
@@ -44,7 +40,7 @@ export interface CalciteFocusableElement extends HTMLElement {
   setFocus?: () => void;
 }
 
-export function focusElement(el: CalciteFocusableElement): void {
+export async function focusElement(el: CalciteFocusableElement): Promise<void> {
   if (!el) {
     return;
   }

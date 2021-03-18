@@ -2,6 +2,7 @@ import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { JSEvalable } from "puppeteer";
 import { html } from "../../tests/utils";
 import { CSS as PICK_LIST_ITEM_CSS } from "../calcite-pick-list-item/resources";
+import { focusable } from "../../tests/commonTests";
 
 type ListType = "pick" | "value";
 type ListElement = HTMLCalcitePickListElement | HTMLCalciteValueListElement;
@@ -110,6 +111,43 @@ export function keyboardNavigation(listType: ListType): void {
 
         expect(await getFocusedItemValue(page)).toEqual("one");
       });
+    });
+
+    it("navigating items after filtering", async () => {
+      const page = await newE2EPage({
+        html: `
+        <calcite-${listType}-list filter-enabled>
+          <calcite-${listType}-list-item value="one" label="One" selected></calcite-${listType}-list-item>
+          <calcite-${listType}-list-item value="two" label="Two"></calcite-${listType}-list-item>
+        </calcite-${listType}-list>
+      `
+      });
+      const filter = await page.find(`calcite-${listType}-list >>> calcite-filter`);
+      await filter.callMethod("setFocus");
+
+      await page.keyboard.type("one");
+      await page.waitForEvent("calciteFilterChange");
+
+      await page.keyboard.press("Tab");
+      await page.keyboard.press("Tab");
+
+      expect(await getFocusedItemValue(page)).toEqual("one");
+
+      await filter.callMethod("setFocus");
+      await page.waitForChanges();
+
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.waitForChanges();
+
+      await page.keyboard.type("two");
+      await page.waitForEvent("calciteFilterChange");
+
+      await page.keyboard.press("Tab");
+      await page.keyboard.press("Tab");
+
+      expect(await getFocusedItemValue(page)).toEqual("two");
     });
   });
 }
@@ -471,5 +509,22 @@ export function itemRemoval(listType: ListType): void {
     expect(await page.find(`calcite-${listType}-list-item`)).toBeNull();
     expect(removeItemSpy).toHaveReceivedEventTimes(1);
     expect(listChangeSpy).toHaveReceivedEventTimes(1);
+  });
+}
+
+export function focusing(listType: ListType): void {
+  describe("when setFocus method is called", () => {
+    it("should focus filter", () =>
+      focusable(
+        html`
+        <calcite-${listType}-list filter-enabled>
+          <calcite-${listType}-list-item label="Sample" value="one"></calcite-${listType}-list-item>
+        </calcite-${listType}-list>
+      `,
+        {
+          focusId: "filter",
+          shadowFocusTargetSelector: "calcite-filter"
+        }
+      ));
   });
 }

@@ -50,7 +50,7 @@ export class CalciteColorPickerSwatch {
   @Prop({
     reflect: true
   })
-  theme: Theme = "light";
+  theme: Theme;
 
   //--------------------------------------------------------------------------
   //

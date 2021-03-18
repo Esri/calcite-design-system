@@ -1,30 +1,28 @@
 :host {
   @extend %component-host;
-  @extend %component-spacing;
-  display: flex;
-  align-items: stretch;
-  background-color: transparent;
-  pointer-events: none;
-
+  @apply flex 
+    items-stretch 
+    bg-transparent 
+    pointer-events-none;
   --calcite-shell-panel-detached-max-height: unset;
 }
 
 ::slotted(calcite-panel),
 ::slotted(calcite-flow) {
-  height: 100%;
+  @apply h-full w-full;
   max-height: unset;
   max-width: unset;
-  width: 100%;
 }
 
 .content {
-  align-items: stretch;
-  align-self: stretch;
-  background-color: var(--calcite-ui-background);
-  flex-flow: column nowrap;
-  display: flex;
-  padding: 0;
-  pointer-events: auto;
+  @apply items-stretch 
+    self-stretch 
+    bg-background 
+    flex 
+    p-0 
+    pointer-events-auto
+    flex-col
+    flex-no-wrap;
   width: var(--calcite-shell-panel-width);
   max-width: var(--calcite-shell-panel-max-width);
   min-width: var(--calcite-shell-panel-min-width);
@@ -77,13 +75,13 @@
 }
 
 .content[hidden] {
-  display: none;
+  @apply hidden;
 }
 
 :host([position="start"]) slot[name="action-bar"]::slotted(calcite-action-bar) {
-  border-right: 1px solid var(--calcite-ui-border-3);
+  @apply border-r border-r-solid border-r-color-3;
 }
 
 :host([position="end"]) slot[name="action-bar"]::slotted(calcite-action-bar) {
-  border-left: 1px solid var(--calcite-ui-border-3);
+  @apply border-l border-l-solid border-l-color-3;
 }

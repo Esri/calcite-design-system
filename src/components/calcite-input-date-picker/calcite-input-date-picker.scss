@@ -17,18 +17,6 @@
   line-height: 0; // fixes height in ie11
 }
 
-:host([scale="s"]) {
-  max-width: 216px;
-}
-
-:host([scale="m"]) {
-  max-width: 286px;
-}
-
-:host([scale="l"]) {
-  max-width: 398px;
-}
-
 .input-wrapper {
   position: relative;
 }
@@ -82,8 +70,6 @@
 }
 
 :host([scale="s"][range]:not([layout="vertical"])) {
-  max-width: 462px;
-
   .calendar-picker-wrapper {
     width: 216px;
   }
@@ -94,16 +80,12 @@
 }
 
 :host([scale="m"][range]:not([layout="vertical"])) {
-  max-width: 596px;
-
   .calendar-picker-wrapper {
     width: 286px;
   }
 }
 
 :host([scale="l"][range]:not([layout="vertical"])) {
-  max-width: 820px;
-
   .calendar-picker-wrapper {
     width: 398px;
   }
@@ -117,7 +99,6 @@
   @include popperContainer();
   visibility: hidden;
   pointer-events: none;
-  width: 100%;
 }
 :host([active]) .menu-container {
   pointer-events: initial;
