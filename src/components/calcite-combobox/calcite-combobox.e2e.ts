@@ -561,12 +561,13 @@ describe("calcite-combobox", () => {
     const input = await page.find("calcite-combobox >>> .wrapper");
     await input.click();
     await page.keyboard.type("two");
+    await page.waitForChanges();
     const one = await (await page.find("#one")).isVisible();
     const two = await (await page.find("#two")).isVisible();
     const three = await (await page.find("#three")).isVisible();
     expect(one).toBeTruthy();
     expect(two).toBeTruthy();
-    expect(three).toBeTruthy();
+    expect(three).toBeFalsy();
   });
 
   it("works correctly inside a shadowRoot", async () => {
