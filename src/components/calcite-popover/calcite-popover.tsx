@@ -24,8 +24,7 @@ import { guid } from "../../utils/guid";
 import { Theme } from "../interfaces";
 import { getElementDir } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
-
-export type FocusId = "close-button";
+import { PopoverFocusId } from "./resources";
 
 /**
  * @slot image - A slot for adding an image. The image will appear above the other slot content.
@@ -198,7 +197,7 @@ export class CalcitePopover {
   }
 
   @Method()
-  async setFocus(focusId?: FocusId): Promise<void> {
+  async setFocus(focusId?: PopoverFocusId): Promise<void> {
     if (focusId === "close-button") {
       this.closeButtonEl?.focus();
       return;
