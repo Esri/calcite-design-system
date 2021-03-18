@@ -17,7 +17,6 @@ import { getKey } from "../../utils/key";
 import { INPUT_TYPE_ICONS } from "./calcite-input.resources";
 import { InputPlacement } from "./interfaces";
 import { Position } from "../interfaces";
-import { guid } from "../../utils/guid";
 
 /**
  * @slot `calcite-action` - A slot for positioning a button next to an input
@@ -60,9 +59,6 @@ export class CalciteInput {
   disabledWatcher(): void {
     this.setDisabledAction();
   }
-
-  /** The id attribute of the calcite-input.  When omitted, a globally unique identifier is used. */
-  @Prop({ reflect: true, mutable: true }) guid: string;
 
   /** when used as a boolean set to true, show a default recommended icon for certain
    * input types (tel, password, email, date, time, search). You can also pass a
@@ -109,10 +105,10 @@ export class CalciteInput {
   @Prop() required = false;
 
   /** specify the scale of the input, defaults to m */
-  @Prop({ reflect: true, mutable: true }) scale: Scale = "m";
+  @Prop({ mutable: true, reflect: true }) scale: Scale = "m";
 
   /** specify the status of the input field, determines message and icons */
-  @Prop({ reflect: true, mutable: true }) status: Status = "idle";
+  @Prop({ mutable: true, reflect: true }) status: Status = "idle";
 
   /** input step */
   @Prop({ reflect: true }) step?: number | "any";
@@ -182,7 +178,6 @@ export class CalciteInput {
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.form = this.el.closest("form");
     this.form?.addEventListener("reset", this.reset);
-    this.guid = this.el.id || `calcite-input-${guid()}`;
   }
 
   disconnectedCallback(): void {
@@ -297,11 +292,9 @@ export class CalciteInput {
     const childEl = [
       <this.childElType
         {...attributes}
-        aria-label={this.name || this.guid}
         autofocus={this.autofocus ? true : null}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
-        id={`${this.guid}-${this.childElType}`}
         max={this.maxString}
         maxlength={this.maxlength}
         min={this.minString}
