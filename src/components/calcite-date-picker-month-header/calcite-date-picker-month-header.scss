@@ -1,137 +1,142 @@
 .header {
-  display: flex;
-  justify-content: space-between;
+  @apply flex justify-between;
+  //FIXME: Can this just be 4px? px-1
   padding: 0 3px;
 }
 
 :host([scale="s"]) {
   .text {
-    font-size: 14px;
+    @apply text--1h;
   }
   .chevron {
-    height: 38px;
+    @apply h-10;
   }
 }
 
 :host([scale="m"]) {
   .text {
-    font-size: 16px;
+    @apply text-0h
   }
   .chevron {
-    height: 48px;
+    @apply h-12;
   }
 }
 
 :host([scale="l"]) {
   .text {
-    font-size: 18px;
+    @apply text-1h;
   }
   .chevron {
-    height: 64px;
+    @apply h-16;
   }
 }
 
 .chevron {
-  color: var(--calcite-ui-text-2);
-  flex-grow: 0;
-  width: calc(100% / 7);
-  box-sizing: content-box;
-  outline: none;
-  padding: 0 4px;
-  margin: 0 -3px;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--calcite-ui-foreground-1);
-  cursor: pointer;
-  transition: all 0.15s ease-in-out;
+  @apply text-color-2
+    flex-grow-0
+    box-border
+    outline-none
+    py-0
+    px-1
+    my-0
+    border-none
+    flex
+    items-center
+    justify-center
+    bg-foreground-1
+    cursor-pointer
+    transition-all
+    duration-150
+    ease-in-out
+    focus-base;
 
-  @include focus-style-base();
+  width: calc(100% / 7);
+  margin-left: -3px;
+  margin-right: -3px;
 
   &:focus {
-    @include focus-style-inset();
+    @apply focus-inset;
   }
 
   &:hover,
   &:focus {
-    fill: var(--calcite-ui-text-1);
-    background-color: var(--calcite-ui-foreground-2);
+    @apply bg-foreground-2;
+    fill: theme("textColor.1");
   }
 
   &:active {
-    background-color: var(--calcite-ui-foreground-3);
+    @apply bg-foreground-3;
   }
 
   &[aria-disabled="true"] {
-    pointer-events: none;
-    opacity: 0;
+    @apply pointer-events-none bg-opacity-0;
   }
 }
 
 .text {
-  flex: 1 1 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-  line-height: 1;
-  margin: auto 0;
-  text-align: center;
+  @apply flex-auto
+    flex-auto
+    items-center
+    justify-center
+    flex-row
+    leading-none
+    my-auto
+    mx-0
+    text-center;
 }
 
 .text--reverse {
-  flex-direction: row-reverse;
+  @apply flex-row-reverse;
 }
 
 .month,
 .year,
 .suffix {
-  color: var(--calcite-ui-text-1);
-  background: var(--calcite-ui-foreground-1);
-  font-size: inherit;
-  font-weight: 500;
-  line-height: 1.25;
-  margin: 0 4px;
-  display: inline-block;
+  @apply text-color-1
+    bg-foreground-1
+    font-inherit
+    font-normal
+    leading-tight
+    my-0
+    mx-1
+    inline-block;
 }
 
 .year {
-  font-family: inherit;
-  text-align: center;
-  border: none;
-  width: 3em;
-  padding: 0;
-  background-color: transparent;
-  position: relative;
+  @apply font-inherit
+    text-center
+    border-none
+    w-12
+    p-0
+    bg-transparent
+    relative
+    focus-base;
   z-index: 2;
-  @include focus-style-base();
   &:hover {
     transition: outline-color 100ms ease-in-out;
     outline: 2px solid var(--calcite-ui-border-2);
     outline-offset: 2px;
   }
   &:focus {
-    @include focus-style-outset();
+    @apply focus-outset;
   }
 }
 
 .year--suffix {
-  width: 4rem;
-  text-align: left;
+  @apply w-16 text-left;
 }
 
 .year-wrap {
-  position: relative;
+  @apply relative;
 }
 
 .suffix {
-  position: absolute;
-  width: 4rem;
-  white-space: nowrap;
-  text-align: left;
-  top: 0;
-  left: 0;
+  @apply absolute
+    w-16
+    whitespace-no-wrap
+    text-left
+    top-0
+    left-0;
 }
 
 .suffix__invisible {
