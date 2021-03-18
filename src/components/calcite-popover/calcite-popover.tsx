@@ -343,14 +343,6 @@ export class CalcitePopover {
   //
   // --------------------------------------------------------------------------
 
-  renderImage(): VNode {
-    return this.el.querySelector("[slot=image]") ? (
-      <div class={CSS.imageContainer}>
-        <slot name="image" />
-      </div>
-    ) : null;
-  }
-
   renderCloseButton(): VNode {
     const { closeButton, intlClose } = this;
 
@@ -393,11 +385,10 @@ export class CalcitePopover {
         >
           {arrowNode}
           <div class={CSS.container}>
-            {this.renderImage()}
             <div class={CSS.content}>
               <slot />
-              {this.renderCloseButton()}
             </div>
+            {this.renderCloseButton()}
           </div>
         </div>
       </Host>
