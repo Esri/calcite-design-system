@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { CSS, ICON_TYPES } from "./resources";
 import {
-  FocusId,
+  ListFocusId,
   calciteListItemChangeHandler,
   calciteListItemValueChangeHandler,
   cleanUpObserver,
@@ -283,7 +283,7 @@ export class CalciteValueList<
   }
 
   @Method()
-  async setFocus(focusId?: FocusId): Promise<void> {
+  async setFocus(focusId?: ListFocusId): Promise<void> {
     return setFocus.call(this, focusId);
   }
 
