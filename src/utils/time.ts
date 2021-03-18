@@ -1,4 +1,4 @@
-export type Meridiem = "--" | "AM" | "PM";
+export type Meridiem = "AM" | "PM";
 
 export type MinuteOrSecond = "minute" | "second";
 
@@ -15,6 +15,9 @@ export function formatNumberAsTimeString(number: number): string {
 export const numberKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
 export function stringContainsOnlyNumbers(value: string): boolean {
+  if (!value) {
+    return false;
+  }
   const letters = /^[A-Za-z]+$/;
   const numbers = /^[0-9]+$/;
   const letterMatch = value.match(letters);

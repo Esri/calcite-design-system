@@ -39,19 +39,19 @@ describe("calcite-time-picker", () => {
 
   it("has defaults", async () =>
     defaults("calcite-time-picker", [
-      { propertyName: "hour", defaultValue: "--" },
+      { propertyName: "hour", defaultValue: null },
       { propertyName: "hourDisplayFormat", defaultValue: "12" },
-      { propertyName: "minute", defaultValue: "--" },
-      { propertyName: "second", defaultValue: "--" },
+      { propertyName: "minute", defaultValue: null },
+      { propertyName: "second", defaultValue: null },
       { propertyName: "scale", defaultValue: "m" },
       { propertyName: "step", defaultValue: 60 }
     ]));
 
   it("reflects", async () =>
     reflects("calcite-time-picker", [
-      { propertyName: "hour", value: "--" },
-      { propertyName: "minute", value: "--" },
-      { propertyName: "second", value: "--" },
+      { propertyName: "hour", value: null },
+      { propertyName: "minute", value: null },
+      { propertyName: "second", value: null },
       { propertyName: "scale", value: "m" },
       { propertyName: "step", value: 60 }
     ]));
@@ -420,7 +420,7 @@ describe("calcite-time-picker", () => {
 
       for (let i = 0; i >= letterKeys.length; i++) {
         await page.keyboard.press(letterKeys[i]);
-        expect(await timePicker.getProperty("hour")).toBe("--");
+        expect(await timePicker.getProperty("hour")).toBe(null);
         expect(hour.textContent).toBe("--");
       }
 
@@ -428,7 +428,7 @@ describe("calcite-time-picker", () => {
 
       for (let i = 0; i >= letterKeys.length; i++) {
         await page.keyboard.press(letterKeys[i]);
-        expect(await timePicker.getProperty("minute")).toBe("--");
+        expect(await timePicker.getProperty("minute")).toBe(null);
         expect(minute.textContent).toBe("--");
       }
 
@@ -436,7 +436,7 @@ describe("calcite-time-picker", () => {
 
       for (let i = 0; i >= letterKeys.length; i++) {
         await page.keyboard.press(letterKeys[i]);
-        expect(await timePicker.getProperty("second")).toBe("--");
+        expect(await timePicker.getProperty("second")).toBe(null);
         expect(second.textContent).toBe("--");
       }
     });
@@ -454,7 +454,7 @@ describe("calcite-time-picker", () => {
 
       for (let i = 0; i >= letterKeys.length; i++) {
         await page.keyboard.press(letterKeys[i]);
-        expect(await timePicker.getProperty("hour")).toBe("--");
+        expect(await timePicker.getProperty("hour")).toBe(null);
         expect(hour.textContent).toBe("--");
       }
 
@@ -462,7 +462,7 @@ describe("calcite-time-picker", () => {
 
       for (let i = 0; i >= letterKeys.length; i++) {
         await page.keyboard.press(letterKeys[i]);
-        expect(await timePicker.getProperty("minute")).toBe("--");
+        expect(await timePicker.getProperty("minute")).toBe(null);
         expect(minute.textContent).toBe("--");
       }
 
@@ -470,7 +470,7 @@ describe("calcite-time-picker", () => {
 
       for (let i = 0; i >= letterKeys.length; i++) {
         await page.keyboard.press(letterKeys[i]);
-        expect(await timePicker.getProperty("second")).toBe("--");
+        expect(await timePicker.getProperty("second")).toBe(null);
         expect(second.textContent).toBe("--");
       }
     });

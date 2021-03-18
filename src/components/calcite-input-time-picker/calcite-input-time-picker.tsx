@@ -142,8 +142,8 @@ export class CalciteInputTimePicker {
     event.stopPropagation();
     if (event.detail) {
       const { hour, minute, second } = event.detail as Time;
-      if (hour !== "--" && minute !== "--") {
-        if (this.step !== 60 && second !== "--") {
+      if (hour !== null && minute !== null) {
+        if (this.step !== 60 && second !== null) {
           this.value = `${hour}:${minute}:${second}`;
         } else {
           this.value = `${hour}:${minute}`;
@@ -195,11 +195,11 @@ export class CalciteInputTimePicker {
 
   private convertStringToTime = (value: string): Time => {
     const timeString = this.parseTimeString(value);
-    const [hour, minute, second] = timeString ? timeString.split(":") : ["--", "--", "--"];
+    const [hour, minute, second] = timeString ? timeString.split(":") : [null, null, null];
     return {
       hour,
       minute,
-      second: second || (hour !== "--" && minute !== "--" ? "00" : "--")
+      second: second || (hour !== null && minute !== null ? "00" : null)
     };
   };
 
@@ -292,6 +292,7 @@ export class CalciteInputTimePicker {
             scale={this.scale}
             step={this.step}
             theme={this.theme}
+            type="time"
             value={this.value}
           />
         </div>

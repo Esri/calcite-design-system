@@ -44,7 +44,7 @@ export class CalciteTimePicker {
   //--------------------------------------------------------------------------
 
   /** The hour value (24-hour format) */
-  @Prop({ reflect: true, mutable: true }) hour?: string = "--";
+  @Prop({ reflect: true, mutable: true }) hour?: string = null;
 
   /** Format of the hour value (12-hour or 24-hour) (this will be replaced by locale eventually) */
   @Prop({ reflect: true }) hourDisplayFormat: "12" | "24" = "12";
@@ -86,10 +86,10 @@ export class CalciteTimePicker {
   @Prop() intlSecondUp = "increase second";
 
   /** The minute value */
-  @Prop({ reflect: true, mutable: true }) minute?: string = "--";
+  @Prop({ reflect: true, mutable: true }) minute?: string = null;
 
   /** The second value */
-  @Prop({ reflect: true, mutable: true }) second?: string = "--";
+  @Prop({ reflect: true, mutable: true }) second?: string = null;
 
   /** The scale (size) of the time picker */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -102,7 +102,7 @@ export class CalciteTimePicker {
 
   @Watch("hour")
   hourChanged(newHour: string): void {
-    if (this.hourDisplayFormat === "12" && newHour !== "--") {
+    if (this.hourDisplayFormat === "12" && newHour !== null) {
       this.meridiem = this.getMeridiem();
     }
   }
@@ -142,7 +142,7 @@ export class CalciteTimePicker {
   // --------------------------------------------------------------------------
 
   /** The am/pm value */
-  @State() meridiem: Meridiem = "--";
+  @State() meridiem: Meridiem = null;
 
   @State() displayHour: string = this.getDisplayHour();
 
@@ -254,18 +254,7 @@ export class CalciteTimePicker {
     if (event && event instanceof KeyboardEvent && event.key !== "Enter") {
       return;
     }
-    let newHour;
-    switch (this.hour) {
-      case "--":
-        newHour = 0;
-        break;
-      case "00":
-        newHour = 23;
-        break;
-      default:
-        newHour = parseInt(this.hour) - 1;
-        break;
-    }
+    const newHour = !this.hour ? 0 : this.hour === "00" ? 23 : parseInt(this.hour) - 1;
     this.setTime("hour", newHour);
   };
 
@@ -279,7 +268,7 @@ export class CalciteTimePicker {
 
   private decrementMinuteOrSecond = (key: MinuteOrSecond): void => {
     let newValue;
-    if (this[key] === "--") {
+    if (this[key] === null) {
       newValue = 59;
     } else {
       const valueAsNumber = parseInt(this[key]);
@@ -311,15 +300,18 @@ export class CalciteTimePicker {
   };
 
   private getMeridiem = (): Meridiem => {
-    if (this.hour === "--") {
-      return "--";
+    if (this.hour === null) {
+      return null;
     }
     const hourAsNumber = parseInt(this.hour);
     return hourAsNumber >= 0 && hourAsNumber <= 11 ? "AM" : "PM";
   };
 
   private getDisplayHour(): string {
-    if (this.hourDisplayFormat === "12" && this.hour !== "--") {
+    if (!this.hour) {
+      return "--";
+    }
+    if (this.hourDisplayFormat === "12") {
       const hourAsNumber = parseInt(this.hour);
       if (hourAsNumber === 0) {
         if (this.editingHourWhileFocused) {
@@ -352,7 +344,7 @@ export class CalciteTimePicker {
       this.editingHourWhileFocused = true;
       const keyAsNumber = parseInt(event.key);
       let newHour;
-      if (this.hour === "--") {
+      if (this.hour === null) {
         newHour = keyAsNumber;
       } else {
         switch (this.hourDisplayFormat) {
@@ -378,7 +370,7 @@ export class CalciteTimePicker {
     } else {
       switch (event.key) {
         case "Backspace":
-          this.setTime("hour", "--");
+          this.setTime("hour", null);
           break;
         case "ArrowDown":
           event.preventDefault();
@@ -404,13 +396,13 @@ export class CalciteTimePicker {
     if (event && event instanceof KeyboardEvent && event.key !== "Enter") {
       return;
     }
-    const newHour = this.hour === "--" ? 1 : this.hour === "23" ? 0 : parseInt(this.hour) + 1;
+    const newHour = this.hour === null ? 1 : this.hour === "23" ? 0 : parseInt(this.hour) + 1;
     this.setTime("hour", newHour);
   };
 
   private incrementMinuteOrSecond = (key: MinuteOrSecond): void => {
     const valueAsNumber = parseInt(this[key]);
-    const newValue = this[key] === "--" ? 0 : valueAsNumber === 59 ? 0 : valueAsNumber + 1;
+    const newValue = this[key] === null ? 0 : valueAsNumber === 59 ? 0 : valueAsNumber + 1;
     this.setTime(key, newValue);
   };
 
@@ -437,7 +429,7 @@ export class CalciteTimePicker {
         this.setTime("meridiem", "PM");
         break;
       case "Backspace":
-        this.setTime("meridiem", "--");
+        this.setTime("meridiem", null);
         break;
       case "ArrowUp":
         event.preventDefault();
@@ -468,7 +460,7 @@ export class CalciteTimePicker {
     } else {
       switch (event.key) {
         case "Backspace":
-          this.setTime("minute", "--");
+          this.setTime("minute", null);
           break;
         case "ArrowDown":
           event.preventDefault();
@@ -500,7 +492,7 @@ export class CalciteTimePicker {
     } else {
       switch (event.key) {
         case "Backspace":
-          this.setTime("second", "--");
+          this.setTime("second", null);
           break;
         case "ArrowDown":
           event.preventDefault();
@@ -530,7 +522,7 @@ export class CalciteTimePicker {
         this.second = typeof value === "number" ? formatNumberAsTimeString(value) : value;
         break;
       case "meridiem":
-        if (this.hour === "--") {
+        if (this.hour === null) {
           this.meridiem = value as Meridiem;
         } else {
           const hourAsNumber = parseInt(this.hour);
@@ -611,7 +603,7 @@ export class CalciteTimePicker {
               aria-valuemax="23"
               aria-valuemin="1"
               aria-valuenow={hourIsNumber && parseInt(this.hour)}
-              aria-valuetext={this.hour !== "--" ? this.hour : undefined}
+              aria-valuetext={this.hour !== null ? this.hour : undefined}
               class={{
                 [CSS.input]: true,
                 [CSS.hour]: true
@@ -660,7 +652,7 @@ export class CalciteTimePicker {
               aria-valuemax="12"
               aria-valuemin="1"
               aria-valuenow={minuteIsNumber && parseInt(this.minute)}
-              aria-valuetext={this.minute !== "--" ? this.minute : undefined}
+              aria-valuetext={this.minute !== null ? this.minute : undefined}
               class={{
                 [CSS.input]: true,
                 [CSS.minute]: true
@@ -671,7 +663,7 @@ export class CalciteTimePicker {
               role="spinbutton"
               tabIndex={0}
             >
-              {this.minute}
+              {this.minute ? this.minute : "--"}
             </span>
             <span
               aria-label={this.intlMinuteDown}
@@ -708,7 +700,7 @@ export class CalciteTimePicker {
                 aria-valuemax="59"
                 aria-valuemin="0"
                 aria-valuenow={secondIsNumber && parseInt(this.second)}
-                aria-valuetext={this.second !== "--" ? this.second : undefined}
+                aria-valuetext={this.second !== null ? this.second : undefined}
                 class={{
                   [CSS.input]: true,
                   [CSS.second]: true
@@ -719,7 +711,7 @@ export class CalciteTimePicker {
                 role="spinbutton"
                 tabIndex={0}
               >
-                {this.second}
+                {this.second ? this.second : "--"}
               </span>
               <span
                 aria-label={this.intlSecondDown}
@@ -757,9 +749,9 @@ export class CalciteTimePicker {
                 aria-valuemax="2"
                 aria-valuemin="1"
                 aria-valuenow={
-                  this.meridiem !== "--" ? (this.meridiem === "AM" ? "1" : "2") : undefined
+                  this.meridiem !== null ? (this.meridiem === "AM" ? "1" : "2") : undefined
                 }
-                aria-valuetext={this.meridiem !== "--" ? this.meridiem : undefined}
+                aria-valuetext={this.meridiem !== null ? this.meridiem : undefined}
                 class={{
                   [CSS.input]: true,
                   [CSS.meridiem]: true
@@ -770,7 +762,7 @@ export class CalciteTimePicker {
                 role="spinbutton"
                 tabIndex={0}
               >
-                {this.meridiem}
+                {this.meridiem ? this.meridiem : "--"}
               </span>
               <span
                 aria-label={this.intlMeridiemDown}
