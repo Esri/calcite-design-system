@@ -1,10 +1,11 @@
 .calender {
-  @apply  mb-1;
+  @apply mb-1;
 }
 
 .week-headers {
   @apply flex
     flex-row
+    border-0
     border-t
     border-solid
     py-0
@@ -13,10 +14,8 @@
 
 .week-header {
   @apply text-color-3
-    text-center;
-  
-    //FIXME: There is no 600 weight in tailwind config
-  font-weight: 600;
+    text-center
+    font-bold;
   width: calc(100% / 7);
 }
 
@@ -36,7 +35,6 @@
   @apply outline-none
     flex
     flex-row
-    py-0;
-  //FIXME This should be 4px or 8px, which one!?
-  padding: 0 6px;
+    py-0
+    px-4;
 }
