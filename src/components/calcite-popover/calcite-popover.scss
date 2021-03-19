@@ -14,15 +14,14 @@
 }
 
 .container {
-  @apply bg-foreground-1
-    relative
-    flex
-    overflow-hidden
-    flex-no-wrap
-    flex-row
+  @apply bg-foreground-1 
+    relative 
+    flex 
+    overflow-hidden 
+    flex-no-wrap 
+    flex-row 
     h-full
     text-color-1;
-  border-radius: var(--calcite-border-radius);
 }
 
 .content {
@@ -41,11 +40,11 @@
 }
 
 .close-button {
-  @apply block
-    p-3
-    border-none
-    text-color-1
-    cursor-pointer
+  @apply block 
+    p-3 
+    border-none 
+    text-color-1 
+    cursor-pointer 
     bg-foreground-1;
   flex: 0 0 auto;
   border-radius: 0 var(--calcite-border-radius) 0 0;
