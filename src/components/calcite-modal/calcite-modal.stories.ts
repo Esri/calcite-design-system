@@ -15,7 +15,7 @@ export const Simple = (): string => {
   return `
       <calcite-modal
         ${boolean("active", true)}
-        color="${select("color", { blue: "blue", red: "red", none: null }, null)}"
+        color="${select("color", { blue: "blue", red: "red", none: "" }, "")}"
         background-color="${select("background-color", ["white", "grey"], "white")}"
         scale="${select("scale", ["s", "m", "l"], "m")}"
         width="${select("width", ["s", "m", "l"], "s")}"
@@ -63,7 +63,7 @@ export const DarkMode = (): string => {
   <calcite-modal
     theme="dark"
     ${boolean("active", true)}
-    color="${select("color", { blue: "blue", red: "red", none: null }, null)}"
+    color="${select("color", { blue: "blue", red: "red", none: "" }, "")}"
     background-color="${select("background-color", ["white", "grey"], "white")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "s")}"
