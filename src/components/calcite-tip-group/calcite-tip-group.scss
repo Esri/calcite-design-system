@@ -1,10 +1,9 @@
 :host {
   @extend %component-host;
-  //FIXME: Convert this to rem?
   --calcite-tip-max-width: 540px;
 }
 
 ::slotted(calcite-tip) {
-  @apply border-0;
+  @apply border-none;
   max-width: var(--calcite-tip-max-width);
 }
