@@ -103,11 +103,11 @@ export class CalciteTip {
   }
 
   renderDismissButton(): VNode {
-    const { nonDismissible, dismissed, hideTip, intlClose } = this;
+    const { nonDismissible, hideTip, intlClose } = this;
 
     const text = intlClose || TEXT.close;
 
-    return !nonDismissible && !dismissed ? (
+    return !nonDismissible ? (
       <calcite-action
         class={CSS.close}
         icon={ICONS.close}
@@ -148,7 +148,7 @@ export class CalciteTip {
   render(): VNode {
     return (
       <Host>
-        <article class={CSS.container} hidden={this.dismissed}>
+        <article class={CSS.container}>
           {this.renderHeader()}
           {this.renderContent()}
         </article>
