@@ -26,9 +26,9 @@ export class CalciteActionGroup {
   @Prop({ reflect: true }) expanded = false;
 
   /**
-   * Indicates the horizontal or vertical layout of the component.
+   * Indicates the horizontal, vertical, or grid layout of the component.
    */
-  @Prop({ reflect: true}) layout?: Layout;
+  @Prop({ reflect: true}) layout?: Layout = "vertical";
 
   /**
    * Indicates number of columns.

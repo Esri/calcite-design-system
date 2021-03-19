@@ -29,6 +29,11 @@ export class CalciteAction {
    * Indicates whether the action is highlighted.
    */
   @Prop({ reflect: true }) active = false;
+  
+  /**
+   * Indicates the alignment when text-enabled is false.
+   */
+  @Prop({ reflect: true}) alignment?: Alignment;
 
   /**
    * Compact mode is used internally by components to reduce side padding, e.g. calcite-block-section.
@@ -57,11 +62,6 @@ export class CalciteAction {
    * The label of the action. If no label is provided, the label inherits what's provided for the `text` prop.
    */
   @Prop() label?: string;
-
-  /**
-   * Indicates the horizontal or vertical layout of the component.
-   */
-  @Prop({ reflect: true}) alignment?: Alignment;
 
   /**
    * When true, content is waiting to be loaded. This state shows a busy indicator.

@@ -32,6 +32,10 @@
   @apply pt-0;
 }
 
+:host([layout="horizontal"]) {
+  @apply flex-row;
+}
+
 :host([layout="grid"]) {
   @apply bg-background
   grid
