@@ -102,7 +102,7 @@ export class CalciteTimePicker {
 
   @Watch("hour")
   hourChanged(newHour: string): void {
-    if (this.hourDisplayFormat === "12" && newHour !== null) {
+    if (this.hourDisplayFormat === "12" && stringContainsOnlyNumbers(newHour)) {
       this.meridiem = this.getMeridiem();
     }
   }
@@ -110,9 +110,14 @@ export class CalciteTimePicker {
   @Watch("hour")
   @Watch("minute")
   @Watch("second")
-  timeChangeHandler(newValue: string, oldValue: string): void {
-    if (this.timeChanged && newValue !== oldValue) {
-      this.calciteTimePickerChange.emit(this.getTime());
+  timeChangeHandler(): void {
+    const currentTime = this.getTime();
+    const { hour, minute } = currentTime;
+    if (!hour && !minute) {
+      this.setTime("meridiem", null);
+    }
+    if (this.timeChanged) {
+      this.calciteTimePickerChange.emit(currentTime);
       this.timeChanged = false;
     }
   }
@@ -268,15 +273,15 @@ export class CalciteTimePicker {
 
   private decrementMinuteOrSecond = (key: MinuteOrSecond): void => {
     let newValue;
-    if (this[key] === null) {
-      newValue = 59;
-    } else {
+    if (stringContainsOnlyNumbers(this[key])) {
       const valueAsNumber = parseInt(this[key]);
       if (valueAsNumber === 0) {
         newValue = 59;
       } else {
         newValue = valueAsNumber - 1;
       }
+    } else {
+      newValue = 59;
     }
     this.setTime(key, newValue);
   };
@@ -300,11 +305,11 @@ export class CalciteTimePicker {
   };
 
   private getMeridiem = (): Meridiem => {
-    if (this.hour === null) {
-      return null;
+    if (stringContainsOnlyNumbers(this.hour)) {
+      const hourAsNumber = parseInt(this.hour);
+      return hourAsNumber >= 0 && hourAsNumber <= 11 ? "AM" : "PM";
     }
-    const hourAsNumber = parseInt(this.hour);
-    return hourAsNumber >= 0 && hourAsNumber <= 11 ? "AM" : "PM";
+    return null;
   };
 
   private getDisplayHour(): string {
@@ -344,9 +349,7 @@ export class CalciteTimePicker {
       this.editingHourWhileFocused = true;
       const keyAsNumber = parseInt(event.key);
       let newHour;
-      if (this.hour === null) {
-        newHour = keyAsNumber;
-      } else {
+      if (stringContainsOnlyNumbers(this.hour)) {
         switch (this.hourDisplayFormat) {
           case "12":
             if (this.hour === "01" && keyAsNumber >= 0 && keyAsNumber <= 2) {
@@ -365,6 +368,8 @@ export class CalciteTimePicker {
             }
             break;
         }
+      } else {
+        newHour = keyAsNumber;
       }
       this.setTime("hour", newHour);
     } else {
@@ -396,13 +401,20 @@ export class CalciteTimePicker {
     if (event && event instanceof KeyboardEvent && event.key !== "Enter") {
       return;
     }
-    const newHour = this.hour === null ? 1 : this.hour === "23" ? 0 : parseInt(this.hour) + 1;
+    const newHour = stringContainsOnlyNumbers(this.hour)
+      ? this.hour === "23"
+        ? 0
+        : parseInt(this.hour) + 1
+      : 1;
     this.setTime("hour", newHour);
   };
 
   private incrementMinuteOrSecond = (key: MinuteOrSecond): void => {
-    const valueAsNumber = parseInt(this[key]);
-    const newValue = this[key] === null ? 0 : valueAsNumber === 59 ? 0 : valueAsNumber + 1;
+    const newValue = stringContainsOnlyNumbers(this[key])
+      ? this[key] === "59"
+        ? 0
+        : parseInt(this[key]) + 1
+      : 0;
     this.setTime(key, newValue);
   };
 
@@ -522,9 +534,7 @@ export class CalciteTimePicker {
         this.second = typeof value === "number" ? formatNumberAsTimeString(value) : value;
         break;
       case "meridiem":
-        if (this.hour === null) {
-          this.meridiem = value as Meridiem;
-        } else {
+        if (stringContainsOnlyNumbers(this.hour)) {
           const hourAsNumber = parseInt(this.hour);
           switch (value) {
             case "AM":
@@ -538,6 +548,8 @@ export class CalciteTimePicker {
               }
               break;
           }
+          this.meridiem = value as Meridiem;
+        } else {
           this.meridiem = value as Meridiem;
         }
         break;
@@ -603,7 +615,7 @@ export class CalciteTimePicker {
               aria-valuemax="23"
               aria-valuemin="1"
               aria-valuenow={hourIsNumber && parseInt(this.hour)}
-              aria-valuetext={this.hour !== null ? this.hour : undefined}
+              aria-valuetext={this.hour}
               class={{
                 [CSS.input]: true,
                 [CSS.hour]: true
@@ -652,7 +664,7 @@ export class CalciteTimePicker {
               aria-valuemax="12"
               aria-valuemin="1"
               aria-valuenow={minuteIsNumber && parseInt(this.minute)}
-              aria-valuetext={this.minute !== null ? this.minute : undefined}
+              aria-valuetext={this.minute}
               class={{
                 [CSS.input]: true,
                 [CSS.minute]: true
@@ -700,7 +712,7 @@ export class CalciteTimePicker {
                 aria-valuemax="59"
                 aria-valuemin="0"
                 aria-valuenow={secondIsNumber && parseInt(this.second)}
-                aria-valuetext={this.second !== null ? this.second : undefined}
+                aria-valuetext={this.second}
                 class={{
                   [CSS.input]: true,
                   [CSS.second]: true
@@ -749,9 +761,9 @@ export class CalciteTimePicker {
                 aria-valuemax="2"
                 aria-valuemin="1"
                 aria-valuenow={
-                  this.meridiem !== null ? (this.meridiem === "AM" ? "1" : "2") : undefined
+                  this.meridiem === "AM" ? "1" : this.meridiem === "PM" ? "2" : undefined
                 }
-                aria-valuetext={this.meridiem !== null ? this.meridiem : undefined}
+                aria-valuetext={this.meridiem}
                 class={{
                   [CSS.input]: true,
                   [CSS.meridiem]: true

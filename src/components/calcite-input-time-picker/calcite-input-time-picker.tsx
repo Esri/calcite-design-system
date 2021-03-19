@@ -106,7 +106,7 @@ export class CalciteInputTimePicker {
   };
 
   private inputInputHandler = (event: CustomEvent): void => {
-    if (this.parseTimeString(event.detail.value) !== null || !event.detail.value) {
+    if (this.parseTimeString(event.detail.value) || !event.detail.value) {
       this.value = event.detail.value;
     }
   };
@@ -142,8 +142,8 @@ export class CalciteInputTimePicker {
     event.stopPropagation();
     if (event.detail) {
       const { hour, minute, second } = event.detail as Time;
-      if (hour !== null && minute !== null) {
-        if (this.step !== 60 && second !== null) {
+      if (hour && minute) {
+        if (second && this.step !== 60) {
           this.value = `${hour}:${minute}:${second}`;
         } else {
           this.value = `${hour}:${minute}`;
@@ -199,7 +199,7 @@ export class CalciteInputTimePicker {
     return {
       hour,
       minute,
-      second: second || (hour !== null && minute !== null ? "00" : null)
+      second: second || (this.step !== 60 && hour && minute ? "00" : null)
     };
   };
 
