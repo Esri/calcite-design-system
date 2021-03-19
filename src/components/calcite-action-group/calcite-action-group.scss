@@ -1,9 +1,10 @@
 :host {
   @extend %component-host;
-  @extend %component-spacing;
-  display: flex;
-  flex-direction: column;
-  padding: var(--calcite-spacing-half) 0;
+
+  @apply flex
+  flex-col
+  py-2
+  px-0;
 
   --column-count: 3;
 }
@@ -28,7 +29,7 @@
 }
 
 :host(:first-child) {
-  padding-top: 0;
+  @apply pt-0;
 }
 
 :host([layout="grid"]) {
@@ -43,6 +44,5 @@
 }
 
 ::slotted(calcite-action) {
-  display: flex;
-  width: 100%;
+  @apply flex w-full;
 }
