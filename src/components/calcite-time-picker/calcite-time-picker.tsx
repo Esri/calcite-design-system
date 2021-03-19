@@ -20,7 +20,8 @@ import {
   numberKeys,
   stringContainsOnlyNumbers,
   Time,
-  maxTenthForMinuteAndSecond
+  maxTenthForMinuteAndSecond,
+  TimeComponents
 } from "../../utils/time";
 import { CSS } from "./resources";
 
@@ -196,19 +197,19 @@ export class CalciteTimePicker {
     switch (this.activeEl) {
       case this.hourEl:
         if (event.key === "ArrowRight") {
-          this.minuteEl.focus();
+          this.setFocus("minute");
         }
         break;
       case this.minuteEl:
         switch (event.key) {
           case "ArrowLeft":
-            this.hourEl.focus();
+            this.setFocus("hour");
             break;
           case "ArrowRight":
             if (this.step !== 60) {
-              this.secondEl.focus();
+              this.setFocus("second");
             } else if (this.hourDisplayFormat === "12") {
-              this.meridiemEl.focus();
+              this.setFocus("meridiem");
             }
             break;
         }
@@ -216,11 +217,11 @@ export class CalciteTimePicker {
       case this.secondEl:
         switch (event.key) {
           case "ArrowLeft":
-            this.minuteEl.focus();
+            this.setFocus("minute");
             break;
           case "ArrowRight":
             if (this.hourDisplayFormat === "12") {
-              this.meridiemEl.focus();
+              this.setFocus("meridiem");
             }
             break;
         }
@@ -229,9 +230,9 @@ export class CalciteTimePicker {
         switch (event.key) {
           case "ArrowLeft":
             if (this.step !== 60) {
-              this.secondEl.focus();
+              this.setFocus("second");
             } else {
-              this.minuteEl.focus();
+              this.setFocus("minute");
             }
             break;
         }
@@ -246,8 +247,8 @@ export class CalciteTimePicker {
   //--------------------------------------------------------------------------
 
   @Method()
-  async setFocus(): Promise<void> {
-    this.hourEl.focus();
+  async setFocus(target: TimeComponents = "hour"): Promise<void> {
+    this[`${target}El`].focus();
   }
 
   // --------------------------------------------------------------------------

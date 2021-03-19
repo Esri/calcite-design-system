@@ -8,6 +8,8 @@ export interface Time {
   second?: string;
 }
 
+export type TimeComponents = "hour" | MinuteOrSecond | "meridiem";
+
 export function formatNumberAsTimeString(number: number): string {
   return number >= 0 && number <= 9 ? `0${number}` : number.toString();
 }
