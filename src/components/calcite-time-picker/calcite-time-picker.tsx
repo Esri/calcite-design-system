@@ -19,7 +19,8 @@ import {
   MinuteOrSecond,
   numberKeys,
   stringContainsOnlyNumbers,
-  Time
+  Time,
+  maxTenthForMinuteAndSecond
 } from "../../utils/time";
 import { CSS } from "./resources";
 
@@ -458,9 +459,9 @@ export class CalciteTimePicker {
     if (numberKeys.includes(event.key)) {
       const keyAsNumber = parseInt(event.key);
       let newMinute;
-      if (this.minute.startsWith("0")) {
+      if (stringContainsOnlyNumbers(this.minute) && this.minute.startsWith("0")) {
         const minuteAsNumber = parseInt(this.minute);
-        if (minuteAsNumber > 5) {
+        if (minuteAsNumber > maxTenthForMinuteAndSecond) {
           newMinute = keyAsNumber;
         } else {
           newMinute = `${minuteAsNumber}${keyAsNumber}`;
@@ -490,9 +491,9 @@ export class CalciteTimePicker {
     if (numberKeys.includes(event.key)) {
       const keyAsNumber = parseInt(event.key);
       let newSecond;
-      if (this.second.startsWith("0")) {
+      if (stringContainsOnlyNumbers(this.second) && this.second.startsWith("0")) {
         const secondAsNumber = parseInt(this.second);
-        if (secondAsNumber > 5) {
+        if (secondAsNumber > maxTenthForMinuteAndSecond) {
           newSecond = keyAsNumber;
         } else {
           newSecond = `${secondAsNumber}${keyAsNumber}`;

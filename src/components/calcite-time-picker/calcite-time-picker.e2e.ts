@@ -49,9 +49,9 @@ describe("calcite-time-picker", () => {
 
   it("reflects", async () =>
     reflects("calcite-time-picker", [
-      { propertyName: "hour", value: null },
-      { propertyName: "minute", value: null },
-      { propertyName: "second", value: null },
+      { propertyName: "hour", value: "12" },
+      { propertyName: "minute", value: "59" },
+      { propertyName: "second", value: "59" },
       { propertyName: "scale", value: "m" },
       { propertyName: "step", value: 60 }
     ]));
