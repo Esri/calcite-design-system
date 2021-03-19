@@ -2,6 +2,7 @@ import { Component, Host, h, Prop, Watch, Element } from "@stencil/core";
 import { SLOTS } from "./resources";
 import { VNode } from "@stencil/core/internal";
 import { getSlotted } from "../../utils/dom";
+import { ColumnCount, Layout } from "../interfaces";
 
 /**
  * @slot - A slot for adding a group of `calcite-action`s.
@@ -23,6 +24,16 @@ export class CalciteActionGroup {
    * Indicates whether widget is expanded.
    */
   @Prop({ reflect: true }) expanded = false;
+
+  /**
+   * Indicates the horizontal or vertical layout of the component.
+   */
+  @Prop({ reflect: true}) layout?: Layout;
+
+  /**
+   * Indicates number of columns.
+   */
+  @Prop({ reflect: true}) columnCount?: ColumnCount;
 
   /**
    * Text string for the actions menu.

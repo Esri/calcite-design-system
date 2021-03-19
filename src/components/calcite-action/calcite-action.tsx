@@ -1,6 +1,6 @@
 import { Component, Element, Host, Method, Prop, h, forceUpdate, VNode } from "@stencil/core";
 
-import { Appearance, Scale, Theme } from "../interfaces";
+import { Appearance, Layout, Scale, Theme } from "../interfaces";
 
 import { CSS, TEXT } from "./resources";
 
@@ -57,6 +57,11 @@ export class CalciteAction {
    * The label of the action. If no label is provided, the label inherits what's provided for the `text` prop.
    */
   @Prop() label?: string;
+
+  /**
+   * Indicates the horizontal or vertical layout of the component.
+   */
+  @Prop({ reflect: true}) layout?: Layout;
 
   /**
    * When true, content is waiting to be loaded. This state shows a busy indicator.

@@ -76,6 +76,10 @@
   @apply p-5 text--1h;
 }
 
+:host([layout="center"]) .button {
+  @apply justify-center w-full;
+}
+
 // Compact
 :host([scale="s"][compact]) .button,
 :host([scale="m"][compact]) .button,
