@@ -3,41 +3,34 @@ $size-m: 24px;
 $size-l: 28px;
 
 :host {
-  display: inline-flex;
-  position: relative;
+  @apply inline-flex relative;
 }
 
 :host([scale="s"]) {
-  height: $size-s;
-  width: $size-s;
+  @apply h-5 w-5;
 }
 
 :host([scale="m"]) {
-  height: $size-m;
-  width: $size-m;
+  @apply h-6 w-6;
 }
 
 :host([scale="l"]) {
-  height: $size-l;
-  width: $size-l;
+  @apply h-8 w-8;
 }
 
 .swatch {
+  @apply overflow-visible;
   height: inherit;
   width: inherit;
-  overflow: visible;
 
   rect {
-    transition: all 150ms ease-in-out;
+    @apply transition-all duration-150 ease-in-out;
   }
 }
 
 .no-color-icon {
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  position: absolute;
+  @apply h-full
+    w-full
+    inset-0
+    absolute;
 }
