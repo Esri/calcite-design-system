@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, focusable, reflects, renders } from "../../tests/commonTests";
-import { formatNumberAsTimeString } from "../../utils/time";
+import { zeroPadNumber } from "../../utils/time";
 
 describe("calcite-input-time-picker", () => {
   it("renders", async () => renders("calcite-input-time-picker"));
@@ -189,10 +189,10 @@ describe("calcite-input-time-picker", () => {
       const expectedHourAsNumber = parseInt(expectedValue.substr(0, 2));
       const expectedDisplayHour =
         expectedHourAsNumber > 12
-          ? formatNumberAsTimeString(expectedHourAsNumber - 12)
+          ? zeroPadNumber(expectedHourAsNumber - 12)
           : expectedHourAsNumber === 0
           ? "12"
-          : formatNumberAsTimeString(expectedHourAsNumber);
+          : zeroPadNumber(expectedHourAsNumber);
       const expectedMinute = expectedValue.substr(3, 2);
       const expectedSecond = expectedValue.substr(6, 2);
 
@@ -228,10 +228,10 @@ describe("calcite-input-time-picker", () => {
       const expectedHourAsNumber = parseInt(expectedValue.substr(0, 2));
       const expectedDisplayHour =
         expectedHourAsNumber > 12
-          ? formatNumberAsTimeString(expectedHourAsNumber - 12)
+          ? zeroPadNumber(expectedHourAsNumber - 12)
           : expectedHourAsNumber === 0
           ? "12"
-          : formatNumberAsTimeString(expectedHourAsNumber);
+          : zeroPadNumber(expectedHourAsNumber);
       const expectedMinute = expectedValue.substr(3, 2);
       const expectedSecond = expectedValue.substr(6, 2);
 
@@ -267,10 +267,10 @@ describe("calcite-input-time-picker", () => {
       const expectedHourAsNumber = parseInt(expectedValue.substr(0, 2));
       const expectedDisplayHour =
         expectedHourAsNumber > 12
-          ? formatNumberAsTimeString(expectedHourAsNumber - 12)
+          ? zeroPadNumber(expectedHourAsNumber - 12)
           : expectedHourAsNumber === 0
           ? "12"
-          : formatNumberAsTimeString(expectedHourAsNumber);
+          : zeroPadNumber(expectedHourAsNumber);
       const expectedMinute = expectedValue.substr(3, 2);
       const expectedSecond = expectedValue.substr(6, 2);
 

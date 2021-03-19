@@ -15,10 +15,10 @@ import {
 import { Scale, Theme } from "../interfaces";
 import {
   Meridiem,
-  formatNumberAsTimeString,
+  zeroPadNumber,
   MinuteOrSecond,
   numberKeys,
-  stringContainsOnlyNumbers,
+  stringIsValidNumber,
   Time,
   maxTenthForMinuteAndSecond,
   TimeComponents
@@ -104,7 +104,7 @@ export class CalciteTimePicker {
 
   @Watch("hour")
   hourChanged(newHour: string): void {
-    if (this.hourDisplayFormat === "12" && stringContainsOnlyNumbers(newHour)) {
+    if (this.hourDisplayFormat === "12" && stringIsValidNumber(newHour)) {
       this.meridiem = this.getMeridiem();
     }
   }
@@ -275,7 +275,7 @@ export class CalciteTimePicker {
 
   private decrementMinuteOrSecond = (key: MinuteOrSecond): void => {
     let newValue;
-    if (stringContainsOnlyNumbers(this[key])) {
+    if (stringIsValidNumber(this[key])) {
       const valueAsNumber = parseInt(this[key]);
       if (valueAsNumber === 0) {
         newValue = 59;
@@ -307,7 +307,7 @@ export class CalciteTimePicker {
   };
 
   private getMeridiem = (): Meridiem => {
-    if (stringContainsOnlyNumbers(this.hour)) {
+    if (stringIsValidNumber(this.hour)) {
       const hourAsNumber = parseInt(this.hour);
       return hourAsNumber >= 0 && hourAsNumber <= 11 ? "AM" : "PM";
     }
@@ -328,7 +328,7 @@ export class CalciteTimePicker {
         }
       }
       if (hourAsNumber > 12) {
-        return formatNumberAsTimeString(hourAsNumber - 12);
+        return zeroPadNumber(hourAsNumber - 12);
       }
     }
     return this.hour;
@@ -351,7 +351,7 @@ export class CalciteTimePicker {
       this.editingHourWhileFocused = true;
       const keyAsNumber = parseInt(event.key);
       let newHour;
-      if (stringContainsOnlyNumbers(this.hour)) {
+      if (stringIsValidNumber(this.hour)) {
         switch (this.hourDisplayFormat) {
           case "12":
             if (this.hour === "01" && keyAsNumber >= 0 && keyAsNumber <= 2) {
@@ -403,7 +403,7 @@ export class CalciteTimePicker {
     if (event && event instanceof KeyboardEvent && event.key !== "Enter") {
       return;
     }
-    const newHour = stringContainsOnlyNumbers(this.hour)
+    const newHour = stringIsValidNumber(this.hour)
       ? this.hour === "23"
         ? 0
         : parseInt(this.hour) + 1
@@ -412,7 +412,7 @@ export class CalciteTimePicker {
   };
 
   private incrementMinuteOrSecond = (key: MinuteOrSecond): void => {
-    const newValue = stringContainsOnlyNumbers(this[key])
+    const newValue = stringIsValidNumber(this[key])
       ? this[key] === "59"
         ? 0
         : parseInt(this[key]) + 1
@@ -460,7 +460,7 @@ export class CalciteTimePicker {
     if (numberKeys.includes(event.key)) {
       const keyAsNumber = parseInt(event.key);
       let newMinute;
-      if (stringContainsOnlyNumbers(this.minute) && this.minute.startsWith("0")) {
+      if (stringIsValidNumber(this.minute) && this.minute.startsWith("0")) {
         const minuteAsNumber = parseInt(this.minute);
         if (minuteAsNumber > maxTenthForMinuteAndSecond) {
           newMinute = keyAsNumber;
@@ -492,7 +492,7 @@ export class CalciteTimePicker {
     if (numberKeys.includes(event.key)) {
       const keyAsNumber = parseInt(event.key);
       let newSecond;
-      if (stringContainsOnlyNumbers(this.second) && this.second.startsWith("0")) {
+      if (stringIsValidNumber(this.second) && this.second.startsWith("0")) {
         const secondAsNumber = parseInt(this.second);
         if (secondAsNumber > maxTenthForMinuteAndSecond) {
           newSecond = keyAsNumber;
@@ -527,26 +527,26 @@ export class CalciteTimePicker {
     this.timeChanged = true;
     switch (key) {
       case "hour":
-        this.hour = typeof value === "number" ? formatNumberAsTimeString(value) : value;
+        this.hour = typeof value === "number" ? zeroPadNumber(value) : value;
         break;
       case "minute":
-        this.minute = typeof value === "number" ? formatNumberAsTimeString(value) : value;
+        this.minute = typeof value === "number" ? zeroPadNumber(value) : value;
         break;
       case "second":
-        this.second = typeof value === "number" ? formatNumberAsTimeString(value) : value;
+        this.second = typeof value === "number" ? zeroPadNumber(value) : value;
         break;
       case "meridiem":
-        if (stringContainsOnlyNumbers(this.hour)) {
+        if (stringIsValidNumber(this.hour)) {
           const hourAsNumber = parseInt(this.hour);
           switch (value) {
             case "AM":
               if (hourAsNumber >= 12) {
-                this.hour = formatNumberAsTimeString(hourAsNumber - 12);
+                this.hour = zeroPadNumber(hourAsNumber - 12);
               }
               break;
             case "PM":
               if (hourAsNumber < 12) {
-                this.hour = formatNumberAsTimeString(hourAsNumber + 12);
+                this.hour = zeroPadNumber(hourAsNumber + 12);
               }
               break;
           }
@@ -571,14 +571,14 @@ export class CalciteTimePicker {
   }
 
   componentDidLoad() {
-    if (stringContainsOnlyNumbers(this.hour)) {
-      this.hour = formatNumberAsTimeString(parseInt(this.hour));
+    if (stringIsValidNumber(this.hour)) {
+      this.hour = zeroPadNumber(parseInt(this.hour));
     }
-    if (stringContainsOnlyNumbers(this.minute)) {
-      this.minute = formatNumberAsTimeString(parseInt(this.minute));
+    if (stringIsValidNumber(this.minute)) {
+      this.minute = zeroPadNumber(parseInt(this.minute));
     }
-    if (stringContainsOnlyNumbers(this.second)) {
-      this.second = formatNumberAsTimeString(parseInt(this.second));
+    if (stringIsValidNumber(this.second)) {
+      this.second = zeroPadNumber(parseInt(this.second));
     }
   }
 
@@ -591,9 +591,9 @@ export class CalciteTimePicker {
   render(): VNode {
     const iconScale = this.scale === "s" || this.scale === "m" ? "s" : "m";
     const includeSeconds = this.step !== 60;
-    const hourIsNumber = stringContainsOnlyNumbers(this.hour);
-    const minuteIsNumber = stringContainsOnlyNumbers(this.minute);
-    const secondIsNumber = stringContainsOnlyNumbers(this.second);
+    const hourIsNumber = stringIsValidNumber(this.hour);
+    const minuteIsNumber = stringIsValidNumber(this.minute);
+    const secondIsNumber = stringIsValidNumber(this.second);
     return (
       <Host>
         <div class={CSS.timePicker}>

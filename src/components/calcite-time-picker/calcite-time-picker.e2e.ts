@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, focusable, reflects, renders } from "../../tests/commonTests";
-import { formatNumberAsTimeString } from "../../utils/time";
+import { zeroPadNumber } from "../../utils/time";
 import { CSS } from "./resources";
 
 const letterKeys = [
@@ -208,8 +208,8 @@ describe("calcite-time-picker", () => {
         await page.keyboard.press("ArrowUp");
         await page.waitForChanges();
 
-        expect(await timePicker.getProperty("hour")).toBe(`${formatNumberAsTimeString(i)}`);
-        expect(hour.textContent).toBe(formatNumberAsTimeString(i));
+        expect(await timePicker.getProperty("hour")).toBe(`${zeroPadNumber(i)}`);
+        expect(hour.textContent).toBe(zeroPadNumber(i));
       }
 
       await page.keyboard.press("ArrowUp");
@@ -235,8 +235,8 @@ describe("calcite-time-picker", () => {
         await page.keyboard.press("ArrowDown");
         await page.waitForChanges();
 
-        expect(await timePicker.getProperty("hour")).toBe(`${formatNumberAsTimeString(i)}`);
-        expect(hour.textContent).toBe(formatNumberAsTimeString(i));
+        expect(await timePicker.getProperty("hour")).toBe(`${zeroPadNumber(i)}`);
+        expect(hour.textContent).toBe(zeroPadNumber(i));
       }
     });
 
@@ -253,8 +253,8 @@ describe("calcite-time-picker", () => {
         await page.keyboard.press("ArrowUp");
         await page.waitForChanges();
 
-        expect(await timePicker.getProperty("hour")).toBe(`${formatNumberAsTimeString(i)}`);
-        expect(hour.textContent).toBe(i > 12 ? formatNumberAsTimeString(i - 12) : formatNumberAsTimeString(i));
+        expect(await timePicker.getProperty("hour")).toBe(`${zeroPadNumber(i)}`);
+        expect(hour.textContent).toBe(i > 12 ? zeroPadNumber(i - 12) : zeroPadNumber(i));
       }
 
       await page.keyboard.press("ArrowUp");
@@ -278,8 +278,8 @@ describe("calcite-time-picker", () => {
         await page.keyboard.press("ArrowDown");
         await page.waitForChanges();
 
-        expect(await timePicker.getProperty("hour")).toBe(`${formatNumberAsTimeString(i)}`);
-        expect(hour.textContent).toBe(i > 12 ? formatNumberAsTimeString(i - 12) : formatNumberAsTimeString(i));
+        expect(await timePicker.getProperty("hour")).toBe(`${zeroPadNumber(i)}`);
+        expect(hour.textContent).toBe(i > 12 ? zeroPadNumber(i - 12) : zeroPadNumber(i));
       }
     });
 
@@ -294,7 +294,7 @@ describe("calcite-time-picker", () => {
 
       for (let i = 0; i < 60; i++) {
         await page.keyboard.press("ArrowUp");
-        expect(await timePicker.getProperty("minute")).toBe(`${formatNumberAsTimeString(i)}`);
+        expect(await timePicker.getProperty("minute")).toBe(`${zeroPadNumber(i)}`);
       }
       await page.keyboard.press("ArrowUp");
       expect(await timePicker.getProperty("minute")).toBe("00");
@@ -311,7 +311,7 @@ describe("calcite-time-picker", () => {
 
       for (let i = 59; i >= 0; i--) {
         await page.keyboard.press("ArrowDown");
-        expect(await timePicker.getProperty("minute")).toBe(`${formatNumberAsTimeString(i)}`);
+        expect(await timePicker.getProperty("minute")).toBe(`${zeroPadNumber(i)}`);
       }
       await page.keyboard.press("ArrowDown");
       expect(await timePicker.getProperty("minute")).toBe("59");
@@ -328,7 +328,7 @@ describe("calcite-time-picker", () => {
 
       for (let i = 0; i < 60; i++) {
         await page.keyboard.press("ArrowUp");
-        expect(await timePicker.getProperty("second")).toBe(`${formatNumberAsTimeString(i)}`);
+        expect(await timePicker.getProperty("second")).toBe(`${zeroPadNumber(i)}`);
       }
       await page.keyboard.press("ArrowUp");
       expect(await timePicker.getProperty("second")).toBe("00");
@@ -345,7 +345,7 @@ describe("calcite-time-picker", () => {
 
       for (let i = 59; i >= 0; i--) {
         await page.keyboard.press("ArrowDown");
-        expect(await timePicker.getProperty("second")).toBe(`${formatNumberAsTimeString(i)}`);
+        expect(await timePicker.getProperty("second")).toBe(`${zeroPadNumber(i)}`);
       }
       await page.keyboard.press("ArrowDown");
       expect(await timePicker.getProperty("second")).toBe("59");
@@ -841,8 +841,8 @@ describe("calcite-time-picker", () => {
         await hourUp.click();
         await page.waitForChanges();
 
-        expect(await timePicker.getProperty("hour")).toBe(`${formatNumberAsTimeString(i)}`);
-        expect(hour.textContent).toBe(formatNumberAsTimeString(i));
+        expect(await timePicker.getProperty("hour")).toBe(`${zeroPadNumber(i)}`);
+        expect(hour.textContent).toBe(zeroPadNumber(i));
       }
 
       await hourUp.click();
@@ -870,8 +870,8 @@ describe("calcite-time-picker", () => {
         await hourdown.click();
         await page.waitForChanges();
 
-        expect(await timePicker.getProperty("hour")).toBe(`${formatNumberAsTimeString(i)}`);
-        expect(hour.textContent).toBe(formatNumberAsTimeString(i));
+        expect(await timePicker.getProperty("hour")).toBe(`${zeroPadNumber(i)}`);
+        expect(hour.textContent).toBe(zeroPadNumber(i));
       }
     });
 
@@ -887,8 +887,8 @@ describe("calcite-time-picker", () => {
         await hourup.click();
         await page.waitForChanges();
 
-        expect(await timePicker.getProperty("hour")).toBe(`${formatNumberAsTimeString(i)}`);
-        expect(hour.textContent).toBe(i > 12 ? formatNumberAsTimeString(i - 12) : formatNumberAsTimeString(i));
+        expect(await timePicker.getProperty("hour")).toBe(`${zeroPadNumber(i)}`);
+        expect(hour.textContent).toBe(i > 12 ? zeroPadNumber(i - 12) : zeroPadNumber(i));
       }
 
       await hourup.click();
@@ -914,8 +914,8 @@ describe("calcite-time-picker", () => {
         await hourdown.click();
         await page.waitForChanges();
 
-        expect(await timePicker.getProperty("hour")).toBe(`${formatNumberAsTimeString(i)}`);
-        expect(hour.textContent).toBe(i > 12 ? formatNumberAsTimeString(i - 12) : formatNumberAsTimeString(i));
+        expect(await timePicker.getProperty("hour")).toBe(`${zeroPadNumber(i)}`);
+        expect(hour.textContent).toBe(i > 12 ? zeroPadNumber(i - 12) : zeroPadNumber(i));
       }
     });
 
@@ -931,8 +931,8 @@ describe("calcite-time-picker", () => {
         await minuteup.click();
         await page.waitForChanges();
 
-        expect(await timePicker.getProperty("minute")).toBe(`${formatNumberAsTimeString(i)}`);
-        expect(minute.textContent).toBe(`${formatNumberAsTimeString(i)}`);
+        expect(await timePicker.getProperty("minute")).toBe(`${zeroPadNumber(i)}`);
+        expect(minute.textContent).toBe(`${zeroPadNumber(i)}`);
       }
 
       await minuteup.click();
@@ -954,8 +954,8 @@ describe("calcite-time-picker", () => {
         await minutedown.click();
         await page.waitForChanges();
 
-        expect(await timePicker.getProperty("minute")).toBe(`${formatNumberAsTimeString(i)}`);
-        expect(minute.textContent).toBe(`${formatNumberAsTimeString(i)}`);
+        expect(await timePicker.getProperty("minute")).toBe(`${zeroPadNumber(i)}`);
+        expect(minute.textContent).toBe(`${zeroPadNumber(i)}`);
       }
 
       await minutedown.click();
@@ -977,8 +977,8 @@ describe("calcite-time-picker", () => {
         await secondup.click();
         await page.waitForChanges();
 
-        expect(await timePicker.getProperty("second")).toBe(`${formatNumberAsTimeString(i)}`);
-        expect(second.textContent).toBe(`${formatNumberAsTimeString(i)}`);
+        expect(await timePicker.getProperty("second")).toBe(`${zeroPadNumber(i)}`);
+        expect(second.textContent).toBe(`${zeroPadNumber(i)}`);
       }
 
       await secondup.click();
@@ -1000,8 +1000,8 @@ describe("calcite-time-picker", () => {
         await seconddown.click();
         await page.waitForChanges();
 
-        expect(await timePicker.getProperty("second")).toBe(`${formatNumberAsTimeString(i)}`);
-        expect(second.textContent).toBe(`${formatNumberAsTimeString(i)}`);
+        expect(await timePicker.getProperty("second")).toBe(`${zeroPadNumber(i)}`);
+        expect(second.textContent).toBe(`${zeroPadNumber(i)}`);
       }
 
       await seconddown.click();
