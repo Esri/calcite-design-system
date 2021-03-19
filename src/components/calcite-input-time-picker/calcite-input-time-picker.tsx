@@ -292,7 +292,6 @@ export class CalciteInputTimePicker {
             scale={this.scale}
             step={this.step}
             theme={this.theme}
-            type="time"
             value={this.value}
           />
         </div>
