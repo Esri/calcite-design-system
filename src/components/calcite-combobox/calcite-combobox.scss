@@ -139,7 +139,8 @@
 
 .list-container {
   @apply overflow-y-auto
-    max-h-screen;
+    max-h-screen
+    bg-foreground-1;
   width: var(--calcite-dropdown-width);
   background: var(--calcite-ui-foreground-1);
 }
