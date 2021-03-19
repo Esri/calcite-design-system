@@ -76,7 +76,7 @@
   @apply p-5 text--1h;
 }
 
-:host([layout="center"]) .button {
+:host([alignment="center"]) .button {
   @apply justify-center w-full;
 }
 

@@ -1,6 +1,6 @@
 import { Component, Element, Host, Method, Prop, h, forceUpdate, VNode } from "@stencil/core";
 
-import { Appearance, Layout, Scale, Theme } from "../interfaces";
+import { Alignment, Appearance, Scale, Theme } from "../interfaces";
 
 import { CSS, TEXT } from "./resources";
 
@@ -61,7 +61,7 @@ export class CalciteAction {
   /**
    * Indicates the horizontal or vertical layout of the component.
    */
-  @Prop({ reflect: true}) layout?: Layout;
+  @Prop({ reflect: true}) alignment?: Alignment;
 
   /**
    * When true, content is waiting to be loaded. This state shows a busy indicator.
