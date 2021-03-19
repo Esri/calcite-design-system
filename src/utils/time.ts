@@ -11,7 +11,8 @@ export interface Time {
 export type TimeComponents = "hour" | MinuteOrSecond | "meridiem";
 
 export function formatNumberAsTimeString(number: number): string {
-  return number >= 0 && number <= 9 ? `0${number}` : number.toString();
+  const numberAsString = number.toString();
+  return number >= 0 && number <= 9 ? numberAsString.padStart(2, "0") : numberAsString;
 }
 
 export const maxTenthForMinuteAndSecond = 5;
