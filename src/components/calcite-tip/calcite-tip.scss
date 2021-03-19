@@ -9,12 +9,13 @@
     border-color-2;
 }
 
-:host([dismissed]) {
-  @apply hidden;
-}
-
 .container {
   @apply p-4;
+}
+
+:host([dismissed]),
+:host([dismissed]) .container {
+  @apply hidden;
 }
 
 :host([selected]) .container {
