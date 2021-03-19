@@ -1,14 +1,17 @@
 :host {
-  display: inline-block;
-  vertical-align: top;
-  width: 100%;
-  position: relative;
-  overflow: visible;
-  border-radius: none;
-  border: 1px solid var(--calcite-ui-border-2);
-  background-color: var(--calcite-ui-foreground-1);
+  @apply inline-block
+    align-top
+    w-full
+    relative
+    overflow-visible
+    rounded-none
+    border
+    border-solid
+    border-color-2
+    bg-foreground-1;
 }
 
+//FIXME: These need to be revisted by design to get scale values
 :host([scale="s"]) {
   max-width: 216px;
 }
