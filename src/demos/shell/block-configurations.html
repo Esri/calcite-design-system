@@ -44,8 +44,7 @@
 
         const view = new MapView({
           container: "viewDiv",
-          map: webmap,
-          padding: { left: 49, right: 385 }
+          map: webmap
         });
         view.when(function () {
           view.ui.move("zoom", "bottom-right");
@@ -56,8 +55,11 @@
   <body>
     <main>
       <div class="shell-container">
-        <calcite-shell content-behind>
-          <calcite-shell-panel id="primary-panel" slot="primary-panel" position="start" detached>
+        
+        <calcite-shell>
+          
+          <calcite-shell-panel id="primary-panel" slot="primary-panel" position="start">
+            
             <calcite-action-bar slot="action-bar" theme="dark">
               <calcite-action-group>
                 <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -80,7 +82,7 @@
               </calcite-action-group>
             </calcite-action-bar>
             <calcite-flow>
-              <calcite-panel heading="Layers" height-scale="l" width-scale="m">
+              <calcite-panel heading="Layers">
                 <calcite-label>
                   It's a label.
                   <calcite-input type="text" placeholder="This is stuff." scale="s">
@@ -92,6 +94,9 @@
                     ></calcite-action>
                   </calcite-input>
                 </calcite-label>
+                <calcite-popover-manager>
+                  <calcite-button id="popover-trigger">Pop it!</calcite-button>
+                </calcite-popover-manager>
               </calcite-panel>
             </calcite-flow>
           </calcite-shell-panel>
@@ -135,7 +140,6 @@
               <calcite-panel
                 heading="cool"
                 summary="Popular Demographics in the United States (Beta) - County"
-                width-scale="m"
               >
                 I'm this panel's content.
               </calcite-panel>
@@ -821,13 +825,10 @@
       </div>
       <calcite-popover
         label="right start popover"
-        placement="right-start"
-        reference-element="action-pad-button"
-        add-click-handle
-        class="popover"
+        placement="right"
+        reference-element="popover-trigger"
       >
-        <calcite-panel theme="light">
-          <h3 class="heading" slot="header-content">WE CARE A LOT</h3>
+        <calcite-panel heading="Cool cool" height-scale="m">
           <calcite-pick-list filter-enabled filter-sticky>
             <calcite-action slot="menu-actions" text="options">
               <calcite-icon icon="ellipsis" scale="s"></calcite-icon>
@@ -845,6 +846,16 @@
               value="3"
             ></calcite-pick-list-item>
             <calcite-pick-list-item label="about disease, baby rock, Hudson, rock," value="4"></calcite-pick-list-item>
+            <calcite-pick-list-item label="about disease, baby rock, Hudson, rock," value="4"></calcite-pick-list-item>
+            <calcite-pick-list-item label="about disease, baby rock, Hudson, rock," value="4"></calcite-pick-list-item>
+            <calcite-pick-list-item label="about disease, baby rock, Hudson, rock," value="4"></calcite-pick-list-item>
+            <calcite-pick-list-item label="about disease, baby rock, Hudson, rock," value="4"></calcite-pick-list-item>
+            <calcite-pick-list-item label="about disease, baby rock, Hudson, rock," value="4"></calcite-pick-list-item>
+            <calcite-pick-list-item label="about disease, baby rock, Hudson, rock," value="4"></calcite-pick-list-item>
+            <calcite-pick-list-item label="about disease, baby rock, Hudson, rock," value="4"></calcite-pick-list-item>
+            <calcite-pick-list-item label="about disease, baby rock, Hudson, rock," value="4"></calcite-pick-list-item>
+            <calcite-pick-list-item label="about disease, baby rock, Hudson, rock," value="4"></calcite-pick-list-item>
+            <calcite-pick-list-item label="END" value="4"></calcite-pick-list-item>
           </calcite-pick-list>
           <calcite-button slot="footer" width="half">Yeah!</calcite-button>
           <calcite-button slot="footer" width="half" appearance="clear">Naw.</calcite-button>
