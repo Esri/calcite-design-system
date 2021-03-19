@@ -247,8 +247,8 @@ export class CalciteTimePicker {
   //--------------------------------------------------------------------------
 
   @Method()
-  async setFocus(target: TimeComponents = "hour"): Promise<void> {
-    this[`${target}El`].focus();
+  async setFocus(target: TimeComponents): Promise<void> {
+    this[`${target || "hour"}El`].focus();
   }
 
   // --------------------------------------------------------------------------
