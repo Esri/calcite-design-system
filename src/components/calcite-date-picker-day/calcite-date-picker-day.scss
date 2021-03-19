@@ -39,7 +39,6 @@
     @apply p-0;
   }
   .day {
-    //FIXME: This needs to be refactored by design first
     height: 27px;
     width: 27px;
     @apply text--2;
@@ -54,7 +53,6 @@
     @apply px-1;
   }
   .day {
-    //FIXME: This needs to be refactored by design first
     height: 33px;
     width: 33px;
     @apply text--1;
@@ -69,7 +67,6 @@
     @apply px-1;
   }
   .day {
-    //FIXME: This needs to be refactored by design first
     height: 43px;
     width: 43px;
     @apply text-0;
@@ -102,15 +99,12 @@
 }
 
 :host([selected]) .day {
-  @apply font-medium;
-  background-color: var(--calcite-ui-brand) !important;
-  color: var(--calcite-ui-foreground-1) !important;
+  @apply font-medium bg-brand text-color-inverse;
   z-index: 1;
 }
 
 :host([range][selected]) {
   .day-wrapper {
-    //FIXME Does this exist as a tailwind value?
     background-color: var(--calcite-ui-foreground-current);
   }
 }
@@ -118,7 +112,6 @@
 :host([start-of-range][dir="ltr"]),
 :host([end-of-range][dir="rtl"]) {
   .day-wrapper {
-    //FIXME: Not sure about these values
     border-top-left-radius: 40%;
     border-bottom-left-radius: 40%;
     box-shadow: inset 4px 0 var(--calcite-ui-foreground-1);
