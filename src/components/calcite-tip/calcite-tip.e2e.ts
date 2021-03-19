@@ -17,15 +17,6 @@ describe("calcite-tip", () => {
 
   it("is accessible", async () => accessible(`<calcite-tip heading="sample"><p>not dismissible</p></calcite-tip>`));
 
-  it("should remove the closeButton when dismissed", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`<calcite-tip dismissed><p>dismissible</p></calcite-tip>`);
-
-    const closeButton = await page.find(`calcite-tip >>> .${CSS.close}`);
-    expect(closeButton).toBeNull();
-  });
-
   it("should remove the closeButton if nonDismissible prop is true", async () => {
     const page = await newE2EPage();
 
@@ -44,7 +35,7 @@ describe("calcite-tip", () => {
 
     await closeButton.click();
 
-    const tip = await page.find(`calcite-tip >>> .${CSS.container}`);
+    const tip = await page.find(`calcite-tip`);
 
     const isVisible = await tip.isVisible();
 

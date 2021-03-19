@@ -21,7 +21,7 @@ export class CalciteTip {
   /**
    * No longer displays the tip.
    */
-  @Prop({ mutable: true }) dismissed = false;
+  @Prop({ reflect: true, mutable: true }) dismissed = false;
 
   /**
    * Indicates whether the tip can be dismissed.

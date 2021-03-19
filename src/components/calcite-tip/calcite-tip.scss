@@ -9,6 +9,10 @@
     border-color-2;
 }
 
+:host([dismissed]) {
+  @apply hidden;
+}
+
 .container {
   @apply p-4;
 }
