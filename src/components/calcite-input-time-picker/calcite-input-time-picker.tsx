@@ -12,7 +12,7 @@ import {
   Method
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { formatNumberAsTimeString, stringContainsOnlyNumbers, Time } from "../../utils/time";
+import { parseTimeString, Time, validateTimeString } from "../../utils/time";
 import { Theme } from "../interfaces";
 
 @Component({
@@ -93,11 +93,11 @@ export class CalciteInputTimePicker {
 
   private inputBlurHandler = (): void => {
     this.open = false;
-    const newValue = this.parseTimeString(this.inputEl.value);
+    const newValue = validateTimeString(this.inputEl.value);
     if (newValue) {
       this.inputEl.value = newValue;
     } else {
-      this.inputEl.value = this.parseTimeString(this.value);
+      this.inputEl.value = validateTimeString(this.value);
     }
   };
 
@@ -106,7 +106,7 @@ export class CalciteInputTimePicker {
   };
 
   private inputInputHandler = (event: CustomEvent): void => {
-    if (this.parseTimeString(event.detail.value) || !event.detail.value) {
+    if (validateTimeString(event.detail.value) || !event.detail.value) {
       this.value = event.detail.value;
     }
   };
@@ -193,61 +193,8 @@ export class CalciteInputTimePicker {
   //
   // --------------------------------------------------------------------------
 
-  private convertStringToTime = (value: string): Time => {
-    const timeString = this.parseTimeString(value);
-    const [hour, minute, second] = timeString ? timeString.split(":") : [null, null, null];
-    return {
-      hour,
-      minute,
-      second: second || (this.step !== 60 && hour && minute ? "00" : null)
-    };
-  };
-
   private setInputEl = (el: HTMLCalciteInputElement): void => {
     this.inputEl = el;
-  };
-
-  private parseTimeString = (value: string): string => {
-    if (!value) {
-      return null;
-    }
-    const splitValue = value.split(":");
-    if (splitValue.length > 1) {
-      const hour = splitValue[0];
-      const minute = splitValue[1];
-      const second = splitValue[2];
-      const hourAsNumber = parseInt(splitValue[0]);
-      const minuteAsNumber = parseInt(splitValue[1]);
-      const secondAsNumber = parseInt(splitValue[2]);
-      const hourValid =
-        hour &&
-        stringContainsOnlyNumbers(hour) &&
-        !isNaN(hourAsNumber) &&
-        hourAsNumber >= 0 &&
-        hourAsNumber < 24;
-      const minuteValid =
-        minute &&
-        stringContainsOnlyNumbers(minute) &&
-        !isNaN(minuteAsNumber) &&
-        minuteAsNumber >= 0 &&
-        minuteAsNumber < 60;
-      const secondValid =
-        second &&
-        stringContainsOnlyNumbers(second) &&
-        !isNaN(secondAsNumber) &&
-        secondAsNumber >= 0 &&
-        secondAsNumber < 60;
-      if ((hourValid && minuteValid && !second) || (hourValid && minuteValid && secondValid)) {
-        let newValue = `${formatNumberAsTimeString(hourAsNumber)}:${formatNumberAsTimeString(
-          minuteAsNumber
-        )}`;
-        if (secondValid && this.step !== 60) {
-          newValue = `${newValue}:${formatNumberAsTimeString(secondAsNumber)}`;
-        }
-        return newValue;
-      }
-    }
-    return null;
   };
 
   //--------------------------------------------------------------------------
@@ -258,7 +205,7 @@ export class CalciteInputTimePicker {
 
   componentDidLoad() {
     if (this.value) {
-      this.inputEl.value = this.parseTimeString(this.value);
+      this.inputEl.value = validateTimeString(this.value);
     }
   }
 
@@ -269,7 +216,7 @@ export class CalciteInputTimePicker {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { hour, minute, second } = this.convertStringToTime(this.value);
+    const { hour, minute, second } = parseTimeString(this.value);
     const popoverId = `${this.referenceElementId}-popover`;
     return (
       <Host>
