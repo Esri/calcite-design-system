@@ -62,7 +62,7 @@ export class CalciteInputTimePicker {
   //
   //--------------------------------------------------------------------------
 
-  private inputEl: HTMLCalciteInputElement;
+  private calciteInputEl: HTMLCalciteInputElement;
 
   private referenceElementId: string = guid();
 
@@ -93,11 +93,11 @@ export class CalciteInputTimePicker {
 
   private inputBlurHandler = (): void => {
     this.open = false;
-    const newValue = validateTimeString(this.inputEl.value);
+    const newValue = validateTimeString(this.calciteInputEl.value);
     if (newValue) {
-      this.inputEl.value = newValue;
+      this.setValue(newValue);
     } else {
-      this.inputEl.value = validateTimeString(this.value);
+      this.setValue(validateTimeString(this.value));
     }
   };
 
@@ -106,8 +106,14 @@ export class CalciteInputTimePicker {
   };
 
   private inputInputHandler = (event: CustomEvent): void => {
-    if (validateTimeString(event.detail.value) || !event.detail.value) {
-      this.value = event.detail.value;
+    const value = event.detail.value;
+    const validatedValue = validateTimeString(value);
+    if (validatedValue) {
+      debugger;
+      this.setValue(validatedValue);
+    } else if (!value) {
+      debugger;
+      this.setValue(value);
     }
   };
 
@@ -115,7 +121,7 @@ export class CalciteInputTimePicker {
   inputKeyDownHandler(event: KeyboardEvent): void {
     // This prevents the browser default time picker UI from appearing
     if (
-      (event.target as HTMLElement).closest("calcite-input") === this.inputEl &&
+      (event.target as HTMLElement).closest("calcite-input") === this.calciteInputEl &&
       event.key === " "
     ) {
       event.preventDefault();
@@ -144,12 +150,12 @@ export class CalciteInputTimePicker {
       const { hour, minute, second } = event.detail as Time;
       if (hour && minute) {
         if (second && this.step !== 60) {
-          this.value = `${hour}:${minute}:${second}`;
+          this.setValue(`${hour}:${minute}:${second}`);
         } else {
-          this.value = `${hour}:${minute}`;
+          this.setValue(`${hour}:${minute}`);
         }
       } else {
-        this.value = "";
+        this.setValue("");
       }
     }
   }
@@ -169,7 +175,7 @@ export class CalciteInputTimePicker {
     ) as HTMLCalciteInputTimePickerElement;
     const closestLabel = target.closest("calcite-label") as HTMLCalciteLabelElement;
     if (closestLabel && closestLabel.for === this.el.id) {
-      this.inputEl.setFocus();
+      this.setFocus();
       this.open = true;
     } else if (closestHost !== this.el) {
       this.open = false;
@@ -184,7 +190,7 @@ export class CalciteInputTimePicker {
 
   @Method()
   async setFocus(): Promise<void> {
-    this.inputEl.setFocus();
+    this.calciteInputEl.setFocus();
   }
 
   // --------------------------------------------------------------------------
@@ -193,8 +199,13 @@ export class CalciteInputTimePicker {
   //
   // --------------------------------------------------------------------------
 
-  private setInputEl = (el: HTMLCalciteInputElement): void => {
-    this.inputEl = el;
+  private setCalciteInputEl = (el: HTMLCalciteInputElement): void => {
+    this.calciteInputEl = el;
+  };
+
+  private setValue = (value: string): void => {
+    this.value = value;
+    this.calciteInputTimePickerChange.emit(value);
   };
 
   //--------------------------------------------------------------------------
@@ -205,7 +216,7 @@ export class CalciteInputTimePicker {
 
   componentDidLoad() {
     if (this.value) {
-      this.inputEl.value = validateTimeString(this.value);
+      this.setValue(validateTimeString(this.value));
     }
   }
 
@@ -235,7 +246,7 @@ export class CalciteInputTimePicker {
             onCalciteInputBlur={this.inputBlurHandler}
             onCalciteInputFocus={this.inputFocusHandler}
             onCalciteInputInput={this.inputInputHandler}
-            ref={this.setInputEl}
+            ref={this.setCalciteInputEl}
             scale={this.scale}
             step={this.step}
             theme={this.theme}

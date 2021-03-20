@@ -49,7 +49,7 @@
                   <calcite-input type="time" name="native" value="1:2" step="1"></calcite-input>
                   <div>
                     <calcite-label for="s" scale="s">Small</calcite-label>
-                    <calcite-input-date-picker scale="s"></calcite-input-date-picker>
+                    <calcite-input-date-picker scale="s" name="s-date"></calcite-input-date-picker>
                     <calcite-input-time-picker id="s" scale="s" name="s" value="1:2"></calcite-input-time-picker>
                   </div>
                   <div>
@@ -108,6 +108,11 @@
           </form>
         </demo-form>
   </demo-spacer>
+  <script>
+    document.addEventListener("calciteInputTimePickerChange", (event) => {
+      console.log("calciteInputTimePickerChange", event.target.name, event.detail);
+    })
+    </script>
 </body>
 
 </html>

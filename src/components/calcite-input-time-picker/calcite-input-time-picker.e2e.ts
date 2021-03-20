@@ -297,4 +297,30 @@ describe("calcite-input-time-picker", () => {
       expect(timePickerSecondText).toBe(expectedSecond);
     }
   });
+
+  it("appropriately triggers the custom change event", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-input-time-picker step="1"></calcite-input-time-picker>`);
+
+    const inputTimePicker = await page.find("calcite-input-time-picker");
+    const input = await page.find("input");
+    const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
+
+    expect(changeEvent).toHaveReceivedEventTimes(0);
+
+    await input.press("1");
+    await input.press(":");
+    await input.press("2");
+
+    await page.waitForChanges();
+
+    expect(changeEvent).toHaveReceivedEventTimes(1);
+
+    await input.press(":");
+    await input.press("3");
+
+    await page.waitForChanges();
+
+    expect(changeEvent).toHaveReceivedEventTimes(3);
+  });
 });
