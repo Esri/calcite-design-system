@@ -1,9 +1,8 @@
 :host {
   @extend %component-host;
-  --calcite-tip-max-width: 540px;
 }
 
 ::slotted(calcite-tip) {
   @apply border-none;
-  max-width: var(--calcite-tip-max-width);
+  max-width: 33.75rem;
 }
