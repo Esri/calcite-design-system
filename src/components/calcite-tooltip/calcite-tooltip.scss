@@ -2,22 +2,21 @@
 @include popperArrow();
 
 .container {
-  @apply relative 
-    bg-foreground-1 
-    flex 
-    justify-start 
-    flex-col 
+  @apply relative
+    bg-foreground-1
+    flex
+    justify-start
+    flex-col
     font-medium
-    text-color-1 
-    py-3 
-    px-4 
-    overflow-hidden 
-    text--1-wrap
+    text-color-1
+    py-3
+    px-4
+    overflow-hidden
+    text--2-wrap
     border
     border-solid
-    border-color-3;
-  @include font-size(-3);
+    border-color-3
+    rounded;
   max-width: 20rem;
   max-height: 20rem;
-  border-radius: var(--calcite-border-radius);
 }

@@ -37,6 +37,9 @@ export class CalciteTree {
   /** Display indentation guide lines */
   @Prop({ mutable: true, reflect: true }) lines = false;
 
+  /** Display input */
+  @Prop({ mutable: true }) inputEnabled = false;
+
   /** Select theme (light or dark) */
   @Prop({ reflect: true }) theme: Theme;
 
@@ -60,6 +63,7 @@ export class CalciteTree {
     const parent: HTMLCalciteTreeElement = this.el.parentElement.closest("calcite-tree");
     this.lines = parent ? parent.lines : this.lines;
     this.scale = parent ? parent.scale : this.scale;
+    this.inputEnabled = parent ? parent.inputEnabled : this.inputEnabled;
     this.selectionMode = parent ? parent.selectionMode : this.selectionMode;
     this.root = parent ? false : true;
   }
@@ -102,6 +106,16 @@ export class CalciteTree {
     const childItems = nodeListToArray(
       target.querySelectorAll("calcite-tree-item")
     ) as HTMLCalciteTreeItemElement[];
+
+    if (this.root) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    if (this.selectionMode === TreeSelectionMode.Ancestors && this.root) {
+      this.updateAncestorTree(e);
+      return;
+    }
 
     const shouldSelect =
       this.selectionMode !== null &&
@@ -178,9 +192,45 @@ export class CalciteTree {
       }
     }
 
-    if (this.root) {
-      e.preventDefault();
-      e.stopPropagation();
+    this.calciteTreeSelect.emit({
+      selected: (nodeListToArray(
+        this.el.querySelectorAll("calcite-tree-item")
+      ) as HTMLCalciteTreeItemElement[]).filter((i) => i.selected)
+    });
+  }
+
+  updateAncestorTree(e: CustomEvent<TreeItemSelectDetail>): void {
+    const item = e.target as HTMLCalciteTreeItemElement;
+    const children = item.querySelectorAll("calcite-tree-item");
+    const ancestors: HTMLCalciteTreeItemElement[] = [];
+    let parent = item.parentElement.closest("calcite-tree-item");
+    while (parent) {
+      ancestors.push(parent);
+      parent = parent.parentElement.closest("calcite-tree-item");
+    }
+
+    item.selected = !item.selected;
+    item.indeterminate = false;
+    if (children?.length) {
+      children.forEach((el) => {
+        el.selected = item.selected;
+        el.indeterminate = false;
+      });
+    }
+
+    if (ancestors) {
+      ancestors.forEach((ancestor) => {
+        const descendants = nodeListToArray(ancestor.querySelectorAll("calcite-tree-item"));
+        const activeDescendants = descendants.filter((el) => el.selected);
+        if (activeDescendants.length === 0) {
+          ancestor.selected = false;
+          ancestor.indeterminate = false;
+          return;
+        }
+        const indeterminate = activeDescendants.length < descendants.length;
+        ancestor.indeterminate = indeterminate;
+        ancestor.selected = !indeterminate;
+      });
     }
 
     this.calciteTreeSelect.emit({
@@ -189,7 +239,6 @@ export class CalciteTree {
       ) as HTMLCalciteTreeItemElement[]).filter((i) => i.selected)
     });
   }
-
   //--------------------------------------------------------------------------
   //
   //  Events

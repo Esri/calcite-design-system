@@ -283,7 +283,7 @@ export class CalciteRadioButton {
     this.inputEl.style.setProperty("margin", "0", "important");
     this.inputEl.style.setProperty("opacity", "0", "important");
     this.inputEl.style.setProperty("padding", "0", "important");
-    this.inputEl.style.setProperty("position", "absolute", "important");
+    this.inputEl.style.setProperty("position", "fixed", "important");
     this.inputEl.style.setProperty("transform", "none", "important");
     this.inputEl.style.setProperty("z-index", "-1", "important");
   };
