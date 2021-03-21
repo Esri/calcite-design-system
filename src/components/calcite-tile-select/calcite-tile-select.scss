@@ -1,19 +1,17 @@
-$spacing: theme("spacing.3");
-
 .root {
   @apply bg-foreground-1
-  box-border
-  cursor-pointer
-  inline-block
-  h-full
-  p-3
-  relative
-  duration-150
-  ease-in-out
-  align-top
-  z-10;
+    box-border
+    cursor-pointer
+    inline-block
+    h-full
+    p-3
+    relative
+    duration-150
+    ease-in-out
+    align-top
+    z-10;
   box-shadow: 0 0 0 1px var(--calcite-ui-border-2);
-  max-width: 300px;
+  max-width: 20rem;
 }
 
 :host(:hover) {
@@ -69,13 +67,12 @@ $spacing: theme("spacing.3");
 :host([input-enabled][input-alignment="start"][icon][heading][description]),
 :host([input-enabled][input-alignment="start"]:not([icon])[heading]:not([description])) {
   .root {
-    @apply inline-grid;
-    grid-gap: $spacing;
+    @apply inline-grid gap-3;
     grid-template-columns: max-content 1fr;
   }
   ::slotted(calcite-checkbox),
   ::slotted(calcite-radio-button) {
-    order: 0;
+    @apply order-none;
   }
   calcite-tile {
     @apply order-1;
@@ -86,15 +83,15 @@ $spacing: theme("spacing.3");
   ::slotted(calcite-checkbox),
   ::slotted(calcite-radio-button) {
     @apply absolute;
-    top: $spacing;
-    left: $spacing;
+    top: theme("spacing.3");
+    left: theme("spacing.3");
   }
 }
 
 :host([dir="rtl"][input-enabled][input-alignment="start"][icon][heading]:not([description])) {
   ::slotted(calcite-checkbox),
   ::slotted(calcite-radio-button) {
-    right: $spacing;
+    right: theme("spacing.3");
     left: unset;
   }
 }
@@ -103,8 +100,8 @@ $spacing: theme("spacing.3");
   ::slotted(calcite-checkbox),
   ::slotted(calcite-radio-button) {
     @apply absolute;
-    top: $spacing;
-    right: $spacing;
+    top: theme("spacing.3");
+    right: theme("spacing.3");
   }
 }
 
@@ -112,14 +109,13 @@ $spacing: theme("spacing.3");
   ::slotted(calcite-checkbox),
   ::slotted(calcite-radio-button) {
     right: unset;
-    left: $spacing;
+    left: theme("spacing.3");
   }
 }
 
 :host([input-enabled][input-alignment="end"][heading]:not([icon]):not([description])) {
   .root {
-    @apply inline-grid;
-    grid-gap: $spacing;
+    @apply inline-grid gap-3;
     grid-template-columns: max-content 1fr;
   }
   ::slotted(calcite-checkbox),
