@@ -10,7 +10,7 @@
 :host(:not([embed])) {
   @apply p-3;
   box-shadow: 0 0 0 1px var(--calcite-ui-border-2);
-  max-width: 300px;
+  max-width: 20rem;
 }
 :host(:not([embed])[href]:hover) {
   @apply cursor-pointer;
@@ -20,7 +20,7 @@
   box-shadow: 0 0 0 3px var(--calcite-ui-brand);
 }
 :host([icon][heading]:not([description]):not([embed])) {
-  padding: unset;
+  @apply p-0;
 }
 .tile {
   @apply grid 
@@ -30,11 +30,11 @@
 }
 .heading {
   @apply text-1-wrap
-  text-color-2
-  duration-150
-  ease-in-out
-  font-medium
-  pointer-events-none;
+    text-color-2
+    duration-150
+    ease-in-out
+    font-medium
+    pointer-events-none;
 }
 .large-visual {
   @apply items-center;
