@@ -101,7 +101,7 @@
 }
 
 :host .thumbnail-wrapper {
-  font-size: 0;
+  @apply text-0-wrap;
 }
 
 :host .checkbox-wrapper {
