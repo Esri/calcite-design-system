@@ -1,12 +1,10 @@
 :host {
-  display: flex;
-  flex-wrap: wrap;
+  @apply flex flex-wrap;
   ::slotted(calcite-tile-select) {
-    margin-right: 1px;
-    margin-bottom: 1px;
+    @apply mr-px mb-px;
   }
 }
 
 :host([layout="vertical"]) {
-  flex-direction: column;
+  @apply flex-col;
 }
