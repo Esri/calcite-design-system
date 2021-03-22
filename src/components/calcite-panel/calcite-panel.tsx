@@ -254,12 +254,12 @@ export class CalcitePanel {
 
     const summaryNode = summary ? <span class={CSS.summary}>{summary}</span> : null;
 
-    return headingNode || summaryNode ? (
+    return (
       <div class={CSS.headerContent} key="header-content">
         {headingNode}
         {summaryNode}
       </div>
-    ) : null;
+    );
   }
 
   /**
