@@ -65,8 +65,8 @@
   padding-right: var(--calcite-select-spacing);
   @apply border-0 
     border-r
-    border-r-solid
     border-color-1;
+  border-right-style: solid;
 }
 
 // override user agent stylesheet disabled styling
@@ -95,11 +95,11 @@ select:disabled {
 }
 
 :host([dir="rtl"]) .icon-container {
-  @apply border-l-solid 
-    border-color-1 
+  @apply border-color-1 
     border-r-0 
     left-0;
   right: unset;
+  border-left-style: solid;
 }
 
 .select:focus ~ .icon-container {
