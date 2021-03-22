@@ -1,12 +1,12 @@
 :host {
-  @apply flex-initial outline-none mx-5;
+  @apply flex-initial outline-none mr-5;
   margin-inline-start: theme("margin.0");
   margin-inline-end: theme("margin.5");
 }
 
 :host([layout="center"]) {
   @apply text-center my-0 mx-5;
-  flex-basis: 200px;
+  flex-basis: theme("spacing.48");
 }
 
 :host([position="below"]) a {
