@@ -1,7 +1,6 @@
 .header {
   @apply flex justify-between;
-  //FIXME: Can this just be 4px? px-1
-  padding: 0 3px;
+  @apply py-0 px-1;
 }
 
 :host([scale="s"]) {
@@ -15,7 +14,7 @@
 
 :host([scale="m"]) {
   .text {
-    @apply text-0h
+    @apply text-0h;
   }
   .chevron {
     @apply h-12;
@@ -39,6 +38,7 @@
     py-0
     px-1
     my-0
+    -mx-1
     border-none
     flex
     items-center
@@ -49,10 +49,7 @@
     duration-150
     ease-in-out
     focus-base;
-
   width: calc(100% / 7);
-  margin-left: -3px;
-  margin-right: -3px;
 
   &:focus {
     @apply focus-inset;
@@ -94,12 +91,12 @@
 .suffix {
   @apply text-color-1
     bg-foreground-1
-    font-inherit
     font-normal
     leading-tight
     my-0
     mx-1
     inline-block;
+  font-size: inherit;
 }
 
 .year {
