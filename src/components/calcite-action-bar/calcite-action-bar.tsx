@@ -8,7 +8,8 @@ import {
   Watch,
   h,
   VNode,
-  Method
+  Method,
+  forceUpdate
 } from "@stencil/core";
 import { Position, Theme } from "../interfaces";
 import { CalciteExpandToggle, toggleChildActionText } from "../functional/CalciteExpandToggle";
@@ -101,10 +102,12 @@ export class CalciteActionBar {
 
   @Element() el: HTMLCalciteActionBarElement;
 
-  observer = new MutationObserver(() => {
+  mutationObserver = new MutationObserver(() => {
     const { el, expanded } = this;
     toggleChildActionText({ parent: el, expanded });
   });
+
+  resizeObserver = new ResizeObserver((entries) => this.resized(entries));
 
   expandToggleEl: HTMLCalciteActionElement;
 
@@ -121,11 +124,13 @@ export class CalciteActionBar {
       toggleChildActionText({ parent: el, expanded });
     }
 
-    this.observer.observe(el, { childList: true });
+    this.mutationObserver.observe(el, { childList: true });
+    this.resizeObserver.observe(el);
   }
 
   disconnectedCallback(): void {
-    this.observer.disconnect();
+    this.mutationObserver.disconnect();
+    this.resizeObserver.disconnect();
   }
 
   // --------------------------------------------------------------------------
@@ -149,6 +154,35 @@ export class CalciteActionBar {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  resized = ([entry]: ResizeObserverEntry[]): void => {
+    const { el, expandDisabled } = this;
+    const { clientHeight } = entry.target;
+
+    const actions = el.querySelectorAll("calcite-action");
+    const actionGroups = el.querySelectorAll("calcite-action-group");
+    const actionBuffer = 5;
+    const actionHeight = actions[0].clientHeight + actionBuffer;
+    const maxCount = Math.floor(clientHeight / actionHeight);
+
+    const actionsTotal = expandDisabled ? actions.length : actions.length + 1;
+
+    const hiddenActionCount = actionsTotal > maxCount ? actionsTotal - maxCount : 0;
+
+    const numToHideInEachGroup = hiddenActionCount
+      ? Math.ceil(hiddenActionCount + 1 / actionGroups.length)
+      : 0;
+
+    actionGroups.forEach((group) => {
+      const groupActions = Array.from(group.querySelectorAll("calcite-action")).reverse();
+      groupActions.forEach((action, index) => {
+        index < numToHideInEachGroup
+          ? action.setAttribute("slot", "menu-actions")
+          : action.removeAttribute("slot");
+      });
+      forceUpdate(group);
+    });
+  };
 
   toggleExpand = (): void => {
     this.expanded = !this.expanded;
