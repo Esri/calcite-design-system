@@ -153,8 +153,8 @@ $chipColors: "blue" var(--calcite-ui-brand) var(--calcite-ui-brand-press) var(--
     var(--calcite-ui-warning),
   "green" var(--calcite-ui-success) var(--calcite-ui-success) var(--calcite-ui-success) var(--calcite-ui-text-1)
     var(--calcite-ui-success),
-  "grey" var(--calcite-ui-foreground-2) var(--calcite-ui-text-3) var(--calcite-ui-text-3-dark) var(--calcite-ui-text-1)
-    var(--calcite-ui-text-1);
+  "grey" var(--calcite-ui-foreground-2) var(--calcite-ui-border-1) var(--calcite-ui-text-3-dark)
+    var(--calcite-ui-text-1) var(--calcite-ui-text-1);
 
 @each $chipColor in $chipColors {
   $name: nth($chipColor, 1);
