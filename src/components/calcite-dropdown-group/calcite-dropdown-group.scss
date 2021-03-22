@@ -1,21 +1,21 @@
 :host([scale="s"]) {
   @apply text--2;
   .dropdown-title {
-    @apply py-3 mt-0 mx-3;
+    @apply py-2 mt-0 mx-3;
   }
 }
 
 :host([scale="m"]) {
   @apply text--1;
   .dropdown-title {
-    @apply py-4 mt-0 mx-4;
+    @apply py-3 mt-0 mx-4;
   }
 }
 
 :host([scale="l"]) {
   @apply text-1;
   .dropdown-title {
-    @apply py-5 mt-0 mx-5;
+    @apply py-4 mt-0 mx-5;
   }
 }
 
