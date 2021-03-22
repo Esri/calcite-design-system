@@ -20,18 +20,17 @@
 }
 
 .dropdown-title {
-  @apply block
-  border-b
-  border-solid
-  border-color-3
-  text-color-2
-  font-medium
-  break-words
-  cursor-default;
+  display: block;
   margin-bottom: -1px;
+  border-bottom: 1px solid var(--calcite-ui-border-3);
+  color: var(--calcite-ui-text-2);
+  font-weight: 600;
+  word-wrap: break-word;
+  cursor: default;
 }
 
 .dropdown-separator {
-  @apply block h-px;
-  background-color: theme("borderColor.3");
+  display: block;
+  height: 1px;
+  background-color: var(--calcite-ui-border-3);
 }
