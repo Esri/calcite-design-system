@@ -12,6 +12,7 @@ import {
 } from "@stencil/core";
 import { ICON_TYPES } from "./resources";
 import {
+  ListFocusId,
   calciteListItemChangeHandler,
   calciteListItemValueChangeHandler,
   cleanUpObserver,
@@ -29,6 +30,7 @@ import {
   removeItem
 } from "./shared-list-logic";
 import List from "./shared-list-render";
+import { Theme } from "../interfaces";
 
 /**
  * @slot - A slot for adding `calcite-pick-list-item` elements or `calcite-pick-list-group` elements. Items are displayed as a vertical list.
@@ -76,6 +78,9 @@ export class CalcitePickList<
    */
   @Prop({ reflect: true }) multiple = false;
 
+  /** Select theme (light or dark) */
+  @Prop({ reflect: true }) theme: Theme;
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -95,6 +100,8 @@ export class CalcitePickList<
   @Element() el: HTMLCalcitePickListElement;
 
   emitCalciteListChange: () => void;
+
+  filterEl: HTMLCalciteFilterElement;
 
   // --------------------------------------------------------------------------
   //
@@ -159,6 +166,10 @@ export class CalcitePickList<
     }
   }
 
+  setFilterEl = (el: HTMLCalciteFilterElement): void => {
+    this.filterEl = el;
+  };
+
   deselectSiblingItems = deselectSiblingItems.bind(this);
 
   selectSiblings = selectSiblings.bind(this);
@@ -181,8 +192,8 @@ export class CalcitePickList<
   }
 
   @Method()
-  async setFocus(): Promise<void> {
-    return setFocus.call(this);
+  async setFocus(focusId?: ListFocusId): Promise<void> {
+    return setFocus.call(this, focusId);
   }
 
   // --------------------------------------------------------------------------

@@ -70,7 +70,6 @@
 }
 
 :host([scale="s"][range]:not([layout="vertical"])) {
-
   .calendar-picker-wrapper {
     width: 216px;
   }
@@ -81,14 +80,12 @@
 }
 
 :host([scale="m"][range]:not([layout="vertical"])) {
-
   .calendar-picker-wrapper {
     width: 286px;
   }
 }
 
 :host([scale="l"][range]:not([layout="vertical"])) {
-
   .calendar-picker-wrapper {
     width: 398px;
   }

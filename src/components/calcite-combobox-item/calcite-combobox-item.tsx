@@ -58,6 +58,9 @@ export class CalciteComboboxItem {
   /** A unique value used to identify this item - similar to the value attribute on an <input>. */
   @Prop({ reflect: true }) value!: string;
 
+  /** Don't filter this item based on the search text */
+  @Prop({ reflect: true }) constant: boolean;
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties

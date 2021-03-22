@@ -6,7 +6,7 @@ import { ICONS } from "./resources";
 const { appearance, dir, scale, theme } = ATTRIBUTES;
 
 export default {
-  title: "Components/FAB",
+  title: "Components/Buttons/FAB",
   parameters: {
     backgrounds: darkBackground,
     notes: readme

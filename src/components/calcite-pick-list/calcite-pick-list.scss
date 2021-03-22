@@ -1,38 +1,30 @@
 :host {
   @extend %component-host;
-  @extend %component-spacing;
-  align-items: stretch;
-  background-color: transparent;
-  display: flex;
-  flex: 1 0 auto;
-  flex-flow: column;
-  padding-bottom: var(--calcite-cap-spacing);
-  position: relative;
+  @apply items-stretch
+    bg-transparent
+    flex
+    flex-col
+    relative
+    pb-0
+    flex-grow
+    flex-shrink-0;
 }
 
-header {
-  background-color: var(--calcite-ui-foreground-1);
-  display: flex;
-  justify-content: flex-end;
-  align-items: stretch;
-  margin-bottom: var(--calcite-spacing-quarter);
+:host([filter-enabled]) header {
+  @apply bg-foreground-1
+    flex
+    justify-end
+    items-stretch
+    mb-1;
   &.sticky {
-    position: sticky;
-    top: 0;
+    @apply sticky top-0;
     z-index: 1;
   }
   @apply shadow-border-bottom;
 }
 
 calcite-filter {
-  margin-bottom: 1px;
-}
-
-calcite-scrim {
-  display: flex;
-  flex: 0 0 auto;
-  flex-flow: column;
-  pointer-events: none;
+  @apply mb-px;
 }
 
 :host([loading][disabled]) {

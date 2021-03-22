@@ -8,6 +8,8 @@ type Lists = CalcitePickList | CalciteValueList;
 type ListItemElement<T> = T extends CalcitePickList ? HTMLCalcitePickListItemElement : HTMLCalciteValueListItemElement;
 type List<T> = T extends CalcitePickList ? CalcitePickList : CalciteValueList;
 
+export type ListFocusId = "filter";
+
 export function mutationObserverCallback<T extends Lists>(this: List<T>): void {
   this.setUpItems();
   this.setUpFilter();
@@ -153,7 +155,12 @@ function toggleSingleSelectItemTabbing<T extends Lists>(item: ListItemElement<T>
   }
 }
 
-export function setFocus<T extends Lists>(this: List<T>): Promise<void> {
+export async function setFocus<T extends Lists>(this: List<T>, focusId: ListFocusId): Promise<void> {
+  if (this.filterEnabled && focusId === "filter") {
+    await focusElement(this.filterEl);
+    return;
+  }
+
   const { multiple, items } = this;
 
   if (items.length === 0) {
@@ -241,6 +248,7 @@ let groups: Set<HTMLCalcitePickListGroupElement>;
 export function handleFilter<T extends Lists>(this: List<T>, event: CustomEvent): void {
   const filteredData = event.detail;
   const values = filteredData.map((item) => item.value);
+  let hasSelectedMatch = false;
 
   if (!groups) {
     groups = new Set<HTMLCalcitePickListGroupElement>();
@@ -257,6 +265,10 @@ export function handleFilter<T extends Lists>(this: List<T>, event: CustomEvent)
     const matches = values.includes(item.value);
 
     item.hidden = !matches;
+
+    if (!hasSelectedMatch) {
+      hasSelectedMatch = matches && item.selected;
+    }
 
     return matches;
   });
@@ -283,6 +295,10 @@ export function handleFilter<T extends Lists>(this: List<T>, event: CustomEvent)
   });
 
   groups.clear();
+
+  if (matchedItems.length > 0 && !hasSelectedMatch && !this.multiple) {
+    toggleSingleSelectItemTabbing(matchedItems[0], true);
+  }
 }
 
 export type ItemData = {

@@ -1,9 +1,10 @@
 import { FunctionalComponent, h, Host, VNode } from "@stencil/core";
 import { JSXBase } from "@stencil/core/internal";
 import { CSS } from "./resources";
-import { getElementDir, getElementTheme } from "../../utils/dom";
+import { getElementDir } from "../../utils/dom";
 import { handleFilter } from "./shared-list-logic";
 import DOMAttributes = JSXBase.DOMAttributes;
+import { Theme } from "../interfaces";
 
 interface ListProps extends DOMAttributes {
   disabled: boolean;
@@ -12,11 +13,23 @@ interface ListProps extends DOMAttributes {
   dataForFilter: any;
   handleFilter: typeof handleFilter;
   filterPlaceholder: string;
+  theme: Theme;
   el: HTMLCalcitePickListElement | HTMLCalciteValueListElement;
+  setFilterEl: (el: HTMLCalciteFilterElement) => void;
 }
 
 export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes> = ({
-  props: { disabled, loading, filterEnabled, dataForFilter, handleFilter, filterPlaceholder, el },
+  props: {
+    disabled,
+    loading,
+    filterEnabled,
+    dataForFilter,
+    handleFilter,
+    filterPlaceholder,
+    el,
+    setFilterEl,
+    theme
+  },
   ...rest
 }): VNode => {
   const defaultSlot = <slot />;
@@ -29,19 +42,16 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes> = (
               aria-label={filterPlaceholder}
               data={dataForFilter}
               dir={getElementDir(el)}
+              disabled={loading || disabled}
               onCalciteFilterChange={handleFilter}
               placeholder={filterPlaceholder}
+              ref={setFilterEl}
             />
           ) : null}
           <slot name="menu-actions" />
         </header>
-        {loading || disabled ? (
-          <calcite-scrim loading={loading} theme={getElementTheme(el)}>
-            {defaultSlot}
-          </calcite-scrim>
-        ) : (
-          defaultSlot
-        )}
+        {loading || disabled ? <calcite-scrim loading={loading} theme={theme} /> : null}
+        {defaultSlot}
       </section>
     </Host>
   );

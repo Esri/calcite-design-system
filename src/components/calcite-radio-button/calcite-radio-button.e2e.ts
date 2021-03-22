@@ -7,11 +7,7 @@ describe("calcite-radio-button", () => {
   it("is accessible", async () =>
     accessible(`<calcite-radio-button id="example" name="example" value="one">label</calcite-radio-button>`));
 
-  it("has defaults", async () =>
-    defaults("calcite-radio-button", [
-      { propertyName: "scale", defaultValue: "m" },
-      { propertyName: "theme", defaultValue: "light" }
-    ]));
+  it("has defaults", async () => defaults("calcite-radio-button", [{ propertyName: "scale", defaultValue: "m" }]));
 
   it("honors hidden attribute", async () => hidden("calcite-radio-button"));
 
@@ -441,7 +437,7 @@ describe("calcite-radio-button", () => {
     expect(style["margin"]).toBe("0px");
     expect(style["opacity"]).toBe("0");
     expect(style["padding"]).toBe("0px");
-    expect(style["position"]).toBe("absolute");
+    expect(style["position"]).toBe("fixed");
     expect(style["transform"]).toBe("none");
     expect(style["z-index"]).toBe("-1");
   });

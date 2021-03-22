@@ -1,50 +1,39 @@
 :host {
-  cursor: pointer;
-  display: inline-block;
+  @apply cursor-pointer inline-block;
 }
 :host([labeled]) {
-  --calcite-label-margin-bottom: 0;
-  align-items: center;
-  display: inline-flex;
-  gap: 8px;
+  @apply mb-0 items-center inline-flex gap-2;
 }
 :host([disabled]) {
-  cursor: default;
+  @apply cursor-pointer;
   & > ::slotted(calcite-label) {
-    cursor: default;
+    @apply cursor-default;
   }
 }
 :host([scale="s"][labeled]) {
-  line-height: 1.33;
-  margin-bottom: 8px;
-  margin-right: 12px;
+  @apply mb-2 mr-3;
   @supports not (display: grid) {
     calcite-radio {
-      margin-right: 8px;
+      @apply mr-2;
     }
   }
 }
 :host([scale="m"][labeled]) {
-  line-height: 1.15;
-  margin-bottom: 8px;
-  margin-right: 16px;
+  @apply mb-2 mr-4;
   @supports not (display: grid) {
     calcite-radio {
-      margin-right: 8px;
+      @apply mr-2;
     }
   }
 }
 :host([scale="l"][labeled]) {
-  gap: 12px;
-  line-height: 1.2;
-  margin-bottom: 10px;
-  margin-right: 20px;
+  @apply gap-3 mb-2 mr-5;
   @supports not (display: grid) {
     calcite-radio {
-      margin-right: 12px;
+      @apply mr-3;
     }
   }
 }
 :host([hidden]) {
-  display: none;
+  @apply hidden;
 }

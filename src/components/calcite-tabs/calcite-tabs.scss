@@ -1,21 +1,24 @@
 :host {
-  display: flex;
-  flex-direction: column;
+  @apply flex flex-col;
 }
 
 :host([position="below"]) {
-  flex-direction: column-reverse;
+  @apply flex-col-reverse;
 }
 
 section {
-  display: flex;
-  flex-grow: 1;
-  overflow: hidden;
-  border-top: 1px solid var(--calcite-ui-border-1);
+  @apply flex
+    flex-grow
+    overflow-hidden
+    border-t
+    border-t-color-1;
+  border-top-style: solid;
 }
 
 :host([position="below"]) section {
-  flex-direction: column-reverse;
-  border-top: 0;
-  border-bottom: 1px solid var(--calcite-ui-border-1);
+  @apply flex-col-reverse
+    border-t-0
+    border-b
+    border-b-color-1;
+  border-bottom-style: solid;
 }

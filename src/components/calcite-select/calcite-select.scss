@@ -1,106 +1,107 @@
 :host {
   @extend %component-spacing;
 
-  align-items: stretch;
-  display: flex;
-  position: relative;
+  @apply flex
+    items-stretch
+    relative;
   width: var(--select-width);
-  --calcite-select-spacing-end: 2rem;
 }
 
 :host([scale="s"]) {
-  --calcite-select-font-size: theme("fontSize.-2");
-  --calcite-select-spacing: 0.5rem;
+  --calcite-select-font-size: theme("fontSize.-2h");
+  --calcite-select-spacing: theme("spacing.1") theme("spacing.2");
 }
 
 :host([scale="m"]) {
-  --calcite-select-font-size: theme("fontSize.-1");
-  --calcite-select-spacing: 0.75rem;
+  //TODO: Can't figure out why the total hight for this is 35px and not 32px
+  --calcite-select-font-size: theme("fontSize.-1h");
+  --calcite-select-spacing: theme("spacing.2") theme("spacing.3");
 }
 
 :host([scale="l"]) {
-  --calcite-select-font-size: theme("fontSize.1");
-  --calcite-select-spacing: 1rem;
+  --calcite-select-font-size: theme("fontSize.1h");
+  --calcite-select-spacing: theme("spacing.3") theme("spacing.4");
 }
 
 :host([width="auto"]) {
-  --select-width: auto;
+  @apply w-auto;
 }
 
 :host([width="half"]) {
-  --select-width: 50%;
+  @apply w-1/2;
 }
 
 :host([width="full"]) {
-  --select-width: 100%;
+  @apply w-full;
 }
 
 .select {
-  appearance: none;
-  background-color: var(--calcite-ui-foreground-1);
-  border: solid 1px var(--calcite-ui-border-1);
-  border-right: none;
-  border-radius: 0;
-  color: var(--calcite-ui-text-2);
-  cursor: pointer;
-  font-family: inherit;
+  @apply appearance-none 
+    border
+    border-solid
+    border-r-0
+    bg-foreground-1 
+    border-color-1 
+    rounded-none 
+    text-color-2 
+    cursor-pointer 
+    font-inherit 
+    m-0 
+    w-full
+    focus-base;
   font-size: var(--calcite-select-font-size);
-  margin: 0;
   padding: var(--calcite-select-spacing);
-  padding-right: var(--calcite-select-spacing-end);
-  width: 100%;
-
-  @include focus-style-base();
 
   &:focus {
-    @include focus-style-inset();
+    @apply focus-inset;
   }
 
   &:hover {
-    background-color: var(--calcite-ui-foreground-2);
+    @apply bg-foreground-2;
   }
 }
 
 :host([dir="rtl"]) .select {
-  padding-left: var(--calcite-select-spacing-end);
   padding-right: var(--calcite-select-spacing);
-  border-right: solid 1px var(--calcite-ui-border-1);
-  border-left: none;
+  @apply border-0 
+    border-r
+    border-color-1;
+  border-right-style: solid;
 }
 
 // override user agent stylesheet disabled styling
 select:disabled {
-  border-color: var(--calcite-ui-border-1);
-  opacity: 1;
+  @apply border-color-1 bg-opacity-100;
 }
 
 :host([disabled]) {
-  @apply pointer-events-none select-none;
-  opacity: var(--calcite-ui-opacity-disabled);
+  @apply pointer-events-none select-none opacity-disabled;
 }
 
 .icon-container {
-  align-items: center;
-  background-color: transparent;
-  border: solid 1px var(--calcite-ui-border-1);
-  border-left: none;
-  color: var(--calcite-ui-text-2);
-  display: flex;
-  padding: 0 var(--calcite-spacing-half);
-  pointer-events: none;
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  top: 0;
+  @apply items-center 
+    bg-transparent 
+    border
+    border-solid
+    border-color-1 
+    border-l-0 
+    text-color-2 
+    flex 
+    pointer-events-none 
+    absolute 
+    right-0 
+    inset-y-0
+    px-2;
 }
 
 :host([dir="rtl"]) .icon-container {
-  border-left: solid 1px var(--calcite-ui-border-1);
-  border-right: none;
+  @apply border-color-1 
+    border-r-0 
+    left-0;
   right: unset;
-  left: 0;
+  border-left-style: solid;
 }
 
 .select:focus ~ .icon-container {
-  border-color: transparent;
+  @apply border-color-transparent;
 }

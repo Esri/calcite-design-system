@@ -72,7 +72,7 @@ export class CalciteTileSelect {
   @Prop({ reflect: true }) inputAlignment: Extract<"end" | "start", Alignment> = "start";
 
   /** The theme of the tile select. */
-  @Prop({ reflect: true }) theme: Theme = "light";
+  @Prop({ reflect: true }) theme: Theme;
 
   /** The selection mode of the tile select: radio (single) or checkbox (multiple). */
   @Prop({ reflect: true }) type: TileSelectType = "radio";

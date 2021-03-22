@@ -1,4 +1,5 @@
 export const CSS = {
+  container: "container",
   searchIcon: "search-icon",
   clearButton: "clear-button"
 };

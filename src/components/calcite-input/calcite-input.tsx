@@ -57,7 +57,7 @@ export class CalciteInput {
 
   @Watch("disabled")
   disabledWatcher(): void {
-    if (this.disabled) this.setDisabledAction();
+    this.setDisabledAction();
   }
 
   /** when used as a boolean set to true, show a default recommended icon for certain
@@ -192,7 +192,7 @@ export class CalciteInput {
 
   componentDidLoad(): void {
     this.slottedActionEl = this.el.querySelector("[slot=input-action]");
-    if (this.disabled) this.setDisabledAction();
+    this.setDisabledAction();
   }
 
   get isTextarea(): boolean {
@@ -439,7 +439,9 @@ export class CalciteInput {
   };
 
   private inputFocusHandler = (e) => {
-    if (e.target !== this.slottedActionEl) this.setFocus();
+    if (e.target !== this.slottedActionEl) {
+      this.setFocus();
+    }
     this.calciteInputFocus.emit({
       element: this.childEl,
       value: this.value
@@ -447,7 +449,14 @@ export class CalciteInput {
   };
 
   private setDisabledAction(): void {
-    if (this.slottedActionEl) (this.slottedActionEl as HTMLElement).setAttribute("disabled", "");
+    if (!this.slottedActionEl) {
+      return;
+    }
+    const slottedActionEl = this.slottedActionEl as HTMLElement;
+
+    this.disabled
+      ? slottedActionEl.setAttribute("disabled", "")
+      : slottedActionEl.removeAttribute("disabled");
   }
 
   private clearInputValue = () => {
@@ -466,12 +475,14 @@ export class CalciteInput {
 
       switch (e.target.dataset.adjustment) {
         case "up":
-          if ((!inputMax && inputMax !== 0) || inputVal < inputMax)
+          if ((!inputMax && inputMax !== 0) || inputVal < inputMax) {
             this.childEl.value = (inputVal += inputStep).toString();
+          }
           break;
         case "down":
-          if ((!inputMin && inputMin !== 0) || inputVal > inputMin)
+          if ((!inputMin && inputMin !== 0) || inputVal > inputMin) {
             this.childEl.value = (inputVal -= inputStep).toString();
+          }
           break;
       }
 

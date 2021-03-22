@@ -204,12 +204,17 @@ export class CalciteAccordionItem {
   private determineActiveItem(): void {
     switch (this.selectionMode) {
       case "multi":
-        if (this.el === this.requestedAccordionItem) this.active = !this.active;
+        if (this.el === this.requestedAccordionItem) {
+          this.active = !this.active;
+        }
         break;
 
       case "single":
-        if (this.el === this.requestedAccordionItem) this.active = !this.active;
-        else this.active = false;
+        if (this.el === this.requestedAccordionItem) {
+          this.active = !this.active;
+        } else {
+          this.active = false;
+        }
         break;
 
       case "single-persist":
