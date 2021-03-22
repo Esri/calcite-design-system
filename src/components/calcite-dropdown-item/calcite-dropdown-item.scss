@@ -53,8 +53,7 @@
 }
 
 :host([dir="rtl"]) .dropdown-item-content {
-  margin-right: unset;
-  @apply ml-auto;
+  @apply ml-auto mr-0;
 }
 
 //focus
@@ -114,10 +113,9 @@
 }
 
 :host([active]:not([selection-mode="none"])) {
-  @apply text-color1 font-normal;
+  @apply text-color-1 font-normal;
   &:before {
     @apply opacity-100;
-    opacity: 1;
     color: theme("backgroundColor.brand");
   }
   & calcite-icon {
