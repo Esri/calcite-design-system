@@ -4,7 +4,7 @@
     inline-flex
     flex-col
     overflow-y-auto
-    pointer-events-auto;
+    pointer-events-none;
   max-width: 15vw;
 }
 
@@ -13,7 +13,10 @@
 }
 
 ::slotted(calcite-action-group) {
-  @apply border-b border-solid border-color-2;
+  @apply border-0
+    border-b
+    border-solid
+    border-color-2;
 }
 
 ::slotted(calcite-action-group:last-child) {
