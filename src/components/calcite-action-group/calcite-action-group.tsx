@@ -28,12 +28,12 @@ export class CalciteActionGroup {
   /**
    * Indicates the horizontal, vertical, or grid layout of the component.
    */
-  @Prop({ reflect: true}) layout?: Layout = "vertical";
+  @Prop({ reflect: true}) layout: Layout = "vertical";
 
   /**
    * Indicates number of columns.
    */
-  @Prop({ reflect: true}) columnCount?: ColumnCount;
+  @Prop({ reflect: true}) columns?: ColumnCount;
 
   /**
    * Text string for the actions menu.
