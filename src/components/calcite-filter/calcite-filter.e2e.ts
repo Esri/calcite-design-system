@@ -38,13 +38,10 @@ describe("calcite-filter", () => {
 
       expect(button).toBeNull();
 
-      await page.evaluate(() => {
-        const filter = document.querySelector("calcite-filter");
-        const filterInput = filter.shadowRoot.querySelector("input");
-        filterInput.value = "developer";
-        filterInput.dispatchEvent(new Event("input"));
-      });
+      const filter = await page.find("calcite-filter");
+      await filter.callMethod("setFocus");
 
+      await page.keyboard.type("developer");
       await page.waitForChanges();
 
       button = await page.find(`calcite-filter >>> button`);
@@ -52,27 +49,45 @@ describe("calcite-filter", () => {
       expect(button).not.toBeNull();
     });
 
-    it("should clear the value in the input when pressed", async () => {
-      await page.evaluate(() => {
-        const filter = document.querySelector("calcite-filter");
-        const filterInput = filter.shadowRoot.querySelector("input");
-        filterInput.value = "developer";
-        filterInput.dispatchEvent(new Event("input"));
+    describe("clearing value", () => {
+      it("should clear the value in the input when pressed", async () => {
+        const filter = await page.find("calcite-filter");
+        await filter.callMethod("setFocus");
+
+        await page.keyboard.type("developer");
+        await page.waitForChanges();
+
+        const button = await page.find(`calcite-filter >>> button`);
+
+        await button.click();
+
+        const value = await page.evaluate(() => {
+          const filter = document.querySelector("calcite-filter");
+          const filterInput = filter.shadowRoot.querySelector("input");
+          return filterInput.value;
+        });
+
+        expect(value).toBe("");
       });
 
-      await page.waitForChanges();
+      it("should clear the value in the input when the Escape key is pressed", async () => {
+        const filter = await page.find("calcite-filter");
+        await filter.callMethod("setFocus");
 
-      const button = await page.find(`calcite-filter >>> button`);
+        await page.keyboard.type("developer");
+        await page.waitForChanges();
 
-      await button.click();
+        await page.keyboard.press("Escape");
+        await page.waitForChanges();
 
-      const value = await page.evaluate(() => {
-        const filter = document.querySelector("calcite-filter");
-        const filterInput = filter.shadowRoot.querySelector("input");
-        return filterInput.value;
+        const value = await page.evaluate(() => {
+          const filter = document.querySelector("calcite-filter");
+          const filterInput = filter.shadowRoot.querySelector("input");
+          return filterInput.value;
+        });
+
+        expect(value).toBe("");
       });
-
-      expect(value).toBe("");
     });
   });
 

@@ -439,7 +439,9 @@ export class CalciteInput {
   };
 
   private inputFocusHandler = (e) => {
-    if (e.target !== this.slottedActionEl) this.setFocus();
+    if (e.target !== this.slottedActionEl) {
+      this.setFocus();
+    }
     this.calciteInputFocus.emit({
       element: this.childEl,
       value: this.value
@@ -473,12 +475,14 @@ export class CalciteInput {
 
       switch (e.target.dataset.adjustment) {
         case "up":
-          if ((!inputMax && inputMax !== 0) || inputVal < inputMax)
+          if ((!inputMax && inputMax !== 0) || inputVal < inputMax) {
             this.childEl.value = (inputVal += inputStep).toString();
+          }
           break;
         case "down":
-          if ((!inputMin && inputMin !== 0) || inputVal > inputMin)
+          if ((!inputMin && inputMin !== 0) || inputVal > inputMin) {
             this.childEl.value = (inputVal -= inputStep).toString();
+          }
           break;
       }
 

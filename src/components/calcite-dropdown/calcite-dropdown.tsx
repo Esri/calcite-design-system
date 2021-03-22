@@ -11,12 +11,13 @@ import {
   Watch,
   Method
 } from "@stencil/core";
-import { GroupRegistration, ItemKeyboardEvent } from "./interfaces";
+import { DropdownPlacement, GroupRegistration, ItemKeyboardEvent } from "./interfaces";
 import { getKey } from "../../utils/key";
 import { focusElement, getElementDir } from "../../utils/dom";
-import { createPopper, PopperPlacement, updatePopper, CSS as PopperCSS } from "../../utils/popper";
+import { createPopper, updatePopper, CSS as PopperCSS } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
-import { Alignment, Scale, Theme } from "../interfaces";
+import { Scale, Theme } from "../interfaces";
+import { DefaultDropdownPlacement } from "./resources";
 
 @Component({
   tag: "calcite-dropdown",
@@ -45,9 +46,6 @@ export class CalciteDropdown {
     this.reposition();
   }
 
-  /** specify the alignment of dropdown, defaults to start */
-  @Prop({ reflect: true }) alignment: Alignment = "start";
-
   /**
    allow the dropdown to remain open after a selection is made
    if the selection-mode of the selected item's containing group is "none", the dropdown will always close
@@ -57,16 +55,21 @@ export class CalciteDropdown {
   /** is the dropdown disabled  */
   @Prop({ reflect: true }) disabled?: boolean;
 
-  @Watch("alignment")
-  alignmentHandler(): void {
-    this.reposition();
-  }
-
   /**
    specify the maximum number of calcite-dropdown-items to display before showing the scroller, must be greater than 0 -
    this value does not include groupTitles passed to calcite-dropdown-group
   */
   @Prop() maxItems = 0;
+
+  /**
+   * Determines where the dropdown will be positioned relative to the button.
+   */
+  @Prop({ reflect: true }) placement: DropdownPlacement = DefaultDropdownPlacement;
+
+  @Watch("placement")
+  placementHandler(): void {
+    this.reposition();
+  }
 
   /** specify the scale of dropdown, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -165,9 +168,8 @@ export class CalciteDropdown {
 
   @Method()
   async reposition(): Promise<void> {
-    const { popper, menuEl } = this;
+    const { popper, menuEl, placement } = this;
     const modifiers = this.getModifiers();
-    const placement = this.getPlacement();
 
     popper
       ? updatePopper({
@@ -213,7 +215,9 @@ export class CalciteDropdown {
 
   @Listen("calciteDropdownOpen", { target: "window" })
   closeCalciteDropdownOnOpenEvent(e: Event): void {
-    if (e.target !== this.el) this.active = false;
+    if (e.target !== this.el) {
+      this.active = false;
+    }
   }
 
   @Listen("mouseenter")
@@ -240,10 +244,15 @@ export class CalciteDropdown {
     const isLastItem = this.itemIndex(itemToFocus) === this.items.length - 1;
     switch (getKey(keyboardEvent.key)) {
       case "Tab":
-        if (isLastItem && !keyboardEvent.shiftKey) this.closeCalciteDropdown();
-        else if (isFirstItem && keyboardEvent.shiftKey) this.closeCalciteDropdown();
-        else if (keyboardEvent.shiftKey) this.focusPrevItem(itemToFocus);
-        else this.focusNextItem(itemToFocus);
+        if (isLastItem && !keyboardEvent.shiftKey) {
+          this.closeCalciteDropdown();
+        } else if (isFirstItem && keyboardEvent.shiftKey) {
+          this.closeCalciteDropdown();
+        } else if (keyboardEvent.shiftKey) {
+          this.focusPrevItem(itemToFocus);
+        } else {
+          this.focusNextItem(itemToFocus);
+        }
         break;
       case "ArrowDown":
         this.focusNextItem(itemToFocus);
@@ -267,8 +276,12 @@ export class CalciteDropdown {
     this.updateSelectedItems();
     event.stopPropagation();
     this.calciteDropdownSelect.emit();
-    if (!this.disableCloseOnSelect || event.detail.requestedDropdownGroup.selectionMode === "none")
+    if (
+      !this.disableCloseOnSelect ||
+      event.detail.requestedDropdownGroup.selectionMode === "none"
+    ) {
       this.closeCalciteDropdown();
+    }
   }
 
   @Listen("calciteDropdownGroupRegister")
@@ -341,25 +354,10 @@ export class CalciteDropdown {
     return [flipModifier];
   }
 
-  getPlacement(): PopperPlacement {
-    const { alignment } = this;
-
-    if (alignment === "center") {
-      return "bottom";
-    }
-
-    if (alignment === "end") {
-      return "bottom-end";
-    }
-
-    return "bottom-start";
-  }
-
   createPopper(): void {
     this.destroyPopper();
-    const { menuEl, referenceEl } = this;
+    const { menuEl, referenceEl, placement } = this;
     const modifiers = this.getModifiers();
-    const placement = this.getPlacement();
 
     this.popper = createPopper({
       el: menuEl,

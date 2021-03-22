@@ -6,7 +6,7 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { placeholderImage } from "../../tests/utils";
 
 export default {
-  title: "Components/App/Tip",
+  title: "Components/Tips/Tip",
   parameters: {
     backgrounds: darkBackground,
     notes: readme

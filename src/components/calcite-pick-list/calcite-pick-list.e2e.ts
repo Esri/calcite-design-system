@@ -6,7 +6,8 @@ import {
   filterBehavior,
   disabledStates,
   keyboardNavigation,
-  itemRemoval
+  itemRemoval,
+  focusing
 } from "./shared-list-tests";
 import { html } from "../../tests/utils";
 
@@ -168,4 +169,6 @@ describe("calcite-pick-list", () => {
   describe("item removal", () => itemRemoval("pick"));
 
   describe("disabled states", () => disabledStates("pick"));
+
+  describe("setFocus", () => focusing("pick"));
 });

@@ -83,9 +83,9 @@ export class CalciteSplitButton {
             <div class="split-button__divider" />
           </div>
           <calcite-dropdown
-            alignment="end"
             dir={dir}
             onClick={this.calciteSplitButtonSecondaryClickHandler}
+            placement="bottom-trailing"
             scale={this.scale}
             theme={this.theme}
             width={this.scale}

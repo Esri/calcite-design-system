@@ -15,6 +15,7 @@ interface ListProps extends DOMAttributes {
   filterPlaceholder: string;
   theme: Theme;
   el: HTMLCalcitePickListElement | HTMLCalciteValueListElement;
+  setFilterEl: (el: HTMLCalciteFilterElement) => void;
 }
 
 export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes> = ({
@@ -26,6 +27,7 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes> = (
     handleFilter,
     filterPlaceholder,
     el,
+    setFilterEl,
     theme
   },
   ...rest
@@ -40,19 +42,16 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes> = (
               aria-label={filterPlaceholder}
               data={dataForFilter}
               dir={getElementDir(el)}
+              disabled={loading || disabled}
               onCalciteFilterChange={handleFilter}
               placeholder={filterPlaceholder}
+              ref={setFilterEl}
             />
           ) : null}
           <slot name="menu-actions" />
         </header>
-        {loading || disabled ? (
-          <calcite-scrim loading={loading} theme={theme}>
-            {defaultSlot}
-          </calcite-scrim>
-        ) : (
-          defaultSlot
-        )}
+        {loading || disabled ? <calcite-scrim loading={loading} theme={theme} /> : null}
+        {defaultSlot}
       </section>
     </Host>
   );
