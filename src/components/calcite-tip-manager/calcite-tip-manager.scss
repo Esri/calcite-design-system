@@ -1,51 +1,51 @@
 :host {
   @extend %component-host;
-  @extend %component-spacing;
-  display: block;
+  @apply block;
   --calcite-tip-manager-height: 18vh;
   --calcite-tip-max-width: 540px;
 }
 
 :host([closed]) {
-  display: none;
+  @apply hidden;
 }
 
 @import "../../assets/styles/header";
 
 .header .heading {
-  padding-left: var(--calcite-spacing-half);
-  padding-right: var(--calcite-spacing-half);
+  @apply px-2;
 }
 
 .container {
-  overflow: hidden;
-  position: relative;
-  padding: var(--calcite-spacing-half) var(--calcite-spacing-half) 0;
+  @apply overflow-hidden
+    relative
+    pt-2
+    px-2
+    pb-0
+    focus-base;
   min-height: 150px;
-  @include focus-style-base();
   &:focus {
-    @include focus-style-outset();
+    @apply focus-outset;
   }
 }
 
 .tip-container {
+  @apply mt-1
+    overflow-auto
+    flex
+    justify-center
+    items-start
+    focus-base;
   animation-name: none;
   animation-duration: 150ms;
   animation-timing-function: $easing-function;
   height: var(--calcite-tip-manager-height);
-  margin-top: var(--calcite-spacing-quarter);
-  overflow: auto;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  @include focus-style-base();
   &:focus {
-    @include focus-style-outset();
+    @apply focus-outset;
   }
 }
 
 ::slotted(calcite-tip) {
-  border: none;
+  @apply border-none;
   max-width: var(--calcite-tip-max-width);
 }
 
@@ -59,35 +59,31 @@
 
 /* Pagination Styles*/
 .pagination {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--calcite-spacing-quarter) 0;
+  @apply flex items-center justify-center py-1 px-0;
 }
 
 .page-position {
-  @include font-size(-4);
-  margin: 0 var(--calcite-spacing-half);
+  @apply text--2h my-0 mx-2;
 }
 
 /* @keyframes*/
 @keyframes tip-advance {
   0% {
-    opacity: 0;
+    @apply opacity-0;
     transform: translate3d(50px, 0, 0) scale(0.99);
   }
   100% {
-    opacity: 1;
+    @apply opacity-100;
     transform: translate3d(0, 0, 0) scale(1);
   }
 }
 @keyframes tip-retreat {
   0% {
-    opacity: 0;
+    @apply opacity-0;
     transform: translate3d(-50px, 0, 0) scale(0.99);
   }
   100% {
-    opacity: 1;
+    @apply opacity-100;
     transform: translate3d(0, 0, 0) scale(1);
   }
 }
