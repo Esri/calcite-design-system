@@ -41,11 +41,6 @@ describe("calcite-popover", () => {
       `<calcite-popover label="test" open close-button reference-element="ref"></calcite-popover><div id="ref">😄</div>`
     ));
 
-  it("is accessible with image", async () =>
-    accessible(
-      `<calcite-popover label="test" placement="auto" reference-element="ref" open><img alt="" slot="image" src="http://placekitten.com/200/300" /></calcite-popover><div id="ref">referenceElement</div>`
-    ));
-
   it("honors hidden attribute", async () => hidden("calcite-popover"));
 
   it("has property defaults", async () =>
@@ -174,18 +169,6 @@ describe("calcite-popover", () => {
     closeButton = await page.find(`calcite-popover >>> .${CSS.closeButton}`);
 
     expect(await closeButton.isVisible()).toBe(true);
-  });
-
-  it("should have image container", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
-      `<calcite-popover placement="auto" reference-element="ref" open><img slot="image" src="http://placekitten.com/200/300" /></calcite-popover><div id="ref">referenceElement</div>`
-    );
-
-    const imageContainer = await page.find(`calcite-popover >>> .${CSS.imageContainer}`);
-
-    expect(await imageContainer.isVisible()).toBe(true);
   });
 
   it("should honor click interaction", async () => {

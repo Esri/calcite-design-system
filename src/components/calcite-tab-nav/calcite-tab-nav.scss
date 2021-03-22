@@ -1,50 +1,47 @@
 :host {
-  z-index: 2;
-  position: relative;
-  display: flex;
+  @apply z-20 relative flex;
 }
 
 .tab-nav {
-  display: flex;
-  width: 100%;
-  overflow: auto;
-  justify-content: flex-start;
-  -webkit-overflow-scrolling: touch;
-  // workaround for outset focus within a scrolling container
-  padding: 4px;
-  margin: -4px;
+  @apply flex
+    w-full
+    overflow-auto
+    justify-start
+    scrolling-touch
+    p-1
+    -m-1;
 }
 
 :host([layout="center"]) .tab-nav {
-  justify-content: center;
+  @apply justify-center;
 }
 
 // prevent indicator overflow in horizontal scrolling situations
 .tab-nav-active-indicator-container {
-  width: 100%;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 3px;
-  position: absolute;
-  overflow: hidden;
+  @apply w-full
+    inset-x-0
+    bottom-0
+    absolute
+    overflow-hidden
+    h-0.5;
 }
 
 .tab-nav-active-indicator {
-  position: absolute;
-  bottom: 0;
-  background: var(--calcite-ui-brand);
-  display: block;
-  height: 3px;
-  transition: all ease-out;
+  @apply absolute
+    bottom-0
+    block
+    transition-all
+    ease-out
+    bg-brand
+    h-0.5;
 }
 
 :host([position="below"]) .tab-nav-active-indicator {
   bottom: unset;
-  top: 0;
+  @apply top-0;
 }
 
 :host([position="below"]) .tab-nav-active-indicator-container {
   bottom: unset;
-  top: 0;
+  @apply top-0;
 }

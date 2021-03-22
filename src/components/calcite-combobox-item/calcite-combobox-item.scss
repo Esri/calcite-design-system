@@ -46,11 +46,19 @@ ul {
 }
 
 .label {
-  @include focus-style-base();
-  @apply flex box-border w-full min-w-full items-center text-color-3 cursor-pointer relative;
-  transition: $transition;
+  @apply flex 
+    box-border 
+    w-full 
+    min-w-full 
+    items-center 
+    text-color-3 
+    cursor-pointer 
+    relative
+    duration-150
+    ease-in-out
+    focus-base
+    no-underline;
   padding: var(--calcite-combobox-item-spacing-unit-s);
-  text-decoration: none;
 }
 
 :host([disabled]) .label {
@@ -63,13 +71,15 @@ ul {
 }
 
 .label--active {
-  @include focus-style-inset();
+  @apply focus-inset;
 }
 
 .label:hover,
 .label:active {
-  @apply text-color-1 bg-foreground-2 shadow-none;
-  text-decoration: none;
+  @apply text-color-1
+    bg-foreground-2
+    shadow-none
+    no-underline;
 }
 
 .title {
@@ -77,8 +87,10 @@ ul {
 }
 
 .icon {
-  @apply inline-flex opacity-0;
-  transition: $transition;
+  @apply inline-flex
+    opacity-0
+    duration-150
+    ease-in-out;
   color: theme("colors.border.1");
 }
 
@@ -120,7 +132,7 @@ ul {
 
 .label--selected .icon {
   @apply opacity-100;
-  color: var(--calcite-ui-brand);
+  color: theme("backgroundColor.brand");
 }
 
 :host(:hover[disabled]) .icon {
