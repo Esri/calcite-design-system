@@ -1,9 +1,3 @@
-$section-padding: 12px;
-$section-padding--large: 16px;
-$gap: 8px;
-$gap--small: 4px;
-$gap--large: 12px;
-
 :host([scale="s"]) {
   .container {
     width: 156px;
@@ -19,6 +13,21 @@ $gap--large: 12px;
 
   .channel {
     @apply w-full mb-1;
+    width: 100%;
+    width: 100%;
+    width: 100%;
+    width: 100%;
+    width: 100%;
+    width: 100%;
+    width: 100%;
+    width: 100%;
+    width: 100%;
+    width: 100%;
+    width: 100%;
+    width: 100%;
+    width: 100%;
+    width: 100%;
+    width: 100%;
     width: 100%;
 
     &:last-child {
@@ -95,7 +104,7 @@ $gap--large: 12px;
 }
 
 .color-field-and-slider {
-  margin-bottom: -16px;
+  @apply -mb-4;
 
   &--interactive {
     @apply cursor-pointer;
@@ -103,7 +112,7 @@ $gap--large: 12px;
 }
 
 .control-section {
-  @apply flex flex-row flex-wrap;
+  @apply flex flex-wrap;
 }
 
 .section {
@@ -128,7 +137,8 @@ $gap--large: 12px;
     text--2-wrap;
 
   &.header--underlined {
-    @apply border-b
+    @apply border-0
+      border-b
       border-solid
       border-color-1;
   }
@@ -137,7 +147,7 @@ $gap--large: 12px;
 .header--hex {
   @apply leading-normal
     text--2h
-    pt-3 px-0 pb-4;
+    pt-3 px-0 pb-1;
 }
 
 .control {
@@ -149,7 +159,6 @@ $gap--large: 12px;
 }
 
 .channel {
-  //FIXME: Maybe this can be 1/3?
   width: 31%;
 }
 
