@@ -49,7 +49,6 @@
 }
 
 :host {
-  //FIXME: Unsure about the border color
   @apply inline-flex
     items-center
     bg-foreground-2
@@ -58,9 +57,9 @@
     border-color-1
     text-color-1
     font-medium
-    cursor-default;
+    cursor-default
+    rounded-full;
   --calcite-chip-button-border-radius: 0 50px 50px 0;
-  border-radius: 50px;
 }
 
 //focus
@@ -117,7 +116,6 @@
   padding: var(--calcite-chip-spacing-unit-s);
   &:hover,
   &:focus {
-    //FIXME: Unsure about this border color
     @apply bg-foreground-2 border-color-2;
   }
   &:active {
