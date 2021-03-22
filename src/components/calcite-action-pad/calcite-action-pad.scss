@@ -1,6 +1,5 @@
 :host {
   @extend %component-host;
-  @extend %component-spacing;
   @apply animate-in rounded-sm;
 }
 
