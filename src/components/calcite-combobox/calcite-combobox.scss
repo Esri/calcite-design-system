@@ -72,7 +72,7 @@
 }
 
 .input--transparent {
-  @apply bg-opacity-0;
+  @apply opacity-0;
 }
 
 .input--single {
@@ -85,9 +85,9 @@
 
 .input--hidden {
   @apply w-0
-    min-w-0
-    bg-opacity-0
-    pointer-events-none;
+  min-w-0
+  opacity-0
+  pointer-events-none;
 }
 
 .input--icon {
@@ -112,7 +112,9 @@
 }
 
 .label--spaced {
-  padding: 0 var(--calcite-combobox-item-spacing-unit-m);
+  @apply py-0;
+  padding-left: var(--calcite-combobox-item-spacing-unit-m);
+  padding-right: var(--calcite-combobox-item-spacing-unit-m);
 }
 
 .icon-end,
