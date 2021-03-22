@@ -1,26 +1,15 @@
-// theme variables
-// light theme
-:host {
-  --calcite-switch-hover-handle-border: theme("backgroundColor.brand");
-  --calcite-switch-switched-track-background: theme("backgroundColor.brand");
-  --calcite-switch-switched-track-border: theme("backgroundColor.brand");
-  --calcite-switch-switched-handle-border: theme("backgroundColor.brand");
-  --calcite-switch-switched-hover-track-background: theme("backgroundColor.brand");
-  --calcite-switch-switched-hover-track-border: theme("backgroundColor.brand");
-  --calcite-switch-switched-hover-handle-border: theme("backgroundColor.brand-hover");
-}
-
 // sizes
 :host([scale="s"]) {
   --calcite-switch-track-width: theme("spacing.6");
-  --calcite-switch-track-height: theme("spacing.4");
-  --calcite-switch-handle-size: theme("spacing.3");
+  --calcite-switch-track-height: theme("spacing.3");
+  --calcite-switch-handle-size: theme("spacing.2");
 }
 
 :host([scale="m"]) {
-  --calcite-switch-track-width: 36px;
-  --calcite-switch-track-height: theme("spacing.5");
-  --calcite-switch-handle-size: 18px;
+  --calcite-switch-track-width: theme("spacing.8");
+  --calcite-switch-track-height: theme("spacing.4");
+  --calcite-switch-handle-size: theme("spacing.3");
+  box-sizing: content-box;
 }
 
 :host([scale="l"]) {
@@ -63,11 +52,14 @@
     border 
     border-solid 
     border-color-2 
+    box-border
     pointer-events-auto
-    transition-default;
+    transition-all
+    duration-150
+    ease-in-out
+    rounded-full;
   width: var(--calcite-switch-track-width);
   height: var(--calcite-switch-track-height);
-  border-radius: 30px;
 }
 
 .handle {
@@ -78,43 +70,45 @@
     border-2 
     border-solid 
     border-color-input
-    transition-default;
+    transition-all
+    duration-150
+    ease-in-out
+    rounded-full;
   width: var(--calcite-switch-handle-size);
   height: var(--calcite-switch-handle-size);
   top: -1px;
   left: -1px;
-  border-radius: 30px;
 }
 
 :host(:hover),
 :host(:focus) {
   .handle {
-    border-color: var(--calcite-switch-hover-handle-border);
-    box-shadow: inset 0 0 0 1px var(--calcite-switch-hover-handle-border);
+    border-color: theme("backgroundColor.brand");
+    box-shadow: inset 0 0 0 1px theme("backgroundColor.brand");
     @apply right-auto;
   }
 }
 
 :host([switched]) {
   .track {
-    background-color: var(--calcite-switch-switched-track-background);
-    border-color: var(--calcite-switch-switched-track-border);
+    background-color: theme("backgroundColor.brand");
+    border-color: theme("borderColor.color-brand");
   }
   .handle {
     @apply left-auto;
     right: -1px;
-    border-color: var(--calcite-switch-switched-handle-border);
+    border-color: theme("borderColor.color-brand");
   }
 }
 
 :host([switched]:hover) {
   .track {
-    background-color: var(--calcite-switch-switched-hover-track-background);
-    border-color: var(--calcite-switch-switched-hover-track-border);
+    background-color: theme("backgroundColor.brand");
+    border-color: theme("backgroundColor.brand");
   }
   .handle {
-    border-color: var(--calcite-switch-switched-hover-handle-border);
-    box-shadow: inset 0 0 0 1px var(--calcite-switch-switched-hover-handle-border);
+    border-color: theme("borderColor.color-brand-hover");
+    box-shadow: inset 0 0 0 1px theme("borderColor.color-brand-hover");
   }
 }
 
