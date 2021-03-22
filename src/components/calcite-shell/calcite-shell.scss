@@ -31,7 +31,8 @@
 }
 
 .content {
-  @apply h-full 
+  @apply flex
+    h-full 
     overflow-auto 
     w-full 
     border-0
