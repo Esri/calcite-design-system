@@ -6,7 +6,7 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { html, placeholderImage } from "../../tests/utils";
 
 export default {
-  title: "Components/App/Block",
+  title: "Components/Block",
   parameters: {
     backgrounds: darkBackground,
     notes: {
