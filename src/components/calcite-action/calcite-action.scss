@@ -76,6 +76,18 @@
   @apply p-5 text--1h;
 }
 
+:host([alignment="center"]) .button {
+  @apply justify-center w-full;
+}
+
+:host([alignment="end"]) .button {
+  @apply justify-end;
+}
+
+:host([alignment="end"]) .button .text-container--visible {
+  @apply flex-initial;
+}
+
 // Compact
 :host([scale="s"][compact]) .button,
 :host([scale="m"][compact]) .button,
