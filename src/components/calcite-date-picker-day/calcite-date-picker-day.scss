@@ -99,7 +99,9 @@
 }
 
 :host([selected]) .day {
-  @apply font-medium bg-brand text-color-inverse;
+  @apply font-medium;
+  background-color: var(--calcite-ui-brand) !important;
+  color: var(--calcite-ui-foreground-1) !important;
   z-index: 1;
 }
 
