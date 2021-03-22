@@ -21,6 +21,7 @@
 
 :host {
   @apply flex 
+    flex-grow
     flex-col
     text-color-3
     no-underline
@@ -29,10 +30,10 @@
     border-0
     border-t-2
     border-solid
-    border-t-color-2
-    cursor-pointer;
-
-  transition: $transition;
+    border-color-2
+    cursor-pointer
+    duration-150
+    ease-in-out;
   margin-right: var(--calcite-stepper-item-spacing-unit-l);
 }
 
@@ -52,7 +53,6 @@
 // .stepper-item-header / content
 :host .stepper-item-header {
   @apply flex items-start cursor-pointer;
-  flex-direction: var(--calcite-stepper-item-flex-direction);
 }
 
 :host .stepper-item-content,
@@ -248,9 +248,9 @@
   padding-right: var(--calcite-stepper-item-spacing-unit-l);
   & .stepper-item-icon {
     @apply mr-auto 
-    mb-0 
-    mr-0
-    pl-0;
+      mb-0
+      mr-0
+      pl-0;
     margin-top: var(--calcite-stepper-item-spacing-unit-m);
     padding-right: var(--calcite-stepper-item-spacing-unit-l);
   }
