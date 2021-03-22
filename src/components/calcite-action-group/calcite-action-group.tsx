@@ -2,7 +2,7 @@ import { Component, Host, h, Prop, Watch, Element } from "@stencil/core";
 import { SLOTS } from "./resources";
 import { VNode } from "@stencil/core/internal";
 import { getSlotted } from "../../utils/dom";
-import { ColumnCount, Layout } from "../interfaces";
+import { Columns, Layout } from "../interfaces";
 
 /**
  * @slot - A slot for adding a group of `calcite-action`s.
@@ -33,7 +33,7 @@ export class CalciteActionGroup {
   /**
    * Indicates number of columns.
    */
-  @Prop({ reflect: true}) columns?: ColumnCount;
+  @Prop({ reflect: true}) columns?: Columns;
 
   /**
    * Text string for the actions menu.
