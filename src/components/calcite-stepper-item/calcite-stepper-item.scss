@@ -207,7 +207,7 @@
 :host([layout="vertical"]) {
   @apply flex-auto
     border-t-0
-    border-l-3
+    border-l-2
     border-solid
     border-color-3
     py-0
@@ -241,7 +241,7 @@
 }
 :host([layout="vertical"][dir="rtl"]) {
   @apply border-l-0
-    border-r-3
+    border-r-2
     border-color-3
     py-0
     pl-0;
