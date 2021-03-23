@@ -51,22 +51,28 @@ cp -r node_modules/@esri/calcite-components/dist/calcite/assets/* ./public/asset
 Because React uses a synthetic event system, the custom events emitted from calcite components won't work with JSX in React. For example, say you want to update some value when the `calcite-slider` component changes. When using the standard web components, you need to save a ref to the element, and add a listener:
 
 ```jsx
-const slider = useRef(null);
+const sliderEl = useRef(null);
+const [sliderValue, setSliderValue] = useState(50);
 
-useEffect(() => {
-  slider.current.addEventListener("calciteSliderUpdate", (e) => {
-    console.log(e);
-    // do something with e.detail
-  });
-}, []);
+function onUpdate(event) {
+  setSliderValue(event.target.value);
+}
 
-<calcite-slider ref={slider}></calcite-slider>;
+// need to access the dom node to set custom event listeners or props that aren't strings / numbers
+// https://stenciljs.com/docs/react#properties-and-events
+useEffect(
+  (_) => {
+    sliderEl.current.addEventListener("calciteSliderUpdate", onUpdate);
+  },
+  [sliderEl]
+);
 ```
 
 Using calcite-components-react, these events are connected for you:
 
 ```jsx
-<CalciteSlider onCalciteSliderUpdate={(e) => console.log(e)} />
+const [sliderValue, setSliderValue] = useState(50);
+<CalciteSlider onCalciteSliderUpdate={(e) => setSliderValue(e.target.value)} />;
 ```
 
 If you're using TypeScript, you'll also get increased type safety for your event listeners, props, etc.
