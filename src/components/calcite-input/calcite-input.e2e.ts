@@ -616,4 +616,33 @@ describe("calcite-input", () => {
     await page.waitForChanges();
     expect(calciteInputInput).toHaveReceivedEventTimes(3);
   });
+
+  it("allows restricting input length", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-input minLength="2" maxLength="3"></calcite-input>`
+    });
+
+    const getInputValidity = async () =>
+      page.$eval("calcite-input input", (input: HTMLInputElement) => input.validity.valid);
+
+    const input = await page.find("calcite-input");
+    await input.callMethod("setFocus");
+
+    await page.keyboard.type("1");
+
+    expect(await getInputValidity()).toBe(false);
+
+    await page.keyboard.type("2");
+
+    expect(await getInputValidity()).toBe(true);
+
+    await page.keyboard.type("3");
+
+    expect(await getInputValidity()).toBe(true);
+
+    await page.keyboard.type("4");
+
+    expect(await getInputValidity()).toBe(true);
+    expect(await input.getProperty("value")).toBe("123");
+  });
 });
