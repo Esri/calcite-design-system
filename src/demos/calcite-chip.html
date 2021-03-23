@@ -21,32 +21,35 @@
 
 <body>
   <script>
-    const one = document.querySelector("#one");
-    one.addEventListener("calciteChipDismiss", () => {
-      console.log('dismissed chip');
-    });
+    setTimeout(() => {
+      document.querySelectorAll("calcite-chip[dismissible]").forEach(chip => {
+        chip.addEventListener("calciteChipDismiss", () => {
+          console.log('dismissed chip');
+        })
+      })
+    }, 300)
   </script>
   <calcite-button href="/">Home</calcite-button>
   <h1>Calcite Chip</h1>
   <h2>Basic</h2>
-  <calcite-chip value="calcite chip" id="one" dismissible>Apple</calcite-chip>
+  <calcite-chip value="calcite chip" dismissible>Apple</calcite-chip>
   <h2>Slotted "chip-image"</h2>
-  <calcite-chip value="calcite chip" active>
+  <calcite-chip value="calcite chip">
     <img slot="chip-image" src="https://placekitten.com/50/50" />
     Siamese Cat
   </calcite-chip>
-  <calcite-chip value="calcite chip" active>
+  <calcite-chip value="calcite chip">
     <img slot="chip-image" src="https://placekitten.com/50/50" />
     Siamese Cat
   </calcite-chip>
   <h2>Slotted avatar</h2>
-  <calcite-chip value="calcite chip" active scale="s">
+  <calcite-chip value="calcite chip" scale="s">
     <calcite-avatar slot="chip-image" scale="s" user-id="52e44e112b1f429182515dba79b71eb8" username="au"></calcite-avatar>Another User
   </calcite-chip>
-  <calcite-chip value="calcite chip" active scale="m">
+  <calcite-chip value="calcite chip" scale="m">
     <calcite-avatar slot="chip-image" scale="m" user-id="9a7c50e6b3ce4b859f7b31e302437164" username="bv"></calcite-avatar>Ben Viceroy
   </calcite-chip>
-  <calcite-chip value="calcite chip" active scale="l">
+  <calcite-chip value="calcite chip" scale="l">
     <calcite-avatar slot="chip-image" scale="l" user-id="a81470986eaeee1833b74b7d8abcd5b2" username="cw"></calcite-avatar>Carol Whitten
   </calcite-chip>
   <h2>With icon attribute</h2>
@@ -168,29 +171,31 @@
     Blue
   </calcite-chip>
 
-  <h2>RTL</h2>
-  <calcite-chip value="calcite chip" dir="rtl">Apple</calcite-chip>
-  <calcite-chip value="calcite chip" dir="rtl">
-    <img slot="chip-image" src="https://placekitten.com/50/50" />
-    Siamese Cat
-  </calcite-chip>
-  <calcite-chip value="calcite chip" icon="camera-flash-on" dir="rtl">
-    Camera Flash On
-  </calcite-chip>
-  <calcite-chip value="calcite chip" dismissible icon="camera-flash-on" appearance="clear" color="blue" dir="rtl">
-    Blue
-  </calcite-chip>
+  <section dir="rtl">
+    <h2>RTL</h2>
+    <calcite-chip value="calcite chip">Apple</calcite-chip>
+    <calcite-chip value="calcite chip">
+      <img slot="chip-image" src="https://placekitten.com/50/50" />
+      Siamese Cat
+    </calcite-chip>
+    <calcite-chip value="calcite chip" icon="camera-flash-on">
+      Camera Flash On
+    </calcite-chip>
+    <calcite-chip value="calcite chip" dismissible icon="camera-flash-on" appearance="clear" color="blue">
+      Blue
+    </calcite-chip>
+  </section>
   <br />
   <br />
   <div class="demo-background-dark" theme="dark">
     <h2>Basic</h2>
-    <calcite-chip value="calcite chip" theme="dark" id="one">Apple</calcite-chip>
+    <calcite-chip value="calcite chip" theme="dark" dismissible>Apple</calcite-chip>
     <h2>Slotted "chip-image"</h2>
-    <calcite-chip value="calcite chip" theme="dark" active>
+    <calcite-chip value="calcite chip" theme="dark">
       <img slot="chip-image" src="https://placekitten.com/50/50" />
       Siamese Cat
     </calcite-chip>
-    <calcite-chip value="calcite chip" theme="dark" active>
+    <calcite-chip value="calcite chip" theme="dark">
       <img slot="chip-image" src="https://placekitten.com/50/50" />
       Siamese Cat
     </calcite-chip>
@@ -311,36 +316,38 @@
       Blue
     </calcite-chip>
     <h2>Slotted avatar</h2>
-    <calcite-chip value="calcite chip" active scale="s">
+    <calcite-chip value="calcite chip" scale="s">
       <calcite-avatar slot="chip-image" scale="s" user-id="52e44e112b1f429182515dba79b71eb8" username="au"></calcite-avatar>Another User
     </calcite-chip>
-    <calcite-chip value="calcite chip" active scale="m">
+    <calcite-chip value="calcite chip" scale="m">
       <calcite-avatar slot="chip-image" scale="m" user-id="9a7c50e6b3ce4b859f7b31e302437164" username="bv"></calcite-avatar>Ben Viceroy
     </calcite-chip>
-    <calcite-chip value="calcite chip" active scale="l">
+    <calcite-chip value="calcite chip" scale="l">
       <calcite-avatar slot="chip-image" scale="l" user-id="a81470986eaeee1833b74b7d8abcd5b2" username="cw"></calcite-avatar>Carol Whitten
     </calcite-chip>
-    <h2>RTL</h2>
-    <calcite-chip value="calcite chip" theme="dark" dir="rtl">Apple</calcite-chip>
-    <calcite-chip value="calcite chip" theme="dark" dir="rtl">
-      <img slot="chip-image" src="https://placekitten.com/50/50" />
-      Siamese Cat
-    </calcite-chip>
-    <calcite-chip value="calcite chip" active scale="s" dir="rtl">
-      <calcite-avatar slot="chip-image" scale="s" user-id="52e44e112b1f429182515dba79b71eb8" username="au"></calcite-avatar>Another User
-    </calcite-chip>
-    <calcite-chip value="calcite chip" active scale="m" dir="rtl">
-      <calcite-avatar slot="chip-image" scale="m" user-id="9a7c50e6b3ce4b859f7b31e302437164" username="bv"></calcite-avatar>Ben Viceroy
-    </calcite-chip>
-    <calcite-chip value="calcite chip" active scale="l" dir="rtl">
-      <calcite-avatar slot="chip-image" scale="l" user-id="a81470986eaeee1833b74b7d8abcd5b2" username="cw"></calcite-avatar>Carol Whitten
-    </calcite-chip>
-    <calcite-chip value="calcite chip" theme="dark" icon="camera-flash-on" dir="rtl">
-      Camera Flash On
-    </calcite-chip>
-    <calcite-chip value="calcite chip" theme="dark" dismissible icon="camera-flash-on" appearance="clear" color="blue" dir="rtl">
-      Blue
-    </calcite-chip>
+    <section dir="rtl">
+      <h2>RTL</h2>
+      <calcite-chip value="calcite chip" theme="dark">Apple</calcite-chip>
+      <calcite-chip value="calcite chip" theme="dark">
+        <img slot="chip-image" src="https://placekitten.com/50/50" />
+        Siamese Cat
+      </calcite-chip>
+      <calcite-chip value="calcite chip" scale="s">
+        <calcite-avatar slot="chip-image" scale="s" user-id="52e44e112b1f429182515dba79b71eb8" username="au"></calcite-avatar>Another User
+      </calcite-chip>
+      <calcite-chip value="calcite chip" scale="m">
+        <calcite-avatar slot="chip-image" scale="m" user-id="9a7c50e6b3ce4b859f7b31e302437164" username="bv"></calcite-avatar>Ben Viceroy
+      </calcite-chip>
+      <calcite-chip value="calcite chip" scale="l">
+        <calcite-avatar slot="chip-image" scale="l" user-id="a81470986eaeee1833b74b7d8abcd5b2" username="cw"></calcite-avatar>Carol Whitten
+      </calcite-chip>
+      <calcite-chip value="calcite chip" theme="dark" icon="camera-flash-on">
+        Camera Flash On
+      </calcite-chip>
+      <calcite-chip value="calcite chip" theme="dark" dismissible icon="camera-flash-on" appearance="clear" color="blue">
+        Blue
+      </calcite-chip>
+    </section>
   </div>
 
 </body>

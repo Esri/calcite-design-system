@@ -40,11 +40,11 @@
   }
 }
 
-:host([dir="rtl"][scale="m"]) slot[name="chip-image"]::slotted(*) {
+:host([scale="m"] .calcite--rtl) slot[name="chip-image"]::slotted(*) {
   @apply pl-0 pr-1;
 }
 
-:host([dir="rtl"][scale="l"]) slot[name="chip-image"]::slotted(*) {
+:host([scale="l"] .calcite--rtl) slot[name="chip-image"]::slotted(*) {
   @apply pl-0 pr-1;
 }
 
@@ -70,7 +70,7 @@
   }
 }
 
-:host([dir="rtl"]) {
+:host(.calcite--rtl) {
   @apply text-right;
   --calcite-chip-button-border-radius: 50px 0 0 50px;
 }
@@ -84,7 +84,7 @@
     var(--calcite-chip-spacing-unit-l);
 }
 
-:host([dir="rtl"][dismissible]) span {
+:host([dismissible] .calcite--rtl) span {
   padding: var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-l) var(--calcite-chip-spacing-unit-s)
     var(--calcite-chip-spacing-unit-s);
 }
@@ -94,7 +94,7 @@
     var(--calcite-chip-spacing-unit-s);
 }
 
-:host([dir="rtl"][icon]:not([dismissible])) span {
+:host([icon]:not([dismissible]) .calcite--rtl) span {
   padding: var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-s)
     var(--calcite-chip-spacing-unit-l);
 }
@@ -140,7 +140,7 @@
   border-radius: var(--calcite-chip-button-border-radius);
 }
 
-:host([dir="rtl"]) .calcite-chip--icon {
+:host(.calcite--rtl) .calcite-chip--icon {
   @apply my-0 ml-0;
   margin-right: var(--calcite-chip-spacing-unit-l);
 }

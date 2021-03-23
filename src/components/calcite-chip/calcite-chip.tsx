@@ -11,6 +11,7 @@ import {
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 import { guid } from "../../utils/guid";
+import { CSS_UTILITY } from "../../utils/resources";
 import { CSS, TEXT } from "./resources";
 import { ChipColor } from "./interfaces";
 import { Appearance, Scale, Theme } from "../interfaces";
@@ -104,12 +105,12 @@ export class CalciteChip {
 
   render(): VNode {
     const dir = getElementDir(this.el);
+    const rtl = dir === "rtl";
     const iconScale = this.scale !== "l" ? "s" : "m";
 
     const iconEl = (
       <calcite-icon
-        class="calcite-chip--icon"
-        dir={dir}
+        class={`calcite-chip--icon ${rtl && CSS_UTILITY.rtl}`}
         flipRtl={this.iconFlipRtl}
         icon={this.icon}
         scale={iconScale}
@@ -129,7 +130,7 @@ export class CalciteChip {
     );
 
     return (
-      <Host dir={dir}>
+      <Host class={{ [CSS_UTILITY.rtl]: rtl }}>
         <slot name="chip-image" />
         {this.icon ? iconEl : null}
         <span id={this.guid}>
