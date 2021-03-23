@@ -1,45 +1,44 @@
 :host {
   @extend %component-spacing;
-  display: inline-block;
-  vertical-align: top;
-  width: 100%;
-  position: relative;
-  overflow: visible;
+  @apply inline-block
+    align-top
+    w-full
+    relative
+    overflow-visible
+    shadow-none;
   @include popperElemAnim(".menu-container");
-  @apply shadow-none;
 }
 
 .calendar-picker-wrapper {
-  @apply shadow-none;
-  position: static;
+  @apply shadow-none
+    static
+    w-full;
   transform: translate3d(0, 0, 0);
-  width: 100%;
-  line-height: 0; // fixes height in ie11
 }
 
 .input-wrapper {
-  position: relative;
+  @apply relative;
 }
 
 :host([range]) {
   .input-container {
-    display: flex;
-    align-items: center;
-  }
-
-  .input-wrapper {
-    flex: 1 1 auto;
+    @apply flex items-center;
   }
 
   .horizontal-arrow-container {
-    background-color: var(--calcite-ui-background);
-    padding: 0 var(--calcite-spacing-quarter);
-    border: 1px solid var(--calcite-ui-border-1);
-    border-left: none;
-    border-right: none;
-    height: 42px;
-    display: flex;
-    align-items: center;
+    @apply bg-background
+    text-color-3
+    py-0
+    px-1
+    border
+    border-solid
+    border-color-input
+    border-l-0
+    border-r-0
+    box-border
+    h-8
+    flex
+    items-center;
     flex: 0 0 auto;
   }
 }
@@ -50,8 +49,7 @@
   }
 
   .input-container {
-    flex-direction: column;
-    align-items: start;
+    @apply flex-col items-start;
   }
 
   .calendar-picker-wrapper--end {
@@ -59,13 +57,9 @@
   }
 
   .vertical-arrow-container {
-    position: absolute;
-    @apply left-0;
-    top: 36px;
+    @apply left-0 absolute bg-foreground-1 px-2 mx-px text-color-3;
+    top: 23px;
     z-index: 1;
-    background-color: var(--calcite-ui-foreground-1);
-    @apply px-2.5;
-    @apply mx-px;
   }
 }
 
@@ -75,7 +69,7 @@
   }
 
   .horizontal-arrow-container {
-    height: 30px;
+    @apply h-6;
   }
 }
 
@@ -91,7 +85,7 @@
   }
 
   .horizontal-arrow-container {
-    height: 54px;
+    @apply h-12;
   }
 }
 
@@ -110,12 +104,21 @@
 }
 
 :host([range][layout="vertical"][scale="s"]) .vertical-arrow-container {
-  top: 24px;
+  @apply hidden;
+}
+
+:host([range][layout="vertical"][scale="m"]) .vertical-arrow-container {
+  calcite-icon {
+    @apply h-3 w-3 pl-px;
+    min-height: theme("spacing.3");
+    min-width: theme("spacing.3");
+  }
 }
 
 :host([range][layout="vertical"][scale="l"]) .vertical-arrow-container {
-  top: 50px;
-  @apply px-3.5;
+  top: theme("spacing.10");
+  @apply pr-3;
+  padding-left: 10px;
 }
 
 :host([range][layout="vertical"][active]) {

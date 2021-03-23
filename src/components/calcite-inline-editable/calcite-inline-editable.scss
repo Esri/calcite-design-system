@@ -1,54 +1,57 @@
 :host([scale="s"]) {
   .calcite-inline-editable-controls-wrapper {
-    height: 32px;
+    @apply h-6;
   }
 }
 
 :host([scale="m"]) {
   .calcite-inline-editable-controls-wrapper {
-    height: 44px;
+    @apply h-8;
   }
 }
 
 :host([scale="l"]) {
   .calcite-inline-editable-controls-wrapper {
-    height: 56px;
+    @apply h-10;
   }
 }
 
 :host(:not([editing-enabled])) {
   .calcite-inline-editable-wrapper {
     &:hover {
-      background: var(--calcite-ui-foreground-2);
+      @apply bg-foreground-2;
     }
   }
 }
 
 .calcite-inline-editable-wrapper {
-  box-sizing: border-box;
-  display: flex;
-  justify-content: space-between;
-  transition: $transition;
-  background: var(--calcite-ui-foreground-1);
+  @apply box-border
+    flex
+    justify-between
+    duration-150
+    ease-in-out
+    bg-foreground-1;
 
   .calcite-inline-editable-input-wrapper {
-    flex: 1;
+    @apply flex-1;
   }
 }
 
 .calcite-inline-editable-controls-wrapper {
-  display: flex;
+  @apply flex;
 }
 
 .calcite-inline-editable-cancel-editing-button-wrapper {
-  border: 1px solid var(--calcite-ui-border-1);
-  border-left: none;
-  border-right: none;
+  @apply border
+  border-solid
+  border-color-1
+  border-l-0
+  border-r-0;
 }
 
 :host([disabled]) {
   .calcite-inline-editable-cancel-editing-button-wrapper {
-    border-color: var(--calcite-ui-border-2);
+    @apply border-color-2;
   }
 }
 
@@ -57,7 +60,7 @@
     .calcite-input-element-wrapper {
       textarea,
       input {
-        transition: $transition;
+        @apply duration-150 ease-in-out;
       }
     }
   }
