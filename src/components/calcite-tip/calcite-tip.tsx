@@ -21,7 +21,7 @@ export class CalciteTip {
   /**
    * No longer displays the tip.
    */
-  @Prop({ mutable: true }) dismissed = false;
+  @Prop({ reflect: true, mutable: true }) dismissed = false;
 
   /**
    * Indicates whether the tip can be dismissed.
@@ -148,7 +148,7 @@ export class CalciteTip {
   render(): VNode {
     return (
       <Host>
-        <article class={CSS.container} hidden={this.dismissed}>
+        <article class={CSS.container}>
           {this.renderHeader()}
           {this.renderContent()}
         </article>
