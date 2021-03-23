@@ -22,6 +22,16 @@
     min-height: theme("minHeight.6");
     min-width: theme("minHeight.6");
   }
+  .calcite-input-number-button-item {
+    @apply h-3;
+  }
+
+  .calcite-input-number-button-item.number-button-item-horizontal {
+    &[data-adjustment="down"],
+    &[data-adjustment="up"] {
+      @apply h-6;
+    }
+  }
 }
 
 :host([scale="m"]) {
@@ -47,6 +57,15 @@
     min-height: theme("minHeight.8");
     min-width: theme("minHeight.8");
   }
+  .calcite-input-number-button-item {
+    @apply h-4;
+  }
+  .calcite-input-number-button-item.number-button-item-horizontal {
+    &[data-adjustment="down"],
+    &[data-adjustment="up"] {
+      @apply h-8;
+    }
+  }
 }
 
 :host([scale="l"]) {
@@ -71,6 +90,15 @@
   & .calcite-input-clear-button {
     min-height: theme("height.12");
     min-width: theme("height.12");
+  }
+  .calcite-input-number-button-item {
+    @apply h-6;
+  }
+  .calcite-input-number-button-item.number-button-item-horizontal {
+    &[data-adjustment="down"],
+    &[data-adjustment="up"] {
+      @apply h-12;
+    }
   }
 }
 
@@ -387,10 +415,10 @@ input[type="time"]::-webkit-clear-button {
 
 :host([dir="rtl"])[number-button-type="horizontal"] {
   & .calcite-input-number-button-item[data-adjustment="down"] calcite-icon {
-    @apply -rotate-90;
+    @apply transform -rotate-90;
   }
   & .calcite-input-number-button-item[data-adjustment="up"] calcite-icon {
-    @apply -rotate-90;
+    @apply transform -rotate-90;
   }
 }
 
@@ -402,13 +430,13 @@ input[type="time"]::-webkit-clear-button {
       order-1 
       self-auto;
     & calcite-icon {
-      @apply rotate-90;
+      @apply transform rotate-90;
     }
   }
 }
 
 .calcite-input-number-button-item.number-button-item-horizontal[data-adjustment="down"] {
-  @apply border-0 
+  @apply border-r-0 
     border-l 
     border-solid 
     border-color-input;
@@ -434,6 +462,14 @@ input[type="time"]::-webkit-clear-button {
 
 :host([number-button-type="vertical"]) .calcite-input-number-button-item[data-adjustment="down"] {
   @apply border-t-0;
+}
+
+:host([number-button-type="vertical"][scale="s"]) {
+  & calcite-icon {
+    @apply h-3 w-3;
+    min-width: theme("spacing.3");
+    min-height: theme("spacing.3");
+  }
 }
 
 .calcite-input-number-button-item {
@@ -507,7 +543,7 @@ input[type="time"]::-webkit-clear-button {
 }
 
 .calcite-input-resize-icon-wrapper {
-  @apply bg-foreground-1 
+  @apply bg-transparent
     text-color-3
     absolute 
     pointer-events-none 
@@ -517,7 +553,7 @@ input[type="time"]::-webkit-clear-button {
   bottom: 2px;
   right: 2px;
   & calcite-icon {
-    @apply -rotate-45;
+    @apply transform -rotate-45;
     bottom: theme("spacing.1");
     right: theme("spacing.1");
   }
@@ -533,7 +569,7 @@ input[type="time"]::-webkit-clear-button {
     left: 2px;
     right: unset;
     & calcite-icon {
-      @apply rotate-45;
+      @apply transform rotate-45;
       bottom: theme("spacing.1");
       right: theme("spacing.1");
     }
