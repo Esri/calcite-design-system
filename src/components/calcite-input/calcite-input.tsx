@@ -125,7 +125,7 @@ export class CalciteInput {
   @Prop({ reflect: true }) theme: Theme;
 
   /** The name of the input */
-  @Prop() name?: string = "";
+  @Prop() name?: string;
 
   /**
    * specify the input type

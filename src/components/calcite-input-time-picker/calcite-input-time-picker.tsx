@@ -42,7 +42,7 @@ export class CalciteInputTimePicker {
   @Prop({ reflect: true }) hourDisplayFormat: "12" | "24" = "12";
 
   /** The name of the time input */
-  @Prop({ reflect: true }) name?: string;
+  @Prop() name?: string;
 
   /** The scale (size) of the time input */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
@@ -109,24 +109,11 @@ export class CalciteInputTimePicker {
     const value = event.detail.value;
     const validatedValue = validateTimeString(value);
     if (validatedValue) {
-      debugger;
       this.setValue(validatedValue);
     } else if (!value) {
-      debugger;
       this.setValue(value);
     }
   };
-
-  @Listen("keydown")
-  inputKeyDownHandler(event: KeyboardEvent): void {
-    // This prevents the browser default time picker UI from appearing
-    if (
-      (event.target as HTMLElement).closest("calcite-input") === this.calciteInputEl &&
-      event.key === " "
-    ) {
-      event.preventDefault();
-    }
-  }
 
   @Listen("keyup")
   keyUpHandler(event: KeyboardEvent): void {
