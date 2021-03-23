@@ -8,13 +8,13 @@ import {
   Watch,
   h,
   VNode,
-  Method,
-  forceUpdate
+  Method
 } from "@stencil/core";
 import { Position, Theme } from "../interfaces";
 import { CalciteExpandToggle, toggleChildActionText } from "../functional/CalciteExpandToggle";
 import { CSS, SLOTS, TEXT } from "./resources";
 import { getSlotted, focusElement } from "../../utils/dom";
+import { overflowActions } from "./utils";
 
 /**
  * @slot bottom-actions - A slot for adding `calcite-action`s that will appear at the bottom of the action bar, above the collapse/expand button.
@@ -119,7 +119,7 @@ export class CalciteActionBar {
     toggleChildActionText({ parent: el, expanded });
   });
 
-  resizeObserver = new ResizeObserver((entries) => this.overflowActions(entries));
+  resizeObserver = new ResizeObserver((entries) => this.resizeHandler(entries));
 
   expandToggleEl: HTMLCalciteActionElement;
 
@@ -172,7 +172,7 @@ export class CalciteActionBar {
   //
   // --------------------------------------------------------------------------
 
-  overflowActions = ([entry]: ResizeObserverEntry[]): void => {
+  resizeHandler = ([entry]: ResizeObserverEntry[]): void => {
     const { el, expanded, expandDisabled, lastResizeHeight } = this;
     const { height } = entry.contentRect;
 
@@ -190,37 +190,13 @@ export class CalciteActionBar {
     const actionHeight = actions[0].clientHeight; // todo: get heights in function
     const maxActionsCount = Math.floor((height - actionGroupCount * 16) / actionHeight); // todo: get heights in function
 
-    const totalActionsToOverflow =
-      actionCount >= maxActionsCount ? (actionCount - maxActionsCount) * 2 : 0;
+    const overflowTotal = actionCount >= maxActionsCount ? (actionCount - maxActionsCount) * 2 : 0;
 
-    // todo: move this below logic into utility function 'overFlowActions'?
-    let slottedCount = 0;
-    actionGroups
-      .sort((a, b) => b.childElementCount - a.childElementCount)
-      .forEach((group) => {
-        const groupActions = Array.from(group.querySelectorAll("calcite-action")).reverse();
-
-        groupActions.forEach((groupAction) => {
-          groupAction.removeAttribute("slot");
-          groupAction.textEnabled = expanded;
-        });
-
-        if (slottedCount < totalActionsToOverflow) {
-          groupActions.some((groupAction) => {
-            const unslottedActions = groupActions.filter((action) => !action.slot);
-
-            if (unslottedActions.length > 1 && groupActions.length > 1) {
-              groupAction.textEnabled = true;
-              groupAction.setAttribute("slot", "menu-actions");
-              slottedCount++;
-            }
-
-            return slottedCount >= totalActionsToOverflow;
-          });
-        }
-
-        forceUpdate(group);
-      });
+    overflowActions({
+      actionGroups,
+      expanded,
+      overflowTotal
+    });
   };
 
   toggleExpand = (): void => {
