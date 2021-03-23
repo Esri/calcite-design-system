@@ -189,7 +189,7 @@ describe("calcite-input", () => {
   it("correctly increments and decrements value when number buttons are clicked", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-input type="number" value="3"></calcite-input>
+    <calcite-input type="number" value="3.123"></calcite-input>
     `);
 
     const element = await page.find("calcite-input");
@@ -199,16 +199,27 @@ describe("calcite-input", () => {
     const numberHorizontalItemUp = await page.find(
       "calcite-input .calcite-input-number-button-item[data-adjustment='up']"
     );
-    expect(element.getAttribute("value")).toBe("3");
+    expect(element.getAttribute("value")).toBe("3.123");
     await numberHorizontalItemDown.click();
     await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("2");
+    expect(element.getAttribute("value")).toBe("2.123");
     await numberHorizontalItemUp.click();
     await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("3");
+    expect(element.getAttribute("value")).toBe("3.123");
     await numberHorizontalItemUp.click();
     await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("4");
+    expect(element.getAttribute("value")).toBe("4.123");
+    await numberHorizontalItemUp.click();
+    await numberHorizontalItemUp.click();
+    await numberHorizontalItemUp.click();
+    await numberHorizontalItemUp.click();
+    await numberHorizontalItemUp.click();
+    await numberHorizontalItemUp.click();
+    await numberHorizontalItemUp.click();
+    await numberHorizontalItemUp.click();
+    await numberHorizontalItemUp.click();
+    await numberHorizontalItemUp.click();
+    expect(element.getAttribute("value")).toBe("14.123");
   });
 
   it("correctly increments and decrements value when number buttons are clicked and step is set", async () => {
