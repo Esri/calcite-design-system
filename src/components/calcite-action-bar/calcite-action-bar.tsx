@@ -74,6 +74,18 @@ export class CalciteActionBar {
   @Prop() intlCollapse?: string;
 
   /**
+   * Disables automatically overflowing actions that won't fit into menus.
+   */
+  @Prop() overflowActionsDisabled?: boolean;
+
+  @Watch("overflowActionsDisabled")
+  overflowDisabledHandler(overflowActionsDisabled: boolean): void {
+    overflowActionsDisabled
+      ? this.resizeObserver.disconnect()
+      : this.resizeObserver.observe(this.el);
+  }
+
+  /**
    * Arranges the component depending on the elements 'dir' property.
    */
   @Prop({ reflect: true }) position: Position;
@@ -107,7 +119,7 @@ export class CalciteActionBar {
     toggleChildActionText({ parent: el, expanded });
   });
 
-  resizeObserver = new ResizeObserver((entries) => this.resized(entries));
+  resizeObserver = new ResizeObserver((entries) => this.overflowActions(entries));
 
   expandToggleEl: HTMLCalciteActionElement;
 
@@ -127,7 +139,10 @@ export class CalciteActionBar {
     }
 
     this.mutationObserver.observe(el, { childList: true });
-    this.resizeObserver.observe(el);
+
+    if (!this.overflowActionsDisabled) {
+      this.resizeObserver.observe(el);
+    }
   }
 
   disconnectedCallback(): void {
@@ -157,7 +172,7 @@ export class CalciteActionBar {
   //
   // --------------------------------------------------------------------------
 
-  resized = ([entry]: ResizeObserverEntry[]): void => {
+  overflowActions = ([entry]: ResizeObserverEntry[]): void => {
     const { el, expanded, expandDisabled, lastResizeHeight } = this;
     const { height } = entry.contentRect;
 
@@ -178,7 +193,6 @@ export class CalciteActionBar {
     const totalActionsToOverflow =
       actionCount >= maxActionsCount ? (actionCount - maxActionsCount) * 2 : 0;
 
-    // todo: add option to turn this logic on.
     // todo: move this below logic into utility function 'overFlowActions'?
     let slottedCount = 0;
     actionGroups
