@@ -7,7 +7,7 @@
     @apply text--2h py-1 px-2 h-6;
   }
   & textarea {
-    min-height: theme("minHeight.6");
+    min-height: theme("spacing.6");
   }
   & .calcite-input-number-button-wrapper,
   & .calcite-input-action-wrapper calcite-button,
@@ -477,7 +477,7 @@ input[type="time"]::-webkit-clear-button {
 }
 
 .calcite-input-wrapper {
-  @apply flex flex-row relative;
+  @apply flex relative;
 }
 
 // hide the default date picker
