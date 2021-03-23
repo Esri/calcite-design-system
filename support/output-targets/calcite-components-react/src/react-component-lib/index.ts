@@ -1,1 +1,0 @@
-export { createReactComponent } from "./createComponent";
