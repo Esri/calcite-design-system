@@ -158,7 +158,7 @@ export class CalciteActionBar {
   // --------------------------------------------------------------------------
 
   resized = ([entry]: ResizeObserverEntry[]): void => {
-    const { el, expandDisabled, lastResizeHeight } = this;
+    const { el, expanded, expandDisabled, lastResizeHeight } = this;
     const { height } = entry.contentRect;
 
     if (height === lastResizeHeight) {
@@ -182,7 +182,10 @@ export class CalciteActionBar {
     let slottedCount = 0;
     actionGroups.forEach((group) => {
       const groupActions = Array.from(group.querySelectorAll("calcite-action")).reverse();
-      groupActions.forEach((groupAction) => groupAction.removeAttribute("slot"));
+      groupActions.forEach((groupAction) => {
+        groupAction.removeAttribute("slot");
+        groupAction.textEnabled = expanded;
+      });
       groupActions.forEach((groupAction) => {
         const unslottedActions = groupActions.filter((action) => !action.slot);
         if (
@@ -190,6 +193,7 @@ export class CalciteActionBar {
           unslottedActions.length > 1 &&
           groupActions.length > 1
         ) {
+          groupAction.textEnabled = true;
           groupAction.setAttribute("slot", "menu-actions");
           slottedCount++;
         }
