@@ -24,7 +24,7 @@ import { createPopper, updatePopper, CSS as PopperCSS } from "../../utils/popper
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { DateRangeChange } from "../calcite-date-picker/interfaces";
 
-const DEFAULT_PLACEMENT = "bottom-start";
+const DEFAULT_PLACEMENT = "bottom-leading";
 
 @Component({
   tag: "calcite-input-date-picker",

@@ -6,11 +6,12 @@ The `calcite-action-group` is a wrapper for multiple `calcite-action`s and house
 
 ## Properties
 
-| Property      | Attribute      | Description                           | Type      | Default     |
-| ------------- | -------------- | ------------------------------------- | --------- | ----------- |
-| `expanded`    | `expanded`     | Indicates whether widget is expanded. | `boolean` | `false`     |
-| `intlOptions` | `intl-options` | Text string for the actions menu.     | `string`  | `undefined` |
-| `menuOpen`    | `menu-open`    | Opens the action menu.                | `boolean` | `false`     |
+| Property      | Attribute      | Description                                                          | Type      | Default     |
+| ------------- | -------------- | -------------------------------------------------------------------- | --------- | ----------- |
+| `expanded`    | `expanded`     | Indicates whether widget is expanded.                                | `boolean` | `false`     |
+| `intlOptions` | `intl-options` | Text string for the actions menu.                                    | `string`  | `undefined` |
+| `layout`      | `layout`       | Indicates the horizontal, vertical, or grid layout of the component. | `Layout`  | `vertical`  |
+| `menuOpen`    | `menu-open`    | Opens the action menu.                                               | `boolean` | `false`     |
 
 ## Slots
 
