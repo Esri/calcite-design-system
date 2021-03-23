@@ -29,6 +29,22 @@
   transition: max-height $transition, max-width $transition;
 }
 
+.content__header,
+.content__body {
+  @apply flex
+  flex-col
+  flex-no-wrap
+  items-stretch;
+}
+
+.content__header {
+  @apply flex-initial;
+}
+
+.content__body {
+  @apply flex-auto overflow-hidden;
+}
+
 :host([width-scale="s"]) .content {
   --calcite-shell-panel-width: 12vw;
   --calcite-shell-panel-max-width: 300px;
@@ -79,9 +95,11 @@
 }
 
 :host([position="start"]) slot[name="action-bar"]::slotted(calcite-action-bar) {
-  @apply border-r border-r-solid border-r-color-3;
+  @apply border-r border-r-color-3;
+  border-right-style: solid;
 }
 
 :host([position="end"]) slot[name="action-bar"]::slotted(calcite-action-bar) {
-  @apply border-l border-l-solid border-l-color-3;
+  @apply border-l border-l-color-3;
+  border-left-style: solid;
 }

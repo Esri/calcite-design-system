@@ -1,63 +1,61 @@
 :host {
   @extend %component-host;
-  @extend %component-spacing;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+  @apply w-full 
+    h-full 
+    absolute 
+    flex 
+    flex-col 
+    overflow-hidden
+    inset-0;
   --calcite-shell-tip-spacing: 26vw;
 }
 
 .main {
-  height: 100%;
-  width: 100%;
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: row;
-  position: relative;
-  border-top: 1px solid var(--calcite-ui-border-3);
-  border-bottom: 1px solid var(--calcite-ui-border-3);
-  justify-content: space-between;
-  overflow: hidden;
+  @apply h-full 
+    w-full 
+    flex-auto 
+    flex 
+    flex-row 
+    relative 
+    border-0
+    border-t
+    border-b
+    border-solid
+    border-color-3
+    justify-between 
+    overflow-hidden;
 }
 
 .main--reversed {
-  flex-direction: row-reverse;
+  @apply flex-row-reverse;
 }
 
 .content {
-  border-left: 1px solid var(--calcite-ui-border-3);
-  border-right: 1px solid var(--calcite-ui-border-3);
-  height: 100%;
-  overflow: auto;
-  width: 100%;
-  display: flex;
+  @apply flex
+    h-full 
+    overflow-auto 
+    w-full 
+    border-0
+    border-l 
+    border-r 
+    border-solid
+    border-color-3;
   flex-flow: column nowrap;
 }
 
 .content ::slotted(calcite-shell-center-row),
 .content ::slotted(calcite-panel),
 .content ::slotted(calcite-flow) {
-  align-self: stretch;
-  flex: 1 1 auto;
+  @apply self-stretch flex-auto;
   max-height: unset;
 }
 
 .content--behind {
-  border: 0;
+  @apply border-0 
+    absolute 
+    inset-0
+    z-0;
   display: initial;
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  z-index: 0;
 }
 
 ::slotted(calcite-shell-center-row) {
@@ -65,29 +63,26 @@
 }
 
 ::slotted(.header .heading) {
-  font-weight: var(--calcite-font-weight-normal);
-  @include font-size(-2);
+  @apply font-normal text--2-wrap;
 }
 
 ::slotted(calcite-shell-panel),
 ::slotted(calcite-shell-center-row) {
-  position: relative;
+  @apply relative;
   z-index: 1;
 }
 
 slot[name="center-row"]::slotted(calcite-shell-center-row:not([detached])) {
-  border-left: 1px solid var(--calcite-ui-border-3);
-  border-right: 1px solid var(--calcite-ui-border-3);
+  @apply border-l border-r border-color-3;
 }
 
 ::slotted(calcite-tip-manager) {
   @apply rounded
   shadow-2
   absolute
-  animate-in-up;
-
-  bottom: var(--calcite-spacing-plus-half);
-  box-sizing: border-box;
+  animate-in-up
+  box-border;
+  bottom: theme("spacing.2");
   left: var(--calcite-shell-tip-spacing);
   right: var(--calcite-shell-tip-spacing);
   z-index: 2;

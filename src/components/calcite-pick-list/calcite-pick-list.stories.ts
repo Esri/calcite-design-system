@@ -6,7 +6,7 @@ import { html } from "../../tests/utils";
 const { dir, theme } = ATTRIBUTES;
 
 export default {
-  title: "Components/App/Pick List",
+  title: "Components/Pick List",
   parameters: {
     backgrounds: darkBackground,
     notes: readme

@@ -7,7 +7,7 @@ import { SLOTS, TEXT } from "./resources";
 import { html } from "../../tests/utils";
 
 export default {
-  title: "Components/App/Panel",
+  title: "Components/Panel",
   parameters: {
     backgrounds: darkBackground,
     notes: readme

@@ -1,5 +1,3 @@
-$image_max_height: 200px;
-
 @include popperHost();
 @include popperArrow();
 
@@ -11,23 +9,28 @@ $image_max_height: 200px;
   pointer-events: initial;
 }
 
+.calcite-popper-anim {
+  @apply h-full;
+}
+
 .container {
   @apply bg-foreground-1 
     relative 
     flex 
     overflow-hidden 
     flex-no-wrap 
-    flex-col 
+    flex-row 
+    h-full
     text-color-1;
 }
 
 .content {
-  @apply flex 
-    flex-row 
-    justify-between 
-    justify-start;
-  line-height: theme("spacing.6");
+  @apply flex
+  flex-col
+  flex-no-wrap
+  h-full;
 }
+
 // focus styles
 .close-button {
   @apply focus-base;
@@ -58,20 +61,6 @@ $image_max_height: 200px;
   .close-button {
     border-radius: var(--calcite-border-radius) 0 0 0;
   }
-}
-
-.image-container {
-  @apply overflow-hidden;
-  max-height: $image_max_height;
-  //FIXME: Should this m-1?
-  margin: 5px;
-}
-
-slot[name="image"]::slotted(img) {
-  @apply h-auto w-full object-cover;
-  max-height: $image_max_height;
-  //FIXME: Will this work?
-  object-position: theme("width[1/2]") theme("width[1/2]");
 }
 
 ::slotted(calcite-panel),

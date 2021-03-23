@@ -7,7 +7,7 @@ import panelReadme from "../calcite-shell-panel/readme.md";
 import { html, placeholderImage } from "../../tests/utils";
 
 export default {
-  title: "Components/App/Shell",
+  title: "Components/Shell",
   parameters: {
     backgrounds: darkBackground,
     notes: {

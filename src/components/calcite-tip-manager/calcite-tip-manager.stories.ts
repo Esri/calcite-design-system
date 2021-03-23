@@ -7,7 +7,7 @@ import { html, placeholderImage } from "../../tests/utils";
 const { dir, theme } = ATTRIBUTES;
 
 export default {
-  title: "Components/App/Tip Manager",
+  title: "Components/Tips/Tip Manager",
   parameters: {
     backgrounds: darkBackground,
     notes: readme

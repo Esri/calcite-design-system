@@ -2,12 +2,6 @@
   @extend %component-host;
   @apply flex relative;
 
-  max-height: var(--calcite-panel-max-height);
-  width: var(--calcite-panel-width);
-  max-width: var(--calcite-panel-max-width);
-  min-width: var(--calcite-panel-min-width);
-  transition: max-height $transition, width $transition;
-
   --calcite-min-header-height: calc(var(--calcite-icon-size) * 3);
   --calcite-panel-max-height: unset;
   --calcite-panel-width: 100%;
@@ -26,6 +20,12 @@
     w-full
     p-0
     m-0;
+
+  max-height: var(--calcite-panel-max-height);
+  width: var(--calcite-panel-width);
+  max-width: var(--calcite-panel-max-width);
+  min-width: var(--calcite-panel-min-width);
+  transition: max-height $transition, width $transition;
 }
 
 :host([height-scale="s"]) {
@@ -110,8 +110,14 @@
 }
 
 .header-actions {
-  @apply flex items-stretch;
-  flex-flow: row nowrap;
+  @apply flex
+  items-stretch
+  flex-row
+  flex-no-wrap;
+}
+
+.header-actions--end {
+  @apply ml-auto;
 }
 
 .menu-container:only-child {
@@ -146,6 +152,10 @@
   .header-content {
     @apply ml-auto;
     margin-right: unset;
+  }
+  .header-actions--end {
+    @apply mr-auto;
+    margin-left: unset;
   }
   .menu-container:only-child {
     @apply mr-auto;

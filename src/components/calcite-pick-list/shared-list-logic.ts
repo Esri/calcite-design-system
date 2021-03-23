@@ -8,7 +8,7 @@ type Lists = CalcitePickList | CalciteValueList;
 type ListItemElement<T> = T extends CalcitePickList ? HTMLCalcitePickListItemElement : HTMLCalciteValueListItemElement;
 type List<T> = T extends CalcitePickList ? CalcitePickList : CalciteValueList;
 
-export type FocusId = "filter";
+export type ListFocusId = "filter";
 
 export function mutationObserverCallback<T extends Lists>(this: List<T>): void {
   this.setUpItems();
@@ -155,7 +155,7 @@ function toggleSingleSelectItemTabbing<T extends Lists>(item: ListItemElement<T>
   }
 }
 
-export async function setFocus<T extends Lists>(this: List<T>, focusId: FocusId): Promise<void> {
+export async function setFocus<T extends Lists>(this: List<T>, focusId: ListFocusId): Promise<void> {
   if (this.filterEnabled && focusId === "filter") {
     await focusElement(this.filterEl);
     return;
