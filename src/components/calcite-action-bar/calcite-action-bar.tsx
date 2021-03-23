@@ -171,36 +171,42 @@ export class CalciteActionBar {
     const actionCount = expandDisabled ? actions.length : actions.length + 1;
     const actionGroups = Array.from(el.querySelectorAll("calcite-action-group"));
     const actionGroupCount = actionGroups.length;
-    actionGroups.sort((a, b) => b.childElementCount - a.childElementCount);
 
     const actionHeight = actions[0].clientHeight; // todo: get heights in function
-    const maxActionsCount = Math.floor((height - actionGroupCount * 16) / actionHeight); // todo
+    const maxActionsCount = Math.floor((height - actionGroupCount * 16) / actionHeight); // todo: get heights in function
 
     const totalActionsToOverflow =
       actionCount >= maxActionsCount ? (actionCount - maxActionsCount) * 2 : 0;
 
+    // todo: add option to turn this logic on.
+    // todo: move this below logic into utility function 'overFlowActions'?
     let slottedCount = 0;
-    actionGroups.forEach((group) => {
-      const groupActions = Array.from(group.querySelectorAll("calcite-action")).reverse();
-      groupActions.forEach((groupAction) => {
-        groupAction.removeAttribute("slot");
-        groupAction.textEnabled = expanded;
-      });
-      groupActions.forEach((groupAction) => {
-        const unslottedActions = groupActions.filter((action) => !action.slot);
-        if (
-          slottedCount < totalActionsToOverflow &&
-          unslottedActions.length > 1 &&
-          groupActions.length > 1
-        ) {
-          groupAction.textEnabled = true;
-          groupAction.setAttribute("slot", "menu-actions");
-          slottedCount++;
-        }
-      });
+    actionGroups
+      .sort((a, b) => b.childElementCount - a.childElementCount)
+      .forEach((group) => {
+        const groupActions = Array.from(group.querySelectorAll("calcite-action")).reverse();
 
-      forceUpdate(group);
-    });
+        groupActions.forEach((groupAction) => {
+          groupAction.removeAttribute("slot");
+          groupAction.textEnabled = expanded;
+        });
+
+        if (slottedCount < totalActionsToOverflow) {
+          groupActions.some((groupAction) => {
+            const unslottedActions = groupActions.filter((action) => !action.slot);
+
+            if (unslottedActions.length > 1 && groupActions.length > 1) {
+              groupAction.textEnabled = true;
+              groupAction.setAttribute("slot", "menu-actions");
+              slottedCount++;
+            }
+
+            return slottedCount >= totalActionsToOverflow;
+          });
+        }
+
+        forceUpdate(group);
+      });
   };
 
   toggleExpand = (): void => {
