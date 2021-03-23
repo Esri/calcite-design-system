@@ -95,9 +95,11 @@
 }
 
 :host([position="start"]) slot[name="action-bar"]::slotted(calcite-action-bar) {
-  @apply border-r border-r-solid border-r-color-3;
+  @apply border-r border-r-color-3;
+  border-right-style: solid;
 }
 
 :host([position="end"]) slot[name="action-bar"]::slotted(calcite-action-bar) {
-  @apply border-l border-l-solid border-l-color-3;
+  @apply border-l border-l-color-3;
+  border-left-style: solid;
 }

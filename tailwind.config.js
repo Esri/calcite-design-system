@@ -21,14 +21,6 @@ module.exports = {
       "color-danger-hover": theme("colors.danger-hover"),
       "color-danger-press": theme("colors.danger-press"),
     }),
-    borderWidth: {
-      default: '1px',
-      "0": "0px",
-      "2": "2px",
-      "3": "3px",
-      "4": "4px",
-      "8": "8px"
-    },
     colors: {
       "brand": "var(--calcite-ui-brand)",
       "brand-hover": "var(--calcite-ui-brand-hover)",
@@ -259,24 +251,6 @@ module.exports = {
       const utilities = Object.assign({}, ...colorMap);
 
       addUtilities(utilities, variants('borderColor'));
-    },
-    ({ addUtilities, variants }) => {
-      const styles = [
-        'solid',
-        'dashed',
-        'dotted',
-        'double',
-        'none',
-      ];
-      const stylesMap = styles.map(style => ({
-        [`.border-t-${style}`]: {borderTopStyle: style},
-        [`.border-r-${style}`]: {borderRightStyle: style},
-        [`.border-b-${style}`]: {borderBottomStyle: style},
-        [`.border-l-${style}`]: {borderLeftStyle: style},
-      }));
-      const utilities = Object.assign({}, ...stylesMap);
-
-      addUtilities(utilities, variants('borderStyle'));
     },
   ],
   future: {
