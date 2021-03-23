@@ -211,6 +211,7 @@
 .calcite-input-element-wrapper {
   @apply flex inline-flex relative order-3;
   min-width: theme("width[1/5");
+  width: 100%;
 }
 
 .calcite-input-icon {
