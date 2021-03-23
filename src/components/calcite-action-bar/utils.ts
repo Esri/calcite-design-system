@@ -1,5 +1,25 @@
 import { forceUpdate } from "@stencil/core";
 
+const actionHeight = 48;
+const groupMargin = 16;
+
+const getMaxActionCount = ({ height, groupCount }: { height: number; groupCount: number }): number => {
+  return Math.floor((height - groupCount * groupMargin) / actionHeight);
+};
+
+export const getOverflowTotal = ({
+  actionCount,
+  height,
+  groupCount
+}: {
+  actionCount: number;
+  height: number;
+  groupCount: number;
+}): number => {
+  const maxActionsCount = getMaxActionCount({ height, groupCount });
+  return actionCount >= maxActionsCount ? actionCount - maxActionsCount + 1 : 0;
+};
+
 export const overflowActions = ({
   actionGroups,
   expanded,
