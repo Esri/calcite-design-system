@@ -111,6 +111,8 @@ export class CalciteActionBar {
 
   expandToggleEl: HTMLCalciteActionElement;
 
+  lastResizeHeight: number;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -156,30 +158,43 @@ export class CalciteActionBar {
   // --------------------------------------------------------------------------
 
   resized = ([entry]: ResizeObserverEntry[]): void => {
-    const { el, expandDisabled } = this;
-    const { clientHeight } = entry.target;
+    const { el, expandDisabled, lastResizeHeight } = this;
+    const { height } = entry.contentRect;
+
+    if (height === lastResizeHeight) {
+      return;
+    }
+
+    this.lastResizeHeight = height;
 
     const actions = el.querySelectorAll("calcite-action");
-    const actionGroups = el.querySelectorAll("calcite-action-group");
-    const actionBuffer = 5;
-    const actionHeight = actions[0].clientHeight + actionBuffer;
-    const maxCount = Math.floor(clientHeight / actionHeight);
+    const actionCount = expandDisabled ? actions.length : actions.length + 1;
+    const actionGroups = Array.from(el.querySelectorAll("calcite-action-group"));
+    const actionGroupCount = actionGroups.length;
+    actionGroups.sort((a, b) => b.childElementCount - a.childElementCount);
 
-    const actionsTotal = expandDisabled ? actions.length : actions.length + 1;
+    const actionHeight = actions[0].clientHeight; // todo: get heights in function
+    const maxActionsCount = Math.floor((height - actionGroupCount * 16) / actionHeight); // todo
 
-    const hiddenActionCount = actionsTotal > maxCount ? actionsTotal - maxCount : 0;
+    const totalActionsToOverflow =
+      actionCount >= maxActionsCount ? (actionCount - maxActionsCount) * 2 : 0;
 
-    const numToHideInEachGroup = hiddenActionCount
-      ? Math.ceil(hiddenActionCount + 1 / actionGroups.length)
-      : 0;
-
+    let slottedCount = 0;
     actionGroups.forEach((group) => {
       const groupActions = Array.from(group.querySelectorAll("calcite-action")).reverse();
-      groupActions.forEach((action, index) => {
-        index < numToHideInEachGroup
-          ? action.setAttribute("slot", "menu-actions")
-          : action.removeAttribute("slot");
+      groupActions.forEach((groupAction) => groupAction.removeAttribute("slot"));
+      groupActions.forEach((groupAction) => {
+        const unslottedActions = groupActions.filter((action) => !action.slot);
+        if (
+          slottedCount < totalActionsToOverflow &&
+          unslottedActions.length > 1 &&
+          groupActions.length > 1
+        ) {
+          groupAction.setAttribute("slot", "menu-actions");
+          slottedCount++;
+        }
       });
+
       forceUpdate(group);
     });
   };
