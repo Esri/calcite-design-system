@@ -6,6 +6,7 @@ node_modules/
 
 # Compiled files
 support/output-targets/custom-elements/bundles/
+support/output-targets/calcite-components-react/src/components.ts
 src/**/components.d.ts
 src/**/*.js
 __docs-temp__/*
