@@ -1,5 +1,4 @@
 {
   "extends": "./tsconfig-base",
-  "include": [".storybook/*", "**/*"],
-  "exclude": ["frameworks"]
+  "include": [".storybook/*", "**/*"]
 }
