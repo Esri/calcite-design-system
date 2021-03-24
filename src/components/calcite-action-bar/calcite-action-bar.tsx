@@ -16,8 +16,9 @@ import { CSS, SLOTS, TEXT } from "./resources";
 import { getSlotted, focusElement } from "../../utils/dom";
 
 /**
- * @slot bottom-actions - A slot for adding `calcite-action`s that will appear at the bottom of the action bar, above the collapse/expand button.
  * @slot - A slot for adding `calcite-action`s that will appear at the top of the action bar.
+ * @slot bottom-actions - A slot for adding `calcite-action`s that will appear at the bottom of the action bar, above the collapse/expand button.
+ * @slot expand-tooltip - Used to set the tooltip for the expand toggle.
  */
 @Component({
   tag: "calcite-action-bar",
@@ -56,11 +57,6 @@ export class CalciteActionBar {
 
     this.calciteActionBarToggle.emit();
   }
-
-  /**
-   * Used to set the tooltip for the expand toggle.
-   */
-  @Prop() tooltipExpand?: HTMLCalciteTooltipElement;
 
   /**
    * Updates the label of the expand icon when the component is not expanded.
@@ -165,17 +161,9 @@ export class CalciteActionBar {
   // --------------------------------------------------------------------------
 
   renderBottomActionGroup(): VNode {
-    const {
-      expanded,
-      expandDisabled,
-      intlExpand,
-      intlCollapse,
-      el,
-      position,
-      toggleExpand,
-      tooltipExpand
-    } = this;
+    const { expanded, expandDisabled, intlExpand, intlCollapse, el, position, toggleExpand } = this;
 
+    const tooltip = getSlotted(el, SLOTS.expandTooltip) as HTMLCalciteTooltipElement;
     const expandLabel = intlExpand || TEXT.expand;
     const collapseLabel = intlCollapse || TEXT.collapse;
 
@@ -188,13 +176,14 @@ export class CalciteActionBar {
         position={position}
         ref={this.setExpandToggleRef}
         toggle={toggleExpand}
-        tooltip={tooltipExpand}
+        tooltip={tooltip}
       />
     ) : null;
 
     return getSlotted(el, SLOTS.bottomActions) || expandToggleNode ? (
       <calcite-action-group class={CSS.actionGroupBottom}>
         <slot name={SLOTS.bottomActions} />
+        <slot name={SLOTS.expandTooltip} />
         {expandToggleNode}
       </calcite-action-group>
     ) : null;
