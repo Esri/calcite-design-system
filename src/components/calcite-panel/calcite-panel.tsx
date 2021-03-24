@@ -322,7 +322,7 @@ export class CalcitePanel {
     return hasMenuItems ? (
       <calcite-action-menu
         flipPlacements={["top", "bottom"]}
-        label={intlOptions}
+        label={intlOptions || TEXT.options}
         open={menuOpen}
         placement="bottom-end"
       >

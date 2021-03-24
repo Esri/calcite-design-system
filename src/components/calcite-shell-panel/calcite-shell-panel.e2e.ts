@@ -106,7 +106,7 @@ describe("calcite-shell-panel", () => {
     accessible(`
     <calcite-shell-panel slot="primary-panel" position="start">
       <calcite-action-bar slot="action-bar">
-        <calcite-action-group>
+        <calcite-action-group label="Options">
           <calcite-action text="Add" icon="plus"></calcite-action>
           <calcite-action text="Save" icon="save"></calcite-action>
           <calcite-action text="Layers" icon="layers"></calcite-action>
