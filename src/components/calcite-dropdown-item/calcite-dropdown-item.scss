@@ -158,7 +158,7 @@
 // multi select check icon
 :host .dropdown-item-check-icon {
   @apply absolute
-    bg-opacity-0
+    opacity-0
     duration-150
     ease-in-out;
   transform: scale(0.9);
