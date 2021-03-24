@@ -20,8 +20,7 @@
     items-center
     leading-none
     text-color-3
-    duration-150
-    ease-in-out
+    transition-all
     opacity-disabled;
   background: none;
   box-shadow: 0 0 0 2px transparent, 0 0 0 0px transparent;
@@ -226,7 +225,7 @@
 :host(:hover[start-of-range].hover--inside-range.focused--end),
 :host(:hover[end-of-range].hover--inside-range.focused--start) {
   .day-wrapper {
-    background: none;
+    @apply bg-none;
   }
 }
 
