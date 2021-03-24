@@ -30,32 +30,29 @@ export const overflowActions = ({
   overflowCount: number;
 }): void => {
   let neededToSlot = overflowCount;
-  actionGroups
-    .reverse()
-    .sort((a, b) => b.childElementCount - a.childElementCount)
-    .forEach((group) => {
-      const groupActions = Array.from(group.querySelectorAll("calcite-action")).reverse();
+  actionGroups.reverse().forEach((group) => {
+    const groupActions = Array.from(group.querySelectorAll("calcite-action")).reverse();
 
-      groupActions.forEach((groupAction) => {
-        groupAction.removeAttribute("slot");
-        groupAction.textEnabled = expanded;
-      });
-
-      if (neededToSlot > 1) {
-        groupActions.some((groupAction) => {
-          const unslottedActions = groupActions.filter((action) => !action.slot);
-
-          if (unslottedActions.length > 1 && groupActions.length > 2) {
-            groupAction.textEnabled = true;
-            groupAction.setAttribute("slot", "menu-actions");
-
-            neededToSlot--;
-          }
-
-          return neededToSlot < 1;
-        });
-      }
-
-      forceUpdate(group);
+    groupActions.forEach((groupAction) => {
+      groupAction.removeAttribute("slot");
+      groupAction.textEnabled = expanded;
     });
+
+    if (neededToSlot > 1) {
+      groupActions.some((groupAction) => {
+        const unslottedActions = groupActions.filter((action) => !action.slot);
+
+        if (unslottedActions.length > 1 && groupActions.length > 2) {
+          groupAction.textEnabled = true;
+          groupAction.setAttribute("slot", "menu-actions");
+
+          neededToSlot--;
+        }
+
+        return neededToSlot < 1;
+      });
+    }
+
+    forceUpdate(group);
+  });
 };
