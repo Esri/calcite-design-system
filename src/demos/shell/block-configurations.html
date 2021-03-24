@@ -56,9 +56,9 @@
     <main>
       <div class="shell-container">
         
-        <calcite-shell>
+        <calcite-shell content-behind>
           
-          <calcite-shell-panel id="primary-panel" slot="primary-panel" position="start">
+          <calcite-shell-panel id="primary-panel" slot="primary-panel" position="start" detached>
             
             <calcite-action-bar slot="action-bar" theme="dark">
               <calcite-action-group>
@@ -81,24 +81,25 @@
                 <calcite-action text="What's next" icon="mega-phone"></calcite-action>
               </calcite-action-group>
             </calcite-action-bar>
-            <calcite-flow>
-              <calcite-panel heading="Layers">
-                <calcite-label>
-                  It's a label.
-                  <calcite-input type="text" placeholder="This is stuff." scale="s">
-                    <calcite-action
-                      text="cool action"
-                      icon="brackets-curly"
-                      slot="input-action"
-                      scale="s"
-                    ></calcite-action>
-                  </calcite-input>
-                </calcite-label>
-                <calcite-popover-manager>
-                  <calcite-button id="popover-trigger">Pop it!</calcite-button>
-                </calcite-popover-manager>
+              <calcite-panel heading="Sketch">
+                <div style="padding:var(--calcite-spacing-half);">
+                  <calcite-label scale="s">Draw features</calcite-label>
+                  <calcite-action-group layout="grid" style="margin-bottom: var(--calcite-spacing);">
+                    <calcite-action alignment="center" icon="pin" text="Stamp"></calcite-action>
+                    <calcite-action alignment="center" icon="line" text="Line"></calcite-action>
+                    <calcite-action alignment="center" icon="polygon" text="Polygon"></calcite-action>
+                    <calcite-action alignment="center" icon="rectangle" text="Rectangle"></calcite-action>
+                    <calcite-action alignment="center" icon="circle" text="Circle"></calcite-action>
+                    <calcite-action alignment="center" icon="text" text="Text"></calcite-action>
+                  </calcite-action-group>
+                  <calcite-label scale="s">Select features</calcite-label>
+                  <calcite-action-group layout="grid">
+                    <calcite-action alignment="center" icon="cursor" text="Select"></calcite-action>
+                    <calcite-action alignment="center" icon="cursor-marquee" text="Select by rectangle"></calcite-action>
+                    <calcite-action alignment="center" icon="lasso" text="Select by lasso"></calcite-action>
+                  </calcite-action-group>
+                </div>
               </calcite-panel>
-            </calcite-flow>
           </calcite-shell-panel>
 
           <calcite-shell-panel slot="contextual-panel" position="end">
