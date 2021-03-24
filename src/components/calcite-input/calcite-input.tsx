@@ -89,8 +89,17 @@ export class CalciteInput {
     this.minString = this.min?.toString() || null;
   }
 
-  /** maximum length of text input */
+  /**
+   * Maximum length of text input.
+   * @deprecated use maxLength instead
+   */
   @Prop({ reflect: true }) maxlength?: number;
+
+  /** Maximum length of the input value */
+  @Prop({ reflect: true }) maxLength?: number;
+
+  /** Minimum length of the text input */
+  @Prop({ reflect: true }) minLength?: number;
 
   /** specify the placement of the number buttons */
   @Prop({ reflect: true }) numberButtonType?: InputPlacement = "vertical";
@@ -293,8 +302,9 @@ export class CalciteInput {
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
         max={this.maxString}
-        maxlength={this.maxlength}
+        maxLength={this.maxLength}
         min={this.minString}
+        minLength={this.minLength}
         onBlur={this.inputBlurHandler}
         onFocus={this.inputFocusHandler}
         onInput={this.inputInputHandler}
@@ -472,16 +482,17 @@ export class CalciteInput {
       const inputMin = this.minString ? parseFloat(this.minString) : null;
       const inputStep = Number(this.stepString) > 0 ? parseFloat(this.stepString) : 1;
       let inputVal = this.value && this.value !== "" ? parseFloat(this.value) : 0;
+      const decimals = this.value?.split(".")[1]?.length || 0;
 
       switch (e.target.dataset.adjustment) {
         case "up":
           if ((!inputMax && inputMax !== 0) || inputVal < inputMax) {
-            this.childEl.value = (inputVal += inputStep).toString();
+            this.childEl.value = (inputVal += inputStep).toFixed(decimals).toString();
           }
           break;
         case "down":
           if ((!inputMin && inputMin !== 0) || inputVal > inputMin) {
-            this.childEl.value = (inputVal -= inputStep).toString();
+            this.childEl.value = (inputVal -= inputStep).toFixed(decimals).toString();
           }
           break;
       }
