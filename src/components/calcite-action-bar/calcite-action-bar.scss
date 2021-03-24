@@ -9,6 +9,10 @@
   pointer-events: auto;
 }
 
+:host([overflow-actions-disabled]) {
+  overflow-y: auto;
+}
+
 :host([expanded]) {
   max-width: 20vw;
 }
