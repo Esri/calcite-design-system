@@ -33,11 +33,9 @@
 .chevron {
   @apply text-color-2
     flex-grow-0
-    box-border
+    box-content
     outline-none
-    py-0
     px-1
-    my-0
     -mx-1
     border-none
     flex
@@ -57,8 +55,7 @@
 
   &:hover,
   &:focus {
-    @apply bg-foreground-2;
-    fill: theme("textColor.1");
+    @apply bg-foreground-2 fill-color-1;
   }
 
   &:active {
@@ -66,19 +63,16 @@
   }
 
   &[aria-disabled="true"] {
-    @apply pointer-events-none bg-opacity-0;
+    @apply pointer-events-none opacity-0;
   }
 }
 
 .text {
   @apply flex-auto
-    flex-auto
     items-center
     justify-center
-    flex-row
     leading-none
     my-auto
-    mx-0
     text-center;
 }
 
@@ -91,9 +85,8 @@
 .suffix {
   @apply text-color-1
     bg-foreground-1
-    font-normal
+    font-medium
     leading-tight
-    my-0
     mx-1
     inline-block;
   font-size: inherit;
@@ -104,13 +97,13 @@
     text-center
     border-none
     w-12
-    p-0
     bg-transparent
     relative
     focus-base;
   z-index: 2;
   &:hover {
-    transition: outline-color 100ms ease-in-out;
+    @apply duration-100 ease-in-out;
+    transition-property: outline-color;
     outline: 2px solid var(--calcite-ui-border-2);
     outline-offset: 2px;
   }
@@ -137,5 +130,5 @@
 }
 
 .suffix__invisible {
-  visibility: hidden;
+  @apply invisible;
 }
