@@ -6,7 +6,3 @@ export const CSS = {
 export const ICONS = {
   menu: "ellipsis"
 };
-
-export const TEXT = {
-  options: "Options"
-};

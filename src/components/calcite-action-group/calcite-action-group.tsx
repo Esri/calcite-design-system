@@ -27,7 +27,7 @@ export class CalciteActionGroup {
   /**
    * Text string for the actions menu.
    */
-  @Prop() intlOptions?: string;
+  @Prop() label?: string;
 
   /**
    * Opens the action menu.
@@ -54,7 +54,7 @@ export class CalciteActionGroup {
   // --------------------------------------------------------------------------
 
   renderMenu(): VNode {
-    const { el, expanded, intlOptions, menuOpen } = this;
+    const { el, expanded, label, menuOpen } = this;
 
     const hasMenuItems = getSlotted(el, SLOTS.menuActions);
 
@@ -62,7 +62,7 @@ export class CalciteActionGroup {
       <calcite-action-menu
         expanded={expanded}
         flipPlacements={["left", "right"]}
-        intlOptions={intlOptions}
+        label={label}
         open={menuOpen}
         placement="leading-start"
       >
