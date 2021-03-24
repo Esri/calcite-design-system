@@ -17,7 +17,7 @@ export const getOverflowTotal = ({
   groupCount: number;
 }): number => {
   const maxActionsCount = getMaxActionCount({ height, groupCount });
-  return actionCount >= maxActionsCount ? actionCount - maxActionsCount + 1 : 0;
+  return actionCount >= maxActionsCount ? actionCount - maxActionsCount + 2 : 0;
 };
 
 export const overflowActions = ({
@@ -31,6 +31,7 @@ export const overflowActions = ({
 }): void => {
   let slottedCount = 0;
   actionGroups
+    .reverse()
     .sort((a, b) => b.childElementCount - a.childElementCount)
     .forEach((group) => {
       const groupActions = Array.from(group.querySelectorAll("calcite-action")).reverse();
@@ -44,7 +45,7 @@ export const overflowActions = ({
         groupActions.some((groupAction) => {
           const unslottedActions = groupActions.filter((action) => !action.slot);
 
-          if (unslottedActions.length > 1 && groupActions.length > 1) {
+          if (unslottedActions.length > 1 && groupActions.length > 2) {
             groupAction.textEnabled = true;
             groupAction.setAttribute("slot", "menu-actions");
             slottedCount++;
