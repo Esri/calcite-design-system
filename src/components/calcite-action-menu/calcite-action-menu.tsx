@@ -116,6 +116,7 @@ export class CalciteActionMenu {
   renderMenuButton(): VNode {
     const { menuButtonId, menuId, open, label, expanded } = this;
 
+    // todo: add tooltip
     return (
       <calcite-action
         active={open}

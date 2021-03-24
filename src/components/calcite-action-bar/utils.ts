@@ -41,6 +41,7 @@ export const overflowActions = ({
         groupAction.textEnabled = expanded;
       });
 
+      // todo: only slot if more than 2 are needed to slot
       if (slottedCount < overflowTotal) {
         groupActions.some((groupAction) => {
           const unslottedActions = groupActions.filter((action) => !action.slot);
