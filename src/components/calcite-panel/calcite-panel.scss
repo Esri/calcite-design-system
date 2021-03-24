@@ -110,8 +110,14 @@
 }
 
 .header-actions {
-  @apply flex items-stretch;
-  flex-flow: row nowrap;
+  @apply flex
+  items-stretch
+  flex-row
+  flex-no-wrap;
+}
+
+.header-actions--end {
+  @apply ml-auto;
 }
 
 .menu-container:only-child {
@@ -146,6 +152,10 @@
   .header-content {
     @apply ml-auto;
     margin-right: unset;
+  }
+  .header-actions--end {
+    @apply mr-auto;
+    margin-left: unset;
   }
   .menu-container:only-child {
     @apply mr-auto;
