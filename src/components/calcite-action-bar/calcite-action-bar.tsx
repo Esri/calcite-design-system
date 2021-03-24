@@ -14,7 +14,7 @@ import { Position, Theme } from "../interfaces";
 import { CalciteExpandToggle, toggleChildActionText } from "../functional/CalciteExpandToggle";
 import { CSS, SLOTS, TEXT } from "./resources";
 import { getSlotted, focusElement } from "../../utils/dom";
-import { getOverflowTotal, overflowActions } from "./utils";
+import { getOverflowCount, overflowActions } from "./utils";
 
 /**
  * @slot bottom-actions - A slot for adding `calcite-action`s that will appear at the bottom of the action bar, above the collapse/expand button.
@@ -190,12 +190,12 @@ export class CalciteActionBar {
         ? actionGroups.length + 1
         : actionGroups.length;
 
-    const overflowTotal = getOverflowTotal({ actionCount, height, groupCount });
+    const overflowCount = getOverflowCount({ actionCount, height, groupCount });
 
     overflowActions({
       actionGroups,
       expanded,
-      overflowTotal
+      overflowCount
     });
   };
 

@@ -7,7 +7,7 @@ const getMaxActionCount = ({ height, groupCount }: { height: number; groupCount:
   return Math.floor((height - groupCount * groupMargin) / actionHeight);
 };
 
-export const getOverflowTotal = ({
+export const getOverflowCount = ({
   actionCount,
   height,
   groupCount
@@ -23,13 +23,13 @@ export const getOverflowTotal = ({
 export const overflowActions = ({
   actionGroups,
   expanded,
-  overflowTotal
+  overflowCount
 }: {
   actionGroups: HTMLCalciteActionGroupElement[];
   expanded: boolean;
-  overflowTotal: number;
+  overflowCount: number;
 }): void => {
-  let slottedCount = 0;
+  let neededToSlot = overflowCount;
   actionGroups
     .reverse()
     .sort((a, b) => b.childElementCount - a.childElementCount)
@@ -41,18 +41,18 @@ export const overflowActions = ({
         groupAction.textEnabled = expanded;
       });
 
-      // todo: only slot if more than 2 are needed to slot
-      if (slottedCount < overflowTotal) {
+      if (neededToSlot > 1) {
         groupActions.some((groupAction) => {
           const unslottedActions = groupActions.filter((action) => !action.slot);
 
           if (unslottedActions.length > 1 && groupActions.length > 2) {
             groupAction.textEnabled = true;
             groupAction.setAttribute("slot", "menu-actions");
-            slottedCount++;
+
+            neededToSlot--;
           }
 
-          return slottedCount >= overflowTotal;
+          return neededToSlot < 1;
         });
       }
 
