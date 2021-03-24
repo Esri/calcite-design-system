@@ -58,7 +58,7 @@
 
   .vertical-arrow-container {
     @apply left-0 absolute bg-foreground-1 px-2 mx-px text-color-3;
-    top: 23px;
+    top: 1.375rem;
     z-index: 1;
   }
 }
@@ -103,22 +103,29 @@
   margin-top: 0;
 }
 
+:host([scale="s"]) {
+  & calcite-icon {
+    @apply h-3 w-3;
+    min-width: theme("spacing.3");
+    min-height: theme("spacing.3");
+  }
+}
+
 :host([range][layout="vertical"][scale="s"]) .vertical-arrow-container {
   @apply hidden;
 }
 
 :host([range][layout="vertical"][scale="m"]) .vertical-arrow-container {
   calcite-icon {
-    @apply h-3 w-3 pl-px;
+    @apply h-3 w-3 pl-1;
     min-height: theme("spacing.3");
     min-width: theme("spacing.3");
   }
 }
 
 :host([range][layout="vertical"][scale="l"]) .vertical-arrow-container {
+  @apply pl-5;
   top: theme("spacing.10");
-  @apply pr-3;
-  padding-left: 10px;
 }
 
 :host([range][layout="vertical"][active]) {

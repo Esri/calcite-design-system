@@ -181,7 +181,7 @@
     @apply text-color-1;
   }
   & calcite-icon {
-    @apply text-color-1;
+    @apply text-color-3;
   }
 }
 // input message slot
@@ -193,25 +193,38 @@
 }
 
 // icon
+//FIXME: Hard rem values needed for Figma spacing scale design. This component will need to get reworked out side the refactor
 :host([icon]) input {
-  @apply pl-8;
+  padding-left: 1.125rem;
 }
 
 :host([dir="rtl"][icon]) input {
-  @apply pr-8 pl-2;
+  @apply pl-2;
+  padding-right: 1.125rem;
+}
+
+:host([icon][scale="m"]) input {
+  padding-left: 2.25rem;
+}
+
+:host([dir="rtl"][icon][scale="m"]) input {
+  @apply pl-2;
+  padding-right: 2.25rem;
+}
+
+:host([icon][scale="l"]) input {
+  padding-left: 3.25rem;
 }
 
 :host([dir="rtl"][icon][scale="l"]) input {
-  @apply pr-8 pl-2;
+  @apply pl-2;
+  padding-right: 3.25rem;
 }
-:host([icon][scale="l"]) input {
-  @apply pl-10;
-}
+
 //positioning wrapper for icon and loader
 .calcite-input-element-wrapper {
   @apply flex inline-flex relative order-3;
   min-width: theme("width[1/5");
-  width: 100%;
 }
 
 .calcite-input-icon {
@@ -222,14 +235,21 @@
     ease-in-out
     mt-px 
     mx-auto;
-  top: calc(50% - 9px);
-  left: theme("spacing.2");
+  color: theme("colors.text.3") !important;
   z-index: 1;
 }
 
-// adjust for larger icon of scale l
+:host([scale="s"]) .calcite-input-icon {
+  left: theme("spacing.1");
+  top: theme("spacing.1");
+}
+:host([scale="m"]) .calcite-input-icon {
+  left: theme("spacing.3");
+  top: calc(50% - 10px);
+}
 :host([scale="l"]) .calcite-input-icon {
-  top: calc(50% - 12px);
+  left: theme("spacing.4");
+  top: theme("spacing.3");
 }
 
 :host([dir="rtl"]) .calcite-input-icon {
@@ -269,10 +289,11 @@ input[type="time"]::-webkit-clear-button {
     order-4
     border-color-input 
     duration-150 
-    ease-in-out;
+    ease-in-out
+    text-color-3;
   &:hover,
   &:focus {
-    @apply bg-foreground-2;
+    @apply bg-foreground-2 text-color-1;
   }
   &:active {
     @apply bg-foreground-3;
@@ -340,10 +361,10 @@ input[type="time"]::-webkit-clear-button {
 
 :host([dir="rtl"]) {
   & .calcite-input-prefix {
-    @apply border-0 border-r;
+    @apply border-l-0 border-r;
   }
   & .calcite-input-suffix {
-    @apply border-0 border-l;
+    @apply border-r-0 border-l;
   }
 }
 
@@ -545,11 +566,13 @@ input[type="time"]::-webkit-clear-button {
 
 .calcite-input-resize-icon-wrapper {
   @apply bg-transparent
-    text-color-3
     absolute 
     pointer-events-none 
     w-4 
-    h-4;
+    h-4
+    bottom-0
+    right-0;
+  color: theme("borderColor.color.input");
   z-index: 1;
   bottom: 2px;
   right: 2px;
@@ -567,7 +590,7 @@ input[type="time"]::-webkit-clear-button {
   }
 
   .calcite-input-resize-icon-wrapper {
-    left: 2px;
+    left: 0;
     right: unset;
     & calcite-icon {
       @apply transform rotate-45;
@@ -582,12 +605,14 @@ input[type="time"]::-webkit-clear-button {
   & input,
   textarea {
     @apply cursor-pointer 
-    p-4 
+    py-2 
+    px-3
     text-center 
     border-color-input 
     bg-foreground-1 
     border 
-    border-dashed;
+    border-dashed
+    font-medium;
   }
 }
 

@@ -58,6 +58,7 @@
 :host {
   &::slotted(*) {
     .calcite-input-element-wrapper {
+      @apply w-full;
       textarea,
       input {
         @apply duration-150 ease-in-out;

@@ -5,6 +5,9 @@
 .container {
   @apply w-full inline-grid items-center;
   grid-template-columns: 1fr auto;
+  .calcite-input-element-wrapper {
+    @apply w-full;
+  }
 }
 
 .preview {

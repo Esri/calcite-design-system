@@ -1,17 +1,17 @@
 // theme variables
 :host([scale="s"]) {
-  --calcite-input-message-spacing-value: 4px;
+  --calcite-input-message-spacing-value: theme("spacing.1");
   .calcite-input-message-icon {
     margin-top: -2px;
   }
 }
 
 :host([scale="m"]) {
-  --calcite-input-message-spacing-value: 8px;
+  --calcite-input-message-spacing-value: theme("spacing.2");
 }
 
 :host([scale="l"]) {
-  --calcite-input-message-spacing-value: 12px;
+  --calcite-input-message-spacing-value: theme("spacing.3");
 }
 
 :host {
@@ -23,40 +23,40 @@
 }
 
 :host {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  box-sizing: border-box;
-  color: var(--calcite-ui-text-2);
-  font-weight: 500;
-  line-height: 1.25;
-  transition: $transition;
+  @apply flex
+    items-center
+    w-full
+    box-border
+    text-color-2
+    font-normal
+    leading-tight
+    duration-150
+    ease-in-out
+    opacity-0
+    h-0
+    pointer-events-none;
   visibility: hidden;
-  opacity: 0;
-  height: 0;
-  pointer-events: none;
 }
 
 :host([active]) {
-  opacity: 1;
-  height: auto;
+  @apply opacity-100 h-auto;
   visibility: visible;
   margin-top: var(--calcite-input-message-spacing-value);
 }
 
 :host([type="floating"]) {
+  @apply absolute
+    w-full
+    left-0
+    right-0
+    h-auto
+    rounded
+    shadow-2;
   transform: translate3d(0, -$baseline, 0);
   background-color: var(--calcite-input-message-floating-background);
-  position: absolute;
-  width: 100%;
   top: 100%;
-  left: 0;
-  right: 0;
-  height: auto;
   // accommodate for spacing of label
   margin-top: -1.5rem;
-  border-radius: var(--calcite-border-radius);
-  box-shadow: var(--calcite-shadow-2);
   padding: var(--calcite-input-message-spacing-value);
   z-index: 101;
 }
@@ -66,16 +66,22 @@
 }
 
 .calcite-input-message-icon {
-  display: inline-flex;
-  flex-shrink: 0;
-  pointer-events: none;
-  transition: $transition;
-  margin: -1px $baseline/2 0 0;
-  transition: $transition;
+  @apply inline-flex
+    flex-shrink-0
+    pointer-events-none
+    duration-150
+    ease-in-out
+    -mt-px
+    mr-2
+    mb-0
+    ml-0;
 }
 
 :host([dir="rtl"]) .calcite-input-message-icon {
-  margin: -1px 0 0 $baseline/2;
+  @apply -mt-px
+  mr-0
+  mb-0
+  ml-2;
 }
 // status
 $inputStatusColors: "invalid" var(--calcite-ui-danger) var(--calcite-ui-danger)
