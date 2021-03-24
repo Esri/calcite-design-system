@@ -11,14 +11,14 @@ section {
     flex-grow
     overflow-hidden
     border-t
-    border-t-solid
     border-t-color-1;
+  border-top-style: solid;
 }
 
 :host([position="below"]) section {
   @apply flex-col-reverse
     border-t-0
     border-b
-    border-b-solid
     border-b-color-1;
+  border-bottom-style: solid;
 }

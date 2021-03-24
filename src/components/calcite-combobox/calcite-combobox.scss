@@ -1,6 +1,5 @@
 :host {
-  display: block;
-  position: relative;
+  @apply block relative;
 }
 
 :host([disabled]) {
@@ -32,46 +31,48 @@
 }
 
 .wrapper {
-  display: flex;
-  flex-wrap: wrap;
+  @apply flex
+    flex-wrap
+    bg-foreground-1
+    border
+    border-solid
+    border-color-input
+    text-color-1
+    focus-base;
   padding: var(--calcite-combobox-item-spacing-unit-m) var(--calcite-combobox-item-spacing-unit-l) 0
     var(--calcite-combobox-item-spacing-unit-l);
-  background-color: var(--calcite-ui-foreground-1);
-  border: 1px solid var(--calcite-ui-border-1);
-  color: var(--calcite-ui-text-1);
-  @include focus-style-base();
 }
 
 .wrapper--active {
-  @include focus-style-inset();
+  @apply focus-inset;
 }
 
 .wrapper--single {
+  @apply cursor-pointer;
   padding: var(--calcite-combobox-item-spacing-unit-s) var(--calcite-combobox-item-spacing-unit-m);
-  cursor: pointer;
 }
 
 .input {
-  flex-grow: 1;
+  @apply flex-grow
+  font-inherit
+  p-0
+  bg-transparent
+  border-none
+  text-color-1
+  appearance-none
+  mt-px;
   font-size: inherit;
-  font-family: inherit;
-  padding: 0;
-  background-color: transparent;
-  border: none;
-  color: var(--calcite-ui-text-1);
-  appearance: none;
   height: var(--calcite-combobox-input-height);
   line-height: var(--calcite-combobox-input-height);
   min-width: 120px;
-  margin-top: 1px;
   margin-bottom: var(--calcite-combobox-item-spacing-unit-m);
   &:focus {
-    outline: none;
+    @apply outline-none;
   }
 }
 
 .input--transparent {
-  opacity: 0;
+  @apply opacity-0;
 }
 
 .input--single {
@@ -83,10 +84,10 @@
 }
 
 .input--hidden {
-  width: 0;
-  min-width: 0;
-  opacity: 0;
-  pointer-events: none;
+  @apply w-0
+  min-w-0
+  opacity-0
+  pointer-events-none;
 }
 
 .input--icon {
@@ -94,24 +95,26 @@
 }
 
 .input-wrap {
-  display: flex;
+  @apply flex;
 }
 
 .input-wrap--single {
-  flex: 1 1 auto;
+  @apply flex-auto;
 }
 
 .label {
+  @apply p-0
+    block
+    flex-auto
+    pointer-events-none;
   height: var(--calcite-combobox-input-height);
   line-height: var(--calcite-combobox-input-height);
-  padding: 0;
-  display: block;
-  flex: 1 1 auto;
-  pointer-events: none;
 }
 
 .label--spaced {
-  padding: 0 var(--calcite-combobox-item-spacing-unit-m);
+  @apply py-0;
+  padding-left: var(--calcite-combobox-item-spacing-unit-m);
+  padding-right: var(--calcite-combobox-item-spacing-unit-m);
 }
 
 .icon-end,
@@ -121,9 +124,9 @@
 }
 
 .popper-container {
+  @apply w-full;
   @include popperContainer();
   @include popperWrapper();
-  width: 100%;
 }
 
 @include popperElemAnim(".popper-container");
@@ -137,21 +140,18 @@
 }
 
 .list-container {
-  overflow-y: auto;
-  max-height: 100vh;
+  @apply overflow-y-auto
+    max-h-screen
+    bg-foreground-1;
   width: var(--calcite-dropdown-width);
-  background: var(--calcite-ui-foreground-1);
 }
 
 .list {
-  display: block;
-  margin: 0;
-  padding: 0;
+  @apply block m-0 p-0;
 }
 
 .list--hide {
-  height: 0;
-  overflow: hidden;
+  @apply h-0 overflow-hidden;
 }
 
 .chip {
@@ -164,7 +164,7 @@
 }
 
 .chip:last-child {
-  margin-right: 0;
+  @apply mr-0;
 }
 
 :host([dir="rtl"]) .chip {
@@ -173,9 +173,9 @@
 }
 
 :host([dir="rtl"]) .chip:last-child {
-  margin-left: 0;
+  @apply ml-0;
 }
 
 .item {
-  display: block;
+  @apply block;
 }
