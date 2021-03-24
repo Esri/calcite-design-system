@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="../build/calcite.css" />
     <script type="module" src="../build/calcite.esm.js"></script>
     <script nomodule src="../build/calcite.js"></script>
+    <script type="module" src="./_assets/demo-form.js"></script>
+    <script type="module" src="./_assets/demo-spacer.js"></script>
     <script src="_assets/validateInput.js"></script>
   </head>
 
@@ -29,6 +31,15 @@
       <input value="Initial" />
       <button type="reset">Reset</button>
     </form>
+
+    <demo-form>
+      <form name="calcite-radio-button-demo-form">
+        <demo-spacer>
+          <calcite-input name="number-fr" type="number"></calcite-input>
+          <button type="submit" style="display: none">Submit</button>
+        </demo-spacer>
+      </form>
+    </demo-form>
 
     <div style="text-align: center">
       <calcite-input value="My great value" prefix-text="pre" icon="banana" suffix-text="suf"> </calcite-input>
