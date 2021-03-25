@@ -101,7 +101,7 @@
 :host .stepper-item-icon {
   margin-right: var(--calcite-stepper-item-spacing-unit-m);
   @apply text-color-3 
-    mt-0
+    mt-px
     opacity-disabled 
     inline-flex 
     flex-shrink-0
@@ -175,7 +175,7 @@
     color: theme("backgroundColor.danger");
   }
   & .stepper-item-icon {
-    @apply bg-opacity-100;
+    @apply opacity-100;
     color: theme("backgroundColor.danger");
   }
 }
@@ -211,7 +211,7 @@
 
   & .stepper-item-icon {
     color: theme("backgroundColor.brand");
-    @apply bg-opacity-100;
+    @apply opacity-100;
   }
 }
 
@@ -230,9 +230,8 @@
   margin-bottom: var(--calcite-stepper-item-spacing-unit-m);
 
   & .stepper-item-icon {
-    @apply mr-0 mb-0 ml-auto order-3;
-    margin-top: var(--calcite-stepper-item-spacing-unit-m);
-    padding-left: var(--calcite-stepper-item-spacing-unit-l);
+    @apply mt-px mr-0 mb-0 ml-auto order-3;
+    padding-left: var(--calcite-stepper-item-spacing-unit-s);
   }
   & .stepper-item-header {
     @apply pr-0;
