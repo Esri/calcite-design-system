@@ -21,7 +21,19 @@ import { Scale, Theme } from "../interfaces";
   shadow: true
 })
 export class CalciteSwitch {
+  //--------------------------------------------------------------------------
+  //
+  //  Element
+  //
+  //--------------------------------------------------------------------------
+
   @Element() el: HTMLCalciteSwitchElement;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Properties
+  //
+  //--------------------------------------------------------------------------
 
   /** True if the switch is disabled */
   @Prop({ reflect: true }) disabled?: boolean = false;
@@ -35,18 +47,103 @@ export class CalciteSwitch {
   /** True if the switch is initially on */
   @Prop({ reflect: true, mutable: true }) switched?: boolean = false;
 
+  @Watch("switched") switchWatcher(): void {
+    this.switched
+      ? this.inputProxy.setAttribute("checked", "")
+      : this.inputProxy.removeAttribute("checked");
+  }
+
   /** The component's theme. */
   @Prop({ reflect: true }) theme: Theme;
 
   /** The value of the checkbox input */
   @Prop({ reflect: true, mutable: true }) value?: string = "";
 
+  //--------------------------------------------------------------------------
+  //
+  //  Private Properties
+  //
+  //--------------------------------------------------------------------------
+
+  private inputProxy: HTMLInputElement;
+
+  private observer: MutationObserver;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+
+  private get tabIndex(): number {
+    const hasTabIndex = this.el.hasAttribute("tabindex");
+
+    if (hasTabIndex) {
+      return Number(this.el.getAttribute("tabindex"));
+    }
+
+    return 0;
+  }
+
+  private setupProxyInput(): void {
+    // check for a proxy input
+    this.inputProxy = this.el.querySelector("input");
+
+    // if the user didn't pass a proxy input create one for them
+    if (!this.inputProxy) {
+      this.inputProxy = document.createElement("input");
+      this.inputProxy.type = "checkbox";
+      this.inputProxy.disabled = this.disabled;
+      this.syncProxyInputToThis();
+      // this.el.insertAdjacentElement("beforeend", this.inputProxy);
+      this.el.appendChild(this.inputProxy);
+    }
+
+    this.syncThisToProxyInput();
+    if (Build.isBrowser) {
+      this.observer = new MutationObserver(this.syncThisToProxyInput);
+      this.observer.observe(this.inputProxy, { attributes: true });
+    }
+  }
+
+  private syncThisToProxyInput = (): void => {
+    this.switched = this.inputProxy.hasAttribute("checked");
+    this.name = this.inputProxy.name;
+    this.value = this.inputProxy.value;
+  };
+
+  private syncProxyInputToThis = (): void => {
+    this.switched
+      ? this.inputProxy.setAttribute("checked", "")
+      : this.inputProxy.removeAttribute("checked");
+    this.inputProxy.setAttribute("name", this.name);
+    this.inputProxy.setAttribute("value", this.value);
+  };
+
+  private updateSwitch(e: Event): void {
+    e.preventDefault();
+    this.switched = !this.switched;
+    this.calciteSwitchChange.emit({
+      switched: this.switched
+    });
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
   /**
    * Fires when the switched value has changed.
    */
   @Event() calciteSwitchChange: EventEmitter;
 
-  private observer: MutationObserver;
+  //--------------------------------------------------------------------------
+  //
+  //  Event Listeners
+  //
+  //--------------------------------------------------------------------------
 
   @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(e: CustomEvent): void {
     if (
@@ -78,13 +175,11 @@ export class CalciteSwitch {
     }
   }
 
-  @Watch("switched") switchWatcher(): void {
-    this.switched
-      ? this.inputProxy.setAttribute("checked", "")
-      : this.inputProxy.removeAttribute("checked");
-  }
-
-  private inputProxy: HTMLInputElement;
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
 
   connectedCallback(): void {
     this.setupProxyInput();
@@ -97,6 +192,12 @@ export class CalciteSwitch {
   componentWillRender(): void {
     this.syncProxyInputToThis();
   }
+
+  // --------------------------------------------------------------------------
+  //
+  //  Render Methods
+  //
+  // --------------------------------------------------------------------------
 
   render(): VNode {
     const dir = getElementDir(this.el);
@@ -112,57 +213,5 @@ export class CalciteSwitch {
         </div>
       </Host>
     );
-  }
-
-  private get tabIndex(): number {
-    const hasTabIndex = this.el.hasAttribute("tabindex");
-
-    if (hasTabIndex) {
-      return Number(this.el.getAttribute("tabindex"));
-    }
-
-    return 0;
-  }
-
-  private setupProxyInput(): void {
-    // check for a proxy input
-    this.inputProxy = this.el.querySelector("input");
-
-    // if the user didn't pass a proxy input create one for them
-    if (!this.inputProxy) {
-      this.inputProxy = document.createElement("input");
-      this.inputProxy.type = "checkbox";
-      this.inputProxy.disabled = this.disabled;
-      this.syncProxyInputToThis();
-      this.el.appendChild(this.inputProxy);
-    }
-
-    this.syncThisToProxyInput();
-    if (Build.isBrowser) {
-      this.observer = new MutationObserver(this.syncThisToProxyInput);
-      this.observer.observe(this.inputProxy, { attributes: true });
-    }
-  }
-
-  private syncThisToProxyInput = (): void => {
-    this.switched = this.inputProxy.hasAttribute("checked");
-    this.name = this.inputProxy.name;
-    this.value = this.inputProxy.value;
-  };
-
-  private syncProxyInputToThis = (): void => {
-    this.switched
-      ? this.inputProxy.setAttribute("checked", "")
-      : this.inputProxy.removeAttribute("checked");
-    this.inputProxy.setAttribute("name", this.name);
-    this.inputProxy.setAttribute("value", this.value);
-  };
-
-  private updateSwitch(e: Event): void {
-    e.preventDefault();
-    this.switched = !this.switched;
-    this.calciteSwitchChange.emit({
-      switched: this.switched
-    });
   }
 }
