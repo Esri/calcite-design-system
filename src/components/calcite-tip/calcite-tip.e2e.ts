@@ -35,7 +35,7 @@ describe("calcite-tip", () => {
 
     await closeButton.click();
 
-    const tip = await page.find(`calcite-tip >>> .${CSS.container}`);
+    const tip = await page.find(`calcite-tip`);
 
     const isVisible = await tip.isVisible();
 

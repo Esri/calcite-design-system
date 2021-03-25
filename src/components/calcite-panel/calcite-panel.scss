@@ -72,7 +72,7 @@
   border-bottom: 1px solid;
   @apply items-stretch
     bg-foreground-1
-    justify-between
+    justify-start
     sticky
     top-0
     border-b-color-3
@@ -110,8 +110,14 @@
 }
 
 .header-actions {
-  @apply flex items-stretch;
-  flex-flow: row nowrap;
+  @apply flex
+  items-stretch
+  flex-row
+  flex-no-wrap;
+}
+
+.header-actions--end {
+  @apply ml-auto;
 }
 
 .menu-container:only-child {
@@ -146,6 +152,10 @@
   .header-content {
     @apply ml-auto;
     margin-right: unset;
+  }
+  .header-actions--end {
+    @apply mr-auto;
+    margin-left: unset;
   }
   .menu-container:only-child {
     @apply mr-auto;
