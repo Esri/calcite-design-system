@@ -159,14 +159,6 @@ export class CalciteInput {
   /** input value */
   @Prop({ mutable: true, reflect: true }) value?: string = "";
 
-  @Watch("value")
-  valueWatcher(): void {
-    this.calciteInputInput.emit({
-      element: this.childEl,
-      value: this.value
-    });
-  }
-
   @Watch("icon")
   @Watch("type")
   updateRequestedIcon(): void {
@@ -363,6 +355,7 @@ export class CalciteInput {
   keyDownHandler(e: KeyboardEvent): void {
     if (this.isClearable && getKey(e.key) === "Escape") {
       this.clearInputValue();
+      e.preventDefault();
     }
   }
 
@@ -439,6 +432,14 @@ export class CalciteInput {
 
   private inputInputHandler = (e) => {
     this.value = e.target.value;
+    this.emitInputFromUserInteraction();
+  };
+
+  private emitInputFromUserInteraction = () => {
+    this.calciteInputInput.emit({
+      element: this.childEl,
+      value: this.value
+    });
   };
 
   private inputBlurHandler = () => {
@@ -471,6 +472,7 @@ export class CalciteInput {
 
   private clearInputValue = () => {
     this.value = "";
+    this.emitInputFromUserInteraction();
   };
 
   private updateNumberValue = (e) => {
@@ -498,6 +500,7 @@ export class CalciteInput {
       }
 
       this.value = this.childEl.value.toString();
+      this.emitInputFromUserInteraction();
     }
   };
 }
