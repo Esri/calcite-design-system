@@ -189,7 +189,7 @@ describe("calcite-input", () => {
   it("correctly increments and decrements value when number buttons are clicked", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-input type="number" value="3"></calcite-input>
+    <calcite-input type="number" value="3.123"></calcite-input>
     `);
 
     const element = await page.find("calcite-input");
@@ -199,16 +199,27 @@ describe("calcite-input", () => {
     const numberHorizontalItemUp = await page.find(
       "calcite-input .calcite-input-number-button-item[data-adjustment='up']"
     );
-    expect(element.getAttribute("value")).toBe("3");
+    expect(element.getAttribute("value")).toBe("3.123");
     await numberHorizontalItemDown.click();
     await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("2");
+    expect(element.getAttribute("value")).toBe("2.123");
     await numberHorizontalItemUp.click();
     await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("3");
+    expect(element.getAttribute("value")).toBe("3.123");
     await numberHorizontalItemUp.click();
     await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe("4");
+    expect(element.getAttribute("value")).toBe("4.123");
+    await numberHorizontalItemUp.click();
+    await numberHorizontalItemUp.click();
+    await numberHorizontalItemUp.click();
+    await numberHorizontalItemUp.click();
+    await numberHorizontalItemUp.click();
+    await numberHorizontalItemUp.click();
+    await numberHorizontalItemUp.click();
+    await numberHorizontalItemUp.click();
+    await numberHorizontalItemUp.click();
+    await numberHorizontalItemUp.click();
+    expect(element.getAttribute("value")).toBe("14.123");
   });
 
   it("correctly increments and decrements value when number buttons are clicked and step is set", async () => {
@@ -415,16 +426,15 @@ describe("calcite-input", () => {
     expect(calciteInputInput).toHaveReceivedEventTimes(1);
   });
 
-  it("when value changes, event is received", async () => {
+  it("emits input event when value is changed by user interaction", async () => {
     const defaultValue = "John Doe";
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input value="${defaultValue}"></calcite-input>
-    `);
+    const page = await newE2EPage({
+      html: `<calcite-input value="${defaultValue}"></calcite-input>`
+    });
 
     const calciteInputInput = await page.spyOnEvent("calciteInputInput");
     const element = await page.find("calcite-input");
-    expect(element.getAttribute("value")).toBe(defaultValue);
+    expect(await element.getProperty("value")).toBe(defaultValue);
     await element.callMethod("setFocus");
     await page.$eval("calcite-input input", (input: HTMLInputElement): void => {
       input.setSelectionRange(input.value.length, input.value.length);
@@ -432,7 +442,14 @@ describe("calcite-input", () => {
     expect(calciteInputInput).toHaveReceivedEventTimes(0);
     await page.keyboard.press("e");
     await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe(`${defaultValue}e`);
+    expect(await element.getProperty("value")).toBe(`${defaultValue}e`);
+    expect(calciteInputInput).toHaveReceivedEventTimes(1);
+
+    const programmaticSetValue = "should-not-emit";
+    await element.setProperty("value", programmaticSetValue);
+    await page.waitForChanges();
+
+    expect(await element.getProperty("value")).toBe(programmaticSetValue);
     expect(calciteInputInput).toHaveReceivedEventTimes(1);
   });
 
@@ -604,5 +621,34 @@ describe("calcite-input", () => {
     await numberHorizontalItemDown.click();
     await page.waitForChanges();
     expect(calciteInputInput).toHaveReceivedEventTimes(3);
+  });
+
+  it("allows restricting input length", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-input minLength="2" maxLength="3"></calcite-input>`
+    });
+
+    const getInputValidity = async () =>
+      page.$eval("calcite-input input", (input: HTMLInputElement) => input.validity.valid);
+
+    const input = await page.find("calcite-input");
+    await input.callMethod("setFocus");
+
+    await page.keyboard.type("1");
+
+    expect(await getInputValidity()).toBe(false);
+
+    await page.keyboard.type("2");
+
+    expect(await getInputValidity()).toBe(true);
+
+    await page.keyboard.type("3");
+
+    expect(await getInputValidity()).toBe(true);
+
+    await page.keyboard.type("4");
+
+    expect(await getInputValidity()).toBe(true);
+    expect(await input.getProperty("value")).toBe("123");
   });
 });
