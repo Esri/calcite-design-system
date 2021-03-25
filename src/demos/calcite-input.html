@@ -261,7 +261,9 @@
               </calcite-input>
             </calcite-label>
             <calcite-label>
-              with button with icon
+              <!-- TO-DO: fix issue with input-action button's height when button has no text -->
+              <!--   or is this not a common use case? -->
+              with no-text button and icon
               <calcite-input placeholder="Text">
                 <calcite-button width="full" slot="input-action" icon-start="plus"></calcite-button>
               </calcite-input>
@@ -323,9 +325,9 @@
               <calcite-input disabled value="Readonly value"> </calcite-input>
             </calcite-label>
 
-            <calcite-label>
+            <calcite-label disabled>
               Disabled textarea
-              <calcite-input disabled type="textarea">Disabled value </calcite-input>
+              <calcite-input type="textarea" value="Disabled value">Disabled value </calcite-input>
             </calcite-label>
 
             <h4>Disabled - set on input without wrapping label</h4>
@@ -845,12 +847,12 @@
 
             <calcite-label disabled>
               Disabled textarea
-              <calcite-input disabled type="textarea">Disabled value </calcite-input>
+              <calcite-input type="textarea" value="Disabled value">Disabled value</calcite-input>
             </calcite-label>
 
             <h4>Disabled - set on input without wrapping label</h4>
 
-            <calcite-input disabled value="Disabled value"> </calcite-input>
+            <calcite-input disabled value="Disabled value">Disabled value </calcite-input>
             <br />
             <calcite-input disabled type="textarea" value="Disabled value">Disabled value </calcite-input>
 

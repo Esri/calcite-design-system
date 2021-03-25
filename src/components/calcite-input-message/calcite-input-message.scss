@@ -30,17 +30,15 @@
     text-color-2
     font-normal
     leading-tight
-    duration-150
-    ease-in-out
+    transition-default
     opacity-0
     h-0
-    pointer-events-none;
-  visibility: hidden;
+    pointer-events-none
+    invisible;
 }
 
 :host([active]) {
-  @apply opacity-100 h-auto;
-  visibility: visible;
+  @apply opacity-100 h-auto visible;
   margin-top: var(--calcite-input-message-spacing-value);
 }
 
@@ -69,8 +67,7 @@
   @apply inline-flex
     flex-shrink-0
     pointer-events-none
-    duration-150
-    ease-in-out
+    transition-default
     -mt-px
     mr-2
     mb-0

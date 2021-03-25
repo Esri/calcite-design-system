@@ -28,8 +28,7 @@
   @apply box-border
     flex
     justify-between
-    duration-150
-    ease-in-out
+    transition-default
     bg-foreground-1;
 
   .calcite-inline-editable-input-wrapper {
@@ -61,7 +60,7 @@
       @apply w-full;
       textarea,
       input {
-        @apply duration-150 ease-in-out;
+        @apply transition-default;
       }
     }
   }

@@ -1,5 +1,8 @@
 // temporary hardcoded values until new font scale and padding is added to calcite-base
 :host([scale="s"]) {
+  &:not([type="textarea"]) .calcite-input-wrapper {
+    max-height: theme("spacing.6");
+  }
   & textarea,
   & input,
   & .calcite-input-prefix,
@@ -19,8 +22,8 @@
     @apply h-auto;
   }
   & .calcite-input-clear-button {
-    min-height: theme("minHeight.6");
-    min-width: theme("minHeight.6");
+    min-height: theme("spacing.6");
+    min-width: theme("spacing.6");
   }
   .calcite-input-number-button-item {
     @apply h-3;
@@ -35,6 +38,9 @@
 }
 
 :host([scale="m"]) {
+  &:not([type="textarea"]) .calcite-input-wrapper {
+    max-height: theme("spacing.8");
+  }
   & textarea,
   & input,
   & .calcite-input-prefix,
@@ -42,7 +48,7 @@
     @apply text--1h p-2 h-8;
   }
   & textarea {
-    min-height: theme("minHeight.8");
+    min-height: theme("spacing.8");
   }
   & .calcite-input-number-button-wrapper,
   & .calcite-input-action-wrapper calcite-button,
@@ -51,11 +57,11 @@
   }
   & textarea,
   & input[type="file"] {
-    @apply h-auto;
+    @apply h-full;
   }
   & .calcite-input-clear-button {
-    min-height: theme("minHeight.8");
-    min-width: theme("minHeight.8");
+    min-height: theme("spacing.8");
+    min-width: theme("spacing.8");
   }
   .calcite-input-number-button-item {
     @apply h-4;
@@ -69,27 +75,30 @@
 }
 
 :host([scale="l"]) {
+  &:not([type="textarea"]) .calcite-input-wrapper {
+    max-height: theme("spacing.10");
+  }
   & textarea,
   & input,
   & .calcite-input-prefix,
   & .calcite-input-suffix {
-    @apply text-1h p-3 h-12;
+    @apply text-1h p-3 h-10;
   }
   & textarea {
-    min-height: theme("height.12");
+    min-height: theme("height.10");
   }
   & .calcite-input-number-button-wrapper,
   & .calcite-input-action-wrapper calcite-button,
   & .calcite-input-action-wrapper calcite-button button {
-    @apply h-12;
+    @apply h-10;
   }
   & textarea,
   & input[type="file"] {
     @apply h-auto;
   }
   & .calcite-input-clear-button {
-    min-height: theme("height.12");
-    min-width: theme("height.12");
+    min-height: theme("height.10");
+    min-width: theme("height.10");
   }
   .calcite-input-number-button-item {
     @apply h-6;
@@ -97,7 +106,7 @@
   .calcite-input-number-button-item.number-button-item-horizontal {
     &[data-adjustment="down"],
     &[data-adjustment="up"] {
-      @apply h-12;
+      @apply h-10;
     }
   }
 }
@@ -109,7 +118,7 @@
   & .calcite-input-wrapper {
     @apply opacity-disabled pointer-events-none;
   }
-  & textarea,
+  textarea,
   & input {
     @apply pointer-events-none;
   }
@@ -129,8 +138,10 @@
     text-color-1 
     font-normal 
     rounded-none
-    duration-150 
+    duration-150
     ease-in-out;
+  transition-property: height;
+  transition-delay: "0s"; // add to config via extend?-theme("transitionDelay.0");
   min-width: theme("width[1/5]");
   -webkit-appearance: none;
   box-shadow: 0 0 0 0 transparent;
@@ -223,16 +234,15 @@
 
 //positioning wrapper for icon and loader
 .calcite-input-element-wrapper {
-  @apply flex inline-flex relative order-3;
-  min-width: theme("width[1/5");
+  @apply inline-flex relative order-3 flex-1 h-auto;
+  min-width: theme("width[1/5]");
 }
 
 .calcite-input-icon {
   @apply block 
     absolute 
     pointer-events-none
-    duration-150
-    ease-in-out
+    transition-default
     mt-px 
     mx-auto;
   color: theme("colors.text.3") !important;
@@ -281,15 +291,14 @@ input[type="time"]::-webkit-clear-button {
     box-border 
     cursor-pointer 
     min-h-full 
-    pointer-events-none
+    pointer-events-auto
     bg-foreground-1 
     border
     border-solid
     border-l-0
     order-4
     border-color-input 
-    duration-150 
-    ease-in-out
+    transition-default
     text-color-3;
   &:hover,
   &:focus {
@@ -420,8 +429,7 @@ input[type="time"]::-webkit-clear-button {
     box-border 
     pointer-events-auto 
     order-6
-    duration-150 
-    ease-in-out;
+    transition-default;
 }
 
 :host([number-button-type="vertical"]) .calcite-input-wrapper {
@@ -511,8 +519,8 @@ input[type="time"]::-webkit-clear-button {
     transition-color 
     duration-150 
     ease-in-out;
-  max-height: theme("height[1/2]");
-  min-height: theme("height[1/2]");
+  max-height: calc(theme("height.full") / 2);
+  min-height: calc(theme("height.full") / 2);
   & calcite-icon {
     @apply pointer-events-none;
   }
