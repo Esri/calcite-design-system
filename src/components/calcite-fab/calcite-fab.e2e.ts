@@ -31,7 +31,7 @@ describe("calcite-fab", () => {
     await page.setContent(`<calcite-fab text="hello world" text-enabled></calcite-fab>`);
 
     const button = await page.find(`calcite-fab >>> .${CSS.button}`);
-    expect(button.getAttribute("title")).toBe("");
+    expect(button.getAttribute("title")).toBe(null);
   });
 
   it("should have a tooltip when not text-enabled", async () => {

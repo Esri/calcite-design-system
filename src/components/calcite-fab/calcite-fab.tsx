@@ -107,7 +107,7 @@ export class CalciteFab {
       label,
       text
     } = this;
-    const title = !textEnabled ? label || text : "";
+    const title = !textEnabled ? label || text || null : null;
     const dir = getElementDir(el);
 
     return (
