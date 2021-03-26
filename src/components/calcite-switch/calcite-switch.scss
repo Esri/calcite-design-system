@@ -29,10 +29,6 @@
   --calcite-switch-handle-size: 22px;
 }
 
-::slotted(input) {
-  display: none;
-}
-
 :host {
   display: inline-block;
   position: relative;
