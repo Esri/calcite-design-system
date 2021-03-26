@@ -97,8 +97,7 @@ export class CalciteSwitch {
   //
   //--------------------------------------------------------------------------
 
-  private updateSwitch(e: Event): void {
-    e.preventDefault();
+  private updateSwitch(): void {
     this.switched = !this.switched;
     this.calciteSwitchChange.emit({
       switched: this.switched
@@ -143,7 +142,7 @@ export class CalciteSwitch {
       (!this.disabled && this.el.closest("label") && e.target === this.inputEl) ||
       (!this.el.closest("label") && e.target === this.el)
     ) {
-      this.updateSwitch(e);
+      this.updateSwitch();
     }
   }
 
@@ -151,7 +150,7 @@ export class CalciteSwitch {
   keyDownHandler(e: KeyboardEvent): void {
     const key = getKey(e.key);
     if (!this.disabled && (key === " " || key === "Enter")) {
-      this.updateSwitch(e);
+      this.updateSwitch();
     }
   }
 
@@ -174,7 +173,7 @@ export class CalciteSwitch {
 
   private renderInput(): void {
     this.inputEl = document.createElement("input");
-    this.inputEl.checked = this.switched;
+    this.switched && this.inputEl.setAttribute("checked", "");
     this.inputEl.disabled = this.disabled;
     this.inputEl.id = `${this.guid}-input`;
     this.inputEl.name = this.name;
