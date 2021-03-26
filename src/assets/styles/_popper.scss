@@ -111,7 +111,7 @@ $pointer_offset: -$pointer_size/2;
     position: absolute;
     width: $pointer_size;
     height: $pointer_size;
-    z-index: 1;
+    z-index: -1;
   }
 
   .arrow::before {
