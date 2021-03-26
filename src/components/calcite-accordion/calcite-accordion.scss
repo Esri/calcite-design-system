@@ -1,41 +1,39 @@
 // scale variants for child
 :host([scale="s"]) {
-  --calcite-accordion-item-spacing-unit: #{$baseline/3};
-  --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit)
-    var(--calcite-accordion-item-spacing-unit);
-  @apply text--2;
+  --calcite-accordion-item-spacing-unit: theme("spacing.1");
+  --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit) theme("spacing.2");
+  @apply text--2h;
 }
 
 :host([scale="m"]) {
-  --calcite-accordion-item-spacing-unit: #{$baseline/2};
-  --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit)
-    var(--calcite-accordion-item-spacing-unit);
-  @apply text--1;
+  --calcite-accordion-item-spacing-unit: theme("spacing.2");
+  --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit) theme("spacing.3");
+  @apply text--1h;
 }
 
 :host([scale="l"]) {
-  --calcite-accordion-item-spacing-unit: #{$baseline};
-  --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit)
-    var(--calcite-accordion-item-spacing-unit);
-  @apply text-1;
+  --calcite-accordion-item-spacing-unit: theme("spacing.3");
+  --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit) theme("spacing.4");
+  @apply text-1h;
 }
 
 :host {
-  display: block;
-  position: relative;
-  max-width: 100%;
-  border: 1px solid var(--calcite-ui-border-2);
-  border-bottom: none;
-  line-height: 1.5;
-  --calcite-accordion-item-border: var(--calcite-ui-border-2);
-  --calcite-accordion-item-background: var(--calcite-ui-foreground-1);
+  @apply block
+    relative
+    max-w-full
+    border
+    border-solid
+    border-color-2
+    border-b-0
+    leading-6;
+  --calcite-accordion-item-border: theme("borderColor.2");
+  --calcite-accordion-item-background: theme("backgroundColor.foreground.1");
 }
 
 :host([appearance="minimal"]) {
   --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit) 0;
   border-color: transparent;
 }
-
 :host([appearance="transparent"]) {
   border-color: transparent;
   --calcite-accordion-item-border: transparent;

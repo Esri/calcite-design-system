@@ -148,6 +148,7 @@ export class CalciteFilter {
     this.textInput.value = "";
     this.empty = true;
     this.calciteFilterChange.emit(this.data);
+    this.setFocus();
   };
 
   // --------------------------------------------------------------------------
