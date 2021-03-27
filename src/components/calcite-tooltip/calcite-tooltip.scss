@@ -3,17 +3,17 @@
 
 .container {
   @apply relative
-    bg-foreground-1
-    flex
-    justify-start
-    flex-col
-    font-medium
-    text-color-1
-    py-3
-    px-4
-    overflow-hidden
-    text--2-wrap
-    rounded;
+     bg-foreground-1
+     flex
+     justify-start
+     flex-col
+     font-medium
+     text-color-1
+     py-3
+     px-4
+     overflow-hidden
+     text--2-wrap
+     rounded;
   max-width: 20rem;
   max-height: 20rem;
 }
@@ -22,12 +22,10 @@
   @apply bg-foreground-1
     border
     border-solid
-    border-color-3;
+    border-color-3
+    rounded;
 }
 
-.arrow:before {
-  @apply bg-foreground-1
-  border
-  border-solid
-  border-color-3;
+.arrow::before {
+  outline: 1px solid var(--calcite-ui-border-3);
 }
