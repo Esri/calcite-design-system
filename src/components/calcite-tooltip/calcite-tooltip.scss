@@ -3,17 +3,17 @@
 
 .container {
   @apply relative
-     bg-foreground-1
-     flex
-     justify-start
-     flex-col
-     font-medium
-     text-color-1
-     py-3
-     px-4
-     overflow-hidden
-     text--2-wrap
-     rounded;
+    bg-foreground-1
+    flex
+    justify-start
+    flex-col
+    font-medium
+    text-color-1
+    py-3
+    px-4
+    overflow-hidden
+    text--2-wrap
+    rounded;
   max-width: 20rem;
   max-height: 20rem;
 }
