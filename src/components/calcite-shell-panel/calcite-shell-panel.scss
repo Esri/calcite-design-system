@@ -46,21 +46,21 @@
 }
 
 :host([width-scale="s"]) .content {
-  --calcite-shell-panel-width: calc(var(--calcite-ui-panel-width-unit) * 12vw);
-  --calcite-shell-panel-max-width: calc(var(--calcite-ui-panel-width-unit) * 300px);
-  --calcite-shell-panel-min-width: calc(var(--calcite-ui-panel-width-unit) * 150px);
+  --calcite-shell-panel-width: calc(var(--calcite-ui-panel-width-multiplier) * 12vw);
+  --calcite-shell-panel-max-width: calc(var(--calcite-ui-panel-width-multiplier) * 300px);
+  --calcite-shell-panel-min-width: calc(var(--calcite-ui-panel-width-multiplier) * 150px);
 }
 
 :host([width-scale="m"]) .content {
-  --calcite-shell-panel-width: calc(var(--calcite-ui-panel-width-unit) * 20vw);
-  --calcite-shell-panel-max-width: calc(var(--calcite-ui-panel-width-unit) * 420px);
-  --calcite-shell-panel-min-width: calc(var(--calcite-ui-panel-width-unit) * 240px);
+  --calcite-shell-panel-width: calc(var(--calcite-ui-panel-width-multiplier) * 20vw);
+  --calcite-shell-panel-max-width: calc(var(--calcite-ui-panel-width-multiplier) * 420px);
+  --calcite-shell-panel-min-width: calc(var(--calcite-ui-panel-width-multiplier) * 240px);
 }
 
 :host([width-scale="l"]) .content {
-  --calcite-shell-panel-width: calc(var(--calcite-ui-panel-width-unit) * 45vw);
-  --calcite-shell-panel-max-width: calc(var(--calcite-ui-panel-width-unit) * 680px);
-  --calcite-shell-panel-min-width: calc(var(--calcite-ui-panel-width-unit) * 340px);
+  --calcite-shell-panel-width: calc(var(--calcite-ui-panel-width-multiplier) * 45vw);
+  --calcite-shell-panel-max-width: calc(var(--calcite-ui-panel-width-multiplier) * 680px);
+  --calcite-shell-panel-min-width: calc(var(--calcite-ui-panel-width-multiplier) * 340px);
 }
 
 :host([detached-height-scale="s"]) .content--detached {
