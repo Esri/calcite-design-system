@@ -136,13 +136,25 @@
 }
 
 .content-container {
-  @apply items-stretch bg-background flex flex-auto overflow-auto flex;
-  flex-flow: column nowrap;
+  @apply items-stretch 
+  bg-background
+  flex
+  flex-auto
+  overflow-auto
+  flex-no-wrap
+  flex-col;
 }
 
 .footer {
   border-top: 1px solid;
-  @apply bg-foreground-1 border-t-color-3 flex justify-evenly sticky bottom-0 w-full;
+  @apply bg-foreground-1
+  border-t-color-3
+  flex
+  justify-evenly
+  sticky
+  bottom-0
+  w-full;
+  
   flex: 0 0 auto;
   min-height: theme("spacing.12");
   padding: theme("spacing.2");
@@ -164,7 +176,14 @@
 }
 
 .fab-container {
-  @apply inline-block sticky my-0 mx-auto bottom-0 left-0 right-0;
+  @apply inline-block
+  sticky
+  my-0
+  mx-auto
+  p-2
+  bottom-0
+  left-0
+  right-0;
+
   z-index: 1;
-  padding: theme("spacing.2");
 }
