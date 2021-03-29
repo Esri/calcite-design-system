@@ -30,6 +30,7 @@ import {
   ComboboxTransitionDuration
 } from "./resources";
 import { getItemAncestors, getItemChildren, hasActiveChildren } from "./utils";
+import { CSS_UTILITY } from "../../utils/resources";
 
 interface ItemData {
   label: string;
@@ -831,7 +832,7 @@ export class CalciteCombobox {
     const dir = getElementDir(el);
     const labelId = `${guid}-label`;
     return (
-      <Host active={active} dir={dir}>
+      <Host active={active}>
         <div
           aria-autocomplete="list"
           aria-expanded={active.toString()}
@@ -839,6 +840,7 @@ export class CalciteCombobox {
           aria-labelledby={labelId}
           aria-owns={guid}
           class={{
+            [CSS_UTILITY.rtl]: dir === "rtl",
             wrapper: true,
             "wrapper--active": active,
             "wrapper--single": single

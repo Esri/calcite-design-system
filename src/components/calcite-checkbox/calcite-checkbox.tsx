@@ -13,7 +13,7 @@ import {
   Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { focusElement, getElementDir } from "../../utils/dom";
+import { focusElement } from "../../utils/dom";
 import { Scale, Theme } from "../interfaces";
 
 @Component({
@@ -276,7 +276,7 @@ export class CalciteCheckbox {
             <svg class="check-svg" viewBox="0 0 16 16">
               <path d={this.getPath()} />
             </svg>
-            <calcite-label dir={getElementDir(this.el)} disable-spacing scale={this.scale}>
+            <calcite-label disable-spacing scale={this.scale}>
               <slot />
             </calcite-label>
           </div>

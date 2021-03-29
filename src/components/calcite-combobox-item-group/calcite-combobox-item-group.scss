@@ -29,7 +29,7 @@
   --calcite-combobox-item-indent-end-2: unset;
 }
 
-:host([dir="rtl"]) {
+:host .calcite--rtl {
   --calcite-combobox-item-indent-start-1: unset;
   --calcite-combobox-item-indent-end-1: var(--calcite-combobox-item-spacing-indent-1);
   --calcite-combobox-item-indent-start-2: unset;
