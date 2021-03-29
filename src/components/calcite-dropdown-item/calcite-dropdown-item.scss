@@ -1,13 +1,13 @@
 :host([scale="s"]) {
-  @apply text--2 pr-3 pl-6 py-2;
+  @apply text--2h pr-3 pl-6 py-2;
 }
 
 :host([scale="m"]) {
-  @apply text--1 pr-4 pl-8 py-3;
+  @apply text--1h pr-4 pl-8 py-3;
 }
 
 :host([scale="l"]) {
-  @apply text-1 pr-5 pl-10 py-4;
+  @apply text-1h pr-5 pl-10 py-4;
 }
 
 // RTL
@@ -40,7 +40,7 @@
       opacity-0
       duration-150
       ease-in-out;
-    color: theme("borderColor.1");
+    color: theme("borderColor.color.1");
   }
 }
 
@@ -195,7 +195,7 @@
 }
 
 :host(:hover) .dropdown-item-check-icon {
-  color: theme("borderColor.1");
+  color: theme("borderColor.color.1");
   @apply opacity-100;
 }
 

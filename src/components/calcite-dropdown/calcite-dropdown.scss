@@ -1,7 +1,5 @@
 :host {
-  position: relative;
-  display: inline-flex;
-  flex-grow: 1;
+  @apply relative flex-grow;
 }
 
 // disabled styles
