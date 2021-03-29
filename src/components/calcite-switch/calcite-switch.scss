@@ -45,13 +45,12 @@
   cursor: default;
 }
 // focus styles
-:host {
+.container {
   @include focus-style-base();
   width: auto;
-}
-
-:host(:focus) {
-  @include focus-style-outset();
+  &:focus {
+    @include focus-style-outset();
+  }
 }
 
 .track {
