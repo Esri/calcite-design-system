@@ -451,8 +451,8 @@
   }
 }
 
-:host([dir="ltr"][appearance="outline"][split-child="secondary"]) button,
-:host([dir="ltr"][appearance="clear"][split-child="secondary"]) button {
+:host([appearance="outline"][split-child="secondary"]) button,
+:host([appearance="clear"][split-child="secondary"]) button {
   border-left: 0;
 }
 
