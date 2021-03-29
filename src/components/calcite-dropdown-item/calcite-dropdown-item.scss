@@ -24,21 +24,23 @@
 }
 
 @mixin itemStyling {
-  display: flex;
-  flex-grow: 1;
-  align-items: center;
-  color: var(--calcite-ui-text-3);
-  transition: $transition;
-  cursor: pointer;
-  text-decoration: none;
-  outline: none;
-  position: relative;
+  @apply flex
+    flex-grow
+    items-center
+    text-color-3
+    duration-150
+    ease-in-out
+    cursor-pointer
+    no-underline
+    outline-none
+    relative;
   &:before {
     content: "\2022";
-    position: absolute;
-    opacity: 0;
-    color: var(--calcite-ui-border-1);
-    transition: $transition;
+    @apply absolute
+      opacity-0
+      duration-150
+      ease-in-out;
+    color: theme("borderColor.1");
   }
 }
 
@@ -51,18 +53,17 @@
 }
 
 :host([dir="rtl"]) .dropdown-item-content {
-  margin-right: unset;
-  @apply ml-auto;
+  @apply ml-auto mr-0;
 }
 
 //focus
 :host,
 :host([islink]) a {
-  @include focus-style-base();
+  @apply focus-base;
 }
 :host(:focus),
 :host([islink]) a:focus {
-  @include focus-style-inset();
+  @apply focus-inset;
 }
 
 // when used as link move styling anchor
@@ -87,49 +88,45 @@
 
 :host(:hover),
 :host(:active) {
-  background-color: var(--calcite-ui-foreground-2);
-  color: var(--calcite-ui-text-1);
-  text-decoration: none;
+  @apply bg-foreground-2 text-color-1 no-underline;
 }
 
 :host(:focus) {
-  color: var(--calcite-ui-text-1);
-  text-decoration: none;
+  @apply text-color-1 no-underline;
 }
 
 :host(:active) {
-  background-color: var(--calcite-ui-foreground-3);
+  @apply bg-foreground-3;
 }
 
 :host(:hover):before,
 :host(:active):before,
 :host(:focus):before {
-  opacity: 1;
+  @apply opacity-100;
 }
 
 :host([dir="rtl"]) {
   &:before {
     left: unset;
-    right: 1rem;
+    right: theme("spacing.4");
   }
 }
 
 :host([active]:not([selection-mode="none"])) {
-  color: var(--calcite-ui-text-1);
-  font-weight: 500;
+  @apply text-color-1 font-normal;
   &:before {
-    opacity: 1;
-    color: var(--calcite-ui-brand);
+    @apply opacity-100;
+    color: theme("backgroundColor.brand");
   }
   & calcite-icon {
-    color: var(--calcite-ui-brand);
+    color: theme("backgroundColor.brand");
   }
 }
 
 // no dot for none and multi modes
 :host([selection-mode="multi"]):before,
 :host([selection-mode="none"]):before {
-  display: none;
+  @apply hidden;
 }
 
 // single select "icon"
@@ -160,10 +157,11 @@
 
 // multi select check icon
 :host .dropdown-item-check-icon {
-  position: absolute;
-  opacity: 0;
+  @apply absolute
+    bg-opacity-0
+    duration-150
+    ease-in-out;
   transform: scale(0.9);
-  transition: $transition;
 }
 
 :host([scale="s"]) .dropdown-item-check-icon {
@@ -197,13 +195,13 @@
 }
 
 :host(:hover) .dropdown-item-check-icon {
-  color: var(--calcite-ui-border-1);
-  opacity: 1;
+  color: theme("borderColor.1");
+  @apply opacity-100;
 }
 
 :host([active]) .dropdown-item-check-icon {
-  color: var(--calcite-ui-brand);
-  opacity: 1;
+  color: theme("backgroundColor.brand");
+  @apply opacity-100;
 }
 
 // icon start & end
@@ -272,6 +270,5 @@
 }
 
 :host([dir="rtl"]) calcite-icon {
-  margin-right: 0;
-  margin-left: $baseline / 1.5;
+  @apply mr-0 ml-3;
 }
