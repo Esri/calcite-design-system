@@ -50,6 +50,9 @@ describe("calcite-filter", () => {
     });
 
     describe("clearing value", () => {
+      const filterIsFocused = async (): Promise<boolean> =>
+        page.evaluate(() => document.querySelector("calcite-filter") === document.activeElement);
+
       it("should clear the value in the input when pressed", async () => {
         const filter = await page.find("calcite-filter");
         await filter.callMethod("setFocus");
@@ -60,6 +63,7 @@ describe("calcite-filter", () => {
         const button = await page.find(`calcite-filter >>> button`);
 
         await button.click();
+        await page.waitForChanges();
 
         const value = await page.evaluate(() => {
           const filter = document.querySelector("calcite-filter");
@@ -68,6 +72,7 @@ describe("calcite-filter", () => {
         });
 
         expect(value).toBe("");
+        expect(await filterIsFocused()).toBe(true);
       });
 
       it("should clear the value in the input when the Escape key is pressed", async () => {
@@ -87,6 +92,7 @@ describe("calcite-filter", () => {
         });
 
         expect(value).toBe("");
+        expect(await filterIsFocused()).toBe(true);
       });
     });
   });

@@ -1,33 +1,33 @@
 :host {
-  display: flex;
-  justify-content: center;
-  outline: none;
-  color: var(--calcite-ui-text-3);
-  cursor: pointer;
+  @apply flex
+    justify-center
+    outline-none
+    text-color-3
+    cursor-pointer
+    min-w-0;
   width: calc(100% / 7);
-  min-width: 0;
 }
 
 .day-v-wrapper {
-  flex: 1 1 auto;
+  @apply flex-auto;
 }
 
 .day {
-  display: flex;
-  border-radius: 100%;
-  @include font-size(-2);
-  justify-content: center;
-  align-items: center;
-  line-height: 1;
-  color: var(--calcite-ui-text-3);
-  transition: all $transition;
+  @apply flex
+    rounded-full
+    text--2h
+    justify-center
+    items-center
+    leading-none
+    text-color-3
+    transition-all
+    opacity-disabled;
   background: none;
   box-shadow: 0 0 0 2px transparent, 0 0 0 0px transparent;
-  opacity: var(--calcite-ui-opacity-disabled);
 }
 
 .text {
-  margin: 1px 0 0 1px;
+  @apply mt-px mr-0 mb-0 ml-px;
 }
 
 :host([scale="s"]) {
@@ -73,19 +73,18 @@
 }
 
 :host([current-month]) .day {
-  opacity: 1;
+  @apply opacity-100;
 }
 
 :host([disabled]) {
   cursor: default;
-  opacity: 0.2;
+  @apply bg-opacity-25;
 }
 
 :host(:hover:not([disabled])),
 :host([active]:not([range])) {
   & .day {
-    background-color: var(--calcite-ui-foreground-2);
-    color: var(--calcite-ui-text-1);
+    @apply bg-foreground-2 text-color-1;
   }
 }
 
@@ -99,9 +98,9 @@
 }
 
 :host([selected]) .day {
+  @apply font-medium;
   background-color: var(--calcite-ui-brand) !important;
   color: var(--calcite-ui-foreground-1) !important;
-  font-weight: 500;
   z-index: 1;
 }
 
@@ -154,21 +153,20 @@
   background-color: var(--calcite-ui-foreground-current);
 
   .day {
-    color: var(--calcite-ui-text-1);
+    @apply text-color-1;
   }
 }
 
 :host([highlighted]:not([active]:focus)) .day {
-  border-radius: 0;
-  color: var(--calcite-ui-text-1);
+  @apply rounded-none text-color-1;
 }
 
 :host([range-hover]:not([selected])) {
   .day-wrapper {
-    background-color: var(--calcite-ui-foreground-2);
+    @apply bg-foreground-2;
   }
   .day {
-    border-radius: 0;
+    @apply rounded-none;
   }
 }
 
@@ -181,8 +179,7 @@
     var(--calcite-ui-foreground-2),
     var(--calcite-ui-foreground-2)
   );
-  border-radius: 0;
-  box-shadow: none;
+  @apply rounded-none shadow-none;
 }
 
 :host([start-of-range][range-hover][dir="ltr"]) .day-wrapper,
@@ -194,8 +191,7 @@
     var(--calcite-ui-foreground-2),
     var(--calcite-ui-foreground-2)
   );
-  border-radius: 0;
-  box-shadow: none;
+  @apply rounded-none shadow-none;
 }
 
 :host(:hover[range-hover]:not([selected]).focused--end[dir="ltr"]),
@@ -206,7 +202,7 @@
     box-shadow: inset -4px 0 var(--calcite-ui-foreground-1);
   }
   .day {
-    border-radius: 100%;
+    @apply rounded-full;
     box-shadow: -2px 0 var(--calcite-ui-foreground-1);
   }
 }
@@ -229,14 +225,14 @@
 :host(:hover[start-of-range].hover--inside-range.focused--end),
 :host(:hover[end-of-range].hover--inside-range.focused--start) {
   .day-wrapper {
-    background: none;
+    @apply bg-none;
   }
 }
 
 :host([start-of-range].hover--inside-range.focused--end),
 :host([end-of-range].hover--inside-range.focused--start) {
   .day-wrapper {
-    background-color: var(--calcite-ui-foreground-2);
+    @apply bg-foreground-2;
   }
 }
 
