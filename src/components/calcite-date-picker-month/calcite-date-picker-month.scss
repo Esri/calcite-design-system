@@ -1,39 +1,41 @@
 .calender {
-  padding-bottom: 4px;
+  @apply mb-1;
 }
 
 .week-headers {
-  display: flex;
-  flex-direction: row;
-  border-top: 1px solid var(--calcite-ui-border-3);
-  padding: 0 4px;
+  @apply flex
+    border-0
+    border-t
+    border-solid
+    border-color-3
+    py-0
+    px-1;
 }
 
 .week-header {
-  color: var(--calcite-ui-text-3);
-  font-weight: 600;
+  @apply text-color-3
+    text-center
+    font-bold;
   width: calc(100% / 7);
-  text-align: center;
 }
 
 :host([scale="s"]) .week-header {
-  font-size: 12px;
-  padding: 16px 0 16px 0;
+  @apply text--2h py-4 px-0;
 }
 
 :host([scale="m"]) .week-header {
-  font-size: 12px;
-  padding: 24px 0 20px 0;
+  @apply text--2h py-6 px-0;
 }
 
 :host([scale="l"]) .week-header {
-  font-size: 14px;
-  padding: 32px 0 24px 0;
+  @apply text--1h pt-8 pb-6 px-0;
 }
 
 .week-days {
-  outline: none;
-  display: flex;
-  flex-direction: row;
-  padding: 0 6px;
+  @apply outline-none
+    flex
+    flex-row
+    py-0;
+  padding-left: 6px;
+  padding-right: 6px;
 }

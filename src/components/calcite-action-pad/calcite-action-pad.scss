@@ -1,6 +1,5 @@
 :host {
   @extend %component-host;
-  @extend %component-spacing;
   @apply animate-in rounded-sm;
 }
 
@@ -40,7 +39,6 @@
     ::slotted(calcite-action-group) {
       @apply border-0
       border-r
-      flex-row
       p-0;
     }
   }

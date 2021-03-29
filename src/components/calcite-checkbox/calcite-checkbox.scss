@@ -17,21 +17,22 @@
     select-none;
   -webkit-tap-highlight-color: transparent;
   .check-svg {
+    @apply overflow-hidden
+      inline-block
+      bg-foreground-1
+      pointer-events-none
+      box-border
+      transition-all
+      duration-150
+      ease-in-out;
     width: var(--calcite-checkbox-size);
     height: var(--calcite-checkbox-size);
-    overflow: hidden;
-    display: inline-block;
-    background-color: var(--calcite-ui-foreground-1);
     box-shadow: inset 0 0 0 1px var(--calcite-ui-border-input);
-    fill: var(--calcite-ui-background);
-    pointer-events: none;
-    box-sizing: border-box;
-    transition: all 0.15s ease-in-out;
+    fill: theme("backgroundColor.background");
   }
   .hasLabel {
-    display: grid;
+    @apply grid items-center;
     grid-gap: var(--calcite-checkbox-grid-gap);
-    align-items: center;
     --calcite-label-margin-bottom: 0;
   }
   ::slotted(input) {
@@ -48,8 +49,7 @@
 :host([checked]),
 :host([indeterminate]) {
   .check-svg {
-    background-color: var(--calcite-ui-brand);
-    box-shadow: inset 0 0 0 1px var(--calcite-ui-brand);
+    @apply bg-brand shadow-outline-active;
   }
 }
 :host {
@@ -58,9 +58,7 @@
   }
 }
 :host([disabled]) {
-  cursor: default;
-  opacity: var(--calcite-ui-opacity-disabled);
-  pointer-events: none;
+  @apply cursor-default opacity-disabled pointer-events-none;
 }
 :host([scale="s"]) {
   .hasLabel {
