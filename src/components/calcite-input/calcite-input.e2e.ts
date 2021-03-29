@@ -426,16 +426,15 @@ describe("calcite-input", () => {
     expect(calciteInputInput).toHaveReceivedEventTimes(1);
   });
 
-  it("when value changes, event is received", async () => {
+  it("emits input event when value is changed by user interaction", async () => {
     const defaultValue = "John Doe";
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input value="${defaultValue}"></calcite-input>
-    `);
+    const page = await newE2EPage({
+      html: `<calcite-input value="${defaultValue}"></calcite-input>`
+    });
 
     const calciteInputInput = await page.spyOnEvent("calciteInputInput");
     const element = await page.find("calcite-input");
-    expect(element.getAttribute("value")).toBe(defaultValue);
+    expect(await element.getProperty("value")).toBe(defaultValue);
     await element.callMethod("setFocus");
     await page.$eval("calcite-input input", (input: HTMLInputElement): void => {
       input.setSelectionRange(input.value.length, input.value.length);
@@ -443,7 +442,14 @@ describe("calcite-input", () => {
     expect(calciteInputInput).toHaveReceivedEventTimes(0);
     await page.keyboard.press("e");
     await page.waitForChanges();
-    expect(element.getAttribute("value")).toBe(`${defaultValue}e`);
+    expect(await element.getProperty("value")).toBe(`${defaultValue}e`);
+    expect(calciteInputInput).toHaveReceivedEventTimes(1);
+
+    const programmaticSetValue = "should-not-emit";
+    await element.setProperty("value", programmaticSetValue);
+    await page.waitForChanges();
+
+    expect(await element.getProperty("value")).toBe(programmaticSetValue);
     expect(calciteInputInput).toHaveReceivedEventTimes(1);
   });
 
