@@ -40,7 +40,7 @@
       opacity-0
       duration-150
       ease-in-out;
-    color: theme("borderColor.1");
+    color: theme("borderColor.color.1");
   }
 }
 
@@ -195,7 +195,7 @@
 }
 
 :host(:hover) .dropdown-item-check-icon {
-  color: theme("borderColor.1");
+  color: theme("borderColor.color.1");
   @apply opacity-100;
 }
 
