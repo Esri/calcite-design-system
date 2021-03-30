@@ -113,7 +113,7 @@
 }
 
 :host([active]:not([selection-mode="none"])) {
-  @apply text-color-1 font-normal;
+  @apply text-color-1 font-medium;
   &:before {
     @apply opacity-100;
     color: theme("backgroundColor.brand");
