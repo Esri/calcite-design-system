@@ -1,5 +1,5 @@
 :host {
-  @apply relative flex-grow;
+  @apply relative inline-flex flex-grow;
 }
 
 // disabled styles
@@ -17,7 +17,7 @@
 :host .calcite-dropdown-content {
   @apply bg-foreground-1
     overflow-hidden
-    overflow-x-auto
+    overflow-y-auto
     w-auto;
   max-height: 90vh;
   width: var(--calcite-dropdown-width);
