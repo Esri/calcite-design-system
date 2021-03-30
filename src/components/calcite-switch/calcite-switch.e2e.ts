@@ -124,6 +124,7 @@ describe("calcite-switch", () => {
     calciteSwitch.setAttribute("tabindex", "-1");
 
     await page.waitForChanges();
+    await page.waitForChanges();
 
     expect(await calciteSwitch.getProperty("tabIndex")).toBe(-1);
   });

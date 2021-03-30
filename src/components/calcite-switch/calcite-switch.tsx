@@ -198,13 +198,8 @@ export class CalciteSwitch {
   render(): VNode {
     const dir = getElementDir(this.el);
     return (
-      <Host>
-        <div
-          aria-checked={this.switched.toString()}
-          class="container"
-          dir={dir}
-          tabindex={this.disabled ? -1 : 0}
-        >
+      <Host tabindex={this.el.getAttribute("tabindex") || this.disabled ? -1 : 0}>
+        <div aria-checked={this.switched.toString()} class="container" dir={dir}>
           <div class="track">
             <div class="handle" />
           </div>
