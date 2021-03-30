@@ -9,7 +9,8 @@ import {
   Listen,
   Watch,
   VNode,
-  Method
+  Method,
+  State
 } from "@stencil/core";
 import { focusElement, getElementDir, hasLabel } from "../../utils/dom";
 import { guid } from "../../utils/guid";
@@ -44,11 +45,8 @@ export class CalciteSwitch {
     this.inputEl.disabled = newDisabled;
   }
 
-  /** The id attribute of the switch.  When omitted, a globally unique identifier is used. */
-  @Prop({ reflect: true, mutable: true }) guid: string;
-
   /** The name of the switch input */
-  @Prop({ reflect: true }) name?: string = "";
+  @Prop({ reflect: true }) name?: string;
 
   @Watch("name")
   nameChanged(newName: string): void {
@@ -78,7 +76,16 @@ export class CalciteSwitch {
   //
   //--------------------------------------------------------------------------
 
-  private inputEl: HTMLInputElement;
+  private inputEl: HTMLInputElement = document.createElement("input");
+
+  //--------------------------------------------------------------------------
+  //
+  //  State
+  //
+  //--------------------------------------------------------------------------
+
+  /** The id attribute of the switch.  When omitted, a globally unique identifier is used. */
+  @State() guid: string;
 
   //--------------------------------------------------------------------------
   //
@@ -97,7 +104,7 @@ export class CalciteSwitch {
   //
   //--------------------------------------------------------------------------
 
-  private updateSwitch(): void {
+  private toggle(): void {
     this.switched = !this.switched;
     this.calciteSwitchChange.emit({
       switched: this.switched
@@ -142,7 +149,7 @@ export class CalciteSwitch {
       (!this.disabled && this.el.closest("label") && e.target === this.inputEl) ||
       (!this.el.closest("label") && e.target === this.el)
     ) {
-      this.updateSwitch();
+      this.toggle();
     }
   }
 
@@ -150,7 +157,7 @@ export class CalciteSwitch {
   keyDownHandler(e: KeyboardEvent): void {
     const key = getKey(e.key);
     if (!this.disabled && (key === " " || key === "Enter")) {
-      this.updateSwitch();
+      this.toggle();
     }
   }
 
@@ -162,6 +169,9 @@ export class CalciteSwitch {
 
   connectedCallback(): void {
     this.guid = this.el.id || `calcite-switch-${guid()}`;
+  }
+
+  componentDidLoad(): void {
     this.renderInput();
   }
 
@@ -172,7 +182,6 @@ export class CalciteSwitch {
   // --------------------------------------------------------------------------
 
   private renderInput(): void {
-    this.inputEl = document.createElement("input");
     this.switched && this.inputEl.setAttribute("checked", "");
     this.inputEl.disabled = this.disabled;
     this.inputEl.id = `${this.guid}-input`;
@@ -199,9 +208,16 @@ export class CalciteSwitch {
   render(): VNode {
     const dir = getElementDir(this.el);
     return (
-      <Host aria-checked={this.switched.toString()} dir={dir} tabindex={this.disabled ? -1 : 0}>
-        <div class="track">
-          <div class="handle" />
+      <Host>
+        <div
+          aria-checked={this.switched.toString()}
+          class="container"
+          dir={dir}
+          tabindex={this.disabled ? -1 : 0}
+        >
+          <div class="track">
+            <div class="handle" />
+          </div>
         </div>
       </Host>
     );
