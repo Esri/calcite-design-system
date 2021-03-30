@@ -186,7 +186,7 @@ export class CalciteColorPickerHexInput {
 
   private onInputKeyDown = (event: KeyboardEvent): void => {
     const { altKey, ctrlKey, metaKey, shiftKey } = event;
-    const { inputNode, internalColor, value } = this;
+    const { el, inputNode, internalColor, value } = this;
     const key = getKey(event.key);
     const nudgeable = value && (key === "ArrowDown" || key === "ArrowUp");
 
@@ -202,7 +202,10 @@ export class CalciteColorPickerHexInput {
 
     const withModifiers = altKey || ctrlKey || metaKey;
     const exceededHexLength = inputNode.value.length >= 6;
-    const hasTextSelection = getSelection().type === "Range";
+    const focusedElement = el.shadowRoot.activeElement as HTMLInputElement;
+    const hasTextSelection =
+      // can't use window.getSelection() because of FF bug: https://bugzilla.mozilla.org/show_bug.cgi?id=85686
+      focusedElement.selectionStart != focusedElement.selectionEnd;
 
     if (
       key.length === 1 &&

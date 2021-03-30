@@ -74,6 +74,22 @@ describe("calcite-color-picker-hex-input", () => {
     expect(await input.getProperty("value")).toBe("#ffffff");
   });
 
+  it("allows entering text if it has a selection", async () => {
+    const page = await newE2EPage({
+      html: "<calcite-color-picker-hex-input value='#ffffff'></calcite-color-picker-hex-input>"
+    });
+    const input = await page.find(`calcite-color-picker-hex-input`);
+
+    // workaround for selecting text based on https://github.com/puppeteer/puppeteer/issues/1313#issuecomment-436932478
+    await input.click({ clickCount: 3 });
+
+    await page.keyboard.type("000");
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe("#000000");
+  });
+
   it("accepts longhand hex", async () => {
     const page = await newE2EPage({
       html: "<calcite-color-picker-hex-input></calcite-color-picker-hex-input>"
