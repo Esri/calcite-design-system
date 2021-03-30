@@ -80,10 +80,8 @@
 // icon
 .radio-group-item-icon {
   @apply inline-flex 
-    relative 
-    m-0 
-    duration-100 
-    ease-in-out;
+    relative
+    m-0;
   line-height: inherit;
 }
 
