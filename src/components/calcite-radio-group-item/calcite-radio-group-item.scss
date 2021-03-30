@@ -103,3 +103,8 @@
 :host([icon-position="end"][dir="rtl"]) .radio-group-item-icon {
   @apply ml-0 mr-2;
 }
+
+// Vertical
+:host([layout="vertical"]) label {
+  @apply box-content;
+}

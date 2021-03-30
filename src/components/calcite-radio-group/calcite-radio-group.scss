@@ -1,11 +1,27 @@
+:host([scale="s"]) {
+  @apply h-6;
+}
+
+:host([scale="m"]) {
+  @apply h-8;
+}
+
+:host([scale="l"]) {
+  @apply h-12;
+}
+
 :host {
-  border: 1px solid;
-  @apply flex border-color-input bg-foreground-1;
+  @apply flex
+    border-color-input
+    bg-foreground-1
+    box-border
+    border
+    border-solid;
   width: fit-content;
 }
 
 :host([layout="vertical"]) {
-  @apply flex-col items-start self-start;
+  @apply flex-col items-start self-start h-auto box-content;
 }
 
 // radio group width for full
