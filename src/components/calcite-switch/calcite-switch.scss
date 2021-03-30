@@ -45,12 +45,13 @@
   cursor: default;
 }
 // focus styles
-.container {
+:host {
   @include focus-style-base();
   width: auto;
-  &:focus {
-    @include focus-style-outset();
-  }
+}
+
+:host(:focus) {
+  @include focus-style-outset();
 }
 
 .track {
@@ -114,7 +115,7 @@
 }
 
 // rtl
-:host([dir="rtl"]) {
+.calcite--rtl {
   margin-right: 0;
   margin-left: 0.5em;
   & .handle {
@@ -123,13 +124,27 @@
   }
 }
 
-:host([dir="rtl"][switched]) .handle {
-  right: auto;
-  left: -1px;
+:host([switched]) {
+  .calcite--rtl {
+    & .handle {
+      right: auto;
+      left: -1px;
+    }
+  }
 }
-
-:host([dir="rtl"][switched]:active) .handle,
-:host([dir="rtl"][switched]:focus) .handle {
-  right: auto;
-  left: -1px;
+:host([switched]:active) {
+  .calcite--rtl {
+    & .handle {
+      right: auto;
+      left: -1px;
+    }
+  }
+}
+:host([switched]:focus) {
+  .calcite--rtl {
+    & .handle {
+      right: auto;
+      left: -1px;
+    }
+  }
 }

@@ -16,6 +16,7 @@ import { focusElement, getElementDir, hasLabel } from "../../utils/dom";
 import { hiddenInputStyle } from "../../utils/form";
 import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
+import { CSS_UTILITY } from "../../utils/resources";
 import { Scale, Theme } from "../interfaces";
 
 @Component({
@@ -44,6 +45,7 @@ export class CalciteSwitch {
   @Watch("disabled")
   disabledWatcher(newDisabled: boolean): void {
     this.inputEl.disabled = newDisabled;
+    this.tabindex = newDisabled ? -1 : 0;
   }
 
   /** The name of the switch input */
@@ -85,8 +87,9 @@ export class CalciteSwitch {
   //
   //--------------------------------------------------------------------------
 
-  /** The id attribute of the switch.  When omitted, a globally unique identifier is used. */
   @State() guid: string;
+
+  @State() tabindex: number;
 
   //--------------------------------------------------------------------------
   //
@@ -183,9 +186,7 @@ export class CalciteSwitch {
 
   componentWillLoad(): void {
     this.guid = this.el.id || `calcite-switch-${guid()}`;
-  }
-
-  componentDidLoad(): void {
+    this.tabindex = this.el.getAttribute("tabindex") || this.disabled ? -1 : 0;
     this.setupInput();
   }
 
@@ -198,8 +199,11 @@ export class CalciteSwitch {
   render(): VNode {
     const dir = getElementDir(this.el);
     return (
-      <Host tabindex={this.el.getAttribute("tabindex") || this.disabled ? -1 : 0}>
-        <div aria-checked={this.switched.toString()} class="container" dir={dir}>
+      <Host tabindex={this.tabindex}>
+        <div
+          aria-checked={this.switched.toString()}
+          class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+        >
           <div class="track">
             <div class="handle" />
           </div>
