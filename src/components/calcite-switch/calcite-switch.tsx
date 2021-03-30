@@ -13,6 +13,7 @@ import {
   State
 } from "@stencil/core";
 import { focusElement, getElementDir, hasLabel } from "../../utils/dom";
+import { hiddenInputStyle } from "../../utils/form";
 import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
 import { Scale, Theme } from "../interfaces";
@@ -104,6 +105,19 @@ export class CalciteSwitch {
   //
   //--------------------------------------------------------------------------
 
+  private setupInput(): void {
+    this.switched && this.inputEl.setAttribute("checked", "");
+    this.inputEl.disabled = this.disabled;
+    this.inputEl.id = `${this.guid}-input`;
+    this.inputEl.name = this.name;
+    this.inputEl.style.cssText = hiddenInputStyle;
+    this.inputEl.type = "checkbox";
+    if (this.value) {
+      this.inputEl.value = this.value;
+    }
+    this.el.appendChild(this.inputEl);
+  }
+
   private toggle(): void {
     this.switched = !this.switched;
     this.calciteSwitchChange.emit({
@@ -167,12 +181,12 @@ export class CalciteSwitch {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback(): void {
+  componentWillLoad(): void {
     this.guid = this.el.id || `calcite-switch-${guid()}`;
   }
 
   componentDidLoad(): void {
-    this.renderInput();
+    this.setupInput();
   }
 
   // --------------------------------------------------------------------------
@@ -180,30 +194,6 @@ export class CalciteSwitch {
   //  Render Methods
   //
   // --------------------------------------------------------------------------
-
-  private renderInput(): void {
-    this.switched && this.inputEl.setAttribute("checked", "");
-    this.inputEl.disabled = this.disabled;
-    this.inputEl.id = `${this.guid}-input`;
-    this.inputEl.name = this.name;
-    this.inputEl.style.setProperty("bottom", "0", "important");
-    this.inputEl.style.setProperty("left", "0", "important");
-    this.inputEl.style.setProperty("margin", "0", "important");
-    this.inputEl.style.setProperty("opacity", "0", "important");
-    this.inputEl.style.setProperty("outline", "none", "important");
-    this.inputEl.style.setProperty("padding", "0", "important");
-    this.inputEl.style.setProperty("position", "absolute", "important");
-    this.inputEl.style.setProperty("right", "0", "important");
-    this.inputEl.style.setProperty("top", "0", "important");
-    this.inputEl.style.setProperty("transform", "none", "important");
-    this.inputEl.style.setProperty("-webkit-appearance", "none", "important");
-    this.inputEl.style.setProperty("z-index", "-1", "important");
-    this.inputEl.type = "checkbox";
-    if (this.value) {
-      this.inputEl.value = this.value;
-    }
-    this.el.appendChild(this.inputEl);
-  }
 
   render(): VNode {
     const dir = getElementDir(this.el);
