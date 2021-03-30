@@ -88,6 +88,7 @@ export class CalciteLink {
         <Tag
           {...attributes}
           class={{ [CSS_UTILITY.rtl]: dir === "rtl" }}
+          dir={dir}
           href={Tag === "a" && this.href}
           ref={this.storeTagRef}
           role={role}
