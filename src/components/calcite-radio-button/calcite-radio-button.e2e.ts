@@ -437,7 +437,7 @@ describe("calcite-radio-button", () => {
     expect(style["margin"]).toBe("0px");
     expect(style["opacity"]).toBe("0");
     expect(style["padding"]).toBe("0px");
-    expect(style["position"]).toBe("fixed");
+    expect(style["position"]).toBe("absolute");
     expect(style["transform"]).toBe("none");
     expect(style["z-index"]).toBe("-1");
   });
