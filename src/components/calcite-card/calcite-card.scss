@@ -40,16 +40,16 @@
     inset-0;
 }
 
-:host .header,
-:host .footer {
+.header,
+.footer {
   @apply pt-3 pb-1 px-3 flex;
 }
 
-:host .header {
+.header {
   @apply flex-col;
 }
 
-:host .footer {
+.footer {
   @apply pt-1 pb-3 px-3
     flex-row
     content-between
@@ -57,7 +57,7 @@
     mt-auto;
 }
 
-:host .card-content {
+.card-content {
   @apply p-3
     text-color-3
     text--2-wrap;
@@ -100,17 +100,17 @@
   @apply self-center text--2-wrap;
 }
 
-:host .thumbnail-wrapper {
+.thumbnail-wrapper {
   @apply text-0-wrap;
 }
 
-:host .checkbox-wrapper {
+.checkbox-wrapper {
   @apply absolute m-0 p-0;
   top: theme("spacing.2");
   right: theme("spacing.2");
 }
 
-:host([dir="rtl"]) .checkbox-wrapper {
+.calcite--rtl .checkbox-wrapper {
   @apply right-auto;
   left: theme("spacing.2");
 }

@@ -14,7 +14,6 @@ import {
   EventEmitter
 } from "@stencil/core";
 import { getLocaleData, DateLocaleData } from "../calcite-date-picker/utils";
-import { getElementDir } from "../../utils/dom";
 import { dateFromRange, inRange, dateFromISO, parseDateString, sameDate } from "../../utils/date";
 import { HeadingLevel } from "../functional/CalciteHeading";
 import { getKey } from "../../utils/key";
@@ -212,10 +211,9 @@ export class CalciteInputDatePicker {
       : null;
     const formattedEndDate = endDate ? endDate.toLocaleDateString(this.locale) : "";
     const formattedDate = date ? date.toLocaleDateString(this.locale) : "";
-    const dir = getElementDir(this.el);
 
     return (
-      <Host dir={dir} onBlur={this.deactivate} onKeyUp={this.keyUpHandler} role="application">
+      <Host onBlur={this.deactivate} onKeyUp={this.keyUpHandler} role="application">
         {this.localeData && (
           <div aria-expanded={this.active.toString()} class="input-container" role="application">
             {
@@ -252,7 +250,6 @@ export class CalciteInputDatePicker {
               >
                 <calcite-date-picker
                   activeRange={this.focusedInput}
-                  dir={dir}
                   endAsDate={this.endAsDate}
                   headingLevel={this.headingLevel}
                   intlNextMonth={this.intlNextMonth}

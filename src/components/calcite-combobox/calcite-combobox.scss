@@ -167,12 +167,12 @@
   @apply mr-0;
 }
 
-:host([dir="rtl"]) .chip {
+.calcite--rtl .chip {
   margin-right: unset;
   margin-left: var(--calcite-combobox-item-spacing-unit-m);
 }
 
-:host([dir="rtl"]) .chip:last-child {
+.calcite--rtl .chip:last-child {
   @apply ml-0;
 }
 
