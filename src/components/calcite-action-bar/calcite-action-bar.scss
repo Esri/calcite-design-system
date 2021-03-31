@@ -8,6 +8,10 @@
   max-width: 15vw;
 }
 
+:host([overflow-actions-disabled]) {
+  overflow-y: auto;
+}
+
 :host([expanded]) {
   max-width: 20vw;
 }

@@ -14,6 +14,7 @@ import { Position, Theme } from "../interfaces";
 import { CalciteExpandToggle, toggleChildActionText } from "../functional/CalciteExpandToggle";
 import { CSS, SLOTS, TEXT } from "./resources";
 import { getSlotted, focusElement } from "../../utils/dom";
+import { getOverflowCount, overflowActions } from "./utils";
 
 /**
  * @slot - A slot for adding `calcite-action`s that will appear at the top of the action bar.
@@ -69,6 +70,18 @@ export class CalciteActionBar {
   @Prop() intlCollapse?: string;
 
   /**
+   * Disables automatically overflowing actions that won't fit into menus.
+   */
+  @Prop() overflowActionsDisabled?: boolean;
+
+  @Watch("overflowActionsDisabled")
+  overflowDisabledHandler(overflowActionsDisabled: boolean): void {
+    overflowActionsDisabled
+      ? this.resizeObserver.disconnect()
+      : this.resizeObserver.observe(this.el);
+  }
+
+  /**
    * Arranges the component depending on the elements 'dir' property.
    */
   @Prop({ reflect: true }) position: Position;
@@ -97,12 +110,16 @@ export class CalciteActionBar {
 
   @Element() el: HTMLCalciteActionBarElement;
 
-  observer = new MutationObserver(() => {
+  mutationObserver = new MutationObserver(() => {
     const { el, expanded } = this;
     toggleChildActionText({ parent: el, expanded });
   });
 
+  resizeObserver = new ResizeObserver((entries) => this.resizeHandlerEntries(entries));
+
   expandToggleEl: HTMLCalciteActionElement;
+
+  lastResizeHeight: number;
 
   // --------------------------------------------------------------------------
   //
@@ -117,11 +134,16 @@ export class CalciteActionBar {
       toggleChildActionText({ parent: el, expanded });
     }
 
-    this.observer.observe(el, { childList: true });
+    this.mutationObserver.observe(el, { childList: true });
+
+    if (!this.overflowActionsDisabled) {
+      this.resizeObserver.observe(el);
+    }
   }
 
   disconnectedCallback(): void {
-    this.observer.disconnect();
+    this.mutationObserver.disconnect();
+    this.resizeObserver.disconnect();
   }
 
   // --------------------------------------------------------------------------
@@ -145,6 +167,37 @@ export class CalciteActionBar {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  resizeHandlerEntries = (entries: ResizeObserverEntry[]): void => {
+    entries.forEach(this.resizeHandler);
+  };
+
+  resizeHandler = (entry: ResizeObserverEntry): void => {
+    const { el, expanded, expandDisabled, lastResizeHeight } = this;
+    const { height } = entry.contentRect;
+
+    if (height === lastResizeHeight) {
+      return;
+    }
+
+    this.lastResizeHeight = height;
+
+    const actions = el.querySelectorAll("calcite-action");
+    const actionCount = expandDisabled ? actions.length : actions.length + 1;
+    const actionGroups = Array.from(el.querySelectorAll("calcite-action-group"));
+    const groupCount =
+      getSlotted(el, SLOTS.bottomActions) || !expandDisabled
+        ? actionGroups.length + 1
+        : actionGroups.length;
+
+    const overflowCount = getOverflowCount({ actionCount, height, groupCount });
+
+    overflowActions({
+      actionGroups,
+      expanded,
+      overflowCount
+    });
+  };
 
   toggleExpand = (): void => {
     this.expanded = !this.expanded;

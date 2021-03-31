@@ -66,6 +66,7 @@
     "sortablejs": "1.13.0"
   },
   "devDependencies": {
+    "@types/resize-observer-browser": "0.1.5",
     "@esri/calcite-base": "^1.2.0",
     "@esri/calcite-colors": "6.0.0",
     "@esri/calcite-ui-icons": "3.15.1",
