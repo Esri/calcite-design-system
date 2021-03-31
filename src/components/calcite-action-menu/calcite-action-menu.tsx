@@ -210,7 +210,9 @@ export class CalciteActionMenu {
     const { el, expanded, menuButtonEl } = this;
 
     const tooltipSlot = getSlotted(el, SLOTS.tooltip) as HTMLSlotElement;
-    const tooltip = tooltipSlot?.assignedElements()[0] as HTMLCalciteTooltipElement;
+    const tooltip =
+      tooltipSlot?.assignedElements &&
+      (tooltipSlot.assignedElements()[0] as HTMLCalciteTooltipElement);
 
     if (tooltip) {
       tooltip.referenceElement = !expanded && menuButtonEl;

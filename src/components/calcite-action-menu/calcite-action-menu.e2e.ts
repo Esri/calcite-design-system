@@ -16,7 +16,7 @@ describe("calcite-action-menu", () => {
 
   it("should be accessible: with tooltip", async () =>
     accessible(`
-    <calcite-action-menu>
+    <calcite-action-menu label="test">
       <calcite-tooltip slot="${SLOTS.tooltip}">Bits and bobs.</calcite-tooltip>
       <calcite-action text="Add" icon="plus"></calcite-action>
     </calcite-action-menu>
