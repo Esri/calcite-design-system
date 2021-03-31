@@ -7,3 +7,7 @@ export const TEXT = {
   expand: "Expand",
   collapse: "Collapse"
 };
+
+export const SLOTS = {
+  expandTooltip: "expand-tooltip"
+};

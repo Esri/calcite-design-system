@@ -67,16 +67,15 @@ export const withTooltip = (): DocumentFragment => {
 
   const tooltip = document.createElement("calcite-tooltip");
   tooltip.innerText = "Expand";
+  tooltip.slot = "expand-tooltip";
 
   const actionBar = document.createElement("calcite-action-bar");
-  actionBar.tooltipExpand = tooltip;
-
+  actionBar.append(tooltip);
   actionBar.append(action);
 
   const fragment = document.createDocumentFragment();
 
   fragment.append(actionBar);
-  fragment.append(tooltip);
 
   return fragment;
 };
