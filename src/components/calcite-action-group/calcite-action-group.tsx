@@ -28,12 +28,12 @@ export class CalciteActionGroup {
   /**
    * Indicates the horizontal, vertical, or grid layout of the component.
    */
-  @Prop({ reflect: true}) layout: Layout = "vertical";
+  @Prop({ reflect: true }) layout: Layout = "vertical";
 
   /**
    * Indicates number of columns.
    */
-  @Prop({ reflect: true}) columns?: Columns;
+  @Prop({ reflect: true }) columns?: Columns;
 
   /**
    * Text string for the actions menu.
@@ -73,7 +73,7 @@ export class CalciteActionGroup {
       <calcite-action-menu
         expanded={expanded}
         flipPlacements={["left", "right"]}
-        intlOptions={intlOptions}
+        label={intlOptions}
         open={menuOpen}
         placement="leading-start"
       >
