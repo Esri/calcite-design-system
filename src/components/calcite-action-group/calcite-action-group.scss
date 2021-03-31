@@ -42,9 +42,8 @@
   gap-px
   place-content-stretch
   p-px;
-  
+
   grid-template-columns: repeat(var(--columns), auto);
-  
 }
 
 ::slotted(calcite-action) {
