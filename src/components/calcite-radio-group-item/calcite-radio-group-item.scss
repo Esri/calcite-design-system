@@ -1,30 +1,23 @@
 :host {
   @apply flex 
     self-stretch 
-    cursor-pointer 
-    transition-color 
-    duration-100 
-    ease-in-out;
+    cursor-pointer;
+  transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out;
 }
 
 :host label {
   @apply flex 
+    flex-1
     text-color-3 
-    m-px
-    box-border 
+    box-border
     pointer-events-none 
-    items-center
-    flex-grow
-    transition-color 
-    duration-100 
-    ease-in-out
-    border
-    border-solid;
-  border-color: transparent;
+    items-center;
+  transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out;
+  margin: 2px;
 }
 
 :host([layout="horizontal"]) label {
-  @apply content-center;
+  @apply justify-center;
 }
 
 // focus styles
@@ -33,6 +26,7 @@
 }
 :host(:focus) {
   @apply focus-inset;
+  outline-offset: -1px;
 }
 
 //FIXME: These sizes/spacing scales need to be reworked in a separate issue
@@ -81,7 +75,8 @@
 .radio-group-item-icon {
   @apply inline-flex 
     relative
-    m-0;
+    m-0
+    transition-default;
   line-height: inherit;
 }
 
@@ -100,9 +95,4 @@
 
 :host([icon-position="end"][dir="rtl"]) .radio-group-item-icon {
   @apply ml-0 mr-2;
-}
-
-// Vertical
-:host([layout="vertical"]) label {
-  @apply box-content;
 }

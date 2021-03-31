@@ -1,33 +1,30 @@
 :host([scale="s"]) {
-  @apply h-6;
+  min-height: theme("spacing.6");
 }
 
 :host([scale="m"]) {
-  @apply h-8;
+  min-height: theme("spacing.8");
 }
 
 :host([scale="l"]) {
-  @apply h-12;
+  min-height: theme("spacing.12");
 }
 
 :host {
-  @apply flex
-    border-color-input
-    bg-foreground-1
-    box-border
-    border
-    border-solid;
+  @apply flex bg-foreground-1;
   width: fit-content;
+  outline: 1px solid var(--calcite-ui-border-input);
 }
 
 :host([layout="vertical"]) {
-  @apply flex-col items-start self-start h-auto box-content;
+  @apply flex-col items-start self-start;
 }
 
 // radio group width for full
 
 :host([width="full"]) {
   @apply w-full;
+  min-width: fit-content;
   ::slotted(calcite-radio-group-item) {
     @apply flex-auto;
   }
