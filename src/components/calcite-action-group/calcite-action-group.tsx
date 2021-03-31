@@ -1,5 +1,5 @@
 import { Component, Host, h, Prop, Watch, Element } from "@stencil/core";
-import { SLOTS } from "./resources";
+import { SLOTS, TEXT } from "./resources";
 import { VNode } from "@stencil/core/internal";
 import { getSlotted } from "../../utils/dom";
 import { Columns, Layout } from "../interfaces";
@@ -28,17 +28,17 @@ export class CalciteActionGroup {
   /**
    * Indicates the horizontal, vertical, or grid layout of the component.
    */
-  @Prop({ reflect: true}) layout: Layout = "vertical";
+  @Prop({ reflect: true }) layout: Layout = "vertical";
 
   /**
    * Indicates number of columns.
    */
-  @Prop({ reflect: true}) columns?: Columns;
+  @Prop({ reflect: true }) columns?: Columns;
 
   /**
    * Text string for the actions menu.
    */
-  @Prop() intlOptions?: string;
+  @Prop() intlMore?: string;
 
   /**
    * Opens the action menu.
@@ -65,7 +65,7 @@ export class CalciteActionGroup {
   // --------------------------------------------------------------------------
 
   renderMenu(): VNode {
-    const { el, expanded, intlOptions, menuOpen } = this;
+    const { el, expanded, intlMore, menuOpen } = this;
 
     const hasMenuItems = getSlotted(el, SLOTS.menuActions);
 
@@ -73,7 +73,7 @@ export class CalciteActionGroup {
       <calcite-action-menu
         expanded={expanded}
         flipPlacements={["left", "right"]}
-        intlOptions={intlOptions}
+        intlOptions={intlMore || TEXT.more}
         open={menuOpen}
         placement="leading-start"
       >
