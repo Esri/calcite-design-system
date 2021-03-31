@@ -9,7 +9,7 @@ describe("calcite-action-menu", () => {
 
   it("should be accessible", async () =>
     accessible(`
-    <calcite-action-menu>
+    <calcite-action-menu label="test">
       <calcite-action text="Add" icon="plus"></calcite-action>
     </calcite-action-menu>
     `));

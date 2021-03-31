@@ -1,5 +1,5 @@
 import { Component, Host, h, Element, Prop, Watch, State } from "@stencil/core";
-import { CSS, ICONS, TEXT, SLOTS } from "./resources";
+import { CSS, ICONS, SLOTS } from "./resources";
 import { focusElement, getSlotted } from "../../utils/dom";
 import { VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
@@ -59,9 +59,9 @@ export class CalciteActionMenu {
   @Prop() flipPlacements?: Placement[];
 
   /**
-   * 'Options' text string for the actions menu.
+   *  Text string for the actions menu.
    */
-  @Prop() intlOptions?: string;
+  @Prop() label!: string;
 
   /**
    * Offset the position of the menu away from the reference element.
@@ -116,8 +116,7 @@ export class CalciteActionMenu {
   // --------------------------------------------------------------------------
 
   renderMenuButton(): VNode {
-    const { el, menuButtonId, menuId, open, intlOptions, expanded } = this;
-    const optionsText = intlOptions || TEXT.options;
+    const { el, menuButtonId, menuId, open, label, expanded } = this;
 
     const actionNode = (
       <calcite-action
@@ -128,12 +127,12 @@ export class CalciteActionMenu {
         class={CSS.menuButton}
         icon={ICONS.menu}
         id={menuButtonId}
-        label={optionsText}
+        label={label}
         onClick={this.menuButtonClick}
         onKeyDown={this.menuButtonKeyDown}
         onKeyUp={this.menuButtonKeyUp}
         ref={this.setMenuButtonRef}
-        text={optionsText}
+        text={label}
         textEnabled={expanded}
       />
     );
@@ -153,11 +152,11 @@ export class CalciteActionMenu {
       menuButtonId,
       menuId,
       menuButtonEl,
-      intlOptions,
+      label,
       offsetDistance,
       placement
     } = this;
-    const label = intlOptions || TEXT.options;
+
     const activeAction = actionElements[activeMenuItemIndex];
     const activeDescendantId = activeAction?.id || null;
 
