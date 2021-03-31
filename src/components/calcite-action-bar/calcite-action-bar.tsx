@@ -119,7 +119,7 @@ export class CalciteActionBar {
     toggleChildActionText({ parent: el, expanded });
   });
 
-  resizeObserver = new ResizeObserver((entries) => this.resizeHandler(entries));
+  resizeObserver = new ResizeObserver((entries) => this.resizeHandlerEntries(entries));
 
   expandToggleEl: HTMLCalciteActionElement;
 
@@ -172,7 +172,11 @@ export class CalciteActionBar {
   //
   // --------------------------------------------------------------------------
 
-  resizeHandler = ([entry]: ResizeObserverEntry[]): void => {
+  resizeHandlerEntries = (entries: ResizeObserverEntry[]): void => {
+    entries.forEach(this.resizeHandler);
+  };
+
+  resizeHandler = (entry: ResizeObserverEntry): void => {
     const { el, expanded, expandDisabled, lastResizeHeight } = this;
     const { height } = entry.contentRect;
 
