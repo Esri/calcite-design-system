@@ -10,3 +10,7 @@ export const ICONS = {
 export const TEXT = {
   options: "Options"
 };
+
+export const SLOTS = {
+  tooltip: "tooltip"
+};
