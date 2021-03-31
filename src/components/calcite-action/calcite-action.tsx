@@ -29,11 +29,11 @@ export class CalciteAction {
    * Indicates whether the action is highlighted.
    */
   @Prop({ reflect: true }) active = false;
-  
+
   /**
    * Indicates the alignment when text-enabled is false.
    */
-  @Prop({ reflect: true}) alignment?: Alignment;
+  @Prop({ reflect: true }) alignment?: Alignment;
 
   /**
    * Compact mode is used internally by components to reduce side padding, e.g. calcite-block-section.
