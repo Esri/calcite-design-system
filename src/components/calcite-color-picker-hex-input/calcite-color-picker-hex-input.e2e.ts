@@ -169,6 +169,28 @@ describe("calcite-color-picker-hex-input", () => {
     expect(spy).toHaveReceivedEventTimes(1);
   });
 
+  it("prevents entering chars if invalid hex chars or it exceeds max hex length", async () => {
+    const page = await newE2EPage({
+      html: "<calcite-color-picker-hex-input value='#b33f33'></calcite-color-picker-hex-input>"
+    });
+    const input = await page.find("calcite-color-picker-hex-input");
+    const selectAllText = async (): Promise<void> => await input.click({ clickCount: 3 });
+
+    await selectAllText();
+    await page.keyboard.type("zaaaz");
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe("#aaaaaa");
+
+    await selectAllText();
+    await page.keyboard.type("bbbbbbc");
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe("#bbbbbb");
+  });
+
   describe("keyboard interaction", () => {
     async function assertTabAndEnterBehavior(
       hexInputChars: string,
@@ -247,8 +269,7 @@ describe("calcite-color-picker-hex-input", () => {
         await assertTabAndEnterBehavior("", startingHex);
       });
 
-      it("prevents committing invalid hex chars", async () => {
-        await assertTabAndEnterBehavior("loooooooooooool", startingHex);
+      it("prevents committing invalid hex values", async () => {
         await assertTabAndEnterBehavior("aabbc", startingHex);
         await assertTabAndEnterBehavior("aabb", startingHex);
         await assertTabAndEnterBehavior("aa", startingHex);
@@ -295,8 +316,7 @@ describe("calcite-color-picker-hex-input", () => {
         await assertTabAndEnterBehavior("", null);
       });
 
-      it("prevents committing invalid hex chars", async () => {
-        await assertTabAndEnterBehavior("loooooooooooool", null);
+      it("prevents committing invalid hex values", async () => {
         await assertTabAndEnterBehavior("aabbc", startingHex);
         await assertTabAndEnterBehavior("aabb", startingHex);
         await assertTabAndEnterBehavior("aa", startingHex);

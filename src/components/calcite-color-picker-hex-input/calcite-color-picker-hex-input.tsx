@@ -206,12 +206,13 @@ export class CalciteColorPickerHexInput {
     const hasTextSelection =
       // can't use window.getSelection() because of FF bug: https://bugzilla.mozilla.org/show_bug.cgi?id=85686
       focusedElement.selectionStart != focusedElement.selectionEnd;
+    const singleChar = key.length === 1;
+    const validHexChar = hexChar.test(key);
 
     if (
-      key.length === 1 &&
+      singleChar &&
       !withModifiers &&
-      !hasTextSelection &&
-      (!hexChar.test(key) || exceededHexLength)
+      (!validHexChar || (!hasTextSelection && exceededHexLength))
     ) {
       event.preventDefault();
     }
