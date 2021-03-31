@@ -104,9 +104,7 @@ export class CalciteFab {
       label,
       text
     } = this;
-    const titleText = !textEnabled && text;
-    const title = label || titleText;
-
+    const title = !textEnabled ? label || text || null : null;
     return (
       <Host>
         <calcite-button
