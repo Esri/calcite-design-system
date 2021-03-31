@@ -1,6 +1,6 @@
 import { Component, Host, h, Element, Prop, Watch, State } from "@stencil/core";
-import { CSS, ICONS, TEXT } from "./resources";
-import { focusElement } from "../../utils/dom";
+import { CSS, ICONS, SLOTS } from "./resources";
+import { focusElement, getSlotted } from "../../utils/dom";
 import { VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
 import { PopperPlacement } from "../../utils/popper";
@@ -13,6 +13,7 @@ const MENU_ANIMATION_DELAY_MS = 50;
 
 /**
  * @slot - A slot for adding `calcite-action`s.
+ * @slot tooltip - a slot for adding an tooltip for the menu.
  */
 @Component({
   tag: "calcite-action-menu",
@@ -49,6 +50,7 @@ export class CalciteActionMenu {
   @Watch("expanded")
   expandedHandler(): void {
     this.open = false;
+    this.setTooltipReferenceElement();
   }
 
   /**
@@ -57,9 +59,9 @@ export class CalciteActionMenu {
   @Prop() flipPlacements?: Placement[];
 
   /**
-   * 'Options' text string for the actions menu.
+   *  Text string for the actions menu.
    */
-  @Prop() intlOptions?: string;
+  @Prop() label!: string;
 
   /**
    * Offset the position of the menu away from the reference element.
@@ -114,10 +116,9 @@ export class CalciteActionMenu {
   // --------------------------------------------------------------------------
 
   renderMenuButton(): VNode {
-    const { menuButtonId, menuId, open, intlOptions, expanded } = this;
-    const optionsText = intlOptions || TEXT.options;
+    const { el, menuButtonId, menuId, open, label, expanded } = this;
 
-    return (
+    const actionNode = (
       <calcite-action
         active={open}
         aria-controls={menuId}
@@ -126,14 +127,20 @@ export class CalciteActionMenu {
         class={CSS.menuButton}
         icon={ICONS.menu}
         id={menuButtonId}
-        label={optionsText}
+        label={label}
         onClick={this.menuButtonClick}
         onKeyDown={this.menuButtonKeyDown}
         onKeyUp={this.menuButtonKeyUp}
         ref={this.setMenuButtonRef}
-        text={optionsText}
+        text={label}
         textEnabled={expanded}
       />
+    );
+
+    return getSlotted(el, SLOTS.tooltip) ? (
+      <calcite-tooltip-manager>{actionNode}</calcite-tooltip-manager>
+    ) : (
+      actionNode
     );
   }
 
@@ -145,11 +152,11 @@ export class CalciteActionMenu {
       menuButtonId,
       menuId,
       menuButtonEl,
-      intlOptions,
+      label,
       offsetDistance,
       placement
     } = this;
-    const label = intlOptions || TEXT.options;
+
     const activeAction = actionElements[activeMenuItemIndex];
     const activeDescendantId = activeAction?.id || null;
 
@@ -184,6 +191,7 @@ export class CalciteActionMenu {
       <Host>
         {this.renderMenuButton()}
         {this.renderMenuItems()}
+        <slot name={SLOTS.tooltip} />
       </Host>
     );
   }
@@ -198,8 +206,22 @@ export class CalciteActionMenu {
     this.toggleOpen();
   };
 
+  setTooltipReferenceElement = (): void => {
+    const { el, expanded, menuButtonEl } = this;
+
+    const tooltipSlot = getSlotted(el, SLOTS.tooltip) as HTMLSlotElement;
+    const tooltip =
+      tooltipSlot?.assignedElements &&
+      (tooltipSlot.assignedElements()[0] as HTMLCalciteTooltipElement);
+
+    if (tooltip) {
+      tooltip.referenceElement = !expanded && menuButtonEl;
+    }
+  };
+
   setMenuButtonRef = (node: HTMLCalciteActionElement): void => {
     this.menuButtonEl = node;
+    this.setTooltipReferenceElement();
   };
 
   updateAction = (action: HTMLCalciteActionElement, index: number): void => {
