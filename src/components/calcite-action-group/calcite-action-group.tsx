@@ -2,11 +2,13 @@ import { Component, Host, h, Prop, Watch, Element } from "@stencil/core";
 import { SLOTS } from "./resources";
 import { VNode } from "@stencil/core/internal";
 import { getSlotted } from "../../utils/dom";
+import { SLOTS as ACTION_MENU_SLOTS } from "../calcite-action-menu/resources";
 import { Columns, Layout } from "../interfaces";
 
 /**
  * @slot - A slot for adding a group of `calcite-action`s.
  * @slot menu-actions - a slot for adding an overflow menu with actions inside a dropdown.
+ * @slot menu-tooltip - a slot for adding an tooltip for the menu.
  */
 @Component({
   tag: "calcite-action-group",
@@ -28,12 +30,12 @@ export class CalciteActionGroup {
   /**
    * Indicates the horizontal, vertical, or grid layout of the component.
    */
-  @Prop({ reflect: true}) layout: Layout = "vertical";
+  @Prop({ reflect: true }) layout: Layout = "vertical";
 
   /**
    * Indicates number of columns.
    */
-  @Prop({ reflect: true}) columns?: Columns;
+  @Prop({ reflect: true }) columns?: Columns;
 
   /**
    * Text string for the actions menu.
@@ -64,6 +66,13 @@ export class CalciteActionGroup {
   //
   // --------------------------------------------------------------------------
 
+  renderTooltip(): VNode {
+    const { el } = this;
+    const hasTooltip = getSlotted(el, SLOTS.menuTooltip);
+
+    return hasTooltip ? <slot name={SLOTS.menuTooltip} slot={ACTION_MENU_SLOTS.tooltip} /> : null;
+  }
+
   renderMenu(): VNode {
     const { el, expanded, intlOptions, menuOpen } = this;
 
@@ -77,6 +86,7 @@ export class CalciteActionGroup {
         open={menuOpen}
         placement="leading-start"
       >
+        {this.renderTooltip()}
         <slot name={SLOTS.menuActions} />
       </calcite-action-menu>
     ) : null;
