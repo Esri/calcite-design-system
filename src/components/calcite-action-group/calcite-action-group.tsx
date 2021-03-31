@@ -82,7 +82,7 @@ export class CalciteActionGroup {
       <calcite-action-menu
         expanded={expanded}
         flipPlacements={["left", "right"]}
-        intlOptions={intlMore || TEXT.more}
+        label={intlMore || TEXT.more}
         open={menuOpen}
         placement="leading-start"
       >
