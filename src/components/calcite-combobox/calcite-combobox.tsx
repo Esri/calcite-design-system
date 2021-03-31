@@ -70,6 +70,7 @@ export class CalciteCombobox {
       this.hideList = false;
     }
     this.reposition();
+    this.setMaxScrollerHeight();
   }
 
   /** Disable combobox input */
@@ -83,6 +84,11 @@ export class CalciteCombobox {
 
   /** Specify the maximum number of combobox items (including nested children) to display before showing the scroller */
   @Prop() maxItems = 0;
+
+  @Watch("maxItems")
+  maxItemsHandler(): void {
+    this.setMaxScrollerHeight();
+  }
 
   /** Allow entry of custom values which are not in the original set of items */
   @Prop() allowCustomValues: boolean;
@@ -244,7 +250,6 @@ export class CalciteCombobox {
 
   componentDidLoad(): void {
     this.observer?.observe(this.el, { childList: true, subtree: true });
-    this.maxScrollerHeight = this.getMaxScrollerHeight(this.getCombinedItems());
   }
 
   componentDidRender(): void {
@@ -286,6 +291,9 @@ export class CalciteCombobox {
 
   @State() text = "";
 
+  /** specifies the item wrapper height; it is updated when maxItems is > 0  **/
+  @State() maxScrollerHeight = 0;
+
   /** when search text is cleared, reset active to  */
   @Watch("text")
   textHandler(): void {
@@ -303,9 +311,6 @@ export class CalciteCombobox {
 
   private guid: string = guid();
 
-  /** specifies the item wrapper height; it is updated when maxItems is > 0  **/
-  private maxScrollerHeight = 0;
-
   private inputHeight = 0;
 
   private popper: Popper;
@@ -321,6 +326,12 @@ export class CalciteCombobox {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  setMaxScrollerHeight = (): void => {
+    if (this.active) {
+      this.maxScrollerHeight = this.getMaxScrollerHeight(this.getCombinedItems());
+    }
+  };
 
   calciteChipDismissHandler = (
     event: CustomEvent<HTMLCalciteChipElement>,
@@ -551,6 +562,7 @@ export class CalciteCombobox {
     if (this.selectionMode === "single" && this.selectedItems.length) {
       this.selectedItem = this.selectedItems[0];
     }
+    this.setMaxScrollerHeight();
   };
 
   getData(): ItemData[] {
