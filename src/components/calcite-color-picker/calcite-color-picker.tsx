@@ -323,6 +323,8 @@ export class CalciteColorPicker {
   };
 
   private handleHueScopeKeydown = (event: KeyboardEvent): void => {
+    const { shiftKey } = event;
+    const modifier = shiftKey ? 10 : 1;
     const key = getKey(event.key);
     const cardinals = {
       ArrowUp: 1,
@@ -334,7 +336,10 @@ export class CalciteColorPicker {
     if (this.color && Object.keys(cardinals).indexOf(key) > -1) {
       event.preventDefault();
       const current = this.baseColorFieldColor.hue();
-      this.internalColorSet(this.baseColorFieldColor.hue(current + cardinals[key]), false);
+      this.internalColorSet(
+        this.baseColorFieldColor.hue(current + cardinals[key] * modifier),
+        false
+      );
       return;
     }
   };

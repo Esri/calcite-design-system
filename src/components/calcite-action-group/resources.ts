@@ -6,7 +6,3 @@ export const SLOTS = {
 export const TEXT = {
   more: "More"
 };
-
-export const TEXT = {
-  more: "More"
-};
