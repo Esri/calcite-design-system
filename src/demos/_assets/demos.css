@@ -38,13 +38,3 @@ main {
   font-weight: var(--calcite-app-font-weight);
   font-size: var(--calcite-app-font-size-1);
 }
-
-/* Custom container for shell since it's rather large */
-.shell-container {
-  /* ipad size with browser */
-  min-width: 1024px;
-  min-height: 671px;
-  margin: 0 auto;
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
-  position: relative;
-}

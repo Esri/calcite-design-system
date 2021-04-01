@@ -1,4 +1,6 @@
 import { accessible, hidden, renders, defaults, reflects } from "../../tests/commonTests";
+import { newE2EPage } from "@stencil/core/testing";
+import { SLOTS } from "./resources";
 
 describe("calcite-action-menu", () => {
   it("renders", async () => renders("calcite-action-menu"));
@@ -7,7 +9,15 @@ describe("calcite-action-menu", () => {
 
   it("should be accessible", async () =>
     accessible(`
-    <calcite-action-menu>
+    <calcite-action-menu label="test">
+      <calcite-action text="Add" icon="plus"></calcite-action>
+    </calcite-action-menu>
+    `));
+
+  it("should be accessible: with tooltip", async () =>
+    accessible(`
+    <calcite-action-menu label="test">
+      <calcite-tooltip slot="${SLOTS.tooltip}">Bits and bobs.</calcite-tooltip>
       <calcite-action text="Add" icon="plus"></calcite-action>
     </calcite-action-menu>
     `));
@@ -59,4 +69,22 @@ describe("calcite-action-menu", () => {
         value: "auto"
       }
     ]));
+
+  it("honors tooltip slot", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-action-menu>
+      <calcite-tooltip slot="${SLOTS.tooltip}">Bits and bobs.</calcite-tooltip>
+      <calcite-action text="Add" icon="plus"></calcite-action>
+    </calcite-action-menu>`
+    });
+
+    await page.waitForChanges();
+
+    const tooltipManager = await page.find(`calcite-action-menu >>> calcite-tooltip-manager`);
+
+    expect(tooltipManager).toBeTruthy();
+
+    const tooltipSlot = await page.find(`calcite-action-menu >>> slot[name=${SLOTS.tooltip}]`);
+    expect(tooltipSlot).toBeTruthy();
+  });
 });

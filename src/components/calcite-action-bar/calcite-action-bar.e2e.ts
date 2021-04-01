@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
-import { CSS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import { html } from "../../tests/utils";
 import { CSS_UTILITY } from "../../utils/resources";
 
@@ -199,4 +199,24 @@ describe("calcite-action-bar", () => {
         focusTargetSelector: "calcite-action-bar"
       }
     ));
+
+  it("honors 'expand-tooltip' slot", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-action-bar>
+          <calcite-tooltip slot="${SLOTS.expandTooltip}">Bits and bobs.</calcite-tooltip>
+          <calcite-action-group>
+            <calcite-action text="Add" icon="plus"></calcite-action>
+          </calcite-action-group>
+        </calcite-action-bar>`
+    });
+
+    await page.waitForChanges();
+
+    const tooltipManager = await page.find(`calcite-action-bar >>> calcite-tooltip-manager`);
+
+    expect(tooltipManager).toBeTruthy();
+
+    const tooltipSlot = await page.find(`calcite-action-bar >>> slot[name=${SLOTS.expandTooltip}]`);
+    expect(tooltipSlot).toBeTruthy();
+  });
 });

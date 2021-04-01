@@ -49,5 +49,12 @@ describe("calcite-option", () => {
 
     expect(await option.getProperty("label")).toBe(optionText);
     expect(await option.getProperty("value")).toBe(optionText);
+
+    const alternateLabel = "dos";
+    await option.setProperty("innerText", alternateLabel);
+    await page.waitForChanges();
+
+    expect(await option.getProperty("label")).toBe(alternateLabel);
+    expect(await option.getProperty("value")).toBe(alternateLabel);
   });
 });

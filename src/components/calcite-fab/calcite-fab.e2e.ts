@@ -26,6 +26,27 @@ describe("calcite-fab", () => {
     expect(text).toBe("hello world");
   });
 
+  it("should not have a tooltip when text-enabled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-fab text="hello world" text-enabled></calcite-fab>`);
+
+    const button = await page.find(`calcite-fab >>> .${CSS.button}`);
+    expect(button.getAttribute("title")).toBe(null);
+  });
+
+  it("should have a tooltip when not text-enabled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-fab text="hello world"></calcite-fab>`);
+    const button = await page.find(`calcite-fab >>> .${CSS.button}`);
+    expect(button.getAttribute("title")).toBe("hello world");
+
+    const fab = await page.find("calcite-fab");
+    fab.setProperty("label", "label");
+    await page.waitForChanges();
+
+    expect(button.getAttribute("title")).toBe("label");
+  });
+
   it("should not have visible text when text is not enabled", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-fab text="hello world"></calcite-fab>`);

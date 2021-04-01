@@ -41,21 +41,21 @@
 }
 
 :host([width-scale="s"]) {
-  --calcite-panel-width: 12vw;
-  --calcite-panel-max-width: 300px;
-  --calcite-panel-min-width: 150px;
+  --calcite-panel-width: calc(var(--calcite-panel-width-multiplier) * 12vw);
+  --calcite-panel-max-width: calc(var(--calcite-panel-width-multiplier) * 300px);
+  --calcite-panel-min-width: calc(var(--calcite-panel-width-multiplier) * 150px);
 }
 
 :host([width-scale="m"]) {
-  --calcite-panel-width: 20vw;
-  --calcite-panel-max-width: 420px;
-  --calcite-panel-min-width: 240px;
+  --calcite-panel-width: calc(var(--calcite-panel-width-multiplier) * 20vw);
+  --calcite-panel-max-width: calc(var(--calcite-panel-width-multiplier) * 420px);
+  --calcite-panel-min-width: calc(var(--calcite-panel-width-multiplier) * 240px);
 }
 
 :host([width-scale="l"]) {
-  --calcite-panel-width: 45vw;
-  --calcite-panel-max-width: 680px;
-  --calcite-panel-min-width: 340px;
+  --calcite-panel-width: calc(var(--calcite-panel-width-multiplier) * 45vw);
+  --calcite-panel-max-width: calc(var(--calcite-panel-width-multiplier) * 680px);
+  --calcite-panel-min-width: calc(var(--calcite-panel-width-multiplier) * 340px);
 }
 
 .container[hidden] {
@@ -136,13 +136,25 @@
 }
 
 .content-container {
-  @apply items-stretch bg-background flex flex-auto overflow-auto flex;
-  flex-flow: column nowrap;
+  @apply items-stretch 
+  bg-background
+  flex
+  flex-auto
+  overflow-auto
+  flex-no-wrap
+  flex-col;
 }
 
 .footer {
   border-top: 1px solid;
-  @apply bg-foreground-1 border-t-color-3 flex justify-evenly sticky bottom-0 w-full;
+  @apply bg-foreground-1
+  border-t-color-3
+  flex
+  justify-evenly
+  sticky
+  bottom-0
+  w-full;
+
   flex: 0 0 auto;
   min-height: theme("spacing.12");
   padding: theme("spacing.2");
@@ -164,7 +176,14 @@
 }
 
 .fab-container {
-  @apply inline-block sticky my-0 mx-auto bottom-0 left-0 right-0;
+  @apply inline-block
+  sticky
+  my-0
+  mx-auto
+  p-2
+  bottom-0
+  left-0
+  right-0;
+
   z-index: 1;
-  padding: theme("spacing.2");
 }

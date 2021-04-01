@@ -93,14 +93,14 @@ export class CalciteShellPanel {
         <slot name={SLOTS.header} />
       </div>
     ) : null;
-
   }
+
   render(): VNode {
     const { collapsed, detached, position } = this;
 
     const contentNode = (
       <div class={{ [CSS.content]: true, [CSS.contentDetached]: detached }} hidden={collapsed}>
-        { this.renderHeader() }
+        {this.renderHeader()}
         <div class={CSS.contentBody}>
           <slot />
         </div>

@@ -26,10 +26,6 @@
   }
 }
 
-::slotted(input) {
-  @apply hidden;
-}
-
 :host {
   @apply inline-block 
     relative 
@@ -117,7 +113,7 @@
 }
 
 // rtl
-:host([dir="rtl"]) {
+.calcite--rtl {
   @apply mr-0 ml-2;
   & .handle {
     @apply left-auto;
@@ -125,13 +121,27 @@
   }
 }
 
-:host([dir="rtl"][switched]) .handle {
-  @apply right-auto;
-  left: -1px;
+:host([switched]) {
+  .calcite--rtl {
+    & .handle {
+      @apply right-auto;
+      left: -1px;
+    }
+  }
 }
-
-:host([dir="rtl"][switched]:active) .handle,
-:host([dir="rtl"][switched]:focus) .handle {
-  @apply right-auto;
-  left: -1px;
+:host([switched]:active) {
+  .calcite--rtl {
+    & .handle {
+      @apply right-auto;
+      left: -1px;
+    }
+  }
+}
+:host([switched]:focus) {
+  .calcite--rtl {
+    & .handle {
+      @apply right-auto;
+      left: -1px;
+    }
+  }
 }
