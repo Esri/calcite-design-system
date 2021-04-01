@@ -37,10 +37,6 @@ describe("calcite-action-menu", () => {
         defaultValue: undefined
       },
       {
-        propertyName: "offsetDistance",
-        defaultValue: 0
-      },
-      {
         propertyName: "open",
         defaultValue: false
       },
@@ -55,10 +51,6 @@ describe("calcite-action-menu", () => {
       {
         propertyName: "expanded",
         value: true
-      },
-      {
-        propertyName: "offsetDistance",
-        value: 0
       },
       {
         propertyName: "open",
@@ -86,5 +78,25 @@ describe("calcite-action-menu", () => {
 
     const tooltipSlot = await page.find(`calcite-action-menu >>> slot[name=${SLOTS.tooltip}]`);
     expect(tooltipSlot).toBeTruthy();
+  });
+
+  it("should emit 'calciteActionMenuOpenChange' event", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-action-menu>
+      <calcite-action text="Add" icon="plus"></calcite-action>
+    </calcite-action-menu>`
+    });
+
+    await page.waitForChanges();
+
+    const clickSpy = await page.spyOnEvent("calciteActionMenuOpenChange");
+
+    const actionMenu = await page.find("calcite-action-menu");
+
+    actionMenu.setProperty("open", true);
+
+    await page.waitForChanges();
+
+    expect(clickSpy).toHaveReceivedEventTimes(1);
   });
 });

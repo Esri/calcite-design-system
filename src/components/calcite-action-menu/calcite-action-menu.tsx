@@ -1,4 +1,14 @@
-import { Component, Host, h, Element, Prop, Watch, State } from "@stencil/core";
+import {
+  Component,
+  Host,
+  h,
+  Element,
+  Event,
+  EventEmitter,
+  Prop,
+  Watch,
+  State
+} from "@stencil/core";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { focusElement, getSlotted } from "../../utils/dom";
 import { VNode } from "@stencil/core/internal";
@@ -64,19 +74,30 @@ export class CalciteActionMenu {
   @Prop() label!: string;
 
   /**
-   * Offset the position of the menu away from the reference element.
-   */
-  @Prop({ reflect: true }) offsetDistance = 0;
-
-  /**
    * Opens the action menu.
    */
   @Prop({ reflect: true, mutable: true }) open = false;
+
+  @Watch("open")
+  openHandler(open: boolean): void {
+    this.calciteActionMenuOpenChange.emit(open);
+  }
 
   /**
    * Determines where the component will be positioned relative to the referenceElement.
    */
   @Prop({ reflect: true }) placement: PopperPlacement = "auto";
+
+  // --------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  // --------------------------------------------------------------------------
+
+  /**
+   * Emitted when the open property has changed.
+   */
+  @Event() calciteActionMenuOpenChange: EventEmitter;
 
   // --------------------------------------------------------------------------
   //
@@ -153,7 +174,6 @@ export class CalciteActionMenu {
       menuId,
       menuButtonEl,
       label,
-      offsetDistance,
       placement
     } = this;
 
@@ -162,9 +182,7 @@ export class CalciteActionMenu {
 
     return (
       <calcite-popover
-        disablePointer={true}
         label={label}
-        offsetDistance={offsetDistance}
         open={open}
         placement={placement}
         referenceElement={menuButtonEl}
