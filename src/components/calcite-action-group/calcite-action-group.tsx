@@ -27,6 +27,11 @@ export class CalciteActionGroup {
    */
   @Prop({ reflect: true }) expanded = false;
 
+  @Watch("expanded")
+  expandedHandler(): void {
+    this.menuOpen = false;
+  }
+
   /**
    * Indicates the horizontal, vertical, or grid layout of the component.
    */
@@ -46,11 +51,6 @@ export class CalciteActionGroup {
    * Opens the action menu.
    */
   @Prop({ reflect: true, mutable: true }) menuOpen = false;
-
-  @Watch("expanded")
-  expandedHandler(): void {
-    this.menuOpen = false;
-  }
 
   // --------------------------------------------------------------------------
   //
@@ -109,6 +109,6 @@ export class CalciteActionGroup {
   // --------------------------------------------------------------------------
 
   setMenuOpen = (event: CustomEvent): void => {
-    this.menuOpen = !!event.detail.open;
+    this.menuOpen = !!event.detail;
   };
 }
