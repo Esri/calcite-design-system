@@ -141,6 +141,10 @@ export class CalciteActionBar {
     }
   }
 
+  componentDidLoad(): void {
+    this.resize(this.el.clientHeight);
+  }
+
   disconnectedCallback(): void {
     this.mutationObserver.disconnect();
     this.resizeObserver.disconnect();
@@ -173,10 +177,14 @@ export class CalciteActionBar {
   };
 
   resizeHandler = (entry: ResizeObserverEntry): void => {
-    const { el, expanded, expandDisabled, lastResizeHeight } = this;
     const { height } = entry.contentRect;
+    this.resize(height);
+  };
 
-    if (height === lastResizeHeight) {
+  resize = (height: number): void => {
+    const { el, expanded, expandDisabled, lastResizeHeight } = this;
+
+    if (height === lastResizeHeight || typeof height !== "number") {
       return;
     }
 
