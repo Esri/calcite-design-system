@@ -403,7 +403,7 @@ If you component involves formatting numbers or dates use the [`Intl` APIs](http
 
 To add RTL support to your components you should use the internal `getElementDir` helper to apply the `CSS_UTILITY.rtl` class to your component.
 
-If the node is in shadow DOM, you may add a `dir` attribute to it. However, if **DO NOT** add the `dir` attribute to a the HOST or a light DOM node.
+If the node is in shadow DOM, you may add a `dir` attribute to it instead. However, if **DO NOT** add the `dir` attribute to the HOST or a light DOM node.
 
 ```tsx
 import { Component, Host, Element, h} from "@stencil/core";
