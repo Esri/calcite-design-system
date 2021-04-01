@@ -1,6 +1,6 @@
 // temporary hardcoded values until new font scale and padding is added to calcite-base
 :host([scale="s"]) {
-  &:not([type="textarea"]) .calcite-input-wrapper {
+  &:not([type="textarea"]) &:not([type="file"]) .calcite-input-wrapper {
     max-height: theme("spacing.6");
   }
   & textarea,
@@ -38,7 +38,7 @@
 }
 
 :host([scale="m"]) {
-  &:not([type="textarea"]) .calcite-input-wrapper {
+  &:not([type="textarea"]) &:not([type="file"]) .calcite-input-wrapper {
     max-height: theme("spacing.8");
   }
   & textarea,
@@ -75,7 +75,7 @@
 }
 
 :host([scale="l"]) {
-  &:not([type="textarea"]) .calcite-input-wrapper {
+  &:not([type="textarea"]) &:not([type="file"]) .calcite-input-wrapper {
     max-height: theme("spacing.10");
   }
   & textarea,

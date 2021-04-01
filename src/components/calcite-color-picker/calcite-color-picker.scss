@@ -1,6 +1,6 @@
 :host([scale="s"]) {
   .container {
-    width: 156px;
+    @apply w-40;
   }
 
   .saved-colors {
@@ -39,7 +39,7 @@
   }
 
   .color-field-and-slider {
-    margin-bottom: -20px;
+    @apply -mb-5;
   }
 
   .section {

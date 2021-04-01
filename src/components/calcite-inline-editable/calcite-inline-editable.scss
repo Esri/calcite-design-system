@@ -70,7 +70,7 @@
   &:not([theme="dark"]) {
     &::slotted(*) {
       .calcite-input-element-wrapper {
-        background: transparent;
+        @apply bg-transparent;
       }
     }
   }
@@ -79,18 +79,17 @@
 :host(:not([editing-enabled])) {
   &::slotted(*) {
     .sc-calcite-input {
-      display: none;
+      @apply hidden;
     }
 
     .calcite-input-element-wrapper {
-      display: flex;
-      cursor: pointer;
+      @apply flex cursor-pointer;
       textarea,
       input {
-        border-color: transparent;
-        padding-left: 0;
-        cursor: pointer;
-        display: flex;
+        @apply border-color-transparent
+          pl-0
+          cursor-pointer
+          flex;
       }
     }
   }
@@ -99,7 +98,7 @@
     &::slotted(*) {
       textarea,
       input {
-        background: var(--calcite-ui-foreground-2);
+        @apply bg-foreground-2;
       }
     }
   }
@@ -111,7 +110,7 @@
       .calcite-input-element-wrapper {
         textarea,
         input {
-          padding-right: 0;
+          @apply pr-0;
           padding-left: unset;
         }
       }
@@ -126,7 +125,7 @@
         .calcite-input-element-wrapper {
           textarea,
           input {
-            padding-right: 0;
+            @apply pr-0;
             padding-left: unset;
           }
         }
