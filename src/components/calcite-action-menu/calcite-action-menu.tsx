@@ -64,11 +64,6 @@ export class CalciteActionMenu {
   @Prop() label!: string;
 
   /**
-   * Offset the position of the menu away from the reference element.
-   */
-  @Prop({ reflect: true }) offsetDistance = 0;
-
-  /**
    * Opens the action menu.
    */
   @Prop({ reflect: true, mutable: true }) open = false;
@@ -153,7 +148,6 @@ export class CalciteActionMenu {
       menuId,
       menuButtonEl,
       label,
-      offsetDistance,
       placement
     } = this;
 
@@ -163,7 +157,6 @@ export class CalciteActionMenu {
     return (
       <calcite-popover
         label={label}
-        offsetDistance={offsetDistance}
         open={open}
         placement={placement}
         referenceElement={menuButtonEl}
