@@ -37,10 +37,6 @@ describe("calcite-action-menu", () => {
         defaultValue: undefined
       },
       {
-        propertyName: "offsetDistance",
-        defaultValue: 0
-      },
-      {
         propertyName: "open",
         defaultValue: false
       },
@@ -55,10 +51,6 @@ describe("calcite-action-menu", () => {
       {
         propertyName: "expanded",
         value: true
-      },
-      {
-        propertyName: "offsetDistance",
-        value: 0
       },
       {
         propertyName: "open",
