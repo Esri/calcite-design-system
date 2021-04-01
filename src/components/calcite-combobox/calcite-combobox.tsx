@@ -359,7 +359,9 @@ export class CalciteCombobox {
     }
 
     if (this.selectionMode === "single") {
-      this.textInput.value = "";
+      if (this.textInput) {
+        this.textInput.value = "";
+      }
       this.text = "";
       this.filterItems("");
       this.updateActiveItemIndex(-1);
