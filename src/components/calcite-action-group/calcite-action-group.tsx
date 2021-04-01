@@ -83,6 +83,7 @@ export class CalciteActionGroup {
         expanded={expanded}
         flipPlacements={["left", "right"]}
         label={intlMore || TEXT.more}
+        onCalciteActionMenuOpenChange={this.setMenuOpen}
         open={menuOpen}
         placement="leading-start"
       >
@@ -100,4 +101,14 @@ export class CalciteActionGroup {
       </Host>
     );
   }
+
+  // --------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  // --------------------------------------------------------------------------
+
+  setMenuOpen = (event: CustomEvent): void => {
+    this.menuOpen = !!event.detail.open;
+  };
 }
