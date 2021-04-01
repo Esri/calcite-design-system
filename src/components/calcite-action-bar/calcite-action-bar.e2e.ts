@@ -219,4 +219,46 @@ describe("calcite-action-bar", () => {
     const tooltipSlot = await page.find(`calcite-action-bar >>> slot[name=${SLOTS.expandTooltip}]`);
     expect(tooltipSlot).toBeTruthy();
   });
+
+  it("'calciteActionMenuOpenChange' event should set other 'calcite-action-group' - 'menuOpen' to false", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-action-bar>
+          <calcite-action-group>
+            <calcite-action text="Add" icon="plus"></calcite-action>
+            <calcite-action text="Add" icon="plus"></calcite-action>
+            <calcite-action text="Add" icon="plus"></calcite-action>
+            <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
+            <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
+          </calcite-action-group>
+          <calcite-action-group menu-open>
+            <calcite-action text="Add" icon="plus"></calcite-action>
+            <calcite-action text="Add" icon="plus"></calcite-action>
+            <calcite-action text="Add" icon="plus"></calcite-action>
+            <calcite-action text="Add" icon="plus"></calcite-action>
+            <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
+            <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
+          </calcite-action-group>
+        </calcite-action-bar>`
+    });
+
+    const eventSpy = await page.spyOnEvent("calciteActionMenuOpenChange", "window");
+
+    await page.waitForChanges();
+
+    let groups = await page.findAll("calcite-action-group");
+
+    expect(await groups[0].getProperty("menuOpen")).toBe(false);
+    expect(await groups[1].getProperty("menuOpen")).toBe(true);
+
+    groups[0].setProperty("menuOpen", true);
+
+    await page.waitForChanges();
+
+    expect(eventSpy).toHaveReceivedEventTimes(2);
+
+    groups = await page.findAll("calcite-action-group");
+
+    expect(await groups[0].getProperty("menuOpen")).toBe(true);
+    expect(await groups[1].getProperty("menuOpen")).toBe(false);
+  });
 });

@@ -172,7 +172,7 @@ export class CalciteActionBar {
   //
   // --------------------------------------------------------------------------
 
-  actionMenuOpenChange = (event: CustomEvent<boolean>): void => {
+  actionMenuOpenChangeHandler = (event: CustomEvent<boolean>): void => {
     if (event.detail) {
       const composedPath = event.composedPath();
       Array.from(this.el.querySelectorAll("calcite-action-group")).forEach((group) => {
@@ -263,7 +263,7 @@ export class CalciteActionBar {
 
   render(): VNode {
     return (
-      <Host onCalciteActionMenuOpenChange={this.actionMenuOpenChange}>
+      <Host onCalciteActionMenuOpenChange={this.actionMenuOpenChangeHandler}>
         <slot />
         {this.renderBottomActionGroup()}
       </Host>
