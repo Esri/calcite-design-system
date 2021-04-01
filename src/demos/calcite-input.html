@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr-CH">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -26,20 +26,20 @@
     <calcite-button href="/">Home</calcite-button>
     <h1>Calcite Input</h1>
 
-    <form id="myForm">
-      <calcite-input type="text" value="Initial"></calcite-input>
-      <input value="Initial" />
-      <button type="reset">Reset</button>
-    </form>
-
     <demo-form>
-      <form name="calcite-radio-button-demo-form">
+      <form name="demo-form">
         <demo-spacer>
-          <calcite-input name="number-fr" type="number"></calcite-input>
+          <input type="number" name="native" value="123 456 789" />
+          <calcite-input name="number-fr" type="number" value="2888.38"></calcite-input>
+          <calcite-input type="text" value="Initial"></calcite-input>
+          <input value="Initial" />
           <button type="submit" style="display: none">Submit</button>
+          <button type="reset">Reset</button>
         </demo-spacer>
       </form>
     </demo-form>
+
+    <p></p>
 
     <div style="text-align: center">
       <calcite-input value="My great value" prefix-text="pre" icon="banana" suffix-text="suf"> </calcite-input>

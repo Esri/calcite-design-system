@@ -71,6 +71,9 @@ export class CalciteInput {
   /** specify if the input is in loading state */
   @Prop({ reflect: true }) loading = false;
 
+  /** BCP 47 language tag for desired language and country format */
+  @Prop() locale?: string = document.documentElement.lang || "en";
+
   /** input max */
   @Prop({ reflect: true }) max?: number;
 
@@ -300,12 +303,13 @@ export class CalciteInput {
         onBlur={this.inputBlurHandler}
         onFocus={this.inputFocusHandler}
         onInput={this.inputInputHandler}
+        onKeyDown={this.inputKeyDownHandler}
         placeholder={this.placeholder || ""}
         ref={(el) => (this.childEl = el)}
         required={this.required ? true : null}
         step={this.stepString}
         tabIndex={this.disabled ? -1 : null}
-        type={this.type}
+        type={this.type === "number" ? "text" : this.type}
         value={this.value}
       >
         {this.value}
@@ -457,6 +461,10 @@ export class CalciteInput {
       element: this.childEl,
       value: this.value
     });
+  };
+
+  private inputKeyDownHandler = () => {
+    // TODO: handle validation based on locale
   };
 
   private setDisabledAction(): void {
