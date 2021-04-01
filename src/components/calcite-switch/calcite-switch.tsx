@@ -70,7 +70,7 @@ export class CalciteSwitch {
   /** The component's theme. */
   @Prop({ reflect: true }) theme: Theme;
 
-  /** The value of the checkbox input */
+  /** The value of the switch input */
   @Prop({ reflect: true }) value?: string;
 
   //--------------------------------------------------------------------------
