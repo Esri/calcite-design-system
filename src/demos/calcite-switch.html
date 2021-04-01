@@ -23,8 +23,7 @@
     <h1>Calcite Switch</h1>
     <calcite-label layout="inline">
       <calcite-switch id="basicSwitch" switched></calcite-switch>
-
-      Without a proxy <code>input</code> element and listening for "change"
+      Listening for "calciteSwitchChange".
     </calcite-label>
     <script>
       var basicSwitch = document.getElementById("basicSwitch");
@@ -36,31 +35,7 @@
     <br />
     <div>
       <calcite-label layout="inline">
-        <calcite-switch>
-          <input id="proxySwitchCheckbox" type="checkbox" />
-        </calcite-switch>
-        <span id="proxySwitchSpan"> With a proxy <code>input</code> element and changes on click. </span>
-      </calcite-label>
-      <div>
-        <script>
-          var proxySwitchSpan = document.getElementById("proxySwitchSpan");
-          var proxySwitchCheckbox = document.getElementById("proxySwitchCheckbox");
-
-          proxySwitchSpan.addEventListener("click", function () {
-            proxySwitchCheckbox.hasAttribute("checked")
-              ? proxySwitchCheckbox.removeAttribute("checked")
-              : proxySwitchCheckbox.setAttribute("checked", "");
-          });
-        </script>
-      </div>
-      <h4>Disabled with proxy input</h4>
-      <calcite-switch disabled>
-        <input id="proxySwitchCheckbox" type="checkbox" />
-      </calcite-switch>
-    </div>
-    <div>
-      <calcite-label layout="inline">
-        <calcite-switch switched disabled> </calcite-switch>
+        <calcite-switch switched disabled></calcite-switch>
         Disabled switch
       </calcite-label>
     </div>
@@ -69,7 +44,7 @@
       <div>
         <calcite-label layout="inline">
           <calcite-switch theme="dark" id="basicSwitch2" switched></calcite-switch>
-          Without a proxy <code>input</code> element and listening for "calciteSwitchChange".
+          Listening for "calciteSwitchChange".
           <script>
             var basicSwitch = document.getElementById("basicSwitch2");
 
@@ -78,23 +53,6 @@
             });
           </script>
         </calcite-label>
-      </div>
-      <br />
-      <div>
-        <calcite-switch theme="dark">
-          <input type="checkbox" />
-        </calcite-switch>
-        <span> With a proxy <code>input</code> element and changes on click. </span>
-        <script>
-          var proxySwitchSpan = document.getElementById("proxySwitchSpan");
-          var proxySwitchCheckbox = document.getElementById("proxySwitchCheckbox");
-
-          proxySwitchSpan.addEventListener("click", function () {
-            proxySwitchCheckbox.hasAttribute("checked")
-              ? proxySwitchCheckbox.removeAttribute("checked")
-              : proxySwitchCheckbox.setAttribute("checked", "");
-          });
-        </script>
       </div>
       <br />
       <div>
@@ -118,22 +76,6 @@
     </div>
     <div dir="rtl">
       <h3>RTL Inherited from Container</h3>
-      <div>
-        <calcite-switch>
-          <input id="proxySwitchCheckbox" type="checkbox" />
-        </calcite-switch>
-        <span id="proxySwitchSpan"> With a proxy <code>input</code> element and changes on click. </span>
-        <script>
-          var proxySwitchSpan = document.getElementById("proxySwitchSpan");
-          var proxySwitchCheckbox = document.getElementById("proxySwitchCheckbox");
-
-          proxySwitchSpan.addEventListener("click", function () {
-            proxySwitchCheckbox.hasAttribute("checked")
-              ? proxySwitchCheckbox.removeAttribute("checked")
-              : proxySwitchCheckbox.setAttribute("checked", "");
-          });
-        </script>
-      </div>
       <br />
       <div>
         <calcite-switch></calcite-switch>
@@ -141,37 +83,6 @@
       </div>
       <br />
       <div class="demo-background-dark">
-        <div>
-          <calcite-label layout="inline">
-            <calcite-switch theme="dark" id="basicSwitch2" switched></calcite-switch>
-            Without a proxy <code>input</code> element and listening for "calciteSwitchChange".
-            <script>
-              var basicSwitch = document.getElementById("basicSwitch2");
-
-              basicSwitch.addEventListener("calciteSwitchChange", function (e) {
-                console.log("Basic switch changed by <calcite-switch>", e.target.switched);
-              });
-            </script>
-          </calcite-label>
-        </div>
-        <br />
-        <div>
-          <calcite-switch theme="dark">
-            <input id="proxySwitchCheckbox" type="checkbox" />
-          </calcite-switch>
-          <span id="proxySwitchSpan"> With a proxy <code>input</code> element and changes on click. </span>
-          <script>
-            var proxySwitchSpan = document.getElementById("proxySwitchSpan");
-            var proxySwitchCheckbox = document.getElementById("proxySwitchCheckbox");
-
-            proxySwitchSpan.addEventListener("click", function () {
-              proxySwitchCheckbox.hasAttribute("checked")
-                ? proxySwitchCheckbox.removeAttribute("checked")
-                : proxySwitchCheckbox.setAttribute("checked", "");
-            });
-          </script>
-        </div>
-        <br />
         <div>
           <calcite-label layout="inline">
             <calcite-switch theme="dark" switched> </calcite-switch>
