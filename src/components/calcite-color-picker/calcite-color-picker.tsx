@@ -305,39 +305,41 @@ export class CalciteColorPicker {
     this.updateChannelsFromColor(this.color);
   };
 
-  private handleScopeKeydown = (event: KeyboardEvent): void => {
+  private handleColorFieldScopeKeyDown = (event: KeyboardEvent): void => {
     const key = getKey(event.key);
-    const cardinals = {
+    const arrowKeyToXYOffset = {
       ArrowUp: { x: 0, y: -10 },
       ArrowRight: { x: 10, y: 0 },
       ArrowDown: { x: 0, y: 10 },
       ArrowLeft: { x: -10, y: 0 }
     };
 
-    if (this.color && Object.keys(cardinals).indexOf(key) > -1) {
+    if (this.color && Object.keys(arrowKeyToXYOffset).includes(key)) {
       event.preventDefault();
-      this.captureColor(this.scopeLeft + cardinals[key].x, this.scopeTop + cardinals[key].y);
+      this.captureColor(
+        this.scopeLeft + arrowKeyToXYOffset[key].x,
+        this.scopeTop + arrowKeyToXYOffset[key].y
+      );
       this.scopeOrientation = key === "ArrowDown" || key === "ArrowUp" ? "vertical" : "horizontal";
       return;
     }
   };
 
-  private handleHueScopeKeydown = (event: KeyboardEvent): void => {
-    const { shiftKey } = event;
-    const modifier = shiftKey ? 10 : 1;
+  private handleHueScopeKeyDown = (event: KeyboardEvent): void => {
+    const modifier = event.shiftKey ? 10 : 1;
     const key = getKey(event.key);
-    const cardinals = {
+    const arrowKeyToXOffset = {
       ArrowUp: 1,
       ArrowRight: 1,
       ArrowDown: -1,
       ArrowLeft: -1
     };
 
-    if (this.color && Object.keys(cardinals).indexOf(key) > -1) {
+    if (this.color && Object.keys(arrowKeyToXOffset).includes(key)) {
       event.preventDefault();
-      const current = this.baseColorFieldColor.hue();
+      const hue = this.baseColorFieldColor.hue();
       this.internalColorSet(
-        this.baseColorFieldColor.hue(current + cardinals[key] * modifier),
+        this.baseColorFieldColor.hue(hue + arrowKeyToXOffset[key] * modifier),
         false
       );
       return;
@@ -537,22 +539,22 @@ export class CalciteColorPicker {
           />
           <div
             aria-label={vertical ? this.intlValue : this.intlSaturation}
-            aria-valuemax="100"
+            aria-valuemax={vertical ? HSV_LIMITS.v : HSV_LIMITS.s}
             aria-valuemin="0"
             aria-valuenow={color?.hsv().array()[vertical ? 2 : 1] || "0"}
             class={CSS.scope}
-            onKeyDown={this.handleScopeKeydown}
+            onKeyDown={this.handleColorFieldScopeKeyDown}
             role="slider"
             style={{ top: `${scopeTop}px`, left: `${scopeLeft}px` }}
             tabindex="0"
           />
           <div
             aria-label={this.intlHue}
-            aria-valuemax="360"
+            aria-valuemax={HSV_LIMITS.h}
             aria-valuemin="0"
-            aria-valuenow={color?.hue()?.toFixed(0) || "0"}
+            aria-valuenow={color?.round().hue() || "0"}
             class={CSS.scope}
-            onKeyDown={this.handleHueScopeKeydown}
+            onKeyDown={this.handleHueScopeKeyDown}
             role="slider"
             style={{ top: `${hueScopeTop}px`, left: `${hueScopeLeft}px` }}
             tabindex="0"
@@ -1075,7 +1077,7 @@ export class CalciteColorPicker {
     const x = hsvColor.saturationv() / (HSV_LIMITS.s / width);
     const y = height - hsvColor.value() / (HSV_LIMITS.v / height);
 
-    window.requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
       this.scopeLeft = x;
       this.scopeTop = y;
     });
@@ -1129,7 +1131,7 @@ export class CalciteColorPicker {
     const x = hsvColor.hue() / (360 / width);
     const y = height / 2 + colorFieldHeight;
 
-    window.requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
       this.hueScopeLeft = x;
       this.hueScopeTop = y;
     });
