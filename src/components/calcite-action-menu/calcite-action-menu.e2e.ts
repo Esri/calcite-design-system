@@ -87,4 +87,24 @@ describe("calcite-action-menu", () => {
     const tooltipSlot = await page.find(`calcite-action-menu >>> slot[name=${SLOTS.tooltip}]`);
     expect(tooltipSlot).toBeTruthy();
   });
+
+  it("should emit 'calciteActionMenuOpenChange' event", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-action-menu>
+      <calcite-action text="Add" icon="plus"></calcite-action>
+    </calcite-action-menu>`
+    });
+
+    await page.waitForChanges();
+
+    const clickSpy = await page.spyOnEvent("calciteActionMenuOpenChange");
+
+    const actionMenu = await page.find("calcite-action-menu");
+
+    actionMenu.setProperty("open", true);
+
+    await page.waitForChanges();
+
+    expect(clickSpy).toHaveReceivedEventTimes(1);
+  });
 });
