@@ -10,7 +10,15 @@
 }
 
 .calcite-popper-anim {
-  @apply h-full;
+  @apply bg-foreground-1
+    border
+    border-solid
+    border-color-3
+    rounded;
+}
+
+.arrow::before {
+  outline: 1px solid var(--calcite-ui-border-3);
 }
 
 .container {
@@ -21,7 +29,8 @@
     flex-no-wrap 
     flex-row 
     h-full
-    text-color-1;
+    text-color-1
+    rounded;
 }
 
 .content {
@@ -35,19 +44,24 @@
 .close-button {
   @apply focus-base;
   &:focus {
-    @apply focus-inset;
+    @apply focus-inset
+      border-2
+      border-solid
+      border-color-brand;
+    border-radius: 0 0.25rem 0.25rem 0;
   }
 }
 
 .close-button {
-  @apply block 
-    p-3 
-    border-none 
+  @apply flex
+    items-center
+    p-3
     text-color-1 
-    cursor-pointer 
-    bg-foreground-1;
-  flex: 0 0 auto;
-  border-radius: 0 var(--calcite-border-radius) 0 0;
+    cursor-pointer
+    bg-foreground-1
+    border-2
+    border-solid
+    border-color-transparent;
   z-index: 1;
   &:hover {
     @apply bg-foreground-2;
@@ -59,7 +73,7 @@
 
 .calcite--rtl {
   .close-button {
-    border-radius: var(--calcite-border-radius) 0 0 0;
+    border-radius: 0.25rem 0 0 0.25rem;
   }
 }
 
