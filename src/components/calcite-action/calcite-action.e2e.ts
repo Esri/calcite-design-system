@@ -133,4 +133,40 @@ describe("calcite-action", () => {
 
     expect(clickSpy).toHaveReceivedEventTimes(0);
   });
+
+  it("should emit 'calciteActionClick' event", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-action text="hello world"></calcite-action>`
+    });
+
+    await page.waitForChanges();
+
+    const clickSpy = await page.spyOnEvent("calciteActionClick");
+
+    const button = await page.find("calcite-action >>> button");
+
+    await button.click();
+
+    await page.waitForChanges();
+
+    expect(clickSpy).toHaveReceivedEventTimes(1);
+  });
+
+  it("should not emit 'calciteActionClick' event when disabled", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-action text="hello world" disabled></calcite-action>`
+    });
+
+    await page.waitForChanges();
+
+    const clickSpy = await page.spyOnEvent("calciteActionClick");
+
+    const button = await page.find("calcite-action >>> button");
+
+    await button.click();
+
+    await page.waitForChanges();
+
+    expect(clickSpy).toHaveReceivedEventTimes(0);
+  });
 });
