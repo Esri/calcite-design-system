@@ -172,6 +172,17 @@ export class CalciteActionBar {
   //
   // --------------------------------------------------------------------------
 
+  actionMenuOpenChangeHandler = (event: CustomEvent<boolean>): void => {
+    if (event.detail) {
+      const composedPath = event.composedPath();
+      Array.from(this.el.querySelectorAll("calcite-action-group")).forEach((group) => {
+        if (!composedPath.includes(group)) {
+          group.menuOpen = false;
+        }
+      });
+    }
+  };
+
   resizeHandlerEntries = (entries: ResizeObserverEntry[]): void => {
     entries.forEach(this.resizeHandler);
   };
@@ -252,7 +263,7 @@ export class CalciteActionBar {
 
   render(): VNode {
     return (
-      <Host>
+      <Host onCalciteActionMenuOpenChange={this.actionMenuOpenChangeHandler}>
         <slot />
         {this.renderBottomActionGroup()}
       </Host>

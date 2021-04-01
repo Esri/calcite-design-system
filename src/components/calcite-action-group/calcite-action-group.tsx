@@ -108,7 +108,7 @@ export class CalciteActionGroup {
   //
   // --------------------------------------------------------------------------
 
-  setMenuOpen = (event: CustomEvent): void => {
+  setMenuOpen = (event: CustomEvent<boolean>): void => {
     this.menuOpen = !!event.detail;
   };
 }
