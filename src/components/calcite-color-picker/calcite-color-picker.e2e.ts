@@ -1081,4 +1081,29 @@ describe("calcite-color-picker", () => {
     await assertHiddenSection(["channels"]);
     await assertHiddenSection([]);
   });
+
+  it("allows editing handles via keyboard", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-color-picker value="#beefee"></calcite-color-picker>`
+    });
+
+    const picker = await page.find("calcite-color-picker");
+    const spy = await picker.spyOnEvent("calciteColorPickerChange");
+
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("ArrowUp");
+    expect(spy).toHaveReceivedEventTimes(1);
+    await page.keyboard.press("ArrowDown");
+    expect(spy).toHaveReceivedEventTimes(2);
+    await page.keyboard.press("ArrowLeft");
+    expect(spy).toHaveReceivedEventTimes(3);
+    await page.keyboard.press("ArrowRight");
+    expect(spy).toHaveReceivedEventTimes(4);
+
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("ArrowLeft");
+    expect(spy).toHaveReceivedEventTimes(5);
+    await page.keyboard.press("ArrowRight");
+    expect(spy).toHaveReceivedEventTimes(6);
+  });
 });
