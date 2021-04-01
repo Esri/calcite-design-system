@@ -275,9 +275,9 @@ export class CalciteColorPicker {
 
   @State() savedColors: string[] = [];
 
-  @State() scopeTop: number;
+  @State() colorFieldScopeTop: number;
 
-  @State() scopeLeft: number;
+  @State() colorFieldScopeLeft: number;
 
   @State() scopeOrientation: "vertical" | "horizontal";
 
@@ -317,8 +317,8 @@ export class CalciteColorPicker {
     if (this.color && Object.keys(arrowKeyToXYOffset).includes(key)) {
       event.preventDefault();
       this.captureColor(
-        this.scopeLeft + arrowKeyToXYOffset[key].x,
-        this.scopeTop + arrowKeyToXYOffset[key].y
+        this.colorFieldScopeLeft + arrowKeyToXYOffset[key].x,
+        this.colorFieldScopeTop + arrowKeyToXYOffset[key].y
       );
       this.scopeOrientation = key === "ArrowDown" || key === "ArrowUp" ? "vertical" : "horizontal";
       return;
@@ -515,8 +515,8 @@ export class CalciteColorPicker {
     const hexInputScale = scale !== "s" ? "m" : scale;
     const {
       colorFieldAndSliderInteractive,
-      scopeTop,
-      scopeLeft,
+      colorFieldScopeTop,
+      colorFieldScopeLeft,
       hueScopeLeft,
       hueScopeTop,
       scopeOrientation
@@ -545,7 +545,7 @@ export class CalciteColorPicker {
             class={CSS.scope}
             onKeyDown={this.handleColorFieldScopeKeyDown}
             role="slider"
-            style={{ top: `${scopeTop}px`, left: `${scopeLeft}px` }}
+            style={{ top: `${colorFieldScopeTop}px`, left: `${colorFieldScopeLeft}px` }}
             tabindex="0"
           />
           <div
@@ -1078,8 +1078,8 @@ export class CalciteColorPicker {
     const y = height - hsvColor.value() / (HSV_LIMITS.v / height);
 
     requestAnimationFrame(() => {
-      this.scopeLeft = x;
-      this.scopeTop = y;
+      this.colorFieldScopeLeft = x;
+      this.colorFieldScopeTop = y;
     });
 
     this.drawThumb(this.fieldAndSliderRenderingContext, radius, x, y, hsvColor, this.hueThumbState);
