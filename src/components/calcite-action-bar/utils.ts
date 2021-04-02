@@ -17,7 +17,8 @@ export const getOverflowCount = ({
   groupCount: number;
 }): number => {
   const maxActionsCount = getMaxActionCount({ height, groupCount });
-  return actionCount >= maxActionsCount ? actionCount - maxActionsCount + 2 : 0;
+  const offset = Math.max(Math.ceil(groupCount / 2), 1);
+  return actionCount >= maxActionsCount ? actionCount - maxActionsCount + offset : 0;
 };
 
 export const overflowActions = ({
