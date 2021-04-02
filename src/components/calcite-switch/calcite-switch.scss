@@ -57,7 +57,7 @@
     border-solid 
     border-color-2 
     box-border
-    pointer-events-auto
+    pointer-events-none
     transition-all
     duration-150
     ease-in-out
@@ -75,7 +75,8 @@
     transition-all
     duration-150
     ease-in-out
-    rounded-full;
+    rounded-full
+    pointer-events-none;
   top: -1px;
   left: -1px;
 }
