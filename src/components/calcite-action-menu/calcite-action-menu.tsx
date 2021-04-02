@@ -5,6 +5,7 @@ import {
   Element,
   Event,
   EventEmitter,
+  Listen,
   Prop,
   Watch,
   Method,
@@ -12,7 +13,7 @@ import {
 } from "@stencil/core";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { focusElement, getSlotted } from "../../utils/dom";
-import { VNode } from "@stencil/core/internal";
+import { forceUpdate, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
 import { PopperPlacement } from "../../utils/popper";
 import { Placement } from "@popperjs/core";
@@ -99,6 +100,17 @@ export class CalciteActionMenu {
    * Emitted when the open property has changed.
    */
   @Event() calciteActionMenuOpenChange: EventEmitter;
+
+  @Listen("click", { target: "window" })
+  closeCalciteActionMenuOnClick(event: Event): void {
+    const composedPath = event.composedPath();
+
+    if (composedPath.includes(this.el)) {
+      return;
+    }
+
+    this.open = false;
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -251,6 +263,7 @@ export class CalciteActionMenu {
   setMenuButtonRef = (node: HTMLCalciteActionElement): void => {
     this.menuButtonEl = node;
     this.setTooltipReferenceElement();
+    forceUpdate(this);
   };
 
   updateAction = (action: HTMLCalciteActionElement, index: number): void => {

@@ -140,6 +140,17 @@ export class CalciteActionPad {
   //
   // --------------------------------------------------------------------------
 
+  actionMenuOpenChangeHandler = (event: CustomEvent<boolean>): void => {
+    if (event.detail) {
+      const composedPath = event.composedPath();
+      Array.from(this.el.querySelectorAll("calcite-action-group")).forEach((group) => {
+        if (!composedPath.includes(group)) {
+          group.menuOpen = false;
+        }
+      });
+    }
+  };
+
   toggleExpand = (): void => {
     this.expanded = !this.expanded;
   };
@@ -190,7 +201,7 @@ export class CalciteActionPad {
     };
 
     return (
-      <Host>
+      <Host onCalciteActionMenuOpenChange={this.actionMenuOpenChangeHandler}>
         <div class={containerClasses}>
           <slot />
           {this.renderBottomActionGroup()}
