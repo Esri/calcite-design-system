@@ -1,7 +1,7 @@
 import { forceUpdate } from "@stencil/core";
 
-const actionHeight = 48;
-const groupMargin = 16;
+const actionHeight = 50;
+const groupMargin = 18;
 
 const getMaxActionCount = ({ height, groupCount }: { height: number; groupCount: number }): number => {
   return Math.floor((height - groupCount * groupMargin) / actionHeight);
