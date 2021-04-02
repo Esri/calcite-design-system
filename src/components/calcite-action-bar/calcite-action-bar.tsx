@@ -43,6 +43,8 @@ export class CalciteActionBar {
     if (!expandDisabled) {
       toggleChildActionText({ parent: this.el, expanded: this.expanded });
     }
+
+    this.resize(this.el.clientHeight);
   }
 
   /**
@@ -113,11 +115,16 @@ export class CalciteActionBar {
   mutationObserver = new MutationObserver(() => {
     const { el, expanded } = this;
     toggleChildActionText({ parent: el, expanded });
+    this.resize(el.clientHeight);
   });
 
   resizeObserver = new ResizeObserver((entries) => this.resizeHandlerEntries(entries));
 
   expandToggleEl: HTMLCalciteActionElement;
+
+  lastActionCount: number;
+
+  lastGroupCount: number;
 
   lastResizeHeight: number;
 
@@ -193,13 +200,18 @@ export class CalciteActionBar {
   };
 
   resize = (height: number): void => {
-    const { el, expanded, expandDisabled, lastResizeHeight } = this;
+    const {
+      el,
+      expanded,
+      expandDisabled,
+      lastActionCount,
+      lastGroupCount,
+      lastResizeHeight
+    } = this;
 
-    if (height === lastResizeHeight || typeof height !== "number") {
+    if (typeof height !== "number") {
       return;
     }
-
-    this.lastResizeHeight = height;
 
     const actions = el.querySelectorAll("calcite-action");
     const actionCount = expandDisabled ? actions.length : actions.length + 1;
@@ -208,6 +220,18 @@ export class CalciteActionBar {
       getSlotted(el, SLOTS.bottomActions) || !expandDisabled
         ? actionGroups.length + 1
         : actionGroups.length;
+
+    if (
+      lastResizeHeight === height &&
+      lastActionCount === actionCount &&
+      lastGroupCount === groupCount
+    ) {
+      return;
+    }
+
+    this.lastActionCount = actionCount;
+    this.lastGroupCount = groupCount;
+    this.lastResizeHeight = height;
 
     const overflowCount = getOverflowCount({ actionCount, height, groupCount });
 
