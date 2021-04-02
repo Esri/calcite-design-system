@@ -14,6 +14,7 @@
   @apply flex bg-foreground-1;
   width: fit-content;
   outline: 1px solid var(--calcite-ui-border-input);
+  outline-offset: -1px;
 }
 
 :host([layout="vertical"]) {
