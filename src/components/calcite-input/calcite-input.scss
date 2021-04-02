@@ -1,13 +1,54 @@
 // temporary hardcoded values until new font scale and padding is added to calcite-base
 :host([scale="s"]) {
+  &:not([type="textarea"]) &:not([type="file"]) .calcite-input-wrapper {
+    max-height: theme("spacing.6");
+  }
   & textarea,
   & input,
   & .calcite-input-prefix,
   & .calcite-input-suffix {
-    @apply text--2 p-2 h-8;
+    @apply text--2h py-1 px-2 h-6;
   }
   & textarea {
-    min-height: 32px;
+    min-height: theme("spacing.6");
+  }
+  & .calcite-input-number-button-wrapper,
+  & .calcite-input-action-wrapper calcite-button,
+  & .calcite-input-action-wrapper calcite-button button {
+    @apply h-6;
+  }
+  & textarea,
+  & input[type="file"] {
+    @apply h-auto;
+  }
+  & .calcite-input-clear-button {
+    min-height: theme("spacing.6");
+    min-width: theme("spacing.6");
+  }
+  .calcite-input-number-button-item {
+    @apply h-3;
+  }
+
+  .calcite-input-number-button-item.number-button-item-horizontal {
+    &[data-adjustment="down"],
+    &[data-adjustment="up"] {
+      @apply h-6;
+    }
+  }
+}
+
+:host([scale="m"]) {
+  &:not([type="textarea"]) &:not([type="file"]) .calcite-input-wrapper {
+    max-height: theme("spacing.8");
+  }
+  & textarea,
+  & input,
+  & .calcite-input-prefix,
+  & .calcite-input-suffix {
+    @apply text--1h p-2 h-8;
+  }
+  & textarea {
+    min-height: theme("spacing.8");
   }
   & .calcite-input-number-button-wrapper,
   & .calcite-input-action-wrapper calcite-button,
@@ -16,99 +57,95 @@
   }
   & textarea,
   & input[type="file"] {
-    @apply h-auto;
+    @apply h-full;
   }
   & .calcite-input-clear-button {
-    min-height: 32px;
-    min-width: 32px;
+    min-height: theme("spacing.8");
+    min-width: theme("spacing.8");
   }
-}
-
-:host([scale="m"]) {
-  & textarea,
-  & input,
-  & .calcite-input-prefix,
-  & .calcite-input-suffix {
-    @apply text--1 p-3;
-    height: 44px;
+  .calcite-input-number-button-item {
+    @apply h-4;
   }
-  & textarea {
-    min-height: 44px;
-  }
-  & .calcite-input-number-button-wrapper,
-  & .calcite-input-action-wrapper calcite-button,
-  & .calcite-input-action-wrapper calcite-button button {
-    height: 44px;
-  }
-  & textarea,
-  & input[type="file"] {
-    @apply h-auto;
-  }
-  & .calcite-input-clear-button {
-    min-height: 44px;
-    min-width: 44px;
+  .calcite-input-number-button-item.number-button-item-horizontal {
+    &[data-adjustment="down"],
+    &[data-adjustment="up"] {
+      @apply h-8;
+    }
   }
 }
 
 :host([scale="l"]) {
+  &:not([type="textarea"]) &:not([type="file"]) .calcite-input-wrapper {
+    max-height: theme("spacing.10");
+  }
   & textarea,
   & input,
   & .calcite-input-prefix,
   & .calcite-input-suffix {
-    @apply text-1 p-4;
-    height: 56px;
+    @apply text-1h p-3 h-10;
   }
   & textarea {
-    min-height: 56px;
+    min-height: theme("height.10");
   }
   & .calcite-input-number-button-wrapper,
   & .calcite-input-action-wrapper calcite-button,
   & .calcite-input-action-wrapper calcite-button button {
-    height: 56px;
+    @apply h-10;
   }
   & textarea,
   & input[type="file"] {
-    height: auto;
+    @apply h-auto;
   }
   & .calcite-input-clear-button {
-    min-height: 56px;
-    min-width: 56px;
+    min-height: theme("height.10");
+    min-width: theme("height.10");
+  }
+  .calcite-input-number-button-item {
+    @apply h-6;
+  }
+  .calcite-input-number-button-item.number-button-item-horizontal {
+    &[data-adjustment="down"],
+    &[data-adjustment="up"] {
+      @apply h-10;
+    }
   }
 }
 
 // disabled styles
 :host([disabled]) {
-  pointer-events: none;
+  @apply pointer-events-none;
 
   & .calcite-input-wrapper {
-    opacity: var(--calcite-ui-opacity-disabled);
-    pointer-events: none;
+    @apply opacity-disabled pointer-events-none;
   }
-  & textarea,
+  textarea,
   & input {
-    pointer-events: none;
+    @apply pointer-events-none;
   }
 }
 
 :host textarea,
 :host input {
-  display: flex;
-  position: relative;
-  min-width: 20%;
-  max-width: 100%;
-  max-height: 100%;
-  flex: 1;
-  box-sizing: border-box;
+  @apply flex 
+    relative 
+    max-w-full 
+    max-h-full 
+    flex-1 
+    box-border 
+    font-inherit 
+    m-0 
+    bg-foreground-1 
+    text-color-1 
+    font-normal 
+    rounded-none
+    duration-150
+    ease-in-out;
+  transition-property: height;
+  transition-delay: "0s"; // add to config via extend?-theme("transitionDelay.0");
+  min-width: theme("width[1/5]");
   -webkit-appearance: none;
-  font-family: inherit;
-  transition: $transition, height 0s;
   box-shadow: 0 0 0 0 transparent;
   outline: 0;
-  margin: 0;
-  background-color: var(--calcite-ui-foreground-1);
-  color: var(--calcite-ui-text-1);
-  font-weight: 400;
-  border-radius: 0;
   -webkit-border-radius: 0;
 }
 
@@ -119,110 +156,123 @@
 //focus
 :host textarea,
 :host input {
-  @include focus-style-base();
+  @apply focus-base;
 }
 :host textarea:focus,
 :host input:focus {
-  @include focus-style-inset();
+  @apply focus-inset;
 }
 
 // states
 :host {
   & input,
   & textarea {
-    color: var(--calcite-ui-text-1);
-    border: 1px solid var(--calcite-ui-border-1);
+    @apply text-color-1 
+      border 
+      border-solid 
+      border-color-input;
 
     &::placeholder,
     &:-ms-input-placeholder,
     &::-ms-input-placeholder {
-      color: var(--calcite-ui-text-3);
-      font-weight: 400;
+      @apply text-color-3 font-normal;
     }
   }
 
   & input:focus,
   & textarea:focus {
-    border-color: var(--calcite-ui-brand);
-    color: var(--calcite-ui-text-1);
+    @apply border-color-brand text-color-1;
   }
   & input[readonly],
   & textarea[readonly] {
-    background-color: var(--calcite-ui-background);
+    @apply bg-background;
   }
   & input[readonly]:focus,
   & textarea[readonly]:focus {
-    color: var(--calcite-ui-text-1);
+    @apply text-color-1;
   }
   & calcite-icon {
-    color: var(--calcite-ui-text-1);
+    @apply text-color-3;
   }
 }
 // input message slot
 :host slot:not[name="input-message"] {
-  display: block;
-  margin-bottom: $baseline/4;
-  color: var(--calcite-ui-text-2);
-  font-weight: 500;
+  @apply block 
+    mb-1 
+    text-color-2 
+    font-medium;
 }
 
 // icon
+//FIXME: Hard rem values needed for Figma spacing scale design. This component will need to get reworked out side the refactor
 :host([icon]) input {
-  padding-left: $baseline * 1.5;
+  padding-left: 1.125rem;
 }
 
 :host([dir="rtl"][icon]) input {
-  padding-right: $baseline * 1.5;
-  padding-left: $baseline/2;
+  @apply pl-2;
+  padding-right: 1.125rem;
+}
+
+:host([icon][scale="m"]) input {
+  padding-left: 2.25rem;
+}
+
+:host([dir="rtl"][icon][scale="m"]) input {
+  @apply pl-2;
+  padding-right: 2.25rem;
+}
+
+:host([icon][scale="l"]) input {
+  padding-left: 3.25rem;
 }
 
 :host([dir="rtl"][icon][scale="l"]) input {
-  padding-right: $baseline * 2;
-  padding-left: $baseline/2;
+  @apply pl-2;
+  padding-right: 3.25rem;
 }
-:host([icon][scale="l"]) input {
-  padding-left: $baseline * 2;
-}
+
 //positioning wrapper for icon and loader
 .calcite-input-element-wrapper {
-  display: inline-flex;
-  flex: 1;
-  min-width: 20%;
-  position: relative;
-  order: 3;
+  @apply inline-flex relative order-3 flex-1 h-auto;
+  min-width: theme("width[1/5]");
 }
 
 .calcite-input-icon {
-  display: block;
-  position: absolute;
-  pointer-events: none;
-  transition: $transition;
-  top: calc(50% - 9px);
-  left: $baseline/2;
-  margin: 1px auto 0;
+  @apply block 
+    absolute 
+    pointer-events-none
+    transition-default
+    mt-px 
+    mx-auto;
+  color: theme("colors.text.3") !important;
   z-index: 1;
 }
 
-// adjust for larger icon of scale l
+:host([scale="s"]) .calcite-input-icon {
+  left: theme("spacing.1");
+  top: theme("spacing.1");
+}
+:host([scale="m"]) .calcite-input-icon {
+  left: theme("spacing.3");
+  top: calc(50% - 10px);
+}
 :host([scale="l"]) .calcite-input-icon {
-  top: calc(50% - 12px);
+  left: theme("spacing.4");
+  top: theme("spacing.3");
 }
 
 :host([dir="rtl"]) .calcite-input-icon {
   left: unset;
-  right: $baseline/2;
+  right: theme("spacing.2");
 }
 
 // hide browser default clear
 input[type="text"]::-ms-clear {
-  display: none;
-  width: 0;
-  height: 0;
+  @apply hidden w-0 h-0;
 }
 input[type="text"]::-ms-reveal {
-  display: none;
-  width: 0;
-  height: 0;
+  @apply hidden w-0 h-0;
 }
 input[type="search"]::-webkit-search-decoration,
 input[type="search"]::-webkit-search-cancel-button,
@@ -230,134 +280,134 @@ input[type="search"]::-webkit-search-results-button,
 input[type="search"]::-webkit-search-results-decoration,
 input[type="date"]::-webkit-clear-button,
 input[type="time"]::-webkit-clear-button {
-  display: none;
+  @apply hidden;
 }
 
 .calcite-input-clear-button {
-  display: flex;
-  align-self: stretch;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  cursor: pointer;
-  min-height: 100%;
-  border: 1px solid var(--calcite-ui-border-1);
-  transition: $transition;
-  pointer-events: initial;
-  background-color: var(--calcite-ui-foreground-1);
-  border-left: none;
-  order: 4;
+  @apply flex 
+    self-stretch 
+    items-center 
+    justify-center 
+    box-border 
+    cursor-pointer 
+    min-h-full 
+    pointer-events-auto
+    bg-foreground-1 
+    border
+    border-solid
+    border-l-0
+    order-4
+    border-color-input 
+    transition-default
+    text-color-3;
   &:hover,
   &:focus {
-    background-color: var(--calcite-ui-foreground-2);
+    @apply bg-foreground-2 text-color-1;
   }
   &:active {
-    background-color: var(--calcite-ui-foreground-3);
+    @apply bg-foreground-3;
   }
   &:disabled {
-    opacity: var(--calcite-ui-opacity-disabled);
+    @apply bg-opacity-disabled;
   }
 }
 
 :host([dir="rtl"]) {
   .calcite-input-clear-button {
-    border-left: 1px solid var(--calcite-ui-border-1);
-    border-right: none;
+    @apply border-l
+      border-solid
+      border-color-input;
   }
 }
 
 .calcite-input-clear-button {
-  @include focus-style-base();
+  @apply focus-base;
   &:focus {
-    @include focus-style-inset();
+    @apply focus-inset;
   }
 }
 
 // loading
 .calcite-input-loading {
-  display: block;
-  pointer-events: none;
-  position: absolute;
+  @apply block 
+    pointer-events-auto 
+    absolute 
+    inset-x-0;
   top: 1px;
-  left: 1px;
-  right: 1px;
 }
 
 // slotted action
 .calcite-input-action-wrapper {
-  display: flex;
-  order: 7;
+  @apply flex order-7;
 }
 
 // prefix and suffix
 .calcite-input-prefix,
 .calcite-input-suffix {
-  display: flex;
-  align-items: center;
-  align-content: center;
-  height: auto;
-  min-height: 100%;
-  word-break: break-word;
-  user-select: none;
-  box-sizing: border-box;
-  font-weight: 500;
-  border: 1px solid var(--calcite-ui-border-1);
-  background-color: var(--calcite-ui-background);
-  color: var(--calcite-ui-text-2);
-  line-height: 1;
+  @apply flex 
+    items-center 
+    content-center 
+    h-auto 
+    min-h-full 
+    word-break 
+    select-none 
+    box-border 
+    font-medium 
+    bg-background 
+    text-color-2
+    border
+    border-solid
+    border-color-input
+    leading-none;
 }
 
 .calcite-input-prefix {
-  order: 2;
-  border-right-width: 0px;
+  @apply order-2 border-r-0;
 }
 .calcite-input-suffix {
-  order: 5;
-  border-left-width: 0px;
+  @apply order-5 border-l-0;
 }
 
 :host([dir="rtl"]) {
   & .calcite-input-prefix {
-    border-right-width: 1px;
-    border-left-width: 0px;
+    @apply border-l-0 border-r;
   }
   & .calcite-input-suffix {
-    border-left-width: 1px;
-    border-right-width: 0px;
+    @apply border-r-0 border-l;
   }
 }
 
 // readonly
 :host([readonly]) .calcite-input-number-button-item {
-  pointer-events: none;
+  @apply pointer-events-none;
 }
 
 // alignment type
 :host([alignment="start"]) {
   & textarea,
   & input {
-    text-align: left;
+    @apply text-left;
   }
 }
 
 :host([alignment="end"]) {
   & textarea,
   & input {
-    text-align: right;
+    @apply text-right;
   }
 }
 
 :host([dir="rtl"])[alignment="start"] {
   & textarea,
   & input {
-    text-align: right;
+    @apply text-right;
   }
 }
 
 :host([dir="rtl"])[alignment="end"] {
   & textarea,
   & input {
-    text-align: left;
+    @apply text-left;
   }
 }
 
@@ -369,119 +419,136 @@ input[type="time"]::-webkit-clear-button {
   &::-webkit-outer-spin-button {
     -webkit-appearance: none;
     -moz-appearance: textfield;
-    margin: 0;
+    @apply m-0;
   }
 }
 
 .calcite-input-number-button-wrapper {
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  transition: $transition;
-  pointer-events: none;
-  order: 6;
+  @apply flex 
+    flex-col 
+    box-border 
+    pointer-events-auto 
+    order-6
+    transition-default;
 }
 
 :host([number-button-type="vertical"]) .calcite-input-wrapper {
-  flex-direction: row;
-  display: flex;
+  @apply flex flex-row;
 }
 
 :host([number-button-type="vertical"]) {
   & input,
   textarea {
-    order: 2;
+    @apply order-2;
   }
 }
 
 :host([dir="rtl"])[number-button-type="horizontal"] {
   & .calcite-input-number-button-item[data-adjustment="down"] calcite-icon {
-    transform: rotate(-90deg);
+    @apply transform -rotate-90;
   }
   & .calcite-input-number-button-item[data-adjustment="up"] calcite-icon {
-    transform: rotate(-90deg);
+    @apply transform -rotate-90;
   }
 }
 
 .calcite-input-number-button-item.number-button-item-horizontal {
   &[data-adjustment="down"],
   &[data-adjustment="up"] {
-    min-height: 100%;
-    max-height: 100%;
-    order: 1;
-    align-self: auto;
+    @apply min-h-full 
+      max-h-full 
+      order-1 
+      self-auto;
     & calcite-icon {
-      transform: rotate(90deg);
+      @apply transform rotate-90;
     }
   }
 }
 
 .calcite-input-number-button-item.number-button-item-horizontal[data-adjustment="down"] {
-  border-left: 1px solid var(--calcite-ui-border-1);
-  border-right: 0px;
+  @apply border-r-0 
+    border-l 
+    border-solid 
+    border-color-input;
 }
 
 .calcite-input-number-button-item.number-button-item-horizontal[data-adjustment="up"] {
-  order: 5;
+  @apply order-5;
 }
 :host([dir="rtl"]) {
   .calcite-input-number-button-item.number-button-item-horizontal[data-adjustment="down"] {
-    border-right: 1px solid var(--calcite-ui-border-1);
-    border-left: 0px;
+    @apply border-l-0 
+    border-r
+    border-solid
+    border-color-input;
   }
   .calcite-input-number-button-item.number-button-item-horizontal[data-adjustment="up"] {
-    border-left: 1px solid var(--calcite-ui-border-1);
-    border-right: 0px;
+    @apply border-r-0 
+    border-l
+    border-solid
+    border-color-input;
   }
 }
 
 :host([number-button-type="vertical"]) .calcite-input-number-button-item[data-adjustment="down"] {
-  border-top: 0;
+  @apply border-t-0;
+}
+
+:host([number-button-type="vertical"][scale="s"]) {
+  & calcite-icon {
+    @apply h-3 w-3;
+    min-width: theme("spacing.3");
+    min-height: theme("spacing.3");
+  }
 }
 
 .calcite-input-number-button-item {
-  display: flex;
-  align-self: center;
-  align-items: center;
-  box-sizing: border-box;
-  cursor: pointer;
-  max-height: 50%;
-  min-height: 50%;
-  padding: 0 $baseline/2;
-  border: 1px solid var(--calcite-ui-border-1);
-  transition: background-color 0.15s ease-in-out;
-  pointer-events: initial;
-  background-color: var(--calcite-ui-foreground-1);
-  border-left: none;
+  @apply flex 
+    self-center 
+    items-center 
+    box-border 
+    cursor-pointer
+    py-0
+    px-2
+    pointer-events-auto
+    bg-foreground-1
+    border
+    border-solid
+    border-l-0
+    border-color-input
+    transition-color 
+    duration-150 
+    ease-in-out;
+  max-height: calc(theme("height.full") / 2);
+  min-height: calc(theme("height.full") / 2);
   & calcite-icon {
-    pointer-events: none;
+    @apply pointer-events-none;
   }
   &:hover,
   &:focus {
-    background-color: var(--calcite-ui-foreground-2);
+    @apply bg-foreground-2;
   }
   &:active {
-    background-color: var(--calcite-ui-foreground-3);
+    @apply bg-foreground-3;
   }
 }
 
 :host([dir="rtl"])[number-button-type="vertical"] {
   .calcite-input-number-button-item {
-    border-right: none;
-    border-left: 1px solid var(--calcite-ui-border-1);
+    @apply border-r-0 
+    border-l
+    border-solid
+    border-color-input;
   }
 }
 
 .calcite-input-wrapper {
-  display: flex;
-  flex-direction: row;
-  position: relative;
+  @apply flex relative;
 }
 
 // hide the default date picker
 :host input::-webkit-calendar-picker-indicator {
-  display: none;
+  @apply hidden;
 }
 
 :host input[type="date"]::-webkit-input-placeholder {
@@ -490,68 +557,75 @@ input[type="time"]::-webkit-clear-button {
 
 // textarea resize icon
 :host textarea::-webkit-resizer {
-  box-sizing: border-box;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  padding: 0 $baseline/4;
+  @apply box-border 
+    absolute 
+    bottom-0 
+    right-0 
+    py-0 
+    px-1;
 }
 
 // hide custom textarea resize icon for ie11, defer to browser arrows
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
   .calcite-input-resize-icon-wrapper {
-    display: none;
+    @apply hidden;
   }
 }
 
 .calcite-input-resize-icon-wrapper {
-  background-color: var(--calcite-ui-foreground-1);
-  color: var(--calcite-ui-text-3);
-  position: absolute;
+  @apply bg-transparent
+    absolute 
+    pointer-events-none 
+    w-4 
+    h-4
+    bottom-0
+    right-0;
+  color: theme("borderColor.color.input");
   z-index: 1;
   bottom: 2px;
   right: 2px;
-  pointer-events: none;
-  width: 16px;
-  height: 16px;
   & calcite-icon {
-    bottom: 4px;
-    right: 4px;
-    transform: rotate(-45deg);
+    @apply transform -rotate-45;
+    bottom: theme("spacing.1");
+    right: theme("spacing.1");
   }
 }
 
 :host([dir="rtl"]) {
   textarea::-webkit-resizer {
-    left: 0;
+    @apply left-0;
     right: unset;
   }
 
   .calcite-input-resize-icon-wrapper {
-    left: 2px;
+    left: 0;
     right: unset;
     & calcite-icon {
-      bottom: 4px;
-      right: 4px;
-      transform: rotate(45deg);
+      @apply transform rotate-45;
+      bottom: theme("spacing.1");
+      right: theme("spacing.1");
     }
   }
 }
 
-// file input
+// file input/but
 :host([type="file"]) {
   & input,
   textarea {
-    cursor: pointer;
-    padding: $baseline;
-    border: 1px dashed $blk-040;
-    background-color: $blk-005;
-    text-align: center;
+    @apply cursor-pointer 
+    py-2 
+    px-3
+    text-center 
+    border-color-input 
+    bg-foreground-1 
+    border 
+    border-dashed
+    font-medium;
   }
 }
 
 :host(.no-bottom-border) input.sc-calcite-input {
-  border-bottom: none;
+  @apply border-b-0;
 }
 
 // status
