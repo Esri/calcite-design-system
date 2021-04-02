@@ -83,7 +83,7 @@
 :host(:hover),
 :host(:focus) {
   .handle {
-    border-color: theme("backgroundColor.brand");
+    @apply border-color-brand;
     box-shadow: inset 0 0 0 1px theme("backgroundColor.brand");
     @apply right-auto;
   }
@@ -91,23 +91,20 @@
 
 :host([switched]) {
   .track {
-    background-color: theme("backgroundColor.brand");
-    border-color: theme("borderColor.color-brand");
+    @apply bg-brand border-color-brand;
   }
   .handle {
-    @apply left-auto;
+    @apply left-auto border-color-brand;
     right: -1px;
-    border-color: theme("borderColor.color-brand");
   }
 }
 
 :host([switched]:hover) {
   .track {
-    background-color: theme("backgroundColor.brand");
-    border-color: theme("backgroundColor.brand");
+    @apply bg-brand border-color-brand;
   }
   .handle {
-    border-color: theme("borderColor.color-brand-hover");
+    @apply border-color-brand;
     box-shadow: inset 0 0 0 1px theme("borderColor.color-brand-hover");
   }
 }
