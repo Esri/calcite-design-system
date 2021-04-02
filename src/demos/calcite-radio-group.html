@@ -55,26 +55,6 @@
       </calcite-radio-group>
     </calcite-label>
 
-    <calcite-label scale="l">
-      Inherit L scale from parent label
-      <calcite-radio-group appearance="outline">
-        <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
-        <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
-        <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
-        <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
-      </calcite-radio-group>
-    </calcite-label>
-
-    <calcite-label scale="s">
-      Inherit S scale from parent label
-      <calcite-radio-group appearance="outline">
-        <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
-        <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
-        <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
-        <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
-      </calcite-radio-group>
-    </calcite-label>
-
     <calcite-label>
       My Great Radio Layout Vertical
       <calcite-radio-group layout="vertical">
@@ -129,6 +109,50 @@
     </calcite-label>
 
     <h3 class="leader-1">Width full</h3>
+
+    <div style="width:33vw;margin:2rem;">
+      <calcite-radio-group
+        appearance="solid"
+        width="full"
+      >
+        <calcite-radio-group-item
+          checked
+          appearance="solid"
+          aria-checked="true"
+          layout="horizontal"
+          icon-position="start"
+        >
+          React
+        </calcite-radio-group-item>
+        <calcite-radio-group-item
+          value="ember"
+          appearance="solid"
+          aria-checked="false"
+          layout="horizontal"
+          icon-position="start"
+        >
+          Ember
+        </calcite-radio-group-item>
+        <calcite-radio-group-item
+          value="long-text-1"
+          appearance="solid"
+          aria-checked="false"
+          layout="horizontal"
+          icon-position="start"
+        >
+          Longer text wraps.
+        </calcite-radio-group-item>
+        <calcite-radio-group-item
+          value="long-text-2"
+          appearance="solid"
+          aria-checked="false"
+          layout="horizontal"
+          icon-position="start"
+        >
+          Longer text wraps.
+        </calcite-radio-group-item>
+      </calcite-radio-group>
+    </div>
 
     <calcite-radio-group width="full">
       <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
