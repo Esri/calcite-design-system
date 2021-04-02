@@ -83,8 +83,7 @@
 :host(:hover),
 :host(:focus) {
   .handle {
-    @apply border-color-brand;
-    box-shadow: inset 0 0 0 1px theme("backgroundColor.brand");
+    @apply border-color-brand shadow-outline-active;
     @apply right-auto;
   }
 }
@@ -104,8 +103,7 @@
     @apply bg-brand border-color-brand;
   }
   .handle {
-    @apply border-color-brand;
-    box-shadow: inset 0 0 0 1px theme("borderColor.color-brand-hover");
+    @apply border-color-brand shadow-outline-active;
   }
 }
 
