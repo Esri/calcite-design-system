@@ -314,11 +314,11 @@ export class CalciteColorPicker {
       ArrowLeft: { x: -10, y: 0 }
     };
 
-    if (this.color && Object.keys(arrowKeyToXYOffset).includes(key)) {
+    if (Object.keys(arrowKeyToXYOffset).includes(key)) {
       event.preventDefault();
       this.captureColor(
-        this.colorFieldScopeLeft + arrowKeyToXYOffset[key].x,
-        this.colorFieldScopeTop + arrowKeyToXYOffset[key].y
+        this.colorFieldScopeLeft + arrowKeyToXYOffset[key].x || 0,
+        this.colorFieldScopeTop + arrowKeyToXYOffset[key].y || 0
       );
       this.scopeOrientation = key === "ArrowDown" || key === "ArrowUp" ? "vertical" : "horizontal";
       return;
@@ -335,13 +335,12 @@ export class CalciteColorPicker {
       ArrowLeft: -1
     };
 
-    if (this.color && Object.keys(arrowKeyToXOffset).includes(key)) {
+    if (Object.keys(arrowKeyToXOffset).includes(key)) {
       event.preventDefault();
-      const hue = this.baseColorFieldColor.hue();
-      this.internalColorSet(
-        this.baseColorFieldColor.hue(hue + arrowKeyToXOffset[key] * modifier),
-        false
-      );
+      const delta = arrowKeyToXOffset[key] * modifier;
+      const hue = this.baseColorFieldColor?.hue();
+      const color = hue ? this.baseColorFieldColor.hue(hue + delta) : Color({ h: 0, s: 0, v: 100 });
+      this.internalColorSet(color, false);
       return;
     }
   };
@@ -519,8 +518,14 @@ export class CalciteColorPicker {
       colorFieldScopeLeft,
       hueScopeLeft,
       hueScopeTop,
-      scopeOrientation
+      scopeOrientation,
+      dimensions: {
+        colorField: { height: colorFieldHeight, width: colorFieldWidth },
+        slider: { height: sliderHeight }
+      }
     } = this;
+    const hueTop = hueScopeTop || sliderHeight / 2 + colorFieldHeight;
+    const hueLeft = hueScopeLeft || (colorFieldWidth * DEFAULT_COLOR.hue()) / HSV_LIMITS.h;
     const elementDir = getElementDir(el);
     const noColor = color === null;
     const vertical = scopeOrientation === "vertical";
@@ -541,22 +546,22 @@ export class CalciteColorPicker {
             aria-label={vertical ? this.intlValue : this.intlSaturation}
             aria-valuemax={vertical ? HSV_LIMITS.v : HSV_LIMITS.s}
             aria-valuemin="0"
-            aria-valuenow={color?.hsv().array()[vertical ? 2 : 1] || "0"}
+            aria-valuenow={(vertical ? color?.saturationv() : color?.value()) || "0"}
             class={CSS.scope}
             onKeyDown={this.handleColorFieldScopeKeyDown}
             role="slider"
-            style={{ top: `${colorFieldScopeTop}px`, left: `${colorFieldScopeLeft}px` }}
+            style={{ top: `${colorFieldScopeTop || 0}px`, left: `${colorFieldScopeLeft || 0}px` }}
             tabindex="0"
           />
           <div
             aria-label={this.intlHue}
             aria-valuemax={HSV_LIMITS.h}
             aria-valuemin="0"
-            aria-valuenow={color?.round().hue() || "0"}
+            aria-valuenow={color?.round().hue() || DEFAULT_COLOR.round().hue()}
             class={CSS.scope}
             onKeyDown={this.handleHueScopeKeyDown}
             role="slider"
-            style={{ top: `${hueScopeTop}px`, left: `${hueScopeLeft}px` }}
+            style={{ top: `${hueTop}px`, left: `${hueLeft}px` }}
             tabindex="0"
           />
         </div>
