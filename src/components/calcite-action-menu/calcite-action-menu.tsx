@@ -7,6 +7,7 @@ import {
   EventEmitter,
   Prop,
   Watch,
+  Method,
   State
 } from "@stencil/core";
 import { CSS, ICONS, SLOTS } from "./resources";
@@ -132,6 +133,17 @@ export class CalciteActionMenu {
 
   // --------------------------------------------------------------------------
   //
+  //  Methods
+  //
+  // --------------------------------------------------------------------------
+
+  @Method()
+  async setFocus(): Promise<void> {
+    focusElement(this.open ? this.actionElements[0] || this.menuEl : this.menuButtonEl);
+  }
+
+  // --------------------------------------------------------------------------
+  //
   //  Component Methods
   //
   // --------------------------------------------------------------------------
@@ -227,13 +239,12 @@ export class CalciteActionMenu {
   setTooltipReferenceElement = (): void => {
     const { el, expanded, menuButtonEl } = this;
 
-    const tooltipSlot = getSlotted(el, SLOTS.tooltip) as HTMLSlotElement;
+    const slotted = getSlotted(el, SLOTS.tooltip);
     const tooltip =
-      tooltipSlot?.assignedElements &&
-      (tooltipSlot.assignedElements()[0] as HTMLCalciteTooltipElement);
+      slotted?.tagName === "SLOT" ? (slotted as HTMLSlotElement).assignedElements()[0] : slotted;
 
-    if (tooltip) {
-      tooltip.referenceElement = !expanded && menuButtonEl;
+    if (tooltip?.tagName === "CALCITE-TOOLTIP") {
+      (tooltip as HTMLCalciteTooltipElement).referenceElement = !expanded && menuButtonEl;
     }
   };
 
@@ -261,11 +272,14 @@ export class CalciteActionMenu {
   };
 
   getActions = (): void => {
-    const actionElements =
-      (this.el
-        .querySelector("slot")
-        ?.assignedElements({ flatten: true })
-        .filter((el) => el.tagName === "CALCITE-ACTION") as HTMLCalciteActionElement[]) || [];
+    const { el } = this;
+
+    const assignedElements = el
+      .querySelector("slot")
+      ?.assignedElements({ flatten: true })
+      .filter((element) => element?.tagName === "CALCITE-ACTION") as HTMLCalciteActionElement[];
+
+    const actionElements = assignedElements || Array.from(el.querySelectorAll("calcite-action"));
 
     this.updateActions(actionElements);
 
@@ -373,12 +387,9 @@ export class CalciteActionMenu {
     clearTimeout(this.menuFocusTimeout);
 
     if (value) {
-      this.menuFocusTimeout = window.setTimeout(
-        () => focusElement(this.menuEl),
-        MENU_ANIMATION_DELAY_MS
-      );
+      this.menuFocusTimeout = window.setTimeout(() => this.setFocus(), MENU_ANIMATION_DELAY_MS);
     } else {
-      focusElement(this.menuButtonEl);
+      this.setFocus();
     }
   };
 }

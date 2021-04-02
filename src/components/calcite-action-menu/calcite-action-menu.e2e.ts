@@ -1,6 +1,7 @@
-import { accessible, hidden, renders, defaults, reflects } from "../../tests/commonTests";
+import { accessible, hidden, renders, defaults, reflects, focusable } from "../../tests/commonTests";
 import { newE2EPage } from "@stencil/core/testing";
-import { SLOTS } from "./resources";
+import { SLOTS, CSS } from "./resources";
+import { html } from "../../tests/utils";
 
 describe("calcite-action-menu", () => {
   it("renders", async () => renders("calcite-action-menu"));
@@ -99,4 +100,28 @@ describe("calcite-action-menu", () => {
 
     expect(clickSpy).toHaveReceivedEventTimes(1);
   });
+
+  it("should focus on first action", async () =>
+    focusable(
+      html`
+        <calcite-action-menu open>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+        </calcite-action-menu>
+      `,
+      {
+        focusTargetSelector: "calcite-action"
+      }
+    ));
+
+  it("should focus on menu", async () =>
+    focusable(html` <calcite-action-menu open> </calcite-action-menu> `, {
+      focusTargetSelector: `.${CSS.menu}`
+    }));
+
+  it("should focus on menu button", async () =>
+    focusable(html` <calcite-action-menu> </calcite-action-menu> `, {
+      focusTargetSelector: `.${CSS.menuButton}`
+    }));
 });
