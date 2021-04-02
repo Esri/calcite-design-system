@@ -1,969 +1,893 @@
 <!DOCTYPE html>
-<html lang="fr-CH">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Calcite Input</title>
+<html lang="fr">
 
-    <style>
-      .demo-background-dark {
-        background: #202020;
-        color: white;
-        padding: 1rem;
-      }
-    </style>
-    <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
-    <link rel="stylesheet" href="../build/calcite.css" />
-    <script type="module" src="../build/calcite.esm.js"></script>
-    <script nomodule src="../build/calcite.js"></script>
-    <script type="module" src="./_assets/demo-form.js"></script>
-    <script type="module" src="./_assets/demo-spacer.js"></script>
-    <script src="_assets/validateInput.js"></script>
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Calcite Input</title>
 
-  <body>
-    <calcite-button href="/">Home</calcite-button>
-    <h1>Calcite Input</h1>
+  <style>
+    .demo-background-dark {
+      background: #202020;
+      color: white;
+      padding: 1rem;
+    }
+  </style>
+  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
+  <link rel="stylesheet" href="../build/calcite.css" />
+  <script type="module" src="../build/calcite.esm.js"></script>
+  <script nomodule src="../build/calcite.js"></script>
+  <script type="module" src="./_assets/demo-form.js"></script>
+  <script type="module" src="./_assets/demo-spacer.js"></script>
+  <script src="_assets/validateInput.js"></script>
+  <script src="_assets/locales.js"></script>
+</head>
 
-    <demo-form>
-      <form name="demo-form">
-        <demo-spacer>
-          <input type="number" name="native" value="123 456 789" />
-          <calcite-input name="number-fr" type="number" value="2888.38"></calcite-input>
-          <calcite-input type="text" value="Initial"></calcite-input>
-          <input value="Initial" />
-          <button type="submit" style="display: none">Submit</button>
-          <button type="reset">Reset</button>
-        </demo-spacer>
-      </form>
-    </demo-form>
+<body>
+  <calcite-button href="/">Home</calcite-button>
+  <h1>Calcite Input</h1>
 
-    <p></p>
+  <input type="number">
 
-    <div style="text-align: center">
-      <calcite-input value="My great value" prefix-text="pre" icon="banana" suffix-text="suf"> </calcite-input>
-      <div
-        style="
+  <demo-form>
+    <form id="locales" name="demo-form">
+      <button type="submit">Submit</button>
+      <button type="reset">Reset</button>
+    </form>
+  </demo-form>
+
+  <p></p>
+
+  <div style="text-align: center">
+    <calcite-input value="My great value" prefix-text="pre" icon="banana" suffix-text="suf"> </calcite-input>
+    <div style="
           width: 400px;
           display: inline-flex;
           max-width: 100%;
           flex-direction: column;
           margin: 0 auto;
           padding: 2em;
-        "
-      >
-        <calcite-accordion scale="m" icon-position="start" selection-mode="multi">
-          <calcite-accordion-item item-title="Scales" active>
-            <calcite-label scale="s">
-              Scale s
-              <calcite-input value="My great value" prefix-text="pre" icon="banana" suffix-text="suf"> </calcite-input>
-              <calcite-input-message icon active>Some information about the input</calcite-input-message>
-            </calcite-label>
+        ">
+      <calcite-accordion scale="m" icon-position="start" selection-mode="multi">
+        <calcite-accordion-item item-title="Scales" active>
+          <calcite-label scale="s">
+            Scale s
+            <calcite-input value="My great value" prefix-text="pre" icon="banana" suffix-text="suf"> </calcite-input>
+            <calcite-input-message icon active>Some information about the input</calcite-input-message>
+          </calcite-label>
 
-            <calcite-label scale="m">
-              Scale m
-              <calcite-input value="My great value" prefix-text="pre" icon="banana" suffix-text="suf"> </calcite-input>
-              <calcite-input-message icon active>Some information about the input</calcite-input-message>
-            </calcite-label>
+          <calcite-label scale="m">
+            Scale m
+            <calcite-input value="My great value" prefix-text="pre" icon="banana" suffix-text="suf"> </calcite-input>
+            <calcite-input-message icon active>Some information about the input</calcite-input-message>
+          </calcite-label>
 
-            <calcite-label scale="l">
-              Scale l
-              <calcite-input value="My great value" prefix-text="pre" icon="banana" suffix-text="suf"> </calcite-input>
-              <calcite-input-message icon active>Some information about the input</calcite-input-message>
-            </calcite-label>
-          </calcite-accordion-item>
-          <calcite-accordion-item active item-title="With other components" item-subtitle="Handle wrapped components">
-            <calcite-label>
-              Default label wrapping a switch
-              <calcite-switch></calcite-switch>
-            </calcite-label>
+          <calcite-label scale="l">
+            Scale l
+            <calcite-input value="My great value" prefix-text="pre" icon="banana" suffix-text="suf"> </calcite-input>
+            <calcite-input-message icon active>Some information about the input</calcite-input-message>
+          </calcite-label>
+        </calcite-accordion-item>
+        <calcite-accordion-item active item-title="With other components" item-subtitle="Handle wrapped components">
+          <calcite-label>
+            Default label wrapping a switch
+            <calcite-switch></calcite-switch>
+          </calcite-label>
 
-            <calcite-label>
-              Default label wrapping a checkbox
-              <calcite-checkbox></calcite-checkbox>
-            </calcite-label>
+          <calcite-label>
+            Default label wrapping a checkbox
+            <calcite-checkbox></calcite-checkbox>
+          </calcite-label>
 
-            <calcite-label>
-              Default label wrapping a radio group
-              <calcite-radio-group>
-                <calcite-radio-group-item value="react">React</calcite-radio-group-item>
-                <calcite-radio-group-item value="ember" checked>Ember</calcite-radio-group-item>
-                <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
-              </calcite-radio-group>
-            </calcite-label>
+          <calcite-label>
+            Default label wrapping a radio group
+            <calcite-radio-group>
+              <calcite-radio-group-item value="react">React</calcite-radio-group-item>
+              <calcite-radio-group-item value="ember" checked>Ember</calcite-radio-group-item>
+              <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+            </calcite-radio-group>
+          </calcite-label>
 
-            <calcite-label layout="inline">
-              Inline label wrapping a radio group
-              <calcite-radio-group>
-                <calcite-radio-group-item value="ember" checked>Ember</calcite-radio-group-item>
-                <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
-              </calcite-radio-group>
-            </calcite-label>
+          <calcite-label layout="inline">
+            Inline label wrapping a radio group
+            <calcite-radio-group>
+              <calcite-radio-group-item value="ember" checked>Ember</calcite-radio-group-item>
+              <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+            </calcite-radio-group>
+          </calcite-label>
 
-            <calcite-label layout="inline">
-              Text leading inline
-              <calcite-switch></calcite-switch>
-            </calcite-label>
+          <calcite-label layout="inline">
+            Text leading inline
+            <calcite-switch></calcite-switch>
+          </calcite-label>
 
-            <calcite-label layout="inline">
-              Off
-              <calcite-switch></calcite-switch>
-              On
-            </calcite-label>
-            <calcite-label layout="inline-space-between">
-              Off
-              <calcite-switch></calcite-switch>
-              On
-            </calcite-label>
+          <calcite-label layout="inline">
+            Off
+            <calcite-switch></calcite-switch>
+            On
+          </calcite-label>
+          <calcite-label layout="inline-space-between">
+            Off
+            <calcite-switch></calcite-switch>
+            On
+          </calcite-label>
 
-            <calcite-label layout="inline">
-              <calcite-switch></calcite-switch>
-              Text trailing inline
-            </calcite-label>
-            <calcite-label layout="inline">
-              Text leading inline
-              <calcite-checkbox></calcite-checkbox>
-            </calcite-label>
-            <calcite-label layout="inline">
-              Focus slider test
-              <calcite-slider style="width: 100%"></calcite-slider>
-            </calcite-label>
-            <calcite-label layout="inline-space-between">
-              Focus slider test
-              <calcite-slider min-value="10" max-value="80" style="width: 50%"></calcite-slider>
-            </calcite-label>
-            <calcite-label layout="inline-space-between">
-              Value
-              <calcite-slider style="width: 100%"></calcite-slider>
-              Value
-            </calcite-label>
-            <calcite-label>
-              Focus slider test
-              <calcite-slider></calcite-slider>
-            </calcite-label>
-            <calcite-label>
-              Focus slider test
-              <calcite-slider min-value="10" max-value="80"></calcite-slider>
-            </calcite-label>
-            <calcite-label layout="inline">
-              <calcite-checkbox></calcite-checkbox>
-              Text trailing inline
-            </calcite-label>
-            <calcite-label layout="inline-space-between">
-              Text leading inline-space-between
-              <calcite-switch></calcite-switch>
-            </calcite-label>
-            <calcite-label layout="inline-space-between">
-              <calcite-switch></calcite-switch>
-              Text trailing inline-space-between
-            </calcite-label>
+          <calcite-label layout="inline">
+            <calcite-switch></calcite-switch>
+            Text trailing inline
+          </calcite-label>
+          <calcite-label layout="inline">
+            Text leading inline
+            <calcite-checkbox></calcite-checkbox>
+          </calcite-label>
+          <calcite-label layout="inline">
+            Focus slider test
+            <calcite-slider style="width: 100%"></calcite-slider>
+          </calcite-label>
+          <calcite-label layout="inline-space-between">
+            Focus slider test
+            <calcite-slider min-value="10" max-value="80" style="width: 50%"></calcite-slider>
+          </calcite-label>
+          <calcite-label layout="inline-space-between">
+            Value
+            <calcite-slider style="width: 100%"></calcite-slider>
+            Value
+          </calcite-label>
+          <calcite-label>
+            Focus slider test
+            <calcite-slider></calcite-slider>
+          </calcite-label>
+          <calcite-label>
+            Focus slider test
+            <calcite-slider min-value="10" max-value="80"></calcite-slider>
+          </calcite-label>
+          <calcite-label layout="inline">
+            <calcite-checkbox></calcite-checkbox>
+            Text trailing inline
+          </calcite-label>
+          <calcite-label layout="inline-space-between">
+            Text leading inline-space-between
+            <calcite-switch></calcite-switch>
+          </calcite-label>
+          <calcite-label layout="inline-space-between">
+            <calcite-switch></calcite-switch>
+            Text trailing inline-space-between
+          </calcite-label>
 
-            <calcite-label layout="inline-space-between">
-              Text leading inline-space-between
-              <calcite-checkbox></calcite-checkbox>
-            </calcite-label>
-            <calcite-label layout="inline-space-between">
-              <calcite-checkbox></calcite-checkbox>
-              Text trailing inline-space-between
-            </calcite-label>
-          </calcite-accordion-item>
-          <calcite-accordion-item active item-title="Input types">
-            <calcite-label>
-              Textarea empty input
-              <calcite-input type="textarea" placeholder="How was your day?"></calcite-input>
-            </calcite-label>
+          <calcite-label layout="inline-space-between">
+            Text leading inline-space-between
+            <calcite-checkbox></calcite-checkbox>
+          </calcite-label>
+          <calcite-label layout="inline-space-between">
+            <calcite-checkbox></calcite-checkbox>
+            Text trailing inline-space-between
+          </calcite-label>
+        </calcite-accordion-item>
+        <calcite-accordion-item active item-title="Input types">
+          <calcite-label>
+            Textarea empty input
+            <calcite-input type="textarea" placeholder="How was your day?"></calcite-input>
+          </calcite-label>
 
-            <calcite-label>
-              Textarea full input
-              <calcite-input type="textarea" placeholder="How was your day?">Here I am with some text</calcite-input>
-            </calcite-label>
-            <calcite-label>
-              Number input - default type vertical
-              <calcite-input type="number" placeholder="How many apples?" value="1.123" step="1"></calcite-input>
-            </calcite-label>
+          <calcite-label>
+            Textarea full input
+            <calcite-input type="textarea" placeholder="How was your day?">Here I am with some text</calcite-input>
+          </calcite-label>
+          <calcite-label>
+            Number input - default type vertical
+            <calcite-input type="number" placeholder="How many apples?" value="1.123" step="1"></calcite-input>
+          </calcite-label>
 
-            <calcite-label>
-              Number input - button type horizontal
-              <calcite-input type="number" number-button-type="horizontal" placeholder="How many apples?">
-              </calcite-input>
-            </calcite-label>
-            <calcite-label>
-              Number input clearable horizontal
-              <calcite-input clearable type="number" number-button-type="horizontal" placeholder="How many apples?">
-              </calcite-input>
-            </calcite-label>
-            <calcite-label>
-              Number input clearable vertical
-              <calcite-input clearable type="number" placeholder="How many apples?"> </calcite-input>
-            </calcite-label>
-            <calcite-label>
-              Text input clearable
-              <calcite-input clearable placeholder="John Doe"> </calcite-input>
-            </calcite-label>
-            <calcite-label>
-              Text input clearable with value on load
-              <calcite-input clearable value="My great name" placeholder="John Doe"> </calcite-input>
-            </calcite-label>
-            <calcite-label>
-              Number input clearable kitchen sync
-              <calcite-input prefix-text="pre" suffix-text="suf" clearable type="number" placeholder="How many apples?">
-                <calcite-button slot="input-action">Go</calcite-button>
-              </calcite-input>
-            </calcite-label>
-            <calcite-label>
-              Number input - button type none
-              <calcite-input type="number" number-button-type="none" placeholder="How many apples?"> </calcite-input>
-            </calcite-label>
-            <calcite-label>
-              with button auto
-              <calcite-input placeholder="Text">
-                <calcite-button slot="input-action">Go</calcite-button>
-              </calcite-input>
-            </calcite-label>
-            <calcite-label>
-              with button
-              <calcite-input type="number" placeholder="0" value="0">
-                <calcite-button slot="input-action">Go</calcite-button>
-              </calcite-input>
-            </calcite-label>
-            <calcite-label>
-              with max set to 0
-              <calcite-input max="0" step="10" value="-40" type="number" number-button-type="vertical" placeholder="0">
-              </calcite-input>
-            </calcite-label>
-            <calcite-label>
-              with min set to 0
-              <calcite-input
-                min="0"
-                max="100"
-                step="10"
-                value="40"
-                type="number"
-                number-button-type="horizontal"
-                placeholder="0"
-              >
-              </calcite-input>
-            </calcite-label>
-            <calcite-label>
-              with button and min max step set
-              <calcite-input
-                min="-100"
-                max="100"
-                step="10"
-                value="40"
-                type="number"
-                number-button-type="horizontal"
-                placeholder="0"
-              >
-                <calcite-button slot="input-action">Go or some long text</calcite-button>
-              </calcite-input>
-            </calcite-label>
-            <calcite-label>
-              with button auto
-              <calcite-input placeholder="Text">
-                <calcite-button width="full" slot="input-action">Go</calcite-button>
-              </calcite-input>
-            </calcite-label>
-            <calcite-label>
-              with button with icon
-              <calcite-input placeholder="Text">
-                <calcite-button slot="input-action" icon-start="plus">Add </calcite-button>
-              </calcite-input>
-            </calcite-label>
-            <calcite-label>
-              with button with icon
-              <calcite-input placeholder="Text">
-                <calcite-button width="full" slot="input-action" icon-start="plus"></calcite-button>
-              </calcite-input>
-            </calcite-label>
-            <calcite-label>
-              prefix
-              <calcite-input
-                type="number"
-                number-button-type="none"
-                prefix-text="prefix"
-                placeholder="How many apples?"
-              >
-              </calcite-input>
-            </calcite-label>
+          <calcite-label>
+            Number input - button type horizontal
+            <calcite-input type="number" number-button-type="horizontal" placeholder="How many apples?">
+            </calcite-input>
+          </calcite-label>
+          <calcite-label>
+            Number input clearable horizontal
+            <calcite-input clearable type="number" number-button-type="horizontal" placeholder="How many apples?">
+            </calcite-input>
+          </calcite-label>
+          <calcite-label>
+            Number input clearable vertical
+            <calcite-input clearable type="number" placeholder="How many apples?"> </calcite-input>
+          </calcite-label>
+          <calcite-label>
+            Text input clearable
+            <calcite-input clearable placeholder="John Doe"> </calcite-input>
+          </calcite-label>
+          <calcite-label>
+            Text input clearable with value on load
+            <calcite-input clearable value="My great name" placeholder="John Doe"> </calcite-input>
+          </calcite-label>
+          <calcite-label>
+            Number input clearable kitchen sync
+            <calcite-input prefix-text="pre" suffix-text="suf" clearable type="number" placeholder="How many apples?">
+              <calcite-button slot="input-action">Go</calcite-button>
+            </calcite-input>
+          </calcite-label>
+          <calcite-label>
+            Number input - button type none
+            <calcite-input type="number" number-button-type="none" placeholder="How many apples?"> </calcite-input>
+          </calcite-label>
+          <calcite-label>
+            with button auto
+            <calcite-input placeholder="Text">
+              <calcite-button slot="input-action">Go</calcite-button>
+            </calcite-input>
+          </calcite-label>
+          <calcite-label>
+            with button
+            <calcite-input type="number" placeholder="0" value="0">
+              <calcite-button slot="input-action">Go</calcite-button>
+            </calcite-input>
+          </calcite-label>
+          <calcite-label>
+            with max set to 0
+            <calcite-input max="0" step="10" value="-40" type="number" number-button-type="vertical" placeholder="0">
+            </calcite-input>
+          </calcite-label>
+          <calcite-label>
+            with min set to 0
+            <calcite-input min="0" max="100" step="10" value="40" type="number" number-button-type="horizontal"
+              placeholder="0">
+            </calcite-input>
+          </calcite-label>
+          <calcite-label>
+            with button and min max step set
+            <calcite-input min="-100" max="100" step="10" value="40" type="number" number-button-type="horizontal"
+              placeholder="0">
+              <calcite-button slot="input-action">Go or some long text</calcite-button>
+            </calcite-input>
+          </calcite-label>
+          <calcite-label>
+            with button auto
+            <calcite-input placeholder="Text">
+              <calcite-button width="full" slot="input-action">Go</calcite-button>
+            </calcite-input>
+          </calcite-label>
+          <calcite-label>
+            with button with icon
+            <calcite-input placeholder="Text">
+              <calcite-button slot="input-action" icon-start="plus">Add </calcite-button>
+            </calcite-input>
+          </calcite-label>
+          <calcite-label>
+            with button with icon
+            <calcite-input placeholder="Text">
+              <calcite-button width="full" slot="input-action" icon-start="plus"></calcite-button>
+            </calcite-input>
+          </calcite-label>
+          <calcite-label>
+            prefix
+            <calcite-input type="number" number-button-type="none" prefix-text="prefix" placeholder="How many apples?">
+            </calcite-input>
+          </calcite-label>
 
-            <calcite-label>
-              Enter your organization's URL below
-              <calcite-input suffix-text=".maps.arcgis.com" placeholder="Email"> </calcite-input>
-            </calcite-label>
+          <calcite-label>
+            Enter your organization's URL below
+            <calcite-input suffix-text=".maps.arcgis.com" placeholder="Email"> </calcite-input>
+          </calcite-label>
 
-            <calcite-label>
-              prefix and suffix w numbers
-              <calcite-input type="number" prefix-text="$" suffix-text=".00" placeholder="0"> </calcite-input>
-            </calcite-label>
-            <calcite-label>
-              prefix and suffix w numbers horizontal alignment end
-              <calcite-input
-                type="number"
-                alignment="end"
-                number-button-type="horizontal"
-                prefix-text="$"
-                suffix-text=".00"
-                placeholder="0"
-              >
-              </calcite-input>
-            </calcite-label>
-            <calcite-label>
-              prefix and suffix w numbers vertical alignment end
-              <calcite-input type="number" alignment="end" prefix-text="$" suffix-text=".00" placeholder="0">
-              </calcite-input>
-            </calcite-label>
-            <calcite-label>
-              prefix and suffix w alignment end
-              <calcite-input
-                type="number"
-                alignment="end"
-                number-button-type="horizontal"
-                prefix-text="$ (USD)"
-                suffix-text="no cents here"
-                placeholder="0"
-              >
-              </calcite-input>
-            </calcite-label>
+          <calcite-label>
+            prefix and suffix w numbers
+            <calcite-input type="number" prefix-text="$" suffix-text=".00" placeholder="0"> </calcite-input>
+          </calcite-label>
+          <calcite-label>
+            prefix and suffix w numbers horizontal alignment end
+            <calcite-input type="number" alignment="end" number-button-type="horizontal" prefix-text="$"
+              suffix-text=".00" placeholder="0">
+            </calcite-input>
+          </calcite-label>
+          <calcite-label>
+            prefix and suffix w numbers vertical alignment end
+            <calcite-input type="number" alignment="end" prefix-text="$" suffix-text=".00" placeholder="0">
+            </calcite-input>
+          </calcite-label>
+          <calcite-label>
+            prefix and suffix w alignment end
+            <calcite-input type="number" alignment="end" number-button-type="horizontal" prefix-text="$ (USD)"
+              suffix-text="no cents here" placeholder="0">
+            </calcite-input>
+          </calcite-label>
 
-            <h4>Disabled - set on input with wrapping label</h4>
+          <h4>Disabled - set on input with wrapping label</h4>
 
-            <calcite-label disabled>
-              Disabled
-              <calcite-input disabled value="Readonly value"> </calcite-input>
-            </calcite-label>
+          <calcite-label disabled>
+            Disabled
+            <calcite-input disabled value="Readonly value"> </calcite-input>
+          </calcite-label>
 
-            <calcite-label>
-              Disabled textarea
-              <calcite-input disabled type="textarea">Disabled value </calcite-input>
-            </calcite-label>
+          <calcite-label>
+            Disabled textarea
+            <calcite-input disabled type="textarea">Disabled value </calcite-input>
+          </calcite-label>
 
-            <h4>Disabled - set on input without wrapping label</h4>
+          <h4>Disabled - set on input without wrapping label</h4>
 
-            <calcite-input disabled value="Disabled value"> </calcite-input>
-            <br />
-            <calcite-input disabled type="textarea" value="Disabled value">Disabled value </calcite-input>
+          <calcite-input disabled value="Disabled value"> </calcite-input>
+          <br />
+          <calcite-input disabled type="textarea" value="Disabled value">Disabled value </calcite-input>
 
-            <h4>Readonly</h4>
-            <calcite-label>
-              Readonly
-              <calcite-input readonly value="Readonly value"> </calcite-input>
-            </calcite-label>
+          <h4>Readonly</h4>
+          <calcite-label>
+            Readonly
+            <calcite-input readonly value="Readonly value"> </calcite-input>
+          </calcite-label>
 
-            <calcite-label>
-              Readonly with prefix
-              <calcite-input readonly prefix-text="API Key" value="A123-S5DL-24FA"> </calcite-input>
-            </calcite-label>
+          <calcite-label>
+            Readonly with prefix
+            <calcite-input readonly prefix-text="API Key" value="A123-S5DL-24FA"> </calcite-input>
+          </calcite-label>
 
-            <calcite-label>
-              Readonly with prefix and button
-              <calcite-input readonly prefix-text="API Key" value="A123-S5DL-24FA">
-                <calcite-button
-                  slot="input-action"
-                  onclick="alert('copied')"
-                  icon-start="copy-to-clipboard"
-                ></calcite-button>
-              </calcite-input>
-            </calcite-label>
-            <calcite-label>
-              Textarea Readonly
-              <calcite-input readonly type="textarea" placeholder="How was your day?"
-                >Here I am with some text
-              </calcite-input>
-            </calcite-label>
+          <calcite-label>
+            Readonly with prefix and button
+            <calcite-input readonly prefix-text="API Key" value="A123-S5DL-24FA">
+              <calcite-button slot="input-action" onclick="alert('copied')" icon-start="copy-to-clipboard">
+              </calcite-button>
+            </calcite-input>
+          </calcite-label>
+          <calcite-label>
+            Textarea Readonly
+            <calcite-input readonly type="textarea" placeholder="How was your day?">Here I am with some text
+            </calcite-input>
+          </calcite-label>
 
-            <calcite-label>
-              File input
-              <calcite-input type="file" placeholder="Drag 'em' here"></calcite-input>
-            </calcite-label>
+          <calcite-label>
+            File input
+            <calcite-input type="file" placeholder="Drag 'em' here"></calcite-input>
+          </calcite-label>
 
-            <calcite-label>
-              Loading input
-              <calcite-input placeholder="john@doe.com" value="john@do" loading></calcite-input>
-            </calcite-label>
-            <calcite-label>
-              Date input with clearable
-              <calcite-input icon="calendar" type="date" clearable></calcite-input>
-            </calcite-label>
+          <calcite-label>
+            Loading input
+            <calcite-input placeholder="john@doe.com" value="john@do" loading></calcite-input>
+          </calcite-label>
+          <calcite-label>
+            Date input with clearable
+            <calcite-input icon="calendar" type="date" clearable></calcite-input>
+          </calcite-label>
 
-            <calcite-label>
-              Time input with clearable
-              <calcite-input icon type="time" clearable></calcite-input>
-            </calcite-label>
+          <calcite-label>
+            Time input with clearable
+            <calcite-input icon type="time" clearable></calcite-input>
+          </calcite-label>
 
-            <calcite-label>
-              Date input with default icon
-              <calcite-input icon="calendar" type="date"></calcite-input>
-            </calcite-label>
+          <calcite-label>
+            Date input with default icon
+            <calcite-input icon="calendar" type="date"></calcite-input>
+          </calcite-label>
 
-            <calcite-label>
-              Time input with default icon
-              <calcite-input icon type="time"></calcite-input>
-            </calcite-label>
-            <calcite-label>
-              Time input with custom calcite icon
-              <calcite-input icon="clock-up" type="time"></calcite-input>
-            </calcite-label>
-            <calcite-label>
-              Tel input with default icon
-              <calcite-input icon type="tel" placeholder="(123) 456-7890"></calcite-input>
-            </calcite-label>
+          <calcite-label>
+            Time input with default icon
+            <calcite-input icon type="time"></calcite-input>
+          </calcite-label>
+          <calcite-label>
+            Time input with custom calcite icon
+            <calcite-input icon="clock-up" type="time"></calcite-input>
+          </calcite-label>
+          <calcite-label>
+            Tel input with default icon
+            <calcite-input icon type="tel" placeholder="(123) 456-7890"></calcite-input>
+          </calcite-label>
 
-            <calcite-label>
-              Email input with default icon
-              <calcite-input icon type="email" placeholder="john@doe.com"></calcite-input>
-            </calcite-label>
+          <calcite-label>
+            Email input with default icon
+            <calcite-input icon type="email" placeholder="john@doe.com"></calcite-input>
+          </calcite-label>
 
-            <calcite-label>
-              Email input with custom icon
-              <calcite-input icon="envelope" type="email" placeholder="john@doe.com"></calcite-input>
-            </calcite-label>
+          <calcite-label>
+            Email input with custom icon
+            <calcite-input icon="envelope" type="email" placeholder="john@doe.com"></calcite-input>
+          </calcite-label>
 
-            <calcite-label>
-              Password input with default icon
-              <calcite-input icon type="password" placeholder="•••••"></calcite-input>
-            </calcite-label>
-            <calcite-label>
-              Password input with custom calcite icon
-              <calcite-input prefix-text="prefix" icon="key" type="password" placeholder="•••••"></calcite-input>
-            </calcite-label>
-            <calcite-label>
-              Password input with no icon
-              <calcite-input prefix-text="prefix" type="password" placeholder="•••••"></calcite-input>
-            </calcite-label>
+          <calcite-label>
+            Password input with default icon
+            <calcite-input icon type="password" placeholder="•••••"></calcite-input>
+          </calcite-label>
+          <calcite-label>
+            Password input with custom calcite icon
+            <calcite-input prefix-text="prefix" icon="key" type="password" placeholder="•••••"></calcite-input>
+          </calcite-label>
+          <calcite-label>
+            Password input with no icon
+            <calcite-input prefix-text="prefix" type="password" placeholder="•••••"></calcite-input>
+          </calcite-label>
 
-            <calcite-label>
-              Plain text with calcite icon
-              <calcite-input icon="lightbulb" placeholder="asdfasdfas"></calcite-input>
-            </calcite-label>
+          <calcite-label>
+            Plain text with calcite icon
+            <calcite-input icon="lightbulb" placeholder="asdfasdfas"></calcite-input>
+          </calcite-label>
 
-            <calcite-label>
-              Search with icon
-              <calcite-input icon type="search" placeholder="Filter your files"></calcite-input>
-            </calcite-label>
-          </calcite-accordion-item>
+          <calcite-label>
+            Search with icon
+            <calcite-input icon type="search" placeholder="Filter your files"></calcite-input>
+          </calcite-label>
+        </calcite-accordion-item>
 
-          <calcite-accordion-item active item-title="Input messages and statuses">
-            <calcite-notice icon scale="s" active width="full" style="margin-bottom: 20px">
-              <span slot="notice-message">
-                You can set status on an input, message, or label individually - or just set it once on your
-                wrapping-calcite-input
-              </span>
-            </calcite-notice>
-            <calcite-label status="valid">
-              Valid input
-              <calcite-input placeholder="Filter your files" value="files"></calcite-input>
-              <calcite-input-message active>Yep, that looks good to us</calcite-input-message>
-            </calcite-label>
+        <calcite-accordion-item active item-title="Input messages and statuses">
+          <calcite-notice icon scale="s" active width="full" style="margin-bottom: 20px">
+            <span slot="notice-message">
+              You can set status on an input, message, or label individually - or just set it once on your
+              wrapping-calcite-input
+            </span>
+          </calcite-notice>
+          <calcite-label status="valid">
+            Valid input
+            <calcite-input placeholder="Filter your files" value="files"></calcite-input>
+            <calcite-input-message active>Yep, that looks good to us</calcite-input-message>
+          </calcite-label>
 
-            <calcite-label status="invalid">
-              Invalid input
-              <calcite-input type="search" placeholder="Filter your files" value="adfo2h2"></calcite-input>
-              <calcite-input-message active
-                >Something doesn't look right with that that may wrap to multiple lines of
-                message</calcite-input-message
-              >
-            </calcite-label>
+          <calcite-label status="invalid">
+            Invalid input
+            <calcite-input type="search" placeholder="Filter your files" value="adfo2h2"></calcite-input>
+            <calcite-input-message active>Something doesn't look right with that that may wrap to multiple lines of
+              message</calcite-input-message>
+          </calcite-label>
 
-            <calcite-label>
-              Idle input message explicitly set
-              <calcite-input type="tel" placeholder="Enter your cell phone"></calcite-input>
-              <calcite-input-message active status="idle">This is where we'll call you</calcite-input-message>
-            </calcite-label>
-            <calcite-label status="valid">
-              Valid input
-              <calcite-input placeholder="Filter your files" value="files"></calcite-input>
-              <calcite-input-message icon active>Yep, that looks good to us</calcite-input-message>
-            </calcite-label>
+          <calcite-label>
+            Idle input message explicitly set
+            <calcite-input type="tel" placeholder="Enter your cell phone"></calcite-input>
+            <calcite-input-message active status="idle">This is where we'll call you</calcite-input-message>
+          </calcite-label>
+          <calcite-label status="valid">
+            Valid input
+            <calcite-input placeholder="Filter your files" value="files"></calcite-input>
+            <calcite-input-message icon active>Yep, that looks good to us</calcite-input-message>
+          </calcite-label>
 
-            <calcite-label status="invalid">
-              Invalid input with icon
-              <calcite-input type="search" placeholder="Filter your files" value="adfo2h2" icon></calcite-input>
-              <calcite-input-message icon active
-                >Something doesn't look right with that that may wrap to multiple lines of
-                message</calcite-input-message
-              >
-            </calcite-label>
+          <calcite-label status="invalid">
+            Invalid input with icon
+            <calcite-input type="search" placeholder="Filter your files" value="adfo2h2" icon></calcite-input>
+            <calcite-input-message icon active>Something doesn't look right with that that may wrap to multiple lines of
+              message</calcite-input-message>
+          </calcite-label>
 
-            <calcite-label>
-              Idle input message explicitly set with icon
-              <calcite-input type="tel" placeholder="Enter your cell phone"></calcite-input>
-              <calcite-input-message icon active status="idle">This is where we'll call you</calcite-input-message>
-            </calcite-label>
-            <calcite-card>
-              <div style="display:inline-flex; width: 100%; padding:var(--calcite-spacing-half) 0;">
-                <calcite-input-message icon active id="toggle-status">
-                  Input message + status icon
-                </calcite-input-message>
-                <calcite-button appearance="outline" color="blue" scale="s" round onclick="toggleStatus();">
-                  Toggle status
-                </calcite-button>
-              </div>
-              <div style="display:inline-flex; width: 100%; padding:var(--calcite-spacing-half) 0;">
-                <calcite-input-message icon active id="toggle-icon">
-                  Input message + custom icon
-                </calcite-input-message>
-                <calcite-button appearance="outline" color="red" scale="s" round onclick="toggleIcon();">
-                  Toggle icon
-                </calcite-button>
-              </div>
-              <script>
-                function toggleStatus() {
-                  let el = document.getElementById("toggle-status");
-                  if (el.status === "idle") {
-                    el.status = "invalid";
-                  } else if (el.status === "invalid") {
-                    el.status = "valid";
-                  } else {
-                    el.status = "idle";
-                  }
+          <calcite-label>
+            Idle input message explicitly set with icon
+            <calcite-input type="tel" placeholder="Enter your cell phone"></calcite-input>
+            <calcite-input-message icon active status="idle">This is where we'll call you</calcite-input-message>
+          </calcite-label>
+          <calcite-card>
+            <div style="display:inline-flex; width: 100%; padding:var(--calcite-spacing-half) 0;">
+              <calcite-input-message icon active id="toggle-status">
+                Input message + status icon
+              </calcite-input-message>
+              <calcite-button appearance="outline" color="blue" scale="s" round onclick="toggleStatus();">
+                Toggle status
+              </calcite-button>
+            </div>
+            <div style="display:inline-flex; width: 100%; padding:var(--calcite-spacing-half) 0;">
+              <calcite-input-message icon active id="toggle-icon">
+                Input message + custom icon
+              </calcite-input-message>
+              <calcite-button appearance="outline" color="red" scale="s" round onclick="toggleIcon();">
+                Toggle icon
+              </calcite-button>
+            </div>
+            <script>
+              function toggleStatus() {
+                let el = document.getElementById("toggle-status");
+                if (el.status === "idle") {
+                  el.status = "invalid";
+                } else if (el.status === "invalid") {
+                  el.status = "valid";
+                } else {
+                  el.status = "idle";
                 }
-                function toggleIcon() {
-                  let el = document.getElementById("toggle-icon");
-                  const iconOptions = ["banana","layer-basemap","arcgis-online","3d-glasses","add-layer","a-z"];
-                  let num = Math.floor(Math.random() * Math.floor(iconOptions.length));
-                  el.icon = iconOptions[num];
-                }
-              </script>
-            </calcite-card>
-          </calcite-accordion-item>
+              }
+              function toggleIcon() {
+                let el = document.getElementById("toggle-icon");
+                const iconOptions = ["banana", "layer-basemap", "arcgis-online", "3d-glasses", "add-layer", "a-z"];
+                let num = Math.floor(Math.random() * Math.floor(iconOptions.length));
+                el.icon = iconOptions[num];
+              }
+            </script>
+          </calcite-card>
+        </calcite-accordion-item>
 
-          <calcite-accordion-item active item-title="Interactions with native elements">
-            <calcite-notice icon scale="s" active width="full" style="margin-bottom: 20px">
-              <span slot="notice-message">
-                It's recommended to use the `calcite-label` with `calcite-input` components together - but if there are
-                cases where they mix with native elements they should still work :)
-              </span>
-            </calcite-notice>
-            <calcite-label for="focus-input-demo-1"> Focus a calcite-input outside the label </calcite-label>
-            <calcite-input id="focus-input-demo-1"></calcite-input>
+        <calcite-accordion-item active item-title="Interactions with native elements">
+          <calcite-notice icon scale="s" active width="full" style="margin-bottom: 20px">
+            <span slot="notice-message">
+              It's recommended to use the `calcite-label` with `calcite-input` components together - but if there are
+              cases where they mix with native elements they should still work :)
+            </span>
+          </calcite-notice>
+          <calcite-label for="focus-input-demo-1"> Focus a calcite-input outside the label </calcite-label>
+          <calcite-input id="focus-input-demo-1"></calcite-input>
 
-            <calcite-label for="calcite-input-demo-2"> Focus a native input outside the label</calcite-label>
-            <input id="calcite-input-demo-2" />
-            <br />
+          <calcite-label for="calcite-input-demo-2"> Focus a native input outside the label</calcite-label>
+          <input id="calcite-input-demo-2" />
+          <br />
 
-            <label>
-              Focus a calcite-input from a wrapping native label
-              <calcite-input></calcite-input>
-            </label>
-            <br />
+          <label>
+            Focus a calcite-input from a wrapping native label
+            <calcite-input></calcite-input>
+          </label>
+          <br />
 
-            <calcite-label for="calcite-input-demo-4">
-              Focus a native input from a non-wrapping calcite-label
-            </calcite-label>
-            <input id="calcite-input-demo-4" />
+          <calcite-label for="calcite-input-demo-4">
+            Focus a native input from a non-wrapping calcite-label
+          </calcite-label>
+          <input id="calcite-input-demo-4" />
 
-            <br />
-            <calcite-label>
-              Focus a native input from a wrapping calcite-label
-              <input />
-            </calcite-label>
-          </calcite-accordion-item>
-          <calcite-accordion-item item-title="flip icon in rtl">
-            <calcite-label dir="rtl">
-              Icon flip rtl not requested
-              <calcite-input icon="camera" placeholder="Enter your cell phone"></calcite-input>
-            </calcite-label>
-            <calcite-label dir="rtl">
-              Icon flip rtl requested
-              <calcite-input icon="camera" icon-flip-rtl placeholder="Enter your cell phone"></calcite-input>
-            </calcite-label>
-          </calcite-accordion-item>
-        </calcite-accordion>
-        <h3>Disabled</h3>
-        <calcite-accordion scale="m" icon-position="start" selection-mode="multi">
-          <calcite-accordion-item item-title="Scales" active>
-            <calcite-label disabled scale="s">
-              Scale s
-              <calcite-input disabled value="My great value" prefix-text="pre" icon="banana" suffix-text="suf">
-              </calcite-input>
-              <calcite-input-message icon active>Some information about the input</calcite-input-message>
-            </calcite-label>
+          <br />
+          <calcite-label>
+            Focus a native input from a wrapping calcite-label
+            <input />
+          </calcite-label>
+        </calcite-accordion-item>
+        <calcite-accordion-item item-title="flip icon in rtl">
+          <calcite-label dir="rtl">
+            Icon flip rtl not requested
+            <calcite-input icon="camera" placeholder="Enter your cell phone"></calcite-input>
+          </calcite-label>
+          <calcite-label dir="rtl">
+            Icon flip rtl requested
+            <calcite-input icon="camera" icon-flip-rtl placeholder="Enter your cell phone"></calcite-input>
+          </calcite-label>
+        </calcite-accordion-item>
+      </calcite-accordion>
+      <h3>Disabled</h3>
+      <calcite-accordion scale="m" icon-position="start" selection-mode="multi">
+        <calcite-accordion-item item-title="Scales" active>
+          <calcite-label disabled scale="s">
+            Scale s
+            <calcite-input disabled value="My great value" prefix-text="pre" icon="banana" suffix-text="suf">
+            </calcite-input>
+            <calcite-input-message icon active>Some information about the input</calcite-input-message>
+          </calcite-label>
 
-            <calcite-label disabled scale="m">
-              Scale m
-              <calcite-input value="My great value" prefix-text="pre" icon="banana" suffix-text="suf"> </calcite-input>
-              <calcite-input-message icon active>Some information about the input</calcite-input-message>
-            </calcite-label>
+          <calcite-label disabled scale="m">
+            Scale m
+            <calcite-input value="My great value" prefix-text="pre" icon="banana" suffix-text="suf"> </calcite-input>
+            <calcite-input-message icon active>Some information about the input</calcite-input-message>
+          </calcite-label>
 
-            <calcite-label disabled scale="l">
-              Scale l
-              <calcite-input value="My great value" prefix-text="pre" icon="banana" suffix-text="suf"> </calcite-input>
-              <calcite-input-message icon active>Some information about the input</calcite-input-message>
-            </calcite-label>
-          </calcite-accordion-item>
-          <calcite-accordion-item active item-title="With other components" item-subtitle="Handle wrapped components">
-            <calcite-label disabled>
-              Default label wrapping a switch
-              <calcite-switch></calcite-switch>
-            </calcite-label>
+          <calcite-label disabled scale="l">
+            Scale l
+            <calcite-input value="My great value" prefix-text="pre" icon="banana" suffix-text="suf"> </calcite-input>
+            <calcite-input-message icon active>Some information about the input</calcite-input-message>
+          </calcite-label>
+        </calcite-accordion-item>
+        <calcite-accordion-item active item-title="With other components" item-subtitle="Handle wrapped components">
+          <calcite-label disabled>
+            Default label wrapping a switch
+            <calcite-switch></calcite-switch>
+          </calcite-label>
 
-            <calcite-label disabled>
-              Default label wrapping a checkbox
-              <calcite-checkbox></calcite-checkbox>
-            </calcite-label>
+          <calcite-label disabled>
+            Default label wrapping a checkbox
+            <calcite-checkbox></calcite-checkbox>
+          </calcite-label>
 
-            <calcite-label disabled>
-              Default label wrapping a radio group
-              <calcite-radio-group>
-                <calcite-radio-group-item value="react">React</calcite-radio-group-item>
-                <calcite-radio-group-item value="ember" checked>Ember</calcite-radio-group-item>
-                <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
-              </calcite-radio-group>
-            </calcite-label>
+          <calcite-label disabled>
+            Default label wrapping a radio group
+            <calcite-radio-group>
+              <calcite-radio-group-item value="react">React</calcite-radio-group-item>
+              <calcite-radio-group-item value="ember" checked>Ember</calcite-radio-group-item>
+              <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+            </calcite-radio-group>
+          </calcite-label>
 
-            <calcite-label disabled layout="inline">
-              Inline label wrapping a radio group
-              <calcite-radio-group>
-                <calcite-radio-group-item value="ember" checked>Ember</calcite-radio-group-item>
-                <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
-              </calcite-radio-group>
-            </calcite-label>
+          <calcite-label disabled layout="inline">
+            Inline label wrapping a radio group
+            <calcite-radio-group>
+              <calcite-radio-group-item value="ember" checked>Ember</calcite-radio-group-item>
+              <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+            </calcite-radio-group>
+          </calcite-label>
 
-            <calcite-label disabled layout="inline">
-              Text leading inline
-              <calcite-switch></calcite-switch>
-            </calcite-label>
+          <calcite-label disabled layout="inline">
+            Text leading inline
+            <calcite-switch></calcite-switch>
+          </calcite-label>
 
-            <calcite-label disabled layout="inline">
-              Off
-              <calcite-switch></calcite-switch>
-              On
-            </calcite-label>
-            <calcite-label disabled layout="inline-space-between">
-              Off
-              <calcite-switch></calcite-switch>
-              On
-            </calcite-label>
+          <calcite-label disabled layout="inline">
+            Off
+            <calcite-switch></calcite-switch>
+            On
+          </calcite-label>
+          <calcite-label disabled layout="inline-space-between">
+            Off
+            <calcite-switch></calcite-switch>
+            On
+          </calcite-label>
 
-            <calcite-label disabled layout="inline">
-              <calcite-switch></calcite-switch>
-              Text trailing inline
-            </calcite-label>
-            <calcite-label disabled layout="inline">
-              Text leading inline
-              <calcite-checkbox></calcite-checkbox>
-            </calcite-label>
-            <calcite-label disabled layout="inline">
-              Focus slider test
-              <calcite-slider style="width: 100%"></calcite-slider>
-            </calcite-label>
-            <calcite-label disabled layout="inline-space-between">
-              Focus slider test
-              <calcite-slider min-value="10" max-value="80" style="width: 50%"></calcite-slider>
-            </calcite-label>
-            <calcite-label disabled layout="inline-space-between">
-              Value
-              <calcite-slider style="width: 100%"></calcite-slider>
-              Value
-            </calcite-label>
-            <calcite-label disabled>
-              Focus slider test
-              <calcite-slider></calcite-slider>
-            </calcite-label>
-            <calcite-label disabled>
-              Focus slider test
-              <calcite-slider min-value="10" max-value="80"></calcite-slider>
-            </calcite-label>
-            <calcite-label disabled layout="inline">
-              <calcite-checkbox></calcite-checkbox>
-              Text trailing inline
-            </calcite-label>
-            <calcite-label disabled layout="inline-space-between">
-              Text leading inline-space-between
-              <calcite-switch></calcite-switch>
-            </calcite-label>
-            <calcite-label disabled layout="inline-space-between">
-              <calcite-switch></calcite-switch>
-              Text trailing inline-space-between
-            </calcite-label>
+          <calcite-label disabled layout="inline">
+            <calcite-switch></calcite-switch>
+            Text trailing inline
+          </calcite-label>
+          <calcite-label disabled layout="inline">
+            Text leading inline
+            <calcite-checkbox></calcite-checkbox>
+          </calcite-label>
+          <calcite-label disabled layout="inline">
+            Focus slider test
+            <calcite-slider style="width: 100%"></calcite-slider>
+          </calcite-label>
+          <calcite-label disabled layout="inline-space-between">
+            Focus slider test
+            <calcite-slider min-value="10" max-value="80" style="width: 50%"></calcite-slider>
+          </calcite-label>
+          <calcite-label disabled layout="inline-space-between">
+            Value
+            <calcite-slider style="width: 100%"></calcite-slider>
+            Value
+          </calcite-label>
+          <calcite-label disabled>
+            Focus slider test
+            <calcite-slider></calcite-slider>
+          </calcite-label>
+          <calcite-label disabled>
+            Focus slider test
+            <calcite-slider min-value="10" max-value="80"></calcite-slider>
+          </calcite-label>
+          <calcite-label disabled layout="inline">
+            <calcite-checkbox></calcite-checkbox>
+            Text trailing inline
+          </calcite-label>
+          <calcite-label disabled layout="inline-space-between">
+            Text leading inline-space-between
+            <calcite-switch></calcite-switch>
+          </calcite-label>
+          <calcite-label disabled layout="inline-space-between">
+            <calcite-switch></calcite-switch>
+            Text trailing inline-space-between
+          </calcite-label>
 
-            <calcite-label disabled layout="inline-space-between">
-              Text leading inline-space-between
-              <calcite-checkbox></calcite-checkbox>
-            </calcite-label>
-            <calcite-label disabled layout="inline-space-between">
-              <calcite-checkbox></calcite-checkbox>
-              Text trailing inline-space-between
-            </calcite-label>
-          </calcite-accordion-item>
-          <calcite-accordion-item item-title="Input types">
-            <calcite-label disabled>
-              Textarea empty input
-              <calcite-input type="textarea" placeholder="How was your day?"></calcite-input>
-            </calcite-label>
+          <calcite-label disabled layout="inline-space-between">
+            Text leading inline-space-between
+            <calcite-checkbox></calcite-checkbox>
+          </calcite-label>
+          <calcite-label disabled layout="inline-space-between">
+            <calcite-checkbox></calcite-checkbox>
+            Text trailing inline-space-between
+          </calcite-label>
+        </calcite-accordion-item>
+        <calcite-accordion-item item-title="Input types">
+          <calcite-label disabled>
+            Textarea empty input
+            <calcite-input type="textarea" placeholder="How was your day?"></calcite-input>
+          </calcite-label>
 
-            <calcite-label disabled>
-              Textarea full input
-              <calcite-input type="textarea" placeholder="How was your day?">Here I am with some text</calcite-input>
-            </calcite-label>
-            <calcite-label disabled>
-              Number input - default type vertical
-              <calcite-input type="number" placeholder="How many apples?"></calcite-input>
-            </calcite-label>
+          <calcite-label disabled>
+            Textarea full input
+            <calcite-input type="textarea" placeholder="How was your day?">Here I am with some text</calcite-input>
+          </calcite-label>
+          <calcite-label disabled>
+            Number input - default type vertical
+            <calcite-input type="number" placeholder="How many apples?"></calcite-input>
+          </calcite-label>
 
-            <calcite-label disabled>
-              Number input - button type horizontal
-              <calcite-input type="number" number-button-type="horizontal" placeholder="How many apples?">
-              </calcite-input>
-            </calcite-label>
-            <calcite-label disabled>
-              Number input clearable horizontal
-              <calcite-input clearable type="number" number-button-type="horizontal" placeholder="How many apples?">
-              </calcite-input>
-            </calcite-label>
-            <calcite-label disabled>
-              Number input clearable vertical
-              <calcite-input clearable type="number" placeholder="How many apples?"> </calcite-input>
-            </calcite-label>
-            <calcite-label disabled>
-              Text input clearable
-              <calcite-input clearable placeholder="John Doe"> </calcite-input>
-            </calcite-label>
-            <calcite-label disabled>
-              Text input clearable with value on load
-              <calcite-input clearable value="My great name" placeholder="John Doe"> </calcite-input>
-            </calcite-label>
-            <calcite-label disabled>
-              Number input clearable kitchen sync
-              <calcite-input prefix-text="pre" suffix-text="suf" clearable type="number" placeholder="How many apples?">
-                <calcite-button slot="input-action">Go</calcite-button>
-              </calcite-input>
-            </calcite-label>
-            <calcite-label disabled>
-              Number input - button type none
-              <calcite-input type="number" number-button-type="none" placeholder="How many apples?"> </calcite-input>
-            </calcite-label>
-            <calcite-label disabled>
-              with button auto
-              <calcite-input placeholder="Text">
-                <calcite-button slot="input-action">Go</calcite-button>
-              </calcite-input>
-            </calcite-label>
-            <calcite-label disabled>
-              with button
-              <calcite-input type="number" placeholder="0" value="0">
-                <calcite-button slot="input-action">Go</calcite-button>
-              </calcite-input>
-            </calcite-label>
-            <calcite-label disabled>
-              with max set to 0
-              <calcite-input max="0" step="10" value="-40" type="number" number-button-type="vertical" placeholder="0">
-              </calcite-input>
-            </calcite-label>
-            <calcite-label disabled>
-              with min set to 0
-              <calcite-input
-                min="0"
-                max="100"
-                step="10"
-                value="40"
-                type="number"
-                number-button-type="horizontal"
-                placeholder="0"
-              >
-              </calcite-input>
-            </calcite-label>
-            <calcite-label disabled>
-              with button and min max step set
-              <calcite-input
-                min="-100"
-                max="100"
-                step="10"
-                value="40"
-                type="number"
-                number-button-type="horizontal"
-                placeholder="0"
-              >
-                <calcite-button slot="input-action">Go or some long text</calcite-button>
-              </calcite-input>
-            </calcite-label>
-            <calcite-label disabled>
-              with button auto
-              <calcite-input placeholder="Text">
-                <calcite-button width="full" slot="input-action">Go</calcite-button>
-              </calcite-input>
-            </calcite-label>
-            <calcite-label disabled>
-              with button with icon
-              <calcite-input placeholder="Text">
-                <calcite-button slot="input-action" icon-start="plus">Add </calcite-button>
-              </calcite-input>
-            </calcite-label>
-            <calcite-label disabled>
-              with button with icon
-              <calcite-input placeholder="Text">
-                <calcite-button width="full" slot="input-action" icon-start="plus"></calcite-button>
-              </calcite-input>
-            </calcite-label>
-            <calcite-label disabled>
-              prefix
-              <calcite-input
-                type="number"
-                number-button-type="none"
-                prefix-text="prefix"
-                placeholder="How many apples?"
-              >
-              </calcite-input>
-            </calcite-label>
+          <calcite-label disabled>
+            Number input - button type horizontal
+            <calcite-input type="number" number-button-type="horizontal" placeholder="How many apples?">
+            </calcite-input>
+          </calcite-label>
+          <calcite-label disabled>
+            Number input clearable horizontal
+            <calcite-input clearable type="number" number-button-type="horizontal" placeholder="How many apples?">
+            </calcite-input>
+          </calcite-label>
+          <calcite-label disabled>
+            Number input clearable vertical
+            <calcite-input clearable type="number" placeholder="How many apples?"> </calcite-input>
+          </calcite-label>
+          <calcite-label disabled>
+            Text input clearable
+            <calcite-input clearable placeholder="John Doe"> </calcite-input>
+          </calcite-label>
+          <calcite-label disabled>
+            Text input clearable with value on load
+            <calcite-input clearable value="My great name" placeholder="John Doe"> </calcite-input>
+          </calcite-label>
+          <calcite-label disabled>
+            Number input clearable kitchen sync
+            <calcite-input prefix-text="pre" suffix-text="suf" clearable type="number" placeholder="How many apples?">
+              <calcite-button slot="input-action">Go</calcite-button>
+            </calcite-input>
+          </calcite-label>
+          <calcite-label disabled>
+            Number input - button type none
+            <calcite-input type="number" number-button-type="none" placeholder="How many apples?"> </calcite-input>
+          </calcite-label>
+          <calcite-label disabled>
+            with button auto
+            <calcite-input placeholder="Text">
+              <calcite-button slot="input-action">Go</calcite-button>
+            </calcite-input>
+          </calcite-label>
+          <calcite-label disabled>
+            with button
+            <calcite-input type="number" placeholder="0" value="0">
+              <calcite-button slot="input-action">Go</calcite-button>
+            </calcite-input>
+          </calcite-label>
+          <calcite-label disabled>
+            with max set to 0
+            <calcite-input max="0" step="10" value="-40" type="number" number-button-type="vertical" placeholder="0">
+            </calcite-input>
+          </calcite-label>
+          <calcite-label disabled>
+            with min set to 0
+            <calcite-input min="0" max="100" step="10" value="40" type="number" number-button-type="horizontal"
+              placeholder="0">
+            </calcite-input>
+          </calcite-label>
+          <calcite-label disabled>
+            with button and min max step set
+            <calcite-input min="-100" max="100" step="10" value="40" type="number" number-button-type="horizontal"
+              placeholder="0">
+              <calcite-button slot="input-action">Go or some long text</calcite-button>
+            </calcite-input>
+          </calcite-label>
+          <calcite-label disabled>
+            with button auto
+            <calcite-input placeholder="Text">
+              <calcite-button width="full" slot="input-action">Go</calcite-button>
+            </calcite-input>
+          </calcite-label>
+          <calcite-label disabled>
+            with button with icon
+            <calcite-input placeholder="Text">
+              <calcite-button slot="input-action" icon-start="plus">Add </calcite-button>
+            </calcite-input>
+          </calcite-label>
+          <calcite-label disabled>
+            with button with icon
+            <calcite-input placeholder="Text">
+              <calcite-button width="full" slot="input-action" icon-start="plus"></calcite-button>
+            </calcite-input>
+          </calcite-label>
+          <calcite-label disabled>
+            prefix
+            <calcite-input type="number" number-button-type="none" prefix-text="prefix" placeholder="How many apples?">
+            </calcite-input>
+          </calcite-label>
 
-            <calcite-label disabled>
-              Enter your organization's URL below
-              <calcite-input suffix-text=".maps.arcgis.com" placeholder="Email"> </calcite-input>
-            </calcite-label>
+          <calcite-label disabled>
+            Enter your organization's URL below
+            <calcite-input suffix-text=".maps.arcgis.com" placeholder="Email"> </calcite-input>
+          </calcite-label>
 
-            <calcite-label disabled>
-              prefix and suffix w numbers
-              <calcite-input type="number" prefix-text="$" suffix-text=".00" placeholder="0"> </calcite-input>
-            </calcite-label>
-            <calcite-label disabled>
-              prefix and suffix w numbers horizontal alignment end
-              <calcite-input
-                type="number"
-                alignment="end"
-                number-button-type="horizontal"
-                prefix-text="$"
-                suffix-text=".00"
-                placeholder="0"
-              >
-              </calcite-input>
-            </calcite-label>
-            <calcite-label disabled>
-              prefix and suffix w numbers vertical alignment end
-              <calcite-input type="number" alignment="end" prefix-text="$" suffix-text=".00" placeholder="0">
-              </calcite-input>
-            </calcite-label>
-            <calcite-label disabled>
-              prefix and suffix w alignment end
-              <calcite-input
-                type="number"
-                alignment="end"
-                number-button-type="horizontal"
-                prefix-text="$ (USD)"
-                suffix-text="no cents here"
-                placeholder="0"
-              >
-              </calcite-input>
-            </calcite-label>
+          <calcite-label disabled>
+            prefix and suffix w numbers
+            <calcite-input type="number" prefix-text="$" suffix-text=".00" placeholder="0"> </calcite-input>
+          </calcite-label>
+          <calcite-label disabled>
+            prefix and suffix w numbers horizontal alignment end
+            <calcite-input type="number" alignment="end" number-button-type="horizontal" prefix-text="$"
+              suffix-text=".00" placeholder="0">
+            </calcite-input>
+          </calcite-label>
+          <calcite-label disabled>
+            prefix and suffix w numbers vertical alignment end
+            <calcite-input type="number" alignment="end" prefix-text="$" suffix-text=".00" placeholder="0">
+            </calcite-input>
+          </calcite-label>
+          <calcite-label disabled>
+            prefix and suffix w alignment end
+            <calcite-input type="number" alignment="end" number-button-type="horizontal" prefix-text="$ (USD)"
+              suffix-text="no cents here" placeholder="0">
+            </calcite-input>
+          </calcite-label>
 
-            <h4>Disabled - set on input with wrapping label</h4>
+          <h4>Disabled - set on input with wrapping label</h4>
 
-            <calcite-label disabled>
-              Disabled
-              <calcite-input disabled value="Readonly value"> </calcite-input>
-            </calcite-label>
+          <calcite-label disabled>
+            Disabled
+            <calcite-input disabled value="Readonly value"> </calcite-input>
+          </calcite-label>
 
-            <calcite-label disabled>
-              Disabled textarea
-              <calcite-input disabled type="textarea">Disabled value </calcite-input>
-            </calcite-label>
+          <calcite-label disabled>
+            Disabled textarea
+            <calcite-input disabled type="textarea">Disabled value </calcite-input>
+          </calcite-label>
 
-            <h4>Disabled - set on input without wrapping label</h4>
+          <h4>Disabled - set on input without wrapping label</h4>
 
-            <calcite-input disabled value="Disabled value"> </calcite-input>
-            <br />
-            <calcite-input disabled type="textarea" value="Disabled value">Disabled value </calcite-input>
+          <calcite-input disabled value="Disabled value"> </calcite-input>
+          <br />
+          <calcite-input disabled type="textarea" value="Disabled value">Disabled value </calcite-input>
 
-            <h4>Readonly</h4>
-            <calcite-label disabled>
-              Readonly
-              <calcite-input readonly value="Readonly value"> </calcite-input>
-            </calcite-label>
+          <h4>Readonly</h4>
+          <calcite-label disabled>
+            Readonly
+            <calcite-input readonly value="Readonly value"> </calcite-input>
+          </calcite-label>
 
-            <calcite-label disabled>
-              Readonly with prefix
-              <calcite-input readonly prefix-text="API Key" value="A123-S5DL-24FA"> </calcite-input>
-            </calcite-label>
+          <calcite-label disabled>
+            Readonly with prefix
+            <calcite-input readonly prefix-text="API Key" value="A123-S5DL-24FA"> </calcite-input>
+          </calcite-label>
 
-            <calcite-label disabled>
-              Readonly with prefix and button
-              <calcite-input readonly prefix-text="API Key" value="A123-S5DL-24FA">
-                <calcite-button slot="input-action" onclick="alert('copied')" icon-start="copy-to-clipboard">
-                </calcite-button>
-              </calcite-input>
-            </calcite-label>
-            <calcite-label disabled>
-              Textarea Readonly
-              <calcite-input readonly type="textarea" placeholder="How was your day?"
-                >Here I am with some text
-              </calcite-input>
-            </calcite-label>
+          <calcite-label disabled>
+            Readonly with prefix and button
+            <calcite-input readonly prefix-text="API Key" value="A123-S5DL-24FA">
+              <calcite-button slot="input-action" onclick="alert('copied')" icon-start="copy-to-clipboard">
+              </calcite-button>
+            </calcite-input>
+          </calcite-label>
+          <calcite-label disabled>
+            Textarea Readonly
+            <calcite-input readonly type="textarea" placeholder="How was your day?">Here I am with some text
+            </calcite-input>
+          </calcite-label>
 
-            <calcite-label disabled>
-              File input
-              <calcite-input type="file" placeholder="Drag 'em' here"></calcite-input>
-            </calcite-label>
+          <calcite-label disabled>
+            File input
+            <calcite-input type="file" placeholder="Drag 'em' here"></calcite-input>
+          </calcite-label>
 
-            <calcite-label disabled>
-              Loading input
-              <calcite-input placeholder="john@doe.com" value="john@do" loading></calcite-input>
-            </calcite-label>
-            <calcite-label disabled>
-              Date input with clearable
-              <calcite-input icon="calendar" type="date" clearable></calcite-input>
-            </calcite-label>
+          <calcite-label disabled>
+            Loading input
+            <calcite-input placeholder="john@doe.com" value="john@do" loading></calcite-input>
+          </calcite-label>
+          <calcite-label disabled>
+            Date input with clearable
+            <calcite-input icon="calendar" type="date" clearable></calcite-input>
+          </calcite-label>
 
-            <calcite-label disabled>
-              Time input with clearable
-              <calcite-input icon type="time" clearable></calcite-input>
-            </calcite-label>
+          <calcite-label disabled>
+            Time input with clearable
+            <calcite-input icon type="time" clearable></calcite-input>
+          </calcite-label>
 
-            <calcite-label disabled>
-              Date input with default icon
-              <calcite-input icon="calendar" type="date"></calcite-input>
-            </calcite-label>
+          <calcite-label disabled>
+            Date input with default icon
+            <calcite-input icon="calendar" type="date"></calcite-input>
+          </calcite-label>
 
-            <calcite-label disabled>
-              Time input with default icon
-              <calcite-input icon type="time"></calcite-input>
-            </calcite-label>
-            <calcite-label disabled>
-              Time input with custom calcite icon
-              <calcite-input icon="clock-up" type="time"></calcite-input>
-            </calcite-label>
-            <calcite-label disabled>
-              Tel input with default icon
-              <calcite-input icon type="tel" placeholder="(123) 456-7890"></calcite-input>
-            </calcite-label>
+          <calcite-label disabled>
+            Time input with default icon
+            <calcite-input icon type="time"></calcite-input>
+          </calcite-label>
+          <calcite-label disabled>
+            Time input with custom calcite icon
+            <calcite-input icon="clock-up" type="time"></calcite-input>
+          </calcite-label>
+          <calcite-label disabled>
+            Tel input with default icon
+            <calcite-input icon type="tel" placeholder="(123) 456-7890"></calcite-input>
+          </calcite-label>
 
-            <calcite-label disabled>
-              Email input with default icon
-              <calcite-input icon type="email" placeholder="john@doe.com"></calcite-input>
-            </calcite-label>
+          <calcite-label disabled>
+            Email input with default icon
+            <calcite-input icon type="email" placeholder="john@doe.com"></calcite-input>
+          </calcite-label>
 
-            <calcite-label disabled>
-              Email input with custom icon
-              <calcite-input icon="envelope" type="email" placeholder="john@doe.com"></calcite-input>
-            </calcite-label>
+          <calcite-label disabled>
+            Email input with custom icon
+            <calcite-input icon="envelope" type="email" placeholder="john@doe.com"></calcite-input>
+          </calcite-label>
 
-            <calcite-label disabled>
-              Password input with default icon
-              <calcite-input icon type="password" placeholder="•••••"></calcite-input>
-            </calcite-label>
-            <calcite-label disabled>
-              Password input with custom calcite icon
-              <calcite-input prefix-text="prefix" icon="key" type="password" placeholder="•••••"></calcite-input>
-            </calcite-label>
-            <calcite-label disabled>
-              Password input with no icon
-              <calcite-input prefix-text="prefix" type="password" placeholder="•••••"></calcite-input>
-            </calcite-label>
+          <calcite-label disabled>
+            Password input with default icon
+            <calcite-input icon type="password" placeholder="•••••"></calcite-input>
+          </calcite-label>
+          <calcite-label disabled>
+            Password input with custom calcite icon
+            <calcite-input prefix-text="prefix" icon="key" type="password" placeholder="•••••"></calcite-input>
+          </calcite-label>
+          <calcite-label disabled>
+            Password input with no icon
+            <calcite-input prefix-text="prefix" type="password" placeholder="•••••"></calcite-input>
+          </calcite-label>
 
-            <calcite-label disabled>
-              Plain text with calcite icon
-              <calcite-input icon="lightbulb" placeholder="asdfasdfas"></calcite-input>
-            </calcite-label>
+          <calcite-label disabled>
+            Plain text with calcite icon
+            <calcite-input icon="lightbulb" placeholder="asdfasdfas"></calcite-input>
+          </calcite-label>
 
-            <calcite-label disabled>
-              Search with icon
-              <calcite-input icon type="search" placeholder="Filter your files"></calcite-input>
-            </calcite-label>
-          </calcite-accordion-item>
-        </calcite-accordion>
-      </div>
-      <div
-        style="
+          <calcite-label disabled>
+            Search with icon
+            <calcite-input icon type="search" placeholder="Filter your files"></calcite-input>
+          </calcite-label>
+        </calcite-accordion-item>
+      </calcite-accordion>
+    </div>
+    <div style="
           width: 400px;
           display: inline-flex;
           max-width: 100%;
@@ -971,95 +895,97 @@
           margin: 0 auto;
           text-align: center;
           padding: 2em;
-        "
-      >
-        <h3>In use - using custom emitted events and dark mode</h3>
-        <calcite-accordion active icon-position="start" selection-mode="multi" theme="dark">
-          <calcite-accordion-item item-title="Register Event-listener example" active>
-            <form name="form-input-example-2" id="form-input-example-2">
-              <calcite-label theme="dark">
-                Create username
-                <calcite-input id="validate-input-example-username" placeholder="Enter username" required>
-                </calcite-input>
-              </calcite-label>
-              <calcite-label theme="dark">
-                Create username
-                <calcite-input
-                  suffix-text="@maps.esri.com"
-                  id="validate-input-example-username2"
-                  placeholder="Enter username"
-                  required
-                >
-                </calcite-input>
-              </calcite-label>
-              <calcite-label theme="dark">
-                Create password
-                <calcite-input id="validate-input-example-password" type="password" placeholder="•••••">
-                </calcite-input>
-              </calcite-label>
-              <calcite-label theme="dark">
-                Confirm password
-                <calcite-input id="validate-input-example-password-2" type="password" placeholder="•••••">
-                </calcite-input>
-              </calcite-label>
-              <calcite-button width="full">Register</calcite-button>
-            </form>
-            <calcite-notice width="full" id="validate-input-example-focus-notice"> </calcite-notice>
-            <calcite-notice width="full" id="validate-input-example-blur-notice"> </calcite-notice>
-            <calcite-notice width="full" id="validate-input-example-change-notice"> </calcite-notice>
-            <script>
-              detectInputChanges("#validate-input-example-username");
-              detectInputChanges("#validate-input-example-password");
-              detectInputChanges("#validate-input-example-password-2");
-              validateInput("#validate-input-example-password");
-            </script>
-          </calcite-accordion-item>
-          <calcite-accordion-item item-title="Custom inline events" active>
-            <calcite-notice width="full" id="validate-input-example-native-function-focus-notice"> </calcite-notice>
-            <calcite-notice width="full" id="validate-input-example-native-function-blur-notice"> </calcite-notice>
-            <calcite-notice width="full" id="validate-input-example-native-function-change-notice"> </calcite-notice>
-            <form name="form-input-example-3" id="form-input-example-3">
-              <calcite-label theme="dark">
-                Create username (autofocus)
-                <calcite-input
-                  focusIn="nativeInlineEventFocusIn()"
-                  focusOut="nativeInlineEventFocusOut()"
-                  id="validate-input-example-native-function-username"
-                  placeholder="Enter username"
-                  required
-                  autofocus
-                >
-                </calcite-input>
-              </calcite-label>
-              <calcite-label theme="dark">
-                Create password
-                <calcite-input id="validate-input-example-native-function-password" type="password" placeholder="•••••">
-                </calcite-input>
-              </calcite-label>
-              <calcite-label theme="dark">
-                Confirm password
-                <calcite-input
-                  id="validate-input-example-native-function-password-2"
-                  type="password"
-                  placeholder="•••••"
-                  required
-                >
-                </calcite-input>
-              </calcite-label>
-              <calcite-button width="full">Register</calcite-button>
-            </form>
-            <script>
-              function nativeInlineEventFocusIn() {
-                console.log("native inline focusin event");
-              }
-              function nativeInlineEventFocusOut() {
-                console.log("native inline focusout event");
-              }
-              validateInputWithNativeEvents("#validate-input-example-native-function-password");
-            </script>
-          </calcite-accordion-item>
-        </calcite-accordion>
-      </div>
+        ">
+      <h3>In use - using custom emitted events and dark mode</h3>
+      <calcite-accordion active icon-position="start" selection-mode="multi" theme="dark">
+        <calcite-accordion-item item-title="Register Event-listener example" active>
+          <form name="form-input-example-2" id="form-input-example-2">
+            <calcite-label theme="dark">
+              Create username
+              <calcite-input id="validate-input-example-username" placeholder="Enter username" required>
+              </calcite-input>
+            </calcite-label>
+            <calcite-label theme="dark">
+              Create username
+              <calcite-input suffix-text="@maps.esri.com" id="validate-input-example-username2"
+                placeholder="Enter username" required>
+              </calcite-input>
+            </calcite-label>
+            <calcite-label theme="dark">
+              Create password
+              <calcite-input id="validate-input-example-password" type="password" placeholder="•••••">
+              </calcite-input>
+            </calcite-label>
+            <calcite-label theme="dark">
+              Confirm password
+              <calcite-input id="validate-input-example-password-2" type="password" placeholder="•••••">
+              </calcite-input>
+            </calcite-label>
+            <calcite-button width="full">Register</calcite-button>
+          </form>
+          <calcite-notice width="full" id="validate-input-example-focus-notice"> </calcite-notice>
+          <calcite-notice width="full" id="validate-input-example-blur-notice"> </calcite-notice>
+          <calcite-notice width="full" id="validate-input-example-change-notice"> </calcite-notice>
+          <script>
+            detectInputChanges("#validate-input-example-username");
+            detectInputChanges("#validate-input-example-password");
+            detectInputChanges("#validate-input-example-password-2");
+            validateInput("#validate-input-example-password");
+          </script>
+        </calcite-accordion-item>
+        <calcite-accordion-item item-title="Custom inline events" active>
+          <calcite-notice width="full" id="validate-input-example-native-function-focus-notice"> </calcite-notice>
+          <calcite-notice width="full" id="validate-input-example-native-function-blur-notice"> </calcite-notice>
+          <calcite-notice width="full" id="validate-input-example-native-function-change-notice"> </calcite-notice>
+          <form name="form-input-example-3" id="form-input-example-3">
+            <calcite-label theme="dark">
+              Create username (autofocus)
+              <calcite-input focusIn="nativeInlineEventFocusIn()" focusOut="nativeInlineEventFocusOut()"
+                id="validate-input-example-native-function-username" placeholder="Enter username" required autofocus>
+              </calcite-input>
+            </calcite-label>
+            <calcite-label theme="dark">
+              Create password
+              <calcite-input id="validate-input-example-native-function-password" type="password" placeholder="•••••">
+              </calcite-input>
+            </calcite-label>
+            <calcite-label theme="dark">
+              Confirm password
+              <calcite-input id="validate-input-example-native-function-password-2" type="password" placeholder="•••••"
+                required>
+              </calcite-input>
+            </calcite-label>
+            <calcite-button width="full">Register</calcite-button>
+          </form>
+          <script>
+            function nativeInlineEventFocusIn() {
+              console.log("native inline focusin event");
+            }
+            function nativeInlineEventFocusOut() {
+              console.log("native inline focusout event");
+            }
+            validateInputWithNativeEvents("#validate-input-example-native-function-password");
+          </script>
+        </calcite-accordion-item>
+      </calcite-accordion>
     </div>
-  </body>
+  </div>
+  <script>
+    const localeDemoContainer = document.getElementById("locales");
+    locales.forEach((locale) => {
+      let label = document.createElement("calcite-label");
+      label.setAttribute("for", locale);
+      label.appendChild(document.createTextNode(locale));
+      let input = document.createElement("calcite-input");
+      input.setAttribute("id", locale);
+      input.setAttribute("locale", locale);
+      input.setAttribute("name", locale);
+      input.setAttribute("type", "number");
+      input.setAttribute("value", "1234.5");
+      localeDemoContainer.appendChild(label);
+      localeDemoContainer.appendChild(input);
+    });
+  </script>
+</body>
+
 </html>

@@ -17,6 +17,8 @@ import { getKey } from "../../utils/key";
 import { INPUT_TYPE_ICONS } from "./calcite-input.resources";
 import { InputPlacement } from "./interfaces";
 import { Position } from "../interfaces";
+import { getDecimalSeparator, getGroupSeparator } from "../../utils/locale";
+import { numberKeys } from "../../utils/number";
 
 /**
  * @slot `calcite-action` - A slot for positioning a button next to an input
@@ -323,8 +325,37 @@ export class CalciteInput {
     this.emitInputFromUserInteraction();
   };
 
-  private inputKeyDownHandler = () => {
-    // TODO: handle validation based on locale
+  private inputKeyDownHandler = (event: KeyboardEvent) => {
+    console.log(event.key);
+    if (this.type === "number") {
+      if (event.metaKey) {
+        return;
+      }
+      if (numberKeys.includes(event.key)) {
+        return;
+      }
+      if (event.key == getGroupSeparator(this.locale)) {
+        console.log("group separator pressed");
+        return;
+      }
+      if (event.key == getDecimalSeparator(this.locale) && this.value.indexOf(event.key) === -1) {
+        console.log("decimal separator pressed");
+        return;
+      }
+      if (event.key === "Backspace") {
+        return;
+      }
+      if (event.key === "Escape") {
+        return;
+      }
+      if (event.key === "Tab") {
+        return;
+      }
+      if (event.key === "-") {
+        return;
+      }
+      event.preventDefault();
+    }
   };
 
   private reset = (): void => {
@@ -378,6 +409,7 @@ export class CalciteInput {
   // --------------------------------------------------------------------------
 
   render(): VNode {
+    console.log(this.locale, getGroupSeparator(this.locale), getDecimalSeparator(this.locale));
     const dir = getElementDir(this.el);
 
     const attributes = getAttributes(this.el, [
