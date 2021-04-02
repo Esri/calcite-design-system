@@ -170,6 +170,43 @@ export class CalciteInput {
 
   //--------------------------------------------------------------------------
   //
+  //  Private Properties
+  //
+  //--------------------------------------------------------------------------
+
+  /** keep track of the rendered child type */
+  private childEl?: HTMLInputElement | HTMLTextAreaElement;
+
+  /** keep track of the rendered child type */
+  private childElType?: "input" | "textarea" = "input";
+
+  /** keep track of the initial value */
+  private defaultValue: string;
+
+  private form: HTMLFormElement;
+
+  get isClearable(): boolean {
+    return !this.isTextarea && (this.clearable || this.type === "search") && this.value.length > 0;
+  }
+
+  get isTextarea(): boolean {
+    return this.childElType === "textarea";
+  }
+
+  private minString?: string;
+
+  private maxString?: string;
+
+  /** the computed icon to render */
+  private requestedIcon?: string;
+
+  /** determine if there is a slotted action for styling purposes */
+  private slottedActionEl?: HTMLSlotElement;
+
+  private stepString?: string;
+
+  //--------------------------------------------------------------------------
+  //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
@@ -199,13 +236,146 @@ export class CalciteInput {
     this.setDisabledAction();
   }
 
-  get isTextarea(): boolean {
-    return this.childElType === "textarea";
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  /**
+   * @internal
+   */
+  @Event() calciteInputFocus: EventEmitter;
+
+  /**
+   * @internal
+   */
+  @Event() calciteInputBlur: EventEmitter;
+
+  /**
+   * This event fires when the value of the input changes.
+   */
+  @Event({ eventName: "calciteInputInput", cancelable: true }) calciteInputInput: EventEmitter;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Event Listeners
+  //
+  //--------------------------------------------------------------------------
+
+  @Listen("keydown")
+  keyDownHandler(e: KeyboardEvent): void {
+    if (this.isClearable && getKey(e.key) === "Escape") {
+      this.clearInputValue();
+      e.preventDefault();
+    }
   }
 
-  get isClearable(): boolean {
-    return !this.isTextarea && (this.clearable || this.type === "search") && this.value.length > 0;
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  /** focus the rendered child element */
+  @Method()
+  async setFocus(): Promise<void> {
+    this.childEl?.focus();
   }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+
+  private clearInputValue = () => {
+    this.value = "";
+    this.emitInputFromUserInteraction();
+  };
+
+  private emitInputFromUserInteraction = () => {
+    this.calciteInputInput.emit({
+      element: this.childEl,
+      value: this.value
+    });
+  };
+
+  private inputBlurHandler = () => {
+    this.calciteInputBlur.emit({
+      element: this.childEl,
+      value: this.value
+    });
+  };
+
+  private inputFocusHandler = (e) => {
+    if (e.target !== this.slottedActionEl) {
+      this.setFocus();
+    }
+    this.calciteInputFocus.emit({
+      element: this.childEl,
+      value: this.value
+    });
+  };
+
+  private inputInputHandler = (e) => {
+    this.value = e.target.value;
+    this.emitInputFromUserInteraction();
+  };
+
+  private inputKeyDownHandler = () => {
+    // TODO: handle validation based on locale
+  };
+
+  private reset = (): void => {
+    this.value = this.defaultValue;
+  };
+
+  private setDisabledAction(): void {
+    if (!this.slottedActionEl) {
+      return;
+    }
+    const slottedActionEl = this.slottedActionEl as HTMLElement;
+
+    this.disabled
+      ? slottedActionEl.setAttribute("disabled", "")
+      : slottedActionEl.removeAttribute("disabled");
+  }
+
+  private updateNumberValue = (e) => {
+    // todo, when dropping ie11 support, refactor to use stepup/stepdown
+    // prevent blur and re-focus of input on mousedown
+    e.preventDefault();
+    if (this.childElType === "input" && this.type === "number") {
+      const inputMax = this.maxString ? parseFloat(this.maxString) : null;
+      const inputMin = this.minString ? parseFloat(this.minString) : null;
+      const inputStep = Number(this.stepString) > 0 ? parseFloat(this.stepString) : 1;
+      let inputVal = this.value && this.value !== "" ? parseFloat(this.value) : 0;
+      const decimals = this.value?.split(".")[1]?.length || 0;
+
+      switch (e.target.dataset.adjustment) {
+        case "up":
+          if ((!inputMax && inputMax !== 0) || inputVal < inputMax) {
+            this.childEl.value = (inputVal += inputStep).toFixed(decimals).toString();
+          }
+          break;
+        case "down":
+          if ((!inputMin && inputMin !== 0) || inputVal > inputMin) {
+            this.childEl.value = (inputVal -= inputStep).toFixed(decimals).toString();
+          }
+          break;
+      }
+
+      this.value = this.childEl.value.toString();
+      this.emitInputFromUserInteraction();
+    }
+  };
+
+  // --------------------------------------------------------------------------
+  //
+  //  Render Methods
+  //
+  // --------------------------------------------------------------------------
 
   render(): VNode {
     const dir = getElementDir(this.el);
@@ -348,167 +518,4 @@ export class CalciteInput {
       </Host>
     );
   }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("keydown")
-  keyDownHandler(e: KeyboardEvent): void {
-    if (this.isClearable && getKey(e.key) === "Escape") {
-      this.clearInputValue();
-      e.preventDefault();
-    }
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
-  /**
-   * @internal
-   */
-  @Event() calciteInputFocus: EventEmitter;
-
-  /**
-   * @internal
-   */
-  @Event() calciteInputBlur: EventEmitter;
-
-  /**
-   * This event fires when the value of the input changes.
-   */
-  @Event({ eventName: "calciteInputInput", cancelable: true }) calciteInputInput: EventEmitter;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  //--------------------------------------------------------------------------
-
-  /** focus the rendered child element */
-  @Method()
-  async setFocus(): Promise<void> {
-    this.childEl?.focus();
-  }
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
-
-  private form: HTMLFormElement;
-
-  /** keep track of the initial value */
-  private defaultValue: string;
-
-  /** keep track of the rendered child type */
-  private childElType?: "input" | "textarea" = "input";
-
-  /** keep track of the rendered child type */
-  private childEl?: HTMLInputElement | HTMLTextAreaElement;
-
-  /** determine if there is a slotted action for styling purposes */
-  private slottedActionEl?: HTMLSlotElement;
-
-  private minString?: string;
-
-  private maxString?: string;
-
-  private stepString?: string;
-
-  /** the computed icon to render */
-  private requestedIcon?: string;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
-
-  private reset = (): void => {
-    this.value = this.defaultValue;
-  };
-
-  private inputInputHandler = (e) => {
-    this.value = e.target.value;
-    this.emitInputFromUserInteraction();
-  };
-
-  private emitInputFromUserInteraction = () => {
-    this.calciteInputInput.emit({
-      element: this.childEl,
-      value: this.value
-    });
-  };
-
-  private inputBlurHandler = () => {
-    this.calciteInputBlur.emit({
-      element: this.childEl,
-      value: this.value
-    });
-  };
-
-  private inputFocusHandler = (e) => {
-    if (e.target !== this.slottedActionEl) {
-      this.setFocus();
-    }
-    this.calciteInputFocus.emit({
-      element: this.childEl,
-      value: this.value
-    });
-  };
-
-  private inputKeyDownHandler = () => {
-    // TODO: handle validation based on locale
-  };
-
-  private setDisabledAction(): void {
-    if (!this.slottedActionEl) {
-      return;
-    }
-    const slottedActionEl = this.slottedActionEl as HTMLElement;
-
-    this.disabled
-      ? slottedActionEl.setAttribute("disabled", "")
-      : slottedActionEl.removeAttribute("disabled");
-  }
-
-  private clearInputValue = () => {
-    this.value = "";
-    this.emitInputFromUserInteraction();
-  };
-
-  private updateNumberValue = (e) => {
-    // todo, when dropping ie11 support, refactor to use stepup/stepdown
-    // prevent blur and re-focus of input on mousedown
-    e.preventDefault();
-    if (this.childElType === "input" && this.type === "number") {
-      const inputMax = this.maxString ? parseFloat(this.maxString) : null;
-      const inputMin = this.minString ? parseFloat(this.minString) : null;
-      const inputStep = Number(this.stepString) > 0 ? parseFloat(this.stepString) : 1;
-      let inputVal = this.value && this.value !== "" ? parseFloat(this.value) : 0;
-      const decimals = this.value?.split(".")[1]?.length || 0;
-
-      switch (e.target.dataset.adjustment) {
-        case "up":
-          if ((!inputMax && inputMax !== 0) || inputVal < inputMax) {
-            this.childEl.value = (inputVal += inputStep).toFixed(decimals).toString();
-          }
-          break;
-        case "down":
-          if ((!inputMin && inputMin !== 0) || inputVal > inputMin) {
-            this.childEl.value = (inputVal -= inputStep).toFixed(decimals).toString();
-          }
-          break;
-      }
-
-      this.value = this.childEl.value.toString();
-      this.emitInputFromUserInteraction();
-    }
-  };
 }
