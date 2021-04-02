@@ -116,14 +116,23 @@ describe("calcite-action-menu", () => {
     ));
 
   it("should focus on menu", async () =>
-    focusable(html` <calcite-action-menu open> </calcite-action-menu> `, {
-      focusTargetSelector: `.${CSS.menu}`
+    focusable(html` <calcite-action-menu open><div>test</div></calcite-action-menu> `, {
+      shadowFocusTargetSelector: `.${CSS.menu}`
     }));
 
   it("should focus on menu button", async () =>
-    focusable(html` <calcite-action-menu> </calcite-action-menu> `, {
-      focusTargetSelector: `.${CSS.menuButton}`
-    }));
+    focusable(
+      html`
+        <calcite-action-menu>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+          <calcite-action text="Add" icon="plus"></calcite-action
+        ></calcite-action-menu>
+      `,
+      {
+        shadowFocusTargetSelector: `.${CSS.menuButton}`
+      }
+    ));
 
   it("should close menu if clicked outside", async () => {
     const page = await newE2EPage({
