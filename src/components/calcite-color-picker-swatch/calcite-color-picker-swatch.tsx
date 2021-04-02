@@ -1,7 +1,8 @@
-import { Component, h, Host, Prop, VNode, Watch } from "@stencil/core";
+import { Component, Element, h, Host, Prop, VNode, Watch } from "@stencil/core";
 import Color from "color";
 import { COLORS, CSS } from "./resources";
 import { Scale, Theme } from "../interfaces";
+import { getElementProp } from "../../utils/dom";
 
 @Component({
   tag: "calcite-color-picker-swatch",
@@ -58,6 +59,9 @@ export class CalciteColorPickerSwatch {
   //
   //--------------------------------------------------------------------------
 
+  @Element()
+  el: HTMLCalciteColorPickerSwatchElement;
+
   private internalColor: Color;
 
   //--------------------------------------------------------------------------
@@ -71,17 +75,27 @@ export class CalciteColorPickerSwatch {
   }
 
   render(): VNode {
-    const { active, internalColor, theme } = this;
+    const { active, el, internalColor } = this;
     const borderRadius = active ? "100%" : "0";
     const hex = internalColor.hex();
-    const borderColor = active
-      ? COLORS.activeBorder
-      : internalColor[theme === "light" ? "darken" : "whiten"](0.25).hex();
+    const theme = getElementProp(el, "theme", "light", true);
+    const borderColor = theme === "light" ? COLORS.borderLight : COLORS.borderDark;
 
     return (
       <Host aria-label={hex} title={hex}>
         <svg class={CSS.swatch} xmlns="http://www.w3.org/2000/svg">
-          <rect fill={hex} height="100%" rx={borderRadius} stroke={borderColor} width="100%" />
+          <rect
+            fill={hex}
+            height="100%"
+            id="swatch"
+            rx={borderRadius}
+            stroke={borderColor}
+            // stroke-width and clip-path are needed to hide overflowing portion of stroke
+            // see https://stackoverflow.com/a/7273346/194216
+            stroke-width="2"
+            style={{ "clip-path": `inset(0 round ${borderRadius})` }}
+            width="100%"
+          />
         </svg>
       </Host>
     );

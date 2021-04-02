@@ -32,9 +32,9 @@
         <h3>Tooltip on expand toggle</h3>
         <div class="action-pad-container">
           <calcite-action-pad id="action-pad-test">
+            <calcite-tooltip slot="expand-tooltip" label="Hello world!">Hello world!</calcite-tooltip>
             <calcite-action text="Add" icon="plus"></calcite-action>
           </calcite-action-pad>
-          <calcite-tooltip label="Hello world!" reference-element="tooltip" id="tooltip">Hello world!</calcite-tooltip>
         </div>
       </section>
 
@@ -89,11 +89,6 @@
           </calcite-action-pad>
         </div>
       </section>
-      <script>
-        var actionPad = document.getElementById("action-pad-test");
-        var tooltip = document.getElementById("tooltip");
-        actionPad.tooltipExpand = tooltip;
-      </script>
     </main>
   </body>
 </html>

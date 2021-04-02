@@ -11,7 +11,7 @@ export function getAttributes(el: HTMLElement, blockList: string[]): Record<stri
 }
 
 export function getElementDir(el: HTMLElement): Direction {
-  return getElementProp(el, "dir", "ltr") as Direction;
+  return getElementProp(el, "dir", "ltr", true) as Direction;
 }
 
 export function getElementProp(el: Element, prop: string, fallbackValue: any, crossShadowBoundary = false): any {

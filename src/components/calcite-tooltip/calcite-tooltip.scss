@@ -13,10 +13,19 @@
     px-4
     overflow-hidden
     text--2-wrap
+    rounded;
+  max-width: 20rem;
+  max-height: 20rem;
+}
+
+.calcite-popper-anim {
+  @apply bg-foreground-1
     border
     border-solid
     border-color-3
     rounded;
-  max-width: 20rem;
-  max-height: 20rem;
+}
+
+.arrow::before {
+  outline: 1px solid var(--calcite-ui-border-3);
 }

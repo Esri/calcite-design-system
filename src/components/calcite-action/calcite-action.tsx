@@ -1,4 +1,15 @@
-import { Component, Element, Host, Method, Prop, h, forceUpdate, VNode } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  Host,
+  Method,
+  Prop,
+  h,
+  forceUpdate,
+  VNode
+} from "@stencil/core";
 
 import { Alignment, Appearance, Scale, Theme } from "../interfaces";
 
@@ -29,11 +40,11 @@ export class CalciteAction {
    * Indicates whether the action is highlighted.
    */
   @Prop({ reflect: true }) active = false;
-  
+
   /**
    * Indicates the alignment when text-enabled is false.
    */
-  @Prop({ reflect: true}) alignment?: Alignment;
+  @Prop({ reflect: true }) alignment?: Alignment;
 
   /**
    * Compact mode is used internally by components to reduce side padding, e.g. calcite-block-section.
@@ -87,6 +98,17 @@ export class CalciteAction {
    * Used to set the component's color scheme.
    */
   @Prop({ reflect: true }) theme: Theme;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  // --------------------------------------------------------------------------
+
+  /**
+   * Emitted when the action has been clicked.
+   */
+  @Event() calciteActionClick: EventEmitter;
 
   // --------------------------------------------------------------------------
   //
@@ -196,6 +218,7 @@ export class CalciteAction {
           aria-label={ariaLabel}
           class={buttonClasses}
           disabled={disabled}
+          onClick={this.buttonClick}
           ref={(buttonEl): HTMLButtonElement => (this.buttonEl = buttonEl)}
         >
           {this.renderIconContainer()}
@@ -204,4 +227,16 @@ export class CalciteAction {
       </Host>
     );
   }
+
+  // --------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  // --------------------------------------------------------------------------
+
+  buttonClick = (): void => {
+    if (!this.disabled) {
+      this.calciteActionClick.emit();
+    }
+  };
 }

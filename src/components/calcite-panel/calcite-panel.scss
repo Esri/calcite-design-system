@@ -41,21 +41,21 @@
 }
 
 :host([width-scale="s"]) {
-  --calcite-panel-width: calc(var(--calcite-ui-panel-width-multiplier) * 12vw);
-  --calcite-panel-max-width: calc(var(--calcite-ui-panel-width-multiplier) * 300px);
-  --calcite-panel-min-width: calc(var(--calcite-ui-panel-width-multiplier) * 150px);
+  --calcite-panel-width: calc(var(--calcite-panel-width-multiplier) * 12vw);
+  --calcite-panel-max-width: calc(var(--calcite-panel-width-multiplier) * 300px);
+  --calcite-panel-min-width: calc(var(--calcite-panel-width-multiplier) * 150px);
 }
 
 :host([width-scale="m"]) {
-  --calcite-panel-width: calc(var(--calcite-ui-panel-width-multiplier) * 20vw);
-  --calcite-panel-max-width: calc(var(--calcite-ui-panel-width-multiplier) * 420px);
-  --calcite-panel-min-width: calc(var(--calcite-ui-panel-width-multiplier) * 240px);
+  --calcite-panel-width: calc(var(--calcite-panel-width-multiplier) * 20vw);
+  --calcite-panel-max-width: calc(var(--calcite-panel-width-multiplier) * 420px);
+  --calcite-panel-min-width: calc(var(--calcite-panel-width-multiplier) * 240px);
 }
 
 :host([width-scale="l"]) {
-  --calcite-panel-width: calc(var(--calcite-ui-panel-width-multiplier) * 45vw);
-  --calcite-panel-max-width: calc(var(--calcite-ui-panel-width-multiplier) * 680px);
-  --calcite-panel-min-width: calc(var(--calcite-ui-panel-width-multiplier) * 340px);
+  --calcite-panel-width: calc(var(--calcite-panel-width-multiplier) * 45vw);
+  --calcite-panel-max-width: calc(var(--calcite-panel-width-multiplier) * 680px);
+  --calcite-panel-min-width: calc(var(--calcite-panel-width-multiplier) * 340px);
 }
 
 .container[hidden] {
@@ -154,7 +154,7 @@
   sticky
   bottom-0
   w-full;
-  
+
   flex: 0 0 auto;
   min-height: theme("spacing.12");
   padding: theme("spacing.2");
