@@ -290,7 +290,7 @@ export class CalciteActionMenu {
     const assignedElements = el
       .querySelector("slot")
       ?.assignedElements({ flatten: true })
-      .filter((element) => element?.tagName === "CALCITE-ACTION") as HTMLCalciteActionElement[];
+      .filter((element) => element.tagName === "CALCITE-ACTION") as HTMLCalciteActionElement[];
 
     const actionElements = assignedElements || Array.from(el.querySelectorAll("calcite-action"));
 
