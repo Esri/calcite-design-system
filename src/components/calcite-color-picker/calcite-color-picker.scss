@@ -89,6 +89,7 @@ $gap--large: 12px;
 }
 
 .container {
+  @apply bg-foreground-1;
   display: inline-block;
   border: 1px solid var(--calcite-ui-border-1);
 }
