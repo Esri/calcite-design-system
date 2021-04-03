@@ -21,6 +21,8 @@ export const CSS = {
   headerHex: "header--hex",
   colorFieldAndSlider: "color-field-and-slider",
   colorFieldAndSliderInteractive: "color-field-and-slider--interactive",
+  colorFieldAndSliderWrap: "color-field-and-slider-wrap",
+  scope: "scope",
   savedColor: "saved-color"
 };
 
