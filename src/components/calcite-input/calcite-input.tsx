@@ -326,7 +326,6 @@ export class CalciteInput {
   };
 
   private inputKeyDownHandler = (event: KeyboardEvent) => {
-    console.log(event.key);
     if (this.type === "number") {
       if (event.metaKey) {
         return;
@@ -335,11 +334,9 @@ export class CalciteInput {
         return;
       }
       if (event.key == getGroupSeparator(this.locale)) {
-        console.log("group separator pressed");
         return;
       }
       if (event.key == getDecimalSeparator(this.locale) && this.value.indexOf(event.key) === -1) {
-        console.log("decimal separator pressed");
         return;
       }
       if (event.key === "Backspace") {
@@ -409,7 +406,6 @@ export class CalciteInput {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    console.log(this.locale, getGroupSeparator(this.locale), getDecimalSeparator(this.locale));
     const dir = getElementDir(this.el);
 
     const attributes = getAttributes(this.el, [
