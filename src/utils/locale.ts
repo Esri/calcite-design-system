@@ -53,7 +53,8 @@ export function getGroupSeparator(locale: string): string {
   if (locales.includes(locale)) {
     const formatter = Intl.NumberFormat(locale);
     const parts = formatter.formatToParts(1234567.8);
-    return parts.find((part) => part.type === "group").value;
+    const value = parts.find((part) => part.type === "group").value;
+    return value.trim().length === 0 ? " " : value;
   }
   return ",";
 }
@@ -62,7 +63,8 @@ export function getDecimalSeparator(locale: string): string {
   if (locales.includes(locale)) {
     const formatter = Intl.NumberFormat(locale);
     const parts = formatter.formatToParts(1234567.8);
-    return parts.find((part) => part.type === "decimal").value;
+    const value = parts.find((part) => part.type === "decimal").value;
+    return value.trim().length === 0 ? " " : value;
   }
   return ".";
 }
