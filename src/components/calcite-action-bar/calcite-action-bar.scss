@@ -1,12 +1,14 @@
 :host {
   @extend %component-host;
-  @extend %component-spacing;
-  align-self: stretch;
-  display: inline-flex;
-  flex-direction: column;
+  @apply self-stretch
+    inline-flex
+    flex-col
+    pointer-events-auto;
   max-width: 15vw;
+}
+
+:host([overflow-actions-disabled]) {
   overflow-y: auto;
-  pointer-events: auto;
 }
 
 :host([expanded]) {
@@ -14,15 +16,16 @@
 }
 
 ::slotted(calcite-action-group) {
-  border-bottom: 1px solid var(--calcite-ui-border-2);
+  @apply border-0
+    border-b
+    border-solid
+    border-color-2;
 }
 
 ::slotted(calcite-action-group:last-child) {
-  border-bottom: none;
+  @apply border-b-0;
 }
 
 .action-group--bottom {
-  padding-bottom: 0;
-  flex-grow: 1;
-  justify-content: flex-end;
+  @apply pb-0 flex-grow justify-end;
 }

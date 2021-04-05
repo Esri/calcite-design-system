@@ -9,7 +9,7 @@ export function rgbToHex(color: RGB): string {
     .padStart(2, "0")}`.toLowerCase();
 }
 
-export const hexChar = /^[0-9A-F]{1}$/i;
+export const hexChar = /^[0-9A-F]$/i;
 const shortHandHex = /^#[0-9A-F]{3}$/i;
 const longhandHex = /^#[0-9A-F]{6}$/i;
 

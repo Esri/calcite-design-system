@@ -7,8 +7,7 @@ import {
   h,
   Prop,
   EventEmitter,
-  VNode,
-  Watch
+  VNode
 } from "@stencil/core";
 import { getAttributes, getElementDir } from "../../utils/dom";
 import { FocusRequest } from "./interfaces";
@@ -58,10 +57,6 @@ export class CalciteLabel {
   /** is the label disabled  */
   @Prop({ reflect: true }) disabled?: boolean;
 
-  @Watch("disabled")
-  disabledWatcher(): void {
-    this.setDisabledControls();
-  }
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -166,10 +161,6 @@ export class CalciteLabel {
   //
   //--------------------------------------------------------------------------
 
-  componentDidLoad(): void {
-    this.setDisabledControls();
-  }
-
   render(): VNode {
     const attributes = getAttributes(this.el, [
       "disabled",
@@ -182,32 +173,10 @@ export class CalciteLabel {
     const dir = getElementDir(this.el);
     return (
       <Host dir={dir}>
-        <label {...attributes} ref={(el) => (this.labelEl = el)}>
+        <label {...attributes}>
           <slot />
         </label>
       </Host>
     );
-  }
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
-
-  // the rendered wrapping label element
-  private labelEl: HTMLLabelElement;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
-
-  private setDisabledControls() {
-    this.labelEl?.childNodes.forEach((item: HTMLElement) => {
-      if (item.nodeName.includes("CALCITE")) {
-        this.disabled ? item.setAttribute("disabled", "") : item.removeAttribute("disabled");
-      }
-    });
   }
 }

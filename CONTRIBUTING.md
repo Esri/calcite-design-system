@@ -4,7 +4,7 @@ Esri welcomes contributions from anyone and everyone. Please see our [guidelines
 
 Calcite Components is still in its early stages. You can help most by:
 
-- Adding ideas for components to out [wishlist project](https://github.com/Esri/calcite-components/projects/2) We are using the wishlist to gather ideas about what components teams are using that we might be able to reproduce as a part of Calcite Components.
+- Adding ideas for components to our [wishlist project](https://github.com/Esri/calcite-components/projects/2) We are using the wishlist to gather ideas about what components teams are using that we might be able to reproduce as a part of Calcite Components.
 - If you want to help develop components take a look at out [1.0.0 components](https://github.com/Esri/calcite-components/projects/1) which are the components we are targeting for the first release of Calcite Components. Before starting development please review our [component conventions](./conventions/README.md) and the [Stencil documentation](https://stenciljs.com/docs/host-element).
 
 If you aren't familiar with the basics of WebComponents and Shadow DOM please read through some of the following resources before contributing:

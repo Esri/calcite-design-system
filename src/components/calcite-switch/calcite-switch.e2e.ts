@@ -16,45 +16,6 @@ describe("calcite-switch", () => {
 
   it("is accessible: switched", async () => accessible(`<calcite-switch switched></calcite-switch>`));
 
-  it("is accessible: slotted input", async () =>
-    accessible(`<calcite-switch name="switch-name" value="switch-value" switched>
-  <input type="checkbox" id="test-id" name="test-name" value="test-value"/>
-</calcite-switch>`));
-
-  it("correctly creates a proxy checkbox if none is provided", async () => {
-    const testName = "test-name";
-    const testValue = "test-value";
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-switch switched name="${testName}" value="${testValue}"></calcite-switch>`);
-
-    const input = await page.find("input");
-
-    expect(input).toEqualAttribute("type", "checkbox");
-    expect(input).toEqualAttribute("name", testName);
-    expect(input).toEqualAttribute("value", testValue);
-    expect(input).toHaveAttribute("checked");
-  });
-
-  it("overrides the switch attributes with user-provided checkbox if it exists", async () => {
-    const inputName = "input-name";
-    const inputValue = "input-value";
-    const inputID = "input-id";
-
-    const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-switch name="switch-name" value="switch-value" switched>
-        <input type="checkbox" id="${inputID}" name="${inputName}" value="${inputValue}"/>
-      </calcite-switch>`);
-
-    const calciteSwitch = await page.find("calcite-switch");
-    const input = await page.find("input");
-
-    expect(input).toEqualAttribute("id", inputID);
-    expect(input).not.toHaveAttribute("checked");
-    expect(calciteSwitch).toEqualAttribute("name", inputName);
-    expect(calciteSwitch).toEqualAttribute("value", inputValue);
-  });
-
   it("toggles the switched and checked attributes appropriately when clicked", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-switch></calcite-switch>");
@@ -62,15 +23,15 @@ describe("calcite-switch", () => {
     const calciteSwitch = await page.find("calcite-switch");
     const input = await page.find("input");
 
-    expect(calciteSwitch).not.toHaveAttribute("switched");
-    expect(input).not.toHaveAttribute("checked");
+    expect(await calciteSwitch.getProperty("switched")).toBe(false);
+    expect(await input.getProperty("checked")).toBe(false);
 
     await calciteSwitch.click();
 
     await page.waitForChanges();
 
-    expect(calciteSwitch).toHaveAttribute("switched");
-    expect(input).toHaveAttribute("checked");
+    expect(await calciteSwitch.getProperty("switched")).toBe(true);
+    expect(await input.getProperty("checked")).toBe(true);
   });
 
   it("appropriately triggers the custom change event", async () => {
@@ -111,29 +72,24 @@ describe("calcite-switch", () => {
     await calciteSwitch.click();
     expect(changeEvent).toHaveReceivedEventTimes(0);
     expect(calciteSwitch).not.toHaveAttribute("switched");
+    expect(await calciteSwitch.getProperty("switched")).toBe(false);
   });
 
   it("toggles the switched and checked attributes when the checkbox is toggled", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-switch>
-      <input type="checkbox" />
-    </calcite-switch>`);
+    await page.setContent(`<calcite-switch></calcite-switch>`);
 
     const calciteSwitch = await page.find("calcite-switch");
     const input = await page.find("input");
 
-    expect(calciteSwitch).not.toHaveAttribute("switched");
-    expect(input).not.toHaveAttribute("checked");
+    expect(await calciteSwitch.getProperty("switched")).toBe(false);
+    expect(await input.getProperty("checked")).toBe(false);
 
-    await page.$eval("input", (element) => {
-      element.setAttribute("checked", "");
-    });
-
+    await calciteSwitch.setProperty("switched", true);
     await page.waitForChanges();
 
-    expect(calciteSwitch).toHaveAttribute("switched");
-    expect(input).toHaveAttribute("checked");
+    expect(await calciteSwitch.getProperty("switched")).toBe(true);
+    expect(await input.getProperty("checked")).toBe(true);
   });
 
   it("toggles when the wrapping label is clicked", async () => {
@@ -153,8 +109,8 @@ describe("calcite-switch", () => {
 
     await page.waitForChanges();
 
-    expect(calciteSwitch).toHaveAttribute("switched");
-    expect(input).toHaveAttribute("checked");
+    expect(await calciteSwitch.getProperty("switched")).toBe(true);
+    expect(await input.getProperty("checked")).toBe(true);
   });
 
   it("honors tabindex", async () => {
@@ -166,15 +122,18 @@ describe("calcite-switch", () => {
     expect(await calciteSwitch.getProperty("tabIndex")).toBe(0);
 
     calciteSwitch.setAttribute("tabindex", "-1");
+
     await page.waitForChanges();
+    await page.waitForChanges();
+
     expect(await calciteSwitch.getProperty("tabIndex")).toBe(-1);
   });
 
   it("renders requested props", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-switch theme="dark" scale="l" ></calcite-switch>`);
-
     const element = await page.find("calcite-switch");
+
     expect(element).toEqualAttribute("theme", "dark");
     expect(element).toEqualAttribute("scale", "l");
   });

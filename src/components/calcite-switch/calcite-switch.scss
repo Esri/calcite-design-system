@@ -1,140 +1,143 @@
-// theme variables
-// light theme
-:host {
-  --calcite-switch-hover-handle-border: var(--calcite-ui-brand);
-  --calcite-switch-switched-track-background: var(--calcite-ui-brand);
-  --calcite-switch-switched-track-border: var(--calcite-ui-brand);
-  --calcite-switch-switched-handle-border: var(--calcite-ui-brand);
-  --calcite-switch-switched-hover-track-background: var(--calcite-ui-brand);
-  --calcite-switch-switched-hover-track-border: var(--calcite-ui-brand);
-  --calcite-switch-switched-hover-handle-border: var(--calcite-ui-brand-hover);
-}
-
 // sizes
 :host([scale="s"]) {
-  --calcite-switch-track-width: 28px;
-  --calcite-switch-track-height: 16px;
-  --calcite-switch-handle-size: 14px;
+  .track {
+    @apply w-6 h-3;
+  }
+  .handle {
+    @apply w-2 h-2;
+  }
 }
 
 :host([scale="m"]) {
-  --calcite-switch-track-width: 36px;
-  --calcite-switch-track-height: 20px;
-  --calcite-switch-handle-size: 18px;
+  .track {
+    @apply w-8 h-4;
+  }
+  .handle {
+    @apply w-3 h-3;
+  }
 }
 
 :host([scale="l"]) {
-  --calcite-switch-track-width: 44px;
-  --calcite-switch-track-height: 24px;
-  --calcite-switch-handle-size: 22px;
-}
-
-::slotted(input) {
-  display: none;
+  .track {
+    @apply w-12 h-6;
+  }
+  .handle {
+    @apply w-5 h-5;
+  }
 }
 
 :host {
-  display: inline-block;
-  position: relative;
-  width: auto;
-  cursor: pointer;
-  user-select: none;
-  vertical-align: middle;
+  @apply inline-block 
+    relative 
+    w-auto 
+    cursor-pointer 
+    select-none 
+    align-middle;
   tap-highlight-color: transparent;
 }
 
 :host([disabled]) {
-  opacity: var(--calcite-ui-opacity-disabled);
-  pointer-events: none;
-  cursor: default;
+  @apply opacity-disabled pointer-events-none cursor-default;
 }
 // focus styles
 :host {
-  @include focus-style-base();
-  width: auto;
+  @apply focus-base w-auto;
 }
 
 :host(:focus) {
-  @include focus-style-outset();
+  @apply focus-outset;
 }
 
 .track {
-  position: relative;
-  display: inline-block;
-  vertical-align: top;
-  width: var(--calcite-switch-track-width);
-  height: var(--calcite-switch-track-height);
-  background-color: var(--calcite-ui-foreground-2);
-  border-radius: 30px;
-  border: 1px solid var(--calcite-ui-border-2);
-  pointer-events: none;
-  transition: all $transition;
+  @apply relative 
+    inline-block 
+    align-top 
+    bg-foreground-2 
+    border 
+    border-solid 
+    border-color-2 
+    box-border
+    pointer-events-none
+    transition-all
+    duration-150
+    ease-in-out
+    rounded-full;
 }
 
 .handle {
-  position: absolute;
-  display: block;
-  width: var(--calcite-switch-handle-size);
-  height: var(--calcite-switch-handle-size);
+  @apply absolute 
+    block 
+    right-auto 
+    bg-foreground-1 
+    border-2 
+    border-solid 
+    border-color-input
+    transition-all
+    duration-150
+    ease-in-out
+    rounded-full
+    pointer-events-none;
   top: -1px;
   left: -1px;
-  right: auto;
-  background-color: var(--calcite-ui-foreground-1);
-  border-radius: 30px;
-  border: 2px solid var(--calcite-ui-border-input);
-  pointer-events: none;
-  transition: all $transition;
 }
 
 :host(:hover),
 :host(:focus) {
   .handle {
-    border-color: var(--calcite-switch-hover-handle-border);
-    box-shadow: inset 0 0 0 1px var(--calcite-switch-hover-handle-border);
-    right: auto;
+    @apply border-color-brand shadow-outline-active;
+    @apply right-auto;
   }
 }
 
 :host([switched]) {
   .track {
-    background-color: var(--calcite-switch-switched-track-background);
-    border-color: var(--calcite-switch-switched-track-border);
+    @apply bg-brand border-color-brand;
   }
   .handle {
+    @apply left-auto border-color-brand;
     right: -1px;
-    left: auto;
-    border-color: var(--calcite-switch-switched-handle-border);
   }
 }
 
 :host([switched]:hover) {
   .track {
-    background-color: var(--calcite-switch-switched-hover-track-background);
-    border-color: var(--calcite-switch-switched-hover-track-border);
+    @apply bg-brand border-color-brand;
   }
   .handle {
-    border-color: var(--calcite-switch-switched-hover-handle-border);
-    box-shadow: inset 0 0 0 1px var(--calcite-switch-switched-hover-handle-border);
+    @apply border-color-brand shadow-outline-active;
   }
 }
 
 // rtl
-:host([dir="rtl"]) {
-  margin-right: 0;
-  margin-left: 0.5em;
+.calcite--rtl {
+  @apply mr-0 ml-2;
   & .handle {
-    left: auto;
+    @apply left-auto;
     right: -1px;
   }
 }
 
-:host([dir="rtl"][switched]) .handle {
-  right: auto;
-  left: -1px;
+:host([switched]) {
+  .calcite--rtl {
+    & .handle {
+      @apply right-auto;
+      left: -1px;
+    }
+  }
 }
-
-:host([dir="rtl"][switched]:active) .handle,
-:host([dir="rtl"][switched]:focus) .handle {
-  right: auto;
-  left: -1px;
+:host([switched]:active) {
+  .calcite--rtl {
+    & .handle {
+      @apply right-auto;
+      left: -1px;
+    }
+  }
+}
+:host([switched]:focus) {
+  .calcite--rtl {
+    & .handle {
+      @apply right-auto;
+      left: -1px;
+    }
+  }
 }

@@ -275,6 +275,16 @@ export class CalciteColorPicker {
 
   @State() savedColors: string[] = [];
 
+  @State() colorFieldScopeTop: number;
+
+  @State() colorFieldScopeLeft: number;
+
+  @State() scopeOrientation: "vertical" | "horizontal";
+
+  @State() hueScopeLeft: number;
+
+  @State() hueScopeTop: number;
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -293,6 +303,46 @@ export class CalciteColorPicker {
     ) as ColorMode;
 
     this.updateChannelsFromColor(this.color);
+  };
+
+  private handleColorFieldScopeKeyDown = (event: KeyboardEvent): void => {
+    const key = getKey(event.key);
+    const arrowKeyToXYOffset = {
+      ArrowUp: { x: 0, y: -10 },
+      ArrowRight: { x: 10, y: 0 },
+      ArrowDown: { x: 0, y: 10 },
+      ArrowLeft: { x: -10, y: 0 }
+    };
+
+    if (Object.keys(arrowKeyToXYOffset).includes(key)) {
+      event.preventDefault();
+      this.captureColor(
+        this.colorFieldScopeLeft + arrowKeyToXYOffset[key].x || 0,
+        this.colorFieldScopeTop + arrowKeyToXYOffset[key].y || 0
+      );
+      this.scopeOrientation = key === "ArrowDown" || key === "ArrowUp" ? "vertical" : "horizontal";
+      return;
+    }
+  };
+
+  private handleHueScopeKeyDown = (event: KeyboardEvent): void => {
+    const modifier = event.shiftKey ? 10 : 1;
+    const key = getKey(event.key);
+    const arrowKeyToXOffset = {
+      ArrowUp: 1,
+      ArrowRight: 1,
+      ArrowDown: -1,
+      ArrowLeft: -1
+    };
+
+    if (Object.keys(arrowKeyToXOffset).includes(key)) {
+      event.preventDefault();
+      const delta = arrowKeyToXOffset[key] * modifier;
+      const hue = this.baseColorFieldColor?.hue();
+      const color = hue ? this.baseColorFieldColor.hue(hue + delta) : Color({ h: 0, s: 0, v: 100 });
+      this.internalColorSet(color, false);
+      return;
+    }
   };
 
   private handleHexInputChange = (event: Event): void => {
@@ -462,22 +512,59 @@ export class CalciteColorPicker {
     } = this;
     const selectedColorInHex = color ? color.hex() : null;
     const hexInputScale = scale !== "s" ? "m" : scale;
-    const { colorFieldAndSliderInteractive } = this;
+    const {
+      colorFieldAndSliderInteractive,
+      colorFieldScopeTop,
+      colorFieldScopeLeft,
+      hueScopeLeft,
+      hueScopeTop,
+      scopeOrientation,
+      dimensions: {
+        colorField: { height: colorFieldHeight, width: colorFieldWidth },
+        slider: { height: sliderHeight }
+      }
+    } = this;
+    const hueTop = hueScopeTop || sliderHeight / 2 + colorFieldHeight;
+    const hueLeft = hueScopeLeft || (colorFieldWidth * DEFAULT_COLOR.hue()) / HSV_LIMITS.h;
     const elementDir = getElementDir(el);
     const noColor = color === null;
-
+    const vertical = scopeOrientation === "vertical";
     return (
       <div class={CSS.container}>
-        <canvas
-          class={{
-            [CSS.colorFieldAndSlider]: true,
-            [CSS.colorFieldAndSliderInteractive]: colorFieldAndSliderInteractive
-          }}
-          onMouseEnter={this.handleColorFieldAndSliderMouseEnterOrMove}
-          onMouseLeave={this.handleColorFieldAndSliderMouseLeave}
-          onMouseMove={this.handleColorFieldAndSliderMouseEnterOrMove}
-          ref={this.initColorFieldAndSlider}
-        />
+        <div class={CSS.colorFieldAndSliderWrap}>
+          <canvas
+            class={{
+              [CSS.colorFieldAndSlider]: true,
+              [CSS.colorFieldAndSliderInteractive]: colorFieldAndSliderInteractive
+            }}
+            onMouseEnter={this.handleColorFieldAndSliderMouseEnterOrMove}
+            onMouseLeave={this.handleColorFieldAndSliderMouseLeave}
+            onMouseMove={this.handleColorFieldAndSliderMouseEnterOrMove}
+            ref={this.initColorFieldAndSlider}
+          />
+          <div
+            aria-label={vertical ? this.intlValue : this.intlSaturation}
+            aria-valuemax={vertical ? HSV_LIMITS.v : HSV_LIMITS.s}
+            aria-valuemin="0"
+            aria-valuenow={(vertical ? color?.saturationv() : color?.value()) || "0"}
+            class={CSS.scope}
+            onKeyDown={this.handleColorFieldScopeKeyDown}
+            role="slider"
+            style={{ top: `${colorFieldScopeTop || 0}px`, left: `${colorFieldScopeLeft || 0}px` }}
+            tabindex="0"
+          />
+          <div
+            aria-label={this.intlHue}
+            aria-valuemax={HSV_LIMITS.h}
+            aria-valuemin="0"
+            aria-valuenow={color?.round().hue() || DEFAULT_COLOR.round().hue()}
+            class={CSS.scope}
+            onKeyDown={this.handleHueScopeKeyDown}
+            role="slider"
+            style={{ top: `${hueTop}px`, left: `${hueLeft}px` }}
+            tabindex="0"
+          />
+        </div>
         {hideHex && hideChannels ? null : (
           <div class={{ [CSS.controlSection]: true, [CSS.section]: true }}>
             {hideHex ? null : (
@@ -800,6 +887,18 @@ export class CalciteColorPicker {
     context.scale(devicePixelRatio, devicePixelRatio);
   }
 
+  private captureColor = (x: number, y: number): void => {
+    const {
+      dimensions: {
+        colorField: { height, width }
+      }
+    } = this;
+    const saturation = Math.round((HSV_LIMITS.s / width) * x);
+    const value = Math.round((HSV_LIMITS.v / height) * (height - y));
+
+    this.internalColorSet(this.baseColorFieldColor.hsv().saturationv(saturation).value(value));
+  };
+
   private initColorFieldAndSlider = (canvas: HTMLCanvasElement): void => {
     this.fieldAndSliderRenderingContext = canvas.getContext("2d");
     this.setCanvasContextSize(canvas, {
@@ -831,24 +930,12 @@ export class CalciteColorPicker {
       return "none";
     };
 
-    const captureColor = (x: number, y: number): void => {
-      const {
-        dimensions: {
-          colorField: { height, width }
-        }
-      } = this;
-      const saturation = Math.round((HSV_LIMITS.s / width) * x);
-      const value = Math.round((HSV_LIMITS.v / height) * (height - y));
-
-      this.internalColorSet(this.baseColorFieldColor.hsv().saturationv(saturation).value(value));
-    };
-
     canvas.addEventListener("mousedown", ({ offsetX, offsetY }) => {
       const region = yWithin(offsetY);
 
       if (region === "color-field") {
         this.hueThumbState = "drag";
-        captureColor(offsetX, offsetY);
+        this.captureColor(offsetX, offsetY);
       } else if (region === "slider") {
         this.sliderThumbState = "drag";
         captureSliderColor(offsetX);
@@ -906,7 +993,7 @@ export class CalciteColorPicker {
           return;
         }
 
-        captureColor(offsetX, offsetY);
+        this.captureColor(offsetX, offsetY);
       } else if (region === "slider") {
         const {
           dimensions: {
@@ -995,6 +1082,11 @@ export class CalciteColorPicker {
     const x = hsvColor.saturationv() / (HSV_LIMITS.s / width);
     const y = height - hsvColor.value() / (HSV_LIMITS.v / height);
 
+    requestAnimationFrame(() => {
+      this.colorFieldScopeLeft = x;
+      this.colorFieldScopeTop = y;
+    });
+
     this.drawThumb(this.fieldAndSliderRenderingContext, radius, x, y, hsvColor, this.hueThumbState);
   }
 
@@ -1043,6 +1135,11 @@ export class CalciteColorPicker {
 
     const x = hsvColor.hue() / (360 / width);
     const y = height / 2 + colorFieldHeight;
+
+    requestAnimationFrame(() => {
+      this.hueScopeLeft = x;
+      this.hueScopeTop = y;
+    });
 
     this.drawThumb(
       this.fieldAndSliderRenderingContext,

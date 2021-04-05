@@ -48,9 +48,11 @@
 
   <calcite-popover label="dark theme popover" theme="dark" reference-element="popover-button-five" placement="bottom" id="popover-five"
      close-button>
-    <img slot="image" src="https://placem.at/places?w=200&txt=0" />
     <div style="padding:12px 16px;">Here kitty kitty!
     </div>
+  </calcite-popover>
+  <calcite-popover label="dark theme popover" theme="dark" dir="rtl" reference-element="popover-button-rtl" placement="left" id="popover-rtl" close-button>
+    <div style="padding:12px 16px;">مرحبا بالعالم!</div>
   </calcite-popover>
 
   <calcite-popover label="dark theme popover" theme="dark" reference-element="popover-button-six" placement="top" id="popover-six"
@@ -115,7 +117,7 @@
     <li>
       <calcite-button id="popover-button-two" icon="plus">
         Clickable popover</calcite-button>
-
+    </li>
     <li>
       <calcite-button id="popover-button-four" icon="plus">
         With close button</calcite-button>
@@ -170,12 +172,11 @@
     </p>
     <calcite-popover label="top start popover" placement="top-start" reference-element="popover-button"
     id="popover" close-button>
-    <img slot="image" src="https://placem.at/places?w=200&txt=0" />
     <div style="padding:12px 16px;">Here kitty kitty!
     </div>
   </calcite-popover>
     <calcite-button id="popover-button" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
-      Popover with picture</calcite-button>
+      Popover 🐱</calcite-button>
     <p>
       Nec, dictum egestas odio in integer dictum eros. Euismod vitae vestibulum tempor sit adipiscing sed dolor
       habitant per congue sit condimentum? Nisi nisl ornare ac semper imperdiet eu nascetur quisque ullamcorper a
@@ -229,8 +230,13 @@
     </li>
     <li>
       <calcite-button id="popover-button-five" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
-        Popover with picture</calcite-button>
+        Popover 🐱</calcite-button>
     </li>
+    <div dir="rtl">
+      <calcite-button id="popover-button-rtl" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
+        Popover RTL
+      </calcite-button>
+    </div>
   </ul>
 
 </calcite-popover-manager>

@@ -46,7 +46,7 @@
   }
 
   .text-container {
-    @apply leading-none
+    @apply leading-4
       truncate
       m-0
       w-0
@@ -74,6 +74,18 @@
 
 :host([scale="l"]) .button {
   @apply p-5 text--1h;
+}
+
+:host([alignment="center"]) .button {
+  @apply justify-center w-full;
+}
+
+:host([alignment="end"]) .button {
+  @apply justify-end;
+}
+
+:host([alignment="end"]) .button .text-container--visible {
+  @apply flex-initial;
 }
 
 // Compact
