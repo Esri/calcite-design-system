@@ -1,12 +1,12 @@
 {
-  "name": "@esri/calcite-tailwind",
+  "name": "@esri/calcite-styles",
   "version": "0.1.0",
   "description": "Shared Tailwind CSS Configuration for Esri's Calcite Design System",
-  "homepage": "https://github.com/Esri/calcite-tailwind",
+  "homepage": "https://github.com/Esri/calcite-styles",
   "main": "tailwind.config.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/Esri/calcite-tailwind.git"
+    "url": "git://github.com/Esri/calcite-styles.git"
   },
   "author": {
     "name": "Esri"
@@ -27,7 +27,7 @@
   ],
   "license": "SEE LICENSE IN README.md",
   "bugs": {
-    "url": "https://github.com/esri/calcite-tailwind/issues"
+    "url": "https://github.com/esri/calcite-styles/issues"
   },
   "files": [
     "dist/"
