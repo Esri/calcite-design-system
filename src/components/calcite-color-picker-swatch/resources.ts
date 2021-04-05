@@ -4,6 +4,6 @@ export const CSS = {
 };
 
 export const COLORS = {
-  emptyFill: "rgba(0, 0, 0, 0)",
-  activeBorder: "rgba(0, 0, 0, 0.15)"
+  borderLight: "rgba(0, 0, 0, 0.15)",
+  borderDark: "rgba(255, 255, 255, 0.15)"
 };

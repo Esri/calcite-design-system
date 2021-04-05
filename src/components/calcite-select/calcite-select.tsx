@@ -162,7 +162,7 @@ export class CalciteSelect {
       return;
     }
 
-    this.updateNativeElements(optionOrGroup, nativeEl);
+    this.updateNativeElement(optionOrGroup, nativeEl);
 
     if (isOption(optionOrGroup) && optionOrGroup.selected) {
       this.deselectAllExcept(optionOrGroup);
@@ -186,7 +186,7 @@ export class CalciteSelect {
   //
   //--------------------------------------------------------------------------
 
-  private updateNativeElements(
+  private updateNativeElement(
     optionOrGroup: CalciteOptionOrGroup,
     nativeOptionOrGroup: NativeOptionOrGroup
   ): void {
@@ -197,6 +197,10 @@ export class CalciteSelect {
       const option = nativeOptionOrGroup as HTMLOptionElement;
       option.selected = optionOrGroup.selected;
       option.value = optionOrGroup.value;
+
+      // need to set innerText for mobile
+      // see https://stackoverflow.com/questions/35021620/ios-safari-not-showing-all-options-for-select-menu/41749701
+      option.innerText = optionOrGroup.label;
     }
   }
 
@@ -248,12 +252,7 @@ export class CalciteSelect {
   ): NativeOptionOrGroup {
     if (isOption(optionOrGroup)) {
       const option = document.createElement("option");
-
-      option.disabled = optionOrGroup.disabled;
-      option.label = optionOrGroup.label;
-      option.selected = optionOrGroup.selected;
-      option.value = optionOrGroup.value;
-
+      this.updateNativeElement(optionOrGroup, option);
       this.componentToNativeEl.set(optionOrGroup, option);
 
       return option;
@@ -261,9 +260,7 @@ export class CalciteSelect {
 
     if (isOptionGroup(optionOrGroup)) {
       const group = document.createElement("optgroup");
-
-      group.disabled = optionOrGroup.disabled;
-      group.label = optionOrGroup.label;
+      this.updateNativeElement(optionOrGroup, group);
 
       Array.from(optionOrGroup.children as HTMLCollectionOf<HTMLCalciteOptionElement>).forEach(
         (option) => {

@@ -3,7 +3,8 @@ export const CSS = {
 };
 
 export const SLOTS = {
-  bottomActions: "bottom-actions"
+  bottomActions: "bottom-actions",
+  expandTooltip: "expand-tooltip"
 };
 
 export const TEXT = {

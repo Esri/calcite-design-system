@@ -17,7 +17,7 @@ $popper-default-z-index: 900;
     transition-property: transform, visibility, opacity;
     opacity: 0;
     box-shadow: $shadow-2;
-    border-radius: var(--calcite-border-radius);
+    @apply rounded;
   }
 }
 
@@ -111,7 +111,7 @@ $pointer_offset: -$pointer_size/2;
     position: absolute;
     width: $pointer_size;
     height: $pointer_size;
-    z-index: 1;
+    z-index: -1;
   }
 
   .arrow::before {

@@ -1,6 +1,11 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, renders } from "../../tests/commonTests";
+import { placeholderImage } from "../../tests/utils";
 import { CSS } from "./resources";
+const placeholder = placeholderImage({
+  width: 350,
+  height: 150
+});
 
 describe("calcite-card", () => {
   it("renders", async () => renders("calcite-card"));
@@ -10,14 +15,14 @@ describe("calcite-card", () => {
   it("is accessible when selectable", async () =>
     accessible(`
       <calcite-card selectable>
-        <img slot="thumbnail" src="https://via.placeholder.com/350x150.png" alt="Test image" />
+        <img slot="thumbnail" src="${placeholder}" alt="Test image" />
       </calcite-card>`));
 
   it("renders with default props if none are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-card>
-        <img slot="thumbnail" src="https://via.placeholder.com/350x150.png" alt="Test image" />
+        <img slot="thumbnail" src="${placeholder}" alt="Test image" />
       </calcite-card>`);
 
     const element = await page.find("calcite-card");
@@ -31,7 +36,7 @@ describe("calcite-card", () => {
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-card loading selectable selected disabled>
-        <img slot="thumbnail" src="https://via.placeholder.com/350x150.png" alt="Test image" />
+        <img slot="thumbnail" src="${placeholder}" alt="Test image" />
       </calcite-card>`);
 
     const element = await page.find("calcite-card");
@@ -45,7 +50,7 @@ describe("calcite-card", () => {
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-card>
-        <img slot="thumbnail" src="https://via.placeholder.com/350x150.png" alt="Test image" />
+        <img slot="thumbnail" src="${placeholder}" alt="Test image" />
       </calcite-card>
     `);
 
@@ -58,7 +63,7 @@ describe("calcite-card", () => {
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-card selectable>
-      <img slot="thumbnail" src="https://via.placeholder.com/350x150.png" alt="Test image" />
+      <img slot="thumbnail" src="${placeholder}" alt="Test image" />
       </calcite-card>
     `);
 

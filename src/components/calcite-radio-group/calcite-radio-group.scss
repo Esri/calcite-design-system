@@ -1,7 +1,20 @@
+:host([scale="s"]) {
+  min-height: theme("spacing.6");
+}
+
+:host([scale="m"]) {
+  min-height: theme("spacing.8");
+}
+
+:host([scale="l"]) {
+  min-height: theme("spacing.12");
+}
+
 :host {
-  border: 1px solid;
-  @apply flex border-color-input bg-foreground-1;
+  @apply flex bg-foreground-1;
   width: fit-content;
+  outline: 1px solid var(--calcite-ui-border-input);
+  outline-offset: -1px;
 }
 
 :host([layout="vertical"]) {
@@ -12,6 +25,7 @@
 
 :host([width="full"]) {
   @apply w-full;
+  min-width: fit-content;
   ::slotted(calcite-radio-group-item) {
     @apply flex-auto;
   }

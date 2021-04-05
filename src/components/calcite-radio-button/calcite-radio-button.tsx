@@ -14,6 +14,7 @@ import {
 import { guid } from "../../utils/guid";
 import { focusElement, getElementDir } from "../../utils/dom";
 import { Scale, Theme } from "../interfaces";
+import { hiddenInputStyle } from "../../utils/form";
 
 @Component({
   tag: "calcite-radio-button",
@@ -280,12 +281,7 @@ export class CalciteRadioButton {
   };
 
   private hideInputEl = (): void => {
-    this.inputEl.style.setProperty("margin", "0", "important");
-    this.inputEl.style.setProperty("opacity", "0", "important");
-    this.inputEl.style.setProperty("padding", "0", "important");
-    this.inputEl.style.setProperty("position", "fixed", "important");
-    this.inputEl.style.setProperty("transform", "none", "important");
-    this.inputEl.style.setProperty("z-index", "-1", "important");
+    this.inputEl.style.cssText = hiddenInputStyle;
   };
 
   private onInputBlur = (): void => {

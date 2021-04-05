@@ -1,139 +1,134 @@
 .header {
-  display: flex;
-  justify-content: space-between;
-  padding: 0 3px;
+  @apply flex justify-between;
+  @apply py-0 px-1;
 }
 
 :host([scale="s"]) {
   .text {
-    font-size: 14px;
+    @apply text--1h;
   }
   .chevron {
-    height: 38px;
+    @apply h-10;
   }
 }
 
 :host([scale="m"]) {
   .text {
-    font-size: 16px;
+    @apply text-0h;
   }
   .chevron {
-    height: 48px;
+    @apply h-12;
   }
 }
 
 :host([scale="l"]) {
   .text {
-    font-size: 18px;
+    @apply text-1h;
   }
   .chevron {
-    height: 64px;
+    @apply h-16;
   }
 }
 
 .chevron {
-  color: var(--calcite-ui-text-2);
-  flex-grow: 0;
+  @apply text-color-2
+    flex-grow-0
+    box-content
+    outline-none
+    px-1
+    -mx-1
+    border-none
+    flex
+    items-center
+    justify-center
+    bg-foreground-1
+    cursor-pointer
+    transition-all
+    duration-150
+    ease-in-out
+    focus-base;
   width: calc(100% / 7);
-  box-sizing: content-box;
-  outline: none;
-  padding: 0 4px;
-  margin: 0 -3px;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--calcite-ui-foreground-1);
-  cursor: pointer;
-  transition: all 0.15s ease-in-out;
-
-  @include focus-style-base();
 
   &:focus {
-    @include focus-style-inset();
+    @apply focus-inset;
   }
 
   &:hover,
   &:focus {
-    fill: var(--calcite-ui-text-1);
-    background-color: var(--calcite-ui-foreground-2);
+    @apply bg-foreground-2 fill-color-1;
   }
 
   &:active {
-    background-color: var(--calcite-ui-foreground-3);
+    @apply bg-foreground-3;
   }
 
   &[aria-disabled="true"] {
-    pointer-events: none;
-    opacity: 0;
+    @apply pointer-events-none opacity-0;
   }
 }
 
 .text {
-  flex: 1 1 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-  line-height: 1;
-  margin: auto 0;
-  text-align: center;
+  @apply flex-auto
+    items-center
+    justify-center
+    leading-none
+    my-auto
+    text-center;
 }
 
 .text--reverse {
-  flex-direction: row-reverse;
+  @apply flex-row-reverse;
 }
 
 .month,
 .year,
 .suffix {
-  color: var(--calcite-ui-text-1);
-  background: var(--calcite-ui-foreground-1);
+  @apply text-color-1
+    bg-foreground-1
+    font-medium
+    leading-tight
+    mx-1
+    inline-block;
   font-size: inherit;
-  font-weight: 500;
-  line-height: 1.25;
-  margin: 0 4px;
-  display: inline-block;
 }
 
 .year {
-  font-family: inherit;
-  text-align: center;
-  border: none;
-  width: 3em;
-  padding: 0;
-  background-color: transparent;
-  position: relative;
+  @apply font-inherit
+    text-center
+    border-none
+    w-12
+    bg-transparent
+    relative
+    focus-base;
   z-index: 2;
-  @include focus-style-base();
   &:hover {
-    transition: outline-color 100ms ease-in-out;
+    @apply duration-100 ease-in-out;
+    transition-property: outline-color;
     outline: 2px solid var(--calcite-ui-border-2);
     outline-offset: 2px;
   }
   &:focus {
-    @include focus-style-outset();
+    @apply focus-outset;
   }
 }
 
 .year--suffix {
-  width: 4rem;
-  text-align: left;
+  @apply w-16 text-left;
 }
 
 .year-wrap {
-  position: relative;
+  @apply relative;
 }
 
 .suffix {
-  position: absolute;
-  width: 4rem;
-  white-space: nowrap;
-  text-align: left;
-  top: 0;
-  left: 0;
+  @apply absolute
+    w-16
+    whitespace-no-wrap
+    text-left
+    top-0
+    left-0;
 }
 
 .suffix__invisible {
-  visibility: hidden;
+  @apply invisible;
 }

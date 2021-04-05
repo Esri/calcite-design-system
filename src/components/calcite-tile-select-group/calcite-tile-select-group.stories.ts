@@ -2,9 +2,14 @@ import { select } from "@storybook/addon-knobs";
 import { darkBackground } from "../../../.storybook/utils";
 import { boolean } from "../../../.storybook/helpers";
 import { html } from "../../tests/utils";
+import readme from "./readme.md";
 
 export default {
-  title: "Components/Tiles/Tile Select Group"
+  title: "Components/Tiles/Tile Select Group",
+
+  parameters: {
+    notes: readme
+  }
 };
 
 export const Light = (): string => html`

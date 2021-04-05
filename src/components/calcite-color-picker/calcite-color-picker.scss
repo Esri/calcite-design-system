@@ -89,9 +89,34 @@ $gap--large: 12px;
 }
 
 .container {
+  @apply bg-foreground-1;
   display: inline-block;
   border: 1px solid var(--calcite-ui-border-1);
-  background-color: var(--calcite-ui-foreground-1);
+}
+
+.color-field-and-slider-wrap {
+  position: relative;
+}
+
+.scope {
+  @apply text--1
+    p-0
+    mb-0
+    mr-0
+    focus-base
+    w-2
+    h-2
+    absolute
+    pointer-events-none;
+
+  margin-top: -0.25rem;
+  margin-left: -0.25rem;
+  outline-offset: 10px;
+
+  &:focus {
+    @apply focus-outset;
+    outline-offset: 12px;
+  }
 }
 
 .color-field-and-slider {

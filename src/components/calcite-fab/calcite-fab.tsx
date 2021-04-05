@@ -37,7 +37,7 @@ export class CalciteFab {
   @Prop() icon?: string = ICONS.plus;
 
   /**
-   * Label of the FAB, exposed on hover. If no label is provided, the label inherits what's provided for the `text` prop.
+   * Label of the FAB, exposed on hover when textEnabled is false. If no label is provided, the label inherits what's provided for the `text` prop.
    */
   @Prop() label?: string;
 
@@ -107,8 +107,7 @@ export class CalciteFab {
       label,
       text
     } = this;
-    const titleText = !textEnabled && text;
-    const title = label || titleText;
+    const title = !textEnabled ? label || text || null : null;
     const dir = getElementDir(el);
 
     return (

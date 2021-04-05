@@ -1,64 +1,65 @@
-$spacing: $baseline/2;
-
 :host {
-  background-color: var(--calcite-ui-foreground-1);
-  box-sizing: border-box;
-  color: var(--calcite-ui-text-3);
-  display: inline-block;
-  transition: $transition;
-  user-select: none;
+  @apply bg-foreground-1
+    box-border
+    text-color-3
+    inline-block
+    duration-150 
+    ease-in-out
+    select-none;
 }
 :host(:not([embed])) {
+  @apply p-3;
   box-shadow: 0 0 0 1px var(--calcite-ui-border-2);
-  max-width: 300px;
-  padding: $spacing;
+  max-width: 20rem;
 }
 :host(:not([embed])[href]:hover) {
+  @apply cursor-pointer;
   box-shadow: 0 0 0 2px var(--calcite-ui-brand);
-  cursor: pointer;
 }
 :host(:not([embed])[href]:active) {
   box-shadow: 0 0 0 3px var(--calcite-ui-brand);
 }
 :host([icon][heading]:not([description]):not([embed])) {
-  padding: unset;
+  @apply p-0;
 }
 .tile {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-gap: $spacing;
-  pointer-events: none;
+  @apply grid 
+    grid-cols-1 
+    gap-2 
+    pointer-events-none;
 }
 .heading {
-  @include font-size(0);
-  color: var(--calcite-ui-text-2);
-  transition: $transition;
-  font-weight: 500;
-  pointer-events: none;
+  @apply text--1-wrap
+    text-color-2
+    duration-150
+    ease-in-out
+    font-medium
+    pointer-events-none;
 }
 .large-visual {
-  justify-items: center;
-  min-height: 200px;
+  @apply items-center;
+  min-height: theme("spacing.48");
   .icon {
-    align-self: self-end;
+    @apply self-end;
   }
   .heading {
-    align-self: center;
+    @apply self-center;
   }
 }
 .description {
-  @include font-size(-1);
-  color: var(--calcite-ui-text-3);
-  transition: $transition;
-  pointer-events: none;
+  @apply text--2-wrap
+    text-color-3
+    duration-150
+    ease-in-out
+    pointer-events-none;
 }
 
 :host(:hover),
 :host([active]) {
   .heading {
-    color: var(--calcite-ui-text-1);
+    @apply text-color-1;
   }
   .description {
-    color: var(--calcite-ui-text-2);
+    @apply text-color-2;
   }
 }

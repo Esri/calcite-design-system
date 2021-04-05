@@ -401,11 +401,14 @@ Components should require as a few text translations as possible. In general, co
 
 If you component involves formatting numbers or dates use the [`Intl` APIs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) for formatting the display of numbers and dates in your component.
 
-To add RTL support to your components you should use the internal `getElementDir` helper to apply the `dir` attribute to your component. This means that your components `dir` attribute will always match the documents `dir`.
+To add RTL support to your components you should use the internal `getElementDir` helper to apply the `CSS_UTILITY.rtl` class to your component.
+
+If the node is in shadow DOM, you may add a `dir` attribute to it instead. However, if **DO NOT** add the `dir` attribute to the HOST or a light DOM node.
 
 ```tsx
 import { Component, Host, Element, h} from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
+import { CSS_UTILITY } from "../../utils/resources";
 
 @Component({
   tag: "calcite-component",
@@ -421,8 +424,10 @@ export class CalciteComponent {
     const dir = getElementDir(this.el);
 
     return (
-      <Host dir={dir}>
-        <!-- The rest of your component -->
+      <Host>
+        <div class={{ [CSS_UTILITY.rtl]: dir === "rtl" }}>
+          <!-- The rest of your component -->
+        </div>
       </Host>
     );
   }
@@ -437,7 +442,7 @@ You can then implement direction specific CSS with CSS variables:
   --calcite-tabs-tab-margin-end: 0;
 }
 
-:host([dir="rtl"]) {
+.calcite--rtl {
   --calcite-tabs-tab-margin-start: 0;
   --calcite-tabs-tab-margin-end: 1.25rem;
 }
@@ -447,7 +452,7 @@ Your component and its child components can then use `var(--calcite-tabs-tab-mar
 
 ### Translated strings
 
-In future it will likely become necessary to provide sting translations for components. An example would be the `aria-label` for the `<calcite-modal>` close button. Initial research looks promising and we could likely implement one of these approaches and set a `lang` for each component similar to how we set `dir`.
+In future it will likely become necessary to provide sting translations for components. An example would be the `aria-label` for the `<calcite-modal>` close button. Initial research looks promising and we could likely implement one of these approaches and set a `lang` for each component.
 
 - https://medium.com/stencil-tricks/implementing-internationalisation-i18n-with-stencil-5e6559554117 and https://codesandbox.io/s/43pmx55vo9
 - https://github.com/ionic-team/ionic-stencil-conference-app/issues/69

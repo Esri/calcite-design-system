@@ -1,16 +1,51 @@
 :host {
   @extend %component-host;
-  @extend %component-spacing;
-  display: flex;
-  flex-direction: column;
-  padding: var(--calcite-spacing-half) 0;
+
+  @apply flex
+  flex-col
+  py-2
+  px-0;
+
+  --columns: 3;
+}
+
+:host([columns="1"]) {
+  --columns: 1;
+}
+:host([columns="2"]) {
+  --columns: 2;
+}
+:host([columns="3"]) {
+  --columns: 3;
+}
+:host([columns="4"]) {
+  --columns: 4;
+}
+:host([columns="5"]) {
+  --columns: 5;
+}
+:host([columns="6"]) {
+  --columns: 6;
 }
 
 :host(:first-child) {
-  padding-top: 0;
+  @apply pt-0;
+}
+
+:host([layout="horizontal"]) {
+  @apply flex-row;
+}
+
+:host([layout="grid"]) {
+  @apply bg-background
+  grid
+  gap-px
+  place-content-stretch
+  p-px;
+
+  grid-template-columns: repeat(var(--columns), auto);
 }
 
 ::slotted(calcite-action) {
-  display: flex;
-  width: 100%;
+  @apply flex w-full;
 }
