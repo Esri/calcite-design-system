@@ -1,6 +1,6 @@
 :host {
   @extend %component-host;
-  @apply flex relative;
+  @apply flex flex-auto relative;
 
   --calcite-min-header-height: calc(var(--calcite-icon-size) * 3);
   --calcite-panel-max-height: unset;
@@ -13,10 +13,10 @@
 
 .container {
   @apply flex
+    flex-auto
     flex-col
     items-stretch
     bg-background
-    h-full
     w-full
     p-0
     m-0;
