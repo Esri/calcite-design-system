@@ -1081,4 +1081,52 @@ describe("calcite-color-picker", () => {
     await assertHiddenSection(["channels"]);
     await assertHiddenSection([]);
   });
+
+  describe("scope keyboard interaction", () => {
+    it("allows editing color field via keyboard", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-color-picker allow-empty value=""></calcite-color-picker>`
+      });
+
+      const picker = await page.find("calcite-color-picker");
+      const scope = await page.find(`calcite-color-picker >>> .${CSS.scope}`);
+
+      await scope.press("Tab");
+      expect(await picker.getProperty("value")).toBeFalsy();
+      await scope.press("ArrowDown");
+      expect(await picker.getProperty("value")).toBe("#ffffff");
+      await scope.press("ArrowDown");
+      expect(await picker.getProperty("value")).toBe("#ededed");
+      await scope.press("ArrowDown");
+      expect(await picker.getProperty("value")).toBe("#dbdbdb");
+      await scope.press("ArrowUp");
+      expect(await picker.getProperty("value")).toBe("#ededed");
+      await scope.press("ArrowRight");
+      expect(await picker.getProperty("value")).toBe("#e4eaed");
+      await scope.press("ArrowLeft");
+      expect(await picker.getProperty("value")).toBe("#ededed");
+    });
+    it("allows editing hue slider via keyboard", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-color-picker allow-empty value=""></calcite-color-picker>`
+      });
+
+      const picker = await page.find("calcite-color-picker");
+      const scopes = await page.findAll(`calcite-color-picker >>> .${CSS.scope}`);
+
+      await scopes[0].press("Tab");
+      await scopes[1].press("ArrowDown");
+      expect(await picker.getProperty("value")).toBe("#007ec2");
+      await scopes[1].press("ArrowRight");
+      expect(await picker.getProperty("value")).toBe("#007bc2");
+      await scopes[1].press("ArrowLeft");
+      expect(await picker.getProperty("value")).toBe("#007ec2");
+
+      await page.keyboard.press("Shift");
+      await scopes[1].press("ArrowDown");
+      expect(await picker.getProperty("value")).toBe("#0081c2");
+      await scopes[1].press("ArrowUp");
+      expect(await picker.getProperty("value")).toBe("#007ec2");
+    });
+  });
 });
