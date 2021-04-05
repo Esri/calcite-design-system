@@ -101,7 +101,7 @@ describe("calcite-action-menu", () => {
     expect(clickSpy).toHaveReceivedEventTimes(1);
   });
 
-  it("should focus on first action", async () =>
+  it("should focus on menu", async () =>
     focusable(
       html`
         <calcite-action-menu open>
@@ -111,14 +111,9 @@ describe("calcite-action-menu", () => {
         </calcite-action-menu>
       `,
       {
-        focusTargetSelector: "calcite-action"
+        shadowFocusTargetSelector: `.${CSS.menu}`
       }
     ));
-
-  it("should focus on menu", async () =>
-    focusable(html` <calcite-action-menu open><div>test</div></calcite-action-menu> `, {
-      shadowFocusTargetSelector: `.${CSS.menu}`
-    }));
 
   it("should focus on menu button", async () =>
     focusable(

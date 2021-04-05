@@ -211,14 +211,13 @@ export class CalciteAction {
     };
 
     return (
-      <Host>
+      <Host onClick={this.calciteActionClickHandler}>
         <button
           aria-busy={loading.toString()}
           aria-disabled={disabled.toString()}
           aria-label={ariaLabel}
           class={buttonClasses}
           disabled={disabled}
-          onClick={this.buttonClick}
           ref={(buttonEl): HTMLButtonElement => (this.buttonEl = buttonEl)}
         >
           {this.renderIconContainer()}
@@ -234,7 +233,7 @@ export class CalciteAction {
   //
   // --------------------------------------------------------------------------
 
-  buttonClick = (): void => {
+  calciteActionClickHandler = (): void => {
     if (!this.disabled) {
       this.calciteActionClick.emit();
     }

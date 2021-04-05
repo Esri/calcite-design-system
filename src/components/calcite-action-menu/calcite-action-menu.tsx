@@ -82,6 +82,7 @@ export class CalciteActionMenu {
 
   @Watch("open")
   openHandler(open: boolean): void {
+    this.activeMenuItemIndex = this.open ? 0 : -1;
     this.calciteActionMenuOpenChange.emit(open);
   }
 
@@ -151,7 +152,7 @@ export class CalciteActionMenu {
 
   @Method()
   async setFocus(): Promise<void> {
-    focusElement(this.open ? this.actionElements[0] || this.menuEl : this.menuButtonEl);
+    focusElement(this.open ? this.menuEl : this.menuButtonEl);
   }
 
   // --------------------------------------------------------------------------
@@ -284,15 +285,22 @@ export class CalciteActionMenu {
     actions?.forEach(this.updateAction);
   };
 
+  getAssignedElements(): HTMLElement[] {
+    return Array.from(this.el.querySelectorAll("slot"))
+      .map((slot) => slot.assignedElements({ flatten: true }) as HTMLElement[])
+      .reduce((ar, val) => ar.concat(val), []);
+  }
+
   getActions = (): void => {
     const { el } = this;
 
-    const assignedElements = el
-      .querySelector("slot")
-      ?.assignedElements({ flatten: true })
-      .filter((element) => element.tagName === "CALCITE-ACTION") as HTMLCalciteActionElement[];
+    const assignedActions = this.getAssignedElements().filter(
+      (element) => element.tagName === "CALCITE-ACTION"
+    ) as HTMLCalciteActionElement[];
 
-    const actionElements = assignedElements || Array.from(el.querySelectorAll("calcite-action"));
+    const actionElements = assignedActions.length
+      ? assignedActions
+      : Array.from(el.querySelectorAll("calcite-action"));
 
     this.updateActions(actionElements);
 
@@ -396,7 +404,6 @@ export class CalciteActionMenu {
 
   toggleOpen = (value = !this.open): void => {
     this.open = value;
-    this.activeMenuItemIndex = -1;
     clearTimeout(this.menuFocusTimeout);
 
     if (value) {
