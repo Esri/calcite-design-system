@@ -49,9 +49,20 @@ export const locales = [
   "zh-TW"
 ];
 
+export function delocalizeNumberString(stringNumber: string, locale: string): string {
+  if (stringNumber && locales.includes(locale)) {
+    return stringNumber
+      .replace(getGroupSeparator(locale), "")
+      .replace(getDecimalSeparator(locale), ".")
+      .replace(" ", "")
+      .trim();
+  }
+  return;
+}
+
 export function getGroupSeparator(locale: string): string {
   if (locales.includes(locale)) {
-    const formatter = Intl.NumberFormat(locale);
+    const formatter = new Intl.NumberFormat(locale);
     const parts = formatter.formatToParts(1234567.8);
     const value = parts.find((part) => part.type === "group").value;
     return value.trim().length === 0 ? " " : value;
@@ -61,7 +72,7 @@ export function getGroupSeparator(locale: string): string {
 
 export function getDecimalSeparator(locale: string): string {
   if (locales.includes(locale)) {
-    const formatter = Intl.NumberFormat(locale);
+    const formatter = new Intl.NumberFormat(locale);
     const parts = formatter.formatToParts(1234567.8);
     const value = parts.find((part) => part.type === "decimal").value;
     return value.trim().length === 0 ? " " : value;

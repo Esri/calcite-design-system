@@ -9,6 +9,7 @@ import {
   Listen,
   Method,
   Prop,
+  State,
   VNode,
   Watch
 } from "@stencil/core";
@@ -17,7 +18,7 @@ import { getKey } from "../../utils/key";
 import { INPUT_TYPE_ICONS } from "./calcite-input.resources";
 import { InputPlacement } from "./interfaces";
 import { Position } from "../interfaces";
-import { getDecimalSeparator, getGroupSeparator } from "../../utils/locale";
+import { getDecimalSeparator, getGroupSeparator, delocalizeNumberString } from "../../utils/locale";
 import { numberKeys } from "../../utils/number";
 
 /**
@@ -209,6 +210,16 @@ export class CalciteInput {
 
   //--------------------------------------------------------------------------
   //
+  //  State
+  //
+  //--------------------------------------------------------------------------
+
+  @State() editing = false;
+
+  @State() input: string;
+
+  //--------------------------------------------------------------------------
+  //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
@@ -296,6 +307,18 @@ export class CalciteInput {
     this.emitInputFromUserInteraction();
   };
 
+  private getDisplayValue(): string {
+    if (this.type === "number") {
+      if (this.editing) {
+        return this.input;
+      } else {
+        // TODO: implement util function to convert locale number without rounding
+        return parseFloat(this.value).toLocaleString(this.locale);
+      }
+    }
+    return this.value;
+  }
+
   private emitInputFromUserInteraction = () => {
     this.calciteInputInput.emit({
       element: this.childEl,
@@ -304,6 +327,14 @@ export class CalciteInput {
   };
 
   private inputBlurHandler = () => {
+    if (this.type === "number") {
+      this.editing = false;
+      const delocalizedNumberString = delocalizeNumberString(this.input, this.locale);
+      const delocalizedNumber = parseFloat(delocalizedNumberString);
+      if (!isNaN(delocalizedNumber)) {
+        this.value = delocalizedNumberString;
+      }
+    }
     this.calciteInputBlur.emit({
       element: this.childEl,
       value: this.value
@@ -321,34 +352,36 @@ export class CalciteInput {
   };
 
   private inputInputHandler = (e) => {
-    this.value = e.target.value;
+    if (this.type === "number") {
+      this.editing = true;
+      this.input = e.target.value;
+    } else {
+      this.value = e.target.value;
+    }
     this.emitInputFromUserInteraction();
   };
 
   private inputKeyDownHandler = (event: KeyboardEvent) => {
     if (this.type === "number") {
+      const supportedKeys = [
+        ...numberKeys,
+        "ArrowLeft",
+        "ArrowRight",
+        "Backspace",
+        "Escape",
+        "Tab",
+        "-"
+      ];
       if (event.metaKey) {
         return;
       }
-      if (numberKeys.includes(event.key)) {
+      if (supportedKeys.includes(event.key)) {
         return;
       }
       if (event.key == getGroupSeparator(this.locale)) {
         return;
       }
-      if (event.key == getDecimalSeparator(this.locale) && this.value.indexOf(event.key) === -1) {
-        return;
-      }
-      if (event.key === "Backspace") {
-        return;
-      }
-      if (event.key === "Escape") {
-        return;
-      }
-      if (event.key === "Tab") {
-        return;
-      }
-      if (event.key === "-") {
+      if (event.key == getDecimalSeparator(this.locale) && this.input.indexOf(event.key) === -1) {
         return;
       }
       event.preventDefault();
@@ -406,6 +439,8 @@ export class CalciteInput {
   // --------------------------------------------------------------------------
 
   render(): VNode {
+    console.log("value", this.value);
+    console.log("displayValue", this.getDisplayValue());
     const dir = getElementDir(this.el);
 
     const attributes = getAttributes(this.el, [
@@ -508,10 +543,8 @@ export class CalciteInput {
         step={this.stepString}
         tabIndex={this.disabled ? -1 : null}
         type={this.type === "number" ? "text" : this.type}
-        value={this.value}
-      >
-        {this.value}
-      </this.childElType>,
+        value={this.getDisplayValue()}
+      />,
       this.isTextarea ? (
         <div class="calcite-input-resize-icon-wrapper">
           <calcite-icon icon="chevron-down" scale="s" />
