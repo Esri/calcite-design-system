@@ -29,22 +29,18 @@
   transition: max-height $transition, max-width $transition;
 }
 
-.content__header,
-.content__body {
+.content__header {
   @apply flex
   flex-col
+  flex-initial
   flex-no-wrap
   items-stretch;
 }
 
-.content__header {
-  @apply flex-initial;
-}
-
 .content__body {
-  @apply flex-auto
+  @apply flex
+  flex-auto
   flex-col
-  flex-no-wrap
   overflow-hidden;
 }
 
