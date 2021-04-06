@@ -68,6 +68,16 @@
       localeEl.appendChild(input);
       localeDemoContainer.appendChild(localeEl);
     });
+
+    document.addEventListener("calciteInputFocus", (event) => {
+      console.log("inputFocus", event.target.getAttribute("name"), event.detail.value);
+    });
+    document.addEventListener("calciteInputInput", (event) => {
+      console.log("inputInput", event.target.getAttribute("name"), event.detail.value);
+    });
+    document.addEventListener("calciteInputBlur", (event) => {
+      console.log("inputBlur", event.target.getAttribute("name"), event.detail.value);
+    });
   </script>
 </body>
 

@@ -312,7 +312,7 @@ export class CalciteInput {
     this.emitInputFromUserInteraction();
   };
 
-  private getDisplayValue(): string {
+  private getValue(): string {
     if (this.type === "number") {
       if (this.editing) {
         return this.input;
@@ -326,22 +326,17 @@ export class CalciteInput {
   private emitInputFromUserInteraction = () => {
     this.calciteInputInput.emit({
       element: this.childEl,
-      value: this.value
+      value: this.type === "number" ? delocalizeNumberString(this.input, this.locale) : this.value
     });
   };
 
   private inputBlurHandler = () => {
     if (this.type === "number") {
       this.editing = false;
-      const delocalizedNumberString = delocalizeNumberString(this.input, this.locale);
-      const delocalizedNumber = parseFloat(delocalizedNumberString);
-      if (!isNaN(delocalizedNumber)) {
-        this.value = delocalizedNumberString;
-      }
     }
     this.calciteInputBlur.emit({
       element: this.childEl,
-      value: this.value
+      value: this.type === "number" ? delocalizeNumberString(this.input, this.locale) : this.value
     });
   };
 
@@ -351,7 +346,7 @@ export class CalciteInput {
     }
     this.calciteInputFocus.emit({
       element: this.childEl,
-      value: this.value
+      value: this.type === "number" ? delocalizeNumberString(this.value, this.locale) : this.value
     });
   };
 
@@ -393,7 +388,10 @@ export class CalciteInput {
   };
 
   private reset = (): void => {
-    this.value = this.defaultValue;
+    this.value =
+      this.type === "number"
+        ? localizeNumberString(this.defaultValue, this.locale)
+        : this.defaultValue;
   };
 
   private setDisabledAction(): void {
@@ -545,7 +543,7 @@ export class CalciteInput {
         step={this.stepString}
         tabIndex={this.disabled ? -1 : null}
         type={this.type === "number" ? "text" : this.type}
-        value={this.getDisplayValue()}
+        value={this.getValue()}
       />,
       this.isTextarea ? (
         <div class="calcite-input-resize-icon-wrapper">

@@ -58,13 +58,16 @@ function createLocaleNumberFormatter(locale: string): Intl.NumberFormat {
 
 export function delocalizeNumberString(stringNumber: string, locale: string): string {
   if (stringNumber && locales.includes(locale)) {
-    return stringNumber
-      .replace(getGroupSeparator(locale), "")
-      .replace(getDecimalSeparator(locale), ".")
-      .replace(" ", "")
-      .trim();
+    const number = Number(stringNumber);
+    if (!isNaN(number)) {
+      return stringNumber
+        .replace(getGroupSeparator(locale), "")
+        .replace(getDecimalSeparator(locale), ".")
+        .replace(" ", "")
+        .trim();
+    }
   }
-  return;
+  return stringNumber;
 }
 
 export function getGroupSeparator(locale: string): string {
