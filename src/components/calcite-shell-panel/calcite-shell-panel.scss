@@ -9,7 +9,7 @@
 
 ::slotted(calcite-panel),
 ::slotted(calcite-flow) {
-  @apply h-full w-full;
+  @apply flex-auto h-full w-full;
   max-height: unset;
   max-width: unset;
 }
@@ -42,7 +42,10 @@
 }
 
 .content__body {
-  @apply flex-auto overflow-hidden;
+  @apply flex-auto
+  flex-col
+  flex-no-wrap
+  overflow-hidden;
 }
 
 :host([width-scale="s"]) .content {
