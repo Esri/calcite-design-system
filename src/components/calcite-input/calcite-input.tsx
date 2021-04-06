@@ -18,7 +18,12 @@ import { getKey } from "../../utils/key";
 import { INPUT_TYPE_ICONS } from "./calcite-input.resources";
 import { InputPlacement } from "./interfaces";
 import { Position } from "../interfaces";
-import { getDecimalSeparator, getGroupSeparator, delocalizeNumberString } from "../../utils/locale";
+import {
+  getDecimalSeparator,
+  getGroupSeparator,
+  delocalizeNumberString,
+  localizeNumberString
+} from "../../utils/locale";
 import { numberKeys } from "../../utils/number";
 
 /**
@@ -312,8 +317,7 @@ export class CalciteInput {
       if (this.editing) {
         return this.input;
       } else {
-        // TODO: implement util function to convert locale number without rounding
-        return parseFloat(this.value).toLocaleString(this.locale);
+        return localizeNumberString(this.value, this.locale);
       }
     }
     return this.value;
@@ -439,8 +443,6 @@ export class CalciteInput {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    console.log("value", this.value);
-    console.log("displayValue", this.getDisplayValue());
     const dir = getElementDir(this.el);
 
     const attributes = getAttributes(this.el, [
