@@ -112,6 +112,8 @@ export class CalciteInput {
   /** Minimum length of the text input */
   @Prop({ reflect: true }) minLength?: number;
 
+  @Prop({ reflect: true }) name?: string;
+
   /** specify the placement of the number buttons */
   @Prop({ reflect: true }) numberButtonType?: InputPlacement = "vertical";
 
@@ -333,15 +335,23 @@ export class CalciteInput {
   private inputBlurHandler = () => {
     if (this.type === "number") {
       this.editing = false;
+      if (this.input) {
+        this.value = localizeNumberString(this.input, this.locale);
+      }
+      this.calciteInputBlur.emit({
+        element: this.childEl,
+        value: delocalizeNumberString(this.value, this.locale)
+      });
+    } else {
+      this.calciteInputBlur.emit({
+        element: this.childEl,
+        value: this.value
+      });
     }
-    this.calciteInputBlur.emit({
-      element: this.childEl,
-      value: this.type === "number" ? delocalizeNumberString(this.input, this.locale) : this.value
-    });
   };
 
-  private inputFocusHandler = (e) => {
-    if (e.target !== this.slottedActionEl) {
+  private inputFocusHandler = (event: FocusEvent) => {
+    if (event.target !== this.slottedActionEl) {
       this.setFocus();
     }
     this.calciteInputFocus.emit({
@@ -350,12 +360,16 @@ export class CalciteInput {
     });
   };
 
-  private inputInputHandler = (e) => {
+  private inputInputHandler = (event: InputEvent) => {
+    const target = event.target as HTMLInputElement;
     if (this.type === "number") {
       this.editing = true;
-      this.input = e.target.value;
+      this.input = target.value;
+      if (!this.input) {
+        this.value = "";
+      }
     } else {
-      this.value = e.target.value;
+      this.value = target.value;
     }
     this.emitInputFromUserInteraction();
   };
@@ -387,7 +401,8 @@ export class CalciteInput {
     }
   };
 
-  private reset = (): void => {
+  private reset = (event): void => {
+    event.preventDefault();
     this.value =
       this.type === "number"
         ? localizeNumberString(this.defaultValue, this.locale)
