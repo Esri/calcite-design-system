@@ -656,14 +656,13 @@ describe("calcite-input", () => {
   describe("number locale support", () => {
     const localesWithIssues = ["ar", "bs", "de-CH", "it-CH", "mk"];
     locales
-      .filter((locale) => (localesWithIssues.includes(locale) ? false : true))
+      .filter((locale) => !localesWithIssues.includes(locale))
       .forEach((locale) => {
         it(`formats number on initial load for ${locale} locale`, async () => {
           const value = "1234.56";
-          const page = await newE2EPage();
-          await page.setContent(`
-            <calcite-input locale="${locale}" type="number" value="${value}"></calcite-input>
-          `);
+          const page = await newE2EPage({
+            html: `<calcite-input locale="${locale}" type="number" value="${value}"></calcite-input>`
+          });
           const calciteInput = await page.find("calcite-input");
           const input = await page.find("input");
 
@@ -672,10 +671,9 @@ describe("calcite-input", () => {
         });
 
         it(`allows typing valid group and decimal characters for ${locale} locale`, async () => {
-          const page = await newE2EPage();
-          await page.setContent(`
-            <calcite-input locale="${locale}" type="number"></calcite-input>
-          `);
+          const page = await newE2EPage({
+            html: `<calcite-input locale="${locale}" type="number"></calcite-input>`
+          });
           const input = await page.find("input");
           const group = getGroupSeparator(locale);
           const decimal = getDecimalSeparator(locale);

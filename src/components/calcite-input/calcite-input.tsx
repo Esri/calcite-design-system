@@ -24,7 +24,7 @@ import {
   delocalizeNumberString,
   localizeNumberString
 } from "../../utils/locale";
-import { numberKeys } from "../../utils/number";
+import { numberKeys } from "../../utils/key";
 
 /**
  * @slot `calcite-action` - A slot for positioning a button next to an input
@@ -223,7 +223,7 @@ export class CalciteInput {
 
   @State() editing = false;
 
-  @State() input: string;
+  @State() inputText: string;
 
   //--------------------------------------------------------------------------
   //
@@ -317,7 +317,7 @@ export class CalciteInput {
   private getValue(): string {
     if (this.type === "number") {
       if (this.editing) {
-        return this.input;
+        return this.inputText;
       } else {
         return localizeNumberString(this.value, this.locale);
       }
@@ -328,15 +328,16 @@ export class CalciteInput {
   private emitInputFromUserInteraction = () => {
     this.calciteInputInput.emit({
       element: this.childEl,
-      value: this.type === "number" ? delocalizeNumberString(this.input, this.locale) : this.value
+      value:
+        this.type === "number" ? delocalizeNumberString(this.inputText, this.locale) : this.value
     });
   };
 
   private inputBlurHandler = () => {
     if (this.type === "number") {
       this.editing = false;
-      if (this.input) {
-        this.value = localizeNumberString(this.input, this.locale);
+      if (this.inputText) {
+        this.value = localizeNumberString(this.inputText, this.locale);
       }
       this.calciteInputBlur.emit({
         element: this.childEl,
@@ -364,8 +365,8 @@ export class CalciteInput {
     const target = event.target as HTMLInputElement;
     if (this.type === "number") {
       this.editing = true;
-      this.input = target.value;
-      if (!this.input) {
+      this.inputText = target.value;
+      if (!this.inputText) {
         this.value = "";
       }
     } else {
@@ -394,7 +395,7 @@ export class CalciteInput {
       if (event.key == getGroupSeparator(this.locale)) {
         return;
       }
-      if (event.key == getDecimalSeparator(this.locale) && this.input.indexOf(event.key) === -1) {
+      if (event.key == getDecimalSeparator(this.locale) && !this.inputText.includes(event.key)) {
         return;
       }
       event.preventDefault();
