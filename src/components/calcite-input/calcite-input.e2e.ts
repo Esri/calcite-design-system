@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { focusable, HYDRATED_ATTR } from "../../tests/commonTests";
+import { locales, localizeNumberString } from "../../utils/locale";
 
 describe("calcite-input", () => {
   it("honors form reset", async () => {
@@ -650,5 +651,25 @@ describe("calcite-input", () => {
 
     expect(await getInputValidity()).toBe(true);
     expect(await input.getProperty("value")).toBe("123");
+  });
+
+  describe("number locale support", () => {
+    const localesWithIssues = ["ar", "bs", "mk"];
+    locales
+      .filter((locale) => (localesWithIssues.includes(locale) ? false : true))
+      .forEach((locale) => {
+        it(`formats number on initial load for ${locale} locale`, async () => {
+          const value = "1234.56";
+          const page = await newE2EPage();
+          await page.setContent(`
+          <calcite-input locale="${locale}" type="number" value="${value}"></calcite-input>
+        `);
+          const calciteInput = await page.find("calcite-input");
+          const input = await page.find("input");
+
+          expect(await calciteInput.getProperty("value")).toBe(value);
+          expect(await input.getProperty("value")).toBe(localizeNumberString(value, locale));
+        });
+      });
   });
 });

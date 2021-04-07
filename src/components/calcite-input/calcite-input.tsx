@@ -402,11 +402,12 @@ export class CalciteInput {
   };
 
   private reset = (event): void => {
-    event.preventDefault();
-    this.value =
-      this.type === "number"
-        ? localizeNumberString(this.defaultValue, this.locale)
-        : this.defaultValue;
+    if (this.type === "number") {
+      event.preventDefault();
+      this.value = localizeNumberString(this.defaultValue, this.locale);
+    } else {
+      this.value = this.defaultValue;
+    }
   };
 
   private setDisabledAction(): void {
