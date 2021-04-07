@@ -78,7 +78,7 @@
 
 :host([disabled]) {
   cursor: default;
-  @apply bg-opacity-25;
+  @apply opacity-25;
 }
 
 :host(:hover:not([disabled])),
