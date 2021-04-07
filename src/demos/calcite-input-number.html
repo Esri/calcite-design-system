@@ -58,6 +58,7 @@
       label.setAttribute("for", locale);
       label.appendChild(document.createTextNode(locale));
       let input = document.createElement("calcite-input");
+      (locale === "ar" || locale === "he") && input.setAttribute("dir", "rtl");
       input.setAttribute("id", locale);
       input.setAttribute("locale", locale);
       input.setAttribute("name", locale);
