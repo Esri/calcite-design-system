@@ -168,6 +168,7 @@ export class CalciteBlock {
         {this.dragHandle ? <calcite-handle /> : null}
         {collapsible ? (
           <button
+            aria-expanded={collapsible ? open.toString() : null}
             aria-label={toggleLabel}
             class={CSS.toggle}
             onClick={this.onHeaderClick}
@@ -194,7 +195,6 @@ export class CalciteBlock {
       <Host tabIndex={disabled ? -1 : null}>
         <article
           aria-busy={loading.toString()}
-          aria-expanded={collapsible ? open.toString() : null}
           class={{
             [CSS.article]: true,
             [CSS_UTILITY.rtl]: rtl
