@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { focusable, HYDRATED_ATTR } from "../../tests/commonTests";
-import { locales, localizeNumberString } from "../../utils/locale";
+import { getDecimalSeparator, getGroupSeparator, locales, localizeNumberString } from "../../utils/locale";
 
 describe("calcite-input", () => {
   it("honors form reset", async () => {
@@ -654,7 +654,7 @@ describe("calcite-input", () => {
   });
 
   describe("number locale support", () => {
-    const localesWithIssues = ["ar", "bs", "mk"];
+    const localesWithIssues = ["ar", "bs", "de-CH", "it-CH", "mk"];
     locales
       .filter((locale) => (localesWithIssues.includes(locale) ? false : true))
       .forEach((locale) => {
@@ -662,13 +662,34 @@ describe("calcite-input", () => {
           const value = "1234.56";
           const page = await newE2EPage();
           await page.setContent(`
-          <calcite-input locale="${locale}" type="number" value="${value}"></calcite-input>
-        `);
+            <calcite-input locale="${locale}" type="number" value="${value}"></calcite-input>
+          `);
           const calciteInput = await page.find("calcite-input");
           const input = await page.find("input");
 
           expect(await calciteInput.getProperty("value")).toBe(value);
           expect(await input.getProperty("value")).toBe(localizeNumberString(value, locale));
+        });
+
+        it(`allows typing valid group and decimal characters for ${locale} locale`, async () => {
+          const page = await newE2EPage();
+          await page.setContent(`
+            <calcite-input locale="${locale}" type="number"></calcite-input>
+          `);
+          const input = await page.find("input");
+          const group = getGroupSeparator(locale);
+          const decimal = getDecimalSeparator(locale);
+
+          await input.press("1");
+          await input.press(group);
+          await input.press("2");
+          await input.press("3");
+          await input.press("4");
+          await input.press(decimal);
+          await input.press("5");
+          await input.press("6");
+
+          expect(await input.getProperty("value")).toBe(`1${group}234${decimal}56`);
         });
       });
   });
