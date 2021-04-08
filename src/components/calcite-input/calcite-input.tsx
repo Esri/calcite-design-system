@@ -426,6 +426,7 @@ export class CalciteInput {
       ...numberKeys,
       "ArrowLeft",
       "ArrowRight",
+      "Enter",
       "Backspace",
       "Escape",
       "Tab",
