@@ -309,9 +309,25 @@ export class CalciteInput {
   //
   //--------------------------------------------------------------------------
 
-  private clearInputValue = () => {
+  private clearInputValue = (): void => {
     this.value = "";
     this.emitInputFromUserInteraction();
+  };
+
+  private decrementNumberValue = (): void => {
+    if (this.childElType === "input" && this.type === "number") {
+      const inputMin = this.minString ? parseFloat(this.minString) : null;
+      const inputStep = Number(this.stepString) > 0 ? parseFloat(this.stepString) : 1;
+      let inputVal = this.value && this.value !== "" ? parseFloat(this.value) : 0;
+      const decimals = this.value?.split(".")[1]?.length || 0;
+
+      if ((!inputMin && inputMin !== 0) || inputVal > inputMin) {
+        this.childEl.value = (inputVal -= inputStep).toFixed(decimals).toString();
+      }
+
+      this.value = this.childEl.value.toString();
+      this.emitInputFromUserInteraction();
+    }
   };
 
   private getValue(): string {
@@ -325,7 +341,7 @@ export class CalciteInput {
     return this.value;
   }
 
-  private emitInputFromUserInteraction = () => {
+  private emitInputFromUserInteraction = (): void => {
     this.calciteInputInput.emit({
       element: this.childEl,
       value:
@@ -333,7 +349,23 @@ export class CalciteInput {
     });
   };
 
-  private inputBlurHandler = () => {
+  private incrementNumberValue = (): void => {
+    if (this.childElType === "input" && this.type === "number") {
+      const inputMax = this.maxString ? parseFloat(this.maxString) : null;
+      const inputStep = Number(this.stepString) > 0 ? parseFloat(this.stepString) : 1;
+      let inputVal = this.value && this.value !== "" ? parseFloat(this.value) : 0;
+      const decimals = this.value?.split(".")[1]?.length || 0;
+
+      if ((!inputMax && inputMax !== 0) || inputVal < inputMax) {
+        this.childEl.value = (inputVal += inputStep).toFixed(decimals).toString();
+      }
+
+      this.value = this.childEl.value.toString();
+      this.emitInputFromUserInteraction();
+    }
+  };
+
+  private inputBlurHandler = (): void => {
     if (this.type === "number") {
       this.editing = false;
       if (this.inputText) {
@@ -351,7 +383,7 @@ export class CalciteInput {
     }
   };
 
-  private inputFocusHandler = (event: FocusEvent) => {
+  private inputFocusHandler = (event: FocusEvent): void => {
     if (event.target !== this.slottedActionEl) {
       this.setFocus();
     }
@@ -361,7 +393,7 @@ export class CalciteInput {
     });
   };
 
-  private inputInputHandler = (event: InputEvent) => {
+  private inputInputHandler = (event: InputEvent): void => {
     const target = event.target as HTMLInputElement;
     if (this.type === "number") {
       this.editing = true;
@@ -375,31 +407,43 @@ export class CalciteInput {
     this.emitInputFromUserInteraction();
   };
 
-  private inputKeyDownHandler = (event: KeyboardEvent) => {
-    if (this.type === "number") {
-      const supportedKeys = [
-        ...numberKeys,
-        "ArrowLeft",
-        "ArrowRight",
-        "Backspace",
-        "Escape",
-        "Tab",
-        "-"
-      ];
-      if (event.metaKey) {
-        return;
-      }
-      if (supportedKeys.includes(event.key)) {
-        return;
-      }
-      if (event.key == getGroupSeparator(this.locale)) {
-        return;
-      }
-      if (event.key == getDecimalSeparator(this.locale) && !this.inputText.includes(event.key)) {
-        return;
-      }
-      event.preventDefault();
+  private inputKeyDownHandler = (event: KeyboardEvent): void => {
+    if (this.childElType !== "input") {
+      return;
     }
+    if (this.type !== "number") {
+      return;
+    }
+    if (event.key === "ArrowUp") {
+      this.incrementNumberValue();
+      return;
+    }
+    if (event.key === "ArrowDown") {
+      this.decrementNumberValue();
+      return;
+    }
+    const supportedKeys = [
+      ...numberKeys,
+      "ArrowLeft",
+      "ArrowRight",
+      "Backspace",
+      "Escape",
+      "Tab",
+      "-"
+    ];
+    if (event.metaKey) {
+      return;
+    }
+    if (supportedKeys.includes(event.key)) {
+      return;
+    }
+    if (event.key == getGroupSeparator(this.locale)) {
+      return;
+    }
+    if (event.key == getDecimalSeparator(this.locale) && this.inputText.indexOf(event.key) === -1) {
+      return;
+    }
+    event.preventDefault();
   };
 
   private reset = (event): void => {
@@ -422,32 +466,17 @@ export class CalciteInput {
       : slottedActionEl.removeAttribute("disabled");
   }
 
-  private updateNumberValue = (e) => {
+  private updateNumberValue = (event: MouseEvent): void => {
     // todo, when dropping ie11 support, refactor to use stepup/stepdown
     // prevent blur and re-focus of input on mousedown
-    e.preventDefault();
-    if (this.childElType === "input" && this.type === "number") {
-      const inputMax = this.maxString ? parseFloat(this.maxString) : null;
-      const inputMin = this.minString ? parseFloat(this.minString) : null;
-      const inputStep = Number(this.stepString) > 0 ? parseFloat(this.stepString) : 1;
-      let inputVal = this.value && this.value !== "" ? parseFloat(this.value) : 0;
-      const decimals = this.value?.split(".")[1]?.length || 0;
-
-      switch (e.target.dataset.adjustment) {
-        case "up":
-          if ((!inputMax && inputMax !== 0) || inputVal < inputMax) {
-            this.childEl.value = (inputVal += inputStep).toFixed(decimals).toString();
-          }
-          break;
-        case "down":
-          if ((!inputMin && inputMin !== 0) || inputVal > inputMin) {
-            this.childEl.value = (inputVal -= inputStep).toFixed(decimals).toString();
-          }
-          break;
-      }
-
-      this.value = this.childEl.value.toString();
-      this.emitInputFromUserInteraction();
+    event.preventDefault();
+    switch ((event.target as HTMLDivElement).dataset.adjustment) {
+      case "up":
+        this.incrementNumberValue();
+        break;
+      case "down":
+        this.decrementNumberValue();
+        break;
     }
   };
 

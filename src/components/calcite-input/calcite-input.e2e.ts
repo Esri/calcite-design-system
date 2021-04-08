@@ -654,7 +654,7 @@ describe("calcite-input", () => {
   });
 
   describe("number locale support", () => {
-    const localesWithIssues = ["ar", "bs", "de-CH", "it-CH", "mk"];
+    const localesWithIssues = ["ar", "bs", "mk"];
     locales
       .filter((locale) => !localesWithIssues.includes(locale))
       .forEach((locale) => {
@@ -678,12 +678,11 @@ describe("calcite-input", () => {
           const group = getGroupSeparator(locale);
           const decimal = getDecimalSeparator(locale);
 
+          await page.keyboard.press("Tab");
           await input.press("1");
-          await input.press(group);
-          await input.press("2");
-          await input.press("3");
-          await input.press("4");
-          await input.press(decimal);
+          await page.keyboard.sendCharacter(group);
+          await input.type("234");
+          await page.keyboard.sendCharacter(decimal);
           await input.press("5");
           await input.press("6");
 
