@@ -21,7 +21,7 @@ import {
   stringIsValidNumber,
   Time,
   maxTenthForMinuteAndSecond,
-  TimeComponents
+  TimeFocusId
 } from "../../utils/time";
 import { CSS } from "./resources";
 
@@ -247,8 +247,8 @@ export class CalciteTimePicker {
   //--------------------------------------------------------------------------
 
   @Method()
-  async setFocus(target: TimeComponents): Promise<void> {
-    this[`${target || "hour"}El`].focus();
+  async setFocus(target: TimeFocusId): Promise<void> {
+    this[`${target || "hour"}El`]?.focus();
   }
 
   // --------------------------------------------------------------------------

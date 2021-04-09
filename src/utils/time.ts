@@ -8,7 +8,7 @@ export interface Time {
   second: string;
 }
 
-export type TimeComponents = "hour" | MinuteOrSecond | "meridiem";
+export type TimeFocusId = "hour" | MinuteOrSecond | "meridiem";
 
 export const maxTenthForMinuteAndSecond = 5;
 
