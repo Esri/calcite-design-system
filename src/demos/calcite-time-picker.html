@@ -115,21 +115,21 @@
     const span = document.querySelector("span");
     native.addEventListener("input", (e) => {
       console.log("native input fired")
-      span.innerHTML = e.target.value;
+      span.textContent = e.target.value;
     })
 
     const timePicker = document.querySelector("calcite-time-picker");
     const span1 = document.querySelector("#one");
     timePicker.addEventListener("calciteTimePickerChange", (e) => {
       const value = e.detail ? JSON.stringify(e.detail) : ""
-      span1.innerHTML = value;
+      span1.textContent = value;
     })
 
     const picker2 = document.querySelector("#picker2");
     const span2 = document.querySelector("#two");
     picker2.addEventListener("calciteTimePickerChange", (e) => {
       const value = e.detail ? JSON.stringify(e.detail) : ""
-      span2.innerHTML = value;
+      span2.textContent = value;
     })
 
 
