@@ -284,10 +284,10 @@ export class CalciteInput {
   //--------------------------------------------------------------------------
 
   @Listen("keydown")
-  keyDownHandler(e: KeyboardEvent): void {
-    if (this.isClearable && getKey(e.key) === "Escape") {
-      this.clearInputValue();
-      e.preventDefault();
+  keyDownHandler(event: KeyboardEvent): void {
+    if (this.isClearable && getKey(event.key) === "Escape") {
+      this.clearInputValue(event);
+      event.preventDefault();
     }
   }
 
@@ -309,12 +309,12 @@ export class CalciteInput {
   //
   //--------------------------------------------------------------------------
 
-  private clearInputValue = (): void => {
+  private clearInputValue = (event: KeyboardEvent | MouseEvent): void => {
     this.value = "";
-    this.emitInputFromUserInteraction();
+    this.emitInputFromUserInteraction(event);
   };
 
-  private decrementNumberValue = (): void => {
+  private decrementNumberValue = (nativeEvent: KeyboardEvent | MouseEvent): void => {
     if (this.childElType === "input" && this.type === "number") {
       const inputMin = this.minString ? parseFloat(this.minString) : null;
       const inputStep = Number(this.stepString) > 0 ? parseFloat(this.stepString) : 1;
@@ -326,7 +326,7 @@ export class CalciteInput {
       }
 
       this.value = this.childEl.value.toString();
-      this.emitInputFromUserInteraction();
+      this.emitInputFromUserInteraction(nativeEvent);
     }
   };
 
@@ -341,15 +341,18 @@ export class CalciteInput {
     return this.value;
   }
 
-  private emitInputFromUserInteraction = (): void => {
+  private emitInputFromUserInteraction = (
+    nativeEvent?: InputEvent | KeyboardEvent | MouseEvent
+  ): void => {
     this.calciteInputInput.emit({
       element: this.childEl,
+      nativeEvent,
       value:
         this.type === "number" ? delocalizeNumberString(this.inputText, this.locale) : this.value
     });
   };
 
-  private incrementNumberValue = (): void => {
+  private incrementNumberValue = (nativeEvent: KeyboardEvent | MouseEvent): void => {
     if (this.childElType === "input" && this.type === "number") {
       const inputMax = this.maxString ? parseFloat(this.maxString) : null;
       const inputStep = Number(this.stepString) > 0 ? parseFloat(this.stepString) : 1;
@@ -361,7 +364,7 @@ export class CalciteInput {
       }
 
       this.value = this.childEl.value.toString();
-      this.emitInputFromUserInteraction();
+      this.emitInputFromUserInteraction(nativeEvent);
     }
   };
 
@@ -404,7 +407,7 @@ export class CalciteInput {
     } else {
       this.value = target.value;
     }
-    this.emitInputFromUserInteraction();
+    this.emitInputFromUserInteraction(event);
   };
 
   private inputKeyDownHandler = (event: KeyboardEvent): void => {
@@ -415,11 +418,11 @@ export class CalciteInput {
       return;
     }
     if (event.key === "ArrowUp") {
-      this.incrementNumberValue();
+      this.incrementNumberValue(event);
       return;
     }
     if (event.key === "ArrowDown") {
-      this.decrementNumberValue();
+      this.decrementNumberValue(event);
       return;
     }
     const supportedKeys = [
@@ -473,10 +476,10 @@ export class CalciteInput {
     event.preventDefault();
     switch ((event.target as HTMLDivElement).dataset.adjustment) {
       case "up":
-        this.incrementNumberValue();
+        this.incrementNumberValue(event);
         break;
       case "down":
-        this.decrementNumberValue();
+        this.decrementNumberValue(event);
         break;
     }
   };
