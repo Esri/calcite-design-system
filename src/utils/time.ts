@@ -14,6 +14,14 @@ export const maxTenthForMinuteAndSecond = 5;
 
 export const numberKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
+export function getMeridiem(hour: string): Meridiem {
+  if (stringIsValidNumber(hour)) {
+    const hourAsNumber = parseInt(hour);
+    return hourAsNumber >= 0 && hourAsNumber <= 11 ? "AM" : "PM";
+  }
+  return null;
+}
+
 export function parseTimeString(value: string): Time {
   const timeString = validateTimeString(value);
   const [hour, minute, second] = timeString ? timeString.split(":") : [null, null, null];
@@ -22,6 +30,23 @@ export function parseTimeString(value: string): Time {
     minute,
     second: second || (hour && minute ? "00" : null)
   };
+}
+
+export function stringIsValidNumber(value: string): boolean {
+  if (!value) {
+    return false;
+  }
+  const letters = /^[A-Za-z]+$/;
+  const numbers = /^[0-9]+$/;
+  const letterMatch = value.match(letters);
+  const numberMatch = value.match(numbers);
+  const hasLetters = Array.isArray(letterMatch);
+  const hasNumbers = Array.isArray(numberMatch);
+  const isValidNumber = !isNaN(parseInt(value));
+  if (hasNumbers && !hasLetters && isValidNumber) {
+    return true;
+  }
+  return false;
 }
 
 export function validateTimeString(value: string): string {
@@ -48,23 +73,6 @@ export function validateTimeString(value: string): string {
     }
   }
   return null;
-}
-
-export function stringIsValidNumber(value: string): boolean {
-  if (!value) {
-    return false;
-  }
-  const letters = /^[A-Za-z]+$/;
-  const numbers = /^[0-9]+$/;
-  const letterMatch = value.match(letters);
-  const numberMatch = value.match(numbers);
-  const hasLetters = Array.isArray(letterMatch);
-  const hasNumbers = Array.isArray(numberMatch);
-  const isValidNumber = !isNaN(parseInt(value));
-  if (hasNumbers && !hasLetters && isValidNumber) {
-    return true;
-  }
-  return false;
 }
 
 export function zeroPadNumber(number: number): string {

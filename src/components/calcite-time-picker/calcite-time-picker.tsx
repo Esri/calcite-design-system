@@ -21,7 +21,8 @@ import {
   stringIsValidNumber,
   Time,
   maxTenthForMinuteAndSecond,
-  TimeFocusId
+  TimeFocusId,
+  getMeridiem
 } from "../../utils/time";
 import { CSS } from "./resources";
 
@@ -105,7 +106,7 @@ export class CalciteTimePicker {
   @Watch("hour")
   hourChanged(newHour: string): void {
     if (this.hourDisplayFormat === "12" && stringIsValidNumber(newHour)) {
-      this.meridiem = this.getMeridiem();
+      this.meridiem = getMeridiem(newHour);
     }
   }
 
@@ -304,14 +305,6 @@ export class CalciteTimePicker {
 
   private focusHandler = (event: FocusEvent): void => {
     this.activeEl = event.target as HTMLSpanElement;
-  };
-
-  private getMeridiem = (): Meridiem => {
-    if (stringIsValidNumber(this.hour)) {
-      const hourAsNumber = parseInt(this.hour);
-      return hourAsNumber >= 0 && hourAsNumber <= 11 ? "AM" : "PM";
-    }
-    return null;
   };
 
   private getDisplayHour(): string {
@@ -566,7 +559,7 @@ export class CalciteTimePicker {
 
   connectedCallback() {
     if (this.hourDisplayFormat === "12") {
-      this.meridiem = this.getMeridiem();
+      this.meridiem = getMeridiem(this.hour);
     }
   }
 
