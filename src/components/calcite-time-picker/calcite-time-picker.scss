@@ -61,7 +61,7 @@ span {
 }
 
 :host([scale="s"]) {
-  font-size: 14px;
+  @apply text--1;
   span {
     height: 24px;
     width: 40px;
@@ -92,7 +92,7 @@ span {
 }
 
 :host([scale="m"]) {
-  font-size: 16px;
+  @apply text-0;
   span {
     height: 32px;
     width: 44px;
@@ -123,7 +123,7 @@ span {
 }
 
 :host([scale="l"]) {
-  font-size: 20px;
+  @apply text-2;
   span {
     height: 48px;
     width: 64px;
