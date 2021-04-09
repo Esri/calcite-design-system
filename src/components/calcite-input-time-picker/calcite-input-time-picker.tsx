@@ -41,6 +41,42 @@ export class CalciteInputTimePicker {
   /** Format of the hour value (12-hour or 24-hour) (this will be replaced by locale eventually) */
   @Prop({ reflect: true }) hourDisplayFormat: "12" | "24" = "12";
 
+  /** aria-label for the hour input */
+  @Prop() intlHour?: string;
+
+  /** aria-label for the hour down button */
+  @Prop() intlHourDown?: string;
+
+  /** aria-label for the hour up button */
+  @Prop() intlHourUp?: string;
+
+  /** aria-label for the meridiem (am/pm) input */
+  @Prop() intlMeridiem?: string;
+
+  /** aria-label for the meridiem (am/pm) down button */
+  @Prop() intlMeridiemDown?: string;
+
+  /** aria-label for the meridiem (am/pm) up button */
+  @Prop() intlMeridiemUp?: string;
+
+  /** aria-label for the minute input */
+  @Prop() intlMinute?: string;
+
+  /** aria-label for the minute down button */
+  @Prop() intlMinuteDown?: string;
+
+  /** aria-label for the minute up button */
+  @Prop() intlMinuteUp?: string;
+
+  /** aria-label for the second input */
+  @Prop() intlSecond?: string;
+
+  /** aria-label for the second down button */
+  @Prop() intlSecondDown?: string;
+
+  /** aria-label for the second up button */
+  @Prop() intlSecondUp?: string;
+
   /** The name of the time input */
   @Prop() name?: string;
 
@@ -250,6 +286,18 @@ export class CalciteInputTimePicker {
           <calcite-time-picker
             hour={hour}
             hour-display-format={this.hourDisplayFormat}
+            intlHour={this.intlHour}
+            intlHourDown={this.intlHourDown}
+            intlHourUp={this.intlHourUp}
+            intlMeridiem={this.intlMeridiem}
+            intlMeridiemDown={this.intlMeridiemDown}
+            intlMeridiemUp={this.intlMeridiemUp}
+            intlMinute={this.intlMinute}
+            intlMinuteDown={this.intlMinuteDown}
+            intlMinuteUp={this.intlMinuteUp}
+            intlSecond={this.intlSecond}
+            intlSecondDown={this.intlSecondDown}
+            intlSecondUp={this.intlSecondUp}
             minute={minute}
             scale={this.scale}
             second={second}
