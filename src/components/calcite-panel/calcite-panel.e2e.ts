@@ -285,6 +285,7 @@ describe("calcite-panel", () => {
     const multipier = 2;
 
     const page = await newE2EPage();
+    page.setViewport({ width: 1600, height: 1200 });
 
     await page.setContent(`
       <calcite-panel width-scale="m">
@@ -299,6 +300,7 @@ describe("calcite-panel", () => {
     const widthDefault = parseFloat(style["width"]);
 
     const page2 = await newE2EPage();
+    page2.setViewport({ width: 1600, height: 1200 });
 
     await page2.setContent(`
       <style>
