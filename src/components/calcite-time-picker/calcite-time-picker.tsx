@@ -22,7 +22,8 @@ import {
   Time,
   maxTenthForMinuteAndSecond,
   TimeFocusId,
-  getMeridiem
+  getMeridiem,
+  getMeridiemHour
 } from "../../utils/time";
 import { CSS } from "./resources";
 
@@ -312,17 +313,7 @@ export class CalciteTimePicker {
       return "--";
     }
     if (this.hourDisplayFormat === "12") {
-      const hourAsNumber = parseInt(this.hour);
-      if (hourAsNumber === 0) {
-        if (this.editingHourWhileFocused) {
-          return this.hour;
-        } else {
-          return "12";
-        }
-      }
-      if (hourAsNumber > 12) {
-        return zeroPadNumber(hourAsNumber - 12);
-      }
+      return this.editingHourWhileFocused ? this.hour : getMeridiemHour(this.hour);
     }
     return this.hour;
   }

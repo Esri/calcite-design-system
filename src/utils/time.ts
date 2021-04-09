@@ -22,6 +22,17 @@ export function getMeridiem(hour: string): Meridiem {
   return null;
 }
 
+export function getMeridiemHour(hour: string): string {
+  if (stringIsValidNumber(hour)) {
+    const hourAsNumber = parseInt(hour);
+    if (hourAsNumber === 0) {
+      return "12";
+    }
+    return hourAsNumber > 12 ? zeroPadNumber(hourAsNumber - 12) : hour;
+  }
+  return null;
+}
+
 export function parseTimeString(value: string): Time {
   const timeString = validateTimeString(value);
   const [hour, minute, second] = timeString ? timeString.split(":") : [null, null, null];
