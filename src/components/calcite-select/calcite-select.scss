@@ -36,17 +36,17 @@
 }
 
 .select {
-  @apply appearance-none 
+  @apply appearance-none
     border
     border-solid
     border-r-0
-    bg-foreground-1 
-    border-color-1 
-    rounded-none 
-    text-color-2 
-    cursor-pointer 
-    font-inherit 
-    m-0 
+    bg-foreground-1
+    border-color-1
+    rounded-none
+    text-color-2
+    cursor-pointer
+    font-inherit
+    m-0
     w-full
     focus-base;
   font-size: var(--calcite-select-font-size);
@@ -62,10 +62,7 @@
 }
 
 :host([dir="rtl"]) .select {
-  padding-right: var(--calcite-select-spacing);
-  @apply border-0 
-    border-r
-    border-color-1;
+  @apply border-r border-color-1;
   border-right-style: solid;
 }
 
@@ -79,24 +76,24 @@ select:disabled {
 }
 
 .icon-container {
-  @apply items-center 
-    bg-transparent 
+  @apply items-center
+    bg-transparent
     border
     border-solid
-    border-color-1 
-    border-l-0 
-    text-color-2 
-    flex 
-    pointer-events-none 
-    absolute 
-    right-0 
+    border-color-1
+    border-l-0
+    text-color-2
+    flex
+    pointer-events-none
+    absolute
+    right-0
     inset-y-0
     px-2;
 }
 
 :host([dir="rtl"]) .icon-container {
-  @apply border-color-1 
-    border-r-0 
+  @apply border-color-1
+    border-r-0
     left-0;
   right: unset;
   border-left-style: solid;

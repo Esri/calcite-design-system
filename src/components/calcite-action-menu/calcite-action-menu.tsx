@@ -8,6 +8,7 @@ import {
   Listen,
   Prop,
   Watch,
+  Method,
   State
 } from "@stencil/core";
 import { CSS, ICONS, SLOTS } from "./resources";
@@ -81,6 +82,7 @@ export class CalciteActionMenu {
 
   @Watch("open")
   openHandler(open: boolean): void {
+    this.activeMenuItemIndex = this.open ? 0 : -1;
     this.calciteActionMenuOpenChange.emit(open);
   }
 
@@ -140,6 +142,17 @@ export class CalciteActionMenu {
   @Watch("activeMenuItemIndex")
   activeMenuItemIndexHandler(): void {
     this.updateActions(this.actionElements);
+  }
+
+  // --------------------------------------------------------------------------
+  //
+  //  Methods
+  //
+  // --------------------------------------------------------------------------
+
+  @Method()
+  async setFocus(): Promise<void> {
+    focusElement(this.open ? this.menuEl : this.menuButtonEl);
   }
 
   // --------------------------------------------------------------------------
@@ -239,13 +252,12 @@ export class CalciteActionMenu {
   setTooltipReferenceElement = (): void => {
     const { el, expanded, menuButtonEl } = this;
 
-    const tooltipSlot = getSlotted(el, SLOTS.tooltip) as HTMLSlotElement;
+    const slotted = getSlotted(el, SLOTS.tooltip);
     const tooltip =
-      tooltipSlot?.assignedElements &&
-      (tooltipSlot.assignedElements()[0] as HTMLCalciteTooltipElement);
+      slotted?.tagName === "SLOT" ? (slotted as HTMLSlotElement).assignedElements()[0] : slotted;
 
-    if (tooltip) {
-      tooltip.referenceElement = !expanded && menuButtonEl;
+    if (tooltip?.tagName === "CALCITE-TOOLTIP") {
+      (tooltip as HTMLCalciteTooltipElement).referenceElement = !expanded && menuButtonEl;
     }
   };
 
@@ -273,12 +285,22 @@ export class CalciteActionMenu {
     actions?.forEach(this.updateAction);
   };
 
+  getAssignedElements(): HTMLElement[] {
+    return Array.from(this.el.querySelectorAll("slot"))
+      .map((slot) => slot.assignedElements({ flatten: true }) as HTMLElement[])
+      .reduce((ar, val) => ar.concat(val), []);
+  }
+
   getActions = (): void => {
-    const actionElements =
-      (this.el
-        .querySelector("slot")
-        ?.assignedElements({ flatten: true })
-        .filter((el) => el.tagName === "CALCITE-ACTION") as HTMLCalciteActionElement[]) || [];
+    const { el } = this;
+
+    const assignedActions = this.getAssignedElements().filter(
+      (element) => element.tagName === "CALCITE-ACTION"
+    ) as HTMLCalciteActionElement[];
+
+    const actionElements = assignedActions.length
+      ? assignedActions
+      : Array.from(el.querySelectorAll("calcite-action"));
 
     this.updateActions(actionElements);
 
@@ -382,16 +404,12 @@ export class CalciteActionMenu {
 
   toggleOpen = (value = !this.open): void => {
     this.open = value;
-    this.activeMenuItemIndex = -1;
     clearTimeout(this.menuFocusTimeout);
 
     if (value) {
-      this.menuFocusTimeout = window.setTimeout(
-        () => focusElement(this.menuEl),
-        MENU_ANIMATION_DELAY_MS
-      );
+      this.menuFocusTimeout = window.setTimeout(() => this.setFocus(), MENU_ANIMATION_DELAY_MS);
     } else {
-      focusElement(this.menuButtonEl);
+      this.setFocus();
     }
   };
 }

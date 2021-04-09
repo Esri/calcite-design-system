@@ -87,8 +87,8 @@ export class CalciteActionGroup {
         open={menuOpen}
         placement="leading-start"
       >
-        {this.renderTooltip()}
         <slot name={SLOTS.menuActions} />
+        {this.renderTooltip()}
       </calcite-action-menu>
     ) : null;
   }

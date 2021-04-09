@@ -55,26 +55,6 @@
       </calcite-radio-group>
     </calcite-label>
 
-    <calcite-label scale="l">
-      Inherit L scale from parent label
-      <calcite-radio-group appearance="outline">
-        <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
-        <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
-        <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
-        <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
-      </calcite-radio-group>
-    </calcite-label>
-
-    <calcite-label scale="s">
-      Inherit S scale from parent label
-      <calcite-radio-group appearance="outline">
-        <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
-        <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
-        <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
-        <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
-      </calcite-radio-group>
-    </calcite-label>
-
     <calcite-label>
       My Great Radio Layout Vertical
       <calcite-radio-group layout="vertical">
@@ -129,6 +109,34 @@
     </calcite-label>
 
     <h3 class="leader-1">Width full</h3>
+
+    <div style="width:33vw;margin:2rem;">
+      <calcite-radio-group
+        width="full"
+      >
+        <calcite-radio-group-item
+          checked
+          value="React"
+        >
+          React
+        </calcite-radio-group-item>
+        <calcite-radio-group-item
+          value="Ember"
+        >
+          Ember
+        </calcite-radio-group-item>
+        <calcite-radio-group-item
+          value="Longer text wraps."
+        >
+          Longer text wraps.
+        </calcite-radio-group-item>
+        <calcite-radio-group-item
+          value="Longer text wraps yep"
+        >
+          Longer text wraps yep
+        </calcite-radio-group-item>
+      </calcite-radio-group>
+    </div>
 
     <calcite-radio-group width="full">
       <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
@@ -273,12 +281,13 @@
       </calcite-radio-group>
     </div>
     <h3 class="leader-1">RTL</h3>
-
-    <calcite-radio-group dir="rtl">
-      <calcite-radio-group-item value="1" checked></calcite-radio-group-item>
-      <calcite-radio-group-item value="2" checked></calcite-radio-group-item>
-      <calcite-radio-group-item value="3" checked></calcite-radio-group-item>
-    </calcite-radio-group>
+    <div dir="rtl">
+      <calcite-radio-group>
+        <calcite-radio-group-item value="1" checked></calcite-radio-group-item>
+        <calcite-radio-group-item value="2" checked></calcite-radio-group-item>
+        <calcite-radio-group-item value="3" checked></calcite-radio-group-item>
+      </calcite-radio-group>
+    </div>
 
     <h3 class="leader-1">External inputs</h3>
 
@@ -294,12 +303,19 @@
       <label>
         Choose wisely
         <calcite-radio-group name="within-form">
-          <calcite-radio-group-item value="1"></calcite-radio-group-item>
+          <calcite-radio-group-item checked value="1"></calcite-radio-group-item>
           <calcite-radio-group-item value="2"></calcite-radio-group-item>
           <calcite-radio-group-item value="3"></calcite-radio-group-item>
         </calcite-radio-group>
       </label>
+      <button type="submit">Submit</button>
     </form>
+    <script>
+      document.querySelector("form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        window.alert(`You selected ${e.target[0].value}`);
+      });
+    </script>
   </div>
 </body>
 
