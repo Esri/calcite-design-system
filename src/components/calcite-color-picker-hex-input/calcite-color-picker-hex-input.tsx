@@ -115,6 +115,7 @@ export class CalciteColorPickerHexInput {
         const { internalColor } = this;
         const changed = !internalColor || normalized !== normalizeHex(internalColor.hex());
         this.internalColor = Color(normalized);
+        this.previousNonNullValue = normalized;
         this.value = normalized;
 
         if (changed) {
@@ -188,9 +189,15 @@ export class CalciteColorPickerHexInput {
     const { altKey, ctrlKey, metaKey, shiftKey } = event;
     const { el, inputNode, internalColor, value } = this;
     const key = getKey(event.key);
-    const nudgeable = value && (key === "ArrowDown" || key === "ArrowUp");
+    const isNudgeKey = key === "ArrowDown" || key === "ArrowUp";
 
-    if (nudgeable) {
+    if (isNudgeKey) {
+      if (!value) {
+        this.value = this.previousNonNullValue;
+        event.preventDefault();
+        return;
+      }
+
       const direction = key === "ArrowUp" ? 1 : -1;
       const bump = shiftKey ? 10 : 1;
 
@@ -230,6 +237,8 @@ export class CalciteColorPickerHexInput {
    * The last valid/selected color. Used as a fallback if an invalid hex code is entered.
    */
   @State() internalColor: Color | null = DEFAULT_COLOR;
+
+  private previousNonNullValue: string = this.value;
 
   //--------------------------------------------------------------------------
   //

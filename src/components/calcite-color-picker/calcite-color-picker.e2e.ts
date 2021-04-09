@@ -849,34 +849,45 @@ describe("calcite-color-picker", () => {
           });
         });
 
-        it("does not allow nudging values", async () => {
+        it("restores previous color value when a nudge key is pressed", async () => {
+          const consistentRgbHsvChannelValue = "0";
+          const initialValue = "#".padEnd(7, consistentRgbHsvChannelValue);
+
           const assertChannelValueNudge = async (page: E2EPage, calciteInput: E2EElement): Promise<void> => {
             await calciteInput.callMethod("setFocus");
             await page.waitForChanges();
 
+            await clearAndEnterValue(page, calciteInput, "");
+
             await page.keyboard.press("ArrowUp");
             await page.waitForChanges();
-            expect(await calciteInput.getProperty("value")).toBe("");
+            expect(await calciteInput.getProperty("value")).toBe(consistentRgbHsvChannelValue);
+
+            await clearAndEnterValue(page, calciteInput, "");
 
             await page.keyboard.press("ArrowDown");
             await page.waitForChanges();
-            expect(await calciteInput.getProperty("value")).toBe("");
+            expect(await calciteInput.getProperty("value")).toBe(consistentRgbHsvChannelValue);
+
+            await clearAndEnterValue(page, calciteInput, "");
 
             await page.keyboard.down("Shift");
             await page.keyboard.press("ArrowUp");
             await page.keyboard.up("Shift");
             await page.waitForChanges();
-            expect(await calciteInput.getProperty("value")).toBe("");
+            expect(await calciteInput.getProperty("value")).toBe(consistentRgbHsvChannelValue);
+
+            await clearAndEnterValue(page, calciteInput, "");
 
             await page.keyboard.down("Shift");
             await page.keyboard.press("ArrowDown");
             await page.keyboard.up("Shift");
             await page.waitForChanges();
-            expect(await calciteInput.getProperty("value")).toBe("");
+            expect(await calciteInput.getProperty("value")).toBe(consistentRgbHsvChannelValue);
           };
 
           const page = await newE2EPage({
-            html: "<calcite-color-picker allow-empty value=''></calcite-color-picker>"
+            html: `<calcite-color-picker allow-empty value='${initialValue}'></calcite-color-picker>`
           });
 
           const [rgbModeButton, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);

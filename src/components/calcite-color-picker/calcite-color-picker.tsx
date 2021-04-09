@@ -399,6 +399,7 @@ export class CalciteColorPicker {
     const key = getKey(event.key);
 
     if (!this.color && (key === "ArrowUp" || key === "ArrowDown")) {
+      this.internalColorSet(this.previousColor, true);
       event.preventDefault();
       return;
     }
