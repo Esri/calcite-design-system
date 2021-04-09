@@ -42,6 +42,26 @@ describe("calcite-tree-item", () => {
     expect(isVisible).toBe(true);
   });
 
+  it("should allow starting expanded", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(`<calcite-tree lines id="parentTree">
+      <calcite-tree-item id="firstItem" expanded>
+        <a href="#">Child 2</a>
+
+        <calcite-tree slot="children">
+          <calcite-tree-item>
+            <a href="#" id="childLink">Grandchild 1</a>
+          </calcite-tree-item>
+        </calcite-tree>
+      </calcite-tree-item>
+    </calcite-tree>`);
+
+    const child = await page.find("#childLink");
+    const isVisible = await child.isVisible();
+    expect(isVisible).toBe(true);
+  });
+
   it("should navigate when the link inside the tree item is clicked", async () => {
     const page = await newE2EPage();
 
