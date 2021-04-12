@@ -46,11 +46,14 @@ export class CalcitePopoverManager {
   //
   //--------------------------------------------------------------------------
 
-  getRelatedPopover = (el: HTMLElement): HTMLCalcitePopoverElement => {
-    return getElementByAttributeId(
-      el.closest(this.selector),
-      POPOVER_REFERENCE
-    ) as HTMLCalcitePopoverElement;
+  getRelatedPopover = (element: HTMLElement): HTMLCalcitePopoverElement => {
+    const { selector, el } = this;
+
+    return getElementByAttributeId({
+      element: element.closest(selector),
+      attrName: POPOVER_REFERENCE,
+      hostElement: (el.getRootNode() as ShadowRoot)?.host as HTMLElement
+    }) as HTMLCalcitePopoverElement;
   };
 
   //--------------------------------------------------------------------------
