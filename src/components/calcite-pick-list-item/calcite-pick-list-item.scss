@@ -1,8 +1,8 @@
 :host {
   @extend %component-host;
-  @apply items-stretch 
-    flex 
-    text-color-1 
+  @apply items-stretch
+    flex
+    text-color-1
     shadow-border-bottom
     m-0
     mb-px;
@@ -15,7 +15,7 @@
 }
 
 .icon {
-  @apply items-center flex my-0 mx-2 opacity-0;
+  @apply items-center flex my-0 mx-2 opacity-0 cursor-pointer;
   color: theme("colors.brand");
   flex: 0 0 auto;
   line-height: 0;
