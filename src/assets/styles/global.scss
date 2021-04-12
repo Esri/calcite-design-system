@@ -45,13 +45,6 @@
   overflow: hidden;
 }
 
-.calcite-match-height {
-  @apply flex
-  flex-auto
-  flex-col
-  overflow-hidden;
-}
-
 [calcite-hydrated-hidden] {
   visibility: hidden;
   pointer-events: none;
