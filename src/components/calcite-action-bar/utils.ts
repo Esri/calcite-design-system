@@ -1,7 +1,7 @@
 import { forceUpdate } from "@stencil/core";
 
-const actionHeight = 48;
-const groupMargin = 16;
+const actionHeight = 50;
+const groupMargin = 18;
 
 const getMaxActionCount = ({ height, groupCount }: { height: number; groupCount: number }): number => {
   return Math.floor((height - groupCount * groupMargin) / actionHeight);
@@ -16,9 +16,7 @@ export const getOverflowCount = ({
   height: number;
   groupCount: number;
 }): number => {
-  const maxActionsCount = getMaxActionCount({ height, groupCount });
-  const offset = Math.max(Math.ceil(groupCount / 2), 1);
-  return actionCount >= maxActionsCount ? actionCount - maxActionsCount + offset : 0;
+  return Math.max(actionCount - getMaxActionCount({ height, groupCount }), 0);
 };
 
 export const overflowActions = ({
@@ -30,8 +28,10 @@ export const overflowActions = ({
   expanded: boolean;
   overflowCount: number;
 }): void => {
-  let neededToSlot = overflowCount;
+  let needToSlotCount = overflowCount;
   actionGroups.reverse().forEach((group) => {
+    let slottedWithinGroupCount = 0;
+
     const groupActions = Array.from(group.querySelectorAll("calcite-action")).reverse();
 
     groupActions.forEach((groupAction) => {
@@ -39,18 +39,21 @@ export const overflowActions = ({
       groupAction.textEnabled = expanded;
     });
 
-    if (neededToSlot > 1) {
+    if (needToSlotCount > 0) {
       groupActions.some((groupAction) => {
         const unslottedActions = groupActions.filter((action) => !action.slot);
 
         if (unslottedActions.length > 1 && groupActions.length > 2) {
           groupAction.textEnabled = true;
           groupAction.setAttribute("slot", "menu-actions");
+          slottedWithinGroupCount++;
 
-          neededToSlot--;
+          if (slottedWithinGroupCount > 1) {
+            needToSlotCount--;
+          }
         }
 
-        return neededToSlot < 1;
+        return needToSlotCount < 1;
       });
     }
 
