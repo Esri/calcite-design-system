@@ -1117,6 +1117,28 @@ describe("calcite-color-picker", () => {
       await scope.press("ArrowLeft");
       expect(await picker.getProperty("value")).toBe("#ededed");
     });
+
+    it("allows nudging color's saturation even if it does not change RGB value", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-color-picker value="#000"></calcite-color-picker>`
+      });
+      const scope = await page.find(`calcite-color-picker >>> .${CSS.scope}`);
+
+      const initialStyle = await scope.getComputedStyle();
+      expect(initialStyle.left).toBe("0px");
+
+      await scope.click();
+
+      let nudgesToTheEdge = 25;
+
+      while (nudgesToTheEdge--) {
+        await scope.press("ArrowRight");
+      }
+
+      const finalStyle = await scope.getComputedStyle();
+      expect(finalStyle.left).toBe(`${DIMENSIONS.m.colorField.width}px`);
+    });
+
     it("allows editing hue slider via keyboard", async () => {
       const page = await newE2EPage({
         html: `<calcite-color-picker allow-empty value=""></calcite-color-picker>`
