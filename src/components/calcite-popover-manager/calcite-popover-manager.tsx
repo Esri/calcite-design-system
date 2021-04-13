@@ -1,6 +1,6 @@
 import { Component, Element, Host, h, Listen, Prop, VNode } from "@stencil/core";
 import { POPOVER_REFERENCE } from "../calcite-popover/resources";
-import { getElementByAttributeId, getRootNode } from "../../utils/dom";
+import { getElementById, getRootNode } from "../../utils/dom";
 
 @Component({
   tag: "calcite-popover-manager"
@@ -48,12 +48,9 @@ export class CalcitePopoverManager {
 
   getRelatedPopover = (element: HTMLElement): HTMLCalcitePopoverElement => {
     const { selector, el } = this;
+    const id = element.closest(selector)?.getAttribute(POPOVER_REFERENCE);
 
-    return getElementByAttributeId({
-      element: element.closest(selector),
-      attrName: POPOVER_REFERENCE,
-      rootNode: getRootNode(el)
-    }) as HTMLCalcitePopoverElement;
+    return getElementById(getRootNode(el), id) as HTMLCalcitePopoverElement;
   };
 
   //--------------------------------------------------------------------------

@@ -123,18 +123,6 @@ export function getElementById(rootNode: HTMLDocument | ShadowRoot, id: string):
     : null;
 }
 
-export function getElementByAttributeId({
-  attrName,
-  element,
-  rootNode
-}: {
-  attrName: string;
-  element: HTMLElement;
-  rootNode?: HTMLDocument | ShadowRoot;
-}): HTMLElement {
-  return getElementById(rootNode, element?.getAttribute(attrName));
-}
-
 export function hasLabel(labelEl: HTMLCalciteLabelElement, el: HTMLElement): boolean {
   return labelEl.contains(el);
 }
