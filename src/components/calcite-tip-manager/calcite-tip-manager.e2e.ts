@@ -215,4 +215,24 @@ describe("calcite-tip-manager", () => {
       expect(selectedTip.id).toEqual("two");
     });
   });
+
+  it("should set headingLevel of tip", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<calcite-tip-manager heading-level="1">
+        <calcite-tip id="one" heading="test"><p>no pre-selected attribute</p></calcite-tip>
+      </calcite-tip-manager>`
+    );
+
+    await page.waitForChanges();
+
+    const tipManager = await page.find("calcite-tip-manager");
+
+    expect(await tipManager.getProperty("headingLevel")).toEqual(1);
+
+    const heading = await page.find(`calcite-tip >>> .${CSS.heading}`);
+
+    expect(heading.tagName).toEqual("H2");
+  });
 });
