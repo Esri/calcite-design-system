@@ -111,22 +111,28 @@ export function filterDirectChildren<T extends Element>(el: Element, selector: s
   return Array.from(el.children).filter((child): child is T => child.matches(selector));
 }
 
-export function getElementByAttributeId<T extends Element>({
-  element,
+export function getRootNode(element: HTMLElement): HTMLDocument | ShadowRoot {
+  return element.getRootNode() as HTMLDocument | ShadowRoot;
+}
+
+export function getElementById(rootNode: HTMLDocument | ShadowRoot, id: string): HTMLElement {
+  return id
+    ? rootNode instanceof ShadowRoot
+      ? rootNode.host.querySelector(`#${id}`)
+      : rootNode.getElementById(id)
+    : null;
+}
+
+export function getElementByAttributeId({
   attrName,
-  hostElement
+  element,
+  rootNode
 }: {
   attrName: string;
-  element: Element;
-  hostElement: HTMLElement;
-}): T | HTMLElement | null {
-  const id = element?.getAttribute(attrName);
-
-  if (!id) {
-    return null;
-  }
-
-  return (hostElement?.querySelector(`#${id}`) as HTMLElement) || document.getElementById(id) || null;
+  element: HTMLElement;
+  rootNode?: HTMLDocument | ShadowRoot;
+}): HTMLElement {
+  return getElementById(rootNode, element?.getAttribute(attrName));
 }
 
 export function hasLabel(labelEl: HTMLCalciteLabelElement, el: HTMLElement): boolean {
