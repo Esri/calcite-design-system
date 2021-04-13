@@ -25,6 +25,7 @@ import {
   localizeNumberString
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
+import { hiddenInputStyle } from "../../utils/form";
 
 /**
  * @slot `calcite-action` - A slot for positioning a button next to an input
@@ -82,6 +83,9 @@ export class CalciteInput {
   /** BCP 47 language tag for desired language and country format */
   @Prop() locale?: string = document.documentElement.lang || "en";
 
+  /** Specifies whether to format by locale or not.  This prop can be updated in the future to accept a formatting string. */
+  @Prop() localeFormat = true;
+
   /** input max */
   @Prop({ reflect: true }) max?: number;
 
@@ -133,12 +137,7 @@ export class CalciteInput {
   @Prop({ mutable: true, reflect: true }) status: Status = "idle";
 
   /** input step */
-  @Prop({ reflect: true }) step?: number | "any";
-
-  @Watch("step")
-  stepWatcher(): void {
-    this.stepString = this.step?.toString() || null;
-  }
+  @Prop({ reflect: true }) step: number | "any" = "any";
 
   /** optionally add suffix  **/
   @Prop() suffixText?: string;
@@ -190,6 +189,9 @@ export class CalciteInput {
   /** keep track of the rendered child type */
   private childElType?: "input" | "textarea" = "input";
 
+  /** number text input element for locale */
+  private childNumberEl?: HTMLInputElement;
+
   /** keep track of the initial value */
   private defaultValue: string;
 
@@ -213,8 +215,6 @@ export class CalciteInput {
   /** determine if there is a slotted action for styling purposes */
   private slottedActionEl?: HTMLSlotElement;
 
-  private stepString?: string;
-
   //--------------------------------------------------------------------------
   //
   //  State
@@ -223,7 +223,7 @@ export class CalciteInput {
 
   @State() editing = false;
 
-  @State() inputText: string;
+  @State() localizedValue: string = localizeNumberString(this.value, this.locale);
 
   //--------------------------------------------------------------------------
   //
@@ -243,17 +243,19 @@ export class CalciteInput {
   }
 
   componentWillLoad(): void {
-    this.defaultValue = this.value;
     this.childElType = this.type === "textarea" ? "textarea" : "input";
-    this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
-    this.minString = this.min?.toString();
+    this.defaultValue = this.value;
     this.maxString = this.max?.toString();
-    this.stepString = this.step?.toString();
+    this.minString = this.min?.toString();
+    this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
   }
 
   componentDidLoad(): void {
     this.slottedActionEl = this.el.querySelector("[slot=input-action]");
     this.setDisabledAction();
+    if (this.shouldFormatNumberByLocale()) {
+      this.childEl.style.cssText = hiddenInputStyle;
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -300,7 +302,11 @@ export class CalciteInput {
   /** focus the rendered child element */
   @Method()
   async setFocus(): Promise<void> {
-    this.childEl?.focus();
+    if (this.shouldFormatNumberByLocale()) {
+      this.childNumberEl?.focus();
+    } else {
+      this.childEl?.focus();
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -312,14 +318,14 @@ export class CalciteInput {
   private clearInputValue = (event: KeyboardEvent | MouseEvent): void => {
     const calciteInputInputEvent = this.emitInputFromUserInteraction("", event);
     if (!calciteInputInputEvent.defaultPrevented) {
-      this.value = "";
+      this.setValue("");
     }
   };
 
   private decrementNumberValue = (nativeEvent: KeyboardEvent | MouseEvent): void => {
-    if (this.childElType === "input" && this.type === "number") {
+    if (this.type === "number") {
       const inputMin = this.minString ? parseFloat(this.minString) : null;
-      const inputStep = Number(this.stepString) > 0 ? parseFloat(this.stepString) : 1;
+      const inputStep = this.step === "any" ? 1 : Math.abs(this.step);
       let inputVal = this.value && this.value !== "" ? parseFloat(this.value) : 0;
       const decimals = this.value?.split(".")[1]?.length || 0;
 
@@ -332,38 +338,26 @@ export class CalciteInput {
       const calciteInputInputEvent = this.emitInputFromUserInteraction(newValue, nativeEvent);
 
       if (!calciteInputInputEvent.defaultPrevented) {
-        this.childEl.value = newValue;
-        this.value = this.childEl.value.toString();
+        this.setValue(newValue);
       }
     }
   };
 
-  private getValue(): string {
-    if (this.type === "number") {
-      if (this.editing) {
-        return this.inputText;
-      } else {
-        return localizeNumberString(this.value, this.locale);
-      }
-    }
-    return this.value;
-  }
-
   private emitInputFromUserInteraction = (
-    newValue: string,
+    value: string,
     nativeEvent?: InputEvent | KeyboardEvent | MouseEvent
   ): CustomEvent => {
     return this.calciteInputInput.emit({
       element: this.childEl,
       nativeEvent,
-      value: this.type === "number" ? delocalizeNumberString(newValue, this.locale) : newValue
+      value
     });
   };
 
   private incrementNumberValue = (nativeEvent: KeyboardEvent | MouseEvent): void => {
-    if (this.childElType === "input" && this.type === "number") {
+    if (this.type === "number") {
       const inputMax = this.maxString ? parseFloat(this.maxString) : null;
-      const inputStep = Number(this.stepString) > 0 ? parseFloat(this.stepString) : 1;
+      const inputStep = this.step === "any" ? 1 : Math.abs(this.step);
       let inputVal = this.value && this.value !== "" ? parseFloat(this.value) : 0;
       const decimals = this.value?.split(".")[1]?.length || 0;
 
@@ -376,28 +370,16 @@ export class CalciteInput {
       const calciteInputInputEvent = this.emitInputFromUserInteraction(newValue, nativeEvent);
 
       if (!calciteInputInputEvent.defaultPrevented) {
-        this.childEl.value = newValue;
-        this.value = newValue;
+        this.setValue(newValue);
       }
     }
   };
 
-  private inputBlurHandler = (): void => {
-    if (this.type === "number") {
-      this.editing = false;
-      if (this.inputText) {
-        this.value = localizeNumberString(this.inputText, this.locale);
-      }
-      this.calciteInputBlur.emit({
-        element: this.childEl,
-        value: delocalizeNumberString(this.value, this.locale)
-      });
-    } else {
-      this.calciteInputBlur.emit({
-        element: this.childEl,
-        value: this.value
-      });
-    }
+  private inputBlurHandler = () => {
+    this.calciteInputBlur.emit({
+      element: this.childEl,
+      value: this.value
+    });
   };
 
   private inputFocusHandler = (event: FocusEvent): void => {
@@ -406,35 +388,32 @@ export class CalciteInput {
     }
     this.calciteInputFocus.emit({
       element: this.childEl,
-      value: this.type === "number" ? delocalizeNumberString(this.value, this.locale) : this.value
+      value: this.value
     });
   };
 
   private inputInputHandler = (event: InputEvent): void => {
     const newValue = (event.target as HTMLInputElement).value;
-    const calciteInputInputEvent = this.emitInputFromUserInteraction(
-      this.type === "number" ? delocalizeNumberString(newValue, this.locale) : newValue,
-      event
-    );
+    const calciteInputInputEvent = this.emitInputFromUserInteraction(newValue, event);
 
     if (!calciteInputInputEvent.defaultPrevented) {
-      if (this.type === "number") {
-        this.editing = true;
-        this.inputText = newValue;
-        if (!this.inputText) {
-          this.value = "";
-        }
-      } else {
-        this.value = newValue;
-      }
+      this.setValue(newValue);
     }
   };
 
-  private inputKeyDownHandler = (event: KeyboardEvent): void => {
-    if (this.childElType !== "input") {
-      return;
+  private inputNumberInputHandler = (event: InputEvent): void => {
+    const localizedValue = (event.target as HTMLInputElement).value;
+    const newValue = delocalizeNumberString(localizedValue, this.locale);
+
+    const calciteInputInputEvent = this.emitInputFromUserInteraction(newValue, event);
+
+    if (!calciteInputInputEvent.defaultPrevented) {
+      this.setValue(newValue);
     }
-    if (this.type !== "number") {
+  };
+
+  private inputNumberKeyDownHandler = (event: KeyboardEvent): void => {
+    if (!this.shouldFormatNumberByLocale()) {
       return;
     }
     if (event.key === "ArrowUp") {
@@ -464,7 +443,10 @@ export class CalciteInput {
     if (event.key == getGroupSeparator(this.locale)) {
       return;
     }
-    if (event.key == getDecimalSeparator(this.locale) && this.inputText.indexOf(event.key) === -1) {
+    if (
+      event.key == getDecimalSeparator(this.locale) &&
+      this.localizedValue.indexOf(event.key) === -1
+    ) {
       return;
     }
     event.preventDefault();
@@ -473,10 +455,16 @@ export class CalciteInput {
   private reset = (event): void => {
     if (this.type === "number") {
       event.preventDefault();
-      this.value = localizeNumberString(this.defaultValue, this.locale);
-    } else {
-      this.value = this.defaultValue;
     }
+    this.setValue(this.defaultValue);
+  };
+
+  private setChildElRef = (el) => {
+    this.childEl = el;
+  };
+
+  private setChildNumberElRef = (el) => {
+    this.childNumberEl = el;
   };
 
   private setDisabledAction(): void {
@@ -489,6 +477,18 @@ export class CalciteInput {
       ? slottedActionEl.setAttribute("disabled", "")
       : slottedActionEl.removeAttribute("disabled");
   }
+
+  private setValue = (newValue: string): void => {
+    this.value = newValue;
+    this.childEl.value = newValue;
+    if (this.shouldFormatNumberByLocale()) {
+      this.localizedValue = localizeNumberString(newValue, this.locale);
+    }
+  };
+
+  private shouldFormatNumberByLocale = () => {
+    return this.localeFormat && this.type === "number";
+  };
 
   private updateNumberValue = (event: MouseEvent): void => {
     // todo, when dropping ie11 support, refactor to use stepup/stepdown
@@ -593,6 +593,26 @@ export class CalciteInput {
 
     const suffixText = <div class="calcite-input-suffix">{this.suffixText}</div>;
 
+    const localeNumberInput = this.shouldFormatNumberByLocale() ? (
+      <input
+        autofocus={this.autofocus ? true : null}
+        class="locale-number-input"
+        defaultValue={this.defaultValue}
+        disabled={this.disabled ? true : null}
+        maxLength={this.maxLength}
+        minLength={this.minLength}
+        onBlur={this.inputBlurHandler}
+        onFocus={this.inputFocusHandler}
+        onInput={this.inputNumberInputHandler}
+        onKeyDown={this.inputNumberKeyDownHandler}
+        placeholder={this.placeholder || ""}
+        ref={this.setChildNumberElRef}
+        tabIndex={0}
+        type="text"
+        value={this.localizedValue}
+      />
+    ) : null;
+
     const childEl = [
       <this.childElType
         {...attributes}
@@ -606,14 +626,13 @@ export class CalciteInput {
         onBlur={this.inputBlurHandler}
         onFocus={this.inputFocusHandler}
         onInput={this.inputInputHandler}
-        onKeyDown={this.inputKeyDownHandler}
         placeholder={this.placeholder || ""}
-        ref={(el) => (this.childEl = el)}
+        ref={this.setChildElRef}
         required={this.required ? true : null}
-        step={this.stepString}
-        tabIndex={this.disabled ? -1 : null}
-        type={this.type === "number" ? "text" : this.type}
-        value={this.getValue()}
+        step={this.step}
+        tabIndex={this.disabled || this.shouldFormatNumberByLocale() ? -1 : null}
+        type={this.type}
+        value={this.value}
       />,
       this.isTextarea ? (
         <div class="calcite-input-resize-icon-wrapper">
@@ -630,6 +649,7 @@ export class CalciteInput {
             : null}
           {this.prefixText ? prefixText : null}
           <div class="calcite-input-element-wrapper">
+            {localeNumberInput}
             {childEl}
             {this.isClearable ? inputClearButton : null}
             {this.requestedIcon ? iconEl : null}

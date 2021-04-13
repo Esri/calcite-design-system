@@ -56,19 +56,16 @@ function createLocaleNumberFormatter(locale: string): Intl.NumberFormat {
   });
 }
 
-export function delocalizeNumberString(stringNumber: string, locale: string): string {
-  if (stringNumber && locales.includes(locale)) {
-    const number = Number(stringNumber);
-    if (!isNaN(number)) {
-      return stringNumber
-        .replace(getGroupSeparator(locale), "")
-        .replace(getDecimalSeparator(locale), ".")
-        .replace(" ", "")
-        .trim();
-    }
+export function delocalizeNumberString(numberString: string, locale: string): string {
+  if (numberString && locales.includes(locale)) {
+    const localizedNumberString = numberString
+      .replace(getGroupSeparator(locale), "")
+      .replace(getDecimalSeparator(locale), ".")
+      .replace(" ", "")
+      .trim();
+    return isNaN(Number(localizedNumberString)) ? numberString : localizedNumberString;
   }
-
-  return stringNumber;
+  return numberString;
 }
 
 export function getGroupSeparator(locale: string): string {

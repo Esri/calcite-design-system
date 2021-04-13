@@ -261,6 +261,8 @@ export class CalciteColorPicker {
 
   private mode: SupportedMode = CSSColorMode.HEX;
 
+  private shiftKeyChannelAdjustment = 0;
+
   private sliderThumbState: "idle" | "hover" | "drag" = "idle";
 
   @State() colorFieldAndSliderInteractive = false;
@@ -370,28 +372,6 @@ export class CalciteColorPicker {
     const input = event.currentTarget as HTMLCalciteInputElement;
     const internalInput = event.target as HTMLInputElement;
     const channelIndex = Number(internalInput.getAttribute("data-channel-index"));
-    const key = getKey(event.detail.nativeEvent?.key);
-    const shiftKey = event.detail.nativeEvent?.shiftKey;
-
-    if (!this.color && (key === "ArrowUp" || key === "ArrowDown")) {
-      this.internalColorSet(this.previousColor, true);
-      event.preventDefault();
-      return;
-    }
-
-    if (shiftKey) {
-      event.preventDefault();
-    }
-
-    // this gets applied instead of the input's up/down arrow increment/decrement
-    const complementaryBump = 10;
-
-    const shiftKeyChannelAdjustment =
-      key === "ArrowUp" && shiftKey
-        ? complementaryBump
-        : key === "ArrowDown" && shiftKey
-        ? -complementaryBump
-        : 0;
 
     const limit =
       this.channelMode === "rgb"
@@ -403,16 +383,41 @@ export class CalciteColorPicker {
     if (this.allowEmpty && !internalInput.value) {
       inputValue = "";
     } else {
-      const value = Number(internalInput.value) + shiftKeyChannelAdjustment;
+      const value = Number(internalInput.value) + this.shiftKeyChannelAdjustment;
       const clamped = Math.max(0, Math.min(value, limit));
 
       inputValue = clamped.toString();
     }
 
+    // need to update both calcite-input and its internal input to keep them in sync
     input.value = inputValue;
     internalInput.value = inputValue;
+  };
 
-    // Update color
+  private handleChannelKeyUpOrDown = (event: KeyboardEvent): void => {
+    const { shiftKey } = event;
+    const key = getKey(event.key);
+
+    if (!this.color && (key === "ArrowUp" || key === "ArrowDown")) {
+      this.internalColorSet(this.previousColor, true);
+      event.preventDefault();
+      return;
+    }
+
+    // this gets applied to the input's up/down arrow increment/decrement
+    const complementaryBump = 9;
+
+    this.shiftKeyChannelAdjustment =
+      key === "ArrowUp" && shiftKey
+        ? complementaryBump
+        : key === "ArrowDown" && shiftKey
+        ? -complementaryBump
+        : 0;
+  };
+
+  private handleChannelChange = (event: KeyboardEvent): void => {
+    const input = event.target as HTMLInputElement;
+    const channelIndex = Number(input.getAttribute("data-channel-index"));
     const channels = [...this.channels] as this["channels"];
 
     const shouldClearChannels = this.allowEmpty && !input.value;
@@ -725,9 +730,12 @@ export class CalciteColorPicker {
       aria-label={ariaLabel}
       class={CSS.channel}
       data-channel-index={index}
-      min={0}
+      localeFormat={false}
       numberButtonType="none"
-      onCalciteInputInput={this.handleChannelInput}
+      onChange={this.handleChannelChange}
+      onInput={this.handleChannelInput}
+      onKeyDown={this.handleChannelKeyUpOrDown}
+      onKeyUp={this.handleChannelKeyUpOrDown}
       prefixText={label}
       scale="s"
       type="number"

@@ -39,6 +39,11 @@
   <demo-form>
     <h2>Locales</h2>
     <form name="demo-form">
+      <input type="number" value="1234.56" name="native">
+      <calcite-input name="calcite-input"></calcite-input>
+      <calcite-input type="number" locale="fr" name="french" value="1234.56" step="1"></calcite-input>
+      <calcite-input type="number" locale="fr" name="french-whole" value="1234" step="1"></calcite-input>
+      <calcite-input type="number" locale="fr" name="french-novalue" step="1"></calcite-input>
       <demo-spacer>
         <button type="submit">Submit</button>
         <button type="reset">Reset</button>
@@ -70,15 +75,15 @@
       localeDemoContainer.appendChild(localeEl);
     });
 
-    document.addEventListener("calciteInputFocus", (event) => {
-      console.log("inputFocus", event.target.getAttribute("name"), event.detail.value);
-    });
-    document.addEventListener("calciteInputInput", (event) => {
-      console.log("inputInput", event.target.getAttribute("name"), event.detail.value);
-    });
-    document.addEventListener("calciteInputBlur", (event) => {
-      console.log("inputBlur", event.target.getAttribute("name"), event.detail.value);
-    });
+    // document.addEventListener("calciteInputFocus", (event) => {
+    //   console.log("inputFocus", event.target.getAttribute("name"), event.detail.value);
+    // });
+    // document.addEventListener("calciteInputInput", (event) => {
+    //   console.log("inputInput", event.target.getAttribute("name"), event.detail.value);
+    // });
+    // document.addEventListener("calciteInputBlur", (event) => {
+    //   console.log("inputBlur", event.target.getAttribute("name"), event.detail.value);
+    // });
   </script>
 </body>
 
