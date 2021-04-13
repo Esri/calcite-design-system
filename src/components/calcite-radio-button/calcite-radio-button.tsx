@@ -128,7 +128,7 @@ export class CalciteRadioButton {
   @Prop({ reflect: true }) theme: Theme;
 
   /** The value of the radio button. */
-  @Prop({ reflect: true }) value!: string;
+  @Prop() value!: any;
 
   //--------------------------------------------------------------------------
   //
@@ -355,7 +355,7 @@ export class CalciteRadioButton {
     return (
       <Host labeled={!!this.el.textContent}>
         <input
-          aria-label={this.value || this.guid}
+          aria-label={this.value?.toString() || this.guid}
           checked={this.checked}
           disabled={this.disabled}
           hidden={this.hidden}
@@ -366,7 +366,7 @@ export class CalciteRadioButton {
           ref={this.setInputEl}
           required={this.required}
           type="radio"
-          value={this.value}
+          value={this.value?.toString()}
         />
         <calcite-radio
           checked={this.checked}

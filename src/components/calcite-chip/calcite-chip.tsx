@@ -51,7 +51,7 @@ export class CalciteChip {
   /** Select theme (light or dark) */
   @Prop({ reflect: true }) theme: Theme;
 
-  @Prop() value!: string;
+  @Prop() value!: any;
 
   // --------------------------------------------------------------------------
   //
