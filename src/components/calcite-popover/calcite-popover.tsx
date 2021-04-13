@@ -25,6 +25,7 @@ import { Theme } from "../interfaces";
 import { getElementDir } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { PopoverFocusId } from "./resources";
+import { getElementById, getRootNode } from "../../utils/dom";
 
 /**
  * @slot image - A slot for adding an image. The image will appear above the other slot content.
@@ -258,11 +259,12 @@ export class CalcitePopover {
   };
 
   getReferenceElement(): HTMLElement {
-    const { referenceElement } = this;
+    const { referenceElement, el } = this;
+    const rootNode = getRootNode(el);
 
     return (
       (typeof referenceElement === "string"
-        ? document.getElementById(referenceElement)
+        ? getElementById(rootNode, referenceElement)
         : referenceElement) || null
     );
   }
