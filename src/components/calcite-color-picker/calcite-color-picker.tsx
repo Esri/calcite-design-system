@@ -379,8 +379,12 @@ export class CalciteColorPicker {
       return;
     }
 
-    // this gets applied to the input's up/down arrow increment/decrement
-    const complementaryBump = 9;
+    if (shiftKey) {
+      event.preventDefault();
+    }
+
+    // this gets applied instead of the input's up/down arrow increment/decrement
+    const complementaryBump = 10;
 
     const shiftKeyChannelAdjustment =
       key === "ArrowUp" && shiftKey
@@ -405,14 +409,10 @@ export class CalciteColorPicker {
       inputValue = clamped.toString();
     }
 
-    // need to update both calcite-input and its internal input to keep them in sync
     input.value = inputValue;
     internalInput.value = inputValue;
-  };
 
-  private handleChannelChange = (event: KeyboardEvent): void => {
-    const input = event.target as HTMLInputElement;
-    const channelIndex = Number(input.getAttribute("data-channel-index"));
+    // Update color
     const channels = [...this.channels] as this["channels"];
 
     const shouldClearChannels = this.allowEmpty && !input.value;
@@ -728,7 +728,6 @@ export class CalciteColorPicker {
       min={0}
       numberButtonType="none"
       onCalciteInputInput={this.handleChannelInput}
-      onChange={this.handleChannelChange}
       prefixText={label}
       scale="s"
       type="number"

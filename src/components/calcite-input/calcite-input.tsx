@@ -310,8 +310,10 @@ export class CalciteInput {
   //--------------------------------------------------------------------------
 
   private clearInputValue = (event: KeyboardEvent | MouseEvent): void => {
-    this.value = "";
-    this.emitInputFromUserInteraction(event);
+    const calciteInputInputEvent = this.emitInputFromUserInteraction("", event);
+    if (!calciteInputInputEvent.defaultPrevented) {
+      this.value = "";
+    }
   };
 
   private decrementNumberValue = (nativeEvent: KeyboardEvent | MouseEvent): void => {
@@ -321,12 +323,18 @@ export class CalciteInput {
       let inputVal = this.value && this.value !== "" ? parseFloat(this.value) : 0;
       const decimals = this.value?.split(".")[1]?.length || 0;
 
+      let newValue = this.value;
+
       if ((!inputMin && inputMin !== 0) || inputVal > inputMin) {
-        this.childEl.value = (inputVal -= inputStep).toFixed(decimals).toString();
+        newValue = (inputVal -= inputStep).toFixed(decimals).toString();
       }
 
-      this.value = this.childEl.value.toString();
-      this.emitInputFromUserInteraction(nativeEvent);
+      const calciteInputInputEvent = this.emitInputFromUserInteraction(newValue, nativeEvent);
+
+      if (!calciteInputInputEvent.defaultPrevented) {
+        this.childEl.value = newValue;
+        this.value = this.childEl.value.toString();
+      }
     }
   };
 
@@ -342,13 +350,13 @@ export class CalciteInput {
   }
 
   private emitInputFromUserInteraction = (
+    newValue: string,
     nativeEvent?: InputEvent | KeyboardEvent | MouseEvent
-  ): void => {
-    this.calciteInputInput.emit({
+  ): CustomEvent => {
+    return this.calciteInputInput.emit({
       element: this.childEl,
       nativeEvent,
-      value:
-        this.type === "number" ? delocalizeNumberString(this.inputText, this.locale) : this.value
+      value: this.type === "number" ? delocalizeNumberString(newValue, this.locale) : newValue
     });
   };
 
@@ -359,12 +367,18 @@ export class CalciteInput {
       let inputVal = this.value && this.value !== "" ? parseFloat(this.value) : 0;
       const decimals = this.value?.split(".")[1]?.length || 0;
 
+      let newValue = this.value;
+
       if ((!inputMax && inputMax !== 0) || inputVal < inputMax) {
-        this.childEl.value = (inputVal += inputStep).toFixed(decimals).toString();
+        newValue = (inputVal += inputStep).toFixed(decimals).toString();
       }
 
-      this.value = this.childEl.value.toString();
-      this.emitInputFromUserInteraction(nativeEvent);
+      const calciteInputInputEvent = this.emitInputFromUserInteraction(newValue, nativeEvent);
+
+      if (!calciteInputInputEvent.defaultPrevented) {
+        this.childEl.value = newValue;
+        this.value = newValue;
+      }
     }
   };
 
@@ -397,17 +411,23 @@ export class CalciteInput {
   };
 
   private inputInputHandler = (event: InputEvent): void => {
-    const target = event.target as HTMLInputElement;
-    if (this.type === "number") {
-      this.editing = true;
-      this.inputText = target.value;
-      if (!this.inputText) {
-        this.value = "";
+    const newValue = (event.target as HTMLInputElement).value;
+    const calciteInputInputEvent = this.emitInputFromUserInteraction(
+      this.type === "number" ? delocalizeNumberString(newValue, this.locale) : newValue,
+      event
+    );
+
+    if (!calciteInputInputEvent.defaultPrevented) {
+      if (this.type === "number") {
+        this.editing = true;
+        this.inputText = newValue;
+        if (!this.inputText) {
+          this.value = "";
+        }
+      } else {
+        this.value = newValue;
       }
-    } else {
-      this.value = target.value;
     }
-    this.emitInputFromUserInteraction(event);
   };
 
   private inputKeyDownHandler = (event: KeyboardEvent): void => {
