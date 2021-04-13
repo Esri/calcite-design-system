@@ -15,7 +15,7 @@ describe("calcite-panel", () => {
       },
       {
         propertyName: "headingLevel",
-        defaultValue: 3
+        defaultValue: undefined
       }
     ]));
 

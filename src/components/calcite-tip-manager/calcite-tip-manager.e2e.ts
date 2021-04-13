@@ -23,7 +23,7 @@ describe("calcite-tip-manager", () => {
       defaults("calcite-tip-manager", [
         {
           propertyName: "headingLevel",
-          defaultValue: 2
+          defaultValue: undefined
         }
       ]));
 
