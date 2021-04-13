@@ -1,4 +1,5 @@
 var flattenColorPalette = require('tailwindcss/lib/util/flattenColorPalette').default;
+
 module.exports = {
   theme: {
     borderColor: theme => ({
@@ -6,7 +7,8 @@ module.exports = {
         1: "var(--calcite-ui-border-1)",
         2: "var(--calcite-ui-border-2)",
         3: "var(--calcite-ui-border-3)",
-        input: "var(--calcite-ui-border-input)"
+        input: "var(--calcite-ui-border-input)",
+        transparent: theme("colors.transparent")
       },
       "color-brand": theme("colors.brand"),
       "color-brand-hover": theme("colors.brand-hover"),
@@ -65,9 +67,32 @@ module.exports = {
       6: "var(--calcite-font-size-6)",      // 48px
       7: "var(--calcite-font-size-7)",      // 56px
       8: "var(--calcite-font-size-8)",      // 64px
+      "-3h": [ "var(--calcite-font-size--3)", { lineHeight: '0.75rem' } ], // 10px (0.625rem)
+      "-2h": [ "var(--calcite-font-size--2)", { lineHeight: '1rem' } ],    // 12px (0.75rem)
+      "-1h": [ "var(--calcite-font-size--1)", { lineHeight: '1rem' } ],    // 14px (0.875rem)
+      "0h": [ "var(--calcite-font-size-0)", { lineHeight: '1.25rem' } ],   // 16px (1rem)
+      "1h": [ "var(--calcite-font-size-1)", { lineHeight: '1.5rem' } ],    // 18px (1.125rem)
+      "2h": [ "var(--calcite-font-size-2)", { lineHeight: '1.5rem' } ],    // 20px (1.25rem)
+      "3h": [ "var(--calcite-font-size-3)", { lineHeight: '2rem' } ],      // 26px (1.625rem)
+      "4h": [ "var(--calcite-font-size-4)", { lineHeight: '2.5rem' } ],    // 32px (2rem)
+      "5h": [ "var(--calcite-font-size-5)", { lineHeight: '3rem' } ],      // 40px (2.5rem)
+      "6h": [ "var(--calcite-font-size-6)", { lineHeight: '4rem' } ],      // 48px (3rem)
+      "7h": [ "var(--calcite-font-size-7)", { lineHeight: '4rem' } ],      // 56px (3.5rem)
+      "8h": [ "var(--calcite-font-size-8)", { lineHeight: '5rem' } ],      // 64px (4rem)
+      "-3-wrap": [ "var(--calcite-font-size--3)", { lineHeight: '1.375' } ],
+      "-2-wrap": [ "var(--calcite-font-size--2)", { lineHeight: '1.375' } ],
+      "-1-wrap": [ "var(--calcite-font-size--1)", { lineHeight: '1.375' } ],
+      "0-wrap": [ "var(--calcite-font-size-0)", { lineHeight: '1.375' } ],
+      "1-wrap": [ "var(--calcite-font-size-1)", { lineHeight: '1.375' } ],
+      "2-wrap": [ "var(--calcite-font-size-2)", { lineHeight: '1.375' } ],
+      "3-wrap": [ "var(--calcite-font-size-3)", { lineHeight: '1.25' } ],
+      "4-wrap": [ "var(--calcite-font-size-4)", { lineHeight: '1.25' } ],
+      "5-wrap": [ "var(--calcite-font-size-5)", { lineHeight: '1.25' } ],
+      "6-wrap": [ "var(--calcite-font-size-6)", { lineHeight: '1.25' } ],
+      "7-wrap": [ "var(--calcite-font-size-7)", { lineHeight: '1.25' } ],
+      "8-wrap": [ "var(--calcite-font-size-8)", { lineHeight: '1.25' } ],
     },
     fontWeight: {
-      // assets/styles/_type
       light: "var(--calcite-font-weight-light)",
       normal: "var(--calcite-font-weight-normal)",
       medium: "var(--calcite-font-weight-medium)",
@@ -197,6 +222,12 @@ module.exports = {
         ".focus-inset": {
           "outline": "2px solid var(--calcite-ui-brand)",
           "outline-offset": "-2px"
+        },
+        ".transition-default": {
+          "transition-property": "all",
+          "transition-duration": "150ms",
+          "transition-timing-function": "ease-in-out",
+          "transition-delay": "0s"
         }
       }
       addUtilities(newUtilities);
