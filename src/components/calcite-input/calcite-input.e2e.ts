@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { focusable, HYDRATED_ATTR } from "../../tests/commonTests";
-import { getDecimalSeparator, getGroupSeparator, locales, localizeNumberString } from "../../utils/locale";
+import { getDecimalSeparator, locales, localizeNumberString } from "../../utils/locale";
 
 describe("calcite-input", () => {
   it("honors form reset", async () => {
@@ -676,8 +676,8 @@ describe("calcite-input", () => {
           });
           const calciteInput = await page.find("calcite-input");
           const input = await page.find("input");
-          const group = getGroupSeparator(locale);
           const decimal = getDecimalSeparator(locale);
+          const unformattedValue = "1234.56";
 
           await page.keyboard.press("Tab");
           await input.type("1234");
@@ -685,8 +685,8 @@ describe("calcite-input", () => {
           await input.press("5");
           await input.press("6");
 
-          expect(await calciteInput.getProperty("localizedValue")).toBe(`1${group}234${decimal}56`);
           expect(await calciteInput.getProperty("value")).toBe(`1234.56`);
+          expect(await input.getProperty("value")).toBe(localizeNumberString(unformattedValue, locale));
         });
       });
   });

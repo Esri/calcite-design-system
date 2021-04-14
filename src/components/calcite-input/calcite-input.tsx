@@ -523,7 +523,8 @@ export class CalciteInput {
       "status",
       "suffix-text",
       "theme",
-      "number-button-type"
+      "number-button-type",
+      "locale"
     ]);
 
     const loader = (
