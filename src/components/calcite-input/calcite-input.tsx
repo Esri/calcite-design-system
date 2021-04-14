@@ -221,8 +221,6 @@ export class CalciteInput {
   //
   //--------------------------------------------------------------------------
 
-  @State() editing = false;
-
   @State() localizedValue: string = localizeNumberString(this.value, this.locale);
 
   //--------------------------------------------------------------------------
@@ -438,9 +436,6 @@ export class CalciteInput {
       return;
     }
     if (supportedKeys.includes(event.key)) {
-      return;
-    }
-    if (event.key == getGroupSeparator(this.locale)) {
       return;
     }
     if (

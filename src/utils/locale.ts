@@ -58,12 +58,23 @@ function createLocaleNumberFormatter(locale: string): Intl.NumberFormat {
 
 export function delocalizeNumberString(numberString: string, locale: string): string {
   if (numberString && locales.includes(locale)) {
-    const localizedNumberString = numberString
-      .replace(getGroupSeparator(locale), "")
-      .replace(getDecimalSeparator(locale), ".")
-      .replace(" ", "")
-      .trim();
-    return isNaN(Number(localizedNumberString)) ? numberString : localizedNumberString;
+    const groupSeparator = getGroupSeparator(locale);
+    const decimalSeparator = getDecimalSeparator(locale);
+
+    const splitNumberString = numberString.split("");
+    const decimalIndex = splitNumberString.lastIndexOf(decimalSeparator);
+
+    const delocalizedNumberString = splitNumberString
+      .map((value, index) => {
+        if (value === groupSeparator || (value === decimalSeparator && index !== decimalIndex)) {
+          return "";
+        }
+        return value;
+      })
+      .reduce((string, part) => string + part)
+      .replace(decimalSeparator, ".");
+
+    return isNaN(Number(delocalizedNumberString)) ? numberString : delocalizedNumberString;
   }
   return numberString;
 }
@@ -82,7 +93,6 @@ export function getDecimalSeparator(locale: string): string {
   if (!locales.includes(locale)) {
     return ".";
   }
-
   const formatter = createLocaleNumberFormatter(locale);
   const parts = formatter.formatToParts(1234567.8);
   const value = parts.find((part) => part.type === "decimal").value;
@@ -110,6 +120,5 @@ export function localizeNumberString(stringNumber: string, locale: string): stri
       return localizedNumberString;
     }
   }
-
   return stringNumber;
 }
