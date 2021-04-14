@@ -84,7 +84,10 @@ export class CalciteInput {
   /** BCP 47 language tag for desired language and country format */
   @Prop() locale?: string = document.documentElement.lang || "en";
 
-  /** Specifies whether to format by locale or not. */
+  /**
+   * Toggles locale formatting for numbers.
+   * @internal
+   */
   @Prop() localeFormat = false;
 
   /** input max */
