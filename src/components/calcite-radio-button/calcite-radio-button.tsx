@@ -352,10 +352,12 @@ export class CalciteRadioButton {
   }
 
   render(): VNode {
+    const value = this.value?.toString();
+
     return (
       <Host labeled={!!this.el.textContent}>
         <input
-          aria-label={this.value?.toString() || this.guid}
+          aria-label={value || this.guid}
           checked={this.checked}
           disabled={this.disabled}
           hidden={this.hidden}
@@ -366,7 +368,7 @@ export class CalciteRadioButton {
           ref={this.setInputEl}
           required={this.required}
           type="radio"
-          value={this.value?.toString()}
+          value={value}
         />
         <calcite-radio
           checked={this.checked}
