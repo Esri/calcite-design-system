@@ -8,7 +8,7 @@ export const hiddenInputStyle = `
   position: absolute !important;
   right: 0 !important;
   top: 0 !important;
-  transform: noone !important;
+  transform: none !important;
   -webkit-appearance: none !important;
   z-index: -1 !important;
 `;
