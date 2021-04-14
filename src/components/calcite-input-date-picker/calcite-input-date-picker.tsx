@@ -217,7 +217,12 @@ export class CalciteInputDatePicker {
     return (
       <Host onBlur={this.deactivate} onKeyUp={this.keyUpHandler} role="application">
         {this.localeData && (
-          <div aria-expanded={this.active.toString()} class="input-container" role="application">
+          <div
+            aria-expanded={this.active.toString()}
+            class="input-container"
+            dir={dir}
+            role="application"
+          >
             {
               <div class="input-wrapper" ref={this.setStartWrapper}>
                 <calcite-input
@@ -252,7 +257,6 @@ export class CalciteInputDatePicker {
               >
                 <calcite-date-picker
                   activeRange={this.focusedInput}
-                  dir={dir}
                   endAsDate={this.endAsDate}
                   headingLevel={this.headingLevel}
                   intlNextMonth={this.intlNextMonth}
