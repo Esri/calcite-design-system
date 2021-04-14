@@ -84,6 +84,10 @@ export class CalciteTreeItem {
   //
   //--------------------------------------------------------------------------
 
+  connectedCallback(): void {
+    this.expandedHandler(this.expanded);
+  }
+
   componentWillRender(): void {
     this.hasChildren = !!this.el.querySelector("calcite-tree");
     this.depth = 0;

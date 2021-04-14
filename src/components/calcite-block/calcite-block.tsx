@@ -45,7 +45,7 @@ export class CalciteBlock {
   /**
    * Number at which section headings should start for this component.
    */
-  @Prop() headingLevel: HeadingLevel = HEADING_LEVEL;
+  @Prop() headingLevel: HeadingLevel;
 
   /**
    * Tooltip used for the toggle when expanded.
@@ -153,7 +153,7 @@ export class CalciteBlock {
           </div>
         ) : null}
         <div class={CSS.title}>
-          <CalciteHeading class={CSS.heading} level={headingLevel}>
+          <CalciteHeading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
             {heading}
           </CalciteHeading>
           {summary ? <div class={CSS.summary}>{summary}</div> : null}
@@ -168,6 +168,7 @@ export class CalciteBlock {
         {this.dragHandle ? <calcite-handle /> : null}
         {collapsible ? (
           <button
+            aria-expanded={collapsible ? open.toString() : null}
             aria-label={toggleLabel}
             class={CSS.toggle}
             onClick={this.onHeaderClick}
@@ -194,7 +195,6 @@ export class CalciteBlock {
       <Host tabIndex={disabled ? -1 : null}>
         <article
           aria-busy={loading.toString()}
-          aria-expanded={collapsible ? open.toString() : null}
           class={{
             [CSS.article]: true,
             [CSS_UTILITY.rtl]: rtl

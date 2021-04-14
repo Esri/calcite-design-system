@@ -15,7 +15,7 @@ describe("calcite-date-picker", () => {
       },
       {
         propertyName: "headingLevel",
-        defaultValue: 2
+        defaultValue: undefined
       },
       {
         propertyName: "intlNextMonth",

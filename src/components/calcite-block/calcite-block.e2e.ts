@@ -15,7 +15,7 @@ describe("calcite-block", () => {
       },
       {
         propertyName: "headingLevel",
-        defaultValue: 4
+        defaultValue: undefined
       },
       {
         propertyName: "open",
@@ -130,6 +130,7 @@ describe("calcite-block", () => {
     const toggle = await page.find(`calcite-block >>> .${CSS.toggle}`);
 
     expect(toggle.getAttribute("aria-label")).toBe(TEXT.expand);
+    expect(toggle.getAttribute("aria-expanded")).toBe("false");
     expect(toggle.getAttribute("title")).toBe(TEXT.expand);
 
     await toggle.click();
@@ -137,6 +138,7 @@ describe("calcite-block", () => {
     expect(toggleSpy).toHaveReceivedEventTimes(1);
     expect(await element.getProperty("open")).toBe(true);
     expect(toggle.getAttribute("aria-label")).toBe(TEXT.collapse);
+    expect(toggle.getAttribute("aria-expanded")).toBe("true");
     expect(toggle.getAttribute("title")).toBe(TEXT.collapse);
 
     await toggle.click();
@@ -144,6 +146,7 @@ describe("calcite-block", () => {
     expect(toggleSpy).toHaveReceivedEventTimes(2);
     expect(await element.getProperty("open")).toBe(false);
     expect(toggle.getAttribute("aria-label")).toBe(TEXT.expand);
+    expect(toggle.getAttribute("aria-expanded")).toBe("false");
     expect(toggle.getAttribute("title")).toBe(TEXT.expand);
   });
 

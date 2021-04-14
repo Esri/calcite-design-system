@@ -18,6 +18,7 @@ import { getRoundRobinIndex } from "../../utils/array";
 import { PopperPlacement } from "../../utils/popper";
 import { Placement } from "@popperjs/core";
 import { guid } from "../../utils/guid";
+import { Scale } from "../interfaces";
 
 const SUPPORTED_BUTTON_NAV_KEYS = ["ArrowUp", "ArrowDown"];
 const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
@@ -91,6 +92,11 @@ export class CalciteActionMenu {
    */
   @Prop({ reflect: true }) placement: PopperPlacement = "auto";
 
+  /**
+   * Specifies the size of the action.
+   */
+  @Prop({ reflect: true }) scale: Scale = "m";
+
   // --------------------------------------------------------------------------
   //
   //  Events
@@ -162,7 +168,7 @@ export class CalciteActionMenu {
   // --------------------------------------------------------------------------
 
   renderMenuButton(): VNode {
-    const { el, menuButtonId, menuId, open, label, expanded } = this;
+    const { el, menuButtonId, menuId, open, label, expanded, scale } = this;
 
     const actionNode = (
       <calcite-action
@@ -178,6 +184,7 @@ export class CalciteActionMenu {
         onKeyDown={this.menuButtonKeyDown}
         onKeyUp={this.menuButtonKeyUp}
         ref={this.setMenuButtonRef}
+        scale={scale}
         text={label}
         textEnabled={expanded}
       />

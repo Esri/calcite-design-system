@@ -50,7 +50,7 @@ export class CalciteDatePicker {
   /**
    * Number at which section headings should start for this component.
    */
-  @Prop() headingLevel: HeadingLevel = HEADING_LEVEL;
+  @Prop() headingLevel: HeadingLevel;
 
   /** Selected date as full date object*/
   @Prop({ mutable: true }) valueAsDate?: Date;
@@ -371,7 +371,7 @@ export class CalciteDatePicker {
         <calcite-date-picker-month-header
           activeDate={activeDate}
           dir={dir}
-          headingLevel={this.headingLevel}
+          headingLevel={this.headingLevel || HEADING_LEVEL}
           intlNextMonth={this.intlNextMonth}
           intlPrevMonth={this.intlPrevMonth}
           localeData={this.localeData}
