@@ -75,14 +75,14 @@
     margin-right: unset;
   }
 }
-:host([icon-start][dir="rtl"]:not([icon-end])) {
-  .content {
+:host([icon-start]:not([icon-end])) {
+  .calcite--rtl .content {
     margin-left: unset;
     margin-right: $baseline/3;
   }
 }
-:host([icon-end][dir="rtl"]:not([icon-start])) {
-  .content {
+:host([icon-end]:not([icon-start])) {
+  .calcite--rtl .content {
     margin-right: unset;
     margin-left: $baseline/3;
   }
@@ -163,14 +163,14 @@
     text-align: unset;
   }
 }
-:host([dir="rtl"][alignment="icon-start-space-between"]:not([width="auto"])) {
-  .icon--start {
+:host([alignment="icon-start-space-between"]:not([width="auto"])) {
+  .calcite--rtl .icon--start {
     margin-right: unset;
     margin-left: auto;
   }
 }
-:host([dir="rtl"][alignment="icon-end-space-between"]:not([width="auto"])) {
-  .icon--end {
+:host([alignment="icon-end-space-between"]:not([width="auto"])) {
+  .calcite--rtl .icon--end {
     margin-left: unset;
     margin-right: auto;
   }
@@ -186,12 +186,14 @@
   }
 }
 
-:host([dir="rtl"][alignment="center"]) {
-  a:not(.content--slotted),
-  button:not(.content--slotted) {
-    .icon--start + .icon--end {
-      margin-left: unset;
-      margin-right: $baseline/3;
+:host([alignment="center"]) {
+  .calcite--rtl {
+    a:not(.content--slotted),
+    button:not(.content--slotted) {
+      .icon--start + .icon--end {
+        margin-left: unset;
+        margin-right: $baseline/3;
+      }
     }
   }
 }
@@ -437,18 +439,28 @@
   }
 }
 
-:host([dir="ltr"][appearance="outline"][split-child="primary"]) button,
-:host([dir="rtl"][appearance="outline"][split-child="secondary"]) button,
-:host([dir="ltr"][appearance="clear"][split-child="primary"]) button,
-:host([dir="rtl"][appearance="clear"][split-child="secondary"]) button {
+:host([appearance="outline"][split-child="primary"]) button,
+:host([appearance="clear"][split-child="primary"]) button {
   border-right: 0;
 }
 
-:host([dir="ltr"][appearance="outline"][split-child="secondary"]) button,
-:host([dir="rtl"][appearance="outline"][split-child="primary"]) button,
-:host([dir="ltr"][appearance="clear"][split-child="secondary"]) button,
-:host([dir="rtl"][appearance="clear"][split-child="primary"]) button {
+:host([appearance="outline"][split-child="secondary"]) button,
+:host([appearance="clear"][split-child="secondary"]) button {
+  .calcite--rtl {
+    border-right: 0;
+  }
+}
+
+:host([appearance="outline"][split-child="secondary"]) button,
+:host([appearance="clear"][split-child="secondary"]) button {
   border-left: 0;
+}
+
+:host([appearance="outline"][split-child="primary"]) button,
+:host([appearance="clear"][split-child="primary"]) button {
+  .calcite--rtl {
+    border-left: 0;
+  }
 }
 
 // transparent
