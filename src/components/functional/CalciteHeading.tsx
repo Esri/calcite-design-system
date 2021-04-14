@@ -7,7 +7,7 @@ interface CalciteHeadingProps extends JSXBase.HTMLAttributes {
   level: HeadingLevel;
 }
 
-export function ConstrainHeadingLevel(level: number): HeadingLevel {
+export function constrainHeadingLevel(level: number): HeadingLevel {
   return Math.min(Math.max(Math.ceil(level), 1), 6) as HeadingLevel;
 }
 

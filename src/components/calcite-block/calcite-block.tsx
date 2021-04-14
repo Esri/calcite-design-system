@@ -45,7 +45,7 @@ export class CalciteBlock {
   /**
    * Number at which section headings should start for this component.
    */
-  @Prop() headingLevel: HeadingLevel = HEADING_LEVEL;
+  @Prop() headingLevel: HeadingLevel;
 
   /**
    * Tooltip used for the toggle when expanded.
@@ -153,7 +153,7 @@ export class CalciteBlock {
           </div>
         ) : null}
         <div class={CSS.title}>
-          <CalciteHeading class={CSS.heading} level={headingLevel}>
+          <CalciteHeading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
             {heading}
           </CalciteHeading>
           {summary ? <div class={CSS.summary}>{summary}</div> : null}
