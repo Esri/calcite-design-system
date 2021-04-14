@@ -215,7 +215,7 @@ export class CalciteInputDatePicker {
     const dir = getElementDir(this.el);
 
     return (
-      <Host dir={dir} onBlur={this.deactivate} onKeyUp={this.keyUpHandler} role="application">
+      <Host onBlur={this.deactivate} onKeyUp={this.keyUpHandler} role="application">
         {this.localeData && (
           <div aria-expanded={this.active.toString()} class="input-container" role="application">
             {
