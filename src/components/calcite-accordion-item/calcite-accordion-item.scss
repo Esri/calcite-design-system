@@ -83,7 +83,7 @@
   margin-left: var(--calcite-accordion-item-icon-spacing-end);
 }
 
-:host([dir="rtl"]) .accordion-item-icon {
+.calcite--rtl .accordion-item-icon {
   margin-left: var(--calcite-accordion-item-icon-spacing-start);
   margin-right: var(--calcite-accordion-item-icon-spacing-end);
 }
@@ -113,7 +113,7 @@
   transform: rotate(var(--calcite-accordion-item-icon-rotation));
 }
 
-:host([dir="rtl"]) .accordion-item-expand-icon {
+.calcite--rtl .accordion-item-expand-icon {
   margin-left: var(--calcite-accordion-item-icon-spacing-end);
   margin-right: var(--calcite-accordion-item-icon-spacing-start);
   transform: rotate(var(--calcite-accordion-item-icon-rotation-rtl));
@@ -123,7 +123,7 @@
   @apply text-color-1;
   transform: rotate(var(--calcite-accordion-item-active-icon-rotation));
 }
-:host([active][dir="rtl"]) .accordion-item-expand-icon {
+:host([active]) .calcite--rtl .accordion-item-expand-icon {
   transform: rotate(var(--calcite-accordion-item-active-icon-rotation-rtl));
 }
 
@@ -133,7 +133,7 @@
   text-align: initial;
 }
 
-:host([dir="rtl"]) .accordion-item-header-text {
+.calcite--rtl .accordion-item-header-text {
   @apply mr-0 ml-auto;
 }
 
@@ -148,7 +148,7 @@
 :host .accordion-item-subtitle {
   @apply text-color-3 mt-1 leading-snug;
 }
-:host([dir="rtl"]) .accordion-item-title {
+.calcite--rtl .accordion-item-title {
   @apply mr-0 ml-auto;
 }
 :host(:focus),
