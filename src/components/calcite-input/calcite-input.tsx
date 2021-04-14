@@ -26,6 +26,8 @@ import {
 import { numberKeys } from "../../utils/key";
 import { hiddenInputStyle } from "../../utils/form";
 
+type NumberNudgeDirection = "up" | "down";
+
 /**
  * @slot `calcite-action` - A slot for positioning a button next to an input
  */
@@ -319,27 +321,6 @@ export class CalciteInput {
     }
   };
 
-  private decrementNumberValue = (nativeEvent: KeyboardEvent | MouseEvent): void => {
-    if (this.type === "number") {
-      const inputMin = this.minString ? parseFloat(this.minString) : null;
-      const inputStep = this.step === "any" ? 1 : Math.abs(this.step);
-      let inputVal = this.value && this.value !== "" ? parseFloat(this.value) : 0;
-      const decimals = this.value?.split(".")[1]?.length || 0;
-
-      let newValue = this.value;
-
-      if ((!inputMin && inputMin !== 0) || inputVal > inputMin) {
-        newValue = (inputVal -= inputStep).toFixed(decimals).toString();
-      }
-
-      const calciteInputInputEvent = this.emitInputFromUserInteraction(newValue, nativeEvent);
-
-      if (!calciteInputInputEvent.defaultPrevented) {
-        this.setValue(newValue);
-      }
-    }
-  };
-
   private emitInputFromUserInteraction = (
     value: string,
     nativeEvent?: InputEvent | KeyboardEvent | MouseEvent
@@ -349,27 +330,6 @@ export class CalciteInput {
       nativeEvent,
       value
     });
-  };
-
-  private incrementNumberValue = (nativeEvent: KeyboardEvent | MouseEvent): void => {
-    if (this.type === "number") {
-      const inputMax = this.maxString ? parseFloat(this.maxString) : null;
-      const inputStep = this.step === "any" ? 1 : Math.abs(this.step);
-      let inputVal = this.value && this.value !== "" ? parseFloat(this.value) : 0;
-      const decimals = this.value?.split(".")[1]?.length || 0;
-
-      let newValue = this.value;
-
-      if ((!inputMax && inputMax !== 0) || inputVal < inputMax) {
-        newValue = (inputVal += inputStep).toFixed(decimals).toString();
-      }
-
-      const calciteInputInputEvent = this.emitInputFromUserInteraction(newValue, nativeEvent);
-
-      if (!calciteInputInputEvent.defaultPrevented) {
-        this.setValue(newValue);
-      }
-    }
   };
 
   private inputBlurHandler = () => {
@@ -414,11 +374,11 @@ export class CalciteInput {
       return;
     }
     if (event.key === "ArrowUp") {
-      this.incrementNumberValue(event);
+      this.nudgeNumberValue("up", event);
       return;
     }
     if (event.key === "ArrowDown") {
-      this.decrementNumberValue(event);
+      this.nudgeNumberValue("down", event);
       return;
     }
     const supportedKeys = [
@@ -444,6 +404,43 @@ export class CalciteInput {
       return;
     }
     event.preventDefault();
+  };
+
+  private nudgeNumberValue = (
+    direction: NumberNudgeDirection,
+    nativeEvent: KeyboardEvent | MouseEvent
+  ): void => {
+    if (this.type !== "number") {
+      return;
+    }
+    const decimals = this.value?.split(".")[1]?.length || 0;
+    const inputMax = this.maxString ? parseFloat(this.maxString) : null;
+    const inputMin = this.minString ? parseFloat(this.minString) : null;
+    const inputStep = this.step === "any" ? 1 : Math.abs(this.step || 1);
+    let inputVal = this.value && this.value !== "" ? parseFloat(this.value) : 0;
+    let newValue = this.value;
+
+    if (direction === "up" && ((!inputMax && inputMax !== 0) || inputVal < inputMax)) {
+      newValue = (inputVal += inputStep).toFixed(decimals).toString();
+    }
+
+    if (direction === "down" && ((!inputMin && inputMin !== 0) || inputVal > inputMin)) {
+      newValue = (inputVal -= inputStep).toFixed(decimals).toString();
+    }
+
+    const calciteInputInputEvent = this.emitInputFromUserInteraction(newValue, nativeEvent);
+
+    if (!calciteInputInputEvent.defaultPrevented) {
+      this.setValue(newValue);
+    }
+  };
+
+  private numberButtonMouseDownHandler = (event: MouseEvent): void => {
+    // todo, when dropping ie11 support, refactor to use stepup/stepdown
+    // prevent blur and re-focus of input on mousedown
+    event.preventDefault();
+    const direction = (event.target as HTMLDivElement).dataset.adjustment as NumberNudgeDirection;
+    this.nudgeNumberValue(direction, event);
   };
 
   private reset = (event): void => {
@@ -483,20 +480,6 @@ export class CalciteInput {
 
   private shouldFormatNumberByLocale = () => {
     return this.localeFormat && this.type === "number";
-  };
-
-  private updateNumberValue = (event: MouseEvent): void => {
-    // todo, when dropping ie11 support, refactor to use stepup/stepdown
-    // prevent blur and re-focus of input on mousedown
-    event.preventDefault();
-    switch ((event.target as HTMLDivElement).dataset.adjustment) {
-      case "up":
-        this.incrementNumberValue(event);
-        break;
-      case "down":
-        this.decrementNumberValue(event);
-        break;
-    }
   };
 
   // --------------------------------------------------------------------------
@@ -562,7 +545,7 @@ export class CalciteInput {
       <div
         class={`calcite-input-number-button-item ${numberButtonClassModifier}`}
         data-adjustment="up"
-        onMouseDown={this.updateNumberValue}
+        onMouseDown={this.numberButtonMouseDownHandler}
       >
         <calcite-icon icon="chevron-up" scale={iconScale} theme={this.theme} />
       </div>
@@ -572,7 +555,7 @@ export class CalciteInput {
       <div
         class={`calcite-input-number-button-item ${numberButtonClassModifier}`}
         data-adjustment="down"
-        onMouseDown={this.updateNumberValue}
+        onMouseDown={this.numberButtonMouseDownHandler}
       >
         <calcite-icon icon="chevron-down" scale={iconScale} theme={this.theme} />
       </div>
