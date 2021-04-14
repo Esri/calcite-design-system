@@ -670,23 +670,23 @@ describe("calcite-input", () => {
           expect(await input.getProperty("value")).toBe(localizeNumberString(value, locale));
         });
 
-        it(`allows typing valid group and decimal characters for ${locale} locale`, async () => {
+        it(`allows typing valid decimal characters for ${locale} locale`, async () => {
           const page = await newE2EPage({
             html: `<calcite-input locale="${locale}" type="number"></calcite-input>`
           });
+          const calciteInput = await page.find("calcite-input");
           const input = await page.find("input");
           const group = getGroupSeparator(locale);
           const decimal = getDecimalSeparator(locale);
 
           await page.keyboard.press("Tab");
-          await input.press("1");
-          await page.keyboard.sendCharacter(group);
-          await input.type("234");
+          await input.type("1234");
           await page.keyboard.sendCharacter(decimal);
           await input.press("5");
           await input.press("6");
 
-          expect(await input.getProperty("value")).toBe(`1${group}234${decimal}56`);
+          expect(await calciteInput.getProperty("localizedValue")).toBe(`1${group}234${decimal}56`);
+          expect(await calciteInput.getProperty("value")).toBe(`1234.56`);
         });
       });
   });
