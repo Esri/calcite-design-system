@@ -316,11 +316,12 @@ export class CalciteColorPicker {
 
     if (Object.keys(arrowKeyToXYOffset).includes(key)) {
       event.preventDefault();
-      this.captureColor(
-        this.colorFieldScopeLeft + arrowKeyToXYOffset[key].x || 0,
-        this.colorFieldScopeTop + arrowKeyToXYOffset[key].y || 0
-      );
       this.scopeOrientation = key === "ArrowDown" || key === "ArrowUp" ? "vertical" : "horizontal";
+      this.captureColorFieldColor(
+        this.colorFieldScopeLeft + arrowKeyToXYOffset[key].x || 0,
+        this.colorFieldScopeTop + arrowKeyToXYOffset[key].y || 0,
+        false
+      );
       return;
     }
   };
@@ -889,7 +890,7 @@ export class CalciteColorPicker {
     context.scale(devicePixelRatio, devicePixelRatio);
   }
 
-  private captureColor = (x: number, y: number): void => {
+  private captureColorFieldColor = (x: number, y: number, skipEqual = true): void => {
     const {
       dimensions: {
         colorField: { height, width }
@@ -898,7 +899,10 @@ export class CalciteColorPicker {
     const saturation = Math.round((HSV_LIMITS.s / width) * x);
     const value = Math.round((HSV_LIMITS.v / height) * (height - y));
 
-    this.internalColorSet(this.baseColorFieldColor.hsv().saturationv(saturation).value(value));
+    this.internalColorSet(
+      this.baseColorFieldColor.hsv().saturationv(saturation).value(value),
+      skipEqual
+    );
   };
 
   private initColorFieldAndSlider = (canvas: HTMLCanvasElement): void => {
@@ -937,10 +941,10 @@ export class CalciteColorPicker {
 
       if (region === "color-field") {
         this.hueThumbState = "drag";
-        this.captureColor(offsetX, offsetY);
+        this.captureColorFieldColor(offsetX, offsetY);
       } else if (region === "slider") {
         this.sliderThumbState = "drag";
-        captureSliderColor(offsetX);
+        captureHueSliderColor(offsetX);
       }
     });
 
@@ -995,7 +999,7 @@ export class CalciteColorPicker {
           return;
         }
 
-        this.captureColor(offsetX, offsetY);
+        this.captureColorFieldColor(offsetX, offsetY);
       } else if (region === "slider") {
         const {
           dimensions: {
@@ -1036,11 +1040,11 @@ export class CalciteColorPicker {
           return;
         }
 
-        captureSliderColor(offsetX);
+        captureHueSliderColor(offsetX);
       }
     });
 
-    const captureSliderColor = (x: number): void => {
+    const captureHueSliderColor = (x: number): void => {
       const {
         dimensions: {
           slider: { width }

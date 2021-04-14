@@ -206,10 +206,11 @@ export class CalciteActionBar {
       expandDisabled,
       lastActionCount,
       lastGroupCount,
-      lastResizeHeight
+      lastResizeHeight,
+      overflowActionsDisabled
     } = this;
 
-    if (typeof height !== "number") {
+    if (typeof height !== "number" || overflowActionsDisabled) {
       return;
     }
 

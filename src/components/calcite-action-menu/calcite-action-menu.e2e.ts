@@ -44,6 +44,10 @@ describe("calcite-action-menu", () => {
       {
         propertyName: "placement",
         defaultValue: "auto"
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m"
       }
     ]));
 
@@ -60,6 +64,10 @@ describe("calcite-action-menu", () => {
       {
         propertyName: "placement",
         value: "auto"
+      },
+      {
+        propertyName: "scale",
+        value: "m"
       }
     ]));
 

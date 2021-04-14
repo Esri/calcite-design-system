@@ -232,6 +232,7 @@ export class CalcitePickListItem {
           [CSS.icon]: true,
           [CSS.iconDot]: icon === ICON_TYPES.circle
         }}
+        onClick={this.pickListClickHandler}
       >
         {icon === ICON_TYPES.square ? <calcite-icon icon={ICONS.checked} scale="s" /> : null}
       </span>

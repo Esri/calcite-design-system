@@ -63,11 +63,18 @@ export class CalciteCombobox {
     clearTimeout(this.hideListTimeout);
     // when closing, wait transition time then hide to prevent overscroll
     if (oldValue && !newValue) {
+      this.open = false;
       this.hideListTimeout = window.setTimeout(() => {
         this.hideList = true;
       }, ComboboxTransitionDuration);
     } else if (!oldValue && newValue) {
+      // give the combobox height, then reposition prior to opening
       this.hideList = false;
+      requestAnimationFrame(() => {
+        this.reposition();
+        this.setMaxScrollerHeight();
+        this.open = true;
+      });
     }
     this.reposition();
     this.setMaxScrollerHeight();
@@ -290,6 +297,8 @@ export class CalciteCombobox {
   @State() activeDescendant = "";
 
   @State() text = "";
+
+  @State() open = this.active;
 
   /** specifies the item wrapper height; it is updated when maxItems is > 0  **/
   @State() maxScrollerHeight = 0;
@@ -710,9 +719,14 @@ export class CalciteCombobox {
   //--------------------------------------------------------------------------
 
   renderChips(): VNode[] {
-    const { activeChipIndex, scale, selectionMode } = this;
+    const { activeChipIndex, scale, selectionMode, el } = this;
+    const dir = getElementDir(el);
     return this.selectedItems.map((item, i) => {
-      const chipClasses = { chip: true, "chip--active": activeChipIndex === i };
+      const chipClasses = {
+        chip: true,
+        "chip--active": activeChipIndex === i,
+        "chip--rtl": dir === "rtl"
+      };
       const ancestors = [...getItemAncestors(item)].reverse();
       const pathLabel = [...ancestors, item].map((el) => el.textLabel);
       const label = selectionMode !== "ancestors" ? item.textLabel : pathLabel.join(" / ");
@@ -793,7 +807,7 @@ export class CalciteCombobox {
   }
 
   renderPopperContainer(): VNode {
-    const { active, maxScrollerHeight, setMenuEl, setListContainerEl, hideList } = this;
+    const { active, maxScrollerHeight, setMenuEl, setListContainerEl, hideList, open } = this;
     const classes = {
       "list-container": true,
       [PopperCSS.animation]: true,
@@ -803,7 +817,11 @@ export class CalciteCombobox {
       maxHeight: maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : ""
     };
     return (
-      <div aria-hidden="true" class="popper-container" ref={setMenuEl}>
+      <div
+        aria-hidden="true"
+        class={{ "popper-container": true, "popper-container--active": open }}
+        ref={setMenuEl}
+      >
         <div class={classes} ref={setListContainerEl} style={style}>
           <ul class={{ list: true, "list--hide": hideList }}>
             <slot />
@@ -840,21 +858,20 @@ export class CalciteCombobox {
   }
 
   render(): VNode {
-    const { guid, active, el, label } = this;
+    const { guid, open, label } = this;
     const single = this.selectionMode === "single";
-    const dir = getElementDir(el);
     const labelId = `${guid}-label`;
     return (
-      <Host active={active} dir={dir}>
+      <Host>
         <div
           aria-autocomplete="list"
-          aria-expanded={active.toString()}
+          aria-expanded={open.toString()}
           aria-haspopup="listbox"
           aria-labelledby={labelId}
           aria-owns={guid}
           class={{
             wrapper: true,
-            "wrapper--active": active,
+            "wrapper--active": open,
             "wrapper--single": single
           }}
           onClick={this.setFocusClick}
