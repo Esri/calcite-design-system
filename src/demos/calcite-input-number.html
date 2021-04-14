@@ -40,7 +40,9 @@
     <h2>Locales</h2>
     <form name="demo-form">
       <input type="number" value="1234" name="native">
-      <calcite-input name="calcite-input"></calcite-input>
+      <calcite-input name="calcite-input" placeholder="plain calcite-input"></calcite-input>
+      <input name="native-minmax" minLength="2" maxLength="3" placeholder="minlength=2 maxlength=3"></input>
+      <calcite-input name="minmax" minLength="2" maxLength="3" placeholder="minlength=2 maxlength=3" required></calcite-input>
       <calcite-input type="number" locale="fr" name="french" value="1234.56" step="0.01"></calcite-input>
       <calcite-input type="number" locale="fr" name="french-whole" value="1234" step="1"></calcite-input>
       <calcite-input type="number" locale="fr" name="french-novalue" step="1"></calcite-input>

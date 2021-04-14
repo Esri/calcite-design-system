@@ -477,7 +477,6 @@ export class CalciteInput {
       this.localizedValue = localizeNumberString(newValue, this.locale);
     }
     this.value = newValue;
-    this.childEl.value = newValue;
   };
 
   private shouldFormatNumberByLocale = () => {
