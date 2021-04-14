@@ -1,8 +1,8 @@
-import { Component, Element, Host, Method, Prop, h, VNode } from "@stencil/core";
+import { Component, Host, Method, Prop, h, VNode } from "@stencil/core";
 import { Appearance, Scale, Theme } from "../interfaces";
 import { ButtonColor } from "../calcite-button/interfaces";
 import { CSS, ICONS } from "./resources";
-import { focusElement, getElementDir } from "../../utils/dom";
+import { focusElement } from "../../utils/dom";
 
 @Component({
   tag: "calcite-fab",
@@ -72,8 +72,6 @@ export class CalciteFab {
   //
   // --------------------------------------------------------------------------
 
-  @Element() el: HTMLCalciteFabElement;
-
   private buttonEl: HTMLElement;
 
   // --------------------------------------------------------------------------
@@ -98,7 +96,6 @@ export class CalciteFab {
       appearance,
       color,
       disabled,
-      el,
       loading,
       scale,
       theme,
@@ -108,8 +105,6 @@ export class CalciteFab {
       text
     } = this;
     const title = !textEnabled ? label || text || null : null;
-    const dir = getElementDir(el);
-
     return (
       <Host>
         <calcite-button
@@ -117,7 +112,6 @@ export class CalciteFab {
           aria-label={label}
           class={CSS.button}
           color={color}
-          dir={dir}
           disabled={disabled}
           iconStart={icon}
           loading={loading}
