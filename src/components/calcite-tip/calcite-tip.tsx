@@ -2,7 +2,7 @@ import { Component, Element, Event, EventEmitter, Host, Prop, h, VNode } from "@
 import { Theme } from "../interfaces";
 import { CSS, ICONS, SLOTS, TEXT, HEADING_LEVEL } from "./resources";
 import { getSlotted } from "../../utils/dom";
-import { HeadingLevel, CalciteHeading, ConstrainHeadingLevel } from "../functional/CalciteHeading";
+import { HeadingLevel, CalciteHeading, constrainHeadingLevel } from "../functional/CalciteHeading";
 
 /**
  * @slot thumbnail - A slot for adding an HTML image element to the tip.
@@ -93,7 +93,7 @@ export class CalciteTip {
   renderHeader(): VNode {
     const { heading, headingLevel, el } = this;
     const parentLevel = el.closest("calcite-tip-manager")?.headingLevel;
-    const relativeLevel = parentLevel ? ConstrainHeadingLevel(parentLevel + 1) : null;
+    const relativeLevel = parentLevel ? constrainHeadingLevel(parentLevel + 1) : null;
     const level = headingLevel || relativeLevel || HEADING_LEVEL;
 
     return heading ? (

@@ -3,7 +3,7 @@ import { CSS, SLOTS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 import { HEADING_LEVEL } from "./resources";
 import { getElementDir, getSlotted } from "../../utils/dom";
-import { HeadingLevel, CalciteHeading, ConstrainHeadingLevel } from "../functional/CalciteHeading";
+import { HeadingLevel, CalciteHeading, constrainHeadingLevel } from "../functional/CalciteHeading";
 
 /**
  * @slot - A slot for adding `calcite-pick-list-item` elements.
@@ -57,7 +57,7 @@ export class CalcitePickListGroup {
 
     const title = groupTitle;
     const parentLevel = el.closest("calcite-pick-list")?.headingLevel;
-    const relativeLevel = parentLevel ? ConstrainHeadingLevel(parentLevel + 1) : null;
+    const relativeLevel = parentLevel ? constrainHeadingLevel(parentLevel + 1) : null;
     const level = headingLevel || relativeLevel || HEADING_LEVEL;
 
     return (
