@@ -9,7 +9,7 @@ import {
   Prop,
   VNode
 } from "@stencil/core";
-import { getElementDir, getElementProp } from "../../utils/dom";
+import { getElementProp } from "../../utils/dom";
 import { GroupRegistration, ItemRegistration } from "../calcite-dropdown/interfaces";
 import { SelectionMode } from "./interfaces";
 
@@ -90,7 +90,6 @@ export class CalciteDropdownGroup {
   }
 
   render(): VNode {
-    const dir = getElementDir(this.el);
     const scale = getElementProp(this.el, "scale", "m");
     const groupTitle = this.groupTitle ? (
       <span aria-hidden="true" class="dropdown-title" ref={this.setDropdownTitleRef}>
@@ -104,7 +103,7 @@ export class CalciteDropdownGroup {
       ) : null;
 
     return (
-      <Host dir={dir} role="menu" scale={scale} title={this.groupTitle}>
+      <Host role="menu" scale={scale} title={this.groupTitle}>
         {dropdownSeparator}
         {groupTitle}
         <slot />
