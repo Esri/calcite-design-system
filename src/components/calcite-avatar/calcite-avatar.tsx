@@ -1,4 +1,5 @@
 import { Component, Element, h, Host, Prop, State } from "@stencil/core";
+import { getElementDir } from "../../utils/dom";
 import { isValidHex } from "../calcite-color-picker/utils";
 import { Scale, Theme } from "../interfaces";
 import { hexToHue, stringToHex } from "./utils";
@@ -68,15 +69,23 @@ export class CalciteAvatar {
   //--------------------------------------------------------------------------
 
   private determineContent() {
+    const dir = getElementDir(this.el);
+
     if (this.thumbnail && !this.error) {
       return (
-        <img alt="" class="thumbnail" onError={() => (this.error = true)} src={this.thumbnail} />
+        <img
+          alt=""
+          class="thumbnail"
+          dir={dir}
+          onError={() => (this.error = true)}
+          src={this.thumbnail}
+        />
       );
     }
     const initials = this.generateInitials();
     const backgroundColor = this.generateFillColor();
     return (
-      <span class="background" style={{ backgroundColor }}>
+      <span class="background" dir={dir} style={{ backgroundColor }}>
         {initials ? (
           <span aria-hidden="true" class="initials">
             {initials}
