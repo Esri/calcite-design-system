@@ -472,7 +472,8 @@ export class CalciteInput {
       : slottedActionEl.removeAttribute("disabled");
   }
 
-  private setValue = (newValue: string): void => {
+  private setValue = (value: string): void => {
+    const newValue = value.endsWith(".") ? value.replace(".", "") : value;
     this.value = newValue;
     this.childEl.value = newValue;
     if (this.shouldFormatNumberByLocale()) {
