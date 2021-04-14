@@ -1,6 +1,7 @@
 import { Component, Element, h, Host, Method, Prop, VNode } from "@stencil/core";
 import { getAttributes, focusElement, getElementDir } from "../../utils/dom";
 import { FlipContext, Theme } from "../interfaces";
+import { CSS_UTILITY } from "../../utils/resources";
 
 /** @slot default text slot for link text */
 
@@ -62,7 +63,6 @@ export class CalciteLink {
     const iconStartEl = (
       <calcite-icon
         class="calcite-link--icon icon-start"
-        dir={dir}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
         scale="s"
@@ -72,7 +72,6 @@ export class CalciteLink {
     const iconEndEl = (
       <calcite-icon
         class="calcite-link--icon icon-end"
-        dir={dir}
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
         scale="s"
@@ -85,9 +84,11 @@ export class CalciteLink {
     const tabIndex = this.disabled ? -1 : this.childElType === "span" ? 0 : null;
 
     return (
-      <Host dir={dir} role="presentation">
+      <Host role="presentation">
         <Tag
           {...attributes}
+          class={{ [CSS_UTILITY.rtl]: dir === "rtl" }}
+          dir={dir}
           href={Tag === "a" && this.href}
           ref={this.storeTagRef}
           role={role}
