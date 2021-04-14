@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Calcite Input</title>
+
+  <style>
+    .demo-background-dark {
+      background: #202020;
+      color: white;
+      padding: 1rem;
+    }
+    #locales {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px
+    }
+    .locale {
+      width: 200px;
+    }
+  </style>
+  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
+  <link rel="stylesheet" href="../build/calcite.css" />
+  <script type="module" src="../build/calcite.esm.js"></script>
+  <script nomodule src="../build/calcite.js"></script>
+  <script type="module" src="./_assets/demo-form.js"></script>
+  <script type="module" src="./_assets/demo-spacer.js"></script>
+  <script src="_assets/validateInput.js"></script>
+  <script src="_assets/locales.js"></script>
+</head>
+
+<body>
+  <calcite-button href="/">Home</calcite-button>
+  <h1>Calcite Number Input</h1>
+
+  <demo-form>
+    <h2>Locales</h2>
+    <form name="demo-form">
+      <input type="number" value="1234" name="native">
+      <calcite-input name="calcite-input" placeholder="plain calcite-input"></calcite-input>
+      <input name="native-minmax" minLength="2" maxLength="3" placeholder="minlength=2 maxlength=3"></input>
+      <calcite-input name="minmax" minLength="2" maxLength="3" placeholder="minlength=2 maxlength=3" required></calcite-input>
+      <calcite-input type="number" locale="fr" name="french" value="1234.56" step="0.01"></calcite-input>
+      <calcite-input type="number" locale="fr" name="french-whole" value="1234" step="1"></calcite-input>
+      <calcite-input type="number" locale="fr" name="french-novalue" step="1"></calcite-input>
+      <demo-spacer>
+        <button type="submit">Submit</button>
+        <button type="reset">Reset</button>
+        <div id="locales"></div>
+        <button type="submit">Submit</button>
+        <button type="reset">Reset</button>
+      </demo-spacer>
+    </form>
+  </demo-form>
+
+  <script>
+    const localeDemoContainer = document.getElementById("locales");
+    locales.forEach((locale) => {
+      let localeEl = document.createElement("div");
+      localeEl.setAttribute("class", "locale");
+      let label = document.createElement("calcite-label");
+      label.setAttribute("for", locale);
+      label.appendChild(document.createTextNode(locale));
+      let input = document.createElement("calcite-input");
+      (locale === "ar" || locale === "he") && input.setAttribute("dir", "rtl");
+      input.setAttribute("id", locale);
+      input.setAttribute("locale", locale);
+      input.setAttribute("name", locale);
+      input.setAttribute("scale", "s");
+      input.setAttribute("type", "number");
+      input.setAttribute("value", "1234.56");
+      localeEl.appendChild(label);
+      localeEl.appendChild(input);
+      localeDemoContainer.appendChild(localeEl);
+    });
+
+    document.addEventListener("calciteInputFocus", (event) => {
+      console.log("calciteInputFocus", event.target.getAttribute("name"), event.detail.value);
+    });
+    document.addEventListener("calciteInputInput", (event) => {
+      console.log("calciteInputInput", event.target.getAttribute("name"), event.detail.value);
+    });
+    document.addEventListener("calciteInputBlur", (event) => {
+      console.log("calciteInputBlur", event.target.getAttribute("name"), event.detail.value);
+    });
+  </script>
+</body>
+
+</html>

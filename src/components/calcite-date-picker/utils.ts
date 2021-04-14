@@ -1,4 +1,5 @@
 import { getAssetPath } from "@stencil/core";
+import { locales } from "../../utils/locale";
 
 /**
  * Translation resource data structure
@@ -28,71 +29,16 @@ export interface DateLocaleData {
 }
 
 /**
- * List of supported country codes
- * @private
- */
-const supportedLocales = [
-  "ar",
-  "bs",
-  "ca",
-  "cs",
-  "da",
-  "de",
-  "de-CH",
-  "el",
-  "en",
-  "en-AU",
-  "en-CA",
-  "en-GB",
-  "es",
-  "es-MX",
-  "et",
-  "fi",
-  "fr",
-  "fr-CH",
-  "he",
-  "hi",
-  "hr",
-  "hu",
-  "id",
-  "it",
-  "it-CH",
-  "ja",
-  "ko",
-  "lt",
-  "lv",
-  "mk",
-  "nb",
-  "nl",
-  "pl",
-  "pt",
-  "pt-PT",
-  "ro",
-  "ru",
-  "sk",
-  "sl",
-  "sr",
-  "sv",
-  "th",
-  "tr",
-  "uk",
-  "vi",
-  "zh-CN",
-  "zh-HK",
-  "zh-TW"
-];
-
-/**
  * Get supported locale code from raw user input
  * Exported for testing purposes.
  * @private
  */
 function getSupportedLocale(lang = "") {
-  if (supportedLocales.indexOf(lang) > -1) {
+  if (locales.indexOf(lang) > -1) {
     return lang;
   } else {
     const base = lang.split("-")[0];
-    if (supportedLocales.indexOf(base) > -1) {
+    if (locales.indexOf(base) > -1) {
       return base;
     } else {
       return "en";
