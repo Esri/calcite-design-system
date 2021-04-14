@@ -280,4 +280,45 @@ describe("calcite-panel", () => {
 
     expect(footer).toBeNull();
   });
+
+  it("should update width based on the multipier CSS variable", async () => {
+    const multipier = 2;
+
+    const page = await newE2EPage();
+    page.setViewport({ width: 1600, height: 1200 });
+
+    await page.setContent(`
+      <calcite-panel width-scale="m">
+        test
+      </calcite-panel>
+    `);
+
+    await page.waitForChanges();
+
+    const content = await page.find(`calcite-panel >>> .${CSS.container}`);
+    const style = await content.getComputedStyle("width");
+    const widthDefault = parseFloat(style["width"]);
+
+    const page2 = await newE2EPage();
+    page2.setViewport({ width: 1600, height: 1200 });
+
+    await page2.setContent(`
+      <style>
+        :root {
+          --calcite-panel-width-multiplier: ${multipier};
+        }
+      </style>
+      <calcite-panel width-scale="m">
+        test multiplied
+      </calcite-panel>
+    `);
+
+    await page2.waitForChanges();
+
+    const content2 = await page2.find(`calcite-panel >>> .${CSS.container}`);
+    const style2 = await content2.getComputedStyle("width");
+    const width2 = parseFloat(style2["width"]);
+
+    expect(width2).toEqual(widthDefault * multipier);
+  });
 });
