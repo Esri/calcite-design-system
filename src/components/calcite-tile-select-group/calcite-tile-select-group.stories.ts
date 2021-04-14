@@ -22,6 +22,7 @@ export const Light = (): string => html`
       name="light"
       ${boolean("input-enabled", false)}
       input-alignment="${select("input-alignment", ["start", "end"], "start")}"
+      width="${select("width", ["full", "auto"], "auto")}"
       type="${select("type", ["radio", "checkbox"], "radio")}"
       value="one"
     >
@@ -33,6 +34,7 @@ export const Light = (): string => html`
       name="light"
       ${boolean("input-enabled", false)}
       input-alignment="${select("input-alignment", ["start", "end"], "start")}"
+      width="${select("width", ["full", "auto"], "auto")}"
       type="${select("type", ["radio", "checkbox"], "radio")}"
       value="two"
     >
@@ -44,6 +46,7 @@ export const Light = (): string => html`
       name="light"
       ${boolean("input-enabled", false)}
       input-alignment="${select("input-alignment", ["start", "end"], "start")}"
+      width="${select("width", ["full", "auto"], "auto")}"
       type="${select("type", ["radio", "checkbox"], "radio")}"
       value="three"
     >
@@ -56,6 +59,7 @@ export const Light = (): string => html`
       name="light"
       ${boolean("input-enabled", false)}
       input-alignment="${select("input-alignment", ["start", "end"], "start")}"
+      width="${select("width", ["full", "auto"], "auto")}"
       type="${select("type", ["radio", "checkbox"], "radio")}"
       value="four"
     >
