@@ -20,7 +20,6 @@ import { InputPlacement } from "./interfaces";
 import { Position } from "../interfaces";
 import {
   getDecimalSeparator,
-  getGroupSeparator,
   delocalizeNumberString,
   localizeNumberString
 } from "../../utils/locale";
