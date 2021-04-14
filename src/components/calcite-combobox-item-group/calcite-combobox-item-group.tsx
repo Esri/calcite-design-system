@@ -4,6 +4,7 @@ import { getAncestors, getDepth } from "../calcite-combobox/utils";
 import { guid } from "../../utils/guid";
 import { ComboboxChildElement } from "../calcite-combobox/interfaces";
 import { getElementDir, getElementProp } from "../../utils/dom";
+import { CSS_UTILITY } from "../../utils/resources";
 
 @Component({
   tag: "calcite-combobox-item-group",
@@ -56,8 +57,12 @@ export class CalciteComboboxItemGroup {
     const indent = `${CSS.label}--indent-${getDepth(el)}`;
 
     return (
-      <Host dir={dir} scale={scale}>
-        <ul aria-labelledby={this.guid} class={CSS.list} role="group">
+      <Host scale={scale}>
+        <ul
+          aria-labelledby={this.guid}
+          class={{ [CSS.list]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+          role="group"
+        >
           <li class={{ [CSS.label]: true, [indent]: true }} id={this.guid} role="presentation">
             <span class={CSS.title}>{this.label}</span>
           </li>
