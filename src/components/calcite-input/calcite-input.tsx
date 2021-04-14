@@ -138,7 +138,7 @@ export class CalciteInput {
   @Prop({ mutable: true, reflect: true }) status: Status = "idle";
 
   /** input step */
-  @Prop({ reflect: true }) step: number | "any" = "any";
+  @Prop({ mutable: true, reflect: true }) step?: number | "any";
 
   /** optionally add suffix  **/
   @Prop() suffixText?: string;
@@ -231,10 +231,11 @@ export class CalciteInput {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.status = getElementProp(this.el, "status", this.status);
-    this.scale = getElementProp(this.el, "scale", this.scale);
     this.form = this.el.closest("form");
     this.form?.addEventListener("reset", this.reset);
+    this.scale = getElementProp(this.el, "scale", this.scale);
+    this.status = getElementProp(this.el, "status", this.status);
+    this.step = !this.step && this.shouldFormatNumberByLocale() ? "any" : this.step;
   }
 
   disconnectedCallback(): void {
@@ -470,12 +471,13 @@ export class CalciteInput {
   }
 
   private setValue = (value: string): void => {
-    const newValue = value.endsWith(".") ? value.replace(".", "") : value;
-    this.value = newValue;
-    this.childEl.value = newValue;
+    let newValue = value;
     if (this.shouldFormatNumberByLocale()) {
+      newValue = value.endsWith(".") ? value.replace(".", "") : value;
       this.localizedValue = localizeNumberString(newValue, this.locale);
     }
+    this.value = newValue;
+    this.childEl.value = newValue;
   };
 
   private shouldFormatNumberByLocale = () => {
@@ -507,7 +509,8 @@ export class CalciteInput {
       "suffix-text",
       "theme",
       "number-button-type",
-      "locale"
+      "locale",
+      "locale-format"
     ]);
 
     const loader = (
@@ -575,7 +578,6 @@ export class CalciteInput {
     const localeNumberInput = this.shouldFormatNumberByLocale() ? (
       <input
         autofocus={this.autofocus ? true : null}
-        class="locale-number-input"
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
         maxLength={this.maxLength}
