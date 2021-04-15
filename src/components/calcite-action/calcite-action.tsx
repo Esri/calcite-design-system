@@ -234,7 +234,7 @@ export class CalciteAction {
   // --------------------------------------------------------------------------
 
   calciteActionClickHandler = (): void => {
-    if (!this.disabled) {
+    if (!this.disabled && this.el.isConnected) {
       this.calciteActionClick.emit();
     }
   };
