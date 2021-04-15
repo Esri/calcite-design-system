@@ -84,8 +84,11 @@ export class CalciteInput {
   /** BCP 47 language tag for desired language and country format */
   @Prop() locale?: string = document.documentElement.lang || "en";
 
-  /** Specifies whether to format by locale or not.  This prop can be updated in the future to accept a formatting string. */
-  @Prop() localeFormat = true;
+  /**
+   * Toggles locale formatting for numbers.
+   * @internal
+   */
+  @Prop() localeFormat = false;
 
   /** input max */
   @Prop({ reflect: true }) max?: number;
@@ -171,6 +174,13 @@ export class CalciteInput {
 
   /** input value */
   @Prop({ mutable: true, reflect: true }) value?: string = "";
+
+  @Watch("value")
+  valueWatcher(newValue: string): void {
+    if (this.shouldFormatNumberByLocale()) {
+      this.setLocalizedValue(newValue);
+    }
+  }
 
   @Watch("icon")
   @Watch("type")
@@ -470,13 +480,18 @@ export class CalciteInput {
       : slottedActionEl.removeAttribute("disabled");
   }
 
-  private setValue = (value: string): void => {
-    let newValue = value;
+  private setLocalizedValue = (unlocalizedValue: string): void => {
+    this.localizedValue = localizeNumberString(
+      unlocalizedValue.endsWith(".") ? unlocalizedValue.replace(".", "") : unlocalizedValue,
+      this.locale
+    );
+  };
+
+  private setValue = (unlocalizedValue: string): void => {
     if (this.shouldFormatNumberByLocale()) {
-      newValue = value.endsWith(".") ? value.replace(".", "") : value;
-      this.localizedValue = localizeNumberString(newValue, this.locale);
+      this.setLocalizedValue(unlocalizedValue);
     }
-    this.value = newValue;
+    this.value = unlocalizedValue;
   };
 
   private shouldFormatNumberByLocale = () => {

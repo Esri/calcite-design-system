@@ -11,6 +11,7 @@ import {
 } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { getKey } from "../../utils/key";
+import { CSS_UTILITY } from "../../utils/resources";
 
 @Component({
   tag: "calcite-accordion-item",
@@ -98,13 +99,11 @@ export class CalciteAccordionItem {
     const iconEl = <calcite-icon class="accordion-item-icon" icon={this.icon} scale={iconScale} />;
 
     return (
-      <Host
-        aria-expanded={this.active.toString()}
-        dir={dir}
-        icon-position={this.iconPosition}
-        tabindex="0"
-      >
-        <div class="accordion-item-header" onClick={this.itemHeaderClickHandler}>
+      <Host aria-expanded={this.active.toString()} icon-position={this.iconPosition} tabindex="0">
+        <div
+          class={{ ["accordion-item-header"]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+          onClick={this.itemHeaderClickHandler}
+        >
           {this.icon ? iconEl : null}
           <div class="accordion-item-header-text">
             <span class="accordion-item-title">{this.itemTitle}</span>

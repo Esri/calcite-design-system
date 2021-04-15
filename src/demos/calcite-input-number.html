@@ -43,9 +43,9 @@
       <calcite-input name="calcite-input" placeholder="plain calcite-input"></calcite-input>
       <input name="native-minmax" minLength="2" maxLength="3" placeholder="minlength=2 maxlength=3"></input>
       <calcite-input name="minmax" minLength="2" maxLength="3" placeholder="minlength=2 maxlength=3" required></calcite-input>
-      <calcite-input type="number" locale="fr" name="french" value="1234.56" step="0.01"></calcite-input>
-      <calcite-input type="number" locale="fr" name="french-whole" value="1234" step="1"></calcite-input>
-      <calcite-input type="number" locale="fr" name="french-novalue" step="1"></calcite-input>
+      <calcite-input type="number" locale="fr" locale-format name="french" value="1234.56" step="0.01"></calcite-input>
+      <calcite-input type="number" locale="fr" locale-format name="french-whole" value="1234" step="1"></calcite-input>
+      <calcite-input type="number" locale="fr" locale-format name="french-novalue" step="1"></calcite-input>
       <demo-spacer>
         <button type="submit">Submit</button>
         <button type="reset">Reset</button>
@@ -68,6 +68,7 @@
       (locale === "ar" || locale === "he") && input.setAttribute("dir", "rtl");
       input.setAttribute("id", locale);
       input.setAttribute("locale", locale);
+      input.setAttribute("locale-format", true);
       input.setAttribute("name", locale);
       input.setAttribute("scale", "s");
       input.setAttribute("type", "number");
