@@ -175,6 +175,13 @@ export class CalciteInput {
   /** input value */
   @Prop({ mutable: true, reflect: true }) value?: string = "";
 
+  @Watch("value")
+  valueWatcher(newValue: string): void {
+    if (this.shouldFormatNumberByLocale()) {
+      this.setLocalizedValue(newValue);
+    }
+  }
+
   @Watch("icon")
   @Watch("type")
   updateRequestedIcon(): void {
@@ -473,13 +480,18 @@ export class CalciteInput {
       : slottedActionEl.removeAttribute("disabled");
   }
 
-  private setValue = (value: string): void => {
-    let newValue = value;
+  private setLocalizedValue = (unlocalizedValue: string): void => {
+    this.localizedValue = localizeNumberString(
+      unlocalizedValue.endsWith(".") ? unlocalizedValue.replace(".", "") : unlocalizedValue,
+      this.locale
+    );
+  };
+
+  private setValue = (unlocalizedValue: string): void => {
     if (this.shouldFormatNumberByLocale()) {
-      newValue = value.endsWith(".") ? value.replace(".", "") : value;
-      this.localizedValue = localizeNumberString(newValue, this.locale);
+      this.setLocalizedValue(unlocalizedValue);
     }
-    this.value = newValue;
+    this.value = unlocalizedValue;
   };
 
   private shouldFormatNumberByLocale = () => {

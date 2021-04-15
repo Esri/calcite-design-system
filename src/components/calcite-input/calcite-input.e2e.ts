@@ -688,6 +688,32 @@ describe("calcite-input", () => {
           expect(await calciteInput.getProperty("value")).toBe(`1234.56`);
           expect(await input.getProperty("value")).toBe(localizeNumberString(unformattedValue, locale));
         });
+
+        it(`displays correct formatted value when the value is changed programatically for ${locale} locale`, async () => {
+          const page = await newE2EPage({
+            html: `<calcite-input locale="${locale}" locale-format type="number"></calcite-input><input id="external" />`
+          });
+
+          await page.evaluate(() => {
+            const input = document.getElementById("external");
+            const calciteInput = document.querySelector("calcite-input");
+            input.addEventListener("input", (event: InputEvent): void => {
+              calciteInput.value = (event.target as HTMLInputElement).value;
+            });
+          });
+
+          const assertedValue = "1234567.891011";
+          const externalInput = await page.find("#external");
+          const calciteInput = await page.find("calcite-input");
+          const internalLocaleInput = await page.find("input");
+
+          await externalInput.click();
+          await externalInput.type(assertedValue);
+          await page.waitForChanges();
+
+          expect(await calciteInput.getProperty("value")).toBe(assertedValue);
+          expect(await internalLocaleInput.getProperty("value")).toBe(localizeNumberString(assertedValue, locale));
+        });
       });
   });
 });
