@@ -78,7 +78,7 @@ export class CalciteCard {
     const dir = getElementDir(this.el);
     return (
       <Host>
-        <div class={{ ["calcite-card-container"]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+        <div class={{ "calcite-card-container": true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           {this.loading ? (
             <div class="calcite-card-loader-container">
               <calcite-loader active label={this.intlLoading} />
