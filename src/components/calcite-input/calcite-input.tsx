@@ -424,6 +424,10 @@ export class CalciteInput {
     this.setValue(this.defaultValue, event);
   };
 
+  private sanitizeNumberString(value: string) {
+    return value.endsWith(".") ? value.replace(".", "") : value;
+  }
+
   private setChildElRef = (el) => {
     this.childEl = el;
   };
@@ -445,16 +449,19 @@ export class CalciteInput {
 
   private setLocalizedValue = (unlocalizedValue: string): void => {
     this.localizedValue = localizeNumberString(
-      unlocalizedValue.endsWith(".") ? unlocalizedValue.replace(".", "") : unlocalizedValue,
+      this.sanitizeNumberString(unlocalizedValue),
       this.locale
     );
   };
 
   private setValue = (value: string, nativeEvent): void => {
     const previousValue = this.value;
-    this.value = value;
+    this.value = this.type === "number" ? this.sanitizeNumberString(value) : value;
     if (this.shouldFormatNumberByLocale()) {
       this.setLocalizedValue(value);
+    }
+    if (this.type === "number" && value.endsWith(".")) {
+      return;
     }
     const calciteInputInputEvent = this.calciteInputInput.emit({
       element: this.childEl,
