@@ -2,6 +2,7 @@ import { Component, Element, Host, h, Prop, VNode, Watch } from "@stencil/core";
 import { getElementDir, getElementProp, setRequestedIcon } from "../../utils/dom";
 import { Scale, Status, Theme } from "../interfaces";
 import { InputMessageType, StatusIconDefaults } from "./interfaces";
+import { CSS_UTILITY } from "../../utils/resources";
 
 @Component({
   tag: "calcite-input-message",
@@ -60,10 +61,9 @@ export class CalciteInputMessage {
   }
 
   render(): VNode {
-    const dir = getElementDir(this.el);
     const hidden = !this.active;
     return (
-      <Host calcite-hydrated-hidden={hidden} dir={dir} theme={this.theme}>
+      <Host calcite-hydrated-hidden={hidden} theme={this.theme}>
         {this.renderIcon(this.requestedIcon)}
         <slot />
       </Host>
@@ -87,7 +87,15 @@ export class CalciteInputMessage {
 
   private renderIcon(iconName: string): VNode {
     if (iconName) {
-      return <calcite-icon class="calcite-input-message-icon" icon={iconName} scale="s" />;
+      const dir = getElementDir(this.el);
+
+      return (
+        <calcite-icon
+          class={{ ["calcite-input-message-icon"]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+          icon={iconName}
+          scale="s"
+        />
+      );
     }
   }
 }

@@ -21,9 +21,7 @@ export const create: () => Config = () => ({
     },
     { components: ["calcite-alert"] },
     { components: ["calcite-avatar"] },
-    {
-      components: ["calcite-block", "calcite-block-section"]
-    },
+    { components: ["calcite-block", "calcite-block-section"] },
     { components: ["calcite-button"] },
     { components: ["calcite-card"] },
     { components: ["calcite-checkbox"] },
@@ -32,18 +30,16 @@ export const create: () => Config = () => ({
     { components: ["calcite-combobox", "calcite-combobox-item-group", "calcite-combobox-item"] },
     {
       components: [
-        "calcite-input-date-picker",
         "calcite-date-picker",
         "calcite-date-picker-month",
         "calcite-date-picker-month-header",
         "calcite-date-picker-day"
       ]
     },
-    {
-      components: ["calcite-dropdown", "calcite-dropdown-group", "calcite-dropdown-item"]
-    },
+    { components: ["calcite-dropdown", "calcite-dropdown-group", "calcite-dropdown-item"] },
     { components: ["calcite-icon"] },
     { components: ["calcite-input"] },
+    { components: ["calcite-input-date-picker"] },
     { components: ["calcite-input-message"] },
     { components: ["calcite-label"] },
     { components: ["calcite-link"] },
@@ -52,27 +48,19 @@ export const create: () => Config = () => ({
     { components: ["calcite-notice"] },
     { components: ["calcite-pagination"] },
     { components: ["calcite-fab"] },
-    {
-      components: ["calcite-panel", "calcite-flow"]
-    },
+    { components: ["calcite-panel", "calcite-flow"] },
     { components: ["calcite-popover", "calcite-popover-manager"] },
     { components: ["calcite-progress"] },
     { components: ["calcite-radio-group", "calcite-radio-group-item"] },
     { components: ["calcite-rating"] },
     { components: ["calcite-scrim"] },
     { components: ["calcite-select", "calcite-option", "calcite-option-group"] },
-    {
-      components: ["calcite-shell", "calcite-shell-panel"]
-    },
+    { components: ["calcite-shell", "calcite-shell-panel"] },
     { components: ["calcite-slider"] },
     { components: ["calcite-stepper", "calcite-stepper-item"] },
     { components: ["calcite-switch"] },
-    {
-      components: ["calcite-tab", "calcite-tab-title", "calcite-tab-nav", "calcite-tabs"]
-    },
-    {
-      components: ["calcite-tip", "calcite-tip-group", "calcite-tip-manager"]
-    },
+    { components: ["calcite-tab", "calcite-tab-title", "calcite-tab-nav", "calcite-tabs"] },
+    { components: ["calcite-tip", "calcite-tip-group", "calcite-tip-manager"] },
     { components: ["calcite-tooltip", "calcite-tooltip-manager"] },
     { components: ["calcite-tree", "calcite-tree-item"] }
   ],

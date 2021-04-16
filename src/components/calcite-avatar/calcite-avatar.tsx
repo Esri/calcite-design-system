@@ -49,9 +49,8 @@ export class CalciteAvatar {
   //--------------------------------------------------------------------------
 
   render() {
-    const dir = getElementDir(this.el);
     const content = this.determineContent();
-    return <Host dir={dir}>{content}</Host>;
+    return <Host>{content}</Host>;
   }
 
   //--------------------------------------------------------------------------
@@ -70,15 +69,23 @@ export class CalciteAvatar {
   //--------------------------------------------------------------------------
 
   private determineContent() {
+    const dir = getElementDir(this.el);
+
     if (this.thumbnail && !this.error) {
       return (
-        <img alt="" class="thumbnail" onError={() => (this.error = true)} src={this.thumbnail} />
+        <img
+          alt=""
+          class="thumbnail"
+          dir={dir}
+          onError={() => (this.error = true)}
+          src={this.thumbnail}
+        />
       );
     }
     const initials = this.generateInitials();
     const backgroundColor = this.generateFillColor();
     return (
-      <span class="background" style={{ backgroundColor }}>
+      <span class="background" dir={dir} style={{ backgroundColor }}>
         {initials ? (
           <span aria-hidden="true" class="initials">
             {initials}

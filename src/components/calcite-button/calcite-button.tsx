@@ -3,6 +3,7 @@ import { CSS, TEXT } from "./resources";
 import { getAttributes, getElementDir } from "../../utils/dom";
 import { ButtonAlignment, ButtonAppearance, ButtonColor } from "./interfaces";
 import { FlipContext, Scale, Theme, Width } from "../interfaces";
+import { CSS_UTILITY } from "../../utils/resources";
 
 @Component({
   tag: "calcite-button",
@@ -130,7 +131,6 @@ export class CalciteButton {
     const iconStartEl = (
       <calcite-icon
         class={{ [CSS.icon]: true, [CSS.iconStart]: true }}
-        dir={dir}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
         scale={iconScale}
@@ -140,7 +140,6 @@ export class CalciteButton {
     const iconEndEl = (
       <calcite-icon
         class={{ [CSS.icon]: true, [CSS.iconEnd]: true }}
-        dir={dir}
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
         scale={iconScale}
@@ -153,13 +152,11 @@ export class CalciteButton {
       </span>
     );
 
-    const className = this.hasContent ? { ["class"]: CSS.contentSlotted } : null;
-
     return (
-      <Host dir={dir}>
+      <Host>
         <Tag
           {...attributes}
-          {...className}
+          class={{ [CSS_UTILITY.rtl]: dir === "rtl", [CSS.contentSlotted]: this.hasContent }}
           disabled={this.disabled}
           onClick={this.handleClick}
           ref={(el) => (this.childEl = el)}

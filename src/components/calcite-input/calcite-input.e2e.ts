@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { focusable, HYDRATED_ATTR } from "../../tests/commonTests";
+import { getDecimalSeparator, locales, localizeNumberString } from "../../utils/locale";
 
 describe("calcite-input", () => {
   it("honors form reset", async () => {
@@ -650,5 +651,69 @@ describe("calcite-input", () => {
 
     expect(await getInputValidity()).toBe(true);
     expect(await input.getProperty("value")).toBe("123");
+  });
+
+  describe("number locale support", () => {
+    const localesWithIssues = ["ar", "bs", "mk"];
+    locales
+      .filter((locale) => !localesWithIssues.includes(locale))
+      .forEach((locale) => {
+        it(`formats number on initial load for ${locale} locale`, async () => {
+          const value = "1234.56";
+          const page = await newE2EPage({
+            html: `<calcite-input locale="${locale}" locale-format type="number" value="${value}"></calcite-input>`
+          });
+          const calciteInput = await page.find("calcite-input");
+          const input = await page.find("input");
+
+          expect(await calciteInput.getProperty("value")).toBe(value);
+          expect(await input.getProperty("value")).toBe(localizeNumberString(value, locale));
+        });
+
+        it(`allows typing valid decimal characters for ${locale} locale`, async () => {
+          const page = await newE2EPage({
+            html: `<calcite-input locale="${locale}" locale-format type="number"></calcite-input>`
+          });
+          const calciteInput = await page.find("calcite-input");
+          const input = await page.find("input");
+          const decimal = getDecimalSeparator(locale);
+          const unformattedValue = "1234.56";
+
+          await page.keyboard.press("Tab");
+          await input.type("1234");
+          await page.keyboard.sendCharacter(decimal);
+          await input.press("5");
+          await input.press("6");
+
+          expect(await calciteInput.getProperty("value")).toBe(`1234.56`);
+          expect(await input.getProperty("value")).toBe(localizeNumberString(unformattedValue, locale));
+        });
+
+        it(`displays correct formatted value when the value is changed programatically for ${locale} locale`, async () => {
+          const page = await newE2EPage({
+            html: `<calcite-input locale="${locale}" locale-format type="number"></calcite-input><input id="external" />`
+          });
+
+          await page.evaluate(() => {
+            const input = document.getElementById("external");
+            const calciteInput = document.querySelector("calcite-input");
+            input.addEventListener("input", (event: InputEvent): void => {
+              calciteInput.value = (event.target as HTMLInputElement).value;
+            });
+          });
+
+          const assertedValue = "1234567.891011";
+          const externalInput = await page.find("#external");
+          const calciteInput = await page.find("calcite-input");
+          const internalLocaleInput = await page.find("input");
+
+          await externalInput.click();
+          await externalInput.type(assertedValue);
+          await page.waitForChanges();
+
+          expect(await calciteInput.getProperty("value")).toBe(assertedValue);
+          expect(await internalLocaleInput.getProperty("value")).toBe(localizeNumberString(assertedValue, locale));
+        });
+      });
   });
 });

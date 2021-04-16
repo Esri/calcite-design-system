@@ -324,30 +324,38 @@ describe("calcite-color-picker-hex-input", () => {
         await assertTabAndEnterBehavior("", null);
       });
 
-      it("does not allow nudging when no-color is allowed and set", async () => {
+      it("restores previous value when a nudge key is pressed and no-color is allowed and set", async () => {
         const noColorValue = null;
-
+        await input.setProperty("value", noColorValue);
+        await page.waitForChanges();
         await input.callMethod("setFocus");
+
+        await page.keyboard.press("ArrowUp");
+        await page.waitForChanges();
+        expect(await input.getProperty("value")).toBe(startingHex);
+
         await input.setProperty("value", noColorValue);
         await page.waitForChanges();
 
-        await page.keyboard.press("ArrowUp");
-        await page.waitForChanges();
-        expect(await input.getProperty("value")).toBe(noColorValue);
-
         await page.keyboard.press("ArrowDown");
         await page.waitForChanges();
-        expect(await input.getProperty("value")).toBe(noColorValue);
+        expect(await input.getProperty("value")).toBe(startingHex);
+
+        await input.setProperty("value", noColorValue);
+        await page.waitForChanges();
 
         await page.keyboard.down("Shift");
         await page.keyboard.press("ArrowUp");
         await page.keyboard.up("Shift");
-        expect(await input.getProperty("value")).toBe(noColorValue);
+        expect(await input.getProperty("value")).toBe(startingHex);
+
+        await input.setProperty("value", noColorValue);
+        await page.waitForChanges();
 
         await page.keyboard.down("Shift");
         await page.keyboard.press("ArrowDown");
         await page.keyboard.up("Shift");
-        expect(await input.getProperty("value")).toBe(noColorValue);
+        expect(await input.getProperty("value")).toBe(startingHex);
       });
     });
   });

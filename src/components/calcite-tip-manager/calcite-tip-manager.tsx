@@ -14,7 +14,7 @@ import {
 import { CSS, ICONS, TEXT, HEADING_LEVEL } from "./resources";
 import { getElementDir } from "../../utils/dom";
 import { Theme } from "../interfaces";
-import { HeadingLevel, CalciteHeading, ConstrainHeadingLevel } from "../functional/CalciteHeading";
+import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
 
 /**
  * @slot - A slot for adding `calcite-tip`s.
@@ -44,7 +44,7 @@ export class CalciteTipManager {
   /**
    * Number at which section headings should start for this component.
    */
-  @Prop() headingLevel: HeadingLevel = HEADING_LEVEL;
+  @Prop() headingLevel: HeadingLevel;
 
   /**
    * Alternate text for closing the tip.
@@ -168,7 +168,6 @@ export class CalciteTipManager {
     this.selectedIndex = selectedTip ? tips.indexOf(selectedTip) : 0;
 
     tips.forEach((tip) => {
-      tip.headingLevel = ConstrainHeadingLevel(this.headingLevel + 1);
       tip.nonDismissible = true;
     });
     this.showSelectedTip();
@@ -283,7 +282,7 @@ export class CalciteTipManager {
           tabIndex={0}
         >
           <header class={CSS.header}>
-            <CalciteHeading class={CSS.heading} level={headingLevel}>
+            <CalciteHeading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
               {groupTitle}
             </CalciteHeading>
             <calcite-action
