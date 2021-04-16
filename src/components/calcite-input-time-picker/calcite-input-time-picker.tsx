@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { parseTimeString, Time, validateTimeString } from "../../utils/time";
-import { Theme } from "../interfaces";
+import { Scale, Theme } from "../interfaces";
 
 @Component({
   tag: "calcite-input-time-picker",
@@ -35,8 +35,11 @@ export class CalciteInputTimePicker {
   //
   //--------------------------------------------------------------------------
 
+  /** The active state of the time input */
+  @Prop({ reflect: true, mutable: true }) active = false;
+
   /** The disabled state of the time input */
-  @Prop({ reflect: true }) disabled?: boolean = false;
+  @Prop({ reflect: true }) disabled?: boolean;
 
   /** Format of the hour value (12-hour or 24-hour) (this will be replaced by locale eventually) */
   @Prop({ reflect: true }) hourDisplayFormat: "12" | "24" = "12";
@@ -81,7 +84,7 @@ export class CalciteInputTimePicker {
   @Prop() name?: string;
 
   /** The scale (size) of the time input */
-  @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** number that specifies the granularity that the value must adhere to */
   @Prop({ reflect: true }) step = 60;
@@ -104,14 +107,6 @@ export class CalciteInputTimePicker {
 
   //--------------------------------------------------------------------------
   //
-  //  State
-  //
-  //--------------------------------------------------------------------------
-
-  @State() open = false;
-
-  //--------------------------------------------------------------------------
-  //
   //  Events
   //
   //--------------------------------------------------------------------------
@@ -128,7 +123,7 @@ export class CalciteInputTimePicker {
   //--------------------------------------------------------------------------
 
   private inputBlurHandler = (): void => {
-    this.open = false;
+    this.active = false;
     const newValue = validateTimeString(this.calciteInputEl.value);
     if (newValue) {
       this.setValue(newValue);
@@ -138,7 +133,7 @@ export class CalciteInputTimePicker {
   };
 
   private inputFocusHandler = (): void => {
-    this.open = true;
+    this.active = true;
   };
 
   private inputInputHandler = (event: CustomEvent): void => {
@@ -153,8 +148,8 @@ export class CalciteInputTimePicker {
 
   @Listen("keyup")
   keyUpHandler(event: KeyboardEvent): void {
-    if (event.key === "Escape" && this.open) {
-      this.open = false;
+    if (event.key === "Escape" && this.active) {
+      this.active = false;
     }
   }
 
@@ -162,7 +157,7 @@ export class CalciteInputTimePicker {
   timePickerBlurHandler(event: CustomEvent): void {
     event.preventDefault();
     event.stopPropagation();
-    this.open = false;
+    this.active = false;
   }
 
   @Listen("calciteTimePickerChange")
@@ -187,7 +182,7 @@ export class CalciteInputTimePicker {
   timePickerFocusHandler(event: CustomEvent): void {
     event.preventDefault();
     event.stopPropagation();
-    this.open = true;
+    this.active = true;
   }
 
   @Listen("click", { target: "window" })
@@ -199,9 +194,9 @@ export class CalciteInputTimePicker {
     const closestLabel = target.closest("calcite-label") as HTMLCalciteLabelElement;
     if (closestLabel && closestLabel.for === this.el.id) {
       this.setFocus();
-      this.open = true;
+      this.active = true;
     } else if (closestHost !== this.el) {
-      this.open = false;
+      this.active = false;
     }
   }
 
@@ -279,7 +274,7 @@ export class CalciteInputTimePicker {
         <calcite-popover
           id={popoverId}
           label="Time Picker"
-          open={this.open}
+          open={this.active}
           referenceElement={this.referenceElementId}
           theme={this.theme}
         >
