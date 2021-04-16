@@ -8,7 +8,6 @@ import {
   Listen,
   Event,
   EventEmitter,
-  State,
   Method
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
@@ -232,7 +231,7 @@ export class CalciteInputTimePicker {
   //
   //--------------------------------------------------------------------------
 
-  componentDidLoad() {
+  componentWillLoad() {
     if (this.value) {
       this.setValue(validateTimeString(this.value));
     }
