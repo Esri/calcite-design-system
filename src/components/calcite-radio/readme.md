@@ -6,15 +6,15 @@ Renders small, medium and large radio circles. This is an internal component use
 
 ## Properties
 
-| Property   | Attribute  | Description                      | Type                | Default   |
-| ---------- | ---------- | -------------------------------- | ------------------- | --------- |
-| `checked`  | `checked`  | The checked state of the radio.  | `boolean`           | `false`   |
-| `disabled` | `disabled` | The disabled state of the radio. | `boolean`           | `false`   |
-| `focused`  | `focused`  | The focused state of the radio.  | `boolean`           | `false`   |
-| `hidden`   | `hidden`   | The radio's hidden status.       | `boolean`           | `false`   |
-| `hovered`  | `hovered`  | The hovered state of the radio.  | `boolean`           | `false`   |
-| `scale`    | `scale`    | The scale (size) of the radio.   | `"l" \| "m" \| "s"` | `"m"`     |
-| `theme`    | `theme`    | The color theme of the radio,    | `"dark" \| "light"` | `"light"` |
+| Property   | Attribute  | Description                      | Type                | Default     |
+| ---------- | ---------- | -------------------------------- | ------------------- | ----------- |
+| `checked`  | `checked`  | The checked state of the radio.  | `boolean`           | `false`     |
+| `disabled` | `disabled` | The disabled state of the radio. | `boolean`           | `false`     |
+| `focused`  | `focused`  | The focused state of the radio.  | `boolean`           | `false`     |
+| `hidden`   | `hidden`   | The radio's hidden status.       | `boolean`           | `false`     |
+| `hovered`  | `hovered`  | The hovered state of the radio.  | `boolean`           | `false`     |
+| `scale`    | `scale`    | The scale (size) of the radio.   | `"l" \| "m" \| "s"` | `"m"`       |
+| `theme`    | `theme`    | The color theme of the radio,    | `"dark" \| "light"` | `undefined` |
 
 ## Dependencies
 

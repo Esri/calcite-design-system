@@ -325,22 +325,8 @@ export class CalciteInput {
   //
   //--------------------------------------------------------------------------
 
-  private clearInputValue = (event: KeyboardEvent | MouseEvent): void => {
-    const calciteInputInputEvent = this.emitInputFromUserInteraction("", event);
-    if (!calciteInputInputEvent.defaultPrevented) {
-      this.setValue("");
-    }
-  };
-
-  private emitInputFromUserInteraction = (
-    value: string,
-    nativeEvent?: InputEvent | KeyboardEvent | MouseEvent
-  ): CustomEvent => {
-    return this.calciteInputInput.emit({
-      element: this.childEl,
-      nativeEvent,
-      value
-    });
+  private clearInputValue = (nativeEvent: KeyboardEvent | MouseEvent): void => {
+    this.setValue("", nativeEvent);
   };
 
   private inputBlurHandler = () => {
@@ -360,24 +346,12 @@ export class CalciteInput {
     });
   };
 
-  private inputInputHandler = (event: InputEvent): void => {
-    const newValue = (event.target as HTMLInputElement).value;
-    const calciteInputInputEvent = this.emitInputFromUserInteraction(newValue, event);
-
-    if (!calciteInputInputEvent.defaultPrevented) {
-      this.setValue(newValue);
-    }
-  };
-
-  private inputNumberInputHandler = (event: InputEvent): void => {
-    const localizedValue = (event.target as HTMLInputElement).value;
-    const newValue = delocalizeNumberString(localizedValue, this.locale);
-
-    const calciteInputInputEvent = this.emitInputFromUserInteraction(newValue, event);
-
-    if (!calciteInputInputEvent.defaultPrevented) {
-      this.setValue(newValue);
-    }
+  private inputInputHandler = (nativeEvent: InputEvent): void => {
+    const value = (nativeEvent.target as HTMLInputElement).value;
+    const newValue = this.shouldFormatNumberByLocale()
+      ? delocalizeNumberString(value, this.locale)
+      : value;
+    this.setValue(newValue, nativeEvent);
   };
 
   private inputNumberKeyDownHandler = (event: KeyboardEvent): void => {
@@ -439,11 +413,7 @@ export class CalciteInput {
       newValue = (inputVal -= inputStep).toFixed(decimals).toString();
     }
 
-    const calciteInputInputEvent = this.emitInputFromUserInteraction(newValue, nativeEvent);
-
-    if (!calciteInputInputEvent.defaultPrevented) {
-      this.setValue(newValue);
-    }
+    this.setValue(newValue, nativeEvent);
   };
 
   private numberButtonMouseDownHandler = (event: MouseEvent): void => {
@@ -458,8 +428,12 @@ export class CalciteInput {
     if (this.type === "number") {
       event.preventDefault();
     }
-    this.setValue(this.defaultValue);
+    this.setValue(this.defaultValue, event);
   };
+
+  private sanitizeNumberString(value: string) {
+    return value.endsWith(".") ? value.replace(".", "") : value;
+  }
 
   private setChildElRef = (el) => {
     this.childEl = el;
@@ -482,16 +456,29 @@ export class CalciteInput {
 
   private setLocalizedValue = (unlocalizedValue: string): void => {
     this.localizedValue = localizeNumberString(
-      unlocalizedValue.endsWith(".") ? unlocalizedValue.replace(".", "") : unlocalizedValue,
+      this.sanitizeNumberString(unlocalizedValue),
       this.locale
     );
   };
 
-  private setValue = (unlocalizedValue: string): void => {
+  private setValue = (value: string, nativeEvent): void => {
+    const previousValue = this.value;
+    this.value = this.type === "number" ? this.sanitizeNumberString(value) : value;
     if (this.shouldFormatNumberByLocale()) {
-      this.setLocalizedValue(unlocalizedValue);
+      this.setLocalizedValue(value);
     }
-    this.value = unlocalizedValue;
+    if (this.type === "number" && value.endsWith(".")) {
+      return;
+    }
+    const calciteInputInputEvent = this.calciteInputInput.emit({
+      element: this.childEl,
+      nativeEvent,
+      value
+    });
+    if (calciteInputInputEvent.defaultPrevented) {
+      this.value = previousValue;
+      this.setLocalizedValue(previousValue);
+    }
   };
 
   private shouldFormatNumberByLocale = () => {
@@ -598,7 +585,7 @@ export class CalciteInput {
         minLength={this.minLength}
         onBlur={this.inputBlurHandler}
         onFocus={this.inputFocusHandler}
-        onInput={this.inputNumberInputHandler}
+        onInput={this.inputInputHandler}
         onKeyDown={this.inputNumberKeyDownHandler}
         placeholder={this.placeholder || ""}
         ref={this.setChildNumberElRef}

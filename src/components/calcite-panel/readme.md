@@ -66,24 +66,24 @@ Renders a panel that is dismissible with a click of the "x".
 
 ## Properties
 
-| Property         | Attribute          | Description                                                                                               | Type                         | Default         |
-| ---------------- | ------------------ | --------------------------------------------------------------------------------------------------------- | ---------------------------- | --------------- |
-| `beforeBack`     | --                 | When provided, this method will be called before it is removed from the parent flow.                      | `() => Promise<void>`        | `undefined`     |
-| `disabled`       | `disabled`         | When true, disabled prevents interaction. This state shows items with lower opacity/grayed.               | `boolean`                    | `false`         |
-| `dismissed`      | `dismissed`        | Hides the panel.                                                                                          | `boolean`                    | `false`         |
-| `dismissible`    | `dismissible`      | Displays a close button in the trailing side of the header.                                               | `boolean`                    | `false`         |
-| `heading`        | `heading`          | Heading text.                                                                                             | `string`                     | `undefined`     |
-| `headingLevel`   | `heading-level`    | Number at which section headings should start for this component.                                         | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `HEADING_LEVEL` |
-| `heightScale`    | `height-scale`     | Specifies the maxiumum height of the panel.                                                               | `"l" \| "m" \| "s"`          | `undefined`     |
-| `intlBack`       | `intl-back`        | 'Back' text string.                                                                                       | `string`                     | `undefined`     |
-| `intlClose`      | `intl-close`       | 'Close' text string for the close button. The close button will only be shown when 'dismissible' is true. | `string`                     | `undefined`     |
-| `intlOptions`    | `intl-options`     | 'Options' text string for the actions menu.                                                               | `string`                     | `undefined`     |
-| `loading`        | `loading`          | When true, content is waiting to be loaded. This state shows a busy indicator.                            | `boolean`                    | `false`         |
-| `menuOpen`       | `menu-open`        | Opens the action menu.                                                                                    | `boolean`                    | `false`         |
-| `showBackButton` | `show-back-button` | Shows a back button in the header.                                                                        | `boolean`                    | `false`         |
-| `summary`        | `summary`          | Summary text. A description displayed underneath the heading.                                             | `string`                     | `undefined`     |
-| `theme`          | `theme`            | Used to set the component's color scheme.                                                                 | `"dark" \| "light"`          | `undefined`     |
-| `widthScale`     | `width-scale`      | This sets width of the panel.                                                                             | `"l" \| "m" \| "s"`          | `undefined`     |
+| Property         | Attribute          | Description                                                                                               | Type                         | Default     |
+| ---------------- | ------------------ | --------------------------------------------------------------------------------------------------------- | ---------------------------- | ----------- |
+| `beforeBack`     | --                 | When provided, this method will be called before it is removed from the parent flow.                      | `() => Promise<void>`        | `undefined` |
+| `disabled`       | `disabled`         | When true, disabled prevents interaction. This state shows items with lower opacity/grayed.               | `boolean`                    | `false`     |
+| `dismissed`      | `dismissed`        | Hides the panel.                                                                                          | `boolean`                    | `false`     |
+| `dismissible`    | `dismissible`      | Displays a close button in the trailing side of the header.                                               | `boolean`                    | `false`     |
+| `heading`        | `heading`          | Heading text.                                                                                             | `string`                     | `undefined` |
+| `headingLevel`   | `heading-level`    | Number at which section headings should start for this component.                                         | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
+| `heightScale`    | `height-scale`     | Specifies the maxiumum height of the panel.                                                               | `"l" \| "m" \| "s"`          | `undefined` |
+| `intlBack`       | `intl-back`        | 'Back' text string.                                                                                       | `string`                     | `undefined` |
+| `intlClose`      | `intl-close`       | 'Close' text string for the close button. The close button will only be shown when 'dismissible' is true. | `string`                     | `undefined` |
+| `intlOptions`    | `intl-options`     | 'Options' text string for the actions menu.                                                               | `string`                     | `undefined` |
+| `loading`        | `loading`          | When true, content is waiting to be loaded. This state shows a busy indicator.                            | `boolean`                    | `false`     |
+| `menuOpen`       | `menu-open`        | Opens the action menu.                                                                                    | `boolean`                    | `false`     |
+| `showBackButton` | `show-back-button` | Shows a back button in the header.                                                                        | `boolean`                    | `false`     |
+| `summary`        | `summary`          | Summary text. A description displayed underneath the heading.                                             | `string`                     | `undefined` |
+| `theme`          | `theme`            | Used to set the component's color scheme.                                                                 | `"dark" \| "light"`          | `undefined` |
+| `widthScale`     | `width-scale`      | This sets width of the panel.                                                                             | `"l" \| "m" \| "s"`          | `undefined` |
 
 ## Events
 
@@ -131,6 +131,7 @@ graph TD;
   calcite-action --> calcite-loader
   calcite-action --> calcite-icon
   calcite-action-menu --> calcite-action
+  calcite-action-menu --> calcite-tooltip-manager
   calcite-action-menu --> calcite-popover
   calcite-popover --> calcite-icon
   calcite-scrim --> calcite-loader
