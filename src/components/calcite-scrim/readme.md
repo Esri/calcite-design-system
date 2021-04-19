@@ -49,6 +49,7 @@
 ### Used by
 
 - [calcite-block](../calcite-block)
+- [calcite-filter](../calcite-filter)
 - [calcite-modal](../calcite-modal)
 - [calcite-panel](../calcite-panel)
 - [calcite-pick-list](../calcite-pick-list)
@@ -64,6 +65,7 @@
 graph TD;
   calcite-scrim --> calcite-loader
   calcite-block --> calcite-scrim
+  calcite-filter --> calcite-scrim
   calcite-modal --> calcite-scrim
   calcite-panel --> calcite-scrim
   calcite-pick-list --> calcite-scrim
