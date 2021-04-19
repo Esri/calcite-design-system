@@ -658,7 +658,7 @@ describe("calcite-input", () => {
     locales
       .filter((locale) => !localesWithIssues.includes(locale))
       .forEach((locale) => {
-        it(`formats number on initial load for ${locale} locale`, async () => {
+        it(`displays decimal separator on initial load for ${locale} locale`, async () => {
           const value = "1234.56";
           const page = await newE2EPage({
             html: `<calcite-input locale="${locale}" type="number" value="${value}"></calcite-input>`
@@ -668,6 +668,18 @@ describe("calcite-input", () => {
 
           expect(await calciteInput.getProperty("value")).toBe(value);
           expect(await input.getProperty("value")).toBe(localizeNumberString(value, locale));
+        });
+
+        it(`displays group and decimal separator on initial load for ${locale} locale using opt-in prop`, async () => {
+          const value = "1234.56";
+          const page = await newE2EPage({
+            html: `<calcite-input locale="${locale}" type="number" value="${value}" display-group-separator></calcite-input>`
+          });
+          const calciteInput = await page.find("calcite-input");
+          const input = await page.find("input");
+
+          expect(await calciteInput.getProperty("value")).toBe(value);
+          expect(await input.getProperty("value")).toBe(localizeNumberString(value, locale, true));
         });
 
         it(`allows typing valid decimal characters for ${locale} locale`, async () => {
