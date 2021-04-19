@@ -21,7 +21,8 @@ import { Position } from "../interfaces";
 import {
   getDecimalSeparator,
   delocalizeNumberString,
-  localizeNumberString
+  localizeNumberString,
+  getGroupSeparator
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 import { hiddenInputStyle } from "../../utils/form";
@@ -69,6 +70,9 @@ export class CalciteInput {
   disabledWatcher(): void {
     this.setDisabledAction();
   }
+
+  /** for number values, displays the locale's group separator */
+  @Prop({ reflect: true }) displayGroupSeparator = false;
 
   /** when used as a boolean set to true, show a default recommended icon for certain
    * input types (tel, password, email, date, time, search). You can also pass a
@@ -232,7 +236,11 @@ export class CalciteInput {
   //
   //--------------------------------------------------------------------------
 
-  @State() localizedValue: string = localizeNumberString(this.value, this.locale);
+  @State() localizedValue: string = localizeNumberString(
+    this.value,
+    this.locale,
+    this.displayGroupSeparator
+  );
 
   //--------------------------------------------------------------------------
   //
@@ -382,6 +390,9 @@ export class CalciteInput {
     if (supportedKeys.includes(event.key)) {
       return;
     }
+    if (event.key == getGroupSeparator(this.locale)) {
+      return;
+    }
     if (
       event.key == getDecimalSeparator(this.locale) &&
       this.localizedValue.indexOf(event.key) === -1
@@ -455,10 +466,13 @@ export class CalciteInput {
   }
 
   private setLocalizedValue = (unlocalizedValue: string): void => {
+    console.log("setLocalizedValue before", this.localizedValue);
     this.localizedValue = localizeNumberString(
       this.sanitizeNumberString(unlocalizedValue),
-      this.locale
+      this.locale,
+      this.displayGroupSeparator
     );
+    console.log("setLocalizedValue after", this.localizedValue);
   };
 
   private setValue = (value: string, nativeEvent): void => {
@@ -482,7 +496,7 @@ export class CalciteInput {
   };
 
   private shouldFormatNumberByLocale = () => {
-    return this.localeFormat && this.type === "number";
+    return this.type === "number";
   };
 
   // --------------------------------------------------------------------------
@@ -511,7 +525,7 @@ export class CalciteInput {
       "theme",
       "number-button-type",
       "locale",
-      "locale-format"
+      "display-group-separator"
     ]);
 
     const loader = (
@@ -576,6 +590,7 @@ export class CalciteInput {
 
     const suffixText = <div class="calcite-input-suffix">{this.suffixText}</div>;
 
+    console.log("render", this.localizedValue);
     const localeNumberInput = this.shouldFormatNumberByLocale() ? (
       <input
         autofocus={this.autofocus ? true : null}
