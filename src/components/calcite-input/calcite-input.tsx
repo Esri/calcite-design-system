@@ -590,11 +590,13 @@ export class CalciteInput {
 
     const localeNumberInput = this.shouldFormatNumberByLocale() ? (
       <input
+        {...attributes}
         autofocus={this.autofocus ? true : null}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
         maxLength={this.maxLength}
         minLength={this.minLength}
+        name={undefined}
         onBlur={this.inputBlurHandler}
         onFocus={this.inputFocusHandler}
         onInput={this.inputInputHandler}
