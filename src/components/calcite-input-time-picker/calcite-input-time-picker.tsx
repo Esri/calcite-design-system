@@ -221,8 +221,12 @@ export class CalciteInputTimePicker {
   };
 
   private setValue = (value: string): void => {
+    const previousValue = this.value;
     this.value = value;
-    this.calciteInputTimePickerChange.emit(value);
+    const inputTimePickerChangeEvent = this.calciteInputTimePickerChange.emit(value);
+    if (inputTimePickerChangeEvent.defaultPrevented) {
+      this.value = previousValue;
+    }
   };
 
   //--------------------------------------------------------------------------

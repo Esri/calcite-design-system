@@ -15,13 +15,14 @@ describe("calcite-input-time-picker", () => {
 
   it("has defaults", async () =>
     defaults("calcite-input-time-picker", [
-      { propertyName: "disabled", defaultValue: false },
+      { propertyName: "active", defaultValue: false },
       { propertyName: "scale", defaultValue: "m" },
       { propertyName: "step", defaultValue: 60 }
     ]));
 
   it("reflects", async () =>
     reflects(`calcite-input-time-picker`, [
+      { propertyName: "active", value: true },
       { propertyName: "disabled", value: true },
       { propertyName: "name", value: "my-name" },
       { propertyName: "scale", value: "m" },
