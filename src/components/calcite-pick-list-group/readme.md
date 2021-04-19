@@ -6,10 +6,10 @@
 
 ## Properties
 
-| Property       | Attribute       | Description                                                       | Type                         | Default         |
-| -------------- | --------------- | ----------------------------------------------------------------- | ---------------------------- | --------------- |
-| `groupTitle`   | `group-title`   | The title used for all nested `calcite-pick-list` rows.           | `string`                     | `undefined`     |
-| `headingLevel` | `heading-level` | Number at which section headings should start for this component. | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `HEADING_LEVEL` |
+| Property       | Attribute       | Description                                                       | Type                         | Default     |
+| -------------- | --------------- | ----------------------------------------------------------------- | ---------------------------- | ----------- |
+| `groupTitle`   | `group-title`   | The title used for all nested `calcite-pick-list` rows.           | `string`                     | `undefined` |
+| `headingLevel` | `heading-level` | Number at which section headings should start for this component. | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
 
 ## Slots
 
