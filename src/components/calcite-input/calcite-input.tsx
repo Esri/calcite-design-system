@@ -72,7 +72,7 @@ export class CalciteInput {
   }
 
   /** for number values, displays the locale's group separator */
-  @Prop({ reflect: true }) displayGroupSeparator = false;
+  @Prop() displayGroupSeparator = false;
 
   /** when used as a boolean set to true, show a default recommended icon for certain
    * input types (tel, password, email, date, time, search). You can also pass a
