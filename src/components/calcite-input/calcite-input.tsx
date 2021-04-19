@@ -466,13 +466,11 @@ export class CalciteInput {
   }
 
   private setLocalizedValue = (unlocalizedValue: string): void => {
-    console.log("setLocalizedValue before", this.localizedValue);
     this.localizedValue = localizeNumberString(
       this.sanitizeNumberString(unlocalizedValue),
       this.locale,
       this.displayGroupSeparator
     );
-    console.log("setLocalizedValue after", this.localizedValue);
   };
 
   private setValue = (value: string, nativeEvent): void => {
@@ -590,7 +588,6 @@ export class CalciteInput {
 
     const suffixText = <div class="calcite-input-suffix">{this.suffixText}</div>;
 
-    console.log("render", this.localizedValue);
     const localeNumberInput = this.shouldFormatNumberByLocale() ? (
       <input
         autofocus={this.autofocus ? true : null}
