@@ -661,7 +661,7 @@ describe("calcite-input", () => {
         it(`formats number on initial load for ${locale} locale`, async () => {
           const value = "1234.56";
           const page = await newE2EPage({
-            html: `<calcite-input locale="${locale}" type="number" value="${value}"></calcite-input>`
+            html: `<calcite-input locale="${locale}" locale-format type="number" value="${value}"></calcite-input>`
           });
           const calciteInput = await page.find("calcite-input");
           const input = await page.find("input");
@@ -672,7 +672,7 @@ describe("calcite-input", () => {
 
         it(`allows typing valid decimal characters for ${locale} locale`, async () => {
           const page = await newE2EPage({
-            html: `<calcite-input locale="${locale}" type="number"></calcite-input>`
+            html: `<calcite-input locale="${locale}" locale-format type="number"></calcite-input>`
           });
           const calciteInput = await page.find("calcite-input");
           const input = await page.find("input");
@@ -687,6 +687,32 @@ describe("calcite-input", () => {
 
           expect(await calciteInput.getProperty("value")).toBe(`1234.56`);
           expect(await input.getProperty("value")).toBe(localizeNumberString(unformattedValue, locale));
+        });
+
+        it(`displays correct formatted value when the value is changed programatically for ${locale} locale`, async () => {
+          const page = await newE2EPage({
+            html: `<calcite-input locale="${locale}" locale-format type="number"></calcite-input><input id="external" />`
+          });
+
+          await page.evaluate(() => {
+            const input = document.getElementById("external");
+            const calciteInput = document.querySelector("calcite-input");
+            input.addEventListener("input", (event: InputEvent): void => {
+              calciteInput.value = (event.target as HTMLInputElement).value;
+            });
+          });
+
+          const assertedValue = "1234567.891011";
+          const externalInput = await page.find("#external");
+          const calciteInput = await page.find("calcite-input");
+          const internalLocaleInput = await page.find("input");
+
+          await externalInput.click();
+          await externalInput.type(assertedValue);
+          await page.waitForChanges();
+
+          expect(await calciteInput.getProperty("value")).toBe(assertedValue);
+          expect(await internalLocaleInput.getProperty("value")).toBe(localizeNumberString(assertedValue, locale));
         });
       });
   });

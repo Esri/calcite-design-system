@@ -731,7 +731,6 @@ export class CalciteColorPicker {
       aria-label={ariaLabel}
       class={CSS.channel}
       data-channel-index={index}
-      localeFormat={false}
       numberButtonType="none"
       onChange={this.handleChannelChange}
       onInput={this.handleChannelInput}
