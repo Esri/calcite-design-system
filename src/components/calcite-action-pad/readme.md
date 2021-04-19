@@ -52,16 +52,15 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 
 ## Properties
 
-| Property         | Attribute         | Description                                                              | Type                         | Default      |
-| ---------------- | ----------------- | ------------------------------------------------------------------------ | ---------------------------- | ------------ |
-| `expandDisabled` | `expand-disabled` | When set to true, the expand-toggling behavior will be disabled.         | `boolean`                    | `false`      |
-| `expanded`       | `expanded`        | Indicates whether widget is expanded.                                    | `boolean`                    | `false`      |
-| `intlCollapse`   | `intl-collapse`   | Updates the label of the collapse icon when the component is expanded.   | `string`                     | `undefined`  |
-| `intlExpand`     | `intl-expand`     | Updates the label of the expand icon when the component is not expanded. | `string`                     | `undefined`  |
-| `layout`         | `layout`          | Indicates the horizontal or vertical layout of the component.            | `"horizontal" \| "vertical"` | `"vertical"` |
-| `position`       | `position`        | Arranges the component depending on the elements 'dir' property.         | `"end" \| "start"`           | `undefined`  |
-| `theme`          | `theme`           | Used to set the component's color scheme.                                | `"dark" \| "light"`          | `undefined`  |
-| `tooltipExpand`  | --                | Used to set the tooltip for the expand toggle.                           | `HTMLCalciteTooltipElement`  | `undefined`  |
+| Property         | Attribute         | Description                                                              | Type                                   | Default      |
+| ---------------- | ----------------- | ------------------------------------------------------------------------ | -------------------------------------- | ------------ |
+| `expandDisabled` | `expand-disabled` | When set to true, the expand-toggling behavior will be disabled.         | `boolean`                              | `false`      |
+| `expanded`       | `expanded`        | Indicates whether widget is expanded.                                    | `boolean`                              | `false`      |
+| `intlCollapse`   | `intl-collapse`   | Updates the label of the collapse icon when the component is expanded.   | `string`                               | `undefined`  |
+| `intlExpand`     | `intl-expand`     | Updates the label of the expand icon when the component is not expanded. | `string`                               | `undefined`  |
+| `layout`         | `layout`          | Indicates the horizontal or vertical layout of the component.            | `"grid" \| "horizontal" \| "vertical"` | `"vertical"` |
+| `position`       | `position`        | Arranges the component depending on the elements 'dir' property.         | `"end" \| "start"`                     | `undefined`  |
+| `theme`          | `theme`           | Used to set the component's color scheme.                                | `"dark" \| "light"`                    | `undefined`  |
 
 ## Events
 
@@ -79,9 +78,10 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot | Description                                            |
-| ---- | ------------------------------------------------------ |
-|      | A slot for adding `calcite-action`s to the action pad. |
+| Slot               | Description                                            |
+| ------------------ | ------------------------------------------------------ |
+|                    | A slot for adding `calcite-action`s to the action pad. |
+| `"expand-tooltip"` | Used to set the tooltip for the expand toggle.         |
 
 ## Dependencies
 
@@ -100,6 +100,7 @@ graph TD;
   calcite-action-pad --> calcite-tooltip-manager
   calcite-action-group --> calcite-action-menu
   calcite-action-menu --> calcite-action
+  calcite-action-menu --> calcite-tooltip-manager
   calcite-action-menu --> calcite-popover
   calcite-action --> calcite-loader
   calcite-action --> calcite-icon
