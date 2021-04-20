@@ -15,7 +15,7 @@
 | `name`               | `name`     | The name of the radio button. <code>name</code> is passed as a property automatically from <code>calcite-radio-button-group</code>.          | `string`            | `undefined` |
 | `required`           | `required` | Requires that a value is selected for the radio button group before the parent form will submit.                                             | `boolean`           | `false`     |
 | `scale`              | `scale`    | The scale (size) of the radio button. <code>scale</code> is passed as a property automatically from <code>calcite-radio-button-group</code>. | `"l" \| "m" \| "s"` | `"m"`       |
-| `theme`              | `theme`    | The color theme of the radio button, <code>theme</code> is passed as a property automatically from <code>calcite-radio-button-group</code>.  | `"dark" \| "light"` | `"light"`   |
+| `theme`              | `theme`    | The color theme of the radio button, <code>theme</code> is passed as a property automatically from <code>calcite-radio-button-group</code>.  | `"dark" \| "light"` | `undefined` |
 | `value` _(required)_ | `value`    | The value of the radio button.                                                                                                               | `string`            | `undefined` |
 
 ## Events

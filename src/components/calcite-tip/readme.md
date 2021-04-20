@@ -22,15 +22,15 @@ Renders a non-dismissible tip with a heading, thumbnail, info and a link.
 
 ## Properties
 
-| Property         | Attribute         | Description                                                                       | Type                         | Default         |
-| ---------------- | ----------------- | --------------------------------------------------------------------------------- | ---------------------------- | --------------- |
-| `dismissed`      | `dismissed`       | No longer displays the tip.                                                       | `boolean`                    | `false`         |
-| `heading`        | `heading`         | The heading of the tip.                                                           | `string`                     | `undefined`     |
-| `headingLevel`   | `heading-level`   | Number at which section headings should start for this component.                 | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `HEADING_LEVEL` |
-| `intlClose`      | `intl-close`      | Alternate text for closing the tip.                                               | `string`                     | `undefined`     |
-| `nonDismissible` | `non-dismissible` | Indicates whether the tip can be dismissed.                                       | `boolean`                    | `false`         |
-| `selected`       | `selected`        | The selected state of the tip if it is being used inside a `calcite-tip-manager`. | `boolean`                    | `undefined`     |
-| `theme`          | `theme`           | Used to set the component's color scheme.                                         | `"dark" \| "light"`          | `undefined`     |
+| Property         | Attribute         | Description                                                                       | Type                         | Default     |
+| ---------------- | ----------------- | --------------------------------------------------------------------------------- | ---------------------------- | ----------- |
+| `dismissed`      | `dismissed`       | No longer displays the tip.                                                       | `boolean`                    | `false`     |
+| `heading`        | `heading`         | The heading of the tip.                                                           | `string`                     | `undefined` |
+| `headingLevel`   | `heading-level`   | Number at which section headings should start for this component.                 | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
+| `intlClose`      | `intl-close`      | Alternate text for closing the tip.                                               | `string`                     | `undefined` |
+| `nonDismissible` | `non-dismissible` | Indicates whether the tip can be dismissed.                                       | `boolean`                    | `false`     |
+| `selected`       | `selected`        | The selected state of the tip if it is being used inside a `calcite-tip-manager`. | `boolean`                    | `undefined` |
+| `theme`          | `theme`           | Used to set the component's color scheme.                                         | `"dark" \| "light"`          | `undefined` |
 
 ## Events
 

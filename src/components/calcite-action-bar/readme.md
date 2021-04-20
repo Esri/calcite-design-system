@@ -56,27 +56,22 @@ The bottom-actions slot renders `calcite-action`s that stick to the bottom of th
 
 ```html
 <calcite-action-bar id="action-bar-test">
+  <calcite-tooltip slot="expand-tooltip">Expand</calcite-tooltip>
   <calcite-action text="Add" icon="plus"></calcite-action>
 </calcite-action-bar>
-<calcite-tooltip id="tooltip">Expand</calcite-tooltip>
-<script>
-  var actionBar = document.getElementById("action-bar-test");
-  var tooltip = document.getElementById("tooltip");
-  actionBar.tooltipExpand = tooltip;
-</script>
 ```
 
 ## Properties
 
-| Property         | Attribute         | Description                                                              | Type                        | Default     |
-| ---------------- | ----------------- | ------------------------------------------------------------------------ | --------------------------- | ----------- |
-| `expandDisabled` | `expand-disabled` | When set to true, the expand-toggling behavior will be disabled.         | `boolean`                   | `false`     |
-| `expanded`       | `expanded`        | Indicates whether widget is expanded.                                    | `boolean`                   | `false`     |
-| `intlCollapse`   | `intl-collapse`   | Updates the label of the collapse icon when the component is expanded.   | `string`                    | `undefined` |
-| `intlExpand`     | `intl-expand`     | Updates the label of the expand icon when the component is not expanded. | `string`                    | `undefined` |
-| `position`       | `position`        | Arranges the component depending on the elements 'dir' property.         | `"end" \| "start"`          | `undefined` |
-| `theme`          | `theme`           | Used to set the component's color scheme.                                | `"dark" \| "light"`         | `undefined` |
-| `tooltipExpand`  | --                | Used to set the tooltip for the expand toggle.                           | `HTMLCalciteTooltipElement` | `undefined` |
+| Property                  | Attribute                   | Description                                                              | Type                | Default     |
+| ------------------------- | --------------------------- | ------------------------------------------------------------------------ | ------------------- | ----------- |
+| `expandDisabled`          | `expand-disabled`           | When set to true, the expand-toggling behavior will be disabled.         | `boolean`           | `false`     |
+| `expanded`                | `expanded`                  | Indicates whether widget is expanded.                                    | `boolean`           | `false`     |
+| `intlCollapse`            | `intl-collapse`             | Updates the label of the collapse icon when the component is expanded.   | `string`            | `undefined` |
+| `intlExpand`              | `intl-expand`               | Updates the label of the expand icon when the component is not expanded. | `string`            | `undefined` |
+| `overflowActionsDisabled` | `overflow-actions-disabled` | Disables automatically overflowing actions that won't fit into menus.    | `boolean`           | `undefined` |
+| `position`                | `position`                  | Arranges the component depending on the elements 'dir' property.         | `"end" \| "start"`  | `undefined` |
+| `theme`                   | `theme`                     | Used to set the component's color scheme.                                | `"dark" \| "light"` | `undefined` |
 
 ## Events
 
@@ -98,6 +93,7 @@ Type: `Promise<void>`
 | ------------------ | ----------------------------------------------------------------------------------------------------------------------- |
 |                    | A slot for adding `calcite-action`s that will appear at the top of the action bar.                                      |
 | `"bottom-actions"` | A slot for adding `calcite-action`s that will appear at the bottom of the action bar, above the collapse/expand button. |
+| `"expand-tooltip"` | Used to set the tooltip for the expand toggle.                                                                          |
 
 ## Dependencies
 
@@ -116,6 +112,7 @@ graph TD;
   calcite-action-bar --> calcite-tooltip-manager
   calcite-action-group --> calcite-action-menu
   calcite-action-menu --> calcite-action
+  calcite-action-menu --> calcite-tooltip-manager
   calcite-action-menu --> calcite-popover
   calcite-action --> calcite-loader
   calcite-action --> calcite-icon

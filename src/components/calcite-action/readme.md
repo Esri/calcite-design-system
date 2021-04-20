@@ -37,7 +37,7 @@ Renders a `calcite-action` that has a clear background.
 | Property            | Attribute      | Description                                                                                                                         | Type                              | Default        |
 | ------------------- | -------------- | ----------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- | -------------- |
 | `active`            | `active`       | Indicates whether the action is highlighted.                                                                                        | `boolean`                         | `false`        |
-| `alignment`         | `alignment`    | Indicates the alignment of the component.                                                                                           | `Alignment`                       | `undefined`    |
+| `alignment`         | `alignment`    | Indicates the alignment when text-enabled is false.                                                                                 | `"center" \| "end" \| "start"`    | `undefined`    |
 | `appearance`        | `appearance`   | Specify the appearance style of the action, defaults to solid.                                                                      | `"clear" \| "outline" \| "solid"` | `"solid"`      |
 | `compact`           | `compact`      | Compact mode is used internally by components to reduce side padding, e.g. calcite-block-section.                                   | `boolean`                         | `false`        |
 | `disabled`          | `disabled`     | When true, disabled prevents interaction. This state shows items with lower opacity/grayed.                                         | `boolean`                         | `false`        |
@@ -50,6 +50,12 @@ Renders a `calcite-action` that has a clear background.
 | `text` _(required)_ | `text`         | Text that accompanies the action icon.                                                                                              | `string`                          | `undefined`    |
 | `textEnabled`       | `text-enabled` | Indicates whether the text is displayed.                                                                                            | `boolean`                         | `false`        |
 | `theme`             | `theme`        | Used to set the component's color scheme.                                                                                           | `"dark" \| "light"`               | `undefined`    |
+
+## Events
+
+| Event                | Description                               | Type               |
+| -------------------- | ----------------------------------------- | ------------------ |
+| `calciteActionClick` | Emitted when the action has been clicked. | `CustomEvent<any>` |
 
 ## Methods
 

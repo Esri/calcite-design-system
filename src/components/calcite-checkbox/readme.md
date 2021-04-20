@@ -35,6 +35,7 @@ Type: `Promise<void>`
 ### Used by
 
 - [calcite-card](../calcite-card)
+- [calcite-tree-item](../calcite-tree-item)
 
 ### Depends on
 
@@ -46,6 +47,7 @@ Type: `Promise<void>`
 graph TD;
   calcite-checkbox --> calcite-label
   calcite-card --> calcite-checkbox
+  calcite-tree-item --> calcite-checkbox
   style calcite-checkbox fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
