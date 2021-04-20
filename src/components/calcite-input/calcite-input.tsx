@@ -21,7 +21,9 @@ import { Position } from "../interfaces";
 import {
   getDecimalSeparator,
   delocalizeNumberString,
-  localizeNumberString
+  localizeNumberString,
+  getGroupSeparator,
+  sanitizeDecimalString
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 import { hiddenInputStyle } from "../../utils/form";
@@ -69,6 +71,9 @@ export class CalciteInput {
   disabledWatcher(): void {
     this.setDisabledAction();
   }
+
+  /** for number values, displays the locale's group separator */
+  @Prop() groupSeparator?: boolean = false;
 
   /** when used as a boolean set to true, show a default recommended icon for certain
    * input types (tel, password, email, date, time, search). You can also pass a
@@ -221,6 +226,8 @@ export class CalciteInput {
 
   private maxString?: string;
 
+  private preFocusValue: string;
+
   /** the computed icon to render */
   private requestedIcon?: string;
 
@@ -233,7 +240,11 @@ export class CalciteInput {
   //
   //--------------------------------------------------------------------------
 
-  @State() localizedValue: string = localizeNumberString(this.value, this.locale);
+  @State() localizedValue: string = localizeNumberString(
+    this.value,
+    this.locale,
+    this.groupSeparator
+  );
 
   //--------------------------------------------------------------------------
   //
@@ -286,9 +297,15 @@ export class CalciteInput {
   @Event() calciteInputBlur: EventEmitter;
 
   /**
-   * This event fires when the value of the input changes.
+   * This event fires as the value of the input changes.
    */
-  @Event({ eventName: "calciteInputInput", cancelable: true }) calciteInputInput: EventEmitter;
+  @Event({ cancelable: true }) calciteInputInput: EventEmitter;
+
+  /**
+   * This event fires when the value of the input changes and is committed.
+   * @internal
+   */
+  @Event() calciteInputChange: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -327,7 +344,7 @@ export class CalciteInput {
   //--------------------------------------------------------------------------
 
   private clearInputValue = (nativeEvent: KeyboardEvent | MouseEvent): void => {
-    this.setValue("", nativeEvent);
+    this.setValue("", nativeEvent, true);
   };
 
   private inputBlurHandler = () => {
@@ -335,6 +352,10 @@ export class CalciteInput {
       element: this.childEl,
       value: this.value
     });
+
+    if (this.preFocusValue !== this.value) {
+      this.calciteInputChange.emit();
+    }
   };
 
   private inputFocusHandler = (): void => {
@@ -342,6 +363,8 @@ export class CalciteInput {
       element: this.childEl,
       value: this.value
     });
+
+    this.preFocusValue = this.value;
   };
 
   private inputInputHandler = (nativeEvent: InputEvent): void => {
@@ -350,6 +373,12 @@ export class CalciteInput {
       ? delocalizeNumberString(value, this.locale)
       : value;
     this.setValue(newValue, nativeEvent);
+  };
+
+  private inputKeyDownHandler = (event: KeyboardEvent): void => {
+    if (event.key === "Enter") {
+      this.calciteInputChange.emit();
+    }
   };
 
   private inputNumberKeyDownHandler = (event: KeyboardEvent): void => {
@@ -378,6 +407,12 @@ export class CalciteInput {
       return;
     }
     if (supportedKeys.includes(event.key)) {
+      if (event.key === "Enter") {
+        this.calciteInputChange.emit();
+      }
+      return;
+    }
+    if (event.key == getGroupSeparator(this.locale)) {
       return;
     }
     if (
@@ -411,7 +446,7 @@ export class CalciteInput {
       newValue = (inputVal -= inputStep).toFixed(decimals).toString();
     }
 
-    this.setValue(newValue, nativeEvent);
+    this.setValue(newValue, nativeEvent, true);
   };
 
   private numberButtonMouseDownHandler = (event: MouseEvent): void => {
@@ -428,10 +463,6 @@ export class CalciteInput {
     }
     this.setValue(this.defaultValue, event);
   };
-
-  private sanitizeNumberString(value: string) {
-    return value.endsWith(".") ? value.replace(".", "") : value;
-  }
 
   private setChildElRef = (el) => {
     this.childEl = el;
@@ -454,14 +485,15 @@ export class CalciteInput {
 
   private setLocalizedValue = (unlocalizedValue: string): void => {
     this.localizedValue = localizeNumberString(
-      this.sanitizeNumberString(unlocalizedValue),
-      this.locale
+      sanitizeDecimalString(unlocalizedValue),
+      this.locale,
+      this.groupSeparator
     );
   };
 
-  private setValue = (value: string, nativeEvent): void => {
+  private setValue = (value: string, nativeEvent, committing = false): void => {
     const previousValue = this.value;
-    this.value = this.type === "number" ? this.sanitizeNumberString(value) : value;
+    this.value = this.type === "number" ? sanitizeDecimalString(value) : value;
     if (this.shouldFormatNumberByLocale()) {
       this.setLocalizedValue(value);
     }
@@ -473,14 +505,17 @@ export class CalciteInput {
       nativeEvent,
       value
     });
+
     if (calciteInputInputEvent.defaultPrevented) {
       this.value = previousValue;
       this.setLocalizedValue(previousValue);
+    } else if (committing) {
+      this.calciteInputChange.emit();
     }
   };
 
   private shouldFormatNumberByLocale = () => {
-    return this.localeFormat && this.type === "number";
+    return this.type === "number";
   };
 
   // --------------------------------------------------------------------------
@@ -509,7 +544,7 @@ export class CalciteInput {
       "theme",
       "number-button-type",
       "locale",
-      "locale-format"
+      "group-separator"
     ]);
 
     const loader = (
@@ -576,11 +611,14 @@ export class CalciteInput {
 
     const localeNumberInput = this.shouldFormatNumberByLocale() ? (
       <input
+        {...attributes}
         autofocus={this.autofocus ? true : null}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
+        key="localized-input"
         maxLength={this.maxLength}
         minLength={this.minLength}
+        name={undefined}
         onBlur={this.inputBlurHandler}
         onFocus={this.inputFocusHandler}
         onInput={this.inputInputHandler}
@@ -607,6 +645,7 @@ export class CalciteInput {
         onBlur={this.inputBlurHandler}
         onFocus={this.inputFocusHandler}
         onInput={this.inputInputHandler}
+        onKeyDown={this.inputKeyDownHandler}
         placeholder={this.placeholder || ""}
         ref={this.setChildElRef}
         required={this.required ? true : null}

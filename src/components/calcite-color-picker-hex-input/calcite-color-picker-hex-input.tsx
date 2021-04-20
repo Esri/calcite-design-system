@@ -4,6 +4,7 @@ import {
   Event,
   EventEmitter,
   h,
+  Listen,
   Method,
   Prop,
   State,
@@ -185,7 +186,9 @@ export class CalciteColorPickerHexInput {
     this.calciteColorPickerHexInputChange.emit();
   };
 
-  private onInputKeyDown = (event: KeyboardEvent): void => {
+  // using @Listen as a workaround for VDOM listener not firing
+  @Listen("keydown", { capture: true })
+  protected onInputKeyDown(event: KeyboardEvent): void {
     const { altKey, ctrlKey, metaKey, shiftKey } = event;
     const { el, inputNode, internalColor, value } = this;
     const key = getKey(event.key);
@@ -223,7 +226,7 @@ export class CalciteColorPickerHexInput {
     ) {
       event.preventDefault();
     }
-  };
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -259,7 +262,6 @@ export class CalciteColorPickerHexInput {
           dir={elementDir}
           onCalciteInputBlur={this.onCalciteInputBlur}
           onChange={this.onInputChange}
-          onKeyDown={this.onInputKeyDown}
           prefixText="#"
           ref={this.storeInputRef}
           scale="s"
