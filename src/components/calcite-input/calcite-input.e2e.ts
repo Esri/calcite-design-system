@@ -710,7 +710,11 @@ describe("calcite-input", () => {
             const input = document.getElementById("external");
             const calciteInput = document.querySelector("calcite-input");
             input.addEventListener("input", (event: InputEvent): void => {
-              calciteInput.value = (event.target as HTMLInputElement).value;
+              const value = (event.target as HTMLInputElement).value;
+              if (value.endsWith(".")) {
+                return;
+              }
+              calciteInput.value = value;
             });
           });
 

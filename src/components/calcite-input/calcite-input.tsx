@@ -22,7 +22,8 @@ import {
   getDecimalSeparator,
   delocalizeNumberString,
   localizeNumberString,
-  getGroupSeparator
+  getGroupSeparator,
+  sanitizeDecimalString
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 import { hiddenInputStyle } from "../../utils/form";
@@ -442,10 +443,6 @@ export class CalciteInput {
     this.setValue(this.defaultValue, event);
   };
 
-  private sanitizeNumberString(value: string) {
-    return value.endsWith(".") ? value.replace(".", "") : value;
-  }
-
   private setChildElRef = (el) => {
     this.childEl = el;
   };
@@ -467,7 +464,7 @@ export class CalciteInput {
 
   private setLocalizedValue = (unlocalizedValue: string): void => {
     this.localizedValue = localizeNumberString(
-      this.sanitizeNumberString(unlocalizedValue),
+      sanitizeDecimalString(unlocalizedValue),
       this.locale,
       this.displayGroupSeparator
     );
@@ -475,7 +472,7 @@ export class CalciteInput {
 
   private setValue = (value: string, nativeEvent): void => {
     const previousValue = this.value;
-    this.value = this.type === "number" ? this.sanitizeNumberString(value) : value;
+    this.value = this.type === "number" ? sanitizeDecimalString(value) : value;
     if (this.shouldFormatNumberByLocale()) {
       this.setLocalizedValue(value);
     }
