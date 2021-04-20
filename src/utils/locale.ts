@@ -99,9 +99,9 @@ export function getDecimalSeparator(locale: string): string {
   return value.trim().length === 0 ? " " : value;
 }
 
-export function localizeNumberString(stringNumber: string, locale: string): string {
-  if (stringNumber && locales.includes(locale)) {
-    const number = Number(stringNumber);
+export function localizeNumberString(numberString: string, locale: string, displayGroupSeparator = false): string {
+  if (numberString && locales.includes(locale)) {
+    const number = Number(numberString);
     if (!isNaN(number)) {
       const formatter = createLocaleNumberFormatter(locale);
       const parts = formatter.formatToParts(number);
@@ -109,7 +109,7 @@ export function localizeNumberString(stringNumber: string, locale: string): stri
         .map(({ type, value }) => {
           switch (type) {
             case "group":
-              return getGroupSeparator(locale);
+              return displayGroupSeparator ? getGroupSeparator(locale) : "";
             case "decimal":
               return getDecimalSeparator(locale);
             default:
@@ -120,5 +120,9 @@ export function localizeNumberString(stringNumber: string, locale: string): stri
       return localizedNumberString;
     }
   }
-  return stringNumber;
+  return numberString;
+}
+
+export function sanitizeDecimalString(decimalString: string): string {
+  return decimalString.endsWith(".") ? decimalString.replace(".", "") : decimalString;
 }
