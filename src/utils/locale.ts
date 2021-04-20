@@ -1,3 +1,5 @@
+import { parseNumberString } from "./number";
+
 export const locales = [
   "ar",
   "bs",
@@ -74,7 +76,7 @@ export function delocalizeNumberString(numberString: string, locale: string): st
       .reduce((string, part) => string + part)
       .replace(decimalSeparator, ".");
 
-    return isNaN(Number(delocalizedNumberString)) ? numberString : delocalizedNumberString;
+    return parseNumberString(delocalizedNumberString) ? delocalizedNumberString : null;
   }
   return numberString;
 }
@@ -121,8 +123,4 @@ export function localizeNumberString(numberString: string, locale: string, displ
     }
   }
   return numberString;
-}
-
-export function sanitizeDecimalString(decimalString: string): string {
-  return decimalString.endsWith(".") ? decimalString.replace(".", "") : decimalString;
 }
