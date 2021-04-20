@@ -405,7 +405,7 @@ export class CalciteInput {
       "Tab",
       "-"
     ];
-    if (event.metaKey) {
+    if (event.metaKey || event.ctrlKey) {
       return;
     }
     if (supportedKeys.includes(event.key)) {
