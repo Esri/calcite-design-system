@@ -41,7 +41,10 @@
   <demo-form>
     <h2>Locales</h2>
     <form name="demo-form">
-      <input type="number" value="1234" name="native">
+      <calcite-input name="undefined" type="number" value="undefined" placeholder="value set to undefined"></calcite-input>
+      <calcite-input name="asdf" type="number" value="f43asdfklj3;l4kjrawf" placeholder="value set to invalid number"></calcite-input>
+      <calcite-input name="no-initial-value-set" type="number" placeholder="no initial value set"></calcite-input>
+      <input type="number" name="native">
       <calcite-input name="calcite-input" placeholder="plain calcite-input"></calcite-input>
       <input name="native-minmax" minLength="2" maxLength="3" placeholder="minlength=2 maxlength=3"></input>
       <calcite-input name="minmax" minLength="2" maxLength="3" placeholder="minlength=2 maxlength=3" required>

@@ -1,4 +1,4 @@
-import { parseNumberString } from "./number";
+import { isValidNumber, parseNumberString } from "./number";
 
 export const locales = [
   "ar",
@@ -59,7 +59,7 @@ function createLocaleNumberFormatter(locale: string): Intl.NumberFormat {
 }
 
 export function delocalizeNumberString(numberString: string, locale: string): string {
-  if (numberString && locales.includes(locale)) {
+  if (isValidNumber(numberString) && locales.includes(locale)) {
     const groupSeparator = getGroupSeparator(locale);
     const decimalSeparator = getDecimalSeparator(locale);
 
@@ -78,7 +78,7 @@ export function delocalizeNumberString(numberString: string, locale: string): st
 
     return parseNumberString(delocalizedNumberString) ? delocalizedNumberString : null;
   }
-  return numberString;
+  return null;
 }
 
 export function getGroupSeparator(locale: string): string {
@@ -102,25 +102,23 @@ export function getDecimalSeparator(locale: string): string {
 }
 
 export function localizeNumberString(numberString: string, locale: string, displayGroupSeparator = false): string {
-  if (numberString && locales.includes(locale)) {
-    const number = Number(numberString);
-    if (!isNaN(number)) {
-      const formatter = createLocaleNumberFormatter(locale);
-      const parts = formatter.formatToParts(number);
-      const localizedNumberString = parts
-        .map(({ type, value }) => {
-          switch (type) {
-            case "group":
-              return displayGroupSeparator ? getGroupSeparator(locale) : "";
-            case "decimal":
-              return getDecimalSeparator(locale);
-            default:
-              return value;
-          }
-        })
-        .reduce((string, part) => string + part);
-      return localizedNumberString;
-    }
+  if (isValidNumber(numberString) && locales.includes(locale)) {
+    const number = parseNumberString(numberString);
+    const formatter = createLocaleNumberFormatter(locale);
+    const parts = formatter.formatToParts(number);
+    const localizedNumberString = parts
+      .map(({ type, value }) => {
+        switch (type) {
+          case "group":
+            return displayGroupSeparator ? getGroupSeparator(locale) : "";
+          case "decimal":
+            return getDecimalSeparator(locale);
+          default:
+            return value;
+        }
+      })
+      .reduce((string, part) => string + part);
+    return localizedNumberString;
   }
-  return numberString;
+  return null;
 }

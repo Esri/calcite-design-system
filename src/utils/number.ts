@@ -1,12 +1,11 @@
+export function isValidNumber(numberString: string): boolean {
+  return !numberString || isNaN(Number(numberString)) ? false : true;
+}
+
 export function parseNumberString(numberString: string): number {
-  const number = Number(numberString);
-  return isNaN(number) ? null : number;
+  return isValidNumber(numberString) ? Number(numberString) : null;
 }
 
 export function sanitizeDecimalString(decimalString: string): string {
-  const decimal = parseNumberString(decimalString);
-  if (!decimal) {
-    return "";
-  }
-  return decimalString.endsWith(".") ? decimalString.replace(".", "") : decimalString;
+  return isValidNumber(decimalString) && decimalString.endsWith(".") ? decimalString.replace(".", "") : decimalString;
 }
