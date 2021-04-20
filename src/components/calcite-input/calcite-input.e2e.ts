@@ -454,6 +454,50 @@ describe("calcite-input", () => {
     expect(calciteInputInput).toHaveReceivedEventTimes(1);
   });
 
+  describe("emits change event when value is committed", () => {
+    type CodeBranchingTypes = Extract<HTMLCalciteInputElement["type"], "text" | "number">;
+
+    async function assertChangeEvents(type: CodeBranchingTypes): Promise<void> {
+      const page = await newE2EPage({
+        html: `<calcite-input type="${type}"></calcite-input>`
+      });
+
+      const element = await page.find("calcite-input");
+      const calciteInputChange = await element.spyOnEvent("calciteInputChange");
+
+      const inputFirstPart = "12345";
+      await element.callMethod("setFocus");
+      await page.keyboard.type(inputFirstPart);
+      expect(await element.getProperty("value")).toBe(inputFirstPart);
+      expect(calciteInputChange).toHaveReceivedEventTimes(0);
+
+      await element.callMethod("setFocus");
+      await page.keyboard.press("Enter");
+      expect(calciteInputChange).toHaveReceivedEventTimes(1);
+
+      const textSecondPart = "67890";
+      await element.callMethod("setFocus");
+      await page.keyboard.type(textSecondPart);
+      expect(calciteInputChange).toHaveReceivedEventTimes(1);
+
+      await element.callMethod("setFocus");
+      await page.keyboard.press("Tab");
+      expect(calciteInputChange).toHaveReceivedEventTimes(2);
+      expect(await element.getProperty("value")).toBe(`${inputFirstPart}${textSecondPart}`);
+
+      const programmaticSetValue = "1337";
+      await element.setProperty("value", programmaticSetValue);
+      await page.waitForChanges();
+
+      expect(await element.getProperty("value")).toBe(programmaticSetValue);
+      expect(calciteInputChange).toHaveReceivedEventTimes(2);
+    }
+
+    it("emits when type is text", () => assertChangeEvents("text"));
+
+    it("emits when type is number", () => assertChangeEvents("number"));
+  });
+
   it("renders clear button when clearable is requested and value is populated at load", async () => {
     const page = await newE2EPage();
     await page.setContent(`

@@ -225,6 +225,8 @@ export class CalciteInput {
 
   private maxString?: string;
 
+  private preFocusValue: string;
+
   /** the computed icon to render */
   private requestedIcon?: string;
 
@@ -294,9 +296,15 @@ export class CalciteInput {
   @Event() calciteInputBlur: EventEmitter;
 
   /**
-   * This event fires when the value of the input changes.
+   * This event fires as the value of the input changes.
    */
-  @Event({ eventName: "calciteInputInput", cancelable: true }) calciteInputInput: EventEmitter;
+  @Event({ cancelable: true }) calciteInputInput: EventEmitter;
+
+  /**
+   * This event fires when the value of the input changes and is committed.
+   * @internal
+   */
+  @Event() calciteInputChange: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -335,7 +343,7 @@ export class CalciteInput {
   //--------------------------------------------------------------------------
 
   private clearInputValue = (nativeEvent: KeyboardEvent | MouseEvent): void => {
-    this.setValue("", nativeEvent);
+    this.setValue("", nativeEvent, true);
   };
 
   private inputBlurHandler = () => {
@@ -343,6 +351,10 @@ export class CalciteInput {
       element: this.childEl,
       value: this.value
     });
+
+    if (this.preFocusValue !== this.value) {
+      this.calciteInputChange.emit();
+    }
   };
 
   private inputFocusHandler = (event: FocusEvent): void => {
@@ -353,6 +365,8 @@ export class CalciteInput {
       element: this.childEl,
       value: this.value
     });
+
+    this.preFocusValue = this.value;
   };
 
   private inputInputHandler = (nativeEvent: InputEvent): void => {
@@ -361,6 +375,12 @@ export class CalciteInput {
       ? delocalizeNumberString(value, this.locale)
       : value;
     this.setValue(newValue, nativeEvent);
+  };
+
+  private inputKeyDownHandler = (event: KeyboardEvent): void => {
+    if (event.key === "Enter") {
+      this.calciteInputChange.emit();
+    }
   };
 
   private inputNumberKeyDownHandler = (event: KeyboardEvent): void => {
@@ -389,6 +409,9 @@ export class CalciteInput {
       return;
     }
     if (supportedKeys.includes(event.key)) {
+      if (event.key === "Enter") {
+        this.calciteInputChange.emit();
+      }
       return;
     }
     if (event.key == getGroupSeparator(this.locale)) {
@@ -425,7 +448,7 @@ export class CalciteInput {
       newValue = (inputVal -= inputStep).toFixed(decimals).toString();
     }
 
-    this.setValue(newValue, nativeEvent);
+    this.setValue(newValue, nativeEvent, true);
   };
 
   private numberButtonMouseDownHandler = (event: MouseEvent): void => {
@@ -470,7 +493,7 @@ export class CalciteInput {
     );
   };
 
-  private setValue = (value: string, nativeEvent): void => {
+  private setValue = (value: string, nativeEvent, committing = false): void => {
     const previousValue = this.value;
     this.value = this.type === "number" ? sanitizeDecimalString(value) : value;
     if (this.shouldFormatNumberByLocale()) {
@@ -484,9 +507,12 @@ export class CalciteInput {
       nativeEvent,
       value
     });
+
     if (calciteInputInputEvent.defaultPrevented) {
       this.value = previousValue;
       this.setLocalizedValue(previousValue);
+    } else if (committing) {
+      this.calciteInputChange.emit();
     }
   };
 
@@ -591,6 +617,7 @@ export class CalciteInput {
         autofocus={this.autofocus ? true : null}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
+        key="localized-input"
         maxLength={this.maxLength}
         minLength={this.minLength}
         name={undefined}
@@ -619,6 +646,7 @@ export class CalciteInput {
         onBlur={this.inputBlurHandler}
         onFocus={this.inputFocusHandler}
         onInput={this.inputInputHandler}
+        onKeyDown={this.inputKeyDownHandler}
         placeholder={this.placeholder || ""}
         ref={this.setChildElRef}
         required={this.required ? true : null}
