@@ -88,7 +88,7 @@
       label.appendChild(document.createTextNode(`${locale} (with group separator)`));
       input = document.createElement("calcite-input");
       (locale === "ar" || locale === "he") && input.setAttribute("dir", "rtl");
-      input.setAttribute("display-group-separator", true);
+      input.setAttribute("group-separator", true);
       input.setAttribute("id", `${locale}-group-separator`);
       input.setAttribute("locale", locale);
       input.setAttribute("name", `${locale}-group-separator`);

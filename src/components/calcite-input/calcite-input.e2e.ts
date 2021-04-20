@@ -717,7 +717,7 @@ describe("calcite-input", () => {
         it(`displays group and decimal separator on initial load for ${locale} locale using opt-in prop`, async () => {
           const value = "1234.56";
           const page = await newE2EPage({
-            html: `<calcite-input locale="${locale}" type="number" value="${value}" display-group-separator></calcite-input>`
+            html: `<calcite-input locale="${locale}" type="number" value="${value}" group-separator></calcite-input>`
           });
           const calciteInput = await page.find("calcite-input");
           const input = await page.find("input");

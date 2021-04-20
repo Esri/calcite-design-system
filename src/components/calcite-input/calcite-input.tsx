@@ -73,7 +73,7 @@ export class CalciteInput {
   }
 
   /** for number values, displays the locale's group separator */
-  @Prop() displayGroupSeparator = false;
+  @Prop() groupSeparator = false;
 
   /** when used as a boolean set to true, show a default recommended icon for certain
    * input types (tel, password, email, date, time, search). You can also pass a
@@ -242,7 +242,7 @@ export class CalciteInput {
   @State() localizedValue: string = localizeNumberString(
     this.value,
     this.locale,
-    this.displayGroupSeparator
+    this.groupSeparator
   );
 
   //--------------------------------------------------------------------------
@@ -489,7 +489,7 @@ export class CalciteInput {
     this.localizedValue = localizeNumberString(
       sanitizeDecimalString(unlocalizedValue),
       this.locale,
-      this.displayGroupSeparator
+      this.groupSeparator
     );
   };
 
@@ -546,7 +546,7 @@ export class CalciteInput {
       "theme",
       "number-button-type",
       "locale",
-      "display-group-separator"
+      "group-separator"
     ]);
 
     const loader = (
