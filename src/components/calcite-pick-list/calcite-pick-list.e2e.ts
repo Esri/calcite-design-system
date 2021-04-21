@@ -11,8 +11,20 @@ import {
 } from "./shared-list-tests";
 import { html } from "../../tests/utils";
 import { CSS as PICK_LIST_GROUP_CSS } from "../calcite-pick-list-group/resources";
+import SpyInstance = jest.SpyInstance;
 
 describe("calcite-pick-list", () => {
+  let consoleSpy: SpyInstance;
+
+  beforeEach(
+    () =>
+      (consoleSpy = jest.spyOn(console, "warn").mockImplementation(() => {
+        // hide warning messages during test
+      }))
+  );
+
+  afterEach(() => consoleSpy.mockClear());
+
   it("has property defaults", async () =>
     defaults("calcite-pick-list", [
       {

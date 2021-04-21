@@ -10,8 +10,20 @@ import {
   focusing
 } from "../calcite-pick-list/shared-list-tests";
 import { dragAndDrop, html } from "../../tests/utils";
+import SpyInstance = jest.SpyInstance;
 
 describe("calcite-value-list", () => {
+  let consoleSpy: SpyInstance;
+
+  beforeEach(
+    () =>
+      (consoleSpy = jest.spyOn(console, "warn").mockImplementation(() => {
+        // hide warning messages during test
+      }))
+  );
+
+  afterEach(() => consoleSpy.mockClear());
+
   it("renders", () => renders("calcite-value-list"));
 
   it("honors hidden attribute", async () => hidden("calcite-value-list"));
