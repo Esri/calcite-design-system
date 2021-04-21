@@ -21,12 +21,12 @@ export class CalcitePopoverManager {
   // --------------------------------------------------------------------------
 
   /**
-   * CSS Selector to match reference elements for popovers.
+   * CSS Selector to match reference elements for popovers. Reference elements will be identified by this selector in order to open their associated popover.
    */
   @Prop() selector = `[${POPOVER_REFERENCE}]`;
 
   /**
-   * Automatically close popovers when clicking outside of them.
+   * Automatically closes any currently open popovers when clicking outside of a popover.
    */
   @Prop({ reflect: true }) autoClose?: boolean;
 
