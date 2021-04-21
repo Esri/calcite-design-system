@@ -454,6 +454,50 @@ describe("calcite-input", () => {
     expect(calciteInputInput).toHaveReceivedEventTimes(1);
   });
 
+  describe("emits change event when value is committed", () => {
+    type CodeBranchingTypes = Extract<HTMLCalciteInputElement["type"], "text" | "number">;
+
+    async function assertChangeEvents(type: CodeBranchingTypes): Promise<void> {
+      const page = await newE2EPage({
+        html: `<calcite-input type="${type}"></calcite-input>`
+      });
+
+      const element = await page.find("calcite-input");
+      const calciteInputChange = await element.spyOnEvent("calciteInputChange");
+
+      const inputFirstPart = "12345";
+      await element.callMethod("setFocus");
+      await page.keyboard.type(inputFirstPart);
+      expect(await element.getProperty("value")).toBe(inputFirstPart);
+      expect(calciteInputChange).toHaveReceivedEventTimes(0);
+
+      await element.callMethod("setFocus");
+      await page.keyboard.press("Enter");
+      expect(calciteInputChange).toHaveReceivedEventTimes(1);
+
+      const textSecondPart = "67890";
+      await element.callMethod("setFocus");
+      await page.keyboard.type(textSecondPart);
+      expect(calciteInputChange).toHaveReceivedEventTimes(1);
+
+      await element.callMethod("setFocus");
+      await page.keyboard.press("Tab");
+      expect(calciteInputChange).toHaveReceivedEventTimes(2);
+      expect(await element.getProperty("value")).toBe(`${inputFirstPart}${textSecondPart}`);
+
+      const programmaticSetValue = "1337";
+      await element.setProperty("value", programmaticSetValue);
+      await page.waitForChanges();
+
+      expect(await element.getProperty("value")).toBe(programmaticSetValue);
+      expect(calciteInputChange).toHaveReceivedEventTimes(2);
+    }
+
+    it("emits when type is text", () => assertChangeEvents("text"));
+
+    it("emits when type is number", () => assertChangeEvents("number"));
+  });
+
   it("renders clear button when clearable is requested and value is populated at load", async () => {
     const page = await newE2EPage();
     await page.setContent(`
@@ -658,10 +702,10 @@ describe("calcite-input", () => {
     locales
       .filter((locale) => !localesWithIssues.includes(locale))
       .forEach((locale) => {
-        it(`formats number on initial load for ${locale} locale`, async () => {
+        it(`displays decimal separator on initial load for ${locale} locale`, async () => {
           const value = "1234.56";
           const page = await newE2EPage({
-            html: `<calcite-input locale="${locale}" locale-format type="number" value="${value}"></calcite-input>`
+            html: `<calcite-input locale="${locale}" type="number" value="${value}"></calcite-input>`
           });
           const calciteInput = await page.find("calcite-input");
           const input = await page.find("input");
@@ -670,9 +714,21 @@ describe("calcite-input", () => {
           expect(await input.getProperty("value")).toBe(localizeNumberString(value, locale));
         });
 
+        it(`displays group and decimal separator on initial load for ${locale} locale using opt-in prop`, async () => {
+          const value = "1234.56";
+          const page = await newE2EPage({
+            html: `<calcite-input locale="${locale}" type="number" value="${value}" group-separator></calcite-input>`
+          });
+          const calciteInput = await page.find("calcite-input");
+          const input = await page.find("input");
+
+          expect(await calciteInput.getProperty("value")).toBe(value);
+          expect(await input.getProperty("value")).toBe(localizeNumberString(value, locale, true));
+        });
+
         it(`allows typing valid decimal characters for ${locale} locale`, async () => {
           const page = await newE2EPage({
-            html: `<calcite-input locale="${locale}" locale-format type="number"></calcite-input>`
+            html: `<calcite-input locale="${locale}" type="number"></calcite-input>`
           });
           const calciteInput = await page.find("calcite-input");
           const input = await page.find("input");
@@ -691,14 +747,18 @@ describe("calcite-input", () => {
 
         it(`displays correct formatted value when the value is changed programatically for ${locale} locale`, async () => {
           const page = await newE2EPage({
-            html: `<calcite-input locale="${locale}" locale-format type="number"></calcite-input><input id="external" />`
+            html: `<calcite-input locale="${locale}" type="number"></calcite-input><input id="external" />`
           });
 
           await page.evaluate(() => {
             const input = document.getElementById("external");
             const calciteInput = document.querySelector("calcite-input");
             input.addEventListener("input", (event: InputEvent): void => {
-              calciteInput.value = (event.target as HTMLInputElement).value;
+              const value = (event.target as HTMLInputElement).value;
+              if (value.endsWith(".")) {
+                return;
+              }
+              calciteInput.value = value;
             });
           });
 

@@ -4,6 +4,7 @@ import {
   Event,
   EventEmitter,
   h,
+  Listen,
   Method,
   Prop,
   State,
@@ -371,8 +372,8 @@ export class CalciteColorPicker {
 
   private handleChannelInput = (event: CustomEvent): void => {
     const input = event.currentTarget as HTMLCalciteInputElement;
-    const internalInput = event.target as HTMLInputElement;
-    const channelIndex = Number(internalInput.getAttribute("data-channel-index"));
+    const internalInput = event.detail.nativeEvent.target as HTMLInputElement;
+    const channelIndex = Number(input.getAttribute("data-channel-index"));
 
     const limit =
       this.channelMode === "rgb"
@@ -381,27 +382,39 @@ export class CalciteColorPicker {
 
     let inputValue: string;
 
-    if (this.allowEmpty && !internalInput.value) {
+    if (this.allowEmpty && !input.value) {
       inputValue = "";
     } else {
-      const value = Number(internalInput.value) + this.shiftKeyChannelAdjustment;
+      const value = Number(input.value) + this.shiftKeyChannelAdjustment;
       const clamped = Math.max(0, Math.min(value, limit));
 
       inputValue = clamped.toString();
     }
 
-    // need to update both calcite-input and its internal input to keep them in sync
     input.value = inputValue;
     internalInput.value = inputValue;
   };
 
-  private handleChannelKeyUpOrDown = (event: KeyboardEvent): void => {
-    const { shiftKey } = event;
+  // using @Listen as a workaround for VDOM listener not firing
+  @Listen("keydown", { capture: true })
+  @Listen("keyup", { capture: true })
+  protected handleChannelKeyUpOrDown(event: KeyboardEvent): void {
+    this.shiftKeyChannelAdjustment = 0;
     const key = getKey(event.key);
 
-    if (!this.color && (key === "ArrowUp" || key === "ArrowDown")) {
-      this.internalColorSet(this.previousColor, true);
-      event.preventDefault();
+    if (
+      (key !== "ArrowUp" && key !== "ArrowDown") ||
+      !event.composedPath().some((node: HTMLElement) => node.classList?.contains(CSS.channel))
+    ) {
+      return;
+    }
+
+    const { shiftKey } = event;
+    event.preventDefault();
+
+    if (!this.color) {
+      this.internalColorSet(this.previousColor);
+      event.stopPropagation();
       return;
     }
 
@@ -414,10 +427,10 @@ export class CalciteColorPicker {
         : key === "ArrowDown" && shiftKey
         ? -complementaryBump
         : 0;
-  };
+  }
 
-  private handleChannelChange = (event: KeyboardEvent): void => {
-    const input = event.target as HTMLInputElement;
+  private handleChannelChange = (event: CustomEvent): void => {
+    const input = event.currentTarget as HTMLCalciteInputElement;
     const channelIndex = Number(input.getAttribute("data-channel-index"));
     const channels = [...this.channels] as this["channels"];
 
@@ -732,10 +745,8 @@ export class CalciteColorPicker {
       class={CSS.channel}
       data-channel-index={index}
       numberButtonType="none"
-      onChange={this.handleChannelChange}
-      onInput={this.handleChannelInput}
-      onKeyDown={this.handleChannelKeyUpOrDown}
-      onKeyUp={this.handleChannelKeyUpOrDown}
+      onCalciteInputChange={this.handleChannelChange}
+      onCalciteInputInput={this.handleChannelInput}
       prefixText={label}
       scale="s"
       type="number"

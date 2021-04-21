@@ -145,7 +145,7 @@ describe("calcite-link", () => {
   });
 
   describe("link interactivity", () => {
-    const targetPage = "test";
+    const targetPage = "#test";
 
     let page: E2EPage;
     let pageUrl: string;
