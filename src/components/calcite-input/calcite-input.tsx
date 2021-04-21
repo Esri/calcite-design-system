@@ -488,6 +488,9 @@ export class CalciteInput {
       this.locale,
       this.groupSeparator
     );
+
+    // without this, successive pastes of localized or unlocalized numbers won't display correctly
+    this.childNumberEl.value = this.localizedValue;
   };
 
   private setValue = (value: string, nativeEvent, committing = false): void => {

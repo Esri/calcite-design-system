@@ -41,7 +41,9 @@
   <demo-form>
     <h2>Locales</h2>
     <form name="demo-form">
+      <button id="set-undefined" type="button">Set to undefined</button>
       <calcite-input name="undefined" type="number" value="undefined" placeholder="value set to undefined"></calcite-input>
+      <calcite-input name="undefined-group" type="number" group-separator value="undefined" placeholder="value set to undefined with group"></calcite-input>
       <calcite-input name="asdf" type="number" value="f43asdfklj3;l4kjrawf" placeholder="value set to invalid number"></calcite-input>
       <calcite-input name="no-initial-value-set" type="number" placeholder="no initial value set"></calcite-input>
       <input type="number" name="native">
@@ -111,6 +113,12 @@
     });
     document.addEventListener("calciteInputBlur", (event) => {
       console.log("calciteInputBlur", event.target.getAttribute("name"), event.detail.value);
+    });
+
+    const button = document.getElementById("set-undefined");
+    button.addEventListener("click", () => {
+      const input = document.querySelector("calcite-input");
+      input.value = "undefined";
     });
   </script>
 </body>

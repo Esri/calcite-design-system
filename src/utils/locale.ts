@@ -59,7 +59,7 @@ function createLocaleNumberFormatter(locale: string): Intl.NumberFormat {
 }
 
 export function delocalizeNumberString(numberString: string, locale: string): string {
-  if (isValidNumber(numberString) && locales.includes(locale)) {
+  if (numberString && locales.includes(locale)) {
     const groupSeparator = getGroupSeparator(locale);
     const decimalSeparator = getDecimalSeparator(locale);
 

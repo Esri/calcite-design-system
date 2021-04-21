@@ -7,5 +7,9 @@ export function parseNumberString(numberString: string): number {
 }
 
 export function sanitizeDecimalString(decimalString: string): string {
-  return isValidNumber(decimalString) && decimalString.endsWith(".") ? decimalString.replace(".", "") : decimalString;
+  return isValidNumber(decimalString)
+    ? decimalString.endsWith(".")
+      ? decimalString.replace(".", "")
+      : decimalString
+    : null;
 }
