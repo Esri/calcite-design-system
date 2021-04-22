@@ -3,6 +3,13 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## [1.0.0-beta.54](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.53...v1.0.0-beta.54) (2021-04-22)
+
+
+### Bug Fixes
+
+* **calcite-input:** number input localization no longer restricted to static list of locales ([#2014](https://github.com/Esri/calcite-components/issues/2014)) ([03a679a](https://github.com/Esri/calcite-components/commit/03a679a8fd50181c8445b141cdae221ec90e7537))
+
 ## [1.0.0-beta.53](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.52...v1.0.0-beta.53) (2021-04-21)
 
 
