@@ -849,7 +849,7 @@ describe("calcite-color-picker", () => {
           });
         });
 
-        it("restores previous color value when a nudge key is pressed", async () => {
+        it.skip("restores previous color value when a nudge key is pressed", async () => {
           const consistentRgbHsvChannelValue = "0";
           const initialValue = "#".padEnd(7, consistentRgbHsvChannelValue);
 
