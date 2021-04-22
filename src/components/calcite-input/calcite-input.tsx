@@ -259,7 +259,7 @@ export class CalciteInput {
     this.status = getElementProp(this.el, "status", this.status);
     this.step = !this.step && this.shouldFormatNumberByLocale() ? "any" : this.step;
     if (this.type === "number" && !isValidNumber(this.value)) {
-      this.value = undefined;
+      this.value = null;
     }
   }
 
