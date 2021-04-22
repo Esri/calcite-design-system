@@ -1,4 +1,5 @@
 import {
+  Build,
   Component,
   Element,
   Event,
@@ -100,8 +101,19 @@ export class CalciteModal {
     }
   }
 
+  componentDidLoad(): void {
+    this.observer?.observe(this.el, { childList: true, subtree: true });
+  }
+
+  connectedCallback(): void {
+    if (Build.isBrowser) {
+      this.observer = new MutationObserver(this.updateFooterVisibility);
+    }
+  }
+
   disconnectedCallback(): void {
     this.removeOverflowHiddenClass();
+    this.observer?.disconnect();
   }
 
   render(): VNode {
@@ -121,7 +133,8 @@ export class CalciteModal {
           <div
             class={{
               content: true,
-              "content--spaced": !this.noPadding
+              "content--spaced": !this.noPadding,
+              "content--no-footer": !this.hasFooter
             }}
             ref={(el) => (this.modalContent = el)}
           >
@@ -135,7 +148,7 @@ export class CalciteModal {
   }
 
   renderFooter(): VNode {
-    return this.el.querySelector("[slot=back], [slot=secondary], [slot=primary]") ? (
+    return this.hasFooter ? (
       <div class="footer">
         <span class="back">
           <slot name="back" />
@@ -198,6 +211,8 @@ export class CalciteModal {
   //--------------------------------------------------------------------------
   @State() isActive: boolean;
 
+  @State() hasFooter: boolean;
+
   previousActiveElement: HTMLElement;
 
   closeButtonEl: HTMLButtonElement;
@@ -205,6 +220,8 @@ export class CalciteModal {
   modalContent: HTMLDivElement;
 
   focusTimeout: number;
+
+  private observer: MutationObserver = null;
 
   //--------------------------------------------------------------------------
   //
@@ -333,4 +350,8 @@ export class CalciteModal {
   private removeOverflowHiddenClass(): void {
     document.documentElement.classList.remove("overflow-hidden");
   }
+
+  private updateFooterVisibility = (): void => {
+    this.hasFooter = !!this.el.querySelector("[slot=back], [slot=secondary], [slot=primary]");
+  };
 }
