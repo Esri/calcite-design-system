@@ -124,5 +124,5 @@ export function localizeNumberString(numberString: string, locale: string, displ
 }
 
 export function sanitizeDecimalString(decimalString: string): string {
-  return decimalString.endsWith(".") ? decimalString.replace(".", "") : decimalString;
+  return decimalString?.endsWith(".") ? decimalString.replace(".", "") : decimalString;
 }

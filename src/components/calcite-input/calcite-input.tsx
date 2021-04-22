@@ -27,6 +27,7 @@ import {
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 import { hiddenInputStyle } from "../../utils/form";
+import { isValidNumber } from "../../utils/number";
 
 type NumberNudgeDirection = "up" | "down";
 
@@ -257,6 +258,9 @@ export class CalciteInput {
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.status = getElementProp(this.el, "status", this.status);
     this.step = !this.step && this.shouldFormatNumberByLocale() ? "any" : this.step;
+    if (this.type === "number" && !isValidNumber(this.value)) {
+      this.value = undefined;
+    }
   }
 
   disconnectedCallback(): void {
@@ -499,7 +503,7 @@ export class CalciteInput {
     if (this.shouldFormatNumberByLocale()) {
       this.setLocalizedValue(value);
     }
-    if (this.type === "number" && value.endsWith(".")) {
+    if (this.type === "number" && value?.endsWith(".")) {
       return;
     }
     const calciteInputInputEvent = this.calciteInputInput.emit({
