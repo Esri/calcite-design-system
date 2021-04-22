@@ -5,7 +5,7 @@ import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing
 import { ColorValue } from "./interfaces";
 import SpyInstance = jest.SpyInstance;
 
-describe.skip("calcite-color-picker", () => {
+describe("calcite-color-picker", () => {
   let consoleSpy: SpyInstance;
 
   beforeEach(
