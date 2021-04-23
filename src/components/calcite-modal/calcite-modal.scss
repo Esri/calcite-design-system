@@ -133,7 +133,7 @@
 .footer {
   @apply flex justify-between mt-auto box-border rounded-b w-full bg-foreground-1;
   flex: 0 0 auto;
-  padding: var(--calcite-modal-padding);
+  padding: var(--calcite-modal-padding) var(--calcite-modal-padding-large);
   border-top: 1px solid var(--calcite-ui-border-3);
   z-index: 2;
 }
