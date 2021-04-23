@@ -54,16 +54,16 @@ Renders a tip manager using a group of tips as well as a single tip.
 
 ## Properties
 
-| Property              | Attribute               | Description                                                       | Type                         | Default         |
-| --------------------- | ----------------------- | ----------------------------------------------------------------- | ---------------------------- | --------------- |
-| `closed`              | `closed`                | Alternate text for closing the `calcite-tip-manager`.             | `boolean`                    | `false`         |
-| `headingLevel`        | `heading-level`         | Number at which section headings should start for this component. | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `HEADING_LEVEL` |
-| `intlClose`           | `intl-close`            | Alternate text for closing the tip.                               | `string`                     | `undefined`     |
-| `intlDefaultTitle`    | `intl-default-title`    | The default group title for the `calcite-tip-manager`.            | `string`                     | `undefined`     |
-| `intlNext`            | `intl-next`             | Alternate text for navigating to the next tip.                    | `string`                     | `undefined`     |
-| `intlPaginationLabel` | `intl-pagination-label` | Label that appears on hover of pagination icon.                   | `string`                     | `undefined`     |
-| `intlPrevious`        | `intl-previous`         | Alternate text for navigating to the previous tip.                | `string`                     | `undefined`     |
-| `theme`               | `theme`                 | Used to set the component's color scheme.                         | `"dark" \| "light"`          | `undefined`     |
+| Property              | Attribute               | Description                                                       | Type                         | Default     |
+| --------------------- | ----------------------- | ----------------------------------------------------------------- | ---------------------------- | ----------- |
+| `closed`              | `closed`                | Alternate text for closing the `calcite-tip-manager`.             | `boolean`                    | `false`     |
+| `headingLevel`        | `heading-level`         | Number at which section headings should start for this component. | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
+| `intlClose`           | `intl-close`            | Alternate text for closing the tip.                               | `string`                     | `undefined` |
+| `intlDefaultTitle`    | `intl-default-title`    | The default group title for the `calcite-tip-manager`.            | `string`                     | `undefined` |
+| `intlNext`            | `intl-next`             | Alternate text for navigating to the next tip.                    | `string`                     | `undefined` |
+| `intlPaginationLabel` | `intl-pagination-label` | Label that appears on hover of pagination icon.                   | `string`                     | `undefined` |
+| `intlPrevious`        | `intl-previous`         | Alternate text for navigating to the previous tip.                | `string`                     | `undefined` |
+| `theme`               | `theme`                 | Used to set the component's color scheme.                         | `"dark" \| "light"`          | `undefined` |
 
 ## Events
 

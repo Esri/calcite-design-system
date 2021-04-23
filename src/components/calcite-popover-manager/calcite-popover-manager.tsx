@@ -1,6 +1,6 @@
 import { Component, Element, Host, h, Listen, Prop, VNode } from "@stencil/core";
 import { POPOVER_REFERENCE } from "../calcite-popover/resources";
-import { getElementByAttributeId } from "../../utils/dom";
+import { getElementById, getRootNode } from "../../utils/dom";
 
 @Component({
   tag: "calcite-popover-manager"
@@ -21,12 +21,12 @@ export class CalcitePopoverManager {
   // --------------------------------------------------------------------------
 
   /**
-   * CSS Selector to match reference elements for popovers.
+   * CSS Selector to match reference elements for popovers. Reference elements will be identified by this selector in order to open their associated popover.
    */
   @Prop() selector = `[${POPOVER_REFERENCE}]`;
 
   /**
-   * Automatically close popovers when clicking outside of them.
+   * Automatically closes any currently open popovers when clicking outside of a popover.
    */
   @Prop({ reflect: true }) autoClose?: boolean;
 
@@ -46,11 +46,11 @@ export class CalcitePopoverManager {
   //
   //--------------------------------------------------------------------------
 
-  getRelatedPopover = (el: HTMLElement): HTMLCalcitePopoverElement => {
-    return getElementByAttributeId(
-      el.closest(this.selector),
-      POPOVER_REFERENCE
-    ) as HTMLCalcitePopoverElement;
+  getRelatedPopover = (element: HTMLElement): HTMLCalcitePopoverElement => {
+    const { selector, el } = this;
+    const id = element.closest(selector)?.getAttribute(POPOVER_REFERENCE);
+
+    return getElementById(getRootNode(el), id) as HTMLCalcitePopoverElement;
   };
 
   //--------------------------------------------------------------------------
@@ -66,9 +66,14 @@ export class CalcitePopoverManager {
     const popoverSelector = "calcite-popover";
     const isTargetInsidePopover = target.closest(popoverSelector);
     const relatedPopover = this.getRelatedPopover(target);
+    const rootNode = getRootNode(el);
 
     if (autoClose && !isTargetInsidePopover) {
-      Array.from(document.body.querySelectorAll(popoverSelector))
+      Array.from(
+        rootNode instanceof ShadowRoot
+          ? rootNode.host.querySelectorAll(popoverSelector)
+          : rootNode.querySelectorAll(popoverSelector)
+      )
         .filter((popover) => popover.open && popover !== relatedPopover)
         .forEach((popover) => popover.toggle(false));
     }

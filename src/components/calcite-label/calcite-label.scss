@@ -1,10 +1,10 @@
 :host([alignment="start"]),
-:host([alignment="end"][dir="rtl"]) {
+:host([alignment="end"]) .calcite--rtl {
   @apply text-left;
 }
 
 :host([alignment="end"]),
-:host([alignment="start"][dir="rtl"]) {
+:host([alignment="start"]) .calcite--rtl {
   @apply text-right;
 }
 
@@ -29,10 +29,10 @@
 }
 
 :host label {
-  @apply cursor-pointer 
-    w-full 
-    mt-0 
-    mr-0 
+  @apply cursor-pointer
+    w-full
+    mt-0
+    mr-0
     ml-0
     leading-snug;
 }

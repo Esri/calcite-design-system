@@ -31,6 +31,7 @@ import {
 } from "./shared-list-logic";
 import List from "./shared-list-render";
 import { Theme } from "../interfaces";
+import { HeadingLevel } from "../functional/CalciteHeading";
 
 /**
  * @slot - A slot for adding `calcite-pick-list-item` elements or `calcite-pick-list-group` elements. Items are displayed as a vertical list.
@@ -64,6 +65,11 @@ export class CalcitePickList<
    * Placeholder text for the filter input field.
    */
   @Prop({ reflect: true }) filterPlaceholder: string;
+
+  /**
+   * Number at which section headings should start for this component.
+   */
+  @Prop() headingLevel: HeadingLevel;
 
   /**
    * When true, content is waiting to be loaded. This state shows a busy indicator.

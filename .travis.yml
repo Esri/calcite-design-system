@@ -6,7 +6,7 @@ deploy:
     branch: master
     condition: $NEXT_RELEASE_ENABLED
   provider: script
-  script: bash support/deployNextFromTravisBuild.sh
+  script: bash support/deployNextFromTravis.sh
   skip_cleanup: true
 language: node_js
 node_js:

@@ -39,6 +39,22 @@ describe("calcite-pick-list-item", () => {
     expect(await item.getProperty("selected")).toBe(false);
   });
 
+  it("should toggle selected attribute when icon is clicked", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-pick-list-item label="test" icon="circle"></calcite-pick-list-item>`
+    });
+
+    const item = await page.find("calcite-pick-list-item");
+    expect(await item.getProperty("selected")).toBe(false);
+
+    const icon = await page.find(`calcite-pick-list-item >>> .${CSS.icon}`);
+    await icon.click();
+    expect(await item.getProperty("selected")).toBe(true);
+
+    await icon.click();
+    expect(await item.getProperty("selected")).toBe(false);
+  });
+
   it("should fire event calciteListItemChange when item is clicked", async () => {
     const page = await newE2EPage({
       html: `<calcite-pick-list-item label="test" value="example"></calcite-pick-list-item>`

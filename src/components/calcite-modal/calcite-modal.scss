@@ -112,6 +112,10 @@
   padding: var(--calcite-modal-padding-large);
 }
 
+.content--no-footer {
+  @apply rounded-b;
+}
+
 @include slotted("content", "*") {
   font-size: var(--calcite-modal-content-text);
   line-height: 1.5;

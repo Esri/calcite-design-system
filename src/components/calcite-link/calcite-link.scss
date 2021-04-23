@@ -13,13 +13,13 @@
 // link base
 :host a,
 :host span {
-  @apply flex 
-    relative 
-    items-center 
-    justify-center 
-    rounded-none 
-    border-none 
-    font-inherit 
+  @apply flex
+    relative
+    items-center
+    justify-center
+    rounded-none
+    border-none
+    font-inherit
     cursor-pointer;
   text-decoration: none;
   line-height: inherit;
@@ -58,7 +58,7 @@
   @apply mr-2;
 }
 
-:host([dir="rtl"]) .calcite-link--icon.icon-start {
+.calcite--rtl .calcite-link--icon.icon-start {
   @apply mr-0 ml-2;
 }
 
@@ -66,17 +66,17 @@
   @apply ml-2;
 }
 
-:host([dir="rtl"]) .calcite-link--icon.icon-end {
+.calcite--rtl .calcite-link--icon.icon-end {
   @apply ml-0 mr-2;
 }
 
 :host {
   span,
   a {
-    @apply inline 
-      p-0 
-      border-none 
-      bg-transparent 
+    @apply inline
+      p-0
+      border-none
+      bg-transparent
       relative
       text-color-link;
     line-height: inherit;
@@ -103,9 +103,7 @@
   }
 }
 
-:host([dir="rtl"]) {
-  span,
-  a {
-    background-position: 100% 100%, 100% 100%;
-  }
+span.calcite--rtl,
+a.calcite--rtl {
+  background-position: 100% 100%, 100% 100%;
 }

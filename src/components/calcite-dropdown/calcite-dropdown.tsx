@@ -18,6 +18,7 @@ import { createPopper, updatePopper, CSS as PopperCSS } from "../../utils/popper
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { Scale, Theme } from "../interfaces";
 import { DefaultDropdownPlacement } from "./resources";
+import { CSS_UTILITY } from "../../utils/resources";
 
 @Component({
   tag: "calcite-dropdown",
@@ -129,9 +130,9 @@ export class CalciteDropdown {
     const dir = getElementDir(this.el);
 
     return (
-      <Host dir={dir} tabIndex={this.disabled ? -1 : null}>
+      <Host tabIndex={this.disabled ? -1 : null}>
         <div
-          class="calcite-dropdown-trigger-container"
+          class={{ ["calcite-dropdown-trigger-container"]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
           onClick={this.openDropdown}
           onKeyDown={this.keyDownHandler}
           ref={this.setReferenceEl}

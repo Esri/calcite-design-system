@@ -3,6 +3,7 @@ import { CSS, SLOTS, TEXT } from "./resources";
 import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { Theme } from "../interfaces";
+import { CSS_UTILITY } from "../../utils/resources";
 
 /**
  * @slot thumbnail - A slot for adding a thumnail to the card.
@@ -76,8 +77,8 @@ export class CalciteCard {
   render(): VNode {
     const dir = getElementDir(this.el);
     return (
-      <Host dir={dir}>
-        <div class="calcite-card-container">
+      <Host>
+        <div class={{ "calcite-card-container": true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           {this.loading ? (
             <div class="calcite-card-loader-container">
               <calcite-loader active label={this.intlLoading} />
