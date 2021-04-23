@@ -57,7 +57,7 @@ Renders a panel with an action bar.
 ```
 #### With a custom element wrapping a CalcitePanel.
 
-Add `calcite-match-height` to ensure proper height, scrolling, and sticky behavior (header, footer, fab).
+Add `calcite-match-height` to a wrapping element to ensure proper height, scrolling, and sticky behavior (header, footer, fab). Note that multiple levels of nesting is not supported.
 
 ```html
 <calcite-shell-panel>
