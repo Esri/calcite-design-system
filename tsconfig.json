@@ -1,5 +1,5 @@
 {
   "extends": "./tsconfig-base",
-  "include": ["src", ".storybook/declarations.d.ts"],
+  "include": ["src"],
   "exclude": ["node_modules", "src/demos/**/*", "src/tests/**/*", "src/**/shared-list-tests.ts", "src/**/*.stories.ts"]
 }
