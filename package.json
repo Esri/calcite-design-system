@@ -13,7 +13,9 @@
   "collection": "dist/collection/collection-manifest.json",
   "files": [
     "dist/",
-    "hydrate/"
+    "hydrate/",
+    "!.storybook",
+    "!dist/collection/demos"
   ],
   "scripts": {
     "build": "npm run util:copy-icons && stencil build && npm run util:add-custom-elements-index-mjs && npm run util:build-custom-elements-output-utils",
