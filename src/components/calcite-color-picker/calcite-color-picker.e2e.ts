@@ -744,7 +744,7 @@ describe("calcite-color-picker", () => {
       });
 
       describe("when no-color", () => {
-        it("color gets propagated to hex, RGB & HSV inputs", async () => {
+        it.skip("color gets propagated to hex, RGB & HSV inputs", async () => {
           const page = await newE2EPage({
             html: "<calcite-color-picker allow-empty value=''></calcite-color-picker>"
           });
@@ -844,27 +844,27 @@ describe("calcite-color-picker", () => {
             await page.waitForChanges();
             expect(await calciteInput.getProperty("value")).toBe(consistentRgbHsvChannelValue);
 
-            // await clearAndEnterValue(page, calciteInput, "");
-            //
-            // await page.keyboard.press("ArrowDown");
-            // await page.waitForChanges();
-            // expect(await calciteInput.getProperty("value")).toBe(consistentRgbHsvChannelValue);
+            await clearAndEnterValue(page, calciteInput, "");
 
-            // await clearAndEnterValue(page, calciteInput, "");
-            //
-            // await page.keyboard.down("Shift");
-            // await page.keyboard.press("ArrowUp");
-            // await page.keyboard.up("Shift");
-            // await page.waitForChanges();
-            // expect(await calciteInput.getProperty("value")).toBe(consistentRgbHsvChannelValue);
-            //
-            // await clearAndEnterValue(page, calciteInput, "");
-            //
-            // await page.keyboard.down("Shift");
-            // await page.keyboard.press("ArrowDown");
-            // await page.keyboard.up("Shift");
-            // await page.waitForChanges();
-            // expect(await calciteInput.getProperty("value")).toBe(consistentRgbHsvChannelValue);
+            await page.keyboard.press("ArrowDown");
+            await page.waitForChanges();
+            expect(await calciteInput.getProperty("value")).toBe(consistentRgbHsvChannelValue);
+
+            await clearAndEnterValue(page, calciteInput, "");
+
+            await page.keyboard.down("Shift");
+            await page.keyboard.press("ArrowUp");
+            await page.keyboard.up("Shift");
+            await page.waitForChanges();
+            expect(await calciteInput.getProperty("value")).toBe(consistentRgbHsvChannelValue);
+
+            await clearAndEnterValue(page, calciteInput, "");
+
+            await page.keyboard.down("Shift");
+            await page.keyboard.press("ArrowDown");
+            await page.keyboard.up("Shift");
+            await page.waitForChanges();
+            expect(await calciteInput.getProperty("value")).toBe(consistentRgbHsvChannelValue);
           };
 
           const page = await newE2EPage({
