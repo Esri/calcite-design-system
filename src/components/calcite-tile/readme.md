@@ -14,7 +14,7 @@
 | `hidden`      | `hidden`      | The hidden state of the tile.                                                                            | `boolean`           | `false`     |
 | `href`        | `href`        | The (optional) url for the tile. (Only applies when embed is set to false)                               | `string`            | `undefined` |
 | `icon`        | `icon`        | The icon that appears at the top of the tile.                                                            | `string`            | `undefined` |
-| `theme`       | `theme`       | The theme of the tile.                                                                                   | `"dark" \| "light"` | `"light"`   |
+| `theme`       | `theme`       | The theme of the tile.                                                                                   | `"dark" \| "light"` | `undefined` |
 
 ## Dependencies
 

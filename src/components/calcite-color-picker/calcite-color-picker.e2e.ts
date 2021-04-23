@@ -5,7 +5,7 @@ import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing
 import { ColorValue } from "./interfaces";
 import SpyInstance = jest.SpyInstance;
 
-describe("calcite-color-picker", () => {
+describe.skip("calcite-color-picker", () => {
   let consoleSpy: SpyInstance;
 
   beforeEach(
@@ -849,34 +849,45 @@ describe("calcite-color-picker", () => {
           });
         });
 
-        it("does not allow nudging values", async () => {
+        it("restores previous color value when a nudge key is pressed", async () => {
+          const consistentRgbHsvChannelValue = "0";
+          const initialValue = "#".padEnd(7, consistentRgbHsvChannelValue);
+
           const assertChannelValueNudge = async (page: E2EPage, calciteInput: E2EElement): Promise<void> => {
             await calciteInput.callMethod("setFocus");
             await page.waitForChanges();
 
+            await clearAndEnterValue(page, calciteInput, "");
+
             await page.keyboard.press("ArrowUp");
             await page.waitForChanges();
-            expect(await calciteInput.getProperty("value")).toBe("");
+            expect(await calciteInput.getProperty("value")).toBe(consistentRgbHsvChannelValue);
+
+            await clearAndEnterValue(page, calciteInput, "");
 
             await page.keyboard.press("ArrowDown");
             await page.waitForChanges();
-            expect(await calciteInput.getProperty("value")).toBe("");
+            expect(await calciteInput.getProperty("value")).toBe(consistentRgbHsvChannelValue);
+
+            await clearAndEnterValue(page, calciteInput, "");
 
             await page.keyboard.down("Shift");
             await page.keyboard.press("ArrowUp");
             await page.keyboard.up("Shift");
             await page.waitForChanges();
-            expect(await calciteInput.getProperty("value")).toBe("");
+            expect(await calciteInput.getProperty("value")).toBe(consistentRgbHsvChannelValue);
+
+            await clearAndEnterValue(page, calciteInput, "");
 
             await page.keyboard.down("Shift");
             await page.keyboard.press("ArrowDown");
             await page.keyboard.up("Shift");
             await page.waitForChanges();
-            expect(await calciteInput.getProperty("value")).toBe("");
+            expect(await calciteInput.getProperty("value")).toBe(consistentRgbHsvChannelValue);
           };
 
           const page = await newE2EPage({
-            html: "<calcite-color-picker allow-empty value=''></calcite-color-picker>"
+            html: `<calcite-color-picker allow-empty value='${initialValue}'></calcite-color-picker>`
           });
 
           const [rgbModeButton, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
@@ -1106,6 +1117,28 @@ describe("calcite-color-picker", () => {
       await scope.press("ArrowLeft");
       expect(await picker.getProperty("value")).toBe("#ededed");
     });
+
+    it("allows nudging color's saturation even if it does not change RGB value", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-color-picker value="#000"></calcite-color-picker>`
+      });
+      const scope = await page.find(`calcite-color-picker >>> .${CSS.scope}`);
+
+      const initialStyle = await scope.getComputedStyle();
+      expect(initialStyle.left).toBe("0px");
+
+      await scope.click();
+
+      let nudgesToTheEdge = 25;
+
+      while (nudgesToTheEdge--) {
+        await scope.press("ArrowRight");
+      }
+
+      const finalStyle = await scope.getComputedStyle();
+      expect(finalStyle.left).toBe(`${DIMENSIONS.m.colorField.width}px`);
+    });
+
     it("allows editing hue slider via keyboard", async () => {
       const page = await newE2EPage({
         html: `<calcite-color-picker allow-empty value=""></calcite-color-picker>`

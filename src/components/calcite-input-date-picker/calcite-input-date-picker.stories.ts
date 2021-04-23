@@ -3,57 +3,7 @@ import { select, text, boolean } from "@storybook/addon-knobs";
 import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../tests/utils";
-
-const locales = [
-  "ar",
-  "bs",
-  "ca",
-  "cs",
-  "da",
-  "de-CH",
-  "de",
-  "el",
-  "en-AU",
-  "en-CA",
-  "en-GB",
-  "en",
-  "es-MX",
-  "es",
-  "et",
-  "fi",
-  "fr-CH",
-  "fr",
-  "he",
-  "hi",
-  "hr",
-  "hu",
-  "id",
-  "it-CH",
-  "it",
-  "ja",
-  "ko",
-  "lt",
-  "lv",
-  "mk",
-  "nb",
-  "nl",
-  "pl",
-  "pt-PT",
-  "pt",
-  "ro",
-  "ru",
-  "sk",
-  "sl",
-  "sr",
-  "sv",
-  "th",
-  "tr",
-  "uk",
-  "vi",
-  "zh-CN",
-  "zh-HK",
-  "zh-TW"
-];
+import { locales } from "../../utils/locale";
 
 export default {
   title: "Components/Controls/InputDatePicker",

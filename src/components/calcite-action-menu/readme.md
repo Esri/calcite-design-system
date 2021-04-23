@@ -4,20 +4,35 @@
 
 ## Properties
 
-| Property         | Attribute         | Description                                                                         | Type                                                                                                                                                                                                                                                                                                              | Default     |
-| ---------------- | ----------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| `expanded`       | `expanded`        | Indicates whether widget is expanded.                                               | `boolean`                                                                                                                                                                                                                                                                                                         | `false`     |
-| `flipPlacements` | --                | Defines the available placements that can be used when a flip occurs.               | `Placement[]`                                                                                                                                                                                                                                                                                                     | `undefined` |
-| `intlOptions`    | `intl-options`    | 'Options' text string for the actions menu.                                         | `string`                                                                                                                                                                                                                                                                                                          | `undefined` |
-| `offsetDistance` | `offset-distance` | Offset the position of the menu away from the reference element.                    | `number`                                                                                                                                                                                                                                                                                                          | `0`         |
-| `open`           | `open`            | Opens the action menu.                                                              | `boolean`                                                                                                                                                                                                                                                                                                         | `false`     |
-| `placement`      | `placement`       | Determines where the component will be positioned relative to the referenceElement. | `"auto" \| "auto-start" \| "auto-end" \| "top" \| "bottom" \| "right" \| "left" \| "top-start" \| "top-end" \| "bottom-start" \| "bottom-end" \| "right-start" \| "right-end" \| "left-start" \| "left-end" \| "leading-start" \| "leading" \| "leading-end" \| "trailing-end" \| "trailing" \| "trailing-start"` | `"auto"`    |
+| Property             | Attribute   | Description                                                                         | Type                                        | Default     |
+| -------------------- | ----------- | ----------------------------------------------------------------------------------- | ------------------------------------------- | ----------- |
+| `expanded`           | `expanded`  | Indicates whether widget is expanded.                                               | `boolean`                                   | `false`     |
+| `flipPlacements`     | --          | Defines the available placements that can be used when a flip occurs.               | `Placement[]`                               | `undefined` |
+| `label` _(required)_ | `label`     | Text string for the actions menu.                                                   | `string`                                    | `undefined` |
+| `open`               | `open`      | Opens the action menu.                                                              | `boolean`                                   | `false`     |
+| `placement`          | `placement` | Determines where the component will be positioned relative to the referenceElement. | `Placement \| PlacementRtl \| VariationRtl` | `"auto"`    |
+| `scale`              | `scale`     | Specifies the size of the action.                                                   | `"l" \| "m" \| "s"`                         | `"m"`       |
+
+## Events
+
+| Event                         | Description                                 | Type               |
+| ----------------------------- | ------------------------------------------- | ------------------ |
+| `calciteActionMenuOpenChange` | Emitted when the open property has changed. | `CustomEvent<any>` |
+
+## Methods
+
+### `setFocus() => Promise<void>`
+
+#### Returns
+
+Type: `Promise<void>`
 
 ## Slots
 
-| Slot | Description                          |
-| ---- | ------------------------------------ |
-|      | A slot for adding `calcite-action`s. |
+| Slot        | Description                                |
+| ----------- | ------------------------------------------ |
+|             | A slot for adding `calcite-action`s.       |
+| `"tooltip"` | a slot for adding an tooltip for the menu. |
 
 ## Dependencies
 
@@ -29,6 +44,7 @@
 ### Depends on
 
 - [calcite-action](../calcite-action)
+- [calcite-tooltip-manager](../calcite-tooltip-manager)
 - [calcite-popover](../calcite-popover)
 
 ### Graph
@@ -36,6 +52,7 @@
 ```mermaid
 graph TD;
   calcite-action-menu --> calcite-action
+  calcite-action-menu --> calcite-tooltip-manager
   calcite-action-menu --> calcite-popover
   calcite-action --> calcite-loader
   calcite-action --> calcite-icon

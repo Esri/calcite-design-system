@@ -10,6 +10,7 @@ import {
   CSS as PopperCSS
 } from "../../utils/popper";
 import { Theme } from "../interfaces";
+import { getElementById, getRootNode } from "../../utils/dom";
 
 @Component({
   tag: "calcite-tooltip",
@@ -178,11 +179,12 @@ export class CalciteTooltip {
   };
 
   getReferenceElement(): HTMLElement {
-    const { referenceElement } = this;
+    const { referenceElement, el } = this;
+    const rootNode = getRootNode(el);
 
     return (
       (typeof referenceElement === "string"
-        ? document.getElementById(referenceElement)
+        ? getElementById(rootNode, referenceElement)
         : referenceElement) || null
     );
   }

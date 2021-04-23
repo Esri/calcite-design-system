@@ -104,10 +104,12 @@ export class CalciteDropdownGroup {
       ) : null;
 
     return (
-      <Host dir={dir} role="menu" scale={scale} title={this.groupTitle}>
-        {dropdownSeparator}
-        {groupTitle}
-        <slot />
+      <Host role="menu" scale={scale} title={this.groupTitle}>
+        <div dir={dir}>
+          {dropdownSeparator}
+          {groupTitle}
+          <slot />
+        </div>
       </Host>
     );
   }

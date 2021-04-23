@@ -131,7 +131,7 @@
 
 @include popperElemAnim(".popper-container");
 
-:host([active]) .popper-container {
+.popper-container--active {
   @include popperWrapperActive();
 }
 
@@ -167,12 +167,12 @@
   @apply mr-0;
 }
 
-:host([dir="rtl"]) .chip {
+.chip--rtl {
   margin-right: unset;
   margin-left: var(--calcite-combobox-item-spacing-unit-m);
 }
 
-:host([dir="rtl"]) .chip:last-child {
+.chip--rtl:last-child {
   @apply ml-0;
 }
 

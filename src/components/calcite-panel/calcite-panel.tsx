@@ -65,7 +65,7 @@ export class CalcitePanel {
   /**
    * Number at which section headings should start for this component.
    */
-  @Prop() headingLevel: HeadingLevel = HEADING_LEVEL;
+  @Prop() headingLevel: HeadingLevel;
 
   /**
    * Shows a back button in the header.
@@ -247,7 +247,7 @@ export class CalcitePanel {
   renderHeaderContent(): VNode {
     const { heading, headingLevel, summary } = this;
     const headingNode = heading ? (
-      <CalciteHeading class={CSS.heading} level={headingLevel}>
+      <CalciteHeading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
         {heading}
       </CalciteHeading>
     ) : null;

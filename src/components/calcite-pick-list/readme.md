@@ -69,13 +69,15 @@ Renders groups of pick list items that are visually separated.
 
 ## Properties
 
-| Property            | Attribute            | Description                                                                                                                                                                                                                                       | Type      | Default     |
-| ------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | ----------- |
-| `disabled`          | `disabled`           | When true, disabled prevents interaction. This state shows items with lower opacity/grayed.                                                                                                                                                       | `boolean` | `false`     |
-| `filterEnabled`     | `filter-enabled`     | When true, an input appears at the top of the list that can be used by end users to filter items in the list.                                                                                                                                     | `boolean` | `false`     |
-| `filterPlaceholder` | `filter-placeholder` | Placeholder text for the filter input field.                                                                                                                                                                                                      | `string`  | `undefined` |
-| `loading`           | `loading`            | When true, content is waiting to be loaded. This state shows a busy indicator.                                                                                                                                                                    | `boolean` | `false`     |
-| `multiple`          | `multiple`           | Multiple works similar to standard radio buttons and checkboxes. When true, a user can select multiple items at a time. When false, only a single item can be selected at a time and selecting a new item will deselect any other selected items. | `boolean` | `false`     |
+| Property            | Attribute            | Description                                                                                                                                                                                                                                       | Type                         | Default     |
+| ------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- | ----------- |
+| `disabled`          | `disabled`           | When true, disabled prevents interaction. This state shows items with lower opacity/grayed.                                                                                                                                                       | `boolean`                    | `false`     |
+| `filterEnabled`     | `filter-enabled`     | When true, an input appears at the top of the list that can be used by end users to filter items in the list.                                                                                                                                     | `boolean`                    | `false`     |
+| `filterPlaceholder` | `filter-placeholder` | Placeholder text for the filter input field.                                                                                                                                                                                                      | `string`                     | `undefined` |
+| `headingLevel`      | `heading-level`      | Number at which section headings should start for this component.                                                                                                                                                                                 | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
+| `loading`           | `loading`            | When true, content is waiting to be loaded. This state shows a busy indicator.                                                                                                                                                                    | `boolean`                    | `false`     |
+| `multiple`          | `multiple`           | Multiple works similar to standard radio buttons and checkboxes. When true, a user can select multiple items at a time. When false, only a single item can be selected at a time and selecting a new item will deselect any other selected items. | `boolean`                    | `false`     |
+| `theme`             | `theme`              | Select theme (light or dark)                                                                                                                                                                                                                      | `"dark" \| "light"`          | `undefined` |
 
 ## Events
 
@@ -91,7 +93,7 @@ Renders groups of pick list items that are visually separated.
 
 Type: `Promise<Map<string, HTMLCalcitePickListItemElement>>`
 
-### `setFocus() => Promise<void>`
+### `setFocus(focusId?: ListFocusId) => Promise<void>`
 
 #### Returns
 
@@ -117,6 +119,7 @@ Type: `Promise<void>`
 graph TD;
   calcite-pick-list --> calcite-filter
   calcite-pick-list --> calcite-scrim
+  calcite-filter --> calcite-scrim
   calcite-filter --> calcite-icon
   calcite-scrim --> calcite-loader
   style calcite-pick-list fill:#f9f,stroke:#333,stroke-width:4px
