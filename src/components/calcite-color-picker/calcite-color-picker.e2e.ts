@@ -4,6 +4,7 @@ import { CSS, DEFAULT_COLOR, DEFAULT_STORAGE_KEY_PREFIX, DIMENSIONS, TEXT } from
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import { ColorValue } from "./interfaces";
 import SpyInstance = jest.SpyInstance;
+import { selectText } from "../../tests/utils";
 
 describe("calcite-color-picker", () => {
   let consoleSpy: SpyInstance;
@@ -475,34 +476,14 @@ describe("calcite-color-picker", () => {
   describe("color inputs", () => {
     const clearAndEnterValue = async (page: E2EPage, inputOrHexInput: E2EElement, value: string): Promise<void> => {
       await inputOrHexInput.callMethod("setFocus");
-      await page.waitForChanges();
-
-      const tagName = inputOrHexInput.tagName.toLocaleLowerCase();
-
-      await page.$eval(
-        "calcite-color-picker",
-        (el: HTMLCalciteColorPickerElement, tagName): void => {
-          const tag = el.shadowRoot.querySelector(tagName);
-          const input = tag.shadowRoot?.querySelector("input") || tag.querySelector("input");
-
-          if (!input) {
-            return;
-          }
-
-          const inputType = input.type;
-          input.type = "text";
-          input.setSelectionRange(input.value.length, input.value.length);
-          input.type = inputType;
-        },
-        tagName
-      );
+      await selectText(inputOrHexInput);
 
       const currentValue = await inputOrHexInput.getProperty("value");
 
       for (let i = 0; i < currentValue.length; i++) {
         await page.keyboard.press("Backspace");
-        await page.waitForChanges();
       }
+      await page.waitForChanges();
 
       await inputOrHexInput.type(value);
       await page.waitForChanges();
@@ -849,7 +830,7 @@ describe("calcite-color-picker", () => {
           });
         });
 
-        it.skip("restores previous color value when a nudge key is pressed", async () => {
+        it("restores previous color value when a nudge key is pressed", async () => {
           const consistentRgbHsvChannelValue = "0";
           const initialValue = "#".padEnd(7, consistentRgbHsvChannelValue);
 
