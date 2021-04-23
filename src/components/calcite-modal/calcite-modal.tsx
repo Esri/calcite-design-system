@@ -183,20 +183,20 @@ export class CalciteModal {
       <style>
         {`
         .modal {
-          max-width: ${this.width}px;
+          max-width: ${this.width}px !important;
         }
         @media screen and (max-width: ${this.width}px) {
           .modal {
-            height: 100%;
-            max-height: 100%;
-            width: 100%;
-            max-width: 100%;
-            margin: 0;
-            border-radius: 0;
+            height: 100% !important;
+            max-height: 100% !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 0 !important;
+            border-radius: 0 !important;
           }
           .content {
-            flex: 1 1 auto;
-            max-height: unset;
+            flex: 1 1 auto !important;
+            max-height: unset !important;
           }
         }
       `}
