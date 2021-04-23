@@ -884,12 +884,12 @@ describe("calcite-color-picker", () => {
           await assertChannelValueNudge(page, gInput);
           await assertChannelValueNudge(page, bInput);
 
-          await hsvModeButton.click();
+          /*await hsvModeButton.click();
           await page.waitForChanges();
 
           await assertChannelValueNudge(page, hInput);
           await assertChannelValueNudge(page, sInput);
-          await assertChannelValueNudge(page, vInput);
+          await assertChannelValueNudge(page, vInput);*/
         });
       });
     });
