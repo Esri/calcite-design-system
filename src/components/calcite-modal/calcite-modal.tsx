@@ -108,6 +108,7 @@ export class CalciteModal {
   connectedCallback(): void {
     if (Build.isBrowser) {
       this.observer = new MutationObserver(this.updateFooterVisibility);
+      this.updateFooterVisibility();
     }
   }
 
@@ -211,7 +212,7 @@ export class CalciteModal {
   //--------------------------------------------------------------------------
   @State() isActive: boolean;
 
-  @State() hasFooter: boolean;
+  @State() hasFooter = true;
 
   previousActiveElement: HTMLElement;
 
