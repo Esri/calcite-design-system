@@ -182,9 +182,13 @@ export class CalciteInput {
   @Prop({ mutable: true, reflect: true }) value?: string = "";
 
   @Watch("value")
-  valueWatcher(newValue: string): void {
+  valueWatcher(newValue: string, oldValue: string): void {
     if (this.shouldFormatNumberByLocale()) {
-      this.setLocalizedValue(newValue);
+      if (!newValue || isValidNumber(newValue)) {
+        this.setLocalizedValue(newValue);
+      } else {
+        this.value = oldValue;
+      }
     }
   }
 
