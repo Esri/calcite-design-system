@@ -182,13 +182,9 @@ export class CalciteInput {
   @Prop({ mutable: true, reflect: true }) value?: string = "";
 
   @Watch("value")
-  valueWatcher(newValue: string, oldValue: string): void {
+  valueWatcher(newValue: string): void {
     if (this.type === "number") {
-      if (!newValue || isValidNumber(newValue)) {
-        this.setLocalizedValue(newValue);
-      } else {
-        this.value = oldValue;
-      }
+      this.setLocalizedValue(newValue);
     }
   }
 
@@ -285,6 +281,14 @@ export class CalciteInput {
     if (this.type === "number") {
       this.childEl.style.cssText = hiddenInputStyle;
     }
+  }
+
+  componentShouldUpdate(newValue: string, oldValue: string, property: string): boolean {
+    if (this.type === "number" && property === "value" && newValue && !isValidNumber(newValue)) {
+      this.value = oldValue;
+      return false;
+    }
+    return true;
   }
 
   //--------------------------------------------------------------------------
