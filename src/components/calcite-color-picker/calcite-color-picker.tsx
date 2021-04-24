@@ -691,6 +691,7 @@ export class CalciteColorPicker {
         active={active}
         class={CSS.colorMode}
         data-color-mode={channelMode}
+        key={channelMode}
         onCalciteTabsActivate={this.handleTabActivate}
       >
         {label}
@@ -724,7 +725,7 @@ export class CalciteColorPicker {
       : [intlHue, intlSaturation, intlValue];
 
     return (
-      <calcite-tab active={active} class={CSS.control}>
+      <calcite-tab active={active} class={CSS.control} key={channelMode}>
         <div class={CSS.channels}>
           {channels.map((channel, index) =>
             this.renderChannel(channel, index, channelLabels[index], channelAriaLabels[index])
