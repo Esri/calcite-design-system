@@ -762,12 +762,12 @@ describe("calcite-color-picker", () => {
           expect(await gInput.getProperty("value")).toBe("");
           expect(await bInput.getProperty("value")).toBe("");
 
-          // await hsvModeButton.click();
-          // const [hInput, sInput, vInput] = await page.findAll(`calcite-color-picker >>> calcite-input.${CSS.channel}`);
-          //
-          // expect(await hInput.getProperty("value")).toBe("");
-          // expect(await sInput.getProperty("value")).toBe("");
-          // expect(await vInput.getProperty("value")).toBe("");
+          await hsvModeButton.click();
+          const [hInput, sInput, vInput] = await page.findAll(`calcite-color-picker >>> calcite-input.${CSS.channel}`);
+
+          expect(await hInput.getProperty("value")).toBe("");
+          expect(await sInput.getProperty("value")).toBe("");
+          expect(await vInput.getProperty("value")).toBe("");
         });
 
         describe("clearing color via supporting inputs", () => {
@@ -884,12 +884,12 @@ describe("calcite-color-picker", () => {
           await assertChannelValueNudge(page, gInput);
           await assertChannelValueNudge(page, bInput);
 
-          /*await hsvModeButton.click();
+          await hsvModeButton.click();
           await page.waitForChanges();
 
           await assertChannelValueNudge(page, hInput);
           await assertChannelValueNudge(page, sInput);
-          await assertChannelValueNudge(page, vInput);*/
+          await assertChannelValueNudge(page, vInput);
         });
       });
     });
