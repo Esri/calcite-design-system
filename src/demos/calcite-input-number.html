@@ -101,24 +101,27 @@
     });
 
     document.addEventListener("calciteInputFocus", (event) => {
-      console.log("calciteInputFocus", event.target.getAttribute("name"), event.detail.value);
+      console.log("calciteInputFocus", event.target.getAttribute("name"), event.target.value);
     });
     document.addEventListener("calciteInputInput", (event) => {
-      console.log("calciteInputInput", event.target.getAttribute("name"), event.target.value, event.detail.value);
+      console.log("calciteInputInput", event.target.getAttribute("name"), event.target.value);
     });
     document.addEventListener("calciteInputBlur", (event) => {
-      console.log("calciteInputBlur", event.target.getAttribute("name"), event.detail.value);
+      console.log("calciteInputBlur", event.target.getAttribute("name"), event.target.value);
     });
 
     const undefinedInput = document.querySelector("calcite-input[name=set-to-undefined]");
     document.getElementById("undefined").addEventListener("click", () => {
       undefinedInput.value = undefined;
+      console.log("undefined", undefinedInput.value);
     });
     document.getElementById("undefined-string").addEventListener("click", () => {
       undefinedInput.value = "undefined";
+      console.log("'undefined'", undefinedInput.value);
     });
     document.getElementById("null").addEventListener("click", () => {
       undefinedInput.value = null;
+      console.log("null", undefinedInput.value);
     });
     undefined
   </script>
