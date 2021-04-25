@@ -5,7 +5,7 @@ import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing
 import { ColorValue } from "./interfaces";
 import SpyInstance = jest.SpyInstance;
 
-describe.skip("calcite-color-picker", () => {
+describe("calcite-color-picker", () => {
   let consoleSpy: SpyInstance;
 
   beforeEach(
@@ -475,7 +475,6 @@ describe.skip("calcite-color-picker", () => {
   describe("color inputs", () => {
     const clearAndEnterValue = async (page: E2EPage, inputOrHexInput: E2EElement, value: string): Promise<void> => {
       await inputOrHexInput.callMethod("setFocus");
-      await page.waitForChanges();
 
       const tagName = inputOrHexInput.tagName.toLocaleLowerCase();
 
@@ -501,11 +500,9 @@ describe.skip("calcite-color-picker", () => {
 
       for (let i = 0; i < currentValue.length; i++) {
         await page.keyboard.press("Backspace");
-        await page.waitForChanges();
       }
 
       await inputOrHexInput.type(value);
-      await page.waitForChanges();
 
       await page.keyboard.press("Enter");
       await page.waitForChanges();
@@ -777,16 +774,16 @@ describe.skip("calcite-color-picker", () => {
           await rgbModeButton.click();
           const [rInput, gInput, bInput] = await page.findAll(`calcite-color-picker >>> calcite-input.${CSS.channel}`);
 
-          expect(await rInput.getProperty("value")).toBe("");
-          expect(await gInput.getProperty("value")).toBe("");
-          expect(await bInput.getProperty("value")).toBe("");
+          expect(await rInput.getProperty("value")).toBeFalsy();
+          expect(await gInput.getProperty("value")).toBeFalsy();
+          expect(await bInput.getProperty("value")).toBeFalsy();
 
           await hsvModeButton.click();
           const [hInput, sInput, vInput] = await page.findAll(`calcite-color-picker >>> calcite-input.${CSS.channel}`);
 
-          expect(await hInput.getProperty("value")).toBe("");
-          expect(await sInput.getProperty("value")).toBe("");
-          expect(await vInput.getProperty("value")).toBe("");
+          expect(await hInput.getProperty("value")).toBeFalsy();
+          expect(await sInput.getProperty("value")).toBeFalsy();
+          expect(await vInput.getProperty("value")).toBeFalsy();
         });
 
         describe("clearing color via supporting inputs", () => {
