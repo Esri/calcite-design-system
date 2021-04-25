@@ -13,7 +13,7 @@ export default {
 };
 
 export const Light = (): string => html`
-  <calcite-tile-select-group>
+  <calcite-tile-select-group layout="${select("layout", ["horizontal", "vertical"], "horizontal")}">
     <calcite-tile-select
       checked
       description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.  Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."

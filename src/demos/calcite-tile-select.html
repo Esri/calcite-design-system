@@ -52,7 +52,7 @@
                   <demo-spacer gap="25px">
 
                     <h3>Input-enabled Start Radio</h3>
-                    <calcite-tile-select-group>
+                    <calcite-tile-select-group class="js-radio-select">
                       <calcite-tile-select input-enabled checked icon="layers" name="start-radio" value="one"
                         heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
                         description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.">
@@ -83,6 +83,12 @@
                         description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.">
                       </calcite-tile-select>
                     </calcite-tile-select-group>
+
+                    <script>
+                      document.querySelector(".js-radio-select").addEventListener("calciteTileSelectGroupChange", (e) => {
+                        console.log(e);
+                      } )
+                    </script>
 
                     <h3>Input-enabled Start Radio Large Visual</h3>
                     <calcite-tile-select-group>
@@ -430,7 +436,7 @@
                     </calcite-tile-select-group>
 
                     <h3>Input-enabled Start Checkbox Large Visual</h3>
-                    <calcite-tile-select-group>
+                    <calcite-tile-select-group class="js-checkbox-select">
                       <calcite-tile-select input-enabled checked icon="layers" name="start-checkbox-large-visual-one" type="checkbox"
                         heading="Tile title lorem ipsum">
                       </calcite-tile-select>
@@ -456,6 +462,13 @@
                         heading="Tile title lorem ipsum">
                       </calcite-tile-select>
                     </calcite-tile-select-group>
+
+
+                    <script>
+                      document.querySelector(".js-checkbox-select").addEventListener("calciteTileSelectGroupChange", (e) => {
+                        console.log(e);
+                      } )
+                    </script>
 
                     <h3>Input-enabled Start Checkbox Heading Only</h3>
                     <calcite-tile-select-group>
