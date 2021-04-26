@@ -99,8 +99,10 @@ export class CalciteStepper {
   render(): VNode {
     const dir = getElementDir(this.el);
     return (
-      <Host dir={dir}>
-        <slot />
+      <Host>
+        <div dir={dir}>
+          <slot />
+        </div>
       </Host>
     );
   }
