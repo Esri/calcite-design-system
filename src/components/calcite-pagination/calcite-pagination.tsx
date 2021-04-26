@@ -220,7 +220,7 @@ export class CalcitePagination {
     const prevDisabled = num === 1 ? start <= num : start < num;
     const nextDisabled = num === 1 ? start + num > total : start + num > total;
     return (
-      <Host dir={dir}>
+      <Host>
         <button
           aria-label={this.textLabelPrevious}
           class={{
