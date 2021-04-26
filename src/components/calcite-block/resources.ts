@@ -24,4 +24,9 @@ export const SLOTS = {
   control: "control"
 };
 
+export const TOGGLE_ICON = {
+  opened: "chevron-up",
+  closed: "chevron-down",
+}
+
 export const HEADING_LEVEL = 4;

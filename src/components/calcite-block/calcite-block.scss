@@ -30,8 +30,8 @@
 
 .header-container {
   @apply grid items-stretch;
-  grid-template: auto / auto 1fr auto;
-  grid-template-areas: "handle header control";
+  grid-template: auto / auto auto 1fr auto;
+  grid-template-areas: "handle toggle-icon header control";
   grid-column: header-start / control-end;
   grid-row: 1 / 2;
 
@@ -97,13 +97,13 @@ calcite-handle {
 }
 
 .toggle-icon {
-  @apply flex-grow-0
-    flex-shrink-0
-    fill-current
-    m-0
-    mr-4;
+  @apply flex
+  flex-initial
+  items-center
+  pl-3
+  pr-1;
 
-  flex-basis: theme("spacing.4");
+  grid-area: toggle-icon;
 }
 
 .content {
@@ -126,10 +126,7 @@ calcite-handle {
 
 :host([open]) {
   @apply my-3;
-  box-shadow: 1px 0 0 var(--calcite-ui-border-1) inset;
-  &.calcite--rtl {
-    box-shadow: -1px 0 0 var(--calcite-ui-border-1) inset;
-  }
+
   .header .title .heading {
     @apply text-color-1;
   }
