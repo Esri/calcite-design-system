@@ -146,7 +146,7 @@ export class CalciteAlert {
         queued={this.queued}
         role={role}
       >
-        <div class={{ [CSS_UTILITY.rtl]: dir === "rtl" }}>
+        <div class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           {this.requestedIcon ? (
             <div class="alert-icon">
               <calcite-icon icon={this.requestedIcon} scale="m" />

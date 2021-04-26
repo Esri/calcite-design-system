@@ -84,6 +84,12 @@
   }
 }
 
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 // focus styles
 .alert-close {
   @include focus-style-base();
