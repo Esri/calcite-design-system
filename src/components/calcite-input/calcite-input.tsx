@@ -15,7 +15,7 @@ import {
 } from "@stencil/core";
 import { getAttributes, getElementDir, getElementProp, setRequestedIcon } from "../../utils/dom";
 import { getKey } from "../../utils/key";
-import { INPUT_TYPE_ICONS } from "./calcite-input.resources";
+import { INPUT_TYPE_ICONS, SLOTS } from "./calcite-input.resources";
 import { InputPlacement } from "./interfaces";
 import { Position } from "../interfaces";
 import {
@@ -276,7 +276,7 @@ export class CalciteInput {
   }
 
   componentDidLoad(): void {
-    this.slottedActionEl = this.el.querySelector("[slot=input-action]");
+    this.slottedActionEl = this.el.querySelector("[slot=action]");
     this.setDisabledAction();
     if (this.shouldFormatNumberByLocale()) {
       this.childEl.style.cssText = hiddenInputStyle;
@@ -680,8 +680,8 @@ export class CalciteInput {
             {this.requestedIcon ? iconEl : null}
             {this.loading ? loader : null}
           </div>
-          <div class="calcite-input-action-wrapper">
-            <slot name="input-action" />
+          <div class="calcite-action-wrapper">
+            <slot name={SLOTS.action} />
           </div>
           {this.type === "number" && this.numberButtonType === "vertical"
             ? numberButtonsVertical

@@ -11,7 +11,7 @@ import {
   Watch
 } from "@stencil/core";
 
-import { TEXT } from "./calcite-notice.resources";
+import { SLOTS, TEXT } from "./calcite-notice.resources";
 import { Scale, Theme, Width } from "../interfaces";
 import { StatusColor, StatusIcons } from "../calcite-alert/interfaces";
 import { getElementDir, setRequestedIcon } from "../../utils/dom";
@@ -23,9 +23,9 @@ import { getElementDir, setRequestedIcon } from "../../utils/dom";
  */
 
 /**
- * @slot notice-title - Title of the notice (optional)
- * @slot notice-message - Main text of the notice
- * @slot notice-link - Optional action to take from the notice (undo, try again, link to page, etc.)
+ * @slot title - Title of the notice (optional)
+ * @slot message - Main text of the notice
+ * @slot link - Optional action to take from the notice (undo, try again, link to page, etc.)
  */
 
 @Component({
@@ -114,9 +114,9 @@ export class CalciteNotice {
           </div>
         ) : null}
         <div class="notice-content">
-          <slot name="notice-title" />
-          <slot name="notice-message" />
-          <slot name="notice-link" />
+          <slot name={SLOTS.title} />
+          <slot name={SLOTS.message} />
+          <slot name={SLOTS.link} />
         </div>
         {this.dismissible ? closeButton : null}
       </Host>

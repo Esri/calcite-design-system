@@ -2,10 +2,10 @@
 :host([scale="s"]) {
   --calcite-notice-spacing-token-small: theme("spacing.2");
   --calcite-notice-spacing-token-large: theme("spacing.3");
-  @include slotted("notice-title", "*") {
+  @include slotted("title", "*") {
     @apply text--1-wrap mb-1;
   }
-  @include slotted("notice-message", "*") {
+  @include slotted("message", "*") {
     @apply text--2-wrap mb-1;
   }
   ::slotted(calcite-link) {
@@ -16,10 +16,10 @@
 :host([scale="m"]) {
   --calcite-notice-spacing-token-small: theme("spacing.3");
   --calcite-notice-spacing-token-large: theme("spacing.4");
-  @include slotted("notice-title", "*") {
+  @include slotted("title", "*") {
     @apply text-0-wrap mb-1;
   }
-  @include slotted("notice-message", "*") {
+  @include slotted("message", "*") {
     @apply text--1-wrap mb-1;
   }
   ::slotted(calcite-link) {
@@ -30,10 +30,10 @@
 :host([scale="l"]) {
   --calcite-notice-spacing-token-small: theme("spacing.5");
   --calcite-notice-spacing-token-large: theme("spacing.6");
-  @include slotted("notice-title", "*") {
+  @include slotted("title", "*") {
     @apply text-1-wrap mb-1;
   }
-  @include slotted("notice-message", "*") {
+  @include slotted("message", "*") {
     @apply text-0-wrap mb-1;
   }
   ::slotted(calcite-link) {
@@ -55,7 +55,7 @@
 
 :host {
   @apply hidden
-    text-left 
+    text-left
     my-0
     mx-auto
     box-border
@@ -86,25 +86,25 @@
 
 :host([active]) {
   @apply flex
-    shadow-1 
-    items-center 
-    opacity-100 
-    max-h-full 
-    border-2 
+    shadow-1
+    items-center
+    opacity-100
+    max-h-full
+    border-2
     pointer-events-auto;
 }
 
-@include slotted("notice-title", "*") {
+@include slotted("title", "*") {
   @apply m-0 font-medium text-color-1;
 }
 
-@include slotted("notice-message", "*") {
+@include slotted("message", "*") {
   @apply inline m-0 font-normal text-color-2;
   margin-right: var(--calcite-notice-spacing-token-small);
 }
 
 :host([dir="rtl"]) {
-  @include slotted("notice-message", "*") {
+  @include slotted("message", "*") {
     @apply mr-0;
     margin-left: var(--calcite-notice-spacing-token-small);
   }
