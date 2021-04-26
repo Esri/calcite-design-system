@@ -375,7 +375,6 @@ describe("calcite-color-picker", () => {
 
     const middleOfSlider = mediumScaleDimensions.slider.width / 2;
     await page.mouse.click(x + middleOfSlider, sliderHeight);
-    await page.waitForChanges();
 
     const internalColorChanged = await page.evaluate(() => {
       const color = document.querySelector("calcite-color-picker");
@@ -483,13 +482,9 @@ describe("calcite-color-picker", () => {
       for (let i = 0; i < currentValue.length; i++) {
         await page.keyboard.press("Backspace");
       }
-      await page.waitForChanges();
 
       await inputOrHexInput.type(value);
-      await page.waitForChanges();
-
       await page.keyboard.press("Enter");
-      await page.waitForChanges();
     };
 
     describe("keeps value in same format when applying updates", () => {
@@ -513,8 +508,6 @@ describe("calcite-color-picker", () => {
         const [rgbModeButton, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
 
         await rgbModeButton.click();
-        await page.waitForChanges();
-
         const [rInput, gInput, bInput, hInput, sInput, vInput] = await page.findAll(
           `calcite-color-picker >>> calcite-input.${CSS.channel}`
         );
@@ -526,7 +519,6 @@ describe("calcite-color-picker", () => {
         assertColorUpdate(await picker.getProperty("value"));
 
         await hsvModeButton.click();
-        await page.waitForChanges();
 
         await clearAndEnterValue(page, hInput, "180");
         await clearAndEnterValue(page, sInput, "90");
@@ -692,28 +684,22 @@ describe("calcite-color-picker", () => {
         it("allows nudging values", async () => {
           const assertChannelValueNudge = async (page: E2EPage, calciteInput: E2EElement): Promise<void> => {
             await calciteInput.callMethod("setFocus");
-            await page.waitForChanges();
-
             const currentValue = await calciteInput.getProperty("value");
 
             await page.keyboard.press("ArrowUp");
-            await page.waitForChanges();
             expect(await calciteInput.getProperty("value")).toBe(`${Number(currentValue) + 1}`);
 
             await page.keyboard.press("ArrowDown");
-            await page.waitForChanges();
             expect(await calciteInput.getProperty("value")).toBe(currentValue);
 
             await page.keyboard.down("Shift");
             await page.keyboard.press("ArrowUp");
             await page.keyboard.up("Shift");
-            await page.waitForChanges();
             expect(await calciteInput.getProperty("value")).toBe(`${Number(currentValue) + 10}`);
 
             await page.keyboard.down("Shift");
             await page.keyboard.press("ArrowDown");
             await page.keyboard.up("Shift");
-            await page.waitForChanges();
             expect(await calciteInput.getProperty("value")).toBe(currentValue);
           };
 
@@ -724,8 +710,6 @@ describe("calcite-color-picker", () => {
           const [rgbModeButton, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
 
           await rgbModeButton.click();
-          await page.waitForChanges();
-
           const [rInput, gInput, bInput, hInput, sInput, vInput] = await page.findAll(
             `calcite-color-picker >>> calcite-input.${CSS.channel}`
           );
@@ -735,7 +719,6 @@ describe("calcite-color-picker", () => {
           await assertChannelValueNudge(page, bInput);
 
           await hsvModeButton.click();
-          await page.waitForChanges();
 
           await assertChannelValueNudge(page, hInput);
           await assertChannelValueNudge(page, sInput);
@@ -836,9 +819,9 @@ describe("calcite-color-picker", () => {
 
           const assertChannelValueNudge = async (page: E2EPage, calciteInput: E2EElement): Promise<void> => {
             await calciteInput.callMethod("setFocus");
-            await page.waitForChanges();
-
             await clearAndEnterValue(page, calciteInput, "");
+
+            // using page.waitForChanges as keyboard nudges occur in the next frame
 
             await page.keyboard.press("ArrowUp");
             await page.waitForChanges();
@@ -874,8 +857,6 @@ describe("calcite-color-picker", () => {
           const [rgbModeButton, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
 
           await rgbModeButton.click();
-          await page.waitForChanges();
-
           const [rInput, gInput, bInput, hInput, sInput, vInput] = await page.findAll(
             `calcite-color-picker >>> calcite-input.${CSS.channel}`
           );
@@ -885,7 +866,6 @@ describe("calcite-color-picker", () => {
           await assertChannelValueNudge(page, bInput);
 
           await hsvModeButton.click();
-          await page.waitForChanges();
 
           await assertChannelValueNudge(page, hInput);
           await assertChannelValueNudge(page, sInput);
