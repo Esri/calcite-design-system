@@ -29,7 +29,7 @@
   --calcite-combobox-item-indent-end-2: unset;
 }
 
-:host([dir="rtl"]) {
+.calcite--rtl {
   --calcite-combobox-item-indent-start-1: unset;
   --calcite-combobox-item-indent-end-1: var(--calcite-combobox-item-spacing-indent-1);
   --calcite-combobox-item-indent-start-2: unset;
@@ -46,13 +46,13 @@ ul {
 }
 
 .label {
-  @apply flex 
-    box-border 
-    w-full 
-    min-w-full 
-    items-center 
-    text-color-3 
-    cursor-pointer 
+  @apply flex
+    box-border
+    w-full
+    min-w-full
+    items-center
+    text-color-3
+    cursor-pointer
     relative
     duration-150
     ease-in-out
@@ -122,7 +122,7 @@ ul {
   content: "\2022";
 }
 
-:host([dir="rtl"]) .icon--dot:before {
+.calcite--rtl .icon--dot:before {
   @apply text-right;
 }
 
