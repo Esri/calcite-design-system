@@ -731,7 +731,6 @@ describe("calcite-color-picker", () => {
           const page = await newE2EPage({
             html: "<calcite-color-picker allow-empty value=''></calcite-color-picker>"
           });
-          await page.waitForChanges();
 
           const hexInput = await page.find(`calcite-color-picker >>> calcite-color-picker-hex-input`);
 
