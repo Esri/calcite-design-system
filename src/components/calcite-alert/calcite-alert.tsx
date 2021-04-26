@@ -16,6 +16,7 @@ import { getElementDir, setRequestedIcon } from "../../utils/dom";
 import { DURATIONS, TEXT } from "./calcite-alert.resources";
 import { Scale, Theme } from "../interfaces";
 import { StatusColor, AlertDuration, StatusIcons } from "./interfaces";
+import { CSS_UTILITY } from "../../utils/resources";
 
 /** Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
  * at the bottom of the page. Multiple opened alerts will be added to a queue, allowing users to dismiss them in the order they are provided.
@@ -142,23 +143,24 @@ export class CalciteAlert {
         aria-hidden={hidden.toString()}
         aria-label={this.label}
         calcite-hydrated-hidden={hidden}
-        dir={dir}
         queued={this.queued}
         role={role}
       >
-        {this.requestedIcon ? (
-          <div class="alert-icon">
-            <calcite-icon icon={this.requestedIcon} scale="m" />
+        <div class={{ [CSS_UTILITY.rtl]: dir === "rtl" }}>
+          {this.requestedIcon ? (
+            <div class="alert-icon">
+              <calcite-icon icon={this.requestedIcon} scale="m" />
+            </div>
+          ) : null}
+          <div class="alert-content">
+            <slot name="alert-title" />
+            <slot name="alert-message" />
+            <slot name="alert-link" />
           </div>
-        ) : null}
-        <div class="alert-content">
-          <slot name="alert-title" />
-          <slot name="alert-message" />
-          <slot name="alert-link" />
+          {queueCount}
+          {!this.autoDismiss ? closeButton : null}
+          {this.active && !this.queued && this.autoDismiss ? progress : null}
         </div>
-        {queueCount}
-        {!this.autoDismiss ? closeButton : null}
-        {this.active && !this.queued && this.autoDismiss ? progress : null}
       </Host>
     );
   }
