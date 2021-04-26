@@ -751,7 +751,7 @@ export class CalciteColorPicker {
       prefixText={label}
       scale="s"
       type="number"
-      value={value !== null ? value.toString() : ""}
+      value={value?.toString()}
     />
   );
 
