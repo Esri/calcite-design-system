@@ -11,7 +11,6 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
 import { IESTYLES } from "./calcite-stepper.resources";
 import { getKey } from "../../utils/key";
 import { Layout, Scale, Theme } from "../interfaces";
@@ -97,12 +96,9 @@ export class CalciteStepper {
   }
 
   render(): VNode {
-    const dir = getElementDir(this.el);
     return (
       <Host>
-        <div dir={dir}>
-          <slot />
-        </div>
+        <slot />
       </Host>
     );
   }
