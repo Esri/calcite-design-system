@@ -19,6 +19,7 @@ import { queryShadowRoot } from "@a11y/focus-trap/shadow";
 import { isFocusable, isHidden } from "@a11y/focus-trap/focusable";
 import { Scale, Theme } from "../interfaces";
 import { ModalBackgroundColor } from "./interfaces";
+import { CSS_UTILITY } from "../../utils/resources";
 
 function isCalciteFocusable(el: CalciteFocusableElement): boolean {
   return typeof el.setFocus === "function" || isFocusable(el);
@@ -123,7 +124,7 @@ export class CalciteModal {
       <Host aria-modal="true" dir={dir} is-active={this.isActive} role="dialog">
         <calcite-scrim class="scrim" theme="dark" />
         {this.renderStyle()}
-        <div class="modal">
+        <div class={{ modal: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           <div data-focus-fence onFocus={this.focusLastElement} tabindex="0" />
           <div class="header">
             {this.renderCloseButton()}
