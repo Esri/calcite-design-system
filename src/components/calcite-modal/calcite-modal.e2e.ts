@@ -288,4 +288,19 @@ describe("calcite-modal accessibility checks", () => {
     });
     expect(documentClass).toEqual(false);
   });
+
+  it("renders correctly with no footer", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-modal>
+        <calcite-button slot="primary">TEST</calcite-button>
+      </calcite-modal>
+    `);
+    let footer = await page.$eval("calcite-modal", (elm) => elm.shadowRoot.querySelector(".footer"));
+    expect(footer).toBeDefined();
+    await page.$eval("calcite-button", (elm) => elm.parentElement.removeChild(elm));
+    await page.waitForChanges();
+    footer = await page.$eval("calcite-modal", (elm) => elm.shadowRoot.querySelector(".footer"));
+    expect(footer).toBeFalsy();
+  });
 });
