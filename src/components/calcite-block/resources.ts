@@ -2,6 +2,7 @@ export const CSS = {
   article: "article",
   content: "content",
   headerContainer: "header-container",
+  hasDragHandle: "has-drag-handle",
   icon: "icon",
   toggle: "toggle",
   toggleIcon: "toggle-icon",

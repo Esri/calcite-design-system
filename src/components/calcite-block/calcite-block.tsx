@@ -165,7 +165,10 @@ export class CalciteBlock {
     const collapseIcon = open ? TOGGLE_ICON.opened : TOGGLE_ICON.closed;
 
     const headerNode = (
-      <div class={CSS.headerContainer}>
+      <div class={{
+        [CSS.headerContainer]: true,
+        [CSS.hasDragHandle]: this.dragHandle
+        }}>
         {this.dragHandle ? <calcite-handle /> : null}
         {collapsible ? ([
           <div class={CSS.toggleIcon} aria-hidden="true">

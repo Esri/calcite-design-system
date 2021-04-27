@@ -106,6 +106,10 @@ calcite-handle {
   grid-area: toggle-icon;
 }
 
+.has-drag-handle .toggle-icon {
+  @apply px-2;
+}
+
 .content {
   @apply px-3
     py-2
