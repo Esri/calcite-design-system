@@ -155,7 +155,7 @@ export class CalciteBlock {
           </div>
         ) : null}
         {collapsible ? (
-          <calcite-icon icon={collapseIcon} scale="s" class={CSS.toggleIcon} />
+          <calcite-icon icon={collapseIcon} scale="s" class={CSS.toggleIcon} aria-hidden="true" />
         ) : null}
         <div class={CSS.title}>
           <CalciteHeading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
