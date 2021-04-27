@@ -93,6 +93,8 @@ export class CalciteValueListItem {
 
   pickListItem: HTMLCalcitePickListItemElement = null;
 
+  guid = `calcite-value-list-item-${guid()}`;
+
   // --------------------------------------------------------------------------
   //
   //  Public Methods
@@ -196,10 +198,8 @@ export class CalciteValueListItem {
   }
 
   render(): VNode {
-    const id = this.el.id || `calcite-value-list-item-${guid()}`;
-
     return (
-      <Host id={id}>
+      <Host id={this.el.id || this.guid}>
         {this.renderHandle()}
         <calcite-pick-list-item
           description={this.description}
