@@ -20,7 +20,12 @@ import { HeadingLevel } from "../functional/CalciteHeading";
 import { getKey } from "../../utils/key";
 import { TEXT } from "../calcite-date-picker/calcite-date-picker-resources";
 
-import { createPopper, updatePopper, CSS as PopperCSS, PopperStrategy } from "../../utils/popper";
+import {
+  createPopper,
+  updatePopper,
+  CSS as PopperCSS,
+  PopperPositionStrategy
+} from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { DateRangeChange } from "../calcite-date-picker/interfaces";
 
@@ -102,14 +107,14 @@ export class CalciteInputDatePicker {
   /** Selected end date */
   @Prop() end?: string;
 
+  /** Describes the positioning strategy to use. If your reference element is in a fixed container, use the fixed strategy. */
+  @Prop() positionStrategy: PopperPositionStrategy = "absolute";
+
   /** Disables the default behaviour on the third click of narrowing or extending the range and instead starts a new range. */
   @Prop() proximitySelectionDisabled?: boolean = false;
 
   /** Layout */
   @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
-
-  /** Describes the positioning strategy to use. If your reference element is in a fixed container, use the fixed strategy. */
-  @Prop() strategy: PopperStrategy = "absolute";
 
   //--------------------------------------------------------------------------
   //
@@ -423,7 +428,7 @@ export class CalciteInputDatePicker {
 
   createPopper(): void {
     this.destroyPopper();
-    const { menuEl, referenceEl, strategy } = this;
+    const { menuEl, referenceEl, positionStrategy } = this;
 
     if (!menuEl || !referenceEl) {
       return;
@@ -434,7 +439,7 @@ export class CalciteInputDatePicker {
     this.popper = createPopper({
       el: menuEl,
       modifiers,
-      strategy,
+      positionStrategy,
       placement: DEFAULT_PLACEMENT,
       referenceEl
     });

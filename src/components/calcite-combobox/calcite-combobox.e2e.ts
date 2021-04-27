@@ -7,7 +7,7 @@ describe("calcite-combobox", () => {
   it("defaults", async () =>
     defaults("calcite-combobox", [
       {
-        propertyName: "strategy",
+        propertyName: "positionStrategy",
         defaultValue: "absolute"
       }
     ]));

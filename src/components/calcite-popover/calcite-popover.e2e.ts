@@ -78,7 +78,7 @@ describe("calcite-popover", () => {
         defaultValue: false
       },
       {
-        propertyName: "strategy",
+        propertyName: "positionStrategy",
         defaultValue: "absolute"
       }
     ]));

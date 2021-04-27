@@ -6,7 +6,7 @@ describe("calcite-dropdown", () => {
   it("defaults", async () =>
     defaults("calcite-dropdown", [
       {
-        propertyName: "strategy",
+        propertyName: "positionStrategy",
         defaultValue: "absolute"
       }
     ]));

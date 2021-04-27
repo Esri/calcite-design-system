@@ -24,7 +24,7 @@ type VariationRtl =
 
 export type PopperPlacement = Placement | PlacementRtl | VariationRtl;
 
-export type PopperStrategy = PositioningStrategy;
+export type PopperPositionStrategy = PositioningStrategy;
 
 export const CSS = {
   animation: "calcite-popper-anim",
@@ -51,12 +51,12 @@ export function createPopper({
   referenceEl,
   el,
   placement,
-  strategy = "absolute",
+  positionStrategy = "absolute",
   modifiers
 }: {
   el: HTMLElement;
   modifiers: Partial<StrictModifiers>[];
-  strategy: PositioningStrategy;
+  positionStrategy: PositioningStrategy;
   placement: PopperPlacement;
   referenceEl: HTMLElement;
 }): Popper | null {
@@ -65,7 +65,7 @@ export function createPopper({
   }
 
   return setupPopper(referenceEl, el, {
-    strategy,
+    strategy: positionStrategy,
     placement: getPlacement(el, placement),
     modifiers
   });
