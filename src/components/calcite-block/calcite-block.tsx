@@ -155,9 +155,7 @@ export class CalciteBlock {
           </div>
         ) : null}
         {collapsible ? (
-          <div class={CSS.toggleIcon} aria-hidden="true">
-            <calcite-icon icon={collapseIcon} scale="s" />
-          </div>
+          <calcite-icon icon={collapseIcon} scale="s" class={CSS.toggleIcon} />
         ) : null}
         <div class={CSS.title}>
           <CalciteHeading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
@@ -171,9 +169,7 @@ export class CalciteBlock {
     const hasControl = getSlotted(el, SLOTS.control);
 
     const headerNode = (
-      <div
-        class={CSS.headerContainer}
-      >
+      <div class={CSS.headerContainer}>
         {this.dragHandle ? <calcite-handle /> : null}
         {collapsible ? (
           <button

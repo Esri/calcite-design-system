@@ -99,10 +99,7 @@ calcite-handle {
 }
 
 .toggle-icon {
-  @apply flex
-  flex-initial
-  items-center
-  pl-3;
+  @apply ml-3;
 }
 
 .content {
@@ -119,7 +116,7 @@ calcite-handle {
 
 .calcite--rtl {
   .toggle-icon {
-    @apply pl-0 pr-3;
+    @apply ml-0 mr-3;
   }
   .icon {
     @apply ml-0 mr-3;
@@ -150,7 +147,7 @@ calcite-handle {
     @apply ml-1;
   }
   .toggle-icon {
-    @apply pl-2;
+    @apply ml-2;
   }
 
   .calcite--rtl {
@@ -161,7 +158,7 @@ calcite-handle {
       @apply ml-0 mr-1;
     }
     .toggle-icon {
-      @apply pl-0 pr-2;
+      @apply ml-0 mr-2;
     }
   }
 }
