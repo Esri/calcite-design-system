@@ -37,6 +37,10 @@ describe("calcite-tooltip", () => {
       {
         propertyName: "referenceElement",
         defaultValue: undefined
+      },
+      {
+        propertyName: "strategy",
+        defaultValue: "absolute"
       }
     ]));
 

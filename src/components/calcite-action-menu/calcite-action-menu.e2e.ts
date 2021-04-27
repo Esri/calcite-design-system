@@ -48,6 +48,10 @@ describe("calcite-action-menu", () => {
       {
         propertyName: "scale",
         defaultValue: "m"
+      },
+      {
+        propertyName: "strategy",
+        defaultValue: "absolute"
       }
     ]));
 
