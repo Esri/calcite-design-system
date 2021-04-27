@@ -143,9 +143,6 @@ calcite-handle {
 }
 
 :host([drag-handle]) {
-  .icon {
-    @apply ml-1;
-  }
   .toggle-icon {
     @apply ml-2;
   }
@@ -153,9 +150,6 @@ calcite-handle {
   .calcite--rtl {
     .title {
       @apply pl-0 pr-1;
-    }
-    .icon {
-      @apply ml-0 mr-1;
     }
     .toggle-icon {
       @apply ml-0 mr-2;

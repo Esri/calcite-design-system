@@ -149,13 +149,13 @@ export class CalciteBlock {
 
     const headerContent = (
       <header class={CSS.header}>
+        {collapsible ? (
+          <calcite-icon icon={collapseIcon} scale="s" class={CSS.toggleIcon} aria-hidden="true" />
+        ) : null}
         {hasIcon ? (
           <div class={CSS.icon}>
             <slot name={SLOTS.icon} />
           </div>
-        ) : null}
-        {collapsible ? (
-          <calcite-icon icon={collapseIcon} scale="s" class={CSS.toggleIcon} aria-hidden="true" />
         ) : null}
         <div class={CSS.title}>
           <CalciteHeading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
