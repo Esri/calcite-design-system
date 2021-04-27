@@ -2,6 +2,9 @@ import { Component, Element, Host, h, Listen, Prop, VNode } from "@stencil/core"
 import { POPOVER_REFERENCE } from "../calcite-popover/resources";
 import { getElementById, getRootNode } from "../../utils/dom";
 
+/**
+ * @slot - A slot for adding elements that reference a 'calcite-popover' by the 'selector' property.
+ */
 @Component({
   tag: "calcite-popover-manager"
 })
@@ -37,7 +40,11 @@ export class CalcitePopoverManager {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    return <Host />;
+    return (
+      <Host>
+        <slot />
+      </Host>
+    );
   }
 
   //--------------------------------------------------------------------------
