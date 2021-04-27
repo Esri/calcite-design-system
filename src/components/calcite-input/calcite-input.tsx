@@ -284,12 +284,11 @@ export class CalciteInput {
   }
 
   componentShouldUpdate(newValue: any, oldValue: any, property: string): boolean {
-    const isNumberValueInvalid =
-      this.type === "number" && property === "value" && newValue && !isValidNumber(newValue);
-    if (isNumberValueInvalid) {
+    if (this.type === "number" && property === "value" && newValue && !isValidNumber(newValue)) {
       this.value = oldValue;
+      return false;
     }
-    return isNumberValueInvalid;
+    return true;
   }
 
   //--------------------------------------------------------------------------

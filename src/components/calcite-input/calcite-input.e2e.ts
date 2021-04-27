@@ -827,7 +827,7 @@ describe("calcite-input", () => {
       expect(await input.getProperty("value")).toBeFalsy();
     });
 
-    it(`disallows setting value to null after initial load.`, async () => {
+    it(`allows setting value to null after initial load.`, async () => {
       const initialValue = "1234";
       const page = await newE2EPage({
         html: `<calcite-input type="number" value="${initialValue}"></calcite-input>`
@@ -841,8 +841,8 @@ describe("calcite-input", () => {
       calciteInput.setProperty("value", null);
       await page.waitForChanges();
 
-      expect(await calciteInput.getProperty("value")).toBe(initialValue);
-      expect(await input.getProperty("value")).toBe(initialValue);
+      expect(await calciteInput.getProperty("value")).toBeFalsy();
+      expect(await input.getProperty("value")).toBeFalsy();
     });
 
     it(`disallows setting text value after initial load.`, async () => {
