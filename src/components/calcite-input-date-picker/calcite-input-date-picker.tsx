@@ -20,7 +20,7 @@ import { HeadingLevel } from "../functional/CalciteHeading";
 import { getKey } from "../../utils/key";
 import { TEXT } from "../calcite-date-picker/calcite-date-picker-resources";
 
-import { createPopper, updatePopper, CSS as PopperCSS } from "../../utils/popper";
+import { createPopper, updatePopper, CSS as PopperCSS, PopperStrategy } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { DateRangeChange } from "../calcite-date-picker/interfaces";
 
@@ -107,6 +107,9 @@ export class CalciteInputDatePicker {
 
   /** Layout */
   @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
+
+  /** Describes the positioning strategy to use. If your reference element is in a fixed container, use the fixed strategy. */
+  @Prop() strategy: PopperStrategy = "absolute";
 
   //--------------------------------------------------------------------------
   //
@@ -420,7 +423,7 @@ export class CalciteInputDatePicker {
 
   createPopper(): void {
     this.destroyPopper();
-    const { menuEl, referenceEl } = this;
+    const { menuEl, referenceEl, strategy } = this;
 
     if (!menuEl || !referenceEl) {
       return;
@@ -431,6 +434,7 @@ export class CalciteInputDatePicker {
     this.popper = createPopper({
       el: menuEl,
       modifiers,
+      strategy,
       placement: DEFAULT_PLACEMENT,
       referenceEl
     });

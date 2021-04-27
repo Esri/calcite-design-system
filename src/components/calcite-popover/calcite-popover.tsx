@@ -17,7 +17,8 @@ import {
   defaultOffsetDistance,
   createPopper,
   updatePopper,
-  CSS as PopperCSS
+  CSS as PopperCSS,
+  PopperStrategy
 } from "../../utils/popper";
 import { StrictModifiers, Placement, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
@@ -127,6 +128,9 @@ export class CalcitePopover {
 
   /** Text for close button. */
   @Prop() intlClose = TEXT.close;
+
+  /** Describes the positioning strategy to use. If your reference element is in a fixed container, use the fixed strategy. */
+  @Prop() strategy: PopperStrategy = "absolute";
 
   /** Select theme (light or dark) */
   @Prop({ reflect: true }) theme: Theme;
@@ -313,12 +317,13 @@ export class CalcitePopover {
 
   createPopper(): void {
     this.destroyPopper();
-    const { el, placement, _referenceElement: referenceEl } = this;
+    const { el, placement, _referenceElement: referenceEl, strategy } = this;
     const modifiers = this.getModifiers();
 
     this.popper = createPopper({
       el,
       modifiers,
+      strategy,
       placement,
       referenceEl
     });

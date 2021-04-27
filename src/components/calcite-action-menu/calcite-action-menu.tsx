@@ -15,7 +15,7 @@ import { CSS, ICONS, SLOTS } from "./resources";
 import { focusElement, getSlotted } from "../../utils/dom";
 import { forceUpdate, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
-import { PopperPlacement } from "../../utils/popper";
+import { PopperPlacement, PopperStrategy } from "../../utils/popper";
 import { Placement } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
@@ -96,6 +96,9 @@ export class CalciteActionMenu {
    * Specifies the size of the action.
    */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  /** Describes the positioning strategy to use. If your reference element is in a fixed container, use the fixed strategy. */
+  @Prop() strategy: PopperStrategy = "absolute";
 
   // --------------------------------------------------------------------------
   //
@@ -206,7 +209,8 @@ export class CalciteActionMenu {
       menuId,
       menuButtonEl,
       label,
-      placement
+      placement,
+      strategy
     } = this;
 
     const activeAction = actionElements[activeMenuItemIndex];
@@ -218,6 +222,7 @@ export class CalciteActionMenu {
         open={open}
         placement={placement}
         referenceElement={menuButtonEl}
+        strategy={strategy}
       >
         <div
           aria-activedescendant={activeDescendantId}

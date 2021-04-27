@@ -14,7 +14,7 @@ import {
 import { DropdownPlacement, GroupRegistration, ItemKeyboardEvent } from "./interfaces";
 import { getKey } from "../../utils/key";
 import { focusElement, getElementDir } from "../../utils/dom";
-import { createPopper, updatePopper, CSS as PopperCSS } from "../../utils/popper";
+import { createPopper, updatePopper, CSS as PopperCSS, PopperStrategy } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { Scale, Theme } from "../interfaces";
 import { DefaultDropdownPlacement } from "./resources";
@@ -81,6 +81,9 @@ export class CalciteDropdown {
    * @readonly
    */
   @Prop({ mutable: true }) selectedItems: HTMLCalciteDropdownItemElement[] = [];
+
+  /** Describes the positioning strategy to use. If your reference element is in a fixed container, use the fixed strategy. */
+  @Prop() strategy: PopperStrategy = "absolute";
 
   /** specify the theme of the dropdown, defaults to light */
   @Prop({ reflect: true }) theme: Theme;
@@ -357,12 +360,13 @@ export class CalciteDropdown {
 
   createPopper(): void {
     this.destroyPopper();
-    const { menuEl, referenceEl, placement } = this;
+    const { menuEl, referenceEl, placement, strategy } = this;
     const modifiers = this.getModifiers();
 
     this.popper = createPopper({
       el: menuEl,
       modifiers,
+      strategy,
       placement,
       referenceEl
     });

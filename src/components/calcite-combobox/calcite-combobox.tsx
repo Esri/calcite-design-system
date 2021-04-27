@@ -17,7 +17,7 @@ import { filter } from "../../utils/filter";
 import { getElementDir } from "../../utils/dom";
 import { debounce } from "lodash-es";
 import { getKey } from "../../utils/key";
-import { createPopper, updatePopper, CSS as PopperCSS } from "../../utils/popper";
+import { createPopper, updatePopper, CSS as PopperCSS, PopperStrategy } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import { Scale, Theme } from "../interfaces";
@@ -109,6 +109,9 @@ export class CalciteCombobox {
 
   /** Specify the scale of the combobox, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  /** Describes the positioning strategy to use. If your reference element is in a fixed container, use the fixed strategy. */
+  @Prop() strategy: PopperStrategy = "absolute";
 
   /** Select theme (light or dark) */
   @Prop({ reflect: true }) theme: Theme;
@@ -406,12 +409,13 @@ export class CalciteCombobox {
 
   createPopper(): void {
     this.destroyPopper();
-    const { menuEl, referenceEl } = this;
+    const { menuEl, referenceEl, strategy } = this;
     const modifiers = this.getModifiers();
 
     this.popper = createPopper({
       el: menuEl,
       modifiers,
+      strategy,
       placement: ComboboxDefaultPlacement,
       referenceEl
     });
