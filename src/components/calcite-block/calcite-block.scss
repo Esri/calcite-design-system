@@ -30,8 +30,8 @@
 
 .header-container {
   @apply grid items-stretch;
-  grid-template: auto / auto auto 1fr auto;
-  grid-template-areas: "handle toggle-icon header control";
+  grid-template: auto / auto 1fr auto;
+  grid-template-areas: "handle header control";
   grid-column: header-start / control-end;
   grid-row: 1 / 2;
 
@@ -79,7 +79,9 @@ calcite-handle {
   @apply p-0
     text--1
     text-color-3
+    font-medium
     word-break
+    leading-tight
     transition-color
     duration-150
     ease-in-out;
@@ -100,14 +102,7 @@ calcite-handle {
   @apply flex
   flex-initial
   items-center
-  pl-3
-  pr-1;
-
-  grid-area: toggle-icon;
-}
-
-.has-drag-handle .toggle-icon {
-  @apply px-2;
+  pl-3;
 }
 
 .content {
@@ -123,13 +118,16 @@ calcite-handle {
 }
 
 .calcite--rtl {
+  .toggle-icon {
+    @apply pl-0 pr-3;
+  }
   .icon {
     @apply ml-0 mr-3;
   }
 }
 
 :host([open]) {
-  @apply my-3;
+  @apply my-2;
 
   .header .title .heading {
     @apply text-color-1;
@@ -148,12 +146,11 @@ calcite-handle {
 }
 
 :host([drag-handle]) {
-  .title {
-    @apply pl-1;
-  }
-
   .icon {
-    @apply ml-0 mr-2;
+    @apply ml-1;
+  }
+  .toggle-icon {
+    @apply pl-2;
   }
 
   .calcite--rtl {
@@ -161,7 +158,10 @@ calcite-handle {
       @apply pl-0 pr-1;
     }
     .icon {
-      @apply mr-0 ml-1;
+      @apply ml-0 mr-1;
+    }
+    .toggle-icon {
+      @apply pl-0 pr-2;
     }
   }
 }

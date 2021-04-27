@@ -145,11 +145,18 @@ export class CalciteBlock {
     const toggleLabel = open ? intlCollapse || TEXT.collapse : intlExpand || TEXT.expand;
 
     const hasIcon = getSlotted(el, SLOTS.icon);
+    const collapseIcon = open ? TOGGLE_ICON.opened : TOGGLE_ICON.closed;
+
     const headerContent = (
       <header class={CSS.header}>
         {hasIcon ? (
           <div class={CSS.icon}>
             <slot name={SLOTS.icon} />
+          </div>
+        ) : null}
+        {collapsible ? (
+          <div class={CSS.toggleIcon} aria-hidden="true">
+            <calcite-icon icon={collapseIcon} scale="s" />
           </div>
         ) : null}
         <div class={CSS.title}>
@@ -162,18 +169,13 @@ export class CalciteBlock {
     );
 
     const hasControl = getSlotted(el, SLOTS.control);
-    const collapseIcon = open ? TOGGLE_ICON.opened : TOGGLE_ICON.closed;
 
     const headerNode = (
-      <div class={{
-        [CSS.headerContainer]: true,
-        [CSS.hasDragHandle]: this.dragHandle
-        }}>
+      <div
+        class={CSS.headerContainer}
+      >
         {this.dragHandle ? <calcite-handle /> : null}
-        {collapsible ? ([
-          <div class={CSS.toggleIcon} aria-hidden="true">
-            <calcite-icon icon={collapseIcon} scale="s" />
-          </div>,
+        {collapsible ? (
           <button
             aria-expanded={collapsible ? open.toString() : null}
             aria-label={toggleLabel}
@@ -183,7 +185,7 @@ export class CalciteBlock {
           >
             {headerContent}
           </button>
-        ]) : (
+        ) : (
           headerContent
         )}
         {loading ? (
