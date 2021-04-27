@@ -15,6 +15,7 @@ import { getElementDir, hasLabel } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { Scale, Theme } from "../interfaces";
 import { TEXT } from "./calcite-rating-resources";
+import { CSS_UTILITY } from "../../utils/resources";
 
 @Component({
   tag: "calcite-rating",
@@ -159,9 +160,9 @@ export class CalciteRating {
     const { intlRating, showChip, scale, theme, count, average } = this;
     const dir = getElementDir(this.el);
     return (
-      <Host dir={dir}>
+      <Host>
         <fieldset
-          class="fieldset"
+          class={{ fieldset: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
           onBlur={() => (this.hoverValue = null)}
           onMouseLeave={() => (this.hoverValue = null)}
           onTouchEnd={() => (this.hoverValue = null)}
@@ -170,7 +171,13 @@ export class CalciteRating {
           {this.renderStars()}
         </fieldset>
         {(count || average) && showChip ? (
-          <calcite-chip dir={dir} scale={scale} theme={theme} value={count?.toString()}>
+          <calcite-chip
+            class={{ [CSS_UTILITY.rtl]: dir === "rtl" }}
+            dir={dir}
+            scale={scale}
+            theme={theme}
+            value={count?.toString()}
+          >
             {!!average && <span class="number--average">{average.toString()}</span>}
             {!!count && <span class="number--count">({count?.toString()})</span>}
           </calcite-chip>
