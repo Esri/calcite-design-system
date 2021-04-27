@@ -2,6 +2,7 @@ export const CSS = {
   content: "content",
   toggle: "toggle",
   toggleSwitch: "toggle--switch",
+  toggleSwitchText: "toggle--switch__text",
   sectionHeader: "section-header",
   sectionHeaderText: "section-header__text"
 };
