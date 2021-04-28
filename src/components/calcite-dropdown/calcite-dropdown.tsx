@@ -158,6 +158,7 @@ export class CalciteDropdown {
               [PopperCSS.animation]: true,
               [PopperCSS.animationActive]: active
             }}
+            onTransitionEnd={this.transitionEnd}
             style={{
               maxHeight: maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : ""
             }}
@@ -310,6 +311,10 @@ export class CalciteDropdown {
 
     this.updateSelectedItems();
   }
+
+  /** Fired when the popover is opened and the transition has ended */
+  @Event() calciteDropdownActiveTransitionEnd: EventEmitter;
+
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
@@ -334,13 +339,15 @@ export class CalciteDropdown {
 
   private referenceEl: HTMLDivElement;
 
-  private dropdownFocusTimeout: number;
-
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  transitionEnd = (event: TransitionEvent): void => {
+    this.calciteDropdownActiveTransitionEnd.emit(event);
+  };
 
   setReferenceEl = (el: HTMLDivElement): void => {
     this.referenceEl = el;
@@ -499,19 +506,18 @@ export class CalciteDropdown {
     focusElement(target);
   }
 
-  private openCalciteDropdown() {
-    this.calciteDropdownOpen.emit();
-    this.active = !this.active;
-    const animationDelayInMs = 50;
-    clearTimeout(this.dropdownFocusTimeout);
-
+  private toggleActiveEnd = (): void => {
     if (this.active) {
-      this.dropdownFocusTimeout = window.setTimeout(
-        () => this.focusOnFirstActiveOrFirstItem(),
-        animationDelayInMs
-      );
+      this.focusOnFirstActiveOrFirstItem();
     } else {
       this.calciteDropdownClose.emit();
     }
+    this.el.removeEventListener("calciteDropdownActiveTransitionEnd", this.toggleActiveEnd);
+  };
+
+  private openCalciteDropdown() {
+    this.calciteDropdownOpen.emit();
+    this.el.addEventListener("calciteDropdownActiveTransitionEnd", this.toggleActiveEnd);
+    this.active = !this.active;
   }
 }

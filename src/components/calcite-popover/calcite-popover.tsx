@@ -180,6 +180,9 @@ export class CalcitePopover {
   /** Fired when the popover is opened */
   @Event() calcitePopoverOpen: EventEmitter;
 
+  /** Fired when the popover is opened and the transition has ended */
+  @Event() calcitePopoverOpenTransitionEnd: EventEmitter;
+
   // --------------------------------------------------------------------------
   //
   //  Public Methods
@@ -343,6 +346,10 @@ export class CalcitePopover {
     this.open = false;
   };
 
+  transitionEnd = (event: TransitionEvent): void => {
+    this.calcitePopoverOpenTransitionEnd.emit(event);
+  };
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -388,6 +395,7 @@ export class CalcitePopover {
             [PopperCSS.animation]: true,
             [PopperCSS.animationActive]: displayed
           }}
+          onTransitionEnd={this.transitionEnd}
         >
           {arrowNode}
           <div class={CSS.container}>

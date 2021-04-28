@@ -22,7 +22,6 @@ import { Scale } from "../interfaces";
 
 const SUPPORTED_BUTTON_NAV_KEYS = ["ArrowUp", "ArrowDown"];
 const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
-const MENU_ANIMATION_DELAY_MS = 50;
 
 /**
  * @slot - A slot for adding `calcite-action`s.
@@ -130,8 +129,6 @@ export class CalciteActionMenu {
 
   @Element() el: HTMLCalciteActionMenuElement;
 
-  menuFocusTimeout: number;
-
   menuButtonEl: HTMLCalciteActionElement;
 
   menuEl: HTMLDivElement;
@@ -145,6 +142,8 @@ export class CalciteActionMenu {
   menuId = `${this.guid}-menu`;
 
   menuButtonId = `${this.guid}-menu-button`;
+
+  popoverEl: HTMLCalcitePopoverElement;
 
   @State() activeMenuItemIndex = -1;
 
@@ -222,6 +221,7 @@ export class CalciteActionMenu {
         open={open}
         overlayPositioning={overlayPositioning}
         placement={placement}
+        ref={(el) => (this.popoverEl = el)}
         referenceElement={menuButtonEl}
       >
         <div
@@ -414,14 +414,13 @@ export class CalciteActionMenu {
     }
   };
 
-  toggleOpen = (value = !this.open): void => {
-    this.open = value;
-    clearTimeout(this.menuFocusTimeout);
+  toggleOpenEnd = (): void => {
+    this.setFocus();
+    this.popoverEl?.removeEventListener("calcitePopoverOpenTransitionEnd", this.toggleOpenEnd);
+  };
 
-    if (value) {
-      this.menuFocusTimeout = window.setTimeout(() => this.setFocus(), MENU_ANIMATION_DELAY_MS);
-    } else {
-      this.setFocus();
-    }
+  toggleOpen = (value = !this.open): void => {
+    this.popoverEl?.addEventListener("calcitePopoverOpenTransitionEnd", this.toggleOpenEnd);
+    this.open = value;
   };
 }
