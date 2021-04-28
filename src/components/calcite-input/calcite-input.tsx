@@ -74,7 +74,7 @@ export class CalciteInput {
   }
 
   /** for number values, displays the locale's group separator */
-  @Prop() groupSeparator?: boolean = false;
+  @Prop() groupSeparator = false;
 
   /** when used as a boolean set to true, show a default recommended icon for certain
    * input types (tel, password, email, date, time, search). You can also pass a
@@ -353,7 +353,6 @@ export class CalciteInput {
 
   private inputBlurHandler = () => {
     if (this.type === "number") {
-      console.log("inputBlurHandler");
       this.childNumberEl.value = localizeNumberString(
         sanitizeDecimalString(this.value),
         this.locale,
@@ -385,7 +384,6 @@ export class CalciteInput {
   private inputInputHandler = (nativeEvent: InputEvent): void => {
     const value = (nativeEvent.target as HTMLInputElement).value;
     const newValue = this.type === "number" ? delocalizeNumberString(value, this.locale) : value;
-    console.log("inputInputHandler", value, newValue);
     this.setValue(newValue, nativeEvent);
   };
 
@@ -426,13 +424,7 @@ export class CalciteInput {
       }
       return;
     }
-    if (event.key == getGroupSeparator(this.locale)) {
-      return;
-    }
-    if (
-      event.key == getDecimalSeparator(this.locale) &&
-      this.localizedValue.indexOf(event.key) === -1
-    ) {
+    if (event.key == getDecimalSeparator(this.locale) && this.value.indexOf(".") === -1) {
       return;
     }
     event.preventDefault();
@@ -532,7 +524,6 @@ export class CalciteInput {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    console.log("render", this.localizedValue);
     const dir = getElementDir(this.el);
 
     const attributes = getAttributes(this.el, [
