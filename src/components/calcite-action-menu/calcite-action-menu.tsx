@@ -15,7 +15,7 @@ import { CSS, ICONS, SLOTS } from "./resources";
 import { focusElement, getSlotted } from "../../utils/dom";
 import { forceUpdate, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
-import { PopperPlacement } from "../../utils/popper";
+import { PopperPlacement, OverlayPositioning } from "../../utils/popper";
 import { Placement } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
@@ -86,6 +86,9 @@ export class CalciteActionMenu {
     this.activeMenuItemIndex = this.open ? 0 : -1;
     this.calciteActionMenuOpenChange.emit(open);
   }
+
+  /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
+  @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * Determines where the component will be positioned relative to the referenceElement.
@@ -206,7 +209,8 @@ export class CalciteActionMenu {
       menuId,
       menuButtonEl,
       label,
-      placement
+      placement,
+      overlayPositioning
     } = this;
 
     const activeAction = actionElements[activeMenuItemIndex];
@@ -216,6 +220,7 @@ export class CalciteActionMenu {
       <calcite-popover
         label={label}
         open={open}
+        overlayPositioning={overlayPositioning}
         placement={placement}
         referenceElement={menuButtonEl}
       >
