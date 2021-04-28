@@ -181,13 +181,6 @@ export class CalciteInput {
   /** input value */
   @Prop({ mutable: true, reflect: true }) value?: string = "";
 
-  @Watch("value")
-  valueWatcher(newValue: string): void {
-    if (this.type === "number") {
-      this.setLocalizedValue(newValue);
-    }
-  }
-
   @Watch("icon")
   @Watch("type")
   updateRequestedIcon(): void {
@@ -359,6 +352,14 @@ export class CalciteInput {
   };
 
   private inputBlurHandler = () => {
+    if (this.type === "number") {
+      console.log("inputBlurHandler");
+      this.childNumberEl.value = localizeNumberString(
+        sanitizeDecimalString(this.value),
+        this.locale,
+        this.groupSeparator
+      );
+    }
     this.calciteInputBlur.emit({
       element: this.childEl,
       value: this.value
@@ -384,6 +385,7 @@ export class CalciteInput {
   private inputInputHandler = (nativeEvent: InputEvent): void => {
     const value = (nativeEvent.target as HTMLInputElement).value;
     const newValue = this.type === "number" ? delocalizeNumberString(value, this.locale) : value;
+    console.log("inputInputHandler", value, newValue);
     this.setValue(newValue, nativeEvent);
   };
 
@@ -506,9 +508,6 @@ export class CalciteInput {
   private setValue = (value: string, nativeEvent, committing = false): void => {
     const previousValue = this.value;
     this.value = this.type === "number" ? sanitizeDecimalString(value) : value;
-    if (this.type === "number") {
-      this.setLocalizedValue(value);
-    }
     if (this.type === "number" && value?.endsWith(".")) {
       return;
     }
@@ -533,6 +532,7 @@ export class CalciteInput {
   // --------------------------------------------------------------------------
 
   render(): VNode {
+    console.log("render", this.localizedValue);
     const dir = getElementDir(this.el);
 
     const attributes = getAttributes(this.el, [

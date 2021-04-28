@@ -41,7 +41,10 @@
   <demo-form>
     <h2>Locales</h2>
     <form name="demo-form">
-      <button id="undefined" type="button">Set to undefined</button>
+      <demo-spacer>
+        <input type="number" name="native">
+        <calcite-input type="number" name="test"></calcite-input>
+      <!-- <button id="undefined" type="button">Set to undefined</button>
       <button id="undefined-string" type="button">Set to "undefined"</button>
       <button id="null" type="button">Set to null</button>
       <calcite-input type="number" name="set-to-undefined" placeholder="set to undefined"></calcite-input>
@@ -50,17 +53,16 @@
       <calcite-input type="number" locale="fr" name="french" value="1234.56" step="0.01"></calcite-input>
       <calcite-input type="number" locale="fr" name="french-whole" value="1234" step="1"></calcite-input>
       <calcite-input type="number" locale="fr" name="french-novalue" step="1"></calcite-input>
-      <demo-spacer>
         <button type="submit">Submit</button>
         <button type="reset">Reset</button>
-        <div id="locales"></div>
+        <div id="locales"></div> -->
         <button type="submit">Submit</button>
         <button type="reset">Reset</button>
       </demo-spacer>
     </form>
   </demo-form>
 
-  <script>
+  <!-- <script>
     const localeDemoContainer = document.getElementById("locales");
     locales.forEach((locale) => {
 
@@ -124,7 +126,7 @@
       console.log("null", undefinedInput.value);
     });
     undefined
-  </script>
+  </script> -->
 </body>
 
 </html>
