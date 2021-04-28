@@ -21,7 +21,7 @@ import {
   createPopper,
   updatePopper,
   CSS as PopperCSS,
-  PopperPositionStrategy
+  OverlayPositioning
 } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
@@ -106,7 +106,7 @@ export class CalciteCombobox {
   @Prop() allowCustomValues: boolean;
 
   /** Describes the positioning strategy to use. If your reference element is in a fixed container, use the fixed strategy. */
-  @Prop() positionStrategy: PopperPositionStrategy = "absolute";
+  @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
   /** specify the selection mode
    * - multi: allow any number of selected items (default)
@@ -414,13 +414,13 @@ export class CalciteCombobox {
 
   createPopper(): void {
     this.destroyPopper();
-    const { menuEl, referenceEl, positionStrategy } = this;
+    const { menuEl, referenceEl, overlayPositioning } = this;
     const modifiers = this.getModifiers();
 
     this.popper = createPopper({
       el: menuEl,
       modifiers,
-      positionStrategy,
+      overlayPositioning,
       placement: ComboboxDefaultPlacement,
       referenceEl
     });

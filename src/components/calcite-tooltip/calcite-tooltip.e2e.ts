@@ -39,7 +39,7 @@ describe("calcite-tooltip", () => {
         defaultValue: undefined
       },
       {
-        propertyName: "positionStrategy",
+        propertyName: "overlayPositioning",
         defaultValue: "absolute"
       }
     ]));

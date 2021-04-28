@@ -8,7 +8,7 @@ import {
   createPopper,
   updatePopper,
   CSS as PopperCSS,
-  PopperPositionStrategy
+  OverlayPositioning
 } from "../../utils/popper";
 import { Theme } from "../interfaces";
 import { getElementById, getRootNode } from "../../utils/dom";
@@ -58,6 +58,9 @@ export class CalciteTooltip {
     this.reposition();
   }
 
+  /** Describes the positioning strategy to use. If your reference element is in a fixed container, use the fixed strategy. */
+  @Prop() overlayPositioning: OverlayPositioning = "absolute";
+
   /**
    * Determines where the component will be positioned relative to the referenceElement.
    */
@@ -67,9 +70,6 @@ export class CalciteTooltip {
   placementHandler(): void {
     this.reposition();
   }
-
-  /** Describes the positioning strategy to use. If your reference element is in a fixed container, use the fixed strategy. */
-  @Prop() positionStrategy: PopperPositionStrategy = "absolute";
 
   /**
    * Reference HTMLElement used to position this component.
@@ -218,14 +218,14 @@ export class CalciteTooltip {
   createPopper(): void {
     this.destroyPopper();
 
-    const { el, placement, _referenceElement: referenceEl, positionStrategy } = this;
+    const { el, placement, _referenceElement: referenceEl, overlayPositioning } = this;
     const modifiers = this.getModifiers();
 
     this.popper = createPopper({
       el,
       modifiers,
       placement,
-      positionStrategy,
+      overlayPositioning,
       referenceEl
     });
   }

@@ -15,7 +15,7 @@ import { CSS, ICONS, SLOTS } from "./resources";
 import { focusElement, getSlotted } from "../../utils/dom";
 import { forceUpdate, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
-import { PopperPlacement, PopperPositionStrategy } from "../../utils/popper";
+import { PopperPlacement, OverlayPositioning } from "../../utils/popper";
 import { Placement } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
@@ -87,13 +87,13 @@ export class CalciteActionMenu {
     this.calciteActionMenuOpenChange.emit(open);
   }
 
+  /** Describes the positioning strategy to use. If your reference element is in a fixed container, use the fixed strategy. */
+  @Prop() overlayPositioning: OverlayPositioning = "absolute";
+
   /**
    * Determines where the component will be positioned relative to the referenceElement.
    */
   @Prop({ reflect: true }) placement: PopperPlacement = "auto";
-
-  /** Describes the positioning strategy to use. If your reference element is in a fixed container, use the fixed strategy. */
-  @Prop() positionStrategy: PopperPositionStrategy = "absolute";
 
   /**
    * Specifies the size of the action.
@@ -210,7 +210,7 @@ export class CalciteActionMenu {
       menuButtonEl,
       label,
       placement,
-      positionStrategy
+      overlayPositioning
     } = this;
 
     const activeAction = actionElements[activeMenuItemIndex];
@@ -220,8 +220,8 @@ export class CalciteActionMenu {
       <calcite-popover
         label={label}
         open={open}
+        overlayPositioning={overlayPositioning}
         placement={placement}
-        positionStrategy={positionStrategy}
         referenceElement={menuButtonEl}
       >
         <div

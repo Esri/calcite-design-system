@@ -50,7 +50,7 @@ describe("calcite-action-menu", () => {
         defaultValue: "m"
       },
       {
-        propertyName: "positionStrategy",
+        propertyName: "overlayPositioning",
         defaultValue: "absolute"
       }
     ]));

@@ -7,7 +7,7 @@ describe("calcite-input-date-picker", () => {
   it("defaults", async () =>
     defaults("calcite-input-date-picker", [
       {
-        propertyName: "positionStrategy",
+        propertyName: "overlayPositioning",
         defaultValue: "absolute"
       }
     ]));

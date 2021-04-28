@@ -18,7 +18,7 @@ import {
   createPopper,
   updatePopper,
   CSS as PopperCSS,
-  PopperPositionStrategy
+  OverlayPositioning
 } from "../../utils/popper";
 import { StrictModifiers, Placement, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
@@ -103,6 +103,9 @@ export class CalcitePopover {
     }
   }
 
+  /** Describes the positioning strategy to use. If your reference element is in a fixed container, use the fixed strategy. */
+  @Prop() overlayPositioning: OverlayPositioning = "absolute";
+
   /**
    * Determines where the component will be positioned relative to the referenceElement.
    */
@@ -112,9 +115,6 @@ export class CalcitePopover {
   placementHandler(): void {
     this.reposition();
   }
-
-  /** Describes the positioning strategy to use. If your reference element is in a fixed container, use the fixed strategy. */
-  @Prop() positionStrategy: PopperPositionStrategy = "absolute";
 
   /**
    * Reference HTMLElement used to position this component according to the placement property.
@@ -317,13 +317,13 @@ export class CalcitePopover {
 
   createPopper(): void {
     this.destroyPopper();
-    const { el, placement, _referenceElement: referenceEl, positionStrategy } = this;
+    const { el, placement, _referenceElement: referenceEl, overlayPositioning } = this;
     const modifiers = this.getModifiers();
 
     this.popper = createPopper({
       el,
       modifiers,
-      positionStrategy,
+      overlayPositioning,
       placement,
       referenceEl
     });

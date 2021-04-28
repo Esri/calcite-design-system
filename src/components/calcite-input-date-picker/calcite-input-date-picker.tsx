@@ -24,7 +24,7 @@ import {
   createPopper,
   updatePopper,
   CSS as PopperCSS,
-  PopperPositionStrategy
+  OverlayPositioning
 } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { DateRangeChange } from "../calcite-date-picker/interfaces";
@@ -108,7 +108,7 @@ export class CalciteInputDatePicker {
   @Prop() end?: string;
 
   /** Describes the positioning strategy to use. If your reference element is in a fixed container, use the fixed strategy. */
-  @Prop() positionStrategy: PopperPositionStrategy = "absolute";
+  @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
   /** Disables the default behaviour on the third click of narrowing or extending the range and instead starts a new range. */
   @Prop() proximitySelectionDisabled?: boolean = false;
@@ -428,7 +428,7 @@ export class CalciteInputDatePicker {
 
   createPopper(): void {
     this.destroyPopper();
-    const { menuEl, referenceEl, positionStrategy } = this;
+    const { menuEl, referenceEl, overlayPositioning } = this;
 
     if (!menuEl || !referenceEl) {
       return;
@@ -439,7 +439,7 @@ export class CalciteInputDatePicker {
     this.popper = createPopper({
       el: menuEl,
       modifiers,
-      positionStrategy,
+      overlayPositioning,
       placement: DEFAULT_PLACEMENT,
       referenceEl
     });

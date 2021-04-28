@@ -18,7 +18,7 @@ import {
   createPopper,
   updatePopper,
   CSS as PopperCSS,
-  PopperPositionStrategy
+  OverlayPositioning
 } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { Scale, Theme } from "../interfaces";
@@ -67,6 +67,9 @@ export class CalciteDropdown {
   */
   @Prop() maxItems = 0;
 
+  /** Describes the positioning strategy to use. If your reference element is in a fixed container, use the fixed strategy. */
+  @Prop() overlayPositioning: OverlayPositioning = "absolute";
+
   /**
    * Determines where the dropdown will be positioned relative to the button.
    */
@@ -76,9 +79,6 @@ export class CalciteDropdown {
   placementHandler(): void {
     this.reposition();
   }
-
-  /** Describes the positioning strategy to use. If your reference element is in a fixed container, use the fixed strategy. */
-  @Prop() positionStrategy: PopperPositionStrategy = "absolute";
 
   /** specify the scale of dropdown, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -365,13 +365,13 @@ export class CalciteDropdown {
 
   createPopper(): void {
     this.destroyPopper();
-    const { menuEl, referenceEl, placement, positionStrategy } = this;
+    const { menuEl, referenceEl, placement, overlayPositioning } = this;
     const modifiers = this.getModifiers();
 
     this.popper = createPopper({
       el: menuEl,
       modifiers,
-      positionStrategy,
+      overlayPositioning,
       placement,
       referenceEl
     });
