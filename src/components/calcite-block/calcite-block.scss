@@ -43,6 +43,7 @@
 .toggle {
   @apply flex
     flex-no-wrap
+    justify-between
     font-inherit
     items-center
     m-0
@@ -99,7 +100,16 @@ calcite-handle {
 }
 
 .toggle-icon {
-  @apply ml-3;
+  @apply mr-4
+  self-center
+  text-color-3
+  transition-color
+  duration-150
+  ease-in-out;
+}
+
+.toggle:hover .toggle-icon {
+  @apply text-color-1;
 }
 
 .content {
@@ -116,7 +126,7 @@ calcite-handle {
 
 .calcite--rtl {
   .toggle-icon {
-    @apply ml-0 mr-3;
+    @apply mr-0 ml-4;
   }
   .icon {
     @apply ml-0 mr-3;
@@ -143,16 +153,10 @@ calcite-handle {
 }
 
 :host([drag-handle]) {
-  .toggle-icon {
-    @apply ml-2;
-  }
 
   .calcite--rtl {
     .title {
       @apply pl-0 pr-1;
-    }
-    .toggle-icon {
-      @apply ml-0 mr-2;
     }
   }
 }
