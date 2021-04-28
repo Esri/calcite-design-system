@@ -105,7 +105,7 @@ export class CalciteCombobox {
   /** Allow entry of custom values which are not in the original set of items */
   @Prop() allowCustomValues: boolean;
 
-  /** Describes the positioning strategy to use. If your reference element is in a fixed container, use the fixed strategy. */
+  /** Describes the type of positioning to use for the overlayed content. If your element is in a fixed container, use the 'fixed' value. */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
   /** specify the selection mode

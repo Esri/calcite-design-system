@@ -58,7 +58,7 @@ export class CalciteTooltip {
     this.reposition();
   }
 
-  /** Describes the positioning strategy to use. If your reference element is in a fixed container, use the fixed strategy. */
+  /** Describes the type of positioning to use for the overlayed content. If your element is in a fixed container, use the 'fixed' value. */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
   /**
