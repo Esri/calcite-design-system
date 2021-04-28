@@ -143,8 +143,6 @@ export class CalciteActionMenu {
 
   menuButtonId = `${this.guid}-menu-button`;
 
-  popoverEl: HTMLCalcitePopoverElement;
-
   @State() activeMenuItemIndex = -1;
 
   @Watch("activeMenuItemIndex")
@@ -221,7 +219,6 @@ export class CalciteActionMenu {
         open={open}
         overlayPositioning={overlayPositioning}
         placement={placement}
-        ref={(el) => (this.popoverEl = el)}
         referenceElement={menuButtonEl}
       >
         <div
@@ -416,11 +413,11 @@ export class CalciteActionMenu {
 
   toggleOpenEnd = (): void => {
     this.setFocus();
-    this.popoverEl?.removeEventListener("calcitePopoverOpenTransitionEnd", this.toggleOpenEnd);
+    this.el.removeEventListener("calcitePopoverOpenTransitionEnd", this.toggleOpenEnd);
   };
 
   toggleOpen = (value = !this.open): void => {
-    this.popoverEl?.addEventListener("calcitePopoverOpenTransitionEnd", this.toggleOpenEnd);
+    this.el.addEventListener("calcitePopoverOpenTransitionEnd", this.toggleOpenEnd);
     this.open = value;
   };
 }
