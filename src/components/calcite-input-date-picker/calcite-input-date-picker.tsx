@@ -107,7 +107,7 @@ export class CalciteInputDatePicker {
   /** Selected end date */
   @Prop() end?: string;
 
-  /** Describes the type of positioning to use for the overlayed content. If your element is in a fixed container, use the 'fixed' value. */
+  /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
   /** Disables the default behaviour on the third click of narrowing or extending the range and instead starts a new range. */

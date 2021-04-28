@@ -87,7 +87,7 @@ export class CalciteActionMenu {
     this.calciteActionMenuOpenChange.emit(open);
   }
 
-  /** Describes the type of positioning to use for the overlayed content. If your element is in a fixed container, use the 'fixed' value. */
+  /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
   /**
