@@ -180,6 +180,16 @@ export class CalciteInput {
   /** input value */
   @Prop({ mutable: true, reflect: true }) value?: string = "";
 
+  @Watch("value")
+  valueWatcher(newValue: string): void {
+    if (
+      this.type === "number" &&
+      this.localizedValue !== localizeNumberString(newValue, this.locale)
+    ) {
+      this.setLocalizedValue(newValue);
+    }
+  }
+
   @Watch("icon")
   @Watch("type")
   updateRequestedIcon(): void {
@@ -352,11 +362,7 @@ export class CalciteInput {
 
   private inputBlurHandler = () => {
     if (this.type === "number") {
-      this.localizedValue = localizeNumberString(
-        sanitizeDecimalString(this.value),
-        this.locale,
-        this.groupSeparator
-      );
+      this.setLocalizedValue(this.value);
     }
     this.calciteInputBlur.emit({
       element: this.childEl,
@@ -381,14 +387,25 @@ export class CalciteInput {
   };
 
   private inputInputHandler = (nativeEvent: InputEvent): void => {
-    const value = (nativeEvent.target as HTMLInputElement).value;
-    const newValue = this.type === "number" ? delocalizeNumberString(value, this.locale) : value;
-    this.setValue(newValue, nativeEvent);
+    this.setValue((nativeEvent.target as HTMLInputElement).value, nativeEvent);
   };
 
   private inputKeyDownHandler = (event: KeyboardEvent): void => {
     if (event.key === "Enter") {
       this.calciteInputChange.emit();
+    }
+  };
+
+  private inputNumberInputHandler = (nativeEvent: InputEvent): void => {
+    const value = (nativeEvent.target as HTMLInputElement).value;
+    const newValue = delocalizeNumberString(value, this.locale);
+    if (nativeEvent.inputType === "insertFromPaste" && !isValidNumber(newValue)) {
+      nativeEvent.preventDefault();
+      this.setLocalizedValue(this.value);
+      // have to set this even though the controlled value prop is updated.  Stencil bug?
+      this.childNumberEl.value = this.localizedValue;
+    } else {
+      this.setValue(delocalizeNumberString(value, this.locale), nativeEvent);
     }
   };
 
@@ -494,12 +511,8 @@ export class CalciteInput {
       : slottedActionEl.removeAttribute("disabled");
   }
 
-  private setLocalizedValue = (unlocalizedValue: string): void => {
-    this.localizedValue = localizeNumberString(
-      sanitizeDecimalString(unlocalizedValue),
-      this.locale,
-      this.groupSeparator
-    );
+  private setLocalizedValue = (value: string): void => {
+    this.localizedValue = localizeNumberString(value, this.locale, this.groupSeparator);
   };
 
   private setValue = (value: string, nativeEvent, committing = false): void => {
@@ -627,7 +640,7 @@ export class CalciteInput {
           name={undefined}
           onBlur={this.inputBlurHandler}
           onFocus={this.inputFocusHandler}
-          onInput={this.inputInputHandler}
+          onInput={this.inputNumberInputHandler}
           onKeyDown={this.inputNumberKeyDownHandler}
           placeholder={this.placeholder || ""}
           ref={this.setChildNumberElRef}
