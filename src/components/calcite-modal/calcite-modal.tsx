@@ -123,7 +123,7 @@ export class CalciteModal {
       <Host aria-modal="true" dir={dir} is-active={this.isActive} role="dialog">
         <calcite-scrim class="scrim" theme="dark" />
         {this.renderStyle()}
-        <div class="modal">
+        <div class="modal" onTransitionEnd={this.transitionEnd}>
           <div data-focus-fence onFocus={this.focusLastElement} tabindex="0" />
           <div class="header">
             {this.renderCloseButton()}
@@ -220,8 +220,6 @@ export class CalciteModal {
 
   modalContent: HTMLDivElement;
 
-  focusTimeout: number;
-
   private observer: MutationObserver = null;
 
   //--------------------------------------------------------------------------
@@ -298,6 +296,12 @@ export class CalciteModal {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+  transitionEnd = (event: TransitionEvent): void => {
+    if (event.propertyName === "opacity") {
+      this.isActive ? this.calciteModalOpen.emit() : this.calciteModalClose.emit();
+    }
+  };
+
   @Watch("active")
   async toggleModal(value: boolean, oldValue: boolean): Promise<void> {
     if (value !== oldValue) {
@@ -309,16 +313,16 @@ export class CalciteModal {
     }
   }
 
+  private openEnd = (): void => {
+    this.setFocus();
+    this.el.removeEventListener("calciteModalOpen", this.openEnd);
+  };
+
   /** Open the modal */
   private open() {
     this.previousActiveElement = document.activeElement as HTMLElement;
+    this.el.addEventListener("calciteModalOpen", this.openEnd);
     this.isActive = true;
-    clearTimeout(this.focusTimeout);
-    // wait for the modal to open, then handle focus.
-    this.focusTimeout = window.setTimeout(() => {
-      this.focusElement(this.firstFocus);
-      this.calciteModalOpen.emit();
-    }, 300);
     document.documentElement.classList.add("overflow-hidden");
   }
 
@@ -329,7 +333,6 @@ export class CalciteModal {
       this.isActive = false;
       focusElement(this.previousActiveElement);
       this.removeOverflowHiddenClass();
-      setTimeout(() => this.calciteModalClose.emit(), 300);
     });
   };
 

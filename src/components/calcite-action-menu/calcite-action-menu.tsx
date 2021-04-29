@@ -413,11 +413,11 @@ export class CalciteActionMenu {
 
   toggleOpenEnd = (): void => {
     this.setFocus();
-    this.el.removeEventListener("calcitePopoverOpenTransitionEnd", this.toggleOpenEnd);
+    this.el.removeEventListener("calcitePopoverOpen", this.toggleOpenEnd);
   };
 
   toggleOpen = (value = !this.open): void => {
-    this.el.addEventListener("calcitePopoverOpenTransitionEnd", this.toggleOpenEnd);
+    this.el.addEventListener("calcitePopoverOpen", this.toggleOpenEnd);
     this.open = value;
   };
 }

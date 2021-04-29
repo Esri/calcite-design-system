@@ -313,7 +313,7 @@ export class CalciteDropdown {
   }
 
   /** Fired when the popover is opened and the transition has ended */
-  @Event() calciteDropdownActiveTransitionEnd: EventEmitter;
+  @Event() calciteDropdownActive: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -346,7 +346,9 @@ export class CalciteDropdown {
   //--------------------------------------------------------------------------
 
   transitionEnd = (event: TransitionEvent): void => {
-    this.calciteDropdownActiveTransitionEnd.emit(event);
+    if (event.propertyName === "opacity") {
+      this.calciteDropdownActive.emit(event);
+    }
   };
 
   setReferenceEl = (el: HTMLDivElement): void => {
@@ -512,12 +514,12 @@ export class CalciteDropdown {
     } else {
       this.calciteDropdownClose.emit();
     }
-    this.el.removeEventListener("calciteDropdownActiveTransitionEnd", this.toggleActiveEnd);
+    this.el.removeEventListener("calciteDropdownActive", this.toggleActiveEnd);
   };
 
   private openCalciteDropdown() {
     this.calciteDropdownOpen.emit();
-    this.el.addEventListener("calciteDropdownActiveTransitionEnd", this.toggleActiveEnd);
+    this.el.addEventListener("calciteDropdownActive", this.toggleActiveEnd);
     this.active = !this.active;
   }
 }

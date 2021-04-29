@@ -93,14 +93,9 @@ export class CalcitePopover {
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
-  openHandler(open: boolean): void {
+  openHandler(): void {
     this.reposition();
     this.setExpandedAttr();
-    if (open) {
-      this.calcitePopoverOpen.emit();
-    } else {
-      this.calcitePopoverClose.emit();
-    }
   }
 
   /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
@@ -179,9 +174,6 @@ export class CalcitePopover {
 
   /** Fired when the popover is opened */
   @Event() calcitePopoverOpen: EventEmitter;
-
-  /** Fired when the popover is opened and the transition has ended */
-  @Event() calcitePopoverOpenTransitionEnd: EventEmitter;
 
   // --------------------------------------------------------------------------
   //
@@ -347,7 +339,9 @@ export class CalcitePopover {
   };
 
   transitionEnd = (event: TransitionEvent): void => {
-    this.calcitePopoverOpenTransitionEnd.emit(event);
+    if (event.propertyName === "opacity") {
+      this.open ? this.calcitePopoverOpen.emit() : this.calcitePopoverClose.emit();
+    }
   };
 
   // --------------------------------------------------------------------------
