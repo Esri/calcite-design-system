@@ -20,7 +20,6 @@ Calcite components can be loaded via two `<script>` tags in the head of your HTM
 
 ```html
 <script type="module" src="https://unpkg.com/@esri/calcite-components/dist/calcite/calcite.esm.js"></script>
-<script nomodule="" src="https://unpkg.com/@esri/calcite-components/dist/calcite/calcite.js"></script>
 ```
 
 Browsers that support modules will load the first, while older browsers will load the second, bundled version.
