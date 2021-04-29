@@ -20,6 +20,7 @@ input[type="text"] {
   @apply bg-transparent
     border-none
     font-inherit
+    text-color-1
     text--2h
     mb-1
     w-full
@@ -67,7 +68,7 @@ input[type="text"]:focus {
 
 .clear-button {
   @apply text-color-2
-    bg-none
+    bg-transparent
     border-0
     cursor-pointer;
   &:hover,
