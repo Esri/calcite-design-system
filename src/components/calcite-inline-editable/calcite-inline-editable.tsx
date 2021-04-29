@@ -99,6 +99,7 @@ export class CalciteInlineEditable {
           class="calcite-inline-editable-wrapper"
           onClick={this.enableEditingHandler}
           onKeyDown={this.escapeKeyHandler}
+          onTransitionEnd={this.transitionEnd}
         >
           <div class="calcite-inline-editable-input-wrapper">
             <slot />
@@ -222,13 +223,17 @@ export class CalciteInlineEditable {
 
   private enableEditingButton: HTMLCalciteButtonElement;
 
-  private editingFocusTimeout: number;
-
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  transitionEnd = (event: TransitionEvent): void => {
+    if (event.propertyName === "padding-left" || event.propertyName === "padding-right") {
+      this.calciteInlineEditableEditingCancel.emit(event);
+    }
+  };
 
   private get shouldShowControls(): boolean {
     return this.editingEnabled && this.controls;
@@ -247,12 +252,15 @@ export class CalciteInlineEditable {
     this.editingEnabled = false;
   };
 
+  private cancelEditingEnd = (): void => {
+    this.enableEditingButton.setFocus();
+    this.el.removeEventListener("calciteInlineEditableEditingCancel", this.cancelEditingEnd);
+  };
+
   private cancelEditing = () => {
     this.inputElement.value = this.valuePriorToEditing;
+    this.el.addEventListener("calciteInlineEditableEditingCancel", this.cancelEditingEnd);
     this.disableEditing();
-    clearTimeout(this.editingFocusTimeout);
-    this.editingFocusTimeout = window.setTimeout(() => this.enableEditingButton.setFocus(), 100);
-    this.calciteInlineEditableEditingCancel.emit();
   };
 
   private escapeKeyHandler = async (e: KeyboardEvent) => {

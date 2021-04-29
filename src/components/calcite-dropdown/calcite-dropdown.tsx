@@ -347,7 +347,7 @@ export class CalciteDropdown {
 
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === "opacity") {
-      this.calciteDropdownActive.emit(event);
+      this.calciteDropdownActive.emit();
     }
   };
 
