@@ -14,7 +14,6 @@ This will load all the dependencies for the project.
 
 ```html
 <script type="module" src="<path-to-calcite-components-package>/dist/calcite/calcite.esm.js"></script>
-<script nomodule="" src="<path-to-calcite-components-package>/dist/calcite/calcite.js"></script>
 ```
 
 Browsers that support modules will load the first, while older browsers will load the second, bundled version. It's worth noting that only components that are actually used will be loaded.
