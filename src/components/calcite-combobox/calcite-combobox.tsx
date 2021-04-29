@@ -31,8 +31,7 @@ import {
   ComboboxChildSelector,
   ComboboxItem,
   ComboboxItemGroup,
-  ComboboxDefaultPlacement,
-  ComboboxTransitionDuration
+  ComboboxDefaultPlacement
 } from "./resources";
 import { getItemAncestors, getItemChildren, hasActiveChildren } from "./utils";
 
@@ -65,13 +64,10 @@ export class CalciteCombobox {
 
   @Watch("active")
   activeHandler(newValue: boolean, oldValue: boolean): void {
-    clearTimeout(this.hideListTimeout);
     // when closing, wait transition time then hide to prevent overscroll
     if (oldValue && !newValue) {
+      this.el.addEventListener("calciteComboboxActive", this.toggleActiveEnd);
       this.open = false;
-      this.hideListTimeout = window.setTimeout(() => {
-        this.hideList = true;
-      }, ComboboxTransitionDuration);
     } else if (!oldValue && newValue) {
       // give the combobox height, then reposition prior to opening
       this.hideList = false;
@@ -245,6 +241,9 @@ export class CalciteCombobox {
   /** Called when a selected item in the combobox is dismissed via its chip **/
   @Event() calciteComboboxChipDismiss: EventEmitter;
 
+  /** Fired when the combobox is opened and the transition has ended */
+  @Event() calciteComboboxActive: EventEmitter;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -323,9 +322,6 @@ export class CalciteCombobox {
 
   observer: MutationObserver = null;
 
-  /** animation timeout for hiding the list  */
-  private hideListTimeout: number;
-
   private guid: string = guid();
 
   private inputHeight = 0;
@@ -343,6 +339,17 @@ export class CalciteCombobox {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  private toggleActiveEnd = (): void => {
+    this.hideList = true;
+    this.el.removeEventListener("calciteComboboxActive", this.toggleActiveEnd);
+  };
+
+  transitionEnd = (event: TransitionEvent): void => {
+    if (event.propertyName === "opacity") {
+      this.calciteComboboxActive.emit();
+    }
+  };
 
   setMaxScrollerHeight = (): void => {
     if (this.active) {
@@ -831,7 +838,12 @@ export class CalciteCombobox {
         class={{ "popper-container": true, "popper-container--active": open }}
         ref={setMenuEl}
       >
-        <div class={classes} ref={setListContainerEl} style={style}>
+        <div
+          class={classes}
+          onTransitionEnd={this.transitionEnd}
+          ref={setListContainerEl}
+          style={style}
+        >
           <ul class={{ list: true, "list--hide": hideList }}>
             <slot />
           </ul>

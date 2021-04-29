@@ -312,7 +312,7 @@ export class CalciteDropdown {
     this.updateSelectedItems();
   }
 
-  /** Fired when the popover is opened and the transition has ended */
+  /** Fired when the dropdown is opened and the transition has ended */
   @Event() calciteDropdownActive: EventEmitter;
 
   //--------------------------------------------------------------------------

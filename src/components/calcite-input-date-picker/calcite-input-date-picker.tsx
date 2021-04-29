@@ -153,6 +153,8 @@ export class CalciteInputDatePicker {
    */
   @Event() calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
 
+  @Event() calciteInputDatePickerRangeFocus: EventEmitter;
+
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -262,6 +264,7 @@ export class CalciteInputDatePicker {
                   [PopperCSS.animation]: true,
                   [PopperCSS.animationActive]: this.active
                 }}
+                onTransitionEnd={this.transitionEnd}
               >
                 <calcite-date-picker
                   activeRange={this.focusedInput}
@@ -363,6 +366,12 @@ export class CalciteInputDatePicker {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  transitionEnd = (event: TransitionEvent): void => {
+    if (event.propertyName === "opacity") {
+      this.calciteInputDatePickerRangeFocus.emit();
+    }
+  };
 
   setEndInput = (el: HTMLCalciteInputElement): void => {
     this.endInput = el;
@@ -543,6 +552,11 @@ export class CalciteInputDatePicker {
     this.valueAsDate = event.detail;
   };
 
+  private focusInputEnd = (): void => {
+    this.endInput?.setFocus();
+    this.el.removeEventListener("calciteInputDatePickerRangeFocus", this.focusInputEnd);
+  };
+
   private handleDateRangeChange = (event: CustomEvent<DateRangeChange>): void => {
     if (!this.range || !event.detail) {
       return;
@@ -555,8 +569,8 @@ export class CalciteInputDatePicker {
 
     clearTimeout(this.endInputFocusTimeout);
 
-    if (startDate && this.focusedInput === "start") {
-      this.endInputFocusTimeout = window.setTimeout(() => this.endInput?.setFocus(), 150);
+    if (startDate && this.focusedInput === "start" && this.endInput) {
+      this.el.addEventListener("calciteInputDatePickerRangeFocus", this.focusInputEnd);
     }
   };
 
