@@ -76,6 +76,10 @@ describe("calcite-popover", () => {
       {
         propertyName: "disablePointer",
         defaultValue: false
+      },
+      {
+        propertyName: "overlayPositioning",
+        defaultValue: "absolute"
       }
     ]));
 

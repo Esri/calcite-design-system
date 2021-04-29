@@ -14,10 +14,16 @@ import {
 import { DropdownPlacement, GroupRegistration, ItemKeyboardEvent } from "./interfaces";
 import { getKey } from "../../utils/key";
 import { focusElement, getElementDir } from "../../utils/dom";
-import { createPopper, updatePopper, CSS as PopperCSS } from "../../utils/popper";
+import {
+  createPopper,
+  updatePopper,
+  CSS as PopperCSS,
+  OverlayPositioning
+} from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { Scale, Theme } from "../interfaces";
 import { DefaultDropdownPlacement } from "./resources";
+import { CSS_UTILITY } from "../../utils/resources";
 
 @Component({
   tag: "calcite-dropdown",
@@ -60,6 +66,9 @@ export class CalciteDropdown {
    this value does not include groupTitles passed to calcite-dropdown-group
   */
   @Prop() maxItems = 0;
+
+  /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
+  @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * Determines where the dropdown will be positioned relative to the button.
@@ -129,9 +138,9 @@ export class CalciteDropdown {
     const dir = getElementDir(this.el);
 
     return (
-      <Host dir={dir} tabIndex={this.disabled ? -1 : null}>
+      <Host tabIndex={this.disabled ? -1 : null}>
         <div
-          class="calcite-dropdown-trigger-container"
+          class={{ ["calcite-dropdown-trigger-container"]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
           onClick={this.openDropdown}
           onKeyDown={this.keyDownHandler}
           ref={this.setReferenceEl}
@@ -356,12 +365,13 @@ export class CalciteDropdown {
 
   createPopper(): void {
     this.destroyPopper();
-    const { menuEl, referenceEl, placement } = this;
+    const { menuEl, referenceEl, placement, overlayPositioning } = this;
     const modifiers = this.getModifiers();
 
     this.popper = createPopper({
       el: menuEl,
       modifiers,
+      overlayPositioning,
       placement,
       referenceEl
     });

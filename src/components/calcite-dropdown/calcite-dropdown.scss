@@ -48,12 +48,12 @@
   --calcite-dropdown-group-padding: #{theme("spacing.3") 0};
   --calcite-dropdown-item-padding: #{theme("spacing.2") theme("spacing.3") theme("spacing.2") theme("spacing.6")};
 }
-:host([dir="rtl"][scale="s"]) {
+:host([scale="s"]) .calcite--rtl {
   --calcite-dropdown-item-padding: #{theme("spacing.1") theme("spacing.6") theme("spacing.1") theme("spacing.3")};
 }
-:host([dir="rtl"][scale="m"]) {
+:host([scale="m"]) .calcite--rtl {
   --calcite-dropdown-item-padding: #{theme("spacing.2") theme("spacing.6") theme("spacing.2") theme("spacing.3")};
 }
-:host([dir="rtl"][scale="l"]) {
+:host([scale="l"]) .calcite--rtl {
   --calcite-dropdown-item-padding: #{theme("spacing.2") theme("spacing.6") theme("spacing.2") theme("spacing.3")};
 }

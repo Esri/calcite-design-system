@@ -9,6 +9,7 @@ import {
   Listen,
   Method,
   Prop,
+  State,
   VNode,
   Watch
 } from "@stencil/core";
@@ -17,6 +18,18 @@ import { getKey } from "../../utils/key";
 import { INPUT_TYPE_ICONS } from "./calcite-input.resources";
 import { InputPlacement } from "./interfaces";
 import { Position } from "../interfaces";
+import {
+  getDecimalSeparator,
+  delocalizeNumberString,
+  localizeNumberString,
+  getGroupSeparator,
+  sanitizeDecimalString
+} from "../../utils/locale";
+import { numberKeys } from "../../utils/key";
+import { hiddenInputStyle } from "../../utils/form";
+import { isValidNumber } from "../../utils/number";
+
+type NumberNudgeDirection = "up" | "down";
 
 /**
  * @slot `calcite-action` - A slot for positioning a button next to an input
@@ -60,6 +73,9 @@ export class CalciteInput {
     this.setDisabledAction();
   }
 
+  /** for number values, displays the locale's group separator */
+  @Prop() groupSeparator?: boolean = false;
+
   /** when used as a boolean set to true, show a default recommended icon for certain
    * input types (tel, password, email, date, time, search). You can also pass a
    * calcite-ui-icon name to this prop to display a requested icon for any input type */
@@ -70,6 +86,15 @@ export class CalciteInput {
 
   /** specify if the input is in loading state */
   @Prop({ reflect: true }) loading = false;
+
+  /** BCP 47 language tag for desired language and country format */
+  @Prop() locale?: string = document.documentElement.lang || "en";
+
+  /**
+   * Toggles locale formatting for numbers.
+   * @internal
+   */
+  @Prop() localeFormat = false;
 
   /** input max */
   @Prop({ reflect: true }) max?: number;
@@ -101,6 +126,8 @@ export class CalciteInput {
   /** Minimum length of the text input */
   @Prop({ reflect: true }) minLength?: number;
 
+  @Prop({ reflect: true }) name?: string;
+
   /** specify the placement of the number buttons */
   @Prop({ reflect: true }) numberButtonType?: InputPlacement = "vertical";
 
@@ -120,12 +147,7 @@ export class CalciteInput {
   @Prop({ mutable: true, reflect: true }) status: Status = "idle";
 
   /** input step */
-  @Prop({ reflect: true }) step?: number | "any";
-
-  @Watch("step")
-  stepWatcher(): void {
-    this.stepString = this.step?.toString() || null;
-  }
+  @Prop({ mutable: true, reflect: true }) step?: number | "any";
 
   /** optionally add suffix  **/
   @Prop() suffixText?: string;
@@ -159,6 +181,13 @@ export class CalciteInput {
   /** input value */
   @Prop({ mutable: true, reflect: true }) value?: string = "";
 
+  @Watch("value")
+  valueWatcher(newValue: string): void {
+    if (this.type === "number") {
+      this.setLocalizedValue(newValue);
+    }
+  }
+
   @Watch("icon")
   @Watch("type")
   updateRequestedIcon(): void {
@@ -167,15 +196,71 @@ export class CalciteInput {
 
   //--------------------------------------------------------------------------
   //
+  //  Private Properties
+  //
+  //--------------------------------------------------------------------------
+
+  /** keep track of the rendered child type */
+  private childEl?: HTMLInputElement | HTMLTextAreaElement;
+
+  /** keep track of the rendered child type */
+  private childElType?: "input" | "textarea" = "input";
+
+  /** number text input element for locale */
+  private childNumberEl?: HTMLInputElement;
+
+  /** keep track of the initial value */
+  private defaultValue: string;
+
+  private form: HTMLFormElement;
+
+  get isClearable(): boolean {
+    return !this.isTextarea && (this.clearable || this.type === "search") && this.value.length > 0;
+  }
+
+  get isTextarea(): boolean {
+    return this.childElType === "textarea";
+  }
+
+  private minString?: string;
+
+  private maxString?: string;
+
+  private preFocusValue: string;
+
+  /** the computed icon to render */
+  private requestedIcon?: string;
+
+  /** determine if there is a slotted action for styling purposes */
+  private slottedActionEl?: HTMLSlotElement;
+
+  //--------------------------------------------------------------------------
+  //
+  //  State
+  //
+  //--------------------------------------------------------------------------
+
+  @State() localizedValue: string = localizeNumberString(
+    this.value,
+    this.locale,
+    this.groupSeparator
+  );
+
+  //--------------------------------------------------------------------------
+  //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.status = getElementProp(this.el, "status", this.status);
-    this.scale = getElementProp(this.el, "scale", this.scale);
     this.form = this.el.closest("form");
     this.form?.addEventListener("reset", this.reset);
+    this.scale = getElementProp(this.el, "scale", this.scale);
+    this.status = getElementProp(this.el, "status", this.status);
+    this.step = !this.step && this.type === "number" ? "any" : this.step;
+    if (this.type === "number" && !isValidNumber(this.value)) {
+      this.value = null;
+    }
   }
 
   disconnectedCallback(): void {
@@ -183,26 +268,269 @@ export class CalciteInput {
   }
 
   componentWillLoad(): void {
-    this.defaultValue = this.value;
     this.childElType = this.type === "textarea" ? "textarea" : "input";
-    this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
-    this.minString = this.min?.toString();
+    this.defaultValue = this.value;
     this.maxString = this.max?.toString();
-    this.stepString = this.step?.toString();
+    this.minString = this.min?.toString();
+    this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
   }
 
   componentDidLoad(): void {
     this.slottedActionEl = this.el.querySelector("[slot=input-action]");
     this.setDisabledAction();
+    if (this.type === "number") {
+      this.childEl.style.cssText = hiddenInputStyle;
+    }
   }
 
-  get isTextarea(): boolean {
-    return this.childElType === "textarea";
+  componentShouldUpdate(newValue: any, oldValue: any, property: string): boolean {
+    if (this.type === "number" && property === "value" && newValue && !isValidNumber(newValue)) {
+      this.value = oldValue;
+      return false;
+    }
+    return true;
   }
 
-  get isClearable(): boolean {
-    return !this.isTextarea && (this.clearable || this.type === "search") && this.value.length > 0;
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  /**
+   * @internal
+   */
+  @Event() calciteInputFocus: EventEmitter;
+
+  /**
+   * @internal
+   */
+  @Event() calciteInputBlur: EventEmitter;
+
+  /**
+   * This event fires as the value of the input changes.
+   */
+  @Event({ cancelable: true }) calciteInputInput: EventEmitter;
+
+  /**
+   * This event fires when the value of the input changes and is committed.
+   * @internal
+   */
+  @Event() calciteInputChange: EventEmitter;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Event Listeners
+  //
+  //--------------------------------------------------------------------------
+
+  @Listen("keydown")
+  keyDownHandler(event: KeyboardEvent): void {
+    if (this.isClearable && getKey(event.key) === "Escape") {
+      this.clearInputValue(event);
+      event.preventDefault();
+    }
   }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  /** focus the rendered child element */
+  @Method()
+  async setFocus(): Promise<void> {
+    if (this.type === "number") {
+      this.childNumberEl?.focus();
+    } else {
+      this.childEl?.focus();
+    }
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+
+  private clearInputValue = (nativeEvent: KeyboardEvent | MouseEvent): void => {
+    this.setValue("", nativeEvent, true);
+  };
+
+  private inputBlurHandler = () => {
+    this.calciteInputBlur.emit({
+      element: this.childEl,
+      value: this.value
+    });
+
+    if (this.preFocusValue !== this.value) {
+      this.calciteInputChange.emit();
+    }
+  };
+
+  private inputFocusHandler = (event: FocusEvent): void => {
+    if (event.target !== this.slottedActionEl) {
+      this.setFocus();
+    }
+    this.calciteInputFocus.emit({
+      element: this.childEl,
+      value: this.value
+    });
+
+    this.preFocusValue = this.value;
+  };
+
+  private inputInputHandler = (nativeEvent: InputEvent): void => {
+    const value = (nativeEvent.target as HTMLInputElement).value;
+    const newValue = this.type === "number" ? delocalizeNumberString(value, this.locale) : value;
+    this.setValue(newValue, nativeEvent);
+  };
+
+  private inputKeyDownHandler = (event: KeyboardEvent): void => {
+    if (event.key === "Enter") {
+      this.calciteInputChange.emit();
+    }
+  };
+
+  private inputNumberKeyDownHandler = (event: KeyboardEvent): void => {
+    if (this.type !== "number") {
+      return;
+    }
+    if (event.key === "ArrowUp") {
+      this.nudgeNumberValue("up", event);
+      return;
+    }
+    if (event.key === "ArrowDown") {
+      this.nudgeNumberValue("down", event);
+      return;
+    }
+    const supportedKeys = [
+      ...numberKeys,
+      "ArrowLeft",
+      "ArrowRight",
+      "Enter",
+      "Backspace",
+      "Escape",
+      "Tab",
+      "-"
+    ];
+    if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
+      return;
+    }
+    if (supportedKeys.includes(event.key)) {
+      if (event.key === "Enter") {
+        this.calciteInputChange.emit();
+      }
+      return;
+    }
+    if (event.key == getGroupSeparator(this.locale)) {
+      return;
+    }
+    if (
+      event.key == getDecimalSeparator(this.locale) &&
+      this.localizedValue.indexOf(event.key) === -1
+    ) {
+      return;
+    }
+    event.preventDefault();
+  };
+
+  private nudgeNumberValue = (
+    direction: NumberNudgeDirection,
+    nativeEvent: KeyboardEvent | MouseEvent
+  ): void => {
+    if (this.type !== "number") {
+      return;
+    }
+    const decimals = this.value?.split(".")[1]?.length || 0;
+    const inputMax = this.maxString ? parseFloat(this.maxString) : null;
+    const inputMin = this.minString ? parseFloat(this.minString) : null;
+    const inputStep = this.step === "any" ? 1 : Math.abs(this.step || 1);
+    let inputVal = this.value && this.value !== "" ? parseFloat(this.value) : 0;
+    let newValue = this.value;
+
+    if (direction === "up" && ((!inputMax && inputMax !== 0) || inputVal < inputMax)) {
+      newValue = (inputVal += inputStep).toFixed(decimals).toString();
+    }
+
+    if (direction === "down" && ((!inputMin && inputMin !== 0) || inputVal > inputMin)) {
+      newValue = (inputVal -= inputStep).toFixed(decimals).toString();
+    }
+
+    this.setValue(newValue, nativeEvent, true);
+  };
+
+  private numberButtonMouseDownHandler = (event: MouseEvent): void => {
+    // todo, when dropping ie11 support, refactor to use stepup/stepdown
+    // prevent blur and re-focus of input on mousedown
+    event.preventDefault();
+    const direction = (event.target as HTMLDivElement).dataset.adjustment as NumberNudgeDirection;
+    this.nudgeNumberValue(direction, event);
+  };
+
+  private reset = (event): void => {
+    if (this.type === "number") {
+      event.preventDefault();
+    }
+    this.setValue(this.defaultValue, event);
+  };
+
+  private setChildElRef = (el) => {
+    this.childEl = el;
+  };
+
+  private setChildNumberElRef = (el) => {
+    this.childNumberEl = el;
+  };
+
+  private setDisabledAction(): void {
+    if (!this.slottedActionEl) {
+      return;
+    }
+    const slottedActionEl = this.slottedActionEl as HTMLElement;
+
+    this.disabled
+      ? slottedActionEl.setAttribute("disabled", "")
+      : slottedActionEl.removeAttribute("disabled");
+  }
+
+  private setLocalizedValue = (unlocalizedValue: string): void => {
+    this.localizedValue = localizeNumberString(
+      sanitizeDecimalString(unlocalizedValue),
+      this.locale,
+      this.groupSeparator
+    );
+  };
+
+  private setValue = (value: string, nativeEvent, committing = false): void => {
+    const previousValue = this.value;
+    this.value = this.type === "number" ? sanitizeDecimalString(value) : value;
+    if (this.type === "number") {
+      this.setLocalizedValue(value);
+    }
+    if (this.type === "number" && value?.endsWith(".")) {
+      return;
+    }
+    const calciteInputInputEvent = this.calciteInputInput.emit({
+      element: this.childEl,
+      nativeEvent,
+      value
+    });
+
+    if (calciteInputInputEvent.defaultPrevented) {
+      this.value = previousValue;
+      this.setLocalizedValue(previousValue);
+    } else if (committing) {
+      this.calciteInputChange.emit();
+    }
+  };
+
+  // --------------------------------------------------------------------------
+  //
+  //  Render Methods
+  //
+  // --------------------------------------------------------------------------
 
   render(): VNode {
     const dir = getElementDir(this.el);
@@ -222,7 +550,9 @@ export class CalciteInput {
       "status",
       "suffix-text",
       "theme",
-      "number-button-type"
+      "number-button-type",
+      "locale",
+      "group-separator"
     ]);
 
     const loader = (
@@ -260,7 +590,7 @@ export class CalciteInput {
       <div
         class={`calcite-input-number-button-item ${numberButtonClassModifier}`}
         data-adjustment="up"
-        onMouseDown={this.updateNumberValue}
+        onMouseDown={this.numberButtonMouseDownHandler}
       >
         <calcite-icon icon="chevron-up" scale={iconScale} theme={this.theme} />
       </div>
@@ -270,7 +600,7 @@ export class CalciteInput {
       <div
         class={`calcite-input-number-button-item ${numberButtonClassModifier}`}
         data-adjustment="down"
-        onMouseDown={this.updateNumberValue}
+        onMouseDown={this.numberButtonMouseDownHandler}
       >
         <calcite-icon icon="chevron-down" scale={iconScale} theme={this.theme} />
       </div>
@@ -287,6 +617,29 @@ export class CalciteInput {
 
     const suffixText = <div class="calcite-input-suffix">{this.suffixText}</div>;
 
+    const localeNumberInput =
+      this.type === "number" ? (
+        <input
+          {...attributes}
+          autofocus={this.autofocus ? true : null}
+          defaultValue={this.defaultValue}
+          disabled={this.disabled ? true : null}
+          key="localized-input"
+          maxLength={this.maxLength}
+          minLength={this.minLength}
+          name={undefined}
+          onBlur={this.inputBlurHandler}
+          onFocus={this.inputFocusHandler}
+          onInput={this.inputInputHandler}
+          onKeyDown={this.inputNumberKeyDownHandler}
+          placeholder={this.placeholder || ""}
+          ref={this.setChildNumberElRef}
+          tabIndex={0}
+          type="text"
+          value={this.localizedValue}
+        />
+      ) : null;
+
     const childEl = [
       <this.childElType
         {...attributes}
@@ -297,19 +650,19 @@ export class CalciteInput {
         maxLength={this.maxLength}
         min={this.minString}
         minLength={this.minLength}
+        name={this.name}
         onBlur={this.inputBlurHandler}
         onFocus={this.inputFocusHandler}
         onInput={this.inputInputHandler}
+        onKeyDown={this.inputKeyDownHandler}
         placeholder={this.placeholder || ""}
-        ref={(el) => (this.childEl = el)}
+        ref={this.setChildElRef}
         required={this.required ? true : null}
-        step={this.stepString}
-        tabIndex={this.disabled ? -1 : null}
+        step={this.step}
+        tabIndex={this.disabled || this.type === "number" ? -1 : null}
         type={this.type}
         value={this.value}
-      >
-        {this.value}
-      </this.childElType>,
+      />,
       this.isTextarea ? (
         <div class="calcite-input-resize-icon-wrapper">
           <calcite-icon icon="chevron-down" scale="s" />
@@ -325,6 +678,7 @@ export class CalciteInput {
             : null}
           {this.prefixText ? prefixText : null}
           <div class="calcite-input-element-wrapper">
+            {localeNumberInput}
             {childEl}
             {this.isClearable ? inputClearButton : null}
             {this.requestedIcon ? iconEl : null}
@@ -344,163 +698,4 @@ export class CalciteInput {
       </Host>
     );
   }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("keydown")
-  keyDownHandler(e: KeyboardEvent): void {
-    if (this.isClearable && getKey(e.key) === "Escape") {
-      this.clearInputValue();
-      e.preventDefault();
-    }
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
-  /**
-   * @internal
-   */
-  @Event() calciteInputFocus: EventEmitter;
-
-  /**
-   * @internal
-   */
-  @Event() calciteInputBlur: EventEmitter;
-
-  /**
-   * This event fires when the value of the input changes.
-   */
-  @Event({ eventName: "calciteInputInput", cancelable: true }) calciteInputInput: EventEmitter;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  //--------------------------------------------------------------------------
-
-  /** focus the rendered child element */
-  @Method()
-  async setFocus(): Promise<void> {
-    this.childEl?.focus();
-  }
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
-
-  private form: HTMLFormElement;
-
-  /** keep track of the initial value */
-  private defaultValue: string;
-
-  /** keep track of the rendered child type */
-  private childElType?: "input" | "textarea" = "input";
-
-  /** keep track of the rendered child type */
-  private childEl?: HTMLInputElement | HTMLTextAreaElement;
-
-  /** determine if there is a slotted action for styling purposes */
-  private slottedActionEl?: HTMLSlotElement;
-
-  private minString?: string;
-
-  private maxString?: string;
-
-  private stepString?: string;
-
-  /** the computed icon to render */
-  private requestedIcon?: string;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
-
-  private reset = (): void => {
-    this.value = this.defaultValue;
-  };
-
-  private inputInputHandler = (e) => {
-    this.value = e.target.value;
-    this.emitInputFromUserInteraction();
-  };
-
-  private emitInputFromUserInteraction = () => {
-    this.calciteInputInput.emit({
-      element: this.childEl,
-      value: this.value
-    });
-  };
-
-  private inputBlurHandler = () => {
-    this.calciteInputBlur.emit({
-      element: this.childEl,
-      value: this.value
-    });
-  };
-
-  private inputFocusHandler = (e) => {
-    if (e.target !== this.slottedActionEl) {
-      this.setFocus();
-    }
-    this.calciteInputFocus.emit({
-      element: this.childEl,
-      value: this.value
-    });
-  };
-
-  private setDisabledAction(): void {
-    if (!this.slottedActionEl) {
-      return;
-    }
-    const slottedActionEl = this.slottedActionEl as HTMLElement;
-
-    this.disabled
-      ? slottedActionEl.setAttribute("disabled", "")
-      : slottedActionEl.removeAttribute("disabled");
-  }
-
-  private clearInputValue = () => {
-    this.value = "";
-    this.emitInputFromUserInteraction();
-  };
-
-  private updateNumberValue = (e) => {
-    // todo, when dropping ie11 support, refactor to use stepup/stepdown
-    // prevent blur and re-focus of input on mousedown
-    e.preventDefault();
-    if (this.childElType === "input" && this.type === "number") {
-      const inputMax = this.maxString ? parseFloat(this.maxString) : null;
-      const inputMin = this.minString ? parseFloat(this.minString) : null;
-      const inputStep = Number(this.stepString) > 0 ? parseFloat(this.stepString) : 1;
-      let inputVal = this.value && this.value !== "" ? parseFloat(this.value) : 0;
-      const decimals = this.value?.split(".")[1]?.length || 0;
-
-      switch (e.target.dataset.adjustment) {
-        case "up":
-          if ((!inputMax && inputMax !== 0) || inputVal < inputMax) {
-            this.childEl.value = (inputVal += inputStep).toFixed(decimals).toString();
-          }
-          break;
-        case "down":
-          if ((!inputMin && inputMin !== 0) || inputVal > inputMin) {
-            this.childEl.value = (inputVal -= inputStep).toFixed(decimals).toString();
-          }
-          break;
-      }
-
-      this.value = this.childEl.value.toString();
-      this.emitInputFromUserInteraction();
-    }
-  };
 }

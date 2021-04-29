@@ -25,8 +25,11 @@
     <h1>Calcite Input</h1>
 
     <form id="myForm">
-      <calcite-input type="text" value="Initial"></calcite-input>
+      <input minlength="2" maxlength="3" step="any"/>
+      <input minlength="2" maxlength="3" class="sc-calcite-input-h sc-calcite-input-s sc-calcite-input" value="" placeholder="" type="text" />
+      <calcite-input minLength="2" maxLength="3"></calcite-input>
       <input value="Initial" />
+      <button>Submit</button>
       <button type="reset">Reset</button>
     </form>
 

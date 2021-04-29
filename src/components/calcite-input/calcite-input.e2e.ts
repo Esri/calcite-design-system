@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { focusable, HYDRATED_ATTR } from "../../tests/commonTests";
+import { getDecimalSeparator, locales, localizeNumberString } from "../../utils/locale";
 
 describe("calcite-input", () => {
   it("honors form reset", async () => {
@@ -453,6 +454,50 @@ describe("calcite-input", () => {
     expect(calciteInputInput).toHaveReceivedEventTimes(1);
   });
 
+  describe("emits change event when value is committed", () => {
+    type CodeBranchingTypes = Extract<HTMLCalciteInputElement["type"], "text" | "number">;
+
+    async function assertChangeEvents(type: CodeBranchingTypes): Promise<void> {
+      const page = await newE2EPage({
+        html: `<calcite-input type="${type}"></calcite-input>`
+      });
+
+      const element = await page.find("calcite-input");
+      const calciteInputChange = await element.spyOnEvent("calciteInputChange");
+
+      const inputFirstPart = "12345";
+      await element.callMethod("setFocus");
+      await page.keyboard.type(inputFirstPart);
+      expect(await element.getProperty("value")).toBe(inputFirstPart);
+      expect(calciteInputChange).toHaveReceivedEventTimes(0);
+
+      await element.callMethod("setFocus");
+      await page.keyboard.press("Enter");
+      expect(calciteInputChange).toHaveReceivedEventTimes(1);
+
+      const textSecondPart = "67890";
+      await element.callMethod("setFocus");
+      await page.keyboard.type(textSecondPart);
+      expect(calciteInputChange).toHaveReceivedEventTimes(1);
+
+      await element.callMethod("setFocus");
+      await page.keyboard.press("Tab");
+      expect(calciteInputChange).toHaveReceivedEventTimes(2);
+      expect(await element.getProperty("value")).toBe(`${inputFirstPart}${textSecondPart}`);
+
+      const programmaticSetValue = "1337";
+      await element.setProperty("value", programmaticSetValue);
+      await page.waitForChanges();
+
+      expect(await element.getProperty("value")).toBe(programmaticSetValue);
+      expect(calciteInputChange).toHaveReceivedEventTimes(2);
+    }
+
+    it("emits when type is text", () => assertChangeEvents("text"));
+
+    it("emits when type is number", () => assertChangeEvents("number"));
+  });
+
   it("renders clear button when clearable is requested and value is populated at load", async () => {
     const page = await newE2EPage();
     await page.setContent(`
@@ -650,5 +695,172 @@ describe("calcite-input", () => {
 
     expect(await getInputValidity()).toBe(true);
     expect(await input.getProperty("value")).toBe("123");
+  });
+
+  describe("number locale support", () => {
+    const localesWithIssues = ["ar", "bs", "mk"];
+    locales
+      .filter((locale) => !localesWithIssues.includes(locale))
+      .forEach((locale) => {
+        it(`displays decimal separator on initial load for ${locale} locale`, async () => {
+          const value = "1234.56";
+          const page = await newE2EPage({
+            html: `<calcite-input locale="${locale}" type="number" value="${value}"></calcite-input>`
+          });
+          const calciteInput = await page.find("calcite-input");
+          const input = await page.find("input");
+
+          expect(await calciteInput.getProperty("value")).toBe(value);
+          expect(await input.getProperty("value")).toBe(localizeNumberString(value, locale));
+        });
+
+        it(`displays group and decimal separator on initial load for ${locale} locale using opt-in prop`, async () => {
+          const value = "1234.56";
+          const page = await newE2EPage({
+            html: `<calcite-input locale="${locale}" type="number" value="${value}" group-separator></calcite-input>`
+          });
+          const calciteInput = await page.find("calcite-input");
+          const input = await page.find("input");
+
+          expect(await calciteInput.getProperty("value")).toBe(value);
+          expect(await input.getProperty("value")).toBe(localizeNumberString(value, locale, true));
+        });
+
+        it(`allows typing valid decimal characters for ${locale} locale`, async () => {
+          const page = await newE2EPage({
+            html: `<calcite-input locale="${locale}" type="number"></calcite-input>`
+          });
+          const calciteInput = await page.find("calcite-input");
+          const input = await page.find("input");
+          const decimal = getDecimalSeparator(locale);
+          const unformattedValue = "1234.56";
+
+          await page.keyboard.press("Tab");
+          await input.type("1234");
+          await page.keyboard.sendCharacter(decimal);
+          await input.press("5");
+          await input.press("6");
+
+          expect(await calciteInput.getProperty("value")).toBe(`1234.56`);
+          expect(await input.getProperty("value")).toBe(localizeNumberString(unformattedValue, locale));
+        });
+
+        it(`displays correct formatted value when the value is changed programatically for ${locale} locale`, async () => {
+          const page = await newE2EPage({
+            html: `<calcite-input locale="${locale}" type="number"></calcite-input><input id="external" />`
+          });
+
+          await page.evaluate(() => {
+            const input = document.getElementById("external");
+            const calciteInput = document.querySelector("calcite-input");
+            input.addEventListener("input", (event: InputEvent): void => {
+              const value = (event.target as HTMLInputElement).value;
+              if (value.endsWith(".")) {
+                return;
+              }
+              calciteInput.value = value;
+            });
+          });
+
+          const assertedValue = "1234567.891011";
+          const externalInput = await page.find("#external");
+          const calciteInput = await page.find("calcite-input");
+          const internalLocaleInput = await page.find("input");
+
+          await externalInput.click();
+          await externalInput.type(assertedValue);
+          await page.waitForChanges();
+
+          expect(await calciteInput.getProperty("value")).toBe(assertedValue);
+          expect(await internalLocaleInput.getProperty("value")).toBe(localizeNumberString(assertedValue, locale));
+        });
+      });
+
+    it(`disallows setting value to "undefined" on initial load.`, async () => {
+      const page = await newE2EPage({
+        html: `<calcite-input type="number" value="undefined"></calcite-input>`
+      });
+      const calciteInput = await page.find("calcite-input");
+      const input = await page.find("input");
+
+      expect(await calciteInput.getProperty("value")).toBeFalsy();
+      expect(await input.getProperty("value")).toBeFalsy();
+    });
+
+    it(`disallows setting value to "null" on initial load.`, async () => {
+      const page = await newE2EPage({
+        html: `<calcite-input type="number" value="null"></calcite-input>`
+      });
+      const calciteInput = await page.find("calcite-input");
+      const input = await page.find("input");
+
+      expect(await calciteInput.getProperty("value")).toBeFalsy();
+      expect(await input.getProperty("value")).toBeFalsy();
+    });
+
+    it(`disallows setting text value on initial load.`, async () => {
+      const page = await newE2EPage({
+        html: `<calcite-input type="number" value="i am a text value"></calcite-input>`
+      });
+      const calciteInput = await page.find("calcite-input");
+      const input = await page.find("input");
+
+      expect(await calciteInput.getProperty("value")).toBeFalsy();
+      expect(await input.getProperty("value")).toBeFalsy();
+    });
+
+    it(`allows setting value to undefined after initial load.`, async () => {
+      const initialValue = "1234";
+      const page = await newE2EPage({
+        html: `<calcite-input type="number" value="${initialValue}"></calcite-input>`
+      });
+      const calciteInput = await page.find("calcite-input");
+      const input = await page.find("input");
+
+      expect(await calciteInput.getProperty("value")).toBe(initialValue);
+      expect(await input.getProperty("value")).toBe(initialValue);
+
+      calciteInput.setProperty("value", undefined);
+      await page.waitForChanges();
+
+      expect(await calciteInput.getProperty("value")).toBeFalsy();
+      expect(await input.getProperty("value")).toBeFalsy();
+    });
+
+    it(`allows setting value to null after initial load.`, async () => {
+      const initialValue = "1234";
+      const page = await newE2EPage({
+        html: `<calcite-input type="number" value="${initialValue}"></calcite-input>`
+      });
+      const calciteInput = await page.find("calcite-input");
+      const input = await page.find("input");
+
+      expect(await calciteInput.getProperty("value")).toBe(initialValue);
+      expect(await input.getProperty("value")).toBe(initialValue);
+
+      calciteInput.setProperty("value", null);
+      await page.waitForChanges();
+
+      expect(await calciteInput.getProperty("value")).toBeFalsy();
+      expect(await input.getProperty("value")).toBeFalsy();
+    });
+
+    it(`disallows setting text value after initial load.`, async () => {
+      const initialValue = "1234";
+      const page = await newE2EPage({
+        html: `<calcite-input type="number" value="${initialValue}"></calcite-input>`
+      });
+      const calciteInput = await page.find("calcite-input");
+      const input = await page.find("input");
+
+      expect(await calciteInput.getProperty("value")).toBe(initialValue);
+      expect(await input.getProperty("value")).toBe(initialValue);
+
+      calciteInput.setProperty("value", "i am a text value");
+      await page.waitForChanges();
+
+      expect(await calciteInput.getProperty("value")).toBe(initialValue);
+      expect(await input.getProperty("value")).toBe(initialValue);
+    });
   });
 });

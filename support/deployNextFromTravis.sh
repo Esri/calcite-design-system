@@ -24,19 +24,22 @@ function mostRecentTag {
   echo $( git describe --tags --abbrev=0 $1)
 }
 
-echo "Determining build deployability 🔍"
+echo "Determining @next deployability 🔍"
 
 if [ ! $( deployable $( mostRecentTag HEAD ) ) ]
 then
   echo "No changes since the previous release, skipping ⛔"
 else
+  echo "Building deployable candidate ⚙️"
+  npm run build >/dev/null
+
   git checkout master --quiet && git fetch --quiet >> .npmrc 2> /dev/null
 
   if [ $( latestCommit master ) != $( latestCommit origin/master) ] && [ $( deployable master origin/master) ]
   then
-    echo "Deployment build is outdated, aborting ⛔️"
+    echo "There is a more recent deployable install, aborting ⛔️"
   else
-    echo "Deploying @next from existing build 🚧"
+    echo "Deploying @next 🚧"
 
     if \
       { echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> .npmrc 2> /dev/null ; } && \

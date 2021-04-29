@@ -55,6 +55,12 @@ Renders a panel with an action bar.
 |                | A slot for adding content to the shell panel.          |
 | `"action-bar"` | A slot for adding a `calcite-action-bar` to the panel. |
 
+## Utility class
+
+| Class                  | Description                                                                                  |
+| ---------------------- | -------------------------------------------------------------------------------------------- |
+| `calcite-match-height` | Provides correct height and scrolling behavior for non-Calcite elements in the generic slot. |
+
 ---
 
 _Built with [StencilJS](https://stenciljs.com/)_

@@ -20,7 +20,12 @@ import { HeadingLevel } from "../functional/CalciteHeading";
 import { getKey } from "../../utils/key";
 import { TEXT } from "../calcite-date-picker/calcite-date-picker-resources";
 
-import { createPopper, updatePopper, CSS as PopperCSS } from "../../utils/popper";
+import {
+  createPopper,
+  updatePopper,
+  CSS as PopperCSS,
+  OverlayPositioning
+} from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { DateRangeChange } from "../calcite-date-picker/interfaces";
 
@@ -101,6 +106,9 @@ export class CalciteInputDatePicker {
 
   /** Selected end date */
   @Prop() end?: string;
+
+  /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
+  @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
   /** Disables the default behaviour on the third click of narrowing or extending the range and instead starts a new range. */
   @Prop() proximitySelectionDisabled?: boolean = false;
@@ -215,9 +223,14 @@ export class CalciteInputDatePicker {
     const dir = getElementDir(this.el);
 
     return (
-      <Host dir={dir} onBlur={this.deactivate} onKeyUp={this.keyUpHandler} role="application">
+      <Host onBlur={this.deactivate} onKeyUp={this.keyUpHandler} role="application">
         {this.localeData && (
-          <div aria-expanded={this.active.toString()} class="input-container" role="application">
+          <div
+            aria-expanded={this.active.toString()}
+            class="input-container"
+            dir={dir}
+            role="application"
+          >
             {
               <div class="input-wrapper" ref={this.setStartWrapper}>
                 <calcite-input
@@ -252,7 +265,6 @@ export class CalciteInputDatePicker {
               >
                 <calcite-date-picker
                   activeRange={this.focusedInput}
-                  dir={dir}
                   endAsDate={this.endAsDate}
                   headingLevel={this.headingLevel}
                   intlNextMonth={this.intlNextMonth}
@@ -416,7 +428,7 @@ export class CalciteInputDatePicker {
 
   createPopper(): void {
     this.destroyPopper();
-    const { menuEl, referenceEl } = this;
+    const { menuEl, referenceEl, overlayPositioning } = this;
 
     if (!menuEl || !referenceEl) {
       return;
@@ -427,6 +439,7 @@ export class CalciteInputDatePicker {
     this.popper = createPopper({
       el: menuEl,
       modifiers,
+      overlayPositioning,
       placement: DEFAULT_PLACEMENT,
       referenceEl
     });

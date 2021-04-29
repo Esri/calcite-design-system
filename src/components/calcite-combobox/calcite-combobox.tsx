@@ -17,7 +17,12 @@ import { filter } from "../../utils/filter";
 import { getElementDir } from "../../utils/dom";
 import { debounce } from "lodash-es";
 import { getKey } from "../../utils/key";
-import { createPopper, updatePopper, CSS as PopperCSS } from "../../utils/popper";
+import {
+  createPopper,
+  updatePopper,
+  CSS as PopperCSS,
+  OverlayPositioning
+} from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import { Scale, Theme } from "../interfaces";
@@ -102,6 +107,9 @@ export class CalciteCombobox {
 
   /** Allow entry of custom values which are not in the original set of items */
   @Prop() allowCustomValues: boolean;
+
+  /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
+  @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
   /** specify the selection mode
    * - multi: allow any number of selected items (default)
@@ -409,12 +417,13 @@ export class CalciteCombobox {
 
   createPopper(): void {
     this.destroyPopper();
-    const { menuEl, referenceEl } = this;
+    const { menuEl, referenceEl, overlayPositioning } = this;
     const modifiers = this.getModifiers();
 
     this.popper = createPopper({
       el: menuEl,
       modifiers,
+      overlayPositioning,
       placement: ComboboxDefaultPlacement,
       referenceEl
     });

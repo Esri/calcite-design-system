@@ -355,32 +355,34 @@ export class CalciteRadioButton {
     const value = this.value?.toString();
 
     return (
-      <Host labeled={!!this.el.textContent}>
-        <input
-          aria-label={value || this.guid}
-          checked={this.checked}
-          disabled={this.disabled}
-          hidden={this.hidden}
-          id={`${this.guid}-input`}
-          name={this.name}
-          onBlur={this.onInputBlur}
-          onFocus={this.onInputFocus}
-          ref={this.setInputEl}
-          required={this.required}
-          type="radio"
-          value={value}
-        />
-        <calcite-radio
-          checked={this.checked}
-          disabled={this.disabled}
-          focused={this.focused}
-          hidden={this.hidden}
-          hovered={this.hovered}
-          ref={(el) => (this.radio = el)}
-          scale={this.scale}
-          theme={this.theme}
-        />
-        {this.renderLabel()}
+      <Host>
+        <div class={{ container: true, "container--labeled": !!this.el.textContent }}>
+          <input
+            aria-label={value || this.guid}
+            checked={this.checked}
+            disabled={this.disabled}
+            hidden={this.hidden}
+            id={`${this.guid}-input`}
+            name={this.name}
+            onBlur={this.onInputBlur}
+            onFocus={this.onInputFocus}
+            ref={this.setInputEl}
+            required={this.required}
+            type="radio"
+            value={value}
+          />
+          <calcite-radio
+            checked={this.checked}
+            disabled={this.disabled}
+            focused={this.focused}
+            hidden={this.hidden}
+            hovered={this.hovered}
+            ref={(el) => (this.radio = el)}
+            scale={this.scale}
+            theme={this.theme}
+          />
+          {this.renderLabel()}
+        </div>
       </Host>
     );
   }

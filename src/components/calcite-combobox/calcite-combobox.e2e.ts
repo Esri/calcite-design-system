@@ -1,9 +1,16 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { renders, hidden, accessible } from "../../tests/commonTests";
+import { renders, hidden, accessible, defaults } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 
 describe("calcite-combobox", () => {
   it("renders", async () => renders("calcite-combobox"));
+  it("defaults", async () =>
+    defaults("calcite-combobox", [
+      {
+        propertyName: "overlayPositioning",
+        defaultValue: "absolute"
+      }
+    ]));
   it("honors hidden attribute", async () => hidden("calcite-combobox"));
   it("is accessible", async () =>
     accessible(`

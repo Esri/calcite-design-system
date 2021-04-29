@@ -471,6 +471,8 @@ As a best practice we should follow [Ionic's configuration](https://github.com/i
 
 **Note:** This is highly likely to change as we move closer to our first release and as Stencil improves their documentation around their specific methods and build processes.
 
+Each root component should have a corresponding bundle entry in `stencil.config.ts`. It is important that the root component be listed first (the `util:build-custom-elements-output-utils` NPM script depends on this).
+
 ## Unique IDs for Components
 
 Many times it is necessary for components to have a `id="something"` attribute for things like `<label>` and various `aria-*` properties. To safely generate a unique id for a component but to also allow a user supplied `id` attribute to work follow the following pattern:

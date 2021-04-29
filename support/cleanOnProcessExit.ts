@@ -1,4 +1,6 @@
 const rimraf = require("rimraf");
+const { argv } = require("yargs");
+const { resolve } = require("path");
 
 // 👇 based on https://stackoverflow.com/a/14032965
 
@@ -12,9 +14,11 @@ interface ExitOptions {
   exit: boolean;
 }
 
+const { path } = argv;
+
 const exitHandler = (options: CleanupOptions | ExitOptions): void => {
   if ("cleanup" in options) {
-    rimraf.sync(`${__dirname}/../__docs-temp__`);
+    rimraf.sync(resolve(`${process.cwd()}/${path}`));
   }
   if ("exit" in options) {
     process.exit();

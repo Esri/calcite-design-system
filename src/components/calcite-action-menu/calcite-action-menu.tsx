@@ -15,9 +15,10 @@ import { CSS, ICONS, SLOTS } from "./resources";
 import { focusElement, getSlotted } from "../../utils/dom";
 import { forceUpdate, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
-import { PopperPlacement } from "../../utils/popper";
+import { PopperPlacement, OverlayPositioning } from "../../utils/popper";
 import { Placement } from "@popperjs/core";
 import { guid } from "../../utils/guid";
+import { Scale } from "../interfaces";
 
 const SUPPORTED_BUTTON_NAV_KEYS = ["ArrowUp", "ArrowDown"];
 const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
@@ -86,10 +87,18 @@ export class CalciteActionMenu {
     this.calciteActionMenuOpenChange.emit(open);
   }
 
+  /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
+  @Prop() overlayPositioning: OverlayPositioning = "absolute";
+
   /**
    * Determines where the component will be positioned relative to the referenceElement.
    */
   @Prop({ reflect: true }) placement: PopperPlacement = "auto";
+
+  /**
+   * Specifies the size of the action.
+   */
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   // --------------------------------------------------------------------------
   //
@@ -162,7 +171,7 @@ export class CalciteActionMenu {
   // --------------------------------------------------------------------------
 
   renderMenuButton(): VNode {
-    const { el, menuButtonId, menuId, open, label, expanded } = this;
+    const { el, menuButtonId, menuId, open, label, expanded, scale } = this;
 
     const actionNode = (
       <calcite-action
@@ -178,6 +187,7 @@ export class CalciteActionMenu {
         onKeyDown={this.menuButtonKeyDown}
         onKeyUp={this.menuButtonKeyUp}
         ref={this.setMenuButtonRef}
+        scale={scale}
         text={label}
         textEnabled={expanded}
       />
@@ -199,7 +209,8 @@ export class CalciteActionMenu {
       menuId,
       menuButtonEl,
       label,
-      placement
+      placement,
+      overlayPositioning
     } = this;
 
     const activeAction = actionElements[activeMenuItemIndex];
@@ -209,6 +220,7 @@ export class CalciteActionMenu {
       <calcite-popover
         label={label}
         open={open}
+        overlayPositioning={overlayPositioning}
         placement={placement}
         referenceElement={menuButtonEl}
       >
