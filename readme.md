@@ -10,35 +10,26 @@ All of the Calcite Components are available in the [calcite-sketch-library](http
 
 ## Installation
 
-```
-npm install --save @esri/calcite-components
-```
-
-### Script tag
-
-Calcite components can be loaded via two `<script>` tags in the head of your HTML document:
+The simplest way to set up the components in your project is to add the following tags in the head of your HTML document:
 
 ```html
 <script type="module" src="https://unpkg.com/@esri/calcite-components/dist/calcite/calcite.esm.js"></script>
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/@esri/calcite-components/dist/calcite/calcite.css" />
 ```
 
-Browsers that support modules will load the first, while older browsers will load the second, bundled version.
+Once these tags are added, components can be used just like any other HTML element. Only components that are actually used will be loaded.
 
-Once these script tags are added, components can be used just like any other HTML element. Only components that are actually used will be loaded.
+You can also install the components locally with NPM and update the script URLs to reference same files under `node_modules`.
 
-### Styles
-
-You will also need to explicitly load the `calcite.css` file:
-
-```html
-<link rel="stylesheet" type="text/css" href="https://unpkg.com/@esri/calcite-components/dist/calcite/calcite.css" />
+```
+npm install --save @esri/calcite-components
 ```
 
 ### Webpack
 
 If you already have a webpack build for your project, you can use [@stencil/webpack](https://github.com/ionic-team/stencil-webpack) to add calcite-components to your bundle.
 
-After installing calcite-components, install the plugin as a dev dependency:
+After installing `calcite-components`, install the plugin as a dev dependency:
 
 ```bash
 npm install --save-dev @stencil/webpack
