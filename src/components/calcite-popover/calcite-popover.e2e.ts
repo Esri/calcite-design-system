@@ -195,7 +195,7 @@ describe("calcite-popover", () => {
     expect(await popover.isVisible()).toBe(true);
   });
 
-  it("should emit close event", async () => {
+  it("should emit open event", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
@@ -217,7 +217,7 @@ describe("calcite-popover", () => {
     expect(event).toHaveReceivedEventTimes(1);
   });
 
-  it("should emit open event", async () => {
+  it("should emit close event", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
