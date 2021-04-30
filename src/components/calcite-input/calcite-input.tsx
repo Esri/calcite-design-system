@@ -26,7 +26,7 @@ import {
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 import { hiddenInputStyle } from "../../utils/form";
-import { isValidNumber } from "../../utils/number";
+import { isValidNumber, parseNumberString } from "../../utils/number";
 
 type NumberNudgeDirection = "up" | "down";
 
@@ -398,11 +398,12 @@ export class CalciteInput {
 
   private inputNumberInputHandler = (nativeEvent: InputEvent): void => {
     const value = (nativeEvent.target as HTMLInputElement).value;
-    const newValue = delocalizeNumberString(value, this.locale);
-    if (nativeEvent.inputType === "insertFromPaste" && !isValidNumber(newValue)) {
-      nativeEvent.preventDefault();
-      this.setLocalizedValue(this.value);
-      // have to set this even though the controlled value prop is updated.  Stencil bug?
+    const delocalizedValue = delocalizeNumberString(value, this.locale);
+    if (nativeEvent.inputType === "insertFromPaste") {
+      if (!isValidNumber(delocalizedValue)) {
+        nativeEvent.preventDefault();
+      }
+      this.setValue(parseNumberString(delocalizedValue), nativeEvent);
       this.childNumberEl.value = this.localizedValue;
     } else {
       this.setValue(delocalizeNumberString(value, this.locale), nativeEvent);
