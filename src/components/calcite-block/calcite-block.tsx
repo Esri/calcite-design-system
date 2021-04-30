@@ -162,7 +162,7 @@ export class CalciteBlock {
       </header>
     );
 
-    const hasControl = getSlotted(el, SLOTS.control);
+    const hasControl = !!getSlotted(el, SLOTS.control);
     const collapseIcon = open ? TOGGLE_ICON.opened : TOGGLE_ICON.closed;
 
     const headerNode = (
@@ -177,7 +177,14 @@ export class CalciteBlock {
             title={toggleLabel}
           >
             {headerContent}
-            <calcite-icon icon={collapseIcon} scale="s" class={CSS.toggleIcon} aria-hidden="true" />
+            {!hasControl ? (
+              <calcite-icon
+                icon={collapseIcon}
+                scale="s"
+                class={CSS.toggleIcon}
+                aria-hidden="true"
+              />
+            ) : null}
           </button>
         ) : (
           headerContent
