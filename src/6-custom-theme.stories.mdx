@@ -95,14 +95,14 @@ export const Template = () =>
         </calcite-accordion>
         <calcite-notice color="red" scale="s" active>
           <div slot="title">Something failed</div>
-          <div slot="notice-message">
+          <div slot="message">
             There was an error while performing the task.
           </div>
-          <calcite-link slot="notice-link" title="my action">Retry</calcite-link>
+          <calcite-link slot="link" title="my action">Retry</calcite-link>
         </calcite-notice>
         <calcite-notice icon color="green" scale="s" active dismissible>
           <div slot="title">Something worked</div>
-          <div slot="notice-message">
+          <div slot="message">
             That thing you wanted to do worked as expected
           </div>
         </calcite-notice>

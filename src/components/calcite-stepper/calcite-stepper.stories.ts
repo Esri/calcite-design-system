@@ -26,7 +26,7 @@ export const Simple = (): string => html`
       item-subtitle="${text("item-1-subtitle", "Add members without sending invitations")}"
       complete
     >
-      <calcite-notice active width="full"><div slot="notice-message">Step 1 Content Goes Here</div></calcite-notice>
+      <calcite-notice active width="full"><div slot="message">Step 1 Content Goes Here</div></calcite-notice>
     </calcite-stepper-item>
     <calcite-stepper-item
       item-title="${text("item-2-title", "Compile member list")}"
@@ -34,21 +34,21 @@ export const Simple = (): string => html`
       complete
       error
     >
-      <calcite-notice active width="full"><div slot="notice-message">Step 2 Content Goes Here</div></calcite-notice>
+      <calcite-notice active width="full"><div slot="message">Step 2 Content Goes Here</div></calcite-notice>
     </calcite-stepper-item>
     <calcite-stepper-item
       item-title="${text("item-3-title", "Set member properties")}"
       item-subtitle="${text("item-3-subtitle", "")}"
       active
     >
-      <calcite-notice active width="full"><div slot="notice-message">Step 3 Content Goes Here</div></calcite-notice>
+      <calcite-notice active width="full"><div slot="message">Step 3 Content Goes Here</div></calcite-notice>
     </calcite-stepper-item>
     <calcite-stepper-item
       item-title="${text("item-4-title", "Confirm and complete")}"
       item-subtitle="${text("item-4-subtitle", "Disabled example")}"
       disabled
     >
-      <calcite-notice active width="full"><div slot="notice-message">Step 4 Content Goes Here</div></calcite-notice>
+      <calcite-notice active width="full"><div slot="message">Step 4 Content Goes Here</div></calcite-notice>
     </calcite-stepper-item>
   </calcite-stepper>
 `;
@@ -107,7 +107,7 @@ export const DarkMode = (): string => html`
       item-subtitle="${text("item-1-subtitle", "Add members without sending invitations")}"
       complete
     >
-      <calcite-notice active width="full"><div slot="notice-message">Step 1 Content Goes Here</div></calcite-notice>
+      <calcite-notice active width="full"><div slot=message">Step 1 Content Goes Here</div></calcite-notice>
     </calcite-stepper-item>
     <calcite-stepper-item
       item-title="${text("item-2-title", "Compile member list")}"
@@ -115,21 +115,21 @@ export const DarkMode = (): string => html`
       complete
       error
     >
-      <calcite-notice active width="full"><div slot="notice-message">Step 2 Content Goes Here</div></calcite-notice>
+      <calcite-notice active width="full"><div slot="message">Step 2 Content Goes Here</div></calcite-notice>
     </calcite-stepper-item>
     <calcite-stepper-item
       item-title="${text("item-3-title", "Set member properties")}"
       item-subtitle="${text("item-3-subtitle", "")}"
       active
     >
-      <calcite-notice active width="full"><div slot="notice-message">Step 3 Content Goes Here</div></calcite-notice>
+      <calcite-notice active width="full"><div slot="message">Step 3 Content Goes Here</div></calcite-notice>
     </calcite-stepper-item>
     <calcite-stepper-item
       item-title="${text("item-4-title", "Confirm and complete")}"
       item-subtitle="${text("item-4-subtitle", "Disabled example")}"
       disabled
     >
-      <calcite-notice active width="full"><div slot="notice-message">Step 4 Content Goes Here</div></calcite-notice>
+      <calcite-notice active width="full"><div slot="message">Step 4 Content Goes Here</div></calcite-notice>
     </calcite-stepper-item>
   </calcite-stepper>
 `;
@@ -150,7 +150,7 @@ export const Rtl = (): string => html`
         item-subtitle="${text("item-1-subtitle", "Add members without sending invitations")}"
         complete
       >
-        <calcite-notice active width="full"><div slot="notice-message">Step 1 Content Goes Here</div></calcite-notice>
+        <calcite-notice active width="full"><div slot="message">Step 1 Content Goes Here</div></calcite-notice>
       </calcite-stepper-item>
       <calcite-stepper-item
         item-title="${text("item-2-title", "Compile member list")}"
@@ -158,21 +158,21 @@ export const Rtl = (): string => html`
         complete
         error
       >
-        <calcite-notice active width="full"><div slot="notice-message">Step 2 Content Goes Here</div></calcite-notice>
+        <calcite-notice active width="full"><div slot="message">Step 2 Content Goes Here</div></calcite-notice>
       </calcite-stepper-item>
       <calcite-stepper-item
         item-title="${text("item-3-title", "Set member properties")}"
         item-subtitle="${text("item-3-subtitle", "")}"
         active
       >
-        <calcite-notice active width="full"><div slot="notice-message">Step 3 Content Goes Here</div></calcite-notice>
+        <calcite-notice active width="full"><div slot="message">Step 3 Content Goes Here</div></calcite-notice>
       </calcite-stepper-item>
       <calcite-stepper-item
         item-title="${text("item-4-title", "Confirm and complete")}"
         item-subtitle="${text("item-4-subtitle", "Disabled example")}"
         disabled
       >
-        <calcite-notice active width="full"><div slot="notice-message">Step 4 Content Goes Here</div></calcite-notice>
+        <calcite-notice active width="full"><div slot="message">Step 4 Content Goes Here</div></calcite-notice>
       </calcite-stepper-item>
     </calcite-stepper>
   </div>
