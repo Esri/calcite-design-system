@@ -138,27 +138,32 @@ export class CalciteAlert {
 
     return (
       <Host
-        active={active}
         aria-hidden={hidden.toString()}
         aria-label={this.label}
         calcite-hydrated-hidden={hidden}
         dir={dir}
-        queued={this.queued}
         role={role}
       >
-        {this.requestedIcon ? (
-          <div class="alert-icon">
-            <calcite-icon icon={this.requestedIcon} scale="m" />
+        <div
+          class={{
+            container: true,
+            queued: this.queued
+          }}
+        >
+          {this.requestedIcon ? (
+            <div class="alert-icon">
+              <calcite-icon icon={this.requestedIcon} scale="m" />
+            </div>
+          ) : null}
+          <div class="alert-content">
+            <slot name="alert-title" />
+            <slot name="alert-message" />
+            <slot name="alert-link" />
           </div>
-        ) : null}
-        <div class="alert-content">
-          <slot name="alert-title" />
-          <slot name="alert-message" />
-          <slot name="alert-link" />
+          {queueCount}
+          {!this.autoDismiss ? closeButton : null}
+          {this.active && !this.queued && this.autoDismiss ? progress : null}
         </div>
-        {queueCount}
-        {!this.autoDismiss ? closeButton : null}
-        {this.active && !this.queued && this.autoDismiss ? progress : null}
       </Host>
     );
   }

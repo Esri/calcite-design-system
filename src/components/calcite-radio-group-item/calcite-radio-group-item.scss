@@ -1,16 +1,16 @@
 :host {
-  @apply flex 
-    self-stretch 
+  @apply flex
+    self-stretch
     cursor-pointer;
   transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out;
 }
 
 :host label {
-  @apply flex 
+  @apply flex
     flex-1
-    text-color-3 
+    text-color-3
     box-border
-    pointer-events-none 
+    pointer-events-none
     items-center;
   transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out;
   margin: 2px;
@@ -30,19 +30,19 @@
 }
 
 //FIXME: These sizes/spacing scales need to be reworked in a separate issue
-:host([scale="s"]) label {
+[data-scale="s"] label {
   @apply text--2h px-2;
   padding-top: 0.125rem;
   padding-bottom: 0.125rem;
 }
 
-:host([scale="m"]) label {
+[data-scale="m"] label {
   @apply text--1h px-3;
   padding-top: 0.375rem;
   padding-bottom: 0.375rem;
 }
 
-:host([scale="l"]) label {
+[data-scale="l"] label {
   @apply text-1h px-4;
   padding-top: 0.625rem;
   padding-bottom: 0.625rem;
@@ -73,7 +73,7 @@
 
 // icon
 .radio-group-item-icon {
-  @apply inline-flex 
+  @apply inline-flex
     relative
     m-0
     transition-default;

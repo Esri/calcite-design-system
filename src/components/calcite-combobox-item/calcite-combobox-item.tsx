@@ -16,6 +16,7 @@ import { CSS } from "./resources";
 import { guid } from "../../utils/guid";
 import { ComboboxChildElement } from "../calcite-combobox/interfaces";
 import { getAncestors, getDepth } from "../calcite-combobox/utils";
+import { Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-combobox-item",
@@ -52,6 +53,9 @@ export class CalciteComboboxItem {
     this.isSelected = newValue;
   }
 
+  /** The component's scale */
+  @Prop({ reflect: true }) scale: Scale = "m";
+
   /** The main label for this item. */
   @Prop({ reflect: true }) textLabel!: string;
 
@@ -75,8 +79,6 @@ export class CalciteComboboxItem {
 
   hasDefaultSlot: boolean;
 
-  comboboxItemEl: HTMLElement;
-
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -86,6 +88,7 @@ export class CalciteComboboxItem {
   componentWillLoad(): void {
     this.ancestors = getAncestors(this.el);
     this.hasDefaultSlot = this.el.querySelector(":not([slot])") !== null;
+    this.scale = getElementProp(this.el, "scale", this.scale);
   }
 
   // --------------------------------------------------------------------------
@@ -186,23 +189,17 @@ export class CalciteComboboxItem {
       [CSS.active]: this.active,
       [CSS.single]: isSingleSelect
     };
-    const scale = getElementProp(this.el, "scale", "m");
-
     const dir = getElementDir(this.el);
 
     return (
-      <Host aria-hidden dir={dir} disabled={this.disabled} scale={scale} tabIndex={-1}>
-        <li
-          class={classes}
-          id={this.guid}
-          onClick={this.itemClickHandler}
-          ref={(el) => (this.comboboxItemEl = el as HTMLElement)}
-          tabIndex={-1}
-        >
-          {this.renderIcon(scale, isSingleSelect)}
-          <span class={CSS.title}>{this.textLabel}</span>
-        </li>
-        {this.renderChildren()}
+      <Host aria-hidden="true" dir={dir}>
+        <div data-scale={this.scale}>
+          <li class={classes} id={this.guid} onClick={this.itemClickHandler} tabIndex={-1}>
+            {this.renderIcon(this.scale, isSingleSelect)}
+            <span class={CSS.title}>{this.textLabel}</span>
+          </li>
+          {this.renderChildren()}
+        </div>
       </Host>
     );
   }
