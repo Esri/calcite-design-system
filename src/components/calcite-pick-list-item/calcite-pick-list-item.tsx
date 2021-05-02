@@ -105,7 +105,7 @@ export class CalcitePickListItem {
   /**
    * The item's associated value.
    */
-  @Prop() value!: string;
+  @Prop() value!: any;
 
   @Watch("value")
   valueWatchHandler(newValue: any, oldValue: any): void {
