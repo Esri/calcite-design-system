@@ -16,6 +16,7 @@ import { CSS } from "./resources";
 import { guid } from "../../utils/guid";
 import { ComboboxChildElement } from "../calcite-combobox/interfaces";
 import { getAncestors, getDepth } from "../calcite-combobox/utils";
+import { CSS_UTILITY } from "../../utils/resources";
 
 @Component({
   tag: "calcite-combobox-item",
@@ -180,7 +181,9 @@ export class CalciteComboboxItem {
 
   render(): VNode {
     const isSingleSelect = getElementProp(this.el, "selection-mode", "multi") === "single";
+    const dir = getElementDir(this.el);
     const classes = {
+      [CSS_UTILITY.rtl]: dir === "rtl",
       [CSS.label]: true,
       [CSS.selected]: this.isSelected,
       [CSS.active]: this.active,
@@ -188,10 +191,8 @@ export class CalciteComboboxItem {
     };
     const scale = getElementProp(this.el, "scale", "m");
 
-    const dir = getElementDir(this.el);
-
     return (
-      <Host aria-hidden dir={dir} disabled={this.disabled} scale={scale} tabIndex={-1}>
+      <Host aria-hidden disabled={this.disabled} scale={scale} tabIndex={-1}>
         <li
           class={classes}
           id={this.guid}

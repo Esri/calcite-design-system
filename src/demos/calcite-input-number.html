@@ -42,9 +42,12 @@
     <h2>Locales</h2>
     <form name="demo-form">
       <demo-spacer>
-        <input type="number" name="native">
-        <calcite-input type="number" name="test"></calcite-input>
-      <!-- <button id="undefined" type="button">Set to undefined</button>
+        <input type="number" name="native" placeholder="native number input">
+        <calcite-input type="number" name="default" placeholder="default locale number input"></calcite-input>
+        <calcite-input type="number" name="default-group" placeholder="default locale number input with group" group-separator></calcite-input>
+        <calcite-input type="number" name="french" locale="fr" placeholder="french number input"></calcite-input>
+        <calcite-input type="number" name="french-group" locale="fr" group-separator placeholder="french number input with group separator"></calcite-input>
+      <button id="undefined" type="button">Set to undefined</button>
       <button id="undefined-string" type="button">Set to "undefined"</button>
       <button id="null" type="button">Set to null</button>
       <calcite-input type="number" name="set-to-undefined" placeholder="set to undefined"></calcite-input>
@@ -55,14 +58,14 @@
       <calcite-input type="number" locale="fr" name="french-novalue" step="1"></calcite-input>
         <button type="submit">Submit</button>
         <button type="reset">Reset</button>
-        <div id="locales"></div> -->
+        <div id="locales"></div>
         <button type="submit">Submit</button>
         <button type="reset">Reset</button>
       </demo-spacer>
     </form>
   </demo-form>
 
-  <!-- <script>
+  <script>
     const localeDemoContainer = document.getElementById("locales");
     locales.forEach((locale) => {
 
@@ -126,7 +129,7 @@
       console.log("null", undefinedInput.value);
     });
     undefined
-  </script> -->
+  </script>
 </body>
 
 </html>

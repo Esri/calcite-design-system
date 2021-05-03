@@ -27,6 +27,7 @@ import {
 import { numberKeys } from "../../utils/key";
 import { hiddenInputStyle } from "../../utils/form";
 import { isValidNumber, parseNumberString } from "../../utils/number";
+import { CSS_UTILITY } from "../../utils/resources";
 
 type NumberNudgeDirection = "up" | "down";
 
@@ -661,6 +662,7 @@ export class CalciteInput {
         maxLength={this.maxLength}
         min={this.minString}
         minLength={this.minLength}
+        name={this.name}
         onBlur={this.inputBlurHandler}
         onFocus={this.inputFocusHandler}
         onInput={this.inputInputHandler}
@@ -681,8 +683,8 @@ export class CalciteInput {
     ];
 
     return (
-      <Host dir={dir} onClick={this.inputFocusHandler}>
-        <div class="calcite-input-wrapper">
+      <Host onClick={this.inputFocusHandler}>
+        <div class={{ "calcite-input-wrapper": true, [CSS_UTILITY.rtl]: dir === "rtl" }} dir={dir}>
           {this.type === "number" && this.numberButtonType === "horizontal"
             ? numberButtonsHorizontalDown
             : null}

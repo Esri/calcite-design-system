@@ -199,7 +199,7 @@ export class CalciteValueListItem {
 
   render(): VNode {
     return (
-      <Host data-id={this.guid}>
+      <Host id={this.el.id || this.guid}>
         {this.renderHandle()}
         <calcite-pick-list-item
           description={this.description}

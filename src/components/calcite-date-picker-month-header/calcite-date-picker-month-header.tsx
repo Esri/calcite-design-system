@@ -107,8 +107,8 @@ export class CalciteDatePickerMonthHeader {
     const reverse = order.indexOf("y") < order.indexOf("m");
     const suffix = this.localeData.year?.suffix;
     return (
-      <Host dir={dir}>
-        <div class="header">
+      <Host>
+        <div class="header" dir={dir}>
           <a
             aria-disabled={(this.prevMonthDate.getMonth() === activeMonth).toString()}
             aria-label={this.intlPrevMonth}
