@@ -2,46 +2,35 @@
 
 ## Installation
 
+The simplest way to set up the components in your project is to add the following tags in the head of your HTML document:
+
+```html
+<script type="module" src="https://unpkg.com/@esri/calcite-components/dist/calcite/calcite.esm.js"></script>
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/@esri/calcite-components/dist/calcite/calcite.css" />
+```
+
+Once these tags are added, components can be used just like any other HTML element. Only components that are actually used will be loaded.
+
+You can also install the components locally with NPM and update the script URLs to reference same files under `node_modules`.
+
 ```
 npm install --save @esri/calcite-components
 ```
 
-This will load all the dependencies for the project.
-
-### Script tag
-
-`calcite-components` can be loaded via two `<script>` tags in the head of your HTML document:
-
-```html
-<script type="module" src="<path-to-calcite-components-package>/dist/calcite/calcite.esm.js"></script>
-<script nomodule="" src="<path-to-calcite-components-package>/dist/calcite/calcite.js"></script>
-```
-
-Browsers that support modules will load the first, while older browsers will load the second, bundled version. It's worth noting that only components that are actually used will be loaded.
-
-You will also need to add a `<link>` tag for the shared component styles:
-
-```html
-<link rel="stylesheet" href="<path-to-calcite-components-package>/dist/calcite/calcite.css" />
-```
-
-Once these tags are added, components can be used just like any other HTML element.
-
 ### Webpack
 
-If you already have a webpack build for your project, you can simply use [@stencil/webpack](https://github.com/ionic-team/stencil-webpack) to add `calcite-components` to your bundle.
+If you already have a webpack build for your project, you can use [@stencil/webpack](https://github.com/ionic-team/stencil-webpack) to add calcite-components to your bundle.
 
 After installing `calcite-components`, install the plugin as a dev dependency:
 
-```
+```bash
 npm install --save-dev @stencil/webpack
 ```
 
-Then import and add the plugin in `webpack.config.js`:
+Then import and call the plugin in `webpack.config.js`:
 
-```
+```js
 const stencil = require('@stencil/webpack');
-
 module.exports = {
   ...
   plugins: [
@@ -52,11 +41,11 @@ module.exports = {
 
 Lastly, add the import in your main bundle js (or ts) file:
 
-```
-import '@esri/calcite-components/dist/calcite.js';
+```js
+import "@esri/calcite-components/dist/calcite.js";
 ```
 
-This will add the initial Stencil loader to your bundle, and copy over the actual component code to the output directory you've configured for Webpack. Components will still be lazy-loaded as they are needed. _Note:_ you must use the `.js` file path for the Webpack plugin to work correctly, even if your bundle file is a TypeScript file.
+This will add the initial stencil loader to your bundle, and copy over the actual component code to the output directory you've configured for Webpack. Components will still be lazy-loaded as they are needed. _Note:_ you must use the `.js` file path for the Webpack plugin to work correctly, even if your bundle file is a TypeScript file.
 
 ## TypeScript
 

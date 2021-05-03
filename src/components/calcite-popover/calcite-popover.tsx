@@ -17,7 +17,8 @@ import {
   defaultOffsetDistance,
   createPopper,
   updatePopper,
-  CSS as PopperCSS
+  CSS as PopperCSS,
+  OverlayPositioning
 } from "../../utils/popper";
 import { StrictModifiers, Placement, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
@@ -101,6 +102,9 @@ export class CalcitePopover {
       this.calcitePopoverClose.emit();
     }
   }
+
+  /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
+  @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * Determines where the component will be positioned relative to the referenceElement.
@@ -313,12 +317,13 @@ export class CalcitePopover {
 
   createPopper(): void {
     this.destroyPopper();
-    const { el, placement, _referenceElement: referenceEl } = this;
+    const { el, placement, _referenceElement: referenceEl, overlayPositioning } = this;
     const modifiers = this.getModifiers();
 
     this.popper = createPopper({
       el,
       modifiers,
+      overlayPositioning,
       placement,
       referenceEl
     });

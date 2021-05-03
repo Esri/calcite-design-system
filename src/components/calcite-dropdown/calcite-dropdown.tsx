@@ -14,7 +14,12 @@ import {
 import { DropdownPlacement, GroupRegistration, ItemKeyboardEvent } from "./interfaces";
 import { getKey } from "../../utils/key";
 import { focusElement, getElementDir } from "../../utils/dom";
-import { createPopper, updatePopper, CSS as PopperCSS } from "../../utils/popper";
+import {
+  createPopper,
+  updatePopper,
+  CSS as PopperCSS,
+  OverlayPositioning
+} from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { Scale, Theme } from "../interfaces";
 import { DefaultDropdownPlacement } from "./resources";
@@ -61,6 +66,9 @@ export class CalciteDropdown {
    this value does not include groupTitles passed to calcite-dropdown-group
   */
   @Prop() maxItems = 0;
+
+  /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
+  @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * Determines where the dropdown will be positioned relative to the button.
@@ -357,12 +365,13 @@ export class CalciteDropdown {
 
   createPopper(): void {
     this.destroyPopper();
-    const { menuEl, referenceEl, placement } = this;
+    const { menuEl, referenceEl, placement, overlayPositioning } = this;
     const modifiers = this.getModifiers();
 
     this.popper = createPopper({
       el: menuEl,
       modifiers,
+      overlayPositioning,
       placement,
       referenceEl
     });

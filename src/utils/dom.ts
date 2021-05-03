@@ -2,7 +2,7 @@ export function nodeListToArray<T extends Element>(nodeList: HTMLCollectionOf<T>
   return Array.isArray(nodeList) ? nodeList : Array.from(nodeList);
 }
 
-type Direction = "ltr" | "rtl";
+export type Direction = "ltr" | "rtl";
 
 export function getAttributes(el: HTMLElement, blockList: string[]): Record<string, any> {
   return Array.from(el.attributes)

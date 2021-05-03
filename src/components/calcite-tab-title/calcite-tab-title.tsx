@@ -130,7 +130,6 @@ export class CalciteTabTitle {
       <Host
         aria-controls={this.controls}
         aria-expanded={this.active.toString()}
-        dir={dir}
         id={id}
         role="tab"
         tabindex={this.disabled ? "-1" : "0"}
