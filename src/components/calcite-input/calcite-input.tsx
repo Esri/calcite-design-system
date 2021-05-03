@@ -27,7 +27,6 @@ import {
 import { numberKeys } from "../../utils/key";
 import { hiddenInputStyle } from "../../utils/form";
 import { isValidNumber, parseNumberString } from "../../utils/number";
-import { isValidNumber } from "../../utils/number";
 import { CSS_UTILITY } from "../../utils/resources";
 
 type NumberNudgeDirection = "up" | "down";
