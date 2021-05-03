@@ -105,15 +105,15 @@
       localeDemoContainer.appendChild(localeEl);
     });
 
-    // document.addEventListener("calciteInputFocus", (event) => {
-    //   console.log("calciteInputFocus", event.target.getAttribute("name"), event.target.value);
-    // });
+    document.addEventListener("calciteInputFocus", (event) => {
+      console.log("calciteInputFocus", event.target.getAttribute("name"), event.target.value);
+    });
     document.addEventListener("calciteInputInput", (event) => {
       console.log("calciteInputInput", event.target.getAttribute("name"), event.target.value);
     });
-    // document.addEventListener("calciteInputBlur", (event) => {
-    //   console.log("calciteInputBlur", event.target.getAttribute("name"), event.target.value);
-    // });
+    document.addEventListener("calciteInputBlur", (event) => {
+      console.log("calciteInputBlur", event.target.getAttribute("name"), event.target.value);
+    });
 
     const undefinedInput = document.querySelector("calcite-input[name=set-to-undefined]");
     document.getElementById("undefined").addEventListener("click", () => {
