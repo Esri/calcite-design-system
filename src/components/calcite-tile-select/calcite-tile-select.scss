@@ -100,7 +100,7 @@ $spacing: $baseline/2;
   }
 }
 
-:host([dir="rtl"][input-enabled][input-alignment="start"][icon][heading]:not([description])) {
+:host([input-enabled][input-alignment="start"][icon][heading]:not([description])) .calcite--rtl {
   ::slotted(calcite-checkbox),
   ::slotted(calcite-radio-button) {
     right: $spacing;
@@ -117,7 +117,7 @@ $spacing: $baseline/2;
   }
 }
 
-:host([dir="rtl"][input-enabled][input-alignment="end"][icon][heading]) {
+:host([input-enabled][input-alignment="end"][icon][heading]) .calcite--rtl {
   ::slotted(calcite-checkbox),
   ::slotted(calcite-radio-button) {
     right: unset;

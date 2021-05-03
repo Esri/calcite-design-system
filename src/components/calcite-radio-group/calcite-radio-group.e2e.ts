@@ -217,45 +217,6 @@ describe("calcite-radio-group", () => {
     expect(element).toEqualAttribute("width", "auto");
   });
 
-  it("passes requested scale prop to child components", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-radio-group scale="l">
-          <calcite-radio-group-item id="child-1" value="1" checked>one</calcite-radio-group-item>
-          <calcite-radio-group-item id="child-2" value="2">two</calcite-radio-group-item>
-          <calcite-radio-group-item id="child-3" value="3">three</calcite-radio-group-item>
-        </calcite-radio-group>`
-    );
-    const element = await page.find("calcite-radio-group");
-    const child1 = await page.find("#child-1");
-    const child2 = await page.find("#child-2");
-    const child3 = await page.find("#child-3");
-    expect(element).toEqualAttribute("scale", "l");
-    expect(child1).toEqualAttribute("scale", "l");
-    expect(child2).toEqualAttribute("scale", "l");
-    expect(child3).toEqualAttribute("scale", "l");
-  });
-
-  it("passes default scale prop to child components", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-radio-group>
-          <calcite-radio-group-item id="child-1" value="1" checked>one</calcite-radio-group-item>
-          <calcite-radio-group-item id="child-2" value="2">two</calcite-radio-group-item>
-          <calcite-radio-group-item id="child-3" value="3">three</calcite-radio-group-item>
-        </calcite-radio-group>`
-    );
-
-    const element = await page.find("calcite-radio-group");
-    const child1 = await page.find("#child-1");
-    const child2 = await page.find("#child-2");
-    const child3 = await page.find("#child-3");
-    expect(element).toEqualAttribute("scale", "m");
-    expect(child1).toEqualAttribute("scale", "m");
-    expect(child2).toEqualAttribute("scale", "m");
-    expect(child3).toEqualAttribute("scale", "m");
-  });
-
   describe("setFocus()", () => {
     it("focuses the first item if there is no selection", async () =>
       focusable(

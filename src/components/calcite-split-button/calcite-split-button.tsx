@@ -60,8 +60,8 @@ export class CalciteSplitButton {
   render(): VNode {
     const dir = getElementDir(this.el);
     return (
-      <Host dir={dir}>
-        <div class="split-button__container">
+      <Host>
+        <div class="split-button__container" dir={dir}>
           <calcite-button
             appearance={this.appearance}
             aria-label={this.primaryLabel}
