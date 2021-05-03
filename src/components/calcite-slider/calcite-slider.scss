@@ -15,6 +15,10 @@ $tick-height: 4px;
 
 :host {
   display: block;
+}
+
+.container {
+  display: block;
   padding: $handle-size / 2 0;
   margin: $handle-size / 2 0;
   position: relative;
@@ -36,21 +40,21 @@ $tick-height: 4px;
  * Ensure we have enough space on variants
  * with text elements to prevent overlap
  */
-:host([label-handles]),
-:host([precise]:not([precise="false"])) {
+:host([label-handles]) .container,
+:host([precise]:not([precise="false"])) .container {
   margin-top: $handle-size + $thumb-padding;
 }
 
 :host([label-ticks]),
-:host([precise]:not([precise="false"])[is-range]) {
+:host([precise]:not([precise="false"])) .container--range {
   margin-bottom: $handle-size + $thumb-padding;
 }
 
-:host([precise]:not([precise="false"])[label-handles]) {
+:host([precise]:not([precise="false"])[label-handles]) .container {
   margin-top: $thumb-size + $thumb-padding;
 }
 
-:host([precise]:not([precise="false"])[label-handles][is-range]) {
+:host([precise]:not([precise="false"])[label-handles]) .container--range {
   margin-bottom: $thumb-size + $thumb-padding;
 }
 
@@ -274,7 +278,7 @@ $tick-height: 4px;
   height: $track-height;
   background-color: var(--calcite-ui-brand);
 }
-:host([is-range]) {
+.container--range {
   .track__range {
     &:hover {
       cursor: ew-resize;
