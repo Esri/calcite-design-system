@@ -57,7 +57,7 @@ function createLocaleNumberFormatter(locale: string): Intl.NumberFormat {
 }
 
 export function delocalizeNumberString(numberString: string, locale: string): string {
-  if (numberString && locales.includes(locale)) {
+  if (numberString) {
     const groupSeparator = getGroupSeparator(locale);
     const decimalSeparator = getDecimalSeparator(locale);
 
@@ -80,9 +80,6 @@ export function delocalizeNumberString(numberString: string, locale: string): st
 }
 
 export function getGroupSeparator(locale: string): string {
-  if (!locales.includes(locale)) {
-    return ",";
-  }
   const formatter = createLocaleNumberFormatter(locale);
   const parts = formatter.formatToParts(1234567.8);
   const value = parts.find((part) => part.type === "group").value;
@@ -90,9 +87,6 @@ export function getGroupSeparator(locale: string): string {
 }
 
 export function getDecimalSeparator(locale: string): string {
-  if (!locales.includes(locale)) {
-    return ".";
-  }
   const formatter = createLocaleNumberFormatter(locale);
   const parts = formatter.formatToParts(1234567.8);
   const value = parts.find((part) => part.type === "decimal").value;
@@ -100,7 +94,7 @@ export function getDecimalSeparator(locale: string): string {
 }
 
 export function localizeNumberString(numberString: string, locale: string, displayGroupSeparator = false): string {
-  if (numberString && locales.includes(locale)) {
+  if (numberString) {
     const number = Number(numberString);
     if (!isNaN(number)) {
       const formatter = createLocaleNumberFormatter(locale);
@@ -124,5 +118,5 @@ export function localizeNumberString(numberString: string, locale: string, displ
 }
 
 export function sanitizeDecimalString(decimalString: string): string {
-  return decimalString.endsWith(".") ? decimalString.replace(".", "") : decimalString;
+  return decimalString?.endsWith(".") ? decimalString.replace(".", "") : decimalString;
 }

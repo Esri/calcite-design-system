@@ -3,6 +3,9 @@ import { TOOLTIP_REFERENCE, TOOLTIP_DELAY_MS } from "../calcite-tooltip/resource
 import { getElementById, getRootNode } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 
+/**
+ * @slot - A slot for adding elements that reference a 'calcite-tooltip' by the 'selector' property.
+ */
 @Component({
   tag: "calcite-tooltip-manager"
 })
@@ -26,7 +29,7 @@ export class CalciteTooltipManager {
   // --------------------------------------------------------------------------
 
   /**
-   * CSS Selector to match reference elements for tooltips.
+   * CSS Selector to match reference elements for tooltips. Reference elements will be identified by this selector in order to open their associated tooltip.
    */
   @Prop() selector = `[${TOOLTIP_REFERENCE}]`;
 
@@ -163,7 +166,11 @@ export class CalciteTooltipManager {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    return <Host />;
+    return (
+      <Host>
+        <slot />
+      </Host>
+    );
   }
 
   //--------------------------------------------------------------------------

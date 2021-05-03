@@ -775,5 +775,92 @@ describe("calcite-input", () => {
           expect(await internalLocaleInput.getProperty("value")).toBe(localizeNumberString(assertedValue, locale));
         });
       });
+
+    it(`disallows setting value to "undefined" on initial load.`, async () => {
+      const page = await newE2EPage({
+        html: `<calcite-input type="number" value="undefined"></calcite-input>`
+      });
+      const calciteInput = await page.find("calcite-input");
+      const input = await page.find("input");
+
+      expect(await calciteInput.getProperty("value")).toBeFalsy();
+      expect(await input.getProperty("value")).toBeFalsy();
+    });
+
+    it(`disallows setting value to "null" on initial load.`, async () => {
+      const page = await newE2EPage({
+        html: `<calcite-input type="number" value="null"></calcite-input>`
+      });
+      const calciteInput = await page.find("calcite-input");
+      const input = await page.find("input");
+
+      expect(await calciteInput.getProperty("value")).toBeFalsy();
+      expect(await input.getProperty("value")).toBeFalsy();
+    });
+
+    it(`disallows setting text value on initial load.`, async () => {
+      const page = await newE2EPage({
+        html: `<calcite-input type="number" value="i am a text value"></calcite-input>`
+      });
+      const calciteInput = await page.find("calcite-input");
+      const input = await page.find("input");
+
+      expect(await calciteInput.getProperty("value")).toBeFalsy();
+      expect(await input.getProperty("value")).toBeFalsy();
+    });
+
+    it(`allows setting value to undefined after initial load.`, async () => {
+      const initialValue = "1234";
+      const page = await newE2EPage({
+        html: `<calcite-input type="number" value="${initialValue}"></calcite-input>`
+      });
+      const calciteInput = await page.find("calcite-input");
+      const input = await page.find("input");
+
+      expect(await calciteInput.getProperty("value")).toBe(initialValue);
+      expect(await input.getProperty("value")).toBe(initialValue);
+
+      calciteInput.setProperty("value", undefined);
+      await page.waitForChanges();
+
+      expect(await calciteInput.getProperty("value")).toBeFalsy();
+      expect(await input.getProperty("value")).toBeFalsy();
+    });
+
+    it(`allows setting value to null after initial load.`, async () => {
+      const initialValue = "1234";
+      const page = await newE2EPage({
+        html: `<calcite-input type="number" value="${initialValue}"></calcite-input>`
+      });
+      const calciteInput = await page.find("calcite-input");
+      const input = await page.find("input");
+
+      expect(await calciteInput.getProperty("value")).toBe(initialValue);
+      expect(await input.getProperty("value")).toBe(initialValue);
+
+      calciteInput.setProperty("value", null);
+      await page.waitForChanges();
+
+      expect(await calciteInput.getProperty("value")).toBeFalsy();
+      expect(await input.getProperty("value")).toBeFalsy();
+    });
+
+    it(`disallows setting text value after initial load.`, async () => {
+      const initialValue = "1234";
+      const page = await newE2EPage({
+        html: `<calcite-input type="number" value="${initialValue}"></calcite-input>`
+      });
+      const calciteInput = await page.find("calcite-input");
+      const input = await page.find("input");
+
+      expect(await calciteInput.getProperty("value")).toBe(initialValue);
+      expect(await input.getProperty("value")).toBe(initialValue);
+
+      calciteInput.setProperty("value", "i am a text value");
+      await page.waitForChanges();
+
+      expect(await calciteInput.getProperty("value")).toBe(initialValue);
+      expect(await input.getProperty("value")).toBe(initialValue);
+    });
   });
 });

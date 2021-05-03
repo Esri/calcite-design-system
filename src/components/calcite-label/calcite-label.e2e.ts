@@ -64,7 +64,7 @@ describe("calcite-label", () => {
               </calcite-label>
               </div>`
             });
-            element = await page.find("calcite-label");
+            element = await page.find("calcite-label label");
             style = await element.getComputedStyle();
             expect(style["textAlign"]).toEqual("left");
           });
@@ -79,7 +79,7 @@ describe("calcite-label", () => {
               </calcite-label>
               </div>`
             });
-            element = await page.find("calcite-label");
+            element = await page.find("calcite-label label");
             style = await element.getComputedStyle();
             expect(style["textAlign"]).toEqual("right");
           });
@@ -95,7 +95,7 @@ describe("calcite-label", () => {
             <calcite-input></calcite-input>
             </calcite-label>`
           });
-          element = await page.find("calcite-label");
+          element = await page.find("calcite-label label");
           style = await element.getComputedStyle();
           expect(style["textAlign"]).toEqual("center");
         });
@@ -109,7 +109,7 @@ describe("calcite-label", () => {
               <calcite-input></calcite-input>
               </calcite-label>`
             });
-            element = await page.find("calcite-label");
+            element = await page.find("calcite-label label");
             style = await element.getComputedStyle();
             expect(style["textAlign"]).toEqual("right");
           });
@@ -122,7 +122,7 @@ describe("calcite-label", () => {
               <calcite-input></calcite-input>
               </calcite-label>`
             });
-            element = await page.find("calcite-label");
+            element = await page.find("calcite-label label");
             style = await element.getComputedStyle();
             expect(style["textAlign"]).toEqual("left");
           });

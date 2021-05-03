@@ -81,7 +81,7 @@ describe("calcite-link", () => {
 
     expect(elementAsLink).not.toBeNull();
     expect(elementAsSpan).toBeNull();
-    expect(elementAsLink).toHaveClass("mycustomclass");
+    expect(elementAsLink).not.toHaveClass("mycustomclass");
     expect(elementAsLink).toEqualAttribute("href", "google.com");
     expect(elementAsLink).toEqualAttribute("rel", "noopener noreferrer");
     expect(elementAsLink).toEqualAttribute("target", "_blank");
@@ -99,7 +99,7 @@ describe("calcite-link", () => {
 
     expect(elementAsLink).toBeNull();
     expect(elementAsSpan).not.toBeNull();
-    expect(elementAsSpan).toHaveClass("mycustomclass");
+    expect(elementAsSpan).not.toHaveClass("mycustomclass");
     expect(elementAsSpan).toEqualAttribute("name", "myname");
     expect(iconStart).toBeNull();
     expect(iconEnd).toBeNull();
@@ -145,7 +145,7 @@ describe("calcite-link", () => {
   });
 
   describe("link interactivity", () => {
-    const targetPage = "test";
+    const targetPage = "#test";
 
     let page: E2EPage;
     let pageUrl: string;

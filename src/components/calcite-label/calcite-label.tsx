@@ -12,6 +12,7 @@ import {
 import { getAttributes, getElementDir } from "../../utils/dom";
 import { FocusRequest } from "./interfaces";
 import { Alignment, Scale, Status, Theme } from "../interfaces";
+import { CSS_UTILITY } from "../../utils/resources";
 
 @Component({
   tag: "calcite-label",
@@ -165,6 +166,7 @@ export class CalciteLabel {
     const attributes = getAttributes(this.el, [
       "disabled",
       "id",
+      "dir",
       "layout",
       "scale",
       "status",
@@ -172,8 +174,8 @@ export class CalciteLabel {
     ]);
     const dir = getElementDir(this.el);
     return (
-      <Host dir={dir}>
-        <label {...attributes}>
+      <Host>
+        <label {...attributes} class={{ [CSS_UTILITY.rtl]: dir === "rtl" }}>
           <slot />
         </label>
       </Host>

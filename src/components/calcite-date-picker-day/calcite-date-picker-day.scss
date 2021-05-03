@@ -110,8 +110,8 @@
   }
 }
 
-:host([start-of-range][dir="ltr"]),
-:host([end-of-range][dir="rtl"]) {
+:host([start-of-range]),
+:host([end-of-range]) .calcite--rtl {
   .day-wrapper {
     border-top-left-radius: 40%;
     border-bottom-left-radius: 40%;
@@ -119,15 +119,15 @@
   }
 }
 
-:host([start-of-range][dir="ltr"]:not(:focus)),
-:host([end-of-range][dir="rtl"]:not(:focus)) {
+:host([start-of-range]:not(:focus)),
+:host([end-of-range]:not(:focus)) .calcite--rtl {
   .day {
     box-shadow: 2px 0 var(--calcite-ui-foreground-1);
   }
 }
 
-:host([end-of-range][dir="ltr"]),
-:host([start-of-range][dir="rtl"]) {
+:host([end-of-range]),
+:host([start-of-range]) .calcite--rtl {
   .day-wrapper {
     border-top-right-radius: 40%;
     border-bottom-right-radius: 40%;
@@ -135,15 +135,15 @@
   }
 }
 
-:host([end-of-range][dir="ltr"]:not(:focus)),
-:host([start-of-range][dir="rtl"]:not(:focus)) {
+:host([end-of-range]:not(:focus)),
+:host([start-of-range]:not(:focus)) .calcite--rtl {
   .day {
     box-shadow: -2px 0 var(--calcite-ui-foreground-1);
   }
 }
 
-:host([end-of-range][scale="l"][dir="ltr"]),
-:host([start-of-range][scale="l"][dir="rtl"]) {
+:host([end-of-range][scale="l"]),
+:host([start-of-range][scale="l"]) .calcite--rtl {
   .day-wrapper {
     box-shadow: inset -8px 0 var(--calcite-ui-foreground-1);
   }
@@ -170,8 +170,8 @@
   }
 }
 
-:host([end-of-range][range-hover][dir="ltr"]) .day-wrapper,
-:host([start-of-range][range-hover][dir="rtl"]) .day-wrapper {
+:host([end-of-range][range-hover]) .day-wrapper,
+:host([start-of-range][range-hover]) .calcite--rtl .day-wrapper {
   background-image: linear-gradient(
     to right,
     var(--calcite-ui-foreground-current),
@@ -182,8 +182,8 @@
   @apply rounded-none shadow-none;
 }
 
-:host([start-of-range][range-hover][dir="ltr"]) .day-wrapper,
-:host([end-of-range][range-hover][dir="rtl"]) .day-wrapper {
+:host([start-of-range][range-hover]) .day-wrapper,
+:host([end-of-range][range-hover]) .calcite--rtl .day-wrapper {
   background-image: linear-gradient(
     to left,
     var(--calcite-ui-foreground-current),
@@ -194,8 +194,8 @@
   @apply rounded-none shadow-none;
 }
 
-:host(:hover[range-hover]:not([selected]).focused--end[dir="ltr"]),
-:host(:hover[range-hover]:not([selected]).focused--start[dir="rtl"]) {
+:host(:hover[range-hover]:not([selected]).focused--end),
+:host(:hover[range-hover]:not([selected]).focused--start) .calcite--rtl {
   .day-wrapper {
     border-top-right-radius: 40%;
     border-bottom-right-radius: 40%;
@@ -207,8 +207,8 @@
   }
 }
 
-:host(:hover[range-hover]:not([selected]).focused--start[dir="ltr"]),
-:host(:hover[range-hover]:not([selected]).focused--end[dir="rtl"]) {
+:host(:hover[range-hover]:not([selected]).focused--start),
+:host(:hover[range-hover]:not([selected]).focused--end) .calcite--rtl {
   .day-wrapper {
     border-top-left-radius: 40%;
     border-bottom-left-radius: 40%;
@@ -236,18 +236,18 @@
   }
 }
 
-:host([dir="ltr"][highlighted]:first-child) .day-wrapper,
-:host([dir="rtl"][highlighted]:last-child) .day-wrapper,
-:host([range-hover][dir="ltr"]:not([selected]):first-child) .day-wrapper,
-:host([range-hover][dir="rtl"]:not([selected]):last-child) .day-wrapper {
+:host([highlighted]:first-child) .day-wrapper,
+:host([highlighted]:last-child) .calcite--rtl .day-wrapper,
+:host([range-hover]:not([selected]):first-child) .day-wrapper,
+:host([range-hover]:not([selected]):last-child) .calcite--rtl .day-wrapper {
   border-top-left-radius: 45%;
   border-bottom-left-radius: 45%;
 }
 
-:host([dir="ltr"][highlighted]:last-child) .day-wrapper,
-:host([dir="rtl"][highlighted]:first-child) .day-wrapper,
-:host([range-hover][dir="ltr"]:not([selected]):last-child) .day-wrapper,
-:host([range-hover][dir="rtl"]:not([selected]):first-child) .day-wrapper {
+:host([highlighted]:last-child) .day-wrapper,
+:host([highlighted]:first-child) .calcite--rtl .day-wrapper,
+:host([range-hover]:not([selected]):last-child) .day-wrapper,
+:host([range-hover]:not([selected]):first-child) .calcite--rtl .day-wrapper {
   border-top-right-radius: 45%;
   border-bottom-right-radius: 45%;
 }

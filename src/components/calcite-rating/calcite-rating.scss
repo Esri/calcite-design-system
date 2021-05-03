@@ -29,7 +29,7 @@
   margin-right: var(--calcite-rating-spacing-unit);
 }
 
-:host([dir="rtl"]) .wrapper {
+.calcite--rtl .wrapper {
   @apply mr-0;
   margin-left: var(--calcite-rating-spacing-unit);
 }
@@ -70,7 +70,7 @@
   transition: $transition;
 }
 
-:host([dir="rtl"]) .fraction {
+.calcite--rtl .fraction {
   @apply right-0 left-auto;
 }
 
@@ -91,7 +91,7 @@ calcite-chip {
   }
 }
 
-:host([dir="rtl"]) .number--count:not(:first-child) {
+.calcite--rtl .number--count:not(:first-child) {
   @apply ml-0;
   margin-right: var(--calcite-rating-spacing-unit);
 }
