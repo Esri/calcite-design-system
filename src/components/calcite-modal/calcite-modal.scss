@@ -84,7 +84,7 @@
   }
 }
 
-:host([dir="rtl"]) .close {
+.calcite--rtl .close {
   @apply rounded-tl rounded-tr-none;
 }
 
@@ -147,7 +147,7 @@
   @apply block mr-auto;
 }
 
-:host([dir="rtl"]) .back {
+.calcite--rtl .back {
   @apply ml-auto mr-0;
 }
 
@@ -242,7 +242,7 @@ slot[name="primary"] {
 }
 
 @media screen and (max-width: $viewport-medium) {
-  :host([docked][dir="rtl"]) .close {
+  :host([docked]) .calcite--rtl .close {
     border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
   }
 }
@@ -288,7 +288,7 @@ slot[name="primary"] {
   .footer {
     @apply flex-col;
   }
-  :host([dir="rtl"]) .back,
+  .calcite--rtl .back,
   .back,
   .secondary {
     @apply m-0 mb-1;
