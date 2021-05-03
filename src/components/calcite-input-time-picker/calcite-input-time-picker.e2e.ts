@@ -24,7 +24,6 @@ describe("calcite-input-time-picker", () => {
     reflects(`calcite-input-time-picker`, [
       { propertyName: "active", value: true },
       { propertyName: "disabled", value: true },
-      { propertyName: "name", value: "my-name" },
       { propertyName: "scale", value: "m" },
       { propertyName: "step", value: 60 },
       { propertyName: "value", value: "00:00" }
