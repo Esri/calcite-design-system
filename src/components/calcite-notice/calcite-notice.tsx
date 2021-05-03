@@ -15,6 +15,7 @@ import { TEXT } from "./calcite-notice.resources";
 import { Scale, Theme, Width } from "../interfaces";
 import { StatusColor, StatusIcons } from "../calcite-alert/interfaces";
 import { getElementDir, setRequestedIcon } from "../../utils/dom";
+import { CSS_UTILITY } from "../../utils/resources";
 
 /** Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
  * notices are displayed inline, a common use case is displaying them on page-load to present users with short hints or contextual copy.
@@ -107,18 +108,20 @@ export class CalciteNotice {
     );
 
     return (
-      <Host active={this.active} dir={dir}>
-        {this.requestedIcon ? (
-          <div class="notice-icon">
-            <calcite-icon icon={this.requestedIcon} scale="m" />
+      <Host active={this.active}>
+        <div class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+          {this.requestedIcon ? (
+            <div class="notice-icon">
+              <calcite-icon icon={this.requestedIcon} scale="m" />
+            </div>
+          ) : null}
+          <div class="notice-content">
+            <slot name="notice-title" />
+            <slot name="notice-message" />
+            <slot name="notice-link" />
           </div>
-        ) : null}
-        <div class="notice-content">
-          <slot name="notice-title" />
-          <slot name="notice-message" />
-          <slot name="notice-link" />
+          {this.dismissible ? closeButton : null}
         </div>
-        {this.dismissible ? closeButton : null}
       </Host>
     );
   }
