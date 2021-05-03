@@ -54,7 +54,7 @@
 }
 
 :host {
-  @apply flex mx-auto max-w-full items-center;
+  @apply hidden mx-auto max-w-full items-center;
   width: var(--calcite-notice-width);
 }
 
@@ -85,6 +85,10 @@
   @apply text-right;
   border-left: none;
   border-right: 0px solid;
+}
+
+:host([active]) {
+  @apply flex;
 }
 
 :host([active]) .container {
