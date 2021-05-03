@@ -28,6 +28,7 @@ describe("parseNumberString", () => {
     expect(parseNumberString("null")).toBe(null);
     expect(parseNumberString("not a number")).toBe(null);
     expect(parseNumberString("kjas;lkjwo;aiej(*&,asd;flkj-")).toBe(null);
+    expect(parseNumberString("-ASDF(*^LKJihsdf*&^")).toBe(null);
   });
 
   it("returns valid number string for string values that compute to a valid number", () => {
