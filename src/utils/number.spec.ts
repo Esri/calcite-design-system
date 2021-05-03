@@ -21,6 +21,7 @@ describe("isValidNumber", () => {
 describe("parseNumberString", () => {
   it("returns null for string values that can't compute to a number", () => {
     expect(parseNumberString("undefined")).toBe(null);
+    expect(parseNumberString()).toBe(null);
     expect(parseNumberString("")).toBe(null);
     expect(parseNumberString(undefined)).toBe(null);
     expect(parseNumberString(null)).toBe(null);
@@ -33,6 +34,7 @@ describe("parseNumberString", () => {
     expect(parseNumberString(";lkj2323")).toBe("2323");
     expect(parseNumberString("1 2345,67")).toBe("1234567");
     expect(parseNumberString("123345345")).toBe("123345345");
+    expect(parseNumberString("123sdfa34345klndfsi8*&(^asdf5345")).toBe("1233434585345");
     expect(parseNumberString("123123.234234")).toBe("123123.234234");
     expect(parseNumberString("12asdfas$%@$3123.23asdf2a4234")).toBe("123123.2324234");
     expect(parseNumberString("12a-sdfas$%@$3123.23asdf2a4234")).toBe("123123.2324234");

@@ -4,7 +4,7 @@ export function isValidNumber(numberString: string): boolean {
   return !numberString || isNaN(Number(numberString)) ? false : true;
 }
 
-export function parseNumberString(numberString: string): string {
+export function parseNumberString(numberString?: string): string {
   if (!numberString || !stringContainsNumbers(numberString)) {
     return null;
   }
