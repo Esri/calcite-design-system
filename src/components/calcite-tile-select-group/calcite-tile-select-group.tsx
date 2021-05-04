@@ -9,7 +9,6 @@ import {
   EventEmitter,
   Event
 } from "@stencil/core";
-import { nodeListToArray } from "../../utils/dom";
 import { TileSelectGroupLayout } from "./interfaces";
 
 @Component({
@@ -29,27 +28,40 @@ export class CalciteTileSelectGroup {
   @Prop({ reflect: true }) layout?: TileSelectGroupLayout = "horizontal";
 
   /**
-   * Fired when tiles are selected/deselected
-   * all checked tiles are passed in the event detail
+   * Curretly selected tile for single select (radio) tile groups
+   * @readonly
    */
-  @Event() calciteTileSelectGroupChange: EventEmitter<HTMLCalciteTileSelectElement[]>;
+  @Prop({ mutable: true }) selectedTile: HTMLCalciteTileSelectElement;
+
+  /**
+   * Curretly selected tiles for multi-select (checkbox) tile groups
+   * @readonly
+   */
+  @Prop({ mutable: true }) selectedTiles: HTMLCalciteTileSelectElement[];
+
+  /**
+   * Fired when tiles are selected/deselected
+   */
+  @Event() calciteTileSelectGroupChange: EventEmitter;
 
   @Listen("calciteRadioButtonChange")
   radioButtonChangeHandler(event: CustomEvent): void {
-    this.emitChange(event);
+    event.stopPropagation();
+    this.selectedTile = this.getSelectedTiles()?.[0];
+    this.calciteTileSelectGroupChange.emit();
   }
 
   @Listen("calciteCheckboxChange")
   checkboxChangeHandler(event: CustomEvent): void {
-    this.emitChange(event);
+    event.stopPropagation();
+    this.selectedTiles = this.getSelectedTiles();
+    this.calciteTileSelectGroupChange.emit();
   }
 
-  private emitChange(event: CustomEvent): void {
-    event.stopPropagation();
-    const selected = nodeListToArray(this.el.querySelectorAll("calcite-tile-select")).filter(
+  private getSelectedTiles(): HTMLCalciteTileSelectElement[] {
+    return Array.from(this.el.querySelectorAll("calcite-tile-select")).filter(
       (el: HTMLCalciteTileSelectElement) => el.checked
     );
-    this.calciteTileSelectGroupChange.emit(selected);
   }
 
   render(): VNode {

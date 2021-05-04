@@ -23,15 +23,18 @@ describe("calcite-tile-select-group", () => {
     });
     const internalEventSpy = await page.spyOnEvent("calciteCheckboxChange");
     const eventSpy = await page.spyOnEvent("calciteTileSelectGroupChange");
+    const group = await page.find("calcite-tile-select-group");
     const items = await page.findAll("calcite-tile-select");
     await items[0].click();
     expect(eventSpy).toHaveReceivedEventTimes(1);
     expect(internalEventSpy).toHaveReceivedEventTimes(0);
-    expect(await eventSpy.lastEvent.detail.length).toBe(1);
+    let selected = await group.getProperty("selectedItems");
+    expect(selected.length).toBe(1);
     await items[1].click();
     expect(eventSpy).toHaveReceivedEventTimes(2);
     expect(internalEventSpy).toHaveReceivedEventTimes(0);
-    expect(await eventSpy.lastEvent.detail.length).toBe(2);
+    selected = await group.getProperty("selectedItems");
+    expect(selected.length).toBe(2);
   });
 
   it("correctly emits on change event for radio tiles", async () => {
@@ -45,14 +48,14 @@ describe("calcite-tile-select-group", () => {
     });
     const internalEventSpy = await page.spyOnEvent("calciteRadioButtonChange");
     const eventSpy = await page.spyOnEvent("calciteTileSelectGroupChange");
+    const group = await page.find("calcite-tile-select-group");
     const items = await page.findAll("calcite-tile-select");
+    let selected = await group.getProperty("selectedItem");
+    expect(selected).toBeFalsy();
     await items[0].click();
     expect(eventSpy).toHaveReceivedEventTimes(1);
     expect(internalEventSpy).toHaveReceivedEventTimes(0);
-    expect(await eventSpy.lastEvent.detail.length).toBe(1);
-    await items[1].click();
-    expect(eventSpy).toHaveReceivedEventTimes(2);
-    expect(internalEventSpy).toHaveReceivedEventTimes(0);
-    expect(await eventSpy.lastEvent.detail.length).toBe(1);
+    selected = await group.getProperty("selectedItem");
+    expect(selected.value).toBe("one");
   });
 });
