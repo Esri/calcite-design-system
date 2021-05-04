@@ -1,25 +1,25 @@
-:host([scale="s"]) {
+:host([scale="s"]) .container {
   @apply text--2h pr-2 pl-6 py-1;
 }
 
-:host([scale="m"]) {
+:host([scale="m"]) .container {
   @apply text--1h pr-3 pl-8 py-2;
 }
 
-:host([scale="l"]) {
+:host([scale="l"]) .container {
   @apply text-1h pr-4 pl-10 py-3;
 }
 
 // RTL
-:host([dir="rtl"][scale="s"]) {
+:host([scale="s"]) .calcite--rtl {
   @apply pr-6 pl-2;
 }
 
-:host([dir="rtl"][scale="m"]) {
+:host([scale="m"]) .calcite--rtl {
   @apply pr-8 pl-3;
 }
 
-:host([dir="rtl"][scale="l"]) {
+:host([scale="l"]) .calcite--rtl {
   @apply pr-10 pl-4;
 }
 
@@ -45,6 +45,13 @@
 }
 
 :host {
+  @apply flex
+    flex-grow
+    items-center
+    relative;
+}
+
+.container {
   @include itemStyling;
 }
 
@@ -52,7 +59,7 @@
   @apply mr-auto;
 }
 
-:host([dir="rtl"]) .dropdown-item-content {
+.calcite--rtl .dropdown-item-content {
   @apply ml-auto mr-0;
 }
 
@@ -67,7 +74,7 @@
 }
 
 // when used as link move styling anchor
-:host([islink]) {
+:host([islink]) .container {
   @apply p-0;
   & a {
     @include itemStyling;
@@ -86,33 +93,33 @@
   @apply px-5 py-4;
 }
 
-:host(:hover),
-:host(:active) {
+:host(:hover) .container,
+:host(:active) .container {
   @apply bg-foreground-2 text-color-1 no-underline;
 }
 
-:host(:focus) {
+:host(:focus) .container {
   @apply text-color-1 no-underline;
 }
 
-:host(:active) {
+:host(:active) .container {
   @apply bg-foreground-3;
 }
 
-:host(:hover):before,
-:host(:active):before,
-:host(:focus):before {
+:host(:hover) .container:before,
+:host(:active) .container:before,
+:host(:focus) .container:before {
   @apply opacity-100;
 }
 
-:host([dir="rtl"]) {
+.calcite--rtl {
   &:before {
     left: unset;
     right: theme("spacing.4");
   }
 }
 
-:host([active]:not([selection-mode="none"])) {
+:host([active]:not([selection-mode="none"])) .container {
   @apply text-color-1 font-medium;
   &:before {
     @apply opacity-100;
@@ -124,39 +131,39 @@
 }
 
 // no dot for none and multi modes
-:host([selection-mode="multi"]):before,
-:host([selection-mode="none"]):before {
+:host([selection-mode="multi"]) .container:before,
+:host([selection-mode="none"]) .container:before {
   @apply hidden;
 }
 
 // single select "icon"
-:host([scale="s"]):before {
+:host([scale="s"]) .container:before {
   left: theme("spacing.2");
 }
-:host([scale="m"]):before {
+:host([scale="m"]) .container:before {
   left: theme("spacing.3");
 }
-:host([scale="l"]):before {
+:host([scale="l"]) .container:before {
   left: theme("spacing.4");
 }
 
 // single select "icon" RTL
-:host([dir="rtl"]):before {
+.calcite--rtl:before {
   left: unset;
 }
 
-:host([dir="rtl"][scale="s"]):before {
+:host([scale="s"]) .calcite--rtl:before {
   right: theme("spacing.2");
 }
-:host([dir="rtl"][scale="m"]):before {
+:host([scale="m"]) .calcite--rtl:before {
   right: theme("spacing.3");
 }
-:host([dir="rtl"][scale="l"]):before {
+:host([scale="l"]) .calcite--rtl:before {
   right: theme("spacing.4");
 }
 
 // multi select check icon
-:host .dropdown-item-check-icon {
+.dropdown-item-check-icon {
   @apply absolute
     opacity-0
     duration-150
@@ -177,20 +184,20 @@
 }
 
 // multi select check icon RTL
-:host([dir="rtl"]) .dropdown-item-check-icon {
+.calcite--rtl .dropdown-item-check-icon {
   left: unset;
   @apply ml-0;
 }
 
-:host([dir="rtl"][scale="s"]) .dropdown-item-check-icon {
+:host([scale="s"]) .calcite--rtl .dropdown-item-check-icon {
   right: theme("spacing.1");
 }
 
-:host([dir="rtl"][scale="m"]) .dropdown-item-check-icon {
+:host([scale="m"]) .calcite--rtl .dropdown-item-check-icon {
   right: theme("spacing.2");
 }
 
-:host([dir="rtl"][scale="l"]) .dropdown-item-check-icon {
+:host([scale="l"]) .calcite--rtl .dropdown-item-check-icon {
   right: theme("spacing.3");
 }
 
@@ -233,7 +240,7 @@
 }
 
 // icon start & end RTL
-:host([dir="rtl"]) {
+.calcite--rtl {
   .dropdown-item-icon-start {
     @apply mr-0;
   }
@@ -242,7 +249,7 @@
   }
 }
 
-:host([dir="rtl"][scale="s"]) {
+:host([scale="s"]) .calcite--rtl {
   .dropdown-item-icon-start {
     @apply ml-2;
   }
@@ -251,7 +258,7 @@
   }
 }
 
-:host([dir="rtl"][scale="m"]) {
+:host([scale="m"]) .calcite--rtl {
   .dropdown-item-icon-start {
     @apply ml-3;
   }
@@ -260,7 +267,7 @@
   }
 }
 
-:host([dir="rtl"][scale="l"]) {
+:host([scale="l"]) .calcite--rtl {
   .dropdown-item-icon-start {
     @apply ml-4;
   }
@@ -269,6 +276,6 @@
   }
 }
 
-:host([dir="rtl"]) calcite-icon {
+.calcite--rtl calcite-icon {
   @apply mr-0 ml-3;
 }
