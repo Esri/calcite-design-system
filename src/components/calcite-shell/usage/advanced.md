@@ -66,6 +66,6 @@ Renders a shell with leading and trailing floating panels, action bar/pad, block
     <calcite-tip heading="The Red Rocks and Blue Water" thumbnail="https://placeimg.com/1000/600" text-thumbnail="This is an image of nature.">
     <calcite-tip heading="The Long Trees" thumbnail="https://placeimg.com/1000/600" text-thumbnail="This is an image of trees.">
   </calcite-tip-manager>
-  <footer slot="shell-footer">Footer</footer>
+  <footer slot="footer">Footer</footer>
 </calcite-shell>
 ```

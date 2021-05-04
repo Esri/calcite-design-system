@@ -15,19 +15,18 @@ import {
 } from "@stencil/core";
 import { getAttributes, getElementDir, getElementProp, setRequestedIcon } from "../../utils/dom";
 import { getKey } from "../../utils/key";
-import { INPUT_TYPE_ICONS } from "./calcite-input.resources";
+import { INPUT_TYPE_ICONS, SLOTS } from "./calcite-input.resources";
 import { InputPlacement } from "./interfaces";
 import { Position } from "../interfaces";
 import {
   getDecimalSeparator,
   delocalizeNumberString,
   localizeNumberString,
-  getGroupSeparator,
   sanitizeDecimalString
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 import { hiddenInputStyle } from "../../utils/form";
-import { isValidNumber } from "../../utils/number";
+import { isValidNumber, parseNumberString } from "../../utils/number";
 import { CSS_UTILITY } from "../../utils/resources";
 
 type NumberNudgeDirection = "up" | "down";
@@ -75,7 +74,7 @@ export class CalciteInput {
   }
 
   /** for number values, displays the locale's group separator */
-  @Prop() groupSeparator?: boolean = false;
+  @Prop() groupSeparator = false;
 
   /** when used as a boolean set to true, show a default recommended icon for certain
    * input types (tel, password, email, date, time, search). You can also pass a
@@ -185,7 +184,10 @@ export class CalciteInput {
 
   @Watch("value")
   valueWatcher(newValue: string): void {
-    if (this.type === "number") {
+    if (
+      this.type === "number" &&
+      this.localizedValue !== localizeNumberString(newValue, this.locale)
+    ) {
       this.setLocalizedValue(newValue);
     }
   }
@@ -278,7 +280,7 @@ export class CalciteInput {
   }
 
   componentDidLoad(): void {
-    this.slottedActionEl = this.el.querySelector("[slot=input-action]");
+    this.slottedActionEl = this.el.querySelector("[slot=action]");
     this.setDisabledAction();
     if (this.type === "number") {
       this.childEl.style.cssText = hiddenInputStyle;
@@ -361,6 +363,9 @@ export class CalciteInput {
   };
 
   private inputBlurHandler = () => {
+    if (this.type === "number") {
+      this.setLocalizedValue(this.value);
+    }
     this.calciteInputBlur.emit({
       element: this.childEl,
       value: this.value
@@ -381,14 +386,26 @@ export class CalciteInput {
   };
 
   private inputInputHandler = (nativeEvent: InputEvent): void => {
-    const value = (nativeEvent.target as HTMLInputElement).value;
-    const newValue = this.type === "number" ? delocalizeNumberString(value, this.locale) : value;
-    this.setValue(newValue, nativeEvent);
+    this.setValue((nativeEvent.target as HTMLInputElement).value, nativeEvent);
   };
 
   private inputKeyDownHandler = (event: KeyboardEvent): void => {
     if (event.key === "Enter") {
       this.calciteInputChange.emit();
+    }
+  };
+
+  private inputNumberInputHandler = (nativeEvent: InputEvent): void => {
+    const value = (nativeEvent.target as HTMLInputElement).value;
+    const delocalizedValue = delocalizeNumberString(value, this.locale);
+    if (nativeEvent.inputType === "insertFromPaste") {
+      if (!isValidNumber(delocalizedValue)) {
+        nativeEvent.preventDefault();
+      }
+      this.setValue(parseNumberString(delocalizedValue), nativeEvent);
+      this.childNumberEl.value = this.localizedValue;
+    } else {
+      this.setValue(delocalizeNumberString(value, this.locale), nativeEvent);
     }
   };
 
@@ -423,14 +440,14 @@ export class CalciteInput {
       }
       return;
     }
-    if (event.key == getGroupSeparator(this.locale)) {
-      return;
-    }
-    if (
-      event.key == getDecimalSeparator(this.locale) &&
-      this.localizedValue.indexOf(event.key) === -1
-    ) {
-      return;
+    const decimalSeparator = getDecimalSeparator(this.locale);
+    if (event.key === decimalSeparator) {
+      if (!this.value && !this.childNumberEl.value) {
+        return;
+      }
+      if (this.value && this.childNumberEl.value.indexOf(decimalSeparator) === -1) {
+        return;
+      }
     }
     event.preventDefault();
   };
@@ -494,20 +511,14 @@ export class CalciteInput {
       : slottedActionEl.removeAttribute("disabled");
   }
 
-  private setLocalizedValue = (unlocalizedValue: string): void => {
-    this.localizedValue = localizeNumberString(
-      sanitizeDecimalString(unlocalizedValue),
-      this.locale,
-      this.groupSeparator
-    );
+  private setLocalizedValue = (value: string): void => {
+    this.localizedValue = localizeNumberString(value, this.locale, this.groupSeparator);
   };
 
   private setValue = (value: string, nativeEvent, committing = false): void => {
     const previousValue = this.value;
     this.value = this.type === "number" ? sanitizeDecimalString(value) : value;
-    if (this.type === "number") {
-      this.setLocalizedValue(value);
-    }
+    this.setLocalizedValue(this.value);
     if (this.type === "number" && value?.endsWith(".")) {
       return;
     }
@@ -629,7 +640,7 @@ export class CalciteInput {
           name={undefined}
           onBlur={this.inputBlurHandler}
           onFocus={this.inputFocusHandler}
-          onInput={this.inputInputHandler}
+          onInput={this.inputNumberInputHandler}
           onKeyDown={this.inputNumberKeyDownHandler}
           placeholder={this.placeholder || ""}
           ref={this.setChildNumberElRef}
@@ -683,8 +694,8 @@ export class CalciteInput {
             {this.requestedIcon ? iconEl : null}
             {this.loading ? loader : null}
           </div>
-          <div class="calcite-input-action-wrapper">
-            <slot name="input-action" />
+          <div class="calcite-action-wrapper">
+            <slot name={SLOTS.action} />
           </div>
           {this.type === "number" && this.numberButtonType === "vertical"
             ? numberButtonsVertical

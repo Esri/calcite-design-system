@@ -79,9 +79,9 @@ export class CalciteValueListItem {
   @Prop({ reflect: true, mutable: true }) selected = false;
 
   /**
-   * A unique value used to identify this item - similar to the value attribute on an <input>.
+   * The item's associated value.
    */
-  @Prop({ reflect: true }) value!: string;
+  @Prop() value!: any;
 
   // --------------------------------------------------------------------------
   //

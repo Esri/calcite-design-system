@@ -2,8 +2,8 @@
 function createExampleAlert(id: string): void {
   const exampleAlert = [
     "<calcite-alert id=" + id + " color='red'>",
-    "<div slot='alert-title'>Something failed</div>",
-    "<div slot='alert-message'>" + id + " That thing you wanted to do didn't work as expected</div>",
+    "<div slot='title'>Something failed</div>",
+    "<div slot='message'>" + id + " That thing you wanted to do didn't work as expected</div>",
     "<calcite-link slot='alert-link' title='my action' appearance='inline'>Take action</calcite-link>",
     "</calcite-alert>"
   ].join("\n");

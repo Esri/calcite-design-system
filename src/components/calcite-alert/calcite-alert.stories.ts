@@ -21,11 +21,11 @@ auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slo
 ${boolean("active", true)}
 scale="${select("scale", ["s", "m", "l"], "m")}"
 color="${select("color", ["green", "red", "yellow", "blue"], "blue")}">
-<div slot="alert-title">Here's a general bit of information</div></div>
-<div slot="alert-message">
+<div slot="title">Here's a general bit of information</div></div>
+<div slot="message">
   Some kind of contextually relevant content
 </div>
-<calcite-link slot="alert-link" title="my action">Take action</calcite-link>
+<calcite-link slot="link" title="my action">Take action</calcite-link>
 </calcite-alert>
 `;
 
@@ -43,8 +43,8 @@ export const TitleMessage = (): string => html`
     scale="${select("scale", ["s", "m", "l"], "m")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "red")}"
   >
-    <div slot="alert-title">Something failed</div>
-    <div slot="alert-message">That thing you wanted to do didn't work as expected</div>
+    <div slot="title">Something failed</div>
+    <div slot="message">That thing you wanted to do didn't work as expected</div>
   </calcite-alert>
 `;
 
@@ -62,8 +62,8 @@ export const MessageLink = (): string => html`
     scale="${select("scale", ["s", "m", "l"], "m")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "green")}"
   >
-    <div slot="alert-message">Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer</div>
-    <calcite-link slot="alert-link" title="my action">View layer</calcite-link>
+    <div slot="message">Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer</div>
+    <calcite-link slot="link" title="my action">View layer</calcite-link>
   </calcite-alert>
 `;
 
@@ -81,7 +81,7 @@ export const Message = (): string => html`
     scale="${select("scale", ["s", "m", "l"], "m")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "yellow")}"
   >
-    <div slot="alert-message">Network connection interruption detected</div>
+    <div slot="message">Network connection interruption detected</div>
   </calcite-alert>
 `;
 
@@ -95,8 +95,8 @@ export const CustomIcon = (): string => html`
     scale="${select("scale", ["s", "m", "l"], "m")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "green")}"
   >
-    <div slot="alert-message">Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer</div>
-    <calcite-link slot="alert-link" title="my action">View layer</calcite-link>
+    <div slot="message">Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer</div>
+    <calcite-link slot="link" title="my action">View layer</calcite-link>
   </calcite-alert>
 `;
 
@@ -125,14 +125,14 @@ export const Queue = (): string => html`
       >Close Alert 3</calcite-button
     >
     <calcite-alert id="one" theme="light" icon color="${select("color", ["green", "red", "yellow", "blue"], "green")}">
-      <div slot="alert-title">Your great thing happened</div>
-      <div slot="alert-message">Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer</div>
-      <calcite-link slot="alert-link" title="my action">View layer</calcite-link>
+      <div slot="title">Your great thing happened</div>
+      <div slot="message">Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer</div>
+      <calcite-link slot="link" title="my action">View layer</calcite-link>
     </calcite-alert>
     <calcite-alert id="two" theme="light" icon color="${select("color-2", ["green", "red", "yellow", "blue"], "blue")}">
-      <div slot="alert-title">Your great thing happened</div>
-      <div slot="alert-message">Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer</div>
-      <calcite-link slot="alert-link" title="my action">View layer</calcite-link>
+      <div slot="title">Your great thing happened</div>
+      <div slot="message">Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer</div>
+      <calcite-link slot="link" title="my action">View layer</calcite-link>
     </calcite-alert>
     <calcite-alert
       data-custom-id="my-id"
@@ -140,9 +140,9 @@ export const Queue = (): string => html`
       icon
       color="${select("color-3", ["green", "red", "yellow", "blue"], "red")}"
     >
-      <div slot="alert-title">That didn't work out</div>
-      <div slot="alert-message">That thing you wanted to do didn't work</div>
-      <calcite-link slot="alert-link" title="my action">View layer</calcite-link>
+      <div slot="title">That didn't work out</div>
+      <div slot="message">That thing you wanted to do didn't work</div>
+      <calcite-link slot="link" title="my action">View layer</calcite-link>
     </calcite-alert>
   </div>
 `;
@@ -157,9 +157,9 @@ export const DarkTheme = (): string => html`
     scale="${select("scale", ["s", "m", "l"], "m")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "red")}"
   >
-    <div slot="alert-title">Something failed</div>
-    <div slot="alert-message">That thing you wanted to do didn't work as expected</div>
-    <calcite-link theme="dark" slot="alert-link" title="my action">My action</calcite-link>
+    <div slot="title">Something failed</div>
+    <div slot="message">That thing you wanted to do didn't work as expected</div>
+    <calcite-link theme="dark" slot="link" title="my action">My action</calcite-link>
   </calcite-alert>
 `;
 
@@ -195,14 +195,14 @@ export const DarkThemeQueue = (): string => html`
       >Close Alert 3</calcite-button
     >
     <calcite-alert id="one" theme="dark" icon color="${select("color", ["green", "red", "yellow", "blue"], "green")}">
-      <div slot="alert-title">Your great thing happened</div>
-      <div slot="alert-message">Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer</div>
-      <calcite-link theme="dark" slot="alert-link" title="my action">My action</calcite-link>
+      <div slot="title">Your great thing happened</div>
+      <div slot="message">Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer</div>
+      <calcite-link theme="dark" slot="link" title="my action">My action</calcite-link>
     </calcite-alert>
     <calcite-alert id="two" theme="dark" icon color="${select("color-2", ["green", "red", "yellow", "blue"], "blue")}">
-      <div slot="alert-title">Your great thing happened</div>
-      <div slot="alert-message">Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer</div>
-      <calcite-link theme="dark" slot="alert-link" title="my action">My action</calcite-link>
+      <div slot="title">Your great thing happened</div>
+      <div slot="message">Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer</div>
+      <calcite-link theme="dark" slot="link" title="my action">My action</calcite-link>
     </calcite-alert>
     <calcite-alert
       data-custom-id="my-id"
@@ -210,7 +210,7 @@ export const DarkThemeQueue = (): string => html`
       icon
       color="${select("color-3", ["green", "red", "yellow", "blue"], "red")}"
     >
-      <div slot="alert-message">That thing you wanted to do didn't work out so well.</div>
+      <div slot="message">That thing you wanted to do didn't work out so well.</div>
     </calcite-alert>
   </div>
 `;
@@ -229,11 +229,11 @@ auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slo
 ${boolean("active", true)}
 scale="${select("scale", ["s", "m", "l"], "m")}"
 color="${select("color", ["green", "red", "yellow", "blue"], "blue")}">
-<div slot="alert-title">Something failed</div>
-<div slot="alert-message">
+<div slot="title">Something failed</div>
+<div slot="message">
   That thing you wanted to do didn't work as expected
 </div>
-<calcite-link slot="alert-link" title="my action">Retry</calcite-button>
+<calcite-link slot="link" title="my action">Retry</calcite-button>
 </calcite-alert>
 </div>
 `;

@@ -136,6 +136,9 @@ module.exports = {
       borderRadius: {
         half: "50%"
       },
+      borderWidth: {
+        px: "1px"
+      },
       boxShadow: {
         0: "0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04)",
         1: "0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04)",

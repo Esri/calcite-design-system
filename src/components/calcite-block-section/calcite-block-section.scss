@@ -40,7 +40,7 @@
 }
 
 .section-header__text {
-  margin: 0 var(--calcite-spacing-quarter);
+  @apply mx-3 my-0;
 }
 
 .toggle--switch {

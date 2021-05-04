@@ -381,8 +381,55 @@
           <calcite-tree lines>
             <calcite-tree-item> Child 1 </calcite-tree-item>
 
-            <calcite-tree-item>
-              Child 2
+                  <calcite-tree-item>
+                    Grandchild 2
+                    <calcite-tree slot="children">
+                      <calcite-tree-item> Great-Grandchild 1 </calcite-tree-item>
+                      <calcite-tree-item> Great-Grandchild 2 </calcite-tree-item>
+                    </calcite-tree>
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+              <calcite-tree-item> Child 3 </calcite-tree-item>
+            </calcite-tree>
+          </calcite-accordion-item>
+        </calcite-accordion>
+        <calcite-notice color="red" id="notice-one" scale="s" active dismissible>
+          <div slot="title">Something failed dismissible</div>
+          <div slot="notice-message">That thing you wanted to do didn't work as expected</div>
+          <calcite-link slot="notice-link" title="my action">Retry</calcite-link>
+        </calcite-notice>
+        <calcite-notice icon color="green" scale="m" active dismissible>
+          <div slot="title">Something worked</div>
+          <div slot="notice-message">That thing you wanted to do worked as expected</div>
+        </calcite-notice>
+        <calcite-label>
+          My Great Radio Group
+          <calcite-radio-group>
+            <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
+            <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
+            <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+            <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
+          </calcite-radio-group>
+        </calcite-label>
+      </div>
+      <div class="demo-column">
+        <div>
+          <calcite-dropdown>
+            <calcite-button slot="dropdown-trigger">Dropdown</calcite-button>
+            <calcite-dropdown-group group-title="View">
+              <calcite-dropdown-item icon-start="list-bullet" active>List</calcite-dropdown-item>
+              <calcite-dropdown-item icon-start="grid">Grid</calcite-dropdown-item>
+              <calcite-dropdown-item icon-start="table">Table</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          </calcite-dropdown>
+          <calcite-button appearance="outline">outline</calcite-button>
+          <calcite-button color="neutral">neutral</calcite-button>
+          <calcite-button color="red">red</calcite-button>
+        </div>
+        <div>
+          <calcite-card selected selectable>
+            <img slot="thumbnail" src="https://placem.at/places?w=260&h=160&txt=0" />
 
               <calcite-tree slot="children">
                 <calcite-tree-item> Grandchild 1 </calcite-tree-item>

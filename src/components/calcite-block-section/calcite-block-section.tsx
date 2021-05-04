@@ -121,7 +121,7 @@ export class CalciteBlockSection {
           tabIndex={0}
           title={toggleLabel}
         >
-          {text}
+          <span class={CSS.toggleSwitchText}>{text}</span>
           <calcite-switch
             aria-labelledby={labelId}
             onCalciteSwitchChange={this.toggleSection}

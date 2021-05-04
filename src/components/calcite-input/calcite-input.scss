@@ -10,8 +10,8 @@
     min-height: 32px;
   }
   & .calcite-input-number-button-wrapper,
-  & .calcite-input-action-wrapper calcite-button,
-  & .calcite-input-action-wrapper calcite-button button {
+  & .calcite-action-wrapper calcite-button,
+  & .calcite-action-wrapper calcite-button button {
     @apply h-8;
   }
   & textarea,
@@ -36,8 +36,8 @@
     min-height: 44px;
   }
   & .calcite-input-number-button-wrapper,
-  & .calcite-input-action-wrapper calcite-button,
-  & .calcite-input-action-wrapper calcite-button button {
+  & .calcite-action-wrapper calcite-button,
+  & .calcite-action-wrapper calcite-button button {
     height: 44px;
   }
   & textarea,
@@ -62,8 +62,8 @@
     min-height: 56px;
   }
   & .calcite-input-number-button-wrapper,
-  & .calcite-input-action-wrapper calcite-button,
-  & .calcite-input-action-wrapper calcite-button button {
+  & .calcite-action-wrapper calcite-button,
+  & .calcite-action-wrapper calcite-button button {
     height: 56px;
   }
   & textarea,
@@ -284,7 +284,7 @@ input[type="time"]::-webkit-clear-button {
 }
 
 // slotted action
-.calcite-input-action-wrapper {
+.calcite-action-wrapper {
   display: flex;
   order: 7;
 }

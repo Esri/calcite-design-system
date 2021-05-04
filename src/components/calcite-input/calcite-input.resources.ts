@@ -6,3 +6,7 @@ export const INPUT_TYPE_ICONS = {
   time: "clock",
   search: "search"
 };
+
+export const SLOTS = {
+  action: "action"
+};

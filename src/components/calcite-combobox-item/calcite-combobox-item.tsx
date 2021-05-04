@@ -56,8 +56,8 @@ export class CalciteComboboxItem {
   /** The main label for this item. */
   @Prop({ reflect: true }) textLabel!: string;
 
-  /** A unique value used to identify this item - similar to the value attribute on an <input>. */
-  @Prop({ reflect: true }) value!: string;
+  /** The item's associated value */
+  @Prop() value!: any;
 
   /** Don't filter this item based on the search text */
   @Prop({ reflect: true }) constant: boolean;

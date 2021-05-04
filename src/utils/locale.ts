@@ -95,7 +95,7 @@ export function getDecimalSeparator(locale: string): string {
 
 export function localizeNumberString(numberString: string, locale: string, displayGroupSeparator = false): string {
   if (numberString) {
-    const number = Number(numberString);
+    const number = Number(sanitizeDecimalString(numberString));
     if (!isNaN(number)) {
       const formatter = createLocaleNumberFormatter(locale);
       const parts = formatter.formatToParts(number);
