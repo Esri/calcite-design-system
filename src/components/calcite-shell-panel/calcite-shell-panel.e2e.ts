@@ -177,7 +177,7 @@ describe("calcite-shell-panel", () => {
   it("calcite-panel should render at the same height as the content__body.", async () => {
     const page = await newE2EPage();
 
-    await page.setViewport({width: 1600, height: 1200});
+    await page.setViewport({ width: 1600, height: 1200 });
     await page.setContent(`
       <div style="width: 100%; height: 100%;">
         <calcite-shell>
@@ -194,12 +194,12 @@ describe("calcite-shell-panel", () => {
     await page.waitForChanges();
 
     const shellContent = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
-    const shellHeightStyle = await shellContent.getComputedStyle('height');
-    const shellHeight = parseFloat(shellHeightStyle['height']);
+    const shellHeightStyle = await shellContent.getComputedStyle("height");
+    const shellHeight = parseFloat(shellHeightStyle["height"]);
 
     const panel = await page.find(`calcite-panel`);
-    const panelHeightStyle = await panel.getComputedStyle('height');
-    const panelHeight = parseFloat(panelHeightStyle['height']);
+    const panelHeightStyle = await panel.getComputedStyle("height");
+    const panelHeight = parseFloat(panelHeightStyle["height"]);
 
     expect(panelHeight).toEqual(shellHeight);
   });

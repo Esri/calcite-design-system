@@ -13,6 +13,7 @@ import { getKey } from "../../utils/key";
 import { getElementDir } from "../../utils/dom";
 import { DateLocaleData } from "../calcite-date-picker/utils";
 import { Scale } from "../interfaces";
+import { CSS_UTILITY } from "../../utils/resources";
 
 @Component({
   tag: "calcite-date-picker-day",
@@ -127,13 +128,12 @@ export class CalciteDatePickerDay {
     const dir = getElementDir(this.el);
     return (
       <Host
-        dir={dir}
         onClick={this.onClick}
         onKeyDown={this.keyDownHandler}
         role="gridcell"
         tabindex={this.active ? 0 : -1}
       >
-        <div class="day-v-wrapper">
+        <div class={{ "day-v-wrapper": true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           <div class="day-wrapper">
             <span class="day">
               <span class="text">{formattedDay}</span>

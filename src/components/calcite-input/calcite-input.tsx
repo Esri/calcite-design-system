@@ -28,6 +28,7 @@ import {
 import { numberKeys } from "../../utils/key";
 import { hiddenInputStyle } from "../../utils/form";
 import { isValidNumber } from "../../utils/number";
+import { CSS_UTILITY } from "../../utils/resources";
 
 type NumberNudgeDirection = "up" | "down";
 
@@ -183,7 +184,7 @@ export class CalciteInput {
 
   @Watch("value")
   valueWatcher(newValue: string): void {
-    if (this.shouldFormatNumberByLocale()) {
+    if (this.type === "number") {
       this.setLocalizedValue(newValue);
     }
   }
@@ -257,7 +258,7 @@ export class CalciteInput {
     this.form?.addEventListener("reset", this.reset);
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.status = getElementProp(this.el, "status", this.status);
-    this.step = !this.step && this.shouldFormatNumberByLocale() ? "any" : this.step;
+    this.step = !this.step && this.type === "number" ? "any" : this.step;
     if (this.type === "number" && !isValidNumber(this.value)) {
       this.value = null;
     }
@@ -278,9 +279,17 @@ export class CalciteInput {
   componentDidLoad(): void {
     this.slottedActionEl = this.el.querySelector("[slot=action]");
     this.setDisabledAction();
-    if (this.shouldFormatNumberByLocale()) {
+    if (this.type === "number") {
       this.childEl.style.cssText = hiddenInputStyle;
     }
+  }
+
+  componentShouldUpdate(newValue: any, oldValue: any, property: string): boolean {
+    if (this.type === "number" && property === "value" && newValue && !isValidNumber(newValue)) {
+      this.value = oldValue;
+      return false;
+    }
+    return true;
   }
 
   //--------------------------------------------------------------------------
@@ -333,7 +342,7 @@ export class CalciteInput {
   /** focus the rendered child element */
   @Method()
   async setFocus(): Promise<void> {
-    if (this.shouldFormatNumberByLocale()) {
+    if (this.type === "number") {
       this.childNumberEl?.focus();
     } else {
       this.childEl?.focus();
@@ -375,9 +384,7 @@ export class CalciteInput {
 
   private inputInputHandler = (nativeEvent: InputEvent): void => {
     const value = (nativeEvent.target as HTMLInputElement).value;
-    const newValue = this.shouldFormatNumberByLocale()
-      ? delocalizeNumberString(value, this.locale)
-      : value;
+    const newValue = this.type === "number" ? delocalizeNumberString(value, this.locale) : value;
     this.setValue(newValue, nativeEvent);
   };
 
@@ -388,7 +395,7 @@ export class CalciteInput {
   };
 
   private inputNumberKeyDownHandler = (event: KeyboardEvent): void => {
-    if (!this.shouldFormatNumberByLocale()) {
+    if (this.type !== "number") {
       return;
     }
     if (event.key === "ArrowUp") {
@@ -500,7 +507,7 @@ export class CalciteInput {
   private setValue = (value: string, nativeEvent, committing = false): void => {
     const previousValue = this.value;
     this.value = this.type === "number" ? sanitizeDecimalString(value) : value;
-    if (this.shouldFormatNumberByLocale()) {
+    if (this.type === "number") {
       this.setLocalizedValue(value);
     }
     if (this.type === "number" && value?.endsWith(".")) {
@@ -518,10 +525,6 @@ export class CalciteInput {
     } else if (committing) {
       this.calciteInputChange.emit();
     }
-  };
-
-  private shouldFormatNumberByLocale = () => {
-    return this.type === "number";
   };
 
   // --------------------------------------------------------------------------
@@ -615,27 +618,28 @@ export class CalciteInput {
 
     const suffixText = <div class="calcite-input-suffix">{this.suffixText}</div>;
 
-    const localeNumberInput = this.shouldFormatNumberByLocale() ? (
-      <input
-        {...attributes}
-        autofocus={this.autofocus ? true : null}
-        defaultValue={this.defaultValue}
-        disabled={this.disabled ? true : null}
-        key="localized-input"
-        maxLength={this.maxLength}
-        minLength={this.minLength}
-        name={undefined}
-        onBlur={this.inputBlurHandler}
-        onFocus={this.inputFocusHandler}
-        onInput={this.inputInputHandler}
-        onKeyDown={this.inputNumberKeyDownHandler}
-        placeholder={this.placeholder || ""}
-        ref={this.setChildNumberElRef}
-        tabIndex={0}
-        type="text"
-        value={this.localizedValue}
-      />
-    ) : null;
+    const localeNumberInput =
+      this.type === "number" ? (
+        <input
+          {...attributes}
+          autofocus={this.autofocus ? true : null}
+          defaultValue={this.defaultValue}
+          disabled={this.disabled ? true : null}
+          key="localized-input"
+          maxLength={this.maxLength}
+          minLength={this.minLength}
+          name={undefined}
+          onBlur={this.inputBlurHandler}
+          onFocus={this.inputFocusHandler}
+          onInput={this.inputInputHandler}
+          onKeyDown={this.inputNumberKeyDownHandler}
+          placeholder={this.placeholder || ""}
+          ref={this.setChildNumberElRef}
+          tabIndex={0}
+          type="text"
+          value={this.localizedValue}
+        />
+      ) : null;
 
     const childEl = [
       <this.childElType
@@ -647,6 +651,7 @@ export class CalciteInput {
         maxLength={this.maxLength}
         min={this.minString}
         minLength={this.minLength}
+        name={this.name}
         onBlur={this.inputBlurHandler}
         onFocus={this.inputFocusHandler}
         onInput={this.inputInputHandler}
@@ -655,7 +660,7 @@ export class CalciteInput {
         ref={this.setChildElRef}
         required={this.required ? true : null}
         step={this.step}
-        tabIndex={this.disabled || this.shouldFormatNumberByLocale() ? -1 : null}
+        tabIndex={this.disabled || this.type === "number" ? -1 : null}
         type={this.type}
         value={this.value}
       />,
@@ -667,8 +672,8 @@ export class CalciteInput {
     ];
 
     return (
-      <Host dir={dir} onClick={this.inputFocusHandler}>
-        <div class="calcite-input-wrapper">
+      <Host onClick={this.inputFocusHandler}>
+        <div class={{ "calcite-input-wrapper": true, [CSS_UTILITY.rtl]: dir === "rtl" }} dir={dir}>
           {this.type === "number" && this.numberButtonType === "horizontal"
             ? numberButtonsHorizontalDown
             : null}

@@ -14,6 +14,7 @@ import { getAttributes, getElementDir, getElementProp } from "../../utils/dom";
 import { ItemKeyboardEvent, ItemRegistration } from "../calcite-dropdown/interfaces";
 import { getKey } from "../../utils/key";
 import { FlipContext } from "../interfaces";
+import { CSS_UTILITY } from "../../utils/resources";
 
 @Component({
   tag: "calcite-dropdown-item",
@@ -168,17 +169,18 @@ export class CalciteDropdownItem {
     return (
       <Host
         aria-checked={itemAria}
-        dir={dir}
         isLink={this.href}
         role={itemRole}
         scale={scale}
         selection-mode={this.selectionMode}
         tabindex="0"
       >
-        {this.selectionMode === "multi" ? (
-          <calcite-icon class="dropdown-item-check-icon" icon="check" scale="s" />
-        ) : null}
-        {contentEl}
+        <div class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+          {this.selectionMode === "multi" ? (
+            <calcite-icon class="dropdown-item-check-icon" icon="check" scale="s" />
+          ) : null}
+          {contentEl}
+        </div>
       </Host>
     );
   }

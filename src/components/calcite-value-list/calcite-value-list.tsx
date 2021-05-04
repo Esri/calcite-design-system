@@ -200,6 +200,7 @@ export class CalciteValueList<
     }
 
     this.sortable = Sortable.create(this.el, {
+      dataIdAttr: "id",
       handle: `.${CSS.handle}`,
       draggable: "calcite-value-list-item",
       group: this.group,

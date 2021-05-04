@@ -79,9 +79,9 @@ export class CalciteValueListItem {
   @Prop({ reflect: true, mutable: true }) selected = false;
 
   /**
-   * A unique value used to identify this item - similar to the value attribute on an <input>.
+   * The item's associated value.
    */
-  @Prop({ reflect: true }) value!: string;
+  @Prop() value!: any;
 
   // --------------------------------------------------------------------------
   //
@@ -199,7 +199,7 @@ export class CalciteValueListItem {
 
   render(): VNode {
     return (
-      <Host data-id={this.guid}>
+      <Host id={this.el.id || this.guid}>
         {this.renderHandle()}
         <calcite-pick-list-item
           description={this.description}

@@ -1,4 +1,10 @@
-import { Placement, Instance as Popper, createPopper as setupPopper, StrictModifiers } from "@popperjs/core";
+import {
+  Placement,
+  Instance as Popper,
+  createPopper as setupPopper,
+  StrictModifiers,
+  PositioningStrategy
+} from "@popperjs/core";
 import { getElementDir } from "./dom";
 
 type PlacementRtl = "leading-start" | "leading" | "leading-end" | "trailing-end" | "trailing" | "trailing-start";
@@ -17,6 +23,8 @@ type VariationRtl =
   | "left-trailing";
 
 export type PopperPlacement = Placement | PlacementRtl | VariationRtl;
+
+export type OverlayPositioning = PositioningStrategy;
 
 export const CSS = {
   animation: "calcite-popper-anim",
@@ -43,10 +51,12 @@ export function createPopper({
   referenceEl,
   el,
   placement,
+  overlayPositioning = "absolute",
   modifiers
 }: {
   el: HTMLElement;
   modifiers: Partial<StrictModifiers>[];
+  overlayPositioning: PositioningStrategy;
   placement: PopperPlacement;
   referenceEl: HTMLElement;
 }): Popper | null {
@@ -55,6 +65,7 @@ export function createPopper({
   }
 
   return setupPopper(referenceEl, el, {
+    strategy: overlayPositioning,
     placement: getPlacement(el, placement),
     modifiers
   });

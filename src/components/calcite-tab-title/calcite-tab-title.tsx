@@ -130,13 +130,11 @@ export class CalciteTabTitle {
       <Host
         aria-controls={this.controls}
         aria-expanded={this.active.toString()}
-        dir={dir}
-        hasText={this.hasText}
         id={id}
         role="tab"
         tabindex={this.disabled ? "-1" : "0"}
       >
-        <Tag class={{ rtl: dir === "rtl" }}>
+        <Tag class={{ container: true, "container--has-text": this.hasText, rtl: dir === "rtl" }}>
           {this.iconStart ? iconStartEl : null}
           <slot />
           {this.iconEnd ? iconEndEl : null}

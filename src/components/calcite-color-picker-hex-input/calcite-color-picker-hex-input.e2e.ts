@@ -3,6 +3,7 @@ import { accessible, defaults, focusable, reflects, renders } from "../../tests/
 import { isValidHex, normalizeHex } from "../calcite-color-picker/utils";
 import { CSS } from "./resources";
 import { TEXT } from "../calcite-color-picker/resources";
+import { selectText } from "../../tests/utils";
 
 describe("calcite-color-picker-hex-input", () => {
   it("renders", () => renders("calcite-color-picker-hex-input"));
@@ -80,9 +81,7 @@ describe("calcite-color-picker-hex-input", () => {
     });
     const input = await page.find(`calcite-color-picker-hex-input`);
 
-    // workaround for selecting text based on https://github.com/puppeteer/puppeteer/issues/1313#issuecomment-436932478
-    await input.click({ clickCount: 3 });
-
+    await selectText(input);
     await page.keyboard.type("000");
     await page.keyboard.press("Enter");
     await page.waitForChanges();

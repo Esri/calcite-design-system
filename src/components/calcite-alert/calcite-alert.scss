@@ -84,6 +84,13 @@
   }
 }
 
+.container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
 // focus styles
 .alert-close {
   @include focus-style-base();
@@ -120,7 +127,7 @@
   color: var(--calcite-ui-text-2);
 }
 
-:host([dir="rtl"]) {
+.calcite--rtl {
   @include slotted("message", "*") {
     margin-right: unset;
     margin-left: $baseline/2;
@@ -158,7 +165,7 @@
   }
 }
 
-:host([dir="rtl"]) {
+.calcite--rtl {
   .alert-content {
     padding: var(--calcite-alert-spacing-token-small) 0 var(--calcite-alert-spacing-token-small)
       var(--calcite-alert-spacing-token-small);
@@ -207,7 +214,7 @@
     border-radius: 0;
   }
 }
-:host([dir="rtl"]) {
+.calcite--rtl {
   .alert-close {
     border-radius: 0 0 0 var(--calcite-border-radius);
   }
@@ -249,7 +256,7 @@
   border-right: 0px solid transparent;
 }
 
-:host([auto-dismiss][dir="rtl"]) > .alert-queue-count {
+:host([auto-dismiss]) .calcite--rtl > .alert-queue-count {
   border-left: 0px solid transparent;
 }
 
@@ -276,7 +283,7 @@
   }
 }
 
-:host([dir="rtl"]) .alert-dismiss-progress:after {
+.calcite--rtl .alert-dismiss-progress:after {
   left: 0;
   right: initial;
 }

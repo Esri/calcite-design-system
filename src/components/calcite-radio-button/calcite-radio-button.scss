@@ -1,8 +1,11 @@
 :host {
   @apply cursor-pointer inline-block;
 }
-:host([labeled]) {
-  @apply mb-0 items-center inline-flex gap-2;
+.container {
+  @apply inline-flex;
+}
+.container--labeled {
+  @apply mb-0 items-center gap-2;
 }
 :host([disabled]) {
   @apply cursor-pointer;
@@ -10,7 +13,7 @@
     @apply cursor-default;
   }
 }
-:host([scale="s"][labeled]) {
+:host([scale="s"]) .container--labeled {
   @apply mb-2 mr-3;
   @supports not (display: grid) {
     calcite-radio {
@@ -18,7 +21,7 @@
     }
   }
 }
-:host([scale="m"][labeled]) {
+:host([scale="m"]) .container--labeled {
   @apply mb-2 mr-4;
   @supports not (display: grid) {
     calcite-radio {
@@ -26,7 +29,7 @@
     }
   }
 }
-:host([scale="l"][labeled]) {
+:host([scale="l"]) .container--labeled {
   @apply gap-3 mb-2 mr-5;
   @supports not (display: grid) {
     calcite-radio {

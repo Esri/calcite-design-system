@@ -1,8 +1,15 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { HYDRATED_ATTR, accessible } from "../../tests/commonTests";
+import { HYDRATED_ATTR, accessible, defaults } from "../../tests/commonTests";
 import dedent from "dedent";
 
 describe("calcite-dropdown", () => {
+  it("defaults", async () =>
+    defaults("calcite-dropdown", [
+      {
+        propertyName: "overlayPositioning",
+        defaultValue: "absolute"
+      }
+    ]));
   /**
    * Test helper for selected calcite-dropdown items. Expects items to have IDs to test against.
    */
