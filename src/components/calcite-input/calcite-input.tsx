@@ -447,7 +447,7 @@ export class CalciteInput {
       if (!this.value && !this.childNumberEl.value) {
         return;
       }
-      if (this.value && this.childNumberEl.value?.indexOf(decimalSeparator) === -1) {
+      if (this.value && this.childNumberEl.value.indexOf(decimalSeparator) === -1) {
         return;
       }
     }
