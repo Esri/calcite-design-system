@@ -3,9 +3,9 @@ import { renders, accessible, HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-alert", () => {
   const alertContent = `
-    <div slot="alert-title">Title Text</div>
-    <div slot="alert-message">Message Text</div>
-    <a slot="alert-link" href="">Action</a>
+    <div slot="title">Title Text</div>
+    <div slot="message">Message Text</div>
+    <a slot="link" href="">Action</a>
   `;
 
   it("renders", async () => renders("calcite-alert", false));

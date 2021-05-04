@@ -133,7 +133,7 @@
   @apply rounded-half overflow-hidden inline-flex;
 }
 
-:host slot[name="chip-image"]::slotted(*) {
+:host slot[name="image"]::slotted(*) {
   @apply flex h-full w-full rounded-half overflow-hidden;
 }
 

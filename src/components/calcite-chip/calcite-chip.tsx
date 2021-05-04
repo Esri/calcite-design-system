@@ -105,11 +105,11 @@ export class CalciteChip {
 
   renderChipImage(): VNode {
     const { el } = this;
-    const hasChipImage = getSlotted(el, "chip-image");
+    const hasChipImage = getSlotted(el, "image");
 
     return hasChipImage ? (
       <div class="chip-image-container">
-        <slot name="chip-image" />
+        <slot name="image" />
       </div>
     ) : null;
   }
