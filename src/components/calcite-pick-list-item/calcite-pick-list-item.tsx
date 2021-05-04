@@ -103,12 +103,12 @@ export class CalcitePickListItem {
   @Prop({ reflect: true }) intlRemove = TEXT.remove;
 
   /**
-   * A unique value used to identify this item - similar to the value attribute on an <input>.
+   * The item's associated value.
    */
-  @Prop({ reflect: true }) value!: string;
+  @Prop() value!: any;
 
   @Watch("value")
-  valueWatchHandler(newValue: string, oldValue: string): void {
+  valueWatchHandler(newValue: any, oldValue: any): void {
     this.calciteListItemValueChange.emit({ oldValue, newValue });
   }
 
@@ -135,7 +135,7 @@ export class CalcitePickListItem {
    */
   @Event() calciteListItemChange: EventEmitter<{
     item: HTMLCalcitePickListItemElement;
-    value: string;
+    value: any;
     selected: boolean;
     shiftPressed: boolean;
   }>;
@@ -156,8 +156,8 @@ export class CalcitePickListItem {
    * @internal
    */
   @Event() calciteListItemValueChange: EventEmitter<{
-    oldValue: string;
-    newValue: string;
+    oldValue: any;
+    newValue: any;
   }>;
 
   // --------------------------------------------------------------------------
