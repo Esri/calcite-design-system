@@ -1,5 +1,5 @@
 import { Component, Element, Event, EventEmitter, Host, Prop, h, VNode } from "@stencil/core";
-import { CSS, SLOTS, TEXT, HEADING_LEVEL, TOGGLE_ICON } from "./resources";
+import { CSS, SLOTS, TEXT, HEADING_LEVEL, ICONS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 import { Theme } from "../interfaces";
 import { getElementDir, getSlotted } from "../../utils/dom";
@@ -163,7 +163,7 @@ export class CalciteBlock {
     );
 
     const hasControl = !!getSlotted(el, SLOTS.control);
-    const collapseIcon = open ? TOGGLE_ICON.opened : TOGGLE_ICON.closed;
+    const collapseIcon = open ? ICONS.opened : ICONS.closed;
 
     const headerNode = (
       <div class={CSS.headerContainer}>

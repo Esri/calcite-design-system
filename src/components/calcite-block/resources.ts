@@ -24,7 +24,7 @@ export const SLOTS = {
   control: "control"
 };
 
-export const TOGGLE_ICON = {
+export const ICONS = {
   opened: "chevron-up",
   closed: "chevron-down",
 }
