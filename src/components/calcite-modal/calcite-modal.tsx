@@ -121,7 +121,7 @@ export class CalciteModal {
   render(): VNode {
     const dir = getElementDir(this.el);
     return (
-      <Host aria-modal="true" dir={dir} is-active={this.isActive} role="dialog">
+      <Host aria-modal="true" is-active={this.isActive} role="dialog">
         <calcite-scrim class="scrim" theme="dark" />
         {this.renderStyle()}
         <div class={{ modal: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
