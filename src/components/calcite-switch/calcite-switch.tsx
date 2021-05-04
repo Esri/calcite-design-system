@@ -1,16 +1,16 @@
 import {
   Component,
-  h,
-  Prop,
-  Event,
   Element,
-  Host,
+  Event,
   EventEmitter,
+  h,
+  Host,
   Listen,
-  Watch,
-  VNode,
   Method,
-  State
+  Prop,
+  State,
+  VNode,
+  Watch
 } from "@stencil/core";
 import { focusElement, getElementDir, hasLabel } from "../../utils/dom";
 import { hiddenInputStyle } from "../../utils/form";
@@ -71,7 +71,7 @@ export class CalciteSwitch {
   @Prop({ reflect: true }) theme: Theme;
 
   /** The value of the switch input */
-  @Prop({ reflect: true }) value?: string;
+  @Prop({ reflect: true }) value?: any;
 
   //--------------------------------------------------------------------------
   //
@@ -116,7 +116,7 @@ export class CalciteSwitch {
     this.inputEl.style.cssText = hiddenInputStyle;
     this.inputEl.type = "checkbox";
     if (this.value) {
-      this.inputEl.value = this.value;
+      this.inputEl.value = this.value != null ? this.value.toString() : "";
     }
     this.el.appendChild(this.inputEl);
   }

@@ -52,7 +52,7 @@ export class CalciteChip {
   /** Select theme (light or dark) */
   @Prop({ reflect: true }) theme: Theme;
 
-  @Prop() value!: string;
+  @Prop() value!: any;
 
   // --------------------------------------------------------------------------
   //
@@ -105,11 +105,11 @@ export class CalciteChip {
 
   renderChipImage(): VNode {
     const { el } = this;
-    const hasChipImage = getSlotted(el, "chip-image");
+    const hasChipImage = getSlotted(el, "image");
 
     return hasChipImage ? (
       <div class="chip-image-container">
-        <slot name="chip-image" />
+        <slot name="image" />
       </div>
     ) : null;
   }

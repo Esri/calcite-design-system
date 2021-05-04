@@ -14,10 +14,10 @@
   --calcite-alert-width: 40em;
   --calcite-alert-spacing-token-small: #{$baseline/2};
   --calcite-alert-spacing-token-large: #{$baseline/1.5};
-  @include slotted("alert-title", "*") {
+  @include slotted("title", "*") {
     @include font-size(-2);
   }
-  @include slotted("alert-message", "*") {
+  @include slotted("message", "*") {
     @include font-size(-3);
   }
   ::slotted(calcite-link) {
@@ -29,10 +29,10 @@
   --calcite-alert-width: 50em;
   --calcite-alert-spacing-token-small: #{$baseline/1.5};
   --calcite-alert-spacing-token-large: #{$baseline};
-  @include slotted("alert-title", "*") {
+  @include slotted("title", "*") {
     @include font-size(-1);
   }
-  @include slotted("alert-message", "*") {
+  @include slotted("message", "*") {
     @include font-size(-2);
   }
   ::slotted(calcite-link) {
@@ -44,10 +44,10 @@
   --calcite-alert-width: 60em;
   --calcite-alert-spacing-token-small: #{$baseline/1.25};
   --calcite-alert-spacing-token-large: #{$baseline * 1.25};
-  @include slotted("alert-title", "*") {
+  @include slotted("title", "*") {
     @include font-size(0);
   }
-  @include slotted("alert-message", "*") {
+  @include slotted("message", "*") {
     @include font-size(-1);
   }
   ::slotted(calcite-link) {
@@ -111,14 +111,14 @@
   }
 }
 
-@include slotted("alert-title", "*") {
+@include slotted("title", "*") {
   @include font-size(0);
   color: var(--calcite-ui-text-1);
   margin: 0;
   font-weight: 500;
 }
 
-@include slotted("alert-message", "*") {
+@include slotted("message", "*") {
   display: inline;
   margin: 0;
   margin-right: $baseline/2;
@@ -128,7 +128,7 @@
 }
 
 .calcite--rtl {
-  @include slotted("alert-message", "*") {
+  @include slotted("message", "*") {
     margin-right: unset;
     margin-left: $baseline/2;
   }

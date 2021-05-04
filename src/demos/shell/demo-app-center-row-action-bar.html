@@ -122,7 +122,7 @@
               </calcite-panel>
             </calcite-flow>
           </calcite-shell-panel>
-          <div class="gnav" slot="shell-header">
+          <div class="gnav" slot="header">
             <h2>Boomer v Millennial - California</h2>
           </div>
           <calcite-shell-center-row slot="center-row" height-scale="s" detached id="center-row">
@@ -420,7 +420,7 @@
           </calcite-tip-manager>
           <div id="viewDiv"></div>
 
-          <footer slot="shell-footer">Footer</footer>
+          <footer slot="footer">Footer</footer>
         </calcite-shell>
       </div>
       <script>
@@ -459,7 +459,7 @@
 
         const layersToggle = document.getElementById("layers-toggle");
         const layersPanel = document.getElementById("primary-panel");
-        
+
         layersToggle.addEventListener("click", function() {
           layersPanel.hasAttribute("collapsed")
           ? layersPanel.removeAttribute("collapsed")

@@ -79,7 +79,7 @@ export class CalciteTileSelect {
   @Prop({ reflect: true }) type: TileSelectType = "radio";
 
   /** The value of the tile select.  This value will appear in form submissions when this tile select is checked. */
-  @Prop({ reflect: true }) value?: string;
+  @Prop() value?: any;
 
   /** specify the width of the tile, defaults to auto */
   @Prop({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
@@ -213,7 +213,7 @@ export class CalciteTileSelect {
     }
     this.input.theme = this.theme;
     if (this.value) {
-      this.input.value = this.value;
+      this.input.value = this.value != null ? this.value.toString() : "";
     }
     this.el.insertAdjacentElement("beforeend", this.input);
   }
