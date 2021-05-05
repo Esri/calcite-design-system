@@ -35,6 +35,7 @@
   --calcite-button-transparent-press: rgba(255, 255, 255, 0.08);
   --calcite-input-message-floating-background: #{rgba($ui-foreground-1-dark, 0.96)};
   --calcite-link-blue-underline: #{rgba($d-bb-420, 0.4)};
+  --calcite-scrim-background: #{rgba($blk-240, 0.75)};
 }
 
 [theme="light"] {
@@ -49,6 +50,7 @@
   --calcite-button-transparent-press: rgba(0, 0, 0, 0.08);
   --calcite-input-message-floating-background: #{rgba($ui-foreground-1-light, 0.96)};
   --calcite-link-blue-underline: #{rgba($h-bb-070, 0.4)};
+  --calcite-scrim-background: #{rgba($blk-000, 0.75)};
 }
 
 .overflow-hidden {

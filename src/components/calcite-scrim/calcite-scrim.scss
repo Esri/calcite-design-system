@@ -7,12 +7,6 @@
   w-full
   h-full
   inset-0;
-  --calcite-scrim-background: #{rgba($blk-000, 0.75)};
-}
-
-// dark theme
-:host([theme="dark"]) {
-  --calcite-scrim-background: #{rgba($blk-240, 0.75)};
 }
 
 @keyframes calcite-scrim-fade-in {
