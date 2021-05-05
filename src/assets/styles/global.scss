@@ -30,6 +30,7 @@
   --calcite-ui-inverse: #{$blk-180};
   --calcite-ui-inverse-hover: #{$blk-190};
   --calcite-ui-inverse-press: #{$blk-170};
+  --calcite-alert-dismiss-progress-background: #{rgba($blk-200, 0.8)};
 }
 
 [theme="light"] {
@@ -39,6 +40,7 @@
   --calcite-ui-inverse: #{$blk-180};
   --calcite-ui-inverse-hover: #{$blk-170};
   --calcite-ui-inverse-press: #{$blk-190};
+  --calcite-alert-dismiss-progress-background: #{rgba($blk-000, 0.8)};
 }
 
 .overflow-hidden {

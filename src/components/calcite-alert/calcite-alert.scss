@@ -1,14 +1,3 @@
-// theme variables
-// light theme
-:host {
-  --calcite-alert-dismiss-progress-background: #{rgba($blk-000, 0.8)};
-}
-
-// dark theme
-:host([theme="dark"]) {
-  --calcite-alert-dismiss-progress-background: #{rgba($blk-200, 0.8)};
-}
-
 // scale variables
 :host([scale="s"]) {
   --calcite-alert-width: 40em;
