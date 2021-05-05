@@ -11,7 +11,7 @@ import {
   OverlayPositioning
 } from "../../utils/popper";
 import { Theme } from "../interfaces";
-import { getElementById, getRootNode } from "../../utils/dom";
+import { getElementById } from "../../utils/dom";
 
 @Component({
   tag: "calcite-tooltip",
@@ -184,11 +184,10 @@ export class CalciteTooltip {
 
   getReferenceElement(): HTMLElement {
     const { referenceElement, el } = this;
-    const rootNode = getRootNode(el);
 
     return (
       (typeof referenceElement === "string"
-        ? getElementById(rootNode, referenceElement)
+        ? getElementById(el, referenceElement)
         : referenceElement) || null
     );
   }

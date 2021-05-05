@@ -111,14 +111,39 @@ export function filterDirectChildren<T extends Element>(el: Element, selector: s
   return Array.from(el.children).filter((child): child is T => child.matches(selector));
 }
 
-export function getRootNode(element: HTMLElement): HTMLDocument | ShadowRoot {
+function getRootNode(element: HTMLElement): HTMLDocument | ShadowRoot {
   return element.getRootNode() as HTMLDocument | ShadowRoot;
 }
 
-export function getElementById(rootNode: HTMLDocument | ShadowRoot, id: string): HTMLElement {
+export function querySelector(el: HTMLElement, selector: string): HTMLElement {
+  const rootNode = getRootNode(el);
+
+  return selector
+    ? rootNode instanceof ShadowRoot
+      ? rootNode.host.querySelector(selector) || rootNode.ownerDocument.querySelector(selector)
+      : rootNode.querySelector(selector)
+    : null;
+}
+
+export function querySelectorAll(el: HTMLElement, selector: string): HTMLElement[] {
+  const rootNode = getRootNode(el);
+
+  return selector
+    ? rootNode instanceof ShadowRoot
+      ? [
+          ...(Array.from(rootNode.host.querySelectorAll(selector)) as HTMLElement[]),
+          ...(Array.from(rootNode.ownerDocument.querySelectorAll(selector)) as HTMLElement[])
+        ]
+      : Array.from(rootNode.querySelectorAll(selector))
+    : null;
+}
+
+export function getElementById(el: HTMLElement, id: string): HTMLElement {
+  const rootNode = getRootNode(el);
+
   return id
     ? rootNode instanceof ShadowRoot
-      ? rootNode.host.querySelector(`#${id}`)
+      ? rootNode.host.querySelector(`#${id}`) || rootNode.ownerDocument.getElementById(id)
       : rootNode.getElementById(id)
     : null;
 }
