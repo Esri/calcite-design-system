@@ -33,6 +33,7 @@
   --calcite-alert-dismiss-progress-background: #{rgba($blk-200, 0.8)};
   --calcite-button-transparent-hover: rgba(255, 255, 255, 0.05);
   --calcite-button-transparent-press: rgba(255, 255, 255, 0.08);
+  --calcite-input-message-floating-background: #{rgba($ui-foreground-1-dark, 0.96)};
 }
 
 [theme="light"] {
@@ -45,6 +46,7 @@
   --calcite-alert-dismiss-progress-background: #{rgba($blk-000, 0.8)};
   --calcite-button-transparent-hover: rgba(0, 0, 0, 0.05);
   --calcite-button-transparent-press: rgba(0, 0, 0, 0.08);
+  --calcite-input-message-floating-background: #{rgba($ui-foreground-1-light, 0.96)};
 }
 
 .overflow-hidden {

@@ -15,14 +15,6 @@
 }
 
 :host {
-  --calcite-input-message-floating-background: #{rgba($ui-foreground-1-light, 0.96)};
-}
-
-:host([theme="dark"]) {
-  --calcite-input-message-floating-background: #{rgba($ui-foreground-1-dark, 0.96)};
-}
-
-:host {
   display: flex;
   align-items: center;
   width: 100%;
