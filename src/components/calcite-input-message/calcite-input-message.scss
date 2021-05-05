@@ -14,6 +14,7 @@
   --calcite-input-message-spacing-value: 12px;
 }
 
+// todo: '--calcite-input-message-floating-background' to be moved to global variables.
 :host {
   --calcite-input-message-floating-background: #{rgba($ui-foreground-1-light, 0.96)};
 }
