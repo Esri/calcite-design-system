@@ -104,6 +104,8 @@ export class CalciteInputTimePicker {
 
   private referenceElementId: string = guid();
 
+  private valueSetInternally: boolean;
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -149,6 +151,13 @@ export class CalciteInputTimePicker {
   keyUpHandler(event: KeyboardEvent): void {
     if (event.key === "Escape" && this.active) {
       this.active = false;
+    }
+  }
+
+  @Listen("calciteInputValueChange")
+  calciteInputValueChangeHandler(event: CustomEvent): void {
+    if (!this.valueSetInternally) {
+      this.setValue(event.detail);
     }
   }
 
@@ -222,10 +231,14 @@ export class CalciteInputTimePicker {
 
   private setValue = (value: string): void => {
     const previousValue = this.value;
+    this.valueSetInternally = true;
     this.value = value;
+    this.valueSetInternally = false;
     const inputTimePickerChangeEvent = this.calciteInputTimePickerChange.emit(value);
     if (inputTimePickerChangeEvent.defaultPrevented) {
+      this.valueSetInternally = true;
       this.value = previousValue;
+      this.valueSetInternally = true;
     }
   };
 

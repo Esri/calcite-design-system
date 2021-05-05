@@ -190,6 +190,7 @@ export class CalciteInput {
     ) {
       this.setLocalizedValue(newValue);
     }
+    this.calciteInputValueChange.emit(newValue);
   }
 
   @Watch("icon")
@@ -312,15 +313,22 @@ export class CalciteInput {
   @Event() calciteInputBlur: EventEmitter;
 
   /**
-   * This event fires as the value of the input changes.
+   * This event fires each time a new value is typed.
    */
   @Event({ cancelable: true }) calciteInputInput: EventEmitter;
 
   /**
-   * This event fires when the value of the input changes and is committed.
+   * This event fires each time a new value is typed and committed.
    * @internal
    */
   @Event() calciteInputChange: EventEmitter;
+
+  /**
+   * This event fires in the valueWatcher for every value change, whether from typing or programmatically.
+   * This is an internal event and its use is discouraged for setting the input's value as it can lead to infinite loops.
+   * @internal
+   */
+  @Event() calciteInputValueChange: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
