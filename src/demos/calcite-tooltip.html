@@ -30,14 +30,8 @@
         margin: 2rem;
       }
     </style>
-    <link
-      rel="stylesheet"
-      href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css"
-    />
-    <link rel="stylesheet" href="../build/calcite.css" />
-    <script type="module" src="../build/calcite.esm.js"></script>
-    <script nomodule src="../build/calcite.js"></script>
-    <script src="./_assets/toggleBodyTheme.js"></script>
+    <script src="./_assets/head.js"></script>
+    <script src="./_assets/toggles.js"></script>
   </head>
 
   <body>
@@ -54,18 +48,16 @@
         placement="top"
         id="tooltip-two"
         reference-element="tooltip-button-two"
-        >Lorem Ipsum is simply of the printing and typesetting industry. Lorem
-        Ipsum has been the industry's standard printer of type and scrambled it
-        to make a type specimen book.</calcite-tooltip
+        >Lorem Ipsum is simply of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+        printer of type and scrambled it to make a type specimen book.</calcite-tooltip
       >
 
       <calcite-tooltip
         label="right start placed tooltip"
         placement="right-start"
         reference-element="tooltip-button-four"
-        >Lorem Ipsum is simply of the printing and typesetting industry. Lorem
-        Ipsum has been the industry's standard printer of type and scrambled it
-        to make a type specimen book.
+        >Lorem Ipsum is simply of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+        printer of type and scrambled it to make a type specimen book.
       </calcite-tooltip>
 
       <calcite-tooltip label="auto placed tooltip" theme="dark" reference-element="tooltip-button-five"
@@ -78,9 +70,8 @@
         placement="auto"
         id="tooltip-six"
         reference-element="tooltip-button-six"
-        >Lorem Ipsum is simply of the printing and typesetting industry. Lorem
-        Ipsum has been the industry's standard printer of type and scrambled it
-        to make a type specimen book.</calcite-tooltip
+        >Lorem Ipsum is simply of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+        printer of type and scrambled it to make a type specimen book.</calcite-tooltip
       >
 
       <calcite-tooltip
@@ -88,45 +79,31 @@
         theme="dark"
         placement="auto"
         reference-element="tooltip-button-eight"
-        >Lorem Ipsum is simply of the printing and typesetting industry. Lorem
-        Ipsum has been the industry's standard printer of type and scrambled it
-        to make a type specimen book.
+        >Lorem Ipsum is simply of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+        printer of type and scrambled it to make a type specimen book.
       </calcite-tooltip>
 
       <p>
-        Lorem <a id="tooltip-button" href="#">ipsum</a> dolor sit amet,
-        consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-        et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-        exercitation
-        <strong id="tooltip-button-two" tabindex="0">ullamco</strong> laboris
-        nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-        reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
-        qui
-        <calcite-button id="tooltip-button-four"
-          >officia deserunt
-        </calcite-button>
+        Lorem <a id="tooltip-button" href="#">ipsum</a> dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+        <strong id="tooltip-button-two" tabindex="0">ullamco</strong> laboris nisi ut aliquip ex ea commodo consequat.
+        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+        sint occaecat cupidatat non proident, sunt in culpa qui
+        <calcite-button id="tooltip-button-four">officia deserunt </calcite-button>
         mollit anim id est laborum.
       </p>
 
       <p class="demo-background-dark" theme="dark">
-        Lorem <a id="tooltip-button-five" href="#">ipsum</a> dolor sit amet,
-        consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-        et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-        exercitation
-        <strong id="tooltip-button-six" tabindex="0">ullamco</strong> laboris
-        nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-        reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
-        qui
-        <calcite-button id="tooltip-button-eight"
-          >officia deserunt
-        </calcite-button>
+        Lorem <a id="tooltip-button-five" href="#">ipsum</a> dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+        <strong id="tooltip-button-six" tabindex="0">ullamco</strong> laboris nisi ut aliquip ex ea commodo consequat.
+        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+        sint occaecat cupidatat non proident, sunt in culpa qui
+        <calcite-button id="tooltip-button-eight">officia deserunt </calcite-button>
         mollit anim id est laborum.
       </p>
 
       <section class="placements-container">
-        <calcite-button onclick="toggleBodyTheme(document.body);" id="toggle-theme-button">Toggle theme</calcite-button>
         <h2>Placements:</h2>
         <ol>
           <li><calcite-button appearance="outline" id="tooltip-auto-ref">auto</calcite-button></li>
@@ -153,87 +130,132 @@
         </ol>
         <calcite-tooltip label="tooltip - auto" placement="auto" reference-element="tooltip-auto-ref">
           <p>placement: auto</p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
         </calcite-tooltip>
         <calcite-tooltip label="tooltip - auto-start" placement="auto-start" reference-element="tooltip-auto-start-ref">
           <p>placement: auto-start</p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
         </calcite-tooltip>
         <calcite-tooltip label="tooltip - auto-end" placement="auto-end" reference-element="tooltip-auto-end-ref">
           <p>placement: auto-end</p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
         </calcite-tooltip>
         <calcite-tooltip label="tooltip - top" placement="top" reference-element="tooltip-top-ref">
           <p>placement: top</p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
         </calcite-tooltip>
         <calcite-tooltip label="tooltip - bottom" placement="bottom" reference-element="tooltip-bottom-ref">
           <p>placement: bottom</p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
         </calcite-tooltip>
         <calcite-tooltip label="tooltip - right" placement="right" reference-element="tooltip-right-ref">
           <p>placement: right</p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
         </calcite-tooltip>
         <calcite-tooltip label="tooltip - left" placement="left" reference-element="tooltip-left-ref">
           <p>placement: left</p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
         </calcite-tooltip>
         <calcite-tooltip label="tooltip - top-start" placement="top-start" reference-element="tooltip-top-start-ref">
           <p>placement: top-start</p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
         </calcite-tooltip>
         <calcite-tooltip label="tooltip - top-end" placement="top-end" reference-element="tooltip-top-end-ref">
           <p>placement: top-end</p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
         </calcite-tooltip>
-        <calcite-tooltip label="tooltip - bottom-start" placement="bottom-start" reference-element="tooltip-bottom-start-ref">
+        <calcite-tooltip
+          label="tooltip - bottom-start"
+          placement="bottom-start"
+          reference-element="tooltip-bottom-start-ref"
+        >
           <p>placement: bottom-start</p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
         </calcite-tooltip>
         <calcite-tooltip label="tooltip - bottom-end" placement="bottom-end" reference-element="tooltip-bottom-end-ref">
           <p>placement: bottom-end</p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
         </calcite-tooltip>
-        <calcite-tooltip label="tooltip - right-start" placement="right-start" reference-element="tooltip-right-start-ref">
+        <calcite-tooltip
+          label="tooltip - right-start"
+          placement="right-start"
+          reference-element="tooltip-right-start-ref"
+        >
           <p>placement: right-start</p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
         </calcite-tooltip>
         <calcite-tooltip label="tooltip - right-end" placement="right-end" reference-element="tooltip-right-end-ref">
           <p>placement: right-end</p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
         </calcite-tooltip>
         <calcite-tooltip label="tooltip - left-start" placement="left-start" reference-element="tooltip-left-start-ref">
           <p>placement: left-start</p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
         </calcite-tooltip>
         <calcite-tooltip label="tooltip - left-end" placement="left-end" reference-element="tooltip-left-end-ref">
           <p>placement: left-end</p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
         </calcite-tooltip>
-        <calcite-tooltip label="tooltip - leading-start" placement="leading-start" reference-element="tooltip-leading-start-ref">
+        <calcite-tooltip
+          label="tooltip - leading-start"
+          placement="leading-start"
+          reference-element="tooltip-leading-start-ref"
+        >
           <p>placement: leading-start</p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
         </calcite-tooltip>
         <calcite-tooltip label="tooltip - leading" placement="leading" reference-element="tooltip-leading-ref">
           <p>placement: leading</p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
         </calcite-tooltip>
-        <calcite-tooltip label="tooltip - leading-end" placement="leading-end" reference-element="tooltip-leading-end-ref">
+        <calcite-tooltip
+          label="tooltip - leading-end"
+          placement="leading-end"
+          reference-element="tooltip-leading-end-ref"
+        >
           <p>placement: leading-end</p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
         </calcite-tooltip>
-        <calcite-tooltip label="tooltip - trailing-end" placement="trailing-end" reference-element="tooltip-trailing-end-ref">
+        <calcite-tooltip
+          label="tooltip - trailing-end"
+          placement="trailing-end"
+          reference-element="tooltip-trailing-end-ref"
+        >
           <p>placement: trailing-end</p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
         </calcite-tooltip>
         <calcite-tooltip label="tooltip - trailing" placement="trailing" reference-element="tooltip-trailing-ref">
           <p>placement: trailing</p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
         </calcite-tooltip>
-        <calcite-tooltip label="tooltip - trailing-start" placement="trailing-start" reference-element="tooltip-trailing-start-ref">
+        <calcite-tooltip
+          label="tooltip - trailing-start"
+          placement="trailing-start"
+          reference-element="tooltip-trailing-start-ref"
+        >
           <p>placement: trailing-start</p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
         </calcite-tooltip>
       </section>
     </calcite-tooltip-manager>
