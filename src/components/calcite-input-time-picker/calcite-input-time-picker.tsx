@@ -137,12 +137,7 @@ export class CalciteInputTimePicker {
 
   private calciteInputBlurHandler = (): void => {
     this.active = false;
-    const newValue = validateTimeString(this.calciteInputEl.value);
-    if (newValue) {
-      this.setValue(newValue);
-    } else {
-      this.setValue(validateTimeString(this.value));
-    }
+    this.setValue(validateTimeString(this.calciteInputEl.value) || validateTimeString(this.value));
   };
 
   private calciteInputFocusHandler = (): void => {
