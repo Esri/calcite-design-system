@@ -321,6 +321,6 @@ describe("calcite-input-time-picker", () => {
 
     await page.waitForChanges();
 
-    expect(changeEvent).toHaveReceivedEventTimes(3);
+    expect(changeEvent).toHaveReceivedEventTimes(2);
   });
 });
