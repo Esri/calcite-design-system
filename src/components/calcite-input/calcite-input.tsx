@@ -384,7 +384,10 @@ export class CalciteInput {
     }
   };
 
-  private inputFocusHandler = (): void => {
+  private inputFocusHandler = (event: FocusEvent): void => {
+    if (event.target !== this.slottedActionEl) {
+      this.setFocus();
+    }
     this.calciteInputFocus.emit({
       element: this.childEl,
       value: this.value
