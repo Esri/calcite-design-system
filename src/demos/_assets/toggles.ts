@@ -10,7 +10,9 @@
 
   let components: HTMLElement[] = null;
   const excludedComponents = ["calcite-button"];
-  const toggleProperty = (property: string): void => {
+  const toggleAction = (action: HTMLElement): void => {
+    const property = action.dataset.jsId;
+    (action as any).active = !(action as any).active;
     if (property === "loading" || property === "disabled") {
       components = components || Array.from(document.body.querySelectorAll("[calcite-hydrated]:not([data-excluded])"));
 
@@ -28,9 +30,7 @@
 
   const attachHandlers = (): void => {
     const actions = document.querySelectorAll<HTMLElement>(".toggles calcite-action");
-    actions.forEach((action) =>
-      action.addEventListener("click", (event) => toggleProperty((event.target as HTMLElement).dataset.jsId))
-    );
+    actions.forEach((action) => action.addEventListener("click", (event) => toggleAction(event.target as HTMLElement)));
   };
 
   const loadToggles = async (): Promise<void> => {

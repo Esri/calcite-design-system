@@ -7,7 +7,9 @@
       top: 20px;
       right: 20px;
       z-index: 999;
-      direction: ltr;
+      border-radius: 0.25rem;
+      overflow: hidden;
+      box-shadow: 0 6px 20px -4px rgb(0 0 0 / 10%), 0 4px 12px -2px rgb(0 0 0 / 8%);
     }
     .toggles calcite-button {
       margin: 0.2rem;
@@ -49,16 +51,13 @@ function dragElement(elmnt) {
   }
 }
   </script>
-  <div class="toggles" id="toggles-drag">
-    <calcite-action-pad theme="dark" expand-disabled data-excluded>
-      <calcite-action-group data-excluded>
-        <calcite-action data-excluded data-js-id="loading" text="Toggle loading" text-enabled></calcite-action>
-        <calcite-action data-excluded data-js-id="disabled" text="Toggle disabled" text-enabled></calcite-action>
-      </calcite-action-group>
-      <calcite-action-group data-excluded>
-        <calcite-action data-excluded data-js-id="dir" text="Toggle direction" text-enabled></calcite-action>
-        <calcite-action data-excluded data-js-id="theme" text="Toggle theme" text-enabled></calcite-action>
-      </calcite-action-group>
-    </calcite-action-pad>
+  <div class="toggles" id="toggles-drag" dir="ltr" theme="dark">
+    <calcite-panel dismissible width-scale="s" data-excluded>
+      <div slot="header-content">Demo Toggles</div>
+        <calcite-action data-excluded data-js-id="loading" text="Loading" text-enabled></calcite-action>
+        <calcite-action data-excluded data-js-id="disabled" text="Disabled" text-enabled></calcite-action>
+        <calcite-action data-excluded data-js-id="dir" text="Direction" text-enabled></calcite-action>
+        <calcite-action data-excluded data-js-id="theme" text="Theme" text-enabled></calcite-action>
+    </calcite-panel>
   </div>
 </template>
