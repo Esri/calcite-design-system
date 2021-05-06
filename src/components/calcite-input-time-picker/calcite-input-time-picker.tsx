@@ -8,7 +8,8 @@ import {
   Listen,
   Event,
   EventEmitter,
-  Method
+  Method,
+  State
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { parseTimeString, Time, validateTimeString } from "../../utils/time";
@@ -102,9 +103,20 @@ export class CalciteInputTimePicker {
 
   private calciteInputEl: HTMLCalciteInputElement;
 
+  private previousEmittedValue: string;
+
   private referenceElementId: string = guid();
 
   private valueSetInternally: boolean;
+
+  //--------------------------------------------------------------------------
+  //
+  //  State
+  //
+  //--------------------------------------------------------------------------
+
+  /** The literal value of the calcite-input */
+  @State() inputValue: string;
 
   //--------------------------------------------------------------------------
   //
@@ -123,7 +135,7 @@ export class CalciteInputTimePicker {
   //
   //--------------------------------------------------------------------------
 
-  private inputBlurHandler = (): void => {
+  private calciteInputBlurHandler = (): void => {
     this.active = false;
     const newValue = validateTimeString(this.calciteInputEl.value);
     if (newValue) {
@@ -133,18 +145,12 @@ export class CalciteInputTimePicker {
     }
   };
 
-  private inputFocusHandler = (): void => {
+  private calciteInputFocusHandler = (): void => {
     this.active = true;
   };
 
-  private inputInputHandler = (event: CustomEvent): void => {
-    const value = event.detail.value;
-    const validatedValue = validateTimeString(value);
-    if (validatedValue) {
-      this.setValue(validatedValue);
-    } else if (!value) {
-      this.setValue(value);
-    }
+  private calciteInputInputHandler = (event: CustomEvent): void => {
+    this.setValue(event.detail.value);
   };
 
   @Listen("keyup")
@@ -229,16 +235,31 @@ export class CalciteInputTimePicker {
     this.calciteInputEl = el;
   };
 
-  private setValue = (value: string): void => {
-    const previousValue = this.value;
-    this.valueSetInternally = true;
-    this.value = value;
-    this.valueSetInternally = false;
-    const inputTimePickerChangeEvent = this.calciteInputTimePickerChange.emit(value);
-    if (inputTimePickerChangeEvent.defaultPrevented) {
+  private setValue = (newValue: string): void => {
+    const validatedNewValue = validateTimeString(newValue);
+
+    if (validatedNewValue) {
+      const previousValue = this.value;
+
       this.valueSetInternally = true;
-      this.value = previousValue;
-      this.valueSetInternally = true;
+      this.value = validatedNewValue;
+      this.inputValue = validatedNewValue;
+      this.valueSetInternally = false;
+
+      if (this.previousEmittedValue !== validatedNewValue) {
+        const inputTimePickerChangeEvent = this.calciteInputTimePickerChange.emit(
+          validatedNewValue
+        );
+        this.previousEmittedValue = validatedNewValue;
+        if (inputTimePickerChangeEvent.defaultPrevented) {
+          this.valueSetInternally = true;
+          this.value = previousValue;
+          this.inputValue = previousValue;
+          this.valueSetInternally = false;
+        }
+      }
+    } else {
+      this.inputValue = newValue;
     }
   };
 
@@ -250,7 +271,7 @@ export class CalciteInputTimePicker {
 
   componentWillLoad() {
     if (this.value) {
-      this.setValue(validateTimeString(this.value));
+      this.setValue(this.value);
     }
   }
 
@@ -277,14 +298,14 @@ export class CalciteInputTimePicker {
             disabled={this.disabled}
             icon="clock"
             name={this.name}
-            onCalciteInputBlur={this.inputBlurHandler}
-            onCalciteInputFocus={this.inputFocusHandler}
-            onCalciteInputInput={this.inputInputHandler}
+            onCalciteInputBlur={this.calciteInputBlurHandler}
+            onCalciteInputFocus={this.calciteInputFocusHandler}
+            onCalciteInputInput={this.calciteInputInputHandler}
             ref={this.setCalciteInputEl}
             scale={this.scale}
             step={this.step}
             theme={this.theme}
-            value={this.value}
+            value={this.inputValue}
           />
         </div>
         <calcite-popover
