@@ -20,10 +20,22 @@ export const LightTheme = (): string => html`
     layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
   >
-    <calcite-radio-button value="react">React</calcite-radio-button>
-    <calcite-radio-button value="ember">Ember</calcite-radio-button>
-    <calcite-radio-button value="angular">Angular</calcite-radio-button>
-    <calcite-radio-button value="vue">Vue</calcite-radio-button>
+    <calcite-label>
+      <calcite-radio-button value="react"></calcite-radio-button>
+      React
+    </calcite-label>
+    <calcite-label>
+      <calcite-radio-button value="ember"></calcite-radio-button>
+      Ember
+    </calcite-label>
+    <calcite-label>
+      <calcite-radio-button value="angular"></calcite-radio-button>
+      Angular
+    </calcite-label>
+    <calcite-label>
+      <calcite-radio-button value="vue"></calcite-radio-button>
+      Vue
+    </calcite-label>
   </calcite-radio-button-group>
 `;
 
@@ -36,10 +48,22 @@ export const DarkTheme = (): string => html`
     layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
   >
-    <calcite-radio-button value="react">React</calcite-radio-button>
-    <calcite-radio-button value="ember">Ember</calcite-radio-button>
-    <calcite-radio-button value="angular">Angular</calcite-radio-button>
-    <calcite-radio-button value="vue">Vue</calcite-radio-button>
+    <calcite-label>
+      <calcite-radio-button value="react"></calcite-radio-button>
+      React
+    </calcite-label>
+    <calcite-label>
+      <calcite-radio-button value="ember"></calcite-radio-button>
+      Ember
+    </calcite-label>
+    <calcite-label>
+      <calcite-radio-button value="angular"></calcite-radio-button>
+      Angular
+    </calcite-label>
+    <calcite-label>
+      <calcite-radio-button value="vue"></calcite-radio-button>
+      Vue
+    </calcite-label>
   </calcite-radio-button-group>
 `;
 

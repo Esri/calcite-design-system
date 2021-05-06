@@ -12,7 +12,7 @@ import {
   Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { focusElement, getElementDir } from "../../utils/dom";
+import { focusElement } from "../../utils/dom";
 import { Scale, Theme } from "../interfaces";
 import { hiddenInputStyle } from "../../utils/form";
 
@@ -333,30 +333,12 @@ export class CalciteRadioButton {
   //
   // --------------------------------------------------------------------------
 
-  private renderLabel(): VNode {
-    if (this.el.textContent) {
-      return (
-        <calcite-label
-          dir={getElementDir(this.el)}
-          disable-spacing
-          disabled={this.disabled}
-          for={`${this.guid}-input`}
-          layout="inline"
-          scale={this.scale}
-        >
-          <slot />
-        </calcite-label>
-      );
-    }
-    return <slot />;
-  }
-
   render(): VNode {
     const value = this.value?.toString();
 
     return (
       <Host>
-        <div class={{ container: true, "container--labeled": !!this.el.textContent }}>
+        <div class="container">
           <input
             aria-label={value || this.guid}
             checked={this.checked}
@@ -381,7 +363,6 @@ export class CalciteRadioButton {
             scale={this.scale}
             theme={this.theme}
           />
-          {this.renderLabel()}
         </div>
       </Host>
     );
