@@ -323,4 +323,37 @@ describe("calcite-input-time-picker", () => {
 
     expect(changeEvent).toHaveReceivedEventTimes(2);
   });
+
+  it("resets to previous value on blur when an invalid time value is entered", async () => {
+    const initialValue = "01:02";
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-input-time-picker step="1" value="${initialValue}"></calcite-input-time-picker><input>`
+    );
+
+    const inputTimePicker = await page.find("calcite-input-time-picker");
+    const input = await page.find("input");
+
+    await page.keyboard.press("Tab");
+    await input.type("2:");
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(await inputTimePicker.getProperty("value")).toBe(initialValue);
+  });
+
+  it("formats valid typed time value appropriately on blur", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-input-time-picker step="1"></calcite-input-time-picker><input>`);
+
+    const inputTimePicker = await page.find("calcite-input-time-picker");
+    const input = await page.find("input");
+
+    await page.keyboard.press("Tab");
+    await input.type("2:3:4");
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(await inputTimePicker.getProperty("value")).toBe("02:03:04");
+  });
 });
