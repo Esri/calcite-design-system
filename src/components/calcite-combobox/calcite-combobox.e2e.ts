@@ -311,11 +311,11 @@ describe("calcite-combobox", () => {
 
       await input.press("Enter");
       expect(await item1.getProperty("selected")).toBe(true);
-      expect(eventSpy).toHaveReceivedEventTimes(1);
+      expect(eventSpy).toHaveReceivedEventTimes(2);
 
       await input.press("Enter");
       expect(await item1.getProperty("selected")).toBe(false);
-      expect(eventSpy).toHaveReceivedEventTimes(2);
+      expect(eventSpy).toHaveReceivedEventTimes(4);
     });
 
     it("should delete last chip on Delete", async () => {
