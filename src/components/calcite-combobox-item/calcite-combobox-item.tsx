@@ -54,9 +54,6 @@ export class CalciteComboboxItem {
     this.isSelected = newValue;
   }
 
-  /** The component's scale */
-  @Prop({ reflect: true }) scale: Scale = "m";
-
   /** The main label for this item. */
   @Prop({ reflect: true }) textLabel!: string;
 
@@ -79,6 +76,8 @@ export class CalciteComboboxItem {
   isNested: boolean;
 
   hasDefaultSlot: boolean;
+
+  scale: Scale = "m";
 
   // --------------------------------------------------------------------------
   //

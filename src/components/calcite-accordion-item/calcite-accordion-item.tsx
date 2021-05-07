@@ -12,6 +12,7 @@ import {
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { CSS_UTILITY } from "../../utils/resources";
+import { Position } from "../interfaces";
 
 @Component({
   tag: "calcite-accordion-item",
@@ -188,7 +189,7 @@ export class CalciteAccordionItem {
   private selectionMode: string;
 
   /** what icon position does the parent accordion specify */
-  private iconPosition = "end";
+  private iconPosition: Position = "end";
 
   /** what icon type does the parent accordion specify */
   private iconType: string;
