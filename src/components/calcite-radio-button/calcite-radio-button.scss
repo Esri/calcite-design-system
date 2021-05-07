@@ -1,12 +1,6 @@
 :host {
   @apply cursor-pointer inline-block relative;
 }
-.container {
-  @apply inline-flex;
-}
 :host([disabled]) {
   @apply cursor-pointer;
-}
-:host([hidden]) {
-  @apply hidden;
 }
