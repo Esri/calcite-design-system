@@ -93,7 +93,7 @@ export class CalciteInputTimePicker {
   @Prop({ reflect: true }) theme: Theme;
 
   /** The selected time */
-  @Prop({ reflect: true, mutable: true }) value?: string;
+  @Prop({ reflect: true, mutable: true }) value: string = null;
 
   //--------------------------------------------------------------------------
   //
@@ -103,11 +103,9 @@ export class CalciteInputTimePicker {
 
   private calciteInputEl: HTMLCalciteInputElement;
 
-  private previousEmittedValue: string;
+  private previousEmittedValue: string = null;
 
   private referenceElementId: string = guid();
-
-  private valueSetInternally: boolean;
 
   //--------------------------------------------------------------------------
   //
@@ -137,7 +135,12 @@ export class CalciteInputTimePicker {
 
   private calciteInputBlurHandler = (): void => {
     this.active = false;
-    this.setValue(validateTimeString(this.calciteInputEl.value) || validateTimeString(this.value));
+
+    const newValue =
+      validateTimeString(this.calciteInputEl.value) || validateTimeString(this.value);
+
+    this.setValue(newValue);
+    this.calciteInputEl.setInputElValue(newValue);
   };
 
   private calciteInputFocusHandler = (): void => {
@@ -155,11 +158,9 @@ export class CalciteInputTimePicker {
     }
   }
 
-  @Listen("calciteInputValueChange")
-  calciteInputValueChangeHandler(event: CustomEvent): void {
-    if (!this.valueSetInternally) {
-      this.setValue(event.detail);
-    }
+  @Listen("calciteInputExternalValueChange")
+  calciteInputExternalValueChangeHandler(event: CustomEvent): void {
+    this.setValue(event.detail, true);
   }
 
   @Listen("calciteTimePickerBlur")
@@ -230,31 +231,29 @@ export class CalciteInputTimePicker {
     this.calciteInputEl = el;
   };
 
-  private setValue = (newValue: string): void => {
+  private setInputValue = (newInputValue: string, external = false): void => {
+    this.inputValue = newInputValue;
+    this.calciteInputEl.setValue({ value: newInputValue, external });
+  };
+
+  private setValue = (newValue: string, external = false): void => {
     const validatedNewValue = validateTimeString(newValue);
 
-    if (validatedNewValue) {
-      const previousValue = this.value;
+    if (validatedNewValue === this.value) {
+      return;
+    }
 
-      this.valueSetInternally = true;
-      this.value = validatedNewValue;
-      this.inputValue = validatedNewValue;
-      this.valueSetInternally = false;
+    const previousValue = this.value;
+    this.value = validatedNewValue;
+    this.setInputValue(validatedNewValue, external);
 
-      if (this.previousEmittedValue !== validatedNewValue) {
-        const inputTimePickerChangeEvent = this.calciteInputTimePickerChange.emit(
-          validatedNewValue
-        );
-        this.previousEmittedValue = validatedNewValue;
-        if (inputTimePickerChangeEvent.defaultPrevented) {
-          this.valueSetInternally = true;
-          this.value = previousValue;
-          this.inputValue = previousValue;
-          this.valueSetInternally = false;
-        }
+    if (this.previousEmittedValue !== validatedNewValue) {
+      const inputTimePickerChangeEvent = this.calciteInputTimePickerChange.emit(validatedNewValue);
+      this.previousEmittedValue = validatedNewValue;
+      if (inputTimePickerChangeEvent.defaultPrevented) {
+        this.value = previousValue;
+        this.setInputValue(previousValue, external);
       }
-    } else {
-      this.inputValue = newValue;
     }
   };
 
@@ -264,7 +263,7 @@ export class CalciteInputTimePicker {
   //
   //--------------------------------------------------------------------------
 
-  componentWillLoad() {
+  componentDidLoad() {
     if (this.value) {
       this.setValue(this.value);
     }
@@ -300,7 +299,6 @@ export class CalciteInputTimePicker {
             scale={this.scale}
             step={this.step}
             theme={this.theme}
-            value={this.inputValue}
           />
         </div>
         <calcite-popover

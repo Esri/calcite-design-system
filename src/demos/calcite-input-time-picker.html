@@ -144,8 +144,9 @@
 
         const expectedValue = date.toISOString().substr(11, 8);
         calciteInput.value = expectedValue;
-        console.log("inputTimePicker.value", inputTimePicker.value);
-        console.log("calciteInput.value", calciteInput.value);
+        if (inputTimePicker.value !== calciteInput.value) {
+          console.log("VALUES DON'T EQUAL!!!", "inputTimePicker:", inputTimePicker.value, "input:", calciteInput.value);
+        }
       });
     })();
   </script>
