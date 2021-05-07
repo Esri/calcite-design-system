@@ -5,6 +5,7 @@ import { guid } from "../../utils/guid";
 import { ComboboxChildElement } from "../calcite-combobox/interfaces";
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
+import { Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-combobox-item-group",
@@ -30,8 +31,9 @@ export class CalciteComboboxItemGroup {
   //
   // --------------------------------------------------------------------------
 
-  componentWillLoad(): void {
+  connectedCallback(): void {
     this.ancestors = getAncestors(this.el);
+    this.scale = getElementProp(this.el, "scale", this.scale);
   }
 
   // --------------------------------------------------------------------------
@@ -44,6 +46,8 @@ export class CalciteComboboxItemGroup {
 
   guid: string = guid();
 
+  scale: Scale = "m";
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -51,16 +55,15 @@ export class CalciteComboboxItemGroup {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { el } = this;
-    const scale = getElementProp(el, "scale", "m");
+    const { el, scale } = this;
     const dir = getElementDir(el);
     const indent = `${CSS.label}--indent-${getDepth(el)}`;
 
     return (
-      <Host scale={scale}>
+      <Host>
         <ul
           aria-labelledby={this.guid}
-          class={{ [CSS.list]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+          class={{ [CSS.list]: true, [CSS_UTILITY.rtl]: dir === "rtl", [`scale--${scale}`]: true }}
           role="group"
         >
           <li class={{ [CSS.label]: true, [indent]: true }} id={this.guid} role="presentation">

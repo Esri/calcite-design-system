@@ -179,10 +179,10 @@ export class CalciteBlock {
             {headerContent}
             {!hasControl ? (
               <calcite-icon
+                aria-hidden="true"
+                class={CSS.toggleIcon}
                 icon={collapseIcon}
                 scale="s"
-                class={CSS.toggleIcon}
-                aria-hidden="true"
               />
             ) : null}
           </button>
