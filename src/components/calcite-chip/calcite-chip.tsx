@@ -9,11 +9,12 @@ import {
   VNode,
   Method
 } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
+import { getElementDir, getSlotted } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { CSS, TEXT } from "./resources";
 import { ChipColor } from "./interfaces";
 import { Appearance, Scale, Theme } from "../interfaces";
+import { CSS_UTILITY } from "../../utils/resources";
 
 @Component({
   tag: "calcite-chip",
@@ -51,7 +52,7 @@ export class CalciteChip {
   /** Select theme (light or dark) */
   @Prop({ reflect: true }) theme: Theme;
 
-  @Prop() value!: string;
+  @Prop() value!: any;
 
   // --------------------------------------------------------------------------
   //
@@ -102,6 +103,17 @@ export class CalciteChip {
   //
   //--------------------------------------------------------------------------
 
+  renderChipImage(): VNode {
+    const { el } = this;
+    const hasChipImage = getSlotted(el, "image");
+
+    return hasChipImage ? (
+      <div class="chip-image-container">
+        <slot name="image" />
+      </div>
+    ) : null;
+  }
+
   render(): VNode {
     const dir = getElementDir(this.el);
     const iconScale = this.scale !== "l" ? "s" : "m";
@@ -129,13 +141,15 @@ export class CalciteChip {
     );
 
     return (
-      <Host dir={dir}>
-        <slot name="chip-image" />
-        {this.icon ? iconEl : null}
-        <span id={this.guid}>
-          <slot />
-        </span>
-        {this.dismissible ? closeButton : null}
+      <Host>
+        <div class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+          {this.renderChipImage()}
+          {this.icon ? iconEl : null}
+          <span id={this.guid}>
+            <slot />
+          </span>
+          {this.dismissible ? closeButton : null}
+        </div>
       </Host>
     );
   }

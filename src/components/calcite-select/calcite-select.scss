@@ -61,7 +61,7 @@
   }
 }
 
-:host([dir="rtl"]) .select {
+.select.calcite--rtl {
   @apply border-r border-color-1;
   border-right-style: solid;
 }

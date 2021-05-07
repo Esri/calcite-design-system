@@ -84,7 +84,7 @@ export class CalciteCheckbox {
   @Prop({ reflect: true }) theme: Theme;
 
   /** The value of the checkbox input */
-  @Prop({ reflect: true }) value?: string;
+  @Prop() value?: any;
 
   //--------------------------------------------------------------------------
   //
@@ -254,7 +254,7 @@ export class CalciteCheckbox {
     );
     this.input.type = "checkbox";
     if (this.value) {
-      this.input.value = this.value;
+      this.input.value = this.value != null ? this.value.toString() : "";
     }
     this.el.appendChild(this.input);
   }

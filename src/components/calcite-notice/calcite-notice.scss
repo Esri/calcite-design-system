@@ -2,10 +2,10 @@
 :host([scale="s"]) {
   --calcite-notice-spacing-token-small: theme("spacing.2");
   --calcite-notice-spacing-token-large: theme("spacing.3");
-  @include slotted("notice-title", "*") {
+  @include slotted("title", "*", ".container") {
     @apply text--1-wrap mb-1;
   }
-  @include slotted("notice-message", "*") {
+  @include slotted("message", "*", ".container") {
     @apply text--2-wrap mb-1;
   }
   ::slotted(calcite-link) {
@@ -16,10 +16,10 @@
 :host([scale="m"]) {
   --calcite-notice-spacing-token-small: theme("spacing.3");
   --calcite-notice-spacing-token-large: theme("spacing.4");
-  @include slotted("notice-title", "*") {
+  @include slotted("title", "*", ".container") {
     @apply text-0-wrap mb-1;
   }
-  @include slotted("notice-message", "*") {
+  @include slotted("message", "*", ".container") {
     @apply text--1-wrap mb-1;
   }
   ::slotted(calcite-link) {
@@ -30,10 +30,10 @@
 :host([scale="l"]) {
   --calcite-notice-spacing-token-small: theme("spacing.5");
   --calcite-notice-spacing-token-large: theme("spacing.6");
-  @include slotted("notice-title", "*") {
+  @include slotted("title", "*", ".container") {
     @apply text-1-wrap mb-1;
   }
-  @include slotted("notice-message", "*") {
+  @include slotted("message", "*", ".container") {
     @apply text-0-wrap mb-1;
   }
   ::slotted(calcite-link) {
@@ -54,16 +54,19 @@
 }
 
 :host {
+  @apply hidden mx-auto max-w-full items-center;
+  width: var(--calcite-notice-width);
+}
+
+.container {
   @apply hidden
-    text-left 
+    text-left
     my-0
-    mx-auto
     box-border
-    max-w-full
+    w-full
     opacity-0
     pointer-events-none
     bg-foreground-1;
-  width: var(--calcite-notice-width);
   max-height: 0;
   transition: $transition;
   border-left: 0px solid;
@@ -78,36 +81,38 @@
   }
 }
 
-:host([dir="rtl"]) {
+.calcite--rtl {
   @apply text-right;
   border-left: none;
   border-right: 0px solid;
 }
 
 :host([active]) {
+  @apply flex;
+}
+
+:host([active]) .container {
   @apply flex
-    shadow-1 
-    items-center 
-    opacity-100 
-    max-h-full 
-    border-2 
+    shadow-1
+    items-center
+    opacity-100
+    max-h-full
+    border-2
     pointer-events-auto;
 }
 
-@include slotted("notice-title", "*") {
+@include slotted("title", "*", ".container") {
   @apply m-0 font-medium text-color-1;
 }
 
-@include slotted("notice-message", "*") {
+@include slotted("message", "*", ".container") {
   @apply inline m-0 font-normal text-color-2;
   margin-right: var(--calcite-notice-spacing-token-small);
 }
 
-:host([dir="rtl"]) {
-  @include slotted("notice-message", "*") {
-    @apply mr-0;
-    margin-left: var(--calcite-notice-spacing-token-small);
-  }
+@include slotted("message", "*", ".calcite--rtl") {
+  @apply mr-0;
+  margin-left: var(--calcite-notice-spacing-token-small);
 }
 
 @mixin notice-element-base() {
@@ -132,7 +137,7 @@
   }
 }
 
-:host([dir="rtl"]) .notice-content {
+.calcite--rtl .notice-content {
   padding: var(--calcite-notice-spacing-token-small) 0 var(--calcite-notice-spacing-token-small)
     var(--calcite-notice-spacing-token-small);
 
@@ -170,7 +175,7 @@ $noticeColors: "blue" var(--calcite-ui-brand), "red" var(--calcite-ui-danger), "
   $name: nth($noticeColor, 1);
   $color: nth($noticeColor, 2);
 
-  :host([color="#{$name}"]) {
+  :host([color="#{$name}"]) .container {
     border-color: $color;
     & .notice-icon {
       color: $color;

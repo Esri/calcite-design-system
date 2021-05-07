@@ -43,6 +43,7 @@
 .toggle {
   @apply flex
     flex-no-wrap
+    justify-between
     font-inherit
     items-center
     m-0
@@ -72,14 +73,16 @@ calcite-handle {
 }
 
 .title {
-  @apply m-0 px-3 py-0;
+  @apply m-0 px-4 py-0;
 }
 
 .header .title .heading {
   @apply p-0
     text--1
     text-color-3
+    font-medium
     word-break
+    leading-tight
     transition-color
     duration-150
     ease-in-out;
@@ -97,13 +100,16 @@ calcite-handle {
 }
 
 .toggle-icon {
-  @apply flex-grow-0
-    flex-shrink-0
-    fill-current
-    m-0
-    mr-4;
+  @apply mr-4
+  self-center
+  text-color-3
+  transition-color
+  duration-150
+  ease-in-out;
+}
 
-  flex-basis: theme("spacing.4");
+.toggle:hover .toggle-icon {
+  @apply text-color-1;
 }
 
 .content {
@@ -119,17 +125,17 @@ calcite-handle {
 }
 
 .calcite--rtl {
+  .toggle-icon {
+    @apply mr-0 ml-4;
+  }
   .icon {
     @apply ml-0 mr-3;
   }
 }
 
 :host([open]) {
-  @apply my-3;
-  box-shadow: 1px 0 0 var(--calcite-ui-border-1) inset;
-  &.calcite--rtl {
-    box-shadow: -1px 0 0 var(--calcite-ui-border-1) inset;
-  }
+  @apply my-2;
+
   .header .title .heading {
     @apply text-color-1;
   }
@@ -147,20 +153,9 @@ calcite-handle {
 }
 
 :host([drag-handle]) {
-  .title {
-    @apply pl-1;
-  }
-
-  .icon {
-    @apply ml-0 mr-2;
-  }
-
   .calcite--rtl {
     .title {
       @apply pl-0 pr-1;
-    }
-    .icon {
-      @apply mr-0 ml-1;
     }
   }
 }

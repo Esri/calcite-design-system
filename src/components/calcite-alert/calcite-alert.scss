@@ -14,10 +14,10 @@
   --calcite-alert-width: 40em;
   --calcite-alert-spacing-token-small: #{$baseline/2};
   --calcite-alert-spacing-token-large: #{$baseline/1.5};
-  @include slotted("alert-title", "*") {
+  @include slotted("title", "*") {
     @include font-size(-2);
   }
-  @include slotted("alert-message", "*") {
+  @include slotted("message", "*") {
     @include font-size(-3);
   }
   ::slotted(calcite-link) {
@@ -29,10 +29,10 @@
   --calcite-alert-width: 50em;
   --calcite-alert-spacing-token-small: #{$baseline/1.5};
   --calcite-alert-spacing-token-large: #{$baseline};
-  @include slotted("alert-title", "*") {
+  @include slotted("title", "*") {
     @include font-size(-1);
   }
-  @include slotted("alert-message", "*") {
+  @include slotted("message", "*") {
     @include font-size(-2);
   }
   ::slotted(calcite-link) {
@@ -44,10 +44,10 @@
   --calcite-alert-width: 60em;
   --calcite-alert-spacing-token-small: #{$baseline/1.25};
   --calcite-alert-spacing-token-large: #{$baseline * 1.25};
-  @include slotted("alert-title", "*") {
+  @include slotted("title", "*") {
     @include font-size(0);
   }
-  @include slotted("alert-message", "*") {
+  @include slotted("message", "*") {
     @include font-size(-1);
   }
   ::slotted(calcite-link) {
@@ -86,6 +86,13 @@
   }
 }
 
+.container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
 // focus styles
 .alert-close {
   @include focus-style-base();
@@ -108,14 +115,14 @@
   }
 }
 
-@include slotted("alert-title", "*") {
+@include slotted("title", "*") {
   @include font-size(0);
   color: var(--calcite-ui-text-1);
   margin: 0;
   font-weight: 500;
 }
 
-@include slotted("alert-message", "*") {
+@include slotted("message", "*") {
   display: inline;
   margin: 0;
   margin-right: $baseline/2;
@@ -124,8 +131,8 @@
   color: var(--calcite-ui-text-2);
 }
 
-:host([dir="rtl"]) {
-  @include slotted("alert-message", "*") {
+.calcite--rtl {
+  @include slotted("message", "*") {
     margin-right: unset;
     margin-left: $baseline/2;
   }
@@ -162,7 +169,7 @@
   }
 }
 
-:host([dir="rtl"]) {
+.calcite--rtl {
   .alert-content {
     padding: var(--calcite-alert-spacing-token-small) 0 var(--calcite-alert-spacing-token-small)
       var(--calcite-alert-spacing-token-small);
@@ -211,7 +218,7 @@
     border-radius: 0;
   }
 }
-:host([dir="rtl"]) {
+.calcite--rtl {
   .alert-close {
     border-radius: 0 0 0 var(--calcite-border-radius);
   }
@@ -253,7 +260,7 @@
   border-right: 0px solid transparent;
 }
 
-:host([auto-dismiss][dir="rtl"]) > .alert-queue-count {
+:host([auto-dismiss]) .calcite--rtl > .alert-queue-count {
   border-left: 0px solid transparent;
 }
 
@@ -280,7 +287,7 @@
   }
 }
 
-:host([dir="rtl"]) .alert-dismiss-progress:after {
+.calcite--rtl .alert-dismiss-progress:after {
   left: 0;
   right: initial;
 }

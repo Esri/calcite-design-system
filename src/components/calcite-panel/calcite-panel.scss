@@ -113,6 +113,17 @@
   }
 }
 
+.back-button {
+  @apply border-color-3
+  border-solid
+  border-0
+  border-r-px;
+}
+
+.calcite--rtl .back-button {
+  @apply border-r-0 border-l-px;
+}
+
 .header-actions {
   @apply flex
   items-stretch

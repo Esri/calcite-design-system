@@ -217,7 +217,7 @@ export class CalciteDatePicker {
     const dir = getElementDir(this.el);
 
     return (
-      <Host dir={dir} onBlur={this.reset} onKeyUp={this.keyUpHandler} role="application">
+      <Host onBlur={this.reset} onKeyUp={this.keyUpHandler} role="application">
         {this.renderCalendar(activeDate, dir, maxDate, minDate, date, endDate)}
       </Host>
     );

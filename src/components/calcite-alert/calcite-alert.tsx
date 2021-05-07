@@ -13,18 +13,19 @@ import {
   Watch
 } from "@stencil/core";
 import { getElementDir, setRequestedIcon } from "../../utils/dom";
-import { DURATIONS, TEXT } from "./calcite-alert.resources";
+import { DURATIONS, SLOTS, TEXT } from "./calcite-alert.resources";
 import { Scale, Theme } from "../interfaces";
 import { StatusColor, AlertDuration, StatusIcons } from "./interfaces";
+import { CSS_UTILITY } from "../../utils/resources";
 
 /** Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
  * at the bottom of the page. Multiple opened alerts will be added to a queue, allowing users to dismiss them in the order they are provided.
  */
 
 /**
- * @slot alert-title - Title of the alert (optional)
- * @slot alert-message - Main text of the alert
- * @slot alert-link - Optional action to take from the alert (undo, try again, link to page, etc.)
+ * @slot title - Title of the alert (optional)
+ * @slot message - Main text of the alert
+ * @slot link - Optional action to take from the alert (undo, try again, link to page, etc.)
  */
 
 @Component({
@@ -141,13 +142,13 @@ export class CalciteAlert {
         aria-hidden={hidden.toString()}
         aria-label={this.label}
         calcite-hydrated-hidden={hidden}
-        dir={dir}
         role={role}
       >
         <div
           class={{
             container: true,
-            queued: this.queued
+            queued: this.queued,
+            [CSS_UTILITY.rtl]: dir === "rtl"
           }}
         >
           {this.requestedIcon ? (
@@ -156,9 +157,9 @@ export class CalciteAlert {
             </div>
           ) : null}
           <div class="alert-content">
-            <slot name="alert-title" />
-            <slot name="alert-message" />
-            <slot name="alert-link" />
+            <slot name={SLOTS.title} />
+            <slot name={SLOTS.message} />
+            <slot name={SLOTS.link} />
           </div>
           {queueCount}
           {!this.autoDismiss ? closeButton : null}
@@ -221,7 +222,7 @@ export class CalciteAlert {
   //
   //--------------------------------------------------------------------------
 
-  /** focus either the slotted alert-link or the close button */
+  /** focus either the slotted link or the close button */
   @Method()
   async setFocus(): Promise<void> {
     if (!this.closeButton && !this.alertLinkEl) {

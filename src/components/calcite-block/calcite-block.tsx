@@ -1,5 +1,5 @@
 import { Component, Element, Event, EventEmitter, Host, Prop, h, VNode } from "@stencil/core";
-import { CSS, SLOTS, TEXT, HEADING_LEVEL } from "./resources";
+import { CSS, SLOTS, TEXT, HEADING_LEVEL, ICONS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 import { Theme } from "../interfaces";
 import { getElementDir, getSlotted } from "../../utils/dom";
@@ -145,6 +145,7 @@ export class CalciteBlock {
     const toggleLabel = open ? intlCollapse || TEXT.collapse : intlExpand || TEXT.expand;
 
     const hasIcon = getSlotted(el, SLOTS.icon);
+
     const headerContent = (
       <header class={CSS.header}>
         {hasIcon ? (
@@ -161,7 +162,8 @@ export class CalciteBlock {
       </header>
     );
 
-    const hasControl = getSlotted(el, SLOTS.control);
+    const hasControl = !!getSlotted(el, SLOTS.control);
+    const collapseIcon = open ? ICONS.opened : ICONS.closed;
 
     const headerNode = (
       <div class={CSS.headerContainer}>
@@ -175,6 +177,14 @@ export class CalciteBlock {
             title={toggleLabel}
           >
             {headerContent}
+            {!hasControl ? (
+              <calcite-icon
+                aria-hidden="true"
+                class={CSS.toggleIcon}
+                icon={collapseIcon}
+                scale="s"
+              />
+            ) : null}
           </button>
         ) : (
           headerContent

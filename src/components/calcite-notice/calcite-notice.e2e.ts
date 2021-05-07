@@ -3,9 +3,9 @@ import { accessible, renders } from "../../tests/commonTests";
 
 describe("calcite-notice", () => {
   const noticeContent = `
-  <div slot="notice-title">Title Text</div>
-  <div slot="notice-message">Message Text</div>
-  <calcite-link slot="notice-link" href="">Action</calcite-link>
+  <div slot="title">Title Text</div>
+  <div slot="message">Message Text</div>
+  <calcite-link slot="link" href="">Action</calcite-link>
 `;
   it("renders", async () => renders(`<calcite-notice active>${noticeContent}</calcite-notice>`));
 
@@ -21,9 +21,9 @@ describe("calcite-notice", () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-notice>
-    <div slot="notice-title">Title Text</div>
-    <div slot="notice-message">Message Text</div>
-    <calcite-link slot="notice-link" href="">Action</calcite-link>
+    <div slot="title">Title Text</div>
+    <div slot="message">Message Text</div>
+    <calcite-link slot="link" href="">Action</calcite-link>
     </calcite-notice>`);
     const element = await page.find("calcite-notice");
     const close = await page.find("calcite-notice >>> .notice-close");

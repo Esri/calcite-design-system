@@ -128,12 +128,12 @@ const trailingPanelHTML = html`
 `;
 
 const headerHTML = html`
-  <header slot="shell-header">
+  <header slot="header">
     <h2>My Shell Header</h2>
   </header>
 `;
 
-const footerHTML = `<footer slot="shell-footer">My Shell Footer</footer>`;
+const footerHTML = `<footer slot="footer">My Shell Footer</footer>`;
 
 const contentHTML = html`
   <div

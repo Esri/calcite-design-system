@@ -56,8 +56,9 @@ Renders a panel with an action bar.
 | `"action-bar"` | A slot for adding a `calcite-action-bar` to the panel. |
 
 ## Utility class
-| Class                  | Description                                                                                   |
-| ---------------------- | --------------------------------------------------------------------------------------------- |
+
+| Class                  | Description                                                                                  |
+| ---------------------- | -------------------------------------------------------------------------------------------- |
 | `calcite-match-height` | Provides correct height and scrolling behavior for non-Calcite elements in the generic slot. |
 
 ---

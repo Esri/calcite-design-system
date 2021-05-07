@@ -13,10 +13,7 @@
         padding: 1rem;
       }
     </style>
-    <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
-    <link rel="stylesheet" href="../build/calcite.css" />
-    <script type="module" src="../build/calcite.esm.js"></script>
-    <script nomodule src="../build/calcite.js"></script>
+   <script src="./_assets/head.js"></script>
     <script src="_assets/validateInput.js"></script>
   </head>
 
@@ -200,7 +197,7 @@
             <calcite-label>
               Number input clearable kitchen sync
               <calcite-input prefix-text="pre" suffix-text="suf" clearable type="number" placeholder="How many apples?">
-                <calcite-button slot="input-action">Go</calcite-button>
+                <calcite-button slot="action">Go</calcite-button>
               </calcite-input>
             </calcite-label>
             <calcite-label>
@@ -210,13 +207,13 @@
             <calcite-label>
               with button auto
               <calcite-input placeholder="Text">
-                <calcite-button slot="input-action">Go</calcite-button>
+                <calcite-button slot="action">Go</calcite-button>
               </calcite-input>
             </calcite-label>
             <calcite-label>
               with button
               <calcite-input type="number" placeholder="0" value="0">
-                <calcite-button slot="input-action">Go</calcite-button>
+                <calcite-button slot="action">Go</calcite-button>
               </calcite-input>
             </calcite-label>
             <calcite-label>
@@ -248,25 +245,25 @@
                 number-button-type="horizontal"
                 placeholder="0"
               >
-                <calcite-button slot="input-action">Go or some long text</calcite-button>
+                <calcite-button slot="action">Go or some long text</calcite-button>
               </calcite-input>
             </calcite-label>
             <calcite-label>
               with button auto
               <calcite-input placeholder="Text">
-                <calcite-button width="full" slot="input-action">Go</calcite-button>
+                <calcite-button width="full" slot="action">Go</calcite-button>
               </calcite-input>
             </calcite-label>
             <calcite-label>
               with button with icon
               <calcite-input placeholder="Text">
-                <calcite-button slot="input-action" icon-start="plus">Add </calcite-button>
+                <calcite-button slot="action" icon-start="plus">Add </calcite-button>
               </calcite-input>
             </calcite-label>
             <calcite-label>
               with button with icon
               <calcite-input placeholder="Text">
-                <calcite-button width="full" slot="input-action" icon-start="plus"></calcite-button>
+                <calcite-button width="full" slot="action" icon-start="plus"></calcite-button>
               </calcite-input>
             </calcite-label>
             <calcite-label>
@@ -352,7 +349,7 @@
               Readonly with prefix and button
               <calcite-input readonly prefix-text="API Key" value="A123-S5DL-24FA">
                 <calcite-button
-                  slot="input-action"
+                  slot="action"
                   onclick="alert('copied')"
                   icon-start="copy-to-clipboard"
                 ></calcite-button>
@@ -720,7 +717,7 @@
             <calcite-label disabled>
               Number input clearable kitchen sync
               <calcite-input prefix-text="pre" suffix-text="suf" clearable type="number" placeholder="How many apples?">
-                <calcite-button slot="input-action">Go</calcite-button>
+                <calcite-button slot="action">Go</calcite-button>
               </calcite-input>
             </calcite-label>
             <calcite-label disabled>
@@ -730,13 +727,13 @@
             <calcite-label disabled>
               with button auto
               <calcite-input placeholder="Text">
-                <calcite-button slot="input-action">Go</calcite-button>
+                <calcite-button slot="action">Go</calcite-button>
               </calcite-input>
             </calcite-label>
             <calcite-label disabled>
               with button
               <calcite-input type="number" placeholder="0" value="0">
-                <calcite-button slot="input-action">Go</calcite-button>
+                <calcite-button slot="action">Go</calcite-button>
               </calcite-input>
             </calcite-label>
             <calcite-label disabled>
@@ -768,25 +765,25 @@
                 number-button-type="horizontal"
                 placeholder="0"
               >
-                <calcite-button slot="input-action">Go or some long text</calcite-button>
+                <calcite-button slot="action">Go or some long text</calcite-button>
               </calcite-input>
             </calcite-label>
             <calcite-label disabled>
               with button auto
               <calcite-input placeholder="Text">
-                <calcite-button width="full" slot="input-action">Go</calcite-button>
+                <calcite-button width="full" slot="action">Go</calcite-button>
               </calcite-input>
             </calcite-label>
             <calcite-label disabled>
               with button with icon
               <calcite-input placeholder="Text">
-                <calcite-button slot="input-action" icon-start="plus">Add </calcite-button>
+                <calcite-button slot="action" icon-start="plus">Add </calcite-button>
               </calcite-input>
             </calcite-label>
             <calcite-label disabled>
               with button with icon
               <calcite-input placeholder="Text">
-                <calcite-button width="full" slot="input-action" icon-start="plus"></calcite-button>
+                <calcite-button width="full" slot="action" icon-start="plus"></calcite-button>
               </calcite-input>
             </calcite-label>
             <calcite-label disabled>
@@ -871,7 +868,7 @@
             <calcite-label disabled>
               Readonly with prefix and button
               <calcite-input readonly prefix-text="API Key" value="A123-S5DL-24FA">
-                <calcite-button slot="input-action" onclick="alert('copied')" icon-start="copy-to-clipboard">
+                <calcite-button slot="action" onclick="alert('copied')" icon-start="copy-to-clipboard">
                 </calcite-button>
               </calcite-input>
             </calcite-label>

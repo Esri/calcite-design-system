@@ -7,7 +7,7 @@
     <title>Calcite Components: calcite-shell</title>
 
     <script src="../_assets/head.js"></script>
-    <script src="../_assets/toggles.js"></script>
+
 
     <link rel="stylesheet" href="https://js.arcgis.com/4.12/esri/themes/light/main.css" />
     <script src="https://js.arcgis.com/4.12/"></script>
@@ -28,7 +28,7 @@
         <h2>Basic Shell</h2>
         <div class="shell-container">
           <calcite-shell>
-            <div slot="shell-header">
+            <div slot="header">
               <header class="header">
                 <h2 class="heading">Shell Header: My App</h2>
               </header>
@@ -40,7 +40,7 @@
         <h2>Shell with Footer</h2>
         <div class="shell-container">
           <calcite-shell>
-            <div slot="shell-header">
+            <div slot="header">
               <header class="header">
                 <h2 class="heading">Shell Header: My App</h2>
               </header>
@@ -48,7 +48,7 @@
             <p>Shell Content</p>
             <img src="https://via.placeholder.com/700x400" alt="placeholder" />
 
-            <footer slot="shell-footer">Footer</footer>
+            <footer slot="footer">Footer</footer>
           </calcite-shell>
         </div>
         <h2>Shell with Panels</h2>
@@ -61,7 +61,7 @@
             <calcite-shell-panel slot="contextual-panel" position="end">
               trailing panel
             </calcite-shell-panel>
-            <div slot="shell-header">
+            <div slot="header">
               <header class="header">
                 <h2 class="heading">Shell Header: My App</h2>
               </header>

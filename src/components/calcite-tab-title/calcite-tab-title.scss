@@ -78,11 +78,11 @@ span {
   }
 }
 
-:host([hastext]) .calcite-tab-title--icon.icon-start {
+.container--has-text .calcite-tab-title--icon.icon-start {
   @apply mr-2;
 }
 
-:host([hastext]) .calcite-tab-title--icon.icon-end {
+.container--has-text .calcite-tab-title--icon.icon-end {
   @apply ml-2;
 }
 
@@ -98,11 +98,11 @@ span {
   @apply mr-0 ml-5;
 }
 
-:host([hastext]) .rtl .calcite-tab-title--icon.icon-end {
+.container--has-text.rtl .calcite-tab-title--icon.icon-end {
   @apply ml-0 mr-2;
 }
 
-:host([hastext]) .rtl .calcite-tab-title--icon.icon-start {
+.container--has-text.rtl .calcite-tab-title--icon.icon-start {
   @apply ml-2 mr-0;
 }
 
