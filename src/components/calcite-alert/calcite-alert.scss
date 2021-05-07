@@ -300,9 +300,12 @@ $alertColors: "blue" var(--calcite-ui-brand), "red" var(--calcite-ui-danger), "y
   $color: nth($alertColor, 2);
 
   :host([color="#{$name}"]) {
-    border-top-color: $color;
-    & .alert-icon {
-      color: $color;
+    .container {
+      border-top-color: $color;
+
+      & .alert-icon {
+        color: $color;
+      }
     }
   }
 }
