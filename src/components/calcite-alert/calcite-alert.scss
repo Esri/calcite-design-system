@@ -96,7 +96,6 @@
 
 :host([active]) {
   .container:not(.queued) {
-    border: 2px dashed cyan;
     opacity: 1;
     max-height: 100%;
     transform: translate3d(0, -$baseline, 0);
