@@ -85,10 +85,13 @@ export class CalciteComboboxItem {
   //
   // --------------------------------------------------------------------------
 
-  componentWillLoad(): void {
+  connectedCallback(): void {
     this.ancestors = getAncestors(this.el);
-    this.hasDefaultSlot = this.el.querySelector(":not([slot])") !== null;
     this.scale = getElementProp(this.el, "scale", this.scale);
+  }
+
+  componentWillLoad(): void {
+    this.hasDefaultSlot = this.el.querySelector(":not([slot])") !== null;
   }
 
   // --------------------------------------------------------------------------
