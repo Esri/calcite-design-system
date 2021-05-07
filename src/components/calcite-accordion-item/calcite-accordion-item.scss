@@ -1,5 +1,5 @@
 // icon position variants for child
-[data-icon-position="start"] {
+.icon-position--start {
   --calcite-accordion-item-flex-direction: row-reverse;
   --calcite-accordion-item-icon-rotation: theme("rotate.90");
   --calcite-accordion-item-active-icon-rotation: theme("rotate.180");
@@ -9,7 +9,7 @@
   --calcite-accordion-item-icon-spacing-end: var(--calcite-accordion-item-spacing-unit);
 }
 
-[data-icon-position="end"] {
+.icon-position--end {
   --calcite-accordion-item-flex-direction: row;
   --calcite-accordion-item-icon-rotation: theme("rotate.-90");
   --calcite-accordion-item-active-icon-rotation: theme("rotate.0");
@@ -19,7 +19,7 @@
   --calcite-accordion-item-icon-spacing-end: 0;
 }
 
-[data-icon-position="end"]:not([icon-type="plus-minus"]) {
+.icon-position--end:not(.icon-type--plus-minus) {
   --calcite-accordion-item-icon-rotation: theme("rotate.0");
   --calcite-accordion-item-active-icon-rotation: theme("rotate.180");
   --calcite-accordion-item-icon-rotation-rtl: theme("rotate.0");

@@ -101,7 +101,12 @@ export class CalciteAccordionItem {
 
     return (
       <Host aria-expanded={this.active.toString()} tabindex="0">
-        <div data-icon-position={this.iconPosition}>
+        <div
+          class={{
+            [`icon-position--${this.iconPosition}`]: true,
+            [`icon-type--${this.iconType}`]: true
+          }}
+        >
           <div
             class={{ "accordion-item-header": true, [CSS_UTILITY.rtl]: dir === "rtl" }}
             onClick={this.itemHeaderClickHandler}

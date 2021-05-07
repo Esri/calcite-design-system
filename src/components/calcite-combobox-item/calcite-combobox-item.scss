@@ -1,4 +1,11 @@
-[data-scale="s"] {
+:host {
+  --calcite-combobox-item-indent-start-1: var(--calcite-combobox-item-spacing-indent-1);
+  --calcite-combobox-item-indent-end-1: unset;
+  --calcite-combobox-item-indent-start-2: var(--calcite-combobox-item-spacing-indent-2);
+  --calcite-combobox-item-indent-end-2: unset;
+}
+
+.scale--s {
   @apply text--2;
   --calcite-combobox-item-spacing-unit-l: theme("spacing.3");
   --calcite-combobox-item-spacing-unit-s: theme("spacing.2");
@@ -6,7 +13,7 @@
   --calcite-combobox-item-spacing-indent-2: theme("spacing.4");
 }
 
-[data-scale="m"] {
+.scale--m {
   @apply text--1;
   --calcite-combobox-item-spacing-unit-l: theme("spacing.4");
   --calcite-combobox-item-spacing-unit-s: theme("spacing.3");
@@ -14,19 +21,12 @@
   --calcite-combobox-item-spacing-indent-2: theme("spacing.6");
 }
 
-[data-scale="l"] {
+.scale--l {
   @apply text-0;
   --calcite-combobox-item-spacing-unit-l: theme("spacing.5");
   --calcite-combobox-item-spacing-unit-s: theme("spacing.4");
   --calcite-combobox-item-spacing-indent-1: theme("spacing.4");
   --calcite-combobox-item-spacing-indent-2: theme("spacing.8");
-}
-
-:host {
-  --calcite-combobox-item-indent-start-1: var(--calcite-combobox-item-spacing-indent-1);
-  --calcite-combobox-item-indent-end-1: unset;
-  --calcite-combobox-item-indent-start-2: var(--calcite-combobox-item-spacing-indent-2);
-  --calcite-combobox-item-indent-end-2: unset;
 }
 
 .calcite--rtl {

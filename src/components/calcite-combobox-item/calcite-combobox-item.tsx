@@ -197,7 +197,7 @@ export class CalciteComboboxItem {
 
     return (
       <Host aria-hidden="true">
-        <div data-scale={this.scale}>
+        <div class={`scale--${this.scale}`}>
           <li class={classes} id={this.guid} onClick={this.itemClickHandler}>
             {this.renderIcon(this.scale, isSingleSelect)}
             <span class={CSS.title}>{this.textLabel}</span>

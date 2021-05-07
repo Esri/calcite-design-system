@@ -63,8 +63,7 @@ export class CalciteComboboxItemGroup {
       <Host>
         <ul
           aria-labelledby={this.guid}
-          class={{ [CSS.list]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
-          data-scale={scale}
+          class={{ [CSS.list]: true, [CSS_UTILITY.rtl]: dir === "rtl", [`scale--${scale}`]: true }}
           role="group"
         >
           <li class={{ [CSS.label]: true, [indent]: true }} id={this.guid} role="presentation">
