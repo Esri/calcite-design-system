@@ -150,13 +150,13 @@ describe("calcite-alert", () => {
         color="red"
         active
       >
-        <div slot="alert-message">
+        <div slot="message">
           Successfully duplicated
           <strong>2019 Sales Demographics by County</strong>
           layer
         </div>
         <calcite-link
-          slot="alert-link"
+          slot="link"
           title="my action"
           role="presentation"
         >
