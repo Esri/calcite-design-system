@@ -303,4 +303,25 @@ describe("calcite-modal accessibility checks", () => {
     footer = await page.$eval("calcite-modal", (elm) => elm.shadowRoot.querySelector(".footer"));
     expect(footer).toBeFalsy();
   });
+
+  it("should render calcite-scrim with dark theme background color", async () => {
+    const page = await newE2EPage({
+      html: `
+      <calcite-modal aria-labelledby="modal-title" is-active>
+        <h3 slot="header" id="modal-title">Title of the modal</h3>
+        <div slot="content">The actual content of the modal</div>
+        <calcite-button slot="back" color="neutral" appearance="outline" icon="chevron-left" width="full">
+          Back
+        </calcite-button>
+        <calcite-button slot="secondary" width="full" appearance="outline"> Cancel </calcite-button>
+        <calcite-button slot="primary" width="full"> Save </calcite-button>
+      </calcite-modal>
+      `
+    });
+    const scrimStyles = await page.evaluate(() => {
+      const scrim = document.querySelector("calcite-modal").shadowRoot.querySelector(".scrim");
+      return window.getComputedStyle(scrim).getPropertyValue("--calcite-scrim-background");
+    });
+    expect(scrimStyles).toEqual("rgba(0, 0, 0, 0.75)");
+  });
 });
