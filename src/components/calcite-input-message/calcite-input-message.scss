@@ -1,4 +1,3 @@
-// theme variables
 :host([scale="s"]) {
   --calcite-input-message-spacing-value: 4px;
   .calcite-input-message-icon {
@@ -47,8 +46,8 @@
   height: auto;
   // accommodate for spacing of label
   margin-top: -1.5rem;
-  border-radius: var(--calcite-border-radius);
-  box-shadow: var(--calcite-shadow-2);
+  border-radius: theme("borderRadius.sm");
+  box-shadow: theme("boxShadow.2");
   padding: var(--calcite-input-message-spacing-value);
   z-index: 101;
 }
