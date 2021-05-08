@@ -148,7 +148,7 @@ export class CalciteInput {
   @Prop({ mutable: true, reflect: true }) status: Status = "idle";
 
   /** input step */
-  @Prop({ mutable: true, reflect: true }) step?: any;
+  @Prop({ mutable: true, reflect: true }) step?: number | "any";
 
   /** optionally add suffix  **/
   @Prop() suffixText?: string;
