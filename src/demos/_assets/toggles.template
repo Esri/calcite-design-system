@@ -1,22 +1,63 @@
 <template>
   <style>
     .toggles {
+      cursor: move;
       display: flex;
-      justify-content: flex-end;
-      padding: var(--calcite-app-cap-spacing) var(--calcite-app-side-spacing-double);
-      width: 70vw;
-      max-width: 1024px;
-      min-width: 480px;
-      margin: 52px auto 0;
-      border-radius: var(--calcite-app-border-radius) var(--calcite-app-border-radius) 0 0;
-      
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 999;
+      border-radius: 0.25rem;
+      overflow: hidden;
+      box-shadow: 0 6px 20px -4px rgb(0 0 0 / 10%), 0 4px 12px -2px rgb(0 0 0 / 8%);
     }
     .toggles calcite-button {
-      margin: 0 0.2rem;
+      margin: 0.2rem;
     }
   </style>
-  <div class="toggles">
-    <calcite-button appearance="clear" data-js-id="loading">Toggle loading</calcite-button>
-    <calcite-button appearance="clear" data-js-id="disabled">Toggle disabled</calcite-button>
+  <script>
+
+dragElement(document.getElementById("toggles-drag"));
+
+function dragElement(elmnt) {
+  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  elmnt.onmousedown = dragMouseDown;
+
+  function dragMouseDown(e) {
+    e = e || window.event;
+    e.preventDefault();
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e) {
+    e = e || window.event;
+    e.preventDefault();
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    elmnt.style.right = "auto";
+    elmnt.style.bottom = "auto";
+  }
+
+  function closeDragElement() {
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
+}
+  </script>
+  <div class="toggles" id="toggles-drag" dir="ltr" theme="dark">
+    <calcite-panel dismissible width-scale="s" data-excluded>
+      <div slot="header-content">Demo Toggles</div>
+        <calcite-action data-excluded data-js-id="loading" text="Loading" text-enabled></calcite-action>
+        <calcite-action data-excluded data-js-id="disabled" text="Disabled" text-enabled></calcite-action>
+        <calcite-action data-excluded data-js-id="dir" text="Direction" text-enabled></calcite-action>
+        <calcite-action data-excluded data-js-id="theme" text="Theme" text-enabled></calcite-action>
+    </calcite-panel>
   </div>
 </template>

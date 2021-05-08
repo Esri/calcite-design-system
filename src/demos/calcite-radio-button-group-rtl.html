@@ -1,755 +1,818 @@
 <!DOCTYPE html>
 <html lang="en" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Calcite Radio Button Group (RTL)</title>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Calcite Radio Button Group (RTL)</title>
-  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
-  <link rel="stylesheet" href="../build/calcite.css" />
-  <style>
-    h1,
-    h2,
-    h3 {
-      margin: 0;
-    }
+    <style>
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+      }
 
-    hr {
-      width: 100%;
-      border: 0;
-      height: 0;
-      border-top: 1px solid rgba(0, 0, 0, 0.1);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-      margin: 0;
-    }
+      hr {
+        width: 100%;
+        border: 0;
+        height: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        margin: 0;
+      }
 
-    .vertical-grid {
-      display: grid;
-      grid-gap: 25px;
-      grid-template-columns: repeat(3, minmax(0px, max-content));
-    }
+      .vertical-grid {
+        display: grid;
+        grid-gap: 25px;
+        grid-template-columns: repeat(3, minmax(0px, max-content));
+      }
 
-    .dark {
-      background: #2B2B2B;
-      padding: 1rem;
-    }
+      .dark {
+        background: #2b2b2b;
+        padding: 1rem;
+      }
 
-    .dark h2,
-    .dark h3 {
-      color: white;
-    }
-  </style>
-  <script type="module" src="../build/calcite.esm.js"></script>
-  <script nomodule src="../build/calcite.js"></script>
-  <script type="module" src="./_assets/demo-form.js"></script>
-  <script type="module" src="./_assets/demo-spacer.js"></script>
-</head>
+      .dark h2,
+      .dark h3 {
+        color: white;
+      }
+    </style>
+    <script src="./_assets/head.js"></script>
+    <script type="module" src="./_assets/demo-form.js"></script>
+    <script type="module" src="./_assets/demo-spacer.js"></script>
+  </head>
 
-<body>
-  <demo-spacer>
-    <calcite-button href="/">
-      < Home</calcite-button>
-        <h1>Calcite Radio Button Group (RTL)</h1>
-        <demo-form>
-          <form name="calcite-radio-button-group-demo-form">
-            <demo-spacer>
-              <div
-                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, max-content)); grid-gap: 8px;">
-                <div style="border: 1px solid #2B2B2B; padding: 1rem;">
-                  <demo-spacer>
-                    <h3>Scale s</h3>
-                    <calcite-radio-button-group name="s" scale="s">
+  <body>
+    <demo-spacer>
+      <calcite-button href="/"> < Home</calcite-button>
+      <h1>Calcite Radio Button Group (RTL)</h1>
+      <demo-form>
+        <form name="calcite-radio-button-group-demo-form">
+          <demo-spacer>
+            <div
+              style="display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, max-content)); grid-gap: 8px"
+            >
+              <div style="border: 1px solid #2b2b2b; padding: 1rem">
+                <demo-spacer>
+                  <h3>Scale s</h3>
+                  <calcite-radio-button-group name="s" scale="s">
+                    <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+                    <calcite-radio-button value="react">React</calcite-radio-button>
+                    <calcite-radio-button value="ember">Ember</calcite-radio-button>
+                    <calcite-radio-button value="angular">Angular</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <calcite-radio-button-group name="s-disabled" scale="s" disabled>
+                    <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+                    <calcite-radio-button value="react">React</calcite-radio-button>
+                    <calcite-radio-button value="ember">Ember</calcite-radio-button>
+                    <calcite-radio-button value="angular">Angular</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <calcite-radio-button-group name="s-disabled-single" scale="s">
+                    <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+                    <calcite-radio-button value="react" disabled>React</calcite-radio-button>
+                    <calcite-radio-button value="ember">Ember</calcite-radio-button>
+                    <calcite-radio-button value="angular">Angular</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <hr />
+                  <div class="vertical-grid">
+                    <calcite-radio-button-group name="s-vertical" scale="s" layout="vertical">
                       <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
                       <calcite-radio-button value="react">React</calcite-radio-button>
                       <calcite-radio-button value="ember">Ember</calcite-radio-button>
                       <calcite-radio-button value="angular">Angular</calcite-radio-button>
                     </calcite-radio-button-group>
-                    <calcite-radio-button-group name="s-disabled" scale="s" disabled>
+                    <calcite-radio-button-group name="s-disabled-vertical" scale="s" disabled layout="vertical">
                       <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
                       <calcite-radio-button value="react">React</calcite-radio-button>
                       <calcite-radio-button value="ember">Ember</calcite-radio-button>
                       <calcite-radio-button value="angular">Angular</calcite-radio-button>
                     </calcite-radio-button-group>
-                    <calcite-radio-button-group name="s-disabled-single" scale="s">
+                    <calcite-radio-button-group name="s-disabled-single-vertical" scale="s" layout="vertical">
                       <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
                       <calcite-radio-button value="react" disabled>React</calcite-radio-button>
                       <calcite-radio-button value="ember">Ember</calcite-radio-button>
                       <calcite-radio-button value="angular">Angular</calcite-radio-button>
                     </calcite-radio-button-group>
-                    <hr>
-                    <div class="vertical-grid">
-                      <calcite-radio-button-group name="s-vertical" scale="s" layout="vertical">
-                        <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
-                        <calcite-radio-button value="react">React</calcite-radio-button>
-                        <calcite-radio-button value="ember">Ember</calcite-radio-button>
-                        <calcite-radio-button value="angular">Angular</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group name="s-disabled-vertical" scale="s" disabled layout="vertical">
-                        <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
-                        <calcite-radio-button value="react">React</calcite-radio-button>
-                        <calcite-radio-button value="ember">Ember</calcite-radio-button>
-                        <calcite-radio-button value="angular">Angular</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group name="s-disabled-single-vertical" scale="s" layout="vertical">
-                        <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
-                        <calcite-radio-button value="react" disabled>React</calcite-radio-button>
-                        <calcite-radio-button value="ember">Ember</calcite-radio-button>
-                        <calcite-radio-button value="angular">Angular</calcite-radio-button>
-                      </calcite-radio-button-group>
-                    </div>
+                  </div>
 
-                    <h3>Scale m (default)</h3>
-                    <calcite-radio-button-group name="m">
+                  <h3>Scale m (default)</h3>
+                  <calcite-radio-button-group name="m">
+                    <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+                    <calcite-radio-button value="react">React</calcite-radio-button>
+                    <calcite-radio-button value="ember">Ember</calcite-radio-button>
+                    <calcite-radio-button value="angular">Angular</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <calcite-radio-button-group name="m-disabled" disabled>
+                    <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+                    <calcite-radio-button value="react">React</calcite-radio-button>
+                    <calcite-radio-button value="ember">Ember</calcite-radio-button>
+                    <calcite-radio-button value="angular">Angular</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <calcite-radio-button-group name="m-disabled-single">
+                    <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+                    <calcite-radio-button value="react" disabled>React</calcite-radio-button>
+                    <calcite-radio-button value="ember">Ember</calcite-radio-button>
+                    <calcite-radio-button value="angular">Angular</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <hr />
+                  <div class="vertical-grid">
+                    <calcite-radio-button-group name="m-vertical" layout="vertical">
                       <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
                       <calcite-radio-button value="react">React</calcite-radio-button>
                       <calcite-radio-button value="ember">Ember</calcite-radio-button>
                       <calcite-radio-button value="angular">Angular</calcite-radio-button>
                     </calcite-radio-button-group>
-                    <calcite-radio-button-group name="m-disabled" disabled>
+                    <calcite-radio-button-group name="m-disabled-vertical" disabled layout="vertical">
                       <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
                       <calcite-radio-button value="react">React</calcite-radio-button>
                       <calcite-radio-button value="ember">Ember</calcite-radio-button>
                       <calcite-radio-button value="angular">Angular</calcite-radio-button>
                     </calcite-radio-button-group>
-                    <calcite-radio-button-group name="m-disabled-single">
+                    <calcite-radio-button-group name="m-disabled-single-vertical" layout="vertical">
                       <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
                       <calcite-radio-button value="react" disabled>React</calcite-radio-button>
                       <calcite-radio-button value="ember">Ember</calcite-radio-button>
                       <calcite-radio-button value="angular">Angular</calcite-radio-button>
                     </calcite-radio-button-group>
-                    <hr>
-                    <div class="vertical-grid">
-                      <calcite-radio-button-group name="m-vertical" layout="vertical">
-                        <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
-                        <calcite-radio-button value="react">React</calcite-radio-button>
-                        <calcite-radio-button value="ember">Ember</calcite-radio-button>
-                        <calcite-radio-button value="angular">Angular</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group name="m-disabled-vertical" disabled layout="vertical">
-                        <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
-                        <calcite-radio-button value="react">React</calcite-radio-button>
-                        <calcite-radio-button value="ember">Ember</calcite-radio-button>
-                        <calcite-radio-button value="angular">Angular</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group name="m-disabled-single-vertical" layout="vertical">
-                        <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
-                        <calcite-radio-button value="react" disabled>React</calcite-radio-button>
-                        <calcite-radio-button value="ember">Ember</calcite-radio-button>
-                        <calcite-radio-button value="angular">Angular</calcite-radio-button>
-                      </calcite-radio-button-group>
-                    </div>
+                  </div>
 
-                    <h3>Scale l</h3>
-                    <calcite-radio-button-group name="l" scale="l">
+                  <h3>Scale l</h3>
+                  <calcite-radio-button-group name="l" scale="l">
+                    <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+                    <calcite-radio-button value="react">React</calcite-radio-button>
+                    <calcite-radio-button value="ember">Ember</calcite-radio-button>
+                    <calcite-radio-button value="angular">Angular</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <calcite-radio-button-group name="l-disabled" scale="l" disabled>
+                    <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+                    <calcite-radio-button value="react">React</calcite-radio-button>
+                    <calcite-radio-button value="ember">Ember</calcite-radio-button>
+                    <calcite-radio-button value="angular">Angular</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <calcite-radio-button-group name="l-disabled-single" scale="l">
+                    <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+                    <calcite-radio-button value="react" disabled>React</calcite-radio-button>
+                    <calcite-radio-button value="ember">Ember</calcite-radio-button>
+                    <calcite-radio-button value="angular">Angular</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <hr />
+                  <div class="vertical-grid">
+                    <calcite-radio-button-group name="l-vertical" scale="l" layout="vertical">
                       <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
                       <calcite-radio-button value="react">React</calcite-radio-button>
                       <calcite-radio-button value="ember">Ember</calcite-radio-button>
                       <calcite-radio-button value="angular">Angular</calcite-radio-button>
                     </calcite-radio-button-group>
-                    <calcite-radio-button-group name="l-disabled" scale="l" disabled>
+                    <calcite-radio-button-group name="l-disabled-vertical" scale="l" disabled layout="vertical">
                       <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
                       <calcite-radio-button value="react">React</calcite-radio-button>
                       <calcite-radio-button value="ember">Ember</calcite-radio-button>
                       <calcite-radio-button value="angular">Angular</calcite-radio-button>
                     </calcite-radio-button-group>
-                    <calcite-radio-button-group name="l-disabled-single" scale="l">
+                    <calcite-radio-button-group name="l-disabled-single-vertical" scale="l" layout="vertical">
                       <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
                       <calcite-radio-button value="react" disabled>React</calcite-radio-button>
                       <calcite-radio-button value="ember">Ember</calcite-radio-button>
                       <calcite-radio-button value="angular">Angular</calcite-radio-button>
                     </calcite-radio-button-group>
-                    <hr>
-                    <div class="vertical-grid">
-                      <calcite-radio-button-group name="l-vertical" scale="l" layout="vertical">
-                        <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
-                        <calcite-radio-button value="react">React</calcite-radio-button>
-                        <calcite-radio-button value="ember">Ember</calcite-radio-button>
-                        <calcite-radio-button value="angular">Angular</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group name="l-disabled-vertical" scale="l" disabled layout="vertical">
-                        <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
-                        <calcite-radio-button value="react">React</calcite-radio-button>
-                        <calcite-radio-button value="ember">Ember</calcite-radio-button>
-                        <calcite-radio-button value="angular">Angular</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group name="l-disabled-single-vertical" scale="l" layout="vertical">
-                        <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
-                        <calcite-radio-button value="react" disabled>React</calcite-radio-button>
-                        <calcite-radio-button value="ember">Ember</calcite-radio-button>
-                        <calcite-radio-button value="angular">Angular</calcite-radio-button>
-                      </calcite-radio-button-group>
-                    </div>
+                  </div>
 
-                    <hr>
+                  <hr />
 
-                    <div class="vertical-grid">
-                      <calcite-radio-button-group name="valueAsLabelVertical" layout="vertical">
-                        <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                        <calcite-radio-button value="2">2</calcite-radio-button>
-                        <calcite-radio-button value="3">3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group name="valueAsLabelDisabledVertical" disabled layout="vertical">
-                        <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                        <calcite-radio-button value="2">2</calcite-radio-button>
-                        <calcite-radio-button value="3">3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group name="valueAsLabelDisabledSingleVertical" layout="vertical">
-                        <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                        <calcite-radio-button value="2" disabled>2</calcite-radio-button>
-                        <calcite-radio-button value="3">3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                    </div>
+                  <div class="vertical-grid">
+                    <calcite-radio-button-group name="valueAsLabelVertical" layout="vertical">
+                      <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                      <calcite-radio-button value="2">2</calcite-radio-button>
+                      <calcite-radio-button value="3">3</calcite-radio-button>
+                    </calcite-radio-button-group>
+                    <calcite-radio-button-group name="valueAsLabelDisabledVertical" disabled layout="vertical">
+                      <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                      <calcite-radio-button value="2">2</calcite-radio-button>
+                      <calcite-radio-button value="3">3</calcite-radio-button>
+                    </calcite-radio-button-group>
+                    <calcite-radio-button-group name="valueAsLabelDisabledSingleVertical" layout="vertical">
+                      <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                      <calcite-radio-button value="2" disabled>2</calcite-radio-button>
+                      <calcite-radio-button value="3">3</calcite-radio-button>
+                    </calcite-radio-button-group>
+                  </div>
 
-                    <h3>None checked</h3>
-                    <calcite-radio-button-group name="noneChecked">
+                  <h3>None checked</h3>
+                  <calcite-radio-button-group name="noneChecked">
+                    <calcite-radio-button value="1">1</calcite-radio-button>
+                    <calcite-radio-button value="2">2</calcite-radio-button>
+                    <calcite-radio-button value="3">3</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <calcite-radio-button-group name="noneCheckedDisabled" disabled>
+                    <calcite-radio-button value="1">1</calcite-radio-button>
+                    <calcite-radio-button value="2">2</calcite-radio-button>
+                    <calcite-radio-button value="3">3</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <calcite-radio-button-group name="noneCheckedDisabledSingle">
+                    <calcite-radio-button value="1">1</calcite-radio-button>
+                    <calcite-radio-button value="2" disabled>2</calcite-radio-button>
+                    <calcite-radio-button value="3">3</calcite-radio-button>
+                  </calcite-radio-button-group>
+
+                  <hr />
+
+                  <div class="vertical-grid">
+                    <calcite-radio-button-group name="noneCheckedVertical" layout="vertical">
                       <calcite-radio-button value="1">1</calcite-radio-button>
                       <calcite-radio-button value="2">2</calcite-radio-button>
                       <calcite-radio-button value="3">3</calcite-radio-button>
                     </calcite-radio-button-group>
-                    <calcite-radio-button-group name="noneCheckedDisabled" disabled>
+                    <calcite-radio-button-group name="noneCheckedDisabledVertical" disabled layout="vertical">
                       <calcite-radio-button value="1">1</calcite-radio-button>
                       <calcite-radio-button value="2">2</calcite-radio-button>
                       <calcite-radio-button value="3">3</calcite-radio-button>
                     </calcite-radio-button-group>
-                    <calcite-radio-button-group name="noneCheckedDisabledSingle">
+                    <calcite-radio-button-group name="noneCheckedDisabledSingleVertical" layout="vertical">
                       <calcite-radio-button value="1">1</calcite-radio-button>
                       <calcite-radio-button value="2" disabled>2</calcite-radio-button>
                       <calcite-radio-button value="3">3</calcite-radio-button>
                     </calcite-radio-button-group>
+                  </div>
 
-                    <hr>
+                  <h3>Only one checked value (last wins, first two checked)</h3>
+                  <calcite-radio-button-group name="lastCheckedWinsFirst2">
+                    <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                    <calcite-radio-button value="2" checked>2</calcite-radio-button>
+                    <calcite-radio-button value="3">3</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <calcite-radio-button-group name="lastCheckedWinsDisabledFirst2" disabled>
+                    <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                    <calcite-radio-button value="2" checked>2</calcite-radio-button>
+                    <calcite-radio-button value="3">3</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <calcite-radio-button-group name="lastCheckedWinsDisabledSingleFirst2">
+                    <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                    <calcite-radio-button value="2" checked disabled>2</calcite-radio-button>
+                    <calcite-radio-button value="3">3</calcite-radio-button>
+                  </calcite-radio-button-group>
 
-                    <div class="vertical-grid">
-                      <calcite-radio-button-group name="noneCheckedVertical" layout="vertical">
-                        <calcite-radio-button value="1">1</calcite-radio-button>
-                        <calcite-radio-button value="2">2</calcite-radio-button>
-                        <calcite-radio-button value="3">3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group name="noneCheckedDisabledVertical" disabled layout="vertical">
-                        <calcite-radio-button value="1">1</calcite-radio-button>
-                        <calcite-radio-button value="2">2</calcite-radio-button>
-                        <calcite-radio-button value="3">3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group name="noneCheckedDisabledSingleVertical" layout="vertical">
-                        <calcite-radio-button value="1">1</calcite-radio-button>
-                        <calcite-radio-button value="2" disabled>2</calcite-radio-button>
-                        <calcite-radio-button value="3">3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                    </div>
+                  <hr />
 
-                    <h3>Only one checked value (last wins, first two checked)</h3>
-                    <calcite-radio-button-group name="lastCheckedWinsFirst2">
+                  <div class="vertical-grid">
+                    <calcite-radio-button-group name="lastCheckedWinsFirst2Vertical" layout="vertical">
                       <calcite-radio-button value="1" checked>1</calcite-radio-button>
                       <calcite-radio-button value="2" checked>2</calcite-radio-button>
                       <calcite-radio-button value="3">3</calcite-radio-button>
                     </calcite-radio-button-group>
-                    <calcite-radio-button-group name="lastCheckedWinsDisabledFirst2" disabled>
+                    <calcite-radio-button-group name="lastCheckedWinsDisabledFirst2Vertical" disabled layout="vertical">
                       <calcite-radio-button value="1" checked>1</calcite-radio-button>
                       <calcite-radio-button value="2" checked>2</calcite-radio-button>
                       <calcite-radio-button value="3">3</calcite-radio-button>
                     </calcite-radio-button-group>
-                    <calcite-radio-button-group name="lastCheckedWinsDisabledSingleFirst2">
+                    <calcite-radio-button-group name="lastCheckedWinsDisabledSingleFirst2Vertical" layout="vertical">
                       <calcite-radio-button value="1" checked>1</calcite-radio-button>
                       <calcite-radio-button value="2" checked disabled>2</calcite-radio-button>
                       <calcite-radio-button value="3">3</calcite-radio-button>
                     </calcite-radio-button-group>
+                  </div>
 
-                    <hr>
+                  <h3>Only one checked value (last wins, second two checked)</h3>
+                  <calcite-radio-button-group name="lastCheckedWinsSecond2">
+                    <calcite-radio-button value="1">1</calcite-radio-button>
+                    <calcite-radio-button value="2" checked>2</calcite-radio-button>
+                    <calcite-radio-button value="3" checked>3</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <calcite-radio-button-group name="lastCheckedWinsDisabledSecond2" disabled>
+                    <calcite-radio-button value="1">1</calcite-radio-button>
+                    <calcite-radio-button value="2" checked>2</calcite-radio-button>
+                    <calcite-radio-button value="3" checked>3</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <calcite-radio-button-group name="lastCheckedWinsDisabledSingleSecond2">
+                    <calcite-radio-button value="1">1</calcite-radio-button>
+                    <calcite-radio-button value="2" checked disabled>2</calcite-radio-button>
+                    <calcite-radio-button value="3" checked>3</calcite-radio-button>
+                  </calcite-radio-button-group>
 
-                    <div class="vertical-grid">
-                      <calcite-radio-button-group name="lastCheckedWinsFirst2Vertical" layout="vertical">
-                        <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                        <calcite-radio-button value="2" checked>2</calcite-radio-button>
-                        <calcite-radio-button value="3">3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group name="lastCheckedWinsDisabledFirst2Vertical" disabled
-                        layout="vertical">
-                        <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                        <calcite-radio-button value="2" checked>2</calcite-radio-button>
-                        <calcite-radio-button value="3">3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group name="lastCheckedWinsDisabledSingleFirst2Vertical" layout="vertical">
-                        <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                        <calcite-radio-button value="2" checked disabled>2</calcite-radio-button>
-                        <calcite-radio-button value="3">3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                    </div>
+                  <hr />
 
-                    <h3>Only one checked value (last wins, second two checked)</h3>
-                    <calcite-radio-button-group name="lastCheckedWinsSecond2">
+                  <div class="vertical-grid">
+                    <calcite-radio-button-group name="lastCheckedWinsSecond2Vertical" layout="vertical">
                       <calcite-radio-button value="1">1</calcite-radio-button>
                       <calcite-radio-button value="2" checked>2</calcite-radio-button>
                       <calcite-radio-button value="3" checked>3</calcite-radio-button>
                     </calcite-radio-button-group>
-                    <calcite-radio-button-group name="lastCheckedWinsDisabledSecond2" disabled>
+                    <calcite-radio-button-group
+                      name="lastCheckedWinsDisabledSecond2Vertical"
+                      disabled
+                      layout="vertical"
+                    >
                       <calcite-radio-button value="1">1</calcite-radio-button>
                       <calcite-radio-button value="2" checked>2</calcite-radio-button>
                       <calcite-radio-button value="3" checked>3</calcite-radio-button>
                     </calcite-radio-button-group>
-                    <calcite-radio-button-group name="lastCheckedWinsDisabledSingleSecond2">
+                    <calcite-radio-button-group name="lastCheckedWinsDisabledSingleSecond2Vertical" layout="vertical">
                       <calcite-radio-button value="1">1</calcite-radio-button>
                       <calcite-radio-button value="2" checked disabled>2</calcite-radio-button>
                       <calcite-radio-button value="3" checked>3</calcite-radio-button>
                     </calcite-radio-button-group>
+                  </div>
 
-                    <hr>
+                  <h3>Only one checked value (last wins, first and last checked)</h3>
+                  <calcite-radio-button-group name="lastCheckedWinsFirstLast">
+                    <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                    <calcite-radio-button value="2">2</calcite-radio-button>
+                    <calcite-radio-button value="3" checked>3</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <calcite-radio-button-group name="lastCheckedWinsDisabledFirstLast" disabled>
+                    <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                    <calcite-radio-button value="2">2</calcite-radio-button>
+                    <calcite-radio-button value="3" checked>3</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <calcite-radio-button-group name="lastCheckedWinsDisabledSingleFirstLast">
+                    <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                    <calcite-radio-button value="2" disabled>2</calcite-radio-button>
+                    <calcite-radio-button value="3" checked>3</calcite-radio-button>
+                  </calcite-radio-button-group>
 
-                    <div class="vertical-grid">
-                      <calcite-radio-button-group name="lastCheckedWinsSecond2Vertical" layout="vertical">
-                        <calcite-radio-button value="1">1</calcite-radio-button>
-                        <calcite-radio-button value="2" checked>2</calcite-radio-button>
-                        <calcite-radio-button value="3" checked>3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group name="lastCheckedWinsDisabledSecond2Vertical" disabled
-                        layout="vertical">
-                        <calcite-radio-button value="1">1</calcite-radio-button>
-                        <calcite-radio-button value="2" checked>2</calcite-radio-button>
-                        <calcite-radio-button value="3" checked>3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group name="lastCheckedWinsDisabledSingleSecond2Vertical"
-                        layout="vertical">
-                        <calcite-radio-button value="1">1</calcite-radio-button>
-                        <calcite-radio-button value="2" checked disabled>2</calcite-radio-button>
-                        <calcite-radio-button value="3" checked>3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                    </div>
+                  <hr />
 
-                    <h3>Only one checked value (last wins, first and last checked)</h3>
-                    <calcite-radio-button-group name="lastCheckedWinsFirstLast">
+                  <div class="vertical-grid">
+                    <calcite-radio-button-group name="lastCheckedWinsFirstLastVertical" layout="vertical">
                       <calcite-radio-button value="1" checked>1</calcite-radio-button>
                       <calcite-radio-button value="2">2</calcite-radio-button>
                       <calcite-radio-button value="3" checked>3</calcite-radio-button>
                     </calcite-radio-button-group>
-                    <calcite-radio-button-group name="lastCheckedWinsDisabledFirstLast" disabled>
+                    <calcite-radio-button-group
+                      name="lastCheckedWinsDisabledFirstLastVertical"
+                      disabled
+                      layout="vertical"
+                    >
                       <calcite-radio-button value="1" checked>1</calcite-radio-button>
                       <calcite-radio-button value="2">2</calcite-radio-button>
                       <calcite-radio-button value="3" checked>3</calcite-radio-button>
                     </calcite-radio-button-group>
-                    <calcite-radio-button-group name="lastCheckedWinsDisabledSingleFirstLast">
+                    <calcite-radio-button-group name="lastCheckedWinsDisabledSingleFirstLastVertical" layout="vertical">
                       <calcite-radio-button value="1" checked>1</calcite-radio-button>
                       <calcite-radio-button value="2" disabled>2</calcite-radio-button>
                       <calcite-radio-button value="3" checked>3</calcite-radio-button>
                     </calcite-radio-button-group>
+                  </div>
 
-                    <hr>
+                  <h3>Only one checked value (last wins, all checked)</h3>
+                  <calcite-radio-button-group name="lastCheckedWinsAll">
+                    <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                    <calcite-radio-button value="2" checked>2</calcite-radio-button>
+                    <calcite-radio-button value="3" checked>3</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <calcite-radio-button-group name="lastCheckedWinsAllDisabled" disabled>
+                    <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                    <calcite-radio-button value="2" checked>2</calcite-radio-button>
+                    <calcite-radio-button value="3" checked>3</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <calcite-radio-button-group name="lastCheckedWinsAllDisabledSingle">
+                    <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                    <calcite-radio-button value="2" checked disabled>2</calcite-radio-button>
+                    <calcite-radio-button value="3" checked>3</calcite-radio-button>
+                  </calcite-radio-button-group>
 
-                    <div class="vertical-grid">
-                      <calcite-radio-button-group name="lastCheckedWinsFirstLastVertical" layout="vertical">
-                        <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                        <calcite-radio-button value="2">2</calcite-radio-button>
-                        <calcite-radio-button value="3" checked>3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group name="lastCheckedWinsDisabledFirstLastVertical" disabled
-                        layout="vertical">
-                        <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                        <calcite-radio-button value="2">2</calcite-radio-button>
-                        <calcite-radio-button value="3" checked>3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group name="lastCheckedWinsDisabledSingleFirstLastVertical"
-                        layout="vertical">
-                        <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                        <calcite-radio-button value="2" disabled>2</calcite-radio-button>
-                        <calcite-radio-button value="3" checked>3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                    </div>
+                  <hr />
 
-                    <h3>Only one checked value (last wins, all checked)</h3>
-                    <calcite-radio-button-group name="lastCheckedWinsAll">
+                  <div class="vertical-grid">
+                    <calcite-radio-button-group name="lastCheckedWinsAllVertical" layout="vertical">
                       <calcite-radio-button value="1" checked>1</calcite-radio-button>
                       <calcite-radio-button value="2" checked>2</calcite-radio-button>
                       <calcite-radio-button value="3" checked>3</calcite-radio-button>
                     </calcite-radio-button-group>
-                    <calcite-radio-button-group name="lastCheckedWinsAllDisabled" disabled>
+                    <calcite-radio-button-group name="lastCheckedWinsAllDisabledVertical" disabled layout="vertical">
                       <calcite-radio-button value="1" checked>1</calcite-radio-button>
                       <calcite-radio-button value="2" checked>2</calcite-radio-button>
                       <calcite-radio-button value="3" checked>3</calcite-radio-button>
                     </calcite-radio-button-group>
-                    <calcite-radio-button-group name="lastCheckedWinsAllDisabledSingle">
+                    <calcite-radio-button-group name="lastCheckedWinsAllDisabledSingleVertical" layout="vertical">
                       <calcite-radio-button value="1" checked>1</calcite-radio-button>
                       <calcite-radio-button value="2" checked disabled>2</calcite-radio-button>
                       <calcite-radio-button value="3" checked>3</calcite-radio-button>
                     </calcite-radio-button-group>
-
-                    <hr>
-
-                    <div class="vertical-grid">
-                      <calcite-radio-button-group name="lastCheckedWinsAllVertical" layout="vertical">
-                        <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                        <calcite-radio-button value="2" checked>2</calcite-radio-button>
-                        <calcite-radio-button value="3" checked>3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group name="lastCheckedWinsAllDisabledVertical" disabled layout="vertical">
-                        <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                        <calcite-radio-button value="2" checked>2</calcite-radio-button>
-                        <calcite-radio-button value="3" checked>3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group name="lastCheckedWinsAllDisabledSingleVertical" layout="vertical">
-                        <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                        <calcite-radio-button value="2" checked disabled>2</calcite-radio-button>
-                        <calcite-radio-button value="3" checked>3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                    </div>
-                  </demo-spacer>
-                </div>
-                <div class="dark">
-                  <demo-spacer>
-                    <h3>Scale s</h3>
-                    <calcite-radio-button-group theme="dark" name="s-dark" scale="s">
-                      <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
-                      <calcite-radio-button value="react">React</calcite-radio-button>
-                      <calcite-radio-button value="ember">Ember</calcite-radio-button>
-                      <calcite-radio-button value="angular">Angular</calcite-radio-button>
-                    </calcite-radio-button-group>
-                    <calcite-radio-button-group theme="dark" name="s-dark-disabled" scale="s" disabled>
-                      <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
-                      <calcite-radio-button value="react">React</calcite-radio-button>
-                      <calcite-radio-button value="ember">Ember</calcite-radio-button>
-                      <calcite-radio-button value="angular">Angular</calcite-radio-button>
-                    </calcite-radio-button-group>
-                    <calcite-radio-button-group theme="dark" name="s-dark-disabled-single" scale="s">
-                      <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
-                      <calcite-radio-button value="react" disabled>React</calcite-radio-button>
-                      <calcite-radio-button value="ember">Ember</calcite-radio-button>
-                      <calcite-radio-button value="angular">Angular</calcite-radio-button>
-                    </calcite-radio-button-group>
-                    <hr>
-                    <div class="vertical-grid">
-                      <calcite-radio-button-group theme="dark" name="s-dark-vertical" scale="s" layout="vertical">
-                        <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
-                        <calcite-radio-button value="react">React</calcite-radio-button>
-                        <calcite-radio-button value="ember">Ember</calcite-radio-button>
-                        <calcite-radio-button value="angular">Angular</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group theme="dark" name="s-dark-disabled-vertical" scale="s" disabled
-                        layout="vertical">
-                        <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
-                        <calcite-radio-button value="react">React</calcite-radio-button>
-                        <calcite-radio-button value="ember">Ember</calcite-radio-button>
-                        <calcite-radio-button value="angular">Angular</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group theme="dark" name="s-dark-disabled-single-vertical" scale="s"
-                        layout="vertical">
-                        <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
-                        <calcite-radio-button value="react" disabled>React</calcite-radio-button>
-                        <calcite-radio-button value="ember">Ember</calcite-radio-button>
-                        <calcite-radio-button value="angular">Angular</calcite-radio-button>
-                      </calcite-radio-button-group>
-                    </div>
-
-                    <h3>Scale m (default)</h3>
-                    <calcite-radio-button-group theme="dark" name="m-dark">
-                      <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
-                      <calcite-radio-button value="react">React</calcite-radio-button>
-                      <calcite-radio-button value="ember">Ember</calcite-radio-button>
-                      <calcite-radio-button value="angular">Angular</calcite-radio-button>
-                    </calcite-radio-button-group>
-                    <calcite-radio-button-group theme="dark" name="m-dark-disabled" disabled>
-                      <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
-                      <calcite-radio-button value="react">React</calcite-radio-button>
-                      <calcite-radio-button value="ember">Ember</calcite-radio-button>
-                      <calcite-radio-button value="angular">Angular</calcite-radio-button>
-                    </calcite-radio-button-group>
-                    <calcite-radio-button-group theme="dark" name="m-dark-disabled-single">
-                      <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
-                      <calcite-radio-button value="react" disabled>React</calcite-radio-button>
-                      <calcite-radio-button value="ember">Ember</calcite-radio-button>
-                      <calcite-radio-button value="angular">Angular</calcite-radio-button>
-                    </calcite-radio-button-group>
-                    <hr>
-                    <div class="vertical-grid">
-                      <calcite-radio-button-group theme="dark" name="m-dark-vertical" layout="vertical">
-                        <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
-                        <calcite-radio-button value="react">React</calcite-radio-button>
-                        <calcite-radio-button value="ember">Ember</calcite-radio-button>
-                        <calcite-radio-button value="angular">Angular</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group theme="dark" name="m-dark-disabled-vertical" disabled
-                        layout="vertical">
-                        <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
-                        <calcite-radio-button value="react">React</calcite-radio-button>
-                        <calcite-radio-button value="ember">Ember</calcite-radio-button>
-                        <calcite-radio-button value="angular">Angular</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group theme="dark" name="m-dark-disabled-single-vertical" layout="vertical">
-                        <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
-                        <calcite-radio-button value="react" disabled>React</calcite-radio-button>
-                        <calcite-radio-button value="ember">Ember</calcite-radio-button>
-                        <calcite-radio-button value="angular">Angular</calcite-radio-button>
-                      </calcite-radio-button-group>
-                    </div>
-
-                    <h3>Scale l</h3>
-                    <calcite-radio-button-group theme="dark" name="l-dark" scale="l">
-                      <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
-                      <calcite-radio-button value="react">React</calcite-radio-button>
-                      <calcite-radio-button value="ember">Ember</calcite-radio-button>
-                      <calcite-radio-button value="angular">Angular</calcite-radio-button>
-                    </calcite-radio-button-group>
-                    <calcite-radio-button-group theme="dark" name="l-dark-disabled" scale="l" disabled>
-                      <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
-                      <calcite-radio-button value="react">React</calcite-radio-button>
-                      <calcite-radio-button value="ember">Ember</calcite-radio-button>
-                      <calcite-radio-button value="angular">Angular</calcite-radio-button>
-                    </calcite-radio-button-group>
-                    <calcite-radio-button-group theme="dark" name="l-dark-disabled-single" scale="l">
-                      <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
-                      <calcite-radio-button value="react" disabled>React</calcite-radio-button>
-                      <calcite-radio-button value="ember">Ember</calcite-radio-button>
-                      <calcite-radio-button value="angular">Angular</calcite-radio-button>
-                    </calcite-radio-button-group>
-                    <hr>
-                    <div class="vertical-grid">
-                      <calcite-radio-button-group theme="dark" name="l-dark-vertical" scale="l" layout="vertical">
-                        <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
-                        <calcite-radio-button value="react">React</calcite-radio-button>
-                        <calcite-radio-button value="ember">Ember</calcite-radio-button>
-                        <calcite-radio-button value="angular">Angular</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group theme="dark" name="l-dark-disabled-vertical" scale="l" disabled
-                        layout="vertical">
-                        <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
-                        <calcite-radio-button value="react">React</calcite-radio-button>
-                        <calcite-radio-button value="ember">Ember</calcite-radio-button>
-                        <calcite-radio-button value="angular">Angular</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group theme="dark" name="l-dark-disabled-single-vertical" scale="l"
-                        layout="vertical">
-                        <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
-                        <calcite-radio-button value="react" disabled>React</calcite-radio-button>
-                        <calcite-radio-button value="ember">Ember</calcite-radio-button>
-                        <calcite-radio-button value="angular">Angular</calcite-radio-button>
-                      </calcite-radio-button-group>
-                    </div>
-
-                    <hr>
-
-                    <div class="vertical-grid">
-                      <calcite-radio-button-group theme="dark" name="valueAsLabelDarkVertical" layout="vertical">
-                        <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                        <calcite-radio-button value="2">2</calcite-radio-button>
-                        <calcite-radio-button value="3">3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group theme="dark" name="valueAsLabelDarkDisabledVertical" disabled
-                        layout="vertical">
-                        <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                        <calcite-radio-button value="2">2</calcite-radio-button>
-                        <calcite-radio-button value="3">3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group theme="dark" name="valueAsLabelDarkDisabledSingleVertical"
-                        layout="vertical">
-                        <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                        <calcite-radio-button value="2" disabled>2</calcite-radio-button>
-                        <calcite-radio-button value="3">3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                    </div>
-
-                    <h3>None checked</h3>
-                    <calcite-radio-button-group theme="dark" name="noneCheckedDark">
-                      <calcite-radio-button value="1">1</calcite-radio-button>
-                      <calcite-radio-button value="2">2</calcite-radio-button>
-                      <calcite-radio-button value="3">3</calcite-radio-button>
-                    </calcite-radio-button-group>
-                    <calcite-radio-button-group theme="dark" name="noneCheckedDarkDisabled" disabled>
-                      <calcite-radio-button value="1">1</calcite-radio-button>
-                      <calcite-radio-button value="2">2</calcite-radio-button>
-                      <calcite-radio-button value="3">3</calcite-radio-button>
-                    </calcite-radio-button-group>
-                    <calcite-radio-button-group theme="dark" name="noneCheckedDarkDisabledSingle">
-                      <calcite-radio-button value="1">1</calcite-radio-button>
-                      <calcite-radio-button value="2" disabled>2</calcite-radio-button>
-                      <calcite-radio-button value="3">3</calcite-radio-button>
-                    </calcite-radio-button-group>
-
-                    <hr>
-
-                    <div class="vertical-grid">
-                      <calcite-radio-button-group theme="dark" name="noneCheckedDarkVertical" layout="vertical">
-                        <calcite-radio-button value="1">1</calcite-radio-button>
-                        <calcite-radio-button value="2">2</calcite-radio-button>
-                        <calcite-radio-button value="3">3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group theme="dark" name="noneCheckedDarkDisabledVertical" disabled
-                        layout="vertical">
-                        <calcite-radio-button value="1">1</calcite-radio-button>
-                        <calcite-radio-button value="2">2</calcite-radio-button>
-                        <calcite-radio-button value="3">3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group theme="dark" name="noneCheckedDarkDisabledSingleVertical"
-                        layout="vertical">
-                        <calcite-radio-button value="1">1</calcite-radio-button>
-                        <calcite-radio-button value="2" disabled>2</calcite-radio-button>
-                        <calcite-radio-button value="3">3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                    </div>
-
-                    <h3>Only one checked value (last wins, first two checked)</h3>
-                    <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkFirst2">
-                      <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                      <calcite-radio-button value="2" checked>2</calcite-radio-button>
-                      <calcite-radio-button value="3">3</calcite-radio-button>
-                    </calcite-radio-button-group>
-                    <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkDisabledFirst2" disabled>
-                      <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                      <calcite-radio-button value="2" checked>2</calcite-radio-button>
-                      <calcite-radio-button value="3">3</calcite-radio-button>
-                    </calcite-radio-button-group>
-                    <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkDisabledSingleFirst2">
-                      <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                      <calcite-radio-button value="2" checked disabled>2</calcite-radio-button>
-                      <calcite-radio-button value="3">3</calcite-radio-button>
-                    </calcite-radio-button-group>
-
-                    <hr>
-
-                    <div class="vertical-grid">
-                      <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkFirst2Vertical"
-                        layout="vertical">
-                        <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                        <calcite-radio-button value="2" checked>2</calcite-radio-button>
-                        <calcite-radio-button value="3">3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkDisabledFirst2Vertical"
-                        disabled layout="vertical">
-                        <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                        <calcite-radio-button value="2" checked>2</calcite-radio-button>
-                        <calcite-radio-button value="3">3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkDisabledSingleFirst2Vertical"
-                        layout="vertical">
-                        <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                        <calcite-radio-button value="2" checked disabled>2</calcite-radio-button>
-                        <calcite-radio-button value="3">3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                    </div>
-
-                    <h3>Only one checked value (last wins, second two checked)</h3>
-                    <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkSecond2">
-                      <calcite-radio-button value="1">1</calcite-radio-button>
-                      <calcite-radio-button value="2" checked>2</calcite-radio-button>
-                      <calcite-radio-button value="3" checked>3</calcite-radio-button>
-                    </calcite-radio-button-group>
-                    <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkDisabledSecond2" disabled>
-                      <calcite-radio-button value="1">1</calcite-radio-button>
-                      <calcite-radio-button value="2" checked>2</calcite-radio-button>
-                      <calcite-radio-button value="3" checked>3</calcite-radio-button>
-                    </calcite-radio-button-group>
-                    <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkDisabledSingleSecond2">
-                      <calcite-radio-button value="1">1</calcite-radio-button>
-                      <calcite-radio-button value="2" checked disabled>2</calcite-radio-button>
-                      <calcite-radio-button value="3" checked>3</calcite-radio-button>
-                    </calcite-radio-button-group>
-
-                    <hr>
-
-                    <div class="vertical-grid">
-                      <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkSecond2Vertical"
-                        layout="vertical">
-                        <calcite-radio-button value="1">1</calcite-radio-button>
-                        <calcite-radio-button value="2" checked>2</calcite-radio-button>
-                        <calcite-radio-button value="3" checked>3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkDisabledSecond2Vertical"
-                        disabled layout="vertical">
-                        <calcite-radio-button value="1">1</calcite-radio-button>
-                        <calcite-radio-button value="2" checked>2</calcite-radio-button>
-                        <calcite-radio-button value="3" checked>3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkDisabledSingleSecond2Vertical"
-                        layout="vertical">
-                        <calcite-radio-button value="1">1</calcite-radio-button>
-                        <calcite-radio-button value="2" checked disabled>2</calcite-radio-button>
-                        <calcite-radio-button value="3" checked>3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                    </div>
-
-                    <h3>Only one checked value (last wins, first and last checked)</h3>
-                    <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkFirstLast">
-                      <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                      <calcite-radio-button value="2">2</calcite-radio-button>
-                      <calcite-radio-button value="3" checked>3</calcite-radio-button>
-                    </calcite-radio-button-group>
-                    <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkDisabledFirstLast" disabled>
-                      <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                      <calcite-radio-button value="2">2</calcite-radio-button>
-                      <calcite-radio-button value="3" checked>3</calcite-radio-button>
-                    </calcite-radio-button-group>
-                    <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkDisabledSingleFirstLast">
-                      <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                      <calcite-radio-button value="2" disabled>2</calcite-radio-button>
-                      <calcite-radio-button value="3" checked>3</calcite-radio-button>
-                    </calcite-radio-button-group>
-
-                    <hr>
-
-                    <div class="vertical-grid">
-                      <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkFirstLastVertical"
-                        layout="vertical">
-                        <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                        <calcite-radio-button value="2">2</calcite-radio-button>
-                        <calcite-radio-button value="3" checked>3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkDisabledFirstLastVertical"
-                        disabled layout="vertical">
-                        <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                        <calcite-radio-button value="2">2</calcite-radio-button>
-                        <calcite-radio-button value="3" checked>3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group theme="dark"
-                        name="lastCheckedWinsDarkDisabledSingleFirstLastVertical" layout="vertical">
-                        <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                        <calcite-radio-button value="2" disabled>2</calcite-radio-button>
-                        <calcite-radio-button value="3" checked>3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                    </div>
-
-                    <h3>Only one checked value (last wins, all checked)</h3>
-                    <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkAll">
-                      <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                      <calcite-radio-button value="2" checked>2</calcite-radio-button>
-                      <calcite-radio-button value="3" checked>3</calcite-radio-button>
-                    </calcite-radio-button-group>
-                    <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkAllDisabled" disabled>
-                      <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                      <calcite-radio-button value="2" checked>2</calcite-radio-button>
-                      <calcite-radio-button value="3" checked>3</calcite-radio-button>
-                    </calcite-radio-button-group>
-                    <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkAllDisabledSingle">
-                      <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                      <calcite-radio-button value="2" checked disabled>2</calcite-radio-button>
-                      <calcite-radio-button value="3" checked>3</calcite-radio-button>
-                    </calcite-radio-button-group>
-
-                    <hr>
-
-                    <div class="vertical-grid">
-                      <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkAllVertical" layout="vertical">
-                        <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                        <calcite-radio-button value="2" checked>2</calcite-radio-button>
-                        <calcite-radio-button value="3" checked>3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkAllDisabledVertical" disabled
-                        layout="vertical">
-                        <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                        <calcite-radio-button value="2" checked>2</calcite-radio-button>
-                        <calcite-radio-button value="3" checked>3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                      <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkAllDisabledSingleVertical"
-                        layout="vertical">
-                        <calcite-radio-button value="1" checked>1</calcite-radio-button>
-                        <calcite-radio-button value="2" checked disabled>2</calcite-radio-button>
-                        <calcite-radio-button value="3" checked>3</calcite-radio-button>
-                      </calcite-radio-button-group>
-                    </div>
-                  </demo-spacer>
-                </div>
+                  </div>
+                </demo-spacer>
               </div>
-              <calcite-button form="calcite-radio-button-group-demo-form" type="submit">Submit</calcite-button>
-              <button type="submit" style="display: none">Submit</button>
-            </demo-spacer>
-          </form>
-        </demo-form>
-  </demo-spacer>
-</body>
+              <div class="dark">
+                <demo-spacer>
+                  <h3>Scale s</h3>
+                  <calcite-radio-button-group theme="dark" name="s-dark" scale="s">
+                    <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+                    <calcite-radio-button value="react">React</calcite-radio-button>
+                    <calcite-radio-button value="ember">Ember</calcite-radio-button>
+                    <calcite-radio-button value="angular">Angular</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <calcite-radio-button-group theme="dark" name="s-dark-disabled" scale="s" disabled>
+                    <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+                    <calcite-radio-button value="react">React</calcite-radio-button>
+                    <calcite-radio-button value="ember">Ember</calcite-radio-button>
+                    <calcite-radio-button value="angular">Angular</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <calcite-radio-button-group theme="dark" name="s-dark-disabled-single" scale="s">
+                    <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+                    <calcite-radio-button value="react" disabled>React</calcite-radio-button>
+                    <calcite-radio-button value="ember">Ember</calcite-radio-button>
+                    <calcite-radio-button value="angular">Angular</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <hr />
+                  <div class="vertical-grid">
+                    <calcite-radio-button-group theme="dark" name="s-dark-vertical" scale="s" layout="vertical">
+                      <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+                      <calcite-radio-button value="react">React</calcite-radio-button>
+                      <calcite-radio-button value="ember">Ember</calcite-radio-button>
+                      <calcite-radio-button value="angular">Angular</calcite-radio-button>
+                    </calcite-radio-button-group>
+                    <calcite-radio-button-group
+                      theme="dark"
+                      name="s-dark-disabled-vertical"
+                      scale="s"
+                      disabled
+                      layout="vertical"
+                    >
+                      <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+                      <calcite-radio-button value="react">React</calcite-radio-button>
+                      <calcite-radio-button value="ember">Ember</calcite-radio-button>
+                      <calcite-radio-button value="angular">Angular</calcite-radio-button>
+                    </calcite-radio-button-group>
+                    <calcite-radio-button-group
+                      theme="dark"
+                      name="s-dark-disabled-single-vertical"
+                      scale="s"
+                      layout="vertical"
+                    >
+                      <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+                      <calcite-radio-button value="react" disabled>React</calcite-radio-button>
+                      <calcite-radio-button value="ember">Ember</calcite-radio-button>
+                      <calcite-radio-button value="angular">Angular</calcite-radio-button>
+                    </calcite-radio-button-group>
+                  </div>
 
+                  <h3>Scale m (default)</h3>
+                  <calcite-radio-button-group theme="dark" name="m-dark">
+                    <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+                    <calcite-radio-button value="react">React</calcite-radio-button>
+                    <calcite-radio-button value="ember">Ember</calcite-radio-button>
+                    <calcite-radio-button value="angular">Angular</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <calcite-radio-button-group theme="dark" name="m-dark-disabled" disabled>
+                    <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+                    <calcite-radio-button value="react">React</calcite-radio-button>
+                    <calcite-radio-button value="ember">Ember</calcite-radio-button>
+                    <calcite-radio-button value="angular">Angular</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <calcite-radio-button-group theme="dark" name="m-dark-disabled-single">
+                    <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+                    <calcite-radio-button value="react" disabled>React</calcite-radio-button>
+                    <calcite-radio-button value="ember">Ember</calcite-radio-button>
+                    <calcite-radio-button value="angular">Angular</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <hr />
+                  <div class="vertical-grid">
+                    <calcite-radio-button-group theme="dark" name="m-dark-vertical" layout="vertical">
+                      <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+                      <calcite-radio-button value="react">React</calcite-radio-button>
+                      <calcite-radio-button value="ember">Ember</calcite-radio-button>
+                      <calcite-radio-button value="angular">Angular</calcite-radio-button>
+                    </calcite-radio-button-group>
+                    <calcite-radio-button-group theme="dark" name="m-dark-disabled-vertical" disabled layout="vertical">
+                      <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+                      <calcite-radio-button value="react">React</calcite-radio-button>
+                      <calcite-radio-button value="ember">Ember</calcite-radio-button>
+                      <calcite-radio-button value="angular">Angular</calcite-radio-button>
+                    </calcite-radio-button-group>
+                    <calcite-radio-button-group theme="dark" name="m-dark-disabled-single-vertical" layout="vertical">
+                      <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+                      <calcite-radio-button value="react" disabled>React</calcite-radio-button>
+                      <calcite-radio-button value="ember">Ember</calcite-radio-button>
+                      <calcite-radio-button value="angular">Angular</calcite-radio-button>
+                    </calcite-radio-button-group>
+                  </div>
+
+                  <h3>Scale l</h3>
+                  <calcite-radio-button-group theme="dark" name="l-dark" scale="l">
+                    <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+                    <calcite-radio-button value="react">React</calcite-radio-button>
+                    <calcite-radio-button value="ember">Ember</calcite-radio-button>
+                    <calcite-radio-button value="angular">Angular</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <calcite-radio-button-group theme="dark" name="l-dark-disabled" scale="l" disabled>
+                    <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+                    <calcite-radio-button value="react">React</calcite-radio-button>
+                    <calcite-radio-button value="ember">Ember</calcite-radio-button>
+                    <calcite-radio-button value="angular">Angular</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <calcite-radio-button-group theme="dark" name="l-dark-disabled-single" scale="l">
+                    <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+                    <calcite-radio-button value="react" disabled>React</calcite-radio-button>
+                    <calcite-radio-button value="ember">Ember</calcite-radio-button>
+                    <calcite-radio-button value="angular">Angular</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <hr />
+                  <div class="vertical-grid">
+                    <calcite-radio-button-group theme="dark" name="l-dark-vertical" scale="l" layout="vertical">
+                      <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+                      <calcite-radio-button value="react">React</calcite-radio-button>
+                      <calcite-radio-button value="ember">Ember</calcite-radio-button>
+                      <calcite-radio-button value="angular">Angular</calcite-radio-button>
+                    </calcite-radio-button-group>
+                    <calcite-radio-button-group
+                      theme="dark"
+                      name="l-dark-disabled-vertical"
+                      scale="l"
+                      disabled
+                      layout="vertical"
+                    >
+                      <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+                      <calcite-radio-button value="react">React</calcite-radio-button>
+                      <calcite-radio-button value="ember">Ember</calcite-radio-button>
+                      <calcite-radio-button value="angular">Angular</calcite-radio-button>
+                    </calcite-radio-button-group>
+                    <calcite-radio-button-group
+                      theme="dark"
+                      name="l-dark-disabled-single-vertical"
+                      scale="l"
+                      layout="vertical"
+                    >
+                      <calcite-radio-button value="stencil" checked>Stencil</calcite-radio-button>
+                      <calcite-radio-button value="react" disabled>React</calcite-radio-button>
+                      <calcite-radio-button value="ember">Ember</calcite-radio-button>
+                      <calcite-radio-button value="angular">Angular</calcite-radio-button>
+                    </calcite-radio-button-group>
+                  </div>
+
+                  <hr />
+
+                  <div class="vertical-grid">
+                    <calcite-radio-button-group theme="dark" name="valueAsLabelDarkVertical" layout="vertical">
+                      <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                      <calcite-radio-button value="2">2</calcite-radio-button>
+                      <calcite-radio-button value="3">3</calcite-radio-button>
+                    </calcite-radio-button-group>
+                    <calcite-radio-button-group
+                      theme="dark"
+                      name="valueAsLabelDarkDisabledVertical"
+                      disabled
+                      layout="vertical"
+                    >
+                      <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                      <calcite-radio-button value="2">2</calcite-radio-button>
+                      <calcite-radio-button value="3">3</calcite-radio-button>
+                    </calcite-radio-button-group>
+                    <calcite-radio-button-group
+                      theme="dark"
+                      name="valueAsLabelDarkDisabledSingleVertical"
+                      layout="vertical"
+                    >
+                      <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                      <calcite-radio-button value="2" disabled>2</calcite-radio-button>
+                      <calcite-radio-button value="3">3</calcite-radio-button>
+                    </calcite-radio-button-group>
+                  </div>
+
+                  <h3>None checked</h3>
+                  <calcite-radio-button-group theme="dark" name="noneCheckedDark">
+                    <calcite-radio-button value="1">1</calcite-radio-button>
+                    <calcite-radio-button value="2">2</calcite-radio-button>
+                    <calcite-radio-button value="3">3</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <calcite-radio-button-group theme="dark" name="noneCheckedDarkDisabled" disabled>
+                    <calcite-radio-button value="1">1</calcite-radio-button>
+                    <calcite-radio-button value="2">2</calcite-radio-button>
+                    <calcite-radio-button value="3">3</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <calcite-radio-button-group theme="dark" name="noneCheckedDarkDisabledSingle">
+                    <calcite-radio-button value="1">1</calcite-radio-button>
+                    <calcite-radio-button value="2" disabled>2</calcite-radio-button>
+                    <calcite-radio-button value="3">3</calcite-radio-button>
+                  </calcite-radio-button-group>
+
+                  <hr />
+
+                  <div class="vertical-grid">
+                    <calcite-radio-button-group theme="dark" name="noneCheckedDarkVertical" layout="vertical">
+                      <calcite-radio-button value="1">1</calcite-radio-button>
+                      <calcite-radio-button value="2">2</calcite-radio-button>
+                      <calcite-radio-button value="3">3</calcite-radio-button>
+                    </calcite-radio-button-group>
+                    <calcite-radio-button-group
+                      theme="dark"
+                      name="noneCheckedDarkDisabledVertical"
+                      disabled
+                      layout="vertical"
+                    >
+                      <calcite-radio-button value="1">1</calcite-radio-button>
+                      <calcite-radio-button value="2">2</calcite-radio-button>
+                      <calcite-radio-button value="3">3</calcite-radio-button>
+                    </calcite-radio-button-group>
+                    <calcite-radio-button-group
+                      theme="dark"
+                      name="noneCheckedDarkDisabledSingleVertical"
+                      layout="vertical"
+                    >
+                      <calcite-radio-button value="1">1</calcite-radio-button>
+                      <calcite-radio-button value="2" disabled>2</calcite-radio-button>
+                      <calcite-radio-button value="3">3</calcite-radio-button>
+                    </calcite-radio-button-group>
+                  </div>
+
+                  <h3>Only one checked value (last wins, first two checked)</h3>
+                  <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkFirst2">
+                    <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                    <calcite-radio-button value="2" checked>2</calcite-radio-button>
+                    <calcite-radio-button value="3">3</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkDisabledFirst2" disabled>
+                    <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                    <calcite-radio-button value="2" checked>2</calcite-radio-button>
+                    <calcite-radio-button value="3">3</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkDisabledSingleFirst2">
+                    <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                    <calcite-radio-button value="2" checked disabled>2</calcite-radio-button>
+                    <calcite-radio-button value="3">3</calcite-radio-button>
+                  </calcite-radio-button-group>
+
+                  <hr />
+
+                  <div class="vertical-grid">
+                    <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkFirst2Vertical" layout="vertical">
+                      <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                      <calcite-radio-button value="2" checked>2</calcite-radio-button>
+                      <calcite-radio-button value="3">3</calcite-radio-button>
+                    </calcite-radio-button-group>
+                    <calcite-radio-button-group
+                      theme="dark"
+                      name="lastCheckedWinsDarkDisabledFirst2Vertical"
+                      disabled
+                      layout="vertical"
+                    >
+                      <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                      <calcite-radio-button value="2" checked>2</calcite-radio-button>
+                      <calcite-radio-button value="3">3</calcite-radio-button>
+                    </calcite-radio-button-group>
+                    <calcite-radio-button-group
+                      theme="dark"
+                      name="lastCheckedWinsDarkDisabledSingleFirst2Vertical"
+                      layout="vertical"
+                    >
+                      <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                      <calcite-radio-button value="2" checked disabled>2</calcite-radio-button>
+                      <calcite-radio-button value="3">3</calcite-radio-button>
+                    </calcite-radio-button-group>
+                  </div>
+
+                  <h3>Only one checked value (last wins, second two checked)</h3>
+                  <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkSecond2">
+                    <calcite-radio-button value="1">1</calcite-radio-button>
+                    <calcite-radio-button value="2" checked>2</calcite-radio-button>
+                    <calcite-radio-button value="3" checked>3</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkDisabledSecond2" disabled>
+                    <calcite-radio-button value="1">1</calcite-radio-button>
+                    <calcite-radio-button value="2" checked>2</calcite-radio-button>
+                    <calcite-radio-button value="3" checked>3</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkDisabledSingleSecond2">
+                    <calcite-radio-button value="1">1</calcite-radio-button>
+                    <calcite-radio-button value="2" checked disabled>2</calcite-radio-button>
+                    <calcite-radio-button value="3" checked>3</calcite-radio-button>
+                  </calcite-radio-button-group>
+
+                  <hr />
+
+                  <div class="vertical-grid">
+                    <calcite-radio-button-group
+                      theme="dark"
+                      name="lastCheckedWinsDarkSecond2Vertical"
+                      layout="vertical"
+                    >
+                      <calcite-radio-button value="1">1</calcite-radio-button>
+                      <calcite-radio-button value="2" checked>2</calcite-radio-button>
+                      <calcite-radio-button value="3" checked>3</calcite-radio-button>
+                    </calcite-radio-button-group>
+                    <calcite-radio-button-group
+                      theme="dark"
+                      name="lastCheckedWinsDarkDisabledSecond2Vertical"
+                      disabled
+                      layout="vertical"
+                    >
+                      <calcite-radio-button value="1">1</calcite-radio-button>
+                      <calcite-radio-button value="2" checked>2</calcite-radio-button>
+                      <calcite-radio-button value="3" checked>3</calcite-radio-button>
+                    </calcite-radio-button-group>
+                    <calcite-radio-button-group
+                      theme="dark"
+                      name="lastCheckedWinsDarkDisabledSingleSecond2Vertical"
+                      layout="vertical"
+                    >
+                      <calcite-radio-button value="1">1</calcite-radio-button>
+                      <calcite-radio-button value="2" checked disabled>2</calcite-radio-button>
+                      <calcite-radio-button value="3" checked>3</calcite-radio-button>
+                    </calcite-radio-button-group>
+                  </div>
+
+                  <h3>Only one checked value (last wins, first and last checked)</h3>
+                  <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkFirstLast">
+                    <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                    <calcite-radio-button value="2">2</calcite-radio-button>
+                    <calcite-radio-button value="3" checked>3</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkDisabledFirstLast" disabled>
+                    <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                    <calcite-radio-button value="2">2</calcite-radio-button>
+                    <calcite-radio-button value="3" checked>3</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkDisabledSingleFirstLast">
+                    <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                    <calcite-radio-button value="2" disabled>2</calcite-radio-button>
+                    <calcite-radio-button value="3" checked>3</calcite-radio-button>
+                  </calcite-radio-button-group>
+
+                  <hr />
+
+                  <div class="vertical-grid">
+                    <calcite-radio-button-group
+                      theme="dark"
+                      name="lastCheckedWinsDarkFirstLastVertical"
+                      layout="vertical"
+                    >
+                      <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                      <calcite-radio-button value="2">2</calcite-radio-button>
+                      <calcite-radio-button value="3" checked>3</calcite-radio-button>
+                    </calcite-radio-button-group>
+                    <calcite-radio-button-group
+                      theme="dark"
+                      name="lastCheckedWinsDarkDisabledFirstLastVertical"
+                      disabled
+                      layout="vertical"
+                    >
+                      <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                      <calcite-radio-button value="2">2</calcite-radio-button>
+                      <calcite-radio-button value="3" checked>3</calcite-radio-button>
+                    </calcite-radio-button-group>
+                    <calcite-radio-button-group
+                      theme="dark"
+                      name="lastCheckedWinsDarkDisabledSingleFirstLastVertical"
+                      layout="vertical"
+                    >
+                      <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                      <calcite-radio-button value="2" disabled>2</calcite-radio-button>
+                      <calcite-radio-button value="3" checked>3</calcite-radio-button>
+                    </calcite-radio-button-group>
+                  </div>
+
+                  <h3>Only one checked value (last wins, all checked)</h3>
+                  <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkAll">
+                    <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                    <calcite-radio-button value="2" checked>2</calcite-radio-button>
+                    <calcite-radio-button value="3" checked>3</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkAllDisabled" disabled>
+                    <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                    <calcite-radio-button value="2" checked>2</calcite-radio-button>
+                    <calcite-radio-button value="3" checked>3</calcite-radio-button>
+                  </calcite-radio-button-group>
+                  <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkAllDisabledSingle">
+                    <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                    <calcite-radio-button value="2" checked disabled>2</calcite-radio-button>
+                    <calcite-radio-button value="3" checked>3</calcite-radio-button>
+                  </calcite-radio-button-group>
+
+                  <hr />
+
+                  <div class="vertical-grid">
+                    <calcite-radio-button-group theme="dark" name="lastCheckedWinsDarkAllVertical" layout="vertical">
+                      <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                      <calcite-radio-button value="2" checked>2</calcite-radio-button>
+                      <calcite-radio-button value="3" checked>3</calcite-radio-button>
+                    </calcite-radio-button-group>
+                    <calcite-radio-button-group
+                      theme="dark"
+                      name="lastCheckedWinsDarkAllDisabledVertical"
+                      disabled
+                      layout="vertical"
+                    >
+                      <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                      <calcite-radio-button value="2" checked>2</calcite-radio-button>
+                      <calcite-radio-button value="3" checked>3</calcite-radio-button>
+                    </calcite-radio-button-group>
+                    <calcite-radio-button-group
+                      theme="dark"
+                      name="lastCheckedWinsDarkAllDisabledSingleVertical"
+                      layout="vertical"
+                    >
+                      <calcite-radio-button value="1" checked>1</calcite-radio-button>
+                      <calcite-radio-button value="2" checked disabled>2</calcite-radio-button>
+                      <calcite-radio-button value="3" checked>3</calcite-radio-button>
+                    </calcite-radio-button-group>
+                  </div>
+                </demo-spacer>
+              </div>
+            </div>
+            <calcite-button form="calcite-radio-button-group-demo-form" type="submit">Submit</calcite-button>
+            <button type="submit" style="display: none">Submit</button>
+          </demo-spacer>
+        </form>
+      </demo-form>
+    </demo-spacer>
+  </body>
 </html>
