@@ -20,10 +20,7 @@
       padding: 1rem;
     }
   </style>
-  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
-  <link rel="stylesheet" href="../build/calcite.css" />
-  <script type="module" src="../build/calcite.esm.js"></script>
-  <script nomodule src="../build/calcite.js"></script>
+<script src="./_assets/head.js"></script>
   <script src="_assets/loadingButton.js"></script>
 </head>
 
@@ -33,9 +30,9 @@
   <h4>calcite-link has no scale - it inherits font size from its container</h4>
 
   <h3>Set focus</h3>
-  <calcite-button onclick=document.querySelector('#button-focus-example-1').setFocus()>focus span
+  <calcite-button onclick="document.querySelector('#button-focus-example-1').setFocus()">focus span
   </calcite-button>
-  <calcite-button onclick=document.querySelector('#button-focus-example-2').setFocus()>focus a
+  <calcite-button onclick="document.querySelector('#button-focus-example-2').setFocus()">focus a
   </calcite-button>
   <h4>Receive focus</h4>
 

@@ -12,6 +12,7 @@ import {
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { CSS_UTILITY } from "../../utils/resources";
+import { Position } from "../interfaces";
 
 @Component({
   tag: "calcite-accordion-item",
@@ -80,7 +81,7 @@ export class CalciteAccordionItem {
     this.parent = this.el.parentElement as HTMLCalciteAccordionElement;
     this.selectionMode = getElementProp(this.el, "selection-mode", "multi");
     this.iconType = getElementProp(this.el, "icon-type", "chevron");
-    this.iconPosition = getElementProp(this.el, "icon-position", "end");
+    this.iconPosition = getElementProp(this.el, "icon-position", this.iconPosition);
     this.scale = getElementProp(this.el, "scale", "m");
   }
 
@@ -99,34 +100,41 @@ export class CalciteAccordionItem {
     const iconEl = <calcite-icon class="accordion-item-icon" icon={this.icon} scale={iconScale} />;
 
     return (
-      <Host aria-expanded={this.active.toString()} icon-position={this.iconPosition} tabindex="0">
+      <Host aria-expanded={this.active.toString()} tabindex="0">
         <div
-          class={{ ["accordion-item-header"]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
-          onClick={this.itemHeaderClickHandler}
+          class={{
+            [`icon-position--${this.iconPosition}`]: true,
+            [`icon-type--${this.iconType}`]: true
+          }}
         >
-          {this.icon ? iconEl : null}
-          <div class="accordion-item-header-text">
-            <span class="accordion-item-title">{this.itemTitle}</span>
-            {this.itemSubtitle ? (
-              <span class="accordion-item-subtitle">{this.itemSubtitle}</span>
-            ) : null}
+          <div
+            class={{ "accordion-item-header": true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+            onClick={this.itemHeaderClickHandler}
+          >
+            {this.icon ? iconEl : null}
+            <div class="accordion-item-header-text">
+              <span class="accordion-item-title">{this.itemTitle}</span>
+              {this.itemSubtitle ? (
+                <span class="accordion-item-subtitle">{this.itemSubtitle}</span>
+              ) : null}
+            </div>
+            <calcite-icon
+              class="accordion-item-expand-icon"
+              icon={
+                this.iconType === "chevron"
+                  ? "chevronUp"
+                  : this.iconType === "caret"
+                  ? "caretUp"
+                  : this.active
+                  ? "minus"
+                  : "plus"
+              }
+              scale="s"
+            />
           </div>
-          <calcite-icon
-            class="accordion-item-expand-icon"
-            icon={
-              this.iconType === "chevron"
-                ? "chevronUp"
-                : this.iconType === "caret"
-                ? "caretUp"
-                : this.active
-                ? "minus"
-                : "plus"
-            }
-            scale="s"
-          />
-        </div>
-        <div class="accordion-item-content">
-          <slot />
+          <div class="accordion-item-content">
+            <slot />
+          </div>
         </div>
       </Host>
     );
@@ -185,11 +193,11 @@ export class CalciteAccordionItem {
   /** what selection mode is the parent accordion in */
   private selectionMode: string;
 
+  /** what icon position does the parent accordion specify */
+  private iconPosition: Position = "end";
+
   /** what icon type does the parent accordion specify */
   private iconType: string;
-
-  /** what icon position does the parent accordion specify */
-  private iconPosition: string;
 
   /** the scale of the parent accordion */
   private scale: string;
