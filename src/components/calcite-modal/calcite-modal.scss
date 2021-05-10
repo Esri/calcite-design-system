@@ -40,7 +40,7 @@
   transform: translate3d(0, 20px, 0);
 }
 
-:host([is-active]) {
+:host([active]) {
   @apply opacity-100;
   visibility: visible !important;
   transition-delay: 0ms;
@@ -208,7 +208,7 @@ slot[name="primary"] {
   }
 }
 
-:host([is-active][fullscreen]) {
+:host([active][fullscreen]) {
   .modal {
     transform: translate3D(0, 0, 0) scale(1);
   }
