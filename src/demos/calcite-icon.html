@@ -1,78 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Calcite Icon</title>
+    <style>
+      .demo-background-dark {
+        background: #202020;
+        color: white;
+        padding: 1rem;
+      }
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Calcite Icon</title>
-  <style>
-    .demo-background-dark {
-      background: #202020;
-      color: white;
-      padding: 1rem;
-    }
+      .my-icon-color-class {
+        color: #007ac2;
+      }
+    </style>
+    <script src="./_assets/head.js"></script>
+  </head>
 
-    .my-icon-color-class {
-      color: #007ac2;
-    }
-  </style>
-  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
-  <link rel="stylesheet" href="../build/calcite.css" />
-  <script type="module" src="../build/calcite.esm.js"></script>
-  <script nomodule src="../build/calcite.js"></script>
-</head>
+  <body>
+    <calcite-button href="/">Home</calcite-button>
+    <h1>Calcite Icon</h1>
+    <h2>Default (decorative)</h2>
+    <calcite-icon tabindex="0" icon="aZ"></calcite-icon>
+    <calcite-icon icon="basemap"></calcite-icon>
+    <calcite-icon icon="camera"></calcite-icon>
 
-<body>
-  <calcite-button href="/">Home</calcite-button>
-  <h1>Calcite Icon</h1>
-  <h2>Default (decorative)</h2>
-  <calcite-icon tabindex="0" icon="aZ"></calcite-icon>
-  <calcite-icon icon="basemap"></calcite-icon>
-  <calcite-icon icon="camera"></calcite-icon>
+    <h2>Default (semantic)</h2>
+    <calcite-icon icon="aZ" text-label="Sort options"></calcite-icon>
+    <calcite-icon icon="basemap" text-label="Select a basemap"></calcite-icon>
+    <calcite-icon icon="camera" text-label="Upload an image"></calcite-icon>
 
-  <h2>Default (semantic)</h2>
-  <calcite-icon icon="aZ" text-label="Sort options"></calcite-icon>
-  <calcite-icon icon="basemap" text-label="Select a basemap"></calcite-icon>
-  <calcite-icon icon="camera" text-label="Upload an image"></calcite-icon>
+    <h2>Multipath</h2>
+    <calcite-icon icon="imageLayer" scale="s"></calcite-icon>
+    <calcite-icon icon="imageLayer" scale="m"></calcite-icon>
+    <calcite-icon icon="imageLayer" scale="l"></calcite-icon>
 
-  <h2>Multipath</h2>
-  <calcite-icon icon="imageLayer" scale="s"></calcite-icon>
-  <calcite-icon icon="imageLayer" scale="m"></calcite-icon>
-  <calcite-icon icon="imageLayer" scale="l"></calcite-icon>
+    <h2>Filled</h2>
+    <calcite-icon icon="circle-f" scale="m"></calcite-icon>
+    <calcite-icon icon="circleF" scale="m"></calcite-icon>
 
-  <h2>Filled</h2>
-  <calcite-icon icon="circle-f" scale="m"></calcite-icon>
-  <calcite-icon icon="circleF" scale="m"></calcite-icon>
+    <h2>Scale can be "s" | "m" | "l"</h2>
+    <calcite-icon icon="aZ" scale="s"></calcite-icon>
+    <calcite-icon icon="basemap" scale="m"></calcite-icon>
+    <calcite-icon icon="camera" scale="l"></calcite-icon>
 
-  <h2>Scale can be "s" | "m" | "l"</h2>
-  <calcite-icon icon="aZ" scale="s"></calcite-icon>
-  <calcite-icon icon="basemap" scale="m"></calcite-icon>
-  <calcite-icon icon="camera" scale="l"></calcite-icon>
+    <h2>Icon can be camel-case or kebab-case</h2>
+    <calcite-icon icon="arrow-bold-left"></calcite-icon>
+    <calcite-icon class="my-icon-color-class" icon="arrowBoldLeft"></calcite-icon>
 
-  <h2>Icon can be camel-case or kebab-case</h2>
-  <calcite-icon icon="arrow-bold-left"></calcite-icon>
-  <calcite-icon class="my-icon-color-class" icon="arrowBoldLeft"></calcite-icon>
+    <h2>Dark theme</h2>
+    <div class="demo-background-dark">
+      <calcite-icon class="my-icon-color-class" icon="aZ" theme="dark"></calcite-icon>
+      <calcite-icon icon="basemap" theme="dark"></calcite-icon>
+      <calcite-icon icon="camera" theme="dark"></calcite-icon>
+    </div>
 
-  <h2>Dark theme</h2>
-  <div class="demo-background-dark">
-    <calcite-icon class="my-icon-color-class" icon="aZ" theme="dark"></calcite-icon>
-    <calcite-icon icon="basemap" theme="dark"></calcite-icon>
-    <calcite-icon icon="camera" theme="dark"></calcite-icon>
-  </div>
-
-  <h2>Flips icon in RTL when requested with "flip-rtl"</h2>
-  <h3>rtl set on parent</h3>
-  <div dir="rtl">
-    <calcite-icon icon="aZ" flip-rtl></calcite-icon>
-    <calcite-icon icon="basemap" flip-rtl></calcite-icon>
-    <calcite-icon icon="camera" flip-rtl></calcite-icon>
-  </div>
-  <h3>rtl set on icon</h3>
-  <calcite-icon dir="rtl" icon="aZ" flip-rtl></calcite-icon>
-  <calcite-icon dir="rtl" icon="basemap" flip-rtl></calcite-icon>
-  <calcite-icon dir="rtl" icon="camera" flip-rtl></calcite-icon>
-
-</body>
-
+    <h2>Flips icon in RTL when requested with "flip-rtl"</h2>
+    <h3>rtl set on parent</h3>
+    <div dir="rtl">
+      <calcite-icon icon="aZ" flip-rtl></calcite-icon>
+      <calcite-icon icon="basemap" flip-rtl></calcite-icon>
+      <calcite-icon icon="camera" flip-rtl></calcite-icon>
+    </div>
+    <h3>rtl set on icon</h3>
+    <calcite-icon dir="rtl" icon="aZ" flip-rtl></calcite-icon>
+    <calcite-icon dir="rtl" icon="basemap" flip-rtl></calcite-icon>
+    <calcite-icon dir="rtl" icon="camera" flip-rtl></calcite-icon>
+  </body>
 </html>

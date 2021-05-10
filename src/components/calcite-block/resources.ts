@@ -26,7 +26,7 @@ export const SLOTS = {
 
 export const ICONS = {
   opened: "chevron-up",
-  closed: "chevron-down",
-}
+  closed: "chevron-down"
+};
 
 export const HEADING_LEVEL = 4;
