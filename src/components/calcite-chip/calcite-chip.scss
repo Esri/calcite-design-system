@@ -138,13 +138,13 @@
 :host([color="yellow"][appearance="solid"]) {
   border-color: transparent;
   background-color: var(--calcite-ui-warning);
-  color: var(--calcite-chip-font-color);
+  color: $blk-220;
 }
 
 :host([color="green"][appearance="solid"]) {
   border-color: transparent;
   background-color: var(--calcite-ui-success);
-  color: var(--calcite-chip-font-color);
+  color: $blk-220;
 }
 
 :host([color="grey"][appearance="solid"]) {
@@ -199,18 +199,20 @@
   @apply focus-base bg-transparent;
   color: inherit;
   &:hover {
-    background-color: var(--calcite-chip-solid-bg-light);
+    background-color: rgba($blk-000, 0.1);
   }
   &:focus {
+    background-color: rgba($blk-000, 0.1);
     @apply focus-inset;
-    background-color: var(--calcite-chip-solid-bg-light);
   }
   &:active {
-    background-color: var(--calcite-chip-solid-bg-dark);
+    background-color: rgba($blk-240, 0.1);
   }
 }
 // clear
 :host([appearance="clear"]) button {
+  --calcite-chip-transparent-hover: var(--calcite-button-transparent-hover);
+  --calcite-chip-transparent-press: var(--calcite-button-transparent-press);
   @apply focus-base bg-transparent text-color-3;
   &:hover {
     background-color: var(--calcite-chip-transparent-hover);
