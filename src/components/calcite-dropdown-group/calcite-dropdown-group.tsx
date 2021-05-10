@@ -12,6 +12,8 @@ import {
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { GroupRegistration, ItemRegistration } from "../calcite-dropdown/interfaces";
 import { SelectionMode } from "./interfaces";
+import { Scale } from "../interfaces";
+import { CSS } from "./resources";
 
 @Component({
   tag: "calcite-dropdown-group",
@@ -38,6 +40,11 @@ export class CalciteDropdownGroup {
   /** specify the selection mode - multi (allow any number of (or no) active items), single (allow and require one active item),
    none (no active items), defaults to single */
   @Prop({ reflect: true }) selectionMode: SelectionMode = "single";
+
+  /**
+   * Specifies the size of the action.
+   */
+  @Prop({ reflect: true }) scale: Scale;
 
   //--------------------------------------------------------------------------
   //
@@ -91,7 +98,7 @@ export class CalciteDropdownGroup {
 
   render(): VNode {
     const dir = getElementDir(this.el);
-    const scale = getElementProp(this.el, "scale", "m");
+    const scale: Scale = this.scale || getElementProp(this.el, "scale", "m");
     const groupTitle = this.groupTitle ? (
       <span aria-hidden="true" class="dropdown-title" ref={this.setDropdownTitleRef}>
         {this.groupTitle}
@@ -104,8 +111,17 @@ export class CalciteDropdownGroup {
       ) : null;
 
     return (
-      <Host role="menu" scale={scale} title={this.groupTitle}>
-        <div dir={dir}>
+      <Host role="menu">
+        <div
+          class={{
+            container: true,
+            [CSS.containerSmall]: scale === "s",
+            [CSS.containerMedium]: scale === "m",
+            [CSS.containerLarge]: scale === "l"
+          }}
+          dir={dir}
+          title={this.groupTitle}
+        >
           {dropdownSeparator}
           {groupTitle}
           <slot />
