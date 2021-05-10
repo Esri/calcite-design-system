@@ -1,6 +1,6 @@
 import { Component, Element, Host, h, Listen, Prop, VNode } from "@stencil/core";
 import { POPOVER_REFERENCE } from "../calcite-popover/resources";
-import { getElementById, querySelectorAll } from "../../utils/dom";
+import { queryElementCrossShadowBoundary, queryElementsCrossShadowBoundary } from "../../utils/dom";
 
 /**
  * @slot - A slot for adding elements that reference a 'calcite-popover' by the 'selector' property.
@@ -57,7 +57,7 @@ export class CalcitePopoverManager {
     const { selector, el } = this;
     const id = element.closest(selector)?.getAttribute(POPOVER_REFERENCE);
 
-    return getElementById(el, id) as HTMLCalcitePopoverElement;
+    return queryElementCrossShadowBoundary(`#${id}`, el) as HTMLCalcitePopoverElement;
   };
 
   //--------------------------------------------------------------------------
@@ -75,7 +75,7 @@ export class CalcitePopoverManager {
     const relatedPopover = this.getRelatedPopover(target);
 
     if (autoClose && !isTargetInsidePopover) {
-      (querySelectorAll(el, popoverSelector) as HTMLCalcitePopoverElement[])
+      (queryElementsCrossShadowBoundary(popoverSelector, el) as HTMLCalcitePopoverElement[])
         .filter((popover) => popover.open && popover !== relatedPopover)
         .forEach((popover) => popover.toggle(false));
     }

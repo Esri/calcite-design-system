@@ -11,7 +11,7 @@ import {
   OverlayPositioning
 } from "../../utils/popper";
 import { Theme } from "../interfaces";
-import { getElementById } from "../../utils/dom";
+import { queryElementCrossShadowBoundary } from "../../utils/dom";
 
 @Component({
   tag: "calcite-tooltip",
@@ -74,7 +74,7 @@ export class CalciteTooltip {
   /**
    * Reference HTMLElement used to position this component.
    */
-  @Prop() referenceElement!: HTMLElement | string;
+  @Prop() referenceElement: HTMLElement | string;
 
   @Watch("referenceElement")
   referenceElementHandler(): void {
@@ -187,7 +187,7 @@ export class CalciteTooltip {
 
     return (
       (typeof referenceElement === "string"
-        ? getElementById(el, referenceElement)
+        ? queryElementCrossShadowBoundary(`#${referenceElement}`, el)
         : referenceElement) || null
     );
   }

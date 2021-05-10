@@ -20,6 +20,66 @@ export function getElementProp(el: Element, prop: string, fallbackValue: any, cr
   return closest ? closest.getAttribute(prop) : fallbackValue;
 }
 
+function getRootNode(el: Element): HTMLDocument | ShadowRoot {
+  return el.getRootNode() as HTMLDocument | ShadowRoot;
+}
+
+export function queryElementsCrossShadowBoundary<T extends Element = Element>(
+  selector: string,
+  element: Element = this
+): T[] {
+  // based on https://stackoverflow.com/q/54520554/194216
+  function queryFromAll<T extends Element = Element>(el: Element, allResults: T[] = []): T[] {
+    if (!el) {
+      return null;
+    }
+
+    if ((el as Slottable).assignedSlot) {
+      el = (el as Slottable).assignedSlot;
+    }
+
+    const rootNode = getRootNode(el);
+
+    const results =
+      rootNode instanceof ShadowRoot
+        ? (Array.from(rootNode.host.querySelectorAll(selector)) as T[])
+        : (Array.from(rootNode.querySelectorAll(selector)) as T[]);
+
+    allResults = [...allResults, ...results];
+
+    return rootNode instanceof ShadowRoot ? queryFromAll(rootNode.host, allResults) : allResults;
+  }
+
+  return queryFromAll(element);
+}
+
+export function queryElementCrossShadowBoundary<T extends Element = Element>(
+  selector: string,
+  element: Element = this
+): T | null {
+  // based on https://stackoverflow.com/q/54520554/194216
+  function queryFrom<T extends Element = Element>(el: Element): T | null {
+    if (!el) {
+      return null;
+    }
+
+    if ((el as Slottable).assignedSlot) {
+      el = (el as Slottable).assignedSlot;
+    }
+
+    const rootNode = getRootNode(el);
+
+    const found =
+      rootNode instanceof ShadowRoot
+        ? (rootNode.host.querySelector(selector) as T)
+        : (rootNode.querySelector(selector) as T);
+
+    return found ? found : rootNode instanceof ShadowRoot ? queryFrom(rootNode.host) : null;
+  }
+
+  return queryFrom(element);
+}
+
 function closestElementCrossShadowBoundary<E extends Element = Element>(
   selector: string,
   base: Element = this
@@ -109,43 +169,6 @@ function querySingle<T extends Element = Element>(
 
 export function filterDirectChildren<T extends Element>(el: Element, selector: string): T[] {
   return Array.from(el.children).filter((child): child is T => child.matches(selector));
-}
-
-function getRootNode(element: HTMLElement): HTMLDocument | ShadowRoot {
-  return element.getRootNode() as HTMLDocument | ShadowRoot;
-}
-
-export function querySelector(el: HTMLElement, selector: string): HTMLElement {
-  const rootNode = getRootNode(el);
-
-  return selector
-    ? rootNode instanceof ShadowRoot
-      ? rootNode.host.querySelector(selector) || rootNode.ownerDocument.querySelector(selector)
-      : rootNode.querySelector(selector)
-    : null;
-}
-
-export function querySelectorAll(el: HTMLElement, selector: string): HTMLElement[] {
-  const rootNode = getRootNode(el);
-
-  return selector
-    ? rootNode instanceof ShadowRoot
-      ? [
-          ...(Array.from(rootNode.host.querySelectorAll(selector)) as HTMLElement[]),
-          ...(Array.from(rootNode.ownerDocument.querySelectorAll(selector)) as HTMLElement[])
-        ]
-      : Array.from(rootNode.querySelectorAll(selector))
-    : null;
-}
-
-export function getElementById(el: HTMLElement, id: string): HTMLElement {
-  const rootNode = getRootNode(el);
-
-  return id
-    ? rootNode instanceof ShadowRoot
-      ? rootNode.host.querySelector(`#${id}`) || rootNode.ownerDocument.getElementById(id)
-      : rootNode.getElementById(id)
-    : null;
 }
 
 export function hasLabel(labelEl: HTMLCalciteLabelElement, el: HTMLElement): boolean {
