@@ -263,6 +263,9 @@ export class CalciteInputTimePicker {
       this.previousEmittedValue !== validatedNewValue;
 
     if (validatedNewValue !== this.value) {
+      if (shouldEmit && !loading) {
+        this.previousEmittedValue = validatedNewValue;
+      }
       this.value = validatedNewValue;
     }
     if (!loading) {
@@ -277,6 +280,7 @@ export class CalciteInputTimePicker {
       if (changeEvent.defaultPrevented) {
         this.value = previousValue;
         this.setInputValue(previousValue, external);
+        this.previousEmittedValue = previousValue;
       } else {
         this.previousEmittedValue = validatedNewValue;
       }

@@ -47,7 +47,7 @@
     <demo-form>
       <form>
         <input id="change-input-time-picker" placeholder="change input-time-picker's value">
-        <input id="change-input" placeholder="change input's value">
+        <input id="change-input" placeholder="change calcite-input's value">
         <calcite-input-time-picker id="value-test" name="value-test" step="1"></calcite-input-time-picker>
         <button>Submit</button>
       </form>
@@ -133,6 +133,9 @@
       const inputTimePicker = document.querySelector("calcite-input-time-picker");
       await inputTimePicker.componentOnReady();
 
+      const calciteInput = inputTimePicker.querySelector("calcite-input");
+      const input = inputTimePicker.querySelector("input");
+
       document.addEventListener("calciteInputTimePickerChange", (event) => {
         console.log("calciteInputTimePickerChange", event.target.name, event.detail);
       })
@@ -141,8 +144,6 @@
         console.log("calciteInputTimePickerExternalChange", event.target.name, event.detail);
       })
 
-      const calciteInput = inputTimePicker.querySelector("calcite-input");
-
       document.getElementById("change-input-time-picker").addEventListener("input", (event) => {
         const date = new Date(0);
         date.setSeconds(event.target.value);
@@ -150,7 +151,7 @@
         const expectedValue = date.toISOString().substr(11, 8);
         inputTimePicker.value = expectedValue;
         if (inputTimePicker.value !== calciteInput.value) {
-          console.log("VALUES DON'T EQUAL!!!", "inputTimePicker:", inputTimePicker.value, "input:", calciteInput.value);
+          console.log("VALUES DON'T EQUAL!!!", "inputTimePicker:", inputTimePicker.value, "calciteInput:", calciteInput.value, "input:", input.value);
         }
       });
 
@@ -161,7 +162,7 @@
         const expectedValue = date.toISOString().substr(11, 8);
         calciteInput.value = expectedValue;
         if (inputTimePicker.value !== calciteInput.value) {
-          console.log("VALUES DON'T EQUAL!!!", "inputTimePicker:", inputTimePicker.value, "input:", calciteInput.value);
+          console.log("VALUES DON'T EQUAL!!!", "inputTimePicker:", inputTimePicker.value, "calciteInput:", calciteInput.value, "input:", input.value);
         }
       });
     })();
