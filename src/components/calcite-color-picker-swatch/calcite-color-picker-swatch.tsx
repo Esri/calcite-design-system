@@ -82,7 +82,7 @@ export class CalciteColorPickerSwatch {
     const borderColor = theme === "light" ? COLORS.borderLight : COLORS.borderDark;
 
     return (
-      <Host aria-label={hex}>
+      <Host>
         <svg class={CSS.swatch} xmlns="http://www.w3.org/2000/svg">
           <title>{hex}</title>
           <rect
