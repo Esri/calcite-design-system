@@ -148,7 +148,7 @@ export class CalciteInput {
   @Prop({ mutable: true, reflect: true }) status: Status = "idle";
 
   /** input step */
-  @Prop({ mutable: true, reflect: true }) step?: number | "any";
+  @Prop({ reflect: true }) step?: number;
 
   /** optionally add suffix  **/
   @Prop() suffixText?: string;
@@ -268,7 +268,6 @@ export class CalciteInput {
     this.form?.addEventListener("reset", this.reset);
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.status = getElementProp(this.el, "status", this.status);
-    this.step = !this.step && this.type === "number" ? "any" : this.step;
     if (this.type === "number" && !isValidNumber(this.value)) {
       this.value = null;
     }
@@ -530,7 +529,7 @@ export class CalciteInput {
     const decimals = this.value?.split(".")[1]?.length || 0;
     const inputMax = this.maxString ? parseFloat(this.maxString) : null;
     const inputMin = this.minString ? parseFloat(this.minString) : null;
-    const inputStep = this.step === "any" ? 1 : Math.abs(this.step || 1);
+    const inputStep = isNaN(this.step) ? Math.abs(1) : Math.abs(this.step);
     let inputVal = this.value && this.value !== "" ? parseFloat(this.value) : 0;
     let newValue = this.value;
 
@@ -715,7 +714,7 @@ export class CalciteInput {
         placeholder={this.placeholder || ""}
         ref={this.setChildElRef}
         required={this.required ? true : null}
-        step={this.step}
+        step={this.step || "any"}
         tabIndex={this.disabled || this.type === "number" ? -1 : null}
         type={this.type}
         value={this.value}
