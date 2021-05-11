@@ -24,12 +24,16 @@ function getRootNode(el: Element): HTMLDocument | ShadowRoot {
   return el.getRootNode() as HTMLDocument | ShadowRoot;
 }
 
+function getHost(root: HTMLDocument | ShadowRoot): Element | null {
+  return (root as ShadowRoot).host || null;
+}
+
 export function queryElementsCrossShadowBoundary<T extends Element = Element>(
   selector: string,
   element: Element = this
 ): T[] {
   // based on https://stackoverflow.com/q/54520554/194216
-  function queryFromAll<T extends Element = Element>(el: Element, allResults: T[] = []): T[] {
+  function queryFromAll<T extends Element = Element>(el: Element, allResults: T[]): T[] {
     if (!el) {
       return allResults;
     }
@@ -39,18 +43,18 @@ export function queryElementsCrossShadowBoundary<T extends Element = Element>(
     }
 
     const rootNode = getRootNode(el);
+    const host = getHost(rootNode);
 
-    const results =
-      rootNode instanceof ShadowRoot
-        ? (Array.from(rootNode.host.querySelectorAll(selector)) as T[])
-        : (Array.from(rootNode.querySelectorAll(selector)) as T[]);
+    const results = host
+      ? (Array.from(host.querySelectorAll(selector)) as T[])
+      : (Array.from(rootNode.querySelectorAll(selector)) as T[]);
 
     allResults = [...allResults, ...results];
 
-    return rootNode instanceof ShadowRoot ? queryFromAll(rootNode.host, allResults) : allResults;
+    return host ? queryFromAll(host, allResults) : allResults;
   }
 
-  return queryFromAll(element);
+  return queryFromAll(element, []);
 }
 
 export function queryElementCrossShadowBoundary<T extends Element = Element>(
@@ -68,13 +72,11 @@ export function queryElementCrossShadowBoundary<T extends Element = Element>(
     }
 
     const rootNode = getRootNode(el);
+    const host = getHost(rootNode);
 
-    const found =
-      rootNode instanceof ShadowRoot
-        ? (rootNode.host.querySelector(selector) as T)
-        : (rootNode.querySelector(selector) as T);
+    const found = host ? (host.querySelector(selector) as T) : (rootNode.querySelector(selector) as T);
 
-    return found ? found : rootNode instanceof ShadowRoot ? queryFrom(rootNode.host) : null;
+    return found ? found : host ? queryFrom(host) : null;
   }
 
   return queryFrom(element);
