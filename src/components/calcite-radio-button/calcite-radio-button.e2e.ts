@@ -5,7 +5,9 @@ describe("calcite-radio-button", () => {
   it("renders", async () => renders("calcite-radio-button"));
 
   it("is accessible", async () =>
-    accessible(`<calcite-radio-button id="example" name="example" value="one">label</calcite-radio-button>`));
+    accessible(
+      `<calcite-label><calcite-radio-button id="example" name="example" value="one"></calcite-radio-button>label</calcite-label>`
+    ));
 
   it("has defaults", async () => defaults("calcite-radio-button", [{ propertyName: "scale", defaultValue: "m" }]));
 
@@ -245,9 +247,11 @@ describe("calcite-radio-button", () => {
     expect(changeEvent).toHaveReceivedEventTimes(1);
   });
 
-  it("triggers the custom change event just once when label is clicked", async () => {
+  it("triggers the custom change event just once when sibling calcite-label is clicked", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-radio-button>Label</calcite-radio-button>`);
+    await page.setContent(
+      `<calcite-label for="radio">Label</calcite-label><calcite-radio-button id="radio"></calcite-radio-button>`
+    );
 
     const radio = await page.find("calcite-radio-button");
     const label = await page.find("calcite-label");
@@ -293,14 +297,6 @@ describe("calcite-radio-button", () => {
 
     const value = await element.getProperty("value");
     expect(value).toBe("test-value");
-  });
-
-  it("doesn't support slotted content", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-radio-button>slotted content</calcite-radio-button>");
-    const element = await page.find("calcite-radio-button");
-
-    expect(element).toEqualText("");
   });
 
   it("resets to initial value when form reset event is triggered", async () => {
