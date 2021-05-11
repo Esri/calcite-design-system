@@ -117,7 +117,7 @@ export class CalciteTimePicker {
   timeChangeHandler(): void {
     const { hour, minute } = this.getTime();
     if (!hour && !minute) {
-      this.setTime("meridiem", null);
+      this.setTime("meridiem", null, false);
     }
     if (this.timeChanged) {
       this.timeChanged = false;
@@ -504,7 +504,8 @@ export class CalciteTimePicker {
 
   private setTime = (
     key: "hour" | "minute" | "second" | "meridiem",
-    value: number | string | Meridiem
+    value: number | string | Meridiem,
+    emit = true
   ): void => {
     switch (key) {
       default:
@@ -540,7 +541,9 @@ export class CalciteTimePicker {
         break;
     }
     this.timeChanged = true;
-    this.calciteTimePickerChange.emit(this.getTime());
+    if (emit) {
+      this.calciteTimePickerChange.emit(this.getTime());
+    }
   };
 
   // --------------------------------------------------------------------------
