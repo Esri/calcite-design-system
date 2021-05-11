@@ -31,7 +31,7 @@ export function queryElementsCrossShadowBoundary<T extends Element = Element>(
   // based on https://stackoverflow.com/q/54520554/194216
   function queryFromAll<T extends Element = Element>(el: Element, allResults: T[] = []): T[] {
     if (!el) {
-      return null;
+      return allResults;
     }
 
     if ((el as Slottable).assignedSlot) {
