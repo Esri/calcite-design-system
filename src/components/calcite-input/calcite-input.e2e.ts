@@ -699,7 +699,7 @@ describe("calcite-input", () => {
   });
 
   describe("number type", () => {
-    it("disallows typing any letter or number with shift modifier key down2", async () => {
+    it("disallows typing any letter or number with shift modifier key down", async () => {
       const page = await newE2EPage({
         html: `<calcite-input type="number"></calcite-input>`
       });
