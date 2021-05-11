@@ -226,7 +226,7 @@ export class CalciteInput {
   private internalValueChange = false;
 
   get isClearable(): boolean {
-    return !this.isTextarea && (this.clearable || this.type === "search") && this.value.length > 0;
+    return !this.isTextarea && (this.clearable || this.type === "search") && this.value?.length > 0;
   }
 
   get isTextarea(): boolean {
@@ -288,7 +288,7 @@ export class CalciteInput {
   componentDidLoad(): void {
     this.slottedActionEl = this.el.querySelector("[slot=action]");
     this.setDisabledAction();
-    if (this.type === "number") {
+    if (this.type === "number" && this.childEl) {
       this.childEl.style.cssText = hiddenInputStyle;
     }
   }
