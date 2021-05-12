@@ -707,17 +707,20 @@ describe("calcite-input", () => {
       const input = await page.find("input");
 
       await calciteInput.callMethod("setFocus");
-      await page.keyboard.down("Shift");
       for (let i = 0; i < numberKeys.length; i++) {
-        await input.type(numberKeys[i]);
+        await page.keyboard.down("Shift");
+        await page.keyboard.press(numberKeys[i]);
+        await page.keyboard.up("Shift");
+        expect(await calciteInput.getProperty("value")).toBeFalsy();
+        expect(await input.getProperty("value")).toBeFalsy();
       }
       for (let i = 0; i < letterKeys.length; i++) {
-        await input.type(numberKeys[i]);
+        await page.keyboard.down("Shift");
+        await page.keyboard.press(letterKeys[i]);
+        await page.keyboard.up("Shift");
+        expect(await calciteInput.getProperty("value")).toBeFalsy();
+        expect(await input.getProperty("value")).toBeFalsy();
       }
-      await page.keyboard.up("Shift");
-
-      expect(await calciteInput.getProperty("value")).toBeFalsy();
-      expect(await input.getProperty("value")).toBeFalsy();
     });
   });
 
