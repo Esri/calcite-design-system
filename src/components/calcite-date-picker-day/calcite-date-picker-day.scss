@@ -221,27 +221,69 @@
 :host(:hover[range-hover]:not([selected]).focused--end[dir="ltr"]),
 :host(:hover[range-hover]:not([selected]).focused--start[dir="rtl"]) {
   .day-wrapper {
-    border-top-right-radius: 40%;
-    border-bottom-right-radius: 40%;
-    box-shadow: inset -4px 0 var(--calcite-ui-foreground-1);
+    background-image: linear-gradient(
+      to right,
+      var(--calcite-ui-foreground-2),
+      var(--calcite-ui-foreground-2),
+      var(--calcite-ui-foreground-current),
+      var(--calcite-ui-foreground-current)
+    );
   }
   .day {
     @apply rounded-full;
-    box-shadow: -2px 0 var(--calcite-ui-foreground-1);
+    box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
   }
 }
 
 :host(:hover[range-hover]:not([selected]).focused--start),
 :host(:hover[range-hover]:not([selected]).focused--end) .calcite--rtl {
   .day-wrapper {
-    border-top-left-radius: 40%;
-    border-bottom-left-radius: 40%;
-    box-shadow: inset 4px 0 var(--calcite-ui-foreground-1);
+    background-image: linear-gradient(
+      to right,
+      var(--calcite-ui-foreground-current),
+      var(--calcite-ui-foreground-current),
+      var(--calcite-ui-foreground-2),
+      var(--calcite-ui-foreground-2)
+    );
   }
   .day {
-    border-radius: 100%;
-    box-shadow: 2px 0 var(--calcite-ui-foreground-1);
+    @apply rounded-full;
+    box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
   }
+}
+
+:host(:hover[range-hover]:not([selected]).focused--start[dir="ltr"].hover--outside-range),
+:host(:hover[range-hover]:not([selected]).focused--end[dir="rtl"].hover--outside-range) {
+  .day-wrapper {
+    background-image: linear-gradient(
+      to right,
+      var(--calcite-ui-foreground-1),
+      var(--calcite-ui-foreground-1),
+      var(--calcite-ui-foreground-2),
+      var(--calcite-ui-foreground-2)
+    );
+  }
+  .day {
+    @apply rounded-full;
+    box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
+  }  
+}
+
+:host(:hover[range-hover]:not([selected]).focused--end[dir="ltr"].hover--outside-range),
+:host(:hover[range-hover]:not([selected]).focused--start[dir="rtl"].hover--outside-range) {
+  .day-wrapper {
+    background-image: linear-gradient(
+      to right,
+      var(--calcite-ui-foreground-2),
+      var(--calcite-ui-foreground-2),
+      var(--calcite-ui-foreground-1),
+      var(--calcite-ui-foreground-1)
+    );
+  }
+  .day {
+    @apply rounded-full;
+    box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
+  }  
 }
 
 :host(:hover[start-of-range].hover--inside-range.focused--end),
@@ -258,11 +300,28 @@
   }
 }
 
-:host([end-of-range].hover--inside-range.focused--end),
+:host([end-of-range].hover--inside-range.focused--end) {
+  .day-wrapper {
+    background-image: linear-gradient(
+      to right,
+      var(--calcite-ui-foreground-current),
+      var(--calcite-ui-foreground-current),
+      var(--calcite-ui-foreground-1),
+      var(--calcite-ui-foreground-1)
+    );
+  }
+}
+
 :host([start-of-range].hover--inside-range.focused--start) {
   .day-wrapper {
-    @apply bg-foreground-1;
-  }
+    background-image: linear-gradient(
+      to right,
+      var(--calcite-ui-foreground-1),
+      var(--calcite-ui-foreground-1),
+      var(--calcite-ui-foreground-current),
+      var(--calcite-ui-foreground-current)
+    );
+  }  
 }
 
 :host([dir="ltr"][highlighted]:first-child) .day-wrapper,

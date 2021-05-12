@@ -302,8 +302,7 @@ export class CalciteDatePickerMonth {
       this.endDate &&
       date > this.startDate &&
       date < this.endDate &&
-      !this.isRangeHover(date) &&
-      !this.isHoverInRange()
+      !this.isRangeHover(date)
     );
   }
 
@@ -409,7 +408,7 @@ export class CalciteDatePickerMonth {
     return this.hoverRange?.focused === "start";
   }
 
-  private isHoverInRange(): boolean {
+  private isHoverInRange(): boolean {    
     if (!this.hoverRange) {
       return;
     }
