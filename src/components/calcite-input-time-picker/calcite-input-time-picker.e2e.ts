@@ -402,6 +402,7 @@ describe("calcite-input-time-picker", () => {
     });
     const input = await page.find("input");
     const inputTimePicker = await page.find("calcite-input-time-picker");
+    const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
 
     await page.evaluate(() => {
       const inputTimePicker = document.querySelector("calcite-input-time-picker");
@@ -412,9 +413,11 @@ describe("calcite-input-time-picker", () => {
 
     expect(await inputTimePicker.getProperty("value")).toBe("14:59");
 
-    await input.type(":59");
+    await input.type(":5");
     await page.waitForChanges();
 
+    expect(changeEvent).toHaveReceivedEventTimes(1);
+    expect(changeEvent).toHaveReceivedEventDetail("14:59:05");
     expect(await inputTimePicker.getProperty("value")).toBe("14:59");
   });
 });
