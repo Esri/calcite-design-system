@@ -118,4 +118,76 @@ describe("calcite-tile-select", () => {
     focusable(html`<calcite-tile-select type="radio"></calcite-tile-select>`, {
       focusTargetSelector: "input[type=radio]"
     }));
+
+  describe("text directionality", () => {
+    describe("initial render", () => {
+      it("should have default LTR direction, but no `dir` attribute", async () => {
+        const page = await newE2EPage({
+          html: `
+          <calcite-tile-select
+            checked
+            heading="Hello world!"
+            icon="layer"
+            input-enabled
+            input-alignment="end"
+            type="checkbox"
+            value="one"
+            description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+          ></calcite-tile-select>
+          `
+        });
+        const tileSelectEl = await page.find("calcite-tile-select");
+        expect(await (await tileSelectEl.getComputedStyle()).getPropertyValue("direction")).toEqual("ltr");
+        expect(tileSelectEl.getAttribute("dir")).toBeNull();
+        // 1: screenshot diff for LTR
+        const results = await page.compareScreenshot();
+        expect(results).toMatchScreenshot({ allowableMismatchedPixels: 100 });
+      });
+    });
+
+    describe("when inheriting direction from further up the DOM tree", () => {
+      it("should honor ancestor's `dir` attribute, and not have its own `dir` attribute", async () => {
+        const page = await newE2EPage({
+          html: `
+          <html lang="he" dir="rtl">
+            <body>
+              <calcite-tile-select
+                heading="זה הכותרת של האריח"
+              ></calcite-tile-select>
+            </body>
+          </html>
+          `
+        });
+        const tileSelectEl = await page.find("calcite-tile-select");
+        expect(await (await tileSelectEl.getComputedStyle()).getPropertyValue("direction")).toEqual("rtl");
+        expect(tileSelectEl.getAttribute("dir")).toBeNull();
+      });
+    });
+
+    describe("when it has its own `dir` attribute", () => {
+      it("should render with text direction based on `dir` value", async () => {
+        const page = await newE2EPage({
+          html: `
+          <calcite-tile-select
+            checked
+            heading="Hello world!"
+            icon="layer"
+            input-enabled
+            input-alignment="end"
+            type="checkbox"
+            value="one"
+            description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+            dir="rtl"
+          ></calcite-tile-select>
+          `
+        });
+        const tileSelectEl = await page.find("calcite-tile-select");
+        expect(await (await tileSelectEl.getComputedStyle()).getPropertyValue("direction")).toEqual("rtl");
+        expect(tileSelectEl.getAttribute("dir")).toEqual("rtl");
+        // 2: screenshot diff for RTL
+        const results = await page.compareScreenshot();
+        expect(results).toMatchScreenshot({ allowableMismatchedPixels: 100 });
+      });
+    });
+  });
 });

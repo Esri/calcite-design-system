@@ -90,4 +90,72 @@ describe("calcite-tile", () => {
     expect(heading).toEqualText("My Large Visual Calcite Tile");
     expect(description).toBeNull();
   });
+
+  describe("text directionality", () => {
+    describe("initial render", () => {
+      it("should have default LTR direction, but no `dir` attribute", async () => {
+        const page = await newE2EPage({
+          html: `
+            <section>
+              <calcite-tile
+                description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+                heading="Hello world!"
+                href="#"
+                icon="layer"
+              ></calcite-tile>
+            </section>
+          `
+        });
+        const tileEl = await page.find("calcite-tile");
+        expect(await (await tileEl.getComputedStyle()).getPropertyValue("direction")).toEqual("ltr");
+        expect(tileEl.getAttribute("dir")).toBeNull();
+        // 1: screenshot diff for LTR
+        const results = await page.compareScreenshot();
+        expect(results).toMatchScreenshot({ allowableMismatchedPixels: 100 });
+      });
+    });
+
+    describe("when inheriting direction from further up the DOM tree", () => {
+      it("should honor ancestor's `dir` attribute, and not have its own `dir` attribute", async () => {
+        const page = await newE2EPage({
+          html: `
+          <html lang="he" dir="rtl">
+            <body>
+              <calcite-tile
+                heading="Hello world!"
+              ></calcite-tile>
+            </body>
+          </html>
+          `
+        });
+        const tileEl = await page.find("calcite-tile");
+        expect(await (await tileEl.getComputedStyle()).getPropertyValue("direction")).toEqual("rtl");
+        expect(tileEl.getAttribute("dir")).toBeNull();
+      });
+    });
+
+    describe("when it has its own `dir` attribute", () => {
+      it("should render with text direction based on `dir` value", async () => {
+        const page = await newE2EPage({
+          html: `
+            <section dir="ltr">
+              <calcite-tile
+                description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+                heading="Hello world!"
+                href="#"
+                icon="layer"
+                dir="rtl"
+              ></calcite-tile>
+            </section>
+          `
+        });
+        const tileEl = await page.find("calcite-tile");
+        expect(await (await tileEl.getComputedStyle()).getPropertyValue("direction")).toEqual("rtl");
+        expect(tileEl.getAttribute("dir")).toEqual("rtl");
+        // 2: screenshot diff for RTL
+        const results = await page.compareScreenshot();
+        expect(results).toMatchScreenshot({ allowableMismatchedPixels: 100 });
+      });
+    });
+  });
 });
