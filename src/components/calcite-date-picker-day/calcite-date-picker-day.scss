@@ -194,8 +194,32 @@
   @apply rounded-none shadow-none;
 }
 
-:host(:hover[range-hover]:not([selected]).focused--end),
-:host(:hover[range-hover]:not([selected]).focused--start) .calcite--rtl {
+:host(:hover[end-of-range][range-hover][dir="ltr"]) .day-wrapper,
+:host(:hover[start-of-range][range-hover][dir="rtl"]) .day-wrapper {
+  background-image: linear-gradient(
+    to right,
+    var(--calcite-ui-foreground-current),
+    var(--calcite-ui-foreground-current),
+    var(--calcite-ui-foreground-1),
+    var(--calcite-ui-foreground-1)
+  );
+  @apply rounded-none shadow-none;
+}
+
+:host(:hover[start-of-range][range-hover][dir="ltr"]) .day-wrapper,
+:host(:hover[end-of-range][range-hover][dir="rtl"]) .day-wrapper {
+  background-image: linear-gradient(
+    to left,
+    var(--calcite-ui-foreground-current),
+    var(--calcite-ui-foreground-current),
+    var(--calcite-ui-foreground-1),
+    var(--calcite-ui-foreground-1)
+  );
+  @apply rounded-none shadow-none;
+}
+
+:host(:hover[range-hover]:not([selected]).focused--end[dir="ltr"]),
+:host(:hover[range-hover]:not([selected]).focused--start[dir="rtl"]) {
   .day-wrapper {
     border-top-right-radius: 40%;
     border-bottom-right-radius: 40%;
