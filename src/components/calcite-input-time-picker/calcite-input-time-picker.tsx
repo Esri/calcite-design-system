@@ -251,21 +251,26 @@ export class CalciteInputTimePicker {
   }): void => {
     const validatedNewValue = validateTimeString(value);
 
-    if (origin !== "external") {
-      this.internalValueChange = true;
-    }
+    this.internalValueChange = origin !== "external";
 
     const previousValue = this.value;
-    const shouldEmit =
-      (!this.previousEmittedValue && validatedNewValue ? true : false) ||
-      this.previousEmittedValue !== validatedNewValue;
 
-    if (validatedNewValue !== this.value) {
+    const shouldEmit =
+      (value !== this.previousEmittedValue && !value) ||
+      (!this.previousEmittedValue && validatedNewValue ? true : false) ||
+      (validatedNewValue !== this.previousEmittedValue && validatedNewValue);
+
+    if (value) {
       if (shouldEmit && origin !== "loading") {
         this.previousEmittedValue = validatedNewValue;
       }
-      this.value = validatedNewValue;
+      if (validatedNewValue && validatedNewValue !== this.value) {
+        this.value = validatedNewValue;
+      }
+    } else {
+      this.value = value;
     }
+
     if (origin === "time-picker" || origin === "external") {
       this.setInputValue(validatedNewValue, origin === "external");
     }
@@ -277,6 +282,7 @@ export class CalciteInputTimePicker {
           : this.calciteInputTimePickerChange.emit(validatedNewValue);
 
       if (changeEvent.defaultPrevented) {
+        this.internalValueChange = origin !== "external";
         this.value = previousValue;
         this.setInputValue(previousValue, origin === "external");
         this.previousEmittedValue = previousValue;

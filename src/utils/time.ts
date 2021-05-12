@@ -61,7 +61,7 @@ export function stringIsValidNumber(value: string): boolean {
 }
 
 export function validateTimeString(value: string): string {
-  if (!value) {
+  if (!value || value.endsWith(":") || value.startsWith(":")) {
     return null;
   }
   const splitValue = value.split(":");

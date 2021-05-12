@@ -45,10 +45,16 @@
 
   <div class="demo-background-light">
     <demo-form>
-      <form>
+      <form style="display: flex; flex-direction: column; gap: 20px;">
         <input id="change-input-time-picker" placeholder="change input-time-picker's value">
         <input id="change-input" placeholder="change calcite-input's value">
-        <calcite-input-time-picker id="value-test" name="value-test" step="1"></calcite-input-time-picker>
+        <calcite-input-time-picker id="value-test" name="value-test" step="1" value="14:59"></calcite-input-time-picker>
+        <calcite-label>
+          Uses preventDefault on calciteInputTimePickerChange Event to prevent entering a null value
+          <calcite-input-time-picker id="prevent-default" name="prevent-default-on-null" step="1" value="14:59">
+          </calcite-input-time-picker>
+        </calcite-label>
+        <button id="setFocus" type="button">Calls Set Focus</button>
         <button>Submit</button>
       </form>
     </demo-form>
@@ -165,6 +171,17 @@
           console.log("VALUES DON'T EQUAL!!!", "inputTimePicker:", inputTimePicker.value, "calciteInput:", calciteInput.value, "input:", input.value);
         }
       });
+
+      document.getElementById("prevent-default").addEventListener("calciteInputTimePickerChange", (event) => {
+        if (!event.detail) {
+          event.preventDefault();
+        }
+      });
+
+      document.getElementById("setFocus").addEventListener("click", () => {
+        inputTimePicker.setFocus();
+      });
+
     })();
   </script>
 </body>
