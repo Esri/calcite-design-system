@@ -220,8 +220,6 @@
   }
 }
 
-:host([end-of-range].hover--inside-range.focused--end),
-:host([start-of-range].hover--inside-range.focused--start),
 :host(:hover[start-of-range].hover--inside-range.focused--end),
 :host(:hover[end-of-range].hover--inside-range.focused--start) {
   .day-wrapper {
@@ -236,10 +234,17 @@
   }
 }
 
-:host([highlighted]:first-child) .day-wrapper,
-:host([highlighted]:last-child) .calcite--rtl .day-wrapper,
-:host([range-hover]:not([selected]):first-child) .day-wrapper,
-:host([range-hover]:not([selected]):last-child) .calcite--rtl .day-wrapper {
+:host([end-of-range].hover--inside-range.focused--end),
+:host([start-of-range].hover--inside-range.focused--start) {
+  .day-wrapper {
+    @apply bg-foreground-1;
+  }
+}
+
+:host([dir="ltr"][highlighted]:first-child) .day-wrapper,
+:host([dir="rtl"][highlighted]:last-child) .day-wrapper,
+:host([range-hover][dir="ltr"]:not([selected]):first-child) .day-wrapper,
+:host([range-hover][dir="rtl"]:not([selected]):last-child) .day-wrapper {
   border-top-left-radius: 45%;
   border-bottom-left-radius: 45%;
 }
