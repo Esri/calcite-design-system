@@ -20,19 +20,19 @@ export const LightTheme = (): string => html`
     layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
   >
-    <calcite-label>
+    <calcite-label layout="inline">
       <calcite-radio-button value="react"></calcite-radio-button>
       React
     </calcite-label>
-    <calcite-label>
+    <calcite-label layout="inline">
       <calcite-radio-button value="ember"></calcite-radio-button>
       Ember
     </calcite-label>
-    <calcite-label>
+    <calcite-label layout="inline">
       <calcite-radio-button value="angular"></calcite-radio-button>
       Angular
     </calcite-label>
-    <calcite-label>
+    <calcite-label layout="inline">
       <calcite-radio-button value="vue"></calcite-radio-button>
       Vue
     </calcite-label>
@@ -48,19 +48,19 @@ export const DarkTheme = (): string => html`
     layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
   >
-    <calcite-label>
+    <calcite-label layout="inline">
       <calcite-radio-button value="react"></calcite-radio-button>
       React
     </calcite-label>
-    <calcite-label>
+    <calcite-label layout="inline">
       <calcite-radio-button value="ember"></calcite-radio-button>
       Ember
     </calcite-label>
-    <calcite-label>
+    <calcite-label layout="inline">
       <calcite-radio-button value="angular"></calcite-radio-button>
       Angular
     </calcite-label>
-    <calcite-label>
+    <calcite-label layout="inline">
       <calcite-radio-button value="vue"></calcite-radio-button>
       Vue
     </calcite-label>
