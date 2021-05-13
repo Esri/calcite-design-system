@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { focusable, HYDRATED_ATTR } from "../../tests/commonTests";
+import { letterKeys, numberKeys } from "../../utils/key";
 import { getDecimalSeparator, locales, localizeNumberString } from "../../utils/locale";
 
 describe("calcite-input", () => {
@@ -695,6 +696,32 @@ describe("calcite-input", () => {
 
     expect(await getInputValidity()).toBe(true);
     expect(await input.getProperty("value")).toBe("123");
+  });
+
+  describe("number type", () => {
+    it("disallows typing any letter or number with shift modifier key down", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-input type="number"></calcite-input>`
+      });
+      const calciteInput = await page.find("calcite-input");
+      const input = await page.find("input");
+
+      await calciteInput.callMethod("setFocus");
+      for (let i = 0; i < numberKeys.length; i++) {
+        await page.keyboard.down("Shift");
+        await page.keyboard.press(numberKeys[i]);
+        await page.keyboard.up("Shift");
+        expect(await calciteInput.getProperty("value")).toBeFalsy();
+        expect(await input.getProperty("value")).toBeFalsy();
+      }
+      for (let i = 0; i < letterKeys.length; i++) {
+        await page.keyboard.down("Shift");
+        await page.keyboard.press(letterKeys[i]);
+        await page.keyboard.up("Shift");
+        expect(await calciteInput.getProperty("value")).toBeFalsy();
+        expect(await input.getProperty("value")).toBeFalsy();
+      }
+    });
   });
 
   describe("number locale support", () => {
