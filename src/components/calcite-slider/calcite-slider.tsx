@@ -90,7 +90,7 @@ export class CalciteSlider {
   @Prop() histogram?: DataSeries;
 
   @Watch("histogram") histogramWatcher(newHistogram: DataSeries): void {
-    this.hasHistogram = newHistogram ? true : false;
+    this.hasHistogram = !!newHistogram;
   }
 
   /** Indicates if a histogram is present */
