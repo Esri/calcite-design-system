@@ -132,24 +132,28 @@ export class CalciteAlert {
       </div>
     );
 
-    const { active } = this;
+    const { active, autoDismiss, label, queued, requestedIcon } = this;
     const progress = <div class="alert-dismiss-progress" />;
-    const role = this.autoDismiss ? "alert" : "alertdialog";
+    const role = autoDismiss ? "alert" : "alertdialog";
     const hidden = !active;
 
     return (
       <Host
-        active={active}
         aria-hidden={hidden.toString()}
-        aria-label={this.label}
+        aria-label={label}
         calcite-hydrated-hidden={hidden}
-        queued={this.queued}
         role={role}
       >
-        <div class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
-          {this.requestedIcon ? (
+        <div
+          class={{
+            container: true,
+            queued,
+            [CSS_UTILITY.rtl]: dir === "rtl"
+          }}
+        >
+          {requestedIcon ? (
             <div class="alert-icon">
-              <calcite-icon icon={this.requestedIcon} scale="m" />
+              <calcite-icon icon={requestedIcon} scale="m" />
             </div>
           ) : null}
           <div class="alert-content">
@@ -158,8 +162,8 @@ export class CalciteAlert {
             <slot name={SLOTS.link} />
           </div>
           {queueCount}
-          {!this.autoDismiss ? closeButton : null}
-          {this.active && !this.queued && this.autoDismiss ? progress : null}
+          {!autoDismiss ? closeButton : null}
+          {active && !queued && autoDismiss ? progress : null}
         </div>
       </Host>
     );

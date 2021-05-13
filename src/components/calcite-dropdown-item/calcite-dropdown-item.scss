@@ -1,25 +1,25 @@
-:host([scale="s"]) .container {
+.container--s {
   @apply text--2h pr-2 pl-6 py-1;
 }
 
-:host([scale="m"]) .container {
+.container--m {
   @apply text--1h pr-3 pl-8 py-2;
 }
 
-:host([scale="l"]) .container {
+.container--l {
   @apply text-1h pr-4 pl-10 py-3;
 }
 
 // RTL
-:host([scale="s"]) .calcite--rtl {
+.container--s.calcite--rtl {
   @apply pr-6 pl-2;
 }
 
-:host([scale="m"]) .calcite--rtl {
+.container--m.calcite--rtl {
   @apply pr-8 pl-3;
 }
 
-:host([scale="l"]) .calcite--rtl {
+.container--l.calcite--rtl {
   @apply pr-10 pl-4;
 }
 
@@ -65,31 +65,31 @@
 
 //focus
 :host,
-:host([islink]) a {
+.container--link a {
   @apply focus-base;
 }
 :host(:focus),
-:host([islink]) a:focus {
+.container--link a:focus {
   @apply focus-inset;
 }
 
 // when used as link move styling anchor
-:host([islink]) .container {
+.container--link {
   @apply p-0;
   & a {
     @include itemStyling;
   }
 }
 
-:host([scale="s"]) .dropdown-link {
+.container--s .dropdown-link {
   @apply px-3 py-2;
 }
 
-:host([scale="m"]) .dropdown-link {
+.container--m .dropdown-link {
   @apply px-4 py-3;
 }
 
-:host([scale="l"]) .dropdown-link {
+.container--l .dropdown-link {
   @apply px-5 py-4;
 }
 
@@ -119,7 +119,7 @@
   }
 }
 
-:host([active]:not([selection-mode="none"])) .container {
+:host([active]) .container:not(.container--none-selection) {
   @apply text-color-1 font-medium;
   &:before {
     @apply opacity-100;
@@ -131,19 +131,19 @@
 }
 
 // no dot for none and multi modes
-:host([selection-mode="multi"]) .container:before,
-:host([selection-mode="none"]) .container:before {
+.container--multi-selection:before,
+.container--none-selection:before {
   @apply hidden;
 }
 
 // single select "icon"
-:host([scale="s"]) .container:before {
+.container--s:before {
   left: theme("spacing.2");
 }
-:host([scale="m"]) .container:before {
+.container--m:before {
   left: theme("spacing.3");
 }
-:host([scale="l"]) .container:before {
+.container--l:before {
   left: theme("spacing.4");
 }
 
@@ -152,13 +152,13 @@
   left: unset;
 }
 
-:host([scale="s"]) .calcite--rtl:before {
+.container--s.calcite--rtl:before {
   right: theme("spacing.2");
 }
-:host([scale="m"]) .calcite--rtl:before {
+.container--m.calcite--rtl:before {
   right: theme("spacing.3");
 }
-:host([scale="l"]) .calcite--rtl:before {
+.container--l.calcite--rtl:before {
   right: theme("spacing.4");
 }
 
@@ -171,15 +171,15 @@
   transform: scale(0.9);
 }
 
-:host([scale="s"]) .dropdown-item-check-icon {
+.container--s .dropdown-item-check-icon {
   left: theme("spacing.1");
 }
 
-:host([scale="m"]) .dropdown-item-check-icon {
+.container--m .dropdown-item-check-icon {
   left: theme("spacing.2");
 }
 
-:host([scale="l"]) .dropdown-item-check-icon {
+.container--l .dropdown-item-check-icon {
   left: theme("spacing.3");
 }
 
@@ -189,15 +189,15 @@
   @apply ml-0;
 }
 
-:host([scale="s"]) .calcite--rtl .dropdown-item-check-icon {
+.container--s.calcite--rtl .dropdown-item-check-icon {
   right: theme("spacing.1");
 }
 
-:host([scale="m"]) .calcite--rtl .dropdown-item-check-icon {
+.container--m.calcite--rtl .dropdown-item-check-icon {
   right: theme("spacing.2");
 }
 
-:host([scale="l"]) .calcite--rtl .dropdown-item-check-icon {
+.container--l.calcite--rtl .dropdown-item-check-icon {
   right: theme("spacing.3");
 }
 
@@ -212,7 +212,7 @@
 }
 
 // icon start & end
-:host([scale="s"]) {
+.container--s {
   .dropdown-item-icon-start {
     @apply mr-2;
   }
@@ -221,7 +221,7 @@
   }
 }
 
-:host([scale="m"]) {
+.container--m {
   .dropdown-item-icon-start {
     @apply mr-3;
   }
@@ -230,7 +230,7 @@
   }
 }
 
-:host([scale="l"]) {
+.container--l {
   .dropdown-item-icon-start {
     @apply mr-4;
   }
@@ -249,7 +249,7 @@
   }
 }
 
-:host([scale="s"]) .calcite--rtl {
+.container--s.calcite--rtl {
   .dropdown-item-icon-start {
     @apply ml-2;
   }
@@ -258,7 +258,7 @@
   }
 }
 
-:host([scale="m"]) .calcite--rtl {
+.container--m.calcite--rtl {
   .dropdown-item-icon-start {
     @apply ml-3;
   }
@@ -267,7 +267,7 @@
   }
 }
 
-:host([scale="l"]) .calcite--rtl {
+.container--l.calcite--rtl {
   .dropdown-item-icon-start {
     @apply ml-4;
   }

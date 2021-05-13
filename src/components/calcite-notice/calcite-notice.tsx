@@ -108,7 +108,7 @@ export class CalciteNotice {
     );
 
     return (
-      <Host active={this.active}>
+      <Host>
         <div class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           {this.requestedIcon ? (
             <div class="notice-icon">

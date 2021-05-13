@@ -48,7 +48,7 @@ export class CalciteModal {
   //
   //--------------------------------------------------------------------------
   /** Add the active attribute to open the modal */
-  @Prop({ mutable: true }) active?: boolean;
+  @Prop({ mutable: true, reflect: true }) active?: boolean;
 
   /** Optionally pass a function to run before close */
   @Prop() beforeClose: (el: HTMLElement) => Promise<void> = () => Promise.resolve();
@@ -121,7 +121,7 @@ export class CalciteModal {
   render(): VNode {
     const dir = getElementDir(this.el);
     return (
-      <Host aria-modal="true" is-active={this.isActive} role="dialog">
+      <Host aria-modal="true" role="dialog">
         <calcite-scrim class="scrim" theme="dark" />
         {this.renderStyle()}
         <div class={{ modal: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
@@ -211,8 +211,6 @@ export class CalciteModal {
   //  Variables
   //
   //--------------------------------------------------------------------------
-  @State() isActive: boolean;
-
   @State() hasFooter = true;
 
   previousActiveElement: HTMLElement;
@@ -313,7 +311,7 @@ export class CalciteModal {
   /** Open the modal */
   private open() {
     this.previousActiveElement = document.activeElement as HTMLElement;
-    this.isActive = true;
+    this.active = true;
     clearTimeout(this.focusTimeout);
     // wait for the modal to open, then handle focus.
     this.focusTimeout = window.setTimeout(() => {
@@ -327,7 +325,6 @@ export class CalciteModal {
   close = (): Promise<void> => {
     return this.beforeClose(this.el).then(() => {
       this.active = false;
-      this.isActive = false;
       focusElement(this.previousActiveElement);
       this.removeOverflowHiddenClass();
       setTimeout(() => this.calciteModalClose.emit(), 300);

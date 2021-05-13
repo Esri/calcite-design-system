@@ -15,6 +15,8 @@ import { ItemKeyboardEvent, ItemRegistration } from "../calcite-dropdown/interfa
 import { getKey } from "../../utils/key";
 import { FlipContext } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
+import { CSS } from "./resources";
+import { SelectionMode } from "../calcite-dropdown-group/interfaces";
 
 @Component({
   tag: "calcite-dropdown-item",
@@ -167,15 +169,20 @@ export class CalciteDropdownItem {
     const itemAria = this.selectionMode !== "none" ? this.active.toString() : null;
 
     return (
-      <Host
-        aria-checked={itemAria}
-        isLink={this.href}
-        role={itemRole}
-        scale={scale}
-        selection-mode={this.selectionMode}
-        tabindex="0"
-      >
-        <div class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+      <Host aria-checked={itemAria} role={itemRole} tabindex="0">
+        <div
+          class={{
+            container: true,
+            [CSS_UTILITY.rtl]: dir === "rtl",
+            [CSS.containerLink]: !!this.href,
+            [CSS.containerSmall]: scale === "s",
+            [CSS.containerMedium]: scale === "m",
+            [CSS.containerLarge]: scale === "l",
+            [CSS.containerMulti]: this.selectionMode === "multi",
+            [CSS.containerSingle]: this.selectionMode === "single",
+            [CSS.containerNone]: this.selectionMode === "none"
+          }}
+        >
           {this.selectionMode === "multi" ? (
             <calcite-icon class="dropdown-item-check-icon" icon="check" scale="s" />
           ) : null}
@@ -254,7 +261,7 @@ export class CalciteDropdownItem {
   private requestedDropdownItem: HTMLCalciteDropdownItemElement;
 
   /** what selection mode is the parent dropdown group in */
-  private selectionMode: string;
+  private selectionMode: SelectionMode;
 
   /** if href is requested, track the rendered child link*/
   private childLink: HTMLAnchorElement;
