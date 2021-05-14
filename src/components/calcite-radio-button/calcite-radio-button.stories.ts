@@ -28,7 +28,7 @@ export const LightTheme = (): string => html`
 `;
 
 export const DarkTheme = (): string => html`
-  <calcite-label layout="inline">
+  <calcite-label layout="inline" theme="dark">
     <calcite-radio-button
       ${boolean("checked", false)}
       ${boolean("disabled", false)}
