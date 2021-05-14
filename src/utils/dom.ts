@@ -20,11 +20,11 @@ export function getElementProp(el: Element, prop: string, fallbackValue: any, cr
   return closest ? closest.getAttribute(prop) : fallbackValue;
 }
 
-function getRootNode(el: Element): HTMLDocument | ShadowRoot {
+export function getRootNode(el: Element): HTMLDocument | ShadowRoot {
   return el.getRootNode() as HTMLDocument | ShadowRoot;
 }
 
-function getHost(root: HTMLDocument | ShadowRoot): Element | null {
+export function getHost(root: HTMLDocument | ShadowRoot): Element | null {
   return (root as ShadowRoot).host || null;
 }
 
