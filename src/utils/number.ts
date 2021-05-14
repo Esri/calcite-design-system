@@ -1,7 +1,7 @@
 import { numberKeys } from "./key";
 
 export function isValidNumber(numberString: string): boolean {
-  return !numberString || isNaN(Number(numberString)) ? false : true;
+  return !(!numberString || isNaN(Number(numberString)));
 }
 
 export function parseNumberString(numberString?: string): string {
