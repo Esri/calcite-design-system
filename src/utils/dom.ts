@@ -46,7 +46,9 @@ export function queryElementsRelativeTo<T extends Element = Element>(selector: s
       ? (Array.from(host.querySelectorAll(selector)) as T[])
       : (Array.from(rootNode.querySelectorAll(selector)) as T[]);
 
-    allResults = [...allResults, ...results];
+    const uniqueResults = results.filter((result) => allResults.indexOf(result) === -1);
+
+    allResults = [...allResults, ...uniqueResults];
 
     return host ? queryFromAll(host, allResults) : allResults;
   }
