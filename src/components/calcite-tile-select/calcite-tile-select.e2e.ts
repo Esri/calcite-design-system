@@ -5,7 +5,8 @@ import { html } from "../../tests/utils";
 describe("calcite-tile-select", () => {
   it("renders", async () => renders("calcite-tile-select"));
 
-  it("is accessible", async () => accessible(`<calcite-tile-select></calcite-tile-select>`));
+  it("is accessible", async () =>
+    accessible(`<calcite-label><calcite-tile-select></calcite-tile-select>Label</calcite-label>`));
 
   it("has defaults", async () =>
     defaults("calcite-tile-select", [
