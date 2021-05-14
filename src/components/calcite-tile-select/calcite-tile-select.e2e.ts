@@ -1,5 +1,14 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
+import {
+  accessible,
+  defaults,
+  focusable,
+  hidden,
+  reflects,
+  renders,
+  inheritsDirection,
+  honorsOwnDir
+} from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 
 describe("calcite-tile-select", () => {
@@ -120,73 +129,73 @@ describe("calcite-tile-select", () => {
     }));
 
   describe("text directionality", () => {
+    let html = "";
+
     describe("initial render", () => {
+      beforeEach(() => {
+        html = `
+        <calcite-tile-select
+          checked
+          heading="Hello world!"
+          icon="layer"
+          input-enabled
+          input-alignment="end"
+          type="checkbox"
+          value="one"
+          description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        ></calcite-tile-select>
+        `;
+      });
+
       it("should have default LTR direction, but no `dir` attribute", async () => {
-        const page = await newE2EPage({
-          html: `
-          <calcite-tile-select
-            checked
-            heading="Hello world!"
-            icon="layer"
-            input-enabled
-            input-alignment="end"
-            type="checkbox"
-            value="one"
-            description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
-          ></calcite-tile-select>
-          `
-        });
-        const tileSelectEl = await page.find("calcite-tile-select");
-        expect(await (await tileSelectEl.getComputedStyle()).getPropertyValue("direction")).toEqual("ltr");
-        expect(tileSelectEl.getAttribute("dir")).toBeNull();
+        const page = await newE2EPage({ html });
+        const el = await page.find("calcite-tile-select");
+        const elStyles = await el.getComputedStyle();
+        expect(elStyles["direction"]).toEqual("ltr");
+        expect(el.getAttribute("dir")).toBeNull();
+      });
+
+      it("matches a screenshot", async () => {
+        const page = await newE2EPage({ html });
         // 1: screenshot diff for LTR
         const results = await page.compareScreenshot();
-        expect(results).toMatchScreenshot({ allowableMismatchedPixels: 100 });
+        expect(results).toMatchScreenshot();
       });
     });
 
     describe("when inheriting direction from further up the DOM tree", () => {
       it("should honor ancestor's `dir` attribute, and not have its own `dir` attribute", async () => {
-        const page = await newE2EPage({
-          html: `
-          <html lang="he" dir="rtl">
-            <body>
-              <calcite-tile-select
-                heading="זה הכותרת של האריח"
-              ></calcite-tile-select>
-            </body>
-          </html>
-          `
-        });
-        const tileSelectEl = await page.find("calcite-tile-select");
-        expect(await (await tileSelectEl.getComputedStyle()).getPropertyValue("direction")).toEqual("rtl");
-        expect(tileSelectEl.getAttribute("dir")).toBeNull();
+        await Promise.all([
+          await inheritsDirection("calcite-tile-select", "ltr"),
+          await inheritsDirection("calcite-tile-select", "rtl")
+        ]);
       });
     });
 
-    describe("when it has its own `dir` attribute", () => {
-      it("should render with text direction based on `dir` value", async () => {
-        const page = await newE2EPage({
-          html: `
-          <calcite-tile-select
-            checked
-            heading="Hello world!"
-            icon="layer"
-            input-enabled
-            input-alignment="end"
-            type="checkbox"
-            value="one"
-            description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
-            dir="rtl"
-          ></calcite-tile-select>
-          `
-        });
-        const tileSelectEl = await page.find("calcite-tile-select");
-        expect(await (await tileSelectEl.getComputedStyle()).getPropertyValue("direction")).toEqual("rtl");
-        expect(tileSelectEl.getAttribute("dir")).toEqual("rtl");
+    describe(`when dir="rtl"`, () => {
+      beforeEach(() => {
+        html = `
+        <calcite-tile-select
+          checked
+          heading="Hello world!"
+          icon="layer"
+          input-enabled
+          input-alignment="end"
+          type="checkbox"
+          value="one"
+          description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+          dir="rtl"
+        ></calcite-tile-select>
+        `;
+      });
+
+      it("should render with text direction based on `dir` value", async () => honorsOwnDir(html, "rtl"));
+
+      it("matches a screenshot", async () => {
+        const page = await newE2EPage({ html });
         // 2: screenshot diff for RTL
         const results = await page.compareScreenshot();
-        expect(results).toMatchScreenshot({ allowableMismatchedPixels: 100 });
+        expect(results).toMatchScreenshot();
       });
     });
   });
