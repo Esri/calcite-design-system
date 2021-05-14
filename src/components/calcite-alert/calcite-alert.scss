@@ -56,31 +56,33 @@
 }
 
 :host {
-  @apply shadow-2;
-  display: flex;
-  position: fixed;
-  justify-content: center;
-  align-items: center;
-  pointer-events: none;
-  margin: 0 auto;
-  width: var(--calcite-alert-width);
-  max-width: 90%;
-  max-height: 0;
-  background-color: var(--calcite-ui-foreground-1);
-  border-radius: var(--calcite-border-radius);
-  opacity: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
-  z-index: 101;
-  transform: translate3d(0, $baseline, 0);
-  transition: 300ms $easing-function, opacity 300ms $easing-function, all 0.15s ease-in-out;
-  border-top: 0px solid transparent;
-  @media only screen and (max-width: $viewport-medium) {
-    width: 100%;
-    max-width: 100%;
-    border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
+  .container {
+    @apply shadow-2;
+    display: flex;
+    position: fixed;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    margin: 0 auto;
+    width: var(--calcite-alert-width);
+    max-width: 90%;
+    max-height: 0;
+    background-color: var(--calcite-ui-foreground-1);
+    border-radius: var(--calcite-border-radius);
+    opacity: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 101;
+    transform: translate3d(0, $baseline, 0);
+    transition: 300ms $easing-function, opacity 300ms $easing-function, all 0.15s ease-in-out;
+    border-top: 0px solid transparent;
+    @media only screen and (max-width: $viewport-medium) {
+      width: 100%;
+      max-width: 100%;
+      border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
+    }
   }
 }
 
@@ -99,15 +101,17 @@
   }
 }
 
-:host([active]:not([queued])) {
-  opacity: 1;
-  max-height: 100%;
-  transform: translate3d(0, -$baseline, 0);
-  pointer-events: initial;
-  border-top-width: 3px;
+:host([active]) {
+  .container:not(.queued) {
+    opacity: 1;
+    max-height: 100%;
+    transform: translate3d(0, -$baseline, 0);
+    pointer-events: initial;
+    border-top-width: 3px;
 
-  @media only screen and (max-width: $viewport-medium) {
-    transform: translate3d(0, 0, 0);
+    @media only screen and (max-width: $viewport-medium) {
+      transform: translate3d(0, 0, 0);
+    }
   }
 }
 
@@ -296,9 +300,12 @@ $alertColors: "blue" var(--calcite-ui-brand), "red" var(--calcite-ui-danger), "y
   $color: nth($alertColor, 2);
 
   :host([color="#{$name}"]) {
-    border-top-color: $color;
-    & .alert-icon {
-      color: $color;
+    .container {
+      border-top-color: $color;
+
+      & .alert-icon {
+        color: $color;
+      }
     }
   }
 }

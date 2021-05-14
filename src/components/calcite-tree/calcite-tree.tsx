@@ -65,7 +65,7 @@ export class CalciteTree {
     this.scale = parent ? parent.scale : this.scale;
     this.inputEnabled = parent ? parent.inputEnabled : this.inputEnabled;
     this.selectionMode = parent ? parent.selectionMode : this.selectionMode;
-    this.root = parent ? false : true;
+    this.root = !parent;
   }
 
   render(): VNode {
