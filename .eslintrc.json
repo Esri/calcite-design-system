@@ -47,6 +47,7 @@
     "jest/no-export": "warn",
     "lines-between-class-members": ["error", "always"],
     "no-multiple-empty-lines": ["error", { "max": 1 }],
+    "no-unneeded-ternary": "error",
     "react/jsx-sort-props": "error",
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
