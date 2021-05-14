@@ -23,7 +23,7 @@ import {
 import { StrictModifiers, Placement, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import { Theme } from "../interfaces";
-import { getElementDir, queryElementCrossShadowBoundary } from "../../utils/dom";
+import { getElementDir, queryElementRelativeTo } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { PopoverFocusId } from "./resources";
 
@@ -266,7 +266,7 @@ export class CalcitePopover {
 
     return (
       (typeof referenceElement === "string"
-        ? queryElementCrossShadowBoundary(`#${referenceElement}`, el)
+        ? queryElementRelativeTo(`#${referenceElement}`, el)
         : referenceElement) || null
     );
   }

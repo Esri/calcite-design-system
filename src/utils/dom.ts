@@ -28,11 +28,8 @@ function getHost(root: HTMLDocument | ShadowRoot): Element | null {
   return (root as ShadowRoot).host || null;
 }
 
-export function queryElementsCrossShadowBoundary<T extends Element = Element>(
-  selector: string,
-  element: Element = this
-): T[] {
-  // based on https://stackoverflow.com/q/54520554/194216
+// based on https://stackoverflow.com/q/54520554/194216
+export function queryElementsRelativeTo<T extends Element = Element>(selector: string, element: Element = this): T[] {
   function queryFromAll<T extends Element = Element>(el: Element, allResults: T[]): T[] {
     if (!el) {
       return allResults;
@@ -57,11 +54,11 @@ export function queryElementsCrossShadowBoundary<T extends Element = Element>(
   return queryFromAll(element, []);
 }
 
-export function queryElementCrossShadowBoundary<T extends Element = Element>(
+// based on https://stackoverflow.com/q/54520554/194216
+export function queryElementRelativeTo<T extends Element = Element>(
   selector: string,
   element: Element = this
 ): T | null {
-  // based on https://stackoverflow.com/q/54520554/194216
   function queryFrom<T extends Element = Element>(el: Element): T | null {
     if (!el) {
       return null;

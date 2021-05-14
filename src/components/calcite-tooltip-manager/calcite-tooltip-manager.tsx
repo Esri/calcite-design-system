@@ -1,6 +1,6 @@
 import { Component, Host, h, Listen, Prop, VNode, Element } from "@stencil/core";
 import { TOOLTIP_REFERENCE, TOOLTIP_DELAY_MS } from "../calcite-tooltip/resources";
-import { queryElementCrossShadowBoundary } from "../../utils/dom";
+import { queryElementRelativeTo } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 
 /**
@@ -43,7 +43,7 @@ export class CalciteTooltipManager {
     const { selector, el } = this;
     const id = element.closest(selector)?.getAttribute(TOOLTIP_REFERENCE);
 
-    return queryElementCrossShadowBoundary(`#${id}`, el) as HTMLCalciteTooltipElement;
+    return queryElementRelativeTo(`#${id}`, el) as HTMLCalciteTooltipElement;
   };
 
   clearHoverTimeout = (tooltip: HTMLCalciteTooltipElement): void => {
