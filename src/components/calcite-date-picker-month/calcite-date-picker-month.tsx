@@ -408,7 +408,7 @@ export class CalciteDatePickerMonth {
     return this.hoverRange?.focused === "start";
   }
 
-  private isHoverInRange(): boolean {    
+  private isHoverInRange(): boolean {
     if (!this.hoverRange) {
       return;
     }
