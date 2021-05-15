@@ -1,5 +1,8 @@
 :host {
-  @apply cursor-pointer inline-block relative;
+  @apply cursor-pointer inline-block;
+  .container {
+    @apply relative;
+  }
 }
 :host([disabled]) {
   @apply cursor-pointer;
