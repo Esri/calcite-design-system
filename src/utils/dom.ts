@@ -29,7 +29,7 @@ export function getHost(root: HTMLDocument | ShadowRoot): Element | null {
 }
 
 // based on https://stackoverflow.com/q/54520554/194216
-export function queryElementsRelativeTo<T extends Element = Element>(selector: string, element: Element = this): T[] {
+export function queryElementsRelativeTo<T extends Element = Element>(selector: string, element: Element): T[] {
   function queryFromAll<T extends Element = Element>(el: Element, allResults: T[]): T[] {
     if (!el) {
       return allResults;
@@ -46,7 +46,7 @@ export function queryElementsRelativeTo<T extends Element = Element>(selector: s
       ? (Array.from(host.querySelectorAll(selector)) as T[])
       : (Array.from(rootNode.querySelectorAll(selector)) as T[]);
 
-    const uniqueResults = results.filter((result) => allResults.indexOf(result) === -1);
+    const uniqueResults = results.filter((result) => !allResults.includes(result));
 
     allResults = [...allResults, ...uniqueResults];
 
@@ -57,10 +57,7 @@ export function queryElementsRelativeTo<T extends Element = Element>(selector: s
 }
 
 // based on https://stackoverflow.com/q/54520554/194216
-export function queryElementRelativeTo<T extends Element = Element>(
-  selector: string,
-  element: Element = this
-): T | null {
+export function queryElementRelativeTo<T extends Element = Element>(selector: string, element: Element): T | null {
   function queryFrom<T extends Element = Element>(el: Element): T | null {
     if (!el) {
       return null;

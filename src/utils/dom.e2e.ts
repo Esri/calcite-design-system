@@ -3,13 +3,15 @@ import { queryElementRelativeTo, queryElementsRelativeTo, getRootNode, getHost }
 
 describe("utils/dom", () => {
   let page: E2EPage;
+  const insideHost = "Inside Host";
+  const outsideHost = "Outside Host";
 
   beforeEach(async () => {
     page = await newE2EPage({
-      html: "<span>Test</span><button>Outside Host</button>"
+      html: `<span>Test</span><button>${outsideHost}</button>`
     });
 
-    function setupTestComponent() {
+    function setUpTestComponent() {
       class TestComponent extends HTMLElement {
         constructor() {
           super();
@@ -21,7 +23,7 @@ describe("utils/dom", () => {
       customElements.define("test-component", TestComponent);
 
       const testComponent = document.createElement("test-component");
-      testComponent.innerHTML = "<button>Inside Host</button>";
+      testComponent.innerHTML = `<button>${insideHost}</button>`;
       document.body.appendChild(testComponent);
     }
 
@@ -31,7 +33,7 @@ describe("utils/dom", () => {
       ${getHost}
       ${queryElementRelativeTo}
       ${queryElementsRelativeTo}
-      ${setupTestComponent}
+      ${setUpTestComponent}
       `
     });
 
@@ -40,7 +42,7 @@ describe("utils/dom", () => {
 
   it("queryElementRelativeTo: should query from inside host element", async () => {
     const text = await page.evaluate((): string => {
-      (window as any).setupTestComponent();
+      (window as any).setUpTestComponent();
 
       const testComponent = document.querySelector("test-component");
       const queryEl = testComponent.shadowRoot.querySelector("div");
@@ -49,12 +51,12 @@ describe("utils/dom", () => {
       return resultEl?.textContent;
     });
 
-    expect(text).toBe("Inside Host");
+    expect(text).toBe(insideHost);
   });
 
   it("queryElementRelativeTo: should query from outside host element", async () => {
     const text = await page.evaluate((): string => {
-      (window as any).setupTestComponent();
+      (window as any).setUpTestComponent();
 
       const queryEl = document.body.querySelector("span");
       const resultEl: HTMLElement = (window as any).queryElementRelativeTo("button", queryEl);
@@ -62,12 +64,12 @@ describe("utils/dom", () => {
       return resultEl?.textContent;
     });
 
-    expect(text).toBe("Outside Host");
+    expect(text).toBe(outsideHost);
   });
 
   it("queryElementsRelativeTo: should query multiple elements", async () => {
     const results = await page.evaluate((): string[] => {
-      (window as any).setupTestComponent();
+      (window as any).setUpTestComponent();
 
       const testComponent = document.querySelector("test-component");
       const queryEl = testComponent.shadowRoot.querySelector("div");
@@ -77,7 +79,7 @@ describe("utils/dom", () => {
     });
 
     expect(results).toHaveLength(2);
-    expect(results[0]).toBe("Inside Host");
+    expect(results[0]).toBe(insideHost);
     expect(results[1]).toBe("Outside Host");
   });
 });
