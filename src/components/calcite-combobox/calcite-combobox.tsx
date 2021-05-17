@@ -137,7 +137,8 @@ export class CalciteCombobox {
 
   @Listen("calciteComboboxItemChange")
   calciteComboboxItemChangeHandler(event: CustomEvent<HTMLCalciteComboboxItemElement>): void {
-    this.toggleSelection(event.detail, event.detail.selected);
+    const target = event.target as HTMLCalciteComboboxItemElement;
+    this.toggleSelection(target, target.selected);
   }
 
   @Listen("keydown")
