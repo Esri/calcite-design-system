@@ -512,6 +512,12 @@ export class CalciteCombobox {
     }, 100);
   })();
 
+  internalCalciteLookupChangeEvent = (): void => {
+    this.calciteLookupChange.emit(this.selectedItems);
+  };
+
+  emitCalciteLookupChange = debounce(this.internalCalciteLookupChangeEvent, 0);
+
   toggleSelection(item: HTMLCalciteComboboxItemElement, value = !item.selected): void {
     if (!item) {
       return;
@@ -522,7 +528,7 @@ export class CalciteCombobox {
     if (this.isMulti()) {
       this.updateAncestors(item);
       this.selectedItems = this.getSelectedItems();
-      this.calciteLookupChange.emit(this.selectedItems);
+      this.emitCalciteLookupChange();
       this.resetText();
       this.textInput.focus();
       this.filterItems("");
