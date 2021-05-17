@@ -5,6 +5,7 @@ interface SetUpTestComponentOptions {
   insideHostHTML: string;
   componentTag: string;
   insideShadowHTML: string;
+  myButtonClass: string;
 }
 
 type TestWindow = typeof window & {
@@ -15,11 +16,13 @@ type TestWindow = typeof window & {
   setUpTestComponent: (options: SetUpTestComponentOptions) => void;
 };
 
+const myButtonClass = "my-class";
 const insideHost = "Inside Host";
-const componentTag = "test-component";
-const insideHostHTML = `<button>${insideHost}</button>`;
-const insideShadowHTML = "<div><button>Not queryable</button></div>";
 const outsideHost = "Outside Host";
+const insideShadow = "Inside Shadow";
+const componentTag = "test-component";
+const insideHostHTML = `<button class="${myButtonClass}">${insideHost}</button>`;
+const insideShadowHTML = `<div><button>${insideShadow}</button></div>`;
 const outsideHostHTML = `<span>Test</span><button>${outsideHost}</button>`;
 
 describe("utils/dom", () => {
@@ -61,20 +64,21 @@ describe("utils/dom", () => {
 
   it("queryElementRoots: should query from inside host element", async () => {
     const text = await page.evaluate(
-      ({ insideHostHTML, componentTag, insideShadowHTML }: SetUpTestComponentOptions): string => {
+      ({ insideHostHTML, componentTag, insideShadowHTML, myButtonClass }: SetUpTestComponentOptions): string => {
         (window as TestWindow).setUpTestComponent({
           insideHostHTML,
           componentTag,
-          insideShadowHTML
+          insideShadowHTML,
+          myButtonClass
         });
 
         const testComponent = document.querySelector("test-component");
         const queryEl = testComponent.shadowRoot.querySelector("div");
-        const resultEl: HTMLElement = (window as TestWindow).queryElementRoots(queryEl, "button");
+        const resultEl: HTMLElement = (window as TestWindow).queryElementRoots(queryEl, `button.${myButtonClass}`);
 
         return resultEl?.textContent;
       },
-      { insideHostHTML, componentTag, insideShadowHTML }
+      { insideHostHTML, componentTag, insideShadowHTML, myButtonClass }
     );
 
     expect(text).toBe(insideHost);
@@ -82,11 +86,12 @@ describe("utils/dom", () => {
 
   it("queryElementRoots: should query from outside host element", async () => {
     const text = await page.evaluate(
-      ({ insideHostHTML, componentTag, insideShadowHTML }: SetUpTestComponentOptions): string => {
+      ({ insideHostHTML, componentTag, insideShadowHTML, myButtonClass }: SetUpTestComponentOptions): string => {
         (window as TestWindow).setUpTestComponent({
           insideHostHTML,
           componentTag,
-          insideShadowHTML
+          insideShadowHTML,
+          myButtonClass
         });
 
         const queryEl = document.body.querySelector("span");
@@ -94,7 +99,7 @@ describe("utils/dom", () => {
 
         return resultEl?.textContent;
       },
-      { insideHostHTML, componentTag, insideShadowHTML }
+      { insideHostHTML, componentTag, insideShadowHTML, myButtonClass }
     );
 
     expect(text).toBe(outsideHost);
@@ -102,11 +107,12 @@ describe("utils/dom", () => {
 
   it("queryElementsRoots: should query multiple elements", async () => {
     const results = await page.evaluate(
-      ({ insideHostHTML, componentTag, insideShadowHTML }: SetUpTestComponentOptions): string[] => {
+      ({ insideHostHTML, componentTag, insideShadowHTML, myButtonClass }: SetUpTestComponentOptions): string[] => {
         (window as TestWindow).setUpTestComponent({
           insideHostHTML,
           componentTag,
-          insideShadowHTML
+          insideShadowHTML,
+          myButtonClass
         });
 
         const testComponent = document.querySelector("test-component");
@@ -115,11 +121,12 @@ describe("utils/dom", () => {
 
         return resultEls.map((el: HTMLElement) => el.textContent);
       },
-      { insideHostHTML, componentTag, insideShadowHTML }
+      { insideHostHTML, componentTag, insideShadowHTML, myButtonClass }
     );
 
-    expect(results).toHaveLength(2);
-    expect(results[0]).toBe(insideHost);
-    expect(results[1]).toBe("Outside Host");
+    expect(results).toHaveLength(3);
+    expect(results[0]).toBe(insideShadow);
+    expect(results[1]).toBe(outsideHost);
+    expect(results[2]).toBe(insideHost);
   });
 });
