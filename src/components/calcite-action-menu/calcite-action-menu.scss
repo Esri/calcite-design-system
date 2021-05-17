@@ -1,23 +1,23 @@
 :host {
-  @extend %component-host;
-  @extend %component-spacing;
-  display: flex;
-  flex-direction: column;
+  @apply flex
+  flex-col
+  box-border
+  bg-foreground-1
+  text-color-2
+  text-1;
 }
 
 ::slotted(calcite-action) {
-  display: flex;
-  width: 100%;
+  @apply flex w-full;
 }
 
 .menu-button {
-  align-self: stretch;
-  flex: 0 1 auto;
-  height: 100%;
-  position: relative;
+  @apply self-stretch
+  flex-initial
+  h-full
+  relative;
 }
 
 .menu {
-  min-width: var(--calcite-menu-min-width);
-  flex-flow: column nowrap;
+  @apply flex-col flex-no-wrap;
 }
