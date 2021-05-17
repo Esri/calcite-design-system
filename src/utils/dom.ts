@@ -20,6 +20,68 @@ export function getElementProp(el: Element, prop: string, fallbackValue: any, cr
   return closest ? closest.getAttribute(prop) : fallbackValue;
 }
 
+export function getRootNode(el: Element): HTMLDocument | ShadowRoot {
+  return el.getRootNode() as HTMLDocument | ShadowRoot;
+}
+
+export function getHost(root: HTMLDocument | ShadowRoot): Element | null {
+  return (root as ShadowRoot).host || null;
+}
+
+// Queries an element's rootNode and any ancestor rootNodes.
+// based on https://stackoverflow.com/q/54520554/194216
+export function queryElementsRoots<T extends Element = Element>(element: Element, selector: string): T[] {
+  // Gets the rootNode (shadowRoot or document) of an element and if the rootNode is a shadowRoot, it queries the element's shadowRoot.host and any ancestor rootNodes, else queries the rootNode.
+  function queryFromAll<T extends Element = Element>(el: Element, allResults: T[]): T[] {
+    if (!el) {
+      return allResults;
+    }
+
+    if ((el as Slottable).assignedSlot) {
+      el = (el as Slottable).assignedSlot;
+    }
+
+    const rootNode = getRootNode(el);
+    const host = getHost(rootNode);
+
+    const results = host
+      ? (Array.from(host.querySelectorAll(selector)) as T[])
+      : (Array.from(rootNode.querySelectorAll(selector)) as T[]);
+
+    const uniqueResults = results.filter((result) => !allResults.includes(result));
+
+    allResults = [...allResults, ...uniqueResults];
+
+    return host ? queryFromAll(host, allResults) : allResults;
+  }
+
+  return queryFromAll(element, []);
+}
+
+// Queries an element's rootNode and any ancestor rootNodes.
+// based on https://stackoverflow.com/q/54520554/194216
+export function queryElementRoots<T extends Element = Element>(element: Element, selector: string): T | null {
+  // Gets the rootNode (shadowRoot or document) of an element and if the rootNode is a shadowRoot, it queries the element's shadowRoot.host and any ancestor rootNodes, else queries the rootNode.
+  function queryFrom<T extends Element = Element>(el: Element): T | null {
+    if (!el) {
+      return null;
+    }
+
+    if ((el as Slottable).assignedSlot) {
+      el = (el as Slottable).assignedSlot;
+    }
+
+    const rootNode = getRootNode(el);
+    const host = getHost(rootNode);
+
+    const found = host ? (host.querySelector(selector) as T) : (rootNode.querySelector(selector) as T);
+
+    return found ? found : host ? queryFrom(host) : null;
+  }
+
+  return queryFrom(element);
+}
+
 function closestElementCrossShadowBoundary<E extends Element = Element>(
   selector: string,
   base: Element = this
@@ -109,18 +171,6 @@ function querySingle<T extends Element = Element>(
 
 export function filterDirectChildren<T extends Element>(el: Element, selector: string): T[] {
   return Array.from(el.children).filter((child): child is T => child.matches(selector));
-}
-
-export function getRootNode(element: HTMLElement): HTMLDocument | ShadowRoot {
-  return element.getRootNode() as HTMLDocument | ShadowRoot;
-}
-
-export function getElementById(rootNode: HTMLDocument | ShadowRoot, id: string): HTMLElement {
-  return id
-    ? rootNode instanceof ShadowRoot
-      ? rootNode.host.querySelector(`#${id}`)
-      : rootNode.getElementById(id)
-    : null;
 }
 
 export function hasLabel(labelEl: HTMLCalciteLabelElement, el: HTMLElement): boolean {
