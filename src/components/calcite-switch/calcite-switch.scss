@@ -110,7 +110,6 @@
 
 // rtl
 .calcite--rtl {
-  @apply mr-0 ml-2;
   & .handle {
     @apply left-auto;
     right: -1px;

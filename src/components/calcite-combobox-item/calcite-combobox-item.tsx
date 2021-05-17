@@ -7,7 +7,6 @@ import {
   Method,
   Prop,
   h,
-  State,
   Watch,
   VNode
 } from "@stencil/core";
@@ -35,7 +34,7 @@ export class CalciteComboboxItem {
   @Prop({ reflect: true }) disabled = false;
 
   /** Set this to true to pre-select an item. Toggles when an item is checked/unchecked. */
-  @Prop({ reflect: true }) selected = false;
+  @Prop({ reflect: true, mutable: true }) selected = false;
 
   /** True when item is highlighted either from keyboard or mouse hover */
   @Prop() active = false;
@@ -50,8 +49,8 @@ export class CalciteComboboxItem {
   @Prop() icon?: string;
 
   @Watch("selected")
-  selectedWatchHandler(newValue: boolean): void {
-    this.isSelected = newValue;
+  selectedWatchHandler(): void {
+    this.calciteComboboxItemChange.emit(this.el);
   }
 
   /** The main label for this item. */
@@ -70,8 +69,6 @@ export class CalciteComboboxItem {
   // --------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteComboboxItemElement;
-
-  @State() isSelected = this.selected;
 
   isNested: boolean;
 
@@ -120,7 +117,7 @@ export class CalciteComboboxItem {
     if (this.disabled) {
       return;
     }
-    this.isSelected = typeof coerce === "boolean" ? coerce : !this.isSelected;
+    this.selected = typeof coerce === "boolean" ? coerce : !this.selected;
   }
 
   // --------------------------------------------------------------------------
@@ -134,8 +131,7 @@ export class CalciteComboboxItem {
     if (this.disabled) {
       return;
     }
-    this.isSelected = !this.isSelected;
-    this.calciteComboboxItemChange.emit(this.el);
+    this.selected = !this.selected;
   };
 
   // --------------------------------------------------------------------------
@@ -145,7 +141,7 @@ export class CalciteComboboxItem {
   // --------------------------------------------------------------------------
 
   renderIcon(scale: string, isSingle: boolean): VNode {
-    const { icon, el, disabled, isSelected } = this;
+    const { icon, el, disabled, selected } = this;
     const level = `${CSS.icon}--indent-${getDepth(el)}`;
     const iconScale = scale !== "l" ? "s" : "m";
     const defaultIcon = isSingle ? "dot" : "check";
@@ -164,7 +160,7 @@ export class CalciteComboboxItem {
         class={{
           [CSS.icon]: !icon,
           [CSS.custom]: !!icon,
-          [CSS.iconActive]: icon && isSelected,
+          [CSS.iconActive]: icon && selected,
           [level]: true
         }}
         icon={icon || iconPath}
@@ -190,7 +186,7 @@ export class CalciteComboboxItem {
     const classes = {
       [CSS_UTILITY.rtl]: dir === "rtl",
       [CSS.label]: true,
-      [CSS.selected]: this.isSelected,
+      [CSS.selected]: this.selected,
       [CSS.active]: this.active,
       [CSS.single]: isSingleSelect
     };
