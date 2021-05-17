@@ -1,5 +1,5 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { queryElementRelativeTo, queryElementsRelativeTo, getRootNode, getHost } from "./dom";
+import { queryElementRoots, queryElementsRoots, getRootNode, getHost } from "./dom";
 
 interface SetUpTestComponentOptions {
   insideHostHTML: string;
@@ -10,8 +10,8 @@ interface SetUpTestComponentOptions {
 type TestWindow = typeof window & {
   getRootNode: (el: Element) => HTMLDocument | ShadowRoot;
   getHost: (root: HTMLDocument | ShadowRoot) => Element | null;
-  queryElementRelativeTo: <T extends Element = Element>(element: Element, selector: string) => T | null;
-  queryElementsRelativeTo: <T extends Element = Element>(element: Element, selector: string) => T[];
+  queryElementRoots: <T extends Element = Element>(element: Element, selector: string) => T | null;
+  queryElementsRoots: <T extends Element = Element>(element: Element, selector: string) => T[];
   setUpTestComponent: (options: SetUpTestComponentOptions) => void;
 };
 
@@ -50,16 +50,16 @@ describe("utils/dom", () => {
       content: `
       ${getRootNode}
       ${getHost}
-      ${queryElementRelativeTo}
-      ${queryElementsRelativeTo}
+      ${queryElementRoots}
+      ${queryElementsRoots}
       ${setUpTestComponent}
       `
     });
 
-    await page.waitForFunction(() => (window as TestWindow).queryElementRelativeTo);
+    await page.waitForFunction(() => (window as TestWindow).queryElementRoots);
   });
 
-  it("queryElementRelativeTo: should query from inside host element", async () => {
+  it("queryElementRoots: should query from inside host element", async () => {
     const text = await page.evaluate(
       ({ insideHostHTML, componentTag, insideShadowHTML }: SetUpTestComponentOptions): string => {
         (window as TestWindow).setUpTestComponent({
@@ -70,7 +70,7 @@ describe("utils/dom", () => {
 
         const testComponent = document.querySelector("test-component");
         const queryEl = testComponent.shadowRoot.querySelector("div");
-        const resultEl: HTMLElement = (window as TestWindow).queryElementRelativeTo(queryEl, "button");
+        const resultEl: HTMLElement = (window as TestWindow).queryElementRoots(queryEl, "button");
 
         return resultEl?.textContent;
       },
@@ -80,7 +80,7 @@ describe("utils/dom", () => {
     expect(text).toBe(insideHost);
   });
 
-  it("queryElementRelativeTo: should query from outside host element", async () => {
+  it("queryElementRoots: should query from outside host element", async () => {
     const text = await page.evaluate(
       ({ insideHostHTML, componentTag, insideShadowHTML }: SetUpTestComponentOptions): string => {
         (window as TestWindow).setUpTestComponent({
@@ -90,7 +90,7 @@ describe("utils/dom", () => {
         });
 
         const queryEl = document.body.querySelector("span");
-        const resultEl: HTMLElement = (window as TestWindow).queryElementRelativeTo(queryEl, "button");
+        const resultEl: HTMLElement = (window as TestWindow).queryElementRoots(queryEl, "button");
 
         return resultEl?.textContent;
       },
@@ -100,7 +100,7 @@ describe("utils/dom", () => {
     expect(text).toBe(outsideHost);
   });
 
-  it("queryElementsRelativeTo: should query multiple elements", async () => {
+  it("queryElementsRoots: should query multiple elements", async () => {
     const results = await page.evaluate(
       ({ insideHostHTML, componentTag, insideShadowHTML }: SetUpTestComponentOptions): string[] => {
         (window as TestWindow).setUpTestComponent({
@@ -111,7 +111,7 @@ describe("utils/dom", () => {
 
         const testComponent = document.querySelector("test-component");
         const queryEl = testComponent.shadowRoot.querySelector("div");
-        const resultEls: HTMLElement[] = (window as TestWindow).queryElementsRelativeTo(queryEl, "button");
+        const resultEls: HTMLElement[] = (window as TestWindow).queryElementsRoots(queryEl, "button");
 
         return resultEls.map((el: HTMLElement) => el.textContent);
       },
