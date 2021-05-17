@@ -1,15 +1,3 @@
-// theme variables
-// light theme
-:host {
-  display: inline;
-  --calcite-link-blue-underline: #{rgba($h-bb-070, 0.4)};
-}
-
-// dark theme
-:host([theme="dark"]) {
-  --calcite-link-blue-underline: #{rgba($d-bb-420, 0.4)};
-}
-
 // link base
 :host a,
 :host span {

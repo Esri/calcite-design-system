@@ -63,7 +63,7 @@ export class CalciteInputMessage {
   render(): VNode {
     const hidden = !this.active;
     return (
-      <Host calcite-hydrated-hidden={hidden} theme={this.theme}>
+      <Host calcite-hydrated-hidden={hidden}>
         {this.renderIcon(this.requestedIcon)}
         <slot />
       </Host>
