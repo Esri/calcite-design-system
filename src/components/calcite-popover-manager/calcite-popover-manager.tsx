@@ -57,7 +57,7 @@ export class CalcitePopoverManager {
     const { selector, el } = this;
     const id = element.closest(selector)?.getAttribute(POPOVER_REFERENCE);
 
-    return queryElementRelativeTo(`#${id}`, el) as HTMLCalcitePopoverElement;
+    return queryElementRelativeTo(el, `#${id}`) as HTMLCalcitePopoverElement;
   };
 
   //--------------------------------------------------------------------------
@@ -75,7 +75,7 @@ export class CalcitePopoverManager {
     const relatedPopover = this.getRelatedPopover(target);
 
     if (autoClose && !isTargetInsidePopover) {
-      (queryElementsRelativeTo(popoverSelector, el) as HTMLCalcitePopoverElement[])
+      (queryElementsRelativeTo(el, popoverSelector) as HTMLCalcitePopoverElement[])
         .filter((popover) => popover.open && popover !== relatedPopover)
         .forEach((popover) => popover.toggle(false));
     }

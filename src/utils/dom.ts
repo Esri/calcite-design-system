@@ -28,8 +28,10 @@ export function getHost(root: HTMLDocument | ShadowRoot): Element | null {
   return (root as ShadowRoot).host || null;
 }
 
+// Queries an element's rootNode and any ancestor rootNodes.
 // based on https://stackoverflow.com/q/54520554/194216
-export function queryElementsRelativeTo<T extends Element = Element>(selector: string, element: Element): T[] {
+export function queryElementsRelativeTo<T extends Element = Element>(element: Element, selector: string): T[] {
+  // Gets the rootNode (shadowRoot or document) of an element and if the rootNode is a shadowRoot, it queries the element's shadowRoot.host and any ancestor rootNodes, else queries the rootNode.
   function queryFromAll<T extends Element = Element>(el: Element, allResults: T[]): T[] {
     if (!el) {
       return allResults;
@@ -56,8 +58,10 @@ export function queryElementsRelativeTo<T extends Element = Element>(selector: s
   return queryFromAll(element, []);
 }
 
+// Queries an element's rootNode and any ancestor rootNodes.
 // based on https://stackoverflow.com/q/54520554/194216
-export function queryElementRelativeTo<T extends Element = Element>(selector: string, element: Element): T | null {
+export function queryElementRelativeTo<T extends Element = Element>(element: Element, selector: string): T | null {
+  // Gets the rootNode (shadowRoot or document) of an element and if the rootNode is a shadowRoot, it queries the element's shadowRoot.host and any ancestor rootNodes, else queries the rootNode.
   function queryFrom<T extends Element = Element>(el: Element): T | null {
     if (!el) {
       return null;
