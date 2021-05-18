@@ -25,88 +25,90 @@ const createBlockAttributes: (options?: { except: string[] }) => Attributes = ({
     commit: () => Attribute;
   }
 
-  return ([
-    {
-      name: "heading",
-      commit(): Attribute {
-        this.value = text("heading", "Heading", group);
-        delete this.build;
-        return this;
+  return (
+    [
+      {
+        name: "heading",
+        commit(): Attribute {
+          this.value = text("heading", "Heading", group);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "dir",
+        commit(): Attribute {
+          this.value = select("dir", dir.values, dir.defaultValue, group);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "summary",
+        commit(): Attribute {
+          this.value = text("summary", "summary", group);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "open",
+        commit(): Attribute {
+          this.value = boolean("open", true, group);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "collapsible",
+        commit(): Attribute {
+          this.value = boolean("collapsible", true, group);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "loading",
+        commit(): Attribute {
+          this.value = boolean("loading", false, group);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "disabled",
+        commit(): Attribute {
+          this.value = boolean("disabled", false, group);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "theme",
+        commit(): Attribute {
+          this.value = select("theme", theme.values, theme.defaultValue, group);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "intl-collapse",
+        commit(): Attribute {
+          this.value = text("intlCollapse", "Collapse", group);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "intl-expand",
+        commit(): Attribute {
+          this.value = text("intlExpand", "Expand", group);
+          delete this.build;
+          return this;
+        }
       }
-    },
-    {
-      name: "dir",
-      commit(): Attribute {
-        this.value = select("dir", dir.values, dir.defaultValue, group);
-        delete this.build;
-        return this;
-      }
-    },
-    {
-      name: "summary",
-      commit(): Attribute {
-        this.value = text("summary", "summary", group);
-        delete this.build;
-        return this;
-      }
-    },
-    {
-      name: "open",
-      commit(): Attribute {
-        this.value = boolean("open", true, group);
-        delete this.build;
-        return this;
-      }
-    },
-    {
-      name: "collapsible",
-      commit(): Attribute {
-        this.value = boolean("collapsible", true, group);
-        delete this.build;
-        return this;
-      }
-    },
-    {
-      name: "loading",
-      commit(): Attribute {
-        this.value = boolean("loading", false, group);
-        delete this.build;
-        return this;
-      }
-    },
-    {
-      name: "disabled",
-      commit(): Attribute {
-        this.value = boolean("disabled", false, group);
-        delete this.build;
-        return this;
-      }
-    },
-    {
-      name: "theme",
-      commit(): Attribute {
-        this.value = select("theme", theme.values, theme.defaultValue, group);
-        delete this.build;
-        return this;
-      }
-    },
-    {
-      name: "intl-collapse",
-      commit(): Attribute {
-        this.value = text("intlCollapse", "Collapse", group);
-        delete this.build;
-        return this;
-      }
-    },
-    {
-      name: "intl-expand",
-      commit(): Attribute {
-        this.value = text("intlExpand", "Expand", group);
-        delete this.build;
-        return this;
-      }
-    }
-  ] as DeferredAttribute[])
+    ] as DeferredAttribute[]
+  )
     .filter((attr) => !except.find((excluded) => excluded === attr.name))
     .map((attr) => attr.commit());
 };

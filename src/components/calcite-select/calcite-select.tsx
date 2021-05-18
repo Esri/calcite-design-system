@@ -3,6 +3,7 @@ import {
   Element,
   Event,
   EventEmitter,
+  Fragment,
   h,
   Host,
   Listen,
@@ -311,7 +312,7 @@ export class CalciteSelect {
     const dir = getElementDir(this.el);
 
     return (
-      <Host>
+      <Fragment>
         <select
           aria-label={this.label}
           class={{ [CSS.select]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
@@ -322,7 +323,7 @@ export class CalciteSelect {
           <slot />
         </select>
         {this.renderChevron(dir)}
-      </Host>
+      </Fragment>
     );
   }
 }

@@ -966,9 +966,8 @@ export class CalciteSlider {
   }
 
   private hyphenateCollidingRangeHandleLabels(): void {
-    const minValueLabel: HTMLSpanElement = this.el.shadowRoot.querySelector(
-      `.handle__label--minValue`
-    );
+    const minValueLabel: HTMLSpanElement =
+      this.el.shadowRoot.querySelector(`.handle__label--minValue`);
     const minValueLabelStatic: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--minValue.static`
     );
@@ -1100,17 +1099,14 @@ export class CalciteSlider {
       return;
     }
 
-    const minHandle: HTMLButtonElement | null = this.el.shadowRoot.querySelector(
-      ".thumb--minValue"
-    );
+    const minHandle: HTMLButtonElement | null =
+      this.el.shadowRoot.querySelector(".thumb--minValue");
     const maxHandle: HTMLButtonElement | null = this.el.shadowRoot.querySelector(".thumb--value");
 
-    const minTickLabel: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
-      ".tick__label--min"
-    );
-    const maxTickLabel: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
-      ".tick__label--max"
-    );
+    const minTickLabel: HTMLSpanElement | null =
+      this.el.shadowRoot.querySelector(".tick__label--min");
+    const maxTickLabel: HTMLSpanElement | null =
+      this.el.shadowRoot.querySelector(".tick__label--max");
 
     if (!minHandle && maxHandle && minTickLabel && maxTickLabel) {
       if (this.isMinTickLabelObscured(minTickLabel, maxHandle)) {

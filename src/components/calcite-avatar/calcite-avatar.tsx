@@ -49,8 +49,7 @@ export class CalciteAvatar {
   //--------------------------------------------------------------------------
 
   render() {
-    const content = this.determineContent();
-    return <Host>{content}</Host>;
+    return this.determineContent();
   }
 
   //--------------------------------------------------------------------------

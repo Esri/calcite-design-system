@@ -96,11 +96,7 @@ export class CalciteStepper {
   }
 
   render(): VNode {
-    return (
-      <Host>
-        <slot />
-      </Host>
-    );
+    return <slot />;
   }
 
   //--------------------------------------------------------------------------

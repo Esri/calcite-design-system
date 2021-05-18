@@ -3,8 +3,8 @@ import {
   Element,
   Event,
   EventEmitter,
+  Fragment,
   h,
-  Host,
   Method,
   Prop,
   VNode,
@@ -278,7 +278,7 @@ export class CalcitePickListItem {
     const { description, label } = this;
 
     return (
-      <Host>
+      <Fragment>
         {this.renderIcon()}
         {this.renderActionsStart()}
         <label
@@ -299,7 +299,7 @@ export class CalcitePickListItem {
           </div>
         </label>
         {this.renderActionsEnd()}
-      </Host>
+      </Fragment>
     );
   }
 }

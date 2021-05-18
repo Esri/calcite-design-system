@@ -1,7 +1,6 @@
 import {
   Component,
   h,
-  Host,
   Prop,
   State,
   Listen,
@@ -11,7 +10,8 @@ import {
   VNode,
   Build,
   Method,
-  Watch
+  Watch,
+  Fragment
 } from "@stencil/core";
 import { filter } from "../../utils/filter";
 import { getElementDir } from "../../utils/dom";
@@ -885,7 +885,7 @@ export class CalciteCombobox {
     const single = this.selectionMode === "single";
     const labelId = `${guid}-label`;
     return (
-      <Host>
+      <Fragment>
         <div
           aria-autocomplete="list"
           aria-expanded={open.toString()}
@@ -920,7 +920,7 @@ export class CalciteCombobox {
           {this.renderListBoxOptions()}
         </ul>
         {this.renderPopperContainer()}
-      </Host>
+      </Fragment>
     );
   }
 }

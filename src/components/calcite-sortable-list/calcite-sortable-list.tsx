@@ -177,10 +177,6 @@ export class CalciteSortableList {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    return (
-      <Host>
-        <slot />
-      </Host>
-    );
+    return <slot />;
   }
 }

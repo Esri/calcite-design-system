@@ -193,9 +193,11 @@ export class CalciteTree {
     }
 
     this.calciteTreeSelect.emit({
-      selected: (nodeListToArray(
-        this.el.querySelectorAll("calcite-tree-item")
-      ) as HTMLCalciteTreeItemElement[]).filter((i) => i.selected)
+      selected: (
+        nodeListToArray(
+          this.el.querySelectorAll("calcite-tree-item")
+        ) as HTMLCalciteTreeItemElement[]
+      ).filter((i) => i.selected)
     });
   }
 
@@ -234,9 +236,11 @@ export class CalciteTree {
     }
 
     this.calciteTreeSelect.emit({
-      selected: (nodeListToArray(
-        this.el.querySelectorAll("calcite-tree-item")
-      ) as HTMLCalciteTreeItemElement[]).filter((i) => i.selected)
+      selected: (
+        nodeListToArray(
+          this.el.querySelectorAll("calcite-tree-item")
+        ) as HTMLCalciteTreeItemElement[]
+      ).filter((i) => i.selected)
     });
   }
   //--------------------------------------------------------------------------

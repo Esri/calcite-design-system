@@ -1,4 +1,4 @@
-import { Component, Element, Host, Method, Prop, h, VNode } from "@stencil/core";
+import { Component, Element, Method, Prop, h, VNode } from "@stencil/core";
 import { Appearance, Scale, Theme } from "../interfaces";
 import { ButtonColor } from "../calcite-button/interfaces";
 import { CSS, ICONS } from "./resources";
@@ -111,28 +111,26 @@ export class CalciteFab {
     const dir = getElementDir(el);
 
     return (
-      <Host>
-        <calcite-button
-          appearance={appearance}
-          aria-label={label}
-          class={CSS.button}
-          color={color}
-          dir={dir}
-          disabled={disabled}
-          iconStart={icon}
-          loading={loading}
-          ref={(buttonEl): void => {
-            this.buttonEl = buttonEl;
-          }}
-          round={true}
-          scale={scale}
-          theme={theme}
-          title={title}
-          width="auto"
-        >
-          {this.textEnabled ? this.text : null}
-        </calcite-button>
-      </Host>
+      <calcite-button
+        appearance={appearance}
+        aria-label={label}
+        class={CSS.button}
+        color={color}
+        dir={dir}
+        disabled={disabled}
+        iconStart={icon}
+        loading={loading}
+        ref={(buttonEl): void => {
+          this.buttonEl = buttonEl;
+        }}
+        round={true}
+        scale={scale}
+        theme={theme}
+        title={title}
+        width="auto"
+      >
+        {this.textEnabled ? this.text : null}
+      </calcite-button>
     );
   }
 }
