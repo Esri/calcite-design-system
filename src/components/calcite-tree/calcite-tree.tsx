@@ -44,6 +44,7 @@ export class CalciteTree {
   @Prop({ reflect: true }) theme: Theme;
 
   /** @internal If this tree is nested within another tree, set to false */
+  // eslint-disable-next-line @esri/calcite-components/strict-boolean-attributes
   @Prop({ reflect: true, mutable: true }) root = true;
 
   /** Specify the scale of the tree, defaults to m */
