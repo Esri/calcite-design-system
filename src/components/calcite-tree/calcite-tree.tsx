@@ -44,7 +44,7 @@ export class CalciteTree {
   @Prop({ reflect: true }) theme: Theme;
 
   /** @internal If this tree is nested within another tree, set to false */
-  @Prop({ reflect: true, mutable: true }) root = true;
+  @Prop({ reflect: true, mutable: true }) child: boolean;
 
   /** Specify the scale of the tree, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: Extract<"s" | "m", Scale> = "m";
@@ -65,7 +65,7 @@ export class CalciteTree {
     this.scale = parent ? parent.scale : this.scale;
     this.inputEnabled = parent ? parent.inputEnabled : this.inputEnabled;
     this.selectionMode = parent ? parent.selectionMode : this.selectionMode;
-    this.root = !parent;
+    this.child = !!parent;
   }
 
   render(): VNode {
@@ -75,8 +75,8 @@ export class CalciteTree {
           this.selectionMode === TreeSelectionMode.Multi ||
           this.selectionMode === TreeSelectionMode.MultiChildren
         }
-        role={this.root ? "tree" : undefined}
-        tabindex={this.root ? "0" : undefined}
+        role={!this.child ? "tree" : undefined}
+        tabindex={!this.child ? "0" : undefined}
       >
         <slot />
       </Host>
@@ -90,7 +90,7 @@ export class CalciteTree {
   //--------------------------------------------------------------------------
 
   @Listen("focus") onFocus(): void {
-    if (this.root) {
+    if (!this.child) {
       const selectedNode = this.el.querySelector(
         "calcite-tree-item[selected]"
       ) as HTMLCalciteTreeItemElement;
@@ -107,12 +107,12 @@ export class CalciteTree {
       target.querySelectorAll("calcite-tree-item")
     ) as HTMLCalciteTreeItemElement[];
 
-    if (this.root) {
+    if (!this.child) {
       e.preventDefault();
       e.stopPropagation();
     }
 
-    if (this.selectionMode === TreeSelectionMode.Ancestors && this.root) {
+    if (this.selectionMode === TreeSelectionMode.Ancestors && !this.child) {
       this.updateAncestorTree(e);
       return;
     }
@@ -145,7 +145,7 @@ export class CalciteTree {
       this.selectionMode === TreeSelectionMode.Children ||
       this.selectionMode === TreeSelectionMode.MultiChildren;
 
-    if (this.root) {
+    if (!this.child) {
       const targetItems = [];
 
       if (shouldSelect) {
@@ -193,9 +193,11 @@ export class CalciteTree {
     }
 
     this.calciteTreeSelect.emit({
-      selected: (nodeListToArray(
-        this.el.querySelectorAll("calcite-tree-item")
-      ) as HTMLCalciteTreeItemElement[]).filter((i) => i.selected)
+      selected: (
+        nodeListToArray(
+          this.el.querySelectorAll("calcite-tree-item")
+        ) as HTMLCalciteTreeItemElement[]
+      ).filter((i) => i.selected)
     });
   }
 
@@ -234,9 +236,11 @@ export class CalciteTree {
     }
 
     this.calciteTreeSelect.emit({
-      selected: (nodeListToArray(
-        this.el.querySelectorAll("calcite-tree-item")
-      ) as HTMLCalciteTreeItemElement[]).filter((i) => i.selected)
+      selected: (
+        nodeListToArray(
+          this.el.querySelectorAll("calcite-tree-item")
+        ) as HTMLCalciteTreeItemElement[]
+      ).filter((i) => i.selected)
     });
   }
   //--------------------------------------------------------------------------
