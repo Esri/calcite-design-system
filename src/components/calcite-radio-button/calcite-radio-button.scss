@@ -1,42 +1,9 @@
 :host {
   @apply cursor-pointer inline-block;
-}
-.container {
-  @apply inline-flex;
-}
-.container--labeled {
-  @apply mb-0 items-center gap-2;
+  .container {
+    @apply relative;
+  }
 }
 :host([disabled]) {
   @apply cursor-pointer;
-  & > ::slotted(calcite-label) {
-    @apply cursor-default;
-  }
-}
-:host([scale="s"]) .container--labeled {
-  @apply mb-2 mr-3;
-  @supports not (display: grid) {
-    calcite-radio {
-      @apply mr-2;
-    }
-  }
-}
-:host([scale="m"]) .container--labeled {
-  @apply mb-2 mr-4;
-  @supports not (display: grid) {
-    calcite-radio {
-      @apply mr-2;
-    }
-  }
-}
-:host([scale="l"]) .container--labeled {
-  @apply gap-3 mb-2 mr-5;
-  @supports not (display: grid) {
-    calcite-radio {
-      @apply mr-3;
-    }
-  }
-}
-:host([hidden]) {
-  @apply hidden;
 }
