@@ -25,6 +25,7 @@
 }
 
 .scrim {
+  --calcite-scrim-background: #{rgba($blk-240, 0.75)};
   @apply fixed inset-0 flex overflow-y-hidden;
 }
 

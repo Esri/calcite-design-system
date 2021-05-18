@@ -1,17 +1,7 @@
-// theme variables
-// light theme
 :host {
   display: inline-block;
   width: auto;
   vertical-align: middle;
-  --calcite-button-transparent-hover: rgba(0, 0, 0, 0.05);
-  --calcite-button-transparent-press: rgba(0, 0, 0, 0.08);
-}
-
-// dark theme
-:host([theme="dark"]) {
-  --calcite-button-transparent-hover: rgba(255, 255, 255, 0.05);
-  --calcite-button-transparent-press: rgba(255, 255, 255, 0.08);
 }
 
 // fab variants

@@ -7,86 +7,91 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Calcite Tile</title>
   <style>
-    body {
-      margin: 20px;
+    .demo-body {
+      width: 50vw;
+      align-content: center;
+      margin: 0 auto;
     }
-
-    .demo-background-light {
-      border: 1px solid #202020;
-      padding: 1rem;
-    }
-
-    .demo-background-dark {
-      background: #202020;
-      color: white;
-      padding: 1rem;
-    }
-
-    .two-columns {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-gap: 20px;
-    }
-
     h1,
     h2,
     h3 {
       margin: 0;
+      color: var(--calcite-ui-text-1);
     }
   </style>
   <script src="./_assets/head.js"></script>
   <script type="module" src="./_assets/demo-spacer.js"></script>
 </head>
 
-<body>
+<body class="demo-body">
   <demo-spacer>
-    <calcite-button href="/">
-      < Home</calcite-button>
-        <h1>Calcite Tile</h1>
-        <demo-spacer>
-          <div class="two-columns">
-            <div class="demo-background-light">
-              <demo-spacer gap="25px">
-                <h3>Basic</h3>
-                <calcite-tile icon="layers" heading="Tile title lorem ipsum"
-                  description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.">
-                </calcite-tile>
-                <h3>Link</h3>
-                <calcite-tile href="/" icon="layers" heading="Tile title lorem ipsum"
-                  description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.">
-                </calcite-tile>
-                <h3>Heading Only</h3>
-                <calcite-tile heading="Tile title lorem ipsum"></calcite-tile>
-                <h3>Heading Only Link</h3>
-                <calcite-tile href="/" heading="Tile title lorem ipsum"></calcite-tile>
-                <h3>Large Visual</h3>
-                <calcite-tile icon="layers" heading="Tile title lorem ipsum"></calcite-tile>
-                <h3>Large Visual Link</h3>
-                <calcite-tile href="/" icon="layers" heading="Tile title lorem ipsum"></calcite-tile>
-              </demo-spacer>
-            </div>
-            <div class="demo-background-dark" theme="dark">
-              <demo-spacer gap="25px">
-                <h3>Basic</h3>
-                <calcite-tile theme="dark" icon="layers" heading="Tile title lorem ipsum"
-                  description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.">
-                </calcite-tile>
-                <h3>Link</h3>
-                <calcite-tile theme="dark" href="/" icon="layers" heading="Tile title lorem ipsum"
-                  description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.">
-                </calcite-tile>
-                <h3>Heading Only</h3>
-                <calcite-tile theme="dark" heading="Tile title lorem ipsum"></calcite-tile>
-                <h3>Heading Only Link</h3>
-                <calcite-tile theme="dark" href="/" heading="Tile title lorem ipsum"></calcite-tile>
-                <h3>Large Visual</h3>
-                <calcite-tile theme="dark" icon="layers" heading="Tile title lorem ipsum"></calcite-tile>
-                <h3>Large Visual Link</h3>
-                <calcite-tile theme="dark" href="/" icon="layers" heading="Tile title lorem ipsum"></calcite-tile>
-              </demo-spacer>
-            </div>
-          </div>
-        </demo-spacer>
+    <calcite-button href="/">< Home</calcite-button>
+    <h1>Calcite Tile</h1>
+    <demo-spacer gap="25px">
+
+      <section>
+        <h3>Basic: LTR</h3>
+        <calcite-tile icon="layers" heading="Tile title lorem ipsum"
+          description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.">
+        </calcite-tile>
+      </section>
+      <section dir="rtl">
+        <h3>Basic: RTL</h3>
+        <calcite-tile icon="layers" heading="Tile title lorem ipsum"
+          description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.">
+        </calcite-tile>
+      </section>
+
+      <section>
+        <h3>Link: LTR</h3>
+        <calcite-tile href="/" icon="layers" heading="Tile title lorem ipsum"
+          description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.">
+        </calcite-tile>
+      </section>
+      <section dir="rtl">
+        <h3>Link: RTL</h3>
+        <calcite-tile href="/" icon="layers" heading="Tile title lorem ipsum"
+          description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.">
+        </calcite-tile>
+      </section>
+
+      <section>
+        <h3>Heading Only: LTR</h3>
+        <calcite-tile heading="Tile title lorem ipsum"></calcite-tile>
+      </section>
+      <section dir="rtl">
+        <h3>Heading Only: RTL</h3>
+        <calcite-tile heading="Tile title lorem ipsum"></calcite-tile>
+      </section>
+
+      <section>
+        <h3>Heading Only Link: LTR</h3>
+        <calcite-tile href="/" heading="Tile title lorem ipsum"></calcite-tile>
+      </section>
+      <section dir="rtl">
+        <h3>Heading Only Link: RTL</h3>
+        <calcite-tile href="/" heading="Tile title lorem ipsum"></calcite-tile>
+      </section>
+
+      <section>
+        <h3>Large Visual: LTR</h3>
+        <calcite-tile icon="layers" heading="Tile title lorem ipsum"></calcite-tile>
+      </section>
+      <section dir="rtl">
+        <h3>Large Visual: RTL</h3>
+        <calcite-tile icon="layers" heading="Tile title lorem ipsum"></calcite-tile>
+      </section>
+
+      <section>
+        <h3>Large Visual Link: LTR</h3>
+        <calcite-tile href="/" icon="layers" heading="Tile title lorem ipsum"></calcite-tile>
+      </section>
+      <section dir="rtl">
+        <h3>Large Visual Link: RTL</h3>
+        <calcite-tile href="/" icon="layers" heading="Tile title lorem ipsum"></calcite-tile>
+      </section>
+
+    </demo-spacer>
   </demo-spacer>
 </body>
 

@@ -1,7 +1,12 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { focusable, HYDRATED_ATTR } from "../../tests/commonTests";
+import { accessible, focusable, HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-checkbox", () => {
+  it("is accessible", async () =>
+    accessible(
+      `<calcite-label><calcite-checkbox id="example" name="example" value="one"></calcite-checkbox>label</calcite-label>`
+    ));
+
   it("renders with correct default attributes", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-checkbox></calcite-checkbox>");
@@ -278,16 +283,6 @@ describe("calcite-checkbox", () => {
 
     const inputs = await page.findAll("input");
     expect(inputs.length).toEqual(1);
-  });
-
-  it("supports labeling", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-checkbox value='test-value' checked>test-label</calcite-checkbox>");
-    const element = await page.find("calcite-checkbox");
-    const defaultSlot = await page.find("calcite-checkbox >>> label slot");
-
-    expect(element).toEqualText("test-label");
-    expect(defaultSlot).toBeDefined();
   });
 
   it("resets to initial value when form reset event is triggered", async () => {
