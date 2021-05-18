@@ -592,62 +592,6 @@ describe("calcite-label", () => {
       expect(await input.getProperty("checked")).toBe(false);
     });
 
-    it("focuses/checks a wrapped calcite-checkbox with slotted label when clicked and clicks on the checkbox or slotted label don't result in a double-check", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <calcite-label>
-          Label text
-          <calcite-checkbox>Slotted label</calcite-checkbox>
-        </calcite-label>
-    `);
-      const label = await page.find("calcite-label");
-      const input = await page.find("input");
-      const checkboxClass = input["_elmHandle"]["_remoteObject"].description;
-      await label.click();
-      const activeEl = await page.evaluateHandle(() => document.activeElement);
-      const activeElClass = activeEl["_remoteObject"].description;
-      expect(activeElClass).toEqual(checkboxClass);
-      expect(await input.getProperty("checked")).toBe(true);
-
-      const checkbox = await page.find("calcite-checkbox");
-      await checkbox.click();
-      expect(await checkbox.getProperty("checked")).toBe(false);
-      expect(await input.getProperty("checked")).toBe(false);
-
-      const slottedLabel = await page.find("calcite-checkbox >>> label");
-      await slottedLabel.click();
-      expect(await checkbox.getProperty("checked")).toBe(true);
-      expect(await input.getProperty("checked")).toBe(true);
-    });
-
-    it("focuses/checks a wrapped calcite-checkbox with slotted label and htmlFor when clicked and clicks on the checkbox or slotted label don't result in a double-check", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <calcite-label for="checkbox">
-          Label text
-          <calcite-checkbox id="checkbox">Slotted label</calcite-checkbox>
-        </calcite-label>
-    `);
-      const label = await page.find("calcite-label");
-      const input = await page.find("input");
-      const checkboxClass = input["_elmHandle"]["_remoteObject"].description;
-      await label.click();
-      const activeEl = await page.evaluateHandle(() => document.activeElement);
-      const activeElClass = activeEl["_remoteObject"].description;
-      expect(activeElClass).toEqual(checkboxClass);
-      expect(await input.getProperty("checked")).toBe(true);
-
-      const checkbox = await page.find("calcite-checkbox");
-      await checkbox.click();
-      expect(await checkbox.getProperty("checked")).toBe(false);
-      expect(await input.getProperty("checked")).toBe(false);
-
-      const slottedLabel = await page.find("calcite-checkbox >>> label");
-      await slottedLabel.click();
-      expect(await checkbox.getProperty("checked")).toBe(true);
-      expect(await input.getProperty("checked")).toBe(true);
-    });
-
     it("focuses but does not check a wrapped calcite-checkbox when tabbed to", async () => {
       const page = await newE2EPage();
       await page.setContent(`
@@ -883,34 +827,6 @@ describe("calcite-label", () => {
       await checkbox.click();
       expect(await checkbox.getProperty("checked")).toBe(false);
       expect(await input.getProperty("checked")).toBe(false);
-    });
-
-    it("focuses/checks a sibling calcite-checkbox with slotted label when clicked", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <calcite-label for="checkbox">
-          Label text
-        </calcite-label>
-        <calcite-checkbox id="checkbox">Slotted label</calcite-checkbox>
-    `);
-      const label = await page.find("calcite-label");
-      const input = await page.find("input");
-      const checkboxClass = input["_elmHandle"]["_remoteObject"].description;
-      await label.click();
-      const activeEl = await page.evaluateHandle(() => document.activeElement);
-      const activeElClass = activeEl["_remoteObject"].description;
-      expect(activeElClass).toEqual(checkboxClass);
-      expect(await input.getProperty("checked")).toBe(true);
-
-      const checkbox = await page.find("calcite-checkbox");
-      await checkbox.click();
-      expect(await checkbox.getProperty("checked")).toBe(false);
-      expect(await input.getProperty("checked")).toBe(false);
-
-      const slottedLabel = await page.find("calcite-checkbox >>> label");
-      await slottedLabel.click();
-      expect(await checkbox.getProperty("checked")).toBe(true);
-      expect(await input.getProperty("checked")).toBe(true);
     });
 
     it("checks calcite-radio-button when its sibling label is clicked", async () => {
