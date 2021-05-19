@@ -155,6 +155,7 @@ export class CalciteTooltipManager {
     const tooltip = this.queryTooltip(event.target as HTMLElement);
 
     if (!tooltip || tooltip === this.clickedTooltip) {
+      this.clickedTooltip = null;
       return;
     }
 
