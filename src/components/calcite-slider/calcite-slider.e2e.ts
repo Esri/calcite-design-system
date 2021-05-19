@@ -158,7 +158,7 @@ describe("calcite-slider", () => {
     expect(changeEvent).toHaveReceivedEventTimes(1);
   });
 
-  it("changes handle position on mousedown, emits on mouseup", async () => {
+  it("single value: changes value on mousedown, emits on mouseup", async () => {
     const page = await newE2EPage({
       html: `
         <style>body { margin: 0; }</style>
@@ -183,5 +183,32 @@ describe("calcite-slider", () => {
     await page.waitForChanges();
 
     expect(changeEvent).toHaveReceivedEventTimes(1);
+  });
+
+  it("single value: changes value and emits on drag", async () => {
+    const page = await newE2EPage({
+      html: `
+        <style>body { margin: 0; }</style>
+        <div style="width:100px">
+          <calcite-slider snap></calcite-slider>
+        </div>
+      `
+    });
+    const slider = await page.find("calcite-slider");
+    const changeEvent = await slider.spyOnEvent("calciteSliderChange");
+
+    expect(await slider.getProperty("value")).toBe(0);
+
+    await page.mouse.move(0, 8);
+    await page.mouse.down();
+    await page.mouse.move(1, 8);
+    await page.mouse.move(2, 8);
+    await page.mouse.move(3, 8);
+    await page.mouse.move(4, 8);
+    await page.mouse.move(5, 8);
+    await page.waitForChanges();
+
+    expect(await slider.getProperty("value")).toBe(5);
+    expect(changeEvent).toHaveReceivedEventTimes(5);
   });
 });
