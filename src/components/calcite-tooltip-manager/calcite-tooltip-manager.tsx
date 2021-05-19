@@ -1,4 +1,4 @@
-import { Component, Host, h, Listen, Prop, VNode, Element } from "@stencil/core";
+import { Component, h, Listen, Prop, VNode, Element } from "@stencil/core";
 import { TOOLTIP_REFERENCE, TOOLTIP_DELAY_MS } from "../calcite-tooltip/resources";
 import { queryElementRoots } from "../../utils/dom";
 import { getKey } from "../../utils/key";

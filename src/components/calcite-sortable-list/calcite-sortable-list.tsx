@@ -4,7 +4,6 @@ import {
   Element,
   Event,
   EventEmitter,
-  Host,
   Listen,
   Prop,
   State,

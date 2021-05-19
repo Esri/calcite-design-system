@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, VNode, Fragment } from "@stencil/core";
+import { Component, h, Prop, VNode, Fragment } from "@stencil/core";
 import { Theme } from "../interfaces";
 
 @Component({

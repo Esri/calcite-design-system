@@ -5,7 +5,6 @@ import {
   EventEmitter,
   Fragment,
   h,
-  Host,
   Listen,
   Method,
   Prop,

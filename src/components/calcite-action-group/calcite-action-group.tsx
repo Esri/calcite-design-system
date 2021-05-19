@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, Watch, Element } from "@stencil/core";
+import { Component, h, Prop, Watch, Element } from "@stencil/core";
 import { SLOTS, TEXT } from "./resources";
 import { Fragment, VNode } from "@stencil/core/internal";
 import { getSlotted } from "../../utils/dom";
