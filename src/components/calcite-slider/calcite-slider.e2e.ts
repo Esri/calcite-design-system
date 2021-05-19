@@ -158,57 +158,117 @@ describe("calcite-slider", () => {
     expect(changeEvent).toHaveReceivedEventTimes(1);
   });
 
-  it("single value: changes value on mousedown, emits on mouseup", async () => {
-    const page = await newE2EPage({
-      html: `
-        <style>body { margin: 0; }</style>
-        <div style="width:100px">
-          <calcite-slider snap></calcite-slider>
-        </div>
-      `
+  describe("mouse interaction", () => {
+    it("single handle: clicking the track changes value on mousedown, emits on mouseup", async () => {
+      const page = await newE2EPage({
+        html: `
+          <style>body { margin: 0; }</style>
+          <div style="width:100px">
+            <calcite-slider snap></calcite-slider>
+          </div>
+        `
+      });
+      const slider = await page.find("calcite-slider");
+      const changeEvent = await slider.spyOnEvent("calciteSliderChange");
+
+      expect(await slider.getProperty("value")).toBe(0);
+
+      await page.mouse.move(50, 8);
+      await page.mouse.down();
+      await page.waitForChanges();
+
+      expect(await slider.getProperty("value")).toBe(50);
+      expect(changeEvent).toHaveReceivedEventTimes(0);
+
+      await page.mouse.up();
+      await page.waitForChanges();
+
+      expect(changeEvent).toHaveReceivedEventTimes(1);
     });
-    const slider = await page.find("calcite-slider");
-    const changeEvent = await slider.spyOnEvent("calciteSliderChange");
 
-    expect(await slider.getProperty("value")).toBe(0);
+    it("single handle: clicking the track and dragging the mouse changes and emits the value", async () => {
+      const page = await newE2EPage({
+        html: `
+          <style>body { margin: 0; }</style>
+          <div style="width:100px">
+            <calcite-slider snap></calcite-slider>
+          </div>
+        `
+      });
+      const slider = await page.find("calcite-slider");
+      const changeEvent = await slider.spyOnEvent("calciteSliderChange");
 
-    await page.mouse.move(50, 8);
-    await page.mouse.down();
-    await page.waitForChanges();
+      expect(await slider.getProperty("value")).toBe(0);
 
-    expect(await slider.getProperty("value")).toBe(50);
-    expect(changeEvent).toHaveReceivedEventTimes(0);
+      await page.mouse.move(0, 8);
+      await page.mouse.down();
+      await page.mouse.move(1, 8);
+      await page.mouse.move(2, 8);
+      await page.mouse.move(3, 8);
+      await page.mouse.move(4, 8);
+      await page.mouse.move(5, 8);
+      await page.waitForChanges();
 
-    await page.mouse.up();
-    await page.waitForChanges();
-
-    expect(changeEvent).toHaveReceivedEventTimes(1);
-  });
-
-  it("single value: changes value and emits on drag", async () => {
-    const page = await newE2EPage({
-      html: `
-        <style>body { margin: 0; }</style>
-        <div style="width:100px">
-          <calcite-slider snap></calcite-slider>
-        </div>
-      `
+      expect(await slider.getProperty("value")).toBe(5);
+      expect(changeEvent).toHaveReceivedEventTimes(5);
     });
-    const slider = await page.find("calcite-slider");
-    const changeEvent = await slider.spyOnEvent("calciteSliderChange");
 
-    expect(await slider.getProperty("value")).toBe(0);
+    it("range: clicking the track to the left of the min handle changes minValue on mousedown, emits on mouseup", async () => {
+      const page = await newE2EPage({
+        html: `
+          <style>body { margin: 0; }</style>
+          <div style="width:100px">
+            <calcite-slider min-value="50" max-value="75" snap></calcite-slider>
+          </div>
+        `
+      });
+      const slider = await page.find("calcite-slider");
+      const changeEvent = await slider.spyOnEvent("calciteSliderChange");
 
-    await page.mouse.move(0, 8);
-    await page.mouse.down();
-    await page.mouse.move(1, 8);
-    await page.mouse.move(2, 8);
-    await page.mouse.move(3, 8);
-    await page.mouse.move(4, 8);
-    await page.mouse.move(5, 8);
-    await page.waitForChanges();
+      expect(await slider.getProperty("minValue")).toBe(50);
+      expect(await slider.getProperty("maxValue")).toBe(75);
 
-    expect(await slider.getProperty("value")).toBe(5);
-    expect(changeEvent).toHaveReceivedEventTimes(5);
+      await page.mouse.move(25, 8);
+      await page.mouse.down();
+      await page.waitForChanges();
+
+      expect(await slider.getProperty("minValue")).toBe(25);
+      expect(await slider.getProperty("maxValue")).toBe(75);
+      expect(changeEvent).toHaveReceivedEventTimes(0);
+
+      await page.mouse.up();
+      await page.waitForChanges();
+
+      expect(changeEvent).toHaveReceivedEventTimes(1);
+    });
+
+    it("range: clicking the track to the right of the max handle changes maxValue on mousedown, emits on mouseup", async () => {
+      const page = await newE2EPage({
+        html: `
+          <style>body { margin: 0; }</style>
+          <div style="width:100px">
+            <calcite-slider min-value="25" max-value="50" snap></calcite-slider>
+          </div>
+        `
+      });
+      const slider = await page.find("calcite-slider");
+      const changeEvent = await slider.spyOnEvent("calciteSliderChange");
+
+      expect(await slider.getProperty("minValue")).toBe(25);
+      expect(await slider.getProperty("maxValue")).toBe(50);
+
+      await page.mouse.move(75, 8);
+      await page.mouse.down();
+      await page.waitForChanges();
+
+      expect(await slider.getProperty("minValue")).toBe(25);
+      expect(await slider.getProperty("maxValue")).toBe(75);
+      expect(changeEvent).toHaveReceivedEventTimes(0);
+
+      await page.mouse.up();
+      await page.waitForChanges();
+
+      expect(changeEvent).toHaveReceivedEventTimes(1);
+    });
   });
 });
