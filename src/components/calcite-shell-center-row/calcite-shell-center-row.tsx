@@ -1,4 +1,4 @@
-import { Component, Element, Host, Prop, h, VNode } from "@stencil/core";
+import { Component, Element, Prop, h, VNode, Fragment } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
 import { Position, Scale } from "../interfaces";
 import { getElementDir, getSlotted } from "../../utils/dom";
@@ -73,6 +73,6 @@ export class CalciteShellCenterRow {
       children.reverse();
     }
 
-    return <Host>{children}</Host>;
+    return <Fragment>{children}</Fragment>;
   }
 }

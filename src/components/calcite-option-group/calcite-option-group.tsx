@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, VNode, Watch, Event, EventEmitter } from "@stencil/core";
+import { Component, h, Prop, VNode, Watch, Event, EventEmitter, Fragment } from "@stencil/core";
 
 @Component({
   tag: "calcite-option-group",
@@ -51,10 +51,10 @@ export class CalciteOptionGroup {
 
   render(): VNode {
     return (
-      <Host>
+      <Fragment>
         <div>{this.label}</div>
         <slot />
-      </Host>
+      </Fragment>
     );
   }
 }

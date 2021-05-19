@@ -12,6 +12,12 @@
   @apply flex-auto;
 }
 
+.day-wrapper {
+  @apply flex
+    flex-col
+    items-center;
+}
+
 .day {
   @apply flex
     rounded-full
@@ -110,42 +116,55 @@
   }
 }
 
-:host([start-of-range]),
+:host([start-of-range]) :not(.calcite--rtl),
 :host([end-of-range]) .calcite--rtl {
   .day-wrapper {
     border-top-left-radius: 40%;
     border-bottom-left-radius: 40%;
     box-shadow: inset 4px 0 var(--calcite-ui-foreground-1);
   }
-}
-
-:host([start-of-range]:not(:focus)),
-:host([end-of-range]:not(:focus)) .calcite--rtl {
   .day {
-    box-shadow: 2px 0 var(--calcite-ui-foreground-1);
+    opacity: 1;
   }
 }
 
-:host([end-of-range]),
+:host([start-of-range]:not(:focus)) :not(.calcite--rtl),
+:host([end-of-range]:not(:focus)) .calcite--rtl {
+  .day {
+    box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
+  }
+}
+
+:host([end-of-range]) :not(.calcite--rtl),
 :host([start-of-range]) .calcite--rtl {
   .day-wrapper {
     border-top-right-radius: 40%;
     border-bottom-right-radius: 40%;
     box-shadow: inset -4px 0 var(--calcite-ui-foreground-1);
   }
-}
-
-:host([end-of-range]:not(:focus)),
-:host([start-of-range]:not(:focus)) .calcite--rtl {
   .day {
-    box-shadow: -2px 0 var(--calcite-ui-foreground-1);
+    opacity: 1;
   }
 }
 
-:host([end-of-range][scale="l"]),
+:host([end-of-range]:not(:focus)) :not(.calcite--rtl),
+:host([start-of-range]:not(:focus)) .calcite--rtl {
+  .day {
+    box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
+  }
+}
+
+:host([end-of-range][scale="l"]) :not(.calcite--rtl),
 :host([start-of-range][scale="l"]) .calcite--rtl {
   .day-wrapper {
     box-shadow: inset -8px 0 var(--calcite-ui-foreground-1);
+  }
+}
+
+:host([start-of-range][scale="l"]) :not(.calcite--rtl),
+:host([end-of-range][scale="l"]) .calcite--rtl {
+  .day-wrapper {
+    box-shadow: inset 8px 0 var(--calcite-ui-foreground-1);
   }
 }
 
@@ -170,7 +189,7 @@
   }
 }
 
-:host([end-of-range][range-hover]) .day-wrapper,
+:host([end-of-range][range-hover]) :not(.calcite--rtl) .day-wrapper,
 :host([start-of-range][range-hover]) .calcite--rtl .day-wrapper {
   background-image: linear-gradient(
     to right,
@@ -182,7 +201,7 @@
   @apply rounded-none shadow-none;
 }
 
-:host([start-of-range][range-hover]) .day-wrapper,
+:host([start-of-range][range-hover]) :not(.calcite--rtl) .day-wrapper,
 :host([end-of-range][range-hover]) .calcite--rtl .day-wrapper {
   background-image: linear-gradient(
     to left,
@@ -194,34 +213,102 @@
   @apply rounded-none shadow-none;
 }
 
-:host(:hover[range-hover]:not([selected]).focused--end),
+:host(:hover[end-of-range][range-hover]) :not(.calcite--rtl) .day-wrapper,
+:host(:hover[start-of-range][range-hover]) .calcite--rtl .day-wrapper {
+  background-image: linear-gradient(
+    to right,
+    var(--calcite-ui-foreground-current),
+    var(--calcite-ui-foreground-current),
+    var(--calcite-ui-foreground-1),
+    var(--calcite-ui-foreground-1)
+  );
+  @apply rounded-none shadow-none;
+}
+
+:host(:hover[start-of-range][range-hover]) :not(.calcite--rtl) .day-wrapper,
+:host(:hover[end-of-range][range-hover]) .calcite--rtl .day-wrapper {
+  background-image: linear-gradient(
+    to left,
+    var(--calcite-ui-foreground-current),
+    var(--calcite-ui-foreground-current),
+    var(--calcite-ui-foreground-1),
+    var(--calcite-ui-foreground-1)
+  );
+  @apply rounded-none shadow-none;
+}
+
+:host(:hover[range-hover]:not([selected]).focused--end) :not(.calcite--rtl),
 :host(:hover[range-hover]:not([selected]).focused--start) .calcite--rtl {
   .day-wrapper {
-    border-top-right-radius: 40%;
-    border-bottom-right-radius: 40%;
-    box-shadow: inset -4px 0 var(--calcite-ui-foreground-1);
+    background-image: linear-gradient(
+      to right,
+      var(--calcite-ui-foreground-2),
+      var(--calcite-ui-foreground-2),
+      var(--calcite-ui-foreground-current),
+      var(--calcite-ui-foreground-current)
+    );
   }
   .day {
     @apply rounded-full;
-    box-shadow: -2px 0 var(--calcite-ui-foreground-1);
+    opacity: 1;
+    box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
   }
 }
 
-:host(:hover[range-hover]:not([selected]).focused--start),
+:host(:hover[range-hover]:not([selected]).focused--start) :not(.calcite--rtl),
 :host(:hover[range-hover]:not([selected]).focused--end) .calcite--rtl {
   .day-wrapper {
-    border-top-left-radius: 40%;
-    border-bottom-left-radius: 40%;
-    box-shadow: inset 4px 0 var(--calcite-ui-foreground-1);
+    background-image: linear-gradient(
+      to right,
+      var(--calcite-ui-foreground-current),
+      var(--calcite-ui-foreground-current),
+      var(--calcite-ui-foreground-2),
+      var(--calcite-ui-foreground-2)
+    );
   }
   .day {
-    border-radius: 100%;
-    box-shadow: 2px 0 var(--calcite-ui-foreground-1);
+    @apply rounded-full;
+    opacity: 1;
+    box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
   }
 }
 
-:host([end-of-range].hover--inside-range.focused--end),
-:host([start-of-range].hover--inside-range.focused--start),
+:host(:hover[range-hover]:not([selected]).focused--start.hover--outside-range) :not(.calcite--rtl),
+:host(:hover[range-hover]:not([selected]).focused--end.hover--outside-range) .calcite--rtl {
+  .day-wrapper {
+    background-image: linear-gradient(
+      to right,
+      var(--calcite-ui-foreground-1),
+      var(--calcite-ui-foreground-1),
+      var(--calcite-ui-foreground-2),
+      var(--calcite-ui-foreground-2)
+    );
+  }
+  .day {
+    @apply rounded-full;
+    opacity: 1;
+    box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
+  }
+}
+
+:host(:hover[range-hover]:not([selected]).focused--end.hover--outside-range) :not(.calcite--rtl),
+:host(:hover[range-hover]:not([selected]).focused--start.hover--outside-range) .calcite--rtl {
+  .day-wrapper {
+    background-image: linear-gradient(
+      to right,
+      var(--calcite-ui-foreground-2),
+      var(--calcite-ui-foreground-2),
+      var(--calcite-ui-foreground-1),
+      var(--calcite-ui-foreground-1)
+    );
+  }
+  .day {
+    @apply rounded-full;
+    opacity: 1;
+    box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
+  }
+}
+
 :host(:hover[start-of-range].hover--inside-range.focused--end),
 :host(:hover[end-of-range].hover--inside-range.focused--start) {
   .day-wrapper {
@@ -236,18 +323,48 @@
   }
 }
 
-:host([highlighted]:first-child) .day-wrapper,
-:host([highlighted]:last-child) .calcite--rtl .day-wrapper,
-:host([range-hover]:not([selected]):first-child) .day-wrapper,
-:host([range-hover]:not([selected]):last-child) .calcite--rtl .day-wrapper {
-  border-top-left-radius: 45%;
-  border-bottom-left-radius: 45%;
-}
-
-:host([highlighted]:last-child) .day-wrapper,
+:host([highlighted]:last-child) :not(.calcite--rtl) .day-wrapper,
+:host([range-hover]:last-child) :not(.calcite--rtl) .day-wrapper,
 :host([highlighted]:first-child) .calcite--rtl .day-wrapper,
-:host([range-hover]:not([selected]):last-child) .day-wrapper,
-:host([range-hover]:not([selected]):first-child) .calcite--rtl .day-wrapper {
+:host([range-hover]:first-child) .calcite--rtl .day-wrapper {
   border-top-right-radius: 45%;
   border-bottom-right-radius: 45%;
+  box-shadow: inset -4px 0px 0px 0px var(--calcite-ui-foreground-1);
+}
+
+:host([highlighted]:first-child) :not(.calcite--rtl) .day-wrapper,
+:host([range-hover]:first-child) :not(.calcite--rtl) .day-wrapper,
+:host([highlighted]:last-child) .calcite--rtl .day-wrapper,
+:host([range-hover]:last-child) .calcite--rtl .day-wrapper {
+  border-top-left-radius: 45%;
+  border-bottom-left-radius: 45%;
+  box-shadow: inset 4px 0px 0px 0px var(--calcite-ui-foreground-1);
+}
+
+:host([scale="s"][highlighted]:last-child) :not(.calcite--rtl) .day-wrapper,
+:host([scale="s"][range-hover]:last-child) :not(.calcite--rtl) .day-wrapper,
+:host([scale="s"][highlighted]:first-child) .calcite--rtl .day-wrapper,
+:host([scale="s"][range-hover]:first-child) .calcite--rtl .day-wrapper {
+  box-shadow: inset -1px 0px 0px 0px var(--calcite-ui-foreground-1);
+}
+
+:host([scale="s"][highlighted]:first-child) :not(.calcite--rtl) .day-wrapper,
+:host([scale="s"][range-hover]:first-child) :not(.calcite--rtl) .day-wrapper,
+:host([scale="s"][highlighted]:last-child) .calcite--rtl .day-wrapper,
+:host([scale="s"][range-hover]:last-child) .calcite--rtl .day-wrapper {
+  box-shadow: inset 1px 0px 0px 0px var(--calcite-ui-foreground-1);
+}
+
+:host([scale="l"][highlighted]:first-child) :not(.calcite--rtl) .day-wrapper,
+:host([scale="l"][range-hover]:first-child) :not(.calcite--rtl) .day-wrapper,
+:host([scale="l"][highlighted]:last-child) .calcite--rtl .day-wrapper,
+:host([scale="l"][range-hover]:last-child) .calcite--rtl .day-wrapper {
+  box-shadow: inset 6px 0px 0px 0px var(--calcite-ui-foreground-1);
+}
+
+:host([scale="l"][highlighted]:last-child) :not(.calcite--rtl) .day-wrapper,
+:host([scale="l"][range-hover]:last-child) :not(.calcite--rtl) .day-wrapper,
+:host([scale="l"][highlighted]:first-child) .calcite--rtl .day-wrapper,
+:host([scale="l"][range-hover]:first-child) .calcite--rtl .day-wrapper {
+  box-shadow: inset -6px 0px 0px 0px var(--calcite-ui-foreground-1);
 }

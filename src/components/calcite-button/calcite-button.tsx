@@ -1,4 +1,4 @@
-import { Component, Element, h, Host, Method, Prop, Build, State, VNode } from "@stencil/core";
+import { Component, Element, h, Method, Prop, Build, State, VNode } from "@stencil/core";
 import { CSS, TEXT } from "./resources";
 import { getAttributes, getElementDir } from "../../utils/dom";
 import { ButtonAlignment, ButtonAppearance, ButtonColor } from "./interfaces";
@@ -153,21 +153,19 @@ export class CalciteButton {
     );
 
     return (
-      <Host>
-        <Tag
-          {...attributes}
-          class={{ [CSS_UTILITY.rtl]: dir === "rtl", [CSS.contentSlotted]: this.hasContent }}
-          disabled={this.disabled}
-          onClick={this.handleClick}
-          ref={(el) => (this.childEl = el)}
-          tabIndex={this.disabled ? -1 : null}
-        >
-          {this.loading ? loader : null}
-          {this.iconStart ? iconStartEl : null}
-          {this.hasContent ? contentEl : null}
-          {this.iconEnd ? iconEndEl : null}
-        </Tag>
-      </Host>
+      <Tag
+        {...attributes}
+        class={{ [CSS_UTILITY.rtl]: dir === "rtl", [CSS.contentSlotted]: this.hasContent }}
+        disabled={this.disabled}
+        onClick={this.handleClick}
+        ref={(el) => (this.childEl = el)}
+        tabIndex={this.disabled ? -1 : null}
+      >
+        {this.loading ? loader : null}
+        {this.iconStart ? iconStartEl : null}
+        {this.hasContent ? contentEl : null}
+        {this.iconEnd ? iconEndEl : null}
+      </Tag>
     );
   }
 

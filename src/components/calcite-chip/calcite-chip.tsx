@@ -1,14 +1,4 @@
-import {
-  Component,
-  h,
-  Host,
-  Prop,
-  Event,
-  EventEmitter,
-  Element,
-  VNode,
-  Method
-} from "@stencil/core";
+import { Component, h, Prop, Event, EventEmitter, Element, VNode, Method } from "@stencil/core";
 import { getElementDir, getSlotted } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { CSS, TEXT } from "./resources";
@@ -141,16 +131,14 @@ export class CalciteChip {
     );
 
     return (
-      <Host>
-        <div class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
-          {this.renderChipImage()}
-          {this.icon ? iconEl : null}
-          <span id={this.guid}>
-            <slot />
-          </span>
-          {this.dismissible ? closeButton : null}
-        </div>
-      </Host>
+      <div class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+        {this.renderChipImage()}
+        {this.icon ? iconEl : null}
+        <span id={this.guid}>
+          <slot />
+        </span>
+        {this.dismissible ? closeButton : null}
+      </div>
     );
   }
 }

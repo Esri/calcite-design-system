@@ -1,4 +1,4 @@
-import { Component, Element, Event, EventEmitter, h, Host, Prop, VNode } from "@stencil/core";
+import { Component, Element, Event, EventEmitter, h, Prop, VNode } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 import { ButtonAppearance, ButtonColor, DropdownIconType } from "../calcite-button/interfaces";
 import { FlipContext, Scale, Theme } from "../interfaces";
@@ -60,52 +60,50 @@ export class CalciteSplitButton {
   render(): VNode {
     const dir = getElementDir(this.el);
     return (
-      <Host>
-        <div class="split-button__container" dir={dir}>
+      <div class="split-button__container" dir={dir}>
+        <calcite-button
+          appearance={this.appearance}
+          aria-label={this.primaryLabel}
+          color={this.color}
+          dir={dir}
+          disabled={this.disabled}
+          icon-end={this.primaryIconEnd ? this.primaryIconEnd : null}
+          icon-start={this.primaryIconStart ? this.primaryIconStart : null}
+          iconFlipRtl={this.primaryIconFlipRtl ? this.primaryIconFlipRtl : null}
+          loading={this.loading}
+          onClick={this.calciteSplitButtonPrimaryClickHandler}
+          scale={this.scale}
+          splitChild={"primary"}
+          theme={this.theme}
+        >
+          {this.primaryText}
+        </calcite-button>
+        <div class="split-button__divider-container">
+          <div class="split-button__divider" />
+        </div>
+        <calcite-dropdown
+          dir={dir}
+          onClick={this.calciteSplitButtonSecondaryClickHandler}
+          placement="bottom-trailing"
+          scale={this.scale}
+          theme={this.theme}
+          width={this.scale}
+        >
           <calcite-button
             appearance={this.appearance}
-            aria-label={this.primaryLabel}
+            aria-label={this.dropdownLabel}
             color={this.color}
             dir={dir}
             disabled={this.disabled}
-            icon-end={this.primaryIconEnd ? this.primaryIconEnd : null}
-            icon-start={this.primaryIconStart ? this.primaryIconStart : null}
-            iconFlipRtl={this.primaryIconFlipRtl ? this.primaryIconFlipRtl : null}
-            loading={this.loading}
-            onClick={this.calciteSplitButtonPrimaryClickHandler}
+            icon-start={this.dropdownIcon}
             scale={this.scale}
-            splitChild={"primary"}
+            slot="dropdown-trigger"
+            splitChild={"secondary"}
             theme={this.theme}
-          >
-            {this.primaryText}
-          </calcite-button>
-          <div class="split-button__divider-container">
-            <div class="split-button__divider" />
-          </div>
-          <calcite-dropdown
-            dir={dir}
-            onClick={this.calciteSplitButtonSecondaryClickHandler}
-            placement="bottom-trailing"
-            scale={this.scale}
-            theme={this.theme}
-            width={this.scale}
-          >
-            <calcite-button
-              appearance={this.appearance}
-              aria-label={this.dropdownLabel}
-              color={this.color}
-              dir={dir}
-              disabled={this.disabled}
-              icon-start={this.dropdownIcon}
-              scale={this.scale}
-              slot="dropdown-trigger"
-              splitChild={"secondary"}
-              theme={this.theme}
-            />
-            <slot />
-          </calcite-dropdown>
-        </div>
-      </Host>
+          />
+          <slot />
+        </calcite-dropdown>
+      </div>
     );
   }
 

@@ -4,7 +4,6 @@ import {
   Event,
   EventEmitter,
   h,
-  Host,
   Listen,
   Method,
   Prop,
@@ -256,14 +255,12 @@ export class CalciteCheckbox {
 
   render(): VNode {
     return (
-      <Host>
-        <div class={{ focused: this.focused }}>
-          <svg class="check-svg" viewBox="0 0 16 16">
-            <path d={this.getPath()} />
-          </svg>
-          <slot />
-        </div>
-      </Host>
+      <div class={{ focused: this.focused }}>
+        <svg class="check-svg" viewBox="0 0 16 16">
+          <path d={this.getPath()} />
+        </svg>
+        <slot />
+      </div>
     );
   }
 }

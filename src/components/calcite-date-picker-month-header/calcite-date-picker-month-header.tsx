@@ -2,7 +2,6 @@ import {
   Component,
   Element,
   Prop,
-  Host,
   Event,
   h,
   EventEmitter,
@@ -107,64 +106,62 @@ export class CalciteDatePickerMonthHeader {
     const reverse = order.indexOf("y") < order.indexOf("m");
     const suffix = this.localeData.year?.suffix;
     return (
-      <Host>
-        <div class="header" dir={dir}>
-          <a
-            aria-disabled={(this.prevMonthDate.getMonth() === activeMonth).toString()}
-            aria-label={this.intlPrevMonth}
-            class="chevron"
-            href="#"
-            onClick={this.prevMonthClick}
-            onKeyDown={this.prevMonthKeydown}
-            role="button"
-            tabindex={this.prevMonthDate.getMonth() === activeMonth ? -1 : 0}
-          >
-            <calcite-icon dir={dir} flip-rtl icon="chevron-left" scale={iconScale} />
-          </a>
-          <div class={{ text: true, "text--reverse": reverse }}>
-            <CalciteHeading class="month" level={this.headingLevel}>
-              {localizedMonth}
-            </CalciteHeading>
-            <span class="year-wrap">
-              <input
-                class={{
-                  year: true,
-                  "year--suffix": !!suffix
-                }}
-                inputmode="numeric"
-                maxlength="4"
-                minlength="1"
-                onChange={this.yearChanged}
-                onKeyDown={this.onYearKey}
-                pattern="\d*"
-                ref={(el) => (this.yearInput = el)}
-                type="text"
-                value={localizedYear}
-              />
-              {suffix && (
-                <span class="suffix">
-                  <span aria-hidden="true" class="suffix__invisible">
-                    {localizedYear}
-                  </span>
-                  {" " + suffix}
+      <div class="header" dir={dir}>
+        <a
+          aria-disabled={(this.prevMonthDate.getMonth() === activeMonth).toString()}
+          aria-label={this.intlPrevMonth}
+          class="chevron"
+          href="#"
+          onClick={this.prevMonthClick}
+          onKeyDown={this.prevMonthKeydown}
+          role="button"
+          tabindex={this.prevMonthDate.getMonth() === activeMonth ? -1 : 0}
+        >
+          <calcite-icon dir={dir} flip-rtl icon="chevron-left" scale={iconScale} />
+        </a>
+        <div class={{ text: true, "text--reverse": reverse }}>
+          <CalciteHeading class="month" level={this.headingLevel}>
+            {localizedMonth}
+          </CalciteHeading>
+          <span class="year-wrap">
+            <input
+              class={{
+                year: true,
+                "year--suffix": !!suffix
+              }}
+              inputmode="numeric"
+              maxlength="4"
+              minlength="1"
+              onChange={this.yearChanged}
+              onKeyDown={this.onYearKey}
+              pattern="\d*"
+              ref={(el) => (this.yearInput = el)}
+              type="text"
+              value={localizedYear}
+            />
+            {suffix && (
+              <span class="suffix">
+                <span aria-hidden="true" class="suffix__invisible">
+                  {localizedYear}
                 </span>
-              )}
-            </span>
-          </div>
-          <a
-            aria-disabled={(this.nextMonthDate.getMonth() === activeMonth).toString()}
-            aria-label={this.intlNextMonth}
-            class="chevron"
-            href="#"
-            onClick={this.nextMonthClick}
-            onKeyDown={this.nextMonthKeydown}
-            role="button"
-            tabindex={this.nextMonthDate.getMonth() === activeMonth ? -1 : 0}
-          >
-            <calcite-icon dir={dir} flip-rtl icon="chevron-right" scale={iconScale} />
-          </a>
+                {" " + suffix}
+              </span>
+            )}
+          </span>
         </div>
-      </Host>
+        <a
+          aria-disabled={(this.nextMonthDate.getMonth() === activeMonth).toString()}
+          aria-label={this.intlNextMonth}
+          class="chevron"
+          href="#"
+          onClick={this.nextMonthClick}
+          onKeyDown={this.nextMonthKeydown}
+          role="button"
+          tabindex={this.nextMonthDate.getMonth() === activeMonth ? -1 : 0}
+        >
+          <calcite-icon dir={dir} flip-rtl icon="chevron-right" scale={iconScale} />
+        </a>
+      </div>
     );
   }
 

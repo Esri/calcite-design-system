@@ -1,4 +1,4 @@
-import { Component, Host, h, VNode, Prop } from "@stencil/core";
+import { Component, h, VNode, Prop } from "@stencil/core";
 import { TileSelectGroupLayout } from "./interfaces";
 
 @Component({
@@ -16,10 +16,6 @@ export class CalciteTileSelectGroup {
   @Prop({ reflect: true }) layout?: TileSelectGroupLayout = "horizontal";
 
   render(): VNode {
-    return (
-      <Host>
-        <slot />
-      </Host>
-    );
+    return <slot />;
   }
 }
