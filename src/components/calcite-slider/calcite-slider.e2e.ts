@@ -157,4 +157,31 @@ describe("calcite-slider", () => {
     await handle.press("ArrowRight");
     expect(changeEvent).toHaveReceivedEventTimes(1);
   });
+
+  it("changes handle position on mousedown, emits on mouseup", async () => {
+    const page = await newE2EPage({
+      html: `
+        <style>body { margin: 0; }</style>
+        <div style="width:100px">
+          <calcite-slider snap></calcite-slider>
+        </div>
+      `
+    });
+    const slider = await page.find("calcite-slider");
+    const changeEvent = await slider.spyOnEvent("calciteSliderChange");
+
+    expect(await slider.getProperty("value")).toBe(0);
+
+    await page.mouse.move(50, 8);
+    await page.mouse.down();
+    await page.waitForChanges();
+
+    expect(await slider.getProperty("value")).toBe(50);
+    expect(changeEvent).toHaveReceivedEventTimes(0);
+
+    await page.mouse.up();
+    await page.waitForChanges();
+
+    expect(changeEvent).toHaveReceivedEventTimes(1);
+  });
 });
