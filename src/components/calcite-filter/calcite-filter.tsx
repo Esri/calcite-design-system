@@ -3,12 +3,12 @@ import {
   Element,
   Event,
   EventEmitter,
-  Host,
   Prop,
   State,
   h,
   VNode,
-  Method
+  Method,
+  Fragment
 } from "@stencil/core";
 import { debounce, forIn } from "lodash-es";
 import { CSS, ICONS, TEXT } from "./resources";
@@ -162,7 +162,7 @@ export class CalciteFilter {
     const { disabled } = this;
 
     return (
-      <Host>
+      <Fragment>
         {disabled ? <calcite-scrim /> : null}
         <div class={CSS.container}>
           <label class={rtl ? CSS_UTILITY.rtl : null}>
@@ -192,7 +192,7 @@ export class CalciteFilter {
             </button>
           ) : null}
         </div>
-      </Host>
+      </Fragment>
     );
   }
 }

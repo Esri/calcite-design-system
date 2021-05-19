@@ -1,4 +1,4 @@
-import { Component, Element, Event, EventEmitter, Host, Prop, h, VNode } from "@stencil/core";
+import { Component, Element, Event, EventEmitter, Prop, h, VNode, Fragment } from "@stencil/core";
 import { Theme } from "../interfaces";
 import { CSS, ICONS, SLOTS, TEXT, HEADING_LEVEL } from "./resources";
 import { getSlotted } from "../../utils/dom";
@@ -150,13 +150,13 @@ export class CalciteTip {
 
   render(): VNode {
     return (
-      <Host>
+      <Fragment>
         <article class={CSS.container}>
           {this.renderHeader()}
           {this.renderContent()}
         </article>
         {this.renderDismissButton()}
-      </Host>
+      </Fragment>
     );
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Host, Prop, h, VNode, Element } from "@stencil/core";
+import { Component, Prop, h, VNode, Element } from "@stencil/core";
 import { CSS } from "./resources";
 import { getAncestors, getDepth } from "../calcite-combobox/utils";
 import { guid } from "../../utils/guid";
@@ -60,18 +60,16 @@ export class CalciteComboboxItemGroup {
     const indent = `${CSS.label}--indent-${getDepth(el)}`;
 
     return (
-      <Host>
-        <ul
-          aria-labelledby={this.guid}
-          class={{ [CSS.list]: true, [CSS_UTILITY.rtl]: dir === "rtl", [`scale--${scale}`]: true }}
-          role="group"
-        >
-          <li class={{ [CSS.label]: true, [indent]: true }} id={this.guid} role="presentation">
-            <span class={CSS.title}>{this.label}</span>
-          </li>
-          <slot />
-        </ul>
-      </Host>
+      <ul
+        aria-labelledby={this.guid}
+        class={{ [CSS.list]: true, [CSS_UTILITY.rtl]: dir === "rtl", [`scale--${scale}`]: true }}
+        role="group"
+      >
+        <li class={{ [CSS.label]: true, [indent]: true }} id={this.guid} role="presentation">
+          <span class={CSS.title}>{this.label}</span>
+        </li>
+        <slot />
+      </ul>
     );
   }
 }

@@ -3,8 +3,8 @@ import {
   Element,
   Event,
   EventEmitter,
+  Fragment,
   h,
-  Host,
   Listen,
   Method,
   Prop,
@@ -160,7 +160,7 @@ export class CalciteRating {
     const { intlRating, showChip, scale, theme, count, average } = this;
     const dir = getElementDir(this.el);
     return (
-      <Host>
+      <Fragment>
         <fieldset
           class={{ fieldset: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
           onBlur={() => (this.hoverValue = null)}
@@ -182,7 +182,7 @@ export class CalciteRating {
             {!!count && <span class="number--count">({count?.toString()})</span>}
           </calcite-chip>
         ) : null}
-      </Host>
+      </Fragment>
     );
   }
 

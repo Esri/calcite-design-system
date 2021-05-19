@@ -1,14 +1,4 @@
-import {
-  Component,
-  Element,
-  Event,
-  Listen,
-  Host,
-  h,
-  Prop,
-  EventEmitter,
-  VNode
-} from "@stencil/core";
+import { Component, Element, Event, Listen, h, Prop, EventEmitter, VNode } from "@stencil/core";
 import { getAttributes, getElementDir, queryElementRoots } from "../../utils/dom";
 import { FocusRequest } from "./interfaces";
 import { Alignment, Scale, Status, Theme } from "../interfaces";
@@ -174,11 +164,9 @@ export class CalciteLabel {
     ]);
     const dir = getElementDir(this.el);
     return (
-      <Host>
-        <label {...attributes} class={{ [CSS_UTILITY.rtl]: dir === "rtl" }}>
-          <slot />
-        </label>
-      </Host>
+      <label {...attributes} class={{ [CSS_UTILITY.rtl]: dir === "rtl" }}>
+        <slot />
+      </label>
     );
   }
 }
