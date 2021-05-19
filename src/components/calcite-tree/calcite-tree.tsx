@@ -50,8 +50,8 @@ export class CalciteTree {
   @Prop({ mutable: true, reflect: true }) scale: Extract<"s" | "m", Scale> = "m";
 
   /** Customize how tree selection works (single, multi, children, multi-children) */
-  @Prop({ mutable: true, reflect: true })
-  selectionMode: TreeSelectionMode = TreeSelectionMode.Single;
+  @Prop({ mutable: true, reflect: true }) selectionMode: TreeSelectionMode =
+    TreeSelectionMode.Single;
 
   //--------------------------------------------------------------------------
   //
