@@ -17,6 +17,20 @@
 <script src="./_assets/head.js"></script>
   <script src="_assets/validateInput.js"></script>
   <script type="module" src="./_assets/demo-form.js"></script>
+  <script>
+    class ShadowComponent extends HTMLElement {
+      constructor() {
+        super();
+        const shadow = this.attachShadow({ mode: "open" });
+        shadow.innerHTML = `
+                <calcite-label for="input">Label and input inside a shadow component</calcite-label>
+                <calcite-input id="input"></calcite-input>
+              `;
+      }
+    }
+
+    customElements.define("shadow-component", ShadowComponent);
+  </script>
 </head>
 
 <body>
@@ -25,6 +39,8 @@
 
   <demo-form>
     <form name="calcite-label-demo-form">
+
+      <shadow-component></shadow-component>
 
       <calcite-label layout="inline" disable-spacing>
         <span style="margin-right: 0.75rem">Manual spacing for browsers that don't support flex gap</span>
@@ -458,6 +474,9 @@
 
     </form>
   </demo-form>
+  <script>
+    document.addEventListener("calciteInputFocus", () => { console.log("calciteInputFocus", document.activeElement)});
+  </script>
 </body>
 
 </html>
