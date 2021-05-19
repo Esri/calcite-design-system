@@ -1,4 +1,4 @@
-import { Component, Element, Event, EventEmitter, h, Host, Prop, VNode } from "@stencil/core";
+import { Component, Element, Event, EventEmitter, h, Prop, VNode } from "@stencil/core";
 import { CSS, SLOTS, TEXT } from "./resources";
 import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
@@ -77,24 +77,22 @@ export class CalciteCard {
   render(): VNode {
     const dir = getElementDir(this.el);
     return (
-      <Host>
-        <div class={{ "calcite-card-container": true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
-          {this.loading ? (
-            <div class="calcite-card-loader-container">
-              <calcite-loader active label={this.intlLoading} />
-            </div>
-          ) : null}
-          <section aria-busy={this.loading.toString()} class={{ [CSS.container]: true }}>
-            {this.selectable ? this.renderCheckbox() : null}
-            {this.renderThumbnail()}
-            {this.renderHeader()}
-            <div class="card-content">
-              <slot />
-            </div>
-            {this.renderFooter()}
-          </section>
-        </div>
-      </Host>
+      <div class={{ "calcite-card-container": true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+        {this.loading ? (
+          <div class="calcite-card-loader-container">
+            <calcite-loader active label={this.intlLoading} />
+          </div>
+        ) : null}
+        <section aria-busy={this.loading.toString()} class={{ [CSS.container]: true }}>
+          {this.selectable ? this.renderCheckbox() : null}
+          {this.renderThumbnail()}
+          {this.renderHeader()}
+          <div class="card-content">
+            <slot />
+          </div>
+          {this.renderFooter()}
+        </section>
+      </div>
     );
   }
   //--------------------------------------------------------------------------

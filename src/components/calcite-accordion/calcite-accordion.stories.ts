@@ -16,64 +16,66 @@ const createAccordionAttributes: (options?: { except: string[] }) => Attributes 
     commit: () => Attribute;
   }
 
-  return ([
-    {
-      name: "dir",
-      commit(): Attribute {
-        this.value = select("dir", dir.values, dir.defaultValue, group);
-        delete this.build;
-        return this;
+  return (
+    [
+      {
+        name: "dir",
+        commit(): Attribute {
+          this.value = select("dir", dir.values, dir.defaultValue, group);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "scale",
+        commit(): Attribute {
+          this.value = select("scale", scale.values, scale.defaultValue, group);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "theme",
+        commit(): Attribute {
+          this.value = select("theme", theme.values, theme.defaultValue, group);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "appearance",
+        commit(): Attribute {
+          this.value = select("appearance", ["default", "minimal", "transparent"], "default", group);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "icon-position",
+        commit(): Attribute {
+          this.value = select("icon-position", ["start", "end"], "end", group);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "icon-type",
+        commit(): Attribute {
+          this.value = select("icon-type", ["chevron", "caret", "plus-minus"], "chevron", group);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "selection-mode",
+        commit(): Attribute {
+          this.value = select("selection-mode", ["multi", "single", "single-persist"], "multi", group);
+          delete this.build;
+          return this;
+        }
       }
-    },
-    {
-      name: "scale",
-      commit(): Attribute {
-        this.value = select("scale", scale.values, scale.defaultValue, group);
-        delete this.build;
-        return this;
-      }
-    },
-    {
-      name: "theme",
-      commit(): Attribute {
-        this.value = select("theme", theme.values, theme.defaultValue, group);
-        delete this.build;
-        return this;
-      }
-    },
-    {
-      name: "appearance",
-      commit(): Attribute {
-        this.value = select("appearance", ["default", "minimal", "transparent"], "default", group);
-        delete this.build;
-        return this;
-      }
-    },
-    {
-      name: "icon-position",
-      commit(): Attribute {
-        this.value = select("icon-position", ["start", "end"], "end", group);
-        delete this.build;
-        return this;
-      }
-    },
-    {
-      name: "icon-type",
-      commit(): Attribute {
-        this.value = select("icon-type", ["chevron", "caret", "plus-minus"], "chevron", group);
-        delete this.build;
-        return this;
-      }
-    },
-    {
-      name: "selection-mode",
-      commit(): Attribute {
-        this.value = select("selection-mode", ["multi", "single", "single-persist"], "multi", group);
-        delete this.build;
-        return this;
-      }
-    }
-  ] as DeferredAttribute[])
+    ] as DeferredAttribute[]
+  )
     .filter((attr) => !except.find((excluded) => excluded === attr.name))
     .map((attr) => attr.commit());
 };

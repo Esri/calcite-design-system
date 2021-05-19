@@ -15,32 +15,34 @@ const createSelectAttributes: (options?: { except: string[] }) => Attributes = (
     commit: () => Attribute;
   }
 
-  return ([
-    {
-      name: "dir",
-      commit(): Attribute {
-        this.value = select("dir", dir.values, dir.defaultValue, group);
-        delete this.build;
-        return this;
+  return (
+    [
+      {
+        name: "dir",
+        commit(): Attribute {
+          this.value = select("dir", dir.values, dir.defaultValue, group);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "disabled",
+        commit(): Attribute {
+          this.value = boolean("disabled", false, group);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "theme",
+        commit(): Attribute {
+          this.value = select("theme", theme.values, theme.defaultValue, group);
+          delete this.build;
+          return this;
+        }
       }
-    },
-    {
-      name: "disabled",
-      commit(): Attribute {
-        this.value = boolean("disabled", false, group);
-        delete this.build;
-        return this;
-      }
-    },
-    {
-      name: "theme",
-      commit(): Attribute {
-        this.value = select("theme", theme.values, theme.defaultValue, group);
-        delete this.build;
-        return this;
-      }
-    }
-  ] as DeferredAttribute[])
+    ] as DeferredAttribute[]
+  )
     .filter((attr) => !except.find((excluded) => excluded === attr.name))
     .map((attr) => attr.commit());
 };

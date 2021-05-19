@@ -3,11 +3,11 @@ import {
   Element,
   Event,
   EventEmitter,
-  Host,
   Prop,
   Watch,
   h,
-  VNode
+  VNode,
+  Fragment
 } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
 import { Position, Scale } from "../interfaces";
@@ -115,6 +115,6 @@ export class CalciteShellPanel {
       mainNodes.reverse();
     }
 
-    return <Host>{mainNodes}</Host>;
+    return <Fragment>{mainNodes}</Fragment>;
   }
 }

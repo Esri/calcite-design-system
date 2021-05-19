@@ -4,10 +4,10 @@ import {
   Event,
   EventEmitter,
   h,
-  Host,
   Prop,
   Method,
-  VNode
+  VNode,
+  Fragment
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 import { Scale, Theme } from "../interfaces";
@@ -220,7 +220,7 @@ export class CalcitePagination {
     const prevDisabled = num === 1 ? start <= num : start < num;
     const nextDisabled = num === 1 ? start + num > total : start + num > total;
     return (
-      <Host>
+      <Fragment>
         <button
           aria-label={this.textLabelPrevious}
           class={{
@@ -248,7 +248,7 @@ export class CalcitePagination {
         >
           <calcite-icon dir={dir} flipRtl icon="chevronRight" scale={iconScale} />
         </button>
-      </Host>
+      </Fragment>
     );
   }
 }

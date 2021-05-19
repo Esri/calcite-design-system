@@ -1,6 +1,5 @@
 import {
   Component,
-  Host,
   h,
   Element,
   Event,
@@ -13,7 +12,7 @@ import {
 } from "@stencil/core";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { focusElement, getSlotted } from "../../utils/dom";
-import { forceUpdate, VNode } from "@stencil/core/internal";
+import { forceUpdate, Fragment, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
 import { PopperPlacement, OverlayPositioning } from "../../utils/popper";
 import { Placement } from "@popperjs/core";
@@ -243,11 +242,11 @@ export class CalciteActionMenu {
 
   render(): VNode {
     return (
-      <Host>
+      <Fragment>
         {this.renderMenuButton()}
         {this.renderMenuItems()}
         <slot name={SLOTS.tooltip} />
-      </Host>
+      </Fragment>
     );
   }
 

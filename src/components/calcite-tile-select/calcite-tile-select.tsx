@@ -1,15 +1,4 @@
-import {
-  Component,
-  Element,
-  Host,
-  h,
-  Prop,
-  Listen,
-  VNode,
-  Watch,
-  State,
-  Method
-} from "@stencil/core";
+import { Component, Element, h, Prop, Listen, VNode, Watch, State, Method } from "@stencil/core";
 import { Alignment, Theme, Width } from "../interfaces";
 import { TileSelectType } from "./interfaces";
 import { getElementDir } from "../../utils/dom";
@@ -222,18 +211,16 @@ export class CalciteTileSelect {
     const dir = getElementDir(this.el);
 
     return (
-      <Host>
-        <div class={{ focused: this.focused, root: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
-          <calcite-tile
-            active={this.checked}
-            description={this.description}
-            embed
-            heading={this.heading}
-            icon={this.icon}
-          />
-          <slot />
-        </div>
-      </Host>
+      <div class={{ focused: this.focused, root: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+        <calcite-tile
+          active={this.checked}
+          description={this.description}
+          embed
+          heading={this.heading}
+          icon={this.icon}
+        />
+        <slot />
+      </div>
     );
   }
 }

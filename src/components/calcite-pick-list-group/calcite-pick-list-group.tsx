@@ -1,4 +1,4 @@
-import { Component, Element, Host, Prop, h, VNode } from "@stencil/core";
+import { Component, Element, Prop, h, VNode, Fragment } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 import { HEADING_LEVEL } from "./resources";
@@ -61,7 +61,7 @@ export class CalcitePickListGroup {
     const level = headingLevel || relativeLevel || HEADING_LEVEL;
 
     return (
-      <Host>
+      <Fragment>
         {title ? (
           <CalciteHeading class={CSS.heading} level={level}>
             {title}
@@ -71,7 +71,7 @@ export class CalcitePickListGroup {
         <section class={sectionClasses}>
           <slot />
         </section>
-      </Host>
+      </Fragment>
     );
   }
 }

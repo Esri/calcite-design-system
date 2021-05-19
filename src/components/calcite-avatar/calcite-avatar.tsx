@@ -1,4 +1,4 @@
-import { Component, Element, h, Host, Prop, State } from "@stencil/core";
+import { Component, Element, h, Prop, State } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 import { isValidHex } from "../calcite-color-picker/utils";
 import { Scale, Theme } from "../interfaces";
@@ -49,8 +49,7 @@ export class CalciteAvatar {
   //--------------------------------------------------------------------------
 
   render() {
-    const content = this.determineContent();
-    return <Host>{content}</Host>;
+    return this.determineContent();
   }
 
   //--------------------------------------------------------------------------

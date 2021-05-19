@@ -1,6 +1,6 @@
-import { Component, Host, h, Prop, Watch, Element } from "@stencil/core";
+import { Component, h, Prop, Watch, Element } from "@stencil/core";
 import { SLOTS, TEXT } from "./resources";
-import { VNode } from "@stencil/core/internal";
+import { Fragment, VNode } from "@stencil/core/internal";
 import { getSlotted } from "../../utils/dom";
 import { SLOTS as ACTION_MENU_SLOTS } from "../calcite-action-menu/resources";
 import { Columns, Layout } from "../interfaces";
@@ -95,10 +95,10 @@ export class CalciteActionGroup {
 
   render(): VNode {
     return (
-      <Host>
+      <Fragment>
         <slot />
         {this.renderMenu()}
-      </Host>
+      </Fragment>
     );
   }
 
