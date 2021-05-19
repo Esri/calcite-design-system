@@ -4,7 +4,6 @@ import {
   Event,
   EventEmitter,
   h,
-  Host,
   Listen,
   Prop,
   VNode,
@@ -94,61 +93,59 @@ export class CalciteInlineEditable {
 
   render(): VNode {
     return (
-      <Host>
-        <div
-          class="calcite-inline-editable-wrapper"
-          onClick={this.enableEditingHandler}
-          onKeyDown={this.escapeKeyHandler}
-          onTransitionEnd={this.transitionEnd}
-        >
-          <div class="calcite-inline-editable-input-wrapper">
-            <slot />
-          </div>
-          <div class="calcite-inline-editable-controls-wrapper">
-            {!this.editingEnabled && (
+      <div
+        class="calcite-inline-editable-wrapper"
+        onClick={this.enableEditingHandler}
+        onKeyDown={this.escapeKeyHandler}
+        onTransitionEnd={this.transitionEnd}
+      >
+        <div class="calcite-inline-editable-input-wrapper">
+          <slot />
+        </div>
+        <div class="calcite-inline-editable-controls-wrapper">
+          {!this.editingEnabled && (
+            <calcite-button
+              appearance="transparent"
+              aria-label={this.intlEnableEditing}
+              class="calcite-inline-editable-enable-editing-button"
+              color="neutral"
+              disabled={this.disabled}
+              iconStart="pencil"
+              onClick={this.enableEditingHandler}
+              ref={(el) => (this.enableEditingButton = el)}
+              scale={this.scale}
+              theme={this.theme}
+            />
+          )}
+          {this.shouldShowControls && [
+            <div class="calcite-inline-editable-cancel-editing-button-wrapper">
               <calcite-button
                 appearance="transparent"
-                aria-label={this.intlEnableEditing}
-                class="calcite-inline-editable-enable-editing-button"
+                aria-label={this.intlCancelEditing}
+                class="calcite-inline-editable-cancel-editing-button"
                 color="neutral"
                 disabled={this.disabled}
-                iconStart="pencil"
-                onClick={this.enableEditingHandler}
-                ref={(el) => (this.enableEditingButton = el)}
+                iconStart="x"
+                onClick={this.cancelEditingHandler}
                 scale={this.scale}
                 theme={this.theme}
               />
-            )}
-            {this.shouldShowControls && [
-              <div class="calcite-inline-editable-cancel-editing-button-wrapper">
-                <calcite-button
-                  appearance="transparent"
-                  aria-label={this.intlCancelEditing}
-                  class="calcite-inline-editable-cancel-editing-button"
-                  color="neutral"
-                  disabled={this.disabled}
-                  iconStart="x"
-                  onClick={this.cancelEditingHandler}
-                  scale={this.scale}
-                  theme={this.theme}
-                />
-              </div>,
-              <calcite-button
-                appearance="solid"
-                aria-label={this.intlConfirmChanges}
-                class="calcite-inline-editable-confirm-changes-button"
-                color="blue"
-                disabled={this.disabled}
-                iconStart="check"
-                loading={this.loading}
-                onClick={this.confirmChangesHandler}
-                scale={this.scale}
-                theme={this.theme}
-              />
-            ]}
-          </div>
+            </div>,
+            <calcite-button
+              appearance="solid"
+              aria-label={this.intlConfirmChanges}
+              class="calcite-inline-editable-confirm-changes-button"
+              color="blue"
+              disabled={this.disabled}
+              iconStart="check"
+              loading={this.loading}
+              onClick={this.confirmChangesHandler}
+              scale={this.scale}
+              theme={this.theme}
+            />
+          ]}
         </div>
-      </Host>
+      </div>
     );
   }
 

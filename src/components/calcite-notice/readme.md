@@ -44,11 +44,11 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot               | Description                                                                   |
-| ------------------ | ----------------------------------------------------------------------------- |
-| `"notice-link"`    | Optional action to take from the notice (undo, try again, link to page, etc.) |
-| `"notice-message"` | Main text of the notice                                                       |
-| `"notice-title"`   | Title of the notice (optional)                                                |
+| Slot        | Description                                                                   |
+| ----------- | ----------------------------------------------------------------------------- |
+| `"link"`    | Optional action to take from the notice (undo, try again, link to page, etc.) |
+| `"message"` | Main text of the notice                                                       |
+| `"title"`   | Title of the notice (optional)                                                |
 
 ## Dependencies
 

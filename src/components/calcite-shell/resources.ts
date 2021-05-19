@@ -10,6 +10,6 @@ export const SLOTS = {
   centerRow: "center-row",
   primaryPanel: "primary-panel",
   contextualPanel: "contextual-panel",
-  header: "shell-header",
-  footer: "shell-footer"
+  header: "header",
+  footer: "footer"
 };

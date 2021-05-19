@@ -7,7 +7,7 @@
 ### Basic
 
 ```html
-<calcite-tooltip placement="auto" reference-element="tooltip-button"
+<calcite-tooltip placement="auto" reference-element="tooltip-button" label="My tooltip"
   >This is the message of the tooltip</calcite-tooltip
 >
 <calcite-tooltip-manager>

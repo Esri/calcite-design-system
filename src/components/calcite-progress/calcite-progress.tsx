@@ -1,4 +1,4 @@
-import { Component, Element, h, Host, Prop, VNode } from "@stencil/core";
+import { Component, Element, Fragment, h, Prop, VNode } from "@stencil/core";
 import { Theme } from "../interfaces";
 @Component({
   tag: "calcite-progress",
@@ -27,7 +27,7 @@ export class CalciteProgress {
     const isDeterminate = this.type === "determinate";
     const barStyles = isDeterminate ? { width: `${this.value * 100}%` } : {};
     return (
-      <Host>
+      <Fragment>
         <div class="track">
           <div
             class={{
@@ -39,7 +39,7 @@ export class CalciteProgress {
           />
         </div>
         {this.text ? <div class="text">{this.text}</div> : null}
-      </Host>
+      </Fragment>
     );
   }
 }

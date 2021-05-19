@@ -7,7 +7,6 @@ import {
   Method,
   Prop,
   h,
-  State,
   Watch,
   VNode
 } from "@stencil/core";
@@ -16,6 +15,8 @@ import { CSS } from "./resources";
 import { guid } from "../../utils/guid";
 import { ComboboxChildElement } from "../calcite-combobox/interfaces";
 import { getAncestors, getDepth } from "../calcite-combobox/utils";
+import { Scale } from "../interfaces";
+import { CSS_UTILITY } from "../../utils/resources";
 
 @Component({
   tag: "calcite-combobox-item",
@@ -33,7 +34,7 @@ export class CalciteComboboxItem {
   @Prop({ reflect: true }) disabled = false;
 
   /** Set this to true to pre-select an item. Toggles when an item is checked/unchecked. */
-  @Prop({ reflect: true }) selected = false;
+  @Prop({ reflect: true, mutable: true }) selected = false;
 
   /** True when item is highlighted either from keyboard or mouse hover */
   @Prop() active = false;
@@ -48,15 +49,15 @@ export class CalciteComboboxItem {
   @Prop() icon?: string;
 
   @Watch("selected")
-  selectedWatchHandler(newValue: boolean): void {
-    this.isSelected = newValue;
+  selectedWatchHandler(): void {
+    this.calciteComboboxItemChange.emit(this.el);
   }
 
   /** The main label for this item. */
   @Prop({ reflect: true }) textLabel!: string;
 
-  /** A unique value used to identify this item - similar to the value attribute on an <input>. */
-  @Prop({ reflect: true }) value!: string;
+  /** The item's associated value */
+  @Prop() value!: any;
 
   /** Don't filter this item based on the search text */
   @Prop({ reflect: true }) constant: boolean;
@@ -69,13 +70,11 @@ export class CalciteComboboxItem {
 
   @Element() el: HTMLCalciteComboboxItemElement;
 
-  @State() isSelected = this.selected;
-
   isNested: boolean;
 
   hasDefaultSlot: boolean;
 
-  comboboxItemEl: HTMLElement;
+  scale: Scale = "m";
 
   // --------------------------------------------------------------------------
   //
@@ -83,8 +82,12 @@ export class CalciteComboboxItem {
   //
   // --------------------------------------------------------------------------
 
-  componentWillLoad(): void {
+  connectedCallback(): void {
     this.ancestors = getAncestors(this.el);
+    this.scale = getElementProp(this.el, "scale", this.scale);
+  }
+
+  componentWillLoad(): void {
     this.hasDefaultSlot = this.el.querySelector(":not([slot])") !== null;
   }
 
@@ -114,7 +117,7 @@ export class CalciteComboboxItem {
     if (this.disabled) {
       return;
     }
-    this.isSelected = typeof coerce === "boolean" ? coerce : !this.isSelected;
+    this.selected = typeof coerce === "boolean" ? coerce : !this.selected;
   }
 
   // --------------------------------------------------------------------------
@@ -128,8 +131,7 @@ export class CalciteComboboxItem {
     if (this.disabled) {
       return;
     }
-    this.isSelected = !this.isSelected;
-    this.calciteComboboxItemChange.emit(this.el);
+    this.selected = !this.selected;
   };
 
   // --------------------------------------------------------------------------
@@ -139,7 +141,7 @@ export class CalciteComboboxItem {
   // --------------------------------------------------------------------------
 
   renderIcon(scale: string, isSingle: boolean): VNode {
-    const { icon, el, disabled, isSelected } = this;
+    const { icon, el, disabled, selected } = this;
     const level = `${CSS.icon}--indent-${getDepth(el)}`;
     const iconScale = scale !== "l" ? "s" : "m";
     const defaultIcon = isSingle ? "dot" : "check";
@@ -158,7 +160,7 @@ export class CalciteComboboxItem {
         class={{
           [CSS.icon]: !icon,
           [CSS.custom]: !!icon,
-          [CSS.iconActive]: icon && isSelected,
+          [CSS.iconActive]: icon && selected,
           [level]: true
         }}
         icon={icon || iconPath}
@@ -180,29 +182,24 @@ export class CalciteComboboxItem {
 
   render(): VNode {
     const isSingleSelect = getElementProp(this.el, "selection-mode", "multi") === "single";
+    const dir = getElementDir(this.el);
     const classes = {
+      [CSS_UTILITY.rtl]: dir === "rtl",
       [CSS.label]: true,
-      [CSS.selected]: this.isSelected,
+      [CSS.selected]: this.selected,
       [CSS.active]: this.active,
       [CSS.single]: isSingleSelect
     };
-    const scale = getElementProp(this.el, "scale", "m");
-
-    const dir = getElementDir(this.el);
 
     return (
-      <Host aria-hidden dir={dir} disabled={this.disabled} scale={scale} tabIndex={-1}>
-        <li
-          class={classes}
-          id={this.guid}
-          onClick={this.itemClickHandler}
-          ref={(el) => (this.comboboxItemEl = el as HTMLElement)}
-          tabIndex={-1}
-        >
-          {this.renderIcon(scale, isSingleSelect)}
-          <span class={CSS.title}>{this.textLabel}</span>
-        </li>
-        {this.renderChildren()}
+      <Host aria-hidden="true">
+        <div class={`scale--${this.scale}`}>
+          <li class={classes} id={this.guid} onClick={this.itemClickHandler}>
+            {this.renderIcon(this.scale, isSingleSelect)}
+            <span class={CSS.title}>{this.textLabel}</span>
+          </li>
+          {this.renderChildren()}
+        </div>
       </Host>
     );
   }

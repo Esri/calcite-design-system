@@ -34,10 +34,7 @@
         margin-top: 2rem;
       }
     </style>
-    <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
-    <script type="module" src="build/calcite.esm.js"></script>
-    <script nomodule src="build/calcite.js"></script>
-    <link rel="stylesheet" href="build/calcite.css" />
+   <script src="demos/_assets/head.js"></script>
   </head>
 
   <body>
@@ -253,12 +250,12 @@
           </calcite-accordion-item>
         </calcite-accordion>
         <calcite-notice color="red" id="notice-one" scale="s" active dismissible>
-          <div slot="notice-title">Something failed dismissible</div>
+          <div slot="title">Something failed dismissible</div>
           <div slot="notice-message">That thing you wanted to do didn't work as expected</div>
           <calcite-link slot="notice-link" title="my action">Retry</calcite-link>
         </calcite-notice>
         <calcite-notice icon color="green" scale="m" active dismissible>
-          <div slot="notice-title">Something worked</div>
+          <div slot="title">Something worked</div>
           <div slot="notice-message">That thing you wanted to do worked as expected</div>
         </calcite-notice>
         <calcite-label>
@@ -408,12 +405,12 @@
           </calcite-accordion-item>
         </calcite-accordion>
         <calcite-notice color="red" id="notice-one" scale="s" active dismissible>
-          <div slot="notice-title">Something failed dismissible</div>
+          <div slot="title">Something failed dismissible</div>
           <div slot="notice-message">That thing you wanted to do didn't work as expected</div>
           <calcite-link slot="notice-link" title="my action">Retry</calcite-link>
         </calcite-notice>
         <calcite-notice icon color="green" scale="m" active dismissible>
-          <div slot="notice-title">Something worked</div>
+          <div slot="title">Something worked</div>
           <div slot="notice-message">That thing you wanted to do worked as expected</div>
         </calcite-notice>
         <calcite-label>

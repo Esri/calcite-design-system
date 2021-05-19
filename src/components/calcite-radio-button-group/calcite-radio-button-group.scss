@@ -5,6 +5,15 @@
 :host([layout="horizontal"]) {
   @apply flex-row flex-wrap;
 }
+:host([layout="horizontal"][scale="s"]) {
+  @apply gap-4;
+}
+:host([layout="horizontal"][scale="m"]) {
+  @apply gap-5;
+}
+:host([layout="horizontal"][scale="l"]) {
+  @apply gap-6;
+}
 :host([layout="vertical"]) {
   @apply flex-col;
 }

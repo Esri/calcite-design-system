@@ -1,4 +1,4 @@
-import { select } from "@storybook/addon-knobs";
+import { select, text } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
 import { darkBackground } from "../../../.storybook/utils";
 import { html } from "../../tests/utils";
@@ -13,24 +13,28 @@ export default {
 };
 
 export const Simple = (): string => html`
-  <calcite-checkbox
-    ${boolean("checked", true)}
-    ${boolean("disabled", false)}
-    ${boolean("indeterminate", false)}
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    >Text for the checkbox</calcite-checkbox
-  >
+  <calcite-label layout="inline">
+    <calcite-checkbox
+      ${boolean("checked", true)}
+      ${boolean("disabled", false)}
+      ${boolean("indeterminate", false)}
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+    ></calcite-checkbox>
+    ${text("label", "Checkbox")}
+  </calcite-label>
 `;
 
 export const DarkMode = (): string => html`
-  <calcite-checkbox
-    theme="dark"
-    ${boolean("checked", true)}
-    ${boolean("disabled", false)}
-    ${boolean("indeterminate", false)}
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    >Text for the checkbox</calcite-checkbox
-  >
+  <calcite-label layout="inline" theme="dark">
+    <calcite-checkbox
+      theme="dark"
+      ${boolean("checked", true)}
+      ${boolean("disabled", false)}
+      ${boolean("indeterminate", false)}
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+    ></calcite-checkbox>
+    ${text("label", "Checkbox")}
+  </calcite-label>
 `;
 
 DarkMode.story = {

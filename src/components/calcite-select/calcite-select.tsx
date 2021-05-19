@@ -3,17 +3,18 @@ import {
   Element,
   Event,
   EventEmitter,
+  Fragment,
   h,
-  Host,
   Listen,
   Method,
   Prop,
   VNode
 } from "@stencil/core";
-import { focusElement, getElementDir } from "../../utils/dom";
+import { Direction, focusElement, getElementDir } from "../../utils/dom";
 import { Scale, Theme, Width } from "../interfaces";
 import { CSS } from "./resources";
 import { FocusRequest } from "../calcite-label/interfaces";
+import { CSS_UTILITY } from "../../utils/resources";
 
 type CalciteOptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
@@ -298,9 +299,9 @@ export class CalciteSelect {
   //
   //--------------------------------------------------------------------------
 
-  renderChevron(): VNode {
+  renderChevron(dir: Direction): VNode {
     return (
-      <div class={{ [CSS.iconContainer]: true }}>
+      <div class={{ [CSS.iconContainer]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
         <calcite-icon class={CSS.icon} icon="chevron-down" scale="s" />
       </div>
     );
@@ -310,18 +311,18 @@ export class CalciteSelect {
     const dir = getElementDir(this.el);
 
     return (
-      <Host dir={dir}>
+      <Fragment>
         <select
           aria-label={this.label}
-          class={{ [CSS.select]: true }}
+          class={{ [CSS.select]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
           disabled={this.disabled}
           onChange={this.handleInternalSelectChange}
           ref={this.storeSelectRef}
         >
           <slot />
         </select>
-        {this.renderChevron()}
-      </Host>
+        {this.renderChevron(dir)}
+      </Fragment>
     );
   }
 }

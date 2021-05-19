@@ -29,7 +29,14 @@
 }
 
 :host {
-  @apply flex 
+  @apply flex
+  flex-grow
+  flex-col
+  relative;
+}
+
+:host .container {
+  @apply flex
     flex-grow
     flex-col
     text-color-3
@@ -46,7 +53,7 @@
     mr-1;
 }
 
-:host([dir="rtl"]) {
+.calcite--rtl {
   margin-left: var(--calcite-stepper-item-spacing-unit-l);
   @apply mr-0;
 }
@@ -67,17 +74,17 @@
 :host .stepper-item-content,
 :host .stepper-item-header {
   padding: var(--calcite-stepper-item-spacing-unit-l) var(--calcite-stepper-item-spacing-unit-m);
-  @apply pl-0 
-    text-left 
-    duration-150 
+  @apply pl-0
+    text-left
+    duration-150
     ease-in-out;
 }
 
-:host([dir="rtl"]) .stepper-item-content,
-:host([dir="rtl"]) .stepper-item-header {
+.calcite--rtl .stepper-item-content,
+.calcite--rtl .stepper-item-header {
   @apply pr-0
     text-right
-    duration-150 
+    duration-150
     ease-in-out;
   padding-left: initial;
 }
@@ -85,7 +92,7 @@
 :host .stepper-item-header * {
   @apply inline-flex
     items-center
-    duration-150 
+    duration-150
     ease-in-out;
 }
 
@@ -100,18 +107,18 @@
 //todo rtl
 :host .stepper-item-icon {
   margin-right: var(--calcite-stepper-item-spacing-unit-m);
-  @apply text-color-3 
+  @apply text-color-3
     mt-px
-    opacity-disabled 
-    inline-flex 
+    opacity-disabled
+    inline-flex
     flex-shrink-0
     self-start
     h-3
-    duration-150 
+    duration-150
     ease-in-out;
 }
 
-:host([dir="rtl"]) .stepper-item-icon {
+.calcite--rtl .stepper-item-icon {
   margin-left: var(--calcite-stepper-item-spacing-unit-l);
   @apply mr-0;
 }
@@ -122,7 +129,7 @@
   text-align: initial;
 }
 
-:host([dir="rtl"]) .stepper-item-header-text {
+.calcite--rtl .stepper-item-header-text {
   @apply ml-auto mr-0;
 }
 
@@ -137,19 +144,19 @@
   @apply text-color-3;
 }
 
-:host([dir="rtl"]) .stepper-item-title {
+.calcite--rtl .stepper-item-title {
   @apply mr-0 ml-auto;
 }
 
 :host .stepper-item-number {
   @apply font-bold
   text-color-3
-  duration-150 
+  duration-150
   ease-in-out;
   margin-right: var(--calcite-stepper-item-spacing-unit-l);
 }
 
-:host([dir="rtl"]) .stepper-item-number {
+.calcite--rtl .stepper-item-number {
   margin-left: var(--calcite-stepper-item-spacing-unit-l);
   margin-right: initial;
 }
@@ -161,7 +168,7 @@
   @apply cursor-not-allowed pointer-events-auto;
 }
 
-:host([complete]) {
+:host([complete]) .container {
   // todo dark theme
   border-top-color: rgba($h-bb-060, 0.5);
   & .stepper-item-icon {
@@ -169,7 +176,7 @@
   }
 }
 
-:host([error]) {
+:host([error]) .container {
   @apply border-t-color-danger;
   & .stepper-item-number {
     color: theme("backgroundColor.danger");
@@ -180,8 +187,8 @@
   }
 }
 
-:host(:hover:not([disabled]):not([active])),
-:host(:focus:not([disabled]):not([active])) {
+:host(:hover:not([disabled]):not([active])) .container,
+:host(:focus:not([disabled]):not([active])) .container {
   border-top-color: rgba($h-bb-060, 0.75);
 
   & .stepper-item-title {
@@ -192,12 +199,12 @@
   }
 }
 
-:host([error]:hover:not([disabled]):not([active])),
-:host([error]:focus:not([disabled]):not([active])) {
+:host([error]:hover:not([disabled]):not([active])) .container,
+:host([error]:focus:not([disabled]):not([active])) .container {
   border-top-color: rgba($h-rr-060, 0.75);
 }
 
-:host([active]) {
+:host([active]) .container {
   border-top-color: theme("backgroundColor.brand");
   & .stepper-item-title {
     @apply text-color-1;
@@ -216,7 +223,7 @@
 }
 
 // vertical layout
-:host([layout="vertical"]) {
+:host([layout="vertical"]) .container {
   @apply flex-auto
     border-t-0
     border-l-2
@@ -242,7 +249,7 @@
 }
 
 // only show the content for vertical items
-:host([layout="vertical"][active]) {
+:host([layout="vertical"][active]) .container {
   & .stepper-item-content {
     @apply flex;
     & ::slotted(:last-child) {
@@ -250,7 +257,7 @@
     }
   }
 }
-:host([layout="vertical"][dir="rtl"]) {
+:host([layout="vertical"]) .calcite--rtl {
   @apply border-l-0
     border-r-2
     border-color-3
@@ -258,7 +265,7 @@
     pl-0;
   padding-right: var(--calcite-stepper-item-spacing-unit-l);
   & .stepper-item-icon {
-    @apply mr-auto 
+    @apply mr-auto
       mb-0
       mr-0
       pl-0;
@@ -271,20 +278,20 @@
   }
 }
 
-:host([layout="vertical"][complete]) {
+:host([layout="vertical"][complete]) .container {
   border-color: rgba($h-bb-060, 0.5);
 }
-:host([layout="vertical"][error]) {
+:host([layout="vertical"][error]) .container {
   @apply border-color-danger;
 }
-:host([layout="vertical"][active]) {
+:host([layout="vertical"][active]) .container {
   @apply border-color-brand;
 }
-:host([layout="vertical"]:hover:not([disabled]):not([active])),
-:host([layout="vertical"]:focus:not([disabled]):not([active])) {
+:host([layout="vertical"]:hover:not([disabled]):not([active])) .container,
+:host([layout="vertical"]:focus:not([disabled]):not([active])) .container {
   border-color: rgba($h-bb-060, 0.75);
 }
-:host([layout="vertical"][error]:hover:not([disabled]):not([active])),
-:host([layout="vertical"][error]:focus:not([disabled]):not([active])) {
+:host([layout="vertical"][error]:hover:not([disabled]):not([active])) .container,
+:host([layout="vertical"][error]:focus:not([disabled]):not([active])) .container {
   border-color: rgba($h-rr-060, 0.75);
 }

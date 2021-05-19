@@ -23,10 +23,9 @@ import {
 import { StrictModifiers, Placement, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import { Theme } from "../interfaces";
-import { getElementDir } from "../../utils/dom";
+import { getElementDir, queryElementRoots } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { PopoverFocusId } from "./resources";
-import { getElementById, getRootNode } from "../../utils/dom";
 
 /**
  * @slot image - A slot for adding an image. The image will appear above the other slot content.
@@ -259,24 +258,17 @@ export class CalcitePopover {
 
   getReferenceElement(): HTMLElement {
     const { referenceElement, el } = this;
-    const rootNode = getRootNode(el);
 
     return (
       (typeof referenceElement === "string"
-        ? getElementById(rootNode, referenceElement)
+        ? queryElementRoots(el, `#${referenceElement}`)
         : referenceElement) || null
     );
   }
 
   getModifiers(): Partial<StrictModifiers>[] {
-    const {
-      arrowEl,
-      flipPlacements,
-      disableFlip,
-      disablePointer,
-      offsetDistance,
-      offsetSkidding
-    } = this;
+    const { arrowEl, flipPlacements, disableFlip, disablePointer, offsetDistance, offsetSkidding } =
+      this;
     const flipModifier: Partial<StrictModifiers> = {
       name: "flip",
       enabled: !disableFlip

@@ -26,6 +26,7 @@ calcite-pick-list-item {
     border-none 
     text-color-1
     cursor-move;
+  color: theme("borderColor.color.1");
   &:hover {
     @apply bg-foreground-2 text-color-1;
   }
@@ -35,5 +36,8 @@ calcite-pick-list-item {
   }
   &--activated {
     @apply bg-foreground-3 text-color-1;
+  }
+  calcite-icon {
+    color: inherit;
   }
 }

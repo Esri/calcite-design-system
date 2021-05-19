@@ -3,7 +3,6 @@ import { Component, Element, Event, EventEmitter, Prop, h, VNode } from "@stenci
 import { getElementDir } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { CSS, ICONS, TEXT } from "./resources";
-import { guid } from "../../utils/guid";
 import { BlockSectionToggleDisplay } from "./interfaces";
 
 /**
@@ -58,8 +57,6 @@ export class CalciteBlockSection {
 
   @Element() el: HTMLCalciteBlockSectionElement;
 
-  guid = `calcite-block-section-${guid()}`;
-
   // --------------------------------------------------------------------------
   //
   //  Events
@@ -97,7 +94,7 @@ export class CalciteBlockSection {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { el, guid: id, intlCollapse, intlExpand, open, text, toggleDisplay } = this;
+    const { el, intlCollapse, intlExpand, open, text, toggleDisplay } = this;
     const dir = getElementDir(el);
     const arrowIcon = open
       ? ICONS.menuOpen
@@ -106,7 +103,6 @@ export class CalciteBlockSection {
       : ICONS.menuClosedRight;
 
     const toggleLabel = open ? intlCollapse || TEXT.collapse : intlExpand || TEXT.expand;
-    const labelId = `${id}__label`;
 
     const headerNode =
       toggleDisplay === "switch" ? (
@@ -116,14 +112,12 @@ export class CalciteBlockSection {
             [CSS.toggle]: true,
             [CSS.toggleSwitch]: true
           }}
-          id={labelId}
           onKeyDown={this.handleHeaderLabelKeyDown}
           tabIndex={0}
           title={toggleLabel}
         >
-          {text}
+          <span class={CSS.toggleSwitchText}>{text}</span>
           <calcite-switch
-            aria-labelledby={labelId}
             onCalciteSwitchChange={this.toggleSection}
             scale="s"
             switched={open}

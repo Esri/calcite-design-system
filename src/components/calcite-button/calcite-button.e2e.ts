@@ -281,4 +281,94 @@ describe("calcite-button", () => {
     const elementAsButton = await page.find("calcite-button >>> button");
     expect(elementAsButton).not.toHaveClass(CSS.contentSlotted);
   });
+
+  describe("CSS properties for light/dark themes", () => {
+    const buttonSnippet = `
+      <calcite-button
+        class="layers"
+        icon-start="layer"
+        icon-end="chevron-down"
+        appearance="transparent"
+        color="blue"
+      >
+        Layers
+      </calcite-button>
+    `;
+    let page;
+    let buttonEl;
+    let buttonFocusStyle;
+    let buttonHoverStyle;
+
+    it("should have defined CSS custom properties", async () => {
+      page = await newE2EPage({ html: buttonSnippet });
+      const buttonStyles = await page.evaluate(() => {
+        buttonEl = document.querySelector("calcite-button");
+        buttonEl.style.setProperty("--calcite-button-transparent-hover", "rgba(34, 23, 200, 0.4)");
+        buttonEl.style.setProperty("--calcite-button-transparent-press", "rgba(1, 20, 44, 0.1");
+        return {
+          hoverFocus: window.getComputedStyle(buttonEl).getPropertyValue("--calcite-button-transparent-hover"),
+          active: window.getComputedStyle(buttonEl).getPropertyValue("--calcite-button-transparent-press")
+        };
+      });
+      expect(buttonStyles.hoverFocus).toEqual("rgba(34, 23, 200, 0.4)");
+      expect(buttonStyles.active).toEqual("rgba(1, 20, 44, 0.1");
+    });
+
+    describe("when theme attribute is not provided", () => {
+      it("should render button pseudo classes with default values tied to light theme", async () => {
+        page = await newE2EPage({ html: buttonSnippet });
+        buttonEl = await page.find("calcite-button >>> button");
+        await buttonEl.focus();
+        await page.waitForChanges();
+        buttonFocusStyle = await buttonEl.getComputedStyle(":focus");
+        expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.05)");
+
+        await buttonEl.hover();
+        await page.waitForChanges();
+        buttonHoverStyle = await buttonEl.getComputedStyle(":hover");
+        expect(buttonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.05)");
+      });
+    });
+
+    describe("when theme attribute is dark", () => {
+      it("should render button pseudo classes with value tied to dark theme", async () => {
+        page = await newE2EPage({
+          html: `<div theme="dark">${buttonSnippet}</div>`
+        });
+        buttonEl = await page.find("calcite-button >>> button");
+        await buttonEl.focus();
+        await page.waitForChanges();
+        buttonFocusStyle = await buttonEl.getComputedStyle(":focus");
+        expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.05)");
+
+        await buttonEl.hover();
+        await page.waitForChanges();
+        buttonHoverStyle = await buttonEl.getComputedStyle(":hover");
+        expect(buttonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.05)");
+      });
+    });
+
+    it("should allow the CSS custom property to be overridden", async () => {
+      const overrideStyle = "rgba(255, 255, 0, 0.9)";
+      page = await newE2EPage({
+        html: `
+        <style>
+          :root {
+            --calcite-button-transparent-hover: ${overrideStyle};
+          }
+        </style>
+        <div>${buttonSnippet}</div>`
+      });
+      buttonEl = await page.find("calcite-button >>> button");
+      await buttonEl.focus();
+      await page.waitForChanges();
+      buttonFocusStyle = await buttonEl.getComputedStyle(":focus");
+      expect(buttonFocusStyle.getPropertyValue("background-color")).toEqual(overrideStyle);
+
+      await buttonEl.hover();
+      await page.waitForChanges();
+      buttonHoverStyle = await buttonEl.getComputedStyle(":hover");
+      expect(buttonHoverStyle.getPropertyValue("background-color")).toEqual(overrideStyle);
+    });
+  });
 });

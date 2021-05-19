@@ -150,7 +150,7 @@ export const WithSlottedAction = (): string => html`
         value="${text("value", "")}"
         placeholder="${text("placeholder", "Placeholder text")}"
       >
-        <calcite-button slot="input-action">${text("action button text", "Go")}</calcite-button>
+        <calcite-button slot="action">${text("action button text", "Go")}</calcite-button>
       </calcite-input>
       <calcite-input-message
         ${boolean("input-message-active", false)}

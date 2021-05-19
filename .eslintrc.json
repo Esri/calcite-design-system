@@ -3,6 +3,7 @@
     "jest/globals": true
   },
   "extends": [
+    "plugin:@esri/calcite-components/recommended",
     "plugin:@stencil/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:jest/recommended",
@@ -15,7 +16,7 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint", "eslint-plugin-react", "jest", "prettier"],
+  "plugins": ["@esri/calcite-components", "@typescript-eslint", "eslint-plugin-react", "jest", "prettier"],
   "rules": {
     "@stencil/decorators-style": "warn",
     "@stencil/own-methods-must-be-private": "off",
@@ -47,6 +48,7 @@
     "jest/no-export": "warn",
     "lines-between-class-members": ["error", "always"],
     "no-multiple-empty-lines": ["error", { "max": 1 }],
+    "no-unneeded-ternary": "error",
     "react/jsx-sort-props": "error",
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",

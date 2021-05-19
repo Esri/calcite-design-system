@@ -90,7 +90,7 @@ export class CalciteSlider {
   @Prop() histogram?: DataSeries;
 
   @Watch("histogram") histogramWatcher(newHistogram: DataSeries): void {
-    this.hasHistogram = newHistogram ? true : false;
+    this.hasHistogram = !!newHistogram;
   }
 
   /** Indicates if a histogram is present */
@@ -512,52 +512,54 @@ export class CalciteSlider {
     );
 
     return (
-      <Host id={id} is-range={this.isRange}>
-        {this.renderGraph()}
-        <div class="track">
-          <div
-            class="track__range"
-            onMouseDown={() => this.dragStart("minMaxValue")}
-            onTouchStart={(e) => this.dragStart("minMaxValue", e)}
-            style={{ left, right }}
-          />
-          <div class="ticks">
-            {this.tickValues.map((tick) => (
-              <span
-                class={{
-                  tick: true,
-                  "tick--active": tick >= min && tick <= max
-                }}
-                style={{
-                  left: `${this.getUnitInterval(tick) * 100}%`
-                }}
-              >
-                {this.renderTickLabel(tick)}
-              </span>
-            ))}
+      <Host id={id}>
+        <div class={{ container: true, "container--range": this.isRange }}>
+          {this.renderGraph()}
+          <div class="track">
+            <div
+              class="track__range"
+              onMouseDown={() => this.dragStart("minMaxValue")}
+              onTouchStart={(e) => this.dragStart("minMaxValue", e)}
+              style={{ left, right }}
+            />
+            <div class="ticks">
+              {this.tickValues.map((tick) => (
+                <span
+                  class={{
+                    tick: true,
+                    "tick--active": tick >= min && tick <= max
+                  }}
+                  style={{
+                    left: `${this.getUnitInterval(tick) * 100}%`
+                  }}
+                >
+                  {this.renderTickLabel(tick)}
+                </span>
+              ))}
+            </div>
           </div>
-        </div>
-        {!this.precise && !this.labelHandles && this.isRange && minHandle}
-        {!this.hasHistogram &&
-          !this.precise &&
-          this.labelHandles &&
-          this.isRange &&
-          minLabeledHandle}
-        {this.precise && !this.labelHandles && this.isRange && minPreciseHandle}
-        {this.precise && this.labelHandles && this.isRange && minLabeledPreciseHandle}
-        {this.hasHistogram &&
-          !this.precise &&
-          this.labelHandles &&
-          this.isRange &&
-          minHistogramLabeledHandle}
+          {!this.precise && !this.labelHandles && this.isRange && minHandle}
+          {!this.hasHistogram &&
+            !this.precise &&
+            this.labelHandles &&
+            this.isRange &&
+            minLabeledHandle}
+          {this.precise && !this.labelHandles && this.isRange && minPreciseHandle}
+          {this.precise && this.labelHandles && this.isRange && minLabeledPreciseHandle}
+          {this.hasHistogram &&
+            !this.precise &&
+            this.labelHandles &&
+            this.isRange &&
+            minHistogramLabeledHandle}
 
-        {!this.precise && !this.labelHandles && handle}
-        {!this.hasHistogram && !this.precise && this.labelHandles && labeledHandle}
-        {!this.hasHistogram && this.precise && !this.labelHandles && preciseHandle}
-        {this.hasHistogram && this.precise && !this.labelHandles && histogramPreciseHandle}
-        {!this.hasHistogram && this.precise && this.labelHandles && labeledPreciseHandle}
-        {this.hasHistogram && !this.precise && this.labelHandles && histogramLabeledHandle}
-        {this.hasHistogram && this.precise && this.labelHandles && histogramLabeledPreciseHandle}
+          {!this.precise && !this.labelHandles && handle}
+          {!this.hasHistogram && !this.precise && this.labelHandles && labeledHandle}
+          {!this.hasHistogram && this.precise && !this.labelHandles && preciseHandle}
+          {this.hasHistogram && this.precise && !this.labelHandles && histogramPreciseHandle}
+          {!this.hasHistogram && this.precise && this.labelHandles && labeledPreciseHandle}
+          {this.hasHistogram && !this.precise && this.labelHandles && histogramLabeledHandle}
+          {this.hasHistogram && this.precise && this.labelHandles && histogramLabeledPreciseHandle}
+        </div>
       </Host>
     );
   }
@@ -964,9 +966,8 @@ export class CalciteSlider {
   }
 
   private hyphenateCollidingRangeHandleLabels(): void {
-    const minValueLabel: HTMLSpanElement = this.el.shadowRoot.querySelector(
-      `.handle__label--minValue`
-    );
+    const minValueLabel: HTMLSpanElement =
+      this.el.shadowRoot.querySelector(`.handle__label--minValue`);
     const minValueLabelStatic: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--minValue.static`
     );
@@ -1098,17 +1099,14 @@ export class CalciteSlider {
       return;
     }
 
-    const minHandle: HTMLButtonElement | null = this.el.shadowRoot.querySelector(
-      ".thumb--minValue"
-    );
+    const minHandle: HTMLButtonElement | null =
+      this.el.shadowRoot.querySelector(".thumb--minValue");
     const maxHandle: HTMLButtonElement | null = this.el.shadowRoot.querySelector(".thumb--value");
 
-    const minTickLabel: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
-      ".tick__label--min"
-    );
-    const maxTickLabel: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
-      ".tick__label--max"
-    );
+    const minTickLabel: HTMLSpanElement | null =
+      this.el.shadowRoot.querySelector(".tick__label--min");
+    const maxTickLabel: HTMLSpanElement | null =
+      this.el.shadowRoot.querySelector(".tick__label--max");
 
     if (!minHandle && maxHandle && minTickLabel && maxTickLabel) {
       if (this.isMinTickLabelObscured(minTickLabel, maxHandle)) {

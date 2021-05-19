@@ -1,11 +1,11 @@
-import { Component, Element, Host, Prop, h, VNode } from "@stencil/core";
+import { Component, Element, Prop, h, VNode, Fragment } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
 import { Theme } from "../interfaces";
 import { getSlotted } from "../../utils/dom";
 
 /**
- * @slot shell-header - A slot for adding header content. This content will be positioned at the top of the shell.
- * @slot shell-footer - A slot for adding footer content. This content will be positioned at the bottom of the shell.
+ * @slot header - A slot for adding header content. This content will be positioned at the top of the shell.
+ * @slot footer - A slot for adding footer content. This content will be positioned at the bottom of the shell.
  * @slot primary-panel - A slot for adding the leading `calcite-shell-panel`.
  * @slot contextual-panel - A slot for adding the trailing `calcite-shell-panel`.
  * @slot bottom-panel - A slot for adding a bottom floating panel such as a chart or `calcite-tip-manager`.
@@ -105,11 +105,11 @@ export class CalciteShell {
 
   render(): VNode {
     return (
-      <Host>
+      <Fragment>
         {this.renderHeader()}
         {this.renderMain()}
         {this.renderFooter()}
-      </Host>
+      </Fragment>
     );
   }
 }

@@ -23,9 +23,9 @@ export const Simple = (): string => html`
       width="${select("width", ["auto", "half", "full"], "auto")}"
       color="${select("color", ["green", "red", "yellow", "blue"], "blue")}"
     >
-      <div slot="notice-title">Your settings area has changed</div>
-      <div slot="notice-message">Look around and let us know what you think</div>
-      <calcite-link slot="notice-link" title="my action">Learn more</calcite-link>
+      <div slot="title">Your settings area has changed</div>
+      <div slot="message">Look around and let us know what you think</div>
+      <calcite-link slot="link" title="my action">Learn more</calcite-link>
     </calcite-notice>
   </div>
 `;
@@ -41,9 +41,9 @@ export const CustomIcon = (): string => html`
       width="${select("width", ["auto", "half", "full"], "auto")}"
       color="${select("color", ["green", "red", "yellow", "blue"], "blue")}"
     >
-      <div slot="notice-title">Your settings area has changed</div>
-      <div slot="notice-message">Look around and let us know what you think</div>
-      <calcite-link slot="notice-link" title="my action">Learn more</calcite-link>
+      <div slot="title">Your settings area has changed</div>
+      <div slot="message">Look around and let us know what you think</div>
+      <calcite-link slot="link" title="my action">Learn more</calcite-link>
     </calcite-notice>
   </div>
 `;
@@ -63,8 +63,8 @@ export const DarkMode = (): string => html`
       width="${select("width", ["auto", "half", "full"], "auto")}"
       color="${select("color", ["green", "red", "yellow", "blue"], "red")}"
     >
-      <div slot="notice-title">This is a destructive action</div>
-      <div slot="notice-message">Be sure you know what you are doin, folks.</div>
+      <div slot="title">This is a destructive action</div>
+      <div slot="message">Be sure you know what you are doin, folks.</div>
     </calcite-notice>
   </div>
 `;
@@ -85,9 +85,9 @@ export const Rtl = (): string => html`
       color="${select("color", ["green", "red", "yellow", "blue"], "blue")}"
       active
     >
-      <div slot="notice-title">Your settings area has changed</div>
-      <div slot="notice-message">Look around and let us know what you think</div>
-      <calcite-link slot="notice-link" title="my action">Learn more</calcite-link>
+      <div slot="title">Your settings area has changed</div>
+      <div slot="message">Look around and let us know what you think</div>
+      <calcite-link slot="link" title="my action">Learn more</calcite-link>
     </calcite-notice>
   </div>
 `;

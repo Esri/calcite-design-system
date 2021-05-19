@@ -19,6 +19,7 @@ import { queryShadowRoot } from "@a11y/focus-trap/shadow";
 import { isFocusable, isHidden } from "@a11y/focus-trap/focusable";
 import { Scale, Theme } from "../interfaces";
 import { ModalBackgroundColor } from "./interfaces";
+import { CSS_UTILITY } from "../../utils/resources";
 
 function isCalciteFocusable(el: CalciteFocusableElement): boolean {
   return typeof el.setFocus === "function" || isFocusable(el);
@@ -47,7 +48,7 @@ export class CalciteModal {
   //
   //--------------------------------------------------------------------------
   /** Add the active attribute to open the modal */
-  @Prop({ mutable: true }) active?: boolean;
+  @Prop({ mutable: true, reflect: true }) active?: boolean;
 
   /** Optionally pass a function to run before close */
   @Prop() beforeClose: (el: HTMLElement) => Promise<void> = () => Promise.resolve();
@@ -120,10 +121,13 @@ export class CalciteModal {
   render(): VNode {
     const dir = getElementDir(this.el);
     return (
-      <Host aria-modal="true" dir={dir} is-active={this.isActive} role="dialog">
+      <Host aria-modal="true" role="dialog">
         <calcite-scrim class="scrim" theme="dark" />
         {this.renderStyle()}
-        <div class="modal" onTransitionEnd={this.transitionEnd}>
+        <div
+          class={{ modal: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+          onTransitionEnd={this.transitionEnd}
+        >
           <div data-focus-fence onFocus={this.focusLastElement} tabindex="0" />
           <div class="header">
             {this.renderCloseButton()}
@@ -210,8 +214,6 @@ export class CalciteModal {
   //  Variables
   //
   //--------------------------------------------------------------------------
-  @State() isActive: boolean;
-
   @State() hasFooter = true;
 
   previousActiveElement: HTMLElement;
@@ -298,7 +300,7 @@ export class CalciteModal {
   //--------------------------------------------------------------------------
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === "opacity") {
-      this.isActive ? this.calciteModalOpen.emit() : this.calciteModalClose.emit();
+      this.active ? this.calciteModalOpen.emit() : this.calciteModalClose.emit();
     }
   };
 
@@ -322,7 +324,7 @@ export class CalciteModal {
   private open() {
     this.previousActiveElement = document.activeElement as HTMLElement;
     this.el.addEventListener("calciteModalOpen", this.openEnd);
-    this.isActive = true;
+    this.active = true;
     document.documentElement.classList.add("overflow-hidden");
   }
 
@@ -330,7 +332,6 @@ export class CalciteModal {
   close = (): Promise<void> => {
     return this.beforeClose(this.el).then(() => {
       this.active = false;
-      this.isActive = false;
       focusElement(this.previousActiveElement);
       this.removeOverflowHiddenClass();
     });

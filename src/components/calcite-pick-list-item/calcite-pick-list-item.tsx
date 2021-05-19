@@ -3,8 +3,8 @@ import {
   Element,
   Event,
   EventEmitter,
+  Fragment,
   h,
-  Host,
   Method,
   Prop,
   VNode,
@@ -103,12 +103,12 @@ export class CalcitePickListItem {
   @Prop({ reflect: true }) intlRemove = TEXT.remove;
 
   /**
-   * A unique value used to identify this item - similar to the value attribute on an <input>.
+   * The item's associated value.
    */
-  @Prop({ reflect: true }) value!: string;
+  @Prop() value!: any;
 
   @Watch("value")
-  valueWatchHandler(newValue: string, oldValue: string): void {
+  valueWatchHandler(newValue: any, oldValue: any): void {
     this.calciteListItemValueChange.emit({ oldValue, newValue });
   }
 
@@ -135,7 +135,7 @@ export class CalcitePickListItem {
    */
   @Event() calciteListItemChange: EventEmitter<{
     item: HTMLCalcitePickListItemElement;
-    value: string;
+    value: any;
     selected: boolean;
     shiftPressed: boolean;
   }>;
@@ -156,8 +156,8 @@ export class CalcitePickListItem {
    * @internal
    */
   @Event() calciteListItemValueChange: EventEmitter<{
-    oldValue: string;
-    newValue: string;
+    oldValue: any;
+    newValue: any;
   }>;
 
   // --------------------------------------------------------------------------
@@ -278,7 +278,7 @@ export class CalcitePickListItem {
     const { description, label } = this;
 
     return (
-      <Host aria-checked={this.selected.toString()} role="menuitemcheckbox">
+      <Fragment>
         {this.renderIcon()}
         {this.renderActionsStart()}
         <label
@@ -289,13 +289,17 @@ export class CalcitePickListItem {
           ref={(focusEl): HTMLLabelElement => (this.focusEl = focusEl)}
           tabIndex={0}
         >
-          <div class={CSS.textContainer}>
+          <div
+            aria-checked={this.selected.toString()}
+            class={CSS.textContainer}
+            role="menuitemcheckbox"
+          >
             <span class={CSS.title}>{label}</span>
             {description ? <span class={CSS.description}>{description}</span> : null}
           </div>
         </label>
         {this.renderActionsEnd()}
-      </Host>
+      </Fragment>
     );
   }
 }

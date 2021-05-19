@@ -1,23 +1,12 @@
-// theme variables
-// light theme
-:host {
-  --calcite-alert-dismiss-progress-background: #{rgba($blk-000, 0.8)};
-}
-
-// dark theme
-:host([theme="dark"]) {
-  --calcite-alert-dismiss-progress-background: #{rgba($blk-200, 0.8)};
-}
-
 // scale variables
 :host([scale="s"]) {
   --calcite-alert-width: 40em;
   --calcite-alert-spacing-token-small: #{$baseline/2};
   --calcite-alert-spacing-token-large: #{$baseline/1.5};
-  @include slotted("alert-title", "*") {
+  @include slotted("title", "*") {
     @include font-size(-2);
   }
-  @include slotted("alert-message", "*") {
+  @include slotted("message", "*") {
     @include font-size(-3);
   }
   ::slotted(calcite-link) {
@@ -29,10 +18,10 @@
   --calcite-alert-width: 50em;
   --calcite-alert-spacing-token-small: #{$baseline/1.5};
   --calcite-alert-spacing-token-large: #{$baseline};
-  @include slotted("alert-title", "*") {
+  @include slotted("title", "*") {
     @include font-size(-1);
   }
-  @include slotted("alert-message", "*") {
+  @include slotted("message", "*") {
     @include font-size(-2);
   }
   ::slotted(calcite-link) {
@@ -44,10 +33,10 @@
   --calcite-alert-width: 60em;
   --calcite-alert-spacing-token-small: #{$baseline/1.25};
   --calcite-alert-spacing-token-large: #{$baseline * 1.25};
-  @include slotted("alert-title", "*") {
+  @include slotted("title", "*") {
     @include font-size(0);
   }
-  @include slotted("alert-message", "*") {
+  @include slotted("message", "*") {
     @include font-size(-1);
   }
   ::slotted(calcite-link) {
@@ -56,32 +45,41 @@
 }
 
 :host {
-  @apply shadow-2;
+  .container {
+    @apply shadow-2;
+    display: flex;
+    position: fixed;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    margin: 0 auto;
+    width: var(--calcite-alert-width);
+    max-width: 90%;
+    max-height: 0;
+    background-color: var(--calcite-ui-foreground-1);
+    border-radius: var(--calcite-border-radius);
+    opacity: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 101;
+    transform: translate3d(0, $baseline, 0);
+    transition: 300ms $easing-function, opacity 300ms $easing-function, all 0.15s ease-in-out;
+    border-top: 0px solid transparent;
+    @media only screen and (max-width: $viewport-medium) {
+      width: 100%;
+      max-width: 100%;
+      border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
+    }
+  }
+}
+
+.container {
   display: flex;
-  position: fixed;
+  width: 100%;
   justify-content: center;
   align-items: center;
-  pointer-events: none;
-  margin: 0 auto;
-  width: var(--calcite-alert-width);
-  max-width: 90%;
-  max-height: 0;
-  background-color: var(--calcite-ui-foreground-1);
-  border-radius: var(--calcite-border-radius);
-  opacity: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
-  z-index: 101;
-  transform: translate3d(0, $baseline, 0);
-  transition: 300ms $easing-function, opacity 300ms $easing-function, all 0.15s ease-in-out;
-  border-top: 0px solid transparent;
-  @media only screen and (max-width: $viewport-medium) {
-    width: 100%;
-    max-width: 100%;
-    border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
-  }
 }
 
 // focus styles
@@ -92,26 +90,28 @@
   }
 }
 
-:host([active]:not([queued])) {
-  opacity: 1;
-  max-height: 100%;
-  transform: translate3d(0, -$baseline, 0);
-  pointer-events: initial;
-  border-top-width: 3px;
+:host([active]) {
+  .container:not(.queued) {
+    opacity: 1;
+    max-height: 100%;
+    transform: translate3d(0, -$baseline, 0);
+    pointer-events: initial;
+    border-top-width: 3px;
 
-  @media only screen and (max-width: $viewport-medium) {
-    transform: translate3d(0, 0, 0);
+    @media only screen and (max-width: $viewport-medium) {
+      transform: translate3d(0, 0, 0);
+    }
   }
 }
 
-@include slotted("alert-title", "*") {
+@include slotted("title", "*") {
   @include font-size(0);
   color: var(--calcite-ui-text-1);
   margin: 0;
   font-weight: 500;
 }
 
-@include slotted("alert-message", "*") {
+@include slotted("message", "*") {
   display: inline;
   margin: 0;
   margin-right: $baseline/2;
@@ -120,8 +120,8 @@
   color: var(--calcite-ui-text-2);
 }
 
-:host([dir="rtl"]) {
-  @include slotted("alert-message", "*") {
+.calcite--rtl {
+  @include slotted("message", "*") {
     margin-right: unset;
     margin-left: $baseline/2;
   }
@@ -158,7 +158,7 @@
   }
 }
 
-:host([dir="rtl"]) {
+.calcite--rtl {
   .alert-content {
     padding: var(--calcite-alert-spacing-token-small) 0 var(--calcite-alert-spacing-token-small)
       var(--calcite-alert-spacing-token-small);
@@ -207,7 +207,7 @@
     border-radius: 0;
   }
 }
-:host([dir="rtl"]) {
+.calcite--rtl {
   .alert-close {
     border-radius: 0 0 0 var(--calcite-border-radius);
   }
@@ -249,7 +249,7 @@
   border-right: 0px solid transparent;
 }
 
-:host([auto-dismiss][dir="rtl"]) > .alert-queue-count {
+:host([auto-dismiss]) .calcite--rtl > .alert-queue-count {
   border-left: 0px solid transparent;
 }
 
@@ -276,7 +276,7 @@
   }
 }
 
-:host([dir="rtl"]) .alert-dismiss-progress:after {
+.calcite--rtl .alert-dismiss-progress:after {
   left: 0;
   right: initial;
 }
@@ -289,9 +289,12 @@ $alertColors: "blue" var(--calcite-ui-brand), "red" var(--calcite-ui-danger), "y
   $color: nth($alertColor, 2);
 
   :host([color="#{$name}"]) {
-    border-top-color: $color;
-    & .alert-icon {
-      color: $color;
+    .container {
+      border-top-color: $color;
+
+      & .alert-icon {
+        color: $color;
+      }
     }
   }
 }

@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { focusable, HYDRATED_ATTR } from "../../tests/commonTests";
+import { letterKeys, numberKeys } from "../../utils/key";
 import { getDecimalSeparator, locales, localizeNumberString } from "../../utils/locale";
 
 describe("calcite-input", () => {
@@ -697,6 +698,32 @@ describe("calcite-input", () => {
     expect(await input.getProperty("value")).toBe("123");
   });
 
+  describe("number type", () => {
+    it("disallows typing any letter or number with shift modifier key down", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-input type="number"></calcite-input>`
+      });
+      const calciteInput = await page.find("calcite-input");
+      const input = await page.find("input");
+
+      await calciteInput.callMethod("setFocus");
+      for (let i = 0; i < numberKeys.length; i++) {
+        await page.keyboard.down("Shift");
+        await page.keyboard.press(numberKeys[i]);
+        await page.keyboard.up("Shift");
+        expect(await calciteInput.getProperty("value")).toBeFalsy();
+        expect(await input.getProperty("value")).toBeFalsy();
+      }
+      for (let i = 0; i < letterKeys.length; i++) {
+        await page.keyboard.down("Shift");
+        await page.keyboard.press(letterKeys[i]);
+        await page.keyboard.up("Shift");
+        expect(await calciteInput.getProperty("value")).toBeFalsy();
+        expect(await input.getProperty("value")).toBeFalsy();
+      }
+    });
+  });
+
   describe("number locale support", () => {
     const localesWithIssues = ["ar", "bs", "mk"];
     locales
@@ -776,7 +803,7 @@ describe("calcite-input", () => {
         });
       });
 
-    it(`disallows setting value to "undefined" on initial load.`, async () => {
+    it(`disallows setting value to undefined on initial load.`, async () => {
       const page = await newE2EPage({
         html: `<calcite-input type="number" value="undefined"></calcite-input>`
       });
@@ -787,7 +814,7 @@ describe("calcite-input", () => {
       expect(await input.getProperty("value")).toBeFalsy();
     });
 
-    it(`disallows setting value to "null" on initial load.`, async () => {
+    it(`disallows setting value to null on initial load.`, async () => {
       const page = await newE2EPage({
         html: `<calcite-input type="number" value="null"></calcite-input>`
       });
@@ -861,6 +888,112 @@ describe("calcite-input", () => {
 
       expect(await calciteInput.getProperty("value")).toBe(initialValue);
       expect(await input.getProperty("value")).toBe(initialValue);
+    });
+
+    it(`disallows pasting just text characters with no initial value`, async () => {
+      const page = await newE2EPage({
+        html: `<calcite-input type="number"></calcite-input><input id="copy" value="invalid number">`
+      });
+      const calciteInput = await page.find("calcite-input");
+      const input = await page.find("input");
+      const copyInput = await page.find("#copy");
+
+      expect(await calciteInput.getProperty("value")).toBeFalsy();
+      expect(await input.getProperty("value")).toBeFalsy();
+
+      await copyInput.focus();
+      await page.keyboard.down("Meta");
+      await page.keyboard.press("a");
+      await page.keyboard.press("c");
+      await page.keyboard.up("Meta");
+
+      await calciteInput.callMethod("setFocus");
+      await page.keyboard.down("Meta");
+      await page.keyboard.press("v");
+      await page.keyboard.up("Meta");
+
+      expect(await calciteInput.getProperty("value")).toBeFalsy();
+      expect(await input.getProperty("value")).toBeFalsy();
+    });
+
+    it(`disallows pasting just text characters with existing number value`, async () => {
+      const initialValue = "1234.56";
+      const page = await newE2EPage({
+        html: `<calcite-input type="number" value="1234.56"></calcite-input><input id="copy" value="invalid number">`
+      });
+      const calciteInput = await page.find("calcite-input");
+      const input = await page.find("input");
+      const copyInput = await page.find("#copy");
+
+      expect(await calciteInput.getProperty("value")).toBe(initialValue);
+      expect(await input.getProperty("value")).toBe(initialValue);
+
+      await copyInput.focus();
+      await page.keyboard.down("Meta");
+      await page.keyboard.press("a");
+      await page.keyboard.press("c");
+      await page.keyboard.up("Meta");
+
+      await calciteInput.callMethod("setFocus");
+      await page.keyboard.down("Meta");
+      await page.keyboard.press("v");
+      await page.keyboard.up("Meta");
+
+      expect(await calciteInput.getProperty("value")).toBe(initialValue);
+      expect(await input.getProperty("value")).toBe(initialValue);
+    });
+
+    it(`disallows pasting just text characters with no initial value with group separator`, async () => {
+      const page = await newE2EPage({
+        html: `<calcite-input type="number" group-separator></calcite-input><input id="copy" value="invalid number">`
+      });
+      const calciteInput = await page.find("calcite-input");
+      const input = await page.find("input");
+      const copyInput = await page.find("#copy");
+
+      expect(await calciteInput.getProperty("value")).toBeFalsy();
+      expect(await input.getProperty("value")).toBeFalsy();
+
+      await copyInput.focus();
+      await page.keyboard.down("Meta");
+      await page.keyboard.press("a");
+      await page.keyboard.press("c");
+      await page.keyboard.up("Meta");
+
+      await calciteInput.callMethod("setFocus");
+      await page.keyboard.down("Meta");
+      await page.keyboard.press("v");
+      await page.keyboard.up("Meta");
+
+      expect(await calciteInput.getProperty("value")).toBeFalsy();
+      expect(await input.getProperty("value")).toBeFalsy();
+    });
+
+    it(`disallows pasting just text characters with existing number value with group separator`, async () => {
+      const initialValue = "1234.56";
+      const page = await newE2EPage({
+        html: `<calcite-input type="number" value="1234.56" group-separator></calcite-input><input id="copy" value="invalid number">`
+      });
+      const calciteInput = await page.find("calcite-input");
+      const input = await page.find("input");
+      const copyInput = await page.find("#copy");
+
+      expect(await calciteInput.getProperty("value")).toBe(initialValue);
+      expect(await input.getProperty("value")).toBe(localizeNumberString(initialValue, "en-US", true));
+
+      await copyInput.focus();
+      await page.keyboard.down("Meta");
+      await page.keyboard.press("a");
+      await page.keyboard.press("c");
+      await page.keyboard.up("Meta");
+
+      await calciteInput.callMethod("setFocus");
+      await page.keyboard.down("Meta");
+      await page.keyboard.press("v");
+      await page.keyboard.up("Meta");
+
+      expect(await calciteInput.getProperty("value")).toBe(initialValue);
+      expect(await input.getProperty("value")).toBe(localizeNumberString(initialValue, "en-US", true));
     });
   });
 });

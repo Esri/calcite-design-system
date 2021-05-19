@@ -1,7 +1,6 @@
 import {
   Component,
   h,
-  Host,
   Prop,
   State,
   Listen,
@@ -11,7 +10,8 @@ import {
   VNode,
   Build,
   Method,
-  Watch
+  Watch,
+  Fragment
 } from "@stencil/core";
 import { filter } from "../../utils/filter";
 import { getElementDir } from "../../utils/dom";
@@ -39,6 +39,9 @@ interface ItemData {
   label: string;
   value: string;
 }
+
+const isGroup = (el: ComboboxChildElement): el is HTMLCalciteComboboxItemGroupElement =>
+  el.tagName === ComboboxItemGroup;
 
 @Component({
   tag: "calcite-combobox",
@@ -130,7 +133,8 @@ export class CalciteCombobox {
 
   @Listen("calciteComboboxItemChange")
   calciteComboboxItemChangeHandler(event: CustomEvent<HTMLCalciteComboboxItemElement>): void {
-    this.toggleSelection(event.detail);
+    const target = event.target as HTMLCalciteComboboxItemElement;
+    this.toggleSelection(target, target.selected);
   }
 
   @Listen("keydown")
@@ -479,54 +483,64 @@ export class CalciteCombobox {
     return [...this.groupItems, ...this.items];
   }
 
-  getTextValue = (el: ComboboxChildElement): string => {
-    return el
-      ? el.tagName === ComboboxItemGroup
-        ? (el as HTMLCalciteComboboxItemGroupElement).label
-        : (el as HTMLCalciteComboboxItemElement).value
-      : null;
+  filterItems = (() => {
+    const find = (item: ComboboxChildElement, filteredData: ItemData[]) =>
+      item &&
+      filteredData.some(({ label, value }) => {
+        if (isGroup(item)) {
+          return value === item.label || value === item.label;
+        }
+
+        return (
+          value === item.textLabel ||
+          value === item.value ||
+          label === item.textLabel ||
+          label === item.value
+        );
+      });
+
+    return debounce((text: string): void => {
+      const filteredData = filter(this.data, text);
+      const items = this.getCombinedItems();
+      items.forEach((item) => {
+        const hidden = !find(item, filteredData);
+        item.hidden = hidden;
+        const [parent, grandparent] = item.ancestors;
+        if (find(parent, filteredData) || find(grandparent, filteredData)) {
+          item.hidden = false;
+        }
+        if (!hidden) {
+          item.ancestors.forEach((ancestor) => (ancestor.hidden = false));
+        }
+      });
+
+      this.visibleItems = this.getVisibleItems();
+      this.calciteComboboxFilterChange.emit({ visibleItems: [...this.visibleItems], text: text });
+    }, 100);
+  })();
+
+  internalCalciteLookupChangeEvent = (): void => {
+    this.calciteLookupChange.emit(this.selectedItems);
   };
 
-  filterItems = debounce((value: string): void => {
-    const filteredData = filter(this.data, value);
-    const values = filteredData.map((item) => item.value);
-    const items = this.getCombinedItems();
-    items.forEach((item) => {
-      const hidden = !values.includes(this.getTextValue(item));
-      item.hidden = hidden;
-      const [parent, grandparent] = item.ancestors;
-      if (
-        (parent || grandparent) &&
-        (values.includes(this.getTextValue(parent)) ||
-          values.includes(this.getTextValue(grandparent)))
-      ) {
-        item.hidden = false;
-      }
-      if (!hidden) {
-        item.ancestors.forEach((anscestor) => (anscestor.hidden = false));
-      }
-    });
-
-    this.visibleItems = this.getVisibleItems();
-    this.calciteComboboxFilterChange.emit({ visibleItems: [...this.visibleItems], text: value });
-  }, 100);
+  emitCalciteLookupChange = debounce(this.internalCalciteLookupChangeEvent, 0);
 
   toggleSelection(item: HTMLCalciteComboboxItemElement, value = !item.selected): void {
     if (!item) {
       return;
     }
 
+    item.selected = value;
+
     if (this.isMulti()) {
-      item.selected = value;
       this.updateAncestors(item);
       this.selectedItems = this.getSelectedItems();
-      this.calciteLookupChange.emit(this.selectedItems);
+      this.emitCalciteLookupChange();
       this.resetText();
       this.textInput.focus();
       this.filterItems("");
     } else {
-      this.items.forEach((el) => el.toggleSelected(false));
-      item.toggleSelected(true);
+      this.items.filter((el) => el !== item).forEach((el) => (el.selected = false));
       this.selectedItem = item;
       this.textInput.value = item.textLabel;
       this.active = false;
@@ -622,7 +636,7 @@ export class CalciteCombobox {
   }
 
   addCustomChip(value: string): void {
-    const existingItem = this.items.find((el) => el.value === value || el.textLabel === value);
+    const existingItem = this.items.find((el) => el.textLabel === value);
     if (existingItem) {
       this.toggleSelection(existingItem, true);
     } else {
@@ -753,7 +767,7 @@ export class CalciteCombobox {
           dismissible
           icon={item.icon}
           id={`chip-${item.guid}`}
-          key={item.value}
+          key={item.textLabel}
           onCalciteChipDismiss={(event) => this.calciteChipDismissHandler(event, item)}
           scale={scale}
           value={item.value}
@@ -817,7 +831,7 @@ export class CalciteCombobox {
   renderListBoxOptions(): VNode[] {
     return this.visibleItems.map((item) => (
       <li aria-selected={(!!item.selected).toString()} id={item.guid} role="option" tabindex="-1">
-        {item.textLabel || item.value}
+        {item.textLabel}
       </li>
     ));
   }
@@ -883,7 +897,7 @@ export class CalciteCombobox {
     const single = this.selectionMode === "single";
     const labelId = `${guid}-label`;
     return (
-      <Host>
+      <Fragment>
         <div
           aria-autocomplete="list"
           aria-expanded={open.toString()}
@@ -918,7 +932,7 @@ export class CalciteCombobox {
           {this.renderListBoxOptions()}
         </ul>
         {this.renderPopperContainer()}
-      </Host>
+      </Fragment>
     );
   }
 }

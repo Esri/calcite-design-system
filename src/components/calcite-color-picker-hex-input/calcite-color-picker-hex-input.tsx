@@ -161,7 +161,7 @@ export class CalciteColorPickerHexInput {
     node.value =
       this.allowEmpty && !this.internalColor
         ? ""
-        : this.formatForInternalInput(rgbToHex((this.internalColor.object() as any) as RGB));
+        : this.formatForInternalInput(rgbToHex(this.internalColor.object() as any as RGB));
   };
 
   private onInputChange = (event: Event): void => {

@@ -25,6 +25,7 @@
 }
 
 .scrim {
+  --calcite-scrim-background: #{rgba($blk-240, 0.75)};
   @apply fixed inset-0 flex overflow-y-hidden;
 }
 
@@ -39,7 +40,7 @@
   transform: translate3d(0, 20px, 0);
 }
 
-:host([is-active]) {
+:host([active]) {
   @apply opacity-100;
   visibility: visible !important;
   transition-delay: 0ms;
@@ -84,7 +85,7 @@
   }
 }
 
-:host([dir="rtl"]) .close {
+.calcite--rtl .close {
   @apply rounded-tl rounded-tr-none;
 }
 
@@ -147,7 +148,7 @@
   @apply block mr-auto;
 }
 
-:host([dir="rtl"]) .back {
+.calcite--rtl .back {
   @apply ml-auto mr-0;
 }
 
@@ -207,7 +208,7 @@ slot[name="primary"] {
   }
 }
 
-:host([is-active][fullscreen]) {
+:host([active][fullscreen]) {
   .modal {
     transform: translate3D(0, 0, 0) scale(1);
   }
@@ -242,7 +243,7 @@ slot[name="primary"] {
 }
 
 @media screen and (max-width: $viewport-medium) {
-  :host([docked][dir="rtl"]) .close {
+  :host([docked]) .calcite--rtl .close {
     border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
   }
 }
@@ -288,7 +289,7 @@ slot[name="primary"] {
   .footer {
     @apply flex-col;
   }
-  :host([dir="rtl"]) .back,
+  .calcite--rtl .back,
   .back,
   .secondary {
     @apply m-0 mb-1;

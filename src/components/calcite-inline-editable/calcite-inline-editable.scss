@@ -64,11 +64,9 @@
 }
 
 :host(:not([editing-enabled])) {
-  &:not([theme="dark"]) {
-    &::slotted(*) {
-      .calcite-input-element-wrapper {
-        background: transparent;
-      }
+  &::slotted(*) {
+    .calcite-input-element-wrapper {
+      background: transparent;
     }
   }
 }
