@@ -69,9 +69,12 @@ export class CalciteCombobox {
   activeHandler(newValue: boolean, oldValue: boolean): void {
     // when closing, wait transition time then hide to prevent overscroll
     if (oldValue && !newValue) {
-      this.el.addEventListener("calciteComboboxActive", this.toggleActiveEnd);
+      this.calciteComboboxOpen.emit();
+      this.el.addEventListener("calciteComboboxOpenEnd", this.toggleOpenEnd);
       this.open = false;
     } else if (!oldValue && newValue) {
+      this.calciteComboboxClose.emit();
+      this.el.addEventListener("calciteComboboxCloseEnd", this.toggleCloseEnd);
       // give the combobox height, then reposition prior to opening
       this.hideList = false;
       requestAnimationFrame(() => {
@@ -245,8 +248,17 @@ export class CalciteCombobox {
   /** Called when a selected item in the combobox is dismissed via its chip **/
   @Event() calciteComboboxChipDismiss: EventEmitter;
 
+  /** Fired when the combobox is opened */
+  @Event() calciteComboboxOpen: EventEmitter;
+
   /** Fired when the combobox is opened and the transition has ended */
-  @Event() calciteComboboxActive: EventEmitter;
+  @Event() calciteComboboxOpenEnd: EventEmitter;
+
+  /** Fired when the combobox is closed */
+  @Event() calciteComboboxClose: EventEmitter;
+
+  /** Fired when the combobox is closed and the transition has ended */
+  @Event() calciteComboboxCloseEnd: EventEmitter;
 
   // --------------------------------------------------------------------------
   //
@@ -344,14 +356,19 @@ export class CalciteCombobox {
   //
   // --------------------------------------------------------------------------
 
-  private toggleActiveEnd = (): void => {
+  private toggleCloseEnd = (): void => {
     this.hideList = true;
-    this.el.removeEventListener("calciteComboboxActive", this.toggleActiveEnd);
+    this.el.removeEventListener("calciteComboboxCloseEnd", this.toggleCloseEnd);
+  };
+
+  private toggleOpenEnd = (): void => {
+    this.hideList = true;
+    this.el.removeEventListener("calciteComboboxOpenEnd", this.toggleOpenEnd);
   };
 
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === "opacity") {
-      this.calciteComboboxActive.emit();
+      this.active ? this.calciteComboboxOpenEnd.emit() : this.calciteComboboxCloseEnd.emit();
     }
   };
 

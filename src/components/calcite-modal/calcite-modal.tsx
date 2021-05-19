@@ -244,8 +244,14 @@ export class CalciteModal {
   /** Fired when the modal begins the open animation */
   @Event() calciteModalOpen: EventEmitter;
 
+  /** Fired when the modal ends the open animation */
+  @Event() calciteModalOpenEnd: EventEmitter;
+
   /** Fired when the modal begins the close animation */
   @Event() calciteModalClose: EventEmitter;
+
+  /** Fired when the modal ends the close animation */
+  @Event() calciteModalCloseEnd: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -300,7 +306,7 @@ export class CalciteModal {
   //--------------------------------------------------------------------------
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === "opacity") {
-      this.active ? this.calciteModalOpen.emit() : this.calciteModalClose.emit();
+      this.active ? this.calciteModalOpenEnd.emit() : this.calciteModalCloseEnd.emit();
     }
   };
 
@@ -317,14 +323,15 @@ export class CalciteModal {
 
   private openEnd = (): void => {
     this.setFocus();
-    this.el.removeEventListener("calciteModalOpen", this.openEnd);
+    this.el.removeEventListener("calciteModalOpenEnd", this.openEnd);
   };
 
   /** Open the modal */
   private open() {
     this.previousActiveElement = document.activeElement as HTMLElement;
-    this.el.addEventListener("calciteModalOpen", this.openEnd);
+    this.el.addEventListener("calciteModalOpenEnd", this.openEnd);
     this.active = true;
+    this.calciteModalOpen.emit();
     document.documentElement.classList.add("overflow-hidden");
   }
 
@@ -333,6 +340,7 @@ export class CalciteModal {
     return this.beforeClose(this.el).then(() => {
       this.active = false;
       focusElement(this.previousActiveElement);
+      this.calciteModalClose.emit();
       this.removeOverflowHiddenClass();
     });
   };

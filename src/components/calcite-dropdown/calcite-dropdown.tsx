@@ -203,8 +203,14 @@ export class CalciteDropdown {
   /** fires when a dropdown has been opened **/
   @Event() calciteDropdownOpen: EventEmitter<void>;
 
+  /** Fired when the dropdown is opened and the transition has ended */
+  @Event() calciteDropdownOpenEnd: EventEmitter;
+
   /** fires when a dropdown has been closed **/
   @Event() calciteDropdownClose: EventEmitter<void>;
+
+  /** fires when a dropdown has been closed and the transition has ended **/
+  @Event() calciteDropdownCloseEnd: EventEmitter<void>;
 
   @Listen("click", { target: "window" })
   closeCalciteDropdownOnClick(e: Event): void {
@@ -312,9 +318,6 @@ export class CalciteDropdown {
     this.updateSelectedItems();
   }
 
-  /** Fired when the dropdown is opened and the transition has ended */
-  @Event() calciteDropdownActive: EventEmitter;
-
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
@@ -347,7 +350,7 @@ export class CalciteDropdown {
 
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === "opacity") {
-      this.calciteDropdownActive.emit();
+      this.active ? this.calciteDropdownOpenEnd.emit() : this.calciteDropdownCloseEnd.emit();
     }
   };
 
@@ -508,18 +511,14 @@ export class CalciteDropdown {
     focusElement(target);
   }
 
-  private toggleActiveEnd = (): void => {
-    if (this.active) {
-      this.focusOnFirstActiveOrFirstItem();
-    } else {
-      this.calciteDropdownClose.emit();
-    }
-    this.el.removeEventListener("calciteDropdownActive", this.toggleActiveEnd);
+  private toggleOpenEnd = (): void => {
+    this.focusOnFirstActiveOrFirstItem();
+    this.el.removeEventListener("calciteDropdownOpenEnd", this.toggleOpenEnd);
   };
 
   private openCalciteDropdown() {
     this.calciteDropdownOpen.emit();
-    this.el.addEventListener("calciteDropdownActive", this.toggleActiveEnd);
+    this.el.addEventListener("calciteDropdownOpenEnd", this.toggleOpenEnd);
     this.active = !this.active;
   }
 }

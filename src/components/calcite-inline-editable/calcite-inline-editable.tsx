@@ -163,6 +163,11 @@ export class CalciteInlineEditable {
   /**
    * @internal
    */
+  @Event() calciteInlineEditableEditingCancelEnd: EventEmitter;
+
+  /**
+   * @internal
+   */
   @Event() calciteInlineEditableChangesConfirm: EventEmitter;
 
   /**
@@ -228,7 +233,7 @@ export class CalciteInlineEditable {
 
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === "padding-left" || event.propertyName === "padding-right") {
-      this.calciteInlineEditableEditingCancel.emit(event);
+      this.calciteInlineEditableEditingCancelEnd.emit(event);
     }
   };
 
@@ -251,12 +256,13 @@ export class CalciteInlineEditable {
 
   private cancelEditingEnd = (): void => {
     this.enableEditingButton.setFocus();
-    this.el.removeEventListener("calciteInlineEditableEditingCancel", this.cancelEditingEnd);
+    this.el.removeEventListener("calciteInlineEditableEditingCancelEnd", this.cancelEditingEnd);
   };
 
   private cancelEditing = () => {
     this.inputElement.value = this.valuePriorToEditing;
-    this.el.addEventListener("calciteInlineEditableEditingCancel", this.cancelEditingEnd);
+    this.el.addEventListener("calciteInlineEditableEditingCancelEnd", this.cancelEditingEnd);
+    this.calciteInlineEditableEditingCancel.emit();
     this.disableEditing();
   };
 
