@@ -22,6 +22,8 @@ export class CalciteTooltipManager {
 
   hoverTimeouts: WeakMap<HTMLCalciteTooltipElement, number> = new WeakMap();
 
+  clickedFlag: boolean;
+
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -201,9 +203,20 @@ export class CalciteTooltipManager {
     this.hoverEvent(event, false);
   }
 
+  @Listen("click", { capture: true })
+  clickHandler(event: MouseEvent): void {
+    if (this.queryTooltip(event.target as HTMLElement)) {
+      this.clickedFlag = true;
+    }
+  }
+
   @Listen("focus", { capture: true })
   focusShow(event: FocusEvent): void {
-    this.focusEvent(event, true);
+    if (!this.clickedFlag) {
+      this.focusEvent(event, true);
+    }
+
+    this.clickedFlag = false;
   }
 
   @Listen("blur", { capture: true })
