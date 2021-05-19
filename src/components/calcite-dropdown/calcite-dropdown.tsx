@@ -469,9 +469,9 @@ export class CalciteDropdown {
     focusElement(this.triggers[0]);
   }
 
-  private focusOnFirstActiveOrFirstItem(): void {
+  private focusOnFirstActiveOrFirstItem = (): void => {
     this.getFocusableElement(this.items.find((item) => item.active) || this.items[0]);
-  }
+  };
 
   private focusFirstItem() {
     const firstItem = this.items[0];
@@ -516,9 +516,14 @@ export class CalciteDropdown {
     this.el.removeEventListener("calciteDropdownOpenEnd", this.toggleOpenEnd);
   };
 
-  private openCalciteDropdown() {
-    this.calciteDropdownOpen.emit();
-    this.el.addEventListener("calciteDropdownOpenEnd", this.toggleOpenEnd);
+  private openCalciteDropdown = () => {
     this.active = !this.active;
-  }
+
+    if (this.active) {
+      this.calciteDropdownOpen.emit();
+      this.el.addEventListener("calciteDropdownOpenEnd", this.toggleOpenEnd);
+    } else {
+      this.calciteDropdownClose.emit();
+    }
+  };
 }
