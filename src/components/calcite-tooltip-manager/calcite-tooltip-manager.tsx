@@ -22,7 +22,7 @@ export class CalciteTooltipManager {
 
   hoverTimeouts: WeakMap<HTMLCalciteTooltipElement, number> = new WeakMap();
 
-  clickedFlag: boolean;
+  clickedTooltip: HTMLCalciteTooltipElement;
 
   // --------------------------------------------------------------------------
   //
@@ -154,7 +154,7 @@ export class CalciteTooltipManager {
   focusEvent = (event: FocusEvent, value: boolean): void => {
     const tooltip = this.queryTooltip(event.target as HTMLElement);
 
-    if (!tooltip) {
+    if (!tooltip || tooltip === this.clickedTooltip) {
       return;
     }
 
@@ -205,18 +205,12 @@ export class CalciteTooltipManager {
 
   @Listen("click", { capture: true })
   clickHandler(event: MouseEvent): void {
-    if (this.queryTooltip(event.target as HTMLElement)) {
-      this.clickedFlag = true;
-    }
+    this.clickedTooltip = this.queryTooltip(event.target as HTMLElement);
   }
 
   @Listen("focus", { capture: true })
   focusShow(event: FocusEvent): void {
-    if (!this.clickedFlag) {
-      this.focusEvent(event, true);
-    }
-
-    this.clickedFlag = false;
+    this.focusEvent(event, true);
   }
 
   @Listen("blur", { capture: true })
