@@ -92,7 +92,7 @@ export class CalcitePopover {
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
-  openHandler(): void {
+  openHandler(open: boolean): void {
     this.reposition();
     this.setExpandedAttr();
     if (open) {

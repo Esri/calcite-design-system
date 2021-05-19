@@ -69,14 +69,13 @@ export class CalciteCombobox {
   activeHandler(newValue: boolean, oldValue: boolean): void {
     // when closing, wait transition time then hide to prevent overscroll
     if (oldValue && !newValue) {
-      this.calciteComboboxOpen.emit();
-      this.el.addEventListener("calciteComboboxOpenEnd", this.toggleOpenEnd);
-      this.open = false;
-    } else if (!oldValue && newValue) {
       this.calciteComboboxClose.emit();
       this.el.addEventListener("calciteComboboxCloseEnd", this.toggleCloseEnd);
+      this.open = false;
+    } else if (!oldValue && newValue) {
       // give the combobox height, then reposition prior to opening
-      this.hideList = false;
+      this.calciteComboboxOpen.emit();
+      this.el.addEventListener("calciteComboboxOpenEnd", this.toggleOpenEnd);
       requestAnimationFrame(() => {
         this.reposition();
         this.setMaxScrollerHeight();
@@ -362,7 +361,7 @@ export class CalciteCombobox {
   };
 
   private toggleOpenEnd = (): void => {
-    this.hideList = true;
+    this.hideList = false;
     this.el.removeEventListener("calciteComboboxOpenEnd", this.toggleOpenEnd);
   };
 
