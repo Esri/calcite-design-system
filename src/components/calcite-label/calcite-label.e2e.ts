@@ -916,4 +916,38 @@ describe("calcite-label", () => {
       expect(activeElClass).toEqual(sliderClass);
     });
   });
+
+  it("clicking sibling label focuses input when both are inside a shadowRoot", async () => {
+    const page = await newE2EPage();
+
+    await page.evaluate(() => {
+      document.addEventListener("calciteInputFocus", (event: CustomEvent): void => {
+        (window as any).eventDetail = event.detail;
+      });
+    });
+
+    await page.evaluate(() => {
+      class ShadowComponent extends HTMLElement {
+        constructor() {
+          super();
+          const shadow = this.attachShadow({ mode: "open" });
+          shadow.innerHTML = `
+            <calcite-label for="input">Label</calcite-label>
+            <calcite-input id="input"></calcite-input>
+          `;
+        }
+      }
+
+      customElements.define("shadow-component", ShadowComponent);
+
+      const shadowComponent = document.createElement("shadow-component");
+      document.body.appendChild(shadowComponent);
+
+      shadowComponent.shadowRoot.querySelector("calcite-label").click();
+    });
+
+    const eventDetail: any = await page.evaluateHandle(() => (window as any).eventDetail);
+
+    expect(eventDetail).toBeTruthy();
+  });
 });
