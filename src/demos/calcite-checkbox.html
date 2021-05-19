@@ -37,40 +37,30 @@
       <h1>Calcite Checkbox</h1>
 
       <section>
-        <!-- src/components/calcite-checkbox/usage/reference-examples.md -->
+        <!-- src/components/calcite-checkbox/usage/.md -->
         <div>
-          <h3>With native label and indeterminate property</h3>
-          <label for="checked-focused-indeterminate">
+          <h3>Basic</h3>
+          <calcite-checkbox id="first-name" name="first-name"></calcite-checkbox>
+        </div>
+        <div>
+          <h3>Indeterminate and checked with native label</h3>
+          <label for="checked-indeterminate">
             Status
-            <calcite-checkbox checked focused indeterminate id="checked-focused-indeterminate" name="checked-focused-indeterminate-status"></calcite-checkbox>
+            <calcite-checkbox checked indeterminate id="checked-indeterminate" name="checked-indeterminate"></calcite-checkbox>
           </label>
         </div>
         <div>
-          <h3>With calcite-label and checked property</h3>
-          <calcite-label layout="inline" for="checked">
+          <h3>Checked with calcite-label</h3>
+          <calcite-label layout="inline" for="checked-item">
             To do
-            <calcite-checkbox checked id="checked" name="checked-todo"></calcite-checkbox>
+            <calcite-checkbox checked id="checked-item" name="checked-item"></calcite-checkbox>
           </calcite-label>
         </div>
         <div>
-          <h3>With calcite-label and hovered property</h3>
-          <calcite-label layout="inline" for="hovered">
-            <calcite-checkbox hovered id="hovered" name="hovered-todo"></calcite-checkbox>
+          <h3>Hovered with calcite-label</h3>
+          <calcite-label layout="inline" for="hovered-item">
+            <calcite-checkbox hovered id="hovered-item" name="hovered-item"></calcite-checkbox>
             To do
-          </calcite-label>
-        </div>
-        <div>
-          <h3>With calcite-label and checkbox displayed right of input</h3>
-          <calcite-label layout="inline">
-            Map name
-            <calcite-checkbox name="map-name-r"></calcite-checkbox>
-          </calcite-label>
-        </div>
-        <div>
-          <h3>With calcite-label and checkbox displayed left of input</h3>
-          <calcite-label layout="inline">
-            <calcite-checkbox name="map-name-l"></calcite-checkbox>
-            Map name
           </calcite-label>
         </div>
       </section>
