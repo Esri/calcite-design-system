@@ -14,11 +14,11 @@ import {
 } from "@stencil/core";
 import { Scale, Theme } from "../interfaces";
 import { numberKeys } from "../../utils/key";
+import { isValidNumber } from "../../utils/number";
 import {
   Meridiem,
   zeroPadNumber,
   MinuteOrSecond,
-  stringIsValidNumber,
   Time,
   maxTenthForMinuteAndSecond,
   TimeFocusId,
@@ -106,7 +106,7 @@ export class CalciteTimePicker {
 
   @Watch("hour")
   hourChanged(newHour: string): void {
-    if (this.hourDisplayFormat === "12" && stringIsValidNumber(newHour)) {
+    if (this.hourDisplayFormat === "12" && isValidNumber(newHour)) {
       this.meridiem = getMeridiem(newHour);
     }
   }
@@ -275,7 +275,7 @@ export class CalciteTimePicker {
 
   private decrementMinuteOrSecond = (key: MinuteOrSecond): void => {
     let newValue;
-    if (stringIsValidNumber(this[key])) {
+    if (isValidNumber(this[key])) {
       const valueAsNumber = parseInt(this[key]);
       if (valueAsNumber === 0) {
         newValue = 59;
@@ -333,7 +333,7 @@ export class CalciteTimePicker {
       this.editingHourWhileFocused = true;
       const keyAsNumber = parseInt(event.key);
       let newHour;
-      if (stringIsValidNumber(this.hour)) {
+      if (isValidNumber(this.hour)) {
         switch (this.hourDisplayFormat) {
           case "12":
             if (this.hour === "01" && keyAsNumber >= 0 && keyAsNumber <= 2) {
@@ -385,7 +385,7 @@ export class CalciteTimePicker {
     if (event && event instanceof KeyboardEvent && event.key !== "Enter") {
       return;
     }
-    const newHour = stringIsValidNumber(this.hour)
+    const newHour = isValidNumber(this.hour)
       ? this.hour === "23"
         ? 0
         : parseInt(this.hour) + 1
@@ -394,7 +394,7 @@ export class CalciteTimePicker {
   };
 
   private incrementMinuteOrSecond = (key: MinuteOrSecond): void => {
-    const newValue = stringIsValidNumber(this[key])
+    const newValue = isValidNumber(this[key])
       ? this[key] === "59"
         ? 0
         : parseInt(this[key]) + 1
@@ -442,7 +442,7 @@ export class CalciteTimePicker {
     if (numberKeys.includes(event.key)) {
       const keyAsNumber = parseInt(event.key);
       let newMinute;
-      if (stringIsValidNumber(this.minute) && this.minute.startsWith("0")) {
+      if (isValidNumber(this.minute) && this.minute.startsWith("0")) {
         const minuteAsNumber = parseInt(this.minute);
         if (minuteAsNumber > maxTenthForMinuteAndSecond) {
           newMinute = keyAsNumber;
@@ -474,7 +474,7 @@ export class CalciteTimePicker {
     if (numberKeys.includes(event.key)) {
       const keyAsNumber = parseInt(event.key);
       let newSecond;
-      if (stringIsValidNumber(this.second) && this.second.startsWith("0")) {
+      if (isValidNumber(this.second) && this.second.startsWith("0")) {
         const secondAsNumber = parseInt(this.second);
         if (secondAsNumber > maxTenthForMinuteAndSecond) {
           newSecond = keyAsNumber;
@@ -520,7 +520,7 @@ export class CalciteTimePicker {
         this.second = typeof value === "number" ? zeroPadNumber(value) : value;
         break;
       case "meridiem":
-        if (stringIsValidNumber(this.hour)) {
+        if (isValidNumber(this.hour)) {
           const hourAsNumber = parseInt(this.hour);
           switch (value) {
             case "AM":
@@ -559,13 +559,13 @@ export class CalciteTimePicker {
   }
 
   componentDidLoad() {
-    if (stringIsValidNumber(this.hour)) {
+    if (isValidNumber(this.hour)) {
       this.hour = zeroPadNumber(parseInt(this.hour));
     }
-    if (stringIsValidNumber(this.minute)) {
+    if (isValidNumber(this.minute)) {
       this.minute = zeroPadNumber(parseInt(this.minute));
     }
-    if (stringIsValidNumber(this.second)) {
+    if (isValidNumber(this.second)) {
       this.second = zeroPadNumber(parseInt(this.second));
     }
   }
@@ -579,9 +579,9 @@ export class CalciteTimePicker {
   render(): VNode {
     const iconScale = this.scale === "s" || this.scale === "m" ? "s" : "m";
     const includeSeconds = this.step !== 60;
-    const hourIsNumber = stringIsValidNumber(this.hour);
-    const minuteIsNumber = stringIsValidNumber(this.minute);
-    const secondIsNumber = stringIsValidNumber(this.second);
+    const hourIsNumber = isValidNumber(this.hour);
+    const minuteIsNumber = isValidNumber(this.minute);
+    const secondIsNumber = isValidNumber(this.second);
     return (
       <Host>
         <div class={CSS.timePicker}>

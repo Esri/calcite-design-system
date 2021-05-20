@@ -1,3 +1,5 @@
+import { isValidNumber } from "./number";
+
 export type Meridiem = "AM" | "PM";
 
 export type MinuteOrSecond = "minute" | "second";
@@ -13,7 +15,7 @@ export type TimeFocusId = "hour" | MinuteOrSecond | "meridiem";
 export const maxTenthForMinuteAndSecond = 5;
 
 export function getMeridiem(hour: string): Meridiem {
-  if (stringIsValidNumber(hour)) {
+  if (isValidNumber(hour)) {
     const hourAsNumber = parseInt(hour);
     return hourAsNumber >= 0 && hourAsNumber <= 11 ? "AM" : "PM";
   }
@@ -21,7 +23,7 @@ export function getMeridiem(hour: string): Meridiem {
 }
 
 export function getMeridiemHour(hour: string): string {
-  if (!stringIsValidNumber(hour)) {
+  if (!isValidNumber(hour)) {
     return null;
   }
   const hourAsNumber = parseInt(hour);
@@ -41,23 +43,6 @@ export function parseTimeString(value: string): Time {
   };
 }
 
-export function stringIsValidNumber(value: string): boolean {
-  if (!value) {
-    return false;
-  }
-  const letters = /^[A-Za-z]+$/;
-  const numbers = /^[0-9]+$/;
-  const letterMatch = value.match(letters);
-  const numberMatch = value.match(numbers);
-  const hasLetters = Array.isArray(letterMatch);
-  const hasNumbers = Array.isArray(numberMatch);
-  const isValidNumber = !isNaN(parseInt(value));
-  if (hasNumbers && !hasLetters && isValidNumber) {
-    return true;
-  }
-  return false;
-}
-
 export function validateTimeString(value: string): string {
   if (!value || value.endsWith(":") || value.startsWith(":")) {
     return null;
@@ -70,9 +55,9 @@ export function validateTimeString(value: string): string {
     const hourAsNumber = parseInt(splitValue[0]);
     const minuteAsNumber = parseInt(splitValue[1]);
     const secondAsNumber = parseInt(splitValue[2]);
-    const hourValid = stringIsValidNumber(hour) && hourAsNumber >= 0 && hourAsNumber < 24;
-    const minuteValid = stringIsValidNumber(minute) && minuteAsNumber >= 0 && minuteAsNumber < 60;
-    const secondValid = stringIsValidNumber(second) && secondAsNumber >= 0 && secondAsNumber < 60;
+    const hourValid = isValidNumber(hour) && hourAsNumber >= 0 && hourAsNumber < 24;
+    const minuteValid = isValidNumber(minute) && minuteAsNumber >= 0 && minuteAsNumber < 60;
+    const secondValid = isValidNumber(second) && secondAsNumber >= 0 && secondAsNumber < 60;
     if ((hourValid && minuteValid && !second) || (hourValid && minuteValid && secondValid)) {
       let newValue = `${zeroPadNumber(hourAsNumber)}:${zeroPadNumber(minuteAsNumber)}`;
       if (secondValid) {
