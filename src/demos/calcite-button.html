@@ -11,6 +11,9 @@
       padding: 0 2rem;
       margin-bottom: 3rem;
     }
+    h1,h3,h4,h5 {
+      color: var(--calcite-ui-text-1);
+    }
     .demo-background-dark {
       background: #2b2b2b;
       color: white;
@@ -33,12 +36,7 @@
     <!-- src/components/calcite-button/usage/.md -->
     <div>
       <h3>Basic</h3>
-      <calcite-button icon-start="plus" color="red" width="half">Go!</calcite-button>
-    </div>
-    <div>
-      <h3>As anchor link</h3>
-      <calcite-button href="#content">Internal anchor</calcite-button>
-      <calcite-button href="https://www.esri.com" icon-start="launch" rel="noopener noreferrer" target="_blank">External anchor with icon</calcite-button>
+      <calcite-button icon-start="plus" color="red">Go!</calcite-button>
     </div>
     <div>
       <h3>Within a form</h3>
@@ -208,7 +206,7 @@
       <calcite-button title="inverse outline button" appearance="outline" color="inverse">inverse outline button</calcite-button>
     </div>
 
-    <div style="background-color: white;">
+    <div>
       <h3>Appearance: Clear</h3>
       <calcite-button title="blue clear button" appearance="clear">blue clear button</calcite-button>
       <calcite-button title="red clear button" appearance="clear" color="red">red clear button</calcite-button>
@@ -225,7 +223,7 @@
       <calcite-button title="inverse clear button" appearance="clear" color="inverse">inverse clear button</calcite-button>
     </div>
 
-    <div style="background-color: var(--calcite-ui-foreground-1);">
+    <div>
       <h3>Appearance: Transparent</h3>
       <calcite-button title="blue transparent button" appearance="transparent" icon-start="layers">transparent and icon</calcite-button>
       <calcite-button title="blue transparent button" appearance="transparent" icon-start="layers">transparent and end icon</calcite-button>
@@ -287,7 +285,6 @@
   </section>
 
   <section>
-
     <h3>Anchor links</h3>
     <h5>Passing a href will render the component as an anchor.</h5>
     <calcite-button href="#content">Internal anchor</calcite-button>
