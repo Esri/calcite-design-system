@@ -3,3 +3,5 @@ export const TEXT = {
   intlCancelEditing: "Cancel",
   intlConfirmChanges: "Save"
 };
+
+export const transitionProperties = ["padding-left", "padding-right"];

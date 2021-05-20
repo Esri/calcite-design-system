@@ -25,7 +25,7 @@ import { guid } from "../../utils/guid";
 import { Theme } from "../interfaces";
 import { getElementDir, queryElementRoots } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
-import { PopoverFocusId } from "./resources";
+import { PopoverFocusId, transitionProperty } from "./resources";
 
 /**
  * @slot image - A slot for adding an image. The image will appear above the other slot content.
@@ -342,7 +342,7 @@ export class CalcitePopover {
   };
 
   transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === "opacity") {
+    if (event.propertyName === transitionProperty) {
       this.open ? this.calcitePopoverOpenEnd.emit() : this.calcitePopoverCloseEnd.emit();
     }
   };

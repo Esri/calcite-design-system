@@ -19,6 +19,7 @@ import { dateFromRange, inRange, dateFromISO, parseDateString, sameDate } from "
 import { HeadingLevel } from "../functional/CalciteHeading";
 import { getKey } from "../../utils/key";
 import { TEXT } from "../calcite-date-picker/calcite-date-picker-resources";
+import { transitionProperty } from "./resources";
 
 import {
   createPopper,
@@ -368,7 +369,7 @@ export class CalciteInputDatePicker {
   //--------------------------------------------------------------------------
 
   transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === "opacity") {
+    if (event.propertyName === transitionProperty) {
       this.calciteInputDatePickerRangeFocus.emit();
     }
   };

@@ -15,3 +15,5 @@ export const ARIA_CONTROLS = "aria-controls";
 export const ARIA_EXPANDED = "aria-expanded";
 
 export type PopoverFocusId = "close-button";
+
+export const transitionProperty = "opacity";

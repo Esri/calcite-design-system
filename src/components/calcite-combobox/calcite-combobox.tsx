@@ -31,7 +31,8 @@ import {
   ComboboxChildSelector,
   ComboboxItem,
   ComboboxItemGroup,
-  ComboboxDefaultPlacement
+  ComboboxDefaultPlacement,
+  transitionProperty
 } from "./resources";
 import { getItemAncestors, getItemChildren, hasActiveChildren } from "./utils";
 
@@ -366,7 +367,7 @@ export class CalciteCombobox {
   };
 
   transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === "opacity") {
+    if (event.propertyName === transitionProperty) {
       this.active ? this.calciteComboboxOpenEnd.emit() : this.calciteComboboxCloseEnd.emit();
     }
   };

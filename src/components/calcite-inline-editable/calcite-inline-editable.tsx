@@ -11,7 +11,7 @@ import {
 } from "@stencil/core";
 import { getElementProp } from "../../utils/dom";
 import { Scale, Theme } from "../interfaces";
-import { TEXT } from "./resources";
+import { TEXT, transitionProperties } from "./resources";
 
 /**
  * @slot - slot for rendering a `<calcite-input>`
@@ -232,7 +232,7 @@ export class CalciteInlineEditable {
   //--------------------------------------------------------------------------
 
   transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === "padding-left" || event.propertyName === "padding-right") {
+    if (transitionProperties.includes(event.propertyName)) {
       this.calciteInlineEditableEditingCancelEnd.emit(event);
     }
   };
