@@ -19,6 +19,7 @@ import {
   deselectSiblingItems,
   getItemData,
   handleFilter,
+  calciteListFocusOutHandler,
   initialize,
   initializeObserver,
   mutationObserverCallback,
@@ -154,6 +155,11 @@ export class CalcitePickList<
   @Listen("calciteListItemValueChange")
   calciteListItemValueChangeHandler(event: CustomEvent): void {
     calciteListItemValueChangeHandler.call(this, event);
+  }
+
+  @Listen("focusout")
+  calciteListFocusOutHandler(event: FocusEvent): void {
+    calciteListFocusOutHandler.call(this, event);
   }
 
   // --------------------------------------------------------------------------
