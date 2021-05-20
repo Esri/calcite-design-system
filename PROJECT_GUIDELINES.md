@@ -125,7 +125,7 @@ For each main component (i.e., one that can be used by itself), there should be 
 
 Each story should provide access to relevant [knobs](https://github.com/storybookjs/storybook/tree/next/addons/knobs) so users can test out different properties.
 
-For additional documentation, create a [usage folder](https://github.com/Esri/calcite-components/tree/master/src/components/calcite-action/usage) in the component directory with a basic.md and optionally an advanced.md file (if additional documentation or examples are required) with snippets showing different supported use cases for the component. The Calcite Design System team makes use of these .md snippets elsewhere in Calcite developer documentation via the docs-json output target ([Stencil docs-json](https://stenciljs.com/docs/docs-json#usage)).
+For additional documentation, create a [usage folder](https://github.com/Esri/calcite-components/tree/master/src/components/calcite-action/usage) in the component directory with a basic.md and optionally an advanced.md file (if additional documentation or examples are required) with snippets showing different supported use cases for the component.
 
 #### Best practices
 
@@ -149,7 +149,7 @@ Avoid complex CSS selectors and move logic into the component. As a general rule
 For example, instead of a complex CSS selector as demonstrated below:
 
 ```css
-[alignment="icon-end-space-between"]:not([width="auto"]) {
+[dir="rtl"][alignment="icon-end-space-between"]:not([width="auto"]) {
   /* ... */
 }
 ```
@@ -159,7 +159,7 @@ Add a class to handle the logic in the component class.
 ```tsx
 <div
   class={{
-    [CSS.myClass]: alignment === "icon-end-space-between" && width !== "auto"
+    [CSS.myClass]: rtl && alignment === "icon-end-space-between" && width !== "auto"
   }}
 />
 ```
@@ -202,3 +202,7 @@ Please see Stencil's doc for more info on [end-to-end](https://stenciljs.com/doc
 #### Browser support
 
 See our [README.md](https://github.com/Esri/calcite-components/blob/master/README.md#browser-support) for a list of supported browsers.
+
+## Gotchas
+
+- See our [gotchas wiki](https://github.com/Esri/calcite-components/wiki/Stencil-Tidbits#gotchas) for issues we've found with Stencil.
