@@ -259,7 +259,7 @@ export class CalciteTimePicker {
   // --------------------------------------------------------------------------
 
   private decrementHour = (event?: KeyboardEvent | MouseEvent): void => {
-    if (event && event instanceof KeyboardEvent && event.key !== "Enter") {
+    if (this.enterKeyPressed(event)) {
       return;
     }
     const newHour = !this.hour ? 0 : this.hour === "00" ? 23 : parseInt(this.hour) - 1;
@@ -267,7 +267,7 @@ export class CalciteTimePicker {
   };
 
   private decrementMeridiem = (event?: KeyboardEvent | MouseEvent): void => {
-    if (event && event instanceof KeyboardEvent && event.key !== "Enter") {
+    if (this.enterKeyPressed(event)) {
       return;
     }
     const newMeridiem = this.meridiem === "PM" ? "AM" : "PM";
@@ -290,18 +290,22 @@ export class CalciteTimePicker {
   };
 
   private decrementMinute = (event?: KeyboardEvent | MouseEvent): void => {
-    if (event && event instanceof KeyboardEvent && event.key !== "Enter") {
+    if (this.enterKeyPressed(event)) {
       return;
     }
     this.decrementMinuteOrSecond("minute");
   };
 
   private decrementSecond = (event?: KeyboardEvent | MouseEvent): void => {
-    if (event && event instanceof KeyboardEvent && event.key !== "Enter") {
+    if (this.enterKeyPressed(event)) {
       return;
     }
     this.decrementMinuteOrSecond("second");
   };
+
+  private enterKeyPressed(event?: any): boolean {
+    return event instanceof KeyboardEvent && event.key !== "Enter";
+  }
 
   private focusHandler = (event: FocusEvent): void => {
     this.activeEl = event.target as HTMLSpanElement;
@@ -375,7 +379,7 @@ export class CalciteTimePicker {
   };
 
   private incrementMeridiem = (event?: KeyboardEvent | MouseEvent): void => {
-    if (event && event instanceof KeyboardEvent && event.key !== "Enter") {
+    if (this.enterKeyPressed(event)) {
       return;
     }
     const newMeridiem = this.meridiem === "AM" ? "PM" : "AM";
@@ -383,7 +387,7 @@ export class CalciteTimePicker {
   };
 
   private incrementHour = (event?: KeyboardEvent | MouseEvent): void => {
-    if (event && event instanceof KeyboardEvent && event.key !== "Enter") {
+    if (this.enterKeyPressed(event)) {
       return;
     }
     const newHour = isValidNumber(this.hour)
@@ -404,14 +408,14 @@ export class CalciteTimePicker {
   };
 
   private incrementMinute = (event?: KeyboardEvent | MouseEvent): void => {
-    if (event && event instanceof KeyboardEvent && event.key !== "Enter") {
+    if (this.enterKeyPressed(event)) {
       return;
     }
     this.incrementMinuteOrSecond("minute");
   };
 
   private incrementSecond = (event?: KeyboardEvent | MouseEvent): void => {
-    if (event && event instanceof KeyboardEvent && event.key !== "Enter") {
+    if (this.enterKeyPressed(event)) {
       return;
     }
     this.incrementMinuteOrSecond("second");
