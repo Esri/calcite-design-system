@@ -21,14 +21,14 @@ export function getMeridiem(hour: string): Meridiem {
 }
 
 export function getMeridiemHour(hour: string): string {
-  if (stringIsValidNumber(hour)) {
-    const hourAsNumber = parseInt(hour);
-    if (hourAsNumber === 0) {
-      return "12";
-    }
-    return hourAsNumber > 12 ? zeroPadNumber(hourAsNumber - 12) : hour;
+  if (!stringIsValidNumber(hour)) {
+    return null;
   }
-  return null;
+  const hourAsNumber = parseInt(hour);
+  if (hourAsNumber === 0) {
+    return "12";
+  }
+  return hourAsNumber > 12 ? zeroPadNumber(hourAsNumber - 12) : hour;
 }
 
 export function parseTimeString(value: string): Time {
