@@ -13,32 +13,35 @@ export default {
 };
 
 export const LightTheme = (): string => html`
-  <calcite-radio-button
-    ${boolean("checked", false)}
-    ${boolean("disabled", false)}
-    ${boolean("hidden", false)}
-    ${boolean("focused", false)}
-    name="simple"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    value="value"
-  >
+  <calcite-label layout="inline">
+    <calcite-radio-button
+      ${boolean("checked", false)}
+      ${boolean("disabled", false)}
+      ${boolean("hidden", false)}
+      ${boolean("focused", false)}
+      name="simple"
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+      value="value"
+    ></calcite-radio-button>
     ${text("label", "Radio Button")}
-  </calcite-radio-button>
+  </calcite-label>
 `;
 
 export const DarkTheme = (): string => html`
-  <calcite-radio-button
-    ${boolean("checked", false)}
-    ${boolean("disabled", false)}
-    ${boolean("hidden", false)}
-    ${boolean("focused", false)}
-    name="dark"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    theme="dark"
-    value="value"
-  >
+  <calcite-label layout="inline" theme="dark">
+    <calcite-radio-button
+      ${boolean("checked", false)}
+      ${boolean("disabled", false)}
+      ${boolean("hidden", false)}
+      ${boolean("focused", false)}
+      name="dark"
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+      theme="dark"
+      value="value"
+    >
+    </calcite-radio-button>
     ${text("label", "Radio Button")}
-  </calcite-radio-button>
+  </calcite-label>
 `;
 
 DarkTheme.story = {

@@ -1,15 +1,5 @@
-import {
-  Component,
-  Element,
-  Event,
-  Listen,
-  Host,
-  h,
-  Prop,
-  EventEmitter,
-  VNode
-} from "@stencil/core";
-import { getAttributes, getElementDir } from "../../utils/dom";
+import { Component, Element, Event, Listen, h, Prop, EventEmitter, VNode } from "@stencil/core";
+import { getAttributes, getElementDir, queryElementRoots } from "../../utils/dom";
 import { FocusRequest } from "./interfaces";
 import { Alignment, Scale, Status, Theme } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -99,7 +89,7 @@ export class CalciteLabel {
     }
 
     // 2. htmlFor matches a calcite component
-    const inputForThisLabel = document.getElementById(this.for);
+    const inputForThisLabel: HTMLElement = queryElementRoots(this.el, `#${this.for}`);
     if (!inputForThisLabel) {
       return;
     }
@@ -174,11 +164,9 @@ export class CalciteLabel {
     ]);
     const dir = getElementDir(this.el);
     return (
-      <Host>
-        <label {...attributes} class={{ [CSS_UTILITY.rtl]: dir === "rtl" }}>
-          <slot />
-        </label>
-      </Host>
+      <label {...attributes} class={{ [CSS_UTILITY.rtl]: dir === "rtl" }}>
+        <slot />
+      </label>
     );
   }
 }

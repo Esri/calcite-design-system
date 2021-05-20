@@ -4,7 +4,6 @@ import {
   Event,
   EventEmitter,
   h,
-  Host,
   Method,
   Prop,
   VNode,
@@ -108,21 +107,19 @@ export class CalciteNotice {
     );
 
     return (
-      <Host active={this.active}>
-        <div class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
-          {this.requestedIcon ? (
-            <div class="notice-icon">
-              <calcite-icon icon={this.requestedIcon} scale="m" />
-            </div>
-          ) : null}
-          <div class="notice-content">
-            <slot name={SLOTS.title} />
-            <slot name={SLOTS.message} />
-            <slot name={SLOTS.link} />
+      <div class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+        {this.requestedIcon ? (
+          <div class="notice-icon">
+            <calcite-icon icon={this.requestedIcon} scale="m" />
           </div>
-          {this.dismissible ? closeButton : null}
+        ) : null}
+        <div class="notice-content">
+          <slot name={SLOTS.title} />
+          <slot name={SLOTS.message} />
+          <slot name={SLOTS.link} />
         </div>
-      </Host>
+        {this.dismissible ? closeButton : null}
+      </div>
     );
   }
 

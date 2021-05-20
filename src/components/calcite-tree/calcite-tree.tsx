@@ -44,6 +44,7 @@ export class CalciteTree {
   @Prop({ reflect: true }) theme: Theme;
 
   /** @internal If this tree is nested within another tree, set to false */
+  // eslint-disable-next-line @esri/calcite-components/strict-boolean-attributes
   @Prop({ reflect: true, mutable: true }) root = true;
 
   /** Specify the scale of the tree, defaults to m */
@@ -65,7 +66,7 @@ export class CalciteTree {
     this.scale = parent ? parent.scale : this.scale;
     this.inputEnabled = parent ? parent.inputEnabled : this.inputEnabled;
     this.selectionMode = parent ? parent.selectionMode : this.selectionMode;
-    this.root = parent ? false : true;
+    this.root = !parent;
   }
 
   render(): VNode {
@@ -193,9 +194,11 @@ export class CalciteTree {
     }
 
     this.calciteTreeSelect.emit({
-      selected: (nodeListToArray(
-        this.el.querySelectorAll("calcite-tree-item")
-      ) as HTMLCalciteTreeItemElement[]).filter((i) => i.selected)
+      selected: (
+        nodeListToArray(
+          this.el.querySelectorAll("calcite-tree-item")
+        ) as HTMLCalciteTreeItemElement[]
+      ).filter((i) => i.selected)
     });
   }
 
@@ -234,9 +237,11 @@ export class CalciteTree {
     }
 
     this.calciteTreeSelect.emit({
-      selected: (nodeListToArray(
-        this.el.querySelectorAll("calcite-tree-item")
-      ) as HTMLCalciteTreeItemElement[]).filter((i) => i.selected)
+      selected: (
+        nodeListToArray(
+          this.el.querySelectorAll("calcite-tree-item")
+        ) as HTMLCalciteTreeItemElement[]
+      ).filter((i) => i.selected)
     });
   }
   //--------------------------------------------------------------------------

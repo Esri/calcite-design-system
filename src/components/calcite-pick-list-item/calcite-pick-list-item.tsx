@@ -3,8 +3,8 @@ import {
   Element,
   Event,
   EventEmitter,
+  Fragment,
   h,
-  Host,
   Method,
   Prop,
   VNode,
@@ -278,7 +278,7 @@ export class CalcitePickListItem {
     const { description, label } = this;
 
     return (
-      <Host aria-checked={this.selected.toString()} role="menuitemcheckbox">
+      <Fragment>
         {this.renderIcon()}
         {this.renderActionsStart()}
         <label
@@ -289,13 +289,17 @@ export class CalcitePickListItem {
           ref={(focusEl): HTMLLabelElement => (this.focusEl = focusEl)}
           tabIndex={0}
         >
-          <div class={CSS.textContainer}>
+          <div
+            aria-checked={this.selected.toString()}
+            class={CSS.textContainer}
+            role="menuitemcheckbox"
+          >
             <span class={CSS.title}>{label}</span>
             {description ? <span class={CSS.description}>{description}</span> : null}
           </div>
         </label>
         {this.renderActionsEnd()}
-      </Host>
+      </Fragment>
     );
   }
 }

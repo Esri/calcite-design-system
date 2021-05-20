@@ -4,7 +4,6 @@ import {
   Event,
   EventEmitter,
   h,
-  Host,
   Listen,
   Method,
   Prop,
@@ -13,7 +12,7 @@ import {
   Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { focusElement, getElementDir } from "../../utils/dom";
+import { focusElement } from "../../utils/dom";
 import { Scale, Theme } from "../interfaces";
 import { hiddenInputStyle } from "../../utils/form";
 
@@ -247,11 +246,6 @@ export class CalciteCheckbox {
     this.input.onblur = this.onInputBlur.bind(this);
     this.input.onfocus = this.onInputFocus.bind(this);
     this.input.style.cssText = hiddenInputStyle;
-    this.input.style.setProperty(
-      "top",
-      this.el.textContent ? (this.scale === "s" ? "0.125em" : "0.25em") : "0",
-      "important"
-    );
     this.input.type = "checkbox";
     if (this.value) {
       this.input.value = this.value != null ? this.value.toString() : "";
@@ -260,29 +254,13 @@ export class CalciteCheckbox {
   }
 
   render(): VNode {
-    if (this.el.textContent) {
-      return (
-        <Host>
-          <div class={{ focused: this.focused, hasLabel: true }}>
-            <svg class="check-svg" viewBox="0 0 16 16">
-              <path d={this.getPath()} />
-            </svg>
-            <calcite-label dir={getElementDir(this.el)} disable-spacing scale={this.scale}>
-              <slot />
-            </calcite-label>
-          </div>
-        </Host>
-      );
-    }
     return (
-      <Host>
-        <div class={{ focused: this.focused }}>
-          <svg class="check-svg" viewBox="0 0 16 16">
-            <path d={this.getPath()} />
-          </svg>
-          <slot />
-        </div>
-      </Host>
+      <div class={{ focused: this.focused }}>
+        <svg class="check-svg" viewBox="0 0 16 16">
+          <path d={this.getPath()} />
+        </svg>
+        <slot />
+      </div>
     );
   }
 }

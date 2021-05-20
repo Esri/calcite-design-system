@@ -1,18 +1,18 @@
-:host([scale="s"]) {
+.container--s {
   @apply text--2h;
   .dropdown-title {
     @apply p-2;
   }
 }
 
-:host([scale="m"]) {
+.container--m {
   @apply text--1h;
   .dropdown-title {
     @apply p-3;
   }
 }
 
-:host([scale="l"]) {
+.container--l {
   @apply text-1h;
   .dropdown-title {
     @apply p-4;

@@ -4,7 +4,6 @@ import {
   Element,
   Event,
   EventEmitter,
-  Host,
   Listen,
   Prop,
   State,
@@ -177,10 +176,6 @@ export class CalciteSortableList {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    return (
-      <Host>
-        <slot />
-      </Host>
-    );
+    return <slot />;
   }
 }

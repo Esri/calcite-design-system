@@ -3,12 +3,12 @@ import {
   Element,
   Event,
   EventEmitter,
-  Host,
   Method,
   Prop,
   Watch,
   h,
-  VNode
+  VNode,
+  Fragment
 } from "@stencil/core";
 import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
 import { getElementDir, getSlotted } from "../../utils/dom";
@@ -432,10 +432,10 @@ export class CalcitePanel {
     );
 
     return (
-      <Host>
+      <Fragment>
         {loading || disabled ? <calcite-scrim loading={loading} /> : null}
         {panelNode}
-      </Host>
+      </Fragment>
     );
   }
 }

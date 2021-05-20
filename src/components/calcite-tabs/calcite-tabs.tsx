@@ -1,4 +1,4 @@
-import { Component, Prop, h, Host, Element, Listen, State, VNode } from "@stencil/core";
+import { Component, Prop, h, Element, Listen, State, VNode, Fragment } from "@stencil/core";
 import { Theme } from "../interfaces";
 import { TabLayout, TabPosition } from "./interfaces";
 
@@ -45,12 +45,12 @@ export class CalciteTabs {
 
   render(): VNode {
     return (
-      <Host>
+      <Fragment>
         <slot name="tab-nav" />
         <section>
           <slot />
         </section>
-      </Host>
+      </Fragment>
     );
   }
 

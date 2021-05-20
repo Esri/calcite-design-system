@@ -3,6 +3,7 @@ import { JSX } from "../components";
 import { toHaveNoViolations } from "jest-axe";
 import axe from "axe-core";
 import { config } from "../../stencil.config";
+import { Direction } from "../utils/dom";
 
 expect.extend(toHaveNoViolations);
 
@@ -165,4 +166,29 @@ export async function focusable(componentTagOrHTML: TagOrHTML, options?: Focusab
   }
 
   expect(await page.evaluate((selector) => document.activeElement.matches(selector), focusTargetSelector)).toBe(true);
+}
+
+export async function inheritsDirection(componentTag: CalciteComponentTag, direction: Direction): Promise<void> {
+  const page = await newE2EPage({
+    html: `
+    <html dir="${direction}">
+      <body>
+        <${componentTag}></${componentTag}>
+      </body>
+    </html>
+  `
+  });
+  const element = await page.find(componentTag);
+  const elStyles = await element.getComputedStyle();
+  expect(element.getAttribute("dir")).toBeNull();
+  expect(elStyles["direction"]).toBe(direction);
+}
+
+export async function honorsOwnDir(componentTagOrHTML: TagOrHTML, direction: Direction): Promise<void> {
+  const page = await simplePageSetup(componentTagOrHTML);
+  const element = await page.find(getTag(componentTagOrHTML));
+  element.setAttribute("dir", direction);
+  await page.waitForChanges();
+  const elStyles = await element.getComputedStyle();
+  expect(elStyles["direction"]).toBe(direction);
 }

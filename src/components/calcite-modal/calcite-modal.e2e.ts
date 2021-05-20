@@ -201,10 +201,10 @@ describe("calcite-modal accessibility checks", () => {
     const modal = await page.find("calcite-modal");
     await modal.setProperty("active", true);
     await page.waitForChanges();
-    expect(modal).toHaveAttribute("is-active");
+    expect(modal).toHaveAttribute("active");
     await page.keyboard.press("Escape");
     await page.waitForChanges();
-    expect(modal).not.toHaveAttribute("is-active");
+    expect(modal).not.toHaveAttribute("active");
   });
 
   it("closes and allows re-opening when Escape key is pressed", async () => {
@@ -213,13 +213,13 @@ describe("calcite-modal accessibility checks", () => {
     const modal = await page.find("calcite-modal");
     await modal.setProperty("active", true);
     await page.waitForChanges();
-    expect(modal).toHaveAttribute("is-active");
+    expect(modal).toHaveAttribute("active");
     await page.keyboard.press("Escape");
     await page.waitForChanges();
-    expect(modal).not.toHaveAttribute("is-active");
+    expect(modal).not.toHaveAttribute("active");
     await modal.setProperty("active", true);
     await page.waitForChanges();
-    expect(modal).toHaveAttribute("is-active");
+    expect(modal).toHaveAttribute("active");
   });
 
   it("closes when Close button is clicked", async () => {
@@ -229,10 +229,10 @@ describe("calcite-modal accessibility checks", () => {
     const button = await page.find("calcite-modal >>> .close");
     await modal.setProperty("active", true);
     await page.waitForChanges();
-    expect(modal).toHaveAttribute("is-active");
+    expect(modal).toHaveAttribute("active");
     await button.click();
     await page.waitForChanges();
-    expect(modal).not.toHaveAttribute("is-active");
+    expect(modal).not.toHaveAttribute("active");
   });
 
   it("closes and allows re-opening when Close button  is clicked", async () => {
@@ -242,13 +242,13 @@ describe("calcite-modal accessibility checks", () => {
     const button = await page.find("calcite-modal >>> .close");
     await modal.setProperty("active", true);
     await page.waitForChanges();
-    expect(modal).toHaveAttribute("is-active");
+    expect(modal).toHaveAttribute("active");
     await button.click();
     await page.waitForChanges();
-    expect(modal).not.toHaveAttribute("is-active");
+    expect(modal).not.toHaveAttribute("active");
     await modal.setProperty("active", true);
     await page.waitForChanges();
-    expect(modal).toHaveAttribute("is-active");
+    expect(modal).toHaveAttribute("active");
   });
 
   it("does not close when Escape is pressed and disable-escape is set", async () => {
@@ -257,10 +257,10 @@ describe("calcite-modal accessibility checks", () => {
     const modal = await page.find("calcite-modal");
     await modal.setProperty("active", true);
     await page.waitForChanges();
-    expect(modal).toHaveAttribute("is-active");
+    expect(modal).toHaveAttribute("active");
     await page.keyboard.press("Escape");
     await page.waitForChanges();
-    expect(modal).toHaveAttribute("is-active");
+    expect(modal).toHaveAttribute("active");
   });
 
   it("correctly adds overflow class on document when open", async () => {
@@ -302,5 +302,26 @@ describe("calcite-modal accessibility checks", () => {
     await page.waitForChanges();
     footer = await page.$eval("calcite-modal", (elm) => elm.shadowRoot.querySelector(".footer"));
     expect(footer).toBeFalsy();
+  });
+
+  it("should render calcite-scrim with dark theme background color", async () => {
+    const page = await newE2EPage({
+      html: `
+      <calcite-modal aria-labelledby="modal-title" is-active>
+        <h3 slot="header" id="modal-title">Title of the modal</h3>
+        <div slot="content">The actual content of the modal</div>
+        <calcite-button slot="back" color="neutral" appearance="outline" icon="chevron-left" width="full">
+          Back
+        </calcite-button>
+        <calcite-button slot="secondary" width="full" appearance="outline"> Cancel </calcite-button>
+        <calcite-button slot="primary" width="full"> Save </calcite-button>
+      </calcite-modal>
+      `
+    });
+    const scrimStyles = await page.evaluate(() => {
+      const scrim = document.querySelector("calcite-modal").shadowRoot.querySelector(".scrim");
+      return window.getComputedStyle(scrim).getPropertyValue("--calcite-scrim-background");
+    });
+    expect(scrimStyles).toEqual("rgba(0, 0, 0, 0.75)");
   });
 });

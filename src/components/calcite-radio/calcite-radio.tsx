@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop } from "@stencil/core";
+import { Component, h, Prop } from "@stencil/core";
 import { Scale, Theme } from "../interfaces";
 
 @Component({
@@ -47,10 +47,6 @@ export class CalciteRadio {
   // --------------------------------------------------------------------------
 
   render() {
-    return (
-      <Host>
-        <div class="radio" />
-      </Host>
-    );
+    return <div class="radio" />;
   }
 }

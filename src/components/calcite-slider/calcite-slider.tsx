@@ -54,10 +54,10 @@ export class CalciteSlider {
   @Prop({ reflect: true, mutable: true }) value: null | number = null;
 
   /** Currently selected lower number (if multi-select) */
-  @Prop() minValue?: number;
+  @Prop({ mutable: true }) minValue?: number;
 
   /** Currently selected upper number (if multi-select) */
-  @Prop() maxValue?: number;
+  @Prop({ mutable: true }) maxValue?: number;
 
   /** Label for first (or only) handle (ex. "Temperature, lower bound") */
   @Prop() minLabel: string;
@@ -90,7 +90,7 @@ export class CalciteSlider {
   @Prop() histogram?: DataSeries;
 
   @Watch("histogram") histogramWatcher(newHistogram: DataSeries): void {
-    this.hasHistogram = newHistogram ? true : false;
+    this.hasHistogram = !!newHistogram;
   }
 
   /** Indicates if a histogram is present */
@@ -709,30 +709,38 @@ export class CalciteSlider {
     }
   }
 
-  @Listen("click") clickHandler(e: MouseEvent): void {
-    const x = e.clientX || e.pageX;
-    const num = this.translate(x);
+  @Listen("mousedown")
+  @Listen("click")
+  mouseHandler(event: MouseEvent): void {
+    const x = event.clientX || event.pageX;
+    const position = this.translate(x);
     let prop: activeSliderProperty = "value";
     if (this.isRange) {
-      if (this.lastDragProp === "minMaxValue") {
+      const inRange = position >= this.minValue && position <= this.maxValue;
+      if (inRange && this.lastDragProp === "minMaxValue") {
         prop = "minMaxValue";
       } else {
-        const closerToMax = Math.abs(this.maxValue - num) < Math.abs(this.minValue - num);
+        const closerToMax = Math.abs(this.maxValue - position) < Math.abs(this.minValue - position);
         prop = closerToMax ? "maxValue" : "minValue";
       }
     }
-    this[prop] = this.bound(num, prop);
-    this.emitChange();
-    switch (prop) {
-      default:
-      case "maxValue":
-        this.maxHandle.focus();
-        break;
-      case "minValue":
-        this.minHandle.focus();
-        break;
-      case "minMaxValue":
-        break;
+    this[prop] = this.bound(position, prop);
+    this.dragStart(prop);
+
+    if (event.type === "click") {
+      this.dragEnd();
+      this.emitChange();
+      switch (prop) {
+        default:
+        case "maxValue":
+          this.maxHandle.focus();
+          break;
+        case "minValue":
+          this.minHandle.focus();
+          break;
+        case "minMaxValue":
+          break;
+      }
     }
   }
 
@@ -966,9 +974,8 @@ export class CalciteSlider {
   }
 
   private hyphenateCollidingRangeHandleLabels(): void {
-    const minValueLabel: HTMLSpanElement = this.el.shadowRoot.querySelector(
-      `.handle__label--minValue`
-    );
+    const minValueLabel: HTMLSpanElement =
+      this.el.shadowRoot.querySelector(`.handle__label--minValue`);
     const minValueLabelStatic: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--minValue.static`
     );
@@ -1100,17 +1107,14 @@ export class CalciteSlider {
       return;
     }
 
-    const minHandle: HTMLButtonElement | null = this.el.shadowRoot.querySelector(
-      ".thumb--minValue"
-    );
+    const minHandle: HTMLButtonElement | null =
+      this.el.shadowRoot.querySelector(".thumb--minValue");
     const maxHandle: HTMLButtonElement | null = this.el.shadowRoot.querySelector(".thumb--value");
 
-    const minTickLabel: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
-      ".tick__label--min"
-    );
-    const maxTickLabel: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
-      ".tick__label--max"
-    );
+    const minTickLabel: HTMLSpanElement | null =
+      this.el.shadowRoot.querySelector(".tick__label--min");
+    const maxTickLabel: HTMLSpanElement | null =
+      this.el.shadowRoot.querySelector(".tick__label--max");
 
     if (!minHandle && maxHandle && minTickLabel && maxTickLabel) {
       if (this.isMinTickLabelObscured(minTickLabel, maxHandle)) {

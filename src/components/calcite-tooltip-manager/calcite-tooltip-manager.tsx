@@ -1,6 +1,6 @@
-import { Component, Host, h, Listen, Prop, VNode, Element } from "@stencil/core";
+import { Component, h, Listen, Prop, VNode, Element } from "@stencil/core";
 import { TOOLTIP_REFERENCE, TOOLTIP_DELAY_MS } from "../calcite-tooltip/resources";
-import { getElementById, getRootNode } from "../../utils/dom";
+import { queryElementRoots } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 
 /**
@@ -43,7 +43,7 @@ export class CalciteTooltipManager {
     const { selector, el } = this;
     const id = element.closest(selector)?.getAttribute(TOOLTIP_REFERENCE);
 
-    return getElementById(getRootNode(el), id) as HTMLCalciteTooltipElement;
+    return queryElementRoots(el, `#${id}`) as HTMLCalciteTooltipElement;
   };
 
   clearHoverTimeout = (tooltip: HTMLCalciteTooltipElement): void => {
@@ -166,11 +166,7 @@ export class CalciteTooltipManager {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    return (
-      <Host>
-        <slot />
-      </Host>
-    );
+    return <slot />;
   }
 
   //--------------------------------------------------------------------------

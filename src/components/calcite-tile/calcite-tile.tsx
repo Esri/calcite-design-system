@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, VNode } from "@stencil/core";
+import { Component, h, Prop, VNode, Fragment } from "@stencil/core";
 import { Theme } from "../interfaces";
 
 @Component({
@@ -72,7 +72,7 @@ export class CalciteTile {
 
   render(): VNode {
     return (
-      <Host>
+      <Fragment>
         {this.href ? (
           <calcite-link href={this.href} theme={this.theme}>
             {this.renderTile()}
@@ -80,7 +80,7 @@ export class CalciteTile {
         ) : (
           this.renderTile()
         )}
-      </Host>
+      </Fragment>
     );
   }
 }

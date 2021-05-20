@@ -17,10 +17,12 @@
 
   <body>
     <script>
-      const one = document.querySelector("#one");
-      one.addEventListener("calciteChipDismiss", () => {
-        console.log("dismissed chip");
-      });
+      window.onload = () => {
+        const one = document.querySelector("#one");
+        one.addEventListener("calciteChipDismiss", () => {
+          console.log("dismissed chip");
+        });
+      }
     </script>
     <calcite-button href="/">Home</calcite-button>
     <h1>Calcite Chip</h1>

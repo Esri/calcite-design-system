@@ -1,4 +1,4 @@
-import { Component, Element, Host, Listen, Method, Prop, State, h, VNode } from "@stencil/core";
+import { Component, Element, Listen, Method, Prop, State, h, VNode } from "@stencil/core";
 
 import { CSS } from "./resources";
 
@@ -156,11 +156,9 @@ export class CalciteFlow {
     };
 
     return (
-      <Host>
-        <div class={frameDirectionClasses} key={panelCount}>
-          <slot />
-        </div>
-      </Host>
+      <div class={frameDirectionClasses} key={panelCount}>
+        <slot />
+      </div>
     );
   }
 }

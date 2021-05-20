@@ -1,7 +1,6 @@
 import {
   Component,
   h,
-  Host,
   Prop,
   State,
   Listen,
@@ -11,7 +10,8 @@ import {
   VNode,
   Build,
   Method,
-  Watch
+  Watch,
+  Fragment
 } from "@stencil/core";
 import { filter } from "../../utils/filter";
 import { getElementDir } from "../../utils/dom";
@@ -137,7 +137,8 @@ export class CalciteCombobox {
 
   @Listen("calciteComboboxItemChange")
   calciteComboboxItemChangeHandler(event: CustomEvent<HTMLCalciteComboboxItemElement>): void {
-    this.toggleSelection(event.detail);
+    const target = event.target as HTMLCalciteComboboxItemElement;
+    this.toggleSelection(target, target.selected);
   }
 
   @Listen("keydown")
@@ -511,22 +512,28 @@ export class CalciteCombobox {
     }, 100);
   })();
 
+  internalCalciteLookupChangeEvent = (): void => {
+    this.calciteLookupChange.emit(this.selectedItems);
+  };
+
+  emitCalciteLookupChange = debounce(this.internalCalciteLookupChangeEvent, 0);
+
   toggleSelection(item: HTMLCalciteComboboxItemElement, value = !item.selected): void {
     if (!item) {
       return;
     }
 
+    item.selected = value;
+
     if (this.isMulti()) {
-      item.selected = value;
       this.updateAncestors(item);
       this.selectedItems = this.getSelectedItems();
-      this.calciteLookupChange.emit(this.selectedItems);
+      this.emitCalciteLookupChange();
       this.resetText();
       this.textInput.focus();
       this.filterItems("");
     } else {
-      this.items.forEach((el) => el.toggleSelected(false));
-      item.toggleSelected(true);
+      this.items.filter((el) => el !== item).forEach((el) => (el.selected = false));
       this.selectedItem = item;
       this.textInput.value = item.textLabel;
       this.active = false;
@@ -878,7 +885,7 @@ export class CalciteCombobox {
     const single = this.selectionMode === "single";
     const labelId = `${guid}-label`;
     return (
-      <Host>
+      <Fragment>
         <div
           aria-autocomplete="list"
           aria-expanded={open.toString()}
@@ -913,7 +920,7 @@ export class CalciteCombobox {
           {this.renderListBoxOptions()}
         </ul>
         {this.renderPopperContainer()}
-      </Host>
+      </Fragment>
     );
   }
 }

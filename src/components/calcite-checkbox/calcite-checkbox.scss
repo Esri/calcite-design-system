@@ -1,14 +1,11 @@
 :host([scale="s"]) {
   --calcite-checkbox-size: theme("fontSize.-2");
-  --calcite-checkbox-grid-gap: theme("spacing.2");
 }
 :host([scale="m"]) {
   --calcite-checkbox-size: theme("fontSize.-1");
-  --calcite-checkbox-grid-gap: theme("spacing.2");
 }
 :host([scale="l"]) {
   --calcite-checkbox-size: theme("fontSize.1");
-  --calcite-checkbox-grid-gap: theme("spacing.3");
 }
 :host {
   @apply inline-flex
@@ -29,11 +26,6 @@
     height: var(--calcite-checkbox-size);
     box-shadow: inset 0 0 0 1px var(--calcite-ui-border-input);
     fill: theme("backgroundColor.background");
-  }
-  .hasLabel {
-    @apply grid items-center;
-    grid-gap: var(--calcite-checkbox-grid-gap);
-    --calcite-label-margin-bottom: 0;
   }
   ::slotted(input) {
     width: var(--calcite-checkbox-size);
@@ -59,22 +51,4 @@
 }
 :host([disabled]) {
   @apply cursor-default opacity-disabled pointer-events-none;
-}
-:host([scale="s"]) {
-  .hasLabel {
-    grid-template-columns: 12px 1fr 4px;
-    grid-template-rows: 16px 1fr;
-  }
-}
-:host([scale="m"]) {
-  .hasLabel {
-    grid-template-columns: 16px 1fr 4px;
-    grid-template-rows: 20px 1fr;
-  }
-}
-:host([scale="l"]) {
-  .hasLabel {
-    grid-template-columns: 20px 1fr 4px;
-    grid-template-rows: 24px 1fr;
-  }
 }

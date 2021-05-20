@@ -49,6 +49,11 @@
     @apply flex items-center flex-row gap-2;
   }
 }
+:host([layout="inline"][scale="l"]) {
+  label {
+    @apply gap-3;
+  }
+}
 
 :host([layout="inline-space-between"]) {
   label {
