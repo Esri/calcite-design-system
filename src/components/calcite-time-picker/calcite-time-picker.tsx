@@ -13,11 +13,11 @@ import {
   Method
 } from "@stencil/core";
 import { Scale, Theme } from "../interfaces";
+import { numberKeys } from "../../utils/key";
 import {
   Meridiem,
   zeroPadNumber,
   MinuteOrSecond,
-  numberKeys,
   stringIsValidNumber,
   Time,
   maxTenthForMinuteAndSecond,
