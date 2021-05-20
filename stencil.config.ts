@@ -75,7 +75,10 @@ export const create: () => Config = () => ({
       type: "www",
       baseUrl: "https://stenciljs.com/",
       prerenderConfig: "./prerender.config.ts",
-      copy: [{ src: "demos", dest: "demos" }],
+      copy: [
+        { src: "demos", dest: "demos" },
+        { src: "robots.txt", dest: "robots.txt" }
+      ],
       serviceWorker: {
         unregister: true
       }
