@@ -200,7 +200,7 @@ describe("calcite-input-message", () => {
       });
     });
 
-    it("should allow the CSS custom property to be overridden", async () => {
+    it.skip("should allow the CSS custom property to be overridden", async () => {
       const overrideStyle = "rgba(0, 0, 0, 0.4)";
       page = await newE2EPage({
         html: `
