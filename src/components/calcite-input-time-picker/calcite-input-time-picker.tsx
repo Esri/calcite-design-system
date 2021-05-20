@@ -12,7 +12,7 @@ import {
   Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { parseTimeString, Time, validateTimeString } from "../../utils/time";
+import { parseTimeString, Time, formatTimeString } from "../../utils/time";
 import { Scale, Theme } from "../interfaces";
 
 @Component({
@@ -144,7 +144,7 @@ export class CalciteInputTimePicker {
     this.active = false;
 
     const newValue =
-      validateTimeString(this.calciteInputEl.value) || validateTimeString(this.value);
+      formatTimeString(this.calciteInputEl.value) || formatTimeString(this.value);
 
     this.setValue({ value: newValue });
     this.calciteInputEl.setInputElValue(newValue);
@@ -249,7 +249,7 @@ export class CalciteInputTimePicker {
     value: string;
     origin?: "input" | "time-picker" | "external" | "loading";
   }): void => {
-    const validatedNewValue = validateTimeString(value);
+    const validatedNewValue = formatTimeString(value);
 
     this.internalValueChange = origin !== "external";
 

@@ -17,7 +17,7 @@ import { numberKeys } from "../../utils/key";
 import { isValidNumber } from "../../utils/number";
 import {
   Meridiem,
-  zeroPadNumber,
+  formatTimePart,
   MinuteOrSecond,
   Time,
   maxTenthForMinuteAndSecond,
@@ -511,13 +511,13 @@ export class CalciteTimePicker {
       default:
         return;
       case "hour":
-        this.hour = typeof value === "number" ? zeroPadNumber(value) : value;
+        this.hour = typeof value === "number" ? formatTimePart(value) : value;
         break;
       case "minute":
-        this.minute = typeof value === "number" ? zeroPadNumber(value) : value;
+        this.minute = typeof value === "number" ? formatTimePart(value) : value;
         break;
       case "second":
-        this.second = typeof value === "number" ? zeroPadNumber(value) : value;
+        this.second = typeof value === "number" ? formatTimePart(value) : value;
         break;
       case "meridiem":
         if (isValidNumber(this.hour)) {
@@ -525,12 +525,12 @@ export class CalciteTimePicker {
           switch (value) {
             case "AM":
               if (hourAsNumber >= 12) {
-                this.hour = zeroPadNumber(hourAsNumber - 12);
+                this.hour = formatTimePart(hourAsNumber - 12);
               }
               break;
             case "PM":
               if (hourAsNumber < 12) {
-                this.hour = zeroPadNumber(hourAsNumber + 12);
+                this.hour = formatTimePart(hourAsNumber + 12);
               }
               break;
           }
@@ -560,13 +560,13 @@ export class CalciteTimePicker {
 
   componentDidLoad() {
     if (isValidNumber(this.hour)) {
-      this.hour = zeroPadNumber(parseInt(this.hour));
+      this.hour = formatTimePart(parseInt(this.hour));
     }
     if (isValidNumber(this.minute)) {
-      this.minute = zeroPadNumber(parseInt(this.minute));
+      this.minute = formatTimePart(parseInt(this.minute));
     }
     if (isValidNumber(this.second)) {
-      this.second = zeroPadNumber(parseInt(this.second));
+      this.second = formatTimePart(parseInt(this.second));
     }
   }
 
