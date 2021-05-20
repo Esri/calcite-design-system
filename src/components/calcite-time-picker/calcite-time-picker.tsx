@@ -48,7 +48,7 @@ export class CalciteTimePicker {
   //--------------------------------------------------------------------------
 
   /** The hour value (24-hour format) */
-  @Prop({ reflect: true, mutable: true }) hour?: string = null;
+  @Prop({ mutable: true }) hour?: string = null;
 
   /** Format of the hour value (12-hour or 24-hour) (this will be replaced by locale eventually) */
   @Prop({ reflect: true }) hourDisplayFormat: "12" | "24" = "12";
@@ -90,10 +90,10 @@ export class CalciteTimePicker {
   @Prop() intlSecondUp = "increase second";
 
   /** The minute value */
-  @Prop({ reflect: true, mutable: true }) minute?: string = null;
+  @Prop({ mutable: true }) minute?: string = null;
 
   /** The second value */
-  @Prop({ reflect: true, mutable: true }) second?: string = null;
+  @Prop({ mutable: true }) second?: string = null;
 
   /** The scale (size) of the time picker */
   @Prop({ reflect: true }) scale: Scale = "m";

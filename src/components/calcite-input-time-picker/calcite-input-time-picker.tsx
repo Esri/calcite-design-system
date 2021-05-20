@@ -87,13 +87,13 @@ export class CalciteInputTimePicker {
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /** number that specifies the granularity that the value must adhere to */
-  @Prop({ reflect: true }) step = 60;
+  @Prop() step = 60;
 
   /** The color theme of the time-picker */
   @Prop({ reflect: true }) theme: Theme;
 
   /** The selected time */
-  @Prop({ reflect: true, mutable: true }) value: string = null;
+  @Prop({ mutable: true }) value: string = null;
 
   @Watch("value")
   valueWatcher(newValue: string): void {
