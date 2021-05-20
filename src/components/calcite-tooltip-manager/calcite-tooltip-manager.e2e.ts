@@ -117,9 +117,10 @@ describe("calcite-tooltip-manager", () => {
 
     expect(await tooltip.getProperty("open")).toBe(false);
 
-    const referenceElement = await page.find("#ref");
-
-    await referenceElement.click();
+    await page.evaluate(() => {
+      const ref = document.getElementById("ref");
+      ref.click();
+    });
 
     await page.waitForChanges();
 
