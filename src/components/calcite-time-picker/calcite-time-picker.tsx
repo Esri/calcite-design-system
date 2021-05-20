@@ -23,7 +23,8 @@ import {
   maxTenthForMinuteAndSecond,
   TimeFocusId,
   getMeridiem,
-  getMeridiemHour
+  getMeridiemHour,
+  HourDisplayFormat
 } from "../../utils/time";
 import { CSS } from "./resources";
 
@@ -51,7 +52,7 @@ export class CalciteTimePicker {
   @Prop({ mutable: true }) hour?: string = null;
 
   /** Format of the hour value (12-hour or 24-hour) (this will be replaced by locale eventually) */
-  @Prop({ reflect: true }) hourDisplayFormat: "12" | "24" = "12";
+  @Prop({ reflect: true }) hourDisplayFormat: HourDisplayFormat = "12";
 
   /** aria-label for the hour input */
   @Prop() intlHour = "hour";

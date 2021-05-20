@@ -1,5 +1,7 @@
 import { isValidNumber } from "./number";
 
+export type HourDisplayFormat = "12" | "24";
+
 export type Meridiem = "AM" | "PM";
 
 export type MinuteOrSecond = "minute" | "second";
