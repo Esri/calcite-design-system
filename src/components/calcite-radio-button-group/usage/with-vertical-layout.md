@@ -1,22 +1,20 @@
-#### With vertical layout
-
 ```html
 <calcite-radio-button-group name="vertical-group" layout="vertical">
   <calcite-label layout="inline">
     <calcite-radio-button></calcite-radio-button>
-    Stencil
+    Maps
   </calcite-label>
   <calcite-label layout="inline">
     <calcite-radio-button></calcite-radio-button>
-    React
+    Layers
   </calcite-label>
   <calcite-label layout="inline">
     <calcite-radio-button></calcite-radio-button>
-    Ember
+    Data
   </calcite-label>
   <calcite-label layout="inline">
     <calcite-radio-button></calcite-radio-button>
-    Angular
+    Geography
   </calcite-label>
 </calcite-radio-button-group>
 ```
