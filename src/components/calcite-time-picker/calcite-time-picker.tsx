@@ -26,7 +26,7 @@ import {
   getMeridiemHour,
   HourDisplayFormat
 } from "../../utils/time";
-import { CSS } from "./resources";
+import { CSS, TEXT } from "./resources";
 
 @Component({
   tag: "calcite-time-picker",
@@ -55,40 +55,40 @@ export class CalciteTimePicker {
   @Prop({ reflect: true }) hourDisplayFormat: HourDisplayFormat = "12";
 
   /** aria-label for the hour input */
-  @Prop() intlHour = "hour";
+  @Prop() intlHour = TEXT.intlHour;
 
   /** aria-label for the hour down button */
-  @Prop() intlHourDown = "decrease hour";
+  @Prop() intlHourDown = TEXT.intlHourDown;
 
   /** aria-label for the hour up button */
-  @Prop() intlHourUp = "increase hour";
+  @Prop() intlHourUp = TEXT.intlHourUp;
 
   /** aria-label for the meridiem (am/pm) input */
-  @Prop() intlMeridiem = "AM/PM";
+  @Prop() intlMeridiem = TEXT.intlMeridiem;
 
   /** aria-label for the meridiem (am/pm) down button */
-  @Prop() intlMeridiemDown = "decrease AM/PM";
+  @Prop() intlMeridiemDown = TEXT.intlMeridiemDown;
 
   /** aria-label for the meridiem (am/pm) up button */
-  @Prop() intlMeridiemUp = "increase AM/PM";
+  @Prop() intlMeridiemUp = TEXT.intlMeridiemUp;
 
   /** aria-label for the minute input */
-  @Prop() intlMinute = "minute";
+  @Prop() intlMinute = TEXT.intlMinute;
 
   /** aria-label for the minute down button */
-  @Prop() intlMinuteDown = "decrease minute";
+  @Prop() intlMinuteDown = TEXT.intlMinuteDown;
 
   /** aria-label for the minute up button */
-  @Prop() intlMinuteUp = "increase minute";
+  @Prop() intlMinuteUp = TEXT.intlMinuteUp;
 
   /** aria-label for the second input */
-  @Prop() intlSecond = "second";
+  @Prop() intlSecond = TEXT.intlSecond;
 
   /** aria-label for the second down button */
-  @Prop() intlSecondDown = "decrease second";
+  @Prop() intlSecondDown = TEXT.intlSecondDown;
 
   /** aria-label for the second up button */
-  @Prop() intlSecondUp = "increase second";
+  @Prop() intlSecondUp = TEXT.intlSecondUp;
 
   /** The minute value */
   @Prop({ mutable: true }) minute?: string = null;

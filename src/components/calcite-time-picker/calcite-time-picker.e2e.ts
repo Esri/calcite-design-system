@@ -49,11 +49,10 @@ describe("calcite-time-picker", () => {
 
   it("reflects", async () =>
     reflects("calcite-time-picker", [
-      { propertyName: "hour", value: "12" },
-      { propertyName: "minute", value: "59" },
-      { propertyName: "second", value: "59" },
+      { propertyName: "hourDisplayFormat", value: "12" },
       { propertyName: "scale", value: "m" },
-      { propertyName: "step", value: 60 }
+      { propertyName: "step", value: 60 },
+      { propertyName: "theme", value: "light" },
     ]));
 
   it("should focus the first input when setFocus is called", async () =>

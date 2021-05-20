@@ -20,3 +20,18 @@ export const CSS = {
   topLeft: "top-left",
   topRight: "top-right"
 };
+
+export const TEXT = {
+  intlHour: "Hour",
+  intlHourDown: "Decrease hour",
+  intlHourUp: "Increase hour",
+  intlMeridiem: "AM/PM",
+  intlMeridiemDown: "Decrease AM/PM",
+  intlMeridiemUp: "Increase AM/PM",
+  intlMinute: "Minute",
+  intlMinuteDown: "Decrease minute",
+  intlMinuteUp: "Increase minute",
+  intlSecond: "Second",
+  intlSecondDown: "Decrease second",
+  intlSecondUp: "Increase second",
+}

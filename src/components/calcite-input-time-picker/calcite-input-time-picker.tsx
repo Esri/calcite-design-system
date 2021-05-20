@@ -36,13 +36,13 @@ export class CalciteInputTimePicker {
   //--------------------------------------------------------------------------
 
   /** The active state of the time input */
-  @Prop({ reflect: true, mutable: true }) active = false;
+  @Prop({ reflect: true, mutable: true }) active?: boolean;
 
   /** The disabled state of the time input */
   @Prop({ reflect: true }) disabled?: boolean;
 
   /** Format of the hour value (12-hour or 24-hour) (this will be replaced by locale eventually) */
-  @Prop({ reflect: true }) hourDisplayFormat: HourDisplayFormat = "12";
+  @Prop() hourDisplayFormat: HourDisplayFormat = "12";
 
   /** aria-label for the hour input */
   @Prop() intlHour?: string;
@@ -345,7 +345,7 @@ export class CalciteInputTimePicker {
         <calcite-popover
           id={popoverId}
           label="Time Picker"
-          open={this.active}
+          open={this.active || false}
           referenceElement={this.referenceElementId}
           theme={this.theme}
         >

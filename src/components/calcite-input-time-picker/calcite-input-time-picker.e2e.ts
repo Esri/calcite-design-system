@@ -25,8 +25,7 @@ describe("calcite-input-time-picker", () => {
       { propertyName: "active", value: true },
       { propertyName: "disabled", value: true },
       { propertyName: "scale", value: "m" },
-      { propertyName: "step", value: 60 },
-      { propertyName: "value", value: "00:00" }
+      { propertyName: "theme", value: "light" },
     ]));
 
   it("should focus the input when setFocus is called", async () =>
