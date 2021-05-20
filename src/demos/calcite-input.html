@@ -7,6 +7,14 @@
     <title>Calcite Input</title>
 
     <style>
+      section {
+        width: 30rem;
+        padding: 0 2rem;
+        margin-bottom: 3rem;
+      }
+      h1,h2,h3,h4 {
+        color: var(--calcite-ui-text-1);
+      }
       .demo-background-dark {
         background: #202020;
         color: white;
@@ -20,6 +28,41 @@
   <body>
     <calcite-button href="/">Home</calcite-button>
     <h1>Calcite Input</h1>
+
+    <section>
+      <!-- src/components/calcite-input/usage/.md -->
+      <div>
+        <h3>Basic</h3>
+        <calcite-input value="Entered value" placeholder="My placeholder"></calcite-input>
+      </div>
+      <div>
+        <h3>Clearable</h3>
+        <calcite-label>
+          Clearable item
+          <calcite-input clearable value="My great name" placeholder="John Doe"></calcite-input>
+        </calcite-label>
+      </div>
+      <div>
+        <H3>With label status</H3>
+        <calcite-label status="invalid">
+          Invalid input
+          <calcite-input placeholder="Filter your files" value="adfo2h2"></calcite-input>
+          <calcite-input-message active icon>
+            Something doesn't look right
+          </calcite-input-message>
+        </calcite-label>
+      </div>
+      <div>
+        <h3>With message</h3>
+        <calcite-label>
+          My great label
+          <calcite-input placeholder="Enter your information"></calcite-input>
+          <calcite-input-message icon="3d-glasses" active>
+            Here's something you should know about this input
+          </calcite-input-message>
+        </calcite-label>
+      </div>
+    </section>
 
     <form id="myForm">
       <input minlength="2" maxlength="3" step="any"/>
@@ -177,14 +220,15 @@
               <calcite-input type="number" number-button-type="horizontal" placeholder="How many apples?">
               </calcite-input>
             </calcite-label>
-            <calcite-label>
+            <!-- BUG: clearable on type number not working https://github.com/Esri/calcite-components/issues/2151 -->
+            <!-- <calcite-label>
               Number input clearable horizontal
               <calcite-input clearable type="number" number-button-type="horizontal" placeholder="How many apples?">
               </calcite-input>
-            </calcite-label>
+            </calcite-label> -->
             <calcite-label>
               Number input clearable vertical
-              <calcite-input clearable type="number" placeholder="How many apples?"> </calcite-input>
+              <calcite-input clearable type="number" value="34" placeholder="How many apples?"></calcite-input>
             </calcite-label>
             <calcite-label>
               Text input clearable
@@ -192,11 +236,11 @@
             </calcite-label>
             <calcite-label>
               Text input clearable with value on load
-              <calcite-input clearable value="My great name" placeholder="John Doe"> </calcite-input>
+              <calcite-input clearable value="1" placeholder="Enter a number"></calcite-input>
             </calcite-label>
             <calcite-label>
               Number input clearable kitchen sync
-              <calcite-input prefix-text="pre" suffix-text="suf" clearable type="number" placeholder="How many apples?">
+              <calcite-input value="2" prefix-text="pre" suffix-text="suf" clearable type="number" placeholder="How many apples?">
                 <calcite-button slot="action">Go</calcite-button>
               </calcite-input>
             </calcite-label>
@@ -435,7 +479,7 @@
 
           <calcite-accordion-item active item-title="Input messages and statuses">
             <calcite-notice icon scale="s" active width="full" style="margin-bottom: 20px">
-              <span slot="notice-message">
+              <span slot="message">
                 You can set status on an input, message, or label individually - or just set it once on your
                 wrapping-calcite-input
               </span>
@@ -520,16 +564,15 @@
 
           <calcite-accordion-item active item-title="Interactions with native elements">
             <calcite-notice icon scale="s" active width="full" style="margin-bottom: 20px">
-              <span slot="notice-message">
+              <span slot="message">
                 It's recommended to use the `calcite-label` with `calcite-input` components together - but if there are
                 cases where they mix with native elements they should still work :)
               </span>
             </calcite-notice>
-            <calcite-label for="focus-input-demo-1"> Focus a calcite-input outside the label </calcite-label>
+            <calcite-label for="focus-input-demo-1" onclick="document.querySelector('#focus-input-demo-1').setFocus()">
+              Focus a calcite-input outside the label
+            </calcite-label>
             <calcite-input id="focus-input-demo-1"></calcite-input>
-
-            <calcite-label for="calcite-input-demo-2"> Focus a native input outside the label</calcite-label>
-            <input id="calcite-input-demo-2" />
             <br />
 
             <label>
@@ -538,7 +581,7 @@
             </label>
             <br />
 
-            <calcite-label for="calcite-input-demo-4">
+            <calcite-label for="calcite-input-demo-4" onclick="document.querySelector('#calcite-input-demo-5').focus()">
               Focus a native input from a non-wrapping calcite-label
             </calcite-label>
             <input id="calcite-input-demo-4" />
@@ -697,14 +740,15 @@
               <calcite-input type="number" number-button-type="horizontal" placeholder="How many apples?">
               </calcite-input>
             </calcite-label>
-            <calcite-label disabled>
+            <!-- BUG: clearable not working https://github.com/Esri/calcite-components/issues/2151 -->
+            <!-- <calcite-label disabled>
               Number input clearable horizontal
               <calcite-input clearable type="number" number-button-type="horizontal" placeholder="How many apples?">
               </calcite-input>
-            </calcite-label>
+            </calcite-label> -->
             <calcite-label disabled>
               Number input clearable vertical
-              <calcite-input clearable type="number" placeholder="How many apples?"> </calcite-input>
+              <calcite-input clearable type="number" value="34" placeholder="How many apples?"></calcite-input>
             </calcite-label>
             <calcite-label disabled>
               Text input clearable
@@ -712,11 +756,11 @@
             </calcite-label>
             <calcite-label disabled>
               Text input clearable with value on load
-              <calcite-input clearable value="My great name" placeholder="John Doe"> </calcite-input>
+              <calcite-input clearable value="1" placeholder="Enter a number"></calcite-input>
             </calcite-label>
             <calcite-label disabled>
               Number input clearable kitchen sync
-              <calcite-input prefix-text="pre" suffix-text="suf" clearable type="number" placeholder="How many apples?">
+              <calcite-input value="2" prefix-text="pre" suffix-text="suf" clearable type="number" placeholder="How many apples?">
                 <calcite-button slot="action">Go</calcite-button>
               </calcite-input>
             </calcite-label>
@@ -975,7 +1019,7 @@
                 Create username
                 <calcite-input
                   suffix-text="@maps.esri.com"
-                  id="validate-input-example-username2"
+                  id="validate-input-example-username-2"
                   placeholder="Enter username"
                   required
                 >
@@ -998,6 +1042,7 @@
             <calcite-notice width="full" id="validate-input-example-change-notice"> </calcite-notice>
             <script>
               detectInputChanges("#validate-input-example-username");
+              detectInputChanges("#validate-input-example-username-2");
               detectInputChanges("#validate-input-example-password");
               detectInputChanges("#validate-input-example-password-2");
               validateInput("#validate-input-example-password");
@@ -1045,6 +1090,7 @@
                 console.log("native inline focusout event");
               }
               validateInputWithNativeEvents("#validate-input-example-native-function-password");
+              validateInputWithNativeEvents("#validate-input-example-native-function-password-2");
             </script>
           </calcite-accordion-item>
         </calcite-accordion>

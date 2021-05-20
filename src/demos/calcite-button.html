@@ -7,13 +7,13 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Calcite Button</title>
   <style>
-    .sticky-example {
-      position: -webkit-sticky;
-      position: sticky;
-      bottom: 20px;
-      margin: 0 auto;
+    section {
+      padding: 0 2rem;
+      margin-bottom: 3rem;
     }
-
+    h1,h3,h4,h5 {
+      color: var(--calcite-ui-text-1);
+    }
     .demo-background-dark {
       background: #2b2b2b;
       color: white;
@@ -31,285 +31,302 @@
 <body>
   <calcite-button href="/">Home</calcite-button>
   <h1>Calcite Button</h1>
-  <h3>Side by Side test</h3>
-  <div style="width:300px;position:relative;display:flex;">
-    <calcite-button icon-start="plus" appearance="transparent" width="half">Field
-    </calcite-button>
-    <calcite-button icon-start="plus" appearance="transparent" width="half">Long Expression
-    </calcite-button>
-  </div>
-  <h3>Icons</h3>
-  <calcite-button icon-start="plus" icon-start="layer" ></calcite-button>
-  <calcite-button icon-end="plus">Long Expression
-  </calcite-button>
-  <calcite-button icon-start="layer" icon-end="chevron-down">Long Expression
-  </calcite-button>
-  <calcite-button icon-start="layer" icon-end="chevron-down" loading>Loading
-  </calcite-button>
-  <calcite-button icon-start="layer" icon-end="chevron-down" appearance="transparent" color="inverse" loading>Loading
-  </calcite-button>
-  <calcite-button icon-start="layer" icon-end="chevron-down"></calcite-button>
-  <calcite-button icon-start="layer" icon-end="chevron-down" loading></calcite-button>
-  <calcite-button icon-start="plus" icon-end="plus"></calcite-button>
-  <h3>Icons RTL</h3>
-  <div dir="rtl">
-  <calcite-button icon-start="plus" icon-start="layer" ></calcite-button>
-  <calcite-button icon-end="plus">Long Expression
-  </calcite-button>
-  <calcite-button icon-start="layer" icon-end="chevron-down">Long Expression
-  </calcite-button>
-  <calcite-button icon-start="layer" icon-end="chevron-down" loading>Loading
-  </calcite-button>
-  <calcite-button icon-start="layer" icon-end="chevron-down" appearance="transparent" color="inverse" loading>Loading
-  </calcite-button>
-  <calcite-button icon-start="layer" icon-end="chevron-down"></calcite-button>
-  <calcite-button icon-start="layer" icon-end="chevron-down" loading></calcite-button>
-  <calcite-button icon-start="plus" icon-end="plus"></calcite-button>
-</div>
-  <h3>Alignment</h3>
-  <calcite-button icon-start="banana" icon-end="chevron-down" appearance="outline" width="half" alignment="center">Alignment center (default)</calcite-button>
-  <calcite-button icon-start="banana" icon-end="chevron-down" appearance="outline" width="half" alignment="start">Alignment start</calcite-button>
-  <calcite-button icon-start="banana" icon-end="chevron-down" appearance="outline" width="half" alignment="end">Alignment end</calcite-button>
-  <calcite-button icon-end="chevron-down" appearance="outline" width="half" alignment="space-between">Alignment space-between</calcite-button>
-  <calcite-button icon-start="banana" icon-end="chevron-down" appearance="outline" width="half" alignment="icon-start-space-between">Alignment icon-start-space-between</calcite-button>
-  <calcite-button icon-start="banana" icon-end="chevron-down" appearance="outline" width="half" alignment="icon-end-space-between">Alignment icon-end-space-between</calcite-button>
-  <h4>Alignment RTL</h4>
-  <calcite-button dir="rtl" icon-start="banana" icon-end="chevron-down" appearance="outline" width="half" alignment="center">Alignment center (default)</calcite-button>
-  <calcite-button dir="rtl" icon-start="banana" icon-end="chevron-down" appearance="outline" width="half" alignment="start">Alignment start</calcite-button>
-  <calcite-button dir="rtl" icon-start="banana" icon-end="chevron-down" appearance="outline" width="half" alignment="end">Alignment end</calcite-button>
-  <calcite-button dir="rtl" icon-end="chevron-down" appearance="outline" width="half" alignment="space-between">Alignment space-between</calcite-button>
-  <calcite-button dir="rtl" icon-start="banana" icon-end="chevron-down" appearance="outline" width="half" alignment="icon-start-space-between">Alignment icon-start-space-between</calcite-button>
-  <calcite-button dir="rtl" icon-start="banana" icon-end="chevron-down" appearance="outline" width="half" alignment="icon-end-space-between">Alignment icon-end-space-between</calcite-button>
 
-  <h3>Normal Lockup</h3>
-  <calcite-button color="neutral" appearance='outline' icon-start="chevronLeft">
-    Back</calcite-button>
-  <calcite-button appearance='outline'>Cancel</calcite-button>
-  <calcite-button>Submit</calcite-button>
-  <calcite-button round>round button</calcite-button>
-  <h3>Set focus</h3>
-  <calcite-button onclick="document.querySelector('#button-focus-example-1').setFocus()">focus button
-  </calcite-button>
-  <calcite-button onclick="document.querySelector('#button-focus-example-2').setFocus()">focus a
-  </calcite-button>
-  <h4>Receive focus</h4>
-  <calcite-button id="button-focus-example-1">Button to gain focus</calcite-button>
-  <calcite-button href="http://google.com" target="_blank" id="button-focus-example-2">A to gain focus
-  </calcite-button>
+  <section>
+    <!-- src/components/calcite-button/usage/.md -->
+    <div>
+      <h3>Basic</h3>
+      <calcite-button icon-start="plus" color="red">Go!</calcite-button>
+    </div>
+    <div>
+      <h3>Within a form</h3>
+      <form name="sign-up">
+        <calcite-label>
+          First name
+          <calcite-input name="first-name" required></calcite-input>
+        </calcite-label>
+        <calcite-button type="reset">I should reset the form (type reset)</calcite-button>
+        <calcite-button type="button">I should not submit the form (type button)</calcite-button>
+        <calcite-button>Submit</calcite-button>
+      </form>
+    </div>
+    <div>
+      <h3>With icons</h3>
+      <calcite-button appearance="solid" icon-start="arrow-left">Back</calcite-button>
+      <calcite-button icon-end="map" color="red">Map Options</calcite-button>
+      <calcite-button icon-end="plus" appearance="outline" color="inverse">Add to favorites</calcite-button>
+    </div>
+    <div>
+      <h3>With loading and disabled states</h3>
+      <calcite-button loading color="neutral">Fetching data...</calcite-button>
+      <calcite-button disabled>Can't touch this</calcite-button>
+    </div>
+  </section>
 
-  <h5>calcite button inside form with no custom onsubmit</h5>
-  <form name="form1" id="form1">
-    <label>form 1</label>
-    <input type="text" name="name1" required />
-    <calcite-button id="submit-button1">Go</calcite-button>
-    <calcite-button type="button">I should not submit the form (type button)</calcite-button>
-    <calcite-button type="reset">I should reset the form (type reset)</calcite-button>
-  </form>
-  <h5>with a custom defined onsubmit on form</h5>
-  <form name="form4" id="form4" onsubmit="alert('submitted')">
-    <label>form 4</label>
-    <input type="text" name="name4" required />
-    <calcite-button id="submit-button4">Go (custom onsubmit - alert)</calcite-button>
-    <calcite-button onclick="alert('clicked')" type="button">I should not submit the form (type button) but I
-      should perform my onclick</calcite-button>
-    <calcite-button type="reset">I should reset the form (type reset)</calcite-button>
-  </form>
-  <h5>multiple calcite buttons outside form</h5>
-  <form name="form2" id="form2">
-    <label>form 2 (no custom onsubmit)</label>
-    <input type="text" name="name2" required />
-  </form>
-  <form name="form3" id="form3" onsubmit="alert('submitted')">
-    <label>form 3 (has custom onsubmit)</label>
-    <input type="text" name="name3" required />
-  </form>
-  <calcite-button form="form2" id="submit-button2">Submit form 2</calcite-button>
-  <calcite-button form="form2" type="button" id="button-button2">no action (form 2)</calcite-button>
-  <calcite-button form="form2" type="reset" id="reset-button2">reset form 2</calcite-button>
-  <br />
-  <calcite-button form="form3" id="submit-button3">Submit form 3 (custom fn)</calcite-button>
-  <calcite-button form="form3" type="button" id="button-button3">no action (form 3)</calcite-button>
-  <calcite-button form="form3" type="reset" id="reset-button3">reset form 3</calcite-button>
+  <section>
+    <h3>Side by Side test</h3>
+    <div style="width:300px;position:relative;display:flex;">
+      <calcite-button icon-start="plus" appearance="transparent" width="half">Field</calcite-button>
+      <calcite-button icon-start="plus" appearance="transparent" width="half">Long Expression</calcite-button>
+    </div>
+  </section>
 
-  <br />
-  <br />
-  <h3>Type: Solid (default)</h3>
-  <calcite-button title="blue solid button">blue solid button</calcite-button>
-  <calcite-button title="red solid button" color='red'>red solid button</calcite-button>
-  <calcite-button title="neutral solid button" color='neutral'>neutral solid button</calcite-button>
-  <calcite-button title="inverse solid button" color='inverse'>inverse solid button</calcite-button>
-  <br />
-  <br />
-  <h5>Theme="dark" on blue /red</h5>
-  <div class="demo-background-dark">
-    <calcite-button theme="dark" title="blue solid button">blue solid button</calcite-button>
-    <calcite-button theme="dark" title="red solid button" color='red'>red solid button</calcite-button>
+  <section>
+    <h3>Icons</h3>
+    <calcite-button icon-start="plus" aria-label="Add layer"></calcite-button>
+    <calcite-button icon-end="plus">Long Expression</calcite-button>
+    <calcite-button icon-start="layer" icon-end="chevron-down">Long Expression</calcite-button>
+    <calcite-button icon-start="layer" icon-end="chevron-down" loading>Loading</calcite-button>
+    <calcite-button icon-start="layer" icon-end="chevron-down" color="red" loading>Loading</calcite-button>
+    <calcite-button icon-start="layer" icon-end="chevron-down" aria-label="View layer"></calcite-button>
+    <calcite-button icon-start="layer" icon-end="chevron-down" loading aria-label="Get layer"></calcite-button>
+    <calcite-button icon-start="plus" icon-end="plus" aria-label="Add layer"></calcite-button>
+    <h3>Icons RTL</h3>
+    <div dir="rtl">
+      <calcite-button icon-start="plus" aria-label="Add layer"></calcite-button>
+      <calcite-button icon-end="plus">Long Expression</calcite-button>
+      <calcite-button icon-start="layer" icon-end="chevron-down">Long Expression</calcite-button>
+      <calcite-button icon-start="layer" icon-end="chevron-down" loading>Loading</calcite-button>
+      <calcite-button icon-start="layer" icon-end="chevron-down" color="red" loading>Loading</calcite-button>
+      <calcite-button icon-start="layer" icon-end="chevron-down" aria-label="View layer"></calcite-button>
+      <calcite-button icon-start="layer" icon-end="chevron-down" loading aria-label="Get layer"></calcite-button>
+      <calcite-button icon-start="plus" icon-end="plus" aria-label="Add layer"></calcite-button>
+    </div>
+  </section>
 
-    <calcite-button theme="dark" title="neutral solid button" color='neutral'>neutral solid button</calcite-button>
-    <calcite-button theme="dark" title="inverse solid button" color='inverse'>inverse solid button</calcite-button>
-  </div>
+  <section>
+    <h3>Alignment</h3>
+    <calcite-button icon-start="banana" icon-end="chevron-down" appearance="outline" width="half" alignment="center">Alignment center (default)</calcite-button>
+    <calcite-button icon-start="banana" icon-end="chevron-down" appearance="outline" width="half" alignment="start">Alignment start</calcite-button>
+    <calcite-button icon-start="banana" icon-end="chevron-down" appearance="outline" width="half" alignment="end">Alignment end</calcite-button>
+    <calcite-button icon-end="chevron-down" appearance="outline" width="half" alignment="space-between">Alignment space-between</calcite-button>
+    <calcite-button icon-start="banana" icon-end="chevron-down" appearance="outline" width="half" alignment="icon-start-space-between">Alignment icon-start-space-between</calcite-button>
+    <calcite-button icon-start="banana" icon-end="chevron-down" appearance="outline" width="half" alignment="icon-end-space-between">Alignment icon-end-space-between</calcite-button>
+    <h4>Alignment RTL</h4>
+    <calcite-button dir="rtl" icon-start="banana" icon-end="chevron-down" appearance="outline" width="half" alignment="center">Alignment center (default)</calcite-button>
+    <calcite-button dir="rtl" icon-start="banana" icon-end="chevron-down" appearance="outline" width="half" alignment="start">Alignment start</calcite-button>
+    <calcite-button dir="rtl" icon-start="banana" icon-end="chevron-down" appearance="outline" width="half" alignment="end">Alignment end</calcite-button>
+    <calcite-button dir="rtl" icon-end="chevron-down" appearance="outline" width="half" alignment="space-between">Alignment space-between</calcite-button>
+    <calcite-button dir="rtl" icon-start="banana" icon-end="chevron-down" appearance="outline" width="half" alignment="icon-start-space-between">Alignment icon-start-space-between</calcite-button>
+    <calcite-button dir="rtl" icon-start="banana" icon-end="chevron-down" appearance="outline" width="half" alignment="icon-end-space-between">Alignment icon-end-space-between</calcite-button>
+  </section>
 
+  <section>
+    <h3>Normal Lockup</h3>
+    <calcite-button color="neutral" appearance="outline" icon-start="chevronLeft">Back</calcite-button>
+    <calcite-button appearance="outline">Cancel</calcite-button>
+    <calcite-button>Submit</calcite-button>
+    <calcite-button round>round button</calcite-button>
+  </section>
 
-  <h3>Type: Outline</h3>
-  <calcite-button title="blue outline button" appearance='outline'>blue outline button</calcite-button>
-  <calcite-button title="red outline button" appearance='outline' color='red'>red outline button</calcite-button>
-  <calcite-button title="neutral outline button" appearance='outline' color='neutral'>neutral outline button
-  </calcite-button>
-  <calcite-button title="inverse outline button" appearance='outline' color='inverse'>inverse outline button
-  </calcite-button>
-  <br />
-  <br />
-  <h5>Theme="dark" on blue /red</h5>
-  <div class="demo-background-dark">
-    <calcite-button theme="dark" title="blue outline button" appearance='outline'>blue outline button
-    </calcite-button>
-    <calcite-button theme="dark" title="red outline button" appearance='outline' color='red'>red outline button
-    </calcite-button>
-    <calcite-button theme="dark" title="neutral outline button" appearance='outline' color='neutral'>neutral outline
-      button
-    </calcite-button>
-    <calcite-button theme="dark" title="inverse outline button" appearance='outline' color='inverse'>inverse outline button
-    </calcite-button>
-  </div>
+  <section>
+    <h3>Set focus</h3>
+    <calcite-button onclick="document.querySelector('#button-focus-example-1').setFocus()">focus button</calcite-button>
+    <calcite-button onclick="document.querySelector('#button-focus-example-2').setFocus()">focus a</calcite-button>
+    <h4>Receive focus</h4>
+    <calcite-button id="button-focus-example-1">Button to gain focus</calcite-button>
+    <calcite-button href="http://google.com" target="_blank" id="button-focus-example-2">A to gain focus</calcite-button>
+  </section>
 
-  <h3>Type: Clear</h3>
-  <calcite-button title="blue clear button" appearance='clear'>blue clear button</calcite-button>
-  <calcite-button title="red clear button" appearance='clear' color='red'>red clear button</calcite-button>
+  <section>
+    <h5>calcite button inside form with no custom onsubmit</h5>
+    <form name="sign-up-1">
+      <calcite-label>
+        First name
+        <calcite-input name="first-name" required></calcite-input>
+      </calcite-label>
+      <calcite-button type="reset">I should reset the form (type reset)</calcite-button>
+      <calcite-button type="button">I should not submit the form (type button)</calcite-button>
+      <calcite-button>Submit</calcite-button>
+    </form>
+    <h5>with a custom defined onsubmit on form</h5>
+    <form name="sign-up-2" onsubmit="alert('form submitted!');">
+      <calcite-label>
+        First name
+        <calcite-input name="first-name" required></calcite-input>
+      </calcite-label>
+      <calcite-button type="reset">I should reset the form (type reset)</calcite-button>
+      <calcite-button type="button">I should not submit the form (type button)</calcite-button>
+      <calcite-button>Submit</calcite-button>
+    </form>
+  </section>
 
-  <calcite-button title="neutral clear button" appearance='clear' color='neutral'>neutral clear button</calcite-button>
-  <calcite-button title="inverse clear button" appearance='clear' color='inverse'>inverse clear button</calcite-button>
+  <section>
+    <h5>multiple calcite buttons outside form</h5>
+    <form name="form2" id="form2">
+      <label>form 2 (no custom onsubmit)
+        <input type="text" name="name2" required />
+      </label>
+    </form>
+    <form name="form3" id="form3" onsubmit="alert('submitted')">
+      <label>form 3 (has custom onsubmit)
+        <input type="text" name="name3" required />
+      </label>
+    </form>
+    <calcite-button form="form2" id="submit-button2">Submit form 2</calcite-button>
+    <calcite-button form="form2" type="button" id="button-button2">no action (form 2)</calcite-button>
+    <calcite-button form="form2" type="reset" id="reset-button2">reset form 2</calcite-button>
+    <br />
+    <calcite-button form="form3" id="submit-button3">Submit form 3 (custom fn)</calcite-button>
+    <calcite-button form="form3" type="button" id="button-button3">no action (form 3)</calcite-button>
+    <calcite-button form="form3" type="reset" id="reset-button3">reset form 3</calcite-button>
+  </section>
+
   <br />
   <br />
-  <h5>Theme="dark" on blue /red</h5>
-  <div class="demo-background-dark">
-    <calcite-button theme="dark" title="blue clear button" appearance='clear'>blue clear button</calcite-button>
-    <calcite-button theme="dark" title="red clear button" appearance='clear' color='red'>red clear button
+
+  <section>
+    <h3>Appearance: Solid (default)</h3>
+    <calcite-button title="blue solid button">blue solid button</calcite-button>
+    <calcite-button title="red solid button" color="red">red solid button</calcite-button>
+    <calcite-button title="neutral solid button" color="neutral">neutral solid button</calcite-button>
+    <calcite-button title="inverse solid button" color="inverse">inverse solid button</calcite-button>
+    <br />
+    <br />
+    <h5>Theme="dark" on blue /red</h5>
+    <div theme="dark" class="demo-background-dark">
+      <calcite-button title="blue solid button">blue solid button</calcite-button>
+      <calcite-button title="red solid button" color="red">red solid button</calcite-button>
+      <calcite-button title="neutral solid button" color="neutral">neutral solid button</calcite-button>
+      <calcite-button title="inverse solid button" color="inverse">inverse solid button</calcite-button>
+    </div>
+
+    <h3>Appearance: Outline</h3>
+    <calcite-button title="blue outline button" appearance="outline">blue outline button</calcite-button>
+    <calcite-button title="red outline button" appearance="outline" color="red">red outline button</calcite-button>
+    <calcite-button title="neutral outline button" appearance="outline" color="neutral">neutral outline button</calcite-button>
+    <calcite-button title="inverse outline button" appearance="outline" color="inverse">inverse outline button</calcite-button>
+    <br />
+    <br />
+    <h5>Theme="dark" on blue /red</h5>
+    <div theme="dark" class="demo-background-dark">
+      <calcite-button title="blue outline button" appearance="outline">blue outline button</calcite-button>
+      <calcite-button title="red outline button" appearance="outline" color="red">red outline button</calcite-button>
+      <calcite-button title="neutral outline button" appearance="outline" color="neutral">neutral outline button</calcite-button>
+      <calcite-button title="inverse outline button" appearance="outline" color="inverse">inverse outline button</calcite-button>
+    </div>
+
+    <div>
+      <h3>Appearance: Clear</h3>
+      <calcite-button title="blue clear button" appearance="clear">blue clear button</calcite-button>
+      <calcite-button title="red clear button" appearance="clear" color="red">red clear button</calcite-button>
+      <calcite-button title="neutral clear button" appearance="clear" color="neutral">neutral clear button</calcite-button>
+      <calcite-button title="inverse clear button" appearance="clear" color="inverse">inverse clear button</calcite-button>
+    </div>
+    <br />
+    <br />
+    <h5>Theme="dark" on blue /red</h5>
+    <div theme="dark" class="demo-background-dark">
+      <calcite-button title="blue clear button" appearance="clear">blue clear button</calcite-button>
+      <calcite-button title="red clear button" appearance="clear" color="red">red clear button</calcite-button>
+      <calcite-button title="neutral clear button" appearance="clear" color="neutral">neutral clear button</calcite-button>
+      <calcite-button title="inverse clear button" appearance="clear" color="inverse">inverse clear button</calcite-button>
+    </div>
+
+    <div>
+      <h3>Appearance: Transparent</h3>
+      <calcite-button title="blue transparent button" appearance="transparent" icon-start="layers">transparent and icon</calcite-button>
+      <calcite-button title="blue transparent button" appearance="transparent" icon-start="layers">transparent and end icon</calcite-button>
+      <calcite-button title="blue transparent button" appearance="transparent">blue transparent button</calcite-button>
+      <calcite-button title="red transparent button" appearance="transparent" color="red">red transparent button</calcite-button>
+      <calcite-button title="neutral transparent button" appearance="transparent" color="neutral">neutral transparent button</calcite-button>
+      <calcite-button title="inverse transparent button" appearance="transparent" color="inverse">inverse transparent button</calcite-button>
+    </div>
+    <br />
+    <br />
+    <h5>Theme="dark" on blue /red</h5>
+    <div theme="dark" class="demo-background-dark">
+      <calcite-button title="blue transparent button" appearance="transparent" icon-start="layers">transparent and icon</calcite-button>
+      <calcite-button title="blue transparent button" appearance="transparent" icon-start="layers">transparent and end icon</calcite-button>
+      <calcite-button title="blue transparent button" appearance="transparent">blue transparent button</calcite-button>
+      <calcite-button title="red transparent button" appearance="transparent" color="red">red transparent button</calcite-button>
+      <calcite-button title="neutral transparent button" appearance="transparent" color="neutral">neutral transparent button</calcite-button>
+      <calcite-button title="inverse transparent button" appearance="transparent" color="inverse">inverse transparent button</calcite-button>
+    </div>
+  </section>
+
+  <section>
+    <h3>Disabled</h3>
+    <calcite-button title="blue solid button" disabled>blue solid button</calcite-button>
+    <calcite-button icon-start="launch" title="inverse solid button" color="inverse" disabled>inverse solid button</calcite-button>
+    <calcite-button title="blue clear button" appearance="clear" disabled>blue clear button</calcite-button>
+    <calcite-button title="blue clear button" appearance="transparent" disabled>blue clear button</calcite-button>
+    <br />
+    <br />
+    <div theme="dark" class="demo-background-dark">
+      <calcite-button title="blue solid button" disabled>blue solid button</calcite-button>
+      <calcite-button icon-start="launch" title="inverse solid button" color="inverse" disabled>inverse solid button</calcite-button>
+      <calcite-button title="blue clear button" appearance="clear" disabled>blue clear button</calcite-button>
+      <calcite-button title="blue clear button" appearance="transparent" disabled>blue clear button</calcite-button>
+    </div>
+  </section>
+
+  <section>
+    <h3>Scales</h3>
+    <calcite-button title="l scale button" scale="l">l scale button</calcite-button>
+    <calcite-button title="m / default scale button">m / default scale button</calcite-button>
+    <calcite-button title="s scale button" scale="s">s scale button</calcite-button>
+
+    <h3>Scales with icons</h3>
+    <calcite-button title="l scale button" icon-start="check-circle" scale="l">l scale button</calcite-button>
+    <calcite-button title="m / default scale button" icon-start="check-circle">m / default scale button</calcite-button>
+    <calcite-button title="s scale button" icon-start="check-circle" scale="s">s scale button</calcite-button>
+  </section>
+
+  <section>
+    <h3>Widths</h3>
+    <calcite-button title="Auto / default width button">Auto / default width button</calcite-button>
+    <br />
+    <calcite-button title="half width button" width="half">half width button</calcite-button>
+    <br />
+    <calcite-button title="full width button" width="full">full width button</calcite-button>
+    <calcite-button title="full width button" icon-start="check-circle" width="full">full width button with icon</calcite-button>
+    <calcite-button title="full width button" icon-start="check-circle" width="full">full width button with icon </calcite-button>
+  </section>
+
+  <section>
+    <h3>Anchor links</h3>
+    <h5>Passing a href will render the component as an anchor.</h5>
+    <calcite-button href="#content">Internal anchor</calcite-button>
+    <calcite-button href="https://www.esri.com" rel="noopener noreferrer" target="_blank">External anchor</calcite-button>
+    <calcite-button href="https://www.esri.com" appearance="outline" icon-start="launch" rel="noopener noreferrer" target="_blank">External anchor with icon</calcite-button>
+  </section>
+
+  <section>
+    <h3>Loader</h3>
+    <h5>These examples remove on the consumer end, the loader attribute when done... We could also present a "done" loader state somehow...</h5>
+    <calcite-button onclick="loadingButton(this, 5000)">Do something</calcite-button>
+    <calcite-button appearance="outline" onclick="loadingButton(this, 5000)">Do something</calcite-button>
+    <calcite-button color="red" onclick="loadingButton(this, 500000000)">Do something</calcite-button>
+    <calcite-button color="red" appearance="outline" onclick="loadingButton(this, 5000)">Do something</calcite-button>
+  </section>
+
+  <section>
+    <h3>Icons, and icons in combination with loader</h3>
+    <h5>pass path data - recommend using Calcite UI Icon Filled variants @ 24.</h5>
+    <calcite-button appearance="outline" color="neutral" icon-start="check-circle" aria-label="Upload status"></calcite-button>
+    <calcite-button onclick="loadingButton(this, 3000)" icon-start="check-circle" aria-label="Upload status"></calcite-button>
+    <calcite-button appearance="outline" color="inverse" icon-start="check-circle">Download icon end</calcite-button>
+    <calcite-button scale="l" appearance="outline" icon-start="download-to">Download</calcite-button>
+    <calcite-button icon-start="download-to"><em>Download</em></calcite-button>
+    <calcite-button color="red" icon-start="trash">Delete this</calcite-button>
+    <calcite-button color="red" appearance="outline" onclick="loadingButton(this, 3000)" icon-start="trash">Delete this (loader)</calcite-button>
+    <calcite-button color="red" scale="l" appearance="outline" onclick="loadingButton(this, 3000)" icon-start="trash">Delete this (loader)</calcite-button>
+  </section>
+
+  <section>
+    <h3>Icons placed inside slot: plain svg (height constrained), calcite-icons (height constrained), using icon-start</h3>
+    <calcite-button class="custom-button-size" aria-label="Share layer">
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+        <path
+          fill="#fff"
+          d="M22.117 7H7.883A.883.883 0 0 0 7 7.883v14.234c0 .487.396.883.883.883H15v-7h-3v-2h3v-.992c0-2.066 1.277-3.192 3.121-3.192.883 0 1.879.066 1.879.096V12h-1.764c-1.002 0-1.236.148-1.236.848V14h2.73l-.911 2H17v7h5.117a.884.884 0 0 0 .883-.883V7.883A.883.883 0 0 0 22.117 7z"
+        />
+      </svg>
     </calcite-button>
-    <calcite-button theme="dark" title="neutral clear button" appearance='clear' color='neutral'>neutral clear button
-    </calcite-button>
-    <calcite-button theme="dark" title="inverse clear button" appearance='clear' color='inverse'>inverse clear button</calcite-button>
-  </div>
-
-
-  <h3>Type: Transparent</h3>
-  <calcite-button title="blue transparent button" appearance='transparent' icon-start='circle'>
-    transparent and icon</calcite-button>
-  <calcite-button title="blue transparent button" appearance='transparent' icon-start='circle'>
-    transparent and end icon</calcite-button>
-  <calcite-button title="blue transparent button" appearance='transparent'>blue transparent button
-  </calcite-button>
-  <calcite-button title="red transparent button" appearance='transparent' color='red'>red transparent button
-  </calcite-button>
-
-  <calcite-button title="neutral transparent button" appearance='transparent' color='neutral'>neutral transparent button
-  </calcite-button>
-  <calcite-button title="inverse transparent button" appearance='transparent' color='inverse'>inverse transparent button
-  </calcite-button>
-  <br />
-  <br />
-  <h5>Theme="dark" on blue /red</h5>
-  <div class="demo-background-dark">
-    <calcite-button theme="dark" title="blue transparent button" appearance='transparent'>blue transparent button
-    </calcite-button>
-    <calcite-button theme="dark" title="red transparent button" appearance='transparent' color='red'>red
-      transparent button
-    </calcite-button>
-    <calcite-button theme="dark" title="neutral transparent button" appearance='transparent' color='neutral'>neutral
-      transparent
-      button
-    </calcite-button>
-    <calcite-button theme="dark" title="inverse transparent button" appearance='transparent' color='inverse'>inverse transparent
-      button
-    </calcite-button>
-  </div>
-
-  <h3>Disabled</h3>
-  <calcite-button title="blue solid button" disabled>blue solid button</calcite-button>
-  <calcite-button icon-start='launch' title="inverse solid button" color='inverse' disabled>inverse solid button</calcite-button>
-  <calcite-button title="blue clear button" appearance='clear' disabled>blue clear button</calcite-button>
-  <calcite-button title="blue clear button" appearance='transparent' disabled>blue clear button</calcite-button>
-  </calcite-button>
-  <br />
-  <br />
-  <div class="demo-background-dark">
-    <calcite-button theme="dark" title="blue solid button" disabled>blue solid button</calcite-button>
-    <calcite-button theme="dark" icon-start='launch' title="inverse solid button" color='inverse' disabled>inverse solid button
-    </calcite-button>
-    <calcite-button theme="dark" title="blue clear button" appearance='clear' disabled>blue clear button
-    </calcite-button>
-    <calcite-button theme="dark" title="blue clear button" appearance='transparent' disabled>blue clear button
-    </calcite-button>
-  </div>
-
-  <h3>Scales</h3>
-  <calcite-button title="l scale button" scale='l'>l scale button</calcite-button>
-  <calcite-button title="m / default scale button">m / default scale button</calcite-button>
-  <calcite-button title="s scale button" scale='s'>s scale button</calcite-button>
-
-  <h3>Scales with icons</h3>
-  <calcite-button title="l scale button" icon-start="check-circle" scale='l'>l scale button</calcite-button>
-  <calcite-button title="m / default scale button" icon-start="check-circle">m / default scale button</calcite-button>
-  <calcite-button title="s scale button" icon-start="check-circle" scale='s'>s scale button</calcite-button>
-
-  <h3>Widths</h3>
-  <calcite-button title="Auto / default width button">Auto / default width button</calcite-button>
-  <br />
-  <calcite-button title="half width button" width='half'>half width button</calcite-button>
-  <br />
-  <calcite-button title="full width button" width='full'>full width button</calcite-button>
-  <calcite-button title="full width button" icon-start='check-circle' width='full'>full width button with icon
-  </calcite-button>
-  <calcite-button title="full width button" icon-start='check-circle' width='full'>full width button with
-    icon </calcite-button>
-
-  <h3>Anchor links</h3>
-  <h5>Passing a href will render the component as an anchor.</h5>
-  <calcite-button href='/anotherpage' title="internal anchor">Internal anchor
-  </calcite-button>
-  <calcite-button href='http://google.com' title="full width button" rel="noopener noreferrer" target="_blank">
-    External anchor
-  </calcite-button>
-  <calcite-button href='http://google.com' appearance="outline" icon-start="launch" title="full width button"
-    rel="noopener noreferrer" target="_blank">External anchor with icon
-  </calcite-button>
-
-  <h3>Loader</h3>
-  <h5>These examples remove on the consumer end, the loader attribute when done... We could also present a "done"
-    loader state somehow...</h5>
-  <calcite-button onclick="loadingButton(this, 5000)">Do something</calcite-button>
-  <calcite-button appearance="outline" onclick="loadingButton(this, 5000)">Do something</calcite-button>
-  <calcite-button color="red" onclick="loadingButton(this, 500000000)">Do something</calcite-button>
-  <calcite-button color="red" appearance="outline" onclick="loadingButton(this, 5000)">Do something
-  </calcite-button>
-
-  <h3>Icons, and icons in combination with loader</h3>
-  <h5>pass path data - recommend using Calcite UI Icon Filled variants @ 24.</h5>
-  <calcite-button appearance="outline" color="neutral" icon-start='check-circle'></calcite-button>
-  <calcite-button onclick="loadingButton(this, 3000)" icon-start='check-circle'></calcite-button>
-  <calcite-button appearance="outline" color="inverse" icon-start='check-circle'>
-    Download icon end</calcite-button>
-  <calcite-button scale="l" appearance="outline" icon-start='download-to'>
-    Download</calcite-button>
-  <calcite-button icon-start='download-to'>
-    <em>Download</em></calcite-button>
-  <calcite-button color='red' icon-start='trash'>
-    Delete this</calcite-button>
-  <calcite-button color='red' appearance="outline" onclick="loadingButton(this, 3000)" icon-start='trash'>
-    Delete this (loader)</calcite-button>
-  <calcite-button color='red' scale="l" appearance="outline" onclick="loadingButton(this, 3000)" icon-start='trash'>
-    Delete this (loader)</calcite-button>
-<h3>Icons placed inside slot: plain svg (height constrained), calcite-icons (height constrained), using icon-start</h3>
-<calcite-button class="custom-button-size">
-  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
-    <path
-      fill="#fff"
-      d="M22.117 7H7.883A.883.883 0 0 0 7 7.883v14.234c0 .487.396.883.883.883H15v-7h-3v-2h3v-.992c0-2.066 1.277-3.192 3.121-3.192.883 0 1.879.066 1.879.096V12h-1.764c-1.002 0-1.236.148-1.236.848V14h2.73l-.911 2H17v7h5.117a.884.884 0 0 0 .883-.883V7.883A.883.883 0 0 0 22.117 7z"
-    />
-  </svg>
-</calcite-button>
-<calcite-button class="custom-button-size" color="inverse"><calcite-icon scale="m" icon="layer"></calcite-icon></calcite-button>
-<calcite-button class="custom-button-size"><calcite-icon scale="l" icon="layer"></calcite-icon>
-</calcite-button>
-<calcite-button icon-start="layer"></calcite-button>
+    <calcite-button class="custom-button-size" color="inverse" aria-label="Add layer"><calcite-icon scale="m" icon="layer"></calcite-icon></calcite-button>
+    <calcite-button class="custom-button-size" aria-label="Add layer"><calcite-icon scale="l" icon="layer"></calcite-icon></calcite-button>
+    <calcite-button icon-start="layer" aria-label="View layer"></calcite-button>
+  </section>
 </body>
 </html>
