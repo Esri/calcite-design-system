@@ -4,7 +4,8 @@
 /* CSS vars (@include in global) */
 @import "type";
 
-@mixin calcite-theme-light-extras {
+@mixin calcite-theme-light-extended {
+  @include calcite-theme-light();
   --calcite-theme-name: "light";
   --calcite-ui-foreground-current: #c7eaff;
   --calcite-ui-inverse: #{$blk-180};
@@ -18,7 +19,8 @@
   --calcite-scrim-background: #{rgba($blk-000, 0.75)};
 }
 
-@mixin calcite-theme-dark-extras {
+@mixin calcite-theme-dark-extended {
+  @include calcite-theme-dark();
   --calcite-theme-name: "dark";
   --calcite-ui-foreground-current: #214155;
   --calcite-ui-inverse: #{$blk-180};
@@ -34,8 +36,7 @@
 
 :root {
   @extend %type-vars;
-  @include calcite-theme-light();
-  @include calcite-theme-light-extras();
+  @include calcite-theme-light-extended();
 
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -50,25 +51,21 @@
 
 .calcite-theme--dark,
 [theme="dark"] {
-  @include calcite-theme-dark();
-  @include calcite-theme-dark-extras();
+  @include calcite-theme-dark-extended();
 }
 
 .calcite-theme--light,
 [theme="light"] {
-  @include calcite-theme-light();
-  @include calcite-theme-light-extras();
+  @include calcite-theme-light-extended();
 }
 
 .calcite-theme--auto {
   @media (prefers-color-scheme: dark) {
-    @include calcite-theme-dark();
-    @include calcite-theme-dark-extras();
+    @include calcite-theme-dark-extended();
   }
 
   @media (prefers-color-scheme: light) {
-    @include calcite-theme-light();
-    @include calcite-theme-light-extras();
+    @include calcite-theme-light-extended();
   }
 }
 
