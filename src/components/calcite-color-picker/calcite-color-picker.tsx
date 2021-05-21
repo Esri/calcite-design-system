@@ -251,9 +251,17 @@ export class CalciteColorPicker {
     return this.color || this.previousColor || DEFAULT_COLOR;
   }
 
+  private activeThumbX: number;
+
+  private activeThumbY: number;
+
   private colorUpdateLocked = false;
 
   private fieldAndSliderRenderingContext: CanvasRenderingContext2D;
+
+  private globalThumbX: number;
+
+  private globalThumbY: number;
 
   private hexInputNode: HTMLCalciteColorPickerHexInputElement;
 
@@ -465,6 +473,67 @@ export class CalciteColorPicker {
     }
   };
 
+  private handleColorFieldAndSliderMouseDown = (event: MouseEvent): void => {
+    const { offsetX, offsetY } = event;
+    this.activeThumbX = offsetX;
+    this.activeThumbY = offsetY;
+    this.globalThumbX = offsetX;
+    this.globalThumbY = offsetY;
+    const region = this.getCanvasRegion(offsetY);
+
+    if (region === "color-field") {
+      this.hueThumbState = "drag";
+      this.captureColorFieldColor(offsetX, offsetY);
+    } else if (region === "slider") {
+      this.sliderThumbState = "drag";
+      this.captureHueSliderColor(offsetX);
+    }
+
+    // prevent text selection outside of color field & slider area
+    event.preventDefault();
+
+    document.addEventListener("mousemove", this.globalMouseMoveHandler);
+    document.addEventListener("mouseup", this.globalMouseUpHandler, { once: true });
+  };
+
+  private globalMouseUpHandler = (): void => {
+    this.hueThumbState = "idle";
+    this.sliderThumbState = "idle";
+    this.drawColorFieldAndSlider();
+  };
+
+  private globalMouseMoveHandler = (event: MouseEvent): void => {
+    const { el, dimensions } = this;
+    const sliderThumbDragging = this.sliderThumbState === "drag";
+    const hueThumbDragging = this.hueThumbState === "drag";
+
+    if (!el.isConnected || (!sliderThumbDragging && !hueThumbDragging)) {
+      return;
+    }
+
+    this.globalThumbX = this.globalThumbX + event.movementX;
+    this.globalThumbY = this.globalThumbY + event.movementY;
+
+    this.activeThumbX = clamp(this.globalThumbX, 0, dimensions.colorField.width);
+    this.activeThumbY = clamp(
+      this.globalThumbY,
+      0,
+      dimensions.colorField.height + dimensions.slider.height
+    );
+
+    const region: ReturnType<CalciteColorPicker["getCanvasRegion"]> = hueThumbDragging
+      ? "color-field"
+      : sliderThumbDragging
+      ? "slider"
+      : this.getCanvasRegion(this.activeThumbY);
+
+    if (region === "color-field") {
+      this.captureColorFieldColor(this.activeThumbX, this.activeThumbY, false);
+    } else if (region === "slider") {
+      this.captureHueSliderColor(this.activeThumbX);
+    }
+  };
+
   private handleColorFieldAndSliderMouseEnterOrMove = ({ offsetX, offsetY }: MouseEvent): void => {
     const {
       dimensions: { colorField, slider, thumb }
@@ -560,6 +629,9 @@ export class CalciteColorPicker {
     if (this.storageId && localStorage.getItem(storageKey)) {
       this.savedColors = JSON.parse(localStorage.getItem(storageKey));
     }
+  }
+
+  connectedCallback(): void {
     const { color, format, value } = this;
 
     const initialValueDefault = format !== "auto" ? this.toValue(color, format) : defaultValue;
@@ -568,6 +640,11 @@ export class CalciteColorPicker {
     this.handleValueChange(initialValue, initialValueDefault);
 
     this.updateDimensions(this.scale);
+  }
+
+  disconnectedCallback(): void {
+    document.removeEventListener("mousemove", this.globalMouseMoveHandler);
+    document.removeEventListener("mouseup", this.globalMouseUpHandler);
   }
 
   //--------------------------------------------------------------------------
@@ -619,6 +696,7 @@ export class CalciteColorPicker {
               [CSS.colorFieldAndSlider]: true,
               [CSS.colorFieldAndSliderInteractive]: colorFieldAndSliderInteractive
             }}
+            onMouseDown={this.handleColorFieldAndSliderMouseDown}
             onMouseEnter={this.handleColorFieldAndSliderMouseEnterOrMove}
             onMouseLeave={this.handleColorFieldAndSliderMouseLeave}
             onMouseMove={this.handleColorFieldAndSliderMouseEnterOrMove}
@@ -1024,66 +1102,6 @@ export class CalciteColorPicker {
     });
 
     this.drawColorFieldAndSlider();
-
-    let activeThumbX: number;
-    let activeThumbY: number;
-
-    canvas.addEventListener("mousedown", (event) => {
-      const { offsetX, offsetY } = event;
-      activeThumbX = offsetX;
-      activeThumbY = offsetY;
-      const region = this.getCanvasRegion(offsetY);
-
-      if (region === "color-field") {
-        this.hueThumbState = "drag";
-        this.captureColorFieldColor(offsetX, offsetY);
-      } else if (region === "slider") {
-        this.sliderThumbState = "drag";
-        this.captureHueSliderColor(offsetX);
-      }
-
-      // prevent text selection outside of color field & slider area
-      event.preventDefault();
-
-      document.addEventListener(
-        "mouseup",
-        () => {
-          this.hueThumbState = "idle";
-          this.sliderThumbState = "idle";
-          this.drawColorFieldAndSlider();
-        },
-        { once: true }
-      );
-    });
-
-    document.addEventListener("mousemove", (event) => {
-      const { el, dimensions } = this;
-      const sliderThumbDragging = this.sliderThumbState === "drag";
-      const hueThumbDragging = this.hueThumbState === "drag";
-
-      if (!el.isConnected || (!sliderThumbDragging && !hueThumbDragging)) {
-        return;
-      }
-
-      activeThumbX = clamp(activeThumbX + event.movementX, 0, dimensions.colorField.width);
-      activeThumbY = clamp(
-        activeThumbY + event.movementY,
-        0,
-        dimensions.colorField.height + dimensions.slider.height
-      );
-
-      const region: ReturnType<CalciteColorPicker["getCanvasRegion"]> = hueThumbDragging
-        ? "color-field"
-        : sliderThumbDragging
-        ? "slider"
-        : this.getCanvasRegion(activeThumbY);
-
-      if (region === "color-field") {
-        this.captureColorFieldColor(activeThumbX, activeThumbY + event.movementY, false);
-      } else if (region === "slider") {
-        this.captureHueSliderColor(activeThumbX);
-      }
-    });
   };
 
   private containsPoint(
