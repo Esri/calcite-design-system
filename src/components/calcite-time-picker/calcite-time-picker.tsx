@@ -258,18 +258,12 @@ export class CalciteTimePicker {
   //
   // --------------------------------------------------------------------------
 
-  private decrementHour = (event?: KeyboardEvent | MouseEvent): void => {
-    if (this.enterKeyPressed(event)) {
-      return;
-    }
+  private decrementHour = (): void => {
     const newHour = !this.hour ? 0 : this.hour === "00" ? 23 : parseInt(this.hour) - 1;
     this.setTime("hour", newHour);
   };
 
-  private decrementMeridiem = (event?: KeyboardEvent | MouseEvent): void => {
-    if (this.enterKeyPressed(event)) {
-      return;
-    }
+  private decrementMeridiem = (): void => {
     const newMeridiem = this.meridiem === "PM" ? "AM" : "PM";
     this.setTime("meridiem", newMeridiem);
   };
@@ -289,22 +283,22 @@ export class CalciteTimePicker {
     this.setTime(key, newValue);
   };
 
-  private decrementMinute = (event?: KeyboardEvent | MouseEvent): void => {
-    if (this.enterKeyPressed(event)) {
-      return;
-    }
+  private decrementMinute = (): void => {
     this.decrementMinuteOrSecond("minute");
   };
 
-  private decrementSecond = (event?: KeyboardEvent | MouseEvent): void => {
-    if (this.enterKeyPressed(event)) {
-      return;
-    }
+  private decrementSecond = (): void => {
     this.decrementMinuteOrSecond("second");
   };
 
-  private enterKeyPressed(event?: any): boolean {
-    return event instanceof KeyboardEvent && event.key !== "Enter";
+  private buttonActivated(event: KeyboardEvent): boolean {
+    const isKeyboardEvent = event instanceof KeyboardEvent;
+    const enterPressed = isKeyboardEvent && event.key === "Enter";
+    const spacebarPressed = isKeyboardEvent && (event.key === " " || event.key === "Spacebar");
+    if (spacebarPressed) {
+      event.preventDefault();
+    }
+    return enterPressed || spacebarPressed;
   }
 
   private focusHandler = (event: FocusEvent): void => {
@@ -332,6 +326,12 @@ export class CalciteTimePicker {
   private hourBlurHandler = (): void => {
     this.editingHourWhileFocused = false;
   };
+
+  private hourDownButtonKeyDownHandler = (event: KeyboardEvent): void => {
+    if (this.buttonActivated(event)) {
+      this.decrementHour();
+    }
+  }
 
   private hourKeyDownHandler = (event: KeyboardEvent): void => {
     if (numberKeys.includes(event.key)) {
@@ -374,22 +374,26 @@ export class CalciteTimePicker {
           event.preventDefault();
           this.incrementHour();
           break;
+        case " ":
+        case "Spacebar":
+          event.preventDefault();
+          break;
       }
     }
   };
 
-  private incrementMeridiem = (event?: KeyboardEvent | MouseEvent): void => {
-    if (this.enterKeyPressed(event)) {
-      return;
+  private hourUpButtonKeyDownHandler = (event: KeyboardEvent): void => {
+    if (this.buttonActivated(event)) {
+      this.incrementHour();
     }
+  }
+
+  private incrementMeridiem = (): void => {
     const newMeridiem = this.meridiem === "AM" ? "PM" : "AM";
     this.setTime("meridiem", newMeridiem);
   };
 
-  private incrementHour = (event?: KeyboardEvent | MouseEvent): void => {
-    if (this.enterKeyPressed(event)) {
-      return;
-    }
+  private incrementHour = (): void => {
     const newHour = isValidNumber(this.hour)
       ? this.hour === "23"
         ? 0
@@ -407,19 +411,19 @@ export class CalciteTimePicker {
     this.setTime(key, newValue);
   };
 
-  private incrementMinute = (event?: KeyboardEvent | MouseEvent): void => {
-    if (this.enterKeyPressed(event)) {
-      return;
-    }
+  private incrementMinute = (): void => {
     this.incrementMinuteOrSecond("minute");
   };
 
-  private incrementSecond = (event?: KeyboardEvent | MouseEvent): void => {
-    if (this.enterKeyPressed(event)) {
-      return;
-    }
+  private incrementSecond = (): void => {
     this.incrementMinuteOrSecond("second");
   };
+
+  private meridiemDownButtonKeyDownHandler = (event: KeyboardEvent): void => {
+    if (this.buttonActivated(event)) {
+      this.decrementMeridiem();
+    }
+  }
 
   private meridiemKeyDownHandler = (event: KeyboardEvent): void => {
     switch (event.key) {
@@ -440,8 +444,24 @@ export class CalciteTimePicker {
         event.preventDefault();
         this.decrementMeridiem();
         break;
+      case " ":
+      case "Spacebar":
+        event.preventDefault();
+        break;
     }
   };
+
+  private meridiemUpButtonKeyDownHandler = (event: KeyboardEvent): void => {
+    if (this.buttonActivated(event)) {
+      this.incrementMeridiem();
+    }
+  }
+
+  private minuteDownButtonKeyDownHandler = (event: KeyboardEvent): void => {
+    if (this.buttonActivated(event)) {
+      this.decrementMinute();
+    }
+  }
 
   private minuteKeyDownHandler = (event: KeyboardEvent): void => {
     if (numberKeys.includes(event.key)) {
@@ -471,9 +491,25 @@ export class CalciteTimePicker {
           event.preventDefault();
           this.incrementMinute();
           break;
+        case " ":
+        case "Spacebar":
+          event.preventDefault();
+          break;
       }
     }
   };
+
+  private minuteUpButtonKeyDownHandler = (event: KeyboardEvent): void => {
+    if (this.buttonActivated(event)) {
+      this.incrementMinute();
+    }
+  }
+
+  private secondDownButtonKeyDownHandler = (event: KeyboardEvent): void => {
+    if (this.buttonActivated(event)) {
+      this.decrementSecond();
+    }
+  }
 
   private secondKeyDownHandler = (event: KeyboardEvent): void => {
     if (numberKeys.includes(event.key)) {
@@ -503,9 +539,19 @@ export class CalciteTimePicker {
           event.preventDefault();
           this.incrementSecond();
           break;
+        case " ":
+        case "Spacebar":
+          event.preventDefault();
+          break;
       }
     }
   };
+
+  private secondUpButtonKeyDownHandler = (event: KeyboardEvent): void => {
+    if (this.buttonActivated(event)) {
+      this.incrementSecond();
+    }
+  }
 
   private setTime = (
     key: "hour" | "minute" | "second" | "meridiem",
@@ -599,7 +645,7 @@ export class CalciteTimePicker {
                 [CSS.topLeft]: true
               }}
               onClick={this.incrementHour}
-              onKeyDown={this.incrementHour}
+              onKeyDown={this.hourUpButtonKeyDownHandler}
               role="button"
               tabIndex={-1}
             >
@@ -632,7 +678,7 @@ export class CalciteTimePicker {
                 [CSS.bottomLeft]: true
               }}
               onClick={this.decrementHour}
-              onKeyDown={this.decrementHour}
+              onKeyDown={this.hourDownButtonKeyDownHandler}
               role="button"
               tabIndex={-1}
             >
@@ -648,7 +694,7 @@ export class CalciteTimePicker {
                 [CSS.minuteUp]: true
               }}
               onClick={this.incrementMinute}
-              onKeyDown={this.incrementMinute}
+              onKeyDown={this.minuteUpButtonKeyDownHandler}
               role="button"
               tabIndex={-1}
             >
@@ -679,7 +725,7 @@ export class CalciteTimePicker {
                 [CSS.minuteDown]: true
               }}
               onClick={this.decrementMinute}
-              onKeyDown={this.decrementMinute}
+              onKeyDown={this.minuteDownButtonKeyDownHandler}
               role="button"
               tabIndex={-1}
             >
@@ -696,7 +742,7 @@ export class CalciteTimePicker {
                   [CSS.secondUp]: true
                 }}
                 onClick={this.incrementSecond}
-                onKeyDown={this.incrementSecond}
+                onKeyDown={this.secondUpButtonKeyDownHandler}
                 role="button"
                 tabIndex={-1}
               >
@@ -727,7 +773,7 @@ export class CalciteTimePicker {
                   [CSS.secondDown]: true
                 }}
                 onClick={this.decrementSecond}
-                onKeyDown={this.decrementSecond}
+                onKeyDown={this.secondDownButtonKeyDownHandler}
                 role="button"
                 tabIndex={-1}
               >
@@ -745,7 +791,7 @@ export class CalciteTimePicker {
                   [CSS.topRight]: true
                 }}
                 onClick={this.incrementMeridiem}
-                onKeyDown={this.incrementMeridiem}
+                onKeyDown={this.meridiemUpButtonKeyDownHandler}
                 role="button"
                 tabIndex={-1}
               >
@@ -779,7 +825,7 @@ export class CalciteTimePicker {
                   [CSS.bottomRight]: true
                 }}
                 onClick={this.decrementMeridiem}
-                onKeyDown={this.decrementMeridiem}
+                onKeyDown={this.meridiemDownButtonKeyDownHandler}
                 role="button"
                 tabIndex={-1}
               >
