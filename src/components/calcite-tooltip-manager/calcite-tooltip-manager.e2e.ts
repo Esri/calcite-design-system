@@ -98,6 +98,35 @@ describe("calcite-tooltip-manager", () => {
     expect(await tooltip.getProperty("open")).toBe(false);
   });
 
+  it("should not open tooltip when clicked", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `
+      <button id="test">test</button>
+      <calcite-tooltip-manager>
+        <calcite-tooltip id="tooltip" reference-element="ref">Content</calcite-tooltip>
+        <div tabindex="0" id="ref">Button</div>
+      <calcite-tooltip-manager>
+      `
+    );
+
+    await page.waitForChanges();
+
+    const tooltip = await page.find("calcite-tooltip");
+
+    expect(await tooltip.getProperty("open")).toBe(false);
+
+    await page.evaluate(() => {
+      const ref = document.getElementById("ref");
+      ref.click();
+    });
+
+    await page.waitForChanges();
+
+    expect(await tooltip.getProperty("open")).toBe(false);
+  });
+
   it("should honor focused tooltip closing with ESC key", async () => {
     const page = await newE2EPage();
 
