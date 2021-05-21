@@ -1,5 +1,6 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { queryElementRoots, queryElementsRoots, getRootNode, getHost } from "./dom";
+import { queryElementRoots, queryElementsRoots, getRootNode, getHost, getThemeName, themeNameCSSVariable } from "./dom";
+import { Theme } from "../components/interfaces";
 
 interface SetUpTestComponentOptions {
   insideHostHTML: string;
@@ -16,6 +17,8 @@ type TestWindow = typeof window & {
   setUpTestComponent: (options: SetUpTestComponentOptions) => void;
 };
 
+type TestThemeWindow = typeof window & { getThemeName: (el: HTMLElement) => Theme };
+
 const myButtonClass = "my-class";
 const insideHost = "Inside Host";
 const outsideHost = "Outside Host";
@@ -25,7 +28,65 @@ const insideHostHTML = `<button class="${myButtonClass}">${insideHost}</button>`
 const insideShadowHTML = `<div><button>${insideShadow}</button></div>`;
 const outsideHostHTML = `<span>Test</span><button>${outsideHost}</button>`;
 
-describe("utils/dom", () => {
+describe("getThemeName()", () => {
+  let page: E2EPage;
+
+  beforeEach(async () => {
+    page = await newE2EPage({
+      html: "<div>test</div>"
+    });
+
+    const content = `
+    const exports = {};
+    exports.themeNameCSSVariable = "${themeNameCSSVariable}";
+    ${getThemeName}
+    `;
+
+    await page.addScriptTag({
+      content
+    });
+
+    await page.waitForFunction(() => (window as TestThemeWindow).getThemeName);
+  });
+
+  it("getThemeName(): light", async () => {
+    const theme = await page.evaluate((themeNameCSSVariable: string) => {
+      document.body.style.setProperty(themeNameCSSVariable, "light");
+      return (window as TestThemeWindow).getThemeName(document.body);
+    }, themeNameCSSVariable);
+
+    expect(theme).toBe("light");
+  });
+
+  it("getThemeName(): light double quoted and padded", async () => {
+    const theme = await page.evaluate((themeNameCSSVariable: string) => {
+      document.body.style.setProperty(themeNameCSSVariable, '    "light"    ');
+      return (window as TestThemeWindow).getThemeName(document.body);
+    }, themeNameCSSVariable);
+
+    expect(theme).toBe("light");
+  });
+
+  it("getThemeName(): light single quoted and padded", async () => {
+    const theme = await page.evaluate((themeNameCSSVariable: string) => {
+      document.body.style.setProperty(themeNameCSSVariable, "   'light'    ");
+      return (window as TestThemeWindow).getThemeName(document.body);
+    }, themeNameCSSVariable);
+
+    expect(theme).toBe("light");
+  });
+
+  it("getThemeName(): dark", async () => {
+    const theme = await page.evaluate((themeNameCSSVariable: string) => {
+      document.body.style.setProperty(themeNameCSSVariable, "dark");
+      return (window as TestThemeWindow).getThemeName(document.body);
+    }, themeNameCSSVariable);
+
+    expect(theme).toBe("dark");
+  });
+});
+
+describe("queries", () => {
   let page: E2EPage;
 
   beforeEach(async () => {

@@ -1,28 +1,6 @@
-import { getElementProp, getSlotted, setRequestedIcon, themeNameCSSVariable, getThemeName } from "./dom";
+import { getElementProp, getSlotted, setRequestedIcon } from "./dom";
 
 describe("dom", () => {
-  describe("getThemeName()", () => {
-    it("getThemeName(): light", () => {
-      document.body.style.setProperty(themeNameCSSVariable, "light");
-      expect(getThemeName(document.body)).toBe("light");
-    });
-
-    it("getThemeName(): light double quoted and padded", () => {
-      document.body.style.setProperty(themeNameCSSVariable, '    "light"    ');
-      expect(getThemeName(document.body)).toBe("light");
-    });
-
-    it("getThemeName(): light single quoted and padded", () => {
-      document.body.style.setProperty(themeNameCSSVariable, "   'light'    ");
-      expect(getThemeName(document.body)).toBe("light");
-    });
-
-    it("getThemeName(): dark", () => {
-      document.body.style.setProperty(themeNameCSSVariable, "dark");
-      expect(getThemeName(document.body)).toBe("dark");
-    });
-  });
-
   describe("getElementProp()", () => {
     describe("light DOM", () => {
       it("returns match if found on self", async () => {

@@ -56,8 +56,7 @@ describe("calcite-radio-button-group", () => {
       { propertyName: "layout", value: "horizontal" },
       { propertyName: "name", value: "reflects-name" },
       { propertyName: "required", value: true },
-      { propertyName: "scale", value: "m" },
-      { propertyName: "theme", value: "light" }
+      { propertyName: "scale", value: "m" }
     ]));
 
   it("has a radio input for form compatibility", async () => {

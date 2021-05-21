@@ -304,7 +304,7 @@ describe("calcite-modal accessibility checks", () => {
     expect(footer).toBeFalsy();
   });
 
-  it("should render calcite-scrim with dark theme background color", async () => {
+  it("should render calcite-scrim with dark background color", async () => {
     const page = await newE2EPage({
       html: `
       <calcite-modal aria-labelledby="modal-title" is-active>
