@@ -32,6 +32,7 @@
   @apply font-sans;
 }
 
+.calcite-theme--dark,
 [theme="dark"] {
   @include calcite-theme-dark();
   --calcite-theme-name: "dark";
@@ -47,6 +48,7 @@
   --calcite-scrim-background: #{rgba($blk-240, 0.75)};
 }
 
+.calcite-theme--light,
 [theme="light"] {
   @include calcite-theme-light();
   --calcite-theme-name: "light";
