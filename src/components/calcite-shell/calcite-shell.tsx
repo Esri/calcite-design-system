@@ -1,6 +1,5 @@
 import { Component, Element, Prop, h, VNode, Fragment } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
-import { Theme } from "../interfaces";
 import { getSlotted } from "../../utils/dom";
 
 /**
@@ -22,11 +21,6 @@ export class CalciteShell {
   //  Properties
   //
   // --------------------------------------------------------------------------
-
-  /**
-   * Used to set the component's color scheme.
-   */
-  @Prop({ reflect: true }) theme: Theme;
 
   /**
    * Positions the center content behind any calcite-shell-panels.

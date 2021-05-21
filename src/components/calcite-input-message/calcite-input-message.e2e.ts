@@ -22,19 +22,18 @@ describe("calcite-input-message", () => {
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-input-message status="valid" theme="dark" type="floating">Text</calcite-input-message>
+    <calcite-input-message status="valid" type="floating">Text</calcite-input-message>
     `);
 
     const element = await page.find("calcite-input-message");
     expect(element).toEqualAttribute("status", "valid");
-    expect(element).toEqualAttribute("theme", "dark");
     expect(element).toEqualAttribute("type", "floating");
   });
 
   it("inherits requested props when from wrapping calcite-label when props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-label status="invalid" theme="dark">
+    <calcite-label status="invalid">
     Label text
     <calcite-input-message>Text</calcite-input-message>
     </calcite-label>

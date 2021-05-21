@@ -1,8 +1,8 @@
 import { Component, Element, h, Prop, VNode, Watch } from "@stencil/core";
 import Color from "color";
 import { COLORS, CSS } from "./resources";
-import { Scale, Theme } from "../interfaces";
-import { getElementProp } from "../../utils/dom";
+import { Scale } from "../interfaces";
+import { getThemeName } from "../../utils/dom";
 
 @Component({
   tag: "calcite-color-picker-swatch",
@@ -45,14 +45,6 @@ export class CalciteColorPickerSwatch {
   })
   scale: Scale = "m";
 
-  /**
-   * The component's theme.
-   */
-  @Prop({
-    reflect: true
-  })
-  theme: Theme;
-
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
@@ -78,7 +70,7 @@ export class CalciteColorPickerSwatch {
     const { active, el, internalColor } = this;
     const borderRadius = active ? "100%" : "0";
     const hex = internalColor.hex();
-    const theme = getElementProp(el, "theme", "light", true);
+    const theme = getThemeName(el);
     const borderColor = theme === "light" ? COLORS.borderLight : COLORS.borderDark;
 
     return (

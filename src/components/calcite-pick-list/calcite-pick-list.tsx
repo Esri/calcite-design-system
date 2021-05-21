@@ -30,7 +30,6 @@ import {
   removeItem
 } from "./shared-list-logic";
 import List from "./shared-list-render";
-import { Theme } from "../interfaces";
 import { HeadingLevel } from "../functional/CalciteHeading";
 
 /**
@@ -83,9 +82,6 @@ export class CalcitePickList<
    * and selecting a new item will deselect any other selected items.
    */
   @Prop({ reflect: true }) multiple = false;
-
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //

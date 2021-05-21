@@ -111,8 +111,7 @@ export class CalciteDropdownItem {
       "has-text",
       "is-link",
       "dir",
-      "id",
-      "theme"
+      "id"
     ]);
     const dir = getElementDir(this.el);
     const scale = getElementProp(this.el, "scale", "m");

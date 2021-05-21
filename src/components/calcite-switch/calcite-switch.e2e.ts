@@ -131,10 +131,9 @@ describe("calcite-switch", () => {
 
   it("renders requested props", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-switch theme="dark" scale="l" ></calcite-switch>`);
+    await page.setContent(`<calcite-switch scale="l" ></calcite-switch>`);
     const element = await page.find("calcite-switch");
 
-    expect(element).toEqualAttribute("theme", "dark");
     expect(element).toEqualAttribute("scale", "l");
   });
 

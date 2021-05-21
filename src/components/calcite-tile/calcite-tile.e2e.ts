@@ -19,8 +19,7 @@ describe("calcite-tile", () => {
       { propertyName: "embed", value: true },
       { propertyName: "focused", value: true },
       { propertyName: "href", value: "http://www.esri.com" },
-      { propertyName: "icon", value: "layers" },
-      { propertyName: "theme", value: "light" }
+      { propertyName: "icon", value: "layers" }
     ]));
 
   it("honors hidden attribute", async () => hidden("calcite-tile"));

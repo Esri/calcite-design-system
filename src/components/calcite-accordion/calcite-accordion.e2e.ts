@@ -31,7 +31,7 @@ describe("calcite-accordion", () => {
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-accordion appearance="minimal" icon-position="start"  scale="l" selection-mode="single-persist" theme="dark" icon-type="caret">
+    <calcite-accordion appearance="minimal" icon-position="start"  scale="l" selection-mode="single-persist" icon-type="caret">
     ${accordionContent}
     </calcite-accordion>`);
     const element = await page.find("calcite-accordion");
@@ -39,14 +39,13 @@ describe("calcite-accordion", () => {
     expect(element).toEqualAttribute("icon-position", "start");
     expect(element).toEqualAttribute("scale", "l");
     expect(element).toEqualAttribute("selection-mode", "single-persist");
-    expect(element).toEqualAttribute("theme", "dark");
     expect(element).toEqualAttribute("icon-type", "caret");
   });
 
   it("renders icon if requested", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-accordion appearance="minimal" icon-position="start"  scale="l" selection-mode="single-persist" theme="dark" icon-type="caret">
+    <calcite-accordion appearance="minimal" icon-position="start"  scale="l" selection-mode="single-persist" icon-type="caret">
     <calcite-accordion-item item-title="Accordion Title 1" icon="car" id="1">Accordion Item Content
     </calcite-accordion-item>
     <calcite-accordion-item item-title="Accordion Title 1" id="2" active>Accordion Item Content

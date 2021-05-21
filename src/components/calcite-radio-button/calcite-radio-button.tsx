@@ -12,7 +12,7 @@ import {
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { focusElement } from "../../utils/dom";
-import { Scale, Theme } from "../interfaces";
+import { Scale } from "../interfaces";
 import { hiddenInputStyle } from "../../utils/form";
 
 @Component({
@@ -122,9 +122,6 @@ export class CalciteRadioButton {
 
   /** The scale (size) of the radio button.  <code>scale</code> is passed as a property automatically from <code>calcite-radio-button-group</code>. */
   @Prop({ reflect: true }) scale: Scale = "m";
-
-  /** The color theme of the radio button, <code>theme</code> is passed as a property automatically from <code>calcite-radio-button-group</code>. */
-  @Prop({ reflect: true }) theme: Theme;
 
   /** The value of the radio button. */
   @Prop() value!: any;
@@ -358,7 +355,6 @@ export class CalciteRadioButton {
           hovered={this.hovered}
           ref={(el) => (this.radio = el)}
           scale={this.scale}
-          theme={this.theme}
         />
       </div>
     );

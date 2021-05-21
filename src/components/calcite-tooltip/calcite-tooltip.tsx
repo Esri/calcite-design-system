@@ -10,7 +10,6 @@ import {
   CSS as PopperCSS,
   OverlayPositioning
 } from "../../utils/popper";
-import { Theme } from "../interfaces";
 import { queryElementRoots } from "../../utils/dom";
 
 @Component({
@@ -83,9 +82,6 @@ export class CalciteTooltip {
     this.addReferences();
     this.createPopper();
   }
-
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //

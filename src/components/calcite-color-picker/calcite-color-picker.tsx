@@ -14,7 +14,7 @@ import {
 
 import Color from "color";
 import { ColorAppearance, ColorMode, ColorValue, InternalColor } from "./interfaces";
-import { Scale, Theme } from "../interfaces";
+import { Scale } from "../interfaces";
 import {
   CSS,
   DEFAULT_COLOR,
@@ -186,14 +186,6 @@ export class CalciteColorPicker {
    * Storage ID for colors.
    */
   @Prop() storageId: string;
-
-  /**
-   * The component's theme.
-   */
-  @Prop({
-    reflect: true
-  })
-  theme: Theme;
 
   /**
    * The color value.
@@ -522,8 +514,7 @@ export class CalciteColorPicker {
       intlSaved,
       intlSaveColor,
       savedColors,
-      scale,
-      theme
+      scale
     } = this;
     const selectedColorInHex = color ? color.hex() : null;
     const hexInputScale = scale !== "s" ? "m" : scale;
@@ -600,7 +591,6 @@ export class CalciteColorPicker {
                   onCalciteColorPickerHexInputChange={this.handleHexInputChange}
                   ref={this.storeHexInputRef}
                   scale={hexInputScale}
-                  theme={theme}
                   value={selectedColorInHex}
                 />
               </div>
@@ -637,7 +627,6 @@ export class CalciteColorPicker {
                   iconStart="minus"
                   onClick={this.deleteColor}
                   scale={scale}
-                  theme={theme}
                 />
                 <calcite-button
                   appearance="transparent"
@@ -648,7 +637,6 @@ export class CalciteColorPicker {
                   iconStart="plus"
                   onClick={this.saveColor}
                   scale={scale}
-                  theme={theme}
                 />
               </div>
             </div>
@@ -665,7 +653,6 @@ export class CalciteColorPicker {
                       onKeyDown={this.handleSavedColorKeyDown}
                       scale={scale}
                       tabIndex={0}
-                      theme={theme}
                     />
                   ))
                 ]}

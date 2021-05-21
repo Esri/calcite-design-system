@@ -27,10 +27,6 @@ describe("calcite-select", () => {
       {
         propertyName: "scale",
         value: "m"
-      },
-      {
-        propertyName: "theme",
-        value: "light"
       }
     ]));
 

@@ -11,7 +11,7 @@ import {
   VNode
 } from "@stencil/core";
 import { Direction, focusElement, getElementDir } from "../../utils/dom";
-import { Scale, Theme, Width } from "../interfaces";
+import { Scale, Width } from "../interfaces";
 import { CSS } from "./resources";
 import { FocusRequest } from "../calcite-label/interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -71,14 +71,6 @@ export class CalciteSelect {
    */
   @Prop({ mutable: true })
   selectedOption: HTMLCalciteOptionElement;
-
-  /**
-   * The component theme.
-   */
-  @Prop({
-    reflect: true
-  })
-  theme: Theme;
 
   /**
    * The component width.

@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { getElementDir, hasLabel } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import { Scale, Theme } from "../interfaces";
+import { Scale } from "../interfaces";
 import { TEXT } from "./calcite-rating-resources";
 import { CSS_UTILITY } from "../../utils/resources";
 
@@ -36,9 +36,6 @@ export class CalciteRating {
   //  Properties
   //
   // --------------------------------------------------------------------------
-
-  /** specify the theme of scrim, defaults to light */
-  @Prop({ reflect: true }) theme: Theme;
 
   /** specify the scale of the component, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -129,7 +126,7 @@ export class CalciteRating {
             />
             {partial && (
               <div class="fraction" style={{ width: `${fraction * 100}%` }}>
-                <calcite-icon icon="star-f" scale={this.scale} theme={this.theme} />
+                <calcite-icon icon="star-f" scale={this.scale} />
               </div>
             )}
             <span class="visually-hidden">{this.intlStars.replace("${num}", `${i}`)}</span>
@@ -157,7 +154,7 @@ export class CalciteRating {
   }
 
   render() {
-    const { intlRating, showChip, scale, theme, count, average } = this;
+    const { intlRating, showChip, scale, count, average } = this;
     const dir = getElementDir(this.el);
     return (
       <Fragment>
@@ -175,7 +172,6 @@ export class CalciteRating {
             class={{ [CSS_UTILITY.rtl]: dir === "rtl" }}
             dir={dir}
             scale={scale}
-            theme={theme}
             value={count?.toString()}
           >
             {!!average && <span class="number--average">{average.toString()}</span>}

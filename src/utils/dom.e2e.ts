@@ -1,5 +1,6 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { queryElementRoots, queryElementsRoots, getRootNode, getHost } from "./dom";
+import { queryElementRoots, queryElementsRoots, getRootNode, getHost, getThemeName, themeNameCSSVariable } from "./dom";
+import { Theme } from "../components/interfaces";
 
 interface SetUpTestComponentOptions {
   insideHostHTML: string;
@@ -16,6 +17,8 @@ type TestWindow = typeof window & {
   setUpTestComponent: (options: SetUpTestComponentOptions) => void;
 };
 
+type TestThemeWindow = typeof window & { getThemeName: (el: HTMLElement) => Theme };
+
 const myButtonClass = "my-class";
 const insideHost = "Inside Host";
 const outsideHost = "Outside Host";
@@ -25,7 +28,7 @@ const insideHostHTML = `<button class="${myButtonClass}">${insideHost}</button>`
 const insideShadowHTML = `<div><button>${insideShadow}</button></div>`;
 const outsideHostHTML = `<span>Test</span><button>${outsideHost}</button>`;
 
-describe("utils/dom", () => {
+describe("queries", () => {
   let page: E2EPage;
 
   beforeEach(async () => {

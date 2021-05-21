@@ -34,10 +34,6 @@ describe("calcite-color-picker", () => {
       {
         propertyName: "scale",
         value: "m"
-      },
-      {
-        propertyName: "theme",
-        value: "light"
       }
     ]));
 

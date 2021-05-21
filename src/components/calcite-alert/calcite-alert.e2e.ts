@@ -41,7 +41,7 @@ describe("calcite-alert", () => {
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-alert theme="dark" color="yellow" auto-dismiss-duration="fast" auto-dismiss>
+    <calcite-alert color="yellow" auto-dismiss-duration="fast" auto-dismiss>
     ${alertContent}
     </calcite-alert>`);
 
@@ -51,7 +51,6 @@ describe("calcite-alert", () => {
 
     expect(element).toEqualAttribute("color", "yellow");
     expect(element).toEqualAttribute("auto-dismiss-duration", "fast");
-    expect(element).toEqualAttribute("theme", "dark");
     expect(close).toBeNull();
     expect(icon).toBeNull();
   });

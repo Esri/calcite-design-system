@@ -36,7 +36,7 @@ describe("calcite-notice", () => {
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-notice theme="dark" color="yellow" dismissible>
+    <calcite-notice color="yellow" dismissible>
     ${noticeContent}
     </calcite-notice>`);
 
@@ -45,7 +45,6 @@ describe("calcite-notice", () => {
     const icon = await page.find("calcite-notice >>> .notice-icon");
 
     expect(element).toEqualAttribute("color", "yellow");
-    expect(element).toEqualAttribute("theme", "dark");
     expect(close).not.toBeNull();
     expect(icon).toBeNull();
   });

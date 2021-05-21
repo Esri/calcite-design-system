@@ -1,5 +1,5 @@
 import { Component, Element, h, Prop, Listen, VNode, Watch, State, Method } from "@stencil/core";
-import { Alignment, Theme, Width } from "../interfaces";
+import { Alignment, Width } from "../interfaces";
 import { TileSelectType } from "./interfaces";
 import { getElementDir } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -60,9 +60,6 @@ export class CalciteTileSelect {
 
   /** The side of the tile that the radio or checkbox appears on when inputEnabled is true. */
   @Prop({ reflect: true }) inputAlignment: Extract<"end" | "start", Alignment> = "start";
-
-  /** The theme of the tile select. */
-  @Prop({ reflect: true }) theme: Theme;
 
   /** The selection mode of the tile select: radio (single) or checkbox (multiple). */
   @Prop({ reflect: true }) type: TileSelectType = "radio";
@@ -200,7 +197,6 @@ export class CalciteTileSelect {
     if (this.name) {
       this.input.name = this.name;
     }
-    this.input.theme = this.theme;
     if (this.value) {
       this.input.value = this.value != null ? this.value.toString() : "";
     }
