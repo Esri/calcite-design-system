@@ -1,8 +1,6 @@
 import { Theme } from "../components/interfaces";
 import { CSS_UTILITY } from "./resources";
 
-export const themeNameCSSVariable = "--calcite-theme-name";
-
 export function nodeListToArray<T extends Element>(nodeList: HTMLCollectionOf<T> | NodeListOf<T> | T[]): T[] {
   return Array.isArray(nodeList) ? nodeList : Array.from(nodeList);
 }
