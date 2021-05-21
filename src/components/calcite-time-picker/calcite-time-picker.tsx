@@ -609,7 +609,7 @@ export class CalciteTimePicker {
     }
   }
 
-  componentDidLoad() {
+  componentWillLoad() {
     if (isValidNumber(this.hour)) {
       this.hour = formatTimePart(parseInt(this.hour));
     }
