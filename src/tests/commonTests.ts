@@ -168,27 +168,11 @@ export async function focusable(componentTagOrHTML: TagOrHTML, options?: Focusab
   expect(await page.evaluate((selector) => document.activeElement.matches(selector), focusTargetSelector)).toBe(true);
 }
 
-export async function inheritsDirection(componentTag: CalciteComponentTag, direction: Direction): Promise<void> {
-  const page = await newE2EPage({
-    html: `
-    <html dir="${direction}">
-      <body>
-        <${componentTag}></${componentTag}>
-      </body>
-    </html>
-  `
-  });
-  const element = await page.find(componentTag);
-  const elStyles = await element.getComputedStyle();
-  expect(element.getAttribute("dir")).toBeNull();
-  expect(elStyles["direction"]).toBe(direction);
-}
-
-export async function honorsOwnDir(componentTagOrHTML: TagOrHTML, direction: Direction): Promise<void> {
+export async function rendersLeftToRight(componentTagOrHTML: TagOrHTML, direction: Direction = "ltr"): Promise<void> {
   const page = await simplePageSetup(componentTagOrHTML);
-  const element = await page.find(getTag(componentTagOrHTML));
-  element.setAttribute("dir", direction);
-  await page.waitForChanges();
-  const elStyles = await element.getComputedStyle();
-  expect(elStyles["direction"]).toBe(direction);
+  const el = await page.find(getTag(componentTagOrHTML));
+  const elStyles = await el.getComputedStyle();
+
+  expect(elStyles["direction"]).toEqual(direction);
+  expect(el.getAttribute("dir")).toBeNull();
 }
