@@ -1,13 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import {
-  accessible,
-  defaults,
-  focusable,
-  hidden,
-  reflects,
-  renders,
-  rendersLeftToRight
-} from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 
 describe("calcite-tile-select", () => {
@@ -127,18 +119,4 @@ describe("calcite-tile-select", () => {
     focusable(html`<calcite-tile-select type="radio"></calcite-tile-select>`, {
       focusTargetSelector: "input[type=radio]"
     }));
-
-  it("should render with LTR text direction", async () =>
-    rendersLeftToRight(`
-    <calcite-tile-select
-      checked
-      heading="Hello world!"
-      icon="layer"
-      input-enabled
-      input-alignment="end"
-      type="checkbox"
-      value="one"
-      description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
-    ></calcite-tile-select>
-  `));
 });

@@ -3,7 +3,6 @@ import { JSX } from "../components";
 import { toHaveNoViolations } from "jest-axe";
 import axe from "axe-core";
 import { config } from "../../stencil.config";
-import { Direction } from "../utils/dom";
 
 expect.extend(toHaveNoViolations);
 
@@ -166,13 +165,4 @@ export async function focusable(componentTagOrHTML: TagOrHTML, options?: Focusab
   }
 
   expect(await page.evaluate((selector) => document.activeElement.matches(selector), focusTargetSelector)).toBe(true);
-}
-
-export async function rendersLeftToRight(componentTagOrHTML: TagOrHTML, direction: Direction = "ltr"): Promise<void> {
-  const page = await simplePageSetup(componentTagOrHTML);
-  const el = await page.find(getTag(componentTagOrHTML));
-  const elStyles = await el.getComputedStyle();
-
-  expect(elStyles["direction"]).toEqual(direction);
-  expect(el.getAttribute("dir")).toBeNull();
 }

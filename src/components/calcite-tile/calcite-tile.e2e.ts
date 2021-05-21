@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, reflects, renders, rendersLeftToRight } from "../../tests/commonTests";
+import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
 
 describe("calcite-tile", () => {
   it("renders", async () => renders("calcite-tile"));
@@ -89,15 +89,5 @@ describe("calcite-tile", () => {
     expect(icon).toEqualAttribute("scale", "l");
     expect(heading).toEqualText("My Large Visual Calcite Tile");
     expect(description).toBeNull();
-  });
-
-  it("should render with LTR text direction", async () => {
-    await rendersLeftToRight(
-      `<calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
-        heading="Hello world!"
-        href="#"
-        icon="layer"></calcite-tile>`
-    );
   });
 });

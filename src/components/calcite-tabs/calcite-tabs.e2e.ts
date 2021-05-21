@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, rendersLeftToRight } from "../../tests/commonTests";
+import { accessible, renders } from "../../tests/commonTests";
 
 describe("calcite-tabs", () => {
   const tabsSnippet = `<calcite-tabs>
@@ -17,8 +17,6 @@ describe("calcite-tabs", () => {
   </calcite-tabs>`;
 
   it("renders", async () => renders(tabsSnippet));
-
-  it("should render with LTR text direction", async () => rendersLeftToRight(tabsSnippet));
 
   it("is accessible", async () =>
     accessible(
