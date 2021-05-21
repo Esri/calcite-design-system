@@ -25,7 +25,7 @@ import {
 } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
-import { Scale, Theme } from "../interfaces";
+import { Scale } from "../interfaces";
 import { ComboboxSelectionMode, ComboboxChildElement } from "./interfaces";
 import {
   ComboboxChildSelector,
@@ -120,9 +120,6 @@ export class CalciteCombobox {
 
   /** Specify the scale of the combobox, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
-
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: Theme;
 
   //--------------------------------------------------------------------------
   //

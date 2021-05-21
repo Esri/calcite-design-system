@@ -2,7 +2,7 @@ import { Component, Element, h, Method, Prop, Build, State, VNode } from "@stenc
 import { CSS, TEXT } from "./resources";
 import { getAttributes, getElementDir } from "../../utils/dom";
 import { ButtonAlignment, ButtonAppearance, ButtonColor } from "./interfaces";
-import { FlipContext, Scale, Theme, Width } from "../interfaces";
+import { FlipContext, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 
 @Component({
@@ -70,9 +70,6 @@ export class CalciteButton {
   /** is the button a child of a calcite-split-button */
   @Prop({ reflect: true }) splitChild?: "primary" | "secondary" | false = false;
 
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: Theme;
-
   /** specify the width of the button, defaults to auto */
   @Prop({ reflect: true }) width: Width = "auto";
 
@@ -115,8 +112,7 @@ export class CalciteButton {
       "loading",
       "scale",
       "slot",
-      "width",
-      "theme"
+      "width"
     ]);
     const Tag = this.childElType;
 

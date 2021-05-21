@@ -1,7 +1,6 @@
 import { Component, Element, Event, EventEmitter, Host, Prop, h, VNode } from "@stencil/core";
 import { CSS, SLOTS, TEXT, HEADING_LEVEL, ICONS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
-import { Theme } from "../interfaces";
 import { getElementDir, getSlotted } from "../../utils/dom";
 import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
 
@@ -75,11 +74,6 @@ export class CalciteBlock {
    */
   @Prop() summary: string;
 
-  /**
-   * Used to set the component's color scheme.
-   */
-  @Prop({ reflect: true }) theme: Theme;
-
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -117,14 +111,11 @@ export class CalciteBlock {
   // --------------------------------------------------------------------------
 
   renderScrim(): VNode[] {
-    const { disabled, loading, theme } = this;
+    const { disabled, loading } = this;
 
     const defaultSlot = <slot />;
 
-    return [
-      loading || disabled ? <calcite-scrim loading={loading} theme={theme} /> : null,
-      defaultSlot
-    ];
+    return [loading || disabled ? <calcite-scrim loading={loading} /> : null, defaultSlot];
   }
 
   render(): VNode {

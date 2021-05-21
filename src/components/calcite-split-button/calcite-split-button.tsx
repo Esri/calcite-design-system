@@ -1,7 +1,7 @@
 import { Component, Element, Event, EventEmitter, h, Prop, VNode } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 import { ButtonAppearance, ButtonColor, DropdownIconType } from "../calcite-button/interfaces";
-import { FlipContext, Scale, Theme } from "../interfaces";
+import { FlipContext, Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-split-button",
@@ -48,9 +48,6 @@ export class CalciteSplitButton {
   /** specify the scale of the control, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** select theme (light or dark), defaults to light */
-  @Prop({ reflect: true }) theme: Theme;
-
   /** fired when the primary button is clicked */
   @Event() calciteSplitButtonPrimaryClick: EventEmitter;
 
@@ -74,7 +71,6 @@ export class CalciteSplitButton {
           onClick={this.calciteSplitButtonPrimaryClickHandler}
           scale={this.scale}
           splitChild={"primary"}
-          theme={this.theme}
         >
           {this.primaryText}
         </calcite-button>
@@ -86,7 +82,6 @@ export class CalciteSplitButton {
           onClick={this.calciteSplitButtonSecondaryClickHandler}
           placement="bottom-trailing"
           scale={this.scale}
-          theme={this.theme}
           width={this.scale}
         >
           <calcite-button
@@ -99,7 +94,6 @@ export class CalciteSplitButton {
             scale={this.scale}
             slot="dropdown-trigger"
             splitChild={"secondary"}
-            theme={this.theme}
           />
           <slot />
         </calcite-dropdown>

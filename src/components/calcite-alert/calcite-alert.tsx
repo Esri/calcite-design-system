@@ -14,7 +14,7 @@ import {
 } from "@stencil/core";
 import { getElementDir, setRequestedIcon } from "../../utils/dom";
 import { DURATIONS, SLOTS, TEXT } from "./calcite-alert.resources";
-import { Scale, Theme } from "../interfaces";
+import { Scale } from "../interfaces";
 import { StatusColor, AlertDuration, StatusIcons } from "./interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 
@@ -83,9 +83,6 @@ export class CalciteAlert {
 
   /** specify the scale of the button, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
-
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: Theme;
 
   @Watch("icon")
   @Watch("color")

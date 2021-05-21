@@ -12,6 +12,8 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
+  --calcite-theme-name: "light";
+
   --calcite-ui-foreground-current: #c7eaff;
   --calcite-ui-inverse: #{$blk-180};
   --calcite-ui-inverse-hover: #{$blk-170};
@@ -32,6 +34,7 @@
 
 [theme="dark"] {
   @include calcite-theme-dark();
+  --calcite-theme-name: "dark";
   --calcite-ui-foreground-current: #214155;
   --calcite-ui-inverse: #{$blk-180};
   --calcite-ui-inverse-hover: #{$blk-190};
@@ -46,6 +49,7 @@
 
 [theme="light"] {
   @include calcite-theme-light();
+  --calcite-theme-name: "light";
   --calcite-ui-foreground-current: #c7eaff;
   --calcite-ui-inverse: #{$blk-180};
   --calcite-ui-inverse-hover: #{$blk-170};

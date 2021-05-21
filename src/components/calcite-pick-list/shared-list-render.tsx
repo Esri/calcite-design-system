@@ -4,7 +4,6 @@ import { CSS } from "./resources";
 import { getElementDir } from "../../utils/dom";
 import { handleFilter } from "./shared-list-logic";
 import DOMAttributes = JSXBase.DOMAttributes;
-import { Theme } from "../interfaces";
 
 interface ListProps extends DOMAttributes {
   disabled: boolean;
@@ -13,7 +12,6 @@ interface ListProps extends DOMAttributes {
   dataForFilter: any;
   handleFilter: typeof handleFilter;
   filterPlaceholder: string;
-  theme: Theme;
   el: HTMLCalcitePickListElement | HTMLCalciteValueListElement;
   setFilterEl: (el: HTMLCalciteFilterElement) => void;
 }
@@ -27,8 +25,7 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes> = (
     handleFilter,
     filterPlaceholder,
     el,
-    setFilterEl,
-    theme
+    setFilterEl
   },
   ...rest
 }): VNode => {
@@ -50,7 +47,7 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes> = (
           ) : null}
           <slot name="menu-actions" />
         </header>
-        {loading || disabled ? <calcite-scrim loading={loading} theme={theme} /> : null}
+        {loading || disabled ? <calcite-scrim loading={loading} /> : null}
         {defaultSlot}
       </section>
     </Host>

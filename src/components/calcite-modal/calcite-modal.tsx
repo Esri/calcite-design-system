@@ -17,7 +17,7 @@ import { CalciteFocusableElement, focusElement, getElementDir } from "../../util
 import { getKey } from "../../utils/key";
 import { queryShadowRoot } from "@a11y/focus-trap/shadow";
 import { isFocusable, isHidden } from "@a11y/focus-trap/focusable";
-import { Scale, Theme } from "../interfaces";
+import { Scale } from "../interfaces";
 import { ModalBackgroundColor } from "./interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 
@@ -81,9 +81,6 @@ export class CalciteModal {
    * Use color to add importance to destructive/workflow dialogs. */
   @Prop({ reflect: true }) color?: "red" | "blue";
 
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: Theme;
-
   /** Background color of modal content */
   @Prop({ reflect: true }) backgroundColor: ModalBackgroundColor = "white";
 
@@ -122,7 +119,7 @@ export class CalciteModal {
     const dir = getElementDir(this.el);
     return (
       <Host aria-modal="true" role="dialog">
-        <calcite-scrim class="scrim" theme="dark" />
+        <calcite-scrim class="scrim" />
         {this.renderStyle()}
         <div class={{ modal: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           <div data-focus-fence onFocus={this.focusLastElement} tabindex="0" />

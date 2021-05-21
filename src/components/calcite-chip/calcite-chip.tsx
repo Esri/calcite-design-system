@@ -3,7 +3,7 @@ import { getElementDir, getSlotted } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { CSS, TEXT } from "./resources";
 import { ChipColor } from "./interfaces";
-import { Appearance, Scale, Theme } from "../interfaces";
+import { Appearance, Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 
 @Component({
@@ -38,9 +38,6 @@ export class CalciteChip {
 
   /** specify the scale of the chip, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
-
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: Theme;
 
   @Prop() value!: any;
 

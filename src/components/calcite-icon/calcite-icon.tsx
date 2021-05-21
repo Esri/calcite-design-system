@@ -2,7 +2,7 @@ import { Build, Component, Element, h, Host, Prop, State, VNode, Watch } from "@
 import { CSS } from "./resources";
 import { getElementDir } from "../../utils/dom";
 import { fetchIcon, scaleToPx } from "./utils";
-import { Scale, Theme } from "../interfaces";
+import { Scale } from "../interfaces";
 import { CalciteIconPath, CalciteMultiPathEntry } from "@esri/calcite-ui-icons";
 
 @Component({
@@ -58,14 +58,6 @@ export class CalciteIcon {
    */
   @Prop()
   textLabel: string;
-
-  /**
-   * Icon theme. Can be "light" or "dark".
-   */
-  @Prop({
-    reflect: true
-  })
-  theme: Theme;
 
   //--------------------------------------------------------------------------
   //

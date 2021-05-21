@@ -22,7 +22,6 @@ import {
 } from "../../utils/popper";
 import { StrictModifiers, Placement, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
-import { Theme } from "../interfaces";
 import { getElementDir, queryElementRoots } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { PopoverFocusId } from "./resources";
@@ -130,9 +129,6 @@ export class CalcitePopover {
 
   /** Text for close button. */
   @Prop() intlClose = TEXT.close;
-
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //
