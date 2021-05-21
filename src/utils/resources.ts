@@ -1,5 +1,5 @@
 export const CSS_UTILITY = {
-  themeLight: "calcite-theme--light",
-  themeDark: "calcite-theme--dark",
+  darkTheme: "calcite-theme--light",
+  lightTheme: "calcite-theme--dark",
   rtl: "calcite--rtl"
 };

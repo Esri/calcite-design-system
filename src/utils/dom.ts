@@ -1,4 +1,5 @@
 import { Theme } from "../components/interfaces";
+import { CSS_UTILITY } from "./resources";
 
 export const themeNameCSSVariable = "--calcite-theme-name";
 
@@ -15,7 +16,7 @@ export function getAttributes(el: HTMLElement, blockList: string[]): Record<stri
 }
 
 export function getThemeName(el: HTMLElement): Theme {
-  return getElementProp(el, "theme", "light", true) as Theme;
+  return closestElementCrossShadowBoundary(`.${CSS_UTILITY.darkTheme}, [theme=dark]`, el) ? "dark" : "light";
 }
 
 export function getElementDir(el: HTMLElement): Direction {
