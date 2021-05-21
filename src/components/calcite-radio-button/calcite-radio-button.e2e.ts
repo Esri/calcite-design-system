@@ -343,6 +343,7 @@ describe("calcite-radio-button", () => {
       </script>
     `);
 
+    await page.waitForChanges();
     const radios = await page.findAll("div >>> calcite-radio-button");
     const inputs = await page.findAll("div >>> calcite-radio-button >>> input");
 
