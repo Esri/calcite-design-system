@@ -1,7 +1,23 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, HYDRATED_ATTR } from "../../tests/commonTests";
+import { accessible, renders } from "../../tests/commonTests";
 
 describe("calcite-tabs", () => {
+  const tabsSnippet = `<calcite-tabs>
+    <calcite-tab-nav slot="tab-nav">
+      <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+      <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+      <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+      <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+    </calcite-tab-nav>
+
+    <calcite-tab active>Tab 1 Content</calcite-tab>
+    <calcite-tab>Tab 2 Content</calcite-tab>
+    <calcite-tab>Tab 3 Content</calcite-tab>
+    <calcite-tab>Tab 4 Content</calcite-tab>
+  </calcite-tabs>`;
+
+  it("renders", async () => renders(tabsSnippet));
+
   it("is accessible", async () =>
     accessible(
       `<calcite-tabs>
@@ -18,60 +34,6 @@ describe("calcite-tabs", () => {
         <calcite-tab>Tab 4 Content</calcite-tab>
       </calcite-tabs>`
     ));
-
-  it("renders with a light theme", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`
-      <calcite-tabs>
-        <calcite-tab-nav slot="tab-nav">
-          <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-          <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-          <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-          <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-        </calcite-tab-nav>
-
-        <calcite-tab active>Tab 1 Content</calcite-tab>
-        <calcite-tab>Tab 2 Content</calcite-tab>
-        <calcite-tab>Tab 3 Content</calcite-tab>
-        <calcite-tab>Tab 4 Content</calcite-tab>
-      </calcite-tabs>
-    `);
-    const element = await page.find("calcite-tabs");
-    expect(element).toHaveAttribute(HYDRATED_ATTR);
-
-    const results = await page.compareScreenshot();
-
-    expect(results).toMatchScreenshot({ allowableMismatchedPixels: 100 });
-  });
-
-  it("renders with a dark theme", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`
-      <div style="background: black">
-        <calcite-tabs theme="dark">
-          <calcite-tab-nav slot="tab-nav">
-            <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-          </calcite-tab-nav>
-
-          <calcite-tab active>Tab 1 Content</calcite-tab>
-          <calcite-tab>Tab 2 Content</calcite-tab>
-          <calcite-tab>Tab 3 Content</calcite-tab>
-          <calcite-tab>Tab 4 Content</calcite-tab>
-        </calcite-tabs>
-      </div>
-    `);
-    const element = await page.find("calcite-tabs");
-    expect(element).toHaveAttribute(HYDRATED_ATTR);
-
-    const results = await page.compareScreenshot();
-
-    expect(results).toMatchScreenshot({ allowableMismatchedPixels: 100 });
-  });
 
   it("sets up basic aria attributes", async () => {
     const page = await newE2EPage();
@@ -150,10 +112,6 @@ describe("calcite-tabs", () => {
       expect(title).toEqualAttribute("aria-controls", tab.id);
       expect(tab).toEqualAttribute("aria-labelledby", title.id);
     }
-
-    const results = await page.compareScreenshot();
-
-    expect(results).toMatchScreenshot({ allowableMismatchedPixels: 100 });
   });
 
   it("disallows selection of a disabled tab", async () => {
