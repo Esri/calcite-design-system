@@ -28,64 +28,6 @@ const insideHostHTML = `<button class="${myButtonClass}">${insideHost}</button>`
 const insideShadowHTML = `<div><button>${insideShadow}</button></div>`;
 const outsideHostHTML = `<span>Test</span><button>${outsideHost}</button>`;
 
-describe("getThemeName()", () => {
-  let page: E2EPage;
-
-  beforeEach(async () => {
-    page = await newE2EPage({
-      html: "<div>test</div>"
-    });
-
-    const content = `
-    const exports = {};
-    exports.themeNameCSSVariable = "${themeNameCSSVariable}";
-    ${getThemeName}
-    `;
-
-    await page.addScriptTag({
-      content
-    });
-
-    await page.waitForFunction(() => (window as TestThemeWindow).getThemeName);
-  });
-
-  it("getThemeName(): light", async () => {
-    const theme = await page.evaluate((themeNameCSSVariable: string) => {
-      document.body.style.setProperty(themeNameCSSVariable, "light");
-      return (window as TestThemeWindow).getThemeName(document.body);
-    }, themeNameCSSVariable);
-
-    expect(theme).toBe("light");
-  });
-
-  it("getThemeName(): light double quoted and padded", async () => {
-    const theme = await page.evaluate((themeNameCSSVariable: string) => {
-      document.body.style.setProperty(themeNameCSSVariable, '    "light"    ');
-      return (window as TestThemeWindow).getThemeName(document.body);
-    }, themeNameCSSVariable);
-
-    expect(theme).toBe("light");
-  });
-
-  it("getThemeName(): light single quoted and padded", async () => {
-    const theme = await page.evaluate((themeNameCSSVariable: string) => {
-      document.body.style.setProperty(themeNameCSSVariable, "   'light'    ");
-      return (window as TestThemeWindow).getThemeName(document.body);
-    }, themeNameCSSVariable);
-
-    expect(theme).toBe("light");
-  });
-
-  it("getThemeName(): dark", async () => {
-    const theme = await page.evaluate((themeNameCSSVariable: string) => {
-      document.body.style.setProperty(themeNameCSSVariable, "dark");
-      return (window as TestThemeWindow).getThemeName(document.body);
-    }, themeNameCSSVariable);
-
-    expect(theme).toBe("dark");
-  });
-});
-
 describe("queries", () => {
   let page: E2EPage;
 

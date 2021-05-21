@@ -15,9 +15,7 @@ export function getAttributes(el: HTMLElement, blockList: string[]): Record<stri
 }
 
 export function getThemeName(el: HTMLElement): Theme {
-  return getComputedStyle(el)
-    .getPropertyValue(themeNameCSSVariable)
-    .replace(/\s|'|"/g, "") as Theme;
+  return getElementProp(el, "theme", "light", true) as Theme;
 }
 
 export function getElementDir(el: HTMLElement): Direction {
