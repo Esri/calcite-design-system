@@ -145,10 +145,6 @@
         console.log("calciteInputTimePickerChange", event.target.name, event.detail);
       })
 
-      document.addEventListener("calciteInputTimePickerExternalChange", (event) => {
-        console.log("calciteInputTimePickerExternalChange", event.target.name, event.detail);
-      })
-
       document.getElementById("change-input-time-picker").addEventListener("input", (event) => {
         const date = new Date(0);
         date.setSeconds(event.target.value);

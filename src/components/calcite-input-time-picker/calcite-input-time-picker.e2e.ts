@@ -15,7 +15,6 @@ describe("calcite-input-time-picker", () => {
 
   it("has defaults", async () =>
     defaults("calcite-input-time-picker", [
-      { propertyName: "active", defaultValue: false },
       { propertyName: "scale", defaultValue: "m" },
       { propertyName: "step", defaultValue: 60 }
     ]));
@@ -324,59 +323,6 @@ describe("calcite-input-time-picker", () => {
 
     expect(changeEvent).toHaveReceivedEventTimes(2);
     expect(externalChangeEvent).toHaveReceivedEventTimes(0);
-  });
-
-  it("appropriately triggers the calciteInputTimePickerExternalChange event when the value is changed directly on the element", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-input-time-picker step="1"></calcite-input-time-picker>`);
-
-    const inputTimePicker = await page.find("calcite-input-time-picker");
-    const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
-    const externalChangeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerExternalChange");
-
-    expect(changeEvent).toHaveReceivedEventTimes(0);
-    expect(externalChangeEvent).toHaveReceivedEventTimes(0);
-
-    inputTimePicker.setProperty("value", "14:59");
-
-    await page.waitForChanges();
-
-    expect(changeEvent).toHaveReceivedEventTimes(0);
-    expect(externalChangeEvent).toHaveReceivedEventTimes(1);
-
-    inputTimePicker.setProperty("value", "15:00");
-
-    await page.waitForChanges();
-
-    expect(changeEvent).toHaveReceivedEventTimes(0);
-    expect(externalChangeEvent).toHaveReceivedEventTimes(2);
-  });
-
-  it("appropriately triggers the calciteInputTimePickerExternalChange event when the value is changed directly on the element's calcite-input", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-input-time-picker step="1"></calcite-input-time-picker>`);
-
-    const inputTimePicker = await page.find("calcite-input-time-picker");
-    const inputTimePickerCalciteInput = await page.find("calcite-input");
-    const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
-    const externalChangeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerExternalChange");
-
-    expect(changeEvent).toHaveReceivedEventTimes(0);
-    expect(externalChangeEvent).toHaveReceivedEventTimes(0);
-
-    inputTimePickerCalciteInput.setProperty("value", "14:59");
-
-    await page.waitForChanges();
-
-    expect(changeEvent).toHaveReceivedEventTimes(0);
-    expect(externalChangeEvent).toHaveReceivedEventTimes(1);
-
-    inputTimePickerCalciteInput.setProperty("value", "15:00");
-
-    await page.waitForChanges();
-
-    expect(changeEvent).toHaveReceivedEventTimes(0);
-    expect(externalChangeEvent).toHaveReceivedEventTimes(2);
   });
 
   it("formats valid typed time value appropriately on blur", async () => {

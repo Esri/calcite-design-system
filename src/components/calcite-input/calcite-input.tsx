@@ -187,10 +187,6 @@ export class CalciteInput {
     ) {
       this.setLocalizedValue(newValue);
     }
-    if (!this.internalValueChange) {
-      this.calciteInputExternalValueChange.emit(newValue);
-    }
-    this.internalValueChange = false;
   }
 
   @Watch("icon")
@@ -218,9 +214,6 @@ export class CalciteInput {
   private defaultValue: string;
 
   private form: HTMLFormElement;
-
-  /** whether the value of the input was changed as a result of user typing or not */
-  private internalValueChange = false;
 
   get isClearable(): boolean {
     return !this.isTextarea && (this.clearable || this.type === "search") && this.value?.length > 0;
@@ -326,13 +319,6 @@ export class CalciteInput {
    */
   @Event() calciteInputChange: EventEmitter;
 
-  /**
-   * This event fires in the valueWatcher for every value change, whether from typing or programmatically.
-   * This is an internal event and its use is discouraged for setting the input's value as it can lead to infinite loops.
-   * @internal
-   */
-  @Event() calciteInputExternalValueChange: EventEmitter;
-
   //--------------------------------------------------------------------------
   //
   //  Event Listeners
@@ -374,19 +360,13 @@ export class CalciteInput {
   async setValue({
     value,
     nativeEvent,
-    committing = false,
-    external = false
+    committing = false
   }: {
     value: string;
     nativeEvent?: any;
     committing?: boolean;
-    external?: boolean;
   }): Promise<void> {
     const previousValue = this.value;
-
-    if (!external) {
-      this.internalValueChange = true;
-    }
 
     this.value = this.type === "number" ? sanitizeDecimalString(value) : value;
 

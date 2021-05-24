@@ -8,8 +8,7 @@ import {
   Listen,
   Event,
   EventEmitter,
-  Method,
-  Watch
+  Method
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { parseTimeString, Time, formatTimeString, HourDisplayFormat } from "../../utils/time";
@@ -92,14 +91,6 @@ export class CalciteInputTimePicker {
   /** The selected time */
   @Prop({ mutable: true }) value: string = null;
 
-  @Watch("value")
-  valueWatcher(newValue: string): void {
-    if (!this.internalValueChange) {
-      this.setValue({ value: newValue, origin: "external" });
-    }
-    this.internalValueChange = false;
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Private Properties
@@ -107,9 +98,6 @@ export class CalciteInputTimePicker {
   //--------------------------------------------------------------------------
 
   private calciteInputEl: HTMLCalciteInputElement;
-
-  /** whether the value of the input was changed as a result of user typing or not */
-  private internalValueChange = false;
 
   private previousValidValue: string = null;
 
@@ -125,11 +113,6 @@ export class CalciteInputTimePicker {
    * Fires when the time value is changed as a result of user input.
    */
   @Event() calciteInputTimePickerChange: EventEmitter<string>;
-
-  /**
-   * Fires when the time value is changed directly via javascript.
-   */
-  @Event() calciteInputTimePickerExternalChange: EventEmitter<string>;
 
   //--------------------------------------------------------------------------
   //
@@ -159,11 +142,6 @@ export class CalciteInputTimePicker {
     if (event.key === "Escape" && this.active) {
       this.active = false;
     }
-  }
-
-  @Listen("calciteInputExternalValueChange")
-  calciteInputExternalValueChangeHandler(event: CustomEvent): void {
-    this.setValue({ value: event.detail, origin: "external" });
   }
 
   @Listen("calciteTimePickerBlur")
@@ -234,8 +212,8 @@ export class CalciteInputTimePicker {
     this.calciteInputEl = el;
   };
 
-  private setInputValue = (newInputValue: string, external = false): void => {
-    this.calciteInputEl.setValue({ value: newInputValue, external });
+  private setInputValue = (newInputValue: string): void => {
+    this.calciteInputEl.setValue({ value: newInputValue });
   };
 
   private setValue = ({
@@ -243,11 +221,9 @@ export class CalciteInputTimePicker {
     origin = "input"
   }: {
     value: string;
-    origin?: "input" | "time-picker" | "external" | "loading";
+    origin?: "input" | "time-picker" | "loading";
   }): void => {
     const validatedNewValue = formatTimeString(value);
-
-    this.internalValueChange = origin !== "external";
 
     const previousValue = this.value;
 
@@ -267,20 +243,16 @@ export class CalciteInputTimePicker {
       this.value = value;
     }
 
-    if (origin === "time-picker" || origin === "external") {
-      this.setInputValue(validatedNewValue, origin === "external");
+    if (origin === "time-picker") {
+      this.setInputValue(validatedNewValue);
     }
 
     if (shouldEmit && origin !== "loading") {
-      const changeEvent =
-        origin === "external"
-          ? this.calciteInputTimePickerExternalChange.emit(validatedNewValue)
-          : this.calciteInputTimePickerChange.emit(validatedNewValue);
+      const changeEvent = this.calciteInputTimePickerChange.emit(validatedNewValue);
 
       if (changeEvent.defaultPrevented) {
-        this.internalValueChange = origin !== "external";
         this.value = previousValue;
-        this.setInputValue(previousValue, origin === "external");
+        this.setInputValue(previousValue);
         this.previousValidValue = previousValue;
       } else {
         this.previousValidValue = validatedNewValue;
