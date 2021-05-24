@@ -101,7 +101,7 @@ export class CalciteInputTimePicker {
 
   private previousValidValue: string = null;
 
-  private referenceElementId: string = guid();
+  private referenceElementId = `input-time-picker-${guid()}`;
 
   //--------------------------------------------------------------------------
   //
