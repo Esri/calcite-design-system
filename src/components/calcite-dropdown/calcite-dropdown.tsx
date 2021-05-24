@@ -21,7 +21,7 @@ import {
   OverlayPositioning
 } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
-import { Scale, Theme } from "../interfaces";
+import { Scale } from "../interfaces";
 import { DefaultDropdownPlacement } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 
@@ -89,9 +89,6 @@ export class CalciteDropdown {
    * @readonly
    */
   @Prop({ mutable: true }) selectedItems: HTMLCalciteDropdownItemElement[] = [];
-
-  /** specify the theme of the dropdown, defaults to light */
-  @Prop({ reflect: true }) theme: Theme;
 
   /** specify whether the dropdown is opened by hover or click of a trigger element */
   @Prop({ reflect: true }) type: "hover" | "click" = "click";

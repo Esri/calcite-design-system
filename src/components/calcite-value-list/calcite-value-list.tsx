@@ -32,7 +32,6 @@ import {
 } from "../calcite-pick-list/shared-list-logic";
 import List from "../calcite-pick-list/shared-list-render";
 import { getRoundRobinIndex } from "../../utils/array";
-import { Theme } from "../interfaces";
 
 /**
  * @slot - A slot for adding `calcite-pick-list-item` elements or `calcite-pick-list-group` elements. Items are displayed as a vertical list.
@@ -89,9 +88,6 @@ export class CalciteValueList<
    * and selecting a new item will deselect any other selected items.
    */
   @Prop({ reflect: true }) multiple = false;
-
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //

@@ -12,7 +12,6 @@ import {
 } from "@stencil/core";
 import { CSS, ICONS, TEXT, HEADING_LEVEL } from "./resources";
 import { getElementDir } from "../../utils/dom";
-import { Theme } from "../interfaces";
 import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
 
 /**
@@ -69,11 +68,6 @@ export class CalciteTipManager {
    * Alternate text for navigating to the previous tip.
    */
   @Prop() intlPrevious?: string;
-
-  /**
-   * Used to set the component's color scheme.
-   */
-  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //

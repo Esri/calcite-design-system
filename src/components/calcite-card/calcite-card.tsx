@@ -2,7 +2,6 @@ import { Component, Element, Event, EventEmitter, h, Prop, VNode } from "@stenci
 import { CSS, SLOTS, TEXT } from "./resources";
 import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
-import { Theme } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 
 /**
@@ -46,9 +45,6 @@ export class CalciteCard {
 
   /** Indicates whether the card is selectable. */
   @Prop({ reflect: true }) selectable = false;
-
-  /**  The theme of the card.*/
-  @Prop({ reflect: true }) theme: Theme;
 
   /** string to override English loading text */
   @Prop() intlLoading?: string = TEXT.loading;
@@ -146,7 +142,7 @@ export class CalciteCard {
         onKeyDown={this.cardSelectKeyDown}
         title={checkboxLabel}
       >
-        <calcite-checkbox checked={this.selected} theme={this.theme} />
+        <calcite-checkbox checked={this.selected} />
       </label>
     );
   }

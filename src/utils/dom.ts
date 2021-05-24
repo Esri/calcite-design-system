@@ -1,3 +1,6 @@
+import { Theme } from "../components/interfaces";
+import { CSS_UTILITY } from "./resources";
+
 export function nodeListToArray<T extends Element>(nodeList: HTMLCollectionOf<T> | NodeListOf<T> | T[]): T[] {
   return Array.isArray(nodeList) ? nodeList : Array.from(nodeList);
 }
@@ -8,6 +11,10 @@ export function getAttributes(el: HTMLElement, blockList: string[]): Record<stri
   return Array.from(el.attributes)
     .filter((a) => a && !blockList.includes(a.name))
     .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
+}
+
+export function getThemeName(el: HTMLElement): Theme {
+  return closestElementCrossShadowBoundary(`.${CSS_UTILITY.darkTheme}, [theme=dark]`, el) ? "dark" : "light";
 }
 
 export function getElementDir(el: HTMLElement): Direction {

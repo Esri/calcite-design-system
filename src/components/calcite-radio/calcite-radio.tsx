@@ -1,5 +1,5 @@
 import { Component, h, Prop } from "@stencil/core";
-import { Scale, Theme } from "../interfaces";
+import { Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-radio",
@@ -36,9 +36,6 @@ export class CalciteRadio {
 
   /** The scale (size) of the radio. */
   @Prop({ reflect: true }) scale: Scale = "m";
-
-  /** The color theme of the radio, */
-  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //

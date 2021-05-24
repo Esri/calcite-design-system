@@ -12,7 +12,7 @@ import {
 import { nodeListToArray } from "../../utils/dom";
 import { TreeItemSelectDetail } from "../calcite-tree-item/interfaces";
 import { TreeSelectDetail, TreeSelectionMode } from "./interfaces";
-import { Scale, Theme } from "../interfaces";
+import { Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-tree",
@@ -39,9 +39,6 @@ export class CalciteTree {
 
   /** Display input */
   @Prop({ mutable: true }) inputEnabled = false;
-
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: Theme;
 
   /** @internal If this tree is nested within another tree, set to false */
   @Prop({ reflect: true, mutable: true }) child: boolean;

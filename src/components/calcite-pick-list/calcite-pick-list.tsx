@@ -19,6 +19,7 @@ import {
   deselectSiblingItems,
   getItemData,
   handleFilter,
+  calciteListFocusOutHandler,
   initialize,
   initializeObserver,
   mutationObserverCallback,
@@ -30,7 +31,6 @@ import {
   removeItem
 } from "./shared-list-logic";
 import List from "./shared-list-render";
-import { Theme } from "../interfaces";
 import { HeadingLevel } from "../functional/CalciteHeading";
 
 /**
@@ -83,9 +83,6 @@ export class CalcitePickList<
    * and selecting a new item will deselect any other selected items.
    */
   @Prop({ reflect: true }) multiple = false;
-
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //
@@ -154,6 +151,11 @@ export class CalcitePickList<
   @Listen("calciteListItemValueChange")
   calciteListItemValueChangeHandler(event: CustomEvent): void {
     calciteListItemValueChangeHandler.call(this, event);
+  }
+
+  @Listen("focusout")
+  calciteListFocusOutHandler(event: FocusEvent): void {
+    calciteListFocusOutHandler.call(this, event);
   }
 
   // --------------------------------------------------------------------------

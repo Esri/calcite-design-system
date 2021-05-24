@@ -34,10 +34,6 @@ describe("calcite-color-picker", () => {
       {
         propertyName: "scale",
         value: "m"
-      },
-      {
-        propertyName: "theme",
-        value: "light"
       }
     ]));
 
@@ -383,6 +379,65 @@ describe("calcite-color-picker", () => {
 
     expect(internalColorChanged).toBe(true);
     expect(spy).toHaveReceivedEventTimes(changes);
+  });
+
+  it("keeps tracking mouse movement when a thumb is actively dragged", async () => {
+    const page = await newE2EPage({
+      html: "<calcite-color-picker></calcite-color-picker>"
+    });
+    const picker = await page.find(`calcite-color-picker`);
+    const colorFieldAndSlider = await page.find(`calcite-color-picker >>> .${CSS.colorFieldAndSlider}`);
+
+    await colorFieldAndSlider.click(); // click middle color
+
+    let lastColor = await picker.getProperty("value");
+
+    await page.mouse.down();
+    await page.mouse.move(1000, -1000); // top-right
+
+    // note that we move the mouse in this order to guarantee value changes (bottom row is #000)
+
+    let currentColor = await picker.getProperty("value");
+    expect(currentColor).not.toEqual(lastColor);
+    lastColor = currentColor;
+
+    await page.mouse.move(-1000, 1000); // bottom-left
+    currentColor = await picker.getProperty("value");
+    expect(currentColor).not.toEqual(lastColor);
+    lastColor = currentColor;
+
+    await page.mouse.move(-1000, -1000); // top-left
+    currentColor = await picker.getProperty("value");
+    expect(currentColor).not.toEqual(lastColor);
+    lastColor = currentColor;
+
+    await page.mouse.move(1000, 1000); // bottom-right
+    currentColor = await picker.getProperty("value");
+    expect(currentColor).not.toEqual(lastColor);
+    lastColor = currentColor;
+
+    // no longer tracks
+    await page.mouse.up();
+
+    await page.mouse.move(1000, -1000); // top-right
+
+    currentColor = await picker.getProperty("value");
+    expect(currentColor).toEqual(lastColor);
+    lastColor = currentColor;
+
+    await page.mouse.move(-1000, 1000); // bottom-left
+    currentColor = await picker.getProperty("value");
+    expect(currentColor).toEqual(lastColor);
+    lastColor = currentColor;
+
+    await page.mouse.move(-1000, -1000); // top-left
+    currentColor = await picker.getProperty("value");
+    expect(currentColor).toEqual(lastColor);
+    lastColor = currentColor;
+
+    await page.mouse.move(1000, 1000); // bottom-right
+    currentColor = await picker.getProperty("value");
+    expect(currentColor).toEqual(lastColor);
   });
 
   describe("unsupported value handling", () => {

@@ -1,4 +1,4 @@
-import { Scale, Status, Theme } from "../interfaces";
+import { Scale, Status } from "../interfaces";
 import {
   Component,
   Element,
@@ -152,9 +152,6 @@ export class CalciteInput {
 
   /** optionally add suffix  **/
   @Prop() suffixText?: string;
-
-  /** specify the theme (light or dark) */
-  @Prop({ reflect: true }) theme: Theme;
 
   /**
    * specify the input type
@@ -606,7 +603,6 @@ export class CalciteInput {
       "scale",
       "status",
       "suffix-text",
-      "theme",
       "number-button-type",
       "locale",
       "group-separator"
@@ -626,7 +622,7 @@ export class CalciteInput {
         disabled={this.loading}
         onClick={this.clearInputValue}
       >
-        <calcite-icon icon="x" scale={iconScale} theme={this.theme} />
+        <calcite-icon icon="x" scale={iconScale} />
       </button>
     );
     const iconEl = (
@@ -636,7 +632,6 @@ export class CalciteInput {
         flipRtl={this.iconFlipRtl}
         icon={this.requestedIcon}
         scale={iconScale}
-        theme={this.theme}
       />
     );
 
@@ -649,7 +644,7 @@ export class CalciteInput {
         data-adjustment="up"
         onMouseDown={this.numberButtonMouseDownHandler}
       >
-        <calcite-icon icon="chevron-up" scale={iconScale} theme={this.theme} />
+        <calcite-icon icon="chevron-up" scale={iconScale} />
       </div>
     );
 
@@ -659,7 +654,7 @@ export class CalciteInput {
         data-adjustment="down"
         onMouseDown={this.numberButtonMouseDownHandler}
       >
-        <calcite-icon icon="chevron-down" scale={iconScale} theme={this.theme} />
+        <calcite-icon icon="chevron-down" scale={iconScale} />
       </div>
     );
 

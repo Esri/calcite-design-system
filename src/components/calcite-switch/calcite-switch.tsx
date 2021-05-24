@@ -17,7 +17,7 @@ import { hiddenInputStyle } from "../../utils/form";
 import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
 import { CSS_UTILITY } from "../../utils/resources";
-import { Scale, Theme } from "../interfaces";
+import { Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-switch",
@@ -66,9 +66,6 @@ export class CalciteSwitch {
   switchedWatcher(newSwitched: boolean): void {
     this.inputEl.checked = newSwitched;
   }
-
-  /** The component's theme. */
-  @Prop({ reflect: true }) theme: Theme;
 
   /** The value of the switch input */
   @Prop({ reflect: true }) value?: any;

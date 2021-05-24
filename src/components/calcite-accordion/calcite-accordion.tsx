@@ -1,7 +1,7 @@
 import { Component, Element, Event, EventEmitter, h, Listen, Prop, VNode } from "@stencil/core";
 import { getKey } from "../../utils/key";
 import { AccordionAppearance } from "./interfaces";
-import { Position, Scale, Theme } from "../interfaces";
+import { Position, Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-accordion",
@@ -38,9 +38,6 @@ export class CalciteAccordion {
   /** specify the selection mode - multi (allow any number of open items), single (allow one open item),
    * or single-persist (allow and require one open item), defaults to multi */
   @Prop({ reflect: true }) selectionMode: "multi" | "single" | "single-persist" = "multi";
-
-  /** specify the theme of accordion, defaults to light */
-  @Prop({ reflect: true }) theme: Theme;
 
   //--------------------------------------------------------------------------
   //

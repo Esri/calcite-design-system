@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { focusElement } from "../../utils/dom";
-import { Scale, Theme } from "../interfaces";
+import { Scale } from "../interfaces";
 import { hiddenInputStyle } from "../../utils/form";
 
 @Component({
@@ -78,9 +78,6 @@ export class CalciteCheckbox {
 
   /** specify the scale of the checkbox, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
-
-  /** Determines what theme to use */
-  @Prop({ reflect: true }) theme: Theme;
 
   /** The value of the checkbox input */
   @Prop() value?: any;

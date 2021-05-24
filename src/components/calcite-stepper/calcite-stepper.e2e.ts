@@ -51,7 +51,7 @@ describe("calcite-stepper", () => {
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-stepper layout="vertical" scale="l" theme="dark" numbered icon>
+    <calcite-stepper layout="vertical" scale="l" numbered icon>
       <calcite-stepper-item item-title="Step 1" id="step-1">
         <div>Step 1 content</div>
       </calcite-stepper-item>
@@ -68,7 +68,6 @@ describe("calcite-stepper", () => {
     const element = await page.find("calcite-stepper");
     expect(element).toEqualAttribute("layout", "vertical");
     expect(element).toEqualAttribute("scale", "l");
-    expect(element).toEqualAttribute("theme", "dark");
     expect(element).toHaveAttribute("numbered");
     expect(element).toHaveAttribute("icon");
   });
@@ -76,7 +75,7 @@ describe("calcite-stepper", () => {
   it("adds active attribute to requested item", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-stepper layout="vertical" scale="l" theme="dark" numbered icon>
+    <calcite-stepper layout="vertical" scale="l" numbered icon>
       <calcite-stepper-item item-title="Step 1" id="step-1">
         <div>Step 1 content</div>
       </calcite-stepper-item>
@@ -103,7 +102,7 @@ describe("calcite-stepper", () => {
   it("adds active attribute to first item if none are requested", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-stepper layout="vertical" scale="l" theme="dark" numbered icon>
+    <calcite-stepper layout="vertical" scale="l" numbered icon>
       <calcite-stepper-item item-title="Step 1" id="step-1">
         <div>Step 1 content</div>
       </calcite-stepper-item>

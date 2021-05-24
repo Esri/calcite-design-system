@@ -15,7 +15,6 @@ describe("calcite-radio", () => {
       { propertyName: "disabled", value: true },
       { propertyName: "focused", value: true },
       { propertyName: "hidden", value: true },
-      { propertyName: "scale", value: "m" },
-      { propertyName: "theme", value: "light" }
+      { propertyName: "scale", value: "m" }
     ]));
 });
