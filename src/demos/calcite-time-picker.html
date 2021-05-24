@@ -42,9 +42,6 @@
       < Home</calcite-button>
         <h1>Calcite Time Picker</h1>
 
-        <calcite-input name="native" type="time" value="00:00"></calcite-input>
-        <span>--:--</span>
-
         <calcite-time-picker scale="s" step="1" hour="3" minute="3" second="3"></calcite-time-picker>
         <span id="one"></span>
 
@@ -111,13 +108,6 @@
         </div>
   </demo-spacer>
   <script>
-    const native = document.querySelector("calcite-input");
-    const span = document.querySelector("span");
-    native.addEventListener("input", (e) => {
-      console.log("native input fired")
-      span.textContent = e.target.value;
-    })
-
     const timePicker = document.querySelector("calcite-time-picker");
     const span1 = document.querySelector("#one");
     timePicker.addEventListener("calciteTimePickerChange", (e) => {
@@ -131,8 +121,6 @@
       const value = e.detail ? JSON.stringify(e.detail) : ""
       span2.textContent = value;
     })
-
-
   </script>
 </body>
 
