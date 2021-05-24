@@ -47,7 +47,6 @@
     <demo-form>
       <form style="display: flex; flex-direction: column; gap: 20px;">
         <input id="change-input-time-picker" placeholder="change input-time-picker's value">
-        <input id="change-input" placeholder="change calcite-input's value">
         <calcite-input-time-picker id="value-test" name="value-test" step="1" value="14:59"></calcite-input-time-picker>
         <calcite-label>
           Uses preventDefault on calciteInputTimePickerChange Event to prevent entering a null value
@@ -156,17 +155,6 @@
 
         const expectedValue = date.toISOString().substr(11, 8);
         inputTimePicker.value = expectedValue;
-        if (inputTimePicker.value !== calciteInput.value) {
-          console.log("VALUES DON'T EQUAL!!!", "inputTimePicker:", inputTimePicker.value, "calciteInput:", calciteInput.value, "input:", input.value);
-        }
-      });
-
-      document.getElementById("change-input").addEventListener("input", (event) => {
-        const date = new Date(0);
-        date.setSeconds(event.target.value);
-
-        const expectedValue = date.toISOString().substr(11, 8);
-        calciteInput.value = expectedValue;
         if (inputTimePicker.value !== calciteInput.value) {
           console.log("VALUES DON'T EQUAL!!!", "inputTimePicker:", inputTimePicker.value, "calciteInput:", calciteInput.value, "input:", input.value);
         }
