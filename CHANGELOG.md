@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - Remove 'theme' props from components (#2194)
   The following CSS classes can be used to set the component's theme: `.calcite-theme--light`, `.calcite-theme--dark`. These are inherited, so they can be set on the topmost-themed element or on individual elements/components. This was done to avoid using the non-standard `theme` attribute/property on non-calcite elements.
+- **calcite-radio-button:** removing internal label (#2148)
 - **calcite-checkbox:** removing internal label (#2161)
 - **alert, chip, input, notice, shell:** The following slot names have been renamed:
 
@@ -44,6 +45,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **accordion-item, alert, color-picker-swatch, combobox-item-group, combobox-item:** avoid setting internal attributes on host element ([#2085](https://github.com/Esri/calcite-components/issues/2085)) ([555c964](https://github.com/Esri/calcite-components/commit/555c96401f5126454bed84f02ee8f9b16e77e47b)), closes [#2059](https://github.com/Esri/calcite-components/issues/2059)
 - **action-group:** 'menu-tooltip' slot to show the tooltip. ([#2107](https://github.com/Esri/calcite-components/issues/2107)) ([14af364](https://github.com/Esri/calcite-components/commit/14af364f56959e222ca53b412c3b5b0614dabe52))
 - **alert:** Remove setting 'dir' attribute in light DOM elements. [#1831](https://github.com/Esri/calcite-components/issues/1831) ([#2056](https://github.com/Esri/calcite-components/issues/2056)) ([941889f](https://github.com/Esri/calcite-components/commit/941889fb2dd58177e0c13e8f88e86466bcd8ec6d))
+- **calcite-radio-button:** removing internal label ([#2161](https://github.com/Esri/calcite-components/issues/2148)) ([7b1e0bc](https://github.com/Esri/calcite-components/commit/87566d75db25364be6f50d475aba29f2f9f82eba))
 - **calcite-checkbox:** removing internal label ([#2161](https://github.com/Esri/calcite-components/issues/2161)) ([7b1e0bc](https://github.com/Esri/calcite-components/commit/7b1e0bce5b7d2f5f542e5d6b22c6bcbe3a638401))
 - **calcite-input:** disallowing typing any key with shift modifier down inside a number input ([#2128](https://github.com/Esri/calcite-components/issues/2128)) ([f807741](https://github.com/Esri/calcite-components/commit/f8077418e5b13384d62942918ecc70c3de76f9ab))
 - **calcite-input:** pasting localized and non-localized numbers works as expected for default locale ([#2089](https://github.com/Esri/calcite-components/issues/2089)) ([8b3939b](https://github.com/Esri/calcite-components/commit/8b3939bb819c07aabf908ff36acb33df88e82a4b))
