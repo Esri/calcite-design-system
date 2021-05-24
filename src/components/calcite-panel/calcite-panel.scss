@@ -103,13 +103,13 @@
     text-overflow: ellipsis;
   }
   .heading {
-    @apply font-medium mt-0 mx-0 mb-1 text-0-wrap;
+    @apply font-medium mt-0 mx-0 mb-1 text-0h;
     &:only-child {
       @apply mb-0;
     }
   }
   .summary {
-    @apply text-color-2 text--1-wrap;
+    @apply text-color-2 text--1h;
   }
 }
 
