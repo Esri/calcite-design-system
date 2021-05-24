@@ -114,7 +114,7 @@ export class CalciteInputTimePicker {
   /** whether the value of the input was changed as a result of user typing or not */
   private internalValueChange = false;
 
-  private previousEmittedValue: string = null;
+  private previousValidValue: string = null;
 
   private referenceElementId: string = guid();
 
@@ -143,8 +143,7 @@ export class CalciteInputTimePicker {
   private calciteInputBlurHandler = (): void => {
     this.active = false;
 
-    const newValue =
-      formatTimeString(this.calciteInputEl.value) || formatTimeString(this.value);
+    const newValue = formatTimeString(this.calciteInputEl.value) || formatTimeString(this.value);
 
     this.setValue({ value: newValue });
     this.calciteInputEl.setInputElValue(newValue);
@@ -256,13 +255,13 @@ export class CalciteInputTimePicker {
     const previousValue = this.value;
 
     const shouldEmit =
-      (value !== this.previousEmittedValue && !value) ||
-      (!this.previousEmittedValue && validatedNewValue ? true : false) ||
-      (validatedNewValue !== this.previousEmittedValue && validatedNewValue);
+      (value !== this.previousValidValue && !value) ||
+      !!(!this.previousValidValue && validatedNewValue) ||
+      (validatedNewValue !== this.previousValidValue && validatedNewValue);
 
     if (value) {
       if (shouldEmit && origin !== "loading") {
-        this.previousEmittedValue = validatedNewValue;
+        this.previousValidValue = validatedNewValue;
       }
       if (validatedNewValue && validatedNewValue !== this.value) {
         this.value = validatedNewValue;
@@ -285,9 +284,9 @@ export class CalciteInputTimePicker {
         this.internalValueChange = origin !== "external";
         this.value = previousValue;
         this.setInputValue(previousValue, origin === "external");
-        this.previousEmittedValue = previousValue;
+        this.previousValidValue = previousValue;
       } else {
-        this.previousEmittedValue = validatedNewValue;
+        this.previousValidValue = validatedNewValue;
       }
     }
   };
