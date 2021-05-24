@@ -48,12 +48,12 @@ export function calciteListItemChangeHandler<T extends Lists>(this: List<T>, eve
   const { item, value, selected, shiftPressed } = event.detail;
 
   if (selected) {
-    if (!this.multiple) {
-      this.deselectSiblingItems(item);
-    }
-
     if (this.multiple && shiftPressed) {
       this.selectSiblings(item);
+    }
+
+    if (!this.multiple) {
+      this.deselectSiblingItems(item);
     }
 
     selectedValues.set(value, item);
@@ -67,6 +67,10 @@ export function calciteListItemChangeHandler<T extends Lists>(this: List<T>, eve
 
   if (!this.multiple) {
     toggleSingleSelectItemTabbing(item, selected);
+
+    if (selected) {
+      focusElement(item);
+    }
   }
 
   this.lastSelectedItem = item;
@@ -95,6 +99,25 @@ function isValidNavigationKey(key: string): boolean {
   return !!SUPPORTED_ARROW_KEYS.find((k) => k === key);
 }
 
+export function calciteListFocusOutHandler<T extends Lists>(this: List<T>, event: FocusEvent): void {
+  const { el, items, multiple, selectedValues } = this;
+
+  if (multiple) {
+    return;
+  }
+
+  const focusedInside = !!el.contains(event.relatedTarget as Node | null);
+
+  if (focusedInside) {
+    toggleSingleSelectItemTabbing(event.target as ListItemElement<T>, false);
+    return;
+  }
+
+  items.forEach((item) =>
+    toggleSingleSelectItemTabbing(item, selectedValues.size === 0 ? event.target === item : item.selected)
+  );
+}
+
 export function keyDownHandler<T extends Lists>(this: List<T>, event: KeyboardEvent): void {
   const { key, target } = event;
 
@@ -102,7 +125,7 @@ export function keyDownHandler<T extends Lists>(this: List<T>, event: KeyboardEv
     return;
   }
 
-  const { items, multiple } = this;
+  const { items } = this;
   const { length: totalItems } = items;
   const currentIndex = (items as ListItemElement<T>[]).indexOf(target as ListItemElement<T>);
 
@@ -117,10 +140,6 @@ export function keyDownHandler<T extends Lists>(this: List<T>, event: KeyboardEv
 
   toggleSingleSelectItemTabbing(item, true);
   focusElement(item);
-
-  if (!multiple) {
-    item.selected = true;
-  }
 }
 
 export function internalCalciteListChangeEvent<T extends Lists>(this: List<T>): void {
