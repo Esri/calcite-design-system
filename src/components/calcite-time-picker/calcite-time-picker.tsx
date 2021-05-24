@@ -12,7 +12,7 @@ import {
   Listen,
   Method
 } from "@stencil/core";
-import { Scale, Theme } from "../interfaces";
+import { Scale } from "../interfaces";
 import { numberKeys } from "../../utils/key";
 import { isValidNumber } from "../../utils/number";
 import {
@@ -101,9 +101,6 @@ export class CalciteTimePicker {
 
   /** number that specifies the granularity that the value must adhere to */
   @Prop({ reflect: true }) step = 60;
-
-  /** The color theme of the time-picker */
-  @Prop({ reflect: true }) theme: Theme;
 
   @Watch("hour")
   hourChanged(newHour: string): void {
@@ -331,7 +328,7 @@ export class CalciteTimePicker {
     if (this.buttonActivated(event)) {
       this.decrementHour();
     }
-  }
+  };
 
   private hourKeyDownHandler = (event: KeyboardEvent): void => {
     if (numberKeys.includes(event.key)) {
@@ -386,7 +383,7 @@ export class CalciteTimePicker {
     if (this.buttonActivated(event)) {
       this.incrementHour();
     }
-  }
+  };
 
   private incrementMeridiem = (): void => {
     const newMeridiem = this.meridiem === "AM" ? "PM" : "AM";
@@ -423,7 +420,7 @@ export class CalciteTimePicker {
     if (this.buttonActivated(event)) {
       this.decrementMeridiem();
     }
-  }
+  };
 
   private meridiemKeyDownHandler = (event: KeyboardEvent): void => {
     switch (event.key) {
@@ -455,13 +452,13 @@ export class CalciteTimePicker {
     if (this.buttonActivated(event)) {
       this.incrementMeridiem();
     }
-  }
+  };
 
   private minuteDownButtonKeyDownHandler = (event: KeyboardEvent): void => {
     if (this.buttonActivated(event)) {
       this.decrementMinute();
     }
-  }
+  };
 
   private minuteKeyDownHandler = (event: KeyboardEvent): void => {
     if (numberKeys.includes(event.key)) {
@@ -503,13 +500,13 @@ export class CalciteTimePicker {
     if (this.buttonActivated(event)) {
       this.incrementMinute();
     }
-  }
+  };
 
   private secondDownButtonKeyDownHandler = (event: KeyboardEvent): void => {
     if (this.buttonActivated(event)) {
       this.decrementSecond();
     }
-  }
+  };
 
   private secondKeyDownHandler = (event: KeyboardEvent): void => {
     if (numberKeys.includes(event.key)) {
@@ -551,7 +548,7 @@ export class CalciteTimePicker {
     if (this.buttonActivated(event)) {
       this.incrementSecond();
     }
-  }
+  };
 
   private setTime = (
     key: "hour" | "minute" | "second" | "meridiem",

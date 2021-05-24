@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { parseTimeString, Time, formatTimeString, HourDisplayFormat } from "../../utils/time";
-import { Scale, Theme } from "../interfaces";
+import { Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-input-time-picker",
@@ -88,9 +88,6 @@ export class CalciteInputTimePicker {
 
   /** number that specifies the granularity that the value must adhere to */
   @Prop() step = 60;
-
-  /** The color theme of the time-picker */
-  @Prop({ reflect: true }) theme: Theme;
 
   /** The selected time */
   @Prop({ mutable: true }) value: string = null;
@@ -338,7 +335,6 @@ export class CalciteInputTimePicker {
             ref={this.setCalciteInputEl}
             scale={this.scale}
             step={this.step}
-            theme={this.theme}
           />
         </div>
         <calcite-popover
@@ -346,7 +342,6 @@ export class CalciteInputTimePicker {
           label="Time Picker"
           open={this.active || false}
           referenceElement={this.referenceElementId}
-          theme={this.theme}
         >
           <calcite-time-picker
             hour={hour}
@@ -367,7 +362,6 @@ export class CalciteInputTimePicker {
             scale={this.scale}
             second={second}
             step={this.step}
-            theme={this.theme}
           />
         </calcite-popover>
       </Host>
