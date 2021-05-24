@@ -200,7 +200,8 @@ module.exports = {
       spacing: {
         "0.5": "0.125rem",
         "2.5": "0.625rem",
-        "3.5": "0.875rem"
+        "3.5": "0.875rem",
+        "11": "2.75rem"
       },
       transitionProperty: {
         margin: "margin",
