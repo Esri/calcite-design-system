@@ -239,7 +239,7 @@ export class CalciteInputTimePicker {
     const previousValue = this.value;
     const validatedNewValue = formatTimeString(value);
 
-    this.internalValueChange = origin !== "external";
+    this.internalValueChange = origin !== "external" && origin !== "loading";
 
     const shouldEmit =
       origin !== "loading" &&
