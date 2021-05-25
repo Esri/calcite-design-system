@@ -189,21 +189,6 @@ export class CalciteInputTimePicker {
     this.active = true;
   }
 
-  @Listen("click", { target: "window" })
-  windowClickHandler(event: MouseEvent): void {
-    const target = event.target as HTMLElement;
-    const closestHost = target.closest(
-      "calcite-input-time-picker"
-    ) as HTMLCalciteInputTimePickerElement;
-    const closestLabel = target.closest("calcite-label") as HTMLCalciteLabelElement;
-    if (closestLabel && closestLabel.for === this.el.id) {
-      this.setFocus();
-      this.active = true;
-    } else if (closestHost !== this.el) {
-      this.active = false;
-    }
-  }
-
   // --------------------------------------------------------------------------
   //
   //  Public Methods

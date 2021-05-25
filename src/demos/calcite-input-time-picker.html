@@ -34,6 +34,21 @@
   <script nomodule src="../build/calcite.js"></script>
   <script type="module" src="./_assets/demo-form.js"></script>
   <script type="module" src="./_assets/demo-spacer.js"></script>
+  <script>
+    class DemoShadow extends HTMLElement {
+      constructor() {
+        super();
+        this.attachShadow({ mode: "open" });
+        this.shadowRoot.innerHTML = `
+          <calcite-label>
+            Time picking in a shadowed component 🕔
+            <calcite-input-time-picker scale="s" value="1:2:3" step="1" />
+          </calcite-label>
+        `;
+        }
+    }
+    customElements.define("demo-shadow", DemoShadow);
+  </script>
 </head>
 
 <body>
@@ -65,7 +80,7 @@
         <demo-spacer>
           <div class="demo-background-light">
             <demo-spacer>
-              <calcite-input type="time" name="native" value="1:2" step="1"></calcite-input>
+              <demo-shadow></demo-shadow>
               <div>
                 <calcite-label for="s" scale="s">Small</calcite-label>
                 <calcite-input-date-picker scale="s" name="s-date"></calcite-input-date-picker>
