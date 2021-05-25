@@ -349,45 +349,6 @@ export class CalciteInput {
     }
   }
 
-  /** @internal */
-  @Method()
-  async setValue({
-    value,
-    nativeEvent,
-    committing = false
-  }: {
-    value: string;
-    nativeEvent?: any;
-    committing?: boolean;
-  }): Promise<void> {
-    const previousValue = this.value;
-
-    this.value = this.type === "number" ? sanitizeDecimalString(value) : value;
-
-    if (this.type === "number") {
-      this.setLocalizedValue(this.value);
-    }
-
-    if (nativeEvent) {
-      if (this.type === "number" && value?.endsWith(".")) {
-        return;
-      }
-
-      const calciteInputInputEvent = this.calciteInputInput.emit({
-        element: this.childEl,
-        nativeEvent,
-        value
-      });
-
-      if (calciteInputInputEvent.defaultPrevented) {
-        this.value = previousValue;
-        this.setLocalizedValue(previousValue);
-      } else if (committing) {
-        this.calciteInputChange.emit();
-      }
-    }
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -552,6 +513,43 @@ export class CalciteInput {
 
   private setLocalizedValue = (value: string): void => {
     this.localizedValue = localizeNumberString(value, this.locale, this.groupSeparator);
+  };
+
+  private setValue = ({
+    value,
+    nativeEvent,
+    committing = false
+  }: {
+    value: string;
+    nativeEvent?: any;
+    committing?: boolean;
+  }): void => {
+    const previousValue = this.value;
+
+    this.value = this.type === "number" ? sanitizeDecimalString(value) : value;
+
+    if (this.type === "number") {
+      this.setLocalizedValue(this.value);
+    }
+
+    if (nativeEvent) {
+      if (this.type === "number" && value?.endsWith(".")) {
+        return;
+      }
+
+      const calciteInputInputEvent = this.calciteInputInput.emit({
+        element: this.childEl,
+        nativeEvent,
+        value
+      });
+
+      if (calciteInputInputEvent.defaultPrevented) {
+        this.value = previousValue;
+        this.setLocalizedValue(previousValue);
+      } else if (committing) {
+        this.calciteInputChange.emit();
+      }
+    }
   };
 
   // --------------------------------------------------------------------------
