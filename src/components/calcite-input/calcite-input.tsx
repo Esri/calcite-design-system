@@ -258,6 +258,7 @@ export class CalciteInput {
     this.form?.addEventListener("reset", this.reset);
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.status = getElementProp(this.el, "status", this.status);
+    this.step = !this.step && this.type === "number" ? "any" : this.step;
     if (this.type === "number" && !isValidNumber(this.value)) {
       this.value = null;
     }
@@ -273,7 +274,6 @@ export class CalciteInput {
     this.maxString = this.max?.toString();
     this.minString = this.min?.toString();
     this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
-    this.step = !this.step && this.type === "number" ? "any" : this.step;
   }
 
   componentDidLoad(): void {
