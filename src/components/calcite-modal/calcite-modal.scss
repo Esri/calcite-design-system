@@ -1,26 +1,35 @@
 :host {
-  @apply fixed inset-0 flex justify-center items-center overflow-y-hidden text-color-2;
-  opacity: 0;
+  @apply fixed
+    inset-0
+    flex
+    justify-center
+    items-center
+    overflow-y-hidden
+    text-color-2
+    opacity-0;
   visibility: hidden !important;
   transition: visibility 0ms linear 300ms, opacity 300ms $easing-function;
   z-index: 101;
-  --calcite-modal-padding: theme("spacing.3");
-  --calcite-modal-padding-large: theme("spacing.4");
-  --calcite-modal-title-text: theme("fontSize.2");
-  --calcite-modal-content-text: theme("fontSize.0");
 }
 
 :host([scale="s"]) {
-  --calcite-modal-padding: theme("spacing.2");
-  --calcite-modal-padding-large: theme("spacing.3");
-  --calcite-modal-title-text: theme("fontSize.1");
+  --calcite-modal-padding: theme("spacing.3");
+  --calcite-modal-padding-large: theme("spacing.4");
+  --calcite-modal-title-text: theme("fontSize.1h");
   --calcite-modal-content-text: theme("fontSize.-1");
 }
 
-:host([scale="l"]) {
+:host([scale="m"]) {
   --calcite-modal-padding: theme("spacing.4");
   --calcite-modal-padding-large: theme("spacing.5");
-  --calcite-modal-title-text: theme("fontSize.3");
+  --calcite-modal-title-text: theme("fontSize.2h");
+  --calcite-modal-content-text: theme("fontSize.0");
+}
+
+:host([scale="l"]) {
+  --calcite-modal-padding: theme("spacing.5");
+  --calcite-modal-padding-large: theme("spacing.6");
+  --calcite-modal-title-text: theme("fontSize.3h");
   --calcite-modal-content-text: theme("fontSize.1");
 }
 
@@ -110,7 +119,7 @@
 }
 
 .content--spaced {
-  padding: var(--calcite-modal-padding-large);
+  padding: var(--calcite-modal-padding) var(--calcite-modal-padding-large);
 }
 
 .content--no-footer {
@@ -118,8 +127,9 @@
 }
 
 @include slotted("content", "*") {
+  @apply leading-6;
   font-size: var(--calcite-modal-content-text);
-  line-height: 1.5;
+  margin: 0;
 }
 
 :host([background-color="grey"]) {
