@@ -56,245 +56,244 @@ describe("calcite-input-time-picker", () => {
     expect(await popover.getProperty("open")).toBe(true);
   });
 
-  // TODO: refactor these tests to not programmatically set the value
-  // it("changing hour, minute and second values reflects in the input, input-time-picker and time-picker for 24-hour display format", async () => {
-  //   const page = await newE2EPage({
-  //     html: `<calcite-input-time-picker hour-display-format="24" step="1"></calcite-input-time-picker>`
-  //   });
+  it("changing hour, minute and second values reflects in the input, input-time-picker and time-picker for 24-hour display format", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-input-time-picker hour-display-format="24" step="1"></calcite-input-time-picker>`
+    });
 
-  //   const input = await page.find("calcite-input");
-  //   const inputTimePicker = await page.find("calcite-input-time-picker");
-  //   const timePicker = await page.find("calcite-time-picker");
-  //   const hourEl = await page.find("calcite-time-picker >>> span.hour");
-  //   const minuteEl = await page.find("calcite-time-picker >>> span.minute");
-  //   const secondEl = await page.find("calcite-time-picker >>> span.second");
+    const input = await page.find("calcite-input");
+    const inputTimePicker = await page.find("calcite-input-time-picker");
+    const timePicker = await page.find("calcite-time-picker");
+    const hourEl = await page.find("calcite-time-picker >>> span.hour");
+    const minuteEl = await page.find("calcite-time-picker >>> span.minute");
+    const secondEl = await page.find("calcite-time-picker >>> span.second");
 
-  //   for (let second = 0; second < 10; second++) {
-  //     const date = new Date(0);
-  //     date.setSeconds(second);
+    for (let second = 0; second < 10; second++) {
+      const date = new Date(0);
+      date.setSeconds(second);
 
-  //     const expectedValue = date.toISOString().substr(11, 8);
-  //     const expectedHour = expectedValue.substr(0, 2);
-  //     const expectedMinute = expectedValue.substr(3, 2);
-  //     const expectedSecond = expectedValue.substr(6, 2);
+      const expectedValue = date.toISOString().substr(11, 8);
+      const expectedHour = expectedValue.substr(0, 2);
+      const expectedMinute = expectedValue.substr(3, 2);
+      const expectedSecond = expectedValue.substr(6, 2);
 
-  //     inputTimePicker.setProperty("value", expectedValue);
+      inputTimePicker.setProperty("value", expectedValue);
 
-  //     await page.waitForChanges();
+      await page.waitForChanges();
 
-  //     const inputValue = await input.getProperty("value");
-  //     const inputTimePickerValue = await inputTimePicker.getProperty("value");
-  //     const timePickerHourValue = await timePicker.getProperty("hour");
-  //     const timePickerMinuteValue = await timePicker.getProperty("minute");
-  //     const timePickerSecondValue = await timePicker.getProperty("second");
-  //     const timePickerHourText = hourEl.textContent;
-  //     const timePickerMinuteText = minuteEl.textContent;
-  //     const timePickerSecondText = secondEl.textContent;
+      const inputValue = await input.getProperty("value");
+      const inputTimePickerValue = await inputTimePicker.getProperty("value");
+      const timePickerHourValue = await timePicker.getProperty("hour");
+      const timePickerMinuteValue = await timePicker.getProperty("minute");
+      const timePickerSecondValue = await timePicker.getProperty("second");
+      const timePickerHourText = hourEl.textContent;
+      const timePickerMinuteText = minuteEl.textContent;
+      const timePickerSecondText = secondEl.textContent;
 
-  //     expect(inputValue).toBe(expectedValue);
-  //     expect(inputTimePickerValue).toBe(expectedValue);
-  //     expect(timePickerHourValue).toBe(expectedHour);
-  //     expect(timePickerMinuteValue).toBe(expectedMinute);
-  //     expect(timePickerSecondValue).toBe(expectedSecond);
-  //     expect(timePickerHourText).toBe(expectedHour);
-  //     expect(timePickerMinuteText).toBe(expectedMinute);
-  //     expect(timePickerSecondText).toBe(expectedSecond);
-  //   }
+      expect(inputValue).toBe(expectedValue);
+      expect(inputTimePickerValue).toBe(expectedValue);
+      expect(timePickerHourValue).toBe(expectedHour);
+      expect(timePickerMinuteValue).toBe(expectedMinute);
+      expect(timePickerSecondValue).toBe(expectedSecond);
+      expect(timePickerHourText).toBe(expectedHour);
+      expect(timePickerMinuteText).toBe(expectedMinute);
+      expect(timePickerSecondText).toBe(expectedSecond);
+    }
 
-  //   for (let minute = 0; minute < 10; minute++) {
-  //     const date = new Date(0);
-  //     date.setMinutes(minute);
+    for (let minute = 0; minute < 10; minute++) {
+      const date = new Date(0);
+      date.setMinutes(minute);
 
-  //     const expectedValue = date.toISOString().substr(11, 8);
-  //     const expectedHour = expectedValue.substr(0, 2);
-  //     const expectedMinute = expectedValue.substr(3, 2);
-  //     const expectedSecond = expectedValue.substr(6, 2);
+      const expectedValue = date.toISOString().substr(11, 8);
+      const expectedHour = expectedValue.substr(0, 2);
+      const expectedMinute = expectedValue.substr(3, 2);
+      const expectedSecond = expectedValue.substr(6, 2);
 
-  //     inputTimePicker.setProperty("value", expectedValue);
+      inputTimePicker.setProperty("value", expectedValue);
 
-  //     await page.waitForChanges();
+      await page.waitForChanges();
 
-  //     const inputValue = await input.getProperty("value");
-  //     const inputTimePickerValue = await inputTimePicker.getProperty("value");
-  //     const timePickerHourValue = await timePicker.getProperty("hour");
-  //     const timePickerMinuteValue = await timePicker.getProperty("minute");
-  //     const timePickerSecondValue = await timePicker.getProperty("second");
-  //     const timePickerHourText = hourEl.textContent;
-  //     const timePickerMinuteText = minuteEl.textContent;
-  //     const timePickerSecondText = secondEl.textContent;
+      const inputValue = await input.getProperty("value");
+      const inputTimePickerValue = await inputTimePicker.getProperty("value");
+      const timePickerHourValue = await timePicker.getProperty("hour");
+      const timePickerMinuteValue = await timePicker.getProperty("minute");
+      const timePickerSecondValue = await timePicker.getProperty("second");
+      const timePickerHourText = hourEl.textContent;
+      const timePickerMinuteText = minuteEl.textContent;
+      const timePickerSecondText = secondEl.textContent;
 
-  //     expect(inputValue).toBe(expectedValue);
-  //     expect(inputTimePickerValue).toBe(expectedValue);
-  //     expect(timePickerHourValue).toBe(expectedHour);
-  //     expect(timePickerMinuteValue).toBe(expectedMinute);
-  //     expect(timePickerSecondValue).toBe(expectedSecond);
-  //     expect(timePickerHourText).toBe(expectedHour);
-  //     expect(timePickerMinuteText).toBe(expectedMinute);
-  //     expect(timePickerSecondText).toBe(expectedSecond);
-  //   }
+      expect(inputValue).toBe(expectedValue);
+      expect(inputTimePickerValue).toBe(expectedValue);
+      expect(timePickerHourValue).toBe(expectedHour);
+      expect(timePickerMinuteValue).toBe(expectedMinute);
+      expect(timePickerSecondValue).toBe(expectedSecond);
+      expect(timePickerHourText).toBe(expectedHour);
+      expect(timePickerMinuteText).toBe(expectedMinute);
+      expect(timePickerSecondText).toBe(expectedSecond);
+    }
 
-  //   for (let hour = 0; hour < 10; hour++) {
-  //     const date = new Date(0);
-  //     date.setHours(hour);
+    for (let hour = 0; hour < 10; hour++) {
+      const date = new Date(0);
+      date.setHours(hour);
 
-  //     const expectedValue = date.toISOString().substr(11, 8);
-  //     const expectedHour = expectedValue.substr(0, 2);
-  //     const expectedMinute = expectedValue.substr(3, 2);
-  //     const expectedSecond = expectedValue.substr(6, 2);
+      const expectedValue = date.toISOString().substr(11, 8);
+      const expectedHour = expectedValue.substr(0, 2);
+      const expectedMinute = expectedValue.substr(3, 2);
+      const expectedSecond = expectedValue.substr(6, 2);
 
-  //     inputTimePicker.setProperty("value", expectedValue);
+      inputTimePicker.setProperty("value", expectedValue);
 
-  //     await page.waitForChanges();
+      await page.waitForChanges();
 
-  //     const inputValue = await input.getProperty("value");
-  //     const inputTimePickerValue = await inputTimePicker.getProperty("value");
-  //     const timePickerHourValue = await timePicker.getProperty("hour");
-  //     const timePickerMinuteValue = await timePicker.getProperty("minute");
-  //     const timePickerSecondValue = await timePicker.getProperty("second");
-  //     const timePickerHourText = hourEl.textContent;
-  //     const timePickerMinuteText = minuteEl.textContent;
-  //     const timePickerSecondText = secondEl.textContent;
+      const inputValue = await input.getProperty("value");
+      const inputTimePickerValue = await inputTimePicker.getProperty("value");
+      const timePickerHourValue = await timePicker.getProperty("hour");
+      const timePickerMinuteValue = await timePicker.getProperty("minute");
+      const timePickerSecondValue = await timePicker.getProperty("second");
+      const timePickerHourText = hourEl.textContent;
+      const timePickerMinuteText = minuteEl.textContent;
+      const timePickerSecondText = secondEl.textContent;
 
-  //     expect(inputValue).toBe(expectedValue);
-  //     expect(inputTimePickerValue).toBe(expectedValue);
-  //     expect(timePickerHourValue).toBe(expectedHour);
-  //     expect(timePickerMinuteValue).toBe(expectedMinute);
-  //     expect(timePickerSecondValue).toBe(expectedSecond);
-  //     expect(timePickerHourText).toBe(expectedHour);
-  //     expect(timePickerMinuteText).toBe(expectedMinute);
-  //     expect(timePickerSecondText).toBe(expectedSecond);
-  //   }
-  // });
+      expect(inputValue).toBe(expectedValue);
+      expect(inputTimePickerValue).toBe(expectedValue);
+      expect(timePickerHourValue).toBe(expectedHour);
+      expect(timePickerMinuteValue).toBe(expectedMinute);
+      expect(timePickerSecondValue).toBe(expectedSecond);
+      expect(timePickerHourText).toBe(expectedHour);
+      expect(timePickerMinuteText).toBe(expectedMinute);
+      expect(timePickerSecondText).toBe(expectedSecond);
+    }
+  });
 
-  // it("changing hour, minute and second values reflects in the input, input-time-picker and time-picker for 12-hour display format", async () => {
-  //   const page = await newE2EPage({
-  //     html: `<calcite-input-time-picker hour-display-format="12" step="1"></calcite-input-time-picker>`
-  //   });
+  it("changing hour, minute and second values reflects in the input, input-time-picker and time-picker for 12-hour display format", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-input-time-picker hour-display-format="12" step="1"></calcite-input-time-picker>`
+    });
 
-  //   const input = await page.find("calcite-input");
-  //   const inputTimePicker = await page.find("calcite-input-time-picker");
-  //   const timePicker = await page.find("calcite-time-picker");
-  //   const hourEl = await page.find("calcite-time-picker >>> span.hour");
-  //   const minuteEl = await page.find("calcite-time-picker >>> span.minute");
-  //   const secondEl = await page.find("calcite-time-picker >>> span.second");
+    const input = await page.find("calcite-input");
+    const inputTimePicker = await page.find("calcite-input-time-picker");
+    const timePicker = await page.find("calcite-time-picker");
+    const hourEl = await page.find("calcite-time-picker >>> span.hour");
+    const minuteEl = await page.find("calcite-time-picker >>> span.minute");
+    const secondEl = await page.find("calcite-time-picker >>> span.second");
 
-  //   for (let second = 0; second < 10; second++) {
-  //     const date = new Date(0);
-  //     date.setSeconds(second);
+    for (let second = 0; second < 10; second++) {
+      const date = new Date(0);
+      date.setSeconds(second);
 
-  //     const expectedValue = date.toISOString().substr(11, 8);
-  //     const expectedHour = expectedValue.substr(0, 2);
-  //     const expectedHourAsNumber = parseInt(expectedValue.substr(0, 2));
-  //     const expectedDisplayHour =
-  //       expectedHourAsNumber > 12
-  //         ? formatTimePart(expectedHourAsNumber - 12)
-  //         : expectedHourAsNumber === 0
-  //         ? "12"
-  //         : formatTimePart(expectedHourAsNumber);
-  //     const expectedMinute = expectedValue.substr(3, 2);
-  //     const expectedSecond = expectedValue.substr(6, 2);
+      const expectedValue = date.toISOString().substr(11, 8);
+      const expectedHour = expectedValue.substr(0, 2);
+      const expectedHourAsNumber = parseInt(expectedValue.substr(0, 2));
+      const expectedDisplayHour =
+        expectedHourAsNumber > 12
+          ? formatTimePart(expectedHourAsNumber - 12)
+          : expectedHourAsNumber === 0
+          ? "12"
+          : formatTimePart(expectedHourAsNumber);
+      const expectedMinute = expectedValue.substr(3, 2);
+      const expectedSecond = expectedValue.substr(6, 2);
 
-  //     inputTimePicker.setProperty("value", expectedValue);
+      inputTimePicker.setProperty("value", expectedValue);
 
-  //     await page.waitForChanges();
+      await page.waitForChanges();
 
-  //     const inputValue = await input.getProperty("value");
-  //     const inputTimePickerValue = await inputTimePicker.getProperty("value");
-  //     const timePickerHourValue = await timePicker.getProperty("hour");
-  //     const timePickerMinuteValue = await timePicker.getProperty("minute");
-  //     const timePickerSecondValue = await timePicker.getProperty("second");
-  //     const timePickerHourText = hourEl.textContent;
-  //     const timePickerMinuteText = minuteEl.textContent;
-  //     const timePickerSecondText = secondEl.textContent;
+      const inputValue = await input.getProperty("value");
+      const inputTimePickerValue = await inputTimePicker.getProperty("value");
+      const timePickerHourValue = await timePicker.getProperty("hour");
+      const timePickerMinuteValue = await timePicker.getProperty("minute");
+      const timePickerSecondValue = await timePicker.getProperty("second");
+      const timePickerHourText = hourEl.textContent;
+      const timePickerMinuteText = minuteEl.textContent;
+      const timePickerSecondText = secondEl.textContent;
 
-  //     expect(inputValue).toBe(expectedValue);
-  //     expect(inputTimePickerValue).toBe(expectedValue);
-  //     expect(timePickerHourValue).toBe(expectedHour);
-  //     expect(timePickerMinuteValue).toBe(expectedMinute);
-  //     expect(timePickerSecondValue).toBe(expectedSecond);
-  //     expect(timePickerHourText).toBe(expectedDisplayHour);
-  //     expect(timePickerMinuteText).toBe(expectedMinute);
-  //     expect(timePickerSecondText).toBe(expectedSecond);
-  //   }
+      expect(inputValue).toBe(expectedValue);
+      expect(inputTimePickerValue).toBe(expectedValue);
+      expect(timePickerHourValue).toBe(expectedHour);
+      expect(timePickerMinuteValue).toBe(expectedMinute);
+      expect(timePickerSecondValue).toBe(expectedSecond);
+      expect(timePickerHourText).toBe(expectedDisplayHour);
+      expect(timePickerMinuteText).toBe(expectedMinute);
+      expect(timePickerSecondText).toBe(expectedSecond);
+    }
 
-  //   for (let minute = 0; minute < 10; minute++) {
-  //     const date = new Date(0);
-  //     date.setMinutes(minute);
+    for (let minute = 0; minute < 10; minute++) {
+      const date = new Date(0);
+      date.setMinutes(minute);
 
-  //     const expectedValue = date.toISOString().substr(11, 8);
-  //     const expectedHour = expectedValue.substr(0, 2);
-  //     const expectedHourAsNumber = parseInt(expectedValue.substr(0, 2));
-  //     const expectedDisplayHour =
-  //       expectedHourAsNumber > 12
-  //         ? formatTimePart(expectedHourAsNumber - 12)
-  //         : expectedHourAsNumber === 0
-  //         ? "12"
-  //         : formatTimePart(expectedHourAsNumber);
-  //     const expectedMinute = expectedValue.substr(3, 2);
-  //     const expectedSecond = expectedValue.substr(6, 2);
+      const expectedValue = date.toISOString().substr(11, 8);
+      const expectedHour = expectedValue.substr(0, 2);
+      const expectedHourAsNumber = parseInt(expectedValue.substr(0, 2));
+      const expectedDisplayHour =
+        expectedHourAsNumber > 12
+          ? formatTimePart(expectedHourAsNumber - 12)
+          : expectedHourAsNumber === 0
+          ? "12"
+          : formatTimePart(expectedHourAsNumber);
+      const expectedMinute = expectedValue.substr(3, 2);
+      const expectedSecond = expectedValue.substr(6, 2);
 
-  //     inputTimePicker.setProperty("value", expectedValue);
+      inputTimePicker.setProperty("value", expectedValue);
 
-  //     await page.waitForChanges();
+      await page.waitForChanges();
 
-  //     const inputValue = await input.getProperty("value");
-  //     const inputTimePickerValue = await inputTimePicker.getProperty("value");
-  //     const timePickerHourValue = await timePicker.getProperty("hour");
-  //     const timePickerMinuteValue = await timePicker.getProperty("minute");
-  //     const timePickerSecondValue = await timePicker.getProperty("second");
-  //     const timePickerHourText = hourEl.textContent;
-  //     const timePickerMinuteText = minuteEl.textContent;
-  //     const timePickerSecondText = secondEl.textContent;
+      const inputValue = await input.getProperty("value");
+      const inputTimePickerValue = await inputTimePicker.getProperty("value");
+      const timePickerHourValue = await timePicker.getProperty("hour");
+      const timePickerMinuteValue = await timePicker.getProperty("minute");
+      const timePickerSecondValue = await timePicker.getProperty("second");
+      const timePickerHourText = hourEl.textContent;
+      const timePickerMinuteText = minuteEl.textContent;
+      const timePickerSecondText = secondEl.textContent;
 
-  //     expect(inputValue).toBe(expectedValue);
-  //     expect(inputTimePickerValue).toBe(expectedValue);
-  //     expect(timePickerHourValue).toBe(expectedHour);
-  //     expect(timePickerMinuteValue).toBe(expectedMinute);
-  //     expect(timePickerSecondValue).toBe(expectedSecond);
-  //     expect(timePickerHourText).toBe(expectedDisplayHour);
-  //     expect(timePickerMinuteText).toBe(expectedMinute);
-  //     expect(timePickerSecondText).toBe(expectedSecond);
-  //   }
+      expect(inputValue).toBe(expectedValue);
+      expect(inputTimePickerValue).toBe(expectedValue);
+      expect(timePickerHourValue).toBe(expectedHour);
+      expect(timePickerMinuteValue).toBe(expectedMinute);
+      expect(timePickerSecondValue).toBe(expectedSecond);
+      expect(timePickerHourText).toBe(expectedDisplayHour);
+      expect(timePickerMinuteText).toBe(expectedMinute);
+      expect(timePickerSecondText).toBe(expectedSecond);
+    }
 
-  //   for (let hour = 0; hour < 10; hour++) {
-  //     const date = new Date(0);
-  //     date.setHours(hour);
+    for (let hour = 0; hour < 10; hour++) {
+      const date = new Date(0);
+      date.setHours(hour);
 
-  //     const expectedValue = date.toISOString().substr(11, 8);
-  //     const expectedHour = expectedValue.substr(0, 2);
-  //     const expectedHourAsNumber = parseInt(expectedValue.substr(0, 2));
-  //     const expectedDisplayHour =
-  //       expectedHourAsNumber > 12
-  //         ? formatTimePart(expectedHourAsNumber - 12)
-  //         : expectedHourAsNumber === 0
-  //         ? "12"
-  //         : formatTimePart(expectedHourAsNumber);
-  //     const expectedMinute = expectedValue.substr(3, 2);
-  //     const expectedSecond = expectedValue.substr(6, 2);
+      const expectedValue = date.toISOString().substr(11, 8);
+      const expectedHour = expectedValue.substr(0, 2);
+      const expectedHourAsNumber = parseInt(expectedValue.substr(0, 2));
+      const expectedDisplayHour =
+        expectedHourAsNumber > 12
+          ? formatTimePart(expectedHourAsNumber - 12)
+          : expectedHourAsNumber === 0
+          ? "12"
+          : formatTimePart(expectedHourAsNumber);
+      const expectedMinute = expectedValue.substr(3, 2);
+      const expectedSecond = expectedValue.substr(6, 2);
 
-  //     inputTimePicker.setProperty("value", expectedValue);
+      inputTimePicker.setProperty("value", expectedValue);
 
-  //     await page.waitForChanges();
+      await page.waitForChanges();
 
-  //     const inputValue = await input.getProperty("value");
-  //     const inputTimePickerValue = await inputTimePicker.getProperty("value");
-  //     const timePickerHourValue = await timePicker.getProperty("hour");
-  //     const timePickerMinuteValue = await timePicker.getProperty("minute");
-  //     const timePickerSecondValue = await timePicker.getProperty("second");
-  //     const timePickerHourText = hourEl.textContent;
-  //     const timePickerMinuteText = minuteEl.textContent;
-  //     const timePickerSecondText = secondEl.textContent;
+      const inputValue = await input.getProperty("value");
+      const inputTimePickerValue = await inputTimePicker.getProperty("value");
+      const timePickerHourValue = await timePicker.getProperty("hour");
+      const timePickerMinuteValue = await timePicker.getProperty("minute");
+      const timePickerSecondValue = await timePicker.getProperty("second");
+      const timePickerHourText = hourEl.textContent;
+      const timePickerMinuteText = minuteEl.textContent;
+      const timePickerSecondText = secondEl.textContent;
 
-  //     expect(inputValue).toBe(expectedValue);
-  //     expect(inputTimePickerValue).toBe(expectedValue);
-  //     expect(timePickerHourValue).toBe(expectedHour);
-  //     expect(timePickerMinuteValue).toBe(expectedMinute);
-  //     expect(timePickerSecondValue).toBe(expectedSecond);
-  //     expect(timePickerHourText).toBe(expectedDisplayHour);
-  //     expect(timePickerMinuteText).toBe(expectedMinute);
-  //     expect(timePickerSecondText).toBe(expectedSecond);
-  //   }
-  // });
+      expect(inputValue).toBe(expectedValue);
+      expect(inputTimePickerValue).toBe(expectedValue);
+      expect(timePickerHourValue).toBe(expectedHour);
+      expect(timePickerMinuteValue).toBe(expectedMinute);
+      expect(timePickerSecondValue).toBe(expectedSecond);
+      expect(timePickerHourText).toBe(expectedDisplayHour);
+      expect(timePickerMinuteText).toBe(expectedMinute);
+      expect(timePickerSecondText).toBe(expectedSecond);
+    }
+  });
 
   it("appropriately triggers calciteInputTimePickerChange event when the user types a value", async () => {
     const page = await newE2EPage();
