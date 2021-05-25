@@ -226,7 +226,9 @@ export class CalciteInputTimePicker {
   };
 
   private setInputValue = (newInputValue: string): void => {
-    this.calciteInputEl.value = newInputValue;
+    if (this.calciteInputEl) {
+      this.calciteInputEl.value = newInputValue;
+    }
   };
 
   private setValue = ({
