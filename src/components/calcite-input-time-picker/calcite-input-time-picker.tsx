@@ -138,7 +138,7 @@ export class CalciteInputTimePicker {
     const newValue = formatTimeString(this.calciteInputEl.value) || formatTimeString(this.value);
 
     if (newValue !== this.calciteInputEl.value) {
-      this.calciteInputEl.setInputElValue(newValue);
+      this.calciteInputEl.value = newValue;
     }
   };
 

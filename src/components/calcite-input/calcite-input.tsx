@@ -351,12 +351,6 @@ export class CalciteInput {
 
   /** @internal */
   @Method()
-  async setInputElValue(value: string): Promise<void> {
-    this.childEl.value = value;
-  }
-
-  /** @internal */
-  @Method()
   async setValue({
     value,
     nativeEvent,
