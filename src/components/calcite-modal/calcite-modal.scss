@@ -293,20 +293,23 @@ slot[name="primary"] {
  */
 :host([color="red"]) {
   .modal {
-    @apply border-0 border-t-4 border-solid border-color-danger;
+    @apply border-color-danger;
   }
 }
 
 :host([color="blue"]) {
   .modal {
-    @apply border-0 border-t-4 border-solid border-color-info;
+    @apply border-color-info;
   }
 }
 
 :host([color="red"]),
 :host([color="blue"]) {
+  .modal {
+    @apply border-0 border-t-4 border-solid;
+  }
   .header {
-    @apply rounded;
+    @apply rounded rounded-b-none;
   }
 }
 
