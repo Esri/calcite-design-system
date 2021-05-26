@@ -29,15 +29,14 @@ These can be passed straight to the `calcite-pagination` component:
 
 ## Properties
 
-| Property            | Attribute             | Description                                       | Type                | Default              |
-| ------------------- | --------------------- | ------------------------------------------------- | ------------------- | -------------------- |
-| `num`               | `num`                 | number of items per page                          | `number`            | `20`                 |
-| `scale`             | `scale`               | The scale of the pagination                       | `"l" \| "m" \| "s"` | `"m"`                |
-| `start`             | `start`               | index of item that should begin the page          | `number`            | `1`                  |
-| `textLabelNext`     | `text-label-next`     | title of the next button                          | `string`            | `TEXT.nextLabel`     |
-| `textLabelPrevious` | `text-label-previous` | title of the previous button                      | `string`            | `TEXT.previousLabel` |
-| `theme`             | `theme`               | specify the theme of accordion, defaults to light | `"dark" \| "light"` | `undefined`          |
-| `total`             | `total`               | total number of items                             | `number`            | `0`                  |
+| Property            | Attribute             | Description                              | Type                | Default              |
+| ------------------- | --------------------- | ---------------------------------------- | ------------------- | -------------------- |
+| `num`               | `num`                 | number of items per page                 | `number`            | `20`                 |
+| `scale`             | `scale`               | The scale of the pagination              | `"l" \| "m" \| "s"` | `"m"`                |
+| `start`             | `start`               | index of item that should begin the page | `number`            | `1`                  |
+| `textLabelNext`     | `text-label-next`     | title of the next button                 | `string`            | `TEXT.nextLabel`     |
+| `textLabelPrevious` | `text-label-previous` | title of the previous button             | `string`            | `TEXT.previousLabel` |
+| `total`             | `total`               | total number of items                    | `number`            | `0`                  |
 
 ## Events
 

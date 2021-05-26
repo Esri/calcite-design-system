@@ -143,10 +143,9 @@ Renders a single panel with actions in an action bar.
 
 ## Properties
 
-| Property        | Attribute        | Description                                                   | Type                | Default     |
-| --------------- | ---------------- | ------------------------------------------------------------- | ------------------- | ----------- |
-| `contentBehind` | `content-behind` | Positions the center content behind any calcite-shell-panels. | `boolean`           | `undefined` |
-| `theme`         | `theme`          | Used to set the component's color scheme.                     | `"dark" \| "light"` | `undefined` |
+| Property        | Attribute        | Description                                                   | Type      | Default     |
+| --------------- | ---------------- | ------------------------------------------------------------- | --------- | ----------- |
+| `contentBehind` | `content-behind` | Positions the center content behind any calcite-shell-panels. | `boolean` | `undefined` |
 
 ## Slots
 
@@ -155,9 +154,9 @@ Renders a single panel with actions in an action bar.
 |                      | A slot for adding content to the shell. This content will appear between any leading and trailing panels added to the shell. (eg. a map) |
 | `"bottom-panel"`     | A slot for adding a bottom floating panel such as a chart or `calcite-tip-manager`.                                                      |
 | `"contextual-panel"` | A slot for adding the trailing `calcite-shell-panel`.                                                                                    |
-| `"primary-panel"`    | A slot for adding the leading `calcite-shell-panel`.                                                                                     |
 | `"footer"`           | A slot for adding footer content. This content will be positioned at the bottom of the shell.                                            |
 | `"header"`           | A slot for adding header content. This content will be positioned at the top of the shell.                                               |
+| `"primary-panel"`    | A slot for adding the leading `calcite-shell-panel`.                                                                                     |
 
 ---
 

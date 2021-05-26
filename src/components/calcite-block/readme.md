@@ -69,7 +69,6 @@ Renders a header with a clickable icon to toggle the block open and closed.
 | `loading`      | `loading`       | When true, content is waiting to be loaded. This state shows a busy indicator.              | `boolean`                    | `false`        |
 | `open`         | `open`          | When true, the block's content will be displayed.                                           | `boolean`                    | `false`        |
 | `summary`      | `summary`       | Block summary.                                                                              | `string`                     | `undefined`    |
-| `theme`        | `theme`         | Used to set the component's color scheme.                                                   | `"dark" \| "light"`          | `undefined`    |
 
 ## Events
 
@@ -91,6 +90,7 @@ Renders a header with a clickable icon to toggle the block open and closed.
 
 - [calcite-scrim](../calcite-scrim)
 - [calcite-handle](../calcite-handle)
+- [calcite-icon](../calcite-icon)
 - [calcite-loader](../calcite-loader)
 
 ### Graph
@@ -99,6 +99,7 @@ Renders a header with a clickable icon to toggle the block open and closed.
 graph TD;
   calcite-block --> calcite-scrim
   calcite-block --> calcite-handle
+  calcite-block --> calcite-icon
   calcite-block --> calcite-loader
   calcite-scrim --> calcite-loader
   calcite-handle --> calcite-icon
