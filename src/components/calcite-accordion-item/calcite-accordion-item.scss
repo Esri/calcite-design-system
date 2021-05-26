@@ -148,7 +148,7 @@
   @apply text-color-2 font-medium;
 }
 :host .accordion-item-subtitle {
-  @apply text-color-3 mt-1 leading-snug;
+  @apply text-color-3 mt-1;
 }
 .calcite--rtl .accordion-item-title {
   @apply mr-0 ml-auto;
