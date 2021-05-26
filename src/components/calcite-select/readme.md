@@ -104,7 +104,6 @@ This component represents a menu of options.
 | `label` _(required)_ | `label`    | The component's label. This is required for accessibility purposes. | `string`                     | `undefined` |
 | `scale`              | `scale`    | The component scale.                                                | `"l" \| "m" \| "s"`          | `"m"`       |
 | `selectedOption`     | --         | The currently selected option.                                      | `HTMLCalciteOptionElement`   | `undefined` |
-| `theme`              | `theme`    | The component theme.                                                | `"dark" \| "light"`          | `undefined` |
 | `width`              | `width`    | The component width.                                                | `"auto" \| "full" \| "half"` | `"auto"`    |
 
 ## Events
