@@ -14,7 +14,7 @@
 :host([scale="l"]) {
   --calcite-accordion-item-spacing-unit: theme("spacing.3");
   --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit) theme("spacing.4");
-  @apply text-1h;
+  @apply text-0h;
 }
 
 :host {
