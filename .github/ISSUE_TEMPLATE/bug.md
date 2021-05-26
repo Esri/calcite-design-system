@@ -2,7 +2,7 @@
 name: Bug
 about: Report a bug in a component.
 title: "Bug: "
-labels: bug, 0 - new
+labels: bug, 0 - new, needs triage
 assignees: ""
 ---
 
