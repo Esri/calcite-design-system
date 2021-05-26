@@ -39,12 +39,20 @@
 }
 
 .modal {
-  @apply flex flex-col shadow-2-sm box-border float-none m-6 rounded bg-foreground-1 w-full;
+  @apply flex
+    flex-col
+    shadow-2-sm
+    box-border
+    float-none
+    m-6
+    rounded
+    bg-foreground-1
+    w-full
+    opacity-0
+    pointer-events-none;
   z-index: 102;
   -webkit-overflow-scrolling: touch;
-  opacity: 0;
   visibility: hidden;
-  pointer-events: none;
   transition: transform 300ms $easing-function, visibility 0ms linear 300ms, opacity 300ms $easing-function;
   transform: translate3d(0, 20px, 0);
 }
@@ -66,24 +74,38 @@
  * Header
  */
 .header {
-  @apply flex max-w-full min-w-0 rounded-t bg-foreground-1;
+  @apply flex
+    max-w-full
+    min-w-0
+    rounded-t
+    bg-foreground-1
+    border-0
+    border-b
+    border-solid
+    border-color-3;
   flex: 0 0 auto;
   z-index: 2;
-  border-bottom: 1px solid var(--calcite-ui-border-3);
 }
 
 .close {
-  @apply m-0 appearance-none border-none text-color-1 order-2 cursor-pointer rounded-tr bg-transparent;
-  @include focus-style-base();
+  @apply m-0
+    appearance-none
+    border-none
+    text-color-1
+    order-2
+    cursor-pointer
+    rounded-tr
+    bg-transparent
+    focus-base;
   padding: var(--calcite-modal-padding);
   flex: 0 0 auto;
   transition: all 0.15s ease-in-out;
   calcite-icon {
-    pointer-events: none;
+    @apply pointer-events-none;
     vertical-align: -2px;
   }
   &:focus {
-    @include focus-style-inset();
+    @apply focus-inset;
   }
   &:hover,
   &:focus {
@@ -127,9 +149,7 @@
 }
 
 @include slotted("content", "*") {
-  @apply leading-6;
   font-size: var(--calcite-modal-content-text);
-  margin: 0;
 }
 
 :host([background-color="grey"]) {
@@ -142,10 +162,19 @@
  * Footer
  */
 .footer {
-  @apply flex justify-between mt-auto box-border rounded-b w-full bg-foreground-1;
+  @apply flex
+    justify-between
+    mt-auto
+    box-border
+    rounded-b
+    w-full
+    bg-foreground-1
+    border-0
+    border-t
+    border-solid
+    border-color-3;
   flex: 0 0 auto;
   padding: var(--calcite-modal-padding) var(--calcite-modal-padding-large);
-  border-top: 1px solid var(--calcite-ui-border-3);
   z-index: 2;
 }
 
@@ -263,13 +292,13 @@ slot[name="primary"] {
  */
 :host([color="red"]) {
   .modal {
-    border-top: 4px solid var(--calcite-ui-danger);
+    @apply border-0 border-t-4 border-solid border-color-danger;
   }
 }
 
 :host([color="blue"]) {
   .modal {
-    border-top: 4px solid var(--calcite-ui-brand);
+    @apply border-0 border-t-4 border-solid border-color-info;
   }
 }
 
