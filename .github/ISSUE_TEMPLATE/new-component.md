@@ -2,7 +2,7 @@
 name: New Component
 about: Request for a new component to be added.
 title: "New Component: "
-labels: new component, 0 - new
+labels: new component, 0 - new, needs triage
 assignees: ""
 ---
 
