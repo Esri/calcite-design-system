@@ -49,7 +49,8 @@
     bg-foreground-1
     w-full
     opacity-0
-    pointer-events-none;
+    pointer-events-none
+    overflow-hidden;
   z-index: 102;
   -webkit-overflow-scrolling: touch;
   visibility: hidden;
