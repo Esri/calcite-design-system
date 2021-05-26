@@ -171,7 +171,7 @@ export class CalciteModal {
         ref={(el) => (this.closeButtonEl = el)}
         title={this.intlClose}
       >
-        <calcite-icon icon="x" scale="l" />
+        <calcite-icon icon="x" scale={this.scale === "s" ? "s" : "l"} />
       </button>
     ) : null;
   }
