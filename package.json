@@ -23,6 +23,7 @@
     "docs": "concurrently --kill-others --raw \"npm:util:build-docs && build-storybook --static-dir ./__docs-temp__ --output-dir ./docs\"  \"ts-node ./support/cleanOnProcessExit.ts --path ./__docs-temp__\"",
     "docs:preview": "concurrently --raw \"npm:util:build-docs && start-storybook --static-dir ./__docs-temp__\" \"ts-node ./support/tempDocDirCleaner.ts\"",
     "lint": "concurrently npm:lint:*",
+    "lint:md": "prettier --write \"**/*.md\"",
     "lint:styles": "stylelint --fix \"src/**/*.scss\"",
     "lint:ts": "concurrently \"tslint --fix --project tsconfig-tslint.json\" \"eslint --fix --ext .ts,.tsx .\"",
     "posttest": "npm run test:prerender",
