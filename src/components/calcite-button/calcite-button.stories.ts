@@ -161,3 +161,21 @@ DarkMode.story = {
   name: "Dark mode",
   parameters: { backgrounds: darkBackground }
 };
+
+export const RTL = (): string => html`
+  <calcite-button
+    dir="rtl"
+    theme="dark"
+    appearance="${select("appearance", ["solid", "clear", "outline", "transparent"], "solid")}"
+    color="${select("color", ["blue", "red", "neutral", "inverse"], "blue")}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+    ${boolean("round", false)}
+    href="${text("href", "")}"
+    ${boolean("loading", false)}
+    ${boolean("disabled", false)}
+    icon-start="${select("icon-start", iconNames, iconNames[0])}"
+    icon-end="${select("icon-end", iconNames, iconNames[1])}"
+  >
+    ${text("text", "button text here")}
+  </calcite-button>
+`;
