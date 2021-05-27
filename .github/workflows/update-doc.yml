@@ -10,9 +10,10 @@ jobs:
       - uses: actions/setup-node@v1
 
       - name: generate doc
-      - run: npm install
-      - run: npx stencil build --docs
-      - run: npm run lint:md
+        run:  |
+          npm install
+          npx stencil build --docs
+          npm run lint:md
 
       - name: commit readme files
         uses: test-room-7/action-update-file@v1
