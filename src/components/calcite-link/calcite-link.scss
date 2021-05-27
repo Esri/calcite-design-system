@@ -29,6 +29,8 @@
 }
 
 .calcite-link--icon {
+  @apply relative;
+  top: 2px;
   transition: $transition;
 }
 
@@ -66,7 +68,9 @@
       border-none
       bg-transparent
       relative
-      text-color-link;
+      text-color-link
+      relative;
+    bottom: 0px;
     line-height: inherit;
     white-space: initial;
     background-image: linear-gradient(currentColor, currentColor),
