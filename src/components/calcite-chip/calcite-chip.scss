@@ -1,7 +1,7 @@
 // scale
 // todo update when new spacing modifiers are introduced to calcite-base
 :host([scale="s"]) {
-  @apply h-5 text--3;
+  @apply h-6 text--2;
   --calcite-chip-spacing-unit-l: theme("spacing.2");
   --calcite-chip-spacing-unit-s: theme("spacing.1");
   .chip-image-container {
@@ -9,7 +9,7 @@
   }
 }
 :host([scale="m"]) {
-  @apply h-8 text--2;
+  @apply h-8 text--1;
   --calcite-chip-spacing-unit-l: theme("spacing.3");
   --calcite-chip-spacing-unit-s: 6px;
   .chip-image-container {
@@ -18,7 +18,7 @@
 }
 
 :host([scale="l"]) {
-  @apply h-10 text--1;
+  @apply h-11 text-0;
   --calcite-chip-spacing-unit-l: theme("spacing.4");
   --calcite-chip-spacing-unit-s: theme("spacing.2");
   .chip-image-container {
@@ -43,7 +43,8 @@
     text-color-1
     font-medium
     cursor-default
-    rounded-full;
+    rounded-full
+    box-border;
   --calcite-chip-button-border-radius: 0 50px 50px 0;
 }
 
