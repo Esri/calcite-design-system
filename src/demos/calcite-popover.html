@@ -37,6 +37,19 @@
       <calcite-link title="Inline link">I am an inline link</calcite-link>
     </div>
   </calcite-popover>
+  
+  <calcite-popover heading="I'm a heading in the header using the 'heading' prop!" label="right end popover" reference-element="popover-button-three-heading" placement="right-end" id="popover-three-heading"
+    close-button style="width:25vw;">
+    <img src="https://www.fillmurray.com/640/360" style="width: 100%;" />
+    <div style="padding: 0.5rem 1rem 0.75rem;">
+      <p style="margin-top: 0;">
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+        industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+        scrambled it to make a type specimen book.
+      </p>
+      <calcite-link title="Inline link">I am an inline link</calcite-link>
+    </div>
+  </calcite-popover>
 
   <calcite-popover label="auto placement popover" reference-element="popover-button-four" placement="auto" id="popover-four"
     close-button>
@@ -122,6 +135,10 @@
     <li>
       <calcite-button id="popover-button-three" icon="plus">
         Title, content & CTA</calcite-button>
+    </li>
+    <li>
+      <calcite-button id="popover-button-three-heading" icon="plus">
+        Heading (in prop), content & CTA</calcite-button>
     </li>
     <li>
       <calcite-tooltip-manager>
