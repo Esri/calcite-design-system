@@ -79,6 +79,8 @@
 
 :host button {
   @apply m-0
+    bg-transparent
+    focus-base
     inline-flex
     min-h-full
     max-h-full
@@ -86,11 +88,26 @@
     items-center
     border-none
     cursor-pointer
-    transition-default
+    transition-default    
     text-color-1;
   -webkit-appearance: none;
   border-radius: var(--calcite-chip-button-border-radius);
   padding: 0 var(--calcite-chip-spacing-unit-s);
+  color: inherit;
+
+  // close button focus styles
+  --calcite-chip-transparent-hover: var(--calcite-button-transparent-hover);
+  --calcite-chip-transparent-press: var(--calcite-button-transparent-press);
+  &:hover {
+    background-color: var(--calcite-chip-transparent-hover);
+  }
+  &:focus {
+    background-color: var(--calcite-chip-transparent-hover);
+    @apply focus-inset;
+  }
+  &:active {
+    background-color: var(--calcite-chip-transparent-press);
+  }
 }
 
 //slotted image
@@ -187,38 +204,5 @@
   border-color: var(--calcite-ui-border-1);
   .calcite-chip--icon {
     color: var(--calcite-ui-text-3);
-  }
-}
-
-// close button focus styles
-// solid
-:host([appearance="solid"]) button {
-  @apply focus-base bg-transparent;
-  color: inherit;
-  &:hover {
-    background-color: rgba($blk-000, 0.1);
-  }
-  &:focus {
-    background-color: rgba($blk-000, 0.1);
-    @apply focus-inset;
-  }
-  &:active {
-    background-color: rgba($blk-240, 0.1);
-  }
-}
-// clear
-:host([appearance="clear"]) button {
-  --calcite-chip-transparent-hover: var(--calcite-button-transparent-hover);
-  --calcite-chip-transparent-press: var(--calcite-button-transparent-press);
-  @apply focus-base bg-transparent text-color-3;
-  &:hover {
-    background-color: var(--calcite-chip-transparent-hover);
-  }
-  &:focus {
-    @apply focus-inset;
-    background-color: var(--calcite-chip-transparent-hover);
-  }
-  &:active {
-    background-color: var(--calcite-chip-transparent-press);
   }
 }
