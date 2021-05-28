@@ -58,27 +58,23 @@
 }
 
 :host span {
-  padding: var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-l);
+  padding: 0 var(--calcite-chip-spacing-unit-l);
 }
 
 :host([dismissible]) span {
-  padding: var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-s)
-    var(--calcite-chip-spacing-unit-l);
+  padding: 0 var(--calcite-chip-spacing-unit-s) 0 var(--calcite-chip-spacing-unit-l);
 }
 
 :host([dismissible]) .calcite--rtl span {
-  padding: var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-l) var(--calcite-chip-spacing-unit-s)
-    var(--calcite-chip-spacing-unit-s);
+  padding: 0 var(--calcite-chip-spacing-unit-l) 0 var(--calcite-chip-spacing-unit-s);
 }
 
 :host([icon]:not([dismissible])) span {
-  padding: var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-l) var(--calcite-chip-spacing-unit-s)
-    var(--calcite-chip-spacing-unit-s);
+  padding: 0 var(--calcite-chip-spacing-unit-l) 0 var(--calcite-chip-spacing-unit-s);
 }
 
 :host([icon]:not([dismissible])) .calcite--rtl span {
-  padding: var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-s)
-    var(--calcite-chip-spacing-unit-l);
+  padding: 0 var(--calcite-chip-spacing-unit-s) 0 var(--calcite-chip-spacing-unit-l);
 }
 
 :host button {
@@ -94,7 +90,7 @@
     text-color-1;
   -webkit-appearance: none;
   border-radius: var(--calcite-chip-button-border-radius);
-  padding: var(--calcite-chip-spacing-unit-s);
+  padding: 0 var(--calcite-chip-spacing-unit-s);
 }
 
 //slotted image
