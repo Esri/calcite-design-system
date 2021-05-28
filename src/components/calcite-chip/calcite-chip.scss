@@ -70,11 +70,11 @@
 }
 
 :host([icon]:not([dismissible])) span {
-  padding: 0 var(--calcite-chip-spacing-unit-l) 0 var(--calcite-chip-spacing-unit-s);
+  padding: 0 var(--calcite-chip-spacing-unit-l);
 }
 
 :host([icon]:not([dismissible])) .calcite--rtl span {
-  padding: 0 var(--calcite-chip-spacing-unit-s) 0 var(--calcite-chip-spacing-unit-l);
+  padding: 0 var(--calcite-chip-spacing-unit-l);
 }
 
 :host button {
