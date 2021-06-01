@@ -2,7 +2,6 @@
 :host a,
 :host span {
   @apply flex
-    relative
     items-center
     justify-center
     rounded-none
@@ -29,9 +28,7 @@
 }
 
 .calcite-link--icon {
-  @apply relative;
-  top: 3px;
-  transition: $transition;
+  @apply align-middle transition-default;
 }
 
 // disabled styles
@@ -64,33 +61,30 @@
   span,
   a {
     @apply inline
-      p-0
+      pb-px
       border-none
-      bg-transparent
-      relative
       text-color-link
+      bg-transparent
       relative;
-    line-height: inherit;
-    white-space: initial;
     background-image: linear-gradient(currentColor, currentColor),
-      linear-gradient(var(--calcite-link-blue-underline), var(--calcite-link-blue-underline));
+      linear-gradient(#{rgba($h-bb-070, 0.4)}, theme("colors.text.link"));
     background-position: 0% 100%, 100% 100%;
     background-repeat: no-repeat, no-repeat;
     background-size: 0% 1px, 100% 1px;
     transition: all 0.15s ease-in-out, background-size 0.3s ease-in-out;
-  }
-  &:hover,
-  &:focus {
-    //FIXME: Should these 2 also use text-color-link?
-    color: var(--calcite-ui-brand);
-    background-size: 100% 1px, 100% 1px;
-    & .calcite-link--icon {
-      fill: var(--calcite-ui-brand);
+
+    &:hover,
+    &:focus {
+      @apply text-color-link;
+      background-size: 100% 1px, 100% 1px;
+      & .calcite-link--icon {
+        fill: theme("textColor.color.link");
+      }
     }
-  }
-  &:active {
-    @apply text-color-link;
-    background-size: 100% 2px, 100% 2px;
+    &:active {
+      @apply text-color-link;
+      background-size: 100% 2px, 100% 2px;
+    }
   }
 }
 
