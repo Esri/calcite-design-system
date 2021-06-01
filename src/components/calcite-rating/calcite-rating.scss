@@ -39,11 +39,13 @@
 
 .star {
   @apply relative
-    inline-block
-    cursor-pointer
-    focus-base;
-  color: theme("borderColor.color.input");
-  transition: $transition;
+  inline-block
+  cursor-pointer
+  focus-base;
+  .icon {
+    color: theme("borderColor.color.input");
+    @apply transition-default;
+  }
   transform: scale(1);
   &:active {
     transform: scale(1.1);
@@ -51,22 +53,22 @@
 }
 
 .focused {
-  @apply focus-base;
+  @apply focus-outset;
 }
 
-.average,
-.fraction {
+.average .icon,
+.fraction > calcite-icon {
   color: theme("colors.warning");
 }
 
-.hovered,
-.selected,
-:host([read-only]) .average,
-:host([read-only]) .fraction {
+.hovered .icon,
+.selected .icon,
+:host([read-only]) .average .icon,
+:host([read-only]) .fraction > calcite-icon {
   color: theme("colors.brand");
 }
 
-.hovered:not(.selected) {
+.hovered:not(.selected) .icon {
   transform: scale(0.9);
 }
 
@@ -75,8 +77,8 @@
     overflow-hidden
     pointer-events-none
     top-0
-    left-0;
-  transition: $transition;
+    left-0
+    transition-default;
 }
 
 .calcite--rtl .fraction {
