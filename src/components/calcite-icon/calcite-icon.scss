@@ -1,5 +1,5 @@
 :host {
-  @apply inline-flex;
+  @apply inline-flex text-color-3;
 }
 
 :host([scale="s"]) {
@@ -26,4 +26,5 @@
 
 .svg {
   @apply block;
+  color: currentColor;
 }
