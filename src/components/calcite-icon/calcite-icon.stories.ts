@@ -9,23 +9,21 @@ export default {
   parameters: { notes: readme }
 };
 
+const sampleIcon = iconNames.find((item) => item === "arrowRight");
+
 export const simple = (): string => html`
   <calcite-icon
-    icon="${select("icon", iconNames, iconNames[0])}"
+    icon="${select("icon", iconNames, sampleIcon)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
   ></calcite-icon>
 `;
 
 export const RTL = (): string => html`
-  <calcite-icon
-    dir="rtl"
-    icon="${select("icon", iconNames, iconNames[0])}"
-    ${boolean("flip-rtl", false)}
-  ></calcite-icon>
+  <calcite-icon dir="rtl" icon="${select("icon", iconNames, sampleIcon)}" ${boolean("flip-rtl", true)}></calcite-icon>
 `;
 
 export const darkMode = (): string => html`
-  <calcite-icon dir="rtl" icon="${select("icon", iconNames, iconNames[0])}" theme="dark"></calcite-icon>
+  <calcite-icon theme="dark" icon="${select("icon", iconNames, sampleIcon)}"></calcite-icon>
 `;
 
 darkMode.parameters = { backgrounds: darkBackground };
