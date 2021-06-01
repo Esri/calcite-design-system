@@ -21,7 +21,7 @@
     "build:watch-dev": "npm run util:copy-icons && stencil build --dev --watch && npm run util:add-custom-elements-extras:index-mjs",
     "deps:update": "updtr --exclude @types/jest @types/puppeteer husky jest jest-cli puppeteer && git add package*.json && git commit -q -m \"build(deps): bump versions\"",
     "docs": "concurrently --kill-others --raw \"npm:util:build-docs && build-storybook --static-dir ./__docs-temp__ --output-dir ./docs\"  \"ts-node ./support/cleanOnProcessExit.ts --path ./__docs-temp__\"",
-    "docs:preview": "concurrently --raw \"npm:util:build-docs && start-storybook --static-dir ./__docs-temp__\" \"ts-node ./support/tempDocDirCleaner.ts\"",
+    "docs:preview": "concurrently --raw \"npm:util:build-docs && start-storybook --static-dir ./__docs-temp__\" \"ts-node ./support/cleanOnProcessExit.ts --path ./__docs-temp__\"",
     "lint": "concurrently npm:lint:*",
     "lint:md": "prettier --write \"**/*.md\"",
     "lint:styles": "stylelint --fix \"src/**/*.scss\"",
