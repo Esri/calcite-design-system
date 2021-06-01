@@ -142,6 +142,14 @@ export const basic = (): string =>
         createAccordionItemAttributes({ group: "accordion-item-3" }),
         accordionItemContent
       )}
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ group: "accordion-item-4" }).concat({
+          name: "active",
+          value: true
+        }),
+        accordionItemContent
+      )}
     `
   );
 
@@ -163,6 +171,82 @@ export const icon = (): string =>
       ${create(
         "calcite-accordion-item",
         createAccordionItemAttributes({ icon: true, group: "accordion-item-3" }),
+        accordionItemContent
+      )}
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ icon: true, group: "accordion-item-4" }).concat({
+          name: "active",
+          value: true
+        }),
+        accordionItemContent
+      )}
+    `
+  );
+
+export const darkThemeIcon = (): string =>
+  create(
+    "calcite-accordion",
+    createAccordionAttributes({ except: ["theme"] }).concat({
+      name: "theme",
+      value: "dark"
+    }),
+    html`
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ icon: true, group: "accordion-item-1" }),
+        accordionItemContent
+      )}
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ icon: true, group: "accordion-item-2" }),
+        accordionItemContent
+      )}
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ icon: true, group: "accordion-item-3" }),
+        accordionItemContent
+      )}
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ icon: true, group: "accordion-item-4" }).concat({
+          name: "active",
+          value: true
+        }),
+        accordionItemContent
+      )}
+    `
+  );
+
+export const RTL = (): string =>
+  create(
+    "calcite-accordion",
+    createAccordionAttributes({ except: ["dir"] }).concat({
+      name: "dir",
+      value: "rtl"
+    }),
+    html`
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ group: "accordion-item-1" }),
+        accordionItemContent
+      )}
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ group: "accordion-item-2" }),
+        accordionItemContent
+      )}
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ group: "accordion-item-3" }),
+        accordionItemContent
+      )}
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ group: "accordion-item-4" }).concat({
+          name: "active",
+          value: true
+        }),
         accordionItemContent
       )}
     `
