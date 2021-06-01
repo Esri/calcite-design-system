@@ -13,8 +13,7 @@
 | `icon`               | `icon`          | optionally pass an icon to display - accepts Calcite UI icon names | `string`                                           | `undefined`  |
 | `iconFlipRtl`        | `icon-flip-rtl` | flip the icon in rtl                                               | `boolean`                                          | `undefined`  |
 | `scale`              | `scale`         | specify the scale of the chip, defaults to m                       | `"l" \| "m" \| "s"`                                | `"m"`        |
-| `theme`              | `theme`         | Select theme (light or dark)                                       | `"dark" \| "light"`                                | `undefined`  |
-| `value` _(required)_ | `value`         |                                                                    | `string`                                           | `undefined`  |
+| `value` _(required)_ | `value`         |                                                                    | `any`                                              | `undefined`  |
 
 ## Events
 

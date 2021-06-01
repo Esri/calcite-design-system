@@ -43,7 +43,6 @@ Renders a `calcite-fab` that is loading and disabled.
 | `scale`       | `scale`        | Specifies the size of the fab.                                                                                                                 | `"l" \| "m" \| "s"`                         | `"m"`        |
 | `text`        | `text`         | Text that accompanies the FAB icon.                                                                                                            | `string`                                    | `undefined`  |
 | `textEnabled` | `text-enabled` | Indicates whether the text is displayed.                                                                                                       | `boolean`                                   | `false`      |
-| `theme`       | `theme`        | Used to set the component's color scheme.                                                                                                      | `"dark" \| "light"`                         | `undefined`  |
 
 ## Methods
 

@@ -6,7 +6,7 @@
   --calcite-accordion-item-icon-rotation-rtl: theme("rotate.-90");
   --calcite-accordion-item-active-icon-rotation-rtl: theme("rotate.-180");
   --calcite-accordion-item-icon-spacing-start: 0;
-  --calcite-accordion-item-icon-spacing-end: var(--calcite-accordion-item-spacing-unit);
+  --calcite-accordion-item-icon-spacing-end: var(--calcite-accordion-icon-margin);
 }
 
 .icon-position--end {
@@ -15,7 +15,7 @@
   --calcite-accordion-item-active-icon-rotation: theme("rotate.0");
   --calcite-accordion-item-icon-rotation-rtl: theme("rotate.90");
   --calcite-accordion-item-active-icon-rotation-rtl: theme("rotate.0");
-  --calcite-accordion-item-icon-spacing-start: var(--calcite-accordion-item-spacing-unit);
+  --calcite-accordion-item-icon-spacing-start: var(--calcite-accordion-icon-margin);
   --calcite-accordion-item-icon-spacing-end: 0;
 }
 
@@ -148,7 +148,7 @@
   @apply text-color-2 font-medium;
 }
 :host .accordion-item-subtitle {
-  @apply text-color-3 mt-1 leading-snug;
+  @apply text-color-3 mt-1;
 }
 .calcite--rtl .accordion-item-title {
   @apply mr-0 ml-auto;

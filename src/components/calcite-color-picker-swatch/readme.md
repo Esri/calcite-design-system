@@ -9,7 +9,6 @@
 | `active` | `active`  | Used to display whether the swatch is active or not. | `boolean`           | `false`     |
 | `color`  | `color`   | The color value.                                     | `string`            | `undefined` |
 | `scale`  | `scale`   | The component scale.                                 | `"l" \| "m" \| "s"` | `"m"`       |
-| `theme`  | `theme`   | The component's theme.                               | `"dark" \| "light"` | `undefined` |
 
 ## Dependencies
 

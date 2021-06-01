@@ -34,7 +34,6 @@ The calcite-split-button control is one that combines a button with a dropdown m
 | `primaryLabel`       | `primary-label`         | optionally pass an aria-label for the primary button                                                     | `string`                                           | `undefined` |
 | `primaryText`        | `primary-text`          | text for primary action button                                                                           | `string`                                           | `undefined` |
 | `scale`              | `scale`                 | specify the scale of the control, defaults to m                                                          | `"l" \| "m" \| "s"`                                | `"m"`       |
-| `theme`              | `theme`                 | select theme (light or dark), defaults to light                                                          | `"dark" \| "light"`                                | `undefined` |
 
 ## Events
 

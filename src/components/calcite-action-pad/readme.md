@@ -60,7 +60,6 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 | `intlExpand`     | `intl-expand`     | Updates the label of the expand icon when the component is not expanded. | `string`                               | `undefined`  |
 | `layout`         | `layout`          | Indicates the horizontal or vertical layout of the component.            | `"grid" \| "horizontal" \| "vertical"` | `"vertical"` |
 | `position`       | `position`        | Arranges the component depending on the elements 'dir' property.         | `"end" \| "start"`                     | `undefined`  |
-| `theme`          | `theme`           | Used to set the component's color scheme.                                | `"dark" \| "light"`                    | `undefined`  |
 
 ## Events
 

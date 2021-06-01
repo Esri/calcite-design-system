@@ -330,3 +330,14 @@ DarkThemeFooterButtonsTooltipsDropdown.story = {
   name: "Dark Theme - Footer Buttons, Tooltips, Dropdown",
   parameters: { backgrounds: darkBackground }
 };
+
+export const RTL = (): string => html`
+  <div style="width:260px" dir="rtl">
+    <calcite-card ${boolean("loading", false)} ${boolean("selectable", false)}>
+      <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
+      <span slot="subtitle"
+        >A great example of a study description that might wrap to a line or two, but isn't overly verbose.</span
+      >
+    </calcite-card>
+  </div>
+`;

@@ -20,7 +20,6 @@
 | `readOnly`   | `read-only`   | is the rating component in a selectable mode                                                    | `boolean`           | `false`       |
 | `scale`      | `scale`       | specify the scale of the component, defaults to m                                               | `"l" \| "m" \| "s"` | `"m"`         |
 | `showChip`   | `show-chip`   | Show average and count data summary chip (if available)                                         | `boolean`           | `false`       |
-| `theme`      | `theme`       | specify the theme of scrim, defaults to light                                                   | `"dark" \| "light"` | `undefined`   |
 | `value`      | `value`       | the value of the rating component                                                               | `number`            | `0`           |
 
 ## Events

@@ -63,15 +63,14 @@ The bottom-actions slot renders `calcite-action`s that stick to the bottom of th
 
 ## Properties
 
-| Property                  | Attribute                   | Description                                                              | Type                | Default     |
-| ------------------------- | --------------------------- | ------------------------------------------------------------------------ | ------------------- | ----------- |
-| `expandDisabled`          | `expand-disabled`           | When set to true, the expand-toggling behavior will be disabled.         | `boolean`           | `false`     |
-| `expanded`                | `expanded`                  | Indicates whether widget is expanded.                                    | `boolean`           | `false`     |
-| `intlCollapse`            | `intl-collapse`             | Updates the label of the collapse icon when the component is expanded.   | `string`            | `undefined` |
-| `intlExpand`              | `intl-expand`               | Updates the label of the expand icon when the component is not expanded. | `string`            | `undefined` |
-| `overflowActionsDisabled` | `overflow-actions-disabled` | Disables automatically overflowing actions that won't fit into menus.    | `boolean`           | `undefined` |
-| `position`                | `position`                  | Arranges the component depending on the elements 'dir' property.         | `"end" \| "start"`  | `undefined` |
-| `theme`                   | `theme`                     | Used to set the component's color scheme.                                | `"dark" \| "light"` | `undefined` |
+| Property                  | Attribute                   | Description                                                              | Type               | Default     |
+| ------------------------- | --------------------------- | ------------------------------------------------------------------------ | ------------------ | ----------- |
+| `expandDisabled`          | `expand-disabled`           | When set to true, the expand-toggling behavior will be disabled.         | `boolean`          | `false`     |
+| `expanded`                | `expanded`                  | Indicates whether widget is expanded.                                    | `boolean`          | `false`     |
+| `intlCollapse`            | `intl-collapse`             | Updates the label of the collapse icon when the component is expanded.   | `string`           | `undefined` |
+| `intlExpand`              | `intl-expand`               | Updates the label of the expand icon when the component is not expanded. | `string`           | `undefined` |
+| `overflowActionsDisabled` | `overflow-actions-disabled` | Disables automatically overflowing actions that won't fit into menus.    | `boolean`          | `undefined` |
+| `position`                | `position`                  | Arranges the component depending on the elements 'dir' property.         | `"end" \| "start"` | `undefined` |
 
 ## Events
 

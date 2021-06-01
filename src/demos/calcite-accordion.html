@@ -459,7 +459,7 @@
       <div style="display: inline-flex; flex-direction: column; width: 33%; padding: 10px">
         <h4>Scale s</h4>
         <calcite-accordion scale="s">
-          <calcite-accordion-item item-title="Accordion Item">
+          <calcite-accordion-item item-title="Accordion Item" icon="map">
             <calcite-radio-group scale="s">
               <calcite-radio-group-item value="Yes" checked>Yes</calcite-radio-group-item>
               <calcite-radio-group-item value="No">No</calcite-radio-group-item>
@@ -496,9 +496,9 @@
             </calcite-tree>
           </calcite-accordion-item>
         </calcite-accordion>
-        <h4>Scale l</h4>
-        <calcite-accordion scale="l">
-          <calcite-accordion-item item-title="Accordion Item"
+        <h4>Scale L, icon-position: start</h4>
+        <calcite-accordion scale="l"  icon-position='start'>
+          <calcite-accordion-item item-title="Accordion Item" item-subtitle="Accordion item subtitle" icon="list"
             ><img src="https://placem.at/places?w=200&txt=0" />
           </calcite-accordion-item>
           <calcite-accordion-item item-title="Accordion Item 2" active
@@ -510,7 +510,43 @@
           <calcite-accordion-item item-title="Accordion Item 4"
             ><img src="https://placem.at/places?w=200&txt=0" />
           </calcite-accordion-item>
-          <calcite-accordion-item item-title="Accordion Item 5">
+          <calcite-accordion-item item-title="Accordion Item 5" icon="map">
+            <calcite-tree lines>
+              <calcite-tree-item> Child 1 </calcite-tree-item>
+
+              <calcite-tree-item>
+                Child 2
+
+                <calcite-tree slot="children">
+                  <calcite-tree-item> Grandchild 1 </calcite-tree-item>
+
+                  <calcite-tree-item>
+                    Grandchild 2
+                    <calcite-tree slot="children">
+                      <calcite-tree-item> Great-Grandchild 1 </calcite-tree-item>
+                      <calcite-tree-item> Great-Grandchild 2 </calcite-tree-item>
+                    </calcite-tree>
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+          </calcite-accordion-item>
+        </calcite-accordion>
+        <h4>Scale L, icon-position: end</h4>
+        <calcite-accordion scale="l"  icon-position='end'>
+          <calcite-accordion-item item-title="Accordion Item" item-subtitle="Accordion item subtitle" icon="list"
+            ><img src="https://placem.at/places?w=200&txt=0" />
+          </calcite-accordion-item>
+          <calcite-accordion-item item-title="Accordion Item 2" active
+            ><img src="https://placem.at/places?w=200&txt=0" />
+          </calcite-accordion-item>
+          <calcite-accordion-item item-title="Accordion Item 3 with a potentially two line title"
+            ><img src="https://placem.at/places?w=200&txt=0" />
+          </calcite-accordion-item>
+          <calcite-accordion-item item-title="Accordion Item 4"
+            ><img src="https://placem.at/places?w=200&txt=0" />
+          </calcite-accordion-item>
+          <calcite-accordion-item item-title="Accordion Item 5" icon="map">
             <calcite-tree lines>
               <calcite-tree-item> Child 1 </calcite-tree-item>
 
