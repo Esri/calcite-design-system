@@ -18,7 +18,7 @@ import { Scale } from "../interfaces";
 @Component({
   tag: "calcite-input-time-picker",
   styleUrl: "calcite-input-time-picker.scss",
-  scoped: true
+  shadow: true
 })
 export class CalciteInputTimePicker {
   //--------------------------------------------------------------------------
@@ -108,6 +108,8 @@ export class CalciteInputTimePicker {
 
   private calciteInputEl: HTMLCalciteInputElement;
 
+  private calciteTimePickerEl: HTMLCalciteTimePickerElement;
+
   /** whether the value of the input was changed as a result of user typing or not */
   private internalValueChange = false;
 
@@ -149,6 +151,14 @@ export class CalciteInputTimePicker {
   private calciteInputInputHandler = (event: CustomEvent): void => {
     this.setValue({ value: event.detail.value });
   };
+
+  @Listen("click")
+  clickHandler(event: MouseEvent): void {
+    if (event.composedPath().includes(this.calciteTimePickerEl)) {
+      return;
+    }
+    this.setFocus();
+  }
 
   @Listen("keyup")
   keyUpHandler(event: KeyboardEvent): void {
@@ -208,6 +218,10 @@ export class CalciteInputTimePicker {
 
   private setCalciteInputEl = (el: HTMLCalciteInputElement): void => {
     this.calciteInputEl = el;
+  };
+
+  private setCalciteTimePickerEl = (el: HTMLCalciteTimePickerElement): void => {
+    this.calciteTimePickerEl = el;
   };
 
   private setInputValue = (newInputValue: string): void => {
@@ -335,6 +349,7 @@ export class CalciteInputTimePicker {
             intlSecondDown={this.intlSecondDown}
             intlSecondUp={this.intlSecondUp}
             minute={minute}
+            ref={this.setCalciteTimePickerEl}
             scale={this.scale}
             second={second}
             step={this.step}

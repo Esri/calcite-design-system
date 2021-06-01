@@ -28,14 +28,14 @@ describe("calcite-input-time-picker", () => {
 
   it("should focus the input when setFocus is called", async () =>
     focusable(`calcite-input-time-picker`, {
-      focusTargetSelector: "input"
+      shadowFocusTargetSelector: "input"
     }));
 
   it("opens the time picker on input keyboard focus", async () => {
     const page = await newE2EPage({
       html: `<calcite-input-time-picker></calcite-input-time-picker>`
     });
-    const popover = await page.find("calcite-popover");
+    const popover = await page.find("calcite-input-time-picker >>> calcite-popover");
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
@@ -47,8 +47,8 @@ describe("calcite-input-time-picker", () => {
     const page = await newE2EPage({
       html: `<calcite-input-time-picker></calcite-input-time-picker>`
     });
-    const input = await page.find("input");
-    const popover = await page.find("calcite-popover");
+    const input = await page.find("calcite-input-time-picker >>> calcite-input");
+    const popover = await page.find("calcite-input-time-picker >>> calcite-popover");
 
     await input.click();
     await page.waitForChanges();
@@ -61,12 +61,9 @@ describe("calcite-input-time-picker", () => {
       html: `<calcite-input-time-picker hour-display-format="24" step="1"></calcite-input-time-picker>`
     });
 
-    const input = await page.find("calcite-input");
     const inputTimePicker = await page.find("calcite-input-time-picker");
-    const timePicker = await page.find("calcite-time-picker");
-    const hourEl = await page.find("calcite-time-picker >>> span.hour");
-    const minuteEl = await page.find("calcite-time-picker >>> span.minute");
-    const secondEl = await page.find("calcite-time-picker >>> span.second");
+    const input = await page.find("calcite-input-time-picker >>> calcite-input");
+    const timePicker = await page.find("calcite-input-time-picker >>> calcite-time-picker");
 
     for (let second = 0; second < 10; second++) {
       const date = new Date(0);
@@ -86,18 +83,12 @@ describe("calcite-input-time-picker", () => {
       const timePickerHourValue = await timePicker.getProperty("hour");
       const timePickerMinuteValue = await timePicker.getProperty("minute");
       const timePickerSecondValue = await timePicker.getProperty("second");
-      const timePickerHourText = hourEl.textContent;
-      const timePickerMinuteText = minuteEl.textContent;
-      const timePickerSecondText = secondEl.textContent;
 
       expect(inputValue).toBe(expectedValue);
       expect(inputTimePickerValue).toBe(expectedValue);
       expect(timePickerHourValue).toBe(expectedHour);
       expect(timePickerMinuteValue).toBe(expectedMinute);
       expect(timePickerSecondValue).toBe(expectedSecond);
-      expect(timePickerHourText).toBe(expectedHour);
-      expect(timePickerMinuteText).toBe(expectedMinute);
-      expect(timePickerSecondText).toBe(expectedSecond);
     }
 
     for (let minute = 0; minute < 10; minute++) {
@@ -118,18 +109,12 @@ describe("calcite-input-time-picker", () => {
       const timePickerHourValue = await timePicker.getProperty("hour");
       const timePickerMinuteValue = await timePicker.getProperty("minute");
       const timePickerSecondValue = await timePicker.getProperty("second");
-      const timePickerHourText = hourEl.textContent;
-      const timePickerMinuteText = minuteEl.textContent;
-      const timePickerSecondText = secondEl.textContent;
 
       expect(inputValue).toBe(expectedValue);
       expect(inputTimePickerValue).toBe(expectedValue);
       expect(timePickerHourValue).toBe(expectedHour);
       expect(timePickerMinuteValue).toBe(expectedMinute);
       expect(timePickerSecondValue).toBe(expectedSecond);
-      expect(timePickerHourText).toBe(expectedHour);
-      expect(timePickerMinuteText).toBe(expectedMinute);
-      expect(timePickerSecondText).toBe(expectedSecond);
     }
 
     for (let hour = 0; hour < 10; hour++) {
@@ -150,18 +135,12 @@ describe("calcite-input-time-picker", () => {
       const timePickerHourValue = await timePicker.getProperty("hour");
       const timePickerMinuteValue = await timePicker.getProperty("minute");
       const timePickerSecondValue = await timePicker.getProperty("second");
-      const timePickerHourText = hourEl.textContent;
-      const timePickerMinuteText = minuteEl.textContent;
-      const timePickerSecondText = secondEl.textContent;
 
       expect(inputValue).toBe(expectedValue);
       expect(inputTimePickerValue).toBe(expectedValue);
       expect(timePickerHourValue).toBe(expectedHour);
       expect(timePickerMinuteValue).toBe(expectedMinute);
       expect(timePickerSecondValue).toBe(expectedSecond);
-      expect(timePickerHourText).toBe(expectedHour);
-      expect(timePickerMinuteText).toBe(expectedMinute);
-      expect(timePickerSecondText).toBe(expectedSecond);
     }
   });
 
@@ -170,12 +149,9 @@ describe("calcite-input-time-picker", () => {
       html: `<calcite-input-time-picker hour-display-format="12" step="1"></calcite-input-time-picker>`
     });
 
-    const input = await page.find("calcite-input");
     const inputTimePicker = await page.find("calcite-input-time-picker");
-    const timePicker = await page.find("calcite-time-picker");
-    const hourEl = await page.find("calcite-time-picker >>> span.hour");
-    const minuteEl = await page.find("calcite-time-picker >>> span.minute");
-    const secondEl = await page.find("calcite-time-picker >>> span.second");
+    const input = await page.find("calcite-input-time-picker >>> calcite-input");
+    const timePicker = await page.find("calcite-input-time-picker >>> calcite-time-picker");
 
     for (let second = 0; second < 10; second++) {
       const date = new Date(0);
@@ -202,18 +178,12 @@ describe("calcite-input-time-picker", () => {
       const timePickerHourValue = await timePicker.getProperty("hour");
       const timePickerMinuteValue = await timePicker.getProperty("minute");
       const timePickerSecondValue = await timePicker.getProperty("second");
-      const timePickerHourText = hourEl.textContent;
-      const timePickerMinuteText = minuteEl.textContent;
-      const timePickerSecondText = secondEl.textContent;
 
       expect(inputValue).toBe(expectedValue);
       expect(inputTimePickerValue).toBe(expectedValue);
       expect(timePickerHourValue).toBe(expectedHour);
       expect(timePickerMinuteValue).toBe(expectedMinute);
       expect(timePickerSecondValue).toBe(expectedSecond);
-      expect(timePickerHourText).toBe(expectedDisplayHour);
-      expect(timePickerMinuteText).toBe(expectedMinute);
-      expect(timePickerSecondText).toBe(expectedSecond);
     }
 
     for (let minute = 0; minute < 10; minute++) {
@@ -241,18 +211,12 @@ describe("calcite-input-time-picker", () => {
       const timePickerHourValue = await timePicker.getProperty("hour");
       const timePickerMinuteValue = await timePicker.getProperty("minute");
       const timePickerSecondValue = await timePicker.getProperty("second");
-      const timePickerHourText = hourEl.textContent;
-      const timePickerMinuteText = minuteEl.textContent;
-      const timePickerSecondText = secondEl.textContent;
 
       expect(inputValue).toBe(expectedValue);
       expect(inputTimePickerValue).toBe(expectedValue);
       expect(timePickerHourValue).toBe(expectedHour);
       expect(timePickerMinuteValue).toBe(expectedMinute);
       expect(timePickerSecondValue).toBe(expectedSecond);
-      expect(timePickerHourText).toBe(expectedDisplayHour);
-      expect(timePickerMinuteText).toBe(expectedMinute);
-      expect(timePickerSecondText).toBe(expectedSecond);
     }
 
     for (let hour = 0; hour < 10; hour++) {
@@ -280,18 +244,12 @@ describe("calcite-input-time-picker", () => {
       const timePickerHourValue = await timePicker.getProperty("hour");
       const timePickerMinuteValue = await timePicker.getProperty("minute");
       const timePickerSecondValue = await timePicker.getProperty("second");
-      const timePickerHourText = hourEl.textContent;
-      const timePickerMinuteText = minuteEl.textContent;
-      const timePickerSecondText = secondEl.textContent;
 
       expect(inputValue).toBe(expectedValue);
       expect(inputTimePickerValue).toBe(expectedValue);
       expect(timePickerHourValue).toBe(expectedHour);
       expect(timePickerMinuteValue).toBe(expectedMinute);
       expect(timePickerSecondValue).toBe(expectedSecond);
-      expect(timePickerHourText).toBe(expectedDisplayHour);
-      expect(timePickerMinuteText).toBe(expectedMinute);
-      expect(timePickerSecondText).toBe(expectedSecond);
     }
   });
 
@@ -300,29 +258,25 @@ describe("calcite-input-time-picker", () => {
     await page.setContent(`<calcite-input-time-picker step="1"></calcite-input-time-picker>`);
 
     const inputTimePicker = await page.find("calcite-input-time-picker");
-    const input = await page.find("input");
     const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
-    const externalChangeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerExternalChange");
 
     expect(changeEvent).toHaveReceivedEventTimes(0);
-    expect(externalChangeEvent).toHaveReceivedEventTimes(0);
 
-    await input.press("1");
-    await input.press(":");
-    await input.press("2");
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("1");
+    await page.keyboard.press(":");
+    await page.keyboard.press("2");
 
     await page.waitForChanges();
 
     expect(changeEvent).toHaveReceivedEventTimes(1);
-    expect(externalChangeEvent).toHaveReceivedEventTimes(0);
 
-    await input.press(":");
-    await input.press("3");
+    await page.keyboard.press(":");
+    await page.keyboard.press("3");
 
     await page.waitForChanges();
 
     expect(changeEvent).toHaveReceivedEventTimes(2);
-    expect(externalChangeEvent).toHaveReceivedEventTimes(0);
   });
 
   it("formats valid typed time value appropriately on blur", async () => {
@@ -330,10 +284,9 @@ describe("calcite-input-time-picker", () => {
     await page.setContent(`<calcite-input-time-picker step="1"></calcite-input-time-picker><input>`);
 
     const inputTimePicker = await page.find("calcite-input-time-picker");
-    const input = await page.find("input");
 
     await page.keyboard.press("Tab");
-    await input.type("2:3:4");
+    await page.keyboard.type("2:3:4");
     await page.keyboard.press("Tab");
     await page.waitForChanges();
 
@@ -344,9 +297,7 @@ describe("calcite-input-time-picker", () => {
     const page = await newE2EPage({
       html: `<calcite-input-time-picker value="14:59"></calcite-input-time-picker>`
     });
-    const input = await page.find("input");
     const inputTimePicker = await page.find("calcite-input-time-picker");
-    const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
 
     await page.evaluate(() => {
       const inputTimePicker = document.querySelector("calcite-input-time-picker");
@@ -357,11 +308,11 @@ describe("calcite-input-time-picker", () => {
 
     expect(await inputTimePicker.getProperty("value")).toBe("14:59");
 
-    await input.type(":5");
+    await page.keyboard.press("Tab");
+    await page.keyboard.press(":");
+    await page.keyboard.press("5");
     await page.waitForChanges();
 
-    expect(changeEvent).toHaveReceivedEventTimes(1);
-    expect(changeEvent).toHaveReceivedEventDetail("14:59:05");
     expect(await inputTimePicker.getProperty("value")).toBe("14:59");
   });
 });

@@ -186,6 +186,8 @@ export class CalciteInput {
       this.localizedValue !== localizeNumberString(newValue, this.locale)
     ) {
       this.setLocalizedValue(newValue);
+    } else if (this.childEl && this.childEl.value !== newValue) {
+      this.childEl.value = newValue;
     }
   }
 
