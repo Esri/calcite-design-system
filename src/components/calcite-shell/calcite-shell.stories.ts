@@ -1,7 +1,12 @@
 import { boolean, select } from "@storybook/addon-knobs";
-import { Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
+import {
+  Attribute,
+  handleComponentAttributes,
+  Attributes,
+  createComponentHTML as create,
+  darkBackground
+} from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-const { dir, position, scale, theme } = ATTRIBUTES;
 import readme from "./readme.md";
 import panelReadme from "../calcite-shell-panel/readme.md";
 import { html, placeholderImage } from "../../tests/utils";
@@ -17,20 +22,39 @@ export default {
   }
 };
 
-const createAttributes: (group: string) => Attributes = (group) => {
-  return [
-    {
-      name: "dir",
-      value: select("dir", dir.values, dir.defaultValue, group)
-    },
-    {
-      name: "theme",
-      value: select("theme", theme.values, theme.defaultValue, group)
-    }
-  ];
+// const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
+const createAttributes: (group: string, options?: { exceptions: string[] }) => Attributes = (
+  group,
+  { exceptions } = { exceptions: [] }
+) => {
+  const { dir, theme } = ATTRIBUTES;
+
+  return handleComponentAttributes(
+    [
+      {
+        name: "dir",
+        commit(): Attribute {
+          this.value = select("dir", dir.values, dir.defaultValue, group);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "theme",
+        commit(): Attribute {
+          this.value = select("theme", theme.values, theme.defaultValue, group);
+          delete this.build;
+          return this;
+        }
+      }
+    ],
+    exceptions
+  );
 };
 
 const createShellPanelAttributes: (group: "Leading Panel" | "Trailing Panel") => Attributes = (group) => {
+  const { position } = ATTRIBUTES;
+
   return [
     {
       name: "slot",
@@ -57,6 +81,8 @@ const createShellPanelAttributes: (group: "Leading Panel" | "Trailing Panel") =>
 };
 
 const createShellCenterRowAttributes: (group: string) => Attributes = (group) => {
+  const { position, scale } = ATTRIBUTES;
+
   return [
     {
       name: "detached",
@@ -207,6 +233,17 @@ export const basic = (): string =>
     `
   );
 
+export const RTL = (): string =>
+  create(
+    "calcite-shell",
+    createAttributes("Shell", { exceptions: ["dir"] }).concat({ name: "dir", value: "rtl" }),
+    html`
+      ${headerHTML} ${create("calcite-shell-panel", createShellPanelAttributes("Leading Panel"), leadingPanelHTML)}
+      ${contentHTML} ${create("calcite-shell-center-row", createShellCenterRowAttributes("Center Row"), centerRowHTML)}
+      ${create("calcite-shell-panel", createShellPanelAttributes("Trailing Panel"), trailingPanelHTML)} ${footerHTML}
+    `
+  );
+
 // TODO: UPDATE
 const advancedLeadingPanelHTML = html`
   ${actionBarPrimaryHTML}
@@ -307,6 +344,19 @@ export const advanced = (): string =>
   create(
     "calcite-shell",
     createAttributes("Shell"),
+    html`
+      ${headerHTML}
+      ${create("calcite-shell-panel", createShellPanelAttributes("Leading Panel"), advancedLeadingPanelHTML)}
+      ${contentHTML} ${centerRowAdvancedHTML}
+      ${create("calcite-shell-panel", createShellPanelAttributes("Trailing Panel"), advancedTrailingPanelHTMl)}
+      ${footerHTML}
+    `
+  );
+
+export const advancedRTL = (): string =>
+  create(
+    "calcite-shell",
+    createAttributes("Shell", { exceptions: ["dir"] }).concat({ name: "dir", value: "rtl" }),
     html`
       ${headerHTML}
       ${create("calcite-shell-panel", createShellPanelAttributes("Leading Panel"), advancedLeadingPanelHTML)}
