@@ -1,3 +1,11 @@
+:host {
+  --calcite-link-blue-underline: #{rgba($h-bb-070, 0.4)};
+}
+
+:host([theme="dark"]) {
+  --calcite-link-blue-underline: #{rgba($d-bb-420, 0.4)};
+}
+
 // link base
 :host a,
 :host span {
@@ -7,12 +15,12 @@
     rounded-none
     border-none
     font-inherit
-    cursor-pointer;
+    cursor-pointer
+    transition-default;
   text-decoration: none;
   line-height: inherit;
   font-size: inherit;
   -webkit-appearance: none;
-  transition: $transition;
   &:hover {
     text-decoration: none;
   }
@@ -36,8 +44,7 @@
   @apply pointer-events-none;
   span,
   a {
-    @apply pointer-events-none;
-    opacity: var(--calcite-ui-opacity-disabled);
+    @apply pointer-events-none opacity-disabled;
   }
 }
 // icon positioning and styles
@@ -67,7 +74,7 @@
       bg-transparent
       relative;
     background-image: linear-gradient(currentColor, currentColor),
-      linear-gradient(#{rgba($h-bb-070, 0.4)}, theme("colors.text.link"));
+      linear-gradient(var(--calcite-link-blue-underline), theme("colors.text.link"));
     background-position: 0% 100%, 100% 100%;
     background-repeat: no-repeat, no-repeat;
     background-size: 0% 1px, 100% 1px;
