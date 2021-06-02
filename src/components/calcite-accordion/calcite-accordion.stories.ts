@@ -1,4 +1,10 @@
-import { Attribute, Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
+import {
+  Attribute,
+  Attributes,
+  handleComponentAttributes,
+  createComponentHTML as create,
+  darkBackground
+} from "../../../.storybook/utils";
 import { html } from "../../tests/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { iconNames } from "../../../.storybook/helpers";
@@ -7,16 +13,13 @@ import accordionReadme from "./readme.md";
 import accordionItemReadme from "../calcite-accordion-item/readme.md";
 import { placeholderImage } from "../../tests/utils";
 
-const createAccordionAttributes: (options?: { except: string[] }) => Attributes = ({ except } = { except: [] }) => {
+const createAccordionAttributes: (options?: { exceptions: string[] }) => Attributes = (
+  { exceptions } = { exceptions: [] }
+) => {
   const group = "accordion";
   const { dir, theme, scale } = ATTRIBUTES;
 
-  interface DeferredAttribute {
-    name: string;
-    commit: () => Attribute;
-  }
-
-  return (
+  return handleComponentAttributes(
     [
       {
         name: "dir",
@@ -74,10 +77,9 @@ const createAccordionAttributes: (options?: { except: string[] }) => Attributes 
           return this;
         }
       }
-    ] as DeferredAttribute[]
-  )
-    .filter((attr) => !except.find((excluded) => excluded === attr.name))
-    .map((attr) => attr.commit());
+    ],
+    exceptions
+  );
 };
 
 const createAccordionItemAttributes: (options?: { icon?: boolean; group?: string }) => Attributes = ({
@@ -187,7 +189,7 @@ export const icon = (): string =>
 export const darkThemeIcon = (): string =>
   create(
     "calcite-accordion",
-    createAccordionAttributes({ except: ["theme"] }).concat({
+    createAccordionAttributes({ exceptions: ["theme"] }).concat({
       name: "theme",
       value: "dark"
     }),
@@ -221,7 +223,7 @@ export const darkThemeIcon = (): string =>
 export const RTL = (): string =>
   create(
     "calcite-accordion",
-    createAccordionAttributes({ except: ["dir"] }).concat({
+    createAccordionAttributes({ exceptions: ["dir"] }).concat({
       name: "dir",
       value: "rtl"
     }),
