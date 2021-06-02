@@ -1,5 +1,6 @@
 :host {
-  @apply inline-flex text-color-3;
+  @apply inline-flex;
+  color: var(inherit, --calcite-ui-text-3);
 }
 
 :host([scale="s"]) {
