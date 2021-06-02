@@ -1,7 +1,7 @@
 name: "Update component doc"
 on:
   schedule:
-    - cron: "30 12 * * *"
+    - cron: "0 1 * * *"
 jobs:
   update-component-doc:
     runs-on: ubuntu-latest
