@@ -91,7 +91,7 @@ select:disabled {
     px-2;
 }
 
-:host([dir="rtl"]) .icon-container {
+.icon-container.calcite--rtl {
   @apply border-color-1
     border-r-0
     left-0;
