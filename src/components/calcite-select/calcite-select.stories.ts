@@ -1,4 +1,10 @@
-import { Attribute, Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
+import {
+  Attribute,
+  handleComponentAttributes,
+  Attributes,
+  createComponentHTML as create,
+  darkBackground
+} from "../../../.storybook/utils";
 import { html } from "../../tests/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { boolean, select, text } from "@storybook/addon-knobs";
@@ -6,16 +12,13 @@ import selectReadme from "../calcite-select/readme.md";
 import optionReadme from "../calcite-option/readme.md";
 import optionGroupReadme from "../calcite-option-group/readme.md";
 
-const createSelectAttributes: (options?: { except: string[] }) => Attributes = ({ except } = { except: [] }) => {
+const createSelectAttributes: (options?: { exceptions: string[] }) => Attributes = (
+  { exceptions } = { exceptions: [] }
+) => {
   const group = "select";
   const { dir, theme } = ATTRIBUTES;
 
-  interface DeferredAttribute {
-    name: string;
-    commit: () => Attribute;
-  }
-
-  return (
+  return handleComponentAttributes(
     [
       {
         name: "dir",
@@ -41,10 +44,9 @@ const createSelectAttributes: (options?: { except: string[] }) => Attributes = (
           return this;
         }
       }
-    ] as DeferredAttribute[]
-  )
-    .filter((attr) => !except.find((excluded) => excluded === attr.name))
-    .map((attr) => attr.commit());
+    ],
+    exceptions
+  );
 };
 
 const createOptionAttributes: () => Attributes = () => {
@@ -128,7 +130,7 @@ export const RTL = (): string =>
   create(
     "calcite-select",
     [
-      ...createSelectAttributes({ except: ["dir"] }),
+      ...createSelectAttributes({ exceptions: ["dir"] }),
       {
         name: "dir",
         value: "rtl"
