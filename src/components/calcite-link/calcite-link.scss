@@ -74,7 +74,7 @@
       bg-transparent
       relative;
     background-image: linear-gradient(currentColor, currentColor),
-      linear-gradient(var(--calcite-link-blue-underline), theme("colors.text.link"));
+      linear-gradient(var(--calcite-link-blue-underline), var(--calcite-link-blue-underline));
     background-position: 0% 100%, 100% 100%;
     background-repeat: no-repeat, no-repeat;
     background-size: 0% 1px, 100% 1px;
@@ -82,14 +82,12 @@
 
     &:hover,
     &:focus {
-      @apply text-color-link;
       background-size: 100% 1px, 100% 1px;
       & .calcite-link--icon {
         fill: theme("textColor.color.link");
       }
     }
     &:active {
-      @apply text-color-link;
       background-size: 100% 2px, 100% 2px;
     }
   }
