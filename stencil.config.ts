@@ -60,7 +60,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-scrim"] },
     { components: ["calcite-select", "calcite-option", "calcite-option-group"] },
     { components: ["calcite-shell", "calcite-shell-center-row", "calcite-shell-panel"] },
-    { components: ["calcite-slider"] },
+    { components: ["calcite-slider", "calcite-graph"] },
     { components: ["calcite-sortable-list"] },
     { components: ["calcite-split-button"] },
     { components: ["calcite-stepper", "calcite-stepper-item"] },
