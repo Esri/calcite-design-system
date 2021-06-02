@@ -1,6 +1,5 @@
 :host {
   @apply inline-flex;
-  color: var(inherit, --calcite-ui-text-3);
 }
 
 :host([scale="s"]) {
@@ -27,5 +26,4 @@
 
 .svg {
   @apply block;
-  color: currentColor;
 }

@@ -29,7 +29,7 @@
 }
 
 .calcite-link--icon {
-  @apply align-middle transition-default text-color-link;
+  transition: $transition;
 }
 
 // disabled styles
@@ -61,8 +61,7 @@
 :host {
   span,
   a {
-    @apply inline-flex
-      items-start
+    @apply inline
       p-0
       border-none
       bg-transparent
