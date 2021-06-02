@@ -23,7 +23,13 @@ export const RTL = (): string => html`
 `;
 
 export const darkMode = (): string => html`
-  <calcite-icon theme="dark" icon="${select("icon", iconNames, sampleIcon)}"></calcite-icon>
+  <style>
+    :root {
+      /* icon svg inherits the current font color */
+      color: var(--calcite-ui-warning);
+    }
+  </style>
+  <calcite-icon icon="${select("icon", iconNames, sampleIcon)}" theme="dark"></calcite-icon>
 `;
 
 darkMode.parameters = { backgrounds: darkBackground };

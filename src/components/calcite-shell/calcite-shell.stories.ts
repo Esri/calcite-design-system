@@ -22,7 +22,6 @@ export default {
   }
 };
 
-// const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
 const createAttributes: (group: string, options?: { exceptions: string[] }) => Attributes = (
   group,
   { exceptions } = { exceptions: [] }
