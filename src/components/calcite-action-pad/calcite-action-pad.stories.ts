@@ -2,7 +2,7 @@ import { boolean, select, text } from "@storybook/addon-knobs";
 import {
   Attributes,
   Attribute,
-  handleComponentAttributes,
+  filterComponentAttributes,
   createComponentHTML as create,
   darkBackground
 } from "../../../.storybook/utils";
@@ -22,7 +22,7 @@ export default {
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
   const { dir, position, theme } = ATTRIBUTES;
 
-  return handleComponentAttributes(
+  return filterComponentAttributes(
     [
       {
         name: "dir",

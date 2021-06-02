@@ -1,7 +1,7 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
 import {
   Attribute,
-  handleComponentAttributes,
+  filterComponentAttributes,
   Attributes,
   createComponentHTML as create,
   darkBackground
@@ -22,7 +22,7 @@ const createColorAttributes: (options?: { exceptions: string[] }) => Attributes 
 ) => {
   const { dir, scale } = ATTRIBUTES;
 
-  return handleComponentAttributes(
+  return filterComponentAttributes(
     [
       {
         name: "dir",

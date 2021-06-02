@@ -1,6 +1,6 @@
 import {
   Attribute,
-  handleComponentAttributes,
+  filterComponentAttributes,
   Attributes,
   createComponentHTML as create,
   darkBackground
@@ -18,7 +18,7 @@ const createSelectAttributes: (options?: { exceptions: string[] }) => Attributes
   const group = "select";
   const { dir, theme } = ATTRIBUTES;
 
-  return handleComponentAttributes(
+  return filterComponentAttributes(
     [
       {
         name: "dir",

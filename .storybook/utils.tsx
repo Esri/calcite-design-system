@@ -118,7 +118,7 @@ export const globalDocsPage: typeof DocsPage = () => (
   </React.Fragment>
 );
 
-export const handleComponentAttributes = (
+export const filterComponentAttributes = (
   attributesList: DeferredAttribute[],
   exceptions: string[]
 ): Attributes => {

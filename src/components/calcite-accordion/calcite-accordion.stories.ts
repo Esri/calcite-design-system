@@ -1,7 +1,7 @@
 import {
   Attribute,
   Attributes,
-  handleComponentAttributes,
+  filterComponentAttributes,
   createComponentHTML as create,
   darkBackground
 } from "../../../.storybook/utils";
@@ -19,7 +19,7 @@ const createAccordionAttributes: (options?: { exceptions: string[] }) => Attribu
   const group = "accordion";
   const { dir, theme, scale } = ATTRIBUTES;
 
-  return handleComponentAttributes(
+  return filterComponentAttributes(
     [
       {
         name: "dir",
