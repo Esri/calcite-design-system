@@ -55,6 +55,23 @@ export const Simple = (): string => {
     `;
 };
 
+export const RTL = (): string => {
+  return `
+      <div dir="rtl">
+        ${referenceElementHTML}
+        <calcite-tooltip
+          reference-element="reference-element"
+          placement="${select("placement", calcite_placements, "auto")}"
+          offset-distance="${number("offset-distance", 6)}"
+          offset-skidding="${number("offset-skidding", 0)}"
+          ${boolean("open", true)}
+        >
+          ${contentHTML}
+        </calcite-tooltip>
+      </div>
+    `;
+};
+
 export const DarkMode = (): string => {
   return `
       <div>
