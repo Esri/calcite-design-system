@@ -113,7 +113,6 @@ const contentHTML = html`
   </p>
   <p>
     Tempus per volutpat diam tempor mauris parturient vulputate leo id libero quisque. Mattis aliquam dictum venenatis
-    <calcite-button slot="${SLOTS.footer}" width="half">Yeah!</calcite-button>
     fringilla. Taciti venenatis, ultrices sollicitudin consequat. Sapien fusce est iaculis potenti ut auctor potenti.
     Nisi malesuada feugiat vulputate vitae porttitor. Nullam nullam nullam accumsan quis magna in. Elementum, nascetur
     gravida cras scelerisque inceptos aenean inceptos potenti. Lobortis condimentum accumsan posuere curabitur fermentum
@@ -121,7 +120,10 @@ const contentHTML = html`
   </p>
 `;
 
-const footerHTML = html` <calcite-button slot="${SLOTS.footer}" width="half" appearance="clear">Naw.</calcite-button> `;
+const footerHTML = html`
+  <calcite-button slot="${SLOTS.footer}" width="half" appearance="clear">Naw.</calcite-button>
+  <calcite-button slot="${SLOTS.footer}" width="half">Yeah!</calcite-button>
+`;
 
 const panelContent = `${headerHTML}
   <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsStart}" icon="bluetooth"></calcite-action>
