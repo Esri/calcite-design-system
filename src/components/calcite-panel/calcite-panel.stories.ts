@@ -1,7 +1,12 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
-import { Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
+import {
+  Attributes,
+  createComponentHTML as create,
+  darkBackground,
+  Attribute,
+  filterComponentAttributes
+} from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-const { dir, theme, scale } = ATTRIBUTES;
 import readme from "./readme.md";
 import { SLOTS, TEXT } from "./resources";
 import { html } from "../../tests/utils";
@@ -14,40 +19,79 @@ export default {
   }
 };
 
-const createAttributes: () => Attributes = () => [
-  {
-    name: "dir",
-    value: select("dir", dir.values, dir.defaultValue)
-  },
-  {
-    name: "dismissed",
-    value: boolean("dismissed", false)
-  },
-  {
-    name: "disabled",
-    value: boolean("disabled", false)
-  },
-  {
-    name: "dismissible",
-    value: boolean("dismissible", false)
-  },
-  {
-    name: "height-scale",
-    value: select("heightScale", scale.values, scale.defaultValue)
-  },
-  {
-    name: "loading",
-    value: boolean("loading", false)
-  },
-  {
-    name: "intl-close",
-    value: text("intlClose", TEXT.close)
-  },
-  {
-    name: "theme",
-    value: select("theme", theme.values, theme.defaultValue)
-  }
-];
+const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
+  const { dir, theme, scale } = ATTRIBUTES;
+
+  return filterComponentAttributes(
+    [
+      {
+        name: "dir",
+        commit(): Attribute {
+          this.value = select("dir", dir.values, dir.defaultValue);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "dismissed",
+        commit(): Attribute {
+          this.value = boolean("dismissed", false);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "disabled",
+        commit(): Attribute {
+          this.value = boolean("disabled", false);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "dismissible",
+        commit(): Attribute {
+          this.value = boolean("dismissible", false);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "height-scale",
+        commit(): Attribute {
+          this.value = select("heightScale", scale.values, scale.defaultValue);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "loading",
+        commit(): Attribute {
+          this.value = boolean("loading", false);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "intl-close",
+        commit(): Attribute {
+          this.value = text("intlClose", TEXT.close);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "theme",
+        commit(): Attribute {
+          this.value = select("theme", theme.values, theme.defaultValue);
+          delete this.build;
+          return this;
+        }
+      }
+    ],
+    exceptions
+  );
+};
 
 const headerHTML = `<h3 class="heading" slot="${SLOTS.headerContent}">Heading</h3>`;
 
@@ -81,13 +125,26 @@ const footerHTML = html`
   <calcite-button slot="${SLOTS.footer}" width="half" appearance="clear">Naw.</calcite-button>
 `;
 
-export const basic = (): string =>
+const panelContent = `${headerHTML}
+  <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsStart}" icon="bluetooth"></calcite-action>
+  <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsEnd}" icon="attachment"></calcite-action>
+  ${contentHTML}
+  ${footerHTML}`;
+
+export const basic = (): string => create("calcite-panel", createAttributes(), panelContent);
+
+export const darkThemeRTL = (): string =>
   create(
     "calcite-panel",
-    createAttributes(),
-    `${headerHTML}
-    <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsStart}" icon="bluetooth"></calcite-action>
-    <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsEnd}" icon="attachment"></calcite-action>
-    ${contentHTML}
-    ${footerHTML}`
+    createAttributes({ exceptions: ["dir", "theme"] }).concat([
+      {
+        name: "dir",
+        value: "rtl"
+      },
+      {
+        name: "theme",
+        value: "dark"
+      }
+    ]),
+    panelContent
   );
