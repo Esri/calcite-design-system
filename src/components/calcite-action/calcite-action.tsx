@@ -11,7 +11,7 @@ import {
   VNode
 } from "@stencil/core";
 
-import { Alignment, Appearance, Scale, Theme } from "../interfaces";
+import { Alignment, Appearance, Scale } from "../interfaces";
 
 import { CSS, TEXT } from "./resources";
 
@@ -93,11 +93,6 @@ export class CalciteAction {
    * Indicates whether the text is displayed.
    */
   @Prop({ reflect: true }) textEnabled = false;
-
-  /**
-   * Used to set the component's color scheme.
-   */
-  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //

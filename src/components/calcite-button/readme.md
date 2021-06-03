@@ -4,12 +4,18 @@
 
 ## Usage
 
+### Basic
+
+```html
+<calcite-button icon-start="plus" color="red">Go!</calcite-button>
+```
+
 ### Focusing
 
 You can programmatically focus a `calcite-button` with the `setFocus()` method:
 
 ```html
-<div onclick=document.querySelector('#my-button').setFocus()>Focus!</div>
+<div onclick="document.querySelector('#my-button').setFocus()">Focus!</div>
 ```
 
 ### Internals
@@ -19,7 +25,9 @@ You can programmatically focus a `calcite-button` with the `setFocus()` method:
 Any additional attributes set on `<calcite-button>` are passed to the internal `<a>` or `<button>` tag. For example:
 
 - ```html
-  <calcite-button href="https://github.com/esri/calcite-components target="_blank">Calcite Components on GitHub</calcite-button>
+  <calcite-button href="https://github.com/esri/calcite-components" target="_blank">
+    Calcite Components on GitHub
+  </calcite-button>
   ```
 
   would set `target="_blank` On the internal `<a>`.
@@ -29,6 +37,35 @@ Any additional attributes set on `<calcite-button>` are passed to the internal `
   ```
 
   would set `type="submit"` On the internal `<button>`.
+
+### With-icons
+
+```html
+<calcite-button appearance="solid" icon-start="arrow-left">Back</calcite-button>
+<calcite-button icon-end="map" color="red">Map Options</calcite-button>
+<calcite-button icon-end="plus" appearance="outline" color="inverse">Add to favorites</calcite-button>
+```
+
+### With-loader-disabled
+
+```html
+<calcite-button loading color="neutral">Fetching data...</calcite-button>
+<calcite-button disabled>Can't touch this</calcite-button>
+```
+
+### Within-form
+
+```html
+<form name="sign-up">
+  <calcite-label>
+    First name
+    <calcite-input name="first-name" required value="Jane"></calcite-input>
+  </calcite-label>
+  <calcite-button type="reset">I should reset the form (type reset)</calcite-button>
+  <calcite-button type="button">I should not submit the form (type button)</calcite-button>
+  <calcite-button>Submit</calcite-button>
+</form>
+```
 
 ## Properties
 
@@ -47,7 +84,6 @@ Any additional attributes set on `<calcite-button>` are passed to the internal `
 | `round`       | `round`         | optionally add a round style to the button                                                         | `boolean`                                                                                                   | `false`        |
 | `scale`       | `scale`         | specify the scale of the button, defaults to m                                                     | `"l" \| "m" \| "s"`                                                                                         | `"m"`          |
 | `splitChild`  | `split-child`   | is the button a child of a calcite-split-button                                                    | `"primary" \| "secondary" \| boolean`                                                                       | `false`        |
-| `theme`       | `theme`         | Select theme (light or dark)                                                                       | `"dark" \| "light"`                                                                                         | `undefined`    |
 | `width`       | `width`         | specify the width of the button, defaults to auto                                                  | `"auto" \| "full" \| "half"`                                                                                | `"auto"`       |
 
 ## Methods

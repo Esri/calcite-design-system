@@ -66,7 +66,6 @@ describe("calcite-split-button", () => {
       <calcite-split-button
           scale="s"
           color="red"
-          theme="dark"
           dropdown-icon-type="caret"
           loading
           disabled
@@ -78,7 +77,6 @@ describe("calcite-split-button", () => {
     const dropdownButton = await page.find("calcite-split-button >>> calcite-dropdown calcite-button");
     expect(element).toEqualAttribute("scale", "s");
     expect(element).toEqualAttribute("color", "red");
-    expect(element).toEqualAttribute("theme", "dark");
     expect(element).toEqualAttribute("dropdown-icon-type", "caret");
     expect(element).toHaveAttribute("loading");
     expect(element).toHaveAttribute("disabled");

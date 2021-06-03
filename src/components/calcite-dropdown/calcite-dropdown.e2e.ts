@@ -108,7 +108,7 @@ describe("calcite-dropdown", () => {
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-dropdown placement="bottom-trailing" scale="l" width="l" theme="dark">
+    <calcite-dropdown placement="bottom-trailing" scale="l" width="l">
     <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
     <calcite-dropdown-group id="group-1" selection-mode="multi">
     <calcite-dropdown-item id="item-1">
@@ -127,7 +127,6 @@ describe("calcite-dropdown", () => {
     const group1 = await element.find("calcite-dropdown-group[id='group-1']");
     expect(element).toEqualAttribute("scale", "l");
     expect(element).toEqualAttribute("width", "l");
-    expect(element).toEqualAttribute("theme", "dark");
     expect(element).toEqualAttribute("placement", "bottom-trailing");
     expect(group1).toEqualAttribute("selection-mode", "multi");
   });

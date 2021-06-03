@@ -16,7 +16,6 @@ import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
 import { DataSeries } from "../calcite-graph/interfaces";
 import { hasLabel } from "../../utils/dom";
-import { Theme } from "../interfaces";
 
 type activeSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 
@@ -38,8 +37,6 @@ export class CalciteSlider {
   //  Properties
   //
   //--------------------------------------------------------------------------
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: Theme;
 
   /** Disable and gray out the slider */
   @Prop({ reflect: true }) disabled = false;
@@ -54,10 +51,10 @@ export class CalciteSlider {
   @Prop({ reflect: true, mutable: true }) value: null | number = null;
 
   /** Currently selected lower number (if multi-select) */
-  @Prop() minValue?: number;
+  @Prop({ mutable: true }) minValue?: number;
 
   /** Currently selected upper number (if multi-select) */
-  @Prop() maxValue?: number;
+  @Prop({ mutable: true }) maxValue?: number;
 
   /** Label for first (or only) handle (ex. "Temperature, lower bound") */
   @Prop() minLabel: string;
@@ -709,30 +706,38 @@ export class CalciteSlider {
     }
   }
 
-  @Listen("click") clickHandler(e: MouseEvent): void {
-    const x = e.clientX || e.pageX;
-    const num = this.translate(x);
+  @Listen("mousedown")
+  @Listen("click")
+  mouseHandler(event: MouseEvent): void {
+    const x = event.clientX || event.pageX;
+    const position = this.translate(x);
     let prop: activeSliderProperty = "value";
     if (this.isRange) {
-      if (this.lastDragProp === "minMaxValue") {
+      const inRange = position >= this.minValue && position <= this.maxValue;
+      if (inRange && this.lastDragProp === "minMaxValue") {
         prop = "minMaxValue";
       } else {
-        const closerToMax = Math.abs(this.maxValue - num) < Math.abs(this.minValue - num);
+        const closerToMax = Math.abs(this.maxValue - position) < Math.abs(this.minValue - position);
         prop = closerToMax ? "maxValue" : "minValue";
       }
     }
-    this[prop] = this.bound(num, prop);
-    this.emitChange();
-    switch (prop) {
-      default:
-      case "maxValue":
-        this.maxHandle.focus();
-        break;
-      case "minValue":
-        this.minHandle.focus();
-        break;
-      case "minMaxValue":
-        break;
+    this[prop] = this.bound(position, prop);
+    this.dragStart(prop);
+
+    if (event.type === "click") {
+      this.dragEnd();
+      this.emitChange();
+      switch (prop) {
+        default:
+        case "maxValue":
+          this.maxHandle.focus();
+          break;
+        case "minValue":
+          this.minHandle.focus();
+          break;
+        case "minMaxValue":
+          break;
+      }
     }
   }
 

@@ -1,11 +1,14 @@
 :host {
-  --calcite-rating-spacing-unit: theme("spacing.2");
   @apply flex items-center relative;
   width: fit-content;
 }
 
 :host([scale="s"]) {
   --calcite-rating-spacing-unit: theme("spacing.1");
+}
+
+:host([scale="m"]) {
+  --calcite-rating-spacing-unit: theme("spacing.2");
 }
 
 :host([scale="l"]) {
@@ -25,7 +28,7 @@
 }
 
 .wrapper {
-  display: inline-block;
+  @apply inline-block;
   margin-right: var(--calcite-rating-spacing-unit);
 }
 
@@ -35,9 +38,11 @@
 }
 
 .star {
-  @include focus-style-base();
-  @apply relative inline-block cursor-pointer;
-  color: theme("borderColor.color.1");
+  @apply relative
+    inline-block
+    cursor-pointer
+    focus-base;
+  color: theme("borderColor.color.input");
   transition: $transition;
   transform: scale(1);
   &:active {
@@ -46,7 +51,7 @@
 }
 
 .focused {
-  @include focus-style-outset();
+  @apply focus-outset;
 }
 
 .average,
@@ -66,7 +71,11 @@
 }
 
 :host .fraction {
-  @apply absolute overflow-hidden pointer-events-none top-0 left-0;
+  @apply absolute
+    overflow-hidden
+    pointer-events-none
+    top-0
+    left-0;
   transition: $transition;
 }
 

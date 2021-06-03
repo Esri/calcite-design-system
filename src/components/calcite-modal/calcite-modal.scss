@@ -1,26 +1,35 @@
 :host {
-  @apply fixed inset-0 flex justify-center items-center overflow-y-hidden text-color-2;
-  opacity: 0;
+  @apply fixed
+    inset-0
+    flex
+    justify-center
+    items-center
+    overflow-y-hidden
+    text-color-2
+    opacity-0;
   visibility: hidden !important;
   transition: visibility 0ms linear 300ms, opacity 300ms $easing-function;
   z-index: 101;
-  --calcite-modal-padding: theme("spacing.3");
-  --calcite-modal-padding-large: theme("spacing.4");
-  --calcite-modal-title-text: theme("fontSize.2");
-  --calcite-modal-content-text: theme("fontSize.0");
 }
 
 :host([scale="s"]) {
-  --calcite-modal-padding: theme("spacing.2");
-  --calcite-modal-padding-large: theme("spacing.3");
-  --calcite-modal-title-text: theme("fontSize.1");
+  --calcite-modal-padding: theme("spacing.3");
+  --calcite-modal-padding-large: theme("spacing.4");
+  --calcite-modal-title-text: theme("fontSize.1h");
   --calcite-modal-content-text: theme("fontSize.-1");
 }
 
-:host([scale="l"]) {
+:host([scale="m"]) {
   --calcite-modal-padding: theme("spacing.4");
   --calcite-modal-padding-large: theme("spacing.5");
-  --calcite-modal-title-text: theme("fontSize.3");
+  --calcite-modal-title-text: theme("fontSize.2h");
+  --calcite-modal-content-text: theme("fontSize.0");
+}
+
+:host([scale="l"]) {
+  --calcite-modal-padding: theme("spacing.5");
+  --calcite-modal-padding-large: theme("spacing.6");
+  --calcite-modal-title-text: theme("fontSize.3h");
   --calcite-modal-content-text: theme("fontSize.1");
 }
 
@@ -30,12 +39,21 @@
 }
 
 .modal {
-  @apply flex flex-col shadow-2-sm box-border float-none m-6 rounded bg-foreground-1 w-full;
+  @apply flex
+    flex-col
+    shadow-2-sm
+    box-border
+    float-none
+    m-6
+    rounded
+    bg-foreground-1
+    w-full
+    opacity-0
+    pointer-events-none
+    overflow-hidden;
   z-index: 102;
   -webkit-overflow-scrolling: touch;
-  opacity: 0;
   visibility: hidden;
-  pointer-events: none;
   transition: transform 300ms $easing-function, visibility 0ms linear 300ms, opacity 300ms $easing-function;
   transform: translate3d(0, 20px, 0);
 }
@@ -57,24 +75,38 @@
  * Header
  */
 .header {
-  @apply flex max-w-full min-w-0 rounded-t bg-foreground-1;
+  @apply flex
+    max-w-full
+    min-w-0
+    rounded-t
+    bg-foreground-1
+    border-0
+    border-b
+    border-solid
+    border-color-3;
   flex: 0 0 auto;
   z-index: 2;
-  border-bottom: 1px solid var(--calcite-ui-border-3);
 }
 
 .close {
-  @apply m-0 appearance-none border-none text-color-1 order-2 cursor-pointer rounded-tr bg-transparent;
-  @include focus-style-base();
+  @apply m-0
+    appearance-none
+    border-none
+    text-color-1
+    order-2
+    cursor-pointer
+    rounded-tr
+    bg-transparent
+    focus-base;
   padding: var(--calcite-modal-padding);
   flex: 0 0 auto;
   transition: all 0.15s ease-in-out;
   calcite-icon {
-    pointer-events: none;
+    @apply pointer-events-none;
     vertical-align: -2px;
   }
   &:focus {
-    @include focus-style-inset();
+    @apply focus-inset;
   }
   &:hover,
   &:focus {
@@ -110,7 +142,7 @@
 }
 
 .content--spaced {
-  padding: var(--calcite-modal-padding-large);
+  padding: var(--calcite-modal-padding) var(--calcite-modal-padding-large);
 }
 
 .content--no-footer {
@@ -119,7 +151,6 @@
 
 @include slotted("content", "*") {
   font-size: var(--calcite-modal-content-text);
-  line-height: 1.5;
 }
 
 :host([background-color="grey"]) {
@@ -132,10 +163,19 @@
  * Footer
  */
 .footer {
-  @apply flex justify-between mt-auto box-border rounded-b w-full bg-foreground-1;
+  @apply flex
+    justify-between
+    mt-auto
+    box-border
+    rounded-b
+    w-full
+    bg-foreground-1
+    border-0
+    border-t
+    border-solid
+    border-color-3;
   flex: 0 0 auto;
   padding: var(--calcite-modal-padding) var(--calcite-modal-padding-large);
-  border-top: 1px solid var(--calcite-ui-border-3);
   z-index: 2;
 }
 
@@ -253,20 +293,23 @@ slot[name="primary"] {
  */
 :host([color="red"]) {
   .modal {
-    border-top: 4px solid var(--calcite-ui-danger);
+    @apply border-color-danger;
   }
 }
 
 :host([color="blue"]) {
   .modal {
-    border-top: 4px solid var(--calcite-ui-brand);
+    @apply border-color-info;
   }
 }
 
 :host([color="red"]),
 :host([color="blue"]) {
+  .modal {
+    @apply border-0 border-t-4 border-solid;
+  }
   .header {
-    @apply rounded;
+    @apply rounded rounded-b-none;
   }
 }
 

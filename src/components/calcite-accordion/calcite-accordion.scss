@@ -1,20 +1,23 @@
 // scale variants for child
 :host([scale="s"]) {
   --calcite-accordion-item-spacing-unit: theme("spacing.1");
+  --calcite-accordion-icon-margin: theme("spacing.2");
   --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit) theme("spacing.2");
   @apply text--2h;
 }
 
 :host([scale="m"]) {
   --calcite-accordion-item-spacing-unit: theme("spacing.2");
+  --calcite-accordion-icon-margin: theme("spacing.3");
   --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit) theme("spacing.3");
   @apply text--1h;
 }
 
 :host([scale="l"]) {
   --calcite-accordion-item-spacing-unit: theme("spacing.3");
+  --calcite-accordion-icon-margin: theme("spacing.4");
   --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit) theme("spacing.4");
-  @apply text-1h;
+  @apply text-0h;
 }
 
 :host {

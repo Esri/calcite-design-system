@@ -20,8 +20,7 @@
 | `name`     | `name`     | The name of the switch input       | `string`            | `undefined` |
 | `scale`    | `scale`    | The scale of the switch            | `"l" \| "m" \| "s"` | `"m"`       |
 | `switched` | `switched` | True if the switch is initially on | `boolean`           | `false`     |
-| `theme`    | `theme`    | The component's theme.             | `"dark" \| "light"` | `undefined` |
-| `value`    | `value`    | The value of the switch input      | `string`            | `undefined` |
+| `value`    | `value`    | The value of the switch input      | `any`               | `undefined` |
 
 ## Events
 

@@ -21,7 +21,7 @@ import {
 } from "../calcite-color-picker/utils";
 import Color from "color";
 import { CSS } from "./resources";
-import { Scale, Theme } from "../interfaces";
+import { Scale } from "../interfaces";
 import { RGB } from "../calcite-color-picker/interfaces";
 import { focusElement, getElementDir } from "../../utils/dom";
 import { TEXT } from "../calcite-color-picker/resources";
@@ -96,11 +96,6 @@ export class CalciteColorPickerHexInput {
    * The component's scale.
    */
   @Prop({ reflect: true }) scale: Scale = "m";
-
-  /**
-   * The component's theme.
-   */
-  @Prop({ reflect: true }) theme: Theme;
 
   /**
    * The hex value.

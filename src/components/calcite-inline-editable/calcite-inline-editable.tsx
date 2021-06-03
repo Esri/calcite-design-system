@@ -10,7 +10,7 @@ import {
   Watch
 } from "@stencil/core";
 import { getElementProp } from "../../utils/dom";
-import { Scale, Theme } from "../interfaces";
+import { Scale } from "../interfaces";
 import { TEXT, transitionProperties } from "./resources";
 
 /**
@@ -65,9 +65,6 @@ export class CalciteInlineEditable {
   /** specify the scale of the inline-editable component, defaults to the scale of the wrapped calcite-input or the scale of the closest wrapping component with a set scale */
   @Prop({ reflect: true, mutable: true }) scale?: Scale;
 
-  /** specify the theme of the inline-editable component, defaults to the theme of the wrapped calcite-input or the theme of the closest wrapping component with a set theme */
-  @Prop({ reflect: true }) theme?: Theme;
-
   /** when controls, specify a callback to be executed prior to disabling editing. when provided, loading state will be handled automatically. */
   @Prop() afterConfirm?: () => Promise<void>;
 
@@ -114,7 +111,6 @@ export class CalciteInlineEditable {
               onClick={this.enableEditingHandler}
               ref={(el) => (this.enableEditingButton = el)}
               scale={this.scale}
-              theme={this.theme}
             />
           )}
           {this.shouldShowControls && [
@@ -128,7 +124,6 @@ export class CalciteInlineEditable {
                 iconStart="x"
                 onClick={this.cancelEditingHandler}
                 scale={this.scale}
-                theme={this.theme}
               />
             </div>,
             <calcite-button
@@ -141,7 +136,6 @@ export class CalciteInlineEditable {
               loading={this.loading}
               onClick={this.confirmChangesHandler}
               scale={this.scale}
-              theme={this.theme}
             />
           ]}
         </div>

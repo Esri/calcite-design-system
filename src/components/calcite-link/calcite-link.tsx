@@ -1,6 +1,6 @@
 import { Component, Element, h, Host, Method, Prop, VNode } from "@stencil/core";
 import { getAttributes, focusElement, getElementDir } from "../../utils/dom";
-import { FlipContext, Theme } from "../interfaces";
+import { FlipContext } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 
 /** @slot default text slot for link text */
@@ -44,9 +44,6 @@ export class CalciteLink {
   /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconStart?: string;
 
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: Theme;
-
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -78,7 +75,7 @@ export class CalciteLink {
       />
     );
 
-    const attributes = getAttributes(this.el, ["dir", "icon-end", "icon-start", "id", "theme"]);
+    const attributes = getAttributes(this.el, ["dir", "icon-end", "icon-start", "id"]);
     const Tag = this.childElType;
     const role = this.childElType === "span" ? "link" : null;
     const tabIndex = this.disabled ? -1 : this.childElType === "span" ? 0 : null;

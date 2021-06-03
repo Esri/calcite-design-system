@@ -11,6 +11,7 @@
     h2,
     h3 {
       margin: 0;
+      color: var(--calcite-ui-text-1);
     }
 
     hr {
@@ -20,6 +21,10 @@
       border-top: 1px solid rgba(0, 0, 0, 0.1);
       border-bottom: 1px solid rgba(255, 255, 255, 0.3);
       margin: 0;
+    }
+
+    section {
+      padding: 1rem 2rem;
     }
 
     .vertical-grid {
@@ -48,6 +53,70 @@
     <calcite-button href="/">
       < Home</calcite-button>
         <h1>Calcite Radio Button Group</h1>
+
+        <section>
+          <!-- src/components/calcite-radio-button-group/usage/.md -->
+          <div>
+            <h3>Basic</h3>
+            <calcite-radio-button-group name="basic-group">
+              <calcite-label layout="inline">
+                <calcite-radio-button></calcite-radio-button>
+                Maps
+              </calcite-label>
+              <calcite-label layout="inline">
+                <calcite-radio-button></calcite-radio-button>
+                Layers
+              </calcite-label>
+              <calcite-label layout="inline">
+                <calcite-radio-button></calcite-radio-button>
+                Data
+              </calcite-label>
+              <calcite-label layout="inline">
+                <calcite-radio-button></calcite-radio-button>
+                Geography
+              </calcite-label>
+            </calcite-radio-button-group>
+          </div>
+          <div>
+            <h3>With vertical layout</h3>
+            <calcite-radio-button-group name="vertical-group" layout="vertical">
+              <calcite-label layout="inline">
+                <calcite-radio-button></calcite-radio-button>
+                Maps
+              </calcite-label>
+              <calcite-label layout="inline">
+                <calcite-radio-button></calcite-radio-button>
+                Layers
+              </calcite-label>
+              <calcite-label layout="inline">
+                <calcite-radio-button></calcite-radio-button>
+                Data
+              </calcite-label>
+              <calcite-label layout="inline">
+                <calcite-radio-button></calcite-radio-button>
+                Geography
+              </calcite-label>
+            </calcite-radio-button-group>
+          </div>
+          <div>
+            <h3>With all radio button inputs disabled, first one checked</h3>
+            <calcite-radio-button-group name="disabled-group" disabled>
+              <calcite-label layout="inline">
+                <calcite-radio-button checked></calcite-radio-button>
+                A
+              </calcite-label>
+              <calcite-label layout="inline">
+                <calcite-radio-button></calcite-radio-button>
+                B
+              </calcite-label>
+              <calcite-label layout="inline">
+                <calcite-radio-button></calcite-radio-button>
+                C
+              </calcite-label>
+            </calcite-radio-button-group>
+          </div>
+        </section>
+
         <demo-form>
           <form name="calcite-radio-button-group-demo-form">
             <demo-spacer>

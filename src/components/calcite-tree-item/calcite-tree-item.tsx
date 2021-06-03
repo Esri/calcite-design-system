@@ -304,7 +304,7 @@ export class CalciteTreeItem {
         }
         break;
       case "Home":
-        root = this.el.closest("calcite-tree[root]") as HTMLCalciteTreeElement;
+        root = this.el.closest("calcite-tree:not([child])") as HTMLCalciteTreeElement;
 
         const firstNode = root.querySelector("calcite-tree-item");
 
@@ -312,7 +312,7 @@ export class CalciteTreeItem {
 
         break;
       case "End":
-        root = this.el.closest("calcite-tree[root]");
+        root = this.el.closest("calcite-tree:not([child])");
 
         let currentNode = root.children[root.children.length - 1]; // last child
         let currentTree = nodeListToArray(currentNode.children).find((e) =>

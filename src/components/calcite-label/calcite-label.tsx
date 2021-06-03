@@ -1,7 +1,7 @@
 import { Component, Element, Event, Listen, h, Prop, EventEmitter, VNode } from "@stencil/core";
-import { getAttributes, getElementDir } from "../../utils/dom";
+import { getAttributes, getElementDir, queryElementRoots } from "../../utils/dom";
 import { FocusRequest } from "./interfaces";
-import { Alignment, Scale, Status, Theme } from "../interfaces";
+import { Alignment, Scale, Status } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 
 @Component({
@@ -35,9 +35,6 @@ export class CalciteLabel {
 
   /** specify the scale of the input, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
-
-  /** specify theme of the label and its any child input / input messages */
-  @Prop({ reflect: true }) theme: Theme;
 
   /** is the wrapped element positioned inline with the label slotted text */
   @Prop({ reflect: true }) layout: "inline" | "inline-space-between" | "default" = "default";
@@ -89,7 +86,7 @@ export class CalciteLabel {
     }
 
     // 2. htmlFor matches a calcite component
-    const inputForThisLabel = document.getElementById(this.for);
+    const inputForThisLabel: HTMLElement = queryElementRoots(this.el, `#${this.for}`);
     if (!inputForThisLabel) {
       return;
     }
@@ -159,8 +156,7 @@ export class CalciteLabel {
       "dir",
       "layout",
       "scale",
-      "status",
-      "theme"
+      "status"
     ]);
     const dir = getElementDir(this.el);
     return (

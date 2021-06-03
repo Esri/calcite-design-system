@@ -1,3 +1,22 @@
+import { Theme } from "../components/interfaces";
+import { CSS_UTILITY } from "./resources";
+import { guid } from "./guid";
+
+/**
+ * This helper will guarantee an ID on the provided element.
+ *
+ * If it already has an ID, it will be preserved, otherwise a unique one will be generated and assigned.
+ *
+ * @returns {string} The element's ID.
+ */
+export function ensureId(el: Element): string {
+  if (!el) {
+    return "";
+  }
+
+  return (el.id = el.id || `${el.tagName.toLowerCase()}-${guid()}`);
+}
+
 export function nodeListToArray<T extends Element>(nodeList: HTMLCollectionOf<T> | NodeListOf<T> | T[]): T[] {
   return Array.isArray(nodeList) ? nodeList : Array.from(nodeList);
 }
@@ -8,6 +27,10 @@ export function getAttributes(el: HTMLElement, blockList: string[]): Record<stri
   return Array.from(el.attributes)
     .filter((a) => a && !blockList.includes(a.name))
     .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
+}
+
+export function getThemeName(el: HTMLElement): Theme {
+  return closestElementCrossShadowBoundary(`.${CSS_UTILITY.darkTheme}, [theme=dark]`, el) ? "dark" : "light";
 }
 
 export function getElementDir(el: HTMLElement): Direction {

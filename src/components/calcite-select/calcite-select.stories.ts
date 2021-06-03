@@ -123,3 +123,30 @@ export const grouped = (): string =>
       </calcite-option-group>
     `
   );
+
+export const RTL = (): string =>
+  create(
+    "calcite-select",
+    [
+      ...createSelectAttributes({ except: ["dir"] }),
+      {
+        name: "dir",
+        value: "rtl"
+      }
+    ],
+    html`
+      ${create(
+        "calcite-option-group",
+        createOptionGroupAttributes(),
+        html`
+          ${create("calcite-option", createOptionAttributes())}
+          <calcite-option label="some fixed option (A)" value="some-fixed-value-a"></calcite-option>
+          <calcite-option label="another fixed option (A)" value="another-fixed-value-a"></calcite-option>
+        `
+      )}
+      <calcite-option-group label="group B (fixed)">
+        <calcite-option label="some fixed option (B)" value="some-fixed-value-b"></calcite-option>
+        <calcite-option label="another fixed option (B)" value="another-fixed-value-b"></calcite-option>
+      </calcite-option-group>
+    `
+  );

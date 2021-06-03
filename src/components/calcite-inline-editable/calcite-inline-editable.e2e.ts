@@ -58,14 +58,13 @@ describe("calcite-inline-editable", () => {
     it("renders requested props when valid props are provided", async () => {
       page = await newE2EPage();
       await page.setContent(`
-      <calcite-inline-editable controls editing-enabled loading disabled scale="l" theme="dark">
+      <calcite-inline-editable controls editing-enabled loading disabled scale="l" >
         <calcite-input/>
       </calcite-inline-editable>
       `);
       await page.waitForChanges();
       const element = await page.find("calcite-inline-editable");
       expect(element).toEqualAttribute("scale", "l");
-      expect(element).toEqualAttribute("theme", "dark");
       expect(element).toHaveAttribute("controls");
       expect(element).toHaveAttribute("editing-enabled");
       expect(element).toHaveAttribute("loading");

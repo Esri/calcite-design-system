@@ -10,7 +10,7 @@ import {
   VNode,
   Method
 } from "@stencil/core";
-import { Layout, Position, Theme } from "../interfaces";
+import { Layout, Position } from "../interfaces";
 import { CalciteExpandToggle, toggleChildActionText } from "../functional/CalciteExpandToggle";
 import { getElementDir, focusElement, getSlotted } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -77,11 +77,6 @@ export class CalciteActionPad {
    * Arranges the component depending on the elements 'dir' property.
    */
   @Prop({ reflect: true }) position: Position;
-
-  /**
-   * Used to set the component's color scheme.
-   */
-  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //

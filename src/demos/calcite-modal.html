@@ -26,19 +26,19 @@
   <calcite-button href="/">Home</calcite-button>
   <h1>Calcite Modal</h1>
 
-  <calcite-modal class="js-modal-1" width="s">
+  <calcite-modal class="js-modal-1" width="s" scale="s">
     <h3 slot="header">Small Modal</h3>
     <div slot="content">
       <p>
         The small modal is perfect for short confirmation dialogs or very compact interfaces with few elements.
       </p>
     </div>
-    <calcite-button slot="back" width="full" color="neutral" appearance="outline"
-      icon="chevron-left" width="full">Back</calcite-button>
-    <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
-    <calcite-button slot="primary" width="full">Save</calcite-button>
+    <calcite-button slot="back" width="full" scale="s" color="neutral" appearance="outline"
+      icon="chevron-left">Back</calcite-button>
+    <calcite-button slot="secondary" width="full" scale="s" appearance="outline">Cancel</calcite-button>
+    <calcite-button slot="primary" width="full" scale="s">Save</calcite-button>
   </calcite-modal>
-  <calcite-modal class="js-modal-2" width="m">
+  <calcite-modal class="js-modal-2" width="m" scale="m">
     <h3 slot="header">Medium Modal</h3>
     <div slot="content">
       <table>
@@ -56,20 +56,20 @@
         </tbody>
       </table>
     </div>
-    <calcite-button slot="back" width="full" color="neutral" appearance="outline"
+    <calcite-button slot="back" width="full" scale="m" color="neutral" appearance="outline"
       icon="chevron-left">Back</calcite-button>
-    <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
-    <calcite-button slot="primary" width="full">Save</calcite-button>
+    <calcite-button slot="secondary" width="full" scale="m" appearance="outline">Cancel</calcite-button>
+    <calcite-button slot="primary" width="full" scale="m">Save</calcite-button>
   </calcite-modal>
-  <calcite-modal class="js-modal-3" width="l">
+  <calcite-modal class="js-modal-3" width="l" scale="l">
     <h3 slot="header">Large modal</h3>
     <div slot="content">
       <p>This modal will be fullscreen until it is as wide as the calcite-web grid's max-width. This enables you
         to use gridded
         layouts within the modal and keeps your modal from growing beyond a readable line length.</p>
     </div>
-    <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
-    <calcite-button slot="primary" width="full">Save</calcite-button>
+    <calcite-button slot="secondary" width="full" scale="l" appearance="outline">Cancel</calcite-button>
+    <calcite-button slot="primary" width="full" scale="l">Save</calcite-button>
   </calcite-modal>
   <calcite-modal class="js-modal-4" fullscreen>
     <h3 slot="header">Fullscreen modal</h3>

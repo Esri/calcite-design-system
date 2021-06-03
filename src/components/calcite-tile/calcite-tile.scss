@@ -10,7 +10,6 @@
 :host(:not([embed])) {
   @apply p-3;
   box-shadow: 0 0 0 1px var(--calcite-ui-border-2);
-  max-width: 20rem;
 }
 :host(:not([embed])[href]:hover) {
   @apply cursor-pointer;

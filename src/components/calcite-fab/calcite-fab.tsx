@@ -1,5 +1,5 @@
 import { Component, Element, Method, Prop, h, VNode } from "@stencil/core";
-import { Appearance, Scale, Theme } from "../interfaces";
+import { Appearance, Scale } from "../interfaces";
 import { ButtonColor } from "../calcite-button/interfaces";
 import { CSS, ICONS } from "./resources";
 import { focusElement, getElementDir } from "../../utils/dom";
@@ -61,11 +61,6 @@ export class CalciteFab {
    */
   @Prop({ reflect: true }) textEnabled = false;
 
-  /**
-   * Used to set the component's color scheme.
-   */
-  @Prop({ reflect: true }) theme: Theme;
-
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -94,19 +89,8 @@ export class CalciteFab {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const {
-      appearance,
-      color,
-      disabled,
-      el,
-      loading,
-      scale,
-      theme,
-      textEnabled,
-      icon,
-      label,
-      text
-    } = this;
+    const { appearance, color, disabled, el, loading, scale, textEnabled, icon, label, text } =
+      this;
     const title = !textEnabled ? label || text || null : null;
     const dir = getElementDir(el);
 
@@ -125,7 +109,6 @@ export class CalciteFab {
         }}
         round={true}
         scale={scale}
-        theme={theme}
         title={title}
         width="auto"
       >

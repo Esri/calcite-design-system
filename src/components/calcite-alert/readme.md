@@ -33,7 +33,6 @@ A single instance of an alert. Multiple alerts will aggregate in a queue.
 | `intlClose`           | `intl-close`            | string to override English close text                                                                                                                  | `string`                                 | `TEXT.intlClose`                     |
 | `label` _(required)_  | `label`                 | Accessible name for the component                                                                                                                      | `string`                                 | `undefined`                          |
 | `scale`               | `scale`                 | specify the scale of the button, defaults to m                                                                                                         | `"l" \| "m" \| "s"`                      | `"m"`                                |
-| `theme`               | `theme`                 | Select theme (light or dark)                                                                                                                           | `"dark" \| "light"`                      | `undefined`                          |
 
 ## Events
 
@@ -46,7 +45,7 @@ A single instance of an alert. Multiple alerts will aggregate in a queue.
 
 ### `setFocus() => Promise<void>`
 
-focus either the slotted alert-link or the close button
+focus either the slotted link or the close button
 
 #### Returns
 
@@ -54,11 +53,11 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot              | Description                                                                  |
-| ----------------- | ---------------------------------------------------------------------------- |
-| `"alert-link"`    | Optional action to take from the alert (undo, try again, link to page, etc.) |
-| `"alert-message"` | Main text of the alert                                                       |
-| `"title"`         | Title of the alert (optional)                                                |
+| Slot        | Description                                                                  |
+| ----------- | ---------------------------------------------------------------------------- |
+| `"link"`    | Optional action to take from the alert (undo, try again, link to page, etc.) |
+| `"message"` | Main text of the alert                                                       |
+| `"title"`   | Title of the alert (optional)                                                |
 
 ## Dependencies
 

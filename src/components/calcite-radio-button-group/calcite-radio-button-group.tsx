@@ -10,7 +10,7 @@ import {
   EventEmitter,
   Listen
 } from "@stencil/core";
-import { Layout, Scale, Theme } from "../interfaces";
+import { Layout, Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-radio-button-group",
@@ -70,14 +70,6 @@ export class CalciteRadioButtonGroup {
     this.passPropsToRadioButtons();
   }
 
-  /** The color theme of the radio button group. */
-  @Prop({ reflect: true }) theme: Theme;
-
-  @Watch("theme")
-  onThemeChange(): void {
-    this.passPropsToRadioButtons();
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -103,7 +95,6 @@ export class CalciteRadioButtonGroup {
         radioButton.name = this.name;
         radioButton.required = this.required;
         radioButton.scale = this.scale;
-        radioButton.theme = this.theme;
       });
     }
   };

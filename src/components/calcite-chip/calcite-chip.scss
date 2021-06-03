@@ -1,7 +1,7 @@
 // scale
 // todo update when new spacing modifiers are introduced to calcite-base
 :host([scale="s"]) {
-  @apply h-5 text--3;
+  @apply h-6 text--2;
   --calcite-chip-spacing-unit-l: theme("spacing.2");
   --calcite-chip-spacing-unit-s: theme("spacing.1");
   .chip-image-container {
@@ -9,7 +9,7 @@
   }
 }
 :host([scale="m"]) {
-  @apply h-8 text--2;
+  @apply h-8 text--1;
   --calcite-chip-spacing-unit-l: theme("spacing.3");
   --calcite-chip-spacing-unit-s: 6px;
   .chip-image-container {
@@ -18,7 +18,7 @@
 }
 
 :host([scale="l"]) {
-  @apply h-10 text--1;
+  @apply h-11 text-0;
   --calcite-chip-spacing-unit-l: theme("spacing.4");
   --calcite-chip-spacing-unit-s: theme("spacing.2");
   .chip-image-container {
@@ -43,7 +43,8 @@
     text-color-1
     font-medium
     cursor-default
-    rounded-full;
+    rounded-full
+    box-border;
   --calcite-chip-button-border-radius: 0 50px 50px 0;
 }
 
@@ -57,31 +58,29 @@
 }
 
 :host span {
-  padding: var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-l);
+  padding: 0 var(--calcite-chip-spacing-unit-l);
 }
 
 :host([dismissible]) span {
-  padding: var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-s)
-    var(--calcite-chip-spacing-unit-l);
+  padding: 0 var(--calcite-chip-spacing-unit-s) 0 var(--calcite-chip-spacing-unit-l);
 }
 
 :host([dismissible]) .calcite--rtl span {
-  padding: var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-l) var(--calcite-chip-spacing-unit-s)
-    var(--calcite-chip-spacing-unit-s);
+  padding: 0 var(--calcite-chip-spacing-unit-l) 0 var(--calcite-chip-spacing-unit-s);
 }
 
 :host([icon]:not([dismissible])) span {
-  padding: var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-l) var(--calcite-chip-spacing-unit-s)
-    var(--calcite-chip-spacing-unit-s);
+  padding: 0 var(--calcite-chip-spacing-unit-l);
 }
 
 :host([icon]:not([dismissible])) .calcite--rtl span {
-  padding: var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-s) var(--calcite-chip-spacing-unit-s)
-    var(--calcite-chip-spacing-unit-l);
+  padding: 0 var(--calcite-chip-spacing-unit-l);
 }
 
 :host button {
   @apply m-0
+    bg-transparent
+    focus-base
     inline-flex
     min-h-full
     max-h-full
@@ -89,11 +88,26 @@
     items-center
     border-none
     cursor-pointer
-    transition-default
+    transition-default    
     text-color-1;
   -webkit-appearance: none;
   border-radius: var(--calcite-chip-button-border-radius);
-  padding: var(--calcite-chip-spacing-unit-s);
+  padding: 0 var(--calcite-chip-spacing-unit-s);
+  color: inherit;
+
+  // close button focus styles
+  --calcite-chip-transparent-hover: var(--calcite-button-transparent-hover);
+  --calcite-chip-transparent-press: var(--calcite-button-transparent-press);
+  &:hover {
+    background-color: var(--calcite-chip-transparent-hover);
+  }
+  &:focus {
+    background-color: var(--calcite-chip-transparent-hover);
+    @apply focus-inset;
+  }
+  &:active {
+    background-color: var(--calcite-chip-transparent-press);
+  }
 }
 
 //slotted image
@@ -190,38 +204,5 @@
   border-color: var(--calcite-ui-border-1);
   .calcite-chip--icon {
     color: var(--calcite-ui-text-3);
-  }
-}
-
-// close button focus styles
-// solid
-:host([appearance="solid"]) button {
-  @apply focus-base bg-transparent;
-  color: inherit;
-  &:hover {
-    background-color: rgba($blk-000, 0.1);
-  }
-  &:focus {
-    background-color: rgba($blk-000, 0.1);
-    @apply focus-inset;
-  }
-  &:active {
-    background-color: rgba($blk-240, 0.1);
-  }
-}
-// clear
-:host([appearance="clear"]) button {
-  --calcite-chip-transparent-hover: var(--calcite-button-transparent-hover);
-  --calcite-chip-transparent-press: var(--calcite-button-transparent-press);
-  @apply focus-base bg-transparent text-color-3;
-  &:hover {
-    background-color: var(--calcite-chip-transparent-hover);
-  }
-  &:focus {
-    @apply focus-inset;
-    background-color: var(--calcite-chip-transparent-hover);
-  }
-  &:active {
-    background-color: var(--calcite-chip-transparent-press);
   }
 }

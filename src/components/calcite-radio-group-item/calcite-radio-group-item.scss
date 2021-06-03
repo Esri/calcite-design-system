@@ -43,9 +43,7 @@
 }
 
 .label--scale-l {
-  @apply text-1h px-4;
-  padding-top: 0.625rem;
-  padding-bottom: 0.625rem;
+  @apply text-0h px-4 py-2;
 }
 
 :host(:hover) label {

@@ -11,7 +11,7 @@ import {
 } from "@stencil/core";
 
 import { SLOTS, TEXT } from "./calcite-notice.resources";
-import { Scale, Theme, Width } from "../interfaces";
+import { Scale, Width } from "../interfaces";
 import { StatusColor, StatusIcons } from "../calcite-alert/interfaces";
 import { getElementDir, setRequestedIcon } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -66,9 +66,6 @@ export class CalciteNotice {
 
   /** specify the scale of the notice, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
-
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: Theme;
 
   /** specify the width of the notice, defaults to auto */
   @Prop({ reflect: true }) width: Width = "auto";

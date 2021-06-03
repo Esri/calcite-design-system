@@ -1,4 +1,5 @@
-import { getElementProp, getSlotted, setRequestedIcon } from "./dom";
+import { getElementProp, getSlotted, setRequestedIcon, ensureId } from "./dom";
+import { guidPattern } from "./guid.spec";
 
 describe("dom", () => {
   describe("getElementProp()", () => {
@@ -258,5 +259,22 @@ describe("dom", () => {
       expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, "", "exampleValue")).toBe(
         "exampleReturnedValue"
       ));
+  });
+
+  describe("uniqueId", () => {
+    it("generates unique ID on an element", () => {
+      const input = document.createElement("input");
+      expect(ensureId(input)).toMatch(new RegExp(`input-${guidPattern.source}`));
+    });
+
+    it("returns the element's ID if it exists", () => {
+      const input = document.createElement("input");
+      input.id = "test";
+      expect(ensureId(input)).toBe("test");
+    });
+
+    it("returns empty string if invoked without element", () => {
+      expect(ensureId(null)).toBe("");
+    });
   });
 });

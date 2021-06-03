@@ -13,11 +13,17 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { CalciteFocusableElement, focusElement, getElementDir } from "../../utils/dom";
+import {
+  CalciteFocusableElement,
+  ensureId,
+  focusElement,
+  getElementDir,
+  getSlotted
+} from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { queryShadowRoot } from "@a11y/focus-trap/shadow";
 import { isFocusable, isHidden } from "@a11y/focus-trap/focusable";
-import { Scale, Theme } from "../interfaces";
+import { Scale } from "../interfaces";
 import { ModalBackgroundColor } from "./interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { transitionProperty } from "./resources";
@@ -82,9 +88,6 @@ export class CalciteModal {
    * Use color to add importance to destructive/workflow dialogs. */
   @Prop({ reflect: true }) color?: "red" | "blue";
 
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: Theme;
-
   /** Background color of modal content */
   @Prop({ reflect: true }) backgroundColor: ModalBackgroundColor = "white";
 
@@ -121,9 +124,15 @@ export class CalciteModal {
 
   render(): VNode {
     const dir = getElementDir(this.el);
+
     return (
-      <Host aria-modal="true" role="dialog">
-        <calcite-scrim class="scrim" theme="dark" />
+      <Host
+        aria-describedby={this.contentId}
+        aria-labelledby={this.titleId}
+        aria-modal="true"
+        role="dialog"
+      >
+        <calcite-scrim class="scrim" />
         {this.renderStyle()}
         <div
           class={{ modal: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
@@ -178,7 +187,7 @@ export class CalciteModal {
         ref={(el) => (this.closeButtonEl = el)}
         title={this.intlClose}
       >
-        <calcite-icon icon="x" scale="l" />
+        <calcite-icon icon="x" scale={this.scale === "s" ? "s" : "l"} />
       </button>
     ) : null;
   }
@@ -217,13 +226,17 @@ export class CalciteModal {
   //--------------------------------------------------------------------------
   @State() hasFooter = true;
 
-  previousActiveElement: HTMLElement;
-
   closeButtonEl: HTMLButtonElement;
+
+  contentId: string;
 
   modalContent: HTMLDivElement;
 
   private observer: MutationObserver = null;
+
+  previousActiveElement: HTMLElement;
+
+  titleId: string;
 
   //--------------------------------------------------------------------------
   //
@@ -332,6 +345,13 @@ export class CalciteModal {
     this.previousActiveElement = document.activeElement as HTMLElement;
     this.el.addEventListener("calciteModalOpenEnd", this.openEnd);
     this.active = true;
+
+    const titleEl = getSlotted(this.el, "header");
+    const contentEl = getSlotted(this.el, "content");
+
+    this.titleId = ensureId(titleEl);
+    this.contentId = ensureId(contentEl);
+
     this.calciteModalOpen.emit();
     document.documentElement.classList.add("overflow-hidden");
   }

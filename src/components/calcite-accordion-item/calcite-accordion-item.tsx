@@ -82,7 +82,6 @@ export class CalciteAccordionItem {
     this.selectionMode = getElementProp(this.el, "selection-mode", "multi");
     this.iconType = getElementProp(this.el, "icon-type", "chevron");
     this.iconPosition = getElementProp(this.el, "icon-position", this.iconPosition);
-    this.scale = getElementProp(this.el, "scale", "m");
   }
 
   componentDidLoad(): void {
@@ -95,9 +94,8 @@ export class CalciteAccordionItem {
 
   render(): VNode {
     const dir = getElementDir(this.el);
-    const iconScale = this.scale !== "l" ? "s" : "m";
 
-    const iconEl = <calcite-icon class="accordion-item-icon" icon={this.icon} scale={iconScale} />;
+    const iconEl = <calcite-icon class="accordion-item-icon" icon={this.icon} scale="s" />;
 
     return (
       <Host aria-expanded={this.active.toString()} tabindex="0">
@@ -198,9 +196,6 @@ export class CalciteAccordionItem {
 
   /** what icon type does the parent accordion specify */
   private iconType: string;
-
-  /** the scale of the parent accordion */
-  private scale: string;
 
   /** handle clicks on item header */
   private itemHeaderClickHandler = (): void => this.emitRequestedItem();

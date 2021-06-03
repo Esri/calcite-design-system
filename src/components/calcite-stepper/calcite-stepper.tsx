@@ -12,7 +12,7 @@ import {
 } from "@stencil/core";
 import { IESTYLES } from "./calcite-stepper.resources";
 import { getKey } from "../../utils/key";
-import { Layout, Scale, Theme } from "../interfaces";
+import { Layout, Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-stepper",
@@ -45,9 +45,6 @@ export class CalciteStepper {
 
   /** specify the scale of stepper, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
-
-  /** specify the theme of stepper, defaults to light */
-  @Prop({ reflect: true }) theme: Theme;
 
   /** @internal */
   @Prop({ mutable: true }) requestedContent: HTMLElement[] | NodeListOf<any>;

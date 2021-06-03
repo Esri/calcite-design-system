@@ -63,7 +63,6 @@ Renders a tip manager using a group of tips as well as a single tip.
 | `intlNext`            | `intl-next`             | Alternate text for navigating to the next tip.                    | `string`                     | `undefined` |
 | `intlPaginationLabel` | `intl-pagination-label` | Label that appears on hover of pagination icon.                   | `string`                     | `undefined` |
 | `intlPrevious`        | `intl-previous`         | Alternate text for navigating to the previous tip.                | `string`                     | `undefined` |
-| `theme`               | `theme`                 | Used to set the component's color scheme.                         | `"dark" \| "light"`          | `undefined` |
 
 ## Events
 
