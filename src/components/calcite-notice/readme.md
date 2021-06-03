@@ -22,7 +22,6 @@ You can programmatically focus the close button of a `dismissible` `calcite-noti
 | `icon`        | `icon`        | when used as a boolean set to true, show a default recommended icon. You can also pass a calcite-ui-icon name to this prop to display a requested icon | `boolean \| string`                      | `undefined`  |
 | `intlClose`   | `intl-close`  | String for the close button.                                                                                                                           | `string`                                 | `TEXT.close` |
 | `scale`       | `scale`       | specify the scale of the notice, defaults to m                                                                                                         | `"l" \| "m" \| "s"`                      | `"m"`        |
-| `theme`       | `theme`       | Select theme (light or dark)                                                                                                                           | `"dark" \| "light"`                      | `undefined`  |
 | `width`       | `width`       | specify the width of the notice, defaults to auto                                                                                                      | `"auto" \| "full" \| "half"`             | `"auto"`     |
 
 ## Events

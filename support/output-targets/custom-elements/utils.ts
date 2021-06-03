@@ -1,4 +1,4 @@
-import { setAssetPath } from "@stencil/core";
+import { setAssetPath } from "./index";
 
 export function commitAssetPath(path: string): void {
   setAssetPath(path);

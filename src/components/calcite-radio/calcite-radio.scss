@@ -28,7 +28,7 @@
   --calcite-radio-size: theme("fontSize.-1");
 }
 :host([scale="l"]) {
-  --calcite-radio-size: theme("fontSize.1");
+  --calcite-radio-size: theme("fontSize.0");
 }
 
 .radio {

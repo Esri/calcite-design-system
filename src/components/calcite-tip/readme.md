@@ -30,7 +30,6 @@ Renders a non-dismissible tip with a heading, thumbnail, info and a link.
 | `intlClose`      | `intl-close`      | Alternate text for closing the tip.                                               | `string`                     | `undefined` |
 | `nonDismissible` | `non-dismissible` | Indicates whether the tip can be dismissed.                                       | `boolean`                    | `false`     |
 | `selected`       | `selected`        | The selected state of the tip if it is being used inside a `calcite-tip-manager`. | `boolean`                    | `undefined` |
-| `theme`          | `theme`           | Used to set the component's color scheme.                                         | `"dark" \| "light"`          | `undefined` |
 
 ## Events
 

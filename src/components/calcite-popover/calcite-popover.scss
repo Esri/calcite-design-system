@@ -21,6 +21,32 @@
   outline: 1px solid var(--calcite-ui-border-3);
 }
 
+.header {
+  @apply border-0
+    border-b-px
+    border-b-color-3
+    border-solid
+    flex
+    flex-auto
+    items-stretch
+    bg-foreground-1
+    justify-start;
+}
+
+.heading {
+  @apply block
+  flex-auto
+  font-medium
+  m-0
+  px-4
+  py-3
+  self-center
+  text-color-1
+  text-0-wrap
+  whitespace-normal
+  word-break;
+}
+
 .container {
   @apply bg-foreground-1 
     relative 
@@ -31,44 +57,17 @@
     h-full
     text-color-1
     rounded;
+  &.has-header {
+    @apply flex-col;
+  }
 }
 
 .content {
   @apply flex
   flex-col
   flex-no-wrap
+  self-center
   h-full;
-}
-
-// focus styles
-.close-button {
-  @apply focus-base;
-  &:focus {
-    @apply focus-inset
-      border-2
-      border-solid
-      border-color-brand;
-    border-radius: 0 0.25rem 0.25rem 0;
-  }
-}
-
-.close-button {
-  @apply flex
-    items-center
-    p-3
-    text-color-1 
-    cursor-pointer
-    bg-foreground-1
-    border-2
-    border-solid
-    border-color-transparent;
-  z-index: 1;
-  &:hover {
-    @apply bg-foreground-2;
-  }
-  &:active {
-    @apply bg-foreground-3;
-  }
 }
 
 .calcite--rtl {

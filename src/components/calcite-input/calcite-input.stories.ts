@@ -224,3 +224,45 @@ SimpleDarkMode.story = {
   name: "Simple - Dark mode",
   parameters: { backgrounds: darkBackground }
 };
+
+export const WithLabelAndInputMessageRTL = (): string => html`
+  <div style="width:300px;max-width:100%;text-align:center;" dir="rtl">
+    <calcite-label
+      status="${select("status", ["idle", "valid", "invalid"], "idle", "Label")}"
+      alignment="${select("alignment", ["start", "center", "end"], "start", "Label")}"
+      scale="${select("scale", ["s", "m", "l"], "m", "Label")}"
+      layout="${select("layout", ["default", "inline", "inline-space-between"], "default", "Label")}"
+    >
+      ${text("label text", "My great label", "Label")}
+      <calcite-input
+        type="${select(
+          "type",
+          ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],
+          "text",
+          "Input"
+        )}"
+        status="${select("status", ["idle", "invalid", "valid"], "idle", "Input")}"
+        alignment="${select("alignment", ["start", "end"], "start", "Input")}"
+        number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal", "Input")}"
+        min="${number("min", 0)}"
+        max="${number("max", 100)}"
+        step="${number("step", 1)}"
+        prefix-text="${text("prefix-text", "", "Input")}"
+        suffix-text="${text("suffix-text", "", "Input")}"
+        ${boolean("loading", false)}
+        ${boolean("autofocus", false)}
+        ${boolean("required", false)}
+        value="${text("value", "", "Input")}"
+        placeholder="${text("placeholder", "Placeholder text", "Input")}"
+      >
+      </calcite-input>
+      <calcite-input-message
+        ${boolean("active", true)}
+        ${boolean("icon", false)}
+        icon="${select("icon", iconNames, "", "Input Message")}"
+        type="${select("type", ["default", "floating"], "default", "Input Message")}"
+        >${text("input message text", "My great input message", "Input Message")}</calcite-input-message
+      >
+    </calcite-label>
+  </div>
+`;

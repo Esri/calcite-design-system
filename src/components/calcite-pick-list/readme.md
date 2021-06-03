@@ -77,7 +77,6 @@ Renders groups of pick list items that are visually separated.
 | `headingLevel`      | `heading-level`      | Number at which section headings should start for this component.                                                                                                                                                                                 | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
 | `loading`           | `loading`            | When true, content is waiting to be loaded. This state shows a busy indicator.                                                                                                                                                                    | `boolean`                    | `false`     |
 | `multiple`          | `multiple`           | Multiple works similar to standard radio buttons and checkboxes. When true, a user can select multiple items at a time. When false, only a single item can be selected at a time and selecting a new item will deselect any other selected items. | `boolean`                    | `false`     |
-| `theme`             | `theme`              | Select theme (light or dark)                                                                                                                                                                                                                      | `"dark" \| "light"`          | `undefined` |
 
 ## Events
 
@@ -91,7 +90,7 @@ Renders groups of pick list items that are visually separated.
 
 #### Returns
 
-Type: `Promise<Map<string, HTMLCalcitePickListItemElement>>`
+Type: `Promise<Map<string, any>>`
 
 ### `setFocus(focusId?: ListFocusId) => Promise<void>`
 

@@ -105,3 +105,19 @@ export const FullWidth = (): string => html`
 FullWidth.story = {
   name: "Full width"
 };
+
+export const RTL = (): string => html`
+  <calcite-radio-group
+    dir="rtl"
+    layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
+    appearance="${select("appearance", ["solid", "outline"], "solid")}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+    width="${select("width", ["auto", "full"], "auto")}"
+    ${boolean("disabled", false)}
+  >
+    <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
+    <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
+    <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+    <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
+  </calcite-radio-group>
+`;

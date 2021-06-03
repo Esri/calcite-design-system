@@ -10,6 +10,15 @@
 <calcite-input value="Entered value" placeholder="My placeholder"></calcite-input>
 ```
 
+### Clearable
+
+```html
+<calcite-label>
+  Clearable item
+  <calcite-input clearable value="My great name" placeholder="John Doe"></calcite-input>
+</calcite-label>
+```
+
 ### Native-events
 
 You can also listen for native events emitted from `<calcite-input>`.
@@ -31,25 +40,25 @@ function logChange() {
 
 ### With-label
 
-Using a wrapping `calcite-input` component lets consumers set the status attribute once and have it propagate to any child elements
+Using a wrapping `calcite-label` component lets consumers set the status attribute once and have it propagate to child `calcite-input` and `calcite-input-message` elements
 
 ```html
-<calcite-label>
-  My great label
-  <calcite-input status="“invalid”" placeholder="“Enter" your information”></calcite-input>
-  <calcite-input-message status="“invalid”" active
-    >Here’s something you should know about this input</calcite-input-message
-  >
+<calcite-label status="invalid">
+  Invalid input
+  <calcite-input placeholder="Filter your files" value="adfo2h2"></calcite-input>
+  <calcite-input-message active icon> Something doesn't look right </calcite-input-message>
 </calcite-label>
 ```
 
 ### With-message
 
 ```html
-<calcite-label status="valid">
+<calcite-label>
   My great label
-  <calcite-input placeholder="“Enter" your information”></calcite-input>
-  <calcite-input-message active>Here’s something you should know about this input</calcite-input-message>
+  <calcite-input placeholder="Enter your information"></calcite-input>
+  <calcite-input-message icon="3d-glasses" active>
+    Here's something you should know about this input
+  </calcite-input-message>
 </calcite-label>
 ```
 
@@ -61,6 +70,7 @@ Using a wrapping `calcite-input` component lets consumers set the status attribu
 | `autofocus`        | `autofocus`          | should the input autofocus                                                                                                                                                                                                                   | `boolean`                                                                                                                                                                              | `false`                                   |
 | `clearable`        | `clearable`          | optionally display a clear button that displays when field has a value shows by default for search, time, date will not display for type="textarea"                                                                                          | `boolean`                                                                                                                                                                              | `undefined`                               |
 | `disabled`         | `disabled`           | is the input disabled                                                                                                                                                                                                                        | `boolean`                                                                                                                                                                              | `undefined`                               |
+| `groupSeparator`   | `group-separator`    | for number values, displays the locale's group separator                                                                                                                                                                                     | `boolean`                                                                                                                                                                              | `false`                                   |
 | `icon`             | `icon`               | when used as a boolean set to true, show a default recommended icon for certain input types (tel, password, email, date, time, search). You can also pass a calcite-ui-icon name to this prop to display a requested icon for any input type | `boolean \| string`                                                                                                                                                                    | `undefined`                               |
 | `iconFlipRtl`      | `icon-flip-rtl`      | flip the icon in rtl                                                                                                                                                                                                                         | `boolean`                                                                                                                                                                              | `undefined`                               |
 | `loading`          | `loading`            | specify if the input is in loading state                                                                                                                                                                                                     | `boolean`                                                                                                                                                                              | `false`                                   |
@@ -79,15 +89,14 @@ Using a wrapping `calcite-input` component lets consumers set the status attribu
 | `status`           | `status`             | specify the status of the input field, determines message and icons                                                                                                                                                                          | `"idle" \| "invalid" \| "valid"`                                                                                                                                                       | `"idle"`                                  |
 | `step`             | `step`               | input step                                                                                                                                                                                                                                   | `"any" \| number`                                                                                                                                                                      | `undefined`                               |
 | `suffixText`       | `suffix-text`        | optionally add suffix \*                                                                                                                                                                                                                     | `string`                                                                                                                                                                               | `undefined`                               |
-| `theme`            | `theme`              | specify the theme (light or dark)                                                                                                                                                                                                            | `"dark" \| "light"`                                                                                                                                                                    | `undefined`                               |
 | `type`             | `type`               | specify the input type Note that the following types add type-specific icons by default: `date`, `email`, `password`, `search`, `tel`, `time`                                                                                                | `"color" \| "date" \| "datetime-local" \| "email" \| "file" \| "image" \| "month" \| "number" \| "password" \| "search" \| "tel" \| "text" \| "textarea" \| "time" \| "url" \| "week"` | `"text"`                                  |
 | `value`            | `value`              | input value                                                                                                                                                                                                                                  | `string`                                                                                                                                                                               | `""`                                      |
 
 ## Events
 
-| Event               | Description                                           | Type               |
-| ------------------- | ----------------------------------------------------- | ------------------ |
-| `calciteInputInput` | This event fires when the value of the input changes. | `CustomEvent<any>` |
+| Event               | Description                                         | Type               |
+| ------------------- | --------------------------------------------------- | ------------------ |
+| `calciteInputInput` | This event fires as the value of the input changes. | `CustomEvent<any>` |
 
 ## Methods
 

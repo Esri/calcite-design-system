@@ -4,14 +4,15 @@
 
 ## Properties
 
-| Property             | Attribute   | Description                                                                         | Type                                        | Default     |
-| -------------------- | ----------- | ----------------------------------------------------------------------------------- | ------------------------------------------- | ----------- |
-| `expanded`           | `expanded`  | Indicates whether widget is expanded.                                               | `boolean`                                   | `false`     |
-| `flipPlacements`     | --          | Defines the available placements that can be used when a flip occurs.               | `Placement[]`                               | `undefined` |
-| `label` _(required)_ | `label`     | Text string for the actions menu.                                                   | `string`                                    | `undefined` |
-| `open`               | `open`      | Opens the action menu.                                                              | `boolean`                                   | `false`     |
-| `placement`          | `placement` | Determines where the component will be positioned relative to the referenceElement. | `Placement \| PlacementRtl \| VariationRtl` | `"auto"`    |
-| `scale`              | `scale`     | Specifies the size of the action.                                                   | `"l" \| "m" \| "s"`                         | `"m"`       |
+| Property             | Attribute             | Description                                                                                                                        | Type                                        | Default      |
+| -------------------- | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- | ------------ |
+| `expanded`           | `expanded`            | Indicates whether widget is expanded.                                                                                              | `boolean`                                   | `false`      |
+| `flipPlacements`     | --                    | Defines the available placements that can be used when a flip occurs.                                                              | `Placement[]`                               | `undefined`  |
+| `label` _(required)_ | `label`               | Text string for the actions menu.                                                                                                  | `string`                                    | `undefined`  |
+| `open`               | `open`                | Opens the action menu.                                                                                                             | `boolean`                                   | `false`      |
+| `overlayPositioning` | `overlay-positioning` | Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. | `"absolute" \| "fixed"`                     | `"absolute"` |
+| `placement`          | `placement`           | Determines where the component will be positioned relative to the referenceElement.                                                | `Placement \| PlacementRtl \| VariationRtl` | `"auto"`     |
+| `scale`              | `scale`               | Specifies the size of the action.                                                                                                  | `"l" \| "m" \| "s"`                         | `"m"`        |
 
 ## Events
 
@@ -56,6 +57,7 @@ graph TD;
   calcite-action-menu --> calcite-popover
   calcite-action --> calcite-loader
   calcite-action --> calcite-icon
+  calcite-popover --> calcite-action
   calcite-popover --> calcite-icon
   calcite-action-group --> calcite-action-menu
   calcite-panel --> calcite-action-menu

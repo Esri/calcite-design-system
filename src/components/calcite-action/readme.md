@@ -49,7 +49,6 @@ Renders a `calcite-action` that has a clear background.
 | `scale`             | `scale`        | Specifies the size of the action.                                                                                                   | `"l" \| "m" \| "s"`               | `"m"`          |
 | `text` _(required)_ | `text`         | Text that accompanies the action icon.                                                                                              | `string`                          | `undefined`    |
 | `textEnabled`       | `text-enabled` | Indicates whether the text is displayed.                                                                                            | `boolean`                         | `false`        |
-| `theme`             | `theme`        | Used to set the component's color scheme.                                                                                           | `"dark" \| "light"`               | `undefined`    |
 
 ## Events
 
@@ -80,6 +79,7 @@ Type: `Promise<void>`
 - [calcite-action-pad](../calcite-action-pad)
 - [calcite-panel](../calcite-panel)
 - [calcite-pick-list-item](../calcite-pick-list-item)
+- [calcite-popover](../calcite-popover)
 - [calcite-tip](../calcite-tip)
 - [calcite-tip-manager](../calcite-tip-manager)
 
@@ -99,6 +99,7 @@ graph TD;
   calcite-action-pad --> calcite-action
   calcite-panel --> calcite-action
   calcite-pick-list-item --> calcite-action
+  calcite-popover --> calcite-action
   calcite-tip --> calcite-action
   calcite-tip-manager --> calcite-action
   style calcite-action fill:#f9f,stroke:#333,stroke-width:4px

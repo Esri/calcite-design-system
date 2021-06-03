@@ -73,16 +73,15 @@ Renders a value list with label editing and single select.
 
 ## Properties
 
-| Property            | Attribute            | Description                                                                                                                                                                                                                                       | Type                | Default     |
-| ------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ----------- |
-| `disabled`          | `disabled`           | When true, disabled prevents interaction. This state shows items with lower opacity/grayed.                                                                                                                                                       | `boolean`           | `false`     |
-| `dragEnabled`       | `drag-enabled`       | When true, the items will be sortable via drag and drop.                                                                                                                                                                                          | `boolean`           | `false`     |
-| `filterEnabled`     | `filter-enabled`     | When true, an input appears at the top of the list that can be used by end users to filter items in the list.                                                                                                                                     | `boolean`           | `false`     |
-| `filterPlaceholder` | `filter-placeholder` | Placeholder text for the filter input field.                                                                                                                                                                                                      | `string`            | `undefined` |
-| `group`             | `group`              | If this is set and drag is enabled, items can be dropped between lists of the same group.                                                                                                                                                         | `string`            | `undefined` |
-| `loading`           | `loading`            | When true, content is waiting to be loaded. This state shows a busy indicator.                                                                                                                                                                    | `boolean`           | `false`     |
-| `multiple`          | `multiple`           | Multiple Works similar to standard radio buttons and checkboxes. When true, a user can select multiple items at a time. When false, only a single item can be selected at a time and selecting a new item will deselect any other selected items. | `boolean`           | `false`     |
-| `theme`             | `theme`              | Select theme (light or dark)                                                                                                                                                                                                                      | `"dark" \| "light"` | `undefined` |
+| Property            | Attribute            | Description                                                                                                                                                                                                                                       | Type      | Default     |
+| ------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | ----------- |
+| `disabled`          | `disabled`           | When true, disabled prevents interaction. This state shows items with lower opacity/grayed.                                                                                                                                                       | `boolean` | `false`     |
+| `dragEnabled`       | `drag-enabled`       | When true, the items will be sortable via drag and drop.                                                                                                                                                                                          | `boolean` | `false`     |
+| `filterEnabled`     | `filter-enabled`     | When true, an input appears at the top of the list that can be used by end users to filter items in the list.                                                                                                                                     | `boolean` | `false`     |
+| `filterPlaceholder` | `filter-placeholder` | Placeholder text for the filter input field.                                                                                                                                                                                                      | `string`  | `undefined` |
+| `group`             | `group`              | If this is set and drag is enabled, items can be dropped between lists of the same group.                                                                                                                                                         | `string`  | `undefined` |
+| `loading`           | `loading`            | When true, content is waiting to be loaded. This state shows a busy indicator.                                                                                                                                                                    | `boolean` | `false`     |
+| `multiple`          | `multiple`           | Multiple Works similar to standard radio buttons and checkboxes. When true, a user can select multiple items at a time. When false, only a single item can be selected at a time and selecting a new item will deselect any other selected items. | `boolean` | `false`     |
 
 ## Events
 
@@ -97,7 +96,7 @@ Renders a value list with label editing and single select.
 
 #### Returns
 
-Type: `Promise<Map<string, HTMLCalciteValueListItemElement>>`
+Type: `Promise<Map<string, any>>`
 
 ### `setFocus(focusId?: ListFocusId) => Promise<void>`
 

@@ -147,6 +147,9 @@ export class CalciteCombobox {
         this.activeChipIndex = -1;
         this.activeItemIndex = -1;
         this.active = false;
+        if (this.allowCustomValues && this.text) {
+          this.addCustomChip(this.text);
+        }
         break;
       case "ArrowLeft":
         this.previousChip();
@@ -181,7 +184,7 @@ export class CalciteCombobox {
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();
         } else if (this.allowCustomValues && this.text) {
-          this.addCustomChip(this.text);
+          this.addCustomChip(this.text, true);
         }
         break;
       case "Delete":
@@ -625,7 +628,7 @@ export class CalciteCombobox {
     return Array.from(this.el.querySelectorAll(ComboboxItemGroup));
   }
 
-  addCustomChip(value: string): void {
+  addCustomChip(value: string, focus?: boolean): void {
     const existingItem = this.items.find((el) => el.textLabel === value);
     if (existingItem) {
       this.toggleSelection(existingItem, true);
@@ -637,7 +640,9 @@ export class CalciteCombobox {
       item.selected = true;
       this.el.appendChild(item);
       this.resetText();
-      this.setFocus();
+      if (focus) {
+        this.setFocus();
+      }
       this.updateItems();
       this.filterItems("");
     }

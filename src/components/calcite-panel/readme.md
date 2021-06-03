@@ -82,7 +82,6 @@ Renders a panel that is dismissible with a click of the "x".
 | `menuOpen`       | `menu-open`        | Opens the action menu.                                                                                    | `boolean`                    | `false`     |
 | `showBackButton` | `show-back-button` | Shows a back button in the header.                                                                        | `boolean`                    | `false`     |
 | `summary`        | `summary`          | Summary text. A description displayed underneath the heading.                                             | `string`                     | `undefined` |
-| `theme`          | `theme`            | Used to set the component's color scheme.                                                                 | `"dark" \| "light"`          | `undefined` |
 | `widthScale`     | `width-scale`      | This sets width of the panel.                                                                             | `"l" \| "m" \| "s"`          | `undefined` |
 
 ## Events
@@ -133,6 +132,7 @@ graph TD;
   calcite-action-menu --> calcite-action
   calcite-action-menu --> calcite-tooltip-manager
   calcite-action-menu --> calcite-popover
+  calcite-popover --> calcite-action
   calcite-popover --> calcite-icon
   calcite-scrim --> calcite-loader
   style calcite-panel fill:#f9f,stroke:#333,stroke-width:4px

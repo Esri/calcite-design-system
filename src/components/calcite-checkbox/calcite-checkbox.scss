@@ -1,11 +1,11 @@
 :host([scale="s"]) {
-  --calcite-checkbox-size: theme("fontSize.-2");
+  --calcite-checkbox-size: theme("spacing.3");
 }
 :host([scale="m"]) {
   --calcite-checkbox-size: theme("fontSize.-1");
 }
 :host([scale="l"]) {
-  --calcite-checkbox-size: theme("fontSize.1");
+  --calcite-checkbox-size: theme("spacing.4");
 }
 :host {
   @apply inline-flex

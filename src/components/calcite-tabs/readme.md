@@ -22,11 +22,10 @@
 
 ## Properties
 
-| Property   | Attribute  | Description                                                                      | Type                   | Default     |
-| ---------- | ---------- | -------------------------------------------------------------------------------- | ---------------------- | ----------- |
-| `layout`   | `layout`   | Align tab titles to the edge or fully justify them across the tab nav ("center") | `"center" \| "inline"` | `"inline"`  |
-| `position` | `position` | Display the tabs above (default) or below the tab content                        | `"above" \| "below"`   | `"above"`   |
-| `theme`    | `theme`    | Select theme (light or dark)                                                     | `"dark" \| "light"`    | `undefined` |
+| Property   | Attribute  | Description                                                                      | Type                   | Default    |
+| ---------- | ---------- | -------------------------------------------------------------------------------- | ---------------------- | ---------- |
+| `layout`   | `layout`   | Align tab titles to the edge or fully justify them across the tab nav ("center") | `"center" \| "inline"` | `"inline"` |
+| `position` | `position` | Display the tabs above (default) or below the tab content                        | `"above" \| "below"`   | `"above"`  |
 
 ## Dependencies
 

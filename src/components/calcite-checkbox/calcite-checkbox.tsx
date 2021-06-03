@@ -88,9 +88,9 @@ export class CalciteCheckbox {
   //
   //--------------------------------------------------------------------------
 
-  private readonly checkedPath = "M12.753 3l-7.319 7.497L3.252 8.31 2 9.373l3.434 3.434L14 4.24z";
+  private readonly checkedPath = "M5.5 12L2 8.689l.637-.636L5.5 10.727l8.022-7.87.637.637z";
 
-  private readonly indeterminatePath = "M4 7h8v2H4z";
+  private readonly indeterminatePath = "M13 8v1H3V8z";
 
   private initialChecked: boolean;
 

@@ -26,7 +26,6 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
 | `icon`      | `icon`       | The name of the icon to display. The value of this property must match the icon name from https://esri.github.io/calcite-ui-icons/. | `string`            | `null`      |
 | `scale`     | `scale`      | Icon scale.                                                                                                                         | `"l" \| "m" \| "s"` | `"m"`       |
 | `textLabel` | `text-label` | The icon label. It is recommended to set this value if your icon is semantic.                                                       | `string`            | `undefined` |
-| `theme`     | `theme`      | Icon theme. Can be "light" or "dark".                                                                                               | `"dark" \| "light"` | `undefined` |
 
 ## Dependencies
 
@@ -36,6 +35,7 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
 - [calcite-action](../calcite-action)
 - [calcite-alert](../calcite-alert)
 - [calcite-avatar](../calcite-avatar)
+- [calcite-block](../calcite-block)
 - [calcite-block-section](../calcite-block-section)
 - [calcite-button](../calcite-button)
 - [calcite-chip](../calcite-chip)
@@ -71,6 +71,7 @@ graph TD;
   calcite-action --> calcite-icon
   calcite-alert --> calcite-icon
   calcite-avatar --> calcite-icon
+  calcite-block --> calcite-icon
   calcite-block-section --> calcite-icon
   calcite-button --> calcite-icon
   calcite-chip --> calcite-icon

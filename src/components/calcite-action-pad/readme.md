@@ -60,7 +60,6 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 | `intlExpand`     | `intl-expand`     | Updates the label of the expand icon when the component is not expanded. | `string`                               | `undefined`  |
 | `layout`         | `layout`          | Indicates the horizontal or vertical layout of the component.            | `"grid" \| "horizontal" \| "vertical"` | `"vertical"` |
 | `position`       | `position`        | Arranges the component depending on the elements 'dir' property.         | `"end" \| "start"`                     | `undefined`  |
-| `theme`          | `theme`           | Used to set the component's color scheme.                                | `"dark" \| "light"`                    | `undefined`  |
 
 ## Events
 
@@ -104,6 +103,7 @@ graph TD;
   calcite-action-menu --> calcite-popover
   calcite-action --> calcite-loader
   calcite-action --> calcite-icon
+  calcite-popover --> calcite-action
   calcite-popover --> calcite-icon
   style calcite-action-pad fill:#f9f,stroke:#333,stroke-width:4px
 ```
