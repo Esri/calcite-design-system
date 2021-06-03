@@ -4,35 +4,22 @@
 /* CSS vars (@include in global) */
 @import "type";
 
-:root {
-  @extend %type-vars;
+@mixin calcite-theme-light-extended {
   @include calcite-theme-light();
-
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
   --calcite-theme-name: "light";
   --calcite-ui-foreground-current: #c7eaff;
   --calcite-ui-inverse: #{$blk-180};
   --calcite-ui-inverse-hover: #{$blk-170};
   --calcite-ui-inverse-press: #{$blk-190};
-  --calcite-border-radius: 3px;
-  --calcite-ui-opacity-disabled: 0.5;
-
-  --calcite-panel-width-multiplier: 1;
   --calcite-alert-dismiss-progress-background: #{rgba($blk-000, 0.8)};
   --calcite-button-transparent-hover: #{rgba($blk-240, 0.05)};
   --calcite-button-transparent-press: #{rgba($blk-240, 0.08)};
   --calcite-input-message-floating-background: #{rgba($blk-000, 0.96)};
   --calcite-link-blue-underline: #{rgba($h-bb-070, 0.4)};
   --calcite-scrim-background: #{rgba($blk-000, 0.75)};
-
-  @apply font-sans;
 }
 
-.calcite-theme--dark,
-[theme="dark"] {
+@mixin calcite-theme-dark-extended {
   @include calcite-theme-dark();
   --calcite-theme-name: "dark";
   --calcite-ui-foreground-current: #214155;
@@ -47,20 +34,39 @@
   --calcite-scrim-background: #{rgba($blk-240, 0.75)};
 }
 
-.calcite-theme--light,
+:root {
+  @extend %type-vars;
+  @include calcite-theme-light-extended();
+
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --calcite-border-radius: 3px;
+  --calcite-ui-opacity-disabled: 0.5;
+  --calcite-panel-width-multiplier: 1;
+
+  @apply font-sans;
+}
+
+.calcite-theme-dark,
+[theme="dark"] {
+  @include calcite-theme-dark-extended();
+}
+
+.calcite-theme-light,
 [theme="light"] {
-  @include calcite-theme-light();
-  --calcite-theme-name: "light";
-  --calcite-ui-foreground-current: #c7eaff;
-  --calcite-ui-inverse: #{$blk-180};
-  --calcite-ui-inverse-hover: #{$blk-170};
-  --calcite-ui-inverse-press: #{$blk-190};
-  --calcite-alert-dismiss-progress-background: #{rgba($blk-000, 0.8)};
-  --calcite-button-transparent-hover: #{rgba($blk-240, 0.05)};
-  --calcite-button-transparent-press: #{rgba($blk-240, 0.08)};
-  --calcite-input-message-floating-background: #{rgba($blk-000, 0.96)};
-  --calcite-link-blue-underline: #{rgba($h-bb-070, 0.4)};
-  --calcite-scrim-background: #{rgba($blk-000, 0.75)};
+  @include calcite-theme-light-extended();
+}
+
+.calcite-theme-auto {
+  @media (prefers-color-scheme: dark) {
+    @include calcite-theme-dark-extended();
+  }
+
+  @media (prefers-color-scheme: light) {
+    @include calcite-theme-light-extended();
+  }
 }
 
 .overflow-hidden {
