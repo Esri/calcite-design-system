@@ -43,6 +43,7 @@ graph TD;
   calcite-action-menu --> calcite-popover
   calcite-action --> calcite-loader
   calcite-action --> calcite-icon
+  calcite-popover --> calcite-action
   calcite-popover --> calcite-icon
   calcite-action-bar --> calcite-action-group
   calcite-action-pad --> calcite-action-group

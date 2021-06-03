@@ -115,6 +115,7 @@ graph TD;
   calcite-action-menu --> calcite-popover
   calcite-action --> calcite-loader
   calcite-action --> calcite-icon
+  calcite-popover --> calcite-action
   calcite-popover --> calcite-icon
   style calcite-action-bar fill:#f9f,stroke:#333,stroke-width:4px
 ```
