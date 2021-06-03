@@ -299,8 +299,8 @@ const advancedTrailingPanelHTMl = html`
           </calcite-block-section>
         </calcite-block-content>
       </calcite-block>
-      <calcite-button slot="footer-actions" width="half">Save</calcite-button>
       <calcite-button slot="footer-actions" width="half" appearance="clear">Cancel</calcite-button>
+      <calcite-button slot="footer-actions" width="half">Save</calcite-button>
     </calcite-panel>
     <calcite-panel heading="Deeper flow item">
       <calcite-block collapsible open heading="Contextual Content" summary="Select goodness">
@@ -333,8 +333,8 @@ const advancedTrailingPanelHTMl = html`
           </calcite-block-section>
         </calcite-block-content>
       </calcite-block>
-      <calcite-button slot="footer-actions" width="half">Save</calcite-button>
       <calcite-button slot="footer-actions" width="half" appearance="clear">Cancel</calcite-button>
+      <calcite-button slot="footer-actions" width="half">Save</calcite-button>
     </calcite-panel>
   </calcite-flow>
 `;

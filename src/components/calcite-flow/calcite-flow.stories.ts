@@ -112,8 +112,8 @@ const menuActionsHTML = html`
 `;
 
 const footerActionsHTML = html`
-  <calcite-button slot="${SLOTS.footerActions}" width="half">Save</calcite-button>
-  <calcite-button slot="${SLOTS.footerActions}" width="half" appearance="clear">Cancel</button>
+  <calcite-button slot="${SLOTS.footerActions}" width="half" appearance="clear">Cancel</calcite-button>
+  <calcite-button slot="${SLOTS.footerActions}" width="half">Save</button>
 `;
 
 function createItemHTML(content: string): string {
