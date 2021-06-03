@@ -95,7 +95,6 @@
     "@types/rimraf": "3.0.0",
     "@types/semver": "7.3.6",
     "@types/sortablejs": "1.10.6",
-    "@types/webpack": "4.41.26",
     "@types/yargs": "17.0.0",
     "@typescript-eslint/eslint-plugin": "4.26.0",
     "@typescript-eslint/parser": "4.26.0",
