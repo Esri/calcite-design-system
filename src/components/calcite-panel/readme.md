@@ -132,6 +132,7 @@ graph TD;
   calcite-action-menu --> calcite-action
   calcite-action-menu --> calcite-tooltip-manager
   calcite-action-menu --> calcite-popover
+  calcite-popover --> calcite-action
   calcite-popover --> calcite-icon
   calcite-scrim --> calcite-loader
   style calcite-panel fill:#f9f,stroke:#333,stroke-width:4px
