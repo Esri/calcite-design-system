@@ -49,17 +49,17 @@
   @apply font-sans;
 }
 
-.calcite-theme--dark,
+.calcite-theme-dark,
 [theme="dark"] {
   @include calcite-theme-dark-extended();
 }
 
-.calcite-theme--light,
+.calcite-theme-light,
 [theme="light"] {
   @include calcite-theme-light-extended();
 }
 
-.calcite-theme--auto {
+.calcite-theme-auto {
   @media (prefers-color-scheme: dark) {
     @include calcite-theme-dark-extended();
   }
