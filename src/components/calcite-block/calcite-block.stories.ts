@@ -1,5 +1,11 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
-import { Attribute, Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
+import {
+  Attribute,
+  filterComponentAttributes,
+  Attributes,
+  createComponentHTML as create,
+  darkBackground
+} from "../../../.storybook/utils";
 import blockReadme from "./readme.md";
 import sectionReadme from "../calcite-block-section/readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -16,16 +22,13 @@ export default {
   }
 };
 
-const createBlockAttributes: (options?: { except: string[] }) => Attributes = ({ except } = { except: [] }) => {
+const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes = (
+  { exceptions } = { exceptions: [] }
+) => {
   const group = "block";
   const { dir, theme } = ATTRIBUTES;
 
-  interface DeferredAttribute {
-    name: string;
-    commit: () => Attribute;
-  }
-
-  return (
+  return filterComponentAttributes(
     [
       {
         name: "heading",
@@ -107,10 +110,9 @@ const createBlockAttributes: (options?: { except: string[] }) => Attributes = ({
           return this;
         }
       }
-    ] as DeferredAttribute[]
-  )
-    .filter((attr) => !except.find((excluded) => excluded === attr.name))
-    .map((attr) => attr.commit());
+    ],
+    exceptions
+  );
 };
 
 const createSectionAttributes: () => Attributes = () => {
@@ -158,12 +160,29 @@ export const basic = (): string =>
     `
   );
 
+export const RTL = (): string =>
+  create(
+    "calcite-block",
+    createBlockAttributes({ exceptions: ["dir"] }).concat({ name: "dir", value: "rtl" }),
+    html`
+      ${create(
+        "calcite-block-section",
+        createSectionAttributes(),
+        `<img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />`
+      )}
+
+      <calcite-block-section text="Nature" open>
+        <img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />
+      </calcite-block-section>
+    `
+  );
+
 export const withHeaderControl = (): string =>
   create(
     "calcite-block",
-    createBlockAttributes({ except: ["open", "collapsible"] }),
+    createBlockAttributes({ exceptions: ["open", "collapsible"] }),
     `<label slot="control">test <input placeholder="I'm a header control"/></label>`
   );
 
 export const withIconAndHeader = (): string =>
-  create("calcite-block", createBlockAttributes({ except: ["open", "collapsible"] }), `<div slot="icon">✅</div>`);
+  create("calcite-block", createBlockAttributes({ exceptions: ["open", "collapsible"] }), `<div slot="icon">✅</div>`);
