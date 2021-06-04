@@ -1,53 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Calcite Graph</title>
+    <style>
+      h3 {
+        margin-top: 4rem;
+      }
+    </style>
+    <script src="_assets/head.js"></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Calcite Graph</title>
-  <style>
-    h3 {
-      margin-top: 4rem;
-    }
-  </style>
-  <script src="_assets/head.js"></script>
-</head>
+  <body>
+    <calcite-button href="/">Home</calcite-button>
+    <h1>Calcite Graph</h1>
 
-<body>
-  <calcite-button href="/">Home</calcite-button>
-  <h1>Calcite Graph</h1>
+    <h3>Default</h3>
+    <calcite-graph></calcite-graph>
 
-  <h3>Default</h3>
-  <calcite-graph></calcite-graph>
+    <h3>Custom Size</h3>
+    <calcite-graph width="100" height="40"></calcite-graph>
 
-  <h3>Custom Size</h3>
-  <calcite-graph width="100" height="40"></calcite-graph>
+    <h3>Inherit Color</h3>
+    <p style="color: var(--calcite-ui-brand)">
+      <calcite-graph></calcite-graph>
+    </p>
 
-
-  <h3>Inherit Color</h3>
-  <p style="color: var(--calcite-ui-brand)">
-    <calcite-graph ></calcite-graph>
-  </p>
-
-  <script>
-    var data = [
-      [0, 0],
-      [10, 80],
-      [20, 20],
-      [30, 30],
-      [40, 42],
-      [50, 50],
-      [60, 55],
-      [70, 48],
-      [80, 30],
-      [90, 10],
-      [100, 0]
-    ];
-    [].slice.call(document.querySelectorAll("calcite-graph")).forEach(function (graphElement) {
-      graphElement.data = data;
-    });
-  </script>
-</body>
-
+    <script>
+      var data = [
+        [0, 0],
+        [10, 80],
+        [20, 20],
+        [30, 30],
+        [40, 42],
+        [50, 50],
+        [60, 55],
+        [70, 48],
+        [80, 30],
+        [90, 10],
+        [100, 0]
+      ];
+      [].slice.call(document.querySelectorAll("calcite-graph")).forEach(function (graphElement) {
+        graphElement.data = data;
+      });
+    </script>
+  </body>
 </html>

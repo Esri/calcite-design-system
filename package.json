@@ -31,6 +31,7 @@
     "prettier": "concurrently npm:prettier:*",
     "prettier:styles": "prettier --write \"src/**/*.scss\"",
     "prettier:ts": "prettier --write \"src/**/*.ts?(x)\"",
+    "prettier:html": "prettier --write \"src/**/*.html\"",
     "preview-changelog": "ts-node ./support/ensureNonPrereleaseChangelog.ts --standard-version-options=\"--skip.commit --skip.tag\" && cat CHANGELOG.md && git reset --hard --quiet",
     "preview-changelog:latest": "npx touch __CHANGELOG-PREVIEW-TEMP__ && ts-node ./support/ensureNonPrereleaseChangelog.ts --standard-version-options=\"--skip.commit --skip.tag --release-count 1 --infile __CHANGELOG-PREVIEW-TEMP__ --same-file\" && cat __CHANGELOG-PREVIEW-TEMP__ && rimraf __CHANGELOG-PREVIEW-TEMP__ && git reset --hard --quiet",
     "release:docs": "npm run docs && storybook-to-ghpages --existing-output-dir=docs",

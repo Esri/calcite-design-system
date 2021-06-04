@@ -55,12 +55,9 @@
   <body>
     <main>
       <div class="shell-container">
-
         <calcite-shell content-behind>
-
           <calcite-shell-panel id="primary-panel" slot="primary-panel" position="start" detached>
-
-            <calcite-action-bar slot="action-bar" theme="dark">
+            <calcite-action-bar slot="action-bar" class="calcite-theme-dark">
               <calcite-action-group>
                 <calcite-action text="Save" icon="save" indicator> </calcite-action>
                 <calcite-action icon="map" text="New"> </calcite-action>
@@ -81,25 +78,25 @@
                 <calcite-action text="What's next" icon="mega-phone"></calcite-action>
               </calcite-action-group>
             </calcite-action-bar>
-              <calcite-panel heading="Sketch">
-                <div style="padding:var(--calcite-spacing-half);">
-                  <calcite-label scale="s">Draw features</calcite-label>
-                  <calcite-action-group layout="grid" style="margin-bottom: var(--calcite-spacing);">
-                    <calcite-action alignment="center" icon="pin" text="Stamp"></calcite-action>
-                    <calcite-action alignment="center" icon="line" text="Line"></calcite-action>
-                    <calcite-action alignment="center" icon="polygon" text="Polygon"></calcite-action>
-                    <calcite-action alignment="center" icon="rectangle" text="Rectangle"></calcite-action>
-                    <calcite-action alignment="center" icon="circle" text="Circle"></calcite-action>
-                    <calcite-action alignment="center" icon="text" text="Text"></calcite-action>
-                  </calcite-action-group>
-                  <calcite-label scale="s">Select features</calcite-label>
-                  <calcite-action-group layout="grid">
-                    <calcite-action alignment="center" icon="cursor" text="Select"></calcite-action>
-                    <calcite-action alignment="center" icon="cursor-marquee" text="Select by rectangle"></calcite-action>
-                    <calcite-action alignment="center" icon="lasso" text="Select by lasso"></calcite-action>
-                  </calcite-action-group>
-                </div>
-              </calcite-panel>
+            <calcite-panel heading="Sketch">
+              <div style="padding: var(--calcite-spacing-half)">
+                <calcite-label scale="s">Draw features</calcite-label>
+                <calcite-action-group layout="grid" style="margin-bottom: var(--calcite-spacing)">
+                  <calcite-action alignment="center" icon="pin" text="Stamp"></calcite-action>
+                  <calcite-action alignment="center" icon="line" text="Line"></calcite-action>
+                  <calcite-action alignment="center" icon="polygon" text="Polygon"></calcite-action>
+                  <calcite-action alignment="center" icon="rectangle" text="Rectangle"></calcite-action>
+                  <calcite-action alignment="center" icon="circle" text="Circle"></calcite-action>
+                  <calcite-action alignment="center" icon="text" text="Text"></calcite-action>
+                </calcite-action-group>
+                <calcite-label scale="s">Select features</calcite-label>
+                <calcite-action-group layout="grid">
+                  <calcite-action alignment="center" icon="cursor" text="Select"></calcite-action>
+                  <calcite-action alignment="center" icon="cursor-marquee" text="Select by rectangle"></calcite-action>
+                  <calcite-action alignment="center" icon="lasso" text="Select by lasso"></calcite-action>
+                </calcite-action-group>
+              </div>
+            </calcite-panel>
           </calcite-shell-panel>
 
           <calcite-shell-panel slot="contextual-panel" position="end">
@@ -138,10 +135,7 @@
             </calcite-button>
             <!-- <div style="height: 100%;"> -->
             <calcite-flow id="flow">
-              <calcite-panel
-                heading="cool"
-                summary="Popular Demographics in the United States (Beta) - County"
-              >
+              <calcite-panel heading="cool" summary="Popular Demographics in the United States (Beta) - County">
                 I'm this panel's content.
               </calcite-panel>
               <calcite-panel heading="Configure popup" dismissible>
@@ -189,12 +183,7 @@
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <calcite-block-section text="Section is cool">
@@ -216,34 +205,19 @@
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                 </calcite-block>
@@ -251,34 +225,19 @@
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                 </calcite-block>
@@ -287,34 +246,19 @@
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                 </calcite-block>
@@ -323,34 +267,19 @@
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                 </calcite-block>
@@ -359,34 +288,19 @@
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                 </calcite-block>
@@ -396,34 +310,19 @@
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                 </calcite-block>
@@ -433,34 +332,19 @@
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                 </calcite-block>
@@ -469,34 +353,19 @@
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                 </calcite-block>
@@ -504,34 +373,19 @@
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                 </calcite-block>
@@ -545,34 +399,19 @@
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                 </calcite-block>
@@ -581,34 +420,19 @@
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                 </calcite-block>
@@ -617,34 +441,19 @@
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                 </calcite-block>
@@ -653,34 +462,19 @@
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                 </calcite-block>
@@ -691,34 +485,19 @@
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                 </calcite-block>
@@ -728,34 +507,19 @@
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                   <calcite-label scale="s">
                     It's a label.
                     <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action
-                        text="cool action"
-                        icon="brackets-curly"
-                        slot="action"
-                        scale="s"
-                      ></calcite-action>
+                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
                     </calcite-input>
                   </calcite-label>
                 </calcite-block>
@@ -824,11 +588,7 @@
           <footer slot="footer">Footer</footer>
         </calcite-shell>
       </div>
-      <calcite-popover
-        label="right start popover"
-        placement="right"
-        reference-element="popover-trigger"
-      >
+      <calcite-popover label="right start popover" placement="right" reference-element="popover-trigger">
         <calcite-panel heading="Cool cool" height-scale="m">
           <calcite-pick-list filter-enabled filter-sticky>
             <calcite-action slot="menu-actions" text="options">
