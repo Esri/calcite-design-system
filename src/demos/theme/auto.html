@@ -64,12 +64,12 @@
       });
     </script>
   </head>
-  <body>
+  <body class="calcite-theme-auto">
     <main>
       <div class="shell-container">
         <calcite-shell>
           <calcite-shell-panel id="primary-panel" slot="primary-panel" position="start" detached>
-            <calcite-action-bar slot="action-bar" class="calcite-theme-dark">
+            <calcite-action-bar slot="action-bar">
               <calcite-action-group>
                 <calcite-action text="Save" icon="save" indicator> </calcite-action>
                 <calcite-action text-enabled icon="map" text="New" slot="menu-actions"> </calcite-action>
@@ -153,7 +153,6 @@
                   <calcite-block drag-handle heading="Attributes" summary="2/98" collapsible>
                     <calcite-icon icon="feature-details" scale="m" slot="icon"></calcite-icon>
                     <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
-
                     <calcite-value-list drag-enabled>
                       <calcite-value-list-item
                         label="2018 Total Households (Esri)"
@@ -298,7 +297,7 @@
         add-click-handle
         class="popover"
       >
-        <calcite-panel class="calcite-theme-light">
+        <calcite-panel>
           <h3 class="heading" slot="header-content">WE CARE A LOT</h3>
           <calcite-pick-list filter-enabled filter-sticky>
             <calcite-action slot="menu-actions" text="options">

@@ -1,6 +1,5 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { queryElementRoots, queryElementsRoots, getRootNode, getHost, getThemeName, themeNameCSSVariable } from "./dom";
-import { Theme } from "../components/interfaces";
+import { queryElementRoots, queryElementsRoots, getRootNode, getHost } from "./dom";
 
 interface SetUpTestComponentOptions {
   insideHostHTML: string;
@@ -16,8 +15,6 @@ type TestWindow = typeof window & {
   queryElementsRoots: <T extends Element = Element>(element: Element, selector: string) => T[];
   setUpTestComponent: (options: SetUpTestComponentOptions) => void;
 };
-
-type TestThemeWindow = typeof window & { getThemeName: (el: HTMLElement) => Theme };
 
 const myButtonClass = "my-class";
 const insideHost = "Inside Host";

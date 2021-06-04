@@ -91,6 +91,11 @@ export interface SimpleAttribute {
 export type Attribute = KnobbedAttribute | SimpleAttribute;
 export type Attributes = Attribute[];
 
+interface DeferredAttribute {
+  name: string;
+  commit: () => Attribute;
+}
+
 export const createComponentHTML = (
   tagName: string,
   attributes: Attributes,
@@ -112,3 +117,15 @@ export const globalDocsPage: typeof DocsPage = () => (
     <Description />
   </React.Fragment>
 );
+
+export const filterComponentAttributes = (
+  attributesList: DeferredAttribute[],
+  exceptions: string[]
+): Attributes => {
+  if (!exceptions.length) {
+    return attributesList.map((attr) => attr.commit());
+  }
+  return attributesList
+    .filter((attr) => !exceptions.find((except) => except === attr.name))
+    .map((attr) => attr.commit());
+};

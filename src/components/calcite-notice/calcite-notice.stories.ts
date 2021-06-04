@@ -83,7 +83,6 @@ export const Rtl = (): string => html`
       width="${select("width", ["auto", "half", "full"], "auto")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       color="${select("color", ["green", "red", "yellow", "blue"], "blue")}"
-      active
     >
       <div slot="title">Your settings area has changed</div>
       <div slot="message">Look around and let us know what you think</div>
