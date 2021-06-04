@@ -1341,6 +1341,15 @@
           </form>
         </demo-form>
   </demo-spacer>
+
+  <script>
+    document.addEventListener("calciteRadioButtonChange", (event) => {
+      console.log("calciteRadioButtonChange", event.target.name, event.target.value);
+    });
+    document.addEventListener("calciteCheckboxChange", (event) => {
+      console.log("calciteCheckboxChange", event.target.name, event.target.checked);
+    });
+  </script>
 </body>
 
 </html>
