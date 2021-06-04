@@ -59,7 +59,8 @@
 :host {
   span,
   a {
-    @apply inline
+    @apply inline-flex
+      align-text-bottom
       pb-px
       border-none
       text-color-link
