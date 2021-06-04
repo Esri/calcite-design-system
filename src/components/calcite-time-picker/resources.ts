@@ -22,16 +22,16 @@ export const CSS = {
 };
 
 export const TEXT = {
-  intlHour: "Hour",
-  intlHourDown: "Decrease hour",
-  intlHourUp: "Increase hour",
-  intlMeridiem: "AM/PM",
-  intlMeridiemDown: "Decrease AM/PM",
-  intlMeridiemUp: "Increase AM/PM",
-  intlMinute: "Minute",
-  intlMinuteDown: "Decrease minute",
-  intlMinuteUp: "Increase minute",
-  intlSecond: "Second",
-  intlSecondDown: "Decrease second",
-  intlSecondUp: "Increase second",
-}
+  hour: "Hour",
+  hourDown: "Decrease hour",
+  hourUp: "Increase hour",
+  meridiem: "AM/PM",
+  meridiemDown: "Decrease AM/PM",
+  meridiemUp: "Increase AM/PM",
+  minute: "Minute",
+  minuteDown: "Decrease minute",
+  minuteUp: "Increase minute",
+  second: "Second",
+  secondDown: "Decrease second",
+  secondUp: "Increase second"
+};

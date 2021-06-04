@@ -55,40 +55,40 @@ export class CalciteTimePicker {
   @Prop({ reflect: true }) hourDisplayFormat: HourDisplayFormat = "12";
 
   /** aria-label for the hour input */
-  @Prop() intlHour = TEXT.intlHour;
+  @Prop() intlHour = TEXT.hour;
 
   /** aria-label for the hour down button */
-  @Prop() intlHourDown = TEXT.intlHourDown;
+  @Prop() intlHourDown = TEXT.hourDown;
 
   /** aria-label for the hour up button */
-  @Prop() intlHourUp = TEXT.intlHourUp;
+  @Prop() intlHourUp = TEXT.hourUp;
 
   /** aria-label for the meridiem (am/pm) input */
-  @Prop() intlMeridiem = TEXT.intlMeridiem;
+  @Prop() intlMeridiem = TEXT.meridiem;
 
   /** aria-label for the meridiem (am/pm) down button */
-  @Prop() intlMeridiemDown = TEXT.intlMeridiemDown;
+  @Prop() intlMeridiemDown = TEXT.meridiemDown;
 
   /** aria-label for the meridiem (am/pm) up button */
-  @Prop() intlMeridiemUp = TEXT.intlMeridiemUp;
+  @Prop() intlMeridiemUp = TEXT.meridiemUp;
 
   /** aria-label for the minute input */
-  @Prop() intlMinute = TEXT.intlMinute;
+  @Prop() intlMinute = TEXT.minute;
 
   /** aria-label for the minute down button */
-  @Prop() intlMinuteDown = TEXT.intlMinuteDown;
+  @Prop() intlMinuteDown = TEXT.minuteDown;
 
   /** aria-label for the minute up button */
-  @Prop() intlMinuteUp = TEXT.intlMinuteUp;
+  @Prop() intlMinuteUp = TEXT.minuteUp;
 
   /** aria-label for the second input */
-  @Prop() intlSecond = TEXT.intlSecond;
+  @Prop() intlSecond = TEXT.second;
 
   /** aria-label for the second down button */
-  @Prop() intlSecondDown = TEXT.intlSecondDown;
+  @Prop() intlSecondDown = TEXT.secondDown;
 
   /** aria-label for the second up button */
-  @Prop() intlSecondUp = TEXT.intlSecondUp;
+  @Prop() intlSecondUp = TEXT.secondUp;
 
   /** The minute value */
   @Prop({ mutable: true }) minute?: string = null;

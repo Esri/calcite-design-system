@@ -157,7 +157,7 @@
       const input = inputTimePicker.querySelector("input");
 
       document.addEventListener("calciteInputTimePickerChange", (event) => {
-        console.log("calciteInputTimePickerChange", event.target.name, event.detail);
+        console.log("calciteInputTimePickerChange", event.target.value);
       })
 
       document.getElementById("change-input-time-picker").addEventListener("input", (event) => {
@@ -172,7 +172,7 @@
       });
 
       document.getElementById("prevent-default").addEventListener("calciteInputTimePickerChange", (event) => {
-        if (!event.detail) {
+        if (!event.target.value) {
           event.preventDefault();
         }
       });
