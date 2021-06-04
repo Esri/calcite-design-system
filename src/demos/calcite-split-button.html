@@ -1,408 +1,435 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Calcite Button with Dropdown</title>
+    <style>
+      .demo-background-dark {
+        background: #202020;
+        color: white;
+        padding: 1rem;
+      }
+    </style>
+    <script src="./_assets/head.js"></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Calcite Button with Dropdown</title>
-  <style>
-    .demo-background-dark {
-      background: #202020;
-      color: white;
-      padding: 1rem;
-    }
-  </style>
- <script src="./_assets/head.js"></script>
-</head>
-
-<body>
-  <calcite-button href="/">Home</calcite-button>
-  <h1>Calcite Split Button</h1>
-  <div style="width:1200px;position:relative;">
-    <h3>Example with Custom Dropdown Content</h3>
-    <calcite-split-button primary-icon-start='save' primary-text="Primary Option">
-      <calcite-dropdown-group selection-mode="none">
-        <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-        <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-        <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-      </calcite-dropdown-group>
-    </calcite-split-button>
-
-    <h3>Example with Custom Dropdown Content (RTL)</h3>
-    <div dir="rtl">
-      <calcite-split-button primary-icon-start='save' primary-text="Primary Option">
+  <body>
+    <calcite-button href="/">Home</calcite-button>
+    <h1>Calcite Split Button</h1>
+    <div style="width: 1200px; position: relative">
+      <h3>Example with Custom Dropdown Content</h3>
+      <calcite-split-button primary-icon-start="save" primary-text="Primary Option">
         <calcite-dropdown-group selection-mode="none">
           <calcite-dropdown-item>Option 2</calcite-dropdown-item>
           <calcite-dropdown-item>Option 3</calcite-dropdown-item>
           <calcite-dropdown-item>Option 4</calcite-dropdown-item>
         </calcite-dropdown-group>
       </calcite-split-button>
-      <calcite-split-button primary-icon-end='save' primary-text="Primary Option">
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
-      <calcite-split-button primary-icon-start='save' primary-icon-end='layer' primary-text="Primary Option">
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
+
+      <h3>Example with Custom Dropdown Content (RTL)</h3>
+      <div dir="rtl">
+        <calcite-split-button primary-icon-start="save" primary-text="Primary Option">
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+        <calcite-split-button primary-icon-end="save" primary-text="Primary Option">
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+        <calcite-split-button primary-icon-start="save" primary-icon-end="layer" primary-text="Primary Option">
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+      </div>
+
+      <h3>Color</h3>
+      <div style="display: flex; flex-direction: row; justify-content: space-between">
+        <calcite-split-button primary-text="Primary Option"></calcite-split-button>
+        <calcite-split-button color="red" primary-text="Primary Option"></calcite-split-button>
+        <calcite-split-button color="neutral" primary-text="Primary Option"></calcite-split-button>
+        <calcite-split-button color="inverse" primary-text="Primary Option"></calcite-split-button>
+      </div>
+
+      <h3>Color (Dark Theme)</h3>
+      <div class="demo-background-dark" style="display: flex; flex-direction: row; justify-content: space-between">
+        <calcite-split-button class="calcite-theme-dark" primary-text="Primary Option">
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+        <calcite-split-button color="red" class="calcite-theme-dark" primary-text="Primary Option">
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+        <calcite-split-button color="neutral" class="calcite-theme-dark" primary-text="Primary Option">
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+        <calcite-split-button color="inverse" class="calcite-theme-dark" primary-text="Primary Option">
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+      </div>
+
+      <h3>Appearance</h3>
+      <div
+        style="display: flex; flex-direction: row; justify-content: space-between; padding: 1em; background: #e3e3e3"
+      >
+        <calcite-split-button primary-text="Default/Solid Appearance"> </calcite-split-button>
+        <calcite-split-button appearance="outline" primary-text="Outline Appearance"> </calcite-split-button>
+        <calcite-split-button appearance="clear" primary-text="Clear Appearance"> </calcite-split-button>
+        <calcite-split-button appearance="transparent" primary-text="Transparent Appearance"> </calcite-split-button>
+      </div>
+
+      <h3>Appearance (Red Color)</h3>
+      <div
+        style="display: flex; flex-direction: row; justify-content: space-between; padding: 1em; background: #e3e3e3"
+      >
+        <calcite-split-button color="red" primary-text="Default/Solid Appearance"> </calcite-split-button>
+        <calcite-split-button color="red" appearance="outline" primary-text="Outline Appearance">
+        </calcite-split-button>
+        <calcite-split-button color="red" appearance="clear" primary-text="Clear Appearance"> </calcite-split-button>
+        <calcite-split-button color="red" appearance="transparent" primary-text="Transparent Appearance">
+        </calcite-split-button>
+      </div>
+
+      <h3>Appearance (Neutral Color)</h3>
+      <div style="display: flex; flex-direction: row; justify-content: space-between">
+        <calcite-split-button color="neutral" primary-text="Default/Solid Appearance"> </calcite-split-button>
+        <calcite-split-button color="neutral" appearance="outline" primary-text="Outline Appearance">
+        </calcite-split-button>
+        <calcite-split-button color="neutral" appearance="clear" primary-text="Clear Appearance">
+        </calcite-split-button>
+        <calcite-split-button color="neutral" appearance="transparent" primary-text="Transparent Appearance">
+        </calcite-split-button>
+      </div>
+
+      <h3>Appearance (Inverse Color)</h3>
+      <div
+        style="display: flex; flex-direction: row; justify-content: space-between; padding: 1em; background: #e3e3e3"
+      >
+        <calcite-split-button color="inverse" primary-text="Default/Solid Appearance"> </calcite-split-button>
+        <calcite-split-button color="inverse" appearance="outline" primary-text="Outline Appearance">
+        </calcite-split-button>
+        <calcite-split-button color="inverse" appearance="clear" primary-text="Clear Appearance">
+        </calcite-split-button>
+        <calcite-split-button color="inverse" appearance="transparent" primary-text="Transparent Appearance">
+        </calcite-split-button>
+      </div>
+
+      <h3>Appearance (Dark Theme)</h3>
+      <div
+        class="demo-background-dark"
+        style="display: flex; flex-direction: row; justify-content: space-between; padding: 1em"
+      >
+        <calcite-split-button class="calcite-theme-dark" primary-text="Default/Solid Appearance">
+        </calcite-split-button>
+        <calcite-split-button class="calcite-theme-dark" appearance="outline" primary-text="Outline Appearance">
+        </calcite-split-button>
+        <calcite-split-button class="calcite-theme-dark" appearance="clear" primary-text="Clear Appearance">
+        </calcite-split-button>
+        <calcite-split-button class="calcite-theme-dark" appearance="transparent" primary-text="Transparent Appearance">
+        </calcite-split-button>
+      </div>
+
+      <h3>Appearance (Neutral Color, Dark Theme)</h3>
+      <div class="demo-background-dark" style="display: flex; flex-direction: row; justify-content: space-between">
+        <calcite-split-button class="calcite-theme-dark" color="neutral" primary-text="Default/Solid Appearance">
+        </calcite-split-button>
+        <calcite-split-button
+          class="calcite-theme-dark"
+          color="neutral"
+          appearance="outline"
+          primary-text="Outline Appearance"
+        >
+        </calcite-split-button>
+        <calcite-split-button
+          class="calcite-theme-dark"
+          color="neutral"
+          appearance="clear"
+          primary-text="Clear Appearance"
+        >
+        </calcite-split-button>
+        <calcite-split-button
+          class="calcite-theme-dark"
+          color="neutral"
+          appearance="transparent"
+          primary-text="Transparent Appearance"
+        >
+        </calcite-split-button>
+      </div>
+
+      <h3>Disabled</h3>
+      <calcite-split-button disabled="true" primary-text="Primary Option"></calcite-split-button>
+
+      <h3>Loading</h3>
+      <calcite-split-button loading="true" primary-text="Primary Option"></calcite-split-button>
+
+      <h3>Scale</h3>
+      <div style="display: flex; flex-direction: row; justify-content: space-between">
+        <calcite-split-button scale="s" primary-text="Primary Option">
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+        <calcite-split-button scale="m" primary-text="Primary Option">
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+        <calcite-split-button scale="l" primary-text="Primary Option">
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+        <script>
+          document.addEventListener("calciteSplitButtonPrimaryClick", () => alert("primary action"));
+          document.addEventListener("calciteSplitButtonSecondaryClick", () => alert("secondary action"));
+        </script>
+      </div>
+
+      <h3>Scale (two icons)</h3>
+      <div style="display: flex; flex-direction: row; justify-content: space-between">
+        <calcite-split-button
+          primary-icon-start="plus"
+          primary-icon-end="layer"
+          scale="s"
+          primary-text="Primary Option"
+        >
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+        <calcite-split-button
+          primary-icon-start="plus"
+          primary-icon-end="layer"
+          scale="m"
+          primary-text="Primary Option"
+        >
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+        <calcite-split-button
+          primary-icon-start="plus"
+          primary-icon-end="layer"
+          scale="l"
+          primary-text="Primary Option"
+        >
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+        <script>
+          document.addEventListener("calciteSplitButtonPrimaryClick", () => alert("primary action"));
+        </script>
+      </div>
+
+      <h3>Scale (when `primary-text` is empty)</h3>
+      <div style="display: flex; flex-direction: row; justify-content: space-between">
+        <calcite-split-button scale="s" primary-icon-start="save">
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+        <calcite-split-button scale="m" primary-icon-start="save">
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+        <calcite-split-button scale="l" primary-icon-start="save">
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+      </div>
+
+      <h3>Scale (primary-icon-end)(when `primary-text` is empty)</h3>
+      <div style="display: flex; flex-direction: row; justify-content: space-between">
+        <calcite-split-button scale="s" primary-icon-end="save">
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+        <calcite-split-button scale="m" primary-icon-end="save">
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+        <calcite-split-button scale="l" primary-icon-end="save">
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+      </div>
+
+      <h3>Scale (primary-icon-end and -start)(when `primary-text` is empty)</h3>
+      <div style="display: flex; flex-direction: row; justify-content: space-between">
+        <calcite-split-button scale="s" primary-icon-end="save" primary-icon-start="layer">
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+        <calcite-split-button scale="m" primary-icon-end="save" primary-icon-start="layer">
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+        <calcite-split-button scale="l" primary-icon-end="save" primary-icon-start="layer">
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+      </div>
+      <h3>Scale (when `dropdown-icon-type` is 'chevron' (default))</h3>
+      <div style="display: flex; flex-direction: row; justify-content: space-between">
+        <calcite-split-button scale="s" primary-text="Primary Option">
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+        <calcite-split-button scale="m" primary-text="Primary Option">
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+        <calcite-split-button scale="l" primary-text="Primary Option">
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+      </div>
+      <h3>Scale (when `dropdown-icon-type` is 'caret')</h3>
+      <div style="display: flex; flex-direction: row; justify-content: space-between">
+        <calcite-split-button scale="s" primary-text="Primary Option" dropdown-icon-type="caret">
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+        <calcite-split-button scale="m" primary-text="Primary Option" dropdown-icon-type="caret">
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+        <calcite-split-button scale="l" primary-text="Primary Option" dropdown-icon-type="caret">
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+      </div>
+      <h3>Scale (when `dropdown-icon-type` is 'ellipsis')</h3>
+      <div style="display: flex; flex-direction: row; justify-content: space-between">
+        <calcite-split-button scale="s" primary-text="Primary Option" dropdown-icon-type="ellipsis">
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+        <calcite-split-button scale="m" primary-text="Primary Option" dropdown-icon-type="ellipsis">
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+        <calcite-split-button scale="l" primary-text="Primary Option" dropdown-icon-type="ellipsis">
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+      </div>
+      <h3>Scale (when `dropdown-icon-type` is 'overflow')</h3>
+      <div style="display: flex; flex-direction: row; justify-content: space-between">
+        <calcite-split-button scale="s" primary-text="Primary Option" dropdown-icon-type="overflow">
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+        <calcite-split-button scale="m" primary-text="Primary Option" dropdown-icon-type="overflow">
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+        <calcite-split-button scale="l" primary-text="Primary Option" dropdown-icon-type="overflow">
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+            <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>
+      </div>
+      <br />
     </div>
-
-    <h3>Color</h3>
-    <div style='display:flex;flex-direction:row;justify-content:space-between'>
-      <calcite-split-button primary-text="Primary Option"></calcite-split-button>
-      <calcite-split-button color='red' primary-text="Primary Option"></calcite-split-button>
-      <calcite-split-button color='neutral' primary-text="Primary Option"></calcite-split-button>
-      <calcite-split-button color='inverse' primary-text="Primary Option"></calcite-split-button>
-    </div>
-
-    <h3>Color (Dark Theme)</h3>
-    <div class='demo-background-dark' style='display:flex;flex-direction:row;justify-content:space-between'>
-      <calcite-split-button theme='dark' primary-text="Primary Option">
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
-      <calcite-split-button color='red' theme='dark' primary-text="Primary Option">
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
-      <calcite-split-button color='neutral' theme='dark' primary-text="Primary Option">
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
-      <calcite-split-button color='inverse' theme='dark' primary-text="Primary Option">
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
-    </div>
-
-    <h3>Appearance</h3>
-    <div style='display:flex;flex-direction:row;justify-content:space-between;padding:1em;background:#e3e3e3;'>
-      <calcite-split-button primary-text="Default/Solid Appearance">
-      </calcite-split-button>
-      <calcite-split-button appearance='outline' primary-text="Outline Appearance">
-      </calcite-split-button>
-      <calcite-split-button appearance='clear' primary-text="Clear Appearance">
-      </calcite-split-button>
-      <calcite-split-button appearance='transparent' primary-text="Transparent Appearance">
-      </calcite-split-button>
-    </div>
-
-    <h3>Appearance (Red Color)</h3>
-    <div style='display:flex;flex-direction:row;justify-content:space-between;padding:1em;background:#e3e3e3;'>
-      <calcite-split-button color="red" primary-text="Default/Solid Appearance">
-      </calcite-split-button>
-      <calcite-split-button color="red" appearance='outline' primary-text="Outline Appearance">
-      </calcite-split-button>
-      <calcite-split-button color="red" appearance='clear' primary-text="Clear Appearance">
-      </calcite-split-button>
-      <calcite-split-button color="red" appearance='transparent' primary-text="Transparent Appearance">
-      </calcite-split-button>
-    </div>
-
-    <h3>Appearance (Neutral Color)</h3>
-    <div style='display:flex;flex-direction:row;justify-content:space-between;'>
-      <calcite-split-button color="neutral" primary-text="Default/Solid Appearance">
-      </calcite-split-button>
-      <calcite-split-button color="neutral" appearance='outline' primary-text="Outline Appearance">
-      </calcite-split-button>
-      <calcite-split-button color="neutral" appearance='clear' primary-text="Clear Appearance">
-      </calcite-split-button>
-      <calcite-split-button color="neutral" appearance='transparent' primary-text="Transparent Appearance">
-      </calcite-split-button>
-    </div>
-
-    <h3>Appearance (Inverse Color)</h3>
-    <div style='display:flex;flex-direction:row;justify-content:space-between;padding:1em;background:#e3e3e3;'>
-      <calcite-split-button color="inverse" primary-text="Default/Solid Appearance">
-      </calcite-split-button>
-      <calcite-split-button color="inverse" appearance='outline' primary-text="Outline Appearance">
-      </calcite-split-button>
-      <calcite-split-button color="inverse" appearance='clear' primary-text="Clear Appearance">
-      </calcite-split-button>
-      <calcite-split-button color="inverse" appearance='transparent' primary-text="Transparent Appearance">
-      </calcite-split-button>
-    </div>
-
-    <h3>Appearance (Dark Theme)</h3>
-    <div class='demo-background-dark' style='display:flex;flex-direction:row;justify-content:space-between;padding:1em;'>
-      <calcite-split-button theme="dark" primary-text="Default/Solid Appearance">
-      </calcite-split-button>
-      <calcite-split-button theme="dark" appearance='outline' primary-text="Outline Appearance">
-      </calcite-split-button>
-      <calcite-split-button theme="dark" appearance='clear' primary-text="Clear Appearance">
-      </calcite-split-button>
-      <calcite-split-button theme="dark" appearance='transparent' primary-text="Transparent Appearance">
-      </calcite-split-button>
-    </div>
-
-    <h3>Appearance (Neutral Color, Dark Theme)</h3>
-    <div class='demo-background-dark' style='display:flex;flex-direction:row;justify-content:space-between;'>
-      <calcite-split-button theme="dark" color="neutral" primary-text="Default/Solid Appearance">
-      </calcite-split-button>
-      <calcite-split-button theme="dark" color="neutral" appearance='outline' primary-text="Outline Appearance">
-      </calcite-split-button>
-      <calcite-split-button theme="dark" color="neutral" appearance='clear' primary-text="Clear Appearance">
-      </calcite-split-button>
-      <calcite-split-button theme="dark" color="neutral" appearance='transparent' primary-text="Transparent Appearance">
-      </calcite-split-button>
-    </div>
-
-    <h3>Disabled</h3>
-    <calcite-split-button disabled=true primary-text="Primary Option"></calcite-split-button>
-
-    <h3>Loading</h3>
-    <calcite-split-button loading=true primary-text="Primary Option"></calcite-split-button>
-
-    <h3>Scale</h3>
-    <div style='display:flex;flex-direction:row;justify-content:space-between'>
-      <calcite-split-button scale='s' primary-text="Primary Option">
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
-      <calcite-split-button scale='m' primary-text="Primary Option">
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
-      <calcite-split-button scale='l' primary-text="Primary Option">
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
-      <script>
-        document.addEventListener('calciteSplitButtonPrimaryClick', () => alert('primary action'))
-        document.addEventListener('calciteSplitButtonSecondaryClick', () => alert('secondary action'))
-      </script>
-    </div>
-
-
-    <h3>Scale (two icons)</h3>
-    <div style='display:flex;flex-direction:row;justify-content:space-between'>
-      <calcite-split-button primary-icon-start="plus" primary-icon-end="layer" scale='s' primary-text="Primary Option">
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
-      <calcite-split-button primary-icon-start="plus" primary-icon-end="layer" scale='m' primary-text="Primary Option">
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
-      <calcite-split-button primary-icon-start="plus" primary-icon-end="layer" scale='l' primary-text="Primary Option">
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
-      <script>
-        document.addEventListener('calciteSplitButtonPrimaryClick', () => alert('primary action'))
-      </script>
-    </div>
-
-    <h3>Scale (when `primary-text` is empty)</h3>
-    <div style='display:flex;flex-direction:row;justify-content:space-between'>
-      <calcite-split-button scale='s' primary-icon-start='save'>
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
-      <calcite-split-button scale='m' primary-icon-start='save'>
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
-      <calcite-split-button scale='l' primary-icon-start='save'>
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
-    </div>
-
-    <h3>Scale (primary-icon-end)(when `primary-text` is empty)</h3>
-    <div style='display:flex;flex-direction:row;justify-content:space-between'>
-      <calcite-split-button scale='s' primary-icon-end='save'>
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
-      <calcite-split-button scale='m' primary-icon-end='save'>
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
-      <calcite-split-button scale='l' primary-icon-end='save'>
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
-    </div>
-
-    <h3>Scale (primary-icon-end and -start)(when `primary-text` is empty)</h3>
-    <div style='display:flex;flex-direction:row;justify-content:space-between'>
-      <calcite-split-button scale='s' primary-icon-end='save' primary-icon-start="layer">
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
-      <calcite-split-button scale='m' primary-icon-end='save' primary-icon-start="layer">
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
-      <calcite-split-button scale='l' primary-icon-end='save' primary-icon-start="layer">
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
-    </div>
-    <h3>Scale (when `dropdown-icon-type` is 'chevron' (default))</h3>
-    <div style='display:flex;flex-direction:row;justify-content:space-between'>
-      <calcite-split-button scale='s' primary-text="Primary Option">
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
-      <calcite-split-button scale='m' primary-text="Primary Option">
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
-      <calcite-split-button scale='l' primary-text="Primary Option">
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
-    </div>
-    <h3>Scale (when `dropdown-icon-type` is 'caret')</h3>
-    <div style='display:flex;flex-direction:row;justify-content:space-between'>
-      <calcite-split-button scale='s' primary-text="Primary Option" dropdown-icon-type='caret'>
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
-      <calcite-split-button scale='m' primary-text="Primary Option" dropdown-icon-type='caret'>
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
-      <calcite-split-button scale='l' primary-text="Primary Option" dropdown-icon-type='caret'>
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
-    </div>
-    <h3>Scale (when `dropdown-icon-type` is 'ellipsis')</h3>
-    <div style='display:flex;flex-direction:row;justify-content:space-between'>
-      <calcite-split-button scale='s' primary-text="Primary Option" dropdown-icon-type='ellipsis'>
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
-      <calcite-split-button scale='m' primary-text="Primary Option" dropdown-icon-type='ellipsis'>
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
-      <calcite-split-button scale='l' primary-text="Primary Option" dropdown-icon-type='ellipsis'>
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
-    </div>
-    <h3>Scale (when `dropdown-icon-type` is 'overflow')</h3>
-    <div style='display:flex;flex-direction:row;justify-content:space-between'>
-      <calcite-split-button scale='s' primary-text="Primary Option" dropdown-icon-type='overflow'>
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
-      <calcite-split-button scale='m' primary-text="Primary Option" dropdown-icon-type='overflow'>
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
-      <calcite-split-button scale='l' primary-text="Primary Option" dropdown-icon-type='overflow'>
-        <calcite-dropdown-group selection-mode="none">
-          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>
-    </div>
-    </br>
-    </br>
-  </div>
-</body>
-
+  </body>
 </html>
