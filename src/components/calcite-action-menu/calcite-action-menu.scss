@@ -8,7 +8,15 @@
 }
 
 ::slotted(calcite-action) {
-  @apply flex w-full;
+  @apply flex
+  w-full
+  focus-base
+  p-0.5;
+}
+
+::slotted(calcite-action[active]) {
+  @apply focus-outset;
+  outline-offset: 0px;
 }
 
 .menu-button {
