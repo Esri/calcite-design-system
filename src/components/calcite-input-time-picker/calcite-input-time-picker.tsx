@@ -180,15 +180,17 @@ export class CalciteInputTimePicker {
     event.stopPropagation();
     if (event.detail) {
       const { hour, minute, second } = event.detail as Time;
+      let value;
       if (hour && minute) {
         if (second && this.step !== 60) {
-          this.setValue({ value: `${hour}:${minute}:${second}`, origin: "time-picker" });
+          value = `${hour}:${minute}:${second}`;
         } else {
-          this.setValue({ value: `${hour}:${minute}`, origin: "time-picker" });
+          value = `${hour}:${minute}`;
         }
       } else {
-        this.setValue({ value: "", origin: "time-picker" });
+        value = "";
       }
+      this.setValue({ value, origin: "time-picker" });
     }
   }
 

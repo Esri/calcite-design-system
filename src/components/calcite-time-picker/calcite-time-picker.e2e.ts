@@ -56,7 +56,7 @@ describe("calcite-time-picker", () => {
 
   it("should focus the first input when setFocus is called", async () =>
     focusable(`calcite-time-picker`, {
-      shadowFocusTargetSelector: `span.${CSS.hour}`
+      shadowFocusTargetSelector: `.${CSS.hour}`
     }));
 
   describe("keyboard accessibility", () => {
@@ -833,7 +833,7 @@ describe("calcite-time-picker", () => {
       });
       const timePicker = await page.find("calcite-time-picker");
       const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
-      const hourUp = await page.find(`calcite-time-picker >>> .${CSS.hourUp}`);
+      const hourUp = await page.find(`calcite-time-picker >>> .${CSS.buttonHourUp}`);
 
       for (let i = 1; i < 24; i++) {
         await hourUp.click();
@@ -856,7 +856,7 @@ describe("calcite-time-picker", () => {
       });
       const timePicker = await page.find("calcite-time-picker");
       const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
-      const hourdown = await page.find(`calcite-time-picker >>> .${CSS.hourDown}`);
+      const hourdown = await page.find(`calcite-time-picker >>> .${CSS.buttonHourDown}`);
 
       await hourdown.click();
       await page.waitForChanges();
@@ -879,7 +879,7 @@ describe("calcite-time-picker", () => {
       });
       const timePicker = await page.find("calcite-time-picker");
       const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
-      const hourup = await page.find(`calcite-time-picker >>> .${CSS.hourUp}`);
+      const hourup = await page.find(`calcite-time-picker >>> .${CSS.buttonHourUp}`);
 
       for (let i = 1; i < 24; i++) {
         await hourup.click();
@@ -900,7 +900,7 @@ describe("calcite-time-picker", () => {
       });
       const timePicker = await page.find("calcite-time-picker");
       const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
-      const hourdown = await page.find(`calcite-time-picker >>> .${CSS.hourDown}`);
+      const hourdown = await page.find(`calcite-time-picker >>> .${CSS.buttonHourDown}`);
 
       await hourdown.click();
       await page.waitForChanges();
@@ -923,7 +923,7 @@ describe("calcite-time-picker", () => {
       });
       const timePicker = await page.find("calcite-time-picker");
       const minute = await page.find(`calcite-time-picker >>> .${CSS.minute}`);
-      const minuteup = await page.find("calcite-time-picker >>> span.minute-up");
+      const minuteup = await page.find(`calcite-time-picker >>> .${CSS.buttonMinuteUp}`);
 
       for (let i = 0; i < 60; i++) {
         await minuteup.click();
@@ -946,7 +946,7 @@ describe("calcite-time-picker", () => {
       });
       const timePicker = await page.find("calcite-time-picker");
       const minute = await page.find(`calcite-time-picker >>> .${CSS.minute}`);
-      const minutedown = await page.find("calcite-time-picker >>> span.minute-down");
+      const minutedown = await page.find(`calcite-time-picker >>> .${CSS.buttonMinuteDown}`);
 
       for (let i = 59; i >= 0; i--) {
         await minutedown.click();
@@ -969,7 +969,7 @@ describe("calcite-time-picker", () => {
       });
       const timePicker = await page.find("calcite-time-picker");
       const second = await page.find(`calcite-time-picker >>> .${CSS.second}`);
-      const secondup = await page.find("calcite-time-picker >>> span.second-up");
+      const secondup = await page.find(`calcite-time-picker >>> .${CSS.buttonSecondUp}`);
 
       for (let i = 0; i < 60; i++) {
         await secondup.click();
@@ -992,7 +992,7 @@ describe("calcite-time-picker", () => {
       });
       const timePicker = await page.find("calcite-time-picker");
       const second = await page.find(`calcite-time-picker >>> .${CSS.second}`);
-      const seconddown = await page.find("calcite-time-picker >>> span.second-down");
+      const seconddown = await page.find(`calcite-time-picker >>> .${CSS.buttonSecondDown}`);
 
       for (let i = 59; i >= 0; i--) {
         await seconddown.click();
@@ -1014,7 +1014,7 @@ describe("calcite-time-picker", () => {
         html: `<calcite-time-picker hour-display-format="12"></calcite-time-picker>`
       });
       const meridiem = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
-      const meridiemup = await page.find("calcite-time-picker >>> span.meridiem-up");
+      const meridiemup = await page.find(`calcite-time-picker >>> .${CSS.buttonMeridiemUp}`);
 
       await meridiemup.click();
       await page.waitForChanges();
@@ -1037,7 +1037,7 @@ describe("calcite-time-picker", () => {
         html: `<calcite-time-picker hour-display-format="12"></calcite-time-picker>`
       });
       const meridiem = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
-      const meridiemdown = await page.find("calcite-time-picker >>> span.meridiem-down");
+      const meridiemdown = await page.find(`calcite-time-picker >>> .${CSS.buttonMeridiemDown}`);
 
       await meridiemdown.click();
       await page.waitForChanges();

@@ -638,8 +638,8 @@ export class CalciteTimePicker {
               aria-label={this.intlHourUp}
               class={{
                 [CSS.button]: true,
-                [CSS.hourUp]: true,
-                [CSS.topLeft]: true
+                [CSS.buttonHourUp]: true,
+                [CSS.buttonTopLeft]: true
               }}
               onClick={this.incrementHour}
               onKeyDown={this.hourUpButtonKeyDownHandler}
@@ -671,8 +671,8 @@ export class CalciteTimePicker {
               aria-label={this.intlHourDown}
               class={{
                 [CSS.button]: true,
-                [CSS.hourDown]: true,
-                [CSS.bottomLeft]: true
+                [CSS.buttonHourDown]: true,
+                [CSS.buttonBottomLeft]: true
               }}
               onClick={this.decrementHour}
               onKeyDown={this.hourDownButtonKeyDownHandler}
@@ -688,7 +688,7 @@ export class CalciteTimePicker {
               aria-label={this.intlMinuteUp}
               class={{
                 [CSS.button]: true,
-                [CSS.minuteUp]: true
+                [CSS.buttonMinuteUp]: true
               }}
               onClick={this.incrementMinute}
               onKeyDown={this.minuteUpButtonKeyDownHandler}
@@ -719,7 +719,7 @@ export class CalciteTimePicker {
               aria-label={this.intlMinuteDown}
               class={{
                 [CSS.button]: true,
-                [CSS.minuteDown]: true
+                [CSS.buttonMinuteDown]: true
               }}
               onClick={this.decrementMinute}
               onKeyDown={this.minuteDownButtonKeyDownHandler}
@@ -736,7 +736,7 @@ export class CalciteTimePicker {
                 aria-label={this.intlSecondUp}
                 class={{
                   [CSS.button]: true,
-                  [CSS.secondUp]: true
+                  [CSS.buttonSecondUp]: true
                 }}
                 onClick={this.incrementSecond}
                 onKeyDown={this.secondUpButtonKeyDownHandler}
@@ -767,7 +767,7 @@ export class CalciteTimePicker {
                 aria-label={this.intlSecondDown}
                 class={{
                   [CSS.button]: true,
-                  [CSS.secondDown]: true
+                  [CSS.buttonSecondDown]: true
                 }}
                 onClick={this.decrementSecond}
                 onKeyDown={this.secondDownButtonKeyDownHandler}
@@ -784,8 +784,8 @@ export class CalciteTimePicker {
                 aria-label={this.intlMeridiemUp}
                 class={{
                   [CSS.button]: true,
-                  [CSS.meridiemUp]: true,
-                  [CSS.topRight]: true
+                  [CSS.buttonMeridiemUp]: true,
+                  [CSS.buttonTopRight]: true
                 }}
                 onClick={this.incrementMeridiem}
                 onKeyDown={this.meridiemUpButtonKeyDownHandler}
@@ -818,8 +818,8 @@ export class CalciteTimePicker {
                 aria-label={this.intlMeridiemDown}
                 class={{
                   [CSS.button]: true,
-                  [CSS.meridiemDown]: true,
-                  [CSS.bottomRight]: true
+                  [CSS.buttonMeridiemDown]: true,
+                  [CSS.buttonBottomRight]: true
                 }}
                 onClick={this.decrementMeridiem}
                 onKeyDown={this.meridiemDownButtonKeyDownHandler}

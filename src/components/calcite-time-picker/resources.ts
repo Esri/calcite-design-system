@@ -1,24 +1,24 @@
 export const CSS = {
-  bottomLeft: "bottom-left",
-  bottomRight: "bottom-right",
+  buttonBottomLeft: "button--bottom-left",
+  buttonBottomRight: "button--bottom-right",
   button: "button",
   delimiter: "delimiter",
   hour: "hour",
-  hourDown: "hour-down",
-  hourUp: "hour-up",
+  buttonHourDown: "button--hour-down",
+  buttonHourUp: "button--hour-up",
   input: "input",
   meridiem: "meridiem",
-  meridiemDown: "meridiem-down",
-  meridiemUp: "meridiem-up",
+  buttonMeridiemDown: "button--meridiem-down",
+  buttonMeridiemUp: "button--meridiem-up",
   minute: "minute",
-  minuteDown: "minute-down",
-  minuteUp: "minute-up",
+  buttonMinuteDown: "button--minute-down",
+  buttonMinuteUp: "button--minute-up",
   second: "second",
-  secondDown: "second-down",
-  secondUp: "second-up",
+  buttonSecondDown: "button--second-down",
+  buttonSecondUp: "button--second-up",
   timePicker: "time-picker",
-  topLeft: "top-left",
-  topRight: "top-right"
+  buttonTopLeft: "button--top-left",
+  buttonTopRight: "button--top-right"
 };
 
 export const TEXT = {
