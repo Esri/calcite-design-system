@@ -3,6 +3,7 @@ import {
   Element,
   Event,
   EventEmitter,
+  forceUpdate,
   Host,
   Method,
   Prop,
@@ -216,8 +217,12 @@ export class CalcitePopover {
 
   @Method()
   async setFocus(focusId?: PopoverFocusId): Promise<void> {
-    if (focusId === "close-button") {
-      this.closeButtonEl?.focus();
+    const { closeButtonEl } = this;
+
+    if (focusId === "close-button" && closeButtonEl) {
+      forceUpdate(closeButtonEl);
+      closeButtonEl.setFocus();
+
       return;
     }
 
