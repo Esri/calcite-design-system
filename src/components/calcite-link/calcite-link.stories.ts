@@ -116,7 +116,7 @@ export const DarkMode = (): string => html`
     )}px; font-weight: ${select("containing font weight", ["300", "400", "500", "700"], "400")};"
   >
     Some wrapping text
-    <calcite-link theme="dark" href="${text("href", "")}" ${boolean("disabled", false)}
+    <calcite-link class="calcite-theme-dark" href="${text("href", "")}" ${boolean("disabled", false)}
       >${text("text", "link text here")}</calcite-link
     >
     around the link

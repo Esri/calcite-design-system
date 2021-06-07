@@ -17,7 +17,7 @@ Renders a shell with leading and trailing floating panels, action bar/pad, block
 ```html
 <calcite-shell>
   <calcite-shell-panel slot="primary-panel" position="start" detached>
-    <calcite-action-bar slot="action-bar" theme="dark">
+    <calcite-action-bar slot="action-bar">
       <calcite-action-group>
         <calcite-action text="Add" icon="plus"></calcite-action>
         <calcite-action text="Save" disabled icon="save"></calcite-action>

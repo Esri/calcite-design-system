@@ -43,7 +43,7 @@ export const Simple = (): string => html`
 
 export const DarkMode = (): string => html`
   <div tabindex="0" style="position: relative; width: 400px; height: 400px">
-    <calcite-scrim theme="dark" ${boolean("loading", false)}></calcite-scrim>
+    <calcite-scrim class="calcite-theme-dark" ${boolean("loading", false)}></calcite-scrim>
     <div style="width: 400px; height: 400px; overflow: auto">
       <p>
         Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor

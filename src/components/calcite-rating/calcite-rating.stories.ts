@@ -28,7 +28,7 @@ export const Simple = (): string => html`
 
 export const DarkMode = (): string => html`
   <calcite-rating
-    theme="dark"
+    class="calcite-theme-dark"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     value="${number("value", 0)}"
     ${boolean("show-chip", true)}

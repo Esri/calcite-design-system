@@ -81,7 +81,7 @@ export const DarkTheme = (): string => html`
     <calcite-combobox
       label="demo combobox"
       selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"
-      theme="dark"
+      class="calcite-theme-dark"
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"

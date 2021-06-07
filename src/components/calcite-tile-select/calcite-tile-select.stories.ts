@@ -45,7 +45,7 @@ export const Dark = (): string => html`
     name="${text("name", "tile-select-demo")}"
     ${boolean("input-enabled", true)}
     input-alignment="${select("input-alignment", ["start", "end"], "end")}"
-    theme="dark"
+    class="calcite-theme-dark"
     type="${select("type", ["radio", "checkbox"], "radio")}"
     value="${text("value", "one")}"
   >

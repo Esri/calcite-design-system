@@ -49,13 +49,11 @@
   @apply font-sans;
 }
 
-.calcite-theme-dark,
-[theme="dark"] {
+.calcite-theme-dark {
   @include calcite-theme-dark-extended();
 }
 
-.calcite-theme-light,
-[theme="light"] {
+.calcite-theme-light {
   @include calcite-theme-light-extended();
 }
 

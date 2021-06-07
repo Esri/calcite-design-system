@@ -142,7 +142,7 @@ SideBySide.story = {
 
 export const DarkMode = (): string => html`
   <calcite-button
-    theme="dark"
+    class="calcite-theme-dark"
     appearance="${select("appearance", ["solid", "clear", "outline", "transparent"], "solid")}"
     color="${select("color", ["blue", "red", "neutral", "inverse"], "blue")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -165,7 +165,7 @@ DarkMode.story = {
 export const RTL = (): string => html`
   <calcite-button
     dir="rtl"
-    theme="dark"
+    class="calcite-theme-dark"
     appearance="${select("appearance", ["solid", "clear", "outline", "transparent"], "solid")}"
     color="${select("color", ["blue", "red", "neutral", "inverse"], "blue")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
