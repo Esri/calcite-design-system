@@ -605,9 +605,6 @@ export class CalciteTimePicker {
     if (this.hourDisplayFormat === "12") {
       this.meridiem = getMeridiem(this.hour);
     }
-  }
-
-  componentWillLoad() {
     if (isValidNumber(this.hour)) {
       this.hour = formatTimePart(parseInt(this.hour));
     }

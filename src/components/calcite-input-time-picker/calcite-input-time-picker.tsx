@@ -287,7 +287,7 @@ export class CalciteInputTimePicker {
   //
   //--------------------------------------------------------------------------
 
-  componentWillLoad() {
+  connectedCallback() {
     if (this.value) {
       this.setValue({ value: this.value, origin: "loading" });
     }
