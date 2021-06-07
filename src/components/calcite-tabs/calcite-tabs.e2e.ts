@@ -1,39 +1,31 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders } from "../../tests/commonTests";
+import { accessible, renders, defaults } from "../../tests/commonTests";
 
 describe("calcite-tabs", () => {
-  const tabsSnippet = `<calcite-tabs>
+  const tabsContent = `
     <calcite-tab-nav slot="tab-nav">
       <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
       <calcite-tab-title>Tab 2 Title</calcite-tab-title>
       <calcite-tab-title>Tab 3 Title</calcite-tab-title>
       <calcite-tab-title>Tab 4 Title</calcite-tab-title>
     </calcite-tab-nav>
-
     <calcite-tab active>Tab 1 Content</calcite-tab>
     <calcite-tab>Tab 2 Content</calcite-tab>
     <calcite-tab>Tab 3 Content</calcite-tab>
     <calcite-tab>Tab 4 Content</calcite-tab>
-  </calcite-tabs>`;
+  `;
+  const tabsSnippet = `<calcite-tabs>${tabsContent}</calcite-tabs>`;
 
   it("renders", async () => renders(tabsSnippet));
 
-  it("is accessible", async () =>
-    accessible(
-      `<calcite-tabs>
-        <calcite-tab-nav slot="tab-nav">
-          <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-          <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-          <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-          <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-        </calcite-tab-nav>
+  it("has defaults", async () =>
+    defaults("calcite-tabs", [
+      { propertyName: "layout", defaultValue: "inline" },
+      { propertyName: "position", defaultValue: "above" },
+      { propertyName: "scale", defaultValue: "m" }
+    ]));
 
-        <calcite-tab active>Tab 1 Content</calcite-tab>
-        <calcite-tab>Tab 2 Content</calcite-tab>
-        <calcite-tab>Tab 3 Content</calcite-tab>
-        <calcite-tab>Tab 4 Content</calcite-tab>
-      </calcite-tabs>`
-    ));
+  it("is accessible", async () => accessible(`<calcite-tabs>${tabsContent}</calcite-tabs>`));
 
   it("sets up basic aria attributes", async () => {
     const page = await newE2EPage();
@@ -136,5 +128,49 @@ describe("calcite-tabs", () => {
 
     await tabTitle2.click();
     expect(tab2).not.toHaveAttribute("active");
+  });
+
+  describe("when no scale is provided", () => {
+    it("should render itself and child tab elements with default medium scale", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-tabs>${tabsContent}</calcite-tabs>`
+      });
+      expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "m");
+      expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "m");
+      expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "m");
+      expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "m");
+    });
+  });
+
+  describe("when scale is provided", () => {
+    it("should render itself and child elements with corresponding scale (small)", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-tabs scale="s">${tabsContent}</calcite-tabs>`
+      });
+      expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "s");
+      expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "s");
+      expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "s");
+      expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "s");
+    });
+
+    it("should render itself and child elements with corresponding scale (medium)", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-tabs scale="m">${tabsContent}</calcite-tabs>`
+      });
+      expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "m");
+      expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "m");
+      expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "m");
+      expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "m");
+    });
+
+    it("should render itself and child elements with corresponding scale (large)", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-tabs scale="l">${tabsContent}</calcite-tabs>`
+      });
+      expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "l");
+      expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "l");
+      expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "l");
+      expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "l");
+    });
   });
 });

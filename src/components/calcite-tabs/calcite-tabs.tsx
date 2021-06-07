@@ -1,5 +1,6 @@
 import { Component, Prop, h, Element, Listen, State, VNode, Fragment } from "@stencil/core";
 import { TabLayout, TabPosition } from "./interfaces";
+import { Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-tabs",
@@ -30,6 +31,11 @@ export class CalciteTabs {
    * Display the tabs above (default) or below the tab content
    */
   @Prop({ reflect: true }) position: TabPosition = "above";
+
+  /**
+   * Specify the scale of the tabs component, defaults to m
+   */
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   //--------------------------------------------------------------------------
   //

@@ -13,3 +13,15 @@
 section {
   @apply h-full w-full hidden;
 }
+
+:host([scale="s"]) {
+  @apply text--2h py-1;
+}
+
+:host([scale="m"]) {
+  @apply text--1h py-2;
+}
+
+:host([scale="l"]) {
+  @apply text-0h py-3;
+}
