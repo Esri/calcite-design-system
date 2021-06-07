@@ -16,9 +16,9 @@ export const Simple = (): string => html`
   <calcite-rating
     scale="${select("scale", ["s", "m", "l"], "m")}"
     value="${number("value", 0)}"
-    ${boolean("show-chip", false)}
-    average="${number("average", 0)}"
-    count="${number("count", 0)}"
+    ${boolean("show-chip", true)}
+    average="${number("average", 4.4)}"
+    count="${number("count", 10)}"
     ${boolean("read-only", false)}
     ${boolean("disabled", false)}
     intl-rating="${text("intl-rating", "Rating")}"
@@ -28,12 +28,12 @@ export const Simple = (): string => html`
 
 export const DarkMode = (): string => html`
   <calcite-rating
-    theme="dark"
+    class="calcite-theme-dark"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     value="${number("value", 0)}"
-    ${boolean("show-chip", false)}
-    average="${number("average", 0)}"
-    count="${number("count", 0)}"
+    ${boolean("show-chip", true)}
+    average="${number("average", 4.4)}"
+    count="${number("count", 10)}"
     ${boolean("read-only", false)}
     ${boolean("disabled", false)}
     intl-rating="${text("intl-rating", "Rating")}"
@@ -72,9 +72,9 @@ export const Rtl = (): string => html`
     <calcite-rating
       scale="${select("scale", ["s", "m", "l"], "m")}"
       value="${number("value", 0)}"
-      ${boolean("show-chip", false)}
-      average="${number("average", 0)}"
-      count="${number("count", 0)}"
+      ${boolean("show-chip", true)}
+      average="${number("average", 4.4)}"
+      count="${number("count", 10)}"
       ${boolean("read-only", false)}
       ${boolean("disabled", false)}
       intl-rating="${text("intl-rating", "Rating")}"

@@ -14,7 +14,7 @@ export default {
 
 export const TitleMessageLink = (): string => html`
 <calcite-alert
-theme="light"
+class="calcite-theme-light"
 ${boolean("icon", true)}
 ${boolean("auto-dismiss", false)}
 auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
@@ -35,7 +35,7 @@ TitleMessageLink.story = {
 
 export const TitleMessage = (): string => html`
   <calcite-alert
-    theme="light"
+    class="calcite-theme-light"
     ${boolean("icon", true)}
     ${boolean("auto-dismiss", false)}
     auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
@@ -54,7 +54,7 @@ TitleMessage.story = {
 
 export const MessageLink = (): string => html`
   <calcite-alert
-    theme="light"
+    class="calcite-theme-light"
     ${boolean("icon", true)}
     ${boolean("auto-dismiss", false)}
     auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
@@ -73,7 +73,7 @@ MessageLink.story = {
 
 export const Message = (): string => html`
   <calcite-alert
-    theme="light"
+    class="calcite-theme-light"
     ${boolean("icon", true)}
     ${boolean("auto-dismiss", false)}
     auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
@@ -87,7 +87,7 @@ export const Message = (): string => html`
 
 export const CustomIcon = (): string => html`
   <calcite-alert
-    theme="light"
+    class="calcite-theme-light"
     icon="${select("icon", iconNames, iconNames[0])}"
     ${boolean("auto-dismiss", false)}
     auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
@@ -124,19 +124,29 @@ export const Queue = (): string => html`
     <calcite-button color="red" onclick='document.querySelector("[data-custom-id=my-id]").removeAttribute("active")'
       >Close Alert 3</calcite-button
     >
-    <calcite-alert id="one" theme="light" icon color="${select("color", ["green", "red", "yellow", "blue"], "green")}">
+    <calcite-alert
+      id="one"
+      class="calcite-theme-light"
+      icon
+      color="${select("color", ["green", "red", "yellow", "blue"], "green")}"
+    >
       <div slot="title">Your great thing happened</div>
       <div slot="message">Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer</div>
       <calcite-link slot="link" title="my action">View layer</calcite-link>
     </calcite-alert>
-    <calcite-alert id="two" theme="light" icon color="${select("color-2", ["green", "red", "yellow", "blue"], "blue")}">
+    <calcite-alert
+      id="two"
+      class="calcite-theme-light"
+      icon
+      color="${select("color-2", ["green", "red", "yellow", "blue"], "blue")}"
+    >
       <div slot="title">Your great thing happened</div>
       <div slot="message">Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer</div>
       <calcite-link slot="link" title="my action">View layer</calcite-link>
     </calcite-alert>
     <calcite-alert
       data-custom-id="my-id"
-      theme="light"
+      class="calcite-theme-light"
       icon
       color="${select("color-3", ["green", "red", "yellow", "blue"], "red")}"
     >
@@ -149,7 +159,7 @@ export const Queue = (): string => html`
 
 export const DarkTheme = (): string => html`
   <calcite-alert
-    theme="dark"
+    class="calcite-theme-dark"
     ${boolean("icon", true)}
     ${boolean("auto-dismiss", false)}
     auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
@@ -159,7 +169,7 @@ export const DarkTheme = (): string => html`
   >
     <div slot="title">Something failed</div>
     <div slot="message">That thing you wanted to do didn't work as expected</div>
-    <calcite-link theme="dark" slot="link" title="my action">My action</calcite-link>
+    <calcite-link slot="link" title="my action">My action</calcite-link>
   </calcite-alert>
 `;
 
@@ -170,43 +180,61 @@ DarkTheme.story = {
 export const DarkThemeQueue = (): string => html`
   <div>
     <h5 style="color:white">Open or add to queue</h5>
-    <calcite-button theme="dark" onclick='document.querySelector("#one").setAttribute("active", "")'
+    <calcite-button class="calcite-theme-dark" onclick='document.querySelector("#one").setAttribute("active", "")'
       >Open Alert 1</calcite-button
     >
-    <calcite-button theme="dark" onclick='document.querySelector("#two").setAttribute("active", "")'
+    <calcite-button class="calcite-theme-dark" onclick='document.querySelector("#two").setAttribute("active", "")'
       >Open Alert 2</calcite-button
     >
-    <calcite-button theme="dark" onclick='document.querySelector("[data-custom-id=my-id]").setAttribute("active", "")'
+    <calcite-button
+      class="calcite-theme-dark"
+      onclick='document.querySelector("[data-custom-id=my-id]").setAttribute("active", "")'
       >Open Alert 3</calcite-button
     >
     <br />
     <br />
     <h5 style="color:white">Close or remove from queue</h5>
-    <calcite-button theme="dark" color="red" onclick='document.querySelector("#one").removeAttribute("active")'
+    <calcite-button
+      class="calcite-theme-dark"
+      color="red"
+      onclick='document.querySelector("#one").removeAttribute("active")'
       >Close Alert 1</calcite-button
     >
-    <calcite-button theme="dark" color="red" onclick='document.querySelector("#two").removeAttribute("active")'
+    <calcite-button
+      class="calcite-theme-dark"
+      color="red"
+      onclick='document.querySelector("#two").removeAttribute("active")'
       >Close Alert 2</calcite-button
     >
     <calcite-button
-      theme="dark"
+      class="calcite-theme-dark"
       color="red"
       onclick='document.querySelector("[data-custom-id=my-id]").removeAttribute("active")'
       >Close Alert 3</calcite-button
     >
-    <calcite-alert id="one" theme="dark" icon color="${select("color", ["green", "red", "yellow", "blue"], "green")}">
+    <calcite-alert
+      id="one"
+      class="calcite-theme-dark"
+      icon
+      color="${select("color", ["green", "red", "yellow", "blue"], "green")}"
+    >
       <div slot="title">Your great thing happened</div>
       <div slot="message">Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer</div>
-      <calcite-link theme="dark" slot="link" title="my action">My action</calcite-link>
+      <calcite-link class="calcite-theme-dark" slot="link" title="my action">My action</calcite-link>
     </calcite-alert>
-    <calcite-alert id="two" theme="dark" icon color="${select("color-2", ["green", "red", "yellow", "blue"], "blue")}">
+    <calcite-alert
+      id="two"
+      class="calcite-theme-dark"
+      icon
+      color="${select("color-2", ["green", "red", "yellow", "blue"], "blue")}"
+    >
       <div slot="title">Your great thing happened</div>
       <div slot="message">Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer</div>
-      <calcite-link theme="dark" slot="link" title="my action">My action</calcite-link>
+      <calcite-link class="calcite-theme-dark" slot="link" title="my action">My action</calcite-link>
     </calcite-alert>
     <calcite-alert
       data-custom-id="my-id"
-      theme="dark"
+      class="calcite-theme-dark"
       icon
       color="${select("color-3", ["green", "red", "yellow", "blue"], "red")}"
     >
@@ -222,7 +250,7 @@ DarkThemeQueue.story = {
 export const Rtl = (): string => html`
 <div dir="rtl">
 <calcite-alert
-theme="light"
+class="calcite-theme-light"
 ${boolean("icon", true)}
 ${boolean("auto-dismiss", false)}
 auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"

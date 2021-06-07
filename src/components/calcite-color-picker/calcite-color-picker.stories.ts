@@ -1,5 +1,11 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
-import { Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
+import {
+  Attribute,
+  filterComponentAttributes,
+  Attributes,
+  createComponentHTML as create,
+  darkBackground
+} from "../../../.storybook/utils";
 import colorReadme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 
@@ -11,31 +17,56 @@ export default {
   }
 };
 
-const createColorAttributes: () => Attributes = () => {
+const createColorAttributes: (options?: { exceptions: string[] }) => Attributes = (
+  { exceptions } = { exceptions: [] }
+) => {
   const { dir, scale } = ATTRIBUTES;
 
-  return [
-    {
-      name: "dir",
-      value: select("dir", dir.values, dir.defaultValue)
-    },
-    {
-      name: "hide-channels",
-      value: boolean("hide-channels", false)
-    },
-    {
-      name: "hide-hex",
-      value: boolean("hide-hex", false)
-    },
-    {
-      name: "hide-saved",
-      value: boolean("hide-saved", false)
-    },
-    {
-      name: "scale",
-      value: select("scale", scale.values, scale.defaultValue)
-    }
-  ];
+  return filterComponentAttributes(
+    [
+      {
+        name: "dir",
+        commit(): Attribute {
+          this.value = select("dir", dir.values, dir.defaultValue);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "hide-channels",
+        commit(): Attribute {
+          this.value = boolean("hide-channels", false);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "hide-hex",
+        commit(): Attribute {
+          this.value = boolean("hide-hex", false);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "hide-saved",
+        commit(): Attribute {
+          this.value = boolean("hide-saved", false);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "scale",
+        commit(): Attribute {
+          this.value = select("scale", scale.values, scale.defaultValue);
+          delete this.build;
+          return this;
+        }
+      }
+    ],
+    exceptions
+  );
 };
 
 export const Simple = (): string =>
@@ -47,10 +78,19 @@ export const Simple = (): string =>
     }
   ]);
 
+export const RTL = (): string =>
+  create("calcite-color-picker", [
+    ...createColorAttributes({ exceptions: ["dir"] }).concat({ name: "dir", value: "rtl" }),
+    {
+      name: "value",
+      value: text("value", "#b33f33")
+    }
+  ]);
+
 export const DarkMode = (): string =>
   create("calcite-color-picker", [
     ...createColorAttributes(),
-    { name: "theme", value: "dark" },
+    { name: "class", value: "calcite-theme-dark" },
     {
       name: "value",
       value: text("value", "#b33f33")

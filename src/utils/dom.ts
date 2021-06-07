@@ -1,4 +1,3 @@
-import { Theme } from "../components/interfaces";
 import { CSS_UTILITY } from "./resources";
 import { guid } from "./guid";
 
@@ -29,8 +28,8 @@ export function getAttributes(el: HTMLElement, blockList: string[]): Record<stri
     .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
 }
 
-export function getThemeName(el: HTMLElement): Theme {
-  return closestElementCrossShadowBoundary(`.${CSS_UTILITY.darkTheme}, [theme=dark]`, el) ? "dark" : "light";
+export function getThemeName(el: HTMLElement): "light" | "dark" {
+  return closestElementCrossShadowBoundary(`.${CSS_UTILITY.darkTheme}`, el) ? "dark" : "light";
 }
 
 export function getElementDir(el: HTMLElement): Direction {

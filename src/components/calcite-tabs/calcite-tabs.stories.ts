@@ -65,7 +65,7 @@ WithIcons.story = {
 
 export const DarkMode = (): string => html`
   <calcite-tabs
-    theme="dark"
+    class="calcite-theme-dark"
     layout="${select("layout", ["inline", "center"], "inline")}"
     position="${select("position", ["above", "below"], "above")}"
   >

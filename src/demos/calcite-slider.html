@@ -1,511 +1,1055 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Calcite Slider</title>
+    <style>
+      body {
+        margin: 20px;
+      }
+      .demo-background-light {
+        border: 1px solid #202020;
+        padding: 1rem;
+      }
+      .demo-background-dark {
+        background: #202020;
+        color: white;
+        padding: 1rem;
+      }
+      .two-columns {
+        display: grid;
+        grid-template-columns: 350px 350px;
+        grid-gap: 20px;
+      }
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Calcite Slider</title>
-  <style>
-    body {
-      margin: 20px;
-    }
-    .demo-background-light {
-      border: 1px solid #202020;
-      padding: 1rem;
-    }
-    .demo-background-dark {
-      background: #202020;
-      color: white;
-      padding: 1rem;
-    }
-    .two-columns {
-      display: grid;
-      grid-template-columns: 350px 350px;
-      grid-gap: 20px;
-    }
+      h3 {
+        margin-top: 24px;
+      }
+    </style>
+    <script src="./_assets/head.js"></script>
+    <script type="module" src="./_assets/demo-form.js"></script>
+    <script type="module" src="./_assets/demo-spacer.js"></script>
+  </head>
 
-    h3 {
-      margin-top: 24px;
-    }
-  </style>
- <script src="./_assets/head.js"></script>
-  <script type="module" src="./_assets/demo-form.js"></script>
-  <script type="module" src="./_assets/demo-spacer.js"></script>
-</head>
+  <body>
+    <calcite-button href="/">Home</calcite-button>
+    <h1>Calcite Slider</h1>
 
-<body>
+    <div class="two-columns">
+      <div class="demo-background-light">
+        <h2>Single Value</h2>
 
-  <calcite-button href="/">Home</calcite-button>
-  <h1>Calcite Slider</h1>
+        <demo-spacer>
+          <h3>Handle</h3>
+          <calcite-slider min="10000" max="100000" value="100000" step="1000" label="Temperature"></calcite-slider>
 
-  <div class="two-columns">
-    <div class="demo-background-light">
-      <h2>Single Value</h2>
+          <h3>Labeled Handle</h3>
+          <calcite-slider
+            min="100"
+            max="1000"
+            value="1000"
+            step="10"
+            label="Temperature"
+            label-handles
+          ></calcite-slider>
 
-      <demo-spacer>
+          <h3>Precise Handle</h3>
+          <calcite-slider min="10000" max="100000" value="100000" step="1000" label="Temperature" precise>
+          </calcite-slider>
 
-        <h3>Handle</h3>
-        <calcite-slider min="10000" max="100000" value="100000" step="1000" label="Temperature"></calcite-slider>
+          <h3>Precise Labeled Handle</h3>
+          <calcite-slider min="10000" max="100000" value="100000" step="1000" label="Temperature" precise label-handles>
+          </calcite-slider>
 
-        <h3>Labeled Handle</h3>
-        <calcite-slider min="100" max="1000" value="1000" step="10" label="Temperature" label-handles></calcite-slider>
+          <h3>Ticks</h3>
+          <calcite-slider min="0" max="100" value="20" step="10" ticks="10" label="Temperature"></calcite-slider>
 
-        <h3>Precise Handle</h3>
-        <calcite-slider min="10000" max="100000" value="100000" step="1000" label="Temperature" precise>
-        </calcite-slider>
+          <h3>Ticks with Labeled Handle</h3>
+          <calcite-slider min="0" max="100" value="40" step="10" ticks="10" label="Temperature" label-handles>
+          </calcite-slider>
+          <calcite-slider min="-100" max="0" value="0" step="10" ticks="10" label="Temperature" label-handles>
+          </calcite-slider>
 
-        <h3>Precise Labeled Handle</h3>
-        <calcite-slider min="10000" max="100000" value="100000" step="1000" label="Temperature" precise label-handles>
-        </calcite-slider>
+          <h3>Ticks with Precise Handle</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            value="50"
+            step="10"
+            ticks="10"
+            label="Temperature"
+            precise
+          ></calcite-slider>
 
-        <h3>Ticks</h3>
-        <calcite-slider min="0" max="100" value="20" step="10" ticks="10" label="Temperature"></calcite-slider>
+          <h3>Ticks with Precise Labeled Handle</h3>
+          <calcite-slider min="0" max="100" value="60" step="10" ticks="10" label="Temperature" label-handles precise>
+          </calcite-slider>
 
-        <h3>Ticks with Labeled Handle</h3>
-        <calcite-slider min="0" max="100" value="40" step="10" ticks="10" label="Temperature" label-handles>
-        </calcite-slider>
-        <calcite-slider min="-100" max="0" value="0" step="10" ticks="10" label="Temperature" label-handles>
-        </calcite-slider>
+          <h3>Labeled Ticks</h3>
+          <calcite-slider min="0" max="100" value="20" step="10" ticks="10" label-ticks label="Temperature">
+          </calcite-slider>
 
-        <h3>Ticks with Precise Handle</h3>
-        <calcite-slider min="0" max="100" value="50" step="10" ticks="10" label="Temperature" precise></calcite-slider>
+          <h3>Labeled Ticks with Labeled Handle</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            value="40"
+            step="10"
+            ticks="10"
+            label="Temperature"
+            label-handles
+            label-ticks
+          >
+          </calcite-slider>
 
-        <h3>Ticks with Precise Labeled Handle</h3>
-        <calcite-slider min="0" max="100" value="60" step="10" ticks="10" label="Temperature" label-handles precise>
-        </calcite-slider>
+          <h3>Labeled Ticks with Precise Handle</h3>
+          <calcite-slider min="0" max="100" value="23" step="10" ticks="10" label-ticks precise label="Temperature">
+          </calcite-slider>
 
-        <h3>Labeled Ticks</h3>
-        <calcite-slider min="0" max="100" value="20" step="10" ticks="10" label-ticks label="Temperature">
-        </calcite-slider>
+          <h3>Labeled Ticks with Precise Labeled Handle</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            value="23"
+            step="10"
+            ticks="10"
+            label-handles
+            label-ticks
+            precise
+            label="Temperature"
+          ></calcite-slider>
 
-        <h3>Labeled Ticks with Labeled Handle</h3>
-        <calcite-slider min="0" max="100" value="40" step="10" ticks="10" label="Temperature" label-handles label-ticks>
-        </calcite-slider>
+          <h3>Disabled</h3>
+          <calcite-slider min="0" max="100" value="40" step="1" label="Temperature" disabled></calcite-slider>
 
-        <h3>Labeled Ticks with Precise Handle</h3>
-        <calcite-slider min="0" max="100" value="23" step="10" ticks="10" label-ticks precise label="Temperature">
-        </calcite-slider>
+          <h3>Histogram</h3>
+          <calcite-slider min="0" max="100" value="60" step="1" class="js-histogram"></calcite-slider>
 
-        <h3>Labeled Ticks with Precise Labeled Handle</h3>
-        <calcite-slider min="0" max="100" value="23" step="10" ticks="10" label-handles label-ticks precise
-          label="Temperature"></calcite-slider>
+          <h3>Histogram with Labeled Handle</h3>
+          <calcite-slider min="0" max="100" value="60" step="1" class="js-histogram" label-handles></calcite-slider>
 
-        <h3>Disabled</h3>
-        <calcite-slider min="0" max="100" value="40" step="1" label="Temperature" disabled></calcite-slider>
+          <h3>Histogram with Precise Handle</h3>
+          <calcite-slider min="0" max="100" value="60" step="1" class="js-histogram" precise></calcite-slider>
 
-        <h3>Histogram</h3>
-        <calcite-slider min="0" max="100" value="60" step="1" class="js-histogram"></calcite-slider>
+          <h3>Histogram with Precise Labeled Handle</h3>
+          <calcite-slider min="0" max="100" value="60" step="1" class="js-histogram" label-handles precise>
+          </calcite-slider>
 
-        <h3>Histogram with Labeled Handle</h3>
-        <calcite-slider min="0" max="100" value="60" step="1" class="js-histogram" label-handles></calcite-slider>
+          <h3>Histogram with Ticks</h3>
+          <calcite-slider min="0" max="100" value="60" step="10" class="js-histogram" ticks="10"></calcite-slider>
 
-        <h3>Histogram with Precise Handle</h3>
-        <calcite-slider min="0" max="100" value="60" step="1" class="js-histogram" precise></calcite-slider>
+          <h3>Histogram with Ticks and Labeled Handle</h3>
+          <calcite-slider min="0" max="100" value="60" step="10" class="js-histogram" ticks="10" label-handles>
+          </calcite-slider>
 
-        <h3>Histogram with Precise Labeled Handle</h3>
-        <calcite-slider min="0" max="100" value="60" step="1" class="js-histogram" label-handles precise>
-        </calcite-slider>
+          <h3>Histogram with Ticks and Precise Handle</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            value="60"
+            step="10"
+            class="js-histogram"
+            ticks="10"
+            precise
+          ></calcite-slider>
 
-        <h3>Histogram with Ticks</h3>
-        <calcite-slider min="0" max="100" value="60" step="10" class="js-histogram" ticks="10"></calcite-slider>
+          <h3>Histogram with Ticks and Precise Labeled Handle</h3>
+          <calcite-slider min="0" max="100" value="60" step="10" class="js-histogram" ticks="10" label-handles precise>
+          </calcite-slider>
 
-        <h3>Histogram with Ticks and Labeled Handle</h3>
-        <calcite-slider min="0" max="100" value="60" step="10" class="js-histogram" ticks="10" label-handles>
-        </calcite-slider>
+          <h3>Histogram with Labeled Ticks</h3>
+          <calcite-slider min="0" max="100" value="60" step="10" class="js-histogram" ticks="10" label-ticks>
+          </calcite-slider>
 
-        <h3>Histogram with Ticks and Precise Handle</h3>
-        <calcite-slider min="0" max="100" value="60" step="10" class="js-histogram" ticks="10" precise></calcite-slider>
+          <h3>Histogram with Labeled Ticks and Labeled Handle</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            value="60"
+            step="10"
+            class="js-histogram"
+            ticks="10"
+            label-handles
+            label-ticks
+          >
+          </calcite-slider>
 
-        <h3>Histogram with Ticks and Precise Labeled Handle</h3>
-        <calcite-slider min="0" max="100" value="60" step="10" class="js-histogram" ticks="10" label-handles precise>
-        </calcite-slider>
+          <h3>Histogram with Labeled Ticks and Precise Handle</h3>
+          <calcite-slider min="0" max="100" value="60" step="10" class="js-histogram" ticks="10" label-ticks precise>
+          </calcite-slider>
 
-        <h3>Histogram with Labeled Ticks</h3>
-        <calcite-slider min="0" max="100" value="60" step="10" class="js-histogram" ticks="10" label-ticks>
-        </calcite-slider>
+          <h3>Histogram with Labeled Ticks and Precise Labeled Handle</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            value="60"
+            step="10"
+            class="js-histogram"
+            ticks="10"
+            label-handles
+            label-ticks
+            precise
+          ></calcite-slider>
 
-        <h3>Histogram with Labeled Ticks and Labeled Handle</h3>
-        <calcite-slider min="0" max="100" value="60" step="10" class="js-histogram" ticks="10" label-handles
-          label-ticks>
-        </calcite-slider>
+          <h3>Histogram Disabled</h3>
+          <calcite-slider min="0" max="100" value="60" step="1" class="js-histogram" disabled></calcite-slider>
+        </demo-spacer>
 
-        <h3>Histogram with Labeled Ticks and Precise Handle</h3>
-        <calcite-slider min="0" max="100" value="60" step="10" class="js-histogram" ticks="10" label-ticks precise>
-        </calcite-slider>
+        <h2>Range</h2>
 
-        <h3>Histogram with Labeled Ticks and Precise Labeled Handle</h3>
-        <calcite-slider min="0" max="100" value="60" step="10" class="js-histogram" ticks="10" label-handles label-ticks
-          precise></calcite-slider>
+        <demo-spacer>
+          <h3>Handles</h3>
+          <calcite-slider
+            min="10000"
+            max="100000"
+            min-value="10000"
+            max-value="100000"
+            step="1000"
+            step="1"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+          ></calcite-slider>
 
-        <h3>Histogram Disabled</h3>
-        <calcite-slider min="0" max="100" value="60" step="1" class="js-histogram" disabled></calcite-slider>
-      </demo-spacer>
+          <h3>Labeled Handles</h3>
+          <calcite-slider
+            min="10000"
+            max="100000"
+            min-value="10000"
+            max-value="100000"
+            step="1000"
+            step="1"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+            label-handles
+          ></calcite-slider>
 
-      <h2>Range</h2>
+          <h3>Precise Handles</h3>
+          <calcite-slider
+            min="10000"
+            max="100000"
+            min-value="10000"
+            max-value="100000"
+            step="1000"
+            step="1"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+            precise
+          ></calcite-slider>
 
-      <demo-spacer>
-        <h3>Handles</h3>
-        <calcite-slider min="10000" max="100000" min-value="10000" max-value="100000" step="1000" step="1"
-          min-label="Temperature range (lower)" max-label="Temperature range (upper)"></calcite-slider>
+          <h3>Precise Labeled Handles</h3>
+          <calcite-slider
+            min="10000"
+            max="100000"
+            min-value="10000"
+            max-value="100000"
+            step="1000"
+            step="1"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+            precise
+            label-handles
+          >
+          </calcite-slider>
 
-        <h3>Labeled Handles</h3>
-        <calcite-slider min="10000" max="100000" min-value="10000" max-value="100000" step="1000" step="1"
-          min-label="Temperature range (lower)" max-label="Temperature range (upper)" label-handles></calcite-slider>
+          <h3>Ticks</h3>
+          <calcite-slider min="0" max="100" min-value="20" max-value="80" step="10" ticks="10" label="Temperature">
+          </calcite-slider>
 
-        <h3>Precise Handles</h3>
-        <calcite-slider min="10000" max="100000" min-value="10000" max-value="100000" step="1000" step="1"
-          min-label="Temperature range (lower)" max-label="Temperature range (upper)" precise></calcite-slider>
+          <h3>Ticks with Labeled Handles</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="20"
+            max-value="80"
+            step="10"
+            ticks="10"
+            label="Temperature"
+            label-handles
+          ></calcite-slider>
 
-        <h3>Precise Labeled Handles</h3>
-        <calcite-slider min="10000" max="100000" min-value="10000" max-value="100000" step="1000" step="1"
-          min-label="Temperature range (lower)" max-label="Temperature range (upper)" precise label-handles>
-        </calcite-slider>
+          <h3>Ticks with Precise Handles</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="20"
+            max-value="80"
+            step="10"
+            ticks="10"
+            label="Temperature"
+            precise
+          >
+          </calcite-slider>
 
-        <h3>Ticks</h3>
-        <calcite-slider min="0" max="100" min-value="20" max-value="80" step="10" ticks="10" label="Temperature">
-        </calcite-slider>
+          <h3>Ticks with Precise Labeled Handles</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="20"
+            max-value="80"
+            step="10"
+            ticks="10"
+            label="Temperature"
+            label-handles
+            precise
+          >
+          </calcite-slider>
 
-        <h3>Ticks with Labeled Handles</h3>
-        <calcite-slider min="0" max="100" min-value="20" max-value="80" step="10" ticks="10" label="Temperature"
-          label-handles></calcite-slider>
+          <h3>Labeled Ticks</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="20"
+            max-value="80"
+            step="10"
+            ticks="10"
+            label="Temperature"
+            label-ticks
+          >
+          </calcite-slider>
 
-        <h3>Ticks with Precise Handles</h3>
-        <calcite-slider min="0" max="100" min-value="20" max-value="80" step="10" ticks="10" label="Temperature"
-          precise>
-        </calcite-slider>
+          <h3>Labeled Ticks with Labeled Handles</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="20"
+            max-value="80"
+            step="10"
+            ticks="10"
+            label="Temperature"
+            label-handles
+            label-ticks
+          ></calcite-slider>
 
-        <h3>Ticks with Precise Labeled Handles</h3>
-        <calcite-slider min="0" max="100" min-value="20" max-value="80" step="10" ticks="10" label="Temperature"
-          label-handles precise>
-        </calcite-slider>
+          <h3>Labeled Ticks with Precise Handles</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="20"
+            max-value="80"
+            step="10"
+            ticks="10"
+            label="Temperature"
+            precise
+            label-ticks
+          ></calcite-slider>
 
-        <h3>Labeled Ticks</h3>
-        <calcite-slider min="0" max="100" min-value="20" max-value="80" step="10" ticks="10" label="Temperature"
-          label-ticks>
-        </calcite-slider>
+          <h3>Labeled Ticks with Precise Labeled Handles</h3>
+          <calcite-slider
+            min="10000"
+            max="100000"
+            min-value="30000"
+            max-value="80000"
+            step="10000"
+            ticks="10000"
+            label="Temperature"
+            precise
+            label-handles
+            label-ticks
+          ></calcite-slider>
 
-        <h3>Labeled Ticks with Labeled Handles</h3>
-        <calcite-slider min="0" max="100" min-value="20" max-value="80" step="10" ticks="10" label="Temperature"
-          label-handles label-ticks></calcite-slider>
+          <h3>Histogram</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="50"
+            max-value="85"
+            step="1"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+            class="js-histogram"
+          ></calcite-slider>
 
-        <h3>Labeled Ticks with Precise Handles</h3>
-        <calcite-slider min="0" max="100" min-value="20" max-value="80" step="10" ticks="10" label="Temperature" precise
-          label-ticks></calcite-slider>
+          <h3>Histogram with Labeled Handles</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="50"
+            max-value="85"
+            step="1"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+            class="js-histogram"
+            label-handles
+          ></calcite-slider>
+          <calcite-slider
+            min="-100"
+            max="0"
+            min-value="-100"
+            max-value="0"
+            step="1"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+            class="js-histogram"
+            label-handles
+          ></calcite-slider>
 
-        <h3>Labeled Ticks with Precise Labeled Handles</h3>
-        <calcite-slider min="10000" max="100000" min-value="30000" max-value="80000" step="10000" ticks="10000"
-          label="Temperature" precise label-handles label-ticks></calcite-slider>
+          <h3>Histogram with Precise Handles</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="50"
+            max-value="85"
+            step="1"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+            class="js-histogram"
+            precise
+          ></calcite-slider>
 
-        <h3>Histogram</h3>
-        <calcite-slider min="0" max="100" min-value="50" max-value="85" step="1" min-label="Temperature range (lower)"
-          max-label="Temperature range (upper)" class="js-histogram"></calcite-slider>
+          <h3>Histogram with Precise Labeled Handles</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="50"
+            max-value="85"
+            step="1"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+            class="js-histogram"
+            precise
+            label-handles
+          ></calcite-slider>
 
-        <h3>Histogram with Labeled Handles</h3>
-        <calcite-slider min="0" max="100" min-value="50" max-value="85" step="1" min-label="Temperature range (lower)"
-          max-label="Temperature range (upper)" class="js-histogram" label-handles></calcite-slider>
-        <calcite-slider min="-100" max="0" min-value="-100" max-value="0" step="1" min-label="Temperature range (lower)"
-          max-label="Temperature range (upper)" class="js-histogram" label-handles></calcite-slider>
+          <h3>Histogram with Ticks</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="50"
+            max-value="80"
+            step="10"
+            ticks="10"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+            class="js-histogram"
+          >
+          </calcite-slider>
 
-        <h3>Histogram with Precise Handles</h3>
-        <calcite-slider min="0" max="100" min-value="50" max-value="85" step="1" min-label="Temperature range (lower)"
-          max-label="Temperature range (upper)" class="js-histogram" precise></calcite-slider>
+          <h3>Histogram with Ticks and Labeled Handles</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="50"
+            max-value="80"
+            step="10"
+            ticks="10"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+            class="js-histogram"
+            label-handles
+          >
+          </calcite-slider>
 
-        <h3>Histogram with Precise Labeled Handles</h3>
-        <calcite-slider min="0" max="100" min-value="50" max-value="85" step="1" min-label="Temperature range (lower)"
-          max-label="Temperature range (upper)" class="js-histogram" precise label-handles></calcite-slider>
+          <h3>Histogram with Ticks and Precise Handles</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="50"
+            max-value="80"
+            step="10"
+            ticks="10"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+            class="js-histogram"
+            precise
+          >
+          </calcite-slider>
 
-        <h3>Histogram with Ticks</h3>
-        <calcite-slider min="0" max="100" min-value="50" max-value="80" step="10" ticks="10"
-          min-label="Temperature range (lower)" max-label="Temperature range (upper)" class="js-histogram">
-        </calcite-slider>
+          <h3>Histogram with Ticks and Precise Labeled Handles</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="50"
+            max-value="80"
+            step="10"
+            ticks="10"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+            class="js-histogram"
+            label-handles
+            precise
+          >
+          </calcite-slider>
 
-        <h3>Histogram with Ticks and Labeled Handles</h3>
-        <calcite-slider min="0" max="100" min-value="50" max-value="80" step="10" ticks="10"
-          min-label="Temperature range (lower)" max-label="Temperature range (upper)" class="js-histogram"
-          label-handles>
-        </calcite-slider>
+          <h3>Histogram with Labeled Ticks</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="50"
+            max-value="80"
+            step="10"
+            ticks="10"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+            class="js-histogram"
+            label-ticks
+          >
+          </calcite-slider>
 
-        <h3>Histogram with Ticks and Precise Handles</h3>
-        <calcite-slider min="0" max="100" min-value="50" max-value="80" step="10" ticks="10"
-          min-label="Temperature range (lower)" max-label="Temperature range (upper)" class="js-histogram" precise>
-        </calcite-slider>
+          <h3>Histogram with Labeled Ticks and Labeled Handles</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="50"
+            max-value="80"
+            step="10"
+            ticks="10"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+            class="js-histogram"
+            label-handles
+            label-ticks
+          >
+          </calcite-slider>
 
-        <h3>Histogram with Ticks and Precise Labeled Handles</h3>
-        <calcite-slider min="0" max="100" min-value="50" max-value="80" step="10" ticks="10"
-          min-label="Temperature range (lower)" max-label="Temperature range (upper)" class="js-histogram" label-handles
-          precise>
-        </calcite-slider>
+          <h3>Histogram with Labeled Ticks and Precise Handles</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="50"
+            max-value="80"
+            step="10"
+            ticks="10"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+            class="js-histogram"
+            label-ticks
+            precise
+          >
+          </calcite-slider>
 
-        <h3>Histogram with Labeled Ticks</h3>
-        <calcite-slider min="0" max="100" min-value="50" max-value="80" step="10" ticks="10"
-          min-label="Temperature range (lower)" max-label="Temperature range (upper)" class="js-histogram" label-ticks>
-        </calcite-slider>
+          <h3>Histogram with Labeled Ticks and Precise Labeled Handles</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="50"
+            max-value="80"
+            step="10"
+            ticks="10"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+            class="js-histogram"
+            label-handles
+            label-ticks
+            precise
+          >
+          </calcite-slider>
+        </demo-spacer>
+      </div>
 
-        <h3>Histogram with Labeled Ticks and Labeled Handles</h3>
-        <calcite-slider min="0" max="100" min-value="50" max-value="80" step="10" ticks="10"
-          min-label="Temperature range (lower)" max-label="Temperature range (upper)" class="js-histogram" label-handles
-          label-ticks>
-        </calcite-slider>
+      <div class="demo-background-dark calcite-theme-dark">
+        <h2>Single Value</h2>
 
-        <h3>Histogram with Labeled Ticks and Precise Handles</h3>
-        <calcite-slider min="0" max="100" min-value="50" max-value="80" step="10" ticks="10"
-          min-label="Temperature range (lower)" max-label="Temperature range (upper)" class="js-histogram" label-ticks
-          precise>
-        </calcite-slider>
+        <demo-spacer>
+          <h3>Handle</h3>
+          <calcite-slider min="10000" max="100000" value="100000" step="1000" label="Temperature"></calcite-slider>
 
-        <h3>Histogram with Labeled Ticks and Precise Labeled Handles</h3>
-        <calcite-slider min="0" max="100" min-value="50" max-value="80" step="10" ticks="10"
-          min-label="Temperature range (lower)" max-label="Temperature range (upper)" class="js-histogram" label-handles
-          label-ticks precise>
-        </calcite-slider>
+          <h3>Labeled Handle</h3>
+          <calcite-slider
+            min="100"
+            max="1000"
+            value="1000"
+            step="10"
+            label="Temperature"
+            label-handles
+          ></calcite-slider>
 
-      </demo-spacer>
+          <h3>Precise Handle</h3>
+          <calcite-slider min="10000" max="100000" value="100000" step="1000" label="Temperature" precise>
+          </calcite-slider>
+
+          <h3>Precise Labeled Handle</h3>
+          <calcite-slider min="10000" max="100000" value="100000" step="1000" label="Temperature" precise label-handles>
+          </calcite-slider>
+
+          <h3>Ticks</h3>
+          <calcite-slider min="0" max="100" value="20" step="10" ticks="10" label="Temperature"></calcite-slider>
+
+          <h3>Ticks with Labeled Handle</h3>
+          <calcite-slider min="0" max="100" value="40" step="10" ticks="10" label="Temperature" label-handles>
+          </calcite-slider>
+
+          <h3>Ticks with Precise Handle</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            value="50"
+            step="10"
+            ticks="10"
+            label="Temperature"
+            precise
+          ></calcite-slider>
+
+          <h3>Ticks with Precise Labeled Handle</h3>
+          <calcite-slider min="0" max="100" value="60" step="10" ticks="10" label="Temperature" label-handles precise>
+          </calcite-slider>
+
+          <h3>Labeled Ticks</h3>
+          <calcite-slider min="0" max="100" value="20" step="10" ticks="10" label-ticks label="Temperature">
+          </calcite-slider>
+
+          <h3>Labeled Ticks with Labeled Handle</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            value="40"
+            step="10"
+            ticks="10"
+            label="Temperature"
+            label-handles
+            label-ticks
+          >
+          </calcite-slider>
+
+          <h3>Labeled Ticks with Precise Handle</h3>
+          <calcite-slider min="0" max="100" value="23" step="10" ticks="10" label-ticks precise label="Temperature">
+          </calcite-slider>
+
+          <h3>Labeled Ticks with Precise Labeled Handle</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            value="23"
+            step="10"
+            ticks="10"
+            label-handles
+            label-ticks
+            precise
+            label="Temperature"
+          ></calcite-slider>
+
+          <h3>Disabled</h3>
+          <calcite-slider min="0" max="100" value="40" step="1" label="Temperature" disabled></calcite-slider>
+
+          <h3>Histogram</h3>
+          <calcite-slider min="0" max="100" value="60" step="1" class="js-histogram"></calcite-slider>
+
+          <h3>Histogram with Labeled Handle</h3>
+          <calcite-slider min="0" max="100" value="60" step="1" class="js-histogram" label-handles></calcite-slider>
+
+          <h3>Histogram with Precise Handle</h3>
+          <calcite-slider min="0" max="100" value="60" step="1" class="js-histogram" precise></calcite-slider>
+
+          <h3>Histogram with Precise Labeled Handle</h3>
+          <calcite-slider min="0" max="100" value="60" step="1" class="js-histogram" label-handles precise>
+          </calcite-slider>
+
+          <h3>Histogram with Ticks</h3>
+          <calcite-slider min="0" max="100" value="60" step="10" class="js-histogram" ticks="10"></calcite-slider>
+
+          <h3>Histogram with Ticks and Labeled Handle</h3>
+          <calcite-slider min="0" max="100" value="60" step="10" class="js-histogram" ticks="10" label-handles>
+          </calcite-slider>
+
+          <h3>Histogram with Ticks and Precise Handle</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            value="60"
+            step="10"
+            class="js-histogram"
+            ticks="10"
+            precise
+          ></calcite-slider>
+
+          <h3>Histogram with Ticks and Precise Labeled Handle</h3>
+          <calcite-slider min="0" max="100" value="60" step="10" class="js-histogram" ticks="10" label-handles precise>
+          </calcite-slider>
+
+          <h3>Histogram with Labeled Ticks</h3>
+          <calcite-slider min="0" max="100" value="60" step="10" class="js-histogram" ticks="10" label-ticks>
+          </calcite-slider>
+
+          <h3>Histogram with Labeled Ticks and Labeled Handle</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            value="60"
+            step="10"
+            class="js-histogram"
+            ticks="10"
+            label-handles
+            label-ticks
+          >
+          </calcite-slider>
+
+          <h3>Histogram with Labeled Ticks and Precise Handle</h3>
+          <calcite-slider min="0" max="100" value="60" step="10" class="js-histogram" ticks="10" label-ticks precise>
+          </calcite-slider>
+
+          <h3>Histogram with Labeled Ticks and Precise Labeled Handle</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            value="60"
+            step="10"
+            class="js-histogram"
+            ticks="10"
+            label-handles
+            label-ticks
+            precise
+          ></calcite-slider>
+
+          <h3>Histogram Disabled</h3>
+          <calcite-slider min="0" max="100" value="60" step="1" class="js-histogram" disabled></calcite-slider>
+        </demo-spacer>
+
+        <h2>Range</h2>
+
+        <demo-spacer>
+          <h3>Handles</h3>
+          <calcite-slider
+            min="10000"
+            max="100000"
+            min-value="10000"
+            max-value="100000"
+            step="1000"
+            step="1"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+          ></calcite-slider>
+
+          <h3>Labeled Handles</h3>
+          <calcite-slider
+            min="10000"
+            max="100000"
+            min-value="10000"
+            max-value="100000"
+            step="1000"
+            step="1"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+            label-handles
+          ></calcite-slider>
+
+          <h3>Precise Handles</h3>
+          <calcite-slider
+            min="10000"
+            max="100000"
+            min-value="10000"
+            max-value="100000"
+            step="1000"
+            step="1"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+            precise
+          ></calcite-slider>
+
+          <h3>Precise Labeled Handles</h3>
+          <calcite-slider
+            min="10000"
+            max="100000"
+            min-value="10000"
+            max-value="100000"
+            step="1000"
+            step="1"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+            precise
+            label-handles
+          >
+          </calcite-slider>
+
+          <h3>Ticks</h3>
+          <calcite-slider min="0" max="100" min-value="20" max-value="80" step="10" ticks="10" label="Temperature">
+          </calcite-slider>
+
+          <h3>Ticks with Labeled Handles</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="20"
+            max-value="80"
+            step="10"
+            ticks="10"
+            label="Temperature"
+            label-handles
+          ></calcite-slider>
+
+          <h3>Ticks with Precise Handles</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="20"
+            max-value="80"
+            step="10"
+            ticks="10"
+            label="Temperature"
+            precise
+          >
+          </calcite-slider>
+
+          <h3>Ticks with Precise Labeled Handles</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="20"
+            max-value="80"
+            step="10"
+            ticks="10"
+            label="Temperature"
+            label-handles
+            precise
+          >
+          </calcite-slider>
+
+          <h3>Labeled Ticks</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="20"
+            max-value="80"
+            step="10"
+            ticks="10"
+            label="Temperature"
+            label-ticks
+          >
+          </calcite-slider>
+
+          <h3>Labeled Ticks with Labeled Handles</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="20"
+            max-value="80"
+            step="10"
+            ticks="10"
+            label="Temperature"
+            label-handles
+            label-ticks
+          ></calcite-slider>
+
+          <h3>Labeled Ticks with Precise Handles</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="20"
+            max-value="80"
+            step="10"
+            ticks="10"
+            label="Temperature"
+            precise
+            label-ticks
+          ></calcite-slider>
+
+          <h3>Labeled Ticks with Precise Labeled Handles</h3>
+          <calcite-slider
+            min="10000"
+            max="100000"
+            min-value="30000"
+            max-value="80000"
+            step="10000"
+            ticks="10000"
+            label="Temperature"
+            precise
+            label-handles
+            label-ticks
+          ></calcite-slider>
+
+          <h3>Histogram</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="50"
+            max-value="85"
+            step="1"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+            class="js-histogram"
+          ></calcite-slider>
+
+          <h3>Histogram with Labeled Handles</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="50"
+            max-value="85"
+            step="1"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+            class="js-histogram"
+            label-handles
+          ></calcite-slider>
+
+          <h3>Histogram with Precise Handles</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="50"
+            max-value="85"
+            step="1"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+            class="js-histogram"
+            precise
+          ></calcite-slider>
+
+          <h3>Histogram with Precise Labeled Handles</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="50"
+            max-value="85"
+            step="1"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+            class="js-histogram"
+            precise
+            label-handles
+          ></calcite-slider>
+
+          <h3>Histogram with Ticks</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="50"
+            max-value="80"
+            step="10"
+            ticks="10"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+            class="js-histogram"
+          >
+          </calcite-slider>
+
+          <h3>Histogram with Ticks and Labeled Handles</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="50"
+            max-value="80"
+            step="10"
+            ticks="10"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+            class="js-histogram"
+            label-handles
+          >
+          </calcite-slider>
+
+          <h3>Histogram with Ticks and Precise Handles</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="50"
+            max-value="80"
+            step="10"
+            ticks="10"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+            class="js-histogram"
+            precise
+          >
+          </calcite-slider>
+
+          <h3>Histogram with Ticks and Precise Labeled Handles</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="50"
+            max-value="80"
+            step="10"
+            ticks="10"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+            class="js-histogram"
+            label-handles
+            precise
+          >
+          </calcite-slider>
+
+          <h3>Histogram with Labeled Ticks</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="50"
+            max-value="80"
+            step="10"
+            ticks="10"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+            class="js-histogram"
+            label-ticks
+          >
+          </calcite-slider>
+
+          <h3>Histogram with Labeled Ticks and Labeled Handles</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="50"
+            max-value="80"
+            step="10"
+            ticks="10"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+            class="js-histogram"
+            label-handles
+            label-ticks
+          >
+          </calcite-slider>
+
+          <h3>Histogram with Labeled Ticks and Precise Handles</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="50"
+            max-value="80"
+            step="10"
+            ticks="10"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+            class="js-histogram"
+            label-ticks
+            precise
+          >
+          </calcite-slider>
+
+          <h3>Histogram with Labeled Ticks and Precise Labeled Handles</h3>
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="50"
+            max-value="80"
+            step="10"
+            ticks="10"
+            min-label="Temperature range (lower)"
+            max-label="Temperature range (upper)"
+            class="js-histogram"
+            label-handles
+            label-ticks
+            precise
+          >
+          </calcite-slider>
+        </demo-spacer>
+      </div>
     </div>
 
-    <div class="demo-background-dark" theme="dark">
+    <h3>Event Listener</h3>
+    <calcite-slider id="sliderEvents" min="0" max="100" value="50" step="1" label="Temperature"></calcite-slider>
+    <p>Current slider value is: <span id="sliderEventDisplay"></span></p>
 
-      <h2>Single Value</h2>
-
-      <demo-spacer>
-
-        <h3>Handle</h3>
-        <calcite-slider min="10000" max="100000" value="100000" step="1000" label="Temperature"></calcite-slider>
-
-        <h3>Labeled Handle</h3>
-        <calcite-slider min="100" max="1000" value="1000" step="10" label="Temperature" label-handles></calcite-slider>
-
-        <h3>Precise Handle</h3>
-        <calcite-slider min="10000" max="100000" value="100000" step="1000" label="Temperature" precise>
-        </calcite-slider>
-
-        <h3>Precise Labeled Handle</h3>
-        <calcite-slider min="10000" max="100000" value="100000" step="1000" label="Temperature" precise label-handles>
-        </calcite-slider>
-
-        <h3>Ticks</h3>
-        <calcite-slider min="0" max="100" value="20" step="10" ticks="10" label="Temperature"></calcite-slider>
-
-        <h3>Ticks with Labeled Handle</h3>
-        <calcite-slider min="0" max="100" value="40" step="10" ticks="10" label="Temperature" label-handles>
-        </calcite-slider>
-
-        <h3>Ticks with Precise Handle</h3>
-        <calcite-slider min="0" max="100" value="50" step="10" ticks="10" label="Temperature" precise></calcite-slider>
-
-        <h3>Ticks with Precise Labeled Handle</h3>
-        <calcite-slider min="0" max="100" value="60" step="10" ticks="10" label="Temperature" label-handles precise>
-        </calcite-slider>
-
-        <h3>Labeled Ticks</h3>
-        <calcite-slider min="0" max="100" value="20" step="10" ticks="10" label-ticks label="Temperature">
-        </calcite-slider>
-
-        <h3>Labeled Ticks with Labeled Handle</h3>
-        <calcite-slider min="0" max="100" value="40" step="10" ticks="10" label="Temperature" label-handles label-ticks>
-        </calcite-slider>
-
-        <h3>Labeled Ticks with Precise Handle</h3>
-        <calcite-slider min="0" max="100" value="23" step="10" ticks="10" label-ticks precise label="Temperature">
-        </calcite-slider>
-
-        <h3>Labeled Ticks with Precise Labeled Handle</h3>
-        <calcite-slider min="0" max="100" value="23" step="10" ticks="10" label-handles label-ticks precise
-          label="Temperature"></calcite-slider>
-
-        <h3>Disabled</h3>
-        <calcite-slider min="0" max="100" value="40" step="1" label="Temperature" disabled></calcite-slider>
-
-        <h3>Histogram</h3>
-        <calcite-slider min="0" max="100" value="60" step="1" class="js-histogram"></calcite-slider>
-
-        <h3>Histogram with Labeled Handle</h3>
-        <calcite-slider min="0" max="100" value="60" step="1" class="js-histogram" label-handles></calcite-slider>
-
-        <h3>Histogram with Precise Handle</h3>
-        <calcite-slider min="0" max="100" value="60" step="1" class="js-histogram" precise></calcite-slider>
-
-        <h3>Histogram with Precise Labeled Handle</h3>
-        <calcite-slider min="0" max="100" value="60" step="1" class="js-histogram" label-handles precise>
-        </calcite-slider>
-
-        <h3>Histogram with Ticks</h3>
-        <calcite-slider min="0" max="100" value="60" step="10" class="js-histogram" ticks="10"></calcite-slider>
-
-        <h3>Histogram with Ticks and Labeled Handle</h3>
-        <calcite-slider min="0" max="100" value="60" step="10" class="js-histogram" ticks="10" label-handles>
-        </calcite-slider>
-
-        <h3>Histogram with Ticks and Precise Handle</h3>
-        <calcite-slider min="0" max="100" value="60" step="10" class="js-histogram" ticks="10" precise></calcite-slider>
-
-        <h3>Histogram with Ticks and Precise Labeled Handle</h3>
-        <calcite-slider min="0" max="100" value="60" step="10" class="js-histogram" ticks="10" label-handles precise>
-        </calcite-slider>
-
-        <h3>Histogram with Labeled Ticks</h3>
-        <calcite-slider min="0" max="100" value="60" step="10" class="js-histogram" ticks="10" label-ticks>
-        </calcite-slider>
-
-        <h3>Histogram with Labeled Ticks and Labeled Handle</h3>
-        <calcite-slider min="0" max="100" value="60" step="10" class="js-histogram" ticks="10" label-handles label-ticks>
-        </calcite-slider>
-
-        <h3>Histogram with Labeled Ticks and Precise Handle</h3>
-        <calcite-slider min="0" max="100" value="60" step="10" class="js-histogram" ticks="10" label-ticks precise>
-        </calcite-slider>
-
-        <h3>Histogram with Labeled Ticks and Precise Labeled Handle</h3>
-        <calcite-slider min="0" max="100" value="60" step="10" class="js-histogram" ticks="10" label-handles label-ticks
-          precise></calcite-slider>
-
-        <h3>Histogram Disabled</h3>
-        <calcite-slider min="0" max="100" value="60" step="1" class="js-histogram" disabled></calcite-slider>
-      </demo-spacer>
-
-      <h2>Range</h2>
-
-      <demo-spacer>
-        <h3>Handles</h3>
-        <calcite-slider min="10000" max="100000" min-value="10000" max-value="100000" step="1000" step="1"
-          min-label="Temperature range (lower)" max-label="Temperature range (upper)"></calcite-slider>
-
-        <h3>Labeled Handles</h3>
-        <calcite-slider min="10000" max="100000" min-value="10000" max-value="100000" step="1000" step="1"
-          min-label="Temperature range (lower)" max-label="Temperature range (upper)" label-handles></calcite-slider>
-
-        <h3>Precise Handles</h3>
-        <calcite-slider min="10000" max="100000" min-value="10000" max-value="100000" step="1000" step="1"
-          min-label="Temperature range (lower)" max-label="Temperature range (upper)" precise></calcite-slider>
-
-        <h3>Precise Labeled Handles</h3>
-        <calcite-slider min="10000" max="100000" min-value="10000" max-value="100000" step="1000" step="1"
-          min-label="Temperature range (lower)" max-label="Temperature range (upper)" precise label-handles>
-        </calcite-slider>
-
-        <h3>Ticks</h3>
-        <calcite-slider min="0" max="100" min-value="20" max-value="80" step="10" ticks="10" label="Temperature">
-        </calcite-slider>
-
-        <h3>Ticks with Labeled Handles</h3>
-        <calcite-slider min="0" max="100" min-value="20" max-value="80" step="10" ticks="10" label="Temperature"
-          label-handles></calcite-slider>
-
-        <h3>Ticks with Precise Handles</h3>
-        <calcite-slider min="0" max="100" min-value="20" max-value="80" step="10" ticks="10" label="Temperature" precise>
-        </calcite-slider>
-
-        <h3>Ticks with Precise Labeled Handles</h3>
-        <calcite-slider min="0" max="100" min-value="20" max-value="80" step="10" ticks="10" label="Temperature" label-handles
-          precise>
-        </calcite-slider>
-
-        <h3>Labeled Ticks</h3>
-        <calcite-slider min="0" max="100" min-value="20" max-value="80" step="10" ticks="10" label="Temperature" label-ticks>
-        </calcite-slider>
-
-        <h3>Labeled Ticks with Labeled Handles</h3>
-        <calcite-slider min="0" max="100" min-value="20" max-value="80" step="10" ticks="10" label="Temperature" label-handles
-          label-ticks></calcite-slider>
-
-        <h3>Labeled Ticks with Precise Handles</h3>
-        <calcite-slider min="0" max="100" min-value="20" max-value="80" step="10" ticks="10" label="Temperature" precise
-          label-ticks></calcite-slider>
-
-        <h3>Labeled Ticks with Precise Labeled Handles</h3>
-        <calcite-slider min="10000" max="100000" min-value="30000" max-value="80000" step="10000" ticks="10000"
-          label="Temperature" precise label-handles label-ticks></calcite-slider>
-
-        <h3>Histogram</h3>
-        <calcite-slider min="0" max="100" min-value="50" max-value="85" step="1" min-label="Temperature range (lower)"
-          max-label="Temperature range (upper)" class="js-histogram"></calcite-slider>
-
-        <h3>Histogram with Labeled Handles</h3>
-        <calcite-slider min="0" max="100" min-value="50" max-value="85" step="1" min-label="Temperature range (lower)"
-          max-label="Temperature range (upper)" class="js-histogram" label-handles></calcite-slider>
-
-        <h3>Histogram with Precise Handles</h3>
-        <calcite-slider min="0" max="100" min-value="50" max-value="85" step="1" min-label="Temperature range (lower)"
-          max-label="Temperature range (upper)" class="js-histogram" precise></calcite-slider>
-
-        <h3>Histogram with Precise Labeled Handles</h3>
-        <calcite-slider min="0" max="100" min-value="50" max-value="85" step="1" min-label="Temperature range (lower)"
-          max-label="Temperature range (upper)" class="js-histogram" precise label-handles></calcite-slider>
-
-        <h3>Histogram with Ticks</h3>
-        <calcite-slider min="0" max="100" min-value="50" max-value="80" step="10" ticks="10"
-          min-label="Temperature range (lower)" max-label="Temperature range (upper)" class="js-histogram">
-        </calcite-slider>
-
-        <h3>Histogram with Ticks and Labeled Handles</h3>
-        <calcite-slider min="0" max="100" min-value="50" max-value="80" step="10" ticks="10"
-          min-label="Temperature range (lower)" max-label="Temperature range (upper)" class="js-histogram" label-handles>
-        </calcite-slider>
-
-        <h3>Histogram with Ticks and Precise Handles</h3>
-        <calcite-slider min="0" max="100" min-value="50" max-value="80" step="10" ticks="10"
-          min-label="Temperature range (lower)" max-label="Temperature range (upper)" class="js-histogram" precise>
-        </calcite-slider>
-
-        <h3>Histogram with Ticks and Precise Labeled Handles</h3>
-        <calcite-slider min="0" max="100" min-value="50" max-value="80" step="10" ticks="10"
-          min-label="Temperature range (lower)" max-label="Temperature range (upper)" class="js-histogram" label-handles
-          precise>
-        </calcite-slider>
-
-        <h3>Histogram with Labeled Ticks</h3>
-        <calcite-slider min="0" max="100" min-value="50" max-value="80" step="10" ticks="10"
-          min-label="Temperature range (lower)" max-label="Temperature range (upper)" class="js-histogram" label-ticks>
-        </calcite-slider>
-
-        <h3>Histogram with Labeled Ticks and Labeled Handles</h3>
-        <calcite-slider min="0" max="100" min-value="50" max-value="80" step="10" ticks="10"
-          min-label="Temperature range (lower)" max-label="Temperature range (upper)" class="js-histogram" label-handles
-          label-ticks>
-        </calcite-slider>
-
-        <h3>Histogram with Labeled Ticks and Precise Handles</h3>
-        <calcite-slider min="0" max="100" min-value="50" max-value="80" step="10" ticks="10"
-          min-label="Temperature range (lower)" max-label="Temperature range (upper)" class="js-histogram" label-ticks
-          precise>
-        </calcite-slider>
-
-        <h3>Histogram with Labeled Ticks and Precise Labeled Handles</h3>
-        <calcite-slider min="0" max="100" min-value="50" max-value="80" step="10" ticks="10"
-          min-label="Temperature range (lower)" max-label="Temperature range (upper)" class="js-histogram" label-handles
-          label-ticks precise>
-        </calcite-slider>
-
-      </demo-spacer>
-
-    </div>
-  </div>
-
-  <h3>Event Listener</h3>
-  <calcite-slider id="sliderEvents" min="0" max="100" value="50" step="1" label="Temperature"></calcite-slider>
-  <p>Current slider value is: <span id="sliderEventDisplay"></span></p>
-
-  <script>
-    (function () {
-      var label = document.getElementById("sliderEventDisplay");
-      document.getElementById("sliderEvents").addEventListener("calciteSliderUpdate", function (e) {
-        label.innerHTML = e.target.value;
+    <script>
+      (function () {
+        var label = document.getElementById("sliderEventDisplay");
+        document.getElementById("sliderEvents").addEventListener("calciteSliderUpdate", function (e) {
+          label.innerHTML = e.target.value;
+        });
+      })();
+    </script>
+    <script>
+      var histogram = [
+        [0, 0],
+        [20, 12],
+        [40, 25],
+        [60, 55],
+        [80, 10],
+        [100, 0]
+      ];
+      [].slice.call(document.querySelectorAll(".js-histogram")).forEach(function (graphElement) {
+        graphElement.histogram = histogram;
       });
-    })();
-  </script>
-  <script>
-    var histogram = [
-      [0, 0],
-      [20, 12],
-      [40, 25],
-      [60, 55],
-      [80, 10],
-      [100, 0]
-    ];
-    [].slice.call(document.querySelectorAll(".js-histogram")).forEach(function (graphElement) {
-      graphElement.histogram = histogram;
-    });
-  </script>
-</body>
-
+    </script>
+  </body>
 </html>

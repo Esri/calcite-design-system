@@ -452,7 +452,7 @@ Your component and its child components can then use `var(--calcite-tabs-tab-mar
 
 ### Translated strings
 
-In future it will likely become necessary to provide sting translations for components. An example would be the `aria-label` for the `<calcite-modal>` close button. Initial research looks promising and we could likely implement one of these approaches and set a `lang` for each component.
+In future it will likely become necessary to provide string translations for components. An example would be the `aria-label` for the `<calcite-modal>` close button. Initial research looks promising and we could likely implement one of these approaches and set a `lang` for each component.
 
 - https://medium.com/stencil-tricks/implementing-internationalisation-i18n-with-stencil-5e6559554117 and https://codesandbox.io/s/43pmx55vo9
 - https://github.com/ionic-team/ionic-stencil-conference-app/issues/69

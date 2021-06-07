@@ -67,7 +67,7 @@ WithIcons.story = {
 
 export const DarkMode = (): string => html`
   <calcite-radio-group
-    theme="dark"
+    class="calcite-theme-dark"
     layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
     appearance="${select("appearance", ["solid", "outline"], "solid")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"

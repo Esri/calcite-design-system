@@ -333,7 +333,7 @@ describe("calcite-button", () => {
     describe("when theme attribute is dark", () => {
       it("should render button pseudo classes with value tied to dark theme", async () => {
         page = await newE2EPage({
-          html: `<div theme="dark">${buttonSnippet}</div>`
+          html: `<div class="calcite-theme-dark">${buttonSnippet}</div>`
         });
         buttonEl = await page.find("calcite-button >>> button");
         await buttonEl.focus();

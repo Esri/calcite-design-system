@@ -108,7 +108,7 @@ describe("calcite-chip", () => {
     describe("when theme attribute is dark", () => {
       it("should render button pseudo classes with value tied to dark theme", async () => {
         page = await newE2EPage({
-          html: `<div theme="dark">${chipSnippet}</div>`
+          html: `<div class="calcite-theme-dark">${chipSnippet}</div>`
         });
         chipCloseButton = await page.find("calcite-chip >>> button");
         await chipCloseButton.focus();
