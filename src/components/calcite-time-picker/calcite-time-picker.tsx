@@ -13,7 +13,7 @@ import {
   Method
 } from "@stencil/core";
 import { Scale } from "../interfaces";
-import { numberKeys } from "../../utils/key";
+import { getKey, numberKeys } from "../../utils/key";
 import { isValidNumber } from "../../utils/number";
 import {
   Meridiem,
@@ -192,14 +192,15 @@ export class CalciteTimePicker {
 
   @Listen("keydown")
   keyDownHandler(event: KeyboardEvent): void {
+    const key = getKey(event.key);
     switch (this.activeEl) {
       case this.hourEl:
-        if (event.key === "ArrowRight") {
+        if (key === "ArrowRight") {
           this.setFocus("minute");
         }
         break;
       case this.minuteEl:
-        switch (event.key) {
+        switch (key) {
           case "ArrowLeft":
             this.setFocus("hour");
             break;
@@ -213,7 +214,7 @@ export class CalciteTimePicker {
         }
         break;
       case this.secondEl:
-        switch (event.key) {
+        switch (key) {
           case "ArrowLeft":
             this.setFocus("minute");
             break;
@@ -225,7 +226,7 @@ export class CalciteTimePicker {
         }
         break;
       case this.meridiemEl:
-        switch (event.key) {
+        switch (key) {
           case "ArrowLeft":
             if (this.step !== 60) {
               this.setFocus("second");
@@ -289,8 +290,9 @@ export class CalciteTimePicker {
   };
 
   private buttonActivated(event: KeyboardEvent): boolean {
-    const enterPressed = event.key === "Enter";
-    const spacebarPressed = event.key === " " || event.key === "Spacebar";
+    const key = getKey(event.key);
+    const enterPressed = key === "Enter";
+    const spacebarPressed = key === " " || key === "Spacebar";
     if (spacebarPressed) {
       event.preventDefault();
     }
@@ -330,9 +332,10 @@ export class CalciteTimePicker {
   };
 
   private hourKeyDownHandler = (event: KeyboardEvent): void => {
-    if (numberKeys.includes(event.key)) {
+    const key = getKey(event.key);
+    if (numberKeys.includes(key)) {
       this.editingHourWhileFocused = true;
-      const keyAsNumber = parseInt(event.key);
+      const keyAsNumber = parseInt(key);
       let newHour;
       if (isValidNumber(this.hour)) {
         switch (this.hourDisplayFormat) {
@@ -358,7 +361,7 @@ export class CalciteTimePicker {
       }
       this.setTime("hour", newHour);
     } else {
-      switch (event.key) {
+      switch (key) {
         case "Backspace":
           this.setTime("hour", null);
           break;
@@ -422,7 +425,7 @@ export class CalciteTimePicker {
   };
 
   private meridiemKeyDownHandler = (event: KeyboardEvent): void => {
-    switch (event.key) {
+    switch (getKey(event.key)) {
       case "a":
         this.setTime("meridiem", "AM");
         break;
@@ -460,8 +463,9 @@ export class CalciteTimePicker {
   };
 
   private minuteKeyDownHandler = (event: KeyboardEvent): void => {
-    if (numberKeys.includes(event.key)) {
-      const keyAsNumber = parseInt(event.key);
+    const key = getKey(event.key);
+    if (numberKeys.includes(key)) {
+      const keyAsNumber = parseInt(key);
       let newMinute;
       if (isValidNumber(this.minute) && this.minute.startsWith("0")) {
         const minuteAsNumber = parseInt(this.minute);
@@ -475,7 +479,7 @@ export class CalciteTimePicker {
       }
       this.setTime("minute", newMinute);
     } else {
-      switch (event.key) {
+      switch (key) {
         case "Backspace":
           this.setTime("minute", null);
           break;
@@ -508,8 +512,9 @@ export class CalciteTimePicker {
   };
 
   private secondKeyDownHandler = (event: KeyboardEvent): void => {
-    if (numberKeys.includes(event.key)) {
-      const keyAsNumber = parseInt(event.key);
+    const key = getKey(event.key);
+    if (numberKeys.includes(key)) {
+      const keyAsNumber = parseInt(key);
       let newSecond;
       if (isValidNumber(this.second) && this.second.startsWith("0")) {
         const secondAsNumber = parseInt(this.second);
@@ -523,7 +528,7 @@ export class CalciteTimePicker {
       }
       this.setTime("second", newSecond);
     } else {
-      switch (event.key) {
+      switch (key) {
         case "Backspace":
           this.setTime("second", null);
           break;

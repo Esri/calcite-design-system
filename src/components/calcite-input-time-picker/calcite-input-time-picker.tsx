@@ -12,6 +12,7 @@ import {
   Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
+import { getKey } from "../../utils/key";
 import { parseTimeString, Time, formatTimeString, HourDisplayFormat } from "../../utils/time";
 import { Scale } from "../interfaces";
 
@@ -162,7 +163,7 @@ export class CalciteInputTimePicker {
 
   @Listen("keyup")
   keyUpHandler(event: KeyboardEvent): void {
-    if (event.key === "Escape" && this.active) {
+    if (getKey(event.key) === "Escape" && this.active) {
       this.active = false;
     }
   }
