@@ -38,9 +38,9 @@ const createAccordionAttributes: (options?: { exceptions: string[] }) => Attribu
         }
       },
       {
-        name: "theme",
+        name: "class",
         commit(): Attribute {
-          this.value = select("theme", theme.values, theme.defaultValue, group);
+          this.value = select("class", theme.values, theme.defaultValue, group);
           delete this.build;
           return this;
         }
@@ -189,9 +189,9 @@ export const icon = (): string =>
 export const darkThemeIcon = (): string =>
   create(
     "calcite-accordion",
-    createAccordionAttributes({ exceptions: ["theme"] }).concat({
-      name: "theme",
-      value: "dark"
+    createAccordionAttributes({ exceptions: ["class"] }).concat({
+      name: "class",
+      value: "calcite-theme-dark"
     }),
     html`
       ${create(

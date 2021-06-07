@@ -41,7 +41,7 @@ export const LightTheme = (): string => html`
 
 export const DarkTheme = (): string => html`
   <calcite-radio-button-group
-    theme="dark"
+    class="calcite-theme-dark"
     name="dark"
     ${boolean("disabled", false)}
     ${boolean("hidden", false)}

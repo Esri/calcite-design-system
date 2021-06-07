@@ -1,6 +1,6 @@
 # calcite-accordion
 
-`calcite-accordion` can be used to present content in collapsible sections. Configuration options exist for visual style (theme, icon-position, scale, appearance), and selection functionality. Selection modes include "multi", "single", and "single-persist".
+`calcite-accordion` can be used to present content in collapsible sections. Configuration options exist for visual style (icon-position, scale, appearance), and selection functionality. Selection modes include "multi", "single", and "single-persist".
 
 <!-- Auto Generated Below -->
 

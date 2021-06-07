@@ -90,7 +90,7 @@ export const RTL = (): string =>
 export const DarkMode = (): string =>
   create("calcite-color-picker", [
     ...createColorAttributes(),
-    { name: "theme", value: "dark" },
+    { name: "class", value: "calcite-theme-dark" },
     {
       name: "value",
       value: text("value", "#b33f33")

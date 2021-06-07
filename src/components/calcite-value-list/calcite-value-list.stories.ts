@@ -72,9 +72,9 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         }
       },
       {
-        name: "theme",
+        name: "class",
         commit(): Attribute {
-          this.value = select("theme", theme.values, theme.defaultValue);
+          this.value = select("class", theme.values, theme.defaultValue);
           delete this.build;
           return this;
         }
@@ -119,9 +119,9 @@ export const basic = (): string =>
 export const darkThemeRTL = (): string =>
   create(
     "calcite-value-list",
-    createAttributes({ exceptions: ["dir", "theme"] }).concat([
+    createAttributes({ exceptions: ["dir", "class"] }).concat([
       { name: "dir", value: "rtl" },
-      { name: "theme", value: "dark" }
+      { name: "class", value: "calcite-theme-dark" }
     ]),
     html`
       <calcite-value-list-item label="Dogs" description="Man's best friend" value="dogs">

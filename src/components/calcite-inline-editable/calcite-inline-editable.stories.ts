@@ -95,7 +95,7 @@ export const WithoutLabelRTL = (): string => html`
 export const DarkMode = (): string => html`
   <div style="width:300px;max-width:100%;">
     <calcite-label
-      theme="dark"
+      class="calcite-theme-dark"
       status="${select("status", ["idle", "valid", "invalid"], "idle", "Label")}"
       scale="${select("scale", ["s", "m", "l"], "m", "Label")}"
       layout="${select("layout", ["default", "inline", "inline-space-between"], "default", "Label")}"
