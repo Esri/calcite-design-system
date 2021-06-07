@@ -45,6 +45,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-label"] },
     { components: ["calcite-link"] },
     { components: ["calcite-loader"] },
+    { components: ["calcite-list", "calcite-list-item"] },
     { components: ["calcite-modal"] },
     { components: ["calcite-notice"] },
     { components: ["calcite-pagination"] },
