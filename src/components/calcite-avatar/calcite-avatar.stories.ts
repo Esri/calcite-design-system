@@ -40,7 +40,7 @@ MissingThumbnail.story = {
 
 export const Dark = (): string => html`
   <calcite-avatar
-    theme="dark"
+    class="calcite-theme-dark"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     full-name="${text("full-name", "John Doe")}"
     username="${text("username", "jdoe")}"

@@ -38,7 +38,7 @@ export const Dark = (): string => html`
     ${boolean("hidden", false)}
     href="${text("href", "#")}"
     icon="${select("icon", iconNames, "layer")}"
-    theme="dark"
+    class="calcite-theme-dark"
   >
   </calcite-tile>
 `;

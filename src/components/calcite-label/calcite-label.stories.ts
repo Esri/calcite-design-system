@@ -86,11 +86,11 @@ WrappingComponentsOtherThanInput.story = {
 
 export const DarkTheme = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
-    <calcite-label theme="dark">
+    <calcite-label class="calcite-theme-dark">
       Default label wrapping a switch
-      <calcite-switch theme="dark"></calcite-switch>
+      <calcite-switch></calcite-switch>
     </calcite-label>
-    <calcite-label theme="dark">
+    <calcite-label class="calcite-theme-dark">
       Default label wrapping a radio group
       <calcite-radio-group>
         <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
@@ -98,49 +98,49 @@ export const DarkTheme = (): string => html`
         <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
       </calcite-radio-group>
     </calcite-label>
-    <calcite-label theme="dark" layout="inline">
+    <calcite-label class="calcite-theme-dark" layout="inline">
       Text leading inline
-      <calcite-switch theme="dark"></calcite-switch>
+      <calcite-switch></calcite-switch>
     </calcite-label>
-    <calcite-label theme="dark" layout="inline">
-      <calcite-switch theme="dark"></calcite-switch>
+    <calcite-label class="calcite-theme-dark" layout="inline">
+      <calcite-switch></calcite-switch>
       Text trailing inline
     </calcite-label>
-    <calcite-label theme="dark" layout="inline">
+    <calcite-label class="calcite-theme-dark" layout="inline">
       Off
-      <calcite-switch theme="dark"></calcite-switch>
+      <calcite-switch></calcite-switch>
       On
     </calcite-label>
-    <calcite-label theme="dark" layout="inline">
+    <calcite-label class="calcite-theme-dark" layout="inline">
       Text leading inline
-      <calcite-checkbox theme="dark"></calcite-checkbox>
+      <calcite-checkbox></calcite-checkbox>
     </calcite-label>
-    <calcite-label theme="dark">
+    <calcite-label class="calcite-theme-dark">
       Focus slider test
-      <calcite-slider theme="dark"></calcite-slider>
+      <calcite-slider></calcite-slider>
     </calcite-label>
-    <calcite-label theme="dark">
+    <calcite-label class="calcite-theme-dark">
       Focus slider test
-      <calcite-slider theme="dark" min-value="10" max-value="80"></calcite-slider>
+      <calcite-slider min-value="10" max-value="80"></calcite-slider>
     </calcite-label>
-    <calcite-label theme="dark" layout="inline">
-      <calcite-checkbox theme="dark"></calcite-checkbox>
+    <calcite-label class="calcite-theme-dark" layout="inline">
+      <calcite-checkbox></calcite-checkbox>
       Text trailing inline
     </calcite-label>
-    <calcite-label theme="dark" layout="inline-space-between">
+    <calcite-label class="calcite-theme-dark" layout="inline-space-between">
       Text leading inline-space-between
-      <calcite-switch theme="dark"></calcite-switch>
+      <calcite-switch></calcite-switch>
     </calcite-label>
-    <calcite-label theme="dark" layout="inline-space-between">
-      <calcite-switch theme="dark"></calcite-switch>
+    <calcite-label class="calcite-theme-dark" layout="inline-space-between">
+      <calcite-switch></calcite-switch>
       Text trailing inline-space-between
     </calcite-label>
-    <calcite-label theme="dark" layout="inline-space-between">
+    <calcite-label class="calcite-theme-dark" layout="inline-space-between">
       Text leading inline-space-between
-      <calcite-checkbox theme="dark"></calcite-checkbox>
+      <calcite-checkbox></calcite-checkbox>
     </calcite-label>
-    <calcite-label theme="dark" layout="inline-space-between">
-      <calcite-checkbox theme="dark"></calcite-checkbox>
+    <calcite-label class="calcite-theme-dark" layout="inline-space-between">
+      <calcite-checkbox></calcite-checkbox>
       Text trailing inline-space-between
     </calcite-label>
   </div>

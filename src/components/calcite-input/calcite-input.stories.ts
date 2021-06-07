@@ -187,7 +187,7 @@ export const Textarea = (): string => html`
 
 export const SimpleDarkMode = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
-    <calcite-label theme="dark" status="${select("status", ["idle", "valid", "invalid"], "idle")}">
+    <calcite-label class="calcite-theme-dark" status="${select("status", ["idle", "valid", "invalid"], "idle")}">
       ${text("label text", "My great label")}
       <calcite-input
         type="${select(

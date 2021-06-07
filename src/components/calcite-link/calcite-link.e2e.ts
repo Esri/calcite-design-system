@@ -217,7 +217,7 @@ describe("calcite-link", () => {
     describe("when theme attribute is dark", () => {
       it("should render link background with value tied to dark theme", async () => {
         page = await newE2EPage({
-          html: `<article theme="dark">${linkHtml}</article>`
+          html: `<article class="calcite-theme-dark">${linkHtml}</article>`
         });
         link = await page.find("calcite-link >>> a");
         linkStyles = await link.getComputedStyle();

@@ -39,9 +39,9 @@ const createAttributes: (group: string, options?: { exceptions: string[] }) => A
         }
       },
       {
-        name: "theme",
+        name: "class",
         commit(): Attribute {
-          this.value = select("theme", theme.values, theme.defaultValue, group);
+          this.value = select("class", theme.values, theme.defaultValue, group);
           delete this.build;
           return this;
         }
@@ -123,11 +123,13 @@ const actionBarContextualContentHTML = html`
 `;
 
 const actionBarPrimaryHTML = html`
-  <calcite-action-bar theme="dark" slot="action-bar"> ${actionBarPrimaryContentHTML} </calcite-action-bar>
+  <calcite-action-bar class="calcite-theme-dark" slot="action-bar"> ${actionBarPrimaryContentHTML} </calcite-action-bar>
 `;
 
 const actionBarContextualHTML = html`
-  <calcite-action-bar theme="light" slot="action-bar"> ${actionBarContextualContentHTML} </calcite-action-bar>
+  <calcite-action-bar class="calcite-theme-light" slot="action-bar">
+    ${actionBarContextualContentHTML}
+  </calcite-action-bar>
 `;
 
 const leadingPanelHTML = html`

@@ -75,7 +75,7 @@ describe("calcite-scrim", () => {
     describe("when theme attribute is dark", () => {
       it("should render scrim background with value tied to dark theme", async () => {
         page = await newE2EPage({
-          html: `<div theme="dark">${scrimSnippet}</div>`
+          html: `<div class="calcite-theme-dark">${scrimSnippet}</div>`
         });
         scrim = await page.find("calcite-scrim >>> .scrim");
         scrimStyles = await scrim.getComputedStyle();

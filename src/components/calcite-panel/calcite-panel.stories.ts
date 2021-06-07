@@ -81,9 +81,9 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         }
       },
       {
-        name: "theme",
+        name: "class",
         commit(): Attribute {
-          this.value = select("theme", theme.values, theme.defaultValue);
+          this.value = select("class", theme.values, theme.defaultValue);
           delete this.build;
           return this;
         }
@@ -136,14 +136,14 @@ export const basic = (): string => create("calcite-panel", createAttributes(), p
 export const darkThemeRTL = (): string =>
   create(
     "calcite-panel",
-    createAttributes({ exceptions: ["dir", "theme"] }).concat([
+    createAttributes({ exceptions: ["dir", "class"] }).concat([
       {
         name: "dir",
         value: "rtl"
       },
       {
-        name: "theme",
-        value: "dark"
+        name: "class",
+        value: "calcite-theme-dark"
       }
     ]),
     panelContent

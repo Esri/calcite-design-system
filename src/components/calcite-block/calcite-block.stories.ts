@@ -87,9 +87,9 @@ const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes 
         }
       },
       {
-        name: "theme",
+        name: "class",
         commit(): Attribute {
-          this.value = select("theme", theme.values, theme.defaultValue, group);
+          this.value = select("class", theme.values, theme.defaultValue, group);
           delete this.build;
           return this;
         }

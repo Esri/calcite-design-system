@@ -33,10 +33,9 @@ Simple.story = {
 
 export const DarkMode = (): string => html`
   <div style="width: 400px">
-    <calcite-label layout="inline" theme="dark">
+    <calcite-label layout="inline" class="calcite-theme-dark">
       Date
       <calcite-date-picker
-        theme="dark"
         scale="${select("scale", ["s", "m", "l"], "m")}"
         value="${text("value", "2020-12-12")}"
         min="${text("min", "2016-08-09")}"
