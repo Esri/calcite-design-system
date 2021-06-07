@@ -146,9 +146,6 @@ export class CalciteCombobox {
         this.activeChipIndex = -1;
         this.activeItemIndex = -1;
         this.active = false;
-        if (this.allowCustomValues && this.text) {
-          this.addCustomChip(this.text);
-        }
         break;
       case "ArrowLeft":
         this.previousChip();
@@ -759,6 +756,9 @@ export class CalciteCombobox {
 
   comboboxBlurHandler = (event: FocusEvent): void => {
     this.setInactiveIfNotContained(event);
+    if (this.allowCustomValues && this.text) {
+      this.addCustomChip(this.text);
+    }
   };
 
   //--------------------------------------------------------------------------
