@@ -250,7 +250,7 @@ DarkThemeQueue.story = {
 export const Rtl = (): string => html`
 <div dir="rtl">
 <calcite-alert
-class="calcite-theme-dark"
+class="calcite-theme-light"
 ${boolean("icon", true)}
 ${boolean("auto-dismiss", false)}
 auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
