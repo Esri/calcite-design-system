@@ -29,11 +29,11 @@ export const DarkTheme = (): string => html`
   <calcite-input-time-picker
     ${boolean("disabled", false)}
     ${boolean("hidden", false)}
+    class="calcite-theme-dark"
     hour-display-format="${select("hour-display-format", ["12", "24"], "12")}"
     name="${text("name", "dark")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     step="${number("step", 1)}"
-    theme="dark"
     value="${text("value", "22:37")}"
   >
   </calcite-input-time-picker>
