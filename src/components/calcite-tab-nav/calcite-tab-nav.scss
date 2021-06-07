@@ -2,6 +2,18 @@
   @apply z-20 relative flex;
 }
 
+:host([scale="s"]) {
+  min-height: theme("spacing.6");
+}
+
+:host([scale="m"]) {
+  min-height: theme("spacing.8");
+}
+
+:host([scale="l"]) {
+  min-height: theme("spacing.11");
+}
+
 .tab-nav {
   @apply flex
     w-full
