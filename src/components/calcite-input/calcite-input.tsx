@@ -358,7 +358,7 @@ export class CalciteInput {
   //--------------------------------------------------------------------------
 
   private clearInputValue = (nativeEvent: KeyboardEvent | MouseEvent): void => {
-    this.setValue({ value: "", nativeEvent, committing: true });
+    this.setValue("", nativeEvent, true);
   };
 
   private inputBlurHandler = () => {
@@ -388,7 +388,7 @@ export class CalciteInput {
   };
 
   private inputInputHandler = (nativeEvent: InputEvent): void => {
-    this.setValue({ value: (nativeEvent.target as HTMLInputElement).value, nativeEvent });
+    this.setValue((nativeEvent.target as HTMLInputElement).value, nativeEvent);
   };
 
   private inputKeyDownHandler = (event: KeyboardEvent): void => {
@@ -404,10 +404,10 @@ export class CalciteInput {
       if (!isValidNumber(delocalizedValue)) {
         nativeEvent.preventDefault();
       }
-      this.setValue({ value: parseNumberString(delocalizedValue), nativeEvent });
+      this.setValue(parseNumberString(delocalizedValue), nativeEvent);
       this.childNumberEl.value = this.localizedValue;
     } else {
-      this.setValue({ value: delocalizeNumberString(value, this.locale), nativeEvent });
+      this.setValue(delocalizeNumberString(value, this.locale), nativeEvent);
     }
   };
 
@@ -476,7 +476,7 @@ export class CalciteInput {
       newValue = (inputVal -= inputStep).toFixed(decimals).toString();
     }
 
-    this.setValue({ value: newValue, nativeEvent, committing: true });
+    this.setValue(newValue, nativeEvent, true);
   };
 
   private numberButtonMouseDownHandler = (event: MouseEvent): void => {
@@ -491,7 +491,7 @@ export class CalciteInput {
     if (this.type === "number") {
       nativeEvent.preventDefault();
     }
-    this.setValue({ value: this.defaultValue, nativeEvent });
+    this.setValue(this.defaultValue, nativeEvent);
   };
 
   private setChildElRef = (el) => {
@@ -517,15 +517,7 @@ export class CalciteInput {
     this.localizedValue = localizeNumberString(value, this.locale, this.groupSeparator);
   };
 
-  private setValue = ({
-    value,
-    nativeEvent,
-    committing = false
-  }: {
-    value: string;
-    nativeEvent?: any;
-    committing?: boolean;
-  }): void => {
+  private setValue = (value: string, nativeEvent?: any, committing = false): void => {
     const previousValue = this.value;
 
     this.value = this.type === "number" ? sanitizeDecimalString(value) : value;

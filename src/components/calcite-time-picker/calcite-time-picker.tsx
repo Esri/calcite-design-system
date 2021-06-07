@@ -289,9 +289,8 @@ export class CalciteTimePicker {
   };
 
   private buttonActivated(event: KeyboardEvent): boolean {
-    const isKeyboardEvent = event instanceof KeyboardEvent;
-    const enterPressed = isKeyboardEvent && event.key === "Enter";
-    const spacebarPressed = isKeyboardEvent && (event.key === " " || event.key === "Spacebar");
+    const enterPressed = event.key === "Enter";
+    const spacebarPressed = event.key === " " || event.key === "Spacebar";
     if (spacebarPressed) {
       event.preventDefault();
     }
@@ -299,7 +298,7 @@ export class CalciteTimePicker {
   }
 
   private focusHandler = (event: FocusEvent): void => {
-    this.activeEl = event.target as HTMLSpanElement;
+    this.activeEl = event.currentTarget as HTMLSpanElement;
   };
 
   private getDisplayHour(): string {
