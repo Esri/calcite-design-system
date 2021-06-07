@@ -9,9 +9,8 @@
 
 ::slotted(calcite-action) {
   @apply flex
-  w-full
   focus-base
-  p-0.5;
+  m-0.5;
 }
 
 ::slotted(calcite-action[active]) {
@@ -27,5 +26,5 @@
 }
 
 .menu {
-  @apply flex-col flex-no-wrap;
+  @apply flex-col flex-no-wrap outline-none;
 }
