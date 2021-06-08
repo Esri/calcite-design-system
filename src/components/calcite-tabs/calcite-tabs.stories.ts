@@ -19,6 +19,7 @@ export const Simple = (): string => html`
   <calcite-tabs
     layout="${select("layout", ["inline", "center"], "inline")}"
     position="${select("position", ["above", "below"], "above")}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
   >
     <calcite-tab-nav slot="tab-nav">
       <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
@@ -38,6 +39,7 @@ export const WithIcons = (): string => html`
   <calcite-tabs
     layout="${select("layout", ["inline", "center"], "inline")}"
     position="${select("position", ["above", "below"], "above")}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
   >
     <calcite-tab-nav slot="tab-nav">
       <calcite-tab-title active icon-start="${select("tab 1 icon-start", iconNames, iconNames[0])}"
@@ -63,14 +65,28 @@ WithIcons.story = {
   name: "With icons"
 };
 
+export const JustTabNav = (): string => html`
+  <calcite-tab-nav
+    layout="${select("layout", ["inline", "center"], "inline")}"
+    position="${select("position", ["above", "below"], "below")}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+  >
+    <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+    <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+    <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+    <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+  </calcite-tab-nav>
+`;
+
 export const DarkMode = (): string => html`
   <calcite-tabs
     class="calcite-theme-dark"
     layout="${select("layout", ["inline", "center"], "inline")}"
     position="${select("position", ["above", "below"], "above")}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
   >
     <calcite-tab-nav slot="tab-nav">
-      <calcite-tab-title active>Icon 1</calcite-tab-title>
+      <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
       <calcite-tab-title>Tab 2 Title</calcite-tab-title>
       <calcite-tab-title>Tab 3 Title</calcite-tab-title>
       <calcite-tab-title>Tab 4 Title</calcite-tab-title>
@@ -126,6 +142,7 @@ export const RTL = (): string => html`
     dir="rtl"
     layout="${select("layout", ["inline", "center"], "inline")}"
     position="${select("position", ["above", "below"], "above")}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
   >
     <calcite-tab-nav slot="tab-nav">
       <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
