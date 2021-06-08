@@ -4,29 +4,35 @@ This is a living document defining our best practices and reasoning for authorin
 
 <!-- TOC depthFrom:2 -->
 
-- [General Guidelines](#general-guidelines)
-- [Color](#color)
-- [Light Theme/Dark Theme](#light-themedark-theme)
-- [Form Elements and Custom Inputs](#form-elements-and-custom-inputs)
-- [Component Responsibilities](#component-responsibilities)
-- [Events](#events)
-  - [Event Names](#event-names)
-  - [Private Events](#private-events)
-  - [Event Details](#event-details)
-- [Props](#props)
-- [Focus support](#focus-support)
-- [CSS Class Names](#css-class-names)
-- [assets](#assets)
-- [a11y](#a11y)
-- [i18n](#i18n)
-- [Bundling and Loading](#bundling-and-loading)
-- [Custom Themes](#custom-themes)
-- [Unique IDs for Components](#unique-ids-for-components)
-- [Prerendering/SSR](#prerendering-and-ssr)
-- [Cleaning up resources](#cleaning-up-resources)
-- [Tests](#tests)
-  - [Writing Tests](#writing-tests)
-  - [Unstable Tests](#unstable-tests)
+- [Component Guidelines](#component-guidelines)
+  - [General Guidelines](#general-guidelines)
+  - [Color](#color)
+  - [Light Theme/Dark Theme](#light-themedark-theme)
+  - [Custom Themes](#custom-themes)
+    - [Typography](#typography)
+    - [Palette](#palette)
+  - [Form Elements and Custom Inputs](#form-elements-and-custom-inputs)
+  - [Component Responsibilities](#component-responsibilities)
+  - [Events](#events)
+    - [Event Names](#event-names)
+    - [Private/Internal Events](#privateinternal-events)
+    - [Event Details](#event-details)
+  - [Props](#props)
+  - [Focus support](#focus-support)
+  - [CSS Class Names](#css-class-names)
+  - [assets](#assets)
+  - [a11y](#a11y)
+  - [i18n](#i18n)
+    - [Translated strings](#translated-strings)
+  - [Bundling and Loading](#bundling-and-loading)
+  - [Unique IDs for Components](#unique-ids-for-components)
+  - [Prerendering and SSR](#prerendering-and-ssr)
+  - [Cleaning up resources](#cleaning-up-resources)
+    - [Timeouts](#timeouts)
+  - [Tests](#tests)
+    - [Writing Tests](#writing-tests)
+      - [Prevent logging unnecessary messaging in the build](#prevent-logging-unnecessary-messaging-in-the-build)
+    - [Unstable Tests](#unstable-tests)
 
 <!-- /TOC -->
 
@@ -80,16 +86,16 @@ You can then use the `:host()` selector to define your custom colors:
 
 ## Light Theme/Dark Theme
 
-All components should allow developers to supply a `theme` property. This theme should _not_ have default value set:
+All components should render their UI in either light or dark theme colors when the following class names are used:
 
-```tsx
-@Prop({ reflect: true }) theme: "light" | "dark";
-```
+- `.calcite-theme-light`: render with light theme colors (optional, this is the default)
+- [`.calcite-theme-auto`](../src/demos/theme/auto.html): render with user's system theme (ie., `prefers-color-scheme`)
+- `.calcite-theme-dark`: render with dark theme colors
 
 In the [global CSS file](https://github.com/Esri/calcite-components/blob/master/src/assets/styles/global.scss), we specify the values of each color for both light and dark theme. This enables theming to be inherited throughout a component tree. Consider this valid example:
 
 ```html
-<div theme="dark">
+<div class="calcite-theme-dark">
   <calcite-button>Button text</calcite-button>
   <calcite-date-picker></calcite-date-picker>
 </div>

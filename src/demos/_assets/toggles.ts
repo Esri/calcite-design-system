@@ -24,7 +24,10 @@
     } else if (property === "dir") {
       document.dir = document.dir === "rtl" ? "ltr" : "rtl";
     } else if (property === "theme") {
-      document.body.setAttribute("theme", document.body.getAttribute("theme") === "dark" ? "light" : "dark");
+      document.body.setAttribute(
+        "class",
+        document.body.getAttribute("class") === "calcite-theme-dark" ? "calcite-theme-light" : "calcite-theme-dark"
+      );
     }
   };
 

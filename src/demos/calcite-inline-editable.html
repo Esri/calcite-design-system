@@ -29,7 +29,7 @@
       document.querySelector("#themeSwitch").addEventListener("calciteSwitchChange", () => {
         isDarkTheme = !isDarkTheme;
         document.querySelectorAll("calcite-accordion").forEach((accordion) => {
-          accordion.setAttribute("theme", isDarkTheme ? "dark" : "light");
+          accordion.setAttribute("class", isDarkTheme ? "calcite-theme-dark" : "calcite-theme-light");
         });
       });
     </script>
