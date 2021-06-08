@@ -137,40 +137,40 @@ describe("calcite-tabs", () => {
       });
       expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "m");
       expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "m");
-      expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "m");
-      expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "m");
+      expect(await page.find("calcite-tab-title")).toEqualAttribute("scale", "m");
+      expect(await page.find("calcite-tab")).toEqualAttribute("scale", "m");
     });
   });
 
   describe("when scale is provided", () => {
-    it("should render itself and child elements with corresponding scale (small)", async () => {
+    it("should render itself and child tab elements with corresponding scale (small)", async () => {
       const page = await newE2EPage({
         html: `<calcite-tabs scale="s">${tabsContent}</calcite-tabs>`
       });
       expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "s");
       expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "s");
-      expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "s");
-      expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "s");
+      expect(await page.find("calcite-tab-title")).toEqualAttribute("scale", "s");
+      expect(await page.find("calcite-tab")).toEqualAttribute("scale", "s");
     });
 
-    it("should render itself and child elements with corresponding scale (medium)", async () => {
+    it("should render itself and child tab elements with corresponding scale (medium)", async () => {
       const page = await newE2EPage({
         html: `<calcite-tabs scale="m">${tabsContent}</calcite-tabs>`
       });
       expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "m");
       expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "m");
-      expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "m");
-      expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "m");
+      expect(await page.find("calcite-tab-title")).toEqualAttribute("scale", "m");
+      expect(await page.find("calcite-tab")).toEqualAttribute("scale", "m");
     });
 
-    it("should render itself and child elements with corresponding scale (large)", async () => {
+    it("should render itself and child tab elements with corresponding scale (large)", async () => {
       const page = await newE2EPage({
         html: `<calcite-tabs scale="l">${tabsContent}</calcite-tabs>`
       });
       expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "l");
       expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "l");
-      expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "l");
-      expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "l");
+      expect(await page.find("calcite-tab-title")).toEqualAttribute("scale", "l");
+      expect(await page.find("calcite-tab")).toEqualAttribute("scale", "l");
     });
   });
 });
