@@ -44,6 +44,27 @@
   }
 }
 
+:host([scale="s"]) {
+  a,
+  span {
+    @apply text--2h py-1;
+  }
+}
+
+:host([scale="m"]) {
+  a,
+  span {
+    @apply text--1h py-2;
+  }
+}
+
+:host([scale="l"]) {
+  a,
+  span {
+    @apply text-0h py-3;
+  }
+}
+
 a,
 span {
   @apply box-border

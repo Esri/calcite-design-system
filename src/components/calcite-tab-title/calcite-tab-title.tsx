@@ -17,7 +17,7 @@ import { guid } from "../../utils/guid";
 import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { TabID, TabLayout, TabPosition } from "../calcite-tabs/interfaces";
-import { FlipContext } from "../interfaces";
+import { FlipContext, Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-tab-title",
@@ -60,6 +60,9 @@ export class CalciteTabTitle {
   /** @internal Parent tabs component position value */
   @Prop({ reflect: true, mutable: true }) position: TabPosition;
 
+  /** @internal Parent tabs component scale value */
+  @Prop({ reflect: true, mutable: true }) scale: Scale;
+
   /**
    * Optionally include a unique name for the tab title,
    * be sure to also set this name on the associated tab.
@@ -75,6 +78,7 @@ export class CalciteTabTitle {
   connectedCallback(): void {
     this.setupTextContentObserver();
     this.parentTabNavEl = this.el.closest("calcite-tab-nav");
+    this.parentTabsEl = this.el.closest("calcite-tabs");
   }
 
   disconnectedCallback(): void {
@@ -97,8 +101,17 @@ export class CalciteTabTitle {
   }
 
   componentWillRender(): void {
-    this.layout = this.el.closest("calcite-tabs")?.layout;
-    this.position = this.el.closest("calcite-tabs")?.position;
+    if (this.parentTabsEl) {
+      this.layout = this.parentTabsEl.layout;
+      this.position = this.parentTabsEl.position;
+      this.scale = this.parentTabsEl.scale;
+    }
+    // handle case when tab-nav is only parent
+    if (!this.parentTabsEl && this.parentTabNavEl) {
+      this.layout = this.parentTabNavEl.getAttribute("layout") as TabLayout;
+      this.position = this.parentTabNavEl.getAttribute("position") as TabPosition;
+      this.scale = this.parentTabNavEl.getAttribute("scale") as Scale;
+    }
   }
 
   render(): VNode {
@@ -273,6 +286,11 @@ export class CalciteTabTitle {
    * @internal
    */
   private parentTabNavEl: HTMLCalciteTabNavElement;
+
+  /**
+   * @internal
+   */
+  private parentTabsEl: HTMLCalciteTabsElement;
 
   private updateHasText(): void {
     this.hasText = this.el.textContent.trim().length > 0;
