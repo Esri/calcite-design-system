@@ -160,4 +160,54 @@ describe("calcite-tab-title", () => {
       });
     });
   });
+
+  describe("when the active tab-title changes", () => {
+    it("should move the active tab nav indicator", async () => {
+      const page = await newE2EPage({
+        html: `
+        <calcite-tabs>
+          <calcite-tab-nav slot="tab-nav">
+            <calcite-tab-title class="title-1">Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title class="title-2" active>Tab 2 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+          </calcite-tab-nav>
+          <calcite-tab>Tab 1 Content</calcite-tab>
+          <calcite-tab active>Tab 2 Content</calcite-tab>
+          <calcite-tab>Tab 3 Content</calcite-tab>
+          <calcite-tab>Tab 4 Content</calcite-tab>
+        </calcite-tabs>
+        `
+      });
+      const tabTitle1 = await page.find(".title-1");
+      const tabTitle2 = await page.find(".title-2");
+
+      expect(await (await page.find("calcite-tab-title[active]")).innerText).toEqual("Tab 2 Title");
+      expect(
+        await page.evaluate(() => {
+          return (
+            document
+              .querySelector("calcite-tab-nav")
+              .shadowRoot.querySelector(".tab-nav-active-indicator") as HTMLDivElement
+          ).style.left;
+        })
+      ).toEqual("85px");
+
+      // toggle new active tab-title
+      await tabTitle2.removeAttribute("active");
+      await tabTitle1.setAttribute("active", true);
+      await page.waitForChanges();
+
+      expect(await (await page.find("calcite-tab-title[active]")).innerText).toEqual("Tab 1 Title");
+      expect(
+        await page.evaluate(() => {
+          return (
+            document
+              .querySelector("calcite-tab-nav")
+              .shadowRoot.querySelector(".tab-nav-active-indicator") as HTMLDivElement
+          ).style.left;
+        })
+      ).toEqual("0px");
+    });
+  });
 });

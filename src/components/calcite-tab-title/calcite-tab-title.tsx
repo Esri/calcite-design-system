@@ -10,7 +10,8 @@ import {
   Host,
   State,
   Build,
-  VNode
+  VNode,
+  Watch
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../calcite-tab/interfaces";
 import { guid } from "../../utils/guid";
@@ -68,6 +69,13 @@ export class CalciteTabTitle {
    * be sure to also set this name on the associated tab.
    */
   @Prop({ reflect: true }) tab?: string;
+
+  @Watch("active")
+  activeTabChanged(): void {
+    if (this.active) {
+      this.emitActiveTab();
+    }
+  }
 
   //--------------------------------------------------------------------------
   //
