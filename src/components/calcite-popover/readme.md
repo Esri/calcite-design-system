@@ -71,6 +71,7 @@ Type: `Promise<void>`
 ### Used by
 
 - [calcite-action-menu](../calcite-action-menu)
+- [calcite-input-time-picker](../calcite-input-time-picker)
 
 ### Depends on
 
@@ -86,6 +87,7 @@ graph TD;
   calcite-action --> calcite-loader
   calcite-action --> calcite-icon
   calcite-action-menu --> calcite-popover
+  calcite-input-time-picker --> calcite-popover
   style calcite-popover fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

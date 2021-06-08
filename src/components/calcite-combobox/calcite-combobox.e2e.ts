@@ -417,15 +417,17 @@ describe("calcite-combobox", () => {
             <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
             <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
           </calcite-combobox>
+          <button>OK</button>
         `
       );
       const chip = await page.find("calcite-combobox >>> calcite-chip");
       expect(chip).toBeNull();
 
       const input = await page.find("calcite-combobox >>> input");
+      const button = await page.find("button");
       await input.click();
-      await input.press("J");
-      await input.press("Tab");
+      await input.press("o");
+      await button.click();
       const chips = await page.findAll("calcite-combobox >>> calcite-chip");
       expect(chips.length).toBe(1);
     });
