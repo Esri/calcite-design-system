@@ -80,7 +80,7 @@ Using a wrapping `calcite-label` component lets consumers set the status attribu
 | `maxlength`        | `maxlength`          | <span style="color:red">**[DEPRECATED]**</span> use maxLength instead<br/><br/>Maximum length of text input.                                                                                                                                 | `number`                                                                                                                                                                               | `undefined`                               |
 | `min`              | `min`                | input min                                                                                                                                                                                                                                    | `number`                                                                                                                                                                               | `undefined`                               |
 | `minLength`        | `min-length`         | Minimum length of the text input                                                                                                                                                                                                             | `number`                                                                                                                                                                               | `undefined`                               |
-| `name`             | `name`               |                                                                                                                                                                                                                                              | `string`                                                                                                                                                                               | `undefined`                               |
+| `name`             | `name`               | The name of the input                                                                                                                                                                                                                        | `string`                                                                                                                                                                               | `undefined`                               |
 | `numberButtonType` | `number-button-type` | specify the placement of the number buttons                                                                                                                                                                                                  | `"horizontal" \| "none" \| "vertical"`                                                                                                                                                 | `"vertical"`                              |
 | `placeholder`      | `placeholder`        | explicitly whitelist placeholder attribute                                                                                                                                                                                                   | `string`                                                                                                                                                                               | `undefined`                               |
 | `prefixText`       | `prefix-text`        | optionally add prefix                                                                                                                                                                                                                        | `string`                                                                                                                                                                               | `undefined`                               |
@@ -94,9 +94,9 @@ Using a wrapping `calcite-label` component lets consumers set the status attribu
 
 ## Events
 
-| Event               | Description                                         | Type               |
-| ------------------- | --------------------------------------------------- | ------------------ |
-| `calciteInputInput` | This event fires as the value of the input changes. | `CustomEvent<any>` |
+| Event               | Description                                      | Type               |
+| ------------------- | ------------------------------------------------ | ------------------ |
+| `calciteInputInput` | This event fires each time a new value is typed. | `CustomEvent<any>` |
 
 ## Methods
 
@@ -121,6 +121,7 @@ Type: `Promise<void>`
 - [calcite-color-picker](../calcite-color-picker)
 - [calcite-color-picker-hex-input](../calcite-color-picker-hex-input)
 - [calcite-input-date-picker](../calcite-input-date-picker)
+- [calcite-input-time-picker](../calcite-input-time-picker)
 
 ### Depends on
 
@@ -136,6 +137,7 @@ graph TD;
   calcite-color-picker --> calcite-input
   calcite-color-picker-hex-input --> calcite-input
   calcite-input-date-picker --> calcite-input
+  calcite-input-time-picker --> calcite-input
   style calcite-input fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
