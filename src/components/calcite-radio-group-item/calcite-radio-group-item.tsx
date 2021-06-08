@@ -7,7 +7,6 @@ import {
   Element,
   Host,
   Watch,
-  Build,
   State,
   VNode
 } from "@stencil/core";
@@ -15,6 +14,7 @@ import { getElementDir, getElementProp } from "../../utils/dom";
 import { RadioAppearance } from "../calcite-radio-group/interfaces";
 import { Position, Layout, Scale } from "../interfaces";
 import { SLOTS, CSS } from "./resources";
+import { createObserver } from "../../utils/observers";
 
 @Component({
   tag: "calcite-radio-group-item",
@@ -73,16 +73,14 @@ export class CalciteRadioGroupItem {
     if (inputProxy) {
       this.value = inputProxy.value;
       this.checked = inputProxy.checked;
-      if (Build.isBrowser) {
-        this.mutationObserver.observe(inputProxy, { attributes: true });
-      }
+      this.mutationObserver?.observe(inputProxy, { attributes: true });
     }
 
     this.inputProxy = inputProxy;
   }
 
   disconnectedCallback(): void {
-    this.mutationObserver.disconnect();
+    this.mutationObserver?.disconnect();
   }
 
   componentWillLoad(): void {
@@ -151,17 +149,13 @@ export class CalciteRadioGroupItem {
 
   private inputProxy: HTMLInputElement;
 
-  private mutationObserver = this.getMutationObserver();
+  private mutationObserver = createObserver("mutation", () => this.syncFromExternalInput());
 
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
-  private getMutationObserver(): MutationObserver | null {
-    return Build.isBrowser && new MutationObserver(() => this.syncFromExternalInput());
-  }
 
   private syncFromExternalInput(): void {
     if (this.inputProxy) {

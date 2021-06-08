@@ -15,6 +15,7 @@ import { Scale, Width } from "../interfaces";
 import { CSS } from "./resources";
 import { FocusRequest } from "../calcite-label/interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
+import { createObserver } from "../../utils/observers";
 
 type CalciteOptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
@@ -91,7 +92,7 @@ export class CalciteSelect {
 
   private componentToNativeEl = new Map<CalciteOptionOrGroup, NativeOptionOrGroup>();
 
-  private mutationObserver = new MutationObserver(() => this.populateInternalSelect());
+  private mutationObserver = createObserver("mutation", () => this.populateInternalSelect());
 
   private selectEl: HTMLSelectElement;
 
@@ -104,14 +105,14 @@ export class CalciteSelect {
   connectedCallback(): void {
     const { el } = this;
 
-    this.mutationObserver.observe(el, {
+    this.mutationObserver?.observe(el, {
       subtree: true,
       childList: true
     });
   }
 
   disconnectedCallback(): void {
-    this.mutationObserver.disconnect();
+    this.mutationObserver?.disconnect();
   }
 
   //--------------------------------------------------------------------------
