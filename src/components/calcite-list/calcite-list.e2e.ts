@@ -1,18 +1,9 @@
 import { accessible, hidden, renders } from "../../tests/commonTests";
-import { defaults } from "../../tests/commonTests";
 
 describe("calcite-list", () => {
   it("renders", async () => renders("calcite-list"));
 
   it("honors hidden attribute", async () => hidden("calcite-list"));
-
-  it("has property defaults", async () =>
-    defaults("calcite-list", [
-      {
-        propertyName: "selectable",
-        defaultValue: false
-      }
-    ]));
 
   it("should be accessible", async () => {
     await accessible(`<calcite-list>
@@ -23,7 +14,7 @@ describe("calcite-list", () => {
       <calcite-icon icon="banana" slot="content-end" />
       <calcite-action icon="banana" label="jake" slot="actions-end" />
     </calcite-list-item>
-    <calcite-list-item label="test" description="hello world"></calcite-list-item>
+    <calcite-list-item label="test" button-disabled description="hello world"></calcite-list-item>
     <calcite-list-item label="test" description="hello world"></calcite-list-item>
   </calcite-list>`);
   });

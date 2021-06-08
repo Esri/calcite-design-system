@@ -1,4 +1,4 @@
-import { Component, h, Prop, VNode } from "@stencil/core";
+import { Component, h, VNode } from "@stencil/core";
 
 /**
  * @slot - todo document.
@@ -9,17 +9,6 @@ import { Component, h, Prop, VNode } from "@stencil/core";
   shadow: true
 })
 export class CalciteList {
-  // --------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  // --------------------------------------------------------------------------
-
-  /**
-   * @todo document.
-   */
-  @Prop({ reflect: true }) selectable = false;
-
   // --------------------------------------------------------------------------
   //
   //  Render Methods

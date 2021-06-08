@@ -23,6 +23,11 @@ export class CalciteListItem {
   /**
    * @todo document.
    */
+  @Prop({ reflect: true }) buttonDisabled = false;
+
+  /**
+   * @todo document.
+   */
   @Prop() description: string;
 
   /**
@@ -41,7 +46,7 @@ export class CalciteListItem {
   //
   // --------------------------------------------------------------------------
 
-  @Event() calciteListItemSelect: EventEmitter;
+  @Event() calciteListItemClick: EventEmitter;
 
   // --------------------------------------------------------------------------
   //
@@ -57,9 +62,9 @@ export class CalciteListItem {
   //
   // --------------------------------------------------------------------------
 
-  calciteListItemHandler = (): void => {
+  calciteListItemClickHandler = (): void => {
     if (!this.disabled) {
-      this.calciteListItemSelect.emit();
+      this.calciteListItemClick.emit();
     }
   };
 
@@ -117,16 +122,15 @@ export class CalciteListItem {
   }
 
   renderContentContainer(): VNode {
-    const { disabled, el } = this;
-    const parent = el.closest("calcite-list");
+    const { disabled, buttonDisabled } = this;
 
     const content = [this.renderContentStart(), this.renderContent(), this.renderContentEnd()];
 
-    return parent?.selectable ? (
+    return !buttonDisabled ? (
       <button
         class={{ [CSS.contentContainer]: true, [CSS.contentContainerButton]: true }}
         disabled={disabled}
-        onClick={this.calciteListItemHandler}
+        onClick={this.calciteListItemClickHandler}
         type="button"
       >
         {content}

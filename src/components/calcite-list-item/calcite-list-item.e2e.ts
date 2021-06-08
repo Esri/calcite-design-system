@@ -9,6 +9,10 @@ describe("calcite-list-item", () => {
   it("has property defaults", async () =>
     defaults("calcite-list-item", [
       {
+        propertyName: "buttonDisabled",
+        defaultValue: false
+      },
+      {
         propertyName: "description",
         defaultValue: undefined
       },
