@@ -66,7 +66,7 @@ describe("calcite-popover", () => {
         defaultValue: false
       },
       {
-        propertyName: "closeButton",
+        propertyName: "dismissible",
         defaultValue: false
       },
       {
@@ -166,7 +166,7 @@ describe("calcite-popover", () => {
 
     const element = await page.find("calcite-popover");
 
-    element.setProperty("closeButton", true);
+    element.setProperty("dismissible", true);
 
     await page.waitForChanges();
 

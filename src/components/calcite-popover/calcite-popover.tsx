@@ -54,7 +54,7 @@ export class CalcitePopover {
   /**
    * Display a close button within the Popover.
    */
-  @Prop({ reflect: true }) closeButton = false;
+  @Prop({ reflect: true }) dismissible = false;
 
   /**
    * Prevents flipping the popover's placement when it starts to overlap its reference element.
@@ -361,9 +361,9 @@ export class CalcitePopover {
   // --------------------------------------------------------------------------
 
   renderCloseButton(): VNode {
-    const { closeButton, intlClose } = this;
+    const { dismissible, intlClose } = this;
 
-    return closeButton ? (
+    return dismissible ? (
       <calcite-action
         class={CSS.closeButton}
         onClick={this.hide}
