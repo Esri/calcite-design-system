@@ -29,7 +29,7 @@ export const darkMode = (): string => html`
       color: var(--calcite-ui-warning);
     }
   </style>
-  <calcite-icon icon="${select("icon", iconNames, sampleIcon)}" theme="dark"></calcite-icon>
+  <calcite-icon icon="${select("icon", iconNames, sampleIcon)}" class="calcite-theme-dark"></calcite-icon>
 `;
 
 darkMode.parameters = { backgrounds: darkBackground };

@@ -95,7 +95,7 @@ NoContent.story = {
 
 export const DarkMode = (): string => html`
   <calcite-stepper
-    theme="dark"
+  class="calcite-theme-dark"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"

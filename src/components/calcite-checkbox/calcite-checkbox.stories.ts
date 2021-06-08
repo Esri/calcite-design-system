@@ -24,9 +24,8 @@ export const Simple = (): string => html`
   </calcite-label>
 `;
 export const DarkMode = (): string => html`
-  <calcite-label layout="inline" theme="dark">
+  <calcite-label layout="inline" class="calcite-theme-dark">
     <calcite-checkbox
-      theme="dark"
       ${boolean("checked", true)}
       ${boolean("disabled", false)}
       ${boolean("indeterminate", false)}

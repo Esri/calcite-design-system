@@ -61,7 +61,7 @@ export const Simple = (): string => {
       <div>
         ${referenceElementHTML}
         <calcite-popover
-          theme="light"
+        class="calcite-theme-light"
           ${boolean("close-button", false)}
           ${boolean("disable-flip", false)}
           ${boolean("disable-pointer", false)}
@@ -85,7 +85,7 @@ export const RTL = (): string => {
       <div dir="rtl">
         ${referenceElementHTML}
         <calcite-popover
-          theme="${select("theme", theme.values, theme.defaultValue)}"
+          class="${select("class", theme.values, theme.defaultValue)}"
           ${boolean("close-button", false)}
           ${boolean("disable-flip", false)}
           ${boolean("disable-pointer", false)}
@@ -107,7 +107,7 @@ export const DarkMode = (): string => {
       <div>
         ${referenceElementHTML}
         <calcite-popover
-          theme="dark"
+        class="calcite-theme-dark"
           ${boolean("close-button", false)}
           ${boolean("disable-flip", false)}
           ${boolean("disable-pointer", false)}

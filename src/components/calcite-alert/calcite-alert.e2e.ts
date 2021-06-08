@@ -190,7 +190,7 @@ describe("calcite-alert", () => {
     describe("when theme attribute is dark", () => {
       it("should render alert dismiss progress bar with value tied to dark theme", async () => {
         page = await newE2EPage({
-          html: `<div theme="dark">${alertSnippet}</div>`
+          html: `<div class="calcite-theme-dark">${alertSnippet}</div>`
         });
         await page.waitForTimeout(animationDurationInMs);
         alertDismissProgressBar = await page.find("calcite-alert[active] >>> .alert-dismiss-progress");

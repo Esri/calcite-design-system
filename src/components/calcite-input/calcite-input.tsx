@@ -126,6 +126,7 @@ export class CalciteInput {
   /** Minimum length of the text input */
   @Prop({ reflect: true }) minLength?: number;
 
+  /** The name of the input */
   @Prop({ reflect: true }) name?: string;
 
   /** specify the placement of the number buttons */
@@ -185,6 +186,8 @@ export class CalciteInput {
       this.localizedValue !== localizeNumberString(newValue, this.locale)
     ) {
       this.setLocalizedValue(newValue);
+    } else if (this.childEl && this.childEl.value !== newValue) {
+      this.childEl.value = newValue;
     }
   }
 
@@ -215,7 +218,7 @@ export class CalciteInput {
   private form: HTMLFormElement;
 
   get isClearable(): boolean {
-    return !this.isTextarea && (this.clearable || this.type === "search") && this.value.length > 0;
+    return !this.isTextarea && (this.clearable || this.type === "search") && this.value?.length > 0;
   }
 
   get isTextarea(): boolean {
@@ -278,7 +281,7 @@ export class CalciteInput {
   componentDidLoad(): void {
     this.slottedActionEl = this.el.querySelector("[slot=action]");
     this.setDisabledAction();
-    if (this.type === "number") {
+    if (this.type === "number" && this.childEl) {
       this.childEl.style.cssText = hiddenInputStyle;
     }
   }
@@ -308,12 +311,12 @@ export class CalciteInput {
   @Event() calciteInputBlur: EventEmitter;
 
   /**
-   * This event fires as the value of the input changes.
+   * This event fires each time a new value is typed.
    */
   @Event({ cancelable: true }) calciteInputInput: EventEmitter;
 
   /**
-   * This event fires when the value of the input changes and is committed.
+   * This event fires each time a new value is typed and committed.
    * @internal
    */
   @Event() calciteInputChange: EventEmitter;
@@ -484,11 +487,11 @@ export class CalciteInput {
     this.nudgeNumberValue(direction, event);
   };
 
-  private reset = (event): void => {
+  private reset = (nativeEvent): void => {
     if (this.type === "number") {
-      event.preventDefault();
+      nativeEvent.preventDefault();
     }
-    this.setValue(this.defaultValue, event);
+    this.setValue(this.defaultValue, nativeEvent);
   };
 
   private setChildElRef = (el) => {
@@ -514,24 +517,32 @@ export class CalciteInput {
     this.localizedValue = localizeNumberString(value, this.locale, this.groupSeparator);
   };
 
-  private setValue = (value: string, nativeEvent, committing = false): void => {
+  private setValue = (value: string, nativeEvent?: any, committing = false): void => {
     const previousValue = this.value;
-    this.value = this.type === "number" ? sanitizeDecimalString(value) : value;
-    this.setLocalizedValue(this.value);
-    if (this.type === "number" && value?.endsWith(".")) {
-      return;
-    }
-    const calciteInputInputEvent = this.calciteInputInput.emit({
-      element: this.childEl,
-      nativeEvent,
-      value
-    });
 
-    if (calciteInputInputEvent.defaultPrevented) {
-      this.value = previousValue;
-      this.setLocalizedValue(previousValue);
-    } else if (committing) {
-      this.calciteInputChange.emit();
+    this.value = this.type === "number" ? sanitizeDecimalString(value) : value;
+
+    if (this.type === "number") {
+      this.setLocalizedValue(this.value);
+    }
+
+    if (nativeEvent) {
+      if (this.type === "number" && value?.endsWith(".")) {
+        return;
+      }
+
+      const calciteInputInputEvent = this.calciteInputInput.emit({
+        element: this.childEl,
+        nativeEvent,
+        value
+      });
+
+      if (calciteInputInputEvent.defaultPrevented) {
+        this.value = previousValue;
+        this.setLocalizedValue(previousValue);
+      } else if (committing) {
+        this.calciteInputChange.emit();
+      }
     }
   };
 

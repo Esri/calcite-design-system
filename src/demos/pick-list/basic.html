@@ -44,10 +44,14 @@
 
         <h2>multi-select filter-enabled</h2>
         <calcite-pick-list id="two" multiple filter-enabled>
-          <calcite-action scale="s" text="filters" slot="menu-actions" icon="sliders">
-          </calcite-action>
+          <calcite-action scale="s" text="filters" slot="menu-actions" icon="sliders"> </calcite-action>
           <calcite-pick-list-item label="Chocolate" description="Dark is the best." value="chocolate">
-            <calcite-icon scale="s" icon="title" slot="actions-start" style="align-self: center; padding: 0 var(--calcite-spacing);"></calcite-icon>
+            <calcite-icon
+              scale="s"
+              icon="title"
+              slot="actions-start"
+              style="align-self: center; padding: 0 var(--calcite-spacing)"
+            ></calcite-icon>
             <calcite-action slot="actions-end" text="click-me" onClick="console.log('clicked');" icon="ellipsis">
             </calcite-action>
           </calcite-pick-list-item>
@@ -71,11 +75,7 @@
             };
             document.currentScript.previousElementSibling.selected = true;
           </script>
-          <calcite-pick-list-item
-            label="actions-start"
-            description="no metadata on this one"
-            value="strawberry"
-          >
+          <calcite-pick-list-item label="actions-start" description="no metadata on this one" value="strawberry">
             <calcite-action
               slot="actions-start"
               text="click-me"
@@ -177,12 +177,7 @@
         <calcite-pick-list id="four" filter-enabled multiple>
           <calcite-pick-list-group group-title="Cool group">
             <calcite-pick-list-item label="You can count on numbers." value="numbers"></calcite-pick-list-item>
-            <calcite-pick-list-item
-              label="One item label"
-              value="one"
-              icon="grip"
-              selected
-            ></calcite-pick-list-item>
+            <calcite-pick-list-item label="One item label" value="one" icon="grip" selected></calcite-pick-list-item>
             <calcite-pick-list-item label="Another item label" value="two" icon="grip"></calcite-pick-list-item>
           </calcite-pick-list-group>
           <calcite-pick-list-group group-title="Neat group">

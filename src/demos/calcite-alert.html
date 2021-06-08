@@ -134,12 +134,12 @@
     </calcite-alert>
 
     <!-- test prop validation theme -->
-    <calcite-alert label="this is an alert" color="green" id="alert-two" icon theme="bleme">
+    <calcite-alert label="this is an alert" color="green" id="alert-two" icon>
       <div slot="message">2 Successfully updated <em>Portland Restaurants</em> feature layer</div>
       <calcite-link slot="link" title="my action">Do thing</calcite-link>
     </calcite-alert>
 
-    <calcite-alert label="this is an alert" id="alert-three" icon theme="dark">
+    <calcite-alert label="this is an alert" id="alert-three" icon class="calcite-theme-dark">
       <div slot="message">3 A general piece of information</div>
     </calcite-alert>
 
@@ -160,7 +160,7 @@
       <calcite-link slot="link" title="my action">Take action</calcite-link>
     </calcite-alert>
 
-    <calcite-alert label="this is an alert" color="green" id="alert-seven" theme="dark">
+    <calcite-alert label="this is an alert" color="green" id="alert-seven" class="calcite-theme-dark">
       <div slot="title">Layer duplicated</div>
       <div slot="message">7 Successfully duplicated <em>Portland Restaurants</em> feature layer</div>
       <calcite-link slot="link" title="my action">View layer </calcite-link>
@@ -172,9 +172,15 @@
     </calcite-alert>
 
     <!-- test prop validation duration -->
-    <calcite-alert label="this is an alert" id="alert-nine" theme="dark" auto-dismiss auto-dismiss-duration="blast">
+    <calcite-alert
+      label="this is an alert"
+      id="alert-nine"
+      class="calcite-theme-dark"
+      auto-dismiss
+      auto-dismiss-duration="blast"
+    >
       <div slot="message">9 A general piece of information</div>
-      <calcite-link slot="link" theme="dark" title="my action">Take action </calcite-link>
+      <calcite-link slot="link" class="calcite-theme-dark" title="my action">Take action </calcite-link>
     </calcite-alert>
 
     <calcite-alert label="this is an alert" id="alert-ten" auto-dismiss auto-dismiss-duration="medium">
