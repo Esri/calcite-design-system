@@ -138,11 +138,11 @@ export class CalciteListItem {
 
   render(): VNode {
     return (
-      <li class={CSS.container}>
+      <div class={CSS.container}>
         {this.renderActionsStart()}
         {this.renderContentContainer()}
         {this.renderActionsEnd()}
-      </li>
+      </div>
     );
   }
 }

@@ -28,9 +28,9 @@ export class CalciteList {
 
   render(): VNode {
     return (
-      <ul>
+      <div>
         <slot />
-      </ul>
+      </div>
     );
   }
 }
