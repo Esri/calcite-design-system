@@ -38,7 +38,7 @@ describe("calcite-popover", () => {
 
   it("is accessible with close button", async () =>
     accessible(
-      `<calcite-popover label="test" open close-button reference-element="ref"></calcite-popover><div id="ref">😄</div>`
+      `<calcite-popover label="test" open dismissible reference-element="ref"></calcite-popover><div id="ref">😄</div>`
     ));
 
   it("honors hidden attribute", async () => hidden("calcite-popover"));
