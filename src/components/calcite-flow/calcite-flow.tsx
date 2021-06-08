@@ -3,6 +3,7 @@ import { Component, Element, Listen, Method, State, h, VNode } from "@stencil/co
 import { CSS } from "./resources";
 
 import { FlowDirection } from "./interfaces";
+import { createObserver } from "../../utils/observers";
 
 /**
  * @slot - A slot for adding `calcite-panel`s to the flow.
@@ -62,12 +63,12 @@ export class CalciteFlow {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.panelItemObserver.observe(this.el, { childList: true, subtree: true });
+    this.panelItemMutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.updateFlowProps();
   }
 
   disconnectedCallback(): void {
-    this.panelItemObserver.disconnect();
+    this.panelItemMutationObserver?.disconnect();
   }
 
   // --------------------------------------------------------------------------
@@ -125,7 +126,7 @@ export class CalciteFlow {
     }
   };
 
-  panelItemObserver = new MutationObserver(this.updateFlowProps);
+  panelItemMutationObserver: MutationObserver = createObserver("mutation", this.updateFlowProps);
 
   // --------------------------------------------------------------------------
   //

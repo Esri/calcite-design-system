@@ -1,5 +1,4 @@
 import {
-  Build,
   Component,
   Element,
   Event,
@@ -28,6 +27,7 @@ import { Scale } from "../interfaces";
 import { ModalBackgroundColor } from "./interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { TEXT, SLOTS, CSS, ICONS } from "./resources";
+import { createObserver } from "../../utils/observers";
 
 const isFocusableExtended = (el: CalciteFocusableElement): boolean => {
   return isCalciteFocusable(el) || isFocusable(el);
@@ -119,13 +119,8 @@ export class CalciteModal {
   }
 
   connectedCallback(): void {
-    if (Build.isBrowser) {
-      if (!this.mutationObserver) {
-        this.mutationObserver = new MutationObserver(this.updateFooterVisibility);
-      }
-      this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-      this.updateFooterVisibility();
-    }
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+    this.updateFooterVisibility();
   }
 
   disconnectedCallback(): void {
@@ -243,7 +238,9 @@ export class CalciteModal {
 
   modalContent: HTMLDivElement;
 
-  private mutationObserver: MutationObserver = null;
+  private mutationObserver: MutationObserver = createObserver("mutation", () =>
+    this.updateFooterVisibility()
+  );
 
   previousActiveElement: HTMLElement;
 
