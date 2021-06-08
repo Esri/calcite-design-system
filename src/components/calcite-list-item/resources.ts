@@ -1,6 +1,7 @@
 export const CSS = {
   container: "container",
   contentContainer: "content-container",
+  contentContainerButton: "content-container--button",
   content: "content",
   actionsStart: "actions-start",
   contentStart: "content-start",

@@ -1,4 +1,4 @@
-import { accessible, hidden, renders } from "../../tests/commonTests";
+import { hidden, renders } from "../../tests/commonTests";
 import { defaults } from "../../tests/commonTests";
 
 describe("calcite-list-item", () => {
@@ -9,13 +9,16 @@ describe("calcite-list-item", () => {
   it("has property defaults", async () =>
     defaults("calcite-list-item", [
       {
+        propertyName: "description",
+        defaultValue: undefined
+      },
+      {
         propertyName: "disabled",
         defaultValue: false
+      },
+      {
+        propertyName: "label",
+        defaultValue: undefined
       }
     ]));
-
-  it("should be accessible", async () => {
-    await accessible(`<calcite-list-item></calcite-fab>`);
-    await accessible(`<calcite-list-item disabled></calcite-list-item>`);
-  });
 });

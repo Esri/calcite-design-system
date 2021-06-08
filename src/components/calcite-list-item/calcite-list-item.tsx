@@ -1,4 +1,4 @@
-import { Component, Element, Prop, h, VNode } from "@stencil/core";
+import { Component, Element, Event, EventEmitter, Prop, h, VNode } from "@stencil/core";
 import { SLOTS, CSS } from "./resources";
 import { getSlotted } from "../../utils/dom";
 
@@ -28,7 +28,20 @@ export class CalciteListItem {
   /**
    * @todo document.
    */
+  @Prop({ reflect: true }) disabled = false;
+
+  /**
+   * @todo document.
+   */
   @Prop() label: string;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  // --------------------------------------------------------------------------
+
+  @Event() calciteListItemSelect: EventEmitter;
 
   // --------------------------------------------------------------------------
   //
@@ -37,6 +50,18 @@ export class CalciteListItem {
   // --------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteListItemElement;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  // --------------------------------------------------------------------------
+
+  calciteListItemHandler = (): void => {
+    if (!this.disabled) {
+      this.calciteListItemSelect.emit();
+    }
+  };
 
   // --------------------------------------------------------------------------
   //
@@ -92,12 +117,22 @@ export class CalciteListItem {
   }
 
   renderContentContainer(): VNode {
-    return (
-      <div class={CSS.contentContainer}>
-        {this.renderContentStart()}
-        {this.renderContent()}
-        {this.renderContentEnd()}
-      </div>
+    const { disabled, el } = this;
+    const parent = el.closest("calcite-list");
+
+    const content = [this.renderContentStart(), this.renderContent(), this.renderContentEnd()];
+
+    return parent?.selectable ? (
+      <button
+        class={{ [CSS.contentContainer]: true, [CSS.contentContainerButton]: true }}
+        disabled={disabled}
+        onClick={this.calciteListItemHandler}
+        type="button"
+      >
+        {content}
+      </button>
+    ) : (
+      <div class={CSS.contentContainer}>{content}</div>
     );
   }
 
