@@ -53,6 +53,12 @@ export class CalcitePopover {
 
   /**
    * Display a close button within the Popover.
+   * @deprecated use dismissible instead.
+   */
+  @Prop({ reflect: true }) closeButton = false;
+
+  /**
+   * Display a close button within the Popover.
    */
   @Prop({ reflect: true }) dismissible = false;
 
@@ -361,9 +367,9 @@ export class CalcitePopover {
   // --------------------------------------------------------------------------
 
   renderCloseButton(): VNode {
-    const { dismissible, intlClose } = this;
+    const { dismissible, closeButton, intlClose } = this;
 
-    return dismissible ? (
+    return dismissible || closeButton ? (
       <calcite-action
         class={CSS.closeButton}
         onClick={this.hide}
