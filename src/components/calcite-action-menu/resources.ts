@@ -1,5 +1,4 @@
 export const CSS = {
-  menuButton: "menu-button",
   menu: "menu"
 };
 
@@ -8,5 +7,6 @@ export const ICONS = {
 };
 
 export const SLOTS = {
-  tooltip: "tooltip"
+  tooltip: "tooltip",
+  trigger: "trigger"
 };

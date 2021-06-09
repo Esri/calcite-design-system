@@ -87,6 +87,7 @@ export class CalciteActionGroup {
         open={menuOpen}
         placement="leading-start"
       >
+        <calcite-action slot="trigger" text={intlMore || TEXT.more} textEnabled={expanded} />
         <slot name={SLOTS.menuActions} />
         {this.renderTooltip()}
       </calcite-action-menu>

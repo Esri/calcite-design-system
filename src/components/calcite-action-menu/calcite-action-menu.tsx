@@ -17,7 +17,6 @@ import { getRoundRobinIndex } from "../../utils/array";
 import { PopperPlacement, OverlayPositioning } from "../../utils/popper";
 import { Placement } from "@popperjs/core";
 import { guid } from "../../utils/guid";
-import { Scale } from "../interfaces";
 
 const SUPPORTED_BUTTON_NAV_KEYS = ["ArrowUp", "ArrowDown"];
 const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
@@ -25,7 +24,8 @@ const MENU_ANIMATION_DELAY_MS = 50;
 
 /**
  * @slot - A slot for adding `calcite-action`s.
- * @slot tooltip - a slot for adding an tooltip for the menu.
+ * @slot trigger - A slot for adding a `calcite-action` to trigger opening the menu.
+ * @slot tooltip - A slot for adding an tooltip for the menu.
  */
 @Component({
   tag: "calcite-action-menu",
@@ -46,6 +46,7 @@ export class CalciteActionMenu {
 
   disconnectedCallback(): void {
     this.mutationObserver.disconnect();
+    this.disconnectMenuButtonEl();
   }
 
   // --------------------------------------------------------------------------
@@ -93,11 +94,6 @@ export class CalciteActionMenu {
    * Determines where the component will be positioned relative to the referenceElement.
    */
   @Prop({ reflect: true }) placement: PopperPlacement = "auto";
-
-  /**
-   * Specifies the size of the action.
-   */
-  @Prop({ reflect: true }) scale: Scale = "m";
 
   // --------------------------------------------------------------------------
   //
@@ -169,33 +165,67 @@ export class CalciteActionMenu {
   //
   // --------------------------------------------------------------------------
 
-  renderMenuButton(): VNode {
-    const { el, menuButtonId, menuId, open, label, expanded, scale } = this;
+  connectMenuButtonEl = (): void => {
+    const { el, menuButtonId, menuId, open, label } = this;
+    const menuButtonEl = getSlotted(el, SLOTS.trigger) as HTMLCalciteActionElement;
 
-    const actionNode = (
-      <calcite-action
-        active={open}
-        aria-controls={menuId}
-        aria-expanded={open.toString()}
-        aria-haspopup="true"
-        class={CSS.menuButton}
-        icon={ICONS.menu}
-        id={menuButtonId}
-        label={label}
-        onClick={this.menuButtonClick}
-        onKeyDown={this.menuButtonKeyDown}
-        onKeyUp={this.menuButtonKeyUp}
-        ref={this.setMenuButtonRef}
-        scale={scale}
-        text={label}
-        textEnabled={expanded}
-      />
-    );
+    if (!menuButtonEl) {
+      return;
+    }
+
+    this.menuButtonEl = menuButtonEl;
+    this.setTooltipReferenceElement();
+    forceUpdate(this); // todo: remove?
+
+    menuButtonEl.active = open;
+    menuButtonEl.setAttribute("aria-controls", menuId);
+    menuButtonEl.setAttribute("aria-expanded", open.toString());
+    menuButtonEl.setAttribute("aria-haspopup", "true");
+
+    if (!menuButtonEl.icon) {
+      menuButtonEl.icon = ICONS.menu;
+    }
+
+    if (!menuButtonEl.id) {
+      menuButtonEl.id = menuButtonId;
+    }
+
+    if (!menuButtonEl.label) {
+      menuButtonEl.label = label;
+    }
+
+    if (!menuButtonEl.text) {
+      menuButtonEl.text = label;
+    }
+
+    menuButtonEl.addEventListener("click", this.menuButtonClick);
+    menuButtonEl.addEventListener("keydown", this.menuButtonKeyDown);
+    menuButtonEl.addEventListener("keyup", this.menuButtonKeyUp);
+  };
+
+  disconnectMenuButtonEl = (): void => {
+    const { menuButtonEl } = this;
+
+    if (!menuButtonEl) {
+      return;
+    }
+
+    menuButtonEl.removeEventListener("click", this.menuButtonClick);
+    menuButtonEl.removeEventListener("keydown", this.menuButtonKeyDown);
+    menuButtonEl.removeEventListener("keyup", this.menuButtonKeyUp);
+  };
+
+  renderMenuButton(): VNode {
+    const { el } = this;
+
+    this.connectMenuButtonEl();
+
+    const menuButtonSlot = <slot name={SLOTS.trigger} />;
 
     return getSlotted(el, SLOTS.tooltip) ? (
-      <calcite-tooltip-manager>{actionNode}</calcite-tooltip-manager>
+      <calcite-tooltip-manager>{menuButtonSlot}</calcite-tooltip-manager>
     ) : (
-      actionNode
+      menuButtonSlot
     );
   }
 
@@ -204,9 +234,9 @@ export class CalciteActionMenu {
       actionElements,
       activeMenuItemIndex,
       open,
-      menuButtonId,
       menuId,
       menuButtonEl,
+      menuButtonId,
       label,
       placement,
       overlayPositioning
@@ -226,7 +256,7 @@ export class CalciteActionMenu {
       >
         <div
           aria-activedescendant={activeDescendantId}
-          aria-labelledby={menuButtonId}
+          aria-labelledby={menuButtonEl?.id || menuButtonId}
           class={CSS.menu}
           id={menuId}
           onClick={this.handleCalciteActionClick}
@@ -260,6 +290,7 @@ export class CalciteActionMenu {
 
   handleCalciteActionClick = (): void => {
     this.open = false;
+    this.setFocus();
   };
 
   menuButtonClick = (): void => {
@@ -276,12 +307,6 @@ export class CalciteActionMenu {
     if (tooltip?.tagName === "CALCITE-TOOLTIP") {
       (tooltip as HTMLCalciteTooltipElement).referenceElement = !expanded && menuButtonEl;
     }
-  };
-
-  setMenuButtonRef = (node: HTMLCalciteActionElement): void => {
-    this.menuButtonEl = node;
-    this.setTooltipReferenceElement();
-    forceUpdate(this);
   };
 
   updateAction = (action: HTMLCalciteActionElement, index: number): void => {

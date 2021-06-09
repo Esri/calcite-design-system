@@ -18,7 +18,7 @@
   outline-offset: 0px;
 }
 
-.menu-button {
+@include slotted("trigger", "calcite-action") {
   @apply self-stretch
   flex-initial
   h-full
