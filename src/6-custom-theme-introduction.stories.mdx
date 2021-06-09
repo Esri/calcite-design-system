@@ -1,0 +1,39 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Theming/Introduction" />
+
+# Custom theme
+
+Developers building Esri applications are encouraged to use the default light or dark themes as much as possible. However, CSS varialbes defining color and typography are exposed on `:root` and may be customized as shown in this example.
+
+```html
+<style>
+  .my-theme {
+    --calcite-ui-text-3: white;
+    --calcite-ui-foreground-1: red;
+  }
+</style>
+<div class="my-theme">
+  <calcite-action icon="beaker" text="Foo" text-enabled></calcite-action>
+</div>
+```
+
+CalciteAction uses `--calcite-ui-foreground-1` and `--calcite-ui-text-3` for its default appearance. Overwriting thosee variable will customize the appearance of all instances of CalciteAction inside the div.
+
+Note that setting the `theme` property individual components or elements will prevent overwrites from taking effect.
+
+```html
+<style>
+  .my-theme {
+    --calcite-ui-text-3: white;
+    --calcite-ui-foreground-1: red;
+  }
+</style>
+<div class="my-theme">
+    <calcite-action icon="beaker" text="Foo" text-enabled></calcite-action>
+
+    <!-- The theme property will prevent this from recieving the overwrites. -->
+    <calcite-action theme="light" icon="beaker" text="Bar" text-enabled></calcite-action>
+</div>
+```
+Setting a valid theme prop ("light" or "dark") prevents application overwrites from taking effect. 
