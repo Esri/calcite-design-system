@@ -80,16 +80,10 @@ You can then use the `:host()` selector to define your custom colors:
 
 ## Light Theme/Dark Theme
 
-All components should allow developers to supply a `theme` property. This theme should _not_ have default value set:
-
-```tsx
-@Prop({ reflect: true }) theme: "light" | "dark";
-```
-
 In the [global CSS file](https://github.com/Esri/calcite-components/blob/master/src/assets/styles/global.scss), we specify the values of each color for both light and dark theme. This enables theming to be inherited throughout a component tree. Consider this valid example:
 
 ```html
-<div theme="dark">
+<div class="calcite-theme-dark">
   <calcite-button>Button text</calcite-button>
   <calcite-date-picker></calcite-date-picker>
 </div>

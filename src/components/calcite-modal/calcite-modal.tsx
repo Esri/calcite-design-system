@@ -106,20 +106,19 @@ export class CalciteModal {
     }
   }
 
-  componentDidLoad(): void {
-    this.observer?.observe(this.el, { childList: true, subtree: true });
-  }
-
   connectedCallback(): void {
     if (Build.isBrowser) {
-      this.observer = new MutationObserver(this.updateFooterVisibility);
+      if (!this.mutationObserver) {
+        this.mutationObserver = new MutationObserver(this.updateFooterVisibility);
+      }
+      this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
       this.updateFooterVisibility();
     }
   }
 
   disconnectedCallback(): void {
     this.removeOverflowHiddenClass();
-    this.observer?.disconnect();
+    this.mutationObserver?.disconnect();
   }
 
   render(): VNode {
@@ -232,7 +231,7 @@ export class CalciteModal {
 
   modalContent: HTMLDivElement;
 
-  private observer: MutationObserver = null;
+  private mutationObserver: MutationObserver = null;
 
   previousActiveElement: HTMLElement;
 

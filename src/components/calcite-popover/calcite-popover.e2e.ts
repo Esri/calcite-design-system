@@ -38,7 +38,7 @@ describe("calcite-popover", () => {
 
   it("is accessible with close button", async () =>
     accessible(
-      `<calcite-popover label="test" open close-button reference-element="ref"></calcite-popover><div id="ref">😄</div>`
+      `<calcite-popover label="test" open dismissible reference-element="ref"></calcite-popover><div id="ref">😄</div>`
     ));
 
   it("honors hidden attribute", async () => hidden("calcite-popover"));
@@ -66,7 +66,7 @@ describe("calcite-popover", () => {
         defaultValue: false
       },
       {
-        propertyName: "closeButton",
+        propertyName: "dismissible",
         defaultValue: false
       },
       {
@@ -166,7 +166,7 @@ describe("calcite-popover", () => {
 
     const element = await page.find("calcite-popover");
 
-    element.setProperty("closeButton", true);
+    element.setProperty("dismissible", true);
 
     await page.waitForChanges();
 
