@@ -46,6 +46,7 @@ export class CalciteActionMenu {
 
   disconnectedCallback(): void {
     this.mutationObserver.disconnect();
+    this.removeMenuElClickListener();
   }
 
   // --------------------------------------------------------------------------
@@ -231,7 +232,7 @@ export class CalciteActionMenu {
           id={menuId}
           onKeyDown={this.menuActionsContainerKeyDown}
           onKeyUp={this.menuActionsContainerKeyUp}
-          ref={(el) => (this.menuEl = el)}
+          ref={this.storeMenuEl}
           role="menu"
           tabIndex={-1}
         >
@@ -256,6 +257,24 @@ export class CalciteActionMenu {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  addMenuElClickListener = (): void => {
+    this.menuEl?.addEventListener("calciteActionClick", this.handleCalciteActionClick);
+  };
+
+  removeMenuElClickListener = (): void => {
+    this.menuEl?.removeEventListener("calciteActionClick", this.handleCalciteActionClick);
+  };
+
+  storeMenuEl = (el: HTMLDivElement): void => {
+    this.removeMenuElClickListener();
+    this.menuEl = el;
+    this.addMenuElClickListener();
+  };
+
+  handleCalciteActionClick = (): void => {
+    this.open = false;
+  };
 
   menuButtonClick = (): void => {
     this.toggleOpen();
