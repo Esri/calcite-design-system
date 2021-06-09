@@ -24,7 +24,7 @@
     } else if (property === "dir") {
       document.dir = document.dir === "rtl" ? "ltr" : "rtl";
     } else if (property === "theme") {
-      document.body.setAttribute("theme", document.body.getAttribute("theme") === "dark" ? "light" : "dark");
+      document.body.classList.toggle("calcite-theme-dark");
     }
   };
 
