@@ -436,7 +436,8 @@ export class CalciteInput {
     if (event.altKey || event.ctrlKey || event.metaKey) {
       return;
     }
-    if (supportedKeys.includes(event.key) && !event.shiftKey) {
+    const isShiftTabEvent = event.shiftKey && event.key === "Tab";
+    if (supportedKeys.includes(event.key) && (!event.shiftKey || isShiftTabEvent)) {
       if (event.key === "Enter") {
         this.calciteInputChange.emit();
       }
