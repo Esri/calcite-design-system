@@ -58,7 +58,7 @@ describe("calcite-tile", () => {
 
   it("disabling it also disables link", async () => {
     const page = await newE2EPage({
-      html: html`<calcite-tile heading="My Calcite Tile"></calcite-tile>`
+      html: html`<calcite-tile heading="My Calcite Tile" href="http://www.esri.com"></calcite-tile>`
     });
     const tile = await page.find("calcite-tile");
     const link = await page.find("calcite-tile >>> calcite-link");
