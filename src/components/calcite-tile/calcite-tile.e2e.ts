@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import { html } from "../../tests/utils";
 
 describe("calcite-tile", () => {
   it("renders", async () => renders("calcite-tile"));
@@ -8,6 +9,7 @@ describe("calcite-tile", () => {
 
   it("has defaults", async () =>
     defaults("calcite-tile", [
+      { propertyName: "disabled", defaultValue: false },
       { propertyName: "embed", defaultValue: false },
       { propertyName: "focused", defaultValue: false },
       { propertyName: "hidden", defaultValue: false }
@@ -16,6 +18,7 @@ describe("calcite-tile", () => {
   it("reflects", async () =>
     reflects("calcite-tile", [
       { propertyName: "active", value: true },
+      { propertyName: "disabled", value: true },
       { propertyName: "embed", value: true },
       { propertyName: "focused", value: true },
       { propertyName: "href", value: "http://www.esri.com" },
@@ -51,6 +54,22 @@ describe("calcite-tile", () => {
     expect(icon).toBeNull();
     expect(heading).toEqualText("My Calcite Tile");
     expect(description).toBeNull();
+  });
+
+  it("disabling it also disables link", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-tile heading="My Calcite Tile"></calcite-tile>`
+    });
+    const tile = await page.find("calcite-tile");
+    const link = await page.find("calcite-tile >>> calcite-link");
+
+    expect(await link.getProperty("disabled")).toBe(false);
+
+    tile.setProperty("disabled", true);
+
+    await page.waitForChanges();
+
+    expect(await link.getProperty("disabled")).toBe(true);
   });
 
   it("renders icon only when supplied", async () => {
