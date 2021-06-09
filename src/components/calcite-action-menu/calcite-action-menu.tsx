@@ -219,6 +219,7 @@ export class CalciteActionMenu {
       <calcite-popover
         disablePointer
         label={label}
+        offsetDistance={0}
         open={open}
         overlayPositioning={overlayPositioning}
         placement={placement}
