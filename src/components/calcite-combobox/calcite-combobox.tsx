@@ -670,6 +670,7 @@ export class CalciteCombobox {
       }
       this.updateItems();
       this.filterItems("");
+      this.emitCalciteLookupChange();
     }
   }
 

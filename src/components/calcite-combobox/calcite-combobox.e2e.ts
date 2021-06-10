@@ -408,6 +408,26 @@ describe("calcite-combobox", () => {
       expect(chips.length).toBe(1);
     });
 
+    it("should fire lookupChange when entering new unknown tag", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`
+          <calcite-combobox allow-custom-values>
+            <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
+            <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+            <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          </calcite-combobox>
+        `
+      );
+      const eventSpy = await page.spyOnEvent("calciteLookupChange");
+      const input = await page.find("calcite-combobox >>> input");
+      await input.click();
+
+      await input.press("K");
+      await input.press("Enter");
+      expect(eventSpy).toHaveReceivedEventTimes(1);
+    });
+
     it("should allow enter unknown tag when tabbing away", async () => {
       const page = await newE2EPage();
       await page.setContent(
