@@ -320,7 +320,7 @@ export class CalcitePanel {
         open={menuOpen}
         placement="bottom-end"
       >
-        <calcite-action slot="trigger" text={intlOptions || TEXT.options} />
+        <calcite-action icon={ICONS.menu} slot="trigger" text={intlOptions || TEXT.options} />
         <slot name={SLOTS.headerMenuActions} />
       </calcite-action-menu>
     ) : null;

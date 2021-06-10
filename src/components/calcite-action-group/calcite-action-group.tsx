@@ -1,5 +1,5 @@
 import { Component, h, Prop, Watch, Element } from "@stencil/core";
-import { SLOTS, TEXT } from "./resources";
+import { SLOTS, TEXT, ICONS } from "./resources";
 import { Fragment, VNode } from "@stencil/core/internal";
 import { getSlotted } from "../../utils/dom";
 import { SLOTS as ACTION_MENU_SLOTS } from "../calcite-action-menu/resources";
@@ -87,7 +87,12 @@ export class CalciteActionGroup {
         open={menuOpen}
         placement="leading-start"
       >
-        <calcite-action slot="trigger" text={intlMore || TEXT.more} textEnabled={expanded} />
+        <calcite-action
+          icon={ICONS.menu}
+          slot="trigger"
+          text={intlMore || TEXT.more}
+          textEnabled={expanded}
+        />
         <slot name={SLOTS.menuActions} />
         {this.renderTooltip()}
       </calcite-action-menu>

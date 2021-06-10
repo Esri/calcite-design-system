@@ -117,7 +117,7 @@ describe("calcite-action-menu", () => {
     focusable(
       html`
         <calcite-action-menu open>
-          <calcite-action text="Add" icon="plus"></calcite-action>
+          <calcite-action slot="trigger" text="Add" icon="plus"></calcite-action>
           <calcite-action text="Add" icon="plus"></calcite-action>
           <calcite-action text="Add" icon="plus"></calcite-action>
         </calcite-action-menu>
@@ -131,13 +131,13 @@ describe("calcite-action-menu", () => {
     focusable(
       html`
         <calcite-action-menu>
-          <calcite-action text="Add" icon="plus"></calcite-action>
+          <calcite-action id="trigger" slot="trigger" text="Add" icon="plus"></calcite-action>
           <calcite-action text="Add" icon="plus"></calcite-action>
           <calcite-action text="Add" icon="plus"></calcite-action
         ></calcite-action-menu>
       `,
       {
-        shadowFocusTargetSelector: `.${CSS.menuButton}`
+        focusTargetSelector: `#trigger`
       }
     ));
 

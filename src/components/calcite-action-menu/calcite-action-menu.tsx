@@ -10,9 +10,9 @@ import {
   Method,
   State
 } from "@stencil/core";
-import { CSS, ICONS, SLOTS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import { focusElement, getSlotted } from "../../utils/dom";
-import { forceUpdate, Fragment, VNode } from "@stencil/core/internal";
+import { Fragment, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
 import { PopperPlacement, OverlayPositioning } from "../../utils/popper";
 import { Placement } from "@popperjs/core";
@@ -175,16 +175,11 @@ export class CalciteActionMenu {
 
     this.menuButtonEl = menuButtonEl;
     this.setTooltipReferenceElement();
-    forceUpdate(this); // todo: remove?
 
     menuButtonEl.active = open;
     menuButtonEl.setAttribute("aria-controls", menuId);
     menuButtonEl.setAttribute("aria-expanded", open.toString());
     menuButtonEl.setAttribute("aria-haspopup", "true");
-
-    if (!menuButtonEl.icon) {
-      menuButtonEl.icon = ICONS.menu;
-    }
 
     if (!menuButtonEl.id) {
       menuButtonEl.id = menuButtonId;
