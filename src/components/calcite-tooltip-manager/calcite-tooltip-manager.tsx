@@ -202,7 +202,13 @@ export class CalciteTooltipManager {
 
   @Listen("click", { capture: true })
   clickHandler(event: MouseEvent): void {
-    this.clickedTooltip = this.queryTooltip(event.target as HTMLElement);
+    const clickedTooltip = this.queryTooltip(event.target as HTMLElement);
+
+    this.clickedTooltip = clickedTooltip;
+
+    if (clickedTooltip) {
+      this.toggleTooltip(clickedTooltip, false);
+    }
   }
 
   @Listen("focus", { capture: true })
