@@ -84,6 +84,9 @@ export class CalciteActionMenu {
   @Watch("open")
   openHandler(open: boolean): void {
     this.activeMenuItemIndex = this.open ? 0 : -1;
+    if (this.menuButtonEl) {
+      this.menuButtonEl.active = open;
+    }
     this.calciteActionMenuOpenChange.emit(open);
   }
 
@@ -289,7 +292,6 @@ export class CalciteActionMenu {
 
   handleCalciteActionClick = (): void => {
     this.open = false;
-    this.setFocus();
   };
 
   menuButtonClick = (): void => {
@@ -304,7 +306,7 @@ export class CalciteActionMenu {
       slotted?.tagName === "SLOT" ? (slotted as HTMLSlotElement).assignedElements()[0] : slotted;
 
     if (tooltip?.tagName === "CALCITE-TOOLTIP") {
-      (tooltip as HTMLCalciteTooltipElement).referenceElement = !expanded && menuButtonEl;
+      (tooltip as HTMLCalciteTooltipElement).referenceElement = !expanded ? menuButtonEl : null;
     }
   };
 
@@ -341,7 +343,9 @@ export class CalciteActionMenu {
 
     const actionElements = assignedActions.length
       ? assignedActions
-      : Array.from(el.querySelectorAll("calcite-action"));
+      : (Array.from(
+          el.querySelectorAll("calcite-action:not([slot=trigger])")
+        ) as HTMLCalciteActionElement[]);
 
     this.updateActions(actionElements);
 

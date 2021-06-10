@@ -209,7 +209,7 @@ export class CalciteActionBar {
       return;
     }
 
-    const actions = el.querySelectorAll("calcite-action:not(calcite-action-menu calcite-action)");
+    const actions = el.querySelectorAll("calcite-action"); // todo: fix
     const actionCount = expandDisabled ? actions.length : actions.length + 1;
     const actionGroups = Array.from(el.querySelectorAll("calcite-action-group"));
     const groupCount =

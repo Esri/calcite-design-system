@@ -32,9 +32,7 @@ export const overflowActions = ({
   actionGroups.reverse().forEach((group) => {
     let slottedWithinGroupCount = 0;
 
-    const groupActions = Array.from(
-      group.querySelectorAll("calcite-action:not(calcite-action-menu calcite-action)")
-    ) as HTMLCalciteActionElement[];
+    const groupActions = Array.from(group.querySelectorAll("calcite-action")) as HTMLCalciteActionElement[]; // todo: fix
 
     groupActions.reverse();
 
