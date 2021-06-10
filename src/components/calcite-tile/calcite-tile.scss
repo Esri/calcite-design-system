@@ -3,7 +3,7 @@
     box-border
     text-color-3
     inline-block
-    duration-150 
+    duration-150
     ease-in-out
     select-none;
 }
@@ -21,10 +21,15 @@
 :host([icon][heading]:not([description]):not([embed])) {
   @apply p-0;
 }
+:host([disabled]) {
+  @apply opacity-disabled;
+  @apply pointer-events-none;
+}
+
 .tile {
-  @apply grid 
-    grid-cols-1 
-    gap-2 
+  @apply grid
+    grid-cols-1
+    gap-2
     pointer-events-none;
 }
 .heading {

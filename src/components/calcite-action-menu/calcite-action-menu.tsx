@@ -219,6 +219,7 @@ export class CalciteActionMenu {
       <calcite-popover
         disablePointer
         label={label}
+        offsetDistance={0}
         open={open}
         overlayPositioning={overlayPositioning}
         placement={placement}
@@ -229,6 +230,7 @@ export class CalciteActionMenu {
           aria-labelledby={menuButtonId}
           class={CSS.menu}
           id={menuId}
+          onClick={this.handleCalciteActionClick}
           onKeyDown={this.menuActionsContainerKeyDown}
           onKeyUp={this.menuActionsContainerKeyUp}
           ref={(el) => (this.menuEl = el)}
@@ -256,6 +258,10 @@ export class CalciteActionMenu {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  handleCalciteActionClick = (): void => {
+    this.open = false;
+  };
 
   menuButtonClick = (): void => {
     this.toggleOpen();

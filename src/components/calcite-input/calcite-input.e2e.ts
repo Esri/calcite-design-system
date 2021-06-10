@@ -721,6 +721,21 @@ describe("calcite-input", () => {
         expect(await input.getProperty("value")).toBeFalsy();
       }
     });
+
+    it("allows shift tabbing", async () => {
+      const page = await newE2EPage({
+        html: `
+          <calcite-input id="input1" type="number"></calcite-input>
+          <calcite-input id="input2" type="number"></calcite-input>
+        `
+      });
+      const calciteInput2 = await page.find("#input2");
+      calciteInput2.callMethod("setFocus");
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual("input2");
+      await page.keyboard.down("Shift");
+      await page.keyboard.press("Tab");
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual("input1");
+    });
   });
 
   describe("number locale support", () => {
