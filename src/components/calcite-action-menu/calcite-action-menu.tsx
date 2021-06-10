@@ -261,6 +261,7 @@ export class CalciteActionMenu {
 
   handleCalciteActionClick = (): void => {
     this.open = false;
+    this.setFocus();
   };
 
   menuButtonClick = (): void => {
