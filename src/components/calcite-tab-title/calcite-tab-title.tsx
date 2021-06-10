@@ -19,6 +19,7 @@ import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { TabID, TabLayout, TabPosition } from "../calcite-tabs/interfaces";
 import { FlipContext, Scale } from "../interfaces";
+import { CSS_UTILITY } from "../../utils/resources";
 
 @Component({
   tag: "calcite-tab-title",
@@ -58,11 +59,14 @@ export class CalciteTabTitle {
   /** @internal Parent tabs component layout value */
   @Prop({ reflect: true, mutable: true }) layout: TabLayout;
 
-  /** @internal Parent tabs component position value */
+  /** @internal Parent tabs component or parent tab-nav component scale value */
   @Prop({ reflect: true, mutable: true }) position: TabPosition;
 
-  /** @internal Parent tabs component scale value */
+  /** @internal Parent tabs component or parent tab-nav component scale value */
   @Prop({ reflect: true, mutable: true }) scale: Scale;
+
+  /** @internal Parent tabs component bordered value when layout is "inline" */
+  @Prop({ reflect: true, mutable: true }) bordered?: boolean = false;
 
   /**
    * Optionally include a unique name for the tab title,
@@ -113,11 +117,13 @@ export class CalciteTabTitle {
       this.layout = this.parentTabsEl.layout;
       this.position = this.parentTabsEl.position;
       this.scale = this.parentTabsEl.scale;
+      this.bordered = this.parentTabsEl.bordered;
     }
     // handle case when tab-nav is only parent
     if (!this.parentTabsEl && this.parentTabNavEl) {
-      this.layout = this.parentTabNavEl.getAttribute("layout") as TabLayout;
+      // fix issue with position="below" on tab-nav, when hovering over tab-title
       this.position = this.parentTabNavEl.getAttribute("position") as TabPosition;
+      // allow tab-nav to have its own scale if no tabs parent
       this.scale = this.parentTabNavEl.getAttribute("scale") as Scale;
     }
   }
@@ -126,6 +132,7 @@ export class CalciteTabTitle {
     const dir = getElementDir(this.el);
     const id = this.el.id || this.guid;
     const Tag = this.disabled ? "span" : "a";
+    const showSideBorders = this.bordered && !this.disabled && this.layout !== "center";
 
     const iconStartEl = (
       <calcite-icon
@@ -155,7 +162,14 @@ export class CalciteTabTitle {
         role="tab"
         tabindex={this.disabled ? "-1" : "0"}
       >
-        <Tag class={{ container: true, "container--has-text": this.hasText, rtl: dir === "rtl" }}>
+        <Tag
+          class={{
+            container: true,
+            "container--has-text": this.hasText,
+            [CSS_UTILITY.rtl]: dir === "rtl"
+          }}
+          style={showSideBorders && { width: `${this.parentTabNavEl.indicatorWidth}px` }}
+        >
           {this.iconStart ? iconStartEl : null}
           <slot />
           {this.iconEnd ? iconEndEl : null}

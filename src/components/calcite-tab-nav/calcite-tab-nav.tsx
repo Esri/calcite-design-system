@@ -56,6 +56,9 @@ export class CalciteTabNav {
   /** @internal Parent tabs component position value */
   @Prop({ reflect: true, mutable: true }) position: TabPosition = "below";
 
+  /** @internal Parent tabs component bordered value when layout is "inline" */
+  @Prop({ reflect: true, mutable: true }) bordered?: boolean = false;
+
   /**
    * @internal
    */
@@ -122,6 +125,11 @@ export class CalciteTabNav {
     this.layout = this.el.closest("calcite-tabs")?.layout;
     this.position = this.el.closest("calcite-tabs")?.position;
     this.scale = this.el.closest("calcite-tabs")?.scale;
+    this.bordered = this.el.closest("calcite-tabs")?.bordered;
+    // fix issue with active tab-title not lining up with blue indicator
+    if (this.selectedTabEl) {
+      this.updateOffsetPosition();
+    }
   }
 
   componentDidRender(): void {
@@ -282,7 +290,7 @@ export class CalciteTabNav {
   private updateOffsetPosition(): void {
     const dir = getElementDir(this.el);
     const navWidth = this.activeIndicatorContainerEl?.offsetWidth;
-    const tabLeft = this.selectedTabEl?.offsetLeft;
+    const tabLeft = this.selectedTabEl?.offsetLeft; // HERE
     const tabWidth = this.selectedTabEl?.offsetWidth;
     const offsetRight = navWidth - (tabLeft + tabWidth);
     this.indicatorOffset =

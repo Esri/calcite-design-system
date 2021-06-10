@@ -3,7 +3,7 @@
 }
 
 :host {
-  @apply hidden z-10;
+  @apply hidden z-10 text-color-3;
 }
 
 :host([active]) {

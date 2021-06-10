@@ -2,6 +2,34 @@
   @apply flex flex-col;
 }
 
+:host([bordered]) {
+  box-shadow: inset 0 1px 0 var(--calcite-ui-border-1);
+  background-color: var(--calcite-ui-foreground-1);
+}
+
+:host([bordered]:not([position="below"])) ::slotted(calcite-tab-nav) {
+  margin-bottom: -1px;
+}
+:host([bordered][position="below"]) ::slotted(calcite-tab-nav) {
+  margin-top: -1px;
+}
+:host([bordered][position="below"]) {
+  box-shadow: inset 0 1px 0 var(--calcite-ui-border-1), inset 0 -1px 0 var(--calcite-ui-border-1);
+}
+
+:host([bordered]) section {
+  border: 1px solid var(--calcite-ui-border-1);
+}
+:host([bordered][scale="s"]) section {
+  padding: 12px;
+}
+:host([bordered][scale="m"]) section {
+  padding: 8px;
+}
+:host([bordered][scale="l"]) section {
+  padding: 16px;
+}
+
 :host([position="below"]) {
   @apply flex-col-reverse;
 }
@@ -20,5 +48,8 @@ section {
     border-t-0
     border-b
     border-b-color-1;
+}
+
+:host([position="below"]:not([bordered])) section {
   border-bottom-style: solid;
 }

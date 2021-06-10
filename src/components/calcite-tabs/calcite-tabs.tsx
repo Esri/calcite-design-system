@@ -1,4 +1,4 @@
-import { Component, Prop, h, Element, Listen, State, VNode, Fragment } from "@stencil/core";
+import { Component, Prop, h, Element, Listen, State, VNode, Fragment, Watch } from "@stencil/core";
 import { TabLayout, TabPosition } from "./interfaces";
 import { Scale } from "../interfaces";
 
@@ -37,11 +37,22 @@ export class CalciteTabs {
    */
   @Prop({ reflect: true }) scale: Scale = "m";
 
+  /**
+   * Optionally enable border styles around tab items when layout is "inline"
+   */
+  @Prop({ reflect: true, mutable: true }) bordered?: boolean = false;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    if (this.layout === "center") {
+      this.bordered = false;
+    }
+  }
 
   render(): VNode {
     return (
