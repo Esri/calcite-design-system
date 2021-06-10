@@ -185,5 +185,14 @@ describe("calcite-action-menu", () => {
     await page.waitForChanges();
 
     expect(await actionMenu.getProperty("open")).toBe(false);
+
+    const shadowFocusTargetSelector = `.${CSS.menuButton}`;
+    expect(
+      await page.$eval(
+        "calcite-action-menu",
+        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+        shadowFocusTargetSelector
+      )
+    ).toBe(true);
   });
 });

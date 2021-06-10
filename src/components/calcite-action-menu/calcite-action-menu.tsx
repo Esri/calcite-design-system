@@ -251,6 +251,7 @@ export class CalciteActionMenu {
       <calcite-popover
         disablePointer
         label={label}
+        offsetDistance={0}
         open={open}
         overlayPositioning={overlayPositioning}
         placement={placement}
@@ -292,6 +293,7 @@ export class CalciteActionMenu {
 
   handleCalciteActionClick = (): void => {
     this.open = false;
+    this.setFocus();
   };
 
   menuButtonClick = (): void => {
