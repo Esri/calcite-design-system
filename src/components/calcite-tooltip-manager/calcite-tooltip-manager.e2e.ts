@@ -1,16 +1,19 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { TOOLTIP_REFERENCE, TOOLTIP_DELAY_MS } from "../calcite-tooltip/resources";
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
+import { html } from "../../tests/utils";
 
 describe("calcite-tooltip-manager", () => {
   it("renders", async () => renders(`<calcite-tooltip-manager></calcite-tooltip-manager>`));
 
   it("is accessible", async () =>
-    accessible(`<button id="test">test</button>
-  <calcite-tooltip-manager>
-    <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
-    <button id="ref">Button</button>
-  <calcite-tooltip-manager>`));
+    accessible(
+      html`<button id="test">test</button>
+        <calcite-tooltip-manager>
+          <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
+          <button id="ref">Button</button>
+        </calcite-tooltip-manager>`
+    ));
 
   it("honors hidden attribute", async () => hidden("calcite-tooltip-manager"));
 
@@ -26,12 +29,12 @@ describe("calcite-tooltip-manager", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `
-      <button id="test">test</button>
-      <calcite-tooltip-manager>
-        <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
-        <button id="ref">Button</button>
-      <calcite-tooltip-manager>
+      html`
+        <button id="test">test</button>
+        <calcite-tooltip-manager>
+          <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
+          <button id="ref">Button</button>
+        </calcite-tooltip-manager>
       `
     );
 
@@ -66,12 +69,12 @@ describe("calcite-tooltip-manager", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `
-      <button id="test">test</button>
-      <calcite-tooltip-manager>
-        <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
-        <button id="ref">Button</button>
-      <calcite-tooltip-manager>
+      html`
+        <button id="test">test</button>
+        <calcite-tooltip-manager>
+          <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
+          <button id="ref">Button</button>
+        </calcite-tooltip-manager>
       `
     );
 
@@ -102,12 +105,12 @@ describe("calcite-tooltip-manager", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `
-      <button id="test">test</button>
-      <calcite-tooltip-manager>
-        <calcite-tooltip id="tooltip" reference-element="ref">Content</calcite-tooltip>
-        <div tabindex="0" id="ref">Button</div>
-      <calcite-tooltip-manager>
+      html`
+        <button id="test">test</button>
+        <calcite-tooltip-manager>
+          <calcite-tooltip id="tooltip" reference-element="ref">Content</calcite-tooltip>
+          <div tabindex="0" id="ref">Button</div>
+        </calcite-tooltip-manager>
       `
     );
 
@@ -131,11 +134,11 @@ describe("calcite-tooltip-manager", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `
-      <calcite-tooltip-manager>
-        <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
-        <button id="ref">Button</button>
-      <calcite-tooltip-manager>
+      html`
+        <calcite-tooltip-manager>
+          <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
+          <button id="ref">Button</button>
+        </calcite-tooltip-manager>
       `
     );
 
@@ -164,11 +167,11 @@ describe("calcite-tooltip-manager", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `
-      <calcite-tooltip-manager>
-        <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
-        <button id="ref">Button</button>
-      <calcite-tooltip-manager>
+      html`
+        <calcite-tooltip-manager>
+          <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
+          <button id="ref">Button</button>
+        </calcite-tooltip-manager>
       `
     );
 
@@ -199,11 +202,11 @@ describe("calcite-tooltip-manager", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `
-      <calcite-tooltip-manager>
-        <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
-        <button id="ref">Button</button>
-      <calcite-tooltip-manager>
+      html`
+        <calcite-tooltip-manager>
+          <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
+          <button id="ref">Button</button>
+        </calcite-tooltip-manager>
       `
     );
 
@@ -236,13 +239,13 @@ describe("calcite-tooltip-manager", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `
-      <calcite-tooltip-manager>
-        <calcite-tooltip id="focusTip" reference-element="focusRef">Content</calcite-tooltip>
-        <button id="focusRef">Button</button>
-        <calcite-tooltip id="hoverTip" reference-element="hoverRef">Content</calcite-tooltip>
-        <button id="hoverRef">Button</button>
-      <calcite-tooltip-manager>
+      html`
+        <calcite-tooltip-manager>
+          <calcite-tooltip id="focusTip" reference-element="focusRef">Content</calcite-tooltip>
+          <button id="focusRef">Button</button>
+          <calcite-tooltip id="hoverTip" reference-element="hoverRef">Content</calcite-tooltip>
+          <button id="hoverRef">Button</button>
+        </calcite-tooltip-manager>
       `
     );
 
@@ -281,13 +284,13 @@ describe("calcite-tooltip-manager", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `
-      <calcite-tooltip-manager>
-        <calcite-tooltip id="focusTip" reference-element="focusRef">Content</calcite-tooltip>
-        <button id="focusRef">Button</button>
-        <calcite-tooltip id="hoverTip" reference-element="hoverRef">Content</calcite-tooltip>
-        <button id="hoverRef">Button</button>
-      <calcite-tooltip-manager>
+      html`
+        <calcite-tooltip-manager>
+          <calcite-tooltip id="focusTip" reference-element="focusRef">Content</calcite-tooltip>
+          <button id="focusRef">Button</button>
+          <calcite-tooltip id="hoverTip" reference-element="hoverRef">Content</calcite-tooltip>
+          <button id="hoverRef">Button</button>
+        </calcite-tooltip-manager>
       `
     );
 
@@ -326,11 +329,11 @@ describe("calcite-tooltip-manager", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `
-      <calcite-tooltip-manager>
-        <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
-        <button id="ref">Button</button>
-      <calcite-tooltip-manager>
+      html`
+        <calcite-tooltip-manager>
+          <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
+          <button id="ref">Button</button>
+        </calcite-tooltip-manager>
       `
     );
 
