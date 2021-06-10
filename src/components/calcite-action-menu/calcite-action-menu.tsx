@@ -125,9 +125,9 @@ export class CalciteActionMenu {
 
   @Element() el: HTMLCalciteActionMenuElement;
 
-  menuFocusTimeout: number;
+  @State() menuButtonEl: HTMLCalciteActionElement;
 
-  menuButtonEl: HTMLCalciteActionElement;
+  menuFocusTimeout: number;
 
   menuEl: HTMLDivElement;
 
@@ -169,12 +169,19 @@ export class CalciteActionMenu {
     const { el, menuButtonId, menuId, open, label } = this;
     const menuButtonEl = getSlotted(el, SLOTS.trigger) as HTMLCalciteActionElement;
 
-    if (!menuButtonEl) {
+    if (this.menuButtonEl === menuButtonEl) {
       return;
     }
 
+    this.disconnectMenuButtonEl();
+
     this.menuButtonEl = menuButtonEl;
+
     this.setTooltipReferenceElement();
+
+    if (!menuButtonEl) {
+      return;
+    }
 
     menuButtonEl.active = open;
     menuButtonEl.setAttribute("aria-controls", menuId);
@@ -213,8 +220,6 @@ export class CalciteActionMenu {
   renderMenuButton(): VNode {
     const { el } = this;
 
-    this.connectMenuButtonEl();
-
     const menuButtonSlot = <slot name={SLOTS.trigger} />;
 
     return getSlotted(el, SLOTS.tooltip) ? (
@@ -231,7 +236,6 @@ export class CalciteActionMenu {
       open,
       menuId,
       menuButtonEl,
-      menuButtonId,
       label,
       placement,
       overlayPositioning
@@ -251,7 +255,7 @@ export class CalciteActionMenu {
       >
         <div
           aria-activedescendant={activeDescendantId}
-          aria-labelledby={menuButtonEl?.id || menuButtonId}
+          aria-labelledby={menuButtonEl?.id}
           class={CSS.menu}
           id={menuId}
           onClick={this.handleCalciteActionClick}
@@ -342,6 +346,8 @@ export class CalciteActionMenu {
     this.updateActions(actionElements);
 
     this.actionElements = actionElements;
+
+    this.connectMenuButtonEl();
   };
 
   isValidKey(key: string, supportedKeys: string[]): boolean {

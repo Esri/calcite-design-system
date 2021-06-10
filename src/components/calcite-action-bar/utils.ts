@@ -34,7 +34,9 @@ export const overflowActions = ({
 
     const groupActions = Array.from(
       group.querySelectorAll("calcite-action:not(calcite-action-menu calcite-action)")
-    ).reverse() as HTMLCalciteActionElement[];
+    ) as HTMLCalciteActionElement[];
+
+    groupActions.reverse();
 
     groupActions.forEach((groupAction) => {
       groupAction.removeAttribute("slot");
