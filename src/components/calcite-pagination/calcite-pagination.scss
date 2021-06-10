@@ -4,7 +4,7 @@
   & .previous,
   & .next,
   & .page {
-    @apply text--2h;
+    @apply text--2h h-6;
   }
 }
 
@@ -13,7 +13,7 @@
   & .previous,
   & .next,
   & .page {
-    @apply text--1h;
+    @apply text--1h h-8;
   }
 }
 
@@ -22,7 +22,7 @@
   & .previous,
   & .next,
   & .page {
-    @apply text-0h;
+    @apply text-0h h-11;
   }
 }
 
