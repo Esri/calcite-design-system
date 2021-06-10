@@ -15,6 +15,7 @@ import { getElementDir, getSlotted } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { Scale } from "../interfaces";
 import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
+import { SLOTS as ACTION_MENU_SLOTS } from "../calcite-action-menu/resources";
 
 /**
  * @slot header-actions-start - a slot for adding actions or content to the start side of the panel header.
@@ -320,7 +321,11 @@ export class CalcitePanel {
         open={menuOpen}
         placement="bottom-end"
       >
-        <calcite-action icon={ICONS.menu} slot="trigger" text={intlOptions || TEXT.options} />
+        <calcite-action
+          icon={ICONS.menu}
+          slot={ACTION_MENU_SLOTS.trigger}
+          text={intlOptions || TEXT.options}
+        />
         <slot name={SLOTS.headerMenuActions} />
       </calcite-action-menu>
     ) : null;

@@ -89,7 +89,7 @@ export class CalciteActionGroup {
       >
         <calcite-action
           icon={ICONS.menu}
-          slot="trigger"
+          slot={ACTION_MENU_SLOTS.trigger}
           text={intlMore || TEXT.more}
           textEnabled={expanded}
         />

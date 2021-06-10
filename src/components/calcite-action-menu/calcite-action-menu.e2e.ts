@@ -109,7 +109,7 @@ describe("calcite-action-menu", () => {
     focusable(
       html`
         <calcite-action-menu open>
-          <calcite-action slot="trigger" text="Add" icon="plus"></calcite-action>
+          <calcite-action slot="${SLOTS.trigger}" text="Add" icon="plus"></calcite-action>
           <calcite-action text="Add" icon="plus"></calcite-action>
           <calcite-action text="Add" icon="plus"></calcite-action>
         </calcite-action-menu>
@@ -123,13 +123,13 @@ describe("calcite-action-menu", () => {
     focusable(
       html`
         <calcite-action-menu>
-          <calcite-action id="trigger" slot="trigger" text="Add" icon="plus"></calcite-action>
+          <calcite-action id="triggerAction" slot="${SLOTS.trigger}" text="Add" icon="plus"></calcite-action>
           <calcite-action text="Add" icon="plus"></calcite-action>
           <calcite-action text="Add" icon="plus"></calcite-action
         ></calcite-action-menu>
       `,
       {
-        focusTargetSelector: `#trigger`
+        focusTargetSelector: `#triggerAction`
       }
     ));
 
@@ -163,7 +163,7 @@ describe("calcite-action-menu", () => {
   it("should close menu if slotted action is clicked", async () => {
     const page = await newE2EPage({
       html: `<calcite-action-menu open>
-          <calcite-action slot="trigger" text="Add" icon="plus" text-enabled></calcite-action>
+          <calcite-action id="triggerAction" slot="${SLOTS.trigger}" text="Add" icon="plus" text-enabled></calcite-action>
           <calcite-action id="slottedAction" text="Add" icon="plus" text-enabled></calcite-action>
           <calcite-action text="Add" icon="plus" text-enabled></calcite-action>
         </calcite-action-menu>
@@ -186,13 +186,7 @@ describe("calcite-action-menu", () => {
 
     expect(await actionMenu.getProperty("open")).toBe(false);
 
-    const shadowFocusTargetSelector = `.${CSS.menuButton}`;
-    expect(
-      await page.$eval(
-        "calcite-action-menu",
-        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
-        shadowFocusTargetSelector
-      )
-    ).toBe(true);
+    const focusTargetSelector = `#triggerAction`;
+    expect(await page.evaluate((selector) => document.activeElement.matches(selector), focusTargetSelector)).toBe(true);
   });
 });

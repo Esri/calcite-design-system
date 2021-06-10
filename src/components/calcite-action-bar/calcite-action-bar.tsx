@@ -14,7 +14,7 @@ import { Position } from "../interfaces";
 import { CalciteExpandToggle, toggleChildActionText } from "../functional/CalciteExpandToggle";
 import { CSS, SLOTS, TEXT } from "./resources";
 import { getSlotted, focusElement } from "../../utils/dom";
-import { getOverflowCount, overflowActions } from "./utils";
+import { getOverflowCount, overflowActions, queryActions } from "./utils";
 
 /**
  * @slot - A slot for adding `calcite-action`s that will appear at the top of the action bar.
@@ -209,7 +209,7 @@ export class CalciteActionBar {
       return;
     }
 
-    const actions = el.querySelectorAll("calcite-action"); // todo: fix
+    const actions = queryActions(el);
     const actionCount = expandDisabled ? actions.length : actions.length + 1;
     const actionGroups = Array.from(el.querySelectorAll("calcite-action-group"));
     const groupCount =
