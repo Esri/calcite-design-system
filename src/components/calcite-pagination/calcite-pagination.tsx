@@ -194,7 +194,7 @@ export class CalcitePagination {
     if (this.total / this.num > maxPagesDisplayed && this.showLeftEllipsis()) {
       return (
         <span class={`${CSS.ellipsis} ${CSS.ellipsisStart}`}>
-          ...
+          &hellip;
         </span>
       );
     }
@@ -204,7 +204,7 @@ export class CalcitePagination {
     if (this.total / this.num > maxPagesDisplayed && this.showRightEllipsis()) {
       return (
         <span class={`${CSS.ellipsis} ${CSS.ellipsisEnd}`}>
-          ...
+          &hellip;
         </span>
       );
     }
