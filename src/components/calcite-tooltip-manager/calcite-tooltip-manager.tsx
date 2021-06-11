@@ -1,12 +1,7 @@
 import { Component, h, Listen, Prop, VNode, Element } from "@stencil/core";
-import {
-  TOOLTIP_REFERENCE,
-  TOOLTIP_DELAY_MS,
-  MOUSE_THROTTLE_MS
-} from "../calcite-tooltip/resources";
+import { TOOLTIP_REFERENCE, TOOLTIP_DELAY_MS } from "../calcite-tooltip/resources";
 import { queryElementRoots } from "../../utils/dom";
 import { getKey } from "../../utils/key";
-import { throttle } from "lodash-es";
 
 /**
  * @slot - A slot for adding elements that reference a 'calcite-tooltip' by the 'selector' property.
@@ -156,8 +151,6 @@ export class CalciteTooltipManager {
     this.hoverTooltip({ tooltip, value });
   };
 
-  hoverEventThrottled = throttle(this.hoverEvent, MOUSE_THROTTLE_MS);
-
   focusEvent = (event: FocusEvent, value: boolean): void => {
     const tooltip = this.queryTooltip(event.target as HTMLElement);
 
@@ -199,12 +192,12 @@ export class CalciteTooltipManager {
 
   @Listen("mouseover", { capture: true })
   mouseEnterShow(event: MouseEvent): void {
-    this.hoverEventThrottled(event, true);
+    this.hoverEvent(event, true);
   }
 
   @Listen("mouseout", { capture: true })
   mouseLeaveHide(event: MouseEvent): void {
-    this.hoverEventThrottled(event, false);
+    this.hoverEvent(event, false);
   }
 
   @Listen("click", { capture: true })

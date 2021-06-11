@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { TOOLTIP_REFERENCE, TOOLTIP_DELAY_MS, MOUSE_THROTTLE_MS } from "../calcite-tooltip/resources";
+import { TOOLTIP_REFERENCE, TOOLTIP_DELAY_MS } from "../calcite-tooltip/resources";
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 
@@ -267,8 +267,6 @@ describe("calcite-tooltip-manager", () => {
 
     await page.waitForChanges();
 
-    await page.waitForTimeout(MOUSE_THROTTLE_MS);
-
     expect(await focusTip.getProperty("open")).toBe(false);
 
     expect(await hoverTip.getProperty("open")).toBe(true);
@@ -309,8 +307,6 @@ describe("calcite-tooltip-manager", () => {
     await focusRef.focus();
 
     await page.waitForChanges();
-
-    await page.waitForTimeout(MOUSE_THROTTLE_MS);
 
     expect(await focusTip.getProperty("open")).toBe(true);
 
