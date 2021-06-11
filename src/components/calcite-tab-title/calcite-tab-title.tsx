@@ -15,7 +15,7 @@ import {
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../calcite-tab/interfaces";
 import { guid } from "../../utils/guid";
-import { getElementDir } from "../../utils/dom";
+import { getElementDir, getElementProp } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { TabID, TabLayout, TabPosition } from "../calcite-tabs/interfaces";
 import { FlipContext, Scale } from "../interfaces";
@@ -121,10 +121,8 @@ export class CalciteTabTitle {
     }
     // handle case when tab-nav is only parent
     if (!this.parentTabsEl && this.parentTabNavEl) {
-      // fix issue with position="below" on tab-nav, when hovering over tab-title
-      this.position = this.parentTabNavEl.getAttribute("position") as TabPosition;
-      // allow tab-nav to have its own scale if no tabs parent
-      this.scale = this.parentTabNavEl.getAttribute("scale") as Scale;
+      this.position = getElementProp(this.parentTabNavEl, "position", this.position);
+      this.scale = getElementProp(this.parentTabNavEl, "scale", this.scale);
     }
   }
 

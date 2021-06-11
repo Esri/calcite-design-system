@@ -290,7 +290,7 @@ export class CalciteTabNav {
   private updateOffsetPosition(): void {
     const dir = getElementDir(this.el);
     const navWidth = this.activeIndicatorContainerEl?.offsetWidth;
-    const tabLeft = this.selectedTabEl?.offsetLeft; // HERE
+    const tabLeft = this.selectedTabEl?.offsetLeft;
     const tabWidth = this.selectedTabEl?.offsetWidth;
     const offsetRight = navWidth - (tabLeft + tabWidth);
     this.indicatorOffset =

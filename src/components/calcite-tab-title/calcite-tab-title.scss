@@ -142,10 +142,18 @@ span {
   box-shadow: inset 0 2px 0 var(--calcite-ui-foreground-1);
 }
 
+:host([bordered]:hover),
+:host([bordered]:focus),
+:host([bordered]:active) {
+  a {
+    @apply relative;
+  }
+}
+
 :host([bordered]:hover) {
   a {
     background-color: var(--calcite-button-transparent-hover);
-    @apply relative transition-default;
+    @apply transition-default;
   }
 }
 
@@ -165,23 +173,20 @@ span {
 :host([bordered]) {
   a,
   span {
-    padding-left: 12px;
-    padding-right: 12px;
+    @apply pl-3 pr-3;
   }
 }
 
 :host([bordered][scale="s"]) {
   a,
   span {
-    padding-left: 8px;
-    padding-right: 8px;
+    @apply pl-2 pr-2;
   }
 }
 
 :host([bordered][scale="l"]) {
   a,
   span {
-    padding-left: 16px;
-    padding-right: 16px;
+    @apply pl-4 pr-4;
   }
 }
