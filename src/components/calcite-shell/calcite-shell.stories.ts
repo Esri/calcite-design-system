@@ -1,7 +1,12 @@
 import { boolean, select } from "@storybook/addon-knobs";
-import { Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
+import {
+  Attribute,
+  filterComponentAttributes,
+  Attributes,
+  createComponentHTML as create,
+  darkBackground
+} from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-const { dir, position, scale, theme } = ATTRIBUTES;
 import readme from "./readme.md";
 import panelReadme from "../calcite-shell-panel/readme.md";
 import { html, placeholderImage } from "../../tests/utils";
@@ -17,20 +22,38 @@ export default {
   }
 };
 
-const createAttributes: (group: string) => Attributes = (group) => {
-  return [
-    {
-      name: "dir",
-      value: select("dir", dir.values, dir.defaultValue, group)
-    },
-    {
-      name: "theme",
-      value: select("theme", theme.values, theme.defaultValue, group)
-    }
-  ];
+const createAttributes: (group: string, options?: { exceptions: string[] }) => Attributes = (
+  group,
+  { exceptions } = { exceptions: [] }
+) => {
+  const { dir, theme } = ATTRIBUTES;
+
+  return filterComponentAttributes(
+    [
+      {
+        name: "dir",
+        commit(): Attribute {
+          this.value = select("dir", dir.values, dir.defaultValue, group);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "class",
+        commit(): Attribute {
+          this.value = select("class", theme.values, theme.defaultValue, group);
+          delete this.build;
+          return this;
+        }
+      }
+    ],
+    exceptions
+  );
 };
 
 const createShellPanelAttributes: (group: "Leading Panel" | "Trailing Panel") => Attributes = (group) => {
+  const { position } = ATTRIBUTES;
+
   return [
     {
       name: "slot",
@@ -57,6 +80,8 @@ const createShellPanelAttributes: (group: "Leading Panel" | "Trailing Panel") =>
 };
 
 const createShellCenterRowAttributes: (group: string) => Attributes = (group) => {
+  const { position, scale } = ATTRIBUTES;
+
   return [
     {
       name: "detached",
@@ -98,11 +123,13 @@ const actionBarContextualContentHTML = html`
 `;
 
 const actionBarPrimaryHTML = html`
-  <calcite-action-bar theme="dark" slot="action-bar"> ${actionBarPrimaryContentHTML} </calcite-action-bar>
+  <calcite-action-bar class="calcite-theme-dark" slot="action-bar"> ${actionBarPrimaryContentHTML} </calcite-action-bar>
 `;
 
 const actionBarContextualHTML = html`
-  <calcite-action-bar theme="light" slot="action-bar"> ${actionBarContextualContentHTML} </calcite-action-bar>
+  <calcite-action-bar class="calcite-theme-light" slot="action-bar">
+    ${actionBarContextualContentHTML}
+  </calcite-action-bar>
 `;
 
 const leadingPanelHTML = html`
@@ -207,6 +234,17 @@ export const basic = (): string =>
     `
   );
 
+export const RTL = (): string =>
+  create(
+    "calcite-shell",
+    createAttributes("Shell", { exceptions: ["dir"] }).concat({ name: "dir", value: "rtl" }),
+    html`
+      ${headerHTML} ${create("calcite-shell-panel", createShellPanelAttributes("Leading Panel"), leadingPanelHTML)}
+      ${contentHTML} ${create("calcite-shell-center-row", createShellCenterRowAttributes("Center Row"), centerRowHTML)}
+      ${create("calcite-shell-panel", createShellPanelAttributes("Trailing Panel"), trailingPanelHTML)} ${footerHTML}
+    `
+  );
+
 // TODO: UPDATE
 const advancedLeadingPanelHTML = html`
   ${actionBarPrimaryHTML}
@@ -263,8 +301,8 @@ const advancedTrailingPanelHTMl = html`
           </calcite-block-section>
         </calcite-block-content>
       </calcite-block>
-      <calcite-button slot="footer-actions" width="half">Save</calcite-button>
       <calcite-button slot="footer-actions" width="half" appearance="clear">Cancel</calcite-button>
+      <calcite-button slot="footer-actions" width="half">Save</calcite-button>
     </calcite-panel>
     <calcite-panel heading="Deeper flow item">
       <calcite-block collapsible open heading="Contextual Content" summary="Select goodness">
@@ -297,8 +335,8 @@ const advancedTrailingPanelHTMl = html`
           </calcite-block-section>
         </calcite-block-content>
       </calcite-block>
-      <calcite-button slot="footer-actions" width="half">Save</calcite-button>
       <calcite-button slot="footer-actions" width="half" appearance="clear">Cancel</calcite-button>
+      <calcite-button slot="footer-actions" width="half">Save</calcite-button>
     </calcite-panel>
   </calcite-flow>
 `;
@@ -307,6 +345,19 @@ export const advanced = (): string =>
   create(
     "calcite-shell",
     createAttributes("Shell"),
+    html`
+      ${headerHTML}
+      ${create("calcite-shell-panel", createShellPanelAttributes("Leading Panel"), advancedLeadingPanelHTML)}
+      ${contentHTML} ${centerRowAdvancedHTML}
+      ${create("calcite-shell-panel", createShellPanelAttributes("Trailing Panel"), advancedTrailingPanelHTMl)}
+      ${footerHTML}
+    `
+  );
+
+export const advancedRTL = (): string =>
+  create(
+    "calcite-shell",
+    createAttributes("Shell", { exceptions: ["dir"] }).concat({ name: "dir", value: "rtl" }),
     html`
       ${headerHTML}
       ${create("calcite-shell-panel", createShellPanelAttributes("Leading Panel"), advancedLeadingPanelHTML)}

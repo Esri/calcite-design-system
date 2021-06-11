@@ -57,7 +57,7 @@
       <div class="shell-container">
         <calcite-shell content-behind>
           <calcite-shell-panel id="primary-panel" slot="primary-panel" position="start" detached>
-            <calcite-action-bar slot="action-bar" theme="dark">
+            <calcite-action-bar slot="action-bar" class="calcite-theme-dark">
               <calcite-action-group>
                 <calcite-action text="Save" icon="save" indicator> </calcite-action>
                 <calcite-action icon="map" text="New"> </calcite-action>
@@ -167,6 +167,19 @@
                     >
                   </calcite-notice>
                 </div> -->
+                <calcite-action slot="header-menu-actions" text-enabled text="I'm one." icon="banana"></calcite-action>
+                <calcite-action
+                  slot="header-menu-actions"
+                  text-enabled
+                  text="I'm a longer one."
+                  icon="banana"
+                ></calcite-action>
+                <calcite-action
+                  slot="header-menu-actions"
+                  text-enabled
+                  text="I am the longest one."
+                  icon="banana"
+                ></calcite-action>
                 <calcite-block heading="Options" collapsible open>
                   <calcite-icon icon="sliders" scale="m" slot="icon"></calcite-icon>
                   <calcite-label layout="inline-space-between">
@@ -205,8 +218,8 @@
                       <span slot="notice-message">Enable pop-ups to add images, charts, text, and fields.</span>
                     </calcite-notice>
                   </div> -->
-                  <!-- <calcite-sortable-list> -->
-                <calcite-block drag-handle heading="Media" summary="Multiple (2)" collapsible >
+                <!-- <calcite-sortable-list> -->
+                <calcite-block drag-handle heading="Media" summary="Multiple (2)" collapsible>
                   <calcite-icon icon="images" scale="m" slot="icon"></calcite-icon>
                   <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
                   <calcite-label scale="s">
@@ -239,8 +252,8 @@
                     </calcite-value-list-item>
                   </calcite-value-list>
                 </calcite-block>
-               
-                <calcite-block drag-handle heading="Fields list" summary="12/13 fields" collapsible  >
+
+                <calcite-block drag-handle heading="Fields list" summary="12/13 fields" collapsible>
                   <calcite-icon icon="feature-details" scale="m" slot="icon"></calcite-icon>
                   <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
                   <calcite-label scale="s">
@@ -285,12 +298,12 @@
                       <calcite-action icon="x" slot="actions-end" label="remove"></calcite-action>
                     </calcite-value-list-item>
                   </calcite-value-list>
-                </calcite-block> 
-                <calcite-block drag-handle heading="Text" summary="The trending population in this..." collapsible  >
-                    <calcite-icon icon="text" scale="m" slot="icon"></calcite-icon>
-                    <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
                 </calcite-block>
-            <!-- </calcite-sortable-list> -->
+                <calcite-block drag-handle heading="Text" summary="The trending population in this..." collapsible>
+                  <calcite-icon icon="text" scale="m" slot="icon"></calcite-icon>
+                  <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
+                </calcite-block>
+                <!-- </calcite-sortable-list> -->
 
                 <calcite-fab
                   slot="fab"
@@ -304,7 +317,7 @@
             </calcite-flow>
             <!-- </div> -->
           </calcite-shell-panel>
-          <div class="gnav" slot="shell-header">
+          <div class="gnav" slot="header">
             <h2>Cool app</h2>
           </div>
           <calcite-tip-manager slot="center-row" id="tip-manager" hidden>
@@ -355,7 +368,7 @@
           </calcite-tip-manager>
           <div id="viewDiv"></div>
 
-          <footer slot="shell-footer">Footer</footer>
+          <footer slot="footer">Footer</footer>
         </calcite-shell>
       </div>
       <calcite-popover label="right start popover" placement="right" reference-element="popover-trigger">

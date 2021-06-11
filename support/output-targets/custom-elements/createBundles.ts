@@ -32,6 +32,28 @@ import { config as componentsConfig } from "../../../stencil.config";
     console.log("bundle dir already exists");
   }
 
+  const allConfigComponents = componentsConfig.bundles.reduce(
+    (accumulated, current) => accumulated.concat(current.components),
+    []
+  );
+
+  const allGeneratedComponents = componentsUsageReport.components.map(({ tag }) => tag);
+  const configReferencedComponentsMap = new Map(allGeneratedComponents.map((component) => [component, false]));
+
+  allGeneratedComponents.forEach((tag) => {
+    if (allConfigComponents.includes(tag)) {
+      configReferencedComponentsMap.set(tag, true);
+    }
+  });
+
+  configReferencedComponentsMap.forEach((seen, component) => {
+    if (!seen) {
+      console.warn(
+        `[WARNING] ${component} is not referenced in stencil.config.ts and will not have a bundle generated`
+      );
+    }
+  });
+
   for (const { components } of componentsConfig.bundles) {
     const componentNamespacePrefix = /^calcite/;
     const bundleName = components[0].replace(componentNamespacePrefix, "").replace("-", "");

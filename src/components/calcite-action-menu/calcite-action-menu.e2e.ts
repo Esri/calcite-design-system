@@ -159,14 +159,6 @@ describe("calcite-action-menu", () => {
 
     expect(await actionMenu.getProperty("open")).toBe(true);
 
-    const action = await page.find("calcite-action");
-
-    await action.click();
-
-    await page.waitForChanges();
-
-    expect(await actionMenu.getProperty("open")).toBe(true);
-
     const outside = await page.find("#outside");
 
     await outside.click();
@@ -174,5 +166,41 @@ describe("calcite-action-menu", () => {
     await page.waitForChanges();
 
     expect(await actionMenu.getProperty("open")).toBe(false);
+  });
+
+  it("should close menu if slotted action is clicked", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-action-menu open>
+          <calcite-action text="Add" icon="plus" text-enabled></calcite-action>
+          <calcite-action text="Add" icon="plus" text-enabled></calcite-action>
+          <calcite-action text="Add" icon="plus" text-enabled></calcite-action>
+        </calcite-action-menu>
+        <div>
+        <button id="outside">outside</button>
+        </div>`
+    });
+
+    await page.waitForChanges();
+
+    const actionMenu = await page.find("calcite-action-menu");
+
+    expect(await actionMenu.getProperty("open")).toBe(true);
+
+    const action = await page.find("calcite-action");
+
+    await action.click();
+
+    await page.waitForChanges();
+
+    expect(await actionMenu.getProperty("open")).toBe(false);
+
+    const shadowFocusTargetSelector = `.${CSS.menuButton}`;
+    expect(
+      await page.$eval(
+        "calcite-action-menu",
+        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+        shadowFocusTargetSelector
+      )
+    ).toBe(true);
   });
 });

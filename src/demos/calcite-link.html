@@ -1,33 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Calcite Link</title>
+    <style>
+      .sticky-example {
+        position: -webkit-sticky;
+        position: sticky;
+        bottom: 20px;
+        margin: 0 auto;
+      }
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Calcite Link</title>
-  <style>
-    .sticky-example {
-      position: -webkit-sticky;
-      position: sticky;
-      bottom: 20px;
-      margin: 0 auto;
-    }
+      .demo-background-dark {
+        background: #202020;
+        color: white;
+        padding: 1rem;
+      }
+    </style>
+    <script src="./_assets/head.js"></script>
+    <script src="_assets/loadingButton.js"></script>
+  </head>
 
-    .demo-background-dark {
-      background: #202020;
-      color: white;
-      padding: 1rem;
-    }
-  </style>
-<script src="./_assets/head.js"></script>
-  <script src="_assets/loadingButton.js"></script>
-</head>
+  <body>
+    <calcite-button href="/">Home</calcite-button>
+    <h1>Calcite Link</h1>
+    <h4>calcite-link has no scale - it inherits font size from its container</h4>
 
-<body>
-  <calcite-button href="/">Home</calcite-button>
-  <h1>Calcite Link</h1>
-  <h4>calcite-link has no scale - it inherits font size from its container</h4>
+    <h3>Set focus</h3>
+    <calcite-button onclick="document.querySelector('#button-focus-example-1').setFocus()">focus span </calcite-button>
+    <calcite-button onclick="document.querySelector('#button-focus-example-2').setFocus()">focus a </calcite-button>
+    <h4>Receive focus</h4>
+
 
   <h3>Text sizes</h3>
   <p style="font-size:10px"><calcite-link icon-start="information" icon-end="information">example text</calcite-link><br /></p>
@@ -46,50 +51,68 @@
   </calcite-button>
   <h4>Receive focus</h4>
 
-  <calcite-link id="button-focus-example-1">span to gain focus</calcite-link>
-  <br />
-  <calcite-link id="button-focus-example-2" href="http://google.com">anchor to gain focus</calcite-link>
+    <br />
 
-  <br />
+    <h3>Tooltip trigger</h3>
+    <calcite-tooltip-manager>
+      <calcite-link icon-start="information" id="tooltip-example">span to gain focus</calcite-link>
+    </calcite-tooltip-manager>
+    <calcite-tooltip label="top placed tooltip" placement="top" reference-element="tooltip-example"
+      >Lorem Ipsum is simply of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+      printer of type and scrambled it to make a type specimen book.</calcite-tooltip
+    >
+    <h3>Icons</h3>
 
-  <h3>Tooltip trigger</h3>
-  <calcite-tooltip-manager>
-    <calcite-link icon-start="information" id="tooltip-example">span to gain focus</calcite-link>
-  </calcite-tooltip-manager>
-  <calcite-tooltip label="top placed tooltip" placement="top" reference-element="tooltip-example">Lorem Ipsum is simply
-    of the printing and typesetting industry. Lorem Ipsum has been the industry's standard printer of type and
-    scrambled it to make a type specimen book.</calcite-tooltip>
-  <h3>Icons</h3>
+    <calcite-link icon-start="information">example text</calcite-link><br /><br />
+    <calcite-link icon-end="information">example text</calcite-link><br /><br />
+    <calcite-link icon-start="information" icon-end="information">example text</calcite-link>
+    <br /><br />
+    <h3>Inline links</h3>
 
+    A <calcite-link title="in the middle">link with no href in the middle</calcite-link> of some text.<br />
+    A <calcite-link title="in the middle" href="/">in the middle</calcite-link> of some text.<br />
+    <div class="demo-background-dark">
+      <br />
 
-  <calcite-link icon-start="information">example text</calcite-link><br /><br />
-  <calcite-link icon-end="information">example text</calcite-link><br /><br />
-  <calcite-link icon-start="information" icon-end="information">example text</calcite-link>
-  <br /><br />
-  <h3>Inline links</h3>
+      A link
+      <calcite-link
+        href="http://google.com"
+        rel="noopener noreferrer"
+        target="_blank"
+        class="calcite-theme-dark"
+        title="in the middle with an icon"
+        icon-start="launch"
+        >to Google with an icon</calcite-link
+      >
+      in some text.<br />
+      A link <calcite-link icon-start="launch" class="calcite-theme-dark">with an icon and no href</calcite-link> in
+      some text.<br />
+      A link
+      <calcite-link
+        href="http://google.com"
+        rel="noopener noreferrer"
+        target="_blank"
+        class="calcite-theme-dark"
+        title="in the middle with an icon"
+        icon-start="launch"
+        >to Google with an icon</calcite-link
+      >
+      in some text.<br />
 
-  A <calcite-link title="in the middle">link with no href in the middle</calcite-link>
-  of
-  some
-  text.<br />
-  A <calcite-link title="in the middle" href="/">in the middle</calcite-link> of
-  some
-  text.<br />
-  <div class="demo-background-dark"><br />
-
-    A link <calcite-link href="http://google.com" rel="noopener noreferrer" target="_blank"
-      theme="dark" title="in the middle with an icon" icon-start='launch'>to
-      Google with an
-      icon</calcite-link> in some text.<br />
-    A link <calcite-link icon-start='launch' theme="dark">with an
-      icon and no href</calcite-link> in some text.<br />
-    A link <calcite-link href="http://google.com" rel="noopener noreferrer" target="_blank"
-      theme="dark" title="in the middle with an icon" icon-start='launch'>to Google with an
-      icon</calcite-link> in some text.<br />
-
-    <h3> A link <calcite-link href="http://google.com" rel="noopener noreferrer" target="_blank"
-        theme="dark" title="in the middle with an icon" icon-start='launch'>to Google with an
-        icon</calcite-link> in some text.</h3> <br />
-</body>
-
+      <h3>
+        A link
+        <calcite-link
+          href="http://google.com"
+          rel="noopener noreferrer"
+          target="_blank"
+          class="calcite-theme-dark"
+          title="in the middle with an icon"
+          icon-start="launch"
+          >to Google with an icon</calcite-link
+        >
+        in some text.
+      </h3>
+      <br />
+    </div>
+  </body>
 </html>

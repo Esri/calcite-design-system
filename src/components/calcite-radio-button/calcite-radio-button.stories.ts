@@ -28,7 +28,7 @@ export const LightTheme = (): string => html`
 `;
 
 export const DarkTheme = (): string => html`
-  <calcite-label layout="inline" theme="dark">
+  <calcite-label layout="inline" class="calcite-theme-dark">
     <calcite-radio-button
       ${boolean("checked", false)}
       ${boolean("disabled", false)}
@@ -36,7 +36,6 @@ export const DarkTheme = (): string => html`
       ${boolean("focused", false)}
       name="dark"
       scale="${select("scale", ["s", "m", "l"], "m")}"
-      theme="dark"
       value="value"
     >
     </calcite-radio-button>
@@ -47,3 +46,18 @@ export const DarkTheme = (): string => html`
 DarkTheme.story = {
   parameters: { backgrounds: darkBackground }
 };
+
+export const RTL = (): string => html`
+  <calcite-label layout="inline" dir="rtl">
+    <calcite-radio-button
+      ${boolean("checked", false)}
+      ${boolean("disabled", false)}
+      ${boolean("hidden", false)}
+      ${boolean("focused", false)}
+      name="simple"
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+      value="value"
+    ></calcite-radio-button>
+    ${text("label", "Radio Button")}
+  </calcite-label>
+`;

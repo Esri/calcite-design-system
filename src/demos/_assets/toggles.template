@@ -51,7 +51,7 @@ function dragElement(elmnt) {
   }
 }
   </script>
-  <div class="toggles" id="toggles-drag" dir="ltr" theme="dark">
+  <div class="toggles" id="toggles-drag" dir="ltr" class="calcite-theme-dark">
     <calcite-panel dismissible width-scale="s" data-excluded>
       <div slot="header-content">Demo Toggles</div>
         <calcite-action data-excluded data-js-id="loading" text="Loading" text-enabled></calcite-action>

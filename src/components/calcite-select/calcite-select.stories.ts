@@ -1,4 +1,10 @@
-import { Attribute, Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
+import {
+  Attribute,
+  filterComponentAttributes,
+  Attributes,
+  createComponentHTML as create,
+  darkBackground
+} from "../../../.storybook/utils";
 import { html } from "../../tests/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { boolean, select, text } from "@storybook/addon-knobs";
@@ -6,16 +12,13 @@ import selectReadme from "../calcite-select/readme.md";
 import optionReadme from "../calcite-option/readme.md";
 import optionGroupReadme from "../calcite-option-group/readme.md";
 
-const createSelectAttributes: (options?: { except: string[] }) => Attributes = ({ except } = { except: [] }) => {
+const createSelectAttributes: (options?: { exceptions: string[] }) => Attributes = (
+  { exceptions } = { exceptions: [] }
+) => {
   const group = "select";
   const { dir, theme } = ATTRIBUTES;
 
-  interface DeferredAttribute {
-    name: string;
-    commit: () => Attribute;
-  }
-
-  return (
+  return filterComponentAttributes(
     [
       {
         name: "dir",
@@ -34,17 +37,16 @@ const createSelectAttributes: (options?: { except: string[] }) => Attributes = (
         }
       },
       {
-        name: "theme",
+        name: "class",
         commit(): Attribute {
-          this.value = select("theme", theme.values, theme.defaultValue, group);
+          this.value = select("class", theme.values, theme.defaultValue, group);
           delete this.build;
           return this;
         }
       }
-    ] as DeferredAttribute[]
-  )
-    .filter((attr) => !except.find((excluded) => excluded === attr.name))
-    .map((attr) => attr.commit());
+    ],
+    exceptions
+  );
 };
 
 const createOptionAttributes: () => Attributes = () => {
@@ -107,6 +109,33 @@ export const grouped = (): string =>
   create(
     "calcite-select",
     createSelectAttributes(),
+    html`
+      ${create(
+        "calcite-option-group",
+        createOptionGroupAttributes(),
+        html`
+          ${create("calcite-option", createOptionAttributes())}
+          <calcite-option label="some fixed option (A)" value="some-fixed-value-a"></calcite-option>
+          <calcite-option label="another fixed option (A)" value="another-fixed-value-a"></calcite-option>
+        `
+      )}
+      <calcite-option-group label="group B (fixed)">
+        <calcite-option label="some fixed option (B)" value="some-fixed-value-b"></calcite-option>
+        <calcite-option label="another fixed option (B)" value="another-fixed-value-b"></calcite-option>
+      </calcite-option-group>
+    `
+  );
+
+export const RTL = (): string =>
+  create(
+    "calcite-select",
+    [
+      ...createSelectAttributes({ exceptions: ["dir"] }),
+      {
+        name: "dir",
+        value: "rtl"
+      }
+    ],
     html`
       ${create(
         "calcite-option-group",

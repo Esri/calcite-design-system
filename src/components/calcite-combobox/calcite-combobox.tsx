@@ -181,7 +181,7 @@ export class CalciteCombobox {
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();
         } else if (this.allowCustomValues && this.text) {
-          this.addCustomChip(this.text);
+          this.addCustomChip(this.text, true);
         }
         break;
       case "Delete":
@@ -374,6 +374,10 @@ export class CalciteCombobox {
     const composedPath = event.composedPath();
     if (!this.active || composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
       return;
+    }
+
+    if (this.allowCustomValues && this.text) {
+      this.addCustomChip(this.text);
     }
 
     if (this.selectionMode === "single") {
@@ -625,7 +629,7 @@ export class CalciteCombobox {
     return Array.from(this.el.querySelectorAll(ComboboxItemGroup));
   }
 
-  addCustomChip(value: string): void {
+  addCustomChip(value: string, focus?: boolean): void {
     const existingItem = this.items.find((el) => el.textLabel === value);
     if (existingItem) {
       this.toggleSelection(existingItem, true);
@@ -637,9 +641,12 @@ export class CalciteCombobox {
       item.selected = true;
       this.el.appendChild(item);
       this.resetText();
-      this.setFocus();
+      if (focus) {
+        this.setFocus();
+      }
       this.updateItems();
       this.filterItems("");
+      this.emitCalciteLookupChange();
     }
   }
 

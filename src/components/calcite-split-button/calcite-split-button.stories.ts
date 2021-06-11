@@ -119,7 +119,7 @@ export const DarkMode = (): string => html`
     primary-text="${text("primary-text", "Primary Option")}"
     dropdown-label="${text("dropdown-label", "Additional Options")}"
     dropdown-icon-type="${select("dropdown-icon-type", ["chevron", "caret", "ellipsis", "overflow"], "chevron")}"
-    theme="dark"
+    class="calcite-theme-dark"
   >
     <calcite-dropdown-group selection-mode="none">
       <calcite-dropdown-item>Option 2</calcite-dropdown-item>

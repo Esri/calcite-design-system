@@ -43,7 +43,7 @@ WrappingCalciteLabel.story = {
 
 export const DarkMode = (): string => html`
   <calcite-switch
-    theme="dark"
+    class="calcite-theme-dark"
     name="setting"
     value="enabled"
     ${boolean("switched", true)}

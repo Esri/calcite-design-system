@@ -42,7 +42,24 @@ export const Simple = (): string => {
       <div>
         ${referenceElementHTML}
         <calcite-tooltip
-          theme="light"
+        class="calcite-theme-light"
+          reference-element="reference-element"
+          placement="${select("placement", calcite_placements, "auto")}"
+          offset-distance="${number("offset-distance", 6)}"
+          offset-skidding="${number("offset-skidding", 0)}"
+          ${boolean("open", true)}
+        >
+          ${contentHTML}
+        </calcite-tooltip>
+      </div>
+    `;
+};
+
+export const RTL = (): string => {
+  return `
+      <div dir="rtl">
+        ${referenceElementHTML}
+        <calcite-tooltip
           reference-element="reference-element"
           placement="${select("placement", calcite_placements, "auto")}"
           offset-distance="${number("offset-distance", 6)}"
@@ -60,7 +77,7 @@ export const DarkMode = (): string => {
       <div>
         ${referenceElementHTML}
         <calcite-tooltip
-          theme="dark"
+        class="calcite-theme-dark"
           reference-element="reference-element"
           placement="${select("placement", calcite_placements, "auto")}"
           offset-distance="${number("offset-distance", 6)}"

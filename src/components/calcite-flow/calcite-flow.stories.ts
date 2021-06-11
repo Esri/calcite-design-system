@@ -1,7 +1,12 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
-import { Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
+import {
+  Attribute,
+  filterComponentAttributes,
+  Attributes,
+  createComponentHTML as create,
+  darkBackground
+} from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-const { dir, theme } = ATTRIBUTES;
 import readme from "./readme.md";
 import itemReadme from "../calcite-panel/readme.md";
 import { SLOTS, TEXT } from "../calcite-panel/resources";
@@ -18,19 +23,31 @@ export default {
   }
 };
 
-const createAttributes: () => Attributes = () => {
+const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
   const group = "Flow";
+  const { dir, theme } = ATTRIBUTES;
 
-  return [
-    {
-      name: "dir",
-      value: select("dir", dir.values, dir.defaultValue, group)
-    },
-    {
-      name: "theme",
-      value: select("theme", theme.values, theme.defaultValue, group)
-    }
-  ];
+  return filterComponentAttributes(
+    [
+      {
+        name: "dir",
+        commit(): Attribute {
+          this.value = select("dir", dir.values, dir.defaultValue, group);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "class",
+        commit(): Attribute {
+          this.value = select("class", theme.values, theme.defaultValue, group);
+          delete this.build;
+          return this;
+        }
+      }
+    ],
+    exceptions
+  );
 };
 
 const createFlowItemAttributes: (group: string) => Attributes = (group) => {
@@ -95,8 +112,8 @@ const menuActionsHTML = html`
 `;
 
 const footerActionsHTML = html`
-  <calcite-button slot="${SLOTS.footerActions}" width="half">Save</calcite-button>
-  <calcite-button slot="${SLOTS.footerActions}" width="half" appearance="clear">Cancel</button>
+  <calcite-button slot="${SLOTS.footerActions}" width="half" appearance="clear">Cancel</calcite-button>
+  <calcite-button slot="${SLOTS.footerActions}" width="half">Save</button>
 `;
 
 function createItemHTML(content: string): string {
@@ -167,6 +184,14 @@ export const basic = (): string =>
   create(
     "calcite-flow",
     createAttributes(),
+    `${create("calcite-panel", createFlowItemAttributes("Panel 1"), createItemHTML(item1HTML))}
+    ${create("calcite-panel", createFlowItemAttributes("Panel 2"), createItemHTML(item2HTML))}`
+  );
+
+export const RTL = (): string =>
+  create(
+    "calcite-flow",
+    createAttributes({ exceptions: ["dir"] }).concat({ name: "dir", value: "rtl" }),
     `${create("calcite-panel", createFlowItemAttributes("Panel 1"), createItemHTML(item1HTML))}
     ${create("calcite-panel", createFlowItemAttributes("Panel 2"), createItemHTML(item2HTML))}`
   );

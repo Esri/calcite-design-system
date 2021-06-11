@@ -3,6 +3,34 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## [1.0.0-beta.56](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.55...v1.0.0-beta.56) (2021-06-08)
+
+### ⚠ BREAKING CHANGES
+
+- Using a 'theme' attribute is no longer supported to theme a component. Instead, a HTML class attribute of 'calcite-theme-light', 'calcite-theme-dark', or 'calcite-theme-auto' should be set on a component or one of its parent elements. Example: `<calcite-button theme="light" />` now becomes `<calcite-button class="calcite-theme-light" />`. The `calcite-theme-auto` class will defer to the browser's CSS 'prefers-color-scheme' media query to decide whether the light or dark theme will be used.
+
+### Features
+
+- **action-menu:** update styling and keyboard behavior ([95f13d8](https://github.com/Esri/calcite-components/commit/95f13d855c3d577241e58936e28baf6553c6e83a)), closes [#1906](https://github.com/Esri/calcite-components/issues/1906) [#1906](https://github.com/Esri/calcite-components/issues/1906)
+- **input-time-picker, time-picker:** add time-picker and input-time-picker components ([#1736](https://github.com/Esri/calcite-components/issues/1736)) ([6e4c81d](https://github.com/Esri/calcite-components/commit/6e4c81de6e560094ca7ff2a5cf68aed78ca2a32c))
+- Add auto theme class ([#2197](https://github.com/Esri/calcite-components/issues/2197)) ([7377030](https://github.com/Esri/calcite-components/commit/73770306ea3e9c14b4f61f8b13023d57e7188134)), closes [#2189](https://github.com/Esri/calcite-components/issues/2189)
+- Use HTML classes instead of custom 'theme' attributes for theming components ([#2271](https://github.com/Esri/calcite-components/issues/2271)) ([ce3ccd5](https://github.com/Esri/calcite-components/commit/ce3ccd577d544d494148eb42ab830aa38e1c2d18)), closes [#2262](https://github.com/Esri/calcite-components/issues/2262)
+- **combobox:** tapply entered text on tab for custom values combobox ([#2239](https://github.com/Esri/calcite-components/issues/2239)) ([82d9afb](https://github.com/Esri/calcite-components/commit/82d9afbd9cc75b9e3461439c9f62708bb23796a7))
+- **popover:** adds heading prop and header node for when heading is supplied ([3c2d9a4](https://github.com/Esri/calcite-components/commit/3c2d9a4f2e85548fc34f23ccc1bc51c2b26e6594)), closes [#2130](https://github.com/Esri/calcite-components/issues/2130) [#2130](https://github.com/Esri/calcite-components/issues/2130)
+
+### Bug Fixes
+
+- **avatar:** Updated large avatar to match design ([#2200](https://github.com/Esri/calcite-components/issues/2200)) ([ac97025](https://github.com/Esri/calcite-components/commit/ac97025b690c91e02fd931b18972b3e41dbca60d))
+- **calcite-accordion:** updated large accordion to match figma ([#2214](https://github.com/Esri/calcite-components/issues/2214)) ([930d1e6](https://github.com/Esri/calcite-components/commit/930d1e6e59d67a62e427463a3bbdd77ac621a116))
+- **calcite-chip:** updated scale to match figma ([#2229](https://github.com/Esri/calcite-components/issues/2229)) ([ef5508c](https://github.com/Esri/calcite-components/commit/ef5508caa121b2efdd8f42bb136fd560f75c176d))
+- **combobox:** treat entered text as chip in custom values checkboxes on blur ([#2263](https://github.com/Esri/calcite-components/issues/2263)) ([1e58793](https://github.com/Esri/calcite-components/commit/1e58793c7f5c3c766757367c9ae58b1cdd039076))
+- **custom-elements:** add missing bundles ([#2240](https://github.com/Esri/calcite-components/issues/2240)) ([477cc37](https://github.com/Esri/calcite-components/commit/477cc37b3d93bf4d8bdd7435ffadac345c8d02a2))
+- **custom-elements:** add missing flow bundle ([#2270](https://github.com/Esri/calcite-components/issues/2270)) ([4b11ba3](https://github.com/Esri/calcite-components/commit/4b11ba31c79c355d5a07b6a45c5831f697930bff)), closes [#2269](https://github.com/Esri/calcite-components/issues/2269)
+- **modal:** improve modal a11y ([#2225](https://github.com/Esri/calcite-components/issues/2225)) ([0b7e291](https://github.com/Esri/calcite-components/commit/0b7e2912baddbbeee808fedd2b70352bc4710587)), closes [#1756](https://github.com/Esri/calcite-components/issues/1756)
+- **popover:** add forceUpdate to ensure Action is available for setFocus ([92636b2](https://github.com/Esri/calcite-components/commit/92636b20a904ee471ae9a239cac2dfb5e3fd7225))
+- **rating:** restore outset focus ([#2247](https://github.com/Esri/calcite-components/issues/2247)) ([3e0b485](https://github.com/Esri/calcite-components/commit/3e0b48569177c22815f37bf31926f77a04de84de))
+- **tile:** remove max-width ([45366c3](https://github.com/Esri/calcite-components/commit/45366c3b0d0507517d354b4fc4325848582f7a45))
+
 ## [1.0.0-beta.55](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.54...v1.0.0-beta.55) (2021-05-24)
 
 ### ⚠ BREAKING CHANGES

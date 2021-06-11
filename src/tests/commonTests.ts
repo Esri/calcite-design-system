@@ -30,7 +30,7 @@ function getTag(tagOrHTML: string): CalciteComponentTag {
 async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2EPage> {
   const componentTag = getTag(componentTagOrHTML);
   const page = await newE2EPage({
-    html: isHTML(componentTagOrHTML) ? componentTagOrHTML : `<${componentTag}><${componentTag}/>`,
+    html: isHTML(componentTagOrHTML) ? componentTagOrHTML : `<${componentTag}></${componentTag}>`,
     failOnConsoleError: true
   });
   await page.waitForChanges();

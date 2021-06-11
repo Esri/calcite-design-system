@@ -19,7 +19,7 @@ export const Simple = (): string => html`
     total="${number("total", 128)}"
     num="${number("num", 20)}"
     dir="${select("dir", ["ltr", "rtl"], "ltr")}"
-    theme="light"
+    class="calcite-theme-light"
   >
   </calcite-pagination>
 `;
@@ -31,7 +31,7 @@ export const DarkMode = (): string => html`
     total="${number("total", 128)}"
     num="${number("num", 20)}"
     dir="${select("dir", ["ltr", "rtl"], "ltr")}"
-    theme="dark"
+    class="calcite-theme-dark"
   >
   </calcite-pagination>
 `;
@@ -39,3 +39,16 @@ export const DarkMode = (): string => html`
 DarkMode.story = {
   parameters: { backgrounds: darkBackground }
 };
+
+export const RTL = (): string => html`
+  <calcite-pagination
+    dir="rtl"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+    start="${number("start", 1)}"
+    total="${number("total", 128)}"
+    num="${number("num", 20)}"
+    dir="${select("dir", ["ltr", "rtl"], "ltr")}"
+    class="calcite-theme-light"
+  >
+  </calcite-pagination>
+`;

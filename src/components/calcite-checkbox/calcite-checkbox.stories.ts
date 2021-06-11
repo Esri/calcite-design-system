@@ -23,11 +23,9 @@ export const Simple = (): string => html`
     ${text("label", "Checkbox")}
   </calcite-label>
 `;
-
 export const DarkMode = (): string => html`
-  <calcite-label layout="inline" theme="dark">
+  <calcite-label layout="inline" class="calcite-theme-dark">
     <calcite-checkbox
-      theme="dark"
       ${boolean("checked", true)}
       ${boolean("disabled", false)}
       ${boolean("indeterminate", false)}
@@ -41,3 +39,15 @@ DarkMode.story = {
   name: "Dark mode",
   parameters: { backgrounds: darkBackground }
 };
+
+export const RTL = (): string => html`
+  <calcite-label layout="inline" dir="rtl">
+    <calcite-checkbox
+      ${boolean("checked", true)}
+      ${boolean("disabled", false)}
+      ${boolean("indeterminate", false)}
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+    ></calcite-checkbox>
+    ${text("label", "Checkbox")}
+  </calcite-label>
+`;

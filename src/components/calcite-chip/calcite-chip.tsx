@@ -103,7 +103,6 @@ export class CalciteChip {
 
   render(): VNode {
     const dir = getElementDir(this.el);
-    const iconScale = this.scale !== "l" ? "s" : "m";
 
     const iconEl = (
       <calcite-icon
@@ -111,7 +110,7 @@ export class CalciteChip {
         dir={dir}
         flipRtl={this.iconFlipRtl}
         icon={this.icon}
-        scale={iconScale}
+        scale="s"
       />
     );
 
@@ -123,7 +122,7 @@ export class CalciteChip {
         onClick={this.closeClickHandler}
         ref={(el) => (this.closeButton = el)}
       >
-        <calcite-icon icon="x" scale={iconScale} />
+        <calcite-icon icon="x" scale="s" />
       </button>
     );
 

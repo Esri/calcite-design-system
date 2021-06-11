@@ -1,5 +1,6 @@
 import { select, number, text } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
+import { ATTRIBUTES } from "../../../.storybook/resources";
 import readme from "./readme.md";
 
 const placements = [
@@ -60,8 +61,32 @@ export const Simple = (): string => {
       <div>
         ${referenceElementHTML}
         <calcite-popover
-          theme="light"
-          ${boolean("close-button", false)}
+        class="calcite-theme-light"
+          ${boolean("dismissible", false)}
+          ${boolean("disable-flip", false)}
+          ${boolean("disable-pointer", false)}
+          reference-element="reference-element"
+          placement="${select("placement", calcite_placements, "auto")}"
+          offset-distance="${number("offset-distance", 6)}"
+          offset-skidding="${number("offset-skidding", 0)}"
+          ${boolean("open", true)}
+          text-close="${text("text-close", "Close")}"
+        >
+          ${contentHTML}
+        </calcite-popover>
+      </div>
+    `;
+};
+
+export const RTL = (): string => {
+  const { theme } = ATTRIBUTES;
+
+  return `
+      <div dir="rtl">
+        ${referenceElementHTML}
+        <calcite-popover
+          class="${select("class", theme.values, theme.defaultValue)}"
+          ${boolean("dismissible", false)}
           ${boolean("disable-flip", false)}
           ${boolean("disable-pointer", false)}
           reference-element="reference-element"
@@ -82,8 +107,8 @@ export const DarkMode = (): string => {
       <div>
         ${referenceElementHTML}
         <calcite-popover
-          theme="dark"
-          ${boolean("close-button", false)}
+        class="calcite-theme-dark"
+          ${boolean("dismissible", false)}
           ${boolean("disable-flip", false)}
           ${boolean("disable-pointer", false)}
           reference-element="reference-element"

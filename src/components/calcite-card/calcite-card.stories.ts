@@ -29,8 +29,8 @@ export const SimpleWithLinks = (): string => html`
       <span slot="subtitle"
         >A great example of a study description that might wrap to a line or two, but isn't overly verbose.</span
       >
-      <calcite-link theme="dark" slot="footer-leading">Lead footer</calcite-link>
-      <calcite-link theme="dark" slot="footer-trailing">Trail footer</calcite-link>
+      <calcite-link class="calcite-theme-dark" slot="footer-leading">Lead footer</calcite-link>
+      <calcite-link class="calcite-theme-dark" slot="footer-trailing">Trail footer</calcite-link>
     </calcite-card>
   </div>
 `;
@@ -148,7 +148,7 @@ FooterButtonsTooltipsDropdown.story = {
 
 export const DarkThemeSimple = (): string => html`
   <div style="width:260px">
-    <calcite-card theme="dark" ${boolean("loading", false)} ${boolean("selectable", false)}>
+    <calcite-card class="calcite-theme-dark" ${boolean("loading", false)} ${boolean("selectable", false)}>
       <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
       <span slot="subtitle"
         >A great example of a study description that might wrap to a line or two, but isn't overly verbose.</span
@@ -164,13 +164,13 @@ DarkThemeSimple.story = {
 
 export const DarkThemeSimpleWithLinks = (): string => html`
   <div style="width:260px">
-    <calcite-card theme="dark" ${boolean("loading", false)} ${boolean("selectable", false)}>
+    <calcite-card class="calcite-theme-dark" ${boolean("loading", false)} ${boolean("selectable", false)}>
       <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
       <span slot="subtitle"
         >A great example of a study description that might wrap to a line or two, but isn't overly verbose.</span
       >
-      <calcite-link theme="dark" theme="dark" slot="footer-leading">Lead footer</calcite-link>
-      <calcite-link theme="dark" theme="dark" slot="footer-trailing">Trail footer</calcite-link>
+      <calcite-link slot="footer-leading">Lead footer</calcite-link>
+      <calcite-link slot="footer-trailing">Trail footer</calcite-link>
     </calcite-card>
   </div>
 `;
@@ -182,11 +182,11 @@ DarkThemeSimpleWithLinks.story = {
 
 export const DarkThemeFooterButton = (): string => html`
   <div style="width:260px">
-    <calcite-card theme="dark" ${boolean("loading", false)} ${boolean("selectable", false)}>
+    <calcite-card class="calcite-theme-dark" ${boolean("loading", false)} ${boolean("selectable", false)}>
       ${footerThumbnail}
       <h3 slot="title">Untitled experience</h3>
       <span slot="subtitle">Subtext</span>
-      <calcite-button theme="dark" slot="footer-leading" width="full">Go</calcite-button>
+      <calcite-button slot="footer-leading" width="full">Go</calcite-button>
     </calcite-card>
   </div>
 `;
@@ -198,14 +198,14 @@ DarkThemeFooterButton.story = {
 
 export const DarkThemeFooterLinks = (): string => html`
   <div style="width:260px">
-    <calcite-card theme="dark" ${boolean("loading", false)} ${boolean("selectable", false)}>
+    <calcite-card class="calcite-theme-dark" ${boolean("loading", false)} ${boolean("selectable", false)}>
       ${footerThumbnail}
       <h3 slot="title">My perhaps multiline card title</h3>
       <span slot="subtitle"
         >A great example of a study description that might wrap to a line or two, but isn't overly verbose.</span
       >
-      <calcite-link theme="dark" slot="footer-leading">Lead footer</calcite-link>
-      <calcite-link theme="dark" slot="footer-trailing">Trail footer</calcite-link>
+      <calcite-link slot="footer-leading">Lead footer</calcite-link>
+      <calcite-link slot="footer-trailing">Trail footer</calcite-link>
     </calcite-card>
   </div>
 `;
@@ -218,7 +218,7 @@ DarkThemeFooterLinks.story = {
 export const DarkThemeFooterTextButtonsTooltips = (): string => html`
   <div style="width:260px">
     <calcite-tooltip-manager>
-      <calcite-card theme="dark" ${boolean("loading", false)} ${boolean("selectable", false)}>
+      <calcite-card class="calcite-theme-dark" ${boolean("loading", false)} ${boolean("selectable", false)}>
         ${footerThumbnail}
         <h3 slot="title">My great project that might wrap two lines</h3>
         <span slot="subtitle">Johnathan Smith</span>
@@ -232,8 +232,12 @@ export const DarkThemeFooterTextButtonsTooltips = (): string => html`
       </calcite-card>
     </calcite-tooltip-manager>
   </div>
-  <calcite-tooltip placement="bottom" theme="dark" reference-element="card-icon-test-6">Configure </calcite-tooltip>
-  <calcite-tooltip placement="bottom" theme="dark" reference-element="card-icon-test-7">Delete </calcite-tooltip>
+  <calcite-tooltip placement="bottom" class="calcite-theme-dark" reference-element="card-icon-test-6"
+    >Configure
+  </calcite-tooltip>
+  <calcite-tooltip placement="bottom" class="calcite-theme-dark" reference-element="card-icon-test-7"
+    >Delete
+  </calcite-tooltip>
 `;
 
 DarkThemeFooterTextButtonsTooltips.story = {
@@ -244,7 +248,7 @@ DarkThemeFooterTextButtonsTooltips.story = {
 export const DarkThemeFooterButtonsTooltipsDropdown = (): string => html`
   <div style="width:260px">
     <calcite-tooltip-manager>
-      <calcite-card theme="dark" ${boolean("loading", false)} ${boolean("selectable", false)}>
+      <calcite-card class="calcite-theme-dark" ${boolean("loading", false)} ${boolean("selectable", false)}>
         <img
           alt=""
           slot="thumbnail"
@@ -254,7 +258,7 @@ export const DarkThemeFooterButtonsTooltipsDropdown = (): string => html`
         <h3 slot="title">Portland Businesses</h3>
         <span slot="subtitle"
           >by
-          <calcite-link theme="dark" href="">example_user</calcite-link>
+          <calcite-link href="">example_user</calcite-link>
         </span>
         <div>
           Created: Apr 22, 2019
@@ -272,14 +276,14 @@ export const DarkThemeFooterButtonsTooltipsDropdown = (): string => html`
         ></calcite-button>
         <div slot="footer-trailing">
           <calcite-button
-            theme="dark"
+            class="calcite-theme-dark"
             color="neutral"
             scale="s"
             id="card-icon-test-2"
             icon-start="circle"
           ></calcite-button>
           <calcite-button
-            theme="dark"
+            class="calcite-theme-dark"
             color="neutral"
             scale="s"
             id="card-icon-test-3"
@@ -287,7 +291,7 @@ export const DarkThemeFooterButtonsTooltipsDropdown = (): string => html`
           ></calcite-button>
           <calcite-dropdown type="hover">
             <calcite-button
-              theme="dark"
+              class="calcite-theme-dark"
               color="neutral"
               id="card-icon-test-5"
               slot="dropdown-trigger"
@@ -305,23 +309,27 @@ export const DarkThemeFooterButtonsTooltipsDropdown = (): string => html`
     </calcite-tooltip-manager>
   </div>
   <calcite-tooltip
-    theme="dark"
+    class="calcite-theme-dark"
     label="bottom placed tooltip"
     placement="bottom-start"
     reference-element="card-icon-test-1"
     >My great tooltip example
   </calcite-tooltip>
   <calcite-tooltip
-    theme="dark"
+    class="calcite-theme-dark"
     label="bottom placed tooltip"
     placement="bottom-start"
     reference-element="card-icon-test-2"
     >Sharing level: 2
   </calcite-tooltip>
-  <calcite-tooltip theme="dark" label="top end placed tooltip" placement="top-end" reference-element="card-icon-test-3"
+  <calcite-tooltip
+    class="calcite-theme-dark"
+    label="top end placed tooltip"
+    placement="top-end"
+    reference-element="card-icon-test-3"
     >More...
   </calcite-tooltip>
-  <calcite-tooltip theme="dark" placement="top-start" reference-element="card-icon-test-5"
+  <calcite-tooltip class="calcite-theme-dark" placement="top-start" reference-element="card-icon-test-5"
     >More options
   </calcite-tooltip>
 `;
@@ -330,3 +338,14 @@ DarkThemeFooterButtonsTooltipsDropdown.story = {
   name: "Dark Theme - Footer Buttons, Tooltips, Dropdown",
   parameters: { backgrounds: darkBackground }
 };
+
+export const RTL = (): string => html`
+  <div style="width:260px" dir="rtl">
+    <calcite-card ${boolean("loading", false)} ${boolean("selectable", false)}>
+      <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
+      <span slot="subtitle"
+        >A great example of a study description that might wrap to a line or two, but isn't overly verbose.</span
+      >
+    </calcite-card>
+  </div>
+`;

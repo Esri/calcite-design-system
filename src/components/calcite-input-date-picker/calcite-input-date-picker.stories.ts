@@ -32,10 +32,9 @@ export const Simple = (): string => html`
 
 export const DarkMode = (): string => html`
   <div style="width: 400px">
-    <calcite-label layout="inline" theme="dark">
+    <calcite-label layout="inline" class="calcite-theme-dark">
       Date
       <calcite-input-date-picker
-        theme="dark"
         scale="${select("scale", ["s", "m", "l"], "m")}"
         value="${text("value", "2020-12-12")}"
         min="${text("min", "2016-08-09")}"
@@ -68,5 +67,22 @@ export const Range = (): string => html`
       range="${boolean("range", true)}"
       layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
     ></calcite-input-date-picker>
+  </div>
+`;
+
+export const RTL = (): string => html`
+  <div style="width: 400px" dir="rtl">
+    <calcite-label layout="inline">
+      Date
+      <calcite-input-date-picker
+        scale="${select("scale", ["s", "m", "l"], "m")}"
+        value="${text("value", "2020-12-12")}"
+        min="${text("min", "2016-08-09")}"
+        max="${text("max", "2023-12-18")}"
+        locale="${select("locale", locales, "en")}"
+        intl-next-month="${text("intl-next-month", "Next month")}"
+        intl-prev-month="${text("intl-prev-month", "Previous month")}"
+      ></calcite-input-date-picker
+    ></calcite-label>
   </div>
 `;

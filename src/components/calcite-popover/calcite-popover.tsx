@@ -3,6 +3,7 @@ import {
   Element,
   Event,
   EventEmitter,
+  forceUpdate,
   Host,
   Method,
   Prop,
@@ -52,8 +53,14 @@ export class CalcitePopover {
 
   /**
    * Display a close button within the Popover.
+   * @deprecated use dismissible instead.
    */
   @Prop({ reflect: true }) closeButton = false;
+
+  /**
+   * Display a close button within the Popover.
+   */
+  @Prop({ reflect: true }) dismissible = false;
 
   /**
    * Prevents flipping the popover's placement when it starts to overlap its reference element.
@@ -216,8 +223,12 @@ export class CalcitePopover {
 
   @Method()
   async setFocus(focusId?: PopoverFocusId): Promise<void> {
-    if (focusId === "close-button") {
-      this.closeButtonEl?.focus();
+    const { closeButtonEl } = this;
+
+    if (focusId === "close-button" && closeButtonEl) {
+      forceUpdate(closeButtonEl);
+      closeButtonEl.setFocus();
+
       return;
     }
 
@@ -356,9 +367,9 @@ export class CalcitePopover {
   // --------------------------------------------------------------------------
 
   renderCloseButton(): VNode {
-    const { closeButton, intlClose } = this;
+    const { dismissible, closeButton, intlClose } = this;
 
-    return closeButton ? (
+    return dismissible || closeButton ? (
       <calcite-action
         class={CSS.closeButton}
         onClick={this.hide}

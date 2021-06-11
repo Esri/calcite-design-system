@@ -78,7 +78,7 @@ export const WithAvatar = (): string => {
 export const DarkTheme = (): string => html`
   <div style="background-color:#2b2b2b;padding:100px">
     <calcite-chip
-      theme="dark"
+      class="calcite-theme-dark"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       appearance="${select("appearance", ["solid", "clear"], "solid")}"
       color="${select("color", ["blue", "red", "yellow", "green", "grey"], "grey")}"

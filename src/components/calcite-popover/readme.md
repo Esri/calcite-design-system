@@ -18,11 +18,13 @@
 
 | Property                        | Attribute             | Description                                                                                                                        | Type                                        | Default                 |
 | ------------------------------- | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- | ----------------------- |
-| `closeButton`                   | `close-button`        | Display a close button within the Popover.                                                                                         | `boolean`                                   | `false`                 |
+| `closeButton`                   | `close-button`        | <span style="color:red">**[DEPRECATED]**</span> use dismissible instead.<br/><br/>Display a close button within the Popover.       | `boolean`                                   | `false`                 |
 | `disableFlip`                   | `disable-flip`        | Prevents flipping the popover's placement when it starts to overlap its reference element.                                         | `boolean`                                   | `false`                 |
 | `disablePointer`                | `disable-pointer`     | Removes the caret pointer.                                                                                                         | `boolean`                                   | `false`                 |
+| `dismissible`                   | `dismissible`         | Display a close button within the Popover.                                                                                         | `boolean`                                   | `false`                 |
 | `flipPlacements`                | --                    | Defines the available placements that can be used when a flip occurs.                                                              | `Placement[]`                               | `undefined`             |
-| `heading`                       | `heading`             | Optional property for setting a heading and header with optional. Adds a header node and moves close button to header              | `string`                                    | `undefined`             |
+| `heading`                       | `heading`             | Heading text.                                                                                                                      | `string`                                    | `undefined`             |
+| `headingLevel`                  | `heading-level`       | Number at which section headings should start for this component.                                                                  | `1 \| 2 \| 3 \| 4 \| 5 \| 6`                | `undefined`             |
 | `intlClose`                     | `intl-close`          | Text for close button.                                                                                                             | `string`                                    | `TEXT.close`            |
 | `label` _(required)_            | `label`               | Accessible name for the component                                                                                                  | `string`                                    | `undefined`             |
 | `offsetDistance`                | `offset-distance`     | Offset the position of the popover away from the reference element.                                                                | `number`                                    | `defaultOffsetDistance` |
@@ -70,17 +72,23 @@ Type: `Promise<void>`
 ### Used by
 
 - [calcite-action-menu](../calcite-action-menu)
+- [calcite-input-time-picker](../calcite-input-time-picker)
 
 ### Depends on
 
+- [calcite-action](../calcite-action)
 - [calcite-icon](../calcite-icon)
 
 ### Graph
 
 ```mermaid
 graph TD;
+  calcite-popover --> calcite-action
   calcite-popover --> calcite-icon
+  calcite-action --> calcite-loader
+  calcite-action --> calcite-icon
   calcite-action-menu --> calcite-popover
+  calcite-input-time-picker --> calcite-popover
   style calcite-popover fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

@@ -674,8 +674,8 @@ export class CalciteColorPicker {
         slider: { height: sliderHeight }
       }
     } = this;
-    const hueTop = hueScopeTop || sliderHeight / 2 + colorFieldHeight;
-    const hueLeft = hueScopeLeft || (colorFieldWidth * DEFAULT_COLOR.hue()) / HSV_LIMITS.h;
+    const hueTop = hueScopeTop ?? sliderHeight / 2 + colorFieldHeight;
+    const hueLeft = hueScopeLeft ?? (colorFieldWidth * DEFAULT_COLOR.hue()) / HSV_LIMITS.h;
     const elementDir = getElementDir(el);
     const noColor = color === null;
     const vertical = scopeOrientation === "vertical";
