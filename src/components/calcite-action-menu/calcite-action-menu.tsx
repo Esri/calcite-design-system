@@ -340,7 +340,7 @@ export class CalciteActionMenu {
     const { el } = this;
 
     const assignedActions = this.getAssignedElements().filter(
-      (element) => element.tagName === "CALCITE-ACTION"
+      (element) => element.tagName === "CALCITE-ACTION" && element.slot !== "trigger"
     ) as HTMLCalciteActionElement[];
 
     const actionElements = assignedActions.length
