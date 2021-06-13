@@ -1,92 +1,91 @@
 // scale variables
 :host([scale="s"]) {
   --calcite-alert-width: 40em;
-  --calcite-alert-spacing-token-small: #{$baseline/2};
-  --calcite-alert-spacing-token-large: #{$baseline/1.5};
+  --calcite-alert-spacing-token-small: theme("spacing.2");
+  --calcite-alert-spacing-token-large: theme("spacing.3");
   @include slotted("title", "*") {
-    @include font-size(-2);
+    @apply text--1-wrap;
   }
   @include slotted("message", "*") {
-    @include font-size(-3);
+    @apply text--2-wrap;
   }
   ::slotted(calcite-link) {
-    @include font-size(-3);
+    @apply text--2-wrap;
   }
 }
 
 :host([scale="m"]) {
   --calcite-alert-width: 50em;
-  --calcite-alert-spacing-token-small: #{$baseline/1.5};
-  --calcite-alert-spacing-token-large: #{$baseline};
+  --calcite-alert-spacing-token-small: theme("spacing.3");
+  --calcite-alert-spacing-token-large: theme("spacing.4");
   @include slotted("title", "*") {
-    @include font-size(-1);
+    @apply text-0-wrap;
   }
   @include slotted("message", "*") {
-    @include font-size(-2);
+    @apply text--1-wrap;
   }
   ::slotted(calcite-link) {
-    @include font-size(-2);
+    @apply text--1-wrap;
   }
 }
 
 :host([scale="l"]) {
   --calcite-alert-width: 60em;
-  --calcite-alert-spacing-token-small: #{$baseline/1.25};
-  --calcite-alert-spacing-token-large: #{$baseline * 1.25};
+  --calcite-alert-spacing-token-small: theme("spacing.4");
+  --calcite-alert-spacing-token-large: theme("spacing.5");
   @include slotted("title", "*") {
-    @include font-size(0);
+    @apply text-1-wrap;
   }
   @include slotted("message", "*") {
-    @include font-size(-1);
+    @apply text-0-wrap;
   }
   ::slotted(calcite-link) {
-    @include font-size(-1);
+    @apply text-0-wrap;
   }
 }
 
 :host {
   .container {
-    @apply shadow-2;
-    display: flex;
-    position: fixed;
-    justify-content: center;
-    align-items: center;
-    pointer-events: none;
-    margin: 0 auto;
+    @apply shadow-2
+      flex
+      fixed
+      justify-center
+      items-center
+      pointer-events-none
+      my-0
+      mx-auto
+      bg-foreground-1
+      rounded
+      opacity-0
+      left-0
+      right-0
+      bottom-0;
     width: var(--calcite-alert-width);
     max-width: 90%;
     max-height: 0;
-    background-color: var(--calcite-ui-foreground-1);
-    border-radius: var(--calcite-border-radius);
-    opacity: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    pointer-events: none;
     z-index: 101;
     transform: translate3d(0, $baseline, 0);
     transition: 300ms $easing-function, opacity 300ms $easing-function, all 0.15s ease-in-out;
     border-top: 0px solid transparent;
     @media only screen and (max-width: $viewport-medium) {
-      width: 100%;
-      max-width: 100%;
+      @apply w-full max-w-full;
       border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
     }
   }
 }
 
 .container {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
+  @apply flex
+    w-full
+    justify-center
+    items-center;
 }
 
 // focus styles
 .alert-close {
-  @include focus-style-base();
+  @apply focus-base;
   &:focus {
-    @include focus-style-inset();
+    @apply focus-inset;
   }
 }
 
@@ -105,6 +104,7 @@
 }
 
 @include slotted("title", "*") {
+  @apply font-medium;
   @include font-size(0);
   color: var(--calcite-ui-text-1);
   margin: 0;
@@ -197,7 +197,7 @@
 
   &:hover,
   &:focus {
-    background-color: var(--calcite-ui-foreground-2);
+    @apply text-color-1 bg-foreground-2;
   }
 
   &:active {
