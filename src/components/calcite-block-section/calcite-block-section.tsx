@@ -113,6 +113,7 @@ export class CalciteBlockSection {
             [CSS.toggle]: true,
             [CSS.toggleSwitch]: true
           }}
+          onKeyDown={this.handleHeaderLabelKeyDown}
           title={toggleLabel}
         >
           <span class={CSS.toggleSwitchText}>{text}</span>
