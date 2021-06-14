@@ -97,6 +97,13 @@ calcite-handle {
 
 .icon {
   @apply ml-3;
+
+  &.valid {
+    color: theme("colors.success");
+  }
+  &.invalid {
+    color: theme("colors.danger");
+  }
 }
 
 .toggle-icon {

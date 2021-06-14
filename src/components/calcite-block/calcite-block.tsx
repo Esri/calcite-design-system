@@ -3,6 +3,7 @@ import { CSS, SLOTS, TEXT, HEADING_LEVEL, ICONS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 import { getElementDir, getSlotted } from "../../utils/dom";
 import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
+import { Status } from "../interfaces";
 
 /**
  * @slot icon - A slot for adding a trailing header icon.
@@ -70,6 +71,11 @@ export class CalciteBlock {
   @Prop({ reflect: true, mutable: true }) open = false;
 
   /**
+   * Block status. Updates or adds icon to show related icon and color.
+   */
+  @Prop({ reflect: true }) status?: Status;
+
+  /**
    * Block summary.
    */
   @Prop() summary: string;
@@ -118,6 +124,30 @@ export class CalciteBlock {
     return [loading || disabled ? <calcite-scrim loading={loading} /> : null, defaultSlot];
   }
 
+  renderIcon(): VNode[] {
+    const { el, status } = this;
+
+    const icon = ICONS[status] ?? false;
+
+    const hasIcon = getSlotted(el, SLOTS.icon) || icon;
+    
+    const iconEl = !icon ? (
+      <slot name={SLOTS.icon} />
+    ) : (
+      <calcite-icon icon={icon} scale="m" />
+    )
+
+    return hasIcon ? (
+      <div class={{
+        [CSS.icon]:true,
+        [CSS.valid]: status == "valid",
+        [CSS.invalid]: status == "invalid"
+        }}>
+        {iconEl}
+      </div>
+    ) : null;
+  }
+
   render(): VNode {
     const {
       collapsible,
@@ -135,15 +165,10 @@ export class CalciteBlock {
 
     const toggleLabel = open ? intlCollapse || TEXT.collapse : intlExpand || TEXT.expand;
 
-    const hasIcon = getSlotted(el, SLOTS.icon);
 
     const headerContent = (
       <header class={CSS.header}>
-        {hasIcon ? (
-          <div class={CSS.icon}>
-            <slot name={SLOTS.icon} />
-          </div>
-        ) : null}
+        {this.renderIcon()}
         <div class={CSS.title}>
           <CalciteHeading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
             {heading}

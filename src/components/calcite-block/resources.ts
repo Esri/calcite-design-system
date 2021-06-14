@@ -10,7 +10,9 @@ export const CSS = {
   header: "header",
   button: "button",
   summary: "summary",
-  controlContainer: "control-container"
+  controlContainer: "control-container",
+  valid: "valid",
+  invalid: "invalid"
 };
 
 export const TEXT = {
@@ -26,7 +28,9 @@ export const SLOTS = {
 
 export const ICONS = {
   opened: "chevron-up",
-  closed: "chevron-down"
+  closed: "chevron-down",
+  valid: "check",
+  invalid: "exclamation-mark-triangle"
 };
 
 export const HEADING_LEVEL = 4;
