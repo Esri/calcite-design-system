@@ -6,6 +6,6 @@ export type FlipContext = "both" | "start" | "end";
 export type Layout = "horizontal" | "vertical" | "grid";
 export type Position = "start" | "end";
 export type Scale = "s" | "m" | "l";
-export type Status = "invalid" | "valid" | "warning" | "idle";
+export type Status = "invalid" | "valid" | "idle";
 export type ThemeClass = "calcite-theme-light" | "calcite-theme-dark" | "calcite-theme-auto";
 export type Width = "auto" | "half" | "full";
