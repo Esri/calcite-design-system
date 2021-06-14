@@ -130,22 +130,22 @@ export class CalciteBlock {
     const icon = ICONS[status] ?? false;
 
     const hasIcon = getSlotted(el, SLOTS.icon) || icon;
-    
+
     const iconEl = !icon ? (
       <slot name={SLOTS.icon} />
     ) : (
-      <calcite-icon icon={icon} scale="m" />
-    )
+      <calcite-icon
+        icon={icon}
+        scale="m"
+        class={{
+          [CSS.statusIcon]: true,
+          [CSS.valid]: status == "valid",
+          [CSS.invalid]: status == "invalid"
+        }}
+      />
+    );
 
-    return hasIcon ? (
-      <div class={{
-        [CSS.icon]:true,
-        [CSS.valid]: status == "valid",
-        [CSS.invalid]: status == "invalid"
-        }}>
-        {iconEl}
-      </div>
-    ) : null;
+    return hasIcon ? <div class={CSS.icon}>{iconEl}</div> : null;
   }
 
   render(): VNode {
@@ -164,7 +164,6 @@ export class CalciteBlock {
     } = this;
 
     const toggleLabel = open ? intlCollapse || TEXT.collapse : intlExpand || TEXT.expand;
-
 
     const headerContent = (
       <header class={CSS.header}>

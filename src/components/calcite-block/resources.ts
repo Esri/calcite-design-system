@@ -3,6 +3,7 @@ export const CSS = {
   content: "content",
   headerContainer: "header-container",
   icon: "icon",
+  statusIcon: "status-icon",
   toggle: "toggle",
   toggleIcon: "toggle-icon",
   title: "title",
