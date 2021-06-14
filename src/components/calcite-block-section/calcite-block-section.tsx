@@ -106,14 +106,13 @@ export class CalciteBlockSection {
 
     const headerNode =
       toggleDisplay === "switch" ? (
-        <label
+        <calcite-label
+          layout="inline-space-between"
           aria-label={toggleLabel}
           class={{
             [CSS.toggle]: true,
             [CSS.toggleSwitch]: true
           }}
-          onKeyDown={this.handleHeaderLabelKeyDown}
-          tabIndex={0}
           title={toggleLabel}
         >
           <span class={CSS.toggleSwitchText}>{text}</span>
@@ -121,9 +120,8 @@ export class CalciteBlockSection {
             onCalciteSwitchChange={this.toggleSection}
             scale="s"
             switched={open}
-            tabIndex={-1}
           />
-        </label>
+        </calcite-label>
       ) : (
         <button
           aria-label={toggleLabel}
