@@ -48,6 +48,10 @@
   @apply focus-outset;
 }
 
+.container {
+  @apply flex;
+}
+
 .track {
   @apply relative 
     inline-block 
