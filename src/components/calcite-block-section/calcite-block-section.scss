@@ -23,37 +23,50 @@
 
 .toggle--switch,
 .section-header {
-  align-items: center;
-  cursor: pointer;
-  display: flex;
-  margin: var(--calcite-spacing-quarter) 0;
-  padding: var(--calcite-spacing-half) 0;
-  user-select: none;
-  font-size: theme("fontSize.-1");
-  @include focus-style-base();
+  @apply items-center
+    cursor-pointer
+    flex
+    mx-0
+    my-1
+    px-0
+    py-2
+    select-none
+    text--1
+    focus-base;
+  
   &:focus {
-    @include focus-style-outset();
+    @apply focus-outset;
   }
   &:hover {
-    color: var(--calcite-ui-text-1);
+    @apply text-color-1;
   }
 }
 
-.section-header__text,
-.toggle--switch__text {
-  @apply mx-3 my-0;
+.section-header .status-icon {
+  @apply self-end;
+}
+
+.section-header__text {
+  @apply flex-auto
+    mx-3
+    my-0;
+
+  text-align: initial;
 }
 
 .toggle--switch {
-  justify-content: space-between;
+  justify-content: flex-start;
   calcite-switch {
     pointer-events: none;
     margin: 0 0 0 var(--calcite-spacing-half);
   }
+  .status-icon {
+    @apply mr-3;
+  }
 }
 
 .toggle--switch__content {
-  @apply flex items-center;
+  @apply flex items-center flex-auto;
 }
 
 .status-icon.valid {
@@ -64,7 +77,12 @@
   color: theme("colors.danger");
 }
 
-.calcite--rtl .toggle--switch calcite-switch {
-  margin-left: 0;
-  margin-right: var(--calcite-spacing-half);
+.calcite--rtl .toggle--switch {
+  calcite-switch {
+    margin-left: 0;
+    margin-right: var(--calcite-spacing-half);
+  }
+  .status-icon {
+    @apply mr-0 ml-3;
+  }
 }
