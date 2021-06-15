@@ -4,6 +4,7 @@ import { getElementDir } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { CSS, ICONS, TEXT } from "./resources";
 import { BlockSectionToggleDisplay } from "./interfaces";
+import { Status } from "../interfaces";
 
 /**
  * @slot - A slot for adding content to the block section.
@@ -34,6 +35,11 @@ export class CalciteBlockSection {
    * When true, the block's section content will be displayed.
    */
   @Prop({ reflect: true, mutable: true }) open = false;
+
+  /**
+   * BlockSection status. Adds indicator to show valid or invalid status.
+   */
+  @Prop({ reflect: true }) status?: Status;
 
   /**
    * Text displayed in the button.
@@ -94,7 +100,7 @@ export class CalciteBlockSection {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { el, intlCollapse, intlExpand, open, text, toggleDisplay } = this;
+    const { el, intlCollapse, intlExpand, open, status, text, toggleDisplay } = this;
     const dir = getElementDir(el);
     const arrowIcon = open
       ? ICONS.menuOpen
@@ -103,6 +109,13 @@ export class CalciteBlockSection {
       : ICONS.menuClosedRight;
 
     const toggleLabel = open ? intlCollapse || TEXT.collapse : intlExpand || TEXT.expand;
+
+    const statusIcon = ICONS[status] ?? false;
+    const statusIconClasses = {
+      [CSS.statusIcon]: true,
+      [CSS.valid]: status == "valid",
+      [CSS.invalid]: status == "invalid"
+    };
 
     const headerNode =
       toggleDisplay === "switch" ? (
@@ -116,7 +129,12 @@ export class CalciteBlockSection {
           tabIndex={0}
           title={toggleLabel}
         >
-          <span class={CSS.toggleSwitchText}>{text}</span>
+          <div class={CSS.toggleSwitchContent}>
+            {statusIcon ? (
+              <calcite-icon class={statusIconClasses} icon={statusIcon} scale="s"></calcite-icon>
+            ) : null}
+            <span class={CSS.toggleSwitchText}>{text}</span>
+          </div>
           <calcite-switch
             onCalciteSwitchChange={this.toggleSection}
             scale="s"
@@ -135,7 +153,11 @@ export class CalciteBlockSection {
           onClick={this.toggleSection}
           onKeyDown={this.handleHeaderLabelKeyDown}
         >
-          <calcite-icon icon={arrowIcon} scale="s" />
+          <calcite-icon
+            class={!!statusIcon ? statusIconClasses : null}
+            icon={statusIcon ? statusIcon : arrowIcon}
+            scale="s"
+          />
           <span class={CSS.sectionHeaderText}>{text}</span>
         </button>
       );
