@@ -1,24 +1,29 @@
 :host {
-  @extend %component-host;
-  @extend %component-spacing;
-  display: block;
+  @apply box-border
+    bg-foreground-1
+    text-color-2
+    text--1
+    block;
 }
 
 :host([open]) {
-  border-bottom: 1px solid var(--calcite-ui-border-3);
+  @apply border-solid
+    border-0
+    border-b-color-3
+    border-b-px;
 }
 
 :host(:last-child) {
-  border-bottom: none;
+  @apply border-b-0;
 }
 
 .toggle {
-  background-color: transparent;
-  border: none;
-  color: var(--calcite-ui-text-2);
-  font-family: theme("fontFamily.sans");
-  font-weight: theme("fontWeight.normal");
-  width: 100%;
+  @apply bg-transparent
+    border-0
+    text-color-2
+    font-sans
+    font-normal
+    w-full;
 }
 
 .toggle--switch,
@@ -56,13 +61,11 @@
 }
 
 .toggle--switch {
-  justify-content: flex-start;
   calcite-switch {
-    pointer-events: none;
-    margin: 0 0 0 var(--calcite-spacing-half);
+    @apply pointer-events-none m-0 ml-2;
   }
   .status-icon {
-    @apply ml-3;
+    @apply mx-2;
   }
 }
 
@@ -80,15 +83,13 @@
 
 .calcite--rtl {
   .toggle--switch {
+    @apply pr-0 pl-2;
+
     calcite-switch {
-      margin-left: 0;
-      margin-right: var(--calcite-spacing-half);
-    }
-    .status-icon {
-      @apply ml-0 mr-3;
+      @apply ml-0 mr-2;
     }
   }
   .section-header {
-    @apply pl-0 pr-2;
+    @apply pr-0 pl-2;
   }
 }
