@@ -1,4 +1,5 @@
 export const CSS = {
+  title: "title",
   close: "close"
 };
 

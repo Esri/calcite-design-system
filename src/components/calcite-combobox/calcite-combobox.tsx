@@ -770,6 +770,7 @@ export class CalciteCombobox {
           key={item.textLabel}
           onCalciteChipDismiss={(event) => this.calciteChipDismissHandler(event, item)}
           scale={scale}
+          title={label}
           value={item.value}
         >
           {label}
