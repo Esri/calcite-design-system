@@ -45,6 +45,7 @@
 }
 
 :host([scale="s"]) {
+  @apply mr-5;
   a,
   span {
     @apply text--2h py-1;
@@ -59,6 +60,7 @@
 }
 
 :host([scale="l"]) {
+  @apply mr-6;
   a,
   span {
     @apply text-0h py-3;
