@@ -1,6 +1,7 @@
 import { Component, h, VNode } from "@stencil/core";
 
 /**
+ * A general purpose list that enables users to construct list items that conform to Calcite styling.
  * @slot - todo document.
  */
 @Component({
