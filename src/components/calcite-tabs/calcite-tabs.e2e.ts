@@ -173,4 +173,61 @@ describe("calcite-tabs", () => {
       expect(await page.find("calcite-tab")).toEqualAttribute("scale", "l");
     });
   });
+
+  describe("when layout is inline and bordered is true", () => {
+    it("should render tabs, tab-nav, and tab-title with bordered attribute", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-tabs bordered>${tabsContent}</calcite-tabs>`
+      });
+      expect(await page.find("calcite-tabs")).toEqualAttribute("bordered", "");
+      expect(await page.find("calcite-tab-nav")).toEqualAttribute("bordered", "");
+      expect(await page.find("calcite-tab-title")).toEqualAttribute("bordered", "");
+      expect(await page.find("calcite-tab")).toEqualAttribute("bordered", null);
+    });
+
+    it("should render tab-nav's blue active indicator on top", async () => {
+      const page = await newE2EPage({
+        html: `
+        <calcite-tabs bordered>
+          <calcite-tab-nav slot="tab-nav">
+            <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" >Tab 2 Title</calcite-tab-title>
+          </calcite-tab-nav>
+          <calcite-tab>Tab 1 Content</calcite-tab>
+          <calcite-tab>Tab 2 Content</calcite-tab>
+        </calcite-tabs>
+        `
+      });
+      const indicator = await page.find("calcite-tab-nav >>> .tab-nav-active-indicator-container");
+      const indicatorStyles = await indicator.getComputedStyle();
+      expect(indicatorStyles.top).toEqual("0px");
+      expect(indicatorStyles.bottom).not.toEqual("0px");
+    });
+
+    it("should render tab-nav's blue active indicator on bottom when position is below", async () => {
+      const page = await newE2EPage({
+        html: `
+        <calcite-tabs bordered position="below">
+          <calcite-tab-nav slot="tab-nav">
+            <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" >Tab 2 Title</calcite-tab-title>
+          </calcite-tab-nav>
+          <calcite-tab>Tab 1 Content</calcite-tab>
+          <calcite-tab>Tab 2 Content</calcite-tab>
+        </calcite-tabs>
+        `
+      });
+      const indicator = await page.find("calcite-tab-nav >>> .tab-nav-active-indicator-container");
+      const indicatorStyles = await indicator.getComputedStyle();
+      expect(indicatorStyles.bottom).toEqual("0px");
+      expect(indicatorStyles.top).not.toEqual("0px");
+    });
+  });
+
+  it("should ignore bordered attribute when layout is center", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-tabs layout="center" bordered>${tabsContent}</calcite-tabs>`
+    });
+    expect(await page.find("calcite-tabs")).not.toHaveAttribute("bordered");
+  });
 });
