@@ -98,9 +98,22 @@ export class CalciteBlockSection {
   //  Render Methods
   //
   // --------------------------------------------------------------------------
+  renderStatusIcon(): VNode[] {
+    const { status } = this;
+    const statusIcon = ICONS[status] ?? false;
+    const statusIconClasses = {
+      [CSS.statusIcon]: true,
+      [CSS.valid]: status == "valid",
+      [CSS.invalid]: status == "invalid"
+    };
+
+    return !!statusIcon ? (
+      <calcite-icon class={statusIconClasses} icon={statusIcon} scale="s"></calcite-icon>
+    ) : null;
+  }
 
   render(): VNode {
-    const { el, intlCollapse, intlExpand, open, status, text, toggleDisplay } = this;
+    const { el, intlCollapse, intlExpand, open, text, toggleDisplay } = this;
     const dir = getElementDir(el);
     const arrowIcon = open
       ? ICONS.menuOpen
@@ -110,12 +123,7 @@ export class CalciteBlockSection {
 
     const toggleLabel = open ? intlCollapse || TEXT.collapse : intlExpand || TEXT.expand;
 
-    const statusIcon = ICONS[status] ?? false;
-    const statusIconClasses = {
-      [CSS.statusIcon]: true,
-      [CSS.valid]: status == "valid",
-      [CSS.invalid]: status == "invalid"
-    };
+    
 
     const headerNode =
       toggleDisplay === "switch" ? (
@@ -130,9 +138,7 @@ export class CalciteBlockSection {
           title={toggleLabel}
         >
           <div class={CSS.toggleSwitchContent}>
-            {statusIcon ? (
-              <calcite-icon class={statusIconClasses} icon={statusIcon} scale="s"></calcite-icon>
-            ) : null}
+            {this.renderStatusIcon()}
             <span class={CSS.toggleSwitchText}>{text}</span>
           </div>
           <calcite-switch
@@ -153,12 +159,9 @@ export class CalciteBlockSection {
           onClick={this.toggleSection}
           onKeyDown={this.handleHeaderLabelKeyDown}
         >
-          <calcite-icon
-            class={!!statusIcon ? statusIconClasses : null}
-            icon={statusIcon ? statusIcon : arrowIcon}
-            scale="s"
-          />
+          <calcite-icon icon={arrowIcon} scale="s" />
           <span class={CSS.sectionHeaderText}>{text}</span>
+          {this.renderStatusIcon()}
         </button>
       );
 
