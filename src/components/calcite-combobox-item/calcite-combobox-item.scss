@@ -6,7 +6,7 @@
 }
 
 .scale--s {
-  @apply text--2;
+  @apply text--2h;
   --calcite-combobox-item-spacing-unit-l: theme("spacing.2");
   --calcite-combobox-item-spacing-unit-s: theme("spacing.1");
   --calcite-combobox-item-spacing-indent-1: theme("spacing.2");
@@ -14,7 +14,7 @@
 }
 
 .scale--m {
-  @apply text--1;
+  @apply text--1h;
   --calcite-combobox-item-spacing-unit-l: theme("spacing.3");
   --calcite-combobox-item-spacing-unit-s: theme("spacing.2");
   --calcite-combobox-item-spacing-indent-1: theme("spacing.3");
@@ -22,7 +22,7 @@
 }
 
 .scale--l {
-  @apply text-0;
+  @apply text-0h;
   --calcite-combobox-item-spacing-unit-l: theme("spacing.4");
   --calcite-combobox-item-spacing-unit-s: theme("spacing.3");
   --calcite-combobox-item-spacing-indent-1: theme("spacing.4");

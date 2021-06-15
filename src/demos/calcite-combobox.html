@@ -30,13 +30,6 @@
     <h3>Multi select</h3> 
 
     <calcite-combobox label="test" placeholder="placeholder" max-items="10">
-      <calcite-combobox-item-group label="Pokemon">
-        <calcite-combobox-item value="Pikachu" text-label="Pikachu"></calcite-combobox-item>
-        <calcite-combobox-item-group label="Cutest Pokemon">
-          <calcite-combobox-item value="Bulbasaur" text-label="Bulbasaur"></calcite-combobox-item>
-          <calcite-combobox-item value="Squirtle" text-label="Squirtle"></calcite-combobox-item>
-        </calcite-combobox-item-group>
-      </calcite-combobox-item-group>
       <calcite-combobox-item value="Trees" text-label="Trees">
         <calcite-combobox-item value="Pine" text-label="Pine">
           <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
@@ -58,6 +51,20 @@
       <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
       <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
     </calcite-combobox>
+
+    <h3>Multi select with groups</h3> 
+
+    <calcite-combobox label="test" placeholder="placeholder" max-items="10">
+      <calcite-combobox-item-group label="Pokemon">
+        <calcite-combobox-item value="Pikachu" text-label="Pikachu"></calcite-combobox-item>
+        <calcite-combobox-item value="Venusaur" text-label="Venusaur"></calcite-combobox-item>
+        <calcite-combobox-item value="Charizard" text-label="Charizard"></calcite-combobox-item>
+        <calcite-combobox-item-group label="Cutest Pokemon">
+          <calcite-combobox-item value="Bulbasaur" text-label="Bulbasaur"></calcite-combobox-item>
+          <calcite-combobox-item value="Squirtle" text-label="Squirtle"></calcite-combobox-item>
+        </calcite-combobox-item-group>
+      </calcite-combobox-item-group>      
+    </calcite-combobox>    
 
 
     <h3>Multi Select with Custom Icons</h3>

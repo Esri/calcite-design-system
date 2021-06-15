@@ -6,25 +6,25 @@
 }
 
 .scale--s {
-  @apply text--2;
-  --calcite-combobox-item-spacing-unit-l: theme("spacing.3");
-  --calcite-combobox-item-spacing-unit-s: theme("spacing.2");
+  @apply text--2h;
+  --calcite-combobox-item-spacing-unit-l: theme("spacing.2");
+  --calcite-combobox-item-spacing-unit-s: theme("spacing.1");
   --calcite-combobox-item-spacing-indent-1: theme("spacing.2");
   --calcite-combobox-item-spacing-indent-2: theme("spacing.4");
 }
 
 .scale--m {
-  @apply text--1;
-  --calcite-combobox-item-spacing-unit-l: theme("spacing.4");
-  --calcite-combobox-item-spacing-unit-s: theme("spacing.3");
+  @apply text--1h;
+  --calcite-combobox-item-spacing-unit-l: theme("spacing.3");
+  --calcite-combobox-item-spacing-unit-s: theme("spacing.2");
   --calcite-combobox-item-spacing-indent-1: theme("spacing.3");
   --calcite-combobox-item-spacing-indent-2: theme("spacing.6");
 }
 
 .scale--l {
-  @apply text-0;
-  --calcite-combobox-item-spacing-unit-l: theme("spacing.5");
-  --calcite-combobox-item-spacing-unit-s: theme("spacing.4");
+  @apply text-0h;
+  --calcite-combobox-item-spacing-unit-l: theme("spacing.4");
+  --calcite-combobox-item-spacing-unit-s: theme("spacing.3");
   --calcite-combobox-item-spacing-indent-1: theme("spacing.4");
   --calcite-combobox-item-spacing-indent-2: theme("spacing.8");
 }
@@ -57,8 +57,14 @@
 
 .title {
   border: 0 solid;
-  @apply block flex-1 border-b-color-3 border-b -mb-px text-color-2 font-bold word-break;
-  padding: var(--calcite-combobox-item-spacing-unit-s) 0;
+  @apply block
+    flex-1
+    border-b-color-3
+    border-b
+    text-color-2
+    font-bold
+    word-break;
+  padding: var(--calcite-combobox-item-spacing-unit-l) 0;
   margin-left: var(--calcite-combobox-item-spacing-unit-s);
   margin-right: var(--calcite-combobox-item-spacing-unit-s);
 }
