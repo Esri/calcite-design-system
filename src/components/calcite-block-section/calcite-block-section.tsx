@@ -138,7 +138,6 @@ export class CalciteBlockSection {
           title={toggleLabel}
         >
           <div class={CSS.toggleSwitchContent}>
-            {this.renderStatusIcon()}
             <span class={CSS.toggleSwitchText}>{text}</span>
           </div>
           <calcite-switch
@@ -147,6 +146,7 @@ export class CalciteBlockSection {
             switched={open}
             tabIndex={-1}
           />
+          {this.renderStatusIcon()}
         </label>
       ) : (
         <button

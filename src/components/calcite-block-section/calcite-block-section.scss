@@ -28,12 +28,13 @@
     flex
     mx-0
     my-1
-    px-0
+    pl-0
+    pr-2
     py-2
     select-none
     text--1
     focus-base;
-  
+
   &:focus {
     @apply focus-outset;
   }
@@ -61,7 +62,7 @@
     margin: 0 0 0 var(--calcite-spacing-half);
   }
   .status-icon {
-    @apply mr-3;
+    @apply ml-3;
   }
 }
 
@@ -77,12 +78,17 @@
   color: theme("colors.danger");
 }
 
-.calcite--rtl .toggle--switch {
-  calcite-switch {
-    margin-left: 0;
-    margin-right: var(--calcite-spacing-half);
+.calcite--rtl {
+  .toggle--switch {
+    calcite-switch {
+      margin-left: 0;
+      margin-right: var(--calcite-spacing-half);
+    }
+    .status-icon {
+      @apply ml-0 mr-3;
+    }
   }
-  .status-icon {
-    @apply mr-0 ml-3;
+  .section-header {
+    @apply pr-0 pl-2;
   }
 }
