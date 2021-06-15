@@ -260,7 +260,7 @@ describe("calcite-tooltip-manager", () => {
     expect(await hoverTip.getProperty("open")).toBe(false);
 
     await page.$eval("#hoverRef", (elm: HTMLElement) => {
-      elm.dispatchEvent(new Event("mouseenter"));
+      elm.dispatchEvent(new Event("mouseover"));
     });
 
     await page.waitForTimeout(TOOLTIP_DELAY_MS);
@@ -313,7 +313,7 @@ describe("calcite-tooltip-manager", () => {
     expect(await hoverTip.getProperty("open")).toBe(false);
 
     await page.$eval("#hoverRef", (elm: HTMLElement) => {
-      elm.dispatchEvent(new Event("mouseenter"));
+      elm.dispatchEvent(new Event("mouseover"));
     });
 
     await page.waitForTimeout(TOOLTIP_DELAY_MS);
