@@ -10,9 +10,11 @@
 :host([bordered]:not([position="below"])) ::slotted(calcite-tab-nav) {
   margin-bottom: -1px;
 }
+
 :host([bordered][position="below"]) ::slotted(calcite-tab-nav) {
   margin-top: -1px;
 }
+
 :host([bordered][position="below"]) {
   box-shadow: inset 0 1px 0 var(--calcite-ui-border-1), inset 0 -1px 0 var(--calcite-ui-border-1);
 }
@@ -20,12 +22,15 @@
 :host([bordered]) section {
   border: 1px solid var(--calcite-ui-border-1);
 }
+
 :host([bordered][scale="s"]) section {
   padding: 12px;
 }
+
 :host([bordered][scale="m"]) section {
   padding: 8px;
 }
+
 :host([bordered][scale="l"]) section {
   padding: 16px;
 }
