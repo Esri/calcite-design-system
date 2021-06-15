@@ -1178,5 +1178,18 @@ describe("calcite-color-picker", () => {
       await scopes[1].press("ArrowUp");
       expect(await picker.getProperty("value")).toBe("#007ec2");
     });
+
+    it("positions the scope correctly when the color is 000", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-color-picker value="#000"></calcite-color-picker>`
+      });
+
+      const [, hueSliderScope] = await page.findAll(`calcite-color-picker >>> .${CSS.scope}`);
+
+      expect(await hueSliderScope.getComputedStyle()).toMatchObject({
+        top: "157px",
+        left: "0px"
+      });
+    });
   });
 });

@@ -376,6 +376,10 @@ export class CalciteCombobox {
       return;
     }
 
+    if (this.allowCustomValues && this.text) {
+      this.addCustomChip(this.text);
+    }
+
     if (this.selectionMode === "single") {
       if (this.textInput) {
         this.textInput.value = "";
@@ -642,6 +646,7 @@ export class CalciteCombobox {
       }
       this.updateItems();
       this.filterItems("");
+      this.emitCalciteLookupChange();
     }
   }
 
@@ -732,9 +737,6 @@ export class CalciteCombobox {
 
   comboboxBlurHandler = (event: FocusEvent): void => {
     this.setInactiveIfNotContained(event);
-    if (this.allowCustomValues && this.text) {
-      this.addCustomChip(this.text);
-    }
   };
 
   //--------------------------------------------------------------------------

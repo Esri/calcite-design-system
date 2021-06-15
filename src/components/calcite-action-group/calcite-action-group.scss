@@ -45,7 +45,3 @@
 
   grid-template-columns: repeat(var(--columns), auto);
 }
-
-::slotted(calcite-action) {
-  @apply flex w-full;
-}
