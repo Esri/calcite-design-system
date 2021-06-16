@@ -53,6 +53,7 @@ export class CalciteTooltipManager {
 
     if (hoverTimeouts.has(tooltip)) {
       window.clearTimeout(hoverTimeouts.get(tooltip));
+      hoverTimeouts.delete(tooltip);
     }
   };
 
@@ -128,15 +129,15 @@ export class CalciteTooltipManager {
   activeTooltipHover = (event: MouseEvent): void => {
     const { tooltipEl, hoverTimeouts } = this;
 
-    if (!tooltipEl || !hoverTimeouts.has(tooltipEl)) {
+    if (!tooltipEl) {
       return;
     }
 
-    const hoveringActiveTooltip = event.composedPath().includes(tooltipEl);
-
-    hoveringActiveTooltip
-      ? this.clearHoverTimeout(tooltipEl)
-      : this.hoverTooltip({ tooltip: tooltipEl, value: false });
+    if (event.composedPath().includes(tooltipEl)) {
+      this.clearHoverTimeout(tooltipEl);
+    } else if (!hoverTimeouts.has(tooltipEl)) {
+      this.hoverTooltip({ tooltip: tooltipEl, value: false });
+    }
   };
 
   hoverEvent = (event: MouseEvent, value: boolean): void => {
