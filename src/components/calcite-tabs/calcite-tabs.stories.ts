@@ -40,21 +40,45 @@ export const Bordered = (): string => html`
     layout="inline"
     position="${select("position", ["above", "below"], "above")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    bordered="${boolean("active", true)}"
+    bordered
   >
     <calcite-tab-nav slot="tab-nav">
-      <calcite-tab-title>Tab 1 Title</calcite-tab-title>
-      <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-      <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-      <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+      <calcite-tab-title tab="tab1">Tab 1 Title</calcite-tab-title>
+      <calcite-tab-title tab="tab2">Tab 2 Title</calcite-tab-title>
+      <calcite-tab-title tab="tab3">Tab 3 Title</calcite-tab-title>
+      <calcite-tab-title tab="tab4" active>Tab 4 Title</calcite-tab-title>
     </calcite-tab-nav>
-
-    <calcite-tab><p>Tab 1 Content</p></calcite-tab>
-    <calcite-tab><p>Tab 2 Content</p></calcite-tab>
-    <calcite-tab><p>Tab 3 Content</p></calcite-tab>
-    <calcite-tab><p>Tab 4 Content</p></calcite-tab>
+    <calcite-tab tab="tab1">Tab 1 Content</calcite-tab>
+    <calcite-tab tab="tab2">Tab 2 Content</calcite-tab>
+    <calcite-tab tab="tab3">Tab 3 Content</calcite-tab>
+    <calcite-tab tab="tab4" active>Tab 4 Content</calcite-tab>
   </calcite-tabs>
 `;
+
+export const BorderedRTLDark = (): string => html`
+  <calcite-tabs
+    layout="inline"
+    position="${select("position", ["above", "below"], "above")}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+    bordered
+    dir="rtl"
+    class="calcite-theme-dark"
+  >
+    <calcite-tab-nav slot="tab-nav">
+      <calcite-tab-title tab="tab1">Tab 1 Title</calcite-tab-title>
+      <calcite-tab-title tab="tab2">Tab 2 Title</calcite-tab-title>
+      <calcite-tab-title tab="tab3">Tab 3 Title</calcite-tab-title>
+      <calcite-tab-title tab="tab4" active>Tab 4 Title</calcite-tab-title>
+    </calcite-tab-nav>
+    <calcite-tab tab="tab1">Tab 1 Content</calcite-tab>
+    <calcite-tab tab="tab2">Tab 2 Content</calcite-tab>
+    <calcite-tab tab="tab3">Tab 3 Content</calcite-tab>
+    <calcite-tab tab="tab4" active>Tab 4 Content</calcite-tab>
+  </calcite-tabs>
+`;
+BorderedRTLDark.story = {
+  parameters: { backgrounds: darkBackground }
+};
 
 export const WithIcons = (): string => html`
   <calcite-tabs
