@@ -500,6 +500,10 @@ export class CalciteInput {
     this.setValue(this.defaultValue, nativeEvent);
   };
 
+  private sanitizeNumberString(value: string): string {
+    return Number(sanitizeDecimalString(value)).toString();
+  }
+
   private setChildElRef = (el) => {
     this.childEl = el;
   };
@@ -526,7 +530,7 @@ export class CalciteInput {
   private setValue = (value: string, nativeEvent?: any, committing = false): void => {
     const previousValue = this.value;
 
-    this.value = this.type === "number" ? sanitizeDecimalString(value) : value;
+    this.value = this.type === "number" ? this.sanitizeNumberString(value) : value;
 
     if (this.type === "number") {
       this.setLocalizedValue(this.value);
