@@ -183,9 +183,11 @@ export class CalciteTabNav {
 
   @Listen("resize", { target: "window" }) resizeHandler(): void {
     // remove active indicator transition duration during resize to prevent wobble
-    this.activeIndicatorEl.style.transitionDuration = "0s";
-    this.updateActiveWidth();
-    this.updateOffsetPosition();
+    if (this.activeIndicatorEl) {
+      this.activeIndicatorEl.style.transitionDuration = "0s";
+      this.updateActiveWidth();
+      this.updateOffsetPosition();
+    }
   }
 
   @Listen("calciteTabsFocusPrevious") focusPreviousTabHandler(e: CustomEvent): void {
