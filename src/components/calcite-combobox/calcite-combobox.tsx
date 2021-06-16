@@ -147,6 +147,9 @@ export class CalciteCombobox {
         this.activeChipIndex = -1;
         this.activeItemIndex = -1;
         this.active = false;
+        if (this.allowCustomValues && this.text) {
+          this.addCustomChip(this.text, true);
+        }
         break;
       case "ArrowLeft":
         this.previousChip();
@@ -759,6 +762,7 @@ export class CalciteCombobox {
       const label = selectionMode !== "ancestors" ? item.textLabel : pathLabel.join(" / ");
       return (
         <calcite-chip
+          aria-label={label}
           class={chipClasses}
           dismissLabel={"remove tag"}
           dismissible
@@ -767,6 +771,7 @@ export class CalciteCombobox {
           key={item.textLabel}
           onCalciteChipDismiss={(event) => this.calciteChipDismissHandler(event, item)}
           scale={scale}
+          title={label}
           value={item.value}
         >
           {label}

@@ -448,8 +448,14 @@ describe("calcite-combobox", () => {
       await input.click();
       await input.press("o");
       await button.click();
-      const chips = await page.findAll("calcite-combobox >>> calcite-chip");
+      let chips = await page.findAll("calcite-combobox >>> calcite-chip");
       expect(chips.length).toBe(1);
+
+      await input.click();
+      await input.press("z");
+      await input.press("Tab");
+      chips = await page.findAll("calcite-combobox >>> calcite-chip");
+      expect(chips.length).toBe(2);
     });
 
     it("should select known tag when input", async () => {

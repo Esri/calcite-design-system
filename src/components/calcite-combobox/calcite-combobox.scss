@@ -43,8 +43,8 @@
 }
 
 .wrapper--single {
-  @apply cursor-pointer;
   padding: 0 var(--calcite-combobox-item-spacing-unit-l);
+  @apply cursor-pointer flex-no-wrap;
 }
 
 .input {
@@ -93,14 +93,14 @@
 }
 
 .input-wrap--single {
-  @apply flex-auto;
+  @apply flex-auto overflow-hidden;
 }
 
 .label {
   @apply p-0
     block
     flex-auto
-    pointer-events-none;
+    pointer-events-none truncate max-w-full;
   height: var(--calcite-combobox-input-height);
   line-height: var(--calcite-combobox-input-height);
 }
@@ -152,6 +152,7 @@
 .chip {
   margin-right: var(--calcite-combobox-item-spacing-unit-m);
   margin-bottom: var(--calcite-combobox-item-spacing-unit-m);
+  max-width: 100%;
 }
 
 .chip--active {

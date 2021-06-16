@@ -53,6 +53,7 @@ export class CalciteTooltipManager {
 
     if (hoverTimeouts.has(tooltip)) {
       window.clearTimeout(hoverTimeouts.get(tooltip));
+      hoverTimeouts.delete(tooltip);
     }
   };
 
@@ -128,15 +129,15 @@ export class CalciteTooltipManager {
   activeTooltipHover = (event: MouseEvent): void => {
     const { tooltipEl, hoverTimeouts } = this;
 
-    if (!tooltipEl || !hoverTimeouts.has(tooltipEl)) {
+    if (!tooltipEl) {
       return;
     }
 
-    const hoveringActiveTooltip = event.composedPath().includes(tooltipEl);
-
-    hoveringActiveTooltip
-      ? this.clearHoverTimeout(tooltipEl)
-      : this.hoverTooltip({ tooltip: tooltipEl, value: false });
+    if (event.composedPath().includes(tooltipEl)) {
+      this.clearHoverTimeout(tooltipEl);
+    } else if (!hoverTimeouts.has(tooltipEl)) {
+      this.hoverTooltip({ tooltip: tooltipEl, value: false });
+    }
   };
 
   hoverEvent = (event: MouseEvent, value: boolean): void => {
@@ -190,19 +191,25 @@ export class CalciteTooltipManager {
     }
   }
 
-  @Listen("mouseenter", { capture: true })
+  @Listen("mouseover", { capture: true })
   mouseEnterShow(event: MouseEvent): void {
     this.hoverEvent(event, true);
   }
 
-  @Listen("mouseleave", { capture: true })
+  @Listen("mouseout", { capture: true })
   mouseLeaveHide(event: MouseEvent): void {
     this.hoverEvent(event, false);
   }
 
   @Listen("click", { capture: true })
   clickHandler(event: MouseEvent): void {
-    this.clickedTooltip = this.queryTooltip(event.target as HTMLElement);
+    const clickedTooltip = this.queryTooltip(event.target as HTMLElement);
+
+    this.clickedTooltip = clickedTooltip;
+
+    if (clickedTooltip) {
+      this.toggleTooltip(clickedTooltip, false);
+    }
   }
 
   @Listen("focus", { capture: true })
