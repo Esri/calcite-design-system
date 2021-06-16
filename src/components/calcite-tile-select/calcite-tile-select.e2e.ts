@@ -52,7 +52,7 @@ describe("calcite-tile-select", () => {
     expect(calciteCheckbox).toBeNull();
     expect(radio).toEqualAttribute("name", "radio");
     expect(radio).toEqualAttribute("value", "one");
-    expect(radio).toEqualAttribute("aria-label", "test");
+    expect(radio).toEqualAttribute("label", "test");
   });
 
   it("renders a calcite-checkbox when in checkbox mode", async () => {
@@ -68,7 +68,7 @@ describe("calcite-tile-select", () => {
     expect(calciteCheckbox).toBeDefined();
     expect(checkbox).toEqualAttribute("name", "checkbox-tile-select");
     expect(checkbox).toEqualAttribute("value", "one");
-    expect(checkbox).toEqualAttribute("aria-label", "test");
+    expect(checkbox).toEqualAttribute("label", "test");
   });
 
   it("removing a tile-select also removes its corresponding calcite-radio-button", async () => {

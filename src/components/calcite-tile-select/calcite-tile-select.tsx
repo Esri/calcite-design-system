@@ -71,6 +71,12 @@ export class CalciteTileSelect {
   /** specify the width of the tile, defaults to auto */
   @Prop({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
 
+  @Watch("heading")
+  @Watch("name")
+  updateInputLabel(): void {
+    this.inputLabel = this.heading || this.name || "";
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Private Properties
@@ -80,6 +86,8 @@ export class CalciteTileSelect {
   private input: HTMLCalciteCheckboxElement | HTMLCalciteRadioButtonElement;
 
   guid = `calcite-tile-select-${guid()}`;
+
+  inputLabel = "";
 
   //--------------------------------------------------------------------------
   //
@@ -176,6 +184,7 @@ export class CalciteTileSelect {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    this.updateInputLabel();
     this.renderInput();
   }
 
@@ -197,7 +206,7 @@ export class CalciteTileSelect {
     this.input.disabled = this.disabled;
     this.input.hidden = this.hidden;
     this.input.id = this.guid;
-    this.input.setAttribute("aria-label", this.heading || this.name);
+    this.input.label = this.inputLabel;
 
     if (this.name) {
       this.input.name = this.name;
