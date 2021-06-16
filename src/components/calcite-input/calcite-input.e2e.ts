@@ -739,7 +739,8 @@ describe("calcite-input", () => {
   });
 
   describe("number locale support", () => {
-    const localesWithIssues = ["ar", "bs", "mk"];
+    // "nb" and "es-MX" locales skipped per: https://github.com/Esri/calcite-components/issues/2323
+    const localesWithIssues = ["ar", "bs", "mk", "nb", "es-MX"];
     locales
       .filter((locale) => !localesWithIssues.includes(locale))
       .forEach((locale) => {
