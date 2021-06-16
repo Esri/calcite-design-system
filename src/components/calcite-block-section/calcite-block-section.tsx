@@ -108,7 +108,7 @@ export class CalciteBlockSection {
     };
 
     return !!statusIcon ? (
-      <calcite-icon class={statusIconClasses} icon={statusIcon} scale="s"></calcite-icon>
+      <calcite-icon class={statusIconClasses} icon={statusIcon} scale="s" />
     ) : null;
   }
 
@@ -122,8 +122,6 @@ export class CalciteBlockSection {
       : ICONS.menuClosedRight;
 
     const toggleLabel = open ? intlCollapse || TEXT.collapse : intlExpand || TEXT.expand;
-
-    
 
     const headerNode =
       toggleDisplay === "switch" ? (
