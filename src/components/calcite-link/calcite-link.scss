@@ -8,12 +8,12 @@
     rounded-none
     border-none
     font-inherit
-    cursor-pointer;
+    cursor-pointer
+    transition-default;
   text-decoration: none;
   line-height: inherit;
   font-size: inherit;
   -webkit-appearance: none;
-  transition: $transition;
   &:hover {
     text-decoration: none;
   }
@@ -28,8 +28,16 @@
   }
 }
 
+calcite-icon {
+  width: 1em;
+  height: 1em;
+  min-width: unset;
+  min-height: unset;
+}
+
 .calcite-link--icon {
-  transition: $transition;
+  @apply transition-default align-text-top;
+  margin-top: 0.125rem;
 }
 
 // disabled styles
@@ -37,8 +45,7 @@
   @apply pointer-events-none;
   span,
   a {
-    @apply pointer-events-none;
-    opacity: var(--calcite-ui-opacity-disabled);
+    @apply pointer-events-none opacity-disabled;
   }
 }
 // icon positioning and styles
@@ -75,19 +82,14 @@
     background-repeat: no-repeat, no-repeat;
     background-size: 0% 1px, 100% 1px;
     transition: all 0.15s ease-in-out, background-size 0.3s ease-in-out;
-  }
-  &:hover,
-  &:focus {
-    //FIXME: Should these 2 also use text-color-link?
-    color: var(--calcite-ui-brand);
-    background-size: 100% 1px, 100% 1px;
-    & .calcite-link--icon {
-      fill: var(--calcite-ui-brand);
+
+    &:hover,
+    &:focus {
+      background-size: 100% 1px, 100% 1px;
     }
-  }
-  &:active {
-    @apply text-color-link;
-    background-size: 100% 2px, 100% 2px;
+    &:active {
+      background-size: 100% 2px, 100% 2px;
+    }
   }
 }
 

@@ -190,12 +190,12 @@ export class CalciteTooltipManager {
     }
   }
 
-  @Listen("mouseenter", { capture: true })
+  @Listen("mouseover", { capture: true })
   mouseEnterShow(event: MouseEvent): void {
     this.hoverEvent(event, true);
   }
 
-  @Listen("mouseleave", { capture: true })
+  @Listen("mouseout", { capture: true })
   mouseLeaveHide(event: MouseEvent): void {
     this.hoverEvent(event, false);
   }
