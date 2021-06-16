@@ -146,6 +146,9 @@ export class CalciteCombobox {
         this.activeChipIndex = -1;
         this.activeItemIndex = -1;
         this.active = false;
+        if (this.allowCustomValues && this.text) {
+          this.addCustomChip(this.text, true);
+        }
         break;
       case "ArrowLeft":
         this.previousChip();
