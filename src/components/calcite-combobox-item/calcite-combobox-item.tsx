@@ -196,9 +196,7 @@ export class CalciteComboboxItem {
         <div class={`scale--${this.scale}`}>
           <li class={classes} id={this.guid} onClick={this.itemClickHandler}>
             {this.renderIcon(this.scale, isSingleSelect)}
-            <span class={CSS.title} title={this.textLabel}>
-              {this.textLabel}
-            </span>
+            <span class={CSS.title}>{this.textLabel}</span>
           </li>
           {this.renderChildren()}
         </div>
