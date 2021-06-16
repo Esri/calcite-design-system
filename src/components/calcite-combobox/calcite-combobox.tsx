@@ -762,6 +762,7 @@ export class CalciteCombobox {
       const label = selectionMode !== "ancestors" ? item.textLabel : pathLabel.join(" / ");
       return (
         <calcite-chip
+          aria-label={label}
           class={chipClasses}
           dismissLabel={"remove tag"}
           dismissible
