@@ -427,8 +427,9 @@ export class CalciteInput {
       ...numberKeys,
       "ArrowLeft",
       "ArrowRight",
-      "Enter",
       "Backspace",
+      "Delete",
+      "Enter",
       "Escape",
       "Tab",
       "-"
@@ -437,7 +438,11 @@ export class CalciteInput {
       return;
     }
     const isShiftTabEvent = event.shiftKey && event.key === "Tab";
-    if (supportedKeys.includes(event.key) && (!event.shiftKey || isShiftTabEvent)) {
+    if (
+      supportedKeys.includes(event.key) &&
+      (!event.shiftKey || isShiftTabEvent) &&
+      !(parseInt(this.value) === 0 && getKey(event.key) === "0")
+    ) {
       if (event.key === "Enter") {
         this.calciteInputChange.emit();
       }
