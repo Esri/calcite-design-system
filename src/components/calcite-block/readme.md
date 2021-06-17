@@ -68,6 +68,7 @@ Renders a header with a clickable icon to toggle the block open and closed.
 | `intlLoading`  | `intl-loading`  | string to override English loading text                                                     | `string`                     | `TEXT.loading` |
 | `loading`      | `loading`       | When true, content is waiting to be loaded. This state shows a busy indicator.              | `boolean`                    | `false`        |
 | `open`         | `open`          | When true, the block's content will be displayed.                                           | `boolean`                    | `false`        |
+| `status`       | `idle`          | Adds a status icon and related color to the header. This icon replaces anything in the `"icon"` slot. | `Status`           | `undefined` |
 | `summary`      | `summary`       | Block summary.                                                                              | `string`                     | `undefined`    |
 
 ## Events
