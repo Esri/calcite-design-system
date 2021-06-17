@@ -20,6 +20,6 @@ export const ICONS = {
   menuOpen: "chevron-down",
   menuClosedLeft: "chevron-left",
   menuClosedRight: "chevron-right",
-  valid: "check",
+  valid: "check-circle",
   invalid: "exclamation-mark-triangle"
 };

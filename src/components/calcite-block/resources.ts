@@ -30,7 +30,7 @@ export const SLOTS = {
 export const ICONS = {
   opened: "chevron-up",
   closed: "chevron-down",
-  valid: "check",
+  valid: "check-circle",
   invalid: "exclamation-mark-triangle"
 };
 
