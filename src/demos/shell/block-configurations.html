@@ -264,48 +264,35 @@
 
                 <!-- VALID -->
                 <calcite-block heading="With status" summary="Status icon replaces any icon." collapsible status="valid">
-                  <calcite-label scale="s">
-                    It's a label.
-                    <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
-                    </calcite-input>
-                  </calcite-label>
-                  <calcite-label scale="s">
-                    It's a label.
-                    <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
-                    </calcite-input>
-                  </calcite-label>
-                  <calcite-label scale="s">
-                    It's a label.
-                    <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
-                    </calcite-input>
-                  </calcite-label>
-                </calcite-block>
+                  <calcite-block-section text="Section is cool" status="valid">
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s"> </calcite-input>
+                    </calcite-label>
+                  </calcite-block-section>
+                  <calcite-block-section text="Switch section" toggle-display="switch" status="valid">
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s"> </calcite-input>
+                    </calcite-label>
+                  </calcite-block-section>
                 </calcite-block>
 
                 <!-- INVALID -->
                 <calcite-block heading="With status" summary="Status icon replaces any icon." collapsible status="invalid">
                   <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
-                  <calcite-label scale="s">
-                    It's a label.
-                    <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
-                    </calcite-input>
-                  </calcite-label>
-                  <calcite-label scale="s">
-                    It's a label.
-                    <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
-                    </calcite-input>
-                  </calcite-label>
-                  <calcite-label scale="s">
-                    It's a label.
-                    <calcite-input type="text" placeholder="This is stuff." scale="s">
-                      <calcite-action text="cool action" icon="brackets-curly" slot="action" scale="s"></calcite-action>
-                    </calcite-input>
-                  </calcite-label>
+                  <calcite-block-section text="Section is cool" status="invalid">
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s"> </calcite-input>
+                    </calcite-label>
+                  </calcite-block-section>
+                  <calcite-block-section text="Switch section" toggle-display="switch" status="invalid">
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s"> </calcite-input>
+                    </calcite-label>
+                  </calcite-block-section>
                 </calcite-block>
 
 
