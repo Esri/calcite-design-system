@@ -34,7 +34,7 @@
     mx-0
     my-1
     pl-0
-    pr-2
+    pr-1
     py-2
     select-none
     text--1
@@ -62,10 +62,10 @@
 
 .toggle--switch {
   calcite-switch {
-    @apply pointer-events-none m-0 ml-2;
+    @apply pointer-events-none mx-1;
   }
   .status-icon {
-    @apply mx-2;
+    @apply mx-1;
   }
 }
 
@@ -90,6 +90,6 @@
     }
   }
   .section-header {
-    @apply pr-0 pl-2;
+    @apply pr-0 pl-1;
   }
 }
