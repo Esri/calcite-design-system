@@ -59,13 +59,13 @@ export class CalciteTabTitle {
   /** @internal Parent tabs component layout value */
   @Prop({ reflect: true, mutable: true }) layout: TabLayout;
 
-  /** @internal Parent tabs component or parent tab-nav component scale value */
+  /** @internal Parent tabs component or parent tab-nav component's position */
   @Prop({ reflect: true, mutable: true }) position: TabPosition;
 
-  /** @internal Parent tabs component or parent tab-nav component scale value */
+  /** @internal Parent tabs component or parent tab-nav component's scale */
   @Prop({ reflect: true, mutable: true }) scale: Scale;
 
-  /** @internal Parent tabs component bordered value when layout is "inline" */
+  /** @internal Parent tabs component bordered value */
   @Prop({ reflect: true, mutable: true }) bordered?: boolean = false;
 
   /**
