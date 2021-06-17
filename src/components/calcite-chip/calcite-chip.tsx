@@ -130,7 +130,7 @@ export class CalciteChip {
       <div class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
         {this.renderChipImage()}
         {this.icon ? iconEl : null}
-        <span id={this.guid}>
+        <span class={CSS.title} id={this.guid}>
           <slot />
         </span>
         {this.dismissible ? closeButton : null}
