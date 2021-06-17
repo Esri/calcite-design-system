@@ -58,7 +58,7 @@ ul {
     ease-in-out
     focus-base
     no-underline;
-  padding: var(--calcite-combobox-item-spacing-unit-s);
+  padding: var(--calcite-combobox-item-spacing-unit-l);
 }
 
 :host([disabled]) .label {

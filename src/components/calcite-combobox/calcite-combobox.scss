@@ -9,21 +9,21 @@
 :host([scale="s"]) {
   @apply text--2;
   --calcite-combobox-item-spacing-unit-l: theme("spacing.2");
-  --calcite-combobox-item-spacing-unit-m: theme("spacing.1");
+  --calcite-combobox-item-spacing-unit-s: theme("spacing.1");
   --calcite-combobox-input-height: theme("spacing.6");
 }
 
 :host([scale="m"]) {
   @apply text--1;
   --calcite-combobox-item-spacing-unit-l: theme("spacing.3");
-  --calcite-combobox-item-spacing-unit-m: theme("spacing.2");
+  --calcite-combobox-item-spacing-unit-s: theme("spacing.2");
   --calcite-combobox-input-height: theme("spacing.8");
 }
 
 :host([scale="l"]) {
   @apply text-0;
   --calcite-combobox-item-spacing-unit-l: theme("spacing.4");
-  --calcite-combobox-item-spacing-unit-m: theme("spacing.3");
+  --calcite-combobox-item-spacing-unit-s: theme("spacing.3");
   --calcite-combobox-input-height: theme("spacing.11");
 }
 
@@ -34,7 +34,7 @@
     text-color-1
     focus-base;
   box-shadow: inset 0 0 0 1px var(--calcite-ui-border-input);
-  padding: var(--calcite-combobox-item-spacing-unit-m) var(--calcite-combobox-item-spacing-unit-l) 0
+  padding: var(--calcite-combobox-item-spacing-unit-s) var(--calcite-combobox-item-spacing-unit-l) 0
     var(--calcite-combobox-item-spacing-unit-l);
 }
 
@@ -59,7 +59,7 @@
   height: var(--calcite-combobox-input-height);
   line-height: var(--calcite-combobox-input-height);
   min-width: 120px;
-  margin-bottom: var(--calcite-combobox-item-spacing-unit-m);
+  margin-bottom: var(--calcite-combobox-item-spacing-unit-s);
   &:focus {
     @apply outline-none;
   }
@@ -150,8 +150,8 @@
 }
 
 .chip {
-  margin-right: var(--calcite-combobox-item-spacing-unit-m);
-  margin-bottom: var(--calcite-combobox-item-spacing-unit-m);
+  margin-right: var(--calcite-combobox-item-spacing-unit-s);
+  margin-bottom: var(--calcite-combobox-item-spacing-unit-s);
   max-width: 100%;
 }
 
