@@ -501,7 +501,7 @@ export class CalciteInput {
   };
 
   private sanitizeNumberString(value: string): string {
-    return Number(sanitizeDecimalString(value)).toString();
+    return value ? Number(sanitizeDecimalString(value)).toString() : value;
   }
 
   private setChildElRef = (el) => {

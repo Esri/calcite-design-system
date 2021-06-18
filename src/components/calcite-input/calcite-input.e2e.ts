@@ -746,10 +746,6 @@ describe("calcite-input", () => {
       const calciteInput = await page.find("calcite-input");
       calciteInput.callMethod("setFocus");
       await page.keyboard.press("0");
-      await page.waitForChanges();
-
-      expect(await calciteInput.getProperty("value")).toBe("0");
-
       await page.keyboard.press("0");
       await page.keyboard.press("0");
       await page.keyboard.press("0");
