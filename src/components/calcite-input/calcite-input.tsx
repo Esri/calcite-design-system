@@ -176,15 +176,17 @@ export class CalciteInput {
     | "week" = "text";
 
   /** input value */
-  @Prop({ mutable: true, reflect: true }) value?: string = "";
+  @Prop({ mutable: true, reflect: true }) value?: string = null;
 
   @Watch("value")
   valueWatcher(newValue: string): void {
-    if (
-      this.type === "number" &&
-      this.localizedValue !== localizeNumberString(newValue, this.locale)
-    ) {
-      this.setLocalizedValue(newValue);
+    if (newValue === "") {
+      this.setValue(null);
+    }
+    if (this.type === "number") {
+      if (this.localizedValue !== localizeNumberString(newValue, this.locale)) {
+        this.setLocalizedValue(newValue);
+      }
     } else if (this.childEl && this.childEl.value !== newValue) {
       this.childEl.value = newValue;
     }
@@ -357,7 +359,7 @@ export class CalciteInput {
   //--------------------------------------------------------------------------
 
   private clearInputValue = (nativeEvent: KeyboardEvent | MouseEvent): void => {
-    this.setValue("", nativeEvent, true);
+    this.setValue(null, nativeEvent, true);
   };
 
   private inputBlurHandler = () => {

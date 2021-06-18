@@ -34,6 +34,8 @@
     <calcite-button href="/">Home</calcite-button>
     <h1>Calcite Number Input</h1>
 
+    <calcite-input type="number" value="" placeholder="setting value to empty string always resolves to null"></calcite-input>
+
     <demo-form>
       <h2>Locales</h2>
       <form name="demo-form">
@@ -143,6 +145,22 @@
         console.log("null", undefinedInput.value);
       });
       undefined;
+    </script>
+
+    <script>
+      (async () => {
+        await customElements.whenDefined("calcite-input");
+        const input = document.querySelector("calcite-input");
+        await input.componentOnReady();
+
+        console.log(`when initially set to "", value is ${input.value} (${typeof input.value})`);
+
+        input.value = null;
+        console.log(`when value prop is set to null, value is ${input.value} (${typeof input.value})`);
+
+        input.value = "";
+        console.log(`when value prop is set to "", value is ${input.value} (${typeof input.value})`);
+      })();
     </script>
   </body>
 </html>
