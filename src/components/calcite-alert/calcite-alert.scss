@@ -22,7 +22,8 @@
     @apply text-0-wrap;
   }
   @include slotted("message", "*") {
-    @apply text--1-wrap;
+    @apply text--1-wrap mx-0 mt-0;
+    margin-bottom: 2px;
   }
   ::slotted(calcite-link) {
     @apply text--1-wrap;
@@ -34,7 +35,7 @@
   --calcite-alert-spacing-token-small: theme("spacing.4");
   --calcite-alert-spacing-token-large: theme("spacing.5");
   @include slotted("title", "*") {
-    @apply text-1-wrap;
+    @apply text-1-wrap mb-1;
   }
   @include slotted("message", "*") {
     @apply text-0-wrap;
@@ -107,8 +108,7 @@
 @include slotted("title", "*") {
   @apply font-medium
     text-0-wrap
-    text-color-1
-    m-0;
+    text-color-1;
 }
 
 @include slotted("message", "*") {
