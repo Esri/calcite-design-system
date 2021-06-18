@@ -44,7 +44,6 @@ describe("calcite-tile-select", () => {
   it("renders a calcite-radio-button when in radio mode", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-tile-select name='radio' heading='test' value='one'></calcite-tile-select>");
-    await page.waitForChanges();
     const calciteRadio = await page.find("calcite-radio-button");
     const calciteCheckbox = await page.find("calcite-checkbox");
     const radio = await page.find("input[type='radio']");
