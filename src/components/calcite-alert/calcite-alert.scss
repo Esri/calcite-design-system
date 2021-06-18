@@ -292,7 +292,7 @@
   right: initial;
 }
 
-$alertColors: "blue" var(--calcite-ui-brand), "red" var(--calcite-ui-danger), "yellow" var(--calcite-ui-warning),
+$alertColors: "blue" var(--calcite-ui-info), "red" var(--calcite-ui-danger), "yellow" var(--calcite-ui-warning),
   "green" var(--calcite-ui-success);
 
 @each $alertColor in $alertColors {
