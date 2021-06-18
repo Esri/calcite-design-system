@@ -190,21 +190,21 @@ export class CalcitePagination {
     );
   }
 
-  renderLeftEllipsis(iconScale: this["scale"]): VNode {
+  renderLeftEllipsis(): VNode {
     if (this.total / this.num > maxPagesDisplayed && this.showLeftEllipsis()) {
       return (
         <span class={`${CSS.ellipsis} ${CSS.ellipsisStart}`}>
-          <calcite-icon icon="ellipsis" scale={iconScale} />
+          &hellip;
         </span>
       );
     }
   }
 
-  renderRightEllipsis(iconScale: this["scale"]): VNode {
+  renderRightEllipsis(): VNode {
     if (this.total / this.num > maxPagesDisplayed && this.showRightEllipsis()) {
       return (
         <span class={`${CSS.ellipsis} ${CSS.ellipsisEnd}`}>
-          <calcite-icon icon="ellipsis" scale={iconScale} />
+          &hellip;
         </span>
       );
     }
@@ -213,7 +213,6 @@ export class CalcitePagination {
   render(): VNode {
     const dir = getElementDir(this.el);
     const { total, num, start } = this;
-    const iconScale = this.scale === "l" ? "m" : "s";
     const prevDisabled = num === 1 ? start <= num : start < num;
     const nextDisabled = num === 1 ? start + num > total : start + num > total;
     return (
@@ -227,12 +226,12 @@ export class CalcitePagination {
           disabled={prevDisabled}
           onClick={this.previousClicked}
         >
-          <calcite-icon dir={dir} flipRtl icon="chevronLeft" scale={iconScale} />
+          <calcite-icon dir={dir} flipRtl icon="chevronLeft" scale="s" />
         </button>
         {total > num ? this.renderPage(1) : null}
-        {this.renderLeftEllipsis(iconScale)}
+        {this.renderLeftEllipsis()}
         {this.renderPages()}
-        {this.renderRightEllipsis(iconScale)}
+        {this.renderRightEllipsis()}
         {this.renderPage(this.getLastStart())}
         <button
           aria-label={this.textLabelNext}
@@ -243,7 +242,7 @@ export class CalcitePagination {
           disabled={nextDisabled}
           onClick={this.nextClicked}
         >
-          <calcite-icon dir={dir} flipRtl icon="chevronRight" scale={iconScale} />
+          <calcite-icon dir={dir} flipRtl icon="chevronRight" scale="s" />
         </button>
       </Fragment>
     );
