@@ -21,12 +21,11 @@ import { Position } from "../interfaces";
 import {
   getDecimalSeparator,
   delocalizeNumberString,
-  localizeNumberString,
-  sanitizeDecimalString
+  localizeNumberString
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 import { hiddenInputStyle } from "../../utils/form";
-import { isValidNumber, parseNumberString } from "../../utils/number";
+import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
 import { CSS_UTILITY } from "../../utils/resources";
 
 type NumberNudgeDirection = "up" | "down";
@@ -500,10 +499,6 @@ export class CalciteInput {
     this.setValue(this.defaultValue, nativeEvent);
   };
 
-  private sanitizeNumberString(value: string): string {
-    return Number(sanitizeDecimalString(value)).toString();
-  }
-
   private setChildElRef = (el) => {
     this.childEl = el;
   };
@@ -530,7 +525,7 @@ export class CalciteInput {
   private setValue = (value: string, nativeEvent?: any, committing = false): void => {
     const previousValue = this.value;
 
-    this.value = this.type === "number" ? this.sanitizeNumberString(value) : value;
+    this.value = this.type === "number" ? sanitizeNumberString(value) : value;
 
     if (this.type === "number") {
       this.setLocalizedValue(this.value);
