@@ -736,6 +736,49 @@ describe("calcite-input", () => {
       await page.keyboard.press("Tab");
       expect(await page.evaluate(() => document.activeElement.id)).toEqual("input1");
     });
+
+    it("disallows typing redundant zeros", async () => {
+      const page = await newE2EPage({
+        html: `
+          <calcite-input type="number"></calcite-input>
+        `
+      });
+      const calciteInput = await page.find("calcite-input");
+      calciteInput.callMethod("setFocus");
+      await page.keyboard.press("0");
+      await page.waitForChanges();
+
+      expect(await calciteInput.getProperty("value")).toBe("0");
+
+      await page.keyboard.press("0");
+      await page.keyboard.press("0");
+      await page.keyboard.press("0");
+      await page.waitForChanges();
+
+      expect(await calciteInput.getProperty("value")).toBe("0");
+    });
+
+    it("typing zero and then a non-zero number sets and emits the non-zero number", async () => {
+      const page = await newE2EPage({
+        html: `
+          <calcite-input type="number"></calcite-input>
+        `
+      });
+      const calciteInputInput = await page.spyOnEvent("calciteInputInput");
+      const calciteInput = await page.find("calcite-input");
+      calciteInput.callMethod("setFocus");
+      await page.keyboard.press("0");
+      await page.waitForChanges();
+
+      expect(await calciteInput.getProperty("value")).toBe("0");
+      expect(calciteInputInput).toHaveReceivedEventTimes(1);
+
+      await page.keyboard.press("1");
+      await page.waitForChanges();
+
+      expect(await calciteInput.getProperty("value")).toBe("1");
+      expect(calciteInputInput).toHaveReceivedEventTimes(2);
+    });
   });
 
   describe("number locale support", () => {
