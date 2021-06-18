@@ -20,19 +20,19 @@
 }
 
 :host([bordered]) section {
-  border: 1px solid var(--calcite-ui-border-1);
+  @apply border border-solid border-color-1;
 }
 
 :host([bordered][scale="s"]) section {
-  padding: 12px;
+  @apply p-3;
 }
 
 :host([bordered][scale="m"]) section {
-  padding: 8px;
+  @apply p-2;
 }
 
 :host([bordered][scale="l"]) section {
-  padding: 16px;
+  @apply p-4;
 }
 
 :host([position="below"]) {

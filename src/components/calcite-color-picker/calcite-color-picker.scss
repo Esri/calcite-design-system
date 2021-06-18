@@ -66,8 +66,7 @@ $gap--large: 12px;
   }
 
   .control-section {
-    flex-wrap: nowrap;
-    align-items: baseline;
+    @apply flex-no-wrap items-baseline;
 
     > :nth-child(2) {
       margin-left: $gap--large;
@@ -75,11 +74,11 @@ $gap--large: 12px;
   }
 
   .color-hex-options {
-    flex-shrink: 1;
+    @apply flex-shrink
+      flex
+      flex-col
+      justify-around;
     min-height: 90px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
   }
 
   .color-mode-container {
@@ -147,7 +146,7 @@ $gap--large: 12px;
 }
 
 .color-hex-options {
-  margin-bottom: theme("spacing.4");
+  @apply mb-4;
 }
 
 .color-hex-options,
