@@ -146,7 +146,6 @@ export class CalciteComboboxItem {
     const defaultIcon = isSingle ? "dot" : "check";
     const iconPath = disabled ? "circle-disallowed" : defaultIcon;
     const showDot = isSingle && !icon && !disabled;
-
     return showDot ? (
       <span
         class={{
