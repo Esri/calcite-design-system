@@ -6,6 +6,10 @@
   & .page {
     @apply text--2h h-6;
   }
+  .previous,
+  .next {
+    @apply px-1;
+  }
 }
 
 :host([scale="m"]) {
@@ -15,6 +19,10 @@
   & .page {
     @apply text--1h h-8;
   }
+  .previous,
+  .next {
+    @apply px-2;
+  }
 }
 
 :host([scale="l"]) {
@@ -23,6 +31,10 @@
   & .next,
   & .page {
     @apply text-0h h-11;
+  }
+  .previous,
+  .next {
+    @apply px-3;
   }
 }
 
@@ -68,9 +80,9 @@
 }
 .previous,
 .next {
-  padding: var(--calcite-pagination-spacing);
   &:hover {
-    @apply bg-foreground-2 text-color-link;
+    @apply bg-foreground-2;
+    color: theme("backgroundColor.brand");
   }
   &:active {
     @apply bg-foreground-3;
