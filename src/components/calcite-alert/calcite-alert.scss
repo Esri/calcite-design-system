@@ -59,21 +59,20 @@
       opacity-0
       left-0
       right-0
-      bottom-0;
+      bottom-0
+      border
+      border-solid
+      border-color-3;
     width: var(--calcite-alert-width);
     max-width: 90%;
     max-height: 0;
     z-index: 101;
     transform: translate3d(0, $baseline, 0);
     transition: 300ms $easing-function, opacity 300ms $easing-function, all 0.15s ease-in-out;
-    border-top: 0px solid transparent;
     @media only screen and (max-width: $viewport-medium) {
       @apply w-full
         max-w-full
-        rounded-t
-        rounded-r
-        rounded-b-none
-        rounded-l-none;
+        rounded-none;
     }
   }
 }
@@ -225,9 +224,6 @@
     text-center
     text-color-2
     opacity-0
-    border-l-0
-    border-r-0
-    border-solid
     border-color-transparent
     cursor-default
     transition-default
@@ -237,14 +233,15 @@
   &.active {
     visibility: visible;
     @apply opacity-100
-    py-0
-    px-1
-    w-8
-    border-none
-    border-l
-    border-r
-    border-solid
-    border-color-3
+      py-0
+      px-1
+      w-8
+      border-none
+      border-0
+      border-l
+      border-r
+      border-solid
+      border-color-3;
   }
 
   @media only screen and (max-width: $viewport-medium) {
