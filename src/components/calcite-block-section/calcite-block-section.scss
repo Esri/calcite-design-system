@@ -1,57 +1,95 @@
 :host {
-  @extend %component-host;
-  @extend %component-spacing;
-  display: block;
+  @apply box-border
+    bg-foreground-1
+    text-color-2
+    text--1
+    block;
 }
 
 :host([open]) {
-  border-bottom: 1px solid var(--calcite-ui-border-3);
+  @apply border-solid
+    border-0
+    border-b-color-3
+    border-b-px;
 }
 
 :host(:last-child) {
-  border-bottom: none;
+  @apply border-b-0;
 }
 
 .toggle {
-  background-color: transparent;
-  border: none;
-  color: var(--calcite-ui-text-2);
-  font-family: theme("fontFamily.sans");
-  font-weight: theme("fontWeight.normal");
-  width: 100%;
+  @apply bg-transparent
+    border-0
+    text-color-2
+    font-sans
+    font-normal
+    w-full;
 }
 
 .toggle--switch,
 .section-header {
-  align-items: center;
-  cursor: pointer;
-  display: flex;
-  margin: var(--calcite-spacing-quarter) 0;
-  padding: var(--calcite-spacing-half) 0;
-  user-select: none;
-  font-size: theme("fontSize.-1");
-  @include focus-style-base();
+  @apply items-center
+    cursor-pointer
+    flex
+    mx-0
+    my-1
+    pl-0
+    pr-1
+    py-2
+    select-none
+    text--1
+    focus-base;
+
   &:focus {
-    @include focus-style-outset();
+    @apply focus-outset;
   }
   &:hover {
-    color: var(--calcite-ui-text-1);
+    @apply text-color-1;
   }
+}
+
+.section-header .status-icon {
+  @apply self-end;
 }
 
 .section-header__text {
-  @apply mx-3 my-0;
+  @apply flex-auto
+    mx-3
+    my-0;
+
+  text-align: initial;
 }
 
 .toggle--switch {
-  justify-content: space-between;
   calcite-switch {
-    pointer-events: none;
-    margin: 0 0 0 var(--calcite-spacing-half);
+    @apply pointer-events-none mx-1;
+  }
+  .status-icon {
+    @apply mx-1;
   }
 }
 
-.calcite--rtl .toggle--switch calcite-switch {
-  margin-left: 0;
-  margin-right: var(--calcite-spacing-half);
+.toggle--switch__content {
+  @apply flex items-center flex-auto;
+}
+
+.status-icon.valid {
+  color: theme("colors.success");
+}
+
+.status-icon.invalid {
+  color: theme("colors.danger");
+}
+
+.calcite--rtl {
+  .toggle--switch {
+    @apply pr-0 pl-2;
+
+    calcite-switch {
+      @apply ml-0 mr-2;
+    }
+  }
+  .section-header {
+    @apply pr-0 pl-1;
+  }
 }

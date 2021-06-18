@@ -865,13 +865,12 @@ export class CalciteCombobox {
 
   renderIconStart(): VNode {
     const { selectionMode, needsIcon, selectedItem } = this;
-    const scale = this.scale === "l" ? "m" : "s";
     return (
       selectionMode === "single" &&
       needsIcon && (
         <span class="icon-start">
           {selectedItem?.icon && (
-            <calcite-icon class="selected-icon" icon={selectedItem?.icon} scale={scale} />
+            <calcite-icon class="selected-icon" icon={selectedItem?.icon} scale="s" />
           )}
         </span>
       )
@@ -879,11 +878,10 @@ export class CalciteCombobox {
   }
 
   renderIconEnd(): VNode {
-    const scale = this.scale === "l" ? "m" : "s";
     return (
       this.selectionMode === "single" && (
         <span class="icon-end">
-          <calcite-icon icon="chevron-down" scale={scale} />
+          <calcite-icon icon="chevron-down" scale="s" />
         </span>
       )
     );
