@@ -28,7 +28,7 @@ export function getDepth(element: HTMLElement): number {
     "ancestor::calcite-combobox-item | ancestor::calcite-combobox-item-group",
     element,
     null,
-    XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE,
+    6,
     null
   );
 
