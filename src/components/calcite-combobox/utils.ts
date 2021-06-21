@@ -1,6 +1,7 @@
 import { nodeListToArray } from "../../utils/dom";
 import { ComboboxChildElement } from "./interfaces";
 import { ComboboxChildSelector } from "./resources";
+import { Build } from "@stencil/core";
 
 export function getAncestors(element: HTMLElement): ComboboxChildElement[] {
   const parent: ComboboxChildElement = element.parentElement?.closest(ComboboxChildSelector);
@@ -24,11 +25,15 @@ export function hasActiveChildren(node: HTMLCalciteComboboxItemElement): boolean
 }
 
 export function getDepth(element: HTMLElement): number {
+  if (!Build.isBrowser) {
+    return 0;
+  }
+
   const result = document.evaluate(
     "ancestor::calcite-combobox-item | ancestor::calcite-combobox-item-group",
     element,
     null,
-    6,
+    XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE,
     null
   );
 
