@@ -146,9 +146,12 @@ export class CalciteCombobox {
       case "Tab":
         this.activeChipIndex = -1;
         this.activeItemIndex = -1;
-        this.active = false;
         if (this.allowCustomValues && this.text) {
           this.addCustomChip(this.text, true);
+          event.preventDefault();
+          event.stopPropagation();
+        } else {
+          this.active = false;
         }
         break;
       case "ArrowLeft":
