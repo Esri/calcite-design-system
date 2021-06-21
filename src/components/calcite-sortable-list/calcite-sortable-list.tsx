@@ -161,7 +161,7 @@ export class CalciteSortableList {
   }
 
   cleanUpDragAndDrop(): void {
-    this.sortable.destroy();
+    this.sortable?.destroy();
     this.sortable = null;
   }
 
