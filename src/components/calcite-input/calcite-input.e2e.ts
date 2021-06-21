@@ -754,7 +754,7 @@ describe("calcite-input", () => {
       expect(await calciteInput.getProperty("value")).toBe("0");
     });
 
-    it("typing zero and then a non-zero number sets and emits the non-zero number", async () => {
+    it.skip("typing zero and then a non-zero number sets and emits the non-zero number", async () => {
       const page = await newE2EPage({
         html: `
           <calcite-input type="number"></calcite-input>

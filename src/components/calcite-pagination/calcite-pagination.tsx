@@ -192,21 +192,13 @@ export class CalcitePagination {
 
   renderLeftEllipsis(): VNode {
     if (this.total / this.num > maxPagesDisplayed && this.showLeftEllipsis()) {
-      return (
-        <span class={`${CSS.ellipsis} ${CSS.ellipsisStart}`}>
-          &hellip;
-        </span>
-      );
+      return <span class={`${CSS.ellipsis} ${CSS.ellipsisStart}`}>&hellip;</span>;
     }
   }
 
   renderRightEllipsis(): VNode {
     if (this.total / this.num > maxPagesDisplayed && this.showRightEllipsis()) {
-      return (
-        <span class={`${CSS.ellipsis} ${CSS.ellipsisEnd}`}>
-          &hellip;
-        </span>
-      );
+      return <span class={`${CSS.ellipsis} ${CSS.ellipsisEnd}`}>&hellip;</span>;
     }
   }
 

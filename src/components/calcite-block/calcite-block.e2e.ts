@@ -224,7 +224,7 @@ describe("calcite-block", () => {
         </calcite-block>`
       );
 
-      const headerIcon = await page.find('calcite-block >>> .header-icon');
+      const headerIcon = await page.find("calcite-block >>> .header-icon");
       expect(headerIcon).toBeNull();
 
       const statusIcon = await page.find(`calcite-block >>> .${CSS.statusIcon}`);
