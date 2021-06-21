@@ -149,7 +149,6 @@ export class CalciteCombobox {
         if (this.allowCustomValues && this.text) {
           this.addCustomChip(this.text, true);
           event.preventDefault();
-          event.stopPropagation();
         } else {
           this.active = false;
         }
