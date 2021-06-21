@@ -1,3 +1,5 @@
+import { sanitizeDecimalString } from "./number";
+
 export const locales = [
   "ar",
   "bs",
@@ -115,8 +117,4 @@ export function localizeNumberString(numberString: string, locale: string, displ
     }
   }
   return numberString;
-}
-
-export function sanitizeDecimalString(decimalString: string): string {
-  return decimalString?.endsWith(".") ? decimalString.replace(".", "") : decimalString;
 }

@@ -146,9 +146,11 @@ export class CalciteCombobox {
       case "Tab":
         this.activeChipIndex = -1;
         this.activeItemIndex = -1;
-        this.active = false;
         if (this.allowCustomValues && this.text) {
           this.addCustomChip(this.text, true);
+          event.preventDefault();
+        } else {
+          this.active = false;
         }
         break;
       case "ArrowLeft":
@@ -762,6 +764,7 @@ export class CalciteCombobox {
       const label = selectionMode !== "ancestors" ? item.textLabel : pathLabel.join(" / ");
       return (
         <calcite-chip
+          aria-label={label}
           class={chipClasses}
           dismissLabel={"remove tag"}
           dismissible
@@ -770,6 +773,7 @@ export class CalciteCombobox {
           key={item.textLabel}
           onCalciteChipDismiss={(event) => this.calciteChipDismissHandler(event, item)}
           scale={scale}
+          title={label}
           value={item.value}
         >
           {label}
@@ -863,13 +867,12 @@ export class CalciteCombobox {
 
   renderIconStart(): VNode {
     const { selectionMode, needsIcon, selectedItem } = this;
-    const scale = this.scale === "l" ? "m" : "s";
     return (
       selectionMode === "single" &&
       needsIcon && (
         <span class="icon-start">
           {selectedItem?.icon && (
-            <calcite-icon class="selected-icon" icon={selectedItem?.icon} scale={scale} />
+            <calcite-icon class="selected-icon" icon={selectedItem?.icon} scale="s" />
           )}
         </span>
       )
@@ -877,11 +880,10 @@ export class CalciteCombobox {
   }
 
   renderIconEnd(): VNode {
-    const scale = this.scale === "l" ? "m" : "s";
     return (
       this.selectionMode === "single" && (
         <span class="icon-end">
-          <calcite-icon icon="chevron-down" scale={scale} />
+          <calcite-icon icon="chevron-down" scale="s" />
         </span>
       )
     );

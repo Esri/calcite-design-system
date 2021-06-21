@@ -1,5 +1,6 @@
 import { Component, Prop, h, Element, Listen, State, VNode, Fragment } from "@stencil/core";
 import { TabLayout, TabPosition } from "./interfaces";
+import { Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-tabs",
@@ -31,11 +32,27 @@ export class CalciteTabs {
    */
   @Prop({ reflect: true }) position: TabPosition = "above";
 
+  /**
+   * Specify the scale of the tabs component, defaults to m
+   */
+  @Prop({ reflect: true }) scale: Scale = "m";
+
+  /**
+   * Optionally enable tabs to appear like a folder-style menu when its layout is "inline"
+   */
+  @Prop({ reflect: true, mutable: true }) bordered?: boolean = false;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    if (this.layout === "center") {
+      this.bordered = false;
+    }
+  }
 
   render(): VNode {
     return (
