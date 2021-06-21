@@ -191,6 +191,8 @@ export class CalciteValueList<
   };
 
   setUpDragAndDrop(): void {
+    this.cleanUpDragAndDrop();
+
     if (!this.dragEnabled) {
       return;
     }
@@ -212,7 +214,7 @@ export class CalciteValueList<
     if (!this.dragEnabled) {
       return;
     }
-    this.sortable.destroy();
+    this.sortable?.destroy();
   }
 
   deselectSiblingItems = deselectSiblingItems.bind(this);
