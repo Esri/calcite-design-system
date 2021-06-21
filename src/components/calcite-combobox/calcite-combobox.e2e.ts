@@ -447,13 +447,11 @@ describe("calcite-combobox", () => {
       const button = await page.find("button");
       await input.click();
       await input.press("o");
-      await button.click();
+      await input.press("Tab");
       let chips = await page.findAll("calcite-combobox >>> calcite-chip");
       expect(chips.length).toBe(1);
-
-      await input.click();
-      await input.press("z");
-      await input.press("Tab");
+      await input.press("j");
+      await button.click();
       chips = await page.findAll("calcite-combobox >>> calcite-chip");
       expect(chips.length).toBe(2);
     });
