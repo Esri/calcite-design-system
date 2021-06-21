@@ -6,13 +6,14 @@ The `calcite-block-section` component is a child element of `calcite-block`. Sec
 
 ## Properties
 
-| Property        | Attribute        | Description                                                                                                                                                                      | Type                   | Default     |
-| --------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ----------- |
-| `intlCollapse`  | `intl-collapse`  | Tooltip used for the toggle when expanded.                                                                                                                                       | `string`               | `undefined` |
-| `intlExpand`    | `intl-expand`    | Tooltip used for the toggle when collapsed.                                                                                                                                      | `string`               | `undefined` |
-| `open`          | `open`           | When true, the block's section content will be displayed.                                                                                                                        | `boolean`              | `false`     |
-| `text`          | `text`           | Text displayed in the button.                                                                                                                                                    | `string`               | `undefined` |
-| `toggleDisplay` | `toggle-display` | This property determines the look of the section toggle. If the value is "switch", a toggle-switch will be displayed. If the value is "button", a clickable header is displayed. | `"button" \| "switch"` | `"button"`  |
+| Property        | Attribute        | Description                                                                                                                                                                      | Type                             | Default     |
+| --------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | ----------- |
+| `intlCollapse`  | `intl-collapse`  | Tooltip used for the toggle when expanded.                                                                                                                                       | `string`                         | `undefined` |
+| `intlExpand`    | `intl-expand`    | Tooltip used for the toggle when collapsed.                                                                                                                                      | `string`                         | `undefined` |
+| `open`          | `open`           | When true, the block's section content will be displayed.                                                                                                                        | `boolean`                        | `false`     |
+| `status`        | `status`         | BlockSection status. Adds indicator to show valid or invalid status.                                                                                                             | `"idle" \| "invalid" \| "valid"` | `undefined` |
+| `text`          | `text`           | Text displayed in the button.                                                                                                                                                    | `string`                         | `undefined` |
+| `toggleDisplay` | `toggle-display` | This property determines the look of the section toggle. If the value is "switch", a toggle-switch will be displayed. If the value is "button", a clickable header is displayed. | `"button" \| "switch"`           | `"button"`  |
 
 ## Events
 
@@ -30,15 +31,15 @@ The `calcite-block-section` component is a child element of `calcite-block`. Sec
 
 ### Depends on
 
-- [calcite-switch](../calcite-switch)
 - [calcite-icon](../calcite-icon)
+- [calcite-switch](../calcite-switch)
 
 ### Graph
 
 ```mermaid
 graph TD;
-  calcite-block-section --> calcite-switch
   calcite-block-section --> calcite-icon
+  calcite-block-section --> calcite-switch
   style calcite-block-section fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

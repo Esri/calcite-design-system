@@ -44,6 +44,29 @@
   }
 }
 
+:host([scale="s"]) {
+  margin-inline-end: 1rem;
+  a,
+  span {
+    @apply text--2h py-1;
+  }
+}
+
+:host([scale="m"]) {
+  a,
+  span {
+    @apply text--1h py-2;
+  }
+}
+
+:host([scale="l"]) {
+  margin-inline-end: 1.5rem;
+  a,
+  span {
+    @apply text-0h py-3;
+  }
+}
+
 a,
 span {
   @apply box-border
@@ -94,20 +117,78 @@ span {
 }
 
 // right to left
-:host .rtl {
-  @apply mr-0 ml-5;
-}
-
-.container--has-text.rtl .calcite-tab-title--icon.icon-end {
+.container--has-text.calcite--rtl .calcite-tab-title--icon.icon-end {
   @apply ml-0 mr-2;
 }
 
-.container--has-text.rtl .calcite-tab-title--icon.icon-start {
+.container--has-text.calcite--rtl .calcite-tab-title--icon.icon-start {
   @apply ml-2 mr-0;
 }
 
-:host([icon-start][icon-end]) .rtl {
+:host([icon-start][icon-end]) .calcite--rtl {
   .calcite-tab-title--icon:first-child {
     @apply ml-2 mr-0;
+  }
+}
+
+// bordered styles
+:host([bordered]) {
+  margin-inline-end: 0;
+}
+
+:host([bordered][active]) {
+  box-shadow: inset 0px -2px var(--calcite-ui-foreground-1);
+}
+
+:host([bordered][active][position="below"]) {
+  box-shadow: inset 0 2px 0 var(--calcite-ui-foreground-1);
+}
+
+:host([bordered]:hover),
+:host([bordered]:focus),
+:host([bordered]:active) {
+  a {
+    @apply relative;
+  }
+}
+
+:host([bordered]:hover) {
+  a {
+    background-color: var(--calcite-button-transparent-hover);
+    @apply transition-default;
+  }
+}
+
+:host([bordered]) a {
+  border-bottom-style: unset;
+}
+
+:host([bordered][position="below"]) a {
+  border-top-style: unset;
+}
+
+:host([active][bordered]) a {
+  border-left: 1px solid var(--calcite-ui-border-1);
+  border-right: 1px solid var(--calcite-ui-border-1);
+}
+
+:host([bordered]) {
+  a,
+  span {
+    @apply pl-3 pr-3;
+  }
+}
+
+:host([bordered][scale="s"]) {
+  a,
+  span {
+    @apply pl-2 pr-2;
+  }
+}
+
+:host([bordered][scale="l"]) {
+  a,
+  span {
+    @apply pl-4 pr-4;
   }
 }
