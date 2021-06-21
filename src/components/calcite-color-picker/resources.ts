@@ -8,7 +8,6 @@ export const CSS = {
   header: "header",
   control: "control",
   splitSection: "section--split",
-  underlinedHeader: "header--underlined",
   colorModeContainer: "color-mode-container",
   colorMode: "color-mode",
   channels: "channels",
