@@ -211,10 +211,8 @@ export class CalciteValueList<
   }
 
   cleanUpDragAndDrop(): void {
-    if (!this.dragEnabled) {
-      return;
-    }
     this.sortable?.destroy();
+    this.sortable = null;
   }
 
   deselectSiblingItems = deselectSiblingItems.bind(this);
