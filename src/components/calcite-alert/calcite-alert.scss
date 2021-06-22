@@ -71,9 +71,10 @@
     transform: translate3d(0, $baseline, 0);
     transition: 300ms $easing-function, opacity 300ms $easing-function, all 0.15s ease-in-out;
     @media only screen and (max-width: $viewport-medium) {
-      @apply w-full
-        max-w-full
-        rounded-none;
+      @apply w-full max-w-full rounded-none;
+      &:before {
+        @apply rounded-none;
+      }
     }
   }
 }
@@ -83,6 +84,16 @@
     w-full
     justify-center
     items-center;
+}
+
+.container:before {
+  @apply absolute
+    top-0
+    w-full
+    rounded-t
+    rounded-b-none;
+  height: 2px;
+  content: "";
 }
 
 // focus styles
@@ -95,7 +106,7 @@
 
 :host([active]) {
   .container:not(.queued) {
-    @apply opacity-100 max-h-full border-t-2;
+    @apply opacity-100 max-h-full;
     transform: translate3d(0, -$baseline, 0);
     pointer-events: initial;
 
@@ -122,8 +133,8 @@
 
 .calcite--rtl {
   @include slotted("message", "*") {
+    @apply ml-2;
     margin-right: unset;
-    margin-left: $baseline/2;
   }
 }
 
@@ -218,7 +229,6 @@
     items-center
     justify-around
     self-stretch
-    overflow-hidden
     w-0
     font-normal
     text-center
@@ -236,7 +246,6 @@
       py-0
       px-1
       w-8
-      border-none
       border-0
       border-l
       border-r
@@ -300,8 +309,8 @@ $alertColors: "blue" var(--calcite-ui-info), "red" var(--calcite-ui-danger), "ye
   $color: nth($alertColor, 2);
 
   :host([color="#{$name}"]) {
-    .container {
-      border-top-color: $color;
+    .container:before {
+      background-color: $color;
 
       & .alert-icon {
         color: $color;
