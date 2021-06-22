@@ -98,6 +98,11 @@ describe("calcite-slider", () => {
     expect(await slider.getProperty("value")).toBe(0);
     await handle.press("End");
     expect(await slider.getProperty("value")).toBe(100);
+
+    // activation keys should not affect the value
+    await handle.press(" ");
+    await handle.press("Enter");
+    expect(await slider.getProperty("value")).toBe(100);
   });
 
   it("only selects values on step interval when snap prop is passed", async () => {
