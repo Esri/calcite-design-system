@@ -26,7 +26,17 @@ export class CalciteSortableList {
   // --------------------------------------------------------------------------
 
   /**
-   * The class on the handle elements.
+   * Specifies which items inside the element should be draggable.
+   */
+  @Prop() draggableSelector!: string;
+
+  /**
+   * To drag elements from one list into another, both lists must have the same group value.
+   */
+  @Prop() group?: string;
+
+  /**
+   * The selector for the handle elements.
    */
   @Prop() handleSelector = "calcite-handle";
 
@@ -143,6 +153,9 @@ export class CalciteSortableList {
   setUpDragAndDrop(): void {
     this.cleanUpDragAndDrop();
     this.sortable = Sortable.create(this.el, {
+      dataIdAttr: "id",
+      draggable: this.draggableSelector,
+      group: this.group,
       handle: this.handleSelector,
       // Changed sorting within list
       onUpdate: () => {
