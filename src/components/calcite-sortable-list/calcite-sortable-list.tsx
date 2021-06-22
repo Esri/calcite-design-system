@@ -28,7 +28,7 @@ export class CalciteSortableList {
   /**
    * Specifies which items inside the element should be draggable.
    */
-  @Prop() draggableSelector!: string;
+  @Prop() draggableSelector?: string;
 
   /**
    * To drag elements from one list into another, both lists must have the same group value.
@@ -152,9 +152,9 @@ export class CalciteSortableList {
 
   setUpDragAndDrop(): void {
     this.cleanUpDragAndDrop();
-    this.sortable = Sortable.create(this.el, {
+
+    const options: Sortable.Options = {
       dataIdAttr: "id",
-      draggable: this.draggableSelector,
       group: this.group,
       handle: this.handleSelector,
       // Changed sorting within list
@@ -170,7 +170,13 @@ export class CalciteSortableList {
       onEnd: () => {
         this.beginObserving();
       }
-    });
+    };
+
+    if (this.draggableSelector) {
+      options.draggable = this.draggableSelector;
+    }
+
+    this.sortable = Sortable.create(this.el, options);
   }
 
   cleanUpDragAndDrop(): void {
