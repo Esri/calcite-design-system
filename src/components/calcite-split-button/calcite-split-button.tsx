@@ -49,8 +49,8 @@ export class CalciteSplitButton {
   /** specify the scale of the control, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
 
- /** specify the width of the button, defaults to auto */
- @Prop({ reflect: true }) width: Width = "auto";
+  /** specify the width of the button, defaults to auto */
+  @Prop({ reflect: true }) width: Width = "auto";
 
   /** fired when the primary button is clicked */
   @Event() calciteSplitButtonPrimaryClick: EventEmitter;

@@ -182,15 +182,13 @@ describe("calcite-split-button", () => {
     const container = await page.find(`calcite-split-button >>> .${CSS.widthAuto}`);
     expect(container).not.toBeNull();
     expect(container).toHaveClass(CSS.widthAuto);
-    
+
     element.setAttribute("width", "half");
     await page.waitForChanges();
     expect(container).toHaveClass(CSS.widthHalf);
-    
+
     element.setAttribute("width", "full");
     await page.waitForChanges();
     expect(container).toHaveClass(CSS.widthFull);
-
-    
   });
 });
