@@ -174,9 +174,7 @@ describe("calcite-split-button", () => {
 
   it("adds the relevant CSS class based on the width attribute", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-split-button width="auto"></calcite-split-button>`
-    );
+    await page.setContent(`<calcite-split-button width="auto"></calcite-split-button>`);
 
     const element = await page.find(`calcite-split-button`);
     const container = await page.find(`calcite-split-button >>> .${CSS.widthAuto}`);
