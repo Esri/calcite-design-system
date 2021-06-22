@@ -14,6 +14,7 @@ import {
 import { TabChangeEventDetail } from "./interfaces";
 import { guid } from "../../utils/guid";
 import { nodeListToArray } from "../../utils/dom";
+import { Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-tab",
@@ -46,6 +47,9 @@ export class CalciteTab {
    */
   @Prop({ reflect: true, mutable: true }) active = false;
 
+  /** @internal Parent tabs component scale value */
+  @Prop({ reflect: true, mutable: true }) scale: Scale = "m";
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -71,6 +75,10 @@ export class CalciteTab {
 
   componentDidLoad(): void {
     this.calciteTabRegister.emit();
+  }
+
+  componentWillRender(): void {
+    this.scale = this.el.closest("calcite-tabs")?.scale;
   }
 
   disconnectedCallback(): void {

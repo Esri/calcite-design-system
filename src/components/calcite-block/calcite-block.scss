@@ -99,6 +99,14 @@ calcite-handle {
   @apply ml-3;
 }
 
+.status-icon.valid {
+  color: theme("colors.success");
+}
+
+.status-icon.invalid {
+  color: theme("colors.danger");
+}
+
 .toggle-icon {
   @apply mr-4
   self-center
