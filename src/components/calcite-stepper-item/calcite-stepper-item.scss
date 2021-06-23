@@ -281,6 +281,10 @@
 :host([layout="vertical"][complete]) .container {
   border-color: rgba($h-bb-060, 0.6);
 }
+:host([layout="vertical"][complete]:hover:not([disabled]):not([active])) .container,
+:host([layout="vertical"][complete]:focus:not([disabled]):not([active])) .container {
+  @apply border-color-info;
+}
 :host([layout="vertical"][error]) .container {
   @apply border-color-danger;
 }
