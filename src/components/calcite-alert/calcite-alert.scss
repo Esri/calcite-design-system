@@ -12,6 +12,9 @@
   ::slotted(calcite-link) {
     @apply text--2-wrap;
   }
+  .alert-queue-count {
+    @apply mx-2;
+  }
 }
 
 :host([scale="m"]) {
@@ -28,6 +31,9 @@
   ::slotted(calcite-link) {
     @apply text--1-wrap;
   }
+  .alert-queue-count {
+    @apply mx-3;
+  }
 }
 
 :host([scale="l"]) {
@@ -42,6 +48,9 @@
   }
   ::slotted(calcite-link) {
     @apply text-0-wrap;
+  }
+  .alert-queue-count {
+    @apply mx-4;
   }
 }
 
@@ -211,33 +220,12 @@
   }
 }
 .alert-queue-count {
-  @apply text--1-wrap
-    flex
-    items-center
-    justify-around
-    self-stretch
-    w-0
-    font-normal
-    text-center
-    text-color-2
-    opacity-0
-    border-color-transparent
-    cursor-default
-    transition-default
-    overflow-hidden;
+  @apply opacity-0;
   visibility: hidden;
 
   &.active {
     visibility: visible;
-    @apply opacity-100
-      py-0
-      px-1
-      w-8
-      border-0
-      border-l
-      border-r
-      border-solid
-      border-color-3;
+    @apply opacity-100;
   }
 
   @media only screen and (max-width: $viewport-medium) {

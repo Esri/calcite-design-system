@@ -124,9 +124,13 @@ export class CalciteAlert {
       </button>
     );
     const queueCount = (
-      <div class={`${this.queueLength > 1 ? "active " : ""}alert-queue-count`}>
+      <calcite-chip
+        class={`${this.queueLength > 1 ? "active " : ""}alert-queue-count`}
+        scale={this.scale}
+        value="Amount of alerts"
+      >
         +{this.queueLength > 2 ? this.queueLength - 1 : 1}
-      </div>
+      </calcite-chip>
     );
 
     const { active, autoDismiss, label, queued, requestedIcon } = this;
