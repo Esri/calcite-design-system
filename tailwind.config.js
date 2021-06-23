@@ -1,4 +1,4 @@
-const plugin = require('tailwindcss/plugin');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 var flattenColorPalette = require('tailwindcss/lib/util/flattenColorPalette').default;
 
 module.exports = {
@@ -136,9 +136,6 @@ module.exports = {
       borderRadius: {
         half: "50%"
       },
-      borderWidth: {
-        px: "1px"
-      },
       boxShadow: {
         0: "0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04)",
         1: "0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04)",
@@ -241,7 +238,7 @@ module.exports = {
       }
       addUtilities(newUtilities);
     },
-    ({ addUtilities, e, theme, variants }) => {
+    ({ addUtilities, theme, variants }) => {
       const colors = flattenColorPalette(theme('borderColor'));
       delete colors['default'];
 
@@ -261,6 +258,7 @@ module.exports = {
     removeDeprecatedGapUtilities: true,
   },
   variants: {
-    boxShadow: ['responsive', 'hover', 'focus', 'active']
+    boxShadow: ['responsive', 'hover', 'focus', 'active'],
+    borderWidth: ['responsive', 'hover', 'focus', 'active']
   }
 }
