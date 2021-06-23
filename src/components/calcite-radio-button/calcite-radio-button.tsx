@@ -92,6 +92,12 @@ export class CalciteRadioButton {
    */
   @Prop({ reflect: true, mutable: true }) hovered = false;
 
+  /**
+   * The label of the radio input
+   * @internal
+   */
+  @Prop() label?: string;
+
   /** The name of the radio button.  <code>name</code> is passed as a property automatically from <code>calcite-radio-button-group</code>. */
   @Prop({ reflect: true }) name: string;
 
@@ -335,6 +341,7 @@ export class CalciteRadioButton {
     return (
       <div class="container">
         <input
+          aria-label={this.label || null}
           checked={this.checked}
           disabled={this.disabled}
           hidden={this.hidden}
