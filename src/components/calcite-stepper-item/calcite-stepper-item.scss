@@ -289,9 +289,9 @@
 }
 :host([layout="vertical"]:hover:not([disabled]):not([active])) .container,
 :host([layout="vertical"]:focus:not([disabled]):not([active])) .container {
-  border-color: rgba($h-bb-060, 0.75);
+  border-color: rgba($h-bb-060, 0.6);
 }
 :host([layout="vertical"][error]:hover:not([disabled]):not([active])) .container,
 :host([layout="vertical"][error]:focus:not([disabled]):not([active])) .container {
-  @apply border-t-color-danger-hover;
+  @apply border-color-danger-hover;
 }
