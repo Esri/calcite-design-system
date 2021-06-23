@@ -15,7 +15,7 @@ import {
 
 import { getElementDir, hasLabel } from "../../utils/dom";
 import { getKey } from "../../utils/key";
-import { Layout, Scale, Theme, Width } from "../interfaces";
+import { Layout, Scale, Width } from "../interfaces";
 import { RadioAppearance } from "./interfaces";
 
 @Component({
@@ -85,9 +85,6 @@ export class CalciteRadioGroup {
       items[0].tabIndex = 0;
     }
   }
-
-  /** The component's theme. */
-  @Prop({ reflect: true }) theme: Theme;
 
   /** specify the width of the group, defaults to auto */
   @Prop({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";

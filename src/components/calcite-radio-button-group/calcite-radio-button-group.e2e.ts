@@ -6,14 +6,13 @@ describe("calcite-radio-button-group", () => {
 
   it("is accessible", async () =>
     accessible(
-      `<calcite-radio-button-group><calcite-radio-button></calcite-radio-button></calcite-radio-button-group>`
+      `<calcite-radio-button-group><label><calcite-radio-button></calcite-radio-button>Label</label></calcite-radio-button-group>`
     ));
 
   it("has defaults", async () =>
     defaults("calcite-radio-button-group", [
       { propertyName: "layout", defaultValue: "horizontal" },
-      { propertyName: "scale", defaultValue: "m" },
-      { propertyName: "theme", defaultValue: "light" }
+      { propertyName: "scale", defaultValue: "m" }
     ]));
 
   it("honors hidden attribute", async () => {
@@ -22,19 +21,19 @@ describe("calcite-radio-button-group", () => {
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-radio-button-group name="first">
-        <calcite-radio-button value="first">First</calcite-radio-button>
-        <calcite-radio-button value="second">Second</calcite-radio-button>
-        <calcite-radio-button value="third">Third</calcite-radio-button>
+        <calcite-radio-button value="first"></calcite-radio-button>
+        <calcite-radio-button value="second"></calcite-radio-button>
+        <calcite-radio-button value="third"></calcite-radio-button>
       </calcite-radio-button-group>
       <calcite-radio-button-group name="second" hidden>
-        <calcite-radio-button value="first">First</calcite-radio-button>
-        <calcite-radio-button value="second">Second</calcite-radio-button>
-        <calcite-radio-button value="third">Third</calcite-radio-button>
+        <calcite-radio-button value="first"></calcite-radio-button>
+        <calcite-radio-button value="second"></calcite-radio-button>
+        <calcite-radio-button value="third"></calcite-radio-button>
       </calcite-radio-button-group>
       <calcite-radio-button-group name="third">
-        <calcite-radio-button value="first">First</calcite-radio-button>
-        <calcite-radio-button value="second">Second</calcite-radio-button>
-        <calcite-radio-button value="third">Third</calcite-radio-button>
+        <calcite-radio-button value="first"></calcite-radio-button>
+        <calcite-radio-button value="second"></calcite-radio-button>
+        <calcite-radio-button value="third"></calcite-radio-button>
       </calcite-radio-button-group>
     `);
 
@@ -57,17 +56,16 @@ describe("calcite-radio-button-group", () => {
       { propertyName: "layout", value: "horizontal" },
       { propertyName: "name", value: "reflects-name" },
       { propertyName: "required", value: true },
-      { propertyName: "scale", value: "m" },
-      { propertyName: "theme", value: "light" }
+      { propertyName: "scale", value: "m" }
     ]));
 
   it("has a radio input for form compatibility", async () => {
     const page = await newE2EPage();
     await page.setContent(
       `<calcite-radio-button-group name="hidden-input">
-          <calcite-radio-button value="1">one</calcite-radio-button>
-          <calcite-radio-button value="2" checked>two</calcite-radio-button>
-          <calcite-radio-button value="3">three</calcite-radio-button>
+          <calcite-radio-button value="1"></calcite-radio-button>
+          <calcite-radio-button value="2" checked></calcite-radio-button>
+          <calcite-radio-button value="3"></calcite-radio-button>
         </calcite-radio-button-group>`
     );
 
@@ -102,9 +100,9 @@ describe("calcite-radio-button-group", () => {
     const page = await newE2EPage();
     await page.setContent(
       `<calcite-radio-button-group name="multiple-checked">
-          <calcite-radio-button value="1" checked>one</calcite-radio-button>
-          <calcite-radio-button value="2" checked>two</calcite-radio-button>
-          <calcite-radio-button value="3" checked>three</calcite-radio-button>
+          <calcite-radio-button value="1" checked></calcite-radio-button>
+          <calcite-radio-button value="2" checked></calcite-radio-button>
+          <calcite-radio-button value="3" checked></calcite-radio-button>
         </calcite-radio-button-group>`
     );
     await page.waitForChanges();
@@ -119,9 +117,9 @@ describe("calcite-radio-button-group", () => {
     const page = await newE2EPage();
     await page.setContent(
       `<calcite-radio-button-group name="keyboard">
-          <calcite-radio-button value="1" checked>one</calcite-radio-button>
-          <calcite-radio-button value="2">two</calcite-radio-button>
-          <calcite-radio-button value="3">three</calcite-radio-button>
+          <calcite-radio-button value="1" checked></calcite-radio-button>
+          <calcite-radio-button value="2"></calcite-radio-button>
+          <calcite-radio-button value="3"></calcite-radio-button>
         </calcite-radio-button-group>`
     );
     const element = await page.find("calcite-radio-button-group");
@@ -165,9 +163,9 @@ describe("calcite-radio-button-group", () => {
     const page = await newE2EPage();
     await page.setContent(
       `<calcite-radio-button-group name="up-down-keys">
-          <calcite-radio-button value="1" checked>one</calcite-radio-button>
-          <calcite-radio-button value="2">two</calcite-radio-button>
-          <calcite-radio-button value="3">three</calcite-radio-button>
+          <calcite-radio-button value="1" checked></calcite-radio-button>
+          <calcite-radio-button value="2"></calcite-radio-button>
+          <calcite-radio-button value="3"></calcite-radio-button>
         </calcite-radio-button-group>`
     );
     const element = await page.find("calcite-radio-button-group");
@@ -209,12 +207,8 @@ describe("calcite-radio-button-group", () => {
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-radio-button-group name="radio">
-        <calcite-radio-button id="first" value="one" checked>
-              One
-        </calcite-radio-button>
-        <calcite-radio-button id="second" value="two">
-            Two
-        </calcite-radio-button>
+        <calcite-radio-button id="first" value="one" checked></calcite-radio-button>
+        <calcite-radio-button id="second" value="two"></calcite-radio-button>
       </calcite-radio-button-group>
     `);
 
@@ -238,15 +232,9 @@ describe("calcite-radio-button-group", () => {
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-radio-button-group name="radio">
-        <calcite-radio-button id="first" value="one" checked>
-              One
-        </calcite-radio-button>
-        <calcite-radio-button id="second" value="two">
-            Two
-        </calcite-radio-button>
-        <calcite-radio-button id="third" value="three">
-            Three
-        </calcite-radio-button>
+        <calcite-radio-button id="first" value="one" checked></calcite-radio-button>
+        <calcite-radio-button id="second" value="two"></calcite-radio-button>
+        <calcite-radio-button id="third" value="three"></calcite-radio-button>
       </calcite-radio-button-group>
     `);
     await page.evaluate(() => {
@@ -266,15 +254,9 @@ describe("calcite-radio-button-group", () => {
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-radio-button-group name="radio">
-        <calcite-radio-button id="first" value="one" checked>
-              One
-        </calcite-radio-button>
-        <calcite-radio-button id="second" value="two">
-            Two
-        </calcite-radio-button>
-        <calcite-radio-button id="third" value="three">
-            Three
-        </calcite-radio-button>
+        <calcite-radio-button id="first" value="one" checked></calcite-radio-button>
+        <calcite-radio-button id="second" value="two"></calcite-radio-button>
+        <calcite-radio-button id="third" value="three"></calcite-radio-button>
       </calcite-radio-button-group>
     `);
     await page.evaluate(() => {
@@ -300,12 +282,8 @@ describe("calcite-radio-button-group", () => {
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-radio-button-group name="radio">
-        <calcite-radio-button value="one" checked>
-              One
-        </calcite-radio-button>
-        <calcite-radio-button value="two">
-            Two
-        </calcite-radio-button>
+        <calcite-radio-button value="one" checked></calcite-radio-button>
+        <calcite-radio-button value="two"></calcite-radio-button>
       </calcite-radio-button-group>
     `);
 
@@ -313,20 +291,18 @@ describe("calcite-radio-button-group", () => {
     const name = await radio.getProperty("name");
     const scale = await radio.getProperty("scale");
     const required = await radio.getProperty("required");
-    const theme = await radio.getProperty("theme");
     expect(name).toBe("radio");
     expect(scale).toBe("m");
     expect(required).toBe(false);
-    expect(theme).toBe("light");
   });
 
   it("appropriately triggers the custom change event", async () => {
     const page = await newE2EPage();
     await page.setContent(
       `<calcite-radio-button-group name="changeEvent">
-          <calcite-radio-button value="one">one</calcite-radio-button>
-          <calcite-radio-button value="two">two</calcite-radio-button>
-          <calcite-radio-button value="three">three</calcite-radio-button>
+          <calcite-radio-button value="one"></calcite-radio-button>
+          <calcite-radio-button value="two"></calcite-radio-button>
+          <calcite-radio-button value="three"></calcite-radio-button>
         </calcite-radio-button-group>`
     );
 

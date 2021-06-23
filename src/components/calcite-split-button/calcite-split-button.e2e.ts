@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, HYDRATED_ATTR } from "../../tests/commonTests";
+import { CSS } from "./resources";
 
 describe("calcite-split-button", () => {
   const content = `
@@ -58,6 +59,7 @@ describe("calcite-split-button", () => {
     expect(element).toEqualAttribute("scale", "m");
     expect(element).toEqualAttribute("color", "blue");
     expect(element).toEqualAttribute("dropdown-icon-type", "chevron");
+    expect(element).toEqualAttribute("width", "auto");
   });
 
   it("renders requested props when valid props are provided", async () => {
@@ -66,10 +68,10 @@ describe("calcite-split-button", () => {
       <calcite-split-button
           scale="s"
           color="red"
-          theme="dark"
           dropdown-icon-type="caret"
           loading
           disabled
+          width="half"
           dropdown-label="more actions"
           primary-label="primary action">
       </calcite-split-button>`);
@@ -78,12 +80,12 @@ describe("calcite-split-button", () => {
     const dropdownButton = await page.find("calcite-split-button >>> calcite-dropdown calcite-button");
     expect(element).toEqualAttribute("scale", "s");
     expect(element).toEqualAttribute("color", "red");
-    expect(element).toEqualAttribute("theme", "dark");
     expect(element).toEqualAttribute("dropdown-icon-type", "caret");
     expect(element).toHaveAttribute("loading");
     expect(element).toHaveAttribute("disabled");
     expect(primaryButton).toEqualAttribute("aria-label", "primary action");
     expect(dropdownButton).toEqualAttribute("aria-label", "more actions");
+    expect(element).toEqualAttribute("width", "half");
   });
 
   it("renders primaryText without icons as inner content of primary button", async () => {
@@ -168,5 +170,23 @@ describe("calcite-split-button", () => {
     const dropdownButton = await page.find("calcite-split-button >>> calcite-dropdown calcite-button");
     expect(primaryButton).toEqualAttribute("split-child", "primary");
     expect(dropdownButton).toEqualAttribute("split-child", "secondary");
+  });
+
+  it("adds the relevant CSS class based on the width attribute", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-split-button width="auto"></calcite-split-button>`);
+
+    const element = await page.find(`calcite-split-button`);
+    const container = await page.find(`calcite-split-button >>> .${CSS.widthAuto}`);
+    expect(container).not.toBeNull();
+    expect(container).toHaveClass(CSS.widthAuto);
+
+    element.setAttribute("width", "half");
+    await page.waitForChanges();
+    expect(container).toHaveClass(CSS.widthHalf);
+
+    element.setAttribute("width", "full");
+    await page.waitForChanges();
+    expect(container).toHaveClass(CSS.widthFull);
   });
 });

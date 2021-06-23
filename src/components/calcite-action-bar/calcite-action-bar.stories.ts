@@ -1,49 +1,89 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
-import { Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
+import {
+  Attributes,
+  Attribute,
+  filterComponentAttributes,
+  createComponentHTML as create,
+  darkBackground
+} from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { html } from "../../tests/utils";
-const { dir, position, theme } = ATTRIBUTES;
 import { TEXT } from "./resources";
 
 export default {
-  title: "Components/App/Action Bar",
+  title: "Components/Action Bar",
   parameters: {
     backgrounds: darkBackground,
     notes: readme
   }
 };
 
-const createAttributes: () => Attributes = () => [
-  {
-    name: "expand",
-    value: boolean("expand", true)
-  },
-  {
-    name: "expanded",
-    value: boolean("expanded", false)
-  },
-  {
-    name: "dir",
-    value: select("dir", dir.values, dir.defaultValue)
-  },
-  {
-    name: "intl-expand",
-    value: text("intlExpand", TEXT.expand)
-  },
-  {
-    name: "intl-collapse",
-    value: text("intlCollapse", TEXT.collapse)
-  },
-  {
-    name: "position",
-    value: select("position", position.values, position.defaultValue)
-  },
-  {
-    name: "theme",
-    value: select("theme", theme.values, theme.defaultValue)
-  }
-];
+const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
+  const { dir, position, theme } = ATTRIBUTES;
+
+  return filterComponentAttributes(
+    [
+      {
+        name: "expand-disabled",
+        commit(): Attribute {
+          this.value = boolean("expandDisabled", false);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "expanded",
+        commit(): Attribute {
+          this.value = boolean("expanded", false);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "dir",
+        commit(): Attribute {
+          this.value = select("dir", dir.values, dir.defaultValue);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "intl-expand",
+        commit(): Attribute {
+          this.value = text("intlExpand", TEXT.expand);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "intl-collapse",
+        commit(): Attribute {
+          this.value = text("intlCollapse", TEXT.collapse);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "position",
+        commit(): Attribute {
+          this.value = select("position", position.values, position.defaultValue);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "class",
+        commit(): Attribute {
+          this.value = select("class", theme.values, theme.defaultValue);
+          delete this.build;
+          return this;
+        }
+      }
+    ],
+    exceptions
+  );
+};
 
 export const basic = (): string =>
   create(
@@ -60,23 +100,36 @@ export const basic = (): string =>
     `
   );
 
-export const withTooltip = (): DocumentFragment => {
-  const action = document.createElement("calcite-action");
-  action.text = "Add";
-  action.icon = "plus";
+export const darkThemeRTL = (): string =>
+  create(
+    "calcite-action-bar",
+    createAttributes({ exceptions: ["dir", "class"] }).concat([
+      {
+        name: "dir",
+        value: "rtl"
+      },
+      {
+        name: "class",
+        value: "calcite-theme-dark"
+      }
+    ]),
+    html`
+      <calcite-action-group>
+        <calcite-action text="Add" label="Add Item" icon="plus"></calcite-action>
+        <calcite-action text="Save" label="Save Item" icon="save"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Layers" label="View Layers" icon="layers"></calcite-action>
+      </calcite-action-group>
+    `
+  );
 
-  const tooltip = document.createElement("calcite-tooltip");
-  tooltip.innerText = "Expand";
-
-  const actionBar = document.createElement("calcite-action-bar");
-  actionBar.tooltipExpand = tooltip;
-
-  actionBar.append(action);
-
-  const fragment = document.createDocumentFragment();
-
-  fragment.append(actionBar);
-  fragment.append(tooltip);
-
-  return fragment;
-};
+export const withTooltip = (): string =>
+  create(
+    "calcite-action-bar",
+    createAttributes(),
+    html`
+      <calcite-tooltip placement="bottom" slot="expand-tooltip">Expand</calcite-tooltip>
+      <calcite-action text="Add" icon="plus"></calcite-action>
+    `
+  );

@@ -1,36 +1,38 @@
-:host([scale="s"]) {
-  @apply text--2;
+.container--s {
+  @apply text--2h;
   .dropdown-title {
-    @apply py-3 mt-0 mx-3;
+    @apply p-2;
   }
 }
 
-:host([scale="m"]) {
-  @apply text--1;
+.container--m {
+  @apply text--1h;
   .dropdown-title {
-    @apply py-4 mt-0 mx-4;
+    @apply p-3;
   }
 }
 
-:host([scale="l"]) {
-  @apply text-1;
+.container--l {
+  @apply text-1h;
   .dropdown-title {
-    @apply py-5 mt-0 mx-5;
+    @apply p-4;
   }
 }
 
 .dropdown-title {
-  display: block;
-  margin-bottom: -1px;
-  border-bottom: 1px solid var(--calcite-ui-border-3);
-  color: var(--calcite-ui-text-2);
-  font-weight: 600;
-  word-wrap: break-word;
-  cursor: default;
+  @apply block
+  border-0
+  border-b
+  border-solid
+  border-color-3
+  text-color-2
+  font-bold
+  break-words
+  cursor-default
+  -mb-px;
 }
 
 .dropdown-separator {
-  display: block;
-  height: 1px;
-  background-color: var(--calcite-ui-border-3);
+  @apply block h-px;
+  background-color: theme("borderColor.color.3");
 }

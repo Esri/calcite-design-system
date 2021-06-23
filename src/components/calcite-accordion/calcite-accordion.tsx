@@ -1,17 +1,7 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Listen,
-  Prop,
-  VNode
-} from "@stencil/core";
+import { Component, Element, Event, EventEmitter, h, Listen, Prop, VNode } from "@stencil/core";
 import { getKey } from "../../utils/key";
 import { AccordionAppearance } from "./interfaces";
-import { Position, Scale, Theme } from "../interfaces";
+import { Position, Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-accordion",
@@ -49,9 +39,6 @@ export class CalciteAccordion {
    * or single-persist (allow and require one open item), defaults to multi */
   @Prop({ reflect: true }) selectionMode: "multi" | "single" | "single-persist" = "multi";
 
-  /** specify the theme of accordion, defaults to light */
-  @Prop({ reflect: true }) theme: Theme;
-
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -77,11 +64,7 @@ export class CalciteAccordion {
   }
 
   render(): VNode {
-    return (
-      <Host>
-        <slot />
-      </Host>
-    );
+    return <slot />;
   }
 
   //--------------------------------------------------------------------------
@@ -100,12 +83,18 @@ export class CalciteAccordion {
       const isLastItem = this.itemIndex(itemToFocus) === this.items.length - 1;
       switch (key) {
         case "ArrowDown":
-          if (isLastItem) this.focusFirstItem();
-          else this.focusNextItem(itemToFocus);
+          if (isLastItem) {
+            this.focusFirstItem();
+          } else {
+            this.focusNextItem(itemToFocus);
+          }
           break;
         case "ArrowUp":
-          if (isFirstItem) this.focusLastItem();
-          else this.focusPrevItem(itemToFocus);
+          if (isFirstItem) {
+            this.focusLastItem();
+          } else {
+            this.focusPrevItem(itemToFocus);
+          }
           break;
         case "Home":
           this.focusFirstItem();
@@ -123,7 +112,9 @@ export class CalciteAccordion {
       parent: e.detail.parent as HTMLCalciteAccordionElement,
       position: e.detail.position as number
     };
-    if (this.el === item.parent) this.items.push(item);
+    if (this.el === item.parent) {
+      this.items.push(item);
+    }
   }
 
   @Listen("calciteAccordionItemSelect") updateActiveItemOnChange(event: CustomEvent): void {

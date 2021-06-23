@@ -2,10 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
     <title>Calcite Component Demos</title>
 
     <style>
@@ -37,10 +34,7 @@
         margin-top: 2rem;
       }
     </style>
-    <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
-    <script type="module" src="build/calcite.esm.js"></script>
-    <script nomodule src="build/calcite.js"></script>
-    <link rel="stylesheet" href="build/calcite.css" />
+    <script src="demos/_assets/head.js"></script>
   </head>
 
   <body>
@@ -69,7 +63,7 @@
           <calcite-link href="/demos/calcite-chip.html">calcite-chip</calcite-link>
         </li>
         <li>
-          <calcite-link href="/demos/calcite-color.html">calcite-color</calcite-link>
+          <calcite-link href="/demos/calcite-color-picker.html">calcite-color-picker</calcite-link>
         </li>
         <li>
           <calcite-link href="/demos/calcite-combobox.html">calcite-combobox</calcite-link>
@@ -94,6 +88,12 @@
         </li>
         <li>
           <calcite-link href="/demos/calcite-input-date-picker.html">calcite-input-date-picker</calcite-link>
+        </li>
+        <li>
+          <calcite-link href="/demos/calcite-input-number.html">calcite-input (number)</calcite-link>
+        </li>
+        <li>
+          <calcite-link href="/demos/calcite-input-time-picker.html">calcite-input-time-picker</calcite-link>
         </li>
         <li>
           <calcite-link href="/demos/calcite-label.html">calcite-label</calcite-link>
@@ -137,9 +137,7 @@
           <calcite-link href="/demos/calcite-radio-group.html">calcite-radio-group</calcite-link>
         </li>
         <li>
-          <calcite-link href="/demos/calcite-rating.html"
-            >calcite-rating</calcite-link
-          >
+          <calcite-link href="/demos/calcite-rating.html">calcite-rating</calcite-link>
         </li>
         <li>
           <calcite-link href="/demos/calcite-scrim.html">calcite-scrim</calcite-link>
@@ -163,19 +161,13 @@
           <calcite-link href="/demos/calcite-tabs.html">calcite-tabs</calcite-link>
         </li>
         <li>
-          <calcite-link href="/demos/calcite-tile.html"
-            >calcite-tile</calcite-link
-          >
+          <calcite-link href="/demos/calcite-tile.html">calcite-tile</calcite-link>
         </li>
         <li>
-          <calcite-link href="/demos/calcite-tile-select.html"
-            >calcite-tile-select</calcite-link
-          >
+          <calcite-link href="/demos/calcite-tile-select.html">calcite-tile-select</calcite-link>
         </li>
         <li>
-          <calcite-link href="/demos/calcite-tooltip.html"
-            >calcite-tooltip</calcite-link
-          >
+          <calcite-link href="/demos/calcite-tooltip.html">calcite-tooltip</calcite-link>
         </li>
         <li>
           <calcite-link href="/demos/calcite-tree.html">calcite-tree</calcite-link>
@@ -239,49 +231,35 @@
           </calcite-accordion-item>
           <calcite-accordion-item item-title="Accordion Item 5" active>
             <calcite-tree lines>
-              <calcite-tree-item>
-                Child 1
-              </calcite-tree-item>
+              <calcite-tree-item> Child 1 </calcite-tree-item>
 
               <calcite-tree-item>
                 Child 2
 
                 <calcite-tree slot="children">
-                  <calcite-tree-item>
-                    Grandchild 1
-                  </calcite-tree-item>
+                  <calcite-tree-item> Grandchild 1 </calcite-tree-item>
 
                   <calcite-tree-item>
                     Grandchild 2
                     <calcite-tree slot="children">
-                      <calcite-tree-item>
-                        Great-Grandchild 1
-                      </calcite-tree-item>
-                      <calcite-tree-item>
-                        Great-Grandchild 2
-                      </calcite-tree-item>
+                      <calcite-tree-item> Great-Grandchild 1 </calcite-tree-item>
+                      <calcite-tree-item> Great-Grandchild 2 </calcite-tree-item>
                     </calcite-tree>
                   </calcite-tree-item>
                 </calcite-tree>
               </calcite-tree-item>
-              <calcite-tree-item>
-                Child 3
-              </calcite-tree-item>
+              <calcite-tree-item> Child 3 </calcite-tree-item>
             </calcite-tree>
           </calcite-accordion-item>
         </calcite-accordion>
         <calcite-notice color="red" id="notice-one" scale="s" active dismissible>
-          <div slot="notice-title">Something failed dismissible</div>
-          <div slot="notice-message">
-            That thing you wanted to do didn't work as expected
-          </div>
+          <div slot="title">Something failed dismissible</div>
+          <div slot="notice-message">That thing you wanted to do didn't work as expected</div>
           <calcite-link slot="notice-link" title="my action">Retry</calcite-link>
         </calcite-notice>
         <calcite-notice icon color="green" scale="m" active dismissible>
-          <div slot="notice-title">Something worked</div>
-          <div slot="notice-message">
-            That thing you wanted to do worked as expected
-          </div>
+          <div slot="title">Something worked</div>
+          <div slot="notice-message">That thing you wanted to do worked as expected</div>
         </calcite-notice>
         <calcite-label>
           My Great Radio Group
@@ -326,12 +304,8 @@
           </label>
         </div>
         <div>
-          <calcite-chip active="" icon="camera-flash-on">
-            Camera Flash On
-          </calcite-chip>
-          <calcite-chip active="" icon="check-circle">
-            Siamese Cat
-          </calcite-chip>
+          <calcite-chip active="" icon="camera-flash-on"> Camera Flash On </calcite-chip>
+          <calcite-chip active="" icon="check-circle"> Siamese Cat </calcite-chip>
         </div>
         <calcite-pagination total="1200" num="100" start="1"></calcite-pagination>
         <calcite-slider
@@ -395,7 +369,7 @@
       </div>
     </div>
 
-    <div class="demo demo-background-dark" theme="dark">
+    <div class="demo demo-background-dark calcite-theme-dark">
       <div class="demo-column">
         <calcite-accordion>
           <calcite-accordion-item item-title="Accordion Item"
@@ -412,49 +386,35 @@
           </calcite-accordion-item>
           <calcite-accordion-item item-title="Accordion Item 5" active>
             <calcite-tree lines>
-              <calcite-tree-item>
-                Child 1
-              </calcite-tree-item>
+              <calcite-tree-item> Child 1 </calcite-tree-item>
 
               <calcite-tree-item>
                 Child 2
 
                 <calcite-tree slot="children">
-                  <calcite-tree-item>
-                    Grandchild 1
-                  </calcite-tree-item>
+                  <calcite-tree-item> Grandchild 1 </calcite-tree-item>
 
                   <calcite-tree-item>
                     Grandchild 2
                     <calcite-tree slot="children">
-                      <calcite-tree-item>
-                        Great-Grandchild 1
-                      </calcite-tree-item>
-                      <calcite-tree-item>
-                        Great-Grandchild 2
-                      </calcite-tree-item>
+                      <calcite-tree-item> Great-Grandchild 1 </calcite-tree-item>
+                      <calcite-tree-item> Great-Grandchild 2 </calcite-tree-item>
                     </calcite-tree>
                   </calcite-tree-item>
                 </calcite-tree>
               </calcite-tree-item>
-              <calcite-tree-item>
-                Child 3
-              </calcite-tree-item>
+              <calcite-tree-item> Child 3 </calcite-tree-item>
             </calcite-tree>
           </calcite-accordion-item>
         </calcite-accordion>
         <calcite-notice color="red" id="notice-one" scale="s" active dismissible>
-          <div slot="notice-title">Something failed dismissible</div>
-          <div slot="notice-message">
-            That thing you wanted to do didn't work as expected
-          </div>
+          <div slot="title">Something failed dismissible</div>
+          <div slot="notice-message">That thing you wanted to do didn't work as expected</div>
           <calcite-link slot="notice-link" title="my action">Retry</calcite-link>
         </calcite-notice>
         <calcite-notice icon color="green" scale="m" active dismissible>
-          <div slot="notice-title">Something worked</div>
-          <div slot="notice-message">
-            That thing you wanted to do worked as expected
-          </div>
+          <div slot="title">Something worked</div>
+          <div slot="notice-message">That thing you wanted to do worked as expected</div>
         </calcite-notice>
         <calcite-label>
           My Great Radio Group
@@ -499,12 +459,8 @@
           </label>
         </div>
         <div>
-          <calcite-chip active="" icon="camera-flash-on">
-            Camera Flash On
-          </calcite-chip>
-          <calcite-chip active="" icon="check-circle">
-            Siamese Cat
-          </calcite-chip>
+          <calcite-chip active="" icon="camera-flash-on"> Camera Flash On </calcite-chip>
+          <calcite-chip active="" icon="check-circle"> Siamese Cat </calcite-chip>
         </div>
         <calcite-pagination total="1200" num="100" start="1"></calcite-pagination>
         <calcite-slider
@@ -568,7 +524,7 @@
       </div>
     </div>
 
-    <div class="demo demo-background-dark" theme="dark">
+    <div class="demo demo-background-dark calcite-theme-dark">
       <div class="demo-column">
         <calcite-stepper numbered="zom" icon="zar">
           <calcite-stepper-item item-title="Choose method" complete>

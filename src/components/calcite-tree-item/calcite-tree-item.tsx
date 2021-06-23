@@ -65,14 +65,28 @@ export class CalciteTreeItem {
   /** @internal Draw lines (set on parent) */
   @Prop({ reflect: true, mutable: true }) lines: boolean;
 
+  /** @internal Display checkboxes (set on parent) */
+  @Prop({ reflect: true, mutable: true }) inputEnabled: boolean;
+
   /** @internal Scale of the parent tree, defaults to m */
   @Prop({ reflect: true, mutable: true }) scale: "s" | "m";
+
+  /**
+   * @internal
+   * In ancestor selection mode using inputEnabled,
+   * show as indeterminate when only some children are selected
+   **/
+  @Prop({ reflect: true }) indeterminate: boolean;
 
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    this.expandedHandler(this.expanded);
+  }
 
   componentWillRender(): void {
     this.hasChildren = !!this.el.querySelector("calcite-tree");
@@ -88,6 +102,7 @@ export class CalciteTreeItem {
     this.selectionMode = parentTree.selectionMode;
     this.scale = parentTree.scale || "m";
     this.lines = parentTree.lines;
+    this.inputEnabled = parentTree.inputEnabled;
 
     let nextParentTree;
     while (parentTree) {
@@ -111,6 +126,20 @@ export class CalciteTreeItem {
         scale="s"
       />
     ) : null;
+    const checkbox = this.inputEnabled ? (
+      <label class="calcite-tree-label">
+        <calcite-checkbox
+          checked={this.selected}
+          class="calcite-tree-checkbox"
+          data-test-id="checkbox"
+          indeterminate={this.hasChildren && this.indeterminate}
+          onClick={this.checkboxClickHandler}
+          scale={this.scale}
+          tabIndex={-1}
+        />
+        <slot />
+      </label>
+    ) : null;
 
     const hidden = !(this.parentExpanded || this.depth === 1);
 
@@ -132,7 +161,7 @@ export class CalciteTreeItem {
       >
         <div class="calcite-tree-node" ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}>
           {icon}
-          <slot />
+          {checkbox ? checkbox : <slot />}
         </div>
         <div
           class="calcite-tree-children"
@@ -168,23 +197,37 @@ export class CalciteTreeItem {
     });
   }
 
-  iconClickHandler = (event: Event): void => {
+  iconClickHandler = (event: MouseEvent): void => {
     event.stopPropagation();
     this.expanded = !this.expanded;
+    if (!this.inputEnabled) {
+      this.calciteTreeItemSelect.emit({
+        modifyCurrentSelection: event.shiftKey,
+        forceToggle: true
+      });
+    }
+  };
+
+  childrenClickHandler = (event: MouseEvent): void => event.stopPropagation();
+
+  checkboxClickHandler = (event: Event): void => {
+    event.stopPropagation();
     this.calciteTreeItemSelect.emit({
       modifyCurrentSelection: (event as any).shiftKey,
       forceToggle: true
     });
+    this.el.focus();
   };
-
-  childrenClickHandler = (event: MouseEvent): void => event.stopPropagation();
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
     let root;
 
     switch (getKey(e.key)) {
       case " ":
-        this.selected = !this.selected;
+        this.calciteTreeItemSelect.emit({
+          modifyCurrentSelection: e.shiftKey,
+          forceToggle: true
+        });
 
         e.preventDefault();
         e.stopPropagation();
@@ -199,7 +242,10 @@ export class CalciteTreeItem {
           link.click();
           this.selected = true;
         } else {
-          this.selected = !this.selected;
+          this.calciteTreeItemSelect.emit({
+            modifyCurrentSelection: e.shiftKey,
+            forceToggle: true
+          });
         }
 
         e.preventDefault();
@@ -258,7 +304,7 @@ export class CalciteTreeItem {
         }
         break;
       case "Home":
-        root = this.el.closest("calcite-tree[root]") as HTMLCalciteTreeElement;
+        root = this.el.closest("calcite-tree:not([child])") as HTMLCalciteTreeElement;
 
         const firstNode = root.querySelector("calcite-tree-item");
 
@@ -266,7 +312,7 @@ export class CalciteTreeItem {
 
         break;
       case "End":
-        root = this.el.closest("calcite-tree[root]");
+        root = this.el.closest("calcite-tree:not([child])");
 
         let currentNode = root.children[root.children.length - 1]; // last child
         let currentTree = nodeListToArray(currentNode.children).find((e) =>

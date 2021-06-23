@@ -12,7 +12,7 @@ function logFocus(event): void {
     targetNotice.setAttribute("active", "true");
   }
   if (targetNotice) {
-    targetNotice.innerHTML = `<span slot="notice-message"><b>#${event.detail.element.id}</b> was focused</span>`;
+    targetNotice.innerHTML = `<span slot="message"><b>#${event.detail.element.id}</b> was focused</span>`;
   }
 }
 
@@ -22,7 +22,7 @@ function logBlur(event): void {
     targetNotice.setAttribute("active", "true");
   }
   if (targetNotice) {
-    targetNotice.innerHTML = `<span slot="notice-message"><b>#${event.detail.element.id}</b> was blurred</span>`;
+    targetNotice.innerHTML = `<span slot="message"><b>#${event.detail.element.id}</b> was blurred</span>`;
   }
 }
 
@@ -32,7 +32,7 @@ function logInput(event): void {
     targetNotice.setAttribute("active", "true");
   }
   if (targetNotice) {
-    targetNotice.innerHTML = `<span slot="notice-message"><b>#${event.detail.element.id}</b> was changed and the value is <b>"${event.detail.value}"</b></span>`;
+    targetNotice.innerHTML = `<span slot="message"><b>#${event.detail.element.id}</b> was changed and the value is <b>"${event.detail.value}"</b></span>`;
   }
 }
 
@@ -48,7 +48,6 @@ function validatePasswordExampleFocusMessage(event): void {
   if (!existingMessage) {
     const message = document.createElement("calcite-input-message");
     message.active = true;
-    message.theme = "dark";
     message.id = "pw-status-1";
     message.type = "floating";
     message.innerHTML = `This should be at least 6 characters long`;

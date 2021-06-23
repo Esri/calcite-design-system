@@ -1,48 +1,57 @@
-:host([scale="s"]) {
-  @apply text--2 pr-3 pl-6 py-2;
+.container--s {
+  @apply text--2h pr-2 pl-6 py-1;
 }
 
-:host([scale="m"]) {
-  @apply text--1 pr-4 pl-8 py-3;
+.container--m {
+  @apply text--1h pr-3 pl-8 py-2;
 }
 
-:host([scale="l"]) {
-  @apply text-1 pr-5 pl-10 py-4;
+.container--l {
+  @apply text-1h pr-4 pl-10 py-3;
 }
 
 // RTL
-:host([dir="rtl"][scale="s"]) {
-  @apply pr-6 pl-3;
+.container--s.calcite--rtl {
+  @apply pr-6 pl-2;
 }
 
-:host([dir="rtl"][scale="m"]) {
-  @apply pr-8 pl-4;
+.container--m.calcite--rtl {
+  @apply pr-8 pl-3;
 }
 
-:host([dir="rtl"][scale="l"]) {
-  @apply pr-10 pl-5;
+.container--l.calcite--rtl {
+  @apply pr-10 pl-4;
 }
 
 @mixin itemStyling {
-  display: flex;
-  flex-grow: 1;
-  align-items: center;
-  color: var(--calcite-ui-text-3);
-  transition: $transition;
-  cursor: pointer;
-  text-decoration: none;
-  outline: none;
-  position: relative;
+  @apply flex
+    flex-grow
+    items-center
+    text-color-3
+    duration-150
+    ease-in-out
+    cursor-pointer
+    no-underline
+    outline-none
+    relative;
   &:before {
     content: "\2022";
-    position: absolute;
-    opacity: 0;
-    color: var(--calcite-ui-border-1);
-    transition: $transition;
+    @apply absolute
+      opacity-0
+      duration-150
+      ease-in-out;
+    color: theme("borderColor.color.1");
   }
 }
 
 :host {
+  @apply flex
+    flex-grow
+    items-center
+    relative;
+}
+
+.container {
   @include itemStyling;
 }
 
@@ -50,164 +59,160 @@
   @apply mr-auto;
 }
 
-:host([dir="rtl"]) .dropdown-item-content {
-  margin-right: unset;
-  @apply ml-auto;
+.calcite--rtl .dropdown-item-content {
+  @apply ml-auto mr-0;
 }
 
 //focus
 :host,
-:host([islink]) a {
-  @include focus-style-base();
+.container--link a {
+  @apply focus-base;
 }
 :host(:focus),
-:host([islink]) a:focus {
-  @include focus-style-inset();
+.container--link a:focus {
+  @apply focus-inset;
 }
 
 // when used as link move styling anchor
-:host([islink]) {
+.container--link {
   @apply p-0;
   & a {
     @include itemStyling;
   }
 }
 
-:host([scale="s"]) .dropdown-link {
+.container--s .dropdown-link {
   @apply px-3 py-2;
 }
 
-:host([scale="m"]) .dropdown-link {
+.container--m .dropdown-link {
   @apply px-4 py-3;
 }
 
-:host([scale="l"]) .dropdown-link {
+.container--l .dropdown-link {
   @apply px-5 py-4;
 }
 
-:host(:hover),
-:host(:active) {
-  background-color: var(--calcite-ui-foreground-2);
-  color: var(--calcite-ui-text-1);
-  text-decoration: none;
+:host(:hover) .container,
+:host(:active) .container {
+  @apply bg-foreground-2 text-color-1 no-underline;
 }
 
-:host(:focus) {
-  color: var(--calcite-ui-text-1);
-  text-decoration: none;
+:host(:focus) .container {
+  @apply text-color-1 no-underline;
 }
 
-:host(:active) {
-  background-color: var(--calcite-ui-foreground-3);
+:host(:active) .container {
+  @apply bg-foreground-3;
 }
 
-:host(:hover):before,
-:host(:active):before,
-:host(:focus):before {
-  opacity: 1;
+:host(:hover) .container:before,
+:host(:active) .container:before,
+:host(:focus) .container:before {
+  @apply opacity-100;
 }
 
-:host([dir="rtl"]) {
+.calcite--rtl {
   &:before {
     left: unset;
-    right: 1rem;
+    right: theme("spacing.4");
   }
 }
 
-:host([active]:not([selection-mode="none"])) {
-  color: var(--calcite-ui-text-1);
-  font-weight: 500;
+:host([active]) .container:not(.container--none-selection) {
+  @apply text-color-1 font-medium;
   &:before {
-    opacity: 1;
-    color: var(--calcite-ui-brand);
+    @apply opacity-100;
+    color: theme("backgroundColor.brand");
   }
   & calcite-icon {
-    color: var(--calcite-ui-brand);
+    color: theme("backgroundColor.brand");
   }
 }
 
 // no dot for none and multi modes
-:host([selection-mode="multi"]):before,
-:host([selection-mode="none"]):before {
-  display: none;
+.container--multi-selection:before,
+.container--none-selection:before {
+  @apply hidden;
 }
 
 // single select "icon"
-:host([scale="s"]):before {
+.container--s:before {
   left: theme("spacing.2");
 }
-:host([scale="m"]):before {
+.container--m:before {
   left: theme("spacing.3");
 }
-:host([scale="l"]):before {
+.container--l:before {
   left: theme("spacing.4");
 }
 
 // single select "icon" RTL
-:host([dir="rtl"]):before {
+.calcite--rtl:before {
   left: unset;
 }
 
-:host([dir="rtl"][scale="s"]):before {
+.container--s.calcite--rtl:before {
   right: theme("spacing.2");
 }
-:host([dir="rtl"][scale="m"]):before {
+.container--m.calcite--rtl:before {
   right: theme("spacing.3");
 }
-:host([dir="rtl"][scale="l"]):before {
+.container--l.calcite--rtl:before {
   right: theme("spacing.4");
 }
 
 // multi select check icon
-:host .dropdown-item-check-icon {
-  position: absolute;
-  opacity: 0;
+.dropdown-item-check-icon {
+  @apply absolute
+    opacity-0
+    duration-150
+    ease-in-out;
   transform: scale(0.9);
-  transition: $transition;
 }
 
-:host([scale="s"]) .dropdown-item-check-icon {
+.container--s .dropdown-item-check-icon {
   left: theme("spacing.1");
 }
 
-:host([scale="m"]) .dropdown-item-check-icon {
+.container--m .dropdown-item-check-icon {
   left: theme("spacing.2");
 }
 
-:host([scale="l"]) .dropdown-item-check-icon {
+.container--l .dropdown-item-check-icon {
   left: theme("spacing.3");
 }
 
 // multi select check icon RTL
-:host([dir="rtl"]) .dropdown-item-check-icon {
+.calcite--rtl .dropdown-item-check-icon {
   left: unset;
   @apply ml-0;
 }
 
-:host([dir="rtl"][scale="s"]) .dropdown-item-check-icon {
+.container--s.calcite--rtl .dropdown-item-check-icon {
   right: theme("spacing.1");
 }
 
-:host([dir="rtl"][scale="m"]) .dropdown-item-check-icon {
+.container--m.calcite--rtl .dropdown-item-check-icon {
   right: theme("spacing.2");
 }
 
-:host([dir="rtl"][scale="l"]) .dropdown-item-check-icon {
+.container--l.calcite--rtl .dropdown-item-check-icon {
   right: theme("spacing.3");
 }
 
 :host(:hover) .dropdown-item-check-icon {
-  color: var(--calcite-ui-border-1);
-  opacity: 1;
+  color: theme("borderColor.color.1");
+  @apply opacity-100;
 }
 
 :host([active]) .dropdown-item-check-icon {
-  color: var(--calcite-ui-brand);
-  opacity: 1;
+  color: theme("backgroundColor.brand");
+  @apply opacity-100;
 }
 
 // icon start & end
-:host([scale="s"]) {
+.container--s {
   .dropdown-item-icon-start {
     @apply mr-2;
   }
@@ -216,7 +221,7 @@
   }
 }
 
-:host([scale="m"]) {
+.container--m {
   .dropdown-item-icon-start {
     @apply mr-3;
   }
@@ -225,7 +230,7 @@
   }
 }
 
-:host([scale="l"]) {
+.container--l {
   .dropdown-item-icon-start {
     @apply mr-4;
   }
@@ -235,7 +240,7 @@
 }
 
 // icon start & end RTL
-:host([dir="rtl"]) {
+.calcite--rtl {
   .dropdown-item-icon-start {
     @apply mr-0;
   }
@@ -244,7 +249,7 @@
   }
 }
 
-:host([dir="rtl"][scale="s"]) {
+.container--s.calcite--rtl {
   .dropdown-item-icon-start {
     @apply ml-2;
   }
@@ -253,7 +258,7 @@
   }
 }
 
-:host([dir="rtl"][scale="m"]) {
+.container--m.calcite--rtl {
   .dropdown-item-icon-start {
     @apply ml-3;
   }
@@ -262,7 +267,7 @@
   }
 }
 
-:host([dir="rtl"][scale="l"]) {
+.container--l.calcite--rtl {
   .dropdown-item-icon-start {
     @apply ml-4;
   }
@@ -271,7 +276,6 @@
   }
 }
 
-:host([dir="rtl"]) calcite-icon {
-  margin-right: 0;
-  margin-left: $baseline / 1.5;
+.calcite--rtl calcite-icon {
+  @apply mr-0 ml-3;
 }

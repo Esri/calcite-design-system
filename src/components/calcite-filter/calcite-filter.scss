@@ -1,23 +1,28 @@
 :host {
   @extend %component-host;
+  @apply flex w-full;
+}
+
+.container {
   @apply flex w-full p-2;
 }
 
 label {
-  @apply flex 
-    items-center 
-    overflow-hidden 
+  @apply flex
+    items-center
+    overflow-hidden
     relative w-full
     mx-1
     my-0;
 }
 
 input[type="text"] {
-  @apply bg-transparent 
+  @apply bg-transparent
     border-none
-    font-inherit 
-    text--2h 
-    mb-1 
+    font-inherit
+    text-color-1
+    text--2h
+    mb-1
     w-full
     py-1
     pr-1
@@ -29,9 +34,9 @@ input[type="text"] {
 }
 
 .search-icon {
-  @apply flex 
-    left-0 
-    absolute 
+  @apply flex
+    left-0
+    absolute
     text-color-2;
   transition: left $transition, right $transition, opacity $transition;
 }
@@ -62,9 +67,9 @@ input[type="text"]:focus {
 }
 
 .clear-button {
-  @apply text-color-2 
-    bg-none 
-    border-0 
+  @apply text-color-2
+    bg-transparent
+    border-0
     cursor-pointer;
   &:hover,
   &:focus {

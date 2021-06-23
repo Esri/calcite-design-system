@@ -1,29 +1,22 @@
 :host {
   @extend %component-host;
-  @extend %component-spacing;
-  display: flex;
-  flex: 1 1 auto;
-  overflow: hidden;
-  background-color: transparent;
-
-  --calcite-shell-center-row-height-small: 33%;
-  --calcite-shell-center-row-height-medium: 70%;
-  --calcite-shell-center-row-height-large: 100%;
-
-  --calcite-shell-center-row-border: 1px solid var(--calcite-ui-border-3);
+  @apply flex 
+    flex-auto 
+    overflow-hidden 
+    bg-transparent;
 }
 
 .content {
-  display: flex;
+  @apply flex 
+    h-full 
+    m-0 
+    overflow-hidden 
+    w-full;
   flex: 1 0 0;
-  height: 100%;
-  margin: 0;
-  overflow: hidden;
-  width: 100%;
 }
 
 .action-bar-container {
-  display: flex;
+  @apply flex;
 }
 
 :host([detached]) {
@@ -35,49 +28,45 @@
 }
 
 :host([position="end"]) {
-  align-self: flex-end;
+  @apply self-end;
 }
 
 :host([position="start"]) {
-  align-self: flex-start;
+  @apply self-start;
 }
 
 :host([height-scale="s"]) {
-  height: var(--calcite-shell-center-row-height-small);
+  height: theme("width[1/3]");
 }
 
 :host([height-scale="m"]) {
-  height: var(--calcite-shell-center-row-height-medium);
+  height: 70%;
 }
 
 :host([height-scale="l"]) {
-  height: var(--calcite-shell-center-row-height-large);
+  @apply h-full;
 }
 
 :host([height-scale="l"][detached]) {
-  height: calc(var(--calcite-shell-center-row-height-large) - var(--calcite-spacing-double));
+  height: calc(theme("height.full") - theme("spacing.8"));
 }
 
 ::slotted(calcite-panel) {
-  width: 100%;
-  height: 100%;
+  @apply w-full h-full;
 }
 
 ::slotted(calcite-action-bar) {
-  border-right: var(--calcite-shell-center-row-border);
+  @apply border-r border-solid border-color-3;
 }
 ::slotted(calcite-action-bar[position="end"]) {
-  border-right: none;
-  border-left: var(--calcite-shell-center-row-border);
+  @apply border-r-0 border-r border-solid border-color-3;
 }
 
 .calcite--rtl {
   ::slotted(calcite-action-bar) {
-    border-right: none;
-    border-left: var(--calcite-shell-center-row-border);
+    @apply border-r-0 border-l border-solid border-color-3;
   }
   ::slotted(calcite-action-bar[position="end"]) {
-    border-left: none;
-    border-right: var(--calcite-shell-center-row-border);
+    @apply border-l-0 border-r border-solid border-color-3;
   }
 }

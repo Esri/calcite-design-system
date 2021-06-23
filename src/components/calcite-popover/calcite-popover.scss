@@ -1,5 +1,3 @@
-$image_max_height: 200px;
-
 @include popperHost();
 @include popperArrow();
 
@@ -11,67 +9,71 @@ $image_max_height: 200px;
   pointer-events: initial;
 }
 
+.calcite-popper-anim {
+  @apply bg-foreground-1
+    border
+    border-solid
+    border-color-3
+    rounded;
+}
+
+.arrow::before {
+  outline: 1px solid var(--calcite-ui-border-3);
+}
+
+.header {
+  @apply border-0
+    border-b-px
+    border-b-color-3
+    border-solid
+    flex
+    flex-auto
+    items-stretch
+    bg-foreground-1
+    justify-start;
+}
+
+.heading {
+  @apply block
+  flex-auto
+  font-medium
+  m-0
+  px-4
+  py-3
+  self-center
+  text-color-1
+  text-0-wrap
+  whitespace-normal
+  word-break;
+}
+
 .container {
-  @apply bg-foreground-1 
-    relative 
-    flex 
-    overflow-hidden 
-    flex-no-wrap 
-    flex-col 
-    text-color-1;
+  @apply bg-foreground-1
+    relative
+    flex
+    overflow-hidden
+    flex-no-wrap
+    flex-row
+    h-full
+    text-color-1
+    rounded;
+  &.has-header {
+    @apply flex-col;
+  }
 }
 
 .content {
-  @apply flex 
-    flex-row 
-    justify-between 
-    justify-start;
-  line-height: theme("spacing.6");
-}
-// focus styles
-.close-button {
-  @apply focus-base;
-  &:focus {
-    @apply focus-inset;
-  }
-}
-
-.close-button {
-  @apply block 
-    p-3 
-    border-none 
-    text-color-1 
-    cursor-pointer 
-    bg-foreground-1;
-  flex: 0 0 auto;
-  border-radius: 0 var(--calcite-border-radius) 0 0;
-  z-index: 1;
-  &:hover {
-    @apply bg-foreground-2;
-  }
-  &:active {
-    @apply bg-foreground-3;
-  }
+  @apply flex
+  flex-col
+  flex-no-wrap
+  self-center
+  h-full;
 }
 
 .calcite--rtl {
   .close-button {
-    border-radius: var(--calcite-border-radius) 0 0 0;
+    border-radius: 0.25rem 0 0 0.25rem;
   }
-}
-
-.image-container {
-  @apply overflow-hidden;
-  max-height: $image_max_height;
-  //FIXME: Should this m-1?
-  margin: 5px;
-}
-
-slot[name="image"]::slotted(img) {
-  @apply h-auto w-full object-cover;
-  max-height: $image_max_height;
-  //FIXME: Will this work?
-  object-position: theme("width[1/2]") theme("width[1/2]");
 }
 
 ::slotted(calcite-panel),

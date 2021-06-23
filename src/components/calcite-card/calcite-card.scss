@@ -1,16 +1,19 @@
 :host {
-  max-width: 100%;
+  @apply max-w-full;
   & .calcite-card-container {
-    display: flex;
-    height: 100%;
-    flex-direction: column;
-    justify-content: space-between;
-    background-color: var(--calcite-ui-foreground-1);
-    transition: $transition;
-    position: relative;
-    border: 1px solid var(--calcite-ui-border-2);
-    color: var(--calcite-ui-text-3);
-    @apply shadow-none;
+    @apply flex
+      h-full
+      flex-col
+      justify-between
+      bg-foreground-1
+      duration-150
+      ease-in-out
+      relative
+      border
+      border-solid
+      border-color-2
+      text-color-3
+      shadow-none;
     &:hover {
       @apply shadow-1-lg;
       z-index: 1;
@@ -23,48 +26,41 @@
 }
 
 .container {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
+  @apply flex-auto flex flex-col;
 }
 
 :host([loading]) .calcite-card-container *:not(calcite-loader):not(.calcite-card-loader-container) {
-  opacity: 0;
-  pointer-events: none;
+  @apply opacity-0 pointer-events-none;
 }
 
 :host([loading]) .calcite-card-loader-container {
-  display: flex;
-  align-items: center;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
+  @apply flex
+    items-center
+    absolute
+    inset-0;
 }
 
-:host .header,
-:host .footer {
-  padding: $baseline/2;
-  display: flex;
+.header,
+.footer {
+  @apply pt-3 pb-1 px-3 flex;
 }
 
-:host .header {
-  flex-direction: column;
+.header {
+  @apply flex-col;
 }
 
-:host .footer {
-  padding: $baseline/2;
-  flex-direction: row;
-  align-content: space-between;
-  justify-content: space-between;
-  margin-top: auto;
+.footer {
+  @apply pt-1 pb-3 px-3
+    flex-row
+    content-between
+    justify-between
+    mt-auto;
 }
 
-:host .card-content {
-  padding: 0 $baseline/2;
-  color: var(--calcite-ui-text-3);
-  @include font-size(-2);
+.card-content {
+  @apply p-3
+    text-color-3
+    text--2-wrap;
 }
 
 // selectable and selected styles
@@ -73,53 +69,48 @@
 }
 
 :host([selected]) .calcite-card-container {
-  border-color: var(--calcite-ui-brand);
+  @apply border-color-brand;
 }
 
 // slotted content
 @include slotted("title", "*") {
-  font-weight: 500;
-  color: var(--calcite-ui-text-1);
-  margin: 0;
-  @include font-size(-1);
+  @apply font-medium
+    text-color-1
+    m-0
+    text--1-wrap;
 }
 
 @include slotted("subtitle", "*") {
-  font-weight: 400;
-  color: var(--calcite-ui-text-2);
-  margin: 0;
-  margin-top: $baseline/4;
-  @include font-size(-2);
+  @apply font-normal
+    text-color-2
+    m-0
+    mt-2
+    text--2-wrap;
 }
 
 @include slotted("thumbnail", "img") {
-  max-width: 100%;
-  min-width: 100%;
+  @apply max-w-full min-w-full;
 }
 
 @include slotted("footer-leading", "*") {
+  @apply self-center text--2-wrap;
   margin-inline-end: auto;
-  align-self: center;
-  @include font-size(-2);
 }
 @include slotted("footer-trailing", "*") {
-  align-self: center;
-  @include font-size(-2);
+  @apply self-center text--2-wrap;
 }
 
-:host .thumbnail-wrapper {
-  font-size: 0;
+.thumbnail-wrapper {
+  @apply text-0-wrap;
 }
 
-:host .checkbox-wrapper {
-  position: absolute;
-  top: $baseline/4;
-  right: $baseline/4;
-  margin: 0;
-  padding: 0;
+.checkbox-wrapper {
+  @apply absolute m-0 p-0;
+  top: theme("spacing.2");
+  right: theme("spacing.2");
 }
 
-:host([dir="rtl"]) .checkbox-wrapper {
-  left: $baseline/4;
-  right: auto;
+.calcite--rtl .checkbox-wrapper {
+  @apply right-auto;
+  left: theme("spacing.2");
 }

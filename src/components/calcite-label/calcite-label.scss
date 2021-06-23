@@ -1,10 +1,10 @@
 :host([alignment="start"]),
-:host([alignment="end"][dir="rtl"]) {
+:host([alignment="end"]) .calcite--rtl {
   @apply text-left;
 }
 
 :host([alignment="end"]),
-:host([alignment="start"][dir="rtl"]) {
+:host([alignment="start"]) .calcite--rtl {
   @apply text-right;
 }
 
@@ -13,71 +13,69 @@
 }
 
 :host([scale="s"]) {
-  --calcite-label-margin-bottom: 12px;
   label {
-    @apply text--2;
+    @apply text--2h mb-2;
   }
 }
 :host([scale="m"]) {
-  --calcite-label-margin-bottom: 14px;
   label {
-    @apply text--1;
+    @apply text--1h mb-3;
   }
 }
 :host([scale="l"]) {
-  --calcite-label-margin-bottom: 18px;
   label {
-    @apply text-1;
+    @apply text-0h mb-4;
   }
 }
 
 :host label {
-  cursor: pointer;
-  width: 100%;
-  margin: 0 0 var(--calcite-label-margin-bottom, $baseline) 0;
-  line-height: 1.3;
+  @apply cursor-pointer
+    w-full
+    mt-0
+    mr-0
+    ml-0
+    leading-snug;
 }
 
 :host([layout="default"]) {
   label {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+    @apply flex flex-col gap-1;
   }
 }
 
 :host([layout="inline"]),
 :host([layout="inline-space-between"]) {
   label {
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    gap: $baseline/2;
+    @apply flex items-center flex-row gap-2;
+  }
+}
+:host([layout="inline"][scale="l"]) {
+  label {
+    @apply gap-3;
   }
 }
 
 :host([layout="inline-space-between"]) {
   label {
-    justify-content: space-between;
+    @apply justify-between;
   }
 }
 
 // disabled styles
 :host([disabled]) {
   & > label {
-    pointer-events: none;
-    opacity: var(--calcite-ui-opacity-disabled);
+    @apply pointer-events-none opacity-disabled;
   }
   ::slotted(*) {
-    pointer-events: none;
+    @apply pointer-events-none;
   }
   // prevent opacity stacking with already disabled child elements
   ::slotted(*[disabled]),
   ::slotted(*[disabled] *) {
-    opacity: 1;
+    @apply bg-opacity-100;
   }
   ::slotted(calcite-input-message:not([active])) {
-    opacity: 0;
+    @apply bg-opacity-0;
   }
 }
 
@@ -96,7 +94,6 @@ $inputStatusColors: "invalid" var(--calcite-ui-danger), "valid" var(--calcite-ui
 
 :host([disable-spacing]) {
   label {
-    gap: 0;
-    margin: 0;
+    @apply gap-0 m-0;
   }
 }

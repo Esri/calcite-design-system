@@ -15,7 +15,7 @@ export default {
 export const Simple = (): string => html`
   <div style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice
-      theme="light"
+      class="calcite-theme-light"
       ${boolean("icon", true)}
       ${boolean("active", true)}
       ${boolean("dismissible", true)}
@@ -23,9 +23,9 @@ export const Simple = (): string => html`
       width="${select("width", ["auto", "half", "full"], "auto")}"
       color="${select("color", ["green", "red", "yellow", "blue"], "blue")}"
     >
-      <div slot="notice-title">Your settings area has changed</div>
-      <div slot="notice-message">Look around and let us know what you think</div>
-      <calcite-link slot="notice-link" title="my action">Learn more</calcite-link>
+      <div slot="title">Your settings area has changed</div>
+      <div slot="message">Look around and let us know what you think</div>
+      <calcite-link slot="link" title="my action">Learn more</calcite-link>
     </calcite-notice>
   </div>
 `;
@@ -33,7 +33,7 @@ export const Simple = (): string => html`
 export const CustomIcon = (): string => html`
   <div style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice
-      theme="light"
+      class="calcite-theme-light"
       icon="${select("icon", iconNames, iconNames[0])}"
       ${boolean("active", true)}
       ${boolean("dismissible", true)}
@@ -41,9 +41,9 @@ export const CustomIcon = (): string => html`
       width="${select("width", ["auto", "half", "full"], "auto")}"
       color="${select("color", ["green", "red", "yellow", "blue"], "blue")}"
     >
-      <div slot="notice-title">Your settings area has changed</div>
-      <div slot="notice-message">Look around and let us know what you think</div>
-      <calcite-link slot="notice-link" title="my action">Learn more</calcite-link>
+      <div slot="title">Your settings area has changed</div>
+      <div slot="message">Look around and let us know what you think</div>
+      <calcite-link slot="link" title="my action">Learn more</calcite-link>
     </calcite-notice>
   </div>
 `;
@@ -55,7 +55,7 @@ CustomIcon.story = {
 export const DarkMode = (): string => html`
   <div style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice
-      theme="dark"
+      class="calcite-theme-dark"
       ${boolean("icon", true)}
       ${boolean("active", true)}
       ${boolean("dismissible", false)}
@@ -63,8 +63,8 @@ export const DarkMode = (): string => html`
       width="${select("width", ["auto", "half", "full"], "auto")}"
       color="${select("color", ["green", "red", "yellow", "blue"], "red")}"
     >
-      <div slot="notice-title">This is a destructive action</div>
-      <div slot="notice-message">Be sure you know what you are doin, folks.</div>
+      <div slot="title">This is a destructive action</div>
+      <div slot="message">Be sure you know what you are doin, folks.</div>
     </calcite-notice>
   </div>
 `;
@@ -76,18 +76,17 @@ DarkMode.story = {
 export const Rtl = (): string => html`
   <div dir="rtl" style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice
-      theme="light"
+      class="calcite-theme-light"
       ${boolean("icon", true)}
       ${boolean("active", true)}
       ${boolean("dismissible", true)}
       width="${select("width", ["auto", "half", "full"], "auto")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       color="${select("color", ["green", "red", "yellow", "blue"], "blue")}"
-      active
     >
-      <div slot="notice-title">Your settings area has changed</div>
-      <div slot="notice-message">Look around and let us know what you think</div>
-      <calcite-link slot="notice-link" title="my action">Learn more</calcite-link>
+      <div slot="title">Your settings area has changed</div>
+      <div slot="message">Look around and let us know what you think</div>
+      <calcite-link slot="link" title="my action">Learn more</calcite-link>
     </calcite-notice>
   </div>
 `;

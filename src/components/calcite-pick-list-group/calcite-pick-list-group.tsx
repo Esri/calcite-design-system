@@ -1,9 +1,9 @@
-import { Component, Element, Host, Prop, h, VNode } from "@stencil/core";
+import { Component, Element, Prop, h, VNode, Fragment } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 import { HEADING_LEVEL } from "./resources";
 import { getElementDir, getSlotted } from "../../utils/dom";
-import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
+import { HeadingLevel, CalciteHeading, constrainHeadingLevel } from "../functional/CalciteHeading";
 
 /**
  * @slot - A slot for adding `calcite-pick-list-item` elements.
@@ -29,7 +29,7 @@ export class CalcitePickListGroup {
   /**
    * Number at which section headings should start for this component.
    */
-  @Prop() headingLevel: HeadingLevel = HEADING_LEVEL;
+  @Prop() headingLevel: HeadingLevel;
 
   // --------------------------------------------------------------------------
   //
@@ -56,11 +56,14 @@ export class CalcitePickListGroup {
     };
 
     const title = groupTitle;
+    const parentLevel = el.closest("calcite-pick-list")?.headingLevel;
+    const relativeLevel = parentLevel ? constrainHeadingLevel(parentLevel + 1) : null;
+    const level = headingLevel || relativeLevel || HEADING_LEVEL;
 
     return (
-      <Host>
+      <Fragment>
         {title ? (
-          <CalciteHeading class={CSS.heading} level={headingLevel}>
+          <CalciteHeading class={CSS.heading} level={level}>
             {title}
           </CalciteHeading>
         ) : null}
@@ -68,7 +71,7 @@ export class CalcitePickListGroup {
         <section class={sectionClasses}>
           <slot />
         </section>
-      </Host>
+      </Fragment>
     );
   }
 }

@@ -17,7 +17,7 @@ Renders a shell with leading and trailing floating panels, action bar/pad, block
 ```html
 <calcite-shell>
   <calcite-shell-panel slot="primary-panel" position="start" detached>
-    <calcite-action-bar slot="action-bar" theme="dark">
+    <calcite-action-bar slot="action-bar">
       <calcite-action-group>
         <calcite-action text="Add" icon="plus"></calcite-action>
         <calcite-action text="Save" disabled icon="save"></calcite-action>
@@ -78,7 +78,7 @@ Renders a shell with leading and trailing floating panels, action bar/pad, block
     <calcite-tip heading="The Red Rocks and Blue Water" thumbnail="https://placeimg.com/1000/600" text-thumbnail="This is an image of nature.">
     <calcite-tip heading="The Long Trees" thumbnail="https://placeimg.com/1000/600" text-thumbnail="This is an image of trees.">
   </calcite-tip-manager>
-  <footer slot="shell-footer">Footer</footer>
+  <footer slot="footer">Footer</footer>
 </calcite-shell>
 ```
 
@@ -90,14 +90,14 @@ Renders a basic shell with a header and a footer.
 
 ```html
 <calcite-shell>
-  <div slot="shell-header">
+  <div slot="header">
     <header>
       <h2>Shell Header: My App</h2>
     </header>
   </div>
   <p>Shell Content</p>
   <!-- insert map or fillable content here -->
-  <footer slot="shell-footer">Footer</footer>
+  <footer slot="footer">Footer</footer>
 </calcite-shell>
 ```
 
@@ -114,7 +114,7 @@ Renders a shell with a header and panels on the left and right sides of the app.
   <calcite-shell-center-row slot="center-row" position="end" height-scale="m">
     Center Row! (center bottom)
   </calcite-shell-center-row>
-  <div slot="shell-header">
+  <div slot="header">
     <header>
       <h2>Shell Header: My App</h2>
     </header>
@@ -143,10 +143,9 @@ Renders a single panel with actions in an action bar.
 
 ## Properties
 
-| Property        | Attribute        | Description                                                   | Type                | Default     |
-| --------------- | ---------------- | ------------------------------------------------------------- | ------------------- | ----------- |
-| `contentBehind` | `content-behind` | Positions the center content behind any calcite-shell-panels. | `boolean`           | `undefined` |
-| `theme`         | `theme`          | Used to set the component's color scheme.                     | `"dark" \| "light"` | `undefined` |
+| Property        | Attribute        | Description                                                   | Type      | Default     |
+| --------------- | ---------------- | ------------------------------------------------------------- | --------- | ----------- |
+| `contentBehind` | `content-behind` | Positions the center content behind any calcite-shell-panels. | `boolean` | `undefined` |
 
 ## Slots
 
@@ -155,9 +154,9 @@ Renders a single panel with actions in an action bar.
 |                      | A slot for adding content to the shell. This content will appear between any leading and trailing panels added to the shell. (eg. a map) |
 | `"bottom-panel"`     | A slot for adding a bottom floating panel such as a chart or `calcite-tip-manager`.                                                      |
 | `"contextual-panel"` | A slot for adding the trailing `calcite-shell-panel`.                                                                                    |
+| `"footer"`           | A slot for adding footer content. This content will be positioned at the bottom of the shell.                                            |
+| `"header"`           | A slot for adding header content. This content will be positioned at the top of the shell.                                               |
 | `"primary-panel"`    | A slot for adding the leading `calcite-shell-panel`.                                                                                     |
-| `"shell-footer"`     | A slot for adding footer content. This content will be positioned at the bottom of the shell.                                            |
-| `"shell-header"`     | A slot for adding header content. This content will be positioned at the top of the shell.                                               |
 
 ---
 

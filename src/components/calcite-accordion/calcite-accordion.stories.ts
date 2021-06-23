@@ -1,4 +1,10 @@
-import { Attribute, Attributes, createComponentHTML as create, darkBackground } from "../../../.storybook/utils";
+import {
+  Attribute,
+  Attributes,
+  filterComponentAttributes,
+  createComponentHTML as create,
+  darkBackground
+} from "../../../.storybook/utils";
 import { html } from "../../tests/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { iconNames } from "../../../.storybook/helpers";
@@ -7,75 +13,73 @@ import accordionReadme from "./readme.md";
 import accordionItemReadme from "../calcite-accordion-item/readme.md";
 import { placeholderImage } from "../../tests/utils";
 
-const createAccordionAttributes: (options?: { except: string[] }) => Attributes = ({ except } = { except: [] }) => {
+const createAccordionAttributes: (options?: { exceptions: string[] }) => Attributes = (
+  { exceptions } = { exceptions: [] }
+) => {
   const group = "accordion";
   const { dir, theme, scale } = ATTRIBUTES;
 
-  interface DeferredAttribute {
-    name: string;
-    commit: () => Attribute;
-  }
-
-  return ([
-    {
-      name: "dir",
-      commit(): Attribute {
-        this.value = select("dir", dir.values, dir.defaultValue, group);
-        delete this.build;
-        return this;
+  return filterComponentAttributes(
+    [
+      {
+        name: "dir",
+        commit(): Attribute {
+          this.value = select("dir", dir.values, dir.defaultValue, group);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "scale",
+        commit(): Attribute {
+          this.value = select("scale", scale.values, scale.defaultValue, group);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "class",
+        commit(): Attribute {
+          this.value = select("class", theme.values, theme.defaultValue, group);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "appearance",
+        commit(): Attribute {
+          this.value = select("appearance", ["default", "minimal", "transparent"], "default", group);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "icon-position",
+        commit(): Attribute {
+          this.value = select("icon-position", ["start", "end"], "end", group);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "icon-type",
+        commit(): Attribute {
+          this.value = select("icon-type", ["chevron", "caret", "plus-minus"], "chevron", group);
+          delete this.build;
+          return this;
+        }
+      },
+      {
+        name: "selection-mode",
+        commit(): Attribute {
+          this.value = select("selection-mode", ["multi", "single", "single-persist"], "multi", group);
+          delete this.build;
+          return this;
+        }
       }
-    },
-    {
-      name: "scale",
-      commit(): Attribute {
-        this.value = select("scale", scale.values, scale.defaultValue, group);
-        delete this.build;
-        return this;
-      }
-    },
-    {
-      name: "theme",
-      commit(): Attribute {
-        this.value = select("theme", theme.values, theme.defaultValue, group);
-        delete this.build;
-        return this;
-      }
-    },
-    {
-      name: "appearance",
-      commit(): Attribute {
-        this.value = select("appearance", ["default", "minimal", "transparent"], "default", group);
-        delete this.build;
-        return this;
-      }
-    },
-    {
-      name: "icon-position",
-      commit(): Attribute {
-        this.value = select("icon-position", ["start", "end"], "end", group);
-        delete this.build;
-        return this;
-      }
-    },
-    {
-      name: "icon-type",
-      commit(): Attribute {
-        this.value = select("icon-type", ["chevron", "caret", "plus-minus"], "chevron", group);
-        delete this.build;
-        return this;
-      }
-    },
-    {
-      name: "selection-mode",
-      commit(): Attribute {
-        this.value = select("selection-mode", ["multi", "single", "single-persist"], "multi", group);
-        delete this.build;
-        return this;
-      }
-    }
-  ] as DeferredAttribute[])
-    .filter((attr) => !except.find((excluded) => excluded === attr.name))
-    .map((attr) => attr.commit());
+    ],
+    exceptions
+  );
 };
 
 const createAccordionItemAttributes: (options?: { icon?: boolean; group?: string }) => Attributes = ({
@@ -140,6 +144,14 @@ export const basic = (): string =>
         createAccordionItemAttributes({ group: "accordion-item-3" }),
         accordionItemContent
       )}
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ group: "accordion-item-4" }).concat({
+          name: "active",
+          value: true
+        }),
+        accordionItemContent
+      )}
     `
   );
 
@@ -161,6 +173,82 @@ export const icon = (): string =>
       ${create(
         "calcite-accordion-item",
         createAccordionItemAttributes({ icon: true, group: "accordion-item-3" }),
+        accordionItemContent
+      )}
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ icon: true, group: "accordion-item-4" }).concat({
+          name: "active",
+          value: true
+        }),
+        accordionItemContent
+      )}
+    `
+  );
+
+export const darkThemeIcon = (): string =>
+  create(
+    "calcite-accordion",
+    createAccordionAttributes({ exceptions: ["class"] }).concat({
+      name: "class",
+      value: "calcite-theme-dark"
+    }),
+    html`
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ icon: true, group: "accordion-item-1" }),
+        accordionItemContent
+      )}
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ icon: true, group: "accordion-item-2" }),
+        accordionItemContent
+      )}
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ icon: true, group: "accordion-item-3" }),
+        accordionItemContent
+      )}
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ icon: true, group: "accordion-item-4" }).concat({
+          name: "active",
+          value: true
+        }),
+        accordionItemContent
+      )}
+    `
+  );
+
+export const RTL = (): string =>
+  create(
+    "calcite-accordion",
+    createAccordionAttributes({ exceptions: ["dir"] }).concat({
+      name: "dir",
+      value: "rtl"
+    }),
+    html`
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ group: "accordion-item-1" }),
+        accordionItemContent
+      )}
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ group: "accordion-item-2" }),
+        accordionItemContent
+      )}
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ group: "accordion-item-3" }),
+        accordionItemContent
+      )}
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ group: "accordion-item-4" }).concat({
+          name: "active",
+          value: true
+        }),
         accordionItemContent
       )}
     `

@@ -1,19 +1,10 @@
-import {
-  Component,
-  h,
-  Host,
-  Prop,
-  Event,
-  EventEmitter,
-  Element,
-  VNode,
-  Method
-} from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
+import { Component, h, Prop, Event, EventEmitter, Element, VNode, Method } from "@stencil/core";
+import { getElementDir, getSlotted } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { CSS, TEXT } from "./resources";
 import { ChipColor } from "./interfaces";
-import { Appearance, Scale, Theme } from "../interfaces";
+import { Appearance, Scale } from "../interfaces";
+import { CSS_UTILITY } from "../../utils/resources";
 
 @Component({
   tag: "calcite-chip",
@@ -48,10 +39,7 @@ export class CalciteChip {
   /** specify the scale of the chip, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: Theme;
-
-  @Prop() value!: string;
+  @Prop() value!: any;
 
   // --------------------------------------------------------------------------
   //
@@ -102,9 +90,19 @@ export class CalciteChip {
   //
   //--------------------------------------------------------------------------
 
+  renderChipImage(): VNode {
+    const { el } = this;
+    const hasChipImage = getSlotted(el, "image");
+
+    return hasChipImage ? (
+      <div class="chip-image-container">
+        <slot name="image" />
+      </div>
+    ) : null;
+  }
+
   render(): VNode {
     const dir = getElementDir(this.el);
-    const iconScale = this.scale !== "l" ? "s" : "m";
 
     const iconEl = (
       <calcite-icon
@@ -112,7 +110,7 @@ export class CalciteChip {
         dir={dir}
         flipRtl={this.iconFlipRtl}
         icon={this.icon}
-        scale={iconScale}
+        scale="s"
       />
     );
 
@@ -124,19 +122,19 @@ export class CalciteChip {
         onClick={this.closeClickHandler}
         ref={(el) => (this.closeButton = el)}
       >
-        <calcite-icon icon="x" scale={iconScale} />
+        <calcite-icon icon="x" scale="s" />
       </button>
     );
 
     return (
-      <Host dir={dir}>
-        <slot name="chip-image" />
+      <div class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+        {this.renderChipImage()}
         {this.icon ? iconEl : null}
-        <span id={this.guid}>
+        <span class={CSS.title} id={this.guid}>
           <slot />
         </span>
         {this.dismissible ? closeButton : null}
-      </Host>
+      </div>
     );
   }
 }

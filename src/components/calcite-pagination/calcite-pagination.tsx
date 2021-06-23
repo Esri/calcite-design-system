@@ -4,13 +4,13 @@ import {
   Event,
   EventEmitter,
   h,
-  Host,
   Prop,
   Method,
-  VNode
+  VNode,
+  Fragment
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
-import { Scale, Theme } from "../interfaces";
+import { Scale } from "../interfaces";
 
 import { CSS, TEXT } from "./resources";
 
@@ -46,9 +46,6 @@ export class CalcitePagination {
 
   /** title of the previous button */
   @Prop() textLabelPrevious: string = TEXT.previousLabel;
-
-  /** specify the theme of accordion, defaults to light */
-  @Prop({ reflect: true }) theme: Theme;
 
   /** The scale of the pagination */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -193,34 +190,25 @@ export class CalcitePagination {
     );
   }
 
-  renderLeftEllipsis(iconScale: this["scale"]): VNode {
+  renderLeftEllipsis(): VNode {
     if (this.total / this.num > maxPagesDisplayed && this.showLeftEllipsis()) {
-      return (
-        <span class={`${CSS.ellipsis} ${CSS.ellipsisStart}`}>
-          <calcite-icon icon="ellipsis" scale={iconScale} />
-        </span>
-      );
+      return <span class={`${CSS.ellipsis} ${CSS.ellipsisStart}`}>&hellip;</span>;
     }
   }
 
-  renderRightEllipsis(iconScale: this["scale"]): VNode {
+  renderRightEllipsis(): VNode {
     if (this.total / this.num > maxPagesDisplayed && this.showRightEllipsis()) {
-      return (
-        <span class={`${CSS.ellipsis} ${CSS.ellipsisEnd}`}>
-          <calcite-icon icon="ellipsis" scale={iconScale} />
-        </span>
-      );
+      return <span class={`${CSS.ellipsis} ${CSS.ellipsisEnd}`}>&hellip;</span>;
     }
   }
 
   render(): VNode {
     const dir = getElementDir(this.el);
     const { total, num, start } = this;
-    const iconScale = this.scale === "l" ? "m" : "s";
     const prevDisabled = num === 1 ? start <= num : start < num;
     const nextDisabled = num === 1 ? start + num > total : start + num > total;
     return (
-      <Host dir={dir}>
+      <Fragment>
         <button
           aria-label={this.textLabelPrevious}
           class={{
@@ -230,12 +218,12 @@ export class CalcitePagination {
           disabled={prevDisabled}
           onClick={this.previousClicked}
         >
-          <calcite-icon dir={dir} flipRtl icon="chevronLeft" scale={iconScale} />
+          <calcite-icon dir={dir} flipRtl icon="chevronLeft" scale="s" />
         </button>
         {total > num ? this.renderPage(1) : null}
-        {this.renderLeftEllipsis(iconScale)}
+        {this.renderLeftEllipsis()}
         {this.renderPages()}
-        {this.renderRightEllipsis(iconScale)}
+        {this.renderRightEllipsis()}
         {this.renderPage(this.getLastStart())}
         <button
           aria-label={this.textLabelNext}
@@ -246,9 +234,9 @@ export class CalcitePagination {
           disabled={nextDisabled}
           onClick={this.nextClicked}
         >
-          <calcite-icon dir={dir} flipRtl icon="chevronRight" scale={iconScale} />
+          <calcite-icon dir={dir} flipRtl icon="chevronRight" scale="s" />
         </button>
-      </Host>
+      </Fragment>
     );
   }
 }

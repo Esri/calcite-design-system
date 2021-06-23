@@ -1,76 +1,72 @@
 :host {
   @extend %component-host;
-  @extend %component-spacing;
-  position: relative;
-  display: flex;
-  flex-flow: row;
-  margin: var(--calcite-spacing) var(--calcite-spacing);
-  border: solid 1px var(--calcite-ui-border-2);
-
-  --tip-content-only-width: 100%;
-  --tip-content-width: 70%;
-  --tip-image-frame-width: 25%;
-  --tip-image-max-width: 100%;
+  @apply relative
+    flex
+    flex-row
+    m-4
+    border
+    border-solid
+    border-color-2;
 }
 
 .container {
-  padding: var(--calcite-spacing);
+  @apply p-4;
+}
+
+:host([dismissed]),
+:host([dismissed]) .container {
+  @apply hidden;
 }
 
 :host([selected]) .container {
-  border: none;
-  margin: 0;
-  padding: 0;
+  @apply border-none m-0 p-0;
 }
 
 @import "../../assets/styles/header";
 
 .header {
-  margin-bottom: var(--calcite-spacing-half);
+  @apply mb-2;
 }
 .header .heading {
-  color: var(--calcite-ui-text-2);
-  padding: 0;
+  @apply text-color-2 p-0;
 }
 
 .container[hidden] {
-  display: none;
+  @apply hidden;
 }
 
 .content {
-  display: flex;
+  @apply flex;
 }
 
 .info {
-  padding: 0 var(--calcite-spacing);
-  width: var(--tip-content-width);
+  @apply py-0 px-4;
+  width: 70%;
   &:only-child {
-    width: var(--tip-content-only-width);
-    padding-left: 0;
-    padding-right: 0;
+    @apply w-full px-0;
   }
 }
 
 ::slotted(p) {
-  margin-top: 0;
+  @apply mt-0;
 }
 
 ::slotted(a) {
-  color: var(--calcite-ui-brand);
-  @include focus-style-base();
+  @apply focus-base;
+  color: theme("backgroundColor.brand");
 }
 
 ::slotted(a:focus) {
-  @include focus-style-outset();
+  @apply focus-outset;
 }
 
 .image-frame {
-  width: var(--tip-image-frame-width);
+  width: theme("width.[1/4");
   img {
-    max-width: var(--tip-image-max-width);
+    @apply max-w-full;
   }
 }
 
 ::slotted(img) {
-  max-width: var(--tip-image-max-width);
+  @apply max-w-full;
 }

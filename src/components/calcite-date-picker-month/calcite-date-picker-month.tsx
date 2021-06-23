@@ -302,8 +302,7 @@ export class CalciteDatePickerMonth {
       this.endDate &&
       date > this.startDate &&
       date < this.endDate &&
-      !this.isRangeHover(date) &&
-      !this.isHoverInRange()
+      !this.isRangeHover(date)
     );
   }
 

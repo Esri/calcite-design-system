@@ -1,108 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Calcite Pagination</title>
+    <script src="./_assets/head.js"></script>
+    <style>
+      .demo-background-dark {
+        background: #2b2b2b;
+        color: white;
+        padding: 1rem;
+      }
+      .demo-spaced {
+        margin: 8px 0;
+      }
+    </style>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Calcite Pagination</title>
-  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
-  <link rel="stylesheet" href="../build/calcite.css" />
-  <script type="module" src="../build/calcite.esm.js"></script>
-  <script nomodule src="../build/calcite.js"></script>
-  <style>
-    .demo-background-dark {
-      background: #2b2b2b;
-      color: white;
-      padding: 1rem;
-    }
-    .demo-spaced {
-      margin: 8px 0;
-    }
-  </style>
-</head>
+  <body>
+    <calcite-button href="/">Home</calcite-button>
+    <h1>Calcite Pagination</h1>
 
-<body>
-  <calcite-button href="/">Home</calcite-button>
-  <h1>Calcite Pagination</h1>
+    <h2>Basic</h2>
+    <div class="demo-spaced">
+      <calcite-pagination total="46" num="10"></calcite-pagination>
+    </div>
+    <div class="demo-spaced">
+      <calcite-pagination total="8" num="10"></calcite-pagination>
+    </div>
 
-  <h2>Basic</h2>
-  <div class="demo-spaced">
-    <calcite-pagination total="46" num="10"></calcite-pagination>
-  </div>
-  <div class="demo-spaced">
-    <calcite-pagination total="8" num="10"></calcite-pagination>
-  </div>
+    <div class="demo-background-dark">
+      <h2>Dark Theme</h2>
+      <calcite-pagination total="46" num="10" class="calcite-theme-dark"></calcite-pagination>
+    </div>
 
-  <div class="demo-background-dark">
-    <h2>Dark Theme</h2>
-    <calcite-pagination total="46" num="10" theme="dark"></calcite-pagination>
-  </div>
+    <div>
+      <h2>RTL</h2>
+      <calcite-pagination dir="rtl" total="46" num="10"></calcite-pagination>
+    </div>
 
-  <div>
-    <h2>RTL</h2>
-    <calcite-pagination dir="rtl" total="46" num="10"></calcite-pagination>
-  </div>
+    <h2>Many pages, ellipsis examples</h2>
+    <div class="demo-spaced">
+      <calcite-pagination total="1200" num="100" start="1"></calcite-pagination>
+    </div>
+    <div class="demo-spaced">
+      <calcite-pagination total="1200" num="100" start="101"></calcite-pagination>
+    </div>
+    <div class="demo-spaced">
+      <calcite-pagination total="1200" num="100" start="201"></calcite-pagination>
+    </div>
+    <div class="demo-spaced">
+      <calcite-pagination total="1200" num="100" start="301"></calcite-pagination>
+    </div>
+    <div class="demo-spaced">
+      <calcite-pagination total="1200" num="100" start="401"></calcite-pagination>
+    </div>
+    <div class="demo-spaced">
+      <calcite-pagination total="1200" num="100" start="501"></calcite-pagination>
+    </div>
+    <div class="demo-spaced">
+      <calcite-pagination total="1200" num="100" start="601"></calcite-pagination>
+    </div>
+    <div class="demo-spaced">
+      <calcite-pagination total="1200" num="100" start="701"></calcite-pagination>
+    </div>
+    <div class="demo-spaced">
+      <calcite-pagination total="1200" num="100" start="801"></calcite-pagination>
+    </div>
+    <div class="demo-spaced">
+      <calcite-pagination total="1200" num="100" start="901"></calcite-pagination>
+    </div>
+    <div class="demo-spaced">
+      <calcite-pagination total="1200" num="100" start="1001"></calcite-pagination>
+    </div>
+    <div class="demo-spaced">
+      <calcite-pagination total="1200" num="100" start="1101"></calcite-pagination>
+    </div>
 
-  <h2>Many pages, ellipsis examples</h2>
-  <div class="demo-spaced">
-    <calcite-pagination total="1200" num="100" start="1"></calcite-pagination>
-  </div>
-  <div class="demo-spaced">
-    <calcite-pagination total="1200" num="100" start="101"></calcite-pagination>
-  </div>
-  <div class="demo-spaced">
-    <calcite-pagination total="1200" num="100" start="201"></calcite-pagination>
-  </div>
-  <div class="demo-spaced">
-    <calcite-pagination total="1200" num="100" start="301"></calcite-pagination>
-  </div>
-  <div class="demo-spaced">
-    <calcite-pagination total="1200" num="100" start="401"></calcite-pagination>
-  </div>
-  <div class="demo-spaced">
-    <calcite-pagination total="1200" num="100" start="501"></calcite-pagination>
-  </div>
-  <div class="demo-spaced">
-    <calcite-pagination total="1200" num="100" start="601"></calcite-pagination>
-  </div>
-  <div class="demo-spaced">
-    <calcite-pagination total="1200" num="100" start="701"></calcite-pagination>
-  </div>
-  <div class="demo-spaced">
-    <calcite-pagination total="1200" num="100" start="801"></calcite-pagination>
-  </div>
-  <div class="demo-spaced">
-    <calcite-pagination total="1200" num="100" start="901"></calcite-pagination>
-  </div>
-  <div class="demo-spaced">
-    <calcite-pagination total="1200" num="100" start="1001"></calcite-pagination>
-  </div>
-  <div class="demo-spaced">
-    <calcite-pagination total="1200" num="100" start="1101"></calcite-pagination>
-  </div>
+    <h2>One per page</h2>
+    <div class="demo-spaced">
+      <calcite-pagination total="5" num="1" start="1"></calcite-pagination>
+    </div>
+    <div class="demo-spaced">
+      <calcite-pagination total="15" num="1" start="1"></calcite-pagination>
+    </div>
 
-  <h2>One per page</h2>
-  <div class="demo-spaced">
-    <calcite-pagination total="5" num="1" start="1"></calcite-pagination>
-  </div>
-  <div class="demo-spaced">
-    <calcite-pagination total="15" num="1" start="1"></calcite-pagination>
-  </div>
-
-  <h2>Scales</h2>
-  <h3>S</h3>
-  <div class="demo-spaced">
-    <calcite-pagination total="1200" num="100" start="1001" scale="s"></calcite-pagination>
-  </div>
-  <h3>M (default)</h3>
-  <div class="demo-spaced">
-    <calcite-pagination total="1200" num="100" start="1001"></calcite-pagination>
-  </div>
-  <h3>L</h3>
-  <div class="demo-spaced">
-    <calcite-pagination total="1200" num="100" start="1001" scale="l"></calcite-pagination>
-  </div>
-</body>
-
+    <h2>Scales</h2>
+    <h3>S</h3>
+    <div class="demo-spaced">
+      <calcite-pagination total="1200" num="100" start="1001" scale="s"></calcite-pagination>
+    </div>
+    <h3>M (default)</h3>
+    <div class="demo-spaced">
+      <calcite-pagination total="1200" num="100" start="1001"></calcite-pagination>
+    </div>
+    <h3>L</h3>
+    <div class="demo-spaced">
+      <calcite-pagination total="1200" num="100" start="1001" scale="l"></calcite-pagination>
+    </div>
+  </body>
 </html>

@@ -1,8 +1,9 @@
-import { Component, Element, h, Host, Method, Prop, Build, State, VNode } from "@stencil/core";
+import { Component, Element, h, Method, Prop, Build, State, VNode } from "@stencil/core";
 import { CSS, TEXT } from "./resources";
 import { getAttributes, getElementDir } from "../../utils/dom";
 import { ButtonAlignment, ButtonAppearance, ButtonColor } from "./interfaces";
-import { FlipContext, Scale, Theme, Width } from "../interfaces";
+import { FlipContext, Scale, Width } from "../interfaces";
+import { CSS_UTILITY } from "../../utils/resources";
 
 @Component({
   tag: "calcite-button",
@@ -69,9 +70,6 @@ export class CalciteButton {
   /** is the button a child of a calcite-split-button */
   @Prop({ reflect: true }) splitChild?: "primary" | "secondary" | false = false;
 
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: Theme;
-
   /** specify the width of the button, defaults to auto */
   @Prop({ reflect: true }) width: Width = "auto";
 
@@ -114,8 +112,7 @@ export class CalciteButton {
       "loading",
       "scale",
       "slot",
-      "width",
-      "theme"
+      "width"
     ]);
     const Tag = this.childElType;
 
@@ -130,7 +127,6 @@ export class CalciteButton {
     const iconStartEl = (
       <calcite-icon
         class={{ [CSS.icon]: true, [CSS.iconStart]: true }}
-        dir={dir}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
         scale={iconScale}
@@ -140,7 +136,6 @@ export class CalciteButton {
     const iconEndEl = (
       <calcite-icon
         class={{ [CSS.icon]: true, [CSS.iconEnd]: true }}
-        dir={dir}
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
         scale={iconScale}
@@ -153,24 +148,20 @@ export class CalciteButton {
       </span>
     );
 
-    const className = this.hasContent ? { ["class"]: CSS.contentSlotted } : null;
-
     return (
-      <Host dir={dir}>
-        <Tag
-          {...attributes}
-          {...className}
-          disabled={this.disabled}
-          onClick={this.handleClick}
-          ref={(el) => (this.childEl = el)}
-          tabIndex={this.disabled ? -1 : null}
-        >
-          {this.loading ? loader : null}
-          {this.iconStart ? iconStartEl : null}
-          {this.hasContent ? contentEl : null}
-          {this.iconEnd ? iconEndEl : null}
-        </Tag>
-      </Host>
+      <Tag
+        {...attributes}
+        class={{ [CSS_UTILITY.rtl]: dir === "rtl", [CSS.contentSlotted]: this.hasContent }}
+        disabled={this.disabled}
+        onClick={this.handleClick}
+        ref={(el) => (this.childEl = el)}
+        tabIndex={this.disabled ? -1 : null}
+      >
+        {this.loading ? loader : null}
+        {this.iconStart ? iconStartEl : null}
+        {this.hasContent ? contentEl : null}
+        {this.iconEnd ? iconEndEl : null}
+      </Tag>
     );
   }
 
@@ -242,9 +233,13 @@ export class CalciteButton {
         const targetFormSubmitFunction = targetForm.onsubmit as () => void;
         switch (this.type) {
           case "submit":
-            if (targetFormSubmitFunction) targetFormSubmitFunction();
-            else if (targetForm.checkValidity()) targetForm.submit();
-            else targetForm.reportValidity();
+            if (targetFormSubmitFunction) {
+              targetFormSubmitFunction();
+            } else if (targetForm.checkValidity()) {
+              targetForm.submit();
+            } else {
+              targetForm.reportValidity();
+            }
             break;
           case "reset":
             targetForm.reset();

@@ -4,7 +4,11 @@
   & .previous,
   & .next,
   & .page {
-    @apply text--2h;
+    @apply text--2h h-6;
+  }
+  .previous,
+  .next {
+    @apply px-1;
   }
 }
 
@@ -13,7 +17,11 @@
   & .previous,
   & .next,
   & .page {
-    @apply text--1h;
+    @apply text--1h h-8;
+  }
+  .previous,
+  .next {
+    @apply px-2;
   }
 }
 
@@ -22,7 +30,11 @@
   & .previous,
   & .next,
   & .page {
-    @apply text-1h;
+    @apply text-0h h-11;
+  }
+  .previous,
+  .next {
+    @apply px-4;
   }
 }
 
@@ -50,12 +62,12 @@
     text-0h
     text-color-3
     cursor-pointer
-    font-inherit;
+    font-inherit
+    box-border;
   border-top: 2px solid transparent;
   border-bottom: 2px solid transparent;
   &:hover {
-    @apply text-color-1;
-    transition: all $transition;
+    @apply text-color-1 transition-default;
   }
 }
 .page {
@@ -68,9 +80,9 @@
 }
 .previous,
 .next {
-  padding: var(--calcite-pagination-spacing);
   &:hover {
-    @apply bg-foreground-2 text-color-link;
+    @apply bg-foreground-2;
+    color: theme("backgroundColor.brand");
   }
   &:active {
     @apply bg-foreground-3;

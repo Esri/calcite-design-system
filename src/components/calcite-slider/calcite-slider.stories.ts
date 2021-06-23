@@ -72,7 +72,7 @@ export const Histogram = (): HTMLCalciteSliderElement => {
 };
 
 export const DarkMode = (): string => html`
-  <calcite-slider min="0" max="100" value="50" step="1" label="Temperature" theme="dark"></calcite-slider>
+  <calcite-slider min="0" max="100" value="50" step="1" label="Temperature" class="calcite-theme-dark"></calcite-slider>
 `;
 
 DarkMode.story = {

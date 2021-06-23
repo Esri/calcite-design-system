@@ -8,6 +8,8 @@ type Lists = CalcitePickList | CalciteValueList;
 type ListItemElement<T> = T extends CalcitePickList ? HTMLCalcitePickListItemElement : HTMLCalciteValueListItemElement;
 type List<T> = T extends CalcitePickList ? CalcitePickList : CalciteValueList;
 
+export type ListFocusId = "filter";
+
 export function mutationObserverCallback<T extends Lists>(this: List<T>): void {
   this.setUpItems();
   this.setUpFilter();
@@ -46,12 +48,12 @@ export function calciteListItemChangeHandler<T extends Lists>(this: List<T>, eve
   const { item, value, selected, shiftPressed } = event.detail;
 
   if (selected) {
-    if (!this.multiple) {
-      this.deselectSiblingItems(item);
-    }
-
     if (this.multiple && shiftPressed) {
       this.selectSiblings(item);
+    }
+
+    if (!this.multiple) {
+      this.deselectSiblingItems(item);
     }
 
     selectedValues.set(value, item);
@@ -65,6 +67,10 @@ export function calciteListItemChangeHandler<T extends Lists>(this: List<T>, eve
 
   if (!this.multiple) {
     toggleSingleSelectItemTabbing(item, selected);
+
+    if (selected) {
+      focusElement(item);
+    }
   }
 
   this.lastSelectedItem = item;
@@ -93,6 +99,25 @@ function isValidNavigationKey(key: string): boolean {
   return !!SUPPORTED_ARROW_KEYS.find((k) => k === key);
 }
 
+export function calciteListFocusOutHandler<T extends Lists>(this: List<T>, event: FocusEvent): void {
+  const { el, items, multiple, selectedValues } = this;
+
+  if (multiple) {
+    return;
+  }
+
+  const focusedInside = !!el.contains(event.relatedTarget as Node | null);
+
+  if (focusedInside) {
+    toggleSingleSelectItemTabbing(event.target as ListItemElement<T>, false);
+    return;
+  }
+
+  items.forEach((item) =>
+    toggleSingleSelectItemTabbing(item, selectedValues.size === 0 ? event.target === item : item.selected)
+  );
+}
+
 export function keyDownHandler<T extends Lists>(this: List<T>, event: KeyboardEvent): void {
   const { key, target } = event;
 
@@ -100,7 +125,7 @@ export function keyDownHandler<T extends Lists>(this: List<T>, event: KeyboardEv
     return;
   }
 
-  const { items, multiple } = this;
+  const { items } = this;
   const { length: totalItems } = items;
   const currentIndex = (items as ListItemElement<T>[]).indexOf(target as ListItemElement<T>);
 
@@ -115,10 +140,6 @@ export function keyDownHandler<T extends Lists>(this: List<T>, event: KeyboardEv
 
   toggleSingleSelectItemTabbing(item, true);
   focusElement(item);
-
-  if (!multiple) {
-    item.selected = true;
-  }
 }
 
 export function internalCalciteListChangeEvent<T extends Lists>(this: List<T>): void {
@@ -153,7 +174,12 @@ function toggleSingleSelectItemTabbing<T extends Lists>(item: ListItemElement<T>
   }
 }
 
-export function setFocus<T extends Lists>(this: List<T>): Promise<void> {
+export async function setFocus<T extends Lists>(this: List<T>, focusId: ListFocusId): Promise<void> {
+  if (this.filterEnabled && focusId === "filter") {
+    await focusElement(this.filterEl);
+    return;
+  }
+
   const { multiple, items } = this;
 
   if (items.length === 0) {
@@ -241,6 +267,7 @@ let groups: Set<HTMLCalcitePickListGroupElement>;
 export function handleFilter<T extends Lists>(this: List<T>, event: CustomEvent): void {
   const filteredData = event.detail;
   const values = filteredData.map((item) => item.value);
+  let hasSelectedMatch = false;
 
   if (!groups) {
     groups = new Set<HTMLCalcitePickListGroupElement>();
@@ -257,6 +284,10 @@ export function handleFilter<T extends Lists>(this: List<T>, event: CustomEvent)
     const matches = values.includes(item.value);
 
     item.hidden = !matches;
+
+    if (!hasSelectedMatch) {
+      hasSelectedMatch = matches && item.selected;
+    }
 
     return matches;
   });
@@ -283,6 +314,10 @@ export function handleFilter<T extends Lists>(this: List<T>, event: CustomEvent)
   });
 
   groups.clear();
+
+  if (matchedItems.length > 0 && !hasSelectedMatch && !this.multiple) {
+    toggleSingleSelectItemTabbing(matchedItems[0], true);
+  }
 }
 
 export type ItemData = {

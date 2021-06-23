@@ -10,14 +10,16 @@ import {
   VNode,
   Method
 } from "@stencil/core";
-import { Position, Theme } from "../interfaces";
+import { Position } from "../interfaces";
 import { CalciteExpandToggle, toggleChildActionText } from "../functional/CalciteExpandToggle";
 import { CSS, SLOTS, TEXT } from "./resources";
 import { getSlotted, focusElement } from "../../utils/dom";
+import { getOverflowCount, overflowActions } from "./utils";
 
 /**
- * @slot bottom-actions - A slot for adding `calcite-action`s that will appear at the bottom of the action bar, above the collapse/expand button.
  * @slot - A slot for adding `calcite-action`s that will appear at the top of the action bar.
+ * @slot bottom-actions - A slot for adding `calcite-action`s that will appear at the bottom of the action bar, above the collapse/expand button.
+ * @slot expand-tooltip - Used to set the tooltip for the expand toggle.
  */
 @Component({
   tag: "calcite-action-bar",
@@ -41,6 +43,8 @@ export class CalciteActionBar {
     if (!expandDisabled) {
       toggleChildActionText({ parent: this.el, expanded: this.expanded });
     }
+
+    this.resize(this.el.clientHeight);
   }
 
   /**
@@ -58,11 +62,6 @@ export class CalciteActionBar {
   }
 
   /**
-   * Used to set the tooltip for the expand toggle.
-   */
-  @Prop() tooltipExpand?: HTMLCalciteTooltipElement;
-
-  /**
    * Updates the label of the expand icon when the component is not expanded.
    */
   @Prop() intlExpand?: string;
@@ -73,14 +72,21 @@ export class CalciteActionBar {
   @Prop() intlCollapse?: string;
 
   /**
+   * Disables automatically overflowing actions that won't fit into menus.
+   */
+  @Prop() overflowActionsDisabled?: boolean;
+
+  @Watch("overflowActionsDisabled")
+  overflowDisabledHandler(overflowActionsDisabled: boolean): void {
+    overflowActionsDisabled
+      ? this.resizeObserver.disconnect()
+      : this.resizeObserver.observe(this.el);
+  }
+
+  /**
    * Arranges the component depending on the elements 'dir' property.
    */
   @Prop({ reflect: true }) position: Position;
-
-  /**
-   * Used to set the component's color scheme.
-   */
-  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //
@@ -101,12 +107,21 @@ export class CalciteActionBar {
 
   @Element() el: HTMLCalciteActionBarElement;
 
-  observer = new MutationObserver(() => {
+  mutationObserver = new MutationObserver(() => {
     const { el, expanded } = this;
     toggleChildActionText({ parent: el, expanded });
+    this.resize(el.clientHeight);
   });
 
+  resizeObserver = new ResizeObserver((entries) => this.resizeHandlerEntries(entries));
+
   expandToggleEl: HTMLCalciteActionElement;
+
+  lastActionCount: number;
+
+  lastGroupCount: number;
+
+  lastResizeHeight: number;
 
   // --------------------------------------------------------------------------
   //
@@ -121,11 +136,20 @@ export class CalciteActionBar {
       toggleChildActionText({ parent: el, expanded });
     }
 
-    this.observer.observe(el, { childList: true });
+    this.mutationObserver.observe(el, { childList: true });
+
+    if (!this.overflowActionsDisabled) {
+      this.resizeObserver.observe(el);
+    }
+  }
+
+  componentDidLoad(): void {
+    this.resize(this.el.clientHeight);
   }
 
   disconnectedCallback(): void {
-    this.observer.disconnect();
+    this.mutationObserver.disconnect();
+    this.resizeObserver.disconnect();
   }
 
   // --------------------------------------------------------------------------
@@ -150,6 +174,70 @@ export class CalciteActionBar {
   //
   // --------------------------------------------------------------------------
 
+  actionMenuOpenChangeHandler = (event: CustomEvent<boolean>): void => {
+    if (event.detail) {
+      const composedPath = event.composedPath();
+      Array.from(this.el.querySelectorAll("calcite-action-group")).forEach((group) => {
+        if (!composedPath.includes(group)) {
+          group.menuOpen = false;
+        }
+      });
+    }
+  };
+
+  resizeHandlerEntries = (entries: ResizeObserverEntry[]): void => {
+    entries.forEach(this.resizeHandler);
+  };
+
+  resizeHandler = (entry: ResizeObserverEntry): void => {
+    const { height } = entry.contentRect;
+    this.resize(height);
+  };
+
+  resize = (height: number): void => {
+    const {
+      el,
+      expanded,
+      expandDisabled,
+      lastActionCount,
+      lastGroupCount,
+      lastResizeHeight,
+      overflowActionsDisabled
+    } = this;
+
+    if (typeof height !== "number" || overflowActionsDisabled) {
+      return;
+    }
+
+    const actions = el.querySelectorAll("calcite-action");
+    const actionCount = expandDisabled ? actions.length : actions.length + 1;
+    const actionGroups = Array.from(el.querySelectorAll("calcite-action-group"));
+    const groupCount =
+      getSlotted(el, SLOTS.bottomActions) || !expandDisabled
+        ? actionGroups.length + 1
+        : actionGroups.length;
+
+    if (
+      lastResizeHeight === height &&
+      lastActionCount === actionCount &&
+      lastGroupCount === groupCount
+    ) {
+      return;
+    }
+
+    this.lastActionCount = actionCount;
+    this.lastGroupCount = groupCount;
+    this.lastResizeHeight = height;
+
+    const overflowCount = getOverflowCount({ actionCount, height, groupCount });
+
+    overflowActions({
+      actionGroups,
+      expanded,
+      overflowCount
+    });
+  };
+
   toggleExpand = (): void => {
     this.expanded = !this.expanded;
   };
@@ -165,17 +253,9 @@ export class CalciteActionBar {
   // --------------------------------------------------------------------------
 
   renderBottomActionGroup(): VNode {
-    const {
-      expanded,
-      expandDisabled,
-      intlExpand,
-      intlCollapse,
-      el,
-      position,
-      toggleExpand,
-      tooltipExpand
-    } = this;
+    const { expanded, expandDisabled, intlExpand, intlCollapse, el, position, toggleExpand } = this;
 
+    const tooltip = getSlotted(el, SLOTS.expandTooltip) as HTMLCalciteTooltipElement;
     const expandLabel = intlExpand || TEXT.expand;
     const collapseLabel = intlCollapse || TEXT.collapse;
 
@@ -188,13 +268,14 @@ export class CalciteActionBar {
         position={position}
         ref={this.setExpandToggleRef}
         toggle={toggleExpand}
-        tooltip={tooltipExpand}
+        tooltip={tooltip}
       />
     ) : null;
 
     return getSlotted(el, SLOTS.bottomActions) || expandToggleNode ? (
       <calcite-action-group class={CSS.actionGroupBottom}>
         <slot name={SLOTS.bottomActions} />
+        <slot name={SLOTS.expandTooltip} />
         {expandToggleNode}
       </calcite-action-group>
     ) : null;
@@ -202,7 +283,7 @@ export class CalciteActionBar {
 
   render(): VNode {
     return (
-      <Host>
+      <Host onCalciteActionMenuOpenChange={this.actionMenuOpenChangeHandler}>
         <slot />
         {this.renderBottomActionGroup()}
       </Host>

@@ -1,8 +1,6 @@
-import { Component, Element, Host, Listen, Method, Prop, State, h, VNode } from "@stencil/core";
+import { Component, Element, Listen, Method, State, h, VNode } from "@stencil/core";
 
 import { CSS } from "./resources";
-
-import { Theme } from "../interfaces";
 
 import { FlowDirection } from "./interfaces";
 
@@ -15,17 +13,6 @@ import { FlowDirection } from "./interfaces";
   shadow: true
 })
 export class CalciteFlow {
-  // --------------------------------------------------------------------------
-  //
-  //  Properties
-  //
-  // --------------------------------------------------------------------------
-
-  /**
-   * Used to set the component's color scheme.
-   */
-  @Prop({ reflect: true }) theme: Theme;
-
   // --------------------------------------------------------------------------
   //
   //  Public Methods
@@ -156,11 +143,9 @@ export class CalciteFlow {
     };
 
     return (
-      <Host>
-        <div class={frameDirectionClasses} key={panelCount}>
-          <slot />
-        </div>
-      </Host>
+      <div class={frameDirectionClasses} key={panelCount}>
+        <slot />
+      </div>
     );
   }
 }

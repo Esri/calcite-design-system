@@ -15,7 +15,7 @@ describe("calcite-block", () => {
       },
       {
         propertyName: "headingLevel",
-        defaultValue: 4
+        defaultValue: undefined
       },
       {
         propertyName: "open",
@@ -130,6 +130,7 @@ describe("calcite-block", () => {
     const toggle = await page.find(`calcite-block >>> .${CSS.toggle}`);
 
     expect(toggle.getAttribute("aria-label")).toBe(TEXT.expand);
+    expect(toggle.getAttribute("aria-expanded")).toBe("false");
     expect(toggle.getAttribute("title")).toBe(TEXT.expand);
 
     await toggle.click();
@@ -137,6 +138,7 @@ describe("calcite-block", () => {
     expect(toggleSpy).toHaveReceivedEventTimes(1);
     expect(await element.getProperty("open")).toBe(true);
     expect(toggle.getAttribute("aria-label")).toBe(TEXT.collapse);
+    expect(toggle.getAttribute("aria-expanded")).toBe("true");
     expect(toggle.getAttribute("title")).toBe(TEXT.collapse);
 
     await toggle.click();
@@ -144,6 +146,7 @@ describe("calcite-block", () => {
     expect(toggleSpy).toHaveReceivedEventTimes(2);
     expect(await element.getProperty("open")).toBe(false);
     expect(toggle.getAttribute("aria-label")).toBe(TEXT.expand);
+    expect(toggle.getAttribute("aria-expanded")).toBe("false");
     expect(toggle.getAttribute("title")).toBe(TEXT.expand);
   });
 
@@ -211,6 +214,21 @@ describe("calcite-block", () => {
 
       const iconSlot = await page.find(`calcite-block >>> slot[name=${SLOTS.icon}]`);
       expect(await iconSlot.isVisible()).toBe(true);
+    });
+
+    it("displays a status icon instead of a header icon when `status` is an accepted value", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        `<calcite-block status="invalid">
+          <div class="header-icon" slot=${SLOTS.icon} /></calcite-block>
+        </calcite-block>`
+      );
+
+      const headerIcon = await page.find("calcite-block >>> .header-icon");
+      expect(headerIcon).toBeNull();
+
+      const statusIcon = await page.find(`calcite-block >>> .${CSS.statusIcon}`);
+      expect(statusIcon).not.toBeNull();
     });
   });
 });

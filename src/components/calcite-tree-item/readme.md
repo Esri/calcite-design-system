@@ -16,12 +16,14 @@
 ### Depends on
 
 - [calcite-icon](../calcite-icon)
+- [calcite-checkbox](../calcite-checkbox)
 
 ### Graph
 
 ```mermaid
 graph TD;
   calcite-tree-item --> calcite-icon
+  calcite-tree-item --> calcite-checkbox
   style calcite-tree-item fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

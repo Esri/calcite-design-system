@@ -3,6 +3,7 @@ import {
   Element,
   Event,
   EventEmitter,
+  forceUpdate,
   Host,
   Method,
   Prop,
@@ -11,21 +12,28 @@ import {
   h,
   VNode
 } from "@stencil/core";
-import { CSS, ARIA_CONTROLS, ARIA_EXPANDED, POPOVER_REFERENCE, TEXT } from "./resources";
+import {
+  CSS,
+  ARIA_CONTROLS,
+  ARIA_EXPANDED,
+  HEADING_LEVEL,
+  POPOVER_REFERENCE,
+  TEXT
+} from "./resources";
 import {
   PopperPlacement,
   defaultOffsetDistance,
   createPopper,
   updatePopper,
-  CSS as PopperCSS
+  CSS as PopperCSS,
+  OverlayPositioning
 } from "../../utils/popper";
 import { StrictModifiers, Placement, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
-import { Theme } from "../interfaces";
-import { getElementDir } from "../../utils/dom";
+import { getElementDir, queryElementRoots } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
-
-export type FocusId = "close-button";
+import { PopoverFocusId } from "./resources";
+import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
 
 /**
  * @slot image - A slot for adding an image. The image will appear above the other slot content.
@@ -45,8 +53,14 @@ export class CalcitePopover {
 
   /**
    * Display a close button within the Popover.
+   * @deprecated use dismissible instead.
    */
   @Prop({ reflect: true }) closeButton = false;
+
+  /**
+   * Display a close button within the Popover.
+   */
+  @Prop({ reflect: true }) dismissible = false;
 
   /**
    * Prevents flipping the popover's placement when it starts to overlap its reference element.
@@ -62,6 +76,16 @@ export class CalcitePopover {
    * Defines the available placements that can be used when a flip occurs.
    */
   @Prop() flipPlacements?: Placement[];
+
+  /**
+   * Heading text.
+   */
+  @Prop() heading?: string;
+
+  /**
+   * Number at which section headings should start for this component.
+   */
+  @Prop() headingLevel: HeadingLevel;
 
   /** Accessible name for the component */
   @Prop() label!: string;
@@ -102,6 +126,9 @@ export class CalcitePopover {
     }
   }
 
+  /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
+  @Prop() overlayPositioning: OverlayPositioning = "absolute";
+
   /**
    * Determines where the component will be positioned relative to the referenceElement.
    */
@@ -128,9 +155,6 @@ export class CalcitePopover {
   /** Text for close button. */
   @Prop() intlClose = TEXT.close;
 
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: Theme;
-
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -145,7 +169,7 @@ export class CalcitePopover {
 
   arrowEl: HTMLDivElement;
 
-  closeButtonEl: HTMLButtonElement;
+  closeButtonEl: HTMLCalciteActionElement;
 
   guid = `calcite-popover-${guid()}`;
 
@@ -198,9 +222,13 @@ export class CalcitePopover {
   }
 
   @Method()
-  async setFocus(focusId?: FocusId): Promise<void> {
-    if (focusId === "close-button") {
-      this.closeButtonEl?.focus();
+  async setFocus(focusId?: PopoverFocusId): Promise<void> {
+    const { closeButtonEl } = this;
+
+    if (focusId === "close-button" && closeButtonEl) {
+      forceUpdate(closeButtonEl);
+      closeButtonEl.setFocus();
+
       return;
     }
 
@@ -259,24 +287,18 @@ export class CalcitePopover {
   };
 
   getReferenceElement(): HTMLElement {
-    const { referenceElement } = this;
+    const { referenceElement, el } = this;
 
     return (
       (typeof referenceElement === "string"
-        ? document.getElementById(referenceElement)
+        ? queryElementRoots(el, `#${referenceElement}`)
         : referenceElement) || null
     );
   }
 
   getModifiers(): Partial<StrictModifiers>[] {
-    const {
-      arrowEl,
-      flipPlacements,
-      disableFlip,
-      disablePointer,
-      offsetDistance,
-      offsetSkidding
-    } = this;
+    const { arrowEl, flipPlacements, disableFlip, disablePointer, offsetDistance, offsetSkidding } =
+      this;
     const flipModifier: Partial<StrictModifiers> = {
       name: "flip",
       enabled: !disableFlip
@@ -312,12 +334,13 @@ export class CalcitePopover {
 
   createPopper(): void {
     this.destroyPopper();
-    const { el, placement, _referenceElement: referenceEl } = this;
+    const { el, placement, _referenceElement: referenceEl, overlayPositioning } = this;
     const modifiers = this.getModifiers();
 
     this.popper = createPopper({
       el,
       modifiers,
+      overlayPositioning,
       placement,
       referenceEl
     });
@@ -343,32 +366,39 @@ export class CalcitePopover {
   //
   // --------------------------------------------------------------------------
 
-  renderImage(): VNode {
-    return this.el.querySelector("[slot=image]") ? (
-      <div class={CSS.imageContainer}>
-        <slot name="image" />
+  renderCloseButton(): VNode {
+    const { dismissible, closeButton, intlClose } = this;
+
+    return dismissible || closeButton ? (
+      <calcite-action
+        class={CSS.closeButton}
+        onClick={this.hide}
+        ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
+        text={intlClose}
+      >
+        <calcite-icon icon="x" scale="m" />
+      </calcite-action>
+    ) : null;
+  }
+
+  renderHeader(): VNode {
+    const { heading, headingLevel } = this;
+    const headingNode = heading ? (
+      <CalciteHeading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
+        {heading}
+      </CalciteHeading>
+    ) : null;
+
+    return headingNode ? (
+      <div class={CSS.header}>
+        {headingNode}
+        {this.renderCloseButton()}
       </div>
     ) : null;
   }
 
-  renderCloseButton(): VNode {
-    const { closeButton, intlClose } = this;
-
-    return closeButton ? (
-      <button
-        aria-label={intlClose}
-        class={{ [CSS.closeButton]: true }}
-        onClick={this.hide}
-        ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
-        title={intlClose}
-      >
-        <calcite-icon icon="x" scale="m" />
-      </button>
-    ) : null;
-  }
-
   render(): VNode {
-    const { _referenceElement, el, label, open, disablePointer } = this;
+    const { _referenceElement, el, heading, label, open, disablePointer } = this;
     const rtl = getElementDir(el) === "rtl";
     const displayed = _referenceElement && open;
     const hidden = !displayed;
@@ -392,12 +422,17 @@ export class CalcitePopover {
           }}
         >
           {arrowNode}
-          <div class={CSS.container}>
-            {this.renderImage()}
+          <div
+            class={{
+              [CSS.hasHeader]: !!heading,
+              [CSS.container]: true
+            }}
+          >
+            {this.renderHeader()}
             <div class={CSS.content}>
               <slot />
-              {this.renderCloseButton()}
             </div>
+            {!heading ? this.renderCloseButton() : null}
           </div>
         </div>
       </Host>

@@ -3,8 +3,8 @@ import { Component, Element, Event, EventEmitter, Prop, h, VNode } from "@stenci
 import { getElementDir } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { CSS, ICONS, TEXT } from "./resources";
-import { guid } from "../../utils/guid";
 import { BlockSectionToggleDisplay } from "./interfaces";
+import { Status } from "../interfaces";
 
 /**
  * @slot - A slot for adding content to the block section.
@@ -37,6 +37,11 @@ export class CalciteBlockSection {
   @Prop({ reflect: true, mutable: true }) open = false;
 
   /**
+   * BlockSection status. Adds indicator to show valid or invalid status.
+   */
+  @Prop({ reflect: true }) status?: Status;
+
+  /**
    * Text displayed in the button.
    */
   @Prop() text: string;
@@ -57,8 +62,6 @@ export class CalciteBlockSection {
   // --------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteBlockSectionElement;
-
-  guid = `calcite-block-section-${guid()}`;
 
   // --------------------------------------------------------------------------
   //
@@ -95,9 +98,22 @@ export class CalciteBlockSection {
   //  Render Methods
   //
   // --------------------------------------------------------------------------
+  renderStatusIcon(): VNode[] {
+    const { status } = this;
+    const statusIcon = ICONS[status] ?? false;
+    const statusIconClasses = {
+      [CSS.statusIcon]: true,
+      [CSS.valid]: status == "valid",
+      [CSS.invalid]: status == "invalid"
+    };
+
+    return !!statusIcon ? (
+      <calcite-icon class={statusIconClasses} icon={statusIcon} scale="s" />
+    ) : null;
+  }
 
   render(): VNode {
-    const { el, guid: id, intlCollapse, intlExpand, open, text, toggleDisplay } = this;
+    const { el, intlCollapse, intlExpand, open, text, toggleDisplay } = this;
     const dir = getElementDir(el);
     const arrowIcon = open
       ? ICONS.menuOpen
@@ -106,7 +122,6 @@ export class CalciteBlockSection {
       : ICONS.menuClosedRight;
 
     const toggleLabel = open ? intlCollapse || TEXT.collapse : intlExpand || TEXT.expand;
-    const labelId = `${id}__label`;
 
     const headerNode =
       toggleDisplay === "switch" ? (
@@ -116,19 +131,20 @@ export class CalciteBlockSection {
             [CSS.toggle]: true,
             [CSS.toggleSwitch]: true
           }}
-          id={labelId}
           onKeyDown={this.handleHeaderLabelKeyDown}
           tabIndex={0}
           title={toggleLabel}
         >
-          {text}
+          <div class={CSS.toggleSwitchContent}>
+            <span class={CSS.toggleSwitchText}>{text}</span>
+          </div>
           <calcite-switch
-            aria-labelledby={labelId}
             onCalciteSwitchChange={this.toggleSection}
             scale="s"
             switched={open}
             tabIndex={-1}
           />
+          {this.renderStatusIcon()}
         </label>
       ) : (
         <button
@@ -143,6 +159,7 @@ export class CalciteBlockSection {
         >
           <calcite-icon icon={arrowIcon} scale="s" />
           <span class={CSS.sectionHeaderText}>{text}</span>
+          {this.renderStatusIcon()}
         </button>
       );
 

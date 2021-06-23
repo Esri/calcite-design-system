@@ -5,15 +5,15 @@ import { html } from "../../tests/utils";
 describe("calcite-tile-select", () => {
   it("renders", async () => renders("calcite-tile-select"));
 
-  it("is accessible", async () => accessible(`<calcite-tile-select></calcite-tile-select>`));
+  it("is accessible", async () =>
+    accessible(`<calcite-label><calcite-tile-select></calcite-tile-select>Label</calcite-label>`));
 
   it("has defaults", async () =>
     defaults("calcite-tile-select", [
       { propertyName: "checked", defaultValue: false },
       { propertyName: "disabled", defaultValue: false },
       { propertyName: "hidden", defaultValue: false },
-      { propertyName: "width", defaultValue: "auto" },
-      { propertyName: "theme", defaultValue: "light" }
+      { propertyName: "width", defaultValue: "auto" }
     ]));
 
   it("reflects", async () =>
@@ -27,10 +27,8 @@ describe("calcite-tile-select", () => {
       { propertyName: "inputAlignment", value: "start" },
       { propertyName: "name", value: "my-tile-select" },
       { propertyName: "inputEnabled", value: true },
-      { propertyName: "theme", value: "light" },
       { propertyName: "type", value: "radio" },
-      { propertyName: "width", value: "auto" },
-      { propertyName: "value", value: "option one" }
+      { propertyName: "width", value: "auto" }
     ]));
 
   it("honors hidden attribute", async () => hidden("calcite-tile-select"));
@@ -78,8 +76,8 @@ describe("calcite-tile-select", () => {
     `);
 
     let firstRadioButton = await page.find("calcite-radio-button");
-    expect(firstRadioButton).toEqualAttribute("name", "radio");
-    expect(firstRadioButton).toEqualAttribute("value", "first");
+    expect(await firstRadioButton.getProperty("name")).toBe("radio");
+    expect(await firstRadioButton.getProperty("value")).toBe("first");
 
     await page.evaluate(() => {
       const firstTileSelect = document.querySelector("calcite-tile-select");
@@ -98,8 +96,8 @@ describe("calcite-tile-select", () => {
     `);
 
     let firstRadioButton = await page.find("calcite-checkbox");
-    expect(firstRadioButton).toEqualAttribute("name", "checky");
-    expect(firstRadioButton).toEqualAttribute("value", "first");
+    expect(await firstRadioButton.getProperty("name")).toBe("checky");
+    expect(await firstRadioButton.getProperty("value")).toBe("first");
 
     await page.evaluate(() => {
       const firstTileSelect = document.querySelector("calcite-tile-select");

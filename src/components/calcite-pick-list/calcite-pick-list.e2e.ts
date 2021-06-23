@@ -1,16 +1,26 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { ICON_TYPES } from "./resources";
-import { accessible, hidden, renders } from "../../tests/commonTests";
+import { accessible, hidden, renders, defaults } from "../../tests/commonTests";
 import {
   selectionAndDeselection,
   filterBehavior,
   disabledStates,
   keyboardNavigation,
-  itemRemoval
+  itemRemoval,
+  focusing
 } from "./shared-list-tests";
 import { html } from "../../tests/utils";
+import { CSS as PICK_LIST_GROUP_CSS } from "../calcite-pick-list-group/resources";
 
 describe("calcite-pick-list", () => {
+  it("has property defaults", async () =>
+    defaults("calcite-pick-list", [
+      {
+        propertyName: "headingLevel",
+        defaultValue: undefined
+      }
+    ]));
+
   it("renders", async () => renders("calcite-pick-list"));
 
   it("honors hidden attribute", async () => hidden("calcite-pick-list"));
@@ -168,4 +178,27 @@ describe("calcite-pick-list", () => {
   describe("item removal", () => itemRemoval("pick"));
 
   describe("disabled states", () => disabledStates("pick"));
+
+  describe("setFocus", () => focusing("pick"));
+
+  it("should set headingLevel of tip", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-pick-list heading-level="1">
+      <calcite-pick-list-group group-title="test">
+        <calcite-pick-list-item value="1" label="One" description="uno"></calcite-pick-list-item>
+        <calcite-pick-list-item value="2" label="Two" description="dos"></calcite-pick-list-item>
+      </calcite-pick-list-group>
+    </calcite-pick-list>`
+    });
+
+    await page.waitForChanges();
+
+    const pickList = await page.find("calcite-pick-list");
+
+    expect(await pickList.getProperty("headingLevel")).toEqual(1);
+
+    const heading = await page.find(`calcite-pick-list-group >>> .${PICK_LIST_GROUP_CSS.heading}`);
+
+    expect(heading.tagName).toEqual("H2");
+  });
 });

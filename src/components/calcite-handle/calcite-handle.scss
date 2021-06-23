@@ -7,20 +7,23 @@
     items-center 
     self-stretch 
     justify-center
-    text-color-2 
     bg-transparent 
     border-none 
     cursor-move
     focus-base;
+  color: theme("borderColor.color.3");
   padding: theme("spacing.3") theme("spacing.1");
   line-height: 0;
   &:hover {
-    @apply bg-foreground-2 text-color-2;
+    @apply bg-foreground-2 text-color-1;
   }
   &:focus {
     @apply text-color-1 focus-inset;
   }
   &--activated {
     @apply bg-foreground-3 text-color-1;
+  }
+  calcite-icon {
+    color: inherit;
   }
 }

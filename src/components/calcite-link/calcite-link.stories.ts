@@ -116,7 +116,7 @@ export const DarkMode = (): string => html`
     )}px; font-weight: ${select("containing font weight", ["300", "400", "500", "700"], "400")};"
   >
     Some wrapping text
-    <calcite-link theme="dark" href="${text("href", "")}" ${boolean("disabled", false)}
+    <calcite-link class="calcite-theme-dark" href="${text("href", "")}" ${boolean("disabled", false)}
       >${text("text", "link text here")}</calcite-link
     >
     around the link
@@ -127,3 +127,25 @@ DarkMode.story = {
   name: "Dark mode",
   parameters: { backgrounds: darkBackground }
 };
+
+export const WithIconStartAndIconEndRTL = (): string => html`
+  <div
+    dir="rtl"
+    style="font-size: ${select(
+      "containing font size",
+      ["12", "14", "16", "18", "20", "24", "32"],
+      "16"
+    )}px; font-weight: ${select("containing font weight", ["300", "400", "500", "700"], "400")};"
+  >
+    Some wrapping text
+    <calcite-link
+      href="${text("href", "")}"
+      ${boolean("disabled", false)}
+      icon-start="${select("icon-start", iconNames, iconNames[0])}"
+      icon-end="${select("icon-end", iconNames, iconNames[1])}"
+    >
+      ${text("text", "link text here")}</calcite-link
+    >
+    around the link
+  </div>
+`;

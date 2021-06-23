@@ -12,7 +12,8 @@ import {
   VNode
 } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
-import { Position } from "../interfaces";
+import { RadioAppearance } from "../calcite-radio-group/interfaces";
+import { Position, Layout, Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-radio-group-item",
@@ -93,9 +94,9 @@ export class CalciteRadioGroupItem {
   render(): VNode {
     const { checked, useFallback, value } = this;
     const dir = getElementDir(this.el);
-    const scale = getElementProp(this.el, "scale", "m");
-    const appearance = getElementProp(this.el, "appearance", "solid");
-    const layout = getElementProp(this.el, "layout", "horizontal");
+    const scale: Scale = getElementProp(this.el, "scale", "m");
+    const appearance: RadioAppearance = getElementProp(this.el, "appearance", "solid");
+    const layout: Layout = getElementProp(this.el, "layout", "horizontal");
 
     const iconEl = (
       <calcite-icon
@@ -108,14 +109,16 @@ export class CalciteRadioGroupItem {
     );
 
     return (
-      <Host
-        appearance={appearance}
-        aria-checked={checked.toString()}
-        layout={layout}
-        role="radio"
-        scale={scale}
-      >
-        <label>
+      <Host aria-checked={checked.toString()} role="radio">
+        <label
+          class={{
+            "label--scale-s": scale === "s",
+            "label--scale-m": scale === "m",
+            "label--scale-l": scale === "l",
+            "label--horizontal": layout === "horizontal",
+            "label--outline": appearance === "outline"
+          }}
+        >
           {this.icon && this.iconPosition === "start" ? iconEl : null}
           <slot>{useFallback ? value : ""}</slot>
           <slot name="input" />
@@ -173,7 +176,7 @@ export class CalciteRadioGroupItem {
 
     this.inputProxy.value = this.value;
     if (this.checked) {
-      this.inputProxy.setAttribute("checked", "true");
+      this.inputProxy.setAttribute("checked", "");
     } else {
       this.inputProxy.removeAttribute("checked");
     }

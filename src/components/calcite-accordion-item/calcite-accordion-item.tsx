@@ -11,6 +11,8 @@ import {
 } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { getKey } from "../../utils/key";
+import { CSS_UTILITY } from "../../utils/resources";
+import { Position } from "../interfaces";
 
 @Component({
   tag: "calcite-accordion-item",
@@ -79,8 +81,7 @@ export class CalciteAccordionItem {
     this.parent = this.el.parentElement as HTMLCalciteAccordionElement;
     this.selectionMode = getElementProp(this.el, "selection-mode", "multi");
     this.iconType = getElementProp(this.el, "icon-type", "chevron");
-    this.iconPosition = getElementProp(this.el, "icon-position", "end");
-    this.scale = getElementProp(this.el, "scale", "m");
+    this.iconPosition = getElementProp(this.el, "icon-position", this.iconPosition);
   }
 
   componentDidLoad(): void {
@@ -93,39 +94,45 @@ export class CalciteAccordionItem {
 
   render(): VNode {
     const dir = getElementDir(this.el);
-    const iconScale = this.scale !== "l" ? "s" : "m";
 
-    const iconEl = <calcite-icon class="accordion-item-icon" icon={this.icon} scale={iconScale} />;
+    const iconEl = <calcite-icon class="accordion-item-icon" icon={this.icon} scale="s" />;
 
     return (
-      <Host
-        aria-expanded={this.active.toString()}
-        dir={dir}
-        icon-position={this.iconPosition}
-        tabindex="0"
-      >
-        <div class="accordion-item-header" onClick={this.itemHeaderClickHandler}>
-          {this.icon ? iconEl : null}
-          <div class="accordion-item-header-text">
-            <span class="accordion-item-title">{this.itemTitle}</span>
-            <span class="accordion-item-subtitle">{this.itemSubtitle}</span>
+      <Host aria-expanded={this.active.toString()} tabindex="0">
+        <div
+          class={{
+            [`icon-position--${this.iconPosition}`]: true,
+            [`icon-type--${this.iconType}`]: true
+          }}
+        >
+          <div
+            class={{ "accordion-item-header": true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+            onClick={this.itemHeaderClickHandler}
+          >
+            {this.icon ? iconEl : null}
+            <div class="accordion-item-header-text">
+              <span class="accordion-item-title">{this.itemTitle}</span>
+              {this.itemSubtitle ? (
+                <span class="accordion-item-subtitle">{this.itemSubtitle}</span>
+              ) : null}
+            </div>
+            <calcite-icon
+              class="accordion-item-expand-icon"
+              icon={
+                this.iconType === "chevron"
+                  ? "chevronUp"
+                  : this.iconType === "caret"
+                  ? "caretUp"
+                  : this.active
+                  ? "minus"
+                  : "plus"
+              }
+              scale="s"
+            />
           </div>
-          <calcite-icon
-            class="accordion-item-expand-icon"
-            icon={
-              this.iconType === "chevron"
-                ? "chevronUp"
-                : this.iconType === "caret"
-                ? "caretUp"
-                : this.active
-                ? "minus"
-                : "plus"
-            }
-            scale="s"
-          />
-        </div>
-        <div class="accordion-item-content">
-          <slot />
+          <div class="accordion-item-content">
+            <slot />
+          </div>
         </div>
       </Host>
     );
@@ -184,14 +191,11 @@ export class CalciteAccordionItem {
   /** what selection mode is the parent accordion in */
   private selectionMode: string;
 
+  /** what icon position does the parent accordion specify */
+  private iconPosition: Position = "end";
+
   /** what icon type does the parent accordion specify */
   private iconType: string;
-
-  /** what icon position does the parent accordion specify */
-  private iconPosition: string;
-
-  /** the scale of the parent accordion */
-  private scale: string;
 
   /** handle clicks on item header */
   private itemHeaderClickHandler = (): void => this.emitRequestedItem();
@@ -204,12 +208,17 @@ export class CalciteAccordionItem {
   private determineActiveItem(): void {
     switch (this.selectionMode) {
       case "multi":
-        if (this.el === this.requestedAccordionItem) this.active = !this.active;
+        if (this.el === this.requestedAccordionItem) {
+          this.active = !this.active;
+        }
         break;
 
       case "single":
-        if (this.el === this.requestedAccordionItem) this.active = !this.active;
-        else this.active = false;
+        if (this.el === this.requestedAccordionItem) {
+          this.active = !this.active;
+        } else {
+          this.active = false;
+        }
         break;
 
       case "single-persist":

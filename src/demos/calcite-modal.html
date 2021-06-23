@@ -1,309 +1,342 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Calcite Modal</title>
+    <style>
+      .demo-background-dark {
+        background: #202020;
+        color: white;
+        padding: 1rem;
+      }
+      .flex {
+        display: flex;
+      }
+      calcite-card + calcite-card {
+        margin-left: 2rem;
+      }
+    </style>
+    <script src="./_assets/head.js"></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Calcite Modal</title>
-  <style>
-    .demo-background-dark {
-      background: #202020;
-      color: white;
-      padding: 1rem;
-    }
-    .flex {
-      display: flex;
-    }
-    calcite-card + calcite-card {
-      margin-left: 2rem;
-    }
-  </style>
-  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
-  <link rel="stylesheet" href="../build/calcite.css" />
-  <script type="module" src="../build/calcite.esm.js"></script>
-  <script nomodule src="../build/calcite.js"></script>
-</head>
+  <body>
+    <calcite-button href="/">Home</calcite-button>
+    <h1>Calcite Modal</h1>
 
-<body>
-  <calcite-button href="/">Home</calcite-button>
-  <h1>Calcite Modal</h1>
-
-  <calcite-modal class="js-modal-1" width="s">
-    <h3 slot="header">Small Modal</h3>
-    <div slot="content">
-      <p>
-        The small modal is perfect for short confirmation dialogs or very compact interfaces with few elements.
-      </p>
-    </div>
-    <calcite-button slot="back" width="full" color="neutral" appearance="outline"
-      icon="chevron-left" width="full">Back</calcite-button>
-    <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
-    <calcite-button slot="primary" width="full">Save</calcite-button>
-  </calcite-modal>
-  <calcite-modal class="js-modal-2" width="m">
-    <h3 slot="header">Medium Modal</h3>
-    <div slot="content">
-      <table>
-        <tbody>
-          <tr>
-            <td>
-              <p>The medium modal is large enough to fit a two column layout where both columns will have a
-                readable line-length on
-                most desktop devices.</p>
-            </td>
-            <td>
-              <p>Single column layouts will still be within a readable line length on the medium size.</p>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <calcite-button slot="back" width="full" color="neutral" appearance="outline"
-      icon="chevron-left">Back</calcite-button>
-    <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
-    <calcite-button slot="primary" width="full">Save</calcite-button>
-  </calcite-modal>
-  <calcite-modal class="js-modal-3" width="l">
-    <h3 slot="header">Large modal</h3>
-    <div slot="content">
-      <p>This modal will be fullscreen until it is as wide as the calcite-web grid's max-width. This enables you
-        to use gridded
-        layouts within the modal and keeps your modal from growing beyond a readable line length.</p>
-    </div>
-    <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
-    <calcite-button slot="primary" width="full">Save</calcite-button>
-  </calcite-modal>
-  <calcite-modal class="js-modal-4" fullscreen>
-    <h3 slot="header">Fullscreen modal</h3>
-    <div slot="content">
-      <p>This modal will <em>always</em> be fullscreen. Use in situations where the elements contained inside your
-        modal
-        need the full screen real estate (maps, etc)</p>
-    </div>
-    <calcite-button slot="back" width="full" color="neutral" appearance="outline"
-      icon="chevron-left">Back</calcite-button>
-    <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
-    <calcite-button slot="primary" width="full">Save</calcite-button>
-  </calcite-modal>
-  <calcite-modal class="js-modal-5" color="red">
-    <h3 slot="header">Delete</h3>
-    <div slot="content">
-      <p>This will delete things and perform some desctructive action, do you wish to continue?</p>
-    </div>
-    <calcite-button slot="secondary" width="full" appearance="outline" color="red">Cancel</calcite-button>
-    <calcite-button slot="primary" width="full" color="red">Delete</calcite-button>
-  </calcite-modal>
-  <calcite-modal class="js-modal-6" color="blue">
-    <h3 slot="header">Information</h3>
-    <div slot="content">
-      <p>This dialog should be used when choosing two viable paths.</p>
-    </div>
-    <calcite-button slot="secondary" width="full" appearance="outline">Start with no members</calcite-button>
-    <calcite-button slot="primary" width="full">Add members now</calcite-button>
-  </calcite-modal>
-  <calcite-modal class="js-modal-7" status="info" docked>
-    <h3 slot="header">Docked</h3>
-    <div slot="content">
-      <p>For devices smaller than a tablet this modal will "dock" to the bottom. This makes action selection more
-        thumb-friendly.</p>
-    </div>
-    <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
-    <calcite-button slot="primary" width="full">Save</calcite-button>
-  </calcite-modal>
-  <calcite-modal class="js-modal-8" status="info" docked>
-    <h3 slot="header">Tab Fencing</h3>
-    <div slot="content">
-      <p>When you open a modal, the focus should be set to the first focusable element. <calcite-button>LIKE THIS
-        </calcite-button>.</p>
-      <div><a href="#">Anchors</a>, <input type="text" value="inputs">, <calcite-slider></calcite-slider>
+    <calcite-modal class="js-modal-1" width="s" scale="s">
+      <h3 slot="header">Small Modal</h3>
+      <div slot="content">
+        <p>The small modal is perfect for short confirmation dialogs or very compact interfaces with few elements.</p>
       </div>
-    </div>
-    <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
-    <calcite-button slot="primary" width="full">Save</calcite-button>
-  </calcite-modal>
-  <calcite-modal theme="dark" class="js-modal-9">
-    <h3 slot="header">Dark Theme</h3>
-    <div slot="content">
-      <p>Example of a modal rendered in dark theme. The text will become light on dark, but notice box shadows are
-        still dark.
-    </div>
-    <calcite-button theme="dark" slot="primary">OK</calcite-button>
-  </calcite-modal>
-  <calcite-modal class="js-modal-10" disable-escape>
-    <h3 slot="header">Modal title</h3>
-    <div slot="content">
-      <p>This modal has <code>disable-escape</code> set, so pressing the escape key will not dismiss it.</p>
-    </div>
-    <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
-  </calcite-modal>
-  <calcite-modal class="js-modal-11" disable-close-button>
-    <h3 slot="header">Modal title</h3>
-    <div slot="content">
-      <p>This modal has no close button.</p>
-    </div>
-    <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
-  </calcite-modal>
-  <calcite-modal class="js-modal-12" width="500">
-    <h3 slot="header">Modal title</h3>
-    <div slot="content">
-      <p>This modal will be 500 pixels wide on larger screens and become fullscreen below that.</p>
-    </div>
-    <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
-  </calcite-modal>
-  <calcite-modal class="js-modal-13" width="s" scale="s">
-    <h3 slot="header">Small Scale</h3>
-    <div slot="content">
-      <p>
-        This is the small scale modal. It is meant to work with other components at the small scale (like buttons, etc).
-      </p>
-    </div>
-    <calcite-button scale="s" slot="back" width="full" color="neutral" appearance="outline"
-      icon="chevron-left" width="full">Back</calcite-button>
-    <calcite-button scale="s" slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
-    <calcite-button scale="s" slot="primary" width="full">Save</calcite-button>
-  </calcite-modal>
-  <calcite-modal class="js-modal-14" width="s" scale="m">
-    <h3 slot="header">Medium Scale</h3>
-    <div slot="content">
-      <p>
-        This is the medium scale modal. It is the default scale and is meant to work with other components at the medium scale.
-      </p>
-    </div>
-    <calcite-button scale="m" slot="back" width="full" color="neutral" appearance="outline"
-      icon="chevron-left" width="full">Back</calcite-button>
-    <calcite-button scale="m" slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
-    <calcite-button scale="m" slot="primary" width="full">Save</calcite-button>
-  </calcite-modal>
-  <calcite-modal class="js-modal-15" width="s" scale="l">
-    <h3 slot="header">Large Scale</h3>
-    <div slot="content">
-      <p>
-        This is the large scale modal. It is meant to work with other components at the large scale (like buttons, etc).
-      </p>
-    </div>
-    <calcite-button scale="l" slot="back" width="full" color="neutral" appearance="outline"
-      icon="chevron-left" width="full">Back</calcite-button>
-    <calcite-button scale="l" slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
-    <calcite-button scale="l" slot="primary" width="full">Save</calcite-button>
-  </calcite-modal>
-  <calcite-modal class="js-modal-16" fullscreen background-color="grey">
-    <h3 slot="header">Grey Background</h3>
-    <div slot="content">
-      <p>
-        By using the backgroundColor attribute, you can create a modal with a light grey background rather than white.
-      </p>
-      <p>This allows you to have white components inside the modal with good separation.</p>
-      <h4>Card Example</h4>
-      <div class="flex">
-        <calcite-card selected selectable>
-          <img slot="thumbnail" src="https://placem.at/places?w=260&h=160&txt=0" />
-
-          <h3 slot="title">ArcGIS Online Sign In and Sign Up</h3>
-          <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
-            overly verbose.</span>
-          <calcite-link slot="footer-leading">Lead füt</calcite-link>
-          <calcite-link slot="footer-trailing">Trail füt</calcite-link>
-        </calcite-card>
-        <calcite-card selected selectable>
-          <img slot="thumbnail" src="https://placem.at/places?w=260&h=160&txt=0" />
-
-          <h3 slot="title">ArcGIS Online Sign In and Sign Up</h3>
-          <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
-            overly verbose.</span>
-          <calcite-link slot="footer-leading">Lead füt</calcite-link>
-          <calcite-link slot="footer-trailing">Trail füt</calcite-link>
-        </calcite-card>
-        <calcite-card selected selectable>
-          <img slot="thumbnail" src="https://placem.at/places?w=260&h=160&txt=0" />
-
-          <h3 slot="title">ArcGIS Online Sign In and Sign Up</h3>
-          <span slot="subtitle">A great example of a study description that might wrap to a line or two, but isn't
-            overly verbose.</span>
-          <calcite-link slot="footer-leading">Lead füt</calcite-link>
-          <calcite-link slot="footer-trailing">Trail füt</calcite-link>
-        </calcite-card>
+      <calcite-button slot="back" width="full" scale="s" color="neutral" appearance="outline" icon="chevron-left"
+        >Back</calcite-button
+      >
+      <calcite-button slot="secondary" width="full" scale="s" appearance="outline">Cancel</calcite-button>
+      <calcite-button slot="primary" width="full" scale="s">Save</calcite-button>
+    </calcite-modal>
+    <calcite-modal class="js-modal-2" width="m" scale="m">
+      <h3 slot="header">Medium Modal</h3>
+      <div slot="content">
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                <p>
+                  The medium modal is large enough to fit a two column layout where both columns will have a readable
+                  line-length on most desktop devices.
+                </p>
+              </td>
+              <td>
+                <p>Single column layouts will still be within a readable line length on the medium size.</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </div>
-    <calcite-button scale="m" slot="back" width="full" color="neutral" appearance="outline"
-      icon="chevron-left" width="full">Back</calcite-button>
-    <calcite-button scale="m" slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
-    <calcite-button scale="m" slot="primary" width="full">Save</calcite-button>
-  </calcite-modal>
-  <calcite-modal class="js-modal-17" width="s">
-    <h3 slot="header">Small Modal</h3>
-    <div slot="content">
-      <calcite-loader label="loading" active/>
-    </div>
-  </calcite-modal>
-  <ul>
-    <li>
-      <calcite-link onClick="openModal('.js-modal-1')">Small Modal</calcite-link>
-    </li>
-    <li>
-      <calcite-link onClick="openModal('.js-modal-2')">Medium Modal</calcite-link>
-    </li>
-    <li>
-      <calcite-link onClick="openModal('.js-modal-3')">Large Modal</calcite-link>
-    </li>
-    <li>
-      <calcite-link onClick="openModal('.js-modal-4')">Fullscreen Modal</calcite-link>
-    </li>
-    <li>
-      <calcite-link onClick="openModal('.js-modal-5')">Destructive Modal</calcite-link>
-    </li>
-    <li>
-      <calcite-link onClick="openModal('.js-modal-6')">Info Modal</calcite-link>
-    </li>
-    <li>
-      <calcite-link onClick="openModal('.js-modal-7')">Docked</calcite-link>
-    </li>
-    <li>
-      <calcite-link onClick="openModal('.js-modal-8')">Tab Fencing</calcite-link>
-    </li>
-    <li>
-      <calcite-link onClick="openModal('.js-modal-9')">Dark Theme</calcite-link>
-    </li>
-    <li>
-      <calcite-link onClick="openModal('.js-modal-10')">Close on escape press disabled
-      </calcite-link>
-    </li>
-    <li>
-      <calcite-link onClick="openModal('.js-modal-11')">No Close Button
-      </calcite-link>
-    </li>
-    <li>
-      <calcite-link onClick="openModal('.js-modal-12')">Custom Width
-      </calcite-link>
-    </li>
-    <li>
-      <calcite-link onClick="openModal('.js-modal-13')">Scale Small
-      </calcite-link>
-    </li>
-    <li>
-      <calcite-link onClick="openModal('.js-modal-14')">Scale Medium
-      </calcite-link>
-    </li>
-    <li>
-      <calcite-link onClick="openModal('.js-modal-15')">Scale Large
-      </calcite-link>
-    </li>
-    <li>
-      <calcite-link onClick="openModal('.js-modal-16')">Grey Background Color
-      </calcite-link>
-    </li>
-    <li>
-      <calcite-link onClick="openModal('.js-modal-17')">No footer
-      </calcite-link>
-    </li>
-  </ul>
-  <script>
-    function openModal(selector) {
-      document.querySelector(selector).active = true;
-    }
-  </script>
-  </calcite-tab>
+      <calcite-button slot="back" width="full" scale="m" color="neutral" appearance="outline" icon="chevron-left"
+        >Back</calcite-button
+      >
+      <calcite-button slot="secondary" width="full" scale="m" appearance="outline">Cancel</calcite-button>
+      <calcite-button slot="primary" width="full" scale="m">Save</calcite-button>
+    </calcite-modal>
+    <calcite-modal class="js-modal-3" width="l" scale="l">
+      <h3 slot="header">Large modal</h3>
+      <div slot="content">
+        <p>
+          This modal will be fullscreen until it is as wide as the calcite-web grid's max-width. This enables you to use
+          gridded layouts within the modal and keeps your modal from growing beyond a readable line length.
+        </p>
+      </div>
+      <calcite-button slot="secondary" width="full" scale="l" appearance="outline">Cancel</calcite-button>
+      <calcite-button slot="primary" width="full" scale="l">Save</calcite-button>
+    </calcite-modal>
+    <calcite-modal class="js-modal-4" fullscreen>
+      <h3 slot="header">Fullscreen modal</h3>
+      <div slot="content">
+        <p>
+          This modal will <em>always</em> be fullscreen. Use in situations where the elements contained inside your
+          modal need the full screen real estate (maps, etc)
+        </p>
+      </div>
+      <calcite-button slot="back" width="full" color="neutral" appearance="outline" icon="chevron-left"
+        >Back</calcite-button
+      >
+      <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+      <calcite-button slot="primary" width="full">Save</calcite-button>
+    </calcite-modal>
+    <calcite-modal class="js-modal-5" color="red">
+      <h3 slot="header">Delete</h3>
+      <div slot="content">
+        <p>This will delete things and perform some desctructive action, do you wish to continue?</p>
+      </div>
+      <calcite-button slot="secondary" width="full" appearance="outline" color="red">Cancel</calcite-button>
+      <calcite-button slot="primary" width="full" color="red">Delete</calcite-button>
+    </calcite-modal>
+    <calcite-modal class="js-modal-6" color="blue">
+      <h3 slot="header">Information</h3>
+      <div slot="content">
+        <p>This dialog should be used when choosing two viable paths.</p>
+      </div>
+      <calcite-button slot="secondary" width="full" appearance="outline">Start with no members</calcite-button>
+      <calcite-button slot="primary" width="full">Add members now</calcite-button>
+    </calcite-modal>
+    <calcite-modal class="js-modal-7" status="info" docked>
+      <h3 slot="header">Docked</h3>
+      <div slot="content">
+        <p>
+          For devices smaller than a tablet this modal will "dock" to the bottom. This makes action selection more
+          thumb-friendly.
+        </p>
+      </div>
+      <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+      <calcite-button slot="primary" width="full">Save</calcite-button>
+    </calcite-modal>
+    <calcite-modal class="js-modal-8" status="info" docked>
+      <h3 slot="header">Tab Fencing</h3>
+      <div slot="content">
+        <p>
+          When you open a modal, the focus should be set to the first focusable element.
+          <calcite-button>LIKE THIS </calcite-button>.
+        </p>
+        <div><a href="#">Anchors</a>, <input type="text" value="inputs" />, <calcite-slider></calcite-slider></div>
+      </div>
+      <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+      <calcite-button slot="primary" width="full">Save</calcite-button>
+    </calcite-modal>
+    <calcite-modal class="js-modal-9 calcite-theme-dark">
+      <h3 slot="header">Dark Theme</h3>
+      <div slot="content">
+        <p>
+          Example of a modal rendered in dark theme. The text will become light on dark, but notice box shadows are
+          still dark.
+        </p>
+      </div>
 
-</body>
+      <calcite-button class="calcite-theme-dark" slot="primary">OK</calcite-button>
+    </calcite-modal>
+    <calcite-modal class="js-modal-10" disable-escape>
+      <h3 slot="header">Modal title</h3>
+      <div slot="content">
+        <p>This modal has <code>disable-escape</code> set, so pressing the escape key will not dismiss it.</p>
+      </div>
+      <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+    </calcite-modal>
+    <calcite-modal class="js-modal-11" disable-close-button>
+      <h3 slot="header">Modal title</h3>
+      <div slot="content">
+        <p>This modal has no close button.</p>
+      </div>
+      <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+    </calcite-modal>
+    <calcite-modal class="js-modal-12" width="500">
+      <h3 slot="header">Modal title</h3>
+      <div slot="content">
+        <p>This modal will be 500 pixels wide on larger screens and become fullscreen below that.</p>
+      </div>
+      <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+    </calcite-modal>
+    <calcite-modal class="js-modal-13" width="s" scale="s">
+      <h3 slot="header">Small Scale</h3>
+      <div slot="content">
+        <p>
+          This is the small scale modal. It is meant to work with other components at the small scale (like buttons,
+          etc).
+        </p>
+      </div>
+      <calcite-button
+        scale="s"
+        slot="back"
+        width="full"
+        color="neutral"
+        appearance="outline"
+        icon="chevron-left"
+        width="full"
+        >Back</calcite-button
+      >
+      <calcite-button scale="s" slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+      <calcite-button scale="s" slot="primary" width="full">Save</calcite-button>
+    </calcite-modal>
+    <calcite-modal class="js-modal-14" width="s" scale="m">
+      <h3 slot="header">Medium Scale</h3>
+      <div slot="content">
+        <p>
+          This is the medium scale modal. It is the default scale and is meant to work with other components at the
+          medium scale.
+        </p>
+      </div>
+      <calcite-button
+        scale="m"
+        slot="back"
+        width="full"
+        color="neutral"
+        appearance="outline"
+        icon="chevron-left"
+        width="full"
+        >Back</calcite-button
+      >
+      <calcite-button scale="m" slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+      <calcite-button scale="m" slot="primary" width="full">Save</calcite-button>
+    </calcite-modal>
+    <calcite-modal class="js-modal-15" width="s" scale="l">
+      <h3 slot="header">Large Scale</h3>
+      <div slot="content">
+        <p>
+          This is the large scale modal. It is meant to work with other components at the large scale (like buttons,
+          etc).
+        </p>
+      </div>
+      <calcite-button
+        scale="l"
+        slot="back"
+        width="full"
+        color="neutral"
+        appearance="outline"
+        icon="chevron-left"
+        width="full"
+        >Back</calcite-button
+      >
+      <calcite-button scale="l" slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+      <calcite-button scale="l" slot="primary" width="full">Save</calcite-button>
+    </calcite-modal>
+    <calcite-modal class="js-modal-16" fullscreen background-color="grey">
+      <h3 slot="header">Grey Background</h3>
+      <div slot="content">
+        <p>
+          By using the backgroundColor attribute, you can create a modal with a light grey background rather than white.
+        </p>
+        <p>This allows you to have white components inside the modal with good separation.</p>
+        <h4>Card Example</h4>
+        <div class="flex">
+          <calcite-card selected selectable>
+            <img slot="thumbnail" src="https://placem.at/places?w=260&h=160&txt=0" />
 
+            <h3 slot="title">ArcGIS Online Sign In and Sign Up</h3>
+            <span slot="subtitle"
+              >A great example of a study description that might wrap to a line or two, but isn't overly verbose.</span
+            >
+            <calcite-link slot="footer-leading">Lead füt</calcite-link>
+            <calcite-link slot="footer-trailing">Trail füt</calcite-link>
+          </calcite-card>
+          <calcite-card selected selectable>
+            <img slot="thumbnail" src="https://placem.at/places?w=260&h=160&txt=0" />
+
+            <h3 slot="title">ArcGIS Online Sign In and Sign Up</h3>
+            <span slot="subtitle"
+              >A great example of a study description that might wrap to a line or two, but isn't overly verbose.</span
+            >
+            <calcite-link slot="footer-leading">Lead füt</calcite-link>
+            <calcite-link slot="footer-trailing">Trail füt</calcite-link>
+          </calcite-card>
+          <calcite-card selected selectable>
+            <img slot="thumbnail" src="https://placem.at/places?w=260&h=160&txt=0" />
+
+            <h3 slot="title">ArcGIS Online Sign In and Sign Up</h3>
+            <span slot="subtitle"
+              >A great example of a study description that might wrap to a line or two, but isn't overly verbose.</span
+            >
+            <calcite-link slot="footer-leading">Lead füt</calcite-link>
+            <calcite-link slot="footer-trailing">Trail füt</calcite-link>
+          </calcite-card>
+        </div>
+      </div>
+      <calcite-button
+        scale="m"
+        slot="back"
+        width="full"
+        color="neutral"
+        appearance="outline"
+        icon="chevron-left"
+        width="full"
+        >Back</calcite-button
+      >
+      <calcite-button scale="m" slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+      <calcite-button scale="m" slot="primary" width="full">Save</calcite-button>
+    </calcite-modal>
+    <calcite-modal class="js-modal-17" width="s">
+      <h3 slot="header">Small Modal</h3>
+      <div slot="content">
+        <calcite-loader label="loading" active />
+      </div>
+    </calcite-modal>
+    <ul>
+      <li>
+        <calcite-link onClick="openModal('.js-modal-1')">Small Modal</calcite-link>
+      </li>
+      <li>
+        <calcite-link onClick="openModal('.js-modal-2')">Medium Modal</calcite-link>
+      </li>
+      <li>
+        <calcite-link onClick="openModal('.js-modal-3')">Large Modal</calcite-link>
+      </li>
+      <li>
+        <calcite-link onClick="openModal('.js-modal-4')">Fullscreen Modal</calcite-link>
+      </li>
+      <li>
+        <calcite-link onClick="openModal('.js-modal-5')">Destructive Modal</calcite-link>
+      </li>
+      <li>
+        <calcite-link onClick="openModal('.js-modal-6')">Info Modal</calcite-link>
+      </li>
+      <li>
+        <calcite-link onClick="openModal('.js-modal-7')">Docked</calcite-link>
+      </li>
+      <li>
+        <calcite-link onClick="openModal('.js-modal-8')">Tab Fencing</calcite-link>
+      </li>
+      <li>
+        <calcite-link onClick="openModal('.js-modal-9')">Dark Theme</calcite-link>
+      </li>
+      <li>
+        <calcite-link onClick="openModal('.js-modal-10')">Close on escape press disabled </calcite-link>
+      </li>
+      <li>
+        <calcite-link onClick="openModal('.js-modal-11')">No Close Button </calcite-link>
+      </li>
+      <li>
+        <calcite-link onClick="openModal('.js-modal-12')">Custom Width </calcite-link>
+      </li>
+      <li>
+        <calcite-link onClick="openModal('.js-modal-13')">Scale Small </calcite-link>
+      </li>
+      <li>
+        <calcite-link onClick="openModal('.js-modal-14')">Scale Medium </calcite-link>
+      </li>
+      <li>
+        <calcite-link onClick="openModal('.js-modal-15')">Scale Large </calcite-link>
+      </li>
+      <li>
+        <calcite-link onClick="openModal('.js-modal-16')">Grey Background Color </calcite-link>
+      </li>
+      <li>
+        <calcite-link onClick="openModal('.js-modal-17')">No footer </calcite-link>
+      </li>
+    </ul>
+    <script>
+      function openModal(selector) {
+        document.querySelector(selector).active = true;
+      }
+    </script>
+  </body>
 </html>

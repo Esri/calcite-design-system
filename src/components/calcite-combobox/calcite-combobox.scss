@@ -1,6 +1,5 @@
 :host {
-  display: block;
-  position: relative;
+  @apply block relative;
 }
 
 :host([disabled]) {
@@ -9,69 +8,65 @@
 
 :host([scale="s"]) {
   @apply text--2;
-  --calcite-combobox-item-spacing-unit-l: theme("spacing.3");
-  --calcite-combobox-item-spacing-unit-m: theme("spacing.2");
+  --calcite-combobox-item-spacing-unit-l: theme("spacing.2");
   --calcite-combobox-item-spacing-unit-s: theme("spacing.1");
-  --calcite-combobox-input-height: theme("spacing.5");
+  --calcite-combobox-input-height: theme("spacing.6");
 }
 
 :host([scale="m"]) {
   @apply text--1;
-  --calcite-combobox-item-spacing-unit-l: theme("spacing.4");
-  --calcite-combobox-item-spacing-unit-m: theme("spacing.3");
+  --calcite-combobox-item-spacing-unit-l: theme("spacing.3");
   --calcite-combobox-item-spacing-unit-s: theme("spacing.2");
   --calcite-combobox-input-height: theme("spacing.8");
 }
 
 :host([scale="l"]) {
   @apply text-0;
-  --calcite-combobox-item-spacing-unit-l: theme("spacing.5");
-  --calcite-combobox-item-spacing-unit-m: theme("spacing.4");
+  --calcite-combobox-item-spacing-unit-l: theme("spacing.4");
   --calcite-combobox-item-spacing-unit-s: theme("spacing.3");
-  --calcite-combobox-input-height: theme("spacing.10");
+  --calcite-combobox-input-height: theme("spacing.11");
 }
 
 .wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  padding: var(--calcite-combobox-item-spacing-unit-m) var(--calcite-combobox-item-spacing-unit-l) 0
+  @apply flex
+    flex-wrap
+    bg-foreground-1
+    text-color-1
+    focus-base;
+  box-shadow: inset 0 0 0 1px var(--calcite-ui-border-input);
+  padding: var(--calcite-combobox-item-spacing-unit-s) var(--calcite-combobox-item-spacing-unit-l) 0
     var(--calcite-combobox-item-spacing-unit-l);
-  background-color: var(--calcite-ui-foreground-1);
-  border: 1px solid var(--calcite-ui-border-1);
-  color: var(--calcite-ui-text-1);
-  @include focus-style-base();
 }
 
 .wrapper--active {
-  @include focus-style-inset();
+  @apply focus-inset;
 }
 
 .wrapper--single {
-  padding: var(--calcite-combobox-item-spacing-unit-s) var(--calcite-combobox-item-spacing-unit-m);
-  cursor: pointer;
+  padding: 0 var(--calcite-combobox-item-spacing-unit-l);
+  @apply cursor-pointer flex-no-wrap;
 }
 
 .input {
-  flex-grow: 1;
+  @apply flex-grow
+  font-inherit
+  p-0
+  bg-transparent
+  border-none
+  text-color-1
+  appearance-none;
   font-size: inherit;
-  font-family: inherit;
-  padding: 0;
-  background-color: transparent;
-  border: none;
-  color: var(--calcite-ui-text-1);
-  appearance: none;
   height: var(--calcite-combobox-input-height);
   line-height: var(--calcite-combobox-input-height);
   min-width: 120px;
-  margin-top: 1px;
-  margin-bottom: var(--calcite-combobox-item-spacing-unit-m);
+  margin-bottom: var(--calcite-combobox-item-spacing-unit-s);
   &:focus {
-    outline: none;
+    @apply outline-none;
   }
 }
 
 .input--transparent {
-  opacity: 0;
+  @apply opacity-0;
 }
 
 .input--single {
@@ -83,52 +78,55 @@
 }
 
 .input--hidden {
-  width: 0;
-  min-width: 0;
-  opacity: 0;
-  pointer-events: none;
+  @apply w-0
+  min-w-0
+  opacity-0
+  pointer-events-none;
 }
 
 .input--icon {
-  padding: 0 var(--calcite-combobox-item-spacing-unit-m);
+  padding: 0 var(--calcite-combobox-item-spacing-unit-l);
 }
 
 .input-wrap {
-  display: flex;
+  @apply flex;
 }
 
 .input-wrap--single {
-  flex: 1 1 auto;
+  @apply flex-auto overflow-hidden;
 }
 
 .label {
+  @apply p-0
+    block
+    flex-auto
+    pointer-events-none truncate max-w-full;
   height: var(--calcite-combobox-input-height);
   line-height: var(--calcite-combobox-input-height);
-  padding: 0;
-  display: block;
-  flex: 1 1 auto;
-  pointer-events: none;
 }
 
 .label--spaced {
-  padding: 0 var(--calcite-combobox-item-spacing-unit-m);
+  @apply py-0;
+  padding-left: var(--calcite-combobox-item-spacing-unit-l);
+  padding-right: var(--calcite-combobox-item-spacing-unit-l);
 }
 
 .icon-end,
 .icon-start {
-  @apply cursor-pointer flex items-center;
-  width: var(--calcite-combobox-item-spacing-unit-l);
+  @apply cursor-pointer
+    flex items-center
+    w-4;
 }
 
 .popper-container {
+  @apply w-full;
   @include popperContainer();
   @include popperWrapper();
-  width: 100%;
 }
 
 @include popperElemAnim(".popper-container");
 
-:host([active]) .popper-container {
+.popper-container--active {
   @include popperWrapperActive();
 }
 
@@ -137,26 +135,24 @@
 }
 
 .list-container {
-  overflow-y: auto;
-  max-height: 100vh;
+  @apply overflow-y-auto
+    max-h-screen
+    bg-foreground-1;
   width: var(--calcite-dropdown-width);
-  background: var(--calcite-ui-foreground-1);
 }
 
 .list {
-  display: block;
-  margin: 0;
-  padding: 0;
+  @apply block m-0 p-0;
 }
 
 .list--hide {
-  height: 0;
-  overflow: hidden;
+  @apply h-0 overflow-hidden;
 }
 
 .chip {
   margin-right: var(--calcite-combobox-item-spacing-unit-s);
   margin-bottom: var(--calcite-combobox-item-spacing-unit-s);
+  max-width: 100%;
 }
 
 .chip--active {
@@ -164,18 +160,18 @@
 }
 
 .chip:last-child {
-  margin-right: 0;
+  @apply mr-0;
 }
 
-:host([dir="rtl"]) .chip {
+.chip--rtl {
   margin-right: unset;
-  margin-left: var(--calcite-combobox-item-spacing-unit-m);
+  margin-left: var(--calcite-combobox-item-spacing-unit-l);
 }
 
-:host([dir="rtl"]) .chip:last-child {
-  margin-left: 0;
+.chip--rtl:last-child {
+  @apply ml-0;
 }
 
 .item {
-  display: block;
+  @apply block;
 }

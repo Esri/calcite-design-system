@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Calcite ColorPicker</title>
+    <style>
+      .demo-background-dark {
+        background: #202020;
+        color: white;
+        padding: 1rem;
+      }
+    </style>
+    <script src="_assets/head.js"></script>
+  </head>
+
+  <body>
+    <calcite-button href="/">Home</calcite-button>
+    <h1>Calcite Color Picker</h1>
+
+    <h3 class="leader-1">Default</h3>
+    <calcite-color-picker></calcite-color-picker>
+
+    <h3 class="leader-1">Default (no color)</h3>
+    <calcite-color-picker allow-empty></calcite-color-picker>
+
+    <h3 class="leader-1">With initial color</h3>
+    <calcite-color-picker value="#beefee"></calcite-color-picker>
+
+    <h3 class="leader-1">Stores saved colors</h3>
+    <calcite-color-picker storage-id="demo"></calcite-color-picker>
+
+    <h3 class="leader-1">Scale s</h3>
+    <calcite-color-picker scale="s"></calcite-color-picker>
+
+    <h3 class="leader-1">Scale m</h3>
+    <calcite-color-picker scale="m"></calcite-color-picker>
+
+    <h3 class="leader-1">Scale l</h3>
+    <calcite-color-picker scale="l"></calcite-color-picker>
+
+    <h3 class="leader-1">Hidden sections (all)</h3>
+    <calcite-color-picker hide-hex hide-channels hide-saved></calcite-color-picker>
+
+    <h3 class="leader-1">Hidden sections (hex)</h3>
+    <calcite-color-picker hide-hex></calcite-color-picker>
+
+    <h3 class="leader-1">Hidden sections (channels)</h3>
+    <calcite-color-picker hide-channels></calcite-color-picker>
+
+    <h3 class="leader-1">Hidden sections (saved)</h3>
+    <calcite-color-picker hide-saved></calcite-color-picker>
+
+    <h3 class="leader-1">RTL</h3>
+    <calcite-color-picker dir="rtl"></calcite-color-picker>
+
+    <div class="demo-background-dark">
+      <h3 class="leader-1">Dark theme</h3>
+
+      <calcite-color-picker class="calcite-theme-dark"></calcite-color-picker>
+    </div>
+  </body>
+</html>

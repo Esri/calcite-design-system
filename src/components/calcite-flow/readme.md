@@ -38,12 +38,6 @@ Renders a flow with menu-actions and footer-actions in the form of buttons.
 </calcite-flow>
 ```
 
-## Properties
-
-| Property | Attribute | Description                               | Type                | Default     |
-| -------- | --------- | ----------------------------------------- | ------------------- | ----------- |
-| `theme`  | `theme`   | Used to set the component's color scheme. | `"dark" \| "light"` | `undefined` |
-
 ## Methods
 
 ### `back() => Promise<HTMLCalcitePanelElement>`
@@ -52,7 +46,7 @@ Removes the currently active `calcite-panel`.
 
 #### Returns
 
-Type: `Promise<HTMLCalcitePanelElement>`
+Type: `Promise<any>`
 
 ## Slots
 

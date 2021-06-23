@@ -3,9 +3,9 @@ import { renders, accessible, HYDRATED_ATTR } from "../../tests/commonTests";
 
 describe("calcite-alert", () => {
   const alertContent = `
-    <div slot="alert-title">Title Text</div>
-    <div slot="alert-message">Message Text</div>
-    <a slot="alert-link" href="">Action</a>
+    <div slot="title">Title Text</div>
+    <div slot="message">Message Text</div>
+    <a slot="link" href="">Action</a>
   `;
 
   it("renders", async () => renders("calcite-alert", false));
@@ -41,7 +41,7 @@ describe("calcite-alert", () => {
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-alert theme="dark" color="yellow" auto-dismiss-duration="fast" auto-dismiss>
+    <calcite-alert color="yellow" auto-dismiss-duration="fast" auto-dismiss>
     ${alertContent}
     </calcite-alert>`);
 
@@ -51,7 +51,6 @@ describe("calcite-alert", () => {
 
     expect(element).toEqualAttribute("color", "yellow");
     expect(element).toEqualAttribute("auto-dismiss-duration", "fast");
-    expect(element).toEqualAttribute("theme", "dark");
     expect(close).toBeNull();
     expect(icon).toBeNull();
   });
@@ -139,5 +138,82 @@ describe("calcite-alert", () => {
     expect(await alert1.isVisible()).not.toBe(true);
     expect(await alert2.isVisible()).not.toBe(true);
     expect(await alert3.isVisible()).toBe(true);
+  });
+
+  describe("CSS properties for light/dark themes", () => {
+    const alertSnippet = `
+      <calcite-alert
+        icon="i2DExplore"
+        auto-dismiss
+        auto-dismiss-duration="slow"
+        color="red"
+        active
+      >
+        <div slot="message">
+          Successfully duplicated
+          <strong>2019 Sales Demographics by County</strong>
+          layer
+        </div>
+        <calcite-link
+          slot="link"
+          title="my action"
+          role="presentation"
+        >
+          View layer
+        </calcite-link>
+      </calcite-alert>
+    `;
+    let page;
+    let alertDismissProgressBar;
+    let progressBarStyles;
+
+    it("should have defined CSS custom properties", async () => {
+      page = await newE2EPage({ html: alertSnippet });
+      progressBarStyles = await page.evaluate(() => {
+        const alert = document.querySelector("calcite-alert");
+        alert.style.setProperty("--calcite-alert-dismiss-progress-background", "white");
+        return window.getComputedStyle(alert).getPropertyValue("--calcite-alert-dismiss-progress-background");
+      });
+      expect(progressBarStyles).toEqual("white");
+    });
+
+    describe("when theme attribute is not provided", () => {
+      it("should render alert dismiss progress bar with default value tied to light theme", async () => {
+        page = await newE2EPage({ html: alertSnippet });
+        await page.waitForTimeout(animationDurationInMs);
+        alertDismissProgressBar = await page.find("calcite-alert[active] >>> .alert-dismiss-progress");
+        progressBarStyles = await alertDismissProgressBar.getComputedStyle(":after");
+        expect(await progressBarStyles.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.8)");
+      });
+    });
+
+    describe("when theme attribute is dark", () => {
+      it("should render alert dismiss progress bar with value tied to dark theme", async () => {
+        page = await newE2EPage({
+          html: `<div class="calcite-theme-dark">${alertSnippet}</div>`
+        });
+        await page.waitForTimeout(animationDurationInMs);
+        alertDismissProgressBar = await page.find("calcite-alert[active] >>> .alert-dismiss-progress");
+        progressBarStyles = await alertDismissProgressBar.getComputedStyle(":after");
+        expect(await progressBarStyles.getPropertyValue("background-color")).toEqual("rgba(43, 43, 43, 0.8)");
+      });
+    });
+
+    it("should allow the CSS custom property to be overridden", async () => {
+      const overrideStyle = "rgba(255, 0, 0, 0.5)";
+      page = await newE2EPage({
+        html: `
+        <style>
+          :root {
+            --calcite-alert-dismiss-progress-background: ${overrideStyle};
+          }
+        </style>
+        <div>${alertSnippet}</div>`
+      });
+      await page.waitForTimeout(animationDurationInMs);
+      alertDismissProgressBar = await page.find("calcite-alert[active] >>> .alert-dismiss-progress");
+      progressBarStyles = await alertDismissProgressBar.getComputedStyle(":after");
+      expect(await progressBarStyles.getPropertyValue("background-color")).toEqual(overrideStyle);
+    });
   });
 });

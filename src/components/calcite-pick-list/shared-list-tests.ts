@@ -2,6 +2,7 @@ import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { JSEvalable } from "puppeteer";
 import { html } from "../../tests/utils";
 import { CSS as PICK_LIST_ITEM_CSS } from "../calcite-pick-list-item/resources";
+import { focusable } from "../../tests/commonTests";
 
 type ListType = "pick" | "value";
 type ListElement = HTMLCalcitePickListElement | HTMLCalciteValueListElement;
@@ -12,8 +13,14 @@ export function keyboardNavigation(listType: ListType): void {
       () => (document.activeElement as HTMLCalcitePickListItemElement | HTMLCalciteValueListItemElement).value
     );
 
+  async function getSelectedItemValues(list: E2EElement, listType: string): Promise<string[]> {
+    return Promise.all(
+      (await list.findAll(`calcite-${listType}-list-item[selected]`)).map((el) => el.getProperty("value"))
+    );
+  }
+
   describe("multi selection", () => {
-    it("can be navigated with up/down arrow keys", async () => {
+    it("keyboard interaction", async () => {
       const page = await newE2EPage({
         html: `
         <calcite-${listType}-list multiple>
@@ -26,61 +33,42 @@ export function keyboardNavigation(listType: ListType): void {
       await list.callMethod("setFocus");
 
       expect(await getFocusedItemValue(page)).toEqual("one");
+      expect(await getSelectedItemValues(list, listType)).toEqual([]);
 
       await list.press("ArrowDown");
 
       expect(await getFocusedItemValue(page)).toEqual("two");
 
+      await list.press(" ");
+
+      expect(await getSelectedItemValues(list, listType)).toEqual(["two"]);
+
       await list.press("ArrowDown");
 
       expect(await getFocusedItemValue(page)).toEqual("one");
+
+      await list.press(" ");
+      expect(await getSelectedItemValues(list, listType)).toEqual(["one", "two"]);
 
       await list.press("ArrowUp");
 
       expect(await getFocusedItemValue(page)).toEqual("two");
 
+      await list.press(" ");
+      expect(await getSelectedItemValues(list, listType)).toEqual(["one"]);
+
       await list.press("ArrowUp");
 
       expect(await getFocusedItemValue(page)).toEqual("one");
+
+      await list.press(" ");
+      expect(await getSelectedItemValues(list, listType)).toEqual([]);
     });
   });
 
   describe("single selection", () => {
     describe("with selected item", () => {
-      it("can be navigated with up/down arrow keys", async () => {
-        const page = await newE2EPage({
-          html: `
-        <calcite-${listType}-list>
-          <calcite-${listType}-list-item value="one" label="One"></calcite-${listType}-list-item>
-          <calcite-${listType}-list-item value="two" label="Two" selected></calcite-${listType}-list-item>
-        </calcite-${listType}-list>
-      `
-        });
-        const list = await page.find(`calcite-${listType}-list`);
-        await list.callMethod("setFocus");
-
-        expect(await getFocusedItemValue(page)).toEqual("two");
-
-        await list.press("ArrowDown");
-
-        expect(await getFocusedItemValue(page)).toEqual("one");
-
-        await list.press("ArrowDown");
-
-        expect(await getFocusedItemValue(page)).toEqual("two");
-
-        await list.press("ArrowUp");
-
-        expect(await getFocusedItemValue(page)).toEqual("one");
-
-        await list.press("ArrowUp");
-
-        expect(await getFocusedItemValue(page)).toEqual("two");
-      });
-    });
-
-    describe("no selected item", () => {
-      it("can be navigated with up/down arrow keys", async () => {
+      it("keyboard interaction", async () => {
         const page = await newE2EPage({
           html: `
         <calcite-${listType}-list>
@@ -92,30 +80,82 @@ export function keyboardNavigation(listType: ListType): void {
         const list = await page.find(`calcite-${listType}-list`);
         await list.callMethod("setFocus");
 
+        expect(await getSelectedItemValues(list, listType)).toEqual([]);
+
         expect(await getFocusedItemValue(page)).toEqual("one");
+        expect(await getSelectedItemValues(list, listType)).toEqual([]);
 
         await list.press("ArrowDown");
 
         expect(await getFocusedItemValue(page)).toEqual("two");
 
+        await list.press(" ");
+        expect(await getSelectedItemValues(list, listType)).toEqual(["two"]);
+
         await list.press("ArrowDown");
 
         expect(await getFocusedItemValue(page)).toEqual("one");
+
+        await list.press(" ");
+        expect(await getSelectedItemValues(list, listType)).toEqual(["one"]);
 
         await list.press("ArrowUp");
 
         expect(await getFocusedItemValue(page)).toEqual("two");
 
+        await list.press(" ");
+        expect(await getSelectedItemValues(list, listType)).toEqual(["two"]);
+
         await list.press("ArrowUp");
 
         expect(await getFocusedItemValue(page)).toEqual("one");
+
+        await list.press(" ");
+        expect(await getSelectedItemValues(list, listType)).toEqual(["one"]);
       });
+    });
+
+    it("navigating items after filtering", async () => {
+      const page = await newE2EPage({
+        html: `
+        <calcite-${listType}-list filter-enabled>
+          <calcite-${listType}-list-item value="one" label="One" selected></calcite-${listType}-list-item>
+          <calcite-${listType}-list-item value="two" label="Two"></calcite-${listType}-list-item>
+        </calcite-${listType}-list>
+      `
+      });
+      const filter = await page.find(`calcite-${listType}-list >>> calcite-filter`);
+      await filter.callMethod("setFocus");
+
+      await page.keyboard.type("one");
+      await page.waitForEvent("calciteFilterChange");
+
+      await page.keyboard.press("Tab");
+      await page.keyboard.press("Tab");
+
+      expect(await getFocusedItemValue(page)).toEqual("one");
+
+      await filter.callMethod("setFocus");
+      await page.waitForChanges();
+
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.waitForChanges();
+
+      await page.keyboard.type("two");
+      await page.waitForEvent("calciteFilterChange");
+
+      await page.keyboard.press("Tab");
+      await page.keyboard.press("Tab");
+
+      expect(await getFocusedItemValue(page)).toEqual("two");
     });
   });
 }
 
 export function selectionAndDeselection(listType: ListType): void {
-  describe("when multiple is false and a item is clicked", () => {
+  describe("when multiple is false and an item is clicked", () => {
     it("should emit an event with the last selected item data", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-${listType}-list>
@@ -471,5 +511,22 @@ export function itemRemoval(listType: ListType): void {
     expect(await page.find(`calcite-${listType}-list-item`)).toBeNull();
     expect(removeItemSpy).toHaveReceivedEventTimes(1);
     expect(listChangeSpy).toHaveReceivedEventTimes(1);
+  });
+}
+
+export function focusing(listType: ListType): void {
+  describe("when setFocus method is called", () => {
+    it("should focus filter", () =>
+      focusable(
+        html`
+        <calcite-${listType}-list filter-enabled>
+          <calcite-${listType}-list-item label="Sample" value="one"></calcite-${listType}-list-item>
+        </calcite-${listType}-list>
+      `,
+        {
+          focusId: "filter",
+          shadowFocusTargetSelector: "calcite-filter"
+        }
+      ));
   });
 }

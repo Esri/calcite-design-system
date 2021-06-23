@@ -1,5 +1,4 @@
-import { Component, Host, h, Prop, VNode } from "@stencil/core";
-import { Theme } from "../interfaces";
+import { Component, Fragment, h, Prop, VNode } from "@stencil/core";
 
 @Component({
   tag: "calcite-tile",
@@ -18,6 +17,11 @@ export class CalciteTile {
 
   /** The description text that appears beneath the heading of the tile. */
   @Prop({ reflect: true }) description?: string;
+
+  /**
+   * When true, prevents interaction.
+   */
+  @Prop({ reflect: true }) disabled = false;
 
   /** The embed mode of the tile.  When true, renders without a border and padding for use by other components. */
   @Prop({ reflect: true }) embed = false;
@@ -39,9 +43,6 @@ export class CalciteTile {
 
   /** The icon that appears at the top of the tile. */
   @Prop({ reflect: true }) icon?: string;
-
-  /** The theme of the tile. */
-  @Prop({ reflect: true }) theme: Theme = "light";
 
   // --------------------------------------------------------------------------
   //
@@ -72,15 +73,15 @@ export class CalciteTile {
 
   render(): VNode {
     return (
-      <Host>
+      <Fragment>
         {this.href ? (
-          <calcite-link href={this.href} theme={this.theme}>
+          <calcite-link disabled={this.disabled} href={this.href}>
             {this.renderTile()}
           </calcite-link>
         ) : (
           this.renderTile()
         )}
-      </Host>
+      </Fragment>
     );
   }
 }

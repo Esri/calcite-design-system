@@ -10,14 +10,15 @@ import {
   VNode,
   Method
 } from "@stencil/core";
-import { Layout, Position, Theme } from "../interfaces";
+import { Layout, Position } from "../interfaces";
 import { CalciteExpandToggle, toggleChildActionText } from "../functional/CalciteExpandToggle";
-import { getElementDir, focusElement } from "../../utils/dom";
+import { getElementDir, focusElement, getSlotted } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
-import { CSS, TEXT } from "./resources";
+import { CSS, TEXT, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-action`s to the action pad.
+ * @slot expand-tooltip - Used to set the tooltip for the expand toggle.
  */
 @Component({
   tag: "calcite-action-pad",
@@ -63,11 +64,6 @@ export class CalciteActionPad {
   @Prop({ reflect: true }) layout: Layout = "vertical";
 
   /**
-   * Used to set the tooltip for the expand toggle.
-   */
-  @Prop() tooltipExpand?: HTMLCalciteTooltipElement;
-
-  /**
    * Updates the label of the expand icon when the component is not expanded.
    */
   @Prop() intlExpand?: string;
@@ -81,11 +77,6 @@ export class CalciteActionPad {
    * Arranges the component depending on the elements 'dir' property.
    */
   @Prop({ reflect: true }) position: Position;
-
-  /**
-   * Used to set the component's color scheme.
-   */
-  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //
@@ -144,6 +135,17 @@ export class CalciteActionPad {
   //
   // --------------------------------------------------------------------------
 
+  actionMenuOpenChangeHandler = (event: CustomEvent<boolean>): void => {
+    if (event.detail) {
+      const composedPath = event.composedPath();
+      Array.from(this.el.querySelectorAll("calcite-action-group")).forEach((group) => {
+        if (!composedPath.includes(group)) {
+          group.menuOpen = false;
+        }
+      });
+    }
+  };
+
   toggleExpand = (): void => {
     this.expanded = !this.expanded;
   };
@@ -159,17 +161,9 @@ export class CalciteActionPad {
   // --------------------------------------------------------------------------
 
   renderBottomActionGroup(): VNode {
-    const {
-      expanded,
-      expandDisabled,
-      intlExpand,
-      intlCollapse,
-      el,
-      position,
-      toggleExpand,
-      tooltipExpand
-    } = this;
+    const { expanded, expandDisabled, intlExpand, intlCollapse, el, position, toggleExpand } = this;
 
+    const tooltip = getSlotted(el, SLOTS.expandTooltip) as HTMLCalciteTooltipElement;
     const expandLabel = intlExpand || TEXT.expand;
     const collapseLabel = intlCollapse || TEXT.collapse;
 
@@ -182,12 +176,15 @@ export class CalciteActionPad {
         position={position}
         ref={this.setExpandToggleRef}
         toggle={toggleExpand}
-        tooltip={tooltipExpand}
+        tooltip={tooltip}
       />
     ) : null;
 
     return expandToggleNode ? (
-      <calcite-action-group class={CSS.actionGroupBottom}>{expandToggleNode}</calcite-action-group>
+      <calcite-action-group class={CSS.actionGroupBottom}>
+        <slot name={SLOTS.expandTooltip} />
+        {expandToggleNode}
+      </calcite-action-group>
     ) : null;
   }
 
@@ -199,7 +196,7 @@ export class CalciteActionPad {
     };
 
     return (
-      <Host>
+      <Host onCalciteActionMenuOpenChange={this.actionMenuOpenChangeHandler}>
         <div class={containerClasses}>
           <slot />
           {this.renderBottomActionGroup()}

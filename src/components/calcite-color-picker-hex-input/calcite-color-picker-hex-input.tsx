@@ -4,6 +4,7 @@ import {
   Event,
   EventEmitter,
   h,
+  Listen,
   Method,
   Prop,
   State,
@@ -20,7 +21,7 @@ import {
 } from "../calcite-color-picker/utils";
 import Color from "color";
 import { CSS } from "./resources";
-import { Scale, Theme } from "../interfaces";
+import { Scale } from "../interfaces";
 import { RGB } from "../calcite-color-picker/interfaces";
 import { focusElement, getElementDir } from "../../utils/dom";
 import { TEXT } from "../calcite-color-picker/resources";
@@ -97,11 +98,6 @@ export class CalciteColorPickerHexInput {
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
-   * The component's theme.
-   */
-  @Prop({ reflect: true }) theme: Theme = "light";
-
-  /**
    * The hex value.
    */
   @Prop({ mutable: true, reflect: true }) value: string = normalizeHex(DEFAULT_COLOR.hex());
@@ -115,6 +111,7 @@ export class CalciteColorPickerHexInput {
         const { internalColor } = this;
         const changed = !internalColor || normalized !== normalizeHex(internalColor.hex());
         this.internalColor = Color(normalized);
+        this.previousNonNullValue = normalized;
         this.value = normalized;
 
         if (changed) {
@@ -159,7 +156,7 @@ export class CalciteColorPickerHexInput {
     node.value =
       this.allowEmpty && !this.internalColor
         ? ""
-        : this.formatForInternalInput(rgbToHex((this.internalColor.object() as any) as RGB));
+        : this.formatForInternalInput(rgbToHex(this.internalColor.object() as any as RGB));
   };
 
   private onInputChange = (event: Event): void => {
@@ -184,13 +181,21 @@ export class CalciteColorPickerHexInput {
     this.calciteColorPickerHexInputChange.emit();
   };
 
-  private onInputKeyDown = (event: KeyboardEvent): void => {
+  // using @Listen as a workaround for VDOM listener not firing
+  @Listen("keydown", { capture: true })
+  protected onInputKeyDown(event: KeyboardEvent): void {
     const { altKey, ctrlKey, metaKey, shiftKey } = event;
-    const { inputNode, internalColor, value } = this;
+    const { el, inputNode, internalColor, value } = this;
     const key = getKey(event.key);
-    const nudgeable = value && (key === "ArrowDown" || key === "ArrowUp");
+    const isNudgeKey = key === "ArrowDown" || key === "ArrowUp";
 
-    if (nudgeable) {
+    if (isNudgeKey) {
+      if (!value) {
+        this.value = this.previousNonNullValue;
+        event.preventDefault();
+        return;
+      }
+
       const direction = key === "ArrowUp" ? 1 : -1;
       const bump = shiftKey ? 10 : 1;
 
@@ -202,17 +207,21 @@ export class CalciteColorPickerHexInput {
 
     const withModifiers = altKey || ctrlKey || metaKey;
     const exceededHexLength = inputNode.value.length >= 6;
-    const hasTextSelection = getSelection().type === "Range";
+    const focusedElement = el.shadowRoot.activeElement as HTMLInputElement;
+    const hasTextSelection =
+      // can't use window.getSelection() because of FF bug: https://bugzilla.mozilla.org/show_bug.cgi?id=85686
+      focusedElement.selectionStart != focusedElement.selectionEnd;
+    const singleChar = key.length === 1;
+    const validHexChar = hexChar.test(key);
 
     if (
-      key.length === 1 &&
+      singleChar &&
       !withModifiers &&
-      !hasTextSelection &&
-      (!hexChar.test(key) || exceededHexLength)
+      (!validHexChar || (!hasTextSelection && exceededHexLength))
     ) {
       event.preventDefault();
     }
-  };
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -226,6 +235,8 @@ export class CalciteColorPickerHexInput {
    * The last valid/selected color. Used as a fallback if an invalid hex code is entered.
    */
   @State() internalColor: Color | null = DEFAULT_COLOR;
+
+  private previousNonNullValue: string = this.value;
 
   //--------------------------------------------------------------------------
   //
@@ -246,7 +257,6 @@ export class CalciteColorPickerHexInput {
           dir={elementDir}
           onCalciteInputBlur={this.onCalciteInputBlur}
           onChange={this.onInputChange}
-          onKeyDown={this.onInputKeyDown}
           prefixText="#"
           ref={this.storeInputRef}
           scale="s"

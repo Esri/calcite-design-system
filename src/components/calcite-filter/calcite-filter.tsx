@@ -3,16 +3,17 @@ import {
   Element,
   Event,
   EventEmitter,
-  Host,
   Prop,
   State,
   h,
-  VNode
+  VNode,
+  Method,
+  Fragment
 } from "@stencil/core";
 import { debounce, forIn } from "lodash-es";
 import { CSS, ICONS, TEXT } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
-import { getElementDir } from "../../utils/dom";
+import { focusElement, getElementDir } from "../../utils/dom";
 
 const filterDebounceInMs = 250;
 
@@ -33,6 +34,11 @@ export class CalciteFilter {
    * that contain the string entered in the input, using a partial match and recursive search.
    */
   @Prop() data: object[];
+
+  /**
+   * When true, disabled prevents interaction. This state shows items with lower opacity/grayed.
+   */
+  @Prop({ reflect: true }) disabled = false;
 
   /**
    * A text label that will appear on the clear button.
@@ -74,6 +80,20 @@ export class CalciteFilter {
 
   // --------------------------------------------------------------------------
   //
+  //  Public Methods
+  //
+  // --------------------------------------------------------------------------
+
+  /**
+   * Focuses the filter input.
+   */
+  @Method()
+  async setFocus(): Promise<void> {
+    focusElement(this.textInput);
+  }
+
+  // --------------------------------------------------------------------------
+  //
   //  Private Methods
   //
   // --------------------------------------------------------------------------
@@ -112,16 +132,23 @@ export class CalciteFilter {
     this.calciteFilterChange.emit(result);
   }, filterDebounceInMs);
 
-  inputHandler = (event: Event): void => {
+  inputHandler = (event: InputEvent): void => {
     const target = event.target as HTMLInputElement;
     this.empty = target.value === "";
     this.filter(target.value);
+  };
+
+  keyDownHandler = ({ key }: KeyboardEvent): void => {
+    if (key === "Escape") {
+      this.clear();
+    }
   };
 
   clear = (): void => {
     this.textInput.value = "";
     this.empty = true;
     this.calciteFilterChange.emit(this.data);
+    this.setFocus();
   };
 
   // --------------------------------------------------------------------------
@@ -132,34 +159,40 @@ export class CalciteFilter {
 
   render(): VNode {
     const rtl = getElementDir(this.el) === "rtl";
+    const { disabled } = this;
 
     return (
-      <Host>
-        <label class={rtl ? CSS_UTILITY.rtl : null}>
-          <input
-            aria-label={this.intlLabel || TEXT.filterLabel}
-            onInput={this.inputHandler}
-            placeholder={this.placeholder}
-            ref={(el): void => {
-              this.textInput = el;
-            }}
-            type="text"
-            value=""
-          />
-          <div class={CSS.searchIcon}>
-            <calcite-icon icon={ICONS.search} scale="s" />
-          </div>
-        </label>
-        {!this.empty ? (
-          <button
-            aria-label={this.intlClear || TEXT.clear}
-            class={CSS.clearButton}
-            onClick={this.clear}
-          >
-            <calcite-icon icon={ICONS.close} />
-          </button>
-        ) : null}
-      </Host>
+      <Fragment>
+        {disabled ? <calcite-scrim /> : null}
+        <div class={CSS.container}>
+          <label class={rtl ? CSS_UTILITY.rtl : null}>
+            <input
+              aria-label={this.intlLabel || TEXT.filterLabel}
+              disabled={this.disabled}
+              onInput={this.inputHandler}
+              onKeyDown={this.keyDownHandler}
+              placeholder={this.placeholder}
+              ref={(el): void => {
+                this.textInput = el;
+              }}
+              type="text"
+              value=""
+            />
+            <div class={CSS.searchIcon}>
+              <calcite-icon icon={ICONS.search} scale="s" />
+            </div>
+          </label>
+          {!this.empty ? (
+            <button
+              aria-label={this.intlClear || TEXT.clear}
+              class={CSS.clearButton}
+              onClick={this.clear}
+            >
+              <calcite-icon icon={ICONS.close} />
+            </button>
+          ) : null}
+        </div>
+      </Fragment>
     );
   }
 }

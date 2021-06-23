@@ -1,124 +1,194 @@
-$tab-margin: 1.25rem;
-
 :host {
-  flex: 0 1 auto;
-  outline: none;
-  margin-right: $tab-margin;
-  margin-inline-start: 0;
-  margin-inline-end: $tab-margin;
+  @apply flex-initial outline-none mr-5;
+  margin-inline-start: theme("margin.0");
+  margin-inline-end: theme("margin.5");
 }
 
 :host([layout="center"]) {
-  flex-basis: 200px;
-  text-align: center;
-  margin: 0 $tab-margin;
+  @apply text-center my-0 mx-5;
+  flex-basis: theme("spacing.48");
 }
 
 :host([position="below"]) a {
-  border-bottom: 0;
-  border-top: 3px solid transparent;
+  @apply border-b-0
+    border-t-2
+    border-t-color-transparent;
+  border-top-style: solid;
 }
 
 :host a {
-  @include focus-style-base();
+  @apply focus-base;
 }
 
 :host(:focus) a {
-  @include focus-style-outset();
+  @apply focus-outset;
 }
 
 :host(:active),
 :host(:focus),
 :host(:hover) {
   a {
-    text-decoration: none;
-    color: var(--calcite-ui-text-1);
-    border-color: var(--calcite-ui-border-2);
+    @apply no-underline text-color-1 border-color-2;
   }
 }
 
 :host([active]) a {
-  color: var(--calcite-ui-text-1);
-  border-color: transparent;
+  @apply text-color-1 border-color-transparent;
 }
 
 :host([disabled]) {
-  pointer-events: none;
+  @apply pointer-events-none;
   span,
   a {
-    pointer-events: none;
-    opacity: var(--calcite-ui-opacity-disabled);
+    @apply pointer-events-none opacity-50;
+  }
+}
+
+:host([scale="s"]) {
+  margin-inline-end: 1rem;
+  a,
+  span {
+    @apply text--2h py-1;
+  }
+}
+
+:host([scale="m"]) {
+  a,
+  span {
+    @apply text--1h py-2;
+  }
+}
+
+:host([scale="l"]) {
+  margin-inline-end: 1.5rem;
+  a,
+  span {
+    @apply text-0h py-3;
   }
 }
 
 a,
 span {
-  box-sizing: border-box;
-  @include font-size(-2);
-  padding: $baseline/2 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  border-bottom: 3px solid transparent;
-  -webkit-appearance: none;
-  cursor: pointer;
-  transition: $transition;
-  color: var(--calcite-ui-text-3);
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
+  @apply box-border
+    appearance-none
+    cursor-pointer
+    truncate
+    border-b-2
+    border-b-color-transparent
+    w-full
+    h-full
+    flex
+    justify-center
+    text-color-3
+    text--1h
+    transition-default
+    px-0
+    py-2;
+  border-bottom-style: solid;
 }
 
 span {
-  cursor: default;
+  @apply cursor-default;
 }
 
 .calcite-tab-title--icon {
-  display: inline-flex;
-  position: relative;
-  margin: 0;
-  line-height: inherit;
-  align-self: center;
+  @apply inline-flex
+    relative
+    m-0
+    self-center;
   & svg {
-    transition: $transition;
+    @apply transition-default;
   }
 }
 
-:host([hastext]) .calcite-tab-title--icon.icon-start {
-  margin-right: $baseline/3;
+.container--has-text .calcite-tab-title--icon.icon-start {
+  @apply mr-2;
 }
 
-:host([hastext]) .calcite-tab-title--icon.icon-end {
-  margin-left: $baseline/3;
+.container--has-text .calcite-tab-title--icon.icon-end {
+  @apply ml-2;
 }
 
 // compensate for spacing when no hastext and two icons
 :host([icon-start][icon-end]) {
   .calcite-tab-title--icon:first-child {
-    margin-right: $baseline/3;
+    @apply mr-2;
   }
 }
 
 // right to left
-:host .rtl {
-  margin-right: 0;
-  margin-left: $tab-margin;
+.container--has-text.calcite--rtl .calcite-tab-title--icon.icon-end {
+  @apply ml-0 mr-2;
 }
 
-:host([hastext]) .rtl .calcite-tab-title--icon.icon-end {
-  margin-left: 0;
-  margin-right: $baseline/3;
+.container--has-text.calcite--rtl .calcite-tab-title--icon.icon-start {
+  @apply ml-2 mr-0;
 }
 
-:host([hastext]) .rtl .calcite-tab-title--icon.icon-start {
-  margin-right: 0;
-  margin-left: $baseline/3;
-}
-
-:host([icon-start][icon-end]) .rtl {
+:host([icon-start][icon-end]) .calcite--rtl {
   .calcite-tab-title--icon:first-child {
-    margin-right: 0;
-    margin-left: $baseline/3;
+    @apply ml-2 mr-0;
+  }
+}
+
+// bordered styles
+:host([bordered]) {
+  margin-inline-end: 0;
+}
+
+:host([bordered][active]) {
+  box-shadow: inset 0px -2px var(--calcite-ui-foreground-1);
+}
+
+:host([bordered][active][position="below"]) {
+  box-shadow: inset 0 2px 0 var(--calcite-ui-foreground-1);
+}
+
+:host([bordered]:hover),
+:host([bordered]:focus),
+:host([bordered]:active) {
+  a {
+    @apply relative;
+  }
+}
+
+:host([bordered]:hover) {
+  a {
+    background-color: var(--calcite-button-transparent-hover);
+    @apply transition-default;
+  }
+}
+
+:host([bordered]) a {
+  border-bottom-style: unset;
+}
+
+:host([bordered][position="below"]) a {
+  border-top-style: unset;
+}
+
+:host([active][bordered]) a {
+  border-left: 1px solid var(--calcite-ui-border-1);
+  border-right: 1px solid var(--calcite-ui-border-1);
+}
+
+:host([bordered]) {
+  a,
+  span {
+    @apply pl-3 pr-3;
+  }
+}
+
+:host([bordered][scale="s"]) {
+  a,
+  span {
+    @apply pl-2 pr-2;
+  }
+}
+
+:host([bordered][scale="l"]) {
+  a,
+  span {
+    @apply pl-4 pr-4;
   }
 }

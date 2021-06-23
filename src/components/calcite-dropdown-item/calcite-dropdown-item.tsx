@@ -11,9 +11,12 @@ import {
   VNode
 } from "@stencil/core";
 import { getAttributes, getElementDir, getElementProp } from "../../utils/dom";
-import { ItemKeyboardEvent, ItemRegistration } from "../calcite-dropdown/interfaces";
+import { ItemKeyboardEvent } from "../calcite-dropdown/interfaces";
 import { getKey } from "../../utils/key";
 import { FlipContext } from "../interfaces";
+import { CSS_UTILITY } from "../../utils/resources";
+import { CSS } from "./resources";
+import { SelectionMode } from "../calcite-dropdown-group/interfaces";
 
 @Component({
   tag: "calcite-dropdown-item",
@@ -63,9 +66,6 @@ export class CalciteDropdownItem {
   @Event() calciteDropdownItemKeyEvent: EventEmitter<ItemKeyboardEvent>;
 
   /** @internal */
-  @Event() calciteDropdownItemRegister: EventEmitter<ItemRegistration>;
-
-  /** @internal */
   @Event() calciteDropdownCloseRequest: EventEmitter;
   //--------------------------------------------------------------------------
   //
@@ -88,14 +88,9 @@ export class CalciteDropdownItem {
   connectedCallback(): void {
     this.selectionMode = getElementProp(this.el, "selection-mode", "single");
     this.parentDropdownGroupEl = this.el.closest("calcite-dropdown-group");
-    if (this.selectionMode === "none") this.active = false;
-  }
-
-  componentWillLoad(): void {
-    this.itemPosition = this.getItemPosition();
-    this.calciteDropdownItemRegister.emit({
-      position: this.itemPosition
-    });
+    if (this.selectionMode === "none") {
+      this.active = false;
+    }
   }
 
   render(): VNode {
@@ -106,8 +101,7 @@ export class CalciteDropdownItem {
       "has-text",
       "is-link",
       "dir",
-      "id",
-      "theme"
+      "id"
     ]);
     const dir = getElementDir(this.el);
     const scale = getElementProp(this.el, "scale", "m");
@@ -164,19 +158,25 @@ export class CalciteDropdownItem {
     const itemAria = this.selectionMode !== "none" ? this.active.toString() : null;
 
     return (
-      <Host
-        aria-checked={itemAria}
-        dir={dir}
-        isLink={this.href}
-        role={itemRole}
-        scale={scale}
-        selection-mode={this.selectionMode}
-        tabindex="0"
-      >
-        {this.selectionMode === "multi" ? (
-          <calcite-icon class="dropdown-item-check-icon" icon="check" scale="s" />
-        ) : null}
-        {contentEl}
+      <Host aria-checked={itemAria} role={itemRole} tabindex="0">
+        <div
+          class={{
+            container: true,
+            [CSS_UTILITY.rtl]: dir === "rtl",
+            [CSS.containerLink]: !!this.href,
+            [CSS.containerSmall]: scale === "s",
+            [CSS.containerMedium]: scale === "m",
+            [CSS.containerLarge]: scale === "l",
+            [CSS.containerMulti]: this.selectionMode === "multi",
+            [CSS.containerSingle]: this.selectionMode === "single",
+            [CSS.containerNone]: this.selectionMode === "none"
+          }}
+        >
+          {this.selectionMode === "multi" ? (
+            <calcite-icon class="dropdown-item-check-icon" icon="check" scale="s" />
+          ) : null}
+          {contentEl}
+        </div>
       </Host>
     );
   }
@@ -202,7 +202,9 @@ export class CalciteDropdownItem {
         break;
       case "Enter":
         this.emitRequestedItem();
-        if (this.href) this.childLink.click();
+        if (this.href) {
+          this.childLink.click();
+        }
         break;
       case "Escape":
         this.calciteDropdownCloseRequest.emit();
@@ -235,9 +237,6 @@ export class CalciteDropdownItem {
   //
   //--------------------------------------------------------------------------
 
-  /** position withing group */
-  private itemPosition: number;
-
   /** id of containing group */
   private parentDropdownGroupEl: HTMLCalciteDropdownGroupElement;
 
@@ -248,7 +247,7 @@ export class CalciteDropdownItem {
   private requestedDropdownItem: HTMLCalciteDropdownItemElement;
 
   /** what selection mode is the parent dropdown group in */
-  private selectionMode: string;
+  private selectionMode: SelectionMode;
 
   /** if href is requested, track the rendered child link*/
   private childLink: HTMLAnchorElement;
@@ -262,12 +261,17 @@ export class CalciteDropdownItem {
   private determineActiveItem(): void {
     switch (this.selectionMode) {
       case "multi":
-        if (this.el === this.requestedDropdownItem) this.active = !this.active;
+        if (this.el === this.requestedDropdownItem) {
+          this.active = !this.active;
+        }
         break;
 
       case "single":
-        if (this.el === this.requestedDropdownItem) this.active = true;
-        else if (this.requestedDropdownGroup === this.parentDropdownGroupEl) this.active = false;
+        if (this.el === this.requestedDropdownItem) {
+          this.active = true;
+        } else if (this.requestedDropdownGroup === this.parentDropdownGroupEl) {
+          this.active = false;
+        }
         break;
 
       case "none":
@@ -281,13 +285,5 @@ export class CalciteDropdownItem {
       requestedDropdownItem: this.el,
       requestedDropdownGroup: this.parentDropdownGroupEl
     });
-  }
-
-  private getItemPosition(): number {
-    const group = this.el.closest("calcite-dropdown-group") as HTMLCalciteDropdownGroupElement;
-
-    return group
-      ? Array.prototype.indexOf.call(group.querySelectorAll("calcite-dropdown-item"), this.el)
-      : 1;
   }
 }

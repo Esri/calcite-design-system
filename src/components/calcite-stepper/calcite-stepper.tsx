@@ -4,17 +4,15 @@ import {
   Event,
   EventEmitter,
   h,
-  Host,
   Listen,
   Method,
   Prop,
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
 import { IESTYLES } from "./calcite-stepper.resources";
 import { getKey } from "../../utils/key";
-import { Layout, Scale, Theme } from "../interfaces";
+import { Layout, Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-stepper",
@@ -48,17 +46,15 @@ export class CalciteStepper {
   /** specify the scale of stepper, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** specify the theme of stepper, defaults to light */
-  @Prop({ reflect: true }) theme: Theme;
-
   /** @internal */
   @Prop({ mutable: true }) requestedContent: HTMLElement[] | NodeListOf<any>;
 
   // watch for removal of disabled to register step
   @Watch("requestedContent") contentWatcher(): void {
     if (this.layout === "horizontal") {
-      if (!this.stepperContentContainer && this.requestedContent)
+      if (!this.stepperContentContainer && this.requestedContent) {
         this.addHorizontalContentContainer();
+      }
       this.updateContent(this.requestedContent);
     }
   }
@@ -90,17 +86,13 @@ export class CalciteStepper {
   }
 
   componentWillLoad() {
-    if (this.layout === "horizontal" && !this.stepperContentContainer)
+    if (this.layout === "horizontal" && !this.stepperContentContainer) {
       this.addHorizontalContentContainer();
+    }
   }
 
   render(): VNode {
-    const dir = getElementDir(this.el);
-    return (
-      <Host dir={dir}>
-        <slot />
-      </Host>
-    );
+    return <slot />;
   }
 
   //--------------------------------------------------------------------------
@@ -117,13 +109,19 @@ export class CalciteStepper {
     switch (getKey(item.key)) {
       case "ArrowDown":
       case "ArrowRight":
-        if (isLastItem) this.focusFirstItem();
-        else this.focusNextItem(itemToFocus);
+        if (isLastItem) {
+          this.focusFirstItem();
+        } else {
+          this.focusNextItem(itemToFocus);
+        }
         break;
       case "ArrowUp":
       case "ArrowLeft":
-        if (isFirstItem) this.focusLastItem();
-        else this.focusPrevItem(itemToFocus);
+        if (isFirstItem) {
+          this.focusLastItem();
+        } else {
+          this.focusPrevItem(itemToFocus);
+        }
         break;
       case "Home":
         this.focusFirstItem();
@@ -140,13 +138,19 @@ export class CalciteStepper {
       position: event.detail.position,
       content: event.detail.content
     };
-    if (item.content && item.item.active) this.requestedContent = item.content;
-    if (!this.items.includes(item)) this.items.push(item);
+    if (item.content && item.item.active) {
+      this.requestedContent = item.content;
+    }
+    if (!this.items.includes(item)) {
+      this.items.push(item);
+    }
     this.sortedItems = this.sortItems();
   }
 
   @Listen("calciteStepperItemSelect") updateItem(event: CustomEvent): void {
-    if (event.detail.content) this.requestedContent = event.detail.content;
+    if (event.detail.content) {
+      this.requestedContent = event.detail.content;
+    }
     this.currentPosition = event.detail.position;
     this.calciteStepperItemChange.emit({
       position: this.currentPosition
@@ -227,7 +231,9 @@ export class CalciteStepper {
     this.stepperContentContainer.classList.add("calcite-stepper-content");
     // handle ie styles
     const isIE = !!(navigator.userAgent.match(/Trident/) && !navigator.userAgent.match(/MSIE/));
-    if (isIE) this.stepperContentContainer.style.cssText = IESTYLES;
+    if (isIE) {
+      this.stepperContentContainer.style.cssText = IESTYLES;
+    }
     this.el.insertAdjacentElement("beforeend", this.stepperContentContainer);
   }
 
@@ -288,10 +294,14 @@ export class CalciteStepper {
       content.forEach((contentItem) => {
         if (contentItem.nodeName === "#text") {
           const text = document.createTextNode(contentItem.textContent.trim());
-          if (text.length > 0) this.stepperContentContainer.appendChild(text);
+          if (text.length > 0) {
+            this.stepperContentContainer.appendChild(text);
+          }
         } else if (contentItem.nodeName) {
           this.stepperContentContainer.insertAdjacentHTML("beforeend", contentItem.outerHTML);
-        } else return;
+        } else {
+          return;
+        }
       });
     }
   }

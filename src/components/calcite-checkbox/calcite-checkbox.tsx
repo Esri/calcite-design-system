@@ -4,7 +4,6 @@ import {
   Event,
   EventEmitter,
   h,
-  Host,
   Listen,
   Method,
   Prop,
@@ -13,8 +12,9 @@ import {
   Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { focusElement, getElementDir } from "../../utils/dom";
-import { Scale, Theme } from "../interfaces";
+import { focusElement } from "../../utils/dom";
+import { Scale } from "../interfaces";
+import { hiddenInputStyle } from "../../utils/form";
 
 @Component({
   tag: "calcite-checkbox",
@@ -79,11 +79,8 @@ export class CalciteCheckbox {
   /** specify the scale of the checkbox, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** Determines what theme to use */
-  @Prop({ reflect: true }) theme: Theme;
-
   /** The value of the checkbox input */
-  @Prop({ reflect: true }) value?: string;
+  @Prop() value?: any;
 
   //--------------------------------------------------------------------------
   //
@@ -91,9 +88,9 @@ export class CalciteCheckbox {
   //
   //--------------------------------------------------------------------------
 
-  private readonly checkedPath = "M12.753 3l-7.319 7.497L3.252 8.31 2 9.373l3.434 3.434L14 4.24z";
+  private readonly checkedPath = "M5.5 12L2 8.689l.637-.636L5.5 10.727l8.022-7.87.637.637z";
 
-  private readonly indeterminatePath = "M4 7h8v2H4z";
+  private readonly indeterminatePath = "M13 8v1H3V8z";
 
   private initialChecked: boolean;
 
@@ -245,53 +242,22 @@ export class CalciteCheckbox {
     this.input.name = this.name;
     this.input.onblur = this.onInputBlur.bind(this);
     this.input.onfocus = this.onInputFocus.bind(this);
-    this.input.style.setProperty("bottom", "0", "important");
-    this.input.style.setProperty("left", "0", "important");
-    this.input.style.setProperty("margin", "0", "important");
-    this.input.style.setProperty("opacity", "0", "important");
-    this.input.style.setProperty("outline", "none", "important");
-    this.input.style.setProperty("padding", "0", "important");
-    this.input.style.setProperty("position", "absolute", "important");
-    this.input.style.setProperty("right", "0", "important");
-    this.input.style.setProperty(
-      "top",
-      this.el.textContent ? (this.scale === "s" ? "0.125em" : "0.25em") : "0",
-      "important"
-    );
-    this.input.style.setProperty("transform", "none", "important");
-    this.input.style.setProperty("-webkit-appearance", "none", "important");
-    this.input.style.setProperty("z-index", "-1", "important");
+    this.input.style.cssText = hiddenInputStyle;
     this.input.type = "checkbox";
     if (this.value) {
-      this.input.value = this.value;
+      this.input.value = this.value != null ? this.value.toString() : "";
     }
     this.el.appendChild(this.input);
   }
 
   render(): VNode {
-    if (this.el.textContent) {
-      return (
-        <Host>
-          <div class={{ focused: this.focused, hasLabel: true }}>
-            <svg class="check-svg" viewBox="0 0 16 16">
-              <path d={this.getPath()} />
-            </svg>
-            <calcite-label dir={getElementDir(this.el)} disable-spacing scale={this.scale}>
-              <slot />
-            </calcite-label>
-          </div>
-        </Host>
-      );
-    }
     return (
-      <Host>
-        <div class={{ focused: this.focused }}>
-          <svg class="check-svg" viewBox="0 0 16 16">
-            <path d={this.getPath()} />
-          </svg>
-          <slot />
-        </div>
-      </Host>
+      <div class={{ focused: this.focused }}>
+        <svg class="check-svg" viewBox="0 0 16 16">
+          <path d={this.getPath()} />
+        </svg>
+        <slot />
+      </div>
     );
   }
 }

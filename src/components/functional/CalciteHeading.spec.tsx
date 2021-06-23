@@ -1,15 +1,15 @@
 import { h, Component } from "@stencil/core";
 import { newSpecPage } from "@stencil/core/testing";
-import { CalciteHeading, ConstrainHeadingLevel } from "./CalciteHeading";
+import { CalciteHeading, constrainHeadingLevel } from "./CalciteHeading";
 
-describe("ConstrainHeadingLevel", () => {
+describe("constrainHeadingLevel", () => {
   it("should constrain heading levels", () => {
-    expect(ConstrainHeadingLevel(10)).toEqual(6);
-    expect(ConstrainHeadingLevel(6)).toEqual(6);
-    expect(ConstrainHeadingLevel(5)).toEqual(5);
-    expect(ConstrainHeadingLevel(1)).toEqual(1);
-    expect(ConstrainHeadingLevel(0)).toEqual(1);
-    expect(ConstrainHeadingLevel(3.14)).toEqual(4);
+    expect(constrainHeadingLevel(10)).toEqual(6);
+    expect(constrainHeadingLevel(6)).toEqual(6);
+    expect(constrainHeadingLevel(5)).toEqual(5);
+    expect(constrainHeadingLevel(1)).toEqual(1);
+    expect(constrainHeadingLevel(0)).toEqual(1);
+    expect(constrainHeadingLevel(3.14)).toEqual(4);
   });
 });
 

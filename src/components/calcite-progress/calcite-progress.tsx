@@ -1,5 +1,4 @@
-import { Component, Element, h, Host, Prop, VNode } from "@stencil/core";
-import { Theme } from "../interfaces";
+import { Component, Element, Fragment, h, Prop, VNode } from "@stencil/core";
 @Component({
   tag: "calcite-progress",
   styleUrl: "calcite-progress.scss",
@@ -20,14 +19,11 @@ export class CalciteProgress {
   /** For indeterminate progress bars, reverse the animation direction */
   @Prop() reversed = false;
 
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: Theme;
-
   render(): VNode {
     const isDeterminate = this.type === "determinate";
     const barStyles = isDeterminate ? { width: `${this.value * 100}%` } : {};
     return (
-      <Host>
+      <Fragment>
         <div class="track">
           <div
             class={{
@@ -39,7 +35,7 @@ export class CalciteProgress {
           />
         </div>
         {this.text ? <div class="text">{this.text}</div> : null}
-      </Host>
+      </Fragment>
     );
   }
 }

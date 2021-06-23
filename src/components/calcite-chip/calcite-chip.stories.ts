@@ -46,7 +46,7 @@ export const WithImage = (): string => html`
       color="${select("color", ["blue", "red", "yellow", "green", "grey"], "grey")}"
       ${boolean("dismissible", false)}
     >
-      <img alt="" slot="chip-image" src="${placeholderImage({ width: 50, height: 50 })}" />
+      <img alt="" slot="image" src="${placeholderImage({ width: 50, height: 50 })}" />
       My great chip</calcite-chip
     >
   </div>
@@ -64,7 +64,7 @@ export const WithAvatar = (): string => {
         ${boolean("dismissible", false)}
       >
         <calcite-avatar
-          slot="chip-image"
+          slot="image"
           scale="${scale}"
           user-id="25684463a00c449585dbb32a065f6b74"
           full-name="user name"
@@ -78,7 +78,7 @@ export const WithAvatar = (): string => {
 export const DarkTheme = (): string => html`
   <div style="background-color:#2b2b2b;padding:100px">
     <calcite-chip
-      theme="dark"
+      class="calcite-theme-dark"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       appearance="${select("appearance", ["solid", "clear"], "solid")}"
       color="${select("color", ["blue", "red", "yellow", "green", "grey"], "grey")}"

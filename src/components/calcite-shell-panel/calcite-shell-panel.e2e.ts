@@ -135,4 +135,72 @@ describe("calcite-shell-panel", () => {
 
     expect(detachedElement).not.toBeNull();
   });
+
+  it("should update width based on the multipier CSS variable", async () => {
+    const multipier = 2;
+
+    const page = await newE2EPage();
+
+    await page.setContent(`
+      <calcite-shell-panel>
+        test
+      </calcite-shell-panel>
+    `);
+
+    await page.waitForChanges();
+
+    const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
+    const style = await content.getComputedStyle("width");
+    const widthDefault = parseFloat(style["width"]);
+
+    const page2 = await newE2EPage();
+    await page2.setContent(`
+      <style>
+        :root {
+          --calcite-panel-width-multiplier: ${multipier};
+        }
+      </style>
+      <calcite-shell-panel>
+        test multiplied
+      </calcite-shell-panel>
+    `);
+
+    await page2.waitForChanges();
+
+    const content2 = await page2.find(`calcite-shell-panel >>> .${CSS.content}`);
+    const style2 = await content2.getComputedStyle("width");
+    const width2 = parseFloat(style2["width"]);
+
+    expect(width2).toEqual(widthDefault * multipier);
+  });
+
+  it("calcite-panel should render at the same height as the content__body.", async () => {
+    const page = await newE2EPage();
+
+    await page.setViewport({ width: 1600, height: 1200 });
+    await page.setContent(`
+      <div style="width: 100%; height: 100%;">
+        <calcite-shell>
+          <calcite-shell-panel slot="primary-panel">
+            <calcite-button slot="headder">Header test</calcite-button>
+            <calcite-panel>
+              Content test
+            </calcite-panel>
+          </calcite-shell-panel>
+        </calcite-shell>
+      </div>
+    `);
+
+    await page.waitForChanges();
+
+    const shellContent = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
+    const shellHeightStyle = await shellContent.getComputedStyle("height");
+    const shellHeight = parseFloat(shellHeightStyle["height"]);
+
+    const panel = await page.find(`calcite-panel`);
+    const panelHeightStyle = await panel.getComputedStyle("height");
+    const panelHeight = parseFloat(panelHeightStyle["height"]);
+
+    expect(panelHeight).toEqual(shellHeight);
+  });
 });

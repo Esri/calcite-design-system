@@ -1,18 +1,8 @@
-import {
-  Component,
-  Element,
-  Event,
-  Listen,
-  Host,
-  h,
-  Prop,
-  EventEmitter,
-  VNode,
-  Watch
-} from "@stencil/core";
-import { getAttributes, getElementDir } from "../../utils/dom";
+import { Component, Element, Event, Listen, h, Prop, EventEmitter, VNode } from "@stencil/core";
+import { getAttributes, getElementDir, queryElementRoots } from "../../utils/dom";
 import { FocusRequest } from "./interfaces";
-import { Alignment, Scale, Status, Theme } from "../interfaces";
+import { Alignment, Scale, Status } from "../interfaces";
+import { CSS_UTILITY } from "../../utils/resources";
 
 @Component({
   tag: "calcite-label",
@@ -46,9 +36,6 @@ export class CalciteLabel {
   /** specify the scale of the input, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** specify theme of the label and its any child input / input messages */
-  @Prop({ reflect: true }) theme: Theme;
-
   /** is the wrapped element positioned inline with the label slotted text */
   @Prop({ reflect: true }) layout: "inline" | "inline-space-between" | "default" = "default";
 
@@ -58,10 +45,6 @@ export class CalciteLabel {
   /** is the label disabled  */
   @Prop({ reflect: true }) disabled?: boolean;
 
-  @Watch("disabled")
-  disabledWatcher(): void {
-    if (this.disabled) this.setDisabledControls();
-  }
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -98,15 +81,23 @@ export class CalciteLabel {
 
   private handleCalciteHtmlForClicks = (target: HTMLElement) => {
     // 1. has htmlFor
-    if (!this.for) return;
+    if (!this.for) {
+      return;
+    }
 
     // 2. htmlFor matches a calcite component
-    const inputForThisLabel = document.getElementById(this.for);
-    if (!inputForThisLabel) return;
-    if (!inputForThisLabel.localName.startsWith("calcite")) return;
+    const inputForThisLabel: HTMLElement = queryElementRoots(this.el, `#${this.for}`);
+    if (!inputForThisLabel) {
+      return;
+    }
+    if (!inputForThisLabel.localName.startsWith("calcite")) {
+      return;
+    }
 
     // 5. target is NOT the calcite component that this label matches
-    if (target === inputForThisLabel) return;
+    if (target === inputForThisLabel) {
+      return;
+    }
 
     // 3. target is not a labelable native form element
     const labelableNativeElements = [
@@ -118,7 +109,9 @@ export class CalciteLabel {
       "select",
       "textarea"
     ];
-    if (labelableNativeElements.includes(target.localName)) return;
+    if (labelableNativeElements.includes(target.localName)) {
+      return;
+    }
 
     // 4. target is not a labelable calcite form element
     const labelableCalciteElements = [
@@ -136,7 +129,9 @@ export class CalciteLabel {
       "calcite-slider",
       "calcite-switch"
     ];
-    if (labelableCalciteElements.includes(target.localName)) return;
+    if (labelableCalciteElements.includes(target.localName)) {
+      return;
+    }
 
     // 5. target is not a child of a labelable calcite form element
     for (let i = 0; i < labelableCalciteElements.length; i++) {
@@ -154,48 +149,20 @@ export class CalciteLabel {
   //
   //--------------------------------------------------------------------------
 
-  componentDidLoad(): void {
-    if (this.disabled) this.setDisabledControls();
-  }
-
   render(): VNode {
     const attributes = getAttributes(this.el, [
       "disabled",
       "id",
+      "dir",
       "layout",
       "scale",
-      "status",
-      "theme"
+      "status"
     ]);
     const dir = getElementDir(this.el);
     return (
-      <Host dir={dir}>
-        <label {...attributes} ref={(el) => (this.labelEl = el)}>
-          <slot />
-        </label>
-      </Host>
+      <label {...attributes} class={{ [CSS_UTILITY.rtl]: dir === "rtl" }}>
+        <slot />
+      </label>
     );
-  }
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
-
-  // the rendered wrapping label element
-  private labelEl: HTMLLabelElement;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
-
-  private setDisabledControls() {
-    this.labelEl?.childNodes.forEach((item) => {
-      if (item.nodeName.includes("CALCITE")) {
-        (item as HTMLElement).setAttribute("disabled", "");
-      }
-    });
   }
 }

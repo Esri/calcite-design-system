@@ -1,22 +1,17 @@
-import { CollectionManifest, JsonDocs } from "@stencil/core/internal";
+import { JsonDocs } from "@stencil/core/internal";
 import { promises as fs } from "fs";
+import { config as componentsConfig } from "../../../stencil.config";
 
 (async () => {
   console.log("generating component bundles");
 
-  let componentsManifest: CollectionManifest;
   let componentsUsageReport: JsonDocs;
 
   try {
     console.log("reading doc");
+
     componentsUsageReport = JSON.parse(
       await fs.readFile(`${__dirname}/../../../dist/extras/docs-json.json`, {
-        encoding: "utf8"
-      })
-    );
-
-    componentsManifest = JSON.parse(
-      await fs.readFile(`${__dirname}/../../../dist/collection/collection-manifest.json`, {
         encoding: "utf8"
       })
     );
@@ -24,7 +19,7 @@ import { promises as fs } from "fs";
     console.log("an error occurred during setup", e);
   }
 
-  if (!componentsManifest || !componentsUsageReport) {
+  if (!componentsUsageReport) {
     console.log("could not generate bundles");
     process.exit(-1);
   }
@@ -37,7 +32,29 @@ import { promises as fs } from "fs";
     console.log("bundle dir already exists");
   }
 
-  for (const { components } of componentsManifest.bundles) {
+  const allConfigComponents = componentsConfig.bundles.reduce(
+    (accumulated, current) => accumulated.concat(current.components),
+    []
+  );
+
+  const allGeneratedComponents = componentsUsageReport.components.map(({ tag }) => tag);
+  const configReferencedComponentsMap = new Map(allGeneratedComponents.map((component) => [component, false]));
+
+  allGeneratedComponents.forEach((tag) => {
+    if (allConfigComponents.includes(tag)) {
+      configReferencedComponentsMap.set(tag, true);
+    }
+  });
+
+  configReferencedComponentsMap.forEach((seen, component) => {
+    if (!seen) {
+      console.warn(
+        `[WARNING] ${component} is not referenced in stencil.config.ts and will not have a bundle generated`
+      );
+    }
+  });
+
+  for (const { components } of componentsConfig.bundles) {
     const componentNamespacePrefix = /^calcite/;
     const bundleName = components[0].replace(componentNamespacePrefix, "").replace("-", "");
     const componentDeps = new Set<string>();

@@ -6,44 +6,66 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Calcite Scrim</title>
 
-    <link
-      rel="stylesheet"
-      href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css"
-    />
-    <link rel="stylesheet" href="../build/calcite.css" />
-    <script type="module" src="../build/calcite.esm.js"></script>
-    <script nomodule src="../build/calcite.js"></script>
+    <script src="./_assets/head.js"></script>
   </head>
 
   <body>
     <calcite-button href="/">Home</calcite-button>
     <h1>Calcite Scrim</h1>
-    <div
-      style="position: relative; width: 200px; height: 200px; overflow: auto;"
-    >
-      <calcite-scrim>
-        <p>I'm a panel that is not loading.</p>
-        <p style="position: relative; z-index: 9999;">
-          This content can have any zIndex and it will not be placed above.
+    <div tabindex="0" style="position: relative; width: 400px; height: 400px">
+      <calcite-scrim></calcite-scrim>
+      <div style="width: 400px; height: 400px; overflow: auto">
+        <p>
+          Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum
+          tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas
+          semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.
         </p>
-        <p>.</p>
-        <p>.</p>
-        <p>.</p>
-        <p>.</p>
-      </calcite-scrim>
+        <ul>
+          <li>
+            Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam.
+            Sed arcu. Cras consequat.
+          </li>
+          <li>
+            Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat.
+            Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.
+          </li>
+          <li>
+            Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique
+            cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.
+          </li>
+          <li>
+            Pellentesque fermentum dolor. Aliquam quam lectus, facilisis auctor, ultrices ut, elementum vulputate, nunc.
+          </li>
+        </ul>
+      </div>
     </div>
     <h2>loading scrim</h2>
-    <div
-      style="position: relative; width: 200px; height: 200px; overflow: auto;"
-    >
-      <calcite-scrim loading>
-        <p>I'm a panel that is not loading.</p>
-        <p>I have a loading spinner over my content.</p>
-        <p>.</p>
-        <p>.</p>
-        <p>.</p>
-        <p>.</p>
-      </calcite-scrim>
+    <div tabindex="0" style="position: relative; width: 400px; height: 400px">
+      <calcite-scrim loading></calcite-scrim>
+      <div style="width: 400px; height: 400px; overflow: auto">
+        <p>
+          Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum
+          tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas
+          semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.
+        </p>
+        <ul>
+          <li>
+            Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam.
+            Sed arcu. Cras consequat.
+          </li>
+          <li>
+            Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat.
+            Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.
+          </li>
+          <li>
+            Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique
+            cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.
+          </li>
+          <li>
+            Pellentesque fermentum dolor. Aliquam quam lectus, facilisis auctor, ultrices ut, elementum vulputate, nunc.
+          </li>
+        </ul>
+      </div>
     </div>
   </body>
 </html>

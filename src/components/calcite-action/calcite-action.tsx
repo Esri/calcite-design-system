@@ -1,6 +1,17 @@
-import { Component, Element, Host, Method, Prop, h, forceUpdate, VNode } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  Host,
+  Method,
+  Prop,
+  h,
+  forceUpdate,
+  VNode
+} from "@stencil/core";
 
-import { Appearance, Scale, Theme } from "../interfaces";
+import { Alignment, Appearance, Scale } from "../interfaces";
 
 import { CSS, TEXT } from "./resources";
 
@@ -29,6 +40,11 @@ export class CalciteAction {
    * Indicates whether the action is highlighted.
    */
   @Prop({ reflect: true }) active = false;
+
+  /**
+   * Indicates the alignment when text-enabled is false.
+   */
+  @Prop({ reflect: true }) alignment?: Alignment;
 
   /**
    * Compact mode is used internally by components to reduce side padding, e.g. calcite-block-section.
@@ -78,10 +94,16 @@ export class CalciteAction {
    */
   @Prop({ reflect: true }) textEnabled = false;
 
+  // --------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  // --------------------------------------------------------------------------
+
   /**
-   * Used to set the component's color scheme.
+   * Emitted when the action has been clicked.
    */
-  @Prop({ reflect: true }) theme: Theme;
+  @Event() calciteActionClick: EventEmitter;
 
   // --------------------------------------------------------------------------
   //
@@ -184,7 +206,7 @@ export class CalciteAction {
     };
 
     return (
-      <Host>
+      <Host onClick={this.calciteActionClickHandler}>
         <button
           aria-busy={loading.toString()}
           aria-disabled={disabled.toString()}
@@ -199,4 +221,16 @@ export class CalciteAction {
       </Host>
     );
   }
+
+  // --------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  // --------------------------------------------------------------------------
+
+  calciteActionClickHandler = (): void => {
+    if (!this.disabled) {
+      this.calciteActionClick.emit();
+    }
+  };
 }

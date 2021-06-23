@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
     <title>Demos - PickList</title>
     <script src="../_assets/head.js"></script>
-    <script src="../_assets/toggles.js"></script>
+
     <style>
       main {
         display: flex;
@@ -24,7 +24,7 @@
       </style>
     </header>
     <main>
-      <section class="example-container" style="width: 28vw; margin-top: 2em;">
+      <section class="example-container" style="width: 28vw; margin-top: 2em">
         <h1>LTR</h1>
         <h2>multi-select w/ filter</h2>
         <calcite-pick-list id="one" multiple filter-enabled>
@@ -62,11 +62,7 @@
               tags: ["square", "mile"]
             };
           </script>
-          <calcite-pick-list-item
-            label="2018 Total Households (Esri)"
-            description="TOTHH_CY"
-            value="TOTHH_CY"
-          >
+          <calcite-pick-list-item label="2018 Total Households (Esri)" description="TOTHH_CY" value="TOTHH_CY">
             <calcite-action
               slot="actions-end"
               id="action-test"
@@ -165,11 +161,7 @@
         <h2>grouped single-select</h2>
         <calcite-pick-list id="three">
           <calcite-pick-list-group group-title="numbers">
-            <calcite-pick-list-item
-              label="2023 Diversity Index (Esri)"
-              description="DIVINDX_FY"
-              value="DIVINDX_FY"
-            >
+            <calcite-pick-list-item label="2023 Diversity Index (Esri)" description="DIVINDX_FY" value="DIVINDX_FY">
               <calcite-action
                 slot="actions-end"
                 id="action-test"
@@ -191,11 +183,7 @@
             </calcite-pick-list-item>
           </calcite-pick-list-group>
           <calcite-pick-list-group group-title="colors">
-            <calcite-pick-list-item
-              label="2018 Total Housing Units (Esri)"
-              description="TOTHU_CY"
-              value="TOTHU_CY"
-            >
+            <calcite-pick-list-item label="2018 Total Housing Units (Esri)" description="TOTHU_CY" value="TOTHU_CY">
               <calcite-action
                 slot="actions-end"
                 id="action-test"
@@ -229,7 +217,7 @@
         </script>
       </section>
       <!-- RTL -->
-      <section class="example-container" style="width: 28vw; margin-top: 2em;" dir="rtl">
+      <section class="example-container" style="width: 28vw; margin-top: 2em" dir="rtl">
         <h1>RTL</h1>
         <h2>multi-select w/ filter</h2>
         <calcite-pick-list id="one_rtl" multiple filter-enabled>
@@ -257,11 +245,7 @@
             >
             </calcite-action>
           </calcite-pick-list-item>
-          <calcite-pick-list-item
-            label="2018 Total Households (Esri)"
-            description="TOTHH_CY"
-            value="TOTHH_CY"
-          >
+          <calcite-pick-list-item label="2018 Total Households (Esri)" description="TOTHH_CY" value="TOTHH_CY">
             <calcite-action
               slot="actions-end"
               id="action-test"
@@ -353,11 +337,7 @@
         <h2>grouped single-select</h2>
         <calcite-pick-list id="three_rtl">
           <calcite-pick-list-group group-title="numbers">
-            <calcite-pick-list-item
-              label="2023 Diversity Index (Esri)"
-              description="DIVINDX_FY"
-              value="DIVINDX_FY"
-            >
+            <calcite-pick-list-item label="2023 Diversity Index (Esri)" description="DIVINDX_FY" value="DIVINDX_FY">
               <calcite-action
                 slot="actions-end"
                 id="action-test"
@@ -379,11 +359,7 @@
             </calcite-pick-list-item>
           </calcite-pick-list-group>
           <calcite-pick-list-group group-title="colors">
-            <calcite-pick-list-item
-              label="2018 Total Housing Units (Esri)"
-              description="TOTHU_CY"
-              value="TOTHU_CY"
-            >
+            <calcite-pick-list-item label="2018 Total Housing Units (Esri)" description="TOTHU_CY" value="TOTHU_CY">
               <calcite-action
                 slot="actions-end"
                 id="action-test"

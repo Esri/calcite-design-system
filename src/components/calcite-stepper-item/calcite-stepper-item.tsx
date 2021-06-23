@@ -13,6 +13,7 @@ import {
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { Scale } from "../interfaces";
+import { CSS_UTILITY } from "../../utils/resources";
 
 @Component({
   tag: "calcite-stepper-item",
@@ -113,11 +114,15 @@ export class CalciteStepperItem {
     this.itemPosition = this.getItemPosition();
     this.itemContent = this.getItemContent();
     this.registerStepperItem();
-    if (this.active) this.emitRequestedItem();
+    if (this.active) {
+      this.emitRequestedItem();
+    }
   }
 
   componentDidUpdate(): void {
-    if (this.active) this.emitRequestedItem();
+    if (this.active) {
+      this.emitRequestedItem();
+    }
   }
 
   render(): VNode {
@@ -125,22 +130,23 @@ export class CalciteStepperItem {
     return (
       <Host
         aria-expanded={this.active.toString()}
-        dir={dir}
         onClick={() => this.emitRequestedItem()}
         tabindex={this.disabled ? null : 0}
       >
-        <div class="stepper-item-header">
-          {this.icon ? this.renderIcon() : null}
-          {this.numbered ? (
-            <div class="stepper-item-number">{this.getItemPosition() + 1}.</div>
-          ) : null}
-          <div class="stepper-item-header-text">
-            <span class="stepper-item-title">{this.itemTitle}</span>
-            <span class="stepper-item-subtitle">{this.itemSubtitle}</span>
+        <div class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+          <div class="stepper-item-header">
+            {this.icon ? this.renderIcon() : null}
+            {this.numbered ? (
+              <div class="stepper-item-number">{this.getItemPosition() + 1}.</div>
+            ) : null}
+            <div class="stepper-item-header-text">
+              <span class="stepper-item-title">{this.itemTitle}</span>
+              <span class="stepper-item-subtitle">{this.itemSubtitle}</span>
+            </div>
           </div>
-        </div>
-        <div class="stepper-item-content">
-          <slot />
+          <div class="stepper-item-content">
+            <slot />
+          </div>
         </div>
       </Host>
     );

@@ -12,13 +12,7 @@
         padding: 1rem;
       }
     </style>
-    <link
-      rel="stylesheet"
-      href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css"
-    />
-    <link rel="stylesheet" href="../build/calcite.css" />
-    <script type="module" src="../build/calcite.esm.js"></script>
-    <script nomodule src="../build/calcite.js"></script>
+    <script src="./_assets/head.js"></script>
   </head>
 
   <body>
@@ -27,11 +21,7 @@
     <h1>Indeterminate</h1>
     <calcite-progress type="indeterminate"></calcite-progress>
     <h1>Determinate</h1>
-    <calcite-progress
-      type="determinate"
-      value="0.5"
-      text="50% Complete (optional text)"
-    ></calcite-progress>
+    <calcite-progress type="determinate" value="0.5" text="50% Complete (optional text)"></calcite-progress>
     <h1>Reversed</h1>
     <calcite-progress type="indeterminate" reversed></calcite-progress>
     <br />
@@ -39,16 +29,11 @@
     <br />
     <div class="demo-background-dark">
       <h1>Indeterminate</h1>
-      <calcite-progress theme="dark" type="indeterminate"></calcite-progress>
+      <calcite-progress class="calcite-theme-dark" type="indeterminate"></calcite-progress>
       <br />
       <br />
       <h1>Determinate</h1>
-      <calcite-progress
-        theme="dark"
-        type="determinate"
-        value="0.5"
-        text="50% Complete (optional text)"
-      >
+      <calcite-progress class="calcite-theme-dark" type="determinate" value="0.5" text="50% Complete (optional text)">
       </calcite-progress>
     </div>
   </body>

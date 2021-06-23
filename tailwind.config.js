@@ -21,14 +21,6 @@ module.exports = {
       "color-danger-hover": theme("colors.danger-hover"),
       "color-danger-press": theme("colors.danger-press"),
     }),
-    borderWidth: {
-      default: '1px',
-      "0": "0px",
-      "2": "2px",
-      "3": "3px",
-      "4": "4px",
-      "8": "8px"
-    },
     colors: {
       "brand": "var(--calcite-ui-brand)",
       "brand-hover": "var(--calcite-ui-brand-hover)",
@@ -144,6 +136,9 @@ module.exports = {
       borderRadius: {
         half: "50%"
       },
+      borderWidth: {
+        px: "1px"
+      },
       boxShadow: {
         0: "0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04)",
         1: "0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04)",
@@ -205,7 +200,8 @@ module.exports = {
       spacing: {
         "0.5": "0.125rem",
         "2.5": "0.625rem",
-        "3.5": "0.875rem"
+        "3.5": "0.875rem",
+        "11": "2.75rem"
       },
       transitionProperty: {
         margin: "margin",
@@ -259,24 +255,6 @@ module.exports = {
       const utilities = Object.assign({}, ...colorMap);
 
       addUtilities(utilities, variants('borderColor'));
-    },
-    ({ addUtilities, variants }) => {
-      const styles = [
-        'solid',
-        'dashed',
-        'dotted',
-        'double',
-        'none',
-      ];
-      const stylesMap = styles.map(style => ({
-        [`.border-t-${style}`]: {borderTopStyle: style},
-        [`.border-r-${style}`]: {borderRightStyle: style},
-        [`.border-b-${style}`]: {borderBottomStyle: style},
-        [`.border-l-${style}`]: {borderLeftStyle: style},
-      }));
-      const utilities = Object.assign({}, ...stylesMap);
-
-      addUtilities(utilities, variants('borderStyle'));
     },
   ],
   future: {

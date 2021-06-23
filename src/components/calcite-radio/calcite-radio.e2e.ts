@@ -5,11 +5,7 @@ describe("calcite-radio", () => {
 
   it("is accessible", async () => accessible(`<calcite-radio></calcite-radio>`));
 
-  it("has defaults", async () =>
-    defaults("calcite-radio", [
-      { propertyName: "scale", defaultValue: "m" },
-      { propertyName: "theme", defaultValue: "light" }
-    ]));
+  it("has defaults", async () => defaults("calcite-radio", [{ propertyName: "scale", defaultValue: "m" }]));
 
   it("honors hidden attribute", async () => hidden("calcite-radio"));
 
@@ -19,7 +15,6 @@ describe("calcite-radio", () => {
       { propertyName: "disabled", value: true },
       { propertyName: "focused", value: true },
       { propertyName: "hidden", value: true },
-      { propertyName: "scale", value: "m" },
-      { propertyName: "theme", value: "light" }
+      { propertyName: "scale", value: "m" }
     ]));
 });

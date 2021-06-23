@@ -1,99 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Calcite Loader</title>
-  <style>
-    .demo-background-dark {
-      background: #202020;
-      color: white;
-      padding: 1rem;
-    }
-
-    h2 {
-      text-align: center;
-      padding-top: 6rem;
-    }
-
-    h2:first-of-type {
-      padding-top: 2rem;
-    }
-  </style>
-  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
-  <link rel="stylesheet" href="../build/calcite.css" />
-  <script type="module" src="../build/calcite.esm.js"></script>
-  <script nomodule src="../build/calcite.js"></script>
-</head>
-
-<body>
-  <calcite-button href="/">Home</calcite-button>
-  <hr>
-  <calcite-button scale="s" data-scale="s" class="scale-selector">Small</calcite-button>
-  <calcite-button scale="s" data-scale="m" class="scale-selector">Medium</calcite-button>
-  <calcite-button scale="s" data-scale="l" class="scale-selector">Large</calcite-button>
-  <h1>Calcite Loader</h1>
-  <h2>Standard</h2>
-  <calcite-loader label="loading" active></calcite-loader>
-  <h2>Determinate</h2>
-  <calcite-loader label="loading" active type="determinate" value="0" id="loader-determinate" text="Determinate loader">
-  </calcite-loader>
-  <div style="text-align: center">
-    <calcite-button id="replay" appearance="transparent" icon="refresh">Replay</calcite-button>
-  </div>
-  <script>
-    (function () {
-      var determinateLoader = document.querySelector("#loader-determinate");
-      var randoms = [0, 0, 0, 0, 0, 0, 1, 3];
-      function updateLoader() {
-        var random = randoms[Math.floor(Math.random() * randoms.length)];
-        determinateLoader.value = Math.min(determinateLoader.value + random, 100);
-        if (determinateLoader.value !== 100) {
-          requestAnimationFrame(updateLoader);
-        }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Calcite Loader</title>
+    <style>
+      .demo-background-dark {
+        background: #202020;
+        color: white;
+        padding: 1rem;
       }
 
-      updateLoader();
+      h2 {
+        text-align: center;
+        padding-top: 6rem;
+      }
 
-      document.querySelector("#replay").addEventListener("click", function () {
-        cancelAnimationFrame(updateLoader);
-        determinateLoader.value = 0;
+      h2:first-of-type {
+        padding-top: 2rem;
+      }
+    </style>
+    <script src="./_assets/head.js"></script>
+  </head>
+
+  <body>
+    <calcite-button href="/">Home</calcite-button>
+    <hr />
+    <calcite-button scale="s" data-scale="s" class="scale-selector">Small</calcite-button>
+    <calcite-button scale="s" data-scale="m" class="scale-selector">Medium</calcite-button>
+    <calcite-button scale="s" data-scale="l" class="scale-selector">Large</calcite-button>
+    <h1>Calcite Loader</h1>
+    <h2>Standard</h2>
+    <calcite-loader label="loading" active></calcite-loader>
+    <h2>Determinate</h2>
+    <calcite-loader
+      label="loading"
+      active
+      type="determinate"
+      value="0"
+      id="loader-determinate"
+      text="Determinate loader"
+    >
+    </calcite-loader>
+    <div style="text-align: center">
+      <calcite-button id="replay" appearance="transparent" icon="refresh">Replay</calcite-button>
+    </div>
+    <script>
+      (function () {
+        var determinateLoader = document.querySelector("#loader-determinate");
+        var randoms = [0, 0, 0, 0, 0, 0, 1, 3];
+        function updateLoader() {
+          var random = randoms[Math.floor(Math.random() * randoms.length)];
+          determinateLoader.value = Math.min(determinateLoader.value + random, 100);
+          if (determinateLoader.value !== 100) {
+            requestAnimationFrame(updateLoader);
+          }
+        }
+
         updateLoader();
-      });
 
-      const scaleSelectors = document.querySelectorAll(".scale-selector");
-      scaleSelectors.forEach((selector) => {
-        selector.addEventListener("click", function (e) {
-          const scale = e.target.getAttribute("data-scale");
-          const loaders = document.querySelectorAll("calcite-loader");
-          loaders.forEach((loader) => {
-            console.log("scale: " + loader.getAttribute("scale"));
-            loader.setAttribute("scale", scale);
-          });
+        document.querySelector("#replay").addEventListener("click", function () {
           cancelAnimationFrame(updateLoader);
           determinateLoader.value = 0;
           updateLoader();
         });
-      });
-    })();
-  </script>
-  <h2>Inline</h2>
-  <div style="display: inline-flex;align-items: center;justify-content: center;width: 100%;">
-    <calcite-loader label="loading" active inline></calcite-loader><span style="margin:0 10px">Inline Loader</span>
-  </div>
-  <h2>Custom theme</h2>
-  <style>
-    calcite-loader.green {
-      --calcite-ui-brand: #50ba5f;
-      --calcite-ui-brand-hover: #1a6324;
-      --calcite-ui-brand-press: #338033;
-    }
-  </style>
-  <calcite-loader label="loading" active class="green"></calcite-loader>
-  <h2>Loading Text</h2>
-  <calcite-loader label="loading" active text="optional loading text&hellip;" type="indeterminate"></calcite-loader>
-</body>
 
+        const scaleSelectors = document.querySelectorAll(".scale-selector");
+        scaleSelectors.forEach((selector) => {
+          selector.addEventListener("click", function (e) {
+            const scale = e.target.getAttribute("data-scale");
+            const loaders = document.querySelectorAll("calcite-loader");
+            loaders.forEach((loader) => {
+              console.log("scale: " + loader.getAttribute("scale"));
+              loader.setAttribute("scale", scale);
+            });
+            cancelAnimationFrame(updateLoader);
+            determinateLoader.value = 0;
+            updateLoader();
+          });
+        });
+      })();
+    </script>
+    <h2>Inline</h2>
+    <div style="display: inline-flex; align-items: center; justify-content: center; width: 100%">
+      <calcite-loader label="loading" active inline></calcite-loader><span style="margin: 0 10px">Inline Loader</span>
+    </div>
+    <h2>Custom theme</h2>
+    <style>
+      calcite-loader.green {
+        --calcite-ui-brand: #50ba5f;
+        --calcite-ui-brand-hover: #1a6324;
+        --calcite-ui-brand-press: #338033;
+      }
+    </style>
+    <calcite-loader label="loading" active class="green"></calcite-loader>
+    <h2>Loading Text</h2>
+    <calcite-loader label="loading" active text="optional loading text&hellip;" type="indeterminate"></calcite-loader>
+  </body>
 </html>

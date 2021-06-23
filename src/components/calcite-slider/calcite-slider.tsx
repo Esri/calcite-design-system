@@ -16,7 +16,6 @@ import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
 import { DataSeries } from "../calcite-graph/interfaces";
 import { hasLabel } from "../../utils/dom";
-import { Theme } from "../interfaces";
 
 type activeSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 
@@ -38,8 +37,6 @@ export class CalciteSlider {
   //  Properties
   //
   //--------------------------------------------------------------------------
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: Theme;
 
   /** Disable and gray out the slider */
   @Prop({ reflect: true }) disabled = false;
@@ -54,10 +51,10 @@ export class CalciteSlider {
   @Prop({ reflect: true, mutable: true }) value: null | number = null;
 
   /** Currently selected lower number (if multi-select) */
-  @Prop() minValue?: number;
+  @Prop({ mutable: true }) minValue?: number;
 
   /** Currently selected upper number (if multi-select) */
-  @Prop() maxValue?: number;
+  @Prop({ mutable: true }) maxValue?: number;
 
   /** Label for first (or only) handle (ex. "Temperature, lower bound") */
   @Prop() minLabel: string;
@@ -90,7 +87,7 @@ export class CalciteSlider {
   @Prop() histogram?: DataSeries;
 
   @Watch("histogram") histogramWatcher(newHistogram: DataSeries): void {
-    this.hasHistogram = newHistogram ? true : false;
+    this.hasHistogram = !!newHistogram;
   }
 
   /** Indicates if a histogram is present */
@@ -512,52 +509,54 @@ export class CalciteSlider {
     );
 
     return (
-      <Host id={id} is-range={this.isRange}>
-        {this.renderGraph()}
-        <div class="track">
-          <div
-            class="track__range"
-            onMouseDown={() => this.dragStart("minMaxValue")}
-            onTouchStart={(e) => this.dragStart("minMaxValue", e)}
-            style={{ left, right }}
-          />
-          <div class="ticks">
-            {this.tickValues.map((tick) => (
-              <span
-                class={{
-                  tick: true,
-                  "tick--active": tick >= min && tick <= max
-                }}
-                style={{
-                  left: `${this.getUnitInterval(tick) * 100}%`
-                }}
-              >
-                {this.renderTickLabel(tick)}
-              </span>
-            ))}
+      <Host id={id}>
+        <div class={{ container: true, "container--range": this.isRange }}>
+          {this.renderGraph()}
+          <div class="track">
+            <div
+              class="track__range"
+              onMouseDown={() => this.dragStart("minMaxValue")}
+              onTouchStart={(e) => this.dragStart("minMaxValue", e)}
+              style={{ left, right }}
+            />
+            <div class="ticks">
+              {this.tickValues.map((tick) => (
+                <span
+                  class={{
+                    tick: true,
+                    "tick--active": tick >= min && tick <= max
+                  }}
+                  style={{
+                    left: `${this.getUnitInterval(tick) * 100}%`
+                  }}
+                >
+                  {this.renderTickLabel(tick)}
+                </span>
+              ))}
+            </div>
           </div>
-        </div>
-        {!this.precise && !this.labelHandles && this.isRange && minHandle}
-        {!this.hasHistogram &&
-          !this.precise &&
-          this.labelHandles &&
-          this.isRange &&
-          minLabeledHandle}
-        {this.precise && !this.labelHandles && this.isRange && minPreciseHandle}
-        {this.precise && this.labelHandles && this.isRange && minLabeledPreciseHandle}
-        {this.hasHistogram &&
-          !this.precise &&
-          this.labelHandles &&
-          this.isRange &&
-          minHistogramLabeledHandle}
+          {!this.precise && !this.labelHandles && this.isRange && minHandle}
+          {!this.hasHistogram &&
+            !this.precise &&
+            this.labelHandles &&
+            this.isRange &&
+            minLabeledHandle}
+          {this.precise && !this.labelHandles && this.isRange && minPreciseHandle}
+          {this.precise && this.labelHandles && this.isRange && minLabeledPreciseHandle}
+          {this.hasHistogram &&
+            !this.precise &&
+            this.labelHandles &&
+            this.isRange &&
+            minHistogramLabeledHandle}
 
-        {!this.precise && !this.labelHandles && handle}
-        {!this.hasHistogram && !this.precise && this.labelHandles && labeledHandle}
-        {!this.hasHistogram && this.precise && !this.labelHandles && preciseHandle}
-        {this.hasHistogram && this.precise && !this.labelHandles && histogramPreciseHandle}
-        {!this.hasHistogram && this.precise && this.labelHandles && labeledPreciseHandle}
-        {this.hasHistogram && !this.precise && this.labelHandles && histogramLabeledHandle}
-        {this.hasHistogram && this.precise && this.labelHandles && histogramLabeledPreciseHandle}
+          {!this.precise && !this.labelHandles && handle}
+          {!this.hasHistogram && !this.precise && this.labelHandles && labeledHandle}
+          {!this.hasHistogram && this.precise && !this.labelHandles && preciseHandle}
+          {this.hasHistogram && this.precise && !this.labelHandles && histogramPreciseHandle}
+          {!this.hasHistogram && this.precise && this.labelHandles && labeledPreciseHandle}
+          {this.hasHistogram && !this.precise && this.labelHandles && histogramLabeledHandle}
+          {this.hasHistogram && this.precise && this.labelHandles && histogramLabeledPreciseHandle}
+        </div>
       </Host>
     );
   }
@@ -707,30 +706,38 @@ export class CalciteSlider {
     }
   }
 
-  @Listen("click") clickHandler(e: MouseEvent): void {
-    const x = e.clientX || e.pageX;
-    const num = this.translate(x);
+  @Listen("mousedown")
+  @Listen("click")
+  mouseHandler(event: MouseEvent): void {
+    const x = event.clientX || event.pageX;
+    const position = this.translate(x);
     let prop: activeSliderProperty = "value";
     if (this.isRange) {
-      if (this.lastDragProp === "minMaxValue") {
+      const inRange = position >= this.minValue && position <= this.maxValue;
+      if (inRange && this.lastDragProp === "minMaxValue") {
         prop = "minMaxValue";
       } else {
-        const closerToMax = Math.abs(this.maxValue - num) < Math.abs(this.minValue - num);
+        const closerToMax = Math.abs(this.maxValue - position) < Math.abs(this.minValue - position);
         prop = closerToMax ? "maxValue" : "minValue";
       }
     }
-    this[prop] = this.bound(num, prop);
-    this.emitChange();
-    switch (prop) {
-      default:
-      case "maxValue":
-        this.maxHandle.focus();
-        break;
-      case "minValue":
-        this.minHandle.focus();
-        break;
-      case "minMaxValue":
-        break;
+    this[prop] = this.bound(position, prop);
+    this.dragStart(prop);
+
+    if (event.type === "click") {
+      this.dragEnd();
+      this.emitChange();
+      switch (prop) {
+        default:
+        case "maxValue":
+          this.maxHandle.focus();
+          break;
+        case "minValue":
+          this.minHandle.focus();
+          break;
+        case "minMaxValue":
+          break;
+      }
     }
   }
 
@@ -964,9 +971,8 @@ export class CalciteSlider {
   }
 
   private hyphenateCollidingRangeHandleLabels(): void {
-    const minValueLabel: HTMLSpanElement = this.el.shadowRoot.querySelector(
-      `.handle__label--minValue`
-    );
+    const minValueLabel: HTMLSpanElement =
+      this.el.shadowRoot.querySelector(`.handle__label--minValue`);
     const minValueLabelStatic: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--minValue.static`
     );
@@ -1098,17 +1104,14 @@ export class CalciteSlider {
       return;
     }
 
-    const minHandle: HTMLButtonElement | null = this.el.shadowRoot.querySelector(
-      ".thumb--minValue"
-    );
+    const minHandle: HTMLButtonElement | null =
+      this.el.shadowRoot.querySelector(".thumb--minValue");
     const maxHandle: HTMLButtonElement | null = this.el.shadowRoot.querySelector(".thumb--value");
 
-    const minTickLabel: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
-      ".tick__label--min"
-    );
-    const maxTickLabel: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
-      ".tick__label--max"
-    );
+    const minTickLabel: HTMLSpanElement | null =
+      this.el.shadowRoot.querySelector(".tick__label--min");
+    const maxTickLabel: HTMLSpanElement | null =
+      this.el.shadowRoot.querySelector(".tick__label--max");
 
     if (!minHandle && maxHandle && minTickLabel && maxTickLabel) {
       if (this.isMinTickLabelObscured(minTickLabel, maxHandle)) {

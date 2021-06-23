@@ -3,17 +3,17 @@ import {
   Element,
   Event,
   EventEmitter,
-  Host,
   Method,
   Prop,
   Watch,
   h,
-  VNode
+  VNode,
+  Fragment
 } from "@stencil/core";
 import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
 import { getElementDir, getSlotted } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
-import { Scale, Theme } from "../interfaces";
+import { Scale } from "../interfaces";
 import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
 
 /**
@@ -65,7 +65,7 @@ export class CalcitePanel {
   /**
    * Number at which section headings should start for this component.
    */
-  @Prop() headingLevel: HeadingLevel = HEADING_LEVEL;
+  @Prop() headingLevel: HeadingLevel;
 
   /**
    * Shows a back button in the header.
@@ -101,12 +101,6 @@ export class CalcitePanel {
    * 'Options' text string for the actions menu.
    */
   @Prop() intlOptions?: string;
-
-  /**
-   * Used to set the component's color scheme.
-   */
-
-  @Prop({ reflect: true }) theme: Theme;
 
   /**
    * Heading text.
@@ -247,7 +241,7 @@ export class CalcitePanel {
   renderHeaderContent(): VNode {
     const { heading, headingLevel, summary } = this;
     const headingNode = heading ? (
-      <CalciteHeading class={CSS.heading} level={headingLevel}>
+      <CalciteHeading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
         {heading}
       </CalciteHeading>
     ) : null;
@@ -322,7 +316,7 @@ export class CalcitePanel {
     return hasMenuItems ? (
       <calcite-action-menu
         flipPlacements={["top", "bottom"]}
-        intlOptions={intlOptions}
+        label={intlOptions || TEXT.options}
         open={menuOpen}
         placement="bottom-end"
       >
@@ -432,13 +426,10 @@ export class CalcitePanel {
     );
 
     return (
-      <Host>
-        {loading || disabled ? (
-          <calcite-scrim loading={loading}>{panelNode}</calcite-scrim>
-        ) : (
-          panelNode
-        )}
-      </Host>
+      <Fragment>
+        {loading || disabled ? <calcite-scrim loading={loading} /> : null}
+        {panelNode}
+      </Fragment>
     );
   }
 }

@@ -48,8 +48,17 @@ $spacing: $baseline/2;
 
 :host([width="full"]) {
   .root {
-    max-width: none;
-    display: block;
+    @apply max-w-none flex;
+  }
+  calcite-tile {
+    @apply flex-auto;
+  }
+}
+
+:host([input-alignment="start"][width="full"]) {
+  calcite-tile {
+    @apply order-1;
+    margin-inline-start: theme("spacing.3");
   }
 }
 
@@ -66,8 +75,8 @@ $spacing: $baseline/2;
   }
 }
 
-:host([input-enabled][input-alignment="start"][icon][heading][description]),
-:host([input-enabled][input-alignment="start"]:not([icon])[heading]:not([description])) {
+:host([width="auto"][input-enabled][input-alignment="start"][icon][heading][description]),
+:host([width="auto"][input-enabled][input-alignment="start"]:not([icon])[heading]:not([description])) {
   .root {
     display: inline-grid;
     grid-gap: $spacing;
@@ -91,7 +100,7 @@ $spacing: $baseline/2;
   }
 }
 
-:host([dir="rtl"][input-enabled][input-alignment="start"][icon][heading]:not([description])) {
+:host([input-enabled][input-alignment="start"][icon][heading]:not([description])) .calcite--rtl {
   ::slotted(calcite-checkbox),
   ::slotted(calcite-radio-button) {
     right: $spacing;
@@ -108,7 +117,7 @@ $spacing: $baseline/2;
   }
 }
 
-:host([dir="rtl"][input-enabled][input-alignment="end"][icon][heading]) {
+:host([input-enabled][input-alignment="end"][icon][heading]) .calcite--rtl {
   ::slotted(calcite-checkbox),
   ::slotted(calcite-radio-button) {
     right: unset;

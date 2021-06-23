@@ -17,14 +17,14 @@
 | `metadata`           | --                 | Used to provide additional metadata to an item, primarily used when the parent list has a filter. | `{ [x: string]: unknown; }`                                 | `undefined`   |
 | `removable`          | `removable`        | Set this to true to display a remove action that removes the item from the list.                  | `boolean`                                                   | `false`       |
 | `selected`           | `selected`         | Set this to true to pre-select an item. Toggles when an item is checked/unchecked.                | `boolean`                                                   | `false`       |
-| `value` _(required)_ | `value`            | A unique value used to identify this item - similar to the value attribute on an <input>.         | `string`                                                    | `undefined`   |
+| `value` _(required)_ | `value`            | The item's associated value.                                                                      | `any`                                                       | `undefined`   |
 
 ## Events
 
-| Event                   | Description                                          | Type                                                                                                              |
-| ----------------------- | ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| `calciteListItemChange` | Emitted whenever the item is selected or unselected. | `CustomEvent<{ item: HTMLCalcitePickListItemElement; value: string; selected: boolean; shiftPressed: boolean; }>` |
-| `calciteListItemRemove` | Emitted whenever the remove button is pressed.       | `CustomEvent<void>`                                                                                               |
+| Event                   | Description                                          | Type                                                                                |
+| ----------------------- | ---------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `calciteListItemChange` | Emitted whenever the item is selected or unselected. | `CustomEvent<{ item: any; value: any; selected: boolean; shiftPressed: boolean; }>` |
+| `calciteListItemRemove` | Emitted whenever the remove button is pressed.       | `CustomEvent<void>`                                                                 |
 
 ## Methods
 

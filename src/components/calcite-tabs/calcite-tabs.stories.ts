@@ -1,4 +1,4 @@
-import { select, optionsKnob } from "@storybook/addon-knobs";
+import { select, optionsKnob, boolean } from "@storybook/addon-knobs";
 import { iconNames } from "../../../.storybook/helpers";
 import { darkBackground } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
@@ -19,6 +19,7 @@ export const Simple = (): string => html`
   <calcite-tabs
     layout="${select("layout", ["inline", "center"], "inline")}"
     position="${select("position", ["above", "below"], "above")}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
   >
     <calcite-tab-nav slot="tab-nav">
       <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
@@ -34,22 +35,70 @@ export const Simple = (): string => html`
   </calcite-tabs>
 `;
 
+export const Bordered = (): string => html`
+  <calcite-tabs
+    layout="inline"
+    position="${select("position", ["above", "below"], "above")}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+    bordered
+  >
+    <calcite-tab-nav slot="tab-nav">
+      <calcite-tab-title tab="tab1">Tab 1 Title</calcite-tab-title>
+      <calcite-tab-title tab="tab2">Tab 2 Title</calcite-tab-title>
+      <calcite-tab-title tab="tab3">Tab 3 Title</calcite-tab-title>
+      <calcite-tab-title tab="tab4" active>Tab 4 Title</calcite-tab-title>
+    </calcite-tab-nav>
+    <calcite-tab tab="tab1">Tab 1 Content</calcite-tab>
+    <calcite-tab tab="tab2">Tab 2 Content</calcite-tab>
+    <calcite-tab tab="tab3">Tab 3 Content</calcite-tab>
+    <calcite-tab tab="tab4" active>Tab 4 Content</calcite-tab>
+  </calcite-tabs>
+`;
+
+export const BorderedRTLDark = (): string => html`
+  <calcite-tabs
+    layout="inline"
+    position="${select("position", ["above", "below"], "above")}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+    bordered
+    dir="rtl"
+    class="calcite-theme-dark"
+  >
+    <calcite-tab-nav slot="tab-nav">
+      <calcite-tab-title tab="tab1">Tab 1 Title</calcite-tab-title>
+      <calcite-tab-title tab="tab2">Tab 2 Title</calcite-tab-title>
+      <calcite-tab-title tab="tab3">Tab 3 Title</calcite-tab-title>
+      <calcite-tab-title tab="tab4" active>Tab 4 Title</calcite-tab-title>
+    </calcite-tab-nav>
+    <calcite-tab tab="tab1">Tab 1 Content</calcite-tab>
+    <calcite-tab tab="tab2">Tab 2 Content</calcite-tab>
+    <calcite-tab tab="tab3">Tab 3 Content</calcite-tab>
+    <calcite-tab tab="tab4" active>Tab 4 Content</calcite-tab>
+  </calcite-tabs>
+`;
+BorderedRTLDark.story = {
+  parameters: { backgrounds: darkBackground }
+};
+
+const selectedIcon = iconNames[0];
+
 export const WithIcons = (): string => html`
   <calcite-tabs
     layout="${select("layout", ["inline", "center"], "inline")}"
     position="${select("position", ["above", "below"], "above")}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
   >
     <calcite-tab-nav slot="tab-nav">
-      <calcite-tab-title active icon-start="${select("tab 1 icon-start", iconNames, iconNames[0])}"
+      <calcite-tab-title active icon-start="${select("tab 1 icon-start", iconNames, selectedIcon)}"
         >Tab 1 Title</calcite-tab-title
       >
-      <calcite-tab-title icon-end="${select("tab 2 icon-end", iconNames, iconNames[0])}">Tab 2 Title</calcite-tab-title>
+      <calcite-tab-title icon-end="${select("tab 2 icon-end", iconNames, selectedIcon)}">Tab 2 Title</calcite-tab-title>
       <calcite-tab-title
-        icon-start="${select("tab 3 icon-start", iconNames, iconNames[0])}"
-        icon-end="${select("tab 3 icon-end", iconNames, iconNames[0])}"
+        icon-start="${select("tab 3 icon-start", iconNames, selectedIcon)}"
+        icon-end="${select("tab 3 icon-end", iconNames, selectedIcon)}"
         >Tab 3 Title</calcite-tab-title
       >
-      <calcite-tab-title icon-start="${select("tab 4 icon-start", iconNames, iconNames[0])}"></calcite-tab-title>
+      <calcite-tab-title icon-start="${select("tab 4 icon-start", iconNames, selectedIcon)}"></calcite-tab-title>
     </calcite-tab-nav>
 
     <calcite-tab active><p>Tab 1 Content</p></calcite-tab>
@@ -63,18 +112,35 @@ WithIcons.story = {
   name: "With icons"
 };
 
+export const JustTabNav = (): string => html`
+  <calcite-tab-nav
+    position="${select("position", ["above", "below"], "below")}"
+    scale="${select("scale", ["s", "m", "l"], "l")}"
+  >
+    <calcite-tab-title>Tab 1 Title</calcite-tab-title>
+    <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+    <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+    <calcite-tab-title active>Tab 4 Title</calcite-tab-title>
+  </calcite-tab-nav>
+`;
+
 export const DarkMode = (): string => html`
   <calcite-tabs
-    theme="dark"
+    class="calcite-theme-dark"
     layout="${select("layout", ["inline", "center"], "inline")}"
     position="${select("position", ["above", "below"], "above")}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
   >
     <calcite-tab-nav slot="tab-nav">
-      <calcite-tab-title active>Icon 1</calcite-tab-title>
+      <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
       <calcite-tab-title>Tab 2 Title</calcite-tab-title>
       <calcite-tab-title>Tab 3 Title</calcite-tab-title>
       <calcite-tab-title>Tab 4 Title</calcite-tab-title>
     </calcite-tab-nav>
+    <calcite-tab active><p>Tab 1 Content</p></calcite-tab>
+    <calcite-tab><p>Tab 2 Content</p></calcite-tab>
+    <calcite-tab><p>Tab 3 Content</p></calcite-tab>
+    <calcite-tab><p>Tab 4 Content</p></calcite-tab>
   </calcite-tabs>
 `;
 
@@ -120,3 +186,24 @@ export const DisabledTabs = (): string => {
 DisabledTabs.story = {
   name: "Disabled tabs"
 };
+
+export const RTL = (): string => html`
+  <calcite-tabs
+    dir="rtl"
+    layout="${select("layout", ["inline", "center"], "inline")}"
+    position="${select("position", ["above", "below"], "above")}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+  >
+    <calcite-tab-nav slot="tab-nav">
+      <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+      <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+      <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+      <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+    </calcite-tab-nav>
+
+    <calcite-tab active><p>Tab 1 Content</p></calcite-tab>
+    <calcite-tab><p>Tab 2 Content</p></calcite-tab>
+    <calcite-tab><p>Tab 3 Content</p></calcite-tab>
+    <calcite-tab><p>Tab 4 Content</p></calcite-tab>
+  </calcite-tabs>
+`;

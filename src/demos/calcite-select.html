@@ -15,10 +15,7 @@
         display: flex;
       }
     </style>
-    <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
-    <link rel="stylesheet" href="../build/calcite.css" />
-    <script type="module" src="../build/calcite.esm.js"></script>
-    <script nomodule src="../build/calcite.js"></script>
+    <script src="./_assets/head.js"></script>
   </head>
 
   <body>
@@ -27,7 +24,7 @@
     <h1>Calcite Select</h1>
     <h3>Basic small</h3>
 
-    <calcite-select style="width: 200px;" label="calcite select" scale="s">
+    <calcite-select style="width: 200px" label="calcite select" scale="s">
       <calcite-option>uno</calcite-option>
       <calcite-option>dos</calcite-option>
       <calcite-option>Some long content that will probably be enough to extend past the end</calcite-option>
@@ -35,7 +32,7 @@
 
     <h3>Basic medium (default)</h3>
 
-    <calcite-select style="width: 200px;" label="calcite select" scale="m">
+    <calcite-select style="width: 200px" label="calcite select" scale="m">
       <calcite-option>uno</calcite-option>
       <calcite-option>dos</calcite-option>
       <calcite-option>Some long content that will probably be enough to extend past the end</calcite-option>
@@ -43,7 +40,7 @@
 
     <h3>Basic large</h3>
 
-    <calcite-select style="width: 200px;" label="calcite select" scale="l">
+    <calcite-select style="width: 200px" label="calcite select" scale="l">
       <calcite-option>uno</calcite-option>
       <calcite-option>dos</calcite-option>
       <calcite-option>Some long content that will probably be enough to extend past the end</calcite-option>
@@ -119,7 +116,7 @@
     <h3>Dark Theme</h3>
 
     <div class="demo-background-dark">
-      <calcite-select label="calcite select" theme="dark">
+      <calcite-select label="calcite select" class="calcite-theme-dark">
         <calcite-option>🙂</calcite-option>
         <calcite-option>😃</calcite-option>
         <calcite-option>😂</calcite-option>
@@ -127,7 +124,7 @@
 
       <h3>Wrapped with calcite-label and theme set on label</h3>
 
-      <calcite-label theme="dark">
+      <calcite-label class="calcite-theme-dark">
         Choose uno
         <calcite-select>
           <calcite-option>uno</calcite-option>
@@ -138,7 +135,7 @@
 
       <h3>Wrapped with disabled calcite-label and theme set on label</h3>
 
-      <calcite-label theme="dark" disabled>
+      <calcite-label class="calcite-theme-dark" disabled>
         Choose uno
         <calcite-select>
           <calcite-option>uno</calcite-option>
@@ -149,7 +146,7 @@
 
       <h3>Basic disabled</h3>
 
-      <calcite-select label="calcite select" disabled theme="dark">
+      <calcite-select label="calcite select" disabled class="calcite-theme-dark">
         <calcite-option>uno</calcite-option>
         <calcite-option>dos</calcite-option>
         <calcite-option>Some long content that will probably be enough to extend past the end</calcite-option>

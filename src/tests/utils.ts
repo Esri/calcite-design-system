@@ -1,4 +1,4 @@
-import { E2EPage } from "@stencil/core/testing";
+import { E2EElement, E2EPage } from "@stencil/core/testing";
 import { BoundingBox, JSONObject } from "puppeteer";
 import dedent from "dedent";
 
@@ -96,6 +96,11 @@ export async function dragAndDrop(
     await createEventInitializer(dragStartSelector),
     await createEventInitializer(dragEndSelector)
   );
+}
+
+export function selectText(input: E2EElement): Promise<void> {
+  // workaround for selecting text based on https://github.com/puppeteer/puppeteer/issues/1313#issuecomment-436932478
+  return input.click({ clickCount: 3 });
 }
 
 /**

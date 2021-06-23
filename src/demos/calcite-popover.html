@@ -1,240 +1,325 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Calcite Popover</title>
+    <style>
+      .demo-background-dark {
+        background: #202020;
+        color: white;
+        padding: 1rem;
+      }
+    </style>
+    <script src="./_assets/head.js"></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Calcite Popover</title>
-  <style>
-    .demo-background-dark {
-      background: #202020;
-      color: white;
-      padding: 1rem;
-    }
-  </style>
-  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
-  <link rel="stylesheet" href="../build/calcite.css" />
-  <script type="module" src="../build/calcite.esm.js"></script>
-  <script nomodule src="../build/calcite.js"></script>
-</head>
+  <body>
+    <calcite-button href="/">Home</calcite-button>
+    <h1>Calcite Popover</h1>
 
-<body>
-  <calcite-button href="/">Home</calcite-button>
-  <h1>Calcite Popover</h1>
+    <calcite-popover-manager>
+      <calcite-popover
+        label="right start popover"
+        reference-element="popover-button-two"
+        placement="right-start"
+        id="popover-two"
+      >
+        <div style="padding: 12px 16px">Hello! I am some popover content!</div>
+      </calcite-popover>
 
-  <calcite-popover-manager>
-  <calcite-popover label="right start popover" reference-element="popover-button-two" placement="right-start" id="popover-two" >
-    <div style="padding:12px 16px">Hello! I am some popover content!</div>
-  </calcite-popover>
+      <calcite-popover
+        label="right end popover"
+        reference-element="popover-button-three"
+        placement="right-end"
+        id="popover-three"
+        dismissible
+      >
+        <div style="padding: 12px 16px; width: 33vw">
+          <b>I am a title!</b> <br />
+          <p>
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+            industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+            scrambled it to make a type specimen book.
+          </p>
+          <calcite-link title="Inline link">I am an inline link</calcite-link>
+        </div>
+      </calcite-popover>
 
-  <calcite-popover label="right end popover" reference-element="popover-button-three" placement="right-end" id="popover-three"
-    close-button>
-    <div style="padding:12px 16px;width:33vw;">
-      <b>I am a title!</b> <br>
-      <p>
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-        industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-        scrambled it to make a type specimen book.
-      </p>
-      <calcite-link title="Inline link">I am an inline link</calcite-link>
-    </div>
-  </calcite-popover>
+      <calcite-popover
+        heading="I'm a heading in the header using the 'heading' prop!"
+        label="right end popover"
+        reference-element="popover-button-three-heading"
+        placement="right-end"
+        id="popover-three-heading"
+        dismissible
+        style="width: 25vw"
+      >
+        <img src="https://www.fillmurray.com/640/360" style="width: 100%" />
+        <div style="padding: 0.5rem 1rem 0.75rem">
+          <p style="margin-top: 0">
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+            industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+            scrambled it to make a type specimen book.
+          </p>
+          <calcite-link title="Inline link">I am an inline link</calcite-link>
+        </div>
+      </calcite-popover>
 
-  <calcite-popover label="auto placement popover" reference-element="popover-button-four" placement="auto" id="popover-four"
-    close-button>
-    <div style="padding:12px 16px">I am a popover with a close button!</div>
-  </calcite-popover>
+      <calcite-popover
+        label="auto placement popover"
+        reference-element="popover-button-four"
+        placement="auto"
+        id="popover-four"
+        dismissible
+      >
+        <div style="padding: 12px 16px">I am a popover with a close button!</div>
+      </calcite-popover>
 
-  <calcite-popover label="dark theme popover" theme="dark" reference-element="popover-button-five" placement="bottom" id="popover-five"
-     close-button>
-    <img slot="image" src="https://placem.at/places?w=200&txt=0" />
-    <div style="padding:12px 16px;">Here kitty kitty!
-    </div>
-  </calcite-popover>
+      <calcite-popover
+        label="dark theme popover"
+        class="calcite-theme-dark"
+        reference-element="popover-button-five"
+        placement="bottom"
+        id="popover-five"
+        dismissible
+      >
+        <div style="padding: 12px 16px">Here kitty kitty!</div>
+      </calcite-popover>
+      <calcite-popover
+        label="dark theme popover"
+        class="calcite-theme-dark"
+        dir="rtl"
+        reference-element="popover-button-rtl"
+        placement="left"
+        id="popover-rtl"
+        dismissible
+      >
+        <div style="padding: 12px 16px">مرحبا بالعالم!</div>
+      </calcite-popover>
 
-  <calcite-popover label="dark theme popover" theme="dark" reference-element="popover-button-six" placement="top" id="popover-six"
-    >
-    <div style="padding:12px 16px">Hello! I am some popover content!</div>
-  </calcite-popover>
+      <calcite-popover
+        label="dark theme popover"
+        class="calcite-theme-dark"
+        reference-element="popover-button-six"
+        placement="top"
+        id="popover-six"
+      >
+        <div style="padding: 12px 16px">Hello! I am some popover content!</div>
+      </calcite-popover>
 
-  <calcite-popover label="dark theme popover" theme="dark" reference-element="popover-button-seven" placement="auto" id="popover-seven"
-     close-button>
-    <div style="padding:12px 16px;width:33vw;">
-      <b>I am a title!</b> <br>
-      <p>
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-        industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-        scrambled it to make a type specimen book.
-      </p>
-      <calcite-link theme="dark" title="Inline button">I am an inline link
-      </calcite-link>
-    </div>
-  </calcite-popover>
+      <calcite-popover
+        label="dark theme popover"
+        class="calcite-theme-dark"
+        reference-element="popover-button-seven"
+        placement="auto"
+        id="popover-seven"
+        dismissible
+      >
+        <div style="padding: 12px 16px; width: 33vw">
+          <b>I am a title!</b> <br />
+          <p>
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+            industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+            scrambled it to make a type specimen book.
+          </p>
+          <calcite-link class="calcite-theme-dark" title="Inline button">I am an inline link </calcite-link>
+        </div>
+      </calcite-popover>
 
-  <calcite-popover label="dark theme popover" theme="dark" reference-element="popover-button-eight" placement="auto" id="popover-eight"
-     close-button>
-    <div style="padding:12px 16px">I am a popover with a close button!</div>
-  </calcite-popover>
+      <calcite-popover
+        label="dark theme popover"
+        class="calcite-theme-dark"
+        reference-element="popover-button-eight"
+        placement="auto"
+        id="popover-eight"
+        dismissible
+      >
+        <div style="padding: 12px 16px">I am a popover with a close button!</div>
+      </calcite-popover>
 
-  <calcite-popover label="dark theme popover" theme="dark" reference-element="popover-button-nine" placement="auto" id="popover-nine"
-    >
-    <div style="padding:12px 16px">I am a popover with a close button!</div>
-  </calcite-popover>
+      <calcite-popover
+        label="dark theme popover"
+        class="calcite-theme-dark"
+        reference-element="popover-button-nine"
+        placement="auto"
+        id="popover-nine"
+      >
+        <div style="padding: 12px 16px">I am a popover with a close button!</div>
+      </calcite-popover>
 
-  <calcite-popover label="top placement dark theme popover" reference-element="tooltip-and-popover" placement="top" theme="dark" >
-    <div style="padding:12px 16px">Hello! I am some popover content!</div>
-  </calcite-popover>
+      <calcite-popover
+        label="top placement dark theme popover"
+        reference-element="tooltip-and-popover"
+        placement="top"
+        class="calcite-theme-dark"
+      >
+        <div style="padding: 12px 16px">Hello! I am some popover content!</div>
+      </calcite-popover>
 
-  <calcite-tooltip label="bottom placed tooltip" reference-element="tooltip-and-popover" placement="bottom">Lorem Ipsum is simply of the printing and typesetting industry. Lorem
-    Ipsum has been the industry's standard printer of type and scrambled it
-    to make a type specimen book.</calcite-tooltip>
+      <calcite-tooltip label="bottom placed tooltip" reference-element="tooltip-and-popover" placement="bottom"
+        >Lorem Ipsum is simply of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+        printer of type and scrambled it to make a type specimen book.</calcite-tooltip
+      >
 
-  <style>
-    .popover-list {
-      list-style: none;
-      margin: 0;
-      padding: 20px 10px;
-      margin: 0 ;
-    }
+      <style>
+        .popover-list {
+          list-style: none;
+          margin: 0;
+          padding: 20px 10px;
+          margin: 0;
+        }
 
-    .popover-list li {
-      margin: 30px 0;
-    }
+        .popover-list li {
+          margin: 30px 0;
+        }
 
-    .popover-scroller {
-      position: relative;
-      margin: 20px 40px;
-      width: 500px;
-      height: 500px;
-      overflow: auto;
-    }
-  </style>
+        .popover-scroller {
+          position: relative;
+          margin: 20px 40px;
+          width: 500px;
+          height: 500px;
+          overflow: auto;
+        }
+      </style>
 
-  <ul class="popover-list">
-    <li>
-      <calcite-button id="popover-button-two" icon="plus">
-        Clickable popover</calcite-button>
+      <ul class="popover-list">
+        <li>
+          <calcite-button id="popover-button-two" icon="plus"> Clickable popover</calcite-button>
+        </li>
+        <li>
+          <calcite-button id="popover-button-four" icon="plus"> With close button</calcite-button>
+        </li>
+        <li>
+          <calcite-button id="popover-button-three" icon="plus"> Title, content & CTA</calcite-button>
+        </li>
+        <li>
+          <calcite-button id="popover-button-three-heading" icon="plus">
+            Heading (in prop), content & CTA</calcite-button
+          >
+        </li>
+        <li>
+          <calcite-tooltip-manager>
+            <calcite-button id="tooltip-and-popover">Tooltip and popover test</calcite-button>
+          </calcite-tooltip-manager>
+        </li>
+      </ul>
 
-    <li>
-      <calcite-button id="popover-button-four" icon="plus">
-        With close button</calcite-button>
-    </li>
-    <li>
-      <calcite-button id="popover-button-three" icon="plus">
-        Title, content & CTA</calcite-button>
-    </li>
-    <li>
-      <calcite-tooltip-manager>
-        <calcite-button id="tooltip-and-popover">Tooltip and popover test</calcite-button>
-    </calcite-tooltip-manager>
-    </li>
-  </ul>
+      <div id="popover-boundary" class="popover-scroller">
+        <p>
+          Nec, dictum egestas odio in integer dictum eros. Euismod vitae vestibulum tempor sit adipiscing sed dolor
+          habitant per congue sit condimentum? Nisi nisl ornare ac semper imperdiet eu nascetur quisque ullamcorper a
+          id. Odio pharetra iaculis mattis fusce pharetra fusce. Venenatis suspendisse porta posuere torquent justo
+          arcu. Viverra venenatis nisl mi. Integer laoreet cubilia, lobortis nisi fringilla. Dictum venenatis taciti
+          arcu fringilla fames sociis.
+        </p>
+        <p>
+          Ultricies aliquam hac, commodo ullamcorper. At senectus blandit, magnis accumsan aptent vitae mi dapibus quis
+          sagittis taciti nisi. Et aliquam leo nullam sagittis conubia nascetur? Euismod blandit aptent conubia. Curae;
+          laoreet tortor urna eleifend dui ultrices vestibulum viverra dictumst risus? Vehicula diam vulputate cras
+          volutpat inceptos nostra cras at auctor! Luctus inceptos dis eleifend eleifend tellus molestie. Ridiculus eget
+          laoreet vitae.
+        </p>
+        <p>
+          Viverra mus velit interdum per pellentesque. Rutrum parturient risus feugiat habitasse magnis? Adipiscing
+          vehicula natoque rutrum consectetur dui, euismod ultricies ante quam pulvinar. Taciti mauris nam vehicula
+          sapien a taciti vel vitae cum id aenean! Torquent sapien fusce, class eros lectus. Ut sodales placerat
+          phasellus, nostra platea lobortis cubilia porta elementum viverra. Imperdiet ultrices, rhoncus himenaeos cum
+          risus. Egestas imperdiet velit, dapibus inceptos inceptos torquent. Dolor natoque, non imperdiet dictum
+          eleifend diam. Eget sem, hendrerit vulputate consectetur metus class.
+        </p>
+        <p>
+          Habitant vel penatibus felis sapien integer, imperdiet felis porttitor porta. Nec ad natoque habitasse metus
+          augue consequat sem tortor arcu tempor augue. Facilisi, magna amet cursus pellentesque. Nibh conubia tellus
+          porta torquent sociis mauris laoreet et neque venenatis habitasse! Egestas eu est nunc malesuada justo, fames
+          sociis ullamcorper? Sollicitudin inceptos, ipsum duis ullamcorper.
+        </p>
+        <p>
+          Fermentum mollis metus euismod netus ultricies ad gravida velit molestie integer. Accumsan amet litora ligula
+          ligula metus diam vitae euismod aptent. Nunc eros ridiculus volutpat praesent scelerisque dignissim nunc cras.
+          Ipsum diam dapibus cum sociis, elit adipiscing. Imperdiet vulputate neque elementum varius id, torquent quis.
+          Aliquam pretium sapien primis. Nunc iaculis mi magnis malesuada nascetur. Nostra habitasse dictum dictum
+          rutrum lacus? Tortor sem, taciti pellentesque cubilia! Vulputate at ridiculus hac lacinia risus quisque
+          potenti suscipit orci. Conubia urna tortor mauris ante litora nibh quisque consequat.
+        </p>
+        <calcite-popover
+          label="top start popover"
+          placement="top-start"
+          reference-element="popover-button"
+          id="popover"
+          dismissible
+        >
+          <div style="padding: 12px 16px">Here kitty kitty!</div>
+        </calcite-popover>
+        <calcite-button id="popover-button" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
+          Popover 🐱</calcite-button
+        >
+        <p>
+          Nec, dictum egestas odio in integer dictum eros. Euismod vitae vestibulum tempor sit adipiscing sed dolor
+          habitant per congue sit condimentum? Nisi nisl ornare ac semper imperdiet eu nascetur quisque ullamcorper a
+          id. Odio pharetra iaculis mattis fusce pharetra fusce. Venenatis suspendisse porta posuere torquent justo
+          arcu. Viverra venenatis nisl mi. Integer laoreet cubilia, lobortis nisi fringilla. Dictum venenatis taciti
+          arcu fringilla fames sociis.
+        </p>
+        <p>
+          Ultricies aliquam hac, commodo ullamcorper. At senectus blandit, magnis accumsan aptent vitae mi dapibus quis
+          sagittis taciti nisi. Et aliquam leo nullam sagittis conubia nascetur? Euismod blandit aptent conubia. Curae;
+          laoreet tortor urna eleifend dui ultrices vestibulum viverra dictumst risus? Vehicula diam vulputate cras
+          volutpat inceptos nostra cras at auctor! Luctus inceptos dis eleifend eleifend tellus molestie. Ridiculus eget
+          laoreet vitae.
+        </p>
+        <p>
+          Viverra mus velit interdum per pellentesque. Rutrum parturient risus feugiat habitasse magnis? Adipiscing
+          vehicula natoque rutrum consectetur dui, euismod ultricies ante quam pulvinar. Taciti mauris nam vehicula
+          sapien a taciti vel vitae cum id aenean! Torquent sapien fusce, class eros lectus. Ut sodales placerat
+          phasellus, nostra platea lobortis cubilia porta elementum viverra. Imperdiet ultrices, rhoncus himenaeos cum
+          risus. Egestas imperdiet velit, dapibus inceptos inceptos torquent. Dolor natoque, non imperdiet dictum
+          eleifend diam. Eget sem, hendrerit vulputate consectetur metus class.
+        </p>
+        <p>
+          Habitant vel penatibus felis sapien integer, imperdiet felis porttitor porta. Nec ad natoque habitasse metus
+          augue consequat sem tortor arcu tempor augue. Facilisi, magna amet cursus pellentesque. Nibh conubia tellus
+          porta torquent sociis mauris laoreet et neque venenatis habitasse! Egestas eu est nunc malesuada justo, fames
+          sociis ullamcorper? Sollicitudin inceptos, ipsum duis ullamcorper.
+        </p>
+        <p>
+          Fermentum mollis metus euismod netus ultricies ad gravida velit molestie integer. Accumsan amet litora ligula
+          ligula metus diam vitae euismod aptent. Nunc eros ridiculus volutpat praesent scelerisque dignissim nunc cras.
+          Ipsum diam dapibus cum sociis, elit adipiscing. Imperdiet vulputate neque elementum varius id, torquent quis.
+          Aliquam pretium sapien primis. Nunc iaculis mi magnis malesuada nascetur. Nostra habitasse dictum dictum
+          rutrum lacus? Tortor sem, taciti pellentesque cubilia! Vulputate at ridiculus hac lacinia risus quisque
+          potenti suscipit orci. Conubia urna tortor mauris ante litora nibh quisque consequat.
+        </p>
+      </div>
 
-  <div id="popover-boundary" class="popover-scroller">
-    <p>
-      Nec, dictum egestas odio in integer dictum eros. Euismod vitae vestibulum tempor sit adipiscing sed dolor
-      habitant per congue sit condimentum? Nisi nisl ornare ac semper imperdiet eu nascetur quisque ullamcorper a
-      id. Odio pharetra iaculis mattis fusce pharetra fusce. Venenatis suspendisse porta posuere torquent justo
-      arcu. Viverra venenatis nisl mi. Integer laoreet cubilia, lobortis nisi fringilla. Dictum venenatis taciti
-      arcu fringilla fames sociis.
-    </p>
-    <p>
-      Ultricies aliquam hac, commodo ullamcorper. At senectus blandit, magnis accumsan aptent vitae mi dapibus
-      quis sagittis taciti nisi. Et aliquam leo nullam sagittis conubia nascetur? Euismod blandit aptent conubia.
-      Curae; laoreet tortor urna eleifend dui ultrices vestibulum viverra dictumst risus? Vehicula diam vulputate
-      cras volutpat inceptos nostra cras at auctor! Luctus inceptos dis eleifend eleifend tellus molestie.
-      Ridiculus eget laoreet vitae.
-    </p>
-    <p>
-      Viverra mus velit interdum per pellentesque. Rutrum parturient risus feugiat habitasse magnis? Adipiscing
-      vehicula natoque rutrum consectetur dui, euismod ultricies ante quam pulvinar. Taciti mauris nam vehicula
-      sapien a taciti vel vitae cum id aenean! Torquent sapien fusce, class eros lectus. Ut sodales placerat
-      phasellus, nostra platea lobortis cubilia porta elementum viverra. Imperdiet ultrices, rhoncus himenaeos cum
-      risus. Egestas imperdiet velit, dapibus inceptos inceptos torquent. Dolor natoque, non imperdiet dictum
-      eleifend diam. Eget sem, hendrerit vulputate consectetur metus class.
-    </p>
-    <p>
-      Habitant vel penatibus felis sapien integer, imperdiet felis porttitor porta. Nec ad natoque habitasse metus
-      augue consequat sem tortor arcu tempor augue. Facilisi, magna amet cursus pellentesque. Nibh conubia tellus
-      porta torquent sociis mauris laoreet et neque venenatis habitasse! Egestas eu est nunc malesuada justo,
-      fames sociis ullamcorper? Sollicitudin inceptos, ipsum duis ullamcorper.
-    </p>
-    <p>
-      Fermentum mollis metus euismod netus ultricies ad gravida velit molestie integer. Accumsan amet litora
-      ligula ligula metus diam vitae euismod aptent. Nunc eros ridiculus volutpat praesent scelerisque dignissim
-      nunc cras. Ipsum diam dapibus cum sociis, elit adipiscing. Imperdiet vulputate neque elementum varius id,
-      torquent quis. Aliquam pretium sapien primis. Nunc iaculis mi magnis malesuada nascetur. Nostra habitasse
-      dictum dictum rutrum lacus? Tortor sem, taciti pellentesque cubilia! Vulputate at ridiculus hac lacinia
-      risus quisque potenti suscipit orci. Conubia urna tortor mauris ante litora nibh quisque consequat.
-    </p>
-    <calcite-popover label="top start popover" placement="top-start" reference-element="popover-button"
-    id="popover" close-button>
-    <img slot="image" src="https://placem.at/places?w=200&txt=0" />
-    <div style="padding:12px 16px;">Here kitty kitty!
-    </div>
-  </calcite-popover>
-    <calcite-button id="popover-button" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
-      Popover with picture</calcite-button>
-    <p>
-      Nec, dictum egestas odio in integer dictum eros. Euismod vitae vestibulum tempor sit adipiscing sed dolor
-      habitant per congue sit condimentum? Nisi nisl ornare ac semper imperdiet eu nascetur quisque ullamcorper a
-      id. Odio pharetra iaculis mattis fusce pharetra fusce. Venenatis suspendisse porta posuere torquent justo
-      arcu. Viverra venenatis nisl mi. Integer laoreet cubilia, lobortis nisi fringilla. Dictum venenatis taciti
-      arcu fringilla fames sociis.
-    </p>
-    <p>
-      Ultricies aliquam hac, commodo ullamcorper. At senectus blandit, magnis accumsan aptent vitae mi dapibus
-      quis sagittis taciti nisi. Et aliquam leo nullam sagittis conubia nascetur? Euismod blandit aptent conubia.
-      Curae; laoreet tortor urna eleifend dui ultrices vestibulum viverra dictumst risus? Vehicula diam vulputate
-      cras volutpat inceptos nostra cras at auctor! Luctus inceptos dis eleifend eleifend tellus molestie.
-      Ridiculus eget laoreet vitae.
-    </p>
-    <p>
-      Viverra mus velit interdum per pellentesque. Rutrum parturient risus feugiat habitasse magnis? Adipiscing
-      vehicula natoque rutrum consectetur dui, euismod ultricies ante quam pulvinar. Taciti mauris nam vehicula
-      sapien a taciti vel vitae cum id aenean! Torquent sapien fusce, class eros lectus. Ut sodales placerat
-      phasellus, nostra platea lobortis cubilia porta elementum viverra. Imperdiet ultrices, rhoncus himenaeos cum
-      risus. Egestas imperdiet velit, dapibus inceptos inceptos torquent. Dolor natoque, non imperdiet dictum
-      eleifend diam. Eget sem, hendrerit vulputate consectetur metus class.
-    </p>
-    <p>
-      Habitant vel penatibus felis sapien integer, imperdiet felis porttitor porta. Nec ad natoque habitasse metus
-      augue consequat sem tortor arcu tempor augue. Facilisi, magna amet cursus pellentesque. Nibh conubia tellus
-      porta torquent sociis mauris laoreet et neque venenatis habitasse! Egestas eu est nunc malesuada justo,
-      fames sociis ullamcorper? Sollicitudin inceptos, ipsum duis ullamcorper.
-    </p>
-    <p>
-      Fermentum mollis metus euismod netus ultricies ad gravida velit molestie integer. Accumsan amet litora
-      ligula ligula metus diam vitae euismod aptent. Nunc eros ridiculus volutpat praesent scelerisque dignissim
-      nunc cras. Ipsum diam dapibus cum sociis, elit adipiscing. Imperdiet vulputate neque elementum varius id,
-      torquent quis. Aliquam pretium sapien primis. Nunc iaculis mi magnis malesuada nascetur. Nostra habitasse
-      dictum dictum rutrum lacus? Tortor sem, taciti pellentesque cubilia! Vulputate at ridiculus hac lacinia
-      risus quisque potenti suscipit orci. Conubia urna tortor mauris ante litora nibh quisque consequat.
-    </p>
-  </div>
-
-  <ul class="popover-list demo-background-dark">
-    <li>
-      <calcite-button id="popover-button-six" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
-        Clickable popover</calcite-button>
-    </li>
-    <li>
-      <calcite-button id="popover-button-eight" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
-        With close button</calcite-button>
-    </li>
-    <li>
-      <calcite-button id="popover-button-seven" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
-        Title, content & CTA</calcite-button>
-    </li>
-    <li>
-      <calcite-button id="popover-button-five" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
-        Popover with picture</calcite-button>
-    </li>
-  </ul>
-
-</calcite-popover-manager>
-
-</body>
-
+      <ul class="popover-list demo-background-dark">
+        <li>
+          <calcite-button id="popover-button-six" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
+            Clickable popover</calcite-button
+          >
+        </li>
+        <li>
+          <calcite-button id="popover-button-eight" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
+            With close button</calcite-button
+          >
+        </li>
+        <li>
+          <calcite-button id="popover-button-seven" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
+            Title, content & CTA</calcite-button
+          >
+        </li>
+        <li>
+          <calcite-button id="popover-button-five" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
+            Popover 🐱</calcite-button
+          >
+        </li>
+        <div dir="rtl">
+          <calcite-button id="popover-button-rtl" icon="M15.707 20h-1.414l-7.5-7.5 7.5-7.5h1.414l-7.5 7.5z">
+            Popover RTL
+          </calcite-button>
+        </div>
+      </ul>
+    </calcite-popover-manager>
+  </body>
 </html>

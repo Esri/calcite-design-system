@@ -12,10 +12,7 @@
         padding: 1rem;
       }
     </style>
-    <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
-    <link rel="stylesheet" href="../build/calcite.css" />
-    <script type="module" src="../build/calcite.esm.js"></script>
-    <script nomodule src="../build/calcite.js"></script>
+    <script src="./_assets/head.js"></script>
   </head>
 
   <body>
@@ -26,7 +23,7 @@
         <a href="#">Child 1</a>
       </calcite-tree-item>
 
-      <calcite-tree-item>
+      <calcite-tree-item expanded>
         <a href="#">Child 2</a>
 
         <calcite-tree slot="children">
@@ -239,9 +236,50 @@
       </calcite-tree-item>
     </calcite-tree>
 
+    <h2>Input enabled in ancestor selection mode</h2>
+    <calcite-tree input-enabled selection-mode="ancestors">
+      <calcite-tree-item>
+        <span>Child 1</span>
+      </calcite-tree-item>
+
+      <calcite-tree-item>
+        <span>Child 2</span>
+
+        <calcite-tree slot="children">
+          <calcite-tree-item>
+            <span>Grandchild 1</span>
+            <calcite-tree slot="children">
+              <calcite-tree-item>
+                <span>Great Grandchild 1</span>
+              </calcite-tree-item>
+              <calcite-tree-item>
+                <span>Great Grandchild 2</span>
+              </calcite-tree-item>
+              <calcite-tree-item>
+                <span>Great Grandchild 3</span>
+              </calcite-tree-item>
+            </calcite-tree>
+          </calcite-tree-item>
+          <calcite-tree-item>
+            <span>Grandchild 2</span>
+          </calcite-tree-item>
+          <calcite-tree-item>
+            <span>Grandchild 3</span>
+          </calcite-tree-item>
+        </calcite-tree>
+      </calcite-tree-item>
+
+      <calcite-tree-item>
+        <span>Child 3</span>
+      </calcite-tree-item>
+      <calcite-tree-item>
+        <span>Child 4</span>
+      </calcite-tree-item>
+    </calcite-tree>
+
     <h3>Dark Theme</h3>
     <div class="demo-background-dark">
-      <calcite-tree theme="dark">
+      <calcite-tree class="calcite-theme-dark">
         <calcite-tree-item>
           <a href="#">Child 1</a>
         </calcite-tree-item>
@@ -300,7 +338,7 @@
 
     <h3>Dark Theme (Lines)</h3>
     <div class="demo-background-dark">
-      <calcite-tree theme="dark" lines>
+      <calcite-tree class="calcite-theme-dark" lines>
         <calcite-tree-item>
           <a href="#">Child 1</a>
         </calcite-tree-item>

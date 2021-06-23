@@ -38,12 +38,7 @@ describe("calcite-popover", () => {
 
   it("is accessible with close button", async () =>
     accessible(
-      `<calcite-popover label="test" open close-button reference-element="ref"></calcite-popover><div id="ref">😄</div>`
-    ));
-
-  it("is accessible with image", async () =>
-    accessible(
-      `<calcite-popover label="test" placement="auto" reference-element="ref" open><img alt="" slot="image" src="http://placekitten.com/200/300" /></calcite-popover><div id="ref">referenceElement</div>`
+      `<calcite-popover label="test" open dismissible reference-element="ref"></calcite-popover><div id="ref">😄</div>`
     ));
 
   it("honors hidden attribute", async () => hidden("calcite-popover"));
@@ -71,7 +66,7 @@ describe("calcite-popover", () => {
         defaultValue: false
       },
       {
-        propertyName: "closeButton",
+        propertyName: "dismissible",
         defaultValue: false
       },
       {
@@ -81,6 +76,10 @@ describe("calcite-popover", () => {
       {
         propertyName: "disablePointer",
         defaultValue: false
+      },
+      {
+        propertyName: "overlayPositioning",
+        defaultValue: "absolute"
       }
     ]));
 
@@ -167,25 +166,13 @@ describe("calcite-popover", () => {
 
     const element = await page.find("calcite-popover");
 
-    element.setProperty("closeButton", true);
+    element.setProperty("dismissible", true);
 
     await page.waitForChanges();
 
     closeButton = await page.find(`calcite-popover >>> .${CSS.closeButton}`);
 
     expect(await closeButton.isVisible()).toBe(true);
-  });
-
-  it("should have image container", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
-      `<calcite-popover placement="auto" reference-element="ref" open><img slot="image" src="http://placekitten.com/200/300" /></calcite-popover><div id="ref">referenceElement</div>`
-    );
-
-    const imageContainer = await page.find(`calcite-popover >>> .${CSS.imageContainer}`);
-
-    expect(await imageContainer.isVisible()).toBe(true);
   });
 
   it("should honor click interaction", async () => {

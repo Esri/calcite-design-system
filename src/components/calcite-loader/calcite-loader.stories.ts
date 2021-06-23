@@ -39,7 +39,7 @@ export const DarkMode = (): string => html`
     ${boolean("no-padding", false)}
     value="${number("value", 0, { range: true, min: 0, max: 100, step: 1 })}"
     active
-    theme="dark"
+    class="calcite-theme-dark"
   />
 `;
 

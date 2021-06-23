@@ -1,33 +1,39 @@
 :host {
-  display: flex;
-  justify-content: center;
-  outline: none;
-  color: var(--calcite-ui-text-3);
-  cursor: pointer;
+  @apply flex
+    justify-center
+    outline-none
+    text-color-3
+    cursor-pointer
+    min-w-0;
   width: calc(100% / 7);
-  min-width: 0;
 }
 
 .day-v-wrapper {
-  flex: 1 1 auto;
+  @apply flex-auto;
+}
+
+.day-wrapper {
+  @apply flex
+    flex-col
+    items-center;
 }
 
 .day {
-  display: flex;
-  border-radius: 100%;
-  @include font-size(-2);
-  justify-content: center;
-  align-items: center;
-  line-height: 1;
-  color: var(--calcite-ui-text-3);
-  transition: all $transition;
+  @apply flex
+    rounded-full
+    text--2h
+    justify-center
+    items-center
+    leading-none
+    text-color-3
+    transition-all
+    opacity-disabled;
   background: none;
   box-shadow: 0 0 0 2px transparent, 0 0 0 0px transparent;
-  opacity: var(--calcite-ui-opacity-disabled);
 }
 
 .text {
-  margin: 1px 0 0 1px;
+  @apply mt-px mr-0 mb-0 ml-px;
 }
 
 :host([scale="s"]) {
@@ -73,19 +79,18 @@
 }
 
 :host([current-month]) .day {
-  opacity: 1;
+  @apply opacity-100;
 }
 
 :host([disabled]) {
   cursor: default;
-  opacity: 0.2;
+  @apply opacity-25;
 }
 
 :host(:hover:not([disabled])),
 :host([active]:not([range])) {
   & .day {
-    background-color: var(--calcite-ui-foreground-2);
-    color: var(--calcite-ui-text-1);
+    @apply bg-foreground-2 text-color-1;
   }
 }
 
@@ -99,9 +104,9 @@
 }
 
 :host([selected]) .day {
+  @apply font-medium;
   background-color: var(--calcite-ui-brand) !important;
   color: var(--calcite-ui-foreground-1) !important;
-  font-weight: 500;
   z-index: 1;
 }
 
@@ -111,42 +116,55 @@
   }
 }
 
-:host([start-of-range][dir="ltr"]),
-:host([end-of-range][dir="rtl"]) {
+:host([start-of-range]) :not(.calcite--rtl),
+:host([end-of-range]) .calcite--rtl {
   .day-wrapper {
     border-top-left-radius: 40%;
     border-bottom-left-radius: 40%;
     box-shadow: inset 4px 0 var(--calcite-ui-foreground-1);
   }
-}
-
-:host([start-of-range][dir="ltr"]:not(:focus)),
-:host([end-of-range][dir="rtl"]:not(:focus)) {
   .day {
-    box-shadow: 2px 0 var(--calcite-ui-foreground-1);
+    opacity: 1;
   }
 }
 
-:host([end-of-range][dir="ltr"]),
-:host([start-of-range][dir="rtl"]) {
+:host([start-of-range]:not(:focus)) :not(.calcite--rtl),
+:host([end-of-range]:not(:focus)) .calcite--rtl {
+  .day {
+    box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
+  }
+}
+
+:host([end-of-range]) :not(.calcite--rtl),
+:host([start-of-range]) .calcite--rtl {
   .day-wrapper {
     border-top-right-radius: 40%;
     border-bottom-right-radius: 40%;
     box-shadow: inset -4px 0 var(--calcite-ui-foreground-1);
   }
-}
-
-:host([end-of-range][dir="ltr"]:not(:focus)),
-:host([start-of-range][dir="rtl"]:not(:focus)) {
   .day {
-    box-shadow: -2px 0 var(--calcite-ui-foreground-1);
+    opacity: 1;
   }
 }
 
-:host([end-of-range][scale="l"][dir="ltr"]),
-:host([start-of-range][scale="l"][dir="rtl"]) {
+:host([end-of-range]:not(:focus)) :not(.calcite--rtl),
+:host([start-of-range]:not(:focus)) .calcite--rtl {
+  .day {
+    box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
+  }
+}
+
+:host([end-of-range][scale="l"]) :not(.calcite--rtl),
+:host([start-of-range][scale="l"]) .calcite--rtl {
   .day-wrapper {
     box-shadow: inset -8px 0 var(--calcite-ui-foreground-1);
+  }
+}
+
+:host([start-of-range][scale="l"]) :not(.calcite--rtl),
+:host([end-of-range][scale="l"]) .calcite--rtl {
+  .day-wrapper {
+    box-shadow: inset 8px 0 var(--calcite-ui-foreground-1);
   }
 }
 
@@ -154,26 +172,25 @@
   background-color: var(--calcite-ui-foreground-current);
 
   .day {
-    color: var(--calcite-ui-text-1);
+    @apply text-color-1;
   }
 }
 
 :host([highlighted]:not([active]:focus)) .day {
-  border-radius: 0;
-  color: var(--calcite-ui-text-1);
+  @apply rounded-none text-color-1;
 }
 
 :host([range-hover]:not([selected])) {
   .day-wrapper {
-    background-color: var(--calcite-ui-foreground-2);
+    @apply bg-foreground-2;
   }
   .day {
-    border-radius: 0;
+    @apply rounded-none;
   }
 }
 
-:host([end-of-range][range-hover][dir="ltr"]) .day-wrapper,
-:host([start-of-range][range-hover][dir="rtl"]) .day-wrapper {
+:host([end-of-range][range-hover]) :not(.calcite--rtl) .day-wrapper,
+:host([start-of-range][range-hover]) .calcite--rtl .day-wrapper {
   background-image: linear-gradient(
     to right,
     var(--calcite-ui-foreground-current),
@@ -181,12 +198,11 @@
     var(--calcite-ui-foreground-2),
     var(--calcite-ui-foreground-2)
   );
-  border-radius: 0;
-  box-shadow: none;
+  @apply rounded-none shadow-none;
 }
 
-:host([start-of-range][range-hover][dir="ltr"]) .day-wrapper,
-:host([end-of-range][range-hover][dir="rtl"]) .day-wrapper {
+:host([start-of-range][range-hover]) :not(.calcite--rtl) .day-wrapper,
+:host([end-of-range][range-hover]) .calcite--rtl .day-wrapper {
   background-image: linear-gradient(
     to left,
     var(--calcite-ui-foreground-current),
@@ -194,64 +210,161 @@
     var(--calcite-ui-foreground-2),
     var(--calcite-ui-foreground-2)
   );
-  border-radius: 0;
-  box-shadow: none;
+  @apply rounded-none shadow-none;
 }
 
-:host(:hover[range-hover]:not([selected]).focused--end[dir="ltr"]),
-:host(:hover[range-hover]:not([selected]).focused--start[dir="rtl"]) {
+:host(:hover[end-of-range][range-hover]) :not(.calcite--rtl) .day-wrapper,
+:host(:hover[start-of-range][range-hover]) .calcite--rtl .day-wrapper {
+  background-image: linear-gradient(
+    to right,
+    var(--calcite-ui-foreground-current),
+    var(--calcite-ui-foreground-current),
+    var(--calcite-ui-foreground-1),
+    var(--calcite-ui-foreground-1)
+  );
+  @apply rounded-none shadow-none;
+}
+
+:host(:hover[start-of-range][range-hover]) :not(.calcite--rtl) .day-wrapper,
+:host(:hover[end-of-range][range-hover]) .calcite--rtl .day-wrapper {
+  background-image: linear-gradient(
+    to left,
+    var(--calcite-ui-foreground-current),
+    var(--calcite-ui-foreground-current),
+    var(--calcite-ui-foreground-1),
+    var(--calcite-ui-foreground-1)
+  );
+  @apply rounded-none shadow-none;
+}
+
+:host(:hover[range-hover]:not([selected]).focused--end) :not(.calcite--rtl),
+:host(:hover[range-hover]:not([selected]).focused--start) .calcite--rtl {
   .day-wrapper {
-    border-top-right-radius: 40%;
-    border-bottom-right-radius: 40%;
-    box-shadow: inset -4px 0 var(--calcite-ui-foreground-1);
+    background-image: linear-gradient(
+      to right,
+      var(--calcite-ui-foreground-2),
+      var(--calcite-ui-foreground-2),
+      var(--calcite-ui-foreground-current),
+      var(--calcite-ui-foreground-current)
+    );
   }
   .day {
-    border-radius: 100%;
-    box-shadow: -2px 0 var(--calcite-ui-foreground-1);
+    @apply rounded-full;
+    opacity: 1;
+    box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
   }
 }
 
-:host(:hover[range-hover]:not([selected]).focused--start[dir="ltr"]),
-:host(:hover[range-hover]:not([selected]).focused--end[dir="rtl"]) {
+:host(:hover[range-hover]:not([selected]).focused--start) :not(.calcite--rtl),
+:host(:hover[range-hover]:not([selected]).focused--end) .calcite--rtl {
   .day-wrapper {
-    border-top-left-radius: 40%;
-    border-bottom-left-radius: 40%;
-    box-shadow: inset 4px 0 var(--calcite-ui-foreground-1);
+    background-image: linear-gradient(
+      to right,
+      var(--calcite-ui-foreground-current),
+      var(--calcite-ui-foreground-current),
+      var(--calcite-ui-foreground-2),
+      var(--calcite-ui-foreground-2)
+    );
   }
   .day {
-    border-radius: 100%;
-    box-shadow: 2px 0 var(--calcite-ui-foreground-1);
+    @apply rounded-full;
+    opacity: 1;
+    box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
   }
 }
 
-:host([end-of-range].hover--inside-range.focused--end),
-:host([start-of-range].hover--inside-range.focused--start),
+:host(:hover[range-hover]:not([selected]).focused--start.hover--outside-range) :not(.calcite--rtl),
+:host(:hover[range-hover]:not([selected]).focused--end.hover--outside-range) .calcite--rtl {
+  .day-wrapper {
+    background-image: linear-gradient(
+      to right,
+      var(--calcite-ui-foreground-1),
+      var(--calcite-ui-foreground-1),
+      var(--calcite-ui-foreground-2),
+      var(--calcite-ui-foreground-2)
+    );
+  }
+  .day {
+    @apply rounded-full;
+    opacity: 1;
+    box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
+  }
+}
+
+:host(:hover[range-hover]:not([selected]).focused--end.hover--outside-range) :not(.calcite--rtl),
+:host(:hover[range-hover]:not([selected]).focused--start.hover--outside-range) .calcite--rtl {
+  .day-wrapper {
+    background-image: linear-gradient(
+      to right,
+      var(--calcite-ui-foreground-2),
+      var(--calcite-ui-foreground-2),
+      var(--calcite-ui-foreground-1),
+      var(--calcite-ui-foreground-1)
+    );
+  }
+  .day {
+    @apply rounded-full;
+    opacity: 1;
+    box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
+  }
+}
+
 :host(:hover[start-of-range].hover--inside-range.focused--end),
 :host(:hover[end-of-range].hover--inside-range.focused--start) {
   .day-wrapper {
-    background: none;
+    @apply bg-none;
   }
 }
 
 :host([start-of-range].hover--inside-range.focused--end),
 :host([end-of-range].hover--inside-range.focused--start) {
   .day-wrapper {
-    background-color: var(--calcite-ui-foreground-2);
+    @apply bg-foreground-2;
   }
 }
 
-:host([dir="ltr"][highlighted]:first-child) .day-wrapper,
-:host([dir="rtl"][highlighted]:last-child) .day-wrapper,
-:host([range-hover][dir="ltr"]:not([selected]):first-child) .day-wrapper,
-:host([range-hover][dir="rtl"]:not([selected]):last-child) .day-wrapper {
-  border-top-left-radius: 45%;
-  border-bottom-left-radius: 45%;
-}
-
-:host([dir="ltr"][highlighted]:last-child) .day-wrapper,
-:host([dir="rtl"][highlighted]:first-child) .day-wrapper,
-:host([range-hover][dir="ltr"]:not([selected]):last-child) .day-wrapper,
-:host([range-hover][dir="rtl"]:not([selected]):first-child) .day-wrapper {
+:host([highlighted]:last-child) :not(.calcite--rtl) .day-wrapper,
+:host([range-hover]:last-child) :not(.calcite--rtl) .day-wrapper,
+:host([highlighted]:first-child) .calcite--rtl .day-wrapper,
+:host([range-hover]:first-child) .calcite--rtl .day-wrapper {
   border-top-right-radius: 45%;
   border-bottom-right-radius: 45%;
+  box-shadow: inset -4px 0px 0px 0px var(--calcite-ui-foreground-1);
+}
+
+:host([highlighted]:first-child) :not(.calcite--rtl) .day-wrapper,
+:host([range-hover]:first-child) :not(.calcite--rtl) .day-wrapper,
+:host([highlighted]:last-child) .calcite--rtl .day-wrapper,
+:host([range-hover]:last-child) .calcite--rtl .day-wrapper {
+  border-top-left-radius: 45%;
+  border-bottom-left-radius: 45%;
+  box-shadow: inset 4px 0px 0px 0px var(--calcite-ui-foreground-1);
+}
+
+:host([scale="s"][highlighted]:last-child) :not(.calcite--rtl) .day-wrapper,
+:host([scale="s"][range-hover]:last-child) :not(.calcite--rtl) .day-wrapper,
+:host([scale="s"][highlighted]:first-child) .calcite--rtl .day-wrapper,
+:host([scale="s"][range-hover]:first-child) .calcite--rtl .day-wrapper {
+  box-shadow: inset -1px 0px 0px 0px var(--calcite-ui-foreground-1);
+}
+
+:host([scale="s"][highlighted]:first-child) :not(.calcite--rtl) .day-wrapper,
+:host([scale="s"][range-hover]:first-child) :not(.calcite--rtl) .day-wrapper,
+:host([scale="s"][highlighted]:last-child) .calcite--rtl .day-wrapper,
+:host([scale="s"][range-hover]:last-child) .calcite--rtl .day-wrapper {
+  box-shadow: inset 1px 0px 0px 0px var(--calcite-ui-foreground-1);
+}
+
+:host([scale="l"][highlighted]:first-child) :not(.calcite--rtl) .day-wrapper,
+:host([scale="l"][range-hover]:first-child) :not(.calcite--rtl) .day-wrapper,
+:host([scale="l"][highlighted]:last-child) .calcite--rtl .day-wrapper,
+:host([scale="l"][range-hover]:last-child) .calcite--rtl .day-wrapper {
+  box-shadow: inset 6px 0px 0px 0px var(--calcite-ui-foreground-1);
+}
+
+:host([scale="l"][highlighted]:last-child) :not(.calcite--rtl) .day-wrapper,
+:host([scale="l"][range-hover]:last-child) :not(.calcite--rtl) .day-wrapper,
+:host([scale="l"][highlighted]:first-child) .calcite--rtl .day-wrapper,
+:host([scale="l"][range-hover]:first-child) .calcite--rtl .day-wrapper {
+  box-shadow: inset -6px 0px 0px 0px var(--calcite-ui-foreground-1);
 }

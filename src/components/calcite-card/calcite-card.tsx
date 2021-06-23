@@ -1,8 +1,8 @@
-import { Component, Element, Event, EventEmitter, h, Host, Prop, VNode } from "@stencil/core";
+import { Component, Element, Event, EventEmitter, h, Prop, VNode } from "@stencil/core";
 import { CSS, SLOTS, TEXT } from "./resources";
 import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
-import { Theme } from "../interfaces";
+import { CSS_UTILITY } from "../../utils/resources";
 
 /**
  * @slot thumbnail - A slot for adding a thumnail to the card.
@@ -46,9 +46,6 @@ export class CalciteCard {
   /** Indicates whether the card is selectable. */
   @Prop({ reflect: true }) selectable = false;
 
-  /**  The theme of the card.*/
-  @Prop({ reflect: true }) theme: Theme;
-
   /** string to override English loading text */
   @Prop() intlLoading?: string = TEXT.loading;
 
@@ -76,24 +73,22 @@ export class CalciteCard {
   render(): VNode {
     const dir = getElementDir(this.el);
     return (
-      <Host dir={dir}>
-        <div class="calcite-card-container">
-          {this.loading ? (
-            <div class="calcite-card-loader-container">
-              <calcite-loader active label={this.intlLoading} />
-            </div>
-          ) : null}
-          <section aria-busy={this.loading.toString()} class={{ [CSS.container]: true }}>
-            {this.selectable ? this.renderCheckbox() : null}
-            {this.renderThumbnail()}
-            {this.renderHeader()}
-            <div class="card-content">
-              <slot />
-            </div>
-            {this.renderFooter()}
-          </section>
-        </div>
-      </Host>
+      <div class={{ "calcite-card-container": true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+        {this.loading ? (
+          <div class="calcite-card-loader-container">
+            <calcite-loader active label={this.intlLoading} />
+          </div>
+        ) : null}
+        <section aria-busy={this.loading.toString()} class={{ [CSS.container]: true }}>
+          {this.selectable ? this.renderCheckbox() : null}
+          {this.renderThumbnail()}
+          {this.renderHeader()}
+          <div class="card-content">
+            <slot />
+          </div>
+          {this.renderFooter()}
+        </section>
+      </div>
     );
   }
   //--------------------------------------------------------------------------
@@ -147,7 +142,7 @@ export class CalciteCard {
         onKeyDown={this.cardSelectKeyDown}
         title={checkboxLabel}
       >
-        <calcite-checkbox checked={this.selected} theme={this.theme} />
+        <calcite-checkbox checked={this.selected} />
       </label>
     );
   }

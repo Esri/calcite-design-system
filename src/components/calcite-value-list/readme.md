@@ -96,9 +96,9 @@ Renders a value list with label editing and single select.
 
 #### Returns
 
-Type: `Promise<Map<string, HTMLCalciteValueListItemElement>>`
+Type: `Promise<Map<string, any>>`
 
-### `setFocus() => Promise<void>`
+### `setFocus(focusId?: ListFocusId) => Promise<void>`
 
 #### Returns
 
@@ -124,6 +124,7 @@ Type: `Promise<void>`
 graph TD;
   calcite-value-list --> calcite-filter
   calcite-value-list --> calcite-scrim
+  calcite-filter --> calcite-scrim
   calcite-filter --> calcite-icon
   calcite-scrim --> calcite-loader
   style calcite-value-list fill:#f9f,stroke:#333,stroke-width:4px

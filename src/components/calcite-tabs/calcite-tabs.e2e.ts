@@ -1,77 +1,31 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, HYDRATED_ATTR } from "../../tests/commonTests";
+import { accessible, renders, defaults } from "../../tests/commonTests";
 
 describe("calcite-tabs", () => {
-  it("is accessible", async () =>
-    accessible(
-      `<calcite-tabs>
-        <calcite-tab-nav slot="tab-nav">
-          <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-          <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-          <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-          <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-        </calcite-tab-nav>
+  const tabsContent = `
+    <calcite-tab-nav slot="tab-nav">
+      <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+      <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+      <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+      <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+    </calcite-tab-nav>
+    <calcite-tab active>Tab 1 Content</calcite-tab>
+    <calcite-tab>Tab 2 Content</calcite-tab>
+    <calcite-tab>Tab 3 Content</calcite-tab>
+    <calcite-tab>Tab 4 Content</calcite-tab>
+  `;
+  const tabsSnippet = `<calcite-tabs>${tabsContent}</calcite-tabs>`;
 
-        <calcite-tab active>Tab 1 Content</calcite-tab>
-        <calcite-tab>Tab 2 Content</calcite-tab>
-        <calcite-tab>Tab 3 Content</calcite-tab>
-        <calcite-tab>Tab 4 Content</calcite-tab>
-      </calcite-tabs>`
-    ));
+  it("renders", async () => renders(tabsSnippet));
 
-  it("renders with a light theme", async () => {
-    const page = await newE2EPage();
+  it("has defaults", async () =>
+    defaults("calcite-tabs", [
+      { propertyName: "layout", defaultValue: "inline" },
+      { propertyName: "position", defaultValue: "above" },
+      { propertyName: "scale", defaultValue: "m" }
+    ]));
 
-    await page.setContent(`
-      <calcite-tabs>
-        <calcite-tab-nav slot="tab-nav">
-          <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-          <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-          <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-          <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-        </calcite-tab-nav>
-
-        <calcite-tab active>Tab 1 Content</calcite-tab>
-        <calcite-tab>Tab 2 Content</calcite-tab>
-        <calcite-tab>Tab 3 Content</calcite-tab>
-        <calcite-tab>Tab 4 Content</calcite-tab>
-      </calcite-tabs>
-    `);
-    const element = await page.find("calcite-tabs");
-    expect(element).toHaveAttribute(HYDRATED_ATTR);
-
-    const results = await page.compareScreenshot();
-
-    expect(results).toMatchScreenshot({ allowableMismatchedPixels: 100 });
-  });
-
-  it("renders with a dark theme", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`
-      <div style="background: black">
-        <calcite-tabs theme="dark">
-          <calcite-tab-nav slot="tab-nav">
-            <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-          </calcite-tab-nav>
-
-          <calcite-tab active>Tab 1 Content</calcite-tab>
-          <calcite-tab>Tab 2 Content</calcite-tab>
-          <calcite-tab>Tab 3 Content</calcite-tab>
-          <calcite-tab>Tab 4 Content</calcite-tab>
-        </calcite-tabs>
-      </div>
-    `);
-    const element = await page.find("calcite-tabs");
-    expect(element).toHaveAttribute(HYDRATED_ATTR);
-
-    const results = await page.compareScreenshot();
-
-    expect(results).toMatchScreenshot({ allowableMismatchedPixels: 100 });
-  });
+  it("is accessible", async () => accessible(`<calcite-tabs>${tabsContent}</calcite-tabs>`));
 
   it("sets up basic aria attributes", async () => {
     const page = await newE2EPage();
@@ -150,10 +104,6 @@ describe("calcite-tabs", () => {
       expect(title).toEqualAttribute("aria-controls", tab.id);
       expect(tab).toEqualAttribute("aria-labelledby", title.id);
     }
-
-    const results = await page.compareScreenshot();
-
-    expect(results).toMatchScreenshot({ allowableMismatchedPixels: 100 });
   });
 
   it("disallows selection of a disabled tab", async () => {
@@ -178,5 +128,106 @@ describe("calcite-tabs", () => {
 
     await tabTitle2.click();
     expect(tab2).not.toHaveAttribute("active");
+  });
+
+  describe("when no scale is provided", () => {
+    it("should render itself and child tab elements with default medium scale", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-tabs>${tabsContent}</calcite-tabs>`
+      });
+      expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "m");
+      expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "m");
+      expect(await page.find("calcite-tab-title")).toEqualAttribute("scale", "m");
+      expect(await page.find("calcite-tab")).toEqualAttribute("scale", "m");
+    });
+  });
+
+  describe("when scale is provided", () => {
+    it("should render itself and child tab elements with corresponding scale (small)", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-tabs scale="s">${tabsContent}</calcite-tabs>`
+      });
+      expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "s");
+      expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "s");
+      expect(await page.find("calcite-tab-title")).toEqualAttribute("scale", "s");
+      expect(await page.find("calcite-tab")).toEqualAttribute("scale", "s");
+    });
+
+    it("should render itself and child tab elements with corresponding scale (medium)", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-tabs scale="m">${tabsContent}</calcite-tabs>`
+      });
+      expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "m");
+      expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "m");
+      expect(await page.find("calcite-tab-title")).toEqualAttribute("scale", "m");
+      expect(await page.find("calcite-tab")).toEqualAttribute("scale", "m");
+    });
+
+    it("should render itself and child tab elements with corresponding scale (large)", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-tabs scale="l">${tabsContent}</calcite-tabs>`
+      });
+      expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "l");
+      expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "l");
+      expect(await page.find("calcite-tab-title")).toEqualAttribute("scale", "l");
+      expect(await page.find("calcite-tab")).toEqualAttribute("scale", "l");
+    });
+  });
+
+  describe("when layout is inline and bordered is true", () => {
+    it("should render tabs, tab-nav, and tab-title with bordered attribute", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-tabs bordered>${tabsContent}</calcite-tabs>`
+      });
+      expect(await page.find("calcite-tabs")).toEqualAttribute("bordered", "");
+      expect(await page.find("calcite-tab-nav")).toEqualAttribute("bordered", "");
+      expect(await page.find("calcite-tab-title")).toEqualAttribute("bordered", "");
+      expect(await page.find("calcite-tab")).toEqualAttribute("bordered", null);
+    });
+
+    it("should render tab-nav's blue active indicator on top", async () => {
+      const page = await newE2EPage({
+        html: `
+        <calcite-tabs bordered>
+          <calcite-tab-nav slot="tab-nav">
+            <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" >Tab 2 Title</calcite-tab-title>
+          </calcite-tab-nav>
+          <calcite-tab>Tab 1 Content</calcite-tab>
+          <calcite-tab>Tab 2 Content</calcite-tab>
+        </calcite-tabs>
+        `
+      });
+      const indicator = await page.find("calcite-tab-nav >>> .tab-nav-active-indicator-container");
+      const indicatorStyles = await indicator.getComputedStyle();
+      expect(indicatorStyles.top).toEqual("0px");
+      expect(indicatorStyles.bottom).not.toEqual("0px");
+    });
+
+    it("should render tab-nav's blue active indicator on bottom when position is below", async () => {
+      const page = await newE2EPage({
+        html: `
+        <calcite-tabs bordered position="below">
+          <calcite-tab-nav slot="tab-nav">
+            <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" >Tab 2 Title</calcite-tab-title>
+          </calcite-tab-nav>
+          <calcite-tab>Tab 1 Content</calcite-tab>
+          <calcite-tab>Tab 2 Content</calcite-tab>
+        </calcite-tabs>
+        `
+      });
+      const indicator = await page.find("calcite-tab-nav >>> .tab-nav-active-indicator-container");
+      const indicatorStyles = await indicator.getComputedStyle();
+      expect(indicatorStyles.bottom).toEqual("0px");
+      expect(indicatorStyles.top).not.toEqual("0px");
+    });
+  });
+
+  it("should ignore bordered attribute when layout is center", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-tabs layout="center" bordered>${tabsContent}</calcite-tabs>`
+    });
+    expect(await page.find("calcite-tabs")).not.toHaveAttribute("bordered");
   });
 });

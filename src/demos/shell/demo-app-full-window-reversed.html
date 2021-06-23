@@ -70,7 +70,7 @@
                 <calcite-action text="Add" icon="plus"> </calcite-action>
               </calcite-action-group>
             </calcite-action-pad>
-            <calcite-action-bar slot="action-bar" theme="dark">
+            <calcite-action-bar slot="action-bar" class="calcite-theme-dark">
               <calcite-action-group>
                 <calcite-action text="Add" icon="plus"> </calcite-action>
                 <calcite-action text="Save" disabled icon="save"> </calcite-action>
@@ -82,7 +82,12 @@
                 <calcite-action text="Layers" indicator icon="layers"> </calcite-action>
               </calcite-action-group>
             </calcite-action-bar>
-            <calcite-panel heading="Primary Panel" summary="This is the primary panel." height-scale="l" width-scale="m">
+            <calcite-panel
+              heading="Primary Panel"
+              summary="This is the primary panel."
+              height-scale="l"
+              width-scale="m"
+            >
               <calcite-block collapsible heading="Primary Content" summary="This is the primary.">
                 <calcite-block-content>
                   <calcite-action
@@ -345,7 +350,7 @@
               </calcite-panel>
             </calcite-flow>
           </calcite-shell-panel>
-          <div slot="shell-header">
+          <div slot="header">
             <header class="header">
               <h2 class="heading">My App</h2>
             </header>
@@ -398,11 +403,17 @@
           </calcite-tip-manager>
           <div id="viewDiv"></div>
 
-          <footer slot="shell-footer">Footer</footer>
+          <footer slot="footer">Footer</footer>
         </calcite-shell>
       </div>
-      <calcite-popover label="right start popover" placement="right-start" reference-element="action-pad-button" add-click-handle class="popover">
-        <calcite-panel theme="light">
+      <calcite-popover
+        label="right start popover"
+        placement="right-start"
+        reference-element="action-pad-button"
+        add-click-handle
+        class="popover"
+      >
+        <calcite-panel class="calcite-theme-light">
           <h3 class="heading" slot="header-content">WE CARE A LOT</h3>
           <calcite-pick-list filter-enabled filter-sticky>
             <calcite-action slot="menu-actions" label="options" icon="ellipsis"> </calcite-action>
@@ -418,10 +429,7 @@
               label="about starvation and the food that Live Aid bought"
               value="3"
             ></calcite-pick-list-item>
-            <calcite-pick-list-item
-              label="about disease, baby rock, Hudson, rock,"
-              value="4"
-            ></calcite-pick-list-item>
+            <calcite-pick-list-item label="about disease, baby rock, Hudson, rock," value="4"></calcite-pick-list-item>
           </calcite-pick-list>
           <calcite-button slot="footer-actions" width="half">Yeah!</calcite-button>
           <calcite-button slot="footer-actions" width="half" appearance="clear">Naw.</calcite-button>

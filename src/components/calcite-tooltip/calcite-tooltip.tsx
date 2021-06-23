@@ -7,9 +7,10 @@ import {
   defaultOffsetDistance,
   createPopper,
   updatePopper,
-  CSS as PopperCSS
+  CSS as PopperCSS,
+  OverlayPositioning
 } from "../../utils/popper";
-import { Theme } from "../interfaces";
+import { queryElementRoots } from "../../utils/dom";
 
 @Component({
   tag: "calcite-tooltip",
@@ -56,6 +57,9 @@ export class CalciteTooltip {
     this.reposition();
   }
 
+  /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
+  @Prop() overlayPositioning: OverlayPositioning = "absolute";
+
   /**
    * Determines where the component will be positioned relative to the referenceElement.
    */
@@ -69,7 +73,7 @@ export class CalciteTooltip {
   /**
    * Reference HTMLElement used to position this component.
    */
-  @Prop() referenceElement!: HTMLElement | string;
+  @Prop() referenceElement: HTMLElement | string;
 
   @Watch("referenceElement")
   referenceElementHandler(): void {
@@ -78,9 +82,6 @@ export class CalciteTooltip {
     this.addReferences();
     this.createPopper();
   }
-
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //
@@ -178,11 +179,11 @@ export class CalciteTooltip {
   };
 
   getReferenceElement(): HTMLElement {
-    const { referenceElement } = this;
+    const { referenceElement, el } = this;
 
     return (
       (typeof referenceElement === "string"
-        ? document.getElementById(referenceElement)
+        ? queryElementRoots(el, `#${referenceElement}`)
         : referenceElement) || null
     );
   }
@@ -212,13 +213,14 @@ export class CalciteTooltip {
   createPopper(): void {
     this.destroyPopper();
 
-    const { el, placement, _referenceElement: referenceEl } = this;
+    const { el, placement, _referenceElement: referenceEl, overlayPositioning } = this;
     const modifiers = this.getModifiers();
 
     this.popper = createPopper({
       el,
       modifiers,
       placement,
+      overlayPositioning,
       referenceEl
     });
   }

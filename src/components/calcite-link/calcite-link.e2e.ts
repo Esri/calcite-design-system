@@ -81,7 +81,7 @@ describe("calcite-link", () => {
 
     expect(elementAsLink).not.toBeNull();
     expect(elementAsSpan).toBeNull();
-    expect(elementAsLink).toHaveClass("mycustomclass");
+    expect(elementAsLink).not.toHaveClass("mycustomclass");
     expect(elementAsLink).toEqualAttribute("href", "google.com");
     expect(elementAsLink).toEqualAttribute("rel", "noopener noreferrer");
     expect(elementAsLink).toEqualAttribute("target", "_blank");
@@ -99,7 +99,7 @@ describe("calcite-link", () => {
 
     expect(elementAsLink).toBeNull();
     expect(elementAsSpan).not.toBeNull();
-    expect(elementAsSpan).toHaveClass("mycustomclass");
+    expect(elementAsSpan).not.toHaveClass("mycustomclass");
     expect(elementAsSpan).toEqualAttribute("name", "myname");
     expect(iconStart).toBeNull();
     expect(iconEnd).toBeNull();
@@ -145,7 +145,7 @@ describe("calcite-link", () => {
   });
 
   describe("link interactivity", () => {
-    const targetPage = "test";
+    const targetPage = "#test";
 
     let page: E2EPage;
     let pageUrl: string;
@@ -177,6 +177,75 @@ describe("calcite-link", () => {
       await page.waitForChanges();
 
       expect(page.url()).toBe(targetUrl);
+    });
+  });
+
+  describe("CSS properties for light/dark themes", () => {
+    const linkHtml = `
+      <h3>
+        A link <calcite-link href="#" title="in the middle with an icon" icon-start='launch'>
+        with an icon </calcite-link> in some text.
+      </h3>
+    `;
+    let page;
+    let link;
+    let linkStyles;
+    let linkUnderlineStyle;
+
+    it("should have defined CSS custom properties", async () => {
+      page = await newE2EPage({ html: linkHtml });
+      linkUnderlineStyle = await page.evaluate(() => {
+        link = document.querySelector("calcite-link");
+        link.style.setProperty("--calcite-link-blue-underline", "red");
+        return window.getComputedStyle(link).getPropertyValue("--calcite-link-blue-underline");
+      });
+      expect(linkUnderlineStyle).toEqual("red");
+    });
+
+    describe("when theme attribute is not provided", () => {
+      it("should render link background with default value tied to light theme", async () => {
+        page = await newE2EPage({ html: linkHtml });
+        link = await page.find("calcite-link >>> a");
+        linkStyles = await link.getComputedStyle();
+        linkUnderlineStyle = await linkStyles.getPropertyValue("background-image");
+        expect(linkUnderlineStyle).toEqual(
+          "linear-gradient(rgb(0, 97, 155), rgb(0, 97, 155)), linear-gradient(rgba(0, 97, 155, 0.4), rgba(0, 97, 155, 0.4))"
+        );
+      });
+    });
+
+    describe("when theme attribute is dark", () => {
+      it("should render link background with value tied to dark theme", async () => {
+        page = await newE2EPage({
+          html: `<article class="calcite-theme-dark">${linkHtml}</article>`
+        });
+        link = await page.find("calcite-link >>> a");
+        linkStyles = await link.getComputedStyle();
+        linkUnderlineStyle = await linkStyles.getPropertyValue("background-image");
+        expect(linkUnderlineStyle).toEqual(
+          "linear-gradient(rgb(0, 160, 255), rgb(0, 160, 255)), linear-gradient(rgba(0, 160, 255, 0.4), rgba(0, 160, 255, 0.4))"
+        );
+      });
+    });
+
+    it("should allow the CSS custom property to be overridden", async () => {
+      const overrideStyle = "rgba(255, 244, 40, 0.5)";
+      page = await newE2EPage({
+        html: `
+        <style>
+          :root {
+            --calcite-link-blue-underline: ${overrideStyle};
+          }
+        </style>
+        ${linkHtml}
+        `
+      });
+      link = await page.find("calcite-link >>> a");
+      linkStyles = await link.getComputedStyle();
+      linkUnderlineStyle = await linkStyles.getPropertyValue("background-image");
+      expect(linkUnderlineStyle).toEqual(
+        `linear-gradient(rgb(0, 97, 155), rgb(0, 97, 155)), linear-gradient(${overrideStyle}, ${overrideStyle})`
+      );
     });
   });
 });

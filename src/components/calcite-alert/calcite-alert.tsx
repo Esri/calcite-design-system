@@ -13,18 +13,19 @@ import {
   Watch
 } from "@stencil/core";
 import { getElementDir, setRequestedIcon } from "../../utils/dom";
-import { DURATIONS, TEXT } from "./calcite-alert.resources";
-import { Scale, Theme } from "../interfaces";
+import { DURATIONS, SLOTS, TEXT } from "./calcite-alert.resources";
+import { Scale } from "../interfaces";
 import { StatusColor, AlertDuration, StatusIcons } from "./interfaces";
+import { CSS_UTILITY } from "../../utils/resources";
 
 /** Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
  * at the bottom of the page. Multiple opened alerts will be added to a queue, allowing users to dismiss them in the order they are provided.
  */
 
 /**
- * @slot alert-title - Title of the alert (optional)
- * @slot alert-message - Main text of the alert
- * @slot alert-link - Optional action to take from the alert (undo, try again, link to page, etc.)
+ * @slot title - Title of the alert (optional)
+ * @slot message - Main text of the alert
+ * @slot link - Optional action to take from the alert (undo, try again, link to page, etc.)
  */
 
 @Component({
@@ -52,7 +53,9 @@ export class CalciteAlert {
 
   @Watch("active")
   watchActive(): void {
-    if (this.active && !this.queued) this.calciteAlertRegister.emit();
+    if (this.active && !this.queued) {
+      this.calciteAlertRegister.emit();
+    }
     if (!this.active) {
       this.queue = this.queue.filter((e) => e !== this.el);
       this.calciteAlertSync.emit({ queue: this.queue });
@@ -81,9 +84,6 @@ export class CalciteAlert {
   /** specify the scale of the button, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: Theme;
-
   @Watch("icon")
   @Watch("color")
   updateRequestedIcon(): void {
@@ -97,7 +97,9 @@ export class CalciteAlert {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    if (this.active && !this.queued) this.calciteAlertRegister.emit();
+    if (this.active && !this.queued) {
+      this.calciteAlertRegister.emit();
+    }
   }
 
   componentWillLoad(): void {
@@ -127,34 +129,39 @@ export class CalciteAlert {
       </div>
     );
 
-    const { active } = this;
+    const { active, autoDismiss, label, queued, requestedIcon } = this;
     const progress = <div class="alert-dismiss-progress" />;
-    const role = this.autoDismiss ? "alert" : "alertdialog";
+    const role = autoDismiss ? "alert" : "alertdialog";
     const hidden = !active;
 
     return (
       <Host
-        active={active}
         aria-hidden={hidden.toString()}
-        aria-label={this.label}
+        aria-label={label}
         calcite-hydrated-hidden={hidden}
-        dir={dir}
-        queued={this.queued}
         role={role}
       >
-        {this.requestedIcon ? (
-          <div class="alert-icon">
-            <calcite-icon icon={this.requestedIcon} scale="m" />
+        <div
+          class={{
+            container: true,
+            queued,
+            [CSS_UTILITY.rtl]: dir === "rtl"
+          }}
+        >
+          {requestedIcon ? (
+            <div class="alert-icon">
+              <calcite-icon icon={requestedIcon} scale="m" />
+            </div>
+          ) : null}
+          <div class="alert-content">
+            <slot name={SLOTS.title} />
+            <slot name={SLOTS.message} />
+            <slot name={SLOTS.link} />
           </div>
-        ) : null}
-        <div class="alert-content">
-          <slot name="alert-title" />
-          <slot name="alert-message" />
-          <slot name="alert-link" />
+          {queueCount}
+          {!autoDismiss ? closeButton : null}
+          {active && !queued && autoDismiss ? progress : null}
         </div>
-        {queueCount}
-        {!this.autoDismiss ? closeButton : null}
-        {this.active && !this.queued && this.autoDismiss ? progress : null}
       </Host>
     );
   }
@@ -212,12 +219,16 @@ export class CalciteAlert {
   //
   //--------------------------------------------------------------------------
 
-  /** focus either the slotted alert-link or the close button */
+  /** focus either the slotted link or the close button */
   @Method()
   async setFocus(): Promise<void> {
-    if (!this.closeButton && !this.alertLinkEl) return;
-    else if (this.alertLinkEl) this.alertLinkEl.setFocus();
-    else if (this.closeButton) this.closeButton.focus();
+    if (!this.closeButton && !this.alertLinkEl) {
+      return;
+    } else if (this.alertLinkEl) {
+      this.alertLinkEl.setFocus();
+    } else if (this.closeButton) {
+      this.closeButton.focus();
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -266,7 +277,9 @@ export class CalciteAlert {
           DURATIONS[this.autoDismissDuration]
         );
       }
-    } else return;
+    } else {
+      return;
+    }
   }
 
   /** close and emit the closed alert and the queue */

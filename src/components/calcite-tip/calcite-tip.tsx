@@ -1,8 +1,7 @@
-import { Component, Element, Event, EventEmitter, Host, Prop, h, VNode } from "@stencil/core";
-import { Theme } from "../interfaces";
+import { Component, Element, Event, EventEmitter, Prop, h, VNode, Fragment } from "@stencil/core";
 import { CSS, ICONS, SLOTS, TEXT, HEADING_LEVEL } from "./resources";
 import { getSlotted } from "../../utils/dom";
-import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
+import { HeadingLevel, CalciteHeading, constrainHeadingLevel } from "../functional/CalciteHeading";
 
 /**
  * @slot thumbnail - A slot for adding an HTML image element to the tip.
@@ -21,7 +20,7 @@ export class CalciteTip {
   /**
    * No longer displays the tip.
    */
-  @Prop({ mutable: true }) dismissed = false;
+  @Prop({ reflect: true, mutable: true }) dismissed = false;
 
   /**
    * Indicates whether the tip can be dismissed.
@@ -36,7 +35,7 @@ export class CalciteTip {
   /**
    * Number at which section headings should start for this component.
    */
-  @Prop() headingLevel: HeadingLevel = HEADING_LEVEL;
+  @Prop() headingLevel: HeadingLevel;
 
   /**
    * The selected state of the tip if it is being used inside a `calcite-tip-manager`.
@@ -47,11 +46,6 @@ export class CalciteTip {
    * Alternate text for closing the tip.
    */
   @Prop() intlClose?: string;
-
-  /**
-   * Used to set the component's color scheme.
-   */
-  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //
@@ -91,11 +85,14 @@ export class CalciteTip {
   // --------------------------------------------------------------------------
 
   renderHeader(): VNode {
-    const { heading, headingLevel } = this;
+    const { heading, headingLevel, el } = this;
+    const parentLevel = el.closest("calcite-tip-manager")?.headingLevel;
+    const relativeLevel = parentLevel ? constrainHeadingLevel(parentLevel + 1) : null;
+    const level = headingLevel || relativeLevel || HEADING_LEVEL;
 
     return heading ? (
       <header class={CSS.header}>
-        <CalciteHeading class={CSS.heading} level={headingLevel}>
+        <CalciteHeading class={CSS.heading} level={level}>
           {heading}
         </CalciteHeading>
       </header>
@@ -147,13 +144,13 @@ export class CalciteTip {
 
   render(): VNode {
     return (
-      <Host>
-        <article class={CSS.container} hidden={this.dismissed}>
+      <Fragment>
+        <article class={CSS.container}>
           {this.renderHeader()}
           {this.renderContent()}
         </article>
         {this.renderDismissButton()}
-      </Host>
+      </Fragment>
     );
   }
 }

@@ -1,9 +1,9 @@
 import { Component, Element, Event, EventEmitter, Host, Prop, h, VNode } from "@stencil/core";
-import { CSS, SLOTS, TEXT, HEADING_LEVEL } from "./resources";
+import { CSS, SLOTS, TEXT, HEADING_LEVEL, ICONS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
-import { Theme } from "../interfaces";
-import { getElementDir, getSlotted, getElementTheme } from "../../utils/dom";
+import { getElementDir, getSlotted } from "../../utils/dom";
 import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
+import { Status } from "../interfaces";
 
 /**
  * @slot icon - A slot for adding a trailing header icon.
@@ -45,7 +45,7 @@ export class CalciteBlock {
   /**
    * Number at which section headings should start for this component.
    */
-  @Prop() headingLevel: HeadingLevel = HEADING_LEVEL;
+  @Prop() headingLevel: HeadingLevel;
 
   /**
    * Tooltip used for the toggle when expanded.
@@ -71,14 +71,14 @@ export class CalciteBlock {
   @Prop({ reflect: true, mutable: true }) open = false;
 
   /**
+   * Block status. Updates or adds icon to show related icon and color.
+   */
+  @Prop({ reflect: true }) status?: Status;
+
+  /**
    * Block summary.
    */
   @Prop() summary: string;
-
-  /**
-   * Used to set the component's color scheme.
-   */
-  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //
@@ -116,18 +116,36 @@ export class CalciteBlock {
   //
   // --------------------------------------------------------------------------
 
-  renderScrim(): VNode {
-    const { disabled, loading, el } = this;
+  renderScrim(): VNode[] {
+    const { disabled, loading } = this;
 
     const defaultSlot = <slot />;
 
-    return loading || disabled ? (
-      <calcite-scrim loading={loading} theme={getElementTheme(el)}>
-        {defaultSlot}
-      </calcite-scrim>
+    return [loading || disabled ? <calcite-scrim loading={loading} /> : null, defaultSlot];
+  }
+
+  renderIcon(): VNode[] {
+    const { el, status } = this;
+
+    const icon = ICONS[status] ?? false;
+
+    const hasIcon = getSlotted(el, SLOTS.icon) || icon;
+
+    const iconEl = !icon ? (
+      <slot name={SLOTS.icon} />
     ) : (
-      defaultSlot
+      <calcite-icon
+        class={{
+          [CSS.statusIcon]: true,
+          [CSS.valid]: status == "valid",
+          [CSS.invalid]: status == "invalid"
+        }}
+        icon={icon}
+        scale="m"
+      />
     );
+
+    return hasIcon ? <div class={CSS.icon}>{iconEl}</div> : null;
   }
 
   render(): VNode {
@@ -147,16 +165,11 @@ export class CalciteBlock {
 
     const toggleLabel = open ? intlCollapse || TEXT.collapse : intlExpand || TEXT.expand;
 
-    const hasIcon = getSlotted(el, SLOTS.icon);
     const headerContent = (
       <header class={CSS.header}>
-        {hasIcon ? (
-          <div class={CSS.icon}>
-            <slot name={SLOTS.icon} />
-          </div>
-        ) : null}
+        {this.renderIcon()}
         <div class={CSS.title}>
-          <CalciteHeading class={CSS.heading} level={headingLevel}>
+          <CalciteHeading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
             {heading}
           </CalciteHeading>
           {summary ? <div class={CSS.summary}>{summary}</div> : null}
@@ -164,19 +177,29 @@ export class CalciteBlock {
       </header>
     );
 
-    const hasControl = getSlotted(el, SLOTS.control);
+    const hasControl = !!getSlotted(el, SLOTS.control);
+    const collapseIcon = open ? ICONS.opened : ICONS.closed;
 
     const headerNode = (
       <div class={CSS.headerContainer}>
         {this.dragHandle ? <calcite-handle /> : null}
         {collapsible ? (
           <button
+            aria-expanded={collapsible ? open.toString() : null}
             aria-label={toggleLabel}
             class={CSS.toggle}
             onClick={this.onHeaderClick}
             title={toggleLabel}
           >
             {headerContent}
+            {!hasControl ? (
+              <calcite-icon
+                aria-hidden="true"
+                class={CSS.toggleIcon}
+                icon={collapseIcon}
+                scale="s"
+              />
+            ) : null}
           </button>
         ) : (
           headerContent
@@ -197,7 +220,6 @@ export class CalciteBlock {
       <Host tabIndex={disabled ? -1 : null}>
         <article
           aria-busy={loading.toString()}
-          aria-expanded={collapsible ? open.toString() : null}
           class={{
             [CSS.article]: true,
             [CSS_UTILITY.rtl]: rtl

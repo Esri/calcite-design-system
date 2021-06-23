@@ -1,12 +1,10 @@
 :host {
   @extend %component-host;
-  @apply flex relative;
-
-  max-height: var(--calcite-panel-max-height);
-  width: var(--calcite-panel-width);
-  max-width: var(--calcite-panel-max-width);
-  min-width: var(--calcite-panel-min-width);
-  transition: max-height $transition, width $transition;
+  @apply flex
+    flex-auto
+    overflow-hidden
+    relative
+    w-full;
 
   --calcite-min-header-height: calc(var(--calcite-icon-size) * 3);
   --calcite-panel-max-height: unset;
@@ -19,22 +17,19 @@
 
 .container {
   @apply flex
-    flex-col 
-    items-stretch 
-    bg-background 
-    h-full 
-    w-full 
-    p-0 
+    flex-auto
+    flex-col
+    items-stretch
+    bg-background
+    w-full
+    p-0
     m-0;
-}
 
-calcite-scrim {
-  @apply flex 
-    flex-col 
-    items-stretch 
-    w-full 
-    h-full 
-    pointer-events-none;
+  max-height: var(--calcite-panel-max-height);
+  width: var(--calcite-panel-width);
+  max-width: var(--calcite-panel-max-width);
+  min-width: var(--calcite-panel-min-width);
+  transition: max-height $transition, width $transition;
 }
 
 :host([height-scale="s"]) {
@@ -50,21 +45,21 @@ calcite-scrim {
 }
 
 :host([width-scale="s"]) {
-  --calcite-panel-width: 12vw;
-  --calcite-panel-max-width: 300px;
-  --calcite-panel-min-width: 150px;
+  --calcite-panel-width: calc(var(--calcite-panel-width-multiplier) * 12vw);
+  --calcite-panel-max-width: calc(var(--calcite-panel-width-multiplier) * 300px);
+  --calcite-panel-min-width: calc(var(--calcite-panel-width-multiplier) * 150px);
 }
 
 :host([width-scale="m"]) {
-  --calcite-panel-width: 20vw;
-  --calcite-panel-max-width: 420px;
-  --calcite-panel-min-width: 240px;
+  --calcite-panel-width: calc(var(--calcite-panel-width-multiplier) * 20vw);
+  --calcite-panel-max-width: calc(var(--calcite-panel-width-multiplier) * 420px);
+  --calcite-panel-min-width: calc(var(--calcite-panel-width-multiplier) * 240px);
 }
 
 :host([width-scale="l"]) {
-  --calcite-panel-width: 45vw;
-  --calcite-panel-max-width: 680px;
-  --calcite-panel-min-width: 340px;
+  --calcite-panel-width: calc(var(--calcite-panel-width-multiplier) * 45vw);
+  --calcite-panel-max-width: calc(var(--calcite-panel-width-multiplier) * 680px);
+  --calcite-panel-min-width: calc(var(--calcite-panel-width-multiplier) * 340px);
 }
 
 .container[hidden] {
@@ -79,12 +74,12 @@ calcite-scrim {
 
 .header {
   border-bottom: 1px solid;
-  @apply items-stretch 
-    bg-foreground-1 
-    justify-start 
-    sticky 
-    top-0 
-    border-b-color-3 
+  @apply items-stretch
+    bg-foreground-1
+    justify-start
+    sticky
+    top-0
+    border-b-color-3
     w-full;
   flex: 0 0 auto;
   min-height: theme("spacing.12");
@@ -93,34 +88,51 @@ calcite-scrim {
 }
 
 .header-content {
-  @apply block 
-    overflow-hidden 
-    mr-auto 
-    py-4 
+  @apply block
+    overflow-hidden
+    mr-auto
+    py-4
     px-3;
   .heading,
   .summary {
-    @apply p-0 
-      block 
-      overflow-hidden 
-      whitespace-no-wrap 
+    @apply p-0
+      block
+      overflow-hidden
+      whitespace-no-wrap
       w-full;
     text-overflow: ellipsis;
   }
   .heading {
-    @apply font-medium mt-0 mx-0 mb-1 text-0-wrap;
+    @apply font-medium mt-0 mx-0 mb-1 text-0h;
     &:only-child {
       @apply mb-0;
     }
   }
   .summary {
-    @apply text-color-2 text--1-wrap;
+    @apply text-color-2 text--1h;
   }
 }
 
+.back-button {
+  @apply border-color-3
+  border-solid
+  border-0
+  border-r-px;
+}
+
+.calcite--rtl .back-button {
+  @apply border-r-0 border-l-px;
+}
+
 .header-actions {
-  @apply flex items-stretch;
-  flex-flow: row nowrap;
+  @apply flex
+  items-stretch
+  flex-row
+  flex-no-wrap;
+}
+
+.header-actions--end {
+  @apply ml-auto;
 }
 
 .menu-container:only-child {
@@ -128,9 +140,9 @@ calcite-scrim {
 }
 
 .menu-button {
-  @apply self-stretch 
-    flex-initial 
-    h-full 
+  @apply self-stretch
+    flex-initial
+    h-full
     relative;
 }
 .menu {
@@ -139,13 +151,25 @@ calcite-scrim {
 }
 
 .content-container {
-  @apply items-stretch bg-background flex flex-auto overflow-auto flex;
-  flex-flow: column nowrap;
+  @apply items-stretch 
+  bg-background
+  flex
+  flex-auto
+  overflow-auto
+  flex-no-wrap
+  flex-col;
 }
 
 .footer {
   border-top: 1px solid;
-  @apply bg-foreground-1 border-t-color-3 flex justify-evenly sticky bottom-0 w-full;
+  @apply bg-foreground-1
+  border-t-color-3
+  flex
+  justify-evenly
+  sticky
+  bottom-0
+  w-full;
+
   flex: 0 0 auto;
   min-height: theme("spacing.12");
   padding: theme("spacing.2");
@@ -156,6 +180,10 @@ calcite-scrim {
     @apply ml-auto;
     margin-right: unset;
   }
+  .header-actions--end {
+    @apply mr-auto;
+    margin-left: unset;
+  }
   .menu-container:only-child {
     @apply mr-auto;
     margin-left: unset;
@@ -163,7 +191,14 @@ calcite-scrim {
 }
 
 .fab-container {
-  @apply inline-block sticky my-0 mx-auto bottom-0 left-0 right-0;
+  @apply inline-block
+  sticky
+  my-0
+  mx-auto
+  p-2
+  bottom-0
+  left-0
+  right-0;
+
   z-index: 1;
-  padding: theme("spacing.2");
 }

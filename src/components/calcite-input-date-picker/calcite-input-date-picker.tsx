@@ -20,11 +20,16 @@ import { HeadingLevel } from "../functional/CalciteHeading";
 import { getKey } from "../../utils/key";
 import { TEXT } from "../calcite-date-picker/calcite-date-picker-resources";
 
-import { createPopper, updatePopper, CSS as PopperCSS } from "../../utils/popper";
+import {
+  createPopper,
+  updatePopper,
+  CSS as PopperCSS,
+  OverlayPositioning
+} from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { DateRangeChange } from "../calcite-date-picker/interfaces";
 
-const DEFAULT_PLACEMENT = "bottom-start";
+const DEFAULT_PLACEMENT = "bottom-leading";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -61,6 +66,12 @@ export class CalciteInputDatePicker {
   /** Selected end date as full date object*/
   @Prop({ mutable: true }) endAsDate?: Date;
 
+  /** Earliest allowed date as full date object */
+  @Prop({ mutable: true }) minAsDate?: Date;
+
+  /** Latest allowed date as full date object */
+  @Prop({ mutable: true }) maxAsDate?: Date;
+
   /** Earliest allowed date ("yyyy-mm-dd") */
   @Prop() min?: string;
 
@@ -95,6 +106,9 @@ export class CalciteInputDatePicker {
 
   /** Selected end date */
   @Prop() end?: string;
+
+  /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
+  @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
   /** Disables the default behaviour on the third click of narrowing or extending the range and instead starts a new range. */
   @Prop() proximitySelectionDisabled?: boolean = false;
@@ -175,8 +189,17 @@ export class CalciteInputDatePicker {
     if (this.start) {
       this.setStartAsDate(dateFromISO(this.start));
     }
+
     if (this.end) {
       this.setEndAsDate(dateFromISO(this.end));
+    }
+
+    if (this.min) {
+      this.minAsDate = dateFromISO(this.min);
+    }
+
+    if (this.max) {
+      this.maxAsDate = dateFromISO(this.max);
     }
 
     this.createPopper();
@@ -187,18 +210,27 @@ export class CalciteInputDatePicker {
   }
 
   render(): VNode {
-    const min = dateFromISO(this.min);
-    const max = dateFromISO(this.max);
-    const date = dateFromRange(this.range ? this.startAsDate : this.valueAsDate, min, max);
-    const endDate = this.range ? dateFromRange(this.endAsDate, min, max) : null;
+    const date = dateFromRange(
+      this.range ? this.startAsDate : this.valueAsDate,
+      this.minAsDate,
+      this.maxAsDate
+    );
+    const endDate = this.range
+      ? dateFromRange(this.endAsDate, this.minAsDate, this.maxAsDate)
+      : null;
     const formattedEndDate = endDate ? endDate.toLocaleDateString(this.locale) : "";
     const formattedDate = date ? date.toLocaleDateString(this.locale) : "";
     const dir = getElementDir(this.el);
 
     return (
-      <Host dir={dir} onBlur={this.deactivate} onKeyUp={this.keyUpHandler} role="application">
+      <Host onBlur={this.deactivate} onKeyUp={this.keyUpHandler} role="application">
         {this.localeData && (
-          <div aria-expanded={this.active.toString()} class="input-container" role="application">
+          <div
+            aria-expanded={this.active.toString()}
+            class="input-container"
+            dir={dir}
+            role="application"
+          >
             {
               <div class="input-wrapper" ref={this.setStartWrapper}>
                 <calcite-input
@@ -233,14 +265,15 @@ export class CalciteInputDatePicker {
               >
                 <calcite-date-picker
                   activeRange={this.focusedInput}
-                  dir={dir}
                   endAsDate={this.endAsDate}
                   headingLevel={this.headingLevel}
                   intlNextMonth={this.intlNextMonth}
                   intlPrevMonth={this.intlPrevMonth}
                   locale={this.locale}
                   max={this.max}
+                  maxAsDate={this.maxAsDate}
                   min={this.min}
+                  minAsDate={this.minAsDate}
                   onCalciteDatePickerChange={this.handleDateChange}
                   onCalciteDatePickerRangeChange={this.handleDateRangeChange}
                   proximitySelectionDisabled={this.proximitySelectionDisabled}
@@ -395,7 +428,7 @@ export class CalciteInputDatePicker {
 
   createPopper(): void {
     this.destroyPopper();
-    const { menuEl, referenceEl } = this;
+    const { menuEl, referenceEl, overlayPositioning } = this;
 
     if (!menuEl || !referenceEl) {
       return;
@@ -406,6 +439,7 @@ export class CalciteInputDatePicker {
     this.popper = createPopper({
       el: menuEl,
       modifiers,
+      overlayPositioning,
       placement: DEFAULT_PLACEMENT,
       referenceEl
     });

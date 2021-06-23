@@ -1,282 +1,297 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Calcite Radio Group</title>
+    <style>
+      .demo-background-dark {
+        background: #202020;
+        color: white;
+        padding: 1rem;
+      }
+    </style>
+    <script src="./_assets/head.js"></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Calcite Radio Group</title>
-  <style>
-    .demo-background-dark {
-      background: #202020;
-      color: white;
-      padding: 1rem;
-    }
-  </style>
-  <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
-  <link rel="stylesheet" href="../build/calcite.css" />
-  <script type="module" src="../build/calcite.esm.js"></script>
-  <script nomodule src="../build/calcite.js"></script>
-</head>
+  <body>
+    <calcite-button href="/">Home</calcite-button>
+    <h1>Calcite Radio Group</h1>
+    <div style="width: 600px; max-width: 100%">
+      <h3 class="leader-1">Simple</h3>
 
-<body>
-  <calcite-button href="/">Home</calcite-button>
-  <h1>Calcite Radio Group</h1>
-  <div style="width:600px;max-width:100%">
-    <h3 class="leader-1">Simple</h3>
-
-    <calcite-radio-group>
-      <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
-      <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
-      <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
-      <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
-    </calcite-radio-group>
-
-    <h3 class="leader-1">Wrapped with calcite-label</h3>
-
-    <calcite-label>
-      My Great Radio Group
       <calcite-radio-group>
         <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
         <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
         <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
         <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
       </calcite-radio-group>
-    </calcite-label>
 
+      <h3 class="leader-1">Wrapped with calcite-label</h3>
 
-    <calcite-label>
-      My Great Radio Appearance Outline
-      <calcite-radio-group appearance="outline">
+      <calcite-label>
+        My Great Radio Group
+        <calcite-radio-group>
+          <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
+          <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
+          <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+          <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
+        </calcite-radio-group>
+      </calcite-label>
+
+      <calcite-label>
+        My Great Radio Appearance Outline
+        <calcite-radio-group appearance="outline">
+          <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
+          <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
+          <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+          <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
+        </calcite-radio-group>
+      </calcite-label>
+
+      <calcite-label>
+        My Great Radio Layout Vertical
+        <calcite-radio-group layout="vertical">
+          <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
+          <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
+          <calcite-radio-group-item value="angular or another item">Angular or another item</calcite-radio-group-item>
+          <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
+        </calcite-radio-group>
+      </calcite-label>
+
+      <calcite-label>
+        My Great Radio Layout Vertical Outline
+        <calcite-radio-group layout="vertical" appearance="outline">
+          <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
+          <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
+          <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+          <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
+        </calcite-radio-group>
+      </calcite-label>
+
+      <calcite-label>
+        Icons!
+        <calcite-radio-group layout="vertical">
+          <calcite-radio-group-item icon="car" value="car" checked>Car</calcite-radio-group-item>
+          <calcite-radio-group-item icon="plane" value="plane">Plane</calcite-radio-group-item>
+          <calcite-radio-group-item icon="biking" value="bicycle">Bicycle</calcite-radio-group-item>
+        </calcite-radio-group>
+      </calcite-label>
+      <calcite-label>
+        Icons!
+        <calcite-radio-group>
+          <calcite-radio-group-item icon="car" value="car" checked>Car</calcite-radio-group-item>
+          <calcite-radio-group-item icon="plane" value="plane">Plane</calcite-radio-group-item>
+          <calcite-radio-group-item icon="biking" value="bicycle">Bicycle</calcite-radio-group-item>
+        </calcite-radio-group>
+      </calcite-label>
+      <calcite-label>
+        More Icons!
+        <calcite-radio-group layout="vertical" appearance="outline">
+          <calcite-radio-group-item icon="car" value="car" checked>Car</calcite-radio-group-item>
+          <calcite-radio-group-item icon="plane" value="plane">Plane</calcite-radio-group-item>
+          <calcite-radio-group-item icon="biking" value="bicycle">Bicycle</calcite-radio-group-item>
+        </calcite-radio-group>
+      </calcite-label>
+      <calcite-label>
+        More Icons!
+        <calcite-radio-group appearance="outline">
+          <calcite-radio-group-item icon="car" value="car" icon-position="end" checked>Car</calcite-radio-group-item>
+          <calcite-radio-group-item icon="plane" value="plane" icon-position="end">Plane</calcite-radio-group-item>
+          <calcite-radio-group-item icon="biking" value="bicycle" icon-position="end">Bicycle</calcite-radio-group-item>
+        </calcite-radio-group>
+      </calcite-label>
+
+      <h3 class="leader-1">Width full</h3>
+
+      <div style="width: 33vw; margin: 2rem">
+        <calcite-radio-group width="full">
+          <calcite-radio-group-item checked value="React"> React </calcite-radio-group-item>
+          <calcite-radio-group-item value="Ember"> Ember </calcite-radio-group-item>
+          <calcite-radio-group-item value="Longer text wraps."> Longer text wraps. </calcite-radio-group-item>
+          <calcite-radio-group-item value="Longer text wraps yep"> Longer text wraps yep </calcite-radio-group-item>
+        </calcite-radio-group>
+      </div>
+
+      <calcite-radio-group width="full">
         <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
         <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
         <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
         <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
-      </calcite-radio-group>
-    </calcite-label>
-
-    <calcite-label scale="l">
-      Inherit L scale from parent label
-      <calcite-radio-group appearance="outline">
-        <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
-        <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
-        <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
-        <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
-      </calcite-radio-group>
-    </calcite-label>
-
-    <calcite-label scale="s">
-      Inherit S scale from parent label
-      <calcite-radio-group appearance="outline">
-        <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
-        <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
-        <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
-        <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
-      </calcite-radio-group>
-    </calcite-label>
-
-    <calcite-label>
-      My Great Radio Layout Vertical
-      <calcite-radio-group layout="vertical">
-        <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
-        <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
-        <calcite-radio-group-item value="angular or another item">Angular or another item</calcite-radio-group-item>
-        <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
-      </calcite-radio-group>
-    </calcite-label>
-
-    <calcite-label>
-      My Great Radio Layout Vertical Outline
-      <calcite-radio-group layout="vertical" appearance="outline">
-        <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
-        <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
-        <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
-        <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
-      </calcite-radio-group>
-    </calcite-label>
-
-    <calcite-label>
-      Icons!
-      <calcite-radio-group layout="vertical">
-        <calcite-radio-group-item icon="car" value="car" checked>Car</calcite-radio-group-item>
-        <calcite-radio-group-item icon="plane" value="plane">Plane</calcite-radio-group-item>
-        <calcite-radio-group-item icon="biking" value="bicycle">Bicycle</calcite-radio-group-item>
-      </calcite-radio-group>
-    </calcite-label>
-    <calcite-label>
-      Icons!
-      <calcite-radio-group>
-        <calcite-radio-group-item icon="car" value="car" checked>Car</calcite-radio-group-item>
-        <calcite-radio-group-item icon="plane" value="plane">Plane</calcite-radio-group-item>
-        <calcite-radio-group-item icon="biking" value="bicycle">Bicycle</calcite-radio-group-item>
-      </calcite-radio-group>
-    </calcite-label>
-    <calcite-label>
-      More Icons!
-      <calcite-radio-group layout="vertical" appearance="outline">
-        <calcite-radio-group-item icon="car" value="car" checked>Car</calcite-radio-group-item>
-        <calcite-radio-group-item icon="plane" value="plane">Plane</calcite-radio-group-item>
-        <calcite-radio-group-item icon="biking" value="bicycle">Bicycle</calcite-radio-group-item>
-      </calcite-radio-group>
-    </calcite-label>
-    <calcite-label>
-      More Icons!
-      <calcite-radio-group appearance="outline">
-        <calcite-radio-group-item icon="car" value="car" icon-position="end" checked>Car</calcite-radio-group-item>
-        <calcite-radio-group-item icon="plane" value="plane" icon-position="end">Plane</calcite-radio-group-item>
-        <calcite-radio-group-item icon="biking" value="bicycle" icon-position="end">Bicycle</calcite-radio-group-item>
-      </calcite-radio-group>
-    </calcite-label>
-
-    <h3 class="leader-1">Width full</h3>
-
-    <calcite-radio-group width="full">
-      <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
-      <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
-      <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
-      <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
-    </calcite-radio-group>
-
-    <h3 class="leader-1">Scale s</h3>
-
-    <calcite-radio-group scale="s">
-      <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
-      <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
-      <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
-    </calcite-radio-group>
-
-    <h3 class="leader-1">Scale m</h3>
-
-    <calcite-radio-group scale="m">
-      <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
-      <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
-      <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
-    </calcite-radio-group>
-
-    <h3 class="leader-1">Scale l</h3>
-
-    <calcite-radio-group scale="l">
-      <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
-      <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
-      <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
-    </calcite-radio-group>
-
-    <h3 class="leader-1">Disabled</h3>
-
-    <calcite-radio-group disabled>
-      <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
-      <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
-      <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
-    </calcite-radio-group>
-    <h3 class="leader-1">With labels</h3>
-
-    <calcite-radio-group>
-      <calcite-radio-group-item value="1">Uno</calcite-radio-group-item>
-      <calcite-radio-group-item value="2" checked>Dos</calcite-radio-group-item>
-      <calcite-radio-group-item value="3">Tres</calcite-radio-group-item>
-    </calcite-radio-group>
-
-    <h3 class="leader-1">Uses value as label if missing</h3>
-
-    <calcite-radio-group>
-      <calcite-radio-group-item value="1"></calcite-radio-group-item>
-      <calcite-radio-group-item value="2" checked></calcite-radio-group-item>
-      <calcite-radio-group-item value="3"></calcite-radio-group-item>
-    </calcite-radio-group>
-
-    <h3 class="leader-1">None checked</h3>
-
-    <calcite-radio-group>
-      <calcite-radio-group-item value="1"></calcite-radio-group-item>
-      <calcite-radio-group-item value="2"></calcite-radio-group-item>
-      <calcite-radio-group-item value="3"></calcite-radio-group-item>
-    </calcite-radio-group>
-
-    <h3 class="leader-1">Only one selected value (last wins)</h3>
-
-    <calcite-radio-group>
-      <calcite-radio-group-item value="1" checked></calcite-radio-group-item>
-      <calcite-radio-group-item value="2" checked></calcite-radio-group-item>
-      <calcite-radio-group-item value="3" checked></calcite-radio-group-item>
-    </calcite-radio-group>
-
-    <h3 class="leader-1">Change Event</h3>
-
-    <calcite-radio-group class="js-group">
-      <calcite-radio-group-item value="1"></calcite-radio-group-item>
-      <calcite-radio-group-item value="2"></calcite-radio-group-item>
-      <calcite-radio-group-item value="3"></calcite-radio-group-item>
-    </calcite-radio-group>
-
-    <p>Currently selected value: <span class="js-value">n/a</span></p>
-
-    <script>
-      document.querySelector(".js-group").addEventListener("calciteRadioGroupChange", function (e) {
-        document.querySelector(".js-value").innerHTML = e.detail;
-      });
-    </script>
-
-    <br />
-    <br />
-    <div class="demo-background-dark">
-      <h3 class="leader-1">Dark theme</h3>
-
-      <calcite-radio-group theme="dark">
-        <calcite-radio-group-item value="1" checked></calcite-radio-group-item>
-        <calcite-radio-group-item value="2" checked></calcite-radio-group-item>
-        <calcite-radio-group-item value="3" checked></calcite-radio-group-item>
       </calcite-radio-group>
 
       <h3 class="leader-1">Scale s</h3>
-      <calcite-radio-group theme="dark" scale="s">
+
+      <calcite-radio-group scale="s">
+        <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
+        <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
+        <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+      </calcite-radio-group>
+
+      <br />
+
+      <calcite-radio-group scale="s" layout="vertical">
         <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
         <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
         <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
       </calcite-radio-group>
 
       <h3 class="leader-1">Scale m</h3>
-      <calcite-radio-group theme="dark" scale="m">
+
+      <calcite-radio-group scale="m">
+        <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
+        <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
+        <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+      </calcite-radio-group>
+
+      <br />
+
+      <calcite-radio-group scale="m" layout="vertical">
         <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
         <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
         <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
       </calcite-radio-group>
 
       <h3 class="leader-1">Scale l</h3>
-      <calcite-radio-group theme="dark" scale="l">
+
+      <calcite-radio-group scale="l">
         <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
         <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
         <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
       </calcite-radio-group>
-    </div>
-    <h3 class="leader-1">RTL</h3>
 
-    <calcite-radio-group dir="rtl">
-      <calcite-radio-group-item value="1" checked></calcite-radio-group-item>
-      <calcite-radio-group-item value="2" checked></calcite-radio-group-item>
-      <calcite-radio-group-item value="3" checked></calcite-radio-group-item>
-    </calcite-radio-group>
+      <br />
 
-    <h3 class="leader-1">External inputs</h3>
+      <calcite-radio-group scale="l" layout="vertical">
+        <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
+        <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
+        <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+      </calcite-radio-group>
 
-    <calcite-radio-group name="grouped">
-      <calcite-radio-group-item><input type="radio" slot="input" value="1"></calcite-radio-group-item>
-      <calcite-radio-group-item><input type="radio" slot="input" value="2"></calcite-radio-group-item>
-      <calcite-radio-group-item><input type="radio" slot="input" value="3"></calcite-radio-group-item>
-    </calcite-radio-group>
+      <h3 class="leader-1">Disabled</h3>
 
-    <h3 class="leader-1">Within form</h3>
+      <calcite-radio-group disabled>
+        <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
+        <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
+        <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+      </calcite-radio-group>
+      <h3 class="leader-1">With labels</h3>
 
-    <form>
-      <label>
-        Choose wisely
-        <calcite-radio-group name="within-form">
-          <calcite-radio-group-item value="1"></calcite-radio-group-item>
-          <calcite-radio-group-item value="2"></calcite-radio-group-item>
-          <calcite-radio-group-item value="3"></calcite-radio-group-item>
+      <calcite-radio-group>
+        <calcite-radio-group-item value="1">Uno</calcite-radio-group-item>
+        <calcite-radio-group-item value="2" checked>Dos</calcite-radio-group-item>
+        <calcite-radio-group-item value="3">Tres</calcite-radio-group-item>
+      </calcite-radio-group>
+
+      <h3 class="leader-1">Uses value as label if missing</h3>
+
+      <calcite-radio-group>
+        <calcite-radio-group-item value="1"></calcite-radio-group-item>
+        <calcite-radio-group-item value="2" checked></calcite-radio-group-item>
+        <calcite-radio-group-item value="3"></calcite-radio-group-item>
+      </calcite-radio-group>
+
+      <h3 class="leader-1">None checked</h3>
+
+      <calcite-radio-group>
+        <calcite-radio-group-item value="1"></calcite-radio-group-item>
+        <calcite-radio-group-item value="2"></calcite-radio-group-item>
+        <calcite-radio-group-item value="3"></calcite-radio-group-item>
+      </calcite-radio-group>
+
+      <h3 class="leader-1">Only one selected value (last wins)</h3>
+
+      <calcite-radio-group>
+        <calcite-radio-group-item value="1" checked></calcite-radio-group-item>
+        <calcite-radio-group-item value="2" checked></calcite-radio-group-item>
+        <calcite-radio-group-item value="3" checked></calcite-radio-group-item>
+      </calcite-radio-group>
+
+      <h3 class="leader-1">Change Event</h3>
+
+      <calcite-radio-group class="js-group">
+        <calcite-radio-group-item value="1"></calcite-radio-group-item>
+        <calcite-radio-group-item value="2"></calcite-radio-group-item>
+        <calcite-radio-group-item value="3"></calcite-radio-group-item>
+      </calcite-radio-group>
+
+      <p>Currently selected value: <span class="js-value">n/a</span></p>
+
+      <script>
+        document.querySelector(".js-group").addEventListener("calciteRadioGroupChange", function (e) {
+          document.querySelector(".js-value").innerHTML = e.detail;
+        });
+      </script>
+
+      <br />
+      <br />
+      <div class="demo-background-dark">
+        <h3 class="leader-1">Dark theme</h3>
+
+        <calcite-radio-group class="calcite-theme-dark">
+          <calcite-radio-group-item value="1" checked></calcite-radio-group-item>
+          <calcite-radio-group-item value="2" checked></calcite-radio-group-item>
+          <calcite-radio-group-item value="3" checked></calcite-radio-group-item>
         </calcite-radio-group>
-      </label>
-    </form>
-  </div>
-</body>
 
+        <h3 class="leader-1">Scale s</h3>
+        <calcite-radio-group class="calcite-theme-dark" scale="s">
+          <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
+          <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
+          <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+        </calcite-radio-group>
+
+        <h3 class="leader-1">Scale m</h3>
+        <calcite-radio-group class="calcite-theme-dark" scale="m">
+          <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
+          <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
+          <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+        </calcite-radio-group>
+
+        <h3 class="leader-1">Scale l</h3>
+        <calcite-radio-group class="calcite-theme-dark" scale="l">
+          <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
+          <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
+          <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+        </calcite-radio-group>
+      </div>
+      <h3 class="leader-1">RTL</h3>
+      <div dir="rtl">
+        <calcite-radio-group>
+          <calcite-radio-group-item value="1" checked></calcite-radio-group-item>
+          <calcite-radio-group-item value="2" checked></calcite-radio-group-item>
+          <calcite-radio-group-item value="3" checked></calcite-radio-group-item>
+        </calcite-radio-group>
+      </div>
+
+      <h3 class="leader-1">External inputs</h3>
+
+      <calcite-radio-group name="grouped">
+        <calcite-radio-group-item><input type="radio" slot="input" value="1" /></calcite-radio-group-item>
+        <calcite-radio-group-item><input type="radio" slot="input" value="2" /></calcite-radio-group-item>
+        <calcite-radio-group-item><input type="radio" slot="input" value="3" /></calcite-radio-group-item>
+      </calcite-radio-group>
+
+      <h3 class="leader-1">Within form</h3>
+
+      <form>
+        <label>
+          Choose wisely
+          <calcite-radio-group name="within-form">
+            <calcite-radio-group-item checked value="1"></calcite-radio-group-item>
+            <calcite-radio-group-item value="2"></calcite-radio-group-item>
+            <calcite-radio-group-item value="3"></calcite-radio-group-item>
+          </calcite-radio-group>
+        </label>
+        <button type="submit">Submit</button>
+      </form>
+      <script>
+        document.querySelector("form").addEventListener("submit", (e) => {
+          e.preventDefault();
+          window.alert(`You selected ${e.target[0].value}`);
+        });
+      </script>
+    </div>
+  </body>
 </html>

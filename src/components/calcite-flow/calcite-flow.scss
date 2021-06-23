@@ -1,15 +1,16 @@
 :host {
   @extend %component-host;
   @apply flex 
+    flex-auto
     items-stretch 
     bg-transparent 
-    w-full 
-    h-full 
+    w-full
     overflow-hidden 
     relative;
 
   .frame {
-    @apply flex 
+    @apply flex
+      flex-auto
       items-stretch 
       w-full 
       p-0 

@@ -1,5 +1,5 @@
-import { Component, Element, Host, Method, Prop, h, VNode } from "@stencil/core";
-import { Appearance, Scale, Theme } from "../interfaces";
+import { Component, Element, Method, Prop, h, VNode } from "@stencil/core";
+import { Appearance, Scale } from "../interfaces";
 import { ButtonColor } from "../calcite-button/interfaces";
 import { CSS, ICONS } from "./resources";
 import { focusElement, getElementDir } from "../../utils/dom";
@@ -37,7 +37,7 @@ export class CalciteFab {
   @Prop() icon?: string = ICONS.plus;
 
   /**
-   * Label of the FAB, exposed on hover. If no label is provided, the label inherits what's provided for the `text` prop.
+   * Label of the FAB, exposed on hover when textEnabled is false. If no label is provided, the label inherits what's provided for the `text` prop.
    */
   @Prop() label?: string;
 
@@ -60,11 +60,6 @@ export class CalciteFab {
    * Indicates whether the text is displayed.
    */
   @Prop({ reflect: true }) textEnabled = false;
-
-  /**
-   * Used to set the component's color scheme.
-   */
-  @Prop({ reflect: true }) theme: Theme;
 
   // --------------------------------------------------------------------------
   //
@@ -94,46 +89,31 @@ export class CalciteFab {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const {
-      appearance,
-      color,
-      disabled,
-      el,
-      loading,
-      scale,
-      theme,
-      textEnabled,
-      icon,
-      label,
-      text
-    } = this;
-    const titleText = !textEnabled && text;
-    const title = label || titleText;
+    const { appearance, color, disabled, el, loading, scale, textEnabled, icon, label, text } =
+      this;
+    const title = !textEnabled ? label || text || null : null;
     const dir = getElementDir(el);
 
     return (
-      <Host>
-        <calcite-button
-          appearance={appearance}
-          aria-label={label}
-          class={CSS.button}
-          color={color}
-          dir={dir}
-          disabled={disabled}
-          iconStart={icon}
-          loading={loading}
-          ref={(buttonEl): void => {
-            this.buttonEl = buttonEl;
-          }}
-          round={true}
-          scale={scale}
-          theme={theme}
-          title={title}
-          width="auto"
-        >
-          {this.textEnabled ? this.text : null}
-        </calcite-button>
-      </Host>
+      <calcite-button
+        appearance={appearance}
+        aria-label={label}
+        class={CSS.button}
+        color={color}
+        dir={dir}
+        disabled={disabled}
+        iconStart={icon}
+        loading={loading}
+        ref={(buttonEl): void => {
+          this.buttonEl = buttonEl;
+        }}
+        round={true}
+        scale={scale}
+        title={title}
+        width="auto"
+      >
+        {this.textEnabled ? this.text : null}
+      </calcite-button>
     );
   }
 }

@@ -19,7 +19,7 @@ export const Light = (): string => html`
       "description",
       "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
     )}"
-    ${boolean("focused", false)}
+    ${boolean("disabled", false)}
     heading="${text("heading", "Tile heading lorem ipsum")}"
     ${boolean("hidden", false)}
     href="${text("href", "#")}"
@@ -35,12 +35,12 @@ export const Dark = (): string => html`
       "description",
       "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
     )}"
-    ${boolean("focused", false)}
+    ${boolean("disabled", false)}
     heading="${text("heading", "Tile heading lorem ipsum")}"
     ${boolean("hidden", false)}
     href="${text("href", "#")}"
     icon="${select("icon", iconNames, "layer")}"
-    theme="dark"
+    class="calcite-theme-dark"
   >
   </calcite-tile>
 `;
@@ -48,3 +48,20 @@ export const Dark = (): string => html`
 Dark.story = {
   parameters: { backgrounds: darkBackground }
 };
+
+export const RTL = (): string => html`
+  <calcite-tile
+    ${boolean("active", false)}
+    description="${text(
+      "description",
+      "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+    )}"
+    heading="${text("heading", "Tile heading lorem ipsum!")}"
+    ${boolean("disabled", false)}
+    ${boolean("hidden", false)}
+    href="${text("href", "#")}"
+    icon="${select("icon", iconNames, "layer")}"
+    dir="rtl"
+  >
+  </calcite-tile>
+`;

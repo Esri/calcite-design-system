@@ -1,6 +1,6 @@
 # calcite-accordion
 
-`calcite-accordion` can be used to present content in collapsible sections. Configuration options exist for visual style (theme, icon-position, scale, appearance), and selection functionality. Selection modes include "multi", "single", and "single-persist".
+`calcite-accordion` can be used to present content in collapsible sections. Configuration options exist for visual style (icon-position, scale, appearance), and selection functionality. Selection modes include "multi", "single", and "single-persist".
 
 <!-- Auto Generated Below -->
 
@@ -25,7 +25,6 @@
 | `iconType`      | `icon-type`      | specify the type of the icon in the header, defaults to chevron                                                                                                           | `"caret" \| "chevron" \| "plus-minus"`    | `"chevron"` |
 | `scale`         | `scale`          | specify the scale of accordion, defaults to m                                                                                                                             | `"l" \| "m" \| "s"`                       | `"m"`       |
 | `selectionMode` | `selection-mode` | specify the selection mode - multi (allow any number of open items), single (allow one open item), or single-persist (allow and require one open item), defaults to multi | `"multi" \| "single" \| "single-persist"` | `"multi"`   |
-| `theme`         | `theme`          | specify the theme of accordion, defaults to light                                                                                                                         | `"dark" \| "light"`                       | `undefined` |
 
 ---
 

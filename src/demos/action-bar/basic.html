@@ -7,7 +7,7 @@
     <title>Calcite Components:</title>
 
     <script src="../_assets/head.js"></script>
-    <script src="../_assets/toggles.js"></script>
+
     <style>
       .flexxed {
         display: flex;
@@ -78,17 +78,12 @@
               <section>
                 <h3>Tooltip on expand toggle</h3>
                 <div class="action-bar-container">
-                  <calcite-action-bar id="action-bar-test">
+                  <calcite-action-bar>
+                    <calcite-tooltip slot="expand-tooltip" label="Hello world!">Hello world!</calcite-tooltip>
                     <calcite-action text="Add" icon="plus"></calcite-action>
                   </calcite-action-bar>
-                  <calcite-tooltip label="Hello world!" reference-element="tooltip" id="tooltip">Hello world!</calcite-tooltip>
                 </div>
               </section>
-              <script>
-                var actionBar = document.getElementById("action-bar-test");
-                var tooltip = document.getElementById("tooltip");
-                actionBar.tooltipExpand = tooltip;
-              </script>
             </div>
           </section>
           <section>

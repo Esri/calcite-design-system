@@ -1,7 +1,4 @@
-<link
-  rel="stylesheet"
-  href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css"
-/>
+<link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
 <link rel="stylesheet" href="./build/calcite.css" />
 <script type="module" src="./build/calcite.esm.js"></script>
 <script nomodule src="./build/calcite.js"></script>
@@ -28,7 +25,30 @@
     max-width: 100%;
   }
 
+  #root > calcite-flow,
+  #root > calcite-panel {
+    height: 400px;
+  }
+
   #properties {
     margin-top: 1rem;
   }
 </style>
+
+<script>
+  window.addEventListener(
+    "load",
+    () => {
+      document.addEventListener("keydown", (event) => {
+        const bubbledFromComponentStory = event
+          .composedPath()
+          .some((element) => element.tagName?.toLowerCase().startsWith("calcite-"));
+
+        if (bubbledFromComponentStory) {
+          event.stopPropagation();
+        }
+      });
+    },
+    { once: true }
+  );
+</script>

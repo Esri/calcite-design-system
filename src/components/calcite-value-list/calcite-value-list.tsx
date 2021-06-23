@@ -13,6 +13,7 @@ import {
 } from "@stencil/core";
 import { CSS, ICON_TYPES } from "./resources";
 import {
+  ListFocusId,
   calciteListItemChangeHandler,
   calciteListItemValueChangeHandler,
   cleanUpObserver,
@@ -110,6 +111,8 @@ export class CalciteValueList<
 
   emitCalciteListChange: () => void;
 
+  filterEl: HTMLCalciteFilterElement;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -183,12 +186,17 @@ export class CalciteValueList<
     }
   }
 
+  setFilterEl = (el: HTMLCalciteFilterElement): void => {
+    this.filterEl = el;
+  };
+
   setUpDragAndDrop(): void {
     if (!this.dragEnabled) {
       return;
     }
 
     this.sortable = Sortable.create(this.el, {
+      dataIdAttr: "id",
       handle: `.${CSS.handle}`,
       draggable: "calcite-value-list-item",
       group: this.group,
@@ -272,8 +280,8 @@ export class CalciteValueList<
   }
 
   @Method()
-  async setFocus(): Promise<void> {
-    return setFocus.call(this);
+  async setFocus(focusId?: ListFocusId): Promise<void> {
+    return setFocus.call(this, focusId);
   }
 
   // --------------------------------------------------------------------------

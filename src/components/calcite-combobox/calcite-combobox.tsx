@@ -1,7 +1,6 @@
 import {
   Component,
   h,
-  Host,
   Prop,
   State,
   Listen,
@@ -11,16 +10,22 @@ import {
   VNode,
   Build,
   Method,
-  Watch
+  Watch,
+  Fragment
 } from "@stencil/core";
 import { filter } from "../../utils/filter";
 import { getElementDir } from "../../utils/dom";
 import { debounce } from "lodash-es";
 import { getKey } from "../../utils/key";
-import { createPopper, updatePopper, CSS as PopperCSS } from "../../utils/popper";
+import {
+  createPopper,
+  updatePopper,
+  CSS as PopperCSS,
+  OverlayPositioning
+} from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
-import { Scale, Theme } from "../interfaces";
+import { Scale } from "../interfaces";
 import { ComboboxSelectionMode, ComboboxChildElement } from "./interfaces";
 import {
   ComboboxChildSelector,
@@ -35,6 +40,9 @@ interface ItemData {
   label: string;
   value: string;
 }
+
+const isGroup = (el: ComboboxChildElement): el is HTMLCalciteComboboxItemGroupElement =>
+  el.tagName === ComboboxItemGroup;
 
 @Component({
   tag: "calcite-combobox",
@@ -63,13 +71,21 @@ export class CalciteCombobox {
     clearTimeout(this.hideListTimeout);
     // when closing, wait transition time then hide to prevent overscroll
     if (oldValue && !newValue) {
+      this.open = false;
       this.hideListTimeout = window.setTimeout(() => {
         this.hideList = true;
       }, ComboboxTransitionDuration);
     } else if (!oldValue && newValue) {
+      // give the combobox height, then reposition prior to opening
       this.hideList = false;
+      requestAnimationFrame(() => {
+        this.reposition();
+        this.setMaxScrollerHeight();
+        this.open = true;
+      });
     }
     this.reposition();
+    this.setMaxScrollerHeight();
   }
 
   /** Disable combobox input */
@@ -84,8 +100,16 @@ export class CalciteCombobox {
   /** Specify the maximum number of combobox items (including nested children) to display before showing the scroller */
   @Prop() maxItems = 0;
 
+  @Watch("maxItems")
+  maxItemsHandler(): void {
+    this.setMaxScrollerHeight();
+  }
+
   /** Allow entry of custom values which are not in the original set of items */
   @Prop() allowCustomValues: boolean;
+
+  /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
+  @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
   /** specify the selection mode
    * - multi: allow any number of selected items (default)
@@ -96,9 +120,6 @@ export class CalciteCombobox {
 
   /** Specify the scale of the combobox, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
-
-  /** Select theme (light or dark) */
-  @Prop({ reflect: true }) theme: Theme;
 
   //--------------------------------------------------------------------------
   //
@@ -113,21 +134,8 @@ export class CalciteCombobox {
 
   @Listen("calciteComboboxItemChange")
   calciteComboboxItemChangeHandler(event: CustomEvent<HTMLCalciteComboboxItemElement>): void {
-    this.toggleSelection(event.detail);
-  }
-
-  @Listen("calciteChipDismiss")
-  calciteChipDismissHandler(event: CustomEvent<HTMLCalciteChipElement>): void {
-    this.active = false;
-
-    const value = event.detail?.value;
-    const comboboxItem = this.items.find((item) => item.value === value);
-
-    if (comboboxItem) {
-      this.toggleSelection(comboboxItem, false);
-    }
-
-    this.calciteComboboxChipDismiss.emit(event.detail);
+    const target = event.target as HTMLCalciteComboboxItemElement;
+    this.toggleSelection(target, target.selected);
   }
 
   @Listen("keydown")
@@ -138,7 +146,12 @@ export class CalciteCombobox {
       case "Tab":
         this.activeChipIndex = -1;
         this.activeItemIndex = -1;
-        this.active = false;
+        if (this.allowCustomValues && this.text) {
+          this.addCustomChip(this.text, true);
+          event.preventDefault();
+        } else {
+          this.active = false;
+        }
         break;
       case "ArrowLeft":
         this.previousChip();
@@ -173,7 +186,7 @@ export class CalciteCombobox {
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();
         } else if (this.allowCustomValues && this.text) {
-          this.addCustomChip(this.text);
+          this.addCustomChip(this.text, true);
         }
         break;
       case "Delete":
@@ -258,7 +271,6 @@ export class CalciteCombobox {
 
   componentDidLoad(): void {
     this.observer?.observe(this.el, { childList: true, subtree: true });
-    this.maxScrollerHeight = this.getMaxScrollerHeight(this.getCombinedItems());
   }
 
   componentDidRender(): void {
@@ -300,6 +312,11 @@ export class CalciteCombobox {
 
   @State() text = "";
 
+  @State() open = this.active;
+
+  /** specifies the item wrapper height; it is updated when maxItems is > 0  **/
+  @State() maxScrollerHeight = 0;
+
   /** when search text is cleared, reset active to  */
   @Watch("text")
   textHandler(): void {
@@ -317,9 +334,6 @@ export class CalciteCombobox {
 
   private guid: string = guid();
 
-  /** specifies the item wrapper height; it is updated when maxItems is > 0  **/
-  private maxScrollerHeight = 0;
-
   private inputHeight = 0;
 
   private popper: Popper;
@@ -336,17 +350,45 @@ export class CalciteCombobox {
   //
   // --------------------------------------------------------------------------
 
+  setMaxScrollerHeight = (): void => {
+    if (this.active) {
+      this.maxScrollerHeight = this.getMaxScrollerHeight(this.getCombinedItems());
+    }
+  };
+
+  calciteChipDismissHandler = (
+    event: CustomEvent<HTMLCalciteChipElement>,
+    comboboxItem: HTMLCalciteComboboxItemElement
+  ): void => {
+    this.active = false;
+
+    const selection = this.items.find((item) => item === comboboxItem);
+
+    if (selection) {
+      this.toggleSelection(selection, false);
+    }
+
+    this.calciteComboboxChipDismiss.emit(event.detail);
+  };
+
   setFocusClick = (): void => {
     this.setFocus();
   };
 
   setInactiveIfNotContained = (event: Event): void => {
-    if (!this.active || event.composedPath().includes(this.el)) {
+    const composedPath = event.composedPath();
+    if (!this.active || composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
       return;
     }
 
+    if (this.allowCustomValues && this.text) {
+      this.addCustomChip(this.text);
+    }
+
     if (this.selectionMode === "single") {
-      this.textInput.value = "";
+      if (this.textInput) {
+        this.textInput.value = "";
+      }
       this.text = "";
       this.filterItems("");
       this.updateActiveItemIndex(-1);
@@ -382,12 +424,13 @@ export class CalciteCombobox {
 
   createPopper(): void {
     this.destroyPopper();
-    const { menuEl, referenceEl } = this;
+    const { menuEl, referenceEl, overlayPositioning } = this;
     const modifiers = this.getModifiers();
 
     this.popper = createPopper({
       el: menuEl,
       modifiers,
+      overlayPositioning,
       placement: ComboboxDefaultPlacement,
       referenceEl
     });
@@ -409,8 +452,11 @@ export class CalciteCombobox {
     let maxScrollerHeight = 0;
     items.forEach((item) => {
       if (itemsToProcess < maxItems && maxItems > 0) {
-        maxScrollerHeight += this.calculateSingleItemHeight(item);
-        itemsToProcess++;
+        const height = this.calculateSingleItemHeight(item);
+        if (height > 0) {
+          maxScrollerHeight += height;
+          itemsToProcess++;
+        }
       }
     });
     return maxScrollerHeight;
@@ -439,54 +485,64 @@ export class CalciteCombobox {
     return [...this.groupItems, ...this.items];
   }
 
-  getTextValue = (el: ComboboxChildElement): string => {
-    return el
-      ? el.tagName === ComboboxItemGroup
-        ? (el as HTMLCalciteComboboxItemGroupElement).label
-        : (el as HTMLCalciteComboboxItemElement).value
-      : null;
+  filterItems = (() => {
+    const find = (item: ComboboxChildElement, filteredData: ItemData[]) =>
+      item &&
+      filteredData.some(({ label, value }) => {
+        if (isGroup(item)) {
+          return value === item.label || value === item.label;
+        }
+
+        return (
+          value === item.textLabel ||
+          value === item.value ||
+          label === item.textLabel ||
+          label === item.value
+        );
+      });
+
+    return debounce((text: string): void => {
+      const filteredData = filter(this.data, text);
+      const items = this.getCombinedItems();
+      items.forEach((item) => {
+        const hidden = !find(item, filteredData);
+        item.hidden = hidden;
+        const [parent, grandparent] = item.ancestors;
+        if (find(parent, filteredData) || find(grandparent, filteredData)) {
+          item.hidden = false;
+        }
+        if (!hidden) {
+          item.ancestors.forEach((ancestor) => (ancestor.hidden = false));
+        }
+      });
+
+      this.visibleItems = this.getVisibleItems();
+      this.calciteComboboxFilterChange.emit({ visibleItems: [...this.visibleItems], text: text });
+    }, 100);
+  })();
+
+  internalCalciteLookupChangeEvent = (): void => {
+    this.calciteLookupChange.emit(this.selectedItems);
   };
 
-  filterItems = debounce((value: string): void => {
-    const filteredData = filter(this.data, value);
-    const values = filteredData.map((item) => item.value);
-    const items = this.getCombinedItems();
-    items.forEach((item) => {
-      const hidden = !values.includes(this.getTextValue(item));
-      item.hidden = hidden;
-      const [parent, grandparent] = item.ancestors;
-      if (
-        (parent || grandparent) &&
-        (values.includes(this.getTextValue(parent)) ||
-          values.includes(this.getTextValue(grandparent)))
-      ) {
-        item.hidden = false;
-      }
-      if (!hidden) {
-        item.ancestors.forEach((anscestor) => (anscestor.hidden = false));
-      }
-    });
-
-    this.visibleItems = this.getVisibleItems();
-    this.calciteComboboxFilterChange.emit({ visibleItems: [...this.visibleItems], text: value });
-  }, 100);
+  emitCalciteLookupChange = debounce(this.internalCalciteLookupChangeEvent, 0);
 
   toggleSelection(item: HTMLCalciteComboboxItemElement, value = !item.selected): void {
     if (!item) {
       return;
     }
 
+    item.selected = value;
+
     if (this.isMulti()) {
-      item.selected = value;
       this.updateAncestors(item);
       this.selectedItems = this.getSelectedItems();
-      this.calciteLookupChange.emit(this.selectedItems);
+      this.emitCalciteLookupChange();
       this.resetText();
       this.textInput.focus();
       this.filterItems("");
     } else {
-      this.items.forEach((el) => el.toggleSelected(false));
-      item.toggleSelected(true);
+      this.items.filter((el) => el !== item).forEach((el) => (el.selected = false));
       this.selectedItem = item;
       this.textInput.value = item.textLabel;
       this.active = false;
@@ -549,10 +605,14 @@ export class CalciteCombobox {
     if (this.selectionMode === "single" && this.selectedItems.length) {
       this.selectedItem = this.selectedItems[0];
     }
+    if (!this.allowCustomValues) {
+      this.setMaxScrollerHeight();
+    }
   };
 
   getData(): ItemData[] {
     return this.items.map((item) => ({
+      constant: item.constant,
       value: item.value,
       label: item.textLabel,
       guid: item.guid
@@ -579,8 +639,8 @@ export class CalciteCombobox {
     return Array.from(this.el.querySelectorAll(ComboboxItemGroup));
   }
 
-  addCustomChip(value: string): void {
-    const existingItem = this.items.find((el) => el.value === value || el.textLabel === value);
+  addCustomChip(value: string, focus?: boolean): void {
+    const existingItem = this.items.find((el) => el.textLabel === value);
     if (existingItem) {
       this.toggleSelection(existingItem, true);
     } else {
@@ -591,9 +651,12 @@ export class CalciteCombobox {
       item.selected = true;
       this.el.appendChild(item);
       this.resetText();
-      this.setFocus();
+      if (focus) {
+        this.setFocus();
+      }
       this.updateItems();
       this.filterItems("");
+      this.emitCalciteLookupChange();
     }
   }
 
@@ -693,21 +756,29 @@ export class CalciteCombobox {
   //--------------------------------------------------------------------------
 
   renderChips(): VNode[] {
-    const { activeChipIndex, scale, selectionMode } = this;
+    const { activeChipIndex, scale, selectionMode, el } = this;
+    const dir = getElementDir(el);
     return this.selectedItems.map((item, i) => {
-      const chipClasses = { chip: true, "chip--active": activeChipIndex === i };
+      const chipClasses = {
+        chip: true,
+        "chip--active": activeChipIndex === i,
+        "chip--rtl": dir === "rtl"
+      };
       const ancestors = [...getItemAncestors(item)].reverse();
       const pathLabel = [...ancestors, item].map((el) => el.textLabel);
       const label = selectionMode !== "ancestors" ? item.textLabel : pathLabel.join(" / ");
       return (
         <calcite-chip
+          aria-label={label}
           class={chipClasses}
           dismissLabel={"remove tag"}
           dismissible
           icon={item.icon}
           id={`chip-${item.guid}`}
-          key={item.value}
+          key={item.textLabel}
+          onCalciteChipDismiss={(event) => this.calciteChipDismissHandler(event, item)}
           scale={scale}
+          title={label}
           value={item.value}
         >
           {label}
@@ -769,13 +840,13 @@ export class CalciteCombobox {
   renderListBoxOptions(): VNode[] {
     return this.visibleItems.map((item) => (
       <li aria-selected={(!!item.selected).toString()} id={item.guid} role="option" tabindex="-1">
-        {item.textLabel || item.value}
+        {item.textLabel}
       </li>
     ));
   }
 
   renderPopperContainer(): VNode {
-    const { active, maxScrollerHeight, setMenuEl, setListContainerEl, hideList } = this;
+    const { active, maxScrollerHeight, setMenuEl, setListContainerEl, hideList, open } = this;
     const classes = {
       "list-container": true,
       [PopperCSS.animation]: true,
@@ -785,7 +856,11 @@ export class CalciteCombobox {
       maxHeight: maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : ""
     };
     return (
-      <div aria-hidden="true" class="popper-container" ref={setMenuEl}>
+      <div
+        aria-hidden="true"
+        class={{ "popper-container": true, "popper-container--active": open }}
+        ref={setMenuEl}
+      >
         <div class={classes} ref={setListContainerEl} style={style}>
           <ul class={{ list: true, "list--hide": hideList }}>
             <slot />
@@ -797,13 +872,12 @@ export class CalciteCombobox {
 
   renderIconStart(): VNode {
     const { selectionMode, needsIcon, selectedItem } = this;
-    const scale = this.scale === "l" ? "m" : "s";
     return (
       selectionMode === "single" &&
       needsIcon && (
         <span class="icon-start">
           {selectedItem?.icon && (
-            <calcite-icon class="selected-icon" icon={selectedItem?.icon} scale={scale} />
+            <calcite-icon class="selected-icon" icon={selectedItem?.icon} scale="s" />
           )}
         </span>
       )
@@ -811,32 +885,30 @@ export class CalciteCombobox {
   }
 
   renderIconEnd(): VNode {
-    const scale = this.scale === "l" ? "m" : "s";
     return (
       this.selectionMode === "single" && (
         <span class="icon-end">
-          <calcite-icon icon="chevron-down" scale={scale} />
+          <calcite-icon icon="chevron-down" scale="s" />
         </span>
       )
     );
   }
 
   render(): VNode {
-    const { guid, active, el, label } = this;
+    const { guid, open, label } = this;
     const single = this.selectionMode === "single";
-    const dir = getElementDir(el);
     const labelId = `${guid}-label`;
     return (
-      <Host active={active} dir={dir}>
+      <Fragment>
         <div
           aria-autocomplete="list"
-          aria-expanded={active.toString()}
+          aria-expanded={open.toString()}
           aria-haspopup="listbox"
           aria-labelledby={labelId}
           aria-owns={guid}
           class={{
             wrapper: true,
-            "wrapper--active": active,
+            "wrapper--active": open,
             "wrapper--single": single
           }}
           onClick={this.setFocusClick}
@@ -862,7 +934,7 @@ export class CalciteCombobox {
           {this.renderListBoxOptions()}
         </ul>
         {this.renderPopperContainer()}
-      </Host>
+      </Fragment>
     );
   }
 }

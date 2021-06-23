@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
     <title>Demos - ValueList</title>
     <script src="../_assets/head.js"></script>
-    <script src="../_assets/toggles.js"></script>
   </head>
   <body>
     <main>
@@ -15,8 +14,7 @@
         <h3>multiple</h3>
         <calcite-value-list id="one" multiple filter-enabled>
           <calcite-action slot="menu-actions" indicator text="Cool" scale="s" icon="hamburger"> </calcite-action>
-          <calcite-value-list-item
-            label="START ACTIONS NESTED SLOT" description="Man's best friend" value="dogs">
+          <calcite-value-list-item label="START ACTIONS NESTED SLOT" description="Man's best friend" value="dogs">
             <calcite-action slot="actions-start" text="click-me" onClick="console.log('clicked');" icon="banana">
             </calcite-action>
             <calcite-action slot="actions-start" text="click-me" onClick="console.log('clicked');" icon="banana">
@@ -24,9 +22,7 @@
             <calcite-action slot="actions-end" text="click-me" onClick="console.log('clicked');" icon="sliders">
             </calcite-action>
           </calcite-value-list-item>
-          <calcite-value-list-item
-            disable-select label="Cats" description="Independent and fluffy" value="cats" >
-            
+          <calcite-value-list-item disable-select label="Cats" description="Independent and fluffy" value="cats">
             <calcite-action label="action start" slot="actions-start" scale="m">
               <div style="align-self: center; width: 16px; height: 16px; background-color: #56ccf2"></div>
             </calcite-action>
@@ -36,10 +32,10 @@
             label="Fish. But not just any fish, a tiger fish caught live in the Atlantic Ocean while on vacation."
             description="Easy to care for."
             value="fish"
-           >
-           <calcite-action label="action start" slot="actions-start" scale="m">
-            <div style="align-self: center; width: 16px; height: 16px; background-color: #990000"></div>
-          </calcite-action>
+          >
+            <calcite-action label="action start" slot="actions-start" scale="m">
+              <div style="align-self: center; width: 16px; height: 16px; background-color: #990000"></div>
+            </calcite-action>
           </calcite-value-list-item>
         </calcite-value-list>
 
@@ -47,14 +43,9 @@
         <h3>Pick many</h3>
         <calcite-value-list id="two" multiple filter-enabled>
           <calcite-value-list-item label="Toughness" description="Hard to damage" value="toughness" removable>
-            
           </calcite-value-list-item>
-          <calcite-value-list-item label="Athletics" value="athletics" removable>
-            
-          </calcite-value-list-item>
-          <calcite-value-list-item label="Investigation" value="investigation" removable>
-            
-          </calcite-value-list-item>
+          <calcite-value-list-item label="Athletics" value="athletics" removable> </calcite-value-list-item>
+          <calcite-value-list-item label="Investigation" value="investigation" removable> </calcite-value-list-item>
         </calcite-value-list>
 
         <h2>ValueList - drag and drop enabled</h2>
@@ -62,11 +53,10 @@
         <calcite-value-list id="four" drag-enabled>
           <calcite-value-list-item label="Rent" description="Mortgage + housing costs" value="rent">
             <calcite-action label="action start" slot="actions-start" scale="m">
-              <div style="align-self: center; width: 16px; height: 16px; background-color: #56CCF2;"></div>
-          </calcite-action>
+              <div style="align-self: center; width: 16px; height: 16px; background-color: #56ccf2"></div>
+            </calcite-action>
           </calcite-value-list-item>
-          <calcite-value-list-item label="Food" description="its what you eat." value="food">
-          </calcite-value-list-item>
+          <calcite-value-list-item label="Food" description="its what you eat." value="food"> </calcite-value-list-item>
           <calcite-value-list-item label="Utilities" value="utilities"> </calcite-value-list-item>
           <calcite-value-list-item label="Entertainment" description="Toys and leisure" value="entertainment">
           </calcite-value-list-item>
