@@ -151,14 +151,8 @@
   }
 }
 
-.action-end {
-  @apply flex self-stretch border-l border-l-color-3;
-  border-left-style: solid;
-}
-
-.action-end + .notice-close {
-  @apply border-l border-l-color-3;
-  border-left-style: solid;
+.actions-end {
+  @apply flex self-stretch;
 }
 
 .calcite--rtl {
@@ -176,16 +170,6 @@
     &:only-of-type {
       padding: var(--calcite-notice-spacing-token-small) var(--calcite-notice-spacing-token-large);
     }
-  }
-
-  .action-end {
-    @apply border-l-0 border-r border-r-color-3;
-    border-right-style: solid;
-  }
-
-  .action-end + .notice-close {
-    @apply border-l-0 border-r border-r-color-3;
-    border-right-style: solid;
   }
 }
 
