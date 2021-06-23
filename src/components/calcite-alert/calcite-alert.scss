@@ -309,8 +309,10 @@ $alertColors: "blue" var(--calcite-ui-info), "red" var(--calcite-ui-danger), "ye
   $color: nth($alertColor, 2);
 
   :host([color="#{$name}"]) {
-    .container:before {
-      background-color: $color;
+    .container {
+      &:before {
+        background-color: $color;
+      }
 
       & .alert-icon {
         color: $color;
