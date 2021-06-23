@@ -107,7 +107,6 @@ export class CalciteNotice {
       <div class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
         {this.requestedIcon ? (
           <div class="notice-icon">
-            
             <calcite-icon icon={this.requestedIcon} scale={this.scale === "s" ? "s" : "m"} />
           </div>
         ) : null}
