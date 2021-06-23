@@ -31,7 +31,7 @@ import { CSS_UTILITY } from "../../utils/resources";
 type NumberNudgeDirection = "up" | "down";
 
 /**
- * @slot `calcite-action` - A slot for positioning a button next to an input
+ * @slot action - A slot for positioning a button next to an input
  */
 @Component({
   tag: "calcite-input",
