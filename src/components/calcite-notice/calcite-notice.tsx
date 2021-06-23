@@ -105,7 +105,7 @@ export class CalciteNotice {
       </button>
     );
 
-    const hasAction = getSlotted(el, SLOTS.actionEnd);
+    const hasActionEnd = getSlotted(el, SLOTS.actionEnd);
 
     return (
       <div class={{ [CSS.container]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
@@ -119,7 +119,7 @@ export class CalciteNotice {
           <slot name={SLOTS.message} />
           <slot name={SLOTS.link} />
         </div>
-        {hasAction ? (
+        {hasActionEnd ? (
           <div class={CSS.actionEnd}>
             <slot name={SLOTS.actionEnd} />
           </div>
