@@ -41,6 +41,14 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         }
       },
       {
+        name: "overflow-actions-disabled",
+        commit(): Attribute {
+          this.value = boolean("overflow-actions-disabled", false);
+          delete this.build;
+          return this;
+        }
+      },
+      {
         name: "dir",
         commit(): Attribute {
           this.value = select("dir", dir.values, dir.defaultValue);
@@ -90,15 +98,42 @@ export const basic = (): string =>
     "calcite-action-bar",
     createAttributes(),
     html`
-      <calcite-action-group>
+      <calcite-action-group layout="${select("group layout", ["horizontal", "vertical", "grid"], "vertical")}">
         <calcite-action text="Add" label="Add Item" icon="plus"></calcite-action>
         <calcite-action text="Save" label="Save Item" icon="save"></calcite-action>
+        <calcite-action text="Clear" label="Clear" icon="erase"></calcite-action>
       </calcite-action-group>
-      <calcite-action-group>
+      <calcite-action-group layout="${select("group layout", ["horizontal", "vertical", "grid"], "vertical")}">
         <calcite-action text="Layers" label="View Layers" icon="layers"></calcite-action>
       </calcite-action-group>
     `
   );
+  
+  export const groupsWithGridLayout = (): string =>
+    create(
+      "calcite-action-bar",
+      createAttributes({ exceptions: ["overflow-actions-disabled"]}).concat([
+        {
+          name: "overflow-actions-disabled",
+          value: "true"
+        }
+      ]),
+      html`
+      <calcite-action-group layout="${select("group layout", ["vertical", "horizontal", "grid"], "grid")}" columns="${select("columns", ["1", "2", "3", "4", "5", "6"], "3")}">
+        <calcite-action text="Undo" label="Undo Action" icon="undo"></calcite-action>
+        <calcite-action text="Redo" label="Redo Action" icon="redo"></calcite-action>
+        <calcite-action text="Erase" label="Erase" icon="erase"></calcite-action>
+        <calcite-action text="Delete" label="Delete" icon="trash"></calcite-action>
+        <calcite-action text="Open" label="Open" icon="folder-open"></calcite-action>
+        <calcite-action text="Save" label="Save" icon="save"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group layout="${select("group layout", ["vertical", "horizontal", "grid"], "grid")}" columns="${select("columns", ["1", "2", "3", "4", "5", "6"], "3")}">
+        <calcite-action text="Title" label="Title" icon="title"></calcite-action>
+        <calcite-action text="Bold" label="Bold" icon="bold"></calcite-action>
+        <calcite-action text="Italicize" label="Italicize" icon="italicize"></calcite-action>
+      </calcite-action-group>
+      `
+    );
 
 export const darkThemeRTL = (): string =>
   create(

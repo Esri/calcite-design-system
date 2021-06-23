@@ -26,7 +26,7 @@
 }
 
 .action-group--bottom {
-  @apply flex-grow justify-end pb-0;
+  @apply flex-grow justify-end py-0;
 }
 
 :host([layout="horizontal"]) {
@@ -45,8 +45,4 @@
   .container.calcite--rtl ::slotted(calcite-action-group) {
     @apply border-0 border-l;
   }
-}
-
-::slotted(calcite-action-group:last-child) {
-  @apply border-b-0;
 }

@@ -19,11 +19,8 @@
   @apply border-0
     border-b
     border-solid
-    border-color-2;
-}
-
-::slotted(calcite-action-group:last-child) {
-  @apply border-b-0;
+    border-color-2
+    py-0;
 }
 
 .action-group--bottom {

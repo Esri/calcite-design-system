@@ -57,6 +57,14 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         }
       },
       {
+        name: "layout",
+        commit(): Attribute {
+          this.value = select("layout", ["horizontal", "vertical"], "vertical")
+          delete this.build;
+          return this;
+        }
+      },
+      {
         name: "intl-expand",
         commit(): Attribute {
           this.value = text("intlExpand", TEXT.expand);
@@ -90,13 +98,34 @@ export const basic = (): string =>
     "calcite-action-pad",
     createAttributes(),
     html`
-      <calcite-action-group>
+      <calcite-action-group layout="${select("group layout", ["horizontal", "vertical"], "vertical")}">
         <calcite-action text="Undo" label="Undo Action" icon="undo"></calcite-action>
         <calcite-action text="Redo" label="Redo Action" icon="redo"></calcite-action>
       </calcite-action-group>
-      <calcite-action-group>
+      <calcite-action-group layout="${select("group layout", ["horizontal", "vertical"], "vertical")}">
         <calcite-action text="Delete" label="Delete Item" icon="trash"></calcite-action>
       </calcite-action-group>
+    `
+  );
+
+export const groupsWithGridLayout = (): string =>
+  create(
+    "calcite-action-pad",
+    createAttributes(),
+    html`
+    <calcite-action-group layout="${select("group layout", ["vertical", "horizontal", "grid"], "grid")}" columns="${select("columns", ["1", "2", "3", "4", "5", "6"], "3")}">
+      <calcite-action text="Undo" label="Undo Action" icon="undo"></calcite-action>
+      <calcite-action text="Redo" label="Redo Action" icon="redo"></calcite-action>
+      <calcite-action text="Erase" label="Erase" icon="erase"></calcite-action>
+      <calcite-action text="Delete" label="Delete" icon="trash"></calcite-action>
+      <calcite-action text="Open" label="Open" icon="folder-open"></calcite-action>
+      <calcite-action text="Save" label="Save" icon="save"></calcite-action>
+    </calcite-action-group>
+    <calcite-action-group layout="${select("group layout", ["vertical", "horizontal", "grid"], "grid")}" columns="${select("columns", ["1", "2", "3", "4", "5", "6"], "3")}">
+      <calcite-action text="Title" label="Title" icon="title"></calcite-action>
+      <calcite-action text="Bold" label="Bold" icon="bold"></calcite-action>
+      <calcite-action text="Italicize" label="Italicize" icon="italicize"></calcite-action>
+    </calcite-action-group>
     `
   );
 
