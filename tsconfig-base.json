@@ -8,6 +8,7 @@
     "moduleResolution": "node",
     "module": "esnext",
     "target": "es2017",
+    "resolveJsonModule": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "jsx": "react",
