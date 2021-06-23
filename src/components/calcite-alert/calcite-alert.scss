@@ -65,7 +65,6 @@
       my-0
       mx-auto
       bg-foreground-1
-      rounded
       opacity-0
       left-0
       right-0
@@ -73,6 +72,7 @@
       border
       border-solid
       border-color-3;
+    border-radius: var(--calcite-border-radius);
     width: var(--calcite-alert-width);
     max-width: 90%;
     max-height: 0;
@@ -196,11 +196,8 @@
     outline-none
     cursor-pointer
     text-color-3
-    overflow-hidden
-    rounded-t-none
-    rounded-l-none
-    rounded-b
-    rounded-r-none;
+    overflow-hidden;
+  border-radius: 0 var(--calcite-border-radius) var(--calcite-border-radius) 0;
 
   &:hover,
   &:focus {
@@ -217,6 +214,7 @@
 .calcite--rtl {
   .alert-close {
     @apply rounded-none rounded-l;
+    border-radius: var(--calcite-border-radius) 0 0 var(--calcite-border-radius);
   }
 }
 .alert-queue-count {
@@ -251,11 +249,8 @@
     left-0
     right-0
     w-full
-    overflow-hidden
-    rounded-t
-    rounded-r
-    rounded-b-none
-    rounded-l-none;
+    overflow-hidden;
+  border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
   top: -3px;
   height: 3px;
   z-index: 103;
