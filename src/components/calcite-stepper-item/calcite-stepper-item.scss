@@ -49,8 +49,7 @@
     border-color-2
     cursor-pointer
     duration-150
-    ease-in-out
-    mr-1;
+    ease-in-out;
 }
 
 .calcite--rtl {
@@ -138,7 +137,7 @@
   @apply flex w-full;
 }
 :host .stepper-item-title {
-  @apply text-color-2 font-medium;
+  @apply text-color-2 font-medium mb-1;
 }
 :host .stepper-item-subtitle {
   @apply text-color-3;
@@ -149,15 +148,14 @@
 }
 
 :host .stepper-item-number {
-  @apply font-bold
-  text-color-3
+  @apply text-color-3
   duration-150
   ease-in-out;
-  margin-right: var(--calcite-stepper-item-spacing-unit-l);
+  margin-right: var(--calcite-stepper-item-spacing-unit-m);
 }
 
 .calcite--rtl .stepper-item-number {
-  margin-left: var(--calcite-stepper-item-spacing-unit-l);
+  margin-left: var(--calcite-stepper-item-spacing-unit-m);
   margin-right: initial;
 }
 :host([disabled]) {
@@ -170,7 +168,7 @@
 
 :host([complete]) .container {
   // todo dark theme
-  border-top-color: rgba($h-bb-060, 0.5);
+  @apply border-t-color-info;
   & .stepper-item-icon {
     color: theme("backgroundColor.brand");
   }
@@ -189,7 +187,7 @@
 
 :host(:hover:not([disabled]):not([active])) .container,
 :host(:focus:not([disabled]):not([active])) .container {
-  border-top-color: rgba($h-bb-060, 0.75);
+  @apply border-t-color-info;
 
   & .stepper-item-title {
     @apply text-color-1;
