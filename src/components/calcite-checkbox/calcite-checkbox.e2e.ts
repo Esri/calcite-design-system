@@ -7,6 +7,9 @@ describe("calcite-checkbox", () => {
       `<calcite-label><calcite-checkbox id="example" name="example" value="one"></calcite-checkbox>label</calcite-label>`
     ));
 
+  it("is accessible without calcite-label", async () =>
+    accessible(`<calcite-checkbox label="label" id="example" name="example" value="one"></calcite-checkbox>`));
+
   it("renders with correct default attributes", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-checkbox></calcite-checkbox>");
