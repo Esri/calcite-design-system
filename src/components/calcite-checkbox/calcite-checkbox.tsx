@@ -68,6 +68,12 @@ export class CalciteCheckbox {
    * */
   @Prop({ reflect: true, mutable: true }) indeterminate?: boolean = false;
 
+  /**
+   * The label of the checkbox input
+   * @internal
+   */
+  @Prop() label?: string;
+
   /** The name of the checkbox input */
   @Prop({ reflect: true }) name?: string = "";
 
@@ -244,6 +250,11 @@ export class CalciteCheckbox {
     this.input.onfocus = this.onInputFocus.bind(this);
     this.input.style.cssText = hiddenInputStyle;
     this.input.type = "checkbox";
+    if (this.label) {
+      this.input.setAttribute("aria-label", this.label);
+    } else {
+      this.input.removeAttribute("aria-label");
+    }
     if (this.value) {
       this.input.value = this.value != null ? this.value.toString() : "";
     }
