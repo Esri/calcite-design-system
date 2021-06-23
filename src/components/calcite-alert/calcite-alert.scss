@@ -71,10 +71,7 @@
     transform: translate3d(0, $baseline, 0);
     transition: 300ms $easing-function, opacity 300ms $easing-function, all 0.15s ease-in-out;
     @media only screen and (max-width: $viewport-medium) {
-      @apply w-full max-w-full rounded-none;
-      &:before {
-        @apply rounded-none;
-      }
+      @apply w-full max-w-full rounded-none border-0;
     }
   }
 }
@@ -84,16 +81,6 @@
     w-full
     justify-center
     items-center;
-}
-
-.container:before {
-  @apply absolute
-    top-0
-    w-full
-    rounded-t
-    rounded-b-none;
-  height: 2px;
-  content: "";
 }
 
 // focus styles
@@ -106,7 +93,7 @@
 
 :host([active]) {
   .container:not(.queued) {
-    @apply opacity-100 max-h-full;
+    @apply opacity-100 max-h-full border-t-2;
     transform: translate3d(0, -$baseline, 0);
     pointer-events: initial;
 
@@ -276,7 +263,7 @@
     left-0
     right-0
     w-full
-    hidden
+    overflow-hidden
     rounded-t
     rounded-r
     rounded-b-none
@@ -310,9 +297,7 @@ $alertColors: "blue" var(--calcite-ui-info), "red" var(--calcite-ui-danger), "ye
 
   :host([color="#{$name}"]) {
     .container {
-      &:before {
-        background-color: $color;
-      }
+      border-top-color: $color;
 
       & .alert-icon {
         color: $color;
