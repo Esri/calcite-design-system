@@ -25,7 +25,7 @@
     @apply text-0-wrap;
   }
   @include slotted("message", "*") {
-    @apply text--1-wrap mx-0 mt-0;
+    @apply text--1-wrap;
     margin-bottom: 2px;
   }
   ::slotted(calcite-link) {

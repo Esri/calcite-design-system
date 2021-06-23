@@ -208,18 +208,15 @@
       <calcite-link slot="link" title="my action">Take action</calcite-link>
     </calcite-alert>
 
-
     <h3>Sizes</h3>
 
-    <calcite-button
-      title="small"
-      scale="m"
-      onclick="document.querySelector('#alert-small').setAttribute('active', '')"
+    <calcite-button title="small" scale="m" onclick="document.querySelector('#alert-small').setAttribute('active', '')"
       >Small</calcite-button
     >
     <calcite-alert scale="s" label="this is an alert" color="blue" id="alert-small" icon>
       <div slot="title">Title</div>
       <div slot="message">Body lorem ipsum</div>
+      <calcite-link slot="link" title="my action">Take action</calcite-link>
     </calcite-alert>
 
     <calcite-button
@@ -231,21 +228,16 @@
     <calcite-alert scale="m" label="this is an alert" color="blue" id="alert-medium" icon>
       <div slot="title">Title</div>
       <div slot="message">Body lorem ipsum</div>
+      <calcite-link slot="link" title="my action">Take action</calcite-link>
     </calcite-alert>
 
-    <calcite-button
-      title="large"
-      scale="m"
-      onclick="document.querySelector('#alert-large').setAttribute('active', '')"
+    <calcite-button title="large" scale="m" onclick="document.querySelector('#alert-large').setAttribute('active', '')"
       >large</calcite-button
     >
     <calcite-alert scale="l" label="this is an alert" color="blue" id="alert-large" icon>
       <div slot="title">Title</div>
       <div slot="message">Body lorem ipsum</div>
+      <calcite-link slot="link" title="my action">Take action</calcite-link>
     </calcite-alert>
-
-
-
-
   </body>
 </html>
