@@ -93,7 +93,8 @@ select:disabled {
 .icon-container {
   @apply items-center 
     bg-transparent 
-    border
+    border-0
+    border-r
     border-solid
     border-color-input
     border-l-0 
