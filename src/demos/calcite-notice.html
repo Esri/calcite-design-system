@@ -50,21 +50,39 @@
     <br />
 
     <h3>Sizes</h3>
-    <calcite-notice style="margin: 0 20px;" icon color="blue" id="notice-ten" width="auto" scale="s" active dismissible>
+    <calcite-notice style="margin: 0 20px" icon color="blue" id="notice-ten" width="auto" scale="s" active dismissible>
       <div slot="title">Title</div>
       <div slot="message">Body lorem ipsum</div>
       <calcite-link slot="link" title="my action">View item </calcite-link>
     </calcite-notice>
     <br />
 
-    <calcite-notice style="margin: 0 20px;" icon color="blue" id="notice-eleven" width="auto" scale="m" active dismissible>
+    <calcite-notice
+      style="margin: 0 20px"
+      icon
+      color="blue"
+      id="notice-eleven"
+      width="auto"
+      scale="m"
+      active
+      dismissible
+    >
       <div slot="title">Title</div>
       <div slot="message">Body lorem ipsum</div>
       <calcite-link slot="link" title="my action">View item </calcite-link>
     </calcite-notice>
     <br />
 
-    <calcite-notice style="margin: 0 20px;" icon color="blue" id="notice-twelve" width="auto" scale="l" active dismissible>
+    <calcite-notice
+      style="margin: 0 20px"
+      icon
+      color="blue"
+      id="notice-twelve"
+      width="auto"
+      scale="l"
+      active
+      dismissible
+    >
       <div slot="title">Title</div>
       <div slot="message">Body lorem ipsum</div>
       <calcite-link slot="link" title="my action">View item </calcite-link>
@@ -154,5 +172,26 @@
         <div>A second slotted div</div>
       </div>
     </calcite-notice>
+    <br />
+    <br />
+    <calcite-notice dismissible color="green" size="l" id="notice-five" active>
+      <div slot="title">Welcome to your new website</div>
+      <div slot="message">
+        <div>That thing you wanted to do didn't work as expected</div>
+        <div>A second slotted div</div>
+      </div>
+    </calcite-notice>
+    <br />
+    <br />
+    <calcite-tooltip-manager>
+      <calcite-notice scale="l" width="half" active>
+        <div slot="title">Something failed</div>
+        <div slot="message">That thing you wanted to do didn't work as expected</div>
+        <calcite-action id="retry-action" slot="icon-end" title="Retry" icon="reset"></calcite-action>
+      </calcite-notice>
+    </calcite-tooltip-manager>
+    <calcite-tooltip reference-element="retry-action" placement="top"> Retry that action </calcite-tooltip>
+    <br />
+    <br />
   </body>
 </html>
