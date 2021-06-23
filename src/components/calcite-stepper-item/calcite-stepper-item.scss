@@ -170,7 +170,7 @@
 
 :host([complete]) .container {
   // todo dark theme
-  border-color: rgba($h-bb-060, 0.75);
+  border-color: rgba($h-bb-060, 0.5);
   & .stepper-item-icon {
     color: theme("backgroundColor.brand");
   }
@@ -189,7 +189,7 @@
 
 :host(:hover:not([disabled]):not([active])) .container,
 :host(:focus:not([disabled]):not([active])) .container {
-  @apply border-t-color-info;
+  @apply border-t-color-brand;
 
   & .stepper-item-title {
     @apply text-color-1;
@@ -279,11 +279,11 @@
 }
 
 :host([layout="vertical"][complete]) .container {
-  border-color: rgba($h-bb-060, 0.6);
+  border-color: rgba($h-bb-060, 0.5);
 }
 :host([layout="vertical"][complete]:hover:not([disabled]):not([active])) .container,
 :host([layout="vertical"][complete]:focus:not([disabled]):not([active])) .container {
-  @apply border-color-info;
+  @apply border-color-brand;
 }
 :host([layout="vertical"][error]) .container {
   @apply border-color-danger;
@@ -293,7 +293,7 @@
 }
 :host([layout="vertical"]:hover:not([disabled]):not([active])) .container,
 :host([layout="vertical"]:focus:not([disabled]):not([active])) .container {
-  border-color: rgba($h-bb-060, 0.6);
+  border-color: rgba($h-bb-060, 0.5);
 }
 :host([layout="vertical"][error]:hover:not([disabled]):not([active])) .container,
 :host([layout="vertical"][error]:focus:not([disabled]):not([active])) .container {
