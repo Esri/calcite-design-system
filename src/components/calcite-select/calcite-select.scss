@@ -19,7 +19,7 @@
 }
 
 :host([scale="l"]) {
-  --calcite-select-font-size: theme("fontSize.1h");
+  --calcite-select-font-size: theme("fontSize.0h");
   --calcite-select-spacing: theme("spacing.3") theme("spacing.4");
 }
 
@@ -41,7 +41,7 @@
     border-solid
     border-r-0
     bg-foreground-1 
-    border-color-1 
+    border-color-input
     rounded-none 
     text-color-2 
     cursor-pointer 
@@ -66,7 +66,7 @@
   @apply border-0 
     border-r
     border-r-solid
-    border-color-1;
+    border-color-input;
 }
 
 // override user agent stylesheet disabled styling
@@ -83,7 +83,7 @@ select:disabled {
     bg-transparent 
     border
     border-solid
-    border-color-1 
+    border-color-input
     border-l-0 
     text-color-2 
     flex 
