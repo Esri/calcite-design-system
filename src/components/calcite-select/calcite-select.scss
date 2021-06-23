@@ -11,6 +11,7 @@
   @apply h-6;
   --calcite-select-font-size: theme("fontSize.-2h");
   --calcite-select-spacing: 0 theme("spacing.8") 0 theme("spacing.2");
+  --calcite-select-spacing-rtl: 0 theme("spacing.2") 0 theme("spacing.8");
   .icon-container {
     @apply px-2;
   }
@@ -19,7 +20,8 @@
 :host([scale="m"]) {
   @apply h-8;
   --calcite-select-font-size: theme("fontSize.-1h");
-  --calcite-select-spacing: 0 theme("spacing.10") 0 theme("spacing.2");
+  --calcite-select-spacing: 0 theme("spacing.10") 0 theme("spacing.3");
+  --calcite-select-spacing-rtl: 0 theme("spacing.3") 0 theme("spacing.10");
   .icon-container {
     @apply px-3;
   }
@@ -28,7 +30,8 @@
 :host([scale="l"]) {
   height: 44px;
   --calcite-select-font-size: theme("fontSize.0h");
-  --calcite-select-spacing: 0 theme("spacing.12") 0 theme("spacing.2");
+  --calcite-select-spacing: 0 theme("spacing.12") 0 theme("spacing.4");
+  --calcite-select-spacing-rtl: 0 theme("spacing.4") 0 theme("spacing.12");
   .icon-container {
     @apply px-4;
   }
@@ -74,11 +77,8 @@
 }
 
 :host([dir="rtl"]) .select {
-  padding-right: var(--calcite-select-spacing);
-  @apply border-0 
-    border-r
-    border-r-solid
-    border-color-input;
+  @apply border border-color-input;
+  padding: var(--calcite-select-spacing-rtl);
 }
 
 // override user agent stylesheet disabled styling
