@@ -46,10 +46,11 @@
     border-0
     border-t-2
     border-solid
-    border-color-2
+    border-color-3
     cursor-pointer
     duration-150
-    ease-in-out;
+    ease-in-out
+    mr-2;
 }
 
 .calcite--rtl {
@@ -148,9 +149,10 @@
 }
 
 :host .stepper-item-number {
-  @apply text-color-3
-  duration-150
-  ease-in-out;
+  @apply font-medium
+    text-color-3
+    duration-150
+    ease-in-out;
   margin-right: var(--calcite-stepper-item-spacing-unit-m);
 }
 
@@ -232,7 +234,7 @@
     mx-0
     mt-0;
   padding-left: var(--calcite-stepper-item-spacing-unit-l);
-  margin-bottom: var(--calcite-stepper-item-spacing-unit-m);
+  margin-bottom: var(--calcite-stepper-item-spacing-unit-s);
 
   & .stepper-item-icon {
     @apply mt-px mr-0 mb-0 ml-auto order-3;
