@@ -1,20 +1,15 @@
-:host {
-  @extend %component-host;
-  @apply bg-transparent
-    box-border
-    font-sans;
+.container {
+  @apply bg-foreground-1
+  box-border
+  font-sans
+  flex;
   * {
     @apply box-border;
-  }
-}
-
-.container {
-  @apply flex;
+  };
 }
 
 .content-container {
-  @apply cursor-pointer
-    flex
+  @apply flex
     flex-auto
     focus-base
     items-stretch
@@ -25,12 +20,17 @@
 .content-container--button {
   @apply bg-foreground-1
     border-none
+    cursor-pointer
     focus-base;
   
   text-align: initial;
 
   &:hover {
     @apply bg-foreground-2;
+    .label,
+    .description {
+      @apply text-color-1;
+    }
   }
   &:focus {
     @apply focus-inset;
@@ -47,7 +47,7 @@
 
 .label,
 .description {
-  @apply font-sans text--1;
+  @apply font-normal font-sans text--1 word-break;
 }
 
 .label {
@@ -79,7 +79,7 @@
 .actions-start, .actions-end {
   ::slotted(calcite-action) {
     @apply self-stretch;
-    
+
     color: inherit;
   }
 }

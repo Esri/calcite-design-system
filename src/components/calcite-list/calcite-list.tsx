@@ -1,4 +1,5 @@
 import { Component, h, VNode } from "@stencil/core";
+import { CSS } from "./resources";
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
@@ -18,7 +19,7 @@ export class CalciteList {
 
   render(): VNode {
     return (
-      <div>
+      <div class={CSS.container}>
         <slot />
       </div>
     );

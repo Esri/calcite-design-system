@@ -1,4 +1,9 @@
-:host {
-  @extend %component-host;
-  @apply bg-transparent;
+.container {
+  @apply bg-background
+  box-border
+  flex
+  flex-col;
+  * {
+    @apply box-border;
+  }
 }

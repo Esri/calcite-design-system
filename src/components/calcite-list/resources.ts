@@ -1,1 +1,3 @@
-export const CSS = {};
+export const CSS = {
+    container: "container"
+};
