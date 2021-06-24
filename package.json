@@ -41,7 +41,7 @@
     "start": "concurrently --kill-others --raw \"tsc --project ./tsconfig-demos.json --watch\" \"npm:build --dev --watch --serve\" \"ts-node ./support/cleanOnProcessExit.ts --path ./src/demos/**/*.js \"",
     "test": "npm run util:run-tests",
     "test:prerender": "stencil build --no-docs --prerender",
-    "test:storybook": "concurrently --raw \"npm:util:build-docs && screener-storybook --conf screener.config.js\"",
+    "test:storybook": "concurrently --raw \"npm:util:build-docs && screener-storybook --conf screener.config.ts\"",
     "test:watch": "npm run util:run-tests -- --watchAll",
     "util:add-custom-elements-extras": "npm run util:add-custom-elements-extras:index-mjs && npm run util:add-custom-elements-extras:build-utils",
     "util:add-custom-elements-extras:index-mjs": "cpy dist/custom-elements/index.js dist/custom-elements/ --rename index.mjs",
