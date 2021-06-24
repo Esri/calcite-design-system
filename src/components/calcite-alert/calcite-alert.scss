@@ -231,22 +231,6 @@
     visibility: visible;
     @apply opacity-100;
   }
-
-  @media only screen and (max-width: $viewport-medium) {
-    @apply rounded-none;
-  }
-}
-
-:host([auto-dismiss]) > .alert-queue-count {
-  @apply border-r-0
-    border-solid
-    border-color-transparent;
-}
-
-:host([auto-dismiss]) .calcite--rtl > .alert-queue-count {
-  @apply border-l-0
-    border-solid
-    border-color-transparent;
 }
 
 .alert-dismiss-progress {
