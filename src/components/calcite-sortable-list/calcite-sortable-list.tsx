@@ -31,6 +31,8 @@ export class CalciteSortableList {
   @Prop() draggableSelector?: string;
 
   /**
+   * The list's group identifier.
+   *
    * To drag elements from one list into another, both lists must have the same group value.
    */
   @Prop() group?: string;
