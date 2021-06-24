@@ -140,10 +140,9 @@ export class CalciteComboboxItem {
   //
   // --------------------------------------------------------------------------
 
-  renderIcon(scale: string, isSingle: boolean): VNode {
-    const { icon, el, disabled, selected } = this;
-    const level = `${CSS.icon}--indent-${getDepth(el)}`;
-    const iconScale = scale !== "l" ? "s" : "m";
+  renderIcon(isSingle: boolean): VNode {
+    const { icon, disabled, selected } = this;
+    const level = `${CSS.icon}--indent`;
     const defaultIcon = isSingle ? "dot" : "check";
     const iconPath = disabled ? "circle-disallowed" : defaultIcon;
     const showDot = isSingle && !icon && !disabled;
@@ -164,7 +163,7 @@ export class CalciteComboboxItem {
           [level]: true
         }}
         icon={icon || iconPath}
-        scale={iconScale}
+        scale="s"
       />
     );
   }
@@ -190,12 +189,16 @@ export class CalciteComboboxItem {
       [CSS.active]: this.active,
       [CSS.single]: isSingleSelect
     };
+    const depth = getDepth(this.el);
 
     return (
       <Host aria-hidden="true">
-        <div class={`scale--${this.scale}`}>
+        <div
+          class={`scale--${this.scale}`}
+          style={{ "--calcite-combobox-item-spacing-indent-multiplier": `${depth}` }}
+        >
           <li class={classes} id={this.guid} onClick={this.itemClickHandler}>
-            {this.renderIcon(this.scale, isSingleSelect)}
+            {this.renderIcon(isSingleSelect)}
             <span class={CSS.title}>{this.textLabel}</span>
           </li>
           {this.renderChildren()}
