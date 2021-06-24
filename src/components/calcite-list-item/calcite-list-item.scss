@@ -26,7 +26,7 @@
   @apply bg-foreground-1
     border-none
     focus-base;
-  
+
   text-align: initial;
 
   &:hover {
@@ -70,7 +70,8 @@
   @apply flex items-center;
 }
 
-.actions-start, .actions-end {
+.actions-start,
+.actions-end {
   ::slotted(calcite-action) {
     @apply self-stretch;
   }
