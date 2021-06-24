@@ -176,7 +176,7 @@ export class CalciteInput {
     | "week" = "text";
 
   /** input value */
-  @Prop({ mutable: true }) value: string;
+  @Prop({ mutable: true }) value?: string;
 
   @Watch("value")
   valueWatcher(newValue: string): void {
