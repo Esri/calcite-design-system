@@ -345,6 +345,7 @@ describe("calcite-input", () => {
     await page.waitForChanges();
     expect(await element.getProperty("value")).toBe("10");
   });
+
   it("correctly stops incrementing value when max is set", async () => {
     const page = await newE2EPage();
     await page.setContent(`
@@ -366,6 +367,7 @@ describe("calcite-input", () => {
     await page.waitForChanges();
     expect(await element.getProperty("value")).toBe("10");
   });
+
   it("correctly stops decrementing value when min is 0", async () => {
     const page = await newE2EPage();
     await page.setContent(`
@@ -695,6 +697,61 @@ describe("calcite-input", () => {
 
     expect(await getInputValidity()).toBe(true);
     expect(await input.getProperty("value")).toBe("123");
+  });
+
+  describe("value tests", () => {
+    it("initial value is of type undefined when not supplied", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-input></calcite-input>`
+      });
+      const input = await page.find("calcite-input");
+      expect(await input.getProperty("value")).toBeUndefined();
+    });
+
+    it(`initial value is of type string when initially set to ""`, async () => {
+      const page = await newE2EPage({
+        html: `<calcite-input value=""></calcite-input>`
+      });
+      const input = await page.find("calcite-input");
+      const value = await input.getProperty("value");
+
+      expect(value).toBe("");
+      expect(typeof value).toBe("string");
+
+      await input.setProperty("value", null);
+      await page.waitForChanges();
+
+      expect(await input.getProperty("value")).toBeNull();
+    });
+
+    it(`when value is programmatically set to null, value is null`, async () => {
+      const page = await newE2EPage({
+        html: `<calcite-input></calcite-input>`
+      });
+      const input = await page.find("calcite-input");
+
+      await input.setProperty("value", null);
+      await page.waitForChanges();
+
+      const value = await input.getProperty("value");
+
+      expect(value).toBeNull();
+    });
+
+    it(`when value is programmatically set to "", value's type is string`, async () => {
+      const page = await newE2EPage({
+        html: `<calcite-input></calcite-input>`
+      });
+      const input = await page.find("calcite-input");
+
+      await input.setProperty("value", "");
+      await page.waitForChanges();
+
+      const value = await input.getProperty("value");
+
+      expect(value).toBe("");
+      expect(typeof value).toBe("string");
+    });
   });
 
   describe("number type", () => {
