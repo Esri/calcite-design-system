@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, HYDRATED_ATTR } from "../../tests/commonTests";
+import { html } from "../../tests/utils";
 
 describe("calcite-tree", () => {
   it("renders", async () => {
@@ -85,5 +86,42 @@ describe("calcite-tree", () => {
     expect(grandchildTwo).not.toHaveAttribute("selected");
     expect(two).not.toHaveAttribute("selected");
     expect(two).toHaveAttribute("indeterminate");
+  });
+
+  it("allows selecting items", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-tree input-enabled selection-mode="ancestors">
+        <calcite-tree-item id="one"><span>One</span></calcite-tree-item>
+        <calcite-tree-item id="two">
+          <span>Two</span>
+          <calcite-tree slot="children">
+            <calcite-tree-item id="child-one">
+              <span>Child 1</span>
+              <calcite-tree slot="children">
+                <calcite-tree-item id="grandchild-one">
+                  <span>Grandchild 1</span>
+                </calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+      </calcite-tree>`
+    });
+
+    const tree = await page.find("calcite-tree");
+    const selectEventSpy = await tree.spyOnEvent("calciteTreeSelect");
+    const one = await page.find("#one");
+    const childOne = await page.find("#child-one");
+    const grandchildOne = await page.find("#grandchild-one");
+
+    await one.click();
+    expect(selectEventSpy).toHaveReceivedEventTimes(1);
+
+    await childOne.press(" ");
+    expect(selectEventSpy).toHaveReceivedEventTimes(2);
+
+    await grandchildOne.press("Enter");
+
+    expect(selectEventSpy).toHaveReceivedEventTimes(3);
   });
 });
