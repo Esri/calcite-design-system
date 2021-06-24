@@ -1,4 +1,4 @@
 {
   "extends": "./tsconfig-base",
-  "include": [".storybook/declarations.d.ts", "src/**/*.stories.ts", "globals.d.ts"]
+  "include": [".storybook/declarations.d.ts", "src/**/*.stories.ts"]
 }
