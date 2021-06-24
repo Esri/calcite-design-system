@@ -3,6 +3,7 @@ import { Alignment, Width } from "../interfaces";
 import { TileSelectType } from "./interfaces";
 import { getElementDir } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
+import { guid } from "../../utils/guid";
 
 @Component({
   tag: "calcite-tile-select",
@@ -77,6 +78,8 @@ export class CalciteTileSelect {
   //--------------------------------------------------------------------------
 
   private input: HTMLCalciteCheckboxElement | HTMLCalciteRadioButtonElement;
+
+  guid = `calcite-tile-select-${guid()}`;
 
   //--------------------------------------------------------------------------
   //
@@ -193,13 +196,17 @@ export class CalciteTileSelect {
     this.input.checked = this.checked;
     this.input.disabled = this.disabled;
     this.input.hidden = this.hidden;
-    this.input.id = this.el.id;
+    this.input.id = this.guid;
+    this.input.label = this.heading || this.name || "";
+
     if (this.name) {
       this.input.name = this.name;
     }
+
     if (this.value) {
       this.input.value = this.value != null ? this.value.toString() : "";
     }
+
     this.el.insertAdjacentElement("beforeend", this.input);
   }
 
