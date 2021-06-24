@@ -113,12 +113,12 @@ export class CalciteListItem {
   renderContent(): VNode {
     const { label, description } = this;
 
-    return (
+    return !!label && !!description ? (
       <div class={CSS.content}>
         {label ? <div class={CSS.label}>{label}</div> : null}
         {description ? <div class={CSS.description}>{description}</div> : null}
       </div>
-    );
+    ) : null;
   }
 
   renderContentContainer(): VNode {

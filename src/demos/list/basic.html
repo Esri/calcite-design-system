@@ -15,12 +15,14 @@
         <h1>calcite-list</h1>
         <h2>Basic</h2>
         <calcite-list>
-          <calcite-list-item label="candy" description="kingdom">
-            <calcite-action icon="banana" label="finn" slot="actions-start" />
-            <calcite-icon icon="banana" slot="content-start" />
-            <img src="http://www.fillmurray.com/g/140/100" slot="content-start" />
-            <calcite-icon icon="banana" slot="content-end" />
-            <calcite-action icon="banana" label="jake" slot="actions-end" />
+          <calcite-list-item label="Candy Kingdom" description="Ruled by Princess Bubblegum">
+            <calcite-action icon="drag" label="drag" scale="s" slot="actions-start" ></calcite-action>
+            <calcite-icon scale="l" icon="title" slot="content-start" ></calcite-icon>
+            <div style="margin: 0.5rem 0; border-radius: 100%; width: 40px; height: 40px; overflow: hidden; display: flex;" slot="content-start">
+              <img src="https://slm-assets.secondlife.com/assets/19947929/view_large/Capture_du_2018-03-04_20-40-56.jpg?1520192584" />
+            </div>
+            <calcite-icon icon="check" slot="content-end" style="color: var(--calcite-ui-success);"></calcite-icon>
+            <calcite-action icon="x" label="remove" slot="actions-end" ></calcite-action>
           </calcite-list-item>
           <calcite-list-item label="test" description="hello world"></calcite-list-item>
           <calcite-list-item label="test" description="hello world"></calcite-list-item>

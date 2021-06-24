@@ -38,7 +38,7 @@
 }
 
 .content {
-  @apply content-center
+  @apply justify-center
     flex
     flex-auto
     flex-col
@@ -70,8 +70,16 @@
   @apply flex items-center;
 }
 
+.content-start, .content-end {
+  ::slotted(calcite-icon) {
+    @apply self-center px-3;
+  }
+}
+
 .actions-start, .actions-end {
   ::slotted(calcite-action) {
     @apply self-stretch;
+    
+    color: inherit;
   }
 }
