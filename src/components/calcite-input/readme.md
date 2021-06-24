@@ -110,9 +110,9 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot                 | Description                                      |
-| -------------------- | ------------------------------------------------ |
-| `"`calcite-action`"` | A slot for positioning a button next to an input |
+| Slot       | Description                                      |
+| ---------- | ------------------------------------------------ |
+| `"action"` | A slot for positioning a button next to an input |
 
 ## Dependencies
 
