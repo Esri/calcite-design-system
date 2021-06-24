@@ -138,6 +138,88 @@ describe("calcite-combobox", () => {
     }
   });
 
+  it("should show correct max items when nested", async () => {
+    const page = await newE2EPage();
+
+    const maxItems = 6;
+
+    await page.setContent(`
+    <calcite-combobox label="custom values" allow-custom-values placeholder="placeholder" max-items="6">
+      <calcite-combobox-item value="Trees" text-label="Trees" selected>
+        <calcite-combobox-item value="Pine" text-label="Pine">
+          <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
+        </calcite-combobox-item>
+        <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+        <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Flowers" text-label="Flowers">
+        <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
+        <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
+        <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Animals" text-label="Animals">
+        <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
+        <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
+        <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
+      <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
+      <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+    </calcite-combobox>
+    `);
+    await page.waitForChanges();
+
+    const element = await page.find("calcite-combobox");
+    await element.click();
+    await page.waitForChanges();
+    const items = await page.findAll("calcite-combobox-item, calcite-combobox-item-group");
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].isIntersectingViewport()).toBe(i < maxItems);
+    }
+  });
+
+  it("should show correct max items after selection", async () => {
+    const page = await newE2EPage();
+
+    const maxItems = 6;
+
+    await page.setContent(`
+    <calcite-combobox label="custom values" allow-custom-values placeholder="placeholder" max-items="6">
+      <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+      <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+      <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
+      <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
+      <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
+      <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
+      <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
+      <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
+      <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
+      <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
+      <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+    </calcite-combobox>
+    `);
+    await page.waitForChanges();
+
+    const element = await page.find("calcite-combobox");
+    await element.click();
+    await page.waitForChanges();
+
+    const input = await page.find("calcite-combobox >>> input");
+    await input.click();
+    await input.press("p");
+    await input.press("i");
+    await page.waitForChanges();
+    await input.press("Enter");
+    await page.waitForChanges();
+
+    const items = await page.findAll("calcite-combobox-item, calcite-combobox-item-group");
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].isIntersectingViewport()).toBe(i < maxItems);
+    }
+  });
+
   describe("item selection", () => {
     it("should add/remove item to the selected items when an item is clicked", async () => {
       const page = await newE2EPage();
@@ -447,13 +529,11 @@ describe("calcite-combobox", () => {
       const button = await page.find("button");
       await input.click();
       await input.press("o");
-      await button.click();
+      await input.press("Tab");
       let chips = await page.findAll("calcite-combobox >>> calcite-chip");
       expect(chips.length).toBe(1);
-
-      await input.click();
-      await input.press("z");
-      await input.press("Tab");
+      await input.press("j");
+      await button.click();
       chips = await page.findAll("calcite-combobox >>> calcite-chip");
       expect(chips.length).toBe(2);
     });

@@ -146,9 +146,11 @@ export class CalciteCombobox {
       case "Tab":
         this.activeChipIndex = -1;
         this.activeItemIndex = -1;
-        this.active = false;
         if (this.allowCustomValues && this.text) {
           this.addCustomChip(this.text, true);
+          event.preventDefault();
+        } else {
+          this.active = false;
         }
         break;
       case "ArrowLeft":
@@ -450,8 +452,11 @@ export class CalciteCombobox {
     let maxScrollerHeight = 0;
     items.forEach((item) => {
       if (itemsToProcess < maxItems && maxItems > 0) {
-        maxScrollerHeight += this.calculateSingleItemHeight(item);
-        itemsToProcess++;
+        const height = this.calculateSingleItemHeight(item);
+        if (height > 0) {
+          maxScrollerHeight += height;
+          itemsToProcess++;
+        }
       }
     });
     return maxScrollerHeight;
@@ -600,7 +605,9 @@ export class CalciteCombobox {
     if (this.selectionMode === "single" && this.selectedItems.length) {
       this.selectedItem = this.selectedItems[0];
     }
-    this.setMaxScrollerHeight();
+    if (!this.allowCustomValues) {
+      this.setMaxScrollerHeight();
+    }
   };
 
   getData(): ItemData[] {

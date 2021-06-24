@@ -703,6 +703,12 @@ export class CalciteSlider {
         this[this.activeProp] = this.bound(this.max, this.activeProp);
         this.emitChange();
         break;
+
+      // prevent activation keys from firing a click event
+      case "Enter":
+      case " ":
+        e.preventDefault();
+        break;
     }
   }
 
