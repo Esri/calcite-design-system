@@ -799,15 +799,15 @@ describe("calcite-color-picker", () => {
 
           await rgbModeButton.click();
 
-          expect(await rInput.getProperty("value")).toBeFalsy();
-          expect(await gInput.getProperty("value")).toBeFalsy();
-          expect(await bInput.getProperty("value")).toBeFalsy();
+          expect(await rInput.getProperty("value")).toBeUndefined();
+          expect(await gInput.getProperty("value")).toBeUndefined();
+          expect(await bInput.getProperty("value")).toBeUndefined();
 
           await hsvModeButton.click();
 
-          expect(await hInput.getProperty("value")).toBeFalsy();
-          expect(await sInput.getProperty("value")).toBeFalsy();
-          expect(await vInput.getProperty("value")).toBeFalsy();
+          expect(await hInput.getProperty("value")).toBeUndefined();
+          expect(await sInput.getProperty("value")).toBeUndefined();
+          expect(await vInput.getProperty("value")).toBeUndefined();
         });
 
         describe("clearing color via supporting inputs", () => {
@@ -839,10 +839,10 @@ describe("calcite-color-picker", () => {
             await clearAndEnterValue(page, rInput, "");
 
             // clearing one clears the rest
-            expect(await gInput.getProperty("value")).toBeFalsy();
-            expect(await bInput.getProperty("value")).toBeFalsy();
+            expect(await gInput.getProperty("value")).toBeUndefined();
+            expect(await bInput.getProperty("value")).toBeUndefined();
 
-            expect(await picker.getProperty("value")).toBeFalsy();
+            expect(await picker.getProperty("value")).toBeNull();
           });
 
           it("clears color via HSV channel inputs", async () => {
@@ -862,10 +862,10 @@ describe("calcite-color-picker", () => {
             await clearAndEnterValue(page, hInput, "");
 
             // clearing one clears the rest
-            expect(await sInput.getProperty("value")).toBeFalsy();
-            expect(await vInput.getProperty("value")).toBeFalsy();
+            expect(await sInput.getProperty("value")).toBeUndefined();
+            expect(await vInput.getProperty("value")).toBeUndefined();
 
-            expect(await picker.getProperty("value")).toBeFalsy();
+            expect(await picker.getProperty("value")).toBeNull();
           });
         });
 
