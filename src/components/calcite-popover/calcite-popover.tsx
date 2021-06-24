@@ -32,7 +32,7 @@ import { StrictModifiers, Placement, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import { getElementDir, queryElementRoots } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
-import { PopoverFocusId, transitionProperty } from "./resources";
+import { transitionProperty } from "./resources";
 import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
 
 /**
@@ -228,7 +228,7 @@ export class CalcitePopover {
   }
 
   @Method()
-  async setFocus(focusId?: PopoverFocusId): Promise<void> {
+  async setFocus(focusId?: "close-button"): Promise<void> {
     const { closeButtonEl } = this;
 
     if (focusId === "close-button" && closeButtonEl) {

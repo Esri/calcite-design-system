@@ -1,6 +1,7 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { HYDRATED_ATTR, accessible, defaults } from "../../tests/commonTests";
 import dedent from "dedent";
+import { html } from "../../tests/utils";
 
 describe("calcite-dropdown", () => {
   it("defaults", async () =>
@@ -618,28 +619,26 @@ describe("calcite-dropdown", () => {
     });
 
     it("control max items displayed", async () => {
-      const page = await newE2EPage();
-
       const maxItems = 7;
-
-      await page.setContent(`<calcite-dropdown max-items="${maxItems}">
-    <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
-    <calcite-dropdown-group group-title="First group">
-      <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
-      <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
-      <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
-      <calcite-dropdown-item id="item-4">4</calcite-dropdown-item>
-      <calcite-dropdown-item id="item-5">5</calcite-dropdown-item>
-    </calcite-dropdown-group>
-    <calcite-dropdown-group group-title="Second group">
-      <calcite-dropdown-item id="item-6">6</calcite-dropdown-item>
-      <calcite-dropdown-item id="item-7">7</calcite-dropdown-item>
-      <calcite-dropdown-item id="item-8">8</calcite-dropdown-item>
-      <calcite-dropdown-item id="item-9">9</calcite-dropdown-item>
-      <calcite-dropdown-item id="item-10">10</calcite-dropdown-item>
-    </calcite-dropdown-group>
-  </calcite-dropdown>`);
-      await page.waitForChanges();
+      const page = await newE2EPage({
+        html: html`<calcite-dropdown max-items="${maxItems}">
+          <calcite-button slot="dropdown-trigger">Open Dropdown</calcite-button>
+          <calcite-dropdown-group group-title="First group">
+            <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-4">4</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-5">5</calcite-dropdown-item>
+          </calcite-dropdown-group>
+          <calcite-dropdown-group group-title="Second group">
+            <calcite-dropdown-item id="item-6">6</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-7">7</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-8">8</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-9">9</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-10">10</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>`
+      });
 
       const element = await page.find("calcite-dropdown");
       element.click();
@@ -648,7 +647,7 @@ describe("calcite-dropdown", () => {
       const items = await page.findAll("calcite-dropdown-item");
 
       for (let i = 0; i < items.length; i++) {
-        expect(await items[i].isIntersectingViewport()).toBe(i <= maxItems);
+        expect(await items[i].isIntersectingViewport()).toBe(i <= maxItems - 1);
       }
     });
   });

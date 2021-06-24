@@ -20,6 +20,4 @@ export const ARIA_EXPANDED = "aria-expanded";
 
 export const HEADING_LEVEL = 2;
 
-export type PopoverFocusId = "close-button";
-
 export const transitionProperty = "opacity";

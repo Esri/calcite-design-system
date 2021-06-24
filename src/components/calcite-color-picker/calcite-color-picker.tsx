@@ -29,6 +29,7 @@ import { colorEqual, CSSColorMode, Format, normalizeHex, parseMode, SupportedMod
 import { throttle } from "lodash-es";
 import { getKey } from "../../utils/key";
 import { clamp } from "../../utils/math";
+import { CSS_UTILITY } from "../../utils/resources";
 
 const throttleFor60FpsInMs = 16;
 const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
@@ -717,14 +718,19 @@ export class CalciteColorPicker {
           />
         </div>
         {hideHex && hideChannels ? null : (
-          <div class={{ [CSS.controlSection]: true, [CSS.section]: true }}>
+          <div
+            class={{
+              [CSS.controlSection]: true,
+              [CSS.section]: true,
+              [CSS_UTILITY.rtl]: elementDir === "rtl"
+            }}
+          >
             {hideHex ? null : (
               <div class={CSS.hexOptions}>
                 <span
                   class={{
                     [CSS.header]: true,
-                    [CSS.headerHex]: true,
-                    [CSS.underlinedHeader]: true
+                    [CSS.headerHex]: true
                   }}
                 >
                   {intlHex}
@@ -747,6 +753,7 @@ export class CalciteColorPicker {
                   [CSS.splitSection]: true
                 }}
                 dir={elementDir}
+                scale="s"
               >
                 <calcite-tab-nav slot="tab-nav">
                   {this.renderChannelsTabTitle("rgb")}

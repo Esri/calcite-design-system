@@ -10,7 +10,6 @@ import {
   VNode
 } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
-import { GroupRegistration, ItemRegistration } from "../calcite-dropdown/interfaces";
 import { SelectionMode } from "./interfaces";
 import { Scale } from "../interfaces";
 import { CSS } from "./resources";
@@ -55,25 +54,7 @@ export class CalciteDropdownGroup {
   /**
    * @internal
    */
-  @Event() calciteDropdownGroupRegister: EventEmitter<GroupRegistration>;
-
-  /**
-   * @internal
-   */
   @Event() calciteDropdownItemChange: EventEmitter;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
-  setDropdownTitleRef = (node: HTMLSpanElement): void => {
-    this.titleEl = node;
-  };
-
-  setDropdownSeparatorRef = (node: HTMLDivElement): void => {
-    this.separatorEl = node;
-  };
 
   //--------------------------------------------------------------------------
   //
@@ -85,30 +66,17 @@ export class CalciteDropdownGroup {
     this.groupPosition = this.getGroupPosition();
   }
 
-  componentDidLoad(): void {
-    this.items = this.sortItems(this.items) as HTMLCalciteDropdownItemElement[];
-    this.calciteDropdownGroupRegister.emit({
-      items: this.items,
-      position: this.groupPosition,
-      group: this.el,
-      titleEl: this.titleEl,
-      separatorEl: this.separatorEl
-    });
-  }
-
   render(): VNode {
     const dir = getElementDir(this.el);
     const scale: Scale = this.scale || getElementProp(this.el, "scale", "m");
     const groupTitle = this.groupTitle ? (
-      <span aria-hidden="true" class="dropdown-title" ref={this.setDropdownTitleRef}>
+      <span aria-hidden="true" class="dropdown-title">
         {this.groupTitle}
       </span>
     ) : null;
 
     const dropdownSeparator =
-      this.groupPosition > 0 ? (
-        <div class="dropdown-separator" ref={this.setDropdownSeparatorRef} role="separator" />
-      ) : null;
+      this.groupPosition > 0 ? <div class="dropdown-separator" role="separator" /> : null;
 
     return (
       <Host role="menu">
@@ -136,23 +104,6 @@ export class CalciteDropdownGroup {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteDropdownItemRegister") registerCalciteDropdownItem(
-    event: CustomEvent<ItemRegistration>
-  ): void {
-    const item = event.target as HTMLCalciteDropdownItemElement;
-
-    if (this.selectionMode === "none") {
-      item.active = false;
-    }
-
-    this.items.push({
-      item,
-      position: event.detail.position
-    });
-
-    event.stopPropagation();
-  }
-
   @Listen("calciteDropdownItemSelect") updateActiveItemOnChange(event: CustomEvent): void {
     this.requestedDropdownGroup = event.detail.requestedDropdownGroup;
     this.requestedDropdownItem = event.detail.requestedDropdownItem;
@@ -168,9 +119,6 @@ export class CalciteDropdownGroup {
   //
   //--------------------------------------------------------------------------
 
-  /** created list of dropdown items */
-  private items = [];
-
   /** position of group within a dropdown */
   private groupPosition: number;
 
@@ -179,10 +127,6 @@ export class CalciteDropdownGroup {
 
   /** the requested item */
   private requestedDropdownItem: HTMLCalciteDropdownItemElement;
-
-  private separatorEl: HTMLDivElement = null;
-
-  private titleEl: HTMLSpanElement = null;
 
   //--------------------------------------------------------------------------
   //
@@ -196,7 +140,4 @@ export class CalciteDropdownGroup {
       this.el
     );
   }
-
-  private sortItems = (items: any[]): any[] =>
-    items.sort((a, b) => a.position - b.position).map((a) => a.item);
 }

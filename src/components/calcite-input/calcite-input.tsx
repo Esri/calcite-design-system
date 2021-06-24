@@ -21,18 +21,17 @@ import { Position } from "../interfaces";
 import {
   getDecimalSeparator,
   delocalizeNumberString,
-  localizeNumberString,
-  sanitizeDecimalString
+  localizeNumberString
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 import { hiddenInputStyle } from "../../utils/form";
-import { isValidNumber, parseNumberString } from "../../utils/number";
+import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
 import { CSS_UTILITY } from "../../utils/resources";
 
 type NumberNudgeDirection = "up" | "down";
 
 /**
- * @slot `calcite-action` - A slot for positioning a button next to an input
+ * @slot action - A slot for positioning a button next to an input
  */
 @Component({
   tag: "calcite-input",
@@ -427,8 +426,9 @@ export class CalciteInput {
       ...numberKeys,
       "ArrowLeft",
       "ArrowRight",
-      "Enter",
       "Backspace",
+      "Delete",
+      "Enter",
       "Escape",
       "Tab",
       "-"
@@ -437,7 +437,11 @@ export class CalciteInput {
       return;
     }
     const isShiftTabEvent = event.shiftKey && event.key === "Tab";
-    if (supportedKeys.includes(event.key) && (!event.shiftKey || isShiftTabEvent)) {
+    if (
+      supportedKeys.includes(event.key) &&
+      (!event.shiftKey || isShiftTabEvent) &&
+      !(parseInt(this.value) === 0 && getKey(event.key) === "0")
+    ) {
       if (event.key === "Enter") {
         this.calciteInputChange.emit();
       }
@@ -521,7 +525,7 @@ export class CalciteInput {
   private setValue = (value: string, nativeEvent?: any, committing = false): void => {
     const previousValue = this.value;
 
-    this.value = this.type === "number" ? sanitizeDecimalString(value) : value;
+    this.value = this.type === "number" ? sanitizeNumberString(value) : value;
 
     if (this.type === "number") {
       this.setLocalizedValue(this.value);

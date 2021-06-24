@@ -66,6 +66,18 @@
   }
 }
 
+.width-auto {
+  @apply w-auto;
+}
+
+.width-half {
+  @apply w-1/2;
+}
+
+.width-full {
+  @apply w-full;
+}
+
 .split-button__divider-container {
   @apply w-px flex items-stretch;
   transition: 0.15s ease-in-out;
