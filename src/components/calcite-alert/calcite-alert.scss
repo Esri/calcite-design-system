@@ -26,7 +26,6 @@
   }
   @include slotted("message", "*") {
     @apply text--1-wrap;
-    margin-bottom: 2px;
   }
   ::slotted(calcite-link) {
     @apply text--1-wrap;
@@ -80,7 +79,13 @@
     transform: translate3d(0, $baseline, 0);
     transition: 300ms $easing-function, opacity 300ms $easing-function, all 0.15s ease-in-out;
     @media only screen and (max-width: $viewport-medium) {
-      @apply w-full max-w-full rounded-none border-0;
+      @apply w-full
+        max-w-full
+        rounded-none
+        border-0;
+    }
+    @include slotted("link", "*") {
+      @apply text-color-link;
     }
   }
 }
@@ -131,6 +136,9 @@
   @include slotted("message", "*") {
     @apply ml-2;
     margin-right: unset;
+  }
+  @include slotted("link", "*") {
+    @apply text-color-link;
   }
 }
 
