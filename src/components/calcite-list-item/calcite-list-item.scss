@@ -1,4 +1,77 @@
 :host {
   @extend %component-host;
-  @apply bg-transparent;
+  @apply bg-transparent
+    box-border
+    font-sans;
+  * {
+    @apply box-border;
+  }
+}
+
+.container {
+  @apply flex;
+}
+
+.content-container {
+  @apply cursor-pointer
+    flex
+    flex-auto
+    focus-base
+    items-stretch
+    p-0
+    text-color-2;
+}
+
+.content-container--button {
+  @apply bg-foreground-1
+    border-none
+    focus-base;
+  
+  text-align: initial;
+
+  &:hover {
+    @apply bg-foreground-2;
+  }
+  &:focus {
+    @apply focus-inset;
+  }
+}
+
+.content {
+  @apply content-center
+    flex
+    flex-auto
+    flex-col
+    p-3;
+}
+
+.label,
+.description {
+  @apply font-sans text--1;
+}
+
+.label {
+  @apply text-color-1;
+}
+
+.description {
+  @apply text-color-3;
+}
+
+.content-start,
+.content-end {
+  @apply flex-initial pointer-events-none;
+}
+
+.actions-start,
+.actions-end,
+.content-start,
+.content-end {
+  @apply flex items-center;
+}
+
+.actions-start, .actions-end {
+  ::slotted(calcite-action) {
+    @apply self-stretch;
+  }
 }
