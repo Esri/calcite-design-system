@@ -670,7 +670,7 @@ describe("calcite-input", () => {
 
   it("allows restricting input length", async () => {
     const page = await newE2EPage({
-      html: `<calcite-input minLength="2" maxLength="3"></calcite-input>`
+      html: `<calcite-input minLength="2" maxLength="3" value=""></calcite-input>`
     });
 
     const getInputValidity = async () =>
@@ -762,7 +762,9 @@ describe("calcite-input", () => {
       });
       const calciteInputInput = await page.spyOnEvent("calciteInputInput");
       const calciteInput = await page.find("calcite-input");
+
       calciteInput.callMethod("setFocus");
+
       await page.keyboard.press("0");
       await page.waitForChanges();
 
