@@ -14,6 +14,9 @@
       calcite-combobox {
         max-width: 480px;
       }
+      body {
+        padding-left: 1rem;
+      }
     </style>
     <script src="_assets/head.js"></script>
   </head>
@@ -21,99 +24,55 @@
   <body>
     <calcite-button href="/">Home</calcite-button>
     <h1>Calcite Combobox</h1>
+
     <h2>Scale M</h2>
+
+    <h3>Multi select</h3>
+
+    <calcite-combobox label="test" placeholder="placeholder" max-items="10">
+      <calcite-combobox-item value="Trees" text-label="Trees">
+        <calcite-combobox-item value="Pine" text-label="Pine">
+          <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
+        </calcite-combobox-item>
+        <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+        <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Flowers" text-label="Flowers">
+        <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
+        <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
+        <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Animals" text-label="Animals">
+        <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
+        <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
+        <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
+      <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
+      <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+    </calcite-combobox>
+
+    <h3>Multi select with groups</h3>
 
     <calcite-combobox label="test" placeholder="placeholder" max-items="10">
       <calcite-combobox-item-group label="Pokemon">
         <calcite-combobox-item value="Pikachu" text-label="Pikachu"></calcite-combobox-item>
+        <calcite-combobox-item value="Venusaur" text-label="Venusaur"></calcite-combobox-item>
+        <calcite-combobox-item value="Charizard" text-label="Charizard"></calcite-combobox-item>
         <calcite-combobox-item-group label="Cutest Pokemon">
           <calcite-combobox-item value="Bulbasaur" text-label="Bulbasaur"></calcite-combobox-item>
-          <calcite-combobox-item value="Squirtle" text-label="Squirtle"></calcite-combobox-item>
+          <calcite-combobox-item value="Squirtle" text-label="Squirtle">
+            <calcite-combobox-item value="Squirtle" text-label="Squirtle">
+              <calcite-combobox-item value="Squirtle" text-label="Squirtle">
+                <calcite-combobox-item value="Squirtle" text-label="Squirtle"></calcite-combobox-item>
+              </calcite-combobox-item>
+            </calcite-combobox-item>
+          </calcite-combobox-item>
         </calcite-combobox-item-group>
       </calcite-combobox-item-group>
-      <calcite-combobox-item value="Trees" text-label="Trees">
-        <calcite-combobox-item value="Pine" text-label="Pine">
-          <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
-        </calcite-combobox-item>
-        <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
-        <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
-      </calcite-combobox-item>
-      <calcite-combobox-item value="Flowers" text-label="Flowers">
-        <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
-        <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
-        <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
-      </calcite-combobox-item>
-      <calcite-combobox-item value="Animals" text-label="Animals">
-        <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
-        <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
-        <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
-      </calcite-combobox-item>
-      <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
-      <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
-      <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
     </calcite-combobox>
 
-    <h2>Single Select</h2>
-    <calcite-combobox label="test" placeholder="select element" max-items="6" selection-mode="single">
-      <calcite-combobox-item value="Trees" text-label="Trees">
-        <calcite-combobox-item value="Pine" text-label="Pine">
-          <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
-        </calcite-combobox-item>
-        <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
-        <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
-      </calcite-combobox-item>
-      <calcite-combobox-item value="Flowers" text-label="Flowers">
-        <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
-        <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
-        <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
-      </calcite-combobox-item>
-      <calcite-combobox-item value="Animals" text-label="Animals">
-        <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
-        <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
-        <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
-      </calcite-combobox-item>
-      <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
-      <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
-      <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
-    </calcite-combobox>
-
-    <h2>Single Select, certain items constant</h2>
-    <calcite-combobox label="test" placeholder="select element" max-items="6" selection-mode="single">
-      <calcite-combobox-item value="New Item" constant text-label="Add new plant" icon="plus"></calcite-combobox-item>
-      <calcite-combobox-item value="Trees" text-label="Trees">
-        <calcite-combobox-item value="Pine" text-label="Pine">
-          <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
-        </calcite-combobox-item>
-        <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
-        <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
-      </calcite-combobox-item>
-      <calcite-combobox-item value="Flowers" text-label="Flowers">
-        <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
-        <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
-        <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
-      </calcite-combobox-item>
-      <calcite-combobox-item value="Animals" text-label="Animals">
-        <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
-        <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
-        <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
-      </calcite-combobox-item>
-      <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
-      <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
-      <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
-    </calcite-combobox>
-
-    <h2>Single Select with Custom Icons</h2>
-    <calcite-combobox label="test" placeholder="select folder" max-items="6" selection-mode="single">
-      <calcite-combobox-item value="root" text-label="username" icon="home" selected></calcite-combobox-item>
-      <calcite-combobox-item value="1" text-label="Folder 1" icon="folder"></calcite-combobox-item>
-      <calcite-combobox-item value="2" text-label="Folder 2" icon="folder"></calcite-combobox-item>
-      <calcite-combobox-item value="3" text-label="Folder 3" icon="folder"></calcite-combobox-item>
-      <calcite-combobox-item value="4" text-label="Folder 4" icon="folder"></calcite-combobox-item>
-      <calcite-combobox-item value="5" text-label="Folder 5" icon="folder"></calcite-combobox-item>
-      <calcite-combobox-item value="6" text-label="Folder 6" icon="folder"></calcite-combobox-item>
-    </calcite-combobox>
-
-    <h2>Multi Select with Custom Icons</h2>
+    <h3>Multi Select with Custom Icons</h3>
     <calcite-combobox label="test" placeholder="select attribute" max-items="6">
       <calcite-combobox-item icon="altitude" value="altitude" text-label="Altitude"></calcite-combobox-item>
       <calcite-combobox-item icon="article" value="article" text-label="Article"></calcite-combobox-item>
@@ -129,7 +88,7 @@
       <calcite-combobox-item icon="clock" value="clock" text-label="Clock"></calcite-combobox-item>
     </calcite-combobox>
 
-    <h2>Custom Values</h2>
+    <h3>Custom Values</h3>
     <calcite-combobox label="custom values" allow-custom-values placeholder="placeholder" max-items="6">
       <calcite-combobox-item value="Trees" text-label="Trees" selected>
         <calcite-combobox-item value="Pine" text-label="Pine">
@@ -153,7 +112,7 @@
       <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
     </calcite-combobox>
 
-    <h2>Ancestors Selection Mode</h2>
+    <h3>Ancestors Selection Mode</h3>
     <calcite-combobox label="test" placeholder="placeholder" max-items="8" selection-mode="ancestors">
       <calcite-combobox-item value="Grand 1" text-label="Grand 1">
         <calcite-combobox-item value="Parent 1" text-label="Parent 1">
@@ -176,52 +135,8 @@
         </calcite-combobox-item>
       </calcite-combobox-item>
     </calcite-combobox>
-    <h2>Scale S</h2>
 
-    <calcite-combobox label="test" placeholder="placeholder" scale="s">
-      <calcite-combobox-item value="Trees" text-label="Trees">
-        <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
-        <calcite-combobox-item value="Sequoia" text-label="Sequoia"></calcite-combobox-item>
-        <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
-      </calcite-combobox-item>
-      <calcite-combobox-item value="Flowers" text-label="Flowers">
-        <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
-        <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
-        <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
-      </calcite-combobox-item>
-      <calcite-combobox-item value="Animals" text-label="Animals">
-        <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
-        <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
-        <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
-      </calcite-combobox-item>
-      <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
-      <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
-      <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
-    </calcite-combobox>
-    <h2>Scale L</h2>
-
-    <calcite-combobox label="test" placeholder="placeholder" scale="l">
-      <calcite-combobox-item value="Trees" text-label="Trees">
-        <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
-        <calcite-combobox-item value="Sequoia" text-label="Sequoia"></calcite-combobox-item>
-        <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
-      </calcite-combobox-item>
-      <calcite-combobox-item value="Flowers" text-label="Flowers">
-        <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
-        <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
-        <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
-      </calcite-combobox-item>
-      <calcite-combobox-item value="Animals" text-label="Animals">
-        <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
-        <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
-        <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
-      </calcite-combobox-item>
-      <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
-      <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
-      <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
-    </calcite-combobox>
-
-    <h2>RTL</h2>
+    <h3>RTL</h3>
 
     <calcite-combobox label="test" placeholder="placeholder" dir="rtl">
       <calcite-combobox-item value="Trees" text-label="Trees">
@@ -243,6 +158,246 @@
       <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
       <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
     </calcite-combobox>
+
+    <h3>Single Select</h3>
+    <calcite-combobox label="test" placeholder="select element" max-items="6" selection-mode="single">
+      <calcite-combobox-item value="Trees" text-label="Trees">
+        <calcite-combobox-item value="Pine" text-label="Pine">
+          <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
+        </calcite-combobox-item>
+        <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+        <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Flowers" text-label="Flowers">
+        <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
+        <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
+        <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Animals" text-label="Animals">
+        <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
+        <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
+        <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
+      <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
+      <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+    </calcite-combobox>
+
+    <h3>Single Select, certain items constant</h3>
+    <calcite-combobox label="test" placeholder="select element" max-items="6" selection-mode="single">
+      <calcite-combobox-item value="New Item" constant text-label="Add new plant"></calcite-combobox-item>
+      <calcite-combobox-item value="Trees" text-label="Trees">
+        <calcite-combobox-item value="Pine" text-label="Pine">
+          <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
+        </calcite-combobox-item>
+        <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+        <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Flowers" text-label="Flowers">
+        <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
+        <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
+        <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Animals" text-label="Animals">
+        <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
+        <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
+        <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
+      <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
+      <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+    </calcite-combobox>
+
+    <h3>Single Select with Custom Icons</h3>
+    <calcite-combobox label="test" placeholder="select folder" max-items="6" selection-mode="single">
+      <calcite-combobox-item value="root" text-label="username" icon="home" selected></calcite-combobox-item>
+      <calcite-combobox-item value="1" text-label="Folder 1" icon="folder"></calcite-combobox-item>
+      <calcite-combobox-item value="2" text-label="Folder 2" icon="folder"></calcite-combobox-item>
+      <calcite-combobox-item value="3" text-label="Folder 3" icon="folder"></calcite-combobox-item>
+      <calcite-combobox-item value="4" text-label="Folder 4" icon="folder"></calcite-combobox-item>
+      <calcite-combobox-item value="5" text-label="Folder 5" icon="folder"></calcite-combobox-item>
+      <calcite-combobox-item value="6" text-label="Folder 6" icon="folder"></calcite-combobox-item>
+    </calcite-combobox>
+
+    <h2>Scale S</h2>
+
+    <h3>Multi select</h3>
+    <calcite-combobox label="test" placeholder="placeholder" scale="s">
+      <calcite-combobox-item value="Trees" text-label="Trees">
+        <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
+        <calcite-combobox-item value="Sequoia" text-label="Sequoia"></calcite-combobox-item>
+        <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Flowers" text-label="Flowers">
+        <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
+        <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
+        <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Animals" text-label="Animals">
+        <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
+        <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
+        <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
+      <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
+      <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+    </calcite-combobox>
+
+    <h3>Single select</h3>
+    <calcite-combobox label="test" placeholder="placeholder" scale="s" selection-mode="single">
+      <calcite-combobox-item value="Trees" text-label="Trees">
+        <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
+        <calcite-combobox-item value="Sequoia" text-label="Sequoia"></calcite-combobox-item>
+        <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Flowers" text-label="Flowers">
+        <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
+        <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
+        <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Animals" text-label="Animals">
+        <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
+        <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
+        <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
+      <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
+      <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+    </calcite-combobox>
+
+    <h3>Single Select, certain items constant</h3>
+    <calcite-combobox scale="s" label="test" placeholder="select element" max-items="6" selection-mode="single">
+      <calcite-combobox-item value="New Item" constant text-label="Add new plant"></calcite-combobox-item>
+      <calcite-combobox-item value="Trees" text-label="Trees">
+        <calcite-combobox-item value="Pine" text-label="Pine">
+          <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
+        </calcite-combobox-item>
+        <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+        <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Flowers" text-label="Flowers">
+        <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
+        <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
+        <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Animals" text-label="Animals">
+        <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
+        <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
+        <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
+      <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
+      <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+    </calcite-combobox>
+
+    <h3>Single Select with Custom Icons</h3>
+    <calcite-combobox scale="s" label="test" placeholder="select folder" max-items="6" selection-mode="single">
+      <calcite-combobox-item value="root" text-label="username" icon="home" selected></calcite-combobox-item>
+      <calcite-combobox-item value="1" text-label="Folder 1" icon="folder"></calcite-combobox-item>
+      <calcite-combobox-item value="2" text-label="Folder 2" icon="folder"></calcite-combobox-item>
+      <calcite-combobox-item value="3" text-label="Folder 3" icon="folder"></calcite-combobox-item>
+      <calcite-combobox-item value="4" text-label="Folder 4" icon="folder"></calcite-combobox-item>
+      <calcite-combobox-item value="5" text-label="Folder 5" icon="folder"></calcite-combobox-item>
+      <calcite-combobox-item value="6" text-label="Folder 6" icon="folder"></calcite-combobox-item>
+    </calcite-combobox>
+
+    <h2>Scale L</h2>
+
+    <h3>Multi select</h3>
+    <calcite-combobox label="test" placeholder="placeholder" scale="l">
+      <calcite-combobox-item value="Trees" text-label="Trees">
+        <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
+        <calcite-combobox-item value="Sequoia" text-label="Sequoia"></calcite-combobox-item>
+        <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Flowers" text-label="Flowers">
+        <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
+        <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
+        <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Animals" text-label="Animals">
+        <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
+        <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
+        <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
+      <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
+      <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+    </calcite-combobox>
+
+    <h3>Multi select with label</h3>
+
+    <calcite-label scale="l">
+      Combobox label
+      <calcite-combobox label="test" placeholder="placeholder" scale="l">
+        <calcite-combobox-item value="Trees" text-label="Trees">
+          <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
+          <calcite-combobox-item value="Sequoia" text-label="Sequoia"></calcite-combobox-item>
+          <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+        </calcite-combobox-item>
+        <calcite-combobox-item value="Flowers" text-label="Flowers">
+          <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
+          <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
+          <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
+        </calcite-combobox-item>
+        <calcite-combobox-item value="Animals" text-label="Animals">
+          <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
+          <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
+          <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
+        </calcite-combobox-item>
+        <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
+        <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
+        <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+      </calcite-combobox>
+    </calcite-label>
+
+    <h3>Single Select</h3>
+    <calcite-combobox scale="l" label="test" placeholder="select folder" max-items="6" selection-mode="single">
+      <calcite-combobox-item value="root" text-label="username" selected></calcite-combobox-item>
+      <calcite-combobox-item value="1" text-label="Folder 1"></calcite-combobox-item>
+      <calcite-combobox-item value="2" text-label="Folder 2"></calcite-combobox-item>
+      <calcite-combobox-item value="3" text-label="Folder 3"></calcite-combobox-item>
+      <calcite-combobox-item value="4" text-label="Folder 4"></calcite-combobox-item>
+      <calcite-combobox-item value="5" text-label="Folder 5"></calcite-combobox-item>
+      <calcite-combobox-item value="6" text-label="Folder 6"></calcite-combobox-item>
+    </calcite-combobox>
+
+    <h3>Single Select with Custom Icons</h3>
+    <calcite-combobox scale="l" label="test" placeholder="select folder" max-items="6" selection-mode="single">
+      <calcite-combobox-item value="root" text-label="username" icon="home" selected></calcite-combobox-item>
+      <calcite-combobox-item value="1" text-label="Folder 1" icon="folder"></calcite-combobox-item>
+      <calcite-combobox-item value="2" text-label="Folder 2" icon="folder"></calcite-combobox-item>
+      <calcite-combobox-item value="3" text-label="Folder 3" icon="folder"></calcite-combobox-item>
+      <calcite-combobox-item value="4" text-label="Folder 4" icon="folder"></calcite-combobox-item>
+      <calcite-combobox-item value="5" text-label="Folder 5" icon="folder"></calcite-combobox-item>
+      <calcite-combobox-item value="6" text-label="Folder 6" icon="folder"></calcite-combobox-item>
+    </calcite-combobox>
+
+    <h3>Single Select, certain items constant</h3>
+    <calcite-combobox scale="l" label="test" placeholder="select element" max-items="6" selection-mode="single">
+      <calcite-combobox-item value="New Item" constant text-label="Add new plant"></calcite-combobox-item>
+      <calcite-combobox-item value="Trees" text-label="Trees">
+        <calcite-combobox-item value="Pine" text-label="Pine">
+          <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
+        </calcite-combobox-item>
+        <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+        <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Flowers" text-label="Flowers">
+        <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
+        <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
+        <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Animals" text-label="Animals">
+        <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
+        <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
+        <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
+      <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
+      <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+    </calcite-combobox>
+
     <br />
     <br />
     <div class="demo-background-dark">
@@ -268,6 +423,54 @@
         <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
         <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
       </calcite-combobox>
+
+      <div style="width: 350px; margin-left: 1rem">
+        <h3>Multi</h3>
+        <calcite-combobox label="demo combobox 1" selection-mode="multi" allow-custom-values>
+          <calcite-combobox-item value="Trees" text-label="Trees">
+            <calcite-combobox-item
+              value="CommercialDamageAssessment - Damage to Commercial Buildings & Damage to Commercial Buildings"
+              text-label="CommercialDamageAssessment - Damage to Commercial Buildings & Damage to Commercial Buildings"
+              selected
+            ></calcite-combobox-item>
+            <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+            <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+          </calcite-combobox-item>
+        </calcite-combobox>
+      </div>
+
+      <div style="width: 350px; margin-left: 1rem">
+        <h3>Ancestors</h3>
+        <calcite-combobox label="demo combobox 2" selection-mode="ancestors" allow-custom-values>
+          <calcite-combobox-item value="Trees" text-label="Trees">
+            <calcite-combobox-item
+              value="CommercialDamageAssessment - Damage to Commercial Buildings & Damage to Commercial Buildings"
+              text-label="CommercialDamageAssessment - Damage to Commercial Buildings & Damage to Commercial Buildings"
+              selected
+            ></calcite-combobox-item>
+            <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+            <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+          </calcite-combobox-item>
+        </calcite-combobox>
+      </div>
+
+      <h2>Truncated</h2>
+
+      <div style="width: 350px; margin-left: 1rem">
+        <h3>Single</h3>
+        <calcite-combobox label="demo combobox 3" selection-mode="single" allow-custom-values>
+          <calcite-combobox-item value="Trees" text-label="Trees">
+            <calcite-combobox-item
+              value="CommercialDamageAssessment - Damage to Commercial Buildings"
+              text-label="CommercialDamageAssessment - Damage to Commercial Buildings"
+              selected
+            ></calcite-combobox-item>
+            <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+            <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+          </calcite-combobox-item>
+          <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+        </calcite-combobox>
+      </div>
     </div>
   </body>
 </html>

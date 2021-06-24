@@ -15,6 +15,7 @@ import { TabChangeEventDetail } from "../calcite-tab/interfaces";
 import { getElementDir, filterDirectChildren } from "../../utils/dom";
 import { TabID, TabLayout } from "../calcite-tabs/interfaces";
 import { TabPosition } from "../calcite-tabs/interfaces";
+import { Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-tab-nav",
@@ -46,11 +47,17 @@ export class CalciteTabNav {
    */
   @Prop() syncId: string;
 
+  /** @internal Parent tabs component scale value */
+  @Prop({ reflect: true, mutable: true }) scale: Scale = "m";
+
   /** @internal Parent tabs component layout value */
   @Prop({ reflect: true, mutable: true }) layout: TabLayout = "inline";
 
   /** @internal Parent tabs component position value */
   @Prop({ reflect: true, mutable: true }) position: TabPosition = "below";
+
+  /** @internal Parent tabs component bordered value when layout is "inline" */
+  @Prop({ reflect: true, mutable: true }) bordered?: boolean = false;
 
   /**
    * @internal
@@ -117,6 +124,12 @@ export class CalciteTabNav {
   componentWillRender(): void {
     this.layout = this.el.closest("calcite-tabs")?.layout;
     this.position = this.el.closest("calcite-tabs")?.position;
+    this.scale = this.el.closest("calcite-tabs")?.scale;
+    this.bordered = this.el.closest("calcite-tabs")?.bordered;
+    // fix issue with active tab-title not lining up with blue indicator
+    if (this.selectedTabEl) {
+      this.updateOffsetPosition();
+    }
   }
 
   componentDidRender(): void {

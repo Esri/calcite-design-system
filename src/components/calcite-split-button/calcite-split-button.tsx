@@ -1,7 +1,8 @@
 import { Component, Element, Event, EventEmitter, h, Prop, VNode } from "@stencil/core";
+import { CSS } from "./resources";
 import { getElementDir } from "../../utils/dom";
 import { ButtonAppearance, ButtonColor, DropdownIconType } from "../calcite-button/interfaces";
-import { FlipContext, Scale } from "../interfaces";
+import { FlipContext, Scale, Width } from "../interfaces";
 
 @Component({
   tag: "calcite-split-button",
@@ -48,6 +49,9 @@ export class CalciteSplitButton {
   /** specify the scale of the control, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
 
+  /** specify the width of the button, defaults to auto */
+  @Prop({ reflect: true }) width: Width = "auto";
+
   /** fired when the primary button is clicked */
   @Event() calciteSplitButtonPrimaryClick: EventEmitter;
 
@@ -56,8 +60,16 @@ export class CalciteSplitButton {
 
   render(): VNode {
     const dir = getElementDir(this.el);
+    const widthClasses = {
+      [CSS.container]: true,
+      [CSS.widthAuto]: this.width === "auto",
+      [CSS.widthHalf]: this.width === "half",
+      [CSS.widthFull]: this.width === "full"
+    };
+    const buttonWidth = this.width === "auto" ? "auto" : "full";
+
     return (
-      <div class="split-button__container" dir={dir}>
+      <div class={widthClasses} dir={dir}>
         <calcite-button
           appearance={this.appearance}
           aria-label={this.primaryLabel}
@@ -71,11 +83,12 @@ export class CalciteSplitButton {
           onClick={this.calciteSplitButtonPrimaryClickHandler}
           scale={this.scale}
           splitChild={"primary"}
+          width={buttonWidth}
         >
           {this.primaryText}
         </calcite-button>
-        <div class="split-button__divider-container">
-          <div class="split-button__divider" />
+        <div class={CSS.dividerContainer}>
+          <div class={CSS.divider} />
         </div>
         <calcite-dropdown
           dir={dir}

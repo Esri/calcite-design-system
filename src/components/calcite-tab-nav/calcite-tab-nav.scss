@@ -2,6 +2,18 @@
   @apply z-20 relative flex;
 }
 
+:host([scale="s"]) {
+  min-height: theme("spacing.6");
+}
+
+:host([scale="m"]) {
+  min-height: theme("spacing.8");
+}
+
+:host([scale="l"]) {
+  min-height: theme("spacing.11");
+}
+
 .tab-nav {
   @apply flex
     w-full
@@ -44,4 +56,13 @@
 :host([position="below"]) .tab-nav-active-indicator-container {
   bottom: unset;
   @apply top-0;
+}
+
+:host([bordered]) .tab-nav-active-indicator-container {
+  bottom: unset; // display active blue line above instead of below
+}
+
+:host([bordered][position="below"]) .tab-nav-active-indicator-container {
+  bottom: 0; // display active blue line below instead of above
+  top: unset;
 }

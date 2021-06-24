@@ -11,7 +11,7 @@ import {
   VNode
 } from "@stencil/core";
 import { getAttributes, getElementDir, getElementProp } from "../../utils/dom";
-import { ItemKeyboardEvent, ItemRegistration } from "../calcite-dropdown/interfaces";
+import { ItemKeyboardEvent } from "../calcite-dropdown/interfaces";
 import { getKey } from "../../utils/key";
 import { FlipContext } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -66,9 +66,6 @@ export class CalciteDropdownItem {
   @Event() calciteDropdownItemKeyEvent: EventEmitter<ItemKeyboardEvent>;
 
   /** @internal */
-  @Event() calciteDropdownItemRegister: EventEmitter<ItemRegistration>;
-
-  /** @internal */
   @Event() calciteDropdownCloseRequest: EventEmitter;
   //--------------------------------------------------------------------------
   //
@@ -94,13 +91,6 @@ export class CalciteDropdownItem {
     if (this.selectionMode === "none") {
       this.active = false;
     }
-  }
-
-  componentWillLoad(): void {
-    this.itemPosition = this.getItemPosition();
-    this.calciteDropdownItemRegister.emit({
-      position: this.itemPosition
-    });
   }
 
   render(): VNode {
@@ -247,9 +237,6 @@ export class CalciteDropdownItem {
   //
   //--------------------------------------------------------------------------
 
-  /** position withing group */
-  private itemPosition: number;
-
   /** id of containing group */
   private parentDropdownGroupEl: HTMLCalciteDropdownGroupElement;
 
@@ -298,13 +285,5 @@ export class CalciteDropdownItem {
       requestedDropdownItem: this.el,
       requestedDropdownGroup: this.parentDropdownGroupEl
     });
-  }
-
-  private getItemPosition(): number {
-    const group = this.el.closest("calcite-dropdown-group") as HTMLCalciteDropdownGroupElement;
-
-    return group
-      ? Array.prototype.indexOf.call(group.querySelectorAll("calcite-dropdown-item"), this.el)
-      : 1;
   }
 }
