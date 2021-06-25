@@ -10,10 +10,10 @@ import {
   Watch
 } from "@stencil/core";
 
-import { SLOTS, TEXT } from "./calcite-notice.resources";
+import { CSS, SLOTS, TEXT } from "./calcite-notice.resources";
 import { Scale, Width } from "../interfaces";
 import { StatusColor, StatusIcons } from "../calcite-alert/interfaces";
-import { getElementDir, setRequestedIcon } from "../../utils/dom";
+import { getElementDir, getSlotted, setRequestedIcon } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 
 /** Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
@@ -26,6 +26,7 @@ import { CSS_UTILITY } from "../../utils/resources";
  * @slot title - Title of the notice (optional)
  * @slot message - Main text of the notice
  * @slot link - Optional action to take from the notice (undo, try again, link to page, etc.)
+ * @slot action-end - Allows adding a `calcite-action` at the end of the notice
  */
 
 @Component({
@@ -87,35 +88,42 @@ export class CalciteNotice {
   }
 
   componentDidLoad(): void {
-    this.noticeLinkEl = this.el.querySelectorAll("calcite-link")[0] as HTMLCalciteLinkElement;
+    this.noticeLinkEl = this.el.querySelector("calcite-link") as HTMLCalciteLinkElement;
   }
 
   render(): VNode {
-    const dir = getElementDir(this.el);
+    const { el } = this;
+    const dir = getElementDir(el);
     const closeButton = (
       <button
         aria-label={this.intlClose}
-        class="notice-close"
+        class={CSS.close}
         onClick={this.close}
-        ref={() => this.closeButton}
+        ref={(el) => (this.closeButton = el)}
       >
         <calcite-icon icon="x" scale={this.scale === "s" ? "s" : "m"} />
       </button>
     );
 
+    const hasActionEnd = getSlotted(el, SLOTS.actionEnd);
+
     return (
-      <div class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+      <div class={{ [CSS.container]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
         {this.requestedIcon ? (
-          <div class="notice-icon">
-            
+          <div class={CSS.icon}>
             <calcite-icon icon={this.requestedIcon} scale={this.scale === "s" ? "s" : "m"} />
           </div>
         ) : null}
-        <div class="notice-content">
+        <div class={CSS.content}>
           <slot name={SLOTS.title} />
           <slot name={SLOTS.message} />
           <slot name={SLOTS.link} />
         </div>
+        {hasActionEnd ? (
+          <div class={CSS.actionEnd}>
+            <slot name={SLOTS.actionEnd} />
+          </div>
+        ) : null}
         {this.dismissible ? closeButton : null}
       </div>
     );
@@ -168,7 +176,7 @@ export class CalciteNotice {
   //--------------------------------------------------------------------------
 
   /** the close button element */
-  private closeButton?: HTMLElement;
+  private closeButton?: HTMLButtonElement;
 
   /** the notice link child element  */
   private noticeLinkEl?: HTMLCalciteLinkElement;

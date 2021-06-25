@@ -1,39 +1,35 @@
 :host {
-  --calcite-combobox-item-indent-start-1: var(--calcite-combobox-item-spacing-indent-1);
-  --calcite-combobox-item-indent-end-1: unset;
-  --calcite-combobox-item-indent-start-2: var(--calcite-combobox-item-spacing-indent-2);
-  --calcite-combobox-item-indent-end-2: unset;
+  --calcite-combobox-item-indent-value: calc(
+    var(--calcite-combobox-item-spacing-indent) * var(--calcite-combobox-item-spacing-indent-multiplier)
+  );
+  --calcite-combobox-item-indent-start: var(--calcite-combobox-item-indent-value);
+  --calcite-combobox-item-indent-end: unset;
 }
 
 .scale--s {
   @apply text--2h;
   --calcite-combobox-item-spacing-unit-l: theme("spacing.2");
   --calcite-combobox-item-spacing-unit-s: theme("spacing.1");
-  --calcite-combobox-item-spacing-indent-1: theme("spacing.2");
-  --calcite-combobox-item-spacing-indent-2: theme("spacing.4");
+  --calcite-combobox-item-spacing-indent: theme("spacing.2");
 }
 
 .scale--m {
   @apply text--1h;
   --calcite-combobox-item-spacing-unit-l: theme("spacing.3");
   --calcite-combobox-item-spacing-unit-s: theme("spacing.2");
-  --calcite-combobox-item-spacing-indent-1: theme("spacing.3");
-  --calcite-combobox-item-spacing-indent-2: theme("spacing.6");
+  --calcite-combobox-item-spacing-indent: theme("spacing.3");
 }
 
 .scale--l {
   @apply text-0h;
   --calcite-combobox-item-spacing-unit-l: theme("spacing.4");
   --calcite-combobox-item-spacing-unit-s: theme("spacing.3");
-  --calcite-combobox-item-spacing-indent-1: theme("spacing.4");
-  --calcite-combobox-item-spacing-indent-2: theme("spacing.8");
+  --calcite-combobox-item-spacing-indent: theme("spacing.4");
 }
 
 .calcite--rtl {
-  --calcite-combobox-item-indent-start-1: unset;
-  --calcite-combobox-item-indent-end-1: var(--calcite-combobox-item-spacing-indent-1);
-  --calcite-combobox-item-indent-start-2: unset;
-  --calcite-combobox-item-indent-end-2: var(--calcite-combobox-item-spacing-indent-2);
+  --calcite-combobox-item-indent-start: unset;
+  --calcite-combobox-item-indent-end: var(--calcite-combobox-item-indent-value);
 }
 
 :host(:focus) {
@@ -94,14 +90,9 @@ ul {
   color: theme("colors.border.1");
 }
 
-.icon--indent-1 {
-  padding-left: var(--calcite-combobox-item-indent-start-1);
-  padding-right: var(--calcite-combobox-item-indent-end-1);
-}
-
-.icon--indent-2 {
-  padding-left: var(--calcite-combobox-item-indent-start-2);
-  padding-right: var(--calcite-combobox-item-indent-end-2);
+.icon--indent {
+  padding-left: var(--calcite-combobox-item-indent-start);
+  padding-right: var(--calcite-combobox-item-indent-end);
 }
 
 .icon--custom {
