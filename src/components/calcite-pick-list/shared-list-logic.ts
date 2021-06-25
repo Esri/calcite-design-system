@@ -125,7 +125,7 @@ export function keyDownHandler<T extends Lists>(this: List<T>, event: KeyboardEv
     return;
   }
 
-  const { items } = this;
+  const { items, multiple, selectionFollowsFocus } = this;
   const { length: totalItems } = items;
   const currentIndex = (items as ListItemElement<T>[]).indexOf(target as ListItemElement<T>);
 
@@ -139,6 +139,11 @@ export function keyDownHandler<T extends Lists>(this: List<T>, event: KeyboardEv
   const item = items[index];
 
   toggleSingleSelectItemTabbing(item, true);
+
+  if (!multiple && selectionFollowsFocus) {
+    item.selected = true;
+  }
+
   focusElement(item);
 }
 
@@ -180,7 +185,7 @@ export async function setFocus<T extends Lists>(this: List<T>, focusId: ListFocu
     return;
   }
 
-  const { multiple, items } = this;
+  const { items, multiple, selectionFollowsFocus } = this;
 
   if (items.length === 0) {
     return;
@@ -190,9 +195,13 @@ export async function setFocus<T extends Lists>(this: List<T>, focusId: ListFocu
     return items[0].setFocus();
   }
 
-  const selected = (items as ListItemElement<T>[]).find((item) => item.selected);
+  const focusTarget = (items as ListItemElement<T>[]).find((item) => item.selected) || items[0];
 
-  return (selected ? selected : items[0]).setFocus();
+  if (selectionFollowsFocus) {
+    focusTarget.selected = true;
+  }
+
+  return focusTarget.setFocus();
 }
 
 export function setUpItems<T extends Lists>(
