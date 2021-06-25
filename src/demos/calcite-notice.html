@@ -187,8 +187,14 @@
       <calcite-notice scale="l" width="half" active>
         <div slot="title">Something failed</div>
         <div slot="message">That thing you wanted to do didn't work as expected</div>
-        <calcite-action id="retry-action" slot="actions-end" title="Retry" icon="reset"></calcite-action>
-        <calcite-action id="info-action" slot="actions-end" title="Get info" icon="information"></calcite-action>
+        <calcite-action id="retry-action" scale="l" slot="actions-end" title="Retry" icon="reset"></calcite-action>
+        <calcite-action
+          id="info-action"
+          scale="l"
+          slot="actions-end"
+          title="Get info"
+          icon="information"
+        ></calcite-action>
       </calcite-notice>
     </calcite-tooltip-manager>
     <calcite-tooltip reference-element="retry-action" placement="top">Retry that action</calcite-tooltip>

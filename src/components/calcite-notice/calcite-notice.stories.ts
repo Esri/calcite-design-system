@@ -64,7 +64,12 @@ export const WithAction = (): string => html`
     >
       <div slot="title">Notice with action</div>
       <div slot="message">This shows a notice with a custom action</div>
-      <calcite-action label="Retry" icon="reset" slot="actions-end"></calcite-action>
+      <calcite-action
+        label="Retry"
+        icon="reset"
+        scale="${select("scale", ["s", "m", "l"], "m")}"
+        slot="actions-end"
+      ></calcite-action>
     </calcite-notice>
   </div>
 `;
