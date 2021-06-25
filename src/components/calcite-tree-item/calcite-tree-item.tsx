@@ -15,7 +15,7 @@ import { TreeItemSelectDetail } from "./interfaces";
 import { TreeSelectionMode } from "../calcite-tree/interfaces";
 
 import { nodeListToArray, getElementDir, filterDirectChildren, getSlotted } from "../../utils/dom";
-import { getKey, isActivationKey } from "../../utils/key";
+import { getKey } from "../../utils/key";
 
 @Component({
   tag: "calcite-tree-item",
