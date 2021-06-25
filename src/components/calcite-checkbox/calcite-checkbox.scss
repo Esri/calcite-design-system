@@ -1,3 +1,11 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overriden using the component's tag as selector.
+ *
+ * @prop --calcite-checkbox-size: sets checkbox width and height
+ */
+
 :host([scale="s"]) {
   --calcite-checkbox-size: theme("spacing.3");
 }

@@ -1,3 +1,15 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overriden using the component's tag as selector.
+ *
+ * @prop --calcite-chip-spacing-unit-l: adds horizontal padding before chip text
+ * @prop --calcite-chip-spacing-unit-s: adds horizontal padding after chip text
+ * @prop --calcite-chip-button-border-radius: sets border-radius on close button pseudo-class colors (:hover, :active, :focus)
+ * @prop --calcite-button-transparent-hover: sets close button semi-transparent :hover color (ex: rgba(25, 25, 3, 0.3))
+ * @prop --calcite-button-transparent-press: sets close button semi-transparent :active color (ex: rgba(245, 245, 43, 0.3))
+ */
+
 // scale
 // todo update when new spacing modifiers are introduced to calcite-base
 :host([scale="s"]) {
