@@ -195,13 +195,13 @@ export async function setFocus<T extends Lists>(this: List<T>, focusId: ListFocu
     return items[0].setFocus();
   }
 
-  const selected = (items as ListItemElement<T>[]).find((item) => item.selected) || items[0];
+  const focusTarget = (items as ListItemElement<T>[]).find((item) => item.selected) || items[0];
 
   if (selectionFollowsFocus) {
-    selected.selected = true;
+    focusTarget.selected = true;
   }
 
-  return selected.setFocus();
+  return focusTarget.setFocus();
 }
 
 export function setUpItems<T extends Lists>(
