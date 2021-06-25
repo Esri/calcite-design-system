@@ -1,3 +1,11 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overriden using the component's tag as selector.
+ *
+ * @prop --columns: sets number of grid-template-columns when layout is grid
+ */
+
 :host {
   @extend %component-host;
 
