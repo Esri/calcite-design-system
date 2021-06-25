@@ -95,4 +95,33 @@ describe("calcite-notice", () => {
 
     expect(actionAssignedSlot).toBe(SLOTS.actionEnd);
   });
+
+  describe("focusable", () => {
+    it("with link and dismissible => focuses on link", () =>
+      focusable(html` <calcite-notice id="notice-1" active dismissible> ${noticeContent}</calcite-notice>`, {
+        focusTargetSelector: `calcite-link`
+      }));
+
+    it("when dismissible => focuses on close button", () =>
+      focusable(
+        html` <calcite-notice id="notice-1" active dismissible>
+          <div slot="title">Title Text</div>
+          <div slot="message">Message Text</div>
+        </calcite-notice>`,
+        {
+          shadowFocusTargetSelector: `.${CSS.close}`
+        }
+      ));
+
+    it("without link nor dismissible => does not focus", () =>
+      focusable(
+        html` <calcite-notice id="notice-1" active>
+          <div slot="title">Title Text</div>
+          <div slot="message">Message Text</div>
+        </calcite-notice>`,
+        {
+          focusTargetSelector: "body"
+        }
+      ));
+  });
 });
