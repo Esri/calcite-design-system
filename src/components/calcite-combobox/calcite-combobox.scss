@@ -1,3 +1,13 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overriden using the component's tag as selector.
+ *
+ * @prop --calcite-combobox-item-spacing-unit-l: sets horizontal padding around selected comobobo-item(s)
+ * @prop --calcite-combobox-item-spacing-unit-s: sets vertical padding around selected comobobo-item chip(s)
+ * @prop --calcite-combobox-input-height: sets height of the combobox input
+ */
+
 :host {
   @apply block relative;
 }
