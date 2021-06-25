@@ -103,7 +103,6 @@
 }
 
 // stepper item icon
-//todo rtl
 :host .stepper-item-icon {
   margin-right: var(--calcite-stepper-item-spacing-unit-m);
   @apply text-color-3
@@ -264,11 +263,10 @@
     pl-0;
   padding-right: var(--calcite-stepper-item-spacing-unit-l);
   & .stepper-item-icon {
-    @apply mr-auto
-      mb-0
-      mr-0
+    @apply mb-0
+      ml-0
       pl-0;
-    margin-top: var(--calcite-stepper-item-spacing-unit-m);
+    // margin-top: var(--calcite-stepper-item-spacing-unit-m);
     padding-right: var(--calcite-stepper-item-spacing-unit-l);
   }
   & .stepper-item-header {
