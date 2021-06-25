@@ -1,4 +1,4 @@
-import { Component, h, VNode } from "@stencil/core";
+import { Component, h, VNode, Host } from "@stencil/core";
 import { CSS } from "./resources";
 
 /**
@@ -19,9 +19,11 @@ export class CalciteList {
 
   render(): VNode {
     return (
-      <div class={CSS.container}>
-        <slot />
-      </div>
+      <Host role="list">
+        <div class={CSS.container}>
+          <slot />
+        </div>
+      </Host>
     );
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Element, Event, EventEmitter, Prop, h, VNode } from "@stencil/core";
+import { Component, Element, Event, EventEmitter, Prop, h, VNode, Host } from "@stencil/core";
 import { SLOTS, CSS } from "./resources";
 import { getSlotted } from "../../utils/dom";
 
@@ -46,7 +46,7 @@ export class CalciteListItem {
   //
   // --------------------------------------------------------------------------
 
-  @Event() calciteListItemClick: EventEmitter;
+  @Event() calciteListItemClick: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -142,11 +142,13 @@ export class CalciteListItem {
 
   render(): VNode {
     return (
-      <div class={CSS.container}>
-        {this.renderActionsStart()}
-        {this.renderContentContainer()}
-        {this.renderActionsEnd()}
-      </div>
+      <Host role="listitem">
+        <div class={CSS.container}>
+          {this.renderActionsStart()}
+          {this.renderContentContainer()}
+          {this.renderActionsEnd()}
+        </div>
+      </Host>
     );
   }
 }
