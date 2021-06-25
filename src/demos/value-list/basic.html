@@ -11,6 +11,20 @@
       <section class="example-container">
         <h1>calcite-value-list</h1>
 
+        <h2>default selection</h2>
+        <calcite-value-list>
+          <calcite-value-list-item label="Uno" removable value="1"></calcite-value-list-item>
+          <calcite-value-list-item label="Dos" value="2" removable selected></calcite-value-list-item>
+          <calcite-value-list-item label="Tres" value="3"></calcite-value-list-item>
+        </calcite-value-list>
+
+        <h2>selection follows focus (single selection only)</h2>
+        <calcite-value-list selection-follows-focus>
+          <calcite-value-list-item label="Uno" removable value="1"></calcite-value-list-item>
+          <calcite-value-list-item label="Dos" value="2" removable selected></calcite-value-list-item>
+          <calcite-value-list-item label="Tres" value="3"></calcite-value-list-item>
+        </calcite-value-list>
+
         <h3>multiple</h3>
         <calcite-value-list id="one" multiple filter-enabled>
           <calcite-action slot="menu-actions" indicator text="Cool" scale="s" icon="hamburger"> </calcite-action>

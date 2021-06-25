@@ -31,7 +31,12 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes> = (
 }): VNode => {
   const defaultSlot = <slot />;
   return (
-    <Host aria-busy={loading.toString()} aria-disabled={disabled.toString()} role="menu" {...rest}>
+    <Host
+      aria-busy={loading.toString()}
+      aria-disabled={disabled.toString()}
+      role="listbox"
+      {...rest}
+    >
       <section>
         <header class={{ [CSS.sticky]: true }}>
           {filterEnabled ? (
