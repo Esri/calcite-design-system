@@ -26,7 +26,7 @@ import { CSS_UTILITY } from "../../utils/resources";
  * @slot title - Title of the notice (optional)
  * @slot message - Main text of the notice
  * @slot link - Optional action to take from the notice (undo, try again, link to page, etc.)
- * @slot action-end - Allows adding a `calcite-action` at the end of the notice. It is recommended to use 2 or less actions.
+ * @slot actions-end - Allows adding a `calcite-action` at the end of the notice. It is recommended to use 2 or less actions.
  */
 
 @Component({
