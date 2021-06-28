@@ -239,10 +239,10 @@ describe("calcite-modal accessibility checks", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-modal intl-close="test"></calcite-modal>`);
     const modal = await page.find("calcite-modal");
-    const scrim = await page.find("calcite-modal >>> calcite-scrim");
     await modal.setProperty("active", true);
     await page.waitForChanges();
     expect(modal).toHaveAttribute("active");
+    const scrim = await page.find("calcite-modal >>> calcite-scrim");
     await scrim.click();
     await page.waitForChanges();
     expect(modal).not.toHaveAttribute("active");
@@ -252,10 +252,10 @@ describe("calcite-modal accessibility checks", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-modal disable-outside-close intl-close="test"></calcite-modal>`);
     const modal = await page.find("calcite-modal");
-    const scrim = await page.find("calcite-modal >>> calcite-scrim");
     await modal.setProperty("active", true);
     await page.waitForChanges();
     expect(modal).toHaveAttribute("active");
+    const scrim = await page.find("calcite-modal >>> calcite-scrim");
     await scrim.click();
     await page.waitForChanges();
     expect(modal).toHaveAttribute("active");
