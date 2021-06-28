@@ -10,7 +10,7 @@ import {
   Prop,
   VNode
 } from "@stencil/core";
-import { getAttributes, getElementDir, getElementProp } from "../../utils/dom";
+import { getElementDir, getElementProp } from "../../utils/dom";
 import { ItemKeyboardEvent } from "../calcite-dropdown/interfaces";
 import { getKey } from "../../utils/key";
 import { FlipContext } from "../interfaces";
@@ -94,15 +94,6 @@ export class CalciteDropdownItem {
   }
 
   render(): VNode {
-    const attributes = getAttributes(this.el, [
-      "icon-start",
-      "icon-end",
-      "active",
-      "has-text",
-      "is-link",
-      "dir",
-      "id"
-    ]);
     const dir = getElementDir(this.el);
     const scale = getElementProp(this.el, "scale", "m");
     const iconScale = scale === "l" ? "m" : "s";
@@ -142,7 +133,14 @@ export class CalciteDropdownItem {
     const contentEl = !this.href ? (
       slottedContent
     ) : (
-      <a {...attributes} class="dropdown-link" ref={(el) => (this.childLink = el)}>
+      <a
+        class="dropdown-link"
+        href={this.href}
+        ref={(el) => (this.childLink = el)}
+        rel={this.el.getAttribute("rel")}
+        target={this.el.getAttribute("target")}
+        title={this.el.getAttribute("title")}
+      >
         {slottedContent}
       </a>
     );
