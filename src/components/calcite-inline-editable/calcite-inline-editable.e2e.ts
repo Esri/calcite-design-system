@@ -200,15 +200,15 @@ describe("calcite-inline-editable", () => {
       const input = await element.find("calcite-input");
       await element.click();
       const cancelEditingButton = await element.find(".calcite-inline-editable-cancel-editing-button");
-      expect(input.getAttribute("value")).toBe("John Doe");
+      expect(await input.getProperty("value")).toBe("John Doe");
       await page.$eval("calcite-input input", (input: HTMLInputElement): void => {
         input.setSelectionRange(input.value.length, input.value.length);
       });
       await input.type("typo");
-      expect(input.getAttribute("value")).toBe("John Doetypo");
+      expect(await input.getProperty("value")).toBe("John Doetypo");
       await cancelEditingButton.click();
       await page.waitForChanges();
-      expect(input.getAttribute("value")).toBe("John Doe");
+      expect(await input.getProperty("value")).toBe("John Doe");
       expect(calciteInlineEditableEditingCancel).toHaveReceivedEventTimes(1);
     });
 
@@ -217,15 +217,15 @@ describe("calcite-inline-editable", () => {
       const element = await page.find("calcite-inline-editable");
       const input = await element.find("calcite-input");
       await element.click();
-      expect(input.getAttribute("value")).toBe("John Doe");
+      expect(await input.getProperty("value")).toBe("John Doe");
       await page.$eval("calcite-input input", (input: HTMLInputElement): void => {
         input.setSelectionRange(input.value.length, input.value.length);
       });
       await input.type("typo");
-      expect(input.getAttribute("value")).toBe("John Doetypo");
+      expect(await input.getProperty("value")).toBe("John Doetypo");
       await page.keyboard.press("Escape");
       await page.waitForChanges();
-      expect(input.getAttribute("value")).toBe("John Doe");
+      expect(await input.getProperty("value")).toBe("John Doe");
       expect(calciteInlineEditableEditingCancel).toHaveReceivedEventTimes(1);
     });
 
@@ -253,7 +253,7 @@ describe("calcite-inline-editable", () => {
       await input.type("Moe");
       await confirmChangesButton.click();
       expect(calciteInlineEditableChangesConfirm).toHaveReceivedEventTimes(1);
-      expect(input.getAttribute("value")).toBe("John DoeMoe");
+      expect(await input.getProperty("value")).toBe("John DoeMoe");
       expect(element).toHaveAttribute("editing-enabled");
     });
 
@@ -277,7 +277,7 @@ describe("calcite-inline-editable", () => {
       await confirmChangesButton.click();
       expect(calciteInlineEditableChangesConfirm).toHaveReceivedEventTimes(1);
       await page.waitForChanges();
-      expect(input.getAttribute("value")).toBe("John DoeMoe");
+      expect(await input.getProperty("value")).toBe("John DoeMoe");
       expect(element).not.toHaveAttribute("editing-enabled");
     });
 
@@ -301,7 +301,7 @@ describe("calcite-inline-editable", () => {
       await confirmChangesButton.click();
       expect(calciteInlineEditableChangesConfirm).toHaveReceivedEventTimes(1);
       await page.waitForChanges();
-      expect(input.getAttribute("value")).toBe("John DoeMoe");
+      expect(await input.getProperty("value")).toBe("John DoeMoe");
       expect(element).toHaveAttribute("editing-enabled");
     });
 
