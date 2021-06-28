@@ -191,7 +191,7 @@ module.exports = {
         }
       },
       opacity: {
-        disabled: "0.5"
+        disabled: "var(--calcite-ui-opacity-disabled)"
       },
       spacing: {
         "0.5": "0.125rem",
