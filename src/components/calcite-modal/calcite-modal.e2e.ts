@@ -235,6 +235,32 @@ describe("calcite-modal accessibility checks", () => {
     expect(modal).not.toHaveAttribute("active");
   });
 
+  it("should close when the scrim is clicked", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-modal intl-close="test"></calcite-modal>`);
+    const modal = await page.find("calcite-modal");
+    const scrim = await page.find("calcite-modal >>> calcite-scrim");
+    await modal.setProperty("active", true);
+    await page.waitForChanges();
+    expect(modal).toHaveAttribute("active");
+    await scrim.click();
+    await page.waitForChanges();
+    expect(modal).not.toHaveAttribute("active");
+  });
+
+  it("should not close when the scrim is clicked", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-modal disable-outside-close intl-close="test"></calcite-modal>`);
+    const modal = await page.find("calcite-modal");
+    const scrim = await page.find("calcite-modal >>> calcite-scrim");
+    await modal.setProperty("active", true);
+    await page.waitForChanges();
+    expect(modal).toHaveAttribute("active");
+    await scrim.click();
+    await page.waitForChanges();
+    expect(modal).toHaveAttribute("active");
+  });
+
   it("closes and allows re-opening when Close button  is clicked", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-modal intl-close="test"></calcite-modal>`);
