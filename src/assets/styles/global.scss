@@ -42,8 +42,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --calcite-border-radius: theme("borderRadius.default");
-  --calcite-ui-opacity-disabled: theme("opacity.disabled");
+  --calcite-border-radius: 3px;
   --calcite-panel-width-multiplier: 1;
 
   @apply font-sans;
