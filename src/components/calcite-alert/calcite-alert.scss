@@ -15,6 +15,9 @@
   .alert-queue-count {
     @apply mx-2;
   }
+  .container {
+    --calcite-alert-height: 3.5rem;
+  }
 }
 
 :host([scale="m"]) {
@@ -32,6 +35,9 @@
   }
   .alert-queue-count {
     @apply mx-3;
+  }
+  .container {
+    --calcite-alert-height: 4.3125rem;
   }
 }
 
@@ -51,10 +57,14 @@
   .alert-queue-count {
     @apply mx-4;
   }
+  .container {
+    --calcite-alert-height: 5.625rem;
+  }
 }
 
 :host {
   .container {
+    height: var(--calcite-alert-height);
     @apply shadow-2
       flex
       fixed
@@ -67,11 +77,9 @@
       opacity-0
       left-0
       right-0
-      bottom-0
-      border
-      border-solid
-      border-color-3;
+      bottom-0;
     border-radius: var(--calcite-border-radius);
+    border-top: 3px solid var(--calcite-ui-border-3);
     width: var(--calcite-alert-width);
     max-width: 90%;
     max-height: 0;
@@ -81,8 +89,7 @@
     @media only screen and (max-width: $viewport-medium) {
       @apply w-full
         max-w-full
-        rounded-none
-        border-0;
+        rounded-none;
     }
   }
 }
@@ -104,7 +111,7 @@
 
 :host([active]) {
   .container:not(.queued) {
-    @apply opacity-100 max-h-full border-t-2;
+    @apply opacity-100 max-h-full;
     transform: translate3d(0, -$baseline, 0);
     pointer-events: initial;
 
@@ -197,13 +204,13 @@
   @include alert-element-base;
   @apply py-0
     self-stretch
-    bg-transparent
+    bg-foreground-1
     border-none
     outline-none
     cursor-pointer
     text-color-3
     overflow-hidden;
-  border-radius: 0 var(--calcite-border-radius) var(--calcite-border-radius) 0;
+  border-bottom-right-radius: var(--calcite-border-radius);
 
   &:hover,
   &:focus {
@@ -219,8 +226,8 @@
 }
 .calcite--rtl {
   .alert-close {
-    @apply rounded-none rounded-l;
-    border-radius: var(--calcite-border-radius) 0 0 var(--calcite-border-radius);
+    border-bottom-left-radius: var(--calcite-border-radius);
+    border-bottom-right-radius: unset;
   }
 }
 .alert-queue-count {
@@ -240,7 +247,6 @@
     right-0
     w-full
     overflow-hidden;
-  border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
   top: -3px;
   height: 3px;
   z-index: 103;
@@ -253,6 +259,9 @@
     content: "";
     background-color: var(--calcite-alert-dismiss-progress-background);
     z-index: 104;
+  }
+  @media only screen and (min-width: $viewport-medium) {
+    border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
   }
 }
 
@@ -292,8 +301,7 @@ $alertDurations: "fast" 6000ms, "medium" 10000ms, "slow" 14000ms;
 
 @keyframes dismissProgress {
   0% {
-    @apply w-0;
-    opacity: 0.8;
+    @apply w-0 opacity-75;
   }
   100% {
     @apply w-full opacity-100;
