@@ -54,9 +54,9 @@
 </calcite-list>
 </section>
 <section class="example-container">
-<h2>Button disabled</h2>
+<h2>Non interactive</h2>
 <calcite-list>
-  <calcite-list-item button-disabled label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
+  <calcite-list-item non-interactive label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
     <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
     <calcite-icon scale="l" icon="effects" slot="content-start"></calcite-icon>
     <calcite-avatar
@@ -73,7 +73,7 @@
     <calcite-action icon="ellipsis" label="menu" slot="actions-end"></calcite-action>
     <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
   </calcite-list-item>
-  <calcite-list-item button-disabled label="Finn Mertens" description="Part owner of the Tree House">
+  <calcite-list-item non-interactive label="Finn Mertens" description="Part owner of the Tree House">
     <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
     <calcite-icon scale="l" icon="running" slot="content-start"></calcite-icon>
     <calcite-avatar
@@ -90,7 +90,7 @@
     <calcite-action icon="ellipsis" label="menu" slot="actions-end"></calcite-action>
     <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
   </calcite-list-item>
-  <calcite-list-item button-disabled label="Jake T. Dog" description="Part owner of the Tree House">
+  <calcite-list-item non-interactive label="Jake T. Dog" description="Part owner of the Tree House">
     <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
     <calcite-icon scale="l" icon="walking" slot="content-start"></calcite-icon>
     <calcite-avatar

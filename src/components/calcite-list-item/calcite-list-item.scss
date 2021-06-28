@@ -37,6 +37,10 @@
   }
 }
 
+.content-container--button[disabled] {
+  @apply pointer-events-none cursor-default;
+}
+
 .content {
   @apply justify-center
     flex

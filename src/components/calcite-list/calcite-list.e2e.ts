@@ -14,7 +14,7 @@ describe("calcite-list", () => {
       <calcite-icon icon="banana" slot="content-end" />
       <calcite-action icon="banana" label="jake" slot="actions-end" />
     </calcite-list-item>
-    <calcite-list-item label="test" button-disabled description="hello world"></calcite-list-item>
+    <calcite-list-item label="test" non-interactive description="hello world"></calcite-list-item>
     <calcite-list-item label="test" description="hello world"></calcite-list-item>
   </calcite-list>`);
   });

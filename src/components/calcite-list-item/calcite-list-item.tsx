@@ -42,31 +42,11 @@ export class CalciteListItem {
 
   // --------------------------------------------------------------------------
   //
-  //  Events
-  //
-  // --------------------------------------------------------------------------
-
-  @Event() calciteListItemClick: EventEmitter<void>;
-
-  // --------------------------------------------------------------------------
-  //
   //  Private Properties
   //
   // --------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteListItemElement;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
-
-  calciteListItemClickHandler = (): void => {
-    if (!this.disabled) {
-      this.calciteListItemClick.emit();
-    }
-  };
 
   // --------------------------------------------------------------------------
   //
@@ -130,8 +110,6 @@ export class CalciteListItem {
       <button
         class={{ [CSS.contentContainer]: true, [CSS.contentContainerButton]: true }}
         disabled={disabled}
-        onClick={this.calciteListItemClickHandler}
-        type="button"
       >
         {content}
       </button>
