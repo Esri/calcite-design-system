@@ -1,6 +1,6 @@
 import { Component, Element, h, Method, Prop, Build, State, VNode } from "@stencil/core";
 import { CSS, TEXT } from "./resources";
-import { getAttributes, getElementDir } from "../../utils/dom";
+import { getElementDir } from "../../utils/dom";
 import { ButtonAlignment, ButtonAppearance, ButtonColor } from "./interfaces";
 import { FlipContext, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -98,22 +98,6 @@ export class CalciteButton {
 
   render(): VNode {
     const dir = getElementDir(this.el);
-    const attributes = getAttributes(this.el, [
-      "appearance",
-      "alignment",
-      "calcite-hydrated",
-      "class",
-      "color",
-      "dir",
-      "icon-start",
-      "icon-end",
-      "id",
-      "split-child",
-      "loading",
-      "scale",
-      "slot",
-      "width"
-    ]);
     const Tag = this.childElType;
 
     const loader = (
@@ -150,12 +134,19 @@ export class CalciteButton {
 
     return (
       <Tag
-        {...attributes}
+        aria-label={this.el.getAttribute("aria-label")}
         class={{ [CSS_UTILITY.rtl]: dir === "rtl", [CSS.contentSlotted]: this.hasContent }}
         disabled={this.disabled}
+        href={this.childElType === "a" && this.href}
+        name={this.childElType === "button" && this.el.getAttribute("name")}
         onClick={this.handleClick}
         ref={(el) => (this.childEl = el)}
+        rel={this.childElType === "a" && this.el.getAttribute("rel")}
+        role={this.el.getAttribute("role")}
         tabIndex={this.disabled ? -1 : null}
+        target={this.childElType === "a" && this.el.getAttribute("target")}
+        title={this.el.getAttribute("title")}
+        type={this.childElType === "button" && this.type}
       >
         {this.loading ? loader : null}
         {this.iconStart ? iconStartEl : null}
