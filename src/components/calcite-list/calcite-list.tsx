@@ -3,7 +3,7 @@ import { CSS } from "./resources";
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
- * @slot - todo document.
+ * @slot - A slot for adding `calcite-list-item` elements.
  */
 @Component({
   tag: "calcite-list",

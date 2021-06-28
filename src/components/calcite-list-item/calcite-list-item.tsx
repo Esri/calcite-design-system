@@ -3,10 +3,10 @@ import { SLOTS, CSS } from "./resources";
 import { getSlotted } from "../../utils/dom";
 
 /**
- * @slot actions-start - todo document.
- * @slot content-start - todo document.
- * @slot content-end - todo document.
- * @slot actions-end - todo document.
+ * @slot actions-start - A slot for adding actionable `calcite-action` elements before the content of the list item.
+ * @slot content-start - A slot for adding non-actionable elements before the label and description of the list item.
+ * @slot content-end - A slot for adding non-actionable elements after the label and description of the list item.
+ * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the list item.
  */
 @Component({
   tag: "calcite-list-item",
@@ -21,22 +21,22 @@ export class CalciteListItem {
   // --------------------------------------------------------------------------
 
   /**
-   * @todo document.
+   * When true, prevents the content of the list item from user interaction.
    */
-  @Prop({ reflect: true }) buttonDisabled = false;
+  @Prop({ reflect: true }) nonInteractive = false;
 
   /**
-   * @todo document.
+   * An optional description for this item.  This will appear below the label text.
    */
   @Prop() description: string;
 
   /**
-   * @todo document.
+   * When true, disabled prevents interaction.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * @todo document.
+   * @todo The label of the list item.
    */
   @Prop() label: string;
 
@@ -122,11 +122,11 @@ export class CalciteListItem {
   }
 
   renderContentContainer(): VNode {
-    const { disabled, buttonDisabled } = this;
+    const { disabled, nonInteractive } = this;
 
     const content = [this.renderContentStart(), this.renderContent(), this.renderContentEnd()];
 
-    return !buttonDisabled ? (
+    return !nonInteractive ? (
       <button
         class={{ [CSS.contentContainer]: true, [CSS.contentContainerButton]: true }}
         disabled={disabled}
