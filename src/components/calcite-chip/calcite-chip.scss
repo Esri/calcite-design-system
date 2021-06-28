@@ -3,11 +3,11 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-chip-spacing-unit-l: adds horizontal padding before chip text
- * @prop --calcite-chip-spacing-unit-s: adds horizontal padding after chip text
- * @prop --calcite-chip-button-border-radius: sets border-radius on close button pseudo-class colors (:hover, :active, :focus)
- * @prop --calcite-button-transparent-hover: sets close button semi-transparent :hover color (ex: rgba(25, 25, 3, 0.3))
- * @prop --calcite-button-transparent-press: sets close button semi-transparent :active color (ex: rgba(245, 245, 43, 0.3))
+ * @prop --calcite-button-transparent-hover: the semi-transparent :hover color on dismissible chip's close button
+ * @prop --calcite-button-transparent-press: the semi-transparent :active color on dismissible chip's close button
+ * @prop @internal --calcite-chip-button-border-radius: the border-radius on dismissible chip's close button
+ * @prop @internal --calcite-chip-spacing-unit-l: the horizontal padding before chip text
+ * @prop @internal --calcite-chip-spacing-unit-s: the horizontal padding after chip text
  */
 
 // scale

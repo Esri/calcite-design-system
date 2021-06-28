@@ -1,14 +1,3 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-accordion-item-background: sets background color for each accordion-item
- * @prop --calcite-accordion-item-border: sets bottom border color for each accordion-item
- * @prop --calcite-accordion-icon-margin: sets indentation of each accordion-item's title and subtitle
- * @prop --calcite-accordion-item-padding: sets padding around each accordion-item's title and subtitle
- */
-
 // icon position variants for child
 .icon-position--start {
   --calcite-accordion-item-flex-direction: row-reverse;

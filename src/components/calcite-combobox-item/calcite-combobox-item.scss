@@ -1,15 +1,3 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-combobox-item-indent-end: indentation of combobox-item text
- * @prop --calcite-combobox-item-indent-start: indentation of combobox-item icon and text
- * @prop --calcite-combobox-item-indent-value: calculated indentation of combobox-items in the list
- * @prop --calcite-combobox-item-spacing-indent: the indentation used to calculate --calcite-combobox-item-indent-value
- * @prop --calcite-combobox-item-spacing-indent-multiplier: the number used to calculate --calcite-combobox-item-indent-value
- */
-
 :host {
   --calcite-combobox-item-indent-value: calc(
     var(--calcite-combobox-item-spacing-indent) * var(--calcite-combobox-item-spacing-indent-multiplier)

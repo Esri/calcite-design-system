@@ -3,9 +3,9 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-combobox-item-spacing-unit-l: sets horizontal padding around selected comobobo-item(s)
- * @prop --calcite-combobox-item-spacing-unit-s: sets vertical padding around selected comobobo-item chip(s)
- * @prop --calcite-combobox-input-height: sets height of the combobox input
+ * @prop --calcite-combobox-input-height: the height of the combobox input
+ * @prop @internal --calcite-combobox-item-spacing-unit-l: the horizontal padding around selected combobox-item(s)
+ * @prop @internal --calcite-combobox-item-spacing-unit-s: the vertical padding around selected combobox-item chip(s)
  */
 
 :host {
