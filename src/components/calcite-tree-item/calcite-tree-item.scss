@@ -1,3 +1,17 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-tree-chevron-hover: the :hover color of tree-item's chevron icon
+ * @prop --calcite-tree-hover-line-width: the width of the vertical line on :hover in nested tree-items when tree has lines attribute
+ * @prop --calcite-tree-line: the color of the vertical line in nested tree-items when tree has lines attribute
+ * @prop --calcite-tree-line-hover: the color of the vertical line on :hover in nested tree-items when tree has lines attribute
+ * @prop --calcite-tree-line-width: the width of the vertical line in nested tree-items when tree has lines attribute
+ * @prop --calcite-tree-text: the color of tree-item font
+ * @prop --calcite-tree-vertical-padding: the amount of top/bottom padding around each tree-item
+ */
+
 :host {
   display: block;
   color: var(--calcite-tree-text);
