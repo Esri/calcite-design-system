@@ -63,6 +63,9 @@ export class CalciteModal {
   /** Disables the display a close button within the Modal */
   @Prop() disableCloseButton?: boolean;
 
+  /** Disables the closing of the Modal when clicked outside. */
+  @Prop() disableOutsideClose?: boolean;
+
   /** Aria label for the close button */
   @Prop() intlClose = "Close";
 
@@ -131,7 +134,7 @@ export class CalciteModal {
         aria-modal="true"
         role="dialog"
       >
-        <calcite-scrim class="scrim" />
+        <calcite-scrim class="scrim" onClick={this.handleOutsideClose} />
         {this.renderStyle()}
         <div
           class={{ modal: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
@@ -354,6 +357,14 @@ export class CalciteModal {
     this.calciteModalOpen.emit();
     document.documentElement.classList.add("overflow-hidden");
   }
+
+  handleOutsideClose = (): void => {
+    if (this.disableOutsideClose) {
+      return;
+    }
+
+    this.close();
+  };
 
   /** Close the modal, first running the `beforeClose` method */
   close = (): Promise<void> => {
