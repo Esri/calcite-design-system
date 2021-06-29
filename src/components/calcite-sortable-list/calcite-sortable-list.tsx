@@ -28,7 +28,7 @@ export class CalciteSortableList {
   /**
    * Specifies which items inside the element should be draggable.
    */
-  @Prop() draggableSelector?: string;
+  @Prop() dragSelector?: string;
 
   /**
    * The list's group identifier.
@@ -174,8 +174,8 @@ export class CalciteSortableList {
       }
     };
 
-    if (this.draggableSelector) {
-      options.draggable = this.draggableSelector;
+    if (this.dragSelector) {
+      options.draggable = this.dragSelector;
     }
 
     this.sortable = Sortable.create(this.el, options);
