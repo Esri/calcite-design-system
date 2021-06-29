@@ -165,7 +165,7 @@ export class CalciteAction {
 
   renderIconContainer(): VNode {
     const { loading, icon, scale, el, intlLoading } = this;
-    const iconScale = scale === "l" ? "m" : "s";
+    const iconScale = scale === "s" ? "s" : "m";
     const calciteLoaderNode = loading ? (
       <calcite-loader active inline label={intlLoading} scale={iconScale} />
     ) : null;
