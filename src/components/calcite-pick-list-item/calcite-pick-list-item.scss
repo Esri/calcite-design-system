@@ -34,23 +34,29 @@
 }
 
 .label {
-  @apply bg-transparent flex flex-auto p-3 items-center cursor-pointer focus-base;
+  @apply bg-transparent flex flex-auto px-3 py-2 items-center cursor-pointer focus-base;
   &:focus {
     @apply focus-inset;
   }
 }
 
 .text-container {
-  @apply flex overflow-hidden pointer-events-none py-0 px-1;
+  @apply flex
+    overflow-hidden
+    pointer-events-none
+    py-0
+    px-1
+    text--2-wrap
+    word-break;
   flex-flow: column nowrap;
 }
 
 .title {
-  @apply text--2-wrap word-break text-color-1;
+  @apply text-color-1;
 }
 
 .description {
-  @apply text-color-3 font-mono text--2-wrap word-break;
+  @apply mt-0.5 text-color-3;
 }
 
 .actions {

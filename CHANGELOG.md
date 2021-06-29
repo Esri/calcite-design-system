@@ -3,6 +3,24 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## [1.0.0-beta.58](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.57...v1.0.0-beta.58) (2021-06-25)
+
+### Features
+
+- **combobox:** Allow for greater nesting of calcite-combobox-items within calcite-combobox ([#2340](https://github.com/Esri/calcite-components/issues/2340)) ([9ee8055](https://github.com/Esri/calcite-components/commit/9ee8055600887a2b6bbda5f92b0481672e4a8e5e)), closes [#2337](https://github.com/Esri/calcite-components/issues/2337)
+- **pick-list, value-list:** add prop to enable changing selection via keyboard in single-selection mode ([#2401](https://github.com/Esri/calcite-components/issues/2401)) ([e5e0837](https://github.com/Esri/calcite-components/commit/e5e0837b208890f8fe505a4968e667fb4fd5257b)), closes [#2344](https://github.com/Esri/calcite-components/issues/2344)
+- **split-button:** add width property, related styles, and doc ([35e4210](https://github.com/Esri/calcite-components/commit/35e421030418e59def16411ca496ed06a19d19f4)), closes [#921](https://github.com/Esri/calcite-components/issues/921) [#921](https://github.com/Esri/calcite-components/issues/921)
+- **value-list-item, pick-list-item:** change description font to sans ([fd0c192](https://github.com/Esri/calcite-components/commit/fd0c1926a221c5039ea671efab9428d56e4e2a84)), closes [#2258](https://github.com/Esri/calcite-components/issues/2258) [#2258](https://github.com/Esri/calcite-components/issues/2258)
+
+### Bug Fixes
+
+- **calcite-input:** initially setting value to empty string results in value being "" instead of null ([#2342](https://github.com/Esri/calcite-components/issues/2342)) ([c2c3235](https://github.com/Esri/calcite-components/commit/c2c32359380a228f331b9f0c38c1e0592933421b))
+- **combobox:** fix maxItems after selection, fix maxItems calculation for nested items ([#2354](https://github.com/Esri/calcite-components/issues/2354)) ([784d5d0](https://github.com/Esri/calcite-components/commit/784d5d07f27036cc149d38cdca0414e145cd2fca))
+- **date-picker:** start Russian week on Monday ([#2372](https://github.com/Esri/calcite-components/issues/2372)) ([3762db9](https://github.com/Esri/calcite-components/commit/3762db93387087490f66c6c73d0f172a86604547)), closes [#2291](https://github.com/Esri/calcite-components/issues/2291)
+- **notice:** fix setFocus ([#2393](https://github.com/Esri/calcite-components/issues/2393)) ([05fadef](https://github.com/Esri/calcite-components/commit/05fadefe4de2a0fc01a924a209815050be874169))
+- **slider:** prevent enter from reseting value ([#2373](https://github.com/Esri/calcite-components/issues/2373)) ([405bdca](https://github.com/Esri/calcite-components/commit/405bdcadee88e53dbbc7ee3cdcbc747d4681073f)), closes [#2316](https://github.com/Esri/calcite-components/issues/2316)
+- **tile-select:** Add aria-label for the form element used ([#2320](https://github.com/Esri/calcite-components/issues/2320)) ([9e5c810](https://github.com/Esri/calcite-components/commit/9e5c810532eec100fcb13e232a7949d61721bf11)), closes [#2259](https://github.com/Esri/calcite-components/issues/2259)
+
 ## [1.0.0-beta.57](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.56...v1.0.0-beta.57) (2021-06-22)
 
 ### Features

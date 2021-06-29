@@ -10,7 +10,7 @@ type ListElement = HTMLCalcitePickListElement | HTMLCalciteValueListElement;
 export function keyboardNavigation(listType: ListType): void {
   const getFocusedItemValue = (page: E2EPage): ReturnType<JSEvalable["evaluate"]> =>
     page.evaluate(
-      () => (document.activeElement as HTMLCalcitePickListItemElement | HTMLCalciteValueListItemElement).value
+      () => (document.activeElement as HTMLCalcitePickListItemElement | HTMLCalciteValueListItemElement)?.value ?? null
     );
 
   async function getSelectedItemValues(list: E2EElement, listType: string): Promise<string[]> {
@@ -111,6 +111,47 @@ export function keyboardNavigation(listType: ListType): void {
         expect(await getFocusedItemValue(page)).toEqual("one");
 
         await list.press(" ");
+        expect(await getSelectedItemValues(list, listType)).toEqual(["one"]);
+      });
+
+      it("keyboard interaction + selectionFollowsFocus", async () => {
+        const page = await newE2EPage({
+          html: `
+        <calcite-${listType}-list selection-follows-focus>
+          <calcite-${listType}-list-item value="one" label="One"></calcite-${listType}-list-item>
+          <calcite-${listType}-list-item value="two" label="Two"></calcite-${listType}-list-item>
+        </calcite-${listType}-list>
+      `
+        });
+        const list = await page.find(`calcite-${listType}-list`);
+
+        expect(await getFocusedItemValue(page)).toBeNull();
+        expect(await getSelectedItemValues(list, listType)).toEqual([]);
+
+        await list.callMethod("setFocus");
+        await page.waitForChanges();
+
+        expect(await getFocusedItemValue(page)).toEqual("one");
+        expect(await getSelectedItemValues(list, listType)).toEqual(["one"]);
+
+        await list.press("ArrowDown");
+
+        expect(await getFocusedItemValue(page)).toEqual("two");
+        expect(await getSelectedItemValues(list, listType)).toEqual(["two"]);
+
+        await list.press("ArrowDown");
+
+        expect(await getFocusedItemValue(page)).toEqual("one");
+        expect(await getSelectedItemValues(list, listType)).toEqual(["one"]);
+
+        await list.press("ArrowUp");
+
+        expect(await getFocusedItemValue(page)).toEqual("two");
+        expect(await getSelectedItemValues(list, listType)).toEqual(["two"]);
+
+        await list.press("ArrowUp");
+
+        expect(await getFocusedItemValue(page)).toEqual("one");
         expect(await getSelectedItemValues(list, listType)).toEqual(["one"]);
       });
     });

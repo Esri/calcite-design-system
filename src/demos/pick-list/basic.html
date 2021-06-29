@@ -42,6 +42,13 @@
           pickList1.addEventListener("calciteListItemRemove", (event) => console.log("item removed", event));
         </script>
 
+        <h2>selection follows focus (single selection only)</h2>
+        <calcite-pick-list selection-follows-focus>
+          <calcite-pick-list-item label="Uno" removable value="1"></calcite-pick-list-item>
+          <calcite-pick-list-item label="Dos" value="2" removable selected></calcite-pick-list-item>
+          <calcite-pick-list-item label="Tres" value="3"></calcite-pick-list-item>
+        </calcite-pick-list>
+
         <h2>multi-select filter-enabled</h2>
         <calcite-pick-list id="two" multiple filter-enabled>
           <calcite-action scale="s" text="filters" slot="menu-actions" icon="sliders"> </calcite-action>
