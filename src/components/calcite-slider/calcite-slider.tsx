@@ -1,13 +1,13 @@
 import {
   Component,
   Element,
-  Prop,
-  Host,
   Event,
   EventEmitter,
+  h,
+  Host,
   Listen,
   Method,
-  h,
+  Prop,
   State,
   VNode,
   Watch
@@ -15,9 +15,10 @@ import {
 import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
 import { DataSeries } from "../calcite-graph/interfaces";
-import { hasLabel } from "../../utils/dom";
+import { hasLabel, intersects } from "../../utils/dom";
+import { clamp } from "../../utils/math";
 
-type activeSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
+type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 
 @Component({
   tag: "calcite-slider",
@@ -41,47 +42,8 @@ export class CalciteSlider {
   /** Disable and gray out the slider */
   @Prop({ reflect: true }) disabled = false;
 
-  /** Minimum selectable value */
-  @Prop({ reflect: true }) min = 0;
-
-  /** Maximum selectable value */
-  @Prop({ reflect: true }) max = 100;
-
-  /** Currently selected number (if single select) */
-  @Prop({ reflect: true, mutable: true }) value: null | number = null;
-
-  /** Currently selected lower number (if multi-select) */
-  @Prop({ mutable: true }) minValue?: number;
-
-  /** Currently selected upper number (if multi-select) */
-  @Prop({ mutable: true }) maxValue?: number;
-
-  /** Label for first (or only) handle (ex. "Temperature, lower bound") */
-  @Prop() minLabel: string;
-
-  /** Label for second handle if needed (ex. "Temperature, upper bound") */
-  @Prop() maxLabel?: string;
-
-  /** When true, enables snap selection along the step interval */
-  @Prop() snap?: boolean = false;
-
-  /** Interval to move on up/down keys */
-  @Prop() step?: number = 1;
-
-  /** Interval to move on page up/page down keys */
-  @Prop() pageStep?: number;
-
-  /** Show tick marks on the number line at provided interval */
-  @Prop() ticks?: number;
-
-  /** Label tick marks with their numeric value. */
-  @Prop({ reflect: true }) labelTicks?: boolean;
-
-  /** Label handles with their numeric value */
-  @Prop({ reflect: true }) labelHandles?: boolean;
-
-  /** Use finer point for handles */
-  @Prop() precise?: boolean;
+  /** Indicates if a histogram is present */
+  @Prop({ reflect: true, mutable: true }) hasHistogram = false;
 
   /** Display a histogram above the slider */
   @Prop() histogram?: DataSeries;
@@ -90,8 +52,54 @@ export class CalciteSlider {
     this.hasHistogram = !!newHistogram;
   }
 
-  /** Indicates if a histogram is present */
-  @Prop({ reflect: true, mutable: true }) hasHistogram = false;
+  /** Label handles with their numeric value */
+  @Prop({ reflect: true }) labelHandles?: boolean;
+
+  /** Label tick marks with their numeric value. */
+  @Prop({ reflect: true }) labelTicks?: boolean;
+
+  /** Maximum selectable value */
+  @Prop({ reflect: true }) max = 100;
+
+  /** Label for second handle if needed (ex. "Temperature, upper bound") */
+  @Prop() maxLabel?: string;
+
+  /** Currently selected upper number (if multi-select) */
+  @Prop({ mutable: true }) maxValue?: number;
+
+  /** Minimum selectable value */
+  @Prop({ reflect: true }) min = 0;
+
+  /** Label for first (or only) handle (ex. "Temperature, lower bound") */
+  @Prop() minLabel: string;
+
+  /** Currently selected lower number (if multi-select) */
+  @Prop({ mutable: true }) minValue?: number;
+
+  /**
+   * When true, the slider will display values from high to low.
+   *
+   * Note that this value will be ignored if the slider has an associated histogram.
+   */
+  @Prop({ reflect: true }) mirrored = false;
+
+  /** Interval to move on page up/page down keys */
+  @Prop() pageStep?: number;
+
+  /** Use finer point for handles */
+  @Prop() precise?: boolean;
+
+  /** When true, enables snap selection along the step interval */
+  @Prop() snap?: boolean = false;
+
+  /** Interval to move on up/down keys */
+  @Prop() step?: number = 1;
+
+  /** Show tick marks on the number line at provided interval */
+  @Prop() ticks?: number;
+
+  /** Currently selected number (if single select) */
+  @Prop({ reflect: true, mutable: true }) value: null | number = null;
 
   //--------------------------------------------------------------------------
   //
@@ -101,7 +109,7 @@ export class CalciteSlider {
   componentWillLoad(): void {
     this.isRange = !!(this.maxValue || this.maxValue === 0);
     this.tickValues = this.generateTickValues();
-    this.value = this.bound(this.value);
+    this.value = this.clamp(this.value);
     if (this.snap) {
       this.value = this.getClosestStep(this.value);
     }
@@ -130,8 +138,11 @@ export class CalciteSlider {
     const max = this.maxValue || this.value;
     const maxProp = this.isRange ? "maxValue" : "value";
     const value = this[maxProp];
-    const left = `${this.getUnitInterval(min) * 100}%`;
-    const right = `${100 - this.getUnitInterval(max) * 100}%`;
+    const minInterval = this.getUnitInterval(min) * 100;
+    const maxInterval = this.getUnitInterval(max) * 100;
+    const mirror = this.shouldMirror();
+    const leftThumbOffset = `${mirror ? 100 - minInterval : minInterval}%`;
+    const rightThumbOffset = `${mirror ? maxInterval : 100 - maxInterval}%`;
 
     const handle = (
       <button
@@ -152,7 +163,7 @@ export class CalciteSlider {
         onTouchStart={(e) => this.dragStart(maxProp, e)}
         ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
         role="slider"
-        style={{ right }}
+        style={{ right: rightThumbOffset }}
       >
         <div class="handle" />
       </button>
@@ -177,7 +188,7 @@ export class CalciteSlider {
         onTouchStart={(e) => this.dragStart(maxProp, e)}
         ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
         role="slider"
-        style={{ right }}
+        style={{ right: rightThumbOffset }}
       >
         <span aria-hidden="true" class="handle__label handle__label--value">
           {value ? value.toLocaleString() : value}
@@ -211,7 +222,7 @@ export class CalciteSlider {
         onTouchStart={(e) => this.dragStart(maxProp, e)}
         ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
         role="slider"
-        style={{ right }}
+        style={{ right: rightThumbOffset }}
       >
         <div class="handle" />
         <span aria-hidden="true" class="handle__label handle__label--value">
@@ -246,7 +257,7 @@ export class CalciteSlider {
         onTouchStart={(e) => this.dragStart(maxProp, e)}
         ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
         role="slider"
-        style={{ right }}
+        style={{ right: rightThumbOffset }}
       >
         <div class="handle" />
         <div class="handle-extension" />
@@ -273,7 +284,7 @@ export class CalciteSlider {
         onTouchStart={(e) => this.dragStart(maxProp, e)}
         ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
         role="slider"
-        style={{ right }}
+        style={{ right: rightThumbOffset }}
       >
         <div class="handle-extension" />
         <div class="handle" />
@@ -300,7 +311,7 @@ export class CalciteSlider {
         onTouchStart={(e) => this.dragStart(maxProp, e)}
         ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
         role="slider"
-        style={{ right }}
+        style={{ right: rightThumbOffset }}
       >
         <span aria-hidden="true" class="handle__label handle__label--value">
           {value ? value.toLocaleString() : value}
@@ -336,7 +347,7 @@ export class CalciteSlider {
         onTouchStart={(e) => this.dragStart(maxProp, e)}
         ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
         role="slider"
-        style={{ right }}
+        style={{ right: rightThumbOffset }}
       >
         <div class="handle-extension" />
         <div class="handle" />
@@ -371,7 +382,7 @@ export class CalciteSlider {
         onTouchStart={(e) => this.dragStart("minValue", e)}
         ref={(el) => (this.minHandle = el as HTMLButtonElement)}
         role="slider"
-        style={{ left }}
+        style={{ left: leftThumbOffset }}
       >
         <div class="handle" />
       </button>
@@ -396,7 +407,7 @@ export class CalciteSlider {
         onTouchStart={(e) => this.dragStart("minValue", e)}
         ref={(el) => (this.minHandle = el as HTMLButtonElement)}
         role="slider"
-        style={{ left }}
+        style={{ left: leftThumbOffset }}
       >
         <span aria-hidden="true" class="handle__label handle__label--minValue">
           {this.minValue && this.minValue.toLocaleString()}
@@ -430,7 +441,7 @@ export class CalciteSlider {
         onTouchStart={(e) => this.dragStart("minValue", e)}
         ref={(el) => (this.minHandle = el as HTMLButtonElement)}
         role="slider"
-        style={{ left }}
+        style={{ left: leftThumbOffset }}
       >
         <div class="handle" />
         <span aria-hidden="true" class="handle__label handle__label--minValue">
@@ -465,7 +476,7 @@ export class CalciteSlider {
         onTouchStart={(e) => this.dragStart("minValue", e)}
         ref={(el) => (this.minHandle = el as HTMLButtonElement)}
         role="slider"
-        style={{ left }}
+        style={{ left: leftThumbOffset }}
       >
         <div class="handle-extension" />
         <div class="handle" />
@@ -492,7 +503,7 @@ export class CalciteSlider {
         onTouchStart={(e) => this.dragStart("minValue", e)}
         ref={(el) => (this.minHandle = el as HTMLButtonElement)}
         role="slider"
-        style={{ left }}
+        style={{ left: leftThumbOffset }}
       >
         <div class="handle-extension" />
         <div class="handle" />
@@ -517,22 +528,30 @@ export class CalciteSlider {
               class="track__range"
               onMouseDown={() => this.dragStart("minMaxValue")}
               onTouchStart={(e) => this.dragStart("minMaxValue", e)}
-              style={{ left, right }}
+              style={{
+                left: `${mirror ? 100 - maxInterval : minInterval}%`,
+                right: `${mirror ? minInterval : 100 - maxInterval}%`
+              }}
             />
             <div class="ticks">
-              {this.tickValues.map((tick) => (
-                <span
-                  class={{
-                    tick: true,
-                    "tick--active": tick >= min && tick <= max
-                  }}
-                  style={{
-                    left: `${this.getUnitInterval(tick) * 100}%`
-                  }}
-                >
-                  {this.renderTickLabel(tick)}
-                </span>
-              ))}
+              {this.tickValues.map((tick) => {
+                const tickOffset = `${this.getUnitInterval(tick) * 100}%`;
+
+                return (
+                  <span
+                    class={{
+                      tick: true,
+                      "tick--active": tick >= min && tick <= max
+                    }}
+                    style={{
+                      left: mirror ? "" : tickOffset,
+                      right: mirror ? tickOffset : ""
+                    }}
+                  >
+                    {this.renderTickLabel(tick)}
+                  </span>
+                );
+              })}
             </div>
           </div>
           {!this.precise && !this.labelHandles && this.isRange && minHandle}
@@ -670,37 +689,37 @@ export class CalciteSlider {
       case "ArrowUp":
       case "ArrowRight":
         e.preventDefault();
-        this[this.activeProp] = this.bound(value + this.step, this.activeProp);
+        this[this.activeProp] = this.clamp(value + this.step, this.activeProp);
         this.emitChange();
         break;
       case "ArrowDown":
       case "ArrowLeft":
         e.preventDefault();
-        this[this.activeProp] = this.bound(value - this.step, this.activeProp);
+        this[this.activeProp] = this.clamp(value - this.step, this.activeProp);
         this.emitChange();
         break;
       case "PageUp":
         if (this.pageStep) {
           e.preventDefault();
-          this[this.activeProp] = this.bound(value + this.pageStep, this.activeProp);
+          this[this.activeProp] = this.clamp(value + this.pageStep, this.activeProp);
           this.emitChange();
         }
         break;
       case "PageDown":
         if (this.pageStep) {
           e.preventDefault();
-          this[this.activeProp] = this.bound(value - this.pageStep, this.activeProp);
+          this[this.activeProp] = this.clamp(value - this.pageStep, this.activeProp);
           this.emitChange();
         }
         break;
       case "Home":
         e.preventDefault();
-        this[this.activeProp] = this.bound(this.min, this.activeProp);
+        this[this.activeProp] = this.clamp(this.min, this.activeProp);
         this.emitChange();
         break;
       case "End":
         e.preventDefault();
-        this[this.activeProp] = this.bound(this.max, this.activeProp);
+        this[this.activeProp] = this.clamp(this.max, this.activeProp);
         this.emitChange();
         break;
 
@@ -717,7 +736,7 @@ export class CalciteSlider {
   mouseHandler(event: MouseEvent): void {
     const x = event.clientX || event.pageX;
     const position = this.translate(x);
-    let prop: activeSliderProperty = "value";
+    let prop: ActiveSliderProperty = "value";
     if (this.isRange) {
       const inRange = position >= this.minValue && position <= this.maxValue;
       if (inRange && this.lastDragProp === "minMaxValue") {
@@ -727,7 +746,7 @@ export class CalciteSlider {
         prop = closerToMax ? "maxValue" : "minValue";
       }
     }
-    this[prop] = this.bound(position, prop);
+    this[prop] = this.clamp(position, prop);
     this.dragStart(prop);
 
     if (event.type === "click") {
@@ -785,40 +804,29 @@ export class CalciteSlider {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-  /** @internal */
+
   private guid = `calcite-slider-${guid()}`;
 
-  /** @internal */
   private isRange = false;
 
-  /** @internal */
-  private dragProp: activeSliderProperty;
+  private dragProp: ActiveSliderProperty;
 
-  /** @internal */
-  private lastDragProp: activeSliderProperty;
+  private lastDragProp: ActiveSliderProperty;
 
-  /** @internal */
   private minHandle: HTMLButtonElement;
 
-  /** @internal */
   private maxHandle: HTMLButtonElement;
 
-  /** @internal */
   private dragListener: (e: MouseEvent) => void;
 
-  /** @internal */
   @State() private tickValues: number[] = [];
 
-  /** @internal */
-  @State() private activeProp: activeSliderProperty = "value";
+  @State() private activeProp: ActiveSliderProperty = "value";
 
-  /** @internal */
   @State() private minMaxValueRange: number = null;
 
-  /** @internal */
   @State() private minValueDragRange: number = null;
 
-  /** @internal */
   @State() private maxValueDragRange: number = null;
 
   //--------------------------------------------------------------------------
@@ -826,6 +834,11 @@ export class CalciteSlider {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private shouldMirror(): boolean {
+    return this.mirrored && !this.hasHistogram;
+  }
+
   private generateTickValues(): number[] {
     const ticks = [];
     let current = this.min;
@@ -836,7 +849,7 @@ export class CalciteSlider {
     return ticks;
   }
 
-  private dragStart(prop: activeSliderProperty, e?: TouchEvent): void {
+  private dragStart(prop: ActiveSliderProperty, e?: TouchEvent): void {
     if (e) {
       e.preventDefault();
     }
@@ -870,8 +883,8 @@ export class CalciteSlider {
             newMinValue >= this.min &&
             newMaxValue - newMinValue === this.minMaxValueRange
           ) {
-            this.minValue = this.bound(newMinValue, "minValue");
-            this.maxValue = this.bound(newMaxValue, "maxValue");
+            this.minValue = this.clamp(newMinValue, "minValue");
+            this.maxValue = this.clamp(newMaxValue, "maxValue");
           }
         } else {
           this.minValueDragRange = value - this.minValue;
@@ -879,7 +892,7 @@ export class CalciteSlider {
           this.minMaxValueRange = this.maxValue - this.minValue;
         }
       } else {
-        this[this.dragProp] = this.bound(value, this.dragProp);
+        this[this.dragProp] = this.clamp(value, this.dragProp);
       }
 
       this.emitChange();
@@ -904,17 +917,16 @@ export class CalciteSlider {
    * If number is outside range, constrain to min or max
    * @internal
    */
-  private bound(num: number, prop?: activeSliderProperty): number {
-    num = Math.min(num, this.max);
-    num = Math.max(num, this.min);
+  private clamp(value: number, prop?: ActiveSliderProperty): number {
+    value = clamp(value, this.min, this.max);
     // ensure that maxValue and minValue don't swap positions
     if (prop === "maxValue") {
-      num = Math.max(num, this.minValue);
+      value = Math.max(value, this.minValue);
     }
     if (prop === "minValue") {
-      num = Math.min(num, this.maxValue);
+      value = Math.min(value, this.maxValue);
     }
-    return num;
+    return value;
   }
 
   /**
@@ -925,7 +937,8 @@ export class CalciteSlider {
     const range = this.max - this.min;
     const { left, width } = this.el.getBoundingClientRect();
     const percent = (x - left) / width;
-    let value = this.bound(this.min + range * percent);
+    const mirror = this.shouldMirror();
+    let value = this.clamp(this.min + range * (mirror ? 1 - percent : percent));
     if (this.snap && this.step) {
       value = this.getClosestStep(value);
     }
@@ -937,10 +950,10 @@ export class CalciteSlider {
    * @internal
    */
   private getClosestStep(num: number): number {
-    num = this.bound(num);
+    num = this.clamp(num);
     if (this.step) {
       const step = Math.round(num / this.step) * this.step;
-      num = this.bound(step);
+      num = this.clamp(step);
     }
     return num;
   }
@@ -955,7 +968,7 @@ export class CalciteSlider {
    * @internal
    */
   private getUnitInterval(num: number): number {
-    num = this.bound(num);
+    num = this.clamp(num);
     const range = this.max - this.min;
     return (num - this.min) / range;
   }
@@ -968,122 +981,129 @@ export class CalciteSlider {
     const labelTransformed: HTMLSpanElement = this.el.shadowRoot.querySelector(
       `.handle__label--${name}.transformed`
     );
-    const labelStaticOffset = this.getHostOffset(
-      labelStatic.getBoundingClientRect().left,
-      labelStatic.getBoundingClientRect().right
-    );
+    const labelStaticBounds = labelStatic.getBoundingClientRect();
+    const labelStaticOffset = this.getHostOffset(labelStaticBounds.left, labelStaticBounds.right);
     label.style.transform = `translateX(${labelStaticOffset}px)`;
     labelTransformed.style.transform = `translateX(${labelStaticOffset}px)`;
   }
 
   private hyphenateCollidingRangeHandleLabels(): void {
-    const minValueLabel: HTMLSpanElement =
-      this.el.shadowRoot.querySelector(`.handle__label--minValue`);
-    const minValueLabelStatic: HTMLSpanElement = this.el.shadowRoot.querySelector(
-      `.handle__label--minValue.static`
+    const { shadowRoot } = this.el;
+
+    const mirror = this.shouldMirror();
+    const leftModifier = mirror ? "value" : "minValue";
+    const rightModifier = mirror ? "minValue" : "value";
+
+    const leftValueLabel: HTMLSpanElement = shadowRoot.querySelector(
+      `.handle__label--${leftModifier}`
     );
-    const minValueLabelTransformed: HTMLSpanElement = this.el.shadowRoot.querySelector(
-      `.handle__label--minValue.transformed`
+    const leftValueLabelStatic: HTMLSpanElement = shadowRoot.querySelector(
+      `.handle__label--${leftModifier}.static`
     );
-    const minValueLabelStaticHostOffset = this.getHostOffset(
-      minValueLabelStatic.getBoundingClientRect().left,
-      minValueLabelStatic.getBoundingClientRect().right
+    const leftValueLabelTransformed: HTMLSpanElement = shadowRoot.querySelector(
+      `.handle__label--${leftModifier}.transformed`
+    );
+    const leftValueLabelStaticHostOffset = this.getHostOffset(
+      leftValueLabelStatic.getBoundingClientRect().left,
+      leftValueLabelStatic.getBoundingClientRect().right
     );
 
-    const valueLabel: HTMLSpanElement = this.el.shadowRoot.querySelector(`.handle__label--value`);
-    const valueLabelStatic: HTMLSpanElement = this.el.shadowRoot.querySelector(
-      `.handle__label--value.static`
+    const rightValueLabel: HTMLSpanElement = shadowRoot.querySelector(
+      `.handle__label--${rightModifier}`
     );
-    const valueLabelTransformed: HTMLSpanElement = this.el.shadowRoot.querySelector(
-      `.handle__label--value.transformed`
+    const rightValueLabelStatic: HTMLSpanElement = shadowRoot.querySelector(
+      `.handle__label--${rightModifier}.static`
     );
-    const valueLabelStaticHostOffset = this.getHostOffset(
-      valueLabelStatic.getBoundingClientRect().left,
-      valueLabelStatic.getBoundingClientRect().right
+    const rightValueLabelTransformed: HTMLSpanElement = shadowRoot.querySelector(
+      `.handle__label--${rightModifier}.transformed`
+    );
+    const rightValueLabelStaticHostOffset = this.getHostOffset(
+      rightValueLabelStatic.getBoundingClientRect().left,
+      rightValueLabelStatic.getBoundingClientRect().right
     );
 
-    const labelFontSize = this.getFontSizeForElement(minValueLabel);
+    const labelFontSize = this.getFontSizeForElement(leftValueLabel);
     const labelTransformedOverlap = this.getRangeLabelOverlap(
-      minValueLabelTransformed,
-      valueLabelTransformed
+      leftValueLabelTransformed,
+      rightValueLabelTransformed
     );
+
+    const hyphenLabel = leftValueLabel;
+    const labelOffset = labelFontSize / 2;
 
     if (labelTransformedOverlap > 0) {
-      minValueLabel.classList.add("hyphen");
-      if (valueLabelStaticHostOffset === 0 && minValueLabelStaticHostOffset === 0) {
+      hyphenLabel.classList.add("hyphen");
+      if (rightValueLabelStaticHostOffset === 0 && leftValueLabelStaticHostOffset === 0) {
         // Neither handle overlaps the host boundary
-        let minValueLabelTranslate = labelTransformedOverlap / 2 - labelFontSize / 2;
-        if (Math.sign(minValueLabelTranslate) === -1) {
-          minValueLabelTranslate = Math.abs(minValueLabelTranslate);
+        let leftValueLabelTranslate = labelTransformedOverlap / 2 - labelOffset;
+        if (Math.sign(leftValueLabelTranslate) === -1) {
+          leftValueLabelTranslate = Math.abs(leftValueLabelTranslate);
         } else {
-          minValueLabelTranslate = -minValueLabelTranslate;
+          leftValueLabelTranslate = -leftValueLabelTranslate;
         }
 
-        const minValueLabelTransformedHostOffset = this.getHostOffset(
-          minValueLabelTransformed.getBoundingClientRect().left +
-            minValueLabelTranslate -
-            labelFontSize / 2,
-          minValueLabelTransformed.getBoundingClientRect().right +
-            minValueLabelTranslate -
-            labelFontSize / 2
+        const leftValueLabelTransformedHostOffset = this.getHostOffset(
+          leftValueLabelTransformed.getBoundingClientRect().left +
+            leftValueLabelTranslate -
+            labelOffset,
+          leftValueLabelTransformed.getBoundingClientRect().right +
+            leftValueLabelTranslate -
+            labelOffset
         );
 
-        let valueLabelTranslate = labelTransformedOverlap / 2;
-        const valueLabelTransformedHostOffset = this.getHostOffset(
-          valueLabelTransformed.getBoundingClientRect().left + valueLabelTranslate,
-          valueLabelTransformed.getBoundingClientRect().right + valueLabelTranslate
+        let rightValueLabelTranslate = labelTransformedOverlap / 2;
+        const rightValueLabelTransformedHostOffset = this.getHostOffset(
+          rightValueLabelTransformed.getBoundingClientRect().left + rightValueLabelTranslate,
+          rightValueLabelTransformed.getBoundingClientRect().right + rightValueLabelTranslate
         );
 
-        if (minValueLabelTransformedHostOffset !== 0) {
-          minValueLabelTranslate = minValueLabelTranslate + minValueLabelTransformedHostOffset;
-          valueLabelTranslate = valueLabelTranslate + minValueLabelTransformedHostOffset;
+        if (leftValueLabelTransformedHostOffset !== 0) {
+          leftValueLabelTranslate += leftValueLabelTransformedHostOffset;
+          rightValueLabelTranslate += leftValueLabelTransformedHostOffset;
         }
 
-        if (valueLabelTransformedHostOffset !== 0) {
-          minValueLabelTranslate = minValueLabelTranslate + valueLabelTransformedHostOffset;
-          valueLabelTranslate = valueLabelTranslate + valueLabelTransformedHostOffset;
+        if (rightValueLabelTransformedHostOffset !== 0) {
+          leftValueLabelTranslate += rightValueLabelTransformedHostOffset;
+          rightValueLabelTranslate += rightValueLabelTransformedHostOffset;
         }
 
-        minValueLabel.style.transform = `translateX(${minValueLabelTranslate}px)`;
-        minValueLabelTransformed.style.transform = `translateX(${
-          minValueLabelTranslate - labelFontSize / 2
+        leftValueLabel.style.transform = `translateX(${leftValueLabelTranslate}px)`;
+        leftValueLabelTransformed.style.transform = `translateX(${
+          leftValueLabelTranslate - labelOffset
         }px)`;
-        valueLabel.style.transform = `translateX(${valueLabelTranslate}px)`;
-        valueLabelTransformed.style.transform = `translateX(${valueLabelTranslate}px)`;
-      } else if (
-        minValueLabelStaticHostOffset !== 0 &&
-        (Math.sign(valueLabelStaticHostOffset) === 0 || Math.sign(valueLabelStaticHostOffset) === 1)
-      ) {
-        // minValueLabel overlaps host boundary on the left side
-        minValueLabel.style.transform = `translateX(${
-          minValueLabelStaticHostOffset + labelFontSize / 2
+        rightValueLabel.style.transform = `translateX(${rightValueLabelTranslate}px)`;
+        rightValueLabelTransformed.style.transform = `translateX(${rightValueLabelTranslate}px)`;
+      } else if (leftValueLabelStaticHostOffset > 0 || rightValueLabelStaticHostOffset > 0) {
+        // labels overlap host boundary on the left side
+        leftValueLabel.style.transform = `translateX(${
+          leftValueLabelStaticHostOffset + labelOffset
         }px)`;
-        valueLabel.style.transform = `translateX(${
-          labelTransformedOverlap + valueLabelStaticHostOffset
+        rightValueLabel.style.transform = `translateX(${
+          labelTransformedOverlap + rightValueLabelStaticHostOffset
         }px)`;
-        valueLabelTransformed.style.transform = `translateX(${
-          labelTransformedOverlap + valueLabelStaticHostOffset
+        rightValueLabelTransformed.style.transform = `translateX(${
+          labelTransformedOverlap + rightValueLabelStaticHostOffset
         }px)`;
-      } else if (valueLabelStaticHostOffset !== 0) {
-        // valueLabel overlaps host boundary on the right side
-        let minValueLabelTranslate =
-          Math.abs(minValueLabelStaticHostOffset) + labelTransformedOverlap - labelFontSize / 2;
-        if (Math.sign(minValueLabelTranslate) === -1) {
-          minValueLabelTranslate = Math.abs(minValueLabelTranslate);
+      } else if (leftValueLabelStaticHostOffset < 0 || rightValueLabelStaticHostOffset < 0) {
+        // labels overlap host boundary on the right side
+        let leftValueLabelTranslate =
+          Math.abs(leftValueLabelStaticHostOffset) + labelTransformedOverlap - labelOffset;
+        if (Math.sign(leftValueLabelTranslate) === -1) {
+          leftValueLabelTranslate = Math.abs(leftValueLabelTranslate);
         } else {
-          minValueLabelTranslate = -minValueLabelTranslate;
+          leftValueLabelTranslate = -leftValueLabelTranslate;
         }
-        minValueLabel.style.transform = `translateX(${minValueLabelTranslate}px)`;
-        minValueLabelTransformed.style.transform = `translateX(${
-          minValueLabelTranslate - labelFontSize / 2
+        leftValueLabel.style.transform = `translateX(${leftValueLabelTranslate}px)`;
+        leftValueLabelTransformed.style.transform = `translateX(${
+          leftValueLabelTranslate - labelOffset
         }px)`;
       }
     } else {
-      minValueLabel.classList.remove("hyphen");
-      minValueLabel.style.transform = `translateX(${minValueLabelStaticHostOffset}px)`;
-      minValueLabelTransformed.style.transform = `translateX(${minValueLabelStaticHostOffset}px)`;
-      valueLabel.style.transform = `translateX(${valueLabelStaticHostOffset}px)`;
-      valueLabelTransformed.style.transform = `translateX(${valueLabelStaticHostOffset}px)`;
+      hyphenLabel.classList.remove("hyphen");
+      leftValueLabel.style.transform = `translateX(${leftValueLabelStaticHostOffset}px)`;
+      leftValueLabelTransformed.style.transform = `translateX(${leftValueLabelStaticHostOffset}px)`;
+      rightValueLabel.style.transform = `translateX(${rightValueLabelStaticHostOffset}px)`;
+      rightValueLabelTransformed.style.transform = `translateX(${rightValueLabelStaticHostOffset}px)`;
     }
   }
 
@@ -1158,33 +1178,32 @@ export class CalciteSlider {
    */
   private getHostOffset(leftBounds: number, rightBounds: number): number {
     const hostBounds = this.el.getBoundingClientRect();
-    if (leftBounds + 7 < hostBounds.left) {
-      const offset = hostBounds.left - leftBounds - 7;
-      return offset;
+    const buffer = 7;
+
+    if (leftBounds + buffer < hostBounds.left) {
+      return hostBounds.left - leftBounds - buffer;
     }
-    if (rightBounds - 7 > hostBounds.right) {
-      const offset = -(rightBounds - hostBounds.right) + 7;
-      return offset;
+
+    if (rightBounds - buffer > hostBounds.right) {
+      return -(rightBounds - hostBounds.right) + buffer;
     }
+
     return 0;
   }
 
   /**
    * Returns an integer representing the number of pixels that the two given span elements are overlapping, taking into account
    * a space in between the two spans equal to the font-size set on them to account for the space needed to render a hyphen.
-   * @param minValueLabel
-   * @param valueLabel
+   * @param leftLabel
+   * @param rightLabel
    */
-  private getRangeLabelOverlap(
-    minValueLabel: HTMLSpanElement,
-    valueLabel: HTMLSpanElement
-  ): number {
-    const minValueLabelBounds = minValueLabel.getBoundingClientRect();
-    const valueLabelBounds = valueLabel.getBoundingClientRect();
-    const minValueLabelFontSize = this.getFontSizeForElement(minValueLabel);
-    const rangeLabelOverlap =
-      minValueLabelBounds.right + minValueLabelFontSize - valueLabelBounds.left;
-    return rangeLabelOverlap > 0 ? rangeLabelOverlap : 0;
+  private getRangeLabelOverlap(leftLabel: HTMLSpanElement, rightLabel: HTMLSpanElement): number {
+    const leftLabelBounds = leftLabel.getBoundingClientRect();
+    const rightLabelBounds = rightLabel.getBoundingClientRect();
+    const leftLabelFontSize = this.getFontSizeForElement(leftLabel);
+    const rangeLabelOverlap = leftLabelBounds.right + leftLabelFontSize - rightLabelBounds.left;
+
+    return Math.max(rangeLabelOverlap, 0);
   }
 
   /**
@@ -1195,10 +1214,7 @@ export class CalciteSlider {
   private isMinTickLabelObscured(minLabel: HTMLSpanElement, handle: HTMLButtonElement): boolean {
     const minLabelBounds = minLabel.getBoundingClientRect();
     const handleBounds = handle.getBoundingClientRect();
-    if (handleBounds.left < minLabelBounds.right) {
-      return true;
-    }
-    return false;
+    return intersects(minLabelBounds, handleBounds);
   }
 
   /**
@@ -1209,9 +1225,6 @@ export class CalciteSlider {
   private isMaxTickLabelObscured(maxLabel: HTMLSpanElement, handle: HTMLButtonElement): boolean {
     const maxLabelBounds = maxLabel.getBoundingClientRect();
     const handleBounds = handle.getBoundingClientRect();
-    if (handleBounds.right > maxLabelBounds.left) {
-      return true;
-    }
-    return false;
+    return intersects(maxLabelBounds, handleBounds);
   }
 }

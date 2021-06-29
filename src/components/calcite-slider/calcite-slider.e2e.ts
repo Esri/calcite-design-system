@@ -1,13 +1,16 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { HYDRATED_ATTR } from "../../tests/commonTests";
+import { defaults, renders } from "../../tests/commonTests";
 
 describe("calcite-slider", () => {
-  it("renders", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-slider></calcite-slider>");
-    const element = await page.find("calcite-slider");
-    expect(element).toHaveAttribute(HYDRATED_ATTR);
-  });
+  it("renders", async () => renders("calcite-slider"));
+
+  it("has defaults", async () =>
+    defaults("calcite-slider", [
+      {
+        propertyName: "mirrored",
+        defaultValue: false
+      }
+    ]));
 
   it("becomes inactive from disabled prop", async () => {
     const page = await newE2EPage();
