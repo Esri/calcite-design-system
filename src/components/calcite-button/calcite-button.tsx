@@ -13,7 +13,6 @@ import { CSS_UTILITY } from "../../utils/resources";
 
 /** @slot default text slot for button text */
 
-/** Any attributes placed on <calcite-button> component will propagate to the rendered child */
 /** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
 /** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
 export class CalciteButton {
@@ -31,8 +30,14 @@ export class CalciteButton {
   //
   //--------------------------------------------------------------------------
 
+  /** optionally specify alignment of button elements. */
+  @Prop({ reflect: true }) alignment?: ButtonAlignment = "center";
+
   /** specify the appearance style of the button, defaults to solid. */
   @Prop({ reflect: true }) appearance: ButtonAppearance = "solid";
+
+  /** The aria-label attribute to apply to the button or hyperlink */
+  @Prop() ariaLabel?: string;
 
   /** specify the color of the button, defaults to blue */
   @Prop({ reflect: true }) color: ButtonColor = "blue";
@@ -55,11 +60,14 @@ export class CalciteButton {
   /** string to override English loading text */
   @Prop() intlLoading?: string = TEXT.loading;
 
-  /** optionally specify alignment of button elements. */
-  @Prop({ reflect: true }) alignment?: ButtonAlignment = "center";
-
   /** optionally add a calcite-loader component to the button, disabling interaction.  */
   @Prop({ reflect: true }) loading?: boolean = false;
+
+  /** The name attribute to apply to the button */
+  @Prop() name?: string;
+
+  /** The rel attribute to apply to the hyperlink */
+  @Prop() rel?: string;
 
   /** optionally add a round style to the button  */
   @Prop({ reflect: true }) round?: boolean = false;
@@ -69,6 +77,12 @@ export class CalciteButton {
 
   /** is the button a child of a calcite-split-button */
   @Prop({ reflect: true }) splitChild?: "primary" | "secondary" | false = false;
+
+  /** The target attribute to apply to the hyperlink */
+  @Prop() target?: string;
+
+  /** The type attribute to apply to the button */
+  @Prop() type?: string;
 
   /** specify the width of the button, defaults to auto */
   @Prop({ reflect: true }) width: Width = "auto";
@@ -91,8 +105,9 @@ export class CalciteButton {
   componentWillLoad(): void {
     if (Build.isBrowser) {
       this.updateHasContent();
-      const elType = this.el.getAttribute("type");
-      this.type = this.childElType === "button" && elType ? elType : "submit";
+      if (this.childElType === "button" && !this.type) {
+        this.type = "submit";
+      }
     }
   }
 
@@ -134,18 +149,16 @@ export class CalciteButton {
 
     return (
       <Tag
-        aria-label={this.el.getAttribute("aria-label")}
+        aria-label={this.ariaLabel}
         class={{ [CSS_UTILITY.rtl]: dir === "rtl", [CSS.contentSlotted]: this.hasContent }}
         disabled={this.disabled}
         href={this.childElType === "a" && this.href}
-        name={this.childElType === "button" && this.el.getAttribute("name")}
+        name={this.childElType === "button" && this.name}
         onClick={this.handleClick}
         ref={(el) => (this.childEl = el)}
         rel={this.childElType === "a" && this.el.getAttribute("rel")}
-        role={this.el.getAttribute("role")}
         tabIndex={this.disabled ? -1 : null}
         target={this.childElType === "a" && this.el.getAttribute("target")}
-        title={this.el.getAttribute("title")}
         type={this.childElType === "button" && this.type}
       >
         {this.loading ? loader : null}
@@ -175,9 +188,6 @@ export class CalciteButton {
 
   /** watches for changing text content **/
   private observer: MutationObserver;
-
-  /** if button type is present, assign as prop */
-  private type?: string;
 
   /** the rendered child element */
   private childEl?: HTMLElement;
