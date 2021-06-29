@@ -14,26 +14,16 @@ import {
   Watch
 } from "@stencil/core";
 import {
-  CalciteFocusableElement,
+  getFocusableElements,
   ensureId,
   focusElement,
   getElementDir,
   getSlotted
 } from "../../utils/dom";
 import { getKey } from "../../utils/key";
-import { queryShadowRoot } from "@a11y/focus-trap/shadow";
-import { isFocusable, isHidden } from "@a11y/focus-trap/focusable";
 import { Scale } from "../interfaces";
 import { ModalBackgroundColor } from "./interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
-
-function isCalciteFocusable(el: CalciteFocusableElement): boolean {
-  return typeof el.setFocus === "function" || isFocusable(el);
-}
-
-function getFocusableElements(el: HTMLElement): HTMLElement[] {
-  return queryShadowRoot(el, isHidden, isCalciteFocusable);
-}
 
 @Component({
   tag: "calcite-modal",

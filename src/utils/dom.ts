@@ -1,5 +1,7 @@
 import { CSS_UTILITY } from "./resources";
 import { guid } from "./guid";
+import { queryShadowRoot } from "@a11y/focus-trap/shadow";
+import { isFocusable, isHidden } from "@a11y/focus-trap/focusable";
 
 /**
  * This helper will guarantee an ID on the provided element.
@@ -124,8 +126,16 @@ export interface CalciteFocusableElement extends HTMLElement {
   setFocus?: () => void;
 }
 
+function isCalciteFocusable(el: CalciteFocusableElement): boolean {
+  return el && (typeof el.setFocus === "function" || isFocusable(el));
+}
+
+export function getFocusableElements(el: HTMLElement | ShadowRoot): HTMLElement[] {
+  return queryShadowRoot(el, isHidden, isCalciteFocusable);
+}
+
 export async function focusElement(el: CalciteFocusableElement): Promise<void> {
-  if (!el) {
+  if (!isCalciteFocusable(el)) {
     return;
   }
 

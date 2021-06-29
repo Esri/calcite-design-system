@@ -24,7 +24,7 @@ import {
   RGB_LIMITS,
   TEXT
 } from "./resources";
-import { focusElement, getElementDir } from "../../utils/dom";
+import { focusElement, getElementDir, getFocusableElements } from "../../utils/dom";
 import { colorEqual, CSSColorMode, Format, normalizeHex, parseMode, SupportedMode } from "./utils";
 import { throttle } from "lodash-es";
 import { getKey } from "../../utils/key";
@@ -606,8 +606,11 @@ export class CalciteColorPicker {
 
   /** Sets focus on the component. */
   @Method()
-  async setFocus(): Promise<void> {
-    focusElement(this.hexInputNode);
+  async setFocus(focusId?: "hex-input"): Promise<void> {
+    const elementToFocus =
+      focusId === "hex-input" ? this.hexInputNode : getFocusableElements(this.el.shadowRoot)[0];
+
+    await focusElement(elementToFocus);
   }
 
   //--------------------------------------------------------------------------
