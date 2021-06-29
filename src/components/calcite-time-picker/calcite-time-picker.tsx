@@ -13,8 +13,9 @@ import {
   Method
 } from "@stencil/core";
 import { Scale } from "../interfaces";
-import { getKey, isActivationKey, isSpacebarKey, numberKeys } from "../../utils/key";
+import { getKey, isActivationKey, numberKeys } from "../../utils/key";
 import { isValidNumber } from "../../utils/number";
+
 import {
   Meridiem,
   formatTimePart,
@@ -290,10 +291,13 @@ export class CalciteTimePicker {
   };
 
   private buttonActivated(event: KeyboardEvent): boolean {
-    if (isSpacebarKey(event.key)) {
+    const key = getKey(event.key);
+
+    if (key === " ") {
       event.preventDefault();
     }
-    return isActivationKey(event.key);
+
+    return isActivationKey(key);
   }
 
   private focusHandler = (event: FocusEvent): void => {

@@ -90,7 +90,7 @@ Using a wrapping `calcite-label` component lets consumers set the status attribu
 | `step`             | `step`               | input step                                                                                                                                                                                                                                   | `"any" \| number`                                                                                                                                                                      | `undefined`                               |
 | `suffixText`       | `suffix-text`        | optionally add suffix \*                                                                                                                                                                                                                     | `string`                                                                                                                                                                               | `undefined`                               |
 | `type`             | `type`               | specify the input type Note that the following types add type-specific icons by default: `date`, `email`, `password`, `search`, `tel`, `time`                                                                                                | `"color" \| "date" \| "datetime-local" \| "email" \| "file" \| "image" \| "month" \| "number" \| "password" \| "search" \| "tel" \| "text" \| "textarea" \| "time" \| "url" \| "week"` | `"text"`                                  |
-| `value`            | `value`              | input value                                                                                                                                                                                                                                  | `string`                                                                                                                                                                               | `""`                                      |
+| `value`            | `value`              | input value                                                                                                                                                                                                                                  | `string`                                                                                                                                                                               | `undefined`                               |
 
 ## Events
 
@@ -110,9 +110,9 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot                 | Description                                      |
-| -------------------- | ------------------------------------------------ |
-| `"`calcite-action`"` | A slot for positioning a button next to an input |
+| Slot       | Description                                      |
+| ---------- | ------------------------------------------------ |
+| `"action"` | A slot for positioning a button next to an input |
 
 ## Dependencies
 
