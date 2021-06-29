@@ -1,3 +1,12 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-select-font-size: the font-size of items in the select
+ * @prop --calcite-select-spacing: the padding around the selected option text
+ */
+
 :host {
   @extend %component-spacing;
 
