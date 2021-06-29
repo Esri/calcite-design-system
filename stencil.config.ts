@@ -110,7 +110,7 @@ export const create: () => Config = () => ({
       "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.ts"
     },
     setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"],
-    transformIgnorePatterns: ["node_modules/(?!(@a11y)/)"]
+    transformIgnorePatterns: ["/node_modules/(?!(@a11y)/)"]
   },
   hydratedFlag: {
     selector: "attribute",
