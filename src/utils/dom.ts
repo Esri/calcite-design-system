@@ -123,24 +123,24 @@ function closestElementCrossShadowBoundary<E extends Element = Element>(
 }
 
 export interface CalciteFocusableElement extends HTMLElement {
-  setFocus?: () => void;
+  setFocus?: () => Promise<void>;
 }
 
 function isCalciteFocusable(el: CalciteFocusableElement): boolean {
   return el && (typeof el.setFocus === "function" || isFocusable(el));
 }
 
-export function getFocusableElements(el: HTMLElement | ShadowRoot): HTMLElement[] {
+export const getFocusableElements = (el: HTMLElement | ShadowRoot): HTMLElement[] => {
   return queryShadowRoot(el, isHidden, isCalciteFocusable);
-}
+};
 
-export async function focusElement(el: CalciteFocusableElement): Promise<void> {
+export const focusElement = async (el: CalciteFocusableElement): Promise<void> => {
   if (!isCalciteFocusable(el)) {
     return;
   }
 
-  typeof el.setFocus === "function" ? el.setFocus() : el.focus();
-}
+  return typeof el.setFocus === "function" ? el.setFocus() : el.focus();
+};
 
 interface GetSlottedOptions {
   all?: boolean;
