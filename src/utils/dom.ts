@@ -130,17 +130,17 @@ function isCalciteFocusable(el: CalciteFocusableElement): boolean {
   return el && (typeof el.setFocus === "function" || isFocusable(el));
 }
 
-export const getFocusableElements = (el: HTMLElement | ShadowRoot): HTMLElement[] => {
+export function getFocusableElements(el: HTMLElement | ShadowRoot): HTMLElement[] {
   return queryShadowRoot(el, isHidden, isCalciteFocusable);
-};
+}
 
-export const focusElement = async (el: CalciteFocusableElement): Promise<void> => {
+export async function focusElement(el: CalciteFocusableElement): Promise<void> {
   if (!isCalciteFocusable(el)) {
     return;
   }
 
   return typeof el.setFocus === "function" ? el.setFocus() : el.focus();
-};
+}
 
 interface GetSlottedOptions {
   all?: boolean;
