@@ -1,3 +1,13 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --loader-font-size: when type is determinate, the font-size of the loader percentage
+ * @prop --loader-size: the width and height of a non-inline loader
+ * @prop --loader-size-inline: the width and height of an inline loader
+ */
+
 $stroke-width: 3;
 $loader-scale: 54;
 $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
