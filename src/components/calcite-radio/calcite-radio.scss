@@ -1,3 +1,11 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-radio-size: the width and height of the radio circle in radio-buttons and radio-button-groups
+ */
+
 :host {
   .radio {
     @apply rounded-full cursor-pointer transition-all duration-150 ease-in-out;
