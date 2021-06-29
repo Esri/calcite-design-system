@@ -1,3 +1,15 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-modal-content-text: the font-size of the modal content
+ * @prop --calcite-modal-padding: the top/bottom padding around items in the modal
+ * @prop --calcite-modal-padding-large: the left/right padding around items in the modal
+ * @prop --calcite-modal-title-text: the font-size of the modal title
+ * @prop --calcite-scrim-background: the semi-transparent background color behind modal
+ */
+
 :host {
   @apply fixed
     inset-0
