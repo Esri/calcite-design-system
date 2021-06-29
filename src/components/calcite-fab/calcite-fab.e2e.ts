@@ -83,7 +83,7 @@ describe("calcite-fab", () => {
   });
 
   it("should be accessible", async () => {
-    await accessible(`<calcite-fab text="hello world"></calcite-fab>`);
-    await accessible(`<calcite-fab text="hello world" disabled text-enabled></calcite-fab>`);
+    await accessible(`<calcite-fab label="hello world" text="hello world"></calcite-fab>`);
+    await accessible(`<calcite-fab label="hello world" text="hello world" disabled text-enabled></calcite-fab>`);
   });
 });
