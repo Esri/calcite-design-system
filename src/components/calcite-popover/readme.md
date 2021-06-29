@@ -49,7 +49,7 @@
 
 Type: `Promise<void>`
 
-### `setFocus(focusId?: PopoverFocusId) => Promise<void>`
+### `setFocus(focusId?: "close-button") => Promise<void>`
 
 #### Returns
 

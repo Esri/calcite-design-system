@@ -88,7 +88,7 @@ export class CalciteNotice {
   }
 
   componentDidLoad(): void {
-    this.noticeLinkEl = this.el.querySelectorAll("calcite-link")[0] as HTMLCalciteLinkElement;
+    this.noticeLinkEl = this.el.querySelector("calcite-link") as HTMLCalciteLinkElement;
   }
 
   render(): VNode {
@@ -99,7 +99,7 @@ export class CalciteNotice {
         aria-label={this.intlClose}
         class={CSS.close}
         onClick={this.close}
-        ref={() => this.closeButton}
+        ref={(el) => (this.closeButton = el)}
       >
         <calcite-icon icon="x" scale={this.scale === "s" ? "s" : "m"} />
       </button>
@@ -176,7 +176,7 @@ export class CalciteNotice {
   //--------------------------------------------------------------------------
 
   /** the close button element */
-  private closeButton?: HTMLElement;
+  private closeButton?: HTMLButtonElement;
 
   /** the notice link child element  */
   private noticeLinkEl?: HTMLCalciteLinkElement;

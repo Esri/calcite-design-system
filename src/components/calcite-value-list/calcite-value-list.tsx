@@ -89,6 +89,11 @@ export class CalciteValueList<
    */
   @Prop({ reflect: true }) multiple = false;
 
+  /**
+   * When true and single-selection is enabled, the selection will change when navigating items via the keyboard.
+   */
+  @Prop() selectionFollowsFocus = false;
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
