@@ -19,14 +19,14 @@ describe("calcite-color-picker", () => {
   afterEach(() => consoleSpy.mockClear());
 
   it("should focus scope", async () =>
-    focusable(`<calcite-color-picker></calcite-color-picker>`, {
-      shadowFocusTargetSelector: `.${CSS.scope}`
+    focusable("<calcite-color-picker></calcite-color-picker>", {
+      shadowFocusTargetSelector: `[data-test-id="color-field-scope"]`
     }));
 
   it("should focus hexInput", async () =>
-    focusable(`<calcite-color-picker></calcite-color-picker>`, {
+    focusable("<calcite-color-picker></calcite-color-picker>", {
       focusId: "hex-input",
-      shadowFocusTargetSelector: `.${CSS.control}`
+      shadowFocusTargetSelector: "calcite-color-picker-hex-input"
     }));
 
   it("is accessible", async () => {

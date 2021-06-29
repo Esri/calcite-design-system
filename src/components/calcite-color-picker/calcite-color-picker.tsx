@@ -703,6 +703,7 @@ export class CalciteColorPicker {
             aria-valuemin="0"
             aria-valuenow={(vertical ? color?.saturationv() : color?.value()) || "0"}
             class={CSS.scope}
+            data-test-id="color-field-scope"
             onKeyDown={this.handleColorFieldScopeKeyDown}
             role="slider"
             style={{ top: `${colorFieldScopeTop || 0}px`, left: `${colorFieldScopeLeft || 0}px` }}
