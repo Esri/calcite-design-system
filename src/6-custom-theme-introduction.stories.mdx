@@ -4,7 +4,9 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Custom theme
 
-Developers building Esri applications are encouraged to use the default light or dark themes as much as possible. However, CSS varialbes defining color and typography are exposed on `:root` and may be customized as shown in this example.
+Developers building Esri applications are encouraged to use the default light or dark themes as much as possible. However, [CSS variables](#available-css-varirables) are exposed on `:root` and can be used to customize color, typography, and to some degree, spacing.
+
+This example demonstrates changing two colors.
 
 ```html
 <style>
@@ -20,7 +22,7 @@ Developers building Esri applications are encouraged to use the default light or
 
 CalciteAction uses `--calcite-ui-foreground-1` and `--calcite-ui-text-3` for its default appearance. Overwriting thosee variable will customize the appearance of all instances of CalciteAction inside the div.
 
-Note that setting the `theme` property individual components or elements will prevent overwrites from taking effect.
+Setting a valid theme CSS class on individual components or elements will prevent your overwrites from taking effect.
 
 ```html
 <style>
@@ -32,8 +34,37 @@ Note that setting the `theme` property individual components or elements will pr
 <div class="my-theme">
     <calcite-action icon="beaker" text="Foo" text-enabled></calcite-action>
 
-    <!-- The theme property will prevent this from recieving the overwrites. -->
-    <calcite-action theme="light" icon="beaker" text="Bar" text-enabled></calcite-action>
+    <!-- The valid theme class will prevent this from recieving the overwrites. -->
+    <calcite-action class="light" icon="beaker" text="Bar" text-enabled></calcite-action>
 </div>
 ```
-Setting a valid theme prop ("light" or "dark") prevents application overwrites from taking effect. 
+
+<h2 id="available-css-varirables">Available CSS varirables</h2>
+
+### Colors
+
+| CSS variable | usage | example |
+|--------------|-------|----------|
+| --calcite-ui-brand | interactive elements | CalciteButton |
+| --calcite-ui-brand-hover | interactive elements when hovered | CalciteButton |
+| --calcite-ui-brand-press | interactive elements when pressed | CalciteButton |
+| --calcite-ui-info | informative elements | icon and border in CalciteNotice |
+| --calcite-ui-success | success elements | icon and border in CalciteNotice |
+| --calcite-ui-warning | warning elements | icon and border in CalciteNotice |
+| --calcite-ui-danger | dangerous or destructive elements | icon and border in CalciteNotice, CalciteButton |
+| --calcite-ui-danger-hover | dangerous or destructive elements when hovered | CalciteButton |
+| --calcite-ui-danger-press | dangerous or destructive elements when pressed |CalciteButton |
+| --calcite-ui-background | container background color | CalcitePanel |
+| --calcite-ui-foreground-1 | content background color | CalciteBlock |
+| --calcite-ui-foreground-2 | content background color when hovered | CalciteBlock |
+| --calcite-ui-foreground-3 | content background color when pressed or active | CalciteBlock |
+| --calcite-ui-text-1 | todo | example |
+| --calcite-ui-text-2 | todo | example |
+| --calcite-ui-text-3 | todo | example |
+| --calcite-ui-text-inverse | todo | example |
+| --calcite-ui-text-link | todo | example |
+| --calcite-ui-border-1 | todo | example |
+| --calcite-ui-border-2 | todo | example |
+| --calcite-ui-border-3 | todo | example |
+| --calcite-ui-border-input | todo | example |
+```
