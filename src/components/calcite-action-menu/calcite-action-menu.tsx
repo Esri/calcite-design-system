@@ -10,7 +10,7 @@ import {
   Method,
   State
 } from "@stencil/core";
-import { CSS, SLOTS } from "./resources";
+import { CSS, SLOTS, ICONS } from "./resources";
 import { focusElement, getSlotted } from "../../utils/dom";
 import { Fragment, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
@@ -130,6 +130,8 @@ export class CalciteActionMenu {
 
   @State() menuButtonEl: HTMLCalciteActionElement;
 
+  defaultMenuButtonEl: HTMLCalciteActionElement;
+
   menuFocusTimeout: number;
 
   menuEl: HTMLDivElement;
@@ -170,7 +172,8 @@ export class CalciteActionMenu {
 
   connectMenuButtonEl = (): void => {
     const { el, menuButtonId, menuId, open, label } = this;
-    const menuButtonEl = getSlotted(el, SLOTS.trigger) as HTMLCalciteActionElement;
+    const menuButtonEl =
+      (getSlotted(el, SLOTS.trigger) as HTMLCalciteActionElement) || this.defaultMenuButtonEl;
 
     if (this.menuButtonEl === menuButtonEl) {
       return;
@@ -220,10 +223,24 @@ export class CalciteActionMenu {
     menuButtonEl.removeEventListener("keyup", this.menuButtonKeyUp);
   };
 
-  renderMenuButton(): VNode {
-    const { el } = this;
+  setDefaultMenuButtonEl = (el: HTMLCalciteActionElement): void => {
+    this.defaultMenuButtonEl = el;
+    this.connectMenuButtonEl();
+  };
 
-    const menuButtonSlot = <slot name={SLOTS.trigger} />;
+  renderMenuButton(): VNode {
+    const { el, label } = this;
+
+    const menuButtonSlot = (
+      <slot name={SLOTS.trigger}>
+        <calcite-action
+          class={CSS.defaultTrigger}
+          icon={ICONS.menu}
+          ref={this.setDefaultMenuButtonEl}
+          text={label}
+        />
+      </slot>
+    );
 
     return getSlotted(el, SLOTS.tooltip) ? (
       <calcite-tooltip-manager>{menuButtonSlot}</calcite-tooltip-manager>

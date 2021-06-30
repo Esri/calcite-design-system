@@ -18,6 +18,13 @@
   outline-offset: 0px;
 }
 
+.default-trigger {
+  @apply self-stretch
+  flex-initial
+  h-full
+  relative;
+}
+
 @include slotted("trigger", "calcite-action") {
   @apply self-stretch
   flex-initial
