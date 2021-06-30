@@ -14,16 +14,19 @@ import {
   Watch
 } from "@stencil/core";
 import {
-  getFocusableElements,
   ensureId,
   focusElement,
   getElementDir,
-  getSlotted
+  getSlotted,
+  CalciteFocusableElement,
+  hasSetFocus
 } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { Scale } from "../interfaces";
 import { ModalBackgroundColor } from "./interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
+import { queryShadowRoot } from "@a11y/focus-trap/shadow";
+import { isFocusable, isHidden } from "@a11y/focus-trap/focusable";
 
 @Component({
   tag: "calcite-modal",
@@ -280,7 +283,9 @@ export class CalciteModal {
     const closeButton = this.closeButtonEl;
 
     return focusElement(
-      focusId === "close-button" ? closeButton : getFocusableElements(this.el)[0] || closeButton
+      focusId === "close-button"
+        ? closeButton
+        : this.getFocusableElements(this.el)[0] || closeButton
     );
   }
 
@@ -302,6 +307,15 @@ export class CalciteModal {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  isCalciteFocusable = (el: CalciteFocusableElement): boolean => {
+    return hasSetFocus(el) || isFocusable(el);
+  };
+
+  getFocusableElements = (el: HTMLElement | ShadowRoot): HTMLElement[] => {
+    return queryShadowRoot(el, isHidden, this.isCalciteFocusable);
+  };
+
   @Watch("active")
   async toggleModal(value: boolean, oldValue: boolean): Promise<void> {
     if (value !== oldValue) {
@@ -356,7 +370,7 @@ export class CalciteModal {
   };
 
   focusLastElement = (): void => {
-    const focusableElements = getFocusableElements(this.el).filter(
+    const focusableElements = this.getFocusableElements(this.el).filter(
       (el) => !el.getAttribute("data-focus-fence")
     );
     if (focusableElements.length > 0) {

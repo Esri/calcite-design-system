@@ -24,12 +24,14 @@ import {
   RGB_LIMITS,
   TEXT
 } from "./resources";
-import { focusElement, getElementDir, getFocusableElements } from "../../utils/dom";
+import { focusElement, getElementDir, hasSetFocus, CalciteFocusableElement } from "../../utils/dom";
 import { colorEqual, CSSColorMode, Format, normalizeHex, parseMode, SupportedMode } from "./utils";
 import { throttle } from "lodash-es";
 import { getKey } from "../../utils/key";
 import { clamp } from "../../utils/math";
 import { CSS_UTILITY } from "../../utils/resources";
+import { queryShadowRoot } from "@a11y/focus-trap/shadow";
+import { isFocusable, isHidden } from "@a11y/focus-trap/focusable";
 
 const throttleFor60FpsInMs = 16;
 const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
@@ -608,7 +610,9 @@ export class CalciteColorPicker {
   @Method()
   async setFocus(focusId?: "hex-input"): Promise<void> {
     const elementToFocus =
-      focusId === "hex-input" ? this.hexInputNode : getFocusableElements(this.el.shadowRoot)[0];
+      focusId === "hex-input"
+        ? this.hexInputNode
+        : this.getFocusableElements(this.el.shadowRoot)[0];
 
     await focusElement(elementToFocus);
   }
@@ -903,6 +907,14 @@ export class CalciteColorPicker {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  isCalciteFocusable = (el: CalciteFocusableElement): boolean => {
+    return hasSetFocus(el) || isFocusable(el);
+  };
+
+  getFocusableElements = (el: HTMLElement | ShadowRoot): HTMLElement[] => {
+    return queryShadowRoot(el, isHidden, this.isCalciteFocusable);
+  };
 
   private captureHueSliderColor(x: number): void {
     const {

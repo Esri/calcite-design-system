@@ -1,7 +1,5 @@
 import { CSS_UTILITY } from "./resources";
 import { guid } from "./guid";
-import { queryShadowRoot } from "@a11y/focus-trap/shadow";
-import { isFocusable, isHidden } from "@a11y/focus-trap/focusable";
 
 /**
  * This helper will guarantee an ID on the provided element.
@@ -126,20 +124,16 @@ export interface CalciteFocusableElement extends HTMLElement {
   setFocus?: () => Promise<void>;
 }
 
-function isCalciteFocusable(el: CalciteFocusableElement): boolean {
-  return el && (typeof el.setFocus === "function" || isFocusable(el));
-}
-
-export function getFocusableElements(el: HTMLElement | ShadowRoot): HTMLElement[] {
-  return queryShadowRoot(el, isHidden, isCalciteFocusable);
+export function hasSetFocus(el: CalciteFocusableElement): boolean {
+  return typeof el?.setFocus === "function";
 }
 
 export async function focusElement(el: CalciteFocusableElement): Promise<void> {
-  if (!isCalciteFocusable(el)) {
+  if (!el) {
     return;
   }
 
-  return typeof el.setFocus === "function" ? el.setFocus() : el.focus();
+  return hasSetFocus(el) ? el.setFocus() : el.focus();
 }
 
 interface GetSlottedOptions {
