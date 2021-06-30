@@ -28,8 +28,8 @@
 }
 
 :host([scale="l"]) {
-  --calcite-notice-spacing-token-small: theme("spacing.5");
-  --calcite-notice-spacing-token-large: theme("spacing.6");
+  --calcite-notice-spacing-token-small: theme("spacing.4");
+  --calcite-notice-spacing-token-large: theme("spacing.5");
   @include slotted("title", "*", ".container") {
     @apply text-1-wrap mb-1;
   }
@@ -137,13 +137,13 @@
 }
 
 .notice-close {
-  @apply self-stretch bg-transparent border-none outline-none cursor-pointer text-color-3;
+  @apply flex items-center self-stretch bg-transparent border-none outline-none cursor-pointer text-color-3;
   @include notice-element-base;
   -webkit-appearance: none;
 
   &:hover,
   &:focus {
-    @apply bg-foreground-2;
+    @apply bg-foreground-2 text-color-1;
   }
 
   &:active {
@@ -151,14 +151,8 @@
   }
 }
 
-.action-end {
-  @apply flex self-stretch border-l border-l-color-3;
-  border-left-style: solid;
-}
-
-.action-end + .notice-close {
-  @apply border-l border-l-color-3;
-  border-left-style: solid;
+.actions-end {
+  @apply flex self-stretch;
 }
 
 .calcite--rtl {
@@ -176,16 +170,6 @@
     &:only-of-type {
       padding: var(--calcite-notice-spacing-token-small) var(--calcite-notice-spacing-token-large);
     }
-  }
-
-  .action-end {
-    @apply border-l-0 border-r border-r-color-3;
-    border-right-style: solid;
-  }
-
-  .action-end + .notice-close {
-    @apply border-l-0 border-r border-r-color-3;
-    border-right-style: solid;
   }
 }
 

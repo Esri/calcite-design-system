@@ -87,13 +87,13 @@ describe("calcite-notice", () => {
     const page = await newE2EPage({
       html: html` <calcite-notice active dismissible>
         ${noticeContent}
-        <calcite-action label="banana" icon="banana" slot=${SLOTS.actionEnd}></calcite-action>
+        <calcite-action label="banana" icon="banana" slot=${SLOTS.actionsEnd}></calcite-action>
       </calcite-notice>`
     });
 
     const actionAssignedSlot = await page.$eval("calcite-action", (action) => action.assignedSlot.name);
 
-    expect(actionAssignedSlot).toBe(SLOTS.actionEnd);
+    expect(actionAssignedSlot).toBe(SLOTS.actionsEnd);
   });
 
   describe("focusable", () => {
