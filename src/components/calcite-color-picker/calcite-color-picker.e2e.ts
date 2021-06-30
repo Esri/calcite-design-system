@@ -21,7 +21,7 @@ describe("calcite-color-picker", () => {
   describe("is focusable", () => {
     it("should focus scope by default", async () =>
       focusable("<calcite-color-picker></calcite-color-picker>", {
-        shadowFocusTargetSelector: `[data-test-id="color-field-scope"]`
+        shadowFocusTargetSelector: `.${CSS.colorFieldScope}`
       }));
   });
 

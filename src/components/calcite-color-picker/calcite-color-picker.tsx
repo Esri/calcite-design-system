@@ -712,8 +712,7 @@ export class CalciteColorPicker {
             aria-valuemax={vertical ? HSV_LIMITS.v : HSV_LIMITS.s}
             aria-valuemin="0"
             aria-valuenow={(vertical ? color?.saturationv() : color?.value()) || "0"}
-            class={CSS.scope}
-            data-test-id="color-field-scope"
+            class={{ [CSS.scope]: true, [CSS.colorFieldScope]: true }}
             onKeyDown={this.handleColorFieldScopeKeyDown}
             role="slider"
             style={{ top: `${colorFieldScopeTop || 0}px`, left: `${colorFieldScopeLeft || 0}px` }}
@@ -724,7 +723,7 @@ export class CalciteColorPicker {
             aria-valuemax={HSV_LIMITS.h}
             aria-valuemin="0"
             aria-valuenow={color?.round().hue() || DEFAULT_COLOR.round().hue()}
-            class={CSS.scope}
+            class={{ [CSS.scope]: true, [CSS.hueScope]: true }}
             onKeyDown={this.handleHueScopeKeyDown}
             role="slider"
             style={{ top: `${hueTop}px`, left: `${hueLeft}px` }}
