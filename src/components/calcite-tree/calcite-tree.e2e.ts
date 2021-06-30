@@ -47,7 +47,7 @@ describe("calcite-tree", () => {
       expect(await page.evaluate(() => document.activeElement.matches("body"))).toBe(true);
     });
 
-    it("doesn't hold on to focus", async () => {
+    it("doesn't trap focus", async () => {
       const page = await newE2EPage({
         html: html` <calcite-tree>
           <calcite-tree-item id="one">1</calcite-tree-item>
