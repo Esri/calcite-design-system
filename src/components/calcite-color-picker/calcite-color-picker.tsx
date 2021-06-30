@@ -24,7 +24,12 @@ import {
   RGB_LIMITS,
   TEXT
 } from "./resources";
-import { focusElement, getElementDir, hasSetFocus, CalciteFocusableElement } from "../../utils/dom";
+import {
+  focusElement,
+  getElementDir,
+  isCalciteFocusable,
+  CalciteFocusableElement
+} from "../../utils/dom";
 import { colorEqual, CSSColorMode, Format, normalizeHex, parseMode, SupportedMode } from "./utils";
 import { throttle } from "lodash-es";
 import { getKey } from "../../utils/key";
@@ -37,12 +42,12 @@ const throttleFor60FpsInMs = 16;
 const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
 const defaultFormat = "auto";
 
-const isCalciteFocusable = (el: CalciteFocusableElement): boolean => {
-  return hasSetFocus(el) || isFocusable(el);
+const isFocusableExtended = (el: CalciteFocusableElement): boolean => {
+  return isCalciteFocusable(el) || isFocusable(el);
 };
 
 const getFocusableElements = (el: HTMLElement | ShadowRoot): HTMLElement[] => {
-  return queryShadowRoot(el, isHidden, isCalciteFocusable);
+  return queryShadowRoot(el, isHidden, isFocusableExtended);
 };
 
 @Component({

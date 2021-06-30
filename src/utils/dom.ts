@@ -124,7 +124,7 @@ export interface CalciteFocusableElement extends HTMLElement {
   setFocus?: () => Promise<void>;
 }
 
-export function hasSetFocus(el: CalciteFocusableElement): boolean {
+export function isCalciteFocusable(el: CalciteFocusableElement): boolean {
   return typeof el?.setFocus === "function";
 }
 
@@ -133,7 +133,7 @@ export async function focusElement(el: CalciteFocusableElement): Promise<void> {
     return;
   }
 
-  return hasSetFocus(el) ? el.setFocus() : el.focus();
+  return isCalciteFocusable(el) ? el.setFocus() : el.focus();
 }
 
 interface GetSlottedOptions {

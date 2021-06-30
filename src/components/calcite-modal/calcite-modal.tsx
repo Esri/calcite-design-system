@@ -19,7 +19,7 @@ import {
   focusElement,
   getElementDir,
   getSlotted,
-  hasSetFocus
+  isCalciteFocusable
 } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { queryShadowRoot } from "@a11y/focus-trap/shadow";
@@ -28,12 +28,12 @@ import { Scale } from "../interfaces";
 import { ModalBackgroundColor } from "./interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 
-const isCalciteFocusable = (el: CalciteFocusableElement): boolean => {
-  return hasSetFocus(el) || isFocusable(el);
+const isFocusableExtended = (el: CalciteFocusableElement): boolean => {
+  return isCalciteFocusable(el) || isFocusable(el);
 };
 
 const getFocusableElements = (el: HTMLElement | ShadowRoot): HTMLElement[] => {
-  return queryShadowRoot(el, isHidden, isCalciteFocusable);
+  return queryShadowRoot(el, isHidden, isFocusableExtended);
 };
 
 @Component({
