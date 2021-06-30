@@ -62,8 +62,7 @@ export class CalciteColorPicker {
   //
   //--------------------------------------------------------------------------
 
-  @Element()
-  el: HTMLCalciteColorPickerElement;
+  @Element() el: HTMLCalciteColorPickerElement;
 
   //--------------------------------------------------------------------------
   //
@@ -86,10 +85,7 @@ export class CalciteColorPicker {
    *
    * @internal
    */
-  @Prop({
-    mutable: true
-  })
-  color: InternalColor | null = DEFAULT_COLOR;
+  @Prop({ mutable: true }) color: InternalColor | null = DEFAULT_COLOR;
 
   @Watch("color")
   handleColorChange(color: Color | null, oldColor: Color | null): void {
@@ -189,10 +185,7 @@ export class CalciteColorPicker {
   /**
    * The scale of the color picker.
    */
-  @Prop({
-    reflect: true
-  })
-  scale: Scale = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   @Watch("scale")
   handleScaleChange(scale: Scale = "m"): void {
@@ -212,10 +205,7 @@ export class CalciteColorPicker {
    *
    * The type will be preserved as the color is updated.
    */
-  @Prop({
-    mutable: true
-  })
-  value: ColorValue | null = defaultValue;
+  @Prop({ mutable: true }) value: ColorValue | null = defaultValue;
 
   @Watch("value")
   handleValueChange(value: ColorValue | null, oldValue: ColorValue | null): void {
@@ -310,8 +300,7 @@ export class CalciteColorPicker {
   /**
    * Fires when the color value has changed.
    */
-  @Event()
-  calciteColorPickerChange: EventEmitter;
+  @Event() calciteColorPickerChange: EventEmitter;
 
   private handleTabActivate = (event: Event): void => {
     this.channelMode = (event.currentTarget as HTMLElement).getAttribute(
@@ -620,7 +609,9 @@ export class CalciteColorPicker {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    return focusElement(getFocusableElements(this.el.shadowRoot)[0]);
+    const elementToFocus = getFocusableElements(this.el.shadowRoot)[0];
+
+    return focusElement(elementToFocus);
   }
 
   //--------------------------------------------------------------------------
