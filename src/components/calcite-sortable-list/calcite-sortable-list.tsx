@@ -26,7 +26,19 @@ export class CalciteSortableList {
   // --------------------------------------------------------------------------
 
   /**
-   * The class on the handle elements.
+   * Specifies which items inside the element should be draggable.
+   */
+  @Prop() dragSelector?: string;
+
+  /**
+   * The list's group identifier.
+   *
+   * To drag elements from one list into another, both lists must have the same group value.
+   */
+  @Prop() group?: string;
+
+  /**
+   * The selector for the handle elements.
    */
   @Prop() handleSelector = "calcite-handle";
 
@@ -53,7 +65,6 @@ export class CalciteSortableList {
   items: Element[] = [];
 
   observer = new MutationObserver(() => {
-    this.cleanUpDragAndDrop();
     this.items = Array.from(this.el.children);
     this.setUpDragAndDrop();
   });
@@ -142,7 +153,11 @@ export class CalciteSortableList {
   // --------------------------------------------------------------------------
 
   setUpDragAndDrop(): void {
-    this.sortable = Sortable.create(this.el, {
+    this.cleanUpDragAndDrop();
+
+    const options: Sortable.Options = {
+      dataIdAttr: "id",
+      group: this.group,
       handle: this.handleSelector,
       // Changed sorting within list
       onUpdate: () => {
@@ -157,11 +172,17 @@ export class CalciteSortableList {
       onEnd: () => {
         this.beginObserving();
       }
-    });
+    };
+
+    if (this.dragSelector) {
+      options.draggable = this.dragSelector;
+    }
+
+    this.sortable = Sortable.create(this.el, options);
   }
 
   cleanUpDragAndDrop(): void {
-    this.sortable.destroy();
+    this.sortable?.destroy();
     this.sortable = null;
   }
 
