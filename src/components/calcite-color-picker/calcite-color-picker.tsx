@@ -621,11 +621,8 @@ export class CalciteColorPicker {
 
   /** Sets focus on the component. */
   @Method()
-  async setFocus(focusId?: "hex-input"): Promise<void> {
-    const elementToFocus =
-      focusId === "hex-input" ? this.hexInputNode : getFocusableElements(this.el.shadowRoot)[0];
-
-    await focusElement(elementToFocus);
+  async setFocus(): Promise<void> {
+    return focusElement(getFocusableElements(this.el.shadowRoot)[0]);
   }
 
   //--------------------------------------------------------------------------
