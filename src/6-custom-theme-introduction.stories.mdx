@@ -4,7 +4,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Custom theme
 
-Developers building Esri applications are encouraged to use the default light or dark themes as much as possible. However, [CSS variables](#available-css-varirables) are exposed on `:root` and can be used to customize color, typography, and to some degree, spacing.
+Developers building Esri applications are encouraged to use the default light or dark themes as much as possible. However, [CSS variables](#available-css-varirables) are exposed on `:root` and can be used to customize [color](#color-vars) and [typography](#typography-vars), and in one case, [spacing](#panel-width-var).
 
 This example demonstrates changing two colors.
 
@@ -40,8 +40,9 @@ Setting a valid theme CSS class on individual components or elements will preven
 ```
 
 <h2 id="available-css-varirables">Available CSS varirables</h2>
+This is a catalog of all the CSS variables that are available for customization.
 
-### Colors
+<h3 id="color-vars">Colors</h3>
 
 | CSS variable | usage | example |
 |--------------|-------|----------|
@@ -58,13 +59,53 @@ Setting a valid theme CSS class on individual components or elements will preven
 | --calcite-ui-foreground-1 | content background color | CalciteBlock |
 | --calcite-ui-foreground-2 | content background color when hovered | CalciteBlock |
 | --calcite-ui-foreground-3 | content background color when pressed or active | CalciteBlock |
-| --calcite-ui-text-1 | todo | example |
-| --calcite-ui-text-2 | todo | example |
-| --calcite-ui-text-3 | todo | example |
-| --calcite-ui-text-inverse | todo | example |
-| --calcite-ui-text-link | todo | example |
-| --calcite-ui-border-1 | todo | example |
-| --calcite-ui-border-2 | todo | example |
-| --calcite-ui-border-3 | todo | example |
-| --calcite-ui-border-input | todo | example |
+| --calcite-ui-text-1 | primary or active text  | Notice title, Block heading when open |
+| --calcite-ui-text-2 | normal text or hovered subtle text | CalciteLabel, CalciteLabel |
+| --calcite-ui-text-3 | subtle or interactive text | CalciteAction, CalciteTab |
+| --calcite-ui-text-inverse | text color on solid background | CalciteButton with solid appearance |
+| --calcite-ui-text-link | text use as a link (anchor)| CalciteLink |
+| --calcite-ui-border-1 | strong border | --- |
+| --calcite-ui-border-2 | normal border | CalciteCard, CalciteValueListItem |
+| --calcite-ui-border-3 | subtle border | CalciteShell, CalcitePanel |
+| --calcite-ui-border-input | border for inputs | CalciteInput |
+
+<h3 id="typography-vars">Typography</h3>
+
+| CSS variable | usage | if `1rem` is `16px` |
+|--------------|-------|---------------------|
+| --calcite-sans-family | standard font for most uses | Not applicable |
+| --calcite-code-family | font for code or data | Not applicable |
+| --calcite-font-size--3 | todo | 10px |
+| --calcite-font-size--2 | todo | 12px |
+| --calcite-font-size--1 | todo | 14px |
+| --calcite-font-size-0  | todo | 16px |
+| --calcite-font-size-1  | todo | 18px |
+| --calcite-font-size-2  | todo | 20px |
+| --calcite-font-size-3  | todo | 26px |
+| --calcite-font-size-4  | todo | 32px |
+| --calcite-font-size-5  | todo | 40px |
+| --calcite-font-size-6  | todo | 48px |
+| --calcite-font-size-7  | todo | 56px |
+| --calcite-font-size-8  | todo | 64px |
+
+
+<h3 id="panel-width-var">Panel width multiplier</h3>
+Applications regularly use CalciteShell and its child components (CalciteShellPanel, CalcitePanel, etc.) for layout. The width of the panels in this framework is dynamic based on a combination of a predfined ratio and the `width-scale` property on CalciteShellPanel and CalcitePanel. In order to customize that ratio, use the `--calcite-panel-width-multiplier`.
+
+This `--calcite-panel-width-multiplier` variable's default value is 1. Setting it to greater to or less than that will have an application-wide effect.
+
+```html
+<style>
+:host {
+  --calcite-panel-width-multiplier: 1.25; // Increases the width by 25%.
+}
+</style>
+```
+
+```html
+<style>
+:host {
+  --calcite-panel-width-multiplier: .75; // Descreases the width by 25%.
+}
+</style>
 ```
