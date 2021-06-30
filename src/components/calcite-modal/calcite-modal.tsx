@@ -313,7 +313,6 @@ export class CalciteModal {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
   @Watch("active")
   async toggleModal(value: boolean, oldValue: boolean): Promise<void> {
     if (value !== oldValue) {
