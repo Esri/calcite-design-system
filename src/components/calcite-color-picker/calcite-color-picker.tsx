@@ -37,6 +37,14 @@ const throttleFor60FpsInMs = 16;
 const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
 const defaultFormat = "auto";
 
+const isCalciteFocusable = (el: CalciteFocusableElement): boolean => {
+  return hasSetFocus(el) || isFocusable(el);
+};
+
+const getFocusableElements = (el: HTMLElement | ShadowRoot): HTMLElement[] => {
+  return queryShadowRoot(el, isHidden, isCalciteFocusable);
+};
+
 @Component({
   tag: "calcite-color-picker",
   styleUrl: "calcite-color-picker.scss",
@@ -610,9 +618,7 @@ export class CalciteColorPicker {
   @Method()
   async setFocus(focusId?: "hex-input"): Promise<void> {
     const elementToFocus =
-      focusId === "hex-input"
-        ? this.hexInputNode
-        : this.getFocusableElements(this.el.shadowRoot)[0];
+      focusId === "hex-input" ? this.hexInputNode : getFocusableElements(this.el.shadowRoot)[0];
 
     await focusElement(elementToFocus);
   }
@@ -907,14 +913,6 @@ export class CalciteColorPicker {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
-  isCalciteFocusable = (el: CalciteFocusableElement): boolean => {
-    return hasSetFocus(el) || isFocusable(el);
-  };
-
-  getFocusableElements = (el: HTMLElement | ShadowRoot): HTMLElement[] => {
-    return queryShadowRoot(el, isHidden, this.isCalciteFocusable);
-  };
 
   private captureHueSliderColor(x: number): void {
     const {
