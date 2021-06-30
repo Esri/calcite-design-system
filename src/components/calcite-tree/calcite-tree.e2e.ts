@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, HYDRATED_ATTR } from "../../tests/commonTests";
+import { html } from "../../tests/utils";
 
 describe("calcite-tree", () => {
   it("renders", async () => {
@@ -11,6 +12,67 @@ describe("calcite-tree", () => {
   });
 
   it("is accessible", async () => accessible(`<calcite-tree></calcite-tree>`));
+
+  describe("it forwards focus", () => {
+    it("to first selected item", async () => {
+      const page = await newE2EPage({
+        html: html` <calcite-tree>
+          <calcite-tree-item id="one">1</calcite-tree-item>
+          <calcite-tree-item id="two" selected>2</calcite-tree-item>
+          <calcite-tree-item id="three">3</calcite-tree-item>
+        </calcite-tree>`
+      });
+
+      await page.keyboard.press("Tab");
+
+      expect(await page.evaluate(() => document.activeElement.matches("calcite-tree-item#two"))).toBe(true);
+    });
+
+    it("to first item if none selected", async () => {
+      const page = await newE2EPage({
+        html: html` <calcite-tree>
+          <calcite-tree-item id="one">1</calcite-tree-item>
+          <calcite-tree-item id="two">2</calcite-tree-item>
+          <calcite-tree-item id="three">3</calcite-tree-item>
+        </calcite-tree>`
+      });
+
+      await page.keyboard.press("Tab");
+
+      expect(await page.evaluate(() => document.activeElement.matches("calcite-tree-item#one"))).toBe(true);
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.press("Tab");
+
+      expect(await page.evaluate(() => document.activeElement.matches("body"))).toBe(true);
+    });
+
+    it("doesn't hold on to focus", async () => {
+      const page = await newE2EPage({
+        html: html` <calcite-tree>
+          <calcite-tree-item id="one">1</calcite-tree-item>
+        </calcite-tree>`
+      });
+
+      await page.keyboard.press("Tab");
+
+      expect(await page.evaluate(() => document.activeElement.matches("calcite-tree-item#one"))).toBe(true);
+
+      await page.keyboard.press("Tab");
+
+      expect(await page.evaluate(() => document.activeElement.matches("body"))).toBe(true);
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.press("Tab");
+
+      expect(await page.evaluate(() => document.activeElement.matches("calcite-tree-item#one"))).toBe(true);
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.press("Tab");
+
+      expect(await page.evaluate(() => document.activeElement.matches("body"))).toBe(true);
+    });
+  });
 
   it("is accessible: with nested children", async () =>
     accessible(`
