@@ -271,8 +271,6 @@ export class CalciteColorPicker {
 
   private globalThumbY: number;
 
-  private hexInputNode: HTMLCalciteColorPickerHexInputElement;
-
   private hueThumbState: "idle" | "hover" | "drag" = "idle";
 
   private previousColor: InternalColor | null;
@@ -756,7 +754,6 @@ export class CalciteColorPicker {
                   class={CSS.control}
                   dir={elementDir}
                   onCalciteColorPickerHexInputChange={this.handleHexInputChange}
-                  ref={this.storeHexInputRef}
                   scale={hexInputScale}
                   value={selectedColorInHex}
                 />
@@ -831,10 +828,6 @@ export class CalciteColorPicker {
       </div>
     );
   }
-
-  private storeHexInputRef = (node: HTMLCalciteColorPickerHexInputElement): void => {
-    this.hexInputNode = node;
-  };
 
   private renderChannelsTabTitle = (channelMode: this["channelMode"]): VNode => {
     const { channelMode: activeChannelMode, intlRgb, intlHsv } = this;
