@@ -26,7 +26,7 @@ import { CSS_UTILITY } from "../../utils/resources";
  * @slot title - Title of the notice (optional)
  * @slot message - Main text of the notice
  * @slot link - Optional action to take from the notice (undo, try again, link to page, etc.)
- * @slot action-end - Allows adding a `calcite-action` at the end of the notice
+ * @slot actions-end - Allows adding a `calcite-action` at the end of the notice. It is recommended to use 2 or less actions.
  */
 
 @Component({
@@ -105,7 +105,7 @@ export class CalciteNotice {
       </button>
     );
 
-    const hasActionEnd = getSlotted(el, SLOTS.actionEnd);
+    const hasActionEnd = getSlotted(el, SLOTS.actionsEnd);
 
     return (
       <div class={{ [CSS.container]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
@@ -120,8 +120,8 @@ export class CalciteNotice {
           <slot name={SLOTS.link} />
         </div>
         {hasActionEnd ? (
-          <div class={CSS.actionEnd}>
-            <slot name={SLOTS.actionEnd} />
+          <div class={CSS.actionsEnd}>
+            <slot name={SLOTS.actionsEnd} />
           </div>
         ) : null}
         {this.dismissible ? closeButton : null}
