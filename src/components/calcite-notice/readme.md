@@ -43,12 +43,12 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot           | Description                                                                   |
-| -------------- | ----------------------------------------------------------------------------- |
-| `"action-end"` | Allows adding a `calcite-action` at the end of the notice                     |
-| `"link"`       | Optional action to take from the notice (undo, try again, link to page, etc.) |
-| `"message"`    | Main text of the notice                                                       |
-| `"title"`      | Title of the notice (optional)                                                |
+| Slot            | Description                                                                                            |
+| --------------- | ------------------------------------------------------------------------------------------------------ |
+| `"actions-end"` | Allows adding a `calcite-action` at the end of the notice. It is recommended to use 2 or less actions. |
+| `"link"`        | Optional action to take from the notice (undo, try again, link to page, etc.)                          |
+| `"message"`     | Main text of the notice                                                                                |
+| `"title"`       | Title of the notice (optional)                                                                         |
 
 ## Dependencies
 
