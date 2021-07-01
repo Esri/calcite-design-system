@@ -187,10 +187,50 @@
       <calcite-notice scale="l" width="half" active>
         <div slot="title">Something failed</div>
         <div slot="message">That thing you wanted to do didn't work as expected</div>
-        <calcite-action id="retry-action" slot="icon-end" title="Retry" icon="reset"></calcite-action>
+        <calcite-action id="retry-action-1" scale="l" slot="actions-end" title="Retry" icon="reset"></calcite-action>
+        <calcite-action
+          id="info-action-1"
+          scale="l"
+          slot="actions-end"
+          title="Get info"
+          icon="information"
+        ></calcite-action>
+      </calcite-notice>
+      <br />
+      <br />
+      <calcite-notice scale="m" width="half" active>
+        <div slot="title">Something failed</div>
+        <div slot="message">That thing you wanted to do didn't work as expected</div>
+        <calcite-action id="retry-action-2" scale="m" slot="actions-end" title="Retry" icon="reset"></calcite-action>
+        <calcite-action
+          id="info-action-2"
+          scale="m"
+          slot="actions-end"
+          title="Get info"
+          icon="information"
+        ></calcite-action>
+      </calcite-notice>
+      <br />
+      <br />
+      <calcite-notice scale="s" width="half" active>
+        <div slot="title">Something failed</div>
+        <div slot="message">That thing you wanted to do didn't work as expected</div>
+        <calcite-action id="retry-action-3" scale="s" slot="actions-end" title="Retry" icon="reset"></calcite-action>
+        <calcite-action
+          id="info-action-3"
+          scale="s"
+          slot="actions-end"
+          title="Get info"
+          icon="information"
+        ></calcite-action>
       </calcite-notice>
     </calcite-tooltip-manager>
-    <calcite-tooltip reference-element="retry-action" placement="top"> Retry that action </calcite-tooltip>
+    <calcite-tooltip reference-element="retry-action-1" placement="top">Retry that action</calcite-tooltip>
+    <calcite-tooltip reference-element="info-action-1" placement="top">Get more info</calcite-tooltip>
+    <calcite-tooltip reference-element="retry-action-2" placement="top">Retry that action</calcite-tooltip>
+    <calcite-tooltip reference-element="info-action-2" placement="top">Get more info</calcite-tooltip>
+    <calcite-tooltip reference-element="retry-action-3" placement="top">Retry that action</calcite-tooltip>
+    <calcite-tooltip reference-element="info-action-3" placement="top">Get more info</calcite-tooltip>
     <br />
     <br />
   </body>

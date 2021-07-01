@@ -72,9 +72,11 @@ export class CalciteValueList<
   @Prop({ reflect: true }) filterPlaceholder: string;
 
   /**
-   * If this is set and drag is enabled, items can be dropped between lists of the same group.
+   * The list's group identifier.
+   *
+   * To drag elements from one list into another, both lists must have the same group value.
    */
-  @Prop() group: string;
+  @Prop() group?: string;
 
   /**
    * When true, content is waiting to be loaded. This state shows a busy indicator.
@@ -196,6 +198,8 @@ export class CalciteValueList<
   };
 
   setUpDragAndDrop(): void {
+    this.cleanUpDragAndDrop();
+
     if (!this.dragEnabled) {
       return;
     }
@@ -214,10 +218,8 @@ export class CalciteValueList<
   }
 
   cleanUpDragAndDrop(): void {
-    if (!this.dragEnabled) {
-      return;
-    }
-    this.sortable.destroy();
+    this.sortable?.destroy();
+    this.sortable = null;
   }
 
   deselectSiblingItems = deselectSiblingItems.bind(this);

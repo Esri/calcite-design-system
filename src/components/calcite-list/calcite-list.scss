@@ -1,0 +1,9 @@
+.container {
+  @apply bg-background
+  box-border
+  flex
+  flex-col;
+  * {
+    @apply box-border;
+  }
+}
