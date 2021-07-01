@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -111,6 +111,146 @@
           Switch with no wrapping <code>label</code>.
         </div>
       </div>
+    </div>
+  </body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Calcite Switch</title>
+
+    <!-- Importing the asset head -->
+    <script src="./_assets/head.js"></script>
+
+    <style>
+      .main-container {
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        /* justify-content: center; */
+        max-width: 960px;
+      }
+
+      .main-container > div,
+      .switch-change {
+        color: var(--calcite-ui-text-3);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-bold);
+      }
+
+      #s-m-l {
+        text-align: right;
+        padding: 0 50px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div>
+      <calcite-button href="/" icon-start="arrow-left" color="neutral"> Home </calcite-button>
+    </div>
+
+    <h1 style="margin: 0 auto; text-align: center">Switch</h1>
+
+    <!-- Using flexbox as the main layout -->
+    <div class="main-container">
+      <div id="s-m-l">
+        <p>&nbsp;</p>
+        <p>Small</p>
+        <p>Medium</p>
+        <p>Large</p>
+      </div>
+
+      <!-- When the switch is in default state i.e. not switched on -->
+      <div>
+        <p>Default</p>
+        <p>
+          <calcite-switch scale="s"></calcite-switch>
+        </p>
+
+        <p>
+          <calcite-switch scale="m"></calcite-switch>
+        </p>
+
+        <p>
+          <calcite-switch scale="l"></calcite-switch>
+        </p>
+      </div>
+
+      <!-- When the switch is in default state but disabled -->
+      <div>
+        <p>Disabled</p>
+        <p>
+          <calcite-switch scale="s" disabled></calcite-switch>
+        </p>
+
+        <p>
+          <calcite-switch scale="m" disabled></calcite-switch>
+        </p>
+
+        <p>
+          <calcite-switch scale="l" disabled></calcite-switch>
+        </p>
+      </div>
+
+      <!-- When the switch is on -->
+      <div>
+        <p>Switched</p>
+
+        <p>
+          <calcite-switch scale="s" switched></calcite-switch>
+        </p>
+
+        <p>
+          <calcite-switch scale="m" switched></calcite-switch>
+        </p>
+
+        <p>
+          <calcite-switch scale="l" switched></calcite-switch>
+        </p>
+      </div>
+
+      <!-- When the switch is on but disabled-->
+      <div>
+        <p>Disabled</p>
+
+        <p>
+          <calcite-switch scale="s" switched disabled></calcite-switch>
+        </p>
+
+        <p>
+          <calcite-switch scale="m" switched disabled></calcite-switch>
+        </p>
+
+        <p>
+          <calcite-switch scale="l" switched disabled></calcite-switch>
+        </p>
+      </div>
+    </div>
+
+    <!-- RTL Set directly on Switch -->
+    <div class="switch-change" style="margin: 90px 0 0 20%">
+      <p>RTL Set Directly on Switch</p>
+      <p>
+        <calcite-switch dir="rtl"> </calcite-switch>
+      </p>
+
+      <p style="padding: 90px 0 0 0" ;>Listening for "calciteSwitchChange"</p>
+      <p>
+        <calcite-switch id="basicSwitch" switched></calcite-switch>
+      </p>
+
+      <script>
+        var basicSwitch = document.getElementById("basicSwitch");
+
+        basicSwitch.addEventListener("calciteSwitchChange", function (e) {
+          console.log("Basic switch changed by <calcite-switch>", e.detail.switched);
+        });
+      </script>
     </div>
   </body>
 </html>
