@@ -5,7 +5,8 @@ import { area, range, translate } from "./util";
 
 @Component({
   tag: "calcite-graph",
-  styleUrl: "calcite-graph.scss"
+  styleUrl: "calcite-graph.scss",
+  shadow: true
 })
 export class CalciteGraph {
   //--------------------------------------------------------------------------

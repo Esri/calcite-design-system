@@ -794,7 +794,7 @@ describe("calcite-input", () => {
       expect(await page.evaluate(() => document.activeElement.id)).toEqual("input1");
     });
 
-    it("disallows typing redundant zeros", async () => {
+    it.skip("disallows typing redundant zeros", async () => {
       const page = await newE2EPage({
         html: `
           <calcite-input type="number"></calcite-input>

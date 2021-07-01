@@ -1,4 +1,4 @@
-const plugin = require('tailwindcss/plugin');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 var flattenColorPalette = require('tailwindcss/lib/util/flattenColorPalette').default;
 
 module.exports = {
@@ -118,7 +118,6 @@ module.exports = {
       brand: theme("colors.brand"),
       "brand-hover": theme("colors.brand-hover"),
       "brand-press": theme("colors.brand-press"),
-      "brand": theme("colors.brand"),
       "info": theme("colors.info"),
       "success": theme("colors.success"),
       "warning": theme("colors.warning"),
@@ -135,9 +134,6 @@ module.exports = {
       },
       borderRadius: {
         half: "50%"
-      },
-      borderWidth: {
-        px: "1px"
       },
       boxShadow: {
         0: "0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04)",
@@ -195,7 +191,7 @@ module.exports = {
         }
       },
       opacity: {
-        disabled: "0.5"
+        disabled: "var(--calcite-ui-opacity-disabled)"
       },
       spacing: {
         "0.5": "0.125rem",
@@ -241,7 +237,7 @@ module.exports = {
       }
       addUtilities(newUtilities);
     },
-    ({ addUtilities, e, theme, variants }) => {
+    ({ addUtilities, theme, variants }) => {
       const colors = flattenColorPalette(theme('borderColor'));
       delete colors['default'];
 
@@ -261,6 +257,7 @@ module.exports = {
     removeDeprecatedGapUtilities: true,
   },
   variants: {
-    boxShadow: ['responsive', 'hover', 'focus', 'active']
+    boxShadow: ['responsive', 'hover', 'focus', 'active'],
+    borderWidth: ['responsive', 'hover', 'focus', 'active']
   }
 }

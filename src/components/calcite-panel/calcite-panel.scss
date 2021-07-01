@@ -117,11 +117,11 @@
   @apply border-color-3
   border-solid
   border-0
-  border-r-px;
+  border-r;
 }
 
 .calcite--rtl .back-button {
-  @apply border-r-0 border-l-px;
+  @apply border-r-0 border-l;
 }
 
 .header-actions {
