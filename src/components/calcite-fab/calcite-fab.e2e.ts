@@ -61,9 +61,9 @@ describe("calcite-fab", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-fab text="hello world" label="hi"></calcite-fab>`);
 
-    const button = await page.find(`calcite-fab >>> .${CSS.button}`);
-    expect(button.getAttribute("title")).toBe("hi");
-    expect(button.getAttribute("aria-label")).toBe("hi");
+    const calciteButton = await page.find(`calcite-fab >>> .${CSS.button}`);
+    expect(calciteButton.getAttribute("title")).toBe("hi");
+    expect(await calciteButton.getProperty("label")).toBe("hi");
   });
 
   it("should be disabled", async () => {

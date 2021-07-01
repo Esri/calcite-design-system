@@ -36,8 +36,8 @@ export class CalciteButton {
   /** specify the appearance style of the button, defaults to solid. */
   @Prop({ reflect: true }) appearance: ButtonAppearance = "solid";
 
-  /** The aria-label attribute to apply to the button or hyperlink */
-  @Prop() ariaLabel?: string;
+  /** Applies to the aria-label attribute on the button or hyperlink */
+  @Prop() label?: string;
 
   /** specify the color of the button, defaults to blue */
   @Prop({ reflect: true }) color: ButtonColor = "blue";
@@ -82,7 +82,7 @@ export class CalciteButton {
   @Prop() target?: string;
 
   /** The type attribute to apply to the button */
-  @Prop() type?: string;
+  @Prop({ mutable: true }) type?: string;
 
   /** specify the width of the button, defaults to auto */
   @Prop({ reflect: true }) width: Width = "auto";
@@ -149,7 +149,7 @@ export class CalciteButton {
 
     return (
       <Tag
-        aria-label={this.ariaLabel}
+        aria-label={this.label}
         class={{ [CSS_UTILITY.rtl]: dir === "rtl", [CSS.contentSlotted]: this.hasContent }}
         disabled={this.disabled}
         href={this.childElType === "a" && this.href}
