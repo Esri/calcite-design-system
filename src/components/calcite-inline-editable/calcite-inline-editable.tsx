@@ -102,11 +102,11 @@ export class CalciteInlineEditable {
           {!this.editingEnabled && (
             <calcite-button
               appearance="transparent"
-              aria-label={this.intlEnableEditing}
               class="calcite-inline-editable-enable-editing-button"
               color="neutral"
               disabled={this.disabled}
               iconStart="pencil"
+              label={this.intlEnableEditing}
               onClick={this.enableEditingHandler}
               ref={(el) => (this.enableEditingButton = el)}
               scale={this.scale}
@@ -116,22 +116,22 @@ export class CalciteInlineEditable {
             <div class="calcite-inline-editable-cancel-editing-button-wrapper">
               <calcite-button
                 appearance="transparent"
-                aria-label={this.intlCancelEditing}
                 class="calcite-inline-editable-cancel-editing-button"
                 color="neutral"
                 disabled={this.disabled}
                 iconStart="x"
+                label={this.intlCancelEditing}
                 onClick={this.cancelEditingHandler}
                 scale={this.scale}
               />
             </div>,
             <calcite-button
               appearance="solid"
-              aria-label={this.intlConfirmChanges}
               class="calcite-inline-editable-confirm-changes-button"
               color="blue"
               disabled={this.disabled}
               iconStart="check"
+              label={this.intlConfirmChanges}
               loading={this.loading}
               onClick={this.confirmChangesHandler}
               scale={this.scale}

@@ -772,21 +772,21 @@ export class CalciteColorPicker {
               <div class={CSS.savedColorsButtons}>
                 <calcite-button
                   appearance="transparent"
-                  aria-label={intlDeleteColor}
                   class={CSS.deleteColor}
                   color="neutral"
                   disabled={noColor}
                   iconStart="minus"
+                  label={intlDeleteColor}
                   onClick={this.deleteColor}
                   scale={scale}
                 />
                 <calcite-button
                   appearance="transparent"
-                  aria-label={intlSaveColor}
                   class={CSS.saveColor}
                   color="neutral"
                   disabled={noColor}
                   iconStart="plus"
+                  label={intlSaveColor}
                   onClick={this.saveColor}
                   scale={scale}
                 />
