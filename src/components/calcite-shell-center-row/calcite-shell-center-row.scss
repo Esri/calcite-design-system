@@ -59,7 +59,7 @@
   @apply border-r border-solid border-color-3;
 }
 ::slotted(calcite-action-bar[position="end"]) {
-  @apply border-r-0 border-r border-solid border-color-3;
+  @apply border-l-0 border-r border-solid border-color-3;
 }
 
 .calcite--rtl {

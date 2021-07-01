@@ -135,13 +135,13 @@ export class CalciteBlock {
       <slot name={SLOTS.icon} />
     ) : (
       <calcite-icon
-        icon={icon}
-        scale="m"
         class={{
           [CSS.statusIcon]: true,
           [CSS.valid]: status == "valid",
           [CSS.invalid]: status == "invalid"
         }}
+        icon={icon}
+        scale="m"
       />
     );
 
