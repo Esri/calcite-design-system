@@ -147,7 +147,7 @@ export class CalciteInput {
   @Prop({ mutable: true, reflect: true }) status: Status = "idle";
 
   /** input step */
-  @Prop({ mutable: true, reflect: true }) step?: number | "any";
+  @Prop({ reflect: true }) step?: number | "any";
 
   /** optionally add suffix  **/
   @Prop() suffixText?: string;
@@ -244,6 +244,14 @@ export class CalciteInput {
 
   @State() localizedValue: string;
 
+  @State() computedStep: number | "any";
+
+  @Watch("type")
+  @Watch("step")
+  handleStepChange(): void {
+    this.computedStep = !this.step && this.type === "number" ? "any" : this.step;
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -255,7 +263,6 @@ export class CalciteInput {
     this.form?.addEventListener("reset", this.reset);
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.status = getElementProp(this.el, "status", this.status);
-    this.step = !this.step && this.type === "number" ? "any" : this.step;
     if (this.type === "number" && this.value) {
       if (isValidNumber(this.value)) {
         this.localizedValue = localizeNumberString(this.value, this.locale, this.groupSeparator);
@@ -469,7 +476,7 @@ export class CalciteInput {
     const decimals = this.value?.split(".")[1]?.length || 0;
     const inputMax = this.maxString ? parseFloat(this.maxString) : null;
     const inputMin = this.minString ? parseFloat(this.minString) : null;
-    const inputStep = this.step === "any" ? 1 : Math.abs(this.step || 1);
+    const inputStep = this.computedStep === "any" ? 1 : Math.abs(this.computedStep || 1);
     let inputVal = this.value && this.value !== "" ? parseFloat(this.value) : 0;
     let newValue = this.value;
 
@@ -681,7 +688,7 @@ export class CalciteInput {
         placeholder={this.placeholder || ""}
         ref={this.setChildElRef}
         required={this.required ? true : null}
-        step={this.step}
+        step={this.computedStep}
         tabIndex={this.disabled || this.type === "number" ? -1 : null}
         type={this.type}
         value={this.value}
