@@ -24,31 +24,16 @@ import {
   RGB_LIMITS,
   TEXT
 } from "./resources";
-import {
-  focusElement,
-  getElementDir,
-  isCalciteFocusable,
-  CalciteFocusableElement
-} from "../../utils/dom";
+import { focusElement, getElementDir } from "../../utils/dom";
 import { colorEqual, CSSColorMode, Format, normalizeHex, parseMode, SupportedMode } from "./utils";
 import { throttle } from "lodash-es";
 import { getKey } from "../../utils/key";
 import { clamp } from "../../utils/math";
 import { CSS_UTILITY } from "../../utils/resources";
-import { queryShadowRoot } from "@a11y/focus-trap/shadow";
-import { isFocusable, isHidden } from "@a11y/focus-trap/focusable";
 
 const throttleFor60FpsInMs = 16;
 const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
 const defaultFormat = "auto";
-
-const isFocusableExtended = (el: CalciteFocusableElement): boolean => {
-  return isCalciteFocusable(el) || isFocusable(el);
-};
-
-const getFocusableElements = (el: HTMLElement | ShadowRoot): HTMLElement[] => {
-  return queryShadowRoot(el, isHidden, isFocusableExtended);
-};
 
 @Component({
   tag: "calcite-color-picker",
@@ -260,6 +245,8 @@ export class CalciteColorPicker {
   private globalThumbX: number;
 
   private globalThumbY: number;
+
+  private colorFieldScopeNode: HTMLDivElement;
 
   private hueThumbState: "idle" | "hover" | "drag" = "idle";
 
@@ -609,9 +596,12 @@ export class CalciteColorPicker {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    const elementToFocus = getFocusableElements(this.el.shadowRoot)[0] || this.el;
+    const { colorFieldScopeNode, el } = this;
+    if (colorFieldScopeNode) {
+      return focusElement(colorFieldScopeNode);
+    }
 
-    return focusElement(elementToFocus);
+    el.focus();
   }
 
   //--------------------------------------------------------------------------
@@ -705,6 +695,7 @@ export class CalciteColorPicker {
             aria-valuenow={(vertical ? color?.saturationv() : color?.value()) || "0"}
             class={{ [CSS.scope]: true, [CSS.colorFieldScope]: true }}
             onKeyDown={this.handleColorFieldScopeKeyDown}
+            ref={this.storeColorFieldScope}
             role="slider"
             style={{ top: `${colorFieldScopeTop || 0}px`, left: `${colorFieldScopeLeft || 0}px` }}
             tabindex="0"
@@ -835,6 +826,10 @@ export class CalciteColorPicker {
         {label}
       </calcite-tab-title>
     );
+  };
+
+  private storeColorFieldScope = (node: HTMLDivElement): void => {
+    this.colorFieldScopeNode = node;
   };
 
   private renderChannelsTab = (channelMode: this["channelMode"]): VNode => {
