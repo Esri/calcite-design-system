@@ -20,7 +20,7 @@ This example demonstrates changing two colors.
 </div>
 ```
 
-CalciteAction uses `--calcite-ui-foreground-1` and `--calcite-ui-text-3` for its default appearance. Overwriting thosee variable will customize the appearance of all instances of CalciteAction inside the div.
+CalciteAction uses `--calcite-ui-foreground-1` and `--calcite-ui-text-3` for its default appearance. Overwriting those variables will customize the appearance of all instances of CalciteAction inside the div.
 
 Setting a valid theme CSS class on individual components or elements will prevent your overwrites from taking effect.
 
@@ -40,6 +40,7 @@ Setting a valid theme CSS class on individual components or elements will preven
 ```
 
 <h2 id="available-css-varirables">Available CSS varirables</h2>
+
 This is a catalog of all the CSS variables that are available for customization.
 
 <h3 id="color-vars">Colors</h3>
@@ -71,25 +72,23 @@ This is a catalog of all the CSS variables that are available for customization.
 
 <h3 id="typography-vars">Typography</h3>
 
+There are the variables....blah blah.
+There are larger sized vars that aren't use in Calcite Components.
+
 | CSS variable | usage | if `1rem` is `16px` |
 |--------------|-------|---------------------|
 | --calcite-sans-family | standard font for most uses | Not applicable |
 | --calcite-code-family | font for code or data | Not applicable |
-| --calcite-font-size--3 | todo | 10px |
-| --calcite-font-size--2 | todo | 12px |
-| --calcite-font-size--1 | todo | 14px |
-| --calcite-font-size-0  | todo | 16px |
-| --calcite-font-size-1  | todo | 18px |
-| --calcite-font-size-2  | todo | 20px |
-| --calcite-font-size-3  | todo | 26px |
-| --calcite-font-size-4  | todo | 32px |
-| --calcite-font-size-5  | todo | 40px |
-| --calcite-font-size-6  | todo | 48px |
-| --calcite-font-size-7  | todo | 56px |
-| --calcite-font-size-8  | todo | 64px |
-
+| --calcite-font-size--3 | rarely used | 10px |
+| --calcite-font-size--2 | secondary or small scale text | 12px |
+| --calcite-font-size--1 | standard text | 14px |
+| --calcite-font-size-0  | headings and large scale text | 16px |
+| --calcite-font-size-1  | headings and large scale text | 18px |
+| --calcite-font-size-2  | used in modals | 20px |
+| --calcite-font-size-3  | used in modals | 26px |
 
 <h3 id="panel-width-var">Panel width multiplier</h3>
+
 Applications regularly use CalciteShell and its child components (CalciteShellPanel, CalcitePanel, etc.) for layout. The width of the panels in this framework is dynamic based on a combination of a predfined ratio and the `width-scale` property on CalciteShellPanel and CalcitePanel. In order to customize that ratio, use the `--calcite-panel-width-multiplier`.
 
 This `--calcite-panel-width-multiplier` variable's default value is 1. Setting it to greater to or less than that will have an application-wide effect.
