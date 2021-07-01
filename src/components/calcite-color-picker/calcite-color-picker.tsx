@@ -609,7 +609,7 @@ export class CalciteColorPicker {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    const elementToFocus = getFocusableElements(this.el.shadowRoot)[0];
+    const elementToFocus = getFocusableElements(this.el.shadowRoot)[0] || this.el;
 
     return focusElement(elementToFocus);
   }
