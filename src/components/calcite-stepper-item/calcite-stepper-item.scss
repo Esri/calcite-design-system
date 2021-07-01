@@ -265,8 +265,7 @@
     pl-0;
   padding-right: var(--calcite-stepper-item-spacing-unit-l);
   & .stepper-item-icon {
-    @apply mr-auto
-      mb-0
+    @apply mb-0
       mr-0
       pl-0;
     margin-top: var(--calcite-stepper-item-spacing-unit-m);
