@@ -7,8 +7,7 @@ import {
   EventEmitter,
   Listen,
   h,
-  VNode,
-  Method
+  VNode
 } from "@stencil/core";
 import { focusElement, nodeListToArray } from "../../utils/dom";
 import { TreeItemSelectDetail } from "../calcite-tree-item/interfaces";
