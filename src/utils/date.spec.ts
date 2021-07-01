@@ -130,7 +130,7 @@ describe("localizeNumber", () => {
     expect(localizeNumber(123, dummyLocale as DateLocaleData)).toEqual("123");
   });
   it("converts standard numerals to arabic", () => {
-    expect(localizeNumber(123, arabic)).toEqual("١٢٣");
+    expect(localizeNumber(123, arabic as DateLocaleData)).toEqual("١٢٣");
   });
 });
 
@@ -140,25 +140,25 @@ describe("parseNumber", () => {
     expect(parseNumber("123", dummyLocale as DateLocaleData)).toEqual(123);
   });
   it("parses arabic number", () => {
-    expect(parseNumber("٧٨٩", arabic)).toEqual(789);
+    expect(parseNumber("٧٨٩", arabic as DateLocaleData)).toEqual(789);
   });
 });
 
 describe("parseDateString", () => {
   it("parses arabic date", () => {
-    const parsed = parseDateString("٢٧‏/١١‏/٢٠٠٠", arabic);
+    const parsed = parseDateString("٢٧‏/١١‏/٢٠٠٠", arabic as DateLocaleData);
     expect(parsed.day).toEqual(27);
     expect(parsed.month).toEqual(10);
     expect(parsed.year).toEqual(2000);
   });
   it("parses french date", () => {
-    const parsed = parseDateString("27/11/2000", french);
+    const parsed = parseDateString("27/11/2000", french as DateLocaleData);
     expect(parsed.day).toEqual(27);
     expect(parsed.month).toEqual(10);
     expect(parsed.year).toEqual(2000);
   });
   it("parses korean date", () => {
-    const parsed = parseDateString("2000. 11. 27.", korean);
+    const parsed = parseDateString("2000. 11. 27.", korean as DateLocaleData);
     expect(parsed.day).toEqual(27);
     expect(parsed.month).toEqual(10);
     expect(parsed.year).toEqual(2000);

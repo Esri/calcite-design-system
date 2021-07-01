@@ -54,21 +54,22 @@ modal.beforeClose = beforeClose;
 
 ## Properties
 
-| Property             | Attribute              | Description                                                                                                 | Type                                 | Default                   |
-| -------------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------- | ------------------------------------ | ------------------------- |
-| `active`             | `active`               | Add the active attribute to open the modal                                                                  | `boolean`                            | `undefined`               |
-| `backgroundColor`    | `background-color`     | Background color of modal content                                                                           | `"grey" \| "white"`                  | `"white"`                 |
-| `beforeClose`        | --                     | Optionally pass a function to run before close                                                              | `(el: HTMLElement) => Promise<void>` | `() => Promise.resolve()` |
-| `color`              | `color`                | Adds a color bar at the top for visual impact, Use color to add importance to destructive/workflow dialogs. | `"blue" \| "red"`                    | `undefined`               |
-| `disableCloseButton` | `disable-close-button` | Disables the display a close button within the Modal                                                        | `boolean`                            | `undefined`               |
-| `disableEscape`      | `disable-escape`       | Flag to disable the default close on escape behavior                                                        | `boolean`                            | `undefined`               |
-| `docked`             | `docked`               | Prevent the modal from taking up the entire screen on mobile                                                | `boolean`                            | `undefined`               |
-| `firstFocus`         | --                     | Specify an element to focus when the modal is first opened                                                  | `HTMLElement`                        | `undefined`               |
-| `fullscreen`         | `fullscreen`           | Set the modal to always be fullscreen (overrides width)                                                     | `boolean`                            | `undefined`               |
-| `intlClose`          | `intl-close`           | Aria label for the close button                                                                             | `string`                             | `"Close"`                 |
-| `noPadding`          | `no-padding`           | Turn off spacing around the content area slot                                                               | `boolean`                            | `undefined`               |
-| `scale`              | `scale`                | specify the scale of modal, defaults to m                                                                   | `"l" \| "m" \| "s"`                  | `"m"`                     |
-| `width`              | `width`                | Set the width of the modal. Can use stock sizes or pass a number (in pixels)                                | `"l" \| "m" \| "s" \| number`        | `"m"`                     |
+| Property              | Attribute               | Description                                                                                                 | Type                                 | Default                   |
+| --------------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------- | ------------------------------------ | ------------------------- |
+| `active`              | `active`                | Add the active attribute to open the modal                                                                  | `boolean`                            | `undefined`               |
+| `backgroundColor`     | `background-color`      | Background color of modal content                                                                           | `"grey" \| "white"`                  | `"white"`                 |
+| `beforeClose`         | --                      | Optionally pass a function to run before close                                                              | `(el: HTMLElement) => Promise<void>` | `() => Promise.resolve()` |
+| `color`               | `color`                 | Adds a color bar at the top for visual impact, Use color to add importance to destructive/workflow dialogs. | `"blue" \| "red"`                    | `undefined`               |
+| `disableCloseButton`  | `disable-close-button`  | Disables the display a close button within the Modal                                                        | `boolean`                            | `undefined`               |
+| `disableEscape`       | `disable-escape`        | Flag to disable the default close on escape behavior                                                        | `boolean`                            | `undefined`               |
+| `disableOutsideClose` | `disable-outside-close` | Disables the closing of the Modal when clicked outside.                                                     | `boolean`                            | `undefined`               |
+| `docked`              | `docked`                | Prevent the modal from taking up the entire screen on mobile                                                | `boolean`                            | `undefined`               |
+| `firstFocus`          | --                      | Specify an element to focus when the modal is first opened                                                  | `HTMLElement`                        | `undefined`               |
+| `fullscreen`          | `fullscreen`            | Set the modal to always be fullscreen (overrides width)                                                     | `boolean`                            | `undefined`               |
+| `intlClose`           | `intl-close`            | Aria label for the close button                                                                             | `string`                             | `"Close"`                 |
+| `noPadding`           | `no-padding`            | Turn off spacing around the content area slot                                                               | `boolean`                            | `undefined`               |
+| `scale`               | `scale`                 | specify the scale of modal, defaults to m                                                                   | `"l" \| "m" \| "s"`                  | `"m"`                     |
+| `width`               | `width`                 | Set the width of the modal. Can use stock sizes or pass a number (in pixels)                                | `"l" \| "m" \| "s" \| number`        | `"m"`                     |
 
 ## Events
 

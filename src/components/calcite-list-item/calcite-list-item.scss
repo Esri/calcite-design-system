@@ -1,0 +1,91 @@
+:host([disabled]) {
+  @apply pointer-events-none cursor-default;
+}
+
+.container {
+  @apply bg-foreground-1
+  box-border
+  font-sans
+  flex;
+  * {
+    @apply box-border;
+  }
+}
+
+.content-container {
+  @apply flex
+    flex-auto
+    focus-base
+    items-stretch
+    p-0
+    text-color-2;
+}
+
+.content-container--button {
+  @apply bg-foreground-1
+    border-none
+    cursor-pointer
+    focus-base;
+
+  text-align: initial;
+
+  &:hover {
+    @apply bg-foreground-2;
+    .label,
+    .description {
+      @apply text-color-1;
+    }
+  }
+  &:focus {
+    @apply focus-inset;
+  }
+}
+
+.content {
+  @apply justify-center
+    flex
+    flex-auto
+    flex-col
+    p-3;
+}
+
+.label,
+.description {
+  @apply font-normal font-sans text--2 word-break;
+}
+
+.label {
+  @apply text-color-1;
+}
+
+.description {
+  @apply text-color-3;
+}
+
+.content-start,
+.content-end {
+  @apply flex-initial pointer-events-none;
+}
+
+.actions-start,
+.actions-end,
+.content-start,
+.content-end {
+  @apply flex items-center;
+}
+
+.content-start,
+.content-end {
+  ::slotted(calcite-icon) {
+    @apply self-center px-3;
+  }
+}
+
+.actions-start,
+.actions-end {
+  ::slotted(calcite-action) {
+    @apply self-stretch;
+
+    color: inherit;
+  }
+}
