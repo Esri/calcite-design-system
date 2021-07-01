@@ -597,6 +597,7 @@ export class CalciteColorPicker {
   @Method()
   async setFocus(): Promise<void> {
     const { colorFieldScopeNode, el } = this;
+
     if (colorFieldScopeNode) {
       return focusElement(colorFieldScopeNode);
     }
@@ -810,6 +811,10 @@ export class CalciteColorPicker {
     );
   }
 
+  private storeColorFieldScope = (node: HTMLDivElement): void => {
+    this.colorFieldScopeNode = node;
+  };
+
   private renderChannelsTabTitle = (channelMode: this["channelMode"]): VNode => {
     const { channelMode: activeChannelMode, intlRgb, intlHsv } = this;
     const active = channelMode === activeChannelMode;
@@ -826,10 +831,6 @@ export class CalciteColorPicker {
         {label}
       </calcite-tab-title>
     );
-  };
-
-  private storeColorFieldScope = (node: HTMLDivElement): void => {
-    this.colorFieldScopeNode = node;
   };
 
   private renderChannelsTab = (channelMode: this["channelMode"]): VNode => {
