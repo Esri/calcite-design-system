@@ -7,7 +7,8 @@ import { getKey } from "../../utils/key";
  * @slot - A slot for adding elements that reference a 'calcite-tooltip' by the 'selector' property.
  */
 @Component({
-  tag: "calcite-tooltip-manager"
+  tag: "calcite-tooltip-manager",
+  shadow: true
 })
 export class CalciteTooltipManager {
   // --------------------------------------------------------------------------
