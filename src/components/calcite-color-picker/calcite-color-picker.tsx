@@ -47,8 +47,7 @@ export class CalciteColorPicker {
   //
   //--------------------------------------------------------------------------
 
-  @Element()
-  el: HTMLCalciteColorPickerElement;
+  @Element() el: HTMLCalciteColorPickerElement;
 
   //--------------------------------------------------------------------------
   //
@@ -71,10 +70,7 @@ export class CalciteColorPicker {
    *
    * @internal
    */
-  @Prop({
-    mutable: true
-  })
-  color: InternalColor | null = DEFAULT_COLOR;
+  @Prop({ mutable: true }) color: InternalColor | null = DEFAULT_COLOR;
 
   @Watch("color")
   handleColorChange(color: Color | null, oldColor: Color | null): void {
@@ -174,10 +170,7 @@ export class CalciteColorPicker {
   /**
    * The scale of the color picker.
    */
-  @Prop({
-    reflect: true
-  })
-  scale: Scale = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   @Watch("scale")
   handleScaleChange(scale: Scale = "m"): void {
@@ -197,10 +190,7 @@ export class CalciteColorPicker {
    *
    * The type will be preserved as the color is updated.
    */
-  @Prop({
-    mutable: true
-  })
-  value: ColorValue | null = defaultValue;
+  @Prop({ mutable: true }) value: ColorValue | null = defaultValue;
 
   @Watch("value")
   handleValueChange(value: ColorValue | null, oldValue: ColorValue | null): void {
@@ -256,7 +246,7 @@ export class CalciteColorPicker {
 
   private globalThumbY: number;
 
-  private hexInputNode: HTMLCalciteColorPickerHexInputElement;
+  private colorFieldScopeNode: HTMLDivElement;
 
   private hueThumbState: "idle" | "hover" | "drag" = "idle";
 
@@ -297,8 +287,7 @@ export class CalciteColorPicker {
   /**
    * Fires when the color value has changed.
    */
-  @Event()
-  calciteColorPickerChange: EventEmitter;
+  @Event() calciteColorPickerChange: EventEmitter;
 
   private handleTabActivate = (event: Event): void => {
     this.channelMode = (event.currentTarget as HTMLElement).getAttribute(
@@ -607,7 +596,7 @@ export class CalciteColorPicker {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    focusElement(this.hexInputNode);
+    return focusElement(this.colorFieldScopeNode);
   }
 
   //--------------------------------------------------------------------------
@@ -699,8 +688,9 @@ export class CalciteColorPicker {
             aria-valuemax={vertical ? HSV_LIMITS.v : HSV_LIMITS.s}
             aria-valuemin="0"
             aria-valuenow={(vertical ? color?.saturationv() : color?.value()) || "0"}
-            class={CSS.scope}
+            class={{ [CSS.scope]: true, [CSS.colorFieldScope]: true }}
             onKeyDown={this.handleColorFieldScopeKeyDown}
+            ref={this.storeColorFieldScope}
             role="slider"
             style={{ top: `${colorFieldScopeTop || 0}px`, left: `${colorFieldScopeLeft || 0}px` }}
             tabindex="0"
@@ -710,7 +700,7 @@ export class CalciteColorPicker {
             aria-valuemax={HSV_LIMITS.h}
             aria-valuemin="0"
             aria-valuenow={color?.round().hue() || DEFAULT_COLOR.round().hue()}
-            class={CSS.scope}
+            class={{ [CSS.scope]: true, [CSS.hueScope]: true }}
             onKeyDown={this.handleHueScopeKeyDown}
             role="slider"
             style={{ top: `${hueTop}px`, left: `${hueLeft}px` }}
@@ -740,7 +730,6 @@ export class CalciteColorPicker {
                   class={CSS.control}
                   dir={elementDir}
                   onCalciteColorPickerHexInputChange={this.handleHexInputChange}
-                  ref={this.storeHexInputRef}
                   scale={hexInputScale}
                   value={selectedColorInHex}
                 />
@@ -772,21 +761,21 @@ export class CalciteColorPicker {
               <div class={CSS.savedColorsButtons}>
                 <calcite-button
                   appearance="transparent"
-                  aria-label={intlDeleteColor}
                   class={CSS.deleteColor}
                   color="neutral"
                   disabled={noColor}
                   iconStart="minus"
+                  label={intlDeleteColor}
                   onClick={this.deleteColor}
                   scale={scale}
                 />
                 <calcite-button
                   appearance="transparent"
-                  aria-label={intlSaveColor}
                   class={CSS.saveColor}
                   color="neutral"
                   disabled={noColor}
                   iconStart="plus"
+                  label={intlSaveColor}
                   onClick={this.saveColor}
                   scale={scale}
                 />
@@ -816,8 +805,8 @@ export class CalciteColorPicker {
     );
   }
 
-  private storeHexInputRef = (node: HTMLCalciteColorPickerHexInputElement): void => {
-    this.hexInputNode = node;
+  private storeColorFieldScope = (node: HTMLDivElement): void => {
+    this.colorFieldScopeNode = node;
   };
 
   private renderChannelsTabTitle = (channelMode: this["channelMode"]): VNode => {

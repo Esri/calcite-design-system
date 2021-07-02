@@ -1,4 +1,4 @@
-import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, reflects, renders, focusable } from "../../tests/commonTests";
 
 import { CSS, DEFAULT_COLOR, DEFAULT_STORAGE_KEY_PREFIX, DIMENSIONS, TEXT } from "./resources";
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
@@ -17,6 +17,13 @@ describe("calcite-color-picker", () => {
   );
 
   afterEach(() => consoleSpy.mockClear());
+
+  describe("is focusable", () => {
+    it("should focus scope by default", async () =>
+      focusable("<calcite-color-picker></calcite-color-picker>", {
+        shadowFocusTargetSelector: `.${CSS.colorFieldScope}`
+      }));
+  });
 
   it("is accessible", async () => {
     await accessible("calcite-color-picker");

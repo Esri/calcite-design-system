@@ -2,7 +2,7 @@
   --calcite-stepper-item-spacing-unit-s: theme("spacing.1");
   --calcite-stepper-item-spacing-unit-m: theme("spacing.3");
   --calcite-stepper-item-spacing-unit-l: theme("spacing.4");
-  @apply text--1-wrap;
+  @apply text--1-wrap mr-1;
   .stepper-item-subtitle {
     @apply text--2-wrap;
   }
@@ -12,7 +12,7 @@
   --calcite-stepper-item-spacing-unit-s: theme("spacing.2");
   --calcite-stepper-item-spacing-unit-m: theme("spacing.4");
   --calcite-stepper-item-spacing-unit-l: theme("spacing.5");
-  @apply text-0-wrap;
+  @apply text-0-wrap mr-2;
   .stepper-item-subtitle {
     @apply text--1-wrap;
   }
@@ -22,7 +22,7 @@
   --calcite-stepper-item-spacing-unit-s: theme("spacing.3");
   --calcite-stepper-item-spacing-unit-m: theme("spacing.5");
   --calcite-stepper-item-spacing-unit-l: theme("spacing.6");
-  @apply text-1-wrap;
+  @apply text-1-wrap mr-3;
   .stepper-item-subtitle {
     @apply text-0-wrap;
   }
@@ -46,11 +46,10 @@
     border-0
     border-t-2
     border-solid
-    border-color-2
+    border-color-3
     cursor-pointer
     duration-150
-    ease-in-out
-    mr-1;
+    ease-in-out;
 }
 
 .calcite--rtl {
@@ -104,7 +103,6 @@
 }
 
 // stepper item icon
-//todo rtl
 :host .stepper-item-icon {
   margin-right: var(--calcite-stepper-item-spacing-unit-m);
   @apply text-color-3
@@ -138,7 +136,7 @@
   @apply flex w-full;
 }
 :host .stepper-item-title {
-  @apply text-color-2 font-medium;
+  @apply text-color-2 font-medium mb-1;
 }
 :host .stepper-item-subtitle {
   @apply text-color-3;
@@ -149,15 +147,15 @@
 }
 
 :host .stepper-item-number {
-  @apply font-bold
-  text-color-3
-  duration-150
-  ease-in-out;
-  margin-right: var(--calcite-stepper-item-spacing-unit-l);
+  @apply font-medium
+    text-color-3
+    duration-150
+    ease-in-out;
+  margin-right: var(--calcite-stepper-item-spacing-unit-m);
 }
 
 .calcite--rtl .stepper-item-number {
-  margin-left: var(--calcite-stepper-item-spacing-unit-l);
+  margin-left: var(--calcite-stepper-item-spacing-unit-m);
   margin-right: initial;
 }
 :host([disabled]) {
@@ -170,7 +168,7 @@
 
 :host([complete]) .container {
   // todo dark theme
-  border-top-color: rgba($h-bb-060, 0.5);
+  border-color: rgba($h-bb-060, 0.5);
   & .stepper-item-icon {
     color: theme("backgroundColor.brand");
   }
@@ -189,7 +187,7 @@
 
 :host(:hover:not([disabled]):not([active])) .container,
 :host(:focus:not([disabled]):not([active])) .container {
-  border-top-color: rgba($h-bb-060, 0.75);
+  @apply border-t-color-brand;
 
   & .stepper-item-title {
     @apply text-color-1;
@@ -201,7 +199,7 @@
 
 :host([error]:hover:not([disabled]):not([active])) .container,
 :host([error]:focus:not([disabled]):not([active])) .container {
-  border-top-color: rgba($h-rr-060, 0.75);
+  @apply border-t-color-danger-hover;
 }
 
 :host([active]) .container {
@@ -234,7 +232,7 @@
     mx-0
     mt-0;
   padding-left: var(--calcite-stepper-item-spacing-unit-l);
-  margin-bottom: var(--calcite-stepper-item-spacing-unit-m);
+  margin-bottom: var(--calcite-stepper-item-spacing-unit-s);
 
   & .stepper-item-icon {
     @apply mt-px mr-0 mb-0 ml-auto order-3;
@@ -265,11 +263,9 @@
     pl-0;
   padding-right: var(--calcite-stepper-item-spacing-unit-l);
   & .stepper-item-icon {
-    @apply mr-auto
-      mb-0
-      mr-0
+    @apply mb-0
+      ml-0
       pl-0;
-    margin-top: var(--calcite-stepper-item-spacing-unit-m);
     padding-right: var(--calcite-stepper-item-spacing-unit-l);
   }
   & .stepper-item-header {
@@ -281,6 +277,10 @@
 :host([layout="vertical"][complete]) .container {
   border-color: rgba($h-bb-060, 0.5);
 }
+:host([layout="vertical"][complete]:hover:not([disabled]):not([active])) .container,
+:host([layout="vertical"][complete]:focus:not([disabled]):not([active])) .container {
+  @apply border-color-brand;
+}
 :host([layout="vertical"][error]) .container {
   @apply border-color-danger;
 }
@@ -289,9 +289,9 @@
 }
 :host([layout="vertical"]:hover:not([disabled]):not([active])) .container,
 :host([layout="vertical"]:focus:not([disabled]):not([active])) .container {
-  border-color: rgba($h-bb-060, 0.75);
+  border-color: rgba($h-bb-060, 0.5);
 }
 :host([layout="vertical"][error]:hover:not([disabled]):not([active])) .container,
 :host([layout="vertical"][error]:focus:not([disabled]):not([active])) .container {
-  border-color: rgba($h-rr-060, 0.75);
+  @apply border-color-danger-hover;
 }
