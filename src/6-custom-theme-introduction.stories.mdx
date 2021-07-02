@@ -4,7 +4,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Custom theme
 
-Developers building Esri applications are encouraged to use the default light or dark themes as much as possible. However, [CSS variables](#available-css-varirables) are exposed on `:root` and can be used to customize [color](#color-vars) and [typography](#typography-vars), and in one case, [spacing](#panel-width-var).
+Developers building Esri applications are encouraged to use the default light or dark themes as much as possible. However, CSS variables are exposed on `:root` and can be used to customize [color](#color-vars), [typography](#typography-vars), and [panel size](#panel-width-var).
 
 This example demonstrates changing two colors.
 
@@ -22,7 +22,7 @@ This example demonstrates changing two colors.
 
 CalciteAction uses `--calcite-ui-foreground-1` and `--calcite-ui-text-3` for its default appearance. Overwriting those variables will customize the appearance of all instances of CalciteAction inside the div.
 
-Setting a valid theme CSS class on individual components or elements will prevent your overwrites from taking effect.
+Setting a valid theme CSS class on individual components or elements will prevent your overwrites from taking effect. Calcite's two valid themes are `calcite-theme-light` and `calcite-theme-dark`,
 
 ```html
 <style>
@@ -35,15 +35,30 @@ Setting a valid theme CSS class on individual components or elements will preven
     <calcite-action icon="beaker" text="Foo" text-enabled></calcite-action>
 
     <!-- The valid theme class will prevent this from recieving the overwrites. -->
-    <calcite-action class="light" icon="beaker" text="Bar" text-enabled></calcite-action>
+    <calcite-action class="calcite-theme-light" icon="beaker" text="Bar" text-enabled></calcite-action>
 </div>
 ```
 
-<h2 id="available-css-varirables">Available CSS varirables</h2>
+Alternatively, placing your theme class on an individual component will only apply the theme to that component.
+
+```html
+<style>
+  .my-theme {
+    --calcite-ui-text-3: white;
+    --calcite-ui-foreground-1: red;
+  }
+</style>
+<div>
+    <calcite-action icon="beaker" text="Foo" text-enabled></calcite-action>
+
+    <!-- The custom theme will only apply to this component. -->
+    <calcite-action class="my-theme" icon="beaker" text="Bar" text-enabled></calcite-action>
+</div>
+```
 
 This is a catalog of all the CSS variables that are available for customization.
 
-<h3 id="color-vars">Colors</h3>
+<h2 id="color-vars">Colors</h2>
 
 | CSS variable | usage | example |
 |--------------|-------|----------|
@@ -70,24 +85,60 @@ This is a catalog of all the CSS variables that are available for customization.
 | --calcite-ui-border-3 | subtle border | CalciteShell, CalcitePanel |
 | --calcite-ui-border-input | border for inputs | CalciteInput |
 
-<h3 id="typography-vars">Typography</h3>
+<h2 id="typography-vars">Fonts</h2>
 
-There are the variables....blah blah.
-There are larger sized vars that aren't use in Calcite Components.
+| CSS variable | usage |
+|--------------|-------|
+| --calcite-sans-family | standard font for most uses | Not applicable | 
+| --calcite-code-family | font for code or data | Not applicable | 
 
-| CSS variable | usage | if `1rem` is `16px` |
-|--------------|-------|---------------------|
-| --calcite-sans-family | standard font for most uses | Not applicable |
-| --calcite-code-family | font for code or data | Not applicable |
-| --calcite-font-size--3 | rarely used | 10px |
-| --calcite-font-size--2 | secondary or small scale text | 12px |
-| --calcite-font-size--1 | standard text | 14px |
-| --calcite-font-size-0  | headings and large scale text | 16px |
-| --calcite-font-size-1  | headings and large scale text | 18px |
-| --calcite-font-size-2  | used in modals | 20px |
-| --calcite-font-size-3  | used in modals | 26px |
+<h2>Font sizes</h2>
 
-<h3 id="panel-width-var">Panel width multiplier</h3>
+These tables show only the variables used in Calcite Components. The Calcite design system includes a broader set of sizes.
+
+#### Medium (default) 
+
+For components with `scale="m"`.
+
+| CSS variable | usage | if `1rem` is `16px` | 
+|--------------|-------|---------------------| 
+| --calcite-font-size--3 | rarely used | 10px | 
+| --calcite-font-size--2 | tertiary text | 12px | 
+| --calcite-font-size--1 | default text and summaries | 14px | 
+| --calcite-font-size-0 | headings and titles | 16px | 
+| --calcite-font-size-1 | rarely used | 18px | 
+| --calcite-font-size-2 | modal heading | 20px | 
+| --calcite-font-size-3 | rarely used | 26px | 
+
+#### Small 
+
+For components with `scale="s"`.
+
+| CSS variable | usage | if `1rem` is `16px` | 
+|--------------|-------|---------------------| 
+| --calcite-font-size--3 | tertiary text | 10px | 
+| --calcite-font-size--2 | default text and summaries | 12px | 
+| --calcite-font-size--1 | headings and titles | 14px | 
+| --calcite-font-size-0 | rarely used | 16px | 
+| --calcite-font-size-1 | modal heading | 18px | 
+| --calcite-font-size-2 | rarely used | 20px | 
+| --calcite-font-size-3 | rarely used | 26px | 
+
+#### Large 
+
+For components with `scale="l"`.
+
+| CSS variable | usage | if `1rem` is `16px` | 
+|--------------|-------|---------------------| 
+| --calcite-font-size--3 | rarely used | 10px | 
+| --calcite-font-size--2 | rarely used | 12px | 
+| --calcite-font-size--1 | tertiary text | 14px | 
+| --calcite-font-size-0 | default text and summaries | 16px | 
+| --calcite-font-size-1 | headings and titles | 18px | 
+| --calcite-font-size-2 | rarely used | 20px | 
+| --calcite-font-size-3 | modal heading | 26px | 
+
+<h2 id="panel-width-var">Panel width multiplier</h2>
 
 Applications regularly use CalciteShell and its child components (CalciteShellPanel, CalcitePanel, etc.) for layout. The width of the panels in this framework is dynamic based on a combination of a predfined ratio and the `width-scale` property on CalciteShellPanel and CalcitePanel. In order to customize that ratio, use the `--calcite-panel-width-multiplier`.
 
