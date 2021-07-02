@@ -16,7 +16,7 @@
     @apply mx-2;
   }
   .container {
-    --calcite-alert-height: 3.5rem;
+    --calcite-alert-min-height: 3.5rem;
   }
 }
 
@@ -37,7 +37,7 @@
     @apply mx-3;
   }
   .container {
-    --calcite-alert-height: 4.3125rem;
+    --calcite-alert-min-height: 4.1875rem;
   }
 }
 
@@ -58,13 +58,12 @@
     @apply mx-4;
   }
   .container {
-    --calcite-alert-height: 5.625rem;
+    --calcite-alert-min-height: 5.625rem;
   }
 }
 
 :host {
   .container {
-    height: var(--calcite-alert-height);
     @apply shadow-2
       flex
       fixed
@@ -79,7 +78,11 @@
       right-0
       bottom-0;
     border-radius: var(--calcite-border-radius);
-    border-top: 3px solid var(--calcite-ui-border-3);
+    border-top: 0px solid transparent;
+    border-left: 1px solid var(--calcite-ui-border-3);
+    border-right: 1px solid var(--calcite-ui-border-3);
+    border-bottom: 1px solid var(--calcite-ui-border-3);
+    min-height: var(--calcite-alert-min-height);
     width: var(--calcite-alert-width);
     max-width: 90%;
     max-height: 0;
@@ -111,7 +114,7 @@
 
 :host([active]) {
   .container:not(.queued) {
-    @apply opacity-100 max-h-full;
+    @apply opacity-100 max-h-full border-t-2;
     transform: translate3d(0, -$baseline, 0);
     pointer-events: initial;
 
@@ -159,11 +162,13 @@
 
 .alert-content {
   @include alert-element-base;
-  @apply break-words;
+  @apply break-words bg-foreground-1;
   flex: 1 1 auto;
   min-width: 0;
   padding: var(--calcite-alert-spacing-token-small) var(--calcite-alert-spacing-token-small)
     var(--calcite-alert-spacing-token-small) 0;
+  border-bottom-left-radius: var(--calcite-border-radius);
+  border-bottom-right-radius: var(--calcite-border-radius);
 
   &:first-of-type:not(:only-child) {
     padding-left: var(--calcite-alert-spacing-token-large);
@@ -197,7 +202,12 @@
   @apply py-0
     flex
     self-stretch
-    items-center;
+    items-center
+    bg-foreground-1;
+
+  @media only screen and (min-width: $viewport-medium) {
+    border-bottom-left-radius: var(--calcite-border-radius);
+  }
 }
 
 .alert-close {
@@ -231,13 +241,38 @@
   }
 }
 .alert-queue-count {
-  @apply opacity-0;
-  visibility: hidden;
+  @apply flex
+    items-center
+    justify-around
+    self-stretch
+    overflow-hidden
+    invisible
+    font-medium
+    text-center
+    text-color-2
+    bg-foreground-1
+    opacity-0
+    cursor-default;
+  border-left: 0px solid transparent;
+  border-right: 0px solid transparent;
+  border-top-right-radius: 0;
+  transition: all 0.15s ease-in-out;
 
   &.active {
-    visibility: visible;
-    @apply opacity-100;
+    @apply visible opacity-100;
+
+    @media only screen and (min-width: $viewport-medium) {
+      border-bottom-right-radius: var(--calcite-border-radius);
+    }
   }
+}
+
+:host([auto-dismiss]) > .alert-queue-count {
+  border-right: 0px solid transparent;
+}
+
+:host([auto-dismiss]) .calcite--rtl > .alert-queue-count {
+  border-left: 0px solid transparent;
 }
 
 .alert-dismiss-progress {
@@ -247,21 +282,19 @@
     right-0
     w-full
     overflow-hidden;
-  top: -3px;
-  height: 3px;
+  top: -2px;
+  height: 2px;
   z-index: 103;
+  border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
   &:after {
     @apply top-0
     right-0
     block
     absolute;
-    height: 3px;
+    height: 2px;
     content: "";
     background-color: var(--calcite-alert-dismiss-progress-background);
     z-index: 104;
-  }
-  @media only screen and (min-width: $viewport-medium) {
-    border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
   }
 }
 
