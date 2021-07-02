@@ -123,9 +123,12 @@ export class CalciteAlert {
         <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
       </button>
     );
+    const queueText = `+${this.queueLength > 2 ? this.queueLength - 1 : 1}`;
     const queueCount = (
       <div class={`${this.queueLength > 1 ? "active " : ""}alert-queue-count`}>
-        +{this.queueLength > 2 ? this.queueLength - 1 : 1}
+        <calcite-chip scale={this.scale} value={queueText}>
+          {queueText}
+        </calcite-chip>
       </div>
     );
 
