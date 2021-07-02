@@ -9,60 +9,60 @@
 
 :host([appearance="solid"]) {
   &:host([color="blue"]) {
-    --split-button-background: theme("colors.brand");
-    --split-button-divider: theme("colors.background.foreground.1");
+    --calcite-split-button-background: theme("colors.brand");
+    --calcite-split-button-divider: theme("colors.background.foreground.1");
   }
   &:host([color="red"]) {
-    --split-button-background: theme("colors.danger");
-    --split-button-divider: theme("colors.background.foreground.1");
+    --calcite-split-button-background: theme("colors.danger");
+    --calcite-split-button-divider: theme("colors.background.foreground.1");
   }
   &:host([color="neutral"]) {
-    --split-button-background: theme("colors.background.foreground.3");
-    --split-button-divider: theme("colors.text.1");
+    --calcite-split-button-background: theme("colors.background.foreground.3");
+    --calcite-split-button-divider: theme("colors.text.1");
   }
   &:host([color="inverse"]) {
-    --split-button-background: var(--calcite-ui-inverse);
-    --split-button-divider: theme("colors.background.foreground.1");
+    --calcite-split-button-background: var(--calcite-ui-inverse);
+    --calcite-split-button-divider: theme("colors.background.foreground.1");
   }
 }
 
 :host([appearance="transparent"]) {
   &:host([color="blue"]) {
-    --split-button-divider: theme("colors.brand");
+    --calcite-split-button-divider: theme("colors.brand");
   }
   &:host([color="red"]) {
-    --split-button-divider: theme("colors.danger");
+    --calcite-split-button-divider: theme("colors.danger");
   }
   &:host([color="neutral"]) {
-    --split-button-divider: theme("colors.text.1");
+    --calcite-split-button-divider: theme("colors.text.1");
   }
   &:host([color="inverse"]) {
-    --split-button-divider: theme("colors.background.foreground.1");
+    --calcite-split-button-divider: theme("colors.background.foreground.1");
   }
 }
 
 :host([appearance="clear"]),
 :host([appearance="transparent"]) {
-  --split-button-background: transparent;
+  --calcite-split-button-background: transparent;
 }
 
 :host([appearance="outline"]) {
-  --split-button-background: theme("colors.background.foreground.1");
+  --calcite-split-button-background: theme("colors.background.foreground.1");
 }
 
 :host([appearance="clear"]),
 :host([appearance="outline"]) {
   &:host([color="blue"]) {
-    --split-button-divider: theme("colors.brand");
+    --calcite-split-button-divider: theme("colors.brand");
   }
   &:host([color="red"]) {
-    --split-button-divider: theme("colors.danger");
+    --calcite-split-button-divider: theme("colors.danger");
   }
   &:host([color="neutral"]) {
-    --split-button-divider: theme("colors.background.foreground.3");
+    --calcite-split-button-divider: theme("colors.background.foreground.3");
   }
   &:host([color="inverse"]) {
-    --split-button-divider: var(--calcite-ui-inverse);
+    --calcite-split-button-divider: var(--calcite-ui-inverse);
   }
 }
 
@@ -81,42 +81,42 @@
 .split-button__divider-container {
   @apply w-px flex items-stretch;
   transition: 0.15s ease-in-out;
-  background-color: var(--split-button-background);
+  background-color: var(--calcite-split-button-background);
 }
 
 .split-button__divider {
   @apply w-px my-1 inline-block;
-  background-color: var(--split-button-divider);
+  background-color: var(--calcite-split-button-divider);
 }
 
 :host([appearance="outline"]),
 :host([appearance="clear"]) {
   .split-button__divider-container {
-    border-top: 1px solid var(--split-button-divider);
-    border-bottom: 1px solid var(--split-button-divider);
+    border-top: 1px solid var(--calcite-split-button-divider);
+    border-bottom: 1px solid var(--calcite-split-button-divider);
   }
   &:hover .split-button__divider-container {
-    background-color: var(--split-button-divider);
+    background-color: var(--calcite-split-button-divider);
   }
 }
 
 :host([appearance="outline"]:hover),
 :host([appearance="clear"]:hover) {
   .split-button__divider-container {
-    background-color: var(--split-button-divider);
+    background-color: var(--calcite-split-button-divider);
   }
 }
 
 :host([appearance="outline"]:focus-within),
 :host([appearance="clear"]:focus-within) {
   &:host([color="blue"]) {
-    --split-button-divider: theme("colors.brand-press");
+    --calcite-split-button-divider: theme("colors.brand-press");
   }
   &:host([color="red"]) {
-    --split-button-divider: theme("colors.danger-press");
+    --calcite-split-button-divider: theme("colors.danger-press");
   }
   .split-button__divider-container {
-    background-color: var(--split-button-divider);
+    background-color: var(--calcite-split-button-divider);
   }
 }
 

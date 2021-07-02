@@ -1,3 +1,12 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-tip-manager-height: the maximum height of the tip-manager
+ * @prop --calcite-tip-max-width: the maximum width of a slotted tip within tip-manager
+ */
+
 :host {
   @extend %component-host;
   @apply block;
