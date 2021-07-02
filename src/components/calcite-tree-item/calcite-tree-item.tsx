@@ -226,7 +226,7 @@ export class CalciteTreeItem {
       case " ":
         this.calciteTreeItemSelect.emit({
           modifyCurrentSelection: e.shiftKey,
-          forceToggle: true
+          forceToggle: false
         });
 
         e.preventDefault();
@@ -244,7 +244,7 @@ export class CalciteTreeItem {
         } else {
           this.calciteTreeItemSelect.emit({
             modifyCurrentSelection: e.shiftKey,
-            forceToggle: true
+            forceToggle: false
           });
         }
 
