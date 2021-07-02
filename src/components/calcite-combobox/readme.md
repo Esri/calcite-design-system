@@ -2,6 +2,57 @@
 
 <!-- Auto Generated Below -->
 
+## Usage
+
+### Ancestors
+
+```html
+<calcite-combobox label="Ancestors selection-mode combobox" selection-mode="ancestors">
+  <calcite-combobox-item value="Trees" text-label="Trees">
+    <calcite-combobox-item
+      value="CommercialDamageAssessment - Damage to Commercial Buildings & Damage to Commercial Buildings"
+      text-label="CommercialDamageAssessment - Damage to Commercial Buildings & Damage to Commercial Buildings"
+      selected
+    ></calcite-combobox-item>
+    <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+    <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+  </calcite-combobox-item>
+</calcite-combobox>
+```
+
+### Multi
+
+```html
+<calcite-combobox label="Mulit selection-mode combobox" selection-mode="multi">
+  <calcite-combobox-item value="Trees" text-label="Trees">
+    <calcite-combobox-item
+      value="CommercialDamageAssessment - Damage to Commercial Buildings & Damage to Commercial Buildings"
+      text-label="CommercialDamageAssessment - Damage to Commercial Buildings & Damage to Commercial Buildings"
+      selected
+    ></calcite-combobox-item>
+    <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+    <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+  </calcite-combobox-item>
+</calcite-combobox>
+```
+
+### Single
+
+```html
+<calcite-combobox label="Single selection-mode combobox" selection-mode="single">
+  <calcite-combobox-item value="Trees" text-label="Trees">
+    <calcite-combobox-item
+      value="CommercialDamageAssessment - Damage to Commercial Buildings"
+      text-label="CommercialDamageAssessment - Damage to Commercial Buildings"
+      selected
+    ></calcite-combobox-item>
+    <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+    <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+  </calcite-combobox-item>
+  <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+</calcite-combobox>
+```
+
 ## Properties
 
 | Property             | Attribute             | Description                                                                                                                                                                                                                    | Type                                 | Default      |
@@ -37,6 +88,12 @@ Type: `Promise<void>`
 #### Returns
 
 Type: `Promise<void>`
+
+## CSS Custom Properties
+
+| Name                              | Description                      |
+| --------------------------------- | -------------------------------- |
+| `--calcite-combobox-input-height` | the height of the combobox input |
 
 ## Dependencies
 

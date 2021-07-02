@@ -22,6 +22,12 @@ The `calcite-action-group` is a wrapper for multiple `calcite-action`s and house
 | `"menu-actions"` | a slot for adding an overflow menu with actions inside a dropdown. |
 | `"menu-tooltip"` | a slot for adding an tooltip for the menu.                         |
 
+## CSS Custom Properties
+
+| Name                             | Description                                              |
+| -------------------------------- | -------------------------------------------------------- |
+| `--calcite-action-group-columns` | sets number of grid-template-columns when layout is grid |
+
 ## Dependencies
 
 ### Used by

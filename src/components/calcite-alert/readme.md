@@ -9,13 +9,8 @@
 A single instance of an alert. Multiple alerts will aggregate in a queue.
 
 ```html
-<calcite-alert>
-  <div slot="title">Title of alert #1</div>
-  <div slot="message">Message text of the alert</div>
-  <a slot="link" href="#">Retry</a>
-</calcite-alert>
-<calcite-alert>
-  <div slot="title">Title of alert #2</div>
+<calcite-alert active>
+  <div slot="title">Title of alert</div>
   <div slot="message">Message text of the alert</div>
   <a slot="link" href="#">Retry</a>
 </calcite-alert>
@@ -59,17 +54,26 @@ Type: `Promise<void>`
 | `"message"` | Main text of the alert                                                       |
 | `"title"`   | Title of the alert (optional)                                                |
 
+## CSS Custom Properties
+
+| Name                    | Description            |
+| ----------------------- | ---------------------- |
+| `--calcite-alert-width` | the width of the alert |
+
 ## Dependencies
 
 ### Depends on
 
 - [calcite-icon](../calcite-icon)
+- [calcite-chip](../calcite-chip)
 
 ### Graph
 
 ```mermaid
 graph TD;
   calcite-alert --> calcite-icon
+  calcite-alert --> calcite-chip
+  calcite-chip --> calcite-icon
   style calcite-alert fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

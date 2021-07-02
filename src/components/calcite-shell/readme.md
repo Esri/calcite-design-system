@@ -158,6 +158,10 @@ Renders a single panel with actions in an action bar.
 | `"header"`           | A slot for adding header content. This content will be positioned at the top of the shell.                                               |
 | `"primary-panel"`    | A slot for adding the leading `calcite-shell-panel`.                                                                                     |
 
----
+## CSS Custom Properties
+
+| Name                          | Description                                                               |
+| ----------------------------- | ------------------------------------------------------------------------- |
+| `--calcite-shell-tip-spacing` | the left/right positioning of the tip-manager when slotted within a shell |
 
 _Built with [StencilJS](https://stenciljs.com/)_
