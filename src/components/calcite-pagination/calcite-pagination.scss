@@ -1,3 +1,11 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-pagination-spacing: the amount of padding around each pagination item
+ */
+
 // explicit px values until we add a spacing unit and new font scale to base
 :host([scale="s"]) {
   --calcite-pagination-spacing: theme("spacing.1") theme("spacing.2");

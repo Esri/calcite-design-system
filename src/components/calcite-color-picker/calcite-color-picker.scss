@@ -4,6 +4,10 @@ $gap: 8px;
 $gap--small: 4px;
 $gap--large: 12px;
 
+:host {
+  display: inline-block;
+}
+
 :host([scale="s"]) {
   .container {
     width: 156px;

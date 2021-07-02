@@ -1,3 +1,13 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-panel-max-height: the maximum height of the panel
+ * @prop --calcite-panel-max-width: the maximum width of the panel
+ * @prop --calcite-panel-min-width: the minimum width of the panel
+ */
+
 :host {
   @extend %component-host;
   @apply flex
@@ -117,11 +127,11 @@
   @apply border-color-3
   border-solid
   border-0
-  border-r-px;
+  border-r;
 }
 
 .calcite--rtl .back-button {
-  @apply border-r-0 border-l-px;
+  @apply border-r-0 border-l;
 }
 
 .header-actions {

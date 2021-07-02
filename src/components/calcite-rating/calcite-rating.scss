@@ -1,3 +1,11 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-rating-spacing-unit: the amount of left/right margin between each rating star
+ */
+
 :host {
   @apply flex items-center relative;
   width: fit-content;

@@ -6,11 +6,11 @@ export const SLOTS = {
   title: "title",
   message: "message",
   link: "link",
-  actionEnd: "icon-end"
+  actionsEnd: "actions-end"
 };
 
 export const CSS = {
-  actionEnd: "action-end",
+  actionsEnd: "actions-end",
   close: "notice-close",
   container: "container",
   content: "notice-content",
