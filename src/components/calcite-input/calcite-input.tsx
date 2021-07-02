@@ -147,7 +147,7 @@ export class CalciteInput {
   @Prop({ mutable: true, reflect: true }) status: Status = "idle";
 
   /** input step */
-  @Prop({ reflect: true }) step?: number | "any";
+  @Prop({ reflect: true }) step?: number;
 
   /** optionally add suffix  **/
   @Prop() suffixText?: string;
@@ -244,12 +244,14 @@ export class CalciteInput {
 
   @State() localizedValue: string;
 
-  @State() computedStep: number | "any";
+  @State() computedStep: number;
 
   @Watch("type")
   @Watch("step")
-  handleStepChange(): void {
-    this.computedStep = !this.step && this.type === "number" ? "any" : this.step;
+  setComputedStep(): void {
+    const { step, type } = this;
+
+    this.computedStep = step ? Math.abs(step) : type === "number" ? 1 : null;
   }
 
   //--------------------------------------------------------------------------
@@ -270,6 +272,7 @@ export class CalciteInput {
         this.value = undefined;
       }
     }
+    this.setComputedStep();
   }
 
   disconnectedCallback(): void {
@@ -476,16 +479,15 @@ export class CalciteInput {
     const decimals = this.value?.split(".")[1]?.length || 0;
     const inputMax = this.maxString ? parseFloat(this.maxString) : null;
     const inputMin = this.minString ? parseFloat(this.minString) : null;
-    const inputStep = this.computedStep === "any" ? 1 : Math.abs(this.computedStep || 1);
     let inputVal = this.value && this.value !== "" ? parseFloat(this.value) : 0;
     let newValue = this.value;
 
     if (direction === "up" && ((!inputMax && inputMax !== 0) || inputVal < inputMax)) {
-      newValue = (inputVal += inputStep).toFixed(decimals).toString();
+      newValue = (inputVal += this.computedStep).toFixed(decimals).toString();
     }
 
     if (direction === "down" && ((!inputMin && inputMin !== 0) || inputVal > inputMin)) {
-      newValue = (inputVal -= inputStep).toFixed(decimals).toString();
+      newValue = (inputVal -= this.computedStep).toFixed(decimals).toString();
     }
 
     this.setValue(newValue, nativeEvent, true);
