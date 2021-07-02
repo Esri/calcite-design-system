@@ -9,102 +9,122 @@
 // scale variables
 :host([scale="s"]) {
   --calcite-alert-width: 40em;
-  --calcite-alert-spacing-token-small: #{$baseline/2};
-  --calcite-alert-spacing-token-large: #{$baseline/1.5};
+  --calcite-alert-spacing-token-small: theme("spacing.2");
+  --calcite-alert-spacing-token-large: theme("spacing.3");
   @include slotted("title", "*") {
-    @include font-size(-2);
+    @apply text--1-wrap;
   }
   @include slotted("message", "*") {
-    @include font-size(-3);
+    @apply text--2-wrap;
   }
-  ::slotted(calcite-link) {
-    @include font-size(-3);
+  @include slotted("link", "*") {
+    @apply text--2-wrap;
+  }
+  .alert-queue-count {
+    @apply mx-2;
+  }
+  .container {
+    --calcite-alert-min-height: 3.5rem;
   }
 }
 
 :host([scale="m"]) {
   --calcite-alert-width: 50em;
-  --calcite-alert-spacing-token-small: #{$baseline/1.5};
-  --calcite-alert-spacing-token-large: #{$baseline};
+  --calcite-alert-spacing-token-small: theme("spacing.3");
+  --calcite-alert-spacing-token-large: theme("spacing.4");
   @include slotted("title", "*") {
-    @include font-size(-1);
+    @apply text-0-wrap;
   }
   @include slotted("message", "*") {
-    @include font-size(-2);
+    @apply text--1-wrap;
   }
-  ::slotted(calcite-link) {
-    @include font-size(-2);
+  @include slotted("link", "*") {
+    @apply text--1-wrap;
+  }
+  .alert-queue-count {
+    @apply mx-3;
+  }
+  .container {
+    --calcite-alert-min-height: 4.1875rem;
   }
 }
 
 :host([scale="l"]) {
   --calcite-alert-width: 60em;
-  --calcite-alert-spacing-token-small: #{$baseline/1.25};
-  --calcite-alert-spacing-token-large: #{$baseline * 1.25};
+  --calcite-alert-spacing-token-small: theme("spacing.4");
+  --calcite-alert-spacing-token-large: theme("spacing.5");
   @include slotted("title", "*") {
-    @include font-size(0);
+    @apply text-1-wrap mb-1;
   }
   @include slotted("message", "*") {
-    @include font-size(-1);
+    @apply text-0-wrap;
   }
-  ::slotted(calcite-link) {
-    @include font-size(-1);
+  @include slotted("link", "*") {
+    @apply text-0-wrap;
+  }
+  .alert-queue-count {
+    @apply mx-4;
+  }
+  .container {
+    --calcite-alert-min-height: 5.625rem;
   }
 }
 
 :host {
   .container {
-    @apply shadow-2;
-    display: flex;
-    position: fixed;
-    justify-content: center;
-    align-items: center;
-    pointer-events: none;
-    margin: 0 auto;
+    @apply shadow-2
+      flex
+      fixed
+      justify-center
+      items-center
+      pointer-events-none
+      my-0
+      mx-auto
+      bg-foreground-1
+      opacity-0
+      left-0
+      right-0
+      bottom-0;
+    border-radius: var(--calcite-border-radius);
+    border-top: 0px solid transparent;
+    border-left: 1px solid var(--calcite-ui-border-3);
+    border-right: 1px solid var(--calcite-ui-border-3);
+    border-bottom: 1px solid var(--calcite-ui-border-3);
+    min-height: var(--calcite-alert-min-height);
     width: var(--calcite-alert-width);
     max-width: 90%;
     max-height: 0;
-    background-color: var(--calcite-ui-foreground-1);
-    border-radius: var(--calcite-border-radius);
-    opacity: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    pointer-events: none;
     z-index: 101;
     transform: translate3d(0, $baseline, 0);
     transition: 300ms $easing-function, opacity 300ms $easing-function, all 0.15s ease-in-out;
-    border-top: 0px solid transparent;
     @media only screen and (max-width: $viewport-medium) {
-      width: 100%;
-      max-width: 100%;
-      border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
+      @apply w-full
+        max-w-full
+        rounded-none;
     }
   }
 }
 
 .container {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
+  @apply flex
+    w-full
+    justify-center
+    items-center;
 }
 
 // focus styles
 .alert-close {
-  @include focus-style-base();
+  @apply focus-base;
   &:focus {
-    @include focus-style-inset();
+    @apply focus-inset;
   }
 }
 
 :host([active]) {
   .container:not(.queued) {
-    opacity: 1;
-    max-height: 100%;
+    @apply opacity-100 max-h-full border-t-2;
     transform: translate3d(0, -$baseline, 0);
     pointer-events: initial;
-    border-top-width: 3px;
 
     @media only screen and (max-width: $viewport-medium) {
       transform: translate3d(0, 0, 0);
@@ -113,25 +133,28 @@
 }
 
 @include slotted("title", "*") {
-  @include font-size(0);
-  color: var(--calcite-ui-text-1);
-  margin: 0;
-  font-weight: 500;
+  @apply font-medium
+    text-0-wrap
+    text-color-1;
 }
 
 @include slotted("message", "*") {
-  display: inline;
-  margin: 0;
-  margin-right: $baseline/2;
-  font-weight: 400;
-  @include font-size(-1);
-  color: var(--calcite-ui-text-2);
+  @apply inline
+    m-0
+    mr-2
+    font-normal
+    text--1-wrap
+    text-color-2;
+}
+
+@include slotted("link", "*") {
+  @apply text-color-link inline-flex;
 }
 
 .calcite--rtl {
   @include slotted("message", "*") {
+    @apply ml-2;
     margin-right: unset;
-    margin-left: $baseline/2;
   }
 }
 
@@ -141,17 +164,19 @@
   transition: all 0.15s ease-in-out;
 
   @media only screen and (max-width: $viewport-medium) {
-    padding: $baseline;
+    @apply p-4;
   }
 }
 
 .alert-content {
   @include alert-element-base;
+  @apply break-words bg-foreground-1;
   flex: 1 1 auto;
   min-width: 0;
-  word-wrap: break-word;
   padding: var(--calcite-alert-spacing-token-small) var(--calcite-alert-spacing-token-small)
     var(--calcite-alert-spacing-token-small) 0;
+  border-bottom-left-radius: var(--calcite-border-radius);
+  border-bottom-right-radius: var(--calcite-border-radius);
 
   &:first-of-type:not(:only-child) {
     padding-left: var(--calcite-alert-spacing-token-large);
@@ -182,74 +207,71 @@
 }
 .alert-icon {
   @include alert-element-base;
-  padding-top: 0;
-  padding-bottom: 0;
-  display: flex;
-  align-self: stretch;
-  align-items: center;
+  @apply py-0
+    flex
+    self-stretch
+    items-center
+    bg-foreground-1;
+
+  @media only screen and (min-width: $viewport-medium) {
+    border-bottom-left-radius: var(--calcite-border-radius);
+  }
 }
 
 .alert-close {
   @include alert-element-base;
-  padding-top: 0;
-  padding-bottom: 0;
-  align-self: stretch;
-  background-color: transparent;
-  -webkit-appearance: none;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  color: var(--calcite-ui-text-3);
-  overflow: hidden;
-  border-radius: 0 0 var(--calcite-border-radius) 0;
+  @apply py-0
+    self-stretch
+    bg-foreground-1
+    border-none
+    outline-none
+    cursor-pointer
+    text-color-3
+    overflow-hidden;
+  border-bottom-right-radius: var(--calcite-border-radius);
 
   &:hover,
   &:focus {
-    background-color: var(--calcite-ui-foreground-2);
+    @apply text-color-1 bg-foreground-2;
   }
 
   &:active {
-    background-color: var(--calcite-ui-foreground-3);
+    @apply bg-foreground-3;
   }
   @media only screen and (max-width: $viewport-medium) {
-    border-radius: 0;
+    @apply rounded-none;
   }
 }
 .calcite--rtl {
   .alert-close {
-    border-radius: 0 0 0 var(--calcite-border-radius);
+    border-bottom-left-radius: var(--calcite-border-radius);
+    border-bottom-right-radius: unset;
   }
 }
 .alert-queue-count {
-  @include font-size(-2);
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  align-self: stretch;
-  overflow: hidden;
-  width: 0;
-  visibility: hidden;
-  font-weight: 500;
-  text-align: center;
-  color: var(--calcite-ui-text-2);
-  opacity: 0;
+  @apply flex
+    items-center
+    justify-around
+    self-stretch
+    overflow-hidden
+    invisible
+    font-medium
+    text-center
+    text-color-2
+    bg-foreground-1
+    opacity-0
+    cursor-default;
   border-left: 0px solid transparent;
   border-right: 0px solid transparent;
-  cursor: default;
+  border-top-right-radius: 0;
   transition: all 0.15s ease-in-out;
-  overflow: hidden;
 
   &.active {
-    visibility: visible;
-    opacity: 1;
-    padding: 0 $baseline/4;
-    width: $baseline * 2;
-    border-left: 1px solid var(--calcite-ui-border-3);
-    border-right: 1px solid var(--calcite-ui-border-3);
-  }
+    @apply visible opacity-100;
 
-  @media only screen and (max-width: $viewport-medium) {
-    border-radius: 0;
+    @media only screen and (min-width: $viewport-medium) {
+      border-bottom-right-radius: var(--calcite-border-radius);
+    }
   }
 }
 
@@ -262,22 +284,22 @@
 }
 
 .alert-dismiss-progress {
-  display: block;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: -3px;
-  width: 100%;
-  height: 3px;
+  @apply block
+    absolute
+    left-0
+    right-0
+    w-full
+    overflow-hidden;
+  top: -2px;
+  height: 2px;
   z-index: 103;
-  overflow: hidden;
   border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
   &:after {
-    height: 3px;
-    top: 0;
-    right: 0;
-    display: block;
-    position: absolute;
+    @apply top-0
+    right-0
+    block
+    absolute;
+    height: 2px;
     content: "";
     background-color: var(--calcite-alert-dismiss-progress-background);
     z-index: 104;
@@ -285,11 +307,11 @@
 }
 
 .calcite--rtl .alert-dismiss-progress:after {
-  left: 0;
+  @apply left-0;
   right: initial;
 }
 
-$alertColors: "blue" var(--calcite-ui-brand), "red" var(--calcite-ui-danger), "yellow" var(--calcite-ui-warning),
+$alertColors: "blue" var(--calcite-ui-info), "red" var(--calcite-ui-danger), "yellow" var(--calcite-ui-warning),
   "green" var(--calcite-ui-success);
 
 @each $alertColor in $alertColors {
@@ -320,11 +342,9 @@ $alertDurations: "fast" 6000ms, "medium" 10000ms, "slow" 14000ms;
 
 @keyframes dismissProgress {
   0% {
-    width: 0;
-    opacity: 0.8;
+    @apply w-0 opacity-75;
   }
   100% {
-    width: 100%;
-    opacity: 1;
+    @apply w-full opacity-100;
   }
 }
