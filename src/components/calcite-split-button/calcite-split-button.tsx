@@ -72,13 +72,13 @@ export class CalciteSplitButton {
       <div class={widthClasses} dir={dir}>
         <calcite-button
           appearance={this.appearance}
-          aria-label={this.primaryLabel}
           color={this.color}
           dir={dir}
           disabled={this.disabled}
           icon-end={this.primaryIconEnd ? this.primaryIconEnd : null}
           icon-start={this.primaryIconStart ? this.primaryIconStart : null}
           iconFlipRtl={this.primaryIconFlipRtl ? this.primaryIconFlipRtl : null}
+          label={this.primaryLabel}
           loading={this.loading}
           onClick={this.calciteSplitButtonPrimaryClickHandler}
           scale={this.scale}
@@ -99,11 +99,11 @@ export class CalciteSplitButton {
         >
           <calcite-button
             appearance={this.appearance}
-            aria-label={this.dropdownLabel}
             color={this.color}
             dir={dir}
             disabled={this.disabled}
             icon-start={this.dropdownIcon}
+            label={this.dropdownLabel}
             scale={this.scale}
             slot="dropdown-trigger"
             splitChild={"secondary"}

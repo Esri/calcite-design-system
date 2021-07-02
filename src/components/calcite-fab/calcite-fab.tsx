@@ -97,12 +97,12 @@ export class CalciteFab {
     return (
       <calcite-button
         appearance={appearance}
-        aria-label={label}
         class={CSS.button}
         color={color}
         dir={dir}
         disabled={disabled}
         iconStart={icon}
+        label={label}
         loading={loading}
         ref={(buttonEl): void => {
           this.buttonEl = buttonEl;
