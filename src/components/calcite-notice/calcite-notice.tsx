@@ -101,7 +101,7 @@ export class CalciteNotice {
         onClick={this.close}
         ref={(el) => (this.closeButton = el)}
       >
-        <calcite-icon icon="x" scale={this.scale === "s" ? "s" : "m"} />
+        <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
       </button>
     );
 
@@ -111,7 +111,7 @@ export class CalciteNotice {
       <div class={{ [CSS.container]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
         {this.requestedIcon ? (
           <div class={CSS.icon}>
-            <calcite-icon icon={this.requestedIcon} scale={this.scale === "s" ? "s" : "m"} />
+            <calcite-icon icon={this.requestedIcon} scale={this.scale === "l" ? "m" : "s"} />
           </div>
         ) : null}
         <div class={CSS.content}>
