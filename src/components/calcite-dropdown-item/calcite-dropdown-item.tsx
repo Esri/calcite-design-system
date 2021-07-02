@@ -51,6 +51,16 @@ export class CalciteDropdownItem {
 
   /** optionally pass a href - used to determine if the component should render as anchor */
   @Prop({ reflect: true }) href?: string;
+
+  /** Applies to the aria-label attribute on the button or hyperlink */
+  @Prop() label?: string;
+
+  /** The rel attribute to apply to the hyperlink */
+  @Prop() rel?: string;
+
+  /** The target attribute to apply to the hyperlink */
+  @Prop() target?: string;
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -134,12 +144,12 @@ export class CalciteDropdownItem {
       slottedContent
     ) : (
       <a
+        aria-label={this.label}
         class="dropdown-link"
         href={this.href}
         ref={(el) => (this.childLink = el)}
-        rel={this.el.getAttribute("rel")}
-        target={this.el.getAttribute("target")}
-        title={this.el.getAttribute("title")}
+        rel={this.rel}
+        target={this.target}
       >
         {slottedContent}
       </a>
