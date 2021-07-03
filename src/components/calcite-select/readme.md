@@ -120,6 +120,13 @@ This component represents a menu of options.
 
 Type: `Promise<void>`
 
+## CSS Custom Properties
+
+| Name                         | Description                                 |
+| ---------------------------- | ------------------------------------------- |
+| `--calcite-select-font-size` | the font-size of items in the select        |
+| `--calcite-select-spacing`   | the padding around the selected option text |
+
 ## Dependencies
 
 ### Depends on
