@@ -164,4 +164,6 @@ Renders a single panel with actions in an action bar.
 | ----------------------------- | ------------------------------------------------------------------------- |
 | `--calcite-shell-tip-spacing` | the left/right positioning of the tip-manager when slotted within a shell |
 
+---
+
 _Built with [StencilJS](https://stenciljs.com/)_
