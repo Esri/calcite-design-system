@@ -2,7 +2,7 @@
 :host([scale="s"]) {
   --calcite-alert-width: 40em;
   --calcite-alert-spacing-token-small: theme("spacing.2");
-  --calcite-alert-spacing-token-large: theme("spacing.3");
+  --calcite-alert-spacing-token-large: theme("spacing.2");
   @include slotted("title", "*") {
     @apply text--1-wrap;
   }

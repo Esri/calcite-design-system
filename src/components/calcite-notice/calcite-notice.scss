@@ -1,7 +1,7 @@
 // scale variables
 :host([scale="s"]) {
   --calcite-notice-spacing-token-small: theme("spacing.2");
-  --calcite-notice-spacing-token-large: theme("spacing.3");
+  --calcite-notice-spacing-token-large: theme("spacing.2");
   @include slotted("title", "*", ".container") {
     @apply text--1-wrap mb-1;
   }
