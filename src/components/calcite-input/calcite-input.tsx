@@ -26,7 +26,7 @@ import {
 import { numberKeys } from "../../utils/key";
 import { hiddenInputStyle } from "../../utils/form";
 import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
-import { CSS_UTILITY } from "../../utils/resources";
+import { CSS_UTILITY, TEXT } from "../../utils/resources";
 
 type NumberNudgeDirection = "up" | "down";
 
@@ -79,6 +79,9 @@ export class CalciteInput {
    * input types (tel, password, email, date, time, search). You can also pass a
    * calcite-ui-icon name to this prop to display a requested icon for any input type */
   @Prop({ reflect: true }) icon: string | boolean;
+
+  /** string to override English loading text */
+  @Prop() intlLoading?: string = TEXT.loading;
 
   /** flip the icon in rtl */
   @Prop({ reflect: true }) iconFlipRtl?: boolean;
@@ -581,7 +584,7 @@ export class CalciteInput {
 
     const loader = (
       <div class="calcite-input-loading">
-        <calcite-progress type="indeterminate" />
+        <calcite-progress label={this.intlLoading} type="indeterminate" />
       </div>
     );
 
