@@ -250,16 +250,28 @@ export class CalciteCombobox {
   /** Called when a selected item in the combobox is dismissed via its chip **/
   @Event() calciteComboboxChipDismiss: EventEmitter;
 
-  /** Fired when the combobox is opened */
+  /**
+   * Fired when the combobox is opened
+   * @internal
+   */
   @Event() calciteComboboxOpen: EventEmitter;
 
-  /** Fired when the combobox is opened and the transition has ended */
+  /**
+   * Fired when the combobox is opened and the transition has ended
+   * @internal
+   */
   @Event() calciteComboboxOpenEnd: EventEmitter;
 
-  /** Fired when the combobox is closed */
+  /**
+   *  Fired when the combobox is closed
+   * @internal
+   */
   @Event() calciteComboboxClose: EventEmitter;
 
-  /** Fired when the combobox is closed and the transition has ended */
+  /**
+   *  Fired when the combobox is closed and the transition has ended
+   * @internal
+   */
   @Event() calciteComboboxCloseEnd: EventEmitter;
 
   // --------------------------------------------------------------------------

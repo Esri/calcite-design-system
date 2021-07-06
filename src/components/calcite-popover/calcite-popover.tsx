@@ -197,13 +197,19 @@ export class CalcitePopover {
   /** Fired when the popover is closed */
   @Event() calcitePopoverClose: EventEmitter;
 
-  /** Fired when the popover is closed and the transition has ended */
+  /**
+   * Fired when the popover is closed and the transition has ended
+   * @internal
+   */
   @Event() calcitePopoverCloseEnd: EventEmitter;
 
   /** Fired when the popover is opened */
   @Event() calcitePopoverOpen: EventEmitter;
 
-  /** Fired when the popover is opened and the transition has ended */
+  /**
+   * Fired when the popover is opened and the transition has ended
+   * @internal
+   */
   @Event() calcitePopoverOpenEnd: EventEmitter;
 
   // --------------------------------------------------------------------------

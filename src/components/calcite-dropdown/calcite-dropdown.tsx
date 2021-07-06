@@ -201,13 +201,19 @@ export class CalciteDropdown {
   /** fires when a dropdown has been opened **/
   @Event() calciteDropdownOpen: EventEmitter<void>;
 
-  /** Fired when the dropdown is opened and the transition has ended */
+  /**
+   * Fired when the dropdown is opened and the transition has ended
+   * @internal
+   */
   @Event() calciteDropdownOpenEnd: EventEmitter;
 
   /** fires when a dropdown has been closed **/
   @Event() calciteDropdownClose: EventEmitter<void>;
 
-  /** fires when a dropdown has been closed and the transition has ended **/
+  /**
+   *  fires when a dropdown has been closed and the transition has ended
+   * @internal
+   */
   @Event() calciteDropdownCloseEnd: EventEmitter<void>;
 
   @Listen("click", { target: "window" })
