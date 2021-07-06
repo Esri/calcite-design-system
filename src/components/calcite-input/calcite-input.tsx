@@ -83,6 +83,9 @@ export class CalciteInput {
   /** flip the icon in rtl */
   @Prop({ reflect: true }) iconFlipRtl?: boolean;
 
+  /** Applies to the aria-label attribute on the button or hyperlink */
+  @Prop() label?: string;
+
   /** specify if the input is in loading state */
   @Prop({ reflect: true }) loading = false;
 
@@ -624,6 +627,7 @@ export class CalciteInput {
     const localeNumberInput =
       this.type === "number" ? (
         <input
+          aria-label={this.label}
           autofocus={this.autofocus ? true : null}
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
@@ -645,6 +649,7 @@ export class CalciteInput {
 
     const childEl = [
       <this.childElType
+        aria-label={this.label}
         autofocus={this.autofocus ? true : null}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
