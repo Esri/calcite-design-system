@@ -13,7 +13,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getAttributes, getElementDir, getElementProp, setRequestedIcon } from "../../utils/dom";
+import { getElementDir, getElementProp, setRequestedIcon } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { INPUT_TYPE_ICONS, SLOTS } from "./calcite-input.resources";
 import { InputPlacement } from "./interfaces";
@@ -560,25 +560,6 @@ export class CalciteInput {
   render(): VNode {
     const dir = getElementDir(this.el);
 
-    const attributes = getAttributes(this.el, [
-      "alignment",
-      "dir",
-      "clearable",
-      "min",
-      "max",
-      "step",
-      "value",
-      "icon",
-      "loading",
-      "prefix-text",
-      "scale",
-      "status",
-      "suffix-text",
-      "number-button-type",
-      "locale",
-      "group-separator"
-    ]);
-
     const loader = (
       <div class="calcite-input-loading">
         <calcite-progress type="indeterminate" />
@@ -643,7 +624,6 @@ export class CalciteInput {
     const localeNumberInput =
       this.type === "number" ? (
         <input
-          {...attributes}
           autofocus={this.autofocus ? true : null}
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
@@ -665,7 +645,6 @@ export class CalciteInput {
 
     const childEl = [
       <this.childElType
-        {...attributes}
         autofocus={this.autofocus ? true : null}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
