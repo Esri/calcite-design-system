@@ -115,6 +115,14 @@ Type: `Promise<void>`
 | `"header-content"`       | a slot for adding custom content to the header.                                  |
 | `"header-menu-actions"`  | a slot for adding an overflow menu with actions inside a dropdown.               |
 
+## CSS Custom Properties
+
+| Name                         | Description                     |
+| ---------------------------- | ------------------------------- |
+| `--calcite-panel-max-height` | the maximum height of the panel |
+| `--calcite-panel-max-width`  | the maximum width of the panel  |
+| `--calcite-panel-min-width`  | the minimum width of the panel  |
+
 ## Dependencies
 
 ### Depends on

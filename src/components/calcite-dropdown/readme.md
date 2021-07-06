@@ -89,6 +89,12 @@ You can combine groups in a single dropdown, with varying selection modes:
 
 Type: `Promise<void>`
 
+## CSS Custom Properties
+
+| Name                       | Description                       |
+| -------------------------- | --------------------------------- |
+| `--calcite-dropdown-width` | the width of the dropdown wrapper |
+
 ## Dependencies
 
 ### Used by

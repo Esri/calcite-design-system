@@ -64,6 +64,12 @@
 
 Type: `Promise<void>`
 
+## CSS Custom Properties
+
+| Name                      | Description                          |
+| ------------------------- | ------------------------------------ |
+| `--calcite-checkbox-size` | the width and height of the checkbox |
+
 ## Dependencies
 
 ### Used by
