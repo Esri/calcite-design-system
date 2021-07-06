@@ -2,7 +2,7 @@
 :host([scale="s"]) {
   --calcite-alert-width: 40em;
   --calcite-alert-spacing-token-small: theme("spacing.2");
-  --calcite-alert-spacing-token-large: theme("spacing.2");
+  --calcite-alert-spacing-token-large: theme("spacing.3");
   @include slotted("title", "*") {
     @apply text--1-wrap;
   }
@@ -17,6 +17,10 @@
   }
   .container {
     --calcite-alert-min-height: 3.5rem;
+  }
+  .alert-close {
+    // specific padding for close button to align with calcite-action small-scale spacing
+    @apply p-2;
   }
 }
 

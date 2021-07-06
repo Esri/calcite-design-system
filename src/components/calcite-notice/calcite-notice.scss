@@ -1,7 +1,7 @@
 // scale variables
 :host([scale="s"]) {
   --calcite-notice-spacing-token-small: theme("spacing.2");
-  --calcite-notice-spacing-token-large: theme("spacing.2");
+  --calcite-notice-spacing-token-large: theme("spacing.3");
   @include slotted("title", "*", ".container") {
     @apply text--1-wrap mb-1;
   }
@@ -10,6 +10,10 @@
   }
   ::slotted(calcite-link) {
     @apply text--2-wrap;
+  }
+  .notice-close {
+    // specific padding for close button to align with calcite-action small-scale spacing
+    @apply p-2;
   }
 }
 
