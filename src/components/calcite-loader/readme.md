@@ -45,6 +45,14 @@ The above will display a progress bar along the perimeter of the loader showing 
 | `type`               | `type`       | Use indeterminate if finding actual progress value is impossible   | `"determinate" \| "indeterminate"` | `undefined` |
 | `value`              | `value`      | Percent complete of 100, only valid for determinate indicators     | `number`                           | `0`         |
 
+## CSS Custom Properties
+
+| Name                           | Description                                                      |
+| ------------------------------ | ---------------------------------------------------------------- |
+| `--calcite-loader-font-size`   | when type is determinate, the font-size of the loader percentage |
+| `--calcite-loader-size`        | the width and height of a non-inline loader                      |
+| `--calcite-loader-size-inline` | the width and height of an inline loader                         |
+
 ## Dependencies
 
 ### Used by

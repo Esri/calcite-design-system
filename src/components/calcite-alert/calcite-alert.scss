@@ -1,3 +1,11 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-alert-width: the width of the alert
+ */
+
 // scale variables
 :host([scale="s"]) {
   --calcite-alert-width: 40em;

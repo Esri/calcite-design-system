@@ -30,9 +30,9 @@
 
 .header-container {
   @apply grid items-stretch;
-  grid-template: auto / auto 1fr auto;
-  grid-template-areas: "handle header control";
-  grid-column: header-start / control-end;
+  grid-template: auto / auto 1fr auto auto;
+  grid-template-areas: "handle header control menu";
+  grid-column: header-start / menu-end;
   grid-row: 1 / 2;
 
   & > .header {
@@ -130,6 +130,10 @@ calcite-handle {
 .control-container {
   @apply flex m-0;
   grid-area: control;
+}
+
+calcite-action-menu {
+  grid-area: menu;
 }
 
 .calcite--rtl {

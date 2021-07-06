@@ -29,6 +29,33 @@
           <label slot="control">test <input placeholder="I'm a header control" /></label>
         </calcite-block>
 
+        <h2>Header + actions menu</h2>
+
+        <calcite-block heading="With header actions" summary="has header actions">
+          <calcite-action
+            label="Add"
+            icon="plus"
+            text="Add item"
+            text-enabled
+            slot="header-menu-actions"
+          ></calcite-action>
+          <calcite-action icon="minus" text="Remove item" text-enabled slot="header-menu-actions"></calcite-action>
+        </calcite-block>
+
+        <h2>Header + control + actions menu</h2>
+
+        <calcite-block heading="With header actions" summary="has header actions">
+          <label slot="control">test <input placeholder="I'm a header control" /></label>
+          <calcite-action
+            label="Add"
+            icon="plus"
+            text="Add item"
+            text-enabled
+            slot="header-menu-actions"
+          ></calcite-action>
+          <calcite-action icon="minus" text="Remove item" text-enabled slot="header-menu-actions"></calcite-action>
+        </calcite-block>
+
         <h2>Header + control + content (collapsible)</h2>
 
         <calcite-block heading="With control + collapsible content" open collapsible>

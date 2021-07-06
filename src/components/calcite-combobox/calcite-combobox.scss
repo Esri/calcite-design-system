@@ -1,3 +1,11 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-combobox-input-height: the height of the combobox input
+ */
+
 :host {
   @apply block relative;
 }
