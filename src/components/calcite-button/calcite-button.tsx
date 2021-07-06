@@ -1,6 +1,6 @@
 import { Component, Element, h, Method, Prop, Build, State, VNode } from "@stencil/core";
 import { CSS, TEXT } from "./resources";
-import { getAttributes, getElementDir } from "../../utils/dom";
+import { getElementDir } from "../../utils/dom";
 import { ButtonAlignment, ButtonAppearance, ButtonColor } from "./interfaces";
 import { FlipContext, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -13,7 +13,6 @@ import { CSS_UTILITY } from "../../utils/resources";
 
 /** @slot default text slot for button text */
 
-/** Any attributes placed on <calcite-button> component will propagate to the rendered child */
 /** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
 /** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
 export class CalciteButton {
@@ -31,8 +30,14 @@ export class CalciteButton {
   //
   //--------------------------------------------------------------------------
 
+  /** optionally specify alignment of button elements. */
+  @Prop({ reflect: true }) alignment?: ButtonAlignment = "center";
+
   /** specify the appearance style of the button, defaults to solid. */
   @Prop({ reflect: true }) appearance: ButtonAppearance = "solid";
+
+  /** Applies to the aria-label attribute on the button or hyperlink */
+  @Prop() label?: string;
 
   /** specify the color of the button, defaults to blue */
   @Prop({ reflect: true }) color: ButtonColor = "blue";
@@ -55,11 +60,14 @@ export class CalciteButton {
   /** string to override English loading text */
   @Prop() intlLoading?: string = TEXT.loading;
 
-  /** optionally specify alignment of button elements. */
-  @Prop({ reflect: true }) alignment?: ButtonAlignment = "center";
-
   /** optionally add a calcite-loader component to the button, disabling interaction.  */
   @Prop({ reflect: true }) loading?: boolean = false;
+
+  /** The name attribute to apply to the button */
+  @Prop() name?: string;
+
+  /** The rel attribute to apply to the hyperlink */
+  @Prop() rel?: string;
 
   /** optionally add a round style to the button  */
   @Prop({ reflect: true }) round?: boolean = false;
@@ -69,6 +77,12 @@ export class CalciteButton {
 
   /** is the button a child of a calcite-split-button */
   @Prop({ reflect: true }) splitChild?: "primary" | "secondary" | false = false;
+
+  /** The target attribute to apply to the hyperlink */
+  @Prop() target?: string;
+
+  /** The type attribute to apply to the button */
+  @Prop({ mutable: true }) type?: string;
 
   /** specify the width of the button, defaults to auto */
   @Prop({ reflect: true }) width: Width = "auto";
@@ -91,29 +105,14 @@ export class CalciteButton {
   componentWillLoad(): void {
     if (Build.isBrowser) {
       this.updateHasContent();
-      const elType = this.el.getAttribute("type");
-      this.type = this.childElType === "button" && elType ? elType : "submit";
+      if (this.childElType === "button" && !this.type) {
+        this.type = "submit";
+      }
     }
   }
 
   render(): VNode {
     const dir = getElementDir(this.el);
-    const attributes = getAttributes(this.el, [
-      "appearance",
-      "alignment",
-      "calcite-hydrated",
-      "class",
-      "color",
-      "dir",
-      "icon-start",
-      "icon-end",
-      "id",
-      "split-child",
-      "loading",
-      "scale",
-      "slot",
-      "width"
-    ]);
     const Tag = this.childElType;
 
     const loader = (
@@ -150,12 +149,17 @@ export class CalciteButton {
 
     return (
       <Tag
-        {...attributes}
+        aria-label={this.label}
         class={{ [CSS_UTILITY.rtl]: dir === "rtl", [CSS.contentSlotted]: this.hasContent }}
         disabled={this.disabled}
+        href={this.childElType === "a" && this.href}
+        name={this.childElType === "button" && this.name}
         onClick={this.handleClick}
         ref={(el) => (this.childEl = el)}
+        rel={this.childElType === "a" && this.el.getAttribute("rel")}
         tabIndex={this.disabled ? -1 : null}
+        target={this.childElType === "a" && this.el.getAttribute("target")}
+        type={this.childElType === "button" && this.type}
       >
         {this.loading ? loader : null}
         {this.iconStart ? iconStartEl : null}
@@ -184,9 +188,6 @@ export class CalciteButton {
 
   /** watches for changing text content **/
   private observer: MutationObserver;
-
-  /** if button type is present, assign as prop */
-  private type?: string;
 
   /** the rendered child element */
   private childEl?: HTMLElement;

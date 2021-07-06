@@ -133,7 +133,6 @@ export class CalciteTreeItem {
           class="calcite-tree-checkbox"
           data-test-id="checkbox"
           indeterminate={this.hasChildren && this.indeterminate}
-          onClick={this.checkboxClickHandler}
           scale={this.scale}
           tabIndex={-1}
         />
@@ -210,15 +209,6 @@ export class CalciteTreeItem {
 
   childrenClickHandler = (event: MouseEvent): void => event.stopPropagation();
 
-  checkboxClickHandler = (event: Event): void => {
-    event.stopPropagation();
-    this.calciteTreeItemSelect.emit({
-      modifyCurrentSelection: (event as any).shiftKey,
-      forceToggle: true
-    });
-    this.el.focus();
-  };
-
   @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
     let root;
 
@@ -226,7 +216,7 @@ export class CalciteTreeItem {
       case " ":
         this.calciteTreeItemSelect.emit({
           modifyCurrentSelection: e.shiftKey,
-          forceToggle: true
+          forceToggle: false
         });
 
         e.preventDefault();
@@ -244,7 +234,7 @@ export class CalciteTreeItem {
         } else {
           this.calciteTreeItemSelect.emit({
             modifyCurrentSelection: e.shiftKey,
-            forceToggle: true
+            forceToggle: false
           });
         }
 

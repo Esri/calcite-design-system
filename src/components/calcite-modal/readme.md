@@ -11,7 +11,7 @@
 Customize the modal by passing your content into multiple named slots: `header` (title-area of the modal), `content` (main body of the modal), and up to three modal actions: primary, secondary, and back.
 
 ```html
-<calcite-modal aria-labelledby="modal-title">
+<calcite-modal aria-labelledby="modal-title" active>
   <h3 slot="header" id="modal-title">Title of the modal</h3>
   <div slot="content">The actual content of the modal</div>
   <calcite-button slot="back" color="neutral" appearance="outline" icon="chevron-left" width="full">
@@ -106,6 +106,16 @@ If you want to focus on the close button, you can use the `close-button` focus I
 #### Returns
 
 Type: `Promise<void>`
+
+## CSS Custom Properties
+
+| Name                            | Description                                        |
+| ------------------------------- | -------------------------------------------------- |
+| `--calcite-modal-content-text`  | the font-size of the modal content                 |
+| `--calcite-modal-padding`       | the top/bottom padding around items in the modal   |
+| `--calcite-modal-padding-large` | the left/right padding around items in the modal   |
+| `--calcite-modal-title-text`    | the font-size of the modal title                   |
+| `--calcite-scrim-background`    | the semi-transparent background color behind modal |
 
 ## Dependencies
 

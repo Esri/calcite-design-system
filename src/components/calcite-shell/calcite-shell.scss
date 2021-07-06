@@ -1,3 +1,11 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-shell-tip-spacing: the left/right positioning of the tip-manager when slotted within a shell
+ */
+
 :host {
   @extend %component-host;
   @apply w-full 

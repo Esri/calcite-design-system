@@ -19,12 +19,14 @@ export const CSS = {
 export const TEXT = {
   collapse: "Collapse",
   expand: "Expand",
-  loading: "Loading"
+  loading: "Loading",
+  options: "Options"
 };
 
 export const SLOTS = {
   icon: "icon",
-  control: "control"
+  control: "control",
+  headerMenuActions: "header-menu-actions"
 };
 
 export const ICONS = {
