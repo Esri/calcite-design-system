@@ -1,3 +1,11 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-action-group-columns: sets number of grid-template-columns when layout is grid
+ */
+
 :host {
   @extend %component-host;
 
@@ -5,26 +13,26 @@
   flex-col
   p-0;
 
-  --columns: 3;
+  --calcite-action-group-columns: 3;
 }
 
 :host([columns="1"]) {
-  --columns: 1;
+  --calcite-action-group-columns: 1;
 }
 :host([columns="2"]) {
-  --columns: 2;
+  --calcite-action-group-columns: 2;
 }
 :host([columns="3"]) {
-  --columns: 3;
+  --calcite-action-group-columns: 3;
 }
 :host([columns="4"]) {
-  --columns: 4;
+  --calcite-action-group-columns: 4;
 }
 :host([columns="5"]) {
-  --columns: 5;
+  --calcite-action-group-columns: 5;
 }
 :host([columns="6"]) {
-  --columns: 6;
+  --calcite-action-group-columns: 6;
 }
 
 :host(:first-child) {
@@ -42,5 +50,5 @@
   place-content-stretch
   p-px;
 
-  grid-template-columns: repeat(var(--columns), auto);
+  grid-template-columns: repeat(var(--calcite-action-group-columns), auto);
 }

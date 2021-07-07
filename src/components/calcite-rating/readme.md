@@ -36,6 +36,12 @@
 
 Type: `Promise<void>`
 
+## CSS Custom Properties
+
+| Name                            | Description                                              |
+| ------------------------------- | -------------------------------------------------------- |
+| `--calcite-rating-spacing-unit` | the amount of left/right margin between each rating star |
+
 ## Dependencies
 
 ### Depends on

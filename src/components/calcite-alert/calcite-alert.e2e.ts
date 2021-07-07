@@ -216,4 +216,31 @@ describe("calcite-alert", () => {
       expect(await progressBarStyles.getPropertyValue("background-color")).toEqual(overrideStyle);
     });
   });
+
+  describe("when multiple alerts are queued", () => {
+    it("should display number of queued alerts with a calcite-chip", async () => {
+      const page = await newE2EPage({
+        html: `
+        <calcite-alert active id="first-active" icon="3d-glasses" auto-dismiss-duration="fast" scale="l">
+          <div slot="title">Title of alert #1</div>
+          <div slot="message">Message text of the alert</div>
+          <a slot="link" href="#">Retry</a>
+        </calcite-alert>
+        <calcite-alert id="alert-to-be-queued" icon auto-dismiss scale="l">
+          <div slot="title">Title of alert #2</div>
+          <div slot="message">Message text of the alert</div>
+          <a slot="link" href="#">Retry</a>
+        </calcite-alert>
+        `
+      });
+      await page.addScriptTag({
+        content: `document.querySelector("#alert-to-be-queued").setAttribute("active", "");`
+      });
+      await page.waitForTimeout(animationDurationInMs);
+      const chip = await page.find("calcite-alert[id='first-active'] >>> calcite-chip");
+      const chipQueueCount = "+1";
+      expect(await chip.getProperty("value")).toEqual(chipQueueCount);
+      expect(chip.textContent).toEqual(chipQueueCount);
+    });
+  });
 });
