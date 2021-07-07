@@ -19,6 +19,10 @@
   ::slotted(calcite-link) {
     @apply text--2-wrap;
   }
+  .notice-close {
+    // specific padding for close button to align with calcite-action small-scale spacing
+    @apply p-2;
+  }
 }
 
 :host([scale="m"]) {
