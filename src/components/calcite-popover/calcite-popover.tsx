@@ -116,8 +116,13 @@ export class CalcitePopover {
 
   @Watch("open")
   openHandler(open: boolean): void {
+    if (!this._referenceElement) {
+      this.referenceElementHandler();
+    }
+
     this.reposition();
     this.setExpandedAttr();
+
     if (open) {
       this.calcitePopoverOpen.emit();
     } else {

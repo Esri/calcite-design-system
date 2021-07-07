@@ -54,6 +54,10 @@ export class CalciteTooltip {
 
   @Watch("open")
   openHandler(): void {
+    if (!this._referenceElement) {
+      this.referenceElementHandler();
+    }
+
     this.reposition();
   }
 
