@@ -5,11 +5,9 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [1.0.0-beta.59](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.58...v1.0.0-beta.59) (2021-07-07)
 
-* **calcite-button:** stop spreading attributes (#2410)
-
 ### ⚠ BREAKING CHANGES
 
-- `calcite-button` no longer passes down all of its attributes to its own `button` element.  To set an `aria-label` on `calcite-button`'s `button` element, use the `label` attribute now instead of `aria-label`.
+**button**: `calcite-button` no longer passes down all of its attributes to its own `button` element.  To set an `aria-label` on `calcite-button`'s `button` element, use the `label` attribute now instead of `aria-label`.
 
 ### Features
 
