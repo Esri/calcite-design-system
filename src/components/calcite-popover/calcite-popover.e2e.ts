@@ -90,6 +90,10 @@ describe("calcite-popover", () => {
 
     const element = await page.find("calcite-popover");
 
+    let computedStyle: CSSStyleDeclaration = await element.getComputedStyle();
+
+    expect(computedStyle.transform).toBe("matrix(0, 0, 0, 0, 0, 0)");
+
     await page.$eval("calcite-popover", (elm: any) => {
       const referenceElement = document.createElement("div");
       document.body.appendChild(referenceElement);
@@ -98,9 +102,9 @@ describe("calcite-popover", () => {
 
     await page.waitForChanges();
 
-    const computedStyle = await element.getComputedStyle();
+    computedStyle = await element.getComputedStyle();
 
-    expect(computedStyle.transform).not.toBe("none");
+    expect(computedStyle.transform).not.toBe("matrix(0, 0, 0, 0, 0, 0)");
   });
 
   it("open popover should be visible", async () => {
@@ -148,7 +152,7 @@ describe("calcite-popover", () => {
 
     const computedStyle = await element.getComputedStyle();
 
-    expect(computedStyle.transform).not.toBe("none");
+    expect(computedStyle.transform).not.toBe("matrix(0, 0, 0, 0, 0, 0)");
   });
 
   it("should show closeButton when enabled", async () => {

@@ -69,7 +69,9 @@ describe("calcite-tooltip", () => {
 
     const element = await page.find("calcite-tooltip");
 
-    expect(computedStyle.transform).toBe("none");
+    let computedStyle: CSSStyleDeclaration = await element.getComputedStyle();
+
+    expect(computedStyle.transform).toBe("matrix(0, 0, 0, 0, 0, 0)");
 
     await page.$eval("calcite-tooltip", (elm: any) => {
       const referenceElement = document.createElement("div");
@@ -79,9 +81,9 @@ describe("calcite-tooltip", () => {
 
     await page.waitForChanges();
 
-    const computedStyle = await element.getComputedStyle();
+    computedStyle = await element.getComputedStyle();
 
-    expect(computedStyle.transform).not.toBe("none");
+    expect(computedStyle.transform).not.toBe("matrix(0, 0, 0, 0, 0, 0)");
   });
 
   it("open tooltip should be visible", async () => {
@@ -129,7 +131,7 @@ describe("calcite-tooltip", () => {
 
     const computedStyle = await element.getComputedStyle();
 
-    expect(computedStyle.transform).not.toBe("none");
+    expect(computedStyle.transform).not.toBe("matrix(0, 0, 0, 0, 0, 0)");
   });
 
   it("should honor hover interaction", async () => {
