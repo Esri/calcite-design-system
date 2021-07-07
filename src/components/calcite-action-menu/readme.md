@@ -12,7 +12,6 @@
 | `open`               | `open`                | Opens the action menu.                                                                                                             | `boolean`                                   | `false`      |
 | `overlayPositioning` | `overlay-positioning` | Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. | `"absolute" \| "fixed"`                     | `"absolute"` |
 | `placement`          | `placement`           | Determines where the component will be positioned relative to the referenceElement.                                                | `Placement \| PlacementRtl \| VariationRtl` | `"auto"`     |
-| `scale`              | `scale`               | Specifies the size of the action.                                                                                                  | `"l" \| "m" \| "s"`                         | `"m"`        |
 
 ## Events
 
@@ -30,16 +29,18 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot        | Description                                |
-| ----------- | ------------------------------------------ |
-|             | A slot for adding `calcite-action`s.       |
-| `"tooltip"` | a slot for adding an tooltip for the menu. |
+| Slot        | Description                                                       |
+| ----------- | ----------------------------------------------------------------- |
+|             | A slot for adding `calcite-action`s.                              |
+| `"tooltip"` | A slot for adding an tooltip for the menu.                        |
+| `"trigger"` | A slot for adding a `calcite-action` to trigger opening the menu. |
 
 ## Dependencies
 
 ### Used by
 
 - [calcite-action-group](../calcite-action-group)
+- [calcite-block](../calcite-block)
 - [calcite-panel](../calcite-panel)
 
 ### Depends on
@@ -60,6 +61,7 @@ graph TD;
   calcite-popover --> calcite-action
   calcite-popover --> calcite-icon
   calcite-action-group --> calcite-action-menu
+  calcite-block --> calcite-action-menu
   calcite-panel --> calcite-action-menu
   style calcite-action-menu fill:#f9f,stroke:#333,stroke-width:4px
 ```

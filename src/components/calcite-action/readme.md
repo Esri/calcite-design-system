@@ -75,6 +75,7 @@ Type: `Promise<void>`
 ### Used by
 
 - [calcite-action-bar](../calcite-action-bar)
+- [calcite-action-group](../calcite-action-group)
 - [calcite-action-menu](../calcite-action-menu)
 - [calcite-action-pad](../calcite-action-pad)
 - [calcite-panel](../calcite-panel)
@@ -95,6 +96,7 @@ graph TD;
   calcite-action --> calcite-loader
   calcite-action --> calcite-icon
   calcite-action-bar --> calcite-action
+  calcite-action-group --> calcite-action
   calcite-action-menu --> calcite-action
   calcite-action-pad --> calcite-action
   calcite-panel --> calcite-action
