@@ -3,6 +3,35 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## [1.0.0-beta.59](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.58...v1.0.0-beta.59) (2021-07-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* **calcite-button:** stop spreading attributes  BREAKING CHANGE: to set an aria-label on the button use the label attribute (#2410)
+
+### Features
+
+* **block:** add slot for header menu actions to block ([#2434](https://github.com/Esri/calcite-components/issues/2434)) ([9107c8f](https://github.com/Esri/calcite-components/commit/9107c8f6ea5a8c9718bf6f8ee152aee5c8107de5)), closes [#963](https://github.com/Esri/calcite-components/issues/963)
+* **list, list-item:** Adds CalciteList & CalciteListItem, A general purpose list and list-item. ([#2274](https://github.com/Esri/calcite-components/issues/2274)) ([b01b7db](https://github.com/Esri/calcite-components/commit/b01b7db419e47a8d045f3db5bfda1b9041b1544b))
+* **modal:** Closes modal when the outside is clicked. ([#2409](https://github.com/Esri/calcite-components/issues/2409)) ([6085f49](https://github.com/Esri/calcite-components/commit/6085f4954493d6746059d95d263539e287807da2)), closes [#2234](https://github.com/Esri/calcite-components/issues/2234)
+* **notice:** allow slotting multiple actions ([#2394](https://github.com/Esri/calcite-components/issues/2394)) ([78376bb](https://github.com/Esri/calcite-components/commit/78376bbeb7a47889fbe20090973d7159e4b79999)), closes [#2144](https://github.com/Esri/calcite-components/issues/2144)
+* **sortable-list:** Add dragSelector and group properties to allow dragging only specified items. ([#2346](https://github.com/Esri/calcite-components/issues/2346)) ([1f19a3e](https://github.com/Esri/calcite-components/commit/1f19a3e8746505cf8fd15572e0828fb9ef93628f))
+
+
+### Bug Fixes
+
+* **alert, notice:** update leading and close icons to follow calcite-action icon sizing ([#2431](https://github.com/Esri/calcite-components/issues/2431)) ([d415aef](https://github.com/Esri/calcite-components/commit/d415aef0af393dc69662c4018279618031efe48c)), closes [#2417](https://github.com/Esri/calcite-components/issues/2417)
+* **color-picker:** ensure color picker dimensions match its content ([#2432](https://github.com/Esri/calcite-components/issues/2432)) ([610df46](https://github.com/Esri/calcite-components/commit/610df46cfd3d7ff33304907cf3c57355fd7d7846)), closes [#2412](https://github.com/Esri/calcite-components/issues/2412)
+* **color-picker:** setFocus() should focus on the first focusable element. [#2267](https://github.com/Esri/calcite-components/issues/2267) ([#2413](https://github.com/Esri/calcite-components/issues/2413)) ([7a3cc6c](https://github.com/Esri/calcite-components/commit/7a3cc6c98fc7665ff41556a1e2214b0ed7238967))
+* **combobox:** use normal pointer for input of single select combobox ([#2363](https://github.com/Esri/calcite-components/issues/2363)) ([bc3f4a1](https://github.com/Esri/calcite-components/commit/bc3f4a151ba7940044a1b3ab4246a4a3856153c8))
+* **tree:** allow focusing out of tree via shift + tab ([#2419](https://github.com/Esri/calcite-components/issues/2419)) ([b76dca7](https://github.com/Esri/calcite-components/commit/b76dca78771df1dcbfd1c64135e4e94a1e91565b))
+* **tree:** allow selecting children with Enter/Space when selection-mode=children ([#2416](https://github.com/Esri/calcite-components/issues/2416)) ([0a90c10](https://github.com/Esri/calcite-components/commit/0a90c10abf8836b56682a09fed4d64a0931c932c)), closes [#2290](https://github.com/Esri/calcite-components/issues/2290)
+* **tree:** prevent emitting selection event twice when a tree-item's checkbox label is clicked ([#2438](https://github.com/Esri/calcite-components/issues/2438)) ([b828bf3](https://github.com/Esri/calcite-components/commit/b828bf3dc5b04e1ecad3ceaf0b3333aec6145cb3)), closes [#2196](https://github.com/Esri/calcite-components/issues/2196)
+
+
+* **calcite-button:** stop spreading attributes  BREAKING CHANGE: to set an aria-label on the button use the label attribute ([#2410](https://github.com/Esri/calcite-components/issues/2410)) ([16cec0d](https://github.com/Esri/calcite-components/commit/16cec0de6fb7b68fa4991bb0f8a41aedf631a5c6))
+
 ## [1.0.0-beta.58](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.57...v1.0.0-beta.58) (2021-06-25)
 
 ### Features
