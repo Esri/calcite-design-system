@@ -71,7 +71,7 @@ export class CalciteTooltip {
   }
 
   /**
-   * Reference HTMLElement used to position this component.
+   * Reference HTMLElement used to position this component. As a convenience, a string id of the reference element can be used. However, setting this property to use an HTMLElement is preferred so that the component does not need to query the DOM for the referenceElement.
    */
   @Prop() referenceElement: HTMLElement | string;
 
