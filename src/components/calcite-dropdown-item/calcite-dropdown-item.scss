@@ -34,14 +34,6 @@
     no-underline
     outline-none
     relative;
-  &:before {
-    content: "\2022";
-    @apply absolute
-      opacity-0
-      duration-150
-      ease-in-out;
-    color: theme("borderColor.color.1");
-  }
 }
 
 :host {
@@ -162,8 +154,8 @@
   right: theme("spacing.4");
 }
 
-// multi select check icon
-.dropdown-item-check-icon {
+// item icon
+.dropdown-item-icon {
   @apply absolute
     opacity-0
     duration-150
@@ -171,42 +163,42 @@
   transform: scale(0.9);
 }
 
-.container--s .dropdown-item-check-icon {
+.container--s .dropdown-item-icon {
   left: theme("spacing.1");
 }
 
-.container--m .dropdown-item-check-icon {
+.container--m .dropdown-item-icon {
   left: theme("spacing.2");
 }
 
-.container--l .dropdown-item-check-icon {
+.container--l .dropdown-item-icon {
   left: theme("spacing.3");
 }
 
 // multi select check icon RTL
-.calcite--rtl .dropdown-item-check-icon {
+.calcite--rtl .dropdown-item-icon {
   left: unset;
   @apply ml-0;
 }
 
-.container--s.calcite--rtl .dropdown-item-check-icon {
+.container--s.calcite--rtl .dropdown-item-icon {
   right: theme("spacing.1");
 }
 
-.container--m.calcite--rtl .dropdown-item-check-icon {
+.container--m.calcite--rtl .dropdown-item-icon {
   right: theme("spacing.2");
 }
 
-.container--l.calcite--rtl .dropdown-item-check-icon {
+.container--l.calcite--rtl .dropdown-item-icon {
   right: theme("spacing.3");
 }
 
-:host(:hover) .dropdown-item-check-icon {
+:host(:hover) .dropdown-item-icon {
   color: theme("borderColor.color.1");
   @apply opacity-100;
 }
 
-:host([active]) .dropdown-item-check-icon {
+:host([active]) .dropdown-item-icon {
   color: theme("backgroundColor.brand");
   @apply opacity-100;
 }
