@@ -134,6 +134,10 @@ export class CalciteCombobox {
 
   @Listen("calciteComboboxItemChange")
   calciteComboboxItemChangeHandler(event: CustomEvent<HTMLCalciteComboboxItemElement>): void {
+    if (this.ignoreSelectedEventsFlag) {
+      return;
+    }
+
     const target = event.target as HTMLCalciteComboboxItemElement;
     this.toggleSelection(target, target.selected);
   }
@@ -344,6 +348,8 @@ export class CalciteCombobox {
 
   private listContainerEl: HTMLDivElement;
 
+  private ignoreSelectedEventsFlag = false;
+
   // --------------------------------------------------------------------------
   //
   //  Private Methods
@@ -532,9 +538,8 @@ export class CalciteCombobox {
       return;
     }
 
-    item.selected = value;
-
     if (this.isMulti()) {
+      item.selected = value;
       this.updateAncestors(item);
       this.selectedItems = this.getSelectedItems();
       this.emitCalciteLookupChange();
@@ -542,7 +547,9 @@ export class CalciteCombobox {
       this.textInput.focus();
       this.filterItems("");
     } else {
-      this.items.filter((el) => el !== item).forEach((el) => (el.selected = false));
+      this.ignoreSelectedEventsFlag = true;
+      this.items.forEach((el) => (el.selected = el === item));
+      this.ignoreSelectedEventsFlag = false;
       this.selectedItem = item;
       this.textInput.value = item.textLabel;
       this.active = false;
