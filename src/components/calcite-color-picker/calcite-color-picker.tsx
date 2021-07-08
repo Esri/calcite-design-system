@@ -189,6 +189,7 @@ export class CalciteColorPicker {
    * a RGB, HSL or HSV object.
    *
    * The type will be preserved as the color is updated.
+   * @see [ColorValue](https://github.com/Esri/calcite-components/blob/master/src/components/calcite-color-picker/interfaces.ts#L10)
    */
   @Prop({ mutable: true }) value: ColorValue | null = defaultValue;
 
