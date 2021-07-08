@@ -2,6 +2,7 @@ import { select } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
 import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
+import treeItemReadme from "../calcite-tree-item/readme.md";
 import { html } from "../../tests/utils";
 
 const treeItems = `
@@ -44,7 +45,7 @@ export default {
   title: "Components/Tree",
 
   parameters: {
-    notes: readme
+    notes: [readme, treeItemReadme]
   }
 };
 

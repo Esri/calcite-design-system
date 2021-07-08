@@ -120,12 +120,15 @@ export class CalciteAlert {
         ref={(el) => (this.closeButton = el)}
         type="button"
       >
-        <calcite-icon icon="x" scale="m" />
+        <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
       </button>
     );
+    const queueText = `+${this.queueLength > 2 ? this.queueLength - 1 : 1}`;
     const queueCount = (
       <div class={`${this.queueLength > 1 ? "active " : ""}alert-queue-count`}>
-        +{this.queueLength > 2 ? this.queueLength - 1 : 1}
+        <calcite-chip scale={this.scale} value={queueText}>
+          {queueText}
+        </calcite-chip>
       </div>
     );
 
@@ -150,7 +153,7 @@ export class CalciteAlert {
         >
           {requestedIcon ? (
             <div class="alert-icon">
-              <calcite-icon icon={requestedIcon} scale="m" />
+              <calcite-icon icon={requestedIcon} scale={this.scale === "l" ? "m" : "s"} />
             </div>
           ) : null}
           <div class="alert-content">

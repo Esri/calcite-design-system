@@ -29,6 +29,12 @@ Displays a contextual message to a user. Allows the passing of content, links, e
 | `status` | `status`  | specify the status of the input field, determines message and icons                                                                                     | `"idle" \| "invalid" \| "valid"` | `"idle"`    |
 | `type`   | `type`    | specify the appearance of any slotted message - default (displayed under input), or floating (positioned absolutely under input)                        | `"default" \| "floating"`        | `"default"` |
 
+## CSS Custom Properties
+
+| Name                                    | Description                                                                                                                          |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `--calcite-input-message-spacing-value` | when type is default, the top margin above the input-message. When type is floating, the amount of padding around the input-message. |
+
 ## Dependencies
 
 ### Depends on

@@ -83,8 +83,8 @@ describe("calcite-split-button", () => {
     expect(element).toEqualAttribute("dropdown-icon-type", "caret");
     expect(element).toHaveAttribute("loading");
     expect(element).toHaveAttribute("disabled");
-    expect(primaryButton).toEqualAttribute("aria-label", "primary action");
-    expect(dropdownButton).toEqualAttribute("aria-label", "more actions");
+    expect(await primaryButton.getProperty("label")).toBe("primary action");
+    expect(await dropdownButton.getProperty("label")).toBe("more actions");
     expect(element).toEqualAttribute("width", "half");
   });
 

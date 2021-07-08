@@ -2,6 +2,14 @@
 
 <!-- Auto Generated Below -->
 
+## Usage
+
+### Basic
+
+```html
+<calcite-chip value="Global" dismissible icon="globe" appearance="clear" color="green">Global</calcite-chip>
+```
+
 ## Properties
 
 | Property             | Attribute       | Description                                                        | Type                                               | Default      |
@@ -33,6 +41,7 @@ Type: `Promise<void>`
 
 ### Used by
 
+- [calcite-alert](../calcite-alert)
 - [calcite-combobox](../calcite-combobox)
 - [calcite-rating](../calcite-rating)
 
@@ -45,6 +54,7 @@ Type: `Promise<void>`
 ```mermaid
 graph TD;
   calcite-chip --> calcite-icon
+  calcite-alert --> calcite-chip
   calcite-combobox --> calcite-chip
   calcite-rating --> calcite-chip
   style calcite-chip fill:#f9f,stroke:#333,stroke-width:4px

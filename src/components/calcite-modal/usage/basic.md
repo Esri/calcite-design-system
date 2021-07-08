@@ -1,7 +1,7 @@
 Customize the modal by passing your content into multiple named slots: `header` (title-area of the modal), `content` (main body of the modal), and up to three modal actions: primary, secondary, and back.
 
 ```html
-<calcite-modal aria-labelledby="modal-title">
+<calcite-modal aria-labelledby="modal-title" active>
   <h3 slot="header" id="modal-title">Title of the modal</h3>
   <div slot="content">The actual content of the modal</div>
   <calcite-button slot="back" color="neutral" appearance="outline" icon="chevron-left" width="full">

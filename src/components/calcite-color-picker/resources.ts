@@ -22,6 +22,8 @@ export const CSS = {
   colorFieldAndSliderInteractive: "color-field-and-slider--interactive",
   colorFieldAndSliderWrap: "color-field-and-slider-wrap",
   scope: "scope",
+  hueScope: "scope--hue",
+  colorFieldScope: "scope--color-field",
   savedColor: "saved-color"
 };
 

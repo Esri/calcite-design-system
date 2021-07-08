@@ -1,13 +1,14 @@
-import { Component, Element, Event, EventEmitter, Host, Prop, h, VNode } from "@stencil/core";
-import { CSS, SLOTS, TEXT, HEADING_LEVEL, ICONS } from "./resources";
+import { Component, Element, Event, EventEmitter, h, Host, Prop, VNode } from "@stencil/core";
+import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 import { getElementDir, getSlotted } from "../../utils/dom";
-import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
+import { CalciteHeading, HeadingLevel } from "../functional/CalciteHeading";
 import { Status } from "../interfaces";
 
 /**
  * @slot icon - A slot for adding a trailing header icon.
  * @slot control - A slot for adding a single HTML input element in a header.
+ * @slot header-menu-actions - a slot for adding an overflow menu with actions inside a dropdown.
  * @slot - A slot for adding content to the block.
  */
 @Component({
@@ -59,6 +60,9 @@ export class CalciteBlock {
 
   /** string to override English loading text */
   @Prop() intlLoading?: string = TEXT.loading;
+
+  /** Text string used for the actions menu */
+  @Prop() intlOptions?: string = TEXT.options;
 
   /**
    * When true, content is waiting to be loaded. This state shows a busy indicator.
@@ -178,6 +182,7 @@ export class CalciteBlock {
     );
 
     const hasControl = !!getSlotted(el, SLOTS.control);
+    const hasMenuActions = !!getSlotted(el, SLOTS.headerMenuActions);
     const collapseIcon = open ? ICONS.opened : ICONS.closed;
 
     const headerNode = (
@@ -210,6 +215,11 @@ export class CalciteBlock {
           <div class={CSS.controlContainer}>
             <slot name={SLOTS.control} />
           </div>
+        ) : null}
+        {hasMenuActions ? (
+          <calcite-action-menu label={this.intlOptions || TEXT.options}>
+            <slot name={SLOTS.headerMenuActions} />
+          </calcite-action-menu>
         ) : null}
       </div>
     );

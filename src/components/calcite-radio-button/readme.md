@@ -2,6 +2,17 @@
 
 <!-- Auto Generated Below -->
 
+## Usage
+
+### Basic
+
+```html
+<calcite-label for="item-a" layout="inline">
+  <calcite-radio-button id="item-a" name="preferred-feature" value="Maps" checked></calcite-radio-button>
+  Maps
+</calcite-label>
+```
+
 ## Properties
 
 | Property             | Attribute  | Description                                                                                                                                  | Type                | Default     |
