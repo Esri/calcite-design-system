@@ -180,12 +180,8 @@ export class CalciteDropdownItem {
             [CSS.containerNone]: this.selectionMode === "none"
           }}
         >
-          {this.selectionMode !== "none" ? (
-            <calcite-icon
-              class="dropdown-item-icon"
-              icon={this.selectionMode === "multi" ? "check" : "circle"}
-              scale="s"
-            />
+          {this.selectionMode === "multi" ? (
+            <calcite-icon class="dropdown-item-check-icon" icon="check" scale="s" />
           ) : null}
           {contentEl}
         </div>
