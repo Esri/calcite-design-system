@@ -66,6 +66,7 @@ Renders a header with a clickable icon to toggle the block open and closed.
 | `intlCollapse` | `intl-collapse` | Tooltip used for the toggle when expanded.                                                  | `string`                         | `undefined`    |
 | `intlExpand`   | `intl-expand`   | Tooltip used for the toggle when collapsed.                                                 | `string`                         | `undefined`    |
 | `intlLoading`  | `intl-loading`  | string to override English loading text                                                     | `string`                         | `TEXT.loading` |
+| `intlOptions`  | `intl-options`  | Text string used for the actions menu                                                       | `string`                         | `TEXT.options` |
 | `loading`      | `loading`       | When true, content is waiting to be loaded. This state shows a busy indicator.              | `boolean`                        | `false`        |
 | `open`         | `open`          | When true, the block's content will be displayed.                                           | `boolean`                        | `false`        |
 | `status`       | `status`        | Block status. Updates or adds icon to show related icon and color.                          | `"idle" \| "invalid" \| "valid"` | `undefined`    |
@@ -79,11 +80,12 @@ Renders a header with a clickable icon to toggle the block open and closed.
 
 ## Slots
 
-| Slot        | Description                                                |
-| ----------- | ---------------------------------------------------------- |
-|             | A slot for adding content to the block.                    |
-| `"control"` | A slot for adding a single HTML input element in a header. |
-| `"icon"`    | A slot for adding a trailing header icon.                  |
+| Slot                    | Description                                                        |
+| ----------------------- | ------------------------------------------------------------------ |
+|                         | A slot for adding content to the block.                            |
+| `"control"`             | A slot for adding a single HTML input element in a header.         |
+| `"header-menu-actions"` | a slot for adding an overflow menu with actions inside a dropdown. |
+| `"icon"`                | A slot for adding a trailing header icon.                          |
 
 ## Dependencies
 
@@ -93,6 +95,7 @@ Renders a header with a clickable icon to toggle the block open and closed.
 - [calcite-icon](../calcite-icon)
 - [calcite-handle](../calcite-handle)
 - [calcite-loader](../calcite-loader)
+- [calcite-action-menu](../calcite-action-menu)
 
 ### Graph
 
@@ -102,8 +105,16 @@ graph TD;
   calcite-block --> calcite-icon
   calcite-block --> calcite-handle
   calcite-block --> calcite-loader
+  calcite-block --> calcite-action-menu
   calcite-scrim --> calcite-loader
   calcite-handle --> calcite-icon
+  calcite-action-menu --> calcite-action
+  calcite-action-menu --> calcite-tooltip-manager
+  calcite-action-menu --> calcite-popover
+  calcite-action --> calcite-loader
+  calcite-action --> calcite-icon
+  calcite-popover --> calcite-action
+  calcite-popover --> calcite-icon
   style calcite-block fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

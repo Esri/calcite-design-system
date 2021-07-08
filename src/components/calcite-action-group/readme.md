@@ -38,12 +38,14 @@ The `calcite-action-group` is a wrapper for multiple `calcite-action`s and house
 ### Depends on
 
 - [calcite-action-menu](../calcite-action-menu)
+- [calcite-action](../calcite-action)
 
 ### Graph
 
 ```mermaid
 graph TD;
   calcite-action-group --> calcite-action-menu
+  calcite-action-group --> calcite-action
   calcite-action-menu --> calcite-action
   calcite-action-menu --> calcite-tooltip-manager
   calcite-action-menu --> calcite-popover
