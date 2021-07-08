@@ -90,6 +90,7 @@ export class CalciteColorPicker {
    * The format of the value property.
    *
    * When "auto", the format will be inferred from `value` when set.
+   * @default "auto"
    */
   @Prop() format: Format = defaultFormat;
 
@@ -108,63 +109,100 @@ export class CalciteColorPicker {
   /** When true, hides the saved colors section */
   @Prop() hideSaved = false;
 
-  /** Label used for the blue channel */
+  /** Label used for the blue channel
+   * @default "B"
+   */
   @Prop() intlB = TEXT.b;
 
-  /** Label used for the blue channel description */
+  /** Label used for the blue channel description
+   * @default "Blue"
+   */
   @Prop() intlBlue = TEXT.blue;
 
-  /** Label used for the delete color button. */
+  /** Label used for the delete color button.
+   * @default "Delete color"
+   */
   @Prop() intlDeleteColor = TEXT.deleteColor;
 
-  /** Label used for the green channel */
+  /** Label used for the green channel
+   * @default "G"
+   */
   @Prop() intlG = TEXT.g;
 
-  /** Label used for the green channel description */
+  /** Label used for the green channel description
+   * @default "Green"
+   */
   @Prop() intlGreen = TEXT.green;
 
-  /** Label used for the hue channel */
+  /** Label used for the hue channel
+   * @default "H"
+   */
   @Prop() intlH = TEXT.h;
 
-  /** Label used for the HSV mode */
+  /** Label used for the HSV mode
+   * @default "HSV"
+   */
   @Prop() intlHsv = TEXT.hsv;
 
-  /** Label used for the hex input */
+  /** Label used for the hex input
+   * @default "Hex"
+   */
   @Prop() intlHex = TEXT.hex;
 
-  /** Label used for the hue channel description */
+  /** Label used for the hue channel description
+   * @default "Hue"
+   */
   @Prop() intlHue = TEXT.hue;
 
   /**
    * Label used for the hex input when there is no color selected.
+   * @default "No color"
    */
   @Prop() intlNoColor = TEXT.noColor;
 
-  /** Label used for the red channel */
+  /** Label used for the red channel
+   * @default "R"
+   */
   @Prop() intlR = TEXT.r;
 
-  /** Label used for the red channel description */
+  /** Label used for the red channel description
+   * @default "Red"
+   */
   @Prop() intlRed = TEXT.red;
 
-  /** Label used for the RGB mode */
+  /** Label used for the RGB mode
+   * @default "RGB"
+   */
   @Prop() intlRgb = TEXT.rgb;
 
-  /** Label used for the saturation channel */
+  /** Label used for the saturation channel
+   * @default "S"
+   */
   @Prop() intlS = TEXT.s;
 
-  /** Label used for the saturation channel description */
+  /** Label used for the saturation channel description
+   * @default "Saturation"
+   */
   @Prop() intlSaturation = TEXT.saturation;
 
-  /** Label used for the save color button. */
+  /** Label used for the save color button.
+   * @default "Save color"
+   */
   @Prop() intlSaveColor = TEXT.saveColor;
 
-  /** Label used for the saved colors section */
+  /** Label used for the saved colors section
+   * @default "Saved"
+   */
   @Prop() intlSaved = TEXT.saved;
 
-  /** Label used for the value channel */
+  /** Label used for the value channel
+   * @default "V"
+   */
   @Prop() intlV = TEXT.v;
 
-  /** Label used for the  */
+  /** Label used for the
+   * @default "Value"
+   */
   @Prop() intlValue = TEXT.value;
 
   /**
@@ -189,6 +227,7 @@ export class CalciteColorPicker {
    * a RGB, HSL or HSV object.
    *
    * The type will be preserved as the color is updated.
+   * @default "#007ac2"
    */
   @Prop({ mutable: true }) value: ColorValue | null = defaultValue;
 

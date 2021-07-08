@@ -91,6 +91,7 @@ export class CalcitePopover {
 
   /**
    * Offset the position of the popover away from the reference element.
+   * @default 6
    */
   @Prop({ reflect: true }) offsetDistance = defaultOffsetDistance;
 
@@ -156,7 +157,9 @@ export class CalcitePopover {
     this.createPopper();
   }
 
-  /** Text for close button. */
+  /** Text for close button.
+   * @default "Close"
+   */
   @Prop() intlClose = TEXT.close;
 
   // --------------------------------------------------------------------------
