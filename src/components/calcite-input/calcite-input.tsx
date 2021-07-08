@@ -484,7 +484,7 @@ export class CalciteInput {
     this.setValue(newValue, nativeEvent, true);
   };
 
-  private numberButtonMouseDownHandler = (event: MouseEvent): void => {
+  private numberButtonClickHandler = (event: MouseEvent): void => {
     // todo, when dropping ie11 support, refactor to use stepup/stepdown
     // prevent blur and re-focus of input on mousedown
     event.preventDefault();
@@ -610,23 +610,25 @@ export class CalciteInput {
       this.numberButtonType === "horizontal" ? "number-button-item-horizontal" : null;
 
     const numberButtonsHorizontalUp = (
-      <div
+      <button
         class={`calcite-input-number-button-item ${numberButtonClassModifier}`}
         data-adjustment="up"
-        onMouseDown={this.numberButtonMouseDownHandler}
+        onClick={this.numberButtonClickHandler}
+        tabIndex={-1}
       >
         <calcite-icon icon="chevron-up" scale={iconScale} />
-      </div>
+      </button>
     );
 
     const numberButtonsHorizontalDown = (
-      <div
+      <button
         class={`calcite-input-number-button-item ${numberButtonClassModifier}`}
         data-adjustment="down"
-        onMouseDown={this.numberButtonMouseDownHandler}
+        onClick={this.numberButtonClickHandler}
+        tabIndex={-1}
       >
         <calcite-icon icon="chevron-down" scale={iconScale} />
-      </div>
+      </button>
     );
 
     const numberButtonsVertical = (

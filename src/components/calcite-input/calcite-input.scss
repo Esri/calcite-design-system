@@ -243,7 +243,6 @@ input[type="time"]::-webkit-clear-button {
   min-height: 100%;
   border: 1px solid var(--calcite-ui-border-1);
   transition: $transition;
-  pointer-events: initial;
   background-color: var(--calcite-ui-foreground-1);
   border-left: none;
   order: 4;
@@ -379,7 +378,6 @@ input[type="time"]::-webkit-clear-button {
   flex-direction: column;
   box-sizing: border-box;
   transition: $transition;
-  pointer-events: none;
   order: 6;
 }
 
@@ -451,7 +449,6 @@ input[type="time"]::-webkit-clear-button {
   padding: 0 $baseline/2;
   border: 1px solid var(--calcite-ui-border-1);
   transition: background-color 0.15s ease-in-out;
-  pointer-events: initial;
   background-color: var(--calcite-ui-foreground-1);
   border-left: none;
   & calcite-icon {
