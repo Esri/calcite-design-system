@@ -683,52 +683,46 @@ export class CalciteSlider {
     }
   }
 
-  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
-    const value = this[this.activeProp];
-    switch (getKey(e.key)) {
-      case "ArrowUp":
-      case "ArrowRight":
-        e.preventDefault();
-        this[this.activeProp] = this.clamp(value + this.step, this.activeProp);
-        this.emitChange();
-        break;
-      case "ArrowDown":
-      case "ArrowLeft":
-        e.preventDefault();
-        this[this.activeProp] = this.clamp(value - this.step, this.activeProp);
-        this.emitChange();
-        break;
-      case "PageUp":
-        if (this.pageStep) {
-          e.preventDefault();
-          this[this.activeProp] = this.clamp(value + this.pageStep, this.activeProp);
-          this.emitChange();
-        }
-        break;
-      case "PageDown":
-        if (this.pageStep) {
-          e.preventDefault();
-          this[this.activeProp] = this.clamp(value - this.pageStep, this.activeProp);
-          this.emitChange();
-        }
-        break;
-      case "Home":
-        e.preventDefault();
-        this[this.activeProp] = this.clamp(this.min, this.activeProp);
-        this.emitChange();
-        break;
-      case "End":
-        e.preventDefault();
-        this[this.activeProp] = this.clamp(this.max, this.activeProp);
-        this.emitChange();
-        break;
+  @Listen("keydown") keyDownHandler(event: KeyboardEvent): void {
+    const mirror = this.shouldMirror();
+    const { activeProp, max, min, pageStep, step } = this;
+    const value = this[activeProp];
+    const key = getKey(event.key);
 
-      // prevent activation keys from firing a click event
-      case "Enter":
-      case " ":
-        e.preventDefault();
-        break;
+    if (key === "Enter" || key === " ") {
+      event.preventDefault();
+      return;
     }
+
+    let adjustment: number;
+
+    if (key === "ArrowUp" || key === "ArrowRight") {
+      const directionFactor = mirror && key === "ArrowRight" ? -1 : 1;
+      adjustment = value + step * directionFactor;
+    } else if (key === "ArrowDown" || key === "ArrowLeft") {
+      const directionFactor = mirror && key === "ArrowLeft" ? -1 : 1;
+      adjustment = value - step * directionFactor;
+    } else if (key === "PageUp") {
+      if (pageStep) {
+        adjustment = value + pageStep;
+      }
+    } else if (key === "PageDown") {
+      if (pageStep) {
+        adjustment = value - pageStep;
+      }
+    } else if (key === "Home") {
+      adjustment = min;
+    } else if (key === "End") {
+      adjustment = max;
+    }
+
+    if (isNaN(adjustment)) {
+      return;
+    }
+
+    event.preventDefault();
+    this[activeProp] = this.clamp(adjustment, activeProp);
+    this.emitChange();
   }
 
   @Listen("mousedown")
