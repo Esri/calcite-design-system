@@ -10,8 +10,6 @@
   animation: calcite-fade-in $transition;
 }
 
-// :host(:hover) { @apply bg-foreground-2; }
-
 :host(:hover) .icon,
 :host(:hover) .label {
  @apply bg-foreground-2;
