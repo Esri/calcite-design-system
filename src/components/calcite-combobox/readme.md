@@ -69,9 +69,9 @@
 
 ## Events
 
-| Event                         | Description                                                              | Type                                                                             |
-| ----------------------------- | ------------------------------------------------------------------------ | -------------------------------------------------------------------------------- |
-| `calciteComboboxChipDismiss`  | Called when a selected item in the combobox is dismissed via its chip \* | `CustomEvent<any>`                                                               |
+| Event                         | Description                                                              | Type                                                  |
+| ----------------------------- | ------------------------------------------------------------------------ | ----------------------------------------------------- |
+| `calciteComboboxChipDismiss`  | Called when a selected item in the combobox is dismissed via its chip \* | `CustomEvent<any>`                                    |
 | `calciteComboboxFilterChange` | Called when the user has entered text to filter the options list         | `CustomEvent<{ visibleItems: HTMLCalciteComboboxItemElement[]; text: string; }>` |
 | `calciteLookupChange`         | Called when the selected items set changes                               | `CustomEvent<HTMLCalciteComboboxItemElement[]>`                                  |
 
