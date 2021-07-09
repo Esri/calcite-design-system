@@ -39,7 +39,8 @@
     @apply absolute
       opacity-0
       duration-150
-      ease-in-out;
+      ease-in-out
+      text--2h;
     color: theme("borderColor.color.1");
   }
 }
