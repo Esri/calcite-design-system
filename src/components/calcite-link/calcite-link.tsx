@@ -95,7 +95,7 @@ export class CalciteLink {
           rel={Tag === "a" && this.rel}
           role={role}
           tabIndex={tabIndex}
-          target={this.target}
+          target={Tag === "a" && this.target}
         >
           {this.iconStart ? iconStartEl : null}
           <slot />
