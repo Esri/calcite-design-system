@@ -22,12 +22,6 @@ export function nodeListToArray<T extends Element>(nodeList: HTMLCollectionOf<T>
 
 export type Direction = "ltr" | "rtl";
 
-export function getAttributes(el: HTMLElement, blockList: string[]): Record<string, any> {
-  return Array.from(el.attributes)
-    .filter((a) => a && !blockList.includes(a.name))
-    .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
-}
-
 export function getThemeName(el: HTMLElement): "light" | "dark" {
   return closestElementCrossShadowBoundary(`.${CSS_UTILITY.darkTheme}`, el) ? "dark" : "light";
 }
