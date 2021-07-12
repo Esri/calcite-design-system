@@ -6,31 +6,813 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Calcite Input</title>
 
+    <!--
+                      _
+                  .__(.)< (MEOW)
+                   \___)
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    -->
+
+    <!-- Internal style -->
     <style>
-      section {
-        width: 30rem;
-        padding: 0 2rem;
-        margin-bottom: 3rem;
+      .grid {
+        display: grid;
+        justify-items: center;
       }
-      h1,
-      h2,
-      h3,
-      h4 {
-        color: var(--calcite-ui-text-1);
+
+      .grid-container {
+        display: grid;
+        grid-auto-flow: column;
+        grid-template-columns: 150px repeat(3, 350px);
+        grid-gap: var(--calcite-font-size-8);
+        padding-bottom: var(--calcite-font-size-4);
       }
-      .demo-background-dark {
-        background: #202020;
-        color: white;
-        padding: 1rem;
+
+      #s,
+      #m,
+      #l,
+      div > p {
+        color: var(--calcite-ui-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+      }
+
+      #s,
+      #m,
+      #l {
+        margin-top: 50px;
+      }
+
+      div > p {
+        text-align: right;
+      }
+
+      #hr-1,
+      #hr-2 {
+        border-top: 1px solid var(--calcite-ui-foreground-3);
+      }
+
+      #hr-1 {
+        margin-bottom: 50px;
+      }
+
+      #hr-2 {
+        margin-top: 20px;
+      }
+
+      #locales {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: center;
+      }
+
+      .locale {
+        flex: 0 1 20%;
       }
     </style>
+
     <script src="./_assets/head.js"></script>
     <script src="_assets/validateInput.js"></script>
+    <script type="module" src="./_assets/demo-form.js"></script>
+    <script type="module" src="./_assets/demo-spacer.js"></script>
+    <script src="_assets/locales.js"></script>
   </head>
 
   <body>
-    <calcite-button href="/">Home</calcite-button>
-    <h1>Calcite Input</h1>
+    <div>
+      <calcite-button href="/" icon-start="arrow-left" color="neutral"> Home </calcite-button>
+    </div>
+    <h1 style="margin: 0 auto; text-align: center">Input</h1>
+
+    <!-- 
+      ******************************************************************
+      * STANDARD 
+      ******************************************************************
+    -->
+    <div class="grid">
+      <!-- small, medium and large -->
+      <div class="grid-container">
+        <div>&nbsp;</div>
+        <div id="s">Small</div>
+        <div id="m">Medium</div>
+        <div id="l">Large</div>
+      </div>
+
+      <!-- Standard -->
+      <div class="grid-container">
+        <p>Standard</p>
+        <div>
+          <calcite-label>
+            Input Label
+            <calcite-input type="text" placeholder="Placeholder" scale="s"></calcite-input>
+          </calcite-label>
+        </div>
+        <div>
+          <calcite-label>
+            Input Label
+            <calcite-input type="text" placeholder="Placeholder" scale="m"></calcite-input>
+          </calcite-label>
+        </div>
+        <div>
+          <calcite-label>
+            Input Label
+            <calcite-input type="text" placeholder="Placeholder" scale="l"></calcite-input>
+          </calcite-label>
+        </div>
+      </div>
+
+      <!-- Standard with icon -->
+      <div class="grid-container">
+        <p>Standard with icon</p>
+        <div>
+          <calcite-label>
+            Input Label
+            <calcite-input type="text" placeholder="Placeholder" scale="s" icon="search"></calcite-input>
+          </calcite-label>
+        </div>
+        <div>
+          <calcite-label>
+            Input Label
+            <calcite-input type="text" placeholder="Placeholder" scale="m" icon="search"></calcite-input>
+          </calcite-label>
+        </div>
+        <div>
+          <calcite-label>
+            Input Label
+            <calcite-input type="text" placeholder="Placeholder" scale="l" icon="search"></calcite-input>
+          </calcite-label>
+        </div>
+      </div>
+
+      <!-- Standard Prefix/Suffix -->
+      <div class="grid-container">
+        <p>Standard Prefix/Suffix</p>
+        <div>
+          <calcite-label>
+            Input Label
+            <calcite-input
+              type="text"
+              placeholder="Placeholder"
+              scale="s"
+              prefix-text="Prefix"
+              suffix-text="Suffix"
+            ></calcite-input>
+          </calcite-label>
+        </div>
+        <div>
+          <calcite-label>
+            Input Label
+            <calcite-input
+              type="text"
+              placeholder="Placeholder"
+              scale="m"
+              prefix-text="Prefix"
+              suffix-text="Suffix"
+            ></calcite-input>
+          </calcite-label>
+        </div>
+        <div>
+          <calcite-label>
+            Input Label
+            <calcite-input
+              type="text"
+              placeholder="Placeholder"
+              scale="l"
+              prefix-text="Prefix"
+              suffix-text="Suffix"
+            ></calcite-input>
+          </calcite-label>
+        </div>
+      </div>
+
+      <!-- Number vertical -->
+      <div class="grid-container">
+        <p>Number Vertical</p>
+        <div>
+          <calcite-label>
+            Input Label
+            <calcite-input type="number" placeholder="Placeholder" scale="s" value="123" step="1"></calcite-input>
+          </calcite-label>
+        </div>
+        <div>
+          <calcite-label>
+            Input Label
+            <calcite-input type="number" placeholder="Placeholder" scale="m" value="123" step="1"></calcite-input>
+          </calcite-label>
+        </div>
+        <div>
+          <calcite-label>
+            Input Label
+            <calcite-input type="number" placeholder="Placeholder" scale="l" value="123" step="1"></calcite-input>
+          </calcite-label>
+        </div>
+      </div>
+
+      <!-- Number vertical Prefix/Suffix-->
+      <div class="grid-container">
+        <p>Number Vertical Prefix/Suffix</p>
+        <div>
+          <calcite-label>
+            Input Label
+            <calcite-input
+              type="number"
+              placeholder="Placeholder"
+              scale="s"
+              value="123"
+              step="1"
+              prefix-text="Prefix"
+              suffix-text="Suffix"
+            >
+            </calcite-input>
+          </calcite-label>
+        </div>
+
+        <div>
+          <calcite-label>
+            Input Label
+            <calcite-input
+              type="number"
+              placeholder="Placeholder"
+              scale="m"
+              value="123"
+              step="1"
+              prefix-text="Prefix"
+              suffix-text="Suffix"
+            >
+            </calcite-input>
+          </calcite-label>
+        </div>
+
+        <div>
+          <calcite-label>
+            Input Label
+            <calcite-input
+              type="number"
+              placeholder="Placeholder"
+              scale="l"
+              value="123"
+              step="1"
+              prefix-text="Prefix"
+              suffix-text="Suffix"
+            >
+            </calcite-input>
+          </calcite-label>
+        </div>
+      </div>
+
+      <!-- Number horizontal -->
+      <div class="grid-container">
+        <p>Number Horizontal</p>
+        <div>
+          <calcite-label>
+            Input Label
+            <calcite-input
+              type="number"
+              placeholder="Placeholder"
+              scale="s"
+              value="123"
+              step="1"
+              number-button-type="horizontal"
+            >
+            </calcite-input>
+          </calcite-label>
+        </div>
+        <div>
+          <calcite-label>
+            Input Label
+            <calcite-input
+              type="number"
+              placeholder="Placeholder"
+              scale="m"
+              value="123"
+              step="1"
+              number-button-type="horizontal"
+            >
+            </calcite-input>
+          </calcite-label>
+        </div>
+        <div>
+          <calcite-label>
+            Input Label
+            <calcite-input
+              type="number"
+              placeholder="Placeholder"
+              scale="l"
+              value="123"
+              step="1"
+              number-button-type="horizontal"
+            >
+            </calcite-input>
+          </calcite-label>
+        </div>
+      </div>
+
+      <!-- Number horizontal Prefix/Suffix-->
+      <div class="grid-container">
+        <p>Number Horizontal Prefix/Suffix</p>
+        <div>
+          <calcite-label>
+            Input Label
+            <calcite-input
+              type="number"
+              placeholder="Placeholder"
+              scale="s"
+              value="123"
+              step="1"
+              prefix-text="Prefix"
+              suffix-text="Suffix"
+              number-button-type="horizontal"
+            >
+            </calcite-input>
+          </calcite-label>
+        </div>
+
+        <div>
+          <calcite-label>
+            Input Label
+            <calcite-input
+              type="number"
+              placeholder="Placeholder"
+              scale="m"
+              value="123"
+              step="1"
+              prefix-text="Prefix"
+              suffix-text="Suffix"
+              number-button-type="horizontal"
+            >
+            </calcite-input>
+          </calcite-label>
+        </div>
+
+        <div>
+          <calcite-label>
+            Input Label
+            <calcite-input
+              type="number"
+              placeholder="Placeholder"
+              scale="l"
+              value="123"
+              step="1"
+              prefix-text="Prefix"
+              suffix-text="Suffix"
+              number-button-type="horizontal"
+            >
+            </calcite-input>
+          </calcite-label>
+        </div>
+      </div>
+
+      <!-- <div class="grid-container">
+        <p> Color </p>
+        <div>
+          <calcite-label> Input Label
+            <calcite-input type="color" format="hex" value placeholder="D83020" scale="s" ></calcite-input>
+          </calcite-label>
+        </div>
+        <div>
+          <calcite-label> Input Label
+            <calcite-input type="color" format="hex" value placeholder="D83020" scale="m" ></calcite-input>
+          </calcite-label>
+        </div>
+        <div>
+          <calcite-label> Input Label
+            <calcite-input type="color" format="hex" value placeholder="D83020" scale="l" ></calcite-input>
+          </calcite-label>
+        </div>
+      </div> -->
+
+      <!-- File upload -->
+      <div class="grid-container">
+        <p>File upload</p>
+        <div>
+          <calcite-label>
+            File input
+            <calcite-input type="file" placeholder="No file chosen" scale="s"></calcite-input>
+          </calcite-label>
+        </div>
+        <div>
+          <calcite-label>
+            File input
+            <calcite-input type="file" placeholder="No file chosen" scale="m"></calcite-input>
+          </calcite-label>
+        </div>
+        <div>
+          <calcite-label>
+            File input
+            <calcite-input type="file" placeholder="No file chosen" scale="l"></calcite-input>
+          </calcite-label>
+        </div>
+      </div>
+
+      <!-- Text area -->
+      <div class="grid-container">
+        <p>Text area</p>
+        <div>
+          <calcite-label>
+            File input
+            <calcite-input type="textarea" placeholder="The quick brown fox jumped" scale="s"></calcite-input>
+          </calcite-label>
+        </div>
+        <div>
+          <calcite-label>
+            File input
+            <calcite-input type="textarea" placeholder="The quick brown fox jumped" scale="m"></calcite-input>
+          </calcite-label>
+        </div>
+        <div>
+          <calcite-label>
+            File input
+            <calcite-input type="textarea" placeholder="The quick brown fox jumped" scale="l"></calcite-input>
+          </calcite-label>
+        </div>
+      </div>
+    </div>
+
+    <hr id="hr-1" />
+    <!-- A beautiful horizontal line -->
+
+    <div class="grid">
+      <!-- Read Only -->
+      <div class="grid-container">
+        <p>Read Only</p>
+        <div>
+          <calcite-label disabled>
+            Input Label
+            <calcite-input type="text" placeholder="Placeholder" scale="m"></calcite-input>
+          </calcite-label>
+        </div>
+
+        <div>
+          <calcite-label disabled>
+            Input Label
+            <calcite-input
+              type="number"
+              placeholder="Placeholder"
+              scale="m"
+              value="123"
+              step="1"
+              prefix-text="Prefix"
+              suffix-text="Suffix"
+            >
+            </calcite-input>
+          </calcite-label>
+        </div>
+      </div>
+    </div>
+
+    <hr id="hr-2" />
+    <!-- A beautiful horizontal line -->
+
+    <!-- 
+      ******************************************************
+      * MESSAGE INFO
+      ******************************************************
+      -->
+
+    <!-- small, medium and large -->
+    <div class="grid">
+      <div class="grid-container">
+        <div>&nbsp;</div>
+        <div id="s">Small</div>
+        <div id="m">Medium</div>
+        <div id="l">Large</div>
+      </div>
+
+      <!-- Message Info -->
+      <div class="grid-container">
+        <p>Message Info</p>
+        <div>
+          <calcite-label scale="s" status="idle">
+            <calcite-input type="text" placeholder="Placeholder" scale="s"> </calcite-input>
+            <calcite-input-message active icon> Info message </calcite-input-message>
+          </calcite-label>
+        </div>
+        <div>
+          <calcite-label scale="m" status="idle">
+            <calcite-input type="text" placeholder="Placeholder" scale="m"> </calcite-input>
+            <calcite-input-message active icon> Info message </calcite-input-message>
+          </calcite-label>
+        </div>
+        <div>
+          <calcite-label scale="l" status="idle">
+            <calcite-input type="text" placeholder="Placeholder" scale="l"> </calcite-input>
+            <calcite-input-message active icon> Info message </calcite-input-message>
+          </calcite-label>
+        </div>
+      </div>
+
+      <!-- Message Success -->
+      <div class="grid-container">
+        <p>Message Success</p>
+        <div>
+          <calcite-label scale="s" status="valid">
+            <calcite-input type="text" placeholder="Placeholder" scale="s"> </calcite-input>
+            <calcite-input-message active icon> Success message </calcite-input-message>
+          </calcite-label>
+        </div>
+        <div>
+          <calcite-label scale="m" status="valid">
+            <calcite-input type="text" placeholder="Placeholder" scale="m"> </calcite-input>
+            <calcite-input-message active icon> Success message </calcite-input-message>
+          </calcite-label>
+        </div>
+        <div>
+          <calcite-label scale="l" status="valid">
+            <calcite-input type="text" placeholder="Placeholder" scale="l"> </calcite-input>
+            <calcite-input-message active icon> Success message </calcite-input-message>
+          </calcite-label>
+        </div>
+      </div>
+
+      <!-- Message Warning -->
+      <div class="grid-container">
+        <p>Message Warning</p>
+        <div>
+          <calcite-label scale="s">
+            <calcite-input type="text" placeholder="Placeholder" scale="s"> </calcite-input>
+            <calcite-input-message active icon="exclamation-mark-triangle"> Warning message </calcite-input-message>
+          </calcite-label>
+        </div>
+        <div>
+          <calcite-label scale="m">
+            <calcite-input type="text" placeholder="Placeholder" scale="m"> </calcite-input>
+            <calcite-input-message active icon="exclamation-mark-triangle"> Warning message </calcite-input-message>
+          </calcite-label>
+        </div>
+        <div>
+          <calcite-label scale="l">
+            <calcite-input type="text" placeholder="Placeholder" scale="l"> </calcite-input>
+            <calcite-input-message active icon="exclamation-mark-triangle"> Warning message </calcite-input-message>
+          </calcite-label>
+        </div>
+      </div>
+
+      <!-- Message Error -->
+      <div class="grid-container">
+        <p>Message Error</p>
+        <div>
+          <calcite-label scale="s" status="invalid">
+            <calcite-input type="text" placeholder="Placeholder" scale="s"> </calcite-input>
+            <calcite-input-message active icon> Error message </calcite-input-message>
+          </calcite-label>
+        </div>
+        <div>
+          <calcite-label scale="m" status="invalid">
+            <calcite-input type="text" placeholder="Placeholder" scale="m"> </calcite-input>
+            <calcite-input-message active icon> Error message </calcite-input-message>
+          </calcite-label>
+        </div>
+        <div>
+          <calcite-label scale="l" status="invalid">
+            <calcite-input type="text" placeholder="Placeholder" scale="l"> </calcite-input>
+            <calcite-input-message active icon> Error message </calcite-input-message>
+          </calcite-label>
+        </div>
+      </div>
+    </div>
+
+    <hr id="hr-2" />
+    <!-- A beautiful horizontal line -->
+
+    <!-- 
+      ******************************************************************
+      * ERROR STATES
+      ******************************************************************
+    -->
+    <div class="grid">
+      <div class="grid-container">
+        <div>&nbsp;</div>
+        <div id="s">Error States</div>
+      </div>
+
+      <!-- Standard error state -->
+      <div class="grid-container">
+        <p>&nbsp;</p>
+        <div>
+          <calcite-label scale="s" status="invalid">
+            Input Label
+            <calcite-input type="text" placeholder="Placeholder" scale="s"></calcite-input>
+            <calcite-input-message active icon> Error message </calcite-input-message>
+          </calcite-label>
+        </div>
+        <div>
+          <calcite-label scale="m" status="invalid">
+            Input Label
+            <calcite-input type="text" placeholder="Placeholder" scale="m"></calcite-input>
+            <calcite-input-message active icon> Error message </calcite-input-message>
+          </calcite-label>
+        </div>
+        <div>
+          <calcite-label scale="l" status="invalid">
+            Input Label
+            <calcite-input type="text" placeholder="Placeholder" scale="l"></calcite-input>
+            <calcite-input-message active icon> Error message </calcite-input-message>
+          </calcite-label>
+        </div>
+      </div>
+
+      <!-- Standard Prefix/Suffix error state  -->
+      <div class="grid-container">
+        <p>&nbsp;</p>
+        <div>
+          <calcite-label status="invalid">
+            Input Label
+            <calcite-input
+              type="text"
+              placeholder="Placeholder"
+              scale="s"
+              prefix-text="Prefix"
+              suffix-text="Suffix"
+            ></calcite-input>
+            <calcite-input-message active icon> Error message </calcite-input-message>
+          </calcite-label>
+        </div>
+        <div>
+          <calcite-label status="invalid">
+            Input Label
+            <calcite-input
+              type="text"
+              placeholder="Placeholder"
+              scale="m"
+              prefix-text="Prefix"
+              suffix-text="Suffix"
+            ></calcite-input>
+            <calcite-input-message active icon> Error message </calcite-input-message>
+          </calcite-label>
+        </div>
+        <div>
+          <calcite-label status="invalid">
+            Input Label
+            <calcite-input
+              type="text"
+              placeholder="Placeholder"
+              scale="l"
+              prefix-text="Prefix"
+              suffix-text="Suffix"
+            ></calcite-input>
+            <calcite-input-message active icon> Error message </calcite-input-message>
+          </calcite-label>
+        </div>
+      </div>
+
+      <!-- Number vertical error state -->
+      <div class="grid-container">
+        <p>&nbsp;</p>
+        <div>
+          <calcite-label status="invalid">
+            Input Label
+            <calcite-input type="number" placeholder="Placeholder" scale="s" value="123" step="1"></calcite-input>
+            <calcite-input-message active icon> Error message </calcite-input-message>
+          </calcite-label>
+        </div>
+        <div>
+          <calcite-label status="invalid">
+            Input Label
+            <calcite-input type="number" placeholder="Placeholder" scale="m" value="123" step="1"></calcite-input>
+            <calcite-input-message active icon> Error message </calcite-input-message>
+          </calcite-label>
+        </div>
+        <div>
+          <calcite-label status="invalid">
+            Input Label
+            <calcite-input type="number" placeholder="Placeholder" scale="l" value="123" step="1"></calcite-input>
+            <calcite-input-message active icon> Error message </calcite-input-message>
+          </calcite-label>
+        </div>
+      </div>
+
+      <!-- File upload error state -->
+      <div class="grid-container">
+        <p>&nbsp;</p>
+        <div>
+          <calcite-label status="invalid">
+            File input
+            <calcite-input type="file" placeholder="No file chosen" scale="s"></calcite-input>
+            <calcite-input-message active icon> Error message </calcite-input-message>
+          </calcite-label>
+        </div>
+        <div>
+          <calcite-label status="invalid">
+            File input
+            <calcite-input type="file" placeholder="No file chosen" scale="m"></calcite-input>
+            <calcite-input-message active icon> Error message </calcite-input-message>
+          </calcite-label>
+        </div>
+        <div>
+          <calcite-label status="invalid">
+            File input
+            <calcite-input type="file" placeholder="No file chosen" scale="l"></calcite-input>
+            <calcite-input-message active icon> Error message </calcite-input-message>
+          </calcite-label>
+        </div>
+      </div>
+    </div>
+
+    <hr id="hr-1" />
+    <!-- A beautiful horizontal line -->
+
+    <!-- 
+      ******************************************************************
+      * NUMBER INPUTS 
+      ******************************************************************
+    -->
+
+    <demo-form>
+      <div class="grid">
+        <div class="grid-container">
+          <div>&nbsp;</div>
+          <div id="s">Number Inputs</div>
+        </div>
+      </div>
+      <form name="demo-form">
+        <demo-spacer>
+          <div id="locales"></div>
+        </demo-spacer>
+      </form>
+    </demo-form>
+
+    <script>
+      const localeDemoContainer = document.getElementById("locales");
+      locales.forEach((locale) => {
+        let localeEl = document.createElement("div");
+        localeEl.setAttribute("class", "locale");
+        let label = document.createElement("calcite-label");
+        label.setAttribute("for", locale);
+        label.appendChild(document.createTextNode(locale));
+        let input = document.createElement("calcite-input");
+        (locale === "ar" || locale === "he") && input.setAttribute("dir", "rtl");
+        input.setAttribute("id", locale);
+        input.setAttribute("locale", locale);
+        input.setAttribute("name", locale);
+        input.setAttribute("scale", "s");
+        input.setAttribute("type", "number");
+        input.setAttribute("value", "1234.56");
+        localeEl.appendChild(label);
+        localeEl.appendChild(input);
+        localeDemoContainer.appendChild(localeEl);
+
+        localeEl = document.createElement("div");
+        localeEl.setAttribute("class", "locale");
+        label = document.createElement("calcite-label");
+        label.setAttribute("for", locale);
+        label.appendChild(document.createTextNode(`${locale} (with group separator)`));
+        input = document.createElement("calcite-input");
+        (locale === "ar" || locale === "he") && input.setAttribute("dir", "rtl");
+        input.setAttribute("group-separator", true);
+        input.setAttribute("id", `${locale}-group-separator`);
+        input.setAttribute("locale", locale);
+        input.setAttribute("name", `${locale}-group-separator`);
+        input.setAttribute("scale", "s");
+        input.setAttribute("type", "number");
+        input.setAttribute("value", "1234.56");
+        localeEl.appendChild(label);
+        localeEl.appendChild(input);
+        localeDemoContainer.appendChild(localeEl);
+      });
+
+      document.addEventListener("calciteInputFocus", (event) => {
+        console.log("calciteInputFocus", event.target.getAttribute("name"), event.target.value);
+      });
+      document.addEventListener("calciteInputInput", (event) => {
+        console.log("calciteInputInput", event.target.getAttribute("name"), event.target.value);
+      });
+      document.addEventListener("calciteInputBlur", (event) => {
+        console.log("calciteInputBlur", event.target.getAttribute("name"), event.target.value);
+      });
+
+      const undefinedInput = document.querySelector("calcite-input[name=set-to-undefined]");
+      document.getElementById("undefined").addEventListener("click", () => {
+        undefinedInput.value = undefined;
+        console.log("undefined", undefinedInput.value);
+      });
+      document.getElementById("undefined-string").addEventListener("click", () => {
+        undefinedInput.value = "undefined";
+        console.log("'undefined'", undefinedInput.value);
+      });
+      document.getElementById("null").addEventListener("click", () => {
+        undefinedInput.value = null;
+        console.log("null", undefinedInput.value);
+      });
+      undefined;
+    </script>
+
+    <script>
+      (async () => {
+        await customElements.whenDefined("calcite-input");
+        const input = document.querySelector("calcite-input");
+        await input.componentOnReady();
+
+        console.log(`when initially set to "", value is ${input.value} (${typeof input.value})`);
+
+        input.value = null;
+        console.log(`when value prop is set to null, value is ${input.value} (${typeof input.value})`);
+
+        input.value = "";
+        console.log(`when value prop is set to "", value is ${input.value} (${typeof input.value})`);
+      })();
+    </script>
 
     <section>
       <!-- src/components/calcite-input/usage/.md -->
