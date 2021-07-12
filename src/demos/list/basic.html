@@ -140,6 +140,30 @@
           </calcite-list-item>
         </calcite-list>
       </section>
+      <section class="example-container">
+        <h2>Group list</h2>
+        <calcite-list>
+          <calcite-list-item-group label="My Group">
+            <calcite-list-item label="test" description="hello world">
+              <calcite-icon icon="check" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+            </calcite-list-item>
+            <calcite-list-item label="test" description="hello world">
+              <calcite-icon icon="blank" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+            </calcite-list-item>
+            <calcite-list-item label="test" description="hello world">
+              <calcite-icon icon="blank" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+              <calcite-list-item label="Nested item" description="hello world">
+                <calcite-icon icon="blank" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+              </calcite-list-item>
+            </calcite-list-item>
+            <calcite-list-item-group label="My Nested Group">
+              <calcite-list-item label="test" description="hello world">
+                <calcite-icon icon="blank" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+              </calcite-list-item>
+            </calcite-list-item-group>
+          </calcite-list-item-group>
+        </calcite-list>
+      </section>
     </main>
   </body>
 </html>
