@@ -156,14 +156,14 @@
     color: var(--calcite-ui-text-1);
   }
   & calcite-icon {
-    color: var(--calcite-ui-text-1);
+    color: var(--calcite-ui-text-3);
   }
 }
 // input message slot
 :host slot:not[name="input-message"] {
   display: block;
   margin-bottom: $baseline/4;
-  color: var(--calcite-ui-text-2);
+  color: var(--calcite-ui-text-3);
   font-weight: 500;
 }
 
