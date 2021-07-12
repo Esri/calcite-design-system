@@ -22,8 +22,8 @@
         padding: 1rem;
       }
       .custom-button-size {
-        height: 44px;
-        width: 44px;
+        height: 32px;
+        width: 32px;
       }
     </style>
     <script src="_assets/head.js"></script>
@@ -33,6 +33,114 @@
   <body>
     <calcite-button href="/">Home</calcite-button>
     <h1>Calcite Button</h1>
+
+    <section>
+      <h3>Default</h3>
+      <table>
+        <tbody>
+          <tr>
+            <td><calcite-button scale="m">Button</calcite-button></td>
+            <td><calcite-button scale="m" icon-start="arrow-right"></calcite-button></td>
+            <td><calcite-button scale="m" loading>Button</calcite-button></td>
+            <td><calcite-button scale="m" icon-start="arrow-right" loading></calcite-button></td>
+          </tr>
+          <tr>
+            <td><calcite-button scale="l">Button</calcite-button></td>
+            <td><calcite-button scale="l" icon-start="arrow-right"></calcite-button></td>
+            <td><calcite-button scale="l" loading>Button</calcite-button></td>
+            <td><calcite-button scale="l" icon-start="arrow-right" loading></calcite-button></td>
+          </tr>
+          <tr>
+            <td><calcite-button scale="s">Button</calcite-button></td>
+            <td><calcite-button scale="s" icon-start="arrow-right"></calcite-button></td>
+            <td><calcite-button scale="s" loading>Button</calcite-button></td>
+            <td><calcite-button scale="s" icon-start="arrow-right" loading></calcite-button></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Round</h3>
+      <table>
+        <tbody>
+          <tr>
+            <td><calcite-button scale="m" round>Button</calcite-button></td>
+            <td><calcite-button scale="m" icon-start="arrow-right" round></calcite-button></td>
+            <td><calcite-button scale="m" round loading>Button</calcite-button></td>
+            <td><calcite-button scale="m" icon-start="arrow-right" round loading></calcite-button></td>
+          </tr>
+          <tr>
+            <td><calcite-button scale="l" round>Button</calcite-button></td>
+            <td><calcite-button scale="l" icon-start="arrow-right" round></calcite-button></td>
+            <td><calcite-button scale="l" round loading>Button</calcite-button></td>
+            <td><calcite-button scale="l" icon-start="arrow-right" round loading></calcite-button></td>
+          </tr>
+          <tr>
+            <td><calcite-button scale="s" round>Button</calcite-button></td>
+            <td><calcite-button scale="s" icon-start="arrow-right" round></calcite-button></td>
+            <td><calcite-button scale="s" round loading>Button</calcite-button></td>
+            <td><calcite-button scale="s" icon-start="arrow-right" round loading></calcite-button></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Appearance: clear</h3>
+      <table>
+        <tbody>
+          <tr>
+            <td><calcite-button appearance="clear" scale="m">Button</calcite-button></td>
+            <td><calcite-button appearance="clear" scale="m" icon-start="arrow-right"></calcite-button></td>
+            <td><calcite-button appearance="clear" scale="m" loading>Button</calcite-button></td>
+            <td><calcite-button appearance="clear" scale="m" icon-start="arrow-right" loading></calcite-button></td>
+          </tr>
+          <tr>
+            <td><calcite-button appearance="clear" scale="l">Button</calcite-button></td>
+            <td><calcite-button appearance="clear" scale="l" icon-start="arrow-right"></calcite-button></td>
+            <td><calcite-button appearance="clear" scale="l" loading>Button</calcite-button></td>
+            <td><calcite-button appearance="clear" scale="l" icon-start="arrow-right" loading></calcite-button></td>
+          </tr>
+          <tr>
+            <td><calcite-button appearance="clear" scale="s">Button</calcite-button></td>
+            <td><calcite-button appearance="clear" scale="s" icon-start="arrow-right"></calcite-button></td>
+            <td><calcite-button appearance="clear" scale="s" loading>Button</calcite-button></td>
+            <td><calcite-button appearance="clear" scale="s" icon-start="arrow-right" loading></calcite-button></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Appearance: outline, round</h3>
+      <table>
+        <tbody>
+          <tr>
+            <td>
+              <calcite-button split-child="primary" color="red" appearance="outline" round scale="m"
+                >Button</calcite-button
+              >
+            </td>
+            <td><calcite-button appearance="outline" round scale="m" icon-start="arrow-right"></calcite-button></td>
+            <td><calcite-button appearance="outline" round scale="m" loading>Button</calcite-button></td>
+            <td>
+              <calcite-button appearance="outline" round scale="m" icon-start="arrow-right" loading></calcite-button>
+            </td>
+          </tr>
+          <tr>
+            <td><calcite-button appearance="outline" round scale="l">Button</calcite-button></td>
+            <td><calcite-button appearance="outline" round scale="l" icon-start="arrow-right"></calcite-button></td>
+            <td><calcite-button appearance="outline" round scale="l" loading>Button</calcite-button></td>
+            <td>
+              <calcite-button appearance="outline" round scale="l" icon-start="arrow-right" loading></calcite-button>
+            </td>
+          </tr>
+          <tr>
+            <td><calcite-button appearance="outline" round scale="s">Button</calcite-button></td>
+            <td><calcite-button appearance="outline" round scale="s" icon-start="arrow-right"></calcite-button></td>
+            <td><calcite-button appearance="outline" round scale="s" loading>Button</calcite-button></td>
+            <td>
+              <calcite-button appearance="outline" round scale="s" icon-start="arrow-right" loading></calcite-button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
 
     <section>
       <!-- src/components/calcite-button/usage/.md -->
