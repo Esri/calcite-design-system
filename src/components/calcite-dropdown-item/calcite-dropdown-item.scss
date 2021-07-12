@@ -7,7 +7,7 @@
 }
 
 .container--l {
-  @apply text-1h pr-4 pl-10 py-3;
+  @apply text-0h pr-4 pl-10 py-3;
 }
 
 // RTL
@@ -39,7 +39,8 @@
     @apply absolute
       opacity-0
       duration-150
-      ease-in-out;
+      ease-in-out
+      text--2h;
     color: theme("borderColor.color.1");
   }
 }
@@ -56,7 +57,7 @@
 }
 
 .dropdown-item-content {
-  @apply mr-auto;
+  @apply mr-auto ml-1;
 }
 
 .calcite--rtl .dropdown-item-content {
@@ -214,7 +215,7 @@
 // icon start & end
 .container--s {
   .dropdown-item-icon-start {
-    @apply mr-2;
+    @apply mr-2 ml-1;
   }
   .dropdown-item-icon-end {
     @apply ml-2;
@@ -223,7 +224,7 @@
 
 .container--m {
   .dropdown-item-icon-start {
-    @apply mr-3;
+    @apply mr-3 ml-1;
   }
   .dropdown-item-icon-end {
     @apply ml-3;
@@ -232,7 +233,7 @@
 
 .container--l {
   .dropdown-item-icon-start {
-    @apply mr-4;
+    @apply mr-4 ml-1;
   }
   .dropdown-item-icon-end {
     @apply ml-4;
