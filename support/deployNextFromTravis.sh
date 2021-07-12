@@ -33,7 +33,7 @@ else
   echo "Building deployable candidate ⚙️"
   npm run build >/dev/null
 
-  git checkout master --quiet && git fetch --quiet >> .npmrc 2> /dev/null
+  git checkout master --quiet && git fetch --tags --quiet >> .npmrc 2> /dev/null
 
   if [ $( latestCommit master ) != $( latestCommit origin/master) ] && [ $( deployable master origin/master) ]
   then

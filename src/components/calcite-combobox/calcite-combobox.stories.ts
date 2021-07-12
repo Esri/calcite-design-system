@@ -76,6 +76,49 @@ export const Single = (): string => html`
   </div>
 `;
 
+export const NestedItems = (): string => html`
+  <div style="width:400px;max-width:100%;background-color:white;padding:100px">
+    <calcite-combobox
+      active
+      label="demo combobox"
+      selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"
+      placeholder="${text("placeholder", "placeholder")}"
+      label="${text("label (for screen readers)", "demo")}"
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+      ${boolean("disabled", false)}
+      ${boolean("allow-custom-values", false)}
+      max-items="${number("max-items", 0)}"
+    >
+      <calcite-combobox-item value="ITEM-0-0" text-label="Level 1">
+        <calcite-combobox-item value="ITEM-0-1" text-label="Level 2"></calcite-combobox-item>
+        <calcite-combobox-item value="ITEM-0-2" text-label="Level 2"></calcite-combobox-item>
+        <calcite-combobox-item value="ITEM-0-3" text-label="Level 2"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="ITEM-1-0" text-label="Level 1">
+        <calcite-combobox-item value="ITEM-1-1" text-label="Level 2">
+          <calcite-combobox-item value="ITEM-1-1-0" text-label="Level 3"></calcite-combobox-item>
+          <calcite-combobox-item value="ITEM-1-1-1" text-label="Level 3">
+            <calcite-combobox-item value="ITEM-1-1-1-0" text-label="Level 4"></calcite-combobox-item>
+            <calcite-combobox-item value="ITEM-1-1-1-1" text-label="Level 4"></calcite-combobox-item>
+          </calcite-combobox-item>
+        </calcite-combobox-item>
+        <calcite-combobox-item value="ITEM-1-2" text-label="Level 2"></calcite-combobox-item>
+        <calcite-combobox-item value="ITEM-1-3" text-label="Level 2"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="ITEM-2-0" text-label="Level 1">
+        <calcite-combobox-item value="ITEM-2-1" text-label="Level 2"></calcite-combobox-item>
+        <calcite-combobox-item value="ITEM-2-2" text-label="Level 2">
+          <calcite-combobox-item value="ITEM-2-2-0" text-label="Level 3"></calcite-combobox-item>
+        </calcite-combobox-item>
+        <calcite-combobox-item value="ITEM-2-3" text-label="Level 2"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="ITEM-0-4" text-label="Level 1"></calcite-combobox-item>
+      <calcite-combobox-item value="ITEM-0-5" text-label="Level 1"></calcite-combobox-item>
+      <calcite-combobox-item value="ITEM-0-6" text-label="Level 1"></calcite-combobox-item>
+    </calcite-combobox>
+  </div>
+`;
+
 export const DarkTheme = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox
