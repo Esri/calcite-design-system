@@ -157,7 +157,12 @@ export class CalciteInputDatePicker {
   /**
    * @internal
    */
-  @Event() calciteInputDatePickerOpenEnd: EventEmitter;
+  @Event() calciteInputDatePickerOpen: EventEmitter;
+
+  /**
+   * @internal
+   */
+  @Event() calciteInputDatePickerClose: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -373,7 +378,9 @@ export class CalciteInputDatePicker {
 
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === transitionProperty) {
-      this.calciteInputDatePickerOpenEnd.emit();
+      this.active
+        ? this.calciteInputDatePickerOpen.emit()
+        : this.calciteInputDatePickerClose.emit();
     }
   };
 
@@ -558,7 +565,7 @@ export class CalciteInputDatePicker {
 
   private focusInputEnd = (): void => {
     this.endInput?.setFocus();
-    this.el.removeEventListener("calciteInputDatePickerOpenEnd", this.focusInputEnd);
+    this.el.removeEventListener("calciteInputDatePickerOpen", this.focusInputEnd);
   };
 
   private handleDateRangeChange = (event: CustomEvent<DateRangeChange>): void => {
@@ -574,7 +581,7 @@ export class CalciteInputDatePicker {
     clearTimeout(this.endInputFocusTimeout);
 
     if (startDate && this.focusedInput === "start" && this.endInput) {
-      this.el.addEventListener("calciteInputDatePickerOpenEnd", this.focusInputEnd);
+      this.el.addEventListener("calciteInputDatePickerOpen", this.focusInputEnd);
     }
   };
 

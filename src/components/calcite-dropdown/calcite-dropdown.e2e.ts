@@ -512,7 +512,7 @@ describe("calcite-dropdown", () => {
 
     const element = await page.find("calcite-dropdown");
     element.click();
-    await page.waitForEvent("calciteDropdownOpenEnd");
+    await page.waitForEvent("calciteDropdownOpen");
     expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-1");
   });
 
@@ -531,7 +531,7 @@ describe("calcite-dropdown", () => {
 
     const element = await page.find("calcite-dropdown");
     element.click();
-    await page.waitForEvent("calciteDropdownOpenEnd");
+    await page.waitForEvent("calciteDropdownOpen");
 
     expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-3");
   });
@@ -551,7 +551,7 @@ describe("calcite-dropdown", () => {
 
     const element = await page.find("calcite-dropdown");
     element.click();
-    await page.waitForEvent("calciteDropdownOpenEnd");
+    await page.waitForEvent("calciteDropdownOpen");
 
     expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-2");
   });
@@ -609,7 +609,7 @@ describe("calcite-dropdown", () => {
 
       const element = await page.find("calcite-dropdown");
       element.click();
-      await page.waitForEvent("calciteDropdownOpenEnd");
+      await page.waitForEvent("calciteDropdownOpen");
 
       expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-50");
 
@@ -642,7 +642,7 @@ describe("calcite-dropdown", () => {
 
       const element = await page.find("calcite-dropdown");
       element.click();
-      await page.waitForEvent("calciteDropdownOpenEnd");
+      await page.waitForEvent("calciteDropdownOpen");
 
       const items = await page.findAll("calcite-dropdown-item");
 

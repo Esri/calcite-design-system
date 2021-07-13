@@ -210,9 +210,12 @@ describe("calcite-popover", () => {
 
     expect(event).toHaveReceivedEventTimes(0);
 
-    popover.setProperty("open", true);
+    await page.evaluate(async () => {
+      const popover = document.querySelector("calcite-popover");
+      popover.open = true;
+    });
 
-    await page.waitForChanges();
+    await page.waitForEvent("calcitePopoverOpen");
 
     expect(event).toHaveReceivedEventTimes(1);
   });
@@ -232,9 +235,12 @@ describe("calcite-popover", () => {
 
     expect(event).toHaveReceivedEventTimes(0);
 
-    popover.setProperty("open", false);
+    await page.evaluate(async () => {
+      const popover = document.querySelector("calcite-popover");
+      popover.open = false;
+    });
 
-    await page.waitForChanges();
+    await page.waitForEvent("calcitePopoverClose");
 
     expect(event).toHaveReceivedEventTimes(1);
   });

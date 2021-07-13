@@ -11,7 +11,7 @@ import {
 } from "@stencil/core";
 import { getElementProp } from "../../utils/dom";
 import { Scale } from "../interfaces";
-import { TEXT, transitionProperties } from "./resources";
+import { TEXT, transitionProperty } from "./resources";
 
 /**
  * @slot - slot for rendering a `<calcite-input>`
@@ -157,11 +157,6 @@ export class CalciteInlineEditable {
   /**
    * @internal
    */
-  @Event() calciteInlineEditableEditingCancelEnd: EventEmitter;
-
-  /**
-   * @internal
-   */
   @Event() calciteInlineEditableChangesConfirm: EventEmitter;
 
   /**
@@ -226,8 +221,8 @@ export class CalciteInlineEditable {
   //--------------------------------------------------------------------------
 
   transitionEnd = (event: TransitionEvent): void => {
-    if (transitionProperties.includes(event.propertyName)) {
-      this.calciteInlineEditableEditingCancelEnd.emit(event);
+    if (event.propertyName === transitionProperty) {
+      this.calciteInlineEditableEditingCancel.emit(event);
     }
   };
 
@@ -250,13 +245,12 @@ export class CalciteInlineEditable {
 
   private cancelEditingEnd = (): void => {
     this.enableEditingButton.setFocus();
-    this.el.removeEventListener("calciteInlineEditableEditingCancelEnd", this.cancelEditingEnd);
+    this.el.removeEventListener("calciteInlineEditableEditingCancel", this.cancelEditingEnd);
   };
 
   private cancelEditing = () => {
     this.inputElement.value = this.valuePriorToEditing;
-    this.el.addEventListener("calciteInlineEditableEditingCancelEnd", this.cancelEditingEnd);
-    this.calciteInlineEditableEditingCancel.emit();
+    this.el.addEventListener("calciteInlineEditableEditingCancel", this.cancelEditingEnd);
     this.disableEditing();
   };
 

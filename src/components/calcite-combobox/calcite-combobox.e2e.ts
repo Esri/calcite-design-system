@@ -36,7 +36,7 @@ describe("calcite-combobox", () => {
     </calcite-combobox>`);
 
     await page.keyboard.press("Tab");
-    await page.waitForChanges();
+    await page.waitForEvent("calciteComboboxOpen");
 
     const container = await page.find(`calcite-combobox >>> .popper-container`);
     const visible = await container.isVisible();
@@ -54,7 +54,7 @@ describe("calcite-combobox", () => {
     const eventSpy = await page.spyOnEvent("calciteComboboxFilterChange");
     await page.keyboard.press("Tab");
     await page.keyboard.type("one");
-    await page.waitForChanges();
+    await page.waitForEvent("calciteComboboxOpen");
 
     const items = await page.findAll("calcite-combobox-item");
     await items[1].waitForNotVisible();
@@ -94,7 +94,7 @@ describe("calcite-combobox", () => {
 
     const element = await page.find("calcite-combobox");
     await element.click();
-    await page.waitForChanges();
+    await page.waitForEvent("calciteComboboxOpen");
 
     const items = await page.findAll("calcite-combobox-item, calcite-combobox-item-group");
 
@@ -129,7 +129,7 @@ describe("calcite-combobox", () => {
 
     const element = await page.find("calcite-combobox");
     await element.click();
-    await page.waitForChanges();
+    await page.waitForEvent("calciteComboboxOpen");
 
     const items = await page.findAll("calcite-combobox-item, calcite-combobox-item-group");
 
@@ -171,7 +171,7 @@ describe("calcite-combobox", () => {
 
     const element = await page.find("calcite-combobox");
     await element.click();
-    await page.waitForChanges();
+    await page.waitForEvent("calciteComboboxOpen");
     const items = await page.findAll("calcite-combobox-item, calcite-combobox-item-group");
 
     for (let i = 0; i < items.length; i++) {
@@ -203,7 +203,7 @@ describe("calcite-combobox", () => {
 
     const element = await page.find("calcite-combobox");
     await element.click();
-    await page.waitForChanges();
+    await page.waitForEvent("calciteComboboxOpen");
 
     const input = await page.find("calcite-combobox >>> input");
     await input.click();
@@ -229,7 +229,7 @@ describe("calcite-combobox", () => {
       </calcite-combobox>`);
 
       await page.keyboard.press("Tab");
-      await page.waitForChanges();
+      await page.waitForEvent("calciteComboboxOpen");
 
       const cbox = await page.find("calcite-combobox");
       let item1 = await cbox.find("calcite-combobox-item[value=one]");
@@ -256,7 +256,7 @@ describe("calcite-combobox", () => {
       });
 
       await page.keyboard.press("Tab");
-      await page.waitForChanges();
+      await page.waitForEvent("calciteComboboxOpen");
 
       const cbox = await page.find("calcite-combobox");
       const item1 = await cbox.find("calcite-combobox-item[value=child1]");
@@ -281,7 +281,7 @@ describe("calcite-combobox", () => {
       });
 
       await page.keyboard.press("Tab");
-      await page.waitForChanges();
+      await page.waitForEvent("calciteComboboxOpen");
 
       const cbox = await page.find("calcite-combobox");
       const parent = await cbox.find("calcite-combobox-item[value=parent]");
@@ -310,7 +310,7 @@ describe("calcite-combobox", () => {
       </calcite-combobox>`);
 
       await page.keyboard.press("Tab");
-      await page.waitForChanges();
+      await page.waitForEvent("calciteComboboxOpen");
 
       const cbox = await page.find("calcite-combobox");
       const item1 = await cbox.find("calcite-combobox-item[value=one]");
@@ -624,7 +624,7 @@ describe("calcite-combobox", () => {
       expect(chip).toBeNull();
 
       await page.keyboard.press("Tab");
-      await page.waitForChanges();
+      await page.waitForEvent("calciteComboboxOpen");
 
       const items = await page.findAll("calcite-combobox-item");
       await items[0].click();
@@ -658,16 +658,18 @@ describe("calcite-combobox", () => {
       expect(selected).toBeNull();
 
       await element.click();
-      await page.waitForChanges();
+      await page.waitForEvent("calciteComboboxOpen");
 
       const items = await page.findAll("calcite-combobox-item");
       await items[0].click();
+      await page.waitForChanges();
 
       selected = await page.find("calcite-combobox >>> .selected-icon");
       let icon = await selected.getProperty("icon");
       expect(icon).toBe("banana");
 
       await element.click();
+      await page.waitForEvent("calciteComboboxOpen");
 
       await items[1].click();
       await page.waitForChanges();
@@ -677,8 +679,10 @@ describe("calcite-combobox", () => {
       expect(icon).toBe("beaker");
 
       await element.click();
+      await page.waitForEvent("calciteComboboxOpen");
 
       await items[2].click();
+      await page.waitForChanges();
       selected = await page.find("calcite-combobox >>> .selected-icon");
       expect(selected).toBeNull();
     });
