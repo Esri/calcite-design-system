@@ -94,7 +94,7 @@ describe("calcite-combobox", () => {
 
     const element = await page.find("calcite-combobox");
     await element.click();
-    await page.waitForEvent("calciteComboboxOpen");
+    await page.waitForChanges();
 
     const items = await page.findAll("calcite-combobox-item, calcite-combobox-item-group");
 
@@ -658,7 +658,7 @@ describe("calcite-combobox", () => {
       expect(selected).toBeNull();
 
       await element.click();
-      await page.waitForEvent("calciteComboboxOpen");
+      await page.waitForChanges();
 
       const items = await page.findAll("calcite-combobox-item");
       await items[0].click();
@@ -669,7 +669,7 @@ describe("calcite-combobox", () => {
       expect(icon).toBe("banana");
 
       await element.click();
-      await page.waitForEvent("calciteComboboxOpen");
+      await page.waitForChanges();
 
       await items[1].click();
       await page.waitForChanges();
@@ -679,7 +679,7 @@ describe("calcite-combobox", () => {
       expect(icon).toBe("beaker");
 
       await element.click();
-      await page.waitForEvent("calciteComboboxOpen");
+      await page.waitForChanges();
 
       await items[2].click();
       await page.waitForChanges();
