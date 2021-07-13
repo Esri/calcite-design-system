@@ -108,6 +108,36 @@
       </calcite-dropdown>
       <br />
       <br />
+
+      <h3>Dropdown scales + Icon start + Multi select</h3>
+
+      <calcite-dropdown scale="s" selection-mode="multi">
+        <calcite-button scale="s" slot="dropdown-trigger">Scale S small</calcite-button>
+        <calcite-dropdown-group group-title="View">
+          <calcite-dropdown-item icon-start="list-bullet" active>List</calcite-dropdown-item>
+          <calcite-dropdown-item icon-start="grid">Grid</calcite-dropdown-item>
+          <calcite-dropdown-item icon-start="table">Table</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
+
+      <calcite-dropdown scale="m" selection-mode="multi">
+        <calcite-button scale="m" slot="dropdown-trigger">Scale M medium</calcite-button>
+        <calcite-dropdown-group group-title="View">
+          <calcite-dropdown-item icon-start="list-bullet" active>List</calcite-dropdown-item>
+          <calcite-dropdown-item icon-start="grid">Grid</calcite-dropdown-item>
+          <calcite-dropdown-item icon-start="table">Table</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
+
+      <calcite-dropdown scale="l" selection-mode="multi">
+        <calcite-button color="neutral" scale="l" slot="dropdown-trigger">Scale L large</calcite-button>
+        <calcite-dropdown-group group-title="View">
+          <calcite-dropdown-item icon-start="list-bullet" active>List</calcite-dropdown-item>
+          <calcite-dropdown-item icon-start="grid">Grid</calcite-dropdown-item>
+          <calcite-dropdown-item icon-start="table">Table</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
+
       <h3>Disabled dropdown</h3>
       <calcite-dropdown disabled>
         <calcite-button slot="dropdown-trigger">Disabled dropdown</calcite-button>

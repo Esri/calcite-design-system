@@ -870,9 +870,9 @@ export class CalciteColorPicker {
     ariaLabel: string
   ): VNode => (
     <calcite-input
-      aria-label={ariaLabel}
       class={CSS.channel}
       data-channel-index={index}
+      label={ariaLabel}
       numberButtonType="none"
       onCalciteInputChange={this.handleChannelChange}
       onCalciteInputInput={this.handleChannelInput}
