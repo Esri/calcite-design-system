@@ -603,8 +603,9 @@ describe("calcite-combobox", () => {
       expect(items.length).toBe(3);
 
       const item1 = await page.find("calcite-combobox-item[value=one]");
-      item1.setProperty("selected", true);
-      await page.waitForChanges();
+      const closeEvent = page.waitForEvent("calciteComboboxClose");
+      await item1.click();
+      await closeEvent;
       const label = await page.find("calcite-combobox >>> .label");
       const labelVisible = await label.isVisible();
       expect(labelVisible).toBe(true);
