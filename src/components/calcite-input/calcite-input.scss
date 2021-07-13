@@ -155,17 +155,6 @@
   }
 }
 
-:host([status="invalid"]) {
-  & input,
-  & textarea {
-    @apply border-color-danger;
-  }
-  & input:focus,
-  & textarea:focus {
-    @apply border-color-danger;
-  }
-}
-
 //focus
 :host textarea,
 :host input {
@@ -173,7 +162,18 @@
 }
 :host textarea:focus,
 :host input:focus {
-  @include focus-style-inset();
+  @include focus-style-inset(var(--calcite-ui-brand));
+}
+
+:host([status="invalid"]) {
+  & input,
+  & textarea {
+    @apply border-color-danger;
+  }
+  & input:focus,
+  & textarea:focus {
+    @include focus-style-inset(var(--calcite-ui-danger));
+  }
 }
 
 // input message slot
@@ -315,7 +315,7 @@ input[type="time"]::-webkit-clear-button {
 .calcite-input-clear-button {
   @include focus-style-base();
   &:focus {
-    @include focus-style-inset();
+    @include focus-style-inset(var(--calcite-ui-brand));
   }
 }
 
