@@ -4,4 +4,4 @@ export const TEXT = {
   intlConfirmChanges: "Save"
 };
 
-export const transitionProperty = "outline-color";
+export const transitionProperty = "border-top-color";
