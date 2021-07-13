@@ -221,7 +221,7 @@ export class CalciteInlineEditable {
   //--------------------------------------------------------------------------
 
   transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === transitionProperty) {
+    if (!this.editingEnabled && event.propertyName === transitionProperty) {
       this.calciteInlineEditableEditingCancel.emit(event);
     }
   };

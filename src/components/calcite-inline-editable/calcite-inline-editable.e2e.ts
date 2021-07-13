@@ -195,6 +195,7 @@ describe("calcite-inline-editable", () => {
     });
 
     it("restores input value after cancel button is clicked", async () => {
+      const calciteInlineEditableEditingCancel = await page.spyOnEvent("calciteInlineEditableEditingCancel");
       const element = await page.find("calcite-inline-editable");
       const input = await element.find("calcite-input");
       await element.click();
@@ -205,7 +206,6 @@ describe("calcite-inline-editable", () => {
       });
       await input.type("typo");
       expect(await input.getProperty("value")).toBe("John Doetypo");
-      const calciteInlineEditableEditingCancel = await page.spyOnEvent("calciteInlineEditableEditingCancel");
       const cancelEvent = page.waitForEvent("calciteInlineEditableEditingCancel");
       await cancelEditingButton.click();
       await cancelEvent;
@@ -214,6 +214,7 @@ describe("calcite-inline-editable", () => {
     });
 
     it("restores input value after escape key is pressed", async () => {
+      const calciteInlineEditableEditingCancel = await page.spyOnEvent("calciteInlineEditableEditingCancel");
       const element = await page.find("calcite-inline-editable");
       const input = await element.find("calcite-input");
       await element.click();
@@ -223,7 +224,6 @@ describe("calcite-inline-editable", () => {
       });
       await input.type("typo");
       expect(await input.getProperty("value")).toBe("John Doetypo");
-      const calciteInlineEditableEditingCancel = await page.spyOnEvent("calciteInlineEditableEditingCancel");
       const cancelEvent = page.waitForEvent("calciteInlineEditableEditingCancel");
       await page.keyboard.press("Escape");
       await cancelEvent;

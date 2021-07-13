@@ -4,4 +4,4 @@ export const TEXT = {
   intlConfirmChanges: "Save"
 };
 
-export const transitionProperty = "padding-left";
+export const transitionProperty = "outline-color";
