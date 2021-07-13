@@ -216,7 +216,10 @@ describe("calcite-popover", () => {
 
     const popoverOpenEvent = page.waitForEvent("calcitePopoverOpen");
 
-    popover.setProperty("open", true);
+    await page.evaluate(() => {
+      const popover = document.querySelector("calcite-popover");
+      popover.open = true;
+    });
 
     await popoverOpenEvent;
 
@@ -240,7 +243,10 @@ describe("calcite-popover", () => {
 
     const popoverCloseEvent = page.waitForEvent("calcitePopoverClose");
 
-    popover.setProperty("open", false);
+    await page.evaluate(() => {
+      const popover = document.querySelector("calcite-popover");
+      popover.open = false;
+    });
 
     await popoverCloseEvent;
 
