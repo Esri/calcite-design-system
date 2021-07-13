@@ -13,7 +13,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getAttributes, getElementDir, getElementProp, setRequestedIcon } from "../../utils/dom";
+import { getElementDir, getElementProp, setRequestedIcon } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { INPUT_TYPE_ICONS, SLOTS } from "./calcite-input.resources";
 import { InputPlacement } from "./interfaces";
@@ -85,6 +85,9 @@ export class CalciteInput {
 
   /** flip the icon in rtl */
   @Prop({ reflect: true }) iconFlipRtl?: boolean;
+
+  /** Applies to the aria-label attribute on the button or hyperlink */
+  @Prop() label?: string;
 
   /** specify if the input is in loading state */
   @Prop({ reflect: true }) loading = false;
@@ -563,25 +566,6 @@ export class CalciteInput {
   render(): VNode {
     const dir = getElementDir(this.el);
 
-    const attributes = getAttributes(this.el, [
-      "alignment",
-      "dir",
-      "clearable",
-      "min",
-      "max",
-      "step",
-      "value",
-      "icon",
-      "loading",
-      "prefix-text",
-      "scale",
-      "status",
-      "suffix-text",
-      "number-button-type",
-      "locale",
-      "group-separator"
-    ]);
-
     const loader = (
       <div class="calcite-input-loading">
         <calcite-progress label={this.intlLoading} type="indeterminate" />
@@ -646,7 +630,7 @@ export class CalciteInput {
     const localeNumberInput =
       this.type === "number" ? (
         <input
-          {...attributes}
+          aria-label={this.label}
           autofocus={this.autofocus ? true : null}
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
@@ -668,7 +652,7 @@ export class CalciteInput {
 
     const childEl = [
       <this.childElType
-        {...attributes}
+        aria-label={this.label}
         autofocus={this.autofocus ? true : null}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}

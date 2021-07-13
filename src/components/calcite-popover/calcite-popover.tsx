@@ -116,8 +116,13 @@ export class CalcitePopover {
 
   @Watch("open")
   openHandler(open: boolean): void {
+    if (!this._referenceElement) {
+      this.referenceElementHandler();
+    }
+
     this.reposition();
     this.setExpandedAttr();
+
     if (open) {
       this.calcitePopoverOpen.emit();
     } else {
@@ -139,7 +144,7 @@ export class CalcitePopover {
   }
 
   /**
-   * Reference HTMLElement used to position this component according to the placement property.
+   * Reference HTMLElement used to position this component according to the placement property. As a convenience, a string ID of the reference element can be used. However, setting this property to use an HTMLElement is preferred so that the component does not need to query the DOM for the referenceElement.
    */
   @Prop() referenceElement!: HTMLElement | string;
 

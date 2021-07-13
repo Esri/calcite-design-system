@@ -120,7 +120,7 @@ export class CalciteAlert {
         ref={(el) => (this.closeButton = el)}
         type="button"
       >
-        <calcite-icon icon="x" scale={this.scale === "s" ? "s" : "m"} />
+        <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
       </button>
     );
     const queueText = `+${this.queueLength > 2 ? this.queueLength - 1 : 1}`;
@@ -153,7 +153,7 @@ export class CalciteAlert {
         >
           {requestedIcon ? (
             <div class="alert-icon">
-              <calcite-icon icon={requestedIcon} scale={this.scale === "s" ? "s" : "m"} />
+              <calcite-icon icon={requestedIcon} scale={this.scale === "l" ? "m" : "s"} />
             </div>
           ) : null}
           <div class="alert-content">

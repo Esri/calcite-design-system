@@ -128,7 +128,7 @@ export class CalciteActionMenu {
 
   @Element() el: HTMLCalciteActionMenuElement;
 
-  @State() menuButtonEl: HTMLCalciteActionElement;
+  menuButtonEl: HTMLCalciteActionElement;
 
   defaultMenuButtonEl: HTMLCalciteActionElement;
 
