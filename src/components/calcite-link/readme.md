@@ -21,6 +21,8 @@ You can programmatically focus a `calcite-link` with the `setFocus()` method:
 | `iconEnd`     | `icon-end`      | optionally pass an icon to display at the end of a button - accepts calcite ui icon names        | `string`                     | `undefined` |
 | `iconFlipRtl` | `icon-flip-rtl` | flip the icon(s) in rtl                                                                          | `"both" \| "end" \| "start"` | `undefined` |
 | `iconStart`   | `icon-start`    | optionally pass an icon to display at the start of a button - accepts calcite ui icon names      | `string`                     | `undefined` |
+| `rel`         | `rel`           | The rel attribute to apply to the hyperlink                                                      | `string`                     | `undefined` |
+| `target`      | `target`        | The target attribute to apply to the hyperlink                                                   | `string`                     | `undefined` |
 
 ## Methods
 
