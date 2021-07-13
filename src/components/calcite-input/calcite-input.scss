@@ -1,6 +1,5 @@
-// temporary hardcoded values until new font scale and padding is added to calcite-base
+// scales
 :host([scale="s"]) {
-  & textarea,
   & input,
   & .calcite-input-prefix,
   & .calcite-input-suffix {
@@ -23,10 +22,13 @@
     min-height: theme("spacing.6");
     min-width: theme("spacing.6");
   }
+  & textarea {
+    padding: 3px theme("spacing.2");
+    @apply text--2h;
+  }
 }
 
 :host([scale="m"]) {
-  & textarea,
   & input,
   & .calcite-input-prefix,
   & .calcite-input-suffix {
@@ -48,10 +50,13 @@
     min-height: theme("spacing.8");
     min-width: theme("spacing.8");
   }
+  & textarea {
+    padding: 7px theme("spacing.3");
+    @apply text--1h;
+  }
 }
 
 :host([scale="l"]) {
-  & textarea,
   & input,
   & .calcite-input-prefix,
   & .calcite-input-suffix {
@@ -74,6 +79,10 @@
     min-height: theme("spacing.11");
     min-width: theme("spacing.11");
   }
+  & textarea {
+    padding: 11px theme("spacing.4");
+    @apply text-0h;
+  }
 }
 
 // disabled styles
@@ -91,8 +100,8 @@
 
 :host textarea,
 :host input {
-  box-shadow: 0 0 0 0 transparent;
-  min-width: 20%;
+  // box-shadow: 0 0 0 0 transparent;
+  // min-width: 20%;
   transition: $transition, height 0s;
   -webkit-appearance: none;
 
@@ -115,16 +124,6 @@
   -webkit-appearance: none;
 }
 
-//focus
-:host textarea,
-:host input {
-  @include focus-style-base();
-}
-:host textarea:focus,
-:host input:focus {
-  @include focus-style-inset();
-}
-
 // states
 :host {
   & input,
@@ -133,14 +132,12 @@
       border
       border-solid
       border-color-input;
-
     &::placeholder,
     &:-ms-input-placeholder,
     &::-ms-input-placeholder {
       @apply text-color-3 font-normal;
     }
   }
-
   & input:focus,
   & textarea:focus {
     @apply border-color-brand text-color-1;
@@ -157,56 +154,38 @@
     @apply text-color-3;
   }
 }
+
+:host([status="invalid"]) {
+  & input,
+  & textarea {
+    @apply border-color-danger;
+  }
+  & input:focus,
+  & textarea:focus {
+    @apply border-color-danger;
+  }
+}
+
+//focus
+:host textarea,
+:host input {
+  @include focus-style-base();
+}
+:host textarea:focus,
+:host input:focus {
+  @include focus-style-inset();
+}
+
 // input message slot
 // Does this do anything ...? calcite-input-message
-:host slot:not[name="input-message"] {
-  margin-bottom: theme("spacing.1");
-  @apply block text-color-3 font-medium;
-}
+// :host slot:not[name="input-message"] {
+//   margin-bottom: theme("spacing.1");
+//   @apply block text-color-3 font-medium;
+// }
 
-// icon
-:host([icon][scale="s"]) input {
-  // p-8 is not the right value, probably p-9 but that doesn't exist yet
-  @apply pl-8;
-}
+// ICONS
 
-:host([icon][scale="s"]) .calcite--rtl input {
-  @apply pr-8 pl-2;
-}
-
-:host([icon][scale="m"]) input {
-  @apply pl-10;
-}
-
-:host([icon][scale="m"]) .calcite--rtl input {
-  @apply pr-10 pl-2;
-}
-
-:host([icon][scale="l"]) input {
-  @apply pl-12;
-}
-
-:host([icon][scale="l"]) .calcite--rtl input {
-  @apply pr-12 pl-2;
-}
-
-//positioning wrapper for icon and loader
-.calcite-input-element-wrapper {
-  min-width: 20%;
-  @apply inline-flex
-    items-center
-    flex-1
-    relative
-    order-3;
-}
-
-.calcite-input-icon {
-  transition: $transition;
-  @apply block
-    absolute
-    pointer-events-none
-    z-10;
-}
+// position icons
 
 :host([scale="s"]) .calcite-input-icon {
   left: theme("spacing.2");
@@ -235,7 +214,54 @@
   right: theme("spacing.4");
 }
 
+// position placeholder/value text in relation to icons
+
+:host([icon][scale="s"]) input {
+  // p-8 is not the right value, probably p-9 but that doesn't exist yet
+  @apply pl-8;
+}
+
+:host([icon][scale="s"]) .calcite--rtl input {
+  @apply pr-8 pl-2;
+}
+
+:host([icon][scale="m"]) input {
+  @apply pl-10;
+}
+
+:host([icon][scale="m"]) .calcite--rtl input {
+  @apply pr-10 pl-2;
+}
+
+:host([icon][scale="l"]) input {
+  @apply pl-12;
+}
+
+:host([icon][scale="l"]) .calcite--rtl input {
+  @apply pr-12 pl-2;
+}
+
+// positioning wrapper for icon and loader
+
+.calcite-input-element-wrapper {
+  // min-width: 20%;
+  @apply inline-flex
+    items-center
+    flex-1
+    relative
+    order-3;
+}
+
+.calcite-input-icon {
+  transition: $transition;
+  @apply block
+    absolute
+    pointer-events-none
+    z-10;
+}
+
 // hide browser default clear
+
 input[type="text"]::-ms-clear,
 input[type="text"]::-ms-reveal {
   @apply hidden
@@ -422,7 +448,10 @@ input[type="time"]::-webkit-clear-button {
 .calcite-input-number-button-item.number-button-item-horizontal {
   &[data-adjustment="down"],
   &[data-adjustment="up"] {
-    @apply min-h-full max-h-full order-1 self-auto;
+    @apply min-h-full
+      max-h-full
+      order-1
+      self-auto;
     & calcite-icon {
       transform: rotate(90deg);
     }
@@ -431,9 +460,9 @@ input[type="time"]::-webkit-clear-button {
 
 .calcite-input-number-button-item.number-button-item-horizontal[data-adjustment="down"] {
   @apply border
-    border-solid
-    border-r-0
-    border-color-input;
+    border-solid    
+    border-color-input
+    border-r-0;
 }
 
 .calcite-input-number-button-item.number-button-item-horizontal[data-adjustment="up"] {
@@ -538,8 +567,8 @@ input[type="time"]::-webkit-clear-button {
     absolute
     z-10
     pointer-events-none
-    w-4
-    h-4;
+    w-3
+    h-3;
 
   & calcite-icon {
     bottom: theme("spacing.1");
@@ -588,14 +617,14 @@ input[type="time"]::-webkit-clear-button {
 }
 
 // status
-$inputStatusColors: "invalid" var(--calcite-ui-danger), "valid" var(--calcite-ui-success),
-  "idle" var(--calcite-ui-text-2);
+// $inputStatusColors: "invalid" var(--calcite-ui-danger), "valid" var(--calcite-ui-success),
+//   "idle" var(--calcite-ui-text-2);
 
-@each $statusColor in $inputStatusColors {
-  $name: nth($statusColor, 1);
-  $color: nth($statusColor, 2);
+// @each $statusColor in $inputStatusColors {
+//   $name: nth($statusColor, 1);
+//   $color: nth($statusColor, 2);
 
-  :host([status="#{$name}"]) .calcite-input-icon {
-    color: $color;
-  }
-}
+//   :host([status="#{$name}"]) .calcite-input-icon {
+//     color: $color;
+//   }
+// }

@@ -51,7 +51,15 @@
       </div>
       <div>
         <h3>Clearable</h3>
+        <calcite-label scale="s">
+          Clearable item
+          <calcite-input clearable value="My great name" placeholder="John Doe"></calcite-input>
+        </calcite-label>
         <calcite-label>
+          Clearable item
+          <calcite-input clearable value="My great name" placeholder="John Doe"></calcite-input>
+        </calcite-label>
+        <calcite-label scale="l">
           Clearable item
           <calcite-input clearable value="My great name" placeholder="John Doe"></calcite-input>
         </calcite-label>
@@ -66,10 +74,24 @@
       </div>
       <div>
         <h3>With message</h3>
+        <calcite-label scale="s">
+          My great label
+          <calcite-input placeholder="Enter your information"></calcite-input>
+          <calcite-input-message icon="3d-glasses" active status="idle">
+            Here's something you should know about this input
+          </calcite-input-message>
+        </calcite-label>
         <calcite-label>
           My great label
           <calcite-input placeholder="Enter your information"></calcite-input>
-          <calcite-input-message icon="3d-glasses" active>
+          <calcite-input-message icon="3d-glasses" active status="valid">
+            Here's something you should know about this input
+          </calcite-input-message>
+        </calcite-label>
+        <calcite-label scale="l">
+          My great label
+          <calcite-input placeholder="Enter your information"></calcite-input>
+          <calcite-input-message icon="3d-glasses" active status="invalid">
             Here's something you should know about this input
           </calcite-input-message>
         </calcite-label>
@@ -89,12 +111,17 @@
       </div>
       <div>
         <h3>Textarea</h3>
-        <calcite-label>
-          My great label
+        <calcite-label scale="s">
+          Textarea
           <calcite-input type="textarea" placeholder="Enter your information"></calcite-input>
-          <calcite-input-message icon="3d-glasses" active>
-            Here's something you should know about this input
-          </calcite-input-message>
+        </calcite-label>
+        <calcite-label>
+          Textarea
+          <calcite-input type="textarea" placeholder="Enter your information"></calcite-input>
+        </calcite-label>
+        <calcite-label scale="l">
+          Textarea
+          <calcite-input type="textarea" placeholder="Enter your information"></calcite-input>
         </calcite-label>
       </div>
       <div>
@@ -125,10 +152,39 @@
         </calcite-label>
       </div>
       <div>
-        <h3>With Prefix</h3>
+        <h3>With Prefix and suffix</h3>
+        <calcite-label scale="s">
+          Prefixed and suffixed
+          <calcite-input prefix-text="pre" suffix-text="suf" placeholder="Enter your information"></calcite-input>
+        </calcite-label>
         <calcite-label>
           Prefixed and suffixed
           <calcite-input prefix-text="pre" suffix-text="suf" placeholder="Enter your information"></calcite-input>
+        </calcite-label>
+        <calcite-label scale="l">
+          Prefixed and suffixed
+          <calcite-input prefix-text="pre" suffix-text="suf" placeholder="Enter your information"></calcite-input>
+        </calcite-label>
+      </div>
+      <div>
+        <h3>Slotted action</h3>
+        <calcite-label scale="s">
+          Prefixed and suffixed
+          <calcite-input type="number" prefix-text="pre" suffix-text="suf" placeholder="Enter your information">
+            <calcite-button scale="s" slot="action">Action</calcite-button>
+          </calcite-input>
+        </calcite-label>
+        <calcite-label>
+          Prefixed and suffixed
+          <calcite-input type="number" prefix-text="pre" suffix-text="suf" placeholder="Enter your information">
+            <calcite-button slot="action">Action</calcite-button>
+          </calcite-input>
+        </calcite-label>
+        <calcite-label scale="l">
+          Prefixed and suffixed
+          <calcite-input type="number" prefix-text="pre" suffix-text="suf" placeholder="Enter your information">
+            <calcite-button scale="l" slot="action">Action</calcite-button>
+          </calcite-input>
         </calcite-label>
       </div>
       <div>
