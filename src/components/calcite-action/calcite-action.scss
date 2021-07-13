@@ -19,9 +19,10 @@
     m-0
     relative
     text--2h
-    text-color-3;
+    font-medium
+    text-color-3
+    w-auto;
   font-family: inherit;
-  width: auto;
   text-align: unset;
   &:hover {
     @apply bg-foreground-2 text-color-1 fill-color-1;
@@ -59,8 +60,7 @@
   }
 
   .text-container--visible {
-    @apply flex-auto opacity-100;
-    width: auto;
+    @apply flex-auto opacity-100 w-auto;
   }
 }
 
@@ -107,7 +107,7 @@
   @apply w-full;
 
   .icon-container {
-    @apply m-0 mr-2;
+    @apply m-0 mr-3;
   }
   .text-container--visible {
     @apply m-0 mr-2;
@@ -116,7 +116,7 @@
 
 .button--text-visible.calcite--rtl {
   .icon-container {
-    @apply m-0 ml-2;
+    @apply m-0 ml-3;
   }
   .text-container--visible {
     @apply m-0 ml-2;
