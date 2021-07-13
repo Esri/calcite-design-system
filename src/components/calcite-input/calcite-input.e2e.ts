@@ -672,7 +672,7 @@ describe("calcite-input", () => {
 
   it("allows restricting input length", async () => {
     const page = await newE2EPage({
-      html: `<calcite-input minLength="2" maxLength="3" value=""></calcite-input>`
+      html: `<calcite-input min-length="2" max-length="3" value=""></calcite-input>`
     });
 
     const getInputValidity = async () =>
@@ -782,16 +782,16 @@ describe("calcite-input", () => {
     it("allows shift tabbing", async () => {
       const page = await newE2EPage({
         html: `
-          <calcite-input id="input1" type="number"></calcite-input>
-          <calcite-input id="input2" type="number"></calcite-input>
+          <calcite-input id="input1" label="one" type="number"></calcite-input>
+          <calcite-input id="input2" label="two" type="number"></calcite-input>
         `
       });
       const calciteInput2 = await page.find("#input2");
       calciteInput2.callMethod("setFocus");
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual("input2");
+      expect(await page.evaluate(() => document.activeElement.getAttribute("aria-label"))).toEqual("two");
       await page.keyboard.down("Shift");
       await page.keyboard.press("Tab");
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual("input1");
+      expect(await page.evaluate(() => document.activeElement.getAttribute("aria-label"))).toEqual("one");
     });
 
     it.skip("disallows typing redundant zeros", async () => {
