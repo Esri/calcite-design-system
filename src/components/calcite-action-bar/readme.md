@@ -110,6 +110,7 @@ graph TD;
   calcite-action-bar --> calcite-action
   calcite-action-bar --> calcite-tooltip-manager
   calcite-action-group --> calcite-action-menu
+  calcite-action-group --> calcite-action
   calcite-action-menu --> calcite-action
   calcite-action-menu --> calcite-tooltip-manager
   calcite-action-menu --> calcite-popover

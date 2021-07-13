@@ -85,7 +85,7 @@ $tick-height: 4px;
       top: 0;
       bottom: 0;
     }
-    &--minValue.hyphen::after {
+    &.hyphen::after {
       content: "\2014";
       display: inline-block;
       width: 1em;
@@ -355,5 +355,19 @@ $tick-height: 4px;
   .graph-path--highlight {
     fill: var(--calcite-ui-brand);
     opacity: 0.25;
+  }
+}
+
+:host([mirrored]:not([has-histogram])) {
+  .tick__label--min {
+    right: 0;
+    left: unset;
+    text-align: right;
+  }
+
+  .tick__label--max {
+    right: unset;
+    left: 0;
+    text-align: left;
   }
 }
