@@ -818,6 +818,11 @@
       function openModal(selector) {
         document.querySelector(selector).active = true;
       }
+
+      let link = document.querySelectorAll("calcite-link");
+      for (let i = 0; i < link.length; i++) {
+        link[i].style.textDecoration = "none";
+      }
     </script>
   </body>
 </html>
