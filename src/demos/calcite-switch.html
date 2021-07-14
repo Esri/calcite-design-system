@@ -5,112 +5,158 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Calcite Switch</title>
+    <script src="./_assets/head.js"></script>
+
     <style>
-      .demo-background-dark {
-        background: #202020;
-        color: white;
-        padding: 1rem;
+      .parent {
+        display: flex;
+        width: 75%;
+        justify-content: space-between;
+        padding: 25px 0;
+      }
+
+      .child {
+        flex: 0 1 21%;
+        margin: 0 25px;
+        color: var(--calcite-ui-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+      }
+
+      .right-aligned-text {
+        text-align: right;
+      }
+
+      hr {
+        margin: 25px 0;
+        border-top: 1px solid var(--calcite-ui-border-2);
       }
     </style>
-    <script src="./_assets/head.js"></script>
   </head>
 
   <body>
-    <calcite-button href="/">Home</calcite-button>
-    <h1>Calcite Switch</h1>
+    <div>
+      <calcite-button href="/" icon-start="arrow-left" color="neutral"> Home </calcite-button>
+    </div>
 
-    <calcite-label layout="inline">
-      Small
-      <calcite-switch scale="s"></calcite-switch>
-    </calcite-label>
-    <br />
+    <h1 style="margin: 0 auto; text-align: center">Switch</h1>
 
-    <calcite-label layout="inline">
-      Medium
-      <calcite-switch scale="m"></calcite-switch>
-    </calcite-label>
-    <br />
+    <!-- HEADER -->
+    <div class="parent">
+      <div class="child"></div>
+      <div class="child">Default</div>
+      <div class="child">Disabled</div>
+      <div class="child">Switched</div>
+      <div class="child">Switched Disabled</div>
+    </div>
 
-    <calcite-label layout="inline">
-      Large
-      <calcite-switch scale="l"></calcite-switch>
-    </calcite-label>
-    <br />
+    <!-- Small -->
+    <div class="parent">
+      <div class="child right-aligned-text">Small</div>
 
-    <calcite-label layout="inline">
-      <calcite-switch id="basicSwitch" switched></calcite-switch>
-      Listening for "calciteSwitchChange".
-    </calcite-label>
+      <div class="child">
+        <calcite-switch scale="s"></calcite-switch>
+      </div>
+
+      <div class="child">
+        <calcite-switch scale="s" disabled></calcite-switch>
+      </div>
+
+      <div class="child">
+        <calcite-switch scale="s" switched></calcite-switch>
+      </div>
+
+      <div class="child">
+        <calcite-switch scale="s" switched disabled></calcite-switch>
+      </div>
+    </div>
+
+    <!-- Medium -->
+    <div class="parent">
+      <div class="child right-aligned-text">Medium</div>
+
+      <div class="child">
+        <calcite-switch scale="m"></calcite-switch>
+      </div>
+
+      <div class="child">
+        <calcite-switch scale="m" disabled></calcite-switch>
+      </div>
+
+      <div class="child">
+        <calcite-switch scale="m" switched></calcite-switch>
+      </div>
+
+      <div class="child">
+        <calcite-switch scale="m" switched disabled></calcite-switch>
+      </div>
+    </div>
+
+    <!-- Large -->
+    <div class="parent">
+      <div class="child right-aligned-text">Large</div>
+
+      <div class="child">
+        <calcite-switch scale="l"></calcite-switch>
+      </div>
+
+      <div class="child">
+        <calcite-switch scale="l" disabled></calcite-switch>
+      </div>
+
+      <div class="child">
+        <calcite-switch scale="l" switched></calcite-switch>
+      </div>
+
+      <div class="child">
+        <calcite-switch scale="l" switched disabled></calcite-switch>
+      </div>
+    </div>
+
+    <hr />
+    <!-- A horizontal line -->
+
+    <!-- RTL Set Directly on Switch -->
+    <div class="parent">
+      <div class="child"></div>
+
+      <div class="child">
+        RTL set directly on Switch
+        <p>
+          <calcite-switch dir="rtl"></calcite-switch>
+        </p>
+      </div>
+
+      <div class="child"></div>
+      <div class="child"></div>
+      <div class="child"></div>
+    </div>
+
+    <hr />
+    <!-- A horizontal line -->
+
+    <!-- calciteSwitchChange -->
+    <div class="parent">
+      <div class="child"></div>
+
+      <div class="child">
+        Listen for "calciteSwitchChange"
+        <p>
+          <calcite-switch id="basicSwitch" switched></calcite-switch>
+        </p>
+      </div>
+
+      <div class="child"></div>
+      <div class="child"></div>
+      <div class="child"></div>
+    </div>
+
     <script>
       var basicSwitch = document.getElementById("basicSwitch");
-
       basicSwitch.addEventListener("calciteSwitchChange", function (e) {
         console.log("Basic switch changed by <calcite-switch>", e.detail.switched);
       });
     </script>
-    <br />
-    <div>
-      <calcite-label layout="inline">
-        <calcite-switch switched disabled></calcite-switch>
-        Disabled switch
-      </calcite-label>
-    </div>
-    <br />
-    <div class="demo-background-dark">
-      <div>
-        <calcite-label layout="inline">
-          <calcite-switch class="calcite-theme-dark" id="basicSwitch2" switched></calcite-switch>
-          Listening for "calciteSwitchChange".
-          <script>
-            var basicSwitch = document.getElementById("basicSwitch2");
-
-            basicSwitch.addEventListener("calciteSwitchChange", function (e) {
-              console.log("Basic switch changed by <calcite-switch>", e.detail.switched);
-            });
-          </script>
-        </calcite-label>
-      </div>
-      <br />
-      <div>
-        <calcite-switch class="calcite-theme-dark"></calcite-switch>
-        Switch with no wrapping <code>label</code>.
-      </div>
-    </div>
-    <h3>RTL Set Directly on Switch</h3>
-    <div>
-      <calcite-label layout="inline">
-        <calcite-switch dir="rtl"> </calcite-switch>
-        Example
-      </calcite-label>
-    </div>
-    <br />
-    <div>
-      <calcite-label layout="inline">
-        <calcite-switch switched dir="rtl"> </calcite-switch>
-        Example
-      </calcite-label>
-    </div>
-    <div dir="rtl">
-      <h3>RTL Inherited from Container</h3>
-      <br />
-      <div>
-        <calcite-switch></calcite-switch>
-        Switch with no wrapping <code>label</code>.
-      </div>
-      <br />
-      <div class="demo-background-dark">
-        <div>
-          <calcite-label layout="inline">
-            <calcite-switch class="calcite-theme-dark" switched> </calcite-switch>
-            inline switch
-          </calcite-label>
-        </div>
-        <br />
-        <div>
-          <calcite-switch class="calcite-theme-dark"></calcite-switch>
-          Switch with no wrapping <code>label</code>.
-        </div>
-      </div>
-    </div>
   </body>
 </html>

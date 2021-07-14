@@ -115,19 +115,13 @@ export class CalcitePopover {
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
-  openHandler(open: boolean): void {
+  openHandler(): void {
     if (!this._referenceElement) {
       this.referenceElementHandler();
     }
 
     this.reposition();
     this.setExpandedAttr();
-
-    if (open) {
-      this.calcitePopoverOpen.emit();
-    } else {
-      this.calcitePopoverClose.emit();
-    }
   }
 
   /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
@@ -176,6 +170,8 @@ export class CalcitePopover {
   closeButtonEl: HTMLCalciteActionElement;
 
   guid = `calcite-popover-${guid()}`;
+
+  private activeTransitionProp = "opacity";
 
   // --------------------------------------------------------------------------
   //
@@ -364,6 +360,12 @@ export class CalcitePopover {
     this.open = false;
   };
 
+  transitionEnd = (event: TransitionEvent): void => {
+    if (event.propertyName === this.activeTransitionProp) {
+      this.open ? this.calcitePopoverOpen.emit() : this.calcitePopoverClose.emit();
+    }
+  };
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -424,6 +426,7 @@ export class CalcitePopover {
             [PopperCSS.animation]: true,
             [PopperCSS.animationActive]: displayed
           }}
+          onTransitionEnd={this.transitionEnd}
         >
           {arrowNode}
           <div

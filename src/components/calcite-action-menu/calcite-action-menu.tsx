@@ -20,7 +20,6 @@ import { guid } from "../../utils/guid";
 
 const SUPPORTED_BUTTON_NAV_KEYS = ["ArrowUp", "ArrowDown"];
 const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
-const MENU_ANIMATION_DELAY_MS = 50;
 
 /**
  * @slot - A slot for adding `calcite-action`s.
@@ -131,8 +130,6 @@ export class CalciteActionMenu {
   menuButtonEl: HTMLCalciteActionElement;
 
   defaultMenuButtonEl: HTMLCalciteActionElement;
-
-  menuFocusTimeout: number;
 
   menuEl: HTMLDivElement;
 
@@ -468,14 +465,13 @@ export class CalciteActionMenu {
     }
   };
 
-  toggleOpen = (value = !this.open): void => {
-    this.open = value;
-    clearTimeout(this.menuFocusTimeout);
+  toggleOpenEnd = (): void => {
+    this.setFocus();
+    this.el.removeEventListener("calcitePopoverOpen", this.toggleOpenEnd);
+  };
 
-    if (value) {
-      this.menuFocusTimeout = window.setTimeout(() => this.setFocus(), MENU_ANIMATION_DELAY_MS);
-    } else {
-      this.setFocus();
-    }
+  toggleOpen = (value = !this.open): void => {
+    this.el.addEventListener("calcitePopoverOpen", this.toggleOpenEnd);
+    this.open = value;
   };
 }
