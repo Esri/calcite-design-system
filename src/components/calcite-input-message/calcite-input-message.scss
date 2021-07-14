@@ -23,7 +23,6 @@
 }
 
 .calcite-input-message-icon {
-  transition: $transition;
   @apply inline-flex
     flex-shrink-0
     pointer-events-none
@@ -31,7 +30,7 @@
 }
 
 .calcite-input-message-icon.calcite--rtl {
-  @apply ml-2;
+  @apply ml-2 mr-0;
 }
 
 :host([status="invalid"]) .calcite-input-message-icon {
@@ -48,50 +47,4 @@
 
 :host([status="idle"]) .calcite-input-message-icon {
   color: var(--calcite-ui-brand);
-}
-
-// Floating messages
-
-:host([type="floating"]) {
-  transform: translate3d(0, -$baseline, 0);
-  background-color: var(--calcite-input-message-floating-background);
-  top: 100%;
-  // accommodate for spacing of label
-  margin-top: -1.5rem;
-  padding: var(--calcite-input-message-spacing-value);
-  z-index: 101;
-  @apply absolute
-    w-full
-    left-0
-    right-0
-    h-auto
-    rounded-sm
-    shadow-2;
-}
-
-:host([type="floating"][active]) {
-  transform: translate3d(0, 0, 0);
-}
-
-:host([type="floating"][active]) {
-  animation: floatingMessagePulse 0.5s ease-in-out;
-  animation-iteration-count: 1;
-}
-
-@keyframes floatingMessagePulse {
-  0% {
-    top: 100%;
-  }
-  25% {
-    top: 110%;
-  }
-  50% {
-    top: 100%;
-  }
-  75% {
-    top: 105%;
-  }
-  100% {
-    top: 100%;
-  }
 }

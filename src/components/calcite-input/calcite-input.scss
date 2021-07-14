@@ -9,14 +9,11 @@
     @apply h-6;
     min-height: theme("spacing.6");
   }
-  & .calcite-input-number-button-wrapper,
-  & .calcite-action-wrapper calcite-button,
-  & .calcite-action-wrapper calcite-button button {
+  & .calcite-input-number-button-wrapper {
     @apply h-6;
   }
-  & textarea,
   & input[type="file"] {
-    @apply h-auto;
+    @apply h-6;
   }
   & .calcite-input-clear-button {
     min-height: theme("spacing.6");
@@ -24,8 +21,9 @@
   }
   & textarea {
     @apply text--2h
-      py-1
-      px-2;
+    py-1
+    px-2  
+    h-auto;
   }
 }
 
@@ -38,14 +36,11 @@
   & textarea {
     min-height: theme("spacing.8");
   }
-  & .calcite-input-number-button-wrapper,
-  & .calcite-action-wrapper calcite-button,
-  & .calcite-action-wrapper calcite-button button {
+  & .calcite-input-number-button-wrapper {
     @apply h-8;
   }
-  & textarea,
   & input[type="file"] {
-    @apply h-auto;
+    @apply h-8;
   }
   & .calcite-input-clear-button {
     min-height: theme("spacing.8");
@@ -54,7 +49,8 @@
   & textarea {
     @apply text--1h
       py-2
-      px-3;
+      px-3
+      h-auto;
   }
 }
 
@@ -67,14 +63,11 @@
   & textarea {
     min-height: theme("spacing.11");
   }
-  & .calcite-input-number-button-wrapper,
-  & .calcite-action-wrapper calcite-button,
-  & .calcite-action-wrapper calcite-button button {
+  & .calcite-input-number-button-wrapper {
     @apply h-11;
   }
-  & textarea,
   & input[type="file"] {
-    @apply h-auto;
+    @apply h-11;
   }
   & .calcite-input-clear-button {
     min-height: theme("spacing.11");
@@ -83,7 +76,8 @@
   & textarea {
     @apply text-0h
       py-3
-      px-4;
+      px-4
+      h-auto;
   }
 }
 
@@ -104,7 +98,6 @@
 :host input {
   transition: $transition, height 0s;
   -webkit-appearance: none;
-
   @apply w-full
     rounded-none
     relative
@@ -184,7 +177,7 @@
   left: theme("spacing.2");
 }
 
-:host([scale="s"]) .calcite-input-icon.calcite--rtl {
+:host([scale="s"]) .calcite--rtl .calcite-input-icon {
   left: unset;
   right: theme("spacing.2");
 }
@@ -193,7 +186,7 @@
   left: theme("spacing.3");
 }
 
-:host([scale="m"]) .calcite-input-icon.calcite--rtl {
+:host([scale="m"]) .calcite--rtl .calcite-input-icon {
   left: unset;
   right: theme("spacing.3");
 }
@@ -202,7 +195,7 @@
   left: theme("spacing.4");
 }
 
-:host([scale="l"]) .calcite-input-icon.calcite--rtl {
+:host([scale="l"]) .calcite--rtl .calcite-input-icon {
   left: unset;
   right: theme("spacing.4");
 }
@@ -595,21 +588,25 @@ input[type="time"]::-webkit-clear-button {
 }
 
 // file input
-:host([type="file"]) {
-  & input,
-  textarea {
-    @apply bg-foreground-1
-      cursor-pointer
-      py-2
-      px-3
-      border
-      border-dashed
-      border-color-input
-      text-center;
-  }
-  button {
-    border: none;
-  }
+:host([type="file"]) input {
+  @apply bg-foreground-1
+    cursor-pointer
+    border
+    border-dashed
+    border-color-input
+    text-center;
+}
+
+:host([type="file"][scale="s"]) input {
+  @apply py-px px-2;
+}
+
+:host([type="file"][scale="m"]) input {
+  @apply py-1 px-3;
+}
+
+:host([type="file"][scale="l"]) input {
+  @apply py-2 px-4;
 }
 
 :host(.no-bottom-border) input.sc-calcite-input {
