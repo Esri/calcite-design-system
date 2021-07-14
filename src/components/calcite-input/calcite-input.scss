@@ -297,9 +297,15 @@ input[type="time"]::-webkit-clear-button {
   &:hover,
   &:focus {
     @apply bg-foreground-2;
+    calcite-icon {
+      @apply text-color-1;
+    }
   }
   &:active {
     @apply bg-foreground-3;
+    calcite-icon {
+      @apply text-color-1;
+    }
   }
   &:disabled {
     @apply opacity-disabled;
@@ -615,16 +621,3 @@ input[type="time"]::-webkit-clear-button {
 :host(.no-bottom-border) input.sc-calcite-input {
   @apply border-b-0;
 }
-
-// status
-// $inputStatusColors: "invalid" var(--calcite-ui-danger), "valid" var(--calcite-ui-success),
-//   "idle" var(--calcite-ui-text-2);
-
-// @each $statusColor in $inputStatusColors {
-//   $name: nth($statusColor, 1);
-//   $color: nth($statusColor, 2);
-
-//   :host([status="#{$name}"]) .calcite-input-icon {
-//     color: $color;
-//   }
-// }

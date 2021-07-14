@@ -50,25 +50,6 @@
   color: var(--calcite-ui-brand);
 }
 
-// status
-// $inputStatusColors:
-//   "invalid" var(--calcite-ui-danger) var(--calcite-ui-danger) var(--calcite-input-status-invalid-focus-shadow-color),
-//   "valid" var(--calcite-ui-success) var(--calcite-ui-success) var(--calcite-input-status-valid-focus-shadow-color),
-//   "idle" var(--calcite-ui-brand) var(--calcite-ui-brand) var(--calcite-input-status-valid-focus-shadow-color);
-
-// @each $statusColor in $inputStatusColors {
-//   $name: nth($statusColor, 1);
-//   $color: nth($statusColor, 2);
-//   $colorHover: nth($statusColor, 3);
-//   $shadowColor: nth($statusColor, 4);
-
-//   :host([status="#{$name}"]) {
-//     & .calcite-input-message-icon {
-//       color: $color;
-//     }
-//   }
-// }
-
 // Floating messages
 
 :host([type="floating"]) {
