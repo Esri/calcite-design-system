@@ -23,8 +23,9 @@
     min-width: theme("spacing.6");
   }
   & textarea {
-    padding: 3px theme("spacing.2");
-    @apply text--2h;
+    @apply text--2h
+      py-1
+      px-2;
   }
 }
 
@@ -51,8 +52,9 @@
     min-width: theme("spacing.8");
   }
   & textarea {
-    padding: 7px theme("spacing.3");
-    @apply text--1h;
+    @apply text--1h
+      py-2
+      px-3;
   }
 }
 
@@ -75,13 +77,13 @@
     @apply h-auto;
   }
   & .calcite-input-clear-button {
-    @apply h-11 w-11;
     min-height: theme("spacing.11");
     min-width: theme("spacing.11");
   }
   & textarea {
-    padding: 11px theme("spacing.4");
-    @apply text-0h;
+    @apply text-0h
+      py-3
+      px-4;
   }
 }
 
@@ -217,7 +219,6 @@
 // position placeholder/value text in relation to icons
 
 :host([icon][scale="s"]) input {
-  // p-8 is not the right value, probably p-9 but that doesn't exist yet
   @apply pl-8;
 }
 
@@ -278,8 +279,8 @@ input[type="time"]::-webkit-clear-button {
 }
 
 .calcite-input-clear-button {
-  transition: $transition;
   pointer-events: initial;
+  @include focus-style-base();
   @apply flex
     self-stretch
     items-center
@@ -293,9 +294,16 @@ input[type="time"]::-webkit-clear-button {
     bg-foreground-1
     border-l-0
     order-4;
-
-  &:hover,
+  &:hover {
+    transition: $transition;
+    @apply bg-foreground-2;
+    calcite-icon {
+      transition: $transition;
+      @apply text-color-1;
+    }
+  }
   &:focus {
+    @include focus-style-inset(var(--calcite-ui-brand));
     @apply bg-foreground-2;
     calcite-icon {
       @apply text-color-1;
@@ -315,13 +323,6 @@ input[type="time"]::-webkit-clear-button {
 .calcite--rtl {
   .calcite-input-clear-button {
     @apply border-l-color-input border border-r-0;
-  }
-}
-
-.calcite-input-clear-button {
-  @include focus-style-base();
-  &:focus {
-    @include focus-style-inset(var(--calcite-ui-brand));
   }
 }
 
@@ -495,9 +496,8 @@ input[type="time"]::-webkit-clear-button {
 .calcite-input-number-button-item {
   max-height: 50%;
   min-height: 50%;
-  transition: background-color 0.15s ease-in-out;
+  transition: $transition;
   pointer-events: initial;
-
   @apply flex
     self-center
     items-center
@@ -512,11 +512,15 @@ input[type="time"]::-webkit-clear-button {
     border-l-0;
 
   & calcite-icon {
+    transition: $transition;
     @apply pointer-events-none;
   }
   &:hover,
   &:focus {
     @apply bg-foreground-2;
+    calcite-icon {
+      @apply text-color-1;
+    }
   }
   &:active {
     @apply bg-foreground-3;
