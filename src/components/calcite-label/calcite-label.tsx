@@ -1,5 +1,5 @@
 import { Component, Element, Event, Listen, h, Prop, EventEmitter, VNode } from "@stencil/core";
-import { getAttributes, getElementDir, queryElementRoots } from "../../utils/dom";
+import { getElementDir, queryElementRoots } from "../../utils/dom";
 import { FocusRequest } from "./interfaces";
 import { Alignment, Scale, Status } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -150,17 +150,9 @@ export class CalciteLabel {
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    const attributes = getAttributes(this.el, [
-      "disabled",
-      "id",
-      "dir",
-      "layout",
-      "scale",
-      "status"
-    ]);
     const dir = getElementDir(this.el);
     return (
-      <label {...attributes} class={{ [CSS_UTILITY.rtl]: dir === "rtl" }}>
+      <label class={{ [CSS_UTILITY.rtl]: dir === "rtl" }} htmlFor={this.for}>
         <slot />
       </label>
     );

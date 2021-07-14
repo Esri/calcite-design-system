@@ -254,9 +254,9 @@ export class CalciteColorPickerHexInput {
     return (
       <div class={CSS.container}>
         <calcite-input
-          aria-label={intlHex}
           class={CSS.input}
           dir={elementDir}
+          label={intlHex}
           onCalciteInputBlur={this.onCalciteInputBlur}
           onChange={this.onInputChange}
           prefixText="#"
