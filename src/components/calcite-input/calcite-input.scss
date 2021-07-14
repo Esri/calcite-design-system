@@ -102,8 +102,6 @@
 
 :host textarea,
 :host input {
-  // box-shadow: 0 0 0 0 transparent;
-  // min-width: 20%;
   transition: $transition, height 0s;
   -webkit-appearance: none;
 
@@ -178,13 +176,6 @@
   }
 }
 
-// input message slot
-// Does this do anything ...? calcite-input-message
-// :host slot:not[name="input-message"] {
-//   margin-bottom: theme("spacing.1");
-//   @apply block text-color-3 font-medium;
-// }
-
 // ICONS
 
 // position icons
@@ -245,7 +236,6 @@
 // positioning wrapper for icon and loader
 
 .calcite-input-element-wrapper {
-  // min-width: 20%;
   @apply inline-flex
     items-center
     flex-1
