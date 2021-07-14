@@ -2,7 +2,7 @@
   .split-button__container {
     @apply flex items-stretch;
     > calcite-dropdown > calcite-button {
-      @apply h-full;
+      @apply h-full absolute;
     }
   }
 }
