@@ -233,7 +233,7 @@ export class CalciteInputTimePicker {
     }
     if (this.hourDisplayFormat === "12") {
       const { hour, minute, second } = parseTimeString(newInputValue);
-      this.calciteInputEl.value = `${getMeridiemHour(hour)}:${minute}${this.step !== 60 ? ":" + second : ""} ${getMeridiem(hour)}`
+      this.calciteInputEl.value = newInputValue ? `${getMeridiemHour(hour)}:${minute}${this.step !== 60 ? ":" + second : ""} ${getMeridiem(hour)}` : null;
     } else {
       this.calciteInputEl.value = newInputValue;
     }
