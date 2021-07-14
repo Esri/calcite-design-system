@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
-import { parseTimeString, Time, formatTimeString, HourDisplayFormat } from "../../utils/time";
+import { parseTimeString, Time, formatTimeString, HourDisplayFormat, getMeridiem, getMeridiemHour } from "../../utils/time";
 import { Scale } from "../interfaces";
 
 @Component({
@@ -141,7 +141,7 @@ export class CalciteInputTimePicker {
     const newValue = formatTimeString(this.calciteInputEl.value) || formatTimeString(this.value);
 
     if (newValue !== this.calciteInputEl.value) {
-      this.calciteInputEl.value = newValue;
+      this.setInputValue(newValue);
     }
   };
 
@@ -228,7 +228,13 @@ export class CalciteInputTimePicker {
   };
 
   private setInputValue = (newInputValue: string): void => {
-    if (this.calciteInputEl) {
+    if (!this.calciteInputEl) {
+      return;
+    }
+    if (this.hourDisplayFormat === "12") {
+      const { hour, minute, second } = parseTimeString(newInputValue);
+      this.calciteInputEl.value = `${getMeridiemHour(hour)}:${minute}${this.step !== 60 ? ":" + second : ""} ${getMeridiem(hour)}`
+    } else {
       this.calciteInputEl.value = newInputValue;
     }
   };
