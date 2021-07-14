@@ -27,7 +27,6 @@ import { isFocusable, isHidden } from "@a11y/focus-trap/focusable";
 import { Scale } from "../interfaces";
 import { ModalBackgroundColor } from "./interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
-import { transitionProperty } from "./resources";
 
 const isFocusableExtended = (el: CalciteFocusableElement): boolean => {
   return isCalciteFocusable(el) || isFocusable(el);
@@ -241,6 +240,8 @@ export class CalciteModal {
 
   titleId: string;
 
+  private activeTransitionProp = "opacity";
+
   //--------------------------------------------------------------------------
   //
   //  Event Listeners
@@ -316,7 +317,7 @@ export class CalciteModal {
   //
   //--------------------------------------------------------------------------
   transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === transitionProperty) {
+    if (event.propertyName === this.activeTransitionProp) {
       this.active ? this.calciteModalOpen.emit() : this.calciteModalClose.emit();
     }
   };

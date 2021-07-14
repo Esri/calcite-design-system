@@ -3,5 +3,3 @@ export const TEXT = {
   intlCancelEditing: "Cancel",
   intlConfirmChanges: "Save"
 };
-
-export const transitionProperty = "border-top-color";

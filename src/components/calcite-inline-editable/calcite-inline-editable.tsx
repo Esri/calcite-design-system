@@ -11,7 +11,7 @@ import {
 } from "@stencil/core";
 import { getElementProp } from "../../utils/dom";
 import { Scale } from "../interfaces";
-import { TEXT, transitionProperty } from "./resources";
+import { TEXT } from "./resources";
 
 /**
  * @slot - slot for rendering a `<calcite-input>`
@@ -214,6 +214,8 @@ export class CalciteInlineEditable {
 
   private enableEditingButton: HTMLCalciteButtonElement;
 
+  private editingCancelTransitionProp = "border-top-color";
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -221,7 +223,7 @@ export class CalciteInlineEditable {
   //--------------------------------------------------------------------------
 
   transitionEnd = (event: TransitionEvent): void => {
-    if (!this.editingEnabled && event.propertyName === transitionProperty) {
+    if (!this.editingEnabled && event.propertyName === this.editingCancelTransitionProp) {
       this.calciteInlineEditableEditingCancel.emit(event);
     }
   };

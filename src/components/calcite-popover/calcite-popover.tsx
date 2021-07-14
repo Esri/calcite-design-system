@@ -32,7 +32,6 @@ import { StrictModifiers, Placement, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import { getElementDir, queryElementRoots } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
-import { transitionProperty } from "./resources";
 import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
 
 /**
@@ -171,6 +170,8 @@ export class CalcitePopover {
   closeButtonEl: HTMLCalciteActionElement;
 
   guid = `calcite-popover-${guid()}`;
+
+  private activeTransitionProp = "opacity";
 
   // --------------------------------------------------------------------------
   //
@@ -360,7 +361,7 @@ export class CalcitePopover {
   };
 
   transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === transitionProperty) {
+    if (event.propertyName === this.activeTransitionProp) {
       this.open ? this.calcitePopoverOpen.emit() : this.calcitePopoverClose.emit();
     }
   };

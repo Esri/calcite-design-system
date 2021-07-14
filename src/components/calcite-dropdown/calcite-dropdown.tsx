@@ -22,7 +22,7 @@ import {
 } from "../../utils/popper";
 import { Instance as Popper, StrictModifiers } from "@popperjs/core";
 import { Scale } from "../interfaces";
-import { DefaultDropdownPlacement, transitionProperty } from "./resources";
+import { DefaultDropdownPlacement } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 
 @Component({
@@ -312,6 +312,8 @@ export class CalciteDropdown {
 
   private referenceEl: HTMLDivElement;
 
+  private activeTransitionProp = "opacity";
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -319,7 +321,7 @@ export class CalciteDropdown {
   //--------------------------------------------------------------------------
 
   transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === transitionProperty) {
+    if (event.propertyName === this.activeTransitionProp) {
       this.active ? this.calciteDropdownOpen.emit() : this.calciteDropdownClose.emit();
     }
   };
