@@ -101,13 +101,11 @@
   height: $size;
   width: $size;
   font-size: $font-size;
-  padding: 0; // TO-D0: check calcite-split-button's dropdown button
 }
 @mixin btn-scale-notext-two-icons($font-size, $size) {
   height: $size;
   width: $size * 1.5;
   font-size: $font-size;
-  padding: 0; // TO-D0: check calcite-split-button's dropdown button
 }
 
 // button width
