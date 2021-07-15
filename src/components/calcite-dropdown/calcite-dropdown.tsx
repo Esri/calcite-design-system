@@ -72,6 +72,7 @@ export class CalciteDropdown {
 
   /**
    * Determines where the dropdown will be positioned relative to the button.
+   * @default "bottom-leading"
    */
   @Prop({ reflect: true }) placement: DropdownPlacement = DefaultDropdownPlacement;
 

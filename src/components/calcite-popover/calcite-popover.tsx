@@ -91,6 +91,7 @@ export class CalcitePopover {
 
   /**
    * Offset the position of the popover away from the reference element.
+   * @default 6
    */
   @Prop({ reflect: true }) offsetDistance = defaultOffsetDistance;
 
@@ -129,6 +130,7 @@ export class CalcitePopover {
 
   /**
    * Determines where the component will be positioned relative to the referenceElement.
+   * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
    */
   @Prop({ reflect: true }) placement: PopperPlacement = "auto";
 
@@ -150,7 +152,9 @@ export class CalcitePopover {
     this.createPopper();
   }
 
-  /** Text for close button. */
+  /** Text for close button.
+   * @default "Close"
+   */
   @Prop() intlClose = TEXT.close;
 
   // --------------------------------------------------------------------------
