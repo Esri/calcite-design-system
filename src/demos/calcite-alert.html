@@ -706,6 +706,7 @@
         *********************************************************************************************************
       -->
       <div class="second-container">
+        <!-- Removes all the active alerts -->
         <div>
           <calcite-button
             title="close and remove all alerts"
@@ -718,50 +719,31 @@
           </calcite-button>
 
           <script>
-            const alert = document.getElementsByTagName("calcite-alert");
-            closeAlerts = () => {
-              for (let i = 0; i < alert.length; i++) {
-                alert[i].removeAttribute("active");
-              }
+            const closeAlerts = () => {
+              const alertRemoval = document.querySelectorAll("calcite-alert");
+              alertRemoval.forEach((alert) => {
+                alert.removeAttribute("active");
+              });
             };
           </script>
         </div>
 
         <div class="second-container-margin">
+          <!-- updates the speed of the autodismiss progress bar i.e. fast, medium, slow -->
           <p>Autodismiss speed</p>
           <calcite-radio-group appearance="outline" width="full">
-            <!-- Fast -->
-            <calcite-radio-group-item value="fast" onclick="autoDismissFast()"> Fast </calcite-radio-group-item>
+            <calcite-radio-group-item value="Fast" onclick="autoDismissSpeed('fast');"></calcite-radio-group-item>
+            <calcite-radio-group-item
+              value="Moderate"
+              onclick="autoDismissSpeed('medium');"
+              checked
+            ></calcite-radio-group-item>
+            <calcite-radio-group-item value="Slow" onclick="autoDismissSpeed('slow');"></calcite-radio-group-item>
             <script>
-              const fast = document.getElementsByTagName("calcite-alert");
-              autoDismissFast = () => {
-                for (let i = 0; i < fast.length; i++) {
-                  fast[i].setAttribute("auto-dismiss-duration", "fast");
-                }
-              };
-            </script>
-
-            <!-- Moderate -->
-            <calcite-radio-group-item value="moderate" onclick="autoDismissModerate()" checked>
-              Moderate
-            </calcite-radio-group-item>
-            <script>
-              const moderate = document.getElementsByTagName("calcite-alert");
-              autoDismissModerate = () => {
-                for (let i = 0; i < moderate.length; i++) {
-                  moderate[i].setAttribute("auto-dismiss-duration", "medium");
-                }
-              };
-            </script>
-
-            <!-- Slow -->
-            <calcite-radio-group-item value="slow" onclick="autoDismissSlow()"> Slow </calcite-radio-group-item>
-            <script>
-              let slow = document.getElementsByTagName("calcite-alert");
-              autoDismissSlow = () => {
-                for (let i = 0; i < slow.length; i++) {
-                  slow[i].setAttribute("auto-dismiss-duration", "slow");
-                }
+              const autoDismissSpeed = (speed) => {
+                const activeAlerts = document.querySelectorAll("calcite-alert[auto-dismiss][active]");
+                if (!activeAlerts.length) return;
+                activeAlerts.forEach((alert) => alert.setAttribute("auto-dismiss-duration", speed));
               };
             </script>
           </calcite-radio-group>
@@ -785,6 +767,7 @@
           </div>
         </div>
 
+        <!-- setFocus method focuses slotted link or close button on current active alert  -->
         <div class="second-container-margin">
           <p>Using the setFocus() method (once opened)</p>
           <div>
@@ -793,11 +776,8 @@
             </calcite-button>
 
             <script>
-              const focus = document.getElementsByTagName("calcite-alert");
-              focusItems = () => {
-                for (let i = 0; i < focus.length; i++) {
-                  focus[i].setFocus();
-                }
+              const focusItems = () => {
+                document.querySelector("calcite-alert[active]").setFocus();
               };
             </script>
           </div>
