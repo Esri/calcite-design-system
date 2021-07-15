@@ -75,6 +75,7 @@ export class CalcitePagination {
 
   /**
    * Emitted whenever the selected page changes.
+   * @see [CalcitePaginationDetail](https://github.com/Esri/calcite-components/blob/master/src/components/calcite-pagination/calcite-pagination.tsx#L18)
    */
   @Event() calcitePaginationChange: EventEmitter<CalcitePaginationDetail>;
 

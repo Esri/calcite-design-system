@@ -145,6 +145,7 @@ export class CalciteDatePicker {
 
   /**
    * Trigger calcite date change when a user changes the date range.
+   * @see [DateRangeChange](https://github.com/Esri/calcite-components/blob/master/src/components/calcite-date-picker/interfaces.ts#L1)
    */
   @Event() calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
 
