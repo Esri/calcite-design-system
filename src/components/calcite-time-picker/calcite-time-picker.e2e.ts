@@ -744,6 +744,60 @@ describe("calcite-time-picker", () => {
       expect(hour.textContent).toBe("12");
       expect(meridiem.textContent).toBe("PM");
     });
+
+    it("Delete key clears hour input", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-time-picker step="1" hour="12"></calcite-time-picker>`
+      });
+      const timePicker = await page.find("calcite-time-picker");
+      const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
+
+      expect(await timePicker.getProperty("hour")).toBe("12");
+      expect(hour.textContent).toBe("12");
+
+      await hour.click();
+      await page.keyboard.press("Delete");
+      await page.waitForChanges();
+
+      expect(await timePicker.getProperty("hour")).toBeNull();
+      expect(hour.textContent).toBe("--");
+    });
+
+    it("Delete key clears minute input", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-time-picker step="1" minute="59"></calcite-time-picker>`
+      });
+      const timePicker = await page.find("calcite-time-picker");
+      const minute = await page.find(`calcite-time-picker >>> .${CSS.minute}`);
+
+      expect(await timePicker.getProperty("minute")).toBe("59");
+      expect(minute.textContent).toBe("59");
+
+      await minute.click();
+      await page.keyboard.press("Delete");
+      await page.waitForChanges();
+
+      expect(await timePicker.getProperty("minute")).toBeNull();
+      expect(minute.textContent).toBe("--");
+    });
+
+    it("Delete key clears second input", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-time-picker step="1" second="25"></calcite-time-picker>`
+      });
+      const timePicker = await page.find("calcite-time-picker");
+      const second = await page.find(`calcite-time-picker >>> .${CSS.second}`);
+
+      expect(await timePicker.getProperty("second")).toBe("25");
+      expect(second.textContent).toBe("25");
+
+      await second.click();
+      await page.keyboard.press("Delete");
+      await page.waitForChanges();
+
+      expect(await timePicker.getProperty("second")).toBeNull();
+      expect(second.textContent).toBe("--");
+    });
   });
 
   describe("time behavior", () => {
