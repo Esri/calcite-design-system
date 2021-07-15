@@ -125,6 +125,8 @@ export class CalciteDropdown {
     this.items = Array.from(
       this.el.querySelectorAll<HTMLCalciteDropdownItemElement>("calcite-dropdown-item")
     );
+
+    this.reposition();
   }
 
   disconnectedCallback(): void {
