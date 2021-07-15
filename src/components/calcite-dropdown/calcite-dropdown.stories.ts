@@ -51,6 +51,7 @@ export default {
 
 export const Simple = (): string => html`
   <calcite-dropdown
+    active
     placement="${select("placement", calcite_placements, "bottom-leading")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"

@@ -126,6 +126,8 @@ export class CalciteDropdown {
     this.items = Array.from(
       this.el.querySelectorAll<HTMLCalciteDropdownItemElement>("calcite-dropdown-item")
     );
+
+    this.reposition();
   }
 
   disconnectedCallback(): void {
@@ -224,9 +226,11 @@ export class CalciteDropdown {
 
   @Listen("calciteDropdownOpen", { target: "window" })
   closeCalciteDropdownOnOpenEvent(e: Event): void {
-    if (e.target !== this.el) {
-      this.active = false;
+    if (e.composedPath().includes(this.el)) {
+      return;
     }
+
+    this.active = false;
   }
 
   @Listen("mouseenter")
