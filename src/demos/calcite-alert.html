@@ -8,12 +8,6 @@
     <script src="_assets/head.js"></script>
     <script src="_assets/createAlert.js"></script>
 
-    <!--
-                      _
-                  .__(.)< (MEOW)
-                   \___)
-          ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      -->
     <!-- Internal style -->
     <style>
       .flex {
@@ -60,8 +54,9 @@
       .first-container,
       .second-container > div {
         color: var(--calcite-ui-text-3);
+        font-family: var(--calcite-sans-family);
         font-size: var(--calcite-font-size-0);
-        font-weight: var(--calcite-font-weight-bold);
+        font-weight: var(--calcite-font-weight-medium);
       }
 
       .medium,
@@ -734,46 +729,42 @@
 
         <div class="second-container-margin">
           <p>Autodismiss speed</p>
-          <div class="auto-dismiss-speed">
-            <calcite-button appearance="clear" title="fast autodismiss" scale="s" onclick="autoDismissFast()">
-              Fast
+          <calcite-radio-group appearance="outline" width="full">
+            <!-- Fast -->
+            <calcite-radio-group-item value="fast" onclick="autoDismissFast()"> Fast </calcite-radio-group-item>
+            <script>
+              let fast = document.getElementsByTagName("calcite-alert");
+              autoDismissFast = () => {
+                for (let i = 0; i < fast.length; i++) {
+                  fast[i].setAttribute("auto-dismiss-duration", "fast");
+                }
+              };
+            </script>
 
-              <script>
-                let fast = document.getElementsByTagName("calcite-alert");
-                autoDismissFast = () => {
-                  for (let i = 0; i < fast.length; i++) {
-                    fast[i].setAttribute("auto-dismiss-duration", "fast");
-                  }
-                };
-              </script>
-            </calcite-button>
-
-            <calcite-button appearance="clear" title="fast autodismiss" scale="s" onclick="autoDismissMedium()">
+            <!-- Moderate -->
+            <calcite-radio-group-item value="moderate" onclick="autoDismissModerate()" checked>
               Moderate
+            </calcite-radio-group-item>
+            <script>
+              let moderate = document.getElementsByTagName("calcite-alert");
+              autoDismissModerate = () => {
+                for (let i = 0; i < moderate.length; i++) {
+                  moderate[i].setAttribute("auto-dismiss-duration", "medium");
+                }
+              };
+            </script>
 
-              <script>
-                let medium = document.getElementsByTagName("calcite-alert");
-                autoDismissMedium = () => {
-                  for (let i = 0; i < medium.length; i++) {
-                    medium[i].setAttribute("auto-dismiss-duration", "medium");
-                  }
-                };
-              </script>
-            </calcite-button>
-
-            <calcite-button appearance="clear" title="fast autodismiss" scale="s" onclick="autoDismissSlow()">
-              Slow
-
-              <script>
-                let slow = document.getElementsByTagName("calcite-alert");
-                autoDismissSlow = () => {
-                  for (let i = 0; i < slow.length; i++) {
-                    slow[i].setAttribute("auto-dismiss-duration", "slow");
-                  }
-                };
-              </script>
-            </calcite-button>
-          </div>
+            <!-- Slow -->
+            <calcite-radio-group-item value="slow" onclick="autoDismissSlow()"> Slow </calcite-radio-group-item>
+            <script>
+              let slow = document.getElementsByTagName("calcite-alert");
+              autoDismissSlow = () => {
+                for (let i = 0; i < slow.length; i++) {
+                  slow[i].setAttribute("auto-dismiss-duration", "slow");
+                }
+              };
+            </script>
+          </calcite-radio-group>
         </div>
 
         <div class="second-container-margin">
@@ -797,14 +788,18 @@
         <div class="second-container-margin">
           <p>Using the setFocus() method (once opened)</p>
           <div>
-            <calcite-button
-              title="created alert"
-              appearance="clear"
-              scale="s"
-              onclick="document.querySelector('#default-s').setFocus()"
-            >
+            <calcite-button title="created alert" appearance="clear" scale="s" onclick="focusItems()">
               Focus first item
             </calcite-button>
+
+            <script>
+              let focus = document.getElementsByTagName("calcite-alert");
+              focusItems = () => {
+                for (let i = 0; i < focus.length; i++) {
+                  focus[i].setFocus();
+                }
+              };
+            </script>
           </div>
         </div>
       </div>
