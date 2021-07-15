@@ -41,10 +41,14 @@ export class CalcitePagination {
   /** total number of items */
   @Prop() total = 0;
 
-  /** title of the next button */
+  /** title of the next button
+   * @default "next"
+   */
   @Prop() textLabelNext: string = TEXT.nextLabel;
 
-  /** title of the previous button */
+  /** title of the previous button
+   * @default "previous"
+   */
   @Prop() textLabelPrevious: string = TEXT.previousLabel;
 
   /** The scale of the pagination */

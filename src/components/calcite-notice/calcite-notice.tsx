@@ -62,7 +62,9 @@ export class CalciteNotice {
    * also pass a calcite-ui-icon name to this prop to display a requested icon */
   @Prop({ reflect: true }) icon: string | boolean;
 
-  /** String for the close button. */
+  /** String for the close button.
+   * @default "Close"
+   */
   @Prop({ reflect: false }) intlClose: string = TEXT.close;
 
   /** specify the scale of the notice, defaults to m */

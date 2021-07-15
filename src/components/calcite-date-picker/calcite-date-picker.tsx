@@ -88,10 +88,14 @@ export class CalciteDatePicker {
   /** Latest allowed date ("yyyy-mm-dd") */
   @Prop() max?: string;
 
-  /** Localized string for "previous month" (used for aria label) */
+  /** Localized string for "previous month" (used for aria label)
+   * @default "previous month"
+   */
   @Prop() intlPrevMonth?: string = TEXT.prevMonth;
 
-  /** Localized string for "next month" (used for aria label) */
+  /** Localized string for "next month" (used for aria label)
+   * @default "next month"
+   */
   @Prop() intlNextMonth?: string = TEXT.nextMonth;
 
   /** BCP 47 language tag for desired language and country format */
