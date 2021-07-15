@@ -8,7 +8,6 @@
     <script src="_assets/head.js"></script>
     <script src="_assets/createAlert.js"></script>
 
-    <!-- Internal style -->
     <style>
       .flex {
         display: flex;
@@ -17,6 +16,7 @@
       .first-container,
       .second-container {
         padding: 0 var(--calcite-font-size-8);
+        margin-bottom: 25px;
       }
 
       .small,
@@ -718,7 +718,7 @@
           </calcite-button>
 
           <script>
-            let alert = document.getElementsByTagName("calcite-alert");
+            const alert = document.getElementsByTagName("calcite-alert");
             closeAlerts = () => {
               for (let i = 0; i < alert.length; i++) {
                 alert[i].removeAttribute("active");
@@ -733,7 +733,7 @@
             <!-- Fast -->
             <calcite-radio-group-item value="fast" onclick="autoDismissFast()"> Fast </calcite-radio-group-item>
             <script>
-              let fast = document.getElementsByTagName("calcite-alert");
+              const fast = document.getElementsByTagName("calcite-alert");
               autoDismissFast = () => {
                 for (let i = 0; i < fast.length; i++) {
                   fast[i].setAttribute("auto-dismiss-duration", "fast");
@@ -746,7 +746,7 @@
               Moderate
             </calcite-radio-group-item>
             <script>
-              let moderate = document.getElementsByTagName("calcite-alert");
+              const moderate = document.getElementsByTagName("calcite-alert");
               autoDismissModerate = () => {
                 for (let i = 0; i < moderate.length; i++) {
                   moderate[i].setAttribute("auto-dismiss-duration", "medium");
@@ -793,7 +793,7 @@
             </calcite-button>
 
             <script>
-              let focus = document.getElementsByTagName("calcite-alert");
+              const focus = document.getElementsByTagName("calcite-alert");
               focusItems = () => {
                 for (let i = 0; i < focus.length; i++) {
                   focus[i].setFocus();
@@ -807,7 +807,7 @@
 
     <!-- 
       ******************************************************************************************************
-      * SMALL PROP 
+      * SMALL SCALE
       ******************************************************************************************************
     -->
     <!-- Test prop for small info-->
@@ -952,7 +952,7 @@
 
     <!-- 
         ******************************************************
-        * MEDIUM PROP 
+        * MEDIUM SCALE 
         ******************************************************
       -->
     <!-- Test prop for medium info-->
@@ -1097,7 +1097,7 @@
 
     <!-- 
         ******************************************************
-        * LARGE PROP 
+        * LARGE SCALE 
         ******************************************************
       -->
     <!-- Test prop for large info-->
