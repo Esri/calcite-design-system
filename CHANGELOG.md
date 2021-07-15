@@ -5,7 +5,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 <!--@unreleased-section-start-->
 
-## Unreleased (2021-07-09)
+## Unreleased (2021-07-15)
 
 ### ⚠ BREAKING CHANGES
 
@@ -19,6 +19,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - **calcite-input:** stop spreading attributes ([#2443](https://github.com/Esri/calcite-components/issues/2443)) ([6d47b96](https://github.com/Esri/calcite-components/commit/6d47b96b16bf80cd9c457c0ec0d369cce10dcfb3))
 - **combobox-item:** Fix indent style for nested items. ([#2487](https://github.com/Esri/calcite-components/issues/2487)) ([172ab36](https://github.com/Esri/calcite-components/commit/172ab362884dfeab2bf340bf772d6aa4a71f0b7b))
+- **dropdown:** Fix dropdown display issues. ([#2543](https://github.com/Esri/calcite-components/issues/2543)) ([cc8d424](https://github.com/Esri/calcite-components/commit/cc8d424903a134227f40ecb91ce5ae5032ee5717))
 - **popover, tooltip:** Query for referenceElement if needed when the tooltip/popover is opened or closed. [#2446](https://github.com/Esri/calcite-components/issues/2446) ([#2475](https://github.com/Esri/calcite-components/issues/2475)) ([954df61](https://github.com/Esri/calcite-components/commit/954df61b342e698a1de4a21b93b3f5f08caf14b4))
 <!--@unreleased-section-end-->
 

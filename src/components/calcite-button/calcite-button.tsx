@@ -57,7 +57,9 @@ export class CalciteButton {
   /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconStart?: string;
 
-  /** string to override English loading text */
+  /** string to override English loading text
+   * @default "Loading"
+   */
   @Prop() intlLoading?: string = TEXT.loading;
 
   /** optionally add a calcite-loader component to the button, disabling interaction.  */

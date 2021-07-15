@@ -72,6 +72,7 @@ export class CalciteDropdown {
 
   /**
    * Determines where the dropdown will be positioned relative to the button.
+   * @default "bottom-leading"
    */
   @Prop({ reflect: true }) placement: DropdownPlacement = DefaultDropdownPlacement;
 
@@ -125,6 +126,8 @@ export class CalciteDropdown {
     this.items = Array.from(
       this.el.querySelectorAll<HTMLCalciteDropdownItemElement>("calcite-dropdown-item")
     );
+
+    this.reposition();
   }
 
   disconnectedCallback(): void {
@@ -156,6 +159,7 @@ export class CalciteDropdown {
               [PopperCSS.animation]: true,
               [PopperCSS.animationActive]: active
             }}
+            onTransitionEnd={this.transitionEnd}
             style={{
               maxHeight: maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : ""
             }}
@@ -222,9 +226,11 @@ export class CalciteDropdown {
 
   @Listen("calciteDropdownOpen", { target: "window" })
   closeCalciteDropdownOnOpenEvent(e: Event): void {
-    if (e.target !== this.el) {
-      this.active = false;
+    if (e.composedPath().includes(this.el)) {
+      return;
     }
+
+    this.active = false;
   }
 
   @Listen("mouseenter")
@@ -311,13 +317,19 @@ export class CalciteDropdown {
 
   private referenceEl: HTMLDivElement;
 
-  private dropdownFocusTimeout: number;
+  private activeTransitionProp = "opacity";
 
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  transitionEnd = (event: TransitionEvent): void => {
+    if (event.propertyName === this.activeTransitionProp) {
+      this.active ? this.calciteDropdownOpen.emit() : this.calciteDropdownClose.emit();
+    }
+  };
 
   setReferenceEl = (el: HTMLDivElement): void => {
     this.referenceEl = el;
@@ -435,14 +447,13 @@ export class CalciteDropdown {
   }
 
   private closeCalciteDropdown() {
-    this.calciteDropdownClose.emit();
     this.active = false;
     focusElement(this.triggers[0]);
   }
 
-  private focusOnFirstActiveOrFirstItem(): void {
+  private focusOnFirstActiveOrFirstItem = (): void => {
     this.getFocusableElement(this.items.find((item) => item.active) || this.items[0]);
-  }
+  };
 
   private focusFirstItem() {
     const firstItem = this.items[0];
@@ -482,19 +493,16 @@ export class CalciteDropdown {
     focusElement(target);
   }
 
-  private openCalciteDropdown() {
-    this.calciteDropdownOpen.emit();
+  private toggleOpenEnd = (): void => {
+    this.focusOnFirstActiveOrFirstItem();
+    this.el.removeEventListener("calciteDropdownOpen", this.toggleOpenEnd);
+  };
+
+  private openCalciteDropdown = () => {
     this.active = !this.active;
-    const animationDelayInMs = 50;
-    clearTimeout(this.dropdownFocusTimeout);
 
     if (this.active) {
-      this.dropdownFocusTimeout = window.setTimeout(
-        () => this.focusOnFirstActiveOrFirstItem(),
-        animationDelayInMs
-      );
-    } else {
-      this.calciteDropdownClose.emit();
+      this.el.addEventListener("calciteDropdownOpen", this.toggleOpenEnd);
     }
-  }
+  };
 }
