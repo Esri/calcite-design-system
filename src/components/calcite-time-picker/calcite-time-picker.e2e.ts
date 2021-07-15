@@ -535,7 +535,7 @@ describe("calcite-time-picker", () => {
         await page.waitForChanges();
 
         expect(await timePicker.getProperty("hour")).toBe(`0${i}`);
-        expect(hour.textContent).toBe(`0${i}`);
+        expect(hour.textContent).toBe(i === 0 ? `12` : `0${i}`);
 
         await page.keyboard.press("Backspace");
       }
@@ -593,7 +593,7 @@ describe("calcite-time-picker", () => {
         await page.waitForChanges();
 
         expect(await timePicker.getProperty("hour")).toBe(`0${key2}`);
-        expect(hour.textContent).toBe(`0${key2}`);
+        expect(hour.textContent).toBe(key2 === "0" ? `12` : `0${key2}`);
       }
     });
 
@@ -691,31 +691,6 @@ describe("calcite-time-picker", () => {
         expect(await timePicker.getProperty("second")).toBe(`0${key2}`);
         expect(second.textContent).toBe(`0${key2}`);
       }
-    });
-
-    it("allows typing 00 for hour in 12-hour format, but when the hour is blurred, the display hour is updated to show 12", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-time-picker hour-display-format="12" step="1"></calcite-time-picker>`
-      });
-      const timePicker = await page.find("calcite-time-picker");
-      const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
-      const meridiem = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
-
-      await hour.click();
-      await page.keyboard.press("0");
-      await page.keyboard.press("0");
-      await page.waitForChanges();
-
-      expect(await timePicker.getProperty("hour")).toBe("00");
-      expect(hour.textContent).toBe("00");
-      expect(meridiem.textContent).toBe("AM");
-
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
-
-      expect(await timePicker.getProperty("hour")).toBe("00");
-      expect(hour.textContent).toBe("12");
-      expect(meridiem.textContent).toBe("AM");
     });
 
     it("allows typing AM and PM for 12-hour format", async () => {

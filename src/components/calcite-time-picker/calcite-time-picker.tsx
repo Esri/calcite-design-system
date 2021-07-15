@@ -357,6 +357,7 @@ export class CalciteTimePicker {
     } else {
       switch (key) {
         case "Backspace":
+        case "Delete":
           this.setTime("hour", null);
           break;
         case "ArrowDown":
@@ -427,6 +428,7 @@ export class CalciteTimePicker {
         this.setTime("meridiem", "PM");
         break;
       case "Backspace":
+      case "Delete":
         this.setTime("meridiem", null);
         break;
       case "ArrowUp":
@@ -475,6 +477,7 @@ export class CalciteTimePicker {
     } else {
       switch (key) {
         case "Backspace":
+        case "Delete":
           this.setTime("minute", null);
           break;
         case "ArrowDown":
@@ -524,6 +527,7 @@ export class CalciteTimePicker {
     } else {
       switch (key) {
         case "Backspace":
+        case "Delete":
           this.setTime("second", null);
           break;
         case "ArrowDown":
