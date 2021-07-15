@@ -56,16 +56,13 @@
 }
 
 :host([scale="s"]) .content {
-  margin-left: 8px;
-  margin-right: 8px;
+  @apply ml-2 mr-2;
 }
 :host([scale="m"]) .content {
-  margin-left: 12px;
-  margin-right: 12px;
+  @apply ml-3 mr-3;
 }
 :host([scale="l"]) .content {
-  margin-left: 16px;
-  margin-right: 16px;
+  @apply ml-4 mr-4;
 }
 
 :host(:not([icon-start])) {
