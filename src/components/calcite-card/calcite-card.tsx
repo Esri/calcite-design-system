@@ -46,13 +46,19 @@ export class CalciteCard {
   /** Indicates whether the card is selectable. */
   @Prop({ reflect: true }) selectable = false;
 
-  /** string to override English loading text */
+  /** string to override English loading text
+   * @default "Loading"
+   */
   @Prop() intlLoading?: string = TEXT.loading;
 
-  /** string to override English select text for checkbox when selectable is true */
+  /** string to override English select text for checkbox when selectable is true
+   * @default "Select"
+   */
   @Prop({ reflect: false }) intlSelect: string = TEXT.select;
 
-  /** string to override English deselect text for checkbox when selectable is true */
+  /** string to override English deselect text for checkbox when selectable is true
+   * @default "Deselect"
+   */
   @Prop({ reflect: false }) intlDeselect: string = TEXT.deselect;
 
   //--------------------------------------------------------------------------
