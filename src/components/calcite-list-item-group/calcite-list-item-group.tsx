@@ -24,7 +24,7 @@ export class CalciteListItemGroup {
    * The title used for all nested `calcite-list-item` rows.
    *
    */
-  @Prop({ reflect: true }) label: string;
+  @Prop({ reflect: true }) heading: string;
 
   /**
    * Number at which section headings should start for this component.
@@ -46,7 +46,7 @@ export class CalciteListItemGroup {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { el, label, headingLevel } = this;
+    const { el, heading, headingLevel } = this;
     const rtl = getElementDir(el) === "rtl";
     const containerClasses = {
       [CSS.container]: true,
@@ -61,9 +61,9 @@ export class CalciteListItemGroup {
 
     return (
       <Host>
-        {label ? (
+        {heading ? (
           <CalciteHeading class={CSS.heading} level={level}>
-            {label}
+            {heading}
           </CalciteHeading>
         ) : null}
         <div class={containerClasses} role="group">
