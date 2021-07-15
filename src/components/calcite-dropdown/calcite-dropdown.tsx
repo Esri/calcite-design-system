@@ -223,9 +223,13 @@ export class CalciteDropdown {
 
   @Listen("calciteDropdownOpen", { target: "window" })
   closeCalciteDropdownOnOpenEvent(e: Event): void {
-    if (e.target !== this.el) {
-      this.active = false;
+    const composedPath = e.composedPath();
+
+    if (composedPath.includes(this.el)) {
+      return;
     }
+
+    this.active = false;
   }
 
   @Listen("mouseenter")
