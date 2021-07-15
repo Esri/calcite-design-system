@@ -223,9 +223,7 @@ export class CalciteDropdown {
 
   @Listen("calciteDropdownOpen", { target: "window" })
   closeCalciteDropdownOnOpenEvent(e: Event): void {
-    const composedPath = e.composedPath();
-
-    if (composedPath.includes(this.el)) {
+    if (e.composedPath().includes(this.el)) {
       return;
     }
 
