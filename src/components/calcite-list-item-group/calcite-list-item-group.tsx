@@ -1,8 +1,6 @@
 import { Component, Element, Prop, h, VNode, Host } from "@stencil/core";
 import { CSS } from "./resources";
-import { CSS_UTILITY } from "../../utils/resources";
 import { HEADING_LEVEL } from "./resources";
-import { getElementDir } from "../../utils/dom";
 import { HeadingLevel, CalciteHeading, constrainHeadingLevel } from "../functional/CalciteHeading";
 
 /**
@@ -47,11 +45,6 @@ export class CalciteListItemGroup {
 
   render(): VNode {
     const { el, heading, headingLevel } = this;
-    const rtl = getElementDir(el) === "rtl";
-    const containerClasses = {
-      [CSS.container]: true,
-      [CSS_UTILITY.rtl]: rtl
-    };
 
     const parentLevel = el.closest<HTMLCalciteListElement | HTMLCalciteListItemGroupElement>(
       "calcite-list, calcite-list-item-group"
@@ -66,7 +59,7 @@ export class CalciteListItemGroup {
             {heading}
           </CalciteHeading>
         ) : null}
-        <div class={containerClasses} role="group">
+        <div class={CSS.container} role="group">
           <slot />
         </div>
       </Host>
