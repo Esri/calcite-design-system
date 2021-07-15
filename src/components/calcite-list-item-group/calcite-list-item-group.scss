@@ -1,3 +1,16 @@
 host {
-  display: block;
+  @apply flex w-full;
+}
+
+.heading {
+  @apply font-sans bg-foreground-2 text--1 font-bold m-0 p-3 text-color-2 flex flex-1;
+}
+
+.container {
+  @apply w-full flex flex-col;
+}
+
+::slotted(calcite-list-item-group),
+::slotted(calcite-list-item) {
+  @apply pl-2;
 }
