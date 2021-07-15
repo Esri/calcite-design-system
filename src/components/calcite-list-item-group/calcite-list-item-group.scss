@@ -10,7 +10,6 @@ host {
   @apply w-full flex flex-col;
 }
 
-::slotted(calcite-list-item-group),
-::slotted(calcite-list-item) {
+::slotted(calcite-list-item-group) {
   @apply pl-2;
 }
