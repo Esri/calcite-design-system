@@ -197,6 +197,7 @@
 }
 
 // disabled styles
+:host([loading]),
 :host([disabled]) {
   pointer-events: none;
   button,
@@ -207,14 +208,8 @@
 }
 
 .calcite-button--loader {
+  margin-inline-end: $baseline/3;
   display: flex;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  align-items: center;
-  justify-content: center;
   calcite-loader {
     margin: 0;
   }
@@ -223,8 +218,6 @@
 :host([loading]) {
   button,
   a {
-    color: transparent !important;
-    pointer-events: none;
     .calcite-button--icon {
       opacity: 0;
     }
