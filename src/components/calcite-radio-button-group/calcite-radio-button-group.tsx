@@ -56,7 +56,7 @@ export class CalciteRadioButtonGroup {
     this.passPropsToRadioButtons();
   }
 
-  /** The name of the radio button group. <code>name</code> must be unique to other radio button group instances. */
+  /** The name of the radio button group. `name` must be unique to other radio button group instances. */
   @Prop({ reflect: true }) name!: string;
 
   /** Requires that a value is selected for the radio button group before the parent form will submit. */
