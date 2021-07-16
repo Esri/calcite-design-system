@@ -251,8 +251,13 @@ export class CalciteColorPicker {
       this.mode = nextMode;
     }
 
+    const dragging = this.sliderThumbState === "drag" || this.hueThumbState === "drag";
+
     if (this.colorUpdateLocked) {
-      this.calciteColorPickerChange.emit();
+      this.calciteColorPickerInput.emit();
+      if (!dragging) {
+        this.calciteColorPickerChange.emit();
+      }
       return;
     }
 
@@ -261,7 +266,10 @@ export class CalciteColorPicker {
 
     if (modeChanged || colorChanged) {
       this.color = color;
-      this.calciteColorPickerChange.emit();
+      this.calciteColorPickerInput.emit();
+      if (!dragging) {
+        this.calciteColorPickerChange.emit();
+      }
     }
   }
   //--------------------------------------------------------------------------
@@ -328,6 +336,11 @@ export class CalciteColorPicker {
    * Fires when the color value has changed.
    */
   @Event() calciteColorPickerChange: EventEmitter;
+
+  /**
+   * Fires when the color value input changes.
+   */
+  @Event() calciteColorPickerInput: EventEmitter;
 
   private handleTabActivate = (event: Event): void => {
     this.channelMode = (event.currentTarget as HTMLElement).getAttribute(
@@ -517,9 +530,15 @@ export class CalciteColorPicker {
   };
 
   private globalMouseUpHandler = (): void => {
+    const previouslyDragging = this.sliderThumbState === "drag" || this.hueThumbState === "drag";
+
     this.hueThumbState = "idle";
     this.sliderThumbState = "idle";
     this.drawColorFieldAndSlider();
+
+    if (previouslyDragging) {
+      this.calciteColorPickerChange.emit();
+    }
   };
 
   private globalMouseMoveHandler = (event: MouseEvent): void => {
