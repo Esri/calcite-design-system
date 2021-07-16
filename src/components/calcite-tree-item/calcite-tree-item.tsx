@@ -191,7 +191,7 @@ export class CalciteTreeItem {
     }
     this.expanded = !this.expanded;
     this.calciteTreeItemSelect.emit({
-      modifyCurrentSelection: (e as any).shiftKey,
+      modifyCurrentSelection: (e as any).shiftKey || this.inputEnabled,
       forceToggle: false
     });
   }
