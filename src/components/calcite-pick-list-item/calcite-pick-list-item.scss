@@ -34,7 +34,7 @@
 }
 
 .label {
-  @apply bg-transparent flex flex-auto p-3 items-center cursor-pointer focus-base;
+  @apply bg-transparent flex flex-auto px-3 py-2 items-center cursor-pointer focus-base;
   &:focus {
     @apply focus-inset;
   }
