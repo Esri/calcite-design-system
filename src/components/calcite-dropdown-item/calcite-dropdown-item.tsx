@@ -182,7 +182,7 @@ export class CalciteDropdownItem {
           {this.selectionMode !== "none" ? (
             <calcite-icon
               class="dropdown-item-icon"
-              icon={this.selectionMode === "multi" ? "check" : "circle"}
+              icon={this.selectionMode === "multi" ? "check" : "bullet-point"}
               scale="s"
             />
           ) : null}
