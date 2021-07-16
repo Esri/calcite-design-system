@@ -7,7 +7,7 @@ host {
 }
 
 .container {
-  @apply w-full flex flex-col;
+  @apply w-full flex flex-col bg-foreground-1;
 }
 
 ::slotted(calcite-list-item-group) {
