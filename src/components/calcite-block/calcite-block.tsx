@@ -58,10 +58,14 @@ export class CalciteBlock {
    */
   @Prop() intlExpand?: string;
 
-  /** string to override English loading text */
+  /** string to override English loading text
+   * @default "Loading"
+   */
   @Prop() intlLoading?: string = TEXT.loading;
 
-  /** Text string used for the actions menu */
+  /** Text string used for the actions menu
+   * @default "Options"
+   */
   @Prop() intlOptions?: string = TEXT.options;
 
   /**

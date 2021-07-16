@@ -1,9 +1,17 @@
 .container {
-  @apply bg-background
+  @apply bg-transparent
   box-border
   flex
   flex-col;
   * {
     @apply box-border;
   }
+}
+
+::slotted(calcite-list-item) {
+  @apply mb-px shadow-border-bottom;
+}
+
+::slotted(calcite-list-item:last-child) {
+  @apply shadow-none;
 }

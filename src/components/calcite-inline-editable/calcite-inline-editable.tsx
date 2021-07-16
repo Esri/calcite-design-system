@@ -53,13 +53,19 @@ export class CalciteInlineEditable {
   /** specify whether save/cancel controls should be displayed when editingEnabled is true, defaults to false */
   @Prop({ reflect: true }) controls = false;
 
-  /** specify text to be user for the enable editing button's aria-label, defaults to `Click to edit` */
+  /** specify text to be user for the enable editing button's aria-label, defaults to `Click to edit`
+   * @default "Click to edit"
+   */
   @Prop({ reflect: true }) intlEnableEditing = TEXT.intlEnablingEditing;
 
-  /** specify text to be user for the cancel editing button's aria-label, defaults to `Cancel` */
+  /** specify text to be user for the cancel editing button's aria-label, defaults to `Cancel`
+   * @default "Cancel"
+   */
   @Prop({ reflect: true }) intlCancelEditing = TEXT.intlCancelEditing;
 
-  /** specify text to be user for the confirm changes button's aria-label, defaults to `Save` */
+  /** specify text to be user for the confirm changes button's aria-label, defaults to `Save`
+   * @default "Save"
+   */
   @Prop({ reflect: true }) intlConfirmChanges = TEXT.intlConfirmChanges;
 
   /** specify the scale of the inline-editable component, defaults to the scale of the wrapped calcite-input or the scale of the closest wrapping component with a set scale */
@@ -94,6 +100,7 @@ export class CalciteInlineEditable {
         class="calcite-inline-editable-wrapper"
         onClick={this.enableEditingHandler}
         onKeyDown={this.escapeKeyHandler}
+        onTransitionEnd={this.transitionEnd}
       >
         <div class="calcite-inline-editable-input-wrapper">
           <slot />
@@ -213,13 +220,19 @@ export class CalciteInlineEditable {
 
   private enableEditingButton: HTMLCalciteButtonElement;
 
-  private editingFocusTimeout: number;
+  private editingCancelTransitionProp = "border-top-color";
 
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  transitionEnd = (event: TransitionEvent): void => {
+    if (!this.editingEnabled && event.propertyName === this.editingCancelTransitionProp) {
+      this.calciteInlineEditableEditingCancel.emit(event);
+    }
+  };
 
   private get shouldShowControls(): boolean {
     return this.editingEnabled && this.controls;
@@ -238,12 +251,15 @@ export class CalciteInlineEditable {
     this.editingEnabled = false;
   };
 
+  private cancelEditingEnd = (): void => {
+    this.enableEditingButton.setFocus();
+    this.el.removeEventListener("calciteInlineEditableEditingCancel", this.cancelEditingEnd);
+  };
+
   private cancelEditing = () => {
     this.inputElement.value = this.valuePriorToEditing;
+    this.el.addEventListener("calciteInlineEditableEditingCancel", this.cancelEditingEnd);
     this.disableEditing();
-    clearTimeout(this.editingFocusTimeout);
-    this.editingFocusTimeout = window.setTimeout(() => this.enableEditingButton.setFocus(), 100);
-    this.calciteInlineEditableEditingCancel.emit();
   };
 
   private escapeKeyHandler = async (e: KeyboardEvent) => {

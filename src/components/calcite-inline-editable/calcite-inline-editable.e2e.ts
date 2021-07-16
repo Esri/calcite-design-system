@@ -206,8 +206,9 @@ describe("calcite-inline-editable", () => {
       });
       await input.type("typo");
       expect(await input.getProperty("value")).toBe("John Doetypo");
+      const cancelEvent = page.waitForEvent("calciteInlineEditableEditingCancel");
       await cancelEditingButton.click();
-      await page.waitForChanges();
+      await cancelEvent;
       expect(await input.getProperty("value")).toBe("John Doe");
       expect(calciteInlineEditableEditingCancel).toHaveReceivedEventTimes(1);
     });
@@ -223,8 +224,9 @@ describe("calcite-inline-editable", () => {
       });
       await input.type("typo");
       expect(await input.getProperty("value")).toBe("John Doetypo");
+      const cancelEvent = page.waitForEvent("calciteInlineEditableEditingCancel");
       await page.keyboard.press("Escape");
-      await page.waitForChanges();
+      await cancelEvent;
       expect(await input.getProperty("value")).toBe("John Doe");
       expect(calciteInlineEditableEditingCancel).toHaveReceivedEventTimes(1);
     });
