@@ -41,6 +41,12 @@ export class CalciteGraph {
   /** End of highlight color if highlighting range */
   @Prop() highlightMax: number;
 
+  /**
+   * Array of values describing a single color stop ([offset, color, opacity])
+   * These color stops should be sorted by offset value
+   */
+  @Prop() colorStops: [number, string, number][];
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -48,7 +54,7 @@ export class CalciteGraph {
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    const { data, width, height, highlightMax, highlightMin } = this;
+    const { data, colorStops, width, height, highlightMax, highlightMin } = this;
     const id = this.maskId;
 
     // if we have no data, return empty svg
@@ -69,6 +75,7 @@ export class CalciteGraph {
     const [hMinX] = t([highlightMin, max[1]]);
     const [hMaxX] = t([highlightMax, max[1]]);
     const areaPath = area({ data, min, max, t });
+    const fill = colorStops ? `url(#linear-gradient-${id})` : undefined;
     return (
       <svg
         class="svg"
@@ -77,6 +84,16 @@ export class CalciteGraph {
         viewBox={`0 0 ${width} ${height}`}
         width={width}
       >
+        {colorStops ? (
+          <defs>
+            <linearGradient id={`linear-gradient-${id}`} x1="0" x2="1" y1="0" y2="0">
+              {colorStops.map(([offset, color, opacity = 1]) => (
+                <stop offset={`${offset * 100}%`} stop-color={color} stop-opacity={opacity}/>
+              ))}
+            </linearGradient>
+          </defs>
+        ) : null}
+
         {highlightMin !== undefined ? (
           <svg
             class="svg"
@@ -124,12 +141,12 @@ export class CalciteGraph {
               />
             </mask>
 
-            <path class="graph-path" d={areaPath} mask={`url(#${id}1)`} />
-            <path class="graph-path--highlight" d={areaPath} mask={`url(#${id}2)`} />
-            <path class="graph-path" d={areaPath} mask={`url(#${id}3)`} />
+            <path class="graph-path" d={areaPath} fill={fill} mask={`url(#${id}1)`} />
+            <path class="graph-path--highlight" d={areaPath} fill={fill} mask={`url(#${id}2)`} />
+            <path class="graph-path" d={areaPath} fill={fill} mask={`url(#${id}3)`} />
           </svg>
         ) : (
-          <path class="graph-path" d={areaPath} />
+          <path class="graph-path" d={areaPath} fill={fill} />
         )}
       </svg>
     );
