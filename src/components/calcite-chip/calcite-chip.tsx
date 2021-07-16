@@ -27,7 +27,9 @@ export class CalciteChip {
   /** Optionally show a button the user can click to dismiss the chip */
   @Prop({ reflect: true }) dismissible?: boolean = false;
 
-  /** Aria label for the "x" button */
+  /** Aria label for the "x" button
+   * @default "close"
+   */
   @Prop() dismissLabel?: string = TEXT.close;
 
   /** optionally pass an icon to display - accepts Calcite UI icon names  */

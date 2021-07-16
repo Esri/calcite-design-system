@@ -57,7 +57,9 @@ export class CalciteButton {
   /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconStart?: string;
 
-  /** string to override English loading text */
+  /** string to override English loading text
+   * @default "Loading"
+   */
   @Prop() intlLoading?: string = TEXT.loading;
 
   /** optionally add a calcite-loader component to the button, disabling interaction.  */
@@ -151,13 +153,13 @@ export class CalciteButton {
       <Tag
         aria-label={this.label}
         class={{ [CSS_UTILITY.rtl]: dir === "rtl", [CSS.contentSlotted]: this.hasContent }}
-        disabled={this.disabled}
+        disabled={this.disabled || this.loading}
         href={this.childElType === "a" && this.href}
         name={this.childElType === "button" && this.name}
         onClick={this.handleClick}
         ref={(el) => (this.childEl = el)}
         rel={this.childElType === "a" && this.el.getAttribute("rel")}
-        tabIndex={this.disabled ? -1 : null}
+        tabIndex={this.disabled || this.loading ? -1 : null}
         target={this.childElType === "a" && this.el.getAttribute("target")}
         type={this.childElType === "button" && this.type}
       >
