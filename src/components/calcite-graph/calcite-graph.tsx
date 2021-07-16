@@ -55,7 +55,7 @@ export class CalciteGraph {
 
   render(): VNode {
     const { data, colorStops, width, height, highlightMax, highlightMin } = this;
-    const id = this.maskId;
+    const id = this.graphId;
 
     // if we have no data, return empty svg
     if (!data || data.length === 0) {
@@ -94,58 +94,50 @@ export class CalciteGraph {
           </defs>
         ) : null}
 
-        {highlightMin !== undefined ? (
-          <svg
-            class="svg"
-            height={height}
-            preserveAspectRatio="none"
-            viewBox={`0 0 ${width} ${height}`}
-            width={width}
-          >
-            <mask height="100%" id={`${id}1`} width="100%" x="0%" y="0%">
-              <path
-                d={`
-              M 0,0
-              L ${hMinX - 1},0
-              L ${hMinX - 1},${height}
-              L 0,${height}
-              Z
-            `}
-                fill="white"
-              />
-            </mask>
+        {highlightMin !== undefined ? [
+          <mask height="100%" id={`${id}1`} width="100%" x="0%" y="0%">
+            <path
+              d={`
+            M 0,0
+            L ${hMinX - 1},0
+            L ${hMinX - 1},${height}
+            L 0,${height}
+            Z
+          `}
+              fill="white"
+            />
+          </mask>,
 
-            <mask height="100%" id={`${id}2`} width="100%" x="0%" y="0%">
-              <path
-                d={`
-              M ${hMinX + 1},0
-              L ${hMaxX - 1},0
-              L ${hMaxX - 1},${height}
-              L ${hMinX + 1}, ${height}
-              Z
-            `}
-                fill="white"
-              />
-            </mask>
+          <mask height="100%" id={`${id}2`} width="100%" x="0%" y="0%">
+            <path
+              d={`
+            M ${hMinX + 1},0
+            L ${hMaxX - 1},0
+            L ${hMaxX - 1},${height}
+            L ${hMinX + 1}, ${height}
+            Z
+          `}
+              fill="white"
+            />
+          </mask>,
 
-            <mask height="100%" id={`${id}3`} width="100%" x="0%" y="0%">
-              <path
-                d={`
-                  M ${hMaxX + 1},0
-                  L ${width},0
-                  L ${width},${height}
-                  L ${hMaxX + 1}, ${height}
-                  Z
-                `}
-                fill="white"
-              />
-            </mask>
+          <mask height="100%" id={`${id}3`} width="100%" x="0%" y="0%">
+            <path
+              d={`
+                M ${hMaxX + 1},0
+                L ${width},0
+                L ${width},${height}
+                L ${hMaxX + 1}, ${height}
+                Z
+              `}
+              fill="white"
+            />
+          </mask>,
 
-            <path class="graph-path" d={areaPath} fill={fill} mask={`url(#${id}1)`} />
-            <path class="graph-path--highlight" d={areaPath} fill={fill} mask={`url(#${id}2)`} />
-            <path class="graph-path" d={areaPath} fill={fill} mask={`url(#${id}3)`} />
-          </svg>
-        ) : (
+          <path class="graph-path" d={areaPath} fill={fill} mask={`url(#${id}1)`} />,
+          <path class="graph-path--highlight" d={areaPath} fill={fill} mask={`url(#${id}2)`} />,
+          <path class="graph-path" d={areaPath} fill={fill} mask={`url(#${id}3)`} />
+         ] : (
           <path class="graph-path" d={areaPath} fill={fill} />
         )}
       </svg>
@@ -158,5 +150,5 @@ export class CalciteGraph {
   //
   //--------------------------------------------------------------------------
 
-  private maskId = `calcite-graph-mask-${guid()}`;
+  private graphId = `calcite-graph-${guid()}`;
 }
