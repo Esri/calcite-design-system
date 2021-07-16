@@ -176,8 +176,6 @@ export class CalciteTimePicker {
 
   @State() displayHour: string = this.getDisplayHour();
 
-  @State() editingHourWhileFocused = false;
-
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -333,7 +331,7 @@ export class CalciteTimePicker {
       return "--";
     }
     if (this.hourDisplayFormat === "12") {
-      return this.editingHourWhileFocused ? this.hour : getMeridiemHour(this.hour);
+      return getMeridiemHour(this.hour);
     }
     return this.hour;
   }
@@ -346,10 +344,6 @@ export class CalciteTimePicker {
     };
   }
 
-  private hourBlurHandler = (): void => {
-    this.editingHourWhileFocused = false;
-  };
-
   private hourDownButtonKeyDownHandler = (event: KeyboardEvent): void => {
     if (this.buttonActivated(event)) {
       this.decrementHour();
@@ -359,7 +353,6 @@ export class CalciteTimePicker {
   private hourKeyDownHandler = (event: KeyboardEvent): void => {
     const key = getKey(event.key);
     if (numberKeys.includes(key)) {
-      this.editingHourWhileFocused = true;
       const keyAsNumber = parseInt(key);
       let newHour;
       if (isValidNumber(this.hour)) {
@@ -388,6 +381,7 @@ export class CalciteTimePicker {
     } else {
       switch (key) {
         case "Backspace":
+        case "Delete":
           this.setTime("hour", null);
           break;
         case "ArrowDown":
@@ -458,6 +452,7 @@ export class CalciteTimePicker {
         this.setTime("meridiem", "PM");
         break;
       case "Backspace":
+      case "Delete":
         this.setTime("meridiem", null);
         break;
       case "ArrowUp":
@@ -506,6 +501,7 @@ export class CalciteTimePicker {
     } else {
       switch (key) {
         case "Backspace":
+        case "Delete":
           this.setTime("minute", null);
           break;
         case "ArrowDown":
@@ -555,6 +551,7 @@ export class CalciteTimePicker {
     } else {
       switch (key) {
         case "Backspace":
+        case "Delete":
           this.setTime("second", null);
           break;
         case "ArrowDown":
@@ -684,7 +681,6 @@ export class CalciteTimePicker {
                 [CSS.input]: true,
                 [CSS.hour]: true
               }}
-              onBlur={this.hourBlurHandler}
               onFocus={this.focusHandler}
               onKeyDown={this.hourKeyDownHandler}
               ref={(el) => (this.hourEl = el)}
