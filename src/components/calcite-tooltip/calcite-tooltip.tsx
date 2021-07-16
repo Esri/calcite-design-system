@@ -29,6 +29,7 @@ export class CalciteTooltip {
 
   /**
    * Offset the position of the popover away from the reference element.
+   * @default 6
    */
   @Prop({ reflect: true }) offsetDistance = defaultOffsetDistance;
 
