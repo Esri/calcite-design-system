@@ -1,5 +1,9 @@
 import { numberKeys } from "./key";
 
+export function isValidDecimal(value: number): boolean {
+  return Number(value) % 1 != 0;
+}
+
 export function isValidNumber(numberString: string): boolean {
   return !(!numberString || isNaN(Number(numberString)));
 }

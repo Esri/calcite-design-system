@@ -25,7 +25,7 @@ import {
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 import { hiddenInputStyle } from "../../utils/form";
-import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
+import { isValidDecimal, isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
 import { CSS_UTILITY, TEXT } from "../../utils/resources";
 
 type NumberNudgeDirection = "up" | "down";
@@ -457,7 +457,7 @@ export class CalciteInput {
       return;
     }
     const decimalSeparator = getDecimalSeparator(this.locale);
-    if (event.key === decimalSeparator) {
+    if (event.key === decimalSeparator && isValidDecimal(this.step as number)) {
       if (!this.value && !this.childNumberEl.value) {
         return;
       }
