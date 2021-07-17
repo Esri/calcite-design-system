@@ -14,6 +14,7 @@ import { guid } from "../../utils/guid";
 import { focusElement } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { hiddenInputStyle } from "../../utils/form";
+import { CSS } from "./resources";
 
 @Component({
   tag: "calcite-radio-button",
