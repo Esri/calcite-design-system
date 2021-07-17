@@ -339,7 +339,7 @@ export class CalciteRadioButton {
     const value = this.value?.toString();
 
     return (
-      <div class="container">
+      <div class={CSS.container}>
         <input
           aria-label={this.label || null}
           checked={this.checked}

@@ -91,7 +91,7 @@ describe("calcite-input", () => {
     <calcite-input icon="key" type="number"></calcite-input>
     `);
 
-    const icon = await page.find("calcite-input .calcite-input-icon");
+    const icon = await page.find("calcite-input .calcite-input__icon");
     expect(icon).not.toBeNull();
   });
 
@@ -101,7 +101,7 @@ describe("calcite-input", () => {
     <calcite-input icon="key" type="date"></calcite-input>
     `);
 
-    const icon = await page.find("calcite-input .calcite-input-icon");
+    const icon = await page.find("calcite-input .calcite-input__icon");
     expect(icon).not.toBeNull();
   });
 
@@ -111,7 +111,7 @@ describe("calcite-input", () => {
     <calcite-input icon type="date"></calcite-input>
     `);
 
-    const icon = await page.find("calcite-input .calcite-input-icon");
+    const icon = await page.find("calcite-input .calcite-input__icon");
     expect(icon).not.toBeNull();
   });
 
@@ -121,7 +121,7 @@ describe("calcite-input", () => {
     <calcite-input icon type="number"></calcite-input>
     `);
 
-    const icon = await page.find("calcite-input .calcite-input-icon");
+    const icon = await page.find("calcite-input .calcite-input__icon");
     expect(icon).toBeNull();
   });
 
@@ -131,12 +131,12 @@ describe("calcite-input", () => {
     <calcite-input type="number"></calcite-input>
     `);
 
-    const numberVerticalWrapper = await page.find("calcite-input .calcite-input-number-button-wrapper");
+    const numberVerticalWrapper = await page.find("calcite-input .calcite-input__number-button-wrapper");
     const numberHorizontalItemDown = await page.find(
-      "calcite-input .number-button-item-horizontal[data-adjustment='down']"
+      "calcite-input .calcite-input__number-button-item--horizontal[data-adjustment='down']"
     );
     const numberHorizontalItemUp = await page.find(
-      "calcite-input .number-button-item-horizontal[data-adjustment='up']"
+      "calcite-input .calcite-input__number-button-item--horizontal[data-adjustment='up']"
     );
 
     expect(numberVerticalWrapper).not.toBeNull();
@@ -150,12 +150,12 @@ describe("calcite-input", () => {
     <calcite-input type="number" number-button-type="horizontal"></calcite-input>
     `);
 
-    const numberVerticalWrapper = await page.find("calcite-input .calcite-input-number-button-wrapper");
+    const numberVerticalWrapper = await page.find("calcite-input .calcite-input__number-button-wrapper");
     const numberHorizontalItemDown = await page.find(
-      "calcite-input .number-button-item-horizontal[data-adjustment='down']"
+      "calcite-input .calcite-input__number-button-item--horizontal[data-adjustment='down']"
     );
     const numberHorizontalItemUp = await page.find(
-      "calcite-input .number-button-item-horizontal[data-adjustment='up']"
+      "calcite-input .calcite-input__number-button-item--horizontal[data-adjustment='up']"
     );
 
     expect(numberVerticalWrapper).toBeNull();
@@ -169,12 +169,12 @@ describe("calcite-input", () => {
     <calcite-input type="number" number-button-type="none"></calcite-input>
     `);
 
-    const numberVerticalWrapper = await page.find("calcite-input .calcite-input-number-button-wrapper");
+    const numberVerticalWrapper = await page.find("calcite-input .calcite-input__number-button-wrapper");
     const numberHorizontalItemDown = await page.find(
-      "calcite-input .number-button-item-horizontal[data-adjustment='down']"
+      "calcite-input .calcite-input__number-button-item--horizontal[data-adjustment='down']"
     );
     const numberHorizontalItemUp = await page.find(
-      "calcite-input .number-button-item-horizontal[data-adjustment='up']"
+      "calcite-input .calcite-input__number-button-item--horizontal[data-adjustment='up']"
     );
 
     expect(numberVerticalWrapper).toBeNull();
@@ -505,7 +505,7 @@ describe("calcite-input", () => {
     await page.setContent(`
     <calcite-input clearable value="John Doe"></calcite-input>
     `);
-    const clearButton = await page.find("calcite-input .calcite-input-clear-button");
+    const clearButton = await page.find("calcite-input .calcite-input__clear-button");
     expect(clearButton).not.toBe(null);
   });
 
@@ -515,7 +515,7 @@ describe("calcite-input", () => {
     <calcite-input clearable></calcite-input>
     `);
 
-    const clearButton = await page.find("calcite-input .calcite-input-clear-button");
+    const clearButton = await page.find("calcite-input .calcite-input__clear-button");
     expect(clearButton).toBe(null);
   });
 
@@ -525,7 +525,7 @@ describe("calcite-input", () => {
     <calcite-input></calcite-input>
     `);
 
-    const clearButton = await page.find("calcite-input .calcite-input-clear-button");
+    const clearButton = await page.find("calcite-input .calcite-input__clear-button");
     expect(clearButton).toBe(null);
   });
 
@@ -550,7 +550,7 @@ describe("calcite-input", () => {
     `);
 
     const element = await page.find("calcite-input");
-    const clearButton = await page.find(".calcite-input-clear-button");
+    const clearButton = await page.find(".calcite-input__clear-button");
     expect(await element.getProperty("value")).toBe("John Doe");
     await clearButton.click();
     await page.waitForChanges();
@@ -565,7 +565,7 @@ describe("calcite-input", () => {
 
     const calciteInputInput = await page.spyOnEvent("calciteInputInput");
     const element = await page.find("calcite-input");
-    const clearButton = await page.find(".calcite-input-clear-button");
+    const clearButton = await page.find(".calcite-input__clear-button");
     expect(await element.getProperty("value")).toBe("John Doe");
     await clearButton.click();
     await page.waitForChanges();
@@ -598,7 +598,7 @@ describe("calcite-input", () => {
 
     const calciteInputInput = await page.spyOnEvent("calciteInputInput");
     const element = await page.find("calcite-input");
-    const clearButton = await page.find(".calcite-input-clear-button");
+    const clearButton = await page.find(".calcite-input__clear-button");
     expect(await element.getProperty("value")).toBe("John Doe");
     expect(calciteInputInput).toHaveReceivedEventTimes(0);
     await clearButton.click();
