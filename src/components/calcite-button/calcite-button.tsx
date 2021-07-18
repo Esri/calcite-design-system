@@ -93,14 +93,14 @@ export class CalciteButton {
   loadingChanged(newValue: boolean, oldValue: boolean): void {
     if (!!newValue && !oldValue) {
       this.loaderEl = document.createElement("calcite-loader");
-      this.loaderEl.setAttribute("active", "");
-      this.loaderEl.setAttribute("inline", "");
-      this.loaderEl.setAttribute("label", this.intlLoading);
-      this.loaderEl.setAttribute("class", CSS.loadingIn);
+      this.loaderEl.active = true;
+      this.loaderEl.inline = true;
+      this.loaderEl.label = this.intlLoading;
+      this.loaderEl.className = CSS.loadingIn;
       this.loaderContainer.appendChild(this.loaderEl);
     }
     if (!newValue && !!oldValue) {
-      this.loaderEl.setAttribute("class", CSS.loadingOut);
+      this.loaderEl.className = CSS.loadingOut;
       requestAnimationFrame(() => {
         window.setTimeout(() => {
           this.loaderContainer.removeChild(this.loaderEl);
@@ -282,9 +282,9 @@ export class CalciteButton {
   private renderLoader(): VNode {
     if (this.loading) {
       this.loaderEl = document.createElement("calcite-loader");
-      this.loaderEl.setAttribute("active", "");
-      this.loaderEl.setAttribute("inline", "");
-      this.loaderEl.setAttribute("label", this.intlLoading);
+      this.loaderEl.active = true;
+      this.loaderEl.inline = true;
+      this.loaderEl.label = this.intlLoading;
       this.loaderContainer.appendChild(this.loaderEl);
     }
     return null;

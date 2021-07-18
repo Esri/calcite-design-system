@@ -203,24 +203,20 @@ describe("calcite-button", () => {
     expect(loader).toBeNull();
   });
 
-  it("renders with a loader and an icon-start when both icon-start and loader are requested, no text", async () => {
+  it("renders hidden icon when both icon and loader are requested, no text", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-button loading icon-start='plus'></calcite-button>`);
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
-    const elementAsLink = await page.find("calcite-button >>> a");
     const iconStart = await page.find(`calcite-button >>> .${CSS.iconStart}`);
-    const iconEnd = await page.find(`calcite-button >>> .${CSS.iconEnd}`);
     const loader = await page.find(`calcite-button >>> .${CSS.buttonLoader} calcite-loader`);
-    expect(element).toHaveAttribute(HYDRATED_ATTR);
-    expect(elementAsLink).toBeNull();
     expect(elementAsButton).not.toBeNull();
     expect(iconStart).not.toBeNull();
-    expect(iconEnd).toBeNull();
+    expect(await iconStart.isVisible()).toBeFalsy();
     expect(loader).not.toBeNull();
     expect(loader).not.toHaveClass(CSS.loadingIn);
     // one icon only buttons should stay square
-    expect(await elementAsButton.getProperty("offsetWidth")).toEqual(await elementAsButton.getProperty("offsetHeight"));
+    expect(await element.getProperty("offsetWidth")).toEqual(await element.getProperty("offsetHeight"));
   });
 
   it("renders with a loader and an icon-start when both icon-start and loader are requested", async () => {
