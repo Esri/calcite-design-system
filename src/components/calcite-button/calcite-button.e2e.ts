@@ -451,5 +451,17 @@ describe("calcite-button", () => {
       expect(loader3).toHaveClass(CSS.loadingOut);
       expect(loader3styles["animation-name"]).toEqual("loader-out");
     });
+
+    it("should remove calcite-loader from dom when new value is false", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-button loading icon-start='plus'></calcite-button>`);
+      const animationDurationInMs = 300;
+      const element = await page.find("calcite-button");
+      await element.setProperty("loading", false);
+      await page.waitForChanges();
+      await page.waitForTimeout(animationDurationInMs);
+      const loader = await page.find(`calcite-button >>> .${CSS.buttonLoader} calcite-loader`);
+      expect(loader).toBeNull();
+    });
   });
 });
