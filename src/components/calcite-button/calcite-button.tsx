@@ -1,4 +1,4 @@
-import { Component, Element, h, Method, Prop, Build, State, VNode } from "@stencil/core";
+import { Component, Element, h, Method, Prop, Build, State, VNode, Watch } from "@stencil/core";
 import { CSS, TEXT } from "./resources";
 import { getElementDir } from "../../utils/dom";
 import { ButtonAlignment, ButtonAppearance, ButtonColor } from "./interfaces";
@@ -89,6 +89,26 @@ export class CalciteButton {
   /** specify the width of the button, defaults to auto */
   @Prop({ reflect: true }) width: Width = "auto";
 
+  @Watch("loading")
+  loadingChanged(newValue: boolean, oldValue: boolean): void {
+    if (!!newValue && !oldValue) {
+      this.loaderEl = document.createElement("calcite-loader");
+      this.loaderEl.setAttribute("active", "");
+      this.loaderEl.setAttribute("inline", "");
+      this.loaderEl.setAttribute("label", this.intlLoading);
+      this.loaderEl.setAttribute("class", CSS.loadingIn);
+      this.loaderContainer.appendChild(this.loaderEl);
+    }
+    if (!newValue && !!oldValue) {
+      this.loaderEl.setAttribute("class", CSS.loadingOut);
+      requestAnimationFrame(() => {
+        window.setTimeout(() => {
+          this.loaderContainer.removeChild(this.loaderEl);
+        }, 300);
+      });
+    }
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -113,15 +133,15 @@ export class CalciteButton {
     }
   }
 
+  componentDidLoad(): void {
+    this.renderLoader();
+  }
+
   render(): VNode {
     const dir = getElementDir(this.el);
     const Tag = this.childElType;
 
-    const loader = (
-      <div class={CSS.buttonLoader}>
-        <calcite-loader active inline label={this.intlLoading} />
-      </div>
-    );
+    const loader = <div class={CSS.buttonLoader} ref={(el) => (this.loaderContainer = el)} />;
 
     const iconScale = this.scale === "l" ? "m" : "s";
 
@@ -163,7 +183,7 @@ export class CalciteButton {
         target={this.childElType === "a" && this.el.getAttribute("target")}
         type={this.childElType === "button" && this.type}
       >
-        {this.loading ? loader : null}
+        {loader}
         {this.iconStart ? iconStartEl : null}
         {this.hasContent ? contentEl : null}
         {this.iconEnd ? iconEndEl : null}
@@ -196,6 +216,12 @@ export class CalciteButton {
 
   /** the node type of the rendered child element */
   private childElType?: "a" | "button" = "button";
+
+  /** the rendered loader container */
+  private loaderContainer?: HTMLDivElement;
+
+  /** the rendered loader element */
+  private loaderEl?: HTMLCalciteLoaderElement;
 
   /** determine if there is slotted content for styling purposes */
   @State() private hasContent?: boolean = false;
@@ -252,4 +278,15 @@ export class CalciteButton {
       e.preventDefault();
     }
   };
+
+  private renderLoader(): VNode {
+    if (this.loading) {
+      this.loaderEl = document.createElement("calcite-loader");
+      this.loaderEl.setAttribute("active", "");
+      this.loaderEl.setAttribute("inline", "");
+      this.loaderEl.setAttribute("label", this.intlLoading);
+      this.loaderContainer.appendChild(this.loaderEl);
+    }
+    return null;
+  }
 }
