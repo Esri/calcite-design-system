@@ -1,4 +1,4 @@
-import { text, number, array } from "@storybook/addon-knobs";
+import { text, number, array, object } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
 import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
@@ -68,6 +68,30 @@ export const Histogram = (): HTMLCalciteSliderElement => {
     ],
     "  "
   );
+  return slider;
+};
+
+export const HistogramWithColors = (): HTMLCalciteSliderElement => {
+  const slider = document.createElement("calcite-slider");
+  slider.min = number("min", 0);
+  slider.minValue = number("min-value", 25);
+  slider.max = number("max", 100);
+  slider.maxValue = number("max-value", 75);
+  slider.histogram = array(
+    "histogram",
+    [
+      [0, 0],
+      [20, 12],
+      [40, 25],
+      [60, 55],
+      [80, 10],
+      [100, 0]
+    ],
+    "  "
+  );
+  const colors = array('histogram colors', ["red", "green", "blue"]);
+  const offsets = array('histogram color offsets', colors.map((_, i) => `${(1 / (colors.length - 1))*i}`));
+  slider.histogramColors = colors.map((color, i) => [parseFloat(offsets[i]), color]);
   return slider;
 };
 
