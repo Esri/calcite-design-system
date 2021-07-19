@@ -195,10 +195,10 @@ describe("calcite-input", () => {
 
     const element = await page.find("calcite-input");
     const numberHorizontalItemDown = await page.find(
-      "calcite-input .calcite-input-number-button-item[data-adjustment='down']"
+      "calcite-input .calcite-input__number-button-item[data-adjustment='down']"
     );
     const numberHorizontalItemUp = await page.find(
-      "calcite-input .calcite-input-number-button-item[data-adjustment='up']"
+      "calcite-input .calcite-input__number-button-item[data-adjustment='up']"
     );
     expect(await element.getProperty("value")).toBe("3.123");
     await numberHorizontalItemDown.click();
@@ -232,10 +232,10 @@ describe("calcite-input", () => {
     const element = await page.find("calcite-input");
 
     const numberHorizontalItemDown = await page.find(
-      "calcite-input .calcite-input-number-button-item[data-adjustment='down']"
+      "calcite-input .calcite-input__number-button-item[data-adjustment='down']"
     );
     const numberHorizontalItemUp = await page.find(
-      "calcite-input .calcite-input-number-button-item[data-adjustment='up']"
+      "calcite-input .calcite-input__number-button-item[data-adjustment='up']"
     );
     expect(await element.getProperty("value")).toBe("15");
     await numberHorizontalItemDown.click();
@@ -258,10 +258,10 @@ describe("calcite-input", () => {
     const element = await page.find("calcite-input");
 
     const numberHorizontalItemDown = await page.find(
-      "calcite-input .calcite-input-number-button-item[data-adjustment='down']"
+      "calcite-input .calcite-input__number-button-item[data-adjustment='down']"
     );
     const numberHorizontalItemUp = await page.find(
-      "calcite-input .calcite-input-number-button-item[data-adjustment='up']"
+      "calcite-input .calcite-input__number-button-item[data-adjustment='up']"
     );
     expect(await element.getProperty("value")).toBe("5.5");
     await numberHorizontalItemDown.click();
@@ -284,10 +284,10 @@ describe("calcite-input", () => {
     const element = await page.find("calcite-input");
 
     const numberHorizontalItemDown = await page.find(
-      "calcite-input .calcite-input-number-button-item[data-adjustment='down']"
+      "calcite-input .calcite-input__number-button-item[data-adjustment='down']"
     );
     const numberHorizontalItemUp = await page.find(
-      "calcite-input .calcite-input-number-button-item[data-adjustment='up']"
+      "calcite-input .calcite-input__number-button-item[data-adjustment='up']"
     );
     expect(await element.getProperty("value")).toBe("5");
     await numberHorizontalItemDown.click();
@@ -332,7 +332,7 @@ describe("calcite-input", () => {
 
     const element = await page.find("calcite-input");
     const numberHorizontalItemDown = await page.find(
-      "calcite-input .calcite-input-number-button-item[data-adjustment='down']"
+      "calcite-input .calcite-input__number-button-item[data-adjustment='down']"
     );
     expect(await element.getProperty("value")).toBe("12");
     await numberHorizontalItemDown.click();
@@ -354,7 +354,7 @@ describe("calcite-input", () => {
 
     const element = await page.find("calcite-input");
     const numberHorizontalItemUp = await page.find(
-      "calcite-input .calcite-input-number-button-item[data-adjustment='up']"
+      "calcite-input .calcite-input__number-button-item[data-adjustment='up']"
     );
     expect(await element.getProperty("value")).toBe("8");
     await numberHorizontalItemUp.click();
@@ -376,7 +376,7 @@ describe("calcite-input", () => {
 
     const element = await page.find("calcite-input");
     const numberHorizontalItemDown = await page.find(
-      "calcite-input .calcite-input-number-button-item[data-adjustment='down']"
+      "calcite-input .calcite-input__number-button-item[data-adjustment='down']"
     );
     expect(await element.getProperty("value")).toBe("2");
     await numberHorizontalItemDown.click();
@@ -398,7 +398,7 @@ describe("calcite-input", () => {
 
     const element = await page.find("calcite-input");
     const numberHorizontalItemUp = await page.find(
-      "calcite-input .calcite-input-number-button-item[data-adjustment='up']"
+      "calcite-input .calcite-input__number-button-item[data-adjustment='up']"
     );
     expect(await element.getProperty("value")).toBe("-2");
     await numberHorizontalItemUp.click();
@@ -650,7 +650,7 @@ describe("calcite-input", () => {
     const calciteInputInput = await page.spyOnEvent("calciteInputInput");
 
     const numberHorizontalItemUp = await page.find(
-      "calcite-input .calcite-input-number-button-item[data-adjustment='up']"
+      "calcite-input .calcite-input__number-button-item[data-adjustment='up']"
     );
     expect(calciteInputInput).toHaveReceivedEventTimes(0);
     await numberHorizontalItemUp.click();
@@ -659,7 +659,7 @@ describe("calcite-input", () => {
     expect(calciteInputInput).toHaveReceivedEventTimes(1);
 
     const numberHorizontalItemDown = await page.find(
-      "calcite-input .calcite-input-number-button-item[data-adjustment='down']"
+      "calcite-input .calcite-input__number-button-item[data-adjustment='down']"
     );
     await numberHorizontalItemDown.click();
     await page.waitForChanges();
