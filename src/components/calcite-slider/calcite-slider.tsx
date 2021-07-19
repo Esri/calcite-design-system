@@ -52,6 +52,12 @@ export class CalciteSlider {
     this.hasHistogram = !!newHistogram;
   }
 
+  /**
+   * Array of values describing a single color stop ([offset, color, opacity]).
+   * These color stops should be sorted by offset value.
+   */
+  @Prop() histogramColors: [number, string, number][]
+
   /** Label handles with their numeric value */
   @Prop({ reflect: true }) labelHandles?: boolean;
 
@@ -584,6 +590,7 @@ export class CalciteSlider {
     return this.histogram ? (
       <div class="graph">
         <calcite-graph
+          colorStops={this.histogramColors}
           data={this.histogram}
           height={48}
           highlightMax={this.isRange ? this.maxValue : this.value}
