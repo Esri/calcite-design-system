@@ -388,7 +388,7 @@ describe("calcite-button", () => {
   });
 
   describe("when loading changes", () => {
-    it("should render loader with loading-in animation when new value is true", async () => {
+    it("should render loader with loading-in class when new value is true", async () => {
       const page = await newE2EPage();
       await page.setContent(`
         <calcite-button id="one-icon" icon-start='plus'></calcite-button>
@@ -405,18 +405,12 @@ describe("calcite-button", () => {
       const loader1 = await page.find(`calcite-button[id='one-icon'] >>> .${CSS.buttonLoader} calcite-loader`);
       const loader2 = await page.find(`calcite-button[id='two-icons'] >>> .${CSS.buttonLoader} calcite-loader`);
       const loader3 = await page.find(`calcite-button[id='icons-and-text'] >>> .${CSS.buttonLoader} calcite-loader`);
-      const loader1styles = await loader1.getComputedStyle();
-      const loader2styles = await loader2.getComputedStyle();
-      const loader3styles = await loader3.getComputedStyle();
       expect(loader1).toHaveClass(CSS.loadingIn);
-      expect(loader1styles["animation-name"]).toEqual("loader-in");
       expect(loader2).toHaveClass(CSS.loadingIn);
-      expect(loader2styles["animation-name"]).toEqual("loader-in");
       expect(loader3).toHaveClass(CSS.loadingIn);
-      expect(loader3styles["animation-name"]).toEqual("loader-in");
     });
 
-    it("should render loader with loading-out animation when new value is false", async () => {
+    it("should render loader with loading-out class when new value is false", async () => {
       const page = await newE2EPage();
       await page.setContent(`
         <calcite-button loading id="one-icon" icon-start='plus'></calcite-button>
@@ -433,15 +427,9 @@ describe("calcite-button", () => {
       const loader1 = await page.find(`calcite-button[id='one-icon'] >>> .${CSS.buttonLoader} calcite-loader`);
       const loader2 = await page.find(`calcite-button[id='two-icons'] >>> .${CSS.buttonLoader} calcite-loader`);
       const loader3 = await page.find(`calcite-button[id='icons-and-text'] >>> .${CSS.buttonLoader} calcite-loader`);
-      const loader1styles = await loader1.getComputedStyle();
-      const loader2styles = await loader2.getComputedStyle();
-      const loader3styles = await loader3.getComputedStyle();
       expect(loader1).toHaveClass(CSS.loadingOut);
-      expect(loader1styles["animation-name"]).toEqual("loader-out");
       expect(loader2).toHaveClass(CSS.loadingOut);
-      expect(loader2styles["animation-name"]).toEqual("loader-out");
       expect(loader3).toHaveClass(CSS.loadingOut);
-      expect(loader3styles["animation-name"]).toEqual("loader-out");
     });
 
     it("should remove calcite-loader from dom when new value is false", async () => {
