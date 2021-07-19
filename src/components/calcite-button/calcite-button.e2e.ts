@@ -417,16 +417,17 @@ describe("calcite-button", () => {
         <calcite-button loading id="two-icons" icon-start='arrow-right' icon-end='download'></calcite-button>
         <calcite-button loading id="icons-and-text" icon-start='arrow-right' icon-end='download'>Go!</calcite-button>
       `);
+      await page.waitForChanges();
       const button1 = await page.find("calcite-button[id='one-icon']");
       const button2 = await page.find("calcite-button[id='two-icons']");
       const button3 = await page.find("calcite-button[id='icons-and-text']");
+      const loader1 = await page.find(`calcite-button[id='one-icon'] >>> .${CSS.buttonLoader} calcite-loader`);
+      const loader2 = await page.find(`calcite-button[id='two-icons'] >>> .${CSS.buttonLoader} calcite-loader`);
+      const loader3 = await page.find(`calcite-button[id='icons-and-text'] >>> .${CSS.buttonLoader} calcite-loader`);
       await button1.setProperty("loading", false);
       await button2.setProperty("loading", false);
       await button3.setProperty("loading", false);
       await page.waitForChanges();
-      const loader1 = await page.find(`calcite-button[id='one-icon'] >>> .${CSS.buttonLoader} calcite-loader`);
-      const loader2 = await page.find(`calcite-button[id='two-icons'] >>> .${CSS.buttonLoader} calcite-loader`);
-      const loader3 = await page.find(`calcite-button[id='icons-and-text'] >>> .${CSS.buttonLoader} calcite-loader`);
       expect(loader1).toHaveClass(CSS.loadingOut);
       expect(loader2).toHaveClass(CSS.loadingOut);
       expect(loader3).toHaveClass(CSS.loadingOut);
