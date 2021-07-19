@@ -5,7 +5,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 <!--@unreleased-section-start-->
 
-## Unreleased (2021-07-16)
+## Unreleased (2021-07-19)
 
 ### ⚠ BREAKING CHANGES
 
@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Features
 
 - **button:** Display text with loading and add disabled styling. [#2420](https://github.com/Esri/calcite-components/issues/2420) ([#2441](https://github.com/Esri/calcite-components/issues/2441)) ([f7d41d7](https://github.com/Esri/calcite-components/commit/f7d41d76cec55fb41df7604b7a339264e2c471e2))
+- **button:** show animation when loading changes ([#2565](https://github.com/Esri/calcite-components/issues/2565)) ([a498fc6](https://github.com/Esri/calcite-components/commit/a498fc6181d229aa00a16b5509c9b3b7ae767909)), closes [#2420](https://github.com/Esri/calcite-components/issues/2420)
 - **dropdown-item:** Use an icon instead of HTML char for selected item. [#957](https://github.com/Esri/calcite-components/issues/957) ([#2485](https://github.com/Esri/calcite-components/issues/2485)) ([3457694](https://github.com/Esri/calcite-components/commit/3457694b0664185c6f1229a316835eaaaa4ecd62))
 - **slider:** add support for mirroring slider ([#2484](https://github.com/Esri/calcite-components/issues/2484)) ([cd16695](https://github.com/Esri/calcite-components/commit/cd16695ee0546b4d89f220d3f5f0aabee4e6c06b)), closes [#720](https://github.com/Esri/calcite-components/issues/720)
 
@@ -26,7 +27,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **dropdown:** Fix dropdown display issues. ([#2543](https://github.com/Esri/calcite-components/issues/2543)) ([cc8d424](https://github.com/Esri/calcite-components/commit/cc8d424903a134227f40ecb91ce5ae5032ee5717))
 - **input-time-picker:** input box supports 12-hour display ([#2540](https://github.com/Esri/calcite-components/issues/2540)) ([39e434f](https://github.com/Esri/calcite-components/commit/39e434f1853163557a7d73f64fe7cd00a4587b66))
 - **list, list-item:** UI tweaks to better match lists ([5a279fa](https://github.com/Esri/calcite-components/commit/5a279fa08b8cf392b5c3a28e042fd0cec888745a)), closes [#2541](https://github.com/Esri/calcite-components/issues/2541) [#2541](https://github.com/Esri/calcite-components/issues/2541) [#2541](https://github.com/Esri/calcite-components/issues/2541) [#2541](https://github.com/Esri/calcite-components/issues/2541)
-- **popover, tooltip:** Query for referenceElement if needed when the tooltip/popover is opened or closed. [#2446](https://github.com/Esri/calcite-components/issues/2446) ([#2475](https://github.com/Esri/calcite-components/issues/2475)) ([954df61](https://github.com/Esri/calcite-components/commit/954df61b342e698a1de4a21b93b3f5f08caf14b4))
 - **tree:** fix item selection when multi + input-enabled ([#2555](https://github.com/Esri/calcite-components/issues/2555)) ([44af309](https://github.com/Esri/calcite-components/commit/44af3096adb6bbf5424c7aae83df054513c79016)), closes [#2437](https://github.com/Esri/calcite-components/issues/2437)
 <!--@unreleased-section-end-->
 
