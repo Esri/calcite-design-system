@@ -220,7 +220,7 @@ export class CalciteButton {
   /** determine if there is slotted content for styling purposes */
   @State() private hasContent?: boolean = false;
 
-  /** determine if there is slotted content for styling purposes */
+  /** determine if loader present for styling purposes */
   @State() private hasLoader?: boolean = false;
 
   private updateHasContent() {
