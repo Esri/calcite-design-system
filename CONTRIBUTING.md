@@ -1,6 +1,6 @@
 Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](https://github.com/esri/contributing).
 
-(Note: As a new contributor, please email [Julio Ochoa](JOchoa@esri.com) to join the [Calcite Components GitHub team](https://github.com/orgs/Esri/teams/calcite-components/members). Then, clone the repo via SSH on your machine.)
+Note: New contributors should first contact [Julio Ochoa](JOchoa@esri.com) or [Juan Carlos Franco](JFranco@esri.com) to join the [Calcite Components GitHub team](https://github.com/orgs/Esri/teams/calcite-components/members). Then, clone the repo via SSH key on your machine. (This Git workflow is required in order to work with our Screener test integration.)
 
 ### I want to contribute, what should I work on?
 
