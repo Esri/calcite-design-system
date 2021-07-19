@@ -92,20 +92,12 @@ export class CalciteButton {
   @Watch("loading")
   loadingChanged(newValue: boolean, oldValue: boolean): void {
     if (!!newValue && !oldValue) {
-      this.loaderEl = document.createElement("calcite-loader");
-      this.loaderEl.active = true;
-      this.loaderEl.inline = true;
-      this.loaderEl.label = this.intlLoading;
-      this.loaderEl.className = CSS.loadingIn;
-      this.loaderContainer.appendChild(this.loaderEl);
+      this.hasLoader = true;
     }
     if (!newValue && !!oldValue) {
-      this.loaderEl.className = CSS.loadingOut;
-      requestAnimationFrame(() => {
-        window.setTimeout(() => {
-          this.loaderContainer.removeChild(this.loaderEl);
-        }, 300);
-      });
+      window.setTimeout(() => {
+        this.hasLoader = false;
+      }, 300);
     }
   }
 
@@ -117,6 +109,7 @@ export class CalciteButton {
 
   connectedCallback(): void {
     this.childElType = this.href ? "a" : "button";
+    this.hasLoader = this.loading;
     this.setupTextContentObserver();
   }
 
@@ -133,15 +126,22 @@ export class CalciteButton {
     }
   }
 
-  componentDidLoad(): void {
-    this.renderLoader();
-  }
-
   render(): VNode {
     const dir = getElementDir(this.el);
     const Tag = this.childElType;
 
-    const loader = <div class={CSS.buttonLoader} ref={(el) => (this.loaderContainer = el)} />;
+    const loader = (
+      <div class={CSS.buttonLoader}>
+        {this.hasLoader ? (
+          <calcite-loader
+            active
+            class={this.loading ? CSS.loadingIn : CSS.loadingOut}
+            inline
+            label={this.intlLoading}
+          />
+        ) : null}
+      </div>
+    );
 
     const iconScale = this.scale === "l" ? "m" : "s";
 
@@ -217,14 +217,11 @@ export class CalciteButton {
   /** the node type of the rendered child element */
   private childElType?: "a" | "button" = "button";
 
-  /** the rendered loader container */
-  private loaderContainer?: HTMLDivElement;
-
-  /** the rendered loader element */
-  private loaderEl?: HTMLCalciteLoaderElement;
-
   /** determine if there is slotted content for styling purposes */
   @State() private hasContent?: boolean = false;
+
+  /** determine if there is slotted content for styling purposes */
+  @State() private hasLoader?: boolean = false;
 
   private updateHasContent() {
     const slottedContent = this.el.textContent.trim().length > 0 || this.el.childNodes.length > 0;
@@ -278,15 +275,4 @@ export class CalciteButton {
       e.preventDefault();
     }
   };
-
-  private renderLoader(): VNode {
-    if (this.loading) {
-      this.loaderEl = document.createElement("calcite-loader");
-      this.loaderEl.active = true;
-      this.loaderEl.inline = true;
-      this.loaderEl.label = this.intlLoading;
-      this.loaderContainer.appendChild(this.loaderEl);
-    }
-    return null;
-  }
 }

@@ -214,7 +214,6 @@ describe("calcite-button", () => {
     expect(iconStart).not.toBeNull();
     expect(await iconStart.isVisible()).toBeFalsy();
     expect(loader).not.toBeNull();
-    expect(loader).not.toHaveClass(CSS.loadingIn);
     // one icon only buttons should stay square
     expect(await element.getProperty("offsetWidth")).toEqual(await element.getProperty("offsetHeight"));
   });
@@ -234,7 +233,6 @@ describe("calcite-button", () => {
     expect(iconStart).not.toBeNull();
     expect(iconEnd).toBeNull();
     expect(loader).not.toBeNull();
-    expect(loader).not.toHaveClass(CSS.loadingIn);
   });
 
   it("renders with a loader and an icon-end when both icon-end and loader are requested", async () => {
@@ -252,7 +250,6 @@ describe("calcite-button", () => {
     expect(iconStart).toBeNull();
     expect(iconEnd).not.toBeNull();
     expect(loader).not.toBeNull();
-    expect(loader).not.toHaveClass(CSS.loadingIn);
   });
 
   it("renders with a loader and an icon-start and icon-end when all are requested", async () => {
@@ -270,7 +267,6 @@ describe("calcite-button", () => {
     expect(iconStart).not.toBeNull();
     expect(iconEnd).not.toBeNull();
     expect(loader).not.toBeNull();
-    expect(loader).not.toHaveClass(CSS.loadingIn);
   });
 
   it("hascontent class is present on rendered child when content (as text) is present", async () => {
