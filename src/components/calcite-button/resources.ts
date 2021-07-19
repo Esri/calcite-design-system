@@ -4,7 +4,9 @@ export const CSS = {
   contentSlotted: "content--slotted",
   icon: "icon",
   iconStart: "icon--start",
-  iconEnd: "icon--end"
+  iconEnd: "icon--end",
+  loadingIn: "loading-in",
+  loadingOut: "loading-out"
 };
 
 export const TEXT = {
