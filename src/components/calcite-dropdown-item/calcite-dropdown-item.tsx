@@ -179,8 +179,12 @@ export class CalciteDropdownItem {
             [CSS.containerNone]: this.selectionMode === "none"
           }}
         >
-          {this.selectionMode === "multi" ? (
-            <calcite-icon class="dropdown-item-check-icon" icon="check" scale="s" />
+          {this.selectionMode !== "none" ? (
+            <calcite-icon
+              class="dropdown-item-icon"
+              icon={this.selectionMode === "multi" ? "check" : "bullet-point"}
+              scale="s"
+            />
           ) : null}
           {contentEl}
         </div>

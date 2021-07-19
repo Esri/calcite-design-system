@@ -1,4 +1,4 @@
-import { Component, Element, h, Method, Prop, Build, State, VNode } from "@stencil/core";
+import { Component, Element, h, Method, Prop, Build, State, VNode, Watch } from "@stencil/core";
 import { CSS, TEXT } from "./resources";
 import { getElementDir } from "../../utils/dom";
 import { ButtonAlignment, ButtonAppearance, ButtonColor } from "./interfaces";
@@ -89,6 +89,18 @@ export class CalciteButton {
   /** specify the width of the button, defaults to auto */
   @Prop({ reflect: true }) width: Width = "auto";
 
+  @Watch("loading")
+  loadingChanged(newValue: boolean, oldValue: boolean): void {
+    if (!!newValue && !oldValue) {
+      this.hasLoader = true;
+    }
+    if (!newValue && !!oldValue) {
+      window.setTimeout(() => {
+        this.hasLoader = false;
+      }, 300);
+    }
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -97,6 +109,7 @@ export class CalciteButton {
 
   connectedCallback(): void {
     this.childElType = this.href ? "a" : "button";
+    this.hasLoader = this.loading;
     this.setupTextContentObserver();
   }
 
@@ -119,7 +132,14 @@ export class CalciteButton {
 
     const loader = (
       <div class={CSS.buttonLoader}>
-        <calcite-loader active inline label={this.intlLoading} />
+        {this.hasLoader ? (
+          <calcite-loader
+            active
+            class={this.loading ? CSS.loadingIn : CSS.loadingOut}
+            inline
+            label={this.intlLoading}
+          />
+        ) : null}
       </div>
     );
 
@@ -153,17 +173,17 @@ export class CalciteButton {
       <Tag
         aria-label={this.label}
         class={{ [CSS_UTILITY.rtl]: dir === "rtl", [CSS.contentSlotted]: this.hasContent }}
-        disabled={this.disabled}
+        disabled={this.disabled || this.loading}
         href={this.childElType === "a" && this.href}
         name={this.childElType === "button" && this.name}
         onClick={this.handleClick}
         ref={(el) => (this.childEl = el)}
         rel={this.childElType === "a" && this.el.getAttribute("rel")}
-        tabIndex={this.disabled ? -1 : null}
+        tabIndex={this.disabled || this.loading ? -1 : null}
         target={this.childElType === "a" && this.el.getAttribute("target")}
         type={this.childElType === "button" && this.type}
       >
-        {this.loading ? loader : null}
+        {loader}
         {this.iconStart ? iconStartEl : null}
         {this.hasContent ? contentEl : null}
         {this.iconEnd ? iconEndEl : null}
@@ -199,6 +219,9 @@ export class CalciteButton {
 
   /** determine if there is slotted content for styling purposes */
   @State() private hasContent?: boolean = false;
+
+  /** determine if loader present for styling purposes */
+  @State() private hasLoader?: boolean = false;
 
   private updateHasContent() {
     const slottedContent = this.el.textContent.trim().length > 0 || this.el.childNodes.length > 0;

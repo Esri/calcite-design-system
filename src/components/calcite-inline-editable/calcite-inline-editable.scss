@@ -1,60 +1,60 @@
 :host([scale="s"]) {
-  .calcite-inline-editable-controls-wrapper {
+  .calcite-inline-editable__controls-wrapper {
     height: 32px;
   }
 }
 
 :host([scale="m"]) {
-  .calcite-inline-editable-controls-wrapper {
+  .calcite-inline-editable__controls-wrapper {
     height: 44px;
   }
 }
 
 :host([scale="l"]) {
-  .calcite-inline-editable-controls-wrapper {
+  .calcite-inline-editable__controls-wrapper {
     height: 56px;
   }
 }
 
 :host(:not([editing-enabled])) {
-  .calcite-inline-editable-wrapper {
+  .calcite-inline-editable__wrapper {
     &:hover {
       background: var(--calcite-ui-foreground-2);
     }
   }
 }
 
-.calcite-inline-editable-wrapper {
+.calcite-inline-editable__wrapper {
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   transition: $transition;
   background: var(--calcite-ui-foreground-1);
 
-  .calcite-inline-editable-input-wrapper {
+  .calcite-inline-editable__input-wrapper {
     flex: 1;
   }
 }
 
-.calcite-inline-editable-controls-wrapper {
+.calcite-inline-editable__controls-wrapper {
   display: flex;
 }
 
-.calcite-inline-editable-cancel-editing-button-wrapper {
+.calcite-inline-editable__cancel-editing-button-wrapper {
   border: 1px solid var(--calcite-ui-border-1);
   border-left: none;
   border-right: none;
 }
 
 :host([disabled]) {
-  .calcite-inline-editable-cancel-editing-button-wrapper {
+  .calcite-inline-editable__cancel-editing-button-wrapper {
     border-color: var(--calcite-ui-border-2);
   }
 }
 
 :host {
   &::slotted(*) {
-    .calcite-input-element-wrapper {
+    .calcite-input__element-wrapper {
       textarea,
       input {
         transition: $transition;
@@ -65,7 +65,7 @@
 
 :host(:not([editing-enabled])) {
   &::slotted(*) {
-    .calcite-input-element-wrapper {
+    .calcite-input__element-wrapper {
       background: transparent;
     }
   }
@@ -77,7 +77,7 @@
       display: none;
     }
 
-    .calcite-input-element-wrapper {
+    .calcite-input__element-wrapper {
       display: flex;
       cursor: pointer;
       textarea,
@@ -103,7 +103,7 @@
 :host([dir="rtl"]) {
   &:not([editing-enabled]) {
     &::slotted(*) {
-      .calcite-input-element-wrapper {
+      .calcite-input__element-wrapper {
         textarea,
         input {
           padding-right: 0;
@@ -118,7 +118,7 @@
   :host {
     &:not([editing-enabled]) {
       &::slotted(*) {
-        .calcite-input-element-wrapper {
+        .calcite-input__element-wrapper {
           textarea,
           input {
             padding-right: 0;
