@@ -3,6 +3,15 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+<!--@unreleased-section-start-->
+
+## Unreleased (2021-07-20)
+
+### Bug Fixes
+
+- **input:** fix layout of number input with horizontal button layout ([#2581](https://github.com/Esri/calcite-components/issues/2581)) ([58866ac](https://github.com/Esri/calcite-components/commit/58866ac84e5b56294fae426db49fc5c37f4fc94e)), closes [#2422](https://github.com/Esri/calcite-components/issues/2422)
+<!--@unreleased-section-end-->
+
 ## [1.0.0-beta.60](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.59...v1.0.0-beta.60) (2021-07-20)
 
 ### ⚠ BREAKING CHANGES
