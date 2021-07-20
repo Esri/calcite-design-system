@@ -397,15 +397,15 @@ input[type="time"]::-webkit-clear-button {
 }
 
 :host([number-button-type="horizontal"]) .calcite--rtl {
-  & .calcite-input-number-button-item[data-adjustment="down"] calcite-icon {
+  & .calcite-input__number-button-item[data-adjustment="down"] calcite-icon {
     transform: rotate(-90deg);
   }
-  & .calcite-input-number-button-item[data-adjustment="up"] calcite-icon {
+  & .calcite-input__number-button-item[data-adjustment="up"] calcite-icon {
     transform: rotate(-90deg);
   }
 }
 
-.calcite-input-number-button-item.calcite-input__number-button-item--horizontal {
+.calcite-input__number-button-item.calcite-input__number-button-item--horizontal {
   &[data-adjustment="down"],
   &[data-adjustment="up"] {
     min-height: 100%;
@@ -418,26 +418,26 @@ input[type="time"]::-webkit-clear-button {
   }
 }
 
-.calcite-input-number-button-item.calcite-input__number-button-item--horizontal[data-adjustment="down"] {
+.calcite-input__number-button-item.calcite-input__number-button-item--horizontal[data-adjustment="down"] {
   border-left: 1px solid var(--calcite-ui-border-1);
   border-right: 0px;
 }
 
-.calcite-input-number-button-item.calcite-input__number-button-item--horizontal[data-adjustment="up"] {
+.calcite-input__number-button-item.calcite-input__number-button-item--horizontal[data-adjustment="up"] {
   order: 5;
 }
 .calcite--rtl {
-  .calcite-input-number-button-item.calcite-input__number-button-item--horizontal[data-adjustment="down"] {
+  .calcite-input__number-button-item.calcite-input__number-button-item--horizontal[data-adjustment="down"] {
     border-right: 1px solid var(--calcite-ui-border-1);
     border-left: 0px;
   }
-  .calcite-input-number-button-item.calcite-input__number-button-item--horizontal[data-adjustment="up"] {
+  .calcite-input__number-button-item.calcite-input__number-button-item--horizontal[data-adjustment="up"] {
     border-left: 1px solid var(--calcite-ui-border-1);
     border-right: 0px;
   }
 }
 
-:host([number-button-type="vertical"]) .calcite-input-number-button-item[data-adjustment="down"] {
+:host([number-button-type="vertical"]) .calcite-input__number-button-item[data-adjustment="down"] {
   border-top: 0;
 }
 
