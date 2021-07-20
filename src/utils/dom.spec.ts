@@ -77,7 +77,7 @@ describe("dom", () => {
       `;
 
         expect(
-          closestElementCrossShadowBoundary(document.getElementById("test").shadowRoot.firstElementChild, "test-prop")
+          closestElementCrossShadowBoundary(document.getElementById("test").shadowRoot.firstElementChild, "[test-prop]")
         ).toBe("parent");
       });
 
