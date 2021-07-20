@@ -138,72 +138,6 @@ export class CalciteCombobox {
     this.toggleSelection(target, target.selected);
   }
 
-  keydownHandler = (event: KeyboardEvent): void => {
-    const key = getKey(event.key, getElementDir(this.el));
-
-    switch (key) {
-      case "Tab":
-        this.activeChipIndex = -1;
-        this.activeItemIndex = -1;
-        if (this.allowCustomValues && this.text) {
-          this.addCustomChip(this.text, true);
-          event.preventDefault();
-        } else {
-          this.active = false;
-        }
-        break;
-      case "ArrowLeft":
-        this.previousChip();
-        break;
-      case "ArrowRight":
-        this.nextChip();
-        break;
-      case "ArrowUp":
-        event.preventDefault();
-        this.active = true;
-        this.shiftActiveItemIndex(-1);
-        break;
-      case "ArrowDown":
-        event.preventDefault();
-        this.active = true;
-        this.shiftActiveItemIndex(1);
-        break;
-      case "Home":
-        this.active = true;
-        this.updateActiveItemIndex(0);
-        break;
-      case "End":
-        this.active = true;
-        this.updateActiveItemIndex(this.visibleItems.length - 1);
-        break;
-      case "Escape":
-        this.active = false;
-        break;
-      case "Enter":
-        if (this.activeItemIndex > -1) {
-          this.toggleSelection(this.visibleItems[this.activeItemIndex]);
-        } else if (this.activeChipIndex > -1) {
-          this.removeActiveChip();
-        } else if (this.allowCustomValues && this.text) {
-          this.addCustomChip(this.text, true);
-        }
-        break;
-      case "Delete":
-      case "Backspace":
-        if (this.activeChipIndex > -1) {
-          this.removeActiveChip();
-        } else if (!this.text && this.isMulti()) {
-          this.removeLastChip();
-        }
-        break;
-      default:
-        if (!this.active) {
-          this.setFocus();
-        }
-        break;
-    }
-  };
-
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -367,6 +301,72 @@ export class CalciteCombobox {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  keydownHandler = (event: KeyboardEvent): void => {
+    const key = getKey(event.key, getElementDir(this.el));
+
+    switch (key) {
+      case "Tab":
+        this.activeChipIndex = -1;
+        this.activeItemIndex = -1;
+        if (this.allowCustomValues && this.text) {
+          this.addCustomChip(this.text, true);
+          event.preventDefault();
+        } else {
+          this.active = false;
+        }
+        break;
+      case "ArrowLeft":
+        this.previousChip();
+        break;
+      case "ArrowRight":
+        this.nextChip();
+        break;
+      case "ArrowUp":
+        event.preventDefault();
+        this.active = true;
+        this.shiftActiveItemIndex(-1);
+        break;
+      case "ArrowDown":
+        event.preventDefault();
+        this.active = true;
+        this.shiftActiveItemIndex(1);
+        break;
+      case "Home":
+        this.active = true;
+        this.updateActiveItemIndex(0);
+        break;
+      case "End":
+        this.active = true;
+        this.updateActiveItemIndex(this.visibleItems.length - 1);
+        break;
+      case "Escape":
+        this.active = false;
+        break;
+      case "Enter":
+        if (this.activeItemIndex > -1) {
+          this.toggleSelection(this.visibleItems[this.activeItemIndex]);
+        } else if (this.activeChipIndex > -1) {
+          this.removeActiveChip();
+        } else if (this.allowCustomValues && this.text) {
+          this.addCustomChip(this.text, true);
+        }
+        break;
+      case "Delete":
+      case "Backspace":
+        if (this.activeChipIndex > -1) {
+          this.removeActiveChip();
+        } else if (!this.text && this.isMulti()) {
+          this.removeLastChip();
+        }
+        break;
+      default:
+        if (!this.active) {
+          this.setFocus();
+        }
+        break;
+    }
+  };
 
   private toggleCloseEnd = (): void => {
     this.hideList = true;
@@ -831,7 +831,8 @@ export class CalciteCombobox {
   renderInput(): VNode {
     const { active, disabled, placeholder, selectionMode, needsIcon, label, selectedItems } = this;
     const single = selectionMode === "single";
-    const showLabel = !active && single && !!selectedItems.length;
+    const selectedItem = selectedItems[0];
+    const showLabel = !active && single && !!selectedItem;
     return (
       <span
         class={{
@@ -849,7 +850,7 @@ export class CalciteCombobox {
             onFocus={this.comboboxFocusHandler}
             tabindex="0"
           >
-            {selectedItems[0].textLabel}
+            {selectedItem.textLabel}
           </span>
         )}
         <input
@@ -924,7 +925,7 @@ export class CalciteCombobox {
       needsIcon && (
         <span class="icon-start">
           {selectedItem?.icon && (
-            <calcite-icon class="selected-icon" icon={selectedItem?.icon} scale="s" />
+            <calcite-icon class="selected-icon" icon={selectedItem.icon} scale="s" />
           )}
         </span>
       )
