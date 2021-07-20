@@ -11,7 +11,7 @@ import {
   Build,
   Method,
   Watch,
-  Fragment
+  Host
 } from "@stencil/core";
 import { filter } from "../../utils/filter";
 import { getElementDir } from "../../utils/dom";
@@ -138,8 +138,7 @@ export class CalciteCombobox {
     this.toggleSelection(target, target.selected);
   }
 
-  @Listen("keydown")
-  keydownHandler(event: KeyboardEvent): void {
+  keydownHandler = (event: KeyboardEvent): void => {
     const key = getKey(event.key, getElementDir(this.el));
 
     switch (key) {
@@ -203,7 +202,7 @@ export class CalciteCombobox {
         }
         break;
     }
-  }
+  };
 
   //--------------------------------------------------------------------------
   //
@@ -239,8 +238,16 @@ export class CalciteCombobox {
   //
   // --------------------------------------------------------------------------
 
-  /** Called when the selected items set changes */
+  /**
+   * Called when the selected items set changes
+   * @deprecated use calciteComboboxChange instead
+   */
   @Event() calciteLookupChange: EventEmitter<HTMLCalciteComboboxItemElement[]>;
+
+  /**
+   * Called when the selected item(s) changes.
+   */
+  @Event() calciteComboboxChange: EventEmitter<HTMLCalciteComboboxItemElement[]>;
 
   /** Called when the user has entered text to filter the options list */
   @Event() calciteComboboxFilterChange: EventEmitter<{
@@ -307,8 +314,6 @@ export class CalciteCombobox {
   @State() groupItems: HTMLCalciteComboboxItemGroupElement[] = [];
 
   @State() selectedItems: HTMLCalciteComboboxItemElement[] = [];
-
-  @State() selectedItem: HTMLCalciteComboboxItemElement;
 
   @State() visibleItems: HTMLCalciteComboboxItemElement[] = [];
 
@@ -556,6 +561,12 @@ export class CalciteCombobox {
 
   emitCalciteLookupChange = debounce(this.internalCalciteLookupChangeEvent, 0);
 
+  internalComboboxChangeEvent = (): void => {
+    this.calciteComboboxChange.emit(this.selectedItems);
+  };
+
+  emitComboboxChange = debounce(this.internalComboboxChangeEvent, 0);
+
   toggleSelection(item: HTMLCalciteComboboxItemElement, value = !item.selected): void {
     if (!item) {
       return;
@@ -566,6 +577,7 @@ export class CalciteCombobox {
       this.updateAncestors(item);
       this.selectedItems = this.getSelectedItems();
       this.emitCalciteLookupChange();
+      this.emitComboboxChange();
       this.resetText();
       this.textInput.focus();
       this.filterItems("");
@@ -573,7 +585,8 @@ export class CalciteCombobox {
       this.ignoreSelectedEventsFlag = true;
       this.items.forEach((el) => (el.selected = el === item));
       this.ignoreSelectedEventsFlag = false;
-      this.selectedItem = item;
+      this.selectedItems = this.getSelectedItems();
+      this.emitComboboxChange();
       this.textInput.value = item.textLabel;
       this.active = false;
       this.updateActiveItemIndex(-1);
@@ -607,22 +620,22 @@ export class CalciteCombobox {
   }
 
   getSelectedItems(): HTMLCalciteComboboxItemElement[] {
-    return (
-      this.items
-        .filter(
-          (item) =>
-            item.selected && (this.selectionMode !== "ancestors" || !hasActiveChildren(item))
-        )
-        /** Preserve order of entered tags */
-        .sort((a, b) => {
-          const aIdx = this.selectedItems.indexOf(a);
-          const bIdx = this.selectedItems.indexOf(b);
-          if (aIdx > -1 && bIdx > -1) {
-            return aIdx - bIdx;
-          }
-          return bIdx - aIdx;
-        })
-    );
+    return this.isMulti()
+      ? this.items
+          .filter(
+            (item) =>
+              item.selected && (this.selectionMode !== "ancestors" || !hasActiveChildren(item))
+          )
+          /** Preserve order of entered tags */
+          .sort((a, b) => {
+            const aIdx = this.selectedItems.indexOf(a);
+            const bIdx = this.selectedItems.indexOf(b);
+            if (aIdx > -1 && bIdx > -1) {
+              return aIdx - bIdx;
+            }
+            return bIdx - aIdx;
+          })
+      : [this.items.find((item) => item.selected)];
   }
 
   updateItems = (): void => {
@@ -632,9 +645,6 @@ export class CalciteCombobox {
     this.selectedItems = this.getSelectedItems();
     this.visibleItems = this.getVisibleItems();
     this.needsIcon = this.getNeedsIcon();
-    if (this.selectionMode === "single" && this.selectedItems.length) {
-      this.selectedItem = this.selectedItems[0];
-    }
     if (!this.allowCustomValues) {
       this.setMaxScrollerHeight();
     }
@@ -687,6 +697,7 @@ export class CalciteCombobox {
       this.updateItems();
       this.filterItems("");
       this.emitCalciteLookupChange();
+      this.emitComboboxChange();
     }
   }
 
@@ -767,7 +778,7 @@ export class CalciteCombobox {
   }
 
   isMulti(): boolean {
-    return this.selectionMode === "multi" || this.selectionMode === "ancestors";
+    return this.selectionMode !== "single";
   }
 
   comboboxFocusHandler = (): void => {
@@ -818,9 +829,9 @@ export class CalciteCombobox {
   }
 
   renderInput(): VNode {
-    const { active, disabled, placeholder, selectionMode, needsIcon, label } = this;
+    const { active, disabled, placeholder, selectionMode, needsIcon, label, selectedItems } = this;
     const single = selectionMode === "single";
-    const showLabel = !active && single && !!this.selectedItem;
+    const showLabel = !active && single && !!selectedItems.length;
     return (
       <span
         class={{
@@ -838,7 +849,7 @@ export class CalciteCombobox {
             onFocus={this.comboboxFocusHandler}
             tabindex="0"
           >
-            {this.selectedItem.textLabel}
+            {selectedItems[0].textLabel}
           </span>
         )}
         <input
@@ -906,7 +917,8 @@ export class CalciteCombobox {
   }
 
   renderIconStart(): VNode {
-    const { selectionMode, needsIcon, selectedItem } = this;
+    const { selectionMode, needsIcon, selectedItems } = this;
+    const selectedItem = selectedItems[0];
     return (
       selectionMode === "single" &&
       needsIcon && (
@@ -934,7 +946,7 @@ export class CalciteCombobox {
     const single = this.selectionMode === "single";
     const labelId = `${guid}-label`;
     return (
-      <Fragment>
+      <Host onKeyDown={this.keydownHandler}>
         <div
           aria-autocomplete="list"
           aria-expanded={open.toString()}
@@ -969,7 +981,7 @@ export class CalciteCombobox {
           {this.renderListBoxOptions()}
         </ul>
         {this.renderPopperContainer()}
-      </Fragment>
+      </Host>
     );
   }
 }
