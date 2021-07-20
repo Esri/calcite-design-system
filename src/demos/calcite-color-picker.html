@@ -6,59 +6,174 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Calcite ColorPicker</title>
     <style>
-      .demo-background-dark {
-        background: #202020;
-        color: white;
-        padding: 1rem;
+      .parent {
+        display: flex;
+        width: 60%;
+        padding: 25px 0;
+      }
+
+      .child {
+        flex: 1 0 25%;
+        margin: 0 25px;
+        color: var(--calcite-ui-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+      }
+
+      .right-aligned-text {
+        text-align: right;
+      }
+
+      hr {
+        margin: 25px 0;
+        border-top: 1px solid var(--calcite-ui-border-2);
       }
     </style>
     <script src="_assets/head.js"></script>
   </head>
 
   <body>
-    <calcite-button href="/">Home</calcite-button>
-    <h1>Calcite Color Picker</h1>
+    <div>
+      <calcite-button href="/" icon-start="arrow-left" color="neutral"> Home </calcite-button>
+    </div>
 
-    <h3 class="leader-1">Default</h3>
-    <calcite-color-picker></calcite-color-picker>
+    <h1 style="margin: 0 auto; text-align: center">Alert</h1>
 
-    <h3 class="leader-1">Default (no color)</h3>
-    <calcite-color-picker allow-empty></calcite-color-picker>
+    <!-- Headers -->
+    <div class="parent">
+      <div class="child"></div>
+      <div class="child">Small</div>
+      <div class="child">Medium</div>
+      <div class="child">Large</div>
+    </div>
 
-    <h3 class="leader-1">With initial color</h3>
-    <calcite-color-picker value="#beefee"></calcite-color-picker>
+    <!-- Default -->
+    <div class="parent">
+      <div class="child right-aligned-text">Default</div>
+      <div class="child">
+        <calcite-color-picker scale="s"></calcite-color-picker>
+      </div>
 
-    <h3 class="leader-1">Stores saved colors</h3>
-    <calcite-color-picker storage-id="demo"></calcite-color-picker>
+      <div class="child">
+        <calcite-color-picker scale="m"></calcite-color-picker>
+      </div>
 
-    <h3 class="leader-1">Scale s</h3>
-    <calcite-color-picker scale="s"></calcite-color-picker>
+      <div class="child">
+        <calcite-color-picker scale="l"></calcite-color-picker>
+      </div>
+    </div>
 
-    <h3 class="leader-1">Scale m</h3>
-    <calcite-color-picker scale="m"></calcite-color-picker>
+    <!-- Default (no color) -->
+    <div class="parent">
+      <div class="child right-aligned-text">Default (no color)</div>
+      <div class="child">
+        <calcite-color-picker scale="s" allow-empty></calcite-color-picker>
+      </div>
 
-    <h3 class="leader-1">Scale l</h3>
-    <calcite-color-picker scale="l"></calcite-color-picker>
+      <div class="child">
+        <calcite-color-picker scale="m" allow-empty></calcite-color-picker>
+      </div>
 
-    <h3 class="leader-1">Hidden sections (all)</h3>
-    <calcite-color-picker hide-hex hide-channels hide-saved></calcite-color-picker>
+      <div class="child">
+        <calcite-color-picker scale="l" allow-empty></calcite-color-picker>
+      </div>
+    </div>
 
-    <h3 class="leader-1">Hidden sections (hex)</h3>
-    <calcite-color-picker hide-hex></calcite-color-picker>
+    <!-- With initial color -->
+    <div class="parent">
+      <div class="child right-aligned-text">With initial color</div>
+      <div class="child">
+        <calcite-color-picker scale="s" value="#beefee"></calcite-color-picker>
+      </div>
 
-    <h3 class="leader-1">Hidden sections (channels)</h3>
-    <calcite-color-picker hide-channels></calcite-color-picker>
+      <div class="child">
+        <calcite-color-picker scale="m" value="#beefee"></calcite-color-picker>
+      </div>
 
-    <h3 class="leader-1">Hidden sections (saved)</h3>
-    <calcite-color-picker hide-saved></calcite-color-picker>
+      <div class="child">
+        <calcite-color-picker scale="l" value="#beefee"></calcite-color-picker>
+      </div>
+    </div>
 
-    <h3 class="leader-1">RTL</h3>
-    <calcite-color-picker dir="rtl"></calcite-color-picker>
+    <!-- Stores saved color -->
+    <div class="parent">
+      <div class="child right-aligned-text">Stores saved color</div>
+      <div class="child">
+        <calcite-color-picker scale="s" storage-id="demo"></calcite-color-picker>
+      </div>
 
-    <div class="demo-background-dark">
-      <h3 class="leader-1">Dark theme</h3>
+      <div class="child">
+        <calcite-color-picker scale="m" storage-id="demo"></calcite-color-picker>
+      </div>
 
-      <calcite-color-picker class="calcite-theme-dark"></calcite-color-picker>
+      <div class="child">
+        <calcite-color-picker scale="l" storage-id="demo"></calcite-color-picker>
+      </div>
+    </div>
+
+    <!-- Hidden sections (all) -->
+    <div class="parent">
+      <div class="child right-aligned-text">Hidden sections (all)</div>
+      <div class="child">
+        <calcite-color-picker scale="s" hide-hex hide-channels hide-saved></calcite-color-picker>
+      </div>
+
+      <div class="child">
+        <calcite-color-picker scale="m" hide-hex hide-channels hide-saved></calcite-color-picker>
+      </div>
+
+      <div class="child">
+        <calcite-color-picker scale="l" hide-hex hide-channels hide-saved></calcite-color-picker>
+      </div>
+    </div>
+
+    <!-- Hidden sections (hex) -->
+    <div class="parent">
+      <div class="child right-aligned-text">Hidden sections (hex)</div>
+      <div class="child">
+        <calcite-color-picker scale="s" hide-hex></calcite-color-picker>
+      </div>
+
+      <div class="child">
+        <calcite-color-picker scale="m" hide-hex></calcite-color-picker>
+      </div>
+
+      <div class="child">
+        <calcite-color-picker scale="l" hide-hex></calcite-color-picker>
+      </div>
+    </div>
+
+    <!-- Hidden sections (channels) -->
+    <div class="parent">
+      <div class="child right-aligned-text">Hidden sections (channels)</div>
+      <div class="child">
+        <calcite-color-picker scale="s" hide-channels></calcite-color-picker>
+      </div>
+
+      <div class="child">
+        <calcite-color-picker scale="m" hide-channels></calcite-color-picker>
+      </div>
+
+      <div class="child">
+        <calcite-color-picker scale="l" hide-channels></calcite-color-picker>
+      </div>
+    </div>
+
+    <!-- Hidden sections (saved) -->
+    <div class="parent">
+      <div class="child right-aligned-text">Hidden sections (saved)</div>
+      <div class="child">
+        <calcite-color-picker scale="s" hide-saved></calcite-color-picker>
+      </div>
+
+      <div class="child">
+        <calcite-color-picker scale="m" hide-saved></calcite-color-picker>
+      </div>
+
+      <div class="child">
+        <calcite-color-picker scale="l" hide-saved></calcite-color-picker>
+      </div>
     </div>
   </body>
 </html>
