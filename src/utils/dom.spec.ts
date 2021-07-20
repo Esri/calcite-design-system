@@ -1,4 +1,4 @@
-import { getElementProp, getSlotted, setRequestedIcon, ensureId } from "./dom";
+import { getElementProp, closestElementCrossShadowBoundary, getSlotted, setRequestedIcon, ensureId } from "./dom";
 import { guidPattern } from "./guid.spec";
 
 describe("dom", () => {
@@ -77,7 +77,7 @@ describe("dom", () => {
       `;
 
         expect(
-          getElementProp(document.getElementById("test").shadowRoot.firstElementChild, "test-prop", "not-found", true)
+          closestElementCrossShadowBoundary(document.getElementById("test").shadowRoot.firstElementChild, "test-prop")
         ).toBe("parent");
       });
 
