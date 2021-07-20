@@ -85,9 +85,9 @@
         </calcite-button>
       </div>
 
-      <!-- small scale & medium width -->
+      <!-- small width & medium scale -->
       <div class="child">
-        <calcite-modal class="js-modal-s-m" width="m" scale="s">
+        <calcite-modal class="js-modal-s-m" width="s" scale="m">
           <h3 slot="header">Small Modal</h3>
           <div slot="content">
             <p>
@@ -112,9 +112,9 @@
         </calcite-button>
       </div>
 
-      <!-- small scale & large width -->
+      <!-- small width & large scale -->
       <div class="child">
-        <calcite-modal class="js-modal-s-l" width="l" scale="s">
+        <calcite-modal class="js-modal-s-l" width="s" scale="l">
           <h3 slot="header">Small Modal</h3>
           <div slot="content">
             <p>
@@ -150,7 +150,7 @@
 
       <!-- medium width & small scale -->
       <div class="child">
-        <calcite-modal class="js-modal-m-s" width="s" scale="s">
+        <calcite-modal class="js-modal-m-s" width="m" scale="s">
           <h3 slot="header">Medium Modal</h3>
           <div slot="content">
             <table>
@@ -228,7 +228,7 @@
 
       <!-- medium width & large scale -->
       <div class="child">
-        <calcite-modal class="js-modal-m-l" width="l" scale="m">
+        <calcite-modal class="js-modal-m-l" width="m" scale="l">
           <h3 slot="header">Medium Modal</h3>
           <div slot="content">
             <table>
@@ -274,9 +274,9 @@
     <div class="parent">
       <div class="child right-aligned-text">Width L</div>
 
-      <!-- small width & large scale -->
+      <!-- large width & small scale -->
       <div class="child">
-        <calcite-modal class="js-modal-l-s" width="s" scale="l">
+        <calcite-modal class="js-modal-l-s" width="l" scale="s">
           <h3 slot="header">Large modal</h3>
           <div slot="content">
             <p>
@@ -303,9 +303,9 @@
         </calcite-button>
       </div>
 
-      <!-- medium width & large scale -->
+      <!-- large width & medium scale -->
       <div class="child">
-        <calcite-modal class="js-modal-l-m" width="m" scale="l">
+        <calcite-modal class="js-modal-l-m" width="l" scale="m">
           <h3 slot="header">Large modal</h3>
           <div slot="content">
             <p>
@@ -375,7 +375,7 @@
 
       <!-- small width destructive -->
       <div class="child">
-        <calcite-modal class="js-modal-destructive-s" color="red" width="s">
+        <calcite-modal class="js-modal-destructive-s" color="red" scale="s">
           <h3 slot="header">Delete</h3>
           <div slot="content">
             <p>This will delete things and perform some desctructive action, do you wish to continue?</p>
@@ -391,7 +391,7 @@
 
       <!-- medium width destructive -->
       <div class="child">
-        <calcite-modal class="js-modal-destructive-m" color="red" width="m">
+        <calcite-modal class="js-modal-destructive-m" color="red" scale="m">
           <h3 slot="header">Delete</h3>
           <div slot="content">
             <p>This will delete things and perform some desctructive action, do you wish to continue?</p>
@@ -407,7 +407,7 @@
 
       <!-- large width destructive -->
       <div class="child">
-        <calcite-modal class="js-modal-destructive-l" color="red" width="l">
+        <calcite-modal class="js-modal-destructive-l" color="red" scale="l">
           <h3 slot="header">Delete</h3>
           <div slot="content">
             <p>This will delete things and perform some desctructive action, do you wish to continue?</p>
@@ -432,7 +432,7 @@
 
       <!-- small width info -->
       <div class="child">
-        <calcite-modal class="js-modal-info-s" color="blue" width="s">
+        <calcite-modal class="js-modal-info-s" color="blue" scale="s">
           <h3 slot="header">Information</h3>
           <div slot="content">
             <p>This dialog should be used when choosing two viable paths.</p>
@@ -448,7 +448,7 @@
 
       <!-- medium width info -->
       <div class="child">
-        <calcite-modal class="js-modal-info-m" color="blue" width="m">
+        <calcite-modal class="js-modal-info-m" color="blue" scale="m">
           <h3 slot="header">Information</h3>
           <div slot="content">
             <p>This dialog should be used when choosing two viable paths.</p>
@@ -464,7 +464,7 @@
 
       <!-- large width info -->
       <div class="child">
-        <calcite-modal class="js-modal-info-l" color="blue" width="l">
+        <calcite-modal class="js-modal-info-l" color="blue" scale="l">
           <h3 slot="header">Information</h3>
           <div slot="content">
             <p>This dialog should be used when choosing two viable paths.</p>
@@ -489,7 +489,7 @@
 
       <!-- small width disabled -->
       <div class="child">
-        <calcite-modal class="js-modal-esc-disabled-s" disable-escape width="s">
+        <calcite-modal class="js-modal-esc-disabled-s" disable-escape scale="s">
           <h3 slot="header">Modal title</h3>
           <div slot="content">
             <p>This modal has <code>disable-escape</code> set, so pressing the escape key will not dismiss it.</p>
@@ -504,7 +504,7 @@
 
       <!-- medium width disabled -->
       <div class="child">
-        <calcite-modal class="js-modal-esc-disabled-m" disable-escape width="m">
+        <calcite-modal class="js-modal-esc-disabled-m" disable-escape scale="m">
           <h3 slot="header">Modal title</h3>
           <div slot="content">
             <p>This modal has <code>disable-escape</code> set, so pressing the escape key will not dismiss it.</p>
@@ -519,7 +519,7 @@
 
       <!-- large width disabled -->
       <div class="child">
-        <calcite-modal class="js-modal-esc-disabled-l" disable-escape width="l">
+        <calcite-modal class="js-modal-esc-disabled-l" disable-escape scale="l">
           <h3 slot="header">Modal title</h3>
           <div slot="content">
             <p>This modal has <code>disable-escape</code> set, so pressing the escape key will not dismiss it.</p>
@@ -543,7 +543,7 @@
 
       <!-- small width no close button -->
       <div class="child">
-        <calcite-modal class="js-modal-no-close-s" disable-close-button width="s">
+        <calcite-modal class="js-modal-no-close-s" disable-close-button scale="s">
           <h3 slot="header">Modal title</h3>
           <div slot="content">
             <p>This modal has no close button.</p>
@@ -558,7 +558,7 @@
 
       <!-- medium width no close button -->
       <div class="child">
-        <calcite-modal class="js-modal-no-close-m" disable-close-button width="m">
+        <calcite-modal class="js-modal-no-close-m" disable-close-button scale="m">
           <h3 slot="header">Modal title</h3>
           <div slot="content">
             <p>This modal has no close button.</p>
@@ -573,7 +573,7 @@
 
       <!-- large width no close button -->
       <div class="child">
-        <calcite-modal class="js-modal-no-close-l" disable-close-button width="l">
+        <calcite-modal class="js-modal-no-close-l" disable-close-button scale="l">
           <h3 slot="header">Modal title</h3>
           <div slot="content">
             <p>This modal has no close button.</p>
@@ -597,7 +597,7 @@
 
       <!-- small width no footer -->
       <div class="child">
-        <calcite-modal class="js-modal-no-footer-s" width="s">
+        <calcite-modal class="js-modal-no-footer-s" scale="s">
           <h3 slot="header">Small Modal</h3>
           <div slot="content">
             <calcite-loader label="loading" active />
@@ -611,7 +611,7 @@
 
       <!-- medium width no footer -->
       <div class="child">
-        <calcite-modal class="js-modal-no-footer-m" width="m">
+        <calcite-modal class="js-modal-no-footer-m" scale="m">
           <h3 slot="header">Small Modal</h3>
           <div slot="content">
             <calcite-loader label="loading" active />
@@ -625,7 +625,7 @@
 
       <!-- large width no footer -->
       <div class="child">
-        <calcite-modal class="js-modal-no-footer-l" width="m">
+        <calcite-modal class="js-modal-no-footer-l" scale="m">
           <h3 slot="header">Small Modal</h3>
           <div slot="content">
             <calcite-loader label="loading" active />
