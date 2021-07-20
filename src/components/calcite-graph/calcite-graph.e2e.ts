@@ -72,9 +72,9 @@ describe("calcite-graph", () => {
         [6, 2]
       ];
       elm.colorStops = [
-        [0, "red"],
-        [0.5, "green"],
-        [1, "blue"]
+        { offset: 0, color: "red" },
+        { offset: 0.5, color: "green" },
+        { offset: 1, color: "blue" }
       ];
     });
 

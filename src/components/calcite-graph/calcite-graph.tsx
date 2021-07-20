@@ -1,5 +1,5 @@
 import { Component, Element, Prop, h, VNode } from "@stencil/core";
-import { DataSeries } from "./interfaces";
+import { ColorStop, DataSeries } from "./interfaces";
 import { guid } from "../../utils/guid";
 import { area, range, translate } from "./util";
 
@@ -33,7 +33,7 @@ export class CalciteGraph {
    * Array of values describing a single color stop ([offset, color, opacity])
    * These color stops should be sorted by offset value
    */
-  @Prop() colorStops: [number, string, number][];
+  @Prop() colorStops: ColorStop[];
 
   /** Width of graph in pixels*/
   @Prop() width = 300;
@@ -87,7 +87,7 @@ export class CalciteGraph {
         {colorStops ? (
           <defs>
             <linearGradient id={`linear-gradient-${id}`} x1="0" x2="1" y1="0" y2="0">
-              {colorStops.map(([offset, color, opacity = 1]) => (
+              {colorStops.map(({ offset, color, opacity }) => (
                 <stop offset={`${offset * 100}%`} stop-color={color} stop-opacity={opacity}/>
               ))}
             </linearGradient>
