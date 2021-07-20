@@ -22,7 +22,7 @@
 }
 
 .icon {
-	@apply items-center flex my-0 p-3 cursor-pointer;
+	@apply items-center flex my-0 p-1 cursor-pointer;
 	color: theme("colors.brand");
 	flex: 0 0 auto;
 	line-height: 0;
@@ -53,7 +53,7 @@
 	@apply flex
     overflow-hidden
     pointer-events-none
-    py-3
+    py-2
     px-3
     text--2-wrap
     word-break;
