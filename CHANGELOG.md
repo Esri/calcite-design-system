@@ -3,9 +3,7 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-<!--@unreleased-section-start-->
-
-## Unreleased (2021-07-19)
+## [1.0.0-beta.60](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.59...v1.0.0-beta.60) (2021-07-20)
 
 ### ⚠ BREAKING CHANGES
 
@@ -29,8 +27,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **inline-editable, input, radio-button:** namespace scoped CSS classes ([#2564](https://github.com/Esri/calcite-components/issues/2564)) ([1988202](https://github.com/Esri/calcite-components/commit/19882020664c4354f3110367712cb496b5192253)), closes [#2422](https://github.com/Esri/calcite-components/issues/2422)
 - **input-time-picker:** input box supports 12-hour display ([#2540](https://github.com/Esri/calcite-components/issues/2540)) ([39e434f](https://github.com/Esri/calcite-components/commit/39e434f1853163557a7d73f64fe7cd00a4587b66))
 - **list, list-item:** UI tweaks to better match lists ([5a279fa](https://github.com/Esri/calcite-components/commit/5a279fa08b8cf392b5c3a28e042fd0cec888745a)), closes [#2541](https://github.com/Esri/calcite-components/issues/2541) [#2541](https://github.com/Esri/calcite-components/issues/2541) [#2541](https://github.com/Esri/calcite-components/issues/2541) [#2541](https://github.com/Esri/calcite-components/issues/2541)
+- **popover, tooltip:** Query for referenceElement if needed when the tooltip/popover is opened or closed. [#2446](https://github.com/Esri/calcite-components/issues/2446) ([#2475](https://github.com/Esri/calcite-components/issues/2475)) ([954df61](https://github.com/Esri/calcite-components/commit/954df61b342e698a1de4a21b93b3f5f08caf14b4))
 - **tree:** fix item selection when multi + input-enabled ([#2555](https://github.com/Esri/calcite-components/issues/2555)) ([44af309](https://github.com/Esri/calcite-components/commit/44af3096adb6bbf5424c7aae83df054513c79016)), closes [#2437](https://github.com/Esri/calcite-components/issues/2437)
-<!--@unreleased-section-end-->
 
 ## [1.0.0-beta.59](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.58...v1.0.0-beta.59) (2021-07-07)
 
