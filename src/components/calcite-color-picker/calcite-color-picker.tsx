@@ -346,7 +346,7 @@ export class CalciteColorPicker {
       ArrowLeft: { x: -10, y: 0 }
     };
 
-    if (Object.keys(arrowKeyToXYOffset).includes(key)) {
+    if (arrowKeyToXYOffset[key]) {
       event.preventDefault();
       this.scopeOrientation = key === "ArrowDown" || key === "ArrowUp" ? "vertical" : "horizontal";
       this.captureColorFieldColor(
@@ -354,7 +354,6 @@ export class CalciteColorPicker {
         this.colorFieldScopeTop + arrowKeyToXYOffset[key].y || 0,
         false
       );
-      return;
     }
   };
 
@@ -368,13 +367,12 @@ export class CalciteColorPicker {
       ArrowLeft: -1
     };
 
-    if (Object.keys(arrowKeyToXOffset).includes(key)) {
+    if (arrowKeyToXOffset[key]) {
       event.preventDefault();
       const delta = arrowKeyToXOffset[key] * modifier;
-      const hue = this.baseColorFieldColor?.hue();
-      const color = hue ? this.baseColorFieldColor.hue(hue + delta) : Color({ h: 0, s: 0, v: 100 });
+      const hue = this.baseColorFieldColor.hue();
+      const color = this.baseColorFieldColor.hue(hue + delta);
       this.internalColorSet(color, false);
-      return;
     }
   };
 
