@@ -7,15 +7,15 @@
     <title>Calcite Modal</title>
     <style>
       .parent {
-        margin: 0 auto;
         display: flex;
+        width: 60%;
         align-items: center;
-        padding: 10px 0;
+        padding: 25px 0;
       }
 
       .child {
-        flex: 1 0 21%;
-        margin: 0 15px;
+        flex: 0 0 15%;
+        margin: 0 25px;
         color: var(--calcite-ui-text-3);
         font-family: var(--calcite-sans-family);
         font-size: var(--calcite-font-size-0);
@@ -27,8 +27,8 @@
       }
 
       hr {
-        margin: 20px 0;
-        border-top: 1px solid var(--calcite-ui-foreground-3);
+        margin: 25px 0;
+        border-top: 1px solid var(--calcite-ui-border-2);
       }
     </style>
 
@@ -45,11 +45,9 @@
     <!-- Sizes -->
     <div class="parent">
       <div class="child right-aligned-text"></div>
-      <div class="child">Width</div>
-      <div class="child"></div>
-      <div class="child"></div>
-      <!-- <div class="child"> Medium </div>
-      <div class="child"> Large </div> -->
+      <div class="child">Small</div>
+      <div class="child">Medium</div>
+      <div class="child">Large</div>
     </div>
 
     <!-- 
@@ -58,7 +56,7 @@
       ************************************************** 
     -->
     <div class="parent">
-      <div class="child right-aligned-text">Small</div>
+      <div class="child right-aligned-text">Width S</div>
 
       <!-- small width & scale -->
       <div class="child">
@@ -83,7 +81,7 @@
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-s-s')" appearance="outline" scale="s">
-          <calcite-link> Small </calcite-link>
+          Scale Small
         </calcite-button>
       </div>
 
@@ -110,7 +108,7 @@
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-s-m')" appearance="outline" scale="s">
-          <calcite-link> Medium </calcite-link>
+          Scale Medium
         </calcite-button>
       </div>
 
@@ -137,7 +135,7 @@
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-s-l')" appearance="outline" scale="s">
-          <calcite-link> Large </calcite-link>
+          Scale Large
         </calcite-button>
       </div>
     </div>
@@ -148,7 +146,7 @@
       ************************************************** 
     -->
     <div class="parent">
-      <div class="child right-aligned-text">Medium</div>
+      <div class="child right-aligned-text">Width M</div>
 
       <!-- medium width & small scale -->
       <div class="child">
@@ -185,7 +183,7 @@
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-m-s')" appearance="outline" scale="s">
-          <calcite-link> Small </calcite-link>
+          Scale Small
         </calcite-button>
       </div>
 
@@ -224,7 +222,7 @@
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-m-m')" appearance="outline" scale="s">
-          <calcite-link> Medium </calcite-link>
+          Scale Medium
         </calcite-button>
       </div>
 
@@ -263,7 +261,7 @@
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-m-l')" appearance="outline" scale="s">
-          <calcite-link> Large </calcite-link>
+          Scale Large
         </calcite-button>
       </div>
     </div>
@@ -274,7 +272,7 @@
       ************************************************** 
     -->
     <div class="parent">
-      <div class="child right-aligned-text">Large</div>
+      <div class="child right-aligned-text">Width L</div>
 
       <!-- small width & large scale -->
       <div class="child">
@@ -301,7 +299,7 @@
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-l-s')" appearance="outline" scale="s">
-          <calcite-link> Small </calcite-link>
+          Scale Small
         </calcite-button>
       </div>
 
@@ -330,7 +328,7 @@
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-l-m')" appearance="outline" scale="s">
-          <calcite-link> Medium </calcite-link>
+          Scale Medium
         </calcite-button>
       </div>
 
@@ -359,13 +357,13 @@
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-l-l')" appearance="outline" scale="s">
-          <calcite-link> Large </calcite-link>
+          Scale Large
         </calcite-button>
       </div>
     </div>
 
     <hr />
-    <!-- A beautiful horizontal line -->
+    <!-- A horizontal line -->
 
     <!-- 
       **************************************************
@@ -387,7 +385,7 @@
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-destructive-s')" appearance="outline" scale="s">
-          <calcite-link> Small </calcite-link>
+          Scale Small
         </calcite-button>
       </div>
 
@@ -403,7 +401,7 @@
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-destructive-m')" appearance="outline" scale="s">
-          <calcite-link> Medium </calcite-link>
+          Scale Medium
         </calcite-button>
       </div>
 
@@ -419,7 +417,7 @@
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-destructive-l')" appearance="outline" scale="s">
-          <calcite-link> Large </calcite-link>
+          Scale Large
         </calcite-button>
       </div>
     </div>
@@ -444,7 +442,7 @@
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-info-s')" appearance="outline" scale="s">
-          <calcite-link> Small </calcite-link>
+          Scale Small
         </calcite-button>
       </div>
 
@@ -460,7 +458,7 @@
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-info-m')" appearance="outline" scale="s">
-          <calcite-link> Medium </calcite-link>
+          Scale Medium
         </calcite-button>
       </div>
 
@@ -476,7 +474,7 @@
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-info-l')" appearance="outline" scale="s">
-          <calcite-link> Large </calcite-link>
+          Scale Large
         </calcite-button>
       </div>
     </div>
@@ -500,7 +498,7 @@
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-esc-disabled-s')" appearance="outline" scale="s">
-          <calcite-link> Small </calcite-link>
+          Scale Small
         </calcite-button>
       </div>
 
@@ -515,7 +513,7 @@
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-esc-disabled-m')" appearance="outline" scale="s">
-          <calcite-link> Medium </calcite-link>
+          Scale Medium
         </calcite-button>
       </div>
 
@@ -530,7 +528,7 @@
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-esc-disabled-l')" appearance="outline" scale="s">
-          <calcite-link> Large </calcite-link>
+          Scale Large
         </calcite-button>
       </div>
     </div>
@@ -554,7 +552,7 @@
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-no-close-s')" appearance="outline" scale="s">
-          <calcite-link> Small </calcite-link>
+          Scale Small
         </calcite-button>
       </div>
 
@@ -569,7 +567,7 @@
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-no-close-m')" appearance="outline" scale="s">
-          <calcite-link> Medium </calcite-link>
+          Scale Medium
         </calcite-button>
       </div>
 
@@ -584,7 +582,7 @@
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-no-close-l')" appearance="outline" scale="s">
-          <calcite-link> Large </calcite-link>
+          Scale Large
         </calcite-button>
       </div>
     </div>
@@ -607,7 +605,7 @@
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-no-footer-s')" appearance="outline" scale="s">
-          <calcite-link> Small </calcite-link>
+          Scale Small
         </calcite-button>
       </div>
 
@@ -621,7 +619,7 @@
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-no-footer-m')" appearance="outline" scale="s">
-          <calcite-link> Medium </calcite-link>
+          Scale Medium
         </calcite-button>
       </div>
 
@@ -635,13 +633,14 @@
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-no-footer-l')" appearance="outline" scale="s">
-          <calcite-link> Large </calcite-link>
+          Scale Large
         </calcite-button>
       </div>
     </div>
 
     <hr />
-    <!-- A beautiful horizontal line -->
+    <!-- A horizontal line -->
+
     <!-- 
       **************************************************
       * FULLSCREEN 
@@ -667,15 +666,15 @@
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-fs-s')" appearance="outline" scale="s">
-          <calcite-link> Fullscreen </calcite-link>
+          Fullscreen
         </calcite-button>
       </div>
 
       <!-- 
-      **************************************************
-      * DOCKED 
-      ************************************************** 
-    -->
+        **************************************************
+        * DOCKED 
+        ************************************************** 
+       -->
       <div class="child">
         <calcite-modal class="js-modal-docked" status="info" docked width="s">
           <h3 slot="header">Docked</h3>
@@ -689,9 +688,7 @@
           <calcite-button slot="primary" width="full">Save</calcite-button>
         </calcite-modal>
 
-        <calcite-button onClick="openModal('.js-modal-docked')" appearance="outline" scale="s">
-          <calcite-link> Docked </calcite-link>
-        </calcite-button>
+        <calcite-button onClick="openModal('.js-modal-docked')" appearance="outline" scale="s"> Docked </calcite-button>
       </div>
 
       <!-- 
@@ -714,18 +711,15 @@
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-tab')" appearance="outline" scale="s">
-          <calcite-link> Tab Fencing </calcite-link>
+          Tab Fencing
         </calcite-button>
       </div>
-    </div>
 
-    <div class="parent">
-      <div class="child"></div>
       <!-- 
-      **************************************************
-      * CUSTOM WIDTH 
-      ************************************************** 
-    -->
+        **************************************************
+        * CUSTOM WIDTH 
+        ************************************************** 
+       -->
       <div class="child">
         <calcite-modal class="js-modal-custom-width" width="500">
           <h3 slot="header">Modal title</h3>
@@ -736,7 +730,7 @@
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-custom-width')" appearance="outline" scale="s">
-          <calcite-link> Custom width </calcite-link>
+          Custom width
         </calcite-button>
       </div>
 
@@ -806,11 +800,9 @@
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-grey-background')" appearance="outline" scale="s">
-          <calcite-link> Grey background </calcite-link>
+          Grey background
         </calcite-button>
       </div>
-
-      <div class="child"></div>
     </div>
 
     <!-- Magic code that makes every calcite link work -->
@@ -819,10 +811,16 @@
         document.querySelector(selector).active = true;
       }
 
-      let link = document.querySelectorAll("calcite-link");
-      for (let i = 0; i < link.length; i++) {
-        link[i].style.textDecoration = "none";
-      }
+      // const link = document.querySelector('calcite-link');
+      //     link.forEach(item => {
+      //       item.style.textDecoration="none";
+      //       console.log(item);
+      //   })
+
+      // let link = document.querySelectorAll("calcite-link");
+      // for (let i = 0; i < link.length; i++) {
+      //   link[i].style.textDecoration = "none";
+      // }
     </script>
   </body>
 </html>
