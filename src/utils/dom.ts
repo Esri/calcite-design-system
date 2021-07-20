@@ -23,7 +23,7 @@ export function nodeListToArray<T extends Element>(nodeList: HTMLCollectionOf<T>
 export type Direction = "ltr" | "rtl";
 
 export function getThemeName(el: HTMLElement): "light" | "dark" {
-  return closestElementCrossShadowBoundary(`.${CSS_UTILITY.darkTheme}`, el) ? "dark" : "light";
+  return closestElementCrossShadowBoundary(el, `.${CSS_UTILITY.darkTheme}`) ? "dark" : "light";
 }
 
 export function getElementDir(el: HTMLElement): Direction {
@@ -32,7 +32,7 @@ export function getElementDir(el: HTMLElement): Direction {
 
 export function getElementProp(el: Element, prop: string, fallbackValue: any, crossShadowBoundary = false): any {
   const selector = `[${prop}]`;
-  const closest = crossShadowBoundary ? closestElementCrossShadowBoundary(selector, el) : el.closest(selector);
+  const closest = crossShadowBoundary ? closestElementCrossShadowBoundary(el, selector) : el.closest(selector);
   return closest ? closest.getAttribute(prop) : fallbackValue;
 }
 
@@ -98,20 +98,16 @@ export function queryElementRoots<T extends Element = Element>(element: Element,
   return queryFrom(element);
 }
 
-function closestElementCrossShadowBoundary<E extends Element = Element>(
-  selector: string,
-  base: Element = this
-): E | null {
+export function closestElementCrossShadowBoundary<T extends Element = Element>(
+  element: Element,
+  selector: string
+): T | null {
   // based on https://stackoverflow.com/q/54520554/194216
-  function closestFrom(el): E | null {
-    if (!el || el === document || el === window) {
-      return null;
-    }
-    const found = el.closest(selector);
-    return found ? found : closestFrom(el.getRootNode().host);
+  function closestFrom<T extends Element = Element>(el: Element): T | null {
+    return el ? el.closest(selector) || closestFrom(getHost(getRootNode(el))) : null;
   }
 
-  return closestFrom(base);
+  return closestFrom(element);
 }
 
 export interface CalciteFocusableElement extends HTMLElement {
