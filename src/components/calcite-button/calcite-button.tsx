@@ -1,6 +1,6 @@
 import { Component, Element, h, Method, Prop, Build, State, VNode, Watch } from "@stencil/core";
 import { CSS, TEXT } from "./resources";
-import { getElementDir } from "../../utils/dom";
+import { getElementDir, closestElementCrossShadowBoundary } from "../../utils/dom";
 import { ButtonAlignment, ButtonAppearance, ButtonColor } from "./interfaces";
 import { FlipContext, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -253,7 +253,7 @@ export class CalciteButton {
       const requestedForm = this.el.getAttribute("form");
       const targetForm = requestedForm
         ? (document.getElementsByName(`${requestedForm}`)[0] as HTMLFormElement)
-        : (this.el.closest("form") as HTMLFormElement);
+        : (closestElementCrossShadowBoundary(this.el, "form") as HTMLFormElement);
 
       if (targetForm) {
         const targetFormSubmitFunction = targetForm.onsubmit as () => void;
