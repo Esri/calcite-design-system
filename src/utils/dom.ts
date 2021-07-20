@@ -27,12 +27,15 @@ export function getThemeName(el: HTMLElement): "light" | "dark" {
 }
 
 export function getElementDir(el: HTMLElement): Direction {
-  return getElementProp(el, "dir", "ltr", true) as Direction;
+  const prop = "dir";
+  const selector = `[${prop}]`;
+  const closest = closestElementCrossShadowBoundary(el, selector);
+  return closest ? (closest.getAttribute(prop) as Direction) : "ltr";
 }
 
-export function getElementProp(el: Element, prop: string, fallbackValue: any, crossShadowBoundary = false): any {
+export function getElementProp(el: Element, prop: string, fallbackValue: any): any {
   const selector = `[${prop}]`;
-  const closest = crossShadowBoundary ? closestElementCrossShadowBoundary(el, selector) : el.closest(selector);
+  const closest = el.closest(selector);
   return closest ? closest.getAttribute(prop) : fallbackValue;
 }
 
