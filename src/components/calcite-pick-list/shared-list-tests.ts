@@ -92,7 +92,7 @@ export function keyboardNavigation(listType: ListType): void {
         await list.press("ArrowDown");
 
         expect(await getFocusedItemValue(page)).toEqual("two");
-        expect(firstItem.tabIndex).toBeFalsy();
+        expect(firstItem.tabIndex).toBe(-1);
         expect(secondItem.tabIndex).toBe(-1);
 
         await list.press(" ");
@@ -102,7 +102,7 @@ export function keyboardNavigation(listType: ListType): void {
 
         expect(await getFocusedItemValue(page)).toEqual("one");
         expect(firstItem.tabIndex).toBe(-1);
-        expect(secondItem.tabIndex).toBeFalsy();
+        expect(firstItem.tabIndex).toBe(-1);
 
         await list.press(" ");
         expect(await getSelectedItemValues(list, listType)).toEqual(["one"]);
@@ -110,7 +110,7 @@ export function keyboardNavigation(listType: ListType): void {
         await list.press("ArrowUp");
 
         expect(await getFocusedItemValue(page)).toEqual("two");
-        expect(firstItem.tabIndex).toBeFalsy();
+        expect(firstItem.tabIndex).toBe(-1);
         expect(secondItem.tabIndex).toBe(-1);
 
         await list.press(" ");
