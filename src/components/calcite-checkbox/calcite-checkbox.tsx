@@ -12,7 +12,7 @@ import {
   Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { focusElement } from "../../utils/dom";
+import { focusElement, closestElementCrossShadowBoundary } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { hiddenInputStyle } from "../../utils/form";
 
@@ -218,7 +218,7 @@ export class CalciteCheckbox {
     this.guid = this.el.id || `calcite-checkbox-${guid()}`;
     this.initialChecked = this.checked;
     this.renderHiddenCheckboxInput();
-    const form = this.el.closest("form");
+    const form = closestElementCrossShadowBoundary(this.el, "form") as HTMLFormElement;
     if (form) {
       form.addEventListener("reset", this.formResetHandler);
     }
@@ -227,7 +227,7 @@ export class CalciteCheckbox {
 
   disconnectedCallback(): void {
     this.input.parentNode.removeChild(this.input);
-    const form = this.el.closest("form");
+    const form = closestElementCrossShadowBoundary(this.el, "form") as HTMLFormElement;
     if (form) {
       form.removeEventListener("reset", this.formResetHandler);
     }
