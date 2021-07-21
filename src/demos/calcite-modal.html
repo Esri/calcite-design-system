@@ -61,7 +61,7 @@
       <!-- small width & scale -->
       <div class="child">
         <calcite-modal class="js-modal-s-s" width="s" scale="s">
-          <h3 slot="header">Small Modal</h3>
+          <h3 slot="header">Small width and small scale modal</h3>
           <div slot="content">
             <p>
               The small modal is perfect for short confirmation dialogs or very compact interfaces with few elements.
@@ -88,7 +88,7 @@
       <!-- small width & medium scale -->
       <div class="child">
         <calcite-modal class="js-modal-s-m" width="s" scale="m">
-          <h3 slot="header">Small Modal</h3>
+          <h3 slot="header">Small width and medium scale modal</h3>
           <div slot="content">
             <p>
               The small modal is perfect for short confirmation dialogs or very compact interfaces with few elements.
@@ -115,7 +115,7 @@
       <!-- small width & large scale -->
       <div class="child">
         <calcite-modal class="js-modal-s-l" width="s" scale="l">
-          <h3 slot="header">Small Modal</h3>
+          <h3 slot="header">Small width and large scale modal</h3>
           <div slot="content">
             <p>
               The small modal is perfect for short confirmation dialogs or very compact interfaces with few elements.
@@ -151,7 +151,7 @@
       <!-- medium width & small scale -->
       <div class="child">
         <calcite-modal class="js-modal-m-s" width="m" scale="s">
-          <h3 slot="header">Medium Modal</h3>
+          <h3 slot="header">Medium wdith and small scale modal</h3>
           <div slot="content">
             <table>
               <tbody>
@@ -190,7 +190,7 @@
       <!-- medium width & medium scale -->
       <div class="child">
         <calcite-modal class="js-modal-m-m" width="m" scale="m">
-          <h3 slot="header">Medium Modal</h3>
+          <h3 slot="header">Medium width and medium scale modal</h3>
           <div slot="content">
             <table>
               <tbody>
@@ -229,7 +229,7 @@
       <!-- medium width & large scale -->
       <div class="child">
         <calcite-modal class="js-modal-m-l" width="m" scale="l">
-          <h3 slot="header">Medium Modal</h3>
+          <h3 slot="header">Medium width and large scale modal</h3>
           <div slot="content">
             <table>
               <tbody>
@@ -277,7 +277,7 @@
       <!-- large width & small scale -->
       <div class="child">
         <calcite-modal class="js-modal-l-s" width="l" scale="s">
-          <h3 slot="header">Large modal</h3>
+          <h3 slot="header">Large width and small scale modal</h3>
           <div slot="content">
             <p>
               This modal will be fullscreen until it is as wide as the calcite-web grid's max-width. This enables you to
@@ -306,7 +306,7 @@
       <!-- large width & medium scale -->
       <div class="child">
         <calcite-modal class="js-modal-l-m" width="l" scale="m">
-          <h3 slot="header">Large modal</h3>
+          <h3 slot="header">Large width and medium scale modal</h3>
           <div slot="content">
             <p>
               This modal will be fullscreen until it is as wide as the calcite-web grid's max-width. This enables you to
@@ -335,7 +335,7 @@
       <!-- large width & large scale -->
       <div class="child">
         <calcite-modal class="js-modal-l-l" width="l" scale="l">
-          <h3 slot="header">Large modal</h3>
+          <h3 slot="header">Large width and large scale modal</h3>
           <div slot="content">
             <p>
               This modal will be fullscreen until it is as wide as the calcite-web grid's max-width. This enables you to
@@ -380,8 +380,10 @@
           <div slot="content">
             <p>This will delete things and perform some desctructive action, do you wish to continue?</p>
           </div>
-          <calcite-button slot="secondary" width="full" appearance="outline" color="red">Cancel</calcite-button>
-          <calcite-button slot="primary" width="full" color="red">Delete</calcite-button>
+          <calcite-button slot="secondary" width="full" scale="s" appearance="outline" color="red"
+            >Cancel</calcite-button
+          >
+          <calcite-button slot="primary" width="full" scale="s" color="red">Delete</calcite-button>
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-destructive-s')" appearance="outline" scale="s">
@@ -396,8 +398,10 @@
           <div slot="content">
             <p>This will delete things and perform some desctructive action, do you wish to continue?</p>
           </div>
-          <calcite-button slot="secondary" width="full" appearance="outline" color="red">Cancel</calcite-button>
-          <calcite-button slot="primary" width="full" color="red">Delete</calcite-button>
+          <calcite-button slot="secondary" width="full" scale="m" appearance="outline" color="red"
+            >Cancel</calcite-button
+          >
+          <calcite-button slot="primary" width="full" scale="m" color="red">Delete</calcite-button>
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-destructive-m')" appearance="outline" scale="s">
@@ -412,8 +416,10 @@
           <div slot="content">
             <p>This will delete things and perform some desctructive action, do you wish to continue?</p>
           </div>
-          <calcite-button slot="secondary" width="full" appearance="outline" color="red">Cancel</calcite-button>
-          <calcite-button slot="primary" width="full" color="red">Delete</calcite-button>
+          <calcite-button slot="secondary" width="full" scale="l" appearance="outline" color="red"
+            >Cancel</calcite-button
+          >
+          <calcite-button slot="primary" width="full" scale="l" color="red">Delete</calcite-button>
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-destructive-l')" appearance="outline" scale="s">
@@ -437,8 +443,10 @@
           <div slot="content">
             <p>This dialog should be used when choosing two viable paths.</p>
           </div>
-          <calcite-button slot="secondary" width="full" appearance="outline">Start with no members</calcite-button>
-          <calcite-button slot="primary" width="full">Add members now</calcite-button>
+          <calcite-button slot="secondary" width="full" scale="s" appearance="outline"
+            >Start with no members</calcite-button
+          >
+          <calcite-button slot="primary" width="full" scale="s">Add members now</calcite-button>
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-info-s')" appearance="outline" scale="s">
@@ -453,8 +461,10 @@
           <div slot="content">
             <p>This dialog should be used when choosing two viable paths.</p>
           </div>
-          <calcite-button slot="secondary" width="full" appearance="outline">Start with no members</calcite-button>
-          <calcite-button slot="primary" width="full">Add members now</calcite-button>
+          <calcite-button slot="secondary" width="full" scale="m" appearance="outline"
+            >Start with no members</calcite-button
+          >
+          <calcite-button slot="primary" width="full" scale="m">Add members now</calcite-button>
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-info-m')" appearance="outline" scale="s">
@@ -469,8 +479,10 @@
           <div slot="content">
             <p>This dialog should be used when choosing two viable paths.</p>
           </div>
-          <calcite-button slot="secondary" width="full" appearance="outline">Start with no members</calcite-button>
-          <calcite-button slot="primary" width="full">Add members now</calcite-button>
+          <calcite-button slot="secondary" width="full" scale="l" appearance="outline"
+            >Start with no members</calcite-button
+          >
+          <calcite-button slot="primary" width="full" scale="l">Add members now</calcite-button>
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-info-l')" appearance="outline" scale="s">
@@ -494,7 +506,7 @@
           <div slot="content">
             <p>This modal has <code>disable-escape</code> set, so pressing the escape key will not dismiss it.</p>
           </div>
-          <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+          <calcite-button slot="secondary" width="full" scale="s" appearance="outline">Cancel</calcite-button>
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-esc-disabled-s')" appearance="outline" scale="s">
@@ -509,7 +521,7 @@
           <div slot="content">
             <p>This modal has <code>disable-escape</code> set, so pressing the escape key will not dismiss it.</p>
           </div>
-          <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+          <calcite-button slot="secondary" width="full" scale="m" appearance="outline">Cancel</calcite-button>
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-esc-disabled-m')" appearance="outline" scale="s">
@@ -524,7 +536,7 @@
           <div slot="content">
             <p>This modal has <code>disable-escape</code> set, so pressing the escape key will not dismiss it.</p>
           </div>
-          <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+          <calcite-button slot="secondary" width="full" scale="l" appearance="outline">Cancel</calcite-button>
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-esc-disabled-l')" appearance="outline" scale="s">
@@ -548,7 +560,7 @@
           <div slot="content">
             <p>This modal has no close button.</p>
           </div>
-          <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+          <calcite-button slot="secondary" width="full" scale="s" appearance="outline">Cancel</calcite-button>
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-no-close-s')" appearance="outline" scale="s">
@@ -563,7 +575,7 @@
           <div slot="content">
             <p>This modal has no close button.</p>
           </div>
-          <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+          <calcite-button slot="secondary" width="full" scale="m" appearance="outline">Cancel</calcite-button>
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-no-close-m')" appearance="outline" scale="s">
@@ -578,7 +590,7 @@
           <div slot="content">
             <p>This modal has no close button.</p>
           </div>
-          <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+          <calcite-button slot="secondary" width="full" scale="l" appearance="outline">Cancel</calcite-button>
         </calcite-modal>
 
         <calcite-button onClick="openModal('.js-modal-no-close-l')" appearance="outline" scale="s">
@@ -625,7 +637,7 @@
 
       <!-- large width no footer -->
       <div class="child">
-        <calcite-modal class="js-modal-no-footer-l" scale="m">
+        <calcite-modal class="js-modal-no-footer-l" scale="l">
           <h3 slot="header">Small Modal</h3>
           <div slot="content">
             <calcite-loader label="loading" active />
