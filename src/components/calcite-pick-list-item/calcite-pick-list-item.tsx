@@ -56,7 +56,8 @@ export class CalcitePickListItem {
   @Prop({ reflect: true }) disableSelect = false;
 
   /**
-   * Determines the icon SVG symbol that will be shown. Options are circle, square, grid or null.
+   * Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null.
+   * @see [ICON_TYPES](https://github.com/Esri/calcite-components/blob/master/src/components/calcite-pick-list/resources.ts#L5)
    */
   @Prop({ reflect: true }) icon?: ICON_TYPES | null = null;
 
@@ -104,6 +105,7 @@ export class CalcitePickListItem {
 
   /**
    * The text for the remove item buttons. Only applicable if removable is true.
+   * @default "remove"
    */
   @Prop({ reflect: true }) intlRemove = TEXT.remove;
 

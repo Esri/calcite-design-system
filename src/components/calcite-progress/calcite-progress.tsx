@@ -1,4 +1,4 @@
-import { Component, Element, Fragment, h, Prop, VNode } from "@stencil/core";
+import { Component, Element, h, Prop, VNode } from "@stencil/core";
 @Component({
   tag: "calcite-progress",
   styleUrl: "calcite-progress.scss",
@@ -13,8 +13,11 @@ export class CalciteProgress {
   /** Fraction completed, in the range of 0 - 1.0 */
   @Prop() value = 0;
 
-  /** Text label for the progress indicator */
-  @Prop() text: string = null;
+  /** Label for the progress indicator */
+  @Prop() label: string;
+
+  /** Text to display for the progress indicator */
+  @Prop() text: string;
 
   /** For indeterminate progress bars, reverse the animation direction */
   @Prop() reversed = false;
@@ -23,7 +26,13 @@ export class CalciteProgress {
     const isDeterminate = this.type === "determinate";
     const barStyles = isDeterminate ? { width: `${this.value * 100}%` } : {};
     return (
-      <Fragment>
+      <div
+        aria-label={this.label || this.text}
+        aria-valuemax={1}
+        aria-valuemin={0}
+        aria-valuenow={this.value}
+        role="progressbar"
+      >
         <div class="track">
           <div
             class={{
@@ -35,7 +44,7 @@ export class CalciteProgress {
           />
         </div>
         {this.text ? <div class="text">{this.text}</div> : null}
-      </Fragment>
+      </div>
     );
   }
 }

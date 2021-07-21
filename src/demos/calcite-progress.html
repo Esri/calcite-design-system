@@ -19,21 +19,32 @@
     <calcite-button href="/">Home</calcite-button>
     <h1>Calcite Progress</h1>
     <h1>Indeterminate</h1>
-    <calcite-progress type="indeterminate"></calcite-progress>
+    <calcite-progress type="indeterminate" label="a11y label"></calcite-progress>
     <h1>Determinate</h1>
-    <calcite-progress type="determinate" value="0.5" text="50% Complete (optional text)"></calcite-progress>
+    <calcite-progress
+      type="determinate"
+      value="0.5"
+      label="a11y label"
+      text="50% Complete (optional text)"
+    ></calcite-progress>
     <h1>Reversed</h1>
-    <calcite-progress type="indeterminate" reversed></calcite-progress>
+    <calcite-progress type="indeterminate" reversed label="a11y label"></calcite-progress>
     <br />
     <br />
     <br />
     <div class="demo-background-dark">
       <h1>Indeterminate</h1>
-      <calcite-progress class="calcite-theme-dark" type="indeterminate"></calcite-progress>
+      <calcite-progress class="calcite-theme-dark" type="indeterminate" label="a11y label"></calcite-progress>
       <br />
       <br />
       <h1>Determinate</h1>
-      <calcite-progress class="calcite-theme-dark" type="determinate" value="0.5" text="50% Complete (optional text)">
+      <calcite-progress
+        class="calcite-theme-dark"
+        type="determinate"
+        value="0.5"
+        label="a11y label"
+        text="50% Complete (optional text)"
+      >
       </calcite-progress>
     </div>
   </body>

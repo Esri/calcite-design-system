@@ -33,6 +33,7 @@ export class CalciteFab {
 
   /**
    * The name of the icon to display. The value of this property must match the icon name from https://esri.github.io/calcite-ui-icons/.
+   * @default "plus"
    */
   @Prop() icon?: string = ICONS.plus;
 

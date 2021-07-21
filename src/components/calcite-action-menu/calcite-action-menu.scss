@@ -7,7 +7,7 @@
   text-1;
 }
 
-::slotted(calcite-action) {
+.menu ::slotted(calcite-action) {
   @apply flex
   focus-base
   m-0.5;

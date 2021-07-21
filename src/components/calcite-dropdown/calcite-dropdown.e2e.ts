@@ -990,6 +990,7 @@ describe("calcite-dropdown", () => {
         const wrapper = document.querySelector(wrapperName);
         wrapper.shadowRoot.querySelector<HTMLElement>("#item-3").click();
         await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
         return wrapper.shadowRoot.querySelector("calcite-dropdown-item[active]").id;
       },
