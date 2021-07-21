@@ -612,3 +612,7 @@ input[type="time"]::-webkit-clear-button {
 :host(.no-bottom-border) input.sc-calcite-input {
   @apply border-b-0;
 }
+
+:host(.border-t-color-1) input.sc-calcite-input {
+  @apply border-t-color-1;
+}
