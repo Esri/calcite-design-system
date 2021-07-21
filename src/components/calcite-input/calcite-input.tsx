@@ -592,12 +592,14 @@ export class CalciteInput {
       />
     );
 
-    const numberButtonClassModifier =
-      this.numberButtonType === "horizontal" ? CSS.buttonItemHorizontal : null;
+    const isHorizontalNumberButton = this.numberButtonType === "horizontal";
 
     const numberButtonsHorizontalUp = (
       <div
-        class={`${CSS.numberButtonItem} ${numberButtonClassModifier}`}
+        class={{
+          [CSS.numberButtonItem]: true,
+          [CSS.buttonItemHorizontal]: isHorizontalNumberButton
+        }}
         data-adjustment="up"
         onMouseDown={this.numberButtonMouseDownHandler}
       >
@@ -607,7 +609,10 @@ export class CalciteInput {
 
     const numberButtonsHorizontalDown = (
       <div
-        class={`${CSS.numberButtonItem} ${numberButtonClassModifier}`}
+        class={{
+          [CSS.numberButtonItem]: true,
+          [CSS.buttonItemHorizontal]: isHorizontalNumberButton
+        }}
         data-adjustment="down"
         onMouseDown={this.numberButtonMouseDownHandler}
       >
