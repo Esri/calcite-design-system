@@ -1,7 +1,7 @@
 import { numberKeys } from "./key";
 
 export function isValidDecimal(value: number): boolean {
-  return Number(value) % 1 != 0;
+  return !Number.isInteger(value);
 }
 
 export function isValidNumber(numberString: string): boolean {
