@@ -2,6 +2,7 @@ import { select, number, text } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import readme from "./readme.md";
+import { Steps } from "screener-storybook/src/screener";
 
 const placements = [
   "auto",
@@ -50,7 +51,7 @@ const referenceElementHTML = `<calcite-popover-manager>Ut enim ad minim veniam, 
 
 export default {
   title: "Components/Popover",
-
+  steps: new Steps().wait(500).end(),
   parameters: {
     notes: readme
   }

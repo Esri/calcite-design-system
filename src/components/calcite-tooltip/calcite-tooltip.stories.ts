@@ -1,6 +1,7 @@
 import { select, number } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
+import { Steps } from "screener-storybook/src/screener";
 
 const placements = [
   "auto",
@@ -31,7 +32,7 @@ const referenceElementHTML = `<calcite-tooltip-manager>Ut enim ad minim veniam, 
 
 export default {
   title: "Components/Tooltip",
-
+  steps: new Steps().wait(500).end(),
   parameters: {
     notes: readme
   }
