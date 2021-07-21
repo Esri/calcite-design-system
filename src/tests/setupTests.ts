@@ -6,6 +6,7 @@ beforeAll(() => {
 
 beforeEach(() => globalError.mockClear());
 
+// eslint-disable-next-line jest/no-standalone-expect
 afterEach(() => expect(globalError).not.toHaveBeenCalled());
 
 afterAll(() => {
