@@ -181,7 +181,7 @@ export class CalciteCombobox {
   /**
    * Called when the selected item(s) changes.
    */
-  @Event() calciteComboboxChange: EventEmitter<HTMLCalciteComboboxItemElement[]>;
+  @Event() calciteComboboxChange: EventEmitter<{ selectedItems: HTMLCalciteComboboxItemElement[] }>;
 
   /** Called when the user has entered text to filter the options list */
   @Event() calciteComboboxFilterChange: EventEmitter<{
@@ -562,7 +562,8 @@ export class CalciteCombobox {
   emitCalciteLookupChange = debounce(this.internalCalciteLookupChangeEvent, 0);
 
   internalComboboxChangeEvent = (): void => {
-    this.calciteComboboxChange.emit(this.selectedItems);
+    const { selectedItems } = this;
+    this.calciteComboboxChange.emit({ selectedItems });
   };
 
   emitComboboxChange = debounce(this.internalComboboxChangeEvent, 0);
@@ -620,8 +621,9 @@ export class CalciteCombobox {
   }
 
   getSelectedItems(): HTMLCalciteComboboxItemElement[] {
-    return this.isMulti()
-      ? this.items
+    return !this.isMulti()
+      ? [this.items.find((item) => item.selected)]
+      : this.items
           .filter(
             (item) =>
               item.selected && (this.selectionMode !== "ancestors" || !hasActiveChildren(item))
@@ -634,8 +636,7 @@ export class CalciteCombobox {
               return aIdx - bIdx;
             }
             return bIdx - aIdx;
-          })
-      : [this.items.find((item) => item.selected)];
+          });
   }
 
   updateItems = (): void => {

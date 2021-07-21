@@ -490,7 +490,7 @@ describe("calcite-combobox", () => {
       await event;
 
       expect(eventSpy).toHaveReceivedEventTimes(1);
-      expect(eventSpy.lastEvent.detail.length).toBe(1);
+      expect(eventSpy.lastEvent.detail.selectedItems.length).toBe(1);
     });
 
     it("should have 2 selectedItems when not in single select", async () => {
@@ -517,7 +517,7 @@ describe("calcite-combobox", () => {
       await event;
 
       expect(eventSpy).toHaveReceivedEventTimes(1);
-      expect(eventSpy.lastEvent.detail.length).toBe(2);
+      expect(eventSpy.lastEvent.detail.selectedItems.length).toBe(2);
     });
   });
 
