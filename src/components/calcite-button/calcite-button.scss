@@ -177,13 +177,11 @@
 }
 
 :host([alignment="center"]) {
-  .calcite--rtl {
-    a:not(.content--slotted),
-    button:not(.content--slotted) {
-      .icon--start + .icon--end {
-        margin-left: unset;
-        margin-right: $baseline/3;
-      }
+  a.calcite--rtl:not(.content--slotted),
+  button.calcite--rtl:not(.content--slotted) {
+    .icon--start + .icon--end {
+      margin-left: unset;
+      margin-right: $baseline/3;
     }
   }
 }
@@ -197,6 +195,7 @@
 }
 
 // disabled styles
+:host([loading]),
 :host([disabled]) {
   pointer-events: none;
   button,
@@ -206,25 +205,50 @@
   }
 }
 
+@keyframes loader-in {
+  0% {
+    width: 0;
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  100% {
+    width: 1rem;
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes loader-out {
+  0% {
+    width: 1rem;
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    width: 0;
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
 .calcite-button--loader {
   display: flex;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  align-items: center;
-  justify-content: center;
   calcite-loader {
     margin: 0;
+    transition: width 300ms ease-in-out, opacity 300ms ease-in-out, transform 300ms ease-in-out;
+    &.loading-in {
+      animation-name: loader-in;
+      animation-duration: 300ms;
+    }
+    &.loading-out {
+      animation-name: loader-out;
+      animation-duration: 300ms;
+    }
   }
 }
 
 :host([loading]) {
   button,
   a {
-    color: transparent !important;
-    pointer-events: none;
     .calcite-button--icon {
       opacity: 0;
     }
@@ -514,6 +538,12 @@ $btnScales: "s" 12px 1.33 7px 12px, "m" 14px 1.15 13px 20px, "l" 18px 1.2 15px 2
     $compensated-padding-y: $padding-y + 1px;
     @include btn-scale($font-size, $line-height, $compensated-padding-y, $padding-x);
   }
+  :host([scale="#{$name}"][loading]) button.content--slotted,
+  :host([scale="#{$name}"][loading]) a.content--slotted {
+    .calcite-button--loader {
+      margin-inline-end: $baseline/3;
+    }
+  }
 }
 
 // generate fab scales
@@ -527,6 +557,13 @@ $btnScales2: "s" 12px 32px, "m" 14px 44px, "l" 18px 56px;
   :host([scale="#{$name}"]) button:not(.content--slotted),
   :host([scale="#{$name}"]) a:not(.content--slotted) {
     @include btn-scale-notext($font-size, $size);
+  }
+  :host([scale="#{$name}"][loading]) button:not(.content--slotted),
+  :host([scale="#{$name}"][loading]) a:not(.content--slotted) {
+    .icon--start,
+    .icon--end {
+      @apply hidden;
+    }
   }
 }
 

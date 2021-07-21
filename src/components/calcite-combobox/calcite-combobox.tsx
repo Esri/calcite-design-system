@@ -31,8 +31,7 @@ import {
   ComboboxChildSelector,
   ComboboxItem,
   ComboboxItemGroup,
-  ComboboxDefaultPlacement,
-  ComboboxTransitionDuration
+  ComboboxDefaultPlacement
 } from "./resources";
 import { getItemAncestors, getItemChildren, hasActiveChildren } from "./utils";
 
@@ -68,16 +67,13 @@ export class CalciteCombobox {
 
   @Watch("active")
   activeHandler(newValue: boolean, oldValue: boolean): void {
-    clearTimeout(this.hideListTimeout);
     // when closing, wait transition time then hide to prevent overscroll
     if (oldValue && !newValue) {
+      this.el.addEventListener("calciteComboboxClose", this.toggleCloseEnd);
       this.open = false;
-      this.hideListTimeout = window.setTimeout(() => {
-        this.hideList = true;
-      }, ComboboxTransitionDuration);
     } else if (!oldValue && newValue) {
+      this.el.addEventListener("calciteComboboxOpen", this.toggleOpenEnd);
       // give the combobox height, then reposition prior to opening
-      this.hideList = false;
       requestAnimationFrame(() => {
         this.reposition();
         this.setMaxScrollerHeight();
@@ -134,6 +130,10 @@ export class CalciteCombobox {
 
   @Listen("calciteComboboxItemChange")
   calciteComboboxItemChangeHandler(event: CustomEvent<HTMLCalciteComboboxItemElement>): void {
+    if (this.ignoreSelectedEventsFlag) {
+      return;
+    }
+
     const target = event.target as HTMLCalciteComboboxItemElement;
     this.toggleSelection(target, target.selected);
   }
@@ -251,6 +251,18 @@ export class CalciteCombobox {
   /** Called when a selected item in the combobox is dismissed via its chip **/
   @Event() calciteComboboxChipDismiss: EventEmitter;
 
+  /**
+   * Fired when the combobox is opened
+   * @internal
+   */
+  @Event() calciteComboboxOpen: EventEmitter;
+
+  /**
+   *  Fired when the combobox is closed
+   * @internal
+   */
+  @Event() calciteComboboxClose: EventEmitter;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -329,9 +341,6 @@ export class CalciteCombobox {
 
   observer: MutationObserver = null;
 
-  /** animation timeout for hiding the list  */
-  private hideListTimeout: number;
-
   private guid: string = guid();
 
   private inputHeight = 0;
@@ -344,11 +353,31 @@ export class CalciteCombobox {
 
   private listContainerEl: HTMLDivElement;
 
+  private ignoreSelectedEventsFlag = false;
+
+  private activeTransitionProp = "opacity";
+
   // --------------------------------------------------------------------------
   //
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  private toggleCloseEnd = (): void => {
+    this.hideList = true;
+    this.el.removeEventListener("calciteComboboxClose", this.toggleCloseEnd);
+  };
+
+  private toggleOpenEnd = (): void => {
+    this.hideList = false;
+    this.el.removeEventListener("calciteComboboxOpen", this.toggleOpenEnd);
+  };
+
+  transitionEnd = (event: TransitionEvent): void => {
+    if (event.propertyName === this.activeTransitionProp) {
+      this.active ? this.calciteComboboxOpen.emit() : this.calciteComboboxClose.emit();
+    }
+  };
 
   setMaxScrollerHeight = (): void => {
     if (this.active) {
@@ -532,9 +561,8 @@ export class CalciteCombobox {
       return;
     }
 
-    item.selected = value;
-
     if (this.isMulti()) {
+      item.selected = value;
       this.updateAncestors(item);
       this.selectedItems = this.getSelectedItems();
       this.emitCalciteLookupChange();
@@ -542,7 +570,9 @@ export class CalciteCombobox {
       this.textInput.focus();
       this.filterItems("");
     } else {
-      this.items.filter((el) => el !== item).forEach((el) => (el.selected = false));
+      this.ignoreSelectedEventsFlag = true;
+      this.items.forEach((el) => (el.selected = el === item));
+      this.ignoreSelectedEventsFlag = false;
       this.selectedItem = item;
       this.textInput.value = item.textLabel;
       this.active = false;
@@ -861,7 +891,12 @@ export class CalciteCombobox {
         class={{ "popper-container": true, "popper-container--active": open }}
         ref={setMenuEl}
       >
-        <div class={classes} ref={setListContainerEl} style={style}>
+        <div
+          class={classes}
+          onTransitionEnd={this.transitionEnd}
+          ref={setListContainerEl}
+          style={style}
+        >
           <ul class={{ list: true, "list--hide": hideList }}>
             <slot />
           </ul>

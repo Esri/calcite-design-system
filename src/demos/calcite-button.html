@@ -436,6 +436,75 @@
     </section>
 
     <section>
+      <calcite-label layout="inline">
+        Toggle loading animation
+        <calcite-switch id="loading-switch"></calcite-switch>
+      </calcite-label>
+      <script>
+        const switchEl = document.querySelector("#loading-switch");
+        switchEl.addEventListener("calciteSwitchChange", () => {
+          document.querySelectorAll(".loading-transition").forEach((button) => {
+            button.toggleAttribute("loading");
+          });
+        });
+      </script>
+
+      <calcite-button
+        class="loading-transition"
+        color="red"
+        appearance="solid"
+        icon-start="attachment"
+      ></calcite-button>
+      <calcite-button
+        class="loading-transition"
+        color="red"
+        appearance="solid"
+        icon-end="download"
+        round
+      ></calcite-button>
+      <calcite-button
+        class="loading-transition"
+        color="red"
+        appearance="solid"
+        icon-start="attachment"
+        icon-end="download"
+      ></calcite-button>
+      <calcite-button
+        class="loading-transition"
+        color="red"
+        appearance="solid"
+        icon-start="attachment"
+        round
+        icon-end="download"
+      ></calcite-button>
+      <calcite-button class="loading-transition" color="red" appearance="solid">Attachments</calcite-button>
+      <calcite-button class="loading-transition" color="red" appearance="solid" round>Attachments</calcite-button>
+      <calcite-button class="loading-transition" color="red" appearance="solid" icon-end="download"
+        >Attachments</calcite-button
+      >
+      <calcite-button class="loading-transition" round color="red" appearance="solid" icon-end="download"
+        >Attachments</calcite-button
+      >
+      <calcite-button
+        class="loading-transition"
+        color="red"
+        appearance="solid"
+        icon-start="attachment"
+        icon-end="download"
+        >Attachments</calcite-button
+      >
+      <calcite-button
+        class="loading-transition"
+        round
+        color="red"
+        appearance="solid"
+        icon-start="attachment"
+        icon-end="download"
+        >Attachments</calcite-button
+      >
+    </section>
+
+    <section>
       <h3>Icons, and icons in combination with loader</h3>
       <h5>pass path data - recommend using Calcite UI Icon Filled variants @ 24.</h5>
       <calcite-button

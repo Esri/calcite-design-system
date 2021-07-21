@@ -14,6 +14,7 @@ import { guid } from "../../utils/guid";
 import { focusElement } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { hiddenInputStyle } from "../../utils/form";
+import { CSS } from "./resources";
 
 @Component({
   tag: "calcite-radio-button",
@@ -98,7 +99,7 @@ export class CalciteRadioButton {
    */
   @Prop() label?: string;
 
-  /** The name of the radio button.  <code>name</code> is passed as a property automatically from <code>calcite-radio-button-group</code>. */
+  /** The name of the radio button. `name` is passed as a property automatically from `calcite-radio-button-group`. */
   @Prop({ reflect: true }) name: string;
 
   @Watch("name")
@@ -126,7 +127,7 @@ export class CalciteRadioButton {
     this.inputEl.required = required;
   }
 
-  /** The scale (size) of the radio button.  <code>scale</code> is passed as a property automatically from <code>calcite-radio-button-group</code>. */
+  /** The scale (size) of the radio button. `scale` is passed as a property automatically from `calcite-radio-button-group`. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /** The value of the radio button. */
@@ -339,7 +340,7 @@ export class CalciteRadioButton {
     const value = this.value?.toString();
 
     return (
-      <div class="container">
+      <div class={CSS.container}>
         <input
           aria-label={this.label || null}
           checked={this.checked}
