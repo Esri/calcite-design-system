@@ -251,6 +251,9 @@ input[type="time"]::-webkit-clear-button {
   &:hover,
   &:focus {
     background-color: var(--calcite-ui-foreground-2);
+    .sc-calcite-input {
+      @apply text-color-1;
+    }
   }
   &:active {
     background-color: var(--calcite-ui-foreground-3);
