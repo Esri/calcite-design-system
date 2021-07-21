@@ -1,4 +1,4 @@
-import { getElementProp, closestElementCrossShadowBoundary, getSlotted, setRequestedIcon, ensureId } from "./dom";
+import { getElementProp, getSlotted, setRequestedIcon, ensureId } from "./dom";
 import { guidPattern } from "./guid.spec";
 
 describe("dom", () => {
@@ -70,16 +70,6 @@ describe("dom", () => {
       }
 
       beforeEach(defineTestComponents);
-
-      it("can cross shadow DOM boundary", async () => {
-        document.body.innerHTML = `
-        <prop-lookup-parent-test id="test" test-prop="parent"></prop-lookup-parent-test>
-      `;
-
-        expect(
-          closestElementCrossShadowBoundary(document.getElementById("test").shadowRoot.firstElementChild, "[test-prop]")
-        ).toBe("parent");
-      });
 
       it("does not cross shadow DOM boundary (default)", () => {
         document.body.innerHTML = `
