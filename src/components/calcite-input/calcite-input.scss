@@ -151,11 +151,11 @@
 //focus
 :host textarea,
 :host input {
-  @include focus-style-base();
+  @apply focus-base;
 }
 :host textarea:focus,
 :host input:focus {
-  @include focus-style-inset(var(--calcite-ui-brand));
+  @apply focus-inset;
 }
 
 :host([status="invalid"]) {
@@ -165,7 +165,7 @@
   }
   & input:focus,
   & textarea:focus {
-    @include focus-style-inset(var(--calcite-ui-danger));
+    @apply focus-inset-danger;
   }
 }
 
