@@ -72,22 +72,28 @@ export function keyboardNavigation(listType: ListType): void {
         const page = await newE2EPage({
           html: `
         <calcite-${listType}-list>
-          <calcite-${listType}-list-item value="one" label="One"></calcite-${listType}-list-item>
-          <calcite-${listType}-list-item value="two" label="Two"></calcite-${listType}-list-item>
+          <calcite-${listType}-list-item id="one" value="one" label="One"></calcite-${listType}-list-item>
+          <calcite-${listType}-list-item id="two" value="two" label="Two"></calcite-${listType}-list-item>
         </calcite-${listType}-list>
       `
         });
         const list = await page.find(`calcite-${listType}-list`);
+        const firstItem = await page.find("#one");
+        const secondItem = await page.find("#two");
         await list.callMethod("setFocus");
 
         expect(await getSelectedItemValues(list, listType)).toEqual([]);
 
         expect(await getFocusedItemValue(page)).toEqual("one");
         expect(await getSelectedItemValues(list, listType)).toEqual([]);
+        expect(firstItem.tabIndex).toBe(-1);
+        expect(secondItem.tabIndex).toBe(-1);
 
         await list.press("ArrowDown");
 
         expect(await getFocusedItemValue(page)).toEqual("two");
+        expect(firstItem.tabIndex).toBeFalsy();
+        expect(secondItem.tabIndex).toBe(-1);
 
         await list.press(" ");
         expect(await getSelectedItemValues(list, listType)).toEqual(["two"]);
@@ -95,6 +101,8 @@ export function keyboardNavigation(listType: ListType): void {
         await list.press("ArrowDown");
 
         expect(await getFocusedItemValue(page)).toEqual("one");
+        expect(firstItem.tabIndex).toBe(-1);
+        expect(secondItem.tabIndex).toBeFalsy();
 
         await list.press(" ");
         expect(await getSelectedItemValues(list, listType)).toEqual(["one"]);
@@ -102,6 +110,8 @@ export function keyboardNavigation(listType: ListType): void {
         await list.press("ArrowUp");
 
         expect(await getFocusedItemValue(page)).toEqual("two");
+        expect(firstItem.tabIndex).toBeFalsy();
+        expect(secondItem.tabIndex).toBe(-1);
 
         await list.press(" ");
         expect(await getSelectedItemValues(list, listType)).toEqual(["two"]);
