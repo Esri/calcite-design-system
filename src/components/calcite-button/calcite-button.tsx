@@ -1,6 +1,10 @@
 import { Component, Element, h, Method, Prop, Build, State, VNode, Watch } from "@stencil/core";
 import { CSS, TEXT } from "./resources";
-import { getElementDir, closestElementCrossShadowBoundary } from "../../utils/dom";
+import {
+  getElementDir,
+  queryElementRoots,
+  closestElementCrossShadowBoundary
+} from "../../utils/dom";
 import { ButtonAlignment, ButtonAppearance, ButtonColor } from "./interfaces";
 import { FlipContext, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -70,6 +74,9 @@ export class CalciteButton {
 
   /** The rel attribute to apply to the hyperlink */
   @Prop() rel?: string;
+
+  /** The form ID to associate with the component */
+  @Prop() form?: string;
 
   /** optionally add a round style to the button  */
   @Prop({ reflect: true }) round?: boolean = false;
@@ -178,9 +185,9 @@ export class CalciteButton {
         name={this.childElType === "button" && this.name}
         onClick={this.handleClick}
         ref={(el) => (this.childEl = el)}
-        rel={this.childElType === "a" && this.el.getAttribute("rel")}
+        rel={this.childElType === "a" && this.rel}
         tabIndex={this.disabled || this.loading ? -1 : null}
-        target={this.childElType === "a" && this.el.getAttribute("target")}
+        target={this.childElType === "a" && this.target}
         type={this.childElType === "button" && this.type}
       >
         {loader}
@@ -248,16 +255,16 @@ export class CalciteButton {
 
   // act on a requested or nearby form based on type
   private handleClick = (e: Event): void => {
+    const { childElType, form, el, type } = this;
     // this.type refers to type attribute, not child element type
-    if (this.childElType === "button" && this.type !== "button") {
-      const requestedForm = this.el.getAttribute("form");
-      const targetForm = requestedForm
-        ? (document.getElementsByName(`${requestedForm}`)[0] as HTMLFormElement)
-        : (closestElementCrossShadowBoundary(this.el, "form") as HTMLFormElement);
+    if (childElType === "button" && type !== "button") {
+      const targetForm: HTMLFormElement = form
+        ? queryElementRoots(el, `#${form}`)
+        : closestElementCrossShadowBoundary(el, "form");
 
       if (targetForm) {
         const targetFormSubmitFunction = targetForm.onsubmit as () => void;
-        switch (this.type) {
+        switch (type) {
           case "submit":
             if (targetFormSubmitFunction) {
               targetFormSubmitFunction();
