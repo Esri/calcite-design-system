@@ -39,7 +39,7 @@ export default {
 
 export const Simple = (): string => {
   return `
-      <div>
+      <div style="width: 400px;">
         ${referenceElementHTML}
         <calcite-tooltip
         class="calcite-theme-light"
@@ -57,7 +57,7 @@ export const Simple = (): string => {
 
 export const RTL = (): string => {
   return `
-      <div dir="rtl">
+      <div dir="rtl" style="width: 400px;">
         ${referenceElementHTML}
         <calcite-tooltip
           reference-element="reference-element"
@@ -74,7 +74,7 @@ export const RTL = (): string => {
 
 export const DarkMode = (): string => {
   return `
-      <div>
+      <div style="width: 400px;">
         ${referenceElementHTML}
         <calcite-tooltip
         class="calcite-theme-dark"

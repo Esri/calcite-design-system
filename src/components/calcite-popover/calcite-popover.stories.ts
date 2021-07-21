@@ -39,7 +39,7 @@ const calcite_placements = placements.concat([
 ]);
 
 const contentHTML = `
-<div style="padding:12px 16px">
+<div style="padding:12px 16px; width: 300px;">
   <b>I am a title!</b> <br>
   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
   <calcite-link>I am an inline link</calcite-link>
@@ -58,7 +58,7 @@ export default {
 
 export const Simple = (): string => {
   return `
-      <div>
+      <div style="width: 400px;">
         ${referenceElementHTML}
         <calcite-popover
         class="calcite-theme-light"
@@ -82,7 +82,7 @@ export const RTL = (): string => {
   const { theme } = ATTRIBUTES;
 
   return `
-      <div dir="rtl">
+      <div dir="rtl" style="width: 400px;">
         ${referenceElementHTML}
         <calcite-popover
           class="${select("class", theme.values, theme.defaultValue)}"
@@ -104,7 +104,7 @@ export const RTL = (): string => {
 
 export const DarkMode = (): string => {
   return `
-      <div>
+      <div style="width: 400px;">
         ${referenceElementHTML}
         <calcite-popover
         class="calcite-theme-dark"
