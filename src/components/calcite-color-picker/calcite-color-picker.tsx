@@ -805,7 +805,7 @@ export class CalciteColorPicker {
                   iconStart="minus"
                   label={intlDeleteColor}
                   onClick={this.deleteColor}
-                  scale={scale}
+                  scale={scale === "l" ? "m" : "s"}
                 />
                 <calcite-button
                   appearance="transparent"
@@ -815,7 +815,7 @@ export class CalciteColorPicker {
                   iconStart="plus"
                   label={intlSaveColor}
                   onClick={this.saveColor}
-                  scale={scale}
+                  scale={scale === "l" ? "m" : "s"}
                 />
               </div>
             </div>

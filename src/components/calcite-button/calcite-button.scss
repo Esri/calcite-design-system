@@ -28,7 +28,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: $baseline/4 1rem;
+  // padding: 0.1875rem 1rem;
   text-decoration: none;
   width: 100%;
   height: 100%;
@@ -49,10 +49,7 @@
 }
 
 .content {
-  display: flex;
-  flex-basis: auto;
-  margin-left: $baseline/3;
-  margin-right: $baseline/3;
+  @apply flex ml-2 mr-2;
 }
 
 :host(:not([icon-start])) {
@@ -68,33 +65,14 @@
 :host([icon-start]:not([icon-end])) {
   .calcite--rtl .content {
     margin-left: unset;
-    margin-right: $baseline/3;
+    @apply mr-2;
   }
 }
 :host([icon-end]:not([icon-start])) {
   .calcite--rtl .content {
     margin-right: unset;
-    margin-left: $baseline/3;
+    @apply ml-2;
   }
-}
-
-// button scale
-@mixin btn-scale($font-size, $line-height, $padding-y, $padding-x) {
-  padding: $padding-y $padding-x;
-  font-size: $font-size;
-  line-height: $line-height;
-}
-
-@mixin btn-scale-notext($font-size, $size) {
-  height: $size;
-  width: $size;
-  font-size: $font-size;
-}
-
-@mixin btn-scale-notext-two-icons($font-size, $size) {
-  height: $size;
-  width: $size * 1.5;
-  font-size: $font-size;
 }
 
 // button width
@@ -171,7 +149,7 @@
   a:not(.content--slotted),
   button:not(.content--slotted) {
     .icon--start + .icon--end {
-      margin-left: $baseline/3;
+      @apply ml-2;
     }
   }
 }
@@ -181,7 +159,7 @@
   button.calcite--rtl:not(.content--slotted) {
     .icon--start + .icon--end {
       margin-left: unset;
-      margin-right: $baseline/3;
+      @apply mr-2;
     }
   }
 }
@@ -237,20 +215,37 @@
     transition: width 300ms ease-in-out, opacity 300ms ease-in-out, transform 300ms ease-in-out;
     &.loading-in {
       animation-name: loader-in;
-      animation-duration: 300ms;
+      animation-duration: 310ms;
     }
     &.loading-out {
       animation-name: loader-out;
-      animation-duration: 300ms;
+      animation-duration: 310ms;
     }
   }
 }
 
 :host([loading]) {
-  button,
-  a {
-    .calcite-button--icon {
-      opacity: 0;
+  calcite-loader {
+    --calcite-loader-size-inline: 16px;
+  }
+  &:host([scale="s"]) {
+    calcite-loader {
+      --calcite-loader-size-inline: 12px;
+    }
+  }
+  // center loading spinner with text
+  button.content--slotted,
+  a.content--slotted {
+    .calcite-button--loader {
+      margin-inline-end: theme("margin.2");
+    }
+  }
+  // hide icons when loading with no text
+  button:not(.content--slotted),
+  a:not(.content--slotted) {
+    .icon--start,
+    .icon--end {
+      @apply hidden;
     }
   }
 }
@@ -519,64 +514,159 @@
   }
 }
 
-// generate button scales
-$btnScales: "s" 12px 1.33 7px 12px, "m" 14px 1.15 13px 20px, "l" 18px 1.2 15px 24px;
-@each $btnScale in $btnScales {
-  $name: nth($btnScale, 1);
-  $font-size: nth($btnScale, 2);
-  $line-height: nth($btnScale, 3);
-  $padding-y: nth($btnScale, 4);
-  $padding-x: nth($btnScale, 5);
-
-  :host([scale="#{$name}"]:not([appearance="transparent"])) button.content--slotted,
-  :host([scale="#{$name}"]:not([appearance="transparent"])) a.content--slotted {
-    @include btn-scale($font-size, $line-height, $padding-y, $padding-x);
-  }
-  // accomodate for transparent buttons not having borders
-  :host([scale="#{$name}"][appearance="transparent"]) button.content--slotted,
-  :host([scale="#{$name}"][appearance="transparent"]) a.content--slotted {
-    $compensated-padding-y: $padding-y + 1px;
-    @include btn-scale($font-size, $line-height, $compensated-padding-y, $padding-x);
-  }
-  :host([scale="#{$name}"][loading]) button.content--slotted,
-  :host([scale="#{$name}"][loading]) a.content--slotted {
-    .calcite-button--loader {
-      margin-inline-end: $baseline/3;
-    }
-  }
+// generate button scales (scenario: text only)
+:host([scale="s"]) button.content--slotted,
+:host([scale="s"]) a.content--slotted {
+  @apply text--2h;
+  padding-left: 7px;
+  padding-right: 7px;
+}
+:host([scale="s"]:not([appearance="transparent"])) button.content--slotted,
+:host([scale="s"]:not([appearance="transparent"])) a.content--slotted {
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+// accommodate for transparent buttons not having borders
+:host([scale="s"][appearance="transparent"]) button.content--slotted,
+:host([scale="s"][appearance="transparent"]) a.content--slotted {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+:host([scale="m"]) button.content--slotted,
+:host([scale="m"]) a.content--slotted {
+  @apply text--1h;
+  padding-left: 11px;
+  padding-right: 11px;
+}
+:host([scale="m"]:not([appearance="transparent"])) button.content--slotted,
+:host([scale="m"]:not([appearance="transparent"])) a.content--slotted {
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+// accommodate for transparent buttons not having borders
+:host([scale="m"][appearance="transparent"]) button.content--slotted,
+:host([scale="m"][appearance="transparent"]) a.content--slotted {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+:host([scale="l"]) button.content--slotted,
+:host([scale="l"]) a.content--slotted {
+  @apply text-0h;
+  padding-left: 15px;
+  padding-right: 15px;
+  max-height: 44px; // large size FAB fix TO-DO: CHECK W/ NEW INPUT HEIGHTS BEN BRANCH
+}
+:host([scale="l"]:not([appearance="transparent"])) button.content--slotted,
+:host([scale="l"]:not([appearance="transparent"])) a.content--slotted {
+  padding-top: 11px;
+  padding-bottom: 11px;
+}
+// accommodate for transparent buttons not having borders
+:host([scale="l"][appearance="transparent"]) button.content--slotted,
+:host([scale="l"][appearance="transparent"]) a.content--slotted {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
-// generate fab scales
-$btnScales2: "s" 12px 32px, "m" 14px 44px, "l" 18px 56px;
-
-@each $btnScale in $btnScales2 {
-  $name: nth($btnScale, 1);
-  $font-size: nth($btnScale, 2);
-  $size: nth($btnScale, 3);
-
-  :host([scale="#{$name}"]) button:not(.content--slotted),
-  :host([scale="#{$name}"]) a:not(.content--slotted) {
-    @include btn-scale-notext($font-size, $size);
-  }
-  :host([scale="#{$name}"][loading]) button:not(.content--slotted),
-  :host([scale="#{$name}"][loading]) a:not(.content--slotted) {
-    .icon--start,
-    .icon--end {
-      @apply hidden;
-    }
-  }
+// generate fab scales (scenario: 1 icon, ie., should be square)
+:host([scale="s"]) button:not(.content--slotted),
+:host([scale="s"]) a:not(.content--slotted) {
+  @apply text-0h;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 2px;
+  padding-right: 2px;
+  width: 24px;
+  min-height: 24px;
+  min-width: 24px;
+}
+// accommodate for transparent buttons not having borders
+:host([scale="s"][appearance="transparent"]) button:not(.content--slotted),
+:host([scale="s"][appearance="transparent"]) a:not(.content--slotted) {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+:host([scale="m"]) button:not(.content--slotted),
+:host([scale="m"]) a:not(.content--slotted) {
+  @apply text-0h;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  padding-left: 2px;
+  padding-right: 2px;
+  width: 32px;
+  min-height: 32px;
+  min-width: 32px;
+}
+// accommodate for transparent buttons not having borders
+:host([scale="m"][appearance="transparent"]) button:not(.content--slotted),
+:host([scale="m"][appearance="transparent"]) a:not(.content--slotted) {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+:host([scale="l"]) button:not(.content--slotted),
+:host([scale="l"]) a:not(.content--slotted) {
+  @apply text-0h;
+  padding-top: 9px;
+  padding-bottom: 9px;
+  padding-left: 2px;
+  padding-right: 2px;
+  width: 44px;
+  min-height: 44px;
+  min-width: 44px;
+}
+// accommodate for transparent buttons not having borders
+:host([scale="l"][appearance="transparent"]) button:not(.content--slotted),
+:host([scale="l"][appearance="transparent"]) a:not(.content--slotted) {
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
-// generate fab scales
-$btnScales3: "s" 12px 32px, "m" 14px 44px, "l" 18px 56px;
-
-@each $btnScale in $btnScales3 {
-  $name: nth($btnScale, 1);
-  $font-size: nth($btnScale, 2);
-  $size: nth($btnScale, 3);
-
-  :host([scale="#{$name}"][icon-start][icon-end]) button:not(.content--slotted),
-  :host([scale="#{$name}"][icon-start][icon-end]) a:not(.content--slotted) {
-    @include btn-scale-notext-two-icons($font-size, $size);
-  }
+// generate fab scales (scenario: 2 icons, ie., should not be square)
+:host([scale="s"][icon-start][icon-end]) button:not(.content--slotted),
+:host([scale="s"][icon-start][icon-end]) a:not(.content--slotted) {
+  @apply text-0h;
+  padding-left: 23px;
+  padding-right: 23px;
+  height: 24px;
+  width: 24px * 1.5;
+}
+// accommodate for transparent buttons not having borders
+:host([scale="s"][icon-start][icon-end][appearance="transparent"]) button:not(.content--slotted),
+:host([scale="s"][icon-start][icon-end][appearance="transparent"]) a:not(.content--slotted) {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+:host([scale="m"][icon-start][icon-end]) button:not(.content--slotted),
+:host([scale="m"][icon-start][icon-end]) a:not(.content--slotted) {
+  @apply text-0h;
+  padding-left: 32px;
+  padding-right: 32px;
+  height: 32px;
+  width: 32px * 1.5;
+}
+// accommodate for transparent buttons not having borders
+:host([scale="m"][icon-start][icon-end][appearance="transparent"]) button:not(.content--slotted),
+:host([scale="m"][icon-start][icon-end][appearance="transparent"]) a:not(.content--slotted) {
+  padding-left: 33px;
+  padding-right: 33px;
+}
+:host([scale="l"][icon-start][icon-end]) button:not(.content--slotted),
+:host([scale="l"][icon-start][icon-end]) a:not(.content--slotted) {
+  @apply text-0h;
+  padding-left: 43px;
+  padding-right: 43px;
+  height: 44px;
+  width: 44px * 1.5;
+}
+// accommodate for transparent buttons not having borders
+:host([scale="l"][icon-start][icon-end][appearance="transparent"]) button:not(.content--slotted),
+:host([scale="l"][icon-start][icon-end][appearance="transparent"]) a:not(.content--slotted) {
+  padding-left: 44px;
+  padding-right: 44px;
 }
