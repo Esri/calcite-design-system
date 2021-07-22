@@ -12,6 +12,7 @@ jobs:
           node-version: '14'
 
       - name: run dependency-updating script
+        uses: fregante/setup-git-user@v1
         run:  |
           npm install
           npm run deps:update
