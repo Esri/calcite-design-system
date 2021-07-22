@@ -25,33 +25,26 @@ describe("global styles", () => {
         await page.waitForChanges();
         const noticeAnimation = await page.evaluate(() => {
           const noticeEl = document.querySelector("calcite-notice");
-          const globalVar = window
-            .getComputedStyle(document.body)
-            .getPropertyValue("--calcite-animation-timing")
-            .trim();
           const { animationName, animationDuration, opacity } = window.getComputedStyle(noticeEl);
           return {
             name: animationName,
             duration: animationDuration,
-            opacity: opacity,
-            globalVar
+            opacity: opacity
           };
         });
         expect(noticeAnimation.duration).toEqual("0.3s");
-        expect(noticeAnimation.globalVar).toBe("300ms");
         expect(noticeAnimation.name).toEqual(className.slice(className.indexOf("_") + 2));
         expect(noticeAnimation.opacity).not.toBe("0");
       });
     });
 
-    it("should support overriding --calcite-animation-timing CSS Custom Property", async () => {
+    it("should have initial --calcite-animation-timing CSS Custom Property value", async () => {
       const page = await newE2EPage({ html: snippet });
       expect(
         await page.evaluate(() => {
-          document.body.style.setProperty("--calcite-animation-timing", "2000ms");
           return window.getComputedStyle(document.body).getPropertyValue("--calcite-animation-timing");
         })
-      ).toEqual("2000ms");
+      ).toBe(" 300ms");
     });
   });
 });
