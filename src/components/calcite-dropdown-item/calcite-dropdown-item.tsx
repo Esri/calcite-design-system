@@ -106,14 +106,13 @@ export class CalciteDropdownItem {
   render(): VNode {
     const dir = getElementDir(this.el);
     const scale = getElementProp(this.el, "scale", "m");
-    const iconScale = scale === "l" ? "m" : "s";
     const iconStartEl = (
       <calcite-icon
         class="dropdown-item-icon-start"
         dir={dir}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
-        scale={iconScale}
+        scale="s"
       />
     );
     const contentNode = (
@@ -127,7 +126,7 @@ export class CalciteDropdownItem {
         dir={dir}
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
-        scale={iconScale}
+        scale="s"
       />
     );
 
@@ -180,8 +179,12 @@ export class CalciteDropdownItem {
             [CSS.containerNone]: this.selectionMode === "none"
           }}
         >
-          {this.selectionMode === "multi" ? (
-            <calcite-icon class="dropdown-item-check-icon" icon="check" scale="s" />
+          {this.selectionMode !== "none" ? (
+            <calcite-icon
+              class="dropdown-item-icon"
+              icon={this.selectionMode === "multi" ? "check" : "bullet-point"}
+              scale="s"
+            />
           ) : null}
           {contentEl}
         </div>

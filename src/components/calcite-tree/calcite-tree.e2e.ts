@@ -187,6 +187,48 @@ describe("calcite-tree", () => {
       expect(selectEventSpy).toHaveReceivedEventTimes(3);
     });
 
+    describe("has selected items in the selection event payload", () => {
+      it("contains current selection when selection=multi + input-enabled", async () => {
+        const page = await newE2EPage({
+          html: html` <calcite-tree selection-mode="multi" input-enabled>
+            <calcite-tree-item id="1">1</calcite-tree-item>
+            <calcite-tree-item id="2">2</calcite-tree-item>
+          </calcite-tree>`
+        });
+
+        const [item1, item2] = await page.findAll("calcite-tree-item");
+
+        type TestWindow = {
+          selectedIds: string[];
+        } & Window &
+          typeof globalThis;
+
+        await page.evaluateHandle(() =>
+          document.addEventListener("calciteTreeSelect", ({ detail }: CustomEvent) => {
+            (window as TestWindow).selectedIds = detail.selected.map((item) => item.id);
+          })
+        );
+
+        const getSelectedIds = async (): Promise<any> => page.evaluate(() => (window as TestWindow).selectedIds);
+
+        await item1.click();
+
+        expect(await getSelectedIds()).toEqual(["1"]);
+
+        await item2.click();
+
+        expect(await getSelectedIds()).toEqual(["1", "2"]);
+
+        await item2.click();
+
+        expect(await getSelectedIds()).toEqual(["1"]);
+
+        await item1.click();
+
+        expect(await getSelectedIds()).toEqual([]);
+      });
+    });
+
     it("emits once when the tree item checkbox label is clicked", async () => {
       const page = await newE2EPage({
         html: html`<calcite-tree input-enabled selection-mode="ancestors">

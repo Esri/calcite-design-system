@@ -75,7 +75,9 @@ export class CalciteAlert {
    * also pass a calcite-ui-icon name to this prop to display a requested icon */
   @Prop({ reflect: true }) icon: string | boolean;
 
-  /** string to override English close text */
+  /** string to override English close text
+   * @default "close"
+   */
   @Prop() intlClose: string = TEXT.intlClose;
 
   /** Accessible name for the component */
