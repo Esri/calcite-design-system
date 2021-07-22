@@ -7,10 +7,10 @@
     <title>Calcite Checkbox</title>
     <style>
       .parent {
-        margin: 0 auto;
         display: flex;
-        align-items: baseline;
-        width: 1600px;
+        width: 60%;
+        align-items: center;
+        padding: 25px 0;
       }
 
       .child {
@@ -107,35 +107,6 @@
 
     <!-- 
       **************************************************
-      * UNCHECKED FOCUSED
-      **************************************************
-    -->
-    <div class="parent">
-      <!-- small -->
-      <div class="child right-aligned-text">unchecked focused</div>
-      <div class="child">
-        <calcite-label layout="inline">
-          <calcite-checkbox focused name="s-unchecked-focused" scale="s"></calcite-checkbox>
-        </calcite-label>
-      </div>
-
-      <!-- medium -->
-      <div class="child">
-        <calcite-label layout="inline">
-          <calcite-checkbox focused name="m-unchecked-focused" scale="m"></calcite-checkbox>
-        </calcite-label>
-      </div>
-
-      <!-- large -->
-      <div class="child">
-        <calcite-label layout="inline">
-          <calcite-checkbox focused name="m-unchecked-focused" scale="l"></calcite-checkbox>
-        </calcite-label>
-      </div>
-    </div>
-
-    <!-- 
-      **************************************************
       * UNCHECKED DISABLED
       **************************************************
     -->
@@ -223,35 +194,6 @@
 
     <!-- 
       **************************************************
-      * CHECKED FOCUSED
-      **************************************************
-    -->
-    <div class="parent">
-      <!-- small -->
-      <div class="child right-aligned-text">checked focused</div>
-      <div class="child">
-        <calcite-label layout="inline">
-          <calcite-checkbox checked focused name="s-checked-focused" scale="s"></calcite-checkbox>
-        </calcite-label>
-      </div>
-
-      <!-- medium -->
-      <div class="child">
-        <calcite-label layout="inline">
-          <calcite-checkbox checked focused name="m-checked-focused" scale="m"></calcite-checkbox>
-        </calcite-label>
-      </div>
-
-      <!-- large -->
-      <div class="child">
-        <calcite-label layout="inline">
-          <calcite-checkbox checked focused name="l-checked-focused" scale="l"></calcite-checkbox>
-        </calcite-label>
-      </div>
-    </div>
-
-    <!-- 
-      **************************************************
       * CHECKED DISABLED
       **************************************************
     -->
@@ -333,35 +275,6 @@
       <div class="child">
         <calcite-label layout="inline">
           <calcite-checkbox hovered indeterminate name="l-unchecked-indeterminate-hovered" scale="l"></calcite-checkbox>
-        </calcite-label>
-      </div>
-    </div>
-
-    <!-- 
-      **************************************************
-      * INDETERMINATE UNCHECKED FOCUSED
-      **************************************************
-    -->
-    <div class="parent">
-      <!-- small -->
-      <div class="child right-aligned-text">indeterminate unchecked focused</div>
-      <div class="child">
-        <calcite-label layout="inline">
-          <calcite-checkbox focused indeterminate name="s-unchecked-indeterminate-focused" scale="s"></calcite-checkbox>
-        </calcite-label>
-      </div>
-
-      <!-- medium -->
-      <div class="child">
-        <calcite-label layout="inline">
-          <calcite-checkbox focused indeterminate name="m-unchecked-indeterminate-focused" scale="m"></calcite-checkbox>
-        </calcite-label>
-      </div>
-
-      <!-- large -->
-      <div class="child">
-        <calcite-label layout="inline">
-          <calcite-checkbox focused indeterminate name="l-unchecked-indeterminate-focused" scale="l"></calcite-checkbox>
         </calcite-label>
       </div>
     </div>
@@ -480,53 +393,6 @@
             checked
             indeterminate
             name="l-checked-indeterminate-hovered"
-            scale="l"
-          ></calcite-checkbox>
-        </calcite-label>
-      </div>
-    </div>
-
-    <!-- 
-      **************************************************
-      * INDETERMINATE CHECKED FOCUSED
-      **************************************************
-    -->
-    <div class="parent">
-      <!-- small -->
-      <div class="child right-aligned-text">indeterminate checked focused</div>
-      <div class="child">
-        <calcite-label layout="inline">
-          <calcite-checkbox
-            focused
-            checked
-            indeterminate
-            name="s-checked-indeterminate-focused"
-            scale="s"
-          ></calcite-checkbox>
-        </calcite-label>
-      </div>
-
-      <!-- medium -->
-      <div class="child">
-        <calcite-label layout="inline">
-          <calcite-checkbox
-            focused
-            checked
-            indeterminate
-            name="m-checked-indeterminate-focused"
-            scale="m"
-          ></calcite-checkbox>
-        </calcite-label>
-      </div>
-
-      <!-- large -->
-      <div class="child">
-        <calcite-label layout="inline">
-          <calcite-checkbox
-            focused
-            checked
-            indeterminate
-            name="l-checked-indeterminate-focused"
             scale="l"
           ></calcite-checkbox>
         </calcite-label>
