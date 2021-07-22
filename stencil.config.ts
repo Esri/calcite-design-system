@@ -116,13 +116,9 @@ export const create: () => Config = () => ({
     name: "calcite-hydrated"
   },
   extras: {
-    appendChildSlotFix: true,
-    cssVarsShim: true,
-    dynamicImportShim: true,
-    safari10: true,
-    scriptDataOpts: true,
-    shadowDomShim: true,
-    slotChildNodesFix: true
+    dynamicImportShim: true, // do we need this for FF? https://github.com/Esri/calcite-components/issues/935
+    safari10: true, // do we still need this?
+    scriptDataOpts: true // do we still need? https://github.com/Esri/calcite-components/pull/941/files
   }
 });
 

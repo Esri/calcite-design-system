@@ -250,7 +250,9 @@ export class CalciteDropdown {
   @Listen("calciteDropdownItemKeyEvent")
   calciteDropdownItemKeyEvent(e: CustomEvent<ItemKeyboardEvent>): void {
     const { keyboardEvent } = e.detail;
+
     // handle edge
+    // todo: Not sure how to remove this IE/Edge code
     const target = keyboardEvent.target as HTMLCalciteDropdownItemElement;
     const itemToFocus = target.nodeName !== "A" ? target : target.parentNode;
     const isFirstItem = this.itemIndex(itemToFocus) === 0;

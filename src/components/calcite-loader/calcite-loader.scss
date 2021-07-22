@@ -83,6 +83,7 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
   // by default the animation is rotation for ie. and edge
+  // todo: Not sure how to remove this IE/Edge code
   animation-name: loader-clockwise;
 }
 
