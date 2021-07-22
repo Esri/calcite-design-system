@@ -1163,6 +1163,43 @@ describe("calcite-color-picker", () => {
       expect(finalStyle.left).toBe(`${DIMENSIONS.m.colorField.width}px`);
     });
 
+    it("allows nudging color's hue even if it does not change RGB value", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-color-picker value="#000"></calcite-color-picker>`
+      });
+      const scope = await page.find(`calcite-color-picker >>> .${CSS.hueScope}`);
+
+      const nudgeAThirdOfSlider = async () => {
+        let stepsToShiftNudgeToAThird = 18;
+
+        while (stepsToShiftNudgeToAThird--) {
+          // pressing shift to move faster across slider
+          await page.keyboard.down("Shift");
+          await scope.press("ArrowRight");
+          await page.keyboard.up("Shift");
+        }
+      };
+
+      const getScopeLeftOffset = async () => parseFloat((await scope.getComputedStyle()).left);
+
+      expect(await getScopeLeftOffset()).toBe(0);
+
+      await scope.click();
+      await nudgeAThirdOfSlider();
+
+      expect(await getScopeLeftOffset()).toBeCloseTo(DIMENSIONS.m.colorField.width / 2);
+
+      await nudgeAThirdOfSlider();
+
+      // hue wraps around, so we nudge it back to assert position at the edge
+      await scope.press("ArrowLeft");
+      expect(await getScopeLeftOffset()).toBeCloseTo(DIMENSIONS.m.colorField.width - 1, 0);
+
+      // nudge it back to wrap around
+      await scope.press("ArrowRight");
+      expect(await getScopeLeftOffset()).toBeCloseTo(0);
+    });
+
     it("allows editing hue slider via keyboard", async () => {
       const page = await newE2EPage({
         html: `<calcite-color-picker allow-empty value=""></calcite-color-picker>`
