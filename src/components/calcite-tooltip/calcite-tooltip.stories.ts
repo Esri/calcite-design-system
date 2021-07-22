@@ -32,7 +32,6 @@ const referenceElementHTML = `<calcite-tooltip-manager>Ut enim ad minim veniam, 
 
 export default {
   title: "Components/Tooltip",
-  steps: new Steps().rtl().wait(500).snapshot("name").end(),
   parameters: {
     notes: readme
   }
@@ -55,6 +54,8 @@ export const Simple = (): string => {
       </div>
     `;
 };
+
+Simple.steps = new Steps().rtl().wait(500).snapshot("name").end();
 
 export const RTL = (): string => {
   return `
