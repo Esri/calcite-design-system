@@ -842,7 +842,7 @@ describe("calcite-input", () => {
         `
       });
       const input = await page.find("calcite-input");
-      input.callMethod("setFocus");
+      await input.callMethod("setFocus");
       await page.keyboard.type("1.5");
       await page.waitForChanges();
 
@@ -856,7 +856,7 @@ describe("calcite-input", () => {
         `
       });
       const input = await page.find("calcite-input");
-      input.callMethod("setFocus");
+      await input.callMethod("setFocus");
       await page.keyboard.type("1.8");
       await page.waitForChanges();
 
@@ -870,7 +870,7 @@ describe("calcite-input", () => {
         `
       });
       const input = await page.find("calcite-input");
-      input.callMethod("setFocus");
+      await input.callMethod("setFocus");
       await page.keyboard.type("1.5");
       await page.waitForChanges();
 
