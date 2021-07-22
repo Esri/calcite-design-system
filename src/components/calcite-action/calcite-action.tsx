@@ -66,7 +66,9 @@ export class CalciteAction {
    */
   @Prop({ reflect: true }) indicator = false;
 
-  /** string to override English loading text */
+  /** string to override English loading text
+   * @default "Loading"
+   */
   @Prop() intlLoading?: string = TEXT.loading;
 
   /**

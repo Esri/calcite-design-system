@@ -13,9 +13,14 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementDir, getElementProp, setRequestedIcon } from "../../utils/dom";
+import {
+  getElementDir,
+  getElementProp,
+  setRequestedIcon,
+  closestElementCrossShadowBoundary
+} from "../../utils/dom";
 import { getKey } from "../../utils/key";
-import { INPUT_TYPE_ICONS, SLOTS } from "./calcite-input.resources";
+import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./calcite-input.resources";
 import { InputPlacement } from "./interfaces";
 import { Position } from "../interfaces";
 import {
@@ -26,7 +31,7 @@ import {
 import { numberKeys } from "../../utils/key";
 import { hiddenInputStyle } from "../../utils/form";
 import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
-import { CSS_UTILITY } from "../../utils/resources";
+import { CSS_UTILITY, TEXT } from "../../utils/resources";
 
 type NumberNudgeDirection = "up" | "down";
 
@@ -79,6 +84,12 @@ export class CalciteInput {
    * input types (tel, password, email, date, time, search). You can also pass a
    * calcite-ui-icon name to this prop to display a requested icon for any input type */
   @Prop({ reflect: true }) icon: string | boolean;
+
+  /**
+   * string to override English loading text
+   * @default "Loading"
+   */
+  @Prop() intlLoading?: string = TEXT.loading;
 
   /** flip the icon in rtl */
   @Prop({ reflect: true }) iconFlipRtl?: boolean;
@@ -254,7 +265,7 @@ export class CalciteInput {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.form = this.el.closest("form");
+    this.form = closestElementCrossShadowBoundary(this.el, "form") as HTMLFormElement;
     this.form?.addEventListener("reset", this.reset);
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.status = getElementProp(this.el, "status", this.status);
@@ -564,25 +575,21 @@ export class CalciteInput {
     const dir = getElementDir(this.el);
 
     const loader = (
-      <div class="calcite-input-loading">
-        <calcite-progress type="indeterminate" />
+      <div class={CSS.loader}>
+        <calcite-progress label={this.intlLoading} type="indeterminate" />
       </div>
     );
 
     const iconScale = this.scale === "s" || this.scale === "m" ? "s" : "m";
 
     const inputClearButton = (
-      <button
-        class="calcite-input-clear-button"
-        disabled={this.loading}
-        onClick={this.clearInputValue}
-      >
+      <button class={CSS.clearButton} disabled={this.loading} onClick={this.clearInputValue}>
         <calcite-icon icon="x" scale={iconScale} />
       </button>
     );
     const iconEl = (
       <calcite-icon
-        class="calcite-input-icon"
+        class={CSS.inputIcon}
         dir={dir}
         flipRtl={this.iconFlipRtl}
         icon={this.requestedIcon}
@@ -590,12 +597,14 @@ export class CalciteInput {
       />
     );
 
-    const numberButtonClassModifier =
-      this.numberButtonType === "horizontal" ? "number-button-item-horizontal" : null;
+    const isHorizontalNumberButton = this.numberButtonType === "horizontal";
 
     const numberButtonsHorizontalUp = (
       <div
-        class={`calcite-input-number-button-item ${numberButtonClassModifier}`}
+        class={{
+          [CSS.numberButtonItem]: true,
+          [CSS.buttonItemHorizontal]: isHorizontalNumberButton
+        }}
         data-adjustment="up"
         onMouseDown={this.numberButtonMouseDownHandler}
       >
@@ -605,7 +614,10 @@ export class CalciteInput {
 
     const numberButtonsHorizontalDown = (
       <div
-        class={`calcite-input-number-button-item ${numberButtonClassModifier}`}
+        class={{
+          [CSS.numberButtonItem]: true,
+          [CSS.buttonItemHorizontal]: isHorizontalNumberButton
+        }}
         data-adjustment="down"
         onMouseDown={this.numberButtonMouseDownHandler}
       >
@@ -614,15 +626,15 @@ export class CalciteInput {
     );
 
     const numberButtonsVertical = (
-      <div class={`calcite-input-number-button-wrapper`}>
+      <div class={CSS.numberButtonWrapper}>
         {numberButtonsHorizontalUp}
         {numberButtonsHorizontalDown}
       </div>
     );
 
-    const prefixText = <div class="calcite-input-prefix">{this.prefixText}</div>;
+    const prefixText = <div class={CSS.prefix}>{this.prefixText}</div>;
 
-    const suffixText = <div class="calcite-input-suffix">{this.suffixText}</div>;
+    const suffixText = <div class={CSS.suffix}>{this.suffixText}</div>;
 
     const localeNumberInput =
       this.type === "number" ? (
@@ -671,7 +683,7 @@ export class CalciteInput {
         value={this.value}
       />,
       this.isTextarea ? (
-        <div class="calcite-input-resize-icon-wrapper">
+        <div class={CSS.resizeIconWrapper}>
           <calcite-icon icon="chevron-down" scale="s" />
         </div>
       ) : null
@@ -679,19 +691,19 @@ export class CalciteInput {
 
     return (
       <Host onClick={this.inputFocusHandler}>
-        <div class={{ "calcite-input-wrapper": true, [CSS_UTILITY.rtl]: dir === "rtl" }} dir={dir}>
+        <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }} dir={dir}>
           {this.type === "number" && this.numberButtonType === "horizontal"
             ? numberButtonsHorizontalDown
             : null}
           {this.prefixText ? prefixText : null}
-          <div class="calcite-input-element-wrapper">
+          <div class={CSS.wrapper}>
             {localeNumberInput}
             {childEl}
             {this.isClearable ? inputClearButton : null}
             {this.requestedIcon ? iconEl : null}
             {this.loading ? loader : null}
           </div>
-          <div class="calcite-action-wrapper">
+          <div class={CSS.actionWrapper}>
             <slot name={SLOTS.action} />
           </div>
           {this.type === "number" && this.numberButtonType === "vertical"

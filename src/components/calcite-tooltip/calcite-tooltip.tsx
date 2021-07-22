@@ -29,6 +29,7 @@ export class CalciteTooltip {
 
   /**
    * Offset the position of the popover away from the reference element.
+   * @default 6
    */
   @Prop({ reflect: true }) offsetDistance = defaultOffsetDistance;
 
@@ -66,6 +67,7 @@ export class CalciteTooltip {
 
   /**
    * Determines where the component will be positioned relative to the referenceElement.
+   * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
    */
   @Prop({ reflect: true }) placement: PopperPlacement = "auto";
 
