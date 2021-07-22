@@ -55,7 +55,9 @@ export const Simple = (): string => {
     `;
 };
 
-Simple.steps = new Steps().rtl().wait(500).snapshot("name").end();
+Simple.args = {
+  steps: new Steps().rtl().wait(500).snapshot("name").end()
+};
 
 export const RTL = (): string => {
   return `
