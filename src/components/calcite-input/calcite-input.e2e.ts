@@ -835,7 +835,7 @@ describe("calcite-input", () => {
       expect(calciteInputInput).toHaveReceivedEventTimes(2);
     });
 
-    it("only allows integers when the step is a whole number", async () => {
+    it("only allows integers by default", async () => {
       const page = await newE2EPage({
         html: `
           <calcite-input type="number"></calcite-input>
@@ -847,6 +847,20 @@ describe("calcite-input", () => {
       await page.waitForChanges();
 
       expect(await input.getProperty("value")).toBe("15");
+    });
+
+    it("only allows integers when the supplied step is a whole number", async () => {
+      const page = await newE2EPage({
+        html: `
+          <calcite-input step="2" type="number"></calcite-input>
+        `
+      });
+      const input = await page.find("calcite-input");
+      input.callMethod("setFocus");
+      await page.keyboard.type("1.8");
+      await page.waitForChanges();
+
+      expect(await input.getProperty("value")).toBe("18");
     });
 
     it("allows decimals only when the step is a decimal", async () => {
