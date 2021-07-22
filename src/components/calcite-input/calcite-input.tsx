@@ -13,7 +13,12 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementDir, getElementProp, setRequestedIcon } from "../../utils/dom";
+import {
+  getElementDir,
+  getElementProp,
+  setRequestedIcon,
+  closestElementCrossShadowBoundary
+} from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./calcite-input.resources";
 import { InputPlacement } from "./interfaces";
@@ -260,7 +265,7 @@ export class CalciteInput {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.form = this.el.closest("form");
+    this.form = closestElementCrossShadowBoundary(this.el, "form") as HTMLFormElement;
     this.form?.addEventListener("reset", this.reset);
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.status = getElementProp(this.el, "status", this.status);

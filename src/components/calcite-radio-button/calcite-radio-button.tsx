@@ -11,7 +11,7 @@ import {
   Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { focusElement } from "../../utils/dom";
+import { focusElement, closestElementCrossShadowBoundary } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { hiddenInputStyle } from "../../utils/form";
 import { CSS } from "./resources";
@@ -310,7 +310,7 @@ export class CalciteRadioButton {
     if (this.name) {
       this.checkLastRadioButton();
     }
-    const form = this.el.closest("form");
+    const form = closestElementCrossShadowBoundary(this.el, "form") as HTMLFormElement;
     if (form) {
       form.addEventListener("reset", this.formResetHandler);
     }
@@ -324,7 +324,7 @@ export class CalciteRadioButton {
   }
 
   disconnectedCallback(): void {
-    const form = this.el.closest("form");
+    const form = closestElementCrossShadowBoundary(this.el, "form") as HTMLFormElement;
     if (form) {
       form.removeEventListener("reset", this.formResetHandler);
     }
