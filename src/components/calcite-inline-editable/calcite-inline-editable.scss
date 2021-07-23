@@ -19,7 +19,7 @@
 :host(:not([editing-enabled])) {
   .calcite-inline-editable__wrapper {
     &:hover {
-      @apply bg-foreground-2;
+      @apply bg-foreground-3;
     }
   }
 }
@@ -96,7 +96,7 @@
     &::slotted(*) {
       textarea,
       input {
-        @apply bg-foreground-2;
+        @apply bg-foreground-3;
       }
     }
   }

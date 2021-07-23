@@ -116,7 +116,7 @@ export class CalciteInlineEditable {
               label={this.intlEnableEditing}
               onClick={this.enableEditingHandler}
               ref={(el) => (this.enableEditingButton = el)}
-              scale={this.scale}
+              scale="s"
             />
           )}
           {this.shouldShowControls && [
