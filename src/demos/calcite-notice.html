@@ -6,6 +6,32 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Calcite Notice</title>
     <style>
+      .parent {
+        display: flex;
+        width: 50%;
+        align-items: center;
+        margin: 25px 0;
+      }
+
+      .child {
+        flex: 1 0 75%;
+        margin: 0 25px;
+        color: var(--calcite-ui-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+      }
+
+      .right-aligned-text {
+        text-align: right;
+        flex: 1 0 20%;
+      }
+
+      hr {
+        margin: 25px 0;
+        border-top: 1px solid var(--calcite-ui-border-2);
+      }
+
       .demo-background-dark {
         background: #202020;
         color: white;
@@ -16,222 +42,370 @@
   </head>
 
   <body>
-    <calcite-button href="/">Home</calcite-button>
-    <h1>Calcite Notice</h1>
-    <calcite-button onclick="document.querySelector('#notice-one').setFocus()">focus first notice item </calcite-button>
-    <calcite-button onclick="document.querySelector('#notice-six').setFocus()">focus first notice item </calcite-button>
-    <br />
-    <br />
-    <calcite-notice color="red" id="notice-one" scale="s" active dismissible>
-      <div slot="title">Something failed dismissible</div>
-      <div slot="message">That thing you wanted to do didn't work as expected</div>
-      <calcite-link slot="link" title="my action">Retry</calcite-link>
-    </calcite-notice>
-    <br />
-    <br />
-    <calcite-notice color="red" id="notice-one" scale="s" active dismissible>
-      <div slot="title">Something failed dismissible</div>
-      <div slot="message">That thing you wanted to do didn't work as expected</div>
-      <calcite-link slot="link" title="my action">Retry</calcite-link>
-    </calcite-notice>
-    <br />
-    <br />
-    <calcite-notice icon="information" active dismissible>
-      <div slot="title">Custom Icon</div>
-      <div slot="message">Look at that great icon. Go you!</div>
-    </calcite-notice>
-    <br />
-    <br />
-    <calcite-notice color="green" icon="plus" active dismissible>
-      <div slot="title">Custom Icon</div>
-      <div slot="message">Look at that great icon. Go you!</div>
-    </calcite-notice>
-    <br />
-    <br />
-
-    <h3>Sizes</h3>
-    <calcite-notice style="margin: 0 20px" icon color="blue" id="notice-ten" width="auto" scale="s" active dismissible>
-      <div slot="title">Title</div>
-      <div slot="message">Body lorem ipsum</div>
-      <calcite-link slot="link" title="my action">View item </calcite-link>
-    </calcite-notice>
-    <br />
-
-    <calcite-notice
-      style="margin: 0 20px"
-      icon
-      color="blue"
-      id="notice-eleven"
-      width="auto"
-      scale="m"
-      active
-      dismissible
-    >
-      <div slot="title">Title</div>
-      <div slot="message">Body lorem ipsum</div>
-      <calcite-link slot="link" title="my action">View item </calcite-link>
-    </calcite-notice>
-    <br />
-
-    <calcite-notice
-      style="margin: 0 20px"
-      icon
-      color="blue"
-      id="notice-twelve"
-      width="auto"
-      scale="l"
-      active
-      dismissible
-    >
-      <div slot="title">Title</div>
-      <div slot="message">Body lorem ipsum</div>
-      <calcite-link slot="link" title="my action">View item </calcite-link>
-    </calcite-notice>
-    <br />
-
-    <div class="demo-background-dark">
-      <calcite-notice icon class="calcite-theme-dark" color="yellow" id="notice-two" width="auto" scale="m" active>
-        <div slot="title">Something kind of worked</div>
-        <div slot="message">One part of that thing you wanted to do didn't work as expected</div>
-        <calcite-link slot="link" class="calcite-theme-dark" title="my action">View item </calcite-link>
-      </calcite-notice>
-      <br />
-      <br />
-      <calcite-notice
-        icon
-        color="green"
-        class="calcite-theme-dark"
-        id="notice-six"
-        width="auto"
-        scale="m"
-        active
-        dismissible
-      >
-        <div slot="title">Something worked</div>
-        <div slot="message">That thing you wanted to do worked as expected</div>
-      </calcite-notice>
-      <br />
-      <br />
-      <calcite-notice
-        icon
-        color="blue"
-        class="calcite-theme-dark"
-        id="notice-six"
-        width="auto"
-        scale="m"
-        active
-        dismissible
-      >
-        <div slot="title">Something worked</div>
-        <div slot="message">That thing you wanted to do worked as expected</div>
-      </calcite-notice>
-      <br />
-      <br />
-      <calcite-notice
-        icon
-        color="red"
-        class="calcite-theme-dark"
-        id="notice-six"
-        width="auto"
-        scale="m"
-        active
-        dismissible
-      >
-        <div slot="title">Something worked</div>
-        <div slot="message">That thing you wanted to do worked as expected</div>
-      </calcite-notice>
+    <div>
+      <calcite-button href="/" icon-start="arrow-left" color="neutral"> Home </calcite-button>
     </div>
-    <br />
-    <br />
-    <calcite-notice id="notice-three" scale="l" width="half" active>
-      <div slot="title">Something failed</div>
-      <div slot="message">That thing you wanted to do didn't work as expected</div>
-      <calcite-link slot="link" title="my action">Retry</calcite-link>
-    </calcite-notice>
-    <br />
-    <br />
-    <calcite-notice size="l" id="notice-four" width="full" active>
-      <div slot="title">Welcome to your new website</div>
-      <div slot="message">This is going to be a great ride</div>
-    </calcite-notice>
-    <br />
-    <br />
-    <calcite-notice color="green" size="l" id="notice-five" active>
-      <div slot="title">Welcome to your new website</div>
-      <div slot="message">
-        <div>That thing you wanted to do didn't work as expected</div>
-        <div>A second slotted div</div>
+
+    <h1 style="margin: 0 auto; text-align: center">Notice</h1>
+
+    <!-- 
+      **************************************************
+      * SMALL
+      **************************************************
+     -->
+    <div class="parent">
+      <div class="child right-aligned-text"></div>
+      <div class="child">Small</div>
+    </div>
+
+    <!-- simple notice -->
+    <div class="parent">
+      <div class="child right-aligned-text">Simple notice</div>
+
+      <div class="child">
+        <calcite-notice color="green" scale="s" id="notice-five" active>
+          <div slot="title">Welcome to your new website</div>
+          <div slot="message">
+            <div>That thing you wanted to do didn't work as expected</div>
+            <div>A second slotted div</div>
+          </div>
+        </calcite-notice>
       </div>
-    </calcite-notice>
-    <br />
-    <br />
-    <calcite-notice dismissible color="green" size="l" id="notice-five" active>
-      <div slot="title">Welcome to your new website</div>
-      <div slot="message">
-        <div>That thing you wanted to do didn't work as expected</div>
-        <div>A second slotted div</div>
+    </div>
+
+    <!-- something failed dismissible -->
+    <div class="parent">
+      <div class="child right-aligned-text">Something failed dismissible</div>
+
+      <div class="child">
+        <calcite-notice color="red" id="notice-one" scale="s" active dismissible>
+          <div slot="title">Something failed dismissible</div>
+          <div slot="message">That thing you wanted to do didn't work as expected</div>
+          <calcite-link slot="link" title="my action"> Retry </calcite-link>
+        </calcite-notice>
       </div>
-    </calcite-notice>
-    <br />
-    <br />
-    <calcite-notice dismissible color="green" size="l" id="notice-five" active>
-      <div slot="title">Welcome to your new website</div>
-      <div slot="message">
-        <div>That thing you wanted to do didn't work as expected</div>
-        <div>A second slotted div</div>
+    </div>
+
+    <!-- custom icon -->
+    <div class="parent">
+      <div class="child right-aligned-text">Custom Icon</div>
+
+      <div class="child">
+        <calcite-notice icon="information" scale="s" active dismissible>
+          <div slot="title">Custom Icon</div>
+          <div slot="message">Look at that great icon. Go you!</div>
+        </calcite-notice>
       </div>
-    </calcite-notice>
-    <br />
-    <br />
-    <calcite-tooltip-manager>
-      <calcite-notice scale="l" width="half" active dismissible>
-        <div slot="title">Something failed</div>
-        <div slot="message">That thing you wanted to do didn't work as expected</div>
-        <calcite-action id="retry-action-1" scale="l" slot="actions-end" title="Retry" icon="reset"></calcite-action>
-        <calcite-action
-          id="info-action-1"
-          scale="l"
-          slot="actions-end"
-          title="Get info"
-          icon="information"
-        ></calcite-action>
-      </calcite-notice>
-      <br />
-      <br />
-      <calcite-notice scale="m" width="half" active dismissible>
-        <div slot="title">Something failed</div>
-        <div slot="message">That thing you wanted to do didn't work as expected</div>
-        <calcite-action id="retry-action-2" scale="m" slot="actions-end" title="Retry" icon="reset"></calcite-action>
-        <calcite-action
-          id="info-action-2"
-          scale="m"
-          slot="actions-end"
-          title="Get info"
-          icon="information"
-        ></calcite-action>
-      </calcite-notice>
-      <br />
-      <br />
-      <calcite-notice scale="s" width="half" active dismissible>
-        <div slot="title">Something failed</div>
-        <div slot="message">That thing you wanted to do didn't work as expected</div>
-        <calcite-action id="retry-action-3" scale="s" slot="actions-end" title="Retry" icon="reset"></calcite-action>
-        <calcite-action
-          id="info-action-3"
-          scale="s"
-          slot="actions-end"
-          title="Get info"
-          icon="information"
-        ></calcite-action>
-      </calcite-notice>
-    </calcite-tooltip-manager>
-    <calcite-tooltip reference-element="retry-action-1" placement="top">Retry that action</calcite-tooltip>
-    <calcite-tooltip reference-element="info-action-1" placement="top">Get more info</calcite-tooltip>
-    <calcite-tooltip reference-element="retry-action-2" placement="top">Retry that action</calcite-tooltip>
-    <calcite-tooltip reference-element="info-action-2" placement="top">Get more info</calcite-tooltip>
-    <calcite-tooltip reference-element="retry-action-3" placement="top">Retry that action</calcite-tooltip>
-    <calcite-tooltip reference-element="info-action-3" placement="top">Get more info</calcite-tooltip>
-    <br />
-    <br />
+    </div>
+
+    <!-- another custom icon -->
+    <div class="parent">
+      <div class="child right-aligned-text">Another Custom Icon</div>
+
+      <div class="child">
+        <calcite-notice icon="plus" scale="s" color="green" active dismissible>
+          <div slot="title">Custom Icon</div>
+          <div slot="message">Look at that great icon. Go you!</div>
+        </calcite-notice>
+      </div>
+    </div>
+
+    <!-- warning notice -->
+    <div class="parent">
+      <div class="child right-aligned-text">Warning Notice</div>
+
+      <div class="child">
+        <calcite-notice icon color="yellow" width="auto" scale="s" active>
+          <div slot="title">Something kind of worked</div>
+          <div slot="message">One part of that thing you wanted to do didn't work as expected</div>
+          <calcite-link slot="link" title="my action">View item </calcite-link>
+        </calcite-notice>
+      </div>
+    </div>
+
+    <!-- working notice with dismissible -->
+    <div class="parent">
+      <div class="child right-aligned-text">Working notice with dismissible</div>
+
+      <div class="child">
+        <calcite-notice icon color="green" width="auto" scale="s" active dismissible>
+          <div slot="title">Something kind of worked</div>
+          <div slot="message">That thing you wanted to do worked as expected</div>
+        </calcite-notice>
+      </div>
+    </div>
+
+    <!-- notice with tooltip -->
+    <div class="parent">
+      <div class="child right-aligned-text">Notice with tooltip</div>
+
+      <div class="child">
+        <calcite-tooltip-manager>
+          <calcite-notice scale="s" width="full" active dismissible>
+            <div slot="title">Something failed</div>
+            <div slot="message">That thing you wanted to do didn't work as expected</div>
+            <calcite-action
+              id="retry-action-s"
+              scale="s"
+              slot="actions-end"
+              title="Retry"
+              icon="reset"
+            ></calcite-action>
+            <calcite-action
+              id="info-action-s"
+              scale="s"
+              slot="actions-end"
+              title="Get info"
+              icon="information"
+            ></calcite-action>
+          </calcite-notice>
+        </calcite-tooltip-manager>
+
+        <calcite-tooltip reference-element="retry-action-s" placement="top">Retry that action</calcite-tooltip>
+        <calcite-tooltip reference-element="info-action-s" placement="top">Get more info</calcite-tooltip>
+      </div>
+    </div>
+
+    <hr />
+    <!-- A horizontal line -->
+
+    <!-- 
+      **************************************************
+      * MEDIUM
+      **************************************************
+     -->
+    <div class="parent">
+      <div class="child right-aligned-text"></div>
+      <div class="child">Medium</div>
+    </div>
+
+    <!-- simple notice -->
+    <div class="parent">
+      <div class="child right-aligned-text">Simple notice</div>
+
+      <div class="child">
+        <calcite-notice color="green" scale="m" id="notice-five" active>
+          <div slot="title">Welcome to your new website</div>
+          <div slot="message">
+            <div>That thing you wanted to do didn't work as expected</div>
+            <div>A second slotted div</div>
+          </div>
+        </calcite-notice>
+      </div>
+    </div>
+
+    <!-- something failed dismissible -->
+    <div class="parent">
+      <div class="child right-aligned-text">Something failed dismissible</div>
+
+      <div class="child">
+        <calcite-notice color="red" id="notice-one" scale="m" active dismissible>
+          <div slot="title">Something failed dismissible</div>
+          <div slot="message">That thing you wanted to do didn't work as expected</div>
+          <calcite-link slot="link" title="my action"> Retry </calcite-link>
+        </calcite-notice>
+      </div>
+    </div>
+
+    <!-- custom icon -->
+    <div class="parent">
+      <div class="child right-aligned-text">Custom Icon</div>
+
+      <div class="child">
+        <calcite-notice icon="information" scale="m" active dismissible>
+          <div slot="title">Custom Icon</div>
+          <div slot="message">Look at that great icon. Go you!</div>
+        </calcite-notice>
+      </div>
+    </div>
+
+    <!-- another custom icon -->
+    <div class="parent">
+      <div class="child right-aligned-text">Another Custom Icon</div>
+
+      <div class="child">
+        <calcite-notice icon="plus" scale="m" color="green" active dismissible>
+          <div slot="title">Custom Icon</div>
+          <div slot="message">Look at that great icon. Go you!</div>
+        </calcite-notice>
+      </div>
+    </div>
+
+    <!-- warning notice -->
+    <div class="parent">
+      <div class="child right-aligned-text">Warning Notice</div>
+
+      <div class="child">
+        <calcite-notice icon color="yellow" width="auto" scale="m" active>
+          <div slot="title">Something kind of worked</div>
+          <div slot="message">One part of that thing you wanted to do didn't work as expected</div>
+          <calcite-link slot="link" title="my action">View item </calcite-link>
+        </calcite-notice>
+      </div>
+    </div>
+
+    <!-- working notice with dismissible -->
+    <div class="parent">
+      <div class="child right-aligned-text">Working notice with dismissible</div>
+
+      <div class="child">
+        <calcite-notice icon color="green" width="auto" scale="m" active dismissible>
+          <div slot="title">Something kind of worked</div>
+          <div slot="message">That thing you wanted to do worked as expected</div>
+        </calcite-notice>
+      </div>
+    </div>
+
+    <!-- notice with tooltip -->
+    <div class="parent">
+      <div class="child right-aligned-text">Notice with tooltip</div>
+
+      <div class="child">
+        <calcite-tooltip-manager>
+          <calcite-notice scale="m" width="full" active dismissible>
+            <div slot="title">Something failed</div>
+            <div slot="message">That thing you wanted to do didn't work as expected</div>
+            <calcite-action
+              id="retry-action-m"
+              scale="m"
+              slot="actions-end"
+              title="Retry"
+              icon="reset"
+            ></calcite-action>
+            <calcite-action
+              id="info-action-m"
+              scale="m"
+              slot="actions-end"
+              title="Get info"
+              icon="information"
+            ></calcite-action>
+          </calcite-notice>
+        </calcite-tooltip-manager>
+
+        <calcite-tooltip reference-element="retry-action-m" placement="top">Retry that action</calcite-tooltip>
+        <calcite-tooltip reference-element="info-action-m" placement="top">Get more info</calcite-tooltip>
+      </div>
+    </div>
+
+    <hr />
+    <!-- A horizontal line -->
+
+    <!-- 
+      **************************************************
+      * LARGE
+      **************************************************
+     -->
+    <div class="parent">
+      <div class="child right-aligned-text"></div>
+      <div class="child">Large</div>
+    </div>
+
+    <!-- simple notice -->
+    <div class="parent">
+      <div class="child right-aligned-text">Simple notice</div>
+
+      <div class="child">
+        <calcite-notice color="green" scale="l" id="notice-five" active>
+          <div slot="title">Welcome to your new website</div>
+          <div slot="message">
+            <div>That thing you wanted to do didn't work as expected</div>
+            <div>A second slotted div</div>
+          </div>
+        </calcite-notice>
+      </div>
+    </div>
+
+    <!-- something failed dismissible -->
+    <div class="parent">
+      <div class="child right-aligned-text">Something failed dismissible</div>
+
+      <div class="child">
+        <calcite-notice color="red" id="notice-one" scale="l" active dismissible>
+          <div slot="title">Something failed dismissible</div>
+          <div slot="message">That thing you wanted to do didn't work as expected</div>
+          <calcite-link slot="link" title="my action"> Retry </calcite-link>
+        </calcite-notice>
+      </div>
+    </div>
+
+    <!-- custom icon -->
+    <div class="parent">
+      <div class="child right-aligned-text">Custom Icon</div>
+
+      <div class="child">
+        <calcite-notice icon="information" scale="l" active dismissible>
+          <div slot="title">Custom Icon</div>
+          <div slot="message">Look at that great icon. Go you!</div>
+        </calcite-notice>
+      </div>
+    </div>
+
+    <!-- another custom icon -->
+    <div class="parent">
+      <div class="child right-aligned-text">Another Custom Icon</div>
+
+      <div class="child">
+        <calcite-notice icon="plus" scale="l" color="green" active dismissible>
+          <div slot="title">Custom Icon</div>
+          <div slot="message">Look at that great icon. Go you!</div>
+        </calcite-notice>
+      </div>
+    </div>
+
+    <!-- warning notice -->
+    <div class="parent">
+      <div class="child right-aligned-text">Warning Notice</div>
+
+      <div class="child">
+        <calcite-notice icon color="yellow" width="auto" scale="l" active>
+          <div slot="title">Something kind of worked</div>
+          <div slot="message">One part of that thing you wanted to do didn't work as expected</div>
+          <calcite-link slot="link" title="my action">View item </calcite-link>
+        </calcite-notice>
+      </div>
+    </div>
+
+    <!-- working notice with dismissible -->
+    <div class="parent">
+      <div class="child right-aligned-text">Working notice with dismissible</div>
+
+      <div class="child">
+        <calcite-notice icon color="green" width="auto" scale="l" active dismissible>
+          <div slot="title">Something kind of worked</div>
+          <div slot="message">That thing you wanted to do worked as expected</div>
+        </calcite-notice>
+      </div>
+    </div>
+
+    <!-- notice with tooltip -->
+    <div class="parent">
+      <div class="child right-aligned-text">Notice with tooltip</div>
+
+      <div class="child">
+        <calcite-tooltip-manager>
+          <calcite-notice scale="l" width="full" active dismissible>
+            <div slot="title">Something failed</div>
+            <div slot="message">That thing you wanted to do didn't work as expected</div>
+            <calcite-action
+              id="retry-action-l"
+              scale="l"
+              slot="actions-end"
+              title="Retry"
+              icon="reset"
+            ></calcite-action>
+            <calcite-action
+              id="info-action-l"
+              scale="l"
+              slot="actions-end"
+              title="Get info"
+              icon="information"
+            ></calcite-action>
+          </calcite-notice>
+        </calcite-tooltip-manager>
+
+        <calcite-tooltip reference-element="retry-action-l" placement="top">Retry that action</calcite-tooltip>
+        <calcite-tooltip reference-element="info-action-l" placement="top">Get more info</calcite-tooltip>
+      </div>
+    </div>
   </body>
 </html>
