@@ -88,6 +88,28 @@ describe("calcite-pick-list-item", () => {
     expect(await item.getProperty("selected")).toBe(true);
   });
 
+  it("prevents selection when nonInteractive is true", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-pick-list-item label="test" value="example" non-interactive></calcite-pick-list-item>`
+    });
+    const item = await page.find("calcite-pick-list-item");
+
+    await item.click();
+
+    expect(await item.getProperty("selected")).toBe(false);
+  });
+
+  it("prevents deselection when nonInteractive is true", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-pick-list-item label="test" value="example" non-interactive selected></calcite-pick-list-item>`
+    });
+    const item = await page.find("calcite-pick-list-item");
+
+    await item.click();
+
+    expect(await item.getProperty("selected")).toBe(true);
+  });
+
   it("allows for easy removal", async () => {
     const page = await newE2EPage({
       html: `<calcite-pick-list-item label="test" value="example" removable></calcite-pick-list-item>`

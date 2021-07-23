@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { focusable, HYDRATED_ATTR } from "../../tests/commonTests";
+import { html } from "../../tests/utils";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { getDecimalSeparator, locales, localizeNumberString } from "../../utils/locale";
 
@@ -299,6 +300,36 @@ describe("calcite-input", () => {
     await numberHorizontalItemUp.click();
     await page.waitForChanges();
     expect(await element.getProperty("value")).toBe("6");
+  });
+
+  it("should not increment or decrement value when disabled", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-input type="number" value="5" disabled></calcite-input> `
+    });
+
+    await page.waitForChanges();
+
+    const input = await page.find("calcite-input");
+
+    expect(await input.getProperty("value")).toBe("5");
+
+    const numberHorizontalItemUp = await page.find(
+      "calcite-input .calcite-input__number-button-item[data-adjustment='up']"
+    );
+
+    await numberHorizontalItemUp.click();
+    await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe("5");
+
+    const numberHorizontalItemDown = await page.find(
+      "calcite-input .calcite-input__number-button-item[data-adjustment='down']"
+    );
+
+    await numberHorizontalItemDown.click();
+    await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe("5");
   });
 
   it("should correctly handle property changes to 'min', 'max', and 'step'", async () => {
@@ -833,6 +864,48 @@ describe("calcite-input", () => {
 
       expect(await calciteInput.getProperty("value")).toBe("1");
       expect(calciteInputInput).toHaveReceivedEventTimes(2);
+    });
+
+    it("only allows integers by default", async () => {
+      const page = await newE2EPage({
+        html: `
+          <calcite-input type="number"></calcite-input>
+        `
+      });
+      const input = await page.find("calcite-input");
+      await input.callMethod("setFocus");
+      await page.keyboard.type("1.5");
+      await page.waitForChanges();
+
+      expect(await input.getProperty("value")).toBe("15");
+    });
+
+    it("only allows integers when the supplied step is a whole number", async () => {
+      const page = await newE2EPage({
+        html: `
+          <calcite-input step="2" type="number"></calcite-input>
+        `
+      });
+      const input = await page.find("calcite-input");
+      await input.callMethod("setFocus");
+      await page.keyboard.type("1.8");
+      await page.waitForChanges();
+
+      expect(await input.getProperty("value")).toBe("18");
+    });
+
+    it("allows decimals only when the step is a decimal", async () => {
+      const page = await newE2EPage({
+        html: `
+          <calcite-input step="0.001" type="number"></calcite-input>
+        `
+      });
+      const input = await page.find("calcite-input");
+      await input.callMethod("setFocus");
+      await page.keyboard.type("1.5");
+      await page.waitForChanges();
+
+      expect(await input.getProperty("value")).toBe("1.5");
     });
   });
 

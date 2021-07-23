@@ -13,7 +13,12 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementDir, getElementProp, setRequestedIcon } from "../../utils/dom";
+import {
+  getElementDir,
+  getElementProp,
+  setRequestedIcon,
+  closestElementCrossShadowBoundary
+} from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./calcite-input.resources";
 import { InputPlacement } from "./interfaces";
@@ -25,7 +30,7 @@ import {
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 import { hiddenInputStyle } from "../../utils/form";
-import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
+import { isValidDecimal, isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
 import { CSS_UTILITY, TEXT } from "../../utils/resources";
 
 type NumberNudgeDirection = "up" | "down";
@@ -260,7 +265,7 @@ export class CalciteInput {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.form = this.el.closest("form");
+    this.form = closestElementCrossShadowBoundary(this.el, "form") as HTMLFormElement;
     this.form?.addEventListener("reset", this.reset);
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.status = getElementProp(this.el, "status", this.status);
@@ -457,7 +462,7 @@ export class CalciteInput {
       return;
     }
     const decimalSeparator = getDecimalSeparator(this.locale);
-    if (event.key === decimalSeparator) {
+    if (event.key === decimalSeparator && isValidDecimal(this.step === "any" ? 1 : this.step as number)) {
       if (!this.value && !this.childNumberEl.value) {
         return;
       }
@@ -493,7 +498,7 @@ export class CalciteInput {
     this.setValue(newValue, nativeEvent, true);
   };
 
-  private numberButtonMouseDownHandler = (event: MouseEvent): void => {
+  private numberButtonClickHandler = (event: MouseEvent): void => {
     // todo, when dropping ie11 support, refactor to use stepup/stepdown
     // prevent blur and re-focus of input on mousedown
     event.preventDefault();
@@ -578,7 +583,12 @@ export class CalciteInput {
     const iconScale = this.scale === "s" || this.scale === "m" ? "s" : "m";
 
     const inputClearButton = (
-      <button class={CSS.clearButton} disabled={this.loading} onClick={this.clearInputValue}>
+      <button
+        class={CSS.clearButton}
+        disabled={this.disabled}
+        onClick={this.clearInputValue}
+        tabIndex={this.disabled ? -1 : 0}
+      >
         <calcite-icon icon="x" scale={iconScale} />
       </button>
     );
@@ -595,29 +605,33 @@ export class CalciteInput {
     const isHorizontalNumberButton = this.numberButtonType === "horizontal";
 
     const numberButtonsHorizontalUp = (
-      <div
+      <button
         class={{
           [CSS.numberButtonItem]: true,
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton
         }}
         data-adjustment="up"
-        onMouseDown={this.numberButtonMouseDownHandler}
+        disabled={this.disabled}
+        onClick={this.numberButtonClickHandler}
+        tabIndex={-1}
       >
         <calcite-icon icon="chevron-up" scale={iconScale} />
-      </div>
+      </button>
     );
 
     const numberButtonsHorizontalDown = (
-      <div
+      <button
         class={{
           [CSS.numberButtonItem]: true,
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton
         }}
         data-adjustment="down"
-        onMouseDown={this.numberButtonMouseDownHandler}
+        disabled={this.disabled}
+        onClick={this.numberButtonClickHandler}
+        tabIndex={-1}
       >
         <calcite-icon icon="chevron-down" scale={iconScale} />
-      </div>
+      </button>
     );
 
     const numberButtonsVertical = (
@@ -648,7 +662,7 @@ export class CalciteInput {
           onKeyDown={this.inputNumberKeyDownHandler}
           placeholder={this.placeholder || ""}
           ref={this.setChildNumberElRef}
-          tabIndex={0}
+          tabIndex={this.disabled ? -1 : 0}
           type="text"
           value={this.localizedValue}
         />
