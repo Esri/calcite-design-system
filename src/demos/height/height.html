@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Heights</title>
+    <script src="../_assets/head.js"></script>
+    <style>
+      h1,
+      h3 {
+        color: var(--calcite-ui-text-1);
+      }
+      section {
+        padding: 0 1rem;
+      }
+      .flex {
+        display: flex;
+        justify-content: space-between;
+      }
+      .shadow {
+        box-shadow: 0 12px 32px -2px rgb(0 0 0 / 25%), 0 4px 20px 0 rgb(0 0 0 / 20%);
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <calcite-button href="/">Home</calcite-button>
+      <calcite-button href="../" color="neutral">Demos</calcite-button>
+    </header>
+
+    <main>
+      <h1>Heights</h1>
+
+      <section>
+        <h3>Small</h3>
+        <div class="flex" style="width: 1802px">
+          <div>
+            <calcite-tree scale="s" input-enabled class="shadow">
+              <calcite-tree-item>
+                <a href="#">Tree</a>
+                <calcite-tree slot="children">
+                  <calcite-tree-item>
+                    <span>Grandchild</span>
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+          </div>
+          <div>
+            <calcite-pagination scale="s" class="shadow" start="1" total="3" num="1"></calcite-pagination>
+          </div>
+          <div>
+            <calcite-tab-nav scale="s" position="above" class="shadow">
+              <calcite-tab-title>Tab title</calcite-tab-title>
+            </calcite-tab-nav>
+          </div>
+          <div>
+            <calcite-inline-editable scale="s" editing-enabled controls class="shadow flex">
+              <calcite-input id="inline-edit" value="Inline edit"></calcite-input>
+            </calcite-inline-editable>
+          </div>
+          <div>
+            <calcite-select scale="s" class="shadow">
+              <calcite-option>Select</calcite-option>
+            </calcite-select>
+          </div>
+          <div>
+            <calcite-combobox scale="s" label="Single selection-mode combobox" selection-mode="single" class="shadow">
+              <calcite-combobox-item value="Combobox" text-label="Combobox" selected></calcite-combobox-item>
+            </calcite-combobox>
+          </div>
+          <div>
+            <calcite-combobox
+              scale="s"
+              placeholder="Combobox (multi)"
+              label="Multi selection-mode combobox"
+              selection-mode="multi"
+              class="shadow"
+            >
+              <calcite-combobox-item value="Combobox" text-label="Combobox" selected></calcite-combobox-item>
+            </calcite-combobox>
+          </div>
+          <div>
+            <calcite-input scale="s" value="Input" class="shadow flex"></calcite-input>
+          </div>
+          <div>
+            <calcite-button scale="s" class="shadow">Button</calcite-button>
+          </div>
+          <div>
+            <calcite-split-button scale="s" primary-icon-start="save" primary-text="Split button" class="shadow flex">
+              <calcite-dropdown-group scale="s" selection-mode="none">
+                <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+              </calcite-dropdown-group>
+            </calcite-split-button>
+          </div>
+          <div>
+            <calcite-fab scale="s" color="blue" appearance="solid" text="Fab" text-enabled class="shadow"></calcite-fab>
+          </div>
+          <div>
+            <calcite-radio-group scale="s" class="shadow">
+              <calcite-radio-group-item value="Radio-1" checked>Radio</calcite-radio-group-item>
+              <calcite-radio-group-item value="Radio-2">Radio</calcite-radio-group-item>
+            </calcite-radio-group>
+          </div>
+          <div>
+            <calcite-chip scale="s" value="Chip" dismissible icon="globe" appearance="clear" color="grey" class="shadow"
+              >Chip</calcite-chip
+            >
+          </div>
+          <div>
+            <calcite-dropdown-item scale="s" active class="shadow">Dropdown item</calcite-dropdown-item>
+          </div>
+        </div>
+
+        <h3>Medium</h3>
+        <div class="flex" style="width: 2165px">
+          <div>
+            <calcite-tree scale="m" input-enabled class="shadow">
+              <calcite-tree-item>
+                <a href="#">Tree</a>
+                <calcite-tree slot="children">
+                  <calcite-tree-item>
+                    <span>Grandchild</span>
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+          </div>
+          <div>
+            <calcite-pagination scale="m" class="shadow" start="1" total="3" num="1"></calcite-pagination>
+          </div>
+          <div>
+            <calcite-tab-nav scale="m" position="above" class="shadow">
+              <calcite-tab-title>Tab title</calcite-tab-title>
+            </calcite-tab-nav>
+          </div>
+          <div>
+            <calcite-inline-editable scale="m" editing-enabled controls class="shadow flex">
+              <calcite-input id="inline-edit" value="Inline edit"></calcite-input>
+            </calcite-inline-editable>
+          </div>
+          <div>
+            <calcite-select scale="m" class="shadow">
+              <calcite-option>Select</calcite-option>
+            </calcite-select>
+          </div>
+          <div>
+            <calcite-combobox scale="m" label="Single selection-mode combobox" selection-mode="single" class="shadow">
+              <calcite-combobox-item value="Combobox" text-label="Combobox" selected></calcite-combobox-item>
+            </calcite-combobox>
+          </div>
+          <div>
+            <calcite-combobox
+              scale="m"
+              placeholder="Combobox (multi)"
+              label="Multi selection-mode combobox"
+              selection-mode="multi"
+              class="shadow"
+            >
+              <calcite-combobox-item value="Combobox" text-label="Combobox" selected></calcite-combobox-item>
+            </calcite-combobox>
+          </div>
+          <div>
+            <calcite-input scale="m" value="Input" class="shadow flex"></calcite-input>
+          </div>
+          <div>
+            <calcite-button scale="m" class="shadow">Button</calcite-button>
+          </div>
+          <div>
+            <calcite-split-button scale="m" primary-icon-start="save" primary-text="Split button" class="shadow flex">
+              <calcite-dropdown-group scale="m" selection-mode="none">
+                <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+              </calcite-dropdown-group>
+            </calcite-split-button>
+          </div>
+          <div>
+            <calcite-fab scale="m" color="blue" appearance="solid" text="Fab" text-enabled class="shadow"></calcite-fab>
+          </div>
+          <div>
+            <calcite-radio-group scale="m" class="shadow">
+              <calcite-radio-group-item value="Radio-1" checked>Radio</calcite-radio-group-item>
+              <calcite-radio-group-item value="Radio-2">Radio</calcite-radio-group-item>
+            </calcite-radio-group>
+          </div>
+          <div>
+            <calcite-chip scale="m" value="Chip" dismissible icon="globe" appearance="clear" color="grey" class="shadow"
+              >Chip</calcite-chip
+            >
+          </div>
+          <div>
+            <calcite-dropdown-item scale="m" active class="shadow">Dropdown item</calcite-dropdown-item>
+          </div>
+        </div>
+
+        <h3>Large</h3>
+        <div class="flex" style="width: 2642px; padding-right: 1rem">
+          <div>
+            <calcite-tree scale="l" input-enabled class="shadow">
+              <calcite-tree-item>
+                <a href="#">Tree</a>
+                <calcite-tree slot="children">
+                  <calcite-tree-item>
+                    <span>Grandchild</span>
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+          </div>
+          <div>
+            <calcite-pagination scale="l" class="shadow" start="1" total="3" num="1"></calcite-pagination>
+          </div>
+          <div>
+            <calcite-tab-nav scale="l" position="above" class="shadow">
+              <calcite-tab-title>Tab title</calcite-tab-title>
+            </calcite-tab-nav>
+          </div>
+          <div>
+            <calcite-inline-editable scale="l" editing-enabled controls class="shadow flex">
+              <calcite-input id="inline-edit" value="Inline edit"></calcite-input>
+            </calcite-inline-editable>
+          </div>
+          <div>
+            <calcite-select scale="l" class="shadow">
+              <calcite-option>Select</calcite-option>
+            </calcite-select>
+          </div>
+          <div>
+            <calcite-combobox scale="l" label="Single selection-mode combobox" selection-mode="single" class="shadow">
+              <calcite-combobox-item value="Combobox" text-label="Combobox" selected></calcite-combobox-item>
+            </calcite-combobox>
+          </div>
+          <div>
+            <calcite-combobox
+              scale="l"
+              placeholder="Combobox (multi)"
+              label="Multi selection-mode combobox"
+              selection-mode="multi"
+              class="shadow"
+            >
+              <calcite-combobox-item value="Combobox" text-label="Combobox" selected></calcite-combobox-item>
+            </calcite-combobox>
+          </div>
+          <div>
+            <calcite-input scale="l" value="Input" class="shadow flex"></calcite-input>
+          </div>
+          <div>
+            <calcite-button scale="l" class="shadow">Button</calcite-button>
+          </div>
+          <div>
+            <calcite-split-button scale="l" primary-icon-start="save" primary-text="Split button" class="shadow flex">
+              <calcite-dropdown-group scale="l" selection-mode="none">
+                <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+              </calcite-dropdown-group>
+            </calcite-split-button>
+          </div>
+          <div>
+            <calcite-fab scale="l" color="blue" appearance="solid" text="Fab" text-enabled class="shadow"></calcite-fab>
+          </div>
+          <div>
+            <calcite-radio-group scale="l" class="shadow">
+              <calcite-radio-group-item value="Radio-1" checked>Radio</calcite-radio-group-item>
+              <calcite-radio-group-item value="Radio-2">Radio</calcite-radio-group-item>
+            </calcite-radio-group>
+          </div>
+          <div>
+            <calcite-chip scale="l" value="Chip" dismissible icon="globe" appearance="clear" color="grey" class="shadow"
+              >Chip</calcite-chip
+            >
+          </div>
+          <div>
+            <calcite-dropdown-item scale="l" active class="shadow">Dropdown item</calcite-dropdown-item>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

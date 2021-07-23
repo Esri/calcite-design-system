@@ -558,7 +558,7 @@
   @apply text-0h;
   padding-left: 15px;
   padding-right: 15px;
-  max-height: 44px; // large size FAB fix TO-DO: CHECK W/ NEW INPUT HEIGHTS BEN BRANCH
+  max-height: 44px; // large size FAB fix
 }
 :host([scale="l"]:not([appearance="transparent"])) button.content--slotted,
 :host([scale="l"]:not([appearance="transparent"])) a.content--slotted {

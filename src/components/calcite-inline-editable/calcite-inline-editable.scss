@@ -1,18 +1,18 @@
 :host([scale="s"]) {
   .calcite-inline-editable__controls-wrapper {
-    height: 32px;
+    height: theme("spacing.6");
   }
 }
 
 :host([scale="m"]) {
   .calcite-inline-editable__controls-wrapper {
-    height: 44px;
+    height: theme("spacing.8");
   }
 }
 
 :host([scale="l"]) {
   .calcite-inline-editable__controls-wrapper {
-    height: 56px;
+    height: theme("spacing.11");
   }
 }
 
@@ -44,7 +44,6 @@
   border: 1px solid var(--calcite-ui-border-1);
   border-left: none;
   border-right: none;
-  display: flex;
 }
 
 :host([disabled]) {
