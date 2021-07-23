@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Features
 
+- **animation:** add global animation classes, duration CSS Custom Property ([#2607](https://github.com/Esri/calcite-components/issues/2607)) ([c7f70dc](https://github.com/Esri/calcite-components/commit/c7f70dc28a3790fb946090c0eb394aa79ca8bc64)), closes [#2411](https://github.com/Esri/calcite-components/issues/2411)
 - **calcite-input:** allow integer only input when step is a whole number ([#2563](https://github.com/Esri/calcite-components/issues/2563)) ([3af675b](https://github.com/Esri/calcite-components/commit/3af675bb27c7e5859dc5c16849fffbeb147953e2))
 - **value-list-item, pick-list-item:** add nonInteractive prop ([f06906c](https://github.com/Esri/calcite-components/commit/f06906c90fc2f047391a9c66efa18a9ac2adb0d1)), closes [#2040](https://github.com/Esri/calcite-components/issues/2040) [#2040](https://github.com/Esri/calcite-components/issues/2040) [#2040](https://github.com/Esri/calcite-components/issues/2040) [#2040](https://github.com/Esri/calcite-components/issues/2040) [#2040](https://github.com/Esri/calcite-components/issues/2040)
 
