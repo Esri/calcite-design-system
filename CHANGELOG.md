@@ -5,7 +5,12 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 <!--@unreleased-section-start-->
 
-## Unreleased (2021-07-21)
+## Unreleased (2021-07-22)
+
+### Features
+
+- **calcite-input:** allow integer only input when step is a whole number ([#2563](https://github.com/Esri/calcite-components/issues/2563)) ([3af675b](https://github.com/Esri/calcite-components/commit/3af675bb27c7e5859dc5c16849fffbeb147953e2))
+- **value-list-item, pick-list-item:** add nonInteractive prop ([f06906c](https://github.com/Esri/calcite-components/commit/f06906c90fc2f047391a9c66efa18a9ac2adb0d1)), closes [#2040](https://github.com/Esri/calcite-components/issues/2040) [#2040](https://github.com/Esri/calcite-components/issues/2040) [#2040](https://github.com/Esri/calcite-components/issues/2040) [#2040](https://github.com/Esri/calcite-components/issues/2040) [#2040](https://github.com/Esri/calcite-components/issues/2040)
 
 ### Bug Fixes
 
@@ -14,6 +19,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **calcite-list-item:** adds bit of spacing between label and description ([e81c37d](https://github.com/Esri/calcite-components/commit/e81c37d9ccedd509b7d663f88ca59e453744a4eb))
 - **combobox:** Deprecate the calciteLookupChange event in favor of calciteComboboxChange ([#2579](https://github.com/Esri/calcite-components/issues/2579)) ([fc7c0f8](https://github.com/Esri/calcite-components/commit/fc7c0f801f3b7da442ee542400a22d310d827dc1)), closes [#2499](https://github.com/Esri/calcite-components/issues/2499)
 - **input:** fix layout of number input with horizontal button layout ([#2581](https://github.com/Esri/calcite-components/issues/2581)) ([58866ac](https://github.com/Esri/calcite-components/commit/58866ac84e5b56294fae426db49fc5c37f4fc94e)), closes [#2422](https://github.com/Esri/calcite-components/issues/2422)
+- **x-close input buttons:** x hover ui-text-1 ([#2596](https://github.com/Esri/calcite-components/issues/2596)) ([1560224](https://github.com/Esri/calcite-components/commit/1560224216d2dcfaf149d6dad019c5084a4a8261))
 <!--@unreleased-section-end-->
 
 ## [1.0.0-beta.60](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.59...v1.0.0-beta.60) (2021-07-20)
