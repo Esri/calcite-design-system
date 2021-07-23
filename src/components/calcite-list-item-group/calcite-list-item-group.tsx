@@ -4,7 +4,7 @@ import { HEADING_LEVEL } from "./resources";
 import { HeadingLevel, CalciteHeading, constrainHeadingLevel } from "../functional/CalciteHeading";
 
 /**
- * @slot - A slot for adding `calcite-list-item` elements.
+ * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
  */
 @Component({
   tag: "calcite-list-item-group",
