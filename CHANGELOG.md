@@ -7,6 +7,11 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased (2021-07-22)
 
+### Features
+
+- **calcite-input:** allow integer only input when step is a whole number ([#2563](https://github.com/Esri/calcite-components/issues/2563)) ([3af675b](https://github.com/Esri/calcite-components/commit/3af675bb27c7e5859dc5c16849fffbeb147953e2))
+- **value-list-item, pick-list-item:** add nonInteractive prop ([f06906c](https://github.com/Esri/calcite-components/commit/f06906c90fc2f047391a9c66efa18a9ac2adb0d1)), closes [#2040](https://github.com/Esri/calcite-components/issues/2040) [#2040](https://github.com/Esri/calcite-components/issues/2040) [#2040](https://github.com/Esri/calcite-components/issues/2040) [#2040](https://github.com/Esri/calcite-components/issues/2040) [#2040](https://github.com/Esri/calcite-components/issues/2040)
+
 ### Bug Fixes
 
 - **button:** Remove use of document.getElementsByName() ([#2574](https://github.com/Esri/calcite-components/issues/2574)) ([59712b4](https://github.com/Esri/calcite-components/commit/59712b4df0c11d2e37f665bc146ed2aba3f38f11)), closes [#1958](https://github.com/Esri/calcite-components/issues/1958)
