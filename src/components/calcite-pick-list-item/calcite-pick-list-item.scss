@@ -14,6 +14,15 @@
   @apply bg-foreground-2;
 }
 
+:host([non-interactive]:hover) {
+  @apply bg-foreground-1;
+}
+
+:host([non-interactive]) .label,
+:host([non-interactive]) .icon {
+  @apply pointer-events-none;
+}
+
 .icon {
   @apply items-center flex my-0 mx-2 opacity-0 cursor-pointer;
   color: theme("colors.brand");
