@@ -47,6 +47,11 @@ export class CalciteValueListItem {
    * @internal When false, the item cannot be deselected by user interaction.
    */
   @Prop() disableDeselect = false;
+  
+  /**
+   * When true, prevents the content of the list item from user interaction.
+   */
+  @Prop({ reflect: true }) nonInteractive = false;
 
   /**
    * @internal - stores the activated state of the drag handle.
@@ -54,7 +59,8 @@ export class CalciteValueListItem {
   @Prop({ mutable: true }) handleActivated? = false;
 
   /**
-   * Determines the icon SVG symbol that will be shown. Options are circle, square, grid or null.
+   * Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null.
+   * @see [ICON_TYPES](https://github.com/Esri/calcite-components/blob/master/src/components/calcite-pick-list/resources.ts#L5)
    */
   @Prop({ reflect: true }) icon?: ICON_TYPES | null = null;
 
@@ -204,6 +210,7 @@ export class CalciteValueListItem {
         <calcite-pick-list-item
           description={this.description}
           disableDeselect={this.disableDeselect}
+          nonInteractive={this.nonInteractive}
           disabled={this.disabled}
           label={this.label}
           metadata={this.metadata}

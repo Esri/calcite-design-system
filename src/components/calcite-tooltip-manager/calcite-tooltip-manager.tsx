@@ -33,6 +33,7 @@ export class CalciteTooltipManager {
 
   /**
    * CSS Selector to match reference elements for tooltips. Reference elements will be identified by this selector in order to open their associated tooltip.
+   * @default `[data-calcite-tooltip-reference]`
    */
   @Prop() selector = `[${TOOLTIP_REFERENCE}]`;
 

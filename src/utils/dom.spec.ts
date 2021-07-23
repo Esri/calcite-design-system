@@ -71,16 +71,6 @@ describe("dom", () => {
 
       beforeEach(defineTestComponents);
 
-      it("can cross shadow DOM boundary", async () => {
-        document.body.innerHTML = `
-        <prop-lookup-parent-test id="test" test-prop="parent"></prop-lookup-parent-test>
-      `;
-
-        expect(
-          getElementProp(document.getElementById("test").shadowRoot.firstElementChild, "test-prop", "not-found", true)
-        ).toBe("parent");
-      });
-
       it("does not cross shadow DOM boundary (default)", () => {
         document.body.innerHTML = `
         <prop-lookup-parent-test id="test" test-prop="parent"></prop-lookup-parent-test>

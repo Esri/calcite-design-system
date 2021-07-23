@@ -136,7 +136,10 @@ export class CalciteModal {
       >
         <calcite-scrim class="scrim" onClick={this.handleOutsideClose} />
         {this.renderStyle()}
-        <div class={{ modal: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+        <div
+          class={{ modal: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+          onTransitionEnd={this.transitionEnd}
+        >
           <div data-focus-fence onFocus={this.focusLastElement} tabindex="0" />
           <div class="header">
             {this.renderCloseButton()}
@@ -229,8 +232,6 @@ export class CalciteModal {
 
   contentId: string;
 
-  focusTimeout: number;
-
   modalContent: HTMLDivElement;
 
   private mutationObserver: MutationObserver = null;
@@ -238,6 +239,8 @@ export class CalciteModal {
   previousActiveElement: HTMLElement;
 
   titleId: string;
+
+  private activeTransitionProp = "opacity";
 
   //--------------------------------------------------------------------------
   //
@@ -313,6 +316,12 @@ export class CalciteModal {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+  transitionEnd = (event: TransitionEvent): void => {
+    if (event.propertyName === this.activeTransitionProp) {
+      this.active ? this.calciteModalOpen.emit() : this.calciteModalClose.emit();
+    }
+  };
+
   @Watch("active")
   async toggleModal(value: boolean, oldValue: boolean): Promise<void> {
     if (value !== oldValue) {
@@ -324,9 +333,15 @@ export class CalciteModal {
     }
   }
 
+  private openEnd = (): void => {
+    this.setFocus();
+    this.el.removeEventListener("calciteModalOpen", this.openEnd);
+  };
+
   /** Open the modal */
   private open() {
     this.previousActiveElement = document.activeElement as HTMLElement;
+    this.el.addEventListener("calciteModalOpen", this.openEnd);
     this.active = true;
 
     const titleEl = getSlotted(this.el, "header");
@@ -335,12 +350,6 @@ export class CalciteModal {
     this.titleId = ensureId(titleEl);
     this.contentId = ensureId(contentEl);
 
-    clearTimeout(this.focusTimeout);
-    // wait for the modal to open, then handle focus.
-    this.focusTimeout = window.setTimeout(() => {
-      this.focusElement(this.firstFocus);
-      this.calciteModalOpen.emit();
-    }, 300);
     document.documentElement.classList.add("overflow-hidden");
   }
 
@@ -358,7 +367,6 @@ export class CalciteModal {
       this.active = false;
       focusElement(this.previousActiveElement);
       this.removeOverflowHiddenClass();
-      setTimeout(() => this.calciteModalClose.emit(), 300);
     });
   };
 
