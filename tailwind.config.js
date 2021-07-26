@@ -127,10 +127,10 @@ module.exports = {
     }),
     extend: {
       animation: {
-        "in": "in 300ms ease-in-out",
-        "in-down": "in-down 300ms ease-in-out",
-        "in-up": "in-up 300ms ease-in-out",
-        "in-scale": "in-scale 300ms linear"
+        "in": "in var(--calcite-animation-timing) ease-in-out",
+        "in-down": "in-down var(--calcite-animation-timing) ease-in-out",
+        "in-up": "in-up var(--calcite-animation-timing) ease-in-out",
+        "in-scale": "in-scale var(--calcite-animation-timing) linear"
       },
       borderRadius: {
         half: "50%"

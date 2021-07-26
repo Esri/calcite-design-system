@@ -94,9 +94,13 @@
   & .calcite-input__wrapper {
     @apply pointer-events-none text-opacity-disabled;
   }
+  & button,
   & textarea,
   & input {
     @apply pointer-events-none;
+  }
+  & textarea {
+    resize: none;
   }
 }
 
@@ -288,13 +292,6 @@ input[type="time"]::-webkit-clear-button {
     @apply bg-foreground-2;
     calcite-icon {
       transition: $transition;
-      @apply text-color-1;
-    }
-  }
-  &:focus {
-    @include focus-style-inset(var(--calcite-ui-brand));
-    @apply bg-foreground-2;
-    calcite-icon {
       @apply text-color-1;
     }
   }
@@ -500,7 +497,6 @@ input[type="time"]::-webkit-clear-button {
     border-color-input
     bg-foreground-1
     border-l-0;
-
   & calcite-icon {
     transition: $transition;
     @apply pointer-events-none;

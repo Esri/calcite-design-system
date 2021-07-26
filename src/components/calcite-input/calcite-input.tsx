@@ -498,7 +498,7 @@ export class CalciteInput {
     this.setValue(newValue, nativeEvent, true);
   };
 
-  private numberButtonMouseDownHandler = (event: MouseEvent): void => {
+  private numberButtonClickHandler = (event: MouseEvent): void => {
     // todo, when dropping ie11 support, refactor to use stepup/stepdown
     // prevent blur and re-focus of input on mousedown
     event.preventDefault();
@@ -581,7 +581,12 @@ export class CalciteInput {
     );
 
     const inputClearButton = (
-      <button class={CSS.clearButton} disabled={this.loading} onClick={this.clearInputValue}>
+      <button
+        class={CSS.clearButton}
+        disabled={this.disabled}
+        onClick={this.clearInputValue}
+        tabIndex={this.disabled ? -1 : 0}
+      >
         <calcite-icon icon="x" scale='s' />
       </button>
     );
@@ -598,29 +603,33 @@ export class CalciteInput {
     const isHorizontalNumberButton = this.numberButtonType === "horizontal";
 
     const numberButtonsHorizontalUp = (
-      <div
+      <button
         class={{
           [CSS.numberButtonItem]: true,
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton
         }}
         data-adjustment="up"
-        onMouseDown={this.numberButtonMouseDownHandler}
+        disabled={this.disabled}
+        onClick={this.numberButtonClickHandler}
+        tabIndex={-1}
       >
         <calcite-icon icon="chevron-up" scale="s" />
-      </div>
+      </button>
     );
 
     const numberButtonsHorizontalDown = (
-      <div
+      <button
         class={{
           [CSS.numberButtonItem]: true,
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton
         }}
         data-adjustment="down"
-        onMouseDown={this.numberButtonMouseDownHandler}
+        disabled={this.disabled}
+        onClick={this.numberButtonClickHandler}
+        tabIndex={-1}
       >
         <calcite-icon icon="chevron-down" scale="s" />
-      </div>
+      </button>
     );
 
     const numberButtonsVertical = (
@@ -651,7 +660,7 @@ export class CalciteInput {
           onKeyDown={this.inputNumberKeyDownHandler}
           placeholder={this.placeholder || ""}
           ref={this.setChildNumberElRef}
-          tabIndex={0}
+          tabIndex={this.disabled ? -1 : 0}
           type="text"
           value={this.localizedValue}
         />
