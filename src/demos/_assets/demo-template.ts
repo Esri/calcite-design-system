@@ -10,7 +10,7 @@
 
   const loadToggles = async (): Promise<void> => {
     const root = window.location.pathname.split(DEMO_ROOT).shift();
-    const response = await window.fetch(`${root}${ASSETS_PATH}/nav.html`);
+    const response = await window.fetch(`${root}${ASSETS_PATH}/demo-template.html`);
     const text = await response.text();
     const template = parseTemplate(text);
     const firstChild = document.body.firstChild;

@@ -14,13 +14,14 @@
     {
       src: "build/calcite.esm.js",
       type: "module"
-    },
-    {
-      src: "build/calcite.js",
-      noModule: true
-    },
-    { src: `${ASSETS_PATH}/nav.js` }
+    }
   ];
+
+  if (window.location.pathname.includes("/demos/")) {
+    SCRIPTS.push({
+      src: `${ASSETS_PATH}/demo-template.js`
+    });
+  }
 
   // Assume server is running in a development environment if there is a port present in the URL and reload demo pages.
   if (location.port) {
