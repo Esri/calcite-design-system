@@ -2,14 +2,20 @@
 
 ## Installation
 
-The simplest way to set up the components in your project is to add the following tags in the head of your HTML document:
+### Components via CDN
+
+The most common approach for accessing web components is to use the hosted version. Components can be loaded by adding the following tags in the `<head>` of your HTML document:
 
 ```html
-<script type="module" src="https://unpkg.com/@esri/calcite-components/dist/calcite/calcite.esm.js"></script>
-<link rel="stylesheet" type="text/css" href="https://unpkg.com/@esri/calcite-components/dist/calcite/calcite.css" />
+<script type="module" src="https://js.arcgis.com/calcite-components/<VERSION>/calcite.esm.js"></script>
+<link rel="stylesheet" type="text/css" href="https://js.arcgis.com/calcite-components/<VERSION>/calcite.css" />
 ```
 
+**IMPORTANT: Replace `<VERSION>` with the desired release.** eg. `/1.0.0-beta.52/`
+
 Once these tags are added, components can be used just like any other HTML element. Only components that are actually used will be loaded.
+
+### NPM installation
 
 You can also install the components locally with NPM and update the script URLs to reference same files under `node_modules`.
 
@@ -17,7 +23,7 @@ You can also install the components locally with NPM and update the script URLs 
 npm install --save @esri/calcite-components
 ```
 
-### Webpack
+#### Webpack
 
 If you already have a webpack build for your project, you can use [@stencil/webpack](https://github.com/ionic-team/stencil-webpack) to add calcite-components to your bundle.
 
