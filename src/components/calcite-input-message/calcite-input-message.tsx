@@ -1,7 +1,7 @@
 import { Component, Element, Host, h, Prop, VNode, Watch } from "@stencil/core";
 import { getElementDir, getElementProp, setRequestedIcon } from "../../utils/dom";
 import { Scale, Status } from "../interfaces";
-import { InputMessageType, StatusIconDefaults } from "./interfaces";
+import { StatusIconDefaults } from "./interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 
 @Component({
@@ -36,8 +36,10 @@ export class CalciteInputMessage {
   /** specify the status of the input field, determines message and icons */
   @Prop({ reflect: true, mutable: true }) status: Status = "idle";
 
-  /** specify the appearance of any slotted message - default (displayed under input), or floating (positioned absolutely under input) */
-  @Prop({ reflect: true }) type: InputMessageType = "default";
+   /** specify the appearance of any slotted message - default (displayed under input), or floating (positioned absolutely under input)
+   * @deprecated "floating" type is no longer supported
+   */
+  @Prop({ reflect: true }) type: "default";
 
   @Watch("status")
   @Watch("icon")
