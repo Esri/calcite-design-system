@@ -1,4 +1,7 @@
 arch: arm64-graviton2
+before_install:
+  - sudo apt-get -y chromium
+  - sudo apt-get -y chromium-browser
 branches:
   only:
     - master
