@@ -27,7 +27,9 @@ describe("calcite-value-list", () => {
     selectionAndDeselection("value");
   });
 
-  describe("Keyboard navigation", () => keyboardNavigation("value"));
+  describe("Keyboard navigation", () => {
+    keyboardNavigation("value");
+  });
 
   describe("icon logic", () => {
     it("should be 'grip' when in `configuration` mode drag and drop is enabled", async () => {
@@ -58,13 +60,17 @@ describe("calcite-value-list", () => {
     filterBehavior("value");
   });
 
-  describe("item removal", () => itemRemoval("value"));
+  describe("item removal", () => {
+    itemRemoval("value");
+  });
 
   describe("disabled states", () => {
     disabledStates("value");
   });
 
-  describe("setFocus", () => focusing("value"));
+  describe("setFocus", () => {
+    focusing("value");
+  });
 
   describe("drag and drop", () => {
     async function createSimpleValueList(): Promise<E2EPage> {
