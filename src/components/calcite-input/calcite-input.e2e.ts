@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { focusable, HYDRATED_ATTR } from "../../tests/commonTests";
+import { html } from "../../tests/utils";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { getDecimalSeparator, locales, localizeNumberString } from "../../utils/locale";
 
@@ -299,6 +300,36 @@ describe("calcite-input", () => {
     await numberHorizontalItemUp.click();
     await page.waitForChanges();
     expect(await element.getProperty("value")).toBe("6");
+  });
+
+  it("should not increment or decrement value when disabled", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-input type="number" value="5" disabled></calcite-input> `
+    });
+
+    await page.waitForChanges();
+
+    const input = await page.find("calcite-input");
+
+    expect(await input.getProperty("value")).toBe("5");
+
+    const numberHorizontalItemUp = await page.find(
+      "calcite-input .calcite-input__number-button-item[data-adjustment='up']"
+    );
+
+    await numberHorizontalItemUp.click();
+    await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe("5");
+
+    const numberHorizontalItemDown = await page.find(
+      "calcite-input .calcite-input__number-button-item[data-adjustment='down']"
+    );
+
+    await numberHorizontalItemDown.click();
+    await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe("5");
   });
 
   it("should correctly handle property changes to 'min', 'max', and 'step'", async () => {
