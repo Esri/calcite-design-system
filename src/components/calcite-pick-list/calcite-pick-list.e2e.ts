@@ -32,9 +32,13 @@ describe("calcite-pick-list", () => {
       </calcite-pick-list>
     `));
 
-  describe("Selection and Deselection", () => selectionAndDeselection("pick"));
+  describe("Selection and Deselection", () => {
+    selectionAndDeselection("pick");
+  });
 
-  describe("Keyboard navigation", () => keyboardNavigation("pick"));
+  describe("Keyboard navigation", () => {
+    keyboardNavigation("pick");
+  });
 
   describe("icon logic", () => {
     it("should be 'circle' when multi-select is disabled", async () => {
@@ -175,11 +179,17 @@ describe("calcite-pick-list", () => {
     });
   });
 
-  describe("item removal", () => itemRemoval("pick"));
+  describe("item removal", () => {
+    itemRemoval("pick");
+  });
 
-  describe("disabled states", () => disabledStates("pick"));
+  describe("disabled states", () => {
+    disabledStates("pick");
+  });
 
-  describe("setFocus", () => focusing("pick"));
+  describe("setFocus", () => {
+    focusing("pick");
+  });
 
   it("should set headingLevel of tip", async () => {
     const page = await newE2EPage({
