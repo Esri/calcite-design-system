@@ -338,7 +338,9 @@ export class CalciteColorPicker {
   @Event() calciteColorPickerChange: EventEmitter;
 
   /**
-   * Fires when the color value input changes.
+   * Fires as the color value changes.
+   *
+   * This is similar to the change event with the exception of dragging. When dragging the color field or hue slider thumb, this event fires as the thumb is moved.
    */
   @Event() calciteColorPickerInput: EventEmitter;
 
