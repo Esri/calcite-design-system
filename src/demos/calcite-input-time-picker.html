@@ -26,6 +26,11 @@
       h3 {
         margin: 0;
       }
+      #locales {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
     </style>
     <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
     <link rel="stylesheet" href="../build/calcite.css" />
@@ -33,6 +38,7 @@
     <script nomodule src="../build/calcite.js"></script>
     <script type="module" src="./_assets/demo-form.js"></script>
     <script type="module" src="./_assets/demo-spacer.js"></script>
+    <script src="_assets/locales.js"></script>
     <script>
       class DemoShadow extends HTMLElement {
         constructor() {
@@ -55,6 +61,8 @@
       <calcite-button href="/"> < Home</calcite-button>
       <h1>Calcite Input Time Picker</h1>
     </demo-spacer>
+
+    <div id="locales"></div>
 
     <div class="demo-background-light">
       <demo-form>
@@ -155,6 +163,26 @@
         </form>
       </demo-form>
     </demo-spacer>
+    <script>
+      const localeDemoContainer = document.getElementById("locales");
+      locales.forEach((locale) => {
+        let localeEl = document.createElement("div");
+        localeEl.setAttribute("class", "locale");
+        let label = document.createElement("calcite-label");
+        label.setAttribute("for", locale);
+        label.appendChild(document.createTextNode(locale));
+        let input = document.createElement("calcite-input-time-picker");
+        (locale === "ar" || locale === "he") && input.setAttribute("dir", "rtl");
+        input.setAttribute("id", locale);
+        input.setAttribute("locale", locale);
+        input.setAttribute("name", locale);
+        input.setAttribute("scale", "s");
+        input.setAttribute("value", "14:59:00");
+        localeEl.appendChild(label);
+        localeEl.appendChild(input);
+        localeDemoContainer.appendChild(localeEl);
+      });
+    </script>
     <script>
       (async () => {
         await customElements.whenDefined("calcite-input-time-picker");
