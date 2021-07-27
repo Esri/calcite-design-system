@@ -243,7 +243,7 @@ export class CalciteStepperItem {
   }
 
   private getItemContent(): HTMLElement[] | NodeListOf<any> {
-    // handle ie and edge
+    // todo: Remove IE/Edge specific code.
     return this.el.shadowRoot?.querySelector("slot")
       ? (this.el.shadowRoot.querySelector("slot").assignedNodes({ flatten: true }) as HTMLElement[])
       : this.el.querySelector(".stepper-item-content")

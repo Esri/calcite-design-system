@@ -84,9 +84,13 @@
     opacity: var(--calcite-ui-opacity-disabled);
     pointer-events: none;
   }
+  & button,
   & textarea,
   & input {
     pointer-events: none;
+  }
+  & textarea {
+    resize: none;
   }
 }
 
@@ -244,13 +248,15 @@ input[type="time"]::-webkit-clear-button {
   min-height: 100%;
   border: 1px solid var(--calcite-ui-border-1);
   transition: $transition;
-  pointer-events: initial;
   background-color: var(--calcite-ui-foreground-1);
   border-left: none;
   order: 4;
   &:hover,
   &:focus {
     background-color: var(--calcite-ui-foreground-2);
+    .sc-calcite-input {
+      @apply text-color-1;
+    }
   }
   &:active {
     background-color: var(--calcite-ui-foreground-3);
@@ -380,7 +386,6 @@ input[type="time"]::-webkit-clear-button {
   flex-direction: column;
   box-sizing: border-box;
   transition: $transition;
-  pointer-events: none;
   order: 6;
 }
 
@@ -452,7 +457,6 @@ input[type="time"]::-webkit-clear-button {
   padding: 0 $baseline/2;
   border: 1px solid var(--calcite-ui-border-1);
   transition: background-color 0.15s ease-in-out;
-  pointer-events: initial;
   background-color: var(--calcite-ui-foreground-1);
   border-left: none;
   & calcite-icon {
@@ -461,6 +465,9 @@ input[type="time"]::-webkit-clear-button {
   &:hover,
   &:focus {
     background-color: var(--calcite-ui-foreground-2);
+    .sc-calcite-input {
+      @apply text-color-1;
+    }
   }
   &:active {
     background-color: var(--calcite-ui-foreground-3);
