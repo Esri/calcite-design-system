@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { defaults, renders } from "../../tests/commonTests";
+import { defaults, HYDRATED_ATTR, renders } from "../../tests/commonTests";
 
 describe("calcite-slider", () => {
   it("renders", async () => renders("calcite-slider"));
@@ -335,6 +335,46 @@ describe("calcite-slider", () => {
       expect(await slider.getProperty("minValue")).toBe(25);
       expect(await slider.getProperty("maxValue")).toBe(75);
       expect(changeEvent).toHaveReceivedEventTimes(5);
+    });
+  });
+
+  describe("histogram", () => {
+    it("creates calcite-graph with provided data", async () => {
+      const html = `<calcite-slider></calcite-slider>`;
+      const page = await newE2EPage({ html });
+
+      const { histogram, histogramColors } = await page.$eval("calcite-slider", (elm: any) => {
+        const histogram = [
+          [0, 4],
+          [1, 7],
+          [4, 6],
+          [6, 2]
+        ];
+
+        const histogramColors = [
+          { offset: 0, color: "red" },
+          { offset: 0.5, color: "green" },
+          { offset: 1, color: "blue" }
+        ];
+
+        elm.histogram = histogram;
+        elm.histogramColors = histogramColors;
+
+        return { histogram, histogramColors };
+      });
+
+      await page.waitForChanges();
+
+      const graph = await page.find("calcite-slider >>> calcite-graph");
+
+      expect(graph).toHaveAttribute(HYDRATED_ATTR);
+      expect(await graph.isVisible()).toBe(true);
+
+      const data = await graph.getProperty("data");
+      expect(data).toEqual(histogram);
+
+      const colorStops = await graph.getProperty("colorStops");
+      expect(colorStops).toEqual(histogramColors);
     });
   });
 });
