@@ -6,8 +6,6 @@ import {
   Element,
   Host,
   State,
-  Listen,
-  Build,
   EventEmitter,
   Watch,
   VNode
@@ -118,23 +116,6 @@ export class CalciteDatePicker {
 
   //--------------------------------------------------------------------------
   //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  /**
-   * Blur doesn't fire properly when there is no shadow dom (ege/IE11)
-   * Check if the focused element is inside the date picker, if not close
-   */
-  @Listen("focusin", { target: "window" })
-  focusInHandler(e: FocusEvent): void {
-    if (!this.hasShadow && !this.el.contains(e.target as HTMLElement)) {
-      this.reset();
-    }
-  }
-
-  //--------------------------------------------------------------------------
-  //
   //  Events
   //
   //--------------------------------------------------------------------------
@@ -236,8 +217,6 @@ export class CalciteDatePicker {
   @State() private localeData: DateLocaleData;
 
   @State() private hoverRange;
-
-  private hasShadow: boolean = Build.isBrowser && !!document.head.attachShadow;
 
   private mostRecentRangeValue?: Date;
 
