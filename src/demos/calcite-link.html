@@ -6,17 +6,38 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Calcite Link</title>
     <style>
-      .sticky-example {
-        position: -webkit-sticky;
-        position: sticky;
-        bottom: 20px;
-        margin: 0 auto;
+      .parent {
+        display: flex;
+        flex-direction: row;
+        color: var(--calcite-ui-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+        padding: 5px;
       }
 
-      .demo-background-dark {
-        background: #202020;
-        color: white;
-        padding: 1rem;
+      .child {
+        display: inline-flex;
+        flex-basis: 300px;
+        flex-flow: column;
+        margin: 15px;
+        padding: 0 18px;
+      }
+
+      .right-aligned-text {
+        text-align: right;
+      }
+
+      .fourteen {
+        font-size: var(--calcite-font-size--1);
+      }
+
+      .sixteen {
+        font-size: var(--calcite-font-size-1);
+      }
+
+      .eighteen {
+        font-size: var(--calcite-font-size-2);
       }
     </style>
     <script src="./_assets/head.js"></script>
@@ -24,109 +45,159 @@
   </head>
 
   <body>
-    <calcite-button href="/">Home</calcite-button>
-    <h1>Calcite Link</h1>
-    <h4>calcite-link has no scale - it inherits font size from its container</h4>
+    <div>
+      <calcite-button href="/" icon-start="arrow-left" color="neutral"> Home </calcite-button>
+    </div>
+    <h1 style="margin: 0 auto; text-align: center">Link</h1>
 
-    <h3>Set focus</h3>
-    <calcite-button onclick="document.querySelector('#button-focus-example-1').setFocus()">focus span </calcite-button>
-    <calcite-button onclick="document.querySelector('#button-focus-example-2').setFocus()">focus a </calcite-button>
-    <h4>Receive focus</h4>
+    <!-- Headers -->
+    <div class="parent">
+      <div class="child"></div>
+      <div class="child">Fourteen px</div>
+      <div class="child">Sixteen px</div>
+      <div class="child">Eighteen px</div>
+    </div>
 
-    <calcite-link id="button-focus-example-1">span to gain focus</calcite-link>
-    <br />
-    <calcite-link id="button-focus-example-2" href="http://google.com">anchor to gain focus</calcite-link>
+    <!-- Example -->
+    <div class="parent">
+      <div class="child right-aligned-text"> Example </div>
+      <div class="child">
+        <calcite-link class="fourteen">Link example text</calcite-link><br />
+      </div>
 
-    <br />
+      <div class="child">
+        <calcite-link class="sixteen">Link example text</calcite-link><br />
+      </div>
+      
+      <div class="child">
+        <calcite-link class="eighteen">Link example text</calcite-link><br />
+      </div>
+    </div>
 
-    <h3>Text sizes</h3>
-    <p style="font-size: 10px">
-      <calcite-link icon-start="information" icon-end="information-f">Link example text</calcite-link><br />
-    </p>
-    <p style="font-size: 12px">
-      <calcite-link icon-start="information" icon-end="information-f">Link example text</calcite-link><br />
-    </p>
-    <p style="font-size: 14px">
-      <calcite-link icon-start="information" icon-end="information-f">Link example text</calcite-link><br />
-    </p>
-    <p style="font-size: 16px">
-      <calcite-link icon-start="information" icon-end="information-f">Link example text</calcite-link><br />
-    </p>
-    <p style="font-size: 18px">
-      <calcite-link icon-start="information" icon-end="information-f">Link example text</calcite-link><br />
-    </p>
-    <p style="font-size: 20px">
-      <calcite-link icon-start="information" icon-end="information-f">Link example text</calcite-link><br />
-    </p>
-    <p style="font-size: 16px">
-      <calcite-link icon-start="information" icon-end="information"
-        >Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry'
-        1.10.32. The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested.
-        Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact
-        original form, accompanied by English versions from the 1914 translation by H. Rackham.</calcite-link
-      ><br />
-    </p>
+    <!-- Example with start icons -->
+    <div class="parent">
+      <div class="child right-aligned-text"> Example with start icons </div>
+      <div class="child">
+        <calcite-link icon-start="information" class="fourteen">Link example text</calcite-link><br />
+      </div>
 
-    <h3>Tooltip trigger</h3>
-    <calcite-tooltip-manager>
-      <calcite-link icon-start="information" id="tooltip-example">span to gain focus</calcite-link>
-    </calcite-tooltip-manager>
-    <calcite-tooltip label="top placed tooltip" placement="top" reference-element="tooltip-example"
-      >Lorem Ipsum is simply of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-      printer of type and scrambled it to make a type specimen book.</calcite-tooltip
-    >
-    <h3>Icons</h3>
+      <div class="child">
+        <calcite-link icon-start="information" class="sixteen">Link example text</calcite-link><br />
+      </div>
+      
+      <div class="child">
+        <calcite-link icon-start="information" class="eighteen">Link example text</calcite-link><br />
+      </div>
+    </div>
 
-    <calcite-link icon-start="information">example text</calcite-link><br /><br />
-    <calcite-link icon-end="information">example text</calcite-link><br /><br />
-    <calcite-link icon-start="information" icon-end="information">example text</calcite-link>
-    <br /><br />
-    <h3>Inline links</h3>
+    <!-- Example with end icons -->
+    <div class="parent">
+      <div class="child right-aligned-text"> Example with end icons </div>
+      <div class="child">
+        <calcite-link icon-end="information-f" class="fourteen">Link example text</calcite-link><br />
+      </div>
 
-    A <calcite-link title="in the middle">link with no href in the middle</calcite-link> of some text.<br />
-    A <calcite-link title="in the middle" href="/">in the middle</calcite-link> of some text.<br />
-    <div class="demo-background-dark">
-      <br />
+      <div class="child">
+        <calcite-link icon-end="information-f" class="sixteen">Link example text</calcite-link><br />
+      </div>
+      
+      <div class="child">
+        <calcite-link icon-end="information-f" class="eighteen">Link example text</calcite-link><br />
+      </div>
+    </div>
 
-      A link
-      <calcite-link
-        href="http://google.com"
-        rel="noopener noreferrer"
-        target="_blank"
-        class="calcite-theme-dark"
-        title="in the middle with an icon"
-        icon-start="launch"
-        >to Google with an icon</calcite-link
-      >
-      in some text.<br />
-      A link <calcite-link icon-start="launch" class="calcite-theme-dark">with an icon and no href</calcite-link> in
-      some text.<br />
-      A link
-      <calcite-link
-        href="http://google.com"
-        rel="noopener noreferrer"
-        target="_blank"
-        class="calcite-theme-dark"
-        title="in the middle with an icon"
-        icon-start="launch"
-        >to Google with an icon</calcite-link
-      >
-      in some text.<br />
 
-      <h3>
-        A link
-        <calcite-link
-          href="http://google.com"
-          rel="noopener noreferrer"
-          target="_blank"
-          class="calcite-theme-dark"
-          title="in the middle with an icon"
-          icon-start="launch"
-          >to Google with an icon</calcite-link
+    <!-- Example with start & end icons -->
+    <div class="parent">
+      <div class="child right-aligned-text"> Example with start & end icons </div>
+      <div class="child">
+        <calcite-link icon-start="information" icon-end="information-f" class="fourteen">Link example text</calcite-link><br />
+      </div>
+
+      <div class="child">
+        <calcite-link icon-start="information" icon-end="information-f" class="sixteen">Link example text</calcite-link><br />
+      </div>
+      
+      <div class="child">
+        <calcite-link icon-start="information" icon-end="information-f" class="eighteen">Link example text</calcite-link><br />
+      </div>
+    </div>
+
+
+    <!-- Tooltip trigger with icons -->
+    <div class="parent">
+      <div class="child right-aligned-text"> Tooltip trigger with icons </div>
+      <div class="child">
+        <calcite-tooltip-manager>
+          <calcite-link class="fourteen" icon-start="information" id="tooltip-example-fourteen">span to gain focus</calcite-link>
+        </calcite-tooltip-manager>
+
+        <calcite-tooltip label="top placed tooltip" placement="top" reference-element="tooltip-example-fourteen"
+          >Lorem Ipsum is simply of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+          printer of type and scrambled it to make a type specimen book.</calcite-tooltip
         >
-        in some text.
-      </h3>
-      <br />
+      </div>
+
+      <div class="child">
+        <calcite-tooltip-manager>
+          <calcite-link class="sixteen" icon-start="information" id="tooltip-example-sixteen">span to gain focus</calcite-link>
+        </calcite-tooltip-manager>
+        
+        <calcite-tooltip label="top placed tooltip" placement="top" reference-element="tooltip-example-sixteen"
+          >Lorem Ipsum is simply of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+          printer of type and scrambled it to make a type specimen book.</calcite-tooltip
+        >
+      </div>
+      
+      <div class="child">
+        <calcite-tooltip-manager>
+          <calcite-link class="eighteen" icon-start="information" id="tooltip-example-eighteen">span to gain focus</calcite-link>
+        </calcite-tooltip-manager>
+        
+        <calcite-tooltip label="top placed tooltip" placement="top" reference-element="tooltip-example-eighteen"
+          >Lorem Ipsum is simply of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+          printer of type and scrambled it to make a type specimen book.</calcite-tooltip
+        >
+      </div>
+    </div>
+
+
+    <!-- Link to external site -->
+    <div class="parent">
+      <div class="child right-aligned-text"> Link to external site </div>
+
+      <div class="child">
+        <calcite-link
+        href="http://google.com"
+        rel="noopener noreferrer"
+        target="_blank"
+        class="fourteen"
+        title="in the middle with an icon"
+        icon-start="launch"
+        >A link to Google with an icon</calcite-link>
+      </div>
+
+      <div class="child">
+        <calcite-link
+        href="http://google.com"
+        rel="noopener noreferrer"
+        target="_blank"
+        class="sixteen"
+        title="in the middle with an icon"
+        icon-start="launch"
+        >A link to Google with an icon</calcite-link>
+      </div>
+
+      <div class="child">
+        <calcite-link
+        href="http://google.com"
+        rel="noopener noreferrer"
+        target="_blank"
+        class="eighteen"
+        title="in the middle with an icon"
+        icon-start="launch"
+        >A link to Google with an icon</calcite-link>
+      </div>
     </div>
   </body>
 </html>
