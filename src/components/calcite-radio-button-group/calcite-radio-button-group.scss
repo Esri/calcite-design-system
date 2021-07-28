@@ -1,18 +1,28 @@
 :host {
   @apply flex;
   max-width: 100vw;
+
+  &:host([scale="s"]) {
+    @apply text--2h;
+  }
+  &:host([scale="m"]) {
+    @apply text--1h;
+  }
+  &:host([scale="l"]) {
+    @apply text-0h;
+  }
 }
 :host([layout="horizontal"]) {
-  @apply flex-row flex-wrap;
+  @apply flex-row flex-wrap items-center;
 }
 :host([layout="horizontal"][scale="s"]) {
-  @apply gap-4 h-6;
+  @apply gap-4;
 }
 :host([layout="horizontal"][scale="m"]) {
-  @apply gap-5 h-8;
+  @apply gap-5;
 }
 :host([layout="horizontal"][scale="l"]) {
-  @apply gap-6 h-11;
+  @apply gap-6;
 }
 :host([layout="vertical"]) {
   @apply flex-col;
