@@ -3,8 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-input-message-spacing-value: when type is default, the top margin above the input-message.
- *   When type is floating, the amount of padding around the input-message.
+ * @prop --calcite-input-message-spacing-value: the top margin above the input-message.
  */
 
 :host([scale="s"]) {
@@ -44,27 +43,6 @@
   margin-top: var(--calcite-input-message-spacing-value);
 }
 
-:host([type="floating"]) {
-  transform: translate3d(0, -$baseline, 0);
-  background-color: var(--calcite-input-message-floating-background);
-  position: absolute;
-  width: 100%;
-  top: 100%;
-  left: 0;
-  right: 0;
-  height: auto;
-  // accommodate for spacing of label
-  margin-top: -1.5rem;
-  border-radius: theme("borderRadius.sm");
-  box-shadow: theme("boxShadow.2");
-  padding: var(--calcite-input-message-spacing-value);
-  z-index: 101;
-}
-
-:host([type="floating"][active]) {
-  transform: translate3d(0, 0, 0);
-}
-
 .calcite-input-message-icon {
   display: inline-flex;
   flex-shrink: 0;
@@ -93,28 +71,5 @@ $inputStatusColors: "invalid" var(--calcite-ui-danger) var(--calcite-ui-danger)
     & .calcite-input-message-icon {
       color: $color;
     }
-  }
-}
-
-:host([type="floating"][active]) {
-  animation: floatingMessagePulse 0.5s ease-in-out;
-  animation-iteration-count: 1;
-}
-
-@keyframes floatingMessagePulse {
-  0% {
-    top: 100%;
-  }
-  25% {
-    top: 110%;
-  }
-  50% {
-    top: 100%;
-  }
-  75% {
-    top: 105%;
-  }
-  100% {
-    top: 100%;
   }
 }
