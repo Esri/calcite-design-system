@@ -7,12 +7,374 @@
     <title>Calcite Components: calcite-fab</title>
 
     <script src="../_assets/head.js"></script>
+    <style>
+      .demo-background-dark {
+        background: #2b2b2b;
+        padding: 1rem;
+      }
+      table {
+        display: inline-table;
+      }
+      td {
+        padding: 1rem;
+      }
+      td calcite-fab {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: fit-content;
+        justify-content: space-evenly;
+        margin-bottom: 0.5rem;
+      }
+    </style>
   </head>
 
   <body>
     <main>
       <section class="example-container">
         <h1>calcite-fab</h1>
+
+        <calcite-label layout="inline">
+          Toggle loading animation
+          <calcite-switch id="loading-switch"></calcite-switch>
+        </calcite-label>
+        <calcite-label layout="inline">
+          Change appearance
+          <calcite-radio-group id="appearance-group" scale="s">
+            <calcite-radio-group-item value="solid" checked>solid</calcite-radio-group-item>
+            <calcite-radio-group-item value="clear">clear</calcite-radio-group-item>
+            <calcite-radio-group-item value="outline">outline</calcite-radio-group-item>
+            <calcite-radio-group-item value="transparent">transparent</calcite-radio-group-item>
+          </calcite-radio-group>
+        </calcite-label>
+        <calcite-label layout="inline">
+          Change color
+          <calcite-radio-group id="color-group" scale="s">
+            <calcite-radio-group-item value="blue" checked>blue</calcite-radio-group-item>
+            <calcite-radio-group-item value="neutral">neutral</calcite-radio-group-item>
+            <calcite-radio-group-item value="inverse">inverse</calcite-radio-group-item>
+            <calcite-radio-group-item value="red">red</calcite-radio-group-item>
+          </calcite-radio-group>
+        </calcite-label>
+        <script>
+          const loadingSwitch = document.querySelector("#loading-switch");
+          const appearanceRadios = document.querySelector("#appearance-group");
+          const colorRadios = document.querySelector("#color-group");
+          window.onload = () => {
+            loadingSwitch.addEventListener("calciteSwitchChange", () => {
+              document.querySelectorAll("td calcite-fab").forEach((button) => {
+                button.toggleAttribute("loading");
+              });
+            });
+            appearanceRadios.addEventListener("calciteRadioGroupChange", (e) => {
+              document.querySelectorAll("td calcite-fab").forEach((button) => {
+                button.setAttribute("appearance", e.detail);
+              });
+            });
+            colorRadios.addEventListener("calciteRadioGroupChange", (e) => {
+              document.querySelectorAll("td calcite-fab").forEach((button) => {
+                button.setAttribute("color", e.detail);
+              });
+            });
+          };
+        </script>
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Light</th>
+              <th></th>
+              <th>Dark</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td></td>
+              <td>
+                <calcite-fab scale="l" icon="arrow-right" label="FAB" color="blue" appearance="solid"></calcite-fab>
+                <calcite-fab scale="m" icon="arrow-right" label="FAB" color="blue" appearance="solid"></calcite-fab>
+                <calcite-fab scale="s" icon="arrow-right" label="FAB" color="blue" appearance="solid"></calcite-fab>
+              </td>
+              <td>
+                <calcite-fab
+                  scale="l"
+                  icon="arrow-right"
+                  label="FAB"
+                  text="FAB"
+                  text-enabled
+                  color="blue"
+                  appearance="solid"
+                ></calcite-fab>
+                <calcite-fab
+                  scale="m"
+                  icon="arrow-right"
+                  label="FAB"
+                  text="FAB"
+                  text-enabled
+                  color="blue"
+                  appearance="solid"
+                ></calcite-fab>
+                <calcite-fab
+                  scale="s"
+                  icon="arrow-right"
+                  label="FAB"
+                  text="FAB"
+                  text-enabled
+                  color="blue"
+                  appearance="solid"
+                ></calcite-fab>
+              </td>
+              <td class="calcite-theme-dark demo-background-dark">
+                <calcite-fab scale="l" icon="arrow-right" label="FAB" color="blue" appearance="solid"></calcite-fab>
+                <calcite-fab scale="m" icon="arrow-right" label="FAB" color="blue" appearance="solid"></calcite-fab>
+                <calcite-fab scale="s" icon="arrow-right" label="FAB" color="blue" appearance="solid"></calcite-fab>
+              </td>
+              <td class="calcite-theme-dark demo-background-dark">
+                <calcite-fab
+                  scale="l"
+                  icon="arrow-right"
+                  label="FAB"
+                  text="FAB"
+                  text-enabled
+                  color="blue"
+                  appearance="solid"
+                ></calcite-fab>
+                <calcite-fab
+                  scale="m"
+                  icon="arrow-right"
+                  label="FAB"
+                  text="FAB"
+                  text-enabled
+                  color="blue"
+                  appearance="solid"
+                ></calcite-fab>
+                <calcite-fab
+                  scale="s"
+                  icon="arrow-right"
+                  label="FAB"
+                  text="FAB"
+                  text-enabled
+                  color="blue"
+                  appearance="solid"
+                ></calcite-fab>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>
+                <calcite-fab scale="l" icon="arrow-right" label="FAB" color="neutral" appearance="solid"></calcite-fab>
+                <calcite-fab scale="m" icon="arrow-right" label="FAB" color="neutral" appearance="solid"></calcite-fab>
+                <calcite-fab scale="s" icon="arrow-right" label="FAB" color="neutral" appearance="solid"></calcite-fab>
+              </td>
+              <td>
+                <calcite-fab
+                  scale="l"
+                  icon="arrow-right"
+                  label="FAB"
+                  text="FAB"
+                  text-enabled
+                  color="neutral"
+                  appearance="solid"
+                ></calcite-fab>
+                <calcite-fab
+                  scale="m"
+                  icon="arrow-right"
+                  label="FAB"
+                  text="FAB"
+                  text-enabled
+                  color="neutral"
+                  appearance="solid"
+                ></calcite-fab>
+                <calcite-fab
+                  scale="s"
+                  icon="arrow-right"
+                  label="FAB"
+                  text="FAB"
+                  text-enabled
+                  color="neutral"
+                  appearance="solid"
+                ></calcite-fab>
+              </td>
+              <td class="calcite-theme-dark demo-background-dark">
+                <calcite-fab scale="l" icon="arrow-right" label="FAB" color="neutral" appearance="solid"></calcite-fab>
+                <calcite-fab scale="m" icon="arrow-right" label="FAB" color="neutral" appearance="solid"></calcite-fab>
+                <calcite-fab scale="s" icon="arrow-right" label="FAB" color="neutral" appearance="solid"></calcite-fab>
+              </td>
+              <td class="calcite-theme-dark demo-background-dark">
+                <calcite-fab
+                  scale="l"
+                  icon="arrow-right"
+                  label="FAB"
+                  text="FAB"
+                  text-enabled
+                  color="neutral"
+                  appearance="solid"
+                ></calcite-fab>
+                <calcite-fab
+                  scale="m"
+                  icon="arrow-right"
+                  label="FAB"
+                  text="FAB"
+                  text-enabled
+                  color="neutral"
+                  appearance="solid"
+                ></calcite-fab>
+                <calcite-fab
+                  scale="s"
+                  icon="arrow-right"
+                  label="FAB"
+                  text="FAB"
+                  text-enabled
+                  color="neutral"
+                  appearance="solid"
+                ></calcite-fab>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>
+                <calcite-fab scale="l" icon="arrow-right" label="FAB" color="inverse" appearance="solid"></calcite-fab>
+                <calcite-fab scale="m" icon="arrow-right" label="FAB" color="inverse" appearance="solid"></calcite-fab>
+                <calcite-fab scale="s" icon="arrow-right" label="FAB" color="inverse" appearance="solid"></calcite-fab>
+              </td>
+              <td>
+                <calcite-fab
+                  scale="l"
+                  icon="arrow-right"
+                  label="FAB"
+                  text="FAB"
+                  text-enabled
+                  color="inverse"
+                  appearance="solid"
+                ></calcite-fab>
+                <calcite-fab
+                  scale="m"
+                  icon="arrow-right"
+                  label="FAB"
+                  text="FAB"
+                  text-enabled
+                  color="inverse"
+                  appearance="solid"
+                ></calcite-fab>
+                <calcite-fab
+                  scale="s"
+                  icon="arrow-right"
+                  label="FAB"
+                  text="FAB"
+                  text-enabled
+                  color="inverse"
+                  appearance="solid"
+                ></calcite-fab>
+              </td>
+              <td class="calcite-theme-dark demo-background-dark">
+                <calcite-fab scale="l" icon="arrow-right" label="FAB" color="inverse" appearance="solid"></calcite-fab>
+                <calcite-fab scale="m" icon="arrow-right" label="FAB" color="inverse" appearance="solid"></calcite-fab>
+                <calcite-fab scale="s" icon="arrow-right" label="FAB" color="inverse" appearance="solid"></calcite-fab>
+              </td>
+              <td class="calcite-theme-dark demo-background-dark">
+                <calcite-fab
+                  scale="l"
+                  icon="arrow-right"
+                  label="FAB"
+                  text="FAB"
+                  text-enabled
+                  color="inverse"
+                  appearance="solid"
+                ></calcite-fab>
+                <calcite-fab
+                  scale="m"
+                  icon="arrow-right"
+                  label="FAB"
+                  text="FAB"
+                  text-enabled
+                  color="inverse"
+                  appearance="solid"
+                ></calcite-fab>
+                <calcite-fab
+                  scale="s"
+                  icon="arrow-right"
+                  label="FAB"
+                  text="FAB"
+                  text-enabled
+                  color="inverse"
+                  appearance="solid"
+                ></calcite-fab>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>
+                <calcite-fab scale="l" icon="arrow-right" label="FAB" color="red" appearance="solid"></calcite-fab>
+                <calcite-fab scale="m" icon="arrow-right" label="FAB" color="red" appearance="solid"></calcite-fab>
+                <calcite-fab scale="s" icon="arrow-right" label="FAB" color="red" appearance="solid"></calcite-fab>
+              </td>
+              <td>
+                <calcite-fab
+                  scale="l"
+                  icon="arrow-right"
+                  label="FAB"
+                  text="FAB"
+                  text-enabled
+                  color="red"
+                  appearance="solid"
+                ></calcite-fab>
+                <calcite-fab
+                  scale="m"
+                  icon="arrow-right"
+                  label="FAB"
+                  text="FAB"
+                  text-enabled
+                  color="red"
+                  appearance="solid"
+                ></calcite-fab>
+                <calcite-fab
+                  scale="s"
+                  icon="arrow-right"
+                  label="FAB"
+                  text="FAB"
+                  text-enabled
+                  color="red"
+                  appearance="solid"
+                ></calcite-fab>
+              </td>
+              <td class="calcite-theme-dark demo-background-dark">
+                <calcite-fab scale="l" icon="arrow-right" label="FAB" color="red" appearance="solid"></calcite-fab>
+                <calcite-fab scale="m" icon="arrow-right" label="FAB" color="red" appearance="solid"></calcite-fab>
+                <calcite-fab scale="s" icon="arrow-right" label="FAB" color="red" appearance="solid"></calcite-fab>
+              </td>
+              <td class="calcite-theme-dark demo-background-dark">
+                <calcite-fab
+                  scale="l"
+                  icon="arrow-right"
+                  label="FAB"
+                  text="FAB"
+                  text-enabled
+                  color="red"
+                  appearance="solid"
+                ></calcite-fab>
+                <calcite-fab
+                  scale="m"
+                  icon="arrow-right"
+                  label="FAB"
+                  text="FAB"
+                  text-enabled
+                  color="red"
+                  appearance="solid"
+                ></calcite-fab>
+                <calcite-fab
+                  scale="s"
+                  icon="arrow-right"
+                  label="FAB"
+                  text="FAB"
+                  text-enabled
+                  color="red"
+                  appearance="solid"
+                ></calcite-fab>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
         <h2>Basic</h2>
         <calcite-fab label="Add"></calcite-fab>
         <h2>With text</h2>
