@@ -589,8 +589,8 @@ export class CalciteSlider {
     return this.histogram ? (
       <div class="graph">
         <calcite-graph
-          data={this.histogram}
           colorStops={this.histogramStops}
+          data={this.histogram}
           height={48}
           highlightMax={this.isRange ? this.maxValue : this.value}
           highlightMin={this.isRange ? this.minValue : this.min}
