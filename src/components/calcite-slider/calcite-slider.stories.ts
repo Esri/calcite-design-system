@@ -94,7 +94,7 @@ export const HistogramWithColors = (): HTMLCalciteSliderElement => {
     "histogram color offsets",
     colors.map((_, i) => `${(1 / (colors.length - 1)) * i}`)
   );
-  slider.histogramColors = colors.map((color, i) => [parseFloat(offsets[i]), color]);
+  slider.histogramStops = colors.map((color, i) => ({ offset: parseFloat(offsets[i]), color }));
   return slider;
 };
 

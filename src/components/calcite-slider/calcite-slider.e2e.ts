@@ -340,10 +340,9 @@ describe("calcite-slider", () => {
 
   describe("histogram", () => {
     it("creates calcite-graph with provided data", async () => {
-      const html = `<calcite-slider></calcite-slider>`;
-      const page = await newE2EPage({ html });
+      const page = await newE2EPage({ html: `<calcite-slider></calcite-slider>` });
 
-      const { histogram, histogramColors } = await page.$eval("calcite-slider", (elm: any) => {
+      const { histogram, histogramStops } = await page.$eval("calcite-slider", (elm: any) => {
         const histogram = [
           [0, 4],
           [1, 7],
@@ -351,30 +350,27 @@ describe("calcite-slider", () => {
           [6, 2]
         ];
 
-        const histogramColors = [
+        const histogramStops = [
           { offset: 0, color: "red" },
           { offset: 0.5, color: "green" },
           { offset: 1, color: "blue" }
         ];
 
         elm.histogram = histogram;
-        elm.histogramColors = histogramColors;
+        elm.histogramStops = histogramStops;
 
-        return { histogram, histogramColors };
+        return { histogram, histogramStops };
       });
 
       await page.waitForChanges();
 
       const graph = await page.find("calcite-slider >>> calcite-graph");
 
-      expect(graph).toHaveAttribute(HYDRATED_ATTR);
-      expect(await graph.isVisible()).toBe(true);
-
       const data = await graph.getProperty("data");
       expect(data).toEqual(histogram);
 
       const colorStops = await graph.getProperty("colorStops");
-      expect(colorStops).toEqual(histogramColors);
+      expect(colorStops).toEqual(histogramStops);
     });
   });
 });
