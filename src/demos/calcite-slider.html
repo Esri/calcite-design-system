@@ -2612,9 +2612,7 @@
       });
 
       var rainbow = ["red", "orange", "yellow", "green", "cyan", "blue", "violet"];
-      var colorStops = rainbow.map((color, i) => {
-        offset: (1 / (rainbow.length - 1)) * i, color;
-      });
+      var colorStops = rainbow.map((color, i) => ({ offset: (1 / (rainbow.length - 1)) * i, color }));
       document.querySelectorAll(".js-histogram-colors").forEach(function (graphElement) {
         graphElement.histogramColors = colorStops;
       });
