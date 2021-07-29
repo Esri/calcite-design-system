@@ -232,11 +232,11 @@ module.exports = {
         ".focus-outset-danger": {
           "outline": "2px solid var(--calcite-ui-danger)",
           "outline-offset": "2px"
-        },        
+        },
         ".focus-inset-danger": {
           "outline": "2px solid var(--calcite-ui-danger)",
           "outline-offset": "-2px"
-        },        
+        },
         ".transition-default": {
           "transition-property": "all",
           "transition-duration": "150ms",

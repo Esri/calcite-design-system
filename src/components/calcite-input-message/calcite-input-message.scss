@@ -21,13 +21,15 @@
     invisible
     h-0
     pointer-events-none
-    opacity-0;
+    opacity-0
+    transition-default;
 }
 
 :host([active]) {
   @apply h-auto
     visible
-    opacity-100;
+    opacity-100
+    transition-default;
 }
 
 :host([active][scale="m"]),
@@ -39,7 +41,8 @@
   @apply inline-flex
     flex-shrink-0
     pointer-events-none
-    mr-2;
+    mr-2
+    transition-default;
 }
 
 .calcite-input-message-icon.calcite--rtl {

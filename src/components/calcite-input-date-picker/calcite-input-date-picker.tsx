@@ -295,7 +295,7 @@ export class CalciteInputDatePicker {
                 <calcite-icon flipRtl={true} icon="arrow-right" scale="s" />
               </div>
             )}
-            {this.range && this.layout === "vertical" && this.scale != "s" && (
+            {this.range && this.layout === "vertical" && this.scale !== "s" && (
               <div class="vertical-arrow-container">
                 <calcite-icon icon="arrow-down" scale="s" />
               </div>
