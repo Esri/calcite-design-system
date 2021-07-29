@@ -689,7 +689,7 @@ export class CalciteColorPicker {
       scale
     } = this;
     const selectedColorInHex = color ? color.hex() : null;
-    const hexInputScale = scale !== "s" ? "m" : scale;
+    const hexInputScale = scale === "l" ? "m" : "s";
     const {
       colorFieldAndSliderInteractive,
       colorFieldScopeTop,
@@ -780,7 +780,7 @@ export class CalciteColorPicker {
                   [CSS.splitSection]: true
                 }}
                 dir={elementDir}
-                scale="s"
+                scale={hexInputScale}
               >
                 <calcite-tab-nav slot="tab-nav">
                   {this.renderChannelsTabTitle("rgb")}
@@ -805,7 +805,7 @@ export class CalciteColorPicker {
                   iconStart="minus"
                   label={intlDeleteColor}
                   onClick={this.deleteColor}
-                  scale={scale}
+                  scale={hexInputScale}
                 />
                 <calcite-button
                   appearance="transparent"
@@ -815,7 +815,7 @@ export class CalciteColorPicker {
                   iconStart="plus"
                   label={intlSaveColor}
                   onClick={this.saveColor}
-                  scale={scale}
+                  scale={hexInputScale}
                 />
               </div>
             </div>
@@ -915,7 +915,7 @@ export class CalciteColorPicker {
       onCalciteInputChange={this.handleChannelChange}
       onCalciteInputInput={this.handleChannelInput}
       prefixText={label}
-      scale="s"
+      scale={this.scale === "l" ? "m" : "s"}
       type="number"
       value={value?.toString()}
     />
