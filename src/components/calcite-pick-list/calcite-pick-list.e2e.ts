@@ -21,7 +21,7 @@ describe("calcite-pick-list", () => {
       }
     ]));
 
-  it("renders", async () => renders("calcite-pick-list"));
+  it("renders", async () => renders("calcite-pick-list", { display: "flex" }));
 
   it("honors hidden attribute", async () => hidden("calcite-pick-list"));
 

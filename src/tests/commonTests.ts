@@ -54,12 +54,19 @@ export async function accessible(componentTagOrHTML: TagOrHTML, page?: E2EPage):
   ).toHaveNoViolations();
 }
 
-export async function renders(componentTagOrHTML: TagOrHTML, visible = true): Promise<void> {
+export async function renders(
+  componentTagOrHTML: TagOrHTML,
+  options: {
+    visible?: boolean;
+    display: string; // todo: add optional
+  }
+): Promise<void> {
   const page = await simplePageSetup(componentTagOrHTML);
   const element = await page.find(getTag(componentTagOrHTML));
 
   expect(element).toHaveAttribute(HYDRATED_ATTR);
-  expect(await element.isVisible()).toBe(visible);
+  expect(await element.isVisible()).toBe(options.visible ?? true);
+  expect((await element.getComputedStyle()).display).toBe(options.display ?? "inline");
 }
 
 export async function reflects(

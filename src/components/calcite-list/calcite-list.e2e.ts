@@ -1,7 +1,7 @@
 import { accessible, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-list", () => {
-  it("renders", async () => renders("calcite-list"));
+  it("renders", async () => renders("calcite-list", { display: "flex" }));
 
   it("honors hidden attribute", async () => hidden("calcite-list"));
 
