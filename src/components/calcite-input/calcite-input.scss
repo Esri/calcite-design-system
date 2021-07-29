@@ -476,7 +476,8 @@ input[type="time"]::-webkit-clear-button {
   }
 }
 
-:host([number-button-type="vertical"]) .calcite-input__number-button-item[data-adjustment="down"] {
+:host([number-button-type="vertical"]) .calcite-input__number-button-item[data-adjustment="down"],
+:host([number-button-type="vertical"]) .calcite--rtl .calcite-input__number-button-item[data-adjustment="down"] {
   @apply border-t-0;
 }
 
