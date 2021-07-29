@@ -58,7 +58,7 @@ export async function renders(
   componentTagOrHTML: TagOrHTML,
   options: {
     visible?: boolean;
-    display: string; // todo: add optional
+    display?: string;
   }
 ): Promise<void> {
   const page = await simplePageSetup(componentTagOrHTML);
