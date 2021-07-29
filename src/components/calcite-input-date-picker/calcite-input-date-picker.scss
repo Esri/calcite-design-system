@@ -1,46 +1,45 @@
 :host {
   @extend %component-spacing;
-  display: inline-block;
-  vertical-align: top;
-  width: 100%;
-  position: relative;
-  overflow: visible;
   @include popperElemAnim(".menu-container");
-  @apply shadow-none;
+  @apply shadow-none
+    inline-block
+    align-top
+    w-full
+    relative
+    overflow-visible;
 }
 
 .calendar-picker-wrapper {
-  @apply shadow-none;
-  position: static;
+  @apply shadow-none
+    static
+    w-full;
   transform: translate3d(0, 0, 0);
-  width: 100%;
-  line-height: 0; // fixes height in ie11
 }
 
 .input-wrapper {
-  position: relative;
+  @apply relative;
 }
 
 :host([range]) {
   .input-container {
-    display: flex;
-    align-items: center;
+    @apply flex;
   }
 
   .input-wrapper {
-    flex: 1 1 auto;
+    @apply flex-auto;
   }
 
   .horizontal-arrow-container {
-    background-color: var(--calcite-ui-background);
-    padding: 0 var(--calcite-spacing-quarter);
-    border: 1px solid var(--calcite-ui-border-1);
-    border-left: none;
-    border-right: none;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    flex: 0 0 auto;
+    @apply bg-background
+      py-0
+      px-1
+      border
+      border-solid
+      border-color-input
+      border-l-0
+      border-r-0
+      flex
+      items-center;
   }
 }
 
@@ -50,8 +49,8 @@
   }
 
   .input-container {
-    flex-direction: column;
-    align-items: start;
+    @apply flex-col
+      items-start;
   }
 
   .calendar-picker-wrapper--end {
@@ -59,23 +58,19 @@
   }
 
   .vertical-arrow-container {
-    position: absolute;
-    @apply left-0;
-    top: 36px;
-    z-index: 1;
-    background-color: var(--calcite-ui-foreground-1);
-    @apply px-2.5;
-    @apply mx-px;
+    top: theme("spacing.6");
+    @apply left-0
+      px-2.5
+      mx-px
+      absolute
+      z-10
+      bg-foreground-1;
   }
 }
 
 :host([scale="s"][range]:not([layout="vertical"])) {
   .calendar-picker-wrapper {
     width: 216px;
-  }
-
-  .horizontal-arrow-container {
-    height: 30px;
   }
 }
 
@@ -89,37 +84,40 @@
   .calendar-picker-wrapper {
     width: 398px;
   }
-
-  .horizontal-arrow-container {
-    height: 54px;
-  }
 }
 
 .menu-container {
   @include popperContainer();
-  visibility: hidden;
-  pointer-events: none;
+  @apply invisible
+    pointer-events-none;
 }
 :host([active]) .menu-container {
-  pointer-events: initial;
-  visibility: visible;
+  @apply visible
+    pointer-events-auto;
 }
 
 .input .calcite-input__wrapper {
-  margin-top: 0;
+  @apply mt-0;
 }
 
-:host([range][layout="vertical"][scale="s"]) .vertical-arrow-container {
-  top: 24px;
+:host([range][layout="vertical"][scale="m"]) .vertical-arrow-container {
+  top: theme("spacing.6");
+  @apply pl-3;
+
+  calcite-icon {
+    @apply w-3
+      h-3
+      min-w-0;
+  }
 }
 
 :host([range][layout="vertical"][scale="l"]) .vertical-arrow-container {
-  top: 50px;
+  top: theme("spacing.9");
   @apply px-3.5;
 }
 
 :host([range][layout="vertical"][active]) {
   .vertical-arrow-container {
-    display: none;
+    @apply hidden;
   }
 }
