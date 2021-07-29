@@ -587,7 +587,7 @@ export class CalciteInput {
         onClick={this.clearInputValue}
         tabIndex={this.disabled ? -1 : 0}
       >
-        <calcite-icon icon="x" scale='s' />
+        <calcite-icon icon="x" scale="s" />
       </button>
     );
     const iconEl = (

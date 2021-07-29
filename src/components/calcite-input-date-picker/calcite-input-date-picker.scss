@@ -14,7 +14,6 @@
     static
     w-full;
   transform: translate3d(0, 0, 0);
-  line-height: 0; // fixes height in ie11
 }
 
 .input-wrapper {

@@ -25,11 +25,11 @@
 }
 
 .calcite-inline-editable__wrapper {
-  transition: $transition;
   @apply box-border
     flex
     justify-between
-    bg-foreground-1;
+    bg-foreground-1
+    transition-default;
 
   .calcite-inline-editable__input-wrapper {
     @apply flex-1;
@@ -59,7 +59,7 @@
     .calcite-input__element-wrapper {
       textarea,
       input {
-        transition: $transition;
+        @apply transition-default;
       }
     }
   }
