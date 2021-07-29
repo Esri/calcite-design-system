@@ -44,7 +44,7 @@ describe("calcite-color-picker", () => {
       }
     ]));
 
-  it("renders", async () => renders("calcite-color-picker"));
+  it("renders", async () => renders("calcite-color-picker", { display: "inline-block" }));
 
   it("has defaults", async () =>
     defaults("calcite-color-picker", [

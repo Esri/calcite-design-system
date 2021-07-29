@@ -1,9 +1,11 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { defaults } from "../../tests/commonTests";
+import { defaults, renders } from "../../tests/commonTests";
 
 const animationDurationInMs = 200;
 
 describe("calcite-input-date-picker", () => {
+  it("renders", async () => renders("calcite-input-date-picker", { display: "inline-block" }));
+
   it("defaults", async () =>
     defaults("calcite-input-date-picker", [
       {

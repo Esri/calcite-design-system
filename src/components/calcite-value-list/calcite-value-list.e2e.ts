@@ -12,7 +12,7 @@ import {
 import { dragAndDrop, html } from "../../tests/utils";
 
 describe("calcite-value-list", () => {
-  it("renders", () => renders("calcite-value-list"));
+  it("renders", () => renders("calcite-value-list", { display: "flex" }));
 
   it("honors hidden attribute", async () => hidden("calcite-value-list"));
 
