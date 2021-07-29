@@ -229,7 +229,15 @@ export class CalciteActionBar {
     this.lastGroupCount = groupCount;
     this.lastResizeHeight = height;
 
-    const overflowCount = getOverflowCount({ actionCount, height, groupCount });
+    const groupBuffer = 2;
+    const actionHeight = actions[0]?.clientHeight || 50;
+    const overflowCount = getOverflowCount({
+      actionCount,
+      actionHeight,
+      groupBuffer,
+      height,
+      groupCount
+    });
 
     overflowActions({
       actionGroups,
