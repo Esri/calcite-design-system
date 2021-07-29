@@ -780,7 +780,7 @@ export class CalciteColorPicker {
                   [CSS.splitSection]: true
                 }}
                 dir={elementDir}
-                scale={this.scale === "l" ? "m" : "s"}
+                scale={hexInputScale}
               >
                 <calcite-tab-nav slot="tab-nav">
                   {this.renderChannelsTabTitle("rgb")}
@@ -805,7 +805,7 @@ export class CalciteColorPicker {
                   iconStart="minus"
                   label={intlDeleteColor}
                   onClick={this.deleteColor}
-                  scale={scale === "l" ? "m" : "s"}
+                  scale={hexInputScale}
                 />
                 <calcite-button
                   appearance="transparent"
@@ -815,7 +815,7 @@ export class CalciteColorPicker {
                   iconStart="plus"
                   label={intlSaveColor}
                   onClick={this.saveColor}
-                  scale={scale === "l" ? "m" : "s"}
+                  scale={hexInputScale}
                 />
               </div>
             </div>

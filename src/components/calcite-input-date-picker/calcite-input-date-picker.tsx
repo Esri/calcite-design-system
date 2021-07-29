@@ -303,9 +303,10 @@ export class CalciteInputDatePicker {
             {this.range && (
               <div class="input-wrapper" ref={this.setEndWrapper}>
                 <calcite-input
-                  class={`input ${
-                    this.layout === "vertical" && this.range ? `border-t-color-1` : ``
-                  }`}
+                  class={{
+                    input: true,
+                    "border-t-color-1": this.layout === "vertical" && this.range
+                  }}
                   icon="calendar"
                   number-button-type="none"
                   onCalciteInputBlur={this.inputBlur}
