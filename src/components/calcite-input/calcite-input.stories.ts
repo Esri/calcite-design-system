@@ -41,7 +41,6 @@ export const WithLabel = (): string => html`
       </calcite-input>
       <calcite-input-message
         ${boolean("input-message-active", false)}
-        type="${select("input message type", ["default", "floating"], "default")}"
         status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
         >${text("input message text", "My great input message")}</calcite-input-message
       >
@@ -84,7 +83,6 @@ export const WithLabelAndInputMessage = (): string => html`
         ${boolean("active", true)}
         ${boolean("icon", false)}
         icon="${select("icon", iconNames, "", "Input Message")}"
-        type="${select("type", ["default", "floating"], "default", "Input Message")}"
         >${text("input message text", "My great input message", "Input Message")}</calcite-input-message
       >
     </calcite-label>
@@ -154,7 +152,6 @@ export const WithSlottedAction = (): string => html`
       </calcite-input>
       <calcite-input-message
         ${boolean("input-message-active", false)}
-        type="${select("input message type", ["default", "floating"], "default")}"
         status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
         >${text("input message text", "My great input message")}</calcite-input-message
       >
@@ -177,7 +174,6 @@ export const Textarea = (): string => html`
       </calcite-input>
       <calcite-input-message
         ${boolean("input-message-active", false)}
-        type="${select("input message type", ["default", "floating"], "default")}"
         status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
         >${text("input message text", "My great input message")}</calcite-input-message
       >
@@ -212,7 +208,6 @@ export const SimpleDarkMode = (): string => html`
       </calcite-input>
       <calcite-input-message
         ${boolean("calcite-input-message-active", false)}
-        type="${select("input message type", ["default", "floating"], "default")}"
         status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
         >${text("input message text", "My great input message")}</calcite-input-message
       >
@@ -260,7 +255,6 @@ export const WithLabelAndInputMessageRTL = (): string => html`
         ${boolean("active", true)}
         ${boolean("icon", false)}
         icon="${select("icon", iconNames, "", "Input Message")}"
-        type="${select("type", ["default", "floating"], "default", "Input Message")}"
         >${text("input message text", "My great input message", "Input Message")}</calcite-input-message
       >
     </calcite-label>
