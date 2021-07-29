@@ -13,9 +13,56 @@
       section {
         padding: 0 1rem;
       }
-      .flex {
+      .heights-heading {
+        display: flex;
+        justify-content: space-around;
+        width: 22rem;
+        height: 4rem;
+      }
+      calcite-label#hr-switch {
+        align-self: flex-end;
+      }
+      .scale-container {
+        --calcite-container-width: 112rem;
+        width: var(--calcite-container-width);
         display: flex;
         justify-content: space-between;
+        align-items: flex-start;
+      }
+      .scale-container--m {
+        --calcite-container-width: 135rem;
+      }
+      .scale-container--l {
+        --calcite-container-width: 165rem;
+        padding-right: 1rem;
+      }
+      hr {
+        --calcite-horizontal-margin-top: 0;
+        border: 0;
+        border-top: 1px solid fuchsia;
+        position: absolute;
+        margin: 0;
+        margin-top: var(--calcite-horizontal-margin-top);
+        width: var(--calcite-container-width);
+        z-index: 100;
+      }
+      hr#s-text {
+        --calcite-horizontal-margin-top: var(--calcite-font-size-0);
+      }
+      hr#m-text {
+        --calcite-horizontal-margin-top: var(--calcite-font-size-2);
+      }
+      hr#l-text {
+        --calcite-horizontal-margin-top: var(--calcite-font-size-3);
+      }
+      hr#s-bottom {
+        --calcite-horizontal-margin-top: 1.5rem; /* .h-6 */
+      }
+      hr#m-bottom {
+        --calcite-horizontal-margin-top: 2rem; /* .h-8 */
+      }
+      hr#l-bottom {
+        --calcite-horizontal-margin-top: 2.75rem; /* .h-11 */
       }
     </style>
   </head>
@@ -26,11 +73,29 @@
     </header>
 
     <main>
-      <h1>Heights</h1>
-
+      <div class="heights-heading">
+        <h1>Heights</h1>
+        <calcite-label layout="inline" id="hr-switch">
+          Toggle horizontal grid
+          <calcite-switch switched id="horizontal-grid-switch"></calcite-switch>
+        </calcite-label>
+        <script>
+          const gridSwitch = document.querySelector("#horizontal-grid-switch");
+          window.onload = () => {
+            gridSwitch.addEventListener("calciteSwitchChange", () => {
+              document.querySelectorAll("hr").forEach((line) => {
+                line.toggleAttribute("hidden");
+              });
+            });
+          };
+        </script>
+      </div>
       <section>
         <h3>Small</h3>
-        <div class="flex" style="width: 1802px">
+        <div class="scale-container scale-container--s">
+          <hr />
+          <hr id="s-text" />
+          <hr id="s-bottom" />
           <div>
             <calcite-tree scale="s" input-enabled selection-mode="children">
               <calcite-tree-item>
@@ -106,7 +171,10 @@
         </div>
 
         <h3>Medium</h3>
-        <div class="flex" style="width: 2165px">
+        <div class="scale-container scale-container--m">
+          <hr />
+          <hr id="m-text" />
+          <hr id="m-bottom" />
           <div>
             <calcite-tree scale="m" input-enabled selection-mode="children">
               <calcite-tree-item>
@@ -182,7 +250,10 @@
         </div>
 
         <h3>Large</h3>
-        <div class="flex" style="width: 2642px; padding-right: 1rem">
+        <div class="scale-container scale-container--l">
+          <hr />
+          <hr id="l-text" />
+          <hr id="l-bottom" />
           <div>
             <calcite-tree scale="l" input-enabled selection-mode="children">
               <calcite-tree-item>
