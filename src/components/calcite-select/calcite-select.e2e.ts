@@ -12,7 +12,7 @@ describe("calcite-select", () => {
     </calcite-select>
   `;
 
-  it("renders", async () => renders(simpleTestMarkup));
+  it("renders", async () => renders(simpleTestMarkup, { display: "flex" }));
 
   it("is accessible", async () => accessible(simpleTestMarkup));
 

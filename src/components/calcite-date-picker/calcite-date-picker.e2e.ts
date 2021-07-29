@@ -3,7 +3,7 @@ import { renders, defaults, hidden } from "../../tests/commonTests";
 import { TEXT } from "./calcite-date-picker-resources";
 
 describe("calcite-date-picker", () => {
-  it("renders", async () => renders("calcite-date-picker"));
+  it("renders", async () => renders("calcite-date-picker", { display: "inline-block" }));
 
   it("honors hidden attribute", async () => hidden("calcite-date-picker"));
 

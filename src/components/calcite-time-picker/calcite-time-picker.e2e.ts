@@ -33,7 +33,7 @@ const letterKeys = [
 ];
 
 describe("calcite-time-picker", () => {
-  it("renders", async () => renders("calcite-time-picker"));
+  it("renders", async () => renders("calcite-time-picker", { display: "inline-block" }));
 
   it("is accessible", async () => accessible(`<calcite-time-picker hour="00" minute="00"></calcite-time-picker>`));
 
