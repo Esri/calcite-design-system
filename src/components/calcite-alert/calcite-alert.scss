@@ -75,6 +75,7 @@
 }
 
 :host {
+  @apply block;
   .container {
     @apply shadow-2
       flex

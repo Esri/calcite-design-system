@@ -3,7 +3,7 @@ import { accessible, hidden, renders } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-pagination", () => {
-  it("renders", async () => renders("calcite-pagination"));
+  it("renders", async () => renders("calcite-pagination", { display: "flex" }));
   it("honors hidden attribute", async () => hidden("calcite-pagination"));
 
   it("is accessible", async () => accessible(`<calcite-pagination></calcite-pagination>`));
