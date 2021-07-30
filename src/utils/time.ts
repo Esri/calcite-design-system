@@ -17,7 +17,12 @@ export type TimeFocusId = "hour" | MinuteOrSecond | "meridiem";
 export const maxTenthForMinuteAndSecond = 5;
 
 function createLocaleDateTimeFormatter(locale: string): Intl.DateTimeFormat {
-  return new Intl.DateTimeFormat(locale);
+  return new Intl.DateTimeFormat(locale, {
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+    timeZone: "UTC"
+  });
 }
 
 export function formatTimePart(number: number): string {
@@ -33,12 +38,8 @@ export function formatTimeString(value: string): string {
   const [hour, minute, second] = splitValue;
   const hourAsNumber = parseInt(hour);
   const minuteAsNumber = parseInt(minute);
-  let newValue = `${formatTimePart(hourAsNumber)}:${formatTimePart(minuteAsNumber)}`;
-  if (second) {
-    const secondAsNumber = parseInt(second);
-    newValue = `${newValue}:${formatTimePart(secondAsNumber)}`;
-  }
-  return newValue;
+  const secondAsNumber = parseInt(second);
+  return `${formatTimePart(hourAsNumber)}:${formatTimePart(minuteAsNumber)}:${secondAsNumber ? formatTimePart(secondAsNumber) : "00"}`;
 }
 
 export function getMeridiem(hour: string): Meridiem {
@@ -80,22 +81,31 @@ export function isValidTime(value: string): boolean {
   return false;
 }
 
-export function localizeTimeString(timeString: string, locale: string): string {
-  const dateFromTimeString = new Date(timeString);
+export function localizeTimeString(value: string, locale: string): string {
+  if (!isValidTime(value)) {
+    return null;
+  }
+  const { hour, minute, second } = parseTimeString(value);
+  const dateFromTimeString = new Date(Date.UTC(0, 0, 0, parseInt(hour), parseInt(minute), parseInt(second)));
   if (dateFromTimeString) {
     const formatter = createLocaleDateTimeFormatter(locale);
-    const parts = formatter.formatToParts(dateFromTimeString);
-    console.log(parts);
+    return formatter.format(dateFromTimeString);
   }
-  return timeString;
+  return value;
 }
 
 export function parseTimeString(value: string): Time {
-  const timeString = formatTimeString(value);
-  const [hour, minute, second] = timeString ? timeString.split(":") : [null, null, null];
+  if (isValidTime(value)) {
+    const [hour, minute, second] = value.split(":");
+    return {
+      hour,
+      minute,
+      second
+    };
+  }
   return {
-    hour,
-    minute,
-    second: second || (hour && minute ? "00" : null)
+    hour: null,
+    minute: null,
+    second: null
   };
 }
