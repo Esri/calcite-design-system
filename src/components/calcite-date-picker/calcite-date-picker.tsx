@@ -43,7 +43,7 @@ export class CalciteDatePicker {
   @Prop() activeRange?: "start" | "end" = "start";
 
   /** Selected date */
-  @Prop() value?: string;
+  @Prop({ mutable: true }) value?: string;
 
   /**
    * Number at which section headings should start for this component.
