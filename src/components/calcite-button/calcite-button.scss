@@ -43,8 +43,8 @@
     font-inherit
     font-medium;
   // include transition from focus
-  transition: background-color 0.15s ease-in-out, border 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
-    outline-offset 100ms ease-in-out, outline-color 100ms ease-in-out;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out, outline-offset 100ms ease-in-out, outline-color 100ms ease-in-out;
   &:hover {
     @apply no-underline;
   }
@@ -171,7 +171,6 @@
   @apply inline-flex
     relative
     m-0
-    transition-default
     font-medium;
   line-height: inherit;
 }
@@ -258,9 +257,6 @@
   &:active {
     background-color: $bg-color-press;
   }
-  & .calcite-button--icon {
-    fill: $color;
-  }
   & calcite-loader {
     color: $color;
   }
@@ -326,12 +322,6 @@
     color: $color-press;
     border-color: $border-color-press;
     box-shadow: inset 0 0 0 2px $border-color-press;
-    & .calcite-button--icon {
-      fill: $color-press;
-    }
-  }
-  & .calcite-button--icon {
-    fill: $color;
   }
   & calcite-loader {
     color: $color;
@@ -349,6 +339,24 @@
       var(--calcite-ui-brand),
       var(--calcite-ui-brand-press)
     );
+    &:hover {
+      // hover
+      color: var(--calcite-ui-brand-hover);
+      border-color: var(--calcite-ui-brand-hover);
+      box-shadow: inset 0 0 0 1px var(--calcite-ui-brand-hover);
+    }
+    &:focus {
+      // selected
+      color: var(--calcite-ui-brand);
+      border-color: var(--calcite-ui-brand);
+      box-shadow: inset 0 0 0 2px var(--calcite-ui-brand);
+    }
+    &:active {
+      // press
+      color: var(--calcite-ui-brand-press);
+      border-color: var(--calcite-ui-brand-press);
+      box-shadow: inset 0 0 0 2px var(--calcite-ui-brand-press);
+    }
   }
 }
 :host([appearance="outline"][color="red"]) {
@@ -362,6 +370,24 @@
       var(--calcite-ui-danger),
       var(--calcite-ui-danger-press)
     );
+    &:hover {
+      // hover
+      color: var(--calcite-ui-danger-hover);
+      border-color: var(--calcite-ui-danger-hover);
+      box-shadow: inset 0 0 0 1px var(--calcite-ui-danger-hover);
+    }
+    &:focus {
+      // selected
+      color: var(--calcite-ui-danger);
+      border-color: var(--calcite-ui-danger);
+      box-shadow: inset 0 0 0 2px var(--calcite-ui-danger);
+    }
+    &:active {
+      // press
+      color: var(--calcite-ui-danger-press);
+      border-color: var(--calcite-ui-danger-press);
+      box-shadow: inset 0 0 0 2px var(--calcite-ui-danger-press);
+    }
   }
 }
 :host([appearance="outline"][color="neutral"]) {
@@ -370,8 +396,8 @@
     @include btn-outline-clear(
       var(--calcite-ui-foreground-1),
       var(--calcite-ui-foreground-3),
-      var(--calcite-ui-foreground-2),
-      var(--calcite-ui-border-2),
+      var(--calcite-ui-foreground-3),
+      var(--calcite-ui-foreground-3),
       var(--calcite-ui-text-1),
       var(--calcite-ui-text-1)
     );
@@ -401,6 +427,24 @@
       var(--calcite-ui-brand),
       var(--calcite-ui-brand-press)
     );
+    &:hover {
+      // hover
+      color: var(--calcite-ui-brand-hover);
+      border-color: var(--calcite-ui-brand-hover);
+      box-shadow: inset 0 0 0 1px var(--calcite-ui-brand-hover);
+    }
+    &:focus {
+      // selected
+      color: var(--calcite-ui-brand);
+      border-color: var(--calcite-ui-brand);
+      box-shadow: inset 0 0 0 2px var(--calcite-ui-brand);
+    }
+    &:active {
+      // press
+      color: var(--calcite-ui-brand-press);
+      border-color: var(--calcite-ui-brand-press);
+      box-shadow: inset 0 0 0 2px var(--calcite-ui-brand-press);
+    }
   }
 }
 :host([appearance="clear"][color="red"]) {
@@ -414,6 +458,24 @@
       var(--calcite-ui-danger),
       var(--calcite-ui-danger-press)
     );
+    &:hover {
+      // hover
+      color: var(--calcite-ui-danger-hover);
+      border-color: var(--calcite-ui-danger-hover);
+      box-shadow: inset 0 0 0 1px var(--calcite-ui-danger-hover);
+    }
+    &:focus {
+      // selected
+      color: var(--calcite-ui-danger);
+      border-color: var(--calcite-ui-danger);
+      box-shadow: inset 0 0 0 2px var(--calcite-ui-danger);
+    }
+    &:active {
+      // press
+      color: var(--calcite-ui-danger-press);
+      border-color: var(--calcite-ui-danger-press);
+      box-shadow: inset 0 0 0 2px var(--calcite-ui-danger-press);
+    }
   }
 }
 :host([appearance="clear"][color="neutral"]) {
@@ -422,8 +484,8 @@
     @include btn-outline-clear(
       transparent,
       var(--calcite-ui-foreground-3),
-      var(--calcite-ui-foreground-2),
-      var(--calcite-ui-border-2),
+      var(--calcite-ui-foreground-3),
+      var(--calcite-ui-foreground-3),
       var(--calcite-ui-text-1),
       var(--calcite-ui-text-1)
     );
@@ -478,14 +540,32 @@
 :host([appearance="transparent"][color="blue"]) {
   button,
   a {
-    @include btn-transparent(var(--calcite-ui-text-link));
+    @include btn-transparent(var(--calcite-ui-brand));
+    &:hover {
+      color: var(--calcite-ui-brand-hover);
+    }
+    &:focus {
+      color: var(--calcite-ui-brand);
+    }
+    &:active {
+      color: var(--calcite-ui-brand-press);
+    }
   }
 }
 
 :host([appearance="transparent"][color="red"]) {
   button,
   a {
-    @include btn-transparent(var(--calcite-ui-danger-press));
+    @include btn-transparent(var(--calcite-ui-danger));
+    &:hover {
+      color: var(--calcite-ui-danger-hover);
+    }
+    &:focus {
+      color: var(--calcite-ui-danger);
+    }
+    &:active {
+      color: var(--calcite-ui-danger-press);
+    }
   }
 }
 :host([appearance="transparent"][color="neutral"]) {
@@ -497,7 +577,7 @@
 :host([appearance="transparent"][color="inverse"]) {
   button,
   a {
-    @include btn-transparent(var(--calcite-ui-foreground-1));
+    @include btn-transparent(var(--calcite-ui-text-inverse));
   }
 }
 
