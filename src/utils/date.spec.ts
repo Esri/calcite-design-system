@@ -20,8 +20,8 @@ import korean from "../components/calcite-date-picker/assets/calcite-date-picker
 describe("dateToISO", () => {
   it("ISO string should consider local timezone", () => {
     const date = new Date(973717200000);
-    expect(date.toISOString()).toEqual("2020-03-11T21:00:00.000Z");
-    expect(dateToISO(date)).toEqual("2020-03-12");
+    expect(date.toISOString()).toEqual("2000-11-08T21:00:00.000Z");
+    expect(dateToISO(date)).toEqual("2000-11-09");
   });
 });
 
