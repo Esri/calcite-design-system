@@ -19,7 +19,7 @@
 
   if (window.location.pathname.includes("/demos/")) {
     SCRIPTS.push({
-      src: `${ASSETS_PATH}/demo-template.js`
+      src: `${ASSETS_PATH}/demo-template-loader.js`
     });
   }
 

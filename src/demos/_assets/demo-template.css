@@ -1,0 +1,11 @@
+.demo-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+.demo-nav li {
+  margin: 0;
+  margin-inline-end: 0.5em;
+  padding: 0;
+}

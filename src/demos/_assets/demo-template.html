@@ -1,46 +1,11 @@
 <template>
-  <style>
-    main {
-      display: flex;
-      width: 100%;
-    }
-    nav ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-    }
-    nav li {
-      margin: 0;
-      margin-inline-end: 0.5em;
-      padding: 0;
-    }
-    section {
-      display: inline-flex;
-      flex-direction: column;
-      width: 33%;
-      padding: 10px;
-    }
-    .demo-background-dark {
-      background: #202020;
-      color: white;
-      padding: 1rem;
-      margin-top: 3rem;
-    }
-  </style>
-  <script>
-    function toggleDir() {
-      document.dir = document.dir === "rtl" ? "ltr" : "rtl";
-    }
-    function toggleTheme() {
-      document.body.classList.toggle("calcite-theme-dark");
-    }
-  </script>
-  <nav>
+  <link rel="stylesheet" href="/demos/_assets/demo-template.css" />
+  <script src="/demos/_assets/demo-template.js"></script>
+  <nav class="demo-nav">
     <ul>
       <li><calcite-button href="/">Home</calcite-button></li>
-      <li><calcite-button type="button" onclick="toggleDir()">Toggle Dir</calcite-button></li>
-      <li><calcite-button type="button" onclick="toggleTheme()">Toggle Theme</calcite-button></li>
+      <li><calcite-button type="button" id="toggle-dir">Toggle Dir</calcite-button></li>
+      <li><calcite-button type="button" id="toggle-theme">Toggle Theme</calcite-button></li>
     </ul>
   </nav>
 </template>
