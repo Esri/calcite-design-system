@@ -8,9 +8,9 @@
   @include calcite-theme-light();
   --calcite-theme-name: "light";
   --calcite-ui-foreground-current: #c7eaff;
-  --calcite-ui-inverse: #{$blk-180};
-  --calcite-ui-inverse-hover: #{$blk-170};
-  --calcite-ui-inverse-press: #{$blk-190};
+  --calcite-ui-inverse: #{$blk-190};
+  --calcite-ui-inverse-hover: #{$blk-200};
+  --calcite-ui-inverse-press: #{$blk-110};
   --calcite-alert-dismiss-progress-background: #{rgba($blk-000, 0.8)};
   --calcite-button-transparent-hover: #{rgba($blk-240, 0.05)};
   --calcite-button-transparent-press: #{rgba($blk-240, 0.08)};
@@ -22,9 +22,9 @@
   @include calcite-theme-dark();
   --calcite-theme-name: "dark";
   --calcite-ui-foreground-current: #214155;
-  --calcite-ui-inverse: #{$blk-180};
-  --calcite-ui-inverse-hover: #{$blk-190};
-  --calcite-ui-inverse-press: #{$blk-170};
+  --calcite-ui-inverse: #{$blk-005};
+  --calcite-ui-inverse-hover: #{$blk-000};
+  --calcite-ui-inverse-press: #{$blk-010};
   --calcite-alert-dismiss-progress-background: #{rgba($blk-200, 0.8)};
   --calcite-button-transparent-hover: #{rgba($blk-000, 0.05)};
   --calcite-button-transparent-press: #{rgba($blk-000, 0.08)};
