@@ -4,7 +4,7 @@ import { SLOTS, CSS } from "./resources";
 import { html } from "../../tests/utils";
 
 describe("calcite-action-menu", () => {
-  it("renders", async () => renders("calcite-action-menu"));
+  it("renders", async () => renders("calcite-action-menu", { display: "flex" }));
 
   it("honors hidden attribute", async () => hidden("calcite-action-menu"));
 

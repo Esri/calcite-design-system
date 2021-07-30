@@ -2,6 +2,7 @@ import { Component, h, Prop, VNode, Element, EventEmitter, Event, Watch } from "
 
 @Component({
   tag: "calcite-option",
+  styleUrl: "calcite-option.scss",
   shadow: true
 })
 export class CalciteOption {

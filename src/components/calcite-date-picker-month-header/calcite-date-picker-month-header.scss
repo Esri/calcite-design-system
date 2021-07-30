@@ -1,3 +1,7 @@
+:host {
+  @apply block;
+}
+
 .header {
   @apply flex justify-between;
   @apply py-0 px-1;
