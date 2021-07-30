@@ -9,21 +9,12 @@ import {
   localizeNumber,
   parseNumber,
   parseDateString,
-  getOrder,
-  dateToISO
+  getOrder
 } from "./date";
 
 import arabic from "../components/calcite-date-picker/assets/calcite-date-picker/nls/ar.json";
 import french from "../components/calcite-date-picker/assets/calcite-date-picker/nls/fr.json";
 import korean from "../components/calcite-date-picker/assets/calcite-date-picker/nls/ko.json";
-
-describe("dateToISO", () => {
-  it("ISO string should consider local timezone", () => {
-    const date = new Date(973717200000);
-    expect(date.toISOString()).toEqual("2000-11-08T21:00:00.000Z");
-    expect(dateToISO(date)).toEqual("2000-11-09");
-  });
-});
 
 describe("inRange", () => {
   it("returns true if no min/max", () => {
