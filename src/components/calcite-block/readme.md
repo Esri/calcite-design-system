@@ -85,7 +85,7 @@ Renders a header with a clickable icon to toggle the block open and closed.
 |                         | A slot for adding content to the block.                            |
 | `"control"`             | A slot for adding a single HTML input element in a header.         |
 | `"header-menu-actions"` | a slot for adding an overflow menu with actions inside a dropdown. |
-| `"icon"`                | A slot for adding a trailing header icon.                          |
+| `"icon"`                | A slot for adding a leading header icon.                           |
 
 ## Dependencies
 

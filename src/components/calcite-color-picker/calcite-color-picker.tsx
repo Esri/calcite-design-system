@@ -251,8 +251,13 @@ export class CalciteColorPicker {
       this.mode = nextMode;
     }
 
+    const dragging = this.sliderThumbState === "drag" || this.hueThumbState === "drag";
+
     if (this.colorUpdateLocked) {
-      this.calciteColorPickerChange.emit();
+      this.calciteColorPickerInput.emit();
+      if (!dragging) {
+        this.calciteColorPickerChange.emit();
+      }
       return;
     }
 
@@ -261,7 +266,10 @@ export class CalciteColorPicker {
 
     if (modeChanged || colorChanged) {
       this.color = color;
-      this.calciteColorPickerChange.emit();
+      this.calciteColorPickerInput.emit();
+      if (!dragging) {
+        this.calciteColorPickerChange.emit();
+      }
     }
   }
   //--------------------------------------------------------------------------
@@ -329,6 +337,13 @@ export class CalciteColorPicker {
    */
   @Event() calciteColorPickerChange: EventEmitter;
 
+  /**
+   * Fires as the color value changes.
+   *
+   * This is similar to the change event with the exception of dragging. When dragging the color field or hue slider thumb, this event fires as the thumb is moved.
+   */
+  @Event() calciteColorPickerInput: EventEmitter;
+
   private handleTabActivate = (event: Event): void => {
     this.channelMode = (event.currentTarget as HTMLElement).getAttribute(
       "data-color-mode"
@@ -346,7 +361,7 @@ export class CalciteColorPicker {
       ArrowLeft: { x: -10, y: 0 }
     };
 
-    if (Object.keys(arrowKeyToXYOffset).includes(key)) {
+    if (arrowKeyToXYOffset[key]) {
       event.preventDefault();
       this.scopeOrientation = key === "ArrowDown" || key === "ArrowUp" ? "vertical" : "horizontal";
       this.captureColorFieldColor(
@@ -354,7 +369,6 @@ export class CalciteColorPicker {
         this.colorFieldScopeTop + arrowKeyToXYOffset[key].y || 0,
         false
       );
-      return;
     }
   };
 
@@ -368,13 +382,12 @@ export class CalciteColorPicker {
       ArrowLeft: -1
     };
 
-    if (Object.keys(arrowKeyToXOffset).includes(key)) {
+    if (arrowKeyToXOffset[key]) {
       event.preventDefault();
       const delta = arrowKeyToXOffset[key] * modifier;
-      const hue = this.baseColorFieldColor?.hue();
-      const color = hue ? this.baseColorFieldColor.hue(hue + delta) : Color({ h: 0, s: 0, v: 100 });
+      const hue = this.baseColorFieldColor.hue();
+      const color = this.baseColorFieldColor.hue(hue + delta);
       this.internalColorSet(color, false);
-      return;
     }
   };
 
@@ -519,9 +532,15 @@ export class CalciteColorPicker {
   };
 
   private globalMouseUpHandler = (): void => {
+    const previouslyDragging = this.sliderThumbState === "drag" || this.hueThumbState === "drag";
+
     this.hueThumbState = "idle";
     this.sliderThumbState = "idle";
     this.drawColorFieldAndSlider();
+
+    if (previouslyDragging) {
+      this.calciteColorPickerChange.emit();
+    }
   };
 
   private globalMouseMoveHandler = (event: MouseEvent): void => {
@@ -691,7 +710,7 @@ export class CalciteColorPicker {
       scale
     } = this;
     const selectedColorInHex = color ? color.hex() : null;
-    const hexInputScale = scale !== "s" ? "m" : scale;
+    const hexInputScale = scale === "l" ? "m" : "s";
     const {
       colorFieldAndSliderInteractive,
       colorFieldScopeTop,
@@ -782,7 +801,7 @@ export class CalciteColorPicker {
                   [CSS.splitSection]: true
                 }}
                 dir={elementDir}
-                scale="s"
+                scale={hexInputScale}
               >
                 <calcite-tab-nav slot="tab-nav">
                   {this.renderChannelsTabTitle("rgb")}
@@ -807,7 +826,7 @@ export class CalciteColorPicker {
                   iconStart="minus"
                   label={intlDeleteColor}
                   onClick={this.deleteColor}
-                  scale={scale}
+                  scale={hexInputScale}
                 />
                 <calcite-button
                   appearance="transparent"
@@ -817,7 +836,7 @@ export class CalciteColorPicker {
                   iconStart="plus"
                   label={intlSaveColor}
                   onClick={this.saveColor}
-                  scale={scale}
+                  scale={hexInputScale}
                 />
               </div>
             </div>
@@ -917,7 +936,7 @@ export class CalciteColorPicker {
       onCalciteInputChange={this.handleChannelChange}
       onCalciteInputInput={this.handleChannelInput}
       prefixText={label}
-      scale="s"
+      scale={this.scale === "l" ? "m" : "s"}
       type="number"
       value={value?.toString()}
     />

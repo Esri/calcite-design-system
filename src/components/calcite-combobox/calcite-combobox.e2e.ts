@@ -3,7 +3,7 @@ import { renders, hidden, accessible, defaults } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 
 describe("calcite-combobox", () => {
-  it("renders", async () => renders("calcite-combobox"));
+  it("renders", async () => renders("calcite-combobox", { display: "block" }));
   it("defaults", async () =>
     defaults("calcite-combobox", [
       {
@@ -374,7 +374,7 @@ describe("calcite-combobox", () => {
         `
       );
 
-      const eventSpy = await page.spyOnEvent("calciteLookupChange", "window");
+      const eventSpy = await page.spyOnEvent("calciteComboboxChange", "window");
       const item1 = await page.find("calcite-combobox-item#one");
       const item2 = await page.find("calcite-combobox-item#two");
       const item3 = await page.find("calcite-combobox-item#three");
@@ -464,6 +464,63 @@ describe("calcite-combobox", () => {
     });
   });
 
+  describe("calciteComboboxChange", () => {
+    it("should have 1 selectedItem when single select", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`
+          <calcite-combobox selection-mode="single">
+            <calcite-combobox-item id="one" value="one" text-label="one" selected></calcite-combobox-item>
+            <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+            <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          </calcite-combobox>
+        `
+      );
+
+      await page.waitForChanges();
+
+      const input = await page.find("calcite-combobox >>> input");
+      await input.click();
+      await page.waitForChanges();
+
+      const eventSpy = await page.spyOnEvent("calciteComboboxChange");
+      const two = await page.find("#two");
+      const event = page.waitForEvent("calciteComboboxChange");
+      await two.click();
+      await event;
+
+      expect(eventSpy).toHaveReceivedEventTimes(1);
+      expect(eventSpy.lastEvent.detail.selectedItems.length).toBe(1);
+    });
+
+    it("should have 2 selectedItems when not in single select", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`
+          <calcite-combobox selection-mode="multi">
+            <calcite-combobox-item id="one" value="one" text-label="one" selected></calcite-combobox-item>
+            <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+            <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          </calcite-combobox>
+        `
+      );
+      await page.waitForChanges();
+
+      const input = await page.find("calcite-combobox >>> input");
+      await input.click();
+      await page.waitForChanges();
+
+      const eventSpy = await page.spyOnEvent("calciteComboboxChange");
+      const two = await page.find("#two");
+      const event = page.waitForEvent("calciteComboboxChange");
+      await two.click();
+      await event;
+
+      expect(eventSpy).toHaveReceivedEventTimes(1);
+      expect(eventSpy.lastEvent.detail.selectedItems.length).toBe(2);
+    });
+  });
+
   describe("allows free entry of text", () => {
     it("should allow typing a new unknown tag", async () => {
       const page = await newE2EPage();
@@ -497,7 +554,7 @@ describe("calcite-combobox", () => {
       expect(chips.length).toBe(1);
     });
 
-    it("should fire lookupChange when entering new unknown tag", async () => {
+    it("should fire calciteComboboxChange when entering new unknown tag", async () => {
       const page = await newE2EPage();
       await page.setContent(
         html`
@@ -508,7 +565,7 @@ describe("calcite-combobox", () => {
           </calcite-combobox>
         `
       );
-      const eventSpy = await page.spyOnEvent("calciteLookupChange");
+      const eventSpy = await page.spyOnEvent("calciteComboboxChange");
       const input = await page.find("calcite-combobox >>> input");
       await input.click();
 
@@ -607,6 +664,7 @@ describe("calcite-combobox", () => {
       await item1.click();
       await closeEvent;
       const label = await page.find("calcite-combobox >>> .label");
+      await page.waitForChanges();
       const labelVisible = await label.isVisible();
       expect(labelVisible).toBe(true);
       expect(label.textContent).toBe("One");

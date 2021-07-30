@@ -127,10 +127,10 @@ module.exports = {
     }),
     extend: {
       animation: {
-        "in": "in 300ms ease-in-out",
-        "in-down": "in-down 300ms ease-in-out",
-        "in-up": "in-up 300ms ease-in-out",
-        "in-scale": "in-scale 300ms linear"
+        "in": "in var(--calcite-animation-timing) ease-in-out",
+        "in-down": "in-down var(--calcite-animation-timing) ease-in-out",
+        "in-up": "in-up var(--calcite-animation-timing) ease-in-out",
+        "in-scale": "in-scale var(--calcite-animation-timing) linear"
       },
       borderRadius: {
         half: "50%"
@@ -197,6 +197,7 @@ module.exports = {
         "0.5": "0.125rem",
         "2.5": "0.625rem",
         "3.5": "0.875rem",
+        "9": "2.25rem",
         "11": "2.75rem"
       },
       transitionProperty: {
@@ -226,6 +227,14 @@ module.exports = {
         },
         ".focus-inset": {
           "outline": "2px solid var(--calcite-ui-brand)",
+          "outline-offset": "-2px"
+        },
+        ".focus-outset-danger": {
+          "outline": "2px solid var(--calcite-ui-danger)",
+          "outline-offset": "2px"
+        },
+        ".focus-inset-danger": {
+          "outline": "2px solid var(--calcite-ui-danger)",
           "outline-offset": "-2px"
         },
         ".transition-default": {

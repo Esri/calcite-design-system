@@ -6,7 +6,6 @@ import {
   Host,
   State,
   Listen,
-  Build,
   Watch,
   VNode,
   Method,
@@ -125,17 +124,6 @@ export class CalciteInputDatePicker {
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
-
-  /**
-   * Blur doesn't fire properly when there is no shadow dom (Edge/IE11)
-   * Check if the focused element is inside the date picker, if not close
-   */
-  @Listen("focusin", { target: "window" })
-  focusInHandler(e: FocusEvent): void {
-    if (!this.hasShadow && !this.el.contains(e.target as HTMLElement)) {
-      this.active = false;
-    }
-  }
 
   @Listen("calciteDaySelect")
   calciteDaySelectHandler(): void {
@@ -307,7 +295,7 @@ export class CalciteInputDatePicker {
                 <calcite-icon flipRtl={true} icon="arrow-right" scale="s" />
               </div>
             )}
-            {this.range && this.layout === "vertical" && (
+            {this.range && this.layout === "vertical" && this.scale !== "s" && (
               <div class="vertical-arrow-container">
                 <calcite-icon icon="arrow-down" scale="s" />
               </div>
@@ -315,7 +303,10 @@ export class CalciteInputDatePicker {
             {this.range && (
               <div class="input-wrapper" ref={this.setEndWrapper}>
                 <calcite-input
-                  class="input"
+                  class={{
+                    input: true,
+                    "border-t-color-1": this.layout === "vertical" && this.range
+                  }}
                   icon="calendar"
                   number-button-type="none"
                   onCalciteInputBlur={this.inputBlur}
@@ -346,8 +337,6 @@ export class CalciteInputDatePicker {
   @State() private localeData: DateLocaleData;
 
   private endInput: HTMLCalciteInputElement;
-
-  private hasShadow: boolean = Build.isBrowser && !!document.head.attachShadow;
 
   private popper: Popper;
 
