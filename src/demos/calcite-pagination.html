@@ -11,6 +11,7 @@
         display: flex;
         flex-wrap: wrap;
       }
+
       .parent {
         display: flex;
         flex-direction: column;
@@ -21,18 +22,10 @@
         margin-left: 5%;
         padding: 30px;
       }
+
       .child {
-        display: inline-flex;
-        margin: 10px;
-      }
-
-      .demo-spaced {
-        padding: 8px 0;
-      }
-
-      hr {
-        margin: 10px 0;
-        border-top: 1px solid var(--calcite-ui-border-2);
+        padding: 15px;
+        flex: 1;
       }
     </style>
   </head>
@@ -41,70 +34,57 @@
     <div>
       <calcite-button href="/" icon-start="arrow-left" color="neutral"> Home </calcite-button>
     </div>
-
     <h1 style="margin: 0 auto; text-align: center"> Pagination </h1>
 
 
     <!-- Small -->
     <div class="flex">
       <div class="parent">
-        <div class="child"> Small </div>
+        <div class="child"> small </div>
 
-        <div class="child demo-spaced">
-          <calcite-pagination total="1200" num="100" start="1001" scale="s"></calcite-pagination>
+        <div class="child">
+          <calcite-pagination total="300" num="100" start="1" scale="s"></calcite-pagination>
         </div>
-        <div class="child demo-spaced">
-          <calcite-pagination total="1200" num="100" start="801" scale="s">Hello</calcite-pagination>
-        </div>
-
-        <div class="child demo-spaced">
-          <calcite-pagination total="1200" num="100" start="901" scale="s"></calcite-pagination>
+        <div class="child">
+          <calcite-pagination total="1200" num="100" start="1" scale="s">Hello</calcite-pagination>
         </div>
 
-        <div class="child demo-spaced">
-          <calcite-pagination total="1200" num="100" start="1001" scale="s"></calcite-pagination>
+        <div class="child">
+          <calcite-pagination total="150000" num="100" start="5400" scale="s"></calcite-pagination>
         </div>
       </div>
 
 
       <!-- Medium -->
       <div class="parent">
-        <div class="child"> Medium </div>
+        <div class="child"> medium </div>
 
-        <div class="child demo-spaced">
-          <calcite-pagination total="1200" num="100" start="1001" scale="m"></calcite-pagination>
+        <div class="child">
+          <calcite-pagination total="300" num="100" start="1" scale="m"></calcite-pagination>
         </div>
-        <div class="child demo-spaced">
-          <calcite-pagination total="1200" num="100" start="801" scale="m">Hello</calcite-pagination>
-        </div>
-
-        <div class="child demo-spaced">
-          <calcite-pagination total="1200" num="100" start="901" scale="m"></calcite-pagination>
+        <div class="child">
+          <calcite-pagination total="1200" num="100" start="1" scale="m">Hello</calcite-pagination>
         </div>
 
-        <div class="child demo-spaced">
-          <calcite-pagination total="1200" num="100" start="1001" scale="m"></calcite-pagination>
+        <div class="child">
+          <calcite-pagination total="150000" num="100" start="5400" scale="m"></calcite-pagination>
         </div>
       </div>
 
 
       <!-- Large -->
       <div class="parent">
-        <div class="child"> Large </div>
+        <div class="child"> large </div>
 
-        <div class="child demo-spaced">
-          <calcite-pagination total="1200" num="100" start="1001" scale="l"></calcite-pagination>
+        <div class="child">
+          <calcite-pagination total="300" num="100" start="1" scale="l"></calcite-pagination>
         </div>
-        <div class="child demo-spaced">
-          <calcite-pagination total="1200" num="100" start="801" scale="l">Hello</calcite-pagination>
-        </div>
-
-        <div class="child demo-spaced">
-          <calcite-pagination total="1200" num="100" start="901" scale="l"></calcite-pagination>
+        <div class="child">
+          <calcite-pagination total="1200" num="100" start="1" scale="l">Hello</calcite-pagination>
         </div>
 
-        <div class="child demo-spaced">
-          <calcite-pagination total="1200" num="100" start="1001" scale="l"></calcite-pagination>
+        <div class="child">
+          <calcite-pagination total="150000" num="100" start="5400" scale="l"></calcite-pagination>
         </div>
       </div>
     </div>
