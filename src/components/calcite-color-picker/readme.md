@@ -37,9 +37,10 @@
 
 ## Events
 
-| Event                      | Description                             | Type               |
-| -------------------------- | --------------------------------------- | ------------------ |
-| `calciteColorPickerChange` | Fires when the color value has changed. | `CustomEvent<any>` |
+| Event                      | Description                                                                                                                                                                                      | Type               |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------ |
+| `calciteColorPickerChange` | Fires when the color value has changed.                                                                                                                                                          | `CustomEvent<any>` |
+| `calciteColorPickerInput`  | Fires as the color value changes. This is similar to the change event with the exception of dragging. When dragging the color field or hue slider thumb, this event fires as the thumb is moved. | `CustomEvent<any>` |
 
 ## Methods
 
