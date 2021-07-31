@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, focusable, reflects, renders } from "../../tests/commonTests";
-import { formatTimePart, getMeridiem } from "../../utils/time";
+import { formatTimePart, getMeridiem, localizeTimeString } from "../../utils/time";
 
 describe("calcite-input-time-picker", () => {
   it("renders", async () => renders("calcite-input-time-picker"));
@@ -70,6 +70,7 @@ describe("calcite-input-time-picker", () => {
       date.setSeconds(second);
 
       const expectedValue = date.toISOString().substr(11, 8);
+      const expectedInputValue = localizeTimeString(expectedValue);
       const expectedHour = expectedValue.substr(0, 2);
       const expectedMinute = expectedValue.substr(3, 2);
       const expectedSecond = expectedValue.substr(6, 2);
@@ -84,7 +85,7 @@ describe("calcite-input-time-picker", () => {
       const timePickerMinuteValue = await timePicker.getProperty("minute");
       const timePickerSecondValue = await timePicker.getProperty("second");
 
-      expect(inputValue).toBe(expectedValue);
+      expect(inputValue).toBe(expectedInputValue);
       expect(inputTimePickerValue).toBe(expectedValue);
       expect(timePickerHourValue).toBe(expectedHour);
       expect(timePickerMinuteValue).toBe(expectedMinute);
@@ -96,6 +97,7 @@ describe("calcite-input-time-picker", () => {
       date.setMinutes(minute);
 
       const expectedValue = date.toISOString().substr(11, 8);
+      const expectedInputValue = localizeTimeString(expectedValue);
       const expectedHour = expectedValue.substr(0, 2);
       const expectedMinute = expectedValue.substr(3, 2);
       const expectedSecond = expectedValue.substr(6, 2);
@@ -110,7 +112,7 @@ describe("calcite-input-time-picker", () => {
       const timePickerMinuteValue = await timePicker.getProperty("minute");
       const timePickerSecondValue = await timePicker.getProperty("second");
 
-      expect(inputValue).toBe(expectedValue);
+      expect(inputValue).toBe(expectedInputValue);
       expect(inputTimePickerValue).toBe(expectedValue);
       expect(timePickerHourValue).toBe(expectedHour);
       expect(timePickerMinuteValue).toBe(expectedMinute);
@@ -122,6 +124,7 @@ describe("calcite-input-time-picker", () => {
       date.setHours(hour);
 
       const expectedValue = date.toISOString().substr(11, 8);
+      const expectedInputValue = localizeTimeString(expectedValue);
       const expectedHour = expectedValue.substr(0, 2);
       const expectedMinute = expectedValue.substr(3, 2);
       const expectedSecond = expectedValue.substr(6, 2);
@@ -136,7 +139,7 @@ describe("calcite-input-time-picker", () => {
       const timePickerMinuteValue = await timePicker.getProperty("minute");
       const timePickerSecondValue = await timePicker.getProperty("second");
 
-      expect(inputValue).toBe(expectedValue);
+      expect(inputValue).toBe(expectedInputValue);
       expect(inputTimePickerValue).toBe(expectedValue);
       expect(timePickerHourValue).toBe(expectedHour);
       expect(timePickerMinuteValue).toBe(expectedMinute);
@@ -144,9 +147,9 @@ describe("calcite-input-time-picker", () => {
     }
   });
 
-  it("changing hour, minute and second values reflects in the input, input-time-picker and time-picker for 12-hour display format", async () => {
+  it("changing hour, minute and second values reflects in the input, input-time-picker and time-picker", async () => {
     const page = await newE2EPage({
-      html: `<calcite-input-time-picker hour-display-format="12" step="1"></calcite-input-time-picker>`
+      html: `<calcite-input-time-picker step="1"></calcite-input-time-picker>`
     });
 
     const inputTimePicker = await page.find("calcite-input-time-picker");
@@ -231,18 +234,9 @@ describe("calcite-input-time-picker", () => {
 
       const expectedValue = date.toISOString().substr(11, 8);
       const expectedHour = expectedValue.substr(0, 2);
-      const expectedHourAsNumber = parseInt(expectedValue.substr(0, 2));
       const expectedMinute = expectedValue.substr(3, 2);
       const expectedSecond = expectedValue.substr(6, 2);
-      const expectedDisplayHour =
-        expectedHourAsNumber > 12
-          ? formatTimePart(expectedHourAsNumber - 12)
-          : expectedHourAsNumber === 0
-          ? "12"
-          : formatTimePart(expectedHourAsNumber);
-      const expectedDisplayValue = `${expectedDisplayHour}:${expectedMinute}:${expectedSecond} ${getMeridiem(
-        expectedHour
-      )}`;
+      const expectedDisplayValue = localizeTimeString(expectedValue);
 
       inputTimePicker.setProperty("value", expectedValue);
 
@@ -315,7 +309,7 @@ describe("calcite-input-time-picker", () => {
       });
     });
 
-    expect(await inputTimePicker.getProperty("value")).toBe("14:59");
+    expect(await inputTimePicker.getProperty("value")).toBe("14:59:00");
 
     await page.keyboard.press("Tab");
     await page.keyboard.press(":");
@@ -323,5 +317,14 @@ describe("calcite-input-time-picker", () => {
     await page.waitForChanges();
 
     expect(await inputTimePicker.getProperty("value")).toBe("14:59");
+  });
+
+  it("sets initial value to undefined when it is not a valid time value", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-input-time-picker value="invalid"></calcite-input-time-picker>`
+    });
+    const inputTimePicker = await page.find("calcite-input-time-picker");
+
+    expect(await inputTimePicker.getProperty("value")).toBeUndefined();
   });
 });

@@ -81,7 +81,7 @@ export function isValidTime(value: string): boolean {
   return false;
 }
 
-export function localizeTimeString(value: string, locale: string): string {
+export function localizeTimeString(value: string, locale: string = "en"): string {
   if (!isValidTime(value)) {
     return null;
   }
