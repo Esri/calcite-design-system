@@ -3,7 +3,7 @@ import { accessible, renders } from "../../tests/commonTests";
 import { StatusIconDefaults } from "./interfaces";
 
 describe("calcite-input-message", () => {
-  it("renders", async () => renders("calcite-input-message", false));
+  it("renders", async () => renders("calcite-input-message", { visible: false, display: "flex" }));
 
   it("is accessible", async () => accessible(`<calcite-input-message>Text</calcite-input-message>`));
   it("is accessible with icon", async () => accessible(`<calcite-input-message icon>Text</calcite-input-message>`));
@@ -16,18 +16,16 @@ describe("calcite-input-message", () => {
 
     const element = await page.find("calcite-input-message");
     expect(element).toEqualAttribute("status", "idle");
-    expect(element).toEqualAttribute("type", "default");
   });
 
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-input-message status="valid" type="floating">Text</calcite-input-message>
+    <calcite-input-message status="valid">Text</calcite-input-message>
     `);
 
     const element = await page.find("calcite-input-message");
     expect(element).toEqualAttribute("status", "valid");
-    expect(element).toEqualAttribute("type", "floating");
   });
 
   it("inherits requested props when from wrapping calcite-label when props are provided", async () => {
