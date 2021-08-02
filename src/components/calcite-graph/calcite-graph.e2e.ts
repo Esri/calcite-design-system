@@ -2,7 +2,7 @@ import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, renders } from "../../tests/commonTests";
 
 describe("calcite-graph", () => {
-  it("renders", async () => renders(`<calcite-graph></calcite-graph>`));
+  it("renders", async () => renders(`<calcite-graph></calcite-graph>`, { display: "block" }));
 
   it("is accessible", async () => accessible(`<calcite-graph></calcite-graph>`));
 

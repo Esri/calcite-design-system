@@ -49,7 +49,6 @@ function validatePasswordExampleFocusMessage(event): void {
     const message = document.createElement("calcite-input-message");
     message.active = true;
     message.id = "pw-status-1";
-    message.type = "floating";
     message.innerHTML = `This should be at least 6 characters long`;
     targetInput.appendChild(message);
   } else {

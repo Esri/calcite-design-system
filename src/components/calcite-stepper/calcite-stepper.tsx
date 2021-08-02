@@ -10,7 +10,6 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { IESTYLES } from "./calcite-stepper.resources";
 import { getKey } from "../../utils/key";
 import { Layout, Scale } from "../interfaces";
 
@@ -229,11 +228,6 @@ export class CalciteStepper {
   private addHorizontalContentContainer(): void {
     this.stepperContentContainer = document.createElement("div") as HTMLDivElement;
     this.stepperContentContainer.classList.add("calcite-stepper-content");
-    // handle ie styles
-    const isIE = !!(navigator.userAgent.match(/Trident/) && !navigator.userAgent.match(/MSIE/));
-    if (isIE) {
-      this.stepperContentContainer.style.cssText = IESTYLES;
-    }
     this.el.insertAdjacentElement("beforeend", this.stepperContentContainer);
   }
 
@@ -285,24 +279,6 @@ export class CalciteStepper {
 
   private updateContent(content) {
     this.stepperContentContainer.innerHTML = "";
-    // handle ie
-    const isIE = !!(navigator.userAgent.match(/Trident/) && !navigator.userAgent.match(/MSIE/));
-    if (!isIE) {
-      this.stepperContentContainer.append(...content);
-    } else {
-      // handle ie content
-      content.forEach((contentItem) => {
-        if (contentItem.nodeName === "#text") {
-          const text = document.createTextNode(contentItem.textContent.trim());
-          if (text.length > 0) {
-            this.stepperContentContainer.appendChild(text);
-          }
-        } else if (contentItem.nodeName) {
-          this.stepperContentContainer.insertAdjacentHTML("beforeend", contentItem.outerHTML);
-        } else {
-          return;
-        }
-      });
-    }
+    this.stepperContentContainer.append(...content);
   }
 }

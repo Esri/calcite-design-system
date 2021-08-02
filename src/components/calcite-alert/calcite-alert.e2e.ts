@@ -8,7 +8,7 @@ describe("calcite-alert", () => {
     <a slot="link" href="">Action</a>
   `;
 
-  it("renders", async () => renders("calcite-alert", false));
+  it("renders", async () => renders("calcite-alert", { visible: false, display: "block" }));
 
   it.skip("is accessible", async () =>
     accessible(`
