@@ -712,6 +712,11 @@ export class CalciteSlider {
     this.emitChange();
   }
 
+  @Listen("click")
+  clickHandler(): void {
+    this.focusActiveHandle();
+  }
+
   @Listen("pointerdown")
   pointerDownHandler(event: PointerEvent): void {
     const x = event.clientX || event.pageX;
@@ -823,7 +828,6 @@ export class CalciteSlider {
     document.addEventListener("pointermove", this.dragUpdate);
     document.addEventListener("pointerup", this.dragEnd);
     document.addEventListener("pointercancel", this.dragEnd);
-    this.focusActiveHandle();
   }
 
   private focusActiveHandle(): void {
