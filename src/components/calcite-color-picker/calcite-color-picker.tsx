@@ -282,17 +282,13 @@ export class CalciteColorPicker {
     return this.color || this.previousColor || DEFAULT_COLOR;
   }
 
-  private activeThumbX: number;
-
-  private activeThumbY: number;
+  private activeColorFieldAndSliderRect: DOMRect;
 
   private colorUpdateLocked = false;
 
+  private colorFieldAndSliderHovered = false;
+
   private fieldAndSliderRenderingContext: CanvasRenderingContext2D;
-
-  private globalThumbX: number;
-
-  private globalThumbY: number;
 
   private colorFieldScopeNode: HTMLDivElement;
 
@@ -500,6 +496,7 @@ export class CalciteColorPicker {
 
   private handleColorFieldAndSliderMouseLeave = (): void => {
     this.colorFieldAndSliderInteractive = false;
+    this.colorFieldAndSliderHovered = false;
 
     if (this.sliderThumbState !== "drag" && this.hueThumbState !== "drag") {
       this.hueThumbState = "idle";
@@ -510,10 +507,6 @@ export class CalciteColorPicker {
 
   private handleColorFieldAndSliderMouseDown = (event: MouseEvent): void => {
     const { offsetX, offsetY } = event;
-    this.activeThumbX = offsetX;
-    this.activeThumbY = offsetY;
-    this.globalThumbX = offsetX;
-    this.globalThumbY = offsetY;
     const region = this.getCanvasRegion(offsetY);
 
     if (region === "color-field") {
@@ -529,6 +522,9 @@ export class CalciteColorPicker {
 
     document.addEventListener("mousemove", this.globalMouseMoveHandler);
     document.addEventListener("mouseup", this.globalMouseUpHandler, { once: true });
+
+    this.activeColorFieldAndSliderRect =
+      this.fieldAndSliderRenderingContext.canvas.getBoundingClientRect();
   };
 
   private globalMouseUpHandler = (): void => {
@@ -536,6 +532,7 @@ export class CalciteColorPicker {
 
     this.hueThumbState = "idle";
     this.sliderThumbState = "idle";
+    this.activeColorFieldAndSliderRect = null;
     this.drawColorFieldAndSlider();
 
     if (previouslyDragging) {
@@ -552,26 +549,46 @@ export class CalciteColorPicker {
       return;
     }
 
-    this.globalThumbX = this.globalThumbX + event.movementX;
-    this.globalThumbY = this.globalThumbY + event.movementY;
+    let samplingX: number;
+    let samplingY: number;
 
-    this.activeThumbX = clamp(this.globalThumbX, 0, dimensions.colorField.width);
-    this.activeThumbY = clamp(
-      this.globalThumbY,
-      0,
-      dimensions.colorField.height + dimensions.slider.height
-    );
+    if (this.colorFieldAndSliderHovered) {
+      samplingX = event.offsetX;
+      samplingY = event.offsetY;
+    } else {
+      const { clientX, clientY } = event;
+      const colorFieldAndSliderRect = this.activeColorFieldAndSliderRect;
+      const colorFieldWidth = dimensions.colorField.width;
+      const colorFieldHeight = dimensions.colorField.height;
+      const hueSliderHeight = dimensions.slider.height;
 
-    const region: ReturnType<CalciteColorPicker["getCanvasRegion"]> = hueThumbDragging
-      ? "color-field"
-      : sliderThumbDragging
-      ? "slider"
-      : this.getCanvasRegion(this.activeThumbY);
+      if (
+        clientX < colorFieldAndSliderRect.x + colorFieldWidth &&
+        clientX > colorFieldAndSliderRect.x
+      ) {
+        samplingX = clientX - colorFieldAndSliderRect.x;
+      } else if (clientX < colorFieldAndSliderRect.x) {
+        samplingX = 0;
+      } else {
+        samplingX = colorFieldWidth;
+      }
 
-    if (region === "color-field") {
-      this.captureColorFieldColor(this.activeThumbX, this.activeThumbY, false);
-    } else if (region === "slider") {
-      this.captureHueSliderColor(this.activeThumbX);
+      if (
+        clientY < colorFieldAndSliderRect.y + colorFieldHeight + hueSliderHeight &&
+        clientY > colorFieldAndSliderRect.y
+      ) {
+        samplingY = clientY - colorFieldAndSliderRect.y;
+      } else if (clientY < colorFieldAndSliderRect.y) {
+        samplingY = 0;
+      } else {
+        samplingY = colorFieldHeight + hueSliderHeight;
+      }
+    }
+
+    if (hueThumbDragging) {
+      this.captureColorFieldColor(samplingX, samplingY, false);
+    } else {
+      this.captureHueSliderColor(samplingX);
     }
   };
 
@@ -581,6 +598,7 @@ export class CalciteColorPicker {
     } = this;
 
     this.colorFieldAndSliderInteractive = offsetY <= colorField.height + slider.height;
+    this.colorFieldAndSliderHovered = true;
 
     const region = this.getCanvasRegion(offsetY);
 
