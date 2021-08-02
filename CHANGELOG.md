@@ -5,7 +5,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 <!--@unreleased-section-start-->
 
-## Unreleased (2021-07-30)
+## Unreleased (2021-08-02)
 
 ### ⚠ BREAKING CHANGES
 
@@ -20,9 +20,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
-- **button:** Remove use of document.getElementsByName() ([#2574](https://github.com/Esri/calcite-components/issues/2574)) ([59712b4](https://github.com/Esri/calcite-components/commit/59712b4df0c11d2e37f665bc146ed2aba3f38f11)), closes [#1958](https://github.com/Esri/calcite-components/issues/1958)
-- **button, checkbox, input, radio-button:** Support native forms across shadow boundary. ([#2575](https://github.com/Esri/calcite-components/issues/2575)) ([0989acb](https://github.com/Esri/calcite-components/commit/0989acb61ffec428f5bcf80a766201c9be50637b))
+- **color-picker:** improve mouse tracking when dragging color field/hue slider thumb ([#2676](https://github.com/Esri/calcite-components/issues/2676)) ([35bc30c](https://github.com/Esri/calcite-components/commit/35bc30c3106e5a1228d2fc7abd42cfc36970791b)), closes [#2335](https://github.com/Esri/calcite-components/issues/2335)
 - **input:** disabled calcite-input + type=number allows interaction with the up/down buttons ([#2609](https://github.com/Esri/calcite-components/issues/2609)) ([7249cad](https://github.com/Esri/calcite-components/commit/7249cadb619af28a0a4d9e81598b8eca84a79c1c)), closes [#2582](https://github.com/Esri/calcite-components/issues/2582)
+- **slider:** ensure change event is emitted consistently ([#2677](https://github.com/Esri/calcite-components/issues/2677)) ([ee6240a](https://github.com/Esri/calcite-components/commit/ee6240a8ea3e4f1f65094b963ab854bb73f5a20e)), closes [#2309](https://github.com/Esri/calcite-components/issues/2309)
+- **value-list:** Prevent tabbing through navigated items with single selection ([#2590](https://github.com/Esri/calcite-components/issues/2590)) ([54dfcf3](https://github.com/Esri/calcite-components/commit/54dfcf37de428747a865274953115786bc58ec54)), closes [#2402](https://github.com/Esri/calcite-components/issues/2402)
 - **x-close input buttons:** x hover ui-text-1 ([#2596](https://github.com/Esri/calcite-components/issues/2596)) ([1560224](https://github.com/Esri/calcite-components/commit/1560224216d2dcfaf149d6dad019c5084a4a8261))
 <!--@unreleased-section-end-->
 

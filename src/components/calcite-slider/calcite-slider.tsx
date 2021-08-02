@@ -159,8 +159,7 @@ export class CalciteSlider {
         disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
-        onMouseDown={() => this.dragStart(maxProp)}
-        onTouchStart={(e) => this.dragStart(maxProp, e)}
+        onPointerDown={() => this.dragStart(maxProp)}
         ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
@@ -184,8 +183,7 @@ export class CalciteSlider {
         disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
-        onMouseDown={() => this.dragStart(maxProp)}
-        onTouchStart={(e) => this.dragStart(maxProp, e)}
+        onPointerDown={() => this.dragStart(maxProp)}
         ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
@@ -218,8 +216,7 @@ export class CalciteSlider {
         disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
-        onMouseDown={() => this.dragStart(maxProp)}
-        onTouchStart={(e) => this.dragStart(maxProp, e)}
+        onPointerDown={() => this.dragStart(maxProp)}
         ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
@@ -253,8 +250,7 @@ export class CalciteSlider {
         disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
-        onMouseDown={() => this.dragStart(maxProp)}
-        onTouchStart={(e) => this.dragStart(maxProp, e)}
+        onPointerDown={() => this.dragStart(maxProp)}
         ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
@@ -280,8 +276,7 @@ export class CalciteSlider {
         disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
-        onMouseDown={() => this.dragStart(maxProp)}
-        onTouchStart={(e) => this.dragStart(maxProp, e)}
+        onPointerDown={() => this.dragStart(maxProp)}
         ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
@@ -307,8 +302,7 @@ export class CalciteSlider {
         disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
-        onMouseDown={() => this.dragStart(maxProp)}
-        onTouchStart={(e) => this.dragStart(maxProp, e)}
+        onPointerDown={() => this.dragStart(maxProp)}
         ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
@@ -343,8 +337,7 @@ export class CalciteSlider {
         disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
-        onMouseDown={() => this.dragStart(maxProp)}
-        onTouchStart={(e) => this.dragStart(maxProp, e)}
+        onPointerDown={() => this.dragStart(maxProp)}
         ref={(el) => (this.maxHandle = el as HTMLButtonElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
@@ -378,8 +371,7 @@ export class CalciteSlider {
         disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
-        onMouseDown={() => this.dragStart("minValue")}
-        onTouchStart={(e) => this.dragStart("minValue", e)}
+        onPointerDown={() => this.dragStart("minValue")}
         ref={(el) => (this.minHandle = el as HTMLButtonElement)}
         role="slider"
         style={{ left: leftThumbOffset }}
@@ -403,8 +395,7 @@ export class CalciteSlider {
         disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
-        onMouseDown={() => this.dragStart("minValue")}
-        onTouchStart={(e) => this.dragStart("minValue", e)}
+        onPointerDown={() => this.dragStart("minValue")}
         ref={(el) => (this.minHandle = el as HTMLButtonElement)}
         role="slider"
         style={{ left: leftThumbOffset }}
@@ -437,8 +428,7 @@ export class CalciteSlider {
         disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
-        onMouseDown={() => this.dragStart("minValue")}
-        onTouchStart={(e) => this.dragStart("minValue", e)}
+        onPointerDown={() => this.dragStart("minValue")}
         ref={(el) => (this.minHandle = el as HTMLButtonElement)}
         role="slider"
         style={{ left: leftThumbOffset }}
@@ -472,8 +462,7 @@ export class CalciteSlider {
         disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
-        onMouseDown={() => this.dragStart("minValue")}
-        onTouchStart={(e) => this.dragStart("minValue", e)}
+        onPointerDown={() => this.dragStart("minValue")}
         ref={(el) => (this.minHandle = el as HTMLButtonElement)}
         role="slider"
         style={{ left: leftThumbOffset }}
@@ -499,8 +488,7 @@ export class CalciteSlider {
         disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
-        onMouseDown={() => this.dragStart("minValue")}
-        onTouchStart={(e) => this.dragStart("minValue", e)}
+        onPointerDown={() => this.dragStart("minValue")}
         ref={(el) => (this.minHandle = el as HTMLButtonElement)}
         role="slider"
         style={{ left: leftThumbOffset }}
@@ -520,14 +508,13 @@ export class CalciteSlider {
     );
 
     return (
-      <Host id={id}>
+      <Host id={id} onTouchStart={this.handleTouchStart}>
         <div class={{ container: true, "container--range": this.isRange }}>
           {this.renderGraph()}
           <div class="track">
             <div
               class="track__range"
-              onMouseDown={() => this.dragStart("minMaxValue")}
-              onTouchStart={(e) => this.dragStart("minMaxValue", e)}
+              onPointerDown={() => this.dragStart("minMaxValue")}
               style={{
                 left: `${mirror ? 100 - maxInterval : minInterval}%`,
                 right: `${mirror ? minInterval : 100 - maxInterval}%`
@@ -725,9 +712,13 @@ export class CalciteSlider {
     this.emitChange();
   }
 
-  @Listen("mousedown")
   @Listen("click")
-  mouseHandler(event: MouseEvent): void {
+  clickHandler(): void {
+    this.focusActiveHandle();
+  }
+
+  @Listen("pointerdown")
+  pointerDownHandler(event: PointerEvent): void {
     const x = event.clientX || event.pageX;
     const position = this.translate(x);
     let prop: ActiveSliderProperty = "value";
@@ -742,22 +733,11 @@ export class CalciteSlider {
     }
     this[prop] = this.clamp(position, prop);
     this.dragStart(prop);
+  }
 
-    if (event.type === "click") {
-      this.dragEnd();
-      this.emitChange();
-      switch (prop) {
-        default:
-        case "maxValue":
-          this.maxHandle.focus();
-          break;
-        case "minValue":
-          this.minHandle.focus();
-          break;
-        case "minMaxValue":
-          break;
-      }
-    }
+  handleTouchStart(event: TouchEvent): void {
+    // needed to prevent extra click at the end of a handle drag
+    event.preventDefault();
   }
 
   //--------------------------------------------------------------------------
@@ -811,10 +791,6 @@ export class CalciteSlider {
 
   private maxHandle: HTMLButtonElement;
 
-  private dragListener: (e: MouseEvent) => void;
-
-  @State() private tickValues: number[] = [];
-
   @State() private activeProp: ActiveSliderProperty = "value";
 
   @State() private minMaxValueRange: number = null;
@@ -822,6 +798,8 @@ export class CalciteSlider {
   @State() private minValueDragRange: number = null;
 
   @State() private maxValueDragRange: number = null;
+
+  @State() private tickValues: number[] = [];
 
   //--------------------------------------------------------------------------
   //
@@ -843,31 +821,34 @@ export class CalciteSlider {
     return ticks;
   }
 
-  private dragStart(prop: ActiveSliderProperty, e?: TouchEvent): void {
-    if (e) {
-      e.preventDefault();
-    }
-    if (this.dragListener) {
-      this.dragEnd();
-    }
+  private dragStart(prop: ActiveSliderProperty): void {
     this.dragProp = prop;
     this.lastDragProp = this.dragProp;
     this.activeProp = prop;
-    this.dragListener = this.dragListener || this.dragUpdate.bind(this);
-    document.addEventListener("mousemove", this.dragListener);
-    document.addEventListener("touchmove", this.dragListener, {
-      capture: false
-    });
-    document.addEventListener("mouseup", this.dragEnd.bind(this));
-    document.addEventListener("touchend", this.dragEnd.bind(this), false);
-    document.addEventListener("touchcancel", this.dragEnd.bind(this));
+    document.addEventListener("pointermove", this.dragUpdate);
+    document.addEventListener("pointerup", this.dragEnd);
+    document.addEventListener("pointercancel", this.dragEnd);
   }
 
-  private dragUpdate(e: MouseEvent): void {
-    e.preventDefault();
-    e.stopPropagation();
+  private focusActiveHandle(): void {
+    switch (this.dragProp) {
+      default:
+      case "maxValue":
+        this.maxHandle.focus();
+        break;
+      case "minValue":
+        this.minHandle.focus();
+        break;
+      case "minMaxValue":
+        break;
+    }
+  }
+
+  private dragUpdate = (event: PointerEvent): void => {
+    event.preventDefault();
+
     if (this.dragProp) {
-      const value = this.translate(e.clientX || e.pageX);
+      const value = this.translate(event.clientX || event.pageX);
       if (this.isRange && this.dragProp === "minMaxValue") {
         if (this.minValueDragRange && this.maxValueDragRange && this.minMaxValueRange) {
           const newMinValue = value - this.minValueDragRange;
@@ -891,21 +872,26 @@ export class CalciteSlider {
 
       this.emitChange();
     }
-  }
+  };
 
   private emitChange(): void {
     this.calciteSliderChange.emit();
     this.calciteSliderUpdate.emit();
   }
 
-  private dragEnd(): void {
+  private dragEnd = (): void => {
+    document.removeEventListener("pointermove", this.dragUpdate);
+    document.removeEventListener("pointerup", this.dragEnd);
+    document.removeEventListener("pointercancel", this.dragEnd);
+
+    this.emitChange();
+    this.focusActiveHandle();
+
     this.dragProp = null;
-    document.removeEventListener("mousemove", this.dragListener);
-    document.removeEventListener("touchmove", this.dragListener);
     this.minValueDragRange = null;
     this.maxValueDragRange = null;
     this.minMaxValueRange = null;
-  }
+  };
 
   /**
    * If number is outside range, constrain to min or max
@@ -913,6 +899,7 @@ export class CalciteSlider {
    */
   private clamp(value: number, prop?: ActiveSliderProperty): number {
     value = clamp(value, this.min, this.max);
+
     // ensure that maxValue and minValue don't swap positions
     if (prop === "maxValue") {
       value = Math.max(value, this.minValue);
