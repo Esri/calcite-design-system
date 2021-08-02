@@ -8,6 +8,7 @@ import { getKey } from "../../utils/key";
  */
 @Component({
   tag: "calcite-tooltip-manager",
+  styleUrl: "calcite-tooltip-manager.scss",
   shadow: true
 })
 export class CalciteTooltipManager {

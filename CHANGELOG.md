@@ -5,22 +5,24 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 <!--@unreleased-section-start-->
 
-## Unreleased (2021-07-23)
+## Unreleased (2021-07-30)
+
+### ⚠ BREAKING CHANGES
+
+- **color-picker:** The `calciteColorPickerChange` will no longer be emitted as the color field/hue slider thumb is dragged (only on release). To track the color values as the thumb is dragged, use the new `calciteColorPickerInput` event.
 
 ### Features
 
 - **animation:** add global animation classes, duration CSS Custom Property ([#2607](https://github.com/Esri/calcite-components/issues/2607)) ([c7f70dc](https://github.com/Esri/calcite-components/commit/c7f70dc28a3790fb946090c0eb394aa79ca8bc64)), closes [#2411](https://github.com/Esri/calcite-components/issues/2411)
 - **calcite-input:** allow integer only input when step is a whole number ([#2563](https://github.com/Esri/calcite-components/issues/2563)) ([3af675b](https://github.com/Esri/calcite-components/commit/3af675bb27c7e5859dc5c16849fffbeb147953e2))
+- **color-picker:** introduce input event and modify change event to no longer fire as hue slider/color field thumbs are dragged ([#2653](https://github.com/Esri/calcite-components/issues/2653)) ([8b41ca4](https://github.com/Esri/calcite-components/commit/8b41ca4f6e98a0b7618f088e8940a6dd1601f33b)), closes [#2303](https://github.com/Esri/calcite-components/issues/2303)
 - **value-list-item, pick-list-item:** add nonInteractive prop ([f06906c](https://github.com/Esri/calcite-components/commit/f06906c90fc2f047391a9c66efa18a9ac2adb0d1)), closes [#2040](https://github.com/Esri/calcite-components/issues/2040) [#2040](https://github.com/Esri/calcite-components/issues/2040) [#2040](https://github.com/Esri/calcite-components/issues/2040) [#2040](https://github.com/Esri/calcite-components/issues/2040) [#2040](https://github.com/Esri/calcite-components/issues/2040)
 
 ### Bug Fixes
 
 - **button:** Remove use of document.getElementsByName() ([#2574](https://github.com/Esri/calcite-components/issues/2574)) ([59712b4](https://github.com/Esri/calcite-components/commit/59712b4df0c11d2e37f665bc146ed2aba3f38f11)), closes [#1958](https://github.com/Esri/calcite-components/issues/1958)
 - **button, checkbox, input, radio-button:** Support native forms across shadow boundary. ([#2575](https://github.com/Esri/calcite-components/issues/2575)) ([0989acb](https://github.com/Esri/calcite-components/commit/0989acb61ffec428f5bcf80a766201c9be50637b))
-- **calcite-list-item:** adds bit of spacing between label and description ([e81c37d](https://github.com/Esri/calcite-components/commit/e81c37d9ccedd509b7d663f88ca59e453744a4eb))
-- **combobox:** Deprecate the calciteLookupChange event in favor of calciteComboboxChange ([#2579](https://github.com/Esri/calcite-components/issues/2579)) ([fc7c0f8](https://github.com/Esri/calcite-components/commit/fc7c0f801f3b7da442ee542400a22d310d827dc1)), closes [#2499](https://github.com/Esri/calcite-components/issues/2499)
 - **input:** disabled calcite-input + type=number allows interaction with the up/down buttons ([#2609](https://github.com/Esri/calcite-components/issues/2609)) ([7249cad](https://github.com/Esri/calcite-components/commit/7249cadb619af28a0a4d9e81598b8eca84a79c1c)), closes [#2582](https://github.com/Esri/calcite-components/issues/2582)
-- **input:** fix layout of number input with horizontal button layout ([#2581](https://github.com/Esri/calcite-components/issues/2581)) ([58866ac](https://github.com/Esri/calcite-components/commit/58866ac84e5b56294fae426db49fc5c37f4fc94e)), closes [#2422](https://github.com/Esri/calcite-components/issues/2422)
 - **x-close input buttons:** x hover ui-text-1 ([#2596](https://github.com/Esri/calcite-components/issues/2596)) ([1560224](https://github.com/Esri/calcite-components/commit/1560224216d2dcfaf149d6dad019c5084a4a8261))
 <!--@unreleased-section-end-->
 

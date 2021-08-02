@@ -1,6 +1,6 @@
 :host {
   @extend %component-host;
-  @apply animate-in rounded-sm;
+  @apply block animate-in rounded-sm;
 }
 
 :host([expanded]) {

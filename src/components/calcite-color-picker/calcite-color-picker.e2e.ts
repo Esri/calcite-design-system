@@ -9,6 +9,23 @@ import { selectText } from "../../tests/utils";
 describe("calcite-color-picker", () => {
   let consoleSpy: SpyInstance;
 
+  async function getElementXY(
+    page: E2EPage,
+    elementSelector: string,
+    shadowSelector?: string
+  ): Promise<[number, number]> {
+    return page.evaluate(
+      ([elementSelector, shadowSelector]): [number, number] => {
+        const element = document.querySelector(elementSelector);
+        const measureTarget = shadowSelector ? element.shadowRoot.querySelector(shadowSelector) : element;
+        const { x, y } = measureTarget.getBoundingClientRect();
+
+        return [x, y];
+      },
+      [elementSelector, shadowSelector]
+    );
+  }
+
   beforeEach(
     () =>
       (consoleSpy = jest.spyOn(console, "warn").mockImplementation(() => {
@@ -44,7 +61,7 @@ describe("calcite-color-picker", () => {
       }
     ]));
 
-  it("renders", async () => renders("calcite-color-picker"));
+  it("renders", async () => renders("calcite-color-picker", { display: "inline-block" }));
 
   it("has defaults", async () =>
     defaults("calcite-color-picker", [
@@ -146,18 +163,85 @@ describe("calcite-color-picker", () => {
       }
     ]));
 
-  it("emits color selection change", async () => {
+  it("emits event when value changes", async () => {
     const page = await newE2EPage({
       html: "<calcite-color-picker></calcite-color-picker>"
     });
     const picker = await page.find("calcite-color-picker");
+    const changeSpy = await picker.spyOnEvent("calciteColorPickerChange");
+    const inputSpy = await picker.spyOnEvent("calciteColorPickerInput");
 
-    const spy = await picker.spyOnEvent("calciteColorPickerChange");
-
-    picker.setProperty("value", "#FF00FF");
+    picker.setProperty("value", "#f0f");
     await page.waitForChanges();
 
-    expect(spy).toHaveReceivedEventTimes(1);
+    expect(changeSpy).toHaveReceivedEventTimes(1);
+    expect(inputSpy).toHaveReceivedEventTimes(1);
+
+    // save for future test/assertion
+    await (await page.find(`calcite-color-picker >>> .${CSS.saveColor}`)).click();
+
+    // change by clicking on field
+    await (await page.find(`calcite-color-picker >>> .${CSS.colorFieldAndSlider}`)).click();
+    expect(changeSpy).toHaveReceivedEventTimes(2);
+    expect(inputSpy).toHaveReceivedEventTimes(2);
+
+    // change by clicking on hue
+    await (await page.find(`calcite-color-picker >>> .${CSS.hueScope}`)).click();
+    expect(changeSpy).toHaveReceivedEventTimes(3);
+    expect(inputSpy).toHaveReceivedEventTimes(3);
+
+    // change by changing hex value
+    const hexInput = await page.find(`calcite-color-picker >>> calcite-color-picker-hex-input`);
+    await selectText(hexInput);
+    await hexInput.type("fff");
+    await hexInput.press("Enter");
+    expect(changeSpy).toHaveReceivedEventTimes(4);
+    expect(inputSpy).toHaveReceivedEventTimes(4);
+
+    // change by changing color channels (we only test R and assume the same holds for G/B & H/S/V channels)
+    const channelInput = await page.find(`calcite-color-picker >>> .${CSS.channel}`);
+    await selectText(channelInput);
+    await channelInput.type("254");
+    await channelInput.press("Enter");
+    expect(changeSpy).toHaveReceivedEventTimes(5);
+    expect(inputSpy).toHaveReceivedEventTimes(5);
+
+    // change by dragging color field thumb
+    const thumbRadius = DIMENSIONS.m.thumb.radius;
+    const mouseDragSteps = 10;
+    const [colorFieldScopeX, colorFieldScopeY] = await getElementXY(
+      page,
+      "calcite-color-picker",
+      `.${CSS.colorFieldScope}`
+    );
+
+    await page.mouse.move(colorFieldScopeX + thumbRadius, colorFieldScopeY + thumbRadius);
+    await page.mouse.down();
+    await page.mouse.move(colorFieldScopeX + thumbRadius + 10, colorFieldScopeY + thumbRadius, {
+      steps: mouseDragSteps
+    });
+    await page.mouse.up();
+    await page.waitForChanges();
+
+    expect(changeSpy).toHaveReceivedEventTimes(6);
+    expect(inputSpy).toHaveReceivedEventTimes(9);
+
+    // change by dragging hue slider thumb
+    const [hueScopeX, hueScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
+
+    await page.mouse.move(hueScopeX + thumbRadius, hueScopeY + thumbRadius);
+    await page.mouse.down();
+    await page.mouse.move(hueScopeX + thumbRadius + 10, hueScopeY + thumbRadius, { steps: mouseDragSteps });
+    await page.mouse.up();
+    await page.waitForChanges();
+
+    expect(changeSpy).toHaveReceivedEventTimes(7);
+    expect(inputSpy).toHaveReceivedEventTimes(14);
+
+    // change by clicking stored color
+    await (await page.find(`calcite-color-picker >>> .${CSS.savedColor}`)).click();
+    expect(changeSpy).toHaveReceivedEventTimes(8);
+    expect(inputSpy).toHaveReceivedEventTimes(15);
   });
 
   const supportedFormatToSampleValue = {
@@ -297,13 +381,7 @@ describe("calcite-color-picker", () => {
     let changes = 0;
     const mediumScaleDimensions = DIMENSIONS.m;
     const widthOffset = 0.5;
-    const [fieldAndSliderX, fieldAndSliderY] = await page.evaluate(() => {
-      const color = document.querySelector("calcite-color-picker");
-      const fieldAndSliderArea = color.shadowRoot.querySelector("canvas");
-      const { x, y } = fieldAndSliderArea.getBoundingClientRect();
-
-      return [x, y];
-    });
+    const [fieldAndSliderX, fieldAndSliderY] = await getElementXY(page, "calcite-color-picker", "canvas");
 
     // clicking color field colors to pick a color
     await page.mouse.click(fieldAndSliderX, fieldAndSliderY);
@@ -385,7 +463,7 @@ describe("calcite-color-picker", () => {
     });
 
     expect(internalColorChanged).toBe(true);
-    expect(spy).toHaveReceivedEventTimes(changes);
+    expect(spy).toHaveReceivedEventTimes(++changes);
   });
 
   it("keeps tracking mouse movement when a thumb is actively dragged", async () => {
