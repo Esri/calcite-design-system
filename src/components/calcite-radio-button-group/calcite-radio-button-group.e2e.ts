@@ -2,7 +2,7 @@ import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
 
 describe("calcite-radio-button-group", () => {
-  it("renders", async () => renders("calcite-radio-button-group"));
+  it("renders", async () => renders("calcite-radio-button-group", { display: "flex" }));
 
   it("is accessible", async () =>
     accessible(

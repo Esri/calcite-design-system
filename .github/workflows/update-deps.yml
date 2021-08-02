@@ -10,9 +10,9 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
+      - uses: fregante/setup-git-user@v1
 
       - name: run dependency-updating script
-        uses: fregante/setup-git-user@v1
         run:  |
           npm install
           npm run deps:update
