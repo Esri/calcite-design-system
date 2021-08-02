@@ -4,21 +4,43 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
 
-    <title>Calcite Components: calcite-list</title>
+    <title> List </title>
 
     <script src="../_assets/head.js"></script>
     <style>
-      .example-container {
-        margin-bottom: 3rem;
+      .parent {
+        display: flex;
+        align-items: center;
+        color: var(--calcite-ui-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+      }
+
+      .child {
+        flex: 1 0 75%;
+        padding: 25px;
+      }
+
+      .right-aligned-text {
+        text-align: right;
+        flex: 1 0 20%;
       }
     </style>
   </head>
 
   <body>
-    <main>
-      <section class="example-container">
-        <h1>calcite-list</h1>
-        <h2>Simple list</h2>
+    <div>
+      <calcite-button href="/" icon-start="arrow-left" color="neutral"> Home </calcite-button>
+    </div>
+    <h1 style="margin: 0 auto; text-align: center"> List </h1>
+
+    
+    <!-- simple list -->
+    <div class="parent">
+      <div class="child right-aligned-text"> simple list </div>
+
+      <div class="child">
         <calcite-list>
           <calcite-list-item label="test" description="hello world">
             <calcite-icon icon="check" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
@@ -27,9 +49,15 @@
             <calcite-icon icon="blank" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
           </calcite-list-item>
         </calcite-list>
-      </section>
-      <section class="example-container">
-        <h2>Rich content</h2>
+      </div>
+    </div>
+
+
+    <!-- rich content -->
+    <div class="parent">
+      <div class="child right-aligned-text"> rich content </div>
+
+      <div class="child">
         <calcite-list>
           <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
             <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
@@ -83,9 +111,15 @@
             <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
           </calcite-list-item>
         </calcite-list>
-      </section>
-      <section class="example-container">
-        <h2>Non interactive</h2>
+      </div>
+    </div>
+
+
+    <!-- non-interactive -->
+    <div class="parent">
+      <div class="child right-aligned-text"> non-interactive </div>
+
+      <div class="child">
         <calcite-list>
           <calcite-list-item non-interactive label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
             <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
@@ -139,7 +173,7 @@
             <calcite-action icon="x" label="remove" slot="actions-end"></calcite-action>
           </calcite-list-item>
         </calcite-list>
-      </section>
-    </main>
+      </div>
+    </div>
   </body>
 </html>
