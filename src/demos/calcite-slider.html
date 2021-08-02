@@ -211,6 +211,15 @@
               precise
             ></calcite-slider>
 
+            <h3>Histogram with Color Stops</h3>
+            <calcite-slider
+              min="0"
+              max="100"
+              value="60"
+              step="1"
+              class="js-histogram js-histogram-colors"
+            ></calcite-slider>
+
             <h3>Histogram Disabled</h3>
             <calcite-slider min="0" max="100" value="60" step="1" class="js-histogram" disabled></calcite-slider>
           </demo-spacer>
@@ -804,6 +813,15 @@
               label-handles
               label-ticks
               precise
+            ></calcite-slider>
+
+            <h3>Histogram with Color Stops</h3>
+            <calcite-slider
+              min="0"
+              max="100"
+              value="60"
+              step="1"
+              class="js-histogram js-histogram-colors"
             ></calcite-slider>
 
             <h3>Histogram Disabled</h3>
@@ -1426,6 +1444,16 @@
               precise
             ></calcite-slider>
 
+            <h3>Histogram with Color Stops</h3>
+            <calcite-slider
+              mirrored
+              min="0"
+              max="100"
+              value="60"
+              step="1"
+              class="js-histogram js-histogram-colors"
+            ></calcite-slider>
+
             <h3>Histogram Disabled</h3>
             <calcite-slider
               mirrored
@@ -2172,6 +2200,16 @@
               precise
             ></calcite-slider>
 
+            <h3>Histogram with Color Stops</h3>
+            <calcite-slider
+              mirrored
+              min="0"
+              max="100"
+              value="60"
+              step="1"
+              class="js-histogram js-histogram-colors"
+            ></calcite-slider>
+
             <h3>Histogram Disabled</h3>
             <calcite-slider
               mirrored
@@ -2571,6 +2609,12 @@
       ];
       [].slice.call(document.querySelectorAll(".js-histogram")).forEach(function (graphElement) {
         graphElement.histogram = histogram;
+      });
+
+      var rainbow = ["red", "orange", "yellow", "green", "cyan", "blue", "violet"];
+      var colorStops = rainbow.map((color, i) => ({ offset: (1 / (rainbow.length - 1)) * i, color }));
+      document.querySelectorAll(".js-histogram-colors").forEach(function (graphElement) {
+        graphElement.histogramStops = colorStops;
       });
     </script>
   </body>
