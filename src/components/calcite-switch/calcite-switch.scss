@@ -92,7 +92,7 @@
 
 :host([switched]) {
   .track {
-    @apply bg-brand border-color-brand;
+    @apply bg-brand border-color-brand-hover;
   }
   .handle {
     @apply left-auto border-color-brand;
@@ -102,7 +102,7 @@
 
 :host([switched]:hover) {
   .track {
-    @apply bg-brand border-color-brand;
+    @apply bg-brand border-color-brand-hover;
   }
   .handle {
     @apply border-color-brand-hover;
