@@ -6,1044 +6,436 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Calcite Tree</title>
     <style>
-      .demo-background-dark {
-        background: #202020;
-        color: white;
-        padding: 1rem;
+      .parent {
+        display: flex;
+        align-items: center;
+        color: var(--calcite-ui-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+      }
+
+      .child {
+        display: inline-flex;
+        flex-direction: column;
+        width: 15%;
+        padding: 25px;
+      }
+
+      .right-aligned-text {
+        text-align: right;
       }
     </style>
     <script src="./_assets/head.js"></script>
   </head>
 
   <body>
-    <calcite-button href="/">Home</calcite-button>
-    <h1>Calcite Tree</h1>
-    <calcite-tree>
-      <calcite-tree-item>
-        <a href="#">Child 1</a>
-      </calcite-tree-item>
 
-      <calcite-tree-item expanded>
-        <a href="#">Child 2</a>
+    <div>
+      <calcite-button href="/" icon-start="arrow-left" color="neutral"> Home </calcite-button>
+    </div>
+    <h1 style="margin: 0 auto; text-align: center"> Tree </h1>
 
-        <calcite-tree slot="children">
-          <calcite-tree-item>
-            <a href="#">Grandchild 1</a>
-          </calcite-tree-item>
-          <calcite-tree-item>
-            <a href="#">Grandchild 2</a>
-            <calcite-tree slot="children">
-              <calcite-tree-item>
-                <a href="#">Great-Grandchild 1</a>
-              </calcite-tree-item>
-              <calcite-tree-item>
-                <a href="#">Great-Grandchild 2</a>
-                <calcite-tree slot="children">
-                  <calcite-tree-item>
-                    <a href="#">Great-Great-Grandchild 1</a>
-                  </calcite-tree-item>
-                  <calcite-tree-item>
-                    <a href="#">Great-Great-Grandchild 2</a>
-                    <calcite-tree slot="children">
-                      <calcite-tree-item>
-                        <a href="#">Great-Great-Great-Grandchild 1</a>
-                      </calcite-tree-item>
-                      <calcite-tree-item>
-                        <a href="#">Great-Great-Great-Grandchild 2</a>
-                      </calcite-tree-item>
-                    </calcite-tree>
-                  </calcite-tree-item>
-                </calcite-tree>
-              </calcite-tree-item>
-            </calcite-tree>
-          </calcite-tree-item>
-        </calcite-tree>
-      </calcite-tree-item>
-      <calcite-tree-item>
-        <a href="#">Child 3</a>
-        <calcite-tree slot="children">
-          <calcite-tree-item>
-            <a href="#">Grandchild 1</a>
-          </calcite-tree-item>
-          <calcite-tree-item>
-            <a href="#">Grandchild 2</a>
-          </calcite-tree-item>
-        </calcite-tree>
-      </calcite-tree-item>
-    </calcite-tree>
-    <h2>Indicator Types</h2>
-    <h3>Dot (default)</h3>
-    <calcite-tree>
-      <calcite-tree-item>
-        <a href="#">Child 1</a>
-      </calcite-tree-item>
-
-      <calcite-tree-item>
-        <a href="#">Child 2</a>
-
-        <calcite-tree slot="children">
-          <calcite-tree-item>
-            <a href="#">Grandchild 1</a>
-          </calcite-tree-item>
-          <calcite-tree-item>
-            <a href="#">Grandchild 2</a>
-            <calcite-tree slot="children">
-              <calcite-tree-item>
-                <a href="#">Great-Grandchild 1</a>
-              </calcite-tree-item>
-              <calcite-tree-item>
-                <a href="#">Great-Grandchild 2</a>
-                <calcite-tree slot="children">
-                  <calcite-tree-item>
-                    <a href="#">Great-Great-Grandchild 1</a>
-                  </calcite-tree-item>
-                  <calcite-tree-item>
-                    <a href="#">Great-Great-Grandchild 2</a>
-                    <calcite-tree slot="children">
-                      <calcite-tree-item>
-                        <a href="#">Great-Great-Great-Grandchild 1</a>
-                      </calcite-tree-item>
-                      <calcite-tree-item>
-                        <a href="#">Great-Great-Great-Grandchild 2</a>
-                      </calcite-tree-item>
-                    </calcite-tree>
-                  </calcite-tree-item>
-                </calcite-tree>
-              </calcite-tree-item>
-            </calcite-tree>
-          </calcite-tree-item>
-        </calcite-tree>
-      </calcite-tree-item>
-      <calcite-tree-item>
-        <a href="#">Child 3</a>
-        <calcite-tree slot="children">
-          <calcite-tree-item>
-            <a href="#">Grandchild 1</a>
-          </calcite-tree-item>
-          <calcite-tree-item>
-            <a href="#">Grandchild 2</a>
-          </calcite-tree-item>
-        </calcite-tree>
-      </calcite-tree-item>
-    </calcite-tree>
-    <h3>With lines</h3>
-    <calcite-tree lines>
-      <calcite-tree-item>
-        <a href="#">Child 1</a>
-      </calcite-tree-item>
-
-      <calcite-tree-item>
-        <a href="#">Child 2</a>
-
-        <calcite-tree slot="children">
-          <calcite-tree-item>
-            <a href="#">Grandchild 1</a>
-          </calcite-tree-item>
-          <calcite-tree-item>
-            <a href="#">Grandchild 2</a>
-            <calcite-tree slot="children">
-              <calcite-tree-item>
-                <a href="#">Great-Grandchild 1</a>
-              </calcite-tree-item>
-              <calcite-tree-item>
-                <a href="#">Great-Grandchild 2</a>
-                <calcite-tree slot="children">
-                  <calcite-tree-item>
-                    <a href="#">Great-Great-Grandchild 1</a>
-                  </calcite-tree-item>
-                  <calcite-tree-item>
-                    <a href="#">Great-Great-Grandchild 2</a>
-                    <calcite-tree slot="children">
-                      <calcite-tree-item>
-                        <a href="#">Great-Great-Great-Grandchild 1</a>
-                      </calcite-tree-item>
-                      <calcite-tree-item>
-                        <a href="#">Great-Great-Great-Grandchild 2</a>
-                      </calcite-tree-item>
-                    </calcite-tree>
-                  </calcite-tree-item>
-                </calcite-tree>
-              </calcite-tree-item>
-            </calcite-tree>
-          </calcite-tree-item>
-        </calcite-tree>
-      </calcite-tree-item>
-      <calcite-tree-item>
-        <a href="#">Child 3</a>
-        <calcite-tree slot="children">
-          <calcite-tree-item>
-            <a href="#">Grandchild 1</a>
-          </calcite-tree-item>
-          <calcite-tree-item>
-            <a href="#">Grandchild 2</a>
-          </calcite-tree-item>
-        </calcite-tree>
-      </calcite-tree-item>
-    </calcite-tree>
-    <h3>Scale S</h3>
-
-    <calcite-tree scale="s" lines>
-      <calcite-tree-item>
-        <a href="#">Child 1</a>
-      </calcite-tree-item>
-
-      <calcite-tree-item>
-        <a href="#">Child 2</a>
-
-        <calcite-tree slot="children">
-          <calcite-tree-item>
-            <a href="#">Grandchild 1</a>
-          </calcite-tree-item>
-          <calcite-tree-item>
-            <a href="#">Grandchild 2</a>
-            <calcite-tree slot="children">
-              <calcite-tree-item>
-                <a href="#">Great-Grandchild 1</a>
-              </calcite-tree-item>
-              <calcite-tree-item>
-                <a href="#">Great-Grandchild 2</a>
-                <calcite-tree slot="children">
-                  <calcite-tree-item>
-                    <a href="#">Great-Great-Grandchild 1</a>
-                  </calcite-tree-item>
-                  <calcite-tree-item>
-                    <a href="#">Great-Great-Grandchild 2</a>
-                    <calcite-tree slot="children">
-                      <calcite-tree-item>
-                        <a href="#">Great-Great-Great-Grandchild 1</a>
-                      </calcite-tree-item>
-                      <calcite-tree-item>
-                        <a href="#">Great-Great-Great-Grandchild 2</a>
-                      </calcite-tree-item>
-                    </calcite-tree>
-                  </calcite-tree-item>
-                </calcite-tree>
-              </calcite-tree-item>
-            </calcite-tree>
-          </calcite-tree-item>
-        </calcite-tree>
-      </calcite-tree-item>
-      <calcite-tree-item>
-        <a href="#">Child 3</a>
-        <calcite-tree slot="children">
-          <calcite-tree-item>
-            <a href="#">Grandchild 1</a>
-          </calcite-tree-item>
-          <calcite-tree-item>
-            <a href="#">Grandchild 2</a>
-          </calcite-tree-item>
-        </calcite-tree>
-      </calcite-tree-item>
-    </calcite-tree>
-
-    <h2>Input enabled in ancestor selection mode</h2>
-    <calcite-tree input-enabled selection-mode="ancestors">
-      <calcite-tree-item>
-        <span>Child 1</span>
-      </calcite-tree-item>
-
-      <calcite-tree-item>
-        <span>Child 2</span>
-
-        <calcite-tree slot="children">
-          <calcite-tree-item>
-            <span>Grandchild 1</span>
-            <calcite-tree slot="children">
-              <calcite-tree-item>
-                <span>Great Grandchild 1</span>
-              </calcite-tree-item>
-              <calcite-tree-item>
-                <span>Great Grandchild 2</span>
-              </calcite-tree-item>
-              <calcite-tree-item>
-                <span>Great Grandchild 3</span>
-              </calcite-tree-item>
-            </calcite-tree>
-          </calcite-tree-item>
-          <calcite-tree-item>
-            <span>Grandchild 2</span>
-          </calcite-tree-item>
-          <calcite-tree-item>
-            <span>Grandchild 3</span>
-          </calcite-tree-item>
-        </calcite-tree>
-      </calcite-tree-item>
-
-      <calcite-tree-item>
-        <span>Child 3</span>
-      </calcite-tree-item>
-      <calcite-tree-item>
-        <span>Child 4</span>
-      </calcite-tree-item>
-    </calcite-tree>
-
-    <h3>Dark Theme</h3>
-    <div class="demo-background-dark">
-      <calcite-tree class="calcite-theme-dark">
-        <calcite-tree-item>
-          <a href="#">Child 1</a>
-        </calcite-tree-item>
-
-        <calcite-tree-item>
-          <a href="#">Child 2</a>
-
-          <calcite-tree slot="children">
-            <calcite-tree-item>
-              <a href="#">Grandchild 1</a>
-            </calcite-tree-item>
-            <calcite-tree-item>
-              <a href="#">Grandchild 2</a>
-              <calcite-tree slot="children">
-                <calcite-tree-item>
-                  <a href="#">Great-Grandchild 1</a>
-                </calcite-tree-item>
-                <calcite-tree-item>
-                  <a href="#">Great-Grandchild 2</a>
-                </calcite-tree-item>
-              </calcite-tree>
-            </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-      </calcite-tree>
+    <!-- Headers -->
+    <div class="parent">
+      <div class="child"></div>
+      <div class="child"> small </div>
+      <div class="child"> medium </div>
     </div>
 
-    <h3>Nav Tree (Lines)</h3>
 
-    <calcite-tree lines>
-      <calcite-tree-item>
-        <a href="#">Child 1</a>
-      </calcite-tree-item>
+    <!-- single select -->
+    <div class="parent">
+      <div class="child right-aligned-text"> single select </div>
 
-      <calcite-tree-item>
-        <a href="#">Child 2</a>
-
-        <calcite-tree slot="children">
+      <div class="child">
+        <calcite-tree lines selection-mode="single" scale="s">
+          <calcite-tree-item> Child 1 </calcite-tree-item>
+    
           <calcite-tree-item>
-            <a href="#">Grandchild 1</a>
-          </calcite-tree-item>
-          <calcite-tree-item>
-            <a href="#">Grandchild 2</a>
+            Child 2
+    
             <calcite-tree slot="children">
+              <calcite-tree-item> Grandchild 1 </calcite-tree-item>
+    
+              <calcite-tree-item> Grandchild 2 </calcite-tree-item>
+    
               <calcite-tree-item>
-                <a href="#">Great-Grandchild 1</a>
-              </calcite-tree-item>
-              <calcite-tree-item>
-                <a href="#">Great-Grandchild 2</a>
+                Grandchild 3
+                <calcite-tree slot="children">
+                  <calcite-tree-item> Great-Grandchild 1 </calcite-tree-item>
+                  <calcite-tree-item> Great-Grandchild 2 </calcite-tree-item>
+                  <calcite-tree-item> Great-Grandchild 3 </calcite-tree-item>
+                </calcite-tree>
               </calcite-tree-item>
             </calcite-tree>
           </calcite-tree-item>
         </calcite-tree>
-      </calcite-tree-item>
-    </calcite-tree>
+      </div>
 
-    <h3>Dark Theme (Lines)</h3>
-    <div class="demo-background-dark">
-      <calcite-tree class="calcite-theme-dark" lines>
-        <calcite-tree-item>
-          <a href="#">Child 1</a>
-        </calcite-tree-item>
-
-        <calcite-tree-item>
-          <a href="#">Child 2</a>
-
-          <calcite-tree slot="children">
-            <calcite-tree-item>
-              <a href="#">Grandchild 1</a>
-            </calcite-tree-item>
-            <calcite-tree-item>
-              <a href="#">Grandchild 2</a>
-              <calcite-tree slot="children">
-                <calcite-tree-item>
-                  <a href="#">Great-Grandchild 1</a>
-                </calcite-tree-item>
-                <calcite-tree-item>
-                  <a href="#">Great-Grandchild 2</a>
-                </calcite-tree-item>
-              </calcite-tree>
-            </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-      </calcite-tree>
+      <div class="child">
+        <calcite-tree lines selection-mode="single" scale="m">
+          <calcite-tree-item> Child 1 </calcite-tree-item>
+    
+          <calcite-tree-item>
+            Child 2
+    
+            <calcite-tree slot="children">
+              <calcite-tree-item> Grandchild 1 </calcite-tree-item>
+    
+              <calcite-tree-item> Grandchild 2 </calcite-tree-item>
+    
+              <calcite-tree-item>
+                Grandchild 3
+                <calcite-tree slot="children">
+                  <calcite-tree-item> Great-Grandchild 1 </calcite-tree-item>
+                  <calcite-tree-item> Great-Grandchild 2 </calcite-tree-item>
+                  <calcite-tree-item> Great-Grandchild 3 </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+          </calcite-tree-item>
+        </calcite-tree>
+      </div>
     </div>
 
-    <h3>Strange Nesting</h3>
-    <p>
-      In this example a nested item has no link but others have links. The parent link should NOT be clicked when the
-      child text is clicked.
-    </p>
-    <calcite-tree>
-      <calcite-tree-item>
-        <a href="#calcite-tree-strange-nesting-1" id="calcite-tree-strange-nesting-1">Parent with Link</a>
-        <calcite-tree slot="children">
+
+    <!-- multi select -->
+    <div class="parent">
+      <div class="child right-aligned-text">multi select</div>
+
+      <div class="child">
+        <calcite-tree lines selection-mode="multi" scale="s">
+          <calcite-tree-item> Child 1 </calcite-tree-item>
+    
           <calcite-tree-item>
-            Parent Without Link
+            Child 2
+    
             <calcite-tree slot="children">
+              <calcite-tree-item> Grandchild 1 </calcite-tree-item>
+    
               <calcite-tree-item>
-                <a href="#calcite-tree-strange-nesting-2" id="calcite-tree-strange-nesting-2">Child Link</a>
+                Grandchild 2
+                <calcite-tree slot="children">
+                  <calcite-tree-item> Great-Grandchild 1 </calcite-tree-item>
+                  <calcite-tree-item> Great-Grandchild 2 </calcite-tree-item>
+                </calcite-tree>
               </calcite-tree-item>
             </calcite-tree>
           </calcite-tree-item>
         </calcite-tree>
-      </calcite-tree-item>
-    </calcite-tree>
+      </div>
 
-    <h3>Big Tree</h3>
-    <p>
-      Parent Items in this tree also have links. Click the chevron icon to toggle expand/collapse or anywhere else to
-      click the link.
-    </p>
-    <calcite-tree lines>
-      <calcite-tree-item>
-        <a href="/guide/developing-extensions-with-arcgis-enterprise-sdk/"
-          >Developing Extensions with ArcGIS Enterprise SDK</a
-        >
-        <calcite-tree slot="children" id="test">
+      <div class="child">
+        <calcite-tree lines selection-mode="multi" scale="m">
+          <calcite-tree-item> Child 1 </calcite-tree-item>
+    
           <calcite-tree-item>
-            <a href="/guide/developing-with-net/">Developing with .NET</a>
+            Child 2
+    
             <calcite-tree slot="children">
+              <calcite-tree-item> Grandchild 1 </calcite-tree-item>
+    
               <calcite-tree-item>
-                <a href="/guide/migrating-extensions-1/">Migrating Extensions</a>
+                Grandchild 2
                 <calcite-tree slot="children">
-                  <calcite-tree-item
-                    ><a href="/guide/how-to-migrate-a-net-soe-to-arcgis-enterprise-sdk/"
-                      >How to migrate a .NET SOE to ArcGIS Enterprise SDK</a
-                    ></calcite-tree-item
-                  >
-                  <calcite-tree-item
-                    ><a href="/guide/migration-strategies/">Migration Strategies</a>
-                  </calcite-tree-item>
-                  <calcite-tree-item><a href="/guide/migration-steps-1/">Migration Steps</a></calcite-tree-item>
+                  <calcite-tree-item> Great-Grandchild 1 </calcite-tree-item>
+                  <calcite-tree-item> Great-Grandchild 2 </calcite-tree-item>
                 </calcite-tree>
               </calcite-tree-item>
-              <calcite-tree-item>
-                <a href="/guide/net-samples/">.NET Samples</a>
-                <calcite-tree slot="children">
-                  <calcite-tree-item><a href="/guide/simple-logger-soi/">Simple Logger SOI</a></calcite-tree-item>
-                  <calcite-tree-item
-                    ><a href="/guide/operation-access-soi/">Operation Access SOI</a>
-                  </calcite-tree-item>
-                  <calcite-tree-item><a href="/guide/apply-watermark-soi/">Apply Watermark SOI</a> </calcite-tree-item>
-                  <calcite-tree-item
-                    ><a href="/guide/before-using-samples/">Before using Samples</a>
-                  </calcite-tree-item>
-                  <calcite-tree-item
-                    ><a href="/guide/spatial-query-rest-soe/">Spatial Query REST SOE</a>
-                  </calcite-tree-item>
-                  <calcite-tree-item
-                    ><a href="/guide/find-near-features-rest-soe/">Find near Features REST SOE</a>
-                  </calcite-tree-item>
-                  <calcite-tree-item><a href="/guide/layer-access-soi/">Layer Access SOI</a></calcite-tree-item>
-                  <calcite-tree-item
-                    ><a href="/guide/simple-rest-soe-with-capabilities-1/"
-                      >Simple REST SOE with Capabilities</a
-                    ></calcite-tree-item
-                  >
-                  <calcite-tree-item
-                    ><a href="/guide/edit-features-rest-soe/">Edit Features REST SOE</a>
-                  </calcite-tree-item>
-                  <calcite-tree-item
-                    ><a href="/guide/simple-rest-soe-with-properties-1/"
-                      >Simple REST SOE with Properties</a
-                    ></calcite-tree-item
-                  >
-                  <calcite-tree-item
-                    ><a href="/guide/find-near-features-soap-soe/">Find near Features SOAP SOE</a>
-                  </calcite-tree-item>
-                  <calcite-tree-item><a href="/guide/simple-rest-soe/">Simple REST SOE</a></calcite-tree-item>
-                  <calcite-tree-item><a href="/guide/simple-soap-soe-1/">Simple SOAP SOE</a></calcite-tree-item>
-                </calcite-tree>
-              </calcite-tree-item>
-              <calcite-tree-item>
-                <a href="/guide/developing-server-object-extensions/">Developing Server Object Extensions</a>
-                <calcite-tree slot="children">
-                  <calcite-tree-item>
-                    <a href="/guide/developing-rest-server-object-extensions/"
-                      >Developing REST Server Object Extensions</a
-                    >
-                    <calcite-tree slot="children">
-                      <calcite-tree-item>
-                        <a href="/guide/walkthrough-for-creating-a-rest-server-object-extension-arcobjects-net-10-sdk/"
-                          >Walkthrough for Creating a REST Server Object Extension (ArcObjects .NET 10 SDK)</a
-                        >
-                        <calcite-tree slot="children">
-                          <calcite-tree-item
-                            ><a href="/guide/how-to-deploy-the-rest-soe/"
-                              >How to Deploy the REST SOE</a
-                            ></calcite-tree-item
-                          >
-                          <calcite-tree-item
-                            ><a href="/guide/how-to-enable-and-test-the-rest-soe-on-a-service/"
-                              >How to Enable and Test the REST SOE on a Service</a
-                            ></calcite-tree-item
-                          >
-                          <calcite-tree-item
-                            ><a href="/guide/how-to-develop-a-property-page-for-the-rest-soe/"
-                              >How to Develop a Property Page for the REST SOE</a
-                            ></calcite-tree-item
-                          >
-                          <calcite-tree-item
-                            ><a href="/guide/how-to-use-the-rest-soe-in-a-web-application/"
-                              >How to Use the REST SOE in a Web Application</a
-                            ></calcite-tree-item
-                          >
-                          <calcite-tree-item
-                            ><a href="/guide/how-to-develop-the-rest-soe/"
-                              >How to Develop the REST SOE</a
-                            ></calcite-tree-item
-                          >
-                        </calcite-tree>
-                      </calcite-tree-item>
-                      <calcite-tree-item
-                        ><a href="/guide/building-the-schema-of-a-rest-server-object-extension/"
-                          >Building the Schema of a REST Server Object Extension</a
-                        ></calcite-tree-item
-                      >
-                      <calcite-tree-item
-                        ><a href="/guide/handling-requests-to-a-rest-server-object-extension/"
-                          >Handling Requests to a REST Server Object Extension</a
-                        ></calcite-tree-item
-                      >
-                      <calcite-tree-item
-                        ><a href="/guide/working-with-json-in-a-rest-server-object-extension/"
-                          >Working with JSON in a REST server object extension</a
-                        ></calcite-tree-item
-                      >
-                      <calcite-tree-item
-                        ><a href="/guide/walkthrough-for-creating-a-rest-server-object-extension-arcobjects-net-10-sdk/"
-                          >Walkthrough for Creating a REST Server Object Extension (ArcObjects .NET 10 SDK)</a
-                        >
-                      </calcite-tree-item>
-                      <calcite-tree-item
-                        ><a href="/guide/using-a-rest-server-object-extension-in-a-client-application/"
-                          >Using a REST Server Object Extension in a Client Application</a
-                        ></calcite-tree-item
-                      >
-                      <calcite-tree-item
-                        ><a href="/guide/quick-tour-of-the-rest-server-object-extension-template/"
-                          >Quick Tour of the REST Server Object Extension Template</a
-                        ></calcite-tree-item
-                      >
-                      <calcite-tree-item
-                        ><a href="/guide/how-to-open-the-rest-server-object-extension-template-in-visual-studio/"
-                          >How to Open the REST Server Object Extension Template in Visual Studio</a
-                        ></calcite-tree-item
-                      >
-                      <calcite-tree-item
-                        ><a href="/guide/strategies-for-building-rest-server-object-extensions/"
-                          >Strategies for Building REST Server Object Extensions</a
-                        ></calcite-tree-item
-                      >
-                      <calcite-tree-item
-                        ><a href="/guide/what-is-a-rest-server-object-extension/"
-                          >What is a REST Server Object Extension?</a
-                        ></calcite-tree-item
-                      >
-                    </calcite-tree>
-                  </calcite-tree-item>
-                  <calcite-tree-item
-                    ><a href="/guide/overview-of-developing-a-server-object-extension/"
-                      >Overview of Developing a Server Object Extension</a
-                    ></calcite-tree-item
-                  >
-                  <calcite-tree-item
-                    ><a href="/guide/developing-soap-server-object-extensions/"
-                      >Developing SOAP Server Object Extensions</a
-                    ></calcite-tree-item
-                  >
-                  <calcite-tree-item
-                    ><a href="/guide/developing-rest-server-object-extensions/"
-                      >Developing REST Server Object Extensions</a
-                    ></calcite-tree-item
-                  >
-                </calcite-tree>
-              </calcite-tree-item>
-              <calcite-tree-item>
-                <a href="/guide/developing-server-object-interceptors-1/">Developing Server Object Interceptors</a>
-                <calcite-tree slot="children">
-                  <calcite-tree-item
-                    ><a href="/guide/quick-tour-of-a-simple-soi-1/">Quick tour of a simple SOI</a>
-                  </calcite-tree-item>
-                  <calcite-tree-item
-                    ><a href="/guide/how-to-audit-requests-in-sois/"
-                      >How to audit requests in SOIs</a
-                    ></calcite-tree-item
-                  >
-                  <calcite-tree-item><a href="/guide/soi-properties/">SOI properties</a></calcite-tree-item>
-                  <calcite-tree-item
-                    ><a href="/guide/overview-of-developing-server-object-interceptors/"
-                      >Overview of developing server object interceptors</a
-                    ></calcite-tree-item
-                  >
-                  <calcite-tree-item
-                    ><a href="/guide/how-to-handle-rest-requests-and-responses-in-sois-1/"
-                      >How to handle REST requests and responses in SOIs</a
-                    ></calcite-tree-item
-                  >
-                  <calcite-tree-item
-                    ><a href="/guide/what-is-a-server-object-interceptor/"
-                      >What is a server object interceptor?</a
-                    ></calcite-tree-item
-                  >
-                </calcite-tree>
-              </calcite-tree-item>
-              <calcite-tree-item
-                ><a href="/guide/developing-server-object-extensions/"
-                  >Developing Server Object Extensions</a
-                ></calcite-tree-item
-              >
-              <calcite-tree-item
-                ><a href="/guide/visual-studio-integration/">Visual Studio Integration</a>
-              </calcite-tree-item>
-              <calcite-tree-item><a href="/guide/migrating-extensions-1/">Migrating Extensions</a> </calcite-tree-item>
-              <calcite-tree-item
-                ><a href="/guide/debugging-net-extensions/">Debugging .NET extensions</a>
-              </calcite-tree-item>
-              <calcite-tree-item><a href="/guide/net-samples/">.NET Samples</a></calcite-tree-item>
-              <calcite-tree-item
-                ><a href="/guide/developing-server-object-interceptors-1/"
-                  >Developing Server Object Interceptors</a
-                ></calcite-tree-item
-              >
             </calcite-tree>
           </calcite-tree-item>
+        </calcite-tree>
+      </div>
+    </div>
+
+    <!-- multi children select mode -->
+    <div class="parent">
+      <div class="child right-aligned-text"> multi children select </div>
+
+      <div class="child">
+        <calcite-tree lines selection-mode="multi-children" scale="s">
+          <calcite-tree-item> Child 1 </calcite-tree-item>
+    
           <calcite-tree-item>
-            <a href="/guide/developing-with-java/">Developing with Java</a>
+            Child 2
+    
+            <calcite-tree slot="children">
+              <calcite-tree-item> Grandchild 1 </calcite-tree-item>
+    
+              <calcite-tree-item> Grandchild 2 </calcite-tree-item>
+    
+              <calcite-tree-item>
+                Grandchild 3
+                <calcite-tree slot="children">
+                  <calcite-tree-item> Great-Grandchild 1 </calcite-tree-item>
+                  <calcite-tree-item> Great-Grandchild 2 </calcite-tree-item>
+                  <calcite-tree-item> Great-Grandchild 3 </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+          </calcite-tree-item>
+        </calcite-tree>
+      </div>
+
+      <div class="child">
+        <calcite-tree lines selection-mode="multi-children" scale="m">
+          <calcite-tree-item> Child 1 </calcite-tree-item>
+    
+          <calcite-tree-item>
+            Child 2
+    
+            <calcite-tree slot="children">
+              <calcite-tree-item> Grandchild 1 </calcite-tree-item>
+    
+              <calcite-tree-item> Grandchild 2 </calcite-tree-item>
+    
+              <calcite-tree-item>
+                Grandchild 3
+                <calcite-tree slot="children">
+                  <calcite-tree-item> Great-Grandchild 1 </calcite-tree-item>
+                  <calcite-tree-item> Great-Grandchild 2 </calcite-tree-item>
+                  <calcite-tree-item> Great-Grandchild 3 </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+          </calcite-tree-item>
+        </calcite-tree>
+      </div>
+    </div>
+
+    <!-- active and expanded state -->
+    <div class="parent">
+      <div class="child right-aligned-text"> active and expanded state </div>
+
+      <div class="child">
+        <calcite-tree lines scale="s">
+          <calcite-tree-item>
+            <a href="#">Child 1</a>
+          </calcite-tree-item>
+
+          <calcite-tree-item expanded>
+            <a href="#">Child 2</a>
+
             <calcite-tree slot="children">
               <calcite-tree-item>
-                <a href="/guide/developing-server-object-interceptors/">Developing Server Object Interceptors</a>
+                <a href="#">Grandchild 1</a>
+              </calcite-tree-item>
+
+              <calcite-tree-item selected expanded>
+                <a href="#">Grandchild 2</a>
                 <calcite-tree slot="children">
-                  <calcite-tree-item
-                    ><a href="/guide/quick-tour-of-a-simple-soi/">Quick tour of a simple SOI</a>
+                  <calcite-tree-item selected>
+                    <a href="#">Great-Grandchild 1</a>
                   </calcite-tree-item>
-                  <calcite-tree-item
-                    ><a href="/guide/how-to-audit-requests-in-sois-1/"
-                      >How to audit requests in SOIs</a
-                    ></calcite-tree-item
-                  >
-                  <calcite-tree-item><a href="/guide/soi-properties-1/">SOI properties</a></calcite-tree-item>
-                  <calcite-tree-item
-                    ><a href="/guide/how-to-handle-rest-requests-and-responses-in-sois/"
-                      >How to handle REST requests and responses in SOIs</a
-                    ></calcite-tree-item
-                  >
-                  <calcite-tree-item
-                    ><a href="/guide/overview-of-developing-server-object-interceptors-1/"
-                      >Overview of developing server object interceptors</a
-                    ></calcite-tree-item
-                  >
-                  <calcite-tree-item
-                    ><a href="/guide/what-is-a-server-object-interceptor-1/"
-                      >What is a server object interceptor?</a
-                    ></calcite-tree-item
-                  >
-                </calcite-tree>
-              </calcite-tree-item>
-              <calcite-tree-item>
-                <a href="/guide/exporting-extensions/">Exporting Extensions</a>
-                <calcite-tree slot="children">
-                  <calcite-tree-item
-                    ><a href="/guide/exporting-soes-and-sois-with-dependencies/"
-                      >Exporting SOEs and SOIs with Dependencies</a
-                    ></calcite-tree-item
-                  >
-                  <calcite-tree-item
-                    ><a href="/guide/exporting-soes-and-sois/">Exporting SOEs and SOIs</a>
+                  <calcite-tree-item selected>
+                    <a href="#">Great-Grandchild 2</a>
                   </calcite-tree-item>
-                  <calcite-tree-item
-                    ><a href="/guide/exporting-soes-and-sois-using-command-line/"
-                      >Exporting SOEs and SOIs using Command Line</a
-                    ></calcite-tree-item
-                  >
                 </calcite-tree>
               </calcite-tree-item>
-              <calcite-tree-item><a href="/guide/exporting-extensions/">Exporting Extensions</a></calcite-tree-item>
+            </calcite-tree>
+          </calcite-tree-item>
+        </calcite-tree>
+      </div>
+
+      <div class="child">
+        <calcite-tree lines scale="m">
+          <calcite-tree-item>
+            <a href="#">Child 1</a>
+          </calcite-tree-item>
+
+          <calcite-tree-item expanded>
+            <a href="#">Child 2</a>
+
+            <calcite-tree slot="children">
               <calcite-tree-item>
-                <a href="/guide/using-arcgis-eclipse-plugin/">Using ArcGIS Eclipse plugin</a>
+                <a href="#">Grandchild 1</a>
+              </calcite-tree-item>
+
+              <calcite-tree-item selected expanded>
+                <a href="#">Grandchild 2</a>
                 <calcite-tree slot="children">
-                  <calcite-tree-item
-                    ><a href="/guide/uninstalling-arcgis-eclipse-plugin/"
-                      >Uninstalling ArcGIS Eclipse Plugin</a
-                    ></calcite-tree-item
-                  >
-                  <calcite-tree-item
-                    ><a href="/guide/installing-arcgis-eclipse-plugin/"
-                      >Installing ArcGIS Eclipse Plugin</a
-                    ></calcite-tree-item
-                  >
-                  <calcite-tree-item
-                    ><a href="/guide/adding-the-arcgis-enterprise-sdk-library/"
-                      >Adding the ArcGIS Enterprise SDK Library</a
-                    ></calcite-tree-item
-                  >
+                  <calcite-tree-item selected>
+                    <a href="#">Great-Grandchild 1</a>
+                  </calcite-tree-item>
+                  <calcite-tree-item selected>
+                    <a href="#">Great-Grandchild 2</a>
+                  </calcite-tree-item>
                 </calcite-tree>
               </calcite-tree-item>
+            </calcite-tree>
+          </calcite-tree-item>
+        </calcite-tree>
+      </div>
+    </div>
+
+
+    <!-- input enabled in ancestor selection mode -->
+    <div class="parent">
+      <div class="child right-aligned-text"> input enabled in ancestor selection mode </div>
+
+      <div class="child">
+        <calcite-tree input-enabled selection-mode="ancestors" scale="s">
+          <calcite-tree-item>
+            <span>Child 1</span>
+          </calcite-tree-item>
+    
+          <calcite-tree-item>
+            <span>Child 2</span>
+    
+            <calcite-tree slot="children">
               <calcite-tree-item>
-                <a href="/guide/developing-server-object-extensions-1/">Developing Server Object Extensions</a>
+                <span>Grandchild 1</span>
                 <calcite-tree slot="children">
                   <calcite-tree-item>
-                    <a href="/guide/server-object-extension-properties/">Server Object Extension Properties</a>
-                    <calcite-tree slot="children">
-                      <calcite-tree-item
-                        ><a href="/guide/adding-properties-to-java-soes/"
-                          >Adding Properties to Java SOEs</a
-                        ></calcite-tree-item
-                      >
-                      <calcite-tree-item
-                        ><a href="/guide/creating-custom-property-pages-for-arcgis-server-manager/"
-                          >Creating Custom Property Pages for ArcGIS Server Manager</a
-                        ></calcite-tree-item
-                      >
-                    </calcite-tree>
+                    <span>Great Grandchild 1</span>
                   </calcite-tree-item>
-                  <calcite-tree-item
-                    ><a href="/guide/adding-capabilities-to-server-object-extension/"
-                      >Adding Capabilities to Server Object Extension</a
-                    ></calcite-tree-item
-                  >
-                  <calcite-tree-item
-                    ><a href="/guide/overview-of-developing-server-object-extension/"
-                      >Overview of Developing Server Object Extension</a
-                    ></calcite-tree-item
-                  >
-                  <calcite-tree-item
-                    ><a href="/guide/developing-rest-server-object-extension/"
-                      >Developing REST Server Object Extension</a
-                    ></calcite-tree-item
-                  >
-                  <calcite-tree-item
-                    ><a href="/guide/developing-soap-server-object-extension/"
-                      >Developing SOAP Server Object Extension</a
-                    ></calcite-tree-item
-                  >
+                  <calcite-tree-item>
+                    <span>Great Grandchild 2</span>
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    <span>Great Grandchild 3</span>
+                  </calcite-tree-item>
                 </calcite-tree>
               </calcite-tree-item>
               <calcite-tree-item>
-                <a href="/guide/java-samples/">Java Samples</a>
-                <calcite-tree slot="children">
-                  <calcite-tree-item><a href="/guide/simple-soap-soe/">Simple SOAP SOE</a></calcite-tree-item>
-                  <calcite-tree-item
-                    ><a href="/guide/server-operation-access-soi/">Server Operation Access SOI</a>
-                  </calcite-tree-item>
-                  <calcite-tree-item
-                    ><a href="/guide/apply-watermark-soi-1/">Apply Watermark SOI</a>
-                  </calcite-tree-item>
-                  <calcite-tree-item
-                    ><a href="/guide/simple-rest-soe-with-properties/"
-                      >Simple REST SOE With Properties</a
-                    ></calcite-tree-item
-                  >
-                  <calcite-tree-item
-                    ><a href="/guide/simple-rest-soe-with-capabilities/"
-                      >Simple REST SOE With Capabilities</a
-                    ></calcite-tree-item
-                  >
-                  <calcite-tree-item
-                    ><a href="/guide/find-nearby-features-rest-soe/"
-                      >Find Nearby Features REST SOE</a
-                    ></calcite-tree-item
-                  >
-                  <calcite-tree-item
-                    ><a href="/guide/find-nearby-features-soap-soe/"
-                      >Find Nearby Features SOAP SOE</a
-                    ></calcite-tree-item
-                  >
-                  <calcite-tree-item><a href="/guide/simple-logger-soi-1/">Simple Logger SOI</a></calcite-tree-item>
-                  <calcite-tree-item><a href="/guide/layer-access-soi-1/">Layer Access SOI</a></calcite-tree-item>
-                  <calcite-tree-item><a href="/guide/simple-rest-soe-1/">Simple REST SOE</a></calcite-tree-item>
-                </calcite-tree>
+                <span>Grandchild 2</span>
               </calcite-tree-item>
-              <calcite-tree-item><a href="/guide/debugging-extensions/">Debugging extensions</a></calcite-tree-item>
               <calcite-tree-item>
-                <a href="/guide/migrating-extensions/">Migrating Extensions</a>
+                <span>Grandchild 3</span>
+              </calcite-tree-item>
+            </calcite-tree>
+          </calcite-tree-item>
+    
+          <calcite-tree-item>
+            <span>Child 3</span>
+          </calcite-tree-item>
+          <calcite-tree-item>
+            <span>Child 4</span>
+          </calcite-tree-item>
+        </calcite-tree>
+      </div>
+
+      <div class="child">
+        <calcite-tree input-enabled selection-mode="ancestors" scale="m">
+          <calcite-tree-item>
+            <span>Child 1</span>
+          </calcite-tree-item>
+    
+          <calcite-tree-item>
+            <span>Child 2</span>
+    
+            <calcite-tree slot="children">
+              <calcite-tree-item>
+                <span>Grandchild 1</span>
                 <calcite-tree slot="children">
-                  <calcite-tree-item
-                    ><a href="/guide/migration-strategies-1/">Migration Strategies</a>
+                  <calcite-tree-item>
+                    <span>Great Grandchild 1</span>
                   </calcite-tree-item>
-                  <calcite-tree-item><a href="/guide/migration-steps/">Migration Steps</a></calcite-tree-item>
+                  <calcite-tree-item>
+                    <span>Great Grandchild 2</span>
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    <span>Great Grandchild 3</span>
+                  </calcite-tree-item>
                 </calcite-tree>
               </calcite-tree-item>
-              <calcite-tree-item><a href="/guide/java-samples/">Java Samples</a></calcite-tree-item>
-              <calcite-tree-item><a href="/guide/logging-messages/">Logging Messages</a></calcite-tree-item>
-              <calcite-tree-item
-                ><a href="/guide/developing-server-object-interceptors/"
-                  >Developing Server Object Interceptors</a
-                ></calcite-tree-item
-              >
-              <calcite-tree-item
-                ><a href="/guide/using-arcgis-eclipse-plugin/">Using ArcGIS Eclipse plugin</a>
+              <calcite-tree-item>
+                <span>Grandchild 2</span>
               </calcite-tree-item>
-              <calcite-tree-item
-                ><a href="/guide/developing-server-object-extensions-1/"
-                  >Developing Server Object Extensions</a
-                ></calcite-tree-item
-              >
+              <calcite-tree-item>
+                <span>Grandchild 3</span>
+              </calcite-tree-item>
             </calcite-tree>
           </calcite-tree-item>
-          <calcite-tree-item><a href="/guide/deploying-extensions/">Deploying extensions</a></calcite-tree-item>
-          <calcite-tree-item><a href="/guide/developing-with-java/">Developing with Java</a></calcite-tree-item>
-          <calcite-tree-item><a href="/guide/developing-with-net/">Developing with .NET</a></calcite-tree-item>
-          <calcite-tree-item><a href="/guide/enabling-extensions/">Enabling extensions</a></calcite-tree-item>
-          <calcite-tree-item><a href="/guide/about-extensions/">About Extensions</a></calcite-tree-item>
-        </calcite-tree>
-      </calcite-tree-item>
-      <calcite-tree-item>
-        <a href="/guide/installation/">Installation</a>
-        <calcite-tree slot="children">
-          <calcite-tree-item
-            ><a href="/guide/post-installation-steps-for-java/">Post-Installation Steps for Java</a>
-          </calcite-tree-item>
-          <calcite-tree-item
-            ><a href="/guide/installing-arcgis-enterprise-sdk/">Installing ArcGIS Enterprise SDK</a>
-          </calcite-tree-item>
-        </calcite-tree>
-      </calcite-tree-item>
-      <calcite-tree-item
-        ><a href="/guide/frequently-asked-questions/">Frequently Asked Questions</a>
-      </calcite-tree-item>
-      <calcite-tree-item
-        ><a href="/guide/what-is-arcgis-enterprise-sdk/">What is ArcGIS Enterprise SDK</a>
-      </calcite-tree-item>
-      <calcite-tree-item
-        ><a href="/guide/design-philosophy-for-arcgis-enterprise-sdk/"
-          >Design Philosophy for ArcGIS Enterprise SDK</a
-        ></calcite-tree-item
-      >
-      <calcite-tree-item><a href="/guide/system-requirements/">System Requirements</a></calcite-tree-item>
-    </calcite-tree>
-
-    <h3>Active and Expanded States</h3>
-
-    <calcite-tree lines>
-      <calcite-tree-item>
-        <a href="#">Child 1</a>
-      </calcite-tree-item>
-
-      <calcite-tree-item expanded>
-        <a href="#">Child 2</a>
-
-        <calcite-tree slot="children">
+    
           <calcite-tree-item>
-            <a href="#">Grandchild 1</a>
+            <span>Child 3</span>
           </calcite-tree-item>
+          <calcite-tree-item>
+            <span>Child 4</span>
+          </calcite-tree-item>
+        </calcite-tree>
+      </div>
+    </div>
 
-          <calcite-tree-item selected expanded>
-            <a href="#">Grandchild 2</a>
+
+    <!-- events to test -->
+    <div class="parent">
+      <div class="child right-aligned-text"> events </div>
+
+      <div class="child">
+        <p id="tree-events-demo-result-small">0 Selected</p>
+        <calcite-tree id="tree-events-demo-tree-small" lines selection-mode="multi-children" scale="s">
+          <calcite-tree-item> Child 1 </calcite-tree-item>
+    
+          <calcite-tree-item>
+            Child 2
+    
             <calcite-tree slot="children">
-              <calcite-tree-item selected>
-                <a href="#">Great-Grandchild 1</a>
-              </calcite-tree-item>
-              <calcite-tree-item selected>
-                <a href="#">Great-Grandchild 2</a>
+              <calcite-tree-item> Grandchild 1 </calcite-tree-item>
+    
+              <calcite-tree-item> Grandchild 2 </calcite-tree-item>
+    
+              <calcite-tree-item>
+                Grandchild 3
+                <calcite-tree slot="children">
+                  <calcite-tree-item> Great-Grandchild 1 </calcite-tree-item>
+                  <calcite-tree-item> Great-Grandchild 2 </calcite-tree-item>
+                  <calcite-tree-item> Great-Grandchild 3 </calcite-tree-item>
+                </calcite-tree>
               </calcite-tree-item>
             </calcite-tree>
           </calcite-tree-item>
         </calcite-tree>
-      </calcite-tree-item>
-    </calcite-tree>
+      </div>
 
-    <h3>Without Links</h3>
-
-    <calcite-tree lines>
-      <calcite-tree-item> Child 1 </calcite-tree-item>
-
-      <calcite-tree-item>
-        Child 2
-
-        <calcite-tree slot="children">
-          <calcite-tree-item> Grandchild 1 </calcite-tree-item>
-
+      <div class="child">
+        <p id="tree-events-demo-result-medium">0 Selected</p>
+        <calcite-tree id="tree-events-demo-tree-medium" lines selection-mode="multi-children" scale="m">
+          <calcite-tree-item> Child 1 </calcite-tree-item>
+    
           <calcite-tree-item>
-            Grandchild 2
+            Child 2
+    
             <calcite-tree slot="children">
-              <calcite-tree-item> Great-Grandchild 1 </calcite-tree-item>
-              <calcite-tree-item> Great-Grandchild 2 </calcite-tree-item>
+              <calcite-tree-item> Grandchild 1 </calcite-tree-item>
+    
+              <calcite-tree-item> Grandchild 2 </calcite-tree-item>
+    
+              <calcite-tree-item>
+                Grandchild 3
+                <calcite-tree slot="children">
+                  <calcite-tree-item> Great-Grandchild 1 </calcite-tree-item>
+                  <calcite-tree-item> Great-Grandchild 2 </calcite-tree-item>
+                  <calcite-tree-item> Great-Grandchild 3 </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
             </calcite-tree>
           </calcite-tree-item>
         </calcite-tree>
-      </calcite-tree-item>
-    </calcite-tree>
+      </div>
+    
+        <script>
+          (function () {
+            var tree_small = document.getElementById("tree-events-demo-tree-small");
+            var result_small = document.getElementById("tree-events-demo-result-small");
+            tree_small.addEventListener("calciteTreeSelect", function (e) {
+              console.log(e.detail.selected);
+              result_small.textContent = e.detail.selected.length + " Selected";
+            });
+          })();
 
-    <h3>Multi Select Mode</h3>
 
-    <calcite-tree lines selection-mode="multi">
-      <calcite-tree-item> Child 1 </calcite-tree-item>
-
-      <calcite-tree-item>
-        Child 2
-
-        <calcite-tree slot="children">
-          <calcite-tree-item> Grandchild 1 </calcite-tree-item>
-
-          <calcite-tree-item>
-            Grandchild 2
-            <calcite-tree slot="children">
-              <calcite-tree-item> Great-Grandchild 1 </calcite-tree-item>
-              <calcite-tree-item> Great-Grandchild 2 </calcite-tree-item>
-            </calcite-tree>
-          </calcite-tree-item>
-        </calcite-tree>
-      </calcite-tree-item>
-    </calcite-tree>
-
-    <h3>Child Select Mode</h3>
-
-    <calcite-tree lines selection-mode="children">
-      <calcite-tree-item> Child 1 </calcite-tree-item>
-
-      <calcite-tree-item>
-        Child 2
-
-        <calcite-tree slot="children">
-          <calcite-tree-item> Grandchild 1 </calcite-tree-item>
-
-          <calcite-tree-item> Grandchild 2 </calcite-tree-item>
-
-          <calcite-tree-item>
-            Grandchild 3
-            <calcite-tree slot="children">
-              <calcite-tree-item> Great-Grandchild 1 </calcite-tree-item>
-              <calcite-tree-item> Great-Grandchild 2 </calcite-tree-item>
-              <calcite-tree-item> Great-Grandchild 3 </calcite-tree-item>
-            </calcite-tree>
-          </calcite-tree-item>
-        </calcite-tree>
-      </calcite-tree-item>
-    </calcite-tree>
-
-    <h3>Single Select Mode</h3>
-
-    <calcite-tree lines selection-mode="single">
-      <calcite-tree-item> Child 1 </calcite-tree-item>
-
-      <calcite-tree-item>
-        Child 2
-
-        <calcite-tree slot="children">
-          <calcite-tree-item> Grandchild 1 </calcite-tree-item>
-
-          <calcite-tree-item> Grandchild 2 </calcite-tree-item>
-
-          <calcite-tree-item>
-            Grandchild 3
-            <calcite-tree slot="children">
-              <calcite-tree-item> Great-Grandchild 1 </calcite-tree-item>
-              <calcite-tree-item> Great-Grandchild 2 </calcite-tree-item>
-              <calcite-tree-item> Great-Grandchild 3 </calcite-tree-item>
-            </calcite-tree>
-          </calcite-tree-item>
-        </calcite-tree>
-      </calcite-tree-item>
-    </calcite-tree>
-
-    <h3>Multi-Child Select Mode</h3>
-
-    <calcite-tree lines selection-mode="multi-children">
-      <calcite-tree-item> Child 1 </calcite-tree-item>
-
-      <calcite-tree-item>
-        Child 2
-
-        <calcite-tree slot="children">
-          <calcite-tree-item> Grandchild 1 </calcite-tree-item>
-
-          <calcite-tree-item> Grandchild 2 </calcite-tree-item>
-
-          <calcite-tree-item>
-            Grandchild 3
-            <calcite-tree slot="children">
-              <calcite-tree-item> Great-Grandchild 1 </calcite-tree-item>
-              <calcite-tree-item> Great-Grandchild 2 </calcite-tree-item>
-              <calcite-tree-item> Great-Grandchild 3 </calcite-tree-item>
-            </calcite-tree>
-          </calcite-tree-item>
-        </calcite-tree>
-      </calcite-tree-item>
-    </calcite-tree>
-
-    <h3>Events</h3>
-    <p id="tree-events-demo-result">0 Selected</p>
-    <calcite-tree id="tree-events-demo-tree" lines selection-mode="multi-children">
-      <calcite-tree-item> Child 1 </calcite-tree-item>
-
-      <calcite-tree-item>
-        Child 2
-
-        <calcite-tree slot="children">
-          <calcite-tree-item> Grandchild 1 </calcite-tree-item>
-
-          <calcite-tree-item> Grandchild 2 </calcite-tree-item>
-
-          <calcite-tree-item>
-            Grandchild 3
-            <calcite-tree slot="children">
-              <calcite-tree-item> Great-Grandchild 1 </calcite-tree-item>
-              <calcite-tree-item> Great-Grandchild 2 </calcite-tree-item>
-              <calcite-tree-item> Great-Grandchild 3 </calcite-tree-item>
-            </calcite-tree>
-          </calcite-tree-item>
-        </calcite-tree>
-      </calcite-tree-item>
-    </calcite-tree>
-
-    <script>
-      (function () {
-        var tree = document.getElementById("tree-events-demo-tree");
-        var result = document.getElementById("tree-events-demo-result");
-        tree.addEventListener("calciteTreeSelect", function (e) {
-          console.log(e.detail.selected);
-          result.textContent = e.detail.selected.length + " Selected";
-        });
-      })();
-    </script>
-
-    <h3>RTL</h3>
-
-    <calcite-tree lines dir="rtl">
-      <calcite-tree-item> Child 1 </calcite-tree-item>
-
-      <calcite-tree-item>
-        Child 2
-
-        <calcite-tree slot="children">
-          <calcite-tree-item> Grandchild 1 </calcite-tree-item>
-
-          <calcite-tree-item> Grandchild 2 </calcite-tree-item>
-
-          <calcite-tree-item>
-            Grandchild 3
-            <calcite-tree slot="children">
-              <calcite-tree-item> Great-Grandchild 1 </calcite-tree-item>
-              <calcite-tree-item> Great-Grandchild 2 </calcite-tree-item>
-              <calcite-tree-item> Great-Grandchild 3 </calcite-tree-item>
-            </calcite-tree>
-          </calcite-tree-item>
-        </calcite-tree>
-      </calcite-tree-item>
-    </calcite-tree>
-
-    <h3>RTL (Compact)</h3>
-
-    <calcite-tree lines dir="rtl" scale="s">
-      <calcite-tree-item> Child 1 </calcite-tree-item>
-
-      <calcite-tree-item>
-        Child 2
-
-        <calcite-tree slot="children">
-          <calcite-tree-item> Grandchild 1 </calcite-tree-item>
-
-          <calcite-tree-item> Grandchild 2 </calcite-tree-item>
-
-          <calcite-tree-item>
-            Grandchild 3
-            <calcite-tree slot="children">
-              <calcite-tree-item> Great-Grandchild 1 </calcite-tree-item>
-              <calcite-tree-item> Great-Grandchild 2 </calcite-tree-item>
-              <calcite-tree-item> Great-Grandchild 3 </calcite-tree-item>
-            </calcite-tree>
-          </calcite-tree-item>
-        </calcite-tree>
-      </calcite-tree-item>
-    </calcite-tree>
+          (function () {
+            var tree_medium = document.getElementById("tree-events-demo-tree-medium");
+            var result_medium = document.getElementById("tree-events-demo-result-medium");
+            tree_medium.addEventListener("calciteTreeSelect", function (e) {
+              console.log(e.detail.selected);
+              result_medium.textContent = e.detail.selected.length + " Selected";
+            });
+          })();
+        </script>
+    </div>
   </body>
 </html>
