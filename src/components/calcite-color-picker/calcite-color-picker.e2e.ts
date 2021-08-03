@@ -170,8 +170,9 @@ describe("calcite-color-picker", () => {
     const picker = await page.find("calcite-color-picker");
     const changeSpy = await picker.spyOnEvent("calciteColorPickerChange");
     const inputSpy = await picker.spyOnEvent("calciteColorPickerInput");
+    const colorFieldCenterValueHex = "#408048";
 
-    picker.setProperty("value", "#f0f");
+    picker.setProperty("value", colorFieldCenterValueHex);
     await page.waitForChanges();
 
     expect(changeSpy).toHaveReceivedEventTimes(1);
