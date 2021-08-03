@@ -2,34 +2,32 @@ import { forceUpdate } from "@stencil/core";
 import { SLOTS as ACTION_MENU_SLOTS } from "../calcite-action-menu/resources";
 import { SLOTS as ACTION_GROUP_SLOTS } from "../calcite-action-group/resources";
 
+const groupBufferHeight = 2;
+
 const getMaxActionCount = ({
   height,
   actionHeight,
-  groupBuffer,
   groupCount
 }: {
   height: number;
   actionHeight: number;
-  groupBuffer: number;
   groupCount: number;
 }): number => {
-  return Math.floor((height - groupCount * groupBuffer) / actionHeight);
+  return Math.floor((height - groupCount * groupBufferHeight) / actionHeight);
 };
 
 export const getOverflowCount = ({
   actionCount,
   actionHeight,
-  groupBuffer,
   height,
   groupCount
 }: {
   actionCount: number;
   actionHeight: number;
-  groupBuffer: number;
   height: number;
   groupCount: number;
 }): number => {
-  return Math.max(actionCount - getMaxActionCount({ height, actionHeight, groupBuffer, groupCount }), 0);
+  return Math.max(actionCount - getMaxActionCount({ height, actionHeight, groupCount }), 0);
 };
 
 export const queryActions = (el: HTMLElement): HTMLCalciteActionElement[] => {
