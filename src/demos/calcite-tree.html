@@ -6,6 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Calcite Tree</title>
     <style>
+      section {
+        padding: 0 1rem;
+      }
       .demo-background-dark {
         background: #202020;
         color: white;
@@ -18,7 +21,127 @@
   <body>
     <calcite-button href="/">Home</calcite-button>
     <h1>Calcite Tree</h1>
-    <calcite-tree>
+
+    <section>
+      <h2>Scales</h2>
+
+      <h3>Small</h3>
+      <calcite-tree scale="s" lines>
+        <calcite-tree-item>
+          <a>Child 1</a>
+        </calcite-tree-item>
+        <calcite-tree-item>
+          <a>Child 2</a>
+          <calcite-tree slot="children">
+            <calcite-tree-item>
+              <a>Grandchild 1</a>
+            </calcite-tree-item>
+            <calcite-tree-item>
+              <a>Grandchild 2</a>
+              <calcite-tree slot="children">
+                <calcite-tree-item>
+                  <a>Great-Grandchild 1</a>
+                </calcite-tree-item>
+                <calcite-tree-item>
+                  <a>Great-Grandchild 2</a>
+                </calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+        <calcite-tree-item>
+          <a>Child 3</a>
+          <calcite-tree slot="children">
+            <calcite-tree-item>
+              <a>Grandchild 1</a>
+            </calcite-tree-item>
+            <calcite-tree-item>
+              <a>Grandchild 2</a>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+      </calcite-tree>
+
+      <br />
+      <h3>Medium</h3>
+      <calcite-tree scale="m" lines>
+        <calcite-tree-item>
+          <a>Child 1</a>
+        </calcite-tree-item>
+        <calcite-tree-item>
+          <a>Child 2</a>
+          <calcite-tree slot="children">
+            <calcite-tree-item>
+              <a>Grandchild 1</a>
+            </calcite-tree-item>
+            <calcite-tree-item>
+              <a>Grandchild 2</a>
+              <calcite-tree slot="children">
+                <calcite-tree-item>
+                  <a>Great-Grandchild 1</a>
+                </calcite-tree-item>
+                <calcite-tree-item>
+                  <a>Great-Grandchild 2</a>
+                </calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+        <calcite-tree-item>
+          <a>Child 3</a>
+          <calcite-tree slot="children">
+            <calcite-tree-item>
+              <a>Grandchild 1</a>
+            </calcite-tree-item>
+            <calcite-tree-item>
+              <a>Grandchild 2</a>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+      </calcite-tree>
+
+      <br />
+      <h3>Large</h3>
+      <calcite-tree scale="l" lines>
+        <calcite-tree-item>
+          <a>Child 1</a>
+        </calcite-tree-item>
+        <calcite-tree-item>
+          <a>Child 2</a>
+          <calcite-tree slot="children">
+            <calcite-tree-item>
+              <a>Grandchild 1</a>
+            </calcite-tree-item>
+            <calcite-tree-item>
+              <a>Grandchild 2</a>
+              <calcite-tree slot="children">
+                <calcite-tree-item>
+                  <a>Great-Grandchild 1</a>
+                </calcite-tree-item>
+                <calcite-tree-item>
+                  <a>Great-Grandchild 2</a>
+                </calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+        <calcite-tree-item>
+          <a>Child 3</a>
+          <calcite-tree slot="children">
+            <calcite-tree-item>
+              <a>Grandchild 1</a>
+            </calcite-tree-item>
+            <calcite-tree-item>
+              <a>Grandchild 2</a>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+      </calcite-tree>
+    </section>
+
+    <br />
+
+    <!-- <calcite-tree>
       <calcite-tree-item>
         <a href="#">Child 1</a>
       </calcite-tree-item>
@@ -1044,6 +1167,6 @@
           </calcite-tree-item>
         </calcite-tree>
       </calcite-tree-item>
-    </calcite-tree>
+    </calcite-tree> -->
   </body>
 </html>

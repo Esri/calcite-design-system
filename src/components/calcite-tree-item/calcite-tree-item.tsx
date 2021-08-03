@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { TreeItemSelectDetail } from "./interfaces";
 import { TreeSelectionMode } from "../calcite-tree/interfaces";
-
+import { Scale } from "../interfaces";
 import { nodeListToArray, getElementDir, filterDirectChildren, getSlotted } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 
@@ -69,7 +69,7 @@ export class CalciteTreeItem {
   @Prop({ reflect: true, mutable: true }) inputEnabled: boolean;
 
   /** @internal Scale of the parent tree, defaults to m */
-  @Prop({ reflect: true, mutable: true }) scale: "s" | "m";
+  @Prop({ reflect: true, mutable: true }) scale: Scale;
 
   /**
    * @internal

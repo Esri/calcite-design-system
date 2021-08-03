@@ -1,13 +1,8 @@
 :host {
-  display: block;
+  @apply block cursor-pointer outline-none max-w-full;
+  --calcite-tree-text: theme("textColor.color.3");
+  --calcite-tree-text-active: theme("textColor.color.1");
   color: var(--calcite-tree-text);
-  cursor: pointer;
-  outline: none;
-  @include font-size(-2);
-  max-width: 100%;
-  --calcite-tree-text: var(--calcite-ui-text-2);
-  --calcite-tree-text: var(--calcite-ui-text-1);
-  --calcite-tree-text: var(--calcite-ui-text-1);
   --calcite-tree-chevron: var(--calcite-ui-border-1);
   --calcite-tree-chevron-hover: var(--calcite-ui-text-3);
   --calcite-tree-vertical-padding: #{$baseline/4};
@@ -41,12 +36,12 @@
   --calcite-tree-line: var(--calcite-ui-border-3);
   --calcite-tree-line-hover: var(--calcite-ui-border-1);
   & .calcite-tree-node:before {
-    display: none;
+    @apply hidden;
   }
 }
 
 :host(:not([lines])) .calcite-tree-node:after {
-  display: none;
+  @apply hidden;
 }
 
 :host([scale="s"]) {
@@ -90,7 +85,6 @@
 
 ::slotted(*) {
   color: inherit;
-  @include font-size(-2);
   text-decoration: none !important;
   word-wrap: break-word;
   overflow-wrap: break-word;
@@ -103,15 +97,14 @@
 }
 
 ::slotted(a) {
-  width: 100%;
-  text-decoration: none;
+  @apply w-full no-underline;
 }
 // focus styles
 :host {
-  @include focus-style-base();
+  @apply focus-base;
 }
 :host(:focus) {
-  @include focus-style-inset(var(--calcite-ui-brand));
+  @apply focus-inset;
 }
 
 .calcite-tree-checkbox {
@@ -247,7 +240,7 @@
 :host([selected]) > .calcite-tree-node,
 :host([selected]) > .calcite-tree-node:hover {
   color: var(--calcite-tree-text-active);
-  font-weight: 500;
+  @apply font-medium;
 
   &:before {
     opacity: 1;

@@ -44,7 +44,7 @@ export class CalciteTree {
   @Prop({ reflect: true, mutable: true }) child: boolean;
 
   /** Specify the scale of the tree, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: Extract<"s" | "m", Scale> = "m";
+  @Prop({ mutable: true, reflect: true }) scale: Scale = "m";
 
   /** Customize how tree selection works (single, multi, children, multi-children)
    * @default "single"
