@@ -25,3 +25,9 @@ export interface Graph extends Extent {
 }
 
 export interface TranslateOptions extends Dimensions, Extent {}
+
+export interface ColorStop {
+  offset: number;
+  color: string;
+  opacity?: number;
+}
