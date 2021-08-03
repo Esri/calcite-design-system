@@ -504,6 +504,33 @@
     </div>
 
 
+    <!-- histogram with color steps -->
+    <div class="parent">
+      <div class="child right-aligned-text"> histogram with color stops</div>
+
+      <div class="child">
+        <calcite-slider
+        min="0"
+        max="100"
+        value="60"
+        step="1"
+        class="js-histogram js-histogram-colors"
+      ></calcite-slider>
+      </div>
+
+      <div class="child">
+        <calcite-slider
+        mirrored
+        min="0"
+        max="100"
+        value="60"
+        step="1"
+        class="js-histogram js-histogram-colors"
+      ></calcite-slider>
+      </div>
+    </div>
+
+
     <!-- histogram with labeled ticks -->
     <div class="parent">
       <div class="child right-aligned-text"> histogram with labeled ticks </div>
@@ -1233,6 +1260,31 @@
       </div>
     </div>
 
+     <!-- range histogram with color stops -->
+     <div class="parent">
+      <div class="child right-aligned-text"> range histogram with color stops </div>
+
+      <div class="child">
+        <calcite-slider
+        min="0"
+        max="100"
+        value="60"
+        step="1"
+        class="js-histogram js-histogram-colors"
+      ></calcite-slider>
+      </div>
+
+      <div class="child">
+        <calcite-slider
+        mirrored
+        min="0"
+        max="100"
+        value="60"
+        step="1"
+        class="js-histogram js-histogram-colors"
+      ></calcite-slider>
+      </div>
+    </div>
 
 
     <!-- range histogram with precise labeled handles -->
@@ -1615,6 +1667,12 @@
       ];
       [].slice.call(document.querySelectorAll(".js-histogram")).forEach(function (graphElement) {
         graphElement.histogram = histogram;
+      });
+
+      var rainbow = ["red", "orange", "yellow", "green", "cyan", "blue", "violet"];
+      var colorStops = rainbow.map((color, i) => ({ offset: (1 / (rainbow.length - 1)) * i, color }));
+      document.querySelectorAll(".js-histogram-colors").forEach(function (graphElement) {
+        graphElement.histogramStops = colorStops;
       });
     </script>
   </body>
