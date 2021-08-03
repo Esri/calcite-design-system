@@ -9,16 +9,16 @@
 
 :host([scale="s"]) {
   .text {
-    @apply text--1h;
+    @apply text--1h my-2;
   }
   .chevron {
-    @apply h-10;
+    @apply h-9;
   }
 }
 
 :host([scale="m"]) {
   .text {
-    @apply text-0h;
+    @apply text-0h my-3;
   }
   .chevron {
     @apply h-12;
@@ -27,10 +27,11 @@
 
 :host([scale="l"]) {
   .text {
-    @apply text-1h;
+    @apply text-1h my-4;
   }
   .chevron {
-    @apply h-16;
+    // @apply h-16;
+    height: 3.5rem;
   }
 }
 
@@ -93,6 +94,7 @@
     font-medium
     leading-tight
     mx-1
+    my-auto
     inline-block;
   font-size: inherit;
 }
