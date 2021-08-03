@@ -1,5 +1,8 @@
 // sizes
 :host([scale="s"]) {
+  .container {
+    @apply h-3;
+  }
   .track {
     @apply w-6 h-3;
   }
@@ -9,6 +12,9 @@
 }
 
 :host([scale="m"]) {
+  .container {
+    @apply h-4;
+  }
   .track {
     @apply w-8 h-4;
   }
@@ -18,6 +24,9 @@
 }
 
 :host([scale="l"]) {
+  .container {
+    @apply h-6;
+  }
   .track {
     @apply w-12 h-6;
   }
