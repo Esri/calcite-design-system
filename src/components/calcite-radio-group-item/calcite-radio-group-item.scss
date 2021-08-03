@@ -1,7 +1,8 @@
 :host {
   @apply flex
     self-stretch
-    cursor-pointer;
+    cursor-pointer
+    font-medium;
   transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out;
 }
 
@@ -29,7 +30,6 @@
   outline-offset: -1px;
 }
 
-//FIXME: These sizes/spacing scales need to be reworked in a separate issue
 .label--scale-s {
   @apply text--2h px-2;
   padding-top: 0.125rem;
@@ -43,7 +43,7 @@
 }
 
 .label--scale-l {
-  @apply text-0h px-4 py-2;
+  @apply text-0h px-4 py-2.5;
 }
 
 :host(:hover) label {
