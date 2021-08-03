@@ -14,7 +14,7 @@ import {
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
-import { DataSeries } from "../calcite-graph/interfaces";
+import { ColorStop, DataSeries } from "../calcite-graph/interfaces";
 import { hasLabel, intersects } from "../../utils/dom";
 import { clamp } from "../../utils/math";
 
@@ -51,6 +51,11 @@ export class CalciteSlider {
   @Watch("histogram") histogramWatcher(newHistogram: DataSeries): void {
     this.hasHistogram = !!newHistogram;
   }
+
+  /**
+   * Array of values describing a single color stop, sorted by offset ascending.
+   */
+  @Prop() histogramStops: ColorStop[]
 
   /** Label handles with their numeric value */
   @Prop({ reflect: true }) labelHandles?: boolean;
@@ -571,6 +576,7 @@ export class CalciteSlider {
     return this.histogram ? (
       <div class="graph">
         <calcite-graph
+          colorStops={this.histogramStops}
           data={this.histogram}
           height={48}
           highlightMax={this.isRange ? this.maxValue : this.value}
