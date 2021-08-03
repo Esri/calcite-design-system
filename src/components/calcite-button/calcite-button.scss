@@ -555,7 +555,8 @@
   button,
   a {
     @apply bg-transparent;
-    &:hover {
+    &:hover,
+    &:focus {
       background-color: var(--calcite-button-transparent-hover);
     }
     &:active {
