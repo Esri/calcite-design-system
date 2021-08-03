@@ -1,19 +1,9 @@
 :host {
   @apply flex;
   max-width: 100vw;
-
-  &:host([scale="s"]) {
-    @apply text--2h;
-  }
-  &:host([scale="m"]) {
-    @apply text--1h;
-  }
-  &:host([scale="l"]) {
-    @apply text-0h;
-  }
 }
 :host([layout="horizontal"]) {
-  @apply flex-row flex-wrap items-center;
+  @apply flex-row flex-wrap;
 }
 :host([layout="horizontal"][scale="s"]) {
   @apply gap-4;
