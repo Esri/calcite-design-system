@@ -159,7 +159,7 @@ export class CalcitePopover {
 
   @Element() el: HTMLCalcitePopoverElement;
 
-  @State() _referenceElement: HTMLElement = this.getReferenceElement();
+  @State() _referenceElement: HTMLElement;
 
   popper: Popper;
 
