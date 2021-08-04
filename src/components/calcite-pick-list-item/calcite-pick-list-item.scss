@@ -69,9 +69,7 @@
 }
 
 .actions {
-	@apply items-stretch flex justify-end m-0;
-	flex-grow: 1 1 auto;
-	flex-shrink: 1 1 auto;
+	@apply items-stretch flex justify-end m-0 flex-initial;
 }
 
 .actions--start ~ .label {
