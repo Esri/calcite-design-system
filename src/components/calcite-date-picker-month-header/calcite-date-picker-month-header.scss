@@ -36,7 +36,7 @@
 }
 
 .chevron {
-  @apply text-color-2
+  @apply text-color-3
     flex-grow-0
     box-content
     outline-none
@@ -60,7 +60,7 @@
 
   &:hover,
   &:focus {
-    @apply bg-foreground-2 fill-color-1;
+    @apply text-color-1 bg-foreground-2 fill-color-1;
   }
 
   &:active {
