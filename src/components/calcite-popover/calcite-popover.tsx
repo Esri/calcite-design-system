@@ -251,8 +251,8 @@ export class CalcitePopover {
       this._referenceElement = this.getReferenceElement();
     }
 
-    if (!this._referenceElement) {
-      const { el, referenceElement } = this;
+    const { el, referenceElement } = this;
+    if (referenceElement && !this._referenceElement) {
       console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
         el
       });
