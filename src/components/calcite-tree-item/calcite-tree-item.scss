@@ -1,11 +1,15 @@
 :host {
-  @apply block cursor-pointer outline-none max-w-full;
+  @apply block
+    cursor-pointer
+    outline-none
+    max-w-full;
   --calcite-tree-text: theme("textColor.color.3");
+  --calcite-tree-text-hover: theme("textColor.color.1");
   --calcite-tree-text-active: theme("textColor.color.1");
   color: var(--calcite-tree-text);
   --calcite-tree-chevron: var(--calcite-ui-border-1);
-  --calcite-tree-chevron-hover: var(--calcite-ui-text-3);
-  --calcite-tree-vertical-padding: #{$baseline/4};
+  // --calcite-tree-chevron-hover: var(--calcite-ui-text-3);
+  --calcite-tree-vertical-padding: 0;
   --calcite-tree-indicator: var(--calcite-ui-border-1);
   --calcite-tree-indicator-active: var(--calcite-ui-brand);
   --calcite-tree-indicator-first-start: 0.1rem;
@@ -32,6 +36,18 @@
   --calcite-tree-hover-line-width: 3px;
 }
 
+:host([scale="s"]) .calcite-tree-node {
+  --calcite-tree-vertical-padding: theme("padding.1");
+}
+
+:host([scale="m"]) .calcite-tree-node {
+  --calcite-tree-vertical-padding: theme("padding.2");
+}
+
+:host([scale="l"]) .calcite-tree-node {
+  --calcite-tree-vertical-padding: theme("padding.3");
+}
+
 :host([lines]) {
   --calcite-tree-line: var(--calcite-ui-border-3);
   --calcite-tree-line-hover: var(--calcite-ui-border-1);
@@ -46,7 +62,7 @@
 
 :host([scale="s"]) {
   --calcite-tree-hover-line-width: 2px;
-  --calcite-tree-vertical-padding: #{$baseline/8};
+  // --calcite-tree-vertical-padding: #{$baseline/8};
   --calcite-tree-children-indent-start: 0rem;
   --calcite-tree-children-padding-start: 0.8rem;
   --calcite-tree-line-position-start: 0.3rem;
@@ -84,12 +100,9 @@
 }
 
 ::slotted(*) {
+  @apply break-words min-w-0 max-w-full;
   color: inherit;
   text-decoration: none !important;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  min-width: 0;
-  max-width: 100%;
 
   &:hover {
     text-decoration: none !important;
@@ -108,16 +121,14 @@
 }
 
 .calcite-tree-checkbox {
+  @apply outline-none;
   line-height: 0;
   padding-left: var(--calcite-tree-checkbox-padding-start);
   padding-right: var(--calcite-tree-checkbox-padding-end);
-  outline: none;
 }
 
 .calcite-tree-label {
-  display: flex;
-  align-items: center;
-  pointer-events: none;
+  @apply flex items-center pointer-events-none;
 }
 
 .calcite-tree-children {
@@ -189,20 +200,20 @@
     position: absolute;
 
     :host([depth="1"]) > & {
-      display: none;
+      @apply hidden;
     }
   }
 }
 
 :host([input-enabled]) .calcite-tree-node:before {
-  display: none;
+  @apply hidden;
 }
 
 :host([has-children]) > .calcite-tree-node {
   padding-left: 0;
   padding-right: 0;
   &:before {
-    display: none;
+    @apply hidden;
   }
 }
 
@@ -258,12 +269,13 @@
 
 // dropdown expanded and not selected
 :host([has-children][expanded]) > .calcite-tree-node {
-  color: var(--calcite-tree-text-active);
-  font-weight: 500;
+  // color: var(--calcite-tree-text-active);
+  @apply font-medium;
   &:after {
-    background: var(--calcite-ui-brand);
+    @apply bg-brand;
   }
   &:before {
+    font-size: theme("fontSize.-2");
     opacity: 1;
     color: var(--calcite-tree-indicator-active);
   }
@@ -274,7 +286,7 @@
 
 // dropdown expanded and selected
 :host([has-children][expanded][selected]) > .calcite-tree-node:after {
-  background: var(--calcite-ui-brand);
+  @apply bg-brand;
   width: var(--calcite-tree-hover-line-width);
   z-index: 2;
 }
@@ -289,23 +301,23 @@
   margin-right: var(--calcite-tree-icon-content-distance-start);
   margin-left: var(--calcite-tree-icon-content-distance-end);
   transform: rotate(0deg);
-  fill: var(--calcite-tree-chevron);
+  // fill: var(--calcite-tree-chevron);
 
   :host([dir="rtl"]) & {
     transform: rotate(180deg);
   }
 
-  :host(:hover) &,
-  :host(:focus) & {
-    fill: var(--calcite-tree-chevron-hover);
-    stroke: var(--calcite-tree-chevron-hover);
-    stroke-width: 0.75;
-  }
+  // :host(:hover) &,
+  // :host(:focus) & {
+  //   fill: var(--calcite-tree-chevron-hover);
+  //   stroke: var(--calcite-tree-chevron-hover);
+  //   stroke-width: 0.75;
+  // }
 
   :host([expanded]) > .calcite-tree-node > & {
     transform: rotate(90deg);
-    fill: var(--calcite-ui-brand);
-    stroke-width: 0.75;
-    stroke: var(--calcite-ui-brand);
+    // fill: var(--calcite-ui-brand);
+    // stroke-width: 0.75;
+    // stroke: var(--calcite-ui-brand);
   }
 }

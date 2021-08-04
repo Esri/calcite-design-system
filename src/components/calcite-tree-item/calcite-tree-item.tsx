@@ -149,8 +149,10 @@ export class CalciteTreeItem {
         aria-selected={
           this.selected
             ? "true"
-            : this.selectionMode === TreeSelectionMode.Multi ||
-              this.selectionMode === TreeSelectionMode.MultiChildren
+            : (
+                this.selectionMode === TreeSelectionMode.Multi ||
+                this.selectionMode === TreeSelectionMode.MultiChildren
+              ).toString()
             ? "false"
             : undefined
         }
