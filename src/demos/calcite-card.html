@@ -78,37 +78,37 @@
               id="card-icon-test-1"
               icon-start="circle"
             ></calcite-button>
-            <div slot="footer-trailing">
+            <calcite-button
+              slot="footer-trailing"
+              type="button"
+              scale="s"
+              color="neutral"
+              id="card-icon-test-2"
+              icon-start="circle"
+            ></calcite-button>
+            <calcite-button
+              slot="footer-trailing"
+              type="button"
+              scale="s"
+              color="neutral"
+              id="card-icon-test-3"
+              icon-start="circle"
+            ></calcite-button>
+            <calcite-dropdown type="hover" slot="footer-trailing">
               <calcite-button
-                type="button"
+                id="card-icon-test-4"
+                slot="dropdown-trigger"
                 scale="s"
                 color="neutral"
-                id="card-icon-test-2"
                 icon-start="circle"
-              ></calcite-button>
-              <calcite-button
-                type="button"
-                scale="s"
-                color="neutral"
-                id="card-icon-test-3"
-                icon-start="circle"
-              ></calcite-button>
-              <calcite-dropdown type="hover">
-                <calcite-button
-                  id="card-icon-test-4"
-                  slot="dropdown-trigger"
-                  scale="s"
-                  color="neutral"
-                  icon-start="circle"
-                >
-                </calcite-button>
-                <calcite-dropdown-group selection-mode="none">
-                  <calcite-dropdown-item>View details</calcite-dropdown-item>
-                  <calcite-dropdown-item>Duplicate</calcite-dropdown-item>
-                  <calcite-dropdown-item>Delete</calcite-dropdown-item>
-                </calcite-dropdown-group>
-              </calcite-dropdown>
-            </div>
+              >
+              </calcite-button>
+              <calcite-dropdown-group selection-mode="none">
+                <calcite-dropdown-item>View details</calcite-dropdown-item>
+                <calcite-dropdown-item>Duplicate</calcite-dropdown-item>
+                <calcite-dropdown-item>Delete</calcite-dropdown-item>
+              </calcite-dropdown-group>
+            </calcite-dropdown>
           </calcite-card>
         </calcite-tooltip-manager>
       </div>
@@ -131,24 +131,24 @@
             <h3 slot="title">My great Workforce project that might wrap two lines</h3>
             <span slot="subtitle">Johnathan Smith</span>
             <span slot="footer-leading">Nov 25, 2018</span>
-            <div slot="footer-trailing">
-              <calcite-button
-                id="card-icon-test-6"
-                scale="s"
-                appearance="transparent"
-                color="neutral"
-                icon-start="circle"
-              >
-              </calcite-button>
-              <calcite-button
-                id="card-icon-test-7"
-                scale="s"
-                appearance="transparent"
-                color="neutral"
-                icon-start="circle"
-              >
-              </calcite-button>
-            </div>
+            <calcite-button
+              slot="footer-trailing"
+              id="card-icon-test-6"
+              scale="s"
+              appearance="transparent"
+              color="neutral"
+              icon-start="circle"
+            >
+            </calcite-button>
+            <calcite-button
+              slot="footer-trailing"
+              id="card-icon-test-7"
+              scale="s"
+              appearance="transparent"
+              color="neutral"
+              icon-start="circle"
+            >
+            </calcite-button>
           </calcite-card>
         </calcite-tooltip-manager>
       </div>
