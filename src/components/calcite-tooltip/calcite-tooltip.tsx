@@ -11,7 +11,6 @@ import {
   OverlayPositioning
 } from "../../utils/popper";
 import { queryElementRoots } from "../../utils/dom";
-import { debounce } from "lodash-es";
 
 @Component({
   tag: "calcite-tooltip",
@@ -141,12 +140,17 @@ export class CalciteTooltip {
   //
   // --------------------------------------------------------------------------
 
-  setUpReferenceElement = debounce((): void => {
+  setUpReferenceElement = async (): Promise<void> => {
     this.removeReferences();
     this._referenceElement = this.getReferenceElement();
 
-    const { el, referenceElement } = this;
-    if (referenceElement && typeof referenceElement === "string" && !this._referenceElement) {
+    if (!this._referenceElement) {
+      await new Promise((resolve) => setTimeout(resolve, 250));
+      this._referenceElement = this.getReferenceElement();
+    }
+
+    if (!this._referenceElement) {
+      const { el, referenceElement } = this;
       console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
         el
       });
@@ -154,7 +158,7 @@ export class CalciteTooltip {
 
     this.addReferences();
     this.createPopper();
-  }, 0);
+  };
 
   getId = (): string => {
     return this.el.id || this.guid;
