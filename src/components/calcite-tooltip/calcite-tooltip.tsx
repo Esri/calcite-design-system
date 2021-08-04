@@ -154,7 +154,7 @@ export class CalciteTooltip {
 
     this.addReferences();
     this.createPopper();
-  }, 300);
+  }, 0);
 
   getId = (): string => {
     return this.el.id || this.guid;
