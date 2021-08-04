@@ -91,7 +91,7 @@ export class CalciteTooltip {
 
   @Element() el: HTMLCalciteTooltipElement;
 
-  @State() _referenceElement: HTMLElement;
+  @State() effectiveReferenceElement: HTMLElement;
 
   arrowEl: HTMLDivElement;
 
@@ -143,15 +143,15 @@ export class CalciteTooltip {
 
   setUpReferenceElement = async (): Promise<void> => {
     this.removeReferences();
-    this._referenceElement = this.getReferenceElement();
+    this.effectiveReferenceElement = this.getReferenceElement();
 
-    if (!this._referenceElement) {
+    if (!this.effectiveReferenceElement) {
       await new Promise((resolve) => setTimeout(resolve, referenceElementQueryTimeout));
-      this._referenceElement = this.getReferenceElement();
+      this.effectiveReferenceElement = this.getReferenceElement();
     }
 
-    const { el, referenceElement, _referenceElement } = this;
-    if (referenceElement && !_referenceElement) {
+    const { el, referenceElement, effectiveReferenceElement } = this;
+    if (referenceElement && !effectiveReferenceElement) {
       console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
         el
       });
@@ -166,27 +166,27 @@ export class CalciteTooltip {
   };
 
   addReferences = (): void => {
-    const { _referenceElement } = this;
+    const { effectiveReferenceElement } = this;
 
-    if (!_referenceElement) {
+    if (!effectiveReferenceElement) {
       return;
     }
 
     const id = this.getId();
 
-    _referenceElement.setAttribute(TOOLTIP_REFERENCE, id);
-    _referenceElement.setAttribute(ARIA_DESCRIBED_BY, id);
+    effectiveReferenceElement.setAttribute(TOOLTIP_REFERENCE, id);
+    effectiveReferenceElement.setAttribute(ARIA_DESCRIBED_BY, id);
   };
 
   removeReferences = (): void => {
-    const { _referenceElement } = this;
+    const { effectiveReferenceElement } = this;
 
-    if (!_referenceElement) {
+    if (!effectiveReferenceElement) {
       return;
     }
 
-    _referenceElement.removeAttribute(TOOLTIP_REFERENCE);
-    _referenceElement.removeAttribute(ARIA_DESCRIBED_BY);
+    effectiveReferenceElement.removeAttribute(TOOLTIP_REFERENCE);
+    effectiveReferenceElement.removeAttribute(ARIA_DESCRIBED_BY);
   };
 
   show = (): void => {
@@ -232,7 +232,7 @@ export class CalciteTooltip {
   createPopper(): void {
     this.destroyPopper();
 
-    const { el, placement, _referenceElement: referenceEl, overlayPositioning } = this;
+    const { el, placement, effectiveReferenceElement: referenceEl, overlayPositioning } = this;
     const modifiers = this.getModifiers();
 
     this.popper = createPopper({
@@ -261,8 +261,8 @@ export class CalciteTooltip {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { _referenceElement, label, open } = this;
-    const displayed = _referenceElement && open;
+    const { effectiveReferenceElement, label, open } = this;
+    const displayed = effectiveReferenceElement && open;
     const hidden = !displayed;
 
     return (

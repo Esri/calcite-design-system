@@ -159,7 +159,7 @@ export class CalcitePopover {
 
   @Element() el: HTMLCalcitePopoverElement;
 
-  @State() _referenceElement: HTMLElement;
+  @State() effectiveReferenceElement: HTMLElement;
 
   popper: Popper;
 
@@ -245,15 +245,15 @@ export class CalcitePopover {
 
   setUpReferenceElement = async (): Promise<void> => {
     this.removeReferences();
-    this._referenceElement = this.getReferenceElement();
+    this.effectiveReferenceElement = this.getReferenceElement();
 
-    if (!this._referenceElement) {
+    if (!this.effectiveReferenceElement) {
       await new Promise((resolve) => setTimeout(resolve, referenceElementQueryTimeout));
-      this._referenceElement = this.getReferenceElement();
+      this.effectiveReferenceElement = this.getReferenceElement();
     }
 
-    const { el, referenceElement, _referenceElement } = this;
-    if (referenceElement && !_referenceElement) {
+    const { el, referenceElement, effectiveReferenceElement } = this;
+    if (referenceElement && !effectiveReferenceElement) {
       console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
         el
       });
@@ -268,39 +268,39 @@ export class CalcitePopover {
   };
 
   setExpandedAttr = (): void => {
-    const { _referenceElement, open } = this;
+    const { effectiveReferenceElement, open } = this;
 
-    if (!_referenceElement) {
+    if (!effectiveReferenceElement) {
       return;
     }
 
-    _referenceElement.setAttribute(ARIA_EXPANDED, open.toString());
+    effectiveReferenceElement.setAttribute(ARIA_EXPANDED, open.toString());
   };
 
   addReferences = (): void => {
-    const { _referenceElement } = this;
+    const { effectiveReferenceElement } = this;
 
-    if (!_referenceElement) {
+    if (!effectiveReferenceElement) {
       return;
     }
 
     const id = this.getId();
 
-    _referenceElement.setAttribute(POPOVER_REFERENCE, id);
-    _referenceElement.setAttribute(ARIA_CONTROLS, id);
+    effectiveReferenceElement.setAttribute(POPOVER_REFERENCE, id);
+    effectiveReferenceElement.setAttribute(ARIA_CONTROLS, id);
     this.setExpandedAttr();
   };
 
   removeReferences = (): void => {
-    const { _referenceElement } = this;
+    const { effectiveReferenceElement } = this;
 
-    if (!_referenceElement) {
+    if (!effectiveReferenceElement) {
       return;
     }
 
-    _referenceElement.removeAttribute(POPOVER_REFERENCE);
-    _referenceElement.removeAttribute(ARIA_CONTROLS);
-    _referenceElement.removeAttribute(ARIA_EXPANDED);
+    effectiveReferenceElement.removeAttribute(POPOVER_REFERENCE);
+    effectiveReferenceElement.removeAttribute(ARIA_CONTROLS);
+    effectiveReferenceElement.removeAttribute(ARIA_EXPANDED);
   };
 
   getReferenceElement(): HTMLElement {
@@ -351,7 +351,7 @@ export class CalcitePopover {
 
   createPopper(): void {
     this.destroyPopper();
-    const { el, placement, _referenceElement: referenceEl, overlayPositioning } = this;
+    const { el, placement, effectiveReferenceElement: referenceEl, overlayPositioning } = this;
     const modifiers = this.getModifiers();
 
     this.popper = createPopper({
@@ -421,9 +421,9 @@ export class CalcitePopover {
   }
 
   render(): VNode {
-    const { _referenceElement, el, heading, label, open, disablePointer } = this;
+    const { effectiveReferenceElement, el, heading, label, open, disablePointer } = this;
     const rtl = getElementDir(el) === "rtl";
-    const displayed = _referenceElement && open;
+    const displayed = effectiveReferenceElement && open;
     const hidden = !displayed;
     const arrowNode = !disablePointer ? (
       <div class={CSS.arrow} ref={(arrowEl) => (this.arrowEl = arrowEl)} />
