@@ -97,3 +97,5 @@ export function hypotenuse(sideA: number, sideB: number): number {
 const visiblePointerSize = 4;
 
 export const defaultOffsetDistance = Math.ceil(hypotenuse(visiblePointerSize, visiblePointerSize));
+
+export const referenceElementQueryTimeout = 250;

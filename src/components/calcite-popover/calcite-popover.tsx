@@ -26,7 +26,8 @@ import {
   createPopper,
   updatePopper,
   CSS as PopperCSS,
-  OverlayPositioning
+  OverlayPositioning,
+  referenceElementQueryTimeout
 } from "../../utils/popper";
 import { StrictModifiers, Placement, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
@@ -247,7 +248,7 @@ export class CalcitePopover {
     this._referenceElement = this.getReferenceElement();
 
     if (!this._referenceElement) {
-      await new Promise((resolve) => setTimeout(resolve, 250));
+      await new Promise((resolve) => setTimeout(resolve, referenceElementQueryTimeout));
       this._referenceElement = this.getReferenceElement();
     }
 
