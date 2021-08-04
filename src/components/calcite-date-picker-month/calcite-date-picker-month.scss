@@ -20,15 +20,15 @@
 }
 
 :host([scale="s"]) .week-header {
-  @apply text--2h pt-2 pb-4 px-0;
+  @apply text--2h pt-2 pb-3 px-0;
 }
 
 :host([scale="m"]) .week-header {
-  @apply text--2h pt-3 pb-6 px-0;
+  @apply text--2h pt-3 pb-4 px-0;
 }
 
 :host([scale="l"]) .week-header {
-  @apply text--1h pt-4 pb-8 px-0;
+  @apply text--1h pt-4 pb-5 px-0;
 }
 
 .week-days {
