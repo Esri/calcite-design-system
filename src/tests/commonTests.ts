@@ -66,7 +66,7 @@ export async function renders(
 
   expect(element).toHaveAttribute(HYDRATED_ATTR);
   expect(await element.isVisible()).toBe(options.visible ?? true);
-  expect((await element.getComputedStyle()).display).toBe(options.display ?? "inline");
+  expect((await element.getComputedStyle()).display).toBe(options.display ?? "block");
 }
 
 export async function reflects(
