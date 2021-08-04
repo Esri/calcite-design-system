@@ -26,8 +26,7 @@ import {
   createPopper,
   updatePopper,
   CSS as PopperCSS,
-  OverlayPositioning,
-  referenceElementQueryTimeout
+  OverlayPositioning
 } from "../../utils/popper";
 import { StrictModifiers, Placement, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
@@ -243,14 +242,9 @@ export class CalcitePopover {
   //
   // --------------------------------------------------------------------------
 
-  setUpReferenceElement = async (): Promise<void> => {
+  setUpReferenceElement = (): void => {
     this.removeReferences();
     this.effectiveReferenceElement = this.getReferenceElement();
-
-    if (!this.effectiveReferenceElement) {
-      await new Promise((resolve) => setTimeout(resolve, referenceElementQueryTimeout));
-      this.effectiveReferenceElement = this.getReferenceElement();
-    }
 
     const { el, referenceElement, effectiveReferenceElement } = this;
     if (referenceElement && !effectiveReferenceElement) {

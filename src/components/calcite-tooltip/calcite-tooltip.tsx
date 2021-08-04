@@ -8,8 +8,7 @@ import {
   createPopper,
   updatePopper,
   CSS as PopperCSS,
-  OverlayPositioning,
-  referenceElementQueryTimeout
+  OverlayPositioning
 } from "../../utils/popper";
 import { queryElementRoots } from "../../utils/dom";
 
@@ -141,14 +140,9 @@ export class CalciteTooltip {
   //
   // --------------------------------------------------------------------------
 
-  setUpReferenceElement = async (): Promise<void> => {
+  setUpReferenceElement = (): void => {
     this.removeReferences();
     this.effectiveReferenceElement = this.getReferenceElement();
-
-    if (!this.effectiveReferenceElement) {
-      await new Promise((resolve) => setTimeout(resolve, referenceElementQueryTimeout));
-      this.effectiveReferenceElement = this.getReferenceElement();
-    }
 
     const { el, referenceElement, effectiveReferenceElement } = this;
     if (referenceElement && !effectiveReferenceElement) {
