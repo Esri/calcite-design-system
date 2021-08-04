@@ -104,7 +104,7 @@ export class CalciteTooltip {
   //
   // --------------------------------------------------------------------------
 
-  componentDidLoad(): void {
+  componentWillLoad(): void {
     this.setUpReferenceElement();
   }
 

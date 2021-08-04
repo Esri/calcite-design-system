@@ -176,7 +176,7 @@ export class CalcitePopover {
   //
   // --------------------------------------------------------------------------
 
-  componentDidLoad(): void {
+  componentWillLoad(): void {
     this.setUpReferenceElement();
   }
 
