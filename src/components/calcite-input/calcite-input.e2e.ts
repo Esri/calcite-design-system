@@ -1181,5 +1181,20 @@ describe("calcite-input", () => {
       expect(await calciteInput.getProperty("value")).toBe(initialValue);
       expect(await input.getProperty("value")).toBe(localizeNumberString(initialValue, "en-US", true));
     });
+
+    it("sets internals to readOnly or disabled when component is readOnly", async () => {
+      const page = await newE2EPage({ html: "<calcite-input read-only></calcite-input>" });
+      await page.waitForChanges();
+
+      const inputs = await page.findAll("calcite-input input");
+      inputs.forEach(async (input) => {
+        expect(await input.getProperty("readOnly")).toBe(true);
+      });
+
+      const buttons = await page.findAll("calcite-input button");
+      buttons.forEach(async (button) => {
+        expect(await button.getProperty("disabled")).toBe(true);
+      });
+    });
   });
 });
