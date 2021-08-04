@@ -3,7 +3,7 @@ import { accessible, hidden, renders } from "../../tests/commonTests";
 import { dragAndDrop } from "../../tests/utils";
 
 describe("calcite-sortable-list", () => {
-  it("renders", async () => renders("calcite-sortable-list"));
+  it("renders", async () => renders("calcite-sortable-list", { display: "flex" }));
 
   it("honors hidden attribute", async () => hidden("calcite-sortable-list"));
 
