@@ -100,7 +100,11 @@ export const basic = (): string =>
     createSelectAttributes(),
     html`
       ${create("calcite-option", createOptionAttributes())}
-      <calcite-option label="some fixed option" value="some-fixed-value"></calcite-option>
+      <calcite-option
+        selected
+        label="some fixed option with a very long label set on it to extend past the end"
+        value="some-fixed-value"
+      ></calcite-option>
       <calcite-option label="another fixed option" value="another-fixed-value"></calcite-option>
     `
   );
