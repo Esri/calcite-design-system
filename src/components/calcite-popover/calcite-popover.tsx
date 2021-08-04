@@ -33,6 +33,7 @@ import { guid } from "../../utils/guid";
 import { getElementDir, queryElementRoots } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
+import { debounce } from "lodash-es";
 
 /**
  * @slot image - A slot for adding an image. The image will appear above the other slot content.
@@ -117,10 +118,6 @@ export class CalcitePopover {
 
   @Watch("open")
   openHandler(): void {
-    if (!this._referenceElement) {
-      this.referenceElementHandler();
-    }
-
     this.reposition();
     this.setExpandedAttr();
   }
@@ -146,10 +143,7 @@ export class CalcitePopover {
 
   @Watch("referenceElement")
   referenceElementHandler(): void {
-    this.removeReferences();
-    this._referenceElement = this.getReferenceElement();
-    this.addReferences();
-    this.createPopper();
+    this.setUpReferenceElement();
   }
 
   /** Text for close button.
@@ -184,8 +178,7 @@ export class CalcitePopover {
   // --------------------------------------------------------------------------
 
   componentDidLoad(): void {
-    this.createPopper();
-    this.addReferences();
+    this.setUpReferenceElement();
   }
 
   disconnectedCallback(): void {
@@ -249,6 +242,21 @@ export class CalcitePopover {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  setUpReferenceElement = debounce((): void => {
+    this.removeReferences();
+    this._referenceElement = this.getReferenceElement();
+
+    const { el, referenceElement } = this;
+    if (referenceElement && typeof referenceElement === "string" && !this._referenceElement) {
+      console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
+        el
+      });
+    }
+
+    this.addReferences();
+    this.createPopper();
+  }, 300);
 
   getId = (): string => {
     return this.el.id || this.guid;

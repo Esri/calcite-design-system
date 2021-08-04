@@ -11,6 +11,7 @@ import {
   OverlayPositioning
 } from "../../utils/popper";
 import { queryElementRoots } from "../../utils/dom";
+import { debounce } from "lodash-es";
 
 @Component({
   tag: "calcite-tooltip",
@@ -55,10 +56,6 @@ export class CalciteTooltip {
 
   @Watch("open")
   openHandler(): void {
-    if (!this._referenceElement) {
-      this.referenceElementHandler();
-    }
-
     this.reposition();
   }
 
@@ -83,10 +80,7 @@ export class CalciteTooltip {
 
   @Watch("referenceElement")
   referenceElementHandler(): void {
-    this.removeReferences();
-    this._referenceElement = this.getReferenceElement();
-    this.addReferences();
-    this.createPopper();
+    this.setUpReferenceElement();
   }
 
   // --------------------------------------------------------------------------
@@ -97,7 +91,7 @@ export class CalciteTooltip {
 
   @Element() el: HTMLCalciteTooltipElement;
 
-  @State() _referenceElement: HTMLElement = this.getReferenceElement();
+  @State() _referenceElement: HTMLElement;
 
   arrowEl: HTMLDivElement;
 
@@ -112,8 +106,7 @@ export class CalciteTooltip {
   // --------------------------------------------------------------------------
 
   componentDidLoad(): void {
-    this.addReferences();
-    this.createPopper();
+    this.setUpReferenceElement();
   }
 
   disconnectedCallback(): void {
@@ -147,6 +140,21 @@ export class CalciteTooltip {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  setUpReferenceElement = debounce((): void => {
+    this.removeReferences();
+    this._referenceElement = this.getReferenceElement();
+
+    const { el, referenceElement } = this;
+    if (referenceElement && typeof referenceElement === "string" && !this._referenceElement) {
+      console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
+        el
+      });
+    }
+
+    this.addReferences();
+    this.createPopper();
+  }, 300);
 
   getId = (): string => {
     return this.el.id || this.guid;
