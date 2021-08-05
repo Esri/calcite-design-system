@@ -7,8 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Calcite Tree</title>
     <style>
-      section {
-        padding: 0 1rem;
+      .scales {
+        padding: 0 3rem;
+        display: grid;
+        grid-gap: 2rem;
+        grid-template-columns: 1fr 1fr 1fr;
       }
       .demo-background-dark {
         background: #202020;
@@ -23,11 +26,10 @@
     <calcite-button href="/">Home</calcite-button>
     <h1>Calcite Tree</h1>
 
-    <section>
-      <h2>Scales</h2>
-
-      <!-- <h3>Small</h3>
-      <calcite-tree scale="s" selection-mode="single" input-enabled>
+    <h2>Scales</h2>
+    <h3>selection-mode "single" (no lines)</h3>
+    <section class="scales">
+      <calcite-tree class="scales-group" scale="s" selection-mode="single">
         <calcite-tree-item>
           <a>Title</a>
           <calcite-tree slot="children">
@@ -89,338 +91,9 @@
             </calcite-tree-item>
           </calcite-tree>
         </calcite-tree-item>
-      </calcite-tree> -->
-
-      <br />
-      <h3>Medium with input-enabled</h3>
-      <h4>selection-mode "single"</h4>
-      <calcite-tree selection-mode="single" input-enabled>
-        <calcite-tree-item>
-          <a>Title</a>
-          <calcite-tree slot="children">
-            <calcite-tree-item>
-              <a>Title</a>
-            </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-        <calcite-tree-item expanded>
-          <a>Title</a>
-          <calcite-tree slot="children">
-            <calcite-tree-item>
-              <a>Title</a>
-              <calcite-tree slot="children">
-                <calcite-tree-item>
-                  <a>Title</a>
-                </calcite-tree-item>
-              </calcite-tree>
-            </calcite-tree-item>
-            <calcite-tree-item expanded>
-              <a>Title</a>
-              <calcite-tree slot="children">
-                <calcite-tree-item>
-                  <a>Title</a>
-                  <calcite-tree slot="children">
-                    <calcite-tree-item>
-                      <a>Title</a>
-                    </calcite-tree-item>
-                  </calcite-tree>
-                </calcite-tree-item>
-                <calcite-tree-item expanded>
-                  <a>Title</a>
-                  <calcite-tree slot="children">
-                    <calcite-tree-item>
-                      <a>Title</a>
-                    </calcite-tree-item>
-                    <calcite-tree-item>
-                      <a>Title</a>
-                    </calcite-tree-item>
-                  </calcite-tree>
-                </calcite-tree-item>
-              </calcite-tree>
-            </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-        <calcite-tree-item>
-          <a>Title</a>
-          <calcite-tree slot="children">
-            <calcite-tree-item>
-              <a>Title</a>
-            </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-        <calcite-tree-item>
-          <a>Title</a>
-          <calcite-tree slot="children">
-            <calcite-tree-item>
-              <a>Title</a>
-            </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
       </calcite-tree>
 
-      <h4>selection-mode "multi"</h4>
-      <calcite-tree selection-mode="multi" input-enabled>
-        <calcite-tree-item>
-          <a>Title</a>
-          <calcite-tree slot="children">
-            <calcite-tree-item>
-              <a>Title</a>
-            </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-        <calcite-tree-item expanded>
-          <a>Title</a>
-          <calcite-tree slot="children">
-            <calcite-tree-item>
-              <a>Title</a>
-              <calcite-tree slot="children">
-                <calcite-tree-item>
-                  <a>Title</a>
-                </calcite-tree-item>
-              </calcite-tree>
-            </calcite-tree-item>
-            <calcite-tree-item expanded>
-              <a>Title</a>
-              <calcite-tree slot="children">
-                <calcite-tree-item>
-                  <a>Title</a>
-                  <calcite-tree slot="children">
-                    <calcite-tree-item>
-                      <a>Title</a>
-                    </calcite-tree-item>
-                  </calcite-tree>
-                </calcite-tree-item>
-                <calcite-tree-item expanded>
-                  <a>Title</a>
-                  <calcite-tree slot="children">
-                    <calcite-tree-item>
-                      <a>Title</a>
-                    </calcite-tree-item>
-                    <calcite-tree-item>
-                      <a>Title</a>
-                    </calcite-tree-item>
-                  </calcite-tree>
-                </calcite-tree-item>
-              </calcite-tree>
-            </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-        <calcite-tree-item>
-          <a>Title</a>
-          <calcite-tree slot="children">
-            <calcite-tree-item>
-              <a>Title</a>
-            </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-        <calcite-tree-item>
-          <a>Title</a>
-          <calcite-tree slot="children">
-            <calcite-tree-item>
-              <a>Title</a>
-            </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-      </calcite-tree>
-
-      <h4>selection-mode "children"</h4>
-      <calcite-tree selection-mode="children" input-enabled>
-        <calcite-tree-item>
-          <a>Title</a>
-          <calcite-tree slot="children">
-            <calcite-tree-item>
-              <a>Title</a>
-            </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-        <calcite-tree-item expanded>
-          <a>Title</a>
-          <calcite-tree slot="children">
-            <calcite-tree-item>
-              <a>Title</a>
-              <calcite-tree slot="children">
-                <calcite-tree-item>
-                  <a>Title</a>
-                </calcite-tree-item>
-              </calcite-tree>
-            </calcite-tree-item>
-            <calcite-tree-item expanded>
-              <a>Title</a>
-              <calcite-tree slot="children">
-                <calcite-tree-item>
-                  <a>Title</a>
-                  <calcite-tree slot="children">
-                    <calcite-tree-item>
-                      <a>Title</a>
-                    </calcite-tree-item>
-                  </calcite-tree>
-                </calcite-tree-item>
-                <calcite-tree-item expanded>
-                  <a>Title</a>
-                  <calcite-tree slot="children">
-                    <calcite-tree-item>
-                      <a>Title</a>
-                    </calcite-tree-item>
-                    <calcite-tree-item>
-                      <a>Title</a>
-                    </calcite-tree-item>
-                  </calcite-tree>
-                </calcite-tree-item>
-              </calcite-tree>
-            </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-        <calcite-tree-item>
-          <a>Title</a>
-          <calcite-tree slot="children">
-            <calcite-tree-item>
-              <a>Title</a>
-            </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-        <calcite-tree-item>
-          <a>Title</a>
-          <calcite-tree slot="children">
-            <calcite-tree-item>
-              <a>Title</a>
-            </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-      </calcite-tree>
-
-      <h4>selection-mode "multi-children"</h4>
-      <calcite-tree selection-mode="multi-children" input-enabled>
-        <calcite-tree-item>
-          <a>Title</a>
-          <calcite-tree slot="children">
-            <calcite-tree-item>
-              <a>Title</a>
-            </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-        <calcite-tree-item expanded>
-          <a>Title</a>
-          <calcite-tree slot="children">
-            <calcite-tree-item>
-              <a>Title</a>
-              <calcite-tree slot="children">
-                <calcite-tree-item>
-                  <a>Title</a>
-                </calcite-tree-item>
-              </calcite-tree>
-            </calcite-tree-item>
-            <calcite-tree-item expanded>
-              <a>Title</a>
-              <calcite-tree slot="children">
-                <calcite-tree-item>
-                  <a>Title</a>
-                  <calcite-tree slot="children">
-                    <calcite-tree-item>
-                      <a>Title</a>
-                    </calcite-tree-item>
-                  </calcite-tree>
-                </calcite-tree-item>
-                <calcite-tree-item expanded>
-                  <a>Title</a>
-                  <calcite-tree slot="children">
-                    <calcite-tree-item>
-                      <a>Title</a>
-                    </calcite-tree-item>
-                    <calcite-tree-item>
-                      <a>Title</a>
-                    </calcite-tree-item>
-                  </calcite-tree>
-                </calcite-tree-item>
-              </calcite-tree>
-            </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-        <calcite-tree-item>
-          <a>Title</a>
-          <calcite-tree slot="children">
-            <calcite-tree-item>
-              <a>Title</a>
-            </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-        <calcite-tree-item>
-          <a>Title</a>
-          <calcite-tree slot="children">
-            <calcite-tree-item>
-              <a>Title</a>
-            </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-      </calcite-tree>
-
-      <h4>selection-mode "ancestors"</h4>
-      <calcite-tree selection-mode="ancestors" input-enabled>
-        <calcite-tree-item>
-          <a>Title</a>
-          <calcite-tree slot="children">
-            <calcite-tree-item>
-              <a>Title</a>
-            </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-        <calcite-tree-item expanded>
-          <a>Title</a>
-          <calcite-tree slot="children">
-            <calcite-tree-item>
-              <a>Title</a>
-              <calcite-tree slot="children">
-                <calcite-tree-item>
-                  <a>Title</a>
-                </calcite-tree-item>
-              </calcite-tree>
-            </calcite-tree-item>
-            <calcite-tree-item expanded>
-              <a>Title</a>
-              <calcite-tree slot="children">
-                <calcite-tree-item>
-                  <a>Title</a>
-                  <calcite-tree slot="children">
-                    <calcite-tree-item>
-                      <a>Title</a>
-                    </calcite-tree-item>
-                  </calcite-tree>
-                </calcite-tree-item>
-                <calcite-tree-item expanded>
-                  <a>Title</a>
-                  <calcite-tree slot="children">
-                    <calcite-tree-item>
-                      <a>Title</a>
-                    </calcite-tree-item>
-                    <calcite-tree-item>
-                      <a>Title</a>
-                    </calcite-tree-item>
-                  </calcite-tree>
-                </calcite-tree-item>
-              </calcite-tree>
-            </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-        <calcite-tree-item>
-          <a>Title</a>
-          <calcite-tree slot="children">
-            <calcite-tree-item>
-              <a>Title</a>
-            </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-        <calcite-tree-item>
-          <a>Title</a>
-          <calcite-tree slot="children">
-            <calcite-tree-item>
-              <a>Title</a>
-            </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-      </calcite-tree>
-
-      <!-- <br />
-      <h3>Large</h3>
-      <calcite-tree scale="l" selection-mode="single" input-enabled>
+      <calcite-tree class="scales-group" selection-mode="single">
         <calcite-tree-item>
           <a>Title</a>
           <calcite-tree slot="children">
@@ -482,12 +155,271 @@
             </calcite-tree-item>
           </calcite-tree>
         </calcite-tree-item>
-      </calcite-tree> -->
+      </calcite-tree>
+
+      <calcite-tree class="scales-group" scale="l" selection-mode="single">
+        <calcite-tree-item>
+          <a>Title</a>
+          <calcite-tree slot="children">
+            <calcite-tree-item>
+              <a>Title</a>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+        <calcite-tree-item expanded>
+          <a>Title</a>
+          <calcite-tree slot="children">
+            <calcite-tree-item>
+              <a>Title</a>
+              <calcite-tree slot="children">
+                <calcite-tree-item>
+                  <a>Title</a>
+                </calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+            <calcite-tree-item expanded>
+              <a>Title</a>
+              <calcite-tree slot="children">
+                <calcite-tree-item>
+                  <a>Title</a>
+                  <calcite-tree slot="children">
+                    <calcite-tree-item>
+                      <a>Title</a>
+                    </calcite-tree-item>
+                  </calcite-tree>
+                </calcite-tree-item>
+                <calcite-tree-item expanded>
+                  <a>Title</a>
+                  <calcite-tree slot="children">
+                    <calcite-tree-item selected>
+                      <a>Title</a>
+                    </calcite-tree-item>
+                    <calcite-tree-item>
+                      <a>Title</a>
+                    </calcite-tree-item>
+                  </calcite-tree>
+                </calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+        <calcite-tree-item>
+          <a>Title</a>
+          <calcite-tree slot="children">
+            <calcite-tree-item>
+              <a>Title</a>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+        <calcite-tree-item>
+          <a>Title</a>
+          <calcite-tree slot="children">
+            <calcite-tree-item>
+              <a>Title</a>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+      </calcite-tree>
+    </section>
+
+    <h3>selection-mode "single" (lines)</h3>
+    <section class="scales">
+      <calcite-tree lines class="scales-group" scale="s" selection-mode="single">
+        <calcite-tree-item>
+          <a>Title</a>
+          <calcite-tree slot="children">
+            <calcite-tree-item>
+              <a>Title</a>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+        <calcite-tree-item expanded>
+          <a>Title</a>
+          <calcite-tree slot="children">
+            <calcite-tree-item>
+              <a>Title</a>
+              <calcite-tree slot="children">
+                <calcite-tree-item>
+                  <a>Title</a>
+                </calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+            <calcite-tree-item expanded>
+              <a>Title</a>
+              <calcite-tree slot="children">
+                <calcite-tree-item>
+                  <a>Title</a>
+                  <calcite-tree slot="children">
+                    <calcite-tree-item>
+                      <a>Title</a>
+                    </calcite-tree-item>
+                  </calcite-tree>
+                </calcite-tree-item>
+                <calcite-tree-item expanded>
+                  <a>Title</a>
+                  <calcite-tree slot="children">
+                    <calcite-tree-item selected>
+                      <a>Title</a>
+                    </calcite-tree-item>
+                    <calcite-tree-item>
+                      <a>Title</a>
+                    </calcite-tree-item>
+                  </calcite-tree>
+                </calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+        <calcite-tree-item>
+          <a>Title</a>
+          <calcite-tree slot="children">
+            <calcite-tree-item>
+              <a>Title</a>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+        <calcite-tree-item>
+          <a>Title</a>
+          <calcite-tree slot="children">
+            <calcite-tree-item>
+              <a>Title</a>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+      </calcite-tree>
+
+      <calcite-tree lines class="scales-group" selection-mode="single">
+        <calcite-tree-item>
+          <a>Title</a>
+          <calcite-tree slot="children">
+            <calcite-tree-item>
+              <a>Title</a>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+        <calcite-tree-item expanded>
+          <a>Title</a>
+          <calcite-tree slot="children">
+            <calcite-tree-item>
+              <a>Title</a>
+              <calcite-tree slot="children">
+                <calcite-tree-item>
+                  <a>Title</a>
+                </calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+            <calcite-tree-item expanded>
+              <a>Title</a>
+              <calcite-tree slot="children">
+                <calcite-tree-item>
+                  <a>Title</a>
+                  <calcite-tree slot="children">
+                    <calcite-tree-item>
+                      <a>Title</a>
+                    </calcite-tree-item>
+                  </calcite-tree>
+                </calcite-tree-item>
+                <calcite-tree-item expanded>
+                  <a>Title</a>
+                  <calcite-tree slot="children">
+                    <calcite-tree-item selected>
+                      <a>Title</a>
+                    </calcite-tree-item>
+                    <calcite-tree-item>
+                      <a>Title</a>
+                    </calcite-tree-item>
+                  </calcite-tree>
+                </calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+        <calcite-tree-item>
+          <a>Title</a>
+          <calcite-tree slot="children">
+            <calcite-tree-item>
+              <a>Title</a>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+        <calcite-tree-item>
+          <a>Title</a>
+          <calcite-tree slot="children">
+            <calcite-tree-item>
+              <a>Title</a>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+      </calcite-tree>
+
+      <calcite-tree lines class="scales-group" scale="l" selection-mode="single">
+        <calcite-tree-item>
+          <a>Title</a>
+          <calcite-tree slot="children">
+            <calcite-tree-item>
+              <a>Title</a>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+        <calcite-tree-item expanded>
+          <a>Title</a>
+          <calcite-tree slot="children">
+            <calcite-tree-item>
+              <a>Title</a>
+              <calcite-tree slot="children">
+                <calcite-tree-item>
+                  <a>Title</a>
+                </calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+            <calcite-tree-item expanded>
+              <a>Title</a>
+              <calcite-tree slot="children">
+                <calcite-tree-item>
+                  <a>Title</a>
+                  <calcite-tree slot="children">
+                    <calcite-tree-item>
+                      <a>Title</a>
+                    </calcite-tree-item>
+                  </calcite-tree>
+                </calcite-tree-item>
+                <calcite-tree-item expanded>
+                  <a>Title</a>
+                  <calcite-tree slot="children">
+                    <calcite-tree-item selected>
+                      <a>Title</a>
+                    </calcite-tree-item>
+                    <calcite-tree-item>
+                      <a>Title</a>
+                    </calcite-tree-item>
+                  </calcite-tree>
+                </calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+        <calcite-tree-item>
+          <a>Title</a>
+          <calcite-tree slot="children">
+            <calcite-tree-item>
+              <a>Title</a>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+        <calcite-tree-item>
+          <a>Title</a>
+          <calcite-tree slot="children">
+            <calcite-tree-item>
+              <a>Title</a>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+      </calcite-tree>
     </section>
 
     <br />
 
-    <!--<calcite-tree>
+    <calcite-tree>
       <calcite-tree-item>
         <a href="#">Child 1</a>
       </calcite-tree-item>
@@ -1513,6 +1445,6 @@
           </calcite-tree-item>
         </calcite-tree>
       </calcite-tree-item>
-    </calcite-tree> -->
+    </calcite-tree>
   </body>
 </html>

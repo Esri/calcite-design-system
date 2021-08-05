@@ -38,7 +38,7 @@ export class CalciteTree {
   @Prop({ mutable: true, reflect: true }) lines = false;
 
   /** Display input */
-  @Prop({ mutable: true }) inputEnabled = false;
+  @Prop({ mutable: true }) inputEnabled = false; // TO-DO: inputs should only appear with ancestors selection-mode
 
   /** @internal If this tree is nested within another tree, set to false */
   @Prop({ reflect: true, mutable: true }) child: boolean;
@@ -46,7 +46,7 @@ export class CalciteTree {
   /** Specify the scale of the tree, defaults to m */
   @Prop({ mutable: true, reflect: true }) scale: Scale = "m";
 
-  /** Customize how tree selection works (single, multi, children, multi-children)
+  /** Customize how tree selection works (single, multi, children, multi-children, ancestors)
    * @default "single"
    * @see [TreeSelectionMode](https://github.com/Esri/calcite-components/blob/master/src/components/calcite-tree/interfaces.ts#L5)
    */

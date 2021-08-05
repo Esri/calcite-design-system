@@ -8,7 +8,6 @@
   --calcite-tree-text-active: theme("textColor.color.1");
   color: var(--calcite-tree-text);
   --calcite-tree-chevron: var(--calcite-ui-border-1);
-  // --calcite-tree-chevron-hover: var(--calcite-ui-text-3);
   --calcite-tree-vertical-padding: 0;
   --calcite-tree-indicator: var(--calcite-ui-border-1);
   --calcite-tree-indicator-active: var(--calcite-ui-brand);
@@ -51,9 +50,6 @@
 :host([lines]) {
   --calcite-tree-line: var(--calcite-ui-border-3);
   --calcite-tree-line-hover: var(--calcite-ui-border-1);
-  & .calcite-tree-node:before {
-    @apply hidden;
-  }
 }
 
 :host(:not([lines])) .calcite-tree-node:after {
@@ -62,7 +58,6 @@
 
 :host([scale="s"]) {
   --calcite-tree-hover-line-width: 2px;
-  // --calcite-tree-vertical-padding: #{$baseline/8};
   --calcite-tree-children-indent-start: 0rem;
   --calcite-tree-children-padding-start: 0.8rem;
   --calcite-tree-line-position-start: 0.3rem;
@@ -145,16 +140,17 @@
   height: 0;
   transform-origin: top; // keep the top of the element in the same place. this is optional.
 
+  // show vertical lines
   &:after {
-    transition: all $transition;
+    @apply transition-default
+      h-full
+      top-0
+      absolute;
     content: "";
-    height: 100%;
     width: var(--calcite-tree-line-width);
     background: var(--calcite-tree-line);
     left: var(--calcite-tree-line-position-start);
     right: var(--calcite-tree-line-position-end);
-    top: 0;
-    position: absolute;
   }
   :host([expanded]) > & {
     transform: scaleY(1);
@@ -179,6 +175,8 @@
   position: relative;
 
   &:before {
+    // keep indicator 12px
+    font-size: theme("fontSize.-2");
     content: "\2022";
     position: absolute;
     left: var(--calcite-tree-indicator-distance-start);
@@ -189,16 +187,6 @@
   }
 
   &:after {
-    transition: all $transition;
-    content: "";
-    height: 100%;
-    width: var(--calcite-tree-line-width);
-    background: var(--calcite-tree-line);
-    left: var(--calcite-tree-parent-line-position-start);
-    right: var(--calcite-tree-parent-line-position-end);
-    top: 0;
-    position: absolute;
-
     :host([depth="1"]) > & {
       @apply hidden;
     }
@@ -225,9 +213,9 @@
   }
 }
 
-.calcite-tree-node:hover,
-:host([selected]) .calcite-tree-node:hover,
-:host(:focus) .calcite-tree-node {
+:host(:not([show-checkmark])) .calcite-tree-node:hover,
+:host([selected]:not([show-checkmark])) .calcite-tree-node:hover,
+:host(:focus:not([show-checkmark])) .calcite-tree-node {
   &:before {
     opacity: 1;
   }
@@ -240,16 +228,13 @@
     color: var(--calcite-tree-text-hover);
   }
 
-  .calcite-tree-chevron {
-    fill: var(--calcite-tree-chevron-hover);
-  }
   .calcite-tree-indicator {
     fill: var(--calcite-tree-indicator-hover);
   }
 }
 
-:host([selected]) > .calcite-tree-node,
-:host([selected]) > .calcite-tree-node:hover {
+:host([selected]:not([show-checkmark])) > .calcite-tree-node,
+:host([selected]:not([show-checkmark])) > .calcite-tree-node:hover {
   color: var(--calcite-tree-text-active);
   @apply font-medium;
 
@@ -301,23 +286,12 @@
   margin-right: var(--calcite-tree-icon-content-distance-start);
   margin-left: var(--calcite-tree-icon-content-distance-end);
   transform: rotate(0deg);
-  // fill: var(--calcite-tree-chevron);
 
   :host([dir="rtl"]) & {
     transform: rotate(180deg);
   }
 
-  // :host(:hover) &,
-  // :host(:focus) & {
-  //   fill: var(--calcite-tree-chevron-hover);
-  //   stroke: var(--calcite-tree-chevron-hover);
-  //   stroke-width: 0.75;
-  // }
-
   :host([expanded]) > .calcite-tree-node > & {
     transform: rotate(90deg);
-    // fill: var(--calcite-ui-brand);
-    // stroke-width: 0.75;
-    // stroke: var(--calcite-ui-brand);
   }
 }
