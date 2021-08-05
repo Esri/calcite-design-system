@@ -2,7 +2,7 @@
   @apply flex
     self-stretch
     cursor-pointer
-    font-medium;
+    font-normal;
   transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out;
 }
 
@@ -26,8 +26,8 @@
   @apply focus-base;
 }
 :host(:focus) {
+  @apply focus-inset;
   outline-offset: -1px;
-  outline: 2px solid var(--calcite-ui-brand);
 }
 
 .label--scale-s {
@@ -61,7 +61,7 @@
 
 :host([checked]) .label--outline {
   @apply bg-foreground-1 border-color-brand;
-  box-shadow: inset 0 0 0 2px theme("backgroundColor.brand");
+  box-shadow: inset 0 0 0 1px theme("backgroundColor.brand");
   color: theme("backgroundColor.brand");
 }
 
@@ -73,6 +73,7 @@
 .radio-group-item-icon {
   @apply inline-flex
     relative
+    m-0
     transition-default;
   line-height: inherit;
 }
