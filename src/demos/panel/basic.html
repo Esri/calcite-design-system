@@ -4,49 +4,86 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
 
-    <title>Calcite Components: calcite-panel</title>
+    <title> Calcite panel </title>
+
+    <style>
+      .parent {
+        display: flex;
+        align-items: center;
+        margin: 25px 0;
+      }
+
+      .child {
+        flex: 0 0 40%;
+        margin: 0 25px;
+        color: var(--calcite-ui-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+        padding: 18px 0;
+      }
+
+      .right-aligned-text {
+        text-align: right;
+        flex: 0 0 12%;
+      }
+
+      hr {
+        margin: 60px 0;
+        border-top: 1px solid var(--calcite-ui-border-2);
+      }
+    </style>
 
     <script src="../_assets/head.js"></script>
   </head>
 
   <body>
-    <main>
-      <section class="example-container">
-        <h1>calcite-panel</h1>
+    <div>
+      <calcite-button href="/" icon-start="arrow-left" color="neutral"> Home </calcite-button>
+    </div>
+    <h1 style="margin: 0 auto; text-align: center"> Panel </h1>
 
-        <h2>Basic Panel</h2>
-        <calcite-panel>
-          <div slot="header-content">panel header</div>
-          <p>Slotted content</p>
+    <!-- basic -->
+    <div class="parent">
+      <div class="child right-aligned-text"> basic </div>
+      <div class="child">
+        <calcite-panel height-scale="s">
+          <div slot="header-content">Header!</div>
+          <p>Slotted content!</p>
         </calcite-panel>
+      </div>
+    </div>
 
-        <h2>Header properties</h2>
-        <calcite-panel heading="I'm using heading" summary="I'm using summary">
-          <calcite-action label="cool banana" icon="banana" slot="header-actions-end"></calcite-action>
-          <calcite-action label="cool banana" icon="banana" slot="header-actions-end"></calcite-action>
-          <calcite-action label="cool banana" icon="banana" slot="header-actions-start"></calcite-action>
-          <calcite-action label="cool banana" icon="banana" slot="header-actions-start"></calcite-action>
-          <calcite-action
-            label="cool banana"
-            icon="banana"
-            text="cool banana"
-            text-enabled
-            slot="header-menu-actions"
-          ></calcite-action>
-          <calcite-action icon="banana" text="cool banana" text-enabled slot="header-menu-actions"></calcite-action>
-          <p>I'm using the properties.</p>
-          <img src="https://via.placeholder.com/300x400" alt="placeholder" />
-          <calcite-fab slot="fab"></calcite-fab>
+
+    <!-- disabled -->
+    <div class="parent">
+      <div class="child right-aligned-text"> disabled </div>
+      <div class="child">
+        <calcite-panel disabled>
+          <div slot="header-content">Header!</div>
+          <p>Slotted content!</p>
         </calcite-panel>
+      </div>
+    </div>
 
-        <h2>With Footer</h2>
+
+    <!-- footer -->
+    <div class="parent">
+      <div class="child right-aligned-text"> footer </div>
+      <div class="child">
         <calcite-panel>
           <div slot="header-content">header-content slot</div>
           <p>I have a footer.</p>
           <div slot="footer">panel Footer</div>
-        </calcite-panel>
+        </calcite-panel>        
+      </div>
+    </div>
 
-        <h2>With Header Actions</h2>
+
+     <!-- header with actions -->
+     <div class="parent">
+      <div class="child right-aligned-text"> header with actions </div>
+      <div class="child">
         <calcite-panel>
           <calcite-action
             label="icon left"
@@ -63,149 +100,19 @@
           ></calcite-action>
           <p>Buttons in the top left and right. Mainly for calcite-actions and not plain buttons.</p>
         </calcite-panel>
+      </div>
+    </div>
 
-        <h2>Dismissible Panel</h2>
+
+    <!-- dismissible panel -->
+    <div class="parent">
+      <div class="child right-aligned-text"> dismissible panel </div>
+      <div class="child">    
         <calcite-panel dismissible id="dismissible-panel">
-          <div slot="header-content">Dismissible panel header</div>
-          <p>Click the X and I go away</p>
+          <div slot="header-content">Dismissible Header</div>
+          <p>Click the X and I go away!</p>
         </calcite-panel>
-
-        <script>
-          const dismissiblePanel = document.getElementById("dismissible-panel");
-          dismissiblePanel.addEventListener("calcitePanelDismissedChange", function () {
-            console.log("calcitePanelDismiss event");
-          });
-          setTimeout(function () {
-            dismissiblePanel.setFocus("dismiss-button");
-          }, 3000);
-        </script>
-
-        <h2>Scrolling Panel</h2>
-        <calcite-panel style="height: 500px" id="panel">
-          <div slot="header-content">panel header</div>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p style="position: relative; z-index: 999">
-            High zIndex content. High zIndex content. High zIndex content. High zIndex content. High zIndex content.
-            High zIndex content. High zIndex content. High zIndex content. High zIndex content. High zIndex content.
-            High zIndex content. High zIndex content. High zIndex content. High zIndex content. High zIndex content.
-            High zIndex content.
-          </p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <p>Slotted content</p>
-          <calcite-fab slot="fab" text-enabled text="Add" label="Add"></calcite-fab>
-        </calcite-panel>
-        <script>
-          const panel = document.getElementById("panel");
-          panel.addEventListener("calcitePanelScroll", function (event) {
-            console.log("scrolled", event);
-          });
-        </script>
-
-        <div class="panel-container" dir="rtl">
-          <h2>RTL</h2>
-
-          <h3>Header slot</h3>
-          <calcite-panel>
-            <div slot="header-content">I'm using the header-content slot</div>
-            <p>Slotted content</p>
-          </calcite-panel>
-
-          <h3>With Header props</h3>
-          <calcite-panel heading="I'm using heading" summary="I'm using summary">
-            <p>I'm using the properties.</p>
-          </calcite-panel>
-
-          <calcite-panel>
-            <calcite-action
-              label="icon left"
-              onclick="console.log('left clicked');"
-              icon="left"
-              slot="header-actions-start"
-            ></calcite-action>
-            <div slot="header-content">panel 3 header</div>
-            <calcite-action
-              label="icon right"
-              onclick="console.log('right clicked');"
-              icon="right"
-              slot="header-actions-end"
-            ></calcite-action>
-            <p>Button positions are reversed!</p>
-          </calcite-panel>
-
-          <h3>Dismissible Panel</h3>
-          <calcite-panel dismissible>
-            <div slot="header-content">I'm using header-content slot.</div>
-            <p>I'm the content.</p>
-          </calcite-panel>
-        </div>
-      </section>
-    </main>
+      </div>
+    </div>
   </body>
 </html>
