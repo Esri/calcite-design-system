@@ -19,6 +19,7 @@ If you are looking for a list that handles more advanced usage like selection, s
 
 | Slot              | Description                                                                                  |
 | ----------------- | -------------------------------------------------------------------------------------------- |
+|                   | A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.                |
 | `"actions-end"`   | A slot for adding actionable `calcite-action` elements after the content of the list item.   |
 | `"actions-start"` | A slot for adding actionable `calcite-action` elements before the content of the list item.  |
 | `"content-end"`   | A slot for adding non-actionable elements after the label and description of the list item.  |
