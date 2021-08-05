@@ -5,11 +5,12 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 <!--@unreleased-section-start-->
 
-## Unreleased (2021-08-04)
+## Unreleased (2021-08-05)
 
 ### Bug Fixes
 
 - **dropdown:** update dropdown-trigger-container width ([234477a](https://github.com/Esri/calcite-components/commit/234477af3ef40e6fd054c52e934fd0f365144a30)), closes [#2625](https://github.com/Esri/calcite-components/issues/2625) [#2625](https://github.com/Esri/calcite-components/issues/2625) [#2625](https://github.com/Esri/calcite-components/issues/2625)
+- **select:** truncate long labels. [#2714](https://github.com/Esri/calcite-components/issues/2714) ([#2731](https://github.com/Esri/calcite-components/issues/2731)) ([6792161](https://github.com/Esri/calcite-components/commit/679216119359caddc3355bfe279a0676ba13a5b4))
 <!--@unreleased-section-end-->
 
 ## [1.0.0-beta.61](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.60...v1.0.0-beta.61) (2021-08-03)
