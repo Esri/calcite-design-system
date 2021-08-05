@@ -14,7 +14,7 @@
   max-width: unset;
 }
 
-::slotted(.calcite-match-height) {
+::slotted(.calcite-match-height:last-child) {
   @apply flex
   flex-auto
   overflow-hidden;
