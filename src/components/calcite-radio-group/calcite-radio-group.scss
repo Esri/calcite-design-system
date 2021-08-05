@@ -1,20 +1,7 @@
-:host([scale="s"]) {
-  min-height: theme("spacing.6");
-}
-
-:host([scale="m"]) {
-  min-height: theme("spacing.8");
-}
-
-:host([scale="l"]) {
-  min-height: theme("spacing.11");
-}
-
 :host {
   @apply flex bg-foreground-1;
   width: fit-content;
-  outline: 1px solid var(--calcite-ui-border-input);
-  outline-offset: -1px;
+  box-shadow: inset 0 0 0 1px var(--calcite-ui-border-input);
 }
 
 :host([layout="vertical"]) {
