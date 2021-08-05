@@ -1,11 +1,26 @@
-.demo-nav ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.demo-header {
   display: flex;
+  flex-wrap: nowrap;
+  border-bottom: 1px solid gray;
+  align-items: center;
+  display: flex;
+  margin-bottom: 1em;
 }
-.demo-nav li {
-  margin: 0;
-  margin-inline-end: 0.5em;
-  padding: 0;
+
+.demo-header__leading-content {
+  align-self: flex-start;
+}
+
+.demo-header__title {
+  flex: 1;
+  margin: 0 1em;
+  padding: 1em;
+  border-left: 1px solid gray;
+  border-right: 1px solid gray;
+  font-size: 18px;
+  line-height: 18px;
+}
+
+.demo-header__trailing-content {
+  align-self: flex-end;
 }

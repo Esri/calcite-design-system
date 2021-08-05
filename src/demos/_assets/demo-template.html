@@ -1,11 +1,18 @@
 <template>
   <link rel="stylesheet" href="/demos/_assets/demo-template.css" />
   <script src="/demos/_assets/demo-template.js"></script>
-  <nav class="demo-nav">
-    <ul>
-      <li><calcite-button href="/">Home</calcite-button></li>
-      <li><calcite-button type="button" id="toggle-dir">Toggle Dir</calcite-button></li>
-      <li><calcite-button type="button" id="toggle-theme">Toggle Theme</calcite-button></li>
-    </ul>
-  </nav>
+  <header class="demo-header" dir="ltr">
+    <div class="demo-header__leading-content">
+      <calcite-button color="neutral" icon-start="arrowLeft" appearance="transparent" href="/">Home</calcite-button>
+    </div>
+    <h1 id="demo-header__title" class="demo-header__title"></h1>
+    <div class="demo-header__trailing-content">
+      <calcite-label layout="inline"
+        >RTL<calcite-switch scale="s" id="toggle-dir" scale="l"></calcite-switch>
+      </calcite-label>
+      <calcite-label layout="inline"
+        >Dark Theme<calcite-switch scale="s" id="toggle-theme" scale="l"></calcite-switch
+      ></calcite-label>
+    </div>
+  </header>
 </template>
