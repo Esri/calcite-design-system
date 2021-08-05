@@ -27,6 +27,7 @@
     "lint:styles": "stylelint --fix \"src/**/*.scss\"",
     "lint:ts": "concurrently \"tslint --fix --project tsconfig-tslint.json\" \"eslint --fix --ext .ts,.tsx .\"",
     "posttest": "npm run test:prerender",
+    "prepare": "husky install",
     "prepublishOnly": "ts-node ./support/prepublish.ts",
     "prettier": "concurrently npm:prettier:*",
     "prettier:styles": "prettier --write \"src/**/*.scss\"",
@@ -51,8 +52,7 @@
     "util:prep-next-from-existing-build": "ts-node --project ./tsconfig-node-scripts.json support/prepReleaseCommit.ts --next",
     "util:publish-next": "npm publish --tag next",
     "util:push-tags": "git push --follow-tags",
-    "util:run-tests": "npm run util:copy-icons && stencil test --no-docs --spec --e2e",
-    "util:prep-autolint": "husky install"
+    "util:run-tests": "npm run util:copy-icons && stencil test --no-docs --spec --e2e"
   },
   "repository": {
     "type": "git",
