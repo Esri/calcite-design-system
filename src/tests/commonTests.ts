@@ -56,7 +56,7 @@ export async function accessible(componentTagOrHTML: TagOrHTML, page?: E2EPage):
 
 export async function renders(
   componentTagOrHTML: TagOrHTML,
-  options: {
+  options?: {
     visible?: boolean;
     display?: string;
   }

@@ -88,56 +88,58 @@ export class CalciteGraph {
           <defs>
             <linearGradient id={`linear-gradient-${id}`} x1="0" x2="1" y1="0" y2="0">
               {colorStops.map(({ offset, color, opacity }) => (
-                <stop offset={`${offset * 100}%`} stop-color={color} stop-opacity={opacity}/>
+                <stop offset={`${offset * 100}%`} stop-color={color} stop-opacity={opacity} />
               ))}
             </linearGradient>
           </defs>
         ) : null}
 
-        {highlightMin !== undefined ? [
-          <mask height="100%" id={`${id}1`} width="100%" x="0%" y="0%">
-            <path
-              d={`
+        {highlightMin !== undefined ? (
+          [
+            <mask height="100%" id={`${id}1`} width="100%" x="0%" y="0%">
+              <path
+                d={`
             M 0,0
             L ${hMinX - 1},0
             L ${hMinX - 1},${height}
             L 0,${height}
             Z
           `}
-              fill="white"
-            />
-          </mask>,
+                fill="white"
+              />
+            </mask>,
 
-          <mask height="100%" id={`${id}2`} width="100%" x="0%" y="0%">
-            <path
-              d={`
+            <mask height="100%" id={`${id}2`} width="100%" x="0%" y="0%">
+              <path
+                d={`
             M ${hMinX + 1},0
             L ${hMaxX - 1},0
             L ${hMaxX - 1},${height}
             L ${hMinX + 1}, ${height}
             Z
           `}
-              fill="white"
-            />
-          </mask>,
+                fill="white"
+              />
+            </mask>,
 
-          <mask height="100%" id={`${id}3`} width="100%" x="0%" y="0%">
-            <path
-              d={`
+            <mask height="100%" id={`${id}3`} width="100%" x="0%" y="0%">
+              <path
+                d={`
                 M ${hMaxX + 1},0
                 L ${width},0
                 L ${width},${height}
                 L ${hMaxX + 1}, ${height}
                 Z
               `}
-              fill="white"
-            />
-          </mask>,
+                fill="white"
+              />
+            </mask>,
 
-          <path class="graph-path" d={areaPath} fill={fill} mask={`url(#${id}1)`} />,
-          <path class="graph-path--highlight" d={areaPath} fill={fill} mask={`url(#${id}2)`} />,
-          <path class="graph-path" d={areaPath} fill={fill} mask={`url(#${id}3)`} />
-         ] : (
+            <path class="graph-path" d={areaPath} fill={fill} mask={`url(#${id}1)`} />,
+            <path class="graph-path--highlight" d={areaPath} fill={fill} mask={`url(#${id}2)`} />,
+            <path class="graph-path" d={areaPath} fill={fill} mask={`url(#${id}3)`} />
+          ]
+        ) : (
           <path class="graph-path" d={areaPath} fill={fill} />
         )}
       </svg>
