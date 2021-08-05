@@ -55,7 +55,7 @@ export class CalciteSlider {
   /**
    * Array of values describing a single color stop, sorted by offset ascending.
    */
-  @Prop() histogramStops: ColorStop[]
+  @Prop() histogramStops: ColorStop[];
 
   /** Label handles with their numeric value */
   @Prop({ reflect: true }) labelHandles?: boolean;
