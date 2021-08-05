@@ -49,7 +49,7 @@ export class CalcitePickListItem {
    * When false, the item cannot be deselected by user interaction.
    */
   @Prop() disableDeselect = false;
-  
+
   /**
    * @internal When true, the item cannot be selected by user interaction.
    */
@@ -209,7 +209,7 @@ export class CalcitePickListItem {
   pickListKeyDownHandler = (event: KeyboardEvent): void => {
     if (event.key === " ") {
       event.preventDefault();
-      if (this.disableDeselect && this.selected || this.nonInteractive) {
+      if ((this.disableDeselect && this.selected) || this.nonInteractive) {
         return;
       }
       this.selected = !this.selected;
