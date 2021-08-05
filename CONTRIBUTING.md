@@ -35,12 +35,6 @@ It is recommended to install the following extensions to your editor of choice: 
 
 To ensure code consistency, this project is set up to automatically lint and fix issues when committing code.
 
-To set this up, run the following after `npm install`:
-
-```
-npm run util:prep-autolint
-```
-
 #### VS Code
 
 - https://code.visualstudio.com/
