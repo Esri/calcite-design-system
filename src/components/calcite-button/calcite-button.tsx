@@ -136,7 +136,6 @@ export class CalciteButton {
   render(): VNode {
     const dir = getElementDir(this.el);
     const Tag = this.childElType;
-    const iconScale = this.scale === "l" ? "m" : "s";
 
     const loader = (
       <div class={CSS.buttonLoader}>
@@ -146,7 +145,7 @@ export class CalciteButton {
             class={this.loading ? CSS.loadingIn : CSS.loadingOut}
             inline
             label={this.intlLoading}
-            scale={iconScale}
+            scale="m"
           />
         ) : null}
       </div>
@@ -157,7 +156,7 @@ export class CalciteButton {
         class={{ [CSS.icon]: true, [CSS.iconStart]: true }}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
-        scale={iconScale}
+        scale="s"
       />
     );
 
@@ -166,7 +165,7 @@ export class CalciteButton {
         class={{ [CSS.icon]: true, [CSS.iconEnd]: true }}
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
-        scale={iconScale}
+        scale="s"
       />
     );
 

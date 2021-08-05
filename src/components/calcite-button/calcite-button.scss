@@ -42,7 +42,7 @@
     text-center
     box-border
     font-inherit
-    font-medium;
+    font-normal;
   // include transition from focus
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
     outline-offset 100ms ease-in-out, outline-color 100ms ease-in-out;
@@ -187,7 +187,7 @@
   @apply inline-flex
     relative
     m-0
-    font-medium;
+    font-normal;
   line-height: inherit;
 }
 
@@ -645,17 +645,17 @@
 :host([scale="l"]) button.content--slotted,
 :host([scale="l"]) a.content--slotted {
   --calcite-button-padding-x: 15px;
-  @apply text-1h;
+  @apply text-0h;
 }
 :host([scale="l"]:not([appearance="transparent"])) button.content--slotted,
 :host([scale="l"]:not([appearance="transparent"])) a.content--slotted {
-  --calcite-button-padding-y: 9px;
+  --calcite-button-padding-y: 11px;
 }
 // accommodate for transparent buttons not having borders
 :host([scale="l"][appearance="transparent"]) button.content--slotted,
 :host([scale="l"][appearance="transparent"]) a.content--slotted {
   --calcite-button-padding-x: theme("padding.4");
-  --calcite-button-padding-y: theme("padding[2.5]");
+  --calcite-button-padding-y: theme("padding.3");
 }
 
 // generate fab scales (scenario: 1 icon, ie., should be square)
