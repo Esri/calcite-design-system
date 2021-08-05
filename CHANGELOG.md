@@ -7,6 +7,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased (2021-08-05)
 
+### Features
+
+- **calcite-list-item-group:** Add support for grouping list items [#2550](https://github.com/Esri/calcite-components/issues/2550) ([#2700](https://github.com/Esri/calcite-components/issues/2700)) ([f11e21d](https://github.com/Esri/calcite-components/commit/f11e21d042b5fd48332521458348873b2b087165)), closes [#2350](https://github.com/Esri/calcite-components/issues/2350)
+
 ### Bug Fixes
 
 - **dropdown:** update dropdown-trigger-container width ([234477a](https://github.com/Esri/calcite-components/commit/234477af3ef40e6fd054c52e934fd0f365144a30)), closes [#2625](https://github.com/Esri/calcite-components/issues/2625) [#2625](https://github.com/Esri/calcite-components/issues/2625) [#2625](https://github.com/Esri/calcite-components/issues/2625)
