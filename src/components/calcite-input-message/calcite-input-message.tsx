@@ -36,7 +36,7 @@ export class CalciteInputMessage {
   /** specify the status of the input field, determines message and icons */
   @Prop({ reflect: true, mutable: true }) status: Status = "idle";
 
-   /** specify the appearance of any slotted message - default (displayed under input), or floating (positioned absolutely under input)
+  /** specify the appearance of any slotted message - default (displayed under input), or floating (positioned absolutely under input)
    * @deprecated "floating" type is no longer supported
    */
   @Prop({ reflect: true }) type: "default";
