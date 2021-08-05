@@ -1,12 +1,13 @@
 :host {
-  @apply flex;
+  @apply block;
 }
 
 .container {
   @apply bg-transparent
   box-border
   flex
-  flex-col;
+  flex-col
+  w-full;
   * {
     @apply box-border;
   }
