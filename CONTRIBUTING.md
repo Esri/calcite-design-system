@@ -29,7 +29,11 @@ If something isn't working the way you expected, please take a look at [previous
 
 ### Getting a development environment set up
 
-You don't _have to_ but we recommend installing TypeScript, TSLint, TailwindCSS, Prettier and EditorConfig extensions for your editor of choice.
+It is recommended to install the following extensions to your editor of choice: TypeScript, Sass, TailwindCSS, ESLint, TSLint and Prettier.
+
+#### Linting
+
+To ensure code consistency, this project is set up to automatically lint and fix issues when committing code.
 
 #### VS Code
 

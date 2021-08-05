@@ -27,89 +27,97 @@
   </head>
 
   <body>
-   <div>
+    <div>
       <calcite-button href="/" icon-start="arrow-left" color="neutral"> Home </calcite-button>
     </div>
     <h1 style="margin: 0 auto; text-align: center">Popover</h1>
 
     <!-- clickable popover -->
     <calcite-popover-manager>
-    <div class="parent">
-      <div class="child">Clickable popover</div>
+      <div class="parent">
+        <div class="child">Clickable popover</div>
 
-      <div class="child">
-        <calcite-button appearance="outline" id="popover-button-right" icon-start="popup"> Clickable popover</calcite-button>
+        <div class="child">
+          <calcite-button appearance="outline" id="popover-button-right" icon-start="popup">
+            Clickable popover</calcite-button
+          >
+        </div>
       </div>
-    </div>
 
+      <!-- with close button -->
+      <div class="parent">
+        <div class="child">With close button</div>
 
-    <!-- with close button -->
-    <div class="parent">
-      <div class="child"> With close button</div>
-
-      <div class="child">
-        <calcite-button appearance="outline" id="popover-button-close" icon-start="popup"> With close button</calcite-button>
+        <div class="child">
+          <calcite-button appearance="outline" id="popover-button-close" icon-start="popup">
+            With close button</calcite-button
+          >
+        </div>
       </div>
-    </div>
 
+      <!-- title, content & CTA -->
+      <div class="parent">
+        <div class="child">Title, content & CTA</div>
 
-    <!-- title, content & CTA -->
-    <div class="parent">
-      <div class="child"> Title, content & CTA</div>
-
-      <div class="child">
-        <calcite-button appearance="outline" id="title-content-cta" icon-start="popup"> Title, content & CTA</calcite-button>
+        <div class="child">
+          <calcite-button appearance="outline" id="title-content-cta" icon-start="popup">
+            Title, content & CTA</calcite-button
+          >
+        </div>
       </div>
-    </div>
 
+      <!-- heading (in prop), content & CTA -->
+      <div class="parent">
+        <div class="child">Heading (in prop), content & CTA</div>
 
-    <!-- heading (in prop), content & CTA -->
-    <div class="parent">
-      <div class="child"> Heading (in prop), content & CTA</div>
-
-      <div class="child">
-        <calcite-button appearance="outline" id="heading-title-content-cta" icon-start="popup"> Heading (in prop), content & CTA</calcite-button>
+        <div class="child">
+          <calcite-button appearance="outline" id="heading-title-content-cta" icon-start="popup">
+            Heading (in prop), content & CTA</calcite-button
+          >
+        </div>
       </div>
-    </div>
 
-    <!-- tooltip and popover test -->
-    <div class="parent">
-      <div class="child"> Tooltip and popover test</div>
+      <!-- tooltip and popover test -->
+      <div class="parent">
+        <div class="child">Tooltip and popover test</div>
 
-      <div class="child">
-        <calcite-tooltip-manager>
-          <calcite-button appearance="outline" id="tooltip-and-popover" icon-start="popup"> Tooltip and popover test</calcite-button>
-        </calcite-tooltip-manager>
+        <div class="child">
+          <calcite-tooltip-manager>
+            <calcite-button appearance="outline" id="tooltip-and-popover" icon-start="popup">
+              Tooltip and popover test</calcite-button
+            >
+          </calcite-tooltip-manager>
+        </div>
       </div>
-    </div>
 
-    <!-- 
+      <!-- 
       **************************************************
       * Popover content handler
       **************************************************
     -->
-    <!-- clickable popover -->
-    <calcite-popover
+      <!-- clickable popover -->
+      <calcite-popover
         label="right start popover"
         reference-element="popover-button-right"
         placement="right-start"
-        id="popover-right">
-          <div style="padding: 12px 16px">Hello! I am some popover content!</div>
+        id="popover-right"
+      >
+        <div style="padding: 12px 16px">Hello! I am some popover content!</div>
       </calcite-popover>
 
       <!-- with close button -->
       <calcite-popover
-      label="auto placement popover"
-      reference-element="popover-button-close"
-      placement="auto"
-      id="popover-close"
-      dismissible
-    >
-      <div style="padding: 12px 16px">I am a popover with a close button!</div>
-    </calcite-popover>
+        label="auto placement popover"
+        reference-element="popover-button-close"
+        placement="auto"
+        id="popover-close"
+        dismissible
+      >
+        <div style="padding: 12px 16px">I am a popover with a close button!</div>
+      </calcite-popover>
 
-    <!-- title, content & CTA -->
-    <calcite-popover
+      <!-- title, content & CTA -->
+      <calcite-popover
         label="right end popover"
         reference-element="title-content-cta"
         placement="right-end"
@@ -127,29 +135,29 @@
         </div>
       </calcite-popover>
 
-    <!-- heading (in prop), title, content & CTA -->
-    <calcite-popover
-      heading="I'm a heading in the header using the 'heading' prop!"
-      label="right end popover"
-      reference-element="heading-title-content-cta"
-      placement="right-end"
-      id="popover-heading"
-      dismissible
-      style="width: 25vw"
-    >
-      <img src="https://www.fillmurray.com/640/360" style="width: 100%" />
-      <div style="padding: 0.5rem 1rem 0.75rem">
-        <p style="margin-top: 0">
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-          industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book.
-        </p>
-        <calcite-link title="Inline link">I am an inline link</calcite-link>
-      </div>
-    </calcite-popover>
+      <!-- heading (in prop), title, content & CTA -->
+      <calcite-popover
+        heading="I'm a heading in the header using the 'heading' prop!"
+        label="right end popover"
+        reference-element="heading-title-content-cta"
+        placement="right-end"
+        id="popover-heading"
+        dismissible
+        style="width: 25vw"
+      >
+        <img src="https://www.fillmurray.com/640/360" style="width: 100%" />
+        <div style="padding: 0.5rem 1rem 0.75rem">
+          <p style="margin-top: 0">
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+            industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+            scrambled it to make a type specimen book.
+          </p>
+          <calcite-link title="Inline link">I am an inline link</calcite-link>
+        </div>
+      </calcite-popover>
 
-    <!-- tooltip and popover -->
-    <calcite-popover
+      <!-- tooltip and popover -->
+      <calcite-popover
         label="top placement dark theme popover"
         reference-element="tooltip-and-popover"
         placement="top"
