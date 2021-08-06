@@ -10,7 +10,7 @@ describe("calcite-accordion", () => {
     <calcite-accordion-item item-title="Accordion Title 3" id="3">Accordion Item Content
     </calcite-accordion-item>
  `;
-  it("renders", async () => renders("calcite-accordion"));
+  it("renders", async () => renders("calcite-accordion", { display: "block" }));
 
   it("is accessible", async () => accessible(`<calcite-accordion>${accordionContent}</calcite-accordion>`));
 

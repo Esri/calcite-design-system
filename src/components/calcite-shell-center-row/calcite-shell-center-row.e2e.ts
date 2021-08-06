@@ -4,7 +4,7 @@ import { CSS, SLOTS } from "./resources";
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-shell-center-row", () => {
-  it("renders", async () => renders("calcite-shell-center-row"));
+  it("renders", async () => renders("calcite-shell-center-row", { display: "flex" }));
 
   it("honors hidden attribute", async () => hidden("calcite-shell-center-row"));
 

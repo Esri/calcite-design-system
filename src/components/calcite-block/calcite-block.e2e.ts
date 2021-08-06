@@ -4,7 +4,7 @@ import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 
 describe("calcite-block", () => {
-  it("renders", async () => renders("calcite-block"));
+  it("renders", async () => renders("calcite-block", { display: "flex" }));
 
   it("honors hidden attribute", async () => hidden("calcite-block"));
 

@@ -440,13 +440,59 @@
         Toggle loading animation
         <calcite-switch id="loading-switch"></calcite-switch>
       </calcite-label>
+      <calcite-label layout="inline">
+        Change scale
+        <calcite-radio-group id="scale-group" scale="s">
+          <calcite-radio-group-item value="s">s</calcite-radio-group-item>
+          <calcite-radio-group-item value="m" checked>m</calcite-radio-group-item>
+          <calcite-radio-group-item value="l">l</calcite-radio-group-item>
+        </calcite-radio-group>
+      </calcite-label>
+      <calcite-label layout="inline">
+        Change appearance
+        <calcite-radio-group id="appearance-group" scale="s">
+          <calcite-radio-group-item value="solid" checked>solid</calcite-radio-group-item>
+          <calcite-radio-group-item value="clear">clear</calcite-radio-group-item>
+          <calcite-radio-group-item value="outline">outline</calcite-radio-group-item>
+          <calcite-radio-group-item value="transparent">transparent</calcite-radio-group-item>
+        </calcite-radio-group>
+      </calcite-label>
+      <calcite-label layout="inline">
+        Change color
+        <calcite-radio-group id="color-group" scale="s">
+          <calcite-radio-group-item value="blue" checked>blue</calcite-radio-group-item>
+          <calcite-radio-group-item value="neutral">neutral</calcite-radio-group-item>
+          <calcite-radio-group-item value="inverse">inverse</calcite-radio-group-item>
+          <calcite-radio-group-item value="red">red</calcite-radio-group-item>
+        </calcite-radio-group>
+      </calcite-label>
       <script>
-        const switchEl = document.querySelector("#loading-switch");
-        switchEl.addEventListener("calciteSwitchChange", () => {
-          document.querySelectorAll(".loading-transition").forEach((button) => {
-            button.toggleAttribute("loading");
+        const loadingSwitch = document.querySelector("#loading-switch");
+        const scaleRadios = document.querySelector("#scale-group");
+        const appearanceRadios = document.querySelector("#appearance-group");
+        const colorRadios = document.querySelector("#color-group");
+        window.onload = () => {
+          loadingSwitch.addEventListener("calciteSwitchChange", () => {
+            document.querySelectorAll(".loading-transition").forEach((button) => {
+              button.toggleAttribute("loading");
+            });
           });
-        });
+          scaleRadios.addEventListener("calciteRadioGroupChange", (e) => {
+            document.querySelectorAll(".loading-transition").forEach((button) => {
+              button.setAttribute("scale", e.detail);
+            });
+          });
+          appearanceRadios.addEventListener("calciteRadioGroupChange", (e) => {
+            document.querySelectorAll(".loading-transition").forEach((button) => {
+              button.setAttribute("appearance", e.detail);
+            });
+          });
+          colorRadios.addEventListener("calciteRadioGroupChange", (e) => {
+            document.querySelectorAll(".loading-transition").forEach((button) => {
+              button.setAttribute("color", e.detail);
+            });
+          });
+        };
       </script>
 
       <calcite-button
