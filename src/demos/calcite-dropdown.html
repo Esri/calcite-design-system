@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Calcite Dropdown</title>
     <style>
-       .parent,
-       .example {
+      .parent,
+      .example {
         display: flex;
         align-items: center;
         color: var(--calcite-ui-text-3);
@@ -55,13 +55,15 @@
       <div class="child">Large</div>
     </div>
 
-    <!-- scale + Icon start -->
+    <!-- scale + icon -->
     <div class="parent">
-      <div class="child right-aligned-text"> scale + icon start </div>
+      <div class="child right-aligned-text">scale + icon</div>
 
       <div class="child">
         <calcite-dropdown scale="s">
-          <calcite-button appearance="outline" icon-start="caret-down" scale="s" slot="dropdown-trigger">Scale S</calcite-button>
+          <calcite-button icon-end="hamburger" appearance="outline" scale="s" slot="dropdown-trigger"
+            >Scale S</calcite-button
+          >
           <calcite-dropdown-group group-title="View">
             <calcite-dropdown-item icon-start="list-bullet" active>List</calcite-dropdown-item>
             <calcite-dropdown-item icon-start="grid">Grid</calcite-dropdown-item>
@@ -72,7 +74,9 @@
 
       <div class="child">
         <calcite-dropdown scale="m">
-          <calcite-button appearance="outline" icon-start="caret-down" scale="s" slot="dropdown-trigger">Scale M</calcite-button>
+          <calcite-button icon-end="hamburger" appearance="outline" scale="s" slot="dropdown-trigger"
+            >Scale M</calcite-button
+          >
           <calcite-dropdown-group group-title="View">
             <calcite-dropdown-item icon-start="list-bullet" active>List</calcite-dropdown-item>
             <calcite-dropdown-item icon-start="grid">Grid</calcite-dropdown-item>
@@ -83,7 +87,9 @@
 
       <div class="child">
         <calcite-dropdown scale="l">
-          <calcite-button appearance="outline" icon-start="caret-down" scale="s" slot="dropdown-trigger">Scale L</calcite-button>
+          <calcite-button icon-end="hamburger" appearance="outline" scale="s" slot="dropdown-trigger"
+            >Scale L</calcite-button
+          >
           <calcite-dropdown-group group-title="View">
             <calcite-dropdown-item icon-start="list-bullet" active>List</calcite-dropdown-item>
             <calcite-dropdown-item icon-start="grid">Grid</calcite-dropdown-item>
@@ -93,53 +99,15 @@
       </div>
     </div>
 
-
-    <!-- scale + Icon end -->
+    <!-- scale + icon + multi select-->
     <div class="parent">
-      <div class="child right-aligned-text"> scale + icon end </div>
-
-      <div class="child">
-        <calcite-dropdown scale="s">
-          <calcite-button appearance="outline" icon-end="hamburger" scale="s" slot="dropdown-trigger">Scale S</calcite-button>
-          <calcite-dropdown-group group-title="View">
-            <calcite-dropdown-item icon-start="list-bullet" active>List</calcite-dropdown-item>
-            <calcite-dropdown-item icon-start="grid">Grid</calcite-dropdown-item>
-            <calcite-dropdown-item icon-start="table">Table</calcite-dropdown-item>
-          </calcite-dropdown-group>
-        </calcite-dropdown>
-      </div>
-
-      <div class="child">
-        <calcite-dropdown scale="m">
-          <calcite-button appearance="outline" icon-end="hamburger" scale="s" slot="dropdown-trigger">Scale M</calcite-button>
-          <calcite-dropdown-group group-title="View">
-            <calcite-dropdown-item icon-start="list-bullet" active>List</calcite-dropdown-item>
-            <calcite-dropdown-item icon-start="grid">Grid</calcite-dropdown-item>
-            <calcite-dropdown-item icon-start="table">Table</calcite-dropdown-item>
-          </calcite-dropdown-group>
-        </calcite-dropdown>
-      </div>
-
-      <div class="child">
-        <calcite-dropdown scale="l">
-          <calcite-button appearance="outline" icon-end="hamburger" scale="s" slot="dropdown-trigger">Scale L</calcite-button>
-          <calcite-dropdown-group group-title="View">
-            <calcite-dropdown-item icon-start="list-bullet" active>List</calcite-dropdown-item>
-            <calcite-dropdown-item icon-start="grid">Grid</calcite-dropdown-item>
-            <calcite-dropdown-item icon-start="table">Table</calcite-dropdown-item>
-          </calcite-dropdown-group>
-        </calcite-dropdown>
-      </div>
-    </div>
-
-
-    <!--  scale + Icon start + Multi select-->
-    <div class="parent">
-      <div class="child right-aligned-text"> scale + icon start + multi select</div>
+      <div class="child right-aligned-text">scale + icon + multi select</div>
 
       <div class="child">
         <calcite-dropdown scale="s" selection-mode="multi">
-          <calcite-button appearance="outline" icon-start="caret-down" scale="s" slot="dropdown-trigger">Scale S</calcite-button>
+          <calcite-button icon-end="hamburger" appearance="outline" scale="s" slot="dropdown-trigger"
+            >Scale S</calcite-button
+          >
           <calcite-dropdown-group group-title="View">
             <calcite-dropdown-item icon-start="list-bullet" active>List</calcite-dropdown-item>
             <calcite-dropdown-item icon-start="grid">Grid</calcite-dropdown-item>
@@ -150,7 +118,9 @@
 
       <div class="child">
         <calcite-dropdown scale="m" selection-mode="multi">
-          <calcite-button appearance="outline" icon-start="caret-down" scale="s" slot="dropdown-trigger">Scale M</calcite-button>
+          <calcite-button icon-end="hamburger" appearance="outline" scale="s" slot="dropdown-trigger"
+            >Scale M</calcite-button
+          >
           <calcite-dropdown-group group-title="View">
             <calcite-dropdown-item icon-start="list-bullet" active>List</calcite-dropdown-item>
             <calcite-dropdown-item icon-start="grid">Grid</calcite-dropdown-item>
@@ -161,46 +131,9 @@
 
       <div class="child">
         <calcite-dropdown scale="l" selection-mode="multi">
-          <calcite-button appearance="outline" icon-start="caret-down" scale="s" slot="dropdown-trigger">Scale L</calcite-button>
-          <calcite-dropdown-group group-title="View">
-            <calcite-dropdown-item icon-start="list-bullet" active>List</calcite-dropdown-item>
-            <calcite-dropdown-item icon-start="grid">Grid</calcite-dropdown-item>
-            <calcite-dropdown-item icon-start="table">Table</calcite-dropdown-item>
-          </calcite-dropdown-group>
-        </calcite-dropdown>
-      </div>
-    </div>
-
-
-    <!-- scale + Icon end + Multi select-->
-    <div class="parent">
-      <div class="child right-aligned-text"> scale + icon end + multi select</div>
-
-      <div class="child">
-        <calcite-dropdown scale="s" selection-mode="multi">
-          <calcite-button appearance="outline" icon-end="hamburger" scale="s" slot="dropdown-trigger">Scale S</calcite-button>
-          <calcite-dropdown-group group-title="View">
-            <calcite-dropdown-item icon-start="list-bullet" active>List</calcite-dropdown-item>
-            <calcite-dropdown-item icon-start="grid">Grid</calcite-dropdown-item>
-            <calcite-dropdown-item icon-start="table">Table</calcite-dropdown-item>
-          </calcite-dropdown-group>
-        </calcite-dropdown>
-      </div>
-
-      <div class="child">
-        <calcite-dropdown scale="m" selection-mode="multi">
-          <calcite-button appearance="outline" icon-end="hamburger" scale="s" slot="dropdown-trigger">Scale M</calcite-button>
-          <calcite-dropdown-group group-title="View">
-            <calcite-dropdown-item icon-start="list-bullet" active>List</calcite-dropdown-item>
-            <calcite-dropdown-item icon-start="grid">Grid</calcite-dropdown-item>
-            <calcite-dropdown-item icon-start="table">Table</calcite-dropdown-item>
-          </calcite-dropdown-group>
-        </calcite-dropdown>
-      </div>
-
-      <div class="child">
-        <calcite-dropdown scale="l" selection-mode="multi">
-          <calcite-button appearance="outline" icon-end="hamburger" scale="s" slot="dropdown-trigger">Scale L</calcite-button>
+          <calcite-button icon-end="hamburger" appearance="outline" scale="s" slot="dropdown-trigger"
+            >Scale L</calcite-button
+          >
           <calcite-dropdown-group group-title="View">
             <calcite-dropdown-item icon-start="list-bullet" active>List</calcite-dropdown-item>
             <calcite-dropdown-item icon-start="grid">Grid</calcite-dropdown-item>
@@ -212,11 +145,13 @@
 
     <!-- control amount of items displayed -->
     <div class="parent">
-      <div class="child right-aligned-text"> control amount of items displayed </div>
+      <div class="child right-aligned-text">control amount of items displayed</div>
 
       <div class="child">
         <calcite-dropdown scale="s" max-items="7">
-          <calcite-button appearance="outline" icon-end="hamburger" scale="s" slot="dropdown-trigger">Open Dropdown</calcite-button>
+          <calcite-button appearance="outline" icon-end="hamburger" scale="s" slot="dropdown-trigger"
+            >Open Dropdown</calcite-button
+          >
           <calcite-dropdown-group group-title="First group">
             <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
             <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
@@ -236,7 +171,9 @@
 
       <div class="child">
         <calcite-dropdown scale="m" max-items="7">
-          <calcite-button appearance="outline" icon-end="hamburger" scale="s" slot="dropdown-trigger">Open Dropdown</calcite-button>
+          <calcite-button appearance="outline" icon-end="hamburger" scale="s" slot="dropdown-trigger"
+            >Open Dropdown</calcite-button
+          >
           <calcite-dropdown-group group-title="First group">
             <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
             <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
@@ -256,7 +193,9 @@
 
       <div class="child">
         <calcite-dropdown scale="l" max-items="7">
-          <calcite-button appearance="outline" icon-end="hamburger" scale="s" slot="dropdown-trigger">Open Dropdown</calcite-button>
+          <calcite-button appearance="outline" icon-end="hamburger" scale="s" slot="dropdown-trigger"
+            >Open Dropdown</calcite-button
+          >
           <calcite-dropdown-group group-title="First group">
             <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
             <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
@@ -276,11 +215,13 @@
     </div>
 
     <div class="parent">
-      <div class="child right-aligned-text"> allow scrolling </div>
+      <div class="child right-aligned-text">allow scrolling</div>
 
       <div class="child">
         <calcite-dropdown scale="s">
-          <calcite-button appearance="outline" icon-end="hamburger" scale="s"slot="dropdown-trigger">Open Dropdown</calcite-button>
+          <calcite-button appearance="outline" icon-end="hamburger" scale="s" slot="dropdown-trigger"
+            >Open Dropdown</calcite-button
+          >
           <calcite-dropdown-group>
             <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
             <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
@@ -313,7 +254,9 @@
 
       <div class="child">
         <calcite-dropdown scale="m">
-          <calcite-button appearance="outline" icon-end="hamburger" scale="s"slot="dropdown-trigger">Open Dropdown</calcite-button>
+          <calcite-button appearance="outline" icon-end="hamburger" scale="s" slot="dropdown-trigger"
+            >Open Dropdown</calcite-button
+          >
           <calcite-dropdown-group>
             <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
             <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
@@ -346,7 +289,9 @@
 
       <div class="child">
         <calcite-dropdown scale="l">
-          <calcite-button appearance="outline" icon-end="hamburger" scale="s"slot="dropdown-trigger">Open Dropdown</calcite-button>
+          <calcite-button appearance="outline" icon-end="hamburger" scale="s" slot="dropdown-trigger"
+            >Open Dropdown</calcite-button
+          >
           <calcite-dropdown-group>
             <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
             <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
@@ -378,15 +323,18 @@
       </div>
     </div>
 
-    <hr /> <!-- A horizontal line -->
+    <hr />
+    <!-- A horizontal line -->
 
     <!-- Disabled -->
     <div class="parent">
       <div class="child right-aligned-text">Disabled</div>
-      
+
       <div class="child">
         <calcite-dropdown disabled>
-          <calcite-button icon-end="handle-vertical" scale="s" appearance="outline" slot="dropdown-trigger">Disabled dropdown</calcite-button>
+          <calcite-button icon-end="handle-vertical" scale="s" appearance="outline" slot="dropdown-trigger"
+            >Disabled dropdown</calcite-button
+          >
           <calcite-dropdown-group group-title="View">
             <calcite-dropdown-item icon-start="list-bullet" active>List</calcite-dropdown-item>
             <calcite-dropdown-item icon-start="grid">Grid</calcite-dropdown-item>
@@ -402,7 +350,9 @@
 
       <div class="child">
         <calcite-dropdown>
-          <calcite-button icon-end="handle-vertical" scale="s" appearance="outline" slot="dropdown-trigger">items as links</calcite-button>
+          <calcite-button icon-end="handle-vertical" scale="s" appearance="outline" slot="dropdown-trigger"
+            >items as links</calcite-button
+          >
           <calcite-dropdown-group selection-mode="none">
             <calcite-dropdown-item href="/mypage" title="My Page" icon-start="grid">Relevance</calcite-dropdown-item>
             <calcite-dropdown-item href="/mypage2" title="My Page 2" icon-end="table"
@@ -414,14 +364,15 @@
       </div>
     </div>
 
-
     <!-- items as links + no links -->
     <div class="parent">
-      <div class="child right-aligned-text"> items as links + no links</div>
+      <div class="child right-aligned-text">items as links + no links</div>
 
       <div class="child">
         <calcite-dropdown>
-          <calcite-button icon-end="handle-vertical" scale="s" appearance="outline" slot="dropdown-trigger"> items as links + no links</calcite-button>
+          <calcite-button icon-end="handle-vertical" scale="s" appearance="outline" slot="dropdown-trigger">
+            items as links + no links</calcite-button
+          >
           <calcite-dropdown-group group-title="Not Links">
             <calcite-dropdown-item>Relevance</calcite-dropdown-item>
             <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
@@ -436,14 +387,15 @@
       </div>
     </div>
 
-
     <!-- Examples -->
     <div class="parent example">
       <div class="child right-aligned-text">Examples</div>
-      
+
       <div class="child">
         <calcite-dropdown>
-          <calcite-button icon-end="hamburger" scale="s" appearance="outline" slot="dropdown-trigger"> two groups </calcite-button>
+          <calcite-button icon-end="hamburger" scale="s" appearance="outline" slot="dropdown-trigger">
+            two groups
+          </calcite-button>
           <calcite-dropdown-group group-title="Sort by">
             <calcite-dropdown-item>Relevance</calcite-dropdown-item>
             <calcite-dropdown-item active> Date modified </calcite-dropdown-item>
@@ -458,7 +410,9 @@
 
       <div class="child">
         <calcite-dropdown>
-          <calcite-button icon-end="hamburger" scale="s" appearance="outline" slot="dropdown-trigger"> three groups </calcite-button>
+          <calcite-button icon-end="hamburger" scale="s" appearance="outline" slot="dropdown-trigger">
+            three groups
+          </calcite-button>
           <calcite-dropdown-group group-title="Sort by">
             <calcite-dropdown-item>Relevance</calcite-dropdown-item>
             <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
@@ -477,7 +431,9 @@
 
       <div class="child">
         <calcite-dropdown placement="top" type="hover">
-          <calcite-button icon-end="hamburger" scale="s" appearance="outline" slot="dropdown-trigger"> hover, top aligned </calcite-button>
+          <calcite-button icon-end="hamburger" scale="s" appearance="outline" slot="dropdown-trigger">
+            hover, top aligned
+          </calcite-button>
           <calcite-dropdown-group group-title="View">
             <calcite-dropdown-item active>List</calcite-dropdown-item>
             <calcite-dropdown-item>Grid</calcite-dropdown-item>
@@ -488,7 +444,9 @@
 
       <div class="child">
         <calcite-dropdown placement="bottom">
-          <calcite-button icon-end="hamburger" scale="s" appearance="outline" slot="dropdown-trigger"> center aligned </calcite-button>
+          <calcite-button icon-end="hamburger" scale="s" appearance="outline" slot="dropdown-trigger">
+            center aligned
+          </calcite-button>
           <calcite-dropdown-group>
             <calcite-dropdown-item>Mint</calcite-dropdown-item>
             <calcite-dropdown-item active>Chocolate</calcite-dropdown-item>
