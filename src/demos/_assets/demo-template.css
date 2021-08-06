@@ -5,6 +5,10 @@
   align-items: center;
   display: flex;
   margin-bottom: 1em;
+  position: sticky;
+  top: 0;
+  background-color: var(--calcite-ui-background);
+  z-index: 2;
 }
 
 .demo-header__leading-content {
