@@ -27,44 +27,58 @@
   --calcite-tree-children-padding-end: 0;
   --calcite-tree-checkbox-padding-start: 0;
   --calcite-tree-checkbox-padding-end: 0.5rem;
-  --calcite-tree-line-position-start: 0.05rem;
-  --calcite-tree-line-position-end: 0;
-  --calcite-tree-parent-line-position-start: -0.95rem;
-  --calcite-tree-parent-line-position-end: 0;
-  --calcite-tree-line-width: 1px;
-  --calcite-tree-hover-line-width: 3px;
 }
 
-:host([scale="s"]) .calcite-tree-node {
+:host([scale="s"]) {
   --calcite-tree-vertical-padding: theme("padding.1");
 }
 
-:host([scale="m"]) .calcite-tree-node {
+:host([scale="m"]) {
   --calcite-tree-vertical-padding: theme("padding.2");
 }
 
-:host([scale="l"]) .calcite-tree-node {
+:host([scale="l"]) {
   --calcite-tree-vertical-padding: theme("padding.3");
 }
 
 :host([lines]) {
-  --calcite-tree-line: var(--calcite-ui-border-3);
-  --calcite-tree-line-hover: var(--calcite-ui-border-1);
+  --calcite-tree-line: theme("borderColor.color.2");
+  margin-inline-start: 2px;
+  margin-inline-end: 8px;
+
+  .calcite-tree-children {
+    left: 4px;
+
+    &.calcite--rtl {
+      left: unset;
+      right: 4px;
+    }
+  }
+
+  &:host([scale="s"]) .calcite-tree-children {
+    left: 2px;
+
+    &.calcite--rtl {
+      left: unset;
+      right: 2px;
+    }
+  }
+
+  &:host([scale="l"]) .calcite-tree-children {
+    left: 8px;
+
+    &.calcite--rtl {
+      left: unset;
+      right: 8px;
+    }
+  }
 }
 
 :host(:not([lines])) .calcite-tree-node:after {
   @apply hidden;
 }
 
-:host([scale="s"]) {
-  --calcite-tree-hover-line-width: 2px;
-  --calcite-tree-children-indent-start: 0rem;
-  --calcite-tree-children-padding-start: 0.8rem;
-  --calcite-tree-line-position-start: 0.3rem;
-  --calcite-tree-parent-line-position-start: -0.5rem;
-}
-
-:host([dir="rtl"]) {
+:host .calcite--rtl {
   --calcite-tree-indicator-first-start: 0;
   --calcite-tree-indicator-first-end: 0.1rem;
   --calcite-tree-indicator-distance-start: auto;
@@ -87,12 +101,18 @@
   --calcite-tree-parent-line-position-end: -0.95rem;
 }
 
-:host([dir="rtl"][scale="s"]) {
-  --calcite-tree-children-indent-end: 0rem;
-  --calcite-tree-children-padding-end: 0.8rem;
-  --calcite-tree-line-position-end: 0.3rem;
-  --calcite-tree-parent-line-position-end: -0.5rem;
+:host(:not([has-children])) {
+  .calcite-tree-chevron {
+    @apply opacity-0;
+  }
 }
+
+// :host([dir="rtl"][scale="s"]) { // TO-DO: fix item no children chevron indentation
+//   --calcite-tree-children-indent-end: 0rem;
+//   --calcite-tree-children-padding-end: 0.8rem;
+//   --calcite-tree-line-position-end: 0.3rem;
+//   --calcite-tree-parent-line-position-end: -0.5rem;
+// }
 
 ::slotted(*) {
   @apply break-words min-w-0 max-w-full;
@@ -118,8 +138,8 @@
 .calcite-tree-checkbox {
   @apply outline-none;
   line-height: 0;
-  padding-left: var(--calcite-tree-checkbox-padding-start);
-  padding-right: var(--calcite-tree-checkbox-padding-end);
+  padding-inline-start: var(--calcite-tree-vertical-padding);
+  padding-inline-end: var(--calcite-tree-vertical-padding);
 }
 
 .calcite-tree-label {
@@ -143,14 +163,14 @@
   // show vertical lines
   &:after {
     @apply transition-default
-      h-full
+      transition-colors
       top-0
-      absolute;
+      absolute
+      w-px;
+    // ensure lines don't overlap focus outline
+    height: 92%;
     content: "";
-    width: var(--calcite-tree-line-width);
-    background: var(--calcite-tree-line);
-    left: var(--calcite-tree-line-position-start);
-    right: var(--calcite-tree-line-position-end);
+    background-color: var(--calcite-tree-line);
   }
   :host([expanded]) > & {
     transform: scaleY(1);
@@ -159,31 +179,33 @@
   }
 }
 
-:host([has-children]) .calcite-tree-children:hover,
-:host([has-children]) .calcite-tree-children:focus {
-  &:after {
-    background: var(--calcite-tree-line-hover);
-  }
+:host([scale="s"]) .calcite-tree-node {
+  --calcite-tree-vertical-padding: theme("padding.1");
+}
+:host([scale="m"]) .calcite-tree-node {
+  --calcite-tree-vertical-padding: theme("padding.2");
+}
+:host([scale="l"]) .calcite-tree-node {
+  --calcite-tree-vertical-padding: theme("padding.3");
 }
 
 .calcite-tree-node {
-  display: flex;
-  align-items: center;
+  @apply flex items-center relative;
   padding: var(--calcite-tree-vertical-padding) 0;
-  padding-left: var(--calcite-tree-indent-start);
-  padding-right: var(--calcite-tree-indent-end);
-  position: relative;
+  width: 100%;
 
-  &:before {
-    // keep indicator 12px
-    font-size: theme("fontSize.-2");
-    content: "\2022";
-    position: absolute;
-    left: var(--calcite-tree-indicator-distance-start);
-    right: var(--calcite-tree-indicator-distance-end);
-    opacity: 0;
+  .calcite-tree-checkmark {
+    @apply transition-default opacity-0;
     color: var(--calcite-tree-indicator);
-    transition: all $transition;
+    margin-inline-start: var(--calcite-tree-vertical-padding);
+    margin-inline-end: var(--calcite-tree-vertical-padding);
+  }
+
+  .calcite-tree-bullet-point {
+    @apply transition-default opacity-0;
+    color: var(--calcite-tree-indicator);
+    margin-inline-start: var(--calcite-tree-vertical-padding);
+    margin-inline-end: var(--calcite-tree-vertical-padding);
   }
 
   &:after {
@@ -193,58 +215,46 @@
   }
 }
 
-:host([input-enabled]) .calcite-tree-node:before {
-  @apply hidden;
-}
+// :host([input-enabled]) .calcite-tree-node:before {
+//   @apply hidden;
+// }
 
 :host([has-children]) > .calcite-tree-node {
   padding-left: 0;
   padding-right: 0;
-  &:before {
+  .calcite-tree-bullet-point {
     @apply hidden;
   }
 }
 
-:host([depth="1"]) > .calcite-tree-node,
-:host([depth="1"]) > .calcite-tree-children {
-  &:before {
-    left: var(--calcite-tree-indicator-first-start);
-    right: var(--calcite-tree-indicator-first-end);
-  }
-}
-
-:host(:not([show-checkmark])) .calcite-tree-node:hover,
-:host([selected]:not([show-checkmark])) .calcite-tree-node:hover,
-:host(:focus:not([show-checkmark])) .calcite-tree-node {
-  &:before {
-    opacity: 1;
-  }
+.calcite-tree-node:hover,
+:host([selected]) .calcite-tree-node:hover,
+:host(:focus) .calcite-tree-node {
   &:after {
-    width: var(--calcite-tree-hover-line-width);
-    background: var(--calcite-tree-line-hover);
     z-index: 2;
   }
   ::slotted(*) {
     color: var(--calcite-tree-text-hover);
   }
 
-  .calcite-tree-indicator {
-    fill: var(--calcite-tree-indicator-hover);
+  .calcite-tree-checkmark {
+    @apply opacity-100;
+  }
+
+  .calcite-tree-bullet-point {
+    @apply opacity-100;
   }
 }
 
-:host([selected]:not([show-checkmark])) > .calcite-tree-node,
-:host([selected]:not([show-checkmark])) > .calcite-tree-node:hover {
-  color: var(--calcite-tree-text-active);
-  @apply font-medium;
+:host([selected]) > .calcite-tree-node,
+:host([selected]) > .calcite-tree-node:hover {
+  @apply font-medium text-color-3;
 
-  &:before {
-    opacity: 1;
-    color: var(--calcite-tree-indicator-active);
+  .calcite-tree-bullet-point {
+    @apply opacity-100;
+    color: theme("colors.brand");
   }
   &:after {
-    background: var(--calcite-ui-brand);
-    width: var(--calcite-tree-hover-line-width);
     z-index: 2;
   }
   ::slotted(*) {
@@ -254,44 +264,48 @@
 
 // dropdown expanded and not selected
 :host([has-children][expanded]) > .calcite-tree-node {
-  // color: var(--calcite-tree-text-active);
   @apply font-medium;
-  &:after {
-    @apply bg-brand;
-  }
-  &:before {
-    font-size: theme("fontSize.-2");
-    opacity: 1;
-    color: var(--calcite-tree-indicator-active);
-  }
   ::slotted(*) {
     color: var(--calcite-tree-text-active);
   }
 }
 
-// dropdown expanded and selected
-:host([has-children][expanded][selected]) > .calcite-tree-node:after {
-  @apply bg-brand;
-  width: var(--calcite-tree-hover-line-width);
-  z-index: 2;
+// dropdown with children
+:host([has-children]) > .calcite-tree-node {
+  .calcite-tree-bullet-point,
+  .calcite-tree-checkmark {
+    @apply hidden;
+  }
+  .calcite-tree-checkbox {
+    padding-inline-start: 0;
+  }
 }
 
 .calcite-tree-chevron {
-  transition: all $transition;
+  @apply transition-default relative self-center;
   flex: 0 0 auto;
-  position: relative;
-  align-self: center;
-  left: var(--calcite-tree-icon-edge-distance-start);
-  right: var(--calcite-tree-icon-edge-distance-end);
-  margin-right: var(--calcite-tree-icon-content-distance-start);
-  margin-left: var(--calcite-tree-icon-content-distance-end);
+  margin-inline-start: var(--calcite-tree-vertical-padding);
+  margin-inline-end: var(--calcite-tree-vertical-padding);
   transform: rotate(0deg);
 
-  :host([dir="rtl"]) & {
+  .calcite--rtl & {
     transform: rotate(180deg);
   }
 
   :host([expanded]) > .calcite-tree-node > & {
     transform: rotate(90deg);
+  }
+}
+
+:host([selected]) [data-selection-mode] {
+  .calcite-tree-checkmark,
+  .calcite-tree-bullet-point {
+    @apply opacity-100 font-medium;
+    color: theme("colors.brand");
+  }
+  .calcite-tree-chevron {
+    stroke: theme("colors.brand");
+    stroke-width: 0.75;
+    fill: theme("colors.brand");
   }
 }

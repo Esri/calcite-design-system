@@ -54,6 +54,16 @@ export const Simple = (): string => html`
     ${boolean("lines", false)}
     selection-mode="${select("selection-mode", ["single", "multi", "children", "multi-children"], "single")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
+  >
+    ${treeItems}
+  </calcite-tree>
+`;
+
+export const Ancestors = (): string => html`
+  <calcite-tree
+    ${boolean("lines", false)}
+    selection-mode="ancestors"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
     ${boolean("input-enabled", false)}
   >
     ${treeItems}
@@ -66,7 +76,6 @@ export const RTL = (): string => html`
     ${boolean("lines", false)}
     selection-mode="${select("selection-mode", ["single", "multi", "children", "multi-children"], "single")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    ${boolean("input-enabled", false)}
   >
     ${treeItems}
   </calcite-tree>
@@ -78,7 +87,6 @@ export const DarkMode = (): string => html`
     ${boolean("lines", false)}
     selection-mode="${select("selection-mode", ["single", "multi", "children", "multi-children"], "single")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    ${boolean("input-enabled", false)}
   >
     ${treeItems}
   </calcite-tree>

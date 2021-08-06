@@ -1,6 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, HYDRATED_ATTR } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
+import { CSS } from "../calcite-tree-item/resources";
+import { TreeSelectionMode } from "./interfaces";
 
 describe("calcite-tree", () => {
   it("renders", async () => {
@@ -188,9 +190,9 @@ describe("calcite-tree", () => {
     });
 
     describe("has selected items in the selection event payload", () => {
-      it("contains current selection when selection=multi + input-enabled", async () => {
+      it("contains current selection when selection=ancestors + input-enabled", async () => {
         const page = await newE2EPage({
-          html: html` <calcite-tree selection-mode="multi" input-enabled>
+          html: html` <calcite-tree selection-mode="ancestors" input-enabled>
             <calcite-tree-item id="1">1</calcite-tree-item>
             <calcite-tree-item id="2">2</calcite-tree-item>
           </calcite-tree>`
@@ -245,6 +247,49 @@ describe("calcite-tree", () => {
 
       await treeItemCheckboxLabel.click();
       expect(selectEventSpy).toHaveReceivedEventTimes(2);
+    });
+  });
+
+  describe("when input-enabled is true", () => {
+    describe(`when tree-item selection-mode is ${TreeSelectionMode.Ancestors}`, () => {
+      it("should render checkbox inputs", async () => {
+        const page = await newE2EPage({
+          html: `
+          <calcite-tree input-enabled selection-mode=${TreeSelectionMode.Ancestors}>
+            <calcite-tree-item>1</calcite-tree-item>
+            <calcite-tree-item>2</calcite-tree-item>
+          </calcite-tree>
+          `
+        });
+        const checkbox = await page.find(
+          `calcite-tree-item >>> .${CSS.nodeContainer} .${CSS.checkboxLabel} .${CSS.checkbox}`
+        );
+        expect(checkbox).not.toBeNull();
+      });
+    });
+
+    describe(`when tree-item selection-mode is not ${TreeSelectionMode.Ancestors}`, () => {
+      [
+        TreeSelectionMode.Single,
+        TreeSelectionMode.Multi,
+        TreeSelectionMode.MultiChildren,
+        TreeSelectionMode.Children
+      ].forEach((mode) => {
+        it("should not render any checkbox inputs", async () => {
+          const page = await newE2EPage({
+            html: `
+            <calcite-tree input-enabled selection-mode=${mode}>
+              <calcite-tree-item>1</calcite-tree-item>
+              <calcite-tree-item>2</calcite-tree-item>
+            </calcite-tree>
+            `
+          });
+          const checkbox = await page.find(
+            `calcite-tree-item >>> .${CSS.nodeContainer} .${CSS.checkboxLabel} .${CSS.checkbox}`
+          );
+          expect(checkbox).toBeNull();
+        });
+      });
     });
   });
 });

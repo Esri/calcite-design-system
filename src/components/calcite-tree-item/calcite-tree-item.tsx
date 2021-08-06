@@ -16,6 +16,8 @@ import { TreeSelectionMode } from "../calcite-tree/interfaces";
 import { Scale } from "../interfaces";
 import { nodeListToArray, getElementDir, filterDirectChildren, getSlotted } from "../../utils/dom";
 import { getKey } from "../../utils/key";
+import { CSS } from "./resources";
+import { CSS_UTILITY } from "../../utils/resources";
 
 @Component({
   tag: "calcite-tree-item",
@@ -65,7 +67,7 @@ export class CalciteTreeItem {
   /** @internal Draw lines (set on parent) */
   @Prop({ reflect: true, mutable: true }) lines: boolean;
 
-  /** @internal Display checkboxes (set on parent) */
+  /** @internal Display checkboxes in ancestors selection-mode (set on parent) */
   @Prop({ reflect: true, mutable: true }) inputEnabled: boolean;
 
   /** @internal Scale of the parent tree, defaults to m */
@@ -91,7 +93,6 @@ export class CalciteTreeItem {
   componentWillRender(): void {
     this.hasChildren = !!this.el.querySelector("calcite-tree");
     this.depth = 0;
-    this.el.dir = getElementDir(this.el);
 
     let parentTree = this.el.closest("calcite-tree");
 
@@ -117,20 +118,24 @@ export class CalciteTreeItem {
   }
 
   render(): VNode {
-    const icon = this.hasChildren ? (
+    const rtl = getElementDir(this.el) === "rtl";
+    const chevron = (
       <calcite-icon
-        class="calcite-tree-chevron"
+        class={{
+          [CSS.chevron]: true,
+          [CSS_UTILITY.rtl]: rtl
+        }}
         data-test-id="icon"
         icon="chevron-right"
         onClick={this.iconClickHandler}
         scale="s"
       />
-    ) : null;
+    );
     const checkbox = this.inputEnabled ? (
-      <label class="calcite-tree-label">
+      <label class={CSS.checkboxLabel}>
         <calcite-checkbox
           checked={this.selected}
-          class="calcite-tree-checkbox"
+          class={CSS.checkbox}
           data-test-id="checkbox"
           indeterminate={this.hasChildren && this.indeterminate}
           scale={this.scale}
@@ -139,6 +144,31 @@ export class CalciteTreeItem {
         <slot />
       </label>
     ) : null;
+    const bulletIcon =
+      this.selectionMode !== TreeSelectionMode.Multi &&
+      this.selectionMode !== TreeSelectionMode.MultiChildren &&
+      !this.inputEnabled ? (
+        <calcite-icon
+          class={{
+            [CSS.bulletPointIcon]: true,
+            [CSS_UTILITY.rtl]: rtl
+          }}
+          icon="bullet-point"
+          scale="s"
+        />
+      ) : null;
+    const checkmarkIcon =
+      this.selectionMode === TreeSelectionMode.Multi ||
+      this.selectionMode === TreeSelectionMode.MultiChildren ? (
+        <calcite-icon
+          class={{
+            [CSS.checkmarkIcon]: true,
+            [CSS_UTILITY.rtl]: rtl
+          }}
+          icon="check"
+          scale="s"
+        />
+      ) : null;
 
     const hidden = !(this.parentExpanded || this.depth === 1);
 
@@ -149,10 +179,8 @@ export class CalciteTreeItem {
         aria-selected={
           this.selected
             ? "true"
-            : (
-                this.selectionMode === TreeSelectionMode.Multi ||
-                this.selectionMode === TreeSelectionMode.MultiChildren
-              ).toString()
+            : this.selectionMode === TreeSelectionMode.Multi ||
+              this.selectionMode === TreeSelectionMode.MultiChildren
             ? "false"
             : undefined
         }
@@ -160,18 +188,29 @@ export class CalciteTreeItem {
         role="treeitem"
         tabindex={this.parentExpanded || this.depth === 1 ? "0" : "-1"}
       >
-        <div class="calcite-tree-node" ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}>
-          {icon}
-          {checkbox ? checkbox : <slot />}
+        <div
+          class={{
+            [CSS.nodeContainer]: true,
+            [CSS_UTILITY.rtl]: rtl
+          }}
+          data-selection-mode={this.selectionMode}
+          ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}
+        >
+          {this.hasChildren ? chevron : null}
+          {bulletIcon || checkmarkIcon}
+          {checkbox && this.selectionMode === "ancestors" ? checkbox : <slot />}
         </div>
         <div
-          class="calcite-tree-children"
+          class={{
+            [CSS.childrenContainer]: true,
+            [CSS_UTILITY.rtl]: rtl
+          }}
           data-test-id="calcite-tree-children"
           onClick={this.childrenClickHandler}
           ref={(el) => (this.childrenSlotWrapper = el as HTMLElement)}
           role={this.hasChildren ? "group" : undefined}
         >
-          <slot name="children" />
+          {this.hasChildren ? <slot name="children" /> : null}
         </div>
       </Host>
     );

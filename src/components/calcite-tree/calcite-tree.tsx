@@ -37,8 +37,8 @@ export class CalciteTree {
   /** Display indentation guide lines */
   @Prop({ mutable: true, reflect: true }) lines = false;
 
-  /** Display input */
-  @Prop({ mutable: true }) inputEnabled = false; // TO-DO: inputs should only appear with ancestors selection-mode
+  /** Display checkbox input in ancestors selection-mode */
+  @Prop({ mutable: true }) inputEnabled = false;
 
   /** @internal If this tree is nested within another tree, set to false */
   @Prop({ reflect: true, mutable: true }) child: boolean;
@@ -71,10 +71,10 @@ export class CalciteTree {
   render(): VNode {
     return (
       <Host
-        aria-multiselectable={(
+        aria-multiselectable={
           this.selectionMode === TreeSelectionMode.Multi ||
           this.selectionMode === TreeSelectionMode.MultiChildren
-        ).toString()}
+        }
         role={!this.child ? "tree" : undefined}
         tabIndex={this.getRootTabIndex()}
       >
