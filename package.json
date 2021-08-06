@@ -52,7 +52,8 @@
     "util:publish-next": "npm publish --tag next",
     "util:push-tags": "git push --follow-tags",
     "util:run-tests": "npm run util:copy-icons && stencil test --no-docs --spec --e2e",
-    "util:prep-autolint": "husky install"
+    "util:prep-autolint": "husky install",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -147,5 +148,9 @@
     "workbox-build": "6.1.5",
     "yargs": "17.0.1"
   },
-  "license": "SEE LICENSE IN copyright.txt"
+  "license": "SEE LICENSE IN copyright.txt",
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.css": "stylelint --fix"
+  }
 }
