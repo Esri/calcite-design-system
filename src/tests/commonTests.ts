@@ -64,9 +64,9 @@ export async function renders(
   const page = await simplePageSetup(componentTagOrHTML);
   const element = await page.find(getTag(componentTagOrHTML));
 
-  expect(element).toHaveAttribute(HYDRATED_ATTR);
-  expect(await element.isVisible()).toBe(options.visible ?? true);
-  expect((await element.getComputedStyle()).display).toBe(options.display ?? "block");
+  expect(element).toHaveAttribute(HYDRATED_ATTR);'
+  expect(await element.isVisible()).toBe(options?.visible ?? true);
+  expect((await element.getComputedStyle()).display).toBe(options?.display ?? "inline");
 }
 
 export async function reflects(
