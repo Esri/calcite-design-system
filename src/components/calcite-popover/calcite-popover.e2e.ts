@@ -6,9 +6,10 @@ import { CSS, POPOVER_REFERENCE } from "./resources";
 
 describe("calcite-popover", () => {
   it("renders", async () => {
-    await renders("calcite-popover", false);
+    await renders("calcite-popover", { visible: false, display: "block" });
     await renders(
-      `<calcite-popover label="test" open reference-element="ref"></calcite-popover><div id="ref">😄</div>`
+      `<calcite-popover label="test" open reference-element="ref"></calcite-popover><div id="ref">😄</div>`,
+      { display: "block" }
     );
   });
 
@@ -199,7 +200,7 @@ describe("calcite-popover", () => {
     expect(await popover.isVisible()).toBe(true);
   });
 
-  it("should emit close event", async () => {
+  it("should emit open event", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
@@ -214,14 +215,19 @@ describe("calcite-popover", () => {
 
     expect(event).toHaveReceivedEventTimes(0);
 
-    popover.setProperty("open", true);
+    const popoverOpenEvent = page.waitForEvent("calcitePopoverOpen");
 
-    await page.waitForChanges();
+    await page.evaluate(() => {
+      const popover = document.querySelector("calcite-popover");
+      popover.open = true;
+    });
+
+    await popoverOpenEvent;
 
     expect(event).toHaveReceivedEventTimes(1);
   });
 
-  it("should emit open event", async () => {
+  it("should emit close event", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
@@ -236,9 +242,14 @@ describe("calcite-popover", () => {
 
     expect(event).toHaveReceivedEventTimes(0);
 
-    popover.setProperty("open", false);
+    const popoverCloseEvent = page.waitForEvent("calcitePopoverClose");
 
-    await page.waitForChanges();
+    await page.evaluate(() => {
+      const popover = document.querySelector("calcite-popover");
+      popover.open = false;
+    });
+
+    await popoverCloseEvent;
 
     expect(event).toHaveReceivedEventTimes(1);
   });

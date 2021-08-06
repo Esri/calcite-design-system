@@ -89,22 +89,6 @@ describe("calcite-link", () => {
     expect(iconEnd).toBeNull();
   });
 
-  it("passes attributes to rendered child span", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-link name="myname" class="mycustomclass">Continue</calcite-link>`);
-    const elementAsSpan = await page.find("calcite-link >>> span");
-    const elementAsLink = await page.find("calcite-link >>> a");
-    const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
-    const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
-
-    expect(elementAsLink).toBeNull();
-    expect(elementAsSpan).not.toBeNull();
-    expect(elementAsSpan).not.toHaveClass("mycustomclass");
-    expect(elementAsSpan).toEqualAttribute("name", "myname");
-    expect(iconStart).toBeNull();
-    expect(iconEnd).toBeNull();
-  });
-
   it("renders with an icon-start", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-link icon-start='plus'>Continue</calcite-link>`);

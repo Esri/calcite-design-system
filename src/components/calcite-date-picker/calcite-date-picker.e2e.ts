@@ -3,7 +3,7 @@ import { renders, defaults, hidden } from "../../tests/commonTests";
 import { TEXT } from "./calcite-date-picker-resources";
 
 describe("calcite-date-picker", () => {
-  it("renders", async () => renders("calcite-date-picker"));
+  it("renders", async () => renders("calcite-date-picker", { display: "inline-block" }));
 
   it("honors hidden attribute", async () => hidden("calcite-date-picker"));
 
@@ -126,16 +126,14 @@ describe("calcite-date-picker", () => {
         html: `<calcite-date-picker scale="m" locale="sk" value="2000-11-27"></calcite-date-picker>`
       });
       await page.waitForChanges();
-      const handle = (
-        await page.waitForFunction(() => {
-          return document
-            .querySelector("calcite-date-picker")
-            .shadowRoot.querySelector("calcite-date-picker-month")
-            .shadowRoot.querySelector("span.week-header:first-child");
-        })
-      ).asElement();
-      const text = await handle.getProperty("textContent");
-      expect(await text.jsonValue()).toEqual("po");
+      const text: string = await page.evaluate(() => {
+        return document
+          .querySelector("calcite-date-picker")
+          .shadowRoot?.querySelector("calcite-date-picker-month")
+          .shadowRoot?.querySelector("span.week-header:first-child").textContent;
+      });
+
+      expect(text).toEqual("po");
     });
   });
 });

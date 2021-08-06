@@ -1,6 +1,6 @@
 :host {
-  @apply cursor-pointer inline-block;
-  .container {
+  @apply cursor-pointer block;
+  .calcite-radio-button__container {
     @apply relative;
   }
 }

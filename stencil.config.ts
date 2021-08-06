@@ -46,7 +46,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-label"] },
     { components: ["calcite-link"] },
     { components: ["calcite-loader"] },
-    { components: ["calcite-list", "calcite-list-item"] },
+    { components: ["calcite-list", "calcite-list-item", "calcite-list-item-group"] },
     { components: ["calcite-modal"] },
     { components: ["calcite-notice"] },
     { components: ["calcite-pagination"] },
@@ -116,13 +116,7 @@ export const create: () => Config = () => ({
     name: "calcite-hydrated"
   },
   extras: {
-    appendChildSlotFix: true,
-    cssVarsShim: true,
-    dynamicImportShim: true,
-    safari10: true,
-    scriptDataOpts: true,
-    shadowDomShim: true,
-    slotChildNodesFix: true
+    scriptDataOpts: true
   }
 });
 

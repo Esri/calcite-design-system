@@ -58,10 +58,14 @@ export class CalciteRating {
   /** optionally pass a cumulative average rating to display */
   @Prop({ reflect: true }) average?: number;
 
-  /** Localized string for "Rating" (used for aria label) */
+  /** Localized string for "Rating" (used for aria label)
+   * @default "Rating"
+   */
   @Prop() intlRating?: string = TEXT.rating;
 
-  /** Localized string for labelling each star, `${num}` in the string will be replaced by the number */
+  /** Localized string for labelling each star, `${num}` in the string will be replaced by the number
+   * @default "stars: ${num}"
+   */
   @Prop() intlStars?: string = TEXT.stars;
 
   //--------------------------------------------------------------------------

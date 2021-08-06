@@ -6,8 +6,6 @@ import {
   Element,
   Host,
   State,
-  Listen,
-  Build,
   EventEmitter,
   Watch,
   VNode
@@ -88,10 +86,14 @@ export class CalciteDatePicker {
   /** Latest allowed date ("yyyy-mm-dd") */
   @Prop() max?: string;
 
-  /** Localized string for "previous month" (used for aria label) */
+  /** Localized string for "previous month" (used for aria label)
+   * @default "previous month"
+   */
   @Prop() intlPrevMonth?: string = TEXT.prevMonth;
 
-  /** Localized string for "next month" (used for aria label) */
+  /** Localized string for "next month" (used for aria label)
+   * @default "next month"
+   */
   @Prop() intlNextMonth?: string = TEXT.nextMonth;
 
   /** BCP 47 language tag for desired language and country format */
@@ -114,23 +116,6 @@ export class CalciteDatePicker {
 
   //--------------------------------------------------------------------------
   //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  /**
-   * Blur doesn't fire properly when there is no shadow dom (ege/IE11)
-   * Check if the focused element is inside the date picker, if not close
-   */
-  @Listen("focusin", { target: "window" })
-  focusInHandler(e: FocusEvent): void {
-    if (!this.hasShadow && !this.el.contains(e.target as HTMLElement)) {
-      this.reset();
-    }
-  }
-
-  //--------------------------------------------------------------------------
-  //
   //  Events
   //
   //--------------------------------------------------------------------------
@@ -141,6 +126,7 @@ export class CalciteDatePicker {
 
   /**
    * Trigger calcite date change when a user changes the date range.
+   * @see [DateRangeChange](https://github.com/Esri/calcite-components/blob/master/src/components/calcite-date-picker/interfaces.ts#L1)
    */
   @Event() calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
 
@@ -231,8 +217,6 @@ export class CalciteDatePicker {
   @State() private localeData: DateLocaleData;
 
   @State() private hoverRange;
-
-  private hasShadow: boolean = Build.isBrowser && !!document.head.attachShadow;
 
   private mostRecentRangeValue?: Date;
 

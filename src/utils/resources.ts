@@ -4,3 +4,7 @@ export const CSS_UTILITY = {
   lightTheme: "calcite-theme-light",
   rtl: "calcite--rtl"
 };
+
+export const TEXT = {
+  loading: "Loading"
+};

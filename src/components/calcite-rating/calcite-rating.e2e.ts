@@ -2,7 +2,7 @@ import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { renders, accessible, focusable } from "../../tests/commonTests";
 
 describe("calcite-rating", () => {
-  it("renders", async () => renders("<calcite-rating></calcite-rating>"));
+  it("renders", async () => renders("<calcite-rating></calcite-rating>", { display: "flex" }));
 
   it("should be accessible", async () => accessible(`<calcite-rating></calcite-rating>`));
 
