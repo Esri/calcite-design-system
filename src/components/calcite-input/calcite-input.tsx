@@ -30,7 +30,12 @@ import {
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 import { hiddenInputStyle } from "../../utils/form";
-import { isValidDecimal, isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
+import {
+  isValidDecimal,
+  isValidNumber,
+  parseNumberString,
+  sanitizeNumberString
+} from "../../utils/number";
 import { CSS_UTILITY, TEXT } from "../../utils/resources";
 
 type NumberNudgeDirection = "up" | "down";
@@ -462,7 +467,10 @@ export class CalciteInput {
       return;
     }
     const decimalSeparator = getDecimalSeparator(this.locale);
-    if (event.key === decimalSeparator && isValidDecimal(this.step === "any" ? 1 : this.step as number)) {
+    if (
+      event.key === decimalSeparator &&
+      isValidDecimal(this.step === "any" ? 1 : (this.step as number))
+    ) {
       if (!this.value && !this.childNumberEl.value) {
         return;
       }
@@ -580,16 +588,15 @@ export class CalciteInput {
       </div>
     );
 
-    const iconScale = this.scale === "s" || this.scale === "m" ? "s" : "m";
-
     const inputClearButton = (
       <button
         class={CSS.clearButton}
         disabled={this.disabled}
         onClick={this.clearInputValue}
         tabIndex={this.disabled ? -1 : 0}
+        type="button"
       >
-        <calcite-icon icon="x" scale={iconScale} />
+        <calcite-icon icon="x" scale="s" />
       </button>
     );
     const iconEl = (
@@ -598,7 +605,7 @@ export class CalciteInput {
         dir={dir}
         flipRtl={this.iconFlipRtl}
         icon={this.requestedIcon}
-        scale={iconScale}
+        scale="s"
       />
     );
 
@@ -614,8 +621,9 @@ export class CalciteInput {
         disabled={this.disabled}
         onClick={this.numberButtonClickHandler}
         tabIndex={-1}
+        type="button"
       >
-        <calcite-icon icon="chevron-up" scale={iconScale} />
+        <calcite-icon icon="chevron-up" scale="s" />
       </button>
     );
 
@@ -629,8 +637,9 @@ export class CalciteInput {
         disabled={this.disabled}
         onClick={this.numberButtonClickHandler}
         tabIndex={-1}
+        type="button"
       >
-        <calcite-icon icon="chevron-down" scale={iconScale} />
+        <calcite-icon icon="chevron-down" scale="s" />
       </button>
     );
 

@@ -261,7 +261,7 @@ export class CalciteColorPickerHexInput {
           onChange={this.onInputChange}
           prefixText="#"
           ref={this.storeInputRef}
-          scale="s"
+          scale={this.scale}
           value={hexInputValue}
         />
         {hexInputValue ? (
@@ -269,7 +269,7 @@ export class CalciteColorPickerHexInput {
             active
             class={CSS.preview}
             color={`#${hexInputValue}`}
-            scale="s"
+            scale={this.scale}
           />
         ) : null}
       </div>

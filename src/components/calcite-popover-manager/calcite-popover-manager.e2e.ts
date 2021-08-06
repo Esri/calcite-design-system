@@ -3,7 +3,7 @@ import { POPOVER_REFERENCE } from "../calcite-popover/resources";
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-popover-manager", () => {
-  it("renders", async () => renders(`<calcite-popover-manager></calcite-popover-manager>`));
+  it("renders", async () => renders(`<calcite-popover-manager></calcite-popover-manager>`, { display: "block" }));
 
   it("is accessible", async () =>
     accessible(`<calcite-popover-manager>

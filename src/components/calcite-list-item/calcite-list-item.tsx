@@ -7,6 +7,7 @@ import { getSlotted } from "../../utils/dom";
  * @slot content-start - A slot for adding non-actionable elements before the label and description of the list item.
  * @slot content-end - A slot for adding non-actionable elements after the label and description of the list item.
  * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the list item.
+ * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
  */
 @Component({
   tag: "calcite-list-item",
@@ -125,6 +126,9 @@ export class CalciteListItem {
           {this.renderActionsStart()}
           {this.renderContentContainer()}
           {this.renderActionsEnd()}
+        </div>
+        <div class={CSS.nestedContainer}>
+          <slot />
         </div>
       </Host>
     );
