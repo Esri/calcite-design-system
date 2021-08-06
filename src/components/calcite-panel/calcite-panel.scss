@@ -89,7 +89,7 @@
     justify-start
     sticky
     top-0
-    border-b-color-3
+    border-b-color-2
     w-full;
   flex: 0 0 auto;
   min-height: theme("spacing.12");
@@ -124,7 +124,7 @@
 }
 
 .back-button {
-  @apply border-color-3
+  @apply border-color-2
   border-solid
   border-0
   border-r;
