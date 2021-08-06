@@ -43,7 +43,7 @@ export class CalciteDatePicker {
   @Prop() activeRange?: "start" | "end" = "start";
 
   /** Selected date */
-  @Prop() value?: string;
+  @Prop({ mutable: true }) value?: string;
 
   /**
    * Number at which section headings should start for this component.
@@ -106,7 +106,7 @@ export class CalciteDatePicker {
   @Prop({ reflect: true }) range?: boolean = false;
 
   /** Selected start date */
-  @Prop() start?: string;
+  @Prop({ mutable: true }) start?: string;
 
   /** Selected end date */
   @Prop({ mutable: true }) end?: string;
@@ -199,7 +199,7 @@ export class CalciteDatePicker {
       activeDate = this.mostRecentRangeValue;
     }
     const minDate = this.activeRange === "start" ? this.minAsDate : date || this.maxAsDate;
-    const maxDate = this.maxAsDate;
+    const maxDate = this.activeRange === "end" ? this.maxAsDate : endDate || this.minAsDate;
     const dir = getElementDir(this.el);
 
     return (
@@ -455,16 +455,14 @@ export class CalciteDatePicker {
       this.activeEndDate = date;
     } else {
       if (!this.proximitySelectionDisabled) {
-        const startDiff = getDaysDiff(date, this.startAsDate);
-        const endDiff = getDaysDiff(date, this.endAsDate);
-        if (startDiff < endDiff) {
-          this.start = dateToISO(date);
-          this.setStartAsDate(date, true);
-          this.activeStartDate = date;
-        } else {
+        if (this.activeRange == "end") {
           this.end = dateToISO(date);
           this.setEndAsDate(date, true);
           this.activeEndDate = date;
+        } else {
+          this.start = dateToISO(date);
+          this.setStartAsDate(date, true);
+          this.activeStartDate = date;
         }
       } else {
         this.start = dateToISO(date);
