@@ -198,8 +198,17 @@ export class CalciteDatePicker {
     if (this.range && this.mostRecentRangeValue) {
       activeDate = this.mostRecentRangeValue;
     }
-    const minDate = this.activeRange === "start" ? this.minAsDate : date || this.maxAsDate;
-    const maxDate = this.activeRange === "end" ? this.maxAsDate : endDate || this.minAsDate;
+    const minDate = this.range
+      ? this.activeRange === "start"
+        ? this.minAsDate
+        : date || this.minAsDate
+      : this.minAsDate;
+
+    const maxDate = this.range
+      ? this.activeRange === "start"
+        ? endDate || this.maxAsDate
+        : this.maxAsDate
+      : this.maxAsDate;
     const dir = getElementDir(this.el);
 
     return (
