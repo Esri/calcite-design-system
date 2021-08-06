@@ -206,8 +206,8 @@
 }
 
 :host([scale="l"]) .calcite--rtl .calcite-input__icon {
-  left:unset;
-  right:theme("spacing.4");
+  left: unset;
+  right: theme("spacing.4");
 }
 
 // position placeholder/value text in relation to icons
@@ -614,7 +614,7 @@ input[type="time"]::-webkit-clear-button {
 :host(.no-bottom-border) input.sc-calcite-input {
   @apply border-b-0;
 }
-  
+
 :host(.border-t-color-1) input.sc-calcite-input {
   @apply border-t-color-1;
 }
