@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Calcite Components: calcite-block</title>
+
+    <script src="../_assets/head.js"></script>
+
+    <style>
+      .parent {
+        display: flex;
+        align-items: center;
+        margin: 25px 0;
+      }
+
+      .child {
+        flex: 0 0 40%;
+        margin: 0 25px;
+        color: var(--calcite-ui-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+        padding: 18px 0;
+      }
+
+      .right-aligned-text {
+        text-align: right;
+        flex: 0 0 12%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div>
+      <calcite-button href="/" icon-start="arrow-left" color="neutral">Home</calcite-button>
+    </div>
+    <h1 style="margin: 0 auto; text-align: center">Block</h1>
+
+    <!-- default (non-collapsible) -->
+    <div class="parent">
+      <div class="child right-aligned-text">default (non-collapsible)</div>
+
+      <div class="child">
+        <calcite-block heading="Fruit" summary="It's nature's candy"> </calcite-block>
+      </div>
+    </div>
+
+    <!-- header + control -->
+    <div class="parent">
+      <div class="child right-aligned-text">header + control</div>
+
+      <div class="child">
+        <calcite-block heading="This header" summary="it has an input">
+          <div slot="control"><input placeholder="I am in control" /></div>
+        </calcite-block>
+      </div>
+    </div>
+
+    <!-- header + icon -->
+    <div class="parent">
+      <div class="child right-aligned-text">header + icon</div>
+
+      <div class="child">
+        <calcite-block heading="Icon't believe it!">
+          <div slot="icon">🤯</div>
+        </calcite-block>
+      </div>
+    </div>
+
+    <!-- header + content (always open) -->
+    <div class="parent">
+      <div class="child right-aligned-text">header + content (always open)</div>
+
+      <div class="child">
+        <calcite-block heading="When your son becomes a priest, do you call him..." open>
+          <div>Father or Son?</div>
+        </calcite-block>
+      </div>
+    </div>
+
+    <!-- with drag handle -->
+    <div class="parent">
+      <div class="child right-aligned-text">with drag handle</div>
+
+      <div class="child">
+        <calcite-block heading="Who dis?" summary="seriously! who dis?" drag-handle></calcite-block>
+      </div>
+    </div>
+
+    <!-- header with content (collapsible) -->
+    <div class="parent">
+      <div class="child right-aligned-text">header with content (collapsible)</div>
+
+      <div class="child">
+        <calcite-block heading="With control + collapsible content" open collapsible>
+          <label slot="control">test <input placeholder="I'm a header control" /></label>
+          <calcite-block-section text="Nature">
+            <img alt="demo" src="https://placeimg.com/640/480/nature" />
+          </calcite-block-section>
+        </calcite-block>
+      </div>
+    </div>
+
+    <!-- header + content (sections w/ switch)-->
+    <div class="parent">
+      <div class="child right-aligned-text">header + content (sections w/ switch</div>
+
+      <div class="child">
+        <calcite-block heading="Heading" summary="summary" open collapsible>
+          <calcite-block-section open status="idle" text="people" toggle-display="switch">
+            <img alt="demo" src="https://placeimg.com/640/480/people" />
+          </calcite-block-section>
+
+          <calcite-block-section status="valid" text="Animals" toggle-display="switch">
+            <img alt="demo" src="https://placeimg.com/640/480/animals" />
+          </calcite-block-section>
+
+          <calcite-block-section status="invalid" text="Nature" toggle-display="switch">
+            <img alt="demo" src="https://placeimg.com/640/480/nature" />
+          </calcite-block-section>
+        </calcite-block>
+      </div>
+    </div>
+  </body>
+</html>
