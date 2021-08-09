@@ -1182,7 +1182,24 @@ describe("calcite-input", () => {
       expect(await input.getProperty("value")).toBe(localizeNumberString(initialValue, "en-US", true));
     });
 
-    it("sets internals to readOnly or disabled when component is readOnly", async () => {
+    it("cannot be modified when readOnly is true", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+      <calcite-input read-only value="John Doe"></calcite-input>
+      `);
+
+      const calciteInputInput = await page.spyOnEvent("calciteInputInput");
+      const element = await page.find("calcite-input");
+      expect(await element.getProperty("value")).toBe("John Doe");
+      await element.callMethod("setFocus");
+
+      await page.keyboard.press("a");
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("John Doe");
+      expect(calciteInputInput).toHaveReceivedEventTimes(0);
+    });
+
+    it("sets internals to readOnly or disabled when readOnly is true", async () => {
       const page = await newE2EPage({ html: "<calcite-input read-only></calcite-input>" });
       await page.waitForChanges();
 
