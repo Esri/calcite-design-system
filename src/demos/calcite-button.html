@@ -13,8 +13,7 @@
       h1,
       h3,
       h4,
-      h5,
-      table {
+      h5 {
         color: var(--calcite-ui-text-1);
       }
       .demo-background-dark {
@@ -23,22 +22,8 @@
         padding: 1rem;
       }
       .custom-button-size {
-        height: 44px;
-        width: 44px;
-      }
-      table {
-        display: inline-flex;
-      }
-      td {
-        padding: 1rem;
-      }
-      td calcite-button {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        width: fit-content;
-        justify-content: space-evenly;
-        margin-bottom: 0.5rem;
+        height: 48px;
+        width: 48px;
       }
     </style>
     <script src="_assets/head.js"></script>
@@ -47,223 +32,7 @@
 
   <body>
     <calcite-button href="/">Home</calcite-button>
-    <calcite-button color="neutral" href="/">Demos</calcite-button>
-    <calcite-button appearance="outline" color="red" href="/demos/fab/basic.html">FAB</calcite-button>
-    <calcite-button appearance="clear" color="inverse" href="/demos/calcite-split-button.html"
-      >split-button</calcite-button
-    >
     <h1>Calcite Button</h1>
-
-    <calcite-label layout="inline">
-      Change appearance
-      <calcite-radio-group id="appearance-group-1" scale="s">
-        <calcite-radio-group-item value="solid" checked>solid</calcite-radio-group-item>
-        <calcite-radio-group-item value="clear">clear</calcite-radio-group-item>
-        <calcite-radio-group-item value="outline">outline</calcite-radio-group-item>
-        <calcite-radio-group-item value="transparent">transparent</calcite-radio-group-item>
-      </calcite-radio-group>
-    </calcite-label>
-    <script>
-      document.querySelector("#appearance-group-1").addEventListener("calciteRadioGroupChange", (e) => {
-        document.querySelectorAll("td calcite-button").forEach((button) => {
-          button.setAttribute("appearance", e.detail);
-        });
-      });
-    </script>
-    <table>
-      <tbody>
-        <tr>
-          <td>blue (default)</td>
-          <td>
-            <calcite-button scale="l" icon-start="arrow-left" icon-end="arrow-right" title="l blue button light"
-              >Button</calcite-button
-            >
-            <calcite-button scale="m" icon-start="arrow-left" icon-end="arrow-right" title="m blue button light"
-              >Button</calcite-button
-            >
-            <calcite-button scale="s" icon-start="arrow-left" icon-end="arrow-right" title="s blue button light"
-              >Button</calcite-button
-            >
-          </td>
-          <td class="calcite-theme-dark demo-background-dark">
-            <calcite-button scale="l" icon-start="arrow-left" icon-end="arrow-right" title="l blue button dark"
-              >Button</calcite-button
-            >
-            <calcite-button scale="m" icon-start="arrow-left" icon-end="arrow-right" title="m blue button dark"
-              >Button</calcite-button
-            >
-            <calcite-button scale="s" icon-start="arrow-left" icon-end="arrow-right" title="s blue button dark"
-              >Button</calcite-button
-            >
-          </td>
-        </tr>
-        <tr>
-          <td>neutral</td>
-          <td>
-            <calcite-button
-              scale="l"
-              icon-start="arrow-left"
-              icon-end="arrow-right"
-              title="l neutral button light"
-              color="neutral"
-              >Button</calcite-button
-            >
-            <calcite-button
-              scale="m"
-              icon-start="arrow-left"
-              icon-end="arrow-right"
-              title="m neutral button light"
-              color="neutral"
-              >Button</calcite-button
-            >
-            <calcite-button
-              scale="s"
-              icon-start="arrow-left"
-              icon-end="arrow-right"
-              title="s neutral button light"
-              color="neutral"
-              >Button</calcite-button
-            >
-          </td>
-          <td class="calcite-theme-dark demo-background-dark">
-            <calcite-button
-              scale="l"
-              icon-start="arrow-left"
-              icon-end="arrow-right"
-              title="l neutral button dark"
-              color="neutral"
-              >Button</calcite-button
-            >
-            <calcite-button
-              scale="m"
-              icon-start="arrow-left"
-              icon-end="arrow-right"
-              title="m neutral button dark"
-              color="neutral"
-              >Button</calcite-button
-            >
-            <calcite-button
-              scale="s"
-              icon-start="arrow-left"
-              icon-end="arrow-right"
-              title="s neutral button dark"
-              color="neutral"
-              >Button</calcite-button
-            >
-          </td>
-        </tr>
-        <tr>
-          <td>inverse</td>
-          <td>
-            <calcite-button
-              scale="l"
-              icon-start="arrow-left"
-              icon-end="arrow-right"
-              title="l inverse button light"
-              color="inverse"
-              >Button</calcite-button
-            >
-            <calcite-button
-              scale="m"
-              icon-start="arrow-left"
-              icon-end="arrow-right"
-              title="m inverse button light"
-              color="inverse"
-              >Button</calcite-button
-            >
-            <calcite-button
-              scale="s"
-              icon-start="arrow-left"
-              icon-end="arrow-right"
-              title="s inverse button light"
-              color="inverse"
-              >Button</calcite-button
-            >
-          </td>
-          <td class="calcite-theme-dark demo-background-dark">
-            <calcite-button
-              scale="l"
-              icon-start="arrow-left"
-              icon-end="arrow-right"
-              title="l inverse button dark"
-              color="inverse"
-              >Button</calcite-button
-            >
-            <calcite-button
-              scale="m"
-              icon-start="arrow-left"
-              icon-end="arrow-right"
-              title="m inverse button dark"
-              color="inverse"
-              >Button</calcite-button
-            >
-            <calcite-button
-              scale="s"
-              icon-start="arrow-left"
-              icon-end="arrow-right"
-              title="s inverse button dark"
-              color="inverse"
-              >Button</calcite-button
-            >
-          </td>
-        </tr>
-        <tr>
-          <td>red</td>
-          <td>
-            <calcite-button
-              scale="l"
-              icon-start="arrow-left"
-              icon-end="arrow-right"
-              title="l red button light"
-              color="red"
-              >Button</calcite-button
-            >
-            <calcite-button
-              scale="m"
-              icon-start="arrow-left"
-              icon-end="arrow-right"
-              title="m red button light"
-              color="red"
-              >Button</calcite-button
-            >
-            <calcite-button
-              scale="s"
-              icon-start="arrow-left"
-              icon-end="arrow-right"
-              title="s red button light"
-              color="red"
-              >Button</calcite-button
-            >
-          </td>
-          <td class="calcite-theme-dark demo-background-dark">
-            <calcite-button
-              scale="l"
-              icon-start="arrow-left"
-              icon-end="arrow-right"
-              title="l red button dark"
-              color="red"
-              >Button</calcite-button
-            >
-            <calcite-button
-              scale="m"
-              icon-start="arrow-left"
-              icon-end="arrow-right"
-              title="m red button dark"
-              color="red"
-              >Button</calcite-button
-            >
-            <calcite-button
-              scale="s"
-              icon-start="arrow-left"
-              icon-end="arrow-right"
-              title="s red button dark"
-              color="red"
-              >Button</calcite-button
-            >
-          </td>
-        </tr>
-      </tbody>
-    </table>
 
     <section>
       <!-- src/components/calcite-button/usage/.md -->
@@ -681,7 +450,7 @@
       </calcite-label>
       <calcite-label layout="inline">
         Change appearance
-        <calcite-radio-group id="appearance-group-2" scale="s">
+        <calcite-radio-group id="appearance-group" scale="s">
           <calcite-radio-group-item value="solid" checked>solid</calcite-radio-group-item>
           <calcite-radio-group-item value="clear">clear</calcite-radio-group-item>
           <calcite-radio-group-item value="outline">outline</calcite-radio-group-item>
@@ -700,7 +469,7 @@
       <script>
         const loadingSwitch = document.querySelector("#loading-switch");
         const scaleRadios = document.querySelector("#scale-group");
-        const appearanceRadios = document.querySelector("#appearance-group-2");
+        const appearanceRadios = document.querySelector("#appearance-group");
         const colorRadios = document.querySelector("#color-group");
         window.onload = () => {
           loadingSwitch.addEventListener("calciteSwitchChange", () => {
