@@ -19,7 +19,7 @@ const changelogPath = normalize(`${__dirname}/../CHANGELOG.md`);
 (async function prepReleaseCommit(): Promise<void> {
   const { next } = argv;
 
-  const previousReleasedTag = (await exec("git", ["describe", "--abbrev=0", "--tags"], { encoding: "utf-8" })).trim();
+  const previousReleasedTag = (await exec("git describe --abbrev=0 --tags", { encoding: "utf-8" })).trim();
   const prereleaseVersionPattern = /-next\.\d+$/;
   const previousReleaseIsPrerelease = prereleaseVersionPattern.test(previousReleasedTag);
   const semverTags = await pify(gitSemverTags)();
@@ -44,14 +44,14 @@ const changelogPath = normalize(`${__dirname}/../CHANGELOG.md`);
 
   try {
     // delete prerelease tags locally, so they can be ignored when generating the changelog
-    await exec("git", ["tag", "--delete", `${nextTagsSinceLastRelease.join(" ")}`]);
+    await exec(`git tag --delete ${nextTagsSinceLastRelease.join(" ")}`);
 
     await runStandardVersion(next, standardVersionOptions);
   } catch (error) {
     logError(error);
   } finally {
     // restore deleted prerelease tags
-    await exec("git", ["fetch", "--tags"]);
+    await exec(`git fetch --tags`);
   }
 
   process.exit();
@@ -85,7 +85,7 @@ async function getStandardVersionOptions(next: boolean, semverTags: string[]): P
 async function runStandardVersion(next: boolean, standardVersionOptions: Options): Promise<void> {
   if (next) {
     await appendUnreleasedNotesToChangelog();
-    await exec("git", ["add", `${changelogPath}`]);
+    await exec(`git add ${changelogPath}`);
   }
 
   await standardVersion(standardVersionOptions);
@@ -124,14 +124,7 @@ async function getUnreleasedChangelogContents(): Promise<string> {
   // invoking this way since we want the CLI module behavior, which doesn't provide a way to programmatically use it
   return (
     await exec(
-      "npx",
-      [
-        "conventional-changelog",
-        "--release-count 1",
-        "--output-unreleased",
-        "--preset conventionalcommits",
-        "--context support/.unreleased-changelog-context.json"
-      ],
+      "npx conventional-changelog --release-count 1 --output-unreleased --preset conventionalcommits --context support/.unreleased-changelog-context.json",
       { encoding: "utf-8" }
     )
   ).trim();
