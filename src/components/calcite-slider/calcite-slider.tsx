@@ -15,8 +15,9 @@ import {
 import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
 import { ColorStop, DataSeries } from "../calcite-graph/interfaces";
-import { hasLabel, intersects } from "../../utils/dom";
+import { intersects } from "../../utils/dom";
 import { clamp } from "../../utils/math";
+import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 
 type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 
@@ -25,7 +26,7 @@ type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
   styleUrl: "calcite-slider.scss",
   shadow: true
 })
-export class CalciteSlider {
+export class CalciteSlider implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -48,7 +49,8 @@ export class CalciteSlider {
   /** Display a histogram above the slider */
   @Prop() histogram?: DataSeries;
 
-  @Watch("histogram") histogramWatcher(newHistogram: DataSeries): void {
+  @Watch("histogram")
+  histogramWatcher(newHistogram: DataSeries): void {
     this.hasHistogram = !!newHistogram;
   }
 
@@ -111,6 +113,15 @@ export class CalciteSlider {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    connectLabel(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectLabel(this);
+  }
+
   componentWillLoad(): void {
     this.isRange = !!(this.maxValue || this.maxValue === 0);
     this.tickValues = this.generateTickValues();
@@ -675,13 +686,8 @@ export class CalciteSlider {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(e: CustomEvent): void {
-    if (e.detail.interactedEl !== this.el && hasLabel(e.detail.labelEl, this.el)) {
-      this.setFocus();
-    }
-  }
-
-  @Listen("keydown") keyDownHandler(event: KeyboardEvent): void {
+  @Listen("keydown")
+  keyDownHandler(event: KeyboardEvent): void {
     const mirror = this.shouldMirror();
     const { activeProp, max, min, pageStep, step } = this;
     const value = this[activeProp];
@@ -792,6 +798,8 @@ export class CalciteSlider {
   //
   //--------------------------------------------------------------------------
 
+  labelEl: HTMLCalciteLabelElement;
+
   private guid = `calcite-slider-${guid()}`;
 
   private isRange = false;
@@ -819,6 +827,10 @@ export class CalciteSlider {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  onLabelClick = (): void => {
+    this.setFocus();
+  };
 
   private shouldMirror(): boolean {
     return this.mirrored && !this.hasHistogram;

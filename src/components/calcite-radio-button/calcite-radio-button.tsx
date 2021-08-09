@@ -13,6 +13,7 @@ import {
 import { guid } from "../../utils/guid";
 import { focusElement, closestElementCrossShadowBoundary } from "../../utils/dom";
 import { Scale } from "../interfaces";
+import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { hiddenInputStyle } from "../../utils/form";
 import { CSS } from "./resources";
 
@@ -21,7 +22,7 @@ import { CSS } from "./resources";
   styleUrl: "calcite-radio-button.scss",
   scoped: true
 })
-export class CalciteRadioButton {
+export class CalciteRadioButton implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -139,6 +140,8 @@ export class CalciteRadioButton {
   //
   //--------------------------------------------------------------------------
 
+  labelEl: HTMLCalciteLabelElement;
+
   private initialChecked: boolean;
 
   private inputEl: HTMLInputElement;
@@ -162,6 +165,24 @@ export class CalciteRadioButton {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  onLabelClick = (event: CustomEvent): void => {
+    if (!this.disabled && !this.hidden) {
+      this.uncheckOtherRadioButtonsInGroup();
+      const target = event.target as HTMLElement;
+      const firstButton = target?.querySelector(
+        `calcite-radio-button[name="${this.name}"]`
+      ) as HTMLCalciteRadioButtonElement;
+
+      if (firstButton) {
+        firstButton.checked = true;
+        firstButton.focused = true;
+      }
+
+      this.calciteRadioButtonChange.emit();
+      this.setFocus();
+    }
+  };
 
   private checkLastRadioButton(): void {
     const radioButtons = Array.from(this.rootNode.querySelectorAll("calcite-radio-button")).filter(
@@ -313,6 +334,7 @@ export class CalciteRadioButton {
     if (form) {
       form.addEventListener("reset", this.formResetHandler);
     }
+    connectLabel(this);
   }
 
   componentDidLoad(): void {
@@ -327,6 +349,7 @@ export class CalciteRadioButton {
     if (form) {
       form.removeEventListener("reset", this.formResetHandler);
     }
+    disconnectLabel(this);
   }
 
   // --------------------------------------------------------------------------
@@ -341,7 +364,7 @@ export class CalciteRadioButton {
     return (
       <div class={CSS.container}>
         <input
-          aria-label={this.label || null}
+          aria-label={getLabelText(this)}
           checked={this.checked}
           disabled={this.disabled}
           hidden={this.hidden}

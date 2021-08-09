@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, focusable, labelable, reflects, renders } from "../../tests/commonTests";
 import { formatTimePart, getMeridiem } from "../../utils/time";
 
 describe("calcite-input-time-picker", () => {
@@ -7,10 +7,10 @@ describe("calcite-input-time-picker", () => {
 
   it("is accessible", async () =>
     accessible(`
-    <label>
+    <calcite-label>
       Input Time Picker
       <calcite-input-time-picker name="test"></calcite-input-time-picker>
-    </label>
+    </calcite-label>
   `));
 
   it("has defaults", async () =>
@@ -25,6 +25,8 @@ describe("calcite-input-time-picker", () => {
       { propertyName: "disabled", value: true },
       { propertyName: "scale", value: "m" }
     ]));
+
+  it("is labelable", async () => labelable("calcite-input-time-picker"));
 
   it("should focus the input when setFocus is called", async () =>
     focusable(`calcite-input-time-picker`, {

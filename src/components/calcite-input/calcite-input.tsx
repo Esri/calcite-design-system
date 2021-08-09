@@ -23,6 +23,7 @@ import { getKey } from "../../utils/key";
 import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
 import { InputPlacement } from "./interfaces";
 import { Position } from "../interfaces";
+import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
   getDecimalSeparator,
   delocalizeNumberString,
@@ -48,7 +49,7 @@ type NumberNudgeDirection = "up" | "down";
   styleUrl: "calcite-input.scss",
   scoped: true
 })
-export class CalciteInput {
+export class CalciteInput implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -174,6 +175,9 @@ export class CalciteInput {
   /** optionally add suffix  **/
   @Prop() suffixText?: string;
 
+  /** @internal adds inline styles for text input when slotted in calcite-inline-editable */
+  @Prop({ mutable: true, reflect: true }) editingEnabled?: boolean;
+
   /**
    * specify the input type
    *
@@ -223,6 +227,10 @@ export class CalciteInput {
   //  Private Properties
   //
   //--------------------------------------------------------------------------
+
+  labelEl: HTMLCalciteLabelElement;
+
+  inlineEditableEl: HTMLCalciteInlineEditableElement;
 
   /** keep track of the rendered child type */
   private childEl?: HTMLInputElement | HTMLTextAreaElement;
@@ -277,6 +285,8 @@ export class CalciteInput {
     this.form?.addEventListener("reset", this.reset);
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.status = getElementProp(this.el, "status", this.status);
+    this.inlineEditableEl = this.el.closest("calcite-inline-editable");
+    this.editingEnabled = this.inlineEditableEl?.editingEnabled;
     if (this.type === "number" && this.value) {
       if (isValidNumber(this.value)) {
         this.localizedValue = localizeNumberString(this.value, this.locale, this.groupSeparator);
@@ -284,10 +294,12 @@ export class CalciteInput {
         this.value = undefined;
       }
     }
+    connectLabel(this);
   }
 
   disconnectedCallback(): void {
     this.form?.removeEventListener("reset", this.reset);
+    disconnectLabel(this);
   }
 
   componentWillLoad(): void {
@@ -379,6 +391,10 @@ export class CalciteInput {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  onLabelClick = (): void => {
+    this.setFocus();
+  };
 
   private clearInputValue = (nativeEvent: KeyboardEvent | MouseEvent): void => {
     this.setValue(null, nativeEvent, true);
@@ -672,7 +688,7 @@ export class CalciteInput {
     const localeNumberInput =
       this.type === "number" ? (
         <input
-          aria-label={this.label}
+          aria-label={getLabelText(this)}
           autofocus={this.autofocus ? true : null}
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
@@ -695,8 +711,12 @@ export class CalciteInput {
 
     const childEl = [
       <this.childElType
-        aria-label={this.label}
+        aria-label={getLabelText(this)}
         autofocus={this.autofocus ? true : null}
+        class={{
+          [CSS.editingEnabled]: this.editingEnabled,
+          [CSS.inlineChild]: !!this.inlineEditableEl
+        }}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
         max={this.maxString}
@@ -713,7 +733,11 @@ export class CalciteInput {
         ref={this.setChildElRef}
         required={this.required ? true : null}
         step={this.step}
-        tabIndex={this.disabled || this.type === "number" ? -1 : null}
+        tabIndex={
+          this.disabled || (this.inlineEditableEl && !this.editingEnabled) || this.type === "number"
+            ? -1
+            : null
+        }
         type={this.type}
         value={this.value}
       />,

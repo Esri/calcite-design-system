@@ -11,9 +11,10 @@ import {
   State,
   VNode
 } from "@stencil/core";
-import { getElementDir, hasLabel } from "../../utils/dom";
+import { getElementDir } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
+import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import { TEXT } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 
@@ -22,7 +23,7 @@ import { CSS_UTILITY } from "../../utils/resources";
   styleUrl: "calcite-rating.scss",
   shadow: true
 })
-export class CalciteRating {
+export class CalciteRating implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -70,6 +71,20 @@ export class CalciteRating {
 
   //--------------------------------------------------------------------------
   //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    connectLabel(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectLabel(this);
+  }
+
+  //--------------------------------------------------------------------------
+  //
   //  Events
   //
   //--------------------------------------------------------------------------
@@ -84,16 +99,6 @@ export class CalciteRating {
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
-
-  @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(e: CustomEvent): void {
-    if (
-      hasLabel(e.detail.labelEl, this.el) &&
-      e.detail.interactedEl !== this.el &&
-      !this.el.contains(e.detail.interactedEl)
-    ) {
-      this.setFocus();
-    }
-  }
 
   @Listen("blur") blurHandler(): void {
     this.hasFocus = false;
@@ -191,6 +196,11 @@ export class CalciteRating {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  onLabelClick = (): void => {
+    this.setFocus();
+  };
+
   private updateValue(value: number) {
     this.value = value;
     this.calciteRatingChange.emit({ value });
@@ -213,6 +223,8 @@ export class CalciteRating {
   //  Private State / Properties
   //
   // --------------------------------------------------------------------------
+
+  labelEl: HTMLCalciteLabelElement;
 
   @State() hoverValue: number;
 

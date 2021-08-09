@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { focusable, HYDRATED_ATTR } from "../../tests/commonTests";
+import { focusable, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { getDecimalSeparator, locales, localizeNumberString } from "../../utils/locale";
@@ -35,6 +35,8 @@ describe("calcite-input", () => {
     const inputInput = await calciteInput.find("input");
     expect(await inputInput.getProperty("value")).toEqual(defaultValue);
   });
+
+  it("is labelable", async () => labelable("calcite-input"));
 
   it("renders", async () => {
     const page = await newE2EPage();
