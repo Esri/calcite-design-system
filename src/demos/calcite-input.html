@@ -38,7 +38,7 @@
         <h3>Scale</h3>
         <calcite-label scale="s" for="s-input">
           Small Input
-          <calcite-input id="s-input" value="Entered value" placeholder="My placeholder"></calcite-input>
+          <calcite-input id="s-input" value="Entered value"></calcite-input>
         </calcite-label>
         <calcite-label scale="m" for="m-input">
           Medium Input
@@ -207,15 +207,9 @@
             <calcite-button slot="action">Action</calcite-button>
           </calcite-input>
         </calcite-label>
-        <calcite-label scale="l" id="l-slotted-action">
+        <calcite-label scale="l">
           Prefixed and suffixed
-          <calcite-input
-            id="l-slotted-action"
-            type="number"
-            prefix-text="pre"
-            suffix-text="suf"
-            placeholder="Enter your information"
-          >
+          <calcite-input type="number" prefix-text="pre" suffix-text="suf" placeholder="Enter your information">
             <calcite-button scale="l" slot="action">Action</calcite-button>
           </calcite-input>
         </calcite-label>

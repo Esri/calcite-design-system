@@ -46,7 +46,7 @@ type NumberNudgeDirection = "up" | "down";
 @Component({
   tag: "calcite-input",
   styleUrl: "calcite-input.scss",
-  scoped: true
+  shadow: true
 })
 export class CalciteInput {
   //--------------------------------------------------------------------------
@@ -593,6 +593,7 @@ export class CalciteInput {
 
     const inputClearButton = (
       <button
+        aria-label="this needs a label for a11y."
         class={CSS.clearButton}
         disabled={this.disabled || this.readOnly}
         onClick={this.clearInputValue}
@@ -616,6 +617,7 @@ export class CalciteInput {
 
     const numberButtonsHorizontalUp = (
       <button
+        aria-label="this needs a label for a11y."
         class={{
           [CSS.numberButtonItem]: true,
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton
@@ -632,6 +634,7 @@ export class CalciteInput {
 
     const numberButtonsHorizontalDown = (
       <button
+        aria-label="this needs a label for a11y."
         class={{
           [CSS.numberButtonItem]: true,
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton
@@ -660,7 +663,6 @@ export class CalciteInput {
     const localeNumberInput =
       this.type === "number" ? (
         <input
-          aria-label={this.label}
           autofocus={this.autofocus ? true : null}
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
@@ -683,7 +685,6 @@ export class CalciteInput {
 
     const childEl = [
       <this.childElType
-        aria-label={this.label}
         autofocus={this.autofocus ? true : null}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
@@ -713,7 +714,7 @@ export class CalciteInput {
     ];
 
     return (
-      <Host onClick={this.inputFocusHandler}>
+      <Host aria-label={this.label || null} onClick={this.inputFocusHandler} role="textbox">
         <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }} dir={dir}>
           {this.type === "number" && this.numberButtonType === "horizontal"
             ? numberButtonsHorizontalDown

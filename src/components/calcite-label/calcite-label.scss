@@ -13,22 +13,22 @@
 }
 
 :host([scale="s"]) {
-  label {
+  .container {
     @apply text--2h mb-2;
   }
 }
 :host([scale="m"]) {
-  label {
+  .container {
     @apply text--1h mb-3;
   }
 }
 :host([scale="l"]) {
-  label {
+  .container {
     @apply text-0h mb-4;
   }
 }
 
-:host label {
+:host .container {
   @apply text-color-1
     cursor-pointer
     w-full
@@ -39,32 +39,32 @@
 }
 
 :host([layout="default"]) {
-  label {
+  .container {
     @apply flex flex-col gap-1;
   }
 }
 
 :host([layout="inline"]),
 :host([layout="inline-space-between"]) {
-  label {
+  .container {
     @apply flex items-center flex-row gap-2;
   }
 }
 :host([layout="inline"][scale="l"]) {
-  label {
+  .container {
     @apply gap-3;
   }
 }
 
 :host([layout="inline-space-between"]) {
-  label {
+  .container {
     @apply justify-between;
   }
 }
 
 // disabled styles
 :host([disabled]) {
-  & > label {
+  & > .container {
     @apply pointer-events-none opacity-disabled;
   }
   ::slotted(*) {
@@ -81,7 +81,7 @@
 }
 
 :host([disable-spacing]) {
-  label {
+  .container {
     @apply gap-0 m-0;
   }
 }

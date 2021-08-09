@@ -1,13 +1,26 @@
-import { Component, Element, Event, Listen, h, Prop, EventEmitter, VNode } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  Host,
+  Listen,
+  h,
+  Prop,
+  EventEmitter,
+  VNode,
+  State,
+  Watch
+} from "@stencil/core";
 import { getElementDir, queryElementRoots } from "../../utils/dom";
 import { FocusRequest } from "./interfaces";
 import { Alignment, Scale, Status } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
+import { guid } from "../../utils/guid";
 
 @Component({
   tag: "calcite-label",
   styleUrl: "calcite-label.scss",
-  scoped: true
+  shadow: true
 })
 export class CalciteLabel {
   //--------------------------------------------------------------------------
@@ -63,14 +76,35 @@ export class CalciteLabel {
   //--------------------------------------------------------------------------
 
   @Listen("click")
-  onClick(event: MouseEvent): void {
-    const target = event.target as HTMLElement;
+  onClick(): void {
     this.calciteLabelFocus.emit({
       labelEl: this.el,
-      interactedEl: target,
       requestedInput: this.for
     });
-    this.handleCalciteHtmlForClicks(target);
+    this.handleCalciteHtmlForClicks();
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Variables
+  //
+  //--------------------------------------------------------------------------
+
+  guid = `calcite-label-${guid()}`;
+
+  mutationObserver = new MutationObserver(() => this.setEffectiveForElement());
+
+  @State() effectiveForElement: HTMLElement;
+
+  @Watch("effectiveForElement")
+  effectiveForElementHandler(newValue: HTMLElement, oldValue: HTMLElement): void {
+    const id = this.el.id || this.guid;
+
+    if (oldValue?.getAttribute("aria-labelledby") === id) {
+      oldValue.removeAttribute("aria-labelledby");
+    }
+
+    newValue?.setAttribute("aria-labelledby", id);
   }
 
   //--------------------------------------------------------------------------
@@ -79,37 +113,9 @@ export class CalciteLabel {
   //
   //--------------------------------------------------------------------------
 
-  private handleCalciteHtmlForClicks = (target: HTMLElement) => {
-    // 1. has htmlFor
-    if (!this.for) {
-      return;
-    }
-
-    // 2. htmlFor matches a calcite component
-    const inputForThisLabel: HTMLElement = queryElementRoots(this.el, `#${this.for}`);
-    if (!inputForThisLabel) {
-      return;
-    }
-    if (!inputForThisLabel.localName.startsWith("calcite")) {
-      return;
-    }
-
-    // 5. target is NOT the calcite component that this label matches
-    if (target === inputForThisLabel) {
-      return;
-    }
-
-    // 3. target is not a labelable native form element
-    const labelableNativeElements = [
-      "button",
-      "input",
-      "meter",
-      "output",
-      "progress",
-      "select",
-      "textarea"
-    ];
-    if (labelableNativeElements.includes(target.localName)) {
+  setEffectiveForElement = (): void => {
+    if (this.for) {
+      this.effectiveForElement = queryElementRoots(this.el, `#${this.for}`);
       return;
     }
 
@@ -129,18 +135,12 @@ export class CalciteLabel {
       "calcite-slider",
       "calcite-switch"
     ];
-    if (labelableCalciteElements.includes(target.localName)) {
-      return;
-    }
 
-    // 5. target is not a child of a labelable calcite form element
-    for (let i = 0; i < labelableCalciteElements.length; i++) {
-      if (target.closest(labelableCalciteElements[i])) {
-        return;
-      }
-    }
+    this.effectiveForElement = this.el.querySelector(labelableCalciteElements.join(","));
+  };
 
-    inputForThisLabel.click();
+  private handleCalciteHtmlForClicks = () => {
+    this.effectiveForElement?.click();
   };
 
   //--------------------------------------------------------------------------
@@ -149,12 +149,23 @@ export class CalciteLabel {
   //
   //--------------------------------------------------------------------------
 
+  connectedCallback(): void {
+    this.mutationObserver.observe(this.el, { childList: true, subtree: true });
+    this.setEffectiveForElement();
+  }
+
+  disconnectedCallback(): void {
+    this.mutationObserver.disconnect();
+  }
+
   render(): VNode {
     const dir = getElementDir(this.el);
     return (
-      <label class={{ [CSS_UTILITY.rtl]: dir === "rtl" }} htmlFor={this.for}>
-        <slot />
-      </label>
+      <Host id={this.el.id || this.guid}>
+        <div class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+          <slot />
+        </div>
+      </Host>
     );
   }
 }
