@@ -1,7 +1,7 @@
 import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
 
 describe("calcite-radio", () => {
-  it("renders", async () => renders("calcite-radio", { display: "inline-block" }));
+  it("renders", async () => renders("calcite-radio", { display: "block" }));
 
   it("is accessible", async () => accessible(`<calcite-radio></calcite-radio>`));
 
