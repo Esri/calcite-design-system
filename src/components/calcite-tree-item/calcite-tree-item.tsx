@@ -196,7 +196,7 @@ export class CalciteTreeItem {
           data-selection-mode={this.selectionMode}
           ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}
         >
-          {this.hasChildren ? chevron : null}
+          {this.hasChildren || (this.selectionMode === "ancestors" && this.inputEnabled) ? chevron : null}
           {bulletIcon || checkmarkIcon}
           {checkbox && this.selectionMode === "ancestors" ? checkbox : <slot />}
         </div>

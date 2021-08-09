@@ -107,13 +107,6 @@
   }
 }
 
-// :host([dir="rtl"][scale="s"]) { // TO-DO: fix item no children chevron indentation
-//   --calcite-tree-children-indent-end: 0rem;
-//   --calcite-tree-children-padding-end: 0.8rem;
-//   --calcite-tree-line-position-end: 0.3rem;
-//   --calcite-tree-parent-line-position-end: -0.5rem;
-// }
-
 ::slotted(*) {
   @apply break-words min-w-0 max-w-full;
   color: inherit;
@@ -192,20 +185,18 @@
 .calcite-tree-node {
   @apply flex items-center relative;
   padding: var(--calcite-tree-vertical-padding) 0;
-  width: 100%;
 
-  .calcite-tree-checkmark {
-    @apply transition-default opacity-0;
-    color: var(--calcite-tree-indicator);
+  .calcite-tree-checkbox,
+  .calcite-tree-checkmark,
+  .calcite-tree-bullet-point {
     margin-inline-start: var(--calcite-tree-vertical-padding);
     margin-inline-end: var(--calcite-tree-vertical-padding);
   }
 
+  .calcite-tree-checkmark,
   .calcite-tree-bullet-point {
     @apply transition-default opacity-0;
     color: var(--calcite-tree-indicator);
-    margin-inline-start: var(--calcite-tree-vertical-padding);
-    margin-inline-end: var(--calcite-tree-vertical-padding);
   }
 
   &:after {
@@ -215,13 +206,8 @@
   }
 }
 
-// :host([input-enabled]) .calcite-tree-node:before {
-//   @apply hidden;
-// }
-
 :host([has-children]) > .calcite-tree-node {
-  padding-left: 0;
-  padding-right: 0;
+  @apply pl-0 pr-0;
   .calcite-tree-bullet-point {
     @apply hidden;
   }
@@ -275,9 +261,6 @@
   .calcite-tree-bullet-point,
   .calcite-tree-checkmark {
     @apply hidden;
-  }
-  .calcite-tree-checkbox {
-    padding-inline-start: 0;
   }
 }
 
