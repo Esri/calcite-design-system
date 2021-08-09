@@ -1,5 +1,4 @@
 :host {
-  @extend %component-host;
   @apply bg-transparent block mb-1;
   * {
     @apply box-border;
