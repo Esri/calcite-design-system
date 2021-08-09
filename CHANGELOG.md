@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - **calcite-list-item-group:** Add support for grouping list items [#2550](https://github.com/Esri/calcite-components/issues/2550) ([#2700](https://github.com/Esri/calcite-components/issues/2700)) ([f11e21d](https://github.com/Esri/calcite-components/commit/f11e21d042b5fd48332521458348873b2b087165)), closes [#2350](https://github.com/Esri/calcite-components/issues/2350)
 - **custom-elements:** split up standalone action component bundles ([#2759](https://github.com/Esri/calcite-components/issues/2759)) ([139663b](https://github.com/Esri/calcite-components/commit/139663baac2730ba552af2d242a21aac87b7f29d))
+- **input:** Add readOnly property ([#2734](https://github.com/Esri/calcite-components/issues/2734)) ([0a709cf](https://github.com/Esri/calcite-components/commit/0a709cff3f4a10ca8e9cbd093f418e53c2b519ee)), closes [#2726](https://github.com/Esri/calcite-components/issues/2726)
 
 ### Bug Fixes
 
