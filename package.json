@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "1.0.0-next.263",
+  "version": "1.0.0-next.264",
   "description": "Web Components for Esri's Calcite Design System.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
@@ -147,5 +147,9 @@
     "workbox-build": "6.1.5",
     "yargs": "17.1.0"
   },
-  "license": "SEE LICENSE IN copyright.txt"
+  "license": "SEE LICENSE IN copyright.txt",
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.css": "stylelint --fix"
+  }
 }
