@@ -482,10 +482,10 @@ export class CalciteDatePicker {
         } else {
           const startDiff = getDaysDiff(date, this.startAsDate);
           const endDiff = getDaysDiff(date, this.endAsDate);
-          if (startDiff > endDiff) {
-            this.setEndDate(date);
-          } else {
+          if (startDiff < endDiff) {
             this.setStartDate(date);
+          } else {
+            this.setEndDate(date);
           }
         }
       } else {
