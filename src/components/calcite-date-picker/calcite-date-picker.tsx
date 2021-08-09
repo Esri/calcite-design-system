@@ -40,10 +40,10 @@ export class CalciteDatePicker {
   //
   //--------------------------------------------------------------------------
   /** Active range */
-  @Prop() activeRange?: "start" | "end" = "start";
+  @Prop() activeRange?: "start" | "end";
 
   /** Selected date */
-  @Prop() value?: string;
+  @Prop({ mutable: true }) value?: string;
 
   /**
    * Number at which section headings should start for this component.
@@ -106,7 +106,7 @@ export class CalciteDatePicker {
   @Prop({ reflect: true }) range?: boolean = false;
 
   /** Selected start date */
-  @Prop() start?: string;
+  @Prop({ mutable: true }) start?: string;
 
   /** Selected end date */
   @Prop({ mutable: true }) end?: string;
@@ -198,8 +198,21 @@ export class CalciteDatePicker {
     if (this.range && this.mostRecentRangeValue) {
       activeDate = this.mostRecentRangeValue;
     }
-    const minDate = this.activeRange === "start" ? this.minAsDate : date || this.maxAsDate;
-    const maxDate = this.maxAsDate;
+
+    const minDate =
+      this.range && this.activeRange
+        ? this.activeRange === "start"
+          ? this.minAsDate
+          : date || this.minAsDate
+        : this.minAsDate;
+
+    const maxDate =
+      this.range && this.activeRange
+        ? this.activeRange === "start"
+          ? endDate || this.maxAsDate
+          : this.maxAsDate
+        : this.maxAsDate;
+
     const dir = getElementDir(this.el);
 
     return (
@@ -258,10 +271,10 @@ export class CalciteDatePicker {
     if (!this.range) {
       this.activeDate = date;
     } else {
-      if (this.activeRange === "start") {
-        this.activeStartDate = date;
-      } else if (this.activeRange === "end") {
+      if (this.activeRange === "end") {
         this.activeEndDate = date;
+      } else {
+        this.activeStartDate = date;
       }
       this.mostRecentRangeValue = date;
     }
@@ -272,10 +285,10 @@ export class CalciteDatePicker {
     if (!this.range) {
       this.activeDate = date;
     } else {
-      if (this.activeRange === "start") {
-        this.activeStartDate = date;
-      } else if (this.activeRange === "end") {
+      if (this.activeRange === "end") {
         this.activeEndDate = date;
+      } else {
+        this.activeStartDate = date;
       }
       this.mostRecentRangeValue = date;
     }
@@ -288,7 +301,7 @@ export class CalciteDatePicker {
     }
     const date = new Date(e.detail);
     this.hoverRange = {
-      focused: this.activeRange,
+      focused: this.activeRange || "start",
       start: this.startAsDate,
       end: this.endAsDate
     };
@@ -363,7 +376,7 @@ export class CalciteDatePicker {
           min={minDate}
           onCalciteDatePickerSelect={this.monthHeaderSelectChange}
           scale={this.scale}
-          selectedDate={this.activeRange === "start" ? date : endDate || new Date()}
+          selectedDate={this.activeRange === "end" ? endDate : date || new Date()}
         />,
         <calcite-date-picker-month
           activeDate={activeDate}
@@ -378,7 +391,7 @@ export class CalciteDatePicker {
           onCalciteDatePickerMouseOut={this.monthMouseOutChange}
           onCalciteDatePickerSelect={this.monthDateChange}
           scale={this.scale}
-          selectedDate={this.activeRange === "start" ? date : endDate}
+          selectedDate={this.activeRange === "end" ? endDate : date}
           startDate={this.range ? date : undefined}
         />
       ]
@@ -428,6 +441,18 @@ export class CalciteDatePicker {
     }
   };
 
+  private setEndDate(date: Date): void {
+    this.end = dateToISO(date);
+    this.setEndAsDate(date, true);
+    this.activeEndDate = date;
+  }
+
+  private setStartDate(date: Date): void {
+    this.start = dateToISO(date);
+    this.setStartAsDate(date, true);
+    this.activeStartDate = date;
+  }
+
   /**
    * Event handler for when the selected date changes
    */
@@ -441,35 +466,30 @@ export class CalciteDatePicker {
 
     if (!this.startAsDate || (!this.endAsDate && date < this.startAsDate)) {
       if (this.startAsDate) {
-        const newEndDate = new Date(this.startAsDate);
-        this.end = dateToISO(newEndDate);
-        this.setEndAsDate(newEndDate, true);
-        this.activeEndDate = newEndDate;
+        this.setEndDate(new Date(this.startAsDate));
       }
-      this.start = dateToISO(date);
-      this.setStartAsDate(date, true);
-      this.activeStartDate = date;
+      this.setStartDate(date);
     } else if (!this.endAsDate) {
-      this.end = dateToISO(date);
-      this.setEndAsDate(date, true);
-      this.activeEndDate = date;
+      this.setEndDate(date);
     } else {
       if (!this.proximitySelectionDisabled) {
-        const startDiff = getDaysDiff(date, this.startAsDate);
-        const endDiff = getDaysDiff(date, this.endAsDate);
-        if (startDiff < endDiff) {
-          this.start = dateToISO(date);
-          this.setStartAsDate(date, true);
-          this.activeStartDate = date;
+        if (this.activeRange) {
+          if (this.activeRange == "end") {
+            this.setEndDate(date);
+          } else {
+            this.setStartDate(date);
+          }
         } else {
-          this.end = dateToISO(date);
-          this.setEndAsDate(date, true);
-          this.activeEndDate = date;
+          const startDiff = getDaysDiff(date, this.startAsDate);
+          const endDiff = getDaysDiff(date, this.endAsDate);
+          if (startDiff < endDiff) {
+            this.setStartDate(date);
+          } else {
+            this.setEndDate(date);
+          }
         }
       } else {
-        this.start = dateToISO(date);
-        this.setStartAsDate(date, true);
-        this.activeStartDate = date;
+        this.setStartDate(date);
         this.endAsDate = this.activeEndDate = this.end = undefined;
       }
     }

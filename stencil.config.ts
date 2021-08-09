@@ -10,15 +10,10 @@ export const create: () => Config = () => ({
   namespace: "calcite",
   bundles: [
     { components: ["calcite-accordion", "calcite-accordion-item"] },
-    {
-      components: [
-        "calcite-action",
-        "calcite-action-group",
-        "calcite-action-menu",
-        "calcite-action-bar",
-        "calcite-action-pad"
-      ]
-    },
+    { components: ["calcite-action"] },
+    { components: ["calcite-action-bar"] },
+    { components: ["calcite-action-menu"] },
+    { components: ["calcite-action-pad"] },
     { components: ["calcite-alert"] },
     { components: ["calcite-avatar"] },
     { components: ["calcite-block", "calcite-block-section"] },
