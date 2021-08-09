@@ -1,6 +1,10 @@
 :host {
-  @extend %component-host;
   @apply bg-transparent block mb-1;
+  * {
+    @apply box-border;
+  }
+  color: var(--calcite-ui-text-2);
+  font-size: var(--calcite-font-size--1);
 }
 
 :host(:last-child) {
@@ -15,7 +19,7 @@ h3.heading {
 }
 
 .container--indented {
-margin-left: theme("spacing.6");
+  @apply ml-6;
 }
 
 .calcite--rtl.container--indented {

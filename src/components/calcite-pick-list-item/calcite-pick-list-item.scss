@@ -1,43 +1,17 @@
 :host {
-  @extend %component-host;
   @apply items-stretch
-    flex
-    text-color-1
-    shadow-border-bottom
-    m-0
-    mb-px;
+        flex
+        text-color-1
+        shadow-border-bottom
+        m-0
+        mb-px;
   transition: background-color $transition;
   animation: calcite-fade-in $transition;
-}
-
-:host(:hover) .icon,
-:host(:hover) .label {
- @apply bg-foreground-2;
-}
-
-.icon {
- @apply items-center flex my-0 p-3 cursor-pointer;
- color: theme("colors.brand");
- flex: 0 0 auto;
- line-height: 0;
-}
- 
-.icon-dot {
- @apply items-center flex w-6 p-2;
- &:before {
- @apply opacity-0;
- content: "\2022";
- }
-}
- 
-.icon calcite-icon {
- @apply opacity-0;
-}
- 
-:host([selected]) .icon-dot:before,
-:host([selected]) .icon calcite-icon {
- transition: opacity $transition;
- @apply opacity-100;
+  * {
+    @apply box-border;
+  }
+  background-color: var(--calcite-ui-foreground-1);
+  font-size: var(--calcite-font-size--1);
 }
 
 .label {
@@ -45,13 +19,44 @@
   &:focus {
     @apply focus-inset;
   }
+  &:hover {
+    @apply bg-foreground-2;
+  }
+}
+
+.icon {
+  @apply items-center flex my-0 p-1 cursor-pointer;
+  color: theme("colors.brand");
+  flex: 0 0 auto;
+  line-height: 0;
+  &:hover {
+    @apply bg-foreground-2;
+  }
+}
+
+.icon-dot {
+  @apply items-center flex w-6 p-2;
+  &:before {
+    @apply opacity-0;
+    content: "\2022";
+  }
+}
+
+.icon calcite-icon {
+  @apply opacity-0;
+}
+
+:host([selected]) .icon-dot:before,
+:host([selected]) .icon calcite-icon {
+  transition: opacity $transition;
+  @apply opacity-100;
 }
 
 .text-container {
   @apply flex
     overflow-hidden
     pointer-events-none
-    py-3
+    py-2
     px-3
     text--2-wrap
     word-break;
@@ -67,15 +72,8 @@
 }
 
 .actions {
-  @apply items-stretch flex justify-end m-0;
-  flex-grow: 1 1 auto;
-  flex-shrink: 1 1 auto;
+  @apply items-stretch flex justify-end m-0 flex-initial;
 }
-
-button.button {
-  padding: .5rem 1rem
-}
-
 
 .actions--start ~ .label {
   @apply pl-1;
@@ -85,6 +83,3 @@ button.button {
   padding-left: unset;
   @apply pr-1;
 }
-
-
-// :host([selected]) .icon { transition: opacity $transition; @apply opacity-100;}
