@@ -1,5 +1,4 @@
 :host {
-	@extend %component-host;
 	@apply items-stretch
     flex
     text-color-link
@@ -9,7 +8,7 @@
 	transition: background-color $transition;
 	animation: calcite-fade-in $transition;
 	* {
-		@apply: box-border;
+		@apply box-border;
 	}
 	background-color: var(--calcite-ui-foreground-1);
   	font-size: var(--calcite-font-size--1);
