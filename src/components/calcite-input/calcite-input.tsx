@@ -156,6 +156,9 @@ export class CalciteInput {
   /** optionally add prefix  */
   @Prop() prefixText?: string;
 
+  /** When true, a field cannot be modified. */
+  @Prop() readOnly = false;
+
   /** is the input required */
   @Prop() required = false;
 
@@ -591,7 +594,7 @@ export class CalciteInput {
     const inputClearButton = (
       <button
         class={CSS.clearButton}
-        disabled={this.disabled}
+        disabled={this.disabled || this.readOnly}
         onClick={this.clearInputValue}
         tabIndex={this.disabled ? -1 : 0}
         type="button"
@@ -618,7 +621,7 @@ export class CalciteInput {
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton
         }}
         data-adjustment="up"
-        disabled={this.disabled}
+        disabled={this.disabled || this.readOnly}
         onClick={this.numberButtonClickHandler}
         tabIndex={-1}
         type="button"
@@ -634,7 +637,7 @@ export class CalciteInput {
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton
         }}
         data-adjustment="down"
-        disabled={this.disabled}
+        disabled={this.disabled || this.readOnly}
         onClick={this.numberButtonClickHandler}
         tabIndex={-1}
         type="button"
@@ -670,6 +673,7 @@ export class CalciteInput {
           onInput={this.inputNumberInputHandler}
           onKeyDown={this.inputNumberKeyDownHandler}
           placeholder={this.placeholder || ""}
+          readOnly={this.readOnly}
           ref={this.setChildNumberElRef}
           tabIndex={this.disabled ? -1 : 0}
           type="text"
@@ -693,6 +697,7 @@ export class CalciteInput {
         onInput={this.inputInputHandler}
         onKeyDown={this.inputKeyDownHandler}
         placeholder={this.placeholder || ""}
+        readOnly={this.readOnly}
         ref={this.setChildElRef}
         required={this.required ? true : null}
         step={this.step}

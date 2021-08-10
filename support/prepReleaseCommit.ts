@@ -7,6 +7,7 @@ const { normalize } = require("path");
 const pify = require("pify");
 const prettier = require("prettier");
 const semver = require("semver");
+const { quote } = require("shell-quote");
 const standardVersion = require("standard-version");
 const { argv } = require("yargs");
 
@@ -14,7 +15,7 @@ const exec = pify(childProcess.exec);
 const header = `# Changelog\n\nThis document maintains a list of released versions and changes introduced by them.\nThis project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)\n`;
 const unreleasedSectionTokenStart = "<!--@unreleased-section-start-->";
 const unreleasedSectionTokenEnd = "<!--@unreleased-section-end-->";
-const changelogPath = normalize(`${__dirname}/../CHANGELOG.md`);
+const changelogPath = quote([normalize(`${__dirname}/../CHANGELOG.md`)]);
 
 (async function prepReleaseCommit(): Promise<void> {
   const { next } = argv;
