@@ -4,7 +4,7 @@ import { accessible, renders } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-chip", () => {
-  it("renders", async () => renders("<calcite-chip>doritos</calcite-chip>"));
+  it("renders", async () => renders("<calcite-chip>doritos</calcite-chip>", { display: "inline-flex" }));
 
   it("is accessible", async () => accessible(`<calcite-chip>doritos</calcite-chip>`));
 

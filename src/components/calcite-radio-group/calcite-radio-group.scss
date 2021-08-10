@@ -1,15 +1,3 @@
-:host([scale="s"]) {
-  min-height: theme("spacing.6");
-}
-
-:host([scale="m"]) {
-  min-height: theme("spacing.8");
-}
-
-:host([scale="l"]) {
-  min-height: theme("spacing.10");
-}
-
 :host {
   @apply flex bg-foreground-1;
   width: fit-content;

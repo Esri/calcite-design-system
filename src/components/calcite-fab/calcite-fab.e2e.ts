@@ -4,7 +4,7 @@ import { CSS } from "./resources";
 import { defaults } from "../../tests/commonTests";
 
 describe("calcite-fab", () => {
-  it("renders", async () => renders("calcite-fab"));
+  it("renders", async () => renders("calcite-fab", { display: "flex" }));
 
   it("honors hidden attribute", async () => hidden("calcite-fab"));
 
@@ -13,6 +13,10 @@ describe("calcite-fab", () => {
       {
         propertyName: "scale",
         defaultValue: "m"
+      },
+      {
+        propertyName: "appearance",
+        defaultValue: "outline"
       }
     ]));
 
@@ -82,8 +86,50 @@ describe("calcite-fab", () => {
     expect(fab.getAttribute("appearance")).toBe("outline");
   });
 
+  it("should have appearance=solid", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-fab appearance="solid" text="hello world"></calcite-fab>`);
+
+    const fab = await page.find(`calcite-fab >>> .${CSS.button}`);
+    expect(fab.getAttribute("appearance")).toBe("solid");
+  });
+
   it("should be accessible", async () => {
     await accessible(`<calcite-fab label="hello world" text="hello world"></calcite-fab>`);
     await accessible(`<calcite-fab label="hello world" text="hello world" disabled text-enabled></calcite-fab>`);
+  });
+
+  describe("when invalid appearance values are passed", () => {
+    describe("when value is 'transparent'", () => {
+      it("should render with default 'outline' appearance", async () => {
+        const page = await newE2EPage({
+          html: `
+          <calcite-fab
+            text="FAB"
+            text-enabled
+            appearance="transparent"
+          ></calcite-fab>
+          `
+        });
+        const fab = await page.find(`calcite-fab >>> .${CSS.button}`);
+        expect(fab.getAttribute("appearance")).toBe("outline");
+      });
+    });
+
+    describe("when value is 'clear'", () => {
+      it("should render with default 'outline' appearance", async () => {
+        const page = await newE2EPage({
+          html: `
+          <calcite-fab
+            text="FAB"
+            text-enabled
+            appearance="clear"
+          ></calcite-fab>
+          `
+        });
+        const fab = await page.find(`calcite-fab >>> .${CSS.button}`);
+        expect(fab.getAttribute("appearance")).toBe("outline");
+      });
+    });
   });
 });

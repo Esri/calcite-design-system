@@ -1,7 +1,7 @@
 import { accessible, defaults, reflects, renders } from "../../tests/commonTests";
 
 describe("calcite-tile-select-group", () => {
-  it("renders", async () => renders("calcite-tile-select-group"));
+  it("renders", async () => renders("calcite-tile-select-group", { display: "flex" }));
 
   it("is accessible", async () => accessible(`<calcite-tile-select-group></calcite-tile-select-group>`));
 

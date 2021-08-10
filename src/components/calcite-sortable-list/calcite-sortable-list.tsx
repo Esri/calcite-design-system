@@ -16,6 +16,7 @@ import {
  */
 @Component({
   tag: "calcite-sortable-list",
+  styleUrl: "calcite-sortable-list.scss",
   shadow: true
 })
 export class CalciteSortableList {

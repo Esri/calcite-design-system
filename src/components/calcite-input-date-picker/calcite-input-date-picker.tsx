@@ -127,6 +127,10 @@ export class CalciteInputDatePicker {
 
   @Listen("calciteDaySelect")
   calciteDaySelectHandler(): void {
+    if (this.shouldFocusRangeEnd()) {
+      return;
+    }
+
     this.active = false;
   }
 
@@ -295,7 +299,7 @@ export class CalciteInputDatePicker {
                 <calcite-icon flipRtl={true} icon="arrow-right" scale="s" />
               </div>
             )}
-            {this.range && this.layout === "vertical" && (
+            {this.range && this.layout === "vertical" && this.scale !== "s" && (
               <div class="vertical-arrow-container">
                 <calcite-icon icon="arrow-down" scale="s" />
               </div>
@@ -303,7 +307,10 @@ export class CalciteInputDatePicker {
             {this.range && (
               <div class="input-wrapper" ref={this.setEndWrapper}>
                 <calcite-input
-                  class="input"
+                  class={{
+                    input: true,
+                    "border-t-color-1": this.layout === "vertical" && this.range
+                  }}
                   icon="calendar"
                   number-button-type="none"
                   onCalciteInputBlur={this.inputBlur}
@@ -344,8 +351,6 @@ export class CalciteInputDatePicker {
   private startWrapper: HTMLDivElement;
 
   private endWrapper: HTMLDivElement;
-
-  private endInputFocusTimeout: number;
 
   private activeTransitionProp = "opacity";
 
@@ -560,6 +565,15 @@ export class CalciteInputDatePicker {
     this.el.removeEventListener("calciteInputDatePickerOpen", this.focusInputEnd);
   };
 
+  private shouldFocusRangeEnd(): boolean {
+    return !!(
+      this.startAsDate &&
+      !this.endAsDate &&
+      this.focusedInput === "start" &&
+      this.endInput
+    );
+  }
+
   private handleDateRangeChange = (event: CustomEvent<DateRangeChange>): void => {
     if (!this.range || !event.detail) {
       return;
@@ -570,10 +584,8 @@ export class CalciteInputDatePicker {
     this.startAsDate = startDate;
     this.endAsDate = endDate;
 
-    clearTimeout(this.endInputFocusTimeout);
-
-    if (startDate && this.focusedInput === "start" && this.endInput) {
-      this.el.addEventListener("calciteInputDatePickerOpen", this.focusInputEnd);
+    if (this.shouldFocusRangeEnd()) {
+      this.focusInputEnd();
     }
   };
 
