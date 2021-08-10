@@ -5,7 +5,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 <!--@unreleased-section-start-->
 
-## Unreleased (2021-08-09)
+## Unreleased (2021-08-10)
 
 ### Features
 
@@ -18,6 +18,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **date-picker:** Selecting a day no longer activates previous day in certain time zones. ([#2680](https://github.com/Esri/calcite-components/issues/2680)) ([c047298](https://github.com/Esri/calcite-components/commit/c0472984332eaf78648f53c0d9f95a6ff2172c8f)), closes [#1863](https://github.com/Esri/calcite-components/issues/1863)
 - **date-picker, input-date-picker:** Fix setting date for the correct range input ([#2756](https://github.com/Esri/calcite-components/issues/2756)) ([8823b5e](https://github.com/Esri/calcite-components/commit/8823b5e0e6c17a2ccc87be787628d9a3f01304d5)), closes [#2547](https://github.com/Esri/calcite-components/issues/2547)
 - **dropdown:** update dropdown-trigger-container width ([234477a](https://github.com/Esri/calcite-components/commit/234477af3ef40e6fd054c52e934fd0f365144a30)), closes [#2625](https://github.com/Esri/calcite-components/issues/2625) [#2625](https://github.com/Esri/calcite-components/issues/2625) [#2625](https://github.com/Esri/calcite-components/issues/2625)
+- **input:** Prevent keyboard events from changing values when readOnly is true ([#2780](https://github.com/Esri/calcite-components/issues/2780)) ([f86d27a](https://github.com/Esri/calcite-components/commit/f86d27a89b25d2111d6194623db51c18356c3ff3)), closes [#2726](https://github.com/Esri/calcite-components/issues/2726)
 - **list:** update display to block and updates related test ([c5a930d](https://github.com/Esri/calcite-components/commit/c5a930df789abf520989224d20602bcaaf3e190f))
 - **select:** truncate long labels. [#2714](https://github.com/Esri/calcite-components/issues/2714) ([#2731](https://github.com/Esri/calcite-components/issues/2731)) ([6792161](https://github.com/Esri/calcite-components/commit/679216119359caddc3355bfe279a0676ba13a5b4))
 <!--@unreleased-section-end-->
