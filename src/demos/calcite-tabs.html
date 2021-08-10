@@ -6,25 +6,30 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Calcite Tabs</title>
     <style>
-      .parent {
+      .parent,
+      .flex-wrap {
         display: flex;
         align-items: center;
         color: var(--calcite-ui-text-3);
         font-family: var(--calcite-sans-family);
         font-size: var(--calcite-font-size-0);
         font-weight: var(--calcite-font-weight-medium);
+        padding: 0 25px;
       }
 
+      .flex-wrap {
+        flex-wrap: wrap;
+      }
       .child {
         display: inline-flex;
+        flex: 0 0 20%;
         flex-direction: column;
-        width: 10rem;
         padding: 15px;
-        flex-basis: 270px;
       }
 
       .right-aligned-text {
         text-align: right;
+        flex: 0 0 15%;
       }
     </style>
     <script src="./_assets/head.js"></script>
@@ -32,26 +37,27 @@
 
   <body>
     <div>
-      <calcite-button href="/" icon-start="arrow-left" color="neutral"> Home </calcite-button>
+      <calcite-button href="/" icon-start="arrow-left" color="neutral">Home</calcite-button>
     </div>
     <h1 style="margin: 0 auto; text-align: center">Tabs</h1>
 
-    <!-- Headers -->
+    <!-- headers -->
     <div class="parent">
-      <div class="child"></div>
-      <div class="child"> small </div>
-      <div class="child"> medium </div>
-      <div class="child"> large </div>
+      <div class="child right-aligned-text"></div>
+      <div class="child">small</div>
+      <div class="child">medium</div>
+      <div class="child">large</div>
     </div>
 
     <!-- simple tab-nav -->
-    <div class="parent">
-      <div class="child right-aligned-text"> simple</div>
+    <div class="flex-wrap">
+      <div class="child right-aligned-text">simple</div>
 
       <div class="child">
         <calcite-tab-nav scale="s">
           <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
           <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 3 Title</calcite-tab-title>
         </calcite-tab-nav>
       </div>
 
@@ -59,6 +65,7 @@
         <calcite-tab-nav scale="m">
           <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
           <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 3 Title</calcite-tab-title>
         </calcite-tab-nav>
       </div>
 
@@ -66,23 +73,25 @@
         <calcite-tab-nav scale="l">
           <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
           <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 3 Title</calcite-tab-title>
         </calcite-tab-nav>
       </div>
     </div>
 
-
     <!-- tab position: above (default)-->
-    <div class="parent">
-      <div class="child right-aligned-text"> tab position: above (default) </div>
+    <div class="flex-wrap">
+      <div class="child right-aligned-text">tab position: above (default)</div>
 
       <div class="child">
         <calcite-tabs scale="s">
           <calcite-tab-nav slot="tab-nav">
             <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
             <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
           </calcite-tab-nav>
           <calcite-tab active>Tab 1 Content</calcite-tab>
           <calcite-tab>Tab 2 Content</calcite-tab>
+          <calcite-tab>Tab 3 Content</calcite-tab>
         </calcite-tabs>
       </div>
 
@@ -91,9 +100,11 @@
           <calcite-tab-nav slot="tab-nav">
             <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
             <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
           </calcite-tab-nav>
           <calcite-tab active>Tab 1 Content</calcite-tab>
           <calcite-tab>Tab 2 Content</calcite-tab>
+          <calcite-tab>Tab 3 Content</calcite-tab>
         </calcite-tabs>
       </div>
 
@@ -102,26 +113,29 @@
           <calcite-tab-nav slot="tab-nav">
             <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
             <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
           </calcite-tab-nav>
           <calcite-tab active>Tab 1 Content</calcite-tab>
           <calcite-tab>Tab 2 Content</calcite-tab>
+          <calcite-tab>Tab 3 Content</calcite-tab>
         </calcite-tabs>
       </div>
     </div>
 
-
     <!-- tab position: below-->
-    <div class="parent">
-      <div class="child right-aligned-text"> tab position: below </div>
+    <div class="flex-wrap">
+      <div class="child right-aligned-text">tab position: below</div>
 
       <div class="child">
         <calcite-tabs scale="s" position="below">
           <calcite-tab-nav slot="tab-nav">
             <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
             <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
           </calcite-tab-nav>
           <calcite-tab active>Tab 1 Content</calcite-tab>
           <calcite-tab>Tab 2 Content</calcite-tab>
+          <calcite-tab>Tab 3 Content</calcite-tab>
         </calcite-tabs>
       </div>
 
@@ -130,9 +144,11 @@
           <calcite-tab-nav slot="tab-nav">
             <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
             <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
           </calcite-tab-nav>
           <calcite-tab active>Tab 1 Content</calcite-tab>
           <calcite-tab>Tab 2 Content</calcite-tab>
+          <calcite-tab>Tab 3 Content</calcite-tab>
         </calcite-tabs>
       </div>
 
@@ -141,26 +157,30 @@
           <calcite-tab-nav slot="tab-nav">
             <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
             <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
           </calcite-tab-nav>
           <calcite-tab active>Tab 1 Content</calcite-tab>
           <calcite-tab>Tab 2 Content</calcite-tab>
+          <calcite-tab>Tab 3 Content</calcite-tab>
         </calcite-tabs>
       </div>
     </div>
 
     <!-- icon only with no text -->
-    <div class="parent">
-      <div class="child right-aligned-text"> icon only with no text </div>
+    <div class="flex-wrap">
+      <div class="child right-aligned-text">icon only with no text</div>
 
       <div class="child">
         <calcite-tabs scale="s">
           <calcite-tab-nav slot="tab-nav">
             <calcite-tab-title active icon-start="browser"></calcite-tab-title>
             <calcite-tab-title icon-start="browser"></calcite-tab-title>
+            <calcite-tab-title icon-start="browser"></calcite-tab-title>
           </calcite-tab-nav>
-    
+
           <calcite-tab active>Tab 1 Content</calcite-tab>
           <calcite-tab>Tab 2 Content</calcite-tab>
+          <calcite-tab>Tab 3 Content</calcite-tab>
         </calcite-tabs>
       </div>
 
@@ -169,10 +189,12 @@
           <calcite-tab-nav slot="tab-nav">
             <calcite-tab-title active icon-start="browser"></calcite-tab-title>
             <calcite-tab-title icon-start="browser"></calcite-tab-title>
+            <calcite-tab-title icon-start="browser"></calcite-tab-title>
           </calcite-tab-nav>
-    
+
           <calcite-tab active>Tab 1 Content</calcite-tab>
           <calcite-tab>Tab 2 Content</calcite-tab>
+          <calcite-tab>Tab 3 Content</calcite-tab>
         </calcite-tabs>
       </div>
 
@@ -181,17 +203,19 @@
           <calcite-tab-nav slot="tab-nav">
             <calcite-tab-title active icon-start="browser"></calcite-tab-title>
             <calcite-tab-title icon-start="browser"></calcite-tab-title>
+            <calcite-tab-title icon-start="browser"></calcite-tab-title>
           </calcite-tab-nav>
-    
+
           <calcite-tab active>Tab 1 Content</calcite-tab>
           <calcite-tab>Tab 2 Content</calcite-tab>
+          <calcite-tab>Tab 3 Content</calcite-tab>
         </calcite-tabs>
       </div>
     </div>
 
     <!-- icon start -->
-    <div class="parent">
-      <div class="child right-aligned-text"> icon start </div>
+    <div class="flex-wrap">
+      <div class="child right-aligned-text">icon start</div>
 
       <div class="child">
         <calcite-tabs scale="s">
@@ -199,7 +223,7 @@
             <calcite-tab-title active icon-start="tabbed-view">Tab 1 Title</calcite-tab-title>
             <calcite-tab-title icon-start="tabbed-view">Tab 2 Title</calcite-tab-title>
           </calcite-tab-nav>
-    
+
           <calcite-tab active>Tab 1 Content</calcite-tab>
           <calcite-tab>Tab 2 Content</calcite-tab>
         </calcite-tabs>
@@ -211,7 +235,7 @@
             <calcite-tab-title active icon-start="tabbed-view">Tab 1 Title</calcite-tab-title>
             <calcite-tab-title icon-start="tabbed-view">Tab 2 Title</calcite-tab-title>
           </calcite-tab-nav>
-    
+
           <calcite-tab active>Tab 1 Content</calcite-tab>
           <calcite-tab>Tab 2 Content</calcite-tab>
         </calcite-tabs>
@@ -223,17 +247,16 @@
             <calcite-tab-title active icon-start="tabbed-view">Tab 1 Title</calcite-tab-title>
             <calcite-tab-title icon-start="tabbed-view">Tab 2 Title</calcite-tab-title>
           </calcite-tab-nav>
-    
+
           <calcite-tab active>Tab 1 Content</calcite-tab>
           <calcite-tab>Tab 2 Content</calcite-tab>
         </calcite-tabs>
       </div>
     </div>
 
-
     <!-- icon end -->
-    <div class="parent">
-      <div class="child right-aligned-text"> icon end </div>
+    <div class="flex-wrap">
+      <div class="child right-aligned-text">icon end</div>
 
       <div class="child">
         <calcite-tabs scale="s">
@@ -241,7 +264,7 @@
             <calcite-tab-title active icon-end="tabbed-view">Tab 1 Title</calcite-tab-title>
             <calcite-tab-title icon-end="tabbed-view">Tab 2 Title</calcite-tab-title>
           </calcite-tab-nav>
-    
+
           <calcite-tab active>Tab 1 Content</calcite-tab>
           <calcite-tab>Tab 2 Content</calcite-tab>
         </calcite-tabs>
@@ -253,7 +276,7 @@
             <calcite-tab-title active icon-end="tabbed-view">Tab 1 Title</calcite-tab-title>
             <calcite-tab-title icon-end="tabbed-view">Tab 2 Title</calcite-tab-title>
           </calcite-tab-nav>
-    
+
           <calcite-tab active>Tab 1 Content</calcite-tab>
           <calcite-tab>Tab 2 Content</calcite-tab>
         </calcite-tabs>
@@ -265,17 +288,16 @@
             <calcite-tab-title active icon-end="tabbed-view">Tab 1 Title</calcite-tab-title>
             <calcite-tab-title icon-end="tabbed-view">Tab 2 Title</calcite-tab-title>
           </calcite-tab-nav>
-    
+
           <calcite-tab active>Tab 1 Content</calcite-tab>
           <calcite-tab>Tab 2 Content</calcite-tab>
         </calcite-tabs>
       </div>
     </div>
 
-
     <!-- with border + icon-start + icon end -->
-    <div class="parent">
-      <div class="child right-aligned-text"> with border + icon-start + icon end  </div>
+    <div class="flex-wrap">
+      <div class="child right-aligned-text">with border + icon-start + icon end</div>
 
       <div class="child">
         <calcite-tabs bordered scale="s">
@@ -283,9 +305,7 @@
             <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" active>Tab 1 Title</calcite-tab-title>
             <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 2 Title</calcite-tab-title>
           </calcite-tab-nav>
-          <calcite-tab active
-            >Tab 1 content</calcite-tab
-          >
+          <calcite-tab active>Tab 1 content</calcite-tab>
           <calcite-tab>Tab 2 Content</calcite-tab>
         </calcite-tabs>
       </div>
@@ -296,9 +316,7 @@
             <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" active>Tab 1 Title</calcite-tab-title>
             <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 2 Title</calcite-tab-title>
           </calcite-tab-nav>
-          <calcite-tab active
-            >Tab 1 content</calcite-tab
-          >
+          <calcite-tab active>Tab 1 content</calcite-tab>
           <calcite-tab>Tab 2 Content</calcite-tab>
         </calcite-tabs>
       </div>
@@ -309,9 +327,7 @@
             <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" active>Tab 1 Title</calcite-tab-title>
             <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 2 Title</calcite-tab-title>
           </calcite-tab-nav>
-          <calcite-tab active
-            >Tab 1 content</calcite-tab
-          >
+          <calcite-tab active>Tab 1 content</calcite-tab>
           <calcite-tab>Tab 2 Content</calcite-tab>
         </calcite-tabs>
       </div>
