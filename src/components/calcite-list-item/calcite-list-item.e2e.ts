@@ -4,7 +4,7 @@ import { defaults } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-list-item", () => {
-  it("renders", async () => renders("calcite-list-item"));
+  it("renders", async () => renders("calcite-list-item", { display: "flex" }));
 
   it("honors hidden attribute", async () => hidden("calcite-list-item"));
 

@@ -2,7 +2,7 @@ import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, focusable, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-filter", () => {
-  it("renders", async () => renders("calcite-filter"));
+  it("renders", async () => renders("calcite-filter", { display: "flex" }));
 
   it("honors hidden attribute", async () => hidden("calcite-filter"));
 

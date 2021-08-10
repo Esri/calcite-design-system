@@ -5,7 +5,7 @@ import { html } from "../../tests/utils";
 import { CSS_UTILITY } from "../../utils/resources";
 
 describe("calcite-action-pad", () => {
-  it("renders", async () => renders("calcite-action-pad"));
+  it("renders", async () => renders("calcite-action-pad", { display: "block" }));
 
   it("honors hidden attribute", async () => hidden("calcite-action-pad"));
 

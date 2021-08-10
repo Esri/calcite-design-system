@@ -9,7 +9,7 @@ describe("calcite-notice", () => {
   <div slot="message">Message Text</div>
   <calcite-link slot="link" href="">Action</calcite-link>
 `;
-  it("renders", async () => renders(`<calcite-notice active>${noticeContent}</calcite-notice>`));
+  it("renders", async () => renders(`<calcite-notice active>${noticeContent}</calcite-notice>`, { display: "flex" }));
 
   it("is accessible", async () => accessible(`<calcite-notice active>${noticeContent}</calcite-notice>`));
   it("is accessible with icon", async () =>
@@ -72,7 +72,7 @@ describe("calcite-notice", () => {
     </calcite-notice>
     `);
 
-    const notice1 = await page.find("#notice-1");
+    const notice1 = await page.find("#notice-1 >>> .container");
     const noticeclose1 = await page.find(`#notice-1 >>> .${CSS.close}`);
     const animationDurationInMs = 400;
 

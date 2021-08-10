@@ -4,7 +4,7 @@ import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../tests/utils";
 
 describe("calcite-pick-list-item", () => {
-  it("renders", async () => renders("calcite-pick-list-item"));
+  it("renders", async () => renders("calcite-pick-list-item", { display: "flex" }));
 
   it("is accessible", async () => {
     await accessible(html`

@@ -7,7 +7,8 @@ import {
   EventEmitter,
   VNode,
   State,
-  Watch
+  Watch,
+  Fragment
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 import {
@@ -96,17 +97,31 @@ export class CalciteDatePickerMonthHeader {
   }
 
   render(): VNode {
+    const dir = getElementDir(this.el);
+    return (
+      <div class="header" dir={dir}>
+        {this.renderContent(dir)}
+      </div>
+    );
+  }
+
+  renderContent(dir: string): VNode {
+    if (!this.activeDate || !this.localeData) {
+      return null;
+    }
+
     const activeMonth = this.activeDate.getMonth();
     const { months, unitOrder } = this.localeData;
     const localizedMonth = (months.wide || months.narrow || months.abbreviated)[activeMonth];
     const localizedYear = localizeNumber(this.activeDate.getFullYear(), this.localeData);
     const iconScale = this.scale === "l" ? "m" : "s";
-    const dir = getElementDir(this.el);
+
     const order = getOrder(unitOrder);
     const reverse = order.indexOf("y") < order.indexOf("m");
     const suffix = this.localeData.year?.suffix;
+
     return (
-      <div class="header" dir={dir}>
+      <Fragment>
         <a
           aria-disabled={(this.prevMonthDate.getMonth() === activeMonth).toString()}
           aria-label={this.intlPrevMonth}
@@ -161,7 +176,7 @@ export class CalciteDatePickerMonthHeader {
         >
           <calcite-icon dir={dir} flip-rtl icon="chevron-right" scale={iconScale} />
         </a>
-      </div>
+      </Fragment>
     );
   }
 
@@ -181,6 +196,10 @@ export class CalciteDatePickerMonthHeader {
   @Watch("max")
   @Watch("activeDate")
   setNextPrevMonthDates(): void {
+    if (!this.activeDate) {
+      return;
+    }
+
     this.nextMonthDate = dateFromRange(nextMonth(this.activeDate), this.min, this.max);
     this.prevMonthDate = dateFromRange(prevMonth(this.activeDate), this.min, this.max);
   }

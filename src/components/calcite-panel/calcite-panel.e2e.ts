@@ -3,7 +3,7 @@ import { accessible, defaults, focusable, hidden, renders } from "../../tests/co
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-panel", () => {
-  it("renders", async () => renders("calcite-panel"));
+  it("renders", async () => renders("calcite-panel", { display: "flex" }));
 
   it("honors hidden attribute", async () => hidden("calcite-panel"));
 

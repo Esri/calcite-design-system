@@ -3,7 +3,7 @@ import { renders, hidden, accessible, defaults } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 
 describe("calcite-combobox", () => {
-  it("renders", async () => renders("calcite-combobox"));
+  it("renders", async () => renders("calcite-combobox", { display: "block" }));
   it("defaults", async () =>
     defaults("calcite-combobox", [
       {

@@ -3,7 +3,7 @@ import { accessible, defaults, hidden, reflects, renders } from "../../tests/com
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 
 describe("calcite-block-section", () => {
-  it("renders", async () => renders("calcite-block-section"));
+  it("renders", async () => renders("calcite-block-section", { display: "block" }));
 
   it("honors hidden attribute", async () => hidden("calcite-block-section"));
 

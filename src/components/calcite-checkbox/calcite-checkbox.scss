@@ -23,7 +23,7 @@
   -webkit-tap-highlight-color: transparent;
   .check-svg {
     @apply overflow-hidden
-      inline-block
+      block
       bg-foreground-1
       pointer-events-none
       box-border

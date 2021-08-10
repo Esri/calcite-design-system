@@ -6,7 +6,7 @@ import { TEXT } from "../calcite-color-picker/resources";
 import { selectText } from "../../tests/utils";
 
 describe("calcite-color-picker-hex-input", () => {
-  it("renders", () => renders("calcite-color-picker-hex-input"));
+  it("renders", () => renders("calcite-color-picker-hex-input", { display: "block" }));
 
   it("is accessible", async () => {
     await accessible("calcite-color-picker-hex-input");
