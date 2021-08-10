@@ -145,6 +145,7 @@ export class CalciteButton {
             class={this.loading ? CSS.loadingIn : CSS.loadingOut}
             inline
             label={this.intlLoading}
+            scale="m"
           />
         ) : null}
       </div>
