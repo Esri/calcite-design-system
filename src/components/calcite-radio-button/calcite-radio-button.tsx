@@ -143,8 +143,6 @@ export class CalciteRadioButton {
 
   private inputEl: HTMLInputElement;
 
-  private radio: HTMLCalciteRadioElement;
-
   private rootNode: HTMLElement;
 
   //--------------------------------------------------------------------------
@@ -257,7 +255,7 @@ export class CalciteRadioButton {
   @Listen("click")
   check(event: MouseEvent | FocusEvent): void {
     // Prevent parent label from clicking the first radio when calcite-radio-button is clicked
-    if (this.el.closest("label") && (event.target === this.el || event.target === this.radio)) {
+    if (this.el.closest("label") && event.composedPath().includes(this.el)) {
       event.preventDefault();
     }
     if (!this.disabled && !this.hidden) {
@@ -361,7 +359,6 @@ export class CalciteRadioButton {
           focused={this.focused}
           hidden={this.hidden}
           hovered={this.hovered}
-          ref={(el) => (this.radio = el)}
           scale={this.scale}
         />
       </div>

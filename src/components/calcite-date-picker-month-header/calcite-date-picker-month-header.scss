@@ -1,3 +1,7 @@
+:host {
+  @apply block;
+}
+
 .header {
   @apply flex justify-between;
   @apply py-0 px-1;
@@ -5,16 +9,16 @@
 
 :host([scale="s"]) {
   .text {
-    @apply text--1h;
+    @apply text--1h my-2;
   }
   .chevron {
-    @apply h-10;
+    @apply h-9;
   }
 }
 
 :host([scale="m"]) {
   .text {
-    @apply text-0h;
+    @apply text-0h my-3;
   }
   .chevron {
     @apply h-12;
@@ -23,15 +27,16 @@
 
 :host([scale="l"]) {
   .text {
-    @apply text-1h;
+    @apply text-1h my-4;
   }
   .chevron {
-    @apply h-16;
+    // @apply h-16;
+    height: 3.5rem;
   }
 }
 
 .chevron {
-  @apply text-color-2
+  @apply text-color-3
     flex-grow-0
     box-content
     outline-none
@@ -55,7 +60,7 @@
 
   &:hover,
   &:focus {
-    @apply bg-foreground-2 fill-color-1;
+    @apply text-color-1 bg-foreground-2 fill-color-1;
   }
 
   &:active {
@@ -89,6 +94,7 @@
     font-medium
     leading-tight
     mx-1
+    my-auto
     inline-block;
   font-size: inherit;
 }

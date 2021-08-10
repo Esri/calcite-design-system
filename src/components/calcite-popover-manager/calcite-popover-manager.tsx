@@ -7,6 +7,7 @@ import { queryElementRoots, queryElementsRoots } from "../../utils/dom";
  */
 @Component({
   tag: "calcite-popover-manager",
+  styleUrl: "calcite-popover-manager.scss",
   shadow: true
 })
 export class CalcitePopoverManager {

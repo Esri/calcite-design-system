@@ -3,7 +3,7 @@ import { accessible, renders } from "../../tests/commonTests";
 import { StatusIconDefaults } from "./interfaces";
 
 describe("calcite-input-message", () => {
-  it("renders", async () => renders("calcite-input-message", false));
+  it("renders", async () => renders("calcite-input-message", { visible: false, display: "flex" }));
 
   it("is accessible", async () => accessible(`<calcite-input-message>Text</calcite-input-message>`));
   it("is accessible with icon", async () => accessible(`<calcite-input-message icon>Text</calcite-input-message>`));

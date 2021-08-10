@@ -2,7 +2,7 @@ import { newE2EPage } from "@stencil/core/testing";
 import { defaults, renders } from "../../tests/commonTests";
 
 describe("calcite-slider", () => {
-  it("renders", async () => renders("calcite-slider"));
+  it("renders", async () => renders("calcite-slider", { display: "block" }));
 
   it("has defaults", async () =>
     defaults("calcite-slider", [
@@ -335,6 +335,52 @@ describe("calcite-slider", () => {
       expect(await slider.getProperty("minValue")).toBe(25);
       expect(await slider.getProperty("maxValue")).toBe(75);
       expect(changeEvent).toHaveReceivedEventTimes(5);
+    });
+  });
+
+  describe("histogram", () => {
+    it("creates calcite-graph with color stops", async () => {
+      const page = await newE2EPage({ html: `<calcite-slider></calcite-slider>` });
+
+      const props = {
+        histogram: [
+          [0, 4],
+          [1, 7],
+          [4, 6],
+          [6, 2]
+        ],
+        histogramStops: [
+          { offset: 0, color: "red" },
+          { offset: 0.5, color: "green" },
+          { offset: 1, color: "blue" }
+        ]
+      };
+
+      await page.$eval(
+        "calcite-slider",
+        (elm: any, { histogram, histogramStops }) => {
+          elm.histogram = histogram;
+          elm.histogramStops = histogramStops;
+        },
+        props
+      );
+
+      await page.waitForChanges();
+
+      const graph = await page.find("calcite-slider >>> calcite-graph");
+
+      const linearGradient = await page.find("pierce/linearGradient");
+      const linearGradientId = linearGradient.getAttribute("id");
+
+      const path = await graph.find("pierce/path.graph-path");
+      const fill = path.getAttribute("fill");
+      expect(fill).toBe(`url(#${linearGradientId})`);
+
+      for (let i = 0; i < props.histogramStops.length; i += 1) {
+        const { offset, color } = props.histogramStops[i];
+        const stop = await linearGradient.find(`stop[offset="${offset * 100}%"][stop-color="${color}"]`);
+        expect(stop).toBeTruthy();
+      }
     });
   });
 });
