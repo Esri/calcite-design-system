@@ -52,9 +52,9 @@ Renders a `calcite-action` that has a clear background.
 
 ## Events
 
-| Event                | Description                               | Type               |
-| -------------------- | ----------------------------------------- | ------------------ |
-| `calciteActionClick` | Emitted when the action has been clicked. | `CustomEvent<any>` |
+| Event                | Description                                                                                                             | Type               |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------- | ------------------ |
+| `calciteActionClick` | <span style="color:red">**[DEPRECATED]**</span> use onClick instead.<br/><br/>Emitted when the action has been clicked. | `CustomEvent<any>` |
 
 ## Methods
 
