@@ -72,8 +72,14 @@
   @apply p-4;
 }
 
-:host([scale="l"]) .button {
-  @apply p-5 text--1h;
+:host([scale="l"]) {
+  .button {
+    @apply p-5 text-0h;
+  }
+
+  .button--text-visible .icon-container {
+    @apply mr-4;
+  }
 }
 
 :host([alignment="center"]) .button {
