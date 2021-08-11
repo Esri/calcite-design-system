@@ -1,21 +1,8 @@
-import {
-  Component,
-  Element,
-  Event,
-  Host,
-  Listen,
-  h,
-  Prop,
-  EventEmitter,
-  VNode,
-  State,
-  Watch
-} from "@stencil/core";
+import { Component, Element, Event, Listen, h, Prop, EventEmitter, VNode } from "@stencil/core";
 import { getElementDir, queryElementRoots } from "../../utils/dom";
 import { FocusRequest } from "./interfaces";
 import { Alignment, Scale, Status } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
-import { guid } from "../../utils/guid";
 
 @Component({
   tag: "calcite-label",
@@ -90,22 +77,9 @@ export class CalciteLabel {
   //
   //--------------------------------------------------------------------------
 
-  guid = `calcite-label-${guid()}`;
-
   mutationObserver = new MutationObserver(() => this.setEffectiveForElement());
 
-  @State() effectiveForElement: HTMLElement;
-
-  @Watch("effectiveForElement")
-  effectiveForElementHandler(newValue: HTMLElement, oldValue: HTMLElement): void {
-    const id = this.el.id || this.guid;
-
-    if (oldValue?.getAttribute("aria-labelledby") === id) {
-      oldValue.removeAttribute("aria-labelledby");
-    }
-
-    newValue?.setAttribute("aria-labelledby", id);
-  }
+  effectiveForElement: HTMLElement;
 
   //--------------------------------------------------------------------------
   //
@@ -161,11 +135,9 @@ export class CalciteLabel {
   render(): VNode {
     const dir = getElementDir(this.el);
     return (
-      <Host id={this.el.id || this.guid}>
-        <div class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
-          <slot />
-        </div>
-      </Host>
+      <div class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+        <slot />
+      </div>
     );
   }
 }

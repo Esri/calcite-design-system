@@ -675,6 +675,7 @@ export class CalciteInput {
     const localeNumberInput =
       this.type === "number" ? (
         <input
+          aria-label={this.label || null}
           autofocus={this.autofocus ? true : null}
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
@@ -697,6 +698,7 @@ export class CalciteInput {
 
     const childEl = [
       <this.childElType
+        aria-label={this.label || null}
         autofocus={this.autofocus ? true : null}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
@@ -726,7 +728,7 @@ export class CalciteInput {
     ];
 
     return (
-      <Host aria-label={this.label || null} onClick={this.inputFocusHandler} role="textbox">
+      <Host onClick={this.inputFocusHandler}>
         <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }} dir={dir}>
           {this.type === "number" && this.numberButtonType === "horizontal"
             ? numberButtonsHorizontalDown
