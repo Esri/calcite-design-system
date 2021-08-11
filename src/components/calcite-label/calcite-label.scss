@@ -1,3 +1,7 @@
+:host {
+  display: block;
+}
+
 :host([alignment="start"]),
 :host([alignment="end"]) .calcite--rtl {
   @apply text-left;
