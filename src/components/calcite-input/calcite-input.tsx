@@ -350,6 +350,9 @@ export class CalciteInput {
 
   @Listen("keydown")
   keyDownHandler(event: KeyboardEvent): void {
+    if (this.readOnly || this.disabled) {
+      return;
+    }
     if (this.isClearable && getKey(event.key) === "Escape") {
       this.clearInputValue(event);
       event.preventDefault();
@@ -409,16 +412,25 @@ export class CalciteInput {
   };
 
   private inputInputHandler = (nativeEvent: InputEvent): void => {
+    if (this.disabled || this.readOnly) {
+      return;
+    }
     this.setValue((nativeEvent.target as HTMLInputElement).value, nativeEvent);
   };
 
   private inputKeyDownHandler = (event: KeyboardEvent): void => {
+    if (this.disabled || this.readOnly) {
+      return;
+    }
     if (event.key === "Enter") {
       this.calciteInputChange.emit();
     }
   };
 
   private inputNumberInputHandler = (nativeEvent: InputEvent): void => {
+    if (this.disabled || this.readOnly) {
+      return;
+    }
     const value = (nativeEvent.target as HTMLInputElement).value;
     const delocalizedValue = delocalizeNumberString(value, this.locale);
     if (nativeEvent.inputType === "insertFromPaste") {
@@ -433,7 +445,7 @@ export class CalciteInput {
   };
 
   private inputNumberKeyDownHandler = (event: KeyboardEvent): void => {
-    if (this.type !== "number") {
+    if (this.type !== "number" || this.disabled || this.readOnly) {
       return;
     }
     if (event.key === "ArrowUp") {
