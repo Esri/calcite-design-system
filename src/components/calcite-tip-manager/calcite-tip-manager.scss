@@ -8,10 +8,15 @@
  */
 
 :host {
-  @extend %component-host;
   @apply block;
   --calcite-tip-manager-height: 18vh;
-  --calcite-tip-max-width: 540px;
+  //--calcite-tip-max-width: 600px;
+  * {
+    @apply box-border;
+  }
+  background-color: var(--calcite-ui-foreground-1);
+  color: var(--calcite-ui-text-2);
+  font-size: var(--calcite-font-size--1);
 }
 
 :host([closed]) {
@@ -21,15 +26,21 @@
 @import "../../assets/styles/header";
 
 .header .heading {
-  @apply px-2;
+
+}
+.header.header {
+  @apply pl-4 pr-1 py-1;
+  box-shadow: 0px 1px 0px 0px rgba(212,212,212,1);
+}
+
+h2.heading {
+  @apply font-bold text-color-1;
+  font-size: var(--calcite-font-size-1);
 }
 
 .container {
   @apply overflow-hidden
     relative
-    pt-2
-    px-2
-    pb-0
     focus-base;
   min-height: 150px;
   &:focus {
@@ -38,7 +49,7 @@
 }
 
 .tip-container {
-  @apply mt-1
+  @apply mt-0
     overflow-auto
     flex
     justify-center
@@ -46,8 +57,9 @@
     focus-base;
   animation-name: none;
   animation-duration: 150ms;
-  animation-timing-function: $easing-function;
+  // animation-timing-function: $easing-function;
   height: var(--calcite-tip-manager-height);
+  margin-top: 1px;
   &:focus {
     @apply focus-outset;
   }

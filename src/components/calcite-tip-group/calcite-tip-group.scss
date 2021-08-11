@@ -1,9 +1,14 @@
 :host {
-  @extend %component-host;
   @apply block;
+  * {
+    @apply box-border;
+  }
+  background-color: var(--calcite-ui-foreground-1);
+  color: var(--calcite-ui-text-2);
+  font-size: var(--calcite-font-size--1);
 }
 
 ::slotted(calcite-tip) {
   @apply border-none;
-  max-width: 34rem;
+  // max-width: 34rem;
 }
