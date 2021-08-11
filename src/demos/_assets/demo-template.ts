@@ -7,7 +7,7 @@ const toggleTheme = (): void => {
 };
 
 window.onload = () => {
-  document.getElementById("demo-header__title").textContent = document.title;
+  document.getElementById("demo-heading").textContent = document.title;
   document.getElementById("toggle-dir").addEventListener("calciteSwitchChange", toggleDir);
   document.getElementById("toggle-theme").addEventListener("calciteSwitchChange", toggleTheme);
 };
