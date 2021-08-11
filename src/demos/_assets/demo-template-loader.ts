@@ -1,7 +1,7 @@
 ((): void => {
   const DEMO_ROOT = "demos";
   const ASSETS_PATH = "demos/_assets";
-  const DISABLE_HEADER_URL_PARAM = "disable-header";
+  const DISABLE_HEADER_URL_PARAM = "header-disabled";
 
   const parseTemplate = (text: string): HTMLTemplateElement => {
     const parser = new DOMParser();
