@@ -17,9 +17,9 @@
 }
 
 .demo-header__title {
+  align-items: center;
+  display: flex;
   flex: 1 0 auto;
-  margin: 0;
-  padding: 0.5rem 2rem;
   border-left: 1px solid var(--calcite-ui-border-3);
   border-right: 1px solid var(--calcite-ui-border-3);
 }
@@ -28,6 +28,8 @@
   color: var(--calcite-ui-text-1);
   font-size: 1.25rem;
   font-weight: 500;
+  margin: 0;
+  padding: 0.5rem 2rem;
 }
 
 .demo-switches {
@@ -39,5 +41,5 @@
 }
 
 .demo-switches__label {
-  margin-top: 0.75rem;
+  margin-top: 0.5rem;
 }
