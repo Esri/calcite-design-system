@@ -64,3 +64,30 @@
 :host([status="idle"]) .calcite-input-message-icon {
   color: var(--calcite-ui-brand);
 }
+
+// Validation Text
+:host([status][active]) {
+  @apply text-color-1 
+    font-medium;
+}
+
+:host([status][active][scale="s"]) {
+  @apply text--3;
+}
+
+:host([status][active][scale="m"]) {
+  @apply text--2
+    mt-1;
+}
+
+:host([status][active][scale="l"]) {
+  @apply text--1
+    mt-1;
+}
+
+
+// Hint Text
+// :host([active][status="idle"]) {
+//   @apply text-color-3 
+//     font-normal;
+// }
