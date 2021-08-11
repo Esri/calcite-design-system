@@ -1,8 +1,13 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { HYDRATED_ATTR } from "../../tests/commonTests";
+import { accessible, renders } from "../../tests/commonTests";
 
 describe("calcite-label", () => {
-  it("renders", async () => {
+  it("renders", async () => renders("calcite-label", { display: "block" }));
+
+  it("is accessible", async () => accessible(`<calcite-label><input type="text" /></calcite-label>`));
+
+  it("renders: hydrated", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-label></calcite-label>");
     const label = await page.find("calcite-label");

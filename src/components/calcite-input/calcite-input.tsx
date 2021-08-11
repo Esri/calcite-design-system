@@ -605,7 +605,7 @@ export class CalciteInput {
 
     const inputClearButton = (
       <button
-        aria-label="this needs a label for a11y."
+        aria-label="todo: this needs an intl prop for a11y."
         class={CSS.clearButton}
         disabled={this.disabled || this.readOnly}
         onClick={this.clearInputValue}
@@ -629,7 +629,7 @@ export class CalciteInput {
 
     const numberButtonsHorizontalUp = (
       <button
-        aria-label="this needs a label for a11y."
+        aria-label="todo: this needs an intl prop for a11y."
         class={{
           [CSS.numberButtonItem]: true,
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton
@@ -646,7 +646,7 @@ export class CalciteInput {
 
     const numberButtonsHorizontalDown = (
       <button
-        aria-label="this needs a label for a11y."
+        aria-label="todo: this needs an intl prop for a11y."
         class={{
           [CSS.numberButtonItem]: true,
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton
@@ -675,7 +675,7 @@ export class CalciteInput {
     const localeNumberInput =
       this.type === "number" ? (
         <input
-          aria-label={this.label || null}
+          aria-label={this.label}
           autofocus={this.autofocus ? true : null}
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
@@ -698,7 +698,7 @@ export class CalciteInput {
 
     const childEl = [
       <this.childElType
-        aria-label={this.label || null}
+        aria-label={this.label}
         autofocus={this.autofocus ? true : null}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
