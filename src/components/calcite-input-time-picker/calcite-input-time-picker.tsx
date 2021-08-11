@@ -105,7 +105,6 @@ export class CalciteInputTimePicker {
   @Watch("value")
   valueWatcher(newValue: string): void {
     if (!this.internalValueChange) {
-      debugger;
       this.setValue({ value: newValue, origin: "external" });
     }
     this.internalValueChange = false;

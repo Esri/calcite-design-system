@@ -17,12 +17,16 @@ export type TimeFocusId = "hour" | MinuteOrSecond | "meridiem";
 export const maxTenthForMinuteAndSecond = 5;
 
 function createLocaleDateTimeFormatter(locale: string): Intl.DateTimeFormat {
-  return new Intl.DateTimeFormat(locale, {
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-    timeZone: "UTC"
-  });
+  try {
+    return new Intl.DateTimeFormat(locale, {
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+      timeZone: "UTC"
+    });
+  } catch (e) {
+    throw new Error(`Invalid locale supplied while attempting to create a DateTime formatter: ${locale}`);
+  }
 }
 
 export function formatTimePart(number: number): string {
