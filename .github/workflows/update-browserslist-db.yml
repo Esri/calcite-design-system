@@ -1,4 +1,4 @@
-name: "Update component doc"
+name: "Update browserslist db"
 on:
   schedule:
     - cron: "0 0 * * 0"

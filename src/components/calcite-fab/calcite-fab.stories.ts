@@ -25,7 +25,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "appearance",
         commit(): Attribute {
-          this.value = select("appearance", appearance.values, appearance.values[2]);
+          this.value = select("appearance", ["solid", "outline"], "outline");
           delete this.build;
           return this;
         }
