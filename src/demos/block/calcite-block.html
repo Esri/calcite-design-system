@@ -88,16 +88,26 @@
       </div>
     </div>
 
-    <!-- header with content (collapsible) -->
+    <!-- header + action menu -->
     <div class="parent">
-      <div class="child right-aligned-text">header with content (collapsible)</div>
+      <div class="child right-aligned-text">header + action menu</div>
 
       <div class="child">
-        <calcite-block heading="With control + collapsible content" open collapsible>
-          <label slot="control">test <input placeholder="I'm a header control" /></label>
-          <calcite-block-section text="Nature">
-            <img alt="demo" src="https://placeimg.com/640/480/nature" />
-          </calcite-block-section>
+        <calcite-block heading="With header actions" summary="has header actions">
+          <calcite-action
+            label="Add"
+            icon="plus"
+            text="Add item"
+            text-enabled
+            slot="header-menu-actions"
+          ></calcite-action>
+          <calcite-action icon="minus" text="Remove item" text-enabled slot="header-menu-actions"></calcite-action>
+          <calcite-action
+            icon="split"
+            text="IDK man what this is"
+            text-enabled
+            slot="header-menu-actions"
+          ></calcite-action>
         </calcite-block>
       </div>
     </div>
@@ -107,7 +117,7 @@
       <div class="child right-aligned-text">header + content (sections w/ switch</div>
 
       <div class="child">
-        <calcite-block heading="Heading" summary="summary" open collapsible>
+        <calcite-block heading="Heading" summary="summary" collapsible>
           <calcite-block-section open status="idle" text="people" toggle-display="switch">
             <img alt="demo" src="https://placeimg.com/640/480/people" />
           </calcite-block-section>
@@ -119,6 +129,21 @@
           <calcite-block-section status="invalid" text="Nature" toggle-display="switch">
             <img alt="demo" src="https://placeimg.com/640/480/nature" />
           </calcite-block-section>
+
+          <calcite-action
+            label="Add"
+            icon="plus"
+            text="Add item"
+            text-enabled
+            slot="header-menu-actions"
+          ></calcite-action>
+          <calcite-action icon="minus" text="Remove item" text-enabled slot="header-menu-actions"></calcite-action>
+          <calcite-action
+            icon="split"
+            text="IDK man what this is"
+            text-enabled
+            slot="header-menu-actions"
+          ></calcite-action>
         </calcite-block>
       </div>
     </div>
