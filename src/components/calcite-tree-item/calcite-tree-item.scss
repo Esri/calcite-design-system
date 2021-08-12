@@ -329,7 +329,3 @@
     stroke: var(--calcite-ui-brand);
   }
 }
-
-:host([selected]) {
-  background-color: rgba(red, 0.4); // TESTING selection-mode item selected behavior
-}
