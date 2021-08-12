@@ -1,6 +1,7 @@
 import { select, number } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
+import { Steps } from "screener-storybook/src/screener";
 
 const placements = [
   "auto",
@@ -53,6 +54,17 @@ export const Simple = (): string => {
         </calcite-tooltip>
       </div>
     `;
+};
+
+Simple.story = {
+  decorators: [
+    (story: any) => {
+      return {
+        ...story(),
+        steps: new Steps().rtl().wait(400).snapshot("Simple").end()
+      };
+    }
+  ]
 };
 
 export const RTL = (): string => {
