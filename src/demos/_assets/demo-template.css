@@ -1,4 +1,5 @@
 .demo-header {
+  direction: ltr;
   flex-wrap: nowrap;
   border-bottom: 1px solid var(--calcite-ui-border-3);
   align-items: stretch;
