@@ -21,11 +21,16 @@
       .child {
         display: inline-flex;
         flex-direction: column;
-        width: 50%;
+        width: 30%;
         padding: 10px;
       }
 
-      #one, #two, #three, #four, #first-block, #second-block {
+      #one,
+      #two,
+      #three,
+      #four,
+      #first-block,
+      #second-block {
         padding-right: 25px;
       }
     </style>
@@ -40,9 +45,9 @@
 
     <h1 style="margin: 0 auto; text-align: center">Sortable list</h1>
 
-     <!-- calcite-sortable-list -->
-     <div class="parent">
-      <div class="child"> calcite-sortable-list</div>
+    <!-- calcite-sortable-list -->
+    <div class="parent">
+      <div class="child">calcite-sortable-list</div>
 
       <div class="child">
         <calcite-sortable-list>
@@ -66,14 +71,13 @@
       </div>
     </div>
 
-
     <!-- calcite-sortable-list of calcite-block elements -->
     <div class="parent">
-      <div class="child"> calcite-sortable-list of calcite-block elements </div>
+      <div class="child">calcite-sortable-list of calcite-block elements</div>
 
       <div class="child">
         <calcite-sortable-list>
-          <calcite-block  heading="First Block" summary="animals and nature" collapsible drag-handle>
+          <calcite-block heading="First Block" summary="animals and nature" collapsible drag-handle>
             <calcite-block-section text="Animals" open>
               <img alt="demo" src="https://placeimg.com/640/480/animals" />
             </calcite-block-section>
@@ -83,6 +87,53 @@
             </calcite-block-section>
           </calcite-block>
           <calcite-block heading="Second Block" summary="Architecture and People" collapsible drag-handle>
+            <calcite-block-section text="Architecture" open>
+              <img alt="demo" src="https://placeimg.com/640/480/architecture" />
+            </calcite-block-section>
+
+            <calcite-block-section text="People" open>
+              <img alt="demo" src="https://placeimg.com/640/480/people" />
+            </calcite-block-section>
+          </calcite-block>
+        </calcite-sortable-list>
+      </div>
+    </div>
+
+    <!-- vertical -->
+    <div class="parent">
+      <div class="child">vertical</div>
+
+      <div class="child">
+        <calcite-sortable-list style="flex-direction: column">
+          <calcite-block heading="First Block" summary="animals and nature" collapsible drag-handle>
+            <calcite-block-section text="Animals" open>
+              <img alt="demo" src="https://placeimg.com/640/480/animals" />
+            </calcite-block-section>
+
+            <calcite-block-section text="Nature" open>
+              <img alt="demo" src="https://placeimg.com/640/480/nature" />
+            </calcite-block-section>
+          </calcite-block>
+          <calcite-block heading="Second Block" summary="Architecture and People" collapsible drag-handle>
+            <calcite-block-section text="Architecture" open>
+              <img alt="demo" src="https://placeimg.com/640/480/architecture" />
+            </calcite-block-section>
+
+            <calcite-block-section text="People" open>
+              <img alt="demo" src="https://placeimg.com/640/480/people" />
+            </calcite-block-section>
+          </calcite-block>
+
+          <calcite-block heading="Third Block" summary="animals and nature" collapsible drag-handle>
+            <calcite-block-section text="Animals" open>
+              <img alt="demo" src="https://placeimg.com/640/480/animals" />
+            </calcite-block-section>
+
+            <calcite-block-section text="Nature" open>
+              <img alt="demo" src="https://placeimg.com/640/480/nature" />
+            </calcite-block-section>
+          </calcite-block>
+          <calcite-block heading="Fourth Block" summary="Architecture and People" collapsible drag-handle>
             <calcite-block-section text="Architecture" open>
               <img alt="demo" src="https://placeimg.com/640/480/architecture" />
             </calcite-block-section>
