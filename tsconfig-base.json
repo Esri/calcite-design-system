@@ -4,6 +4,7 @@
     "allowUnreachableCode": false,
     "declaration": false,
     "experimentalDecorators": true,
+    "importHelpers": true,
     "lib": ["dom", "es2017"],
     "moduleResolution": "node",
     "module": "esnext",

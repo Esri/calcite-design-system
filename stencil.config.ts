@@ -4,6 +4,7 @@ import { sass } from "@stencil/sass";
 import autoprefixer from "autoprefixer";
 import tailwind from "tailwindcss";
 import { generatePreactTypes } from "./support/preact";
+import typescript from "@rollup/plugin-typescript";
 
 export const create: () => Config = () => ({
   buildEs5: "prod",
@@ -100,6 +101,9 @@ export const create: () => Config = () => ({
       plugins: [tailwind(), autoprefixer()]
     })
   ],
+  rollupPlugins: {
+    before: [typescript()]
+  },
   testing: {
     moduleNameMapper: {
       "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.ts"
