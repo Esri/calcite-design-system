@@ -58,7 +58,8 @@ export const Simple = (): string => {
 
 Simple.decorators = [
   (Story: any) => ({
-    ...Story(),
+    render: Story(),
+    component: Story(),
     steps: new Steps().rtl().wait(400).snapshot("Simple").end()
   })
 ];
