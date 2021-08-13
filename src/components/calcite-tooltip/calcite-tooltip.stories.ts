@@ -39,23 +39,21 @@ export default {
   }
 };
 
-export const Simple = (): string => {
-  return html`
-    <div>
-      ${referenceElementHTML}
-      <calcite-tooltip
-        class="calcite-theme-light"
-        reference-element="reference-element"
-        placement="${select("placement", calcite_placements, "auto")}"
-        offset-distance="${number("offset-distance", 6)}"
-        offset-skidding="${number("offset-skidding", 0)}"
-        ${boolean("open", true)}
-      >
-        ${contentHTML}
-      </calcite-tooltip>
-    </div>
-  `;
-};
+export const Simple = (): string => html`
+  <div>
+    ${referenceElementHTML}
+    <calcite-tooltip
+      class="calcite-theme-light"
+      reference-element="reference-element"
+      placement="${select("placement", calcite_placements, "auto")}"
+      offset-distance="${number("offset-distance", 6)}"
+      offset-skidding="${number("offset-skidding", 0)}"
+      ${boolean("open", true)}
+    >
+      ${contentHTML}
+    </calcite-tooltip>
+  </div>
+`;
 
 Simple.decorators = [
   (Story: any) => ({
