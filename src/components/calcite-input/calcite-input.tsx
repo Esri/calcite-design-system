@@ -169,7 +169,7 @@ export class CalciteInput {
   @Prop({ mutable: true, reflect: true }) status: Status = "idle";
 
   /** input step */
-  @Prop({ reflect: true }) step?: number | "any" = 1;
+  @Prop({ reflect: true }) step?: number | "any";
 
   /** optionally add suffix  **/
   @Prop() suffixText?: string;
@@ -483,7 +483,7 @@ export class CalciteInput {
     const decimalSeparator = getDecimalSeparator(this.locale);
     if (
       event.key === decimalSeparator &&
-      (this.step === "any" || isValidDecimal(this.step))
+      (this.step === "any" || this.step && isValidDecimal(this.step))
     ) {
       if (!this.value && !this.childNumberEl.value) {
         return;
