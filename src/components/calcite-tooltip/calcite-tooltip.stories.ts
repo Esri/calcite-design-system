@@ -56,16 +56,14 @@ export const Simple = (): string => {
     `;
 };
 
-Simple.story = {
-  decorators: [
-    (story: any) => {
-      return {
-        ...story(),
-        steps: new Steps().rtl().wait(400).snapshot("Simple").end()
-      };
-    }
-  ]
-};
+Simple.decorators = [
+  (story) => {
+    return {
+      ...story(),
+      steps: new Steps().rtl().wait(400).snapshot("Simple").end()
+    };
+  }
+];
 
 export const RTL = (): string => {
   return `
