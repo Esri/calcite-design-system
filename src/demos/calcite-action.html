@@ -4,11 +4,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
 
-    <title> Action, Action-bar, Action-pad</title>
+    <title>Action, Action-bar, Action-pad</title>
 
     <style>
-       .parent,
-       .parent-action-bar {
+      .parent,
+      .parent-action-bar {
         display: flex;
         margin: 25px 0;
       }
@@ -39,7 +39,7 @@
         text-align: right;
       }
 
-      .child-action-bar>div {
+      .child-action-bar > div {
         padding: 0 0 15px 0;
       }
 
@@ -49,19 +49,17 @@
       }
     </style>
 
-    <script src="../_assets/head.js"></script>
+    <script src="./_assets/head.js"></script>
   </head>
 
   <body>
-
     <div>
       <calcite-button href="/" icon-start="arrow-left" color="neutral"> Home </calcite-button>
     </div>
 
-    <h1 style="margin: 0 auto; text-align: center"> Action </h1>
+    <h1 style="margin: 0 auto; text-align: center">Action</h1>
 
-
-     <!--
+    <!--
       **************************************************
       * ACTION
       **************************************************
@@ -69,36 +67,58 @@
     <!-- headers -->
     <div class="parent">
       <div class="child"></div>
-      <div class="child"> small </div>
-      <div class="child"> medium </div>
-      <div class="child"> large </div>
+      <div class="child">small</div>
+      <div class="child">medium</div>
+      <div class="child">large</div>
     </div>
-
 
     <!-- action with text -->
     <div class="parent">
-      <div class="child right-aligned-text"> action with text </div>
+      <div class="child right-aligned-text">action with text</div>
 
       <div class="child">
-        <calcite-action scale="s" indicator active text="click-me" label="hello world" text-enabled icon="configure-popup">
+        <calcite-action
+          scale="s"
+          indicator
+          active
+          text="click-me"
+          label="hello world"
+          text-enabled
+          icon="configure-popup"
+        >
         </calcite-action>
       </div>
 
       <div class="child">
-        <calcite-action scale="m" indicator active text="click-me" label="hello world" text-enabled icon="configure-popup">
+        <calcite-action
+          scale="m"
+          indicator
+          active
+          text="click-me"
+          label="hello world"
+          text-enabled
+          icon="configure-popup"
+        >
         </calcite-action>
       </div>
 
       <div class="child">
-        <calcite-action scale="l" indicator active text="click-me" label="hello world" text-enabled icon="configure-popup">
+        <calcite-action
+          scale="l"
+          indicator
+          active
+          text="click-me"
+          label="hello world"
+          text-enabled
+          icon="configure-popup"
+        >
         </calcite-action>
       </div>
     </div>
 
-
     <!-- with svg -->
     <div class="parent">
-      <div class="child right-aligned-text"> with svg </div>
+      <div class="child right-aligned-text">with svg</div>
 
       <div class="child">
         <calcite-action indicator active text="click-me" label="hello world" text-enabled scale="s">
@@ -152,88 +172,81 @@
       </div>
     </div>
 
-
     <!-- clear -->
     <div class="parent">
-      <div class="child right-aligned-text"> clear </div>
+      <div class="child right-aligned-text">clear</div>
 
       <div class="child">
         <calcite-action scale="s" text="Clear" text-enabled appearance="clear" icon="configure-popup"> </calcite-action>
 
-          <calcite-action active scale="s" text="Clear + active" text-enabled appearance="clear" icon="configure-popup">
-          </calcite-action>
+        <calcite-action active scale="s" text="Clear + active" text-enabled appearance="clear" icon="configure-popup">
+        </calcite-action>
       </div>
-
 
       <div class="child">
         <calcite-action scale="m" text="Clear" text-enabled appearance="clear" icon="configure-popup"> </calcite-action>
 
-          <calcite-action active scale="m" text="Clear + active" text-enabled appearance="clear" icon="configure-popup">
-          </calcite-action>
+        <calcite-action active scale="m" text="Clear + active" text-enabled appearance="clear" icon="configure-popup">
+        </calcite-action>
       </div>
-
 
       <div class="child">
         <calcite-action scale="l" text="Clear" text-enabled appearance="clear" icon="configure-popup"> </calcite-action>
 
-          <calcite-action active scale="l" text="Clear + active" text-enabled appearance="clear" icon="configure-popup">
-          </calcite-action>
+        <calcite-action active scale="l" text="Clear + active" text-enabled appearance="clear" icon="configure-popup">
+        </calcite-action>
       </div>
     </div>
 
-
     <!-- without text (icon only)  -->
     <div class="parent">
-      <div class="child right-aligned-text"> without text (icon only) </div>
-      <div class="child"> 
+      <div class="child right-aligned-text">without text (icon only)</div>
+      <div class="child">
         <calcite-action scale="s" indicator text="hello world 2" icon="data-check"> </calcite-action>
       </div>
 
-      <div class="child"> 
+      <div class="child">
         <calcite-action scale="m" indicator text="hello world 2" icon="data-check"> </calcite-action>
       </div>
 
-      <div class="child"> 
+      <div class="child">
         <calcite-action scale="l" indicator text="hello world 2" icon="data-check"> </calcite-action>
       </div>
     </div>
 
-
     <!-- without icon  -->
     <div class="parent">
-      <div class="child right-aligned-text"> without icon </div>
-      <div class="child"> 
+      <div class="child right-aligned-text">without icon</div>
+      <div class="child">
         <calcite-action scale="s" indicator text="hello world 2" text-enabled></calcite-action>
       </div>
 
-      <div class="child"> 
+      <div class="child">
         <calcite-action scale="m" indicator text="hello world 2" text-enabled></calcite-action>
       </div>
 
-      <div class="child"> 
+      <div class="child">
         <calcite-action scale="l" indicator text="hello world 2" text-enabled></calcite-action>
       </div>
     </div>
-
 
     <!-- without icon (RTL)  -->
     <div class="parent">
-      <div class="child right-aligned-text"> without icon (RTL) </div>
-      <div class="child" dir="rtl"> 
+      <div class="child right-aligned-text">without icon (RTL)</div>
+      <div class="child" dir="rtl">
         <calcite-action scale="s" indicator text="hello world 2" text-enabled></calcite-action>
       </div>
 
-      <div class="child" dir="rtl"> 
+      <div class="child" dir="rtl">
         <calcite-action scale="m" indicator text="hello world 2" text-enabled></calcite-action>
       </div>
 
-      <div class="child" dir="rtl"> 
+      <div class="child" dir="rtl">
         <calcite-action scale="l" indicator text="hello world 2" text-enabled></calcite-action>
       </div>
     </div>
 
-    <hr>
-
+    <hr />
 
     <!--
       **************************************************
@@ -241,7 +254,7 @@
       **************************************************
     -->
     <div class="parent">
-      <div class="child right-aligned-text"> add action icon </div>
+      <div class="child right-aligned-text">add action icon</div>
 
       <div class="child">
         <div class="action-container">
@@ -268,16 +281,16 @@
     -->
     <!-- action bar  -->
     <div class="parent-action-bar">
-      <div class="child right-aligned-text"> action bar </div>
-      <div class="child-action-bar"> 
-        <div> basic </div>
-        <calcite-action-bar >
+      <div class="child right-aligned-text">action bar</div>
+      <div class="child-action-bar">
+        <div>basic</div>
+        <calcite-action-bar>
           <calcite-action text="Add" icon="plus"> </calcite-action>
         </calcite-action-bar>
       </div>
 
-      <div class="child-action-bar"> 
-        <div> grouping </div>
+      <div class="child-action-bar">
+        <div>grouping</div>
         <calcite-action-bar>
           <calcite-action-group>
             <calcite-action text="Add" icon="plus"> </calcite-action>
@@ -289,8 +302,8 @@
         </calcite-action-bar>
       </div>
 
-      <div class="child-action-bar"> 
-        <div> bottom actions </div>
+      <div class="child-action-bar">
+        <div>bottom actions</div>
         <calcite-action-bar>
           <calcite-action text="Add" icon="plus"> </calcite-action>
           <calcite-action text="Save" icon="save"> </calcite-action>
@@ -298,8 +311,8 @@
         </calcite-action-bar>
       </div>
 
-      <div class="child-action-bar"> 
-        <div> tall container </div>
+      <div class="child-action-bar">
+        <div>tall container</div>
         <calcite-action-bar>
           <calcite-action-group>
             <calcite-action text="Add" icon="plus"> </calcite-action>
@@ -315,8 +328,8 @@
         </calcite-action-bar>
       </div>
 
-      <div class="child-action-bar"> 
-        <div> tooltip </div>
+      <div class="child-action-bar">
+        <div>tooltip</div>
         <calcite-action-bar>
           <calcite-tooltip slot="expand-tooltip" label="Hello world!">Hello world!</calcite-tooltip>
           <calcite-action text="Add" icon="plus"></calcite-action>
@@ -326,10 +339,10 @@
 
     <!-- add action -->
     <div class="parent-action-bar">
-      <div class="child right-aligned-text"> add action </div>
+      <div class="child right-aligned-text">add action</div>
 
-      <div class="child-action-bar"> 
-        <div> bottom actions </div>
+      <div class="child-action-bar">
+        <div>bottom actions</div>
 
         <calcite-action-bar id="slot-test">
           <calcite-action text="Add" icon="plus"> </calcite-action>
@@ -348,8 +361,8 @@
         </script>
       </div>
 
-      <div class="child-action-bar"> 
-        <div> expanded </div>
+      <div class="child-action-bar">
+        <div>expanded</div>
 
         <calcite-action-bar id="slot-test-expanded" expanded>
           <calcite-action text="Add" icon="plus"> </calcite-action>
@@ -369,7 +382,7 @@
       </div>
     </div>
 
-    <hr>
+    <hr />
 
     <!--
       **************************************************
@@ -379,10 +392,10 @@
 
     <!-- Action pad (ltr)-->
     <div class="parent-action-bar">
-      <div class="child right-aligned-text"> action pad (ltr) </div>
+      <div class="child right-aligned-text">action pad (ltr)</div>
 
       <div class="child-action-bar">
-        <div> basic </div>
+        <div>basic</div>
         <calcite-action-pad>
           <calcite-action-group>
             <calcite-action text="Undo" icon="undo"> </calcite-action>
@@ -395,7 +408,7 @@
       </div>
 
       <div class="child-action-bar">
-        <div> tooltip on expand toggle </div>
+        <div>tooltip on expand toggle</div>
         <calcite-action-pad id="action-pad-test">
           <calcite-tooltip slot="expand-tooltip" label="Hello world!">Hello world!</calcite-tooltip>
           <calcite-action text="Add" icon="plus"></calcite-action>
@@ -403,7 +416,7 @@
       </div>
 
       <div class="child-action-bar">
-        <div> horizontal </div>
+        <div>horizontal</div>
 
         <calcite-action-pad layout="horizontal">
           <calcite-action-group>
@@ -427,13 +440,12 @@
       </div>
     </div>
 
-
     <!-- Action pad (rtl)-->
     <div class="parent-action-bar">
-      <div class="child right-aligned-text"> action pad (rtl) </div>
+      <div class="child right-aligned-text">action pad (rtl)</div>
 
       <div class="child-action-bar">
-        <div> basic </div>
+        <div>basic</div>
         <calcite-action-pad dir="rtl">
           <calcite-action-group>
             <calcite-action text="Undo" icon="undo"> </calcite-action>
@@ -446,7 +458,7 @@
       </div>
 
       <div class="child-action-bar">
-        <div> tooltip on expand toggle </div>
+        <div>tooltip on expand toggle</div>
         <calcite-action-pad id="action-pad-test" dir="rtl">
           <calcite-tooltip slot="expand-tooltip" label="Hello world!">Hello world!</calcite-tooltip>
           <calcite-action text="Add" icon="plus"></calcite-action>
@@ -454,7 +466,7 @@
       </div>
 
       <div class="child-action-bar">
-        <div> horizontal </div>
+        <div>horizontal</div>
 
         <calcite-action-pad layout="horizontal" dir="rtl">
           <calcite-action-group>
