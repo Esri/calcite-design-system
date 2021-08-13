@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - **custom-elements:** split up standalone action component bundles ([#2759](https://github.com/Esri/calcite-components/issues/2759)) ([139663b](https://github.com/Esri/calcite-components/commit/139663baac2730ba552af2d242a21aac87b7f29d))
 - **input:** Add readOnly property ([#2734](https://github.com/Esri/calcite-components/issues/2734)) ([0a709cf](https://github.com/Esri/calcite-components/commit/0a709cff3f4a10ca8e9cbd093f418e53c2b519ee)), closes [#2726](https://github.com/Esri/calcite-components/issues/2726)
+- **tree-item:** add s/m/l scales to match Figma (24px/32px/44px) ([#2803](https://github.com/Esri/calcite-components/issues/2803)) ([63404cb](https://github.com/Esri/calcite-components/commit/63404cb778d1cdfe82738f932dd5bf8627afad39))
 
 ### Bug Fixes
 
