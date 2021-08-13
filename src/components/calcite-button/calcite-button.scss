@@ -551,7 +551,7 @@
 }
 
 // transparent
-:host([appearance="transparent"]) {
+:host([appearance="transparent"]:not(.calcite-inline-editable__enable-editing-button)) {
   button,
   a {
     @apply bg-transparent;
@@ -601,13 +601,31 @@
     }
   }
 }
-:host([appearance="transparent"][color="neutral"]) {
+
+:host([appearance="transparent"][color="neutral"]:not(.calcite-inline-editable__cancel-editing-button)) {
   button,
   a,
-  calcite-loadder {
+  calcite-loader {
     @apply text-color-1;
   }
 }
+
+:host([appearance="transparent"][color="neutral"].calcite-inline-editable__cancel-editing-button) {
+  button {
+    @apply text-color-3;
+
+    &:hover {
+      @apply text-color-1;
+    }
+  }
+}
+
+:host([appearance="transparent"][color="neutral"].calcite-inline-editable__enable-editing-button) {
+  button {
+    @apply bg-transparent;
+  }
+}
+
 :host([appearance="transparent"][color="inverse"]) {
   button,
   a,
