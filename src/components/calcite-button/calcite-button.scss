@@ -551,7 +551,7 @@
 }
 
 // transparent
-:host([appearance="transparent"]) {
+:host([appearance="transparent"]:not(.calcite-inline-editable__enable-editing-button)) {
   button,
   a {
     @apply bg-transparent;
@@ -617,6 +617,12 @@
     &:hover {
       @apply text-color-1;
     }
+  }
+}
+
+:host([appearance="transparent"][color="neutral"].calcite-inline-editable__enable-editing-button) {
+  button {
+    @apply bg-transparent;
   }
 }
 
