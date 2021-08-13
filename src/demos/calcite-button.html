@@ -16,15 +16,16 @@
 
       .main-container > div,
       #width,
+      .loader,
       #alignment,
       #alignment-rtl,
       .set-focus,
       .form-button,
       .custom-defined-onsubmit,
-      .icon-slot {
+      .icon-slot,
+      span {
         color: var(--calcite-ui-text-3);
         font-family: var(--calcite-sans-family);
-        font-size: var(--calcite-font-size-0);
         font-weight: var(--calcite-font-weight-medium);
       }
 
@@ -38,6 +39,7 @@
       }
 
       #width,
+      .loader,
       #alignment,
       #alignment-rtl,
       .set-focus,
@@ -70,10 +72,18 @@
         flex-wrap: wrap;
       }
 
+      .icon-slot-item {
+        margin-bottom: 25px;
+      }
+
       .child {
         display: inline-flex;
         flex-direction: column;
         padding-right: 25px;
+      }
+
+      .loader-padding {
+        padding-bottom: 15px;
       }
 
       hr {
@@ -1951,6 +1961,43 @@
 
     <hr />
     <!-- Beautiful horizontal line -->
+
+    <!--
+      ***************************************************************
+      * LOADER
+      ***************************************************************
+    -->
+    <div class="loader">
+      <p class="loader-padding">Loader</p>
+
+      <calcite-label layout="inline">
+        <span> Toggle loading animation: </span> <calcite-switch scale="m" id="loading-switch"></calcite-switch>
+      </calcite-label>
+
+      <div>
+        <calcite-button icon-start="attachment"> </calcite-button>
+        <calcite-button icon-start="attachment" round> </calcite-button>
+        <calcite-button icon-start="attachment" icon-end="download"> </calcite-button>
+        <calcite-button icon-start="attachment" round> </calcite-button>
+        <calcite-button> Attachments </calcite-button>
+        <calcite-button round> Attachments </calcite-button>
+        <calcite-button icon-end="download"> Attachments </calcite-button>
+        <calcite-button icon-end="download" round> Attachments </calcite-button>
+        <calcite-button icon-start="attachment" icon-end="download"> Attachments </calcite-button>
+        <calcite-button icon-start="attachment" icon-end="download" round> Attachments </calcite-button>
+      </div>
+
+      <script>
+        const loadingSwitch = document.querySelector("#loading-switch");
+        window.onload = () => {
+          loadingSwitch.addEventListener("calciteSwitchChange", () => {
+            document.querySelectorAll("calcite-button").forEach((button) => {
+              button.toggleAttribute("loading");
+            });
+          });
+        };
+      </script>
+    </div>
 
     <!--
       ***************************************************************
