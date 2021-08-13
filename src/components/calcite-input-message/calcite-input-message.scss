@@ -72,22 +72,15 @@
 }
 
 :host([status][active][scale="s"]) {
-  @apply text--3;
+  @apply text--3h;
 }
 
 :host([status][active][scale="m"]) {
-  @apply text--2
+  @apply text--2h
     mt-1;
 }
 
 :host([status][active][scale="l"]) {
-  @apply text--1
+  @apply text--1h
     mt-1;
 }
-
-
-// Hint Text
-// :host([active][status="idle"]) {
-//   @apply text-color-3 
-//     font-normal;
-// }
