@@ -169,7 +169,7 @@ export class CalciteInput {
   @Prop({ mutable: true, reflect: true }) status: Status = "idle";
 
   /** input step */
-  @Prop({ mutable: true, reflect: true }) step?: number | "any";
+  @Prop({ reflect: true }) step?: number | "any";
 
   /** optionally add suffix  **/
   @Prop() suffixText?: string;
@@ -277,7 +277,6 @@ export class CalciteInput {
     this.form?.addEventListener("reset", this.reset);
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.status = getElementProp(this.el, "status", this.status);
-    this.step = !this.step && this.type === "number" ? "any" : this.step;
     if (this.type === "number" && this.value) {
       if (isValidNumber(this.value)) {
         this.localizedValue = localizeNumberString(this.value, this.locale, this.groupSeparator);
@@ -484,7 +483,7 @@ export class CalciteInput {
     const decimalSeparator = getDecimalSeparator(this.locale);
     if (
       event.key === decimalSeparator &&
-      isValidDecimal(this.step === "any" ? 1 : (this.step as number))
+      (this.step === "any" || this.step && isValidDecimal(this.step))
     ) {
       if (!this.value && !this.childNumberEl.value) {
         return;
