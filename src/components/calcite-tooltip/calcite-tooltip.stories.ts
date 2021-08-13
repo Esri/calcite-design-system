@@ -2,6 +2,7 @@ import { select, number } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 import { Steps } from "screener-storybook/src/screener";
+import { html } from "../../tests/utils";
 
 const placements = [
   "auto",
@@ -39,21 +40,21 @@ export default {
 };
 
 export const Simple = (): string => {
-  return `
-      <div>
-        ${referenceElementHTML}
-        <calcite-tooltip
+  return html`
+    <div>
+      ${referenceElementHTML}
+      <calcite-tooltip
         class="calcite-theme-light"
-          reference-element="reference-element"
-          placement="${select("placement", calcite_placements, "auto")}"
-          offset-distance="${number("offset-distance", 6)}"
-          offset-skidding="${number("offset-skidding", 0)}"
-          ${boolean("open", true)}
-        >
-          ${contentHTML}
-        </calcite-tooltip>
-      </div>
-    `;
+        reference-element="reference-element"
+        placement="${select("placement", calcite_placements, "auto")}"
+        offset-distance="${number("offset-distance", 6)}"
+        offset-skidding="${number("offset-skidding", 0)}"
+        ${boolean("open", true)}
+      >
+        ${contentHTML}
+      </calcite-tooltip>
+    </div>
+  `;
 };
 
 Simple.decorators = [
