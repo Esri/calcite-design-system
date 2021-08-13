@@ -12,15 +12,23 @@
 }
 
 :host([scale="s"]) {
+  @apply flex h-6;
   --calcite-rating-spacing-unit: theme("spacing.1");
 }
 
 :host([scale="m"]) {
+  @apply flex h-8;
   --calcite-rating-spacing-unit: theme("spacing.2");
 }
 
 :host([scale="l"]) {
+  @apply flex h-11;
   --calcite-rating-spacing-unit: theme("spacing.3");
+}
+
+:host .fieldset,
+:host label {
+  @apply flex;
 }
 
 :host([disabled]) {
