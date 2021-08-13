@@ -484,7 +484,6 @@ export class CalciteInput {
     if (
       event.key === decimalSeparator &&
       (this.step === "any" || isValidDecimal(this.step))
-      // (this.step === "any" ? true : isValidDecimal(this.step))
     ) {
       if (!this.value && !this.childNumberEl.value) {
         return;
