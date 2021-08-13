@@ -483,7 +483,8 @@ export class CalciteInput {
     const decimalSeparator = getDecimalSeparator(this.locale);
     if (
       event.key === decimalSeparator &&
-      (this.step === "any" ? true : isValidDecimal(this.step))
+      (this.step === "any" || isValidDecimal(this.step))
+      // (this.step === "any" ? true : isValidDecimal(this.step))
     ) {
       if (!this.value && !this.childNumberEl.value) {
         return;
