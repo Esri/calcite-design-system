@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
-    <title>Demos - PickList</title>
+    <title>PickList</title>
     <script src="./_assets/head.js"></script>
 
     <style>
@@ -39,11 +39,6 @@
     </style>
   </head>
   <body>
-    <div>
-      <calcite-button href="/" icon-start="arrow-left" color="neutral">Home</calcite-button>
-    </div>
-    <h1 style="margin: 0 auto; text-align: center">Picklist</h1>
-
     <!-- default selection -->
     <div class="parent">
       <div class="child right-aligned-text">default selection</div>
@@ -96,9 +91,9 @@
 
       <div class="child">
         <calcite-pick-list selection-follows-focus>
-          <calcite-pick-list-item label="Uno" removable value="1"></calcite-pick-list-item>
-          <calcite-pick-list-item label="Dos" value="2" removable selected></calcite-pick-list-item>
-          <calcite-pick-list-item label="Tres" value="3" removable selected></calcite-pick-list-item>
+          <calcite-pick-list-item label="Uno" value="1" removable selected></calcite-pick-list-item>
+          <calcite-pick-list-item label="Dos" value="2" removable></calcite-pick-list-item>
+          <calcite-pick-list-item label="Tres" value="3" removable></calcite-pick-list-item>
         </calcite-pick-list>
       </div>
     </div>
