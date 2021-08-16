@@ -907,6 +907,20 @@ describe("calcite-input", () => {
 
       expect(await input.getProperty("value")).toBe("1.5");
     });
+
+    it("allows decimals when step is any", async () => {
+      const page = await newE2EPage({
+        html: `
+          <calcite-input step="any" type="number"></calcite-input>
+        `
+      });
+      const input = await page.find("calcite-input");
+      await input.callMethod("setFocus");
+      await page.keyboard.type("1.5");
+      await page.waitForChanges();
+
+      expect(await input.getProperty("value")).toBe("1.5");
+    });
   });
 
   describe("number locale support", () => {
