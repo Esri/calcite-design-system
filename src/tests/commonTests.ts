@@ -56,7 +56,7 @@ export async function accessible(componentTagOrHTML: TagOrHTML, page?: E2EPage):
 
 export async function renders(
   componentTagOrHTML: TagOrHTML,
-  options: {
+  options?: {
     visible?: boolean;
     display?: string;
   }
@@ -65,8 +65,8 @@ export async function renders(
   const element = await page.find(getTag(componentTagOrHTML));
 
   expect(element).toHaveAttribute(HYDRATED_ATTR);
-  expect(await element.isVisible()).toBe(options.visible ?? true);
-  expect((await element.getComputedStyle()).display).toBe(options.display ?? "inline");
+  expect(await element.isVisible()).toBe(options?.visible ?? true);
+  expect((await element.getComputedStyle()).display).toBe(options?.display ?? "inline");
 }
 
 export async function reflects(
