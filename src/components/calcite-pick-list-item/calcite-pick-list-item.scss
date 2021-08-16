@@ -10,8 +10,14 @@
   animation: calcite-fade-in $transition;
 }
 
-:host(:hover) {
-  @apply bg-foreground-2;
+.label {
+  @apply bg-transparent flex flex-auto items-center cursor-pointer focus-base;
+  &:focus {
+    @apply focus-inset;
+  }
+  &:hover {
+    @apply bg-foreground-2;
+  }
 }
 
 :host([non-interactive]:hover) {
@@ -24,37 +30,39 @@
 }
 
 .icon {
-  @apply items-center flex my-0 mx-2 opacity-0 cursor-pointer;
+  @apply items-center flex my-0 p-1 cursor-pointer;
   color: theme("colors.brand");
   flex: 0 0 auto;
   line-height: 0;
+  &:hover {
+    @apply bg-foreground-2;
+  }
 }
 
 .icon-dot {
-  @apply w-2 m-2;
+  @apply items-center flex w-6 p-2;
   &:before {
+    @apply opacity-0;
     content: "\2022";
   }
 }
 
-:host([selected]) .icon {
-  transition: opacity $transition;
-  @apply opacity-100;
+.icon calcite-icon {
+  @apply opacity-0;
 }
 
-.label {
-  @apply bg-transparent flex flex-auto px-3 py-2 items-center cursor-pointer focus-base;
-  &:focus {
-    @apply focus-inset;
-  }
+:host([selected]) .icon-dot:before,
+:host([selected]) .icon calcite-icon {
+  transition: opacity $transition;
+  @apply opacity-100;
 }
 
 .text-container {
   @apply flex
     overflow-hidden
     pointer-events-none
-    py-0
-    px-1
+    py-2
+    px-3
     text--2-wrap
     word-break;
   flex-flow: column nowrap;
@@ -69,8 +77,7 @@
 }
 
 .actions {
-  @apply items-stretch flex justify-end m-0;
-  flex: 0 0 auto;
+  @apply items-stretch flex justify-end m-0 flex-initial;
 }
 
 .actions--start ~ .label {
