@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
-    <title>Calcite Components: calcite-tip-manager</title>
+    <title>Tip-manager</title>
 
     <style>
       .parent {
@@ -36,20 +36,13 @@
       }
     </style>
 
-    <script src="../_assets/head.js"></script>
+    <script src="./_assets/head.js"></script>
   </head>
 
   <body>
-    <div>
-      <calcite-button href="/" icon-start="arrow-left" color="neutral"> Home </calcite-button>
-    </div>
-
-    <h1 style="margin: 0 auto; text-align: center"> Tip-manager </h1>
-
-
     <!-- tip with thumbnail -->
     <div class="parent">
-      <div class="child right-aligned-text"> tip with thumbnail </div>
+      <div class="child right-aligned-text">tip with thumbnail</div>
 
       <div class="child">
         <calcite-tip heading="Celestial Bodies!">
@@ -64,10 +57,9 @@
       </div>
     </div>
 
-
-     <!-- tip with no thumbnail -->
-     <div class="parent">
-      <div class="child right-aligned-text"> tip with no thumbnail </div>
+    <!-- tip with no thumbnail -->
+    <div class="parent">
+      <div class="child right-aligned-text">tip with no thumbnail</div>
 
       <div class="child">
         <calcite-tip heading="Celestial Bodies">
@@ -81,10 +73,9 @@
       </div>
     </div>
 
-
     <!-- tip without header -->
     <div class="parent">
-      <div class="child right-aligned-text"> tip without header </div>
+      <div class="child right-aligned-text">tip without header</div>
 
       <div class="child">
         <calcite-tip>
@@ -96,7 +87,7 @@
       </div>
     </div>
 
-    <hr>
+    <hr />
 
     <!-- add and remove button -->
     <div class="parent">
@@ -108,12 +99,11 @@
           <calcite-button id="remove" appearance="solid" icon-end="x"> remove last tip </calcite-button>
         </p>
       </div>
-
     </div>
 
     <!-- tip manager -->
     <div class="parent">
-      <div class="child right-aligned-text"> tip-manager </div>
+      <div class="child right-aligned-text">tip-manager</div>
 
       <div class="child">
         <calcite-tip-manager>
