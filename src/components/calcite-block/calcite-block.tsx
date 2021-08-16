@@ -201,7 +201,7 @@ export class CalciteBlock {
             title={toggleLabel}
           >
             {headerContent}
-            {!hasControl ? (
+            {!hasControl && !hasMenuActions ? (
               <calcite-icon
                 aria-hidden="true"
                 class={CSS.toggleIcon}
