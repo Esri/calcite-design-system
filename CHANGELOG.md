@@ -5,7 +5,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 <!--@unreleased-section-start-->
 
-## Unreleased (2021-08-13)
+## Unreleased (2021-08-16)
 
 ### Features
 
@@ -20,6 +20,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **date-picker:** Selecting a day no longer activates previous day in certain time zones. ([#2680](https://github.com/Esri/calcite-components/issues/2680)) ([c047298](https://github.com/Esri/calcite-components/commit/c0472984332eaf78648f53c0d9f95a6ff2172c8f)), closes [#1863](https://github.com/Esri/calcite-components/issues/1863)
 - **date-picker, input-date-picker:** Fix setting date for the correct range input ([#2756](https://github.com/Esri/calcite-components/issues/2756)) ([8823b5e](https://github.com/Esri/calcite-components/commit/8823b5e0e6c17a2ccc87be787628d9a3f01304d5)), closes [#2547](https://github.com/Esri/calcite-components/issues/2547)
 - **input:** Prevent keyboard events from changing values when readOnly is true ([#2780](https://github.com/Esri/calcite-components/issues/2780)) ([f86d27a](https://github.com/Esri/calcite-components/commit/f86d27a89b25d2111d6194623db51c18356c3ff3)), closes [#2726](https://github.com/Esri/calcite-components/issues/2726)
+- **input-date-picker:** When range is true, emit 'calciteDatePickerRangeChange' on input. [#2507](https://github.com/Esri/calcite-components/issues/2507) ([#2779](https://github.com/Esri/calcite-components/issues/2779)) ([a3b4690](https://github.com/Esri/calcite-components/commit/a3b46902210417c82f3fe7c10c7188051b113393))
 <!--@unreleased-section-end-->
 
 ## [1.0.0-beta.61](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.60...v1.0.0-beta.61) (2021-08-03)
