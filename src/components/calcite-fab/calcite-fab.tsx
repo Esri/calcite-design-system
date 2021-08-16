@@ -97,7 +97,7 @@ export class CalciteFab {
 
     return (
       <calcite-button
-        appearance={appearance}
+        appearance={appearance === "solid" ? "solid" : "outline"}
         class={CSS.button}
         color={color}
         dir={dir}
