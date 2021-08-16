@@ -1,5 +1,5 @@
 :host {
-  @apply block;
+  @apply flex flex-col;
 }
 
 :host([disabled]) {
@@ -10,10 +10,14 @@
   @apply bg-foreground-1
   box-border
   font-sans
-  flex;
+  flex flex-1;
   * {
     @apply box-border;
   }
+}
+
+.nested-container {
+  @apply flex flex-col bg-foreground-1;
 }
 
 .content-container {
@@ -93,4 +97,9 @@
 
     color: inherit;
   }
+}
+
+::slotted(calcite-list-item-group),
+::slotted(calcite-list-item) {
+  @apply pl-2;
 }
