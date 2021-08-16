@@ -1,7 +1,8 @@
 :host {
   @apply flex
     self-stretch
-    cursor-pointer;
+    cursor-pointer
+    font-normal;
   transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out;
 }
 
@@ -11,9 +12,9 @@
     text-color-3
     box-border
     pointer-events-none
-    items-center;
+    items-center
+    m-0.5;
   transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out;
-  margin: 2px;
 }
 
 .label--horizontal {
@@ -29,7 +30,6 @@
   outline-offset: -1px;
 }
 
-//FIXME: These sizes/spacing scales need to be reworked in a separate issue
 .label--scale-s {
   @apply text--2h px-2;
   padding-top: 0.125rem;
@@ -43,7 +43,7 @@
 }
 
 .label--scale-l {
-  @apply text-0h px-4 py-2;
+  @apply text-0h px-4 py-2.5;
 }
 
 :host(:hover) label {
@@ -79,18 +79,29 @@
 }
 
 // icon positioning and styles
-:host([icon-position="start"]) .radio-group-item-icon {
-  @apply mr-2;
+:host([icon-position="start"]) .label--scale-s .radio-group-item-icon {
+  margin-inline-end: theme("margin.2");
 }
 
-:host([icon-position="start"][dir="rtl"]) .radio-group-item-icon {
-  @apply mr-0 ml-2;
+:host([icon-position="end"]) .label--scale-s .radio-group-item-icon {
+  margin-inline-end: unset;
+  margin-inline-start: theme("margin.2");
 }
 
-:host([icon-position="end"]) .radio-group-item-icon {
-  @apply ml-2;
+:host([icon-position="start"]) .label--scale-m .radio-group-item-icon {
+  margin-inline-end: theme("margin.3");
 }
 
-:host([icon-position="end"][dir="rtl"]) .radio-group-item-icon {
-  @apply ml-0 mr-2;
+:host([icon-position="end"]) .label--scale-m .radio-group-item-icon {
+  margin-inline-end: unset;
+  margin-inline-start: theme("margin.3");
+}
+
+:host([icon-position="start"]) .label--scale-l .radio-group-item-icon {
+  margin-inline-end: theme("margin.4");
+}
+
+:host([icon-position="end"]) .label--scale-l .radio-group-item-icon {
+  margin-inline-end: unset;
+  margin-inline-start: theme("margin.4");
 }

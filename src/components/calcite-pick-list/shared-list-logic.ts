@@ -138,7 +138,9 @@ export function keyDownHandler<T extends Lists>(this: List<T>, event: KeyboardEv
   const index = getRoundRobinIndex(currentIndex + (key === "ArrowUp" ? -1 : 1), totalItems);
   const item = items[index];
 
-  toggleSingleSelectItemTabbing(item, true);
+  items.forEach((i: HTMLCalcitePickListItemElement | HTMLCalciteValueListItemElement) =>
+    toggleSingleSelectItemTabbing(i, i === item)
+  );
 
   if (!multiple && selectionFollowsFocus) {
     item.selected = true;

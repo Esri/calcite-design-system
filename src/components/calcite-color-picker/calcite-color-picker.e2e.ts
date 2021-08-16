@@ -170,8 +170,9 @@ describe("calcite-color-picker", () => {
     const picker = await page.find("calcite-color-picker");
     const changeSpy = await picker.spyOnEvent("calciteColorPickerChange");
     const inputSpy = await picker.spyOnEvent("calciteColorPickerInput");
+    const colorFieldCenterValueHex = "#408048";
 
-    picker.setProperty("value", "#f0f");
+    picker.setProperty("value", colorFieldCenterValueHex);
     await page.waitForChanges();
 
     expect(changeSpy).toHaveReceivedEventTimes(1);
@@ -206,6 +207,11 @@ describe("calcite-color-picker", () => {
     expect(changeSpy).toHaveReceivedEventTimes(5);
     expect(inputSpy).toHaveReceivedEventTimes(5);
 
+    // change by clicking stored color
+    await (await page.find(`calcite-color-picker >>> .${CSS.savedColor}`)).click();
+    expect(changeSpy).toHaveReceivedEventTimes(6);
+    expect(inputSpy).toHaveReceivedEventTimes(6);
+
     // change by dragging color field thumb
     const thumbRadius = DIMENSIONS.m.thumb.radius;
     const mouseDragSteps = 10;
@@ -223,11 +229,12 @@ describe("calcite-color-picker", () => {
     await page.mouse.up();
     await page.waitForChanges();
 
-    expect(changeSpy).toHaveReceivedEventTimes(6);
-    expect(inputSpy).toHaveReceivedEventTimes(9);
+    expect(changeSpy).toHaveReceivedEventTimes(7);
+    expect(inputSpy.length).toBeGreaterThan(7); // input event fires more than once
 
     // change by dragging hue slider thumb
     const [hueScopeX, hueScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
+    const previousInputEventLength = inputSpy.length;
 
     await page.mouse.move(hueScopeX + thumbRadius, hueScopeY + thumbRadius);
     await page.mouse.down();
@@ -235,13 +242,8 @@ describe("calcite-color-picker", () => {
     await page.mouse.up();
     await page.waitForChanges();
 
-    expect(changeSpy).toHaveReceivedEventTimes(7);
-    expect(inputSpy).toHaveReceivedEventTimes(14);
-
-    // change by clicking stored color
-    await (await page.find(`calcite-color-picker >>> .${CSS.savedColor}`)).click();
     expect(changeSpy).toHaveReceivedEventTimes(8);
-    expect(inputSpy).toHaveReceivedEventTimes(15);
+    expect(inputSpy.length).toBeGreaterThan(previousInputEventLength + 1); // input event fires more than once
   });
 
   const supportedFormatToSampleValue = {
