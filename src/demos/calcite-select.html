@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Calcite Select</title>
     <style>
-     .parent {
+      .parent {
         display: flex;
         align-items: center;
         padding: 25px 0;
@@ -43,80 +43,77 @@
     </div>
     <h1 style="margin: 0 auto; text-align: center">Select</h1>
 
-   <!-- Header -->
-   <div class="parent">
-    <div class="child"> </div>
-    <div class="child"> Small </div>
-    <div class="child"> Medium </div>
-    <div class="child"> Large </div>
-  </div>
-
-
-  <!-- Basic -->
-  <div class="parent">
-    <div class="child right-aligned-text"> Basic </div>
-
-    <div class="child"> 
-      <calcite-select label="calcite select" scale="s">
-        <calcite-option value="high">😃</calcite-option>
-        <calcite-option value="medium">😶</calcite-option>
-        <calcite-option value="low">😭</calcite-option>
-      </calcite-select>
+    <!-- Header -->
+    <div class="parent">
+      <div class="child"></div>
+      <div class="child">Small</div>
+      <div class="child">Medium</div>
+      <div class="child">Large</div>
     </div>
 
-    <div class="child"> 
-      <calcite-select label="calcite select" scale="m">
-        <calcite-option value="high">😃</calcite-option>
-        <calcite-option value="medium">😶</calcite-option>
-        <calcite-option value="low">😭</calcite-option>
-      </calcite-select>
+    <!-- Basic -->
+    <div class="parent">
+      <div class="child right-aligned-text">Basic</div>
+
+      <div class="child">
+        <calcite-select label="calcite select" scale="s">
+          <calcite-option value="high">😃</calcite-option>
+          <calcite-option value="medium">😶</calcite-option>
+          <calcite-option value="low">😭</calcite-option>
+        </calcite-select>
+      </div>
+
+      <div class="child">
+        <calcite-select label="calcite select" scale="m">
+          <calcite-option value="high">😃</calcite-option>
+          <calcite-option value="medium">😶</calcite-option>
+          <calcite-option value="low">😭</calcite-option>
+        </calcite-select>
+      </div>
+
+      <div class="child">
+        <calcite-select label="calcite select" scale="l">
+          <calcite-option value="high">😃</calcite-option>
+          <calcite-option value="medium">😶</calcite-option>
+          <calcite-option value="low">😭</calcite-option>
+        </calcite-select>
+      </div>
     </div>
 
-    <div class="child"> 
-      <calcite-select label="calcite select" scale="l">
-        <calcite-option value="high">😃</calcite-option>
-        <calcite-option value="medium">😶</calcite-option>
-        <calcite-option value="low">😭</calcite-option>
-      </calcite-select>
+    <!-- Disabled -->
+    <div class="parent">
+      <div class="child right-aligned-text">Disabled</div>
+
+      <div class="child">
+        <calcite-select label="calcite select" disabled scale="s">
+          <calcite-option>high</calcite-option>
+          <calcite-option>medium</calcite-option>
+          <calcite-option>low</calcite-option>
+        </calcite-select>
+      </div>
+
+      <div class="child">
+        <calcite-select label="calcite select" disabled scale="m">
+          <calcite-option>high</calcite-option>
+          <calcite-option>medium</calcite-option>
+          <calcite-option>low</calcite-option>
+        </calcite-select>
+      </div>
+
+      <div class="child">
+        <calcite-select label="calcite select" disabled scale="l">
+          <calcite-option>high</calcite-option>
+          <calcite-option>medium</calcite-option>
+          <calcite-option>low</calcite-option>
+        </calcite-select>
+      </div>
     </div>
-  </div>
 
+    <!-- Grouped -->
+    <div class="parent">
+      <div class="child right-aligned-text">Grouped</div>
 
-  <!-- Disabled -->
-  <div class="parent">
-    <div class="child right-aligned-text"> Disabled </div>
-
-    <div class="child"> 
-      <calcite-select label="calcite select" disabled scale="s">
-        <calcite-option>high</calcite-option>
-        <calcite-option>medium</calcite-option>
-        <calcite-option>low</calcite-option>
-      </calcite-select>
-    </div>
-
-    <div class="child"> 
-      <calcite-select label="calcite select" disabled scale="m">
-        <calcite-option>high</calcite-option>
-        <calcite-option>medium</calcite-option>
-        <calcite-option>low</calcite-option>
-      </calcite-select>
-    </div>
-
-    <div class="child"> 
-      <calcite-select label="calcite select" disabled scale="l">
-        <calcite-option>high</calcite-option>
-        <calcite-option>medium</calcite-option>
-        <calcite-option>low</calcite-option>
-      </calcite-select>
-    </div>
-  </div>
-
-
-  <!-- Grouped -->
-  <div class="parent">
-      <div class="child right-aligned-text"> Grouped </div>
-
-      <div class="child"> 
+      <div class="child">
         <calcite-select label="calcite select" scale="s">
           <calcite-option-group label="letters">
             <calcite-option>a</calcite-option>
@@ -138,7 +135,7 @@
         </calcite-select>
       </div>
 
-      <div class="child"> 
+      <div class="child">
         <calcite-select label="calcite select" scale="m">
           <calcite-option-group label="letters">
             <calcite-option>a</calcite-option>
@@ -160,7 +157,7 @@
         </calcite-select>
       </div>
 
-      <div class="child"> 
+      <div class="child">
         <calcite-select label="calcite select" scale="l">
           <calcite-option-group label="letters">
             <calcite-option>a</calcite-option>
