@@ -169,7 +169,7 @@ export class CalciteInput {
   @Prop({ mutable: true, reflect: true }) status: Status = "idle";
 
   /** input step */
-  @Prop({ mutable: true, reflect: true }) step?: number | "any";
+  @Prop({ reflect: true }) step?: number | "any";
 
   /** optionally add suffix  **/
   @Prop() suffixText?: string;
@@ -277,7 +277,6 @@ export class CalciteInput {
     this.form?.addEventListener("reset", this.reset);
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.status = getElementProp(this.el, "status", this.status);
-    this.step = !this.step && this.type === "number" ? "any" : this.step;
     if (this.type === "number" && this.value) {
       if (isValidNumber(this.value)) {
         this.localizedValue = localizeNumberString(this.value, this.locale, this.groupSeparator);
@@ -350,6 +349,9 @@ export class CalciteInput {
 
   @Listen("keydown")
   keyDownHandler(event: KeyboardEvent): void {
+    if (this.readOnly || this.disabled) {
+      return;
+    }
     if (this.isClearable && getKey(event.key) === "Escape") {
       this.clearInputValue(event);
       event.preventDefault();
@@ -409,16 +411,25 @@ export class CalciteInput {
   };
 
   private inputInputHandler = (nativeEvent: InputEvent): void => {
+    if (this.disabled || this.readOnly) {
+      return;
+    }
     this.setValue((nativeEvent.target as HTMLInputElement).value, nativeEvent);
   };
 
   private inputKeyDownHandler = (event: KeyboardEvent): void => {
+    if (this.disabled || this.readOnly) {
+      return;
+    }
     if (event.key === "Enter") {
       this.calciteInputChange.emit();
     }
   };
 
   private inputNumberInputHandler = (nativeEvent: InputEvent): void => {
+    if (this.disabled || this.readOnly) {
+      return;
+    }
     const value = (nativeEvent.target as HTMLInputElement).value;
     const delocalizedValue = delocalizeNumberString(value, this.locale);
     if (nativeEvent.inputType === "insertFromPaste") {
@@ -433,7 +444,7 @@ export class CalciteInput {
   };
 
   private inputNumberKeyDownHandler = (event: KeyboardEvent): void => {
-    if (this.type !== "number") {
+    if (this.type !== "number" || this.disabled || this.readOnly) {
       return;
     }
     if (event.key === "ArrowUp") {
@@ -472,7 +483,7 @@ export class CalciteInput {
     const decimalSeparator = getDecimalSeparator(this.locale);
     if (
       event.key === decimalSeparator &&
-      isValidDecimal(this.step === "any" ? 1 : (this.step as number))
+      (this.step === "any" || (this.step && isValidDecimal(this.step)))
     ) {
       if (!this.value && !this.childNumberEl.value) {
         return;
