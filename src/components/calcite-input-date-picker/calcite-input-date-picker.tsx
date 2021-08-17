@@ -86,12 +86,12 @@ export class CalciteInputDatePicker {
   }
 
   /** Localized string for "previous month" (used for aria label)
-   * @default "previous month"
+   * @default "Previous month"
    */
   @Prop() intlPrevMonth?: string = TEXT.prevMonth;
 
   /** Localized string for "next month" (used for aria label)
-   * @default "next month"
+   * @default "Next month"
    */
   @Prop() intlNextMonth?: string = TEXT.nextMonth;
 
