@@ -56,10 +56,11 @@ export const Simple = (): string => html`
 `;
 
 Simple.decorators = [
-  (Story: any) => ({
-    ...Story(),
-    steps: new Steps().rtl().wait(400).snapshot("Simple").end()
-  })
+  (Story: any) => {
+    const node = document.createRange().createContextualFragment(Story());
+    (node as any).steps = new Steps().rtl().wait(400).snapshot("Simple").end();
+    return node;
+  }
 ];
 
 export const RTL = (): string => {
