@@ -16,13 +16,13 @@ export const boolean = (prop, value, standalone = true) => {
   return `${propValue}${attrValue}`;
 };
 
-export interface DecoratedStory {
+export interface Story {
   (): string;
-  decorators?: ((Story: DecoratedStory) => DocumentFragment)[];
+  decorators?: ((Story: Story) => DocumentFragment)[];
 }
 
-export const stepStory = (story: DecoratedStory, steps: Step[]): DecoratedStory => {
-  const stepsDecorator = (Story: DecoratedStory) => {
+export const stepStory = (story: Story, steps: Step[]): Story => {
+  const stepsDecorator = (Story: Story) => {
     const node = document.createRange().createContextualFragment(Story());
     (node as any).steps = steps;
     return node;
