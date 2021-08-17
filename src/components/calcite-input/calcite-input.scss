@@ -24,7 +24,7 @@
   & textarea {
     @apply text--2h
     py-1
-    px-2  
+    px-2
     h-auto;
   }
 }
@@ -316,7 +316,7 @@ input[type="time"]::-webkit-clear-button {
   left: 1px;
   right: 1px;
   @apply block
-    pointer-events-none    
+    pointer-events-none
     absolute;
 }
 
@@ -359,11 +359,6 @@ input[type="time"]::-webkit-clear-button {
   & .calcite-input__suffix {
     @apply border-l border-r-0;
   }
-}
-
-// readonly
-:host([readonly]) .calcite-input__number-button-item {
-  @apply pointer-events-none;
 }
 
 // alignment type
@@ -452,7 +447,7 @@ input[type="time"]::-webkit-clear-button {
 
 .calcite-input__number-button-item.calcite-input__number-button-item--horizontal[data-adjustment="down"] {
   @apply border
-    border-solid    
+    border-solid
     border-color-input
     border-r-0;
 }
@@ -468,7 +463,7 @@ input[type="time"]::-webkit-clear-button {
       border-color-input;
   }
   .calcite-input__number-button-item.calcite-input__number-button-item--horizontal[data-adjustment="up"] {
-    @apply border      
+    @apply border
       border-r-0
       border-color-input;
   }
