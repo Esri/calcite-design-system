@@ -44,9 +44,9 @@ export class CalciteTree {
   @Prop({ reflect: true, mutable: true }) child: boolean;
 
   /** Specify the scale of the tree, defaults to m */
-  @Prop({ mutable: true, reflect: true }) scale: Extract<"s" | "m", Scale> = "m";
+  @Prop({ mutable: true, reflect: true }) scale: Scale = "m";
 
-  /** Customize how tree selection works (single, multi, children, multi-children)
+  /** Customize how tree selection works (single, multi, children, multi-children, ancestors)
    * @default "single"
    * @see [TreeSelectionMode](https://github.com/Esri/calcite-components/blob/master/src/components/calcite-tree/interfaces.ts#L5)
    */

@@ -521,11 +521,19 @@ export class CalciteInputDatePicker {
           changed = !this.startAsDate || !sameDate(date, this.startAsDate);
           if (changed) {
             this.startAsDate = date;
+            this.calciteDatePickerRangeChange.emit({
+              startDate: date,
+              endDate: this.endAsDate
+            });
           }
         } else if (this.focusedInput === "end") {
           changed = !this.endAsDate || !sameDate(date, this.endAsDate);
           if (changed) {
             this.endAsDate = date;
+            this.calciteDatePickerRangeChange.emit({
+              startDate: this.startAsDate,
+              endDate: date
+            });
           }
         }
       }
