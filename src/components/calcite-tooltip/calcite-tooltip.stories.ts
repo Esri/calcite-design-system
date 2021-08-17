@@ -55,7 +55,14 @@ export const Simple = stepStory(
       </calcite-tooltip>
     </div>
   `,
-  new Steps().wait(400).snapshot("Simple").end()
+  new Steps()
+    .wait(400)
+    .snapshot("Simple")
+    .rtl()
+    .snapshot("Simple: rtl")
+    .executeScript("document.body.classList.add('calcite-theme-dark')")
+    .snapshot("Simple: dark")
+    .end()
 );
 
 export const RTL = (): string => {
