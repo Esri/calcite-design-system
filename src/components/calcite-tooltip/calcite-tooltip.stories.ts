@@ -60,7 +60,8 @@ export const Simple = stepStory(
     .snapshot("Simple")
     .rtl()
     .snapshot("Simple: rtl")
-    .executeScript("document.body.classList.add('calcite-theme-dark')")
+    .ltr()
+    .executeScript(`window.document.body.className = "calcite-theme-dark";`)
     .snapshot("Simple: dark")
     .end()
 );
