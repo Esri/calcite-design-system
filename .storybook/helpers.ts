@@ -16,18 +16,23 @@ export const boolean = (prop, value, standalone = true) => {
   return `${propValue}${attrValue}`;
 };
 
-export interface SteppedStory {
+export interface DecoratedStory {
   (): string;
-  decorators?: ((Story: () => string) => DocumentFragment)[];
+  decorators?: ((Story: DecoratedStory) => DocumentFragment)[];
 }
 
-export const stepStory = (story: SteppedStory, steps: Step[]): SteppedStory => {
-  story.decorators = [
-    (Story: any) => {
-      const node = document.createRange().createContextualFragment(Story());
-      (node as any).steps = steps;
-      return node;
-    }
-  ];
+export const stepStory = (story: DecoratedStory, steps: Step[]): DecoratedStory => {
+  const stepsDecorator = (Story: DecoratedStory) => {
+    const node = document.createRange().createContextualFragment(Story());
+    (node as any).steps = steps;
+    return node;
+  };
+
+  if (story.decorators) {
+    story.decorators.push(stepsDecorator);
+  } else {
+    story.decorators = [stepsDecorator];
+  }
+
   return story;
 };
