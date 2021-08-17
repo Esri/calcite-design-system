@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
+import { CSS } from "./resources";
 
 describe("calcite-scrim", () => {
   it("renders", async () => renders("<calcite-scrim></calcite-scrim>", { display: "flex" }));
@@ -38,6 +39,26 @@ describe("calcite-scrim", () => {
     expect(loader).toBeDefined();
   });
 
+  it("does not render conent if the default slot if it is empty", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(`<calcite-scrim></calcite-scrim>`);
+
+    const contentNode = await page.find(`calcite-scrim >>> .${CSS.content}`);
+
+    expect(contentNode).toBeNull();
+  });
+
+  it("renders conent in the default slot has content", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(`<calcite-scrim>This is a test.</calcite-scrim>`);
+
+    const contentNode = await page.find(`calcite-scrim >>> .${CSS.content}`);
+
+    expect(contentNode).not.toBeNull();
+  });
+
   describe("CSS properties for light/dark themes", () => {
     const scrimSnippet = `
     <div style="position: relative; width: 200px; height: 200px; overflow: auto;">
@@ -68,7 +89,7 @@ describe("calcite-scrim", () => {
         scrim = await page.find("calcite-scrim >>> .scrim");
         scrimStyles = await scrim.getComputedStyle();
         scrimBgStyle = await scrimStyles.getPropertyValue("background-color");
-        expect(scrimBgStyle).toEqual("rgba(255, 255, 255, 0.75)");
+        expect(scrimBgStyle).toEqual("rgba(255, 255, 255, 0.85)");
       });
     });
 
@@ -80,7 +101,7 @@ describe("calcite-scrim", () => {
         scrim = await page.find("calcite-scrim >>> .scrim");
         scrimStyles = await scrim.getComputedStyle();
         scrimBgStyle = await scrimStyles.getPropertyValue("background-color");
-        expect(scrimBgStyle).toEqual("rgba(0, 0, 0, 0.75)");
+        expect(scrimBgStyle).toEqual("rgba(0, 0, 0, 0.85)");
       });
     });
 
