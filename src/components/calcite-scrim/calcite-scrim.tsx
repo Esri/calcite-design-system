@@ -34,6 +34,13 @@ export class CalciteScrim {
   render(): VNode {
     const loaderNode = this.loading ? <calcite-loader active label={this.intlLoading} /> : null;
 
-    return <div class={CSS.scrim}>{loaderNode}</div>;
+    return (
+      <div class={CSS.scrim}>
+        {loaderNode}
+        <div class={CSS.content}>
+          <slot />
+        </div>
+      </div>
+    );
   }
 }

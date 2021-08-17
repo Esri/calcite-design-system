@@ -95,6 +95,78 @@
           </div>
         </div>
       </div>
+
+      <!-- scrim with content in default slot-->
+      <div class="child" style="flex-direction: column; justify-content: center; align-items: center">
+        Determinate loader in default slot
+        <div tabindex="0" style="position: relative; width: 400px; height: 400px; padding: 25px">
+          <calcite-scrim id="scrim-determinate">
+            <calcite-loader
+              label="loading"
+              active
+              type="determinate"
+              value="0"
+              id="loader-determinate-m"
+              text="Loading Brunswick stew"
+              scale="m"
+            >
+            </calcite-loader>
+          </calcite-scrim>
+          <div style="width: 400px; height: 400px; overflow: auto">
+            <p>
+              Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum
+              tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas
+              semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.
+            </p>
+            <ul>
+              <li>
+                Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in,
+                diam. Sed arcu. Cras consequat.
+              </li>
+              <li>
+                Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat.
+                Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.
+              </li>
+              <li>
+                Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique
+                cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.
+              </li>
+              <li>
+                Pellentesque fermentum dolor. Aliquam quam lectus, facilisis auctor, ultrices ut, elementum vulputate,
+                nunc.
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div style="text-align: center; margin-top: 1rem">
+          <calcite-button id="replay-m" appearance="transparent" icon="refresh">Replay</calcite-button>
+        </div>
+      </div>
     </div>
+    <script>
+      (function () {
+        const scrim = document.querySelector("#scrim-determinate");
+        const determinateLoaderMedium = document.querySelector("#loader-determinate-m");
+        const randoms = [0, 0, 0, 0, 0, 0, 1, 3];
+        function updateLoader() {
+          const random = randoms[Math.floor(Math.random() * randoms.length)];
+          determinateLoaderMedium.value = Math.min(determinateLoaderMedium.value + random, 100);
+          if (determinateLoaderMedium.value !== 100) {
+            requestAnimationFrame(updateLoader);
+          } else {
+            scrim.setAttribute("hidden", "true");
+          }
+        }
+
+        updateLoader();
+
+        document.querySelector("#replay-m").addEventListener("click", function () {
+          cancelAnimationFrame(updateLoader);
+          determinateLoaderMedium.value = 0;
+          scrim.removeAttribute("hidden");
+          updateLoader();
+        });
+      })();
+    </script>
   </body>
 </html>
