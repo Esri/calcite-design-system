@@ -1,4 +1,4 @@
-import { Component, Prop, h, VNode } from "@stencil/core";
+import { Component, Element, Prop, h, VNode } from "@stencil/core";
 
 import { CSS, TEXT } from "./resources";
 
@@ -27,19 +27,32 @@ export class CalciteScrim {
 
   // --------------------------------------------------------------------------
   //
+  //  Private Properties
+  //
+  // --------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteScrimElement;
+
+  // --------------------------------------------------------------------------
+  //
   //  Render Method
   //
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const loaderNode = this.loading ? <calcite-loader active label={this.intlLoading} /> : null;
+    const { el, loading, intlLoading } = this;
+    const hasContent = el.innerHTML.trim().length > 0;
+    const loaderNode = loading ? <calcite-loader active label={intlLoading} /> : null;
+    const contentNode = hasContent ? (
+      <div class={CSS.content}>
+        <slot />
+      </div>
+    ) : null;
 
     return (
       <div class={CSS.scrim}>
         {loaderNode}
-        <div class={CSS.content}>
-          <slot />
-        </div>
+        {contentNode}
       </div>
     );
   }

@@ -17,12 +17,15 @@
       .child {
         display: flex;
         justify-content: center;
+        align-items: center;
+        flex-direction: column;
         flex: 1 1 auto;
         color: var(--calcite-ui-text-3);
         font-family: var(--calcite-sans-family);
         font-size: var(--calcite-font-size-0);
         font-weight: var(--calcite-font-weight-medium);
-        padding: 15px;
+        padding: 1rem;
+        margin-bottom: 2rem;
       }
     </style>
     <script src="./_assets/head.js"></script>
@@ -34,6 +37,7 @@
     <!-- simple panel example -->
     <div class="parent">
       <div class="child">
+        Default
         <div tabindex="0" style="position: relative; width: 400px; height: 400px; padding: 25px">
           <calcite-scrim></calcite-scrim>
           <div style="width: 400px; height: 400px; overflow: auto">
@@ -66,6 +70,7 @@
 
       <!-- loading scrim panel -->
       <div class="child">
+        Loading
         <div tabindex="0" style="position: relative; width: 400px; height: 400px; padding: 25px">
           <calcite-scrim loading></calcite-scrim>
           <div style="width: 400px; height: 400px; overflow: auto">
@@ -95,10 +100,44 @@
           </div>
         </div>
       </div>
+      <div class="child">
+        Simple text content in default slot
+        <div tabindex="0" style="position: relative; width: 400px; height: 400px; padding: 25px">
+          <calcite-scrim> This is just text. </calcite-scrim>
+          <div style="width: 400px; height: 400px; overflow: auto">
+            <p>
+              Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum
+              tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas
+              semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.
+            </p>
+            <ul>
+              <li>
+                Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in,
+                diam. Sed arcu. Cras consequat.
+              </li>
+              <li>
+                Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat.
+                Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.
+              </li>
+              <li>
+                Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique
+                cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.
+              </li>
+              <li>
+                Pellentesque fermentum dolor. Aliquam quam lectus, facilisis auctor, ultrices ut, elementum vulputate,
+                nunc.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
 
       <!-- scrim with content in default slot-->
-      <div class="child" style="flex-direction: column; justify-content: center; align-items: center">
+      <div class="child">
         Determinate loader in default slot
+        <div style="margin: 1rem 0">
+          <calcite-button id="replay-m" appearance="outline" icon-start="refresh" scale="m">Replay loader</calcite-button>
+        </div>
         <div tabindex="0" style="position: relative; width: 400px; height: 400px; padding: 25px">
           <calcite-scrim id="scrim-determinate">
             <calcite-loader
@@ -138,8 +177,38 @@
             </ul>
           </div>
         </div>
-        <div style="text-align: center; margin-top: 1rem">
-          <calcite-button id="replay-m" appearance="transparent" icon="refresh">Replay</calcite-button>
+      </div>
+
+      <!-- loading scrim panel -->
+      <div class="child">
+        Loading and with text content in default slot
+        <div tabindex="0" style="position: relative; width: 400px; height: 400px; padding: 25px">
+          <calcite-scrim loading> This is just text. </calcite-scrim>
+          <div style="width: 400px; height: 400px; overflow: auto">
+            <p>
+              Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum
+              tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas
+              semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.
+            </p>
+            <ul>
+              <li>
+                Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in,
+                diam. Sed arcu. Cras consequat.
+              </li>
+              <li>
+                Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat.
+                Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.
+              </li>
+              <li>
+                Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique
+                cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.
+              </li>
+              <li>
+                Pellentesque fermentum dolor. Aliquam quam lectus, facilisis auctor, ultrices ut, elementum vulputate,
+                nunc.
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
