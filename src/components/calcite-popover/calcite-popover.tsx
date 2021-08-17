@@ -180,6 +180,10 @@ export class CalcitePopover {
     this.setUpReferenceElement();
   }
 
+  componentDidLoad(): void {
+    this.reposition();
+  }
+
   disconnectedCallback(): void {
     this.removeReferences();
     this.destroyPopper();
