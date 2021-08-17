@@ -64,6 +64,7 @@ export const Simple = stepStory(
     .snapshot("Simple: rtl")
     .ltr()
     .executeScript(themeToggleScript)
+    .wait(350)
     .snapshot("Simple: dark")
     .end()
 );
