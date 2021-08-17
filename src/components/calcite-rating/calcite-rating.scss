@@ -26,7 +26,6 @@
   --calcite-rating-spacing-unit: theme("spacing.3");
 }
 
-
 :host([disabled]) {
   @apply pointer-events-none opacity-50;
 }
