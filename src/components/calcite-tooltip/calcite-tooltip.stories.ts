@@ -39,6 +39,9 @@ export default {
   }
 };
 
+const screenerDelayMS = 350;
+const darkThemeScript = `window.document.body.classList.add("calcite-theme-dark");`;
+
 export const Simple = stepStory(
   (): string => html`
     <div style="width: 400px;">
@@ -55,15 +58,15 @@ export const Simple = stepStory(
     </div>
   `,
   new Steps()
-    .wait(400)
+    .wait("calcite-tooltip[data-popper-placement]")
     .snapshot("Simple")
     .rtl()
-    .wait(400)
+    .wait(screenerDelayMS)
     .snapshot("Simple: rtl")
     .ltr()
-    .wait(400)
-    .executeScript(`window.document.body.className = "calcite-theme-dark";`)
-    .wait(400)
+    .wait(screenerDelayMS)
+    .executeScript(darkThemeScript)
+    .wait(screenerDelayMS)
     .snapshot("Simple: dark")
     .end()
 );
