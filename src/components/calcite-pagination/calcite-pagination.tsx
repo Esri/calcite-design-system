@@ -42,12 +42,12 @@ export class CalcitePagination {
   @Prop() total = 0;
 
   /** title of the next button
-   * @default "next"
+   * @default "Next"
    */
   @Prop() textLabelNext: string = TEXT.nextLabel;
 
   /** title of the previous button
-   * @default "previous"
+   * @default "Previous"
    */
   @Prop() textLabelPrevious: string = TEXT.previousLabel;
 
