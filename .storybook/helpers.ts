@@ -1,5 +1,6 @@
 import * as icons from "@esri/calcite-ui-icons";
 import { boolean as booleanKnob } from "@storybook/addon-knobs";
+import { Step } from "screener-storybook/src/screener";
 
 // we can get all unique icon names from all size 16 non-filled icons.
 export const iconNames = Object.keys(icons)
@@ -13,4 +14,20 @@ export const boolean = (prop, value, standalone = true) => {
   const propValue = (standalone && knob) || !standalone ? prop : "";
   const attrValue = standalone ? "" : `="${knob}"`;
   return `${propValue}${attrValue}`;
+};
+
+export interface SteppedStory {
+  (): string;
+  decorators?: ((Story: () => string) => DocumentFragment)[];
+}
+
+export const addSteps = (story: SteppedStory, steps: Step[]): SteppedStory => {
+  story.decorators = [
+    (Story: any) => {
+      const node = document.createRange().createContextualFragment(Story());
+      (node as any).steps = steps;
+      return node;
+    }
+  ];
+  return story;
 };

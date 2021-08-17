@@ -1,5 +1,5 @@
 import { select, number } from "@storybook/addon-knobs";
-import { boolean } from "../../../.storybook/helpers";
+import { boolean, addSteps } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 import { Steps } from "screener-storybook/src/screener";
 import { html } from "../../tests/utils";
@@ -55,13 +55,7 @@ export const Simple = (): string => html`
   </div>
 `;
 
-Simple.decorators = [
-  (Story: any) => {
-    const node = document.createRange().createContextualFragment(Story());
-    (node as any).steps = new Steps().rtl().wait(400).snapshot("Simple").end();
-    return node;
-  }
-];
+addSteps(Simple, new Steps().wait(400).snapshot("Simple").end());
 
 export const RTL = (): string => {
   return `
