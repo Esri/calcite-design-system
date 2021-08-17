@@ -1,8 +1,10 @@
 import { select, number } from "@storybook/addon-knobs";
-import { boolean, stepStory } from "../../../.storybook/helpers";
+import { boolean, stepStory, themeToggleScript } from "../../../.storybook/helpers";
 import readme from "./readme.md";
+import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Steps } from "screener-storybook/src/screener";
 import { html } from "../../tests/utils";
+const { theme } = ATTRIBUTES;
 
 const placements = [
   "auto",
@@ -39,14 +41,12 @@ export default {
   }
 };
 
-const screenerDelayMS = 350;
-const themeToggleScript = `window.document.body.classList.toggle("calcite-theme-dark")`;
-
 export const Simple = stepStory(
   (): string => html`
     <div style="width: 400px;">
       ${referenceElementHTML}
       <calcite-tooltip
+        class="${select("class", theme.values, theme.defaultValue)}"
         reference-element="reference-element"
         placement="${select("placement", calcite_placements, "auto")}"
         offset-distance="${number("offset-distance", 6)}"
@@ -61,12 +61,9 @@ export const Simple = stepStory(
     .wait("calcite-tooltip[data-popper-placement]")
     .snapshot("Simple")
     .rtl()
-    .wait(screenerDelayMS)
     .snapshot("Simple: rtl")
     .ltr()
-    .wait(screenerDelayMS)
     .executeScript(themeToggleScript)
-    .wait(screenerDelayMS)
     .snapshot("Simple: dark")
     .end()
 );

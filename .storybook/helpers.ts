@@ -21,6 +21,8 @@ export interface Story {
   decorators?: ((Story: Story) => DocumentFragment)[];
 }
 
+export const themeToggleScript = `window.document.body.classList.toggle("calcite-theme-dark")`;
+
 export const stepStory = (story: Story, steps: Step[]): Story => {
   const stepsDecorator = (Story: Story) => {
     const node = document.createRange().createContextualFragment(Story());
