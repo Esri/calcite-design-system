@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "1.0.0-next.267",
+  "version": "1.0.0-beta.62",
   "description": "Web Components for Esri's Calcite Design System.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
@@ -23,16 +23,14 @@
     "docs": "concurrently --kill-others --raw \"npm:util:build-docs && build-storybook --static-dir ./__docs-temp__ --output-dir ./docs\"  \"ts-node ./support/cleanOnProcessExit.ts --path ./__docs-temp__\"",
     "docs:preview": "concurrently --raw \"npm:util:build-docs && start-storybook --static-dir ./__docs-temp__\" \"ts-node ./support/cleanOnProcessExit.ts --path ./__docs-temp__\"",
     "lint": "concurrently npm:lint:*",
+    "lint:html": "prettier --write \"**/*.html\"",
+    "lint:json": "prettier --write \"**/*.json\"",
     "lint:md": "prettier --write \"**/*.md\"",
-    "lint:styles": "stylelint --fix \"src/**/*.scss\"",
-    "lint:ts": "concurrently \"tslint --fix --project tsconfig-tslint.json\" \"eslint --fix --ext .ts,.tsx .\"",
+    "lint:scss": "stylelint --fix \"src/**/*.scss\" && prettier --write \"**/*.scss\"",
+    "lint:ts": "tslint --fix --project tsconfig-tslint.json --fix && eslint --ext .ts,.tsx --fix . && prettier --write \"**/*.ts?(x)\"",
     "posttest": "npm run test:prerender",
     "prepare": "husky install",
     "prepublishOnly": "ts-node ./support/prepublish.ts",
-    "prettier": "concurrently npm:prettier:*",
-    "prettier:styles": "prettier --write \"src/**/*.scss\"",
-    "prettier:ts": "prettier --write \"src/**/*.ts?(x)\"",
-    "prettier:html": "prettier --write \"src/**/*.html\"",
     "release:docs": "npm run docs && storybook-to-ghpages --existing-output-dir=docs",
     "release:next": "npm run util:clean-tested-build && npm run util:deploy-next-from-existing-build",
     "release:prepare": "npm run util:clean-tested-build && ts-node --project ./tsconfig-node-scripts.json support/prepReleaseCommit.ts && git add .",
@@ -68,10 +66,12 @@
     "sortablejs": "1.14.0"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-numeric-separator": "7.14.5",
     "@esri/calcite-base": "^1.2.0",
     "@esri/calcite-colors": "6.0.1",
     "@esri/calcite-ui-icons": "3.16.6",
     "@esri/eslint-plugin-calcite-components": "0.1.1",
+    "@rollup/plugin-babel": "5.3.0",
     "@stencil/eslint-plugin": "0.3.1",
     "@stencil/postcss": "2.0.0",
     "@stencil/sass": "1.4.1",
@@ -97,8 +97,8 @@
     "@types/sortablejs": "1.10.7",
     "@types/standard-version": "7.0.1",
     "@types/yargs": "17.0.2",
-    "@typescript-eslint/eslint-plugin": "4.29.1",
-    "@typescript-eslint/parser": "4.29.1",
+    "@typescript-eslint/eslint-plugin": "4.29.2",
+    "@typescript-eslint/parser": "4.29.2",
     "@whitespace/storybook-addon-html": "5.0.0",
     "autoprefixer": "10.3.1",
     "awesome-typescript-loader": "5.2.1",
@@ -146,8 +146,8 @@
     "tslint-stencil": "1.0.1",
     "typescript": "4.2.4",
     "updtr": "3.1.0",
-    "workbox-build": "6.2.3",
-    "yargs": "17.1.0"
+    "workbox-build": "6.2.4",
+    "yargs": "17.1.1"
   },
   "license": "SEE LICENSE IN copyright.txt"
 }
