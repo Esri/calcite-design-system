@@ -115,6 +115,9 @@ export class CalciteTimePicker {
    */
   @Prop() intlSecondUp = TEXT.secondUp;
 
+  /** BCP 47 language tag for desired language and country format */
+  @Prop() locale?: string = document.documentElement.lang || "en";
+
   /** The minute value */
   @Prop({ mutable: true }) minute?: string = null;
 
@@ -126,6 +129,9 @@ export class CalciteTimePicker {
 
   /** number that specifies the granularity that the value must adhere to */
   @Prop({ reflect: true }) step = 60;
+
+  /** The selected time in UTC */
+  @Prop() value: string = null;
 
   @Watch("hour")
   hourChanged(newHour: string): void {
@@ -140,7 +146,7 @@ export class CalciteTimePicker {
   timeChangeHandler(): void {
     const { hour, minute } = this.getTime();
     if (!hour && !minute) {
-      this.setTime("meridiem", null, false);
+      this.setValue("meridiem", null, false);
     }
     if (this.timeChanged) {
       this.timeChanged = false;
@@ -281,12 +287,12 @@ export class CalciteTimePicker {
 
   private decrementHour = (): void => {
     const newHour = !this.hour ? 0 : this.hour === "00" ? 23 : parseInt(this.hour) - 1;
-    this.setTime("hour", newHour);
+    this.setValue("hour", newHour);
   };
 
   private decrementMeridiem = (): void => {
     const newMeridiem = this.meridiem === "PM" ? "AM" : "PM";
-    this.setTime("meridiem", newMeridiem);
+    this.setValue("meridiem", newMeridiem);
   };
 
   private decrementMinuteOrSecond = (key: MinuteOrSecond): void => {
@@ -301,7 +307,7 @@ export class CalciteTimePicker {
     } else {
       newValue = 59;
     }
-    this.setTime(key, newValue);
+    this.setValue(key, newValue);
   };
 
   private decrementMinute = (): void => {
@@ -377,12 +383,12 @@ export class CalciteTimePicker {
       } else {
         newHour = keyAsNumber;
       }
-      this.setTime("hour", newHour);
+      this.setValue("hour", newHour);
     } else {
       switch (key) {
         case "Backspace":
         case "Delete":
-          this.setTime("hour", null);
+          this.setValue("hour", null);
           break;
         case "ArrowDown":
           event.preventDefault();
@@ -408,7 +414,7 @@ export class CalciteTimePicker {
 
   private incrementMeridiem = (): void => {
     const newMeridiem = this.meridiem === "AM" ? "PM" : "AM";
-    this.setTime("meridiem", newMeridiem);
+    this.setValue("meridiem", newMeridiem);
   };
 
   private incrementHour = (): void => {
@@ -417,7 +423,7 @@ export class CalciteTimePicker {
         ? 0
         : parseInt(this.hour) + 1
       : 1;
-    this.setTime("hour", newHour);
+    this.setValue("hour", newHour);
   };
 
   private incrementMinuteOrSecond = (key: MinuteOrSecond): void => {
@@ -426,7 +432,7 @@ export class CalciteTimePicker {
         ? 0
         : parseInt(this[key]) + 1
       : 0;
-    this.setTime(key, newValue);
+    this.setValue(key, newValue);
   };
 
   private incrementMinute = (): void => {
@@ -446,14 +452,14 @@ export class CalciteTimePicker {
   private meridiemKeyDownHandler = (event: KeyboardEvent): void => {
     switch (getKey(event.key)) {
       case "a":
-        this.setTime("meridiem", "AM");
+        this.setValue("meridiem", "AM");
         break;
       case "p":
-        this.setTime("meridiem", "PM");
+        this.setValue("meridiem", "PM");
         break;
       case "Backspace":
       case "Delete":
-        this.setTime("meridiem", null);
+        this.setValue("meridiem", null);
         break;
       case "ArrowUp":
         event.preventDefault();
@@ -497,12 +503,12 @@ export class CalciteTimePicker {
       } else {
         newMinute = keyAsNumber;
       }
-      this.setTime("minute", newMinute);
+      this.setValue("minute", newMinute);
     } else {
       switch (key) {
         case "Backspace":
         case "Delete":
-          this.setTime("minute", null);
+          this.setValue("minute", null);
           break;
         case "ArrowDown":
           event.preventDefault();
@@ -547,12 +553,12 @@ export class CalciteTimePicker {
       } else {
         newSecond = keyAsNumber;
       }
-      this.setTime("second", newSecond);
+      this.setValue("second", newSecond);
     } else {
       switch (key) {
         case "Backspace":
         case "Delete":
-          this.setTime("second", null);
+          this.setValue("second", null);
           break;
         case "ArrowDown":
           event.preventDefault();
@@ -576,7 +582,7 @@ export class CalciteTimePicker {
     }
   };
 
-  private setTime = (
+  private setValue = (
     key: "hour" | "minute" | "second" | "meridiem",
     value: number | string | Meridiem,
     emit = true

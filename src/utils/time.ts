@@ -12,6 +12,13 @@ export interface Time {
   second: string;
 }
 
+export interface LocalizedTime {
+  hour: string;
+  minute: string;
+  second: string;
+  meridiem?: string;
+}
+
 export type TimeFocusId = "hour" | MinuteOrSecond | "meridiem";
 
 export const maxTenthForMinuteAndSecond = 5;
@@ -43,7 +50,9 @@ export function formatTimeString(value: string): string {
   const hourAsNumber = parseInt(hour);
   const minuteAsNumber = parseInt(minute);
   const secondAsNumber = parseInt(second);
-  return `${formatTimePart(hourAsNumber)}:${formatTimePart(minuteAsNumber)}:${secondAsNumber ? formatTimePart(secondAsNumber) : "00"}`;
+  return `${formatTimePart(hourAsNumber)}:${formatTimePart(minuteAsNumber)}:${
+    secondAsNumber ? formatTimePart(secondAsNumber) : "00"
+  }`;
 }
 
 export function getMeridiem(hour: string): Meridiem {
@@ -85,7 +94,7 @@ export function isValidTime(value: string): boolean {
   return false;
 }
 
-export function localizeTimeString(value: string, locale: string = "en"): string {
+export function localizeTimeString(value: string, locale = "en"): string {
   if (!isValidTime(value)) {
     return null;
   }
@@ -96,6 +105,18 @@ export function localizeTimeString(value: string, locale: string = "en"): string
     return formatter.format(dateFromTimeString);
   }
   return value;
+}
+
+export function localizeTimeToParts({ hour, minute, second }: Time, locale = "en"): LocalizedTime {
+  const dateFromTimeString = new Date(Date.UTC(0, 0, 0, parseInt(hour), parseInt(minute), parseInt(second)));
+  if (dateFromTimeString) {
+    const formatter = createLocaleDateTimeFormatter(locale);
+    const parts = formatter.formatToParts(dateFromTimeString);
+    console.log(parts);
+    // TODO: implement return value
+    return null;
+  }
+  return null;
 }
 
 export function parseTimeString(value: string): Time {
