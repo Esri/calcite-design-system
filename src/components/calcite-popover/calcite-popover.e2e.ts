@@ -6,9 +6,10 @@ import { CSS, POPOVER_REFERENCE } from "./resources";
 
 describe("calcite-popover", () => {
   it("renders", async () => {
-    await renders("calcite-popover", false);
+    await renders("calcite-popover", { visible: false, display: "block" });
     await renders(
-      `<calcite-popover label="test" open reference-element="ref"></calcite-popover><div id="ref">😄</div>`
+      `<calcite-popover label="test" open reference-element="ref"></calcite-popover><div id="ref">😄</div>`,
+      { display: "block" }
     );
   });
 
@@ -304,36 +305,5 @@ describe("calcite-popover", () => {
 
     expect(id).toEqual(userDefinedId);
     expect(referenceId).toEqual(userDefinedId);
-  });
-
-  it("should get referenceElement when opened", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`<calcite-popover placement="auto" reference-element="ref">content</calcite-popover>`);
-
-    await page.waitForChanges();
-
-    const element = await page.find("calcite-popover");
-
-    let computedStyle: CSSStyleDeclaration = await element.getComputedStyle();
-
-    expect(computedStyle.transform).toBe("matrix(0, 0, 0, 0, 0, 0)");
-
-    await page.evaluate(() => {
-      const referenceElement = document.createElement("div");
-      referenceElement.id = "ref";
-      referenceElement.innerHTML = "test";
-      document.body.appendChild(referenceElement);
-    });
-
-    await page.waitForChanges();
-
-    element.setProperty("open", true);
-
-    await page.waitForChanges();
-
-    computedStyle = await element.getComputedStyle();
-
-    expect(computedStyle.transform).not.toBe("matrix(0, 0, 0, 0, 0, 0)");
   });
 });

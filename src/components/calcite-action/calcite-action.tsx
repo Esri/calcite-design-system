@@ -104,6 +104,7 @@ export class CalciteAction {
 
   /**
    * Emitted when the action has been clicked.
+   * @deprecated use onClick instead.
    */
   @Event() calciteActionClick: EventEmitter;
 

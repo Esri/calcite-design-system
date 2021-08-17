@@ -3,7 +3,7 @@ import { accessible, hidden, renders } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-shell", () => {
-  it("renders", async () => renders("calcite-shell"));
+  it("renders", async () => renders("calcite-shell", { display: "flex" }));
 
   it("honors hidden attribute", async () => hidden("calcite-shell"));
 

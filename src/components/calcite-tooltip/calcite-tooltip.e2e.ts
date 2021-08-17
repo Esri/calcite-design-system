@@ -4,8 +4,10 @@ import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-tooltip", () => {
   it("renders", async () => {
-    await renders(`calcite-tooltip`, false);
-    await renders(`<calcite-tooltip open reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`);
+    await renders(`calcite-tooltip`, { visible: false, display: "block" });
+    await renders(`<calcite-tooltip open reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`, {
+      display: "block"
+    });
   });
 
   it("is accessible when closed", async () =>
@@ -245,36 +247,5 @@ describe("calcite-tooltip", () => {
 
     expect(id).toEqual(userDefinedId);
     expect(referenceId).toEqual(userDefinedId);
-  });
-
-  it("should get referenceElement when opened", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`<calcite-tooltip placement="auto" reference-element="ref">content</calcite-tooltip>`);
-
-    await page.waitForChanges();
-
-    const element = await page.find("calcite-tooltip");
-
-    let computedStyle: CSSStyleDeclaration = await element.getComputedStyle();
-
-    expect(computedStyle.transform).toBe("matrix(0, 0, 0, 0, 0, 0)");
-
-    await page.evaluate(() => {
-      const referenceElement = document.createElement("div");
-      referenceElement.id = "ref";
-      referenceElement.innerHTML = "test";
-      document.body.appendChild(referenceElement);
-    });
-
-    await page.waitForChanges();
-
-    element.setProperty("open", true);
-
-    await page.waitForChanges();
-
-    computedStyle = await element.getComputedStyle();
-
-    expect(computedStyle.transform).not.toBe("matrix(0, 0, 0, 0, 0, 0)");
   });
 });

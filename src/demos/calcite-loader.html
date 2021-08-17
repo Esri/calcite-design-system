@@ -27,19 +27,16 @@
         align-items: flex-end;
       }
 
-     .green {
+      .green {
         --calcite-ui-brand: #50ba5f;
         --calcite-ui-brand-hover: #1a6324;
         --calcite-ui-brand-press: #338033;
-     }
+      }
     </style>
     <script src="./_assets/head.js"></script>
   </head>
 
   <body>
-    <div>
-      <calcite-button href="/" icon-start="arrow-left" color="neutral"> Home </calcite-button>
-    </div>
     <h1 style="margin: 0 auto; text-align: center">Loader</h1>
 
     <!-- Header -->
@@ -50,12 +47,9 @@
       <div class="child">Large</div>
     </div>
 
-
     <!-- Inline -->
     <div class="parent">
-      <div class="child right-aligned-text">
-        Inline
-      </div>
+      <div class="child right-aligned-text">Inline</div>
 
       <div class="child">
         <calcite-loader label="loading" scale="s" active inline></calcite-loader>
@@ -72,9 +66,7 @@
 
     <!-- Standard -->
     <div class="parent">
-      <div class="child right-aligned-text">
-        Standard
-      </div>
+      <div class="child right-aligned-text">Standard</div>
 
       <div class="child">
         <calcite-loader text="Fetching data..." scale="s" active></calcite-loader>
@@ -89,11 +81,9 @@
       </div>
     </div>
 
-     <!-- Determinate -->
-     <div class="parent">
-      <div class="child right-aligned-text">
-        Determinate
-      </div>
+    <!-- Determinate -->
+    <div class="parent">
+      <div class="child right-aligned-text">Determinate</div>
 
       <div class="child">
         <calcite-loader
@@ -104,7 +94,8 @@
           id="loader-determinate-s"
           text="Determinate loader"
           scale="s"
-        > </calcite-loader>
+        >
+        </calcite-loader>
 
         <div style="text-align: center">
           <calcite-button id="replay-s" appearance="transparent" icon="refresh">Replay</calcite-button>
@@ -113,43 +104,40 @@
 
       <div class="child">
         <calcite-loader
-        label="loading"
-        active
-        type="determinate"
-        value="0"
-        id="loader-determinate-m"
-        text="Determinate loader"
-        scale="m"
-      >
-      </calcite-loader>
-      <div style="text-align: center">
-        <calcite-button id="replay-m" appearance="transparent" icon="refresh">Replay</calcite-button>
-      </div>
+          label="loading"
+          active
+          type="determinate"
+          value="0"
+          id="loader-determinate-m"
+          text="Determinate loader"
+          scale="m"
+        >
+        </calcite-loader>
+        <div style="text-align: center">
+          <calcite-button id="replay-m" appearance="transparent" icon="refresh">Replay</calcite-button>
+        </div>
       </div>
 
       <div class="child">
         <calcite-loader
-        label="loading"
-        active
-        type="determinate"
-        value="0"
-        id="loader-determinate-l"
-        text="Determinate loader"
-        scale="l"
-      >
-      </calcite-loader>
-      <div style="text-align: center">
-        <calcite-button id="replay-l" appearance="transparent" icon="refresh">Replay</calcite-button>
-      </div>
+          label="loading"
+          active
+          type="determinate"
+          value="0"
+          id="loader-determinate-l"
+          text="Determinate loader"
+          scale="l"
+        >
+        </calcite-loader>
+        <div style="text-align: center">
+          <calcite-button id="replay-l" appearance="transparent" icon="refresh">Replay</calcite-button>
+        </div>
       </div>
     </div>
 
-
-     <!-- Custom theme -->
-     <div class="parent">
-      <div class="child right-aligned-text">
-        Custom theme
-      </div>
+    <!-- Custom theme -->
+    <div class="parent">
+      <div class="child right-aligned-text">Custom theme</div>
 
       <div class="child">
         <calcite-loader label="loading" scale="s" active class="green"></calcite-loader>
@@ -164,23 +152,38 @@
       </div>
     </div>
 
-
     <!-- Loading text -->
     <div class="parent">
-      <div class="child right-aligned-text">
-        Loading text
+      <div class="child right-aligned-text">Loading text</div>
+
+      <div class="child">
+        <calcite-loader
+          label="loading"
+          scale="s"
+          active
+          text="optional loading text&hellip;"
+          type="indeterminate"
+        ></calcite-loader>
       </div>
 
       <div class="child">
-        <calcite-loader label="loading" scale="s" active text="optional loading text&hellip;" type="indeterminate"></calcite-loader>
+        <calcite-loader
+          label="loading"
+          scale="m"
+          active
+          text="optional loading text&hellip;"
+          type="indeterminate"
+        ></calcite-loader>
       </div>
 
       <div class="child">
-        <calcite-loader label="loading" scale="m" active text="optional loading text&hellip;" type="indeterminate"></calcite-loader>
-      </div>
-
-      <div class="child">
-        <calcite-loader label="loading" scale="l" active text="optional loading text&hellip;" type="indeterminate"></calcite-loader>
+        <calcite-loader
+          label="loading"
+          scale="l"
+          active
+          text="optional loading text&hellip;"
+          type="indeterminate"
+        ></calcite-loader>
       </div>
     </div>
 
@@ -196,7 +199,11 @@
           determinateLoaderSmall.value = Math.min(determinateLoaderSmall.value + random, 100);
           determinateLoaderMedium.value = Math.min(determinateLoaderMedium.value + random, 100);
           determinateLoaderLarge.value = Math.min(determinateLoaderLarge.value + random, 100);
-          if ((determinateLoaderSmall.value !== 100) || (determinateLoaderMedium.value !== 100) || (determinateLoaderMedium.value !== 100)) {
+          if (
+            determinateLoaderSmall.value !== 100 ||
+            determinateLoaderMedium.value !== 100 ||
+            determinateLoaderMedium.value !== 100
+          ) {
             requestAnimationFrame(updateLoader);
           }
         }
@@ -205,23 +212,21 @@
 
         document.querySelector("#replay-s").addEventListener("click", function () {
           cancelAnimationFrame(updateLoader);
-          determinateLoaderSmall.value = 0; 
+          determinateLoaderSmall.value = 0;
           updateLoader();
         });
 
         document.querySelector("#replay-m").addEventListener("click", function () {
           cancelAnimationFrame(updateLoader);
-          determinateLoaderMedium.value = 0; 
+          determinateLoaderMedium.value = 0;
           updateLoader();
         });
 
         document.querySelector("#replay-l").addEventListener("click", function () {
           cancelAnimationFrame(updateLoader);
-          determinateLoaderLarge.value = 0; 
+          determinateLoaderLarge.value = 0;
           updateLoader();
         });
-
-        
       })();
     </script>
   </body>
