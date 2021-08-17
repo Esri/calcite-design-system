@@ -40,7 +40,7 @@ export default {
 };
 
 const screenerDelayMS = 350;
-const darkThemeScript = `window.document.body.classList.add("calcite-theme-dark");`;
+const themeToggleScript = `window.document.body.classList.toggle("calcite-theme-dark")`;
 
 export const Simple = stepStory(
   (): string => html`
@@ -65,7 +65,7 @@ export const Simple = stepStory(
     .snapshot("Simple: rtl")
     .ltr()
     .wait(screenerDelayMS)
-    .executeScript(darkThemeScript)
+    .executeScript(themeToggleScript)
     .wait(screenerDelayMS)
     .snapshot("Simple: dark")
     .end()
