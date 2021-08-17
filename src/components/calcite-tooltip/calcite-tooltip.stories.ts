@@ -41,7 +41,7 @@ export default {
 
 export const Simple = stepStory(
   (): string => html`
-    <div>
+    <div style="width: 400px;">
       ${referenceElementHTML}
       <calcite-tooltip
         reference-element="reference-element"
@@ -58,44 +58,12 @@ export const Simple = stepStory(
     .wait(400)
     .snapshot("Simple")
     .rtl()
+    .wait(400)
     .snapshot("Simple: rtl")
     .ltr()
+    .wait(400)
     .executeScript(`window.document.body.className = "calcite-theme-dark";`)
+    .wait(400)
     .snapshot("Simple: dark")
     .end()
 );
-
-export const RTL = (): string => {
-  return `
-      <div dir="rtl">
-        ${referenceElementHTML}
-        <calcite-tooltip
-          reference-element="reference-element"
-          placement="${select("placement", calcite_placements, "auto")}"
-          offset-distance="${number("offset-distance", 6)}"
-          offset-skidding="${number("offset-skidding", 0)}"
-          ${boolean("open", true)}
-        >
-          ${contentHTML}
-        </calcite-tooltip>
-      </div>
-    `;
-};
-
-export const DarkMode = (): string => {
-  return `
-      <div>
-        ${referenceElementHTML}
-        <calcite-tooltip
-        class="calcite-theme-dark"
-          reference-element="reference-element"
-          placement="${select("placement", calcite_placements, "auto")}"
-          offset-distance="${number("offset-distance", 6)}"
-          offset-skidding="${number("offset-skidding", 0)}"
-          ${boolean("open", true)}
-        >
-          ${contentHTML}
-        </calcite-tooltip>
-      </div>
-    `;
-};
