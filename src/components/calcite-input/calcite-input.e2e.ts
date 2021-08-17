@@ -907,6 +907,20 @@ describe("calcite-input", () => {
 
       expect(await input.getProperty("value")).toBe("1.5");
     });
+
+    it("allows decimals when step is any", async () => {
+      const page = await newE2EPage({
+        html: `
+          <calcite-input step="any" type="number"></calcite-input>
+        `
+      });
+      const input = await page.find("calcite-input");
+      await input.callMethod("setFocus");
+      await page.keyboard.type("1.5");
+      await page.waitForChanges();
+
+      expect(await input.getProperty("value")).toBe("1.5");
+    });
   });
 
   describe("number locale support", () => {
@@ -1185,7 +1199,7 @@ describe("calcite-input", () => {
     it("cannot be modified when readOnly is true", async () => {
       const page = await newE2EPage();
       await page.setContent(`
-      <calcite-input read-only value="John Doe"></calcite-input>
+      <calcite-input read-only value="John Doe" clearable></calcite-input>
       `);
 
       const calciteInputInput = await page.spyOnEvent("calciteInputInput");
@@ -1196,6 +1210,31 @@ describe("calcite-input", () => {
       await page.keyboard.press("a");
       await page.waitForChanges();
       expect(await element.getProperty("value")).toBe("John Doe");
+
+      await page.keyboard.press("Escape");
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("John Doe");
+      expect(calciteInputInput).toHaveReceivedEventTimes(0);
+    });
+
+    it("number cannot be modified when readOnly is true", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+      <calcite-input type="number" read-only value="5"></calcite-input>
+      `);
+
+      const calciteInputInput = await page.spyOnEvent("calciteInputInput");
+      const element = await page.find("calcite-input");
+      expect(await element.getProperty("value")).toBe("5");
+      await element.callMethod("setFocus");
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("5");
+
+      await page.keyboard.press("Escape");
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("5");
       expect(calciteInputInput).toHaveReceivedEventTimes(0);
     });
 
