@@ -108,6 +108,10 @@ export class CalciteTooltip {
     this.setUpReferenceElement();
   }
 
+  componentDidLoad(): void {
+    this.reposition();
+  }
+
   disconnectedCallback(): void {
     this.removeReferences();
     this.destroyPopper();
