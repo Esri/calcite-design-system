@@ -24,6 +24,7 @@
     "docs:preview": "concurrently --raw \"npm:util:build-docs && start-storybook --static-dir ./__docs-temp__\" \"ts-node ./support/cleanOnProcessExit.ts --path ./__docs-temp__\"",
     "lint": "concurrently npm:lint:*",
     "lint:html": "prettier --write \"**/*.html\"",
+    "lint:js": "eslint --ext .js --fix . && prettier --write \"**/*.ts?(x)\"",
     "lint:json": "prettier --write \"**/*.json\"",
     "lint:md": "prettier --write \"**/*.md\"",
     "lint:scss": "stylelint --fix \"src/**/*.scss\" && prettier --write \"**/*.scss\"",
