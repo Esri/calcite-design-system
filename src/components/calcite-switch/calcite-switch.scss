@@ -49,6 +49,7 @@
   @apply mr-1;
 }
 
+
 :host([disabled]) {
   @apply opacity-disabled pointer-events-none cursor-default;
 }
