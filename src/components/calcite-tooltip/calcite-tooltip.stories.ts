@@ -1,5 +1,5 @@
 import { select, number } from "@storybook/addon-knobs";
-import { boolean, addSteps } from "../../../.storybook/helpers";
+import { boolean, stepStory } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 import { Steps } from "screener-storybook/src/screener";
 import { html } from "../../tests/utils";
@@ -39,23 +39,24 @@ export default {
   }
 };
 
-export const Simple = (): string => html`
-  <div>
-    ${referenceElementHTML}
-    <calcite-tooltip
-      class="calcite-theme-light"
-      reference-element="reference-element"
-      placement="${select("placement", calcite_placements, "auto")}"
-      offset-distance="${number("offset-distance", 6)}"
-      offset-skidding="${number("offset-skidding", 0)}"
-      ${boolean("open", true)}
-    >
-      ${contentHTML}
-    </calcite-tooltip>
-  </div>
-`;
-
-addSteps(Simple, new Steps().wait(400).snapshot("Simple").end());
+export const Simple = stepStory(
+  (): string => html`
+    <div>
+      ${referenceElementHTML}
+      <calcite-tooltip
+        class="calcite-theme-light"
+        reference-element="reference-element"
+        placement="${select("placement", calcite_placements, "auto")}"
+        offset-distance="${number("offset-distance", 6)}"
+        offset-skidding="${number("offset-skidding", 0)}"
+        ${boolean("open", true)}
+      >
+        ${contentHTML}
+      </calcite-tooltip>
+    </div>
+  `,
+  new Steps().wait(400).snapshot("Simple").end()
+);
 
 export const RTL = (): string => {
   return `

@@ -21,7 +21,7 @@ export interface SteppedStory {
   decorators?: ((Story: () => string) => DocumentFragment)[];
 }
 
-export const addSteps = (story: SteppedStory, steps: Step[]): SteppedStory => {
+export const stepStory = (story: SteppedStory, steps: Step[]): SteppedStory => {
   story.decorators = [
     (Story: any) => {
       const node = document.createRange().createContextualFragment(Story());
