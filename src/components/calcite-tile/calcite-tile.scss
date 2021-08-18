@@ -26,6 +26,10 @@
   @apply pointer-events-none;
 }
 
+.container {
+  @apply flex items-center gap-2;
+}
+
 .tile {
   @apply grid
     grid-cols-1

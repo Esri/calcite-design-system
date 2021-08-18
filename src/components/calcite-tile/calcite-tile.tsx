@@ -1,5 +1,10 @@
 import { Component, Fragment, h, Prop, VNode } from "@stencil/core";
+import { SLOTS } from "./resources";
 
+/**
+ * @slot content-start - A slot for adding non-actionable elements before the tile content.
+ * @slot content-end - A slot for adding non-actionable elements after the tile content.
+ */
 @Component({
   tag: "calcite-tile",
   styleUrl: "calcite-tile.scss",
@@ -51,22 +56,30 @@ export class CalciteTile {
   // --------------------------------------------------------------------------
 
   renderTile(): VNode {
-    const isLargeVisual = this.heading && this.icon && !this.description;
+    const { icon, heading, description } = this;
+    const isLargeVisual = heading && icon && !description;
     const iconStyle = isLargeVisual
       ? {
           height: "64px",
           width: "64px"
         }
       : undefined;
+
     return (
-      <div class={{ "large-visual": isLargeVisual, tile: true }}>
-        {this.icon && (
-          <div class="icon">
-            <calcite-icon icon={this.icon} scale="l" style={iconStyle} />
+      <div class="container">
+        <slot name={SLOTS.contentStart} />
+        <div class={{ "large-visual": isLargeVisual, tile: true }}>
+          {icon && (
+            <div class="icon">
+              <calcite-icon icon={icon} scale="l" style={iconStyle} />
+            </div>
+          )}
+          <div>
+            {heading && <div class="heading">{heading}</div>}
+            {description && <div class="description">{description}</div>}
           </div>
-        )}
-        {this.heading && <div class="heading">{this.heading}</div>}
-        {this.description && <div class="description">{this.description}</div>}
+        </div>
+        <slot name={SLOTS.contentEnd} />
       </div>
     );
   }
