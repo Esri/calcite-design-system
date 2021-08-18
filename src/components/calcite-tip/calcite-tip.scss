@@ -27,10 +27,6 @@
   @apply border-none m-0 p-0;
 }
 
-:host-context(calcite-tip-manager) .container {
-  @apply p-4;
-}
-
 @import "../../assets/styles/header";
 
 .header {
