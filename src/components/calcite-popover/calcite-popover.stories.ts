@@ -78,6 +78,7 @@ export const Simple = stepStory(
   `,
   new Steps()
     .wait("calcite-popover[data-popper-placement]")
+    .wait(200)
     .snapshot("Simple")
     .executeScript('window.location.href = "?path=/story/components-popover--simple&knob-dismissible=true"')
     .snapshot("Simple: dismissible")
