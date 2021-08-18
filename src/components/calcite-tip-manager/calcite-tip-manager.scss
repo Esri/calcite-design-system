@@ -9,7 +9,7 @@
 
 :host {
   @apply block;
-  --calcite-tip-manager-height: 18vh;
+  --calcite-tip-manager-height: 19vh;
   //--calcite-tip-max-width: 600px;
   * {
     @apply box-border;
@@ -29,7 +29,7 @@
 
 }
 .header.header {
-  @apply pl-4 pr-1 py-1;
+  @apply pl-4 pr-0 py-0;
   box-shadow: 0px 1px 0px 0px rgba(212,212,212,1);
 }
 
@@ -66,7 +66,7 @@ h2.heading {
 }
 
 ::slotted(calcite-tip) {
-  @apply border-none;
+  @apply border-none p-3;
   max-width: var(--calcite-tip-max-width);
 }
 
@@ -80,11 +80,18 @@ h2.heading {
 
 /* Pagination Styles*/
 .pagination {
-  @apply flex items-center justify-center py-1 px-0;
+  @apply flex items-center justify-center pt-3 pb-2 px-0;
 }
 
 .page-position {
   @apply text--2h my-0 mx-2;
+}
+
+/* RTL */
+:host-context([dir="rtl"]) {
+  .header.header {
+    @apply pr-4 pl-0 py-0;
+  }
 }
 
 /* @keyframes*/

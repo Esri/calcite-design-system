@@ -9,6 +9,10 @@
 }
 
 ::slotted(calcite-tip) {
-  @apply border-none;
+  @apply border-none m-0 p-4;
   // max-width: 34rem;
+}
+
+:host-context(calcite-tip-manager) {
+  @apply my-3;
 }
