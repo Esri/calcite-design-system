@@ -13,10 +13,10 @@ export interface Time {
 }
 
 export interface LocalizedTime {
-  hour: string;
-  minute: string;
-  second: string;
-  meridiem?: string;
+  localizedHour: string;
+  localizedMinute: string;
+  localizedSecond: string;
+  localizedMeridiem?: string;
 }
 
 export type TimeFocusId = "hour" | MinuteOrSecond | "meridiem";
@@ -107,14 +107,21 @@ export function localizeTimeString(value: string, locale = "en"): string {
   return value;
 }
 
-export function localizeTimeToParts({ hour, minute, second }: Time, locale = "en"): LocalizedTime {
+export function localizeTimeStringToParts(value: string, locale = "en"): LocalizedTime {
+  if (!isValidTime(value)) {
+    return null;
+  }
+  const { hour, minute, second } = parseTimeString(value);
   const dateFromTimeString = new Date(Date.UTC(0, 0, 0, parseInt(hour), parseInt(minute), parseInt(second)));
   if (dateFromTimeString) {
     const formatter = createLocaleDateTimeFormatter(locale);
     const parts = formatter.formatToParts(dateFromTimeString);
-    console.log(parts);
-    // TODO: implement return value
-    return null;
+    return {
+      localizedHour: parts.find((part) => part.type === "hour").value,
+      localizedMinute: parts.find((part) => part.type === "minute").value,
+      localizedSecond: parts.find((part) => part.type === "second").value,
+      localizedMeridiem: parts.find((part) => part.type === "dayPeriod")?.value || null
+    };
   }
   return null;
 }

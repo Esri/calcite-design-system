@@ -25,7 +25,9 @@ import {
   TimeFocusId,
   getMeridiem,
   getMeridiemHour,
-  HourDisplayFormat
+  HourDisplayFormat,
+  isValidTime,
+  localizeTimeStringToParts
 } from "../../utils/time";
 import { CSS, TEXT } from "./resources";
 
@@ -161,9 +163,9 @@ export class CalciteTimePicker {
 
   private activeEl: HTMLSpanElement;
 
-  private meridiemEl: HTMLSpanElement;
-
   private hourEl: HTMLSpanElement;
+
+  private meridiemEl: HTMLSpanElement;
 
   private minuteEl: HTMLSpanElement;
 
@@ -176,6 +178,18 @@ export class CalciteTimePicker {
   //  State
   //
   // --------------------------------------------------------------------------
+
+  /** The localized hour value */
+  @State() localizedHour: string;
+
+  /** The localized minute value */
+  @State() localizedMinute: string;
+
+  /** The localized second value */
+  @State() localizedSecond: string;
+
+  /** The localized meridiem value */
+  @State() localizedMeridiem: string;
 
   /** The am/pm value */
   @State() meridiem: Meridiem = null;
@@ -645,6 +659,14 @@ export class CalciteTimePicker {
     if (isValidNumber(this.second)) {
       this.second = formatTimePart(parseInt(this.second));
     }
+    if (isValidTime(this.value)) {
+      const { localizedHour, localizedMinute, localizedSecond, localizedMeridiem } =
+        localizeTimeStringToParts(this.value, this.locale);
+      this.localizedHour = localizedHour;
+      this.localizedMinute = localizedMinute;
+      this.localizedSecond = localizedSecond;
+      this.localizedMeridiem = localizedMeridiem;
+    }
   }
 
   // --------------------------------------------------------------------------
@@ -693,7 +715,7 @@ export class CalciteTimePicker {
               role="spinbutton"
               tabIndex={0}
             >
-              {this.getDisplayHour()}
+              {this.localizedHour || "--"}
             </span>
             <span
               aria-label={this.intlHourDown}
@@ -741,7 +763,7 @@ export class CalciteTimePicker {
               role="spinbutton"
               tabIndex={0}
             >
-              {this.minute ? this.minute : "--"}
+              {this.localizedMinute || "--"}
             </span>
             <span
               aria-label={this.intlMinuteDown}
@@ -789,7 +811,7 @@ export class CalciteTimePicker {
                 role="spinbutton"
                 tabIndex={0}
               >
-                {this.second ? this.second : "--"}
+                {this.localizedSecond || "--"}
               </span>
               <span
                 aria-label={this.intlSecondDown}
@@ -840,7 +862,7 @@ export class CalciteTimePicker {
                 role="spinbutton"
                 tabIndex={0}
               >
-                {this.meridiem ? this.meridiem : "--"}
+                {this.localizedMeridiem || "--"}
               </span>
               <span
                 aria-label={this.intlMeridiemDown}

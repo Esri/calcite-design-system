@@ -14,7 +14,14 @@ import {
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
-import { parseTimeString, Time, formatTimeString, HourDisplayFormat, isValidTime, localizeTimeString } from "../../utils/time";
+import {
+  parseTimeString,
+  Time,
+  formatTimeString,
+  HourDisplayFormat,
+  isValidTime,
+  localizeTimeString
+} from "../../utils/time";
 import { Scale } from "../interfaces";
 
 @Component({
@@ -209,6 +216,7 @@ export class CalciteInputTimePicker {
         value = "";
       }
       this.setValue({ value, origin: "time-picker" });
+      console.log("calciteTimePickerChange", value);
     }
   }
 
@@ -368,11 +376,13 @@ export class CalciteInputTimePicker {
             intlSecond={this.intlSecond}
             intlSecondDown={this.intlSecondDown}
             intlSecondUp={this.intlSecondUp}
+            locale={this.locale}
             minute={minute}
             ref={this.setCalciteTimePickerEl}
             scale={this.scale}
             second={second}
             step={this.step}
+            value={this.value}
           />
         </calcite-popover>
       </Host>
