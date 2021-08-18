@@ -29,8 +29,13 @@
 
 }
 .header.header {
-  @apply pl-4 pr-0 py-0;
-  box-shadow: 0px 1px 0px 0px rgba(212,212,212,1);
+  @apply border-0
+    border-b
+    border-solid 
+    border-color-3 
+    pl-4 
+    pr-0 
+    py-0;
 }
 
 h2.heading {
