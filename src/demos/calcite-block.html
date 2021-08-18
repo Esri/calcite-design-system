@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
-    <title>Calcite Components: calcite-block</title>
+    <title>Block</title>
 
     <script src="./_assets/head.js"></script>
 
@@ -28,75 +28,83 @@
         text-align: right;
         flex: 0 0 12%;
       }
+
+      hr {
+        margin: 25px 0;
+        border-top: 1px solid var(--calcite-ui-border-2);
+      }
     </style>
   </head>
 
   <body>
-    <div>
-      <calcite-button href="/" icon-start="arrow-left" color="neutral">Home</calcite-button>
-    </div>
-    <h1 style="margin: 0 auto; text-align: center">Block</h1>
-
-    <!-- default (non-collapsible) -->
+    <!-- default (non-collapsible + no block-section) -->
     <div class="parent">
-      <div class="child right-aligned-text">default (non-collapsible)</div>
+      <div class="child right-aligned-text">default (non-collapsible + no block-section)</div>
 
       <div class="child">
         <calcite-block heading="Fruit" summary="It's nature's candy"> </calcite-block>
       </div>
     </div>
 
-    <!-- input & label -->
+    <!-- default collapsible + no controls -->
     <div class="parent">
-      <div class="child right-aligned-text">input & label</div>
+      <div class="child right-aligned-text">default collapsible + no controls</div>
+
       <div class="child">
-        <calcite-input icon="form-field" status="valid" placeholder="Enter something here"></calcite-input>
-        <calcite-label status="valid">
-          <calcite-input type="search" icon="label" placeholder="This is a label"></calcite-input>
-          <calcite-input-message active icon> Good job! </calcite-input-message>
-        </calcite-label>
+        <calcite-block heading="Heading" summary="summary" collapsible open>
+          <calcite-block-section text="input block-section" open>
+            <calcite-input
+              icon="form-field"
+              placeholder="This is an input field... enter something here"
+            ></calcite-input>
+          </calcite-block-section>
+
+          <calcite-block-section text="a block-section"> </calcite-block-section>
+        </calcite-block>
       </div>
     </div>
 
-    <!-- collapsible with no controls -->
+    <!-- switch collapsible + no controls -->
     <div class="parent">
-      <div class="child right-aligned-text">collapsible with no controls</div>
+      <div class="child right-aligned-text">switch collapsible + no controls</div>
 
       <div class="child">
         <calcite-block heading="Heading" summary="summary" collapsible>
-          <calcite-block-section open status="idle" text="people" toggle-display="switch">
-            <img alt="demo" src="https://placeimg.com/640/480/people" />
+          <calcite-block-section text="input block-section w/ switch" toggle-display="switch">
+            <calcite-input
+              icon="form-field"
+              placeholder="This is an input field... enter something here"
+            ></calcite-input>
           </calcite-block-section>
 
-          <calcite-block-section status="valid" text="Animals" toggle-display="switch">
-            <img alt="demo" src="https://placeimg.com/640/480/animals" />
-          </calcite-block-section>
-
-          <calcite-block-section status="invalid" text="Nature" toggle-display="switch">
-            <img alt="demo" src="https://placeimg.com/640/480/nature" />
+          <calcite-block-section text="a block-section w/ button">
+            <calcite-input icon="form-field" placeholder="This is another input field"></calcite-input>
           </calcite-block-section>
         </calcite-block>
       </div>
     </div>
 
-    <!-- collapsible with controls -->
+    <hr />
+
+    <!-- collapsible + controls + icons -->
     <div class="parent">
-      <div class="child right-aligned-text">collapsible with controls</div>
+      <div class="child right-aligned-text">collapsible + controls + icons</div>
 
       <div class="child">
-        <calcite-block heading="Heading" summary="summary" collapsible>
-          <calcite-block-section open status="idle" text="people" toggle-display="switch">
-            <img alt="demo" src="https://placeimg.com/640/480/people" />
+        <calcite-block heading="The block heading" summary="The block summary" collapsible>
+          <calcite-block-section text="input block-section w/ switch" toggle-display="switch">
+            <calcite-input
+              icon="form-field"
+              placeholder="This is an input field... enter something here"
+            ></calcite-input>
           </calcite-block-section>
 
-          <calcite-block-section status="valid" text="Animals" toggle-display="switch">
-            <img alt="demo" src="https://placeimg.com/640/480/animals" />
+          <calcite-block-section text="a block-section w/ button">
+            <calcite-input icon="form-field" placeholder="This is another input field"></calcite-input>
           </calcite-block-section>
 
-          <calcite-block-section status="invalid" text="Nature" toggle-display="switch">
-            <img alt="demo" src="https://placeimg.com/640/480/nature" />
-          </calcite-block-section>
-
+          <calcite-icon slot="icon" icon="heading"></calcite-icon>
+          <calcite-action slot="control" icon="pencil"></calcite-action>
           <calcite-action
             label="Add"
             icon="plus"
@@ -105,35 +113,20 @@
             slot="header-menu-actions"
           ></calcite-action>
           <calcite-action icon="minus" text="Remove item" text-enabled slot="header-menu-actions"></calcite-action>
+          <calcite-action slot="header-menu-actions" icon="sliders" text="Configure" text-enabled></calcite-action>
+          <calcite-action slot="header-menu-actions" icon="trash" text="Remove" text-enabled></calcite-action>
         </calcite-block>
       </div>
     </div>
 
-    <!-- header + action menu -->
+    <!-- header + controls + icons -->
     <div class="parent">
-      <div class="child right-aligned-text">header + action menu</div>
-
-      <div class="child">
-        <calcite-block heading="With header actions" summary="has header actions" collapsible>
-          <calcite-action
-            label="Add"
-            icon="plus"
-            text="Add item"
-            text-enabled
-            slot="header-menu-actions"
-          ></calcite-action>
-          <calcite-action icon="minus" text="Remove item" text-enabled slot="header-menu-actions"></calcite-action>
-        </calcite-block>
-      </div>
-    </div>
-
-    <!-- header + icon -->
-    <div class="parent">
-      <div class="child right-aligned-text">header + icon</div>
+      <div class="child right-aligned-text">header + controls + icons</div>
 
       <div class="child">
         <calcite-block heading="Icon't believe it!">
-          <div slot="icon">🤯</div>
+          <calcite-icon slot="icon" icon="apps"></calcite-icon>
+          <calcite-action slot="control" icon="edit-attributes"></calcite-action>
           <calcite-action
             label="Add"
             icon="plus"
@@ -146,20 +139,43 @@
       </div>
     </div>
 
-    <!-- header + content (always open) -->
-    <div class="parent">
-      <div class="child right-aligned-text">header + content (always open)</div>
+    <hr />
 
+    <!-- block status -->
+    <div class="parent">
+      <div class="child right-aligned-text">block status</div>
       <div class="child">
-        <calcite-block heading="When your son becomes a priest, do you call him... father or son?" open>
-          <calcite-input icon="form-field" status="valid" placeholder="Enter something here"></calcite-input>
-          <calcite-label status="valid">
-            <calcite-input type="search" icon="label" placeholder="This is a label"></calcite-input>
-            <calcite-input-message active icon> Good job! </calcite-input-message>
-          </calcite-label>
+        <calcite-block heading="Valid status" summary="summary" collapsible status="valid">
+          <calcite-input icon="form-field" placeholder="This is valid input field"></calcite-input>
+        </calcite-block>
+
+        <calcite-block heading="Invalid status" summary="summary" status="invalid"> </calcite-block>
+
+        <calcite-block heading="Idle status" summary="summary" status="idle"> </calcite-block>
+      </div>
+    </div>
+
+    <!-- block-section status -->
+    <div class="parent">
+      <div class="child right-aligned-text">block-section status</div>
+      <div class="child">
+        <calcite-block heading="The block heading" summary="The block summary" collapsible>
+          <calcite-block-section text="valid input" toggle-display="switch" status="valid">
+            <calcite-input icon="form-field" placeholder="This is a valid input field"></calcite-input>
+          </calcite-block-section>
+
+          <calcite-block-section text="invalid input" toggle-display="switch" status="invalid">
+            <calcite-input icon="form-field" placeholder="This is an invalid input field"></calcite-input>
+          </calcite-block-section>
+
+          <calcite-block-section text="idle input" toggle-display="switch" status="idle">
+            <calcite-input icon="form-field" placeholder="This is an idle input field"></calcite-input>
+          </calcite-block-section>
         </calcite-block>
       </div>
     </div>
+
+    <hr />
 
     <!-- with drag handle -->
     <div class="parent">
