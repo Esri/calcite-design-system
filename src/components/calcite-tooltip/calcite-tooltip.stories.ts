@@ -1,10 +1,8 @@
 import { select, number } from "@storybook/addon-knobs";
 import { boolean, stepStory, themeToggleScript } from "../../../.storybook/helpers";
 import readme from "./readme.md";
-import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Steps } from "screener-storybook/src/screener";
 import { html } from "../../tests/utils";
-const { theme } = ATTRIBUTES;
 
 const placements = [
   "auto",
@@ -46,7 +44,6 @@ export const Simple = stepStory(
     <div style="width: 400px;">
       ${referenceElementHTML}
       <calcite-tooltip
-        class="${select("class", theme.values, theme.defaultValue)}"
         reference-element="reference-element"
         placement="${select("placement", calcite_placements, "auto")}"
         offset-distance="${number("offset-distance", 6)}"
@@ -61,10 +58,8 @@ export const Simple = stepStory(
     .wait("calcite-tooltip[data-popper-placement]")
     .snapshot("Simple")
     .rtl()
-    .snapshot("Simple: rtl")
+    .snapshot("Simple: Rtl")
     .ltr()
     .executeScript(themeToggleScript)
-    .wait(350)
-    .snapshot("Simple: dark")
-    .end()
+    .snapshot("Simple: Dark theme")
 );
