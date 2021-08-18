@@ -1,5 +1,3 @@
-export type InputMessageType = "default" | "floating";
-
 export enum StatusIconDefaults {
   valid = "check-circle",
   invalid = "exclamation-mark-triangle",

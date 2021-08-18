@@ -104,7 +104,7 @@
   @apply m-0
     appearance-none
     border-none
-    text-color-1
+    text-color-3
     order-2
     cursor-pointer
     rounded-tr
@@ -121,11 +121,9 @@
     @apply focus-inset;
   }
   &:hover,
-  &:focus {
-    @apply bg-foreground-2;
-  }
+  &:focus,
   &:active {
-    @apply bg-foreground-2;
+    @apply bg-foreground-2 text-color-1;
   }
 }
 

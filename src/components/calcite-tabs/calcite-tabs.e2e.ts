@@ -16,7 +16,7 @@ describe("calcite-tabs", () => {
   `;
   const tabsSnippet = `<calcite-tabs>${tabsContent}</calcite-tabs>`;
 
-  it("renders", async () => renders(tabsSnippet));
+  it("renders", async () => renders(tabsSnippet, { display: "flex" }));
 
   it("has defaults", async () =>
     defaults("calcite-tabs", [

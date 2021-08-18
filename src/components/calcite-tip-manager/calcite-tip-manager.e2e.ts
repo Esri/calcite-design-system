@@ -1,8 +1,10 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS, TEXT } from "./resources";
-import { accessible, defaults } from "../../tests/commonTests";
+import { accessible, defaults, renders } from "../../tests/commonTests";
 
 describe("calcite-tip-manager", () => {
+  it("renders", async () => renders("calcite-tip-manager", { display: "block" }));
+
   describe("first render", () => {
     it("should render and show the default title", async () => {
       const page = await newE2EPage();

@@ -139,24 +139,20 @@
               </calcite-panel>
               <calcite-panel heading="Configure popup" dismissible>
                 <calcite-block heading="Basic" summary="Collapsible with section" collapsible>
-                  <calcite-value-list id="one" multiple style="margin-bottom: var(--calcite-spacing-double)">
-                    <calcite-value-list-item label="Dogs" description="Man's best friend" value="dogs">
+                  <calcite-list id="one" multiple style="margin-bottom: var(--calcite-spacing-double)">
+                    <calcite-list-item label="Population 2018" description="{ POP_2018 }" value="dogs">
                       <calcite-action slot="actions-end" text="click-me" onClick="console.log('clicked');" icon="x">
                       </calcite-action>
-                    </calcite-value-list-item>
-                    <calcite-value-list-item label="Cats" description="Independent and fluffy" value="cats">
+                    </calcite-list-item>
+                    <calcite-list-item label="Population 2020" description="{ POP_2020 }" value="cats">
                       <calcite-action slot="actions-end" text="click-me" onClick="console.log('clicked');" icon="x">
                       </calcite-action>
-                    </calcite-value-list-item>
-                    <calcite-value-list-item
-                      label="Fish. But not just any fish."
-                      description="Easy to care for."
-                      value="fish"
-                    >
+                    </calcite-list-item>
+                    <calcite-list-item label="Average Income" description="{ INCOM_AVG }" value="fish">
                       <calcite-action slot="actions-end" text="click-me" onClick="console.log('clicked');" icon="x">
                       </calcite-action>
-                    </calcite-value-list-item>
-                  </calcite-value-list>
+                    </calcite-list-item>
+                  </calcite-list>
 
                   <!-- Using Button -->
                   <calcite-label scale="s">

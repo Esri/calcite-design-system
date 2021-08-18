@@ -90,6 +90,7 @@ export class CalciteColorPicker {
    * The format of the value property.
    *
    * When "auto", the format will be inferred from `value` when set.
+   * @default "auto"
    */
   @Prop() format: Format = defaultFormat;
 
@@ -108,63 +109,100 @@ export class CalciteColorPicker {
   /** When true, hides the saved colors section */
   @Prop() hideSaved = false;
 
-  /** Label used for the blue channel */
+  /** Label used for the blue channel
+   * @default "B"
+   */
   @Prop() intlB = TEXT.b;
 
-  /** Label used for the blue channel description */
+  /** Label used for the blue channel description
+   * @default "Blue"
+   */
   @Prop() intlBlue = TEXT.blue;
 
-  /** Label used for the delete color button. */
+  /** Label used for the delete color button.
+   * @default "Delete color"
+   */
   @Prop() intlDeleteColor = TEXT.deleteColor;
 
-  /** Label used for the green channel */
+  /** Label used for the green channel
+   * @default "G"
+   */
   @Prop() intlG = TEXT.g;
 
-  /** Label used for the green channel description */
+  /** Label used for the green channel description
+   * @default "Green"
+   */
   @Prop() intlGreen = TEXT.green;
 
-  /** Label used for the hue channel */
+  /** Label used for the hue channel
+   * @default "H"
+   */
   @Prop() intlH = TEXT.h;
 
-  /** Label used for the HSV mode */
+  /** Label used for the HSV mode
+   * @default "HSV"
+   */
   @Prop() intlHsv = TEXT.hsv;
 
-  /** Label used for the hex input */
+  /** Label used for the hex input
+   * @default "Hex"
+   */
   @Prop() intlHex = TEXT.hex;
 
-  /** Label used for the hue channel description */
+  /** Label used for the hue channel description
+   * @default "Hue"
+   */
   @Prop() intlHue = TEXT.hue;
 
   /**
    * Label used for the hex input when there is no color selected.
+   * @default "No color"
    */
   @Prop() intlNoColor = TEXT.noColor;
 
-  /** Label used for the red channel */
+  /** Label used for the red channel
+   * @default "R"
+   */
   @Prop() intlR = TEXT.r;
 
-  /** Label used for the red channel description */
+  /** Label used for the red channel description
+   * @default "Red"
+   */
   @Prop() intlRed = TEXT.red;
 
-  /** Label used for the RGB mode */
+  /** Label used for the RGB mode
+   * @default "RGB"
+   */
   @Prop() intlRgb = TEXT.rgb;
 
-  /** Label used for the saturation channel */
+  /** Label used for the saturation channel
+   * @default "S"
+   */
   @Prop() intlS = TEXT.s;
 
-  /** Label used for the saturation channel description */
+  /** Label used for the saturation channel description
+   * @default "Saturation"
+   */
   @Prop() intlSaturation = TEXT.saturation;
 
-  /** Label used for the save color button. */
+  /** Label used for the save color button.
+   * @default "Save color"
+   */
   @Prop() intlSaveColor = TEXT.saveColor;
 
-  /** Label used for the saved colors section */
+  /** Label used for the saved colors section
+   * @default "Saved"
+   */
   @Prop() intlSaved = TEXT.saved;
 
-  /** Label used for the value channel */
+  /** Label used for the value channel
+   * @default "V"
+   */
   @Prop() intlV = TEXT.v;
 
-  /** Label used for the  */
+  /** Label used for the
+   * @default "Value"
+   */
   @Prop() intlValue = TEXT.value;
 
   /**
@@ -189,6 +227,8 @@ export class CalciteColorPicker {
    * a RGB, HSL or HSV object.
    *
    * The type will be preserved as the color is updated.
+   * @default "#007ac2"
+   * @see [ColorValue](https://github.com/Esri/calcite-components/blob/master/src/components/calcite-color-picker/interfaces.ts#L10)
    */
   @Prop({ mutable: true }) value: ColorValue | null = defaultValue;
 
@@ -211,8 +251,13 @@ export class CalciteColorPicker {
       this.mode = nextMode;
     }
 
+    const dragging = this.sliderThumbState === "drag" || this.hueThumbState === "drag";
+
     if (this.colorUpdateLocked) {
-      this.calciteColorPickerChange.emit();
+      this.calciteColorPickerInput.emit();
+      if (!dragging) {
+        this.calciteColorPickerChange.emit();
+      }
       return;
     }
 
@@ -221,7 +266,10 @@ export class CalciteColorPicker {
 
     if (modeChanged || colorChanged) {
       this.color = color;
-      this.calciteColorPickerChange.emit();
+      this.calciteColorPickerInput.emit();
+      if (!dragging) {
+        this.calciteColorPickerChange.emit();
+      }
     }
   }
   //--------------------------------------------------------------------------
@@ -234,17 +282,13 @@ export class CalciteColorPicker {
     return this.color || this.previousColor || DEFAULT_COLOR;
   }
 
-  private activeThumbX: number;
-
-  private activeThumbY: number;
+  private activeColorFieldAndSliderRect: DOMRect;
 
   private colorUpdateLocked = false;
 
+  private colorFieldAndSliderHovered = false;
+
   private fieldAndSliderRenderingContext: CanvasRenderingContext2D;
-
-  private globalThumbX: number;
-
-  private globalThumbY: number;
 
   private colorFieldScopeNode: HTMLDivElement;
 
@@ -289,6 +333,13 @@ export class CalciteColorPicker {
    */
   @Event() calciteColorPickerChange: EventEmitter;
 
+  /**
+   * Fires as the color value changes.
+   *
+   * This is similar to the change event with the exception of dragging. When dragging the color field or hue slider thumb, this event fires as the thumb is moved.
+   */
+  @Event() calciteColorPickerInput: EventEmitter;
+
   private handleTabActivate = (event: Event): void => {
     this.channelMode = (event.currentTarget as HTMLElement).getAttribute(
       "data-color-mode"
@@ -306,7 +357,7 @@ export class CalciteColorPicker {
       ArrowLeft: { x: -10, y: 0 }
     };
 
-    if (Object.keys(arrowKeyToXYOffset).includes(key)) {
+    if (arrowKeyToXYOffset[key]) {
       event.preventDefault();
       this.scopeOrientation = key === "ArrowDown" || key === "ArrowUp" ? "vertical" : "horizontal";
       this.captureColorFieldColor(
@@ -314,7 +365,6 @@ export class CalciteColorPicker {
         this.colorFieldScopeTop + arrowKeyToXYOffset[key].y || 0,
         false
       );
-      return;
     }
   };
 
@@ -328,13 +378,12 @@ export class CalciteColorPicker {
       ArrowLeft: -1
     };
 
-    if (Object.keys(arrowKeyToXOffset).includes(key)) {
+    if (arrowKeyToXOffset[key]) {
       event.preventDefault();
       const delta = arrowKeyToXOffset[key] * modifier;
-      const hue = this.baseColorFieldColor?.hue();
-      const color = hue ? this.baseColorFieldColor.hue(hue + delta) : Color({ h: 0, s: 0, v: 100 });
+      const hue = this.baseColorFieldColor.hue();
+      const color = this.baseColorFieldColor.hue(hue + delta);
       this.internalColorSet(color, false);
-      return;
     }
   };
 
@@ -447,6 +496,7 @@ export class CalciteColorPicker {
 
   private handleColorFieldAndSliderMouseLeave = (): void => {
     this.colorFieldAndSliderInteractive = false;
+    this.colorFieldAndSliderHovered = false;
 
     if (this.sliderThumbState !== "drag" && this.hueThumbState !== "drag") {
       this.hueThumbState = "idle";
@@ -457,10 +507,6 @@ export class CalciteColorPicker {
 
   private handleColorFieldAndSliderMouseDown = (event: MouseEvent): void => {
     const { offsetX, offsetY } = event;
-    this.activeThumbX = offsetX;
-    this.activeThumbY = offsetY;
-    this.globalThumbX = offsetX;
-    this.globalThumbY = offsetY;
     const region = this.getCanvasRegion(offsetY);
 
     if (region === "color-field") {
@@ -476,12 +522,22 @@ export class CalciteColorPicker {
 
     document.addEventListener("mousemove", this.globalMouseMoveHandler);
     document.addEventListener("mouseup", this.globalMouseUpHandler, { once: true });
+
+    this.activeColorFieldAndSliderRect =
+      this.fieldAndSliderRenderingContext.canvas.getBoundingClientRect();
   };
 
   private globalMouseUpHandler = (): void => {
+    const previouslyDragging = this.sliderThumbState === "drag" || this.hueThumbState === "drag";
+
     this.hueThumbState = "idle";
     this.sliderThumbState = "idle";
+    this.activeColorFieldAndSliderRect = null;
     this.drawColorFieldAndSlider();
+
+    if (previouslyDragging) {
+      this.calciteColorPickerChange.emit();
+    }
   };
 
   private globalMouseMoveHandler = (event: MouseEvent): void => {
@@ -493,26 +549,46 @@ export class CalciteColorPicker {
       return;
     }
 
-    this.globalThumbX = this.globalThumbX + event.movementX;
-    this.globalThumbY = this.globalThumbY + event.movementY;
+    let samplingX: number;
+    let samplingY: number;
 
-    this.activeThumbX = clamp(this.globalThumbX, 0, dimensions.colorField.width);
-    this.activeThumbY = clamp(
-      this.globalThumbY,
-      0,
-      dimensions.colorField.height + dimensions.slider.height
-    );
+    if (this.colorFieldAndSliderHovered) {
+      samplingX = event.offsetX;
+      samplingY = event.offsetY;
+    } else {
+      const { clientX, clientY } = event;
+      const colorFieldAndSliderRect = this.activeColorFieldAndSliderRect;
+      const colorFieldWidth = dimensions.colorField.width;
+      const colorFieldHeight = dimensions.colorField.height;
+      const hueSliderHeight = dimensions.slider.height;
 
-    const region: ReturnType<CalciteColorPicker["getCanvasRegion"]> = hueThumbDragging
-      ? "color-field"
-      : sliderThumbDragging
-      ? "slider"
-      : this.getCanvasRegion(this.activeThumbY);
+      if (
+        clientX < colorFieldAndSliderRect.x + colorFieldWidth &&
+        clientX > colorFieldAndSliderRect.x
+      ) {
+        samplingX = clientX - colorFieldAndSliderRect.x;
+      } else if (clientX < colorFieldAndSliderRect.x) {
+        samplingX = 0;
+      } else {
+        samplingX = colorFieldWidth;
+      }
 
-    if (region === "color-field") {
-      this.captureColorFieldColor(this.activeThumbX, this.activeThumbY, false);
-    } else if (region === "slider") {
-      this.captureHueSliderColor(this.activeThumbX);
+      if (
+        clientY < colorFieldAndSliderRect.y + colorFieldHeight + hueSliderHeight &&
+        clientY > colorFieldAndSliderRect.y
+      ) {
+        samplingY = clientY - colorFieldAndSliderRect.y;
+      } else if (clientY < colorFieldAndSliderRect.y) {
+        samplingY = 0;
+      } else {
+        samplingY = colorFieldHeight + hueSliderHeight;
+      }
+    }
+
+    if (hueThumbDragging) {
+      this.captureColorFieldColor(samplingX, samplingY, false);
+    } else {
+      this.captureHueSliderColor(samplingX);
     }
   };
 
@@ -522,6 +598,7 @@ export class CalciteColorPicker {
     } = this;
 
     this.colorFieldAndSliderInteractive = offsetY <= colorField.height + slider.height;
+    this.colorFieldAndSliderHovered = true;
 
     const region = this.getCanvasRegion(offsetY);
 
@@ -651,7 +728,7 @@ export class CalciteColorPicker {
       scale
     } = this;
     const selectedColorInHex = color ? color.hex() : null;
-    const hexInputScale = scale !== "s" ? "m" : scale;
+    const hexInputScale = scale === "l" ? "m" : "s";
     const {
       colorFieldAndSliderInteractive,
       colorFieldScopeTop,
@@ -742,7 +819,7 @@ export class CalciteColorPicker {
                   [CSS.splitSection]: true
                 }}
                 dir={elementDir}
-                scale="s"
+                scale={hexInputScale}
               >
                 <calcite-tab-nav slot="tab-nav">
                   {this.renderChannelsTabTitle("rgb")}
@@ -767,7 +844,7 @@ export class CalciteColorPicker {
                   iconStart="minus"
                   label={intlDeleteColor}
                   onClick={this.deleteColor}
-                  scale={scale}
+                  scale={hexInputScale}
                 />
                 <calcite-button
                   appearance="transparent"
@@ -777,7 +854,7 @@ export class CalciteColorPicker {
                   iconStart="plus"
                   label={intlSaveColor}
                   onClick={this.saveColor}
-                  scale={scale}
+                  scale={hexInputScale}
                 />
               </div>
             </div>
@@ -877,7 +954,7 @@ export class CalciteColorPicker {
       onCalciteInputChange={this.handleChannelChange}
       onCalciteInputInput={this.handleChannelInput}
       prefixText={label}
-      scale="s"
+      scale={this.scale === "l" ? "m" : "s"}
       type="number"
       value={value?.toString()}
     />
