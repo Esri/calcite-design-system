@@ -56,6 +56,7 @@ export const Simple = stepStory(
   `,
   new Steps()
     .wait("calcite-tooltip[data-popper-placement]")
+    .wait(200)
     .snapshot("Simple")
     .rtl()
     .snapshot("Simple: Rtl")
