@@ -1,14 +1,7 @@
 import { select, number, text } from "@storybook/addon-knobs";
 import readme from "./readme.md";
 import { html } from "../../tests/utils";
-import {
-  boolean,
-  stepStory,
-  themeToggleScript,
-  calciteHydratedSelector,
-  popperTimeoutMS
-} from "../../../.storybook/helpers";
-import { Steps } from "screener-storybook/src/screener";
+import { boolean, createSteps, stepStory, themeToggleScript } from "../../../.storybook/helpers";
 
 const placements = [
   "auto",
@@ -82,9 +75,7 @@ export const Simple = stepStory(
       </calcite-popover>
     </div>
   `,
-  new Steps()
-    .wait(calciteHydratedSelector)
-    .wait(popperTimeoutMS)
+  createSteps()
     .snapshot("Default")
     .executeScript('window.location.href = "?path=/story/components-popover--simple&knob-dismissible=true"')
     .snapshot("dismissible")
