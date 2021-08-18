@@ -15,6 +15,7 @@ export default {
 export const Simple = (): string => html`
   <div style="width:70vw;">
     <calcite-split-button
+      active
       appearance="${select("appearance", ["solid", "outline", "clear", "transparent"], "solid")}"
       color="${select("color", ["blue", "red", "neutral", "inverse"], "blue")}"
       scale="${select("size", ["s", "m", "l"], "m")}"

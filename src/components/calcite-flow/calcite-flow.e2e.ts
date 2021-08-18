@@ -4,7 +4,7 @@ import { CSS } from "./resources";
 import { accessible, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-flow", () => {
-  it("renders", async () => renders("calcite-flow"));
+  it("renders", async () => renders("calcite-flow", { display: "flex" }));
 
   it("honors hidden attribute", async () => hidden("calcite-flow"));
 

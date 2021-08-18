@@ -1,5 +1,7 @@
 Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](https://github.com/esri/contributing).
 
+Note: New contributors should first contact [Julio Ochoa](JOchoa@esri.com) or [Juan Carlos Franco](JFranco@esri.com) to join the [Calcite Components GitHub team](https://github.com/orgs/Esri/teams/calcite-components/members). Then, clone the repo via SSH key on your machine (this Git workflow is required in order to work with our Screener test integration).
+
 ### I want to contribute, what should I work on?
 
 Calcite Components is still in its early stages. You can help most by:
@@ -27,7 +29,17 @@ If something isn't working the way you expected, please take a look at [previous
 
 ### Getting a development environment set up
 
-You don't _have to_ but we recommend installing TypeScript, TSLint, TailwindCSS, Prettier and EditorConfig extensions for your editor of choice.
+It is recommended to install the following extensions to your editor of choice: TypeScript, Sass, TailwindCSS, ESLint, TSLint and Prettier.
+
+#### Linting
+
+To ensure code consistency, this project is set up to automatically lint and fix issues when committing code.
+
+### Commit message format
+
+This project follows [conventional commits](https://www.conventionalcommits.org/) to provide a readable commit history and to also help with automation.
+
+[Stencil's contributing document](https://github.com/ionic-team/stencil/blob/master/.github/CONTRIBUTING.md#commit-message-format) explains this in great detail, so please refer to this for more details and examples.
 
 #### VS Code
 

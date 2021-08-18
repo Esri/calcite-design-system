@@ -15,41 +15,50 @@
 }
 
 .label {
-	@apply bg-transparent flex flex-auto items-center cursor-pointer focus-base;
-	&:focus {
-		@apply focus-inset;
-	}
-	&:hover {
-		@apply bg-foreground-2;
-	}
+  @apply bg-transparent flex flex-auto items-center cursor-pointer focus-base;
+  &:focus {
+    @apply focus-inset;
+  }
+  &:hover {
+    @apply bg-foreground-2;
+  }
+}
+
+:host([non-interactive]:hover) {
+  @apply bg-foreground-1;
+}
+
+:host([non-interactive]) .label,
+:host([non-interactive]) .icon {
+  @apply pointer-events-none;
 }
 
 .icon {
-	@apply items-center flex my-0 p-1 cursor-pointer;
-	color: theme("colors.brand");
-	flex: 0 0 auto;
-	line-height: 0;
-	&:hover {
-		@apply bg-foreground-2;
-	}
+  @apply items-center flex my-0 p-1 cursor-pointer;
+  color: theme("colors.brand");
+  flex: 0 0 auto;
+  line-height: 0;
+  &:hover {
+    @apply bg-foreground-2;
+  }
 }
 
 .icon-dot {
-	@apply items-center flex w-6 p-2;
-	&:before {
-		@apply opacity-0;
-		content: "\2022";
-	}
+  @apply items-center flex w-6 p-2;
+  &:before {
+    @apply opacity-0;
+    content: "\2022";
+  }
 }
 
 .icon calcite-icon {
-	@apply opacity-0;
+  @apply opacity-0;
 }
 
 :host([selected]) .icon-dot:before,
 :host([selected]) .icon calcite-icon {
-	transition: opacity $transition;
-	@apply opacity-100;
+  transition: opacity $transition;
+  @apply opacity-100;
 }
 
 .text-container {
@@ -72,7 +81,7 @@
 }
 
 .actions {
-	@apply items-stretch flex justify-end m-0 flex-initial;
+  @apply items-stretch flex justify-end m-0 flex-initial;
 }
 
 .actions--start ~ .label {

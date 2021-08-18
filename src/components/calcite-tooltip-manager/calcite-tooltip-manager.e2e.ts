@@ -4,7 +4,7 @@ import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 
 describe("calcite-tooltip-manager", () => {
-  it("renders", async () => renders(`<calcite-tooltip-manager></calcite-tooltip-manager>`));
+  it("renders", async () => renders(`<calcite-tooltip-manager></calcite-tooltip-manager>`, { display: "block" }));
 
   it("is accessible", async () =>
     accessible(

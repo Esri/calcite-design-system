@@ -1,3 +1,7 @@
+:host {
+  @apply flex flex-col;
+}
+
 :host([disabled]) {
   @apply pointer-events-none cursor-default;
 }
@@ -6,10 +10,14 @@
   @apply bg-foreground-1
   box-border
   font-sans
-  flex;
+  flex flex-1;
   * {
     @apply box-border;
   }
+}
+
+.nested-container {
+  @apply flex flex-col bg-foreground-1;
 }
 
 .content-container {
@@ -46,7 +54,8 @@
     flex
     flex-auto
     flex-col
-    p-3;
+    px-3
+    py-2;
 }
 
 .label,
@@ -59,7 +68,7 @@
 }
 
 .description {
-  @apply text-color-3;
+  @apply text-color-3 mt-0.5;
 }
 
 .content-start,
@@ -88,4 +97,9 @@
 
     color: inherit;
   }
+}
+
+::slotted(calcite-list-item-group),
+::slotted(calcite-list-item) {
+  @apply pl-2;
 }
