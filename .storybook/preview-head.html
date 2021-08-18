@@ -36,14 +36,19 @@
 </style>
 
 <script>
-  window.addEventListener("load", () => {
-    document.addEventListener("keydown", (event) => {
-      const bubbledFromComponentStory = event.composedPath()
-        .some((element) => element.tagName?.toLowerCase().startsWith("calcite-"));
+  window.addEventListener(
+    "load",
+    () => {
+      document.addEventListener("keydown", (event) => {
+        const bubbledFromComponentStory = event
+          .composedPath()
+          .some((element) => element.tagName?.toLowerCase().startsWith("calcite-"));
 
-      if (bubbledFromComponentStory) {
-        event.stopPropagation();
-      }
-    });
-  }, { once: true });
+        if (bubbledFromComponentStory) {
+          event.stopPropagation();
+        }
+      });
+    },
+    { once: true }
+  );
 </script>

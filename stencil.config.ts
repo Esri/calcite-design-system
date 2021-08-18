@@ -1,6 +1,7 @@
 import { Config } from "@stencil/core";
 import { postcss } from "@stencil/postcss";
 import { sass } from "@stencil/sass";
+import babel from "@rollup/plugin-babel";
 import autoprefixer from "autoprefixer";
 import tailwind from "tailwindcss";
 import { generatePreactTypes } from "./support/preact";
@@ -100,6 +101,14 @@ export const create: () => Config = () => ({
       plugins: [tailwind(), autoprefixer()]
     })
   ],
+  rollupPlugins: {
+    after: [
+      babel({
+        include: [/\/color\//],
+        plugins: ["@babel/plugin-proposal-numeric-separator"]
+      })
+    ]
+  },
   testing: {
     moduleNameMapper: {
       "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.ts"

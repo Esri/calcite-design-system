@@ -86,12 +86,12 @@ export class CalciteInputDatePicker {
   }
 
   /** Localized string for "previous month" (used for aria label)
-   * @default "previous month"
+   * @default "Previous month"
    */
   @Prop() intlPrevMonth?: string = TEXT.prevMonth;
 
   /** Localized string for "next month" (used for aria label)
-   * @default "next month"
+   * @default "Next month"
    */
   @Prop() intlNextMonth?: string = TEXT.nextMonth;
 
@@ -521,11 +521,19 @@ export class CalciteInputDatePicker {
           changed = !this.startAsDate || !sameDate(date, this.startAsDate);
           if (changed) {
             this.startAsDate = date;
+            this.calciteDatePickerRangeChange.emit({
+              startDate: date,
+              endDate: this.endAsDate
+            });
           }
         } else if (this.focusedInput === "end") {
           changed = !this.endAsDate || !sameDate(date, this.endAsDate);
           if (changed) {
             this.endAsDate = date;
+            this.calciteDatePickerRangeChange.emit({
+              startDate: this.startAsDate,
+              endDate: date
+            });
           }
         }
       }
