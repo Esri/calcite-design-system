@@ -1,7 +1,8 @@
 import { select, number, text } from "@storybook/addon-knobs";
-import { boolean } from "../../../.storybook/helpers";
-import { ATTRIBUTES } from "../../../.storybook/resources";
+import { boolean, stepStory, themeToggleScript } from "../../../.storybook/helpers";
 import readme from "./readme.md";
+import { Steps } from "screener-storybook/src/screener";
+import { html } from "../../tests/utils";
 
 const placements = [
   "auto",
@@ -56,70 +57,33 @@ export default {
   }
 };
 
-export const Simple = (): string => {
-  return `
-      <div>
-        ${referenceElementHTML}
-        <calcite-popover
-        class="calcite-theme-light"
-          ${boolean("dismissible", false)}
-          ${boolean("disable-flip", false)}
-          ${boolean("disable-pointer", false)}
-          reference-element="reference-element"
-          placement="${select("placement", calcite_placements, "auto")}"
-          offset-distance="${number("offset-distance", 6)}"
-          offset-skidding="${number("offset-skidding", 0)}"
-          ${boolean("open", true)}
-          text-close="${text("text-close", "Close")}"
-        >
-          ${contentHTML}
-        </calcite-popover>
-      </div>
-    `;
-};
-
-export const RTL = (): string => {
-  const { theme } = ATTRIBUTES;
-
-  return `
-      <div dir="rtl">
-        ${referenceElementHTML}
-        <calcite-popover
-          class="${select("class", theme.values, theme.defaultValue)}"
-          ${boolean("dismissible", false)}
-          ${boolean("disable-flip", false)}
-          ${boolean("disable-pointer", false)}
-          reference-element="reference-element"
-          placement="${select("placement", calcite_placements, "auto")}"
-          offset-distance="${number("offset-distance", 6)}"
-          offset-skidding="${number("offset-skidding", 0)}"
-          ${boolean("open", true)}
-          text-close="${text("text-close", "Close")}"
-        >
-          ${contentHTML}
-        </calcite-popover>
-      </div>
-    `;
-};
-
-export const DarkMode = (): string => {
-  return `
-      <div>
-        ${referenceElementHTML}
-        <calcite-popover
-        class="calcite-theme-dark"
-          ${boolean("dismissible", false)}
-          ${boolean("disable-flip", false)}
-          ${boolean("disable-pointer", false)}
-          reference-element="reference-element"
-          placement="${select("placement", calcite_placements, "auto")}"
-          offset-distance="${number("offset-distance", 6)}"
-          offset-skidding="${number("offset-skidding", 0)}"
-          ${boolean("open", true)}
-          text-close="${text("text-close", "Close")}"
-        >
-          ${contentHTML}
-        </calcite-popover>
-      </div>
-    `;
-};
+export const Simple = stepStory(
+  (): string => html`
+    <div style="width: 400px;">
+      ${referenceElementHTML}
+      <calcite-popover
+        ${boolean("dismissible", false)}
+        ${boolean("disable-flip", false)}
+        ${boolean("disable-pointer", false)}
+        reference-element="reference-element"
+        placement="${select("placement", calcite_placements, "auto")}"
+        offset-distance="${number("offset-distance", 6)}"
+        offset-skidding="${number("offset-skidding", 0)}"
+        ${boolean("open", true)}
+        text-close="${text("text-close", "Close")}"
+      >
+        ${contentHTML}
+      </calcite-popover>
+    </div>
+  `,
+  new Steps()
+    .wait("calcite-popover[data-popper-placement]")
+    .snapshot("Simple")
+    .executeScript('window.location.href = "?path=/story/components-popover--simple&knob-dismissible=true"')
+    .snapshot("Simple: dismissible")
+    .rtl()
+    .snapshot("Simple: Rtl")
+    .ltr()
+    .executeScript(themeToggleScript)
+    .snapshot("Simple: Dark theme")
+);
