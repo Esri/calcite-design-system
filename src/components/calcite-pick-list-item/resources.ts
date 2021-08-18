@@ -25,5 +25,5 @@ export const SLOTS = {
 };
 
 export const TEXT = {
-  remove: "remove"
+  remove: "Remove"
 };
