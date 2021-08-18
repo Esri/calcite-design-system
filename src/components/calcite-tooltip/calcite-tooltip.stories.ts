@@ -63,10 +63,10 @@ export const Simple = stepStory(
   new Steps()
     .wait(calciteHydratedSelector)
     .wait(popperTimeoutMS)
-    .snapshot("Simple")
+    .snapshot("Default")
     .rtl()
-    .snapshot("Simple: Rtl")
+    .snapshot("Rtl")
     .ltr()
     .executeScript(themeToggleScript)
-    .snapshot("Simple: Dark theme")
+    .snapshot("Dark theme")
 );
