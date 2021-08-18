@@ -22,6 +22,10 @@ export interface Story {
   decorators?: ((Story: Story) => DocumentFragment)[];
 }
 
+export const popperTimeoutMS = 250;
+
+export const calciteHydratedSelector = "[calcite-hydrated]";
+
 export const themeToggleScript = `document.body.classList.toggle('${CSS_UTILITY.darkTheme}');`;
 
 export const stepStory = (story: Story, steps: Steps): Story => {

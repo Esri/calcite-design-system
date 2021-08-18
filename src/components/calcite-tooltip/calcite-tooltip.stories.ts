@@ -1,8 +1,14 @@
 import { select, number } from "@storybook/addon-knobs";
-import { boolean, stepStory, themeToggleScript } from "../../../.storybook/helpers";
 import readme from "./readme.md";
-import { Steps } from "screener-storybook/src/screener";
 import { html } from "../../tests/utils";
+import {
+  boolean,
+  stepStory,
+  themeToggleScript,
+  calciteHydratedSelector,
+  popperTimeoutMS
+} from "../../../.storybook/helpers";
+import { Steps } from "screener-storybook/src/screener";
 
 const placements = [
   "auto",
@@ -55,8 +61,8 @@ export const Simple = stepStory(
     </div>
   `,
   new Steps()
-    .wait("calcite-tooltip[data-popper-placement]")
-    .wait(200)
+    .wait(calciteHydratedSelector)
+    .wait(popperTimeoutMS)
     .snapshot("Simple")
     .rtl()
     .snapshot("Simple: Rtl")
