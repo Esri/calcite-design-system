@@ -149,9 +149,5 @@
     "workbox-build": "6.2.4",
     "yargs": "17.1.1"
   },
-  "license": "SEE LICENSE IN copyright.txt",
-  "lint-staged": {
-    "*.js": "eslint --cache --fix",
-    "*.css": "stylelint --fix"
-  }
+  "license": "SEE LICENSE IN copyright.txt"
 }
