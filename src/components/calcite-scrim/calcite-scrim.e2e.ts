@@ -39,7 +39,7 @@ describe("calcite-scrim", () => {
     expect(loader).toBeDefined();
   });
 
-  it("does not render conent if the default slot if it is empty", async () => {
+  it("does not render content if the default slot if it is empty", async () => {
     const page = await newE2EPage();
 
     await page.setContent(`<calcite-scrim></calcite-scrim>`);
