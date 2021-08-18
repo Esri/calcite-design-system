@@ -40,7 +40,7 @@ const calcite_placements = placements.concat([
 ]);
 
 const contentHTML = `
-<div style="padding:12px 16px">
+<div style="width: 300px; padding:12px 16px;">
   <b>I am a title!</b> <br>
   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
   <calcite-link>I am an inline link</calcite-link>
