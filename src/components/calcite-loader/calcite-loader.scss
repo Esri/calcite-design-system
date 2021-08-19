@@ -50,7 +50,10 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 }
 
 .loader__text {
-  @apply block text-center;
+  @apply block
+  text--2h
+  text-center
+  text-color-1;
   margin-top: calc(var(--calcite-loader-size) + theme("spacing.6"));
 }
 
