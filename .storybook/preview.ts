@@ -16,6 +16,7 @@ addParameters({
     options: {},
     manual: false
   },
+  themes: themesLightDefault,
   docs: {
     extractComponentDescription: (_component, { notes }) => {
       if (notes) {
@@ -37,6 +38,5 @@ addParameters({
     storySort: {
       order: ["Overview", "Components", "App Components"]
     }
-  },
-  themes: themesLightDefault
+  }
 });
