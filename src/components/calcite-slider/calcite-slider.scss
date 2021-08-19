@@ -20,7 +20,7 @@ $tick-height: 4px;
 .container {
   display: block;
   padding: $handle-size / 2 0;
-  margin: $handle-size / 2 0;
+  margin: $handle-size / 2 theme("margin.2");
   position: relative;
 }
 
