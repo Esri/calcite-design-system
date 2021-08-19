@@ -1,6 +1,6 @@
 import { addParameters, addDecorator } from "@storybook/html";
 import { themesLightDefault, globalDocsPage, parseReadme } from "./utils";
-import { withThemes } from "storybook-addon-themes";
+import { withThemes } from "storybook-addon-themes/html";
 import { withDirection } from "storybook-rtl-addon";
 
 declare global {
