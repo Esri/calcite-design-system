@@ -3,7 +3,8 @@ import {
   Attribute,
   filterComponentAttributes,
   Attributes,
-  createComponentHTML as create
+  createComponentHTML as create,
+  themesDarkDefault
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../tests/utils";
@@ -126,3 +127,7 @@ export const darkThemeRTL = (): string =>
       </calcite-value-list-item>
     `
   );
+
+darkThemeRTL.story = {
+  parameters: { themes: themesDarkDefault }
+};

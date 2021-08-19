@@ -3,7 +3,8 @@ import {
   Attributes,
   createComponentHTML as create,
   Attribute,
-  filterComponentAttributes
+  filterComponentAttributes,
+  themesDarkDefault
 } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import readme from "./readme.md";
@@ -130,3 +131,7 @@ export const darkThemeRTL = (): string =>
     ]),
     panelContent
   );
+
+darkThemeRTL.story = {
+  parameters: { themes: themesDarkDefault }
+};

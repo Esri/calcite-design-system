@@ -12,7 +12,6 @@ import { html } from "../../tests/utils";
 export default {
   title: "Components/Pick List",
   parameters: {
-    parameters: { themes: themesDarkDefault },
     notes: readme
   }
 };
@@ -114,6 +113,10 @@ export const darkThemeRTL = (): string =>
       <calcite-pick-list-item label="hi" description="there" value="helloWorld"> ${action} </calcite-pick-list-item>
     `
   );
+
+darkThemeRTL.story = {
+  parameters: { themes: themesDarkDefault }
+};
 
 export const grouped = (): string =>
   create(

@@ -120,7 +120,7 @@ export const NestedItems = (): string => html`
 `;
 
 export const DarkTheme = (): string => html`
-  <div style="width:400px;max-width:100%;background-color:white;padding:100px">
+  <div style="width:400px;max-width:100%;padding:100px">
     <calcite-combobox
       label="demo combobox"
       selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"

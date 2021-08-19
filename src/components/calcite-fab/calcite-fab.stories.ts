@@ -3,7 +3,8 @@ import {
   Attribute,
   Attributes,
   createComponentHTML as create,
-  filterComponentAttributes
+  filterComponentAttributes,
+  themesDarkDefault
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -104,3 +105,7 @@ export const darkThemeRTL = (): string =>
       }
     ])
   );
+
+darkThemeRTL.story = {
+  parameters: { themes: themesDarkDefault }
+};
