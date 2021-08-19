@@ -135,12 +135,12 @@
       <!-- scrim with content in default slot-->
       <div class="child">
         Determinate loader in default slot<br />(Scrim hiding is scripted.)
-        <div style="margin: 1rem 0">
-          <calcite-button id="replay-m" appearance="outline" icon-start="refresh" scale="m"
-            >Replay loader</calcite-button
-          >
-        </div>
         <div tabindex="0" style="position: relative; width: 400px; height: 400px; padding: 25px">
+          <div style="margin: 1rem 0">
+            <calcite-button id="replay-m" appearance="outline" width="full" icon-start="refresh" scale="m"
+              >Replay loader</calcite-button
+            >
+          </div>
           <calcite-scrim id="scrim-determinate">
             <calcite-loader
               label="loading"
@@ -152,6 +152,7 @@
               scale="m"
             >
             </calcite-loader>
+            <calcite-button width="full" icon-start="x" id="cancel-load">Cancel</calcite-button>
           </calcite-scrim>
           <div style="width: 400px; height: 400px; overflow: auto">
             <p>
@@ -236,6 +237,11 @@
           determinateLoaderMedium.value = 0;
           scrim.removeAttribute("hidden");
           updateLoader();
+        });
+
+        document.querySelector("#cancel-load").addEventListener("click", function () {
+          cancelAnimationFrame(updateLoader);
+          scrim.setAttribute("hidden", "true");
         });
       })();
     </script>

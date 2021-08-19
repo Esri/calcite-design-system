@@ -39,6 +39,41 @@ describe("calcite-scrim", () => {
     expect(loader).toBeDefined();
   });
 
+  it("does not allow clicks in underlying nodes", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(`
+      <calcite-panel>
+        <calcite-button>Test</calcite-button>
+        <calcite-scrim></calcite-scrim>
+      </calcite-panel>
+    `);
+
+    const button = await page.find(`calcite-button`);
+
+    const clickSpy = await button.spyOnEvent("click");
+
+    expect(clickSpy).toHaveReceivedEventTimes(0);
+  });
+
+  it("does allow clickss inside default node", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(`
+      <calcite-scrim>
+        <calcite-button>Test</calcite-button>
+      </calcite-scrim>
+    `);
+
+    const button = await page.find(`calcite-button`);
+
+    const clickSpy = await button.spyOnEvent("click");
+
+    await button.click();
+
+    expect(clickSpy).toHaveReceivedEventTimes(1);
+  });
+
   it("does not render content if the default slot if it is empty", async () => {
     const page = await newE2EPage();
 
