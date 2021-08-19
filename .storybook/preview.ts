@@ -1,6 +1,4 @@
-import { addParameters, addDecorator } from "@storybook/html";
 import { themesLightDefault, globalDocsPage, parseReadme } from "./utils";
-import { withThemes } from "storybook-addon-themes/html";
 import { withDirection } from "storybook-rtl-addon";
 
 declare global {
@@ -9,9 +7,8 @@ declare global {
   }
 }
 
-addDecorator(withDirection);
-addDecorator(withThemes);
-addParameters({
+export const decorators = [withDirection];
+export const parameters = {
   a11y: {
     element: "#root",
     config: {},
@@ -41,4 +38,4 @@ addParameters({
       order: ["Overview", "Components", "App Components"]
     }
   }
-});
+};
