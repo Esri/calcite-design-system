@@ -244,12 +244,12 @@ export class CalciteTabTitle {
   /**
    * @internal
    */
-  @Event() calciteTabsFocusNext: EventEmitter;
+  @Event() calciteTabsFocusNext: EventEmitter<void>;
 
   /**
    * @internal
    */
-  @Event() calciteTabsFocusPrevious: EventEmitter;
+  @Event() calciteTabsFocusPrevious: EventEmitter<void>;
 
   /**
    * @internal

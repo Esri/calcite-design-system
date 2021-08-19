@@ -48,7 +48,9 @@ export class CalciteAccordion {
   /**
    * @internal
    */
-  @Event() calciteAccordionChange: EventEmitter;
+  @Event() calciteAccordionChange: EventEmitter<{
+    requestedAccordionItem: HTMLCalciteAccordionItemElement;
+  }>;
 
   //--------------------------------------------------------------------------
   //

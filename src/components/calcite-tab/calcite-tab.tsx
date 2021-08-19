@@ -99,7 +99,7 @@ export class CalciteTab {
   /**
    * @internal
    */
-  @Event() calciteTabRegister: EventEmitter;
+  @Event() calciteTabRegister: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //

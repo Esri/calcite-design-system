@@ -59,10 +59,10 @@ export class CalciteSplitButton {
   @Prop({ reflect: true }) width: Width = "auto";
 
   /** fired when the primary button is clicked */
-  @Event() calciteSplitButtonPrimaryClick: EventEmitter;
+  @Event() calciteSplitButtonPrimaryClick: EventEmitter<MouseEvent>;
 
   /** fired when the secondary button is clicked */
-  @Event() calciteSplitButtonSecondaryClick: EventEmitter;
+  @Event() calciteSplitButtonSecondaryClick: EventEmitter<MouseEvent>;
 
   render(): VNode {
     const dir = getElementDir(this.el);

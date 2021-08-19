@@ -141,7 +141,7 @@ export class CalciteTipManager {
   /**
    * Emitted when the `calcite-tip-manager` has been toggled open or closed.
    */
-  @Event() calciteTipManagerToggle: EventEmitter;
+  @Event() calciteTipManagerToggle: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //

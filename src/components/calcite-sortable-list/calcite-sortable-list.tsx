@@ -98,7 +98,7 @@ export class CalciteSortableList {
   /**
    * Emitted when the order of the list has changed.
    */
-  @Event() calciteListOrderChange: EventEmitter;
+  @Event() calciteListOrderChange: EventEmitter<void>;
 
   @Listen("calciteHandleNudge")
   calciteHandleNudgeHandler(event: CustomEvent): void {

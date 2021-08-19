@@ -190,19 +190,19 @@ export class CalciteCombobox {
   }>;
 
   /** Called when a selected item in the combobox is dismissed via its chip **/
-  @Event() calciteComboboxChipDismiss: EventEmitter;
+  @Event() calciteComboboxChipDismiss: EventEmitter<HTMLCalciteChipElement>;
 
   /**
    * Fired when the combobox is opened
    * @internal
    */
-  @Event() calciteComboboxOpen: EventEmitter;
+  @Event() calciteComboboxOpen: EventEmitter<void>;
 
   /**
    *  Fired when the combobox is closed
    * @internal
    */
-  @Event() calciteComboboxClose: EventEmitter;
+  @Event() calciteComboboxClose: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //

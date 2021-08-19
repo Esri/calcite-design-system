@@ -107,7 +107,7 @@ export class CalciteActionMenu {
   /**
    * Emitted when the open property has changed.
    */
-  @Event() calciteActionMenuOpenChange: EventEmitter;
+  @Event() calciteActionMenuOpenChange: EventEmitter<boolean>;
 
   @Listen("click", { target: "window" })
   closeCalciteActionMenuOnClick(event: Event): void {

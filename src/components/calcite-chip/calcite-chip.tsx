@@ -69,7 +69,7 @@ export class CalciteChip {
   // --------------------------------------------------------------------------
 
   /** Emitted when the dismiss button is clicked */
-  @Event() calciteChipDismiss: EventEmitter;
+  @Event() calciteChipDismiss: EventEmitter<HTMLCalciteChipElement>;
 
   // --------------------------------------------------------------------------
   //

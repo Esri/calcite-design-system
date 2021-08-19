@@ -178,24 +178,30 @@ export class CalciteAlert {
   //--------------------------------------------------------------------------
 
   /** Fired when an alert is closed */
-  @Event() calciteAlertClose: EventEmitter;
+  @Event() calciteAlertClose: EventEmitter<{
+    el: HTMLCalciteAlertElement;
+    queue: HTMLCalciteAlertElement[];
+  }>;
 
   /** Fired when an alert is opened */
-  @Event() calciteAlertOpen: EventEmitter;
+  @Event() calciteAlertOpen: EventEmitter<{
+    el: HTMLCalciteAlertElement;
+    queue: HTMLCalciteAlertElement[];
+  }>;
 
   /**
    * Fired to sync queue when opened or closed
    *
    * @internal
    */
-  @Event() calciteAlertSync: EventEmitter;
+  @Event() calciteAlertSync: EventEmitter<{ queue: HTMLCalciteAlertElement[] }>;
 
   /**
    * Fired when an alert is added to dom - used to receive initial queue
    *
    * @internal
    */
-  @Event() calciteAlertRegister: EventEmitter;
+  @Event() calciteAlertRegister: EventEmitter<void>;
 
   // when an alert is opened or closed, update queue and determine active alert
   @Listen("calciteAlertSync", { target: "window" })

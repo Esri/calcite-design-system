@@ -70,7 +70,7 @@ export class CalciteExample {
   // --------------------------------------------------------------------------
 
   @Event()
-  calciteExampleEvent: EventEmitter;
+  calciteExampleEvent: EventEmitter<string>;
 
   // --------------------------------------------------------------------------
   //

@@ -153,12 +153,12 @@ export class CalciteInputDatePicker {
   /**
    * @internal
    */
-  @Event() calciteInputDatePickerOpen: EventEmitter;
+  @Event() calciteInputDatePickerOpen: EventEmitter<void>;
 
   /**
    * @internal
    */
-  @Event() calciteInputDatePickerClose: EventEmitter;
+  @Event() calciteInputDatePickerClose: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //

@@ -138,8 +138,7 @@ export class CalciteRadioGroupItem {
    * Fires when the item has been selected.
    * @internal
    */
-  @Event()
-  calciteRadioGroupItemChange: EventEmitter;
+  @Event() calciteRadioGroupItemChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //

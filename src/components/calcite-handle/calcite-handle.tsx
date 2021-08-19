@@ -42,7 +42,10 @@ export class CalciteHandle {
   /**
    * Emitted when the the handle is activated and the up or down arrow key is pressed.
    */
-  @Event() calciteHandleNudge: EventEmitter;
+  @Event() calciteHandleNudge: EventEmitter<{
+    handle: HTMLCalciteHandleElement;
+    direction: string;
+  }>;
 
   // --------------------------------------------------------------------------
   //

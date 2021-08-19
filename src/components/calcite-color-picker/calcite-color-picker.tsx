@@ -331,14 +331,14 @@ export class CalciteColorPicker {
   /**
    * Fires when the color value has changed.
    */
-  @Event() calciteColorPickerChange: EventEmitter;
+  @Event() calciteColorPickerChange: EventEmitter<void>;
 
   /**
    * Fires as the color value changes.
    *
    * This is similar to the change event with the exception of dragging. When dragging the color field or hue slider thumb, this event fires as the thumb is moved.
    */
-  @Event() calciteColorPickerInput: EventEmitter;
+  @Event() calciteColorPickerInput: EventEmitter<void>;
 
   private handleTabActivate = (event: Event): void => {
     this.channelMode = (event.currentTarget as HTMLElement).getAttribute(

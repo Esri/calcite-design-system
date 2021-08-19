@@ -757,7 +757,7 @@ export class CalciteSlider {
    * expensive operations consider using a debounce or throttle to avoid
    * locking up the main thread.
    */
-  @Event() calciteSliderChange: EventEmitter;
+  @Event() calciteSliderChange: EventEmitter<void>;
 
   /**
    * Fires on all updates to the slider.
@@ -766,7 +766,7 @@ export class CalciteSlider {
    * locking up the main thread.
    * @deprecated use calciteSliderChange instead
    */
-  @Event() calciteSliderUpdate: EventEmitter;
+  @Event() calciteSliderUpdate: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
