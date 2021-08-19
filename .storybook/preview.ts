@@ -7,7 +7,22 @@ declare global {
   }
 }
 
-export const decorators = [withDirection];
+const themeBodyClassDecorator = (Story: () => any, context: any) => {
+  const themes = context.parameters.themes;
+  const list = themes?.list;
+
+  if (!list) {
+    return;
+  }
+
+  list.forEach((theme: { class: string; name: string }) => {
+    document.body.classList.toggle(theme.class, theme.name === themes.default);
+  });
+
+  return Story();
+};
+
+export const decorators = [withDirection, themeBodyClassDecorator];
 export const parameters = {
   a11y: {
     element: "#root",
