@@ -3,8 +3,7 @@ import {
   Attribute,
   filterComponentAttributes,
   Attributes,
-  createComponentHTML as create,
-  darkBackground
+  createComponentHTML as create
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -12,13 +11,12 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 export default {
   title: "Components/Buttons/Action",
   parameters: {
-    backgrounds: darkBackground,
     notes: readme
   }
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
-  const { appearance, dir, scale, theme } = ATTRIBUTES;
+  const { appearance, scale } = ATTRIBUTES;
 
   return filterComponentAttributes(
     [
@@ -38,14 +36,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           return this;
         }
       },
-      {
-        name: "dir",
-        commit(): Attribute {
-          this.value = select("dir", dir.values, dir.defaultValue);
-          delete this.build;
-          return this;
-        }
-      },
+
       {
         name: "disabled",
         commit(): Attribute {
@@ -106,14 +97,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         name: "text-enabled",
         commit(): Attribute {
           this.value = boolean("textEnabled", true);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "class",
-        commit(): Attribute {
-          this.value = select("class", theme.values, theme.defaultValue);
           delete this.build;
           return this;
         }

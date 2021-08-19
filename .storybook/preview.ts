@@ -1,11 +1,14 @@
-import { addParameters } from "@storybook/html";
-import { backgrounds, globalDocsPage, parseReadme } from "./utils";
+import { addParameters, addDecorator } from "@storybook/html";
+import { themesLightDefault, globalDocsPage, parseReadme } from "./utils";
+import { withDirection } from "storybook-rtl-addon";
+
 declare global {
   interface Window {
     __screener_storybook__: any;
   }
 }
 
+addDecorator(withDirection);
 addParameters({
   a11y: {
     element: "#root",
@@ -13,7 +16,6 @@ addParameters({
     options: {},
     manual: false
   },
-  backgrounds,
   docs: {
     extractComponentDescription: (_component, { notes }) => {
       if (notes) {
@@ -35,5 +37,6 @@ addParameters({
     storySort: {
       order: ["Overview", "Components", "App Components"]
     }
-  }
+  },
+  themes: themesLightDefault
 });

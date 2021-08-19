@@ -14,19 +14,20 @@ import {
   select,
   text
 } from "@storybook/addon-knobs";
+import { CSS_UTILITY } from "../src/utils/resources";
 
 import { colors } from "../node_modules/@esri/calcite-colors/dist/colors";
 import { Description, DocsPage } from "@storybook/addon-docs/blocks";
 import React from "react";
 
+const autoValue = {
+  name: "Auto",
+  value: colors["blk-200"]
+};
+
 const lightValue = {
   name: "Light",
   value: colors["blk-005"]
-};
-
-const foregroundValue = {
-  name: "Foreground",
-  value: colors["blk-000"]
 };
 
 const darkValue = {
@@ -34,24 +35,32 @@ const darkValue = {
   value: colors["blk-210"]
 };
 
-const foregroundDarkValue = {
-  name: "Foreground Dark",
-  value: colors["blk-200"]
-};
+const themes = [
+  {
+    name: lightValue.name,
+    class: CSS_UTILITY.lightTheme,
+    color: lightValue.value
+  },
+  {
+    name: darkValue.name,
+    class: CSS_UTILITY.darkTheme,
+    color: darkValue.value
+  },
+  {
+    name: autoValue.name,
+    class: CSS_UTILITY.autoTheme,
+    color: autoValue.value
+  }
+];
 
-export const backgrounds = {
+export const themesLightDefault = {
   default: lightValue.name,
-  values: [lightValue, foregroundValue, darkValue, foregroundDarkValue]
+  list: themes
 };
 
-export const lightBackground = {
-  default: lightValue.name,
-  values: [lightValue]
-};
-
-export const darkBackground = {
+export const themesDarkDefault = {
   default: darkValue.name,
-  values: [darkValue]
+  list: themes
 };
 
 /**

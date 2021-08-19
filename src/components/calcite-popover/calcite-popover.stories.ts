@@ -61,7 +61,6 @@ export const Simple = (): string => {
       <div>
         ${referenceElementHTML}
         <calcite-popover
-        class="calcite-theme-light"
           ${boolean("dismissible", false)}
           ${boolean("disable-flip", false)}
           ${boolean("disable-pointer", false)}

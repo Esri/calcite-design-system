@@ -1,6 +1,6 @@
 import { select, text, number } from "@storybook/addon-knobs";
 import { boolean, iconNames } from "../../../.storybook/helpers";
-import { darkBackground } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../tests/utils";
 
@@ -217,7 +217,7 @@ export const SimpleDarkMode = (): string => html`
 
 SimpleDarkMode.story = {
   name: "Simple - Dark mode",
-  parameters: { backgrounds: darkBackground }
+  parameters: { themes: themesDarkDefault }
 };
 
 export const WithLabelAndInputMessageRTL = (): string => html`

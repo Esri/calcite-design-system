@@ -1,27 +1,22 @@
-import { boolean, select, text } from "@storybook/addon-knobs";
+import { boolean, text } from "@storybook/addon-knobs";
 import {
   Attribute,
   filterComponentAttributes,
   Attributes,
-  createComponentHTML as create,
-  darkBackground
+  createComponentHTML as create
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { TEXT } from "./resources";
-import { ATTRIBUTES } from "../../../.storybook/resources";
 import { html, placeholderImage } from "../../tests/utils";
 
 export default {
   title: "Components/Tips/Tip Manager",
   parameters: {
-    backgrounds: darkBackground,
     notes: readme
   }
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
-  const { dir, theme } = ATTRIBUTES;
-
   return filterComponentAttributes(
     [
       {
@@ -32,14 +27,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           return this;
         }
       },
-      {
-        name: "dir",
-        commit(): Attribute {
-          this.value = select("dir", dir.values, dir.defaultValue);
-          delete this.build;
-          return this;
-        }
-      },
+
       {
         name: "intl-close",
         commit(): Attribute {
@@ -76,14 +64,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         name: "intl-previous",
         commit(): Attribute {
           this.value = text("intlPrevious", TEXT.previous);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "class",
-        commit(): Attribute {
-          this.value = select("class", theme.values, theme.defaultValue);
           delete this.build;
           return this;
         }

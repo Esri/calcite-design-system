@@ -42,7 +42,6 @@ export const Simple = (): string => {
       <div>
         ${referenceElementHTML}
         <calcite-tooltip
-        class="calcite-theme-light"
           reference-element="reference-element"
           placement="${select("placement", calcite_placements, "auto")}"
           offset-distance="${number("offset-distance", 6)}"

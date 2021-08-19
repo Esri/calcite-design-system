@@ -3,18 +3,16 @@ import {
   Attribute,
   Attributes,
   createComponentHTML as create,
-  darkBackground,
   filterComponentAttributes
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { ICONS } from "./resources";
-const { appearance, dir, scale, theme } = ATTRIBUTES;
+const { scale } = ATTRIBUTES;
 
 export default {
   title: "Components/Buttons/FAB",
   parameters: {
-    backgrounds: darkBackground,
     notes: readme
   }
 };
@@ -26,14 +24,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         name: "appearance",
         commit(): Attribute {
           this.value = select("appearance", ["solid", "outline"], "outline");
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "dir",
-        commit(): Attribute {
-          this.value = select("dir", dir.values, dir.defaultValue);
           delete this.build;
           return this;
         }
@@ -90,14 +80,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         name: "scale",
         commit(): Attribute {
           this.value = select("scale", scale.values, scale.defaultValue);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "class",
-        commit(): Attribute {
-          this.value = select("class", theme.values, theme.defaultValue);
           delete this.build;
           return this;
         }

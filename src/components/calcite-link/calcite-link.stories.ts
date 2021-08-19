@@ -1,6 +1,6 @@
 import { text, select } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
-import { darkBackground } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import * as icons from "../../../node_modules/@esri/calcite-ui-icons";
 import readme from "./readme.md";
 import { html } from "../../tests/utils";
@@ -125,7 +125,7 @@ export const DarkMode = (): string => html`
 
 DarkMode.story = {
   name: "Dark mode",
-  parameters: { backgrounds: darkBackground }
+  parameters: { themes: themesDarkDefault }
 };
 
 export const WithIconStartAndIconEndRTL = (): string => html`
