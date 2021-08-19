@@ -34,6 +34,7 @@ export const Inline = (): string => html`
 
 export const DarkMode = (): string => html`
   <calcite-loader
+    class="calcite-theme-dark"
     type="${select("type", ["determinate", "indeterminate"], "indeterminate")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     ${boolean("no-padding", false)}

@@ -1,6 +1,7 @@
 import { select, number } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
+import { themesDarkDefault } from "../../../.storybook/utils";
 
 const placements = [
   "auto",
@@ -87,4 +88,8 @@ export const DarkMode = (): string => {
         </calcite-tooltip>
       </div>
     `;
+};
+
+DarkMode.story = {
+  parameters: { themes: themesDarkDefault }
 };

@@ -25,6 +25,7 @@ export const Simple = (): string => html`
 
 export const DarkMode = (): string => html`
   <calcite-pagination
+    class="calcite-theme-dark"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     start="${number("start", 1)}"
     total="${number("total", 128)}"

@@ -109,6 +109,7 @@ WithIconStartAndIconEnd.story = {
 
 export const DarkMode = (): string => html`
   <div
+    class="calcite-theme-dark"
     style="color: white; font-size: ${select(
       "containing font size",
       ["12", "14", "16", "18", "20", "24", "32"],

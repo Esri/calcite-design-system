@@ -2,7 +2,8 @@ import {
   Attribute,
   Attributes,
   filterComponentAttributes,
-  createComponentHTML as create
+  createComponentHTML as create,
+  themesDarkDefault
 } from "../../../.storybook/utils";
 import { html } from "../../tests/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -201,6 +202,10 @@ export const darkThemeIcon = (): string =>
       )}
     `
   );
+
+darkThemeIcon.story = {
+  parameters: { themes: themesDarkDefault }
+};
 
 export const RTL = (): string =>
   create(

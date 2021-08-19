@@ -85,7 +85,7 @@ WrappingComponentsOtherThanInput.story = {
 };
 
 export const DarkTheme = (): string => html`
-  <div style="width:300px;max-width:100%;text-align:center;">
+  <div style="width:300px;max-width:100%;text-align:center;" class="calcite-theme-dark">
     <calcite-label class="calcite-theme-dark">
       Default label wrapping a switch
       <calcite-switch></calcite-switch>

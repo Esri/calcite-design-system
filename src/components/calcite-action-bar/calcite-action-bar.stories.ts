@@ -3,7 +3,8 @@ import {
   Attributes,
   Attribute,
   filterComponentAttributes,
-  createComponentHTML as create
+  createComponentHTML as create,
+  themesDarkDefault
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -105,6 +106,10 @@ export const darkThemeRTL = (): string =>
       </calcite-action-group>
     `
   );
+
+darkThemeRTL.story = {
+  parameters: { themes: themesDarkDefault }
+};
 
 export const withTooltip = (): string =>
   create(
