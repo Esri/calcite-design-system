@@ -68,7 +68,7 @@ export class CalciteCard {
   //--------------------------------------------------------------------------
 
   /** Fired when a selectable card is selected */
-  @Event() calciteCardSelect: EventEmitter;
+  @Event() calciteCardSelect: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //

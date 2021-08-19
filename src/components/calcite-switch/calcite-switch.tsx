@@ -134,7 +134,7 @@ export class CalciteSwitch {
   /**
    * Fires when the switched value has changed.
    */
-  @Event() calciteSwitchChange: EventEmitter;
+  @Event() calciteSwitchChange: EventEmitter<{ switched: boolean }>;
 
   //--------------------------------------------------------------------------
   //

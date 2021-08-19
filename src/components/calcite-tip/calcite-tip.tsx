@@ -64,7 +64,7 @@ export class CalciteTip {
   /**
    * Emitted when the component has been dismissed.
    */
-  @Event() calciteTipDismiss: EventEmitter;
+  @Event() calciteTipDismiss: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //

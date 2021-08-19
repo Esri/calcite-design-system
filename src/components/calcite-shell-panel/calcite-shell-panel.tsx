@@ -76,7 +76,7 @@ export class CalciteShellPanel {
   /**
    * Emitted when collapse has been toggled.
    */
-  @Event() calciteShellPanelToggle: EventEmitter;
+  @Event() calciteShellPanelToggle: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //

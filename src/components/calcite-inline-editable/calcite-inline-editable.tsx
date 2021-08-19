@@ -158,17 +158,17 @@ export class CalciteInlineEditable {
   /**
    * @internal
    */
-  @Event() calciteInlineEditableEditingCancel: EventEmitter;
+  @Event() calciteInlineEditableEditingCancel: EventEmitter<TransitionEvent>;
 
   /**
    * @internal
    */
-  @Event() calciteInlineEditableChangesConfirm: EventEmitter;
+  @Event() calciteInlineEditableChangesConfirm: EventEmitter<void>;
 
   /**
    * @internal
    */
-  @Event() calciteInlineEditableEnableEditingChange: EventEmitter;
+  @Event() calciteInlineEditableEnableEditingChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //

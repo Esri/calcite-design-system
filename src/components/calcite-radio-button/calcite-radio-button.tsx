@@ -231,20 +231,20 @@ export class CalciteRadioButton {
    * directly on the element, but instead either attach it to a node that contains all of the radio buttons in the group
    * or use the calciteRadioButtonGroupChange event if using this with calcite-radio-button-group.
    */
-  @Event() calciteRadioButtonChange: EventEmitter;
+  @Event() calciteRadioButtonChange: EventEmitter<void>;
 
   /**
    * Fires when the checked property changes.  This is an internal event used for styling purposes only.
    * Use calciteRadioButtonChange or calciteRadioButtonGroupChange for responding to changes in the checked value for forms.
    * @internal
    */
-  @Event() calciteRadioButtonCheckedChange: EventEmitter;
+  @Event() calciteRadioButtonCheckedChange: EventEmitter<boolean | undefined>;
 
   /**
    * Fires when the radio button is either focused or blurred.
    * @internal
    */
-  @Event() calciteRadioButtonFocusedChange: EventEmitter;
+  @Event() calciteRadioButtonFocusedChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //

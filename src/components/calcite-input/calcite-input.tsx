@@ -323,23 +323,33 @@ export class CalciteInput {
   /**
    * @internal
    */
-  @Event() calciteInputFocus: EventEmitter;
+  @Event() calciteInputFocus: EventEmitter<{
+    element: HTMLInputElement | HTMLTextAreaElement;
+    value: string;
+  }>;
 
   /**
    * @internal
    */
-  @Event() calciteInputBlur: EventEmitter;
+  @Event() calciteInputBlur: EventEmitter<{
+    element: HTMLInputElement | HTMLTextAreaElement;
+    value: string;
+  }>;
 
   /**
    * This event fires each time a new value is typed.
    */
-  @Event({ cancelable: true }) calciteInputInput: EventEmitter;
+  @Event({ cancelable: true }) calciteInputInput: EventEmitter<{
+    element: HTMLInputElement | HTMLTextAreaElement;
+    value: string;
+    nativeEvent: any;
+  }>;
 
   /**
    * This event fires each time a new value is typed and committed.
    * @internal
    */
-  @Event() calciteInputChange: EventEmitter;
+  @Event() calciteInputChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //

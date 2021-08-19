@@ -54,7 +54,10 @@ export class CalciteDropdownGroup {
   /**
    * @internal
    */
-  @Event() calciteDropdownItemChange: EventEmitter;
+  @Event() calciteDropdownItemChange: EventEmitter<{
+    requestedDropdownItem: HTMLCalciteDropdownItemElement;
+    requestedDropdownGroup: HTMLCalciteDropdownGroupElement;
+  }>;
 
   //--------------------------------------------------------------------------
   //

@@ -107,13 +107,13 @@ export class CalciteDatePickerDay {
   /**
    * Emitted when user selects day
    */
-  @Event() calciteDaySelect: EventEmitter;
+  @Event() calciteDaySelect: EventEmitter<void>;
 
   /**
    * Emitted when user hovers over a day
    * @internal
    */
-  @Event() calciteDayHover: EventEmitter;
+  @Event() calciteDayHover: EventEmitter<{ disabled: boolean }>;
 
   //--------------------------------------------------------------------------
   //

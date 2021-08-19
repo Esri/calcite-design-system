@@ -108,7 +108,7 @@ export class CalciteRadioButtonGroup {
   /**
    * @todo doc
    */
-  @Event() calciteRadioButtonGroupChange: EventEmitter;
+  @Event() calciteRadioButtonGroupChange: EventEmitter<any>;
 
   //--------------------------------------------------------------------------
   //

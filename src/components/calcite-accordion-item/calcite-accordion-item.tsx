@@ -54,22 +54,30 @@ export class CalciteAccordionItem {
   /**
    * @internal
    */
-  @Event() calciteAccordionItemKeyEvent: EventEmitter;
+  @Event() calciteAccordionItemKeyEvent: EventEmitter<{
+    parent: HTMLCalciteAccordionElement;
+    item: KeyboardEvent;
+  }>;
 
   /**
    * @internal
    */
-  @Event() calciteAccordionItemSelect: EventEmitter;
+  @Event() calciteAccordionItemSelect: EventEmitter<{
+    requestedAccordionItem: HTMLCalciteAccordionItemElement;
+  }>;
 
   /**
    * @internal
    */
-  @Event() calciteAccordionItemClose: EventEmitter;
+  @Event() calciteAccordionItemClose: EventEmitter<void>;
 
   /**
    * @internal
    */
-  @Event() calciteAccordionItemRegister: EventEmitter;
+  @Event() calciteAccordionItemRegister: EventEmitter<{
+    parent: HTMLCalciteAccordionElement;
+    position: number;
+  }>;
 
   //--------------------------------------------------------------------------
   //

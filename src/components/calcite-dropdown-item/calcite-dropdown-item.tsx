@@ -70,13 +70,16 @@ export class CalciteDropdownItem {
   /**
    * @internal
    */
-  @Event() calciteDropdownItemSelect: EventEmitter;
+  @Event() calciteDropdownItemSelect: EventEmitter<{
+    requestedDropdownItem: HTMLCalciteDropdownItemElement;
+    requestedDropdownGroup: HTMLCalciteDropdownGroupElement;
+  }>;
 
   /** @internal */
   @Event() calciteDropdownItemKeyEvent: EventEmitter<ItemKeyboardEvent>;
 
   /** @internal */
-  @Event() calciteDropdownCloseRequest: EventEmitter;
+  @Event() calciteDropdownCloseRequest: EventEmitter<void>;
   //--------------------------------------------------------------------------
   //
   //  Public Methods

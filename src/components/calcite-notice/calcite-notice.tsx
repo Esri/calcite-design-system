@@ -138,10 +138,10 @@ export class CalciteNotice {
   //--------------------------------------------------------------------------
 
   /** Fired when an notice is closed */
-  @Event() calciteNoticeClose: EventEmitter;
+  @Event() calciteNoticeClose: EventEmitter<void>;
 
   /** Fired when an Notice is opened */
-  @Event() calciteNoticeOpen: EventEmitter;
+  @Event() calciteNoticeOpen: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //

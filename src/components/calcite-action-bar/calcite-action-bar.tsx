@@ -97,7 +97,7 @@ export class CalciteActionBar {
   /**
    * Emitted when expanded has been toggled.
    */
-  @Event() calciteActionBarToggle: EventEmitter;
+  @Event() calciteActionBarToggle: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //

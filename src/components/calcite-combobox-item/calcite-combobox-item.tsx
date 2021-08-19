@@ -100,7 +100,7 @@ export class CalciteComboboxItem {
   /**
    * Emitted whenever the item is selected or unselected.
    */
-  @Event() calciteComboboxItemChange: EventEmitter;
+  @Event() calciteComboboxItemChange: EventEmitter<HTMLCalciteComboboxItemElement>;
 
   // --------------------------------------------------------------------------
   //

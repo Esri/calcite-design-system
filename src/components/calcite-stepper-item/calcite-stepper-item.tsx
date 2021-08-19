@@ -84,17 +84,23 @@ export class CalciteStepperItem {
   /**
    * @internal
    */
-  @Event() calciteStepperItemKeyEvent: EventEmitter;
+  @Event() calciteStepperItemKeyEvent: EventEmitter<{ item: KeyboardEvent }>;
 
   /**
    * @internal
    */
-  @Event() calciteStepperItemSelect: EventEmitter;
+  @Event() calciteStepperItemSelect: EventEmitter<{
+    position: number;
+    content: HTMLElement[] | NodeListOf<any>;
+  }>;
 
   /**
    * @internal
    */
-  @Event() calciteStepperItemRegister: EventEmitter;
+  @Event() calciteStepperItemRegister: EventEmitter<{
+    position: number;
+    content: HTMLElement[] | NodeListOf<any>;
+  }>;
 
   //--------------------------------------------------------------------------
   //

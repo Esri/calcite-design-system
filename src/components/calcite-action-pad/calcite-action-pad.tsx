@@ -87,7 +87,7 @@ export class CalciteActionPad {
   /**
    * Emitted when expanded has been toggled.
    */
-  @Event() calciteActionPadToggle: EventEmitter;
+  @Event() calciteActionPadToggle: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
