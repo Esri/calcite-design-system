@@ -76,7 +76,7 @@ export class CalciteAlert {
   @Prop({ reflect: true }) icon: string | boolean;
 
   /** string to override English close text
-   * @default "close"
+   * @default "Close"
    */
   @Prop() intlClose: string = TEXT.intlClose;
 
