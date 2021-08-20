@@ -21,6 +21,12 @@ export class CalciteSplitButton {
   /** is the control disabled  */
   @Prop({ reflect: true }) disabled?: boolean;
 
+  /**
+   * Is the dropdown currently active or not
+   * @internal
+   */
+  @Prop({ reflect: true }) active?: boolean;
+
   /** specify the icon used for the dropdown menu, defaults to chevron */
   @Prop({ reflect: true }) dropdownIconType: DropdownIconType = "chevron";
 
@@ -91,6 +97,7 @@ export class CalciteSplitButton {
           <div class={CSS.divider} />
         </div>
         <calcite-dropdown
+          active={this.active}
           dir={dir}
           onClick={this.calciteSplitButtonSecondaryClickHandler}
           placement="bottom-trailing"

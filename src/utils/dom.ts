@@ -22,23 +22,20 @@ export function nodeListToArray<T extends Element>(nodeList: HTMLCollectionOf<T>
 
 export type Direction = "ltr" | "rtl";
 
-export function getAttributes(el: HTMLElement, blockList: string[]): Record<string, any> {
-  return Array.from(el.attributes)
-    .filter((a) => a && !blockList.includes(a.name))
-    .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
-}
-
 export function getThemeName(el: HTMLElement): "light" | "dark" {
-  return closestElementCrossShadowBoundary(`.${CSS_UTILITY.darkTheme}`, el) ? "dark" : "light";
+  return closestElementCrossShadowBoundary(el, `.${CSS_UTILITY.darkTheme}`) ? "dark" : "light";
 }
 
 export function getElementDir(el: HTMLElement): Direction {
-  return getElementProp(el, "dir", "ltr", true) as Direction;
+  const prop = "dir";
+  const selector = `[${prop}]`;
+  const closest = closestElementCrossShadowBoundary(el, selector);
+  return closest ? (closest.getAttribute(prop) as Direction) : "ltr";
 }
 
-export function getElementProp(el: Element, prop: string, fallbackValue: any, crossShadowBoundary = false): any {
+export function getElementProp(el: Element, prop: string, fallbackValue: any): any {
   const selector = `[${prop}]`;
-  const closest = crossShadowBoundary ? closestElementCrossShadowBoundary(selector, el) : el.closest(selector);
+  const closest = el.closest(selector);
   return closest ? closest.getAttribute(prop) : fallbackValue;
 }
 
@@ -104,20 +101,16 @@ export function queryElementRoots<T extends Element = Element>(element: Element,
   return queryFrom(element);
 }
 
-function closestElementCrossShadowBoundary<E extends Element = Element>(
-  selector: string,
-  base: Element = this
-): E | null {
+export function closestElementCrossShadowBoundary<T extends Element = Element>(
+  element: Element,
+  selector: string
+): T | null {
   // based on https://stackoverflow.com/q/54520554/194216
-  function closestFrom(el): E | null {
-    if (!el || el === document || el === window) {
-      return null;
-    }
-    const found = el.closest(selector);
-    return found ? found : closestFrom(el.getRootNode().host);
+  function closestFrom<T extends Element = Element>(el: Element): T | null {
+    return el ? el.closest(selector) || closestFrom(getHost(getRootNode(el))) : null;
   }
 
-  return closestFrom(base);
+  return closestFrom(element);
 }
 
 export interface CalciteFocusableElement extends HTMLElement {
@@ -214,4 +207,13 @@ export function setRequestedIcon(
   } else if (iconValue === "") {
     return iconObject[matchedValue];
   }
+}
+
+export function intersects(rect1: DOMRect, rect2: DOMRect): boolean {
+  return !(
+    rect2.left > rect1.right ||
+    rect2.right < rect1.left ||
+    rect2.top > rect1.bottom ||
+    rect2.bottom < rect1.top
+  );
 }

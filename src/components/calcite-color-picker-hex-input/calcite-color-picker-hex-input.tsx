@@ -84,11 +84,13 @@ export class CalciteColorPickerHexInput {
 
   /**
    * Label used for the hex input.
+   * @default "Hex"
    */
   @Prop() intlHex = TEXT.hex;
 
   /**
    * Label used for the hex input when there is no color selected.
+   * @default "No color"
    */
   @Prop() intlNoColor = TEXT.noColor;
 
@@ -259,7 +261,7 @@ export class CalciteColorPickerHexInput {
           onChange={this.onInputChange}
           prefixText="#"
           ref={this.storeInputRef}
-          scale="s"
+          scale={this.scale}
           value={hexInputValue}
         />
         {hexInputValue ? (
@@ -267,7 +269,7 @@ export class CalciteColorPickerHexInput {
             active
             class={CSS.preview}
             color={`#${hexInputValue}`}
-            scale="s"
+            scale={this.scale}
           />
         ) : null}
       </div>

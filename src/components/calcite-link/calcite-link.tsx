@@ -1,5 +1,5 @@
 import { Component, Element, h, Host, Method, Prop, VNode } from "@stencil/core";
-import { getAttributes, focusElement, getElementDir } from "../../utils/dom";
+import { focusElement, getElementDir } from "../../utils/dom";
 import { FlipContext } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 
@@ -44,6 +44,12 @@ export class CalciteLink {
   /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconStart?: string;
 
+  /** The rel attribute to apply to the hyperlink */
+  @Prop() rel?: string;
+
+  /** The target attribute to apply to the hyperlink */
+  @Prop() target?: string;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -75,7 +81,6 @@ export class CalciteLink {
       />
     );
 
-    const attributes = getAttributes(this.el, ["dir", "icon-end", "icon-start", "id"]);
     const Tag = this.childElType;
     const role = this.childElType === "span" ? "link" : null;
     const tabIndex = this.disabled ? -1 : this.childElType === "span" ? 0 : null;
@@ -83,13 +88,14 @@ export class CalciteLink {
     return (
       <Host role="presentation">
         <Tag
-          {...attributes}
           class={{ [CSS_UTILITY.rtl]: dir === "rtl" }}
           dir={dir}
           href={Tag === "a" && this.href}
           ref={this.storeTagRef}
+          rel={Tag === "a" && this.rel}
           role={role}
           tabIndex={tabIndex}
+          target={Tag === "a" && this.target}
         >
           {this.iconStart ? iconStartEl : null}
           <slot />

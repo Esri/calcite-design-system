@@ -55,40 +55,64 @@ export class CalciteTimePicker {
   /** Format of the hour value (12-hour or 24-hour) (this will be replaced by locale eventually) */
   @Prop({ reflect: true }) hourDisplayFormat: HourDisplayFormat = "12";
 
-  /** aria-label for the hour input */
+  /** aria-label for the hour input
+   * @default "Hour"
+   */
   @Prop() intlHour = TEXT.hour;
 
-  /** aria-label for the hour down button */
+  /** aria-label for the hour down button
+   * @default "Decrease hour"
+   */
   @Prop() intlHourDown = TEXT.hourDown;
 
-  /** aria-label for the hour up button */
+  /** aria-label for the hour up button
+   * @default "Increase hour"
+   */
   @Prop() intlHourUp = TEXT.hourUp;
 
-  /** aria-label for the meridiem (am/pm) input */
+  /** aria-label for the meridiem (am/pm) input
+   * @default "AM/PM"
+   */
   @Prop() intlMeridiem = TEXT.meridiem;
 
-  /** aria-label for the meridiem (am/pm) down button */
+  /** aria-label for the meridiem (am/pm) down button
+   * @default "Decrease AM/PM"
+   */
   @Prop() intlMeridiemDown = TEXT.meridiemDown;
 
-  /** aria-label for the meridiem (am/pm) up button */
+  /** aria-label for the meridiem (am/pm) up button
+   * @default "Increase AM/PM"
+   */
   @Prop() intlMeridiemUp = TEXT.meridiemUp;
 
-  /** aria-label for the minute input */
+  /** aria-label for the minute input
+   * @default "Minute"
+   */
   @Prop() intlMinute = TEXT.minute;
 
-  /** aria-label for the minute down button */
+  /** aria-label for the minute down button
+   * @default "Decrease minute"
+   */
   @Prop() intlMinuteDown = TEXT.minuteDown;
 
-  /** aria-label for the minute up button */
+  /** aria-label for the minute up button
+   * @default "Increase minute"
+   */
   @Prop() intlMinuteUp = TEXT.minuteUp;
 
-  /** aria-label for the second input */
+  /** aria-label for the second input
+   * @default "Second"
+   */
   @Prop() intlSecond = TEXT.second;
 
-  /** aria-label for the second down button */
+  /** aria-label for the second down button
+   * @default "Decrease second"
+   */
   @Prop() intlSecondDown = TEXT.secondDown;
 
-  /** aria-label for the second up button */
+  /** aria-label for the second up button
+   * @default "Increase second"
+   */
   @Prop() intlSecondUp = TEXT.secondUp;
 
   /** The minute value */
@@ -151,8 +175,6 @@ export class CalciteTimePicker {
   @State() meridiem: Meridiem = null;
 
   @State() displayHour: string = this.getDisplayHour();
-
-  @State() editingHourWhileFocused = false;
 
   //--------------------------------------------------------------------------
   //
@@ -309,7 +331,7 @@ export class CalciteTimePicker {
       return "--";
     }
     if (this.hourDisplayFormat === "12") {
-      return this.editingHourWhileFocused ? this.hour : getMeridiemHour(this.hour);
+      return getMeridiemHour(this.hour);
     }
     return this.hour;
   }
@@ -322,10 +344,6 @@ export class CalciteTimePicker {
     };
   }
 
-  private hourBlurHandler = (): void => {
-    this.editingHourWhileFocused = false;
-  };
-
   private hourDownButtonKeyDownHandler = (event: KeyboardEvent): void => {
     if (this.buttonActivated(event)) {
       this.decrementHour();
@@ -335,7 +353,6 @@ export class CalciteTimePicker {
   private hourKeyDownHandler = (event: KeyboardEvent): void => {
     const key = getKey(event.key);
     if (numberKeys.includes(key)) {
-      this.editingHourWhileFocused = true;
       const keyAsNumber = parseInt(key);
       let newHour;
       if (isValidNumber(this.hour)) {
@@ -364,6 +381,7 @@ export class CalciteTimePicker {
     } else {
       switch (key) {
         case "Backspace":
+        case "Delete":
           this.setTime("hour", null);
           break;
         case "ArrowDown":
@@ -434,6 +452,7 @@ export class CalciteTimePicker {
         this.setTime("meridiem", "PM");
         break;
       case "Backspace":
+      case "Delete":
         this.setTime("meridiem", null);
         break;
       case "ArrowUp":
@@ -482,6 +501,7 @@ export class CalciteTimePicker {
     } else {
       switch (key) {
         case "Backspace":
+        case "Delete":
           this.setTime("minute", null);
           break;
         case "ArrowDown":
@@ -531,6 +551,7 @@ export class CalciteTimePicker {
     } else {
       switch (key) {
         case "Backspace":
+        case "Delete":
           this.setTime("second", null);
           break;
         case "ArrowDown":
@@ -660,7 +681,6 @@ export class CalciteTimePicker {
                 [CSS.input]: true,
                 [CSS.hour]: true
               }}
-              onBlur={this.hourBlurHandler}
               onFocus={this.focusHandler}
               onKeyDown={this.hourKeyDownHandler}
               ref={(el) => (this.hourEl = el)}

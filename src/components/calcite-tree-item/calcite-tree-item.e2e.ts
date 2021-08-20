@@ -2,7 +2,7 @@ import { newE2EPage } from "@stencil/core/testing";
 import { accessible, renders } from "../../tests/commonTests";
 
 describe("calcite-tree-item", () => {
-  it("renders", async () => renders("calcite-tree-item", false));
+  it("renders", async () => renders("calcite-tree-item", { visible: false, display: "block" }));
 
   it("is accessible", async () => accessible(`<calcite-tree-item></calcite-tree-item>`));
 

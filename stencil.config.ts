@@ -1,6 +1,7 @@
 import { Config } from "@stencil/core";
 import { postcss } from "@stencil/postcss";
 import { sass } from "@stencil/sass";
+import babel from "@rollup/plugin-babel";
 import autoprefixer from "autoprefixer";
 import tailwind from "tailwindcss";
 import { generatePreactTypes } from "./support/preact";
@@ -10,15 +11,10 @@ export const create: () => Config = () => ({
   namespace: "calcite",
   bundles: [
     { components: ["calcite-accordion", "calcite-accordion-item"] },
-    {
-      components: [
-        "calcite-action",
-        "calcite-action-group",
-        "calcite-action-menu",
-        "calcite-action-bar",
-        "calcite-action-pad"
-      ]
-    },
+    { components: ["calcite-action"] },
+    { components: ["calcite-action-bar"] },
+    { components: ["calcite-action-menu"] },
+    { components: ["calcite-action-pad"] },
     { components: ["calcite-alert"] },
     { components: ["calcite-avatar"] },
     { components: ["calcite-block", "calcite-block-section"] },
@@ -46,7 +42,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-label"] },
     { components: ["calcite-link"] },
     { components: ["calcite-loader"] },
-    { components: ["calcite-list", "calcite-list-item"] },
+    { components: ["calcite-list", "calcite-list-item", "calcite-list-item-group"] },
     { components: ["calcite-modal"] },
     { components: ["calcite-notice"] },
     { components: ["calcite-pagination"] },
@@ -105,6 +101,15 @@ export const create: () => Config = () => ({
       plugins: [tailwind(), autoprefixer()]
     })
   ],
+  rollupPlugins: {
+    after: [
+      babel({
+        babelHelpers: "bundled",
+        include: [/\/color\//],
+        plugins: ["@babel/plugin-proposal-numeric-separator"]
+      })
+    ]
+  },
   testing: {
     moduleNameMapper: {
       "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.ts"
@@ -116,13 +121,7 @@ export const create: () => Config = () => ({
     name: "calcite-hydrated"
   },
   extras: {
-    appendChildSlotFix: true,
-    cssVarsShim: true,
-    dynamicImportShim: true,
-    safari10: true,
-    scriptDataOpts: true,
-    shadowDomShim: true,
-    slotChildNodesFix: true
+    scriptDataOpts: true
   }
 });
 

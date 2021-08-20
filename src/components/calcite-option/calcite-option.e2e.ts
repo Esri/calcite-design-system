@@ -2,7 +2,7 @@ import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, reflects, renders } from "../../tests/commonTests";
 
 describe("calcite-option", () => {
-  it("renders", async () => renders("calcite-option"));
+  it("renders", async () => renders("calcite-option", { display: "block" }));
 
   it("is accessible", async () => accessible("calcite-option"));
 

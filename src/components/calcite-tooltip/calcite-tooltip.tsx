@@ -29,6 +29,7 @@ export class CalciteTooltip {
 
   /**
    * Offset the position of the popover away from the reference element.
+   * @default 6
    */
   @Prop({ reflect: true }) offsetDistance = defaultOffsetDistance;
 
@@ -54,10 +55,6 @@ export class CalciteTooltip {
 
   @Watch("open")
   openHandler(): void {
-    if (!this._referenceElement) {
-      this.referenceElementHandler();
-    }
-
     this.reposition();
   }
 
@@ -66,6 +63,7 @@ export class CalciteTooltip {
 
   /**
    * Determines where the component will be positioned relative to the referenceElement.
+   * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
    */
   @Prop({ reflect: true }) placement: PopperPlacement = "auto";
 
@@ -81,10 +79,7 @@ export class CalciteTooltip {
 
   @Watch("referenceElement")
   referenceElementHandler(): void {
-    this.removeReferences();
-    this._referenceElement = this.getReferenceElement();
-    this.addReferences();
-    this.createPopper();
+    this.setUpReferenceElement();
   }
 
   // --------------------------------------------------------------------------
@@ -95,7 +90,7 @@ export class CalciteTooltip {
 
   @Element() el: HTMLCalciteTooltipElement;
 
-  @State() _referenceElement: HTMLElement = this.getReferenceElement();
+  @State() effectiveReferenceElement: HTMLElement;
 
   arrowEl: HTMLDivElement;
 
@@ -109,9 +104,12 @@ export class CalciteTooltip {
   //
   // --------------------------------------------------------------------------
 
+  componentWillLoad(): void {
+    this.setUpReferenceElement();
+  }
+
   componentDidLoad(): void {
-    this.addReferences();
-    this.createPopper();
+    this.reposition();
   }
 
   disconnectedCallback(): void {
@@ -146,32 +144,47 @@ export class CalciteTooltip {
   //
   // --------------------------------------------------------------------------
 
+  setUpReferenceElement = (): void => {
+    this.removeReferences();
+    this.effectiveReferenceElement = this.getReferenceElement();
+
+    const { el, referenceElement, effectiveReferenceElement } = this;
+    if (referenceElement && !effectiveReferenceElement) {
+      console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
+        el
+      });
+    }
+
+    this.addReferences();
+    this.createPopper();
+  };
+
   getId = (): string => {
     return this.el.id || this.guid;
   };
 
   addReferences = (): void => {
-    const { _referenceElement } = this;
+    const { effectiveReferenceElement } = this;
 
-    if (!_referenceElement) {
+    if (!effectiveReferenceElement) {
       return;
     }
 
     const id = this.getId();
 
-    _referenceElement.setAttribute(TOOLTIP_REFERENCE, id);
-    _referenceElement.setAttribute(ARIA_DESCRIBED_BY, id);
+    effectiveReferenceElement.setAttribute(TOOLTIP_REFERENCE, id);
+    effectiveReferenceElement.setAttribute(ARIA_DESCRIBED_BY, id);
   };
 
   removeReferences = (): void => {
-    const { _referenceElement } = this;
+    const { effectiveReferenceElement } = this;
 
-    if (!_referenceElement) {
+    if (!effectiveReferenceElement) {
       return;
     }
 
-    _referenceElement.removeAttribute(TOOLTIP_REFERENCE);
-    _referenceElement.removeAttribute(ARIA_DESCRIBED_BY);
+    effectiveReferenceElement.removeAttribute(TOOLTIP_REFERENCE);
+    effectiveReferenceElement.removeAttribute(ARIA_DESCRIBED_BY);
   };
 
   show = (): void => {
@@ -217,7 +230,7 @@ export class CalciteTooltip {
   createPopper(): void {
     this.destroyPopper();
 
-    const { el, placement, _referenceElement: referenceEl, overlayPositioning } = this;
+    const { el, placement, effectiveReferenceElement: referenceEl, overlayPositioning } = this;
     const modifiers = this.getModifiers();
 
     this.popper = createPopper({
@@ -246,8 +259,8 @@ export class CalciteTooltip {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { _referenceElement, label, open } = this;
-    const displayed = _referenceElement && open;
+    const { effectiveReferenceElement, label, open } = this;
+    const displayed = effectiveReferenceElement && open;
     const hidden = !displayed;
 
     return (

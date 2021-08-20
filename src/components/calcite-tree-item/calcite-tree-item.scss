@@ -3,7 +3,6 @@
   color: var(--calcite-tree-text);
   cursor: pointer;
   outline: none;
-  @include font-size(-2);
   max-width: 100%;
   --calcite-tree-text: var(--calcite-ui-text-2);
   --calcite-tree-text: var(--calcite-ui-text-1);
@@ -37,6 +36,21 @@
   --calcite-tree-hover-line-width: 3px;
 }
 
+:host([scale="s"]) {
+  @apply text--2h;
+  --calcite-tree-padding-y: theme("padding.1");
+}
+
+:host([scale="m"]) {
+  @apply text--1h;
+  --calcite-tree-padding-y: theme("padding.2");
+}
+
+:host([scale="l"]) {
+  @apply text-0h;
+  --calcite-tree-padding-y: theme("padding.3");
+}
+
 :host([lines]) {
   --calcite-tree-line: var(--calcite-ui-border-3);
   --calcite-tree-line-hover: var(--calcite-ui-border-1);
@@ -58,7 +72,7 @@
   --calcite-tree-parent-line-position-start: -0.5rem;
 }
 
-:host([dir="rtl"]) {
+:host .calcite--rtl {
   --calcite-tree-indicator-first-start: 0;
   --calcite-tree-indicator-first-end: 0.1rem;
   --calcite-tree-indicator-distance-start: auto;
@@ -79,18 +93,17 @@
   --calcite-tree-line-position-end: 0.05rem;
   --calcite-tree-parent-line-position-start: 0;
   --calcite-tree-parent-line-position-end: -0.95rem;
-}
 
-:host([dir="rtl"][scale="s"]) {
-  --calcite-tree-children-indent-end: 0rem;
-  --calcite-tree-children-padding-end: 0.8rem;
-  --calcite-tree-line-position-end: 0.3rem;
-  --calcite-tree-parent-line-position-end: -0.5rem;
+  &[scale="s"] {
+    --calcite-tree-children-indent-end: 0rem;
+    --calcite-tree-children-padding-end: 0.8rem;
+    --calcite-tree-line-position-end: 0.3rem;
+    --calcite-tree-parent-line-position-end: -0.5rem;
+  }
 }
 
 ::slotted(*) {
   color: inherit;
-  @include font-size(-2);
   text-decoration: none !important;
   word-wrap: break-word;
   overflow-wrap: break-word;
@@ -111,7 +124,7 @@
   @include focus-style-base();
 }
 :host(:focus) {
-  @include focus-style-inset();
+  @include focus-style-inset(var(--calcite-ui-brand));
 }
 
 .calcite-tree-checkbox {
@@ -169,7 +182,7 @@
 .calcite-tree-node {
   display: flex;
   align-items: center;
-  padding: var(--calcite-tree-vertical-padding) 0;
+  padding: var(--calcite-tree-padding-y) 0;
   padding-left: var(--calcite-tree-indent-start);
   padding-right: var(--calcite-tree-indent-end);
   position: relative;
@@ -298,7 +311,7 @@
   transform: rotate(0deg);
   fill: var(--calcite-tree-chevron);
 
-  :host([dir="rtl"]) & {
+  .calcite--rtl & {
     transform: rotate(180deg);
   }
 

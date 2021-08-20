@@ -1,5 +1,6 @@
 :host {
   @extend %component-host;
+  @apply block;
 }
 
 ::slotted(calcite-tip) {
