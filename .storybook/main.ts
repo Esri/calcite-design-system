@@ -6,8 +6,5 @@ module.exports = {
     "@storybook/addon-a11y",
     "@whitespace/storybook-addon-html"
   ],
-  stories: ["../src/**/*.stories.@(mdx|ts)"],
-  typescript: {
-    reactDocgen: false
-  }
+  stories: ["../src/**/*.stories.@(mdx|ts)"]
 };

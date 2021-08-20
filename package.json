@@ -19,7 +19,7 @@
     "build": "npm run util:copy-icons && stencil build && npm run util:add-custom-elements-extras",
     "build:watch": "npm run util:copy-icons && stencil build --watch && npm run util:add-custom-elements-extras:index-mjs",
     "build:watch-dev": "npm run util:copy-icons && stencil build --dev --watch && npm run util:add-custom-elements-extras:index-mjs",
-    "deps:update": "updtr --exclude tailwindcss @types/jest jest jest-cli puppeteer && git add package*.json && git commit -q -m \"build(deps): bump versions\"",
+    "deps:update": "updtr --exclude typescript tailwindcss @types/jest jest jest-cli puppeteer && git add package*.json && git commit -q -m \"build(deps): bump versions\"",
     "docs": "concurrently --kill-others --raw \"npm:util:build-docs && build-storybook --static-dir ./__docs-temp__ --output-dir ./docs\"  \"ts-node ./support/cleanOnProcessExit.ts --path ./__docs-temp__\"",
     "docs:preview": "concurrently --raw \"npm:util:build-docs && start-storybook --static-dir ./__docs-temp__\" \"ts-node ./support/cleanOnProcessExit.ts --path ./__docs-temp__\"",
     "lint": "concurrently npm:lint:*",
@@ -143,7 +143,7 @@
     "tslint": "6.1.3",
     "tslint-config-prettier": "1.18.0",
     "tslint-stencil": "1.0.1",
-    "typescript": "4.3.5",
+    "typescript": "4.2.4",
     "updtr": "4.0.0",
     "workbox-build": "6.2.4",
     "yargs": "17.1.1"
