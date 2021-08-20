@@ -5,12 +5,10 @@
     flex-col
     relative
     flex-grow
-    flex-shrink-0;
-    *{
-      @apply box-border;
-    }
-    color: var(--calcite-ui-text-2);
-    font-size: var(--calcite-font-size--1);
+    flex-shrink-0
+    box-border
+    text-color-2
+    text--1h;
 }
 
 :host([filter-enabled]) header {
