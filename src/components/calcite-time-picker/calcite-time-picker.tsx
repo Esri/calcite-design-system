@@ -634,6 +634,15 @@ export class CalciteTimePicker {
         }
         break;
     }
+    if (this.hour && this.minute) {
+      if (this.second && this.step !== 60) {
+        this.value = `${this.hour}:${this.minute}:${this.second}`;
+      } else {
+        this.value = `${this.hour}:${this.minute}`;
+      }
+    } else {
+      this.value = "";
+    }
     this.timeChanged = true;
     if (emit) {
       this.calciteTimePickerChange.emit(this.getTime());
@@ -666,6 +675,8 @@ export class CalciteTimePicker {
       this.localizedMinute = localizedMinute;
       this.localizedSecond = localizedSecond;
       this.localizedMeridiem = localizedMeridiem;
+    } else {
+      this.value = null;
     }
   }
 

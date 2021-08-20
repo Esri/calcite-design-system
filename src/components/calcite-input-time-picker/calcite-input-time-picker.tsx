@@ -15,7 +15,6 @@ import {
 import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
 import {
-  parseTimeString,
   Time,
   formatTimeString,
   HourDisplayFormat,
@@ -331,7 +330,6 @@ export class CalciteInputTimePicker {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { hour, minute, second } = parseTimeString(this.value);
     const popoverId = `${this.referenceElementId}-popover`;
     return (
       <Host>
@@ -362,7 +360,6 @@ export class CalciteInputTimePicker {
           referenceElement={this.referenceElementId}
         >
           <calcite-time-picker
-            hour={hour}
             hour-display-format={this.hourDisplayFormat}
             intlHour={this.intlHour}
             intlHourDown={this.intlHourDown}
@@ -377,10 +374,8 @@ export class CalciteInputTimePicker {
             intlSecondDown={this.intlSecondDown}
             intlSecondUp={this.intlSecondUp}
             locale={this.locale}
-            minute={minute}
             ref={this.setCalciteTimePickerEl}
             scale={this.scale}
-            second={second}
             step={this.step}
             value={this.value}
           />
