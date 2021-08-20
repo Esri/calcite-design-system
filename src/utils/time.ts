@@ -26,9 +26,9 @@ export const maxTenthForMinuteAndSecond = 5;
 function createLocaleDateTimeFormatter(locale: string): Intl.DateTimeFormat {
   try {
     return new Intl.DateTimeFormat(locale, {
-      hour: "numeric",
-      minute: "numeric",
-      second: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
       timeZone: "UTC"
     });
   } catch (e) {

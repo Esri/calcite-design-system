@@ -24,10 +24,10 @@ import {
   maxTenthForMinuteAndSecond,
   TimeFocusId,
   getMeridiem,
-  getMeridiemHour,
   HourDisplayFormat,
   isValidTime,
-  localizeTimeStringToParts
+  localizeTimeStringToParts,
+  parseTimeString
 } from "../../utils/time";
 import { CSS, TEXT } from "./resources";
 
@@ -50,9 +50,6 @@ export class CalciteTimePicker {
   //  Properties
   //
   //--------------------------------------------------------------------------
-
-  /** The hour value (24-hour format) */
-  @Prop({ mutable: true }) hour?: string = null;
 
   /** Format of the hour value (12-hour or 24-hour) (this will be replaced by locale eventually) */
   @Prop({ reflect: true }) hourDisplayFormat: HourDisplayFormat = "12";
@@ -120,12 +117,6 @@ export class CalciteTimePicker {
   /** BCP 47 language tag for desired language and country format */
   @Prop() locale?: string = document.documentElement.lang || "en";
 
-  /** The minute value */
-  @Prop({ mutable: true }) minute?: string = null;
-
-  /** The second value */
-  @Prop({ mutable: true }) second?: string = null;
-
   /** The scale (size) of the time picker */
   @Prop({ reflect: true }) scale: Scale = "m";
 
@@ -134,26 +125,6 @@ export class CalciteTimePicker {
 
   /** The selected time in UTC */
   @Prop() value: string = null;
-
-  @Watch("hour")
-  hourChanged(newHour: string): void {
-    if (this.hourDisplayFormat === "12" && isValidNumber(newHour)) {
-      this.meridiem = getMeridiem(newHour);
-    }
-  }
-
-  @Watch("hour")
-  @Watch("minute")
-  @Watch("second")
-  timeChangeHandler(): void {
-    const { hour, minute } = this.getTime();
-    if (!hour && !minute) {
-      this.setValue("meridiem", null, false);
-    }
-    if (this.timeChanged) {
-      this.timeChanged = false;
-    }
-  }
 
   // --------------------------------------------------------------------------
   //
@@ -179,22 +150,49 @@ export class CalciteTimePicker {
   //
   // --------------------------------------------------------------------------
 
+  /** The hour value (24-hour format) */
+  @State() hour: string;
+
+  @Watch("hour")
+  hourChanged(newHour: string): void {
+    if (this.hourDisplayFormat === "12" && isValidNumber(newHour)) {
+      this.meridiem = getMeridiem(newHour);
+    }
+  }
+
   /** The localized hour value */
   @State() localizedHour: string;
+
+  /** The minute value */
+  @State() minute: string;
 
   /** The localized minute value */
   @State() localizedMinute: string;
 
+  /** The second value */
+  @State() second: string;
+
   /** The localized second value */
   @State() localizedSecond: string;
-
-  /** The localized meridiem value */
-  @State() localizedMeridiem: string;
 
   /** The am/pm value */
   @State() meridiem: Meridiem = null;
 
-  @State() displayHour: string = this.getDisplayHour();
+  /** The localized meridiem value */
+  @State() localizedMeridiem: string;
+
+  @Watch("hour")
+  @Watch("minute")
+  @Watch("second")
+  timeChangeHandler(): void {
+    const { hour, minute } = this.getTime();
+    if (!hour && !minute) {
+      this.setValue("meridiem", null, false);
+    }
+    if (this.timeChanged) {
+      this.timeChanged = false;
+    }
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -345,16 +343,6 @@ export class CalciteTimePicker {
   private focusHandler = (event: FocusEvent): void => {
     this.activeEl = event.currentTarget as HTMLSpanElement;
   };
-
-  private getDisplayHour(): string {
-    if (!this.hour) {
-      return "--";
-    }
-    if (this.hourDisplayFormat === "12") {
-      return getMeridiemHour(this.hour);
-    }
-    return this.hour;
-  }
 
   private getTime(): Time {
     return {
@@ -638,10 +626,20 @@ export class CalciteTimePicker {
       if (this.second && this.step !== 60) {
         this.value = `${this.hour}:${this.minute}:${this.second}`;
       } else {
-        this.value = `${this.hour}:${this.minute}`;
+        this.value = `${this.hour}:${this.minute}:00`;
       }
+      const { localizedHour, localizedMinute, localizedSecond, localizedMeridiem } =
+        localizeTimeStringToParts(this.value, this.locale);
+      this.localizedHour = localizedHour;
+      this.localizedMinute = localizedMinute;
+      this.localizedSecond = localizedSecond;
+      this.localizedMeridiem = localizedMeridiem;
     } else {
-      this.value = "";
+      this.value = null;
+      this.localizedHour = null;
+      this.localizedMinute = null;
+      this.localizedSecond = null;
+      this.localizedMeridiem = null;
     }
     this.timeChanged = true;
     if (emit) {
@@ -659,18 +657,13 @@ export class CalciteTimePicker {
     if (this.hourDisplayFormat === "12") {
       this.meridiem = getMeridiem(this.hour);
     }
-    if (isValidNumber(this.hour)) {
-      this.hour = formatTimePart(parseInt(this.hour));
-    }
-    if (isValidNumber(this.minute)) {
-      this.minute = formatTimePart(parseInt(this.minute));
-    }
-    if (isValidNumber(this.second)) {
-      this.second = formatTimePart(parseInt(this.second));
-    }
     if (isValidTime(this.value)) {
+      const { hour, minute, second } = parseTimeString(this.value);
       const { localizedHour, localizedMinute, localizedSecond, localizedMeridiem } =
         localizeTimeStringToParts(this.value, this.locale);
+      this.hour = hour;
+      this.minute = minute;
+      this.second = second;
       this.localizedHour = localizedHour;
       this.localizedMinute = localizedMinute;
       this.localizedSecond = localizedSecond;
