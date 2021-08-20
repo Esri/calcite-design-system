@@ -11,7 +11,7 @@ import {
   Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { focusElement } from "../../utils/dom";
+import { focusElement, closestElementCrossShadowBoundary } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { hiddenInputStyle } from "../../utils/form";
 import { CSS } from "./resources";
@@ -143,8 +143,6 @@ export class CalciteRadioButton {
 
   private inputEl: HTMLInputElement;
 
-  private radio: HTMLCalciteRadioElement;
-
   private rootNode: HTMLElement;
 
   //--------------------------------------------------------------------------
@@ -257,7 +255,7 @@ export class CalciteRadioButton {
   @Listen("click")
   check(event: MouseEvent | FocusEvent): void {
     // Prevent parent label from clicking the first radio when calcite-radio-button is clicked
-    if (this.el.closest("label") && (event.target === this.el || event.target === this.radio)) {
+    if (this.el.closest("label") && event.composedPath().includes(this.el)) {
       event.preventDefault();
     }
     if (!this.disabled && !this.hidden) {
@@ -310,7 +308,7 @@ export class CalciteRadioButton {
     if (this.name) {
       this.checkLastRadioButton();
     }
-    const form = this.el.closest("form");
+    const form = closestElementCrossShadowBoundary(this.el, "form") as HTMLFormElement;
     if (form) {
       form.addEventListener("reset", this.formResetHandler);
     }
@@ -324,7 +322,7 @@ export class CalciteRadioButton {
   }
 
   disconnectedCallback(): void {
-    const form = this.el.closest("form");
+    const form = closestElementCrossShadowBoundary(this.el, "form") as HTMLFormElement;
     if (form) {
       form.removeEventListener("reset", this.formResetHandler);
     }
@@ -361,7 +359,6 @@ export class CalciteRadioButton {
           focused={this.focused}
           hidden={this.hidden}
           hovered={this.hovered}
-          ref={(el) => (this.radio = el)}
           scale={this.scale}
         />
       </div>

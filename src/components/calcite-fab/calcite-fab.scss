@@ -1,6 +1,5 @@
 :host {
-  @extend %component-host;
-  @apply bg-transparent;
+  @apply flex bg-transparent;
 }
 
 calcite-button {

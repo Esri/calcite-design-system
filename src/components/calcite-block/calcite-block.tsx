@@ -6,7 +6,7 @@ import { CalciteHeading, HeadingLevel } from "../functional/CalciteHeading";
 import { Status } from "../interfaces";
 
 /**
- * @slot icon - A slot for adding a trailing header icon.
+ * @slot icon - A slot for adding a leading header icon.
  * @slot control - A slot for adding a single HTML input element in a header.
  * @slot header-menu-actions - a slot for adding an overflow menu with actions inside a dropdown.
  * @slot - A slot for adding content to the block.
@@ -201,7 +201,7 @@ export class CalciteBlock {
             title={toggleLabel}
           >
             {headerContent}
-            {!hasControl ? (
+            {!hasControl && !hasMenuActions ? (
               <calcite-icon
                 aria-hidden="true"
                 class={CSS.toggleIcon}

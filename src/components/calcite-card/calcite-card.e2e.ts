@@ -8,7 +8,7 @@ const placeholder = placeholderImage({
 });
 
 describe("calcite-card", () => {
-  it("renders", async () => renders("calcite-card"));
+  it("renders", async () => renders("calcite-card", { display: "block" }));
 
   it("is accessible", async () => accessible("calcite-card"));
 

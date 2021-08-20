@@ -51,6 +51,11 @@ export class CalcitePickListItem {
   @Prop() disableDeselect = false;
 
   /**
+   * @internal When true, the item cannot be selected by user interaction.
+   */
+  @Prop({ reflect: true }) nonInteractive = false;
+
+  /**
    * Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null.
    * @see [ICON_TYPES](https://github.com/Esri/calcite-components/blob/master/src/components/calcite-pick-list/resources.ts#L5)
    */
@@ -100,7 +105,7 @@ export class CalcitePickListItem {
 
   /**
    * The text for the remove item buttons. Only applicable if removable is true.
-   * @default "remove"
+   * @default "Remove"
    */
   @Prop({ reflect: true }) intlRemove = TEXT.remove;
 
@@ -193,7 +198,7 @@ export class CalcitePickListItem {
   // --------------------------------------------------------------------------
 
   pickListClickHandler = (event: MouseEvent): void => {
-    if (this.disabled || (this.disableDeselect && this.selected)) {
+    if (this.disabled || (this.disableDeselect && this.selected) || this.nonInteractive) {
       return;
     }
 
@@ -204,7 +209,7 @@ export class CalcitePickListItem {
   pickListKeyDownHandler = (event: KeyboardEvent): void => {
     if (event.key === " ") {
       event.preventDefault();
-      if (this.disableDeselect && this.selected) {
+      if ((this.disableDeselect && this.selected) || this.nonInteractive) {
         return;
       }
       this.selected = !this.selected;

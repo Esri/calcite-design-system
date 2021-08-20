@@ -13,7 +13,12 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementDir, getElementProp, setRequestedIcon } from "../../utils/dom";
+import {
+  getElementDir,
+  getElementProp,
+  setRequestedIcon,
+  closestElementCrossShadowBoundary
+} from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./calcite-input.resources";
 import { InputPlacement } from "./interfaces";
@@ -25,7 +30,12 @@ import {
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 import { hiddenInputStyle } from "../../utils/form";
-import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
+import {
+  isValidDecimal,
+  isValidNumber,
+  parseNumberString,
+  sanitizeNumberString
+} from "../../utils/number";
 import { CSS_UTILITY, TEXT } from "../../utils/resources";
 
 type NumberNudgeDirection = "up" | "down";
@@ -146,6 +156,9 @@ export class CalciteInput {
   /** optionally add prefix  */
   @Prop() prefixText?: string;
 
+  /** When true, a field cannot be modified. */
+  @Prop() readOnly = false;
+
   /** is the input required */
   @Prop() required = false;
 
@@ -156,7 +169,7 @@ export class CalciteInput {
   @Prop({ mutable: true, reflect: true }) status: Status = "idle";
 
   /** input step */
-  @Prop({ mutable: true, reflect: true }) step?: number | "any";
+  @Prop({ reflect: true }) step?: number | "any";
 
   /** optionally add suffix  **/
   @Prop() suffixText?: string;
@@ -260,11 +273,10 @@ export class CalciteInput {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.form = this.el.closest("form");
+    this.form = closestElementCrossShadowBoundary(this.el, "form") as HTMLFormElement;
     this.form?.addEventListener("reset", this.reset);
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.status = getElementProp(this.el, "status", this.status);
-    this.step = !this.step && this.type === "number" ? "any" : this.step;
     if (this.type === "number" && this.value) {
       if (isValidNumber(this.value)) {
         this.localizedValue = localizeNumberString(this.value, this.locale, this.groupSeparator);
@@ -337,6 +349,9 @@ export class CalciteInput {
 
   @Listen("keydown")
   keyDownHandler(event: KeyboardEvent): void {
+    if (this.readOnly || this.disabled) {
+      return;
+    }
     if (this.isClearable && getKey(event.key) === "Escape") {
       this.clearInputValue(event);
       event.preventDefault();
@@ -396,16 +411,25 @@ export class CalciteInput {
   };
 
   private inputInputHandler = (nativeEvent: InputEvent): void => {
+    if (this.disabled || this.readOnly) {
+      return;
+    }
     this.setValue((nativeEvent.target as HTMLInputElement).value, nativeEvent);
   };
 
   private inputKeyDownHandler = (event: KeyboardEvent): void => {
+    if (this.disabled || this.readOnly) {
+      return;
+    }
     if (event.key === "Enter") {
       this.calciteInputChange.emit();
     }
   };
 
   private inputNumberInputHandler = (nativeEvent: InputEvent): void => {
+    if (this.disabled || this.readOnly) {
+      return;
+    }
     const value = (nativeEvent.target as HTMLInputElement).value;
     const delocalizedValue = delocalizeNumberString(value, this.locale);
     if (nativeEvent.inputType === "insertFromPaste") {
@@ -420,7 +444,7 @@ export class CalciteInput {
   };
 
   private inputNumberKeyDownHandler = (event: KeyboardEvent): void => {
-    if (this.type !== "number") {
+    if (this.type !== "number" || this.disabled || this.readOnly) {
       return;
     }
     if (event.key === "ArrowUp") {
@@ -457,7 +481,10 @@ export class CalciteInput {
       return;
     }
     const decimalSeparator = getDecimalSeparator(this.locale);
-    if (event.key === decimalSeparator) {
+    if (
+      event.key === decimalSeparator &&
+      (this.step === "any" || (this.step && isValidDecimal(this.step)))
+    ) {
       if (!this.value && !this.childNumberEl.value) {
         return;
       }
@@ -493,7 +520,7 @@ export class CalciteInput {
     this.setValue(newValue, nativeEvent, true);
   };
 
-  private numberButtonMouseDownHandler = (event: MouseEvent): void => {
+  private numberButtonClickHandler = (event: MouseEvent): void => {
     // todo, when dropping ie11 support, refactor to use stepup/stepdown
     // prevent blur and re-focus of input on mousedown
     event.preventDefault();
@@ -575,11 +602,15 @@ export class CalciteInput {
       </div>
     );
 
-    const iconScale = this.scale === "s" || this.scale === "m" ? "s" : "m";
-
     const inputClearButton = (
-      <button class={CSS.clearButton} disabled={this.loading} onClick={this.clearInputValue}>
-        <calcite-icon icon="x" scale={iconScale} />
+      <button
+        class={CSS.clearButton}
+        disabled={this.disabled || this.readOnly}
+        onClick={this.clearInputValue}
+        tabIndex={this.disabled ? -1 : 0}
+        type="button"
+      >
+        <calcite-icon icon="x" scale="s" />
       </button>
     );
     const iconEl = (
@@ -588,36 +619,42 @@ export class CalciteInput {
         dir={dir}
         flipRtl={this.iconFlipRtl}
         icon={this.requestedIcon}
-        scale={iconScale}
+        scale="s"
       />
     );
 
     const isHorizontalNumberButton = this.numberButtonType === "horizontal";
 
     const numberButtonsHorizontalUp = (
-      <div
+      <button
         class={{
           [CSS.numberButtonItem]: true,
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton
         }}
         data-adjustment="up"
-        onMouseDown={this.numberButtonMouseDownHandler}
+        disabled={this.disabled || this.readOnly}
+        onClick={this.numberButtonClickHandler}
+        tabIndex={-1}
+        type="button"
       >
-        <calcite-icon icon="chevron-up" scale={iconScale} />
-      </div>
+        <calcite-icon icon="chevron-up" scale="s" />
+      </button>
     );
 
     const numberButtonsHorizontalDown = (
-      <div
+      <button
         class={{
           [CSS.numberButtonItem]: true,
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton
         }}
         data-adjustment="down"
-        onMouseDown={this.numberButtonMouseDownHandler}
+        disabled={this.disabled || this.readOnly}
+        onClick={this.numberButtonClickHandler}
+        tabIndex={-1}
+        type="button"
       >
-        <calcite-icon icon="chevron-down" scale={iconScale} />
-      </div>
+        <calcite-icon icon="chevron-down" scale="s" />
+      </button>
     );
 
     const numberButtonsVertical = (
@@ -647,8 +684,9 @@ export class CalciteInput {
           onInput={this.inputNumberInputHandler}
           onKeyDown={this.inputNumberKeyDownHandler}
           placeholder={this.placeholder || ""}
+          readOnly={this.readOnly}
           ref={this.setChildNumberElRef}
-          tabIndex={0}
+          tabIndex={this.disabled ? -1 : 0}
           type="text"
           value={this.localizedValue}
         />
@@ -670,6 +708,7 @@ export class CalciteInput {
         onInput={this.inputInputHandler}
         onKeyDown={this.inputKeyDownHandler}
         placeholder={this.placeholder || ""}
+        readOnly={this.readOnly}
         ref={this.setChildElRef}
         required={this.required ? true : null}
         step={this.step}

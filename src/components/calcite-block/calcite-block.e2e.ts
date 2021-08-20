@@ -4,7 +4,7 @@ import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 
 describe("calcite-block", () => {
-  it("renders", async () => renders("calcite-block"));
+  it("renders", async () => renders("calcite-block", { display: "flex" }));
 
   it("honors hidden attribute", async () => hidden("calcite-block"));
 
@@ -196,9 +196,6 @@ describe("calcite-block", () => {
       const controlSlot = await page.find(`calcite-block >>> slot[name=${SLOTS.control}]`);
       expect(await controlSlot.isVisible()).toBe(true);
 
-      const collapsibleIcon = await page.find(`calcite-block >>> .${CSS.toggleIcon}`);
-      expect(collapsibleIcon).toBeNull();
-
       const block = await page.find("calcite-block");
       const blockToggleSpy = await block.spyOnEvent("calciteBlockToggle");
 
@@ -210,6 +207,17 @@ describe("calcite-block", () => {
       await block.click();
       await block.click();
       expect(blockToggleSpy).toHaveReceivedEventTimes(2);
+    });
+
+    it("does not render collapsible icon when a control is added to the header", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        `<calcite-block heading="test-heading" collapsible>
+          <calcite-action text="test" icon="banana" slot="${SLOTS.control}"></calcite-action>
+        </calcite-block>`
+      );
+      const collapsibleIcon = await page.find(`calcite-block >>> .${CSS.toggleIcon}`);
+      expect(collapsibleIcon).toBeNull();
     });
 
     it("supports a header icon", async () => {
@@ -252,6 +260,17 @@ describe("calcite-block", () => {
 
       const actionAssignedSlot = await page.$eval("calcite-action", (action) => action.assignedSlot.name);
       expect(actionAssignedSlot).toBe(SLOTS.headerMenuActions);
+    });
+
+    it("does not render collapsible icon when actions are added to the header menu", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        `<calcite-block heading="test-heading" collapsible>
+          <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
+        </calcite-block>`
+      );
+      const collapsibleIcon = await page.find(`calcite-block >>> .${CSS.toggleIcon}`);
+      expect(collapsibleIcon).toBeNull();
     });
   });
 });

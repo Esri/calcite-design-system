@@ -4,5 +4,5 @@ export const CSS = {
 };
 
 export const TEXT = {
-  close: "close"
+  close: "Close"
 };

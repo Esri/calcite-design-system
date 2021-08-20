@@ -28,7 +28,7 @@ export class CalciteChip {
   @Prop({ reflect: true }) dismissible?: boolean = false;
 
   /** Aria label for the "x" button
-   * @default "close"
+   * @default "Close"
    */
   @Prop() dismissLabel?: string = TEXT.close;
 

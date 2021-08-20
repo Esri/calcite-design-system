@@ -1,13 +1,6 @@
 import { Point, DataSeries, Graph, TranslateOptions, Translator, Extent } from "../calcite-graph/interfaces";
 
 /**
- * Math.sign not supported in IE
- */
-function sign(x: number): number {
-  return x < 0 ? -1 : 1;
-}
-
-/**
  * Calculate slope of the tangents
  * uses Steffen interpolation as it's monotonic
  * http://jrwalsh1.github.io/posts/interpolations/
@@ -20,7 +13,7 @@ function slope(p0: Point, p1: Point, p2: Point): number {
   const m = dy / (dx || (dx1 < 0 && 0));
   const m1 = dy1 / (dx1 || (dx < 0 && 0));
   const p = (m * dx1 + m1 * dx) / (dx + dx1);
-  return (sign(m) + sign(m1)) * Math.min(Math.abs(m), Math.abs(m1), 0.5 * Math.abs(p)) || 0;
+  return (Math.sign(m) + Math.sign(m1)) * Math.min(Math.abs(m), Math.abs(m1), 0.5 * Math.abs(p)) || 0;
 }
 
 /**

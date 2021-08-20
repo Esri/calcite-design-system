@@ -3,7 +3,7 @@ import { accessible, defaults, hidden, reflects, renders } from "../../tests/com
 import { html } from "../../tests/utils";
 
 describe("calcite-tile", () => {
-  it("renders", async () => renders("calcite-tile"));
+  it("renders", async () => renders("calcite-tile", { display: "inline-block" }));
 
   it("is accessible", async () => accessible(`<calcite-tile></calcite-tile>`));
 
