@@ -23,6 +23,12 @@
     @apply h-full;
   }
 
+  ::slotted(.calcite-match-height:last-child) {
+    @apply flex
+    flex-auto
+    overflow-hidden;
+  }
+
   .frame--advancing {
     animation: calcite-frame-advance $transition;
   }

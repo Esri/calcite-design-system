@@ -3,7 +3,7 @@ import { accessible, hidden, renders, defaults } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-tip", () => {
-  it("renders", async () => renders("calcite-tip"));
+  it("renders", async () => renders("calcite-tip", { display: "flex" }));
 
   it("honors hidden attribute", async () => hidden("calcite-tip"));
 

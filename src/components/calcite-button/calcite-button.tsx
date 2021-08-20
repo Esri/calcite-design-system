@@ -145,19 +145,18 @@ export class CalciteButton {
             class={this.loading ? CSS.loadingIn : CSS.loadingOut}
             inline
             label={this.intlLoading}
+            scale="m"
           />
         ) : null}
       </div>
     );
-
-    const iconScale = this.scale === "l" ? "m" : "s";
 
     const iconStartEl = (
       <calcite-icon
         class={{ [CSS.icon]: true, [CSS.iconStart]: true }}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
-        scale={iconScale}
+        scale="s"
       />
     );
 
@@ -166,7 +165,7 @@ export class CalciteButton {
         class={{ [CSS.icon]: true, [CSS.iconEnd]: true }}
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
-        scale={iconScale}
+        scale="s"
       />
     );
 

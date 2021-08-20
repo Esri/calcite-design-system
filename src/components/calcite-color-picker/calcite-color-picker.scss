@@ -5,12 +5,12 @@ $gap--small: 4px;
 $gap--large: 12px;
 
 :host {
-  display: inline-block;
+  @apply inline-block text--2h font-normal;
 }
 
 :host([scale="s"]) {
   .container {
-    width: 156px;
+    width: 160px;
   }
 
   .saved-colors {
@@ -44,11 +44,16 @@ $gap--large: 12px;
       margin-right: $gap--large;
     }
   }
+  .header {
+    @apply pb-0;
+  }
 }
 
 :host([scale="l"]) {
+  @apply text--1h;
+
   .container {
-    width: 420px;
+    width: 464px;
   }
 
   .color-field-and-slider {
@@ -82,7 +87,8 @@ $gap--large: 12px;
       flex
       flex-col
       justify-around;
-    min-height: 90px;
+    min-height: 98px;
+    width: 160px;
   }
 
   .color-mode-container {
@@ -149,32 +155,22 @@ $gap--large: 12px;
   }
 }
 
-.color-hex-options {
-  @apply mb-4;
-}
-
 .color-hex-options,
 .section--split {
   flex-grow: 1;
 }
 
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: var(--calcite-ui-text-3);
-  font-weight: 500;
-  @include font-size(-2);
+  @apply flex
+    items-center
+    justify-between
+    text-color-1
+    pb-1;
 }
 
-.header--hex {
-  line-height: 1.5;
-  @include font-size(-2);
+.header--hex,
+.color-mode-container {
   padding-top: $section-padding;
-}
-
-.control {
-  margin-top: 8px;
 }
 
 .channels {

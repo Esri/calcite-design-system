@@ -3,7 +3,7 @@ import { accessible, hidden, renders } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-action", () => {
-  it("renders", async () => renders("calcite-action"));
+  it("renders", async () => renders("calcite-action", { display: "flex" }));
 
   it("honors hidden attribute", async () => hidden("calcite-action"));
 
@@ -130,42 +130,6 @@ describe("calcite-action", () => {
     const clickSpy = await action.spyOnEvent("click");
 
     await action.click();
-
-    expect(clickSpy).toHaveReceivedEventTimes(0);
-  });
-
-  it("should emit 'calciteActionClick' event", async () => {
-    const page = await newE2EPage({
-      html: `<calcite-action text="hello world"></calcite-action>`
-    });
-
-    await page.waitForChanges();
-
-    const clickSpy = await page.spyOnEvent("calciteActionClick");
-
-    const button = await page.find("calcite-action >>> button");
-
-    await button.click();
-
-    await page.waitForChanges();
-
-    expect(clickSpy).toHaveReceivedEventTimes(1);
-  });
-
-  it("should not emit 'calciteActionClick' event when disabled", async () => {
-    const page = await newE2EPage({
-      html: `<calcite-action text="hello world" disabled></calcite-action>`
-    });
-
-    await page.waitForChanges();
-
-    const clickSpy = await page.spyOnEvent("calciteActionClick");
-
-    const button = await page.find("calcite-action >>> button");
-
-    await button.click();
-
-    await page.waitForChanges();
 
     expect(clickSpy).toHaveReceivedEventTimes(0);
   });

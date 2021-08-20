@@ -50,7 +50,10 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 }
 
 .loader__text {
-  @apply block text-center;
+  @apply block
+  text--2h
+  text-center
+  text-color-1;
   margin-top: calc(var(--calcite-loader-size) + theme("spacing.6"));
 }
 
@@ -82,7 +85,6 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   height: var(--calcite-loader-size);
   animation-iteration-count: infinite;
   animation-timing-function: linear;
-  // by default the animation is rotation for ie. and edge
   animation-name: loader-clockwise;
 }
 

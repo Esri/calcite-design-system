@@ -3,7 +3,7 @@ import { accessible, defaults, focusable, reflects, renders } from "../../tests/
 import { formatTimePart, getMeridiem, localizeTimeString } from "../../utils/time";
 
 describe("calcite-input-time-picker", () => {
-  it("renders", async () => renders("calcite-input-time-picker"));
+  it("renders", async () => renders("calcite-input-time-picker", { display: "inline-block" }));
 
   it("is accessible", async () =>
     accessible(`

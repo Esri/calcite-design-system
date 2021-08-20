@@ -1,54 +1,56 @@
 :host([scale="s"]) {
   .calcite-inline-editable__controls-wrapper {
-    height: 32px;
+    @apply h-6;
   }
 }
 
 :host([scale="m"]) {
   .calcite-inline-editable__controls-wrapper {
-    height: 44px;
+    @apply h-8;
   }
 }
 
 :host([scale="l"]) {
   .calcite-inline-editable__controls-wrapper {
-    height: 56px;
+    @apply h-11;
   }
 }
 
 :host(:not([editing-enabled])) {
   .calcite-inline-editable__wrapper {
     &:hover {
-      background: var(--calcite-ui-foreground-2);
+      @apply bg-foreground-2;
     }
   }
 }
 
 .calcite-inline-editable__wrapper {
-  box-sizing: border-box;
-  display: flex;
-  justify-content: space-between;
-  transition: $transition;
-  background: var(--calcite-ui-foreground-1);
+  @apply box-border
+    flex
+    justify-between
+    bg-foreground-1
+    transition-default;
 
   .calcite-inline-editable__input-wrapper {
-    flex: 1;
+    @apply flex-1;
   }
 }
 
 .calcite-inline-editable__controls-wrapper {
-  display: flex;
+  @apply flex;
 }
 
 .calcite-inline-editable__cancel-editing-button-wrapper {
-  border: 1px solid var(--calcite-ui-border-1);
-  border-left: none;
-  border-right: none;
+  @apply border
+    border-solid
+    border-color-input
+    border-l-0
+    border-r-0;
 }
 
 :host([disabled]) {
   .calcite-inline-editable__cancel-editing-button-wrapper {
-    border-color: var(--calcite-ui-border-2);
+    @apply border-color-2;
   }
 }
 
@@ -57,7 +59,7 @@
     .calcite-input__element-wrapper {
       textarea,
       input {
-        transition: $transition;
+        @apply transition-default;
       }
     }
   }
@@ -66,7 +68,7 @@
 :host(:not([editing-enabled])) {
   &::slotted(*) {
     .calcite-input__element-wrapper {
-      background: transparent;
+      @apply bg-transparent;
     }
   }
 }
@@ -74,18 +76,18 @@
 :host(:not([editing-enabled])) {
   &::slotted(*) {
     .sc-calcite-input {
-      display: none;
+      @apply hidden;
     }
 
     .calcite-input__element-wrapper {
-      display: flex;
-      cursor: pointer;
+      @apply flex
+        cursor-pointer;
       textarea,
       input {
-        border-color: transparent;
-        padding-left: 0;
-        cursor: pointer;
-        display: flex;
+        @apply flex
+          cursor-pointer
+          pl-0
+          border-color-transparent;
       }
     }
   }
@@ -94,7 +96,7 @@
     &::slotted(*) {
       textarea,
       input {
-        background: var(--calcite-ui-foreground-2);
+        @apply bg-foreground-2;
       }
     }
   }
@@ -106,8 +108,8 @@
       .calcite-input__element-wrapper {
         textarea,
         input {
-          padding-right: 0;
           padding-left: unset;
+          @apply pr-0;
         }
       }
     }
@@ -121,8 +123,8 @@
         .calcite-input__element-wrapper {
           textarea,
           input {
-            padding-right: 0;
             padding-left: unset;
+            @apply pr-0;
           }
         }
       }

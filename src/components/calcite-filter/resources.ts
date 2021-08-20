@@ -4,7 +4,7 @@ export const CSS = {
   clearButton: "clear-button"
 };
 export const TEXT = {
-  filterLabel: "filter",
+  filterLabel: "Filter",
   clear: "Clear filter"
 };
 
