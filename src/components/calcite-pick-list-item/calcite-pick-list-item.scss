@@ -1,21 +1,18 @@
 :host {
-	@apply items-stretch
+  @apply items-stretch
+    box-border
     flex
-    text-color-link
     shadow-border-bottom
     m-0
-    mb-px;
-	transition: background-color $transition;
-	animation: calcite-fade-in $transition;
-	* {
-		@apply box-border;
-	}
-	background-color: var(--calcite-ui-foreground-1);
-  	font-size: var(--calcite-font-size--1);
+    mb-px
+    bg-foreground-1
+    text--1h;
+  transition: background-color $transition;
+  animation: calcite-fade-in $transition;
 }
 
 .label {
-  @apply bg-transparent flex flex-auto items-center cursor-pointer focus-base;
+  @apply bg-transparentflexflex-autoitems-centercursor-pointerfocus-base;
   &:focus {
     @apply focus-inset;
   }
@@ -62,22 +59,23 @@
 }
 
 .text-container {
-	@apply flex
+  @apply flex
     overflow-hidden
     pointer-events-none
     py-2
     px-3
     text--2-wrap
-    word-break;
-	flex-flow: column nowrap;
+    word-break
+    flex-col
+    flex-no-wrap;
 }
 
 .title {
-	@apply text-color-1;
+  @apply text-color-1 font-normal;
 }
 
 .description {
-	@apply mt-0.5 text-color-3;
+  @apply mt-0.5 text-color-3 font-normal;
 }
 
 .actions {
@@ -85,10 +83,10 @@
 }
 
 .actions--start ~ .label {
-	@apply pl-1;
+  @apply pl-1;
 }
 
 .calcite--rtl .actions--start ~ .label {
-	padding-left: unset;
-	@apply pr-1;
+  padding-left: unset;
+  @apply pr-1;
 }
