@@ -47,11 +47,20 @@ export const Simple = stepStory(
         placement="${select("placement", calcite_placements, "auto")}"
         offset-distance="${number("offset-distance", 6)}"
         offset-skidding="${number("offset-skidding", 0)}"
-        ${boolean("open", true)}
+        ${boolean("open", false)}
       >
         ${contentHTML}
       </calcite-tooltip>
     </div>
   `,
-  createSteps().snapshot("Default").rtl().snapshot("Rtl").ltr().executeScript(themeToggleScript).snapshot("Dark theme")
+  createSteps()
+    .snapshot("Default")
+    .hover("#reference-element")
+    .waitForNotFound("[calcite-hydrated-hidden]")
+    .snapshot("Open")
+    .rtl()
+    .snapshot("Rtl")
+    .ltr()
+    .executeScript(themeToggleScript)
+    .snapshot("Dark theme")
 );

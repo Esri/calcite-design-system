@@ -25,7 +25,7 @@ export interface Story {
 export const themeToggleScript = `document.body.classList.toggle('${CSS_UTILITY.darkTheme}');`;
 
 export const createSteps = (): Steps => {
-  return new Steps().wait("[calcite-hydrated]").waitForNotFound("[calcite-hydrated-hidden]");
+  return new Steps().wait("[calcite-hydrated]");
 };
 
 export const stepStory = (story: Story, steps: Steps): Story => {
