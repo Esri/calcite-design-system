@@ -5,11 +5,17 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 <!--@unreleased-section-start-->
 
-## Unreleased (2021-08-18)
+## Unreleased (2021-08-23)
 
 ### Features
 
 - **alert, chip, date-picker, input-date-picker, filter, pagination, pick-list-item, rating:** capitalize default text values ([#2827](https://github.com/Esri/calcite-components/issues/2827)) ([140a051](https://github.com/Esri/calcite-components/commit/140a051150b4b17255673c20efc6913e73484703)), closes [#2755](https://github.com/Esri/calcite-components/issues/2755) [#2842](https://github.com/Esri/calcite-components/issues/2842) [#2668](https://github.com/Esri/calcite-components/issues/2668) [#2783](https://github.com/Esri/calcite-components/issues/2783) [#2717](https://github.com/Esri/calcite-components/issues/2717)
+- **flow:** add match-height class ([f65fca8](https://github.com/Esri/calcite-components/commit/f65fca847d09d864d6046ff54eecd701500e3525)), closes [#2741](https://github.com/Esri/calcite-components/issues/2741)
+- **scrim:** render default slot and add related styles ([4250c44](https://github.com/Esri/calcite-components/commit/4250c44f4cca8d9bb1c3495233ce3ec87dc7bc83)), closes [#2801](https://github.com/Esri/calcite-components/issues/2801) [#2801](https://github.com/Esri/calcite-components/issues/2801) [#2801](https://github.com/Esri/calcite-components/issues/2801) [#2801](https://github.com/Esri/calcite-components/issues/2801) [#2801](https://github.com/Esri/calcite-components/issues/2801)
+
+### Bug Fixes
+
+- **combobox:** Set focus style correctly. [#2515](https://github.com/Esri/calcite-components/issues/2515) ([#2875](https://github.com/Esri/calcite-components/issues/2875)) ([ac3cf5c](https://github.com/Esri/calcite-components/commit/ac3cf5c1d811bbd33245fc1b08fe55534dcf2cdd))
 <!--@unreleased-section-end-->
 
 ## [1.0.0-beta.62](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.61...v1.0.0-beta.62) (2021-08-17)
