@@ -54,7 +54,7 @@ export const Simple = stepStory(
     </div>
   `,
   createSteps()
-    .hover("#reference-element")
+    .hover("calcite-button")
     .snapshot("Default")
     .rtl()
     .snapshot("Rtl")

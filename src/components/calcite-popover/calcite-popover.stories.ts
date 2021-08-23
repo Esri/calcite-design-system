@@ -68,7 +68,7 @@ export const Simple = stepStory(
         placement="${select("placement", calcite_placements, "auto")}"
         offset-distance="${number("offset-distance", 6)}"
         offset-skidding="${number("offset-skidding", 0)}"
-        ${boolean("open", true)}
+        ${boolean("open", false)}
         text-close="${text("text-close", "Close")}"
       >
         ${contentHTML}
@@ -76,6 +76,7 @@ export const Simple = stepStory(
     </div>
   `,
   createSteps()
+    .click("calcite-button")
     .snapshot("Default")
     .executeScript('window.location.href = "?path=/story/components-popover--simple&knob-dismissible=true"')
     .snapshot("dismissible")
