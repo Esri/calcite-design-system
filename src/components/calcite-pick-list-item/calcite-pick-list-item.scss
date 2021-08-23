@@ -12,7 +12,12 @@
 }
 
 .label {
-  @apply bg-transparentflexflex-autoitems-centercursor-pointerfocus-base;
+  @apply bg-transparent
+    flex
+    flex-auto
+    items-center
+    cursor-pointer
+    focus-base;
   &:focus {
     @apply focus-inset;
   }
