@@ -8,15 +8,8 @@
  */
 
 :host {
-  @apply block;
+  @apply block box-border bg-foreground-1 text-color-2 text--1h;
   --calcite-tip-manager-height: 19vh;
-  //--calcite-tip-max-width: 600px;
-  * {
-    @apply box-border;
-  }
-  background-color: var(--calcite-ui-foreground-1);
-  color: var(--calcite-ui-text-2);
-  font-size: var(--calcite-font-size--1);
 }
 
 :host([closed]) {
@@ -25,10 +18,7 @@
 
 @import "../../assets/styles/header";
 
-.header .heading {
-
-}
-.header.header {
+.header {
   @apply border-0
     border-b
     border-solid 
@@ -39,8 +29,7 @@
 }
 
 h2.heading {
-  @apply font-bold text-color-1;
-  font-size: var(--calcite-font-size-1);
+  @apply font-bold text-color-1 text-1h;
 }
 
 .container {
@@ -59,12 +48,11 @@ h2.heading {
     flex
     justify-center
     items-start
-    focus-base;
+    focus-base
+    mt-px;
   animation-name: none;
   animation-duration: 150ms;
-  // animation-timing-function: $easing-function;
   height: var(--calcite-tip-manager-height);
-  margin-top: 1px;
   &:focus {
     @apply focus-outset;
   }

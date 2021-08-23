@@ -5,13 +5,11 @@
     m-4
     border
     border-solid
-    border-color-2;
-    * {
-      @apply box-border;
-    }
-    background-color: var(--calcite-ui-foreground-1);
-    color: var(--calcite-ui-text-2);
-    font-size: var(--calcite-font-size--1);
+    border-color-2
+    box-border
+    bg-foreground-1
+    text-color-2
+    text--1h;
 }
 
 .container {
