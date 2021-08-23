@@ -5,7 +5,7 @@ $gap--small: 4px;
 $gap--large: 12px;
 
 :host {
-  @apply inline-block text--2h;
+  @apply inline-block text--2h font-normal;
 }
 
 :host([scale="s"]) {
@@ -43,6 +43,9 @@ $gap--large: 12px;
       margin-left: 0;
       margin-right: $gap--large;
     }
+  }
+  .header {
+    @apply pb-0;
   }
 }
 
@@ -161,7 +164,8 @@ $gap--large: 12px;
   @apply flex
     items-center
     justify-between
-    text-color-1;
+    text-color-1
+    pb-1;
 }
 
 .header--hex,

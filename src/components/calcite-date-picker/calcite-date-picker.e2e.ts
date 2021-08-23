@@ -130,7 +130,7 @@ describe("calcite-date-picker", () => {
         return document
           .querySelector("calcite-date-picker")
           .shadowRoot?.querySelector("calcite-date-picker-month")
-          .shadowRoot?.querySelector("span.week-header:first-child").textContent;
+          .shadowRoot?.querySelector(".week-header")?.textContent;
       });
 
       expect(text).toEqual("po");
