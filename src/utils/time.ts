@@ -100,11 +100,8 @@ export function localizeTimeString(value: string, locale = "en"): string {
   }
   const { hour, minute, second } = parseTimeString(value);
   const dateFromTimeString = new Date(Date.UTC(0, 0, 0, parseInt(hour), parseInt(minute), parseInt(second)));
-  if (dateFromTimeString) {
-    const formatter = createLocaleDateTimeFormatter(locale);
-    return formatter.format(dateFromTimeString);
-  }
-  return value;
+  const formatter = createLocaleDateTimeFormatter(locale);
+  return formatter?.format(dateFromTimeString) || null;
 }
 
 export function localizeTimeStringToParts(value: string, locale = "en"): LocalizedTime {
