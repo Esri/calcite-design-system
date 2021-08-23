@@ -56,7 +56,6 @@ export const Simple = stepStory(
   createSteps()
     .snapshot("Default")
     .hover("#reference-element")
-    .waitForNotFound("[calcite-hydrated-hidden]")
     .snapshot("Open")
     .rtl()
     .snapshot("Rtl")

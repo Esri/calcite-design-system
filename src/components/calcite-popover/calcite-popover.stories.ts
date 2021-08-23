@@ -78,7 +78,6 @@ export const Simple = stepStory(
   createSteps()
     .snapshot("Default")
     .click("#reference-element")
-    .waitForNotFound("[calcite-hydrated-hidden]")
     .snapshot("Open")
     .executeScript('window.location.href = "?path=/story/components-popover--simple&knob-dismissible=true"')
     .click("#reference-element")
