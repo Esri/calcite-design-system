@@ -38,3 +38,83 @@ main {
   font-weight: var(--calcite-app-font-weight);
   font-size: var(--calcite-app-font-size-1);
 }
+
+/*
+  **************************************************
+  * calcite-demo homepage
+  **************************************************
+*/
+  .navigation {
+    display: flex;
+    justify-content: center;
+    position: sticky;
+    background-color: var(--calcite-ui-brand-hover);
+    padding: 4vh;
+    gap: 50px;
+    top: 0;
+    z-index: 1000;
+    box-sizing: border-box;
+  }
+
+  .body-margin,
+  #parent-flexbox,
+  .examples-flexbox {
+    margin: 0 12%;
+  }
+
+  .demo-search-flexbox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .demo-search-flexbox-child {
+    flex: 0 1 300px;
+  }
+
+  #calcite-demo,
+  #examples {
+    color: var(--calcite-ui-brand-press);
+  }
+
+  #calcite-demo {
+    padding: 30px 0;
+  }
+
+  #parent-flexbox,
+  .examples-flexbox {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  #parent-flexbox div
+  {
+    flex: 1 0 19em;
+    text-align: center;
+  }
+
+  .notice,
+  .examples-flexbox {
+    gap: 3em;
+    margin-top: 3em;
+    margin-bottom: 3em;
+  }
+
+  .examples-flexbox div {
+    flex: 0 1 19em;
+  }
+
+  hr {
+    margin: 7em 0;
+    border-top: 1px solid var(--calcite-ui-border-2);
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  .demo-background-dark {
+    background: #202020;
+    color: white;
+    padding: 3rem 0;
+  }
