@@ -76,6 +76,7 @@ export const Simple = stepStory(
     </div>
   `,
   createSteps()
+    .wait("calcite-button")
     .click("calcite-button")
     .snapshot("Default")
     .executeScript('window.location.href = "?path=/story/components-popover--simple&knob-dismissible=true"')

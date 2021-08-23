@@ -54,6 +54,7 @@ export const Simple = stepStory(
     </div>
   `,
   createSteps()
+    .wait("calcite-button")
     .hover("calcite-button")
     .snapshot("Default")
     .rtl()
