@@ -22,7 +22,7 @@ export interface Story {
   decorators?: ((Story: Story) => DocumentFragment)[];
 }
 
-export const themeToggleScript = `document.body.classList.toggle('${CSS_UTILITY.darkTheme}');`;
+export const toggleThemeScript = `document.body.classList.toggle('${CSS_UTILITY.darkTheme}');`;
 
 export const createSteps = (): Steps => {
   return new Steps().wait("[calcite-hydrated]");
