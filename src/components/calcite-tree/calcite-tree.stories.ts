@@ -60,12 +60,7 @@ export const Simple = (): string => html`
 `;
 
 export const Ancestors = (): string => html`
-  <calcite-tree
-    ${boolean("lines", false)}
-    selection-mode="ancestors"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    ${boolean("input-enabled", false)}
-  >
+  <calcite-tree ${boolean("lines", false)} selection-mode="ancestors" scale="${select("scale", ["s", "m", "l"], "m")}">
     ${treeItems}
   </calcite-tree>
 `;

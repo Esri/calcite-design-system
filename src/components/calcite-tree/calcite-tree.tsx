@@ -37,8 +37,10 @@ export class CalciteTree {
   /** Display indentation guide lines */
   @Prop({ mutable: true, reflect: true }) lines = false;
 
-  /** Display input */
-  @Prop({ mutable: true }) inputEnabled = false;
+  /** Display input
+   * @deprecated use "ancestors" selection-mode for checkbox input
+   */
+  @Prop() inputEnabled = false;
 
   /** @internal If this tree is nested within another tree, set to false */
   @Prop({ reflect: true, mutable: true }) child: boolean;
@@ -63,7 +65,6 @@ export class CalciteTree {
     const parent: HTMLCalciteTreeElement = this.el.parentElement.closest("calcite-tree");
     this.lines = parent ? parent.lines : this.lines;
     this.scale = parent ? parent.scale : this.scale;
-    this.inputEnabled = parent ? parent.inputEnabled : this.inputEnabled;
     this.selectionMode = parent ? parent.selectionMode : this.selectionMode;
     this.child = !!parent;
   }
