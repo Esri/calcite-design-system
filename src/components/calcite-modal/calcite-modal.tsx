@@ -36,6 +36,14 @@ const getFocusableElements = (el: HTMLElement | ShadowRoot): HTMLElement[] => {
   return queryShadowRoot(el, isHidden, isFocusableExtended);
 };
 
+/**
+ * @slot header - a slot for adding a modal header
+ * @slot content - a slot for adding modal content
+ * @slot primary - a slot for adding a primary button
+ * @slot secondary - a slot for adding a secondary button
+ * @slot back - a slot for adding a back button
+ */
+
 @Component({
   tag: "calcite-modal",
   styleUrl: "calcite-modal.scss",

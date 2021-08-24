@@ -6,6 +6,9 @@ import { ChipColor } from "./interfaces";
 import { Appearance, Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 
+/**
+ * @slot image - a slot for adding an image
+ */
 @Component({
   tag: "calcite-chip",
   styleUrl: "calcite-chip.scss",
