@@ -123,6 +123,10 @@ export class CalciteTree {
       target.querySelectorAll("calcite-tree-item")
     ) as HTMLCalciteTreeItemElement[];
 
+    if (this.child) {
+      return;
+    }
+
     if (!this.child) {
       e.preventDefault();
       e.stopPropagation();
