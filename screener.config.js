@@ -1,4 +1,5 @@
 module.exports = {
+  alwaysAcceptBaseBranch: true,
   projectRepo: 'Esri/calcite-components',
   storybookConfigDir: '.storybook',
   storybookStaticDir: './__docs-temp__',

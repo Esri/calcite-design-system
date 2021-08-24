@@ -104,6 +104,7 @@ export const create: () => Config = () => ({
   rollupPlugins: {
     after: [
       babel({
+        babelHelpers: "bundled",
         include: [/\/color\//],
         plugins: ["@babel/plugin-proposal-numeric-separator"]
       })
