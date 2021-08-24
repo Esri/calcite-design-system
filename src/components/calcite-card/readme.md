@@ -19,6 +19,17 @@
 | ------------------- | ---------------------------------------- | ------------------ |
 | `calciteCardSelect` | Fired when a selectable card is selected | `CustomEvent<any>` |
 
+## Slots
+
+| Slot                | Description                                         |
+| ------------------- | --------------------------------------------------- |
+|                     | A slot for adding subheader/description content.    |
+| `"footer-leading"`  | A slot for adding a leading footer.                 |
+| `"footer-trailing"` | A slot for adding a trailing footer.                |
+| `"subtitle"`        | A slot for adding a card subtitle or short summary. |
+| `"thumbnail"`       | A slot for adding a thumbnail to the card.          |
+| `"title"`           | A slot for adding a card title.                     |
+
 ## Dependencies
 
 ### Depends on

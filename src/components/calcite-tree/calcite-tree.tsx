@@ -14,6 +14,9 @@ import { TreeItemSelectDetail } from "../calcite-tree-item/interfaces";
 import { TreeSelectDetail, TreeSelectionMode } from "./interfaces";
 import { Scale } from "../interfaces";
 
+/**
+ * @slot children - a slot for adding child components, commonly calcite-tree-item
+ */
 @Component({
   tag: "calcite-tree",
   styleUrl: "calcite-tree.scss",
