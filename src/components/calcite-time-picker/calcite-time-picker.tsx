@@ -126,6 +126,14 @@ export class CalciteTimePicker {
   /** The selected time in UTC */
   @Prop() value: string = null;
 
+  @Watch("value")
+  valueWatcher(newValue: string): void {
+    const { hour, minute, second } = parseTimeString(newValue);
+    this.setValue("hour", hour, false);
+    this.setValue("minute", minute, false);
+    this.setValue("second", second, false);
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties

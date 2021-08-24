@@ -93,7 +93,7 @@ export class CalciteInputTimePicker {
 
   @Watch("locale")
   localeWatcher(newLocale: string): void {
-    this.setInputValue(localizeTimeString(this.value, newLocale));
+    this.setInputValue(localizeTimeString(this.value, newLocale, this.shouldIncludeSeconds()));
   }
 
   /** The name of the time input */
@@ -106,7 +106,7 @@ export class CalciteInputTimePicker {
   @Prop() step = 60;
 
   /** The selected time in UTC */
-  @Prop({ mutable: true }) value: string = null;
+  @Prop({ mutable: true, reflect: true }) value: string = null;
 
   @Watch("value")
   valueWatcher(newValue: string): void {
@@ -161,8 +161,15 @@ export class CalciteInputTimePicker {
   private calciteInputBlurHandler = (): void => {
     this.active = false;
 
-    const localizedInputValue = localizeTimeString(this.calciteInputEl.value, this.locale);
-    this.setInputValue(localizedInputValue || localizeTimeString(this.value, this.locale));
+    const localizedInputValue = localizeTimeString(
+      this.calciteInputEl.value,
+      this.locale,
+      this.shouldIncludeSeconds()
+    );
+    this.setInputValue(
+      localizedInputValue ||
+        localizeTimeString(this.value, this.locale, this.shouldIncludeSeconds())
+    );
   };
 
   private calciteInputFocusHandler = (): void => {
@@ -240,6 +247,10 @@ export class CalciteInputTimePicker {
   //
   // --------------------------------------------------------------------------
 
+  private shouldIncludeSeconds = (): boolean => {
+    return this.step < 60;
+  };
+
   private setCalciteInputEl = (el: HTMLCalciteInputElement): void => {
     this.calciteInputEl = el;
   };
@@ -264,7 +275,11 @@ export class CalciteInputTimePicker {
   }): void => {
     const previousValue = this.value;
     const newValue = formatTimeString(value);
-    const newLocalizedValue = localizeTimeString(newValue, this.locale);
+    const newLocalizedValue = localizeTimeString(
+      newValue,
+      this.locale,
+      this.shouldIncludeSeconds()
+    );
 
     this.internalValueChange = origin !== "external" && origin !== "loading";
 

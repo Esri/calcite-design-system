@@ -23,14 +23,17 @@ export type TimeFocusId = "hour" | MinuteOrSecond | "meridiem";
 
 export const maxTenthForMinuteAndSecond = 5;
 
-function createLocaleDateTimeFormatter(locale: string): Intl.DateTimeFormat {
+function createLocaleDateTimeFormatter(locale: string, includeSeconds = true): Intl.DateTimeFormat {
   try {
-    return new Intl.DateTimeFormat(locale, {
+    const options: any = {
       hour: "2-digit",
       minute: "2-digit",
-      second: "2-digit",
       timeZone: "UTC"
-    });
+    };
+    if (includeSeconds) {
+      options.second = "2-digit";
+    }
+    return new Intl.DateTimeFormat(locale, options);
   } catch (e) {
     throw new Error(`Invalid locale supplied while attempting to create a DateTime formatter: ${locale}`);
   }
@@ -94,13 +97,13 @@ export function isValidTime(value: string): boolean {
   return false;
 }
 
-export function localizeTimeString(value: string, locale = "en"): string {
+export function localizeTimeString(value: string, locale = "en", includeSeconds = true): string {
   if (!isValidTime(value)) {
     return null;
   }
   const { hour, minute, second } = parseTimeString(value);
-  const dateFromTimeString = new Date(Date.UTC(0, 0, 0, parseInt(hour), parseInt(minute), parseInt(second)));
-  const formatter = createLocaleDateTimeFormatter(locale);
+  const dateFromTimeString = new Date(Date.UTC(0, 0, 0, parseInt(hour), parseInt(minute), parseInt(second) || 0));
+  const formatter = createLocaleDateTimeFormatter(locale, includeSeconds);
   return formatter?.format(dateFromTimeString) || null;
 }
 
