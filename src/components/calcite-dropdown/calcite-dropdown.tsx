@@ -211,6 +211,7 @@ export class CalciteDropdown {
   closeCalciteDropdownOnClick(e: Event): void {
     const target = e.target as HTMLElement;
     if (
+      !this.disableCloseOnSelect &&
       this.active &&
       target.nodeName !== "CALCITE-DROPDOWN-ITEM" &&
       target.nodeName !== "CALCITE-DROPDOWN-GROUP"
