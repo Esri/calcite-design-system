@@ -20,7 +20,8 @@ You can create an avatar for Ron by passing these properties directly to the ava
   user-id="a81470986eaeee1833b74b7d8abcd5b2"
   full-name="Ron Swanson"
   thumbnail="mySelf.jpg"
-/>
+>
+</calcite-avatar>
 ```
 
 When no thumbnail is provided, the avatar component will construct a useful placeholder, leveraging the user's information to construct a unique background-color with initials.
