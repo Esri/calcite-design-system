@@ -32,6 +32,12 @@ You can programmatically focus a `calcite-link` with the `setFocus()` method:
 
 Type: `Promise<void>`
 
+## Slots
+
+| Slot                                | Description |
+| ----------------------------------- | ----------- |
+| `"default text slot for link text"` |             |
+
 ## Dependencies
 
 ### Used by
