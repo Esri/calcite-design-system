@@ -105,7 +105,7 @@ export class CalcitePickListItem {
 
   /**
    * The text for the remove item buttons. Only applicable if removable is true.
-   * @default "remove"
+   * @default "Remove"
    */
   @Prop({ reflect: true }) intlRemove = TEXT.remove;
 

@@ -12,14 +12,17 @@
 }
 
 :host([scale="s"]) {
+  @apply h-6;
   --calcite-rating-spacing-unit: theme("spacing.1");
 }
 
 :host([scale="m"]) {
+  @apply h-8;
   --calcite-rating-spacing-unit: theme("spacing.2");
 }
 
 :host([scale="l"]) {
+  @apply h-11;
   --calcite-rating-spacing-unit: theme("spacing.3");
 }
 
@@ -32,7 +35,7 @@
 }
 
 .fieldset {
-  @apply p-0 m-0 border-0 inline-block;
+  @apply p-0 m-0 border-0 flex;
 }
 
 .wrapper {
@@ -47,7 +50,7 @@
 
 .star {
   @apply relative
-    inline-block
+    flex
     cursor-pointer
     focus-base;
   color: theme("borderColor.color.input");

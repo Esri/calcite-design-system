@@ -1,5 +1,5 @@
 export const TEXT = {
-  intlClose: "close"
+  intlClose: "Close"
 };
 
 export const DURATIONS = {
