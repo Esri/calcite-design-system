@@ -83,7 +83,7 @@ export class CalciteTreeItem {
   @Prop({ reflect: true }) indeterminate: boolean;
 
   /** @internal Tree selection-mode (set on parent) */
-  @Prop({ reflect: true, mutable: true }) selectionMode: TreeSelectionMode;
+  @Prop({ mutable: true }) selectionMode: TreeSelectionMode;
 
   //--------------------------------------------------------------------------
   //
@@ -173,6 +173,7 @@ export class CalciteTreeItem {
             [CSS.nodeContainer]: true,
             [CSS_UTILITY.rtl]: rtl
           }}
+          data-selection-mode={this.selectionMode}
           ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}
         >
           {icon}
