@@ -1,5 +1,3 @@
-#### Passing attributes to internal components
-
 Any additional attributes set on `<calcite-button>` are passed to the internal `<a>` or `<button>` tag. For example:
 
 - ```html
