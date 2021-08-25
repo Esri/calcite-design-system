@@ -451,10 +451,36 @@ input[type="time"]::-webkit-clear-button {
     border-solid
     border-color-input
     border-r-0;
+  &:hover {
+    @apply bg-foreground-2;
+    calcite-icon {
+      @apply text-color-1;
+    }
+  }
 }
 
 .calcite-input__number-button-item.calcite-input__number-button-item--horizontal[data-adjustment="up"] {
   @apply order-5;
+  &:hover {
+    @apply bg-foreground-2;
+    calcite-icon {
+      @apply text-color-1;
+    }
+  }
+}
+
+:host([number-button-type="vertical"]) .calcite-input__number-button-item[data-adjustment="down"]:hover {
+  @apply bg-foreground-2;
+  calcite-icon {
+    @apply text-color-1;
+  }
+}
+
+:host([number-button-type="vertical"]) .calcite-input__number-button-item[data-adjustment="up"]:hover {
+  @apply bg-foreground-2;
+  calcite-icon {
+    @apply text-color-1;
+  }
 }
 
 .calcite--rtl {
@@ -496,7 +522,6 @@ input[type="time"]::-webkit-clear-button {
   & calcite-icon {
     @apply pointer-events-none transition-default;
   }
-  &:hover,
   &:focus {
     @apply bg-foreground-2;
     calcite-icon {
