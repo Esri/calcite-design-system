@@ -151,8 +151,6 @@ export class CalciteDatePicker {
   //
   // --------------------------------------------------------------------------
   connectedCallback(): void {
-    this.loadLocaleData();
-
     if (this.value) {
       this.valueAsDate = dateFromISO(this.value);
     }
@@ -172,6 +170,10 @@ export class CalciteDatePicker {
     if (this.max) {
       this.maxAsDate = dateFromISO(this.max);
     }
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await this.loadLocaleData();
   }
 
   render(): VNode {
