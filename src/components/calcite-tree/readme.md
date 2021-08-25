@@ -39,6 +39,12 @@
 | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
 | `calciteTreeSelect` | Emitted when user selects/deselects tree items. An object including an array of selected items will be passed in the event's `detail` property. | `CustomEvent<TreeSelectDetail>` |
 
+## Slots
+
+| Slot         | Description                                                    |
+| ------------ | -------------------------------------------------------------- |
+| `"children"` | a slot for adding child components, commonly calcite-tree-item |
+
 ---
 
 _Built with [StencilJS](https://stenciljs.com/)_
