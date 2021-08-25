@@ -1,5 +1,3 @@
-#### Basic
-
 Renders a tip manager using a group of tips as well as a single tip.
 
 ```html
