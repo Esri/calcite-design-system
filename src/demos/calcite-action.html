@@ -224,22 +224,6 @@
       </div>
     </div>
 
-    <!-- without icon (RTL)  -->
-    <div class="parent">
-      <div class="child right-aligned-text">without icon (RTL)</div>
-      <div class="child" dir="rtl">
-        <calcite-action scale="s" indicator text="hello world 2" text-enabled></calcite-action>
-      </div>
-
-      <div class="child" dir="rtl">
-        <calcite-action scale="m" indicator text="hello world 2" text-enabled></calcite-action>
-      </div>
-
-      <div class="child" dir="rtl">
-        <calcite-action scale="l" indicator text="hello world 2" text-enabled></calcite-action>
-      </div>
-    </div>
-
     <hr />
 
     <!--
@@ -384,9 +368,9 @@
       **************************************************
     -->
 
-    <!-- Action pad (ltr)-->
+    <!-- Action pad -->
     <div class="parent-action-bar">
-      <div class="child right-aligned-text">action pad (ltr)</div>
+      <div class="child right-aligned-text">action pad</div>
 
       <div class="child-action-bar">
         <div>basic</div>
@@ -413,56 +397,6 @@
         <div>horizontal</div>
 
         <calcite-action-pad layout="horizontal">
-          <calcite-action-group>
-            <calcite-action text="Undo" icon="undo"> </calcite-action>
-            <calcite-action text="Redo" icon="redo"> </calcite-action>
-          </calcite-action-group>
-          <calcite-action-group>
-            <calcite-action text="Title" icon="title"></calcite-action>
-            <calcite-action text="Text" icon="text"></calcite-action>
-            <calcite-action text="Bold" icon="bold"></calcite-action>
-            <calcite-action text="Italics" icon="italicize"></calcite-action>
-          </calcite-action-group>
-          <calcite-action-group>
-            <calcite-action text="Cut" icon="scissors"></calcite-action>
-            <calcite-action text="Add" icon="plus-square"></calcite-action>
-          </calcite-action-group>
-          <calcite-action-group>
-            <calcite-action text="Remove" icon="trash"> </calcite-action>
-          </calcite-action-group>
-        </calcite-action-pad>
-      </div>
-    </div>
-
-    <!-- Action pad (rtl)-->
-    <div class="parent-action-bar">
-      <div class="child right-aligned-text">action pad (rtl)</div>
-
-      <div class="child-action-bar">
-        <div>basic</div>
-        <calcite-action-pad dir="rtl">
-          <calcite-action-group>
-            <calcite-action text="Undo" icon="undo"> </calcite-action>
-            <calcite-action text="Cool" icon="redo"> </calcite-action>
-          </calcite-action-group>
-          <calcite-action-group>
-            <calcite-action text="Add" icon="trash"> </calcite-action>
-          </calcite-action-group>
-        </calcite-action-pad>
-      </div>
-
-      <div class="child-action-bar">
-        <div>tooltip on expand toggle</div>
-        <calcite-action-pad id="action-pad-test" dir="rtl">
-          <calcite-tooltip slot="expand-tooltip" label="Hello world!">Hello world!</calcite-tooltip>
-          <calcite-action text="Add" icon="plus"></calcite-action>
-        </calcite-action-pad>
-      </div>
-
-      <div class="child-action-bar">
-        <div>horizontal</div>
-
-        <calcite-action-pad layout="horizontal" dir="rtl">
           <calcite-action-group>
             <calcite-action text="Undo" icon="undo"> </calcite-action>
             <calcite-action text="Redo" icon="redo"> </calcite-action>
