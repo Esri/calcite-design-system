@@ -12,10 +12,11 @@ const themeBodyClassDecorator = (Story: () => any, context: any) => {
   const themes = context.parameters.themes;
 
   themes?.list?.forEach((theme: Theme) => {
+    const isDefault = theme.name === themes.default;
     if (Array.isArray(theme.class)) {
-      theme.class.forEach((className) => document.body.classList.toggle(className, theme.name === themes.default));
+      theme.class.forEach((className) => document.body.classList.toggle(className, isDefault));
     } else {
-      document.body.classList.toggle(theme.class, theme.name === themes.default);
+      document.body.classList.toggle(theme.class, isDefault);
     }
   });
 
