@@ -1,5 +1,3 @@
-#### Basic
-
 Renders a non-dismissible tip with a heading, thumbnail, info and a link.
 
 ```html
