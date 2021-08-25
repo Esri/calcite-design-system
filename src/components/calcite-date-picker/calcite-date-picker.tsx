@@ -8,7 +8,8 @@ import {
   State,
   EventEmitter,
   Watch,
-  VNode
+  VNode,
+  Build
 } from "@stencil/core";
 import { getLocaleData, DateLocaleData } from "./utils";
 import { getElementDir } from "../../utils/dom";
@@ -264,6 +265,10 @@ export class CalciteDatePicker {
 
   @Watch("locale")
   private async loadLocaleData(): Promise<void> {
+    if (!Build.isBrowser) {
+      return;
+    }
+
     const { locale } = this;
     this.localeData = await getLocaleData(locale);
   }
