@@ -1,4 +1,4 @@
-### Tooltip on the expand action
+Renders with a tooltip on the expand action.
 
 ```html
 <calcite-action-bar id="action-bar-test">
