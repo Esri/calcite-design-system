@@ -64,7 +64,7 @@ export class CalciteRating {
   @Prop() intlRating?: string = TEXT.rating;
 
   /** Localized string for labelling each star, `${num}` in the string will be replaced by the number
-   * @default "stars: ${num}"
+   * @default "Stars: ${num}"
    */
   @Prop() intlStars?: string = TEXT.stars;
 

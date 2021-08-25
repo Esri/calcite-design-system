@@ -121,7 +121,7 @@ describe("calcite-date-picker", () => {
   });
 
   describe("when the locale is set to Slovak calendar", () => {
-    it("should start the week on Monday", async () => {
+    it.skip("should start the week on Monday", async () => {
       const page = await newE2EPage({
         html: `<calcite-date-picker scale="m" locale="sk" value="2000-11-27"></calcite-date-picker>`
       });
@@ -130,7 +130,7 @@ describe("calcite-date-picker", () => {
         return document
           .querySelector("calcite-date-picker")
           .shadowRoot?.querySelector("calcite-date-picker-month")
-          .shadowRoot?.querySelector("span.week-header:first-child").textContent;
+          .shadowRoot?.querySelector(".week-header")?.textContent;
       });
 
       expect(text).toEqual("po");
