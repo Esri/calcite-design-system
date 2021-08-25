@@ -4,29 +4,34 @@ This is a living document defining our best practices and reasoning for authorin
 
 <!-- TOC depthFrom:2 -->
 
-- [General Guidelines](#general-guidelines)
-- [Color](#color)
-- [Light Theme/Dark Theme](#light-themedark-theme)
-- [Form Elements and Custom Inputs](#form-elements-and-custom-inputs)
-- [Component Responsibilities](#component-responsibilities)
-- [Events](#events)
-  - [Event Names](#event-names)
-  - [Private Events](#private-events)
-  - [Event Details](#event-details)
-- [Props](#props)
-- [Focus support](#focus-support)
-- [CSS Class Names](#css-class-names)
-- [assets](#assets)
-- [a11y](#a11y)
-- [i18n](#i18n)
-- [Bundling and Loading](#bundling-and-loading)
-- [Custom Themes](#custom-themes)
-- [Unique IDs for Components](#unique-ids-for-components)
-- [Prerendering/SSR](#prerendering-and-ssr)
-- [Cleaning up resources](#cleaning-up-resources)
-- [Tests](#tests)
-  - [Writing Tests](#writing-tests)
-  - [Unstable Tests](#unstable-tests)
+- [Component Guidelines](#component-guidelines)
+  - [General Guidelines](#general-guidelines)
+  - [Color](#color)
+  - [Light Theme/Dark Theme](#light-themedark-theme)
+  - [Custom Themes](#custom-themes)
+    - [Typography](#typography)
+    - [Palette](#palette)
+  - [Component Responsibilities](#component-responsibilities)
+  - [Events](#events)
+    - [Event Names](#event-names)
+    - [Private/Internal Events](#privateinternal-events)
+    - [Event Details](#event-details)
+  - [Props](#props)
+  - [Focus support](#focus-support)
+  - [CSS Class Names](#css-class-names)
+  - [assets](#assets)
+  - [a11y](#a11y)
+  - [i18n](#i18n)
+    - [Translated strings](#translated-strings)
+  - [Bundling and Loading](#bundling-and-loading)
+  - [Unique IDs for Components](#unique-ids-for-components)
+  - [Prerendering and SSR](#prerendering-and-ssr)
+  - [Cleaning up resources](#cleaning-up-resources)
+    - [Timeouts](#timeouts)
+  - [Tests](#tests)
+    - [Writing Tests](#writing-tests)
+      - [Prevent logging unnecessary messaging in the build](#prevent-logging-unnecessary-messaging-in-the-build)
+    - [Unstable Tests](#unstable-tests)
 
 <!-- /TOC -->
 
@@ -152,59 +157,6 @@ The current light theme colors and their hex values can be found [here](https://
 **Discussed In**:
 
 - https://github.com/Esri/calcite-components/issues/507
-
-## Form Elements and Custom Inputs
-
-Custom form elements represent a particularly tricky part of Calcite Components. Other Stencil based frameworks such as a [Ionic](https://github.com/ionic-team/ionic) ship additional wrappers around their Web Components such as [`@ionic/react`](https://github.com/ionic-team/ionic/tree/master/react), [`@ionic/angular`](https://github.com/ionic-team/ionic/tree/master/angular) and [`@ionic.vue`](https://github.com/ionic-team/ionic/tree/master/vue). These wrapper adapt the custom events of the Ionic components like `ionChange` to work with things like Reacts synthetic `onChange={}` event, and Angular's `[(ngModel)]` to support standard form handling within those frameworks. However the additional effort to build and maintain these wrappers is likely not worth it.
-
-Instead we will allow a native `<input>` or `select` element to become the source of truth for a component.
-
-```html
-<!-- <calcite-checkbox> is the source of truth -->
-<calcite-checkbox checked disabled></calcite-checkbox>
-```
-
-and
-
-```html
-<calcite-checkbox>
-  <!-- the <input> is the source of truth -->
-  <input type="checkbox" checked disabled />
-</calcite-checkbox>
-```
-
-Frameworks can use their native tools to interact with the provided `<input>` while the input can also be omitted if the application only needs a more basic interaction. The input can be hidden inside the component like so:
-
-```html
-<div hidden>
-  <slot>
-    <!-- a default checkbox in case the user doesn't pass one-->
-    <input type="checkbox" checked disabled />
-  </slot>
-  <div></div>
-</div>
-```
-
-Several interactions are required to properly implement:
-
-- If the `value`, `disabled`, `selected`, or `checked` properties on the input change, update the state of the custom input. The attributes of the passed input can be observed with a [MutationObserver](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/observe).
-- Update the state of the input when the user interacts with the custom input.
-- Focus the custom input when the user focuses the passed input. This allows the standard `<label>` element to be wrapped around the custom element.
-  ```html
-  <label>
-    My Checkbox
-    <calcite-checkbox>
-      <input type="checkbox" checked disabled />
-    </calcite-checkbox>
-  </label>
-  ```
-
-**Discussed In:**
-
-- https://github.com/ArcGIS/calcite-components/pull/24#discussion_r289444267
-- https://github.com/ArcGIS/calcite-components/pull/24#issuecomment-497813876
-- https://github.com/ArcGIS/calcite-components/pull/24#issuecomment-497888962
-- https://github.com/ArcGIS/calcite-components/pull/24#issuecomment-497894715
 
 ## Component Responsibilities
 
