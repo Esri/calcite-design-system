@@ -18,6 +18,7 @@ import { CSS_UTILITY } from "../src/utils/resources";
 
 import { colors } from "../node_modules/@esri/calcite-colors/dist/colors";
 import { Description, DocsPage } from "@storybook/addon-docs/blocks";
+import { Theme } from "storybook-addon-themes/dist/models/Theme";
 import React from "react";
 
 const autoValue = {
@@ -35,7 +36,7 @@ const darkValue = {
   value: colors["blk-210"]
 };
 
-const list = [
+const list: Theme[] = [
   {
     name: lightValue.name,
     class: CSS_UTILITY.lightTheme,

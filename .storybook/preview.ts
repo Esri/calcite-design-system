@@ -1,5 +1,6 @@
 import { themes, globalDocsPage, parseReadme } from "./utils";
 import { withDirection } from "storybook-rtl-addon";
+import { Theme } from "storybook-addon-themes/dist/models/Theme";
 
 declare global {
   interface Window {
@@ -10,8 +11,12 @@ declare global {
 const themeBodyClassDecorator = (Story: () => any, context: any) => {
   const themes = context.parameters.themes;
 
-  themes?.list?.forEach((theme: { class: string; name: string }) => {
-    document.body.classList.toggle(theme.class, theme.name === themes.default);
+  themes?.list?.forEach((theme: Theme) => {
+    if (Array.isArray(theme.class)) {
+      theme.class.forEach((className) => document.body.classList.toggle(className, theme.name === themes.default));
+    } else {
+      document.body.classList.toggle(theme.class, theme.name === themes.default);
+    }
   });
 
   return Story();
