@@ -1,4 +1,4 @@
-### Tooltip on the expand action
+Renders an action pad with a tooltip on the expand action.
 
 ```html
 <calcite-action-pad id="action-pad-test">
