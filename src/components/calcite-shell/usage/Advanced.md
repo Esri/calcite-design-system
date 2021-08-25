@@ -1,5 +1,3 @@
-#### Advanced
-
 Renders a shell with leading and trailing floating panels, action bar/pad, block, flow, tip manager, footer.
 
 ```html
