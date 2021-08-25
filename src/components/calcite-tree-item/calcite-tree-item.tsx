@@ -149,6 +149,30 @@ export class CalciteTreeItem {
           <slot />
         </label>
       ) : null;
+    const bulletIcon =
+      this.selectionMode === TreeSelectionMode.Single ||
+      this.selectionMode === TreeSelectionMode.Children ? (
+        <calcite-icon
+          class={{
+            [CSS.bulletPointIcon]: true,
+            [CSS_UTILITY.rtl]: rtl
+          }}
+          icon="bullet-point"
+          scale="s"
+        />
+      ) : null;
+    const checkmarkIcon =
+      this.selectionMode === TreeSelectionMode.Multi ||
+      this.selectionMode === TreeSelectionMode.MultiChildren ? (
+        <calcite-icon
+          class={{
+            [CSS.checkmarkIcon]: true,
+            [CSS_UTILITY.rtl]: rtl
+          }}
+          icon="check"
+          scale="s"
+        />
+      ) : null;
 
     const hidden = !(this.parentExpanded || this.depth === 1);
 
@@ -177,6 +201,7 @@ export class CalciteTreeItem {
           ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}
         >
           {icon}
+          {bulletIcon || checkmarkIcon}
           {checkbox ? checkbox : <slot />}
         </div>
         <div
