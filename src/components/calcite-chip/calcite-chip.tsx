@@ -6,6 +6,9 @@ import { ChipColor } from "./interfaces";
 import { Appearance, Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 
+/**
+ * @slot image - a slot for adding an image
+ */
 @Component({
   tag: "calcite-chip",
   styleUrl: "calcite-chip.scss",
@@ -28,7 +31,7 @@ export class CalciteChip {
   @Prop({ reflect: true }) dismissible?: boolean = false;
 
   /** Aria label for the "x" button
-   * @default "close"
+   * @default "Close"
    */
   @Prop() dismissLabel?: string = TEXT.close;
 

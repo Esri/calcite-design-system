@@ -46,6 +46,7 @@
     var(--calcite-combobox-item-spacing-unit-l);
 }
 
+:host(:focus-within) .wrapper,
 .wrapper--active {
   @apply focus-inset;
 }
