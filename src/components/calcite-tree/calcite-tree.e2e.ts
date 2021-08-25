@@ -187,6 +187,34 @@ describe("calcite-tree", () => {
       expect(selectEventSpy).toHaveReceivedEventTimes(3);
     });
 
+    it("should only emit one event on grandchildren click", async () => {
+      const page = await newE2EPage({
+        html: html`<calcite-tree selection-mode="single">
+          <calcite-tree-item id="one"><span>One</span></calcite-tree-item>
+          <calcite-tree-item id="two" expanded>
+            <span>Two</span>
+            <calcite-tree slot="children">
+              <calcite-tree-item id="child-one" expanded>
+                <span>Child 1</span>
+                <calcite-tree slot="children">
+                  <calcite-tree-item id="grandchild-one" expanded>
+                    <span>Grandchild 1</span>
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+          </calcite-tree-item>
+        </calcite-tree>`
+      });
+
+      await page.waitForChanges();
+      const tree = await page.find("calcite-tree");
+      const selectEventSpy = await tree.spyOnEvent("calciteTreeSelect");
+      const grandchildOne = await page.find("#grandchild-one");
+      await grandchildOne.click();
+      expect(selectEventSpy).toHaveReceivedEventTimes(1);
+    });
+
     describe("has selected items in the selection event payload", () => {
       it("contains current selection when selection=multi + input-enabled", async () => {
         const page = await newE2EPage({
