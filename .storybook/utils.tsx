@@ -35,7 +35,7 @@ const darkValue = {
   value: colors["blk-210"]
 };
 
-const themes = [
+const list = [
   {
     name: lightValue.name,
     class: CSS_UTILITY.lightTheme,
@@ -53,14 +53,14 @@ const themes = [
   }
 ];
 
-export const themesLightDefault = {
+export const themes = {
   default: lightValue.name,
-  list: themes
+  list
 };
 
 export const themesDarkDefault = {
   default: darkValue.name,
-  list: themes
+  list
 };
 
 /**

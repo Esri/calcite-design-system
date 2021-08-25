@@ -1,4 +1,4 @@
-import { themesLightDefault, globalDocsPage, parseReadme } from "./utils";
+import { themes, globalDocsPage, parseReadme } from "./utils";
 import { withDirection } from "storybook-rtl-addon";
 
 declare global {
@@ -9,13 +9,8 @@ declare global {
 
 const themeBodyClassDecorator = (Story: () => any, context: any) => {
   const themes = context.parameters.themes;
-  const list = themes?.list;
 
-  if (!list) {
-    return;
-  }
-
-  list.forEach((theme: { class: string; name: string }) => {
+  themes?.list?.forEach((theme: { class: string; name: string }) => {
     document.body.classList.toggle(theme.class, theme.name === themes.default);
   });
 
@@ -30,7 +25,7 @@ export const parameters = {
     options: {},
     manual: false
   },
-  themes: themesLightDefault,
+  themes,
   docs: {
     extractComponentDescription: (_component, { notes }) => {
       if (notes) {
