@@ -107,6 +107,16 @@ If you want to focus on the close button, you can use the `close-button` focus I
 
 Type: `Promise<void>`
 
+## Slots
+
+| Slot          | Description                          |
+| ------------- | ------------------------------------ |
+| `"back"`      | a slot for adding a back button      |
+| `"content"`   | a slot for adding modal content      |
+| `"header"`    | a slot for adding a modal header     |
+| `"primary"`   | a slot for adding a primary button   |
+| `"secondary"` | a slot for adding a secondary button |
+
 ## CSS Custom Properties
 
 | Name                            | Description                                        |
