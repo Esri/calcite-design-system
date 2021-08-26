@@ -1,4 +1,4 @@
-import { Component, Element, Event, Listen, h, Prop, EventEmitter, VNode } from "@stencil/core";
+import { Component, Element, Event, h, Prop, EventEmitter, VNode } from "@stencil/core";
 import { getElementDir, queryElementRoots } from "../../utils/dom";
 import { FocusRequest } from "./interfaces";
 import { Alignment, Scale, Status } from "../interfaces";
@@ -62,14 +62,13 @@ export class CalciteLabel {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click")
-  onClick(): void {
+  clickHandler = (): void => {
     this.calciteLabelFocus.emit({
       labelEl: this.el,
       requestedInput: this.for
     });
     this.handleCalciteHtmlForClicks();
-  }
+  };
 
   //--------------------------------------------------------------------------
   //
@@ -140,7 +139,10 @@ export class CalciteLabel {
   render(): VNode {
     const dir = getElementDir(this.el);
     return (
-      <div class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+      <div
+        class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+        onClick={this.clickHandler}
+      >
         <slot />
       </div>
     );
