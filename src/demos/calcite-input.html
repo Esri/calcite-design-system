@@ -48,12 +48,12 @@
         flex-wrap: wrap;
         gap: 12px;
         justify-content: center;
-        width: 88%;
+        padding: 0 152px;
         margin: 0 auto;
       }
 
       .locale {
-        flex: 0 1 20%;
+        flex: 0 0 20%;
       }
     </style>
 
@@ -390,14 +390,14 @@
       <div class="child-flex">
         <calcite-label>
           File input
-          <calcite-input type="textarea" placeholder="The quick brown fox jumped" scale="s"></calcite-input>
+          <calcite-input type="textarea" placeholder="The quick brown fox jumped" scale="m"></calcite-input>
         </calcite-label>
       </div>
 
       <div class="child-flex">
         <calcite-label>
           File input
-          <calcite-input type="textarea" placeholder="The quick brown fox jumped" scale="s"></calcite-input>
+          <calcite-input type="textarea" placeholder="The quick brown fox jumped" scale="l"></calcite-input>
         </calcite-label>
       </div>
     </div>
@@ -1128,16 +1128,6 @@
     <div class="parent-flex">
       <div class="child-flex right-aligned-text"></div>
       <div class="child-flex font header">Locales</div>
-    </div>
-
-    <!-- native number input -->
-    <div class="parent-flex">
-      <div class="child-flex font right-aligned-text">native number input</div>
-      <div class="child-flex">
-        <calcite-label>
-          <input type="number" name="native" placeholder="native number input" />
-        </calcite-label>
-      </div>
     </div>
 
     <!-- default locale number input -->
