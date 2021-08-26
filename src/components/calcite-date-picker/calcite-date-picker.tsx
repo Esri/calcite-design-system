@@ -8,7 +8,8 @@ import {
   State,
   EventEmitter,
   Watch,
-  VNode
+  VNode,
+  Build
 } from "@stencil/core";
 import { getLocaleData, DateLocaleData } from "./utils";
 import { getElementDir } from "../../utils/dom";
@@ -150,8 +151,6 @@ export class CalciteDatePicker {
   //
   // --------------------------------------------------------------------------
   connectedCallback(): void {
-    this.loadLocaleData();
-
     if (this.value) {
       this.valueAsDate = dateFromISO(this.value);
     }
@@ -171,6 +170,10 @@ export class CalciteDatePicker {
     if (this.max) {
       this.maxAsDate = dateFromISO(this.max);
     }
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await this.loadLocaleData();
   }
 
   render(): VNode {
@@ -261,6 +264,10 @@ export class CalciteDatePicker {
 
   @Watch("locale")
   private async loadLocaleData(): Promise<void> {
+    if (!Build.isBrowser) {
+      return;
+    }
+
     const { locale } = this;
     this.localeData = await getLocaleData(locale);
   }
@@ -308,7 +315,13 @@ export class CalciteDatePicker {
       if (this.endAsDate) {
         const startDiff = getDaysDiff(date, this.startAsDate);
         const endDiff = getDaysDiff(date, this.endAsDate);
-        if (startDiff < endDiff) {
+        if (endDiff > 0) {
+          this.hoverRange.end = date;
+          this.hoverRange.focused = "end";
+        } else if (startDiff < 0) {
+          this.hoverRange.start = date;
+          this.hoverRange.focused = "start";
+        } else if (startDiff > endDiff) {
           this.hoverRange.start = date;
           this.hoverRange.focused = "start";
         } else {
@@ -481,7 +494,11 @@ export class CalciteDatePicker {
         } else {
           const startDiff = getDaysDiff(date, this.startAsDate);
           const endDiff = getDaysDiff(date, this.endAsDate);
-          if (startDiff < endDiff) {
+          if (endDiff === 0 || startDiff < 0) {
+            this.setStartDate(date);
+          } else if (startDiff === 0 || endDiff < 0) {
+            this.setEndDate(date);
+          } else if (startDiff < endDiff) {
             this.setStartDate(date);
           } else {
             this.setEndDate(date);
