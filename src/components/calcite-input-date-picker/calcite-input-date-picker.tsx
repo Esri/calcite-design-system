@@ -17,7 +17,7 @@ import { getElementDir } from "../../utils/dom";
 import { dateFromRange, inRange, dateFromISO, parseDateString, sameDate } from "../../utils/date";
 import { HeadingLevel } from "../functional/CalciteHeading";
 import { getKey } from "../../utils/key";
-import { TEXT } from "../calcite-date-picker/calcite-date-picker-resources";
+import { TEXT } from "../calcite-date-picker/resources";
 
 import {
   createPopper,

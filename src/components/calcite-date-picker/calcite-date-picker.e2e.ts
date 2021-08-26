@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { renders, defaults, hidden } from "../../tests/commonTests";
-import { TEXT } from "./calcite-date-picker-resources";
+import { TEXT } from "./resources";
 
 describe("calcite-date-picker", () => {
   it("renders", async () => renders("calcite-date-picker", { display: "inline-block" }));
