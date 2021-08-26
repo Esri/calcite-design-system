@@ -97,7 +97,7 @@ Renders a value list with label editing and single select.
 
 #### Returns
 
-Type: `Promise<Map<string, HTMLCalciteValueListItemElement>>`
+Type: `Promise<Map<string, any>>`
 
 ### `setFocus(focusId?: ListFocusId) => Promise<void>`
 
