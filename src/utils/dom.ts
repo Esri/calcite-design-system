@@ -1,6 +1,17 @@
 import { CSS_UTILITY } from "./resources";
 import { guid } from "./guid";
 
+export const findFormFieldLabel = (componentEl: HTMLElement): string | null => {
+  const id = componentEl.id;
+  const labelSelectors: string[] = ["calcite-label", "label"];
+
+  if (id) {
+    labelSelectors.unshift(`[for="${id}"]`);
+  }
+
+  return componentEl.closest(labelSelectors.join(","))?.textContent || null;
+};
+
 /**
  * This helper will guarantee an ID on the provided element.
  *
