@@ -14,7 +14,7 @@ import {
 import { getElementDir, hasLabel } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
-import { TEXT } from "./calcite-rating-resources";
+import { TEXT } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 
 @Component({
