@@ -155,8 +155,6 @@ export class CalciteTimePicker {
 
   private secondEl: HTMLSpanElement;
 
-  private timeChanged = false;
-
   // --------------------------------------------------------------------------
   //
   //  State
@@ -193,19 +191,6 @@ export class CalciteTimePicker {
 
   /** The localized meridiem value */
   @State() localizedMeridiem: string;
-
-  @Watch("hour")
-  @Watch("minute")
-  @Watch("second")
-  timeChangeHandler(): void {
-    const { hour, minute } = this.getTime();
-    if (!hour && !minute) {
-      this.setValue("meridiem", null, false);
-    }
-    if (this.timeChanged) {
-      this.timeChanged = false;
-    }
-  }
 
   //--------------------------------------------------------------------------
   //
@@ -636,7 +621,6 @@ export class CalciteTimePicker {
     this.localizedMeridiem = value
       ? localizeTimeStringToParts(this.value, this.locale)?.localizedMeridiem || null
       : null;
-    this.timeChanged = true;
     if (emit) {
       this.calciteTimePickerChange.emit(this.getTime());
     }
