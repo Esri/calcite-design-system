@@ -633,8 +633,9 @@ export class CalciteTimePicker {
     } else {
       this.value = null;
     }
-    const { localizedMeridiem } = localizeTimeStringToParts(this.value, this.locale);
-    this.localizedMeridiem = localizedMeridiem || null;
+    this.localizedMeridiem = value
+      ? localizeTimeStringToParts(this.value, this.locale)?.localizedMeridiem || null
+      : null;
     this.timeChanged = true;
     if (emit) {
       this.calciteTimePickerChange.emit(this.getTime());
