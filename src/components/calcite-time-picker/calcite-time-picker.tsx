@@ -17,19 +17,24 @@ import { getKey, isActivationKey, numberKeys } from "../../utils/key";
 import { isValidNumber } from "../../utils/number";
 
 import {
-  Meridiem,
   formatTimePart,
   MinuteOrSecond,
   Time,
   maxTenthForMinuteAndSecond,
-  TimeFocusId,
+  TimePart,
   getMeridiem,
   HourDisplayFormat,
   isValidTime,
   localizeTimeStringToParts,
-  parseTimeString
+  parseTimeString,
+  localizeTimePart,
+  Meridiem
 } from "../../utils/time";
 import { CSS, TEXT } from "./resources";
+
+function capitalize(str: string): string {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 
 @Component({
   tag: "calcite-time-picker",
@@ -184,7 +189,7 @@ export class CalciteTimePicker {
   @State() localizedSecond: string;
 
   /** The am/pm value */
-  @State() meridiem: Meridiem = null;
+  @State() meridiem: Meridiem;
 
   /** The localized meridiem value */
   @State() localizedMeridiem: string;
@@ -295,7 +300,7 @@ export class CalciteTimePicker {
   //--------------------------------------------------------------------------
 
   @Method()
-  async setFocus(target: TimeFocusId): Promise<void> {
+  async setFocus(target: TimePart): Promise<void> {
     this[`${target || "hour"}El`]?.focus();
   }
 
@@ -597,38 +602,27 @@ export class CalciteTimePicker {
     value: number | string | Meridiem,
     emit = true
   ): void => {
-    switch (key) {
-      default:
-        return;
-      case "hour":
-        this.hour = typeof value === "number" ? formatTimePart(value) : value;
-        break;
-      case "minute":
-        this.minute = typeof value === "number" ? formatTimePart(value) : value;
-        break;
-      case "second":
-        this.second = typeof value === "number" ? formatTimePart(value) : value;
-        break;
-      case "meridiem":
-        if (isValidNumber(this.hour)) {
-          const hourAsNumber = parseInt(this.hour);
-          switch (value) {
-            case "AM":
-              if (hourAsNumber >= 12) {
-                this.hour = formatTimePart(hourAsNumber - 12);
-              }
-              break;
-            case "PM":
-              if (hourAsNumber < 12) {
-                this.hour = formatTimePart(hourAsNumber + 12);
-              }
-              break;
-          }
-          this.meridiem = value as Meridiem;
-        } else {
-          this.meridiem = value as Meridiem;
+    if (key === "meridiem") {
+      this.meridiem = value as Meridiem;
+      if (isValidNumber(this.hour)) {
+        const hourAsNumber = parseInt(this.hour);
+        switch (value) {
+          case "AM":
+            if (hourAsNumber >= 12) {
+              this.hour = formatTimePart(hourAsNumber - 12);
+            }
+            break;
+          case "PM":
+            if (hourAsNumber < 12) {
+              this.hour = formatTimePart(hourAsNumber + 12);
+            }
+            break;
         }
-        break;
+        this.localizedHour = localizeTimePart(this.hour, "hour", this.locale);
+      }
+    } else {
+      this[key] = typeof value === "number" ? formatTimePart(value) : value;
+      this[`localized${capitalize(key)}`] = localizeTimePart(this[key], key, this.locale);
     }
     if (this.hour && this.minute) {
       if (this.second && this.step !== 60) {
@@ -636,19 +630,11 @@ export class CalciteTimePicker {
       } else {
         this.value = `${this.hour}:${this.minute}:00`;
       }
-      const { localizedHour, localizedMinute, localizedSecond, localizedMeridiem } =
-        localizeTimeStringToParts(this.value, this.locale);
-      this.localizedHour = localizedHour;
-      this.localizedMinute = localizedMinute;
-      this.localizedSecond = localizedSecond;
-      this.localizedMeridiem = localizedMeridiem;
     } else {
       this.value = null;
-      this.localizedHour = null;
-      this.localizedMinute = null;
-      this.localizedSecond = null;
-      this.localizedMeridiem = null;
     }
+    const { localizedMeridiem } = localizeTimeStringToParts(this.value, this.locale);
+    this.localizedMeridiem = localizedMeridiem || null;
     this.timeChanged = true;
     if (emit) {
       this.calciteTimePickerChange.emit(this.getTime());

@@ -2,6 +2,13 @@ import { isValidNumber } from "./number";
 
 export type HourDisplayFormat = "12" | "24";
 
+export interface LocalizedTime {
+  localizedHour: string;
+  localizedMinute: string;
+  localizedSecond: string;
+  localizedMeridiem?: string;
+}
+
 export type Meridiem = "AM" | "PM";
 
 export type MinuteOrSecond = "minute" | "second";
@@ -12,14 +19,7 @@ export interface Time {
   second: string;
 }
 
-export interface LocalizedTime {
-  localizedHour: string;
-  localizedMinute: string;
-  localizedSecond: string;
-  localizedMeridiem?: string;
-}
-
-export type TimeFocusId = "hour" | MinuteOrSecond | "meridiem";
+export type TimePart = "hour" | MinuteOrSecond | "meridiem";
 
 export const maxTenthForMinuteAndSecond = 5;
 
@@ -95,6 +95,48 @@ export function isValidTime(value: string): boolean {
     }
   }
   return false;
+}
+
+function isValidTimePart(value: string, part: TimePart): boolean {
+  if (part === "meridiem") {
+    return value === "AM" || value === "PM";
+  }
+  if (!isValidNumber(value)) {
+    return false;
+  }
+  const valueAsNumber = Number(value);
+  switch (part) {
+    case "hour":
+      return valueAsNumber >= 0 && valueAsNumber < 24;
+    case "minute":
+    case "second":
+      return valueAsNumber >= 0 && valueAsNumber < 60;
+  }
+}
+
+export function localizeTimePart(value: string, part: TimePart, locale: string): string {
+  if (!isValidTimePart(value, part)) {
+    return;
+  }
+  const date = new Date(
+    Date.UTC(
+      0,
+      0,
+      0,
+      part === "hour" ? parseInt(value) : 0,
+      part === "minute" ? parseInt(value) : 0,
+      part === "second" ? parseInt(value) : 0
+    )
+  );
+  if (!date) {
+    return;
+  }
+  const formatter = createLocaleDateTimeFormatter(locale);
+  const parts = formatter.formatToParts(date);
+  if (part === "meridiem") {
+    return parts.find((part) => part.type === "dayPeriod")?.value || null;
+  }
+  return parts.find(({ type }) => type === part).value;
 }
 
 export function localizeTimeString(value: string, locale = "en", includeSeconds = true): string {

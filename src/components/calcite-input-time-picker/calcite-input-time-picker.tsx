@@ -106,7 +106,7 @@ export class CalciteInputTimePicker {
   @Prop() step = 60;
 
   /** The selected time in UTC */
-  @Prop({ mutable: true, reflect: true }) value: string = null;
+  @Prop({ mutable: true, reflect: true }) value: string;
 
   @Watch("value")
   valueWatcher(newValue: string): void {
