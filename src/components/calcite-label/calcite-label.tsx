@@ -88,13 +88,7 @@ export class CalciteLabel {
   //--------------------------------------------------------------------------
 
   setEffectiveForElement = (): void => {
-    if (this.for) {
-      this.effectiveForElement = queryElementRoots(this.el, `#${this.for}`);
-      return;
-    }
-
-    // 4. target is not a labelable calcite form element
-    const labelableCalciteElements = [
+    const labelableElements = [
       "calcite-button",
       "calcite-checkbox",
       "calcite-date",
@@ -107,10 +101,21 @@ export class CalciteLabel {
       "calcite-rating",
       "calcite-select",
       "calcite-slider",
-      "calcite-switch"
+      "calcite-switch",
+      "button",
+      "input",
+      "meter",
+      "output",
+      "progress",
+      "select",
+      "textarea"
     ];
 
-    this.effectiveForElement = this.el.querySelector(labelableCalciteElements.join(","));
+    const { el, for: forProperty } = this;
+
+    this.effectiveForElement =
+      (forProperty && queryElementRoots(el, `#${forProperty}`)) ||
+      el.querySelector(labelableElements.join(","));
   };
 
   private handleCalciteHtmlForClicks = () => {
