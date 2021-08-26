@@ -4,637 +4,366 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Calcite Tabs</title>
+    <title>Tabs</title>
     <style>
-      section {
-        margin: 0 2rem;
+      .parent,
+      .flex-wrap {
+        display: flex;
+        align-items: center;
+        color: var(--calcite-ui-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+        padding: 0 25px;
       }
-      .demo-background-dark {
-        background: #202020;
-        color: white;
-        padding: 1rem;
+
+      .flex-wrap {
+        flex-wrap: wrap;
+      }
+      .child {
+        display: inline-flex;
+        flex: 0 0 20%;
+        flex-direction: column;
+        padding: 15px;
+      }
+
+      .right-aligned-text {
+        text-align: right;
+        flex: 0 0 15%;
       }
     </style>
     <script src="./_assets/head.js"></script>
   </head>
 
   <body>
+    <!-- headers -->
+    <div class="parent">
+      <div class="child right-aligned-text"></div>
+      <div class="child">small</div>
+      <div class="child">medium</div>
+      <div class="child">large</div>
+    </div>
 
-    <h1>Calcite Tabs</h1>
-    <h1 class="leader-1">Light Theme Tabs</h1>
+    <!-- simple tab-nav -->
+    <div class="flex-wrap">
+      <div class="child right-aligned-text">simple</div>
 
-    <section>
-      <h3>With Bordered property</h3>
-
-      <h4>Scale S</h4>
-      <calcite-tabs bordered scale="s">
-        <calcite-tab-nav slot="tab-nav">
-          <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" active>Tab 1 Title</calcite-tab-title>
-          <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 2 Title</calcite-tab-title>
-        </calcite-tab-nav>
-        <calcite-tab active
-          >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec laoreet dapibus quam sed gravida. Suspendisse
-          suscipit facilisis magna, quis dapibus justo elementum in. Phasellus eu ex elementum, blandit justo eu,
-          pretium risus. Mauris eu gravida sem. Mauris sit amet mattis mi, ut fermentum dui. Mauris tincidunt convallis
-          porta. Quisque nec ipsum interdum, efficitur metus ut, tristique tortor. Suspendisse bibendum at ipsum sed
-          fringilla.</calcite-tab
-        >
-        <calcite-tab>Tab 2 Content</calcite-tab>
-      </calcite-tabs>
-      <br />
-
-      <calcite-tabs bordered scale="s" position="below">
-        <calcite-tab-nav slot="tab-nav">
-          <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" active>Tab 1 Title</calcite-tab-title>
-          <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 2 Title</calcite-tab-title>
-        </calcite-tab-nav>
-        <calcite-tab active
-          >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec laoreet dapibus quam sed gravida. Suspendisse
-          suscipit facilisis magna, quis dapibus justo elementum in. Phasellus eu ex elementum, blandit justo eu,
-          pretium risus. Mauris eu gravida sem. Mauris sit amet mattis mi, ut fermentum dui. Mauris tincidunt convallis
-          porta. Quisque nec ipsum interdum, efficitur metus ut, tristique tortor. Suspendisse bibendum at ipsum sed
-          fringilla.</calcite-tab
-        >
-        <calcite-tab>Tab 2 Content</calcite-tab>
-      </calcite-tabs>
-
-      <h4>Scale M (default)</h4>
-      <calcite-tabs bordered>
-        <calcite-tab-nav slot="tab-nav">
-          <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" active>Tab 1 Title</calcite-tab-title>
-          <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 2 Title</calcite-tab-title>
-        </calcite-tab-nav>
-        <calcite-tab active
-          >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec laoreet dapibus quam sed gravida. Suspendisse
-          suscipit facilisis magna, quis dapibus justo elementum in. Phasellus eu ex elementum, blandit justo eu,
-          pretium risus. Mauris eu gravida sem. Mauris sit amet mattis mi, ut fermentum dui. Mauris tincidunt convallis
-          porta. Quisque nec ipsum interdum, efficitur metus ut, tristique tortor. Suspendisse bibendum at ipsum sed
-          fringilla.</calcite-tab
-        >
-        <calcite-tab>Tab 2 Content</calcite-tab>
-      </calcite-tabs>
-
-      <h4>Scale M</h4>
-      <calcite-tabs bordered scale="m">
-        <calcite-tab-nav slot="tab-nav">
-          <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" active>Tab 1 Title</calcite-tab-title>
-          <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 2 Title</calcite-tab-title>
-        </calcite-tab-nav>
-        <calcite-tab active
-          >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec laoreet dapibus quam sed gravida. Suspendisse
-          suscipit facilisis magna, quis dapibus justo elementum in. Phasellus eu ex elementum, blandit justo eu,
-          pretium risus. Mauris eu gravida sem. Mauris sit amet mattis mi, ut fermentum dui. Mauris tincidunt convallis
-          porta. Quisque nec ipsum interdum, efficitur metus ut, tristique tortor. Suspendisse bibendum at ipsum sed
-          fringilla.</calcite-tab
-        >
-        <calcite-tab>Tab 2 Content</calcite-tab>
-      </calcite-tabs>
-
-      <h4>Scale L</h4>
-      <calcite-tabs bordered scale="l">
-        <calcite-tab-nav slot="tab-nav">
-          <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" active>Tab 1 Title</calcite-tab-title>
-          <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 2 Title</calcite-tab-title>
-        </calcite-tab-nav>
-        <calcite-tab active
-          >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec laoreet dapibus quam sed gravida. Suspendisse
-          suscipit facilisis magna, quis dapibus justo elementum in. Phasellus eu ex elementum, blandit justo eu,
-          pretium risus. Mauris eu gravida sem. Mauris sit amet mattis mi, ut fermentum dui. Mauris tincidunt convallis
-          porta. Quisque nec ipsum interdum, efficitur metus ut, tristique tortor. Suspendisse bibendum at ipsum sed
-          fringilla.</calcite-tab
-        >
-        <calcite-tab>Tab 2 Content</calcite-tab>
-      </calcite-tabs>
-    </section>
-
-    <section>
-      <h3>Content position: above (default)</h3>
-
-      <h3>Scale S</h3>
-      <calcite-tabs scale="s">
-        <calcite-tab-nav slot="tab-nav">
-          <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-          <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-        </calcite-tab-nav>
-        <calcite-tab active>Tab 1 Content</calcite-tab>
-        <calcite-tab>Tab 2 Content</calcite-tab>
-      </calcite-tabs>
-
-      <h3>Scale M</h3>
-      <calcite-tabs scale="m">
-        <calcite-tab-nav slot="tab-nav">
-          <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-          <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-        </calcite-tab-nav>
-        <calcite-tab active>Tab 1 Content</calcite-tab>
-        <calcite-tab>Tab 2 Content</calcite-tab>
-      </calcite-tabs>
-
-      <h3>Scale L</h3>
-      <calcite-tabs scale="l">
-        <calcite-tab-nav slot="tab-nav">
-          <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-          <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-        </calcite-tab-nav>
-        <calcite-tab active>Tab 1 Content</calcite-tab>
-        <calcite-tab>Tab 2 Content</calcite-tab>
-      </calcite-tabs>
-    </section>
-
-    <section>
-      <h3>Content position: below</h3>
-      <h3>Scale S</h3>
-      <calcite-tabs scale="s" position="below">
-        <calcite-tab-nav slot="tab-nav">
-          <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-          <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-        </calcite-tab-nav>
-        <calcite-tab active>Tab 1 Content</calcite-tab>
-        <calcite-tab>Tab 2 Content</calcite-tab>
-      </calcite-tabs>
-
-      <h3>Scale M</h3>
-      <calcite-tabs scale="m" position="below">
-        <calcite-tab-nav slot="tab-nav">
-          <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-          <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-        </calcite-tab-nav>
-        <calcite-tab active>Tab 1 Content</calcite-tab>
-        <calcite-tab>Tab 2 Content</calcite-tab>
-      </calcite-tabs>
-
-      <h3>Scale L</h3>
-      <calcite-tabs scale="l" position="below">
-        <calcite-tab-nav slot="tab-nav">
-          <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-          <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-        </calcite-tab-nav>
-        <calcite-tab active>Tab 1 Content</calcite-tab>
-        <calcite-tab>Tab 2 Content</calcite-tab>
-      </calcite-tabs>
-    </section>
-
-    <h2>Icons</h2>
-    <h3>Icon start</h3>
-    <calcite-tabs>
-      <calcite-tab-nav slot="tab-nav">
-        <calcite-tab-title active icon-start="layer">Tab 1 Title</calcite-tab-title>
-        <calcite-tab-title icon-start="layer">Tab 2 Title</calcite-tab-title>
-        <calcite-tab-title icon-start="layer">Tab 3 Title</calcite-tab-title>
-        <calcite-tab-title icon-start="layer">Tab 4 Title</calcite-tab-title>
-      </calcite-tab-nav>
-
-      <calcite-tab active>Tab 1 Content</calcite-tab>
-      <calcite-tab>Tab 2 Content</calcite-tab>
-      <calcite-tab>Tab 3 Content</calcite-tab>
-      <calcite-tab>Tab 4 Content</calcite-tab>
-    </calcite-tabs>
-    <h3>Icon end</h3>
-    <calcite-tabs>
-      <calcite-tab-nav slot="tab-nav">
-        <calcite-tab-title active icon-end="layer">Tab 1 Title</calcite-tab-title>
-        <calcite-tab-title icon-end="layer">Tab 2 Title</calcite-tab-title>
-        <calcite-tab-title icon-end="layer">Tab 3 Title</calcite-tab-title>
-        <calcite-tab-title icon-end="layer">Tab 4 Title</calcite-tab-title>
-      </calcite-tab-nav>
-
-      <calcite-tab active>Tab 1 Content</calcite-tab>
-      <calcite-tab>Tab 2 Content</calcite-tab>
-      <calcite-tab>Tab 3 Content</calcite-tab>
-      <calcite-tab>Tab 4 Content</calcite-tab>
-    </calcite-tabs>
-
-    <h3>Icon start and end</h3>
-    <calcite-tabs>
-      <calcite-tab-nav slot="tab-nav">
-        <calcite-tab-title active icon-start="layer" icon-end="layer">Tab 1 Title</calcite-tab-title>
-        <calcite-tab-title icon-start="layer" icon-end="layer">Tab 2 Title</calcite-tab-title>
-        <calcite-tab-title icon-start="layer" icon-end="layer">Tab 3 Title</calcite-tab-title>
-        <calcite-tab-title icon-start="layer" icon-end="layer">Tab 4 Title</calcite-tab-title>
-      </calcite-tab-nav>
-
-      <calcite-tab active>Tab 1 Content</calcite-tab>
-      <calcite-tab>Tab 2 Content</calcite-tab>
-      <calcite-tab>Tab 3 Content</calcite-tab>
-      <calcite-tab>Tab 4 Content</calcite-tab>
-    </calcite-tabs>
-    <h3>Icon no text</h3>
-    <calcite-tabs>
-      <calcite-tab-nav slot="tab-nav">
-        <calcite-tab-title active icon-start="layer"></calcite-tab-title>
-        <calcite-tab-title icon-start="layer"></calcite-tab-title>
-        <calcite-tab-title icon-start="layer"></calcite-tab-title>
-        <calcite-tab-title icon-start="layer"></calcite-tab-title>
-      </calcite-tab-nav>
-
-      <calcite-tab active>Tab 1 Content</calcite-tab>
-      <calcite-tab>Tab 2 Content</calcite-tab>
-      <calcite-tab>Tab 3 Content</calcite-tab>
-      <calcite-tab>Tab 4 Content</calcite-tab>
-    </calcite-tabs>
-
-    <section>
-      <h3>Programatically update active tab</h3>
-      <script>
-        function toggleActiveTab() {
-          if (document.querySelector(".title-1").hasAttribute("active")) {
-            document.querySelector(".title-1").removeAttribute("active");
-            document.querySelector(".title-2").setAttribute("active", true);
-          } else {
-            document.querySelector(".title-2").removeAttribute("active");
-            document.querySelector(".title-1").setAttribute("active", true);
-          }
-        }
-      </script>
-      <calcite-tabs bordered>
-        <calcite-tab-nav slot="tab-nav">
-          <calcite-tab-title tab="tab1" class="title-1">Tab 1 Title</calcite-tab-title>
-          <calcite-tab-title tab="tab2" class="title-2">Tab 2 Title</calcite-tab-title>
-          <calcite-tab-title tab="tab3">Tab 3 Title</calcite-tab-title>
-          <calcite-tab-title tab="tab4" active>Tab 4 Title</calcite-tab-title>
-        </calcite-tab-nav>
-        <calcite-tab tab="tab1">Tab 1 Content</calcite-tab>
-        <calcite-tab tab="tab2">Tab 2 Content</calcite-tab>
-        <calcite-tab tab="tab3">Tab 3 Content</calcite-tab>
-        <calcite-tab tab="tab4" active>Tab 4 Content</calcite-tab>
-      </calcite-tabs>
-      <calcite-button scale="s" onclick="toggleActiveTab();">Toggle active</calcite-button>
-    </section>
-
-    <section>
-      <h2>Just tab-nav</h2>
-      <calcite-tab-nav>
-        <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 5 Title</calcite-tab-title>
-      </calcite-tab-nav>
-      <br />
-      <calcite-tab-nav scale="s">
-        <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 5 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 6 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 7 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 8 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 9 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 10 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 11 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 12 Title</calcite-tab-title>
-      </calcite-tab-nav>
-      <br />
-      <calcite-tab-nav scale="l">
-        <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 5 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 6 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 7 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 8 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 9 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 10 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 11 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 12 Title</calcite-tab-title>
-      </calcite-tab-nav>
-      <br />
-      <calcite-tab-nav position="below" scale="s">
-        <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-      </calcite-tab-nav>
-      <br />
-      <calcite-tab-nav position="below">
-        <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-      </calcite-tab-nav>
-      <br />
-      <calcite-tab-nav position="below" scale="l">
-        <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-      </calcite-tab-nav>
-    </section>
-
-    <h1 class="leader-1">Dark Theme Tabs</h1>
-
-    <div class="demo-background-dark">
-      <calcite-tabs class="calcite-theme-dark">
-        <calcite-tab-nav slot="tab-nav">
+      <div class="child">
+        <calcite-tab-nav scale="s">
           <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
           <calcite-tab-title>Tab 2 Title</calcite-tab-title>
           <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-          <calcite-tab-title>Tab 4 Title</calcite-tab-title>
         </calcite-tab-nav>
+      </div>
 
-        <calcite-tab active>Tab 1 Content</calcite-tab>
-        <calcite-tab>Tab 2 Content</calcite-tab>
-        <calcite-tab>Tab 3 Content</calcite-tab>
-        <calcite-tab>Tab 4 Content</calcite-tab>
-      </calcite-tabs>
-      <calcite-tabs class="calcite-theme-dark">
-        <calcite-tab-nav slot="tab-nav">
-          <calcite-tab-title active icon-start="layer" icon-end="layer">Tab 1 Title</calcite-tab-title>
-          <calcite-tab-title icon-start="layer" icon-end="layer">Tab 2 Title</calcite-tab-title>
-          <calcite-tab-title icon-start="layer" icon-end="layer">Tab 3 Title</calcite-tab-title>
-          <calcite-tab-title icon-start="layer" icon-end="layer">Tab 4 Title</calcite-tab-title>
+      <div class="child">
+        <calcite-tab-nav scale="m">
+          <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 3 Title</calcite-tab-title>
         </calcite-tab-nav>
+      </div>
 
-        <calcite-tab active>Tab 1 Content</calcite-tab>
-        <calcite-tab>Tab 2 Content</calcite-tab>
-        <calcite-tab>Tab 3 Content</calcite-tab>
-        <calcite-tab>Tab 4 Content</calcite-tab>
-      </calcite-tabs>
+      <div class="child">
+        <calcite-tab-nav scale="l">
+          <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+        </calcite-tab-nav>
+      </div>
     </div>
 
-    <h1 class="leader-1">Select First Tab By Default</h1>
+    <!-- tab position: above (default)-->
+    <div class="flex-wrap">
+      <div class="child right-aligned-text">tab position: above (default)</div>
 
-    <calcite-tabs>
-      <calcite-tab-nav slot="tab-nav">
-        <calcite-tab-title>Tab 1 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-      </calcite-tab-nav>
-
-      <calcite-tab>Tab 1 Content</calcite-tab>
-      <calcite-tab>Tab 2 Content</calcite-tab>
-      <calcite-tab>Tab 3 Content</calcite-tab>
-      <calcite-tab>Tab 4 Content</calcite-tab>
-    </calcite-tabs>
-
-    <h1 class="leader-1">Disabled Tab</h1>
-
-    <calcite-tabs>
-      <calcite-tab-nav slot="tab-nav">
-        <calcite-tab-title>Tab 1 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-        <calcite-tab-title disabled>Tab 3 Title (disabled)</calcite-tab-title>
-        <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-      </calcite-tab-nav>
-
-      <calcite-tab>Tab 1 Content</calcite-tab>
-      <calcite-tab>Tab 2 Content</calcite-tab>
-      <calcite-tab>Inaccessible Tab 3 Content</calcite-tab>
-      <calcite-tab>Tab 4 Content</calcite-tab>
-    </calcite-tabs>
-
-    <calcite-tabs bordered>
-      <calcite-tab-nav slot="tab-nav">
-        <calcite-tab-title>Tab 1 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-        <calcite-tab-title disabled>Tab 3 Title (disabled)</calcite-tab-title>
-        <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-      </calcite-tab-nav>
-
-      <calcite-tab>Tab 1 Content</calcite-tab>
-      <calcite-tab>Tab 2 Content</calcite-tab>
-      <calcite-tab>Inaccessible Tab 3 Content</calcite-tab>
-      <calcite-tab>Tab 4 Content</calcite-tab>
-    </calcite-tabs>
-
-    <h1 class="leader-1">Named Tabs</h1>
-    <calcite-tabs>
-      <calcite-tab-nav slot="tab-nav">
-        <calcite-tab-title tab="tab1">Tab 1 Title</calcite-tab-title>
-        <calcite-tab-title tab="tab2" active>Tab 2 Title</calcite-tab-title>
-        <calcite-tab-title tab="tab3">Tab 3 Title</calcite-tab-title>
-        <calcite-tab-title tab="tab4">Tab 4 Title</calcite-tab-title>
-      </calcite-tab-nav>
-
-      <calcite-tab tab="tab1">Tab 1 Content</calcite-tab>
-      <calcite-tab tab="tab2" active>Tab 2 Content</calcite-tab>
-      <calcite-tab tab="tab3">Tab 3 Content</calcite-tab>
-      <calcite-tab tab="tab4">Tab 4 Content</calcite-tab>
-    </calcite-tabs>
-
-    <h1 class="leader-1">Save Active Tab To Cookie</h1>
-
-    <calcite-tabs>
-      <calcite-tab-nav slot="tab-nav" storage-id="calcite-tabs-cookie-demo">
-        <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-      </calcite-tab-nav>
-
-      <calcite-tab active>Tab 1 Content</calcite-tab>
-      <calcite-tab>Tab 2 Content</calcite-tab>
-      <calcite-tab>Tab 3 Content</calcite-tab>
-      <calcite-tab>Tab 4 Content</calcite-tab>
-    </calcite-tabs>
-
-    <h1 class="leader-1">Named Tabs w/ Cookie</h1>
-    <calcite-tabs>
-      <calcite-tab-nav slot="tab-nav" storage-id="calcite-tabs-named-cookie-demo">
-        <calcite-tab-title tab="tab1">Tab 1 Title</calcite-tab-title>
-        <calcite-tab-title tab="tab2" active>Tab 2 Title</calcite-tab-title>
-        <calcite-tab-title tab="tab3">Tab 3 Title</calcite-tab-title>
-        <calcite-tab-title tab="tab4">Tab 4 Title</calcite-tab-title>
-      </calcite-tab-nav>
-
-      <calcite-tab tab="tab1">Tab 1 Content</calcite-tab>
-      <calcite-tab tab="tab2" active>Tab 2 Content</calcite-tab>
-      <calcite-tab tab="tab3">Tab 3 Content</calcite-tab>
-      <calcite-tab tab="tab4">Tab 4 Content</calcite-tab>
-    </calcite-tabs>
-
-    <h1 class="leader-1">Tab Sync Demo</h1>
-
-    <calcite-tabs>
-      <calcite-tab-nav slot="tab-nav" sync-id="sync-demo">
-        <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-      </calcite-tab-nav>
-
-      <calcite-tab active>Tab 1 Content</calcite-tab>
-      <calcite-tab>Tab 2 Content</calcite-tab>
-      <calcite-tab>Tab 3 Content</calcite-tab>
-      <calcite-tab>Tab 4 Content</calcite-tab>
-    </calcite-tabs>
-
-    <calcite-tabs>
-      <calcite-tab-nav slot="tab-nav" sync-id="sync-demo">
-        <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-      </calcite-tab-nav>
-
-      <calcite-tab active>Tab 1 Content</calcite-tab>
-      <calcite-tab>Tab 2 Content</calcite-tab>
-      <calcite-tab>Tab 3 Content</calcite-tab>
-      <calcite-tab>Tab 4 Content</calcite-tab>
-    </calcite-tabs>
-
-    <h1 class="leader-1">Tab Sync + Cookie Demo</h1>
-
-    <calcite-tabs>
-      <calcite-tab-nav slot="tab-nav" sync-id="sync-cookie-demo" storage-id="sync-cookie-demo">
-        <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-      </calcite-tab-nav>
-
-      <calcite-tab active>Tab 1 Content</calcite-tab>
-      <calcite-tab>Tab 2 Content</calcite-tab>
-      <calcite-tab>Tab 3 Content</calcite-tab>
-      <calcite-tab>Tab 4 Content</calcite-tab>
-    </calcite-tabs>
-
-    <calcite-tabs>
-      <calcite-tab-nav slot="tab-nav" sync-id="sync-cookie-demo" storage-id="sync-cookie-demo">
-        <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-      </calcite-tab-nav>
-
-      <calcite-tab active>Tab 1 Content</calcite-tab>
-      <calcite-tab>Tab 2 Content</calcite-tab>
-      <calcite-tab>Tab 3 Content</calcite-tab>
-      <calcite-tab>Tab 4 Content</calcite-tab>
-    </calcite-tabs>
-
-    <h1 class="leader-1">Centered Tabs</h1>
-
-    <calcite-tabs layout="center">
-      <calcite-tab-nav slot="tab-nav">
-        <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-        <calcite-tab-title icon-start="plus">Tab 4 Title</calcite-tab-title>
-        <calcite-tab-title icon-start="plus"></calcite-tab-title>
-        <calcite-tab-title icon-end="plus">Tab 6 Title</calcite-tab-title>
-      </calcite-tab-nav>
-
-      <calcite-tab active>Tab 1 Content</calcite-tab>
-      <calcite-tab>Tab 2 Content</calcite-tab>
-      <calcite-tab>Tab 3 Content</calcite-tab>
-      <calcite-tab>Tab 4 Content</calcite-tab>
-      <calcite-tab>Tab 5 Content</calcite-tab>
-      <calcite-tab>Tab 6 Content</calcite-tab>
-    </calcite-tabs>
-
-    <h1 class="leader-1">RTL Tabs</h1>
-
-    <calcite-tabs dir="rtl">
-      <calcite-tab-nav slot="tab-nav">
-        <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-        <calcite-tab-title icon-start="plus" icon-end="plus">Tab 2 Title</calcite-tab-title>
-        <calcite-tab-title icon-start="plus" icon-end="plus">Tab 3 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-      </calcite-tab-nav>
-
-      <calcite-tab>Tab 1 Content</calcite-tab>
-      <calcite-tab>Tab 2 Content</calcite-tab>
-      <calcite-tab>Tab 3 Content</calcite-tab>
-      <calcite-tab>Tab 4 Content</calcite-tab>
-    </calcite-tabs>
-
-    <h1 class="leader-1">Scrollable RTL Tabs in Container</h1>
-    <div dir="rtl" style="width: 100%">
-      <div style="width: 500px">
-        <calcite-tabs>
+      <div class="child">
+        <calcite-tabs scale="s">
           <calcite-tab-nav slot="tab-nav">
             <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-            <calcite-tab-title icon-start="plus" icon-end="plus">Tab 2 Title</calcite-tab-title>
-            <calcite-tab-title icon-start="plus" icon-end="plus">Tab 3 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 5 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 6 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 7 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 8 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 9 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 10 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 11 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 12 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
           </calcite-tab-nav>
-
-          <calcite-tab>Tab 1 Content</calcite-tab>
+          <calcite-tab active>Tab 1 Content</calcite-tab>
           <calcite-tab>Tab 2 Content</calcite-tab>
           <calcite-tab>Tab 3 Content</calcite-tab>
-          <calcite-tab>Tab 4 Content</calcite-tab>
-          <calcite-tab>Tab 5 Content</calcite-tab>
-          <calcite-tab>Tab 6 Content</calcite-tab>
-          <calcite-tab>Tab 7 Content</calcite-tab>
-          <calcite-tab>Tab 8 Content</calcite-tab>
-          <calcite-tab>Tab 9 Content</calcite-tab>
-          <calcite-tab>Tab 10 Content</calcite-tab>
-          <calcite-tab>Tab 11 Content</calcite-tab>
-          <calcite-tab>Tab 12 Content</calcite-tab>
+        </calcite-tabs>
+      </div>
+
+      <div class="child">
+        <calcite-tabs scale="m">
+          <calcite-tab-nav slot="tab-nav">
+            <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+          </calcite-tab-nav>
+          <calcite-tab active>Tab 1 Content</calcite-tab>
+          <calcite-tab>Tab 2 Content</calcite-tab>
+          <calcite-tab>Tab 3 Content</calcite-tab>
+        </calcite-tabs>
+      </div>
+
+      <div class="child">
+        <calcite-tabs scale="l">
+          <calcite-tab-nav slot="tab-nav">
+            <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+          </calcite-tab-nav>
+          <calcite-tab active>Tab 1 Content</calcite-tab>
+          <calcite-tab>Tab 2 Content</calcite-tab>
+          <calcite-tab>Tab 3 Content</calcite-tab>
         </calcite-tabs>
       </div>
     </div>
-    <h1 class="leader-1">Centered RTL</h1>
 
-    <calcite-tabs layout="center" dir="rtl">
-      <calcite-tab-nav slot="tab-nav">
-        <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 5 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 6 Title</calcite-tab-title>
-      </calcite-tab-nav>
+    <!-- tab position: below-->
+    <div class="flex-wrap">
+      <div class="child right-aligned-text">tab position: below</div>
 
-      <calcite-tab active>Tab 1 Content</calcite-tab>
-      <calcite-tab>Tab 2 Content</calcite-tab>
-      <calcite-tab>Tab 3 Content</calcite-tab>
-      <calcite-tab>Tab 4 Content</calcite-tab>
-      <calcite-tab>Tab 5 Content</calcite-tab>
-      <calcite-tab>Tab 6 Content</calcite-tab>
-    </calcite-tabs>
+      <div class="child">
+        <calcite-tabs scale="s" position="below">
+          <calcite-tab-nav slot="tab-nav">
+            <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+          </calcite-tab-nav>
+          <calcite-tab active>Tab 1 Content</calcite-tab>
+          <calcite-tab>Tab 2 Content</calcite-tab>
+          <calcite-tab>Tab 3 Content</calcite-tab>
+        </calcite-tabs>
+      </div>
 
-    <h1 class="leader-1">Custom Colors</h1>
+      <div class="child">
+        <calcite-tabs scale="m" position="below">
+          <calcite-tab-nav slot="tab-nav">
+            <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+          </calcite-tab-nav>
+          <calcite-tab active>Tab 1 Content</calcite-tab>
+          <calcite-tab>Tab 2 Content</calcite-tab>
+          <calcite-tab>Tab 3 Content</calcite-tab>
+        </calcite-tabs>
+      </div>
 
-    <style>
-      calcite-tabs.green {
-        --calcite-ui-brand: #338033;
-      }
+      <div class="child">
+        <calcite-tabs scale="l" position="below">
+          <calcite-tab-nav slot="tab-nav">
+            <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+          </calcite-tab-nav>
+          <calcite-tab active>Tab 1 Content</calcite-tab>
+          <calcite-tab>Tab 2 Content</calcite-tab>
+          <calcite-tab>Tab 3 Content</calcite-tab>
+        </calcite-tabs>
+      </div>
+    </div>
 
-      calcite-tabs.calcite-theme-dark.green {
-        --calcite-ui-brand: #5a9359;
-      }
-    </style>
-    <calcite-tabs class="green">
-      <calcite-tab-nav slot="tab-nav">
-        <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-      </calcite-tab-nav>
+    <!-- icon only with no text -->
+    <div class="flex-wrap">
+      <div class="child right-aligned-text">icon only with no text</div>
 
-      <calcite-tab active>Tab 1 Content</calcite-tab>
-      <calcite-tab>Tab 2 Content</calcite-tab>
-      <calcite-tab>Tab 3 Content</calcite-tab>
-      <calcite-tab>Tab 4 Content</calcite-tab>
-    </calcite-tabs>
+      <div class="child">
+        <calcite-tabs scale="s">
+          <calcite-tab-nav slot="tab-nav">
+            <calcite-tab-title active icon-start="browser"></calcite-tab-title>
+            <calcite-tab-title icon-start="browser"></calcite-tab-title>
+            <calcite-tab-title icon-start="browser"></calcite-tab-title>
+          </calcite-tab-nav>
 
-    <div class="demo-background-dark">
-      <calcite-tabs class="green calcite-theme-dark">
-        <calcite-tab-nav slot="tab-nav">
-          <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-          <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-          <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-          <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-        </calcite-tab-nav>
+          <calcite-tab active>Tab 1 Content</calcite-tab>
+          <calcite-tab>Tab 2 Content</calcite-tab>
+          <calcite-tab>Tab 3 Content</calcite-tab>
+        </calcite-tabs>
+      </div>
 
-        <calcite-tab active>Tab 1 Content</calcite-tab>
-        <calcite-tab>Tab 2 Content</calcite-tab>
-        <calcite-tab>Tab 3 Content</calcite-tab>
-        <calcite-tab>Tab 4 Content</calcite-tab>
-      </calcite-tabs>
+      <div class="child">
+        <calcite-tabs scale="m">
+          <calcite-tab-nav slot="tab-nav">
+            <calcite-tab-title active icon-start="browser"></calcite-tab-title>
+            <calcite-tab-title icon-start="browser"></calcite-tab-title>
+            <calcite-tab-title icon-start="browser"></calcite-tab-title>
+          </calcite-tab-nav>
+
+          <calcite-tab active>Tab 1 Content</calcite-tab>
+          <calcite-tab>Tab 2 Content</calcite-tab>
+          <calcite-tab>Tab 3 Content</calcite-tab>
+        </calcite-tabs>
+      </div>
+
+      <div class="child">
+        <calcite-tabs scale="l">
+          <calcite-tab-nav slot="tab-nav">
+            <calcite-tab-title active icon-start="browser"></calcite-tab-title>
+            <calcite-tab-title icon-start="browser"></calcite-tab-title>
+            <calcite-tab-title icon-start="browser"></calcite-tab-title>
+          </calcite-tab-nav>
+
+          <calcite-tab active>Tab 1 Content</calcite-tab>
+          <calcite-tab>Tab 2 Content</calcite-tab>
+          <calcite-tab>Tab 3 Content</calcite-tab>
+        </calcite-tabs>
+      </div>
+    </div>
+
+    <!-- icon start -->
+    <div class="flex-wrap">
+      <div class="child right-aligned-text">icon start</div>
+
+      <div class="child">
+        <calcite-tabs scale="s">
+          <calcite-tab-nav slot="tab-nav">
+            <calcite-tab-title active icon-start="tabbed-view">Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title icon-start="tabbed-view">Tab 2 Title</calcite-tab-title>
+          </calcite-tab-nav>
+
+          <calcite-tab active>Tab 1 Content</calcite-tab>
+          <calcite-tab>Tab 2 Content</calcite-tab>
+        </calcite-tabs>
+      </div>
+
+      <div class="child">
+        <calcite-tabs scale="m">
+          <calcite-tab-nav slot="tab-nav">
+            <calcite-tab-title active icon-start="tabbed-view">Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title icon-start="tabbed-view">Tab 2 Title</calcite-tab-title>
+          </calcite-tab-nav>
+
+          <calcite-tab active>Tab 1 Content</calcite-tab>
+          <calcite-tab>Tab 2 Content</calcite-tab>
+        </calcite-tabs>
+      </div>
+
+      <div class="child">
+        <calcite-tabs scale="l">
+          <calcite-tab-nav slot="tab-nav">
+            <calcite-tab-title active icon-start="tabbed-view">Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title icon-start="tabbed-view">Tab 2 Title</calcite-tab-title>
+          </calcite-tab-nav>
+
+          <calcite-tab active>Tab 1 Content</calcite-tab>
+          <calcite-tab>Tab 2 Content</calcite-tab>
+        </calcite-tabs>
+      </div>
+    </div>
+
+    <!-- icon end -->
+    <div class="flex-wrap">
+      <div class="child right-aligned-text">icon end</div>
+
+      <div class="child">
+        <calcite-tabs scale="s">
+          <calcite-tab-nav slot="tab-nav" scale="s">
+            <calcite-tab-title active icon-end="tabbed-view">Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title icon-end="tabbed-view">Tab 2 Title</calcite-tab-title>
+          </calcite-tab-nav>
+
+          <calcite-tab active>Tab 1 Content</calcite-tab>
+          <calcite-tab>Tab 2 Content</calcite-tab>
+        </calcite-tabs>
+      </div>
+
+      <div class="child">
+        <calcite-tabs scale="m">
+          <calcite-tab-nav slot="tab-nav" scale="m">
+            <calcite-tab-title active icon-end="tabbed-view">Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title icon-end="tabbed-view">Tab 2 Title</calcite-tab-title>
+          </calcite-tab-nav>
+
+          <calcite-tab active>Tab 1 Content</calcite-tab>
+          <calcite-tab>Tab 2 Content</calcite-tab>
+        </calcite-tabs>
+      </div>
+
+      <div class="child">
+        <calcite-tabs scale="l">
+          <calcite-tab-nav slot="tab-nav" scale="l">
+            <calcite-tab-title active icon-end="tabbed-view">Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title icon-end="tabbed-view">Tab 2 Title</calcite-tab-title>
+          </calcite-tab-nav>
+
+          <calcite-tab active>Tab 1 Content</calcite-tab>
+          <calcite-tab>Tab 2 Content</calcite-tab>
+        </calcite-tabs>
+      </div>
+    </div>
+
+    <!-- with border + icon-start + icon end -->
+    <div class="flex-wrap">
+      <div class="child right-aligned-text">with border + icon-start + icon end</div>
+
+      <div class="child">
+        <calcite-tabs bordered scale="s">
+          <calcite-tab-nav slot="tab-nav">
+            <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" active>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 2 Title</calcite-tab-title>
+          </calcite-tab-nav>
+          <calcite-tab active>Tab 1 content</calcite-tab>
+          <calcite-tab>Tab 2 Content</calcite-tab>
+        </calcite-tabs>
+      </div>
+
+      <div class="child">
+        <calcite-tabs bordered scale="m">
+          <calcite-tab-nav slot="tab-nav">
+            <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" active>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 2 Title</calcite-tab-title>
+          </calcite-tab-nav>
+          <calcite-tab active>Tab 1 content</calcite-tab>
+          <calcite-tab>Tab 2 Content</calcite-tab>
+        </calcite-tabs>
+      </div>
+
+      <div class="child">
+        <calcite-tabs bordered scale="l">
+          <calcite-tab-nav slot="tab-nav">
+            <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" active>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 2 Title</calcite-tab-title>
+          </calcite-tab-nav>
+          <calcite-tab active>Tab 1 content</calcite-tab>
+          <calcite-tab>Tab 2 Content</calcite-tab>
+        </calcite-tabs>
+      </div>
+    </div>
+
+    <!-- tab position: below with border + icon-start + icon end:  -->
+    <div class="flex-wrap">
+      <div class="child right-aligned-text">tab position: below with border + icon-start + icon end</div>
+
+      <div class="child">
+        <calcite-tabs bordered scale="s" position="below">
+          <calcite-tab-nav slot="tab-nav">
+            <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" active>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 2 Title</calcite-tab-title>
+          </calcite-tab-nav>
+          <calcite-tab active>Tab 1 content</calcite-tab>
+          <calcite-tab>Tab 2 Content</calcite-tab>
+        </calcite-tabs>
+      </div>
+
+      <div class="child">
+        <calcite-tabs bordered scale="m" position="below">
+          <calcite-tab-nav slot="tab-nav">
+            <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" active>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 2 Title</calcite-tab-title>
+          </calcite-tab-nav>
+          <calcite-tab active>Tab 1 content</calcite-tab>
+          <calcite-tab>Tab 2 Content</calcite-tab>
+        </calcite-tabs>
+      </div>
+
+      <div class="child">
+        <calcite-tabs bordered scale="l" position="below">
+          <calcite-tab-nav slot="tab-nav">
+            <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" active>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 2 Title</calcite-tab-title>
+          </calcite-tab-nav>
+          <calcite-tab active>Tab 1 content</calcite-tab>
+          <calcite-tab>Tab 2 Content</calcite-tab>
+        </calcite-tabs>
+      </div>
     </div>
   </body>
 </html>

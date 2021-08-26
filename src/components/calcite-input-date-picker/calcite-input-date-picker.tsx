@@ -10,7 +10,8 @@ import {
   VNode,
   Method,
   Event,
-  EventEmitter
+  EventEmitter,
+  Build
 } from "@stencil/core";
 import { getLocaleData, DateLocaleData } from "../calcite-date-picker/utils";
 import { getElementDir } from "../../utils/dom";
@@ -86,12 +87,12 @@ export class CalciteInputDatePicker {
   }
 
   /** Localized string for "previous month" (used for aria label)
-   * @default "previous month"
+   * @default "Previous month"
    */
   @Prop() intlPrevMonth?: string = TEXT.prevMonth;
 
   /** Localized string for "next month" (used for aria label)
-   * @default "next month"
+   * @default "Next month"
    */
   @Prop() intlNextMonth?: string = TEXT.nextMonth;
 
@@ -186,9 +187,8 @@ export class CalciteInputDatePicker {
   //  Lifecycle
   //
   // --------------------------------------------------------------------------
-  connectedCallback(): void {
-    this.loadLocaleData();
 
+  connectedCallback(): void {
     if (this.value) {
       this.valueAsDate = dateFromISO(this.value);
     }
@@ -210,6 +210,10 @@ export class CalciteInputDatePicker {
     }
 
     this.createPopper();
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await this.loadLocaleData();
   }
 
   disconnectedCallback(): void {
@@ -489,6 +493,10 @@ export class CalciteInputDatePicker {
 
   @Watch("locale")
   private async loadLocaleData(): Promise<void> {
+    if (!Build.isBrowser) {
+      return;
+    }
+
     const { locale } = this;
     this.localeData = await getLocaleData(locale);
   }

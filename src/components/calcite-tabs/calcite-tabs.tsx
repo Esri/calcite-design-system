@@ -2,6 +2,9 @@ import { Component, Prop, h, Element, Listen, State, VNode, Fragment } from "@st
 import { TabLayout, TabPosition } from "./interfaces";
 import { Scale } from "../interfaces";
 
+/**
+ * @slot tab-nav - a slot for adding a tab navigation component
+ */
 @Component({
   tag: "calcite-tabs",
   styleUrl: "calcite-tabs.scss",
