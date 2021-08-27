@@ -8,7 +8,16 @@
  */
 
 :host {
-  @apply block box-border bg-foreground-1 text-color-2 text--1h;
+  @apply block
+  box-border
+  bg-foreground-1
+  text-color-2
+  text--1h;
+
+  * {
+    @apply box-border;
+  }
+
   --calcite-tip-manager-height: 19vh;
 }
 
@@ -73,7 +82,12 @@ h2.heading {
 
 /* Pagination Styles*/
 .pagination {
-  @apply flex items-center justify-center pt-3 pb-2 px-0;
+  @apply flex
+  items-center
+  justify-center
+  pt-3
+  pb-2
+  px-0;
 }
 
 .page-position {

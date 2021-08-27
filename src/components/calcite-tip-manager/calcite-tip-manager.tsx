@@ -243,16 +243,16 @@ export class CalciteTipManager {
           class={CSS.pagePrevious}
           icon={dir === "ltr" ? ICONS.chevronLeft : ICONS.chevronRight}
           onClick={this.previousClicked}
+          scale="m"
           text={previousLabel}
-          scale="s"
         />
         <span class={CSS.pagePosition}>{`${paginationLabel} ${selectedIndex + 1}/${total}`}</span>
         <calcite-action
           class={CSS.pageNext}
           icon={dir === "ltr" ? ICONS.chevronRight : ICONS.chevronLeft}
           onClick={this.nextClicked}
+          scale="m"
           text={nextLabel}
-          scale="s"
         />
       </footer>
     ) : null;
@@ -284,8 +284,8 @@ export class CalciteTipManager {
             class={CSS.close}
             icon={ICONS.close}
             onClick={this.hideTipManager}
-            text={closeLabel}
             scale="m"
+            text={closeLabel}
           />
         </header>
         <div

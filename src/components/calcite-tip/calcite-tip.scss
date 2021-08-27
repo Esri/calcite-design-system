@@ -10,6 +10,10 @@
     bg-foreground-1
     text-color-2
     text--1h;
+
+  * {
+    @apply box-border;
+  }
 }
 
 .container {
