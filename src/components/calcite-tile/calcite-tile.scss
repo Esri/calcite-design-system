@@ -27,7 +27,35 @@
 }
 
 .container {
-  @apply flex items-center gap-2;
+  @apply flex flex-col items-start;
+}
+
+.content {
+  @apply justify-center
+  flex
+  flex-auto
+  flex-col;
+}
+
+.content-container {
+  @apply flex
+  flex-auto
+  focus-base
+  items-stretch
+  p-0
+  text-color-2;
+}
+
+.content-slot-container {
+  @apply flex items-center bg-foreground-1;
+
+  &:first-child {
+    @apply pr-3;
+  }
+
+  &:last-child {
+    @apply pl-3;
+  }
 }
 
 .tile {

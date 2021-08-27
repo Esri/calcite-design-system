@@ -1,5 +1,6 @@
-import { Component, Fragment, h, Prop, VNode } from "@stencil/core";
+import { Component, Element, Fragment, h, Prop, VNode } from "@stencil/core";
 import { SLOTS } from "./resources";
+import { getSlotted } from "../../utils/dom";
 
 /**
  * @slot content-start - A slot for adding non-actionable elements before the tile content.
@@ -11,6 +12,14 @@ import { SLOTS } from "./resources";
   shadow: true
 })
 export class CalciteTile {
+  // --------------------------------------------------------------------------
+  //
+  //  Private Properties
+  //
+  // --------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteTileElement;
+
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -56,7 +65,7 @@ export class CalciteTile {
   // --------------------------------------------------------------------------
 
   renderTile(): VNode {
-    const { icon, heading, description } = this;
+    const { icon, el, heading, description } = this;
     const isLargeVisual = heading && icon && !description;
     const iconStyle = isLargeVisual
       ? {
@@ -67,19 +76,29 @@ export class CalciteTile {
 
     return (
       <div class="container">
-        <slot name={SLOTS.contentStart} />
         <div class={{ "large-visual": isLargeVisual, tile: true }}>
           {icon && (
             <div class="icon">
               <calcite-icon icon={icon} scale="l" style={iconStyle} />
             </div>
           )}
-          <div>
+        </div>
+        <div class="content-container">
+          {getSlotted(el, SLOTS.contentStart) ? (
+            <div class="content-slot-container">
+              <slot name={SLOTS.contentStart} />
+            </div>
+          ) : null}
+          <div class="content">
             {heading && <div class="heading">{heading}</div>}
             {description && <div class="description">{description}</div>}
           </div>
+          {getSlotted(el, SLOTS.contentEnd) ? (
+            <div class="content-slot-container">
+              <slot name={SLOTS.contentEnd} />
+            </div>
+          ) : null}
         </div>
-        <slot name={SLOTS.contentEnd} />
       </div>
     );
   }
