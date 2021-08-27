@@ -9,7 +9,11 @@ to work with users returned from the ArcGIS REST API.
 
 ### Basic
 
-Take the following sample user returned from a [search for users](https://developers.arcgis.com/rest/users-groups-and-items/user-search.htm):
+The JSON sample user below is returned from a [search for users](https://developers.arcgis.com/rest/users-groups-and-items/user-search.htm). You can create an avatar for Ron by passing these properties directly to the avatar component.
+
+When no thumbnail is provided, the avatar component will construct a useful placeholder, leveraging the user's information to construct a unique background-color with initials.
+
+**Note:** if your user is private, remember to append a token to the end of the thumbnail using the form `thumbnail.jpg?token=YOUR_LOGGED_IN_USER_TOKEN`.
 
 ```json
 {
@@ -23,8 +27,6 @@ Take the following sample user returned from a [search for users](https://develo
 }
 ```
 
-You can create an avatar for Ron by passing these properties directly to the avatar component, like so:
-
 ```html
 <calcite-avatar
   username="ron_swanson_pawnee"
@@ -34,10 +36,6 @@ You can create an avatar for Ron by passing these properties directly to the ava
 >
 </calcite-avatar>
 ```
-
-When no thumbnail is provided, the avatar component will construct a useful placeholder, leveraging the user's information to construct a unique background-color with initials.
-
-**Note:** if your user is private, remember to append a token to the end of the thumbnail using the form `thumbnail.jpg?token=YOUR_LOGGED_IN_USER_TOKEN`.
 
 ## Properties
 

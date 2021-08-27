@@ -10,7 +10,7 @@ import {
   Watch
 } from "@stencil/core";
 
-import { CSS, SLOTS, TEXT } from "./calcite-notice.resources";
+import { CSS, SLOTS, TEXT } from "./resources";
 import { Scale, Width } from "../interfaces";
 import { StatusColor, StatusIcons } from "../calcite-alert/interfaces";
 import { getElementDir, getSlotted, setRequestedIcon } from "../../utils/dom";

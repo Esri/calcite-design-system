@@ -24,7 +24,7 @@ Renders a basic pick list with radio buttons on the left and actions on the righ
 </calcite-pick-list>
 ```
 
-#### Multi-select & filter-enabled
+### Multi-select-and-filter-enabled
 
 Renders a pick list with a sticky filter and checkboxes for multiple selection of items.
 
@@ -42,7 +42,7 @@ Renders a pick list with a sticky filter and checkboxes for multiple selection o
 </calcite-pick-list>
 ```
 
-#### Sub groups
+### Sub-groups
 
 Renders groups of pick list items that are visually separated.
 
@@ -91,7 +91,7 @@ Renders groups of pick list items that are visually separated.
 
 #### Returns
 
-Type: `Promise<Map<string, HTMLCalcitePickListItemElement>>`
+Type: `Promise<Map<string, any>>`
 
 ### `setFocus(focusId?: ListFocusId) => Promise<void>`
 
