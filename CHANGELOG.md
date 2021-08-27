@@ -10,7 +10,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Features
 
 - **action-bar, action-pad, action-menu, action-group:** Add scale property to set scale of actions used internally. ([#2934](https://github.com/Esri/calcite-components/issues/2934)) ([376ae1b](https://github.com/Esri/calcite-components/commit/376ae1b681af5fb82356d3df22357dcee13e7e4b)), closes [#2781](https://github.com/Esri/calcite-components/issues/2781) [#2781](https://github.com/Esri/calcite-components/issues/2781)
-- **flow:** add match-height class ([f65fca8](https://github.com/Esri/calcite-components/commit/f65fca847d09d864d6046ff54eecd701500e3525)), closes [#2741](https://github.com/Esri/calcite-components/issues/2741)
 
 ### Bug Fixes
 
