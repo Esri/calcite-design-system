@@ -10,14 +10,15 @@ import {
   VNode,
   Method,
   Event,
-  EventEmitter
+  EventEmitter,
+  Build
 } from "@stencil/core";
 import { getLocaleData, DateLocaleData } from "../calcite-date-picker/utils";
 import { getElementDir } from "../../utils/dom";
 import { dateFromRange, inRange, dateFromISO, parseDateString, sameDate } from "../../utils/date";
 import { HeadingLevel } from "../functional/CalciteHeading";
 import { getKey } from "../../utils/key";
-import { TEXT } from "../calcite-date-picker/calcite-date-picker-resources";
+import { TEXT } from "../calcite-date-picker/resources";
 
 import {
   createPopper,
@@ -186,9 +187,8 @@ export class CalciteInputDatePicker {
   //  Lifecycle
   //
   // --------------------------------------------------------------------------
-  connectedCallback(): void {
-    this.loadLocaleData();
 
+  connectedCallback(): void {
     if (this.value) {
       this.valueAsDate = dateFromISO(this.value);
     }
@@ -210,6 +210,10 @@ export class CalciteInputDatePicker {
     }
 
     this.createPopper();
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await this.loadLocaleData();
   }
 
   disconnectedCallback(): void {
@@ -489,6 +493,10 @@ export class CalciteInputDatePicker {
 
   @Watch("locale")
   private async loadLocaleData(): Promise<void> {
+    if (!Build.isBrowser) {
+      return;
+    }
+
     const { locale } = this;
     this.localeData = await getLocaleData(locale);
   }

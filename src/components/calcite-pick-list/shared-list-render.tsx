@@ -1,6 +1,6 @@
 import { FunctionalComponent, h, Host, VNode } from "@stencil/core";
 import { JSXBase } from "@stencil/core/internal";
-import { CSS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import { getElementDir } from "../../utils/dom";
 import { handleFilter } from "./shared-list-logic";
 import DOMAttributes = JSXBase.DOMAttributes;
@@ -45,7 +45,7 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes> = (
               ref={setFilterEl}
             />
           ) : null}
-          <slot name="menu-actions" />
+          <slot name={SLOTS.menuActions} />
         </header>
         {loading || disabled ? <calcite-scrim loading={loading} /> : null}
         {defaultSlot}

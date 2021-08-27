@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { renders, defaults, hidden } from "../../tests/commonTests";
-import { TEXT } from "./calcite-date-picker-resources";
+import { TEXT } from "./resources";
 
 describe("calcite-date-picker", () => {
   it("renders", async () => renders("calcite-date-picker", { display: "inline-block" }));
@@ -126,12 +126,13 @@ describe("calcite-date-picker", () => {
         html: `<calcite-date-picker scale="m" locale="sk" value="2000-11-27"></calcite-date-picker>`
       });
       await page.waitForChanges();
-      const text: string = await page.evaluate(() => {
-        return document
-          .querySelector("calcite-date-picker")
-          .shadowRoot?.querySelector("calcite-date-picker-month")
-          .shadowRoot?.querySelector(".week-header")?.textContent;
-      });
+      const text: string = await page.evaluate(
+        () =>
+          document
+            .querySelector("calcite-date-picker")
+            .shadowRoot.querySelector("calcite-date-picker-month")
+            .shadowRoot.querySelector(".week-header").textContent
+      );
 
       expect(text).toEqual("po");
     });
