@@ -502,19 +502,24 @@ export class CalciteInput {
     if (this.type !== "number") {
       return;
     }
-    const decimals = this.value?.split(".")[1]?.length || 0;
+    const decimals = this.step?.toString().split(".")[1]?.length || 0;
     const inputMax = this.maxString ? parseFloat(this.maxString) : null;
     const inputMin = this.minString ? parseFloat(this.minString) : null;
     const inputStep = this.step === "any" ? 1 : Math.abs(this.step || 1);
-    let inputVal = this.value && this.value !== "" ? parseFloat(this.value) : 0;
+    const inputVal =
+      this.value && this.value !== ""
+        ? decimals
+          ? parseFloat(this.value)
+          : parseInt(this.value)
+        : 0;
     let newValue = this.value;
 
     if (direction === "up" && ((!inputMax && inputMax !== 0) || inputVal < inputMax)) {
-      newValue = (inputVal += inputStep).toFixed(decimals).toString();
+      newValue = (inputVal + inputStep).toFixed(decimals);
     }
 
     if (direction === "down" && ((!inputMin && inputMin !== 0) || inputVal > inputMin)) {
-      newValue = (inputVal -= inputStep).toFixed(decimals).toString();
+      newValue = (inputVal - inputStep).toFixed(decimals);
     }
 
     this.setValue(newValue, nativeEvent, true);
