@@ -8,8 +8,6 @@ The `calcite-tip-manager` component contains multiple `calcite-tip`s that a user
 
 ### Basic
 
-#### Basic
-
 Renders a tip manager using a group of tips as well as a single tip.
 
 ```html

@@ -1,3 +1,4 @@
+import { version } from "../package.json";
 import type { Options } from "standard-version";
 
 const childProcess = require("child_process");
@@ -16,6 +17,7 @@ const header = `# Changelog\n\nThis document maintains a list of released versio
 const unreleasedSectionTokenStart = "<!--@unreleased-section-start-->";
 const unreleasedSectionTokenEnd = "<!--@unreleased-section-end-->";
 const changelogPath = quote([normalize(`${__dirname}/../CHANGELOG.md`)]);
+const readmePath = quote([normalize(`${__dirname}/../readme.md`)]);
 
 (async function prepReleaseCommit(): Promise<void> {
   const { next } = argv;
@@ -89,6 +91,9 @@ async function runStandardVersion(next: boolean, standardVersionOptions: Options
     await exec(`git add ${changelogPath}`);
   }
 
+  await updateReadmeCdnUrls();
+  await exec(`git add ${readmePath}`);
+
   await standardVersion(standardVersionOptions);
 }
 
@@ -129,4 +134,17 @@ async function getUnreleasedChangelogContents(): Promise<string> {
       { encoding: "utf-8" }
     )
   ).trim();
+}
+
+async function updateReadmeCdnUrls(): Promise<void> {
+  const scriptTagPattern = /(<script type="module" src=").+("><\/script>)/;
+  const linkTagPattern = /(<link rel="stylesheet" type="text\/css" href=").+(" \/>)/;
+  const baseCdnUrl = `https://unpkg.com/@esri/calcite-components@${version}/dist/calcite/calcite.`;
+
+  const readmeContent: string = await fs.readFile(readmePath, { encoding: "utf8" });
+  const updatedReadmeContent = readmeContent
+    .replace(scriptTagPattern, `$1${baseCdnUrl}esm.js$2`)
+    .replace(linkTagPattern, `$1${baseCdnUrl}css$2`);
+
+  await fs.writeFile(readmePath, updatedReadmeContent);
 }

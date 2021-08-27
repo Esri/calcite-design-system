@@ -8,7 +8,7 @@
 
 ### Basic
 
-Customize the modal by passing your content into multiple named slots: `header` (title-area of the modal), `content` (main body of the modal), and up to three modal actions: primary, secondary, and back.
+Customize the modal by passing your content into multiple named slots: `header` (title-area of the modal), `content` (main body of the modal), and up to three modal actions: primary, secondary, and back. Notice below we use the `aria-labelledby` attribute, relating it to the title of the modal. In order to ensure good accessibility, it's recommended that you use either an `aria-label` or `aria-labelledby` attribute so screen readers can infer what the subject matter of your modal is.
 
 ```html
 <calcite-modal aria-labelledby="modal-title" active>
@@ -22,19 +22,15 @@ Customize the modal by passing your content into multiple named slots: `header` 
 </calcite-modal>
 ```
 
-Notice above we've used the `aria-labelledby` attribute, relating it to the title of the modal. In order to ensure good accessibility, it's recommended that you use either an `aria-label` or `aria-labelledby` attribute so screen readers can infer what the subject matter of your modal is.
-
 ### Open
 
-To open a modal, add the `active` prop:
+To open a modal, add the `active` prop. Once the opening animation is complete, the `calciteModalOpen` event will be fired.
+
+To close the modal, simply remove the attribute. This will run your before close method (if provided, see below) and fire the `calciteModalClose` event after the animation and teardown is complete.
 
 ```html
 <calcite-modal active></calcite-modal>
 ```
-
-Once the opening animation is complete, the `calciteModalOpen` event will be fired.
-
-To close the modal, simply remove the attribute. This will run your before close method (if provided, see below) and fire the `calciteModalClose` event after the animation and teardown is complete.
 
 ### Reacting-before-close
 
@@ -66,7 +62,7 @@ modal.beforeClose = beforeClose;
 | `docked`              | `docked`                | Prevent the modal from taking up the entire screen on mobile                                                | `boolean`                            | `undefined`               |
 | `firstFocus`          | --                      | Specify an element to focus when the modal is first opened                                                  | `HTMLElement`                        | `undefined`               |
 | `fullscreen`          | `fullscreen`            | Set the modal to always be fullscreen (overrides width)                                                     | `boolean`                            | `undefined`               |
-| `intlClose`           | `intl-close`            | Aria label for the close button                                                                             | `string`                             | `"Close"`                 |
+| `intlClose`           | `intl-close`            | Aria label for the close button                                                                             | `string`                             | `TEXT.close`              |
 | `noPadding`           | `no-padding`            | Turn off spacing around the content area slot                                                               | `boolean`                            | `undefined`               |
 | `scale`               | `scale`                 | specify the scale of modal, defaults to m                                                                   | `"l" \| "m" \| "s"`                  | `"m"`                     |
 | `width`               | `width`                 | Set the width of the modal. Can use stock sizes or pass a number (in pixels)                                | `"l" \| "m" \| "s" \| number`        | `"m"`                     |
@@ -106,6 +102,16 @@ If you want to focus on the close button, you can use the `close-button` focus I
 #### Returns
 
 Type: `Promise<void>`
+
+## Slots
+
+| Slot          | Description                          |
+| ------------- | ------------------------------------ |
+| `"back"`      | a slot for adding a back button      |
+| `"content"`   | a slot for adding modal content      |
+| `"header"`    | a slot for adding a modal header     |
+| `"primary"`   | a slot for adding a primary button   |
+| `"secondary"` | a slot for adding a secondary button |
 
 ## CSS Custom Properties
 
