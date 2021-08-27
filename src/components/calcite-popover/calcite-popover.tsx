@@ -34,10 +34,6 @@ import { getElementDir, queryElementRoots } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
 
-/**
- * @slot image - A slot for adding an image. The image will appear above the other slot content.
- */
-
 @Component({
   tag: "calcite-popover",
   styleUrl: "calcite-popover.scss",
@@ -452,7 +448,8 @@ export class CalcitePopover {
           >
             {this.renderHeader()}
             <div class={CSS.content}>
-              <slot />
+              <
+              />
             </div>
             {!heading ? this.renderCloseButton() : null}
           </div>
