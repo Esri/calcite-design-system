@@ -16,7 +16,7 @@ import { TreeSelectionMode } from "../calcite-tree/interfaces";
 import { nodeListToArray, getElementDir, filterDirectChildren, getSlotted } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { Scale } from "../interfaces";
-import { CSS } from "./resources";
+import { CSS, SLOTS, ICONS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 
 @Component({
@@ -126,7 +126,7 @@ export class CalciteTreeItem {
           [CSS_UTILITY.rtl]: rtl
         }}
         data-test-id="icon"
-        icon="chevron-right"
+        icon={ICONS.chevronRight}
         onClick={this.iconClickHandler}
         scale="s"
       />
@@ -183,7 +183,7 @@ export class CalciteTreeItem {
           ref={(el) => (this.childrenSlotWrapper = el as HTMLElement)}
           role={this.hasChildren ? "group" : undefined}
         >
-          <slot name="children" />
+          <slot name={SLOTS.children} />
         </div>
       </Host>
     );

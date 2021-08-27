@@ -1,11 +1,14 @@
 import { Component, h, Prop, Event, EventEmitter, Element, VNode, Method } from "@stencil/core";
 import { getElementDir, getSlotted } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import { CSS, TEXT } from "./resources";
+import { CSS, TEXT, SLOTS, ICONS } from "./resources";
 import { ChipColor } from "./interfaces";
 import { Appearance, Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 
+/**
+ * @slot image - a slot for adding an image
+ */
 @Component({
   tag: "calcite-chip",
   styleUrl: "calcite-chip.scss",
@@ -94,11 +97,11 @@ export class CalciteChip {
 
   renderChipImage(): VNode {
     const { el } = this;
-    const hasChipImage = getSlotted(el, "image");
+    const hasChipImage = getSlotted(el, SLOTS.image);
 
     return hasChipImage ? (
-      <div class="chip-image-container">
-        <slot name="image" />
+      <div class={CSS.chipImageContainer}>
+        <slot name={SLOTS.image} />
       </div>
     ) : null;
   }
@@ -108,7 +111,7 @@ export class CalciteChip {
 
     const iconEl = (
       <calcite-icon
-        class="calcite-chip--icon"
+        class={CSS.calciteChipIcon}
         dir={dir}
         flipRtl={this.iconFlipRtl}
         icon={this.icon}
@@ -124,7 +127,7 @@ export class CalciteChip {
         onClick={this.closeClickHandler}
         ref={(el) => (this.closeButton = el)}
       >
-        <calcite-icon icon="x" scale="s" />
+        <calcite-icon icon={ICONS.close} scale="s" />
       </button>
     );
 

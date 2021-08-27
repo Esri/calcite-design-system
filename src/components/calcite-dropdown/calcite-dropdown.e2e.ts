@@ -700,16 +700,16 @@ describe("calcite-dropdown", () => {
     <calcite-dropdown-item id="item-2" active>
     Dropdown Item Content
     </calcite-dropdown-item>
-    <calcite-dropdown-item id="item-3">
-    Dropdown Item Content
+    <calcite-dropdown-item>
+    <div id="item-3">Dropdown Item Content</div>
     </calcite-dropdown-item>
     </calcite-dropdown-group>
     </calcite-dropdown>`);
 
     const element = await page.find("calcite-dropdown");
     const trigger = await element.find("#trigger");
-    const item1 = await element.find("calcite-dropdown-item[id='item-1']");
-    const item3 = await element.find("calcite-dropdown-item[id='item-3']");
+    const item1 = await element.find("#item-1");
+    const item3 = await element.find("#item-3");
     const dropdownWrapper = await page.find("calcite-dropdown >>> .calcite-dropdown-wrapper");
     expect(await dropdownWrapper.isVisible()).toBe(false);
     await trigger.click();
@@ -729,8 +729,8 @@ describe("calcite-dropdown", () => {
     <calcite-dropdown disable-close-on-select>
     <calcite-button id="trigger" slot="dropdown-trigger">Open dropdown</calcite-button>
     <calcite-dropdown-group id="group-1" selection-mode="none">
-    <calcite-dropdown-item id="item-1">
-    Dropdown Item Content
+    <calcite-dropdown-item>
+    <div id="item-1">Dropdown Item Content</div>
     </calcite-dropdown-item>
     <calcite-dropdown-item id="item-2">
     Dropdown Item Content
@@ -743,7 +743,7 @@ describe("calcite-dropdown", () => {
 
     const element = await page.find("calcite-dropdown");
     const trigger = await element.find("#trigger");
-    const item1 = await element.find("calcite-dropdown-item[id='item-1']");
+    const item1 = await element.find("#item-1");
     const dropdownWrapper = await page.find("calcite-dropdown >>> .calcite-dropdown-wrapper");
     expect(await dropdownWrapper.isVisible()).toBe(false);
     await trigger.click();
