@@ -111,7 +111,7 @@ export class CalciteColorPicker {
 
   @Watch("format")
   handleFormatChange(format: CalciteColorPicker["format"]): void {
-    this.mode = format === "auto" ? this.mode : format;
+    this.setMode(format);
     this.value = this.toValue(this.color);
   }
 
@@ -274,7 +274,7 @@ export class CalciteColorPicker {
       }
 
       modeChanged = this.mode !== nextMode;
-      this.mode = nextMode;
+      this.setMode(nextMode);
     }
 
     const dragging = this.sliderThumbState === "drag" || this.hueThumbState === "drag";
@@ -783,9 +783,10 @@ export class CalciteColorPicker {
     const { alphaSupport, color, format, value } = this;
 
     const defaultValue = normalizeHex(hexify(DEFAULT_COLOR, alphaSupport));
-    const initialValueDefault = format !== "auto" ? this.toValue(color, format) : defaultValue;
-    const initialValue = format !== "auto" && value === defaultValue ? initialValueDefault : value;
+    const initialValueDefault = format === "auto" ? defaultValue : this.toValue(color, format);
+    const initialValue = format === "auto" || value === defaultValue ? value : initialValueDefault;
 
+    this.setMode(format);
     this.handleValueChange(initialValue, initialValueDefault);
 
     this.updateDimensions(this.scale);
@@ -1105,6 +1106,10 @@ export class CalciteColorPicker {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private setMode(format: CalciteColorPicker["format"]): void {
+    this.mode = format === "auto" ? this.mode : format;
+  }
 
   private captureHueSliderColor(x: number): void {
     const {

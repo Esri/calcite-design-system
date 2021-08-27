@@ -6,7 +6,7 @@ $gap--large: 12px;
 $inline-input-width: 31%;
 
 :host {
-  @apply inline-block text--2h;
+  @apply inline-block text--2h font-normal;
 }
 
 :host([scale="s"]) {
@@ -52,6 +52,9 @@ $inline-input-width: 31%;
       margin-left: 0;
       margin-right: $gap--large;
     }
+  }
+  .header {
+    @apply pb-0;
   }
 }
 
@@ -191,7 +194,8 @@ $inline-input-width: 31%;
   @apply flex
     items-center
     justify-between
-    text-color-1;
+    text-color-1
+    pb-1;
 }
 
 .header--spaced,

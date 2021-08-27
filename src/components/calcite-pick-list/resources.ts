@@ -10,3 +10,7 @@ export enum ICON_TYPES {
 export const TEXT = {
   filterResults: "Filter results"
 };
+
+export const SLOTS = {
+  menuActions: "menu-actions"
+};
