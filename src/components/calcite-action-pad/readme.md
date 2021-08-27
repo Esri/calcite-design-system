@@ -8,8 +8,6 @@ The `calcite-action-pad` component is made up of `calcite-action`s in the form o
 
 ### Basic
 
-#### Basic Action Pad
-
 Renders a basic action pad with `calcite-action`s.
 
 ```html
@@ -19,7 +17,23 @@ Renders a basic action pad with `calcite-action`s.
 </calcite-action-pad>
 ```
 
-#### With Grouping
+### Tooltip
+
+Renders an action pad with a tooltip on the expand action.
+
+```html
+<calcite-action-pad id="action-pad-test">
+  <calcite-action text="Add" icon="plus"></calcite-action>
+</calcite-action-pad>
+<calcite-tooltip id="tooltip">Expand</calcite-tooltip>
+<script>
+  var actionPad = document.getElementById("action-pad-test");
+  var tooltip = document.getElementById("tooltip");
+  actionPad.tooltipExpand = tooltip;
+</script>
+```
+
+### With-grouping
 
 Renders a group of `calcite-action`s contained in a `calcite-action-group`. Actions in a group are visually separated from other groups or actions in the pad.
 
@@ -32,22 +46,6 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 
   <calcite-action text="Tips" icon="lightbulb"></calcite-action>
 </calcite-action-pad>
-```
-
-### Tooltip
-
-### Tooltip on the expand action
-
-```html
-<calcite-action-pad id="action-pad-test">
-  <calcite-action text="Add" icon="plus"></calcite-action>
-</calcite-action-pad>
-<calcite-tooltip id="tooltip">Expand</calcite-tooltip>
-<script>
-  var actionPad = document.getElementById("action-pad-test");
-  var tooltip = document.getElementById("tooltip");
-  actionPad.tooltipExpand = tooltip;
-</script>
 ```
 
 ## Properties

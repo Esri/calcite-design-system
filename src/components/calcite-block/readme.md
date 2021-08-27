@@ -6,35 +6,7 @@ The `calcite-block` component is intended for displaying a heading and content. 
 
 ## Usage
 
-### Basic
-
-#### Default (non-collapsible)
-
-```html
-<calcite-block heading="Fruit" summary="It's nature's candy"> </calcite-block>
-```
-
-#### Header with control
-
-Renders a header and control with a slot for adding a single HTML element (in the header).
-
-```html
-<calcite-block heading="This header" summary="it has an input">
-  <div slot="control"><input placeholder="I am in control">
-</calcite-block>
-```
-
-#### Header with Icon
-
-Renders a header and icon with the icon.
-
-```html
-<calcite-block heading="Icon't believe it!">
-  <div slot="icon">🤯</div>
-</calcite-block>
-```
-
-#### Header with content (always open)
+### Always-open
 
 Renders a header and content that remains open - no collapsible option.
 
@@ -44,13 +16,41 @@ Renders a header and content that remains open - no collapsible option.
 </calcite-block>
 ```
 
-#### Header with content (collapsible)
+### Basic
+
+Renders a basic, non-collapsible block.
+
+```html
+<calcite-block heading="Fruit" summary="It's nature's candy"> </calcite-block>
+```
+
+### Collapsible
 
 Renders a header with a clickable icon to toggle the block open and closed.
 
 ```html
 <calcite-block heading="Domestic pets" open collapsible>
   <calcite-block-section text="puppers rool, kittehs drule"> </calcite-block-section>
+</calcite-block>
+```
+
+### Header-with-control
+
+Renders a header and control with a slot for adding a single HTML element (in the header).
+
+```html
+<calcite-block heading="This header" summary="it has an input">
+  <div slot="control"><input placeholder="I am in control">
+</calcite-block>
+```
+
+### Header-with-icon
+
+Renders a header and icon with the icon.
+
+```html
+<calcite-block heading="Icon't believe it!">
+  <div slot="icon">🤯</div>
 </calcite-block>
 ```
 
