@@ -1226,7 +1226,7 @@
       (function () {
         var label = document.getElementById("sliderEventDisplay");
         document.getElementById("sliderEvents").addEventListener("calciteSliderUpdate", function (e) {
-          label.innerHTML = e.target.value;
+          label.textContent = e.target.value;
         });
       })();
     </script>

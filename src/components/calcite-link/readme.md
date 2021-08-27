@@ -34,9 +34,9 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot                                | Description |
-| ----------------------------------- | ----------- |
-| `"default text slot for link text"` |             |
+| Slot | Description                     |
+| ---- | ------------------------------- |
+|      | default text slot for link text |
 
 ## Dependencies
 

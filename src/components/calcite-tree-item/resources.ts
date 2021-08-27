@@ -7,3 +7,11 @@ export const CSS = {
   bulletPointIcon: "calcite-tree-bullet-point",
   checkmarkIcon: "calcite-tree-checkmark"
 };
+
+export const SLOTS = {
+  children: "children"
+};
+
+export const ICONS = {
+  chevronRight: "chevron-right"
+};
