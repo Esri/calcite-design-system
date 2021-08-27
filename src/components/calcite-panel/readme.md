@@ -8,8 +8,6 @@ The `calcite-panel` component is a container for a header, content and optional 
 
 ### Basic
 
-#### Basic
-
 Renders a basic panel with a header.
 
 ```html
@@ -19,19 +17,18 @@ Renders a basic panel with a header.
 </calcite-panel>
 ```
 
-#### With footer
+### Dismissible
 
-Renders a panel with a header and a footer.
+Renders a panel that is dismissible with a click of the "x".
 
 ```html
-<calcite-panel>
-  <div slot="header-content">Header!</div>
-  <p>I have a footer.</p>
-  <div slot="footer">Footer!</div>
+<calcite-panel dismissible id="dismissible-panel">
+  <div slot="header-content">Dismissible Header</div>
+  <p>Click the X and I go away!</p>
 </calcite-panel>
 ```
 
-#### Header with actions
+### Header-with-actions
 
 Renders a panel with leading and trailing `calcite-action`s.
 
@@ -56,14 +53,15 @@ Renders a panel with leading and trailing `calcite-action`s.
 </calcite-panel>
 ```
 
-#### Dismissible panel
+### With-footer
 
-Renders a panel that is dismissible with a click of the "x".
+Renders a panel with a header and a footer.
 
 ```html
-<calcite-panel dismissible id="dismissible-panel">
-  <div slot="header-content">Dismissible Header</div>
-  <p>Click the X and I go away!</p>
+<calcite-panel>
+  <div slot="header-content">Header!</div>
+  <p>I have a footer.</p>
+  <div slot="footer">Footer!</div>
 </calcite-panel>
 ```
 

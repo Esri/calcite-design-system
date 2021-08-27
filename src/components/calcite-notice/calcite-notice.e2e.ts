@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, focusable, renders } from "../../tests/commonTests";
-import { CSS, SLOTS } from "./calcite-notice.resources";
+import { CSS, SLOTS } from "./resources";
 import { html } from "../../tests/utils";
 
 describe("calcite-notice", () => {
