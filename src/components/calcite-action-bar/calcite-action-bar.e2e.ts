@@ -18,6 +18,10 @@ describe("calcite-action-bar", () => {
       {
         propertyName: "expanded",
         defaultValue: false
+      },
+      {
+        propertyName: "scale",
+        defaultValue: undefined
       }
     ]));
 
