@@ -448,8 +448,7 @@ export class CalcitePopover {
           >
             {this.renderHeader()}
             <div class={CSS.content}>
-              <
-              />
+              <slot />
             </div>
             {!heading ? this.renderCloseButton() : null}
           </div>
