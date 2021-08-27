@@ -608,7 +608,6 @@ export class CalciteInput {
 
     const inputClearButton = (
       <button
-        aria-label="todo: this needs an intl prop for a11y."
         class={CSS.clearButton}
         disabled={this.disabled || this.readOnly}
         onClick={this.clearInputValue}
@@ -632,7 +631,6 @@ export class CalciteInput {
 
     const numberButtonsHorizontalUp = (
       <button
-        aria-label="todo: this needs an intl prop for a11y."
         class={{
           [CSS.numberButtonItem]: true,
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton
@@ -649,7 +647,6 @@ export class CalciteInput {
 
     const numberButtonsHorizontalDown = (
       <button
-        aria-label="todo: this needs an intl prop for a11y."
         class={{
           [CSS.numberButtonItem]: true,
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton
