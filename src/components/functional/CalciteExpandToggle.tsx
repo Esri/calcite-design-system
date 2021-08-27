@@ -1,5 +1,6 @@
 import { FunctionalComponent, h } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
+import { queryActions } from "../calcite-action-bar/utils";
 import { Position } from "../interfaces";
 
 interface CalciteExpandToggleProps {
@@ -29,7 +30,7 @@ export function toggleChildActionText({
   parent: HTMLElement;
   expanded: boolean;
 }): void {
-  Array.from(parent.querySelectorAll("calcite-action"))
+  queryActions(parent)
     .filter((el) => el.slot !== "menu-actions")
     .forEach((action) => (action.textEnabled = expanded));
   parent.querySelectorAll("calcite-action-group").forEach((group) => (group.expanded = expanded));
