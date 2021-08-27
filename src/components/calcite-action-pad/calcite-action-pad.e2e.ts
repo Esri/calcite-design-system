@@ -22,6 +22,10 @@ describe("calcite-action-pad", () => {
       {
         propertyName: "layout",
         defaultValue: "vertical"
+      },
+      {
+        propertyName: "scale",
+        defaultValue: undefined
       }
     ]));
 
