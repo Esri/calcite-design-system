@@ -16,10 +16,9 @@ import { getElementDir } from "../../utils/dom";
 import { dateFromRange, dateFromISO, dateToISO, getDaysDiff } from "../../utils/date";
 import { HeadingLevel } from "../functional/CalciteHeading";
 import { getKey } from "../../utils/key";
-import { TEXT } from "./calcite-date-picker-resources";
 
 import { DateRangeChange } from "./interfaces";
-import { HEADING_LEVEL } from "./resources";
+import { HEADING_LEVEL, TEXT } from "./resources";
 
 @Component({
   assetsDirs: ["assets"],

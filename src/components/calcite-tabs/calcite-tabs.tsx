@@ -1,6 +1,7 @@
 import { Component, Prop, h, Element, Listen, State, VNode, Fragment } from "@stencil/core";
 import { TabLayout, TabPosition } from "./interfaces";
 import { Scale } from "../interfaces";
+import { SLOTS } from "./resources";
 
 /**
  * @slot tab-nav - a slot for adding a tab navigation component
@@ -60,7 +61,7 @@ export class CalciteTabs {
   render(): VNode {
     return (
       <Fragment>
-        <slot name="tab-nav" />
+        <slot name={SLOTS.tabNav} />
         <section>
           <slot />
         </section>
