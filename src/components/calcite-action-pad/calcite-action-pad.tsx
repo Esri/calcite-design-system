@@ -10,7 +10,7 @@ import {
   VNode,
   Method
 } from "@stencil/core";
-import { Layout, Position } from "../interfaces";
+import { Layout, Position, Scale } from "../interfaces";
 import { CalciteExpandToggle, toggleChildActionText } from "../functional/CalciteExpandToggle";
 import { getElementDir, focusElement, getSlotted } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -77,6 +77,11 @@ export class CalciteActionPad {
    * Arranges the component depending on the elements 'dir' property.
    */
   @Prop({ reflect: true }) position: Position;
+
+  /**
+   * Specifies the size of the expand action.
+   */
+  @Prop({ reflect: true }) scale: Scale;
 
   // --------------------------------------------------------------------------
   //
@@ -161,7 +166,16 @@ export class CalciteActionPad {
   // --------------------------------------------------------------------------
 
   renderBottomActionGroup(): VNode {
-    const { expanded, expandDisabled, intlExpand, intlCollapse, el, position, toggleExpand } = this;
+    const {
+      expanded,
+      expandDisabled,
+      intlExpand,
+      intlCollapse,
+      el,
+      position,
+      toggleExpand,
+      scale
+    } = this;
 
     const tooltip = getSlotted(el, SLOTS.expandTooltip) as HTMLCalciteTooltipElement;
     const expandLabel = intlExpand || TEXT.expand;
@@ -175,6 +189,7 @@ export class CalciteActionPad {
         intlExpand={expandLabel}
         position={position}
         ref={this.setExpandToggleRef}
+        scale={scale}
         toggle={toggleExpand}
         tooltip={tooltip}
       />

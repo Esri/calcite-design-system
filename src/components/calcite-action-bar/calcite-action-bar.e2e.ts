@@ -287,4 +287,14 @@ describe("calcite-action-bar", () => {
     expect(await groups[0].getProperty("menuOpen")).toBe(true);
     expect(await groups[1].getProperty("menuOpen")).toBe(false);
   });
+
+  it("should honor scale of expand icon", async () => {
+    const page = await newE2EPage({ html: `<calcite-action-bar scale="l"></calcite-action-bar>` });
+
+    const buttonGroup = await page.find(`calcite-action-bar >>> .${CSS.actionGroupBottom}`);
+
+    const button = await buttonGroup.find("calcite-action");
+
+    expect(await button.getProperty("scale")).toBe("l");
+  });
 });
