@@ -612,7 +612,17 @@
 
 :host([appearance="transparent"][color="neutral"].calcite-inline-editable__cancel-editing-button) {
   button {
-    @apply text-color-3;
+    @apply text-color-3
+      border-t
+      border-t-color-input
+      border-b
+      border-b-color-input;
+    border-bottom-style: solid;
+    border-top-style: solid;
+
+    &:not(.content--slotted) {
+      --calcite-button-padding-y: 0;
+    }
 
     &:hover {
       @apply text-color-1;
