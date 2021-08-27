@@ -293,7 +293,7 @@ export class CalciteActionBar {
     ) : null;
 
     return getSlotted(el, SLOTS.bottomActions) || expandToggleNode ? (
-      <calcite-action-group class={CSS.actionGroupBottom}>
+      <calcite-action-group class={CSS.actionGroupBottom} scale={scale}>
         <slot name={SLOTS.bottomActions} />
         <slot name={SLOTS.expandTooltip} />
         {expandToggleNode}
