@@ -1,16 +1,17 @@
 :host {
   @apply items-stretch
+    box-border
     bg-transparent
     flex
     flex-col
     relative
     flex-shrink-0
-    flex-grow-0;
+    flex-grow-0
+    text-color-2
+    text--1;
   * {
     @apply box-border;
   }
-  color: var(--calcite-ui-text-2);
-  font-size: var(--calcite-font-size--1);
 }
 
 calcite-value-list-item:last-of-type {
