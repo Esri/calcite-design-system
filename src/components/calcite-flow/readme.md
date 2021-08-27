@@ -8,8 +8,6 @@ The `calcite-flow` component is a series of panels that provides a user with a w
 
 ### Basic
 
-#### Basic
-
 Renders a basic flow with a couple `calcite-panel`s.
 
 ```html
@@ -23,7 +21,7 @@ Renders a basic flow with a couple `calcite-panel`s.
 </calcite-flow>
 ```
 
-#### Menu-actions and footer-actions
+### Menu-actions-and-footer-actions
 
 Renders a flow with menu-actions and footer-actions in the form of buttons.
 
@@ -46,7 +44,7 @@ Removes the currently active `calcite-panel`.
 
 #### Returns
 
-Type: `Promise<HTMLCalcitePanelElement>`
+Type: `Promise<any>`
 
 ## Slots
 

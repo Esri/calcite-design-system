@@ -6,17 +6,15 @@ The `calcite-action` component lives in either a `calcite-action-bar` or `calcit
 
 ## Usage
 
-### Basic
+### Clear-appearance
 
-#### Without text displayed
-
-Renders a `calcite-action` that displays only an icon and a tooltip label.
+Renders a `calcite-action` that has a clear background.
 
 ```html
-<calcite-action label="Performs my custom action" text="My Custom Action" icon="plus"></calcite-action>
+<calcite-action appearance="clear" text="Layers" icon="layers"></calcite-action>
 ```
 
-#### With text displayed
+### With-text-displayed
 
 Renders a `calcite-action` that displays text along side an icon and a tooltip label.
 
@@ -24,12 +22,12 @@ Renders a `calcite-action` that displays text along side an icon and a tooltip l
 <calcite-action label="Performs my custom action" text="Perform Action!" text-enabled icon="save"></calcite-action>
 ```
 
-#### Clear appearance
+### Without-text-displayed
 
-Renders a `calcite-action` that has a clear background.
+Renders a `calcite-action` that displays only an icon and a tooltip label.
 
 ```html
-<calcite-action appearance="clear" text="Layers" icon="layers"></calcite-action>
+<calcite-action label="Performs my custom action" text="My Custom Action" icon="plus"></calcite-action>
 ```
 
 ## Properties
