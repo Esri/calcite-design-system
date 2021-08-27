@@ -8,8 +8,6 @@ The `calcite-shell-panel` is a child component of `calcite-shell` used as a cont
 
 ### Basic
 
-#### Basic
-
 Renders a basic shell panel with text content.
 
 ```html
@@ -18,7 +16,7 @@ Renders a basic shell panel with text content.
 </calcite-shell-panel>
 ```
 
-#### With action bar
+### With-action-bar
 
 Renders a panel with an action bar.
 
@@ -32,7 +30,9 @@ Renders a panel with an action bar.
 </calcite-shell-panel>
 ```
 
-#### With a CalcitePanel.
+### With-custom-element
+
+Add `calcite-match-height` to a wrapping element to ensure proper height, scrolling, and sticky behavior (header, footer, fab). Note that multiple levels of nesting is not supported.
 
 ```html
 <calcite-shell-panel>
@@ -41,11 +41,13 @@ Renders a panel with an action bar.
     <calcite-action text="Save" icon="save"></calcite-action>
     <calcite-action text="Layers" icon="layers"></calcite-action>
   </calcite-action-bar>
-  <calcite-panel> ... </calcite-panel>
+  <your-custom-element class="calcite-match-height">
+    <calcite-panel> ... </calcite-panel>
+  </your-custom-element>
 </calcite-shell-panel>
 ```
 
-#### With a CalciteFlow.
+### With-flow
 
 ```html
 <calcite-shell-panel>
@@ -61,9 +63,7 @@ Renders a panel with an action bar.
 </calcite-shell-panel>
 ```
 
-#### With a custom element wrapping a CalcitePanel.
-
-Add `calcite-match-height` to a wrapping element to ensure proper height, scrolling, and sticky behavior (header, footer, fab). Note that multiple levels of nesting is not supported.
+### With-panel
 
 ```html
 <calcite-shell-panel>
@@ -72,9 +72,7 @@ Add `calcite-match-height` to a wrapping element to ensure proper height, scroll
     <calcite-action text="Save" icon="save"></calcite-action>
     <calcite-action text="Layers" icon="layers"></calcite-action>
   </calcite-action-bar>
-  <your-custom-element class="calcite-match-height">
-    <calcite-panel> ... </calcite-panel>
-  </your-custom-element>
+  <calcite-panel> ... </calcite-panel>
 </calcite-shell-panel>
 ```
 

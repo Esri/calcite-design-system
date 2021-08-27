@@ -27,6 +27,7 @@ import { isFocusable, isHidden } from "@a11y/focus-trap/focusable";
 import { Scale } from "../interfaces";
 import { ModalBackgroundColor } from "./interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
+import { TEXT, SLOTS, CSS, ICONS } from "./resources";
 
 const isFocusableExtended = (el: CalciteFocusableElement): boolean => {
   return isCalciteFocusable(el) || isFocusable(el);
@@ -75,7 +76,7 @@ export class CalciteModal {
   @Prop() disableOutsideClose?: boolean;
 
   /** Aria label for the close button */
-  @Prop() intlClose = "Close";
+  @Prop() intlClose = TEXT.close;
 
   /** Prevent the modal from taking up the entire screen on mobile */
   @Prop({ reflect: true }) docked: boolean;
@@ -142,17 +143,17 @@ export class CalciteModal {
         aria-modal="true"
         role="dialog"
       >
-        <calcite-scrim class="scrim" onClick={this.handleOutsideClose} />
+        <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
         {this.renderStyle()}
         <div
           class={{ modal: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
           onTransitionEnd={this.transitionEnd}
         >
           <div data-focus-fence onFocus={this.focusLastElement} tabindex="0" />
-          <div class="header">
+          <div class={CSS.header}>
             {this.renderCloseButton()}
-            <header class="title">
-              <slot name="header" />
+            <header class={CSS.title}>
+              <slot name={CSS.header} />
             </header>
           </div>
           <div
@@ -163,7 +164,7 @@ export class CalciteModal {
             }}
             ref={(el) => (this.modalContent = el)}
           >
-            <slot name="content" />
+            <slot name={SLOTS.content} />
           </div>
           {this.renderFooter()}
           <div data-focus-fence onFocus={this.focusFirstElement} tabindex="0" />
@@ -174,15 +175,15 @@ export class CalciteModal {
 
   renderFooter(): VNode {
     return this.hasFooter ? (
-      <div class="footer">
-        <span class="back">
-          <slot name="back" />
+      <div class={CSS.footer}>
+        <span class={CSS.back}>
+          <slot name={SLOTS.back} />
         </span>
-        <span class="secondary">
-          <slot name="secondary" />
+        <span class={CSS.secondary}>
+          <slot name={SLOTS.secondary} />
         </span>
-        <span class="primary">
-          <slot name="primary" />
+        <span class={CSS.primary}>
+          <slot name={SLOTS.primary} />
         </span>
       </div>
     ) : null;
@@ -192,12 +193,12 @@ export class CalciteModal {
     return !this.disableCloseButton ? (
       <button
         aria-label={this.intlClose}
-        class="close"
+        class={CSS.close}
         onClick={this.close}
         ref={(el) => (this.closeButtonEl = el)}
         title={this.intlClose}
       >
-        <calcite-icon icon="x" scale={this.scale === "s" ? "s" : "l"} />
+        <calcite-icon icon={ICONS.close} scale={this.scale === "s" ? "s" : "l"} />
       </button>
     ) : null;
   }
@@ -352,13 +353,13 @@ export class CalciteModal {
     this.el.addEventListener("calciteModalOpen", this.openEnd);
     this.active = true;
 
-    const titleEl = getSlotted(this.el, "header");
-    const contentEl = getSlotted(this.el, "content");
+    const titleEl = getSlotted(this.el, SLOTS.header);
+    const contentEl = getSlotted(this.el, SLOTS.content);
 
     this.titleId = ensureId(titleEl);
     this.contentId = ensureId(contentEl);
 
-    document.documentElement.classList.add("overflow-hidden");
+    document.documentElement.classList.add(CSS.overflowHidden);
   }
 
   handleOutsideClose = (): void => {
@@ -394,10 +395,12 @@ export class CalciteModal {
   };
 
   private removeOverflowHiddenClass(): void {
-    document.documentElement.classList.remove("overflow-hidden");
+    document.documentElement.classList.remove(CSS.overflowHidden);
   }
 
   private updateFooterVisibility = (): void => {
-    this.hasFooter = !!this.el.querySelector("[slot=back], [slot=secondary], [slot=primary]");
+    this.hasFooter = !!this.el.querySelector(
+      `[slot=${SLOTS.back}], [slot=${SLOTS.secondary}], [slot=${SLOTS.primary}]`
+    );
   };
 }

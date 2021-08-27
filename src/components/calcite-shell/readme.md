@@ -10,8 +10,6 @@ _note: calcite-shell supports tablet as the smallest screen size_
 
 ### Advanced
 
-#### Advanced
-
 Renders a shell with leading and trailing floating panels, action bar/pad, block, flow, tip manager, footer.
 
 ```html
@@ -84,8 +82,6 @@ Renders a shell with leading and trailing floating panels, action bar/pad, block
 
 ### Basic
 
-#### Basic
-
 Renders a basic shell with a header and a footer.
 
 ```html
@@ -101,7 +97,24 @@ Renders a basic shell with a header and a footer.
 </calcite-shell>
 ```
 
-#### With panels
+### With-panel-and-action-bar
+
+Renders a single panel with actions in an action bar.
+
+```html
+<calcite-shell>
+  <calcite-shell-panel slot="primary-panel" position="start">
+    <img src="https://via.placeholder.com/300x200" alt="placeholder" />
+    <calcite-action-bar slot="action-bar">
+      <calcite-action text="Add" active icon="plus"></calcite-action>
+      <calcite-action text="Save" disabled icon="save"></calcite-action>
+      <calcite-action text="Layers" icon="layers"></calcite-action>
+    </calcite-action-bar>
+  </calcite-shell-panel>
+</calcite-shell>
+```
+
+### With-panels
 
 Renders a shell with a header and panels on the left and right sides of the app.
 
@@ -121,23 +134,6 @@ Renders a shell with a header and panels on the left and right sides of the app.
   </div>
   <p>Shell Content</p>
   <!-- insert map or fillable content here -->
-</calcite-shell>
-```
-
-#### Panel with action bar
-
-Renders a single panel with actions in an action bar.
-
-```html
-<calcite-shell>
-  <calcite-shell-panel slot="primary-panel" position="start">
-    <img src="https://via.placeholder.com/300x200" alt="placeholder" />
-    <calcite-action-bar slot="action-bar">
-      <calcite-action text="Add" active icon="plus"></calcite-action>
-      <calcite-action text="Save" disabled icon="save"></calcite-action>
-      <calcite-action text="Layers" icon="layers"></calcite-action>
-    </calcite-action-bar>
-  </calcite-shell-panel>
 </calcite-shell>
 ```
 
