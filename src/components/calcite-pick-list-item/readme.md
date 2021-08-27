@@ -21,10 +21,10 @@
 
 ## Events
 
-| Event                   | Description                                          | Type                                                                                                           |
-| ----------------------- | ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| `calciteListItemChange` | Emitted whenever the item is selected or unselected. | `CustomEvent<{ item: HTMLCalcitePickListItemElement; value: any; selected: boolean; shiftPressed: boolean; }>` |
-| `calciteListItemRemove` | Emitted whenever the remove button is pressed.       | `CustomEvent<void>`                                                                                            |
+| Event                   | Description                                          | Type                                                                                |
+| ----------------------- | ---------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `calciteListItemChange` | Emitted whenever the item is selected or unselected. | `CustomEvent<{ item: any; value: any; selected: boolean; shiftPressed: boolean; }>` |
+| `calciteListItemRemove` | Emitted whenever the remove button is pressed.       | `CustomEvent<void>`                                                                 |
 
 ## Methods
 
