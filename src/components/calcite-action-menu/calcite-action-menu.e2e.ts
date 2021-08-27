@@ -197,10 +197,8 @@ describe("calcite-action-menu", () => {
   it("should honor scale of expand icon", async () => {
     const page = await newE2EPage({ html: `<calcite-action-menu scale="l"></calcite-action-menu>` });
 
-    const buttonGroup = await page.find(`calcite-action-menu >>> .${CSS.defaultTrigger}`);
+    const trigger = await page.find(`calcite-action-menu >>> .${CSS.defaultTrigger}`);
 
-    const button = await buttonGroup.find("calcite-action");
-
-    expect(await button.getProperty("scale")).toBe("l");
+    expect(await trigger.getProperty("scale")).toBe("l");
   });
 });
