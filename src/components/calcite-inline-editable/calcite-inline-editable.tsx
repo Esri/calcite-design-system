@@ -88,7 +88,7 @@ export class CalciteInlineEditable {
   }
 
   componentDidLoad() {
-    this.htmlInput = this.inputElement.querySelector("input");
+    this.htmlInput = this.inputElement.shadowRoot.querySelector("input");
     if (!this.editingEnabled) {
       this.htmlInput.tabIndex = -1;
     }

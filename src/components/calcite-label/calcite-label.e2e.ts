@@ -1,6 +1,11 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { HYDRATED_ATTR } from "../../tests/commonTests";
 
+const getActiveElementName = () => {
+  document.querySelector("calcite-label")?.click();
+  return document.activeElement.localName;
+};
+
 describe("calcite-label", () => {
   it("renders", async () => {
     const page = await newE2EPage();
@@ -63,7 +68,7 @@ describe("calcite-label", () => {
               </calcite-label>
               </div>`
             });
-            element = await page.find("calcite-label label");
+            element = await page.find("calcite-label >>> .container");
             style = await element.getComputedStyle();
             expect(style["textAlign"]).toEqual("left");
           });
@@ -78,7 +83,7 @@ describe("calcite-label", () => {
               </calcite-label>
               </div>`
             });
-            element = await page.find("calcite-label label");
+            element = await page.find("calcite-label >>> .container");
             style = await element.getComputedStyle();
             expect(style["textAlign"]).toEqual("right");
           });
@@ -94,7 +99,7 @@ describe("calcite-label", () => {
             <calcite-input></calcite-input>
             </calcite-label>`
           });
-          element = await page.find("calcite-label label");
+          element = await page.find("calcite-label >>> .container");
           style = await element.getComputedStyle();
           expect(style["textAlign"]).toEqual("center");
         });
@@ -108,7 +113,7 @@ describe("calcite-label", () => {
               <calcite-input></calcite-input>
               </calcite-label>`
             });
-            element = await page.find("calcite-label label");
+            element = await page.find("calcite-label >>> .container");
             style = await element.getComputedStyle();
             expect(style["textAlign"]).toEqual("right");
           });
@@ -121,7 +126,7 @@ describe("calcite-label", () => {
               <calcite-input></calcite-input>
               </calcite-label>`
             });
-            element = await page.find("calcite-label label");
+            element = await page.find("calcite-label >>> .container");
             style = await element.getComputedStyle();
             expect(style["textAlign"]).toEqual("left");
           });
@@ -140,7 +145,7 @@ describe("calcite-label", () => {
     `);
 
     const element = await page.find("calcite-label");
-    const childElement = await page.find("calcite-label label");
+    const childElement = await page.find("calcite-label >>> .container");
     expect(element).toEqualAttribute("id", "dont-duplicate-me");
     expect(childElement).not.toHaveAttribute("id");
     expect(element).toEqualAttribute("status", "invalid");
@@ -156,13 +161,7 @@ describe("calcite-label", () => {
           <input></input>
         </calcite-label>
     `);
-      expect(
-        await page.evaluate(async () => {
-          const label: HTMLSpanElement = document.querySelector("label");
-          await label.click();
-          return document.activeElement.localName;
-        })
-      ).toEqual("input");
+      expect(await page.evaluate(getActiveElementName)).toEqual("input");
     });
 
     it("focuses a wrapped input with for when clicked", async () => {
@@ -173,13 +172,7 @@ describe("calcite-label", () => {
           <input id="input"></input>
         </calcite-label>
     `);
-      expect(
-        await page.evaluate(async () => {
-          const label: HTMLSpanElement = document.querySelector("label");
-          await label.click();
-          return document.activeElement.localName;
-        })
-      ).toEqual("input");
+      expect(await page.evaluate(getActiveElementName)).toEqual("input");
     });
 
     it("focuses a wrapped textarea when clicked", async () => {
@@ -190,13 +183,7 @@ describe("calcite-label", () => {
           <textarea></textarea>
         </calcite-label>
     `);
-      expect(
-        await page.evaluate(async () => {
-          const label: HTMLSpanElement = document.querySelector("label");
-          await label.click();
-          return document.activeElement.localName;
-        })
-      ).toEqual("textarea");
+      expect(await page.evaluate(getActiveElementName)).toEqual("textarea");
     });
 
     it("focuses a wrapped textarea with for when clicked", async () => {
@@ -207,13 +194,7 @@ describe("calcite-label", () => {
           <textarea id="textarea"></textarea>
         </calcite-label>
     `);
-      expect(
-        await page.evaluate(async () => {
-          const label: HTMLSpanElement = document.querySelector("label");
-          await label.click();
-          return document.activeElement.localName;
-        })
-      ).toEqual("textarea");
+      expect(await page.evaluate(getActiveElementName)).toEqual("textarea");
     });
 
     it("focuses and checks a wrapped checkbox when clicked", async () => {
@@ -295,13 +276,7 @@ describe("calcite-label", () => {
         </select>
       </calcite-label>
     `);
-      expect(
-        await page.evaluate(async () => {
-          const label: HTMLSpanElement = document.querySelector("label");
-          await label.click();
-          return document.activeElement.localName;
-        })
-      ).toEqual("select");
+      expect(await page.evaluate(getActiveElementName)).toEqual("select");
     });
 
     it("focuses a wrapped select with for when clicked", async () => {
@@ -317,13 +292,7 @@ describe("calcite-label", () => {
           </select>
         </calcite-label>
     `);
-      expect(
-        await page.evaluate(async () => {
-          const label: HTMLSpanElement = document.querySelector("label");
-          await label.click();
-          return document.activeElement.localName;
-        })
-      ).toEqual("select");
+      expect(await page.evaluate(getActiveElementName)).toEqual("select");
     });
 
     it("focuses a wrapped button when clicked", async () => {
@@ -334,13 +303,7 @@ describe("calcite-label", () => {
           <button type="button">Button</button>
         </calcite-label>
     `);
-      expect(
-        await page.evaluate(async () => {
-          const label: HTMLSpanElement = document.querySelector("label");
-          await label.click();
-          return document.activeElement.localName;
-        })
-      ).toEqual("button");
+      expect(await page.evaluate(getActiveElementName)).toEqual("button");
     });
 
     it("focuses a wrapped button with for when clicked", async () => {
@@ -351,13 +314,7 @@ describe("calcite-label", () => {
           <button id="button" type="button">Button</button>
         </calcite-label>
     `);
-      expect(
-        await page.evaluate(async () => {
-          const label: HTMLSpanElement = document.querySelector("label");
-          await label.click();
-          return document.activeElement.localName;
-        })
-      ).toEqual("button");
+      expect(await page.evaluate(getActiveElementName)).toEqual("button");
     });
   });
 
@@ -370,13 +327,7 @@ describe("calcite-label", () => {
         </calcite-label>
         <input id="input"></input>
       `);
-      expect(
-        await page.evaluate(async () => {
-          const label: HTMLSpanElement = document.querySelector("label");
-          await label.click();
-          return document.activeElement.localName;
-        })
-      ).toEqual("input");
+      expect(await page.evaluate(getActiveElementName)).toEqual("input");
     });
 
     it("focuses a sibling textarea when clicked", async () => {
@@ -387,13 +338,7 @@ describe("calcite-label", () => {
         </calcite-label>
         <textarea id="input"></textarea>
       `);
-      expect(
-        await page.evaluate(async () => {
-          const label: HTMLSpanElement = document.querySelector("label");
-          await label.click();
-          return document.activeElement.localName;
-        })
-      ).toEqual("textarea");
+      expect(await page.evaluate(getActiveElementName)).toEqual("textarea");
     });
 
     it("focuses a sibling checkbox when clicked", async () => {
@@ -442,13 +387,7 @@ describe("calcite-label", () => {
           <option value="audi">Audi</option>
         </select>
       `);
-      expect(
-        await page.evaluate(async () => {
-          const label: HTMLSpanElement = document.querySelector("label");
-          await label.click();
-          return document.activeElement.localName;
-        })
-      ).toEqual("select");
+      expect(await page.evaluate(getActiveElementName)).toEqual("select");
     });
 
     it("focuses a sibling button when clicked", async () => {
@@ -459,13 +398,7 @@ describe("calcite-label", () => {
         </calcite-label>
         <button id="button" type="button">Button</button>
       `);
-      expect(
-        await page.evaluate(async () => {
-          const label: HTMLSpanElement = document.querySelector("label");
-          await label.click();
-          return document.activeElement.localName;
-        })
-      ).toEqual("button");
+      expect(await page.evaluate(getActiveElementName)).toEqual("button");
     });
   });
 

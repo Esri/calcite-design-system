@@ -1,5 +1,5 @@
-import { Component, Element, Event, h, Prop, EventEmitter, VNode } from "@stencil/core";
-import { getElementDir, queryElementRoots } from "../../utils/dom";
+import { Component, Element, Event, h, Prop, EventEmitter, VNode, Host } from "@stencil/core";
+import { getElementDir, queryElementRoots, focusElement } from "../../utils/dom";
 import { FocusRequest } from "./interfaces";
 import { Alignment, Scale, Status } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -58,20 +58,6 @@ export class CalciteLabel {
 
   //--------------------------------------------------------------------------
   //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  clickHandler = (): void => {
-    this.calciteLabelFocus.emit({
-      labelEl: this.el,
-      requestedInput: this.for
-    });
-    this.handleCalciteHtmlForClicks();
-  };
-
-  //--------------------------------------------------------------------------
-  //
   //  Variables
   //
   //--------------------------------------------------------------------------
@@ -86,9 +72,27 @@ export class CalciteLabel {
   //
   //--------------------------------------------------------------------------
 
+  labelClickHandler = (event: MouseEvent): void => {
+    const { effectiveForElement } = this;
+
+    if (!effectiveForElement || event.composedPath().includes(effectiveForElement)) {
+      return;
+    }
+
+    this.calciteLabelFocus.emit({
+      labelEl: this.el,
+      requestedInput: this.for
+    });
+
+    focusElement(effectiveForElement);
+    effectiveForElement?.click();
+  };
+
   setEffectiveForElement = (): void => {
     const labelableElements = [
-      "calcite-button",
+      // todo: should this list be managed outside? do we need to add any?
+      // todo: should we split these up since some may not need to be clicked, just focused?
+      "calcite-button", // should clicking label also click button?
       "calcite-checkbox",
       "calcite-date",
       "calcite-inline-editable",
@@ -114,11 +118,7 @@ export class CalciteLabel {
 
     this.effectiveForElement =
       (forProperty && queryElementRoots(el, `#${forProperty}`)) ||
-      el.querySelector(labelableElements.join(","));
-  };
-
-  private handleCalciteHtmlForClicks = () => {
-    this.effectiveForElement?.click();
+      el.querySelector(labelableElements.join(", "));
   };
 
   //--------------------------------------------------------------------------
@@ -139,12 +139,11 @@ export class CalciteLabel {
   render(): VNode {
     const dir = getElementDir(this.el);
     return (
-      <div
-        class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
-        onClick={this.clickHandler}
-      >
-        <slot />
-      </div>
+      <Host onClick={this.labelClickHandler}>
+        <div class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+          <slot />
+        </div>
+      </Host>
     );
   }
 }
