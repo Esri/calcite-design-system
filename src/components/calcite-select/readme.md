@@ -8,8 +8,6 @@ This component represents a menu of options.
 
 ### Basic
 
-#### Default
-
 ```html
 <calcite-select>
   <calcite-option>high</calcite-option>
@@ -18,17 +16,9 @@ This component represents a menu of options.
 </calcite-select>
 ```
 
-#### Specifying underlying value
+### Content
 
-```html
-<calcite-select>
-  <calcite-option value="high">😃</calcite-option>
-  <calcite-option value="medium">😶</calcite-option>
-  <calcite-option value="low">😭</calcite-option>
-</calcite-select>
-```
-
-#### Specifying different value than option content
+Specify the underlying value and content for each option.
 
 ```html
 <calcite-select>
@@ -38,41 +28,9 @@ This component represents a menu of options.
 </calcite-select>
 ```
 
-#### Grouped
+### Disable
 
-```html
-<calcite-select>
-  <calcite-option-group label="letters">
-    <calcite-option>a</calcite-option>
-    <calcite-option>b</calcite-option>
-    <calcite-option>c</calcite-option>
-  </calcite-option-group>
-  <calcite-option-group label="numbers">
-    <calcite-option>1</calcite-option>
-    <calcite-option selected>2</calcite-option>
-    <calcite-option>3</calcite-option>
-  </calcite-option-group>
-</calcite-select>
-```
-
-### Side by side (container is flex-box)
-
-```html
-<div class="demo-side-by-side">
-  <calcite-select width="half" label="half width">
-    <calcite-option>☕️</calcite-option>
-    <calcite-option>🍵</calcite-option>
-    <calcite-option selected>🍻</calcite-option>
-  </calcite-select>
-  <calcite-select width="half" label="half width">
-    <calcite-option selected>🌮</calcite-option>
-    <calcite-option>🍔</calcite-option>
-    <calcite-option>🌯</calcite-option>
-  </calcite-select>
-</div>
-```
-
-### Disabling items and/or groups
+Disable specific items or groups.
 
 ```html
 <calcite-select>
@@ -96,15 +54,65 @@ This component represents a menu of options.
 </calcite-select>
 ```
 
+### Grouped
+
+Separate the options into groups.
+
+```html
+<calcite-select>
+  <calcite-option-group label="letters">
+    <calcite-option>a</calcite-option>
+    <calcite-option>b</calcite-option>
+    <calcite-option>c</calcite-option>
+  </calcite-option-group>
+  <calcite-option-group label="numbers">
+    <calcite-option>1</calcite-option>
+    <calcite-option selected>2</calcite-option>
+    <calcite-option>3</calcite-option>
+  </calcite-option-group>
+</calcite-select>
+```
+
+### Side-by-side
+
+Separate the options side by side using a flex-box container.
+
+```html
+<div class="demo-side-by-side">
+  <calcite-select width="half" label="half width">
+    <calcite-option>☕️</calcite-option>
+    <calcite-option>🍵</calcite-option>
+    <calcite-option selected>🍻</calcite-option>
+  </calcite-select>
+  <calcite-select width="half" label="half width">
+    <calcite-option selected>🌮</calcite-option>
+    <calcite-option>🍔</calcite-option>
+    <calcite-option>🌯</calcite-option>
+  </calcite-select>
+</div>
+```
+
+### Value
+
+Specify the underlying value for each option.
+
+```html
+<calcite-select>
+  <calcite-option value="high">😃</calcite-option>
+  <calcite-option value="medium">😶</calcite-option>
+  <calcite-option value="low">😭</calcite-option>
+</calcite-select>
+```
+
 ## Properties
 
-| Property             | Attribute  | Description                                                         | Type                         | Default     |
-| -------------------- | ---------- | ------------------------------------------------------------------- | ---------------------------- | ----------- |
-| `disabled`           | `disabled` | When true, it prevents the option from being selected.              | `boolean`                    | `false`     |
-| `label` _(required)_ | `label`    | The component's label. This is required for accessibility purposes. | `string`                     | `undefined` |
-| `scale`              | `scale`    | The component scale.                                                | `"l" \| "m" \| "s"`          | `"m"`       |
-| `selectedOption`     | --         | The currently selected option.                                      | `HTMLCalciteOptionElement`   | `undefined` |
-| `width`              | `width`    | The component width.                                                | `"auto" \| "full" \| "half"` | `"auto"`    |
+| Property             | Attribute         | Description                                                         | Type                         | Default     |
+| -------------------- | ----------------- | ------------------------------------------------------------------- | ---------------------------- | ----------- |
+| `disabled`           | `disabled`        | When true, it prevents the option from being selected.              | `boolean`                    | `false`     |
+| `label` _(required)_ | `label`           | The component's label. This is required for accessibility purposes. | `string`                     | `undefined` |
+| `scale`              | `scale`           | The component scale.                                                | `"l" \| "m" \| "s"`          | `"m"`       |
+| `selectedOption`     | `selected-option` | The currently selected option.                                      | `any`                        | `undefined` |
+| `width`              | `width`           | The component width.                                                | `"auto" \| "full" \| "half"` | `"auto"`    |
 
 ## Events
 

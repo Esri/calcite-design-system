@@ -1,5 +1,5 @@
 import { select } from "@storybook/addon-knobs";
-import { darkBackground } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import { boolean } from "@storybook/addon-knobs";
 import { html } from "../../tests/utils";
 import readme from "./readme.md";
@@ -123,7 +123,7 @@ export const Dark = (): string => html`
 `;
 
 Dark.story = {
-  parameters: { backgrounds: darkBackground }
+  parameters: { themes: themesDarkDefault }
 };
 
 export const RTL = (): string => html`

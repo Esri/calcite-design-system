@@ -1,6 +1,6 @@
 import { select } from "@storybook/addon-knobs";
 import { iconNames, boolean } from "../../../.storybook/helpers";
-import { darkBackground } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../tests/utils";
 
@@ -32,4 +32,4 @@ export const darkMode = (): string => html`
   <calcite-icon icon="${select("icon", iconNames, sampleIcon)}" class="calcite-theme-dark"></calcite-icon>
 `;
 
-darkMode.parameters = { backgrounds: darkBackground };
+darkMode.parameters = { themes: themesDarkDefault };
