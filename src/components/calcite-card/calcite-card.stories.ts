@@ -1,5 +1,5 @@
 import { boolean } from "../../../.storybook/helpers";
-import { darkBackground } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import { html, placeholderImage } from "../../tests/utils";
 import readme from "./readme.md";
 
@@ -159,7 +159,7 @@ export const DarkThemeSimple = (): string => html`
 
 DarkThemeSimple.story = {
   name: "Dark Theme - Simple",
-  parameters: { backgrounds: darkBackground }
+  parameters: { themes: themesDarkDefault }
 };
 
 export const DarkThemeSimpleWithLinks = (): string => html`
@@ -177,7 +177,7 @@ export const DarkThemeSimpleWithLinks = (): string => html`
 
 DarkThemeSimpleWithLinks.story = {
   name: "Dark Theme - Simple with Links",
-  parameters: { backgrounds: darkBackground }
+  parameters: { themes: themesDarkDefault }
 };
 
 export const DarkThemeFooterButton = (): string => html`
@@ -193,7 +193,7 @@ export const DarkThemeFooterButton = (): string => html`
 
 DarkThemeFooterButton.story = {
   name: "Dark Theme - Footer Button",
-  parameters: { backgrounds: darkBackground }
+  parameters: { themes: themesDarkDefault }
 };
 
 export const DarkThemeFooterLinks = (): string => html`
@@ -212,7 +212,7 @@ export const DarkThemeFooterLinks = (): string => html`
 
 DarkThemeFooterLinks.story = {
   name: "Dark Theme - Footer Links",
-  parameters: { backgrounds: darkBackground }
+  parameters: { themes: themesDarkDefault }
 };
 
 export const DarkThemeFooterTextButtonsTooltips = (): string => html`
@@ -242,7 +242,7 @@ export const DarkThemeFooterTextButtonsTooltips = (): string => html`
 
 DarkThemeFooterTextButtonsTooltips.story = {
   name: "Dark Theme - Footer Text, Buttons, Tooltips",
-  parameters: { backgrounds: darkBackground }
+  parameters: { themes: themesDarkDefault }
 };
 
 export const DarkThemeFooterButtonsTooltipsDropdown = (): string => html`
@@ -336,7 +336,7 @@ export const DarkThemeFooterButtonsTooltipsDropdown = (): string => html`
 
 DarkThemeFooterButtonsTooltipsDropdown.story = {
   name: "Dark Theme - Footer Buttons, Tooltips, Dropdown",
-  parameters: { backgrounds: darkBackground }
+  parameters: { themes: themesDarkDefault }
 };
 
 export const RTL = (): string => html`

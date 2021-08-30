@@ -1,6 +1,7 @@
 import { select, number } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
+import { themesDarkDefault } from "../../../.storybook/utils";
 
 const placements = [
   "auto",
@@ -42,7 +43,6 @@ export const Simple = (): string => {
       <div>
         ${referenceElementHTML}
         <calcite-tooltip
-        class="calcite-theme-light"
           reference-element="reference-element"
           placement="${select("placement", calcite_placements, "auto")}"
           offset-distance="${number("offset-distance", 6)}"
@@ -88,4 +88,8 @@ export const DarkMode = (): string => {
         </calcite-tooltip>
       </div>
     `;
+};
+
+DarkMode.story = {
+  parameters: { themes: themesDarkDefault }
 };
