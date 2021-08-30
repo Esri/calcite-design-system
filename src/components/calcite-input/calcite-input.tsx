@@ -18,7 +18,7 @@ import {
   getElementProp,
   setRequestedIcon,
   closestElementCrossShadowBoundary,
-  findFormFieldLabel
+  findLabelForComponent
 } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
@@ -267,8 +267,6 @@ export class CalciteInput {
 
   @State() localizedValue: string;
 
-  @State() effectiveLabel: string;
-
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -287,7 +285,6 @@ export class CalciteInput {
         this.value = undefined;
       }
     }
-    this.effectiveLabel = this.label || findFormFieldLabel(this.el);
   }
 
   disconnectedCallback(): void {
@@ -591,6 +588,10 @@ export class CalciteInput {
     }
   };
 
+  getEffectiveLabel = (): string => {
+    return this.label || findLabelForComponent(this.el);
+  };
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -675,7 +676,7 @@ export class CalciteInput {
     const localeNumberInput =
       this.type === "number" ? (
         <input
-          aria-label={this.effectiveLabel}
+          aria-label={this.getEffectiveLabel()}
           autofocus={this.autofocus ? true : null}
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
@@ -698,7 +699,7 @@ export class CalciteInput {
 
     const childEl = [
       <this.childElType
-        aria-label={this.effectiveLabel}
+        aria-label={this.getEffectiveLabel()}
         autofocus={this.autofocus ? true : null}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}

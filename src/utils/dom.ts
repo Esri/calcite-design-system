@@ -1,7 +1,7 @@
 import { CSS_UTILITY } from "./resources";
 import { guid } from "./guid";
 
-export const findFormFieldLabel = (componentEl: HTMLElement): string | null => {
+export const findLabelForComponent = (componentEl: HTMLElement): string | null => {
   const id = componentEl.id;
   const labelSelectors: string[] = ["calcite-label", "label"];
 

@@ -1,5 +1,5 @@
 import { Component, Element, Event, h, Prop, EventEmitter, VNode, Host } from "@stencil/core";
-import { getElementDir, queryElementRoots, focusElement } from "../../utils/dom";
+import { getElementDir, queryElementRoots } from "../../utils/dom";
 import { FocusRequest } from "./interfaces";
 import { Alignment, Scale, Status } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -58,22 +58,12 @@ export class CalciteLabel {
 
   //--------------------------------------------------------------------------
   //
-  //  Variables
-  //
-  //--------------------------------------------------------------------------
-
-  mutationObserver = new MutationObserver(() => this.setEffectiveForElement());
-
-  effectiveForElement: HTMLElement;
-
-  //--------------------------------------------------------------------------
-  //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
 
   labelClickHandler = (event: MouseEvent): void => {
-    const { effectiveForElement } = this;
+    const effectiveForElement = this.getEffectiveForElement();
 
     if (!effectiveForElement || event.composedPath().includes(effectiveForElement)) {
       return;
@@ -84,41 +74,15 @@ export class CalciteLabel {
       requestedInput: this.for
     });
 
-    focusElement(effectiveForElement);
     effectiveForElement?.click();
   };
 
-  setEffectiveForElement = (): void => {
-    const labelableElements = [
-      // todo: should this list be managed outside? do we need to add any?
-      // todo: should we split these up since some may not need to be clicked, just focused?
-      "calcite-button", // should clicking label also click button?
-      "calcite-checkbox",
-      "calcite-date",
-      "calcite-inline-editable",
-      "calcite-input",
-      "calcite-radio",
-      "calcite-radio-button",
-      "calcite-radio-button-group",
-      "calcite-radio-group",
-      "calcite-rating",
-      "calcite-select",
-      "calcite-slider",
-      "calcite-switch",
-      "button",
-      "input",
-      "meter",
-      "output",
-      "progress",
-      "select",
-      "textarea"
-    ];
-
+  getEffectiveForElement = (): HTMLElement => {
     const { el, for: forProperty } = this;
 
-    this.effectiveForElement =
-      (forProperty && queryElementRoots(el, `#${forProperty}`)) ||
-      el.querySelector(labelableElements.join(", "));
+    return (
+      (forProperty && queryElementRoots(el, `#${forProperty}`)) || (el.firstChild as HTMLElement)
+    );
   };
 
   //--------------------------------------------------------------------------
@@ -126,15 +90,6 @@ export class CalciteLabel {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    this.mutationObserver.observe(this.el, { childList: true, subtree: true });
-    this.setEffectiveForElement();
-  }
-
-  disconnectedCallback(): void {
-    this.mutationObserver.disconnect();
-  }
 
   render(): VNode {
     const dir = getElementDir(this.el);
