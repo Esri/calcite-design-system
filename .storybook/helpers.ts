@@ -1,7 +1,8 @@
 import * as icons from "@esri/calcite-ui-icons";
 import { boolean as booleanKnob } from "@storybook/addon-knobs";
 import { Steps } from "screener-storybook/src/screener";
-import { CSS_UTILITY } from "../src/utils/resources";
+import { THEMES } from "../src/utils/resources";
+import { ThemeName } from "../src/components/interfaces";
 
 // we can get all unique icon names from all size 16 non-filled icons.
 export const iconNames = Object.keys(icons)
@@ -22,10 +23,9 @@ export interface Story {
   decorators?: ((Story: Story) => DocumentFragment)[];
 }
 
-export const setThemeScript = (theme: "light" | "dark" | "auto") => `
-document.body.classList.toggle('${CSS_UTILITY.lightTheme}', ${(theme === "light").toString()});
-document.body.classList.toggle('${CSS_UTILITY.darkTheme}', ${(theme === "dark").toString()});
-document.body.classList.toggle('${CSS_UTILITY.autoTheme}', ${(theme === "auto").toString()});
+export const setThemeScript = (value: ThemeName) => `${THEMES.map(function (theme) {
+  return `document.body.classList.toggle('${theme.className}', ${(theme.name === value).toString()});`;
+}).join("")}
 `;
 
 export const createSteps = (): Steps => {
