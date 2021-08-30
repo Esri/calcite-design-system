@@ -502,17 +502,13 @@ export class CalciteInput {
     if (this.type !== "number") {
       return;
     }
+    const value = this.value;
     const decimals = this.step?.toString().split(".")[1]?.length || 0;
     const inputMax = this.maxString ? parseFloat(this.maxString) : null;
     const inputMin = this.minString ? parseFloat(this.minString) : null;
     const inputStep = this.step === "any" ? 1 : Math.abs(this.step || 1);
-    const inputVal =
-      this.value && this.value !== ""
-        ? decimals
-          ? parseFloat(this.value)
-          : parseInt(this.value)
-        : 0;
-    let newValue = this.value;
+    const inputVal = value && value !== "" ? (decimals ? parseFloat(value) : parseInt(value)) : 0;
+    let newValue = value;
 
     if (direction === "up" && ((!inputMax && inputMax !== 0) || inputVal < inputMax)) {
       newValue = (inputVal + inputStep).toFixed(decimals);
