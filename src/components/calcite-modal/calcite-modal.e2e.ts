@@ -180,7 +180,7 @@ describe("calcite-modal accessibility checks", () => {
         shadowFocusTargetSelector: closeButtonTargetSelector
       }));
 
-    it.skip("can focus close button directly", async () =>
+    it("can focus close button directly", async () =>
       focusable(createModalHTML(focusableContentHTML), {
         focusId: closeButtonFocusId,
         shadowFocusTargetSelector: closeButtonTargetSelector
