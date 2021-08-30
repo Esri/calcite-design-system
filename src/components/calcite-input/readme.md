@@ -43,9 +43,9 @@ function logChange() {
 Using a wrapping `calcite-label` component lets consumers set the status attribute once and have it propagate to child `calcite-input` and `calcite-input-message` elements
 
 ```html
-<calcite-label status="invalid">
+<calcite-label status="invalid" for="invalid-input">
   Invalid input
-  <calcite-input placeholder="Filter your files" value="adfo2h2"></calcite-input>
+  <calcite-input id="invalid-input" placeholder="Filter your files" value="adfo2h2"></calcite-input>
   <calcite-input-message active icon> Something doesn't look right </calcite-input-message>
 </calcite-label>
 ```
@@ -53,9 +53,9 @@ Using a wrapping `calcite-label` component lets consumers set the status attribu
 ### With-message
 
 ```html
-<calcite-label>
+<calcite-label for="info">
   My great label
-  <calcite-input placeholder="Enter your information"></calcite-input>
+  <calcite-input id="info" placeholder="Enter your information"></calcite-input>
   <calcite-input-message icon="3d-glasses" active>
     Here's something you should know about this input
   </calcite-input-message>
