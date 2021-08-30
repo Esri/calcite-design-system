@@ -61,12 +61,6 @@ Type: `Promise<void>`
 
 Type: `Promise<void>`
 
-## Slots
-
-| Slot      | Description                                                                     |
-| --------- | ------------------------------------------------------------------------------- |
-| `"image"` | A slot for adding an image. The image will appear above the other slot content. |
-
 ## Dependencies
 
 ### Used by
