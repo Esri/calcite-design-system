@@ -1,7 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { HYDRATED_ATTR } from "../../tests/commonTests";
 
-const getActiveElementName = () => {
+const getActiveElementNameAfterClick = () => {
   document.querySelector("calcite-label")?.click();
   return document.activeElement.localName;
 };
@@ -161,7 +161,7 @@ describe("calcite-label", () => {
           <input></input>
         </calcite-label>
     `);
-      expect(await page.evaluate(getActiveElementName)).toEqual("input");
+      expect(await page.evaluate(getActiveElementNameAfterClick)).toEqual("input");
     });
 
     it("focuses a wrapped input with for when clicked", async () => {
@@ -172,7 +172,7 @@ describe("calcite-label", () => {
           <input id="input"></input>
         </calcite-label>
     `);
-      expect(await page.evaluate(getActiveElementName)).toEqual("input");
+      expect(await page.evaluate(getActiveElementNameAfterClick)).toEqual("input");
     });
 
     it("focuses a wrapped textarea when clicked", async () => {
@@ -183,7 +183,7 @@ describe("calcite-label", () => {
           <textarea></textarea>
         </calcite-label>
     `);
-      expect(await page.evaluate(getActiveElementName)).toEqual("textarea");
+      expect(await page.evaluate(getActiveElementNameAfterClick)).toEqual("textarea");
     });
 
     it("focuses a wrapped textarea with for when clicked", async () => {
@@ -194,7 +194,7 @@ describe("calcite-label", () => {
           <textarea id="textarea"></textarea>
         </calcite-label>
     `);
-      expect(await page.evaluate(getActiveElementName)).toEqual("textarea");
+      expect(await page.evaluate(getActiveElementNameAfterClick)).toEqual("textarea");
     });
 
     it("focuses and checks a wrapped checkbox when clicked", async () => {
@@ -276,7 +276,7 @@ describe("calcite-label", () => {
         </select>
       </calcite-label>
     `);
-      expect(await page.evaluate(getActiveElementName)).toEqual("select");
+      expect(await page.evaluate(getActiveElementNameAfterClick)).toEqual("select");
     });
 
     it("focuses a wrapped select with for when clicked", async () => {
@@ -292,7 +292,7 @@ describe("calcite-label", () => {
           </select>
         </calcite-label>
     `);
-      expect(await page.evaluate(getActiveElementName)).toEqual("select");
+      expect(await page.evaluate(getActiveElementNameAfterClick)).toEqual("select");
     });
 
     it("focuses a wrapped button when clicked", async () => {
@@ -303,7 +303,7 @@ describe("calcite-label", () => {
           <button type="button">Button</button>
         </calcite-label>
     `);
-      expect(await page.evaluate(getActiveElementName)).toEqual("button");
+      expect(await page.evaluate(getActiveElementNameAfterClick)).toEqual("button");
     });
 
     it("focuses a wrapped button with for when clicked", async () => {
@@ -314,7 +314,7 @@ describe("calcite-label", () => {
           <button id="button" type="button">Button</button>
         </calcite-label>
     `);
-      expect(await page.evaluate(getActiveElementName)).toEqual("button");
+      expect(await page.evaluate(getActiveElementNameAfterClick)).toEqual("button");
     });
   });
 
@@ -327,7 +327,7 @@ describe("calcite-label", () => {
         </calcite-label>
         <input id="input"></input>
       `);
-      expect(await page.evaluate(getActiveElementName)).toEqual("input");
+      expect(await page.evaluate(getActiveElementNameAfterClick)).toEqual("input");
     });
 
     it("focuses a sibling textarea when clicked", async () => {
@@ -338,7 +338,7 @@ describe("calcite-label", () => {
         </calcite-label>
         <textarea id="input"></textarea>
       `);
-      expect(await page.evaluate(getActiveElementName)).toEqual("textarea");
+      expect(await page.evaluate(getActiveElementNameAfterClick)).toEqual("textarea");
     });
 
     it("focuses a sibling checkbox when clicked", async () => {
@@ -387,7 +387,7 @@ describe("calcite-label", () => {
           <option value="audi">Audi</option>
         </select>
       `);
-      expect(await page.evaluate(getActiveElementName)).toEqual("select");
+      expect(await page.evaluate(getActiveElementNameAfterClick)).toEqual("select");
     });
 
     it("focuses a sibling button when clicked", async () => {
@@ -398,7 +398,7 @@ describe("calcite-label", () => {
         </calcite-label>
         <button id="button" type="button">Button</button>
       `);
-      expect(await page.evaluate(getActiveElementName)).toEqual("button");
+      expect(await page.evaluate(getActiveElementNameAfterClick)).toEqual("button");
     });
   });
 
@@ -411,11 +411,7 @@ describe("calcite-label", () => {
           <calcite-input></calcite-input>
         </calcite-label>
     `);
-      const label = await page.find("calcite-label");
-      const input = await page.find("calcite-input");
-      await label.click();
-      const activeEl = await page.evaluate(() => document.activeElement["s-hn"]);
-      expect(activeEl).toEqual(input.nodeName);
+      expect(await page.evaluate(getActiveElementNameAfterClick)).toEqual("calcite-input");
     });
 
     it("focuses a wrapped calcite-input with label wrapped in span when clicked", async () => {
@@ -426,11 +422,7 @@ describe("calcite-label", () => {
           <calcite-input></calcite-input>
         </calcite-label>
     `);
-      const label = await page.find("calcite-label");
-      const input = await page.find("calcite-input");
-      await label.click();
-      const activeEl = await page.evaluate(() => document.activeElement["s-hn"]);
-      expect(activeEl).toEqual(input.nodeName);
+      expect(await page.evaluate(getActiveElementNameAfterClick)).toEqual("calcite-input");
     });
 
     it("focuses a wrapped calcite-input with for when clicked", async () => {
@@ -441,11 +433,7 @@ describe("calcite-label", () => {
           <calcite-input id="input"></calcite-input>
         </calcite-label>
     `);
-      const label = await page.find("calcite-label");
-      const input = await page.find("calcite-input");
-      await label.click();
-      const activeEl = await page.evaluate(() => document.activeElement["s-hn"]);
-      expect(activeEl).toEqual(input.nodeName);
+      expect(await page.evaluate(getActiveElementNameAfterClick)).toEqual("calcite-input");
     });
 
     it("focuses a wrapped calcite-input with for and label wrapped in span when clicked", async () => {
@@ -456,25 +444,7 @@ describe("calcite-label", () => {
           <calcite-input id="input"></calcite-input>
         </calcite-label>
     `);
-      const label = await page.find("calcite-label");
-      const input = await page.find("calcite-input");
-      await label.click();
-      const activeEl = await page.evaluate(() => document.activeElement["s-hn"]);
-      expect(activeEl).toEqual(input.nodeName);
-    });
-
-    it("focuses a wrapped calcite-input when tabbed to", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-      <calcite-label>
-      Label text
-      <calcite-input></calcite-input>
-      </calcite-label>
-    `);
-      const input = await page.find("calcite-input");
-      await page.keyboard.press("Tab");
-      const activeEl = await page.evaluate(() => document.activeElement["s-hn"]);
-      expect(activeEl).toEqual(input.nodeName);
+      expect(await page.evaluate(getActiveElementNameAfterClick)).toEqual("calcite-input");
     });
 
     it("focuses/checks a wrapped calcite-checkbox when clicked and clicks on the checkbox don't result in a double-check", async () => {
@@ -549,23 +519,19 @@ describe("calcite-label", () => {
           <calcite-radio-button id="two" name="radio" value="two"></calcite-radio-button>
         </calcite-label>
     `);
-      const label = await page.find("label");
+      const label = await page.find("calcite-label");
       const radio1 = await page.find("#one");
-      const radioInput1 = await page.find("#one-input");
 
-      await label.click();
+      await page.evaluate(getActiveElementNameAfterClick);
+
       expect(await radio1.getProperty("checked")).toBe(true);
-      expect(await radioInput1.getProperty("checked")).toBe(true);
 
       const radio2 = await page.find("#two");
-      const radioInput2 = await page.find("#two-input");
       await radio2.click();
       expect(await radio2.getProperty("checked")).toBe(true);
-      expect(await radioInput2.getProperty("checked")).toBe(true);
 
       await label.click();
       expect(await radio1.getProperty("checked")).toBe(true);
-      expect(await radioInput1.getProperty("checked")).toBe(true);
     });
 
     it("checks first calcite-radio-button only when the wrapping label wrapped in a span is clicked", async () => {
@@ -579,21 +545,17 @@ describe("calcite-label", () => {
     `);
       const label = await page.find("span");
       const radio1 = await page.find("#one");
-      const radioInput1 = await page.find("#one-input");
 
-      await label.click();
+      await page.evaluate(getActiveElementNameAfterClick);
+
       expect(await radio1.getProperty("checked")).toBe(true);
-      expect(await radioInput1.getProperty("checked")).toBe(true);
 
       const radio2 = await page.find("#two");
-      const radioInput2 = await page.find("#two-input");
       await radio2.click();
       expect(await radio2.getProperty("checked")).toBe(true);
-      expect(await radioInput2.getProperty("checked")).toBe(true);
 
       await label.click();
       expect(await radio1.getProperty("checked")).toBe(true);
-      expect(await radioInput1.getProperty("checked")).toBe(true);
     });
 
     it("focuses and switches a wrapped calcite-switch when clicked", async () => {
@@ -715,11 +677,7 @@ describe("calcite-label", () => {
         </calcite-label>
         <calcite-input id="input"></calcite-input>
       `);
-      const label = await page.find("calcite-label");
-      const input = await page.find("calcite-input");
-      await label.click();
-      const activeEl = await page.evaluate(() => document.activeElement["s-hn"]);
-      expect(activeEl).toEqual(input.nodeName);
+      expect(await page.evaluate(getActiveElementNameAfterClick)).toEqual("calcite-input");
     });
 
     it("focuses a sibling calcite-input when clicked with label wrapped in span", async () => {
@@ -730,11 +688,7 @@ describe("calcite-label", () => {
         </calcite-label>
         <calcite-input id="input"></calcite-input>
       `);
-      const label = await page.find("calcite-label");
-      const input = await page.find("calcite-input");
-      await label.click();
-      const activeEl = await page.evaluate(() => document.activeElement["s-hn"]);
-      expect(activeEl).toEqual(input.nodeName);
+      expect(await page.evaluate(getActiveElementNameAfterClick)).toEqual("calcite-input");
     });
 
     it("focuses/checks a sibling calcite-checkbox when clicked", async () => {
@@ -769,23 +723,18 @@ describe("calcite-label", () => {
         <calcite-radio-button id="one" name="radio" value="one"></calcite-radio-button>
         <calcite-radio-button id="two" name="radio" value="two"></calcite-radio-button>
     `);
-      const label = await page.find("label");
+      const label = await page.find("calcite-label");
       const radio1 = await page.find("#one");
-      const radioInput1 = await page.find("#one-input");
 
       await label.click();
       expect(await radio1.getProperty("checked")).toBe(true);
-      expect(await radioInput1.getProperty("checked")).toBe(true);
 
       const radio2 = await page.find("#two");
-      const radioInput2 = await page.find("#two-input");
       await radio2.click();
       expect(await radio2.getProperty("checked")).toBe(true);
-      expect(await radioInput2.getProperty("checked")).toBe(true);
 
       await label.click();
       expect(await radio1.getProperty("checked")).toBe(true);
-      expect(await radioInput1.getProperty("checked")).toBe(true);
     });
 
     it("checks calcite-radio-button when its sibling label wrapped in a span is clicked", async () => {
