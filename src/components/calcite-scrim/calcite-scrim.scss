@@ -21,11 +21,16 @@
 .scrim {
   @apply flex
   absolute
-  select-none
   overflow-hidden
   inset-0
   content-center
-  items-center;
+  items-center
+  flex-col
+  justify-center;
   animation: calcite-scrim-fade-in 250ms ease-in-out;
   background-color: var(--calcite-scrim-background);
+}
+
+.content {
+  @apply p-4;
 }

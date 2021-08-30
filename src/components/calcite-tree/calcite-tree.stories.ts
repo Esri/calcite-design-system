@@ -1,6 +1,6 @@
 import { select } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
-import { darkBackground } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import treeItemReadme from "../calcite-tree-item/readme.md";
 import { html } from "../../tests/utils";
@@ -52,19 +52,12 @@ export default {
 export const Simple = (): string => html`
   <calcite-tree
     ${boolean("lines", false)}
-    selection-mode="${select("selection-mode", ["single", "multi", "children", "multi-children"], "single")}"
+    selection-mode="${select(
+      "selection-mode",
+      ["single", "multi", "children", "multi-children", "ancestors"],
+      "single"
+    )}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-  >
-    ${treeItems}
-  </calcite-tree>
-`;
-
-export const Ancestors = (): string => html`
-  <calcite-tree
-    ${boolean("lines", false)}
-    selection-mode="ancestors"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    ${boolean("input-enabled", false)}
   >
     ${treeItems}
   </calcite-tree>
@@ -74,7 +67,11 @@ export const RTL = (): string => html`
   <calcite-tree
     dir="rtl"
     ${boolean("lines", false)}
-    selection-mode="${select("selection-mode", ["single", "multi", "children", "multi-children"], "single")}"
+    selection-mode="${select(
+      "selection-mode",
+      ["single", "multi", "children", "multi-children", "ancestors"],
+      "single"
+    )}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
   >
     ${treeItems}
@@ -85,7 +82,11 @@ export const DarkMode = (): string => html`
   <calcite-tree
     class="calcite-theme-dark"
     ${boolean("lines", false)}
-    selection-mode="${select("selection-mode", ["single", "multi", "children", "multi-children"], "single")}"
+    selection-mode="${select(
+      "selection-mode",
+      ["single", "multi", "children", "multi-children", "ancestors"],
+      "single"
+    )}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
   >
     ${treeItems}
@@ -94,5 +95,5 @@ export const DarkMode = (): string => html`
 
 DarkMode.story = {
   name: "Dark mode",
-  parameters: { backgrounds: darkBackground }
+  parameters: { themes: themesDarkDefault }
 };

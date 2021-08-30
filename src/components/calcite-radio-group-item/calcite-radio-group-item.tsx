@@ -14,6 +14,7 @@ import {
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { RadioAppearance } from "../calcite-radio-group/interfaces";
 import { Position, Layout, Scale } from "../interfaces";
+import { SLOTS, CSS } from "./resources";
 
 @Component({
   tag: "calcite-radio-group-item",
@@ -67,7 +68,7 @@ export class CalciteRadioGroupItem {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    const inputProxy: HTMLInputElement = this.el.querySelector(`input[slot="input"]`);
+    const inputProxy: HTMLInputElement = this.el.querySelector(`input[slot=${SLOTS.input}]`);
 
     if (inputProxy) {
       this.value = inputProxy.value;
@@ -100,7 +101,7 @@ export class CalciteRadioGroupItem {
 
     const iconEl = (
       <calcite-icon
-        class="radio-group-item-icon"
+        class={CSS.radioGroupItemIcon}
         dir={dir}
         flipRtl={this.iconFlipRtl}
         icon={this.icon}
@@ -121,7 +122,7 @@ export class CalciteRadioGroupItem {
         >
           {this.icon && this.iconPosition === "start" ? iconEl : null}
           <slot>{useFallback ? value : ""}</slot>
-          <slot name="input" />
+          <slot name={SLOTS.input} />
           {this.icon && this.iconPosition === "end" ? iconEl : null}
         </label>
       </Host>

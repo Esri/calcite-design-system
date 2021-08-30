@@ -1,6 +1,6 @@
 import { number, select } from "@storybook/addon-knobs";
 
-import { darkBackground } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../tests/utils";
 
@@ -19,13 +19,13 @@ export const Simple = (): string => html`
     total="${number("total", 128)}"
     num="${number("num", 20)}"
     dir="${select("dir", ["ltr", "rtl"], "ltr")}"
-    class="calcite-theme-light"
   >
   </calcite-pagination>
 `;
 
 export const DarkMode = (): string => html`
   <calcite-pagination
+    class="calcite-theme-dark"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     start="${number("start", 1)}"
     total="${number("total", 128)}"
@@ -37,7 +37,7 @@ export const DarkMode = (): string => html`
 `;
 
 DarkMode.story = {
-  parameters: { backgrounds: darkBackground }
+  parameters: { themes: themesDarkDefault }
 };
 
 export const RTL = (): string => html`
@@ -48,7 +48,6 @@ export const RTL = (): string => html`
     total="${number("total", 128)}"
     num="${number("num", 20)}"
     dir="${select("dir", ["ltr", "rtl"], "ltr")}"
-    class="calcite-theme-light"
   >
   </calcite-pagination>
 `;

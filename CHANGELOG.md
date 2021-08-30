@@ -3,6 +3,23 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+<!--@unreleased-section-start-->
+
+## Unreleased (2021-08-30)
+
+### Features
+
+- **action-bar, action-pad, action-menu, action-group:** Add scale property to set scale of actions used internally. ([#2934](https://github.com/Esri/calcite-components/issues/2934)) ([376ae1b](https://github.com/Esri/calcite-components/commit/376ae1b681af5fb82356d3df22357dcee13e7e4b)), closes [#2781](https://github.com/Esri/calcite-components/issues/2781) [#2781](https://github.com/Esri/calcite-components/issues/2781)
+
+### Bug Fixes
+
+- **action-bar, action-pad:** expanded property should no longer alter actions within an action-menu. [#2813](https://github.com/Esri/calcite-components/issues/2813) ([#2912](https://github.com/Esri/calcite-components/issues/2912)) ([f78c197](https://github.com/Esri/calcite-components/commit/f78c197a6bf4c564b7bc9284d80a1b2fe2b3e41e))
+- **color-picker:** fix value for empty color-picker with different format (set initially) ([#2886](https://github.com/Esri/calcite-components/issues/2886)) ([1b8f4b9](https://github.com/Esri/calcite-components/commit/1b8f4b901f53989178d9133ffe17a7710c1b541f)), closes [#2853](https://github.com/Esri/calcite-components/issues/2853)
+- **date-picker:** Fix logic for hovering and setting date ranges. [#2763](https://github.com/Esri/calcite-components/issues/2763) ([#2916](https://github.com/Esri/calcite-components/issues/2916)) ([1da73c0](https://github.com/Esri/calcite-components/commit/1da73c0538058bf99ba83c24c13f5af8ee811ad1))
+- **input:** prevent added margin to number buttons in safari, independent hover styles ([#2904](https://github.com/Esri/calcite-components/issues/2904)) ([a109ba2](https://github.com/Esri/calcite-components/commit/a109ba23b0e99f84b5b3012159d3cf8cf3939477)), closes [#2874](https://github.com/Esri/calcite-components/issues/2874)
+- **tree:** Tree with nested tree elements should fire only one event ([#2893](https://github.com/Esri/calcite-components/issues/2893)) ([ba65ab3](https://github.com/Esri/calcite-components/commit/ba65ab305df04e513604979c46447f52bcd6a922)), closes [#2440](https://github.com/Esri/calcite-components/issues/2440)
+<!--@unreleased-section-end-->
+
 ## [1.0.0-beta.62](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.61...v1.0.0-beta.62) (2021-08-17)
 
 ### Features

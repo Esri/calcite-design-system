@@ -2,6 +2,22 @@
 
 <!-- Auto Generated Below -->
 
+## Usage
+
+### Basic
+
+```html
+<calcite-color-picker dir="ltr" scale="m" value="#b33f33" appearance="default"></calcite-color-picker>
+```
+
+### Minimal
+
+For a minimal design, you can hide unused color formats and options:
+
+```html
+<calcite-color-picker appearance="minimal" value="" allow-empty hide-saved hide-channels></calcite-color-picker>
+```
+
 ## Properties
 
 | Property          | Attribute           | Description                                                                                                                                                                                                                                     | Type                                                                                                                                       | Default            |

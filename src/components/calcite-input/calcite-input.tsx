@@ -20,7 +20,7 @@ import {
   closestElementCrossShadowBoundary
 } from "../../utils/dom";
 import { getKey } from "../../utils/key";
-import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./calcite-input.resources";
+import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
 import { InputPlacement } from "./interfaces";
 import { Position } from "../interfaces";
 import {
