@@ -14,14 +14,13 @@ $tick-height: 4px;
 }
 
 :host {
-  display: block;
+  @apply block;
 }
 
 .container {
-  display: block;
+  @apply block relative;
   padding: $handle-size / 2 0;
-  margin: $handle-size / 2 0;
-  position: relative;
+  margin: $handle-size / 2 theme("margin.2");
 }
 
 :host([disabled]) {
@@ -343,19 +342,7 @@ $tick-height: 4px;
 }
 
 .graph {
-  width: 100%;
-  height: 48px;
-  position: relative;
-  color: var(--calcite-ui-foreground-2);
-  svg {
-    position: absolute;
-    width: 100%;
-    height: 48px;
-  }
-  .graph-path--highlight {
-    fill: var(--calcite-ui-brand);
-    opacity: 0.25;
-  }
+  color: var(--calcite-ui-foreground-3);
 }
 
 :host([mirrored]:not([has-histogram])) {
