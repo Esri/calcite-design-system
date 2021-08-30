@@ -30,9 +30,6 @@
   </head>
 
   <body>
-    <div>
-      <calcite-button href="/" icon-start="arrow-left" color="neutral">Home</calcite-button>
-    </div>
     <h1 style="margin: 0 auto; text-align: center">Tree</h1>
 
     <!-- Headers -->
@@ -266,12 +263,12 @@
       </div>
     </div>
 
-    <!-- input enabled in ancestor selection mode -->
+    <!-- ancestor selection mode -->
     <div class="parent">
-      <div class="child right-aligned-text">input enabled in ancestor selection mode</div>
+      <div class="child right-aligned-text">ancestor selection mode</div>
 
       <div class="child">
-        <calcite-tree input-enabled selection-mode="ancestors" scale="s">
+        <calcite-tree selection-mode="ancestors" scale="s">
           <calcite-tree-item>
             <span>Child 1</span>
           </calcite-tree-item>
@@ -313,7 +310,7 @@
       </div>
 
       <div class="child">
-        <calcite-tree input-enabled selection-mode="ancestors" scale="m">
+        <calcite-tree selection-mode="ancestors" scale="m">
           <calcite-tree-item>
             <span>Child 1</span>
           </calcite-tree-item>

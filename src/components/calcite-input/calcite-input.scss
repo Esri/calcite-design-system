@@ -273,8 +273,8 @@ input[type="time"]::-webkit-clear-button {
 
 .calcite-input__clear-button {
   pointer-events: initial;
-  @include focus-style-base();
-  @apply flex
+  @apply focus-base
+    flex
     self-stretch
     items-center
     justify-center
@@ -286,7 +286,8 @@ input[type="time"]::-webkit-clear-button {
     border-color-input
     bg-foreground-1
     border-l-0
-    order-4;
+    order-4
+    m-0;
   &:hover {
     @apply bg-foreground-2 transition-default;
     calcite-icon {
@@ -298,6 +299,9 @@ input[type="time"]::-webkit-clear-button {
     calcite-icon {
       @apply text-color-1;
     }
+  }
+  &:focus {
+    @apply focus-inset;
   }
   &:disabled {
     @apply opacity-disabled;
@@ -450,10 +454,36 @@ input[type="time"]::-webkit-clear-button {
     border-solid
     border-color-input
     border-r-0;
+  &:hover {
+    @apply bg-foreground-2;
+    calcite-icon {
+      @apply text-color-1;
+    }
+  }
 }
 
 .calcite-input__number-button-item.calcite-input__number-button-item--horizontal[data-adjustment="up"] {
   @apply order-5;
+  &:hover {
+    @apply bg-foreground-2;
+    calcite-icon {
+      @apply text-color-1;
+    }
+  }
+}
+
+:host([number-button-type="vertical"]) .calcite-input__number-button-item[data-adjustment="down"]:hover {
+  @apply bg-foreground-2;
+  calcite-icon {
+    @apply text-color-1;
+  }
+}
+
+:host([number-button-type="vertical"]) .calcite-input__number-button-item[data-adjustment="up"]:hover {
+  @apply bg-foreground-2;
+  calcite-icon {
+    @apply text-color-1;
+  }
 }
 
 .calcite--rtl {
@@ -490,11 +520,11 @@ input[type="time"]::-webkit-clear-button {
     border-color-input
     bg-foreground-1
     border-l-0
-    transition-default;
+    transition-default
+    m-0;
   & calcite-icon {
     @apply pointer-events-none transition-default;
   }
-  &:hover,
   &:focus {
     @apply bg-foreground-2;
     calcite-icon {

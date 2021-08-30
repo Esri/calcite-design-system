@@ -39,9 +39,6 @@
   </head>
 
   <body>
-    <div>
-      <calcite-button href="/" icon-start="arrow-left" color="neutral">Home</calcite-button>
-    </div>
     <h1 style="margin: 0 auto; text-align: center">Slider</h1>
 
     <!-- Headers -->
@@ -1229,7 +1226,7 @@
       (function () {
         var label = document.getElementById("sliderEventDisplay");
         document.getElementById("sliderEvents").addEventListener("calciteSliderUpdate", function (e) {
-          label.innerHTML = e.target.value;
+          label.textContent = e.target.value;
         });
       })();
     </script>

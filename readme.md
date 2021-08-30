@@ -13,8 +13,15 @@ All of the Calcite Components are available in the [calcite-sketch-library](http
 The simplest way to set up the components in your project is to add the following tags in the head of your HTML document:
 
 ```html
-<script type="module" src="https://unpkg.com/@esri/calcite-components/dist/calcite/calcite.esm.js"></script>
-<link rel="stylesheet" type="text/css" href="https://unpkg.com/@esri/calcite-components/dist/calcite/calcite.css" />
+<script
+  type="module"
+  src="https://unpkg.com/@esri/calcite-components@1.0.0-next.280/dist/calcite/calcite.esm.js"
+></script>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="https://unpkg.com/@esri/calcite-components@1.0.0-next.280/dist/calcite/calcite.css"
+/>
 ```
 
 Once these tags are added, components can be used just like any other HTML element. Only components that are actually used will be loaded.
