@@ -1,8 +1,8 @@
 import { select } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
-import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../tests/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 
 export default {
   title: "Components/Controls/Switch",
@@ -53,10 +53,7 @@ export const DarkMode = (): string => html`
 
 DarkMode.story = {
   name: "Dark mode",
-
-  parameters: {
-    backgrounds: darkBackground
-  }
+  parameters: { themes: themesDarkDefault }
 };
 
 export const Rtl = (): string => html`

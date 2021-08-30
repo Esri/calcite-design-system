@@ -214,7 +214,7 @@
   }
 }
 
-:host([input-enabled]) .calcite-tree-node:before {
+.calcite-tree-node[data-selection-mode="ancestors"]:before {
   display: none;
 }
 

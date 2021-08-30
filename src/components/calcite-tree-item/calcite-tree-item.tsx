@@ -5,7 +5,6 @@ import {
   Host,
   Event,
   EventEmitter,
-  State,
   Listen,
   Watch,
   h,
@@ -67,18 +66,24 @@ export class CalciteTreeItem {
   /** @internal Draw lines (set on parent) */
   @Prop({ reflect: true, mutable: true }) lines: boolean;
 
-  /** @internal Display checkboxes (set on parent) */
-  @Prop({ reflect: true, mutable: true }) inputEnabled: boolean;
+  /** Display checkboxes (set on parent)
+   * @internal
+   * @deprecated set "ancestors" selection-mode on parent tree for checkboxes
+   */
+  @Prop() inputEnabled: boolean;
 
   /** @internal Scale of the parent tree, defaults to m */
   @Prop({ reflect: true, mutable: true }) scale: Scale;
 
   /**
    * @internal
-   * In ancestor selection mode using inputEnabled,
+   * In ancestor selection mode,
    * show as indeterminate when only some children are selected
    **/
   @Prop({ reflect: true }) indeterminate: boolean;
+
+  /** @internal Tree selection-mode (set on parent) */
+  @Prop({ mutable: true }) selectionMode: TreeSelectionMode;
 
   //--------------------------------------------------------------------------
   //
@@ -103,7 +108,6 @@ export class CalciteTreeItem {
     this.selectionMode = parentTree.selectionMode;
     this.scale = parentTree.scale || "m";
     this.lines = parentTree.lines;
-    this.inputEnabled = parentTree.inputEnabled;
 
     let nextParentTree;
     while (parentTree) {
@@ -131,19 +135,20 @@ export class CalciteTreeItem {
         scale="s"
       />
     ) : null;
-    const checkbox = this.inputEnabled ? (
-      <label class={CSS.checkboxLabel}>
-        <calcite-checkbox
-          checked={this.selected}
-          class={CSS.checkbox}
-          data-test-id="checkbox"
-          indeterminate={this.hasChildren && this.indeterminate}
-          scale={this.scale}
-          tabIndex={-1}
-        />
-        <slot />
-      </label>
-    ) : null;
+    const checkbox =
+      this.selectionMode === TreeSelectionMode.Ancestors ? (
+        <label class={CSS.checkboxLabel}>
+          <calcite-checkbox
+            checked={this.selected}
+            class={CSS.checkbox}
+            data-test-id="checkbox"
+            indeterminate={this.hasChildren && this.indeterminate}
+            scale={this.scale}
+            tabIndex={-1}
+          />
+          <slot />
+        </label>
+      ) : null;
 
     const hidden = !(this.parentExpanded || this.depth === 1);
 
@@ -168,6 +173,7 @@ export class CalciteTreeItem {
             [CSS.nodeContainer]: true,
             [CSS_UTILITY.rtl]: rtl
           }}
+          data-selection-mode={this.selectionMode}
           ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}
         >
           {icon}
@@ -205,7 +211,8 @@ export class CalciteTreeItem {
     }
     this.expanded = !this.expanded;
     this.calciteTreeItemSelect.emit({
-      modifyCurrentSelection: (e as any).shiftKey || this.inputEnabled,
+      modifyCurrentSelection:
+        (e as any).shiftKey || this.selectionMode === TreeSelectionMode.Ancestors,
       forceToggle: false
     });
   }
@@ -213,7 +220,7 @@ export class CalciteTreeItem {
   iconClickHandler = (event: MouseEvent): void => {
     event.stopPropagation();
     this.expanded = !this.expanded;
-    if (!this.inputEnabled) {
+    if (this.selectionMode !== TreeSelectionMode.Ancestors) {
       this.calciteTreeItemSelect.emit({
         modifyCurrentSelection: event.shiftKey,
         forceToggle: true
@@ -355,8 +362,6 @@ export class CalciteTreeItem {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-
-  @State() private selectionMode: TreeSelectionMode;
 
   childrenSlotWrapper!: HTMLElement;
 

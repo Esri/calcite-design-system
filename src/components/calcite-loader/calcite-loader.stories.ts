@@ -1,6 +1,6 @@
 import { number, color, select } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
-import { darkBackground } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../tests/utils";
 
@@ -34,6 +34,7 @@ export const Inline = (): string => html`
 
 export const DarkMode = (): string => html`
   <calcite-loader
+    class="calcite-theme-dark"
     type="${select("type", ["determinate", "indeterminate"], "indeterminate")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     ${boolean("no-padding", false)}
@@ -45,7 +46,7 @@ export const DarkMode = (): string => html`
 
 DarkMode.story = {
   name: "Dark mode",
-  parameters: { backgrounds: darkBackground }
+  parameters: { themes: themesDarkDefault }
 };
 
 export const CustomTheme = (): string => html`
