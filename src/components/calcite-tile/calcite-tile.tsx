@@ -75,14 +75,12 @@ export class CalciteTile {
       : undefined;
 
     return (
-      <div class="container">
-        <div class={{ "large-visual": isLargeVisual, tile: true }}>
-          {icon && (
-            <div class="icon">
-              <calcite-icon icon={icon} scale="l" style={iconStyle} />
-            </div>
-          )}
-        </div>
+      <div class={{ container: true, "large-visual": isLargeVisual }}>
+        {icon && (
+          <div class="icon">
+            <calcite-icon icon={icon} scale="l" style={iconStyle} />
+          </div>
+        )}
         <div class="content-container">
           {getSlotted(el, SLOTS.contentStart) ? (
             <div class="content-slot-container">

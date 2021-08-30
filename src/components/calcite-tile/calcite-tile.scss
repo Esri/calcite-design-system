@@ -27,14 +27,18 @@
 }
 
 .container {
-  @apply flex flex-col items-start;
+  @apply grid
+  grid-cols-1
+  gap-2
+  pointer-events-none;
 }
 
 .content {
   @apply justify-center
   flex
   flex-auto
-  flex-col;
+  flex-col
+  gap-2;
 }
 
 .content-container {
@@ -58,12 +62,6 @@
   }
 }
 
-.tile {
-  @apply grid
-    grid-cols-1
-    gap-2
-    pointer-events-none;
-}
 .heading {
   @apply text--1-wrap
     text-color-2
@@ -78,7 +76,7 @@
   .icon {
     @apply self-end;
   }
-  .heading {
+  .content-container {
     @apply self-center;
   }
 }
