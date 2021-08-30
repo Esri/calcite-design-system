@@ -5,3 +5,11 @@ export const CSS = {
   nodeContainer: "calcite-tree-node",
   childrenContainer: "calcite-tree-children"
 };
+
+export const SLOTS = {
+  children: "children"
+};
+
+export const ICONS = {
+  chevronRight: "chevron-right"
+};

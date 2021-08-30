@@ -1,6 +1,6 @@
 import { select } from "@storybook/addon-knobs";
 import { boolean, iconNames } from "../../../.storybook/helpers";
-import { darkBackground } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../tests/utils";
 
@@ -15,7 +15,6 @@ export default {
 export const Simple = (): string => html`
   <div style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice
-      class="calcite-theme-light"
       ${boolean("icon", true)}
       ${boolean("active", true)}
       ${boolean("dismissible", true)}
@@ -33,7 +32,6 @@ export const Simple = (): string => html`
 export const CustomIcon = (): string => html`
   <div style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice
-      class="calcite-theme-light"
       icon="${select("icon", iconNames, iconNames[0])}"
       ${boolean("active", true)}
       ${boolean("dismissible", true)}
@@ -92,13 +90,12 @@ export const DarkMode = (): string => html`
 `;
 
 DarkMode.story = {
-  parameters: { backgrounds: darkBackground }
+  parameters: { themes: themesDarkDefault }
 };
 
 export const Rtl = (): string => html`
   <div dir="rtl" style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice
-      class="calcite-theme-light"
       ${boolean("icon", true)}
       ${boolean("active", true)}
       ${boolean("dismissible", true)}

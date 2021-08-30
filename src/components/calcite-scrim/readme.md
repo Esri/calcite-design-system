@@ -6,8 +6,6 @@
 
 ### Basic
 
-### Simple panel example
-
 ```html
 <div style="position: relative; width: 200px; height: 200px; overflow: auto;">
   <calcite-scrim>
@@ -21,7 +19,7 @@
 </div>
 ```
 
-### Loading scrim panel
+### Loading-scrim-panel
 
 ```html
 <div style="position: relative; width: 200px; height: 200px; overflow: auto;">

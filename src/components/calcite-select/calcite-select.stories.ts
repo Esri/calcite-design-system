@@ -2,12 +2,10 @@ import {
   Attribute,
   filterComponentAttributes,
   Attributes,
-  createComponentHTML as create,
-  darkBackground
+  createComponentHTML as create
 } from "../../../.storybook/utils";
 import { html } from "../../tests/utils";
-import { ATTRIBUTES } from "../../../.storybook/resources";
-import { boolean, select, text } from "@storybook/addon-knobs";
+import { boolean, text } from "@storybook/addon-knobs";
 import selectReadme from "../calcite-select/readme.md";
 import optionReadme from "../calcite-option/readme.md";
 import optionGroupReadme from "../calcite-option-group/readme.md";
@@ -16,30 +14,13 @@ const createSelectAttributes: (options?: { exceptions: string[] }) => Attributes
   { exceptions } = { exceptions: [] }
 ) => {
   const group = "select";
-  const { dir, theme } = ATTRIBUTES;
 
   return filterComponentAttributes(
     [
       {
-        name: "dir",
-        commit(): Attribute {
-          this.value = select("dir", dir.values, dir.defaultValue, group);
-          delete this.build;
-          return this;
-        }
-      },
-      {
         name: "disabled",
         commit(): Attribute {
           this.value = boolean("disabled", false, group);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "class",
-        commit(): Attribute {
-          this.value = select("class", theme.values, theme.defaultValue, group);
           delete this.build;
           return this;
         }
@@ -85,7 +66,6 @@ const createOptionGroupAttributes: () => Attributes = () => {
 export default {
   title: "Components/Controls/Select",
   parameters: {
-    backgrounds: darkBackground,
     notes: {
       select: selectReadme,
       option: optionReadme,

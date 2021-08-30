@@ -13,7 +13,7 @@ import {
   Watch
 } from "@stencil/core";
 import { getElementDir, setRequestedIcon } from "../../utils/dom";
-import { DURATIONS, SLOTS, TEXT } from "./calcite-alert.resources";
+import { DURATIONS, SLOTS, TEXT } from "./resources";
 import { Scale } from "../interfaces";
 import { StatusColor, AlertDuration, StatusIcons } from "./interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -76,7 +76,7 @@ export class CalciteAlert {
   @Prop({ reflect: true }) icon: string | boolean;
 
   /** string to override English close text
-   * @default "close"
+   * @default "Close"
    */
   @Prop() intlClose: string = TEXT.intlClose;
 
