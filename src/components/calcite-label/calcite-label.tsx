@@ -74,8 +74,8 @@ export class CalciteLabel {
       requestedInput: this.for
     });
 
-    focusElement(effectiveForElement);
     effectiveForElement.click();
+    focusElement(effectiveForElement);
   };
 
   getEffectiveForElement = (): HTMLElement => {
