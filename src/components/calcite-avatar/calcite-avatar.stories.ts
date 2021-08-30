@@ -1,6 +1,6 @@
 import { select, text } from "@storybook/addon-knobs";
 
-import { darkBackground } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import { html, placeholderImage } from "../../tests/utils";
 import readme from "./readme.md";
 
@@ -34,8 +34,7 @@ export const MissingThumbnail = (): string => html`
 `;
 
 MissingThumbnail.story = {
-  name: "Missing thumbnail",
-  parameters: { backgrounds: darkBackground }
+  name: "Missing thumbnail"
 };
 
 export const Dark = (): string => html`
@@ -50,5 +49,5 @@ export const Dark = (): string => html`
 `;
 
 Dark.story = {
-  parameters: { backgrounds: darkBackground }
+  parameters: { themes: themesDarkDefault }
 };
