@@ -1,7 +1,7 @@
 import { select, number, text } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
 
-import { darkBackground } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../calcite-combobox-item/readme.md";
 import { html } from "../../tests/utils";
@@ -120,7 +120,7 @@ export const NestedItems = (): string => html`
 `;
 
 export const DarkTheme = (): string => html`
-  <div style="width:400px;max-width:100%;background-color:white;padding:100px">
+  <div style="width:400px;max-width:100%;padding:100px">
     <calcite-combobox
       label="demo combobox"
       selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"
@@ -155,7 +155,7 @@ export const DarkTheme = (): string => html`
 `;
 
 DarkTheme.story = {
-  parameters: { backgrounds: darkBackground }
+  parameters: { themes: themesDarkDefault }
 };
 
 export const Rtl = (): string => html`

@@ -1,44 +1,24 @@
-import { boolean, select } from "@storybook/addon-knobs";
+import { boolean } from "@storybook/addon-knobs";
 import {
   Attribute,
   filterComponentAttributes,
   Attributes,
   createComponentHTML as create,
-  darkBackground
+  themesDarkDefault
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
-import { ATTRIBUTES } from "../../../.storybook/resources";
 import { html } from "../../tests/utils";
 
 export default {
   title: "Components/Value List",
   parameters: {
-    backgrounds: darkBackground,
     notes: readme
   }
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
-  const { dir, theme } = ATTRIBUTES;
-
   return filterComponentAttributes(
     [
-      {
-        name: "class",
-        commit(): Attribute {
-          this.value = select("class", theme.values, theme.defaultValue);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "dir",
-        commit(): Attribute {
-          this.value = select("dir", dir.values, dir.defaultValue);
-          delete this.build;
-          return this;
-        }
-      },
       {
         name: "disabled",
         commit(): Attribute {
@@ -147,3 +127,7 @@ export const darkThemeRTL = (): string =>
       </calcite-value-list-item>
     `
   );
+
+darkThemeRTL.story = {
+  parameters: { themes: themesDarkDefault }
+};
