@@ -138,12 +138,11 @@ export const HistogramDark = (): HTMLCalciteSliderElement => {
   slider.precise = booleanFn("precise", false);
   slider.snap = booleanFn("snap", false);
   slider.style.minWidth = "60vw";
-  slider.style.minWidth = "60vw";
   slider.className = "calcite-theme-dark";
   return slider;
 };
 
 HistogramDark.story = {
   name: "Histogram Dark theme",
-  parameters: { backgrounds: darkBackground }
+  parameters: { themes: themesDarkDefault }
 };
