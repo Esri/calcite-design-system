@@ -64,12 +64,22 @@
   }
 }
 
-:host([scale="s"]) .button {
-  @apply p-2;
+:host([scale="s"]) {
+  .button {
+    @apply p-2 text--2h;
+  }
+  .button--text-visible .icon-container {
+    @apply mr-2;
+  }
 }
 
-:host([scale="m"]) .button {
-  @apply p-4;
+:host([scale="m"]) {
+  .button {
+    @apply p-4 text--1h;
+  }
+  .button--text-visible .icon-container {
+    @apply mr-3;
+  }
 }
 
 :host([scale="l"]) {
