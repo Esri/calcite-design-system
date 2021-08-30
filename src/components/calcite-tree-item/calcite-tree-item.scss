@@ -127,6 +127,10 @@
   }
 }
 
+.calcite-tree-node[data-selection-mode="ancestors"]:before {
+  display: none;
+}
+
 .calcite-tree-node:hover,
 :host([selected]) .calcite-tree-node:hover,
 :host(:focus) .calcite-tree-node {
