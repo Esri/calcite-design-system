@@ -1,12 +1,5 @@
-import { boolean, select, text } from "@storybook/addon-knobs";
-import {
-  Attribute,
-  filterComponentAttributes,
-  Attributes,
-  createComponentHTML as create,
-  darkBackground
-} from "../../../.storybook/utils";
-import { ATTRIBUTES } from "../../../.storybook/resources";
+import { boolean, text } from "@storybook/addon-knobs";
+import { filterComponentAttributes, Attributes, createComponentHTML as create } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import itemReadme from "../calcite-panel/readme.md";
 import { SLOTS, TEXT } from "../calcite-panel/resources";
@@ -15,7 +8,6 @@ import { html } from "../../tests/utils";
 export default {
   title: "Components/Flow",
   parameters: {
-    backgrounds: darkBackground,
     notes: {
       flow: readme,
       item: itemReadme
@@ -24,30 +16,7 @@ export default {
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
-  const group = "Flow";
-  const { dir, theme } = ATTRIBUTES;
-
-  return filterComponentAttributes(
-    [
-      {
-        name: "dir",
-        commit(): Attribute {
-          this.value = select("dir", dir.values, dir.defaultValue, group);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "class",
-        commit(): Attribute {
-          this.value = select("class", theme.values, theme.defaultValue, group);
-          delete this.build;
-          return this;
-        }
-      }
-    ],
-    exceptions
-  );
+  return filterComponentAttributes([], exceptions);
 };
 
 const createFlowItemAttributes: (group: string) => Attributes = (group) => {

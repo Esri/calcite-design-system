@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders } from "../../tests/commonTests";
+import { accessible, renders, defaults } from "../../tests/commonTests";
 
 describe("calcite-tree-item", () => {
   it("renders", async () => renders("calcite-tree-item", { visible: false, display: "block" }));
@@ -18,6 +18,30 @@ describe("calcite-tree-item", () => {
         </calcite-tree>
     </calcite-tree-item>
   </calcite-tree>`));
+
+  it("has property defaults", async () =>
+    defaults("calcite-tree-item", [
+      {
+        propertyName: "selected",
+        defaultValue: false
+      },
+      {
+        propertyName: "expanded",
+        defaultValue: false
+      },
+      {
+        propertyName: "parentExpanded",
+        defaultValue: false
+      },
+      {
+        propertyName: "depth",
+        defaultValue: 0
+      },
+      {
+        propertyName: "hasChildren",
+        defaultValue: false
+      }
+    ]));
 
   it("should expand/collapse children when the icon is clicked", async () => {
     const page = await newE2EPage();
