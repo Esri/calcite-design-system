@@ -65,3 +65,16 @@ export const RTL = (): string => html`
   >
   </calcite-tile>
 `;
+
+export const LargeTile = (): string => html`
+  <calcite-tile
+    ${boolean("active", false)}
+    description=""
+    heading="${text("heading", "Tile heading lorem ipsum!")}"
+    ${boolean("disabled", false)}
+    ${boolean("hidden", false)}
+    href="${text("href", "#")}"
+    icon="${select("icon", iconNames, "layer")}"
+  >
+  </calcite-tile>
+`;
