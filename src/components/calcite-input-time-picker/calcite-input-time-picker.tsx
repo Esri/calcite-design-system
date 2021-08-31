@@ -15,7 +15,6 @@ import {
 import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
 import {
-  Time,
   formatTimeString,
   HourDisplayFormat,
   isValidTime,
@@ -204,23 +203,9 @@ export class CalciteInputTimePicker {
 
   @Listen("calciteTimePickerChange")
   timePickerChangeHandler(event: CustomEvent): void {
-    event.preventDefault();
     event.stopPropagation();
-    if (event.detail) {
-      const { hour, minute, second } = event.detail as Time;
-      let value;
-      if (hour && minute) {
-        if (second && this.step !== 60) {
-          value = `${hour}:${minute}:${second}`;
-        } else {
-          value = `${hour}:${minute}`;
-        }
-      } else {
-        value = "";
-      }
-      this.setValue({ value, origin: "time-picker" });
-      console.log("calciteTimePickerChange", value);
-    }
+    const value = event.detail;
+    this.setValue({ value, origin: "time-picker" });
   }
 
   @Listen("calciteTimePickerFocus")

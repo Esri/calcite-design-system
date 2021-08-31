@@ -133,10 +133,23 @@ export class CalciteTimePicker {
 
   @Watch("value")
   valueWatcher(newValue: string): void {
-    const { hour, minute, second } = parseTimeString(newValue);
-    this.setValue("hour", hour, false);
-    this.setValue("minute", minute, false);
-    this.setValue("second", second, false);
+    if (isValidTime(newValue)) {
+      const { hour, minute, second } = parseTimeString(newValue);
+      if (hour !== this.hour) {
+        this.setValue("hour", hour, false);
+      }
+      if (minute !== this.minute) {
+        this.setValue("minute", minute, false);
+      }
+      if (second !== this.second) {
+        this.setValue("second", second, false);
+      }
+    } else {
+      this.setValue("hour", null, false);
+      this.setValue("minute", null, false);
+      this.setValue("second", null, false);
+      this.setValue("meridiem", null, false);
+    }
   }
 
   // --------------------------------------------------------------------------
@@ -206,7 +219,7 @@ export class CalciteTimePicker {
   /**
    * @internal
    */
-  @Event() calciteTimePickerChange: EventEmitter<Time>;
+  @Event() calciteTimePickerChange: EventEmitter<string>;
 
   /**
    * @internal
@@ -341,14 +354,6 @@ export class CalciteTimePicker {
   private focusHandler = (event: FocusEvent): void => {
     this.activeEl = event.currentTarget as HTMLSpanElement;
   };
-
-  private getTime(): Time {
-    return {
-      hour: this.hour,
-      minute: this.minute,
-      second: this.second
-    };
-  }
 
   private hourDownButtonKeyDownHandler = (event: KeyboardEvent): void => {
     if (this.buttonActivated(event)) {
@@ -622,7 +627,7 @@ export class CalciteTimePicker {
       ? localizeTimeStringToParts(this.value, this.locale)?.localizedMeridiem || null
       : null;
     if (emit) {
-      this.calciteTimePickerChange.emit(this.getTime());
+      this.calciteTimePickerChange.emit(this.value);
     }
   };
 

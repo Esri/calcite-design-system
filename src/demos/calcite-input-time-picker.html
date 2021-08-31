@@ -59,151 +59,60 @@
 
   <body>
     <demo-spacer>
-      <calcite-button href="/"> < Home</calcite-button>
-      <h1>Calcite Input Time Picker</h1>
+      <calcite-select></calcite-select>
+      <calcite-input-time-picker step="1"></calcite-input-time-picker>
+      <hr />
+      <div id="locales"></div>
     </demo-spacer>
-
-    <div id="locales"></div>
-
-    <div class="demo-background-light">
-      <input id="change-input-time-picker" placeholder="change input-time-picker's value" />
-      <calcite-input-time-picker id="value-test" name="value-test" step="1" value="14:59"></calcite-input-time-picker>
-      <calcite-label>
-        Uses preventDefault on calciteInputTimePickerChange Event to prevent entering a null value
-        <calcite-input-time-picker id="prevent-default" name="prevent-default-on-null" step="1" value="14:59">
-        </calcite-input-time-picker>
-      </calcite-label>
-      <button id="setFocus" type="button">Calls Set Focus</button>
-    </div>
-
-    <demo-spacer>
-      <div class="demo-background-light">
-        <demo-spacer>
-          <demo-shadow></demo-shadow>
-          <div>
-            <calcite-label for="s" scale="s">Small</calcite-label>
-            <calcite-input-date-picker scale="s" name="s-date"></calcite-input-date-picker>
-            <calcite-input-time-picker id="s" scale="s" name="s" value="1:2"></calcite-input-time-picker>
-          </div>
-          <div>
-            <calcite-label for="s-second" scale="s">Small with seconds</calcite-label>
-            <calcite-input-time-picker id="s-second" scale="s" name="s-second" step="1" value="1:2:3">
-            </calcite-input-time-picker>
-          </div>
-          <div>
-            <calcite-label for="m" scale="m">Medium</calcite-label>
-            <calcite-input-time-picker id="m" scale="m" name="m" value="123"></calcite-input-time-picker>
-          </div>
-          <div>
-            <calcite-label for="m-second" scale="m">Medium with seconds</calcite-label>
-            <calcite-input-time-picker id="m-second" scale="m" name="m-second" step="1" value="invalidvalue">
-            </calcite-input-time-picker>
-          </div>
-          <div>
-            <calcite-label for="l" scale="m">Large</calcite-label>
-            <calcite-input-time-picker id="l" scale="l" name="l"></calcite-input-time-picker>
-          </div>
-          <div>
-            <calcite-label for="l-second" scale="m">Large with seconds</calcite-label>
-            <calcite-input-time-picker id="l-second" scale="l" name="l-second" step="1"></calcite-input-time-picker>
-          </div>
-        </demo-spacer>
-      </div>
-      <div class="demo-background-dark calcite-theme-dark">
-        <demo-spacer>
-          <div>
-            <calcite-label for="s-dark" scale="s">Small</calcite-label>
-            <calcite-input-time-picker scale="s" id="s-dark" name="s-dark"></calcite-input-time-picker>
-          </div>
-          <div>
-            <calcite-label for="s-dark-second" scale="s">Small with seconds</calcite-label>
-            <calcite-input-time-picker scale="s" id="s-dark-second" name="s-dark-second" step="1">
-            </calcite-input-time-picker>
-          </div>
-          <div>
-            <calcite-label for="m-dark" scale="m">Medium</calcite-label>
-            <calcite-input-time-picker scale="m" id="m-dark" name="m-dark"></calcite-input-time-picker>
-          </div>
-          <div>
-            <calcite-label for="m-dark-second" scale="m">Medium with seconds</calcite-label>
-            <calcite-input-time-picker scale="m" id="m-dark-second" name="m-dark-second" step="1">
-            </calcite-input-time-picker>
-          </div>
-          <div>
-            <calcite-label for="l-dark" scale="l">Large</calcite-label>
-            <calcite-input-time-picker scale="l" id="l-dark" name="l-dark"></calcite-input-time-picker>
-          </div>
-          <div>
-            <calcite-label for="l-dark-second" scale="l">Large with seconds</calcite-label>
-            <calcite-input-time-picker scale="l" id="l-dark-second" name="l-dark-second" step="1">
-            </calcite-input-time-picker>
-          </div>
-        </demo-spacer>
-      </div>
-    </demo-spacer>
-    <script>
-      const localeDemoContainer = document.getElementById("locales");
-      locales.forEach(({ locale, name, dir }) => {
-        let localeEl = document.createElement("div");
-        localeEl.setAttribute("class", "locale");
-        let label = document.createElement("calcite-label");
-        label.setAttribute("for", locale);
-        label.appendChild(document.createTextNode(`${name} (${locale})`));
-        let input = document.createElement("calcite-input-time-picker");
-        dir && input.setAttribute("dir", dir);
-        input.setAttribute("id", locale);
-        input.setAttribute("locale", locale);
-        input.setAttribute("name", locale);
-        input.setAttribute("scale", "s");
-        input.setAttribute("step", "1");
-        input.setAttribute("value", "14:59:00");
-        localeEl.appendChild(label);
-        localeEl.appendChild(input);
-        localeDemoContainer.appendChild(localeEl);
-      });
-    </script>
     <script>
       (async () => {
         await customElements.whenDefined("calcite-input-time-picker");
         const inputTimePicker = document.querySelector("calcite-input-time-picker");
         await inputTimePicker.componentOnReady();
 
-        const calciteInput = inputTimePicker.querySelector("calcite-input");
-        const input = inputTimePicker.querySelector("input");
-
         document.addEventListener("calciteInputTimePickerChange", (event) => {
           console.log("calciteInputTimePickerChange", event.target.value);
         });
 
-        document.getElementById("change-input-time-picker").addEventListener("input", (event) => {
-          const date = new Date(0);
-          date.setSeconds(event.target.value);
+        await customElements.whenDefined("calcite-select");
+        const select = document.querySelector("calcite-select");
+        await select.componentOnReady();
 
-          const expectedValue = date.toISOString().substr(11, 8);
-          inputTimePicker.value = expectedValue;
-          if (inputTimePicker.value !== calciteInput.value) {
-            console.log(
-              "VALUES DON'T EQUAL!!!",
-              "inputTimePicker:",
-              inputTimePicker.value,
-              "calciteInput:",
-              calciteInput.value,
-              "input:",
-              input.value
-            );
-          }
+        locales.forEach(({ locale, name, dir }) => {
+          let label = document.createElement("calcite-label");
+          label.setAttribute("for", locale);
+          label.appendChild(document.createTextNode(`${name} (${locale})`));
+
+          const option = document.createElement("calcite-option");
+          option.setAttribute("value", locale);
+          option.appendChild(document.createTextNode(name));
+          select.appendChild(option);
         });
 
-        document.getElementById("prevent-default").addEventListener("calciteInputTimePickerChange", (event) => {
-          if (!event.target.value) {
-            event.preventDefault();
-          }
-        });
-
-        document.getElementById("setFocus").addEventListener("click", () => {
-          inputTimePicker.setFocus();
+        select.addEventListener("calciteSelectChange", (event) => {
+          console.log(event);
+          inputTimePicker.locale = event.target.selectedOption.value;
         });
       })();
+
+      // const localeDemoContainer = document.getElementById("locales");
+      // locales.forEach(({ locale, name, dir }) => {
+      //   let localeEl = document.createElement("div");
+      //   localeEl.setAttribute("class", "locale");
+      //   let label = document.createElement("calcite-label");
+      //   label.setAttribute("for", locale);
+      //   label.appendChild(document.createTextNode(`${name} (${locale})`));
+      //   let input = document.createElement("calcite-input-time-picker");
+      //   dir && input.setAttribute("dir", dir);
+      //   input.setAttribute("id", locale);
+      //   input.setAttribute("locale", locale);
+      //   input.setAttribute("name", locale);
+      //   input.setAttribute("step", "1");
+      //   input.setAttribute("value", "14:59:00");
+      //   localeEl.appendChild(label);
+      //   localeEl.appendChild(input);
+      //   localeDemoContainer.appendChild(localeEl);
+      // });
     </script>
   </body>
 </html>
