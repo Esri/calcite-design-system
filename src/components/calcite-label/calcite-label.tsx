@@ -1,5 +1,5 @@
 import { Component, Element, Event, h, Prop, EventEmitter, VNode, Host } from "@stencil/core";
-import { getElementDir, queryElementRoots } from "../../utils/dom";
+import { getElementDir } from "../../utils/dom";
 import { FocusRequest } from "./interfaces";
 import { Alignment, Scale, Status } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -76,14 +76,6 @@ export class CalciteLabel {
     });
 
     this.calciteInternalLabelClick.emit();
-  };
-
-  getEffectiveForElement = (): HTMLElement => {
-    const { el, for: forProperty } = this;
-
-    return (
-      (forProperty && queryElementRoots(el, `#${forProperty}`)) || el.querySelector(":first-child")
-    );
   };
 
   //--------------------------------------------------------------------------
