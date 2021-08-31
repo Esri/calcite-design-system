@@ -1,15 +1,39 @@
 import { CSS_UTILITY } from "./resources";
+import { EVENTS as LABEL_EVENTS } from "../components/calcite-label/resources";
 import { guid } from "./guid";
 
-export const findLabelForComponent = (componentEl: HTMLElement): string | null => {
-  const id = componentEl.id;
-  const labelSelectors: string[] = ["calcite-label", "label"];
+export const getCalciteLabelText = (label: HTMLCalciteLabelElement): string => {
+  return label?.textContent;
+};
 
-  if (id) {
-    labelSelectors.unshift(`[for="${id}"]`);
+export const removeLabelClickListener = (effectiveLabel: HTMLCalciteLabelElement, callback: () => void): void => {
+  effectiveLabel?.removeEventListener(LABEL_EVENTS.labelClick, callback);
+};
+
+export const addLabelClickListener = (effectiveLabel: HTMLCalciteLabelElement, callback: () => void): void => {
+  effectiveLabel?.addEventListener(LABEL_EVENTS.labelClick, callback);
+};
+
+export const findLabelForComponent = (componentEl: HTMLElement): HTMLCalciteLabelElement => {
+  const labelTagName = "calcite-label";
+  const labelledBy = componentEl.getAttribute("aria-labelledby");
+  const labelId = labelledBy !== null && labelledBy.trim() !== "" ? labelledBy : null;
+
+  const labelledByEl =
+    labelId && (queryElementRoots(componentEl, `${labelTagName}#${labelId}`) as HTMLCalciteLabelElement);
+
+  if (labelledByEl) {
+    return labelledByEl;
   }
 
-  return componentEl.closest(labelSelectors.join(","))?.textContent || null;
+  const id = componentEl.id;
+  const labelSelectors: string[] = [labelTagName];
+
+  if (id) {
+    labelSelectors.unshift(`${labelTagName}[for="${id}"]`);
+  }
+
+  return componentEl.closest(labelSelectors.join(","));
 };
 
 /**

@@ -1,5 +1,5 @@
 import { Component, Element, Event, h, Prop, EventEmitter, VNode, Host } from "@stencil/core";
-import { focusElement, getElementDir, queryElementRoots } from "../../utils/dom";
+import { getElementDir, queryElementRoots } from "../../utils/dom";
 import { FocusRequest } from "./interfaces";
 import { Alignment, Scale, Status } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -53,8 +53,14 @@ export class CalciteLabel {
 
   /**
    * @internal
+   * @deprecated use calciteInternalLabelClick
    */
   @Event() calciteLabelFocus: EventEmitter<FocusRequest>;
+
+  /**
+   * @internal
+   */
+  @Event() calciteInternalLabelClick: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -63,19 +69,13 @@ export class CalciteLabel {
   //--------------------------------------------------------------------------
 
   labelClickHandler = (event: MouseEvent): void => {
-    const effectiveForElement = this.getEffectiveForElement();
-
-    if (!effectiveForElement || event.composedPath().includes(effectiveForElement)) {
-      return;
-    }
-
     this.calciteLabelFocus.emit({
       labelEl: this.el,
+      interactedEl: event.target as HTMLElement,
       requestedInput: this.for
     });
 
-    effectiveForElement.click();
-    focusElement(effectiveForElement);
+    this.calciteInternalLabelClick.emit();
   };
 
   getEffectiveForElement = (): HTMLElement => {
