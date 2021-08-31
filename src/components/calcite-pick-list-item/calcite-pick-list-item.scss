@@ -9,6 +9,10 @@
     text--1h;
   transition: background-color $transition;
   animation: calcite-fade-in $transition;
+
+  * {
+    @apply box-border;
+  }
 }
 
 .label {

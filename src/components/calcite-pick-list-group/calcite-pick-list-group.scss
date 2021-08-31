@@ -1,5 +1,9 @@
 :host {
   @apply bg-transparent block mb-1 box-border text-color-2 text--1h;
+
+  * {
+    @apply box-border;
+  }
 }
 
 :host(:last-child) {
