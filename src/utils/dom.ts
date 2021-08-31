@@ -2,10 +2,6 @@ import { CSS_UTILITY } from "./resources";
 import { EVENTS as LABEL_EVENTS } from "../components/calcite-label/resources";
 import { guid } from "./guid";
 
-export const getCalciteLabelText = (label: HTMLCalciteLabelElement): string => {
-  return label?.textContent;
-};
-
 export const removeLabelClickListener = (effectiveLabel: HTMLCalciteLabelElement, callback: () => void): void => {
   effectiveLabel?.removeEventListener(LABEL_EVENTS.labelClick, callback);
 };

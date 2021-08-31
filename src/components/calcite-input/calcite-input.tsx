@@ -20,8 +20,7 @@ import {
   closestElementCrossShadowBoundary,
   findLabelForComponent,
   removeLabelClickListener,
-  addLabelClickListener,
-  getCalciteLabelText
+  addLabelClickListener
 } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
@@ -611,7 +610,7 @@ export class CalciteInput implements CalciteFormComponent {
   };
 
   getEffectiveLabelText = (): string => {
-    return this.label || getCalciteLabelText(this.effectiveLabel);
+    return this.label || this.effectiveLabel?.textContent;
   };
 
   // --------------------------------------------------------------------------
