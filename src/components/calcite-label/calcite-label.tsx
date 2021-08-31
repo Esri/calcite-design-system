@@ -60,7 +60,7 @@ export class CalciteLabel {
   /**
    * @internal
    */
-  @Event() calciteInternalLabelClick: EventEmitter<void>;
+  @Event({ bubbles: false }) calciteInternalLabelClick: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
