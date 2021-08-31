@@ -18,6 +18,10 @@ describe("calcite-action-bar", () => {
       {
         propertyName: "expanded",
         defaultValue: false
+      },
+      {
+        propertyName: "scale",
+        defaultValue: undefined
       }
     ]));
 
@@ -34,6 +38,32 @@ describe("calcite-action-bar", () => {
     ]));
 
   describe("expand functionality", () => {
+    it("should not modify actions within an action-menu", async () => {
+      const page = await newE2EPage({
+        html: html`<calcite-action-bar expanded>
+          <calcite-action-group>
+            <calcite-action id="action-bar-action" text="Add" label="Add Item" icon="plus"></calcite-action>
+          </calcite-action-group>
+          <calcite-action-group>
+            <calcite-action-menu label="Save and open">
+              <calcite-action id="menu-action" text-enabled text="Save" label="Save" icon="save"></calcite-action>
+            </calcite-action-menu>
+          </calcite-action-group>
+        </calcite-action-bar>`
+      });
+      await page.waitForChanges();
+      const actionBar = await page.find("calcite-action-bar");
+      const actionBarAction = await page.find("#action-bar-action");
+      const menuAction = await page.find("#menu-action");
+      expect(await actionBar.getProperty("expanded")).toBe(true);
+      expect(await actionBarAction.getProperty("textEnabled")).toBe(true);
+      expect(await menuAction.getProperty("textEnabled")).toBe(true);
+      actionBar.setProperty("expanded", false);
+      await page.waitForChanges();
+      expect(await menuAction.getProperty("textEnabled")).toBe(true);
+      expect(await actionBarAction.getProperty("textEnabled")).toBe(false);
+    });
+
     it("should be expandable by default", async () => {
       const page = await newE2EPage();
 
@@ -260,5 +290,15 @@ describe("calcite-action-bar", () => {
 
     expect(await groups[0].getProperty("menuOpen")).toBe(true);
     expect(await groups[1].getProperty("menuOpen")).toBe(false);
+  });
+
+  it("should honor scale of expand icon", async () => {
+    const page = await newE2EPage({ html: `<calcite-action-bar scale="l"></calcite-action-bar>` });
+
+    const buttonGroup = await page.find(`calcite-action-bar >>> .${CSS.actionGroupBottom}`);
+
+    const button = await buttonGroup.find("calcite-action");
+
+    expect(await button.getProperty("scale")).toBe("l");
   });
 });

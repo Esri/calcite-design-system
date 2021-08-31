@@ -10,8 +10,6 @@ The `calcite-action-bar` component is made up of multiple `calcite-action`s in t
 
 ### Basic
 
-#### Basic Action Bar (Top Actions)
-
 Renders `calcite-action`s that stick to the top of the bar.
 
 ```html
@@ -21,7 +19,29 @@ Renders `calcite-action`s that stick to the top of the bar.
 </calcite-action-bar>
 ```
 
-#### With grouping
+### Bottom-actions
+
+The bottom-actions slot renders `calcite-action`s that stick to the bottom of the bar above the expand/collapse icon.
+
+```html
+<calcite-action-bar>
+  <calcite-action text="Information" icon="information"></calcite-action>
+  <calcite-action text="Feedback" slot="bottom-actions" icon="mega-phone"></calcite-action>
+</calcite-action-bar>
+```
+
+### Tooltip
+
+Renders with a tooltip on the expand action.
+
+```html
+<calcite-action-bar id="action-bar-test">
+  <calcite-tooltip slot="expand-tooltip">Expand</calcite-tooltip>
+  <calcite-action text="Add" icon="plus"></calcite-action>
+</calcite-action-bar>
+```
+
+### With-grouping
 
 Renders a group of `calcite-action`s contained in a `calcite-action-group`. Actions in a group are visually separated from other groups or actions in the bar.
 
@@ -39,38 +59,17 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 </calcite-action-bar>
 ```
 
-#### Bottom Actions
-
-The bottom-actions slot renders `calcite-action`s that stick to the bottom of the bar above the expand/collapse icon.
-
-```html
-<calcite-action-bar>
-  <calcite-action text="Information" icon="information"></calcite-action>
-  <calcite-action text="Feedback" slot="bottom-actions" icon="mega-phone"></calcite-action>
-</calcite-action-bar>
-```
-
-### Tooltip
-
-### Tooltip on the expand action
-
-```html
-<calcite-action-bar id="action-bar-test">
-  <calcite-tooltip slot="expand-tooltip">Expand</calcite-tooltip>
-  <calcite-action text="Add" icon="plus"></calcite-action>
-</calcite-action-bar>
-```
-
 ## Properties
 
-| Property                  | Attribute                   | Description                                                              | Type               | Default     |
-| ------------------------- | --------------------------- | ------------------------------------------------------------------------ | ------------------ | ----------- |
-| `expandDisabled`          | `expand-disabled`           | When set to true, the expand-toggling behavior will be disabled.         | `boolean`          | `false`     |
-| `expanded`                | `expanded`                  | Indicates whether widget is expanded.                                    | `boolean`          | `false`     |
-| `intlCollapse`            | `intl-collapse`             | Updates the label of the collapse icon when the component is expanded.   | `string`           | `undefined` |
-| `intlExpand`              | `intl-expand`               | Updates the label of the expand icon when the component is not expanded. | `string`           | `undefined` |
-| `overflowActionsDisabled` | `overflow-actions-disabled` | Disables automatically overflowing actions that won't fit into menus.    | `boolean`          | `undefined` |
-| `position`                | `position`                  | Arranges the component depending on the elements 'dir' property.         | `"end" \| "start"` | `undefined` |
+| Property                  | Attribute                   | Description                                                              | Type                | Default     |
+| ------------------------- | --------------------------- | ------------------------------------------------------------------------ | ------------------- | ----------- |
+| `expandDisabled`          | `expand-disabled`           | When set to true, the expand-toggling behavior will be disabled.         | `boolean`           | `false`     |
+| `expanded`                | `expanded`                  | Indicates whether widget is expanded.                                    | `boolean`           | `false`     |
+| `intlCollapse`            | `intl-collapse`             | Updates the label of the collapse icon when the component is expanded.   | `string`            | `undefined` |
+| `intlExpand`              | `intl-expand`               | Updates the label of the expand icon when the component is not expanded. | `string`            | `undefined` |
+| `overflowActionsDisabled` | `overflow-actions-disabled` | Disables automatically overflowing actions that won't fit into menus.    | `boolean`           | `undefined` |
+| `position`                | `position`                  | Arranges the component depending on the elements 'dir' property.         | `"end" \| "start"`  | `undefined` |
+| `scale`                   | `scale`                     | Specifies the size of the expand action.                                 | `"l" \| "m" \| "s"` | `undefined` |
 
 ## Events
 

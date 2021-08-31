@@ -52,13 +52,11 @@ describe("calcite-combobox", () => {
       </calcite-combobox>`
     });
 
+    const items = await page.findAll("calcite-combobox-item");
     const eventSpy = await page.spyOnEvent("calciteComboboxFilterChange");
     await page.keyboard.press("Tab");
-    const openEvent = page.waitForEvent("calciteComboboxOpen");
+    await page.waitForEvent("calciteComboboxOpen");
     await page.keyboard.type("one");
-    await openEvent;
-
-    const items = await page.findAll("calcite-combobox-item");
     await items[1].waitForNotVisible();
     const item1Visible = await items[0].isVisible();
     const item2Visible = await items[1].isVisible();

@@ -1,9 +1,19 @@
 :host {
-  @extend %component-host;
-  @apply block;
+  @apply block
+    box-border
+    bg-foreground-1
+    text-color-2
+    text--1h;
 }
 
 ::slotted(calcite-tip) {
-  @apply border-none;
-  max-width: 34rem;
+  @apply border-none m-0;
+}
+
+:host-context(calcite-tip-manager) {
+  @apply my-3;
+}
+
+:host-context(calcite-tip-manager) ::slotted(calcite-tip) {
+  @apply p-4;
 }

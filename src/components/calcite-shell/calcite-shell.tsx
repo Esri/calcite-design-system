@@ -58,12 +58,12 @@ export class CalciteShell {
           >
             <slot />
           </div>,
-          <slot name="center-row" />
+          <slot name={SLOTS.centerRow} />
         ]
       : [
           <div class={CSS.content}>
             <slot />
-            <slot name="center-row" />
+            <slot name={SLOTS.centerRow} />
           </div>
         ];
 
