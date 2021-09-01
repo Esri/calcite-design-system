@@ -119,13 +119,14 @@ export class CalciteAccordionItem {
             <calcite-icon
               class="accordion-item-expand-icon"
               icon={
-                this.iconType === "chevron"
-                  ? "chevronUp"
+                  this.iconType === "chevron"
+                  ? "chevronDown"
                   : this.iconType === "caret"
-                  ? "caretUp"
+                  ? "caretDown"
                   : this.active
                   ? "minus"
                   : "plus"
+                //this.getIcon()
               }
               scale="s"
             />
@@ -239,4 +240,12 @@ export class CalciteAccordionItem {
       this.el
     );
   }
+
+  // private getIcon(): string {
+  //   if (this.iconType === ("chevron" || "caret")) {
+  //     return this.iconPosition === "start" ? `${this.iconType}Up` : `${this.iconType}Down`;
+  //   } else {
+  //     return this.active ? "minus" : "plus";
+  //   }
+  // }
 }
