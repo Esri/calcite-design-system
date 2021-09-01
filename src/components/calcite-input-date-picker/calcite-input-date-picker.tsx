@@ -182,8 +182,6 @@ export class CalciteInputDatePicker {
       : this.createPopper();
   }
 
-  // todo: needs setFocus method.
-
   // --------------------------------------------------------------------------
   //
   //  Lifecycle

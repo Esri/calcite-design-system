@@ -12,8 +12,14 @@ import {
   Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { focusElement, closestElementCrossShadowBoundary } from "../../utils/dom";
-import { Scale } from "../interfaces";
+import {
+  focusElement,
+  closestElementCrossShadowBoundary,
+  findLabelForComponent,
+  removeLabelClickListener,
+  addLabelClickListener
+} from "../../utils/dom";
+import { Scale, CalciteFormComponent } from "../interfaces";
 import { hiddenInputStyle } from "../../utils/form";
 
 @Component({
@@ -21,7 +27,7 @@ import { hiddenInputStyle } from "../../utils/form";
   styleUrl: "calcite-checkbox.scss",
   shadow: true
 })
-export class CalciteCheckbox {
+export class CalciteCheckbox implements CalciteFormComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -45,7 +51,7 @@ export class CalciteCheckbox {
   }
 
   /** True if the checkbox is disabled */
-  @Prop({ reflect: true }) disabled?: boolean = false;
+  @Prop({ reflect: true }) disabled = false;
 
   @Watch("disabled")
   disabledChanged(disabled: boolean): void {
@@ -57,7 +63,7 @@ export class CalciteCheckbox {
 
   /**
    * The hovered state of the checkbox.
-   * @private
+   * @internal
    */
   @Prop({ reflect: true, mutable: true }) hovered = false;
 
@@ -101,6 +107,8 @@ export class CalciteCheckbox {
   private initialChecked: boolean;
 
   private input: HTMLInputElement;
+
+  effectiveLabel: HTMLCalciteLabelElement;
 
   //--------------------------------------------------------------------------
   //
@@ -162,16 +170,6 @@ export class CalciteCheckbox {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click")
-  onClick(event: MouseEvent): void {
-    // This line prevents double-triggering when wrapped inside either a <label> or a <calcite-label>
-    // by preventing the browser default behavior, which is to click the label's first input child element
-    if (event.target === this.el) {
-      event.preventDefault();
-    }
-    this.toggle();
-  }
-
   @Listen("mouseenter")
   mouseenter(): void {
     this.hovered = true;
@@ -186,18 +184,6 @@ export class CalciteCheckbox {
     this.checked = this.initialChecked;
   };
 
-  private nativeLabelClickHandler = ({ target }: MouseEvent): void => {
-    if (
-      !this.el.closest("calcite-label") &&
-      (target as HTMLElement).nodeName === "LABEL" &&
-      (target as HTMLLabelElement).parentNode.nodeName !== "CALCITE-LABEL" &&
-      this.el.id &&
-      (target as HTMLLabelElement).htmlFor === this.el.id
-    ) {
-      this.toggle();
-    }
-  };
-
   private onInputBlur() {
     this.focused = false;
     this.calciteCheckboxFocusedChange.emit(false);
@@ -207,6 +193,20 @@ export class CalciteCheckbox {
     this.focused = true;
     this.calciteCheckboxFocusedChange.emit(true);
   }
+
+  connectEffectiveLabel = (): void => {
+    removeLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+    this.effectiveLabel = findLabelForComponent(this.el);
+    addLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+  };
+
+  disconnectEffectiveLabel = (): void => {
+    removeLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+  };
+
+  effectiveLabelClickHandler = (): void => {
+    this.toggle();
+  };
 
   //--------------------------------------------------------------------------
   //
@@ -222,7 +222,7 @@ export class CalciteCheckbox {
     if (form) {
       form.addEventListener("reset", this.formResetHandler);
     }
-    document.addEventListener("click", this.nativeLabelClickHandler);
+    this.connectEffectiveLabel();
   }
 
   disconnectedCallback(): void {
@@ -231,7 +231,7 @@ export class CalciteCheckbox {
     if (form) {
       form.removeEventListener("reset", this.formResetHandler);
     }
-    document.removeEventListener("click", this.nativeLabelClickHandler);
+    this.disconnectEffectiveLabel();
   }
 
   // --------------------------------------------------------------------------
@@ -240,6 +240,7 @@ export class CalciteCheckbox {
   //
   // --------------------------------------------------------------------------
 
+  // todo: update
   private renderHiddenCheckboxInput() {
     this.input = document.createElement("input");
     this.checked && this.input.setAttribute("checked", "");
