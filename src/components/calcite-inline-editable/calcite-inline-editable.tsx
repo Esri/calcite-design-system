@@ -89,7 +89,7 @@ export class CalciteInlineEditable {
 
   componentDidLoad() {
     if (!this.editingEnabled) {
-      this.inputElement.tabIndex = -1;
+      this.inputElement.disabled = true;
     }
   }
 
