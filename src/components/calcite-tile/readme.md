@@ -16,6 +16,13 @@
 | `href`        | `href`        | The (optional) url for the tile. (Only applies when embed is set to false)                               | `string`  | `undefined` |
 | `icon`        | `icon`        | The icon that appears at the top of the tile.                                                            | `string`  | `undefined` |
 
+## Slots
+
+| Slot              | Description                                                        |
+| ----------------- | ------------------------------------------------------------------ |
+| `"content-end"`   | A slot for adding non-actionable elements after the tile content.  |
+| `"content-start"` | A slot for adding non-actionable elements before the tile content. |
+
 ## Dependencies
 
 ### Used by
