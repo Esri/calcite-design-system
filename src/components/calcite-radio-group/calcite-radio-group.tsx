@@ -13,9 +13,14 @@ import {
   VNode
 } from "@stencil/core";
 
-import { getElementDir, hasLabel } from "../../utils/dom";
+import {
+  getElementDir,
+  findLabelForComponent,
+  removeLabelClickListener,
+  addLabelClickListener
+} from "../../utils/dom";
 import { getKey } from "../../utils/key";
-import { Layout, Scale, Width } from "../interfaces";
+import { Layout, Scale, Width, CalciteFormComponent } from "../interfaces";
 import { RadioAppearance } from "./interfaces";
 
 @Component({
@@ -23,7 +28,7 @@ import { RadioAppearance } from "./interfaces";
   styleUrl: "calcite-radio-group.scss",
   shadow: true
 })
-export class CalciteRadioGroup {
+export class CalciteRadioGroup implements CalciteFormComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -42,7 +47,7 @@ export class CalciteRadioGroup {
   @Prop({ reflect: true }) appearance: RadioAppearance = "solid";
 
   /** is the radio group disabled  */
-  @Prop({ reflect: true }) disabled?: boolean;
+  @Prop({ reflect: true }) disabled = false;
 
   /** specify the layout of the radio group, defaults to horizontal */
   @Prop({ reflect: true }) layout: Layout = "horizontal";
@@ -116,6 +121,12 @@ export class CalciteRadioGroup {
     if (lastChecked) {
       hiddenInput.value = lastChecked.value;
     }
+
+    this.connectEffectiveLabel();
+  }
+
+  disconnectedCallback(): void {
+    this.disconnectEffectiveLabel();
   }
 
   componentDidLoad(): void {
@@ -135,14 +146,6 @@ export class CalciteRadioGroup {
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
-
-  @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(
-    e: Record<string, any>
-  ): void {
-    if (hasLabel(e.detail.labelEl, this.el)) {
-      this.setFocus();
-    }
-  }
 
   @Listen("click") protected handleClick(event: MouseEvent): void {
     if ((event.target as HTMLElement).localName === "calcite-radio-group-item") {
@@ -241,6 +244,8 @@ export class CalciteRadioGroup {
   //
   //--------------------------------------------------------------------------
 
+  effectiveLabel: HTMLCalciteLabelElement;
+
   // todo: Do we need to stop creating an input here? Should it be created in shadow dom??
   private hiddenInput: HTMLInputElement = (() => {
     const input = document.createElement("input");
@@ -256,6 +261,20 @@ export class CalciteRadioGroup {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  connectEffectiveLabel = (): void => {
+    removeLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+    this.effectiveLabel = findLabelForComponent(this.el);
+    addLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+  };
+
+  disconnectEffectiveLabel = (): void => {
+    removeLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+  };
+
+  effectiveLabelClickHandler = (): void => {
+    this.setFocus();
+  };
 
   private getItems(): NodeListOf<HTMLCalciteRadioGroupItemElement> {
     return this.el.querySelectorAll("calcite-radio-group-item");

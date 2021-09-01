@@ -11,9 +11,14 @@ import {
   State,
   VNode
 } from "@stencil/core";
-import { getElementDir, hasLabel } from "../../utils/dom";
+import {
+  getElementDir,
+  findLabelForComponent,
+  removeLabelClickListener,
+  addLabelClickListener
+} from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import { Scale } from "../interfaces";
+import { Scale, CalciteFormComponent } from "../interfaces";
 import { TEXT } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 
@@ -22,7 +27,7 @@ import { CSS_UTILITY } from "../../utils/resources";
   styleUrl: "calcite-rating.scss",
   shadow: true
 })
-export class CalciteRating {
+export class CalciteRating implements CalciteFormComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -70,6 +75,20 @@ export class CalciteRating {
 
   //--------------------------------------------------------------------------
   //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    this.connectEffectiveLabel();
+  }
+
+  disconnectedCallback(): void {
+    this.disconnectEffectiveLabel();
+  }
+
+  //--------------------------------------------------------------------------
+  //
   //  Events
   //
   //--------------------------------------------------------------------------
@@ -84,16 +103,6 @@ export class CalciteRating {
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
-
-  @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(e: CustomEvent): void {
-    if (
-      hasLabel(e.detail.labelEl, this.el) &&
-      e.detail.interactedEl !== this.el &&
-      !this.el.contains(e.detail.interactedEl)
-    ) {
-      this.setFocus();
-    }
-  }
 
   @Listen("blur") blurHandler(): void {
     this.hasFocus = false;
@@ -191,6 +200,21 @@ export class CalciteRating {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  connectEffectiveLabel = (): void => {
+    removeLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+    this.effectiveLabel = findLabelForComponent(this.el);
+    addLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+  };
+
+  disconnectEffectiveLabel = (): void => {
+    removeLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+  };
+
+  effectiveLabelClickHandler = (): void => {
+    this.setFocus();
+  };
+
   private updateValue(value: number) {
     this.value = value;
     this.calciteRatingChange.emit({ value });
@@ -211,6 +235,8 @@ export class CalciteRating {
   //  Private State / Properties
   //
   // --------------------------------------------------------------------------
+
+  effectiveLabel: HTMLCalciteLabelElement;
 
   @State() hoverValue: number;
 

@@ -397,6 +397,14 @@ export class CalciteInput implements CalciteFormComponent {
     removeLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
   };
 
+  effectiveLabelClickHandler = (): void => {
+    this.setFocus();
+  };
+
+  getEffectiveLabelText = (): string => {
+    return this.label || this.effectiveLabel?.textContent;
+  };
+
   private clearInputValue = (nativeEvent: KeyboardEvent | MouseEvent): void => {
     this.setValue(null, nativeEvent, true);
   };
@@ -603,14 +611,6 @@ export class CalciteInput implements CalciteFormComponent {
         this.calciteInputChange.emit();
       }
     }
-  };
-
-  effectiveLabelClickHandler = (): void => {
-    this.setFocus();
-  };
-
-  getEffectiveLabelText = (): string => {
-    return this.label || this.effectiveLabel?.textContent;
   };
 
   // --------------------------------------------------------------------------

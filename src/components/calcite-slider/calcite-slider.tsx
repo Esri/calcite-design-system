@@ -15,8 +15,14 @@ import {
 import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
 import { ColorStop, DataSeries } from "../calcite-graph/interfaces";
-import { hasLabel, intersects } from "../../utils/dom";
+import {
+  intersects,
+  findLabelForComponent,
+  removeLabelClickListener,
+  addLabelClickListener
+} from "../../utils/dom";
 import { clamp } from "../../utils/math";
+import { CalciteFormComponent } from "../interfaces";
 
 type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 
@@ -25,7 +31,7 @@ type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
   styleUrl: "calcite-slider.scss",
   shadow: true
 })
-export class CalciteSlider {
+export class CalciteSlider implements CalciteFormComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -111,6 +117,15 @@ export class CalciteSlider {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    this.connectEffectiveLabel();
+  }
+
+  disconnectedCallback(): void {
+    this.disconnectEffectiveLabel();
+  }
+
   componentWillLoad(): void {
     this.isRange = !!(this.maxValue || this.maxValue === 0);
     this.tickValues = this.generateTickValues();
@@ -671,12 +686,6 @@ export class CalciteSlider {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(e: CustomEvent): void {
-    if (e.detail.interactedEl !== this.el && hasLabel(e.detail.labelEl, this.el)) {
-      this.setFocus();
-    }
-  }
-
   @Listen("keydown") keyDownHandler(event: KeyboardEvent): void {
     const mirror = this.shouldMirror();
     const { activeProp, max, min, pageStep, step } = this;
@@ -786,6 +795,8 @@ export class CalciteSlider {
   //
   //--------------------------------------------------------------------------
 
+  effectiveLabel: HTMLCalciteLabelElement;
+
   private guid = `calcite-slider-${guid()}`;
 
   private isRange = false;
@@ -813,6 +824,20 @@ export class CalciteSlider {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  connectEffectiveLabel = (): void => {
+    removeLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+    this.effectiveLabel = findLabelForComponent(this.el);
+    addLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+  };
+
+  disconnectEffectiveLabel = (): void => {
+    removeLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+  };
+
+  effectiveLabelClickHandler = (): void => {
+    this.setFocus();
+  };
 
   private shouldMirror(): boolean {
     return this.mirrored && !this.hasHistogram;

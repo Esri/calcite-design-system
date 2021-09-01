@@ -10,8 +10,15 @@ import {
   Prop,
   VNode
 } from "@stencil/core";
-import { Direction, focusElement, getElementDir } from "../../utils/dom";
-import { Scale, Width } from "../interfaces";
+import {
+  Direction,
+  focusElement,
+  getElementDir,
+  findLabelForComponent,
+  removeLabelClickListener,
+  addLabelClickListener
+} from "../../utils/dom";
+import { Scale, Width, CalciteFormComponent } from "../interfaces";
 import { CSS } from "./resources";
 import { FocusRequest } from "../calcite-label/interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -34,7 +41,7 @@ function isOptionGroup(
   styleUrl: "calcite-select.scss",
   shadow: true
 })
-export class CalciteSelect {
+export class CalciteSelect implements CalciteFormComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -86,6 +93,8 @@ export class CalciteSelect {
   //
   //--------------------------------------------------------------------------
 
+  effectiveLabel: HTMLCalciteLabelElement;
+
   @Element()
   private el: HTMLCalciteSelectElement;
 
@@ -108,10 +117,13 @@ export class CalciteSelect {
       subtree: true,
       childList: true
     });
+
+    this.connectEffectiveLabel();
   }
 
   disconnectedCallback(): void {
     this.mutationObserver.disconnect();
+    this.disconnectEffectiveLabel();
   }
 
   //--------------------------------------------------------------------------
@@ -162,22 +174,25 @@ export class CalciteSelect {
     }
   }
 
-  @Listen("calciteLabelFocus", { target: "window" })
-  handleLabelFocus(event: CustomEvent<FocusRequest>): void {
-    const { requestedInput, labelEl } = event.detail;
-    const { el } = this;
-
-    if (labelEl.contains(el) || (requestedInput && requestedInput === el.getAttribute("id"))) {
-      this.setFocus();
-      event.stopImmediatePropagation();
-    }
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  connectEffectiveLabel = (): void => {
+    removeLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+    this.effectiveLabel = findLabelForComponent(this.el);
+    addLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+  };
+
+  disconnectEffectiveLabel = (): void => {
+    removeLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+  };
+
+  effectiveLabelClickHandler = (): void => {
+    this.setFocus();
+  };
 
   private updateNativeElement(
     optionOrGroup: CalciteOptionOrGroup,

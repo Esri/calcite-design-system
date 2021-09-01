@@ -12,19 +12,25 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { focusElement, getElementDir, hasLabel } from "../../utils/dom";
+import {
+  focusElement,
+  getElementDir,
+  findLabelForComponent,
+  removeLabelClickListener,
+  addLabelClickListener
+} from "../../utils/dom";
 import { hiddenInputStyle } from "../../utils/form";
 import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
 import { CSS_UTILITY } from "../../utils/resources";
-import { Scale } from "../interfaces";
+import { Scale, CalciteFormComponent } from "../interfaces";
 
 @Component({
   tag: "calcite-switch",
   styleUrl: "calcite-switch.scss",
   shadow: true
 })
-export class CalciteSwitch {
+export class CalciteSwitch implements CalciteFormComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -40,7 +46,7 @@ export class CalciteSwitch {
   //--------------------------------------------------------------------------
 
   /** True if the switch is disabled */
-  @Prop({ reflect: true }) disabled?: boolean = false;
+  @Prop({ reflect: true }) disabled = false;
 
   @Watch("disabled")
   disabledWatcher(newDisabled: boolean): void {
@@ -76,6 +82,8 @@ export class CalciteSwitch {
   //
   //--------------------------------------------------------------------------
 
+  effectiveLabel: HTMLCalciteLabelElement;
+
   // todo: Do we need to stop creating an input here? Should it be created in shadow dom??
   private inputEl: HTMLInputElement = document.createElement("input");
 
@@ -105,6 +113,23 @@ export class CalciteSwitch {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  connectEffectiveLabel = (): void => {
+    removeLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+    this.effectiveLabel = findLabelForComponent(this.el);
+    addLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+  };
+
+  disconnectEffectiveLabel = (): void => {
+    removeLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+  };
+
+  effectiveLabelClickHandler = (): void => {
+    if (!this.disabled) {
+      this.toggle();
+      this.setFocus();
+    }
+  };
 
   private setupInput(): void {
     this.switched && this.inputEl.setAttribute("checked", "");
@@ -143,31 +168,6 @@ export class CalciteSwitch {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteLabelFocus", { target: "window" })
-  handleLabelFocus(e: CustomEvent): void {
-    if (
-      !this.disabled &&
-      !this.el.contains(e.detail.interactedEl) &&
-      hasLabel(e.detail.labelEl, this.el)
-    ) {
-      this.el.focus();
-    } else {
-      return;
-    }
-  }
-
-  @Listen("click")
-  onClick(e: MouseEvent): void {
-    // prevent duplicate click events that occur
-    // when the component is wrapped in a label and checkbox is clicked
-    if (
-      (!this.disabled && this.el.closest("label") && e.target === this.inputEl) ||
-      (!this.el.closest("label") && e.target === this.el)
-    ) {
-      this.toggle();
-    }
-  }
-
   @Listen("keydown")
   keyDownHandler(e: KeyboardEvent): void {
     const key = getKey(e.key);
@@ -181,6 +181,14 @@ export class CalciteSwitch {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    this.connectEffectiveLabel();
+  }
+
+  disconnectedCallback(): void {
+    this.disconnectEffectiveLabel();
+  }
 
   componentWillLoad(): void {
     this.guid = this.el.id || `calcite-switch-${guid()}`;
