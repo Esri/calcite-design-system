@@ -66,7 +66,7 @@
 
 :host([scale="s"]) {
   .button {
-    @apply p-2 text--2h;
+    @apply font-normal p-2 text--2h;
   }
   .button--text-visible .icon-container {
     @apply mr-2;
@@ -122,7 +122,7 @@
   @apply w-full;
 
   .icon-container {
-    @apply m-0 mr-3;
+    @apply m-0;
   }
   .text-container--visible {
     @apply m-0 mr-2;
