@@ -1,5 +1,10 @@
 :host {
-  @apply bg-transparent block mb-1 box-border text-color-2 text--1h;
+  @apply bg-transparent
+    box-border
+    block
+    mb-1
+    text-color-2
+    text--1;
 
   * {
     @apply box-border;
@@ -13,7 +18,10 @@
 @import "../../assets/styles/header";
 
 h3.heading {
-  @apply text--1-wrap text-color-3 my-2 mx-4;
+  @apply text--1-wrap
+    text-color-3
+    my-2
+    mx-4;
 }
 
 .container--indented {

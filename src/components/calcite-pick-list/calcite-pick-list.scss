@@ -1,14 +1,18 @@
 :host {
   @apply items-stretch
+    box-border
     bg-transparent
     flex
     flex-col
     relative
     flex-grow
     flex-shrink-0
-    box-border
     text-color-2
     text--1h;
+
+  * {
+    @apply box-border;
+  }
 }
 
 :host([filter-enabled]) header {
