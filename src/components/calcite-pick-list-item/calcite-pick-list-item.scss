@@ -1,13 +1,18 @@
 :host {
-  @extend %component-host;
-  @apply items-stretch
+  @apply bg-foreground-1
+    box-border
+    items-stretch
     flex
+    text--1
     text-color-1
     shadow-border-bottom
     m-0
     mb-px;
   transition: background-color $transition;
   animation: calcite-fade-in $transition;
+  * {
+    @apply box-border;
+  }
 }
 
 .label {
