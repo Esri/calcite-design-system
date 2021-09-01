@@ -240,7 +240,7 @@ export class CalciteCheckbox implements CalciteFormComponent {
   //
   // --------------------------------------------------------------------------
 
-  // todo: update
+  // todo: Do we need to stop creating an input here? Should it be created in shadow dom??
   private renderHiddenCheckboxInput() {
     this.input = document.createElement("input");
     this.checked && this.input.setAttribute("checked", "");
