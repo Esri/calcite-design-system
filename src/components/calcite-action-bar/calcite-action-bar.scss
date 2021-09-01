@@ -15,6 +15,14 @@
   max-width: 20vw;
 }
 
+:host([position="start"]) {
+  @apply border-0 border-r border-color-2 border-solid;
+}
+
+:host([position="end"]) {
+  @apply border-0 border-l border-color-2 border-solid;
+}
+
 ::slotted(calcite-action-group) {
   @apply border-0
     border-b
