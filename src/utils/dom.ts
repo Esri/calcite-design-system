@@ -12,15 +12,9 @@ export const addLabelClickListener = (effectiveLabel: HTMLCalciteLabelElement, c
 
 export const findLabelForComponent = (componentEl: HTMLElement): HTMLCalciteLabelElement => {
   const labelTagName = "calcite-label";
-  const labelledBy = componentEl.getAttribute("aria-labelledby");
-  const labelId = labelledBy !== null && labelledBy.trim() !== "" ? labelledBy : null;
-
-  const labelledByEl =
-    labelId && (queryElementRoots(componentEl, `${labelTagName}#${labelId}`) as HTMLCalciteLabelElement);
-
-  if (labelledByEl) {
-    return labelledByEl;
-  }
+  // I'm not sold on the aria-labelledby support.
+  // It assumes that whatever aria-labelledby is set on a component should be passed to the internals of the component.
+  // I think a label property is better suited for that.
 
   const id = componentEl.id;
   const labelSelectors: string[] = [labelTagName];

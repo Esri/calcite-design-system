@@ -20,7 +20,6 @@ import {
 } from "../../utils/dom";
 import { Scale, Width, CalciteFormComponent } from "../interfaces";
 import { CSS } from "./resources";
-import { FocusRequest } from "../calcite-label/interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 
 type CalciteOptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
