@@ -60,7 +60,7 @@ export class CalciteRadioButton {
 
   /**
    * The focused state of the radio button.
-   * @private
+   * @internal
    */
   @Prop({ mutable: true, reflect: true }) focused = false;
 
@@ -89,7 +89,7 @@ export class CalciteRadioButton {
 
   /**
    * The hovered state of the radio button.
-   * @private
+   * @internal
    */
   @Prop({ reflect: true, mutable: true }) hovered = false;
 

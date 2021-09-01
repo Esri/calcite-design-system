@@ -57,7 +57,7 @@ export class CalciteCheckbox {
 
   /**
    * The hovered state of the checkbox.
-   * @private
+   * @internal
    */
   @Prop({ reflect: true, mutable: true }) hovered = false;
 

@@ -21,7 +21,7 @@ export class CalciteRadio {
 
   /**
    * The focused state of the radio.
-   * @private
+   * @internal
    */
   @Prop({ reflect: true }) focused = false;
 
@@ -30,7 +30,7 @@ export class CalciteRadio {
 
   /**
    * The hovered state of the radio.
-   * @private
+   * @internal
    */
   @Prop({ reflect: true }) hovered = false;
 
