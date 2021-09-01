@@ -11,8 +11,11 @@ export type ThemeClass = "calcite-theme-light" | "calcite-theme-dark" | "calcite
 export type Width = "auto" | "half" | "full";
 
 export interface CalciteFormComponent {
+  disabled: boolean;
   effectiveLabel: HTMLCalciteLabelElement;
-  effectiveLabelClickHandler: () => void;
+  value?: string | number;
   connectEffectiveLabel: () => void;
   disconnectEffectiveLabel: () => void;
+  effectiveLabelClickHandler: () => void;
+  setFocus: () => void;
 }

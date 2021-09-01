@@ -78,7 +78,7 @@ export class CalciteInput implements CalciteFormComponent {
   @Prop({ reflect: true }) clearable?: boolean;
 
   /** is the input disabled  */
-  @Prop({ reflect: true }) disabled?: boolean;
+  @Prop({ reflect: true }) disabled = false;
 
   @Watch("disabled")
   disabledWatcher(): void {
