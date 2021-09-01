@@ -256,13 +256,12 @@ describe("calcite-radio-button", () => {
     );
 
     const radio = await page.find("calcite-radio-button");
-    const label = await page.find("calcite-label");
 
     const changeEvent = await radio.spyOnEvent("calciteRadioButtonChange");
 
     expect(changeEvent).toHaveReceivedEventTimes(0);
 
-    await label.click();
+    await page.evaluate(() => document.querySelector("calcite-label")?.click());
 
     expect(changeEvent).toHaveReceivedEventTimes(1);
   });

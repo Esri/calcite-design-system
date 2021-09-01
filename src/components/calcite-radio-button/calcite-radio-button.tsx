@@ -170,6 +170,14 @@ export class CalciteRadioButton implements CalciteFormComponent {
   //
   //--------------------------------------------------------------------------
 
+  toggle = (event: MouseEvent): void => {
+    event.stopPropagation();
+    this.uncheckAllRadioButtonsInGroup();
+    this.checked = true;
+    this.focused = true;
+    this.calciteRadioButtonChange.emit();
+  };
+
   connectEffectiveLabel = (): void => {
     removeLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
     this.effectiveLabel = findLabelForComponent(this.el);
@@ -183,8 +191,13 @@ export class CalciteRadioButton implements CalciteFormComponent {
   effectiveLabelClickHandler = (): void => {
     if (!this.disabled && !this.hidden) {
       this.uncheckOtherRadioButtonsInGroup();
-      this.checked = true;
-      this.focused = true;
+      const firstButton = this.rootNode.querySelector("calcite-radio-button");
+
+      if (firstButton) {
+        firstButton.checked = true;
+        firstButton.focused = true;
+      }
+
       this.calciteRadioButtonChange.emit();
     }
   };
@@ -308,6 +321,10 @@ export class CalciteRadioButton implements CalciteFormComponent {
     this.calciteRadioButtonFocusedChange.emit();
   };
 
+  getEffectiveLabelText = (): string => {
+    return this.label || this.effectiveLabel?.textContent;
+  };
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -353,9 +370,9 @@ export class CalciteRadioButton implements CalciteFormComponent {
     const value = this.value?.toString();
 
     return (
-      <div class={CSS.container}>
+      <div class={CSS.container} onClick={this.toggle}>
         <input
-          aria-label={this.label || null}
+          aria-label={this.getEffectiveLabelText()}
           checked={this.checked}
           disabled={this.disabled}
           hidden={this.hidden}

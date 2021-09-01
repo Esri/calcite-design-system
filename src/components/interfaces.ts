@@ -13,8 +13,10 @@ export type Width = "auto" | "half" | "full";
 export interface CalciteFormComponent {
   disabled: boolean;
   effectiveLabel: HTMLCalciteLabelElement;
+  connectedCallback: () => void;
   connectEffectiveLabel: () => void;
+  disconnectedCallback: () => void;
   disconnectEffectiveLabel: () => void;
-  effectiveLabelClickHandler: () => void;
+  effectiveLabelClickHandler: (...args: any[]) => void;
   setFocus: () => void;
 }
