@@ -76,6 +76,7 @@ export class CalciteSwitch {
   //
   //--------------------------------------------------------------------------
 
+  // todo: Do we need to stop creating an input here? Should it be created in shadow dom??
   private inputEl: HTMLInputElement = document.createElement("input");
 
   //--------------------------------------------------------------------------

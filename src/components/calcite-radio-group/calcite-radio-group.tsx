@@ -241,6 +241,7 @@ export class CalciteRadioGroup {
   //
   //--------------------------------------------------------------------------
 
+  // todo: Do we need to stop creating an input here? Should it be created in shadow dom??
   private hiddenInput: HTMLInputElement = (() => {
     const input = document.createElement("input");
     input.type = "hidden";
