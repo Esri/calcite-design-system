@@ -1,12 +1,12 @@
 import { isValidNumber } from "./number";
 
-export type HourDisplayFormat = "12" | "24";
+export type HourCycle = "12" | "24";
 
 export interface LocalizedTime {
   localizedHour: string;
   localizedMinute: string;
   localizedSecond: string;
-  localizedMeridiem?: string;
+  localizedMeridiem: string;
 }
 
 export type Meridiem = "AM" | "PM";
@@ -56,6 +56,19 @@ export function formatTimeString(value: string): string {
   return `${formatTimePart(hourAsNumber)}:${formatTimePart(minuteAsNumber)}:${
     secondAsNumber ? formatTimePart(secondAsNumber) : "00"
   }`;
+}
+
+function getDayPeriod(parts: Intl.DateTimeFormatPart[]): string {
+  if (!parts) {
+    return null;
+  }
+  const dayPeriod = parts.find((part) => part.type === "dayPeriod")?.value || null;
+  if (!dayPeriod) {
+    // This is to handle locales like bulgarian that for some reason label the dayPeriod's type with "literal" instead.
+    const lastPart = parts[parts.length - 1];
+    return lastPart?.type === "literal" ? lastPart?.value || null : null;
+  }
+  return dayPeriod;
 }
 
 export function getMeridiem(hour: string): Meridiem {
@@ -114,6 +127,12 @@ function isValidTimePart(value: string, part: TimePart): boolean {
   }
 }
 
+export function getLocaleHourCycle(locale: string): HourCycle {
+  const formatter = createLocaleDateTimeFormatter(locale);
+  const parts = formatter.formatToParts(new Date(Date.UTC(0, 0, 0, 0, 0, 0)));
+  return getDayPeriod(parts) ? "12" : "24";
+}
+
 export function localizeTimePart(value: string, part: TimePart, locale: string): string {
   if (!isValidTimePart(value, part)) {
     return;
@@ -134,7 +153,7 @@ export function localizeTimePart(value: string, part: TimePart, locale: string):
   const formatter = createLocaleDateTimeFormatter(locale);
   const parts = formatter.formatToParts(date);
   if (part === "meridiem") {
-    return parts.find((part) => part.type === "dayPeriod")?.value || null;
+    return getDayPeriod(parts);
   }
   return parts.find(({ type }) => type === part).value;
 }
@@ -162,7 +181,7 @@ export function localizeTimeStringToParts(value: string, locale = "en"): Localiz
       localizedHour: parts.find((part) => part.type === "hour").value,
       localizedMinute: parts.find((part) => part.type === "minute").value,
       localizedSecond: parts.find((part) => part.type === "second").value,
-      localizedMeridiem: parts.find((part) => part.type === "dayPeriod")?.value || null
+      localizedMeridiem: getDayPeriod(parts)
     };
   }
   return null;

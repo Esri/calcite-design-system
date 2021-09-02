@@ -14,12 +14,7 @@ import {
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
-import {
-  formatTimeString,
-  HourDisplayFormat,
-  isValidTime,
-  localizeTimeString
-} from "../../utils/time";
+import { formatTimeString, isValidTime, localizeTimeString } from "../../utils/time";
 import { Scale } from "../interfaces";
 
 @Component({
@@ -47,9 +42,6 @@ export class CalciteInputTimePicker {
 
   /** The disabled state of the time input */
   @Prop({ reflect: true }) disabled?: boolean = false;
-
-  /** Format of the hour value (12-hour or 24-hour) (this will be replaced by locale eventually) */
-  @Prop() hourDisplayFormat: HourDisplayFormat = "12";
 
   /** aria-label for the hour input */
   @Prop() intlHour?: string;
@@ -357,7 +349,6 @@ export class CalciteInputTimePicker {
           referenceElement={this.referenceElementId}
         >
           <calcite-time-picker
-            hour-display-format={this.hourDisplayFormat}
             intlHour={this.intlHour}
             intlHourDown={this.intlHourDown}
             intlHourUp={this.intlHourUp}

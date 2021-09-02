@@ -40,7 +40,6 @@ describe("calcite-time-picker", () => {
   it("has defaults", async () =>
     defaults("calcite-time-picker", [
       { propertyName: "hour", defaultValue: null },
-      { propertyName: "hourDisplayFormat", defaultValue: "12" },
       { propertyName: "minute", defaultValue: null },
       { propertyName: "second", defaultValue: null },
       { propertyName: "scale", defaultValue: "m" },
@@ -49,7 +48,6 @@ describe("calcite-time-picker", () => {
 
   it("reflects", async () =>
     reflects("calcite-time-picker", [
-      { propertyName: "hourDisplayFormat", value: "12" },
       { propertyName: "scale", value: "m" },
       { propertyName: "step", value: 60 }
     ]));
@@ -62,7 +60,7 @@ describe("calcite-time-picker", () => {
   describe("keyboard accessibility", () => {
     it("tabbing focuses each input in the correct sequence", async () => {
       const page = await newE2EPage({
-        html: `<calcite-time-picker hour-display-format="12" step="1"></calcite-time-picker>`
+        html: `<calcite-time-picker step="1"></calcite-time-picker>`
       });
 
       await page.keyboard.press("Tab");
@@ -112,7 +110,7 @@ describe("calcite-time-picker", () => {
 
     it("pressing right and left arrow keys focuses each input in the correct sequence", async () => {
       const page = await newE2EPage({
-        html: `<calcite-time-picker hour-display-format="12" step="1"></calcite-time-picker>`
+        html: `<calcite-time-picker step="1"></calcite-time-picker>`
       });
 
       await page.keyboard.press("Tab");
@@ -240,7 +238,7 @@ describe("calcite-time-picker", () => {
 
     it("ArrowUp key increments hour property and display hour correctly for 12-hour display format", async () => {
       const page = await newE2EPage({
-        html: `<calcite-time-picker hour-display-format="12"></calcite-time-picker>`
+        html: `<calcite-time-picker></calcite-time-picker>`
       });
       const timePicker = await page.find("calcite-time-picker");
       const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
@@ -262,7 +260,7 @@ describe("calcite-time-picker", () => {
 
     it("ArrowDown key decrements hour property and display hour correctly for 12-hour display format", async () => {
       const page = await newE2EPage({
-        html: `<calcite-time-picker hour-display-format="12"></calcite-time-picker>`
+        html: `<calcite-time-picker></calcite-time-picker>`
       });
       const timePicker = await page.find("calcite-time-picker");
       const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
@@ -351,7 +349,7 @@ describe("calcite-time-picker", () => {
 
     it("ArrowUp key increments meridiem property correctly", async () => {
       const page = await newE2EPage({
-        html: `<calcite-time-picker hour-display-format="12"></calcite-time-picker>`
+        html: `<calcite-time-picker></calcite-time-picker>`
       });
       const meridiem = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
 
@@ -379,7 +377,7 @@ describe("calcite-time-picker", () => {
 
     it("ArrowDown key decrements meridiem property correctly", async () => {
       const page = await newE2EPage({
-        html: `<calcite-time-picker hour-display-format="12"></calcite-time-picker>`
+        html: `<calcite-time-picker></calcite-time-picker>`
       });
       const meridiem = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
 
@@ -441,7 +439,7 @@ describe("calcite-time-picker", () => {
 
     it("typing letter keys changes nothing for hour, minute and second in 12-hour format", async () => {
       const page = await newE2EPage({
-        html: `<calcite-time-picker hour-display-format="12" step="1"></calcite-time-picker>`
+        html: `<calcite-time-picker step="1"></calcite-time-picker>`
       });
       const timePicker = await page.find("calcite-time-picker");
       const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
@@ -521,7 +519,7 @@ describe("calcite-time-picker", () => {
 
     it("allows typing single digit values for hour, minute and second and pads the value and display with a leading zero for 12-hour format", async () => {
       const page = await newE2EPage({
-        html: `<calcite-time-picker hour-display-format="12" step="1"></calcite-time-picker>`
+        html: `<calcite-time-picker step="1"></calcite-time-picker>`
       });
       const timePicker = await page.find("calcite-time-picker");
       const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
@@ -567,7 +565,7 @@ describe("calcite-time-picker", () => {
 
     it("restricts typing to valid hour values for 12-hour format", async () => {
       const page = await newE2EPage({
-        html: `<calcite-time-picker hour-display-format="12" step="1"></calcite-time-picker>`
+        html: `<calcite-time-picker step="1"></calcite-time-picker>`
       });
       const timePicker = await page.find("calcite-time-picker");
       const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
@@ -695,7 +693,7 @@ describe("calcite-time-picker", () => {
 
     it("allows typing AM and PM for 12-hour format", async () => {
       const page = await newE2EPage({
-        html: `<calcite-time-picker hour-display-format="12" step="1" hour="00"></calcite-time-picker>`
+        html: `<calcite-time-picker step="1" hour="00"></calcite-time-picker>`
       });
       const timePicker = await page.find("calcite-time-picker");
       const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
@@ -719,7 +717,7 @@ describe("calcite-time-picker", () => {
 
     it("typing am and pm multiple times when they are already set doesn't affect the hour", async () => {
       const page = await newE2EPage({
-        html: `<calcite-time-picker hour-display-format="12" step="1" hour="00"></calcite-time-picker>`
+        html: `<calcite-time-picker step="1" hour="00"></calcite-time-picker>`
       });
       const timePicker = await page.find("calcite-time-picker");
       const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
@@ -803,7 +801,7 @@ describe("calcite-time-picker", () => {
   describe("time behavior", () => {
     it("hour, display hour and AM/PM set correctly as hour changes for 12-hour display format", async () => {
       const page = await newE2EPage({
-        html: `<calcite-time-picker hour-display-format="12" hour="00"></calcite-time-picker>`
+        html: `<calcite-time-picker hour="00"></calcite-time-picker>`
       });
 
       const timePicker = await page.find("calcite-time-picker");
@@ -830,7 +828,7 @@ describe("calcite-time-picker", () => {
 
     it("changing AM/PM updates hour property correctly for 12-hour display format", async () => {
       const page = await newE2EPage({
-        html: `<calcite-time-picker hour-display-format="12" hour="00"></calcite-time-picker>`
+        html: `<calcite-time-picker hour="00"></calcite-time-picker>`
       });
 
       const timePicker = await page.find("calcite-time-picker");
@@ -904,7 +902,7 @@ describe("calcite-time-picker", () => {
 
     it("hour-up button increments hour property and display hour correctly for 12-hour display format", async () => {
       const page = await newE2EPage({
-        html: `<calcite-time-picker hour-display-format="12"></calcite-time-picker>`
+        html: `<calcite-time-picker></calcite-time-picker>`
       });
       const timePicker = await page.find("calcite-time-picker");
       const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
@@ -925,7 +923,7 @@ describe("calcite-time-picker", () => {
 
     it("hour-down button decrements hour property and display hour correctly for 12-hour display format", async () => {
       const page = await newE2EPage({
-        html: `<calcite-time-picker hour-display-format="12"></calcite-time-picker>`
+        html: `<calcite-time-picker></calcite-time-picker>`
       });
       const timePicker = await page.find("calcite-time-picker");
       const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
@@ -1040,7 +1038,7 @@ describe("calcite-time-picker", () => {
 
     it("meridiem-up button increments meridiem property correctly", async () => {
       const page = await newE2EPage({
-        html: `<calcite-time-picker hour-display-format="12"></calcite-time-picker>`
+        html: `<calcite-time-picker></calcite-time-picker>`
       });
       const meridiem = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
       const meridiemup = await page.find(`calcite-time-picker >>> .${CSS.buttonMeridiemUp}`);
@@ -1063,7 +1061,7 @@ describe("calcite-time-picker", () => {
 
     it("meridiem-down button decrements meridiem property correctly", async () => {
       const page = await newE2EPage({
-        html: `<calcite-time-picker hour-display-format="12"></calcite-time-picker>`
+        html: `<calcite-time-picker></calcite-time-picker>`
       });
       const meridiem = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
       const meridiemdown = await page.find(`calcite-time-picker >>> .${CSS.buttonMeridiemDown}`);
