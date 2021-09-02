@@ -488,15 +488,16 @@ describe("calcite-label", () => {
         <calcite-radio-button id="one" name="radio" value="one"></calcite-radio-button>
         <calcite-radio-button id="two" name="radio" value="two"></calcite-radio-button>
     `);
-      const radio1 = await page.find("#one");
+      await page.waitForChanges();
 
       await page.evaluate(() => document.querySelector("span")?.click());
       await page.waitForChanges();
+      const radio1 = await page.find("#one");
       expect(await radio1.getProperty("checked")).toBe(true);
 
-      const radio2 = await page.find("#two");
-      await page.evaluate(() => (document.querySelector("#two") as HTMLElement)?.click());
+      await page.evaluate(() => (document.getElementById("two") as HTMLElement)?.click());
       await page.waitForChanges();
+      const radio2 = await page.find("#two");
       expect(await radio2.getProperty("checked")).toBe(true);
 
       await page.evaluate(() => document.querySelector("span")?.click());
@@ -512,9 +513,10 @@ describe("calcite-label", () => {
         </calcite-label>
         <calcite-switch id="switch"></calcite-switch>
       `);
-      const switchEl = await page.find("calcite-switch");
+      await page.waitForChanges();
       await page.evaluate(() => document.querySelector("calcite-label")?.click());
       await page.waitForChanges();
+      const switchEl = await page.find("calcite-switch");
       expect(switchEl).toHaveAttribute("switched");
     });
 
@@ -526,12 +528,8 @@ describe("calcite-label", () => {
         </calcite-label>
         <calcite-slider id="slider"></calcite-slider>
       `);
-      const slider = await page.find("calcite-slider");
-      const sliderClass = slider["_elmHandle"]["_remoteObject"].description;
-      await page.evaluate(() => document.querySelector("calcite-label")?.click());
-      const activeEl = await page.evaluateHandle(() => document.activeElement);
-      const activeElClass = activeEl["_remoteObject"].description;
-      expect(activeElClass).toEqual(sliderClass);
+      await page.waitForChanges();
+      expect(await page.evaluate(getActiveElementNameAfterClick)).toEqual("calcite-slider");
     });
   });
 
