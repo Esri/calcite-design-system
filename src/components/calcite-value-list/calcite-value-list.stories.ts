@@ -7,12 +7,13 @@ import {
   themesDarkDefault
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
+import itemReadme from "../calcite-value-list-item/readme.md";
 import { html } from "../../tests/utils";
 
 export default {
   title: "Components/Value List",
   parameters: {
-    notes: readme
+    notes: [readme, itemReadme]
   }
 };
 
