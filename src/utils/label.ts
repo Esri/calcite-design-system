@@ -23,17 +23,6 @@ export interface CalciteLabelableComponent {
 const labelTagName = "calcite-label";
 const labelClickEvent = "calciteInternalLabelClick";
 
-const removeLabelClickListener = (
-  effectiveLabel: HTMLCalciteLabelElement,
-  callback: (...args: any[]) => void
-): void => {
-  effectiveLabel?.removeEventListener(labelClickEvent, callback);
-};
-
-const addLabelClickListener = (effectiveLabel: HTMLCalciteLabelElement, callback: (...args: any[]) => void): void => {
-  effectiveLabel?.addEventListener(labelClickEvent, callback);
-};
-
 const findLabelForComponent = (componentEl: HTMLElement): HTMLCalciteLabelElement => {
   // I'm not sold on the aria-labelledby support.
   // It assumes that whatever aria-labelledby is set on a component should be passed to the internals of the component.
@@ -54,16 +43,16 @@ const findLabelForComponent = (componentEl: HTMLElement): HTMLCalciteLabelElemen
  * Helper to set up label interactions on connectedCallback.
  */
 export function connectLabel(component: CalciteLabelableComponent): void {
-  removeLabelClickListener(component.labelEl, component.onLabelClick);
+  component.labelEl?.removeEventListener(labelClickEvent, component.onLabelClick);
   component.labelEl = findLabelForComponent(component.el);
-  addLabelClickListener(component.labelEl, component.onLabelClick);
+  component.labelEl?.addEventListener(labelClickEvent, component.onLabelClick);
 }
 
 /**
  * Helper to tear down label interactions on disconnectedCallback.
  */
 export function disconnectLabel(component: CalciteLabelableComponent): void {
-  removeLabelClickListener(component.labelEl, component.onLabelClick);
+  component.labelEl?.removeEventListener(labelClickEvent, component.onLabelClick);
 }
 
 /**
