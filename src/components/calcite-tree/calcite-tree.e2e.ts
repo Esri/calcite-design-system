@@ -285,7 +285,7 @@ describe("calcite-tree", () => {
 
       const tree = await page.find("calcite-tree");
       const selectEventSpy = await tree.spyOnEvent("calciteTreeSelect");
-      const treeItemCheckboxLabel = await page.find("calcite-tree-item >>> .calcite-tree-label");
+      const treeItemCheckboxLabel = await page.find(`calcite-tree-item >>> .${CSS.checkboxLabel}`);
 
       await treeItemCheckboxLabel.click();
       expect(selectEventSpy).toHaveReceivedEventTimes(1);
