@@ -36,6 +36,7 @@ const findLabelForComponent = (componentEl: HTMLElement): HTMLCalciteLabelElemen
     labelSelectors.unshift(`${labelTagName}[for="${id}"]`);
   }
 
+  // question: Should this go beyond shadowRoot?
   return componentEl.closest(labelSelectors.join(","));
 };
 
