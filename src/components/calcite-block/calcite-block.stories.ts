@@ -3,18 +3,15 @@ import {
   Attribute,
   filterComponentAttributes,
   Attributes,
-  createComponentHTML as create,
-  darkBackground
+  createComponentHTML as create
 } from "../../../.storybook/utils";
 import blockReadme from "./readme.md";
 import sectionReadme from "../calcite-block-section/readme.md";
-import { ATTRIBUTES } from "../../../.storybook/resources";
 import { html, placeholderImage } from "../../tests/utils";
 
 export default {
   title: "Components/Block",
   parameters: {
-    backgrounds: darkBackground,
     notes: {
       block: blockReadme,
       section: sectionReadme
@@ -26,7 +23,6 @@ const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes 
   { exceptions } = { exceptions: [] }
 ) => {
   const group = "block";
-  const { dir, theme } = ATTRIBUTES;
 
   return filterComponentAttributes(
     [
@@ -38,14 +34,7 @@ const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes 
           return this;
         }
       },
-      {
-        name: "dir",
-        commit(): Attribute {
-          this.value = select("dir", dir.values, dir.defaultValue, group);
-          delete this.build;
-          return this;
-        }
-      },
+
       {
         name: "summary",
         commit(): Attribute {
@@ -82,14 +71,6 @@ const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes 
         name: "disabled",
         commit(): Attribute {
           this.value = boolean("disabled", false, group);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "class",
-        commit(): Attribute {
-          this.value = select("class", theme.values, theme.defaultValue, group);
           delete this.build;
           return this;
         }

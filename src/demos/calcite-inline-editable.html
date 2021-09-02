@@ -32,6 +32,16 @@
         border-top: 1px solid var(--calcite-ui-border-2);
       }
     </style>
+    <script>
+      const handleChangesFoInput = (id, isSuccess = true) => {
+        const afterConfirm = () =>
+          new Promise((resolve, reject) => {
+            if (isSuccess) return setTimeout(resolve, 1500);
+            setTimeout(reject, 1500);
+          });
+        document.querySelector(id).afterConfirm = afterConfirm;
+      };
+    </script>
   </head>
   <body>
     <h1 style="margin: 0 auto; text-align: center">Inline Editable</h1>

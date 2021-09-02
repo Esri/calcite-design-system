@@ -122,6 +122,19 @@
   }
 }
 
+// none selection mode and scales
+.container--s.container--none-selection {
+  @apply pl-1;
+}
+
+.container--m.container--none-selection {
+  @apply pl-2;
+}
+
+.container--l.container--none-selection {
+  @apply pl-3;
+}
+
 // no dot for none and multi modes
 .container--multi-selection:before,
 .container--none-selection:before {
