@@ -126,7 +126,6 @@ export class CalciteAccordionItem {
                   : this.active
                   ? "minus"
                   : "plus"
-                //this.getIcon()
               }
               scale="s"
             />
@@ -240,12 +239,4 @@ export class CalciteAccordionItem {
       this.el
     );
   }
-
-  // private getIcon(): string {
-  //   if (this.iconType === ("chevron" || "caret")) {
-  //     return this.iconPosition === "start" ? `${this.iconType}Up` : `${this.iconType}Down`;
-  //   } else {
-  //     return this.active ? "minus" : "plus";
-  //   }
-  // }
 }
