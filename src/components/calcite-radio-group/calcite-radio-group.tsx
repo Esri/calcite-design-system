@@ -13,15 +13,10 @@ import {
   VNode
 } from "@stencil/core";
 
-import {
-  getElementDir,
-  findLabelForComponent,
-  removeLabelClickListener,
-  addLabelClickListener
-} from "../../utils/dom";
+import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { Layout, Scale, Width } from "../interfaces";
-import { CalciteLabelableComponent } from "../../utils/label";
+import { CalciteLabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import { RadioAppearance } from "./interfaces";
 
 @Component({
@@ -123,11 +118,11 @@ export class CalciteRadioGroup implements CalciteLabelableComponent {
       hiddenInput.value = lastChecked.value;
     }
 
-    this.connectLabel();
+    connectLabel(this);
   }
 
   disconnectedCallback(): void {
-    this.disconnectLabel();
+    disconnectLabel(this);
   }
 
   componentDidLoad(): void {
@@ -262,16 +257,6 @@ export class CalciteRadioGroup implements CalciteLabelableComponent {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
-  connectLabel = (): void => {
-    removeLabelClickListener(this.labelEl, this.onLabelClick);
-    this.labelEl = findLabelForComponent(this.el);
-    addLabelClickListener(this.labelEl, this.onLabelClick);
-  };
-
-  disconnectLabel = (): void => {
-    removeLabelClickListener(this.labelEl, this.onLabelClick);
-  };
 
   onLabelClick = (): void => {
     this.setFocus();

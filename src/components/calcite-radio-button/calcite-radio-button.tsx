@@ -11,15 +11,9 @@ import {
   Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import {
-  focusElement,
-  closestElementCrossShadowBoundary,
-  findLabelForComponent,
-  removeLabelClickListener,
-  addLabelClickListener
-} from "../../utils/dom";
+import { focusElement, closestElementCrossShadowBoundary } from "../../utils/dom";
 import { Scale } from "../interfaces";
-import { CalciteLabelableComponent } from "../../utils/label";
+import { CalciteLabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import { hiddenInputStyle } from "../../utils/form";
 import { CSS } from "./resources";
 
@@ -179,16 +173,6 @@ export class CalciteRadioButton implements CalciteLabelableComponent {
     this.calciteRadioButtonChange.emit();
   };
 
-  connectLabel = (): void => {
-    removeLabelClickListener(this.labelEl, this.onLabelClick);
-    this.labelEl = findLabelForComponent(this.el);
-    addLabelClickListener(this.labelEl, this.onLabelClick);
-  };
-
-  disconnectLabel = (): void => {
-    removeLabelClickListener(this.labelEl, this.onLabelClick);
-  };
-
   onLabelClick = (): void => {
     if (!this.disabled && !this.hidden) {
       this.uncheckOtherRadioButtonsInGroup();
@@ -343,7 +327,7 @@ export class CalciteRadioButton implements CalciteLabelableComponent {
     if (form) {
       form.addEventListener("reset", this.formResetHandler);
     }
-    this.connectLabel();
+    connectLabel(this);
   }
 
   componentDidLoad(): void {
@@ -358,7 +342,7 @@ export class CalciteRadioButton implements CalciteLabelableComponent {
     if (form) {
       form.removeEventListener("reset", this.formResetHandler);
     }
-    this.disconnectLabel();
+    disconnectLabel(this);
   }
 
   // --------------------------------------------------------------------------

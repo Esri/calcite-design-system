@@ -15,14 +15,9 @@ import {
 import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
 import { ColorStop, DataSeries } from "../calcite-graph/interfaces";
-import {
-  intersects,
-  findLabelForComponent,
-  removeLabelClickListener,
-  addLabelClickListener
-} from "../../utils/dom";
+import { intersects } from "../../utils/dom";
 import { clamp } from "../../utils/math";
-import { CalciteLabelableComponent } from "../../utils/label";
+import { CalciteLabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 
 type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 
@@ -119,11 +114,11 @@ export class CalciteSlider implements CalciteLabelableComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.connectLabel();
+    connectLabel(this);
   }
 
   disconnectedCallback(): void {
-    this.disconnectLabel();
+    disconnectLabel(this);
   }
 
   componentWillLoad(): void {
@@ -824,16 +819,6 @@ export class CalciteSlider implements CalciteLabelableComponent {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
-  connectLabel = (): void => {
-    removeLabelClickListener(this.labelEl, this.onLabelClick);
-    this.labelEl = findLabelForComponent(this.el);
-    addLabelClickListener(this.labelEl, this.onLabelClick);
-  };
-
-  disconnectLabel = (): void => {
-    removeLabelClickListener(this.labelEl, this.onLabelClick);
-  };
 
   onLabelClick = (): void => {
     this.setFocus();

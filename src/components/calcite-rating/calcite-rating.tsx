@@ -11,15 +11,10 @@ import {
   State,
   VNode
 } from "@stencil/core";
-import {
-  getElementDir,
-  findLabelForComponent,
-  removeLabelClickListener,
-  addLabelClickListener
-} from "../../utils/dom";
+import { getElementDir } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
-import { CalciteLabelableComponent } from "../../utils/label";
+import { CalciteLabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import { TEXT } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 
@@ -81,11 +76,11 @@ export class CalciteRating implements CalciteLabelableComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.connectLabel();
+    connectLabel(this);
   }
 
   disconnectedCallback(): void {
-    this.disconnectLabel();
+    disconnectLabel(this);
   }
 
   //--------------------------------------------------------------------------
@@ -201,16 +196,6 @@ export class CalciteRating implements CalciteLabelableComponent {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
-  connectLabel = (): void => {
-    removeLabelClickListener(this.labelEl, this.onLabelClick);
-    this.labelEl = findLabelForComponent(this.el);
-    addLabelClickListener(this.labelEl, this.onLabelClick);
-  };
-
-  disconnectLabel = (): void => {
-    removeLabelClickListener(this.labelEl, this.onLabelClick);
-  };
 
   onLabelClick = (): void => {
     this.setFocus();

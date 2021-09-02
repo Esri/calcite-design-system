@@ -1,36 +1,5 @@
 import { CSS_UTILITY } from "./resources";
-import { EVENTS as LABEL_EVENTS } from "../components/calcite-label/resources";
 import { guid } from "./guid";
-
-export const removeLabelClickListener = (
-  effectiveLabel: HTMLCalciteLabelElement,
-  callback: (...args: any[]) => void
-): void => {
-  effectiveLabel?.removeEventListener(LABEL_EVENTS.labelClick, callback);
-};
-
-export const addLabelClickListener = (
-  effectiveLabel: HTMLCalciteLabelElement,
-  callback: (...args: any[]) => void
-): void => {
-  effectiveLabel?.addEventListener(LABEL_EVENTS.labelClick, callback);
-};
-
-export const findLabelForComponent = (componentEl: HTMLElement): HTMLCalciteLabelElement => {
-  const labelTagName = "calcite-label";
-  // I'm not sold on the aria-labelledby support.
-  // It assumes that whatever aria-labelledby is set on a component should be passed to the internals of the component.
-  // I think a label property is better suited for that.
-
-  const id = componentEl.id;
-  const labelSelectors: string[] = [labelTagName];
-
-  if (id) {
-    labelSelectors.unshift(`${labelTagName}[for="${id}"]`);
-  }
-
-  return componentEl.closest(labelSelectors.join(","));
-};
 
 /**
  * This helper will guarantee an ID on the provided element.

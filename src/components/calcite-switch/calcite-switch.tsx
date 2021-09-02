@@ -12,19 +12,13 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import {
-  focusElement,
-  getElementDir,
-  findLabelForComponent,
-  removeLabelClickListener,
-  addLabelClickListener
-} from "../../utils/dom";
+import { focusElement, getElementDir } from "../../utils/dom";
 import { hiddenInputStyle } from "../../utils/form";
 import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
 import { CSS_UTILITY } from "../../utils/resources";
 import { Scale } from "../interfaces";
-import { CalciteLabelableComponent } from "../../utils/label";
+import { CalciteLabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 
 @Component({
   tag: "calcite-switch",
@@ -115,16 +109,6 @@ export class CalciteSwitch implements CalciteLabelableComponent {
   //
   //--------------------------------------------------------------------------
 
-  connectLabel = (): void => {
-    removeLabelClickListener(this.labelEl, this.onLabelClick);
-    this.labelEl = findLabelForComponent(this.el);
-    addLabelClickListener(this.labelEl, this.onLabelClick);
-  };
-
-  disconnectLabel = (): void => {
-    removeLabelClickListener(this.labelEl, this.onLabelClick);
-  };
-
   onLabelClick = (): void => {
     if (!this.disabled) {
       this.toggle();
@@ -184,11 +168,11 @@ export class CalciteSwitch implements CalciteLabelableComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.connectLabel();
+    connectLabel(this);
   }
 
   disconnectedCallback(): void {
-    this.disconnectLabel();
+    disconnectLabel(this);
   }
 
   componentWillLoad(): void {

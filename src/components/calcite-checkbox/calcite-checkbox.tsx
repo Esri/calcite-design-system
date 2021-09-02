@@ -12,16 +12,10 @@ import {
   Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import {
-  focusElement,
-  closestElementCrossShadowBoundary,
-  findLabelForComponent,
-  removeLabelClickListener,
-  addLabelClickListener
-} from "../../utils/dom";
+import { focusElement, closestElementCrossShadowBoundary } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { hiddenInputStyle } from "../../utils/form";
-import { CalciteLabelableComponent } from "../../utils/label";
+import { CalciteLabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 
 @Component({
   tag: "calcite-checkbox",
@@ -195,16 +189,6 @@ export class CalciteCheckbox implements CalciteLabelableComponent {
     this.calciteCheckboxFocusedChange.emit(true);
   }
 
-  connectLabel = (): void => {
-    removeLabelClickListener(this.labelEl, this.onLabelClick);
-    this.labelEl = findLabelForComponent(this.el);
-    addLabelClickListener(this.labelEl, this.onLabelClick);
-  };
-
-  disconnectLabel = (): void => {
-    removeLabelClickListener(this.labelEl, this.onLabelClick);
-  };
-
   onLabelClick = (): void => {
     this.toggle();
   };
@@ -223,7 +207,7 @@ export class CalciteCheckbox implements CalciteLabelableComponent {
     if (form) {
       form.addEventListener("reset", this.formResetHandler);
     }
-    this.connectLabel();
+    connectLabel(this);
   }
 
   disconnectedCallback(): void {
@@ -232,7 +216,7 @@ export class CalciteCheckbox implements CalciteLabelableComponent {
     if (form) {
       form.removeEventListener("reset", this.formResetHandler);
     }
-    this.disconnectLabel();
+    disconnectLabel(this);
   }
 
   // --------------------------------------------------------------------------

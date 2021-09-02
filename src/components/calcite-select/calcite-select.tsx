@@ -10,16 +10,9 @@ import {
   Prop,
   VNode
 } from "@stencil/core";
-import {
-  Direction,
-  focusElement,
-  getElementDir,
-  findLabelForComponent,
-  removeLabelClickListener,
-  addLabelClickListener
-} from "../../utils/dom";
+import { Direction, focusElement, getElementDir } from "../../utils/dom";
 import { Scale, Width } from "../interfaces";
-import { CalciteLabelableComponent } from "../../utils/label";
+import { CalciteLabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import { CSS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 
@@ -118,12 +111,12 @@ export class CalciteSelect implements CalciteLabelableComponent {
       childList: true
     });
 
-    this.connectLabel();
+    connectLabel(this);
   }
 
   disconnectedCallback(): void {
     this.mutationObserver.disconnect();
-    this.disconnectLabel();
+    disconnectLabel(this);
   }
 
   //--------------------------------------------------------------------------
@@ -179,16 +172,6 @@ export class CalciteSelect implements CalciteLabelableComponent {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
-  connectLabel = (): void => {
-    removeLabelClickListener(this.labelEl, this.onLabelClick);
-    this.labelEl = findLabelForComponent(this.el);
-    addLabelClickListener(this.labelEl, this.onLabelClick);
-  };
-
-  disconnectLabel = (): void => {
-    removeLabelClickListener(this.labelEl, this.onLabelClick);
-  };
 
   onLabelClick = (): void => {
     this.setFocus();

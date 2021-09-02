@@ -17,16 +17,13 @@ import {
   getElementDir,
   getElementProp,
   setRequestedIcon,
-  closestElementCrossShadowBoundary,
-  findLabelForComponent,
-  removeLabelClickListener,
-  addLabelClickListener
+  closestElementCrossShadowBoundary
 } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
 import { InputPlacement } from "./interfaces";
 import { Position } from "../interfaces";
-import { CalciteLabelableComponent } from "../../utils/label";
+import { CalciteLabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import {
   getDecimalSeparator,
   delocalizeNumberString,
@@ -290,12 +287,12 @@ export class CalciteInput implements CalciteLabelableComponent {
         this.value = undefined;
       }
     }
-    this.connectLabel();
+    connectLabel(this);
   }
 
   disconnectedCallback(): void {
     this.form?.removeEventListener("reset", this.reset);
-    this.disconnectLabel();
+    disconnectLabel(this);
   }
 
   componentWillLoad(): void {
@@ -387,16 +384,6 @@ export class CalciteInput implements CalciteLabelableComponent {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
-  connectLabel = (): void => {
-    removeLabelClickListener(this.labelEl, this.onLabelClick);
-    this.labelEl = findLabelForComponent(this.el);
-    addLabelClickListener(this.labelEl, this.onLabelClick);
-  };
-
-  disconnectLabel = (): void => {
-    removeLabelClickListener(this.labelEl, this.onLabelClick);
-  };
 
   onLabelClick = (): void => {
     this.setFocus();
