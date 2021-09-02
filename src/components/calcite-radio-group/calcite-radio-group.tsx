@@ -20,7 +20,8 @@ import {
   addLabelClickListener
 } from "../../utils/dom";
 import { getKey } from "../../utils/key";
-import { Layout, Scale, Width, CalciteFormComponent } from "../interfaces";
+import { Layout, Scale, Width } from "../interfaces";
+import { CalciteLabelableComponent } from "../../utils/label";
 import { RadioAppearance } from "./interfaces";
 
 @Component({
@@ -28,7 +29,7 @@ import { RadioAppearance } from "./interfaces";
   styleUrl: "calcite-radio-group.scss",
   shadow: true
 })
-export class CalciteRadioGroup implements CalciteFormComponent {
+export class CalciteRadioGroup implements CalciteLabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -122,11 +123,11 @@ export class CalciteRadioGroup implements CalciteFormComponent {
       hiddenInput.value = lastChecked.value;
     }
 
-    this.connectEffectiveLabel();
+    this.connectLabel();
   }
 
   disconnectedCallback(): void {
-    this.disconnectEffectiveLabel();
+    this.disconnectLabel();
   }
 
   componentDidLoad(): void {
@@ -244,7 +245,7 @@ export class CalciteRadioGroup implements CalciteFormComponent {
   //
   //--------------------------------------------------------------------------
 
-  effectiveLabel: HTMLCalciteLabelElement;
+  labelEl: HTMLCalciteLabelElement;
 
   // todo: Do we need to stop creating an input here? Should it be created in shadow dom??
   private hiddenInput: HTMLInputElement = (() => {
@@ -262,17 +263,17 @@ export class CalciteRadioGroup implements CalciteFormComponent {
   //
   //--------------------------------------------------------------------------
 
-  connectEffectiveLabel = (): void => {
-    removeLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
-    this.effectiveLabel = findLabelForComponent(this.el);
-    addLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+  connectLabel = (): void => {
+    removeLabelClickListener(this.labelEl, this.onLabelClick);
+    this.labelEl = findLabelForComponent(this.el);
+    addLabelClickListener(this.labelEl, this.onLabelClick);
   };
 
-  disconnectEffectiveLabel = (): void => {
-    removeLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+  disconnectLabel = (): void => {
+    removeLabelClickListener(this.labelEl, this.onLabelClick);
   };
 
-  effectiveLabelClickHandler = (): void => {
+  onLabelClick = (): void => {
     this.setFocus();
   };
 

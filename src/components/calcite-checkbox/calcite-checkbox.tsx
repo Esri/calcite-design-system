@@ -19,15 +19,16 @@ import {
   removeLabelClickListener,
   addLabelClickListener
 } from "../../utils/dom";
-import { Scale, CalciteFormComponent } from "../interfaces";
+import { Scale } from "../interfaces";
 import { hiddenInputStyle } from "../../utils/form";
+import { CalciteLabelableComponent } from "../../utils/label";
 
 @Component({
   tag: "calcite-checkbox",
   styleUrl: "calcite-checkbox.scss",
   shadow: true
 })
-export class CalciteCheckbox implements CalciteFormComponent {
+export class CalciteCheckbox implements CalciteLabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -108,7 +109,7 @@ export class CalciteCheckbox implements CalciteFormComponent {
 
   private input: HTMLInputElement;
 
-  effectiveLabel: HTMLCalciteLabelElement;
+  labelEl: HTMLCalciteLabelElement;
 
   //--------------------------------------------------------------------------
   //
@@ -194,17 +195,17 @@ export class CalciteCheckbox implements CalciteFormComponent {
     this.calciteCheckboxFocusedChange.emit(true);
   }
 
-  connectEffectiveLabel = (): void => {
-    removeLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
-    this.effectiveLabel = findLabelForComponent(this.el);
-    addLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+  connectLabel = (): void => {
+    removeLabelClickListener(this.labelEl, this.onLabelClick);
+    this.labelEl = findLabelForComponent(this.el);
+    addLabelClickListener(this.labelEl, this.onLabelClick);
   };
 
-  disconnectEffectiveLabel = (): void => {
-    removeLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+  disconnectLabel = (): void => {
+    removeLabelClickListener(this.labelEl, this.onLabelClick);
   };
 
-  effectiveLabelClickHandler = (): void => {
+  onLabelClick = (): void => {
     this.toggle();
   };
 
@@ -222,7 +223,7 @@ export class CalciteCheckbox implements CalciteFormComponent {
     if (form) {
       form.addEventListener("reset", this.formResetHandler);
     }
-    this.connectEffectiveLabel();
+    this.connectLabel();
   }
 
   disconnectedCallback(): void {
@@ -231,7 +232,7 @@ export class CalciteCheckbox implements CalciteFormComponent {
     if (form) {
       form.removeEventListener("reset", this.formResetHandler);
     }
-    this.disconnectEffectiveLabel();
+    this.disconnectLabel();
   }
 
   // --------------------------------------------------------------------------

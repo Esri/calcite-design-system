@@ -18,7 +18,8 @@ import {
   removeLabelClickListener,
   addLabelClickListener
 } from "../../utils/dom";
-import { Scale, CalciteFormComponent } from "../interfaces";
+import { Scale } from "../interfaces";
+import { CalciteLabelableComponent } from "../../utils/label";
 import { hiddenInputStyle } from "../../utils/form";
 import { CSS } from "./resources";
 
@@ -27,7 +28,7 @@ import { CSS } from "./resources";
   styleUrl: "calcite-radio-button.scss",
   scoped: true
 })
-export class CalciteRadioButton implements CalciteFormComponent {
+export class CalciteRadioButton implements CalciteLabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -145,7 +146,7 @@ export class CalciteRadioButton implements CalciteFormComponent {
   //
   //--------------------------------------------------------------------------
 
-  effectiveLabel: HTMLCalciteLabelElement;
+  labelEl: HTMLCalciteLabelElement;
 
   private initialChecked: boolean;
 
@@ -178,17 +179,17 @@ export class CalciteRadioButton implements CalciteFormComponent {
     this.calciteRadioButtonChange.emit();
   };
 
-  connectEffectiveLabel = (): void => {
-    removeLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
-    this.effectiveLabel = findLabelForComponent(this.el);
-    addLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+  connectLabel = (): void => {
+    removeLabelClickListener(this.labelEl, this.onLabelClick);
+    this.labelEl = findLabelForComponent(this.el);
+    addLabelClickListener(this.labelEl, this.onLabelClick);
   };
 
-  disconnectEffectiveLabel = (): void => {
-    removeLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+  disconnectLabel = (): void => {
+    removeLabelClickListener(this.labelEl, this.onLabelClick);
   };
 
-  effectiveLabelClickHandler = (): void => {
+  onLabelClick = (): void => {
     if (!this.disabled && !this.hidden) {
       this.uncheckOtherRadioButtonsInGroup();
       const firstButton = this.rootNode.querySelector("calcite-radio-button");
@@ -321,8 +322,8 @@ export class CalciteRadioButton implements CalciteFormComponent {
     this.calciteRadioButtonFocusedChange.emit();
   };
 
-  getEffectiveLabelText = (): string => {
-    return this.label || this.effectiveLabel?.textContent;
+  getlabelElText = (): string => {
+    return this.label || this.labelEl?.textContent;
   };
 
   //--------------------------------------------------------------------------
@@ -342,7 +343,7 @@ export class CalciteRadioButton implements CalciteFormComponent {
     if (form) {
       form.addEventListener("reset", this.formResetHandler);
     }
-    this.connectEffectiveLabel();
+    this.connectLabel();
   }
 
   componentDidLoad(): void {
@@ -357,7 +358,7 @@ export class CalciteRadioButton implements CalciteFormComponent {
     if (form) {
       form.removeEventListener("reset", this.formResetHandler);
     }
-    this.disconnectEffectiveLabel();
+    this.disconnectLabel();
   }
 
   // --------------------------------------------------------------------------
@@ -372,7 +373,7 @@ export class CalciteRadioButton implements CalciteFormComponent {
     return (
       <div class={CSS.container} onClick={this.toggle}>
         <input
-          aria-label={this.getEffectiveLabelText()}
+          aria-label={this.getlabelElText()}
           checked={this.checked}
           disabled={this.disabled}
           hidden={this.hidden}

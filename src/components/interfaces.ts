@@ -9,14 +9,3 @@ export type Scale = "s" | "m" | "l";
 export type Status = "invalid" | "valid" | "idle";
 export type ThemeClass = "calcite-theme-light" | "calcite-theme-dark" | "calcite-theme-auto";
 export type Width = "auto" | "half" | "full";
-
-export interface CalciteFormComponent {
-  disabled: boolean;
-  effectiveLabel: HTMLCalciteLabelElement;
-  connectedCallback: () => void;
-  connectEffectiveLabel: () => void;
-  disconnectedCallback: () => void;
-  disconnectEffectiveLabel: () => void;
-  effectiveLabelClickHandler: (...args: any[]) => void;
-  setFocus: () => void;
-}

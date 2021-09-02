@@ -22,7 +22,7 @@ import {
   addLabelClickListener
 } from "../../utils/dom";
 import { clamp } from "../../utils/math";
-import { CalciteFormComponent } from "../interfaces";
+import { CalciteLabelableComponent } from "../../utils/label";
 
 type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 
@@ -31,7 +31,7 @@ type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
   styleUrl: "calcite-slider.scss",
   shadow: true
 })
-export class CalciteSlider implements CalciteFormComponent {
+export class CalciteSlider implements CalciteLabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -119,11 +119,11 @@ export class CalciteSlider implements CalciteFormComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.connectEffectiveLabel();
+    this.connectLabel();
   }
 
   disconnectedCallback(): void {
-    this.disconnectEffectiveLabel();
+    this.disconnectLabel();
   }
 
   componentWillLoad(): void {
@@ -795,7 +795,7 @@ export class CalciteSlider implements CalciteFormComponent {
   //
   //--------------------------------------------------------------------------
 
-  effectiveLabel: HTMLCalciteLabelElement;
+  labelEl: HTMLCalciteLabelElement;
 
   private guid = `calcite-slider-${guid()}`;
 
@@ -825,17 +825,17 @@ export class CalciteSlider implements CalciteFormComponent {
   //
   //--------------------------------------------------------------------------
 
-  connectEffectiveLabel = (): void => {
-    removeLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
-    this.effectiveLabel = findLabelForComponent(this.el);
-    addLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+  connectLabel = (): void => {
+    removeLabelClickListener(this.labelEl, this.onLabelClick);
+    this.labelEl = findLabelForComponent(this.el);
+    addLabelClickListener(this.labelEl, this.onLabelClick);
   };
 
-  disconnectEffectiveLabel = (): void => {
-    removeLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+  disconnectLabel = (): void => {
+    removeLabelClickListener(this.labelEl, this.onLabelClick);
   };
 
-  effectiveLabelClickHandler = (): void => {
+  onLabelClick = (): void => {
     this.setFocus();
   };
 

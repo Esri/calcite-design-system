@@ -23,14 +23,15 @@ import { hiddenInputStyle } from "../../utils/form";
 import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
 import { CSS_UTILITY } from "../../utils/resources";
-import { Scale, CalciteFormComponent } from "../interfaces";
+import { Scale } from "../interfaces";
+import { CalciteLabelableComponent } from "../../utils/label";
 
 @Component({
   tag: "calcite-switch",
   styleUrl: "calcite-switch.scss",
   shadow: true
 })
-export class CalciteSwitch implements CalciteFormComponent {
+export class CalciteSwitch implements CalciteLabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -82,7 +83,7 @@ export class CalciteSwitch implements CalciteFormComponent {
   //
   //--------------------------------------------------------------------------
 
-  effectiveLabel: HTMLCalciteLabelElement;
+  labelEl: HTMLCalciteLabelElement;
 
   // todo: Do we need to stop creating an input here? Should it be created in shadow dom??
   private inputEl: HTMLInputElement = document.createElement("input");
@@ -114,17 +115,17 @@ export class CalciteSwitch implements CalciteFormComponent {
   //
   //--------------------------------------------------------------------------
 
-  connectEffectiveLabel = (): void => {
-    removeLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
-    this.effectiveLabel = findLabelForComponent(this.el);
-    addLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+  connectLabel = (): void => {
+    removeLabelClickListener(this.labelEl, this.onLabelClick);
+    this.labelEl = findLabelForComponent(this.el);
+    addLabelClickListener(this.labelEl, this.onLabelClick);
   };
 
-  disconnectEffectiveLabel = (): void => {
-    removeLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+  disconnectLabel = (): void => {
+    removeLabelClickListener(this.labelEl, this.onLabelClick);
   };
 
-  effectiveLabelClickHandler = (): void => {
+  onLabelClick = (): void => {
     if (!this.disabled) {
       this.toggle();
       this.setFocus();
@@ -183,11 +184,11 @@ export class CalciteSwitch implements CalciteFormComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.connectEffectiveLabel();
+    this.connectLabel();
   }
 
   disconnectedCallback(): void {
-    this.disconnectEffectiveLabel();
+    this.disconnectLabel();
   }
 
   componentWillLoad(): void {

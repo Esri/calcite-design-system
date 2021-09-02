@@ -25,7 +25,8 @@ import {
 import { getKey } from "../../utils/key";
 import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
 import { InputPlacement } from "./interfaces";
-import { Position, CalciteFormComponent } from "../interfaces";
+import { Position } from "../interfaces";
+import { CalciteLabelableComponent } from "../../utils/label";
 import {
   getDecimalSeparator,
   delocalizeNumberString,
@@ -51,7 +52,7 @@ type NumberNudgeDirection = "up" | "down";
   styleUrl: "calcite-input.scss",
   shadow: true
 })
-export class CalciteInput implements CalciteFormComponent {
+export class CalciteInput implements CalciteLabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -227,7 +228,7 @@ export class CalciteInput implements CalciteFormComponent {
   //
   //--------------------------------------------------------------------------
 
-  effectiveLabel: HTMLCalciteLabelElement;
+  labelEl: HTMLCalciteLabelElement;
 
   /** keep track of the rendered child type */
   private childEl?: HTMLInputElement | HTMLTextAreaElement;
@@ -289,12 +290,12 @@ export class CalciteInput implements CalciteFormComponent {
         this.value = undefined;
       }
     }
-    this.connectEffectiveLabel();
+    this.connectLabel();
   }
 
   disconnectedCallback(): void {
     this.form?.removeEventListener("reset", this.reset);
-    this.disconnectEffectiveLabel();
+    this.disconnectLabel();
   }
 
   componentWillLoad(): void {
@@ -387,22 +388,22 @@ export class CalciteInput implements CalciteFormComponent {
   //
   //--------------------------------------------------------------------------
 
-  connectEffectiveLabel = (): void => {
-    removeLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
-    this.effectiveLabel = findLabelForComponent(this.el);
-    addLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+  connectLabel = (): void => {
+    removeLabelClickListener(this.labelEl, this.onLabelClick);
+    this.labelEl = findLabelForComponent(this.el);
+    addLabelClickListener(this.labelEl, this.onLabelClick);
   };
 
-  disconnectEffectiveLabel = (): void => {
-    removeLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+  disconnectLabel = (): void => {
+    removeLabelClickListener(this.labelEl, this.onLabelClick);
   };
 
-  effectiveLabelClickHandler = (): void => {
+  onLabelClick = (): void => {
     this.setFocus();
   };
 
-  getEffectiveLabelText = (): string => {
-    return this.label || this.effectiveLabel?.textContent;
+  getlabelElText = (): string => {
+    return this.label || this.labelEl?.textContent;
   };
 
   private clearInputValue = (nativeEvent: KeyboardEvent | MouseEvent): void => {
@@ -697,7 +698,7 @@ export class CalciteInput implements CalciteFormComponent {
     const localeNumberInput =
       this.type === "number" ? (
         <input
-          aria-label={this.getEffectiveLabelText()}
+          aria-label={this.getlabelElText()}
           autofocus={this.autofocus ? true : null}
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
@@ -720,7 +721,7 @@ export class CalciteInput implements CalciteFormComponent {
 
     const childEl = [
       <this.childElType
-        aria-label={this.getEffectiveLabelText()}
+        aria-label={this.getlabelElText()}
         autofocus={this.autofocus ? true : null}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}

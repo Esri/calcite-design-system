@@ -18,7 +18,8 @@ import {
   removeLabelClickListener,
   addLabelClickListener
 } from "../../utils/dom";
-import { Scale, Width, CalciteFormComponent } from "../interfaces";
+import { Scale, Width } from "../interfaces";
+import { CalciteLabelableComponent } from "../../utils/label";
 import { CSS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 
@@ -40,7 +41,7 @@ function isOptionGroup(
   styleUrl: "calcite-select.scss",
   shadow: true
 })
-export class CalciteSelect implements CalciteFormComponent {
+export class CalciteSelect implements CalciteLabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -92,10 +93,10 @@ export class CalciteSelect implements CalciteFormComponent {
   //
   //--------------------------------------------------------------------------
 
-  effectiveLabel: HTMLCalciteLabelElement;
+  labelEl: HTMLCalciteLabelElement;
 
   @Element()
-  private el: HTMLCalciteSelectElement;
+  el: HTMLCalciteSelectElement;
 
   private componentToNativeEl = new Map<CalciteOptionOrGroup, NativeOptionOrGroup>();
 
@@ -117,12 +118,12 @@ export class CalciteSelect implements CalciteFormComponent {
       childList: true
     });
 
-    this.connectEffectiveLabel();
+    this.connectLabel();
   }
 
   disconnectedCallback(): void {
     this.mutationObserver.disconnect();
-    this.disconnectEffectiveLabel();
+    this.disconnectLabel();
   }
 
   //--------------------------------------------------------------------------
@@ -179,17 +180,17 @@ export class CalciteSelect implements CalciteFormComponent {
   //
   //--------------------------------------------------------------------------
 
-  connectEffectiveLabel = (): void => {
-    removeLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
-    this.effectiveLabel = findLabelForComponent(this.el);
-    addLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+  connectLabel = (): void => {
+    removeLabelClickListener(this.labelEl, this.onLabelClick);
+    this.labelEl = findLabelForComponent(this.el);
+    addLabelClickListener(this.labelEl, this.onLabelClick);
   };
 
-  disconnectEffectiveLabel = (): void => {
-    removeLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+  disconnectLabel = (): void => {
+    removeLabelClickListener(this.labelEl, this.onLabelClick);
   };
 
-  effectiveLabelClickHandler = (): void => {
+  onLabelClick = (): void => {
     this.setFocus();
   };
 

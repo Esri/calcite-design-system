@@ -18,7 +18,8 @@ import {
   addLabelClickListener
 } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import { Scale, CalciteFormComponent } from "../interfaces";
+import { Scale } from "../interfaces";
+import { CalciteLabelableComponent } from "../../utils/label";
 import { TEXT } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 
@@ -27,7 +28,7 @@ import { CSS_UTILITY } from "../../utils/resources";
   styleUrl: "calcite-rating.scss",
   shadow: true
 })
-export class CalciteRating implements CalciteFormComponent {
+export class CalciteRating implements CalciteLabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -80,11 +81,11 @@ export class CalciteRating implements CalciteFormComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.connectEffectiveLabel();
+    this.connectLabel();
   }
 
   disconnectedCallback(): void {
-    this.disconnectEffectiveLabel();
+    this.disconnectLabel();
   }
 
   //--------------------------------------------------------------------------
@@ -201,17 +202,17 @@ export class CalciteRating implements CalciteFormComponent {
   //
   //--------------------------------------------------------------------------
 
-  connectEffectiveLabel = (): void => {
-    removeLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
-    this.effectiveLabel = findLabelForComponent(this.el);
-    addLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+  connectLabel = (): void => {
+    removeLabelClickListener(this.labelEl, this.onLabelClick);
+    this.labelEl = findLabelForComponent(this.el);
+    addLabelClickListener(this.labelEl, this.onLabelClick);
   };
 
-  disconnectEffectiveLabel = (): void => {
-    removeLabelClickListener(this.effectiveLabel, this.effectiveLabelClickHandler);
+  disconnectLabel = (): void => {
+    removeLabelClickListener(this.labelEl, this.onLabelClick);
   };
 
-  effectiveLabelClickHandler = (): void => {
+  onLabelClick = (): void => {
     this.setFocus();
   };
 
@@ -236,7 +237,7 @@ export class CalciteRating implements CalciteFormComponent {
   //
   // --------------------------------------------------------------------------
 
-  effectiveLabel: HTMLCalciteLabelElement;
+  labelEl: HTMLCalciteLabelElement;
 
   @State() hoverValue: number;
 
