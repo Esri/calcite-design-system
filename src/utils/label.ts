@@ -1,3 +1,5 @@
+import { closestElementCrossShadowBoundary, queryElementRoots } from "./dom";
+
 export interface CalciteLabelableComponent {
   /**
    * The host element.
@@ -30,14 +32,11 @@ const findLabelForComponent = (componentEl: HTMLElement): HTMLCalciteLabelElemen
   // It also leaves the aria-labelledby on the component
 
   const id = componentEl.id;
-  const labelSelectors: string[] = [labelTagName];
 
-  if (id) {
-    labelSelectors.unshift(`${labelTagName}[for="${id}"]`);
-  }
-
-  // question: Should this go beyond shadowRoot?
-  return componentEl.closest(labelSelectors.join(","));
+  return (
+    (id && (queryElementRoots(componentEl, `${labelTagName}[for="${id}"]`) as HTMLCalciteLabelElement)) ||
+    closestElementCrossShadowBoundary(componentEl, labelTagName)
+  );
 };
 
 /**
