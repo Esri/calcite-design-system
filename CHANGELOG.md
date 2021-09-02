@@ -3,6 +3,15 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+<!--@unreleased-section-start-->
+
+## Unreleased (2021-09-02)
+
+### Features
+
+- **block:** add margin between heading/summary ([#2932](https://github.com/Esri/calcite-components/issues/2932)) ([7f281fd](https://github.com/Esri/calcite-components/commit/7f281fd208ce40f302d4af9cbe6900ea69efc451))
+<!--@unreleased-section-end-->
+
 ## [1.0.0-beta.63](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.62...v1.0.0-beta.63) (2021-08-31)
 
 ### Features
