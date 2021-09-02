@@ -17,7 +17,7 @@ export interface CalciteLabelableComponent {
   /**
    * Hook for components to provide custom label click behavior.
    */
-  onLabelClick: (...args: any[]) => void;
+  onLabelClick: (event: CustomEvent<any>) => void;
 }
 
 const labelTagName = "calcite-label";
@@ -44,7 +44,6 @@ const findLabelForComponent = (componentEl: HTMLElement): HTMLCalciteLabelElemen
  * Helper to set up label interactions on connectedCallback.
  */
 export function connectLabel(component: CalciteLabelableComponent): void {
-  component.labelEl?.removeEventListener(labelClickEvent, component.onLabelClick);
   component.labelEl = findLabelForComponent(component.el);
   component.labelEl?.addEventListener(labelClickEvent, component.onLabelClick);
 }
