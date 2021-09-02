@@ -26,13 +26,7 @@ const labelTagName = "calcite-label";
 const labelClickEvent = "calciteInternalLabelClick";
 
 const findLabelForComponent = (componentEl: HTMLElement): HTMLCalciteLabelElement => {
-  // I'm not sold on the aria-labelledby support.
-  // It assumes that whatever aria-labelledby is set on a component should be passed to the internals of the component.
-  // I think a label property is better suited for that.
-  // It also leaves the aria-labelledby on the component
-
   const id = componentEl.id;
-
   return (
     (id && (queryElementRoots(componentEl, `${labelTagName}[for="${id}"]`) as HTMLCalciteLabelElement)) ||
     closestElementCrossShadowBoundary(componentEl, labelTagName)
