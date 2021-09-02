@@ -126,10 +126,6 @@
   }
 }
 
-.node-container[data-selection-mode="ancestors"]:before {
-  display: none;
-}
-
 .node-container:hover,
 :host([selected]) .node-container:hover,
 :host(:focus) .node-container {
@@ -191,8 +187,11 @@
 }
 
 // dropdown selected (for children, multi-children selected parents)
-:host([has-children][selected]) > .node-container:not([data-selection-mode="ancestors"]) {
-  color: var(--calcite-tree-indicator-active);
+:host([has-children][selected]) > .node-container {
+  &[data-selection-mode="children"],
+  &[data-selection-mode="multi-children"] {
+    color: var(--calcite-tree-indicator-active);
+  }
 }
 
 .chevron {
