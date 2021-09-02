@@ -23,7 +23,12 @@ import { getKey } from "../../utils/key";
 import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
 import { InputPlacement } from "./interfaces";
 import { Position } from "../interfaces";
-import { CalciteLabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
+import {
+  CalciteLabelableComponent,
+  connectLabel,
+  disconnectLabel,
+  getlabelElText
+} from "../../utils/label";
 import {
   getDecimalSeparator,
   delocalizeNumberString,
@@ -389,10 +394,6 @@ export class CalciteInput implements CalciteLabelableComponent {
     this.setFocus();
   };
 
-  getlabelElText = (): string => {
-    return this.label || this.labelEl?.textContent;
-  };
-
   private clearInputValue = (nativeEvent: KeyboardEvent | MouseEvent): void => {
     this.setValue(null, nativeEvent, true);
   };
@@ -685,7 +686,7 @@ export class CalciteInput implements CalciteLabelableComponent {
     const localeNumberInput =
       this.type === "number" ? (
         <input
-          aria-label={this.getlabelElText()}
+          aria-label={getlabelElText(this)}
           autofocus={this.autofocus ? true : null}
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
@@ -708,7 +709,7 @@ export class CalciteInput implements CalciteLabelableComponent {
 
     const childEl = [
       <this.childElType
-        aria-label={this.getlabelElText()}
+        aria-label={getlabelElText(this)}
         autofocus={this.autofocus ? true : null}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}

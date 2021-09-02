@@ -13,7 +13,12 @@ import {
 import { guid } from "../../utils/guid";
 import { focusElement, closestElementCrossShadowBoundary } from "../../utils/dom";
 import { Scale } from "../interfaces";
-import { CalciteLabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
+import {
+  CalciteLabelableComponent,
+  connectLabel,
+  disconnectLabel,
+  getlabelElText
+} from "../../utils/label";
 import { hiddenInputStyle } from "../../utils/form";
 import { CSS } from "./resources";
 
@@ -306,10 +311,6 @@ export class CalciteRadioButton implements CalciteLabelableComponent {
     this.calciteRadioButtonFocusedChange.emit();
   };
 
-  getlabelElText = (): string => {
-    return this.label || this.labelEl?.textContent;
-  };
-
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -357,7 +358,7 @@ export class CalciteRadioButton implements CalciteLabelableComponent {
     return (
       <div class={CSS.container} onClick={this.toggle}>
         <input
-          aria-label={this.getlabelElText()}
+          aria-label={getlabelElText(this)}
           checked={this.checked}
           disabled={this.disabled}
           hidden={this.hidden}

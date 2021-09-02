@@ -5,6 +5,11 @@ export interface CalciteLabelableComponent {
   readonly el: HTMLElement;
 
   /**
+   * Text label.
+   */
+  label?: string;
+
+  /**
    * The label this component is associated with.
    */
   labelEl: HTMLCalciteLabelElement;
@@ -15,29 +20,25 @@ export interface CalciteLabelableComponent {
   onLabelClick: (...args: any[]) => void;
 }
 
-export const EVENTS = {
-  labelClick: "calciteInternalLabelClick"
-};
+const labelTagName = "calcite-label";
+const labelClickEvent = "calciteInternalLabelClick";
 
-export const removeLabelClickListener = (
+const removeLabelClickListener = (
   effectiveLabel: HTMLCalciteLabelElement,
   callback: (...args: any[]) => void
 ): void => {
-  effectiveLabel?.removeEventListener(EVENTS.labelClick, callback);
+  effectiveLabel?.removeEventListener(labelClickEvent, callback);
 };
 
-export const addLabelClickListener = (
-  effectiveLabel: HTMLCalciteLabelElement,
-  callback: (...args: any[]) => void
-): void => {
-  effectiveLabel?.addEventListener(EVENTS.labelClick, callback);
+const addLabelClickListener = (effectiveLabel: HTMLCalciteLabelElement, callback: (...args: any[]) => void): void => {
+  effectiveLabel?.addEventListener(labelClickEvent, callback);
 };
 
-export const findLabelForComponent = (componentEl: HTMLElement): HTMLCalciteLabelElement => {
-  const labelTagName = "calcite-label";
+const findLabelForComponent = (componentEl: HTMLElement): HTMLCalciteLabelElement => {
   // I'm not sold on the aria-labelledby support.
   // It assumes that whatever aria-labelledby is set on a component should be passed to the internals of the component.
   // I think a label property is better suited for that.
+  // It also leaves the aria-labelledby on the component
 
   const id = componentEl.id;
   const labelSelectors: string[] = [labelTagName];
@@ -51,7 +52,6 @@ export const findLabelForComponent = (componentEl: HTMLElement): HTMLCalciteLabe
 
 /**
  * Helper to set up label interactions on connectedCallback.
-
  */
 export function connectLabel(component: CalciteLabelableComponent): void {
   removeLabelClickListener(component.labelEl, component.onLabelClick);
@@ -60,9 +60,15 @@ export function connectLabel(component: CalciteLabelableComponent): void {
 }
 
 /**
- * Helper to tear down label interactions on connectedCallback.
-
+ * Helper to tear down label interactions on disconnectedCallback.
  */
 export function disconnectLabel(component: CalciteLabelableComponent): void {
   removeLabelClickListener(component.labelEl, component.onLabelClick);
+}
+
+/**
+ * Helper to get the label text from a component.
+ */
+export function getlabelElText(component: CalciteLabelableComponent): string {
+  return component.label || component.labelEl?.textContent;
 }
