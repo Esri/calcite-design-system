@@ -14,3 +14,5 @@
     title: "^[tT][eE][sS][tT].*"
   - label: "refactor"
     title: "^[rR][eE][fF][aA][cC][tT][oO][rR].*"
+  - label: "tooling"
+    title: "[tT][oO][oO][lL][iI][nN][gG].*"
