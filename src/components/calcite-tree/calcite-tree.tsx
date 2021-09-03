@@ -15,7 +15,7 @@ import { TreeSelectDetail, TreeSelectionMode } from "./interfaces";
 import { Scale } from "../interfaces";
 
 /**
- * @slot children - a slot for adding child components, commonly calcite-tree-item
+ * @slot - A slot for `calcite-tree-item` elements.
  */
 @Component({
   tag: "calcite-tree",
