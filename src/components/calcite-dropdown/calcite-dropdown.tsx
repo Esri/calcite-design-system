@@ -22,9 +22,12 @@ import {
 } from "../../utils/popper";
 import { Instance as Popper, StrictModifiers } from "@popperjs/core";
 import { Scale } from "../interfaces";
-import { DefaultDropdownPlacement } from "./resources";
+import { DefaultDropdownPlacement, SLOTS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 
+/**
+ * @slot dropdown-trigger - A slot for the element that triggers the dropdown
+ */
 @Component({
   tag: "calcite-dropdown",
   styleUrl: "calcite-dropdown.scss",
@@ -146,7 +149,11 @@ export class CalciteDropdown {
           onKeyDown={this.keyDownHandler}
           ref={this.setReferenceEl}
         >
-          <slot aria-expanded={active.toString()} aria-haspopup="true" name="dropdown-trigger" />
+          <slot
+            aria-expanded={active.toString()}
+            aria-haspopup="true"
+            name={SLOTS.dropdownTrigger}
+          />
         </div>
         <div
           aria-hidden={(!active).toString()}
