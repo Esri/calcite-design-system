@@ -16,7 +16,7 @@
   }
 }
 
-:host(:not([editing-enabled])) {
+:host(:not([editing-enabled]):not([disabled])) {
   .calcite-inline-editable__wrapper {
     &:hover {
       @apply bg-foreground-2;
@@ -38,14 +38,6 @@
 
 .calcite-inline-editable__controls-wrapper {
   @apply flex;
-}
-
-.calcite-inline-editable__cancel-editing-button-wrapper {
-  @apply border
-    border-solid
-    border-color-input
-    border-l-0
-    border-r-0;
 }
 
 :host([disabled]) {
@@ -92,7 +84,7 @@
     }
   }
 
-  &:hover {
+  &:not([disabled]):hover {
     &::slotted(*) {
       textarea,
       input {
