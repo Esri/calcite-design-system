@@ -64,7 +64,7 @@
     @apply pointer-events-none ml-1;
   }
   .status-icon {
-    @apply mx-1;
+    @apply ml-2;
   }
 }
 
@@ -85,8 +85,8 @@
     calcite-switch {
       @apply ml-0 mr-1;
     }
-  }
-  .section-header {
-    @apply pr-0 pl-1;
+    .status-icon {
+      @apply ml-0 mr-2;
+    }
   }
 }
