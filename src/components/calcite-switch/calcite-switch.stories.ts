@@ -2,7 +2,6 @@ import { select } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 import { html } from "../../tests/utils";
-import { themesDarkDefault } from "../../../.storybook/utils";
 
 export default {
   title: "Components/Controls/Switch",
@@ -39,21 +38,6 @@ export const WrappingCalciteLabel = (): string => html`
 
 WrappingCalciteLabel.story = {
   name: "Wrapping calcite-label"
-};
-
-export const DarkMode = (): string => html`
-  <calcite-switch
-    class="calcite-theme-dark"
-    name="setting"
-    value="enabled"
-    ${boolean("switched", true)}
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-  ></calcite-switch>
-`;
-
-DarkMode.story = {
-  name: "Dark mode",
-  parameters: { themes: themesDarkDefault }
 };
 
 export const Rtl = (): string => html`
