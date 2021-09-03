@@ -160,6 +160,10 @@
   @apply text-color-1 fill-color-1 bg-foreground-3;
 }
 
+:host([active]) .button:active {
+  @apply bg-foreground-1;
+}
+
 :host([appearance="clear"]) .button {
   @apply bg-transparent
     transition-shadow
