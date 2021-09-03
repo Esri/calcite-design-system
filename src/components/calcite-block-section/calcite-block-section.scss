@@ -22,7 +22,7 @@
     border-0
     text-color-2
     font-sans
-    font-normal
+    font-medium
     w-full;
 }
 
@@ -33,8 +33,7 @@
     flex
     mx-0
     my-1
-    pl-0
-    pr-1
+    px-0
     py-2
     select-none
     text--1
@@ -62,10 +61,10 @@
 
 .toggle--switch {
   calcite-switch {
-    @apply pointer-events-none mx-1;
+    @apply pointer-events-none ml-1;
   }
   .status-icon {
-    @apply mx-1;
+    @apply ml-2;
   }
 }
 
@@ -83,13 +82,11 @@
 
 .calcite--rtl {
   .toggle--switch {
-    @apply pr-0 pl-2;
-
     calcite-switch {
+      @apply ml-0 mr-1;
+    }
+    .status-icon {
       @apply ml-0 mr-2;
     }
-  }
-  .section-header {
-    @apply pr-0 pl-1;
   }
 }
