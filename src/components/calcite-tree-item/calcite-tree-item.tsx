@@ -19,8 +19,8 @@ import { CSS, SLOTS, ICONS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 
 /**
- * @slot children - A slot for adding nested `calcite-tree` elements.
  * @slot - A slot for adding content to the item.
+ * @slot children - A slot for adding nested `calcite-tree` elements.
  */
 @Component({
   tag: "calcite-tree-item",

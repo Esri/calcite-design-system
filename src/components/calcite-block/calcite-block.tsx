@@ -6,10 +6,10 @@ import { CalciteHeading, HeadingLevel } from "../functional/CalciteHeading";
 import { Status } from "../interfaces";
 
 /**
+ * @slot - A slot for adding content to the block.
  * @slot icon - A slot for adding a leading header icon.
  * @slot control - A slot for adding a single HTML input element in a header.
  * @slot header-menu-actions - a slot for adding an overflow menu with actions inside a dropdown.
- * @slot - A slot for adding content to the block.
  */
 @Component({
   tag: "calcite-block",
