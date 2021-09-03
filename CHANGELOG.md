@@ -5,11 +5,11 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 <!--@unreleased-section-start-->
 
-## Unreleased (2021-09-02)
+## Unreleased (2021-09-03)
 
-### Features
+### Bug Fixes
 
-- **block:** add margin between heading/summary ([#2932](https://github.com/Esri/calcite-components/issues/2932)) ([7f281fd](https://github.com/Esri/calcite-components/commit/7f281fd208ce40f302d4af9cbe6900ea69efc451))
+- **accordion:** match accordion icon directions with block ([#2963](https://github.com/Esri/calcite-components/issues/2963)) ([68532d0](https://github.com/Esri/calcite-components/commit/68532d0090097dbea4a8dc89ac5ef166df1f3e48))
 <!--@unreleased-section-end-->
 
 ## [1.0.0-beta.63](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.62...v1.0.0-beta.63) (2021-08-31)
