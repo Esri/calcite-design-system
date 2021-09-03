@@ -13,10 +13,10 @@
 
 :host([scale="m"]) {
   .container {
-    @apply h-4;
+    @apply h-5;
   }
   .track {
-    @apply w-8 h-4;
+    @apply w-8 h-5;
   }
   .handle {
     @apply w-3 h-3;
