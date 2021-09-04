@@ -119,6 +119,11 @@ export class CalciteTimePicker {
   /** BCP 47 language tag for desired language and country format */
   @Prop() locale?: string = document.documentElement.lang || "en";
 
+  @Watch("locale")
+  localeWatcher(newLocale: string): void {
+    this.hourCycle = getLocaleHourCycle(newLocale);
+  }
+
   /** The scale (size) of the time picker */
   @Prop({ reflect: true }) scale: Scale = "m";
 
@@ -608,7 +613,7 @@ export class CalciteTimePicker {
       this[`localized${capitalize(key)}`] = localizeTimePart(this[key], key, this.locale);
     }
     if (this.hour && this.minute) {
-      if (this.second && this.step !== 60) {
+      if (this.second && this.showSecond) {
         this.value = `${this.hour}:${this.minute}:${this.second}`;
       } else {
         this.value = `${this.hour}:${this.minute}:00`;
@@ -616,7 +621,7 @@ export class CalciteTimePicker {
     } else {
       this.value = null;
     }
-    this.localizedMeridiem = value
+    this.localizedMeridiem = this.value
       ? localizeTimeStringToParts(this.value, this.locale)?.localizedMeridiem || null
       : null;
     if (emit) {
@@ -662,13 +667,12 @@ export class CalciteTimePicker {
     const minuteIsNumber = isValidNumber(this.minute);
     const secondIsNumber = isValidNumber(this.second);
     const showMeridiem = this.hourCycle === "12";
-    const showSecond = this.step < 60;
     return (
       <div
         class={{
           [CSS.timePicker]: true,
           [CSS.showMeridiem]: showMeridiem,
-          [CSS.showSecond]: showSecond
+          [CSS.showSecond]: this.showSecond
         }}
       >
         <div role="group">
@@ -766,8 +770,8 @@ export class CalciteTimePicker {
             <calcite-icon icon="chevron-down" scale={iconScale} />
           </span>
         </div>
-        {showSecond && <span class={CSS.delimiter}>:</span>}
-        {showSecond && (
+        {this.showSecond && <span class={CSS.delimiter}>:</span>}
+        {this.showSecond && (
           <div role="group">
             <span
               aria-label={this.intlSecondUp}
