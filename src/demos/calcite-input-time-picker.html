@@ -60,8 +60,7 @@
   <body>
     <demo-spacer>
       <calcite-select></calcite-select>
-      <calcite-input-time-picker step="1"></calcite-input-time-picker>
-      <hr />
+      <calcite-input-time-picker step="1" locale="en-GB"></calcite-input-time-picker>
       <div id="locales"></div>
     </demo-spacer>
     <script>
@@ -90,29 +89,28 @@
         });
 
         select.addEventListener("calciteSelectChange", (event) => {
-          console.log(event);
           inputTimePicker.locale = event.target.selectedOption.value;
         });
       })();
 
-      // const localeDemoContainer = document.getElementById("locales");
-      // locales.forEach(({ locale, name, dir }) => {
-      //   let localeEl = document.createElement("div");
-      //   localeEl.setAttribute("class", "locale");
-      //   let label = document.createElement("calcite-label");
-      //   label.setAttribute("for", locale);
-      //   label.appendChild(document.createTextNode(`${name} (${locale})`));
-      //   let input = document.createElement("calcite-input-time-picker");
-      //   dir && input.setAttribute("dir", dir);
-      //   input.setAttribute("id", locale);
-      //   input.setAttribute("locale", locale);
-      //   input.setAttribute("name", locale);
-      //   input.setAttribute("step", "1");
-      //   input.setAttribute("value", "14:59:00");
-      //   localeEl.appendChild(label);
-      //   localeEl.appendChild(input);
-      //   localeDemoContainer.appendChild(localeEl);
-      // });
+      const localeDemoContainer = document.getElementById("locales");
+      locales.forEach(({ locale, name, dir }) => {
+        let localeEl = document.createElement("div");
+        localeEl.setAttribute("class", "locale");
+        let label = document.createElement("calcite-label");
+        label.setAttribute("for", locale);
+        label.appendChild(document.createTextNode(`${name} (${locale})`));
+        let input = document.createElement("calcite-input-time-picker");
+        dir && input.setAttribute("dir", dir);
+        input.setAttribute("id", locale);
+        input.setAttribute("locale", locale);
+        input.setAttribute("name", locale);
+        input.setAttribute("step", "1");
+        input.setAttribute("value", "14:59:00");
+        localeEl.appendChild(label);
+        localeEl.appendChild(input);
+        localeDemoContainer.appendChild(localeEl);
+      });
     </script>
   </body>
 </html>
