@@ -61,6 +61,7 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
 - [calcite-tab-title](../calcite-tab-title)
 - [calcite-tile](../calcite-tile)
 - [calcite-time-picker](../calcite-time-picker)
+- [calcite-tip-manager](../calcite-tip-manager)
 - [calcite-tree-item](../calcite-tree-item)
 - [calcite-value-list-item](../calcite-value-list-item)
 
@@ -98,6 +99,7 @@ graph TD;
   calcite-tab-title --> calcite-icon
   calcite-tile --> calcite-icon
   calcite-time-picker --> calcite-icon
+  calcite-tip-manager --> calcite-icon
   calcite-tree-item --> calcite-icon
   calcite-value-list-item --> calcite-icon
   style calcite-icon fill:#f9f,stroke:#333,stroke-width:4px

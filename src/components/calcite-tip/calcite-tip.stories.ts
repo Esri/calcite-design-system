@@ -7,13 +7,14 @@ import {
   themesDarkDefault
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
+import groupReadme from "../calcite-tip-group/readme.md";
 import { TEXT } from "./resources";
 import { placeholderImage } from "../../tests/utils";
 
 export default {
   title: "Components/Tips/Tip",
   parameters: {
-    notes: readme
+    notes: [readme, groupReadme]
   }
 };
 
