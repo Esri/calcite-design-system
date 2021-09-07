@@ -1,4 +1,3 @@
-// todo: major refactoring of styling.
 :host([scale="s"]) {
   .controls-wrapper {
     @apply h-6;
@@ -49,6 +48,9 @@
 
 :host {
   &::slotted(*) {
+    // todo: major refactoring of styling.
+    // Looks like inline-editable is modifying internals of input
+    // We need to have another way to do this instead
     .calcite-input__element-wrapper {
       textarea,
       input {
