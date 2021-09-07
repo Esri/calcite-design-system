@@ -5,6 +5,7 @@
     mb-1
     text-color-2
     text--1;
+
   * {
     @apply box-border;
   }
@@ -28,5 +29,5 @@ h3.heading {
 }
 
 .calcite--rtl.container--indented {
-  @apply ml-0 mr-5;
+  @apply ml-0 mr-6;
 }

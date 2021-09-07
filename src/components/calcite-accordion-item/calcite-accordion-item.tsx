@@ -119,10 +119,10 @@ export class CalciteAccordionItem {
             <calcite-icon
               class="accordion-item-expand-icon"
               icon={
-                this.iconType === "chevron"
-                  ? "chevronUp"
+                  this.iconType === "chevron"
+                  ? "chevronDown"
                   : this.iconType === "caret"
-                  ? "caretUp"
+                  ? "caretDown"
                   : this.active
                   ? "minus"
                   : "plus"
