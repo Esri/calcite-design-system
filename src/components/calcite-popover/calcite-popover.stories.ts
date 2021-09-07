@@ -1,6 +1,7 @@
 import { select, number, text } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
+import managerReadme from "../calcite-popover-manager/readme.md";
 import { themesDarkDefault } from "../../../.storybook/utils";
 
 const placements = [
@@ -50,9 +51,8 @@ const referenceElementHTML = `<calcite-popover-manager>Ut enim ad minim veniam, 
 
 export default {
   title: "Components/Popover",
-
   parameters: {
-    notes: readme
+    notes: [readme, managerReadme]
   }
 };
 
