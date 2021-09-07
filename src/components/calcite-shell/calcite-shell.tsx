@@ -25,7 +25,7 @@ export class CalciteShell {
   /**
    * Positions the center content behind any calcite-shell-panels.
    */
-  @Prop({ reflect: true }) contentBehind?: boolean;
+  @Prop({ reflect: true }) contentBehind = false;
 
   // --------------------------------------------------------------------------
   //
