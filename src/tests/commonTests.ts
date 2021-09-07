@@ -173,3 +173,50 @@ export async function focusable(componentTagOrHTML: TagOrHTML, options?: Focusab
 
   expect(await page.evaluate((selector) => document.activeElement.matches(selector), focusTargetSelector)).toBe(true);
 }
+
+/**
+ * Helper for asserting named slots.
+ *
+ * @param componentTagOrHTML - the component tag or HTML markup to test against
+ * @param slots - a component's SLOTS resource object or an array of slot names
+ */
+export async function slots(componentTagOrHTML: TagOrHTML, slots: Record<string, string> | string[]): Promise<void> {
+  const page = await simplePageSetup(componentTagOrHTML);
+  const tag = getTag(componentTagOrHTML);
+  const slotNames = Array.isArray(slots) ? slots : Object.values(slots);
+
+  const allSlotsAssigned = await page.$eval(
+    tag,
+    async (component, slotNames: string[]) => {
+      slotNames.forEach((slot) => {
+        const el = document.createElement("div");
+        el.classList.add("slotted");
+        el.slot = slot;
+
+        component.appendChild(el);
+      });
+
+      // we do this for conditionally-rendered slots since slotting after initialization does not trigger a render phase
+
+      const html = component.outerHTML.replace(/\"/g, `'`);
+      component.remove();
+
+      const parent = document.createElement("div");
+      document.body.append(parent);
+      parent.innerHTML = html;
+
+      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+
+      const allSlotsAssigned = Array.from(parent.getElementsByClassName("slotted"))
+        .map((slotted) => slotted.assignedSlot)
+        .every((assignedSlot) => !!assignedSlot);
+
+      parent.remove();
+
+      return allSlotsAssigned;
+    },
+    slotNames
+  );
+
+  expect(allSlotsAssigned).toBe(true);
+}

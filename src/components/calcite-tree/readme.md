@@ -26,12 +26,12 @@
 
 ## Properties
 
-| Property        | Attribute        | Description                                                                             | Type                                                                                                                                                  | Default                    |
-| --------------- | ---------------- | --------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
-| `inputEnabled`  | `input-enabled`  | Display input                                                                           | `boolean`                                                                                                                                             | `false`                    |
-| `lines`         | `lines`          | Display indentation guide lines                                                         | `boolean`                                                                                                                                             | `false`                    |
-| `scale`         | `scale`          | Specify the scale of the tree, defaults to m                                            | `"l" \| "m" \| "s"`                                                                                                                                   | `"m"`                      |
-| `selectionMode` | `selection-mode` | Customize how tree selection works (single, multi, children, multi-children, ancestors) | `TreeSelectionMode.Ancestors \| TreeSelectionMode.Children \| TreeSelectionMode.Multi \| TreeSelectionMode.MultiChildren \| TreeSelectionMode.Single` | `TreeSelectionMode.Single` |
+| Property        | Attribute        | Description                                                                                                              | Type                                                                                                                                                  | Default                    |
+| --------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
+| `inputEnabled`  | `input-enabled`  | <span style="color:red">**[DEPRECATED]**</span> use "ancestors" selection-mode for checkbox input<br/><br/>Display input | `boolean`                                                                                                                                             | `false`                    |
+| `lines`         | `lines`          | Display indentation guide lines                                                                                          | `boolean`                                                                                                                                             | `false`                    |
+| `scale`         | `scale`          | Specify the scale of the tree, defaults to m                                                                             | `"l" \| "m" \| "s"`                                                                                                                                   | `"m"`                      |
+| `selectionMode` | `selection-mode` | Customize how tree selection works (single, multi, children, multi-children, ancestors)                                  | `TreeSelectionMode.Ancestors \| TreeSelectionMode.Children \| TreeSelectionMode.Multi \| TreeSelectionMode.MultiChildren \| TreeSelectionMode.Single` | `TreeSelectionMode.Single` |
 
 ## Events
 
@@ -41,9 +41,9 @@
 
 ## Slots
 
-| Slot         | Description                                                    |
-| ------------ | -------------------------------------------------------------- |
-| `"children"` | a slot for adding child components, commonly calcite-tree-item |
+| Slot | Description                              |
+| ---- | ---------------------------------------- |
+|      | A slot for `calcite-tree-item` elements. |
 
 ---
 

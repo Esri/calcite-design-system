@@ -273,8 +273,8 @@ input[type="time"]::-webkit-clear-button {
 
 .calcite-input__clear-button {
   pointer-events: initial;
-  @include focus-style-base();
-  @apply flex
+  @apply focus-base
+    flex
     self-stretch
     items-center
     justify-center
@@ -299,6 +299,9 @@ input[type="time"]::-webkit-clear-button {
     calcite-icon {
       @apply text-color-1;
     }
+  }
+  &:focus {
+    @apply focus-inset;
   }
   &:disabled {
     @apply opacity-disabled;

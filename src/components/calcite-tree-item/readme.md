@@ -11,6 +11,13 @@
 | `expanded` | `expanded` | True if the item is in an expanded state | `boolean` | `false` |
 | `selected` | `selected` | Is the item currently selected           | `boolean` | `false` |
 
+## Slots
+
+| Slot         | Description                                       |
+| ------------ | ------------------------------------------------- |
+|              | A slot for adding content to the item.            |
+| `"children"` | A slot for adding nested `calcite-tree` elements. |
+
 ## Dependencies
 
 ### Depends on
