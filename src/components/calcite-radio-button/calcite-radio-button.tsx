@@ -25,7 +25,7 @@ import { CSS } from "./resources";
 @Component({
   tag: "calcite-radio-button",
   styleUrl: "calcite-radio-button.scss",
-  scoped: true
+  shadow: true
 })
 export class CalciteRadioButton implements CalciteLabelableComponent {
   //--------------------------------------------------------------------------

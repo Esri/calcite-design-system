@@ -49,7 +49,8 @@ export class CalciteSlider implements CalciteLabelableComponent {
   /** Display a histogram above the slider */
   @Prop() histogram?: DataSeries;
 
-  @Watch("histogram") histogramWatcher(newHistogram: DataSeries): void {
+  @Watch("histogram")
+  histogramWatcher(newHistogram: DataSeries): void {
     this.hasHistogram = !!newHistogram;
   }
 
@@ -681,7 +682,8 @@ export class CalciteSlider implements CalciteLabelableComponent {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("keydown") keyDownHandler(event: KeyboardEvent): void {
+  @Listen("keydown")
+  keyDownHandler(event: KeyboardEvent): void {
     const mirror = this.shouldMirror();
     const { activeProp, max, min, pageStep, step } = this;
     const value = this[activeProp];

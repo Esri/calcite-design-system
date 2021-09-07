@@ -7,21 +7,23 @@ import {
   Listen,
   Prop,
   VNode,
-  Watch
+  Watch,
+  Method
 } from "@stencil/core";
 import { getElementProp } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { TEXT, CSS } from "./resources";
+import { CalciteLabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 
 /**
  * @slot - slot for rendering a `<calcite-input>`
  */
 @Component({
   tag: "calcite-inline-editable",
-  scoped: true,
+  shadow: true,
   styleUrl: "calcite-inline-editable.scss"
 })
-export class CalciteInlineEditable {
+export class CalciteInlineEditable implements CalciteLabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -79,6 +81,14 @@ export class CalciteInlineEditable {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
+  connectedCallback() {
+    connectLabel(this);
+  }
+
+  disconnectedCallback() {
+    disconnectLabel(this);
+  }
 
   componentWillLoad() {
     this.inputElement = this.el.querySelector("calcite-input") as HTMLCalciteInputElement;
@@ -182,29 +192,6 @@ export class CalciteInlineEditable {
     }
   }
 
-  @Listen("click", { target: "window" })
-  handleLabelFocus(e: CustomEvent): void {
-    const htmlTarget = e.target as HTMLElement;
-    if (
-      !(
-        htmlTarget.parentElement.tagName === "LABEL" ||
-        htmlTarget.parentElement.tagName === "CALCITE-LABEL"
-      )
-    ) {
-      return;
-    }
-    if (!htmlTarget.parentElement.contains(this.el)) {
-      return;
-    }
-    e.preventDefault();
-    e.stopPropagation();
-    if (this.editingEnabled) {
-      this.inputElement.setFocus();
-    } else {
-      this.enableEditingButton.setFocus();
-    }
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Private State
@@ -213,19 +200,38 @@ export class CalciteInlineEditable {
 
   private inputElement: HTMLCalciteInputElement;
 
-  private htmlInput: HTMLInputElement;
-
   private valuePriorToEditing: string;
 
   private enableEditingButton: HTMLCalciteButtonElement;
 
   private editingCancelTransitionProp = "border-top-color";
 
+  labelEl: HTMLCalciteLabelElement;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  @Method()
+  async setFocus(): Promise<void> {
+    if (this.editingEnabled) {
+      this.inputElement?.setFocus();
+    } else {
+      this.enableEditingButton?.setFocus();
+    }
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  onLabelClick = (): void => {
+    this.setFocus();
+  };
 
   transitionEnd = (event: TransitionEvent): void => {
     if (!this.editingEnabled && event.propertyName === this.editingCancelTransitionProp) {
@@ -238,7 +244,6 @@ export class CalciteInlineEditable {
   }
 
   private enableEditing = () => {
-    this.htmlInput.tabIndex = undefined;
     this.valuePriorToEditing = this.inputElement.value;
     this.editingEnabled = true;
     this.inputElement.setFocus();
@@ -246,7 +251,6 @@ export class CalciteInlineEditable {
   };
 
   private disableEditing = () => {
-    this.htmlInput.tabIndex = -1;
     this.editingEnabled = false;
   };
 
