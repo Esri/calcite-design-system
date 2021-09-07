@@ -63,7 +63,7 @@ export class CalciteCheckbox implements CalciteLabelableComponent {
 
   /**
    * The hovered state of the checkbox.
-   * @internal
+   * @private
    */
   @Prop({ reflect: true, mutable: true }) hovered = false;
 

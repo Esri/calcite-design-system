@@ -53,7 +53,7 @@ export class CalciteButton implements CalciteLabelableComponent {
   @Prop({ reflect: true }) color: ButtonColor = "blue";
 
   /** is the button disabled  */
-  @Prop({ reflect: true }) disabled = false;
+  @Prop({ reflect: true }) disabled?: boolean;
 
   /** optionally pass a href - used to determine if the component should render as a button or an anchor */
   @Prop({ reflect: true }) href?: string;

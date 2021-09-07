@@ -19,7 +19,7 @@ export class CalciteSplitButton {
   @Prop({ reflect: true }) color: ButtonColor = "blue";
 
   /** is the control disabled  */
-  @Prop({ reflect: true }) disabled = false;
+  @Prop({ reflect: true }) disabled?: boolean;
 
   /**
    * Is the dropdown currently active or not

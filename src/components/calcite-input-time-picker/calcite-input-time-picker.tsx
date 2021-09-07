@@ -47,7 +47,7 @@ export class CalciteInputTimePicker {
   @Prop({ reflect: true, mutable: true }) active?: boolean = false;
 
   /** The disabled state of the time input */
-  @Prop({ reflect: true }) disabled = false;
+  @Prop({ reflect: true }) disabled?: boolean = false;
 
   /** Format of the hour value (12-hour or 24-hour) (this will be replaced by locale eventually) */
   @Prop() hourDisplayFormat: HourDisplayFormat = "12";

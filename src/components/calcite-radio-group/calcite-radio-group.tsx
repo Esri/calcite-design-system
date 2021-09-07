@@ -43,7 +43,7 @@ export class CalciteRadioGroup implements CalciteLabelableComponent {
   @Prop({ reflect: true }) appearance: RadioAppearance = "solid";
 
   /** is the radio group disabled  */
-  @Prop({ reflect: true }) disabled = false;
+  @Prop({ reflect: true }) disabled?: boolean;
 
   /** specify the layout of the radio group, defaults to horizontal */
   @Prop({ reflect: true }) layout: Layout = "horizontal";

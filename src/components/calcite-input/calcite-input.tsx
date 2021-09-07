@@ -81,7 +81,7 @@ export class CalciteInput implements CalciteLabelableComponent {
   @Prop({ reflect: true }) clearable?: boolean;
 
   /** is the input disabled  */
-  @Prop({ reflect: true }) disabled = false;
+  @Prop({ reflect: true }) disabled?: boolean;
 
   @Watch("disabled")
   disabledWatcher(): void {

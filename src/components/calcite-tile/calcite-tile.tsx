@@ -42,7 +42,7 @@ export class CalciteTile {
 
   /**
    * The focused state of the tile.
-   * @internal
+   * @private
    */
   @Prop({ reflect: true }) focused = false;
 

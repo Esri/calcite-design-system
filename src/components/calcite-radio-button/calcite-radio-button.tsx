@@ -66,7 +66,7 @@ export class CalciteRadioButton implements CalciteLabelableComponent {
 
   /**
    * The focused state of the radio button.
-   * @internal
+   * @private
    */
   @Prop({ mutable: true, reflect: true }) focused = false;
 
@@ -95,7 +95,7 @@ export class CalciteRadioButton implements CalciteLabelableComponent {
 
   /**
    * The hovered state of the radio button.
-   * @internal
+   * @private
    */
   @Prop({ reflect: true, mutable: true }) hovered = false;
 

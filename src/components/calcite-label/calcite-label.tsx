@@ -42,7 +42,7 @@ export class CalciteLabel {
   @Prop() disableSpacing?: boolean;
 
   /** is the label disabled  */
-  @Prop({ reflect: true }) disabled = false;
+  @Prop({ reflect: true }) disabled?: boolean;
 
   //--------------------------------------------------------------------------
   //

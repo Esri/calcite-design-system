@@ -17,11 +17,11 @@ export class CalciteRadio {
   @Prop({ reflect: true }) checked = false;
 
   /** The disabled state of the radio. */
-  @Prop({ reflect: true }) disabled = false;
+  @Prop({ reflect: true }) disabled?: boolean = false;
 
   /**
    * The focused state of the radio.
-   * @internal
+   * @private
    */
   @Prop({ reflect: true }) focused = false;
 
@@ -30,7 +30,7 @@ export class CalciteRadio {
 
   /**
    * The hovered state of the radio.
-   * @internal
+   * @private
    */
   @Prop({ reflect: true }) hovered = false;
 
