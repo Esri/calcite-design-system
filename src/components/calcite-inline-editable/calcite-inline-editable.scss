@@ -1,48 +1,48 @@
 // todo: major refactoring of styling.
 :host([scale="s"]) {
-  .calcite-inline-editable__controls-wrapper {
+  .controls-wrapper {
     @apply h-6;
   }
 }
 
 :host([scale="m"]) {
-  .calcite-inline-editable__controls-wrapper {
+  .controls-wrapper {
     @apply h-8;
   }
 }
 
 :host([scale="l"]) {
-  .calcite-inline-editable__controls-wrapper {
+  .controls-wrapper {
     @apply h-11;
   }
 }
 
 :host(:not([editing-enabled]):not([disabled])) {
-  .calcite-inline-editable__wrapper {
+  .wrapper {
     &:hover {
       @apply bg-foreground-2;
     }
   }
 }
 
-.calcite-inline-editable__wrapper {
+.wrapper {
   @apply box-border
     flex
     justify-between
     bg-foreground-1
     transition-default;
 
-  .calcite-inline-editable__input-wrapper {
+  .input-wrapper {
     @apply flex-1;
   }
 }
 
-.calcite-inline-editable__controls-wrapper {
+.controls-wrapper {
   @apply flex;
 }
 
 :host([disabled]) {
-  .calcite-inline-editable__cancel-editing-button-wrapper {
+  .cancel-editing-button-wrapper {
     @apply border-color-2;
   }
 }
