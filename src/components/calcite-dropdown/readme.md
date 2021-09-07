@@ -89,6 +89,12 @@ You can combine groups in a single dropdown, with varying selection modes:
 
 Type: `Promise<void>`
 
+## Slots
+
+| Slot                 | Description                                       |
+| -------------------- | ------------------------------------------------- |
+| `"dropdown-trigger"` | A slot for the element that triggers the dropdown |
+
 ## CSS Custom Properties
 
 | Name                       | Description                       |
