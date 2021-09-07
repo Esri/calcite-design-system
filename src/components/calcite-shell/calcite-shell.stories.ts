@@ -3,15 +3,13 @@ import { filterComponentAttributes, Attributes, createComponentHTML as create } 
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import readme from "./readme.md";
 import panelReadme from "../calcite-shell-panel/readme.md";
+import centerRowReadme from "../calcite-shell-center-row/readme.md";
 import { html, placeholderImage } from "../../tests/utils";
 
 export default {
   title: "Components/Shell",
   parameters: {
-    notes: {
-      shell: readme,
-      panel: panelReadme
-    }
+    notes: [readme, panelReadme, centerRowReadme]
   }
 };
 
