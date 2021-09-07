@@ -282,11 +282,12 @@ export class CalciteTipManager {
           </CalciteHeading>
           <calcite-action
             class={CSS.close}
-            icon={ICONS.close}
             onClick={this.hideTipManager}
             scale="m"
             text={closeLabel}
-          />
+          >
+            <calcite-icon icon={ICONS.close} scale="m" />
+          </calcite-action>
         </header>
         <div
           class={{

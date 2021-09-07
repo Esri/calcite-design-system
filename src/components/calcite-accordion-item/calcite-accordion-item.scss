@@ -1,7 +1,7 @@
 // icon position variants for child
 .icon-position--start {
   --calcite-accordion-item-flex-direction: row-reverse;
-  --calcite-accordion-item-icon-rotation: theme("rotate.90");
+  --calcite-accordion-item-icon-rotation: theme("rotate.-90");
   --calcite-accordion-item-active-icon-rotation: theme("rotate.180");
   --calcite-accordion-item-icon-rotation-rtl: theme("rotate.-90");
   --calcite-accordion-item-active-icon-rotation-rtl: theme("rotate.-180");
