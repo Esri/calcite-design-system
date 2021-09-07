@@ -5,11 +5,20 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 <!--@unreleased-section-start-->
 
-## Unreleased (2021-09-03)
+## Unreleased (2021-09-04)
+
+### Features
+
+- **block:** add margin between heading/summary ([#2932](https://github.com/Esri/calcite-components/issues/2932)) ([7f281fd](https://github.com/Esri/calcite-components/commit/7f281fd208ce40f302d4af9cbe6900ea69efc451))
 
 ### Bug Fixes
 
 - **accordion:** match accordion icon directions with block ([#2963](https://github.com/Esri/calcite-components/issues/2963)) ([68532d0](https://github.com/Esri/calcite-components/commit/68532d0090097dbea4a8dc89ac5ef166df1f3e48))
+- **block-section:** style update to align better with label and switch combo ([707c214](https://github.com/Esri/calcite-components/commit/707c214029f80590d35dcc2cbb7f910c05545025)), closes [#2577](https://github.com/Esri/calcite-components/issues/2577) [#2577](https://github.com/Esri/calcite-components/issues/2577)
+
+### Reverts
+
+- **demo-homepage:** updated demo homepage, removed search bar ([#2883](https://github.com/Esri/calcite-components/issues/2883)) ([dc415d0](https://github.com/Esri/calcite-components/commit/dc415d0a696630f78ab7d9d8c3d8a66ff2d02c6c))
 <!--@unreleased-section-end-->
 
 ## [1.0.0-beta.63](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.62...v1.0.0-beta.63) (2021-08-31)
