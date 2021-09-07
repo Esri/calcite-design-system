@@ -7,12 +7,14 @@ import {
   themesDarkDefault
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
+import itemReadme from "../calcite-pick-list-item/readme.md";
+import groupReadme from "../calcite-pick-list-group/readme.md";
 import { html } from "../../tests/utils";
 
 export default {
   title: "Components/Pick List",
   parameters: {
-    notes: readme
+    notes: [readme, itemReadme, groupReadme]
   }
 };
 
