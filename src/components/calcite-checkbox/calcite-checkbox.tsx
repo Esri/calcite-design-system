@@ -15,7 +15,12 @@ import { guid } from "../../utils/guid";
 import { focusElement, closestElementCrossShadowBoundary } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { hiddenInputStyle } from "../../utils/form";
-import { CalciteLabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
+import {
+  CalciteLabelableComponent,
+  connectLabel,
+  disconnectLabel,
+  getlabelElText
+} from "../../utils/label";
 
 @Component({
   tag: "calcite-checkbox",
@@ -237,7 +242,7 @@ export class CalciteCheckbox implements CalciteLabelableComponent {
     this.input.style.cssText = hiddenInputStyle;
     this.input.type = "checkbox";
     if (this.label) {
-      this.input.setAttribute("aria-label", this.label);
+      this.input.setAttribute("aria-label", getlabelElText(this));
     } else {
       this.input.removeAttribute("aria-label");
     }

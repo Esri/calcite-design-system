@@ -268,19 +268,10 @@ describe("calcite-label", () => {
           <calcite-radio-button id="two" name="radio" value="two"></calcite-radio-button>
         </calcite-label>
     `);
+      await page.waitForChanges();
+      await page.evaluate(() => document.querySelector("calcite-label")?.click());
+      await page.waitForChanges();
       const radio1 = await page.find("#one");
-      await page.evaluate(() => document.querySelector("calcite-label")?.click());
-      await page.waitForChanges();
-      expect(await radio1.getProperty("checked")).toBe(true);
-
-      await page.evaluate(() => (document.getElementById("two") as HTMLElement)?.click());
-      await page.waitForChanges();
-      const radio2 = await page.find("#two");
-
-      expect(await radio2.getProperty("checked")).toBe(true);
-
-      await page.evaluate(() => document.querySelector("calcite-label")?.click());
-      await page.waitForChanges();
       expect(await radio1.getProperty("checked")).toBe(true);
     });
 
@@ -293,20 +284,10 @@ describe("calcite-label", () => {
           <calcite-radio-button id="two" name="radio" value="two"></calcite-radio-button>
         </calcite-label>
     `);
+      await page.waitForChanges();
+      await page.evaluate(() => document.querySelector("span")?.click());
+      await page.waitForChanges();
       const radio1 = await page.find("#one");
-
-      await page.evaluate(() => document.querySelector("span")?.click());
-      await page.waitForChanges();
-
-      expect(await radio1.getProperty("checked")).toBe(true);
-
-      await page.evaluate(() => (document.getElementById("two") as HTMLElement)?.click());
-      await page.waitForChanges();
-      const radio2 = await page.find("#two");
-      expect(await radio2.getProperty("checked")).toBe(true);
-
-      await page.evaluate(() => document.querySelector("span")?.click());
-      await page.waitForChanges();
       expect(await radio1.getProperty("checked")).toBe(true);
     });
 
@@ -318,6 +299,7 @@ describe("calcite-label", () => {
       <calcite-switch></calcite-switch>
       </calcite-label>
     `);
+      await page.waitForChanges();
       expect(await page.evaluate(getActiveElementNameAfterClick)).toEqual("calcite-switch");
       await page.waitForChanges();
       const switchEl = await page.find("calcite-switch");
@@ -463,19 +445,9 @@ describe("calcite-label", () => {
         <calcite-radio-button id="two" name="radio" value="two"></calcite-radio-button>
     `);
       await page.waitForChanges();
-      
       await page.evaluate(() => document.querySelector("calcite-label")?.click());
       await page.waitForChanges();
       const radio1 = await page.find("#one");
-      expect(await radio1.getProperty("checked")).toBe(true);
-      
-      await page.evaluate(() => (document.getElementById("two") as HTMLElement)?.click());
-      await page.waitForChanges();
-      const radio2 = await page.find("#two");
-      expect(await radio2.getProperty("checked")).toBe(true);
-
-      await page.evaluate(() => document.querySelector("calcite-label")?.click());
-      await page.waitForChanges();
       expect(await radio1.getProperty("checked")).toBe(true);
     });
 
@@ -489,19 +461,9 @@ describe("calcite-label", () => {
         <calcite-radio-button id="two" name="radio" value="two"></calcite-radio-button>
     `);
       await page.waitForChanges();
-
       await page.evaluate(() => document.querySelector("span")?.click());
       await page.waitForChanges();
       const radio1 = await page.find("#one");
-      expect(await radio1.getProperty("checked")).toBe(true);
-
-      await page.evaluate(() => (document.getElementById("two") as HTMLElement)?.click());
-      await page.waitForChanges();
-      const radio2 = await page.find("#two");
-      expect(await radio2.getProperty("checked")).toBe(true);
-
-      await page.evaluate(() => document.querySelector("span")?.click());
-      await page.waitForChanges();
       expect(await radio1.getProperty("checked")).toBe(true);
     });
 

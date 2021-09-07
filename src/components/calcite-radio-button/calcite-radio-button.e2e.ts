@@ -365,25 +365,6 @@ describe("calcite-radio-button", () => {
     expect(await inputs[1].getProperty("checked")).toBe(true);
   });
 
-  it("selects properly when wrapped in a label", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <label>
-        Wrapping label
-        <calcite-radio-button id="one" name="wrapped" value="one"></calcite-radio-button>
-        <calcite-radio-button id="two" name="wrapped" value="two"></calcite-radio-button>
-      </label>
-    `);
-    const one = await page.find("#one");
-    const two = await page.find("#two calcite-radio");
-
-    await two.click();
-    await page.waitForChanges();
-
-    expect(await one.getProperty("checked")).toBe(false);
-    expect(await two.getProperty("checked")).toBe(true);
-  });
-
   it("disallows !important style overrides on the hidden input", async () => {
     const page = await newE2EPage();
     await page.setContent(`
