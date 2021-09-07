@@ -51,7 +51,7 @@ export class CalciteCheckbox implements CalciteLabelableComponent {
   }
 
   /** True if the checkbox is disabled */
-  @Prop({ reflect: true }) disabled = false;
+  @Prop({ reflect: true }) disabled?: boolean = false;
 
   @Watch("disabled")
   disabledChanged(disabled: boolean): void {
