@@ -58,17 +58,18 @@ $tick-height: 4px;
 }
 
 .thumb {
-  position: absolute;
-  border: none;
-  background: transparent;
-  cursor: pointer;
+  @apply absolute
+    border-none
+    bg-transparent
+    cursor-pointer
+    outline-none
+    p-0
+    m-0
+    flex
+    flex-col
+    items-center;
   font-family: inherit;
   z-index: 2;
-  outline: none;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   transform: translate(7px, -8px);
 
   .handle__label {
