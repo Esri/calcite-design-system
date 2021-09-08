@@ -322,7 +322,7 @@ export class CalciteDatePickerMonth {
    */
   private isStartOfRange(date: Date): boolean {
     return !!(
-      !!this.startDate &&
+      this.startDate &&
       !sameDate(this.startDate, this.endDate) &&
       sameDate(this.startDate, date) &&
       !this.isEndOfRange(date)
@@ -331,7 +331,7 @@ export class CalciteDatePickerMonth {
 
   private isEndOfRange(date: Date): boolean {
     return !!(
-      (!!this.endDate && !sameDate(this.startDate, this.endDate) && sameDate(this.endDate, date)) ||
+      (this.endDate && !sameDate(this.startDate, this.endDate) && sameDate(this.endDate, date)) ||
       (!this.endDate &&
         this.hoverRange &&
         sameDate(this.startDate, this.hoverRange.end) &&
@@ -414,8 +414,8 @@ export class CalciteDatePickerMonth {
     }
     const { start, end } = this.hoverRange;
     return !!(
-      (!this.isFocusedOnStart() && !!this.startDate && (!this.endDate || end < this.endDate)) ||
-      (this.isFocusedOnStart() && !!this.startDate && start > this.startDate)
+      (!this.isFocusedOnStart() && this.startDate && (!this.endDate || end < this.endDate)) ||
+      (this.isFocusedOnStart() && this.startDate && start > this.startDate)
     );
   }
 
