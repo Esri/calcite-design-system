@@ -49,7 +49,7 @@
 :host([checked]),
 :host([indeterminate]) {
   .check-svg {
-    @apply bg-brand shadow-outline-active;
+    @apply bg-brand;
   }
 }
 :host {
