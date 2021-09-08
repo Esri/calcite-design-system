@@ -330,7 +330,7 @@ export class CalciteDatePickerMonth {
   }
 
   private isEndOfRange(date: Date): boolean {
-    return (
+    return !!(
       (!!this.endDate && !sameDate(this.startDate, this.endDate) && sameDate(this.endDate, date)) ||
       (!this.endDate &&
         this.hoverRange &&
