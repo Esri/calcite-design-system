@@ -97,12 +97,6 @@ export class CalciteInlineEditable implements CalciteLabelableComponent {
       this.scale || this.inputElement.scale || getElementProp(this.el, "scale", undefined);
   }
 
-  componentDidLoad() {
-    if (!this.editingEnabled) {
-      this.inputElement.disabled = true;
-    }
-  }
-
   render(): VNode {
     return (
       <div
