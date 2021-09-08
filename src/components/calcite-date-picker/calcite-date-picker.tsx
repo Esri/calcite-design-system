@@ -480,7 +480,11 @@ export class CalciteDatePicker {
       if (this.startAsDate) {
         this.setEndDate(new Date(this.startAsDate));
       }
-      this.setStartDate(date);
+      if (this.activeRange == "end") {
+        this.setEndDate(date);
+      } else {
+        this.setStartDate(date);
+      }
     } else if (!this.endAsDate) {
       this.setEndDate(date);
     } else {

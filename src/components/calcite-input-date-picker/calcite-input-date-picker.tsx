@@ -135,7 +135,7 @@ export class CalciteInputDatePicker {
 
   @Listen("calciteDaySelect")
   calciteDaySelectHandler(): void {
-    if (this.shouldFocusRangeEnd()) {
+    if (this.shouldFocusRangeStart() || this.shouldFocusRangeEnd()) {
       return;
     }
 
@@ -261,6 +261,7 @@ export class CalciteInputDatePicker {
                   onCalciteInputFocus={this.startInputFocus}
                   onCalciteInputInput={this.inputInput}
                   placeholder={this.localeData?.placeholder}
+                  ref={this.setStartInput}
                   scale={this.scale}
                   type="text"
                   value={formattedDate}
@@ -351,6 +352,8 @@ export class CalciteInputDatePicker {
 
   @State() private localeData: DateLocaleData;
 
+  private startInput: HTMLCalciteInputElement;
+
   private endInput: HTMLCalciteInputElement;
 
   private popper: Popper;
@@ -390,6 +393,10 @@ export class CalciteInputDatePicker {
         ? this.calciteInputDatePickerOpen.emit()
         : this.calciteInputDatePickerClose.emit();
     }
+  };
+
+  setStartInput = (el: HTMLCalciteInputElement): void => {
+    this.startInput = el;
   };
 
   setEndInput = (el: HTMLCalciteInputElement): void => {
@@ -588,9 +595,14 @@ export class CalciteInputDatePicker {
     this.value = dateToISO(event.detail);
   };
 
-  private focusInputEnd = (): void => {
-    this.endInput?.setFocus();
-  };
+  private shouldFocusRangeStart(): boolean {
+    return !!(
+      this.endAsDate &&
+      !this.startAsDate &&
+      this.focusedInput === "end" &&
+      this.startInput
+    );
+  }
 
   private shouldFocusRangeEnd(): boolean {
     return !!(
@@ -612,7 +624,9 @@ export class CalciteInputDatePicker {
     this.end = dateToISO(endDate);
 
     if (this.shouldFocusRangeEnd()) {
-      this.focusInputEnd();
+      this.endInput?.setFocus();
+    } else if (this.shouldFocusRangeStart()) {
+      this.startInput?.setFocus();
     }
   };
 
