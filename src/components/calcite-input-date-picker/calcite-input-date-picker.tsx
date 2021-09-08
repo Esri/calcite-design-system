@@ -515,7 +515,7 @@ export class CalciteInputDatePicker {
     this.localeData = await getLocaleData(locale);
   }
 
-  private clearCurrentValue() {
+  private clearCurrentValue(): void {
     if (!this.range) {
       this.value = undefined;
       return;
