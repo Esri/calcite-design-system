@@ -12,6 +12,7 @@ export const CSS = {
   buttonSecondUp: "button--second-up",
   buttonTopLeft: "button--top-left",
   buttonTopRight: "button--top-right",
+  column: "column",
   delimiter: "delimiter",
   hour: "hour",
   input: "input",
@@ -20,6 +21,9 @@ export const CSS = {
   second: "second",
   showMeridiem: "show-meridiem",
   showSecond: "show-second",
+  "scale-s": "scale-s",
+  "scale-m": "scale-m",
+  "scale-l": "scale-l",
   timePicker: "time-picker"
 };
 

@@ -688,10 +688,11 @@ export class CalciteTimePicker {
         class={{
           [CSS.timePicker]: true,
           [CSS.showMeridiem]: showMeridiem,
-          [CSS.showSecond]: this.showSecond
+          [CSS.showSecond]: this.showSecond,
+          [CSS[`scale-${this.scale}`]]: true
         }}
       >
-        <div role="group">
+        <div class={CSS.column} role="group">
           <span
             aria-label={this.intlHourUp}
             class={{
@@ -739,8 +740,8 @@ export class CalciteTimePicker {
             <calcite-icon icon="chevron-down" scale={iconScale} />
           </span>
         </div>
-        <span class={CSS.delimiter}>:</span>
-        <div role="group">
+        <span class={CSS.delimiter}>{this.localizedHourSuffix}</span>
+        <div class={CSS.column} role="group">
           <span
             aria-label={this.intlMinuteUp}
             class={{
@@ -786,9 +787,9 @@ export class CalciteTimePicker {
             <calcite-icon icon="chevron-down" scale={iconScale} />
           </span>
         </div>
-        {this.showSecond && <span class={CSS.delimiter}>:</span>}
+        {this.showSecond && <span class={CSS.delimiter}>{this.localizedMinuteSuffix}</span>}
         {this.showSecond && (
-          <div role="group">
+          <div class={CSS.column} role="group">
             <span
               aria-label={this.intlSecondUp}
               class={{
@@ -835,8 +836,11 @@ export class CalciteTimePicker {
             </span>
           </div>
         )}
+        {this.localizedSecondSuffix && (
+          <span class={CSS.delimiter}>{this.localizedSecondSuffix}</span>
+        )}
         {showMeridiem && (
-          <div role="group">
+          <div class={CSS.column} role="group">
             <span
               aria-label={this.intlMeridiemUp}
               class={{

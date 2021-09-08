@@ -1,130 +1,114 @@
 :host {
-  @apply text-color-1
-    inline-block
-    font-medium
-    select-none;
+  @apply inline-block;
 }
 
 .time-picker {
-  @apply shadow-2
+  @apply flex
+    font-medium
     items-center
-    flex;
+    select-none
+    shadow-2
+    text-color-1;
+
   border-radius: var(--calcite-border-radius);
-}
 
-span {
-  @apply items-center
-    bg-foreground-1
-    inline-flex
-    justify-center;
-
-  &.button {
-    @apply cursor-pointer;
-    &:hover,
-    &:focus {
-      @apply bg-foreground-2;
-    }
-    &:focus {
-      @apply outline-none;
-    }
-    &:active {
-      @apply bg-foreground-3;
-    }
-    &.top-left {
-      border-top-left-radius: var(--calcite-border-radius);
-    }
-    &.bottom-left {
-      border-bottom-left-radius: var(--calcite-border-radius);
-    }
-    &.top-right {
-      border-top-right-radius: var(--calcite-border-radius);
-    }
-    &.bottom-right {
-      border-bottom-right-radius: var(--calcite-border-radius);
-    }
-    calcite-icon {
-      @apply text-color-3;
-    }
+  .column {
+    @apply flex
+      flex-col;
   }
 
-  &.input {
-    @apply font-medium relative;
-    &:hover {
-      box-shadow: inset 0 0 0 2px var(--calcite-ui-foreground-2);
-    }
-    &:focus,
-    &:hover:focus {
-      @apply outline-none;
-      box-shadow: inset 0 0 0 2px var(--calcite-ui-brand);
-    }
-  }
-}
-
-:host([scale="s"]) {
-  @apply text--1;
   span {
-    height: 24px;
-    width: 40px;
-  }
-  .delimiter {
-    height: 72px;
-  }
-  .time-picker {
-    width: 84.2px;
-  }
-  .time-picker.show-meridiem {
-    width: 124.2px;
-  }
-  .time-picker.show-second {
-    width: 128.4px;
-  }
-  .time-picker.show-second.show-meridiem {
-    width: 168px;
-  }
-}
+    @apply items-center
+      bg-foreground-1
+      inline-flex
+      justify-center;
 
-:host([scale="m"]) {
-  @apply text-0;
-  span {
-    height: 32px;
-    width: 44px;
-  }
-  .delimiter {
-    height: 96px;
-  }
-  .time-picker {
-    width: 92.8px;
-  }
-  .time-picker.show-meridiem {
-    width: 136.8px;
-  }
-  .time-picker.show-second {
-    width: 141.6px;
-  }
-  .time-picker.show-second.show-meridiem {
-    width: 186px;
-  }
-}
+    &.button {
+      @apply cursor-pointer;
+      &:hover,
+      &:focus {
+        @apply bg-foreground-2
+          outline-none;
+      }
+      &:active {
+        @apply bg-foreground-3;
+      }
+      &.top-left {
+        border-top-left-radius: var(--calcite-border-radius);
+      }
+      &.bottom-left {
+        border-bottom-left-radius: var(--calcite-border-radius);
+      }
+      &.top-right {
+        border-top-right-radius: var(--calcite-border-radius);
+      }
+      &.bottom-right {
+        border-bottom-right-radius: var(--calcite-border-radius);
+      }
+      calcite-icon {
+        @apply text-color-3;
+      }
+    }
 
-:host([scale="l"]) {
-  @apply text-1;
-  span {
-    height: 48px;
-    width: 64px;
+    &.input {
+      @apply font-medium
+        relative;
+      &:hover {
+        box-shadow: inset 0 0 0 2px var(--calcite-ui-foreground-2);
+      }
+      &:focus,
+      &:hover:focus {
+        @apply outline-none;
+        box-shadow: inset 0 0 0 2px var(--calcite-ui-brand);
+      }
+    }
   }
-  .delimiter {
-    height: 144px;
+
+  &.scale-s {
+    @apply text--1;
+    span {
+      @apply px-3
+        py-1;
+    }
+    .delimiter {
+      @apply px-0;
+    }
+    &:not(.show-meridiem) {
+      .delimiter:last-child {
+        @apply pr-3;
+      }
+    }
   }
-  .time-picker {
-    width: 134px;
+
+  &.scale-m {
+    @apply text-0;
+    span {
+      @apply px-4
+        py-2;
+    }
+    .delimiter {
+      @apply px-0;
+    }
+    &:not(.show-meridiem) {
+      .delimiter:last-child {
+        @apply pr-4;
+      }
+    }
   }
-  .time-picker.show-meridiem {
-    width: 198px;
-  }
-  .time-picker.show-second {
-    width: 204px;
-  }
-  .time-picker.show-second.show-meridiem {
-    width: 268px;
+
+  &.scale-l {
+    @apply text-1;
+    span {
+      @apply px-5
+        py-3;
+    }
+    .delimiter {
+      @apply px-0;
+    }
+    &:not(.show-meridiem) {
+      .delimiter:last-child {
+        @apply pr-5;
+      }
+    }
   }
 }
