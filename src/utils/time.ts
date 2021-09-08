@@ -68,23 +68,23 @@ function getLocalizedTimePart(part: TimePart, parts: Intl.DateTimeFormatPart[]):
   if (part === "hourSuffix") {
     const hourIndex = parts.indexOf(parts.find(({ type }): boolean => type === "hour"));
     const minuteIndex = parts.indexOf(parts.find(({ type }): boolean => type === "minute"));
-    if (minuteIndex - hourIndex === 2) {
-      return parts[hourIndex + 1]?.value.trim() || null;
-    }
+    const hourSuffix = parts[hourIndex + 1];
+    return hourSuffix && hourSuffix.type === "literal" && minuteIndex - hourIndex === 2
+      ? hourSuffix.value?.trim() || null
+      : null;
   }
   if (part === "minuteSuffix") {
     const minuteIndex = parts.indexOf(parts.find(({ type }): boolean => type === "minute"));
     const secondIndex = parts.indexOf(parts.find(({ type }): boolean => type === "second"));
-    if (secondIndex - minuteIndex === 2) {
-      return parts[minuteIndex + 1]?.value.trim() || null;
-    }
+    const minuteSuffix = parts[minuteIndex + 1];
+    return minuteSuffix && minuteSuffix.type === "literal" && secondIndex - minuteIndex === 2
+      ? minuteSuffix.value?.trim() || null
+      : null;
   }
   if (part === "secondSuffix") {
     const secondIndex = parts.indexOf(parts.find(({ type }): boolean => type === "second"));
-    const meridiemIndex = parts.indexOf(parts.find(({ type }): boolean => type === "dayPeriod"));
-    if (meridiemIndex - secondIndex === 2) {
-      return parts[meridiemIndex + 1]?.value.trim() || null;
-    }
+    const secondSuffix = parts[secondIndex + 1];
+    return secondSuffix && secondSuffix.type === "literal" ? secondSuffix.value?.trim() || null : null;
   }
   return parts.find(({ type }) => (part == "meridiem" ? type === "dayPeriod" : type === part))?.value || null;
 }
