@@ -92,7 +92,7 @@ describe("calcite-input-date-picker", () => {
     element.setProperty("end", "2020-03-05");
     await page.waitForChanges();
     expect(await element.getProperty("start")).toBe("2020-03-07");
-    expect(await element.getProperty("startAsDate")).toBeDefined();
+    expect(await element.getProperty("startAsDate")).toBeInstanceOf(Date);
   });
 
   it("displays a calendar when clicked", async () => {
