@@ -189,11 +189,17 @@ export class CalciteTimePicker {
 
   @State() localizedHour: string;
 
-  @State() localizedMeridiem: string;
+  @State() localizedHourSuffix: string;
 
   @State() localizedMinute: string;
 
+  @State() localizedMinuteSuffix: string;
+
   @State() localizedSecond: string;
+
+  @State() localizedSecondSuffix: string;
+
+  @State() localizedMeridiem: string;
 
   @State() meridiem: Meridiem;
 
@@ -638,14 +644,24 @@ export class CalciteTimePicker {
   connectedCallback() {
     if (isValidTime(this.value)) {
       const { hour, minute, second } = parseTimeString(this.value);
-      const { localizedHour, localizedMinute, localizedSecond, localizedMeridiem } =
-        localizeTimeStringToParts(this.value, this.locale);
+      const {
+        localizedHour,
+        localizedHourSuffix,
+        localizedMinute,
+        localizedMinuteSuffix,
+        localizedSecond,
+        localizedSecondSuffix,
+        localizedMeridiem
+      } = localizeTimeStringToParts(this.value, this.locale);
       this.hour = hour;
       this.minute = minute;
       this.second = second;
       this.localizedHour = localizedHour;
+      this.localizedHourSuffix = localizedHourSuffix;
       this.localizedMinute = localizedMinute;
+      this.localizedMinuteSuffix = localizedMinuteSuffix;
       this.localizedSecond = localizedSecond;
+      this.localizedSecondSuffix = localizedSecondSuffix;
       if (localizedMeridiem) {
         this.meridiem = getMeridiem(this.hour);
         this.localizedMeridiem = localizedMeridiem;

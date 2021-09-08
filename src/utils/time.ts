@@ -4,8 +4,11 @@ export type HourCycle = "12" | "24";
 
 export interface LocalizedTime {
   localizedHour: string;
+  localizedHourSuffix: string;
   localizedMinute: string;
+  localizedMinuteSuffix: string;
   localizedSecond: string;
+  localizedSecondSuffix: string;
   localizedMeridiem: string;
 }
 
@@ -19,7 +22,7 @@ export interface Time {
   second: string;
 }
 
-export type TimePart = "hour" | MinuteOrSecond | "meridiem";
+export type TimePart = "hour" | "hourSuffix" | "minute" | "minuteSuffix" | "second" | "secondSuffix" | "meridiem";
 
 export const maxTenthForMinuteAndSecond = 5;
 
@@ -58,17 +61,32 @@ export function formatTimeString(value: string): string {
   }`;
 }
 
-function getDayPeriod(parts: Intl.DateTimeFormatPart[]): string {
-  if (!parts) {
+function getLocalizedTimePart(part: TimePart, parts: Intl.DateTimeFormatPart[]): string {
+  if (!part || !parts) {
     return null;
   }
-  const dayPeriod = parts.find((part) => part.type === "dayPeriod")?.value || null;
-  if (!dayPeriod) {
-    // This is to handle locales like bulgarian that for some reason label the dayPeriod's type with "literal" instead.
-    const lastPart = parts[parts.length - 1];
-    return lastPart?.type === "literal" ? lastPart?.value || null : null;
+  if (part === "hourSuffix") {
+    const hourIndex = parts.indexOf(parts.find(({ type }): boolean => type === "hour"));
+    const minuteIndex = parts.indexOf(parts.find(({ type }): boolean => type === "minute"));
+    if (minuteIndex - hourIndex === 2) {
+      return parts[hourIndex + 1]?.value.trim() || null;
+    }
   }
-  return dayPeriod;
+  if (part === "minuteSuffix") {
+    const minuteIndex = parts.indexOf(parts.find(({ type }): boolean => type === "minute"));
+    const secondIndex = parts.indexOf(parts.find(({ type }): boolean => type === "second"));
+    if (secondIndex - minuteIndex === 2) {
+      return parts[minuteIndex + 1]?.value.trim() || null;
+    }
+  }
+  if (part === "secondSuffix") {
+    const secondIndex = parts.indexOf(parts.find(({ type }): boolean => type === "second"));
+    const meridiemIndex = parts.indexOf(parts.find(({ type }): boolean => type === "dayPeriod"));
+    if (meridiemIndex - secondIndex === 2) {
+      return parts[meridiemIndex + 1]?.value.trim() || null;
+    }
+  }
+  return parts.find(({ type }) => (part == "meridiem" ? type === "dayPeriod" : type === part))?.value || null;
 }
 
 export function getMeridiem(hour: string): Meridiem {
@@ -130,7 +148,7 @@ function isValidTimePart(value: string, part: TimePart): boolean {
 export function getLocaleHourCycle(locale: string): HourCycle {
   const formatter = createLocaleDateTimeFormatter(locale);
   const parts = formatter.formatToParts(new Date(Date.UTC(0, 0, 0, 0, 0, 0)));
-  return getDayPeriod(parts) ? "12" : "24";
+  return getLocalizedTimePart("meridiem", parts) ? "12" : "24";
 }
 
 export function localizeTimePart(value: string, part: TimePart, locale: string): string {
@@ -152,10 +170,7 @@ export function localizeTimePart(value: string, part: TimePart, locale: string):
   }
   const formatter = createLocaleDateTimeFormatter(locale);
   const parts = formatter.formatToParts(date);
-  if (part === "meridiem") {
-    return getDayPeriod(parts);
-  }
-  return parts.find(({ type }) => type === part).value;
+  return getLocalizedTimePart(part, parts);
 }
 
 export function localizeTimeString(value: string, locale = "en", includeSeconds = true): string {
@@ -177,11 +192,17 @@ export function localizeTimeStringToParts(value: string, locale = "en"): Localiz
   if (dateFromTimeString) {
     const formatter = createLocaleDateTimeFormatter(locale);
     const parts = formatter.formatToParts(dateFromTimeString);
+    if (locale === "fr-CA" || locale === "bg") {
+      console.log(locale, parts);
+    }
     return {
-      localizedHour: parts.find((part) => part.type === "hour").value,
-      localizedMinute: parts.find((part) => part.type === "minute").value,
-      localizedSecond: parts.find((part) => part.type === "second").value,
-      localizedMeridiem: getDayPeriod(parts)
+      localizedHour: getLocalizedTimePart("hour", parts),
+      localizedHourSuffix: getLocalizedTimePart("hourSuffix", parts),
+      localizedMinute: getLocalizedTimePart("minute", parts),
+      localizedMinuteSuffix: getLocalizedTimePart("minuteSuffix", parts),
+      localizedSecond: getLocalizedTimePart("second", parts),
+      localizedSecondSuffix: getLocalizedTimePart("secondSuffix", parts),
+      localizedMeridiem: getLocalizedTimePart("meridiem", parts)
     };
   }
   return null;
