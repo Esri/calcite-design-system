@@ -61,6 +61,12 @@ export function formatTimeString(value: string): string {
   }`;
 }
 
+export function getLocaleHourCycle(locale: string): HourCycle {
+  const formatter = createLocaleDateTimeFormatter(locale);
+  const parts = formatter.formatToParts(new Date(Date.UTC(0, 0, 0, 0, 0, 0)));
+  return getLocalizedTimePart("meridiem", parts) ? "12" : "24";
+}
+
 function getLocalizedTimePart(part: TimePart, parts: Intl.DateTimeFormatPart[]): string {
   if (!part || !parts) {
     return null;
@@ -95,17 +101,6 @@ export function getMeridiem(hour: string): Meridiem {
   }
   const hourAsNumber = parseInt(hour);
   return hourAsNumber >= 0 && hourAsNumber <= 11 ? "AM" : "PM";
-}
-
-export function getMeridiemHour(hour: string): string {
-  if (!isValidNumber(hour)) {
-    return null;
-  }
-  const hourAsNumber = parseInt(hour);
-  if (hourAsNumber === 0) {
-    return "12";
-  }
-  return hourAsNumber > 12 ? formatTimePart(hourAsNumber - 12) : hour;
 }
 
 export function isValidTime(value: string): boolean {
@@ -143,12 +138,6 @@ function isValidTimePart(value: string, part: TimePart): boolean {
     case "second":
       return valueAsNumber >= 0 && valueAsNumber < 60;
   }
-}
-
-export function getLocaleHourCycle(locale: string): HourCycle {
-  const formatter = createLocaleDateTimeFormatter(locale);
-  const parts = formatter.formatToParts(new Date(Date.UTC(0, 0, 0, 0, 0, 0)));
-  return getLocalizedTimePart("meridiem", parts) ? "12" : "24";
 }
 
 export function localizeTimePart(value: string, part: TimePart, locale: string): string {

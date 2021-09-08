@@ -18,7 +18,6 @@ import { isValidNumber } from "../../utils/number";
 import {
   formatTimePart,
   MinuteOrSecond,
-  Time,
   maxTenthForMinuteAndSecond,
   TimePart,
   getMeridiem,
@@ -138,19 +137,19 @@ export class CalciteTimePicker {
     if (isValidTime(newValue)) {
       const { hour, minute, second } = parseTimeString(newValue);
       if (hour !== this.hour) {
-        this.setValue("hour", hour, false);
+        this.setValuePart("hour", hour, false);
       }
       if (minute !== this.minute) {
-        this.setValue("minute", minute, false);
+        this.setValuePart("minute", minute, false);
       }
       if (second !== this.second) {
-        this.setValue("second", second, false);
+        this.setValuePart("second", second, false);
       }
     } else {
-      this.setValue("hour", null, false);
-      this.setValue("minute", null, false);
-      this.setValue("second", null, false);
-      this.setValue("meridiem", null, false);
+      this.setValuePart("hour", null, false);
+      this.setValuePart("minute", null, false);
+      this.setValuePart("second", null, false);
+      this.setValuePart("meridiem", null, false);
     }
   }
 
@@ -181,7 +180,7 @@ export class CalciteTimePicker {
   @Watch("hour")
   hourChanged(newHour: string): void {
     if (this.meridiem && isValidNumber(newHour)) {
-      this.setValue("meridiem", getMeridiem(newHour));
+      this.setValuePart("meridiem", getMeridiem(newHour));
     }
   }
 
@@ -218,7 +217,7 @@ export class CalciteTimePicker {
   /**
    * @internal
    */
-  @Event() calciteTimePickerBlur: EventEmitter<Time>;
+  @Event() calciteTimePickerBlur: EventEmitter<void>;
 
   /**
    * @internal
@@ -228,7 +227,7 @@ export class CalciteTimePicker {
   /**
    * @internal
    */
-  @Event() calciteTimePickerFocus: EventEmitter<Time>;
+  @Event() calciteTimePickerFocus: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -314,12 +313,12 @@ export class CalciteTimePicker {
 
   private decrementHour = (): void => {
     const newHour = !this.hour ? 0 : this.hour === "00" ? 23 : parseInt(this.hour) - 1;
-    this.setValue("hour", newHour);
+    this.setValuePart("hour", newHour);
   };
 
   private decrementMeridiem = (): void => {
     const newMeridiem = this.meridiem === "PM" ? "AM" : "PM";
-    this.setValue("meridiem", newMeridiem);
+    this.setValuePart("meridiem", newMeridiem);
   };
 
   private decrementMinuteOrSecond = (key: MinuteOrSecond): void => {
@@ -334,7 +333,7 @@ export class CalciteTimePicker {
     } else {
       newValue = 59;
     }
-    this.setValue(key, newValue);
+    this.setValuePart(key, newValue);
   };
 
   private decrementMinute = (): void => {
@@ -392,12 +391,12 @@ export class CalciteTimePicker {
       } else {
         newHour = keyAsNumber;
       }
-      this.setValue("hour", newHour);
+      this.setValuePart("hour", newHour);
     } else {
       switch (key) {
         case "Backspace":
         case "Delete":
-          this.setValue("hour", null);
+          this.setValuePart("hour", null);
           break;
         case "ArrowDown":
           event.preventDefault();
@@ -423,7 +422,7 @@ export class CalciteTimePicker {
 
   private incrementMeridiem = (): void => {
     const newMeridiem = this.meridiem === "AM" ? "PM" : "AM";
-    this.setValue("meridiem", newMeridiem);
+    this.setValuePart("meridiem", newMeridiem);
   };
 
   private incrementHour = (): void => {
@@ -432,7 +431,7 @@ export class CalciteTimePicker {
         ? 0
         : parseInt(this.hour) + 1
       : 1;
-    this.setValue("hour", newHour);
+    this.setValuePart("hour", newHour);
   };
 
   private incrementMinuteOrSecond = (key: MinuteOrSecond): void => {
@@ -441,7 +440,7 @@ export class CalciteTimePicker {
         ? 0
         : parseInt(this[key]) + 1
       : 0;
-    this.setValue(key, newValue);
+    this.setValuePart(key, newValue);
   };
 
   private incrementMinute = (): void => {
@@ -461,14 +460,14 @@ export class CalciteTimePicker {
   private meridiemKeyDownHandler = (event: KeyboardEvent): void => {
     switch (getKey(event.key)) {
       case "a":
-        this.setValue("meridiem", "AM");
+        this.setValuePart("meridiem", "AM");
         break;
       case "p":
-        this.setValue("meridiem", "PM");
+        this.setValuePart("meridiem", "PM");
         break;
       case "Backspace":
       case "Delete":
-        this.setValue("meridiem", null);
+        this.setValuePart("meridiem", null);
         break;
       case "ArrowUp":
         event.preventDefault();
@@ -512,12 +511,12 @@ export class CalciteTimePicker {
       } else {
         newMinute = keyAsNumber;
       }
-      this.setValue("minute", newMinute);
+      this.setValuePart("minute", newMinute);
     } else {
       switch (key) {
         case "Backspace":
         case "Delete":
-          this.setValue("minute", null);
+          this.setValuePart("minute", null);
           break;
         case "ArrowDown":
           event.preventDefault();
@@ -562,12 +561,12 @@ export class CalciteTimePicker {
       } else {
         newSecond = keyAsNumber;
       }
-      this.setValue("second", newSecond);
+      this.setValuePart("second", newSecond);
     } else {
       switch (key) {
         case "Backspace":
         case "Delete":
-          this.setValue("second", null);
+          this.setValuePart("second", null);
           break;
         case "ArrowDown":
           event.preventDefault();
@@ -591,7 +590,7 @@ export class CalciteTimePicker {
     }
   };
 
-  private setValue = (
+  private setValuePart = (
     key: "hour" | "minute" | "second" | "meridiem",
     value: number | string | Meridiem,
     emit = true
