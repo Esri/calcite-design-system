@@ -103,7 +103,7 @@ export class CalciteInputDatePicker {
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** Range mode activation */
-  @Prop({ reflect: true }) range?: boolean = false;
+  @Prop({ reflect: true }) range = false;
 
   /** Selected start date */
   @Prop() start?: string;
@@ -115,7 +115,7 @@ export class CalciteInputDatePicker {
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
   /** Disables the default behaviour on the third click of narrowing or extending the range and instead starts a new range. */
-  @Prop() proximitySelectionDisabled?: boolean = false;
+  @Prop() proximitySelectionDisabled = false;
 
   /** Layout */
   @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";

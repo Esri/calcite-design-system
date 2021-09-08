@@ -21,7 +21,7 @@ describe("calcite-popover-manager", () => {
       },
       {
         propertyName: "autoClose",
-        defaultValue: undefined
+        defaultValue: false
       }
     ]));
 
