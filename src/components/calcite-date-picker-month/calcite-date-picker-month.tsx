@@ -297,7 +297,7 @@ export class CalciteDatePickerMonth {
    * Determine if the date is in between the start and end dates
    */
   private betweenSelectedRange(date: Date): boolean {
-    return (
+    return !!(
       this.startDate &&
       this.endDate &&
       date > this.startDate &&
@@ -310,7 +310,7 @@ export class CalciteDatePickerMonth {
    * Determine if the date should be in selected state
    */
   private isSelected(date: Date): boolean {
-    return (
+    return !!(
       sameDate(date, this.selectedDate) ||
       (this.startDate && sameDate(date, this.startDate)) ||
       (this.endDate && sameDate(date, this.endDate))
@@ -321,7 +321,7 @@ export class CalciteDatePickerMonth {
    * Determine if the date is the start of the date range
    */
   private isStartOfRange(date: Date): boolean {
-    return (
+    return !!(
       !!this.startDate &&
       !sameDate(this.startDate, this.endDate) &&
       sameDate(this.startDate, date) &&
@@ -410,10 +410,10 @@ export class CalciteDatePickerMonth {
 
   private isHoverInRange(): boolean {
     if (!this.hoverRange) {
-      return;
+      return false;
     }
     const { start, end } = this.hoverRange;
-    return (
+    return !!(
       (!this.isFocusedOnStart() && !!this.startDate && (!this.endDate || end < this.endDate)) ||
       (this.isFocusedOnStart() && !!this.startDate && start > this.startDate)
     );

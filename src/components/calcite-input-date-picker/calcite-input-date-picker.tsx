@@ -508,52 +508,55 @@ export class CalciteInputDatePicker {
     this.localeData = await getLocaleData(locale);
   }
 
-  /**
-   * If inputted string is a valid date, update value/active
-   */
-  private input(value: string): void {
-    const date = this.getDateFromInput(value);
-    if (date) {
-      if (!this.range) {
-        this.value = dateToISO(date);
-        return;
-      }
-
-      let changed = false;
-      if (this.focusedInput === "start") {
-        changed = !this.startAsDate || !sameDate(date, this.startAsDate);
-        if (changed) {
-          this.start = dateToISO(date);
-          this.calciteDatePickerRangeChange.emit({
-            startDate: date,
-            endDate: this.endAsDate
-          });
-        }
-      } else if (this.focusedInput === "end") {
-        changed = !this.endAsDate || !sameDate(date, this.endAsDate);
-        if (changed) {
-          this.end = dateToISO(date);
-          this.calciteDatePickerRangeChange.emit({
-            startDate: this.startAsDate,
-            endDate: date
-          });
-        }
-      }
-
-      return;
-    }
-
+  private clearCurrentValue() {
     if (!this.range) {
       this.value = undefined;
       return;
     }
 
-    if (this.focusedInput === "start") {
+    const { focusedInput } = this;
+
+    if (focusedInput === "start") {
       this.start = undefined;
+    } else if (focusedInput === "end") {
+      this.end = undefined;
+    }
+  }
+
+  /**
+   * If inputted string is a valid date, update value/active
+   */
+  private input(value: string): void {
+    const date = this.getDateFromInput(value);
+
+    if (!date) {
+      this.clearCurrentValue();
+      return;
     }
 
-    if (this.focusedInput === "end") {
-      this.end = undefined;
+    if (!this.range) {
+      this.value = dateToISO(date);
+      return;
+    }
+
+    const { focusedInput } = this;
+
+    if (focusedInput === "start") {
+      if (!this.startAsDate || !sameDate(date, this.startAsDate)) {
+        this.start = dateToISO(date);
+        this.calciteDatePickerRangeChange.emit({
+          startDate: date,
+          endDate: this.endAsDate
+        });
+      }
+    } else if (focusedInput === "end") {
+      if (!this.endAsDate || !sameDate(date, this.endAsDate)) {
+        this.end = dateToISO(date);
+        this.calciteDatePickerRangeChange.emit({
+          startDate: this.startAsDate,
+          endDate: date
+        });
+      }
     }
   }
 
@@ -602,6 +605,7 @@ export class CalciteInputDatePicker {
     if (!this.range || !event.detail) {
       return;
     }
+
     const { startDate, endDate } = event.detail;
 
     this.start = dateToISO(startDate);

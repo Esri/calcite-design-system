@@ -67,7 +67,7 @@ export function dateToISO(date?: Date | string): string {
  * Check if two dates are the same day, month, year
  */
 export function sameDate(d1: Date, d2: Date): boolean {
-  return (
+  return !!(
     d1 instanceof Date &&
     d2 instanceof Date &&
     d1.getDate() === d2.getDate() &&
