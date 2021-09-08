@@ -192,9 +192,6 @@ export function localizeTimeStringToParts(value: string, locale = "en"): Localiz
   if (dateFromTimeString) {
     const formatter = createLocaleDateTimeFormatter(locale);
     const parts = formatter.formatToParts(dateFromTimeString);
-    if (locale === "fr-CA" || locale === "bg") {
-      console.log(locale, parts);
-    }
     return {
       localizedHour: getLocalizedTimePart("hour", parts),
       localizedHourSuffix: getLocalizedTimePart("hourSuffix", parts),

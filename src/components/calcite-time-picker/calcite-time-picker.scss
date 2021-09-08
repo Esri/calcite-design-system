@@ -51,8 +51,7 @@
     }
 
     &.input {
-      @apply font-medium
-        relative;
+      @apply font-medium;
       &:hover {
         box-shadow: inset 0 0 0 2px var(--calcite-ui-foreground-2);
       }
