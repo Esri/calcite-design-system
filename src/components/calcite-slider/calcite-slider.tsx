@@ -60,10 +60,10 @@ export class CalciteSlider implements CalciteLabelableComponent {
   @Prop() histogramStops: ColorStop[];
 
   /** Label handles with their numeric value */
-  @Prop({ reflect: true }) labelHandles?: boolean;
+  @Prop({ reflect: true }) labelHandles = false;
 
   /** Label tick marks with their numeric value. */
-  @Prop({ reflect: true }) labelTicks?: boolean;
+  @Prop({ reflect: true }) labelTicks = false;
 
   /** Maximum selectable value */
   @Prop({ reflect: true }) max = 100;
@@ -94,10 +94,10 @@ export class CalciteSlider implements CalciteLabelableComponent {
   @Prop() pageStep?: number;
 
   /** Use finer point for handles */
-  @Prop() precise?: boolean;
+  @Prop() precise = false;
 
   /** When true, enables snap selection along the step interval */
-  @Prop() snap?: boolean = false;
+  @Prop() snap = false;
 
   /** Interval to move on up/down keys */
   @Prop() step?: number = 1;

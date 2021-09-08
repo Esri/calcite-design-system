@@ -50,10 +50,10 @@ export class CalciteInputTimePicker implements CalciteLabelableComponent {
   //--------------------------------------------------------------------------
 
   /** The active state of the time input */
-  @Prop({ reflect: true, mutable: true }) active?: boolean = false;
+  @Prop({ reflect: true, mutable: true }) active = false;
 
   /** The disabled state of the time input */
-  @Prop({ reflect: true }) disabled?: boolean = false;
+  @Prop({ reflect: true }) disabled = false;
 
   /** Format of the hour value (12-hour or 24-hour) (this will be replaced by locale eventually) */
   @Prop() hourDisplayFormat: HourDisplayFormat = "12";

@@ -41,7 +41,7 @@ export class CalciteSwitch implements CalciteLabelableComponent {
   //--------------------------------------------------------------------------
 
   /** True if the switch is disabled */
-  @Prop({ reflect: true }) disabled?: boolean = false;
+  @Prop({ reflect: true }) disabled = false;
 
   @Watch("disabled")
   disabledWatcher(newDisabled: boolean): void {
