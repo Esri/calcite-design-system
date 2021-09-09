@@ -74,7 +74,7 @@ export class CalciteActionBar {
   /**
    * Disables automatically overflowing actions that won't fit into menus.
    */
-  @Prop() overflowActionsDisabled?: boolean;
+  @Prop() overflowActionsDisabled = false;
 
   @Watch("overflowActionsDisabled")
   overflowDisabledHandler(overflowActionsDisabled: boolean): void {

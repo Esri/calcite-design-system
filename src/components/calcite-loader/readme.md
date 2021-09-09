@@ -37,7 +37,7 @@ If you can calculate your progress, it's best to use the determinate version of 
 | `active`             | `active`     | Show the loader                                                    | `boolean`                          | `false`     |
 | `inline`             | `inline`     | Inline loaders are smaller and will appear to the left of the text | `boolean`                          | `false`     |
 | `label` _(required)_ | `label`      | Accessible name for the component                                  | `string`                           | `undefined` |
-| `noPadding`          | `no-padding` | Turn off spacing around the loader                                 | `boolean`                          | `undefined` |
+| `noPadding`          | `no-padding` | Turn off spacing around the loader                                 | `boolean`                          | `false`     |
 | `scale`              | `scale`      | Speficy the scale of the loader. Defaults to "m"                   | `"l" \| "m" \| "s"`                | `"m"`       |
 | `text`               | `text`       | Text which should appear under the loading indicator (optional)    | `string`                           | `""`        |
 | `type`               | `type`       | Use indeterminate if finding actual progress value is impossible   | `"determinate" \| "indeterminate"` | `undefined` |

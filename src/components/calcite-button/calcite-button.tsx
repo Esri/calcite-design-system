@@ -47,7 +47,7 @@ export class CalciteButton {
   @Prop({ reflect: true }) color: ButtonColor = "blue";
 
   /** is the button disabled  */
-  @Prop({ reflect: true }) disabled?: boolean;
+  @Prop({ reflect: true }) disabled = false;
 
   /** optionally pass a href - used to determine if the component should render as a button or an anchor */
   @Prop({ reflect: true }) href?: string;
@@ -67,7 +67,7 @@ export class CalciteButton {
   @Prop() intlLoading?: string = TEXT.loading;
 
   /** optionally add a calcite-loader component to the button, disabling interaction.  */
-  @Prop({ reflect: true }) loading?: boolean = false;
+  @Prop({ reflect: true }) loading = false;
 
   /** The name attribute to apply to the button */
   @Prop() name?: string;
@@ -79,7 +79,7 @@ export class CalciteButton {
   @Prop() form?: string;
 
   /** optionally add a round style to the button  */
-  @Prop({ reflect: true }) round?: boolean = false;
+  @Prop({ reflect: true }) round = false;
 
   /** specify the scale of the button, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -224,10 +224,10 @@ export class CalciteButton {
   private childElType?: "a" | "button" = "button";
 
   /** determine if there is slotted content for styling purposes */
-  @State() private hasContent?: boolean = false;
+  @State() private hasContent = false;
 
   /** determine if loader present for styling purposes */
-  @State() private hasLoader?: boolean = false;
+  @State() private hasLoader = false;
 
   private updateHasContent() {
     const slottedContent = this.el.textContent.trim().length > 0 || this.el.childNodes.length > 0;
