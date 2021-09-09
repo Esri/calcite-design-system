@@ -62,7 +62,7 @@ export class CalciteDropdown {
   @Prop({ reflect: true }) disableCloseOnSelect = false;
 
   /** is the dropdown disabled  */
-  @Prop({ reflect: true }) disabled?: boolean;
+  @Prop({ reflect: true }) disabled = false;
 
   /**
    specify the maximum number of calcite-dropdown-items to display before showing the scroller, must be greater than 0 -

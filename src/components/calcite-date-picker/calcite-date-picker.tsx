@@ -103,7 +103,7 @@ export class CalciteDatePicker {
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** Range mode activation */
-  @Prop({ reflect: true }) range?: boolean = false;
+  @Prop({ reflect: true }) range = false;
 
   /** Selected start date */
   @Prop({ mutable: true }) start?: string;
@@ -112,7 +112,7 @@ export class CalciteDatePicker {
   @Prop({ mutable: true }) end?: string;
 
   /** Disables the default behaviour on the third click of narrowing or extending the range and instead starts a new range. */
-  @Prop() proximitySelectionDisabled?: boolean = false;
+  @Prop() proximitySelectionDisabled = false;
 
   //--------------------------------------------------------------------------
   //
@@ -480,7 +480,11 @@ export class CalciteDatePicker {
       if (this.startAsDate) {
         this.setEndDate(new Date(this.startAsDate));
       }
-      this.setStartDate(date);
+      if (this.activeRange == "end") {
+        this.setEndDate(date);
+      } else {
+        this.setStartDate(date);
+      }
     } else if (!this.endAsDate) {
       this.setEndDate(date);
     } else {

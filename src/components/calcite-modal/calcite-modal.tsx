@@ -64,16 +64,16 @@ export class CalciteModal {
   //
   //--------------------------------------------------------------------------
   /** Add the active attribute to open the modal */
-  @Prop({ mutable: true, reflect: true }) active?: boolean;
+  @Prop({ mutable: true, reflect: true }) active = false;
 
   /** Optionally pass a function to run before close */
   @Prop() beforeClose: (el: HTMLElement) => Promise<void> = () => Promise.resolve();
 
   /** Disables the display a close button within the Modal */
-  @Prop() disableCloseButton?: boolean;
+  @Prop() disableCloseButton = false;
 
   /** Disables the closing of the Modal when clicked outside. */
-  @Prop() disableOutsideClose?: boolean;
+  @Prop() disableOutsideClose = false;
 
   /** Aria label for the close button */
   @Prop() intlClose = TEXT.close;
@@ -85,7 +85,7 @@ export class CalciteModal {
   @Prop() firstFocus?: HTMLElement;
 
   /** Flag to disable the default close on escape behavior */
-  @Prop() disableEscape?: boolean;
+  @Prop() disableEscape = false;
 
   /** specify the scale of modal, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -104,7 +104,7 @@ export class CalciteModal {
   @Prop({ reflect: true }) backgroundColor: ModalBackgroundColor = "white";
 
   /** Turn off spacing around the content area slot */
-  @Prop() noPadding?: boolean;
+  @Prop() noPadding = false;
 
   //--------------------------------------------------------------------------
   //
