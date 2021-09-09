@@ -121,6 +121,7 @@ export class CalciteTimePicker {
   @Watch("locale")
   localeWatcher(newLocale: string): void {
     this.hourCycle = getLocaleHourCycle(newLocale);
+    this.setValue(this.value, false);
   }
 
   /** The scale (size) of the time picker */
@@ -134,23 +135,7 @@ export class CalciteTimePicker {
 
   @Watch("value")
   valueWatcher(newValue: string): void {
-    if (isValidTime(newValue)) {
-      const { hour, minute, second } = parseTimeString(newValue);
-      if (hour !== this.hour) {
-        this.setValuePart("hour", hour, false);
-      }
-      if (minute !== this.minute) {
-        this.setValuePart("minute", minute, false);
-      }
-      if (second !== this.second) {
-        this.setValuePart("second", second, false);
-      }
-    } else {
-      this.setValuePart("hour", null, false);
-      this.setValuePart("minute", null, false);
-      this.setValuePart("second", null, false);
-      this.setValuePart("meridiem", null, false);
-    }
+    this.setValue(newValue, false);
   }
 
   // --------------------------------------------------------------------------
@@ -190,6 +175,8 @@ export class CalciteTimePicker {
 
   @State() localizedHourSuffix: string;
 
+  @State() localizedMeridiem: string;
+
   @State() localizedMinute: string;
 
   @State() localizedMinuteSuffix: string;
@@ -197,8 +184,6 @@ export class CalciteTimePicker {
   @State() localizedSecond: string;
 
   @State() localizedSecondSuffix: string;
-
-  @State() localizedMeridiem: string;
 
   @State() meridiem: Meridiem;
 
@@ -590,6 +575,50 @@ export class CalciteTimePicker {
     }
   };
 
+  private setValue = (value: string, emit = true): void => {
+    if (isValidTime(value)) {
+      const { hour, minute, second } = parseTimeString(value);
+      const {
+        localizedHour,
+        localizedHourSuffix,
+        localizedMinute,
+        localizedMinuteSuffix,
+        localizedSecond,
+        localizedSecondSuffix,
+        localizedMeridiem
+      } = localizeTimeStringToParts(value, this.locale);
+      this.localizedHour = localizedHour;
+      this.localizedHourSuffix = localizedHourSuffix;
+      this.localizedMinute = localizedMinute;
+      this.localizedMinuteSuffix = localizedMinuteSuffix;
+      this.localizedSecond = localizedSecond;
+      this.localizedSecondSuffix = localizedSecondSuffix;
+      this.hour = hour;
+      this.minute = minute;
+      this.second = second;
+      if (localizedMeridiem) {
+        this.localizedMeridiem = localizedMeridiem;
+        this.meridiem = getMeridiem(this.hour);
+      }
+    } else {
+      this.hour = null;
+      this.localizedHour = null;
+      this.localizedHourSuffix = null;
+      this.localizedMeridiem = null;
+      this.localizedMinute = null;
+      this.localizedMinuteSuffix = null;
+      this.localizedSecond = null;
+      this.localizedSecondSuffix = null;
+      this.meridiem = null;
+      this.minute = null;
+      this.second = null;
+      this.value = null;
+    }
+    if (emit) {
+      this.calciteTimePickerChange.emit(this.value);
+    }
+  };
+
   private setValuePart = (
     key: "hour" | "minute" | "second" | "meridiem",
     value: number | string | Meridiem,
@@ -641,33 +670,7 @@ export class CalciteTimePicker {
   // --------------------------------------------------------------------------
 
   connectedCallback() {
-    if (isValidTime(this.value)) {
-      const { hour, minute, second } = parseTimeString(this.value);
-      const {
-        localizedHour,
-        localizedHourSuffix,
-        localizedMinute,
-        localizedMinuteSuffix,
-        localizedSecond,
-        localizedSecondSuffix,
-        localizedMeridiem
-      } = localizeTimeStringToParts(this.value, this.locale);
-      this.hour = hour;
-      this.minute = minute;
-      this.second = second;
-      this.localizedHour = localizedHour;
-      this.localizedHourSuffix = localizedHourSuffix;
-      this.localizedMinute = localizedMinute;
-      this.localizedMinuteSuffix = localizedMinuteSuffix;
-      this.localizedSecond = localizedSecond;
-      this.localizedSecondSuffix = localizedSecondSuffix;
-      if (localizedMeridiem) {
-        this.meridiem = getMeridiem(this.hour);
-        this.localizedMeridiem = localizedMeridiem;
-      }
-    } else {
-      this.value = null;
-    }
+    this.setValue(this.value, false);
   }
 
   // --------------------------------------------------------------------------
