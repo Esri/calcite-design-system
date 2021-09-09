@@ -34,7 +34,7 @@ export class CalcitePopoverManager {
   /**
    * Automatically closes any currently open popovers when clicking outside of a popover.
    */
-  @Prop({ reflect: true }) autoClose?: boolean;
+  @Prop({ reflect: true }) autoClose = false;
 
   // --------------------------------------------------------------------------
   //

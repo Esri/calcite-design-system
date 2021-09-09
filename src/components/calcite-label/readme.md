@@ -34,8 +34,8 @@ When using the `default`, `inline` or `inline-space-between` layout option with 
 | Property         | Attribute         | Description                                                          | Type                                              | Default     |
 | ---------------- | ----------------- | -------------------------------------------------------------------- | ------------------------------------------------- | ----------- |
 | `alignment`      | `alignment`       | specify the text alignment of the label                              | `"center" \| "end" \| "start"`                    | `"start"`   |
-| `disableSpacing` | `disable-spacing` | eliminates any space around the label                                | `boolean`                                         | `undefined` |
-| `disabled`       | `disabled`        | is the label disabled                                                | `boolean`                                         | `undefined` |
+| `disableSpacing` | `disable-spacing` | eliminates any space around the label                                | `boolean`                                         | `false`     |
+| `disabled`       | `disabled`        | is the label disabled                                                | `boolean`                                         | `false`     |
 | `for`            | `for`             | The id of the input associated with the label                        | `string`                                          | `undefined` |
 | `layout`         | `layout`          | is the wrapped element positioned inline with the label slotted text | `"default" \| "inline" \| "inline-space-between"` | `"default"` |
 | `scale`          | `scale`           | specify the scale of the input, defaults to m                        | `"l" \| "m" \| "s"`                               | `"m"`       |

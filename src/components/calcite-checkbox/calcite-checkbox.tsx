@@ -37,7 +37,7 @@ export class CalciteCheckbox {
   //--------------------------------------------------------------------------
 
   /** The checked state of the checkbox. */
-  @Prop({ reflect: true, mutable: true }) checked?: boolean = false;
+  @Prop({ reflect: true, mutable: true }) checked = false;
 
   @Watch("checked")
   checkedWatcher(newChecked: boolean): void {
@@ -45,7 +45,7 @@ export class CalciteCheckbox {
   }
 
   /** True if the checkbox is disabled */
-  @Prop({ reflect: true }) disabled?: boolean = false;
+  @Prop({ reflect: true }) disabled = false;
 
   @Watch("disabled")
   disabledChanged(disabled: boolean): void {
@@ -66,7 +66,7 @@ export class CalciteCheckbox {
    * which is independent from its checked state
    * https://css-tricks.com/indeterminate-checkboxes/
    * */
-  @Prop({ reflect: true, mutable: true }) indeterminate?: boolean = false;
+  @Prop({ reflect: true, mutable: true }) indeterminate = false;
 
   /**
    * The label of the checkbox input
