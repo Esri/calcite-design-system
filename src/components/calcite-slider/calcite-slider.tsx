@@ -718,14 +718,14 @@ export class CalciteSlider implements LabelableComponent {
     } else if (key === "End") {
       adjustment = max;
     }
-
     if (isNaN(adjustment)) {
       return;
     }
-
     event.preventDefault();
     this[activeProp] = this.clamp(adjustment, activeProp);
-    this.emitChange();
+    if (this[activeProp] === adjustment) {
+      this.emitInput();
+    }
   }
 
   @Listen("click")
@@ -767,6 +767,13 @@ export class CalciteSlider implements LabelableComponent {
    * expensive operations consider using a debounce or throttle to avoid
    * locking up the main thread.
    */
+  @Event() calciteSliderInput: EventEmitter;
+
+  /**
+   * Fires on when the thumb is released on slider
+   * If you need to constantly listen to the drag event,
+   * please use calciteSliderInput instead
+   */
   @Event() calciteSliderChange: EventEmitter;
 
   /**
@@ -774,7 +781,7 @@ export class CalciteSlider implements LabelableComponent {
    * :warning: Will be fired frequently during drag. If you are performing any
    * expensive operations consider using a debounce or throttle to avoid
    * locking up the main thread.
-   * @deprecated use calciteSliderChange instead
+   * @deprecated use calciteSliderInput instead
    */
   @Event() calciteSliderUpdate: EventEmitter;
 
@@ -879,8 +886,8 @@ export class CalciteSlider implements LabelableComponent {
 
   private dragUpdate = (event: PointerEvent): void => {
     event.preventDefault();
-
     if (this.dragProp) {
+      const currentValue = this[this.dragProp];
       const value = this.translate(event.clientX || event.pageX);
       if (this.isRange && this.dragProp === "minMaxValue") {
         if (this.minValueDragRange && this.maxValueDragRange && this.minMaxValueRange) {
@@ -902,14 +909,19 @@ export class CalciteSlider implements LabelableComponent {
       } else {
         this[this.dragProp] = this.clamp(value, this.dragProp);
       }
-
-      this.emitChange();
+      if (currentValue !== this[this.dragProp]) {
+        this.emitInput();
+      }
     }
   };
 
+  private emitInput(): void {
+    this.calciteSliderInput.emit();
+    this.calciteSliderUpdate.emit();
+  }
+
   private emitChange(): void {
     this.calciteSliderChange.emit();
-    this.calciteSliderUpdate.emit();
   }
 
   private dragEnd = (): void => {
@@ -917,9 +929,8 @@ export class CalciteSlider implements LabelableComponent {
     document.removeEventListener("pointerup", this.dragEnd);
     document.removeEventListener("pointercancel", this.dragEnd);
 
-    this.emitChange();
     this.focusActiveHandle();
-
+    this.emitChange();
     this.dragProp = null;
     this.minValueDragRange = null;
     this.maxValueDragRange = null;

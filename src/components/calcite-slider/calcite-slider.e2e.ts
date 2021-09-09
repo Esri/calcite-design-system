@@ -148,7 +148,7 @@ describe("calcite-slider", () => {
     expect(ticks.length).toBe(11);
   });
 
-  it("fires calciteSliderChange event on changes", async () => {
+  it("fires calciteSliderInput event on changes", async () => {
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-slider
@@ -162,7 +162,7 @@ describe("calcite-slider", () => {
     `);
     const slider = await page.find("calcite-slider");
     const handle = await page.find("calcite-slider >>> .thumb");
-    const changeEvent = await slider.spyOnEvent("calciteSliderChange");
+    const changeEvent = await slider.spyOnEvent("calciteSliderInput");
     expect(changeEvent).toHaveReceivedEventTimes(0);
     await handle.press("ArrowRight");
     expect(changeEvent).toHaveReceivedEventTimes(1);
@@ -180,7 +180,6 @@ describe("calcite-slider", () => {
       });
       const slider = await page.find("calcite-slider");
       const changeEvent = await slider.spyOnEvent("calciteSliderChange");
-
       expect(await slider.getProperty("value")).toBe(0);
 
       await page.mouse.move(50, 8);
@@ -189,7 +188,6 @@ describe("calcite-slider", () => {
 
       expect(await slider.getProperty("value")).toBe(50);
       expect(changeEvent).toHaveReceivedEventTimes(0);
-
       await page.mouse.up();
       await page.waitForChanges();
 
@@ -206,7 +204,7 @@ describe("calcite-slider", () => {
         `
       });
       const slider = await page.find("calcite-slider");
-      const changeEvent = await slider.spyOnEvent("calciteSliderChange");
+      const changeEvent = await slider.spyOnEvent("calciteSliderInput");
 
       expect(await slider.getProperty("value")).toBe(0);
 
@@ -262,7 +260,7 @@ describe("calcite-slider", () => {
         `
       });
       const slider = await page.find("calcite-slider");
-      const changeEvent = await slider.spyOnEvent("calciteSliderChange");
+      const changeEvent = await slider.spyOnEvent("calciteSliderInput");
 
       expect(await slider.getProperty("minValue")).toBe(50);
       expect(await slider.getProperty("maxValue")).toBe(75);
@@ -320,7 +318,7 @@ describe("calcite-slider", () => {
         `
       });
       const slider = await page.find("calcite-slider");
-      const changeEvent = await slider.spyOnEvent("calciteSliderChange");
+      const changeEvent = await slider.spyOnEvent("calciteSliderInput");
 
       expect(await slider.getProperty("minValue")).toBe(25);
       expect(await slider.getProperty("maxValue")).toBe(50);
