@@ -151,6 +151,7 @@ export class CalciteRadioButton {
   //
   //--------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     focusElement(this.inputEl);

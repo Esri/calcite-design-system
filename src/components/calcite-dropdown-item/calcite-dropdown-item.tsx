@@ -83,7 +83,7 @@ export class CalciteDropdownItem {
   //
   //--------------------------------------------------------------------------
 
-  /** Focuses the selected item. */
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     this.el.focus();

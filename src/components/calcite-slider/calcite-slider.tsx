@@ -774,6 +774,8 @@ export class CalciteSlider {
   //  Public Methods
   //
   //--------------------------------------------------------------------------
+
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     const handle = this.minHandle ? this.minHandle : this.maxHandle;

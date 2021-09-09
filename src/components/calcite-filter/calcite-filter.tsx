@@ -84,9 +84,7 @@ export class CalciteFilter {
   //
   // --------------------------------------------------------------------------
 
-  /**
-   * Focuses the filter input.
-   */
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     focusElement(this.textInput);

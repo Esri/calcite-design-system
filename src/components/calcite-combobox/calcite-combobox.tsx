@@ -158,6 +158,7 @@ export class CalciteCombobox {
       : this.createPopper();
   }
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     this.active = true;

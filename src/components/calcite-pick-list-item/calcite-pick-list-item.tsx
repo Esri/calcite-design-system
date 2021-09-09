@@ -186,6 +186,7 @@ export class CalcitePickListItem {
     this.selected = typeof coerce === "boolean" ? coerce : !this.selected;
   }
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     this.focusEl?.focus();

@@ -201,6 +201,8 @@ export class CalciteRating {
   //  Public Methods
   //
   //--------------------------------------------------------------------------
+
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     this.inputFocusRef.focus();

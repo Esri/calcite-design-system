@@ -50,6 +50,7 @@ export class CalciteHandle {
   //
   // --------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     this.handleButton.focus();
