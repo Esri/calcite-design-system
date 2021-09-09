@@ -3,7 +3,8 @@
 }
 
 .time-picker {
-  @apply flex
+  @apply bg-foreground-1
+    flex
     font-medium
     items-center
     select-none

@@ -5,112 +5,173 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Calcite Input Time Picker</title>
-    <style>
-      body {
-        margin: 20px;
-      }
-
-      .demo-background-light {
-        border: 1px solid #202020;
-        padding: 1rem;
-      }
-
-      .demo-background-dark {
-        background: #202020;
-        color: white;
-        padding: 1rem;
-      }
-
-      h1,
-      h2,
-      h3 {
-        margin: 0;
-      }
-
-      #locales {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 12px;
-      }
-    </style>
     <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
     <link rel="stylesheet" href="../build/calcite.css" />
     <script type="module" src="../build/calcite.esm.js"></script>
     <script nomodule src="../build/calcite.js"></script>
-    <script type="module" src="./_assets/demo-form.js"></script>
-    <script type="module" src="./_assets/demo-spacer.js"></script>
-    <script src="_assets/locales.js"></script>
-    <script>
-      class DemoShadow extends HTMLElement {
-        constructor() {
-          super();
-          this.attachShadow({ mode: "open" });
-          this.shadowRoot.innerHTML = `
-          <calcite-label>
-            Time picking in a shadowed component 🕔
-            <calcite-input-time-picker scale="s" value="1:2:3" step="1" />
-          </calcite-label>
-        `;
-        }
+    <script src="./_assets/head.js"></script>
+    <script src="./_assets/locales.js"></script>
+    <style>
+      .parent {
+        align-items: flex-start;
       }
-      customElements.define("demo-shadow", DemoShadow);
-    </script>
+      .scrollbox {
+        height: calc(100vh - 64px);
+        padding: 1px;
+        overflow-y: scroll;
+        position: absolute;
+        top: 64px;
+        bottom: 0;
+        width: 15vw;
+      }
+      .scrollbox-offset {
+        width: 15vw;
+      }
+    </style>
   </head>
 
   <body>
-    <demo-spacer>
-      <calcite-select></calcite-select>
-      <calcite-input-time-picker step="1" locale="en-GB"></calcite-input-time-picker>
-      <div id="locales"></div>
-    </demo-spacer>
+    <!-- headers -->
+    <div class="parent">
+      <div class="child right-aligned-text"></div>
+      <div class="child"></div>
+      <div class="child">small</div>
+      <div class="child">medium</div>
+      <div class="child">large</div>
+    </div>
+
+    <div class="scrollbox">
+      <calcite-tile-select-group layout="vertical"></calcite-tile-select-group>
+    </div>
+
+    <div class="parent">
+      <div class="child scrollbox-offset"></div>
+
+      <div class="child">
+        <div class="child right-aligned-text">basic</div>
+      </div>
+
+      <!-- small -->
+      <div class="child">
+        <calcite-input-time-picker scale="s" value="23:59"></calcite-input-time-picker>
+      </div>
+
+      <!-- medium -->
+      <div class="child">
+        <calcite-input-time-picker scale="m" value="23:59"></calcite-input-time-picker>
+      </div>
+
+      <!-- large -->
+      <div class="child">
+        <calcite-input-time-picker scale="l" value="23:59"></calcite-input-time-picker>
+      </div>
+    </div>
+
+    <div class="parent">
+      <div class="child scrollbox-offset"></div>
+
+      <div class="child">
+        <div class="child right-aligned-text">seconds</div>
+      </div>
+
+      <!-- small -->
+      <div class="child">
+        <calcite-input-time-picker scale="s" step="1" value="23:59:59"></calcite-input-time-picker>
+      </div>
+
+      <!-- medium -->
+      <div class="child">
+        <calcite-input-time-picker scale="m" step="1" value="23:59:59"></calcite-input-time-picker>
+      </div>
+
+      <!-- large -->
+      <div class="child">
+        <calcite-input-time-picker scale="l" step="1" value="23:59:59"></calcite-input-time-picker>
+      </div>
+    </div>
+
+    <div class="parent">
+      <div class="child scrollbox-offset"></div>
+
+      <div class="child">
+        <div class="child right-aligned-text">time-picker basic</div>
+      </div>
+
+      <!-- small -->
+      <div class="child">
+        <calcite-time-picker scale="s" value="23:59"></calcite-time-picker>
+      </div>
+
+      <!-- medium -->
+      <div class="child">
+        <calcite-time-picker scale="m" value="23:59"></calcite-time-picker>
+      </div>
+
+      <!-- large -->
+      <div class="child">
+        <calcite-time-picker scale="l" value="23:59"></calcite-time-picker>
+      </div>
+    </div>
+
+    <div class="parent">
+      <div class="child scrollbox-offset"></div>
+
+      <div class="child">
+        <div class="child right-aligned-text">time-picker seconds</div>
+      </div>
+
+      <!-- small -->
+      <div class="child">
+        <calcite-time-picker scale="s" step="1" value="23:59:59"></calcite-time-picker>
+      </div>
+
+      <!-- medium -->
+      <div class="child">
+        <calcite-time-picker scale="m" step="1" value="23:59:59"></calcite-time-picker>
+      </div>
+
+      <!-- large -->
+      <div class="child">
+        <calcite-time-picker scale="l" step="1" value="23:59:59"></calcite-time-picker>
+      </div>
+    </div>
+
     <script>
       (async () => {
         await customElements.whenDefined("calcite-input-time-picker");
+        await customElements.whenDefined("calcite-tile-select-group");
+        await customElements.whenDefined("calcite-tile-select");
+
         const inputTimePicker = document.querySelector("calcite-input-time-picker");
         await inputTimePicker.componentOnReady();
+
+        const tileSelectGroup = document.querySelector("calcite-tile-select-group");
+        await tileSelectGroup.componentOnReady();
+
+        const inputTimePickerEls = Array.from(document.querySelectorAll("calcite-input-time-picker"));
+        const timePickerEls = Array.from(document.querySelectorAll("calcite-time-picker"));
 
         document.addEventListener("calciteInputTimePickerChange", (event) => {
           console.log("calciteInputTimePickerChange", event.target.value);
         });
 
-        await customElements.whenDefined("calcite-select");
-        const select = document.querySelector("calcite-select");
-        await select.componentOnReady();
-
-        locales.forEach(({ locale, name, dir }) => {
-          let label = document.createElement("calcite-label");
-          label.setAttribute("for", locale);
-          label.appendChild(document.createTextNode(`${name} (${locale})`));
-
-          const option = document.createElement("calcite-option");
-          option.setAttribute("value", locale);
-          option.appendChild(document.createTextNode(name));
-          select.appendChild(option);
+        document.addEventListener("calciteRadioButtonChange", (event) => {
+          inputTimePickerEls.forEach((inputTimePickerEl) =>
+            inputTimePickerEl.setAttribute("locale", event.target.value)
+          );
+          timePickerEls.forEach((timePickerEl) => timePickerEl.setAttribute("locale", event.target.value));
         });
 
-        select.addEventListener("calciteSelectChange", (event) => {
-          inputTimePicker.locale = event.target.selectedOption.value;
+        locales.forEach(({ locale, name }) => {
+          let localeEl = document.createElement("calcite-tile-select");
+          localeEl.setAttribute("heading", name);
+          localeEl.setAttribute("name", "locales");
+          localeEl.setAttribute("scale", "s");
+          localeEl.setAttribute("width", "full");
+          localeEl.setAttribute("value", locale);
+          tileSelectGroup.appendChild(localeEl);
         });
       })();
-
-      const localeDemoContainer = document.getElementById("locales");
-      locales.forEach(({ locale, name, dir }) => {
-        let localeEl = document.createElement("div");
-        localeEl.setAttribute("class", "locale");
-        let label = document.createElement("calcite-label");
-        label.setAttribute("for", locale);
-        label.appendChild(document.createTextNode(`${name} (${locale})`));
-        let input = document.createElement("calcite-input-time-picker");
-        dir && input.setAttribute("dir", dir);
-        input.setAttribute("id", locale);
-        input.setAttribute("locale", locale);
-        input.setAttribute("name", locale);
-        input.setAttribute("step", "1");
-        input.setAttribute("value", "14:59:00");
-        localeEl.appendChild(label);
-        localeEl.appendChild(input);
-        localeDemoContainer.appendChild(localeEl);
-      });
     </script>
   </body>
 </html>
