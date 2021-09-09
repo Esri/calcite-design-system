@@ -19,13 +19,13 @@ export class CalciteSplitButton {
   @Prop({ reflect: true }) color: ButtonColor = "blue";
 
   /** is the control disabled  */
-  @Prop({ reflect: true }) disabled?: boolean;
+  @Prop({ reflect: true }) disabled = false;
 
   /**
    * Is the dropdown currently active or not
    * @internal
    */
-  @Prop({ reflect: true }) active?: boolean;
+  @Prop({ reflect: true }) active = false;
 
   /** specify the icon used for the dropdown menu, defaults to chevron */
   @Prop({ reflect: true }) dropdownIconType: DropdownIconType = "chevron";
@@ -35,7 +35,7 @@ export class CalciteSplitButton {
 
   /** optionally add a calcite-loader component to the control,
    disabling interaction. with the primary button */
-  @Prop({ reflect: true }) loading?: boolean = false;
+  @Prop({ reflect: true }) loading = false;
 
   /** optionally pass an icon to display at the end of the primary button - accepts Calcite UI icon names  */
   @Prop({ reflect: true }) primaryIconEnd?: string;

@@ -57,7 +57,7 @@ export class CalciteTabNav {
   @Prop({ reflect: true, mutable: true }) position: TabPosition = "below";
 
   /** @internal Parent tabs component bordered value when layout is "inline" */
-  @Prop({ reflect: true, mutable: true }) bordered?: boolean = false;
+  @Prop({ reflect: true, mutable: true }) bordered = false;
 
   /**
    * @internal

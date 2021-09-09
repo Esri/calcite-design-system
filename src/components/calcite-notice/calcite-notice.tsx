@@ -56,7 +56,7 @@ export class CalciteNotice {
   @Prop({ reflect: true }) color: StatusColor = "blue";
 
   /** Optionally show a button the user can click to dismiss the notice */
-  @Prop({ reflect: true }) dismissible?: boolean = false;
+  @Prop({ reflect: true }) dismissible = false;
 
   /** when used as a boolean set to true, show a default recommended icon. You can
    * also pass a calcite-ui-icon name to this prop to display a requested icon */
