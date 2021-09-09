@@ -6,7 +6,7 @@
 
 | Property      | Attribute     | Description                                                                                              | Type      | Default     |
 | ------------- | ------------- | -------------------------------------------------------------------------------------------------------- | --------- | ----------- |
-| `active`      | `active`      | The active state of the tile.                                                                            | `boolean` | `undefined` |
+| `active`      | `active`      | The active state of the tile.                                                                            | `boolean` | `false`     |
 | `description` | `description` | The description text that appears beneath the heading of the tile.                                       | `string`  | `undefined` |
 | `disabled`    | `disabled`    | When true, prevents interaction.                                                                         | `boolean` | `false`     |
 | `embed`       | `embed`       | The embed mode of the tile. When true, renders without a border and padding for use by other components. | `boolean` | `false`     |
