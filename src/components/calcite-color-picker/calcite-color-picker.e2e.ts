@@ -303,7 +303,16 @@ describe("calcite-color-picker", () => {
         await page.setContent(`<calcite-color-picker format='rgb-css' value='${initialValue}'></calcite-color-picker>`);
         const color = await page.find("calcite-color-picker");
 
+        const initialValueIsRendered = await page.$eval(
+          "calcite-color-picker",
+          (picker: HTMLCalciteColorPickerElement, initialValue: string) =>
+            // color prop is used to render the active color
+            picker.color.string() === initialValue,
+          initialValue
+        );
+
         expect(await color.getProperty("value")).toEqual(initialValue);
+        expect(initialValueIsRendered).toBe(true);
         assertNoChangeEvents();
       });
 
@@ -553,6 +562,7 @@ describe("calcite-color-picker", () => {
       const picker = await page.find("calcite-color-picker");
       const spy = await picker.spyOnEvent("calciteColorPickerChange");
       const currentValue = await picker.getProperty("value");
+      const format = await picker.getProperty("format");
       picker.setProperty("value", unsupportedValue);
       await page.waitForChanges();
 
@@ -561,7 +571,9 @@ describe("calcite-color-picker", () => {
 
       expect(consoleSpy).toBeCalledTimes(1);
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringMatching(`ignoring invalid color value: ${unsupportedValue}`)
+        expect.stringMatching(
+          `ignoring color value (${unsupportedValue}) as it is not compatible with the current format (${format})`
+        )
       );
     }
 
