@@ -66,7 +66,7 @@ export class CalciteSlider {
   /** Maximum selectable value */
   @Prop({ reflect: true }) max = 100;
 
-  /** Label for second handle if needed (ex. "Temperature, upper bound") */
+  /** Used as an accessible label (aria-label) for second handle if needed (ex. "Temperature, upper bound") */
   @Prop() maxLabel?: string;
 
   /** Currently selected upper number (if multi-select) */
@@ -75,7 +75,7 @@ export class CalciteSlider {
   /** Minimum selectable value */
   @Prop({ reflect: true }) min = 0;
 
-  /** Label for first (or only) handle (ex. "Temperature, lower bound") */
+  /** Used as an accessible label (aria-label) for first (or only) handle (ex. "Temperature, lower bound") */
   @Prop() minLabel: string;
 
   /** Currently selected lower number (if multi-select) */
