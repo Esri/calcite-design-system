@@ -118,6 +118,7 @@ export class CalciteTipManager {
   //
   // --------------------------------------------------------------------------
 
+  /** Selects the next tip to display */
   @Method()
   async nextTip(): Promise<void> {
     this.direction = "advancing";
@@ -125,6 +126,7 @@ export class CalciteTipManager {
     this.selectedIndex = (nextIndex + this.total) % this.total;
   }
 
+  /** Selects the previous tip to display */
   @Method()
   async previousTip(): Promise<void> {
     this.direction = "retreating";

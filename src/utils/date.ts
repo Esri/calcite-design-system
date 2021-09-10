@@ -1,5 +1,11 @@
 import { DateLocaleData } from "../components/calcite-date-picker/utils";
 
+export interface HoverRange {
+  focused: "end" | "start";
+  start: Date;
+  end: Date;
+}
+
 /**
  * Check if date is within a min and max
  */
