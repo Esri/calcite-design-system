@@ -30,11 +30,11 @@ export function initialize<T extends Lists>(this: List<T>): void {
 }
 
 export function initializeObserver<T extends Lists>(this: List<T>): void {
-  this.observer.observe(this.el, { childList: true, subtree: true });
+  this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
 }
 
 export function cleanUpObserver<T extends Lists>(this: List<T>): void {
-  this.observer.disconnect();
+  this.mutationObserver?.disconnect();
 }
 
 // --------------------------------------------------------------------------

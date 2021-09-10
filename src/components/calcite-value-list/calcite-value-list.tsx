@@ -32,6 +32,7 @@ import {
 } from "../calcite-pick-list/shared-list-logic";
 import List from "../calcite-pick-list/shared-list-render";
 import { getRoundRobinIndex } from "../../utils/array";
+import { createObserver } from "../../utils/observers";
 
 /**
  * @slot - A slot for adding `calcite-pick-list-item` elements or `calcite-pick-list-group` elements. Items are displayed as a vertical list.
@@ -110,7 +111,7 @@ export class CalciteValueList<
 
   lastSelectedItem: ItemElement = null;
 
-  observer = new MutationObserver(mutationObserverCallback.bind(this));
+  mutationObserver = createObserver("mutation", mutationObserverCallback.bind(this));
 
   sortable: Sortable;
 

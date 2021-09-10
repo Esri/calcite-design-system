@@ -13,6 +13,7 @@ import {
 import { CSS, ICONS, TEXT, HEADING_LEVEL } from "./resources";
 import { getElementDir } from "../../utils/dom";
 import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
+import { createObserver } from "../../utils/observers";
 
 /**
  * @slot - A slot for adding `calcite-tip`s.
@@ -93,7 +94,7 @@ export class CalciteTipManager {
 
   @State() groupTitle: string;
 
-  observer = new MutationObserver(() => this.setUpTips());
+  mutationObserver = createObserver("mutation", () => this.setUpTips());
 
   container: HTMLDivElement;
 
@@ -105,11 +106,11 @@ export class CalciteTipManager {
 
   connectedCallback(): void {
     this.setUpTips();
-    this.observer.observe(this.el, { childList: true, subtree: true });
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   disconnectedCallback(): void {
-    this.observer.disconnect();
+    this.mutationObserver?.disconnect();
   }
 
   // --------------------------------------------------------------------------

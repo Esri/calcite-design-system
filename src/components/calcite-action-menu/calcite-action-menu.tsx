@@ -18,6 +18,7 @@ import { PopperPlacement, OverlayPositioning } from "../../utils/popper";
 import { Placement } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
+import { createObserver } from "../../utils/observers";
 
 const SUPPORTED_BUTTON_NAV_KEYS = ["ArrowUp", "ArrowDown"];
 const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
@@ -142,7 +143,7 @@ export class CalciteActionMenu {
 
   actionElements: HTMLCalciteActionElement[] = [];
 
-  mutationObserver = new MutationObserver(() => this.getActions());
+  mutationObserver = createObserver("mutation", () => this.getActions());
 
   guid = `calcite-action-menu-${guid()}`;
 
