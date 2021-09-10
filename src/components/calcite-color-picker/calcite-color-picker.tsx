@@ -266,7 +266,6 @@ export class CalciteColorPicker {
 
     if (modeChanged || colorChanged) {
       this.color = color;
-
       this.calciteColorPickerInput.emit();
       if (!dragging) {
         this.calciteColorPickerChange.emit();
