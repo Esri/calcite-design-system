@@ -41,12 +41,12 @@ export class CalcitePagination {
   /** total number of items */
   @Prop() total = 0;
 
-  /** title of the next button
+  /** Used as an accessible label (aria-label) for the next button
    * @default "Next"
    */
   @Prop() textLabelNext: string = TEXT.nextLabel;
 
-  /** title of the previous button
+  /** Used as an accessible label (aria-label) of the previous button
    * @default "Previous"
    */
   @Prop() textLabelPrevious: string = TEXT.previousLabel;

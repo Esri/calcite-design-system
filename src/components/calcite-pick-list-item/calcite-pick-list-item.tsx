@@ -104,7 +104,7 @@ export class CalcitePickListItem {
   }
 
   /**
-   * The text for the remove item buttons. Only applicable if removable is true.
+   * Used as an accessible label (aria-label) for the "remove item" action. Only applicable if removable is true.
    * @default "Remove"
    */
   @Prop({ reflect: true }) intlRemove = TEXT.remove;

@@ -218,6 +218,7 @@ export class CalcitePopover {
       : this.createPopper();
   }
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(focusId?: "close-button"): Promise<void> {
     const { closeButtonEl } = this;
