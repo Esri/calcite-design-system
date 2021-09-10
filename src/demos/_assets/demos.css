@@ -44,49 +44,45 @@ main {
   * calcite-demo homepage
   **************************************************
 */
-  .navigation {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 3vh 0;
-    box-sizing: border-box;
-  }
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3vh 0;
+  box-sizing: border-box;
+}
 
-  #calcite-demo {
-    color: var(--calcite-ui-brand-press);
-  }
+#calcite-demo {
+  color: var(--calcite-ui-brand-press);
+}
 
-  .examples-github-storybook {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-  }
+.examples-github-storybook {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
 
-  .body-margin,
-  .calcite-comp,
-  .calcite-components {
-    margin: 0 12%;
-  }
+.body-margin,
+.calcite-comp,
+.calcite-components {
+  margin: 0 12%;
+}
 
-  .calcite-components {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
+.calcite-components {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
 
-  .calcite-components div {
-    flex: 0 0 25%;
-    padding: 4px 0;
-  }
+.calcite-components div {
+  flex: 0 0 25%;
+  padding: 4px 0;
+}
 
-  .calcite-comp {
-    color: var(--calcite-ui-text-3);
-    font-family: var(--calcite-sans-family);
-    font-size: var(--calcite-font-size-0);
-    font-weight: var(--calcite-font-weight-medium);
-  }
-
-  a {
-    text-decoration: none;
-  }
+.calcite-comp {
+  color: var(--calcite-ui-text-3);
+  font-family: var(--calcite-sans-family);
+  font-size: var(--calcite-font-size-0);
+  font-weight: var(--calcite-font-weight-medium);
+}
 
