@@ -38,6 +38,7 @@ export class CalciteDropdownItem {
   //
   //--------------------------------------------------------------------------
 
+  /** Indicates whether the item is active. */
   @Prop({ reflect: true, mutable: true }) active = false;
 
   /** flip the icon(s) in rtl */
@@ -83,7 +84,7 @@ export class CalciteDropdownItem {
   //
   //--------------------------------------------------------------------------
 
-  /** Focuses the selected item. */
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     this.el.focus();

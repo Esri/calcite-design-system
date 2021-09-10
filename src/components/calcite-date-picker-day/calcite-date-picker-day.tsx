@@ -59,6 +59,7 @@ export class CalciteDatePickerDay {
   /** Date is the end of date range */
   @Prop({ reflect: true }) endOfRange = false;
 
+  /** Date is being hovered and within the set range */
   @Prop({ reflect: true }) rangeHover = false;
 
   /** Date is actively in focus for keyboard navigation */

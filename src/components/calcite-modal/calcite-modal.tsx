@@ -1,5 +1,4 @@
 import {
-  Build,
   Component,
   Element,
   Event,
@@ -28,6 +27,7 @@ import { Scale } from "../interfaces";
 import { ModalBackgroundColor } from "./interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { TEXT, SLOTS, CSS, ICONS } from "./resources";
+import { createObserver } from "../../utils/observers";
 
 const isFocusableExtended = (el: CalciteFocusableElement): boolean => {
   return isCalciteFocusable(el) || isFocusable(el);
@@ -64,16 +64,16 @@ export class CalciteModal {
   //
   //--------------------------------------------------------------------------
   /** Add the active attribute to open the modal */
-  @Prop({ mutable: true, reflect: true }) active?: boolean;
+  @Prop({ mutable: true, reflect: true }) active = false;
 
   /** Optionally pass a function to run before close */
   @Prop() beforeClose: (el: HTMLElement) => Promise<void> = () => Promise.resolve();
 
   /** Disables the display a close button within the Modal */
-  @Prop() disableCloseButton?: boolean;
+  @Prop() disableCloseButton = false;
 
   /** Disables the closing of the Modal when clicked outside. */
-  @Prop() disableOutsideClose?: boolean;
+  @Prop() disableOutsideClose = false;
 
   /** Aria label for the close button */
   @Prop() intlClose = TEXT.close;
@@ -85,7 +85,7 @@ export class CalciteModal {
   @Prop() firstFocus?: HTMLElement;
 
   /** Flag to disable the default close on escape behavior */
-  @Prop() disableEscape?: boolean;
+  @Prop() disableEscape = false;
 
   /** specify the scale of modal, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -104,7 +104,7 @@ export class CalciteModal {
   @Prop({ reflect: true }) backgroundColor: ModalBackgroundColor = "white";
 
   /** Turn off spacing around the content area slot */
-  @Prop() noPadding?: boolean;
+  @Prop() noPadding = false;
 
   //--------------------------------------------------------------------------
   //
@@ -119,13 +119,8 @@ export class CalciteModal {
   }
 
   connectedCallback(): void {
-    if (Build.isBrowser) {
-      if (!this.mutationObserver) {
-        this.mutationObserver = new MutationObserver(this.updateFooterVisibility);
-      }
-      this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-      this.updateFooterVisibility();
-    }
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+    this.updateFooterVisibility();
   }
 
   disconnectedCallback(): void {
@@ -243,7 +238,9 @@ export class CalciteModal {
 
   modalContent: HTMLDivElement;
 
-  private mutationObserver: MutationObserver = null;
+  private mutationObserver: MutationObserver = createObserver("mutation", () =>
+    this.updateFooterVisibility()
+  );
 
   previousActiveElement: HTMLElement;
 

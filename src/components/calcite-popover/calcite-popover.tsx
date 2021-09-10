@@ -202,6 +202,7 @@ export class CalcitePopover {
   //
   // --------------------------------------------------------------------------
 
+  /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
     const { popper, el, placement } = this;
@@ -231,6 +232,7 @@ export class CalcitePopover {
     this.el?.focus();
   }
 
+  /** Toggles the popover's open property. */
   @Method()
   async toggle(value = !this.open): Promise<void> {
     this.open = value;

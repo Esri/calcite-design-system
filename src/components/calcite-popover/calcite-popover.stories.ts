@@ -1,7 +1,8 @@
 import { select, number, text } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
-import { ATTRIBUTES } from "../../../.storybook/resources";
 import readme from "./readme.md";
+import managerReadme from "../calcite-popover-manager/readme.md";
+import { themesDarkDefault } from "../../../.storybook/utils";
 
 const placements = [
   "auto",
@@ -50,9 +51,8 @@ const referenceElementHTML = `<calcite-popover-manager>Ut enim ad minim veniam, 
 
 export default {
   title: "Components/Popover",
-
   parameters: {
-    notes: readme
+    notes: [readme, managerReadme]
   }
 };
 
@@ -61,7 +61,6 @@ export const Simple = (): string => {
       <div>
         ${referenceElementHTML}
         <calcite-popover
-        class="calcite-theme-light"
           ${boolean("dismissible", false)}
           ${boolean("disable-flip", false)}
           ${boolean("disable-pointer", false)}
@@ -79,13 +78,10 @@ export const Simple = (): string => {
 };
 
 export const RTL = (): string => {
-  const { theme } = ATTRIBUTES;
-
   return `
       <div dir="rtl">
         ${referenceElementHTML}
         <calcite-popover
-          class="${select("class", theme.values, theme.defaultValue)}"
           ${boolean("dismissible", false)}
           ${boolean("disable-flip", false)}
           ${boolean("disable-pointer", false)}
@@ -122,4 +118,8 @@ export const DarkMode = (): string => {
         </calcite-popover>
       </div>
     `;
+};
+
+DarkMode.story = {
+  parameters: { themes: themesDarkDefault }
 };

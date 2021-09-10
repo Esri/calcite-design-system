@@ -1,0 +1,21 @@
+name: PR Bot
+on:
+  pull_request:
+    branches: [ master ]
+jobs:
+  assign:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: kentaro-m/auto-assign-action@v1.2.0
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: srvaroa/labeler@master
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+  milestone:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: benelan/milestone-action@v1.0.0
+        with:
+          github_token: "${{ secrets.GITHUB_TOKEN }}"

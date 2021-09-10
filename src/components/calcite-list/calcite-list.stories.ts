@@ -1,12 +1,13 @@
-import { darkBackground } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
+import itemReadme from "../calcite-list-item/readme.md";
+import groupReadme from "../calcite-list-item-group/readme.md";
 import { html, placeholderImage } from "../../tests/utils";
 
 export default {
   title: "Components/List",
-
   parameters: {
-    notes: readme
+    notes: [readme, itemReadme, groupReadme]
   }
 };
 
@@ -174,5 +175,5 @@ export const DarkMode = (): string => html`
 
 DarkMode.story = {
   name: "Dark mode",
-  parameters: { backgrounds: darkBackground }
+  parameters: { themes: themesDarkDefault }
 };

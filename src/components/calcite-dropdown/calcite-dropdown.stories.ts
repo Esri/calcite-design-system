@@ -1,6 +1,6 @@
 import { number, select } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
-import { darkBackground } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../calcite-dropdown-group/readme.md";
 import readme3 from "../calcite-dropdown-item/readme.md";
@@ -225,7 +225,7 @@ export const DarkTheme = (): string => html`
 
 DarkTheme.story = {
   name: "Dark theme",
-  parameters: { backgrounds: darkBackground }
+  parameters: { themes: themesDarkDefault }
 };
 
 export const WithIconsDarkTheme = (): string => html`
@@ -268,7 +268,7 @@ export const WithIconsDarkTheme = (): string => html`
 
 WithIconsDarkTheme.story = {
   name: "With Icons - Dark theme",
-  parameters: { backgrounds: darkBackground }
+  parameters: { themes: themesDarkDefault }
 };
 
 export const GroupsAndSelectionModesDarkTheme = (): string => html`
@@ -300,7 +300,7 @@ export const GroupsAndSelectionModesDarkTheme = (): string => html`
 
 GroupsAndSelectionModesDarkTheme.story = {
   name: "Groups and selection modes dark theme",
-  parameters: { backgrounds: darkBackground }
+  parameters: { themes: themesDarkDefault }
 };
 
 export const ItemsAsLinksDarkTheme = (): string => html`
@@ -336,7 +336,7 @@ export const ItemsAsLinksDarkTheme = (): string => html`
 
 ItemsAsLinksDarkTheme.story = {
   name: "Items as Links - dark theme",
-  parameters: { backgrounds: darkBackground }
+  parameters: { themes: themesDarkDefault }
 };
 
 export const SimpleRtl = (): string => html`

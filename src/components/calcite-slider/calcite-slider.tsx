@@ -58,10 +58,10 @@ export class CalciteSlider {
   @Prop() histogramStops: ColorStop[];
 
   /** Label handles with their numeric value */
-  @Prop({ reflect: true }) labelHandles?: boolean;
+  @Prop({ reflect: true }) labelHandles = false;
 
   /** Label tick marks with their numeric value. */
-  @Prop({ reflect: true }) labelTicks?: boolean;
+  @Prop({ reflect: true }) labelTicks = false;
 
   /** Maximum selectable value */
   @Prop({ reflect: true }) max = 100;
@@ -92,10 +92,10 @@ export class CalciteSlider {
   @Prop() pageStep?: number;
 
   /** Use finer point for handles */
-  @Prop() precise?: boolean;
+  @Prop() precise = false;
 
   /** When true, enables snap selection along the step interval */
-  @Prop() snap?: boolean = false;
+  @Prop() snap = false;
 
   /** Interval to move on up/down keys */
   @Prop() step?: number = 1;
@@ -578,6 +578,7 @@ export class CalciteSlider {
         <calcite-graph
           colorStops={this.histogramStops}
           data={this.histogram}
+          data-style="slider-histogram"
           height={48}
           highlightMax={this.isRange ? this.maxValue : this.value}
           highlightMin={this.isRange ? this.minValue : this.min}
@@ -773,6 +774,8 @@ export class CalciteSlider {
   //  Public Methods
   //
   //--------------------------------------------------------------------------
+
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     const handle = this.minHandle ? this.minHandle : this.maxHandle;

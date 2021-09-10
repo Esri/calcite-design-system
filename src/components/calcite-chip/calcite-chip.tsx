@@ -28,7 +28,7 @@ export class CalciteChip {
   @Prop({ reflect: true }) color: ChipColor = "grey";
 
   /** Optionally show a button the user can click to dismiss the chip */
-  @Prop({ reflect: true }) dismissible?: boolean = false;
+  @Prop({ reflect: true }) dismissible = false;
 
   /** Aria label for the "x" button
    * @default "Close"
@@ -39,11 +39,12 @@ export class CalciteChip {
   @Prop({ reflect: true }) icon?: string;
 
   /** flip the icon in rtl */
-  @Prop({ reflect: true }) iconFlipRtl?: boolean;
+  @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** specify the scale of the chip, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
 
+  /** The assigned value for the chip */
   @Prop() value!: any;
 
   // --------------------------------------------------------------------------
@@ -60,6 +61,7 @@ export class CalciteChip {
   //
   //--------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     this.closeButton?.focus();

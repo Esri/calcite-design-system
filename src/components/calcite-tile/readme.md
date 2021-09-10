@@ -6,7 +6,7 @@
 
 | Property      | Attribute     | Description                                                                                              | Type      | Default     |
 | ------------- | ------------- | -------------------------------------------------------------------------------------------------------- | --------- | ----------- |
-| `active`      | `active`      | The active state of the tile.                                                                            | `boolean` | `undefined` |
+| `active`      | `active`      | The active state of the tile.                                                                            | `boolean` | `false`     |
 | `description` | `description` | The description text that appears beneath the heading of the tile.                                       | `string`  | `undefined` |
 | `disabled`    | `disabled`    | When true, prevents interaction.                                                                         | `boolean` | `false`     |
 | `embed`       | `embed`       | The embed mode of the tile. When true, renders without a border and padding for use by other components. | `boolean` | `false`     |
@@ -15,6 +15,13 @@
 | `hidden`      | `hidden`      | The hidden state of the tile.                                                                            | `boolean` | `false`     |
 | `href`        | `href`        | The (optional) url for the tile. (Only applies when embed is set to false)                               | `string`  | `undefined` |
 | `icon`        | `icon`        | The icon that appears at the top of the tile.                                                            | `string`  | `undefined` |
+
+## Slots
+
+| Slot              | Description                                                        |
+| ----------------- | ------------------------------------------------------------------ |
+| `"content-end"`   | A slot for adding non-actionable elements after the tile content.  |
+| `"content-start"` | A slot for adding non-actionable elements before the tile content. |
 
 ## Dependencies
 

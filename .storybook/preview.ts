@@ -1,19 +1,37 @@
-import { addParameters } from "@storybook/html";
-import { backgrounds, globalDocsPage, parseReadme } from "./utils";
+import { themes, globalDocsPage, parseReadme } from "./utils";
+import { withDirection } from "storybook-rtl-addon";
+import { Theme } from "storybook-addon-themes/dist/models/Theme";
+
 declare global {
   interface Window {
     __screener_storybook__: any;
   }
 }
 
-addParameters({
+const themeBodyClassDecorator = (Story: () => any, context: any) => {
+  const themes = context.parameters.themes;
+
+  themes?.list?.forEach((theme: Theme) => {
+    const isDefault = theme.name === themes.default;
+    if (Array.isArray(theme.class)) {
+      theme.class.forEach((className) => document.body.classList.toggle(className, isDefault));
+    } else {
+      document.body.classList.toggle(theme.class, isDefault);
+    }
+  });
+
+  return Story();
+};
+
+export const decorators = [withDirection, themeBodyClassDecorator];
+export const parameters = {
   a11y: {
     element: "#root",
     config: {},
     options: {},
     manual: false
   },
-  backgrounds,
+  themes,
   docs: {
     extractComponentDescription: (_component, { notes }) => {
       if (notes) {
@@ -36,4 +54,4 @@ addParameters({
       order: ["Overview", "Components", "App Components"]
     }
   }
-});
+};

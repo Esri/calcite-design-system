@@ -4,7 +4,7 @@ import {
   filterComponentAttributes,
   Attributes,
   createComponentHTML as create,
-  darkBackground
+  themesDarkDefault
 } from "../../../.storybook/utils";
 import colorReadme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -20,18 +20,10 @@ export default {
 const createColorAttributes: (options?: { exceptions: string[] }) => Attributes = (
   { exceptions } = { exceptions: [] }
 ) => {
-  const { dir, scale } = ATTRIBUTES;
+  const { scale } = ATTRIBUTES;
 
   return filterComponentAttributes(
     [
-      {
-        name: "dir",
-        commit(): Attribute {
-          this.value = select("dir", dir.values, dir.defaultValue);
-          delete this.build;
-          return this;
-        }
-      },
       {
         name: "hide-channels",
         commit(): Attribute {
@@ -98,7 +90,7 @@ export const DarkMode = (): string =>
   ]);
 
 DarkMode.story = {
-  parameters: { backgrounds: darkBackground }
+  parameters: { themes: themesDarkDefault }
 };
 
 export const AllowingEmpty = (): string =>

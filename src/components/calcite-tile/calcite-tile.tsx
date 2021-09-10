@@ -1,11 +1,25 @@
-import { Component, Fragment, h, Prop, VNode } from "@stencil/core";
+import { Component, Element, Fragment, h, Prop, VNode } from "@stencil/core";
+import { SLOTS } from "./resources";
+import { getSlotted } from "../../utils/dom";
 
+/**
+ * @slot content-start - A slot for adding non-actionable elements before the tile content.
+ * @slot content-end - A slot for adding non-actionable elements after the tile content.
+ */
 @Component({
   tag: "calcite-tile",
   styleUrl: "calcite-tile.scss",
   shadow: true
 })
 export class CalciteTile {
+  // --------------------------------------------------------------------------
+  //
+  //  Private Properties
+  //
+  // --------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteTileElement;
+
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -13,7 +27,7 @@ export class CalciteTile {
   //--------------------------------------------------------------------------
 
   /** The active state of the tile. */
-  @Prop({ reflect: true }) active?: boolean;
+  @Prop({ reflect: true }) active = false;
 
   /** The description text that appears beneath the heading of the tile. */
   @Prop({ reflect: true }) description?: string;
@@ -28,7 +42,7 @@ export class CalciteTile {
 
   /**
    * The focused state of the tile.
-   * @private
+   * @internal
    */
   @Prop({ reflect: true }) focused = false;
 
@@ -51,22 +65,38 @@ export class CalciteTile {
   // --------------------------------------------------------------------------
 
   renderTile(): VNode {
-    const isLargeVisual = this.heading && this.icon && !this.description;
+    const { icon, el, heading, description } = this;
+    const isLargeVisual = heading && icon && !description;
     const iconStyle = isLargeVisual
       ? {
           height: "64px",
           width: "64px"
         }
       : undefined;
+
     return (
-      <div class={{ "large-visual": isLargeVisual, tile: true }}>
-        {this.icon && (
+      <div class={{ container: true, "large-visual": isLargeVisual }}>
+        {icon && (
           <div class="icon">
-            <calcite-icon icon={this.icon} scale="l" style={iconStyle} />
+            <calcite-icon icon={icon} scale="l" style={iconStyle} />
           </div>
         )}
-        {this.heading && <div class="heading">{this.heading}</div>}
-        {this.description && <div class="description">{this.description}</div>}
+        <div class="content-container">
+          {getSlotted(el, SLOTS.contentStart) ? (
+            <div class="content-slot-container">
+              <slot name={SLOTS.contentStart} />
+            </div>
+          ) : null}
+          <div class="content">
+            {heading && <div class="heading">{heading}</div>}
+            {description && <div class="description">{description}</div>}
+          </div>
+          {getSlotted(el, SLOTS.contentEnd) ? (
+            <div class="content-slot-container">
+              <slot name={SLOTS.contentEnd} />
+            </div>
+          ) : null}
+        </div>
       </div>
     );
   }
