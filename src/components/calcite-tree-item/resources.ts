@@ -1,9 +1,11 @@
 export const CSS = {
-  checkboxLabel: "calcite-tree-label",
-  checkbox: "calcite-tree-checkbox",
-  chevron: "calcite-tree-chevron",
-  nodeContainer: "calcite-tree-node",
-  childrenContainer: "calcite-tree-children"
+  checkboxLabel: "checkbox-label",
+  checkbox: "checkbox",
+  chevron: "chevron",
+  nodeContainer: "node-container",
+  childrenContainer: "children-container",
+  bulletPointIcon: "bullet-point",
+  checkmarkIcon: "checkmark"
 };
 
 export const SLOTS = {
@@ -11,5 +13,7 @@ export const SLOTS = {
 };
 
 export const ICONS = {
+  bulletPoint: "bullet-point",
+  checkmark: "check",
   chevronRight: "chevron-right"
 };
