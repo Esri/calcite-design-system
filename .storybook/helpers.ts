@@ -32,8 +32,8 @@ export const setThemeScript = (value: ThemeName) => `${THEMES.map(function (them
 }).join("")}
 `;
 
-export const createSteps = (componentTag: string): Steps => {
-  return new Steps().wait(`${componentTag}[calcite-hydrated]`);
+export const createSteps = (componentSelector: string): Steps => {
+  return new Steps().wait(`${componentSelector}[calcite-hydrated]`);
 };
 
 export const stepStory = (story: Story, steps: Steps): Story => {
