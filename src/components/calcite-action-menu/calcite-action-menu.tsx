@@ -164,6 +164,7 @@ export class CalciteActionMenu {
   //
   // --------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     focusElement(this.open ? this.menuEl : this.menuButtonEl);

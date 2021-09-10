@@ -72,10 +72,10 @@ export class CalciteInput {
   /** optionally display a clear button that displays when field has a value
    * shows by default for search, time, date
    * will not display for type="textarea" */
-  @Prop({ reflect: true }) clearable?: boolean;
+  @Prop({ reflect: true }) clearable = false;
 
   /** is the input disabled  */
-  @Prop({ reflect: true }) disabled?: boolean;
+  @Prop({ reflect: true }) disabled = false;
 
   @Watch("disabled")
   disabledWatcher(): void {
@@ -97,7 +97,7 @@ export class CalciteInput {
   @Prop() intlLoading?: string = TEXT.loading;
 
   /** flip the icon in rtl */
-  @Prop({ reflect: true }) iconFlipRtl?: boolean;
+  @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** Applies to the aria-label attribute on the button or hyperlink */
   @Prop() label?: string;
@@ -364,7 +364,7 @@ export class CalciteInput {
   //
   //--------------------------------------------------------------------------
 
-  /** focus the rendered child element */
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     if (this.type === "number") {

@@ -50,7 +50,7 @@ export class CalciteRadioGroupItem {
   @Prop({ reflect: true }) icon?: string;
 
   /** flip the icon in rtl */
-  @Prop({ reflect: true }) iconFlipRtl?: boolean;
+  @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** optionally used with icon, select where to position the icon */
   @Prop({ reflect: true }) iconPosition?: Position = "start";

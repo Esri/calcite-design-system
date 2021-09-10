@@ -42,7 +42,7 @@ export class CalciteLoader {
   @Prop() text = "";
 
   /** Turn off spacing around the loader */
-  @Prop() noPadding?: boolean;
+  @Prop() noPadding = false;
 
   //--------------------------------------------------------------------------
   //

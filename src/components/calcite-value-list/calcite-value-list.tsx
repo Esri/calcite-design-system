@@ -282,6 +282,7 @@ export class CalciteValueList<
   //
   // --------------------------------------------------------------------------
 
+  /** Returns the currently selected items */
   @Method()
   async getSelectedItems(): Promise<Map<string, HTMLCalciteValueListItemElement>> {
     return this.selectedValues;

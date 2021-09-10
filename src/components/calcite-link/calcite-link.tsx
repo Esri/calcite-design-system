@@ -29,7 +29,7 @@ export class CalciteLink {
   //--------------------------------------------------------------------------
 
   /** is the link disabled  */
-  @Prop({ reflect: true }) disabled?: boolean;
+  @Prop({ reflect: true }) disabled = false;
 
   /** optionally pass a href - used to determine if the component should render as a link or an anchor */
   @Prop({ reflect: true }) href?: string;
@@ -110,6 +110,7 @@ export class CalciteLink {
   //
   //--------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     focusElement(this.childEl);

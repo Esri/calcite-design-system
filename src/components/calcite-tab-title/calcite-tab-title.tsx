@@ -67,7 +67,7 @@ export class CalciteTabTitle {
   @Prop({ reflect: true, mutable: true }) scale: Scale;
 
   /** @internal Parent tabs component bordered value */
-  @Prop({ reflect: true, mutable: true }) bordered?: boolean = false;
+  @Prop({ reflect: true, mutable: true }) bordered = false;
 
   /**
    * Optionally include a unique name for the tab title,
@@ -304,7 +304,7 @@ export class CalciteTabTitle {
   @State() private controls: string;
 
   /** determine if there is slotted text for styling purposes */
-  @State() private hasText?: boolean = false;
+  @State() private hasText = false;
 
   /**
    * @internal

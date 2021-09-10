@@ -40,7 +40,7 @@ export class CalciteSwitch {
   //--------------------------------------------------------------------------
 
   /** True if the switch is disabled */
-  @Prop({ reflect: true }) disabled?: boolean = false;
+  @Prop({ reflect: true }) disabled = false;
 
   @Watch("disabled")
   disabledWatcher(newDisabled: boolean): void {
@@ -94,6 +94,7 @@ export class CalciteSwitch {
   //
   //--------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     focusElement(this.inputEl);

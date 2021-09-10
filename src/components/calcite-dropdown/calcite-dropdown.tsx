@@ -48,6 +48,7 @@ export class CalciteDropdown {
   //
   //--------------------------------------------------------------------------
 
+  /** Opens or closes the dropdown */
   @Prop({ reflect: true, mutable: true }) active = false;
 
   @Watch("active")
@@ -62,7 +63,7 @@ export class CalciteDropdown {
   @Prop({ reflect: true }) disableCloseOnSelect = false;
 
   /** is the dropdown disabled  */
-  @Prop({ reflect: true }) disabled?: boolean;
+  @Prop({ reflect: true }) disabled = false;
 
   /**
    specify the maximum number of calcite-dropdown-items to display before showing the scroller, must be greater than 0 -
@@ -184,6 +185,7 @@ export class CalciteDropdown {
   //
   //--------------------------------------------------------------------------
 
+  /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
     const { popper, menuEl, placement } = this;

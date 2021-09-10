@@ -104,12 +104,14 @@ Type: `Promise<void>`
 ### Depends on
 
 - [calcite-action](../calcite-action)
+- [calcite-icon](../calcite-icon)
 
 ### Graph
 
 ```mermaid
 graph TD;
   calcite-tip-manager --> calcite-action
+  calcite-tip-manager --> calcite-icon
   calcite-action --> calcite-loader
   calcite-action --> calcite-icon
   style calcite-tip-manager fill:#f9f,stroke:#333,stroke-width:4px
