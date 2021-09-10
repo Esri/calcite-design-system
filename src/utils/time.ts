@@ -166,8 +166,8 @@ export function localizeTimeString(value: string, locale = "en", includeSeconds 
   if (!isValidTime(value)) {
     return null;
   }
-  const { hour, minute, second } = parseTimeString(value);
-  const dateFromTimeString = new Date(Date.UTC(0, 0, 0, parseInt(hour), parseInt(minute), parseInt(second) || 0));
+  const { hour, minute, second = "0" } = parseTimeString(value);
+  const dateFromTimeString = new Date(Date.UTC(0, 0, 0, parseInt(hour), parseInt(minute), parseInt(second)));
   const formatter = createLocaleDateTimeFormatter(locale, includeSeconds);
   return formatter?.format(dateFromTimeString) || null;
 }
@@ -176,7 +176,7 @@ export function localizeTimeStringToParts(value: string, locale = "en"): Localiz
   if (!isValidTime(value)) {
     return null;
   }
-  const { hour, minute, second } = parseTimeString(value);
+  const { hour, minute, second = "0" } = parseTimeString(value);
   const dateFromTimeString = new Date(Date.UTC(0, 0, 0, parseInt(hour), parseInt(minute), parseInt(second)));
   if (dateFromTimeString) {
     const formatter = createLocaleDateTimeFormatter(locale);

@@ -12,128 +12,70 @@
     <script src="./_assets/head.js"></script>
     <script src="./_assets/locales.js"></script>
     <style>
-      .parent {
-        align-items: flex-start;
+      .demo-header {
+        margin-bottom: unset !important;
       }
-      .scrollbox {
-        height: calc(100vh - 64px);
-        padding: 1px;
+      #main-container {
+        display: flex;
+        flex: 1 1 auto;
+      }
+      #locales {
+        height: calc(100vh - 82px);
         overflow-y: scroll;
-        position: absolute;
-        top: 64px;
-        bottom: 0;
-        width: 15vw;
       }
-      .scrollbox-offset {
-        width: 15vw;
+      main {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1em;
+        align-items: flex-start;
+        justify-items: center;
+      }
+      .column {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
       }
     </style>
   </head>
 
   <body>
-    <!-- headers -->
-    <div class="parent">
-      <div class="child right-aligned-text"></div>
-      <div class="child"></div>
-      <div class="child">small</div>
-      <div class="child">medium</div>
-      <div class="child">large</div>
-    </div>
-
-    <div class="scrollbox">
-      <calcite-tile-select-group layout="vertical"></calcite-tile-select-group>
-    </div>
-
-    <div class="parent">
-      <div class="child scrollbox-offset"></div>
-
-      <div class="child">
-        <div class="child right-aligned-text">basic</div>
+    <div id="main-container">
+      <div id="locales">
+        <calcite-tile-select-group layout="vertical"></calcite-tile-select-group>
       </div>
+      <main>
+        <!-- spacer row -->
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
 
-      <!-- small -->
-      <div class="child">
+        <!-- column heading row -->
+        <div></div>
+        <div>small</div>
+        <div>medium</div>
+        <div>large</div>
+
+        <div>basic</div>
         <calcite-input-time-picker scale="s" value="23:59"></calcite-input-time-picker>
-      </div>
-
-      <!-- medium -->
-      <div class="child">
         <calcite-input-time-picker scale="m" value="23:59"></calcite-input-time-picker>
-      </div>
-
-      <!-- large -->
-      <div class="child">
         <calcite-input-time-picker scale="l" value="23:59"></calcite-input-time-picker>
-      </div>
-    </div>
 
-    <div class="parent">
-      <div class="child scrollbox-offset"></div>
-
-      <div class="child">
-        <div class="child right-aligned-text">seconds</div>
-      </div>
-
-      <!-- small -->
-      <div class="child">
+        <div>seconds</div>
         <calcite-input-time-picker scale="s" step="1" value="23:59:59"></calcite-input-time-picker>
-      </div>
-
-      <!-- medium -->
-      <div class="child">
         <calcite-input-time-picker scale="m" step="1" value="23:59:59"></calcite-input-time-picker>
-      </div>
-
-      <!-- large -->
-      <div class="child">
         <calcite-input-time-picker scale="l" step="1" value="23:59:59"></calcite-input-time-picker>
-      </div>
-    </div>
 
-    <div class="parent">
-      <div class="child scrollbox-offset"></div>
-
-      <div class="child">
-        <div class="child right-aligned-text">time-picker basic</div>
-      </div>
-
-      <!-- small -->
-      <div class="child">
+        <div>time-picker basic</div>
         <calcite-time-picker scale="s" value="23:59"></calcite-time-picker>
-      </div>
-
-      <!-- medium -->
-      <div class="child">
         <calcite-time-picker scale="m" value="23:59"></calcite-time-picker>
-      </div>
-
-      <!-- large -->
-      <div class="child">
         <calcite-time-picker scale="l" value="23:59"></calcite-time-picker>
-      </div>
-    </div>
 
-    <div class="parent">
-      <div class="child scrollbox-offset"></div>
-
-      <div class="child">
-        <div class="child right-aligned-text">time-picker seconds</div>
-      </div>
-
-      <!-- small -->
-      <div class="child">
+        <div>time-picker seconds</div>
         <calcite-time-picker scale="s" step="1" value="23:59:59"></calcite-time-picker>
-      </div>
-
-      <!-- medium -->
-      <div class="child">
         <calcite-time-picker scale="m" step="1" value="23:59:59"></calcite-time-picker>
-      </div>
-
-      <!-- large -->
-      <div class="child">
         <calcite-time-picker scale="l" step="1" value="23:59:59"></calcite-time-picker>
-      </div>
+      </main>
     </div>
 
     <script>
@@ -170,6 +112,22 @@
           localeEl.setAttribute("width", "full");
           localeEl.setAttribute("value", locale);
           tileSelectGroup.appendChild(localeEl);
+        });
+
+        const htmlEl = document.querySelector("html");
+        const htmlElObserver = new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            if (mutation.type == "attributes" && mutation.attributeName === "dir") {
+              inputTimePickerEls.forEach((inputTimePickerEl) =>
+                inputTimePickerEl.setAttribute("dir", htmlEl.getAttribute("dir"))
+              );
+              timePickerEls.forEach((timePickerEl) => timePickerEl.setAttribute("locale", htmlEl.getAttribute("dir")));
+            }
+          });
+        });
+
+        htmlElObserver.observe(htmlEl, {
+          attributes: true
         });
       })();
     </script>
