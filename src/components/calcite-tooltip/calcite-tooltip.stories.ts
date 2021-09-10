@@ -53,7 +53,7 @@ export const Simple = stepStory(
       </calcite-tooltip>
     </div>
   `,
-  createSteps()
+  createSteps("calcite-tooltip")
     .snapshot("Default")
     .hover("#reference-element")
     .snapshot("Open")

@@ -1,6 +1,6 @@
 import { select, number, text } from "@storybook/addon-knobs";
 import { html } from "../../tests/utils";
-import { boolean, createSteps, stepStory, setThemeScript } from "../../../.storybook/helpers";
+import { boolean, createSteps, stepStory, setThemeScript, setKnobScript } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 import managerReadme from "../calcite-popover-manager/readme.md";
 
@@ -75,11 +75,11 @@ export const Simple = stepStory(
       </calcite-popover>
     </div>
   `,
-  createSteps()
+  createSteps("calcite-popover")
     .snapshot("Default")
     .click("#reference-element")
     .snapshot("Open")
-    .executeScript('window.location.href = "?path=/story/components-popover--simple&knob-dismissible=true"')
+    .executeScript(setKnobScript({ story: "components-popover--simple", knob: "dismissible", value: "true" }))
     .click("#reference-element")
     .snapshot("dismissible")
     .rtl()

@@ -23,13 +23,17 @@ export interface Story {
   decorators?: ((Story: Story) => DocumentFragment)[];
 }
 
+export const setKnobScript = ({ story, knob, value }: { story: string; knob: string; value: string }) => {
+  return `window.location.href = "?path=/story/${story}&knob-${knob}=${value}"`;
+};
+
 export const setThemeScript = (value: ThemeName) => `${THEMES.map(function (theme) {
   return `document.body.classList.toggle('${theme.className}', ${(theme.name === value).toString()});`;
 }).join("")}
 `;
 
-export const createSteps = (): Steps => {
-  return new Steps().wait("[calcite-hydrated]");
+export const createSteps = (componentTag: string): Steps => {
+  return new Steps().wait(`${componentTag}[calcite-hydrated]`);
 };
 
 export const stepStory = (story: Story, steps: Steps): Story => {
