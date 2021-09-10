@@ -48,6 +48,7 @@ export class CalciteDropdown {
   //
   //--------------------------------------------------------------------------
 
+  /** Opens or closes the dropdown */
   @Prop({ reflect: true, mutable: true }) active = false;
 
   @Watch("active")
@@ -184,6 +185,7 @@ export class CalciteDropdown {
   //
   //--------------------------------------------------------------------------
 
+  /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
     const { popper, menuEl, placement } = this;

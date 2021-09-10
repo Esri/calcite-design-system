@@ -8,6 +8,7 @@ import {
 import { ButtonAlignment, ButtonAppearance, ButtonColor } from "./interfaces";
 import { FlipContext, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
+import { createObserver } from "../../utils/observers";
 
 @Component({
   tag: "calcite-button",
@@ -121,7 +122,7 @@ export class CalciteButton {
   }
 
   disconnectedCallback(): void {
-    this.observer.disconnect();
+    this.mutationObserver?.disconnect();
   }
 
   componentWillLoad(): void {
@@ -203,6 +204,7 @@ export class CalciteButton {
   //
   //--------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     this.childEl.focus();
@@ -215,7 +217,7 @@ export class CalciteButton {
   //--------------------------------------------------------------------------
 
   /** watches for changing text content **/
-  private observer: MutationObserver;
+  private mutationObserver = createObserver("mutation", () => this.updateHasContent());
 
   /** the rendered child element */
   private childEl?: HTMLElement;
@@ -238,12 +240,7 @@ export class CalciteButton {
   }
 
   private setupTextContentObserver() {
-    if (Build.isBrowser) {
-      this.observer = new MutationObserver(() => {
-        this.updateHasContent();
-      });
-      this.observer.observe(this.el, { childList: true, subtree: true });
-    }
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   //--------------------------------------------------------------------------

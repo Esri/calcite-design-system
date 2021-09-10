@@ -139,9 +139,9 @@ Renders a shell with a header and panels on the left and right sides of the app.
 
 ## Properties
 
-| Property        | Attribute        | Description                                                   | Type      | Default     |
-| --------------- | ---------------- | ------------------------------------------------------------- | --------- | ----------- |
-| `contentBehind` | `content-behind` | Positions the center content behind any calcite-shell-panels. | `boolean` | `undefined` |
+| Property        | Attribute        | Description                                                   | Type      | Default |
+| --------------- | ---------------- | ------------------------------------------------------------- | --------- | ------- |
+| `contentBehind` | `content-behind` | Positions the center content behind any calcite-shell-panels. | `boolean` | `false` |
 
 ## Slots
 
