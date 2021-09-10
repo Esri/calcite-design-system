@@ -12,6 +12,8 @@ import {
   Method
 } from "@stencil/core";
 import { Scale } from "../interfaces";
+import { CSS_UTILITY } from "../../utils/resources";
+import { getElementDir } from "../../utils/dom";
 import { getKey, isActivationKey, numberKeys } from "../../utils/key";
 import { isValidNumber } from "../../utils/number";
 
@@ -680,8 +682,9 @@ export class CalciteTimePicker {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const iconScale = this.scale === "s" || this.scale === "m" ? "s" : "m";
+    const dir = getElementDir(this.el);
     const hourIsNumber = isValidNumber(this.hour);
+    const iconScale = this.scale === "s" || this.scale === "m" ? "s" : "m";
     const minuteIsNumber = isValidNumber(this.minute);
     const secondIsNumber = isValidNumber(this.second);
     const showMeridiem = this.hourCycle === "12";
@@ -839,7 +842,14 @@ export class CalciteTimePicker {
           </div>
         )}
         {this.localizedSecondSuffix && (
-          <span class={CSS.delimiter}>{this.localizedSecondSuffix}</span>
+          <span
+            class={{
+              [CSS.delimiter]: true,
+              [CSS_UTILITY.rtl]: dir === "rtl"
+            }}
+          >
+            {this.localizedSecondSuffix}
+          </span>
         )}
         {showMeridiem && (
           <div class={CSS.column} role="group">

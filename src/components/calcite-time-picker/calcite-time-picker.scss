@@ -75,7 +75,14 @@
     }
     &:not(.show-meridiem) {
       .delimiter:last-child {
-        @apply pr-3;
+        @apply pl-0
+          pr-3;
+      }
+    }
+    &:not(.show-meridiem) {
+      .delimiter.calcite--rtl:last-child {
+        @apply pl-3
+          pr-0;
       }
     }
   }
@@ -91,7 +98,14 @@
     }
     &:not(.show-meridiem) {
       .delimiter:last-child {
-        @apply pr-4;
+        @apply pl-0
+          pr-4;
+      }
+    }
+    &:not(.show-meridiem) {
+      .delimiter.calcite--rtl:last-child {
+        @apply pl-4
+          pr-0;
       }
     }
   }
@@ -107,7 +121,14 @@
     }
     &:not(.show-meridiem) {
       .delimiter:last-child {
-        @apply pr-5;
+        @apply pl-0
+          pr-5;
+      }
+    }
+    &:not(.show-meridiem) {
+      .delimiter.calcite--rtl:last-child {
+        @apply pl-5
+          pr-0;
       }
     }
   }
