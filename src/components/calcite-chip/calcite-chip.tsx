@@ -61,6 +61,7 @@ export class CalciteChip {
   //
   //--------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     this.closeButton?.focus();

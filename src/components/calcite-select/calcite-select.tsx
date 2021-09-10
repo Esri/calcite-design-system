@@ -120,6 +120,7 @@ export class CalciteSelect {
   //
   //--------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     focusElement(this.selectEl);

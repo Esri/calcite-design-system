@@ -148,7 +148,8 @@ export class CalciteNotice {
   //  Public Methods
   //
   //--------------------------------------------------------------------------
-  /** focus the close button, if present and requested */
+
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     if (!this.closeButton && !this.noticeLinkEl) {
