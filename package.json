@@ -48,6 +48,7 @@
     "util:clean-tested-build": "npm ci && npm test && npm run build",
     "util:copy-icons": "cpy ./node_modules/@esri/calcite-ui-icons/js/*.json ./src/components/calcite-icon/assets/calcite-icon/",
     "util:deploy-next-from-existing-build": "npm run util:prep-next-from-existing-build && npm run util:push-tags && npm run util:publish-next",
+    "util:deploy-next-from-travis": "ts-node --project ./tsconfig-node-scripts.json support/deployNextFromTravis.ts",
     "util:prep-next-from-existing-build": "ts-node --project ./tsconfig-node-scripts.json support/prepReleaseCommit.ts --next",
     "util:publish-next": "npm publish --tag next",
     "util:push-tags": "git push --follow-tags",
