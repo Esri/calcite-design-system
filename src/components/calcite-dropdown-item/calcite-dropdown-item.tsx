@@ -38,6 +38,7 @@ export class CalciteDropdownItem {
   //
   //--------------------------------------------------------------------------
 
+  /** Indicates whether the item is selected. */
   @Prop({ reflect: true, mutable: true }) active = false;
 
   /** flip the icon(s) in rtl */

@@ -44,6 +44,7 @@ export class CalciteChip {
   /** specify the scale of the chip, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
 
+  /** The selected value */
   @Prop() value!: any;
 
   // --------------------------------------------------------------------------

@@ -62,7 +62,7 @@ export class CalciteCombobox {
   //
   //--------------------------------------------------------------------------
 
-  /** Open and close combobox */
+  /** Opens or closes the combobox */
   @Prop({ reflect: true, mutable: true }) active = false;
 
   @Watch("active")
@@ -144,6 +144,7 @@ export class CalciteCombobox {
   //
   //--------------------------------------------------------------------------
 
+  /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
     const { popper, menuEl } = this;

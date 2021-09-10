@@ -37,7 +37,7 @@ export class CalciteListItem {
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * @todo The label of the list item.
+   * The label of the list item.
    */
   @Prop() label: string;
 
