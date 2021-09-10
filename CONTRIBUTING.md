@@ -29,7 +29,7 @@ If something isn't working the way you expected, please take a look at [previous
 
 ### Getting a development environment set up
 
-It is recommended to install the following extensions to your editor of choice: TypeScript, Sass, TailwindCSS, ESLint, TSLint and Prettier.
+It is recommended to install the following extensions to your editor of choice: TypeScript, Sass, TailwindCSS, ESLint and Prettier.
 
 #### Linting
 
