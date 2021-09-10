@@ -37,7 +37,7 @@ export class CalciteListItem {
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * The label of the list item.
+   * The label text of the list item. This will appear above the description text.
    */
   @Prop() label: string;
 

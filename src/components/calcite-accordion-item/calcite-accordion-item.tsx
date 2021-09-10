@@ -34,7 +34,7 @@ export class CalciteAccordionItem {
   //
   //--------------------------------------------------------------------------
 
-  /** Indicates whether the item is selected. */
+  /** Indicates whether the item is active. */
   @Prop({ reflect: true, mutable: true }) active = false;
 
   /** pass a title for the accordion item */
