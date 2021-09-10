@@ -32,6 +32,7 @@ import {
 } from "./shared-list-logic";
 import List from "./shared-list-render";
 import { HeadingLevel } from "../functional/CalciteHeading";
+import { createObserver } from "../../utils/observers";
 
 /**
  * @slot - A slot for adding `calcite-pick-list-item` elements or `calcite-pick-list-group` elements. Items are displayed as a vertical list.
@@ -103,7 +104,7 @@ export class CalcitePickList<
 
   lastSelectedItem: ItemElement = null;
 
-  observer = new MutationObserver(mutationObserverCallback.bind(this));
+  mutationObserver = createObserver("mutation", mutationObserverCallback.bind(this));
 
   @Element() el: HTMLCalcitePickListElement;
 
@@ -199,6 +200,7 @@ export class CalcitePickList<
   //
   // --------------------------------------------------------------------------
 
+  /** Returns the currently selected items */
   @Method()
   async getSelectedItems(): Promise<Map<string, HTMLCalcitePickListItemElement>> {
     return this.selectedValues;

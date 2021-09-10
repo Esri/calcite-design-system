@@ -50,8 +50,6 @@ export class CalciteBlockSection {
    * This property determines the look of the section toggle.
    * If the value is "switch", a toggle-switch will be displayed.
    * If the value is "button", a clickable header is displayed.
-   *
-   * @todo revisit doc
    */
   @Prop({ reflect: true }) toggleDisplay: BlockSectionToggleDisplay = "button";
 

@@ -57,7 +57,7 @@ export class CalciteCheckbox {
 
   /**
    * The hovered state of the checkbox.
-   * @private
+   * @internal
    */
   @Prop({ reflect: true, mutable: true }) hovered = false;
 
@@ -117,6 +117,7 @@ export class CalciteCheckbox {
   //
   //--------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     focusElement(this.input);

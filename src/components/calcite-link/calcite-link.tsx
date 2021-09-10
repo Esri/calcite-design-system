@@ -110,6 +110,7 @@ export class CalciteLink {
   //
   //--------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     focusElement(this.childEl);
