@@ -1026,10 +1026,11 @@ export class CalciteSlider {
       if (rightValueLabelStaticHostOffset === 0 && leftValueLabelStaticHostOffset === 0) {
         // Neither handle overlaps the host boundary
         let leftValueLabelTranslate = labelTransformedOverlap / 2 - labelOffset;
-        leftValueLabelTranslate =
-          Math.sign(leftValueLabelTranslate) === -1
-            ? Math.abs(leftValueLabelTranslate)
-            : -leftValueLabelTranslate;
+        if (Math.sign(leftValueLabelTranslate) === -1) {
+          leftValueLabelTranslate = Math.abs(leftValueLabelTranslate);
+        } else {
+          leftValueLabelTranslate = -leftValueLabelTranslate;
+        }
 
         const leftValueLabelTransformedHostOffset = this.getHostOffset(
           leftValueLabelTransformed.getBoundingClientRect().left +
@@ -1077,10 +1078,11 @@ export class CalciteSlider {
         // labels overlap host boundary on the right side
         let leftValueLabelTranslate =
           Math.abs(leftValueLabelStaticHostOffset) + labelTransformedOverlap - labelOffset;
-        leftValueLabelTranslate =
-          Math.sign(leftValueLabelTranslate) === -1
-            ? Math.abs(leftValueLabelTranslate)
-            : -leftValueLabelTranslate;
+        if (Math.sign(leftValueLabelTranslate) === -1) {
+          leftValueLabelTranslate = Math.abs(leftValueLabelTranslate);
+        } else {
+          leftValueLabelTranslate = -leftValueLabelTranslate;
+        }
         leftValueLabel.style.transform = `translateX(${leftValueLabelTranslate}px)`;
         leftValueLabelTransformed.style.transform = `translateX(${
           leftValueLabelTranslate - labelOffset
@@ -1128,21 +1130,35 @@ export class CalciteSlider {
       this.el.shadowRoot.querySelector(".tick__label--max");
 
     if (!minHandle && maxHandle && minTickLabel && maxTickLabel) {
-      minTickLabel.style.opacity = this.isMinTickLabelObscured(minTickLabel, maxHandle) ? "0" : "1";
-      maxTickLabel.style.opacity = this.isMaxTickLabelObscured(maxTickLabel, maxHandle) ? "0" : "1";
+      if (this.isMinTickLabelObscured(minTickLabel, maxHandle)) {
+        minTickLabel.style.opacity = "0";
+      } else {
+        minTickLabel.style.opacity = "1";
+      }
+      if (this.isMaxTickLabelObscured(maxTickLabel, maxHandle)) {
+        maxTickLabel.style.opacity = "0";
+      } else {
+        maxTickLabel.style.opacity = "1";
+      }
     }
 
     if (minHandle && maxHandle && minTickLabel && maxTickLabel) {
-      minTickLabel.style.opacity =
+      if (
         this.isMinTickLabelObscured(minTickLabel, minHandle) ||
         this.isMinTickLabelObscured(minTickLabel, maxHandle)
-          ? "0"
-          : "1";
-      maxTickLabel.style.opacity =
+      ) {
+        minTickLabel.style.opacity = "0";
+      } else {
+        minTickLabel.style.opacity = "1";
+      }
+      if (
         this.isMaxTickLabelObscured(maxTickLabel, minHandle) ||
         (this.isMaxTickLabelObscured(maxTickLabel, maxHandle) && this.hasHistogram)
-          ? "0"
-          : "1";
+      ) {
+        maxTickLabel.style.opacity = "0";
+      } else {
+        maxTickLabel.style.opacity = "1";
+      }
     }
   }
 
