@@ -12,7 +12,6 @@ import {
   Method
 } from "@stencil/core";
 import { Scale } from "../interfaces";
-import { CSS_UTILITY } from "../../utils/resources";
 import { getElementDir } from "../../utils/dom";
 import { getKey, isActivationKey, numberKeys } from "../../utils/key";
 import { isValidNumber } from "../../utils/number";
@@ -842,14 +841,7 @@ export class CalciteTimePicker {
           </div>
         )}
         {this.localizedSecondSuffix && (
-          <span
-            class={{
-              [CSS.delimiter]: true,
-              [CSS_UTILITY.rtl]: dir === "rtl"
-            }}
-          >
-            {this.localizedSecondSuffix}
-          </span>
+          <span class={CSS.delimiter}>{this.localizedSecondSuffix}</span>
         )}
         {showMeridiem && (
           <div class={CSS.column} role="group">
