@@ -46,6 +46,8 @@ Renders a `calcite-fab` that displays text along side an icon and a tooltip labe
 
 ### `setFocus() => Promise<void>`
 
+Sets focus on the component.
+
 #### Returns
 
 Type: `Promise<void>`

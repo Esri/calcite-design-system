@@ -22,7 +22,7 @@
 
 ### `setFocus() => Promise<void>`
 
-Focuses the filter input.
+Sets focus on the component.
 
 #### Returns
 

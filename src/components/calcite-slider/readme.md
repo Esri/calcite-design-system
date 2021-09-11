@@ -39,10 +39,10 @@ If you'd like to allow an upper and lower value selection (two handles), you can
 | `labelHandles`   | `label-handles` | Label handles with their numeric value                                                                                                      | `boolean`     | `false`     |
 | `labelTicks`     | `label-ticks`   | Label tick marks with their numeric value.                                                                                                  | `boolean`     | `false`     |
 | `max`            | `max`           | Maximum selectable value                                                                                                                    | `number`      | `100`       |
-| `maxLabel`       | `max-label`     | Label for second handle if needed (ex. "Temperature, upper bound")                                                                          | `string`      | `undefined` |
+| `maxLabel`       | `max-label`     | Used as an accessible label (aria-label) for second handle if needed (ex. "Temperature, upper bound")                                       | `string`      | `undefined` |
 | `maxValue`       | `max-value`     | Currently selected upper number (if multi-select)                                                                                           | `number`      | `undefined` |
 | `min`            | `min`           | Minimum selectable value                                                                                                                    | `number`      | `0`         |
-| `minLabel`       | `min-label`     | Label for first (or only) handle (ex. "Temperature, lower bound")                                                                           | `string`      | `undefined` |
+| `minLabel`       | `min-label`     | Used as an accessible label (aria-label) for first (or only) handle (ex. "Temperature, lower bound")                                        | `string`      | `undefined` |
 | `minValue`       | `min-value`     | Currently selected lower number (if multi-select)                                                                                           | `number`      | `undefined` |
 | `mirrored`       | `mirrored`      | When true, the slider will display values from high to low. Note that this value will be ignored if the slider has an associated histogram. | `boolean`     | `false`     |
 | `pageStep`       | `page-step`     | Interval to move on page up/page down keys                                                                                                  | `number`      | `undefined` |
@@ -62,6 +62,8 @@ If you'd like to allow an upper and lower value selection (two handles), you can
 ## Methods
 
 ### `setFocus() => Promise<void>`
+
+Sets focus on the component.
 
 #### Returns
 

@@ -124,6 +124,8 @@ Specify the underlying value for each option.
 
 ### `setFocus() => Promise<void>`
 
+Sets focus on the component.
+
 #### Returns
 
 Type: `Promise<void>`

@@ -105,7 +105,7 @@ Using a wrapping `calcite-label` component lets consumers set the status attribu
 
 ### `setFocus() => Promise<void>`
 
-focus the rendered child element
+Sets focus on the component.
 
 #### Returns
 

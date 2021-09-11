@@ -12,7 +12,7 @@ If you are looking for a list that handles more advanced usage like selection, s
 | ---------------- | ----------------- | ----------------------------------------------------------------------------- | --------- | ----------- |
 | `description`    | `description`     | An optional description for this item. This will appear below the label text. | `string`  | `undefined` |
 | `disabled`       | `disabled`        | When true, disabled prevents interaction.                                     | `boolean` | `false`     |
-| `label`          | `label`           |                                                                               | `string`  | `undefined` |
+| `label`          | `label`           | The label text of the list item. This will appear above the description text. | `string`  | `undefined` |
 | `nonInteractive` | `non-interactive` | When true, prevents the content of the list item from user interaction.       | `boolean` | `false`     |
 
 ## Slots
