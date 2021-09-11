@@ -127,7 +127,13 @@ export class CalciteTreeItem {
 
   render(): VNode {
     const rtl = getElementDir(this.el) === "rtl";
-    const icon = this.hasChildren ? (
+    const showBulletPoint =
+      this.selectionMode === TreeSelectionMode.Single ||
+      this.selectionMode === TreeSelectionMode.Children;
+    const showCheckmark =
+      this.selectionMode === TreeSelectionMode.Multi ||
+      this.selectionMode === TreeSelectionMode.MultiChildren;
+    const chevron = this.hasChildren ? (
       <calcite-icon
         class={{
           [CSS.chevron]: true,
@@ -153,6 +159,22 @@ export class CalciteTreeItem {
           <slot />
         </label>
       ) : null;
+    const selectedIcon = showBulletPoint
+      ? ICONS.bulletPoint
+      : showCheckmark
+      ? ICONS.checkmark
+      : null;
+    const bulletOrCheckIcon = selectedIcon ? (
+      <calcite-icon
+        class={{
+          [CSS.bulletPointIcon]: selectedIcon === ICONS.bulletPoint,
+          [CSS.checkmarkIcon]: selectedIcon === ICONS.checkmark,
+          [CSS_UTILITY.rtl]: rtl
+        }}
+        icon={selectedIcon}
+        scale="s"
+      />
+    ) : null;
 
     const hidden = !(this.parentExpanded || this.depth === 1);
 
@@ -160,14 +182,7 @@ export class CalciteTreeItem {
       <Host
         aria-expanded={this.hasChildren ? this.expanded.toString() : undefined}
         aria-hidden={hidden.toString()}
-        aria-selected={
-          this.selected
-            ? "true"
-            : this.selectionMode === TreeSelectionMode.Multi ||
-              this.selectionMode === TreeSelectionMode.MultiChildren
-            ? "false"
-            : undefined
-        }
+        aria-selected={this.selected ? "true" : showCheckmark ? "false" : undefined}
         calcite-hydrated-hidden={hidden}
         role="treeitem"
         tabindex={this.parentExpanded || this.depth === 1 ? "0" : "-1"}
@@ -180,7 +195,8 @@ export class CalciteTreeItem {
           data-selection-mode={this.selectionMode}
           ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}
         >
-          {icon}
+          {chevron}
+          {bulletOrCheckIcon}
           {checkbox ? checkbox : <slot />}
         </div>
         <div

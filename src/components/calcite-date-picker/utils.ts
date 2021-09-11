@@ -38,11 +38,7 @@ function getSupportedLocale(lang = "") {
     return lang;
   } else {
     const base = lang.split("-")[0];
-    if (locales.indexOf(base) > -1) {
-      return base;
-    } else {
-      return "en";
-    }
+    return locales.indexOf(base) > -1 ? base : "en";
   }
 }
 
