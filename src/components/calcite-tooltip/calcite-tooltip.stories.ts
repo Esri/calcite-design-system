@@ -1,7 +1,7 @@
 import { select, number } from "@storybook/addon-knobs";
 import readme from "./readme.md";
 import { html } from "../../tests/utils";
-import { boolean, createSteps, stepStory, setThemeScript } from "../../../.storybook/helpers";
+import { boolean, createSteps, stepStory, setTheme } from "../../../.storybook/helpers";
 
 const placements = [
   "auto",
@@ -60,6 +60,6 @@ export const Simple = stepStory(
     .rtl()
     .snapshot("Rtl")
     .ltr()
-    .executeScript(setThemeScript("dark"))
+    .executeScript(setTheme("dark"))
     .snapshot("Dark theme")
 );

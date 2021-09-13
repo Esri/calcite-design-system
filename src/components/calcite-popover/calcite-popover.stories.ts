@@ -1,6 +1,6 @@
 import { select, number, text } from "@storybook/addon-knobs";
 import { html } from "../../tests/utils";
-import { boolean, createSteps, stepStory, setThemeScript, setKnobScript } from "../../../.storybook/helpers";
+import { boolean, createSteps, stepStory, setTheme, setKnobUrl } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 import managerReadme from "../calcite-popover-manager/readme.md";
 
@@ -79,12 +79,12 @@ export const Simple = stepStory(
     .snapshot("Default")
     .click("#reference-element")
     .snapshot("Open")
-    .executeScript(setKnobScript({ story: "components-popover--simple", knob: "dismissible", value: "true" }))
+    .executeScript(setKnobUrl({ story: "components-popover--simple", knob: "dismissible", value: "true" }))
     .click("#reference-element")
     .snapshot("dismissible")
     .rtl()
     .snapshot("Rtl")
     .ltr()
-    .executeScript(setThemeScript("dark"))
+    .executeScript(setTheme("dark"))
     .snapshot("Dark theme")
 );
