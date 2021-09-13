@@ -23,13 +23,15 @@ export interface Story {
   decorators?: ((Story: Story) => DocumentFragment)[];
 }
 
-export const setKnobUrl = ({ story, knob, value }: { story: string; knob: string; value: string }) => {
-  return `window.location.href = "?path=/story/${story}&knob-${knob}=${value}"`;
+export const setKnobs = ({ story, knobs }: { story: string; knobs: { name: string; value: string }[] }) => {
+  return `window.location.href = "?path=/story/${story}${knobs
+    .map(({ name, value }) => `&knob-${name}=${value}`)
+    .join("")}"`;
 };
 
-export const setTheme = (value: ThemeName) => `${THEMES.map(function (theme) {
-  return `document.body.classList.toggle('${theme.className}', ${(theme.name === value).toString()});`;
-}).join("")}
+export const setTheme = (value: ThemeName) => `${THEMES.map(
+  (theme) => `document.body.classList.toggle('${theme.className}', ${(theme.name === value).toString()});`
+).join("")}
 `;
 
 export const createSteps = (componentSelector: string): Steps => {
