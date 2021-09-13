@@ -52,5 +52,5 @@ export function disconnectLabel(component: CalciteLabelableComponent): void {
  * Helper to get the label text from a component.
  */
 export function getLabelText(component: CalciteLabelableComponent): string {
-  return component.label || component.labelEl?.textContent;
+  return component.label || component.labelEl?.textContent?.trim() || "";
 }
