@@ -8,12 +8,7 @@ import {
 import { ButtonAlignment, ButtonAppearance, ButtonColor } from "./interfaces";
 import { FlipContext, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
-import {
-  CalciteLabelableComponent,
-  connectLabel,
-  disconnectLabel,
-  getLabelText
-} from "../../utils/label";
+import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { createObserver } from "../../utils/observers";
 
 @Component({
@@ -26,7 +21,7 @@ import { createObserver } from "../../utils/observers";
 
 /** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
 /** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
-export class CalciteButton implements CalciteLabelableComponent {
+export class CalciteButton implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element

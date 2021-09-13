@@ -16,7 +16,7 @@ import {
 import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { Layout, Scale, Width } from "../interfaces";
-import { CalciteLabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
+import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import { RadioAppearance } from "./interfaces";
 
 @Component({
@@ -24,7 +24,7 @@ import { RadioAppearance } from "./interfaces";
   styleUrl: "calcite-radio-group.scss",
   shadow: true
 })
-export class CalciteRadioGroup implements CalciteLabelableComponent {
+export class CalciteRadioGroup implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -242,7 +242,6 @@ export class CalciteRadioGroup implements CalciteLabelableComponent {
 
   labelEl: HTMLCalciteLabelElement;
 
-  // todo: Do we need to stop creating an input here? Should it be created in shadow dom??
   private hiddenInput: HTMLInputElement = (() => {
     const input = document.createElement("input");
     input.type = "hidden";

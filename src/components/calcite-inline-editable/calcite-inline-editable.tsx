@@ -13,7 +13,7 @@ import {
 import { getElementProp } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { TEXT, CSS } from "./resources";
-import { CalciteLabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
+import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 
 /**
  * @slot - slot for rendering a `<calcite-input>`
@@ -23,7 +23,7 @@ import { CalciteLabelableComponent, connectLabel, disconnectLabel } from "../../
   shadow: true,
   styleUrl: "calcite-inline-editable.scss"
 })
-export class CalciteInlineEditable implements CalciteLabelableComponent {
+export class CalciteInlineEditable implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element

@@ -1,6 +1,6 @@
 import { closestElementCrossShadowBoundary, queryElementRoots } from "./dom";
 
-export interface CalciteLabelableComponent {
+export interface LabelableComponent {
   /**
    * The host element.
    */
@@ -36,7 +36,7 @@ const findLabelForComponent = (componentEl: HTMLElement): HTMLCalciteLabelElemen
 /**
  * Helper to set up label interactions on connectedCallback.
  */
-export function connectLabel(component: CalciteLabelableComponent): void {
+export function connectLabel(component: LabelableComponent): void {
   component.labelEl = findLabelForComponent(component.el);
   component.labelEl?.addEventListener(labelClickEvent, component.onLabelClick);
 }
@@ -44,13 +44,13 @@ export function connectLabel(component: CalciteLabelableComponent): void {
 /**
  * Helper to tear down label interactions on disconnectedCallback.
  */
-export function disconnectLabel(component: CalciteLabelableComponent): void {
+export function disconnectLabel(component: LabelableComponent): void {
   component.labelEl?.removeEventListener(labelClickEvent, component.onLabelClick);
 }
 
 /**
  * Helper to get the label text from a component.
  */
-export function getLabelText(component: CalciteLabelableComponent): string {
+export function getLabelText(component: LabelableComponent): string {
   return component.label || component.labelEl?.textContent?.trim() || "";
 }

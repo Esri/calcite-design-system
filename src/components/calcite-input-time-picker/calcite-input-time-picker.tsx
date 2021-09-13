@@ -22,19 +22,14 @@ import {
   getMeridiemHour
 } from "../../utils/time";
 import { Scale } from "../interfaces";
-import {
-  CalciteLabelableComponent,
-  connectLabel,
-  disconnectLabel,
-  getLabelText
-} from "../../utils/label";
+import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 
 @Component({
   tag: "calcite-input-time-picker",
   styleUrl: "calcite-input-time-picker.scss",
   shadow: true
 })
-export class CalciteInputTimePicker implements CalciteLabelableComponent {
+export class CalciteInputTimePicker implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element

@@ -17,7 +17,7 @@ import { getKey } from "../../utils/key";
 import { ColorStop, DataSeries } from "../calcite-graph/interfaces";
 import { intersects } from "../../utils/dom";
 import { clamp } from "../../utils/math";
-import { CalciteLabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
+import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 
 type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 
@@ -26,7 +26,7 @@ type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
   styleUrl: "calcite-slider.scss",
   shadow: true
 })
-export class CalciteSlider implements CalciteLabelableComponent {
+export class CalciteSlider implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element

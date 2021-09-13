@@ -15,19 +15,14 @@ import { guid } from "../../utils/guid";
 import { focusElement, closestElementCrossShadowBoundary } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { hiddenInputStyle } from "../../utils/form";
-import {
-  CalciteLabelableComponent,
-  connectLabel,
-  disconnectLabel,
-  getLabelText
-} from "../../utils/label";
+import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 
 @Component({
   tag: "calcite-checkbox",
   styleUrl: "calcite-checkbox.scss",
   shadow: true
 })
-export class CalciteCheckbox implements CalciteLabelableComponent {
+export class CalciteCheckbox implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -231,7 +226,6 @@ export class CalciteCheckbox implements CalciteLabelableComponent {
   //
   // --------------------------------------------------------------------------
 
-  // todo: Do we need to stop creating an input here? Should it be created in shadow dom??
   private renderHiddenCheckboxInput() {
     this.input = document.createElement("input");
     this.checked && this.input.setAttribute("checked", "");

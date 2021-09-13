@@ -18,14 +18,14 @@ import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
 import { CSS_UTILITY } from "../../utils/resources";
 import { Scale } from "../interfaces";
-import { CalciteLabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
+import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 
 @Component({
   tag: "calcite-switch",
   styleUrl: "calcite-switch.scss",
   shadow: true
 })
-export class CalciteSwitch implements CalciteLabelableComponent {
+export class CalciteSwitch implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -79,7 +79,6 @@ export class CalciteSwitch implements CalciteLabelableComponent {
 
   labelEl: HTMLCalciteLabelElement;
 
-  // todo: Do we need to stop creating an input here? Should it be created in shadow dom??
   private inputEl: HTMLInputElement = document.createElement("input");
 
   //--------------------------------------------------------------------------

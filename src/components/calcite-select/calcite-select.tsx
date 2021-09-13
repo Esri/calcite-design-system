@@ -12,7 +12,7 @@ import {
 } from "@stencil/core";
 import { Direction, focusElement, getElementDir } from "../../utils/dom";
 import { Scale, Width } from "../interfaces";
-import { CalciteLabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
+import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import { CSS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 import { createObserver } from "../../utils/observers";
@@ -35,7 +35,7 @@ function isOptionGroup(
   styleUrl: "calcite-select.scss",
   shadow: true
 })
-export class CalciteSelect implements CalciteLabelableComponent {
+export class CalciteSelect implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties

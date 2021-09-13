@@ -26,12 +26,7 @@ import {
 import { HeadingLevel } from "../functional/CalciteHeading";
 import { getKey } from "../../utils/key";
 import { TEXT } from "../calcite-date-picker/resources";
-import {
-  CalciteLabelableComponent,
-  connectLabel,
-  disconnectLabel,
-  getLabelText
-} from "../../utils/label";
+import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 
 import {
   createPopper,
@@ -49,7 +44,7 @@ const DEFAULT_PLACEMENT = "bottom-leading";
   styleUrl: "calcite-input-date-picker.scss",
   shadow: true
 })
-export class CalciteInputDatePicker implements CalciteLabelableComponent {
+export class CalciteInputDatePicker implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element

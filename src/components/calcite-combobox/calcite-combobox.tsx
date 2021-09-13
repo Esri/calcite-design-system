@@ -33,12 +33,7 @@ import {
   ComboboxDefaultPlacement
 } from "./resources";
 import { getItemAncestors, getItemChildren, hasActiveChildren } from "./utils";
-import {
-  CalciteLabelableComponent,
-  connectLabel,
-  disconnectLabel,
-  getLabelText
-} from "../../utils/label";
+import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { createObserver } from "../../utils/observers";
 
 interface ItemData {
@@ -54,7 +49,7 @@ const isGroup = (el: ComboboxChildElement): el is HTMLCalciteComboboxItemGroupEl
   styleUrl: "calcite-combobox.scss",
   shadow: true
 })
-export class CalciteCombobox implements CalciteLabelableComponent {
+export class CalciteCombobox implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element

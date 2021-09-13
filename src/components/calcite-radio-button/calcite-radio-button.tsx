@@ -13,12 +13,7 @@ import {
 import { guid } from "../../utils/guid";
 import { focusElement, closestElementCrossShadowBoundary } from "../../utils/dom";
 import { Scale } from "../interfaces";
-import {
-  CalciteLabelableComponent,
-  connectLabel,
-  disconnectLabel,
-  getLabelText
-} from "../../utils/label";
+import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { hiddenInputStyle } from "../../utils/form";
 import { CSS } from "./resources";
 
@@ -27,7 +22,7 @@ import { CSS } from "./resources";
   styleUrl: "calcite-radio-button.scss",
   shadow: true
 })
-export class CalciteRadioButton implements CalciteLabelableComponent {
+export class CalciteRadioButton implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element

@@ -23,12 +23,7 @@ import { getKey } from "../../utils/key";
 import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
 import { InputPlacement } from "./interfaces";
 import { Position } from "../interfaces";
-import {
-  CalciteLabelableComponent,
-  connectLabel,
-  disconnectLabel,
-  getLabelText
-} from "../../utils/label";
+import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
   getDecimalSeparator,
   delocalizeNumberString,
@@ -54,7 +49,7 @@ type NumberNudgeDirection = "up" | "down";
   styleUrl: "calcite-input.scss",
   shadow: true
 })
-export class CalciteInput implements CalciteLabelableComponent {
+export class CalciteInput implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element

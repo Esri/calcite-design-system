@@ -14,7 +14,7 @@ import {
 import { getElementDir } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
-import { CalciteLabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
+import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import { TEXT } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 
@@ -23,7 +23,7 @@ import { CSS_UTILITY } from "../../utils/resources";
   styleUrl: "calcite-rating.scss",
   shadow: true
 })
-export class CalciteRating implements CalciteLabelableComponent {
+export class CalciteRating implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
