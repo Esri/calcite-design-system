@@ -15,6 +15,7 @@ import { Scale, Width } from "../interfaces";
 import { CalciteLabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import { CSS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
+import { createObserver } from "../../utils/observers";
 
 type CalciteOptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
@@ -93,7 +94,7 @@ export class CalciteSelect implements CalciteLabelableComponent {
 
   private componentToNativeEl = new Map<CalciteOptionOrGroup, NativeOptionOrGroup>();
 
-  private mutationObserver = new MutationObserver(() => this.populateInternalSelect());
+  private mutationObserver = createObserver("mutation", () => this.populateInternalSelect());
 
   private selectEl: HTMLSelectElement;
 
@@ -106,7 +107,7 @@ export class CalciteSelect implements CalciteLabelableComponent {
   connectedCallback(): void {
     const { el } = this;
 
-    this.mutationObserver.observe(el, {
+    this.mutationObserver?.observe(el, {
       subtree: true,
       childList: true
     });
@@ -115,7 +116,7 @@ export class CalciteSelect implements CalciteLabelableComponent {
   }
 
   disconnectedCallback(): void {
-    this.mutationObserver.disconnect();
+    this.mutationObserver?.disconnect();
     disconnectLabel(this);
   }
 
@@ -125,6 +126,7 @@ export class CalciteSelect implements CalciteLabelableComponent {
   //
   //--------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     focusElement(this.selectEl);

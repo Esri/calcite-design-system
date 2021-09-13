@@ -185,6 +185,7 @@ export class CalciteInputDatePicker implements CalciteLabelableComponent {
     this.startInput?.setFocus();
   }
 
+  /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
     const { popper, menuEl } = this;

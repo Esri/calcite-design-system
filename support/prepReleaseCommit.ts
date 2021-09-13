@@ -1,4 +1,3 @@
-import { version } from "../package.json";
 import type { Options } from "standard-version";
 
 const childProcess = require("child_process");
@@ -91,7 +90,7 @@ async function runStandardVersion(next: boolean, standardVersionOptions: Options
     await exec(`git add ${changelogPath}`);
   }
 
-  await updateReadmeCdnUrls();
+  await updateReadmeCdnUrls(standardVersionOptions.releaseAs);
   await exec(`git add ${readmePath}`);
 
   await standardVersion(standardVersionOptions);
@@ -136,9 +135,9 @@ async function getUnreleasedChangelogContents(): Promise<string> {
   ).trim();
 }
 
-async function updateReadmeCdnUrls(): Promise<void> {
-  const scriptTagPattern = /(<script type="module" src=").+("><\/script>)/;
-  const linkTagPattern = /(<link rel="stylesheet" type="text\/css" href=").+(" \/>)/;
+async function updateReadmeCdnUrls(version: string): Promise<void> {
+  const scriptTagPattern = /(<script\s+type="module"\s+src=").+("\s*><\/script>)/m;
+  const linkTagPattern = /(<link\s+rel="stylesheet"\s+type="text\/css"\s+href=").+("\s*\/>)/m;
   const baseCdnUrl = `https://unpkg.com/@esri/calcite-components@${version}/dist/calcite/calcite.`;
 
   const readmeContent: string = await fs.readFile(readmePath, { encoding: "utf8" });

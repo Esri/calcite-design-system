@@ -12,8 +12,9 @@ import {
   CalciteLabelableComponent,
   connectLabel,
   disconnectLabel,
-  getlabelElText
+  getLabelText
 } from "../../utils/label";
+import { createObserver } from "../../utils/observers";
 
 @Component({
   tag: "calcite-button",
@@ -128,7 +129,7 @@ export class CalciteButton implements CalciteLabelableComponent {
   }
 
   disconnectedCallback(): void {
-    this.observer.disconnect();
+    this.mutationObserver?.disconnect();
     disconnectLabel(this);
   }
 
@@ -211,6 +212,7 @@ export class CalciteButton implements CalciteLabelableComponent {
   //
   //--------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     this.childEl.focus();
@@ -225,7 +227,7 @@ export class CalciteButton implements CalciteLabelableComponent {
   labelEl: HTMLCalciteLabelElement;
 
   /** watches for changing text content **/
-  private observer: MutationObserver;
+  private mutationObserver = createObserver("mutation", () => this.updateHasContent());
 
   /** the rendered child element */
   private childEl?: HTMLElement;
@@ -248,12 +250,7 @@ export class CalciteButton implements CalciteLabelableComponent {
   }
 
   private setupTextContentObserver() {
-    if (Build.isBrowser) {
-      this.observer = new MutationObserver(() => {
-        this.updateHasContent();
-      });
-      this.observer.observe(this.el, { childList: true, subtree: true });
-    }
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   //--------------------------------------------------------------------------

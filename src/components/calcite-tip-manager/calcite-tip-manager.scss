@@ -35,10 +35,13 @@
     pl-4 
     pr-0 
     py-0;
-}
 
-h2.heading {
-  @apply font-bold text-color-1 text-1h;
+  h2.heading {
+    @apply font-bold
+      text-color-1
+      text-1h
+      p-0;
+  }
 }
 
 .container {

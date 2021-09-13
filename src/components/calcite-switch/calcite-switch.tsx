@@ -98,6 +98,7 @@ export class CalciteSwitch implements CalciteLabelableComponent {
   //
   //--------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     focusElement(this.inputEl);

@@ -211,6 +211,8 @@ export class CalciteRating implements CalciteLabelableComponent {
   //  Public Methods
   //
   //--------------------------------------------------------------------------
+
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     this.inputFocusRef.focus();

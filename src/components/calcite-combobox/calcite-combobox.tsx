@@ -8,7 +8,6 @@ import {
   EventEmitter,
   Element,
   VNode,
-  Build,
   Method,
   Watch,
   Host
@@ -38,8 +37,9 @@ import {
   CalciteLabelableComponent,
   connectLabel,
   disconnectLabel,
-  getlabelElText
+  getLabelText
 } from "../../utils/label";
+import { createObserver } from "../../utils/observers";
 
 interface ItemData {
   label: string;
@@ -68,7 +68,7 @@ export class CalciteCombobox implements CalciteLabelableComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** Open and close combobox */
+  /** Opens or closes the combobox */
   @Prop({ reflect: true, mutable: true }) active = false;
 
   @Watch("active")
@@ -150,6 +150,7 @@ export class CalciteCombobox implements CalciteLabelableComponent {
   //
   //--------------------------------------------------------------------------
 
+  /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
     const { popper, menuEl } = this;
@@ -164,6 +165,7 @@ export class CalciteCombobox implements CalciteLabelableComponent {
       : this.createPopper();
   }
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     this.active = true;
@@ -217,20 +219,13 @@ export class CalciteCombobox implements CalciteLabelableComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    if (Build.isBrowser) {
-      this.observer = new MutationObserver(this.updateItems);
-    }
-
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.createPopper();
     connectLabel(this);
   }
 
   componentWillLoad(): void {
     this.updateItems();
-  }
-
-  componentDidLoad(): void {
-    this.observer?.observe(this.el, { childList: true, subtree: true });
   }
 
   componentDidRender(): void {
@@ -241,7 +236,7 @@ export class CalciteCombobox implements CalciteLabelableComponent {
   }
 
   disconnectedCallback(): void {
-    this.observer?.disconnect();
+    this.mutationObserver?.disconnect();
     this.destroyPopper();
     disconnectLabel(this);
   }
@@ -289,7 +284,7 @@ export class CalciteCombobox implements CalciteLabelableComponent {
 
   data: ItemData[];
 
-  observer: MutationObserver = null;
+  mutationObserver = createObserver("mutation", () => this.updateItems());
 
   private guid: string = guid();
 
@@ -873,7 +868,7 @@ export class CalciteCombobox implements CalciteLabelableComponent {
           aria-activedescendant={this.activeDescendant}
           aria-autocomplete="list"
           aria-controls={guid}
-          aria-label={getlabelElText(this)}
+          aria-label={getLabelText(this)}
           class={{
             input: true,
             "input--transparent": this.activeChipIndex > -1,

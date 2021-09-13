@@ -228,7 +228,7 @@ export class CalciteRadioGroup implements CalciteLabelableComponent {
   //
   // --------------------------------------------------------------------------
 
-  /** Focuses the selected item. If there is no selection, it focuses the first item. */
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     (this.selectedItem || this.getItems()[0])?.focus();

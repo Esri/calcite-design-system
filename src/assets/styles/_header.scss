@@ -1,37 +1,34 @@
 /* Shared styles for header elements */
 .header {
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: var(--calcite-ui-text-2);
-  fill: var(--calcite-ui-text-2);
+  @apply m-0
+    flex
+    items-center
+    content-between
+    text-color-2;
+
+  fill: theme("textColor.2");
 }
 
 .heading {
-  padding: 0;
-  margin: 0;
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: 1.5;
+  @apply font-medium m-0 p-0;
 }
 
 .header .heading {
-  flex: 1 0 auto;
-  padding: var(--calcite-spacing-half) var(--calcite-spacing-half);
+  @apply flex-auto p-2;
 }
 
 h1.heading {
-  font-size: theme("fontSize.2");
+  @apply text-2h;
 }
 
 h2.heading {
-  font-size: theme("fontSize.1");
+  @apply text-1h;
 }
 
 h3.heading {
-  font-size: theme("fontSize.0");
+  @apply text-0h;
 }
 h4.heading,
 h5.heading {
-  font-size: theme("fontSize.-1");
+  @apply text--1h;
 }

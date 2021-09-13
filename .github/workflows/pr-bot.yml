@@ -1,7 +1,8 @@
 name: PR Bot
 on:
   pull_request:
-    branches: [ master ]
+    types: [opened]
+    branches: [master]
 jobs:
   assign:
     runs-on: ubuntu-latest

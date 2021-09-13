@@ -374,7 +374,7 @@ export class CalciteInput implements CalciteLabelableComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** focus the rendered child element */
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     if (this.type === "number") {

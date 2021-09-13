@@ -224,7 +224,7 @@ export class CalciteAlert {
   //
   //--------------------------------------------------------------------------
 
-  /** focus either the slotted link or the close button */
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     if (!this.closeButton && !this.alertLinkEl) {

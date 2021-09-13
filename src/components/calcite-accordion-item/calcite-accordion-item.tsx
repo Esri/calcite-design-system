@@ -34,6 +34,7 @@ export class CalciteAccordionItem {
   //
   //--------------------------------------------------------------------------
 
+  /** Indicates whether the item is active. */
   @Prop({ reflect: true, mutable: true }) active = false;
 
   /** pass a title for the accordion item */
@@ -119,7 +120,7 @@ export class CalciteAccordionItem {
             <calcite-icon
               class="accordion-item-expand-icon"
               icon={
-                  this.iconType === "chevron"
+                this.iconType === "chevron"
                   ? "chevronDown"
                   : this.iconType === "caret"
                   ? "caretDown"
@@ -214,11 +215,7 @@ export class CalciteAccordionItem {
         break;
 
       case "single":
-        if (this.el === this.requestedAccordionItem) {
-          this.active = !this.active;
-        } else {
-          this.active = false;
-        }
+        this.active = this.el === this.requestedAccordionItem ? !this.active : false;
         break;
 
       case "single-persist":
