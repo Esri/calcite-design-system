@@ -167,10 +167,22 @@ export class CalciteRadioButton implements LabelableComponent {
   //--------------------------------------------------------------------------
 
   toggle = (): void => {
+    if (this.labelEl) {
+      return;
+    }
+
     this.uncheckAllRadioButtonsInGroup();
     this.checked = true;
     this.focused = true;
     this.calciteRadioButtonChange.emit();
+  };
+
+  private clickHandler = (): void => {
+    if (this.labelEl) {
+      return;
+    }
+
+    this.toggle();
   };
 
   onLabelClick = (event: CustomEvent): void => {
@@ -353,7 +365,7 @@ export class CalciteRadioButton implements LabelableComponent {
     const value = this.value?.toString();
 
     return (
-      <div class={CSS.container} onClick={this.toggle}>
+      <div class={CSS.container} onClick={this.clickHandler}>
         <input
           aria-label={getLabelText(this)}
           checked={this.checked}

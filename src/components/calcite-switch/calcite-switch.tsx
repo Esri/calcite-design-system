@@ -136,6 +136,14 @@ export class CalciteSwitch implements LabelableComponent {
     });
   }
 
+  private clickHandler = (): void => {
+    if (this.labelEl) {
+      return;
+    }
+
+    this.toggle();
+  };
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -194,6 +202,7 @@ export class CalciteSwitch implements LabelableComponent {
         <div
           aria-checked={this.switched.toString()}
           class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+          onClick={this.clickHandler}
         >
           <div class="track">
             <div class="handle" />

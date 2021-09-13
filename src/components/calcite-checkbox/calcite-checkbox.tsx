@@ -144,6 +144,14 @@ export class CalciteCheckbox implements LabelableComponent {
     }
   };
 
+  private clickHandler = (): void => {
+    if (this.labelEl) {
+      return;
+    }
+
+    this.toggle();
+  };
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -236,11 +244,7 @@ export class CalciteCheckbox implements LabelableComponent {
     this.input.onfocus = this.onInputFocus.bind(this);
     this.input.style.cssText = hiddenInputStyle;
     this.input.type = "checkbox";
-    if (this.label) {
-      this.input.setAttribute("aria-label", getLabelText(this));
-    } else {
-      this.input.removeAttribute("aria-label");
-    }
+    this.input.setAttribute("aria-label", getLabelText(this));
     if (this.value) {
       this.input.value = this.value != null ? this.value.toString() : "";
     }
@@ -249,7 +253,7 @@ export class CalciteCheckbox implements LabelableComponent {
 
   render(): VNode {
     return (
-      <div class={{ focused: this.focused }}>
+      <div class={{ focused: this.focused }} onClick={this.clickHandler}>
         <svg class="check-svg" viewBox="0 0 16 16">
           <path d={this.getPath()} />
         </svg>

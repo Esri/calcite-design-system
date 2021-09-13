@@ -131,7 +131,7 @@ export class CalciteRadioGroup implements LabelableComponent {
 
   render(): VNode {
     return (
-      <Host role="radiogroup" tabIndex={this.disabled ? -1 : null}>
+      <Host onClick={this.handleClick} role="radiogroup" tabIndex={this.disabled ? -1 : null}>
         <slot />
       </Host>
     );
@@ -143,11 +143,11 @@ export class CalciteRadioGroup implements LabelableComponent {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click") protected handleClick(event: MouseEvent): void {
+  protected handleClick = (event: MouseEvent): void => {
     if ((event.target as HTMLElement).localName === "calcite-radio-group-item") {
       this.selectItem(event.target as HTMLCalciteRadioGroupItemElement);
     }
-  }
+  };
 
   @Listen("calciteRadioGroupItemChange")
   protected handleSelected(event: Event): void {
