@@ -572,7 +572,9 @@ describe("calcite-color-picker", () => {
       expect(consoleSpy).toBeCalledTimes(1);
       expect(consoleSpy).toHaveBeenCalledWith(
         expect.stringMatching(
-          `ignoring color value (${unsupportedValue}) as it is not compatible with the current format (${format})`
+          new RegExp(
+            `\\s*ignoring color value \\(${unsupportedValue}\\) as it is not compatible with the current format \\(${format}\\)\\s*`
+          )
         )
       );
     }
