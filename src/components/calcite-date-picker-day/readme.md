@@ -14,7 +14,7 @@
 | `highlighted`  | `highlighted`    | Date is currently highlighted as part of the range | `boolean`           | `false`     |
 | `localeData`   | --               | CLDR data for current locale                       | `DateLocaleData`    | `undefined` |
 | `range`        | `range`          | Showing date range                                 | `boolean`           | `false`     |
-| `rangeHover`   | `range-hover`    |                                                    | `boolean`           | `false`     |
+| `rangeHover`   | `range-hover`    | Date is being hovered and within the set range     | `boolean`           | `false`     |
 | `scale`        | `scale`          | specify the scale of the date picker               | `"l" \| "m" \| "s"` | `undefined` |
 | `selected`     | `selected`       | Date is the current selected date of the picker    | `boolean`           | `false`     |
 | `startOfRange` | `start-of-range` | Date is the start of date range                    | `boolean`           | `false`     |

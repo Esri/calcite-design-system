@@ -76,11 +76,15 @@ Renders a tip manager using a group of tips as well as a single tip.
 
 ### `nextTip() => Promise<void>`
 
+Selects the next tip to display
+
 #### Returns
 
 Type: `Promise<void>`
 
 ### `previousTip() => Promise<void>`
+
+Selects the previous tip to display
 
 #### Returns
 

@@ -46,7 +46,7 @@ You can programmatically focus the close button of a `dismissible` `calcite-noti
 
 ### `setFocus() => Promise<void>`
 
-focus the close button, if present and requested
+Sets focus on the component.
 
 #### Returns
 

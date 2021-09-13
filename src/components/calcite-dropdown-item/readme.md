@@ -6,7 +6,7 @@
 
 | Property      | Attribute       | Description                                                                                | Type                         | Default     |
 | ------------- | --------------- | ------------------------------------------------------------------------------------------ | ---------------------------- | ----------- |
-| `active`      | `active`        |                                                                                            | `boolean`                    | `false`     |
+| `active`      | `active`        | Indicates whether the item is active.                                                      | `boolean`                    | `false`     |
 | `href`        | `href`          | optionally pass a href - used to determine if the component should render as anchor        | `string`                     | `undefined` |
 | `iconEnd`     | `icon-end`      | optionally pass an icon to display at the end of an item - accepts calcite ui icon names   | `string`                     | `undefined` |
 | `iconFlipRtl` | `icon-flip-rtl` | flip the icon(s) in rtl                                                                    | `"both" \| "end" \| "start"` | `undefined` |
@@ -19,7 +19,7 @@
 
 ### `setFocus() => Promise<void>`
 
-Focuses the selected item.
+Sets focus on the component.
 
 #### Returns
 
