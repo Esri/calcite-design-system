@@ -24,9 +24,11 @@ please add a 👍 reaction to the existing issue instead of creating a new one.
 
 <!-- What you expected instead, and why -->
 
-### Reproduction Steps or Sample
+### Reproduction Steps and Sample
 
-<!-- no code screenshots -->
+<!-- A codepen, codesandbox, or jsbin sample and the steps to reproduce the issue -->
+
+_Sample_:
 
 1.
 
