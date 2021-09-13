@@ -261,7 +261,7 @@ describe("calcite-radio-button", () => {
 
     expect(changeEvent).toHaveReceivedEventTimes(0);
 
-    await page.evaluate(() => document.querySelector("calcite-label")?.click());
+    await page.evaluate(() => document.querySelector("calcite-label").click());
 
     expect(changeEvent).toHaveReceivedEventTimes(1);
   });

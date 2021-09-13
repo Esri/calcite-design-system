@@ -44,7 +44,7 @@ describe("calcite-checkbox", () => {
     expect(calciteCheckbox).not.toHaveAttribute("checked");
     expect(await calciteCheckbox.getProperty("checked")).toBe(false);
 
-    await page.evaluate(() => document.querySelector("calcite-checkbox")?.click());
+    await page.evaluate(() => document.querySelector("calcite-checkbox").click());
 
     await page.waitForChanges();
 
@@ -62,7 +62,7 @@ describe("calcite-checkbox", () => {
 
     expect(changeEvent).toHaveReceivedEventTimes(0);
 
-    await page.evaluate(() => document.querySelector("calcite-checkbox")?.click());
+    await page.evaluate(() => document.querySelector("calcite-checkbox").click());
 
     expect(changeEvent).toHaveReceivedEventTimes(1);
   });
@@ -106,7 +106,7 @@ describe("calcite-checkbox", () => {
 
     expect(calciteCheckbox).toHaveAttribute("indeterminate");
 
-    await page.evaluate(() => document.querySelector("calcite-checkbox")?.click());
+    await page.evaluate(() => document.querySelector("calcite-checkbox").click());
 
     expect(calciteCheckbox).not.toHaveAttribute("indeterminate");
   });
@@ -128,7 +128,7 @@ describe("calcite-checkbox", () => {
     expect(input).not.toHaveAttribute("checked");
     expect(await input.getProperty("checked")).toBe(false);
 
-    await page.evaluate(() => document.querySelector("p")?.click());
+    await page.evaluate(() => document.querySelector("p").click());
 
     await page.waitForChanges();
 
@@ -154,7 +154,7 @@ describe("calcite-checkbox", () => {
     expect(input).not.toHaveAttribute("checked");
     expect(await input.getProperty("checked")).toBe(false);
 
-    await page.evaluate(() => document.querySelector("calcite-label")?.click());
+    await page.evaluate(() => document.querySelector("calcite-label").click());
 
     await page.waitForChanges();
 
@@ -178,7 +178,7 @@ describe("calcite-checkbox", () => {
     expect(await calciteCheckbox.getProperty("checked")).toBe(false);
     expect(await input.getProperty("checked")).toBe(false);
 
-    await page.evaluate(() => document.querySelector("calcite-label")?.click());
+    await page.evaluate(() => document.querySelector("calcite-label").click());
 
     await page.waitForChanges();
 
@@ -201,7 +201,7 @@ describe("calcite-checkbox", () => {
     expect(input).not.toHaveAttribute("checked");
     expect(await input.getProperty("checked")).toBe(false);
 
-    await page.evaluate(() => document.querySelector("calcite-label")?.click());
+    await page.evaluate(() => document.querySelector("calcite-label").click());
 
     await page.waitForChanges();
 
@@ -262,13 +262,13 @@ describe("calcite-checkbox", () => {
     const unchecked = await page.find("#unchecked");
     expect(await unchecked.getProperty("checked")).toBe(false);
 
-    await page.evaluate(() => (document.querySelector("#unchecked") as HTMLElement)?.click());
+    await page.evaluate(() => (document.querySelector("#unchecked") as HTMLElement).click());
     expect(await unchecked.getProperty("checked")).toBe(true);
 
     const checked = await page.find("#checked");
     expect(await checked.getProperty("checked")).toBe(true);
 
-    await page.evaluate(() => (document.querySelector("#checked") as HTMLElement)?.click());
+    await page.evaluate(() => (document.querySelector("#checked") as HTMLElement).click());
     expect(await checked.getProperty("checked")).toBe(false);
 
     await page.evaluate(() => {

@@ -2,7 +2,7 @@ import { newE2EPage } from "@stencil/core/testing";
 import { HYDRATED_ATTR } from "../../tests/commonTests";
 
 const getActiveElementNameAfterClick = (): string => {
-  document.querySelector("calcite-label")?.click();
+  document.querySelector("calcite-label").click();
   return document.activeElement.localName;
 };
 
@@ -208,14 +208,14 @@ describe("calcite-label", () => {
     `);
       const input = await page.find("input");
       const checkboxClass = input["_elmHandle"]["_remoteObject"].description;
-      await page.evaluate(() => document.querySelector("calcite-label")?.click());
+      await page.evaluate(() => document.querySelector("calcite-label").click());
       const activeEl = await page.evaluateHandle(() => document.activeElement);
       const activeElClass = activeEl["_remoteObject"].description;
       expect(activeElClass).toEqual(checkboxClass);
       expect(await input.getProperty("checked")).toBe(true);
 
       const checkbox = await page.find("calcite-checkbox");
-      await page.evaluate(() => document.querySelector("calcite-checkbox")?.click());
+      await page.evaluate(() => document.querySelector("calcite-checkbox").click());
       expect(await checkbox.getProperty("checked")).toBe(false);
       expect(await input.getProperty("checked")).toBe(false);
     });
@@ -230,14 +230,14 @@ describe("calcite-label", () => {
     `);
       const input = await page.find("input");
       const checkboxClass = input["_elmHandle"]["_remoteObject"].description;
-      await page.evaluate(() => document.querySelector("calcite-label")?.click());
+      await page.evaluate(() => document.querySelector("calcite-label").click());
       const activeEl = await page.evaluateHandle(() => document.activeElement);
       const activeElClass = activeEl["_remoteObject"].description;
       expect(activeElClass).toEqual(checkboxClass);
       expect(await input.getProperty("checked")).toBe(true);
 
       const checkbox = await page.find("calcite-checkbox");
-      await page.evaluate(() => document.querySelector("calcite-checkbox")?.click());
+      await page.evaluate(() => document.querySelector("calcite-checkbox").click());
       expect(await checkbox.getProperty("checked")).toBe(false);
       expect(await input.getProperty("checked")).toBe(false);
     });
@@ -269,7 +269,7 @@ describe("calcite-label", () => {
         </calcite-label>
     `);
       await page.waitForChanges();
-      await page.evaluate(() => document.querySelector("calcite-label")?.click());
+      await page.evaluate(() => document.querySelector("calcite-label").click());
       await page.waitForChanges();
       const radio1 = await page.find("#one");
       expect(await radio1.getProperty("checked")).toBe(true);
@@ -285,7 +285,7 @@ describe("calcite-label", () => {
         </calcite-label>
     `);
       await page.waitForChanges();
-      await page.evaluate(() => document.querySelector("span")?.click());
+      await page.evaluate(() => document.querySelector("span").click());
       await page.waitForChanges();
       const radio1 = await page.find("#one");
       expect(await radio1.getProperty("checked")).toBe(true);
@@ -333,7 +333,7 @@ describe("calcite-label", () => {
     `);
       const slider = await page.find("calcite-slider");
       const sliderClass = slider["_elmHandle"]["_remoteObject"].description;
-      await page.evaluate(() => document.querySelector("calcite-label")?.click());
+      await page.evaluate(() => document.querySelector("calcite-label").click());
       const activeEl = await page.evaluateHandle(() => document.activeElement);
       const activeElClass = activeEl["_remoteObject"].description;
       expect(activeElClass).toEqual(sliderClass);
@@ -369,7 +369,7 @@ describe("calcite-label", () => {
       `);
       const radioGroupItem = await page.find("calcite-radio-group-item[checked]");
       const radioGroupItemClass = radioGroupItem["_elmHandle"]["_remoteObject"].description;
-      await page.evaluate(() => document.querySelector("calcite-label")?.click());
+      await page.evaluate(() => document.querySelector("calcite-label").click());
       const activeEl = await page.evaluateHandle(() => document.activeElement);
       const activeElClass = activeEl["_remoteObject"].description;
       expect(activeElClass).toEqual(radioGroupItemClass);
@@ -445,7 +445,7 @@ describe("calcite-label", () => {
         <calcite-radio-button id="two" name="radio" value="two"></calcite-radio-button>
     `);
       await page.waitForChanges();
-      await page.evaluate(() => document.querySelector("calcite-label")?.click());
+      await page.evaluate(() => document.querySelector("calcite-label").click());
       await page.waitForChanges();
       const radio1 = await page.find("#one");
       expect(await radio1.getProperty("checked")).toBe(true);
@@ -461,7 +461,7 @@ describe("calcite-label", () => {
         <calcite-radio-button id="two" name="radio" value="two"></calcite-radio-button>
     `);
       await page.waitForChanges();
-      await page.evaluate(() => document.querySelector("span")?.click());
+      await page.evaluate(() => document.querySelector("span").click());
       await page.waitForChanges();
       const radio1 = await page.find("#one");
       expect(await radio1.getProperty("checked")).toBe(true);
@@ -476,7 +476,7 @@ describe("calcite-label", () => {
         <calcite-switch id="switch"></calcite-switch>
       `);
       await page.waitForChanges();
-      await page.evaluate(() => document.querySelector("calcite-label")?.click());
+      await page.evaluate(() => document.querySelector("calcite-label").click());
       await page.waitForChanges();
       const switchEl = await page.find("calcite-switch");
       expect(switchEl).toHaveAttribute("switched");
