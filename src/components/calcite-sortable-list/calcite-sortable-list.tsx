@@ -11,6 +11,8 @@ import {
   VNode
 } from "@stencil/core";
 import { createObserver } from "../../utils/observers";
+import { Layout } from "../interfaces";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding sortable items
@@ -43,6 +45,11 @@ export class CalciteSortableList {
    * The selector for the handle elements.
    */
   @Prop() handleSelector = "calcite-handle";
+
+  /**
+   * Indicates the horizontal or vertical orientation of the component.
+   */
+  @Prop({ reflect: true }) layout: Layout = "vertical";
 
   /**
    * When true, disabled prevents interaction. This state shows items with lower opacity/grayed.
@@ -200,6 +207,19 @@ export class CalciteSortableList {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    return <slot />;
+    const { layout } = this;
+    const layoutProp = layout == "vertical" || layout == "horizontal" ? layout : "vertical";
+    const layoutClass = layoutProp === "vertical" ? CSS.containerVertical : CSS.containerHorizontal;
+
+    return (
+      <div
+        class={{
+          [CSS.container]: true,
+          [layoutClass]: true
+        }}
+      >
+        <slot />
+      </div>
+    );
   }
 }
