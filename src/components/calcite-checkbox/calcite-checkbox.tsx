@@ -19,7 +19,7 @@ import {
   CalciteLabelableComponent,
   connectLabel,
   disconnectLabel,
-  getlabelElText
+  getLabelText
 } from "../../utils/label";
 
 @Component({
@@ -243,7 +243,7 @@ export class CalciteCheckbox implements CalciteLabelableComponent {
     this.input.style.cssText = hiddenInputStyle;
     this.input.type = "checkbox";
     if (this.label) {
-      this.input.setAttribute("aria-label", getlabelElText(this));
+      this.input.setAttribute("aria-label", getLabelText(this));
     } else {
       this.input.removeAttribute("aria-label");
     }

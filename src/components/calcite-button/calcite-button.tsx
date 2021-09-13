@@ -186,7 +186,7 @@ export class CalciteButton implements CalciteLabelableComponent {
 
     return (
       <Tag
-        aria-label={getlabelElText(this)}
+        aria-label={getLabelText(this)}
         class={{ [CSS_UTILITY.rtl]: dir === "rtl", [CSS.contentSlotted]: this.hasContent }}
         disabled={this.disabled || this.loading}
         href={this.childElType === "a" && this.href}

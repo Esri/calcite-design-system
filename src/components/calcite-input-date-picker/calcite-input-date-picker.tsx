@@ -30,7 +30,7 @@ import {
   CalciteLabelableComponent,
   connectLabel,
   disconnectLabel,
-  getlabelElText
+  getLabelText
 } from "../../utils/label";
 
 import {
@@ -270,7 +270,7 @@ export class CalciteInputDatePicker implements CalciteLabelableComponent {
                     this.layout === "vertical" && this.range ? `no-bottom-border` : ``
                   }`}
                   icon="calendar"
-                  label={getlabelElText(this)}
+                  label={getLabelText(this)}
                   number-button-type="none"
                   onCalciteInputBlur={this.inputBlur}
                   onCalciteInputFocus={this.startInputFocus}

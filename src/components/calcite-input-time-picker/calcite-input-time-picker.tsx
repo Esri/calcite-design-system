@@ -26,7 +26,7 @@ import {
   CalciteLabelableComponent,
   connectLabel,
   disconnectLabel,
-  getlabelElText
+  getLabelText
 } from "../../utils/label";
 
 @Component({
@@ -338,7 +338,7 @@ export class CalciteInputTimePicker implements CalciteLabelableComponent {
           <calcite-input
             disabled={this.disabled}
             icon="clock"
-            label={getlabelElText(this)}
+            label={getLabelText(this)}
             name={this.name}
             onCalciteInputBlur={this.calciteInputBlurHandler}
             onCalciteInputFocus={this.calciteInputFocusHandler}

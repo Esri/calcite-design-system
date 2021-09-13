@@ -25,7 +25,7 @@ export interface CalciteLabelableComponent {
 const labelTagName = "calcite-label";
 const labelClickEvent = "calciteInternalLabelClick";
 
-const findLabelForComponent = (componentEl: HTMLElement): HTMLCalciteLabelElement => {
+const findLabelForComponent = (componentEl: HTMLElement): HTMLCalciteLabelElement | null => {
   const id = componentEl.id;
   return (
     (id && (queryElementRoots(componentEl, `${labelTagName}[for="${id}"]`) as HTMLCalciteLabelElement)) ||

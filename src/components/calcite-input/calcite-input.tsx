@@ -27,7 +27,7 @@ import {
   CalciteLabelableComponent,
   connectLabel,
   disconnectLabel,
-  getlabelElText
+  getLabelText
 } from "../../utils/label";
 import {
   getDecimalSeparator,
@@ -686,7 +686,7 @@ export class CalciteInput implements CalciteLabelableComponent {
     const localeNumberInput =
       this.type === "number" ? (
         <input
-          aria-label={getlabelElText(this)}
+          aria-label={getLabelText(this)}
           autofocus={this.autofocus ? true : null}
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
@@ -709,7 +709,7 @@ export class CalciteInput implements CalciteLabelableComponent {
 
     const childEl = [
       <this.childElType
-        aria-label={getlabelElText(this)}
+        aria-label={getLabelText(this)}
         autofocus={this.autofocus ? true : null}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}

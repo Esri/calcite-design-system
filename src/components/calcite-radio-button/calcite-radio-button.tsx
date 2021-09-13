@@ -17,7 +17,7 @@ import {
   CalciteLabelableComponent,
   connectLabel,
   disconnectLabel,
-  getlabelElText
+  getLabelText
 } from "../../utils/label";
 import { hiddenInputStyle } from "../../utils/form";
 import { CSS } from "./resources";
@@ -171,8 +171,7 @@ export class CalciteRadioButton implements CalciteLabelableComponent {
   //
   //--------------------------------------------------------------------------
 
-  toggle = (event: MouseEvent): void => {
-    event.stopPropagation();
+  toggle = (): void => {
     this.uncheckAllRadioButtonsInGroup();
     this.checked = true;
     this.focused = true;
@@ -180,7 +179,8 @@ export class CalciteRadioButton implements CalciteLabelableComponent {
   };
 
   onLabelClick = (event: CustomEvent): void => {
-    if (!this.disabled && !this.hidden) {
+    const composedPath = event.composedPath();
+    if (!this.disabled && !this.hidden && !composedPath.includes(this.el)) {
       this.uncheckOtherRadioButtonsInGroup();
       const target = event.target as HTMLElement;
       const firstButton = target?.querySelector(
@@ -361,7 +361,7 @@ export class CalciteRadioButton implements CalciteLabelableComponent {
     return (
       <div class={CSS.container} onClick={this.toggle}>
         <input
-          aria-label={getlabelElText(this)}
+          aria-label={getLabelText(this)}
           checked={this.checked}
           disabled={this.disabled}
           hidden={this.hidden}
