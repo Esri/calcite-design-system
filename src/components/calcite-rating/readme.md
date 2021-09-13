@@ -32,6 +32,8 @@
 
 ### `setFocus() => Promise<void>`
 
+Sets focus on the component.
+
 #### Returns
 
 Type: `Promise<void>`

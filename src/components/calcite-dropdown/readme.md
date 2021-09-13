@@ -62,7 +62,7 @@ You can combine groups in a single dropdown, with varying selection modes:
 
 | Property               | Attribute                 | Description                                                                                                                                                                                    | Type                                                                                                                                                          | Default                    |
 | ---------------------- | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
-| `active`               | `active`                  |                                                                                                                                                                                                | `boolean`                                                                                                                                                     | `false`                    |
+| `active`               | `active`                  | Opens or closes the dropdown                                                                                                                                                                   | `boolean`                                                                                                                                                     | `false`                    |
 | `disableCloseOnSelect` | `disable-close-on-select` | allow the dropdown to remain open after a selection is made if the selection-mode of the selected item's containing group is "none", the dropdown will always close                            | `boolean`                                                                                                                                                     | `false`                    |
 | `disabled`             | `disabled`                | is the dropdown disabled                                                                                                                                                                       | `boolean`                                                                                                                                                     | `false`                    |
 | `maxItems`             | `max-items`               | specify the maximum number of calcite-dropdown-items to display before showing the scroller, must be greater than 0 - this value does not include groupTitles passed to calcite-dropdown-group | `number`                                                                                                                                                      | `0`                        |
@@ -84,6 +84,8 @@ You can combine groups in a single dropdown, with varying selection modes:
 ## Methods
 
 ### `reposition() => Promise<void>`
+
+Updates the position of the component.
 
 #### Returns
 

@@ -8,7 +8,7 @@ individual `calcite-accordion` item
 
 | Property       | Attribute       | Description                                                        | Type      | Default     |
 | -------------- | --------------- | ------------------------------------------------------------------ | --------- | ----------- |
-| `active`       | `active`        |                                                                    | `boolean` | `false`     |
+| `active`       | `active`        | Indicates whether the item is active.                              | `boolean` | `false`     |
 | `icon`         | `icon`          | optionally pass an icon to display - accepts Calcite UI icon names | `string`  | `undefined` |
 | `itemSubtitle` | `item-subtitle` | pass a title for the accordion item                                | `string`  | `undefined` |
 | `itemTitle`    | `item-title`    | pass a title for the accordion item                                | `string`  | `undefined` |
