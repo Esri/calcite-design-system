@@ -242,7 +242,7 @@ export class CalciteColorPicker {
       const nextMode = parseMode(value);
 
       if (!nextMode || (format !== "auto" && nextMode !== format)) {
-        console.warn(`ignoring invalid color value: ${value}`);
+        this.showIncompatibleColorWarning(value, format);
         this.value = oldValue;
         return;
       }
@@ -691,15 +691,19 @@ export class CalciteColorPicker {
   }
 
   connectedCallback(): void {
-    const { color, format, value } = this;
+    const { allowEmpty, color, format, value } = this;
 
-    // format is user set
-    const initialValueDefault = format === "auto" ? defaultValue : this.toValue(color, format);
-    const initialValue = format === "auto" || value === defaultValue ? value : initialValueDefault;
+    const valueIsNoColor = allowEmpty && !value;
+    const parsedMode = parseMode(value);
+    const valueIsCompatible = (format === "auto" && parsedMode) || format === parsedMode;
+    const initialColor = valueIsNoColor ? null : valueIsCompatible ? Color(value) : color;
+
+    if (!valueIsCompatible) {
+      this.showIncompatibleColorWarning(value, format);
+    }
 
     this.setMode(format);
-    this.handleValueChange(initialValue, initialValueDefault);
-
+    this.internalColorSet(initialColor, false);
     this.updateDimensions(this.scale);
   }
 
@@ -967,6 +971,12 @@ export class CalciteColorPicker {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private showIncompatibleColorWarning(value: ColorValue, format: Format): void {
+    console.warn(
+      `ignoring color value (${value}) as it is not compatible with the current format (${format})`
+    );
+  }
 
   private setMode(format: CalciteColorPicker["format"]): void {
     this.mode = format === "auto" ? this.mode : format;
