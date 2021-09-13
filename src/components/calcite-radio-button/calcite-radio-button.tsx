@@ -179,8 +179,7 @@ export class CalciteRadioButton implements CalciteLabelableComponent {
   };
 
   onLabelClick = (event: CustomEvent): void => {
-    const composedPath = event.composedPath();
-    if (!this.disabled && !this.hidden && !composedPath.includes(this.el)) {
+    if (!this.disabled && !this.hidden) {
       this.uncheckOtherRadioButtonsInGroup();
       const target = event.target as HTMLElement;
       const firstButton = target?.querySelector(
