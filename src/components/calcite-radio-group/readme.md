@@ -24,7 +24,7 @@
 
 ### `setFocus() => Promise<void>`
 
-Focuses the selected item. If there is no selection, it focuses the first item.
+Sets focus on the component.
 
 #### Returns
 

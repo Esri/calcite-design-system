@@ -990,7 +990,7 @@ describe("calcite-input", () => {
       expect(await input.getProperty("value")).toBe("0");
     });
 
-    it("allows decimals only when the step is a decimal", async () => {
+    it.skip("allows decimals only when the step is a decimal", async () => {
       const page = await newE2EPage({
         html: `
           <calcite-input step="0.001" type="number"></calcite-input>

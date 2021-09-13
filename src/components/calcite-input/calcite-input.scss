@@ -614,6 +614,10 @@ input[type="time"]::-webkit-clear-button {
   }
 }
 
+:host([type="color"]) input {
+  @apply p-1;
+}
+
 // file input
 :host([type="file"]) input {
   @apply bg-foreground-1

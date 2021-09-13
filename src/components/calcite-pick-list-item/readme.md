@@ -6,18 +6,18 @@
 
 ## Properties
 
-| Property             | Attribute          | Description                                                                                       | Type                                                        | Default       |
-| -------------------- | ------------------ | ------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ------------- |
-| `description`        | `description`      | An optional description for this item. This will appear below the label text.                     | `string`                                                    | `undefined`   |
-| `disableDeselect`    | `disable-deselect` | When false, the item cannot be deselected by user interaction.                                    | `boolean`                                                   | `false`       |
-| `disabled`           | `disabled`         | When true, the item cannot be clicked and is visually muted.                                      | `boolean`                                                   | `false`       |
-| `icon`               | `icon`             | Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null.      | `ICON_TYPES.circle \| ICON_TYPES.grip \| ICON_TYPES.square` | `null`        |
-| `intlRemove`         | `intl-remove`      | The text for the remove item buttons. Only applicable if removable is true.                       | `string`                                                    | `TEXT.remove` |
-| `label`              | `label`            | The main label for this item. This will appear next to the icon.                                  | `string`                                                    | `undefined`   |
-| `metadata`           | --                 | Used to provide additional metadata to an item, primarily used when the parent list has a filter. | `{ [x: string]: unknown; }`                                 | `undefined`   |
-| `removable`          | `removable`        | Set this to true to display a remove action that removes the item from the list.                  | `boolean`                                                   | `false`       |
-| `selected`           | `selected`         | Set this to true to pre-select an item. Toggles when an item is checked/unchecked.                | `boolean`                                                   | `false`       |
-| `value` _(required)_ | `value`            | The item's associated value.                                                                      | `any`                                                       | `undefined`   |
+| Property             | Attribute          | Description                                                                                                  | Type                                                        | Default       |
+| -------------------- | ------------------ | ------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------- | ------------- |
+| `description`        | `description`      | An optional description for this item. This will appear below the label text.                                | `string`                                                    | `undefined`   |
+| `disableDeselect`    | `disable-deselect` | When false, the item cannot be deselected by user interaction.                                               | `boolean`                                                   | `false`       |
+| `disabled`           | `disabled`         | When true, the item cannot be clicked and is visually muted.                                                 | `boolean`                                                   | `false`       |
+| `icon`               | `icon`             | Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null.                 | `ICON_TYPES.circle \| ICON_TYPES.grip \| ICON_TYPES.square` | `null`        |
+| `intlRemove`         | `intl-remove`      | Used as an accessible label (aria-label) for the "remove item" action. Only applicable if removable is true. | `string`                                                    | `TEXT.remove` |
+| `label`              | `label`            | The main label for this item. This will appear next to the icon.                                             | `string`                                                    | `undefined`   |
+| `metadata`           | --                 | Used to provide additional metadata to an item, primarily used when the parent list has a filter.            | `{ [x: string]: unknown; }`                                 | `undefined`   |
+| `removable`          | `removable`        | Set this to true to display a remove action that removes the item from the list.                             | `boolean`                                                   | `false`       |
+| `selected`           | `selected`         | Set this to true to pre-select an item. Toggles when an item is checked/unchecked.                           | `boolean`                                                   | `false`       |
+| `value` _(required)_ | `value`            | The item's associated value.                                                                                 | `any`                                                       | `undefined`   |
 
 ## Events
 
@@ -29,6 +29,8 @@
 ## Methods
 
 ### `setFocus() => Promise<void>`
+
+Sets focus on the component.
 
 #### Returns
 

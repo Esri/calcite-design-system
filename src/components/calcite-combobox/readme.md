@@ -57,7 +57,7 @@
 
 | Property             | Attribute             | Description                                                                                                                                                                                                                    | Type                                 | Default      |
 | -------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------ | ------------ |
-| `active`             | `active`              | Open and close combobox                                                                                                                                                                                                        | `boolean`                            | `false`      |
+| `active`             | `active`              | Opens or closes the combobox                                                                                                                                                                                                   | `boolean`                            | `false`      |
 | `allowCustomValues`  | `allow-custom-values` | Allow entry of custom values which are not in the original set of items                                                                                                                                                        | `boolean`                            | `undefined`  |
 | `disabled`           | `disabled`            | Disable combobox input                                                                                                                                                                                                         | `boolean`                            | `false`      |
 | `label` _(required)_ | `label`               | Aria label for combobox (required)                                                                                                                                                                                             | `string`                             | `undefined`  |
@@ -80,11 +80,15 @@
 
 ### `reposition() => Promise<void>`
 
+Updates the position of the component.
+
 #### Returns
 
 Type: `Promise<void>`
 
 ### `setFocus() => Promise<void>`
+
+Sets focus on the component.
 
 #### Returns
 
