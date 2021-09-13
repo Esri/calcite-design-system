@@ -163,23 +163,17 @@ export class CalciteFilter {
       <Fragment>
         {disabled ? <calcite-scrim /> : null}
         <div class={CSS.container}>
-          <label class={rtl ? CSS_UTILITY.rtl : null}>
-            <input
-              aria-label={this.intlLabel || TEXT.filterLabel}
-              disabled={this.disabled}
-              onInput={this.inputHandler}
-              onKeyDown={this.keyDownHandler}
-              placeholder={this.placeholder}
-              ref={(el): void => {
-                this.textInput = el;
-              }}
-              type="text"
-              value=""
-            />
-            <div class={CSS.searchIcon}>
-              <calcite-icon icon={ICONS.search} scale="s" />
-            </div>
-          </label>
+          <calcite-input
+            aria-label={this.intlLabel || TEXT.filterLabel}
+            class={rtl ? CSS_UTILITY.rtl : null}
+            disabled={this.disabled}
+            icon={ICONS.search}
+            onInput={this.inputHandler}
+            onKeyDown={this.keyDownHandler}
+            placeholder={this.placeholder}
+            type="text"
+            value=""
+          />
           {!this.empty ? (
             <button
               aria-label={this.intlClear || TEXT.clear}
