@@ -219,6 +219,10 @@ export class CalciteCheckbox implements LabelableComponent {
     connectLabel(this);
   }
 
+  componentDidLoad(): void {
+    this.input.setAttribute("aria-label", getLabelText(this));
+  }
+
   disconnectedCallback(): void {
     this.input.parentNode.removeChild(this.input);
     const form = closestElementCrossShadowBoundary(this.el, "form") as HTMLFormElement;
