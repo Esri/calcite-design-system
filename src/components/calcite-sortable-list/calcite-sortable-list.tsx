@@ -208,14 +208,14 @@ export class CalciteSortableList {
 
   render(): VNode {
     const { layout } = this;
-    const layoutProp = layout == "vertical" || layout == "horizontal" ? layout : "vertical";
-    const layoutClass = layoutProp === "vertical" ? CSS.containerVertical : CSS.containerHorizontal;
+    const horizontal = layout === "horizontal" || false;
 
     return (
       <div
         class={{
           [CSS.container]: true,
-          [layoutClass]: true
+          [CSS.containerVertical]: !horizontal,
+          [CSS.containerHorizontal]: horizontal
         }}
       >
         <slot />
