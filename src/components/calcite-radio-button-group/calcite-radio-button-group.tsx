@@ -106,7 +106,7 @@ export class CalciteRadioButtonGroup {
   //--------------------------------------------------------------------------
 
   /**
-   * @todo doc
+   * Emitted when the radio button group has changed.
    */
   @Event() calciteRadioButtonGroupChange: EventEmitter;
 

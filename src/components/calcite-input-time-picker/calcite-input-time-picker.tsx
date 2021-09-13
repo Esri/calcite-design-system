@@ -190,11 +190,7 @@ export class CalciteInputTimePicker {
       const { hour, minute, second } = event.detail as Time;
       let value;
       if (hour && minute) {
-        if (second && this.step !== 60) {
-          value = `${hour}:${minute}:${second}`;
-        } else {
-          value = `${hour}:${minute}`;
-        }
+        value = second && this.step !== 60 ? `${hour}:${minute}:${second}` : `${hour}:${minute}`;
       } else {
         value = "";
       }
@@ -215,6 +211,7 @@ export class CalciteInputTimePicker {
   //
   // --------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     this.calciteInputEl.setFocus();

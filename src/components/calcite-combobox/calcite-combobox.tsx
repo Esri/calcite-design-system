@@ -8,7 +8,6 @@ import {
   EventEmitter,
   Element,
   VNode,
-  Build,
   Method,
   Watch,
   Host
@@ -34,6 +33,7 @@ import {
   ComboboxDefaultPlacement
 } from "./resources";
 import { getItemAncestors, getItemChildren, hasActiveChildren } from "./utils";
+import { createObserver } from "../../utils/observers";
 
 interface ItemData {
   label: string;
@@ -62,7 +62,7 @@ export class CalciteCombobox {
   //
   //--------------------------------------------------------------------------
 
-  /** Open and close combobox */
+  /** Opens or closes the combobox */
   @Prop({ reflect: true, mutable: true }) active = false;
 
   @Watch("active")
@@ -144,6 +144,7 @@ export class CalciteCombobox {
   //
   //--------------------------------------------------------------------------
 
+  /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
     const { popper, menuEl } = this;
@@ -158,6 +159,7 @@ export class CalciteCombobox {
       : this.createPopper();
   }
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     this.active = true;
@@ -211,19 +213,12 @@ export class CalciteCombobox {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    if (Build.isBrowser) {
-      this.observer = new MutationObserver(this.updateItems);
-    }
-
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.createPopper();
   }
 
   componentWillLoad(): void {
     this.updateItems();
-  }
-
-  componentDidLoad(): void {
-    this.observer?.observe(this.el, { childList: true, subtree: true });
   }
 
   componentDidRender(): void {
@@ -234,7 +229,7 @@ export class CalciteCombobox {
   }
 
   disconnectedCallback(): void {
-    this.observer?.disconnect();
+    this.mutationObserver?.disconnect();
     this.destroyPopper();
   }
 
@@ -278,7 +273,7 @@ export class CalciteCombobox {
 
   data: ItemData[];
 
-  observer: MutationObserver = null;
+  mutationObserver = createObserver("mutation", () => this.updateItems());
 
   private guid: string = guid();
 

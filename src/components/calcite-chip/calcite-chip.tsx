@@ -44,6 +44,7 @@ export class CalciteChip {
   /** specify the scale of the chip, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
 
+  /** The assigned value for the chip */
   @Prop() value!: any;
 
   // --------------------------------------------------------------------------
@@ -60,6 +61,7 @@ export class CalciteChip {
   //
   //--------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     this.closeButton?.focus();

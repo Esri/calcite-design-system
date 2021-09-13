@@ -10,6 +10,7 @@ import {
   h,
   VNode
 } from "@stencil/core";
+import { createObserver } from "../../utils/observers";
 
 /**
  * @slot - A slot for adding sortable items
@@ -65,7 +66,8 @@ export class CalciteSortableList {
 
   items: Element[] = [];
 
-  observer = new MutationObserver(() => {
+  mutationObserver = createObserver("mutation", () => {
+    this.cleanUpDragAndDrop();
     this.items = Array.from(this.el.children);
     this.setUpDragAndDrop();
   });
@@ -85,7 +87,7 @@ export class CalciteSortableList {
   }
 
   disconnectedCallback(): void {
-    this.observer.disconnect();
+    this.mutationObserver?.disconnect();
     this.cleanUpDragAndDrop();
   }
 
@@ -132,7 +134,7 @@ export class CalciteSortableList {
       default:
         return;
     }
-    this.observer.disconnect();
+    this.mutationObserver?.disconnect();
 
     if (appendInstead) {
       sortItem.parentElement.appendChild(sortItem);
@@ -167,7 +169,7 @@ export class CalciteSortableList {
       },
       // Element dragging started
       onStart: () => {
-        this.observer.disconnect();
+        this.mutationObserver?.disconnect();
       },
       // Element dragging ended
       onEnd: () => {
@@ -188,7 +190,7 @@ export class CalciteSortableList {
   }
 
   beginObserving(): void {
-    this.observer.observe(this.el, { childList: true, subtree: true });
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   // --------------------------------------------------------------------------
