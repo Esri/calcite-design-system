@@ -45,7 +45,7 @@ export class CalciteActionBar {
       toggleChildActionText({ parent: this.el, expanded: this.expanded });
     }
 
-    this.resize(this.el.clientHeight);
+    this.resizeFromHost();
   }
 
   /**
@@ -116,7 +116,7 @@ export class CalciteActionBar {
   mutationObserver = createObserver("mutation", () => {
     const { el, expanded } = this;
     toggleChildActionText({ parent: el, expanded });
-    this.resize(el.clientHeight);
+    this.resizeFromHost();
   });
 
   resizeObserver = createObserver("resize", (entries) => this.resizeHandlerEntries(entries));
@@ -136,7 +136,7 @@ export class CalciteActionBar {
   // --------------------------------------------------------------------------
 
   componentDidLoad(): void {
-    this.resize(this.el.clientHeight);
+    this.resizeFromHost();
   }
 
   connectedCallback(): void {
@@ -146,11 +146,13 @@ export class CalciteActionBar {
       toggleChildActionText({ parent: el, expanded });
     }
 
-    this.mutationObserver?.observe(el, { childList: true });
+    this.mutationObserver?.observe(el, { childList: true, subtree: true });
 
     if (!this.overflowActionsDisabled) {
       this.resizeObserver?.observe(el);
     }
+
+    this.resizeFromHost();
   }
 
   disconnectedCallback(): void {
@@ -192,6 +194,10 @@ export class CalciteActionBar {
     }
   };
 
+  resizeFromHost = (): void => {
+    this.resize(this.el.clientHeight);
+  };
+
   resizeHandlerEntries = (entries: ResizeObserverEntry[]): void => {
     entries.forEach(this.resizeHandler);
   };
@@ -212,7 +218,7 @@ export class CalciteActionBar {
       overflowActionsDisabled
     } = this;
 
-    if (typeof height !== "number" || overflowActionsDisabled) {
+    if (typeof height !== "number" || overflowActionsDisabled || height === 0) {
       return;
     }
 
