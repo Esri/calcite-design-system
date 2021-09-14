@@ -92,27 +92,6 @@ describe("calcite-switch", () => {
     expect(await input.getProperty("checked")).toBe(true);
   });
 
-  it("toggles when the wrapping label is clicked", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <label>
-        <calcite-switch></calcite-switch>
-        <p>hello!</p>
-      </label>
-      `);
-
-    const calciteSwitch = await page.find("calcite-switch");
-    const input = await page.find("calcite-switch input");
-    const paragraph = await page.find("p");
-
-    await paragraph.click();
-
-    await page.waitForChanges();
-
-    expect(await calciteSwitch.getProperty("switched")).toBe(true);
-    expect(await input.getProperty("checked")).toBe(true);
-  });
-
   it("honors tabindex", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-switch></calcite-switch>`);

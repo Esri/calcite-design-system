@@ -201,7 +201,8 @@ describe("calcite-inline-editable", () => {
       await element.click();
       const cancelEditingButton = await page.find("calcite-inline-editable >>> .cancel-editing-button");
       expect(await input.getProperty("value")).toBe("John Doe");
-      await page.$eval("calcite-input input", (input: HTMLInputElement): void => {
+      await page.$eval("calcite-input", (element: HTMLCalciteInputElement): void => {
+        const input = element.shadowRoot.querySelector("input");
         input.setSelectionRange(input.value.length, input.value.length);
       });
       await input.type("typo");
@@ -219,7 +220,8 @@ describe("calcite-inline-editable", () => {
       const input = await element.find("calcite-input");
       await element.click();
       expect(await input.getProperty("value")).toBe("John Doe");
-      await page.$eval("calcite-input input", (input: HTMLInputElement): void => {
+      await page.$eval("calcite-input", (element: HTMLCalciteInputElement): void => {
+        const input = element.shadowRoot.querySelector("input");
         input.setSelectionRange(input.value.length, input.value.length);
       });
       await input.type("typo");
@@ -249,7 +251,8 @@ describe("calcite-inline-editable", () => {
       const enableEditingButton = await page.find("calcite-inline-editable >>> .enable-editing-button");
       await enableEditingButton.click();
       const confirmChangesButton = await page.find("calcite-inline-editable >>> .confirm-changes-button");
-      await page.$eval("calcite-input input", (input: HTMLInputElement): void => {
+      await page.$eval("calcite-input", (element: HTMLCalciteInputElement): void => {
+        const input = element.shadowRoot.querySelector("input");
         input.setSelectionRange(input.value.length, input.value.length);
       });
       await input.type("Moe");
@@ -272,7 +275,8 @@ describe("calcite-inline-editable", () => {
       const enableEditingButton = await page.find("calcite-inline-editable >>> .enable-editing-button");
       await enableEditingButton.click();
       const confirmChangesButton = await page.find("calcite-inline-editable >>> .confirm-changes-button");
-      await page.$eval("calcite-input input", (input: HTMLInputElement): void => {
+      await page.$eval("calcite-input", (element: HTMLCalciteInputElement): void => {
+        const input = element.shadowRoot.querySelector("input");
         input.setSelectionRange(input.value.length, input.value.length);
       });
       await input.type("Moe");
@@ -296,7 +300,8 @@ describe("calcite-inline-editable", () => {
       const enableEditingButton = await page.find("calcite-inline-editable >>> .enable-editing-button");
       await enableEditingButton.click();
       const confirmChangesButton = await page.find("calcite-inline-editable >>> .confirm-changes-button");
-      await page.$eval("calcite-input input", (input: HTMLInputElement): void => {
+      await page.$eval("calcite-input", (element: HTMLCalciteInputElement): void => {
+        const input = element.shadowRoot.querySelector("input");
         input.setSelectionRange(input.value.length, input.value.length);
       });
       await input.type("Moe");
@@ -345,17 +350,17 @@ describe("calcite-inline-editable", () => {
       it("focuses the enable editing button when the label is clicked", async () => {
         expect(
           await page.evaluate(async () => {
-            const label: HTMLSpanElement = document.querySelector("label");
+            const label: HTMLSpanElement = document.querySelector("calcite-label");
             await label.click();
             return document.activeElement.className;
           })
-        ).toContain("calcite-inline-editable__enable-editing-button");
+        ).toContain("enable-editing-button");
       });
 
       it("focuses the input when editing is enabled and the label is subsequently clicked", async () => {
         const enableEditingButton = await page.find("calcite-inline-editable >>> .enable-editing-button");
         await enableEditingButton.click();
-        const label = await page.find("label");
+        const label = await page.find("calcite-label");
         await label.click();
         const activeEl = await page.evaluateHandle(() => document.activeElement);
         expect(activeEl["_remoteObject"].description).toMatch("input");
