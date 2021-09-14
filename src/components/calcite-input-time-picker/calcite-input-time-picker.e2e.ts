@@ -28,7 +28,7 @@ describe("calcite-input-time-picker", () => {
 
   it("should focus the input when setFocus is called", async () =>
     focusable(`calcite-input-time-picker`, {
-      shadowFocusTargetSelector: "input"
+      shadowFocusTargetSelector: "calcite-input"
     }));
 
   it("opens the time picker on input keyboard focus", async () => {

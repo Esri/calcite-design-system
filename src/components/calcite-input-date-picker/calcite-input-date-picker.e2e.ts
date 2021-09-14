@@ -18,7 +18,10 @@ describe("calcite-input-date-picker", () => {
     await page.setContent("<calcite-input-date-picker></calcite-input-date-picker>");
     const input = (
       await page.waitForFunction(() =>
-        document.querySelector("calcite-input-date-picker").shadowRoot.querySelector("calcite-input input")
+        document
+          .querySelector("calcite-input-date-picker")
+          .shadowRoot.querySelector("calcite-input")
+          .shadowRoot.querySelector("input")
       )
     ).asElement();
     await input.focus();
@@ -58,7 +61,10 @@ describe("calcite-input-date-picker", () => {
     await page.setContent("<calcite-input-date-picker range></calcite-input-date-picker>");
     const input = (
       await page.waitForFunction(() =>
-        document.querySelector("calcite-input-date-picker").shadowRoot.querySelector("calcite-input input")
+        document
+          .querySelector("calcite-input-date-picker")
+          .shadowRoot.querySelector("calcite-input")
+          .shadowRoot.querySelector("input")
       )
     ).asElement();
     await input.focus();

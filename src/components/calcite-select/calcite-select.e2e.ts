@@ -235,7 +235,7 @@ describe("calcite-select", () => {
           `
         });
 
-        const internalLabel = await page.find("calcite-label label");
+        const internalLabel = await page.find("calcite-label >>> .container");
         await internalLabel.click();
         await page.waitForChanges();
 
