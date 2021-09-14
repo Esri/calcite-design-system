@@ -191,7 +191,6 @@ export class CalciteTileSelect {
   // --------------------------------------------------------------------------
 
   private renderInput(): void {
-    // todo: Do we need to stop creating an input here? Should it be created in shadow dom??
     this.input = document.createElement(
       this.type === "radio" ? "calcite-radio-button" : "calcite-checkbox"
     );
