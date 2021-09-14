@@ -26,7 +26,10 @@ please add a 👍 reaction to the existing issue instead of creating a new one.
 
 ### Reproduction Steps and Sample
 
-<!-- A codepen, codesandbox, or jsbin sample and the steps to reproduce the issue -->
+<!--
+* A codepen, codesandbox, or jsbin sample and the steps to reproduce the issue are required
+* There are links to template samples in the contributing documentation: https://github.com/Esri/calcite-components/blob/master/CONTRIBUTING.md#before-filing-an-issue
+-->
 
 _Sample_:
 
