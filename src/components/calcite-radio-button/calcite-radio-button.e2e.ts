@@ -36,7 +36,7 @@ describe("calcite-radio-button", () => {
 
   it("is focusable", () =>
     focusable("calcite-radio-button", {
-      focusTargetSelector: "input[type=radio]"
+      shadowFocusTargetSelector: "input[type=radio]"
     }));
 
   it("reflects", async () =>
@@ -50,25 +50,6 @@ describe("calcite-radio-button", () => {
       { propertyName: "required", value: true },
       { propertyName: "scale", value: "m" }
     ]));
-
-  it("has a radio input for form compatibility", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-radio-button name="hidden-input" value="1"></calcite-radio-button>
-      <calcite-radio-button name="hidden-input" value="2" checked></calcite-radio-button>
-      <calcite-radio-button name="hidden-input" value="3"></calcite-radio-button>
-    `);
-
-    const radioInputs = await page.findAll('input[type="radio"]');
-    expect(radioInputs).toHaveLength(3);
-
-    for (let i = 0; i < radioInputs.length; i++) {
-      const name = radioInputs[i].getAttribute("name");
-      const value = radioInputs[i].getAttribute("value");
-      expect(name).toBe("hidden-input");
-      expect(value).toBe((i + 1).toString());
-    }
-  });
 
   it("does not require an item to be checked", async () => {
     const page = await newE2EPage();
@@ -364,30 +345,5 @@ describe("calcite-radio-button", () => {
     expect(await radios[1].getProperty("checked")).toBe(true);
     expect(radios[1].getAttribute("checked")).toBe("");
     expect(await inputs[1].getProperty("checked")).toBe(true);
-  });
-
-  it("disallows !important style overrides on the hidden input", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <style>
-        input {
-          margin: unset !important;
-          opacity: unset !important;
-          padding: unset !important;
-          position: unset !important;
-          transform: unset !important;
-          z-index: unset !important;
-        }
-      </style>
-      <calcite-radio-button></calcite-radio-button>
-    `);
-    const input = await page.find("input");
-    const style = await input.getComputedStyle();
-    expect(style["margin"]).toBe("0px");
-    expect(style["opacity"]).toBe("0");
-    expect(style["padding"]).toBe("0px");
-    expect(style["position"]).toBe("absolute");
-    expect(style["transform"]).toBe("none");
-    expect(style["z-index"]).toBe("-1");
   });
 });

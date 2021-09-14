@@ -16,6 +16,9 @@ import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { hiddenInputStyle } from "../../utils/form";
 import { CSS } from "./resources";
+import { getKey } from "../../utils/key";
+import { getElementDir } from "../../utils/dom";
+import { getRoundRobinIndex } from "../../utils/array";
 
 @Component({
   tag: "calcite-radio-button",
@@ -166,11 +169,15 @@ export class CalciteRadioButton implements LabelableComponent {
   //
   //--------------------------------------------------------------------------
 
-  toggle = (): void => {
-    if (this.labelEl) {
-      return;
-    }
+  selectItem = (items: HTMLCalciteRadioButtonElement[], selectedIndex: number): void => {
+    items.forEach((item, index) => {
+      const selected = index === selectedIndex;
+      item.checked = selected;
+      item.focused = selected;
+    });
+  };
 
+  toggle = (): void => {
     this.uncheckAllRadioButtonsInGroup();
     this.checked = true;
     this.focused = true;
@@ -299,6 +306,62 @@ export class CalciteRadioButton implements LabelableComponent {
   @Listen("mouseleave")
   mouseleave(): void {
     this.hovered = false;
+  }
+
+  @Listen("keydown")
+  protected handleKeyDown(event: KeyboardEvent): void {
+    const keys = ["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown"];
+    const key = getKey(event.key);
+    const { el } = this;
+
+    if (keys.indexOf(key) === -1) {
+      return;
+    }
+
+    let adjustedKey = key;
+
+    if (getElementDir(el) === "rtl") {
+      if (key === "ArrowRight") {
+        adjustedKey = "ArrowLeft";
+      }
+      if (key === "ArrowLeft") {
+        adjustedKey = "ArrowRight";
+      }
+    }
+
+    const radioButtons = Array.from(
+      this.rootNode.querySelectorAll("calcite-radio-button:not([hidden]")
+    ).filter(
+      (radioButton: HTMLCalciteRadioButtonElement) => radioButton.name === this.name
+    ) as HTMLCalciteRadioButtonElement[];
+    let currentIndex = -1;
+
+    const radioButtonsLength = radioButtons.length;
+
+    radioButtons.some((item, index) => {
+      if (item.checked) {
+        currentIndex = index;
+        return true;
+      }
+    });
+
+    switch (adjustedKey) {
+      case "ArrowLeft":
+      case "ArrowUp":
+        event.preventDefault();
+        this.selectItem(
+          radioButtons,
+          getRoundRobinIndex(Math.max(currentIndex - 1, -1), radioButtonsLength)
+        );
+        return;
+      case "ArrowRight":
+      case "ArrowDown":
+        event.preventDefault();
+        this.selectItem(radioButtons, getRoundRobinIndex(currentIndex + 1, radioButtonsLength));
+        return;
+      default:
+        return;
+    }
   }
 
   private formResetHandler = (): void => {

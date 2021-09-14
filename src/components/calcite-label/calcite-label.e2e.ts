@@ -153,7 +153,8 @@ describe("calcite-label", () => {
     expect(element).toEqualAttribute("layout", "inline-space-between");
   });
 
-  describe("wrapped around labelable calcite controls", () => {
+  // todo: move to individual tests
+  describe.skip("wrapped around labelable calcite controls", () => {
     it("focuses a wrapped calcite-input when clicked", async () => {
       const page = await newE2EPage();
       await page.setContent(`
@@ -396,7 +397,8 @@ describe("calcite-label", () => {
     });
   });
 
-  describe("sibling of labelable calcite controls", () => {
+  // todo: move to individual tests
+  describe.skip("sibling of labelable calcite controls", () => {
     it("focuses a sibling calcite-input when clicked", async () => {
       const page = await newE2EPage();
       await page.setContent(`

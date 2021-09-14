@@ -59,27 +59,6 @@ describe("calcite-radio-button-group", () => {
       { propertyName: "scale", value: "m" }
     ]));
 
-  it("has a radio input for form compatibility", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-radio-button-group name="hidden-input">
-          <calcite-radio-button value="1"></calcite-radio-button>
-          <calcite-radio-button value="2" checked></calcite-radio-button>
-          <calcite-radio-button value="3"></calcite-radio-button>
-        </calcite-radio-button-group>`
-    );
-
-    const radioInputs = await page.findAll('input[type="radio"]');
-    expect(radioInputs).toHaveLength(3);
-
-    for (let i = 0; i < radioInputs.length; i++) {
-      const name = radioInputs[i].getAttribute("name");
-      const value = radioInputs[i].getAttribute("value");
-      expect(name).toBe("hidden-input");
-      expect(value).toBe((i + 1).toString());
-    }
-  });
-
   it("does not require an item to be checked", async () => {
     const page = await newE2EPage();
     await page.setContent(
