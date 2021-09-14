@@ -21,7 +21,7 @@ describe("calcite-switch", () => {
     await page.setContent("<calcite-switch></calcite-switch>");
 
     const calciteSwitch = await page.find("calcite-switch");
-    const input = await page.find("calcite-switch >>> input");
+    const input = await page.find("calcite-switch input");
 
     expect(await calciteSwitch.getProperty("switched")).toBe(false);
     expect(await input.getProperty("checked")).toBe(false);
@@ -80,7 +80,7 @@ describe("calcite-switch", () => {
     await page.setContent(`<calcite-switch></calcite-switch>`);
 
     const calciteSwitch = await page.find("calcite-switch");
-    const input = await page.find("calcite-switch >>> input");
+    const input = await page.find("calcite-switch input");
 
     expect(await calciteSwitch.getProperty("switched")).toBe(false);
     expect(await input.getProperty("checked")).toBe(false);
@@ -102,7 +102,7 @@ describe("calcite-switch", () => {
       `);
 
     const calciteSwitch = await page.find("calcite-switch");
-    const input = await page.find("calcite-switch >>> input");
+    const input = await page.find("calcite-switch input");
     const paragraph = await page.find("p");
 
     await paragraph.click();

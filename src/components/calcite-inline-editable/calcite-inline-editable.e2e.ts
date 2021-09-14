@@ -88,7 +88,7 @@ describe("calcite-inline-editable", () => {
         "calciteInlineEditableEnableEditingChange"
       );
       const element = await page.find("calcite-inline-editable");
-      const enableEditingButton = await element.find("calcite-inline-editable >>> .enable-editing-button");
+      const enableEditingButton = await page.find("calcite-inline-editable >>> .enable-editing-button");
       await enableEditingButton.click();
       expect(element).toHaveAttribute("editing-enabled");
       expect(calciteInlineEditableEnableEditingChange).toHaveReceivedEventTimes(1);
@@ -131,7 +131,7 @@ describe("calcite-inline-editable", () => {
     it("disables editing when the child input loses focus", async () => {
       const element = await page.find("calcite-inline-editable");
       const input = await page.find("calcite-input");
-      const enableEditingButton = await element.find("calcite-inline-editable >>> .enable-editing-button");
+      const enableEditingButton = await page.find("calcite-inline-editable >>> .enable-editing-button");
       await enableEditingButton.click();
       expect(element).toHaveAttribute("editing-enabled");
       input.triggerEvent("calciteInputBlur");
@@ -178,7 +178,7 @@ describe("calcite-inline-editable", () => {
         "calciteInlineEditableEnableEditingChange"
       );
       const element = await page.find("calcite-inline-editable");
-      const enableEditingButton = await element.find("calcite-inline-editable >>> .enable-editing-button");
+      const enableEditingButton = await page.find("calcite-inline-editable >>> .enable-editing-button");
       await enableEditingButton.click();
       expect(element).toHaveAttribute("editing-enabled");
       expect(calciteInlineEditableEnableEditingChange).toHaveReceivedEventTimes(1);
@@ -199,7 +199,7 @@ describe("calcite-inline-editable", () => {
       const element = await page.find("calcite-inline-editable");
       const input = await element.find("calcite-input");
       await element.click();
-      const cancelEditingButton = await element.find("calcite-inline-editable >>> .cancel-editing-button");
+      const cancelEditingButton = await page.find("calcite-inline-editable >>> .cancel-editing-button");
       expect(await input.getProperty("value")).toBe("John Doe");
       await page.$eval("calcite-input input", (input: HTMLInputElement): void => {
         input.setSelectionRange(input.value.length, input.value.length);
@@ -234,7 +234,7 @@ describe("calcite-inline-editable", () => {
     it("does not disable editing when input focus is lost", async () => {
       const element = await page.find("calcite-inline-editable");
       const input = await page.find("calcite-input");
-      const enableEditingButton = await element.find("calcite-inline-editable >>> .enable-editing-button");
+      const enableEditingButton = await page.find("calcite-inline-editable >>> .enable-editing-button");
       await enableEditingButton.click();
       expect(element).toHaveAttribute("editing-enabled");
       input.triggerEvent("calciteInputBlur");
@@ -246,9 +246,9 @@ describe("calcite-inline-editable", () => {
       const calciteInlineEditableChangesConfirm = await page.spyOnEvent("calciteInlineEditableChangesConfirm");
       const element = await page.find("calcite-inline-editable");
       const input = await page.find("calcite-input");
-      const enableEditingButton = await element.find("calcite-inline-editable >>> .enable-editing-button");
+      const enableEditingButton = await page.find("calcite-inline-editable >>> .enable-editing-button");
       await enableEditingButton.click();
-      const confirmChangesButton = await element.find("calcite-inline-editable >>> .confirm-changes-button");
+      const confirmChangesButton = await page.find("calcite-inline-editable >>> .confirm-changes-button");
       await page.$eval("calcite-input input", (input: HTMLInputElement): void => {
         input.setSelectionRange(input.value.length, input.value.length);
       });
@@ -269,9 +269,9 @@ describe("calcite-inline-editable", () => {
       });
       const calciteInlineEditableChangesConfirm = await page.spyOnEvent("calciteInlineEditableChangesConfirm");
       const input = await page.find("calcite-input");
-      const enableEditingButton = await element.find("calcite-inline-editable >>> .enable-editing-button");
+      const enableEditingButton = await page.find("calcite-inline-editable >>> .enable-editing-button");
       await enableEditingButton.click();
-      const confirmChangesButton = await element.find("calcite-inline-editable >>> .confirm-changes-button");
+      const confirmChangesButton = await page.find("calcite-inline-editable >>> .confirm-changes-button");
       await page.$eval("calcite-input input", (input: HTMLInputElement): void => {
         input.setSelectionRange(input.value.length, input.value.length);
       });
@@ -293,9 +293,9 @@ describe("calcite-inline-editable", () => {
       });
       const calciteInlineEditableChangesConfirm = await page.spyOnEvent("calciteInlineEditableChangesConfirm");
       const input = await page.find("calcite-input");
-      const enableEditingButton = await element.find("calcite-inline-editable >>> .enable-editing-button");
+      const enableEditingButton = await page.find("calcite-inline-editable >>> .enable-editing-button");
       await enableEditingButton.click();
-      const confirmChangesButton = await element.find("calcite-inline-editable >>> .confirm-changes-button");
+      const confirmChangesButton = await page.find("calcite-inline-editable >>> .confirm-changes-button");
       await page.$eval("calcite-input input", (input: HTMLInputElement): void => {
         input.setSelectionRange(input.value.length, input.value.length);
       });

@@ -117,6 +117,6 @@ describe("calcite-tile-select", () => {
 
   it("focuses calcite-radio-button when setFocus method is called", async () =>
     focusable(html`<calcite-tile-select type="radio"></calcite-tile-select>`, {
-      shadowFocusTargetSelector: "input[type=radio]"
+      focusTargetSelector: "input[type=radio]"
     }));
 });
