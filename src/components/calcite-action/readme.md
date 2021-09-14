@@ -58,6 +58,8 @@ Renders a `calcite-action` that displays only an icon and a tooltip label.
 
 ### `setFocus() => Promise<void>`
 
+Sets focus on the component.
+
 #### Returns
 
 Type: `Promise<void>`

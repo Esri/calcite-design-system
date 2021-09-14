@@ -38,6 +38,8 @@
 
 ### `reposition() => Promise<void>`
 
+Updates the position of the component.
+
 #### Returns
 
 Type: `Promise<void>`

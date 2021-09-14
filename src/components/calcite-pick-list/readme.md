@@ -89,11 +89,15 @@ Renders groups of pick list items that are visually separated.
 
 ### `getSelectedItems() => Promise<Map<string, HTMLCalcitePickListItemElement>>`
 
+Returns the currently selected items
+
 #### Returns
 
 Type: `Promise<Map<string, any>>`
 
 ### `setFocus(focusId?: ListFocusId) => Promise<void>`
+
+Sets focus on the component.
 
 #### Returns
 

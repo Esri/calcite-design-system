@@ -28,6 +28,8 @@ You can programmatically focus a `calcite-link` with the `setFocus()` method:
 
 ### `setFocus() => Promise<void>`
 
+Sets focus on the component.
+
 #### Returns
 
 Type: `Promise<void>`
