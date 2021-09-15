@@ -3,6 +3,13 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## [1.0.0-beta.65](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.64...v1.0.0-beta.65) (2021-09-15)
+
+### Bug Fixes
+
+- **action-bar:** Better handling of overflow actions on smaller screens ([#3042](https://github.com/Esri/calcite-components/issues/3042)) ([10721f6](https://github.com/Esri/calcite-components/commit/10721f60401c54925e965d88c9ad486b6be797eb)), closes [#3025](https://github.com/Esri/calcite-components/issues/3025)
+- **color-picker:** fix mouse tracking logic when moved within another component's shadow DOM ([#3041](https://github.com/Esri/calcite-components/issues/3041)) ([9ca1b8e](https://github.com/Esri/calcite-components/commit/9ca1b8eea3add36f4020a8756f5d5ab373eb3777))
+
 ## [1.0.0-beta.64](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.63...v1.0.0-beta.64) (2021-09-14)
 
 ### Features
