@@ -527,12 +527,13 @@ export class CalciteColorPicker implements FormAssociated {
     let samplingX: number;
     let samplingY: number;
 
+    const colorFieldAndSliderRect = this.activeColorFieldAndSliderRect;
+    const { clientX, clientY } = event;
+
     if (this.colorFieldAndSliderHovered) {
-      samplingX = event.offsetX;
-      samplingY = event.offsetY;
+      samplingX = clientX - colorFieldAndSliderRect.x;
+      samplingY = clientY - colorFieldAndSliderRect.y;
     } else {
-      const { clientX, clientY } = event;
-      const colorFieldAndSliderRect = this.activeColorFieldAndSliderRect;
       const colorFieldWidth = dimensions.colorField.width;
       const colorFieldHeight = dimensions.colorField.height;
       const hueSliderHeight = dimensions.slider.height;
