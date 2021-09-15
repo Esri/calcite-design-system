@@ -218,7 +218,7 @@ export class CalciteActionBar {
       overflowActionsDisabled
     } = this;
 
-    if (typeof height !== "number" || overflowActionsDisabled || !height) {
+    if (!height || overflowActionsDisabled) {
       return;
     }
 
