@@ -640,10 +640,29 @@ input[type="time"]::-webkit-clear-button {
   @apply py-2 px-4;
 }
 
-:host(.no-bottom-border) input.sc-calcite-input {
+:host(.no-bottom-border) input {
   @apply border-b-0;
 }
 
-:host(.border-t-color-1) input.sc-calcite-input {
+:host(.border-t-color-1) input {
   @apply border-t-color-1;
+}
+
+:host {
+  outline: 2px solid red;
+}
+
+:host .inline-child {
+  @apply transition-default bg-transparent;
+
+  .editing-enabled {
+    background-color: inherit;
+  }
+}
+
+:host .inline-child:not(.editing-enabled) {
+  @apply flex
+    cursor-pointer
+    border-color-transparent;
+  padding-inline-start: 0;
 }

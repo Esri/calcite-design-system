@@ -3,6 +3,7 @@ import { focusable, HYDRATED_ATTR } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { getDecimalSeparator, locales, localizeNumberString } from "../../utils/locale";
+import { CSS } from "./resources";
 
 describe("calcite-input", () => {
   it("honors form reset", async () => {
@@ -1299,6 +1300,26 @@ describe("calcite-input", () => {
       const buttons = await page.findAll("calcite-input button");
       buttons.forEach(async (button) => {
         expect(await button.getProperty("disabled")).toBe(true);
+      });
+    });
+
+    describe("when slotted in calcite-inline-editable", () => {
+      it("should render text input with inline classes and editingEnabled prop", async () => {
+        const page = await newE2EPage({
+          html: `<calcite-label>
+            Hello
+            <calcite-inline-editable controls>
+              <calcite-input value="John Doe"/>
+            </calcite-inline-editable>
+          </calcite-label>`
+        });
+        const element = await page.find("calcite-input");
+        const input = await page.find(`calcite-input >>> input`);
+        expect(input.className).toBe(`${CSS.inlineChild}`);
+        expect(await element.getProperty("editingEnabled")).toBe(false);
+        await element.click();
+        expect(await element.getProperty("editingEnabled")).toBe(true);
+        expect(input.className).toBe(`${CSS.inlineChild} ${CSS.editingEnabled}`);
       });
     });
   });

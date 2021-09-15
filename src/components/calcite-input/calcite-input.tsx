@@ -175,6 +175,9 @@ export class CalciteInput implements LabelableComponent {
   /** optionally add suffix  **/
   @Prop() suffixText?: string;
 
+  /** @internal adds inline styles for text input when slotted in calcite-inline-editable */
+  @Prop({ mutable: true, reflect: true }) editingEnabled?: boolean;
+
   /**
    * specify the input type
    *
@@ -301,6 +304,7 @@ export class CalciteInput implements LabelableComponent {
     this.maxString = this.max?.toString();
     this.minString = this.min?.toString();
     this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
+    this.editingEnabled = this.el.closest("calcite-inline-editable")?.editingEnabled;
   }
 
   componentDidLoad(): void {
@@ -706,6 +710,10 @@ export class CalciteInput implements LabelableComponent {
       <this.childElType
         aria-label={getLabelText(this)}
         autofocus={this.autofocus ? true : null}
+        class={{
+          [CSS.editingEnabled]: this.editingEnabled,
+          [CSS.inlineChild]: !!this.el.closest("calcite-inline-editable")
+        }}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
         max={this.maxString}
@@ -722,7 +730,7 @@ export class CalciteInput implements LabelableComponent {
         ref={this.setChildElRef}
         required={this.required ? true : null}
         step={this.step}
-        tabIndex={this.disabled || this.type === "number" ? -1 : null}
+        tabIndex={this.disabled || !this.editingEnabled || this.type === "number" ? -1 : null}
         type={this.type}
         value={this.value}
       />,
