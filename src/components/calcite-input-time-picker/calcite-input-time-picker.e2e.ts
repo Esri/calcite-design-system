@@ -7,10 +7,10 @@ describe("calcite-input-time-picker", () => {
 
   it("is accessible", async () =>
     accessible(`
-    <label>
+    <calcite-label>
       Input Time Picker
       <calcite-input-time-picker name="test"></calcite-input-time-picker>
-    </label>
+    </calcite-label>
   `));
 
   it("has defaults", async () =>

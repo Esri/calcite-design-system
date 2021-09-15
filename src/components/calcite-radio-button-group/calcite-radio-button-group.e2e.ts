@@ -6,7 +6,7 @@ describe("calcite-radio-button-group", () => {
 
   it("is accessible", async () =>
     accessible(
-      `<calcite-radio-button-group><label><calcite-radio-button></calcite-radio-button>Label</label></calcite-radio-button-group>`
+      `<calcite-radio-button-group><calcite-label><calcite-radio-button></calcite-radio-button>Label</calcite-label></calcite-radio-button-group>`
     ));
 
   it("has defaults", async () =>
