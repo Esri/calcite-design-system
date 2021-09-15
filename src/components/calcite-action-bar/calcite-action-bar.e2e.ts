@@ -345,7 +345,7 @@ describe("calcite-action-bar", () => {
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
     });
 
-    it("should slot 'menu-actions' on resize", async () => {
+    it.skip("should slot 'menu-actions' on resize", async () => {
       const page = await newE2EPage({
         html: html`<calcite-action-bar style="height: 290px">
           <calcite-action-group id="dynamic-group"
