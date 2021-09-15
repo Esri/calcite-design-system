@@ -49,7 +49,7 @@ export class CalciteSortableList {
   /**
    * Indicates the horizontal or vertical orientation of the component.
    */
-  @Prop({ reflect: true }) layout: Layout = "vertical";
+  @Prop() layout: Layout = "vertical";
 
   /**
    * When true, disabled prevents interaction. This state shows items with lower opacity/grayed.
