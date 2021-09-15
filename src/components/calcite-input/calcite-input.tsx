@@ -230,6 +230,8 @@ export class CalciteInput implements LabelableComponent {
 
   labelEl: HTMLCalciteLabelElement;
 
+  inlineEditableEl: HTMLCalciteInlineEditableElement;
+
   /** keep track of the rendered child type */
   private childEl?: HTMLInputElement | HTMLTextAreaElement;
 
@@ -283,6 +285,8 @@ export class CalciteInput implements LabelableComponent {
     this.form?.addEventListener("reset", this.reset);
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.status = getElementProp(this.el, "status", this.status);
+    this.inlineEditableEl = this.el.closest("calcite-inline-editable");
+    this.editingEnabled = this.inlineEditableEl?.editingEnabled;
     if (this.type === "number" && this.value) {
       if (isValidNumber(this.value)) {
         this.localizedValue = localizeNumberString(this.value, this.locale, this.groupSeparator);
@@ -304,7 +308,6 @@ export class CalciteInput implements LabelableComponent {
     this.maxString = this.max?.toString();
     this.minString = this.min?.toString();
     this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
-    this.editingEnabled = this.el.closest("calcite-inline-editable")?.editingEnabled;
   }
 
   componentDidLoad(): void {
@@ -712,7 +715,7 @@ export class CalciteInput implements LabelableComponent {
         autofocus={this.autofocus ? true : null}
         class={{
           [CSS.editingEnabled]: this.editingEnabled,
-          [CSS.inlineChild]: !!this.el.closest("calcite-inline-editable")
+          [CSS.inlineChild]: !!this.inlineEditableEl
         }}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
@@ -730,7 +733,11 @@ export class CalciteInput implements LabelableComponent {
         ref={this.setChildElRef}
         required={this.required ? true : null}
         step={this.step}
-        tabIndex={this.disabled || !this.editingEnabled || this.type === "number" ? -1 : null}
+        tabIndex={
+          this.disabled || (this.inlineEditableEl && !this.editingEnabled) || this.type === "number"
+            ? -1
+            : null
+        }
         type={this.type}
         value={this.value}
       />,
