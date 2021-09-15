@@ -2,8 +2,6 @@
 
 The `calcite-progress` component is used to show progress on some async task to the user.
 
-## TODO
-
 <!-- Auto Generated Below -->
 
 ## Usage
