@@ -144,8 +144,8 @@ export class CalciteColorPickerHexInput {
    */
   @Event() calciteColorPickerHexInputChange: EventEmitter;
 
-  private onCalciteInputBlur = (event: Event): void => {
-    const node = event.currentTarget as HTMLCalciteInputElement;
+  private onCalciteInputBlur = (): void => {
+    const node = this.inputNode;
     const inputValue = node.value;
     const hex = `#${inputValue}`;
     const willClearValue = this.allowEmpty && !inputValue;
@@ -161,9 +161,8 @@ export class CalciteColorPickerHexInput {
         : this.formatForInternalInput(rgbToHex(this.internalColor.object() as any as RGB));
   };
 
-  private onInputChange = (event: Event): void => {
-    const node = event.currentTarget as HTMLCalciteInputElement;
-    const inputValue = node.value;
+  private onInputChange = (): void => {
+    const inputValue = this.inputNode.value;
     let value: this["value"];
 
     if (inputValue) {
@@ -191,6 +190,7 @@ export class CalciteColorPickerHexInput {
     const key = getKey(event.key);
 
     if (key === "Tab" || key === "Enter") {
+      this.onInputChange();
       return;
     }
 
