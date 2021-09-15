@@ -648,10 +648,6 @@ input[type="time"]::-webkit-clear-button {
   @apply border-t-color-1;
 }
 
-:host {
-  outline: 2px solid red;
-}
-
 :host .inline-child {
   @apply transition-default bg-transparent;
 
