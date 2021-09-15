@@ -78,14 +78,6 @@ export class CalciteBlockSection {
   //
   // --------------------------------------------------------------------------
 
-  handleHeaderLabelKeyDown(this: HTMLLabelElement, event: KeyboardEvent): void {
-    if (event.key === " " || event.key === "Enter") {
-      event.preventDefault();
-      event.stopPropagation();
-      this.click();
-    }
-  }
-
   toggleSection = (): void => {
     this.open = !this.open;
     this.calciteBlockSectionToggle.emit();
@@ -123,13 +115,12 @@ export class CalciteBlockSection {
 
     const headerNode =
       toggleDisplay === "switch" ? (
-        <label
-          aria-label={toggleLabel}
+        <div
           class={{
             [CSS.toggle]: true,
             [CSS.toggleSwitch]: true
           }}
-          onKeyDown={this.handleHeaderLabelKeyDown}
+          onClick={this.toggleSection}
           tabIndex={0}
           title={toggleLabel}
         >
@@ -137,13 +128,14 @@ export class CalciteBlockSection {
             <span class={CSS.toggleSwitchText}>{text}</span>
           </div>
           <calcite-switch
+            aria-label={toggleLabel}
             onCalciteSwitchChange={this.toggleSection}
             scale="s"
             switched={open}
             tabIndex={-1}
           />
           {this.renderStatusIcon()}
-        </label>
+        </div>
       ) : (
         <button
           aria-label={toggleLabel}
@@ -153,7 +145,6 @@ export class CalciteBlockSection {
           }}
           name={toggleLabel}
           onClick={this.toggleSection}
-          onKeyDown={this.handleHeaderLabelKeyDown}
         >
           <calcite-icon icon={arrowIcon} scale="s" />
           <span class={CSS.sectionHeaderText}>{text}</span>
