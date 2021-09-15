@@ -250,7 +250,7 @@ export class CalciteColorPickerHexInput {
           label={intlHex}
           maxLength={6}
           onCalciteInputBlur={this.onCalciteInputBlur}
-          onChange={this.onInputChange}
+          onCalciteInputChange={this.onInputChange}
           prefixText="#"
           ref={this.storeInputRef}
           scale={this.scale}
