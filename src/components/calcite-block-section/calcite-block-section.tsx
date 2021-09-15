@@ -124,6 +124,7 @@ export class CalciteBlockSection {
     const headerNode =
       toggleDisplay === "switch" ? (
         <div
+          aria-label={toggleLabel}
           class={{
             [CSS.toggle]: true,
             [CSS.toggleSwitch]: true
@@ -136,7 +137,7 @@ export class CalciteBlockSection {
           <div class={CSS.toggleSwitchContent}>
             <span class={CSS.toggleSwitchText}>{text}</span>
           </div>
-          <calcite-switch aria-label={toggleLabel} scale="s" switched={open} tabIndex={-1} />
+          <calcite-switch label={toggleLabel} scale="s" switched={open} tabIndex={-1} />
           {this.renderStatusIcon()}
         </div>
       ) : (

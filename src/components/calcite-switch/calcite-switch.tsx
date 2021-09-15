@@ -18,7 +18,7 @@ import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
 import { CSS_UTILITY } from "../../utils/resources";
 import { Scale } from "../interfaces";
-import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
+import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 
 @Component({
   tag: "calcite-switch",
@@ -48,6 +48,9 @@ export class CalciteSwitch implements LabelableComponent {
     this.inputEl.disabled = newDisabled;
     this.tabindex = newDisabled ? -1 : 0;
   }
+
+  /** Applies to the aria-label attribute on the switch */
+  @Prop() label?: string;
 
   /** The name of the switch input */
   @Prop({ reflect: true }) name?: string;
@@ -189,6 +192,9 @@ export class CalciteSwitch implements LabelableComponent {
     this.setupInput();
   }
 
+  componentDidLoad(): void {
+    this.inputEl.setAttribute("aria-label", getLabelText(this));
+  }
   // --------------------------------------------------------------------------
   //
   //  Render Methods
