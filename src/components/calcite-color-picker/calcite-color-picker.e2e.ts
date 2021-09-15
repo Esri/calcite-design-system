@@ -555,6 +555,43 @@ describe("calcite-color-picker", () => {
     expect(currentColor).toEqual(lastColor);
   });
 
+  it(`mouse movement tracking is not offset by the component's padding (mimics issue from #3041 when the component was placed within another component's shadow DOM)`, async () => {
+    const colorFieldCenterValueHsv = { h: 127, s: 50, v: 50 };
+
+    const page = await newE2EPage({
+      html: `<calcite-color-picker style='padding: 10px;'></calcite-color-picker>`
+    });
+    const colorPicker = await page.find("calcite-color-picker");
+
+    colorPicker.setProperty("value", colorFieldCenterValueHsv);
+    await page.waitForChanges();
+
+    // change by dragging color field thumb
+    const [colorFieldScopeX, colorFieldScopeY] = await getElementXY(
+      page,
+      "calcite-color-picker",
+      `.${CSS.colorFieldScope}`
+    );
+
+    await page.mouse.move(colorFieldScopeX, colorFieldScopeY);
+    await page.mouse.down();
+    await page.mouse.up();
+    await page.waitForChanges();
+
+    const beforeDragHsv = await colorPicker.getProperty("value");
+
+    await page.mouse.down();
+    await page.mouse.move(colorFieldScopeX + 10, colorFieldScopeY);
+    await page.mouse.up();
+    await page.waitForChanges();
+
+    const afterDragHsv = await colorPicker.getProperty("value");
+
+    expect(afterDragHsv.h).toBe(beforeDragHsv.h);
+    expect(afterDragHsv.s).toBeGreaterThan(beforeDragHsv.s);
+    expect(afterDragHsv.v).toBe(beforeDragHsv.v);
+  });
+
   describe("unsupported value handling", () => {
     let page: E2EPage;
 
