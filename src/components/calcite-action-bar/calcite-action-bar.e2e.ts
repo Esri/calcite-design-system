@@ -301,4 +301,87 @@ describe("calcite-action-bar", () => {
 
     expect(await button.getProperty("scale")).toBe("l");
   });
+
+  describe("overflow actions", () => {
+    it("should slot 'menu-actions' on sublist changes", async () => {
+      const page = await newE2EPage({
+        html: html`<calcite-action-bar style="height: 290px">
+          <calcite-action-group id="dynamic-group"
+            ><calcite-action text="Layer properties" icon="sliders-horizontal"></calcite-action>
+            <calcite-action id="second-action" text="Styles" icon="shapes"></calcite-action
+          ></calcite-action-group>
+          <calcite-action-group>
+            <calcite-action text="Save" icon="save" disabled></calcite-action>
+            <calcite-action icon="layers" text="Layers"></calcite-action>
+          </calcite-action-group>
+          <calcite-action-group slot="bottom-actions">
+            <calcite-action text="Tips" icon="lightbulb"></calcite-action>
+          </calcite-action-group>
+        </calcite-action-bar>`
+      });
+      await page.waitForChanges();
+
+      const dynamicGroupActionsSelector = "#dynamic-group calcite-action";
+      const slottedActionsSelector = `calcite-action[slot="menu-actions"]`;
+
+      expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(2);
+      expect(await page.findAll(slottedActionsSelector)).toHaveLength(0);
+
+      await page.$eval("calcite-action-bar", (element: HTMLCalciteActionBarElement) => {
+        element.ownerDocument.getElementById("second-action").insertAdjacentHTML(
+          "afterend",
+          `
+          <calcite-action text="Styles" icon="shapes"></calcite-action>
+          <calcite-action text="Filter" icon="layer-filter"></calcite-action>
+          <calcite-action text="Configure pop-ups" icon="popup"></calcite-action>
+          <calcite-action text="Configure attributes" icon="feature-details"></calcite-action>
+          <calcite-action text="Labels" icon="label" active></calcite-action>
+          <calcite-action text="Table" icon="table"></calcite-action>`
+        );
+      });
+      await page.waitForChanges();
+
+      expect(await page.findAll(slottedActionsSelector)).toHaveLength(7);
+      expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
+    });
+
+    it("should slot 'menu-actions' on resize", async () => {
+      const page = await newE2EPage({
+        html: html`<calcite-action-bar style="height: 290px">
+          <calcite-action-group id="dynamic-group"
+            ><calcite-action text="Layer properties" icon="sliders-horizontal"></calcite-action>
+            <calcite-action text="Styles" icon="shapes"></calcite-action>
+            <calcite-action text="Styles" icon="shapes"></calcite-action>
+            <calcite-action text="Filter" icon="layer-filter"></calcite-action>
+            <calcite-action text="Configure pop-ups" icon="popup"></calcite-action>
+            <calcite-action text="Configure attributes" icon="feature-details"></calcite-action>
+            <calcite-action text="Labels" icon="label" active></calcite-action>
+            <calcite-action text="Table" icon="table"></calcite-action
+          ></calcite-action-group>
+          <calcite-action-group>
+            <calcite-action text="Save" icon="save" disabled></calcite-action>
+            <calcite-action icon="layers" text="Layers"></calcite-action>
+          </calcite-action-group>
+          <calcite-action-group slot="bottom-actions">
+            <calcite-action text="Tips" icon="lightbulb"></calcite-action>
+          </calcite-action-group>
+        </calcite-action-bar>`
+      });
+      await page.waitForChanges();
+
+      const dynamicGroupActionsSelector = "#dynamic-group calcite-action";
+      const slottedActionsSelector = `calcite-action[slot="menu-actions"]`;
+
+      expect(await page.findAll(slottedActionsSelector)).toHaveLength(7);
+      expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
+
+      await page.$eval("calcite-action-bar", (element: HTMLCalciteActionBarElement) => {
+        element.style.height = "550px";
+      });
+      await page.waitForChanges();
+
+      expect(await page.findAll(slottedActionsSelector)).toHaveLength(2);
+      expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
+    });
+  });
 });
