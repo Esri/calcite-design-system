@@ -187,7 +187,7 @@ export class CalciteColorPickerHexInput {
   @Listen("keydown", { capture: true })
   protected onInputKeyDown(event: KeyboardEvent): void {
     const { altKey, ctrlKey, metaKey, shiftKey } = event;
-    const { el, inputNode, internalColor, value } = this;
+    const { internalColor, value } = this;
     const key = getKey(event.key);
     const isNudgeKey = key === "ArrowDown" || key === "ArrowUp";
 
