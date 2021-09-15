@@ -208,21 +208,10 @@ export class CalciteColorPickerHexInput {
     }
 
     const withModifiers = altKey || ctrlKey || metaKey;
-    const exceededHexLength = inputNode.value.length >= 6;
-    const focusedElement = el.shadowRoot.activeElement as HTMLInputElement;
-    const focusedElementInput = focusedElement?.shadowRoot.querySelector("input");
-
-    const hasTextSelection =
-      // can't use window.getSelection() because of FF bug: https://bugzilla.mozilla.org/show_bug.cgi?id=85686
-      focusedElementInput && focusedElementInput.selectionStart != focusedElementInput.selectionEnd;
     const singleChar = key.length === 1;
     const validHexChar = hexChar.test(key);
 
-    if (
-      singleChar &&
-      !withModifiers &&
-      (!validHexChar || (!hasTextSelection && exceededHexLength))
-    ) {
+    if (singleChar && !withModifiers && !validHexChar) {
       event.preventDefault();
     }
   }
@@ -259,6 +248,7 @@ export class CalciteColorPickerHexInput {
           class={CSS.input}
           dir={elementDir}
           label={intlHex}
+          maxLength={6}
           onCalciteInputBlur={this.onCalciteInputBlur}
           onChange={this.onInputChange}
           prefixText="#"
