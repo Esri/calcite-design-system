@@ -25,7 +25,7 @@ import { Scale } from "../interfaces";
 import { RGB } from "../calcite-color-picker/interfaces";
 import { focusElement, getElementDir } from "../../utils/dom";
 import { TEXT } from "../calcite-color-picker/resources";
-import { getKey, isActivationKey } from "../../utils/key";
+import { getKey } from "../../utils/key";
 
 const DEFAULT_COLOR = Color();
 
@@ -190,7 +190,7 @@ export class CalciteColorPickerHexInput {
     const { internalColor, value } = this;
     const key = getKey(event.key);
 
-    if (key === "Tab" || isActivationKey(key)) {
+    if (key === "Tab" || key === "Enter") {
       return;
     }
 
