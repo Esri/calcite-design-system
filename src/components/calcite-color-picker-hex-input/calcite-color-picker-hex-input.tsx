@@ -209,7 +209,9 @@ export class CalciteColorPickerHexInput {
 
     const withModifiers = altKey || ctrlKey || metaKey;
     const exceededHexLength = inputNode.value.length >= 6;
-    const focusedElement = el.shadowRoot.activeElement as HTMLInputElement;
+    const focusedElement = el.shadowRoot.activeElement.shadowRoot.querySelector(
+      "input"
+    ) as HTMLInputElement;
     const hasTextSelection =
       // can't use window.getSelection() because of FF bug: https://bugzilla.mozilla.org/show_bug.cgi?id=85686
       focusedElement.selectionStart != focusedElement.selectionEnd;
