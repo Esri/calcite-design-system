@@ -1,14 +1,8 @@
 ```html
 <div style="width: 400px">
-  <calcite-label
-    layout="inline"
-    class="sc-calcite-label-h sc-calcite-label-s"
-    alignment="start"
-    status="idle"
-    scale="m"
-  >
+  <calcite-label layout="inline" alignment="start" status="idle" scale="m">
     <!---->
-    <label class="sc-calcite-label sc-calcite-label-s">
+    <label>
       Date
       <calcite-input-date-picker
         scale="m"
