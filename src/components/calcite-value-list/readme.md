@@ -93,11 +93,15 @@ Renders a value list with label editing and single select.
 
 ### `getSelectedItems() => Promise<Map<string, HTMLCalciteValueListItemElement>>`
 
+Returns the currently selected items
+
 #### Returns
 
-Type: `Promise<Map<string, any>>`
+Type: `Promise<Map<string, HTMLCalciteValueListItemElement>>`
 
 ### `setFocus(focusId?: ListFocusId) => Promise<void>`
+
+Sets focus on the component.
 
 #### Returns
 

@@ -3,19 +3,30 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-<!--@unreleased-section-start-->
+## [1.0.0-beta.65](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.64...v1.0.0-beta.65) (2021-09-15)
 
-## Unreleased (2021-09-04)
+### Bug Fixes
+
+- **action-bar:** Better handling of overflow actions on smaller screens ([#3042](https://github.com/Esri/calcite-components/issues/3042)) ([10721f6](https://github.com/Esri/calcite-components/commit/10721f60401c54925e965d88c9ad486b6be797eb)), closes [#3025](https://github.com/Esri/calcite-components/issues/3025)
+- **color-picker:** fix mouse tracking logic when moved within another component's shadow DOM ([#3041](https://github.com/Esri/calcite-components/issues/3041)) ([9ca1b8e](https://github.com/Esri/calcite-components/commit/9ca1b8eea3add36f4020a8756f5d5ab373eb3777))
+
+## [1.0.0-beta.64](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.63...v1.0.0-beta.64) (2021-09-14)
 
 ### Features
 
 - **block:** add margin between heading/summary ([#2932](https://github.com/Esri/calcite-components/issues/2932)) ([7f281fd](https://github.com/Esri/calcite-components/commit/7f281fd208ce40f302d4af9cbe6900ea69efc451))
+- **tree-item:** update selection visuals to match Figma ([#2082](https://github.com/Esri/calcite-components/issues/2082)) ([#3001](https://github.com/Esri/calcite-components/issues/3001)) ([d811d1c](https://github.com/Esri/calcite-components/commit/d811d1c8c6fd475afd3c1cfaab31415b7a135da7))
 
 ### Bug Fixes
 
 - **accordion:** match accordion icon directions with block ([#2963](https://github.com/Esri/calcite-components/issues/2963)) ([68532d0](https://github.com/Esri/calcite-components/commit/68532d0090097dbea4a8dc89ac5ef166df1f3e48))
+- **accordion:** match icon directions with block when positioned at start ([#2989](https://github.com/Esri/calcite-components/issues/2989)) ([2e8abc5](https://github.com/Esri/calcite-components/commit/2e8abc5cea258e188445a223b15c2e469d6baef5))
 - **block-section:** style update to align better with label and switch combo ([707c214](https://github.com/Esri/calcite-components/commit/707c214029f80590d35dcc2cbb7f910c05545025)), closes [#2577](https://github.com/Esri/calcite-components/issues/2577) [#2577](https://github.com/Esri/calcite-components/issues/2577)
-<!--@unreleased-section-end-->
+- **color-picker:** render current value when set initially with custom format ([#3020](https://github.com/Esri/calcite-components/issues/3020)) ([c06aecf](https://github.com/Esri/calcite-components/commit/c06aecffa4abd37f73370e99c33106ba94afb645)), closes [#2994](https://github.com/Esri/calcite-components/issues/2994)
+- **input:** decrease color padding ([#2997](https://github.com/Esri/calcite-components/issues/2997)) ([75c1916](https://github.com/Esri/calcite-components/commit/75c19164e47e9cc8b46beb5d440ee160c459adf7))
+- **input-date-picker:** Set value, start, and end properties via input or date-picker. [#2955](https://github.com/Esri/calcite-components/issues/2955) ([#2993](https://github.com/Esri/calcite-components/issues/2993)) ([ee68cb8](https://github.com/Esri/calcite-components/commit/ee68cb8e5f06cc7803bc76ec437a80af26ba0415))
+- default boolean properties to be false instead of undefined. ([#2990](https://github.com/Esri/calcite-components/issues/2990)) ([edd2598](https://github.com/Esri/calcite-components/commit/edd2598005b7bd6d4075b0ffc38a2c47d9df012d))
+- **slider:** prevent added handle margins in Safari ([#2947](https://github.com/Esri/calcite-components/issues/2947)) ([#2987](https://github.com/Esri/calcite-components/issues/2987)) ([7b45506](https://github.com/Esri/calcite-components/commit/7b455066344bf5422acc5ef5c7f89dee9ff0e8e3))
 
 ## [1.0.0-beta.63](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.62...v1.0.0-beta.63) (2021-08-31)
 

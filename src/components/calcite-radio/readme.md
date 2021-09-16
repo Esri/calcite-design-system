@@ -10,9 +10,7 @@ Renders small, medium and large radio circles. This is an internal component use
 | ---------- | ---------- | -------------------------------- | ------------------- | ------- |
 | `checked`  | `checked`  | The checked state of the radio.  | `boolean`           | `false` |
 | `disabled` | `disabled` | The disabled state of the radio. | `boolean`           | `false` |
-| `focused`  | `focused`  | The focused state of the radio.  | `boolean`           | `false` |
 | `hidden`   | `hidden`   | The radio's hidden status.       | `boolean`           | `false` |
-| `hovered`  | `hovered`  | The hovered state of the radio.  | `boolean`           | `false` |
 | `scale`    | `scale`    | The scale (size) of the radio.   | `"l" \| "m" \| "s"` | `"m"`   |
 
 ## Dependencies
