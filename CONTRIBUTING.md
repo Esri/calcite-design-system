@@ -17,15 +17,7 @@ If you aren't familiar with the basics of WebComponents and Shadow DOM please re
 
 ### Before filing an issue
 
-If something isn't working the way you expected, please take a look at [previously logged issues](https://github.com/Esri/calcite-components/issues) first. Have you found a new bug? Want to request a new feature? We'd [love](https://github.com/Esri/calcite-components/issues/new) to hear from you.
-
-**Please include the following information in your issue:**
-
-- Browser (or Node.js) version
-- A snippet of code
-- an explanation of
-  - What you saw
-  - What you expected to see
+If something isn't working the way you expect, please take a look at the [existing issues](https://github.com/Esri/calcite-components/issues) before logging a new one. Have you found a new bug? Want to request a new feature? We'd love to hear from you! Please make sure to provide all of the requested info from the appropriate [issue template](https://github.com/Esri/calcite-components/issues/new/choose) so we can work on resolving the issue as soon as possible. A sample that reproduces the issue is required for logging bugs, we created templates in [codepen](https://codepen.io/pen?template=RwgrjEx), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js), and [jsbin](https://jsbin.com/lopumatiru/edit?html,output) (with the ArcGIS API for JavaScript) to help get started.
 
 ### Getting a development environment set up
 

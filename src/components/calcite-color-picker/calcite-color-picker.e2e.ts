@@ -303,7 +303,16 @@ describe("calcite-color-picker", () => {
         await page.setContent(`<calcite-color-picker format='rgb-css' value='${initialValue}'></calcite-color-picker>`);
         const color = await page.find("calcite-color-picker");
 
+        const initialValueIsRendered = await page.$eval(
+          "calcite-color-picker",
+          (picker: HTMLCalciteColorPickerElement, initialValue: string) =>
+            // color prop is used to render the active color
+            picker.color.string() === initialValue,
+          initialValue
+        );
+
         expect(await color.getProperty("value")).toEqual(initialValue);
+        expect(initialValueIsRendered).toBe(true);
         assertNoChangeEvents();
       });
 
@@ -546,6 +555,43 @@ describe("calcite-color-picker", () => {
     expect(currentColor).toEqual(lastColor);
   });
 
+  it(`mouse movement tracking is not offset by the component's padding (mimics issue from #3041 when the component was placed within another component's shadow DOM)`, async () => {
+    const colorFieldCenterValueHsv = { h: 127, s: 50, v: 50 };
+
+    const page = await newE2EPage({
+      html: `<calcite-color-picker style='padding: 10px;'></calcite-color-picker>`
+    });
+    const colorPicker = await page.find("calcite-color-picker");
+
+    colorPicker.setProperty("value", colorFieldCenterValueHsv);
+    await page.waitForChanges();
+
+    // change by dragging color field thumb
+    const [colorFieldScopeX, colorFieldScopeY] = await getElementXY(
+      page,
+      "calcite-color-picker",
+      `.${CSS.colorFieldScope}`
+    );
+
+    await page.mouse.move(colorFieldScopeX, colorFieldScopeY);
+    await page.mouse.down();
+    await page.mouse.up();
+    await page.waitForChanges();
+
+    const beforeDragHsv = await colorPicker.getProperty("value");
+
+    await page.mouse.down();
+    await page.mouse.move(colorFieldScopeX + 10, colorFieldScopeY);
+    await page.mouse.up();
+    await page.waitForChanges();
+
+    const afterDragHsv = await colorPicker.getProperty("value");
+
+    expect(afterDragHsv.h).toBe(beforeDragHsv.h);
+    expect(afterDragHsv.s).toBeGreaterThan(beforeDragHsv.s);
+    expect(afterDragHsv.v).toBe(beforeDragHsv.v);
+  });
+
   describe("unsupported value handling", () => {
     let page: E2EPage;
 
@@ -553,6 +599,7 @@ describe("calcite-color-picker", () => {
       const picker = await page.find("calcite-color-picker");
       const spy = await picker.spyOnEvent("calciteColorPickerChange");
       const currentValue = await picker.getProperty("value");
+      const format = await picker.getProperty("format");
       picker.setProperty("value", unsupportedValue);
       await page.waitForChanges();
 
@@ -561,7 +608,11 @@ describe("calcite-color-picker", () => {
 
       expect(consoleSpy).toBeCalledTimes(1);
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringMatching(`ignoring invalid color value: ${unsupportedValue}`)
+        expect.stringMatching(
+          new RegExp(
+            `\\s*ignoring color value \\(${unsupportedValue}\\) as it is not compatible with the current format \\(${format}\\)\\s*`
+          )
+        )
       );
     }
 
