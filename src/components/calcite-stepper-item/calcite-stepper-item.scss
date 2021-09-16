@@ -2,9 +2,9 @@
   --calcite-stepper-item-spacing-unit-s: theme("spacing.1");
   --calcite-stepper-item-spacing-unit-m: theme("spacing.3");
   --calcite-stepper-item-spacing-unit-l: theme("spacing.4");
-  @apply text--1-wrap mr-1;
+  @apply text--1h mr-1;
   .stepper-item-subtitle {
-    @apply text--2-wrap;
+    @apply text--2h;
   }
 }
 
@@ -12,9 +12,9 @@
   --calcite-stepper-item-spacing-unit-s: theme("spacing.2");
   --calcite-stepper-item-spacing-unit-m: theme("spacing.4");
   --calcite-stepper-item-spacing-unit-l: theme("spacing.5");
-  @apply text-0-wrap mr-2;
+  @apply text-0h mr-2;
   .stepper-item-subtitle {
-    @apply text--1-wrap;
+    @apply text--1h;
   }
 }
 
@@ -22,9 +22,9 @@
   --calcite-stepper-item-spacing-unit-s: theme("spacing.3");
   --calcite-stepper-item-spacing-unit-m: theme("spacing.5");
   --calcite-stepper-item-spacing-unit-l: theme("spacing.6");
-  @apply text-1-wrap mr-3;
+  @apply text-1h mr-3;
   .stepper-item-subtitle {
-    @apply text-0-wrap;
+    @apply text-0h;
   }
 }
 
