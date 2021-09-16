@@ -295,9 +295,9 @@ export async function labelable(componentTag: string, propertyToToggle?: string)
   });
   await componentIsLabelable({ page, componentTag, id, propertyToToggle });
 
-  page.setContent(wrappedHTMLWithSpan);
+  await page.setContent(wrappedHTMLWithSpan);
   await componentIsLabelable({ page, componentTag, clickSelector: "span", id, propertyToToggle });
 
-  page.setContent(siblingHTML);
+  await page.setContent(siblingHTML);
   await componentIsLabelable({ page, componentTag, id, propertyToToggle });
 }
