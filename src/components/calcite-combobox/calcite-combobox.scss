@@ -108,8 +108,11 @@
 .label {
   @apply p-0
     block
+    font-normal
     flex-auto
-    pointer-events-none truncate max-w-full;
+    pointer-events-none
+    truncate
+    max-w-full;
   height: var(--calcite-combobox-input-height);
   line-height: var(--calcite-combobox-input-height);
 }

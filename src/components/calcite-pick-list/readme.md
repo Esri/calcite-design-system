@@ -93,7 +93,7 @@ Returns the currently selected items
 
 #### Returns
 
-Type: `Promise<Map<string, any>>`
+Type: `Promise<Map<string, HTMLCalcitePickListItemElement>>`
 
 ### `setFocus(focusId?: ListFocusId) => Promise<void>`
 
