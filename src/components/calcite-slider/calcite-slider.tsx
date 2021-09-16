@@ -17,8 +17,8 @@ import { getKey } from "../../utils/key";
 import { ColorStop, DataSeries } from "../calcite-graph/interfaces";
 import { hasLabel, intersects } from "../../utils/dom";
 import { clamp } from "../../utils/math";
-
-type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
+import { ActiveSliderProperty } from "./interfaces";
+import { CSS } from "./resources";
 
 @Component({
   tag: "calcite-slider",
@@ -155,6 +155,8 @@ export class CalciteSlider {
     const rightThumbOffset = `${mirror ? maxInterval : 100 - maxInterval}%`;
     const leftThumbOffsetWithZero = this.determineLeftThumbOffset();
 
+    const useActiveThumbStyle = this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp;
+
     const handle = (
       <button
         aria-label={this.isRange ? this.maxLabel : this.minLabel}
@@ -163,9 +165,9 @@ export class CalciteSlider {
         aria-valuemin={this.min}
         aria-valuenow={value}
         class={{
-          thumb: true,
-          "thumb--value": true,
-          "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp
+          [CSS.thumb]: true,
+          [CSS.thumbValue]: true,
+          [CSS.thumbActive]: useActiveThumbStyle
         }}
         disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
@@ -175,7 +177,7 @@ export class CalciteSlider {
         role="slider"
         style={{ right: rightThumbOffset }}
       >
-        <div class="handle" />
+        <div class={CSS.handle} />
       </button>
     );
 
@@ -187,9 +189,9 @@ export class CalciteSlider {
         aria-valuemin={this.min}
         aria-valuenow={value}
         class={{
-          thumb: true,
-          "thumb--value": true,
-          "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp
+          [CSS.thumb]: true,
+          [CSS.thumbValue]: true,
+          [CSS.thumbActive]: useActiveThumbStyle
         }}
         disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
@@ -199,16 +201,22 @@ export class CalciteSlider {
         role="slider"
         style={{ right: rightThumbOffset }}
       >
-        <span aria-hidden="true" class="handle__label handle__label--value">
+        <span aria-hidden="true" class={{ [CSS.handleLabel]: true, [CSS.handleLabelValue]: true }}>
           {value ? value.toLocaleString() : value}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--value static">
+        <span
+          aria-hidden="true"
+          class={{ [CSS.handleLabel]: true, [CSS.handleLabelValue]: true, [CSS.static]: true }}
+        >
           {value ? value.toLocaleString() : value}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--value transformed">
+        <span
+          aria-hidden="true"
+          class={{ [CSS.handleLabel]: true, [CSS.handleLabelValue]: true, [CSS.transformed]: true }}
+        >
           {value ? value.toLocaleString() : value}
         </span>
-        <div class="handle" />
+        <div class={CSS.handle} />
       </button>
     );
 
@@ -220,9 +228,9 @@ export class CalciteSlider {
         aria-valuemin={this.min}
         aria-valuenow={value}
         class={{
-          thumb: true,
-          "thumb--value": true,
-          "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp
+          [CSS.thumb]: true,
+          [CSS.thumbValue]: true,
+          [CSS.thumbActive]: useActiveThumbStyle
         }}
         disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
@@ -232,14 +240,20 @@ export class CalciteSlider {
         role="slider"
         style={{ right: rightThumbOffset }}
       >
-        <div class="handle" />
-        <span aria-hidden="true" class="handle__label handle__label--value">
+        <div class={CSS.handle} />
+        <span aria-hidden="true" class={{ [CSS.handleLabel]: true, [CSS.handleLabelValue]: true }}>
           {value ? value.toLocaleString() : value}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--value static">
+        <span
+          aria-hidden="true"
+          class={{ [CSS.handleLabel]: true, [CSS.handleLabelValue]: true, [CSS.static]: true }}
+        >
           {value ? value.toLocaleString() : value}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--value transformed">
+        <span
+          aria-hidden="true"
+          class={{ [CSS.handleLabel]: true, [CSS.handleLabelValue]: true, [CSS.transformed]: true }}
+        >
           {value ? value.toLocaleString() : value}
         </span>
       </button>
@@ -253,10 +267,10 @@ export class CalciteSlider {
         aria-valuemin={this.min}
         aria-valuenow={value}
         class={{
-          thumb: true,
-          "thumb--value": true,
-          "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
-          "thumb--precise": true
+          [CSS.thumb]: true,
+          [CSS.thumbValue]: true,
+          [CSS.thumbActive]: useActiveThumbStyle,
+          [CSS.thumbPrecise]: true
         }}
         disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
@@ -266,8 +280,8 @@ export class CalciteSlider {
         role="slider"
         style={{ right: rightThumbOffset }}
       >
-        <div class="handle" />
-        <div class="handle-extension" />
+        <div class={CSS.handle} />
+        <div class={CSS.handleExtension} />
       </button>
     );
 
@@ -279,10 +293,10 @@ export class CalciteSlider {
         aria-valuemin={this.min}
         aria-valuenow={value}
         class={{
-          thumb: true,
-          "thumb--value": true,
-          "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
-          "thumb--precise": true
+          [CSS.thumb]: true,
+          [CSS.thumbValue]: true,
+          [CSS.thumbActive]: useActiveThumbStyle,
+          [CSS.thumbPrecise]: true
         }}
         disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
@@ -292,8 +306,8 @@ export class CalciteSlider {
         role="slider"
         style={{ right: rightThumbOffset }}
       >
-        <div class="handle-extension" />
-        <div class="handle" />
+        <div class={CSS.handleExtension} />
+        <div class={CSS.handle} />
       </button>
     );
 
@@ -305,10 +319,10 @@ export class CalciteSlider {
         aria-valuemin={this.min}
         aria-valuenow={value}
         class={{
-          thumb: true,
-          "thumb--value": true,
-          "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
-          "thumb--precise": true
+          [CSS.thumb]: true,
+          [CSS.thumbValue]: true,
+          [CSS.thumbActive]: useActiveThumbStyle,
+          [CSS.thumbPrecise]: true
         }}
         disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
@@ -318,17 +332,23 @@ export class CalciteSlider {
         role="slider"
         style={{ right: rightThumbOffset }}
       >
-        <span aria-hidden="true" class="handle__label handle__label--value">
+        <span aria-hidden="true" class={{ [CSS.handleLabel]: true, [CSS.handleLabelValue]: true }}>
           {value ? value.toLocaleString() : value}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--value static">
+        <span
+          aria-hidden="true"
+          class={{ [CSS.handleLabel]: true, [CSS.handleLabelValue]: true, [CSS.static]: true }}
+        >
           {value ? value.toLocaleString() : value}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--value transformed">
+        <span
+          aria-hidden="true"
+          class={{ [CSS.handleLabel]: true, [CSS.handleLabelValue]: true, [CSS.transformed]: true }}
+        >
           {value ? value.toLocaleString() : value}
         </span>
-        <div class="handle" />
-        <div class="handle-extension" />
+        <div class={CSS.handle} />
+        <div class={CSS.handleExtension} />
       </button>
     );
 
@@ -340,10 +360,10 @@ export class CalciteSlider {
         aria-valuemin={this.min}
         aria-valuenow={value}
         class={{
-          thumb: true,
-          "thumb--value": true,
-          "thumb--active": this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp,
-          "thumb--precise": true
+          [CSS.thumb]: true,
+          [CSS.thumbValue]: true,
+          [CSS.thumbActive]: useActiveThumbStyle,
+          [CSS.thumbPrecise]: true
         }}
         disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
@@ -353,15 +373,21 @@ export class CalciteSlider {
         role="slider"
         style={{ right: rightThumbOffset }}
       >
-        <div class="handle-extension" />
-        <div class="handle" />
-        <span aria-hidden="true" class="handle__label handle__label--value">
+        <div class={CSS.handleExtension} />
+        <div class={CSS.handle} />
+        <span aria-hidden="true" class={{ [CSS.handleLabel]: true, [CSS.handleLabelValue]: true }}>
           {value ? value.toLocaleString() : value}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--value static">
+        <span
+          aria-hidden="true"
+          class={{ [CSS.handleLabel]: true, [CSS.handleLabelValue]: true, [CSS.static]: true }}
+        >
           {value ? value.toLocaleString() : value}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--value transformed">
+        <span
+          aria-hidden="true"
+          class={{ [CSS.handleLabel]: true, [CSS.handleLabelValue]: true, [CSS.transformed]: true }}
+        >
           {value ? value.toLocaleString() : value}
         </span>
       </button>
@@ -375,9 +401,9 @@ export class CalciteSlider {
         aria-valuemin={this.min}
         aria-valuenow={this.minValue}
         class={{
-          thumb: true,
-          "thumb--minValue": true,
-          "thumb--active": this.dragProp === "minValue"
+          [CSS.thumb]: true,
+          [CSS.thumbMinValue]: true,
+          [CSS.thumbActive]: this.dragProp === "minValue"
         }}
         disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
@@ -387,7 +413,7 @@ export class CalciteSlider {
         role="slider"
         style={{ left: leftThumbOffsetWithZero }}
       >
-        <div class="handle" />
+        <div class={CSS.handle} />
       </button>
     );
 
@@ -399,9 +425,9 @@ export class CalciteSlider {
         aria-valuemin={this.min}
         aria-valuenow={this.minValue}
         class={{
-          thumb: true,
-          "thumb--minValue": true,
-          "thumb--active": this.dragProp === "minValue"
+          [CSS.thumb]: true,
+          [CSS.thumbMinValue]: true,
+          [CSS.thumbActive]: this.dragProp === "minValue"
         }}
         disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
@@ -411,16 +437,29 @@ export class CalciteSlider {
         role="slider"
         style={{ left: leftThumbOffsetWithZero }}
       >
-        <span aria-hidden="true" class="handle__label handle__label--minValue">
+        <span
+          aria-hidden="true"
+          class={{ [CSS.handleLabel]: true, [CSS.handleLabelMinValue]: true }}
+        >
           {this.minValue && this.minValue.toLocaleString()}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--minValue static">
+        <span
+          aria-hidden="true"
+          class={{ [CSS.handleLabel]: true, [CSS.handleLabelMinValue]: true, [CSS.static]: true }}
+        >
           {this.minValue && this.minValue.toLocaleString()}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--minValue transformed">
+        <span
+          aria-hidden="true"
+          class={{
+            [CSS.handleLabel]: true,
+            [CSS.handleLabelMinValue]: true,
+            [CSS.transformed]: true
+          }}
+        >
           {this.minValue && this.minValue.toLocaleString()}
         </span>
-        <div class="handle" />
+        <div class={CSS.handle} />
       </button>
     );
 
@@ -432,9 +471,9 @@ export class CalciteSlider {
         aria-valuemin={this.min}
         aria-valuenow={this.minValue}
         class={{
-          thumb: true,
-          "thumb--minValue": true,
-          "thumb--active": this.dragProp === "minValue"
+          [CSS.thumb]: true,
+          [CSS.thumbMinValue]: true,
+          [CSS.thumbActive]: this.dragProp === "minValue"
         }}
         disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
@@ -444,14 +483,27 @@ export class CalciteSlider {
         role="slider"
         style={{ left: leftThumbOffset }}
       >
-        <div class="handle" />
-        <span aria-hidden="true" class="handle__label handle__label--minValue">
+        <div class={CSS.handle} />
+        <span
+          aria-hidden="true"
+          class={{ [CSS.handleLabel]: true, [CSS.handleLabelMinValue]: true }}
+        >
           {this.minValue && this.minValue.toLocaleString()}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--minValue static">
+        <span
+          aria-hidden="true"
+          class={{ [CSS.handleLabel]: true, [CSS.handleLabelMinValue]: true, [CSS.static]: true }}
+        >
           {this.minValue && this.minValue.toLocaleString()}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--minValue transformed">
+        <span
+          aria-hidden="true"
+          class={{
+            [CSS.handleLabel]: true,
+            [CSS.handleLabelMinValue]: true,
+            [CSS.transformed]: true
+          }}
+        >
           {this.minValue && this.minValue.toLocaleString()}
         </span>
       </button>
@@ -465,10 +517,10 @@ export class CalciteSlider {
         aria-valuemin={this.min}
         aria-valuenow={this.minValue}
         class={{
-          thumb: true,
-          "thumb--minValue": true,
-          "thumb--active": this.dragProp === "minValue",
-          "thumb--precise": true
+          [CSS.thumb]: true,
+          [CSS.thumbMinValue]: true,
+          [CSS.thumbActive]: this.dragProp === "minValue",
+          [CSS.thumbPrecise]: true
         }}
         disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
@@ -478,8 +530,8 @@ export class CalciteSlider {
         role="slider"
         style={{ left: leftThumbOffsetWithZero }}
       >
-        <div class="handle-extension" />
-        <div class="handle" />
+        <div class={CSS.handleExtension} />
+        <div class={CSS.handle} />
       </button>
     );
 
@@ -491,10 +543,10 @@ export class CalciteSlider {
         aria-valuemin={this.min}
         aria-valuenow={this.minValue}
         class={{
-          thumb: true,
-          "thumb--minValue": true,
-          "thumb--active": this.dragProp === "minValue",
-          "thumb--precise": true
+          [CSS.thumb]: true,
+          [CSS.thumbMinValue]: true,
+          [CSS.thumbActive]: this.dragProp === "minValue",
+          [CSS.thumbPrecise]: true
         }}
         disabled={this.disabled}
         onBlur={() => (this.activeProp = null)}
@@ -504,15 +556,28 @@ export class CalciteSlider {
         role="slider"
         style={{ left: leftThumbOffsetWithZero }}
       >
-        <div class="handle-extension" />
-        <div class="handle" />
-        <span aria-hidden="true" class="handle__label handle__label--minValue">
+        <div class={CSS.handleExtension} />
+        <div class={CSS.handle} />
+        <span
+          aria-hidden="true"
+          class={{ [CSS.handleLabel]: true, [CSS.handleLabelMinValue]: true }}
+        >
           {this.minValue && this.minValue.toLocaleString()}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--minValue static">
+        <span
+          aria-hidden="true"
+          class={{ [CSS.handleLabel]: true, [CSS.handleLabelMinValue]: true, [CSS.static]: true }}
+        >
           {this.minValue && this.minValue.toLocaleString()}
         </span>
-        <span aria-hidden="true" class="handle__label handle__label--minValue transformed">
+        <span
+          aria-hidden="true"
+          class={{
+            [CSS.handleLabel]: true,
+            [CSS.handleLabelMinValue]: true,
+            [CSS.transformed]: true
+          }}
+        >
           {this.minValue && this.minValue.toLocaleString()}
         </span>
       </button>
@@ -520,15 +585,15 @@ export class CalciteSlider {
 
     return (
       <Host id={id} onTouchStart={this.handleTouchStart}>
-        <div class={{ container: true, "container--range": this.isRange }}>
+        <div class={{ [CSS.container]: true, [CSS.containerRange]: this.isRange }}>
           {this.renderGraph()}
-          <div class="track">
+          <div class={CSS.track}>
             <div
-              class="track__range"
+              class={CSS.trackRange}
               onPointerDown={() => this.dragStart("minMaxValue")}
               style={this.determineActiveTrackPosition()}
             />
-            <div class="ticks">
+            <div class={CSS.ticks}>
               {this.tickValues.map((tick) => {
                 const tickOffset = `${this.getUnitInterval(tick) * 100}%`;
                 let activeTicks = tick >= min && tick <= max;
@@ -538,8 +603,8 @@ export class CalciteSlider {
                 return (
                   <span
                     class={{
-                      tick: true,
-                      "tick--active": activeTicks
+                      [CSS.tick]: true,
+                      [CSS.tickActive]: activeTicks
                     }}
                     style={{
                       left: mirror ? "" : tickOffset,
@@ -580,7 +645,7 @@ export class CalciteSlider {
 
   private renderGraph(): VNode {
     return this.histogram ? (
-      <div class="graph">
+      <div class={CSS.graph}>
         <calcite-graph
           colorStops={this.histogramStops}
           data={this.histogram}
@@ -600,9 +665,9 @@ export class CalciteSlider {
     const tickLabel = (
       <span
         class={{
-          tick__label: true,
-          "tick__label--min": isMinTickLabel,
-          "tick__label--max": isMaxTickLabel
+          [CSS.tickLabel]: true,
+          [CSS.tickLabelMin]: isMinTickLabel,
+          [CSS.tickLabelMax]: isMaxTickLabel
         }}
       >
         {tick.toLocaleString()}
@@ -1103,7 +1168,7 @@ export class CalciteSlider {
     const labelOffset = labelFontSize / 2;
 
     if (labelTransformedOverlap > 0) {
-      hyphenLabel.classList.add("hyphen");
+      hyphenLabel.classList.add(CSS.hyphen);
       if (rightValueLabelStaticHostOffset === 0 && leftValueLabelStaticHostOffset === 0) {
         // Neither handle overlaps the host boundary
         let leftValueLabelTranslate = labelTransformedOverlap / 2 - labelOffset;
@@ -1168,7 +1233,7 @@ export class CalciteSlider {
         }px)`;
       }
     } else {
-      hyphenLabel.classList.remove("hyphen");
+      hyphenLabel.classList.remove(CSS.hyphen);
       leftValueLabel.style.transform = `translateX(${leftValueLabelStaticHostOffset}px)`;
       leftValueLabelTransformed.style.transform = `translateX(${leftValueLabelStaticHostOffset}px)`;
       rightValueLabel.style.transform = `translateX(${rightValueLabelStaticHostOffset}px)`;
