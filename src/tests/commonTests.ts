@@ -222,7 +222,7 @@ export async function slots(componentTagOrHTML: TagOrHTML, slots: Record<string,
   expect(allSlotsAssigned).toBe(true);
 }
 
-const testLabel = async ({
+const componentIsLabelable = async ({
   page,
   componentTag,
   propertyToToggle,
@@ -264,7 +264,7 @@ const testLabel = async ({
  * Helper for asserting label clicking functionality works.
  *
  * @param componentTag - The component tag to test against.
- * @param propertyToToggle - The component's property that should be toggled when it's calcite-label is clicked.
+ * @param shouldToggleProperty? - The component's property that should be toggled when it's calcite-label is clicked.
  */
 export async function labelable(componentTag: string, propertyToToggle?: string): Promise<void> {
   const id = "focused-id";
@@ -293,11 +293,11 @@ export async function labelable(componentTag: string, propertyToToggle?: string)
   const page = await newE2EPage({
     html: wrappedHTML
   });
-  await testLabel({ page, componentTag, id, propertyToToggle });
+  await componentIsLabelable({ page, componentTag, id, propertyToToggle });
 
   page.setContent(wrappedHTMLWithSpan);
-  await testLabel({ page, componentTag, clickSelector: "span", id, propertyToToggle });
+  await componentIsLabelable({ page, componentTag, clickSelector: "span", id, propertyToToggle });
 
   page.setContent(siblingHTML);
-  await testLabel({ page, componentTag, id, propertyToToggle });
+  await componentIsLabelable({ page, componentTag, id, propertyToToggle });
 }
