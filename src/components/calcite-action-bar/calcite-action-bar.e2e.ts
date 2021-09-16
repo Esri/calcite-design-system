@@ -319,6 +319,8 @@ describe("calcite-action-bar", () => {
           </calcite-action-group>
         </calcite-action-bar>`
       });
+      const actionBar = await page.find("calcite-action-bar");
+      await actionBar.callMethod("overflowActions");
       await page.waitForChanges();
 
       const dynamicGroupActionsSelector = "#dynamic-group calcite-action";
@@ -341,11 +343,11 @@ describe("calcite-action-bar", () => {
       });
       await page.waitForChanges();
 
-      expect(await page.findAll(slottedActionsSelector)).toHaveLength(7);
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
+      expect(await page.findAll(slottedActionsSelector)).toHaveLength(7);
     });
 
-    it.skip("should slot 'menu-actions' on resize of component", async () => {
+    it("should slot 'menu-actions' on resize of component", async () => {
       const page = await newE2EPage({
         html: html`<calcite-action-bar style="height: 290px">
           <calcite-action-group id="dynamic-group"
@@ -367,21 +369,23 @@ describe("calcite-action-bar", () => {
           </calcite-action-group>
         </calcite-action-bar>`
       });
+      const actionBar = await page.find("calcite-action-bar");
+      await actionBar.callMethod("overflowActions");
       await page.waitForChanges();
 
       const dynamicGroupActionsSelector = "#dynamic-group calcite-action";
       const slottedActionsSelector = `calcite-action[slot="menu-actions"]`;
 
-      expect(await page.findAll(slottedActionsSelector)).toHaveLength(7);
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
+      expect(await page.findAll(slottedActionsSelector)).toHaveLength(7);
 
       await page.$eval("calcite-action-bar", (element: HTMLCalciteActionBarElement) => {
         element.style.height = "550px";
       });
       await page.waitForChanges();
 
-      expect(await page.findAll(slottedActionsSelector)).toHaveLength(2);
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
+      expect(await page.findAll(slottedActionsSelector)).toHaveLength(2);
     });
   });
 });

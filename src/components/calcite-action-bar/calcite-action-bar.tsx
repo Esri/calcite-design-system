@@ -45,7 +45,7 @@ export class CalciteActionBar {
       toggleChildActionText({ parent: this.el, expanded: this.expanded });
     }
 
-    this.resizeFromHost();
+    this.conditionallyOverflowActions();
   }
 
   /**
@@ -116,7 +116,7 @@ export class CalciteActionBar {
   mutationObserver = createObserver("mutation", () => {
     const { el, expanded } = this;
     toggleChildActionText({ parent: el, expanded });
-    this.resizeFromHost();
+    this.conditionallyOverflowActions();
   });
 
   resizeObserver = createObserver("resize", (entries) => this.resizeHandlerEntries(entries));
@@ -136,7 +136,7 @@ export class CalciteActionBar {
   // --------------------------------------------------------------------------
 
   componentDidLoad(): void {
-    this.resizeFromHost();
+    this.conditionallyOverflowActions();
   }
 
   connectedCallback(): void {
@@ -152,7 +152,7 @@ export class CalciteActionBar {
       this.resizeObserver?.observe(el);
     }
 
-    this.resizeFromHost();
+    this.conditionallyOverflowActions();
   }
 
   disconnectedCallback(): void {
@@ -165,6 +165,15 @@ export class CalciteActionBar {
   //  Methods
   //
   // --------------------------------------------------------------------------
+
+  /**
+   * Overflows actions that won't fit into menus.
+   * @internal
+   */
+  @Method()
+  async overflowActions(): Promise<void> {
+    this.resize(this.el.clientHeight);
+  }
 
   /** Sets focus on the component. */
   @Method()
@@ -194,10 +203,6 @@ export class CalciteActionBar {
     }
   };
 
-  resizeFromHost = (): void => {
-    this.resize(this.el.clientHeight);
-  };
-
   resizeHandlerEntries = (entries: ResizeObserverEntry[]): void => {
     entries.forEach(this.resizeHandler);
   };
@@ -208,17 +213,10 @@ export class CalciteActionBar {
   };
 
   resize = (height: number): void => {
-    const {
-      el,
-      expanded,
-      expandDisabled,
-      lastActionCount,
-      lastGroupCount,
-      lastResizeHeight,
-      overflowActionsDisabled
-    } = this;
+    const { el, expanded, expandDisabled, lastActionCount, lastGroupCount, lastResizeHeight } =
+      this;
 
-    if (!height || overflowActionsDisabled) {
+    if (!height) {
       return;
     }
 
@@ -254,6 +252,12 @@ export class CalciteActionBar {
       expanded,
       overflowCount
     });
+  };
+
+  conditionallyOverflowActions = (): void => {
+    if (!this.overflowActionsDisabled) {
+      this.overflowActions();
+    }
   };
 
   toggleExpand = (): void => {
