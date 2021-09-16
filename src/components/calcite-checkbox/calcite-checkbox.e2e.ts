@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, focusable, HYDRATED_ATTR } from "../../tests/commonTests";
+import { accessible, focusable, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
 
 describe("calcite-checkbox", () => {
   it("is accessible", async () =>
@@ -9,6 +9,8 @@ describe("calcite-checkbox", () => {
 
   it("is accessible without calcite-label", async () =>
     accessible(`<calcite-checkbox label="label" id="example" name="example" value="one"></calcite-checkbox>`));
+
+  it("is labelable", async () => labelable("calcite-checkbox", "checked"));
 
   it("renders with correct default attributes", async () => {
     const page = await newE2EPage();

@@ -1,8 +1,9 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { JSX } from "../components";
 import { toHaveNoViolations } from "jest-axe";
 import axe from "axe-core";
 import { config } from "../../stencil.config";
+import { html } from "./utils";
 
 expect.extend(toHaveNoViolations);
 
@@ -219,4 +220,84 @@ export async function slots(componentTagOrHTML: TagOrHTML, slots: Record<string,
   );
 
   expect(allSlotsAssigned).toBe(true);
+}
+
+const testLabel = async ({
+  page,
+  componentTag,
+  propertyToToggle,
+  clickSelector = "calcite-label",
+  id
+}: {
+  page: E2EPage;
+  componentTag: string;
+  clickSelector?: string;
+  id: string;
+  propertyToToggle?: string;
+}): Promise<void> => {
+  await page.waitForChanges();
+  let component: E2EElement;
+  let initialPropertyValue: boolean;
+
+  if (propertyToToggle) {
+    component = await page.find(componentTag);
+    initialPropertyValue = await component.getProperty(propertyToToggle);
+  }
+
+  expect(
+    await page.evaluate(
+      (clickSelector: string, componentTag: string): string => {
+        (document.querySelector(clickSelector) as HTMLElement)?.click();
+        return document.activeElement.closest(componentTag).id;
+      },
+      clickSelector,
+      componentTag
+    )
+  ).toEqual(id);
+
+  if (propertyToToggle) {
+    expect(await component.getProperty(propertyToToggle)).toBe(!initialPropertyValue);
+  }
+};
+
+/**
+ * Helper for asserting label clicking functionality works.
+ *
+ * @param componentTag - The component tag to test against.
+ * @param propertyToToggle - The component's property that should be toggled when it's calcite-label is clicked.
+ */
+export async function labelable(componentTag: string, propertyToToggle?: string): Promise<void> {
+  const id = "focused-id";
+  const labelTitle = "My Component";
+  const labelTag = "calcite-label";
+
+  const wrappedHTML = html`
+  <${labelTag}>
+    ${labelTitle}
+    <${componentTag} id="${id}"></${componentTag}>
+  </${labelTag}>
+  `;
+
+  const wrappedHTMLWithSpan = html`
+  <${labelTag}>
+    <span>${labelTitle}</span>
+    <${componentTag} id="${id}"></${componentTag}>
+  </${labelTag}>
+  `;
+
+  const siblingHTML = html`
+  <${labelTag} for="${id}">${labelTitle}</${labelTag}>
+  <${componentTag} id="${id}"></${componentTag}>
+  `;
+
+  const page = await newE2EPage({
+    html: wrappedHTML
+  });
+  await testLabel({ page, componentTag, id, propertyToToggle });
+
+  page.setContent(wrappedHTMLWithSpan);
+  await testLabel({ page, componentTag, clickSelector: "span", id, propertyToToggle });
+
+  page.setContent(siblingHTML);
+  await testLabel({ page, componentTag, id, propertyToToggle });
 }
