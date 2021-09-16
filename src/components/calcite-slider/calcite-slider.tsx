@@ -898,10 +898,10 @@ export class CalciteSlider {
     const maxInterval = this.getUnitInterval(max) * 100;
     const mirror = this.shouldMirror();
 
-    if (this.minValue === 0 && !mirror) {
+    if (this.minValue === 0 && !mirror && !this.hasHistogram) {
       minInterval = Number(this.zeroTickLocation.replace("%", ""));
     }
-    if (this.minValue === 0 && mirror) {
+    if (this.minValue === 0 && mirror && !this.hasHistogram) {
       minInterval = 100 - Number(this.zeroTickLocation.replace("%", ""));
     }
 
