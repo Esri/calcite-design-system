@@ -338,6 +338,55 @@ describe("calcite-slider", () => {
     });
   });
 
+  describe("when minValue is 0", () => {
+    it("range with label-handles: minValue thumb handle gets correct position", async () => {
+      const page = await newE2EPage({
+        html: `
+        <div style="width: 300px; margin: 1rem;">
+          <calcite-slider
+            min="-100"
+            max="0"
+            min-value="0"
+            max-value="0"
+            step="10"
+            ticks="10"
+            label="Temperature"
+            label-handles
+            label-ticks
+          ></calcite-slider>
+        </div>
+        `
+      });
+      const minValueThumb = await page.find("calcite-slider >>> .thumb--minValue");
+      const minValueThumbStyles = await minValueThumb.getComputedStyle();
+      expect(await minValueThumbStyles.left).toBe("284px");
+    });
+
+    it("mirrored range with label-handles: minValue thumb handle gets correct position", async () => {
+      const page = await newE2EPage({
+        html: `
+        <div style="width: 300px; margin: 1rem;">
+          <calcite-slider
+            mirrored
+            min="-100"
+            max="0"
+            min-value="0"
+            max-value="0"
+            step="10"
+            ticks="10"
+            label="Temperature"
+            label-handles
+            label-ticks
+          ></calcite-slider>
+        </div>
+        `
+      });
+      const minValueThumb = await page.find("calcite-slider >>> .thumb--minValue");
+      const minValueThumbStyles = await minValueThumb.getComputedStyle();
+      expect(await minValueThumbStyles.left).toBe("0px");
+    });
+  });
+
   describe("histogram", () => {
     it("creates calcite-graph with color stops", async () => {
       const page = await newE2EPage({ html: `<calcite-slider></calcite-slider>` });
