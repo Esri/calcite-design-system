@@ -10,4 +10,4 @@ jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
-      - uses: benelan/need-info-action@v1.1.0
+      - uses: benelan/need-info-action@v1.2.0

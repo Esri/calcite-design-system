@@ -28,7 +28,10 @@ please add a 👍 reaction to the existing issue instead of creating a new one.
 
 <!--
 * A codepen, codesandbox, or jsbin sample and the steps to reproduce the issue are required
-* There are links to template samples in the contributing documentation: https://github.com/Esri/calcite-components/blob/master/CONTRIBUTING.md#before-filing-an-issue
+* Here are template samples to help get started:
+* https://codepen.io/pen?template=RwgrjEx
+* https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js (React output target)
+* https://jsbin.com/lopumatiru/edit?html,output (Set up with the ArcGIS JSAPI)
 -->
 
 _Sample_:
