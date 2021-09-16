@@ -1047,12 +1047,12 @@ export class CalciteSlider {
   }
 
   private adjustHostObscuredHandleLabel(name: "value" | "minValue"): void {
-    const label: HTMLSpanElement = this.el.shadowRoot.querySelector(`.handle__label--${name}`);
+    const label: HTMLSpanElement = this.el.shadowRoot.querySelector(`.${CSS.handleLabel}--${name}`);
     const labelStatic: HTMLSpanElement = this.el.shadowRoot.querySelector(
-      `.handle__label--${name}.static`
+      `.${CSS.handleLabel}--${name}.${CSS.static}`
     );
     const labelTransformed: HTMLSpanElement = this.el.shadowRoot.querySelector(
-      `.handle__label--${name}.transformed`
+      `.${CSS.handleLabel}--${name}.${CSS.transformed}`
     );
     const labelStaticBounds = labelStatic.getBoundingClientRect();
     const labelStaticOffset = this.getHostOffset(labelStaticBounds.left, labelStaticBounds.right);
@@ -1068,13 +1068,13 @@ export class CalciteSlider {
     const rightModifier = mirror ? "minValue" : "value";
 
     const leftValueLabel: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${leftModifier}`
+      `.${CSS.handleLabel}--${leftModifier}`
     );
     const leftValueLabelStatic: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${leftModifier}.static`
+      `.${CSS.handleLabel}--${leftModifier}.${CSS.static}`
     );
     const leftValueLabelTransformed: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${leftModifier}.transformed`
+      `.${CSS.handleLabel}--${leftModifier}.${CSS.transformed}`
     );
     const leftValueLabelStaticHostOffset = this.getHostOffset(
       leftValueLabelStatic.getBoundingClientRect().left,
@@ -1082,13 +1082,13 @@ export class CalciteSlider {
     );
 
     const rightValueLabel: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${rightModifier}`
+      `.${CSS.handleLabel}--${rightModifier}`
     );
     const rightValueLabelStatic: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${rightModifier}.static`
+      `.${CSS.handleLabel}--${rightModifier}.${CSS.static}`
     );
     const rightValueLabelTransformed: HTMLSpanElement = shadowRoot.querySelector(
-      `.handle__label--${rightModifier}.transformed`
+      `.${CSS.handleLabel}--${rightModifier}.${CSS.transformed}`
     );
     const rightValueLabelStaticHostOffset = this.getHostOffset(
       rightValueLabelStatic.getBoundingClientRect().left,
@@ -1201,14 +1201,19 @@ export class CalciteSlider {
       return;
     }
 
-    const minHandle: HTMLButtonElement | null =
-      this.el.shadowRoot.querySelector(".thumb--minValue");
-    const maxHandle: HTMLButtonElement | null = this.el.shadowRoot.querySelector(".thumb--value");
+    const minHandle: HTMLButtonElement | null = this.el.shadowRoot.querySelector(
+      `.${CSS.thumbMinValue}`
+    );
+    const maxHandle: HTMLButtonElement | null = this.el.shadowRoot.querySelector(
+      `.${CSS.thumbValue}`
+    );
 
-    const minTickLabel: HTMLSpanElement | null =
-      this.el.shadowRoot.querySelector(".tick__label--min");
-    const maxTickLabel: HTMLSpanElement | null =
-      this.el.shadowRoot.querySelector(".tick__label--max");
+    const minTickLabel: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+      `.${CSS.tickLabelMin}`
+    );
+    const maxTickLabel: HTMLSpanElement | null = this.el.shadowRoot.querySelector(
+      `.${CSS.tickLabelMax}`
+    );
 
     if (!minHandle && maxHandle && minTickLabel && maxTickLabel) {
       minTickLabel.style.opacity = this.isMinTickLabelObscured(minTickLabel, maxHandle) ? "0" : "1";
@@ -1328,7 +1333,11 @@ export class CalciteSlider {
    * Get left/right position percentages for active track range inline style
    * @internal
    */
-  private determineActiveTrackPosition(min: number, mirror: boolean, maxInterval: number) {
+  private determineActiveTrackPosition(
+    min: number,
+    mirror: boolean,
+    maxInterval: number
+  ): { left: string; right: string } {
     let minInterval = this.getUnitInterval(min) * 100;
 
     if (this.minValue === 0 && !mirror && !this.hasHistogram) {
