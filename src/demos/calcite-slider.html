@@ -41,6 +41,116 @@
   <body>
     <h1 style="margin: 0 auto; text-align: center">Slider</h1>
 
+    <div style="width: 50vw; margin: 3rem">
+      <h4>Temp demos for #2480</h4>
+      <calcite-slider
+        min="-3"
+        max="1"
+        min-value="0"
+        max-value="0"
+        ticks=".25"
+        label="Temperature"
+        label-handles
+        label-ticks
+        step=".25"
+        snap
+      ></calcite-slider>
+      <br />
+      <calcite-slider
+        min="-3"
+        max="1"
+        min-value="0"
+        max-value="0"
+        ticks=".25"
+        label="Temperature"
+        label-handles
+        label-ticks
+        step=".25"
+        snap
+        mirrored
+      ></calcite-slider>
+      <br />
+      <calcite-slider
+        min="-10"
+        max="1"
+        min-value="0"
+        max-value="0"
+        ticks="1"
+        step="0.5"
+        label="Temperature"
+        label-handles
+      ></calcite-slider>
+      <br />
+      <calcite-slider
+        min="-10"
+        max="1"
+        min-value="0"
+        max-value="0"
+        ticks="1"
+        step="0.5"
+        label="Temperature"
+        label-handles
+        mirrored
+      ></calcite-slider>
+      <br />
+      <calcite-slider
+        min="-100"
+        max="0"
+        min-value="0"
+        max-value="0"
+        step="10"
+        ticks="10"
+        label="Temperature"
+      ></calcite-slider>
+      <br />
+      <calcite-slider
+        min="-100"
+        max="0"
+        min-value="0"
+        max-value="0"
+        step="10"
+        ticks="10"
+        label="Temperature"
+        mirrored
+      ></calcite-slider>
+      <br />
+      <calcite-label>
+        with label
+        <calcite-slider
+          min="0"
+          max="100"
+          min-value="25"
+          max-value="75"
+          min-label="Temperature range (lower)"
+          max-label="Temperature range (upper)"
+          label-handles
+          label-ticks
+          ticks="20"
+          precise
+          snap
+        ></calcite-slider>
+      </calcite-label>
+      <br />
+      <calcite-label>
+        with label mirrored
+        <calcite-slider
+          min="0"
+          max="100"
+          min-value="25"
+          max-value="75"
+          min-label="Temperature range (lower)"
+          max-label="Temperature range (upper)"
+          class="slider-ex"
+          label-handles
+          label-ticks
+          ticks="20"
+          mirrored
+          precise
+          snap
+        ></calcite-slider>
+      </calcite-label>
+    </div>
+
     <!-- Headers -->
     <div class="parent">
       <div class="child right-aligned-text"></div>
@@ -1015,7 +1125,13 @@
       <div class="child right-aligned-text">range histogram with color stops</div>
 
       <div class="child">
-        <calcite-slider min="0" max="100" value="60" step="1" class="js-histogram js-histogram-colors"></calcite-slider>
+        <calcite-slider
+          max="100"
+          min="0"
+          min-value="0"
+          max-value="55"
+          class="js-histogram js-histogram-colors"
+        ></calcite-slider>
       </div>
     </div>
 

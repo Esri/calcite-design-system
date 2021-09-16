@@ -117,7 +117,7 @@ export class CalciteSlider {
     this.tickOffsets = this.generateTickOffsets(this.tickValues);
     this.zeroTickIndex = this.tickValues.findIndex((tick) => tick === 0);
     if (this.isRange && !this.hasHistogram) {
-      this.setZeroTickLocation();
+      this.setZeroTickLocation(this.tickOffsets, this.zeroTickIndex);
     }
     this.value = this.clamp(this.value);
     if (this.snap) {
@@ -153,7 +153,7 @@ export class CalciteSlider {
     const mirror = this.shouldMirror();
     const leftThumbOffset = `${mirror ? 100 - minInterval : minInterval}%`;
     const rightThumbOffset = `${mirror ? maxInterval : 100 - maxInterval}%`;
-    const leftThumbOffsetWithZero = this.determineLeftThumbOffset();
+    const leftThumbOffsetWithZero = this.determineLeftThumbOffset(minInterval);
 
     const useActiveThumbStyle = this.lastDragProp !== "minMaxValue" && this.dragProp === maxProp;
 
@@ -591,31 +591,9 @@ export class CalciteSlider {
             <div
               class={CSS.trackRange}
               onPointerDown={() => this.dragStart("minMaxValue")}
-              style={this.determineActiveTrackPosition()}
+              style={this.determineActiveTrackPosition(min, mirror, maxInterval)}
             />
-            <div class={CSS.ticks}>
-              {this.tickValues.map((tick) => {
-                const tickOffset = `${this.getUnitInterval(tick) * 100}%`;
-                let activeTicks = tick >= min && tick <= max;
-                if (this.isRange && !this.hasHistogram && this.zeroTickLocation) {
-                  activeTicks = tick >= this.minValue && tick <= this.maxValue;
-                }
-                return (
-                  <span
-                    class={{
-                      [CSS.tick]: true,
-                      [CSS.tickActive]: activeTicks
-                    }}
-                    style={{
-                      left: mirror ? "" : tickOffset,
-                      right: mirror ? tickOffset : ""
-                    }}
-                  >
-                    {this.renderTickLabel(tick)}
-                  </span>
-                );
-              })}
-            </div>
+            {this.renderTicks(min, max, mirror)}
           </div>
           {!this.precise && !this.labelHandles && this.isRange && minHandle}
           {!this.hasHistogram &&
@@ -657,6 +635,34 @@ export class CalciteSlider {
         />
       </div>
     ) : null;
+  }
+
+  private renderTicks(min: number, max: number, mirror: boolean): VNode {
+    return (
+      <div class={CSS.ticks}>
+        {this.tickValues.map((tick) => {
+          const tickOffset = `${this.getUnitInterval(tick) * 100}%`;
+          let activeTicks = tick >= min && tick <= max;
+          if (this.isRange && !this.hasHistogram && this.zeroTickLocation) {
+            activeTicks = tick >= this.minValue && tick <= this.maxValue;
+          }
+          return (
+            <span
+              class={{
+                [CSS.tick]: true,
+                [CSS.tickActive]: activeTicks
+              }}
+              style={{
+                left: mirror ? "" : tickOffset,
+                right: mirror ? tickOffset : ""
+              }}
+            >
+              {this.renderTickLabel(tick)}
+            </span>
+          );
+        })}
+      </div>
+    );
   }
 
   private renderTickLabel(tick: number): VNode {
@@ -905,75 +911,6 @@ export class CalciteSlider {
       current = current + this.ticks;
     }
     return ticks;
-  }
-
-  // TO-DO: Clean up
-  /**
-   * Get tick offsets as percentages on track
-   * @internal
-   */
-  private generateTickOffsets(ticks: number[]): string[] {
-    if (!ticks) {
-      return;
-    }
-    const tickOffsets = [];
-    ticks.map((tick) => {
-      const tickOffset = `${this.getUnitInterval(tick) * 100}%`;
-      tickOffsets.push(tickOffset);
-    });
-    return tickOffsets;
-  }
-
-  /**
-   * Get location of zero tick
-   * @internal
-   */
-  private setZeroTickLocation(): string {
-    if (this.zeroTickIndex === -1) {
-      return;
-    }
-    return !this.shouldMirror()
-      ? (this.zeroTickLocation = this.tickOffsets[this.zeroTickIndex])
-      : (this.zeroTickLocation = this.tickOffsets.reverse()[this.zeroTickIndex]);
-  }
-
-  /**
-   * Get left percentage for placing range thumb minValue
-   * @internal
-   */
-  private determineLeftThumbOffset(): string {
-    if (!this.isRange) {
-      return;
-    }
-    const min = this.minValue || this.min;
-    const minInterval = this.getUnitInterval(min) * 100;
-    return this.minValue === 0 && this.zeroTickLocation
-      ? this.zeroTickLocation
-      : `${this.shouldMirror() ? 100 - minInterval : minInterval}%`;
-  }
-
-  /**
-   * Get left/right position percentages for active track range
-   * @internal
-   */
-  private determineActiveTrackPosition() {
-    const min = this.minValue || this.min;
-    const max = this.maxValue || this.value;
-    let minInterval = this.getUnitInterval(min) * 100;
-    const maxInterval = this.getUnitInterval(max) * 100;
-    const mirror = this.shouldMirror();
-
-    if (this.minValue === 0 && !mirror && !this.hasHistogram) {
-      minInterval = Number(this.zeroTickLocation.replace("%", ""));
-    }
-    if (this.minValue === 0 && mirror && !this.hasHistogram) {
-      minInterval = 100 - Number(this.zeroTickLocation.replace("%", ""));
-    }
-
-    return {
-      left: `${mirror ? 100 - maxInterval : minInterval}%`,
-      right: `${mirror ? minInterval : 100 - maxInterval}%`
-    };
   }
 
   private dragStart(prop: ActiveSliderProperty): void {
@@ -1346,5 +1283,64 @@ export class CalciteSlider {
     const maxLabelBounds = maxLabel.getBoundingClientRect();
     const handleBounds = handle.getBoundingClientRect();
     return intersects(maxLabelBounds, handleBounds);
+  }
+
+  /**
+   * Get tick offsets as percentages on track
+   * @internal
+   */
+  private generateTickOffsets(ticks: number[]): string[] {
+    const tickOffsets = [];
+    ticks.map((tick) => {
+      const tickOffset = `${this.getUnitInterval(tick) * 100}%`;
+      tickOffsets.push(tickOffset);
+    });
+    return tickOffsets;
+  }
+
+  /**
+   * Get location of zero tick
+   * @internal
+   */
+  private setZeroTickLocation(tickOffsets: string[], zeroTickIndex: number): string {
+    if (zeroTickIndex === -1) {
+      return;
+    }
+    return !this.shouldMirror()
+      ? (this.zeroTickLocation = tickOffsets[zeroTickIndex])
+      : (this.zeroTickLocation = tickOffsets.reverse()[zeroTickIndex]);
+  }
+
+  /**
+   * Get left percentage for placing range thumb minValue
+   * @internal
+   */
+  private determineLeftThumbOffset(minInterval: number): string {
+    if (!this.isRange) {
+      return;
+    }
+    return this.minValue === 0 && this.zeroTickLocation
+      ? this.zeroTickLocation
+      : `${this.shouldMirror() ? 100 - minInterval : minInterval}%`;
+  }
+
+  /**
+   * Get left/right position percentages for active track range inline style
+   * @internal
+   */
+  private determineActiveTrackPosition(min: number, mirror: boolean, maxInterval: number) {
+    let minInterval = this.getUnitInterval(min) * 100;
+
+    if (this.minValue === 0 && !mirror && !this.hasHistogram) {
+      minInterval = Number(this.zeroTickLocation.replace("%", ""));
+    }
+    if (this.minValue === 0 && mirror && !this.hasHistogram) {
+      minInterval = 100 - Number(this.zeroTickLocation.replace("%", ""));
+    }
+
+    return {
+      left: `${mirror ? 100 - maxInterval : minInterval}%`,
+      right: `${mirror ? minInterval : 100 - maxInterval}%`
+    };
   }
 }
