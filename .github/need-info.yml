@@ -15,7 +15,8 @@ requiredItems:
     response: '- Provide a [codepen](https://codepen.io/pen?template=RwgrjEx), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js), or [jsbin](https://jsbin.com/zocobeqopu/edit?html,css,js,output) that reproduces the issue'
     requireAll: false
     content:
-      - 'https://jsbin.com/'
-      - 'https://codepen.io/'
-      - 'https://codesandbox.io/'
+      - 'jsbin.com/'
+      - 'codepen.io/'
+      - 'codesandbox.io/'
 commentFooter: 'This issue will be automatically closed in three days if the information is not provided. Thanks for your understanding.'
+excludeComments: true
