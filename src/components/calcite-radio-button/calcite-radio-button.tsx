@@ -206,6 +206,7 @@ export class CalciteRadioButton implements LabelableComponent {
       }
 
       this.calciteRadioButtonChange.emit();
+      this.setFocus();
     }
   };
 

@@ -266,28 +266,29 @@ const componentIsLabelable = async ({
  * @param componentTag - The component tag to test against.
  * @param shouldToggleProperty? - The component's property that should be toggled when it's calcite-label is clicked.
  */
-export async function labelable(componentTag: string, propertyToToggle?: string): Promise<void> {
+export async function labelable(componentTag: CalciteComponentTag, propertyToToggle?: string): Promise<void> {
   const id = "focused-id";
   const labelTitle = "My Component";
   const labelTag = "calcite-label";
+  const name = "testname";
 
   const wrappedHTML = html`
   <${labelTag}>
     ${labelTitle}
-    <${componentTag} id="${id}"></${componentTag}>
+    <${componentTag} name="${name}" id="${id}"></${componentTag}>
   </${labelTag}>
   `;
 
   const wrappedHTMLWithSpan = html`
   <${labelTag}>
     <span>${labelTitle}</span>
-    <${componentTag} id="${id}"></${componentTag}>
+    <${componentTag} name="${name}" id="${id}"></${componentTag}>
   </${labelTag}>
   `;
 
   const siblingHTML = html`
   <${labelTag} for="${id}">${labelTitle}</${labelTag}>
-  <${componentTag} id="${id}"></${componentTag}>
+  <${componentTag} name="${name}" id="${id}"></${componentTag}>
   `;
 
   const page = await newE2EPage({

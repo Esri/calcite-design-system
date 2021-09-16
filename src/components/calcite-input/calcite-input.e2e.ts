@@ -1,11 +1,13 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { focusable, HYDRATED_ATTR } from "../../tests/commonTests";
+import { focusable, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { getDecimalSeparator, locales, localizeNumberString } from "../../utils/locale";
 import { CSS } from "./resources";
 
 describe("calcite-input", () => {
+  it("is labelable", async () => labelable("calcite-input"));
+
   it("honors form reset", async () => {
     const defaultValue = "defaultValue";
 

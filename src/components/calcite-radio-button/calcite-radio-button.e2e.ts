@@ -1,8 +1,10 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, reflects, renders, labelable } from "../../tests/commonTests";
 
 describe("calcite-radio-button", () => {
   it("renders", async () => renders("calcite-radio-button", { display: "block" }));
+
+  it("is labelable", async () => labelable("calcite-radio-button"));
 
   it("is accessible", async () =>
     accessible(

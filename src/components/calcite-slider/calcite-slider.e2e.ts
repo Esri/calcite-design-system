@@ -1,8 +1,10 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { defaults, renders } from "../../tests/commonTests";
+import { defaults, renders, labelable } from "../../tests/commonTests";
 
 describe("calcite-slider", () => {
   it("renders", async () => renders("calcite-slider", { display: "block" }));
+
+  it("is labelable", async () => labelable("calcite-slider"));
 
   it("has defaults", async () =>
     defaults("calcite-slider", [
