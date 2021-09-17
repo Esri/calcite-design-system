@@ -27,11 +27,14 @@ please add a 👍 reaction to the existing issue instead of creating a new one.
 ### Reproduction Steps and Sample
 
 <!--
-* A codepen, codesandbox, or jsbin sample and the steps to reproduce the issue are required
+* A codepen, codesandbox, or jsbin sample and the steps to reproduce the issue are required.
+* Alternatively, a documentation sample can be used if the issue is reproducible:
+*   - https://developers.arcgis.com/calcite-design-system/components
+*   - https://esri.github.io/calcite-components
 * Here are template samples to help get started:
-* https://codepen.io/pen?template=RwgrjEx
-* https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js (React output target)
-* https://jsbin.com/lopumatiru/edit?html,output (Set up with the ArcGIS JSAPI)
+*   - https://codepen.io/pen?template=RwgrjEx
+*   - https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js (React output target)
+*   - https://jsbin.com/lopumatiru/edit?html,output (Set up with the ArcGIS JSAPI)
 -->
 
 _Sample_:
