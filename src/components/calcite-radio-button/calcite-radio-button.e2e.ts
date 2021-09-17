@@ -4,7 +4,8 @@ import { accessible, defaults, focusable, hidden, reflects, renders, labelable }
 describe("calcite-radio-button", () => {
   it("renders", async () => renders("calcite-radio-button", { display: "block" }));
 
-  it("is labelable", async () => labelable("calcite-radio-button"));
+  it("is labelable", async () =>
+    labelable(`<calcite-radio-button id="labelable-component" name="example" value="one"></calcite-radio-button>`));
 
   it("is accessible", async () =>
     accessible(

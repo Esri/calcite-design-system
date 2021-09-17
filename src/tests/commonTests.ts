@@ -244,16 +244,10 @@ const componentIsLabelable = async ({
     initialPropertyValue = await component.getProperty(propertyToToggle);
   }
 
-  expect(
-    await page.evaluate(
-      (clickSelector: string, componentTag: string): string => {
-        (document.querySelector(clickSelector) as HTMLElement)?.click();
-        return document.activeElement.closest(componentTag).id;
-      },
-      clickSelector,
-      componentTag
-    )
-  ).toEqual(id);
+  const clickElement = await page.find(clickSelector);
+  await clickElement.click();
+  const activeElementId = await page.evaluate(() => document.activeElement.id);
+  expect(activeElementId).toEqual(id);
 
   if (propertyToToggle) {
     expect(await component.getProperty(propertyToToggle)).toBe(!initialPropertyValue);
@@ -266,34 +260,40 @@ const componentIsLabelable = async ({
  * @param componentTag - The component tag to test against.
  * @param shouldToggleProperty? - The component's property that should be toggled when it's calcite-label is clicked.
  */
-export async function labelable(componentTag: CalciteComponentTag, propertyToToggle?: string): Promise<void> {
-  const id = "focused-id";
+export async function labelable(componentTagOrHTML: TagOrHTML, propertyToToggle?: string): Promise<void> {
   const labelTitle = "My Component";
   const labelTag = "calcite-label";
-  const name = "testname";
+  const idMatch = componentTagOrHTML.match(/id="(.*?)"/g);
+  const id = (idMatch && idMatch[1]) || "labelable-component";
+  const componentTag = getTag(componentTagOrHTML);
+  const componentHTML = isHTML(componentTagOrHTML)
+    ? componentTagOrHTML
+    : `<${componentTag} id="${id}"></${componentTag}>`;
 
   const wrappedHTML = html`
   <${labelTag}>
     ${labelTitle}
-    <${componentTag} name="${name}" id="${id}"></${componentTag}>
+    ${componentHTML}
   </${labelTag}>
   `;
 
   const wrappedHTMLWithSpan = html`
   <${labelTag}>
     <span>${labelTitle}</span>
-    <${componentTag} name="${name}" id="${id}"></${componentTag}>
+    ${componentHTML}
   </${labelTag}>
   `;
 
   const siblingHTML = html`
   <${labelTag} for="${id}">${labelTitle}</${labelTag}>
-  <${componentTag} name="${name}" id="${id}"></${componentTag}>
+  ${componentHTML}
   `;
 
   const page = await newE2EPage({
-    html: wrappedHTML
+    html: wrappedHTML,
+    failOnConsoleError: true
   });
+
   await componentIsLabelable({ page, componentTag, id, propertyToToggle });
 
   await page.setContent(wrappedHTMLWithSpan);

@@ -1,9 +1,11 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, focusable, reflects, renders, labelable } from "../../tests/commonTests";
 import { formatTimePart, getMeridiem } from "../../utils/time";
 
 describe("calcite-input-time-picker", () => {
   it("renders", async () => renders("calcite-input-time-picker", { display: "inline-block" }));
+
+  it("is labelable", async () => labelable("calcite-input-time-picker"));
 
   it("is accessible", async () =>
     accessible(`
