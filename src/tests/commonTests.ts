@@ -225,19 +225,19 @@ export async function slots(componentTagOrHTML: TagOrHTML, slots: Record<string,
 const componentIsLabelable = async ({
   page,
   componentTag,
-  propertyToToggle,
-  clickSelector = "calcite-label",
-  id
+  options,
+  clickSelector = "calcite-label"
 }: {
   page: E2EPage;
   componentTag: string;
   clickSelector?: string;
-  id: string;
-  propertyToToggle?: string;
+  options?: LabelableOptions;
 }): Promise<void> => {
   await page.waitForChanges();
   let component: E2EElement;
   let initialPropertyValue: boolean;
+  const propertyToToggle = options?.propertyToToggle;
+  const focusTargetSelector = options?.focusTargetSelector || componentTag;
 
   if (propertyToToggle) {
     component = await page.find(componentTag);
@@ -246,21 +246,30 @@ const componentIsLabelable = async ({
 
   const clickElement = await page.find(clickSelector);
   await clickElement.click();
-  const activeElementId = await page.evaluate(() => document.activeElement.id);
-  expect(activeElementId).toEqual(id);
+
+  expect(await page.evaluate((selector) => document.activeElement.matches(selector), focusTargetSelector)).toBe(true);
 
   if (propertyToToggle) {
     expect(await component.getProperty(propertyToToggle)).toBe(!initialPropertyValue);
   }
 };
 
+interface LabelableOptions {
+  /**
+   * Selector used to assert the focused DOM element.
+   */
+  focusTargetSelector?: string;
+
+  /**
+   * The component's property that should be toggled when it's calcite-label is clicked.
+   */
+  propertyToToggle?: string;
+}
+
 /**
  * Helper for asserting label clicking functionality works.
- *
- * @param componentTag - The component tag to test against.
- * @param shouldToggleProperty? - The component's property that should be toggled when it's calcite-label is clicked.
  */
-export async function labelable(componentTagOrHTML: TagOrHTML, propertyToToggle?: string): Promise<void> {
+export async function labelable(componentTagOrHTML: TagOrHTML, options?: LabelableOptions): Promise<void> {
   const labelTitle = "My Component";
   const labelTag = "calcite-label";
   const idMatch = componentTagOrHTML.match(/id="(.*?)"/g);
@@ -294,11 +303,11 @@ export async function labelable(componentTagOrHTML: TagOrHTML, propertyToToggle?
     failOnConsoleError: true
   });
 
-  await componentIsLabelable({ page, componentTag, id, propertyToToggle });
+  await componentIsLabelable({ page, componentTag, options });
 
   await page.setContent(wrappedHTMLWithSpan);
-  await componentIsLabelable({ page, componentTag, clickSelector: "span", id, propertyToToggle });
+  await componentIsLabelable({ page, componentTag, clickSelector: "span", options });
 
   await page.setContent(siblingHTML);
-  await componentIsLabelable({ page, componentTag, id, propertyToToggle });
+  await componentIsLabelable({ page, componentTag, options });
 }

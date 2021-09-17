@@ -10,7 +10,8 @@ describe("calcite-checkbox", () => {
   it("is accessible without calcite-label", async () =>
     accessible(`<calcite-checkbox label="label" id="example" name="example" value="one"></calcite-checkbox>`));
 
-  it.skip("is labelable", async () => labelable("calcite-checkbox", "checked"));
+  it("is labelable", async () =>
+    labelable("calcite-checkbox", { propertyToToggle: "checked", focusTargetSelector: "input" }));
 
   it("renders with correct default attributes", async () => {
     const page = await newE2EPage();

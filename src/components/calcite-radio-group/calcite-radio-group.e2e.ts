@@ -12,11 +12,14 @@ describe("calcite-radio-group", () => {
   });
 
   it.skip("is labelable", async () =>
-    labelable(`<calcite-radio-group id="labelable-component">
+    labelable(
+      `<calcite-radio-group id="labelable-component">
   <calcite-radio-group-item value="1"></calcite-radio-group-item>
   <calcite-radio-group-item value="2"></calcite-radio-group-item>
   <calcite-radio-group-item value="3"></calcite-radio-group-item>
-</calcite-radio-group>`));
+</calcite-radio-group>`,
+      { focusTargetSelector: "calcite-radio-group-item" }
+    ));
 
   it("does not require an item to be checked", async () => {
     const page = await newE2EPage();
