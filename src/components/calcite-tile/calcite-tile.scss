@@ -21,12 +21,9 @@
 :host([icon][heading]:not([description]):not([embed])) {
   @apply p-0;
 }
-:host(:not([input-alignment]):not([description])) .large-visual {
+:host(:not([description])) .large-visual {
   .icon {
     @apply flex justify-center;
-  }
-  .content {
-    text-align: center;
   }
 }
 :host([disabled]) {
