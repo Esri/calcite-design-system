@@ -25,20 +25,29 @@ const readmePath = quote([normalize(`${__dirname}/../readme.md`)]);
   const prereleaseVersionPattern = /-next\.\d+$/;
   const previousReleaseIsPrerelease = prereleaseVersionPattern.test(previousReleasedTag);
   const semverTags = await pify(gitSemverTags)();
+  let standardVersionOptions: Options;
 
-  // create options before temp-deleting (prerelease) tags to prevent standard-version's tagging getting out of sync
-  const standardVersionOptions = await getStandardVersionOptions(next, semverTags);
+  const baseErrorMessage = "an error occurred generating the changelog";
 
-  const logError = (error: Error): void =>
-    console.error(`an error occurred generating the changelog for ${standardVersionOptions.releaseAs}`, error);
+  try {
+    // create options before temp-deleting (prerelease) tags to prevent standard-version's tagging getting out of sync
+    standardVersionOptions = await getStandardVersionOptions(next, semverTags);
+  } catch (error) {
+    console.log(baseErrorMessage);
+    process.exitCode = 1;
+    return;
+  }
+
+  const changelogGenerationErrorMessage = `${baseErrorMessage} (releasing as: ${standardVersionOptions.releaseAs})`;
 
   if (!previousReleaseIsPrerelease) {
     try {
       await runStandardVersion(next, standardVersionOptions);
     } catch (error) {
-      logError(error);
+      console.log(changelogGenerationErrorMessage);
+      process.exitCode = 1;
     }
-    process.exit();
+    return;
   }
 
   const indexOfNonNextTag = semverTags.findIndex((tag) => !prereleaseVersionPattern.test(tag));
@@ -50,13 +59,12 @@ const readmePath = quote([normalize(`${__dirname}/../readme.md`)]);
 
     await runStandardVersion(next, standardVersionOptions);
   } catch (error) {
-    logError(error);
+    console.log(changelogGenerationErrorMessage);
+    process.exitCode = 1;
   } finally {
     // restore deleted prerelease tags
     await exec(`git fetch --tags`);
   }
-
-  process.exit();
 })();
 
 async function getStandardVersionOptions(next: boolean, semverTags: string[]): Promise<Options> {
@@ -67,6 +75,10 @@ async function getStandardVersionOptions(next: boolean, semverTags: string[]): P
   // this should not be needed after v1.0.0 since there would no longer be a beta version to keep track of
   const targetDescendingOrderTags = semverTags.filter((tag) => targetVersionPattern.test(tag)).sort(semver.rcompare);
   const targetReleaseVersion = semver.inc(targetDescendingOrderTags[0], "prerelease", target);
+
+  if (!targetVersionPattern.test(targetReleaseVersion)) {
+    throw new Error(`target release version does not have prerelease identifier (${target})`);
+  }
 
   const standardVersionOptions: Options = {
     commitAll: true,
