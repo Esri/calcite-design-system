@@ -9,8 +9,6 @@ jobs:
       - uses: actions/github-script@v4
         with:
           script: |
-            // Get a list of all issues created by the PR opener
-            // See: https://octokit.github.io/rest.js/#pagination
             const label = context.payload.label
             if (label && label.name === "3 - installed") {
               github.issues.createComment({
