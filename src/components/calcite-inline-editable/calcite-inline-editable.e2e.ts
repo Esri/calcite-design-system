@@ -1,9 +1,14 @@
-import { accessible, HYDRATED_ATTR } from "../../tests/commonTests";
+import { accessible, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
 import { E2EPage } from "@stencil/core/testing";
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS } from "./resources";
+import { html } from "../../tests/utils";
 
 describe("calcite-inline-editable", () => {
+  it.skip("is labelable", async () =>
+    labelable(html`<calcite-inline-editable id="labelable-component">
+      <calcite-input></calcite-input>
+    </calcite-inline-editable>`));
   describe("rendering permutations", () => {
     let page: E2EPage;
     beforeEach(async () => {
