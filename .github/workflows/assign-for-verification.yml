@@ -1,0 +1,21 @@
+name: Verify Install
+on:
+  issues:
+    types: [labeled]
+    branches: [master]
+jobs:
+  assign:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v4
+        with:
+          script: |
+            const label = context.payload.label
+            if (label && label.name === "3 - installed") {
+              await github.issues.update({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                assignees: ['benelan']
+              });
+            }
