@@ -6,7 +6,7 @@ import { getDecimalSeparator, locales, localizeNumberString } from "../../utils/
 import { CSS } from "./resources";
 
 describe("calcite-input", () => {
-  it.skip("is labelable", async () => labelable("calcite-input"));
+  it("is labelable", async () => labelable("calcite-input"));
 
   it("honors form reset", async () => {
     const defaultValue = "defaultValue";
