@@ -84,6 +84,8 @@ export class CalciteSwitch implements LabelableComponent {
 
   private inputEl: HTMLInputElement = document.createElement("input");
 
+  switchEl: HTMLDivElement;
+
   //--------------------------------------------------------------------------
   //
   //  State
@@ -103,7 +105,7 @@ export class CalciteSwitch implements LabelableComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    focusElement(this.inputEl);
+    focusElement(this.switchEl);
   }
 
   //--------------------------------------------------------------------------
@@ -145,6 +147,10 @@ export class CalciteSwitch implements LabelableComponent {
     }
 
     this.toggle();
+  };
+
+  private setSwitchEl = (el: HTMLDivElement): void => {
+    this.switchEl = el;
   };
 
   //--------------------------------------------------------------------------
@@ -204,11 +210,13 @@ export class CalciteSwitch implements LabelableComponent {
   render(): VNode {
     const dir = getElementDir(this.el);
     return (
-      <Host tabindex={this.tabindex}>
+      <Host>
         <div
           aria-checked={this.switched.toString()}
           class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
           onClick={this.clickHandler}
+          ref={this.setSwitchEl}
+          tabindex={this.tabindex}
         >
           <div class="track">
             <div class="handle" />

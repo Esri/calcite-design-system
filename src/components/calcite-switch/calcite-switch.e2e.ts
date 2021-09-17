@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, HYDRATED_ATTR } from "../../tests/commonTests";
+import { accessible, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
 
 describe("calcite-switch", () => {
   it("renders with correct default attributes", async () => {
@@ -11,6 +11,8 @@ describe("calcite-switch", () => {
     expect(calciteSwitch).toHaveAttribute(HYDRATED_ATTR);
     expect(calciteSwitch).toHaveAttribute("switched");
   });
+
+  it("is labelable", async () => labelable("calcite-switch", "switched"));
 
   it("is accessible", async () => accessible(`<calcite-switch></calcite-switch>`));
 
@@ -90,22 +92,6 @@ describe("calcite-switch", () => {
 
     expect(await calciteSwitch.getProperty("switched")).toBe(true);
     expect(await input.getProperty("checked")).toBe(true);
-  });
-
-  it("honors tabindex", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-switch></calcite-switch>`);
-    await page.waitForChanges();
-    const calciteSwitch = await page.find("calcite-switch");
-
-    expect(await calciteSwitch.getProperty("tabIndex")).toBe(0);
-
-    calciteSwitch.setAttribute("tabindex", "-1");
-
-    await page.waitForChanges();
-    await page.waitForChanges();
-
-    expect(await calciteSwitch.getProperty("tabIndex")).toBe(-1);
   });
 
   it("renders requested props", async () => {
