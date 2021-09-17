@@ -1,10 +1,12 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { renders, accessible, focusable } from "../../tests/commonTests";
+import { renders, accessible, focusable, labelable } from "../../tests/commonTests";
 
 describe("calcite-rating", () => {
   it("renders", async () => renders("<calcite-rating></calcite-rating>", { display: "flex" }));
 
   it("should be accessible", async () => accessible(`<calcite-rating></calcite-rating>`));
+
+  it("is labelable", async () => labelable("calcite-rating"));
 
   it("renders outlined star when no value or average is set", async () => {
     const page = await newE2EPage();

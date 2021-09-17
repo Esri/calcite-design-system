@@ -1,8 +1,10 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, HYDRATED_ATTR } from "../../tests/commonTests";
+import { accessible, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-button", () => {
+  it("is labelable", async () => labelable("calcite-button"));
+
   it("renders as a button with default props", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-button>Continue</calcite-button>`);

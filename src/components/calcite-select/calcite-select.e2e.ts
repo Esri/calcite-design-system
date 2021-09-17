@@ -1,5 +1,5 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, focusable, reflects, renders } from "../../tests/commonTests";
+import { accessible, focusable, reflects, renders, labelable } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 import { CSS } from "./resources";
 
@@ -13,6 +13,8 @@ describe("calcite-select", () => {
   `;
 
   it("renders", async () => renders(simpleTestMarkup, { display: "flex" }));
+
+  it("is labelable", async () => labelable("calcite-select"));
 
   it("is accessible", async () => accessible(simpleTestMarkup));
 
