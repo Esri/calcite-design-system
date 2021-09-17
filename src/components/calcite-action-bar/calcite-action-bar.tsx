@@ -16,6 +16,9 @@ import { CSS, SLOTS, TEXT } from "./resources";
 import { getSlotted, focusElement } from "../../utils/dom";
 import { getOverflowCount, overflowActions, queryActions } from "./utils";
 import { createObserver } from "../../utils/observers";
+import { debounce } from "lodash-es";
+
+const resizeDebounceInMs = 150;
 
 /**
  * @slot - A slot for adding `calcite-action`s that will appear at the top of the action bar.
@@ -123,12 +126,6 @@ export class CalciteActionBar {
 
   expandToggleEl: HTMLCalciteActionElement;
 
-  lastActionCount: number;
-
-  lastGroupCount: number;
-
-  lastResizeHeight: number;
-
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -168,7 +165,6 @@ export class CalciteActionBar {
 
   /**
    * Overflows actions that won't fit into menus.
-   * @internal
    */
   @Method()
   async overflowActions(): Promise<void> {
@@ -212,9 +208,8 @@ export class CalciteActionBar {
     this.resize(height);
   };
 
-  resize = (height: number): void => {
-    const { el, expanded, expandDisabled, lastActionCount, lastGroupCount, lastResizeHeight } =
-      this;
+  resize = debounce((height: number): void => {
+    const { el, expanded, expandDisabled } = this;
 
     if (!height) {
       return;
@@ -228,18 +223,6 @@ export class CalciteActionBar {
         ? actionGroups.length + 1
         : actionGroups.length;
 
-    if (
-      lastResizeHeight === height &&
-      lastActionCount === actionCount &&
-      lastGroupCount === groupCount
-    ) {
-      return;
-    }
-
-    this.lastActionCount = actionCount;
-    this.lastGroupCount = groupCount;
-    this.lastResizeHeight = height;
-
     const overflowCount = getOverflowCount({
       actionCount,
       actionHeight: actions[0]?.clientHeight,
@@ -252,7 +235,7 @@ export class CalciteActionBar {
       expanded,
       overflowCount
     });
-  };
+  }, resizeDebounceInMs);
 
   conditionallyOverflowActions = (): void => {
     if (!this.overflowActionsDisabled) {
