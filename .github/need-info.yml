@@ -12,11 +12,14 @@ requiredItems:
       - '### Reproduction Steps and Sample'
       - '### Relevant Info'
   -
-    response: '- Provide a [codepen](https://codepen.io/pen?template=RwgrjEx), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js), or [jsbin](https://jsbin.com/zocobeqopu/edit?html,css,js,output) that reproduces the issue'
+    response: '- Provide a [codepen](https://codepen.io/pen?template=RwgrjEx), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js), or [jsbin](https://jsbin.com/zocobeqopu/edit?html,css,js,output) that reproduces the issue. Alternatively, a [documentation](https://developers.arcgis.com/calcite-design-system/components/) sample can be used if the issue is reproducible.'
     requireAll: false
     content:
       - 'jsbin.com/'
       - 'codepen.io/'
       - 'codesandbox.io/'
+      - 'esri.github.io/calcite-components/?path=/story/components-'
+      - 'esri.github.io/calcite-components/iframe.html?'
+      - 'developers.arcgis.com/calcite-design-system/components/'
 commentFooter: 'This issue will be automatically closed in three days if the information is not provided. Thanks for your understanding.'
 excludeComments: true
