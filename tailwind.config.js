@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 var flattenColorPalette = require("tailwindcss/lib/util/flattenColorPalette").default;
-// testing on js and md files
+
 module.exports = {
   theme: {
     borderColor: (theme) => ({
