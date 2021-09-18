@@ -16,3 +16,5 @@ module.exports = {
   },
   failureExitCode: 0
 };
+
+// testing on js and md files
