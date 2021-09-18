@@ -44,7 +44,7 @@ Removes the currently active `calcite-panel`.
 
 #### Returns
 
-Type: `Promise<HTMLCalcitePanelElement>`
+Type: `Promise<any>`
 
 ## Slots
 
