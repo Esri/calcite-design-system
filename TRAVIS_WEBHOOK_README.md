@@ -27,3 +27,5 @@ notifications:
   webhooks:
     secure: "<generated key>"
 ```
+
+test skip ci hook
