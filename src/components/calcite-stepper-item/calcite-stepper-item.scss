@@ -232,7 +232,6 @@
     mx-0
     mt-0;
   padding-left: var(--calcite-stepper-item-spacing-unit-l);
-  margin-bottom: var(--calcite-stepper-item-spacing-unit-s);
 
   & .stepper-item-icon {
     @apply mt-px mr-0 mb-0 ml-auto order-3;
@@ -244,6 +243,10 @@
   & .stepper-item-content {
     @apply p-0;
   }
+}
+
+:host([layout="vertical"]) {
+  margin-bottom: var(--calcite-stepper-item-spacing-unit-s);
 }
 
 // only show the content for vertical items
