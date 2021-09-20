@@ -735,6 +735,7 @@ export class CalciteSlider implements LabelableComponent {
 
   @Listen("pointerdown")
   pointerDownHandler(event: PointerEvent): void {
+    this.isValueChanged = false;
     const x = event.clientX || event.pageX;
     const position = this.translate(x);
     let prop: ActiveSliderProperty = "value";
@@ -747,7 +748,11 @@ export class CalciteSlider implements LabelableComponent {
         prop = closerToMax || position > this.maxValue ? "maxValue" : "minValue";
       }
     }
+    const current = this[prop];
     this[prop] = this.clamp(position, prop);
+    if (current !== this[prop]) {
+      this.isValueChanged = true;
+    }
     this.dragStart(prop);
   }
 
@@ -828,6 +833,7 @@ export class CalciteSlider implements LabelableComponent {
 
   @State() private tickValues: number[] = [];
 
+  @State() private isValueChanged: boolean;
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -930,7 +936,7 @@ export class CalciteSlider implements LabelableComponent {
     document.removeEventListener("pointercancel", this.dragEnd);
 
     this.focusActiveHandle();
-    this.emitChange();
+    this.isValueChanged && this.emitChange();
     this.dragProp = null;
     this.minValueDragRange = null;
     this.maxValueDragRange = null;
