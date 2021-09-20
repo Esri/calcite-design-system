@@ -233,7 +233,7 @@ export class CalcitePanel {
         key="back-button"
         onClick={backButtonClick}
         ref={this.setBackRef}
-        scale="m"
+        scale="s"
         slot={SLOTS.headerActionsStart}
         text={label}
       />
