@@ -735,7 +735,7 @@ export class CalciteSlider {
         prop = "minMaxValue";
       } else {
         const closerToMax = Math.abs(this.maxValue - position) < Math.abs(this.minValue - position);
-        prop = closerToMax ? "maxValue" : "minValue";
+        prop = closerToMax || position > this.maxValue ? "maxValue" : "minValue";
       }
     }
     this[prop] = this.clamp(position, prop);
