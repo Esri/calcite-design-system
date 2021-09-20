@@ -17,7 +17,7 @@ If you aren't familiar with the basics of WebComponents and Shadow DOM please re
 
 ### Before filing an issue
 
-If something isn't working the way you expect, please take a look at the [existing issues](https://github.com/Esri/calcite-components/issues) before logging a new one. Have you found a new bug? Want to request a new feature? We'd love to hear from you! Please make sure to provide all of the requested info from the appropriate [issue template](https://github.com/Esri/calcite-components/issues/new/choose) so we can work on resolving the issue as soon as possible. A sample that reproduces the issue is required for logging bugs, we created templates in [codepen](https://codepen.io/pen?template=RwgrjEx), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js), and [jsbin](https://jsbin.com/lopumatiru/edit?html,output) (with the ArcGIS API for JavaScript) to help get started.
+If something isn't working the way you expect, please take a look at the [existing issues](https://github.com/Esri/calcite-components/issues) before logging a new one. Have you found a new bug? Want to request a new feature? We'd love to hear from you! Please make sure to provide all of the requested info from the appropriate [issue template](https://github.com/Esri/calcite-components/issues/new/choose) so we can work on resolving the issue as soon as possible. A sample that reproduces the issue is required for logging bugs, we created templates in [codepen](https://codepen.io/pen?template=RwgrjEx), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js), and [jsbin](https://jsbin.com/lopumatiru/edit?html,output) (with the ArcGIS API for JavaScript) to help get started. Alternatively, a [documentation](https://developers.arcgis.com/calcite-design-system/components/) sample can be used if the issue is reproducible.
 
 ### Getting a development environment set up
 
@@ -82,50 +82,3 @@ storiesOf('My component', module)
     <my-component demo-prop="${boolean("demo-prop", true)}"></my-component>
   , { notes })`
 ```
-
-### Deploying documentation
-
-We deploy the docs with [storybook deployer](https://github.com/storybookjs/storybook-deployer).
-
-1. Make sure your changes have landed in `master`
-2. Use `npm run release:docs` to build the docs and deploy to gh-pages
-
-### Release process
-
-To release a new version of Calcite Components you must:
-
-1. Be a member of the [@esri](https://www.npmjs.com/org/esri) organization on npm.
-1. Be a member of the admin team for [Calcite Components](https://github.com/Esri/calcite-components).
-1. Make sure you have a remote named `origin` pointing to [Esri/calcite-components](https://github.com/Esri/calcite-components).
-1. Ensure you have set up an access token (see below)
-1. Run `npm run release:prepare`. This script will:
-
-- Create a build
-- Run all the tests
-- Update the package version
-- Create a changelog entry for the current release
-- Create a commit and tag it - ⚠️ **Note** if you need to make changes after this step, make sure to amend the commit (`git commit --amend`) and recreate the tag (`git tag --force <version>`)
-
-1. Run `npm run release:publish`. This script will:
-
-- Push the release tag to the repo
-- Publish to NPM
-- Publish to GitHub (including source and package)
-
-1. Lastly, run `npm run release:docs` to update the docs. This script will:
-
-- Create the component doc
-- Create the storybook build
-- Push all doc content to the `gh-pages` branch
-
-  **Note**: this script can be run anytime the docs need to be updated
-
-### Setting up an access token for release
-
-In order for the release script to work, you'll need to generate an access token with GitHub and export it into your shell environment as `GH_RELEASE_GITHUB_API_TOKEN`. First, [generate a token](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token), then copy that token and add it to your `bash_profile` (`~/.bash_profile` on Mac):
-
-```
-export GH_RELEASE_GITHUB_API_TOKEN=PASTE_TOKEN_HERE
-```
-
-You may need to start a new terminal window to apply the profile changes.
