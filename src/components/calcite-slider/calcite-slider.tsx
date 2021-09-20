@@ -114,11 +114,8 @@ export class CalciteSlider {
   componentWillLoad(): void {
     this.isRange = !!(this.maxValue || this.maxValue === 0);
     this.tickValues = this.generateTickValues();
+    this.zeroTickIndex = this.tickValues.findIndex((tickValue) => tickValue === 0);
     this.tickOffsets = this.generateTickOffsets(this.tickValues);
-    this.zeroTickIndex = this.tickValues.findIndex((tick) => tick === 0);
-    if (this.isRange && !this.hasHistogram) {
-      this.setZeroTickLocation(this.tickOffsets, this.zeroTickIndex);
-    }
     this.value = this.clamp(this.value);
     if (this.snap) {
       this.value = this.getClosestStep(this.value);
@@ -148,14 +145,20 @@ export class CalciteSlider {
     const max = this.maxValue || this.value;
     const maxProp = this.isRange ? "maxValue" : "value";
     const value = this[maxProp];
-    const valueForLabeledHandle = value ? value.toLocaleString() : value;
+    const valueForLabeledHandle = value && value.toLocaleString();
     const minValueForLabeledHandle = this.minValue && this.minValue.toLocaleString();
     const minInterval = this.getUnitInterval(min) * 100;
     const maxInterval = this.getUnitInterval(max) * 100;
     const mirror = this.shouldMirror();
-    const leftThumbOffset = `${mirror ? 100 - minInterval : minInterval}%`;
     const rightThumbOffset = `${mirror ? maxInterval : 100 - maxInterval}%`;
-    const leftThumbOffsetWithZero = this.determineLeftThumbOffset(minInterval);
+    this.minValueZeroFlag = !!(this.isRange && !this.hasHistogram && this.minValue === 0);
+    let leftThumbOffset = `${mirror ? 100 - minInterval : minInterval}%`;
+    if (this.minValueZeroFlag && !mirror) {
+      leftThumbOffset = this.tickOffsets[this.zeroTickIndex];
+    }
+    if (this.minValueZeroFlag && mirror) {
+      leftThumbOffset = `${100 - Number(this.tickOffsets[this.zeroTickIndex].replace("%", ""))}%`;
+    }
 
     const handle = (
       <button
@@ -411,7 +414,7 @@ export class CalciteSlider {
         onPointerDown={() => this.dragStart("minValue")}
         ref={(el) => (this.minHandle = el as HTMLButtonElement)}
         role="slider"
-        style={{ left: leftThumbOffsetWithZero }}
+        style={{ left: leftThumbOffset }}
       >
         <div class={CSS.handle} />
       </button>
@@ -435,7 +438,7 @@ export class CalciteSlider {
         onPointerDown={() => this.dragStart("minValue")}
         ref={(el) => (this.minHandle = el as HTMLButtonElement)}
         role="slider"
-        style={{ left: leftThumbOffsetWithZero }}
+        style={{ left: leftThumbOffset }}
       >
         <span
           aria-hidden="true"
@@ -528,7 +531,7 @@ export class CalciteSlider {
         onPointerDown={() => this.dragStart("minValue")}
         ref={(el) => (this.minHandle = el as HTMLButtonElement)}
         role="slider"
-        style={{ left: leftThumbOffsetWithZero }}
+        style={{ left: leftThumbOffset }}
       >
         <div class={CSS.handleExtension} />
         <div class={CSS.handle} />
@@ -554,7 +557,7 @@ export class CalciteSlider {
         onPointerDown={() => this.dragStart("minValue")}
         ref={(el) => (this.minHandle = el as HTMLButtonElement)}
         role="slider"
-        style={{ left: leftThumbOffsetWithZero }}
+        style={{ left: leftThumbOffset }}
       >
         <div class={CSS.handleExtension} />
         <div class={CSS.handle} />
@@ -643,7 +646,7 @@ export class CalciteSlider {
         {this.tickValues.map((tick) => {
           const tickOffset = `${this.getUnitInterval(tick) * 100}%`;
           let activeTicks = tick >= min && tick <= max;
-          if (this.isRange && !this.hasHistogram && this.zeroTickLocation) {
+          if (this.minValueZeroFlag) {
             activeTicks = tick >= this.minValue && tick <= this.maxValue;
           }
           return (
@@ -812,7 +815,7 @@ export class CalciteSlider {
         prop = "minMaxValue";
       } else {
         const closerToMax = Math.abs(this.maxValue - position) < Math.abs(this.minValue - position);
-        prop = closerToMax ? "maxValue" : "minValue";
+        prop = closerToMax || position > this.maxValue ? "maxValue" : "minValue";
       }
     }
     this[prop] = this.clamp(position, prop);
@@ -877,9 +880,9 @@ export class CalciteSlider {
 
   private maxHandle: HTMLButtonElement;
 
-  private zeroTickIndex: number;
+  private minValueZeroFlag = false;
 
-  private zeroTickLocation: string;
+  private zeroTickIndex: number;
 
   @State() private activeProp: ActiveSliderProperty = "value";
 
@@ -908,7 +911,13 @@ export class CalciteSlider {
     let current = this.min;
     while (this.ticks && current < this.max + this.ticks) {
       ticks.push(current);
-      current = current + this.ticks;
+      // match tick label formatting; handle binary floating point numbers not mapping correctly to decimals (precision loss with `number` type)
+      // https://v8.dev/features/bigint
+      const currentWithTick = (current + this.ticks).toLocaleString();
+      current = Number(currentWithTick);
+    }
+    if (this.shouldMirror()) {
+      return ticks.reverse();
     }
     return ticks;
   }
@@ -1294,39 +1303,10 @@ export class CalciteSlider {
    * Get tick offsets as percentages on track
    * @internal
    */
-  private generateTickOffsets(ticks: number[]): string[] {
+  private generateTickOffsets(tickValues: number[]): string[] {
     const tickOffsets = [];
-    ticks.map((tick) => {
-      const tickOffset = `${this.getUnitInterval(tick) * 100}%`;
-      tickOffsets.push(tickOffset);
-    });
+    tickValues.map((tick) => tickOffsets.push(`${this.getUnitInterval(tick) * 100}%`));
     return tickOffsets;
-  }
-
-  /**
-   * Get location of zero tick
-   * @internal
-   */
-  private setZeroTickLocation(tickOffsets: string[], zeroTickIndex: number): string {
-    if (zeroTickIndex === -1) {
-      return;
-    }
-    return !this.shouldMirror()
-      ? (this.zeroTickLocation = tickOffsets[zeroTickIndex])
-      : (this.zeroTickLocation = tickOffsets.reverse()[zeroTickIndex]);
-  }
-
-  /**
-   * Get left percentage for placing range thumb minValue
-   * @internal
-   */
-  private determineLeftThumbOffset(minInterval: number): string {
-    if (!this.isRange) {
-      return;
-    }
-    return this.minValue === 0 && this.zeroTickLocation
-      ? this.zeroTickLocation
-      : `${this.shouldMirror() ? 100 - minInterval : minInterval}%`;
   }
 
   /**
@@ -1340,11 +1320,8 @@ export class CalciteSlider {
   ): { left: string; right: string } {
     let minInterval = this.getUnitInterval(min) * 100;
 
-    if (this.minValue === 0 && !mirror && !this.hasHistogram) {
-      minInterval = Number(this.zeroTickLocation.replace("%", ""));
-    }
-    if (this.minValue === 0 && mirror && !this.hasHistogram) {
-      minInterval = 100 - Number(this.zeroTickLocation.replace("%", ""));
+    if (this.minValueZeroFlag) {
+      minInterval = Number(this.tickOffsets[this.zeroTickIndex].replace("%", ""));
     }
 
     return {
