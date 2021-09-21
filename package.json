@@ -27,6 +27,7 @@
     "lint:js": "eslint --ext .js --fix . && prettier --write \"**/*.js\"",
     "lint:json": "prettier --write \"**/*.json\"",
     "lint:md": "prettier --write \"**/*.md\"",
+    "lint:yml": "prettier --write \"**/*.yml\"",
     "lint:scss": "stylelint --fix \"src/**/*.scss\" && prettier --write \"**/*.scss\"",
     "lint:ts": "eslint --ext .ts,.tsx --fix . && prettier --write \"**/*.ts?(x)\"",
     "posttest": "npm run test:prerender",
