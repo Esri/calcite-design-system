@@ -352,6 +352,31 @@
       </div>
     </div>
 
+    <!-- Color -->
+    <div class="parent-flex">
+      <div class="child-flex font right-aligned-text">Color Picker</div>
+      <div class="child-flex">
+        <calcite-label>
+          Color input
+          <calcite-input type="color" value="#ff0000" scale="s"></calcite-input>
+        </calcite-label>
+      </div>
+
+      <div class="child-flex">
+        <calcite-label>
+          Color input
+          <calcite-input type="color" value="#ff0000" scale="m"></calcite-input>
+        </calcite-label>
+      </div>
+
+      <div class="child-flex">
+        <calcite-label>
+          Color input
+          <calcite-input type="color" value="#ff0000" scale="l"></calcite-input>
+        </calcite-label>
+      </div>
+    </div>
+
     <!-- File upload -->
     <div class="parent-flex">
       <div class="child-flex font right-aligned-text">File upload</div>
@@ -964,6 +989,34 @@
             prefix-text="Prefix"
             suffix-text="Suffix"
           ></calcite-input>
+          <calcite-input-message scale="l" active icon> Error message </calcite-input-message>
+        </calcite-label>
+      </div>
+    </div>
+
+    <!-- Color -->
+    <div class="parent-flex">
+      <div class="child-flex font right-aligned-text">Color</div>
+      <div class="child-flex">
+        <calcite-label status="invalid">
+          Input Label
+          <calcite-input type="color" value="#0000ff" scale="s"></calcite-input>
+          <calcite-input-message scale="s" active icon> Error message </calcite-input-message>
+        </calcite-label>
+      </div>
+
+      <div class="child-flex">
+        <calcite-label status="invalid">
+          Input Label
+          <calcite-input type="color" value="#0000ff" scale="m"></calcite-input>
+          <calcite-input-message scale="m" active icon> Error message </calcite-input-message>
+        </calcite-label>
+      </div>
+
+      <div class="child-flex">
+        <calcite-label status="invalid">
+          Input Label
+          <calcite-input type="color" value="#0000ff" scale="l"></calcite-input>
           <calcite-input-message scale="l" active icon> Error message </calcite-input-message>
         </calcite-label>
       </div>

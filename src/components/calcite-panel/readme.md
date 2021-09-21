@@ -97,6 +97,8 @@ Renders a panel with a header and a footer.
 
 ### `setFocus(focusId?: "dismiss-button" | "back-button") => Promise<void>`
 
+Sets focus on the component.
+
 #### Returns
 
 Type: `Promise<void>`

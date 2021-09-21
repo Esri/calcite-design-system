@@ -1,3 +1,15 @@
 :host {
   @apply flex;
 }
+
+.container {
+  @apply flex flex-auto;
+}
+
+.container--vertical {
+  @apply flex-col;
+}
+
+.container--horizontal {
+  @apply flex-row;
+}

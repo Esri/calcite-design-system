@@ -45,17 +45,23 @@
 
 ### `reposition() => Promise<void>`
 
+Updates the position of the component.
+
 #### Returns
 
 Type: `Promise<void>`
 
 ### `setFocus(focusId?: "close-button") => Promise<void>`
 
+Sets focus on the component.
+
 #### Returns
 
 Type: `Promise<void>`
 
 ### `toggle(value?: boolean) => Promise<void>`
+
+Toggles the popover's open property.
 
 #### Returns
 

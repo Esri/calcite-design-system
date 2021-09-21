@@ -286,6 +286,7 @@ export class CalciteTimePicker {
   //
   //--------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(target: TimePart): Promise<void> {
     this[`${target || "hour"}El`]?.focus();
@@ -311,11 +312,7 @@ export class CalciteTimePicker {
     let newValue;
     if (isValidNumber(this[key])) {
       const valueAsNumber = parseInt(this[key]);
-      if (valueAsNumber === 0) {
-        newValue = 59;
-      } else {
-        newValue = valueAsNumber - 1;
-      }
+      newValue = valueAsNumber === 0 ? 59 : valueAsNumber - 1;
     } else {
       newValue = 59;
     }
@@ -358,11 +355,10 @@ export class CalciteTimePicker {
       if (isValidNumber(this.hour)) {
         switch (this.hourCycle) {
           case "12":
-            if (this.hour === "01" && keyAsNumber >= 0 && keyAsNumber <= 2) {
-              newHour = `1${keyAsNumber}`;
-            } else {
-              newHour = keyAsNumber;
-            }
+            newHour =
+              this.hour === "01" && keyAsNumber >= 0 && keyAsNumber <= 2
+                ? `1${keyAsNumber}`
+                : keyAsNumber;
             break;
           case "24":
             if (this.hour === "01") {
@@ -489,11 +485,10 @@ export class CalciteTimePicker {
       let newMinute;
       if (isValidNumber(this.minute) && this.minute.startsWith("0")) {
         const minuteAsNumber = parseInt(this.minute);
-        if (minuteAsNumber > maxTenthForMinuteAndSecond) {
-          newMinute = keyAsNumber;
-        } else {
-          newMinute = `${minuteAsNumber}${keyAsNumber}`;
-        }
+        newMinute =
+          minuteAsNumber > maxTenthForMinuteAndSecond
+            ? keyAsNumber
+            : `${minuteAsNumber}${keyAsNumber}`;
       } else {
         newMinute = keyAsNumber;
       }
@@ -539,11 +534,10 @@ export class CalciteTimePicker {
       let newSecond;
       if (isValidNumber(this.second) && this.second.startsWith("0")) {
         const secondAsNumber = parseInt(this.second);
-        if (secondAsNumber > maxTenthForMinuteAndSecond) {
-          newSecond = keyAsNumber;
-        } else {
-          newSecond = `${secondAsNumber}${keyAsNumber}`;
-        }
+        newSecond =
+          secondAsNumber > maxTenthForMinuteAndSecond
+            ? keyAsNumber
+            : `${secondAsNumber}${keyAsNumber}`;
       } else {
         newSecond = keyAsNumber;
       }
@@ -648,11 +642,10 @@ export class CalciteTimePicker {
       this[`localized${capitalize(key)}`] = localizeTimePart(this[key], key, this.locale);
     }
     if (this.hour && this.minute) {
-      if (this.second && this.showSecond) {
-        this.value = `${this.hour}:${this.minute}:${this.second}`;
-      } else {
-        this.value = `${this.hour}:${this.minute}:00`;
-      }
+      this.value =
+        this.second && this.showSecond
+          ? `${this.hour}:${this.minute}:${this.second}`
+          : `${this.hour}:${this.minute}:00`;
     } else {
       this.value = null;
     }

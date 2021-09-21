@@ -195,6 +195,7 @@ export class CalcitePanel {
   //
   // --------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(focusId?: "dismiss-button" | "back-button"): Promise<void> {
     if (focusId === "dismiss-button") {
@@ -232,7 +233,7 @@ export class CalcitePanel {
         key="back-button"
         onClick={backButtonClick}
         ref={this.setBackRef}
-        scale="m"
+        scale="s"
         slot={SLOTS.headerActionsStart}
         text={label}
       />

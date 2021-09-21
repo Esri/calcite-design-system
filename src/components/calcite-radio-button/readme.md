@@ -19,10 +19,8 @@
 | -------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------- | ------------------- | ----------- |
 | `checked`            | `checked`  | The checked state of the radio button.                                                                                 | `boolean`           | `false`     |
 | `disabled`           | `disabled` | The disabled state of the radio button.                                                                                | `boolean`           | `false`     |
-| `focused`            | `focused`  | The focused state of the radio button.                                                                                 | `boolean`           | `false`     |
 | `guid`               | `guid`     | The id attribute of the radio button. When omitted, a globally unique identifier is used.                              | `string`            | `undefined` |
 | `hidden`             | `hidden`   | The radio button's hidden status. When a radio button is hidden it is not focusable or checkable.                      | `boolean`           | `false`     |
-| `hovered`            | `hovered`  | The hovered state of the radio button.                                                                                 | `boolean`           | `false`     |
 | `name`               | `name`     | The name of the radio button. `name` is passed as a property automatically from `calcite-radio-button-group`.          | `string`            | `undefined` |
 | `required`           | `required` | Requires that a value is selected for the radio button group before the parent form will submit.                       | `boolean`           | `false`     |
 | `scale`              | `scale`    | The scale (size) of the radio button. `scale` is passed as a property automatically from `calcite-radio-button-group`. | `"l" \| "m" \| "s"` | `"m"`       |
@@ -37,6 +35,8 @@
 ## Methods
 
 ### `setFocus() => Promise<void>`
+
+Sets focus on the component.
 
 #### Returns
 

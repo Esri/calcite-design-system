@@ -66,7 +66,7 @@ export class CalciteSlider {
   /** Maximum selectable value */
   @Prop({ reflect: true }) max = 100;
 
-  /** Label for second handle if needed (ex. "Temperature, upper bound") */
+  /** Used as an accessible label (aria-label) for second handle if needed (ex. "Temperature, upper bound") */
   @Prop() maxLabel?: string;
 
   /** Currently selected upper number (if multi-select) */
@@ -75,7 +75,7 @@ export class CalciteSlider {
   /** Minimum selectable value */
   @Prop({ reflect: true }) min = 0;
 
-  /** Label for first (or only) handle (ex. "Temperature, lower bound") */
+  /** Used as an accessible label (aria-label) for first (or only) handle (ex. "Temperature, lower bound") */
   @Prop() minLabel: string;
 
   /** Currently selected lower number (if multi-select) */
@@ -121,7 +121,6 @@ export class CalciteSlider {
     if (this.histogram) {
       this.hasHistogram = true;
     }
-    this.emitChange();
   }
 
   componentDidRender(): void {
@@ -143,7 +142,8 @@ export class CalciteSlider {
     const max = this.maxValue || this.value;
     const maxProp = this.isRange ? "maxValue" : "value";
     const value = this[maxProp];
-    const minInterval = this.getUnitInterval(min) * 100;
+    const useMinValue = this.shouldUseMinValue();
+    const minInterval = this.getUnitInterval(useMinValue ? this.minValue : min) * 100;
     const maxInterval = this.getUnitInterval(max) * 100;
     const mirror = this.shouldMirror();
     const leftThumbOffset = `${mirror ? 100 - minInterval : minInterval}%`;
@@ -528,12 +528,16 @@ export class CalciteSlider {
             <div class="ticks">
               {this.tickValues.map((tick) => {
                 const tickOffset = `${this.getUnitInterval(tick) * 100}%`;
+                let activeTicks = tick >= min && tick <= max;
+                if (useMinValue) {
+                  activeTicks = tick >= this.minValue && tick <= this.maxValue;
+                }
 
                 return (
                   <span
                     class={{
                       tick: true,
-                      "tick--active": tick >= min && tick <= max
+                      "tick--active": activeTicks
                     }}
                     style={{
                       left: mirror ? "" : tickOffset,
@@ -735,7 +739,7 @@ export class CalciteSlider {
         prop = "minMaxValue";
       } else {
         const closerToMax = Math.abs(this.maxValue - position) < Math.abs(this.minValue - position);
-        prop = closerToMax ? "maxValue" : "minValue";
+        prop = closerToMax || position > this.maxValue ? "maxValue" : "minValue";
       }
     }
     this[prop] = this.clamp(position, prop);
@@ -818,6 +822,10 @@ export class CalciteSlider {
 
   private shouldMirror(): boolean {
     return this.mirrored && !this.hasHistogram;
+  }
+
+  private shouldUseMinValue(): boolean {
+    return this.isRange && !this.hasHistogram && this.minValue === 0;
   }
 
   private generateTickValues(): number[] {
@@ -1026,11 +1034,10 @@ export class CalciteSlider {
       if (rightValueLabelStaticHostOffset === 0 && leftValueLabelStaticHostOffset === 0) {
         // Neither handle overlaps the host boundary
         let leftValueLabelTranslate = labelTransformedOverlap / 2 - labelOffset;
-        if (Math.sign(leftValueLabelTranslate) === -1) {
-          leftValueLabelTranslate = Math.abs(leftValueLabelTranslate);
-        } else {
-          leftValueLabelTranslate = -leftValueLabelTranslate;
-        }
+        leftValueLabelTranslate =
+          Math.sign(leftValueLabelTranslate) === -1
+            ? Math.abs(leftValueLabelTranslate)
+            : -leftValueLabelTranslate;
 
         const leftValueLabelTransformedHostOffset = this.getHostOffset(
           leftValueLabelTransformed.getBoundingClientRect().left +
@@ -1078,11 +1085,10 @@ export class CalciteSlider {
         // labels overlap host boundary on the right side
         let leftValueLabelTranslate =
           Math.abs(leftValueLabelStaticHostOffset) + labelTransformedOverlap - labelOffset;
-        if (Math.sign(leftValueLabelTranslate) === -1) {
-          leftValueLabelTranslate = Math.abs(leftValueLabelTranslate);
-        } else {
-          leftValueLabelTranslate = -leftValueLabelTranslate;
-        }
+        leftValueLabelTranslate =
+          Math.sign(leftValueLabelTranslate) === -1
+            ? Math.abs(leftValueLabelTranslate)
+            : -leftValueLabelTranslate;
         leftValueLabel.style.transform = `translateX(${leftValueLabelTranslate}px)`;
         leftValueLabelTransformed.style.transform = `translateX(${
           leftValueLabelTranslate - labelOffset
@@ -1130,35 +1136,21 @@ export class CalciteSlider {
       this.el.shadowRoot.querySelector(".tick__label--max");
 
     if (!minHandle && maxHandle && minTickLabel && maxTickLabel) {
-      if (this.isMinTickLabelObscured(minTickLabel, maxHandle)) {
-        minTickLabel.style.opacity = "0";
-      } else {
-        minTickLabel.style.opacity = "1";
-      }
-      if (this.isMaxTickLabelObscured(maxTickLabel, maxHandle)) {
-        maxTickLabel.style.opacity = "0";
-      } else {
-        maxTickLabel.style.opacity = "1";
-      }
+      minTickLabel.style.opacity = this.isMinTickLabelObscured(minTickLabel, maxHandle) ? "0" : "1";
+      maxTickLabel.style.opacity = this.isMaxTickLabelObscured(maxTickLabel, maxHandle) ? "0" : "1";
     }
 
     if (minHandle && maxHandle && minTickLabel && maxTickLabel) {
-      if (
+      minTickLabel.style.opacity =
         this.isMinTickLabelObscured(minTickLabel, minHandle) ||
         this.isMinTickLabelObscured(minTickLabel, maxHandle)
-      ) {
-        minTickLabel.style.opacity = "0";
-      } else {
-        minTickLabel.style.opacity = "1";
-      }
-      if (
+          ? "0"
+          : "1";
+      maxTickLabel.style.opacity =
         this.isMaxTickLabelObscured(maxTickLabel, minHandle) ||
         (this.isMaxTickLabelObscured(maxTickLabel, maxHandle) && this.hasHistogram)
-      ) {
-        maxTickLabel.style.opacity = "0";
-      } else {
-        maxTickLabel.style.opacity = "1";
-      }
+          ? "0"
+          : "1";
     }
   }
 
