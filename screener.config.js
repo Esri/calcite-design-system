@@ -14,6 +14,5 @@ module.exports = {
     minLayoutDimension: 1,
     minLayoutPosition: 1
   },
-  failureExitCode: 0,
-  includeRules: [/Components\/Popover/, /Components\/Tooltip/]
+  failureExitCode: 0
 };
