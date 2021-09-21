@@ -1,4 +1,4 @@
-name: 'Need Info - Verify'
+name: "Need Info - Verify"
 on:
   issues:
     types: [labeled, edited]
