@@ -17,6 +17,7 @@ import { getKey } from "../../utils/key";
 import { ColorStop, DataSeries } from "../calcite-graph/interfaces";
 import { hasLabel, intersects } from "../../utils/dom";
 import { clamp } from "../../utils/math";
+import { Scale } from "../interfaces";
 
 type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 
@@ -105,6 +106,11 @@ export class CalciteSlider {
 
   /** Currently selected number (if single select) */
   @Prop({ reflect: true, mutable: true }) value: null | number = null;
+
+  /**
+   * Specify the scale of the slider, defaults to m
+   */
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   //--------------------------------------------------------------------------
   //

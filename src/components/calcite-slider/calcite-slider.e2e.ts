@@ -9,6 +9,42 @@ describe("calcite-slider", () => {
       {
         propertyName: "mirrored",
         defaultValue: false
+      },
+      {
+        propertyName: "disabled",
+        defaultValue: false
+      },
+      {
+        propertyName: "hasHistogram",
+        defaultValue: false
+      },
+      {
+        propertyName: "max",
+        defaultValue: 100
+      },
+      {
+        propertyName: "min",
+        defaultValue: 0
+      },
+      {
+        propertyName: "mirrored",
+        defaultValue: false
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m"
+      },
+      {
+        propertyName: "snap",
+        defaultValue: false
+      },
+      {
+        propertyName: "step",
+        defaultValue: 1
+      },
+      {
+        propertyName: "value",
+        defaultValue: 0
       }
     ]));
 

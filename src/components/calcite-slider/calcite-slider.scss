@@ -1,6 +1,28 @@
+:host([scale="s"]) .container {
+  --calcite-slider-handle-size: 10px;
+
+  .thumb {
+    --calcite-slider-thumb-offset: -6px;
+  }
+}
+:host([scale="m"]) .container {
+  --calcite-slider-handle-size: 14px;
+
+  .thumb {
+    --calcite-slider-thumb-offset: -8px;
+  }
+}
+:host([scale="l"]) .container {
+  --calcite-slider-handle-size: 16px;
+
+  .thumb {
+    --calcite-slider-thumb-offset: -10px;
+  }
+}
+
 $thumb-size: 28px;
-$handle-size: 14px;
-$thumb-padding: ($thumb-size - $handle-size) / 2;
+// $handle-size: 14px;
+$thumb-padding: calc(calc($thumb-size - var(--calcite-slider-handle-size)) / 2);
 $track-height: 2px;
 $tick-height: 4px;
 
@@ -19,8 +41,8 @@ $tick-height: 4px;
 
 .container {
   @apply block relative;
-  padding: $handle-size / 2 0;
-  margin: $handle-size / 2 theme("margin.2");
+  padding: calc(var(--calcite-slider-handle-size) / 2) 0;
+  margin: calc(var(--calcite-slider-handle-size) / 2) theme("margin.2");
 }
 
 :host([disabled]) {
@@ -40,20 +62,20 @@ $tick-height: 4px;
  * with text elements to prevent overlap
  */
 :host([label-handles]) .container,
-:host([precise]:not([precise="false"])) .container {
-  margin-top: $handle-size + $thumb-padding;
+:host([precise]) .container {
+  margin-top: calc(var(--calcite-slider-handle-size) + $thumb-padding);
 }
 
 :host([label-ticks]),
-:host([precise]:not([precise="false"])) .container--range {
-  margin-bottom: $handle-size + $thumb-padding;
+:host([precise]) .container--range {
+  margin-bottom: calc(var(--calcite-slider-handle-size) + $thumb-padding);
 }
 
-:host([precise]:not([precise="false"])[label-handles]) .container {
+:host([precise][label-handles]) .container {
   margin-top: $thumb-size + $thumb-padding;
 }
 
-:host([precise]:not([precise="false"])[label-handles]) .container--range {
+:host([precise][label-handles]) .container--range {
   margin-bottom: $thumb-size + $thumb-padding;
 }
 
@@ -69,8 +91,8 @@ $tick-height: 4px;
     flex-col
     items-center;
   font-family: inherit;
-  z-index: 2;
-  transform: translate(7px, -8px);
+  // z-index: 2;
+  transform: translate(7px, var(--calcite-slider-thumb-offset));
 
   .handle__label {
     @include font-size(-4);
@@ -94,8 +116,8 @@ $tick-height: 4px;
 
   .handle {
     @include focus-style-base();
-    height: $handle-size;
-    width: $handle-size;
+    height: var(--calcite-slider-handle-size);
+    width: var(--calcite-slider-handle-size);
     box-sizing: border-box;
     border-radius: 100%;
     background-color: var(--calcite-ui-foreground-1);
@@ -129,7 +151,7 @@ $tick-height: 4px;
   }
 }
 .thumb--minValue {
-  transform: translate(-7px, -8px);
+  transform: translate(-7px, var(--calcite-slider-thumb-offset));
 }
 /* uncomment for helpful debugging UI */
 // :host([debug]) {
@@ -166,91 +188,100 @@ $tick-height: 4px;
   .thumb--minValue {
     transform: translate(-50%, -25px);
   }
+  &:host([scale="s"]:not([has-histogram])) .thumb {
+    transform: translate(50%, -23px);
+  }
+  &:host([scale="s"]:not([has-histogram])) .thumb--minValue {
+    transform: translate(-50%, -23px);
+  }
 }
 :host([has-histogram][label-handles]) {
   .thumb {
-    transform: translate(50%, -8px);
+    transform: translate(50%, var(--calcite-slider-thumb-offset));
     .handle__label {
       margin-bottom: unset;
       margin-top: 5px;
     }
   }
   .thumb--minValue {
-    transform: translate(-50%, -8px);
+    transform: translate(-50%, var(--calcite-slider-thumb-offset));
   }
 }
-:host([precise]:not([precise="false"])) {
-  .thumb {
-    transform: translate(7px, -21px);
-  }
+:host([precise]) {
+  // .thumb {
+  //   //transform: translate(7px, -21px);
+  // }
   .thumb--minValue {
-    transform: translate(-7px, -2px);
+    // transform: translate(-7px, -2px);
     .handle__label {
       margin-bottom: unset;
       margin-top: 5px;
     }
   }
 }
-:host([has-histogram][precise]:not([precise="false"])) {
-  .thumb {
-    transform: translate(7px, -2px);
-  }
-  .thumb--minValue {
-    transform: translate(-50%, -2px);
-  }
-}
-:host([ticks][precise]:not([precise="false"])) {
-  .thumb {
-    transform: translate(7px, -20px);
-  }
-  .thumb--minValue {
-    transform: translate(-7px, -3px);
-  }
-}
-:host([has-histogram][ticks][precise]:not([precise="false"])) {
-  .thumb {
-    transform: translate(7px, -3px);
-  }
-  .thumb--minValue {
-    transform: translate(-50%, -3px);
-  }
-}
-:host([label-handles][precise]:not([precise="false"])) {
-  .thumb {
-    transform: translate(50%, -38px);
-  }
-  .thumb--minValue {
-    transform: translate(-50%, -2px);
-  }
-}
-:host([has-histogram][label-handles][precise]:not([precise="false"])) {
-  .thumb {
-    transform: translate(50%, -2px);
-  }
-  .thumb--minValue {
-    transform: translate(-50%, -2px);
+// :host([has-histogram][precise]) {
+//   .thumb {
+//     //transform: translate(7px, -2px);
+//   }
+//   .thumb--minValue {
+//     //transform: translate(-50%, -2px);
+//   }
+// }
+// :host([ticks][precise]) {
+//   .thumb {
+//     //transform: translate(7px, -20px);
+//   }
+//   .thumb--minValue {
+//     //transform: translate(-7px, -3px);
+//   }
+// }
+// :host([has-histogram][ticks][precise]) {
+//   .thumb {
+//     //transform: translate(7px, -3px);
+//   }
+//   .thumb--minValue {
+//     //transform: translate(-50%, -3px);
+//   }
+// }
+:host([label-handles][precise]) {
+  // .thumb {
+  //   //transform: translate(50%, -38px);
+  // }
+  // .thumb--minValue {
+  //   //transform: translate(-50%, -2px);
+  // }
+  &:host(:not([has-histogram])) .thumb--minValue {
+    transform: translate(-50%, var(--calcite-slider-thumb-offset));
   }
 }
-:host([ticks][label-handles][precise]:not([precise="false"])) {
-  .thumb {
-    transform: translate(50%, -37px);
-  }
-  .thumb--minValue {
-    transform: translate(-50%, -3px);
-  }
-}
-:host([has-histogram][ticks][label-handles][precise]:not([precise="false"])) {
-  .thumb {
-    transform: translate(50%, -3px);
-  }
-  .thumb--minValue {
-    transform: translate(-50%, -3px);
-  }
-}
+// :host([has-histogram][label-handles][precise]) {
+//   .thumb {
+//     //transform: translate(50%, -2px);
+//   }
+//   .thumb--minValue {
+//     //transform: translate(-50%, -2px);
+//   }
+// }
+// :host([ticks][label-handles][precise]) {
+//   .thumb {
+//     //transform: translate(50%, -37px);
+//   }
+//   .thumb--minValue {
+//     //transform: translate(-50%, -3px);
+//   }
+// }
+// :host([has-histogram][ticks][label-handles][precise]) {
+//   .thumb {
+//     //transform: translate(50%, -3px);
+//   }
+//   .thumb--minValue {
+//     //transform: translate(-50%, -3px);
+//   }
+// }
 
 .thumb:focus,
 .thumb--active {
-  z-index: 3;
+  // z-index: 3;
   .handle {
     background-color: var(--calcite-ui-brand);
     @include shadow(1, "press");
@@ -266,7 +297,7 @@ $tick-height: 4px;
 .track {
   height: $track-height;
   border-radius: 0;
-  z-index: 1;
+  // z-index: 1;
   background-color: var(--calcite-ui-border-2);
   transition: all 250ms ease-in;
   position: relative;
@@ -298,7 +329,7 @@ $tick-height: 4px;
   top: -$tick-height / 2;
   width: 2px;
   height: $tick-height;
-  left: var(--calcite-ui-border-1-offset);
+  // left: var(--calcite-ui-border-1-offset); // non-existent var...
   margin-left: -2px;
   border: 1px solid var(--calcite-ui-foreground-1);
   background-color: var(--calcite-ui-border-1);
@@ -338,7 +369,7 @@ $tick-height: 4px;
 :host([has-histogram][label-handles]) {
   @include histogramEndcaps();
 }
-:host([has-histogram][precise]:not([precise="false"])) {
+:host([has-histogram][precise]) {
   @include histogramEndcaps();
 }
 
