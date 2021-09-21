@@ -1,4 +1,4 @@
-import { text, number, array, boolean as booleanFn } from "@storybook/addon-knobs";
+import { text, number, array, boolean as booleanFn, select } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
@@ -13,20 +13,23 @@ export default {
 };
 
 export const SingleValue = (): string => html`
-  <calcite-slider
-    min="${number("min", 0)}"
-    max="${number("max", 100)}"
-    value="${number("value", 50)}"
-    step="${number("step", 1)}"
-    label="${text("label", "Temperature")}"
-    ${boolean("disabled", false)}
-    ${boolean("label-handles", false)}
-    ${boolean("label-ticks", false)}
-    ticks="${number("ticks", 0)}"
-    page-step="${number("page-step", 5)}"
-    ${boolean("precise", false)}
-    ${boolean("snap", true)}
-  ></calcite-slider>
+  <div style="width: 250px;">
+    <calcite-slider
+      min="${number("min", 0)}"
+      max="${number("max", 100)}"
+      value="${number("value", 50)}"
+      step="${number("step", 1)}"
+      label="${text("label", "Temperature")}"
+      ${boolean("disabled", false)}
+      ${boolean("label-handles", false)}
+      ${boolean("label-ticks", false)}
+      ticks="${number("ticks", 0)}"
+      page-step="${number("page-step", 5)}"
+      ${boolean("precise", false)}
+      ${boolean("snap", true)}
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+    ></calcite-slider>
+  </div>
 `;
 
 SingleValue.story = {
@@ -34,20 +37,23 @@ SingleValue.story = {
 };
 
 export const Range = (): string => html`
-  <calcite-slider
-    min="${number("min", 0)}"
-    min-label="${text("min-label", "Temperature, lower bound")}"
-    min-value="${number("min-value", 25)}"
-    max="${number("max", 100)}"
-    max-label="${text("max-label", "Temperature, upper bound")}"
-    max-value="${number("max-value", 75)}"
-    step="${number("step", 1)}"
-    ${boolean("label-handles", false)}
-    ${boolean("label-ticks", false)}
-    ticks="${number("ticks", 20)}"
-    ${boolean("precise", false)}
-    ${boolean("snap", true)}
-  ></calcite-slider>
+  <div style="width: 250px;">
+    <calcite-slider
+      min="${number("min", 0)}"
+      min-label="${text("min-label", "Temperature, lower bound")}"
+      min-value="${number("min-value", 25)}"
+      max="${number("max", 100)}"
+      max-label="${text("max-label", "Temperature, upper bound")}"
+      max-value="${number("max-value", 75)}"
+      step="${number("step", 1)}"
+      ${boolean("label-handles", false)}
+      ${boolean("label-ticks", false)}
+      ticks="${number("ticks", 20)}"
+      ${boolean("precise", false)}
+      ${boolean("snap", true)}
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+    ></calcite-slider>
+  </div>
 `;
 
 export const Histogram = (): HTMLCalciteSliderElement => {
@@ -73,6 +79,7 @@ export const Histogram = (): HTMLCalciteSliderElement => {
   slider.ticks = number("ticks", 10);
   slider.precise = booleanFn("precise", false);
   slider.snap = booleanFn("snap", false);
+  slider.scale = select("scale", ["s", "m", "l"], "m");
   slider.style.minWidth = "60vw";
   return slider;
 };
@@ -102,11 +109,29 @@ export const HistogramWithColors = (): HTMLCalciteSliderElement => {
     colors.map((_, i) => `${(1 / (colors.length - 1)) * i}`)
   );
   slider.histogramStops = colors.map((color, i) => ({ offset: parseFloat(offsets[i]), color }));
+  slider.scale = select("scale", ["s", "m", "l"], "m");
   return slider;
 };
 
 export const DarkMode = (): string => html`
-  <calcite-slider min="0" max="100" value="50" step="1" label="Temperature" class="calcite-theme-dark"></calcite-slider>
+  <div style="width: 250px;">
+    <calcite-slider
+      class="calcite-theme-dark"
+      min="${number("min", 0)}"
+      max="${number("max", 100)}"
+      value="${number("value", 50)}"
+      step="${number("step", 1)}"
+      label="${text("label", "Temperature")}"
+      ${boolean("disabled", false)}
+      ${boolean("label-handles", false)}
+      ${boolean("label-ticks", false)}
+      ticks="${number("ticks", 0)}"
+      page-step="${number("page-step", 5)}"
+      ${boolean("precise", false)}
+      ${boolean("snap", true)}
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+    ></calcite-slider>
+  </div>
 `;
 
 DarkMode.story = {
@@ -137,6 +162,7 @@ export const HistogramDark = (): HTMLCalciteSliderElement => {
   slider.ticks = number("ticks", 10);
   slider.precise = booleanFn("precise", false);
   slider.snap = booleanFn("snap", false);
+  slider.scale = select("scale", ["s", "m", "l"], "m");
   slider.style.minWidth = "60vw";
   slider.className = "calcite-theme-dark";
   return slider;
