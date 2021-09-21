@@ -131,7 +131,7 @@ export class CalciteFilter {
   }, filterDebounceInMs);
 
   inputHandler = (event: InputEvent): void => {
-    const target = event.target as HTMLInputElement;
+    const target = event.target as HTMLCalciteInputElement;
     this.empty = target.value === "";
     this.filter(target.value);
   };
