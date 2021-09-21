@@ -10,7 +10,7 @@
 
 The component is meant to interface with responses from ArcGIS REST services, so the props share names with [response properties](https://developers.arcgis.com/rest/users-groups-and-items/search.htm) from various search endpoints.
 
-For example, after querying the search API, you'll get back a response similar to the following:
+For example, after querying the search API, you'll get back a response similar to JSON below. The response can be passed straight to the `calcite-pagination` component.
 
 ```JSON
 {
@@ -20,8 +20,6 @@ For example, after querying the search API, you'll get back a response similar t
   "results": []
 }
 ```
-
-These can be passed straight to the `calcite-pagination` component:
 
 ```html
 <calcite-pagination start="1" num="100" total="2021"></calcite-pagination>
