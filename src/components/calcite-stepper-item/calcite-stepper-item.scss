@@ -33,6 +33,7 @@
   flex-grow
   flex-col
   relative;
+  margin-bottom: var(--calcite-stepper-item-spacing-unit-s);
 }
 
 :host .container {
@@ -243,10 +244,6 @@
   & .stepper-item-content {
     @apply p-0;
   }
-}
-
-:host([layout="vertical"]) {
-  margin-bottom: var(--calcite-stepper-item-spacing-unit-s);
 }
 
 // only show the content for vertical items
