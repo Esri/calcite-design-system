@@ -392,7 +392,6 @@ describe("calcite-slider", () => {
       max-value="5"
       step="10"
       ticks="10"
-      label="Temperature"
       label-handles
       label-ticks
       snap`;
@@ -439,6 +438,46 @@ describe("calcite-slider", () => {
       expect(await element.getProperty("minValue")).toBe(5);
       expect(await element.getProperty("maxValue")).toBe(10);
       expect(changeEvent).toHaveReceivedEventTimes(1);
+    });
+  });
+
+  describe("when a non-histogram range has 0 for both minValue and maxValue", () => {
+    const slider = `<calcite-slider
+      min="-10"
+      max="1"
+      min-value="0"
+      max-value="0"`;
+
+    it("should position the minValue thumb beside the maxValue thumb", async () => {
+      const page = await newE2EPage({
+        html: `
+        <div style="width: 300px; margin: 1rem;">
+          ${slider}></calcite-slider>
+        </div>
+        `
+      });
+      const minValueThumb = await page.find("calcite-slider >>> .thumb--minValue");
+      const maxValueThumb = await page.find("calcite-slider >>> .thumb--value");
+      const minHandleStyles = await minValueThumb.getComputedStyle();
+      const maxHandleStyles = await maxValueThumb.getComputedStyle();
+      expect(minHandleStyles.left).toBe("258.172px");
+      expect(maxHandleStyles.right).toBe("25.8125px");
+    });
+
+    it("should position the minValue thumb beside the maxValue thumb when mirrored", async () => {
+      const page = await newE2EPage({
+        html: `
+        <div style="width: 300px; margin: 1rem;">
+          ${slider} mirrored></calcite-slider>
+        </div>
+        `
+      });
+      const minValueThumb = await page.find("calcite-slider >>> .thumb--minValue");
+      const maxValueThumb = await page.find("calcite-slider >>> .thumb--value");
+      const minHandleStyles = await minValueThumb.getComputedStyle();
+      const maxHandleStyles = await maxValueThumb.getComputedStyle();
+      expect(minHandleStyles.left).toBe("25.8125px");
+      expect(maxHandleStyles.right).toBe("258.172px");
     });
   });
 });
