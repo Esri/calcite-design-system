@@ -1,5 +1,5 @@
- version: 1
- labels:
+version: 1
+labels:
   - label: "enhancement"
     title: "^[fF][eE][aA][tT].*"
   - label: "bug"
