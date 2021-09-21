@@ -19,9 +19,9 @@
 | `dismissLabel`       | `dismiss-label` | Aria label for the "x" button                                      | `string`                                           | `TEXT.close` |
 | `dismissible`        | `dismissible`   | Optionally show a button the user can click to dismiss the chip    | `boolean`                                          | `false`      |
 | `icon`               | `icon`          | optionally pass an icon to display - accepts Calcite UI icon names | `string`                                           | `undefined`  |
-| `iconFlipRtl`        | `icon-flip-rtl` | flip the icon in rtl                                               | `boolean`                                          | `undefined`  |
+| `iconFlipRtl`        | `icon-flip-rtl` | flip the icon in rtl                                               | `boolean`                                          | `false`      |
 | `scale`              | `scale`         | specify the scale of the chip, defaults to m                       | `"l" \| "m" \| "s"`                                | `"m"`        |
-| `value` _(required)_ | `value`         |                                                                    | `any`                                              | `undefined`  |
+| `value` _(required)_ | `value`         | The assigned value for the chip                                    | `any`                                              | `undefined`  |
 
 ## Events
 
@@ -32,6 +32,8 @@
 ## Methods
 
 ### `setFocus() => Promise<void>`
+
+Sets focus on the component.
 
 #### Returns
 

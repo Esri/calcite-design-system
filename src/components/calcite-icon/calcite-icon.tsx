@@ -4,6 +4,7 @@ import { getElementDir } from "../../utils/dom";
 import { fetchIcon, scaleToPx } from "./utils";
 import { Scale } from "../interfaces";
 import { CalciteIconPath, CalciteMultiPathEntry } from "@esri/calcite-ui-icons";
+import { createObserver } from "../../utils/observers";
 
 @Component({
   tag: "calcite-icon",
@@ -73,10 +74,8 @@ export class CalciteIcon {
   }
 
   disconnectedCallback(): void {
-    if (this.intersectionObserver) {
-      this.intersectionObserver.disconnect();
-      this.intersectionObserver = null;
-    }
+    this.intersectionObserver?.disconnect();
+    this.intersectionObserver = null;
   }
 
   async componentWillLoad(): Promise<void> {
@@ -151,16 +150,8 @@ export class CalciteIcon {
   }
 
   private waitUntilVisible(callback: () => void): void {
-    if (
-      !Build.isBrowser ||
-      typeof window === "undefined" ||
-      !(window as any).IntersectionObserver
-    ) {
-      callback();
-      return;
-    }
-
-    this.intersectionObserver = new IntersectionObserver(
+    this.intersectionObserver = createObserver(
+      "intersection",
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
@@ -172,6 +163,11 @@ export class CalciteIcon {
       },
       { rootMargin: "50px" }
     );
+
+    if (!this.intersectionObserver) {
+      callback();
+      return;
+    }
 
     this.intersectionObserver.observe(this.el);
   }

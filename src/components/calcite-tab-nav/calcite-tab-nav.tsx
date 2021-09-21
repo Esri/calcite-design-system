@@ -57,7 +57,7 @@ export class CalciteTabNav {
   @Prop({ reflect: true, mutable: true }) position: TabPosition = "below";
 
   /** @internal Parent tabs component bordered value when layout is "inline" */
-  @Prop({ reflect: true, mutable: true }) bordered?: boolean = false;
+  @Prop({ reflect: true, mutable: true }) bordered = false;
 
   /**
    * @internal
@@ -219,11 +219,9 @@ export class CalciteTabNav {
   }
 
   @Listen("calciteTabsActivate") activateTabHandler(e: CustomEvent<TabChangeEventDetail>): void {
-    if (e.detail.tab) {
-      this.selectedTab = e.detail.tab;
-    } else {
-      this.selectedTab = this.getIndexOfTabTitle(e.target as HTMLCalciteTabTitleElement);
-    }
+    this.selectedTab = e.detail.tab
+      ? e.detail.tab
+      : this.getIndexOfTabTitle(e.target as HTMLCalciteTabTitleElement);
     e.stopPropagation();
     e.preventDefault();
   }

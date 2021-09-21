@@ -27,7 +27,7 @@ export class CalciteTile {
   //--------------------------------------------------------------------------
 
   /** The active state of the tile. */
-  @Prop({ reflect: true }) active?: boolean;
+  @Prop({ reflect: true }) active = false;
 
   /** The description text that appears beneath the heading of the tile. */
   @Prop({ reflect: true }) description?: string;
@@ -42,7 +42,7 @@ export class CalciteTile {
 
   /**
    * The focused state of the tile.
-   * @private
+   * @internal
    */
   @Prop({ reflect: true }) focused = false;
 

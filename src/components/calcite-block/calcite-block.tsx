@@ -41,7 +41,7 @@ export class CalciteBlock {
   /**
    * Block heading.
    */
-  @Prop() heading: string;
+  @Prop() heading!: string;
 
   /**
    * Number at which section headings should start for this component.

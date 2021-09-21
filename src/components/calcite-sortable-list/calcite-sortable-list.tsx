@@ -10,6 +10,9 @@ import {
   h,
   VNode
 } from "@stencil/core";
+import { createObserver } from "../../utils/observers";
+import { Layout } from "../interfaces";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding sortable items
@@ -44,6 +47,11 @@ export class CalciteSortableList {
   @Prop() handleSelector = "calcite-handle";
 
   /**
+   * Indicates the horizontal or vertical orientation of the component.
+   */
+  @Prop() layout: Layout = "vertical";
+
+  /**
    * When true, disabled prevents interaction. This state shows items with lower opacity/grayed.
    */
   @Prop({ reflect: true }) disabled = false;
@@ -65,7 +73,8 @@ export class CalciteSortableList {
 
   items: Element[] = [];
 
-  observer = new MutationObserver(() => {
+  mutationObserver = createObserver("mutation", () => {
+    this.cleanUpDragAndDrop();
     this.items = Array.from(this.el.children);
     this.setUpDragAndDrop();
   });
@@ -85,7 +94,7 @@ export class CalciteSortableList {
   }
 
   disconnectedCallback(): void {
-    this.observer.disconnect();
+    this.mutationObserver?.disconnect();
     this.cleanUpDragAndDrop();
   }
 
@@ -132,7 +141,7 @@ export class CalciteSortableList {
       default:
         return;
     }
-    this.observer.disconnect();
+    this.mutationObserver?.disconnect();
 
     if (appendInstead) {
       sortItem.parentElement.appendChild(sortItem);
@@ -167,7 +176,7 @@ export class CalciteSortableList {
       },
       // Element dragging started
       onStart: () => {
-        this.observer.disconnect();
+        this.mutationObserver?.disconnect();
       },
       // Element dragging ended
       onEnd: () => {
@@ -188,7 +197,7 @@ export class CalciteSortableList {
   }
 
   beginObserving(): void {
-    this.observer.observe(this.el, { childList: true, subtree: true });
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   // --------------------------------------------------------------------------
@@ -198,6 +207,19 @@ export class CalciteSortableList {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    return <slot />;
+    const { layout } = this;
+    const horizontal = layout === "horizontal" || false;
+
+    return (
+      <div
+        class={{
+          [CSS.container]: true,
+          [CSS.containerVertical]: !horizontal,
+          [CSS.containerHorizontal]: horizontal
+        }}
+      >
+        <slot />
+      </div>
+    );
   }
 }

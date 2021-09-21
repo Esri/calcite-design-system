@@ -8,6 +8,7 @@ import {
 import { ButtonAlignment, ButtonAppearance, ButtonColor } from "./interfaces";
 import { FlipContext, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
+import { createObserver } from "../../utils/observers";
 
 @Component({
   tag: "calcite-button",
@@ -47,7 +48,7 @@ export class CalciteButton {
   @Prop({ reflect: true }) color: ButtonColor = "blue";
 
   /** is the button disabled  */
-  @Prop({ reflect: true }) disabled?: boolean;
+  @Prop({ reflect: true }) disabled = false;
 
   /** optionally pass a href - used to determine if the component should render as a button or an anchor */
   @Prop({ reflect: true }) href?: string;
@@ -67,7 +68,7 @@ export class CalciteButton {
   @Prop() intlLoading?: string = TEXT.loading;
 
   /** optionally add a calcite-loader component to the button, disabling interaction.  */
-  @Prop({ reflect: true }) loading?: boolean = false;
+  @Prop({ reflect: true }) loading = false;
 
   /** The name attribute to apply to the button */
   @Prop() name?: string;
@@ -79,7 +80,7 @@ export class CalciteButton {
   @Prop() form?: string;
 
   /** optionally add a round style to the button  */
-  @Prop({ reflect: true }) round?: boolean = false;
+  @Prop({ reflect: true }) round = false;
 
   /** specify the scale of the button, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -121,7 +122,7 @@ export class CalciteButton {
   }
 
   disconnectedCallback(): void {
-    this.observer.disconnect();
+    this.mutationObserver?.disconnect();
   }
 
   componentWillLoad(): void {
@@ -203,6 +204,7 @@ export class CalciteButton {
   //
   //--------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     this.childEl.focus();
@@ -215,7 +217,7 @@ export class CalciteButton {
   //--------------------------------------------------------------------------
 
   /** watches for changing text content **/
-  private observer: MutationObserver;
+  private mutationObserver = createObserver("mutation", () => this.updateHasContent());
 
   /** the rendered child element */
   private childEl?: HTMLElement;
@@ -224,10 +226,10 @@ export class CalciteButton {
   private childElType?: "a" | "button" = "button";
 
   /** determine if there is slotted content for styling purposes */
-  @State() private hasContent?: boolean = false;
+  @State() private hasContent = false;
 
   /** determine if loader present for styling purposes */
-  @State() private hasLoader?: boolean = false;
+  @State() private hasLoader = false;
 
   private updateHasContent() {
     const slottedContent = this.el.textContent.trim().length > 0 || this.el.childNodes.length > 0;
@@ -238,12 +240,7 @@ export class CalciteButton {
   }
 
   private setupTextContentObserver() {
-    if (Build.isBrowser) {
-      this.observer = new MutationObserver(() => {
-        this.updateHasContent();
-      });
-      this.observer.observe(this.el, { childList: true, subtree: true });
-    }
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   //--------------------------------------------------------------------------

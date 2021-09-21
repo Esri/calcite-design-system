@@ -42,7 +42,7 @@ export class CalciteRadioGroup {
   @Prop({ reflect: true }) appearance: RadioAppearance = "solid";
 
   /** is the radio group disabled  */
-  @Prop({ reflect: true }) disabled?: boolean;
+  @Prop({ reflect: true }) disabled = false;
 
   /** specify the layout of the radio group, defaults to horizontal */
   @Prop({ reflect: true }) layout: Layout = "horizontal";
@@ -229,7 +229,7 @@ export class CalciteRadioGroup {
   //
   // --------------------------------------------------------------------------
 
-  /** Focuses the selected item. If there is no selection, it focuses the first item. */
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     (this.selectedItem || this.getItems()[0])?.focus();

@@ -40,10 +40,10 @@ export class CalciteLabel {
   @Prop({ reflect: true }) layout: "inline" | "inline-space-between" | "default" = "default";
 
   /** eliminates any space around the label */
-  @Prop() disableSpacing?: boolean;
+  @Prop() disableSpacing = false;
 
   /** is the label disabled  */
-  @Prop({ reflect: true }) disabled?: boolean;
+  @Prop({ reflect: true }) disabled = false;
 
   //--------------------------------------------------------------------------
   //

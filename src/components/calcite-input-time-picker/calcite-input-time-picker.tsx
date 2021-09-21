@@ -44,10 +44,10 @@ export class CalciteInputTimePicker {
   //--------------------------------------------------------------------------
 
   /** The active state of the time input */
-  @Prop({ reflect: true, mutable: true }) active?: boolean = false;
+  @Prop({ reflect: true, mutable: true }) active = false;
 
   /** The disabled state of the time input */
-  @Prop({ reflect: true }) disabled?: boolean = false;
+  @Prop({ reflect: true }) disabled = false;
 
   /** Format of the hour value (12-hour or 24-hour) (this will be replaced by locale eventually) */
   @Prop() hourDisplayFormat: HourDisplayFormat = "12";
@@ -190,11 +190,7 @@ export class CalciteInputTimePicker {
       const { hour, minute, second } = event.detail as Time;
       let value;
       if (hour && minute) {
-        if (second && this.step !== 60) {
-          value = `${hour}:${minute}:${second}`;
-        } else {
-          value = `${hour}:${minute}`;
-        }
+        value = second && this.step !== 60 ? `${hour}:${minute}:${second}` : `${hour}:${minute}`;
       } else {
         value = "";
       }
@@ -215,6 +211,7 @@ export class CalciteInputTimePicker {
   //
   // --------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     this.calciteInputEl.setFocus();

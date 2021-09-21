@@ -44,7 +44,7 @@ export class CalciteTabs {
   /**
    * Optionally enable tabs to appear like a folder-style menu when its layout is "inline"
    */
-  @Prop({ reflect: true, mutable: true }) bordered?: boolean = false;
+  @Prop({ reflect: true, mutable: true }) bordered = false;
 
   //--------------------------------------------------------------------------
   //

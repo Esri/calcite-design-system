@@ -96,6 +96,7 @@ export class CalciteTileSelect {
   //
   //--------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     this.input.setFocus();

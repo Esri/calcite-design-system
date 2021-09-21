@@ -15,6 +15,7 @@ import { CalciteExpandToggle, toggleChildActionText } from "../functional/Calcit
 import { CSS, SLOTS, TEXT } from "./resources";
 import { getSlotted, focusElement } from "../../utils/dom";
 import { getOverflowCount, overflowActions, queryActions } from "./utils";
+import { createObserver } from "../../utils/observers";
 
 /**
  * @slot - A slot for adding `calcite-action`s that will appear at the top of the action bar.
@@ -44,7 +45,7 @@ export class CalciteActionBar {
       toggleChildActionText({ parent: this.el, expanded: this.expanded });
     }
 
-    this.resize(this.el.clientHeight);
+    this.resizeFromHost();
   }
 
   /**
@@ -74,7 +75,7 @@ export class CalciteActionBar {
   /**
    * Disables automatically overflowing actions that won't fit into menus.
    */
-  @Prop() overflowActionsDisabled?: boolean;
+  @Prop() overflowActionsDisabled = false;
 
   @Watch("overflowActionsDisabled")
   overflowDisabledHandler(overflowActionsDisabled: boolean): void {
@@ -112,13 +113,13 @@ export class CalciteActionBar {
 
   @Element() el: HTMLCalciteActionBarElement;
 
-  mutationObserver = new MutationObserver(() => {
+  mutationObserver = createObserver("mutation", () => {
     const { el, expanded } = this;
     toggleChildActionText({ parent: el, expanded });
-    this.resize(el.clientHeight);
+    this.resizeFromHost();
   });
 
-  resizeObserver = new ResizeObserver((entries) => this.resizeHandlerEntries(entries));
+  resizeObserver = createObserver("resize", (entries) => this.resizeHandlerEntries(entries));
 
   expandToggleEl: HTMLCalciteActionElement;
 
@@ -134,27 +135,29 @@ export class CalciteActionBar {
   //
   // --------------------------------------------------------------------------
 
-  componentWillLoad(): void {
+  componentDidLoad(): void {
+    this.resizeFromHost();
+  }
+
+  connectedCallback(): void {
     const { el, expandDisabled, expanded } = this;
 
     if (!expandDisabled) {
       toggleChildActionText({ parent: el, expanded });
     }
 
-    this.mutationObserver.observe(el, { childList: true });
+    this.mutationObserver?.observe(el, { childList: true, subtree: true });
 
     if (!this.overflowActionsDisabled) {
-      this.resizeObserver.observe(el);
+      this.resizeObserver?.observe(el);
     }
-  }
 
-  componentDidLoad(): void {
-    this.resize(this.el.clientHeight);
+    this.resizeFromHost();
   }
 
   disconnectedCallback(): void {
-    this.mutationObserver.disconnect();
-    this.resizeObserver.disconnect();
+    this.mutationObserver?.disconnect();
+    this.resizeObserver?.disconnect();
   }
 
   // --------------------------------------------------------------------------
@@ -163,6 +166,7 @@ export class CalciteActionBar {
   //
   // --------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(focusId?: "expand-toggle"): Promise<void> {
     if (focusId === "expand-toggle") {
@@ -190,6 +194,10 @@ export class CalciteActionBar {
     }
   };
 
+  resizeFromHost = (): void => {
+    this.resize(this.el.clientHeight);
+  };
+
   resizeHandlerEntries = (entries: ResizeObserverEntry[]): void => {
     entries.forEach(this.resizeHandler);
   };
@@ -210,7 +218,7 @@ export class CalciteActionBar {
       overflowActionsDisabled
     } = this;
 
-    if (typeof height !== "number" || overflowActionsDisabled) {
+    if (!height || overflowActionsDisabled) {
       return;
     }
 

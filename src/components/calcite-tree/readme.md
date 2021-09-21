@@ -41,9 +41,9 @@
 
 ## Slots
 
-| Slot         | Description                                                    |
-| ------------ | -------------------------------------------------------------- |
-| `"children"` | a slot for adding child components, commonly calcite-tree-item |
+| Slot | Description                              |
+| ---- | ---------------------------------------- |
+|      | A slot for `calcite-tree-item` elements. |
 
 ---
 

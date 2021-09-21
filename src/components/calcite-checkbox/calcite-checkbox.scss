@@ -49,7 +49,8 @@
 :host([checked]),
 :host([indeterminate]) {
   .check-svg {
-    @apply bg-brand shadow-outline-active;
+    @apply bg-brand;
+    box-shadow: inset 0 0 0 1px var(--calcite-ui-brand);
   }
 }
 :host {
