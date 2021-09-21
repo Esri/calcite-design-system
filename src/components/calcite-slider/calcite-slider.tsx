@@ -121,7 +121,6 @@ export class CalciteSlider {
     if (this.histogram) {
       this.hasHistogram = true;
     }
-    this.emitChange();
   }
 
   componentDidRender(): void {
