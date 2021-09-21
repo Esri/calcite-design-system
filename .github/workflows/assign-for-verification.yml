@@ -9,12 +9,10 @@ jobs:
       - uses: actions/github-script@v4
         with:
           script: |
-            const {label, sender} = context.payload;
-            if (label && label.name === "3 - installed") {
+            const { label, sender } = context.payload;
+            if (sender && label && label.name === "3 - installed") {
               const assignees =
-                sender && sender.login === "benelan"
-                  ? ["jcfranco", "julio8a"]
-                  : ["benelan"];
+                sender.login !== "benelan" ? ["benelan"] : ["jcfranco", "julio8a"];
               await github.issues.createComment({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
