@@ -470,37 +470,25 @@ describe("calcite-slider", () => {
       expect(maxHandleRight).toBe("258.172px");
     });
 
-    describe("when it's a histogram range", () => {
-      it("should position the minValue thumb beside the maxValue thumb", async () => {
-        const page = await newE2EPage({ html: nonMirroredSlider });
-        await page.$eval("calcite-slider", (slider: HTMLCalciteSliderElement) => {
-          slider.histogram = [
-            [0, 0],
-            [20, 12],
-            [40, 25],
-            [60, 55],
-            [80, 10],
-            [100, 0]
-          ];
-        });
-        await page.waitForChanges();
-        const minValueThumb = await page.find("calcite-slider >>> .thumb--minValue");
-        const maxValueThumb = await page.find("calcite-slider >>> .thumb--value");
-        const minHandleLeft = await (await minValueThumb.getComputedStyle()).left;
-        const maxHandleRight = await (await maxValueThumb.getComputedStyle()).right;
-        expect(minHandleLeft).toBe("258.172px");
-        expect(maxHandleRight).toBe("25.8125px");
+    it("should position the minValue thumb beside the maxValue thumb when it's a histogram range", async () => {
+      const page = await newE2EPage({ html: nonMirroredSlider });
+      await page.$eval("calcite-slider", (slider: HTMLCalciteSliderElement) => {
+        slider.histogram = [
+          [0, 0],
+          [20, 12],
+          [40, 25],
+          [60, 55],
+          [80, 10],
+          [100, 0]
+        ];
       });
-
-      it("should position the minValue thumb beside the maxValue thumb when mirrored", async () => {
-        const page = await newE2EPage({ html: mirroredSlider });
-        const minValueThumb = await page.find("calcite-slider >>> .thumb--minValue");
-        const maxValueThumb = await page.find("calcite-slider >>> .thumb--value");
-        const minHandleLeft = await (await minValueThumb.getComputedStyle()).left;
-        const maxHandleRight = await (await maxValueThumb.getComputedStyle()).right;
-        expect(minHandleLeft).toBe("25.8125px");
-        expect(maxHandleRight).toBe("258.172px");
-      });
+      await page.waitForChanges();
+      const minValueThumb = await page.find("calcite-slider >>> .thumb--minValue");
+      const maxValueThumb = await page.find("calcite-slider >>> .thumb--value");
+      const minHandleLeft = await (await minValueThumb.getComputedStyle()).left;
+      const maxHandleRight = await (await maxValueThumb.getComputedStyle()).right;
+      expect(minHandleLeft).toBe("258.172px");
+      expect(maxHandleRight).toBe("25.8125px");
     });
   });
 });
