@@ -3,6 +3,20 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+<!--@unreleased-section-start-->
+
+## Unreleased (2021-09-22)
+
+### Bug Fixes
+
+- **checkbox:** resize calcite-checkbox when unchecked & focusout ([#2995](https://github.com/Esri/calcite-components/issues/2995)) ([0c6df8b](https://github.com/Esri/calcite-components/commit/0c6df8b447ee9b0de4e317da75b9133acd38e6ff))
+- **slider:** align minValue thumb when both minValue/maxValue are zero ([#2480](https://github.com/Esri/calcite-components/issues/2480)) ([#3083](https://github.com/Esri/calcite-components/issues/3083)) ([d092ff1](https://github.com/Esri/calcite-components/commit/d092ff1b87292bd751012daf873e9529d489e3cd))
+- **slider:** move maxValue thumb when at min edge ([#2481](https://github.com/Esri/calcite-components/issues/2481)) ([#3078](https://github.com/Esri/calcite-components/issues/3078)) ([ca9c0ce](https://github.com/Esri/calcite-components/commit/ca9c0cedbfd1fee7356973dcff1c29fca5abfba5))
+- **slider:** stop emitting change on page load ([#3084](https://github.com/Esri/calcite-components/issues/3084)) ([2a4d271](https://github.com/Esri/calcite-components/commit/2a4d271212824a2384677fe9ddd7c32545bd95e5))
+- **sortable-list:** updated to use column layout and include layout property ([55fbf13](https://github.com/Esri/calcite-components/commit/55fbf134cca7a9d545fd8d2a5720865c663edf4d)), closes [#2889](https://github.com/Esri/calcite-components/issues/2889) [#2889](https://github.com/Esri/calcite-components/issues/2889) [#2889](https://github.com/Esri/calcite-components/issues/2889)
+- **stepper-item:** remove margin-bottom for calcite-stepper-item ([#3080](https://github.com/Esri/calcite-components/issues/3080)) ([37b7393](https://github.com/Esri/calcite-components/commit/37b7393f2eac35b3cdad8b6db1bc79ce4e0aec58))
+<!--@unreleased-section-end-->
+
 ## [1.0.0-beta.65](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.64...v1.0.0-beta.65) (2021-09-15)
 
 ### Bug Fixes
