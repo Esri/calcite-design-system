@@ -34,7 +34,6 @@ import {
 } from "./resources";
 import { getItemAncestors, getItemChildren, hasActiveChildren } from "./utils";
 import { createObserver } from "../../utils/observers";
-
 interface ItemData {
   label: string;
   value: string;
@@ -856,8 +855,8 @@ export class CalciteCombobox {
           aria-label={label}
           class={{
             input: true,
+            "input--single": true,
             "input--transparent": this.activeChipIndex > -1,
-            "input--single": single,
             "input--hidden": showLabel,
             "input--icon": single && needsIcon
           }}
@@ -952,8 +951,8 @@ export class CalciteCombobox {
           aria-owns={guid}
           class={{
             wrapper: true,
-            "wrapper--active": open,
-            "wrapper--single": single
+            "wrapper--single": single || !this.selectedItems.length,
+            "wrapper--active": open
           }}
           onClick={this.setFocusClick}
           ref={this.setReferenceEl}
