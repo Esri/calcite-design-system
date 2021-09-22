@@ -12,7 +12,6 @@ import {
   Method
 } from "@stencil/core";
 import { Scale } from "../interfaces";
-import { getElementDir } from "../../utils/dom";
 import { getKey, isActivationKey, numberKeys } from "../../utils/key";
 import { isValidNumber } from "../../utils/number";
 
@@ -132,7 +131,7 @@ export class CalciteTimePicker {
   @Prop({ reflect: true }) step = 60;
 
   /** The selected time in UTC */
-  @Prop() value: string = null;
+  @Prop({ mutable: true }) value: string = null;
 
   @Watch("value")
   valueWatcher(newValue: string): void {
@@ -651,7 +650,7 @@ export class CalciteTimePicker {
     }
     this.localizedMeridiem = this.value
       ? localizeTimeStringToParts(this.value, this.locale)?.localizedMeridiem || null
-      : null;
+      : localizeTimePart(this.meridiem, "meridiem", this.locale);
     if (emit) {
       this.calciteTimePickerChange.emit(this.value);
     }
@@ -674,7 +673,6 @@ export class CalciteTimePicker {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const dir = getElementDir(this.el);
     const hourIsNumber = isValidNumber(this.hour);
     const iconScale = this.scale === "s" || this.scale === "m" ? "s" : "m";
     const minuteIsNumber = isValidNumber(this.minute);

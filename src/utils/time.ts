@@ -149,7 +149,7 @@ export function localizeTimePart(value: string, part: TimePart, locale: string):
       0,
       0,
       0,
-      part === "hour" ? parseInt(value) : 0,
+      part === "hour" ? parseInt(value) : part === "meridiem" ? (value === "AM" ? 0 : 12) : 0,
       part === "minute" ? parseInt(value) : 0,
       part === "second" ? parseInt(value) : 0
     )

@@ -35,13 +35,11 @@ const letterKeys = [
 describe("calcite-time-picker", () => {
   it("renders", async () => renders("calcite-time-picker", { display: "inline-block" }));
 
-  it("is accessible", async () => accessible(`<calcite-time-picker hour="00" minute="00"></calcite-time-picker>`));
+  it("is accessible", async () => accessible(`<calcite-time-picker></calcite-time-picker>`));
 
   it("has defaults", async () =>
     defaults("calcite-time-picker", [
-      { propertyName: "hour", defaultValue: null },
-      { propertyName: "minute", defaultValue: null },
-      { propertyName: "second", defaultValue: null },
+      { propertyName: "locale", defaultValue: "en" },
       { propertyName: "scale", defaultValue: "m" },
       { propertyName: "step", defaultValue: 60 }
     ]));
