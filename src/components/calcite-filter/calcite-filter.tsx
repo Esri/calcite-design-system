@@ -130,7 +130,7 @@ export class CalciteFilter {
     this.calciteFilterChange.emit(result);
   }, filterDebounceInMs);
 
-  inputHandler = (event: InputEvent): void => {
+  inputHandler = (event: CustomEvent): void => {
     const target = event.target as HTMLCalciteInputElement;
     this.empty = target.value === "";
     this.filter(target.value);
