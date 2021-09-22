@@ -11,9 +11,9 @@ import {
   Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { focusElement, closestElementCrossShadowBoundary } from "../../utils/dom";
+import { closestElementCrossShadowBoundary, focusElement } from "../../utils/dom";
 import { Scale } from "../interfaces";
-import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { hiddenInputStyle } from "../../utils/form";
 import { CSS } from "./resources";
 
@@ -166,13 +166,38 @@ export class CalciteRadioButton implements LabelableComponent {
   //
   //--------------------------------------------------------------------------
 
+  selectItem = (items: HTMLCalciteRadioButtonElement[], selectedIndex: number): void => {
+    items.forEach((item, index) => {
+      const selected = index === selectedIndex;
+      item.checked = selected;
+      item.focused = selected;
+    });
+  };
+
+  toggle = (): void => {
+    this.uncheckAllRadioButtonsInGroup();
+    this.checked = true;
+    this.focused = true;
+    this.calciteRadioButtonChange.emit();
+  };
+
+  private clickHandler = (): void => {
+    if (this.labelEl) {
+      return;
+    }
+
+    this.toggle();
+  };
+
   onLabelClick = (event: CustomEvent): void => {
     if (!this.disabled && !this.hidden) {
       this.uncheckOtherRadioButtonsInGroup();
-      const target = event.target as HTMLElement;
-      const firstButton = target?.querySelector(
-        `calcite-radio-button[name="${this.name}"]`
-      ) as HTMLCalciteRadioButtonElement;
+      const label = event.currentTarget as HTMLCalciteLabelElement;
+      const firstButton = this.rootNode.querySelector<HTMLCalciteRadioButtonElement>(
+        label.for
+          ? `calcite-radio-button[id="${label.for}"]`
+          : `calcite-radio-button[name="${this.name}"]`
+      );
 
       if (firstButton) {
         firstButton.checked = true;
@@ -274,20 +299,6 @@ export class CalciteRadioButton implements LabelableComponent {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click")
-  check(event: MouseEvent | FocusEvent): void {
-    // Prevent parent label from clicking the first radio when calcite-radio-button is clicked
-    if (this.el.closest("label") && event.composedPath().includes(this.el)) {
-      event.preventDefault();
-    }
-    if (!this.disabled && !this.hidden) {
-      this.uncheckOtherRadioButtonsInGroup();
-      this.checked = true;
-      this.focused = true;
-      this.calciteRadioButtonChange.emit();
-    }
-  }
-
   @Listen("mouseenter")
   mouseenter(): void {
     this.hovered = true;
@@ -362,7 +373,7 @@ export class CalciteRadioButton implements LabelableComponent {
     const value = this.value?.toString();
 
     return (
-      <div class={CSS.container}>
+      <div class={CSS.container} onClick={this.clickHandler}>
         <input
           aria-label={getLabelText(this)}
           checked={this.checked}

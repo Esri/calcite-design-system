@@ -49,8 +49,7 @@ export class CalciteSlider implements LabelableComponent {
   /** Display a histogram above the slider */
   @Prop() histogram?: DataSeries;
 
-  @Watch("histogram")
-  histogramWatcher(newHistogram: DataSeries): void {
+  @Watch("histogram") histogramWatcher(newHistogram: DataSeries): void {
     this.hasHistogram = !!newHistogram;
   }
 

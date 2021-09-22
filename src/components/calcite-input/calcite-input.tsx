@@ -175,9 +175,6 @@ export class CalciteInput implements LabelableComponent {
   /** optionally add suffix  **/
   @Prop() suffixText?: string;
 
-  /** @internal adds inline styles for text input when slotted in calcite-inline-editable */
-  @Prop({ mutable: true, reflect: true }) editingEnabled?: boolean;
-
   /**
    * specify the input type
    *
@@ -229,8 +226,6 @@ export class CalciteInput implements LabelableComponent {
   //--------------------------------------------------------------------------
 
   labelEl: HTMLCalciteLabelElement;
-
-  inlineEditableEl: HTMLCalciteInlineEditableElement;
 
   /** keep track of the rendered child type */
   private childEl?: HTMLInputElement | HTMLTextAreaElement;
@@ -285,8 +280,6 @@ export class CalciteInput implements LabelableComponent {
     this.form?.addEventListener("reset", this.reset);
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.status = getElementProp(this.el, "status", this.status);
-    this.inlineEditableEl = this.el.closest("calcite-inline-editable");
-    this.editingEnabled = this.inlineEditableEl?.editingEnabled;
     if (this.type === "number" && this.value) {
       if (isValidNumber(this.value)) {
         this.localizedValue = localizeNumberString(this.value, this.locale, this.groupSeparator);
@@ -713,10 +706,6 @@ export class CalciteInput implements LabelableComponent {
       <this.childElType
         aria-label={getLabelText(this)}
         autofocus={this.autofocus ? true : null}
-        class={{
-          [CSS.editingEnabled]: this.editingEnabled,
-          [CSS.inlineChild]: !!this.inlineEditableEl
-        }}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
         max={this.maxString}
@@ -733,11 +722,7 @@ export class CalciteInput implements LabelableComponent {
         ref={this.setChildElRef}
         required={this.required ? true : null}
         step={this.step}
-        tabIndex={
-          this.disabled || (this.inlineEditableEl && !this.editingEnabled) || this.type === "number"
-            ? -1
-            : null
-        }
+        tabIndex={this.disabled || this.type === "number" ? -1 : null}
         type={this.type}
         value={this.value}
       />,

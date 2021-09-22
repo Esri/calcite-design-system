@@ -17,7 +17,10 @@ describe("calcite-radio-button", () => {
   it("honors hidden attribute", async () => hidden("calcite-radio-button"));
 
   it("is labelable", async () =>
-    labelable("calcite-radio-button", { focusTargetSelector: "input", propertyToToggle: "checked" }));
+    labelable("<calcite-radio-button name='group-name'></calcite-radio-button>", {
+      focusTargetSelector: "input",
+      propertyToToggle: "checked"
+    }));
 
   it("focusing skips over hidden radio-buttons", async () => {
     const page = await newE2EPage();

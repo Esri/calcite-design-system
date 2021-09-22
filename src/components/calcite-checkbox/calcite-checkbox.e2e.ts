@@ -42,14 +42,20 @@ describe("calcite-checkbox", () => {
     await page.setContent("<calcite-checkbox></calcite-checkbox>");
 
     const calciteCheckbox = await page.find("calcite-checkbox");
+    const input = await page.find("input");
 
     expect(calciteCheckbox).not.toHaveAttribute("checked");
     expect(await calciteCheckbox.getProperty("checked")).toBe(false);
+    expect(input).not.toHaveAttribute("checked");
+    expect(await input.getProperty("checked")).toBe(false);
 
     await calciteCheckbox.click();
 
+    await page.waitForChanges();
+
     expect(calciteCheckbox).toHaveAttribute("checked");
     expect(await calciteCheckbox.getProperty("checked")).toBe(true);
+    expect(await input.getProperty("checked")).toBe(true);
   });
 
   it("appropriately triggers the custom change event", async () => {

@@ -3,7 +3,7 @@ import { JSX } from "../components";
 import { toHaveNoViolations } from "jest-axe";
 import axe from "axe-core";
 import { config } from "../../stencil.config";
-import { html, visualizeMouseCursor } from "./utils";
+import { html } from "./utils";
 
 expect.extend(toHaveNoViolations);
 
@@ -249,6 +249,8 @@ async function assertLabelable({
   await label.callMethod("click"); // we call the method to avoid clicking the child element
   await page.waitForChanges();
 
+  console.log(html, propertyToToggle, focusTargetSelector);
+
   expect(
     await page.evaluate(
       (focusTargetSelector: string): boolean => !!document.activeElement?.closest(focusTargetSelector),
@@ -267,6 +269,8 @@ async function assertLabelable({
   }
 
   if (propertyToToggle) {
+    console.log(component.outerHTML, initialPropertyValue);
+
     expect(await component.getProperty(propertyToToggle)).toBe(!initialPropertyValue);
   }
 }

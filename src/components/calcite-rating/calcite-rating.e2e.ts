@@ -438,12 +438,12 @@ describe("calcite-rating", () => {
   describe("labelable", () => {
     it("focuses the first star when the label is clicked and no-rating value exists", () =>
       labelable("calcite-rating", {
-        shadowFocusTargetSelector: "input:nth-child(1)"
+        shadowFocusTargetSelector: "input[value='1']"
       }));
 
     it("focuses the value-matching star when the label is clicked", () =>
       labelable("<calcite-rating value='3'></calcite-rating>", {
-        shadowFocusTargetSelector: "input:nth-child(3)"
+        shadowFocusTargetSelector: "input[value='3']"
       }));
   });
 });
