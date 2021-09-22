@@ -21,7 +21,7 @@
 :host([icon][heading]:not([description]):not([embed])) {
   @apply p-0;
 }
-:host(:not([description])) .large-visual {
+:host([icon][heading]:not([description])) {
   .icon {
     @apply flex justify-center;
   }
