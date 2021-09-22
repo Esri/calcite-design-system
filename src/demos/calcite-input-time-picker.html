@@ -115,6 +115,10 @@
           console.log("calciteInputTimePickerChange", event.target.value);
         });
 
+        document.addEventListener("calciteTimePickerChange", (event) => {
+          console.log("calciteTimePickerChange", event.target.value);
+        });
+
         document.addEventListener("calciteRadioButtonChange", (event) => {
           inputTimePickerEls.forEach((inputTimePickerEl) =>
             inputTimePickerEl.setAttribute("locale", event.target.value)
