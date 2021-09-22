@@ -21,6 +21,14 @@
 :host([icon][heading]:not([description]):not([embed])) {
   @apply p-0;
 }
+:host([icon][heading]:not([description])) {
+  .icon {
+    @apply flex justify-center;
+  }
+  .large-visual {
+    @apply text-center;
+  }
+}
 :host([disabled]) {
   @apply opacity-disabled;
   @apply pointer-events-none;
