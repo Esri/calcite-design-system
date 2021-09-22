@@ -1,12 +1,30 @@
 :host([scale="s"]) .container {
   --calcite-slider-handle-size: 10px;
 
+  .handle__label,
+  .tick__label {
+    @apply text--3h;
+  }
+
+  .handle-extension {
+    height: 6.5px;
+  }
+
   .thumb {
     --calcite-slider-thumb-offset: -6px;
   }
 }
 :host([scale="m"]) .container {
   --calcite-slider-handle-size: 14px;
+
+  .handle__label,
+  .tick__label {
+    @apply text--2h;
+  }
+
+  .handle-extension {
+    height: 8px;
+  }
 
   .thumb {
     --calcite-slider-thumb-offset: -8px;
@@ -15,28 +33,39 @@
 :host([scale="l"]) .container {
   --calcite-slider-handle-size: 16px;
 
+  .handle__label,
+  .tick__label {
+    @apply text--1h;
+  }
+
+  .handle-extension {
+    height: 10.5px;
+  }
+
   .thumb {
-    --calcite-slider-thumb-offset: -10px;
+    --calcite-slider-thumb-offset: -9px;
   }
 }
 
+.handle__label,
+.tick__label {
+  @apply font-medium text-color-2;
+}
+
 $thumb-size: 28px;
-// $handle-size: 14px;
 $thumb-padding: calc(calc($thumb-size - var(--calcite-slider-handle-size)) / 2);
-$track-height: 2px;
-$tick-height: 4px;
 
 @mixin histogramEndcaps() {
   .tick__label--min,
   .tick__label--max {
-    margin: 6px -3px;
-    font-weight: 300;
-    color: var(--calcite-ui-text-3);
+    margin: 14px -3px 6px;
+    @apply font-normal text-color-3;
   }
 }
 
 :host {
   @apply block;
+  // background-color: #DFEFFA; // Figma artboard background
 }
 
 :host(:not([has-histogram])) {
@@ -50,8 +79,7 @@ $tick-height: 4px;
 }
 
 :host([disabled]) {
-  opacity: var(--calcite-ui-opacity-disabled);
-  pointer-events: none;
+  @apply opacity-disabled pointer-events-none;
   .track__range,
   .tick--active {
     background-color: var(--calcite-ui-text-3);
@@ -61,26 +89,27 @@ $tick-height: 4px;
   }
 }
 
-/*
- * Ensure we have enough space on variants
- * with text elements to prevent overlap
- */
-:host([label-handles]) .container,
+:host([precise]:not([has-histogram])) {
+  &:host([scale="s"]) {
+    .container .thumb--value {
+      --calcite-slider-thumb-offset: -17px;
+    }
+  }
+  &:host([scale="m"]) {
+    .container .thumb--value {
+      --calcite-slider-thumb-offset: -22px;
+    }
+  }
+  &:host([scale="l"]) {
+    .container .thumb--value {
+      --calcite-slider-thumb-offset: -27px;
+    }
+  }
+}
 :host([precise]) .container {
-  margin-top: calc(var(--calcite-slider-handle-size) + $thumb-padding);
-}
-
-:host([label-ticks]),
-:host([precise]) .container--range {
-  margin-bottom: calc(var(--calcite-slider-handle-size) + $thumb-padding);
-}
-
-:host([precise][label-handles]) .container {
-  margin-top: $thumb-size + $thumb-padding;
-}
-
-:host([precise][label-handles]) .container--range {
-  margin-bottom: $thumb-size + $thumb-padding;
+  .thumb {
+    --calcite-slider-thumb-offset: -2px;
+  }
 }
 
 .thumb {
@@ -93,25 +122,21 @@ $tick-height: 4px;
     m-0
     flex
     flex-col
-    items-center;
-  font-family: inherit;
+    items-center
+    font-inherit;
   // z-index: 2;
   transform: translate(7px, var(--calcite-slider-thumb-offset));
 
   .handle__label {
-    @include font-size(-4);
-    font-weight: 500;
-    line-height: 1;
-    color: var(--calcite-ui-text-2);
-    margin-bottom: 5px;
     &.static,
     &.transformed {
-      opacity: 0;
-      position: absolute;
-      top: 0;
-      bottom: 0;
+      @apply opacity-0
+        absolute
+        top-0
+        bottom-0;
     }
     &.hyphen::after {
+      // TO-DO: create new issue for swapped min/max values on mirrored range
       content: "\2014";
       display: inline-block;
       width: 1em;
@@ -119,20 +144,19 @@ $tick-height: 4px;
   }
 
   .handle {
-    @include focus-style-base();
+    @apply focus-base
+      box-border
+      rounded-full
+      bg-foreground-1;
     height: var(--calcite-slider-handle-size);
     width: var(--calcite-slider-handle-size);
-    box-sizing: border-box;
-    border-radius: 100%;
-    background-color: var(--calcite-ui-foreground-1);
     box-shadow: 0 0 0 2px var(--calcite-ui-text-3) inset;
     transition: border 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
   }
 
   .handle-extension {
-    width: 2px;
-    height: $thumb-padding;
-    background-color: var(--calcite-ui-text-3);
+    @apply w-0.5;
+    background-color: theme("colors.text.3");
   }
 
   &:hover {
@@ -140,22 +164,42 @@ $tick-height: 4px;
       box-shadow: 0 0 0 3px var(--calcite-ui-brand) inset;
     }
     .handle-extension {
-      background-color: var(--calcite-ui-brand);
+      @apply bg-brand;
     }
   }
 
   &:focus {
     .handle {
-      @include focus-style-outset();
-      outline-offset: 2px;
+      @apply focus-outset;
     }
     .handle-extension {
-      background-color: var(--calcite-ui-brand);
+      @apply bg-brand;
     }
+  }
+}
+:host(:not([has-histogram]):not([precise])) {
+  .handle__label {
+    margin-bottom: 0.5em;
   }
 }
 .thumb--minValue {
   transform: translate(-7px, var(--calcite-slider-thumb-offset));
+}
+:host([scale="s"]) {
+  .thumb--value {
+    transform: translate(5px, var(--calcite-slider-thumb-offset));
+  }
+  .thumb--minValue {
+    transform: translate(-5px, var(--calcite-slider-thumb-offset));
+  }
+}
+:host([scale="l"]) {
+  .thumb--value {
+    transform: translate(8px, var(--calcite-slider-thumb-offset));
+  }
+  .thumb--minValue {
+    transform: translate(-8px, var(--calcite-slider-thumb-offset));
+  }
 }
 /* uncomment for helpful debugging UI */
 // :host([debug]) {
@@ -187,131 +231,90 @@ $tick-height: 4px;
 // }
 :host([label-handles]) {
   .thumb {
-    transform: translate(50%, -25px);
+    transform: translate(50%, -30px);
   }
   .thumb--minValue {
-    transform: translate(-50%, -25px);
+    transform: translate(-50%, -30px);
   }
-  &:host([scale="s"]:not([has-histogram])) .thumb {
-    transform: translate(50%, -23px);
+  &:host([scale="s"]:not([has-histogram])) {
+    .thumb {
+      transform: translate(50%, -23px);
+    }
+    .thumb--minValue {
+      transform: translate(-50%, -23px);
+    }
   }
-  &:host([scale="s"]:not([has-histogram])) .thumb--minValue {
-    transform: translate(-50%, -23px);
+  &:host([scale="l"]:not([has-histogram])) {
+    .thumb {
+      transform: translate(50%, -32px);
+    }
+    .thumb--minValue {
+      transform: translate(-50%, -32px);
+    }
   }
 }
 :host([has-histogram][label-handles]) {
   .thumb {
     transform: translate(50%, var(--calcite-slider-thumb-offset));
-    .handle__label {
-      margin-bottom: unset;
-      margin-top: 5px;
-    }
+  }
+  .handle__label {
+    margin-top: 0.5em;
   }
   .thumb--minValue {
     transform: translate(-50%, var(--calcite-slider-thumb-offset));
   }
 }
-:host([precise]) {
-  // .thumb {
-  //   //transform: translate(7px, -21px);
-  // }
-  .thumb--minValue {
-    // transform: translate(-7px, -2px);
-    .handle__label {
-      margin-bottom: unset;
-      margin-top: 5px;
-    }
-  }
-}
-// :host([has-histogram][precise]) {
-//   .thumb {
-//     //transform: translate(7px, -2px);
-//   }
-//   .thumb--minValue {
-//     //transform: translate(-50%, -2px);
-//   }
-// }
-// :host([ticks][precise]) {
-//   .thumb {
-//     //transform: translate(7px, -20px);
-//   }
-//   .thumb--minValue {
-//     //transform: translate(-7px, -3px);
-//   }
-// }
-// :host([has-histogram][ticks][precise]) {
-//   .thumb {
-//     //transform: translate(7px, -3px);
-//   }
-//   .thumb--minValue {
-//     //transform: translate(-50%, -3px);
-//   }
-// }
+
 :host([label-handles][precise]) {
-  // .thumb {
-  //   //transform: translate(50%, -38px);
-  // }
-  // .thumb--minValue {
-  //   //transform: translate(-50%, -2px);
-  // }
+  &:host(:not([has-histogram])[scale="s"]) .thumb--value {
+    transform: translate(50%, -34px);
+  }
+  &:host(:not([has-histogram])[scale="m"]) .thumb--value {
+    transform: translate(50%, -44px);
+  }
+  &:host(:not([has-histogram])[scale="l"]) .thumb--value {
+    transform: translate(50%, -50px);
+  }
   &:host(:not([has-histogram])) .thumb--minValue {
     transform: translate(-50%, var(--calcite-slider-thumb-offset));
+    .handle__label {
+      margin-top: 0.5em;
+    }
+  }
+  &:host(:not([has-histogram])) .thumb--value {
+    .handle__label {
+      margin-bottom: 0.5em;
+    }
   }
 }
-// :host([has-histogram][label-handles][precise]) {
-//   .thumb {
-//     //transform: translate(50%, -2px);
-//   }
-//   .thumb--minValue {
-//     //transform: translate(-50%, -2px);
-//   }
-// }
-// :host([ticks][label-handles][precise]) {
-//   .thumb {
-//     //transform: translate(50%, -37px);
-//   }
-//   .thumb--minValue {
-//     //transform: translate(-50%, -3px);
-//   }
-// }
-// :host([has-histogram][ticks][label-handles][precise]) {
-//   .thumb {
-//     //transform: translate(50%, -3px);
-//   }
-//   .thumb--minValue {
-//     //transform: translate(-50%, -3px);
-//   }
-// }
 
 .thumb:focus,
 .thumb--active {
   // z-index: 3;
   .handle {
-    background-color: var(--calcite-ui-brand);
-    @include shadow(1, "press");
+    @apply bg-brand;
+    box-shadow: 0 0 8px 0 rgb(0 0 0 / 16%); // TO-DO: should this be shadow-1-press in TW config?
   }
 }
 
 .thumb:hover.thumb--precise:after,
 .thumb:focus.thumb--precise:after,
 .thumb--active.thumb--precise:after {
-  background-color: var(--calcite-ui-brand);
+  @apply bg-brand;
 }
 
 .track {
-  height: $track-height;
-  border-radius: 0;
+  @apply h-0.5 rounded-none relative;
   // z-index: 1;
   background-color: var(--calcite-ui-border-2);
   transition: all 250ms ease-in;
-  position: relative;
 }
 
 .track__range {
-  position: absolute;
-  top: 0;
-  height: $track-height;
-  background-color: var(--calcite-ui-brand);
+  @apply absolute
+    top-0
+    h-0.5
+    bg-brand;
 }
 .container--range {
   .track__range {
@@ -329,14 +332,24 @@ $tick-height: 4px;
 }
 
 .tick {
-  position: absolute;
-  top: -$tick-height / 2;
-  width: 2px;
-  height: $tick-height;
-  // left: var(--calcite-ui-border-1-offset); // non-existent var...
-  margin-left: -2px;
-  border: 1px solid var(--calcite-ui-foreground-1);
-  background-color: var(--calcite-ui-border-1);
+  @apply absolute
+    w-0.5
+    h-1
+    border
+    border-solid;
+  background-color: theme("borderColor.color.input");
+  border-color: theme("backgroundColor.foreground.1");
+  top: -2px;
+}
+:host(:not([mirrored])) {
+  .tick {
+    margin-left: -2px;
+  }
+}
+:host([mirrored]) {
+  .tick {
+    margin-right: -2px;
+  }
 }
 
 .tick--active {
@@ -345,9 +358,6 @@ $tick-height: 4px;
 
 .tick__label {
   position: absolute;
-  @include font-size(-4);
-  font-weight: 500;
-  color: var(--calcite-ui-text-2);
   width: 4em;
   margin: $thumb-size / 2 -2em;
   text-align: center;

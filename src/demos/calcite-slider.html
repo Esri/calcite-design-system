@@ -16,14 +16,15 @@
       .child {
         flex: 0 0 70%;
         margin: 0 25px;
-        color: var(--calcite-ui-text-3);
+        /* color: var(--calcite-ui-text-3);
         font-family: var(--calcite-sans-family);
         font-size: var(--calcite-font-size-0);
-        font-weight: var(--calcite-font-weight-medium);
+        font-weight: var(--calcite-font-weight-medium); */
         padding: 0 10px;
       }
 
       .child calcite-slider {
+        /* TO-DO: HANDLE IN STYLESHEET */
         margin-bottom: 3rem;
       }
 
@@ -45,36 +46,269 @@
   <body>
     <h1 style="margin: 0 auto; text-align: center">Slider</h1>
 
-    <div style="margin-left: 2rem; width: 350px">
-      <calcite-label layout="inline">
-        m slider inline
-        <calcite-slider min="0" max="100" min-value="0" max-value="80" step="10" ticks="10" precise> </calcite-slider>
-      </calcite-label>
-      <calcite-label layout="default">
-        m slider default
-        <calcite-slider min="0" max="100" min-value="0" max-value="80" step="10" ticks="10" precise> </calcite-slider>
-      </calcite-label>
-      <calcite-label layout="inline" scale="s">
-        s slider inline
-        <calcite-slider scale="s" min="0" max="100" min-value="0" max-value="80" step="10" ticks="10" precise>
-        </calcite-slider>
-      </calcite-label>
-      <calcite-label layout="default" scale="s">
-        s slider default
-        <calcite-slider scale="s" min="0" max="100" min-value="0" max-value="80" step="10" ticks="10" precise>
-        </calcite-slider>
-      </calcite-label>
-      <calcite-label layout="inline" scale="l">
-        l slider inline
-        <calcite-slider scale="l" min="0" max="100" min-value="0" max-value="80" step="10" ticks="10" precise>
-        </calcite-slider>
-      </calcite-label>
-      <calcite-label layout="default" scale="l">
-        l slider default
-        <calcite-slider scale="l" min="0" max="100" min-value="0" max-value="80" step="10" ticks="10" precise>
-        </calcite-slider>
-      </calcite-label>
-    </div>
+    <section style="display: flex">
+      <div style="margin-left: 2rem; width: 350px">
+        <h5>non-mirrored wrapped in calcite-label</h5>
+        <calcite-label layout="inline">
+          m slider inline
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="0"
+            max-value="80"
+            step="10"
+            ticks="10"
+            precise
+            snap
+          ></calcite-slider>
+        </calcite-label>
+        <calcite-label layout="default">
+          m slider default
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="0"
+            max-value="80"
+            step="10"
+            ticks="10"
+            precise
+            snap
+          ></calcite-slider>
+        </calcite-label>
+        <calcite-label layout="inline-space-between">
+          m slider inline-space-between
+          <calcite-slider
+            min="0"
+            max="100"
+            min-value="0"
+            max-value="80"
+            step="10"
+            ticks="10"
+            precise
+            snap
+          ></calcite-slider>
+        </calcite-label>
+        <calcite-label layout="inline" scale="s">
+          s slider inline
+          <calcite-slider
+            scale="s"
+            min="0"
+            max="100"
+            min-value="0"
+            max-value="80"
+            step="10"
+            ticks="10"
+            precise
+            snap
+          ></calcite-slider>
+        </calcite-label>
+        <calcite-label layout="default" scale="s">
+          s slider default
+          <calcite-slider
+            scale="s"
+            min="0"
+            max="100"
+            min-value="0"
+            max-value="80"
+            step="10"
+            ticks="10"
+            precise
+            snap
+          ></calcite-slider>
+        </calcite-label>
+        <calcite-label layout="inline-space-between" scale="s">
+          s slider inline-space-between
+          <calcite-slider
+            scale="s"
+            min="0"
+            max="100"
+            min-value="0"
+            max-value="80"
+            step="10"
+            ticks="10"
+            precise
+            snap
+          ></calcite-slider>
+        </calcite-label>
+        <calcite-label layout="inline" scale="l">
+          l slider inline
+          <calcite-slider
+            scale="l"
+            min="0"
+            max="100"
+            min-value="0"
+            max-value="80"
+            step="10"
+            ticks="10"
+            precise
+            snap
+          ></calcite-slider>
+        </calcite-label>
+        <calcite-label layout="default" scale="l">
+          l slider default
+          <calcite-slider
+            scale="l"
+            min="0"
+            max="100"
+            min-value="0"
+            max-value="80"
+            step="10"
+            ticks="10"
+            precise
+            snap
+          ></calcite-slider>
+        </calcite-label>
+        <calcite-label layout="inline-space-between" scale="l">
+          l slider inline-space-between
+          <calcite-slider
+            scale="l"
+            min="0"
+            max="100"
+            min-value="0"
+            max-value="80"
+            step="10"
+            ticks="10"
+            precise
+            snap
+          ></calcite-slider>
+        </calcite-label>
+      </div>
+      <div style="margin-left: 2rem; width: 350px">
+        <h5>mirrored wrapped in rtl calcite-label</h5>
+        <calcite-label layout="inline" dir="rtl">
+          m slider inline
+          <calcite-slider
+            mirrored
+            min="0"
+            max="100"
+            min-value="0"
+            max-value="80"
+            step="10"
+            ticks="10"
+            precise
+            snap
+          ></calcite-slider>
+        </calcite-label>
+        <calcite-label layout="default" dir="rtl">
+          m slider default
+          <calcite-slider
+            mirrored
+            min="0"
+            max="100"
+            min-value="0"
+            max-value="80"
+            step="10"
+            ticks="10"
+            precise
+            snap
+          ></calcite-slider>
+        </calcite-label>
+        <calcite-label layout="inline-space-between" dir="rtl">
+          m slider inline-space-between
+          <calcite-slider
+            mirrored
+            min="0"
+            max="100"
+            min-value="0"
+            max-value="80"
+            step="10"
+            ticks="10"
+            precise
+            snap
+          ></calcite-slider>
+        </calcite-label>
+        <calcite-label layout="inline" scale="s" dir="rtl">
+          s slider inline
+          <calcite-slider
+            mirrored
+            scale="s"
+            min="0"
+            max="100"
+            min-value="0"
+            max-value="80"
+            step="10"
+            ticks="10"
+            precise
+            snap
+          ></calcite-slider>
+        </calcite-label>
+        <calcite-label layout="default" scale="s" dir="rtl">
+          s slider default
+          <calcite-slider
+            mirrored
+            scale="s"
+            min="0"
+            max="100"
+            min-value="0"
+            max-value="80"
+            step="10"
+            ticks="10"
+            precise
+            snap
+          ></calcite-slider>
+        </calcite-label>
+        <calcite-label layout="inline-space-between" scale="s" dir="rtl">
+          s slider inline-space-between
+          <calcite-slider
+            mirrored
+            scale="s"
+            min="0"
+            max="100"
+            min-value="0"
+            max-value="80"
+            step="10"
+            ticks="10"
+            precise
+            snap
+          ></calcite-slider>
+        </calcite-label>
+        <calcite-label layout="inline" scale="l" dir="rtl">
+          l slider inline
+          <calcite-slider
+            mirrored
+            scale="l"
+            min="0"
+            max="100"
+            min-value="0"
+            max-value="80"
+            step="10"
+            ticks="10"
+            precise
+            snap
+          ></calcite-slider>
+        </calcite-label>
+        <calcite-label layout="default" scale="l" dir="rtl">
+          l slider default
+          <calcite-slider
+            mirrored
+            scale="l"
+            min="0"
+            max="100"
+            min-value="0"
+            max-value="80"
+            step="10"
+            ticks="10"
+            precise
+            snap
+          ></calcite-slider>
+        </calcite-label>
+        <calcite-label layout="inline-space-between" scale="l" dir="rtl">
+          l slider inline-space-between
+          <calcite-slider
+            mirrored
+            scale="l"
+            min="0"
+            max="100"
+            min-value="0"
+            max-value="80"
+            step="10"
+            ticks="10"
+            precise
+            snap
+          ></calcite-slider>
+        </calcite-label>
+      </div>
+    </section>
 
     <div class="parent">
       <div class="child right-aligned-text"></div>
