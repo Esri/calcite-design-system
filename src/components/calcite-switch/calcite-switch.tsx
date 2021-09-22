@@ -205,12 +205,13 @@ export class CalciteSwitch implements LabelableComponent {
   render(): VNode {
     const dir = getElementDir(this.el);
     return (
-      <Host tabindex={this.tabindex}>
-        <div
-          aria-checked={this.switched.toString()}
-          class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
-          onClick={this.clickHandler}
-        >
+      <Host
+        aria-checked={this.switched.toString()}
+        onClick={this.clickHandler}
+        role="switch"
+        tabindex={this.tabindex}
+      >
+        <div class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           <div class="track">
             <div class="handle" />
           </div>
