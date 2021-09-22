@@ -826,7 +826,7 @@ export class CalciteSlider {
 
   private shouldUseMinValue(): boolean {
     if (!this.isRange) {
-      return;
+      return false;
     }
     return (
       (this.hasHistogram && this.maxValue === 0) || (!this.hasHistogram && this.minValue === 0)
