@@ -84,9 +84,6 @@ $thumb-padding: calc(calc($thumb-size - var(--calcite-slider-handle-size)) / 2);
   .tick--active {
     background-color: var(--calcite-ui-text-3);
   }
-  .graph .graph-path--highlight {
-    fill: var(--calcite-ui-text-3);
-  }
 }
 
 :host([precise]:not([has-histogram])) {
