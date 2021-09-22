@@ -25,6 +25,9 @@
   .icon {
     @apply flex justify-center;
   }
+  .large-visual {
+    @apply text-center;
+  }
 }
 :host([disabled]) {
   @apply opacity-disabled;
