@@ -260,7 +260,7 @@ describe("calcite-action-bar", () => {
             <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
             <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
           </calcite-action-group>
-          <calcite-action-group menu-open>
+          <calcite-action-group>
             <calcite-action text="Add" icon="plus"></calcite-action>
             <calcite-action text="Add" icon="plus"></calcite-action>
             <calcite-action text="Add" icon="plus"></calcite-action>
@@ -276,6 +276,10 @@ describe("calcite-action-bar", () => {
     await page.waitForChanges();
 
     let groups = await page.findAll("calcite-action-group");
+
+    groups[1].setProperty("menuOpen", true);
+
+    await page.waitForChanges();
 
     expect(await groups[0].getProperty("menuOpen")).toBe(false);
     expect(await groups[1].getProperty("menuOpen")).toBe(true);
