@@ -1,7 +1,6 @@
 export const CSS = {
   loader: "calcite-input__loader",
   clearButton: "calcite-input__clear-button",
-  inlineChild: "calcite-input__inline-child",
   inputIcon: "calcite-input__icon",
   prefix: "calcite-input__prefix",
   suffix: "calcite-input__suffix",
