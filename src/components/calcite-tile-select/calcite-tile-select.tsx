@@ -5,6 +5,9 @@ import { getElementDir } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { guid } from "../../utils/guid";
 
+/**
+ * @slot - A slot for adding custom content.
+ */
 @Component({
   tag: "calcite-tile-select",
   styleUrl: "calcite-tile-select.scss",

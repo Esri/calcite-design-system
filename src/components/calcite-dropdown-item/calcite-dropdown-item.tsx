@@ -18,6 +18,9 @@ import { CSS_UTILITY } from "../../utils/resources";
 import { CSS } from "./resources";
 import { SelectionMode } from "../calcite-dropdown-group/interfaces";
 
+/**
+ * @slot - A slot for adding text.
+ */
 @Component({
   tag: "calcite-dropdown-item",
   styleUrl: "calcite-dropdown-item.scss",

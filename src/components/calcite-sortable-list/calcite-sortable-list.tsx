@@ -15,7 +15,7 @@ import { Layout } from "../interfaces";
 import { CSS } from "./resources";
 
 /**
- * @slot - A slot for adding sortable items
+ * @slot - A slot for adding sortable items.
  */
 @Component({
   tag: "calcite-sortable-list",

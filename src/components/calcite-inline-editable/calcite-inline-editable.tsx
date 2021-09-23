@@ -14,7 +14,7 @@ import { Scale } from "../interfaces";
 import { TEXT, CSS } from "./resources";
 
 /**
- * @slot - slot for rendering a `<calcite-input>`
+ * @slot - A slot for adding a `calcite-input`.
  */
 @Component({
   tag: "calcite-inline-editable",

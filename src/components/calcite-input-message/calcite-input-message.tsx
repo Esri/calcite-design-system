@@ -4,6 +4,9 @@ import { Scale, Status } from "../interfaces";
 import { StatusIconDefaults } from "./interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 
+/**
+ * @slot - A slot for adding text.
+ */
 @Component({
   tag: "calcite-input-message",
   styleUrl: "calcite-input-message.scss",

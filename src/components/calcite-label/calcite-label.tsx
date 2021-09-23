@@ -4,6 +4,9 @@ import { FocusRequest } from "./interfaces";
 import { Alignment, Scale, Status } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 
+/**
+ * @slot - A slot for adding text.
+ */
 @Component({
   tag: "calcite-label",
   styleUrl: "calcite-label.scss",

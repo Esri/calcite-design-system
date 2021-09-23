@@ -12,6 +12,9 @@ import {
 } from "@stencil/core";
 import { Layout, Scale } from "../interfaces";
 
+/**
+ * @slot - A slot for adding `calcite-radio-button`s.
+ */
 @Component({
   tag: "calcite-radio-button-group",
   styleUrl: "calcite-radio-button-group.scss",

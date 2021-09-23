@@ -1,6 +1,9 @@
 import { Component, h, VNode, Prop } from "@stencil/core";
 import { TileSelectGroupLayout } from "./interfaces";
 
+/**
+ * @slot - A slot for adding `calcite-tile-select`s.
+ */
 @Component({
   tag: "calcite-tile-select-group",
   styleUrl: "calcite-tile-select-group.scss",
