@@ -1,0 +1,28 @@
+name: Verify Install
+on:
+  issues:
+    types: [labeled]
+jobs:
+  assign:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v4
+        with:
+          script: |
+            const { label, sender } = context.payload;
+            if (sender && label && label.name === "3 - installed") {
+              const assignees =
+                sender.login !== "benelan" ? ["benelan"] : ["jcfranco", "julio8a"];
+              await github.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: "Installed, assigning for verification.",
+              });
+              await github.issues.update({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                assignees,
+              });
+            }
