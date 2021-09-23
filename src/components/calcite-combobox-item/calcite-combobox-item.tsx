@@ -18,6 +18,9 @@ import { getAncestors, getDepth } from "../calcite-combobox/utils";
 import { Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 
+/**
+ * @slot - A slot for adding nested `calcite-combobox-item`s.
+ */
 @Component({
   tag: "calcite-combobox-item",
   styleUrl: "./calcite-combobox-item.scss",

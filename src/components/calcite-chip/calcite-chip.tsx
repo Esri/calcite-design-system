@@ -7,7 +7,8 @@ import { Appearance, Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 
 /**
- * @slot image - a slot for adding an image
+ * @slot - A slot for adding text.
+ * @slot image - A slot for adding an image.
  */
 @Component({
   tag: "calcite-chip",

@@ -4,6 +4,7 @@ import { getSlotted } from "../../utils/dom";
 import { HeadingLevel, CalciteHeading, constrainHeadingLevel } from "../functional/CalciteHeading";
 
 /**
+ * @slot - A slot for adding text and a hyperlink.
  * @slot thumbnail - A slot for adding an HTML image element to the tip.
  */
 @Component({

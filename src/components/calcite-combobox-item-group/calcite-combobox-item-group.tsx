@@ -7,6 +7,9 @@ import { getElementDir, getElementProp } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { Scale } from "../interfaces";
 
+/**
+ * @slot - A slot for adding `calcite-combobox-item`s.
+ */
 @Component({
   tag: "calcite-combobox-item-group",
   styleUrl: "./calcite-combobox-item-group.scss",

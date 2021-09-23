@@ -4,6 +4,9 @@ import { getElementDir } from "../../utils/dom";
 import { ButtonAppearance, ButtonColor, DropdownIconType } from "../calcite-button/interfaces";
 import { FlipContext, Scale, Width } from "../interfaces";
 
+/**
+ * @slot - A slot for adding `calcite-dropdown` content.
+ */
 @Component({
   tag: "calcite-split-button",
   styleUrl: "calcite-split-button.scss",
