@@ -831,7 +831,12 @@ export class CalciteSlider {
   }
 
   private shouldUseMinValue(): boolean {
-    return this.isRange && !this.hasHistogram && this.minValue === 0;
+    if (!this.isRange) {
+      return false;
+    }
+    return (
+      (this.hasHistogram && this.maxValue === 0) || (!this.hasHistogram && this.minValue === 0)
+    );
   }
 
   private generateTickValues(): number[] {
