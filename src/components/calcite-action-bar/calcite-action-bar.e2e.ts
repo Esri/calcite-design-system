@@ -271,7 +271,7 @@ describe("calcite-action-bar", () => {
         </calcite-action-bar>`
     });
 
-    const eventSpy = await page.spyOnEvent("calciteActionMenuOpenChange", "window");
+    const eventSpy = page.spyOnEvent("calciteActionMenuOpenChange", "window");
 
     await page.waitForChanges();
 
@@ -283,6 +283,8 @@ describe("calcite-action-bar", () => {
     groups[0].setProperty("menuOpen", true);
 
     await page.waitForChanges();
+
+    await eventSpy;
 
     expect(eventSpy).toHaveReceivedEventTimes(2);
 
