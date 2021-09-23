@@ -132,7 +132,6 @@ export class CalciteSlider implements LabelableComponent {
     if (this.histogram) {
       this.hasHistogram = true;
     }
-    this.emitChange();
   }
 
   componentDidRender(): void {
@@ -154,7 +153,8 @@ export class CalciteSlider implements LabelableComponent {
     const max = this.maxValue || this.value;
     const maxProp = this.isRange ? "maxValue" : "value";
     const value = this[maxProp];
-    const minInterval = this.getUnitInterval(min) * 100;
+    const useMinValue = this.shouldUseMinValue();
+    const minInterval = this.getUnitInterval(useMinValue ? this.minValue : min) * 100;
     const maxInterval = this.getUnitInterval(max) * 100;
     const mirror = this.shouldMirror();
     const leftThumbOffset = `${mirror ? 100 - minInterval : minInterval}%`;
@@ -539,12 +539,16 @@ export class CalciteSlider implements LabelableComponent {
             <div class="ticks">
               {this.tickValues.map((tick) => {
                 const tickOffset = `${this.getUnitInterval(tick) * 100}%`;
+                let activeTicks = tick >= min && tick <= max;
+                if (useMinValue) {
+                  activeTicks = tick >= this.minValue && tick <= this.maxValue;
+                }
 
                 return (
                   <span
                     class={{
                       tick: true,
-                      "tick--active": tick >= min && tick <= max
+                      "tick--active": activeTicks
                     }}
                     style={{
                       left: mirror ? "" : tickOffset,
@@ -741,7 +745,7 @@ export class CalciteSlider implements LabelableComponent {
         prop = "minMaxValue";
       } else {
         const closerToMax = Math.abs(this.maxValue - position) < Math.abs(this.minValue - position);
-        prop = closerToMax ? "maxValue" : "minValue";
+        prop = closerToMax || position > this.maxValue ? "maxValue" : "minValue";
       }
     }
     this[prop] = this.clamp(position, prop);
@@ -830,6 +834,15 @@ export class CalciteSlider implements LabelableComponent {
 
   private shouldMirror(): boolean {
     return this.mirrored && !this.hasHistogram;
+  }
+
+  private shouldUseMinValue(): boolean {
+    if (!this.isRange) {
+      return false;
+    }
+    return (
+      (this.hasHistogram && this.maxValue === 0) || (!this.hasHistogram && this.minValue === 0)
+    );
   }
 
   private generateTickValues(): number[] {

@@ -1,25 +1,23 @@
-labelToAdd: 'need more info'
+labelToAdd: "need more info"
 labelsToCheck:
   - bug
-commentHeader: 'More information is required to proceed with this issue:'
+commentHeader: "More information is required to proceed with this issue:"
 requiredItems:
-  -
-    response: '- Copy the [issue template](https://github.com/Esri/calcite-components/issues/new?assignees=&labels=bug%2C+0+-+new%2C+needs+triage&template=bug.md&title=Bug%3A+) format and paste it into a comment, providing all of the requested items'
+  - response: "- Copy the [issue template](https://github.com/Esri/calcite-components/issues/new?assignees=&labels=bug%2C+0+-+new%2C+needs+triage&template=bug.md&title=Bug%3A+) format and paste it into a comment, providing all of the requested items"
     requireAll: true
     content:
-      - '### Actual Behavior'
-      - '### Expected Behavior'
-      - '### Reproduction Steps and Sample'
-      - '### Relevant Info'
-  -
-    response: '- Provide a [codepen](https://codepen.io/pen?template=RwgrjEx), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js), or [jsbin](https://jsbin.com/zocobeqopu/edit?html,css,js,output) that reproduces the issue. Alternatively, a [documentation](https://developers.arcgis.com/calcite-design-system/components/) sample can be used if the issue is reproducible.'
+      - "### Actual Behavior"
+      - "### Expected Behavior"
+      - "### Reproduction Steps and Sample"
+      - "### Relevant Info"
+  - response: "- Provide a [codepen](https://codepen.io/pen?template=RwgrjEx), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js), or [jsbin](https://jsbin.com/zocobeqopu/edit?html,css,js,output) that reproduces the issue. Alternatively, a [documentation](https://developers.arcgis.com/calcite-design-system/components/) sample can be used if the issue is reproducible."
     requireAll: false
     content:
-      - 'jsbin.com/'
-      - 'codepen.io/'
-      - 'codesandbox.io/'
-      - 'esri.github.io/calcite-components/?path=/story/components-'
-      - 'esri.github.io/calcite-components/iframe.html?'
-      - 'developers.arcgis.com/calcite-design-system/components/'
-commentFooter: 'This issue will be automatically closed in three days if the information is not provided. Thanks for your understanding.'
+      - "jsbin.com/"
+      - "codepen.io/"
+      - "codesandbox.io/"
+      - "esri.github.io/calcite-components/?path=/story/components-"
+      - "esri.github.io/calcite-components/iframe.html?"
+      - "developers.arcgis.com/calcite-design-system/components/"
+commentFooter: "This issue will be automatically closed in three days if the information is not provided. Thanks for your understanding."
 excludeComments: true

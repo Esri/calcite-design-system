@@ -123,6 +123,7 @@ Type: `Promise<void>`
 
 - [calcite-color-picker](../calcite-color-picker)
 - [calcite-color-picker-hex-input](../calcite-color-picker-hex-input)
+- [calcite-filter](../calcite-filter)
 - [calcite-input-date-picker](../calcite-input-date-picker)
 - [calcite-input-time-picker](../calcite-input-time-picker)
 
@@ -139,6 +140,7 @@ graph TD;
   calcite-input --> calcite-icon
   calcite-color-picker --> calcite-input
   calcite-color-picker-hex-input --> calcite-input
+  calcite-filter --> calcite-input
   calcite-input-date-picker --> calcite-input
   calcite-input-time-picker --> calcite-input
   style calcite-input fill:#f9f,stroke:#333,stroke-width:4px
