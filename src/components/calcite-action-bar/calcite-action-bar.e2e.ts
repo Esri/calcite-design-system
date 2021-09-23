@@ -272,24 +272,24 @@ describe("calcite-action-bar", () => {
         </calcite-action-group>
       </calcite-action-bar>`
     });
-
-    const eventSpy = await page.spyOnEvent("calciteActionMenuOpenChange");
     await page.waitForChanges();
+
+    const element = await page.find("calcite-action-bar");
+    const eventSpy = await element.spyOnEvent("calciteActionMenuOpenChange");
 
     let groups = await page.findAll("calcite-action-group");
 
     expect(await groups[0].getProperty("menuOpen")).toBe(false);
     expect(await groups[1].getProperty("menuOpen")).toBe(true);
 
-    await page.evaluate(() => {
-      document.querySelectorAll("calcite-action-group")[0].menuOpen = true;
-    });
+    groups[0].setProperty("menuOpen", true);
     await page.waitForChanges();
 
     groups = await page.findAll("calcite-action-group");
 
     expect(await groups[0].getProperty("menuOpen")).toBe(true);
     expect(await groups[1].getProperty("menuOpen")).toBe(false);
+
     expect(eventSpy).toHaveReceivedEventTimes(2);
   });
 
@@ -320,6 +320,8 @@ describe("calcite-action-bar", () => {
           </calcite-action-group>
         </calcite-action-bar>`
       });
+      await page.waitForChanges();
+
       const actionBar = await page.find("calcite-action-bar");
       await actionBar.callMethod("overflowActions");
       await page.waitForChanges();
