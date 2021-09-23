@@ -100,6 +100,7 @@ export const Simple = stepStory(
     .ltr()
     .executeScript(setTheme("light"))
     .executeScript(setKnobs({ story: "components-popover--simple", knobs: [{ name: "dismissible", value: "true" }] }))
+    .click("#reference-element")
     .snapshot("Open Dismissible")
 
     // Open Dismissable RTL
@@ -122,6 +123,7 @@ export const Simple = stepStory(
     .executeScript(
       setKnobs({ story: "components-popover--simple", knobs: [{ name: "disable-pointer", value: "true" }] })
     )
+    .click("#reference-element")
     .snapshot("Open Disable Pointer")
 
     // Open Disable Pointer RTL
