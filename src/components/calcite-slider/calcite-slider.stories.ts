@@ -56,6 +56,32 @@ export const Range = (): string => html`
   </div>
 `;
 
+export const MirroredRangeDark = (): string => html`
+  <div style="width: 250px;">
+    <calcite-slider
+      class="calcite-theme-dark"
+      mirrored
+      min="${number("min", 0)}"
+      min-label="${text("min-label", "Temperature, lower bound")}"
+      min-value="${number("min-value", 25)}"
+      max="${number("max", 100)}"
+      max-label="${text("max-label", "Temperature, upper bound")}"
+      max-value="${number("max-value", 75)}"
+      step="${number("step", 1)}"
+      ${boolean("label-handles", true)}
+      ${boolean("label-ticks", true)}
+      ticks="${number("ticks", 20)}"
+      ${boolean("precise", true)}
+      ${boolean("snap", true)}
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+    ></calcite-slider>
+  </div>
+`;
+
+MirroredRangeDark.story = {
+  parameters: { themes: themesDarkDefault }
+};
+
 export const Histogram = (): HTMLCalciteSliderElement => {
   const slider = document.createElement("calcite-slider");
   slider.min = number("min", 0);
