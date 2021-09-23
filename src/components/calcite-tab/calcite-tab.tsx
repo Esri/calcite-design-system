@@ -16,6 +16,9 @@ import { guid } from "../../utils/guid";
 import { nodeListToArray } from "../../utils/dom";
 import { Scale } from "../interfaces";
 
+/**
+ * @slot - A slot for adding custom content.
+ */
 @Component({
   tag: "calcite-tab",
   styleUrl: "calcite-tab.scss",

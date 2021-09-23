@@ -12,6 +12,9 @@ import {
 } from "../../utils/popper";
 import { queryElementRoots } from "../../utils/dom";
 
+/**
+ * @slot - A slot for adding text.
+ */
 @Component({
   tag: "calcite-tooltip",
   styleUrl: "calcite-tooltip.scss",

@@ -18,6 +18,9 @@ import { getKey } from "../../utils/key";
 import { Layout, Scale, Width } from "../interfaces";
 import { RadioAppearance } from "./interfaces";
 
+/**
+ * @slot - A slot for adding `calcite-radio-group-item`s.
+ */
 @Component({
   tag: "calcite-radio-group",
   styleUrl: "calcite-radio-group.scss",
