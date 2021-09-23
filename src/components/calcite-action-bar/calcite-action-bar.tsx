@@ -165,6 +165,7 @@ export class CalciteActionBar {
 
   /**
    * Overflows actions that won't fit into menus.
+   * @internal
    */
   @Method()
   async overflowActions(): Promise<void> {
