@@ -13,4 +13,4 @@ jobs:
           remove-stale-when-updated: false
           stale-issue-label: "need more info"
           stale-pr-label: "need more info"
-          close-issue-message: "This issue has been automatically closed due to missing information. We will reopen the issue if the information is provided and `benelan` is mentioned in the comment."
+          close-issue-message: "This issue has been automatically closed due to missing information. We will reopen the issue if the information is provided and `${{secrets.PRIMARY_CONTACT}}` is mentioned in the comment."
