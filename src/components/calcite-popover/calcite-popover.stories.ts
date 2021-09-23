@@ -76,15 +76,65 @@ export const Simple = stepStory(
     </div>
   `,
   createSteps("calcite-popover")
+    // Default
     .snapshot("Default")
+
+    // Open
     .click("#reference-element")
     .snapshot("Open")
-    .executeScript(setKnobs({ story: "components-popover--simple", knobs: [{ name: "dismissible", value: "true" }] }))
-    .click("#reference-element")
-    .snapshot("dismissible")
+
+    // Open RTL
     .rtl()
-    .snapshot("Rtl")
+    .snapshot("Open RTL")
+
+    // Open Dark
     .ltr()
     .executeScript(setTheme("dark"))
-    .snapshot("Dark theme")
+    .snapshot("Open Dark")
+
+    // Open RTL Dark
+    .rtl()
+    .snapshot("Open RTL Dark")
+
+    // Open Dismissable
+    .ltr()
+    .executeScript(setTheme("light"))
+    .executeScript(setKnobs({ story: "components-popover--simple", knobs: [{ name: "dismissible", value: "true" }] }))
+    .snapshot("Open Dismissible")
+
+    // Open Dismissable RTL
+    .rtl()
+    .snapshot("Open Dismissible RTL")
+
+    // Open Dismissable Dark
+    .ltr()
+    .executeScript(setTheme("dark"))
+    .snapshot("Open Dismissible Dark")
+
+    // Open Dismissable RTL Dark
+    .rtl()
+    .executeScript(setTheme("dark"))
+    .snapshot("Open Dismissible RTL Dark")
+
+    // Open Disable Pointer
+    .ltr()
+    .executeScript(setTheme("light"))
+    .executeScript(
+      setKnobs({ story: "components-popover--simple", knobs: [{ name: "disable-pointer", value: "true" }] })
+    )
+    .snapshot("Open Disable Pointer")
+
+    // Open Disable Pointer RTL
+    .rtl()
+    .snapshot("Open Disable Pointer RTL")
+
+    // Open Disable Pointer Dark
+    .ltr()
+    .executeScript(setTheme("dark"))
+    .snapshot("Open Disable Pointer Dark")
+
+    // Open Disable Pointer RTL Dark
+    .rtl()
+    .executeScript(setTheme("dark"))
+    .snapshot("Open Disable Pointer RTL Dark")
 );

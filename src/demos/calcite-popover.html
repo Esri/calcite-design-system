@@ -29,14 +29,25 @@
   <body>
     <h1 style="margin: 0 auto; text-align: center">Popover</h1>
 
-    <!-- clickable popover -->
     <calcite-popover-manager>
+      <!-- clickable popover -->
       <div class="parent">
         <div class="child">Clickable popover</div>
 
         <div class="child">
           <calcite-button appearance="outline" id="popover-button-right" icon-start="popup">
             Clickable popover</calcite-button
+          >
+        </div>
+      </div>
+
+      <!-- disable pointer -->
+      <div class="parent">
+        <div class="child">Disable Pointer</div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="popover-button-disable-pointer" icon-start="popup">
+            Disable Pointer</calcite-button
           >
         </div>
       </div>
@@ -98,6 +109,17 @@
         reference-element="popover-button-right"
         placement="right-start"
         id="popover-right"
+      >
+        <div style="padding: 12px 16px">Hello! I am some popover content!</div>
+      </calcite-popover>
+
+      <!-- disable-pointer -->
+      <calcite-popover
+        label="right start disable pointer popover"
+        reference-element="popover-button-disable-pointer"
+        placement="right-start"
+        id="popover-disable-pointer"
+        disable-pointer
       >
         <div style="padding: 12px 16px">Hello! I am some popover content!</div>
       </calcite-popover>
