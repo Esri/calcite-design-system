@@ -251,27 +251,27 @@ describe("calcite-action-bar", () => {
   });
 
   it("'calciteActionMenuOpenChange' event should set other 'calcite-action-group' - 'menuOpen' to false", async () => {
-    const page = await newE2EPage();
-    const eventSpy = await page.spyOnEvent("calciteActionMenuOpenChange", "window");
+    const page = await newE2EPage({
+      html: `<calcite-action-bar>
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
+        <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group menu-open>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
+        <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>`
+    });
 
-    await page.setContent(`<calcite-action-bar>
-    <calcite-action-group>
-      <calcite-action text="Add" icon="plus"></calcite-action>
-      <calcite-action text="Add" icon="plus"></calcite-action>
-      <calcite-action text="Add" icon="plus"></calcite-action>
-      <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
-      <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
-    </calcite-action-group>
-    <calcite-action-group menu-open>
-      <calcite-action text="Add" icon="plus"></calcite-action>
-      <calcite-action text="Add" icon="plus"></calcite-action>
-      <calcite-action text="Add" icon="plus"></calcite-action>
-      <calcite-action text="Add" icon="plus"></calcite-action>
-      <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
-      <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
-    </calcite-action-group>
-  </calcite-action-bar>`);
-
+    const eventSpy = await page.spyOnEvent("calciteActionMenuOpenChange");
     await page.waitForChanges();
 
     let groups = await page.findAll("calcite-action-group");
@@ -279,8 +279,9 @@ describe("calcite-action-bar", () => {
     expect(await groups[0].getProperty("menuOpen")).toBe(false);
     expect(await groups[1].getProperty("menuOpen")).toBe(true);
 
-    groups[0].setProperty("menuOpen", true);
-
+    await page.evaluate(() => {
+      document.querySelectorAll("calcite-action-group")[0].menuOpen = true;
+    });
     await page.waitForChanges();
 
     groups = await page.findAll("calcite-action-group");
