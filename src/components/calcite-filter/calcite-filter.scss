@@ -33,6 +33,10 @@ input[type="text"] {
   }
 }
 
+calcite-input {
+  @apply w-full;
+}
+
 .search-icon {
   @apply flex
     left-0
@@ -47,7 +51,6 @@ input[type="text"] {
 
 input[type="text"]:focus {
   @apply border-color-brand outline-none pl-1 pr-1;
-  box-shadow: 0 2px 0 var(--calcite-ui-brand);
   & ~ .search-icon {
     left: calc(theme("spacing.4") * -1);
     @apply opacity-0;
@@ -70,7 +73,9 @@ input[type="text"]:focus {
   @apply text-color-2
     bg-transparent
     border-0
-    cursor-pointer;
+    cursor-pointer
+    flex
+    items-center;
   &:hover,
   &:focus {
     @apply text-color-1;
