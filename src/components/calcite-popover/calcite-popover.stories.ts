@@ -137,6 +137,30 @@ export const Simple = stepStory(
 
     // Open Disable Pointer RTL Dark
     .rtl()
-    .executeScript(setTheme("dark"))
     .snapshot("Open Disable Pointer RTL Dark")
+
+    // Open With Heading
+    .ltr()
+    .executeScript(setTheme("light"))
+    .executeScript(
+      setKnobs({
+        story: "components-popover--simple",
+        knobs: [{ name: "heading", value: "I'm a heading in the header using the 'heading' prop!" }]
+      })
+    )
+    .click("#reference-element")
+    .snapshot("Open With Heading")
+
+    // Open With Heading RTL
+    .rtl()
+    .snapshot("Open With Heading RTL")
+
+    // Open With Heading Dark
+    .ltr()
+    .executeScript(setTheme("dark"))
+    .snapshot("Open With Heading Dark")
+
+    // Open With Heading Dark RTL
+    .rtl()
+    .snapshot("Open With Heading Dark RTL")
 );
