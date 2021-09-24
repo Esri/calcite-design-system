@@ -69,6 +69,7 @@ export const Simple = stepStory(
         offset-distance="${number("offset-distance", 6)}"
         offset-skidding="${number("offset-skidding", 0)}"
         ${boolean("open", false)}
+        overlay-positioning="${select("overlay-positioning", ["absolute", "fixed"], "absolute")}"
         text-close="${text("text-close", "Close")}"
       >
         ${contentHTML}
