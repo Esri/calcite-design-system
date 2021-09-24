@@ -193,9 +193,6 @@ export class CalciteSwitch implements LabelableComponent {
     this.setupInput();
   }
 
-  componentDidLoad(): void {
-    this.inputEl.setAttribute("aria-label", getLabelText(this));
-  }
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -207,6 +204,7 @@ export class CalciteSwitch implements LabelableComponent {
     return (
       <Host
         aria-checked={this.switched.toString()}
+        aria-label={getLabelText(this)}
         onClick={this.clickHandler}
         role="switch"
         tabindex={this.tabindex}
