@@ -43,6 +43,12 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
+## Slots
+
+| Slot | Description                                    |
+| ---- | ---------------------------------------------- |
+|      | A slot for adding `calcite-radio-group-item`s. |
+
 ---
 
 _Built with [StencilJS](https://stenciljs.com/)_

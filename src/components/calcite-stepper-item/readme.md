@@ -15,6 +15,12 @@ individual `calcite-stepper-item` item
 | `itemSubtitle` | `item-subtitle` | pass a title for the stepper item                                    | `string`  | `undefined` |
 | `itemTitle`    | `item-title`    | pass a title for the stepper item                                    | `string`  | `undefined` |
 
+## Slots
+
+| Slot | Description                       |
+| ---- | --------------------------------- |
+|      | A slot for adding custom content. |
+
 ## Dependencies
 
 ### Depends on

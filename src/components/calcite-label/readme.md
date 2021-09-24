@@ -41,6 +41,12 @@ When using the `default`, `inline` or `inline-space-between` layout option with 
 | `scale`          | `scale`           | specify the scale of the input, defaults to m                        | `"l" \| "m" \| "s"`                               | `"m"`       |
 | `status`         | `status`          | specify the status of the label and any child input / input messages | `"idle" \| "invalid" \| "valid"`                  | `"idle"`    |
 
+## Slots
+
+| Slot | Description                                                 |
+| ---- | ----------------------------------------------------------- |
+|      | A slot for adding text and a component that can be labeled. |
+
 ---
 
 _Built with [StencilJS](https://stenciljs.com/)_
