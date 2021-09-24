@@ -49,9 +49,9 @@ There is no need to set a theme or scale on the `<calcite-inline-editable>` comp
 
 ## Slots
 
-| Slot | Description                            |
-| ---- | -------------------------------------- |
-|      | slot for rendering a `<calcite-input>` |
+| Slot | Description                          |
+| ---- | ------------------------------------ |
+|      | A slot for adding a `calcite-input`. |
 
 ## Dependencies
 

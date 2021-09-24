@@ -48,9 +48,10 @@
 
 ## Slots
 
-| Slot        | Description                                  |
-| ----------- | -------------------------------------------- |
-| `"tab-nav"` | a slot for adding a tab navigation component |
+| Slot        | Description                                   |
+| ----------- | --------------------------------------------- |
+|             | A slot for adding `calcite-tab`s.             |
+| `"tab-nav"` | A slot for adding a tab navigation component. |
 
 ## Dependencies
 
