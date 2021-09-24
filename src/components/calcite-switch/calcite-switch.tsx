@@ -12,19 +12,21 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { focusElement, getElementDir, hasLabel } from "../../utils/dom";
+import { getElementDir } from "../../utils/dom";
 import { hiddenInputStyle } from "../../utils/form";
 import { guid } from "../../utils/guid";
+
 import { getKey } from "../../utils/key";
 import { CSS_UTILITY } from "../../utils/resources";
 import { Scale } from "../interfaces";
+import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 
 @Component({
   tag: "calcite-switch",
   styleUrl: "calcite-switch.scss",
   shadow: true
 })
-export class CalciteSwitch {
+export class CalciteSwitch implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -47,6 +49,9 @@ export class CalciteSwitch {
     this.inputEl.disabled = newDisabled;
     this.tabindex = newDisabled ? -1 : 0;
   }
+
+  /** Applies to the aria-label attribute on the switch */
+  @Prop() label?: string;
 
   /** The name of the switch input */
   @Prop({ reflect: true }) name?: string;
@@ -76,6 +81,8 @@ export class CalciteSwitch {
   //
   //--------------------------------------------------------------------------
 
+  labelEl: HTMLCalciteLabelElement;
+
   private inputEl: HTMLInputElement = document.createElement("input");
 
   //--------------------------------------------------------------------------
@@ -97,7 +104,7 @@ export class CalciteSwitch {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    focusElement(this.inputEl);
+    this.el.focus();
   }
 
   //--------------------------------------------------------------------------
@@ -105,6 +112,13 @@ export class CalciteSwitch {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  onLabelClick = (): void => {
+    if (!this.disabled) {
+      this.toggle();
+      this.setFocus();
+    }
+  };
 
   private setupInput(): void {
     this.switched && this.inputEl.setAttribute("checked", "");
@@ -126,6 +140,14 @@ export class CalciteSwitch {
     });
   }
 
+  private clickHandler = (): void => {
+    if (this.labelEl) {
+      return;
+    }
+
+    this.toggle();
+  };
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -143,31 +165,6 @@ export class CalciteSwitch {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteLabelFocus", { target: "window" })
-  handleLabelFocus(e: CustomEvent): void {
-    if (
-      !this.disabled &&
-      !this.el.contains(e.detail.interactedEl) &&
-      hasLabel(e.detail.labelEl, this.el)
-    ) {
-      this.el.focus();
-    } else {
-      return;
-    }
-  }
-
-  @Listen("click")
-  onClick(e: MouseEvent): void {
-    // prevent duplicate click events that occur
-    // when the component is wrapped in a label and checkbox is clicked
-    if (
-      (!this.disabled && this.el.closest("label") && e.target === this.inputEl) ||
-      (!this.el.closest("label") && e.target === this.el)
-    ) {
-      this.toggle();
-    }
-  }
-
   @Listen("keydown")
   keyDownHandler(e: KeyboardEvent): void {
     const key = getKey(e.key);
@@ -181,6 +178,14 @@ export class CalciteSwitch {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    connectLabel(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectLabel(this);
+  }
 
   componentWillLoad(): void {
     this.guid = this.el.id || `calcite-switch-${guid()}`;
@@ -197,11 +202,14 @@ export class CalciteSwitch {
   render(): VNode {
     const dir = getElementDir(this.el);
     return (
-      <Host tabindex={this.tabindex}>
-        <div
-          aria-checked={this.switched.toString()}
-          class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
-        >
+      <Host
+        aria-checked={this.switched.toString()}
+        aria-label={getLabelText(this)}
+        onClick={this.clickHandler}
+        role="switch"
+        tabindex={this.tabindex}
+      >
+        <div class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           <div class="track">
             <div class="handle" />
           </div>

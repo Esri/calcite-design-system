@@ -1,8 +1,9 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { JSX } from "../components";
 import { toHaveNoViolations } from "jest-axe";
 import axe from "axe-core";
 import { config } from "../../stencil.config";
+import { html } from "./utils";
 
 expect.extend(toHaveNoViolations);
 
@@ -219,4 +220,105 @@ export async function slots(componentTagOrHTML: TagOrHTML, slots: Record<string,
   );
 
   expect(allSlotsAssigned).toBe(true);
+}
+
+async function assertLabelable({
+  html,
+  componentTag,
+  propertyToToggle,
+  focusTargetSelector = componentTag,
+  shadowFocusTargetSelector
+}: {
+  html: string;
+  componentTag: string;
+  propertyToToggle?: string;
+  focusTargetSelector?: string;
+  shadowFocusTargetSelector?: string;
+}): Promise<void> {
+  const page: E2EPage = await newE2EPage({ html });
+  await page.waitForChanges();
+  let component: E2EElement;
+  let initialPropertyValue: boolean;
+
+  if (propertyToToggle) {
+    component = await page.find(componentTag);
+    initialPropertyValue = await component.getProperty(propertyToToggle);
+  }
+
+  const label = await page.find("calcite-label");
+  await label.callMethod("click"); // we call the method to avoid clicking the child element
+  await page.waitForChanges();
+
+  expect(
+    await page.evaluate(
+      (focusTargetSelector: string): boolean => !!document.activeElement?.closest(focusTargetSelector),
+      focusTargetSelector
+    )
+  ).toBe(true);
+
+  if (shadowFocusTargetSelector) {
+    expect(
+      await page.$eval(
+        componentTag,
+        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+        shadowFocusTargetSelector
+      )
+    ).toBe(true);
+  }
+
+  if (propertyToToggle) {
+    expect(await component.getProperty(propertyToToggle)).toBe(!initialPropertyValue);
+  }
+}
+
+interface LabelableOptions extends Pick<FocusableOptions, "focusTargetSelector" | "shadowFocusTargetSelector"> {
+  /**
+   * If clicking on a label toggles the labeleable component, use this prop to specify the name of the toggled prop.
+   */
+  propertyToToggle?: string;
+}
+
+/**
+ * Helper for asserting label clicking functionality works.
+ *
+ * @param componentTagOrHtml - The component tag or HTML used to test label support.
+ * @param propertyToToggle - The component's property that should be toggled when it's calcite-label is clicked.
+ */
+export async function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOptions): Promise<void> {
+  const id = "labelable-id";
+  const labelTitle = "My Component";
+  const propertyToToggle = options?.propertyToToggle;
+  const focusTargetSelector = options?.focusTargetSelector || `#${id}`;
+  const shadowFocusTargetSelector = options?.shadowFocusTargetSelector;
+  const componentTag = getTag(componentTagOrHtml);
+  const componentHtml = isHTML(componentTagOrHtml)
+    ? ensureId(componentTagOrHtml)
+    : `<${componentTag} id="${id}"></${componentTag}>`;
+
+  function ensureId(html: string): string {
+    return html.includes("id=") ? html : html.replace(componentTag, `${componentTag} id="${id}" `);
+  }
+
+  const wrappedHtml = html`<calcite-label> ${labelTitle} ${componentHtml} </calcite-label>`;
+
+  await assertLabelable({
+    html: wrappedHtml,
+    componentTag,
+    propertyToToggle,
+    focusTargetSelector,
+    shadowFocusTargetSelector
+  });
+
+  const siblingHtml = html`
+    <calcite-label for="${id}">${labelTitle}</calcite-label>
+    ${componentHtml}
+  `;
+
+  await assertLabelable({
+    html: siblingHtml,
+    componentTag,
+    propertyToToggle,
+    focusTargetSelector,
+    shadowFocusTargetSelector
+  });
 }

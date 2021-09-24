@@ -12,8 +12,8 @@ import {
 } from "@stencil/core";
 import { Direction, focusElement, getElementDir } from "../../utils/dom";
 import { Scale, Width } from "../interfaces";
+import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import { CSS } from "./resources";
-import { FocusRequest } from "../calcite-label/interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { createObserver } from "../../utils/observers";
 
@@ -38,7 +38,7 @@ function isOptionGroup(
   styleUrl: "calcite-select.scss",
   shadow: true
 })
-export class CalciteSelect {
+export class CalciteSelect implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -90,8 +90,10 @@ export class CalciteSelect {
   //
   //--------------------------------------------------------------------------
 
+  labelEl: HTMLCalciteLabelElement;
+
   @Element()
-  private el: HTMLCalciteSelectElement;
+  el: HTMLCalciteSelectElement;
 
   private componentToNativeEl = new Map<CalciteOptionOrGroup, NativeOptionOrGroup>();
 
@@ -112,10 +114,13 @@ export class CalciteSelect {
       subtree: true,
       childList: true
     });
+
+    connectLabel(this);
   }
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
+    disconnectLabel(this);
   }
 
   //--------------------------------------------------------------------------
@@ -167,22 +172,15 @@ export class CalciteSelect {
     }
   }
 
-  @Listen("calciteLabelFocus", { target: "window" })
-  handleLabelFocus(event: CustomEvent<FocusRequest>): void {
-    const { requestedInput, labelEl } = event.detail;
-    const { el } = this;
-
-    if (labelEl.contains(el) || (requestedInput && requestedInput === el.getAttribute("id"))) {
-      this.setFocus();
-      event.stopImmediatePropagation();
-    }
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  onLabelClick = (): void => {
+    this.setFocus();
+  };
 
   private updateNativeElement(
     optionOrGroup: CalciteOptionOrGroup,

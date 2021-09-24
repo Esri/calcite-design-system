@@ -1,10 +1,12 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { renders, accessible, focusable } from "../../tests/commonTests";
+import { renders, accessible, focusable, labelable } from "../../tests/commonTests";
 
 describe("calcite-rating", () => {
   it("renders", async () => renders("<calcite-rating></calcite-rating>", { display: "flex" }));
 
   it("should be accessible", async () => accessible(`<calcite-rating></calcite-rating>`));
+
+  it("is labelable", async () => labelable("calcite-rating"));
 
   it("renders outlined star when no value or average is set", async () => {
     const page = await newE2EPage();
@@ -433,42 +435,15 @@ describe("calcite-rating", () => {
       }));
   });
 
-  describe("when wrapped inside calcite-label", () => {
-    let page: E2EPage;
-    let ratingStars: E2EElement[];
-    let label: E2EElement;
+  describe("labelable", () => {
+    it("focuses the first star when the label is clicked and no-rating value exists", () =>
+      labelable("calcite-rating", {
+        shadowFocusTargetSelector: "input[value='1']"
+      }));
 
-    beforeEach(async () => {
-      page = await newE2EPage();
-    });
-
-    describe("when a rating value exists", () => {
-      it("should focus the last-selected star on label click", async () => {
-        await page.setContent("<calcite-label>Your rating<calcite-rating value='3'></calcite-rating></calcite-label>");
-        label = await page.find("calcite-label");
-        await label.click();
-        ratingStars = await page.findAll("calcite-rating >>> label.selected");
-        const lastSelectedStar = ratingStars[ratingStars.length - 1];
-        expect(lastSelectedStar).toHaveClass("focused");
-        const guid = lastSelectedStar.getAttribute("for");
-        const lastSelectedInput = await page.find(`calcite-rating >>> input[id="${guid}"]`);
-        expect(await lastSelectedInput.getProperty("value")).toEqual("3");
-      });
-    });
-
-    describe("when no rating value exists", () => {
-      it("should focus the first non-selected star on label click", async () => {
-        await page.setContent("<calcite-label dir='rtl'>הדירוג שלי<calcite-rating></calcite-rating></calcite-label>");
-        label = await page.find("calcite-label");
-        await label.click();
-        ratingStars = await page.findAll("calcite-rating >>> label");
-        const firstStar = ratingStars[0];
-        expect(firstStar).toHaveClass("focused");
-        expect(firstStar).not.toHaveClass("selected");
-        const guid = firstStar.getAttribute("for");
-        const firstInputById = await page.find(`calcite-rating >>> input[id="${guid}"]`);
-        expect(await firstInputById.getProperty("value")).toEqual("1");
-      });
-    });
+    it("focuses the value-matching star when the label is clicked", () =>
+      labelable("<calcite-rating value='3'></calcite-rating>", {
+        shadowFocusTargetSelector: "input[value='3']"
+      }));
   });
 });

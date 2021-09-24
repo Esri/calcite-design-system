@@ -1,6 +1,7 @@
-import { accessible, HYDRATED_ATTR } from "../../tests/commonTests";
+import { accessible, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
 import { E2EPage } from "@stencil/core/testing";
 import { newE2EPage } from "@stencil/core/testing";
+import { CSS } from "./resources";
 
 describe("calcite-inline-editable", () => {
   describe("rendering permutations", () => {
@@ -329,37 +330,26 @@ describe("calcite-inline-editable", () => {
       `));
     });
 
-    describe("with label", () => {
-      beforeEach(async () => {
-        page = await newE2EPage();
-        await page.setContent(`
-        <calcite-label>
-          Hello
-          <calcite-inline-editable controls>
-            <calcite-input value="John Doe"/>
-          </calcite-inline-editable>
-        </calcite-label>
-        `);
-      });
+    describe("labelable", () => {
+      it("default", async () =>
+        labelable(
+          `<calcite-inline-editable controls>
+            <calcite-input value="John Doe"></calcite-input>
+          </calcite-inline-editable>`,
+          {
+            focusTargetSelector: `.${CSS.enableEditingButton}`
+          }
+        ));
 
-      it("focuses the enable editing button when the label is clicked", async () => {
-        expect(
-          await page.evaluate(async () => {
-            const label: HTMLSpanElement = document.querySelector("label");
-            await label.click();
-            return document.activeElement.className;
-          })
-        ).toContain("calcite-inline-editable__enable-editing-button");
-      });
-
-      it("focuses the input when editing is enabled and the label is subsequently clicked", async () => {
-        const enableEditingButton = await page.find(".calcite-inline-editable__enable-editing-button");
-        await enableEditingButton.click();
-        const label = await page.find("label");
-        await label.click();
-        const activeEl = await page.evaluateHandle(() => document.activeElement);
-        expect(activeEl["_remoteObject"].description).toMatch("input");
-      });
+      it("when editing is enabled", async () =>
+        labelable(
+          `<calcite-inline-editable controls editing-enabled>
+            <calcite-input value="John Doe"></calcite-input>
+          </calcite-inline-editable>`,
+          {
+            focusTargetSelector: "input"
+          }
+        ));
     });
   });
 });
