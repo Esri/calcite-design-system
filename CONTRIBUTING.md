@@ -43,12 +43,12 @@ Milestones are used to manage sprints, which are two weeks long. Sprint mileston
 
 #### Estimates
 
-Estimates are used to determine how much work needs to go into an issue. The total estimate helps the product managers triage issues effectively so developers are not overwhelmed during sprints. If you are not on the team, please do not add estimates when creating cases. Here are some guidelines for the numbering system:
+[ZenHub](https://www.zenhub.com/) estimates are used to determine how much work needs to go into an issue. The total estimate helps the product managers triage issues effectively so developers are not overwhelmed during sprints. If you are not on the team, please do not add estimates when creating cases. Here are some guidelines for the numbering system:
 
 - **1:** Fixing a typo, small syntax issue, or tweaking a css property. Something that can be done in a couple minutes.
 - **5:** Fixing bugs or adding small features that don't require comprehensive planning.
 - **13:** Issues that are more complicated and need some workflow or design planning. These issues usually need additional unit tests written.
-- **40:** Almost exclusively used for epics.
+- **40:** If an issue is this complicated it should be converted into an epic.
 
 ### Getting a development environment set up
 
