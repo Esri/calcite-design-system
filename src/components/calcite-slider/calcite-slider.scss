@@ -7,7 +7,7 @@
     @apply leading-3;
   }
   .thumb {
-    --calcite-slider-thumb-offset: -6px;
+    --calcite-slider-thumb-y-offset: -6px;
   }
 }
 
@@ -20,7 +20,7 @@
     @apply leading-4;
   }
   .thumb {
-    --calcite-slider-thumb-offset: -8px;
+    --calcite-slider-thumb-y-offset: -8px;
   }
 }
 
@@ -33,7 +33,7 @@
     @apply leading-4;
   }
   .thumb {
-    --calcite-slider-thumb-offset: -9px;
+    --calcite-slider-thumb-y-offset: -9px;
   }
 }
 
@@ -71,24 +71,24 @@
 :host([precise]:not([has-histogram])) {
   &:host([scale="s"]) {
     .container .thumb--value {
-      --calcite-slider-thumb-offset: -17px;
+      --calcite-slider-thumb-y-offset: -17px;
     }
   }
   &:host([scale="m"]) {
     .container .thumb--value {
-      --calcite-slider-thumb-offset: -22px;
+      --calcite-slider-thumb-y-offset: -22px;
     }
   }
   &:host([scale="l"]) {
     .container .thumb--value {
-      --calcite-slider-thumb-offset: -27px;
+      --calcite-slider-thumb-y-offset: -27px;
     }
   }
 }
 
 :host([precise]) .container {
   .thumb {
-    --calcite-slider-thumb-offset: -2px;
+    --calcite-slider-thumb-y-offset: -2px;
   }
 }
 
@@ -104,8 +104,7 @@
     flex-col
     items-center
     font-inherit;
-  // z-index: 2;
-  transform: translate(7px, var(--calcite-slider-thumb-offset));
+  transform: translate(7px, var(--calcite-slider-thumb-y-offset));
 
   .handle__label {
     &.static,
@@ -116,7 +115,6 @@
         bottom-0;
     }
     &.hyphen::after {
-      // TO-DO: create new issue for swapped min/max values on max edge of mirrored range
       content: "\2014";
       display: inline-block;
       width: 1em;
@@ -164,22 +162,22 @@
   }
 }
 .thumb--minValue {
-  transform: translate(-7px, var(--calcite-slider-thumb-offset));
+  transform: translate(-7px, var(--calcite-slider-thumb-y-offset));
 }
 :host([scale="s"]) {
   .thumb--value {
-    transform: translate(5px, var(--calcite-slider-thumb-offset));
+    transform: translate(5px, var(--calcite-slider-thumb-y-offset));
   }
   .thumb--minValue {
-    transform: translate(-5px, var(--calcite-slider-thumb-offset));
+    transform: translate(-5px, var(--calcite-slider-thumb-y-offset));
   }
 }
 :host([scale="l"]) {
   .thumb--value {
-    transform: translate(8px, var(--calcite-slider-thumb-offset));
+    transform: translate(8px, var(--calcite-slider-thumb-y-offset));
   }
   .thumb--minValue {
-    transform: translate(-8px, var(--calcite-slider-thumb-offset));
+    transform: translate(-8px, var(--calcite-slider-thumb-y-offset));
   }
 }
 
@@ -210,13 +208,13 @@
 
 :host([has-histogram][label-handles]) {
   .thumb {
-    transform: translate(50%, var(--calcite-slider-thumb-offset));
+    transform: translate(50%, var(--calcite-slider-thumb-y-offset));
   }
   .handle__label {
     margin-top: 0.5em;
   }
   .thumb--minValue {
-    transform: translate(-50%, var(--calcite-slider-thumb-offset));
+    transform: translate(-50%, var(--calcite-slider-thumb-y-offset));
   }
 }
 
@@ -231,7 +229,7 @@
     transform: translate(50%, -50px);
   }
   &:host(:not([has-histogram])) .thumb--minValue {
-    transform: translate(-50%, var(--calcite-slider-thumb-offset));
+    transform: translate(-50%, var(--calcite-slider-thumb-y-offset));
     .handle__label {
       margin-top: 0.5em;
     }
@@ -245,10 +243,9 @@
 
 .thumb:focus,
 .thumb--active {
-  // z-index: 3;
   .handle {
     @apply bg-brand;
-    box-shadow: 0 0 8px 0 rgb(0 0 0 / 16%); // TO-DO: should this be shadow-1-press in TW config?
+    box-shadow: 0 0 8px 0 rgb(0 0 0 / 16%); // shadow 1 press
   }
 }
 
@@ -260,7 +257,6 @@
 
 .track {
   @apply h-0.5 rounded-none relative;
-  // z-index: 1;
   background-color: var(--calcite-ui-border-2);
   transition: all 250ms ease-in;
 }
@@ -285,38 +281,42 @@
   }
 }
 
-// histogram variant heights
 :host([has-histogram]) {
+  .thumb.thumb--precise {
+    --calcite-slider-thumb-y-offset: -2px;
+  }
   &:host([precise][label-handles]) {
     .container {
-      padding: 0 0 calc(var(--calcite-slider-full-handle-height) + 1em);
+      padding-bottom: calc(var(--calcite-slider-full-handle-height) + 1em);
     }
   }
   &:host([label-handles]:not([precise])) {
     .container {
-      padding: 0 0 calc(calc(var(--calcite-slider-handle-size) / 2) + 1em);
+      padding-bottom: calc(calc(var(--calcite-slider-handle-size) / 2) + 1em);
     }
   }
   &:host([label-ticks]:not([label-handles]):not([precise])) {
     .container {
-      padding: 0 0 1.5em;
+      padding-bottom: 1.5em;
     }
   }
   &:host([precise]:not([label-handles])) {
     .container {
-      padding: 0 0 var(--calcite-slider-full-handle-height);
+      padding-bottom: var(--calcite-slider-full-handle-height);
     }
   }
 }
 
-// non-histogram variant heights
 :host(:not([has-histogram])) {
+  .container--range .thumb--minValue.thumb--precise {
+    --calcite-slider-thumb-y-offset: -2px;
+  }
   &:host([precise]:not([label-handles])) {
     .container {
-      padding-top: calc(var(--calcite-slider-full-handle-height) - 4px);
+      padding-top: var(--calcite-slider-full-handle-height);
     }
     .container--range {
-      padding-bottom: calc(var(--calcite-slider-full-handle-height) - 4px);
+      padding-bottom: var(--calcite-slider-full-handle-height);
     }
   }
   &:host([label-ticks]) {
