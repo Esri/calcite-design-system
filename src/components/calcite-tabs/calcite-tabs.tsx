@@ -4,7 +4,8 @@ import { Scale } from "../interfaces";
 import { SLOTS } from "./resources";
 
 /**
- * @slot tab-nav - a slot for adding a tab navigation component
+ * @slot - A slot for adding `calcite-tab`s.
+ * @slot tab-nav - A slot for adding a tab navigation component.
  */
 @Component({
   tag: "calcite-tabs",

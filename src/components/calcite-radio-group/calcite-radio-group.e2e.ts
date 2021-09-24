@@ -11,7 +11,7 @@ describe("calcite-radio-group", () => {
     expect(element).toBeDefined();
   });
 
-  it.skip("is labelable", async () =>
+  it("is labelable", async () =>
     labelable(
       `<calcite-radio-group id="labelable-component">
   <calcite-radio-group-item value="1"></calcite-radio-group-item>

@@ -175,6 +175,7 @@ export class CalciteInputDatePicker implements LabelableComponent {
   //
   // --------------------------------------------------------------------------
 
+  /** Updates the position of the component. */
   @Method()
   async setFocus(): Promise<void> {
     this.startInput?.setFocus();

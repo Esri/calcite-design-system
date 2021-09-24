@@ -21,9 +21,9 @@
 
 ## Slots
 
-| Slot | Description                      |
-| ---- | -------------------------------- |
-|      | A slot for adding sortable items |
+| Slot | Description                       |
+| ---- | --------------------------------- |
+|      | A slot for adding sortable items. |
 
 ---
 

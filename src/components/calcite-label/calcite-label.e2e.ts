@@ -148,6 +148,7 @@ describe("calcite-label", () => {
     expect(element).toEqualAttribute("layout", "inline-space-between");
   });
 
+  // TODO: need shadow DOM equivalent update on helper
   it("clicking sibling label focuses input when both are inside a shadowRoot", async () => {
     const page = await newE2EPage();
 

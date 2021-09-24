@@ -222,92 +222,103 @@ export async function slots(componentTagOrHTML: TagOrHTML, slots: Record<string,
   expect(allSlotsAssigned).toBe(true);
 }
 
-const componentIsLabelable = async ({
-  page,
+async function assertLabelable({
+  html,
   componentTag,
-  options,
-  clickSelector = "calcite-label"
+  propertyToToggle,
+  focusTargetSelector = componentTag,
+  shadowFocusTargetSelector
 }: {
-  page: E2EPage;
+  html: string;
   componentTag: string;
-  clickSelector?: string;
-  options?: LabelableOptions;
-}): Promise<void> => {
+  propertyToToggle?: string;
+  focusTargetSelector?: string;
+  shadowFocusTargetSelector?: string;
+}): Promise<void> {
+  const page: E2EPage = await newE2EPage({ html });
   await page.waitForChanges();
   let component: E2EElement;
   let initialPropertyValue: boolean;
-  const propertyToToggle = options?.propertyToToggle;
-  const focusTargetSelector = options?.focusTargetSelector || componentTag;
 
   if (propertyToToggle) {
     component = await page.find(componentTag);
     initialPropertyValue = await component.getProperty(propertyToToggle);
   }
 
-  const clickElement = await page.find(clickSelector);
-  await clickElement.click();
+  const label = await page.find("calcite-label");
+  await label.callMethod("click"); // we call the method to avoid clicking the child element
+  await page.waitForChanges();
 
-  expect(await page.evaluate((selector) => document.activeElement.matches(selector), focusTargetSelector)).toBe(true);
+  expect(
+    await page.evaluate(
+      (focusTargetSelector: string): boolean => !!document.activeElement?.closest(focusTargetSelector),
+      focusTargetSelector
+    )
+  ).toBe(true);
+
+  if (shadowFocusTargetSelector) {
+    expect(
+      await page.$eval(
+        componentTag,
+        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+        shadowFocusTargetSelector
+      )
+    ).toBe(true);
+  }
 
   if (propertyToToggle) {
     expect(await component.getProperty(propertyToToggle)).toBe(!initialPropertyValue);
   }
-};
+}
 
-interface LabelableOptions {
+interface LabelableOptions extends Pick<FocusableOptions, "focusTargetSelector" | "shadowFocusTargetSelector"> {
   /**
-   * Selector used to assert the focused DOM element.
-   */
-  focusTargetSelector?: string;
-
-  /**
-   * The component's property that should be toggled when it's calcite-label is clicked.
+   * If clicking on a label toggles the labeleable component, use this prop to specify the name of the toggled prop.
    */
   propertyToToggle?: string;
 }
 
 /**
  * Helper for asserting label clicking functionality works.
+ *
+ * @param componentTagOrHtml - The component tag or HTML used to test label support.
+ * @param propertyToToggle - The component's property that should be toggled when it's calcite-label is clicked.
  */
-export async function labelable(componentTagOrHTML: TagOrHTML, options?: LabelableOptions): Promise<void> {
+export async function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOptions): Promise<void> {
+  const id = "labelable-id";
   const labelTitle = "My Component";
-  const labelTag = "calcite-label";
-  const idMatch = componentTagOrHTML.match(/id="(.*?)"/g);
-  const id = (idMatch && idMatch[1]) || "labelable-component";
-  const componentTag = getTag(componentTagOrHTML);
-  const componentHTML = isHTML(componentTagOrHTML)
-    ? componentTagOrHTML
+  const propertyToToggle = options?.propertyToToggle;
+  const focusTargetSelector = options?.focusTargetSelector || `#${id}`;
+  const shadowFocusTargetSelector = options?.shadowFocusTargetSelector;
+  const componentTag = getTag(componentTagOrHtml);
+  const componentHtml = isHTML(componentTagOrHtml)
+    ? ensureId(componentTagOrHtml)
     : `<${componentTag} id="${id}"></${componentTag}>`;
 
-  const wrappedHTML = html`
-  <${labelTag}>
-    ${labelTitle}
-    ${componentHTML}
-  </${labelTag}>
-  `;
+  function ensureId(html: string): string {
+    return html.includes("id=") ? html : html.replace(componentTag, `${componentTag} id="${id}" `);
+  }
 
-  const wrappedHTMLWithSpan = html`
-  <${labelTag}>
-    <span>${labelTitle}</span>
-    ${componentHTML}
-  </${labelTag}>
-  `;
+  const wrappedHtml = html`<calcite-label> ${labelTitle} ${componentHtml} </calcite-label>`;
 
-  const siblingHTML = html`
-  <${labelTag} for="${id}">${labelTitle}</${labelTag}>
-  ${componentHTML}
-  `;
-
-  const page = await newE2EPage({
-    html: wrappedHTML,
-    failOnConsoleError: true
+  await assertLabelable({
+    html: wrappedHtml,
+    componentTag,
+    propertyToToggle,
+    focusTargetSelector,
+    shadowFocusTargetSelector
   });
 
-  await componentIsLabelable({ page, componentTag, options });
+  const siblingHtml = html`
+    <calcite-label for="${id}">${labelTitle}</calcite-label>
+    ${componentHtml}
+  `;
 
-  await page.setContent(wrappedHTMLWithSpan);
-  await componentIsLabelable({ page, componentTag, clickSelector: "span", options });
-
-  await page.setContent(siblingHTML);
-  await componentIsLabelable({ page, componentTag, options });
+  await assertLabelable({
+    html: siblingHtml,
+    componentTag,
+    propertyToToggle,
+    focusTargetSelector,
+    shadowFocusTargetSelector
+  });
 }

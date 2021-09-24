@@ -17,6 +17,9 @@ import { TabID, TabLayout } from "../calcite-tabs/interfaces";
 import { TabPosition } from "../calcite-tabs/interfaces";
 import { Scale } from "../interfaces";
 
+/**
+ * @slot - A slot for adding `calcite-tab-title`s.
+ */
 @Component({
   tag: "calcite-tab-nav",
   styleUrl: "calcite-tab-nav.scss",

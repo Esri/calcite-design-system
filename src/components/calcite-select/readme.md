@@ -130,6 +130,12 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
+## Slots
+
+| Slot | Description                          |
+| ---- | ------------------------------------ |
+|      | A slot for adding `calcite-option`s. |
+
 ## CSS Custom Properties
 
 | Name                         | Description                                 |

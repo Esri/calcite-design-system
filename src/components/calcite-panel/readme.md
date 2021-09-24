@@ -107,13 +107,14 @@ Type: `Promise<void>`
 
 | Slot                     | Description                                                                      |
 | ------------------------ | -------------------------------------------------------------------------------- |
-| `"fab"`                  | a slot for adding a `calcite-fab` (floating action button) to perform an action. |
-| `"footer"`               | a slot for adding custom content to the footer.                                  |
-| `"footer-actions"`       | a slot for adding buttons to the footer.                                         |
-| `"header-actions-end"`   | a slot for adding actions or content to the end side of the panel header.        |
-| `"header-actions-start"` | a slot for adding actions or content to the start side of the panel header.      |
-| `"header-content"`       | a slot for adding custom content to the header.                                  |
-| `"header-menu-actions"`  | a slot for adding an overflow menu with actions inside a dropdown.               |
+|                          | A slot for adding custom content.                                                |
+| `"fab"`                  | A slot for adding a `calcite-fab` (floating action button) to perform an action. |
+| `"footer"`               | A slot for adding custom content to the footer.                                  |
+| `"footer-actions"`       | A slot for adding buttons to the footer.                                         |
+| `"header-actions-end"`   | A slot for adding actions or content to the end side of the panel header.        |
+| `"header-actions-start"` | A slot for adding actions or content to the start side of the panel header.      |
+| `"header-content"`       | A slot for adding custom content to the header.                                  |
+| `"header-menu-actions"`  | A slot for adding an overflow menu with actions inside a dropdown.               |
 
 ## CSS Custom Properties
 

@@ -5,10 +5,10 @@ import {
   EventEmitter,
   h,
   Listen,
+  Method,
   Prop,
   VNode,
-  Watch,
-  Method
+  Watch
 } from "@stencil/core";
 import { getElementProp } from "../../utils/dom";
 import { Scale } from "../interfaces";
@@ -16,7 +16,7 @@ import { TEXT, CSS } from "./resources";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 
 /**
- * @slot - slot for rendering a `<calcite-input>`
+ * @slot - A slot for adding a `calcite-input`.
  */
 @Component({
   tag: "calcite-inline-editable",

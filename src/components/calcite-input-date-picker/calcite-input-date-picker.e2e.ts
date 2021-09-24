@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { defaults, renders, labelable } from "../../tests/commonTests";
+import { defaults, labelable, renders } from "../../tests/commonTests";
 
 const animationDurationInMs = 200;
 
@@ -15,6 +15,7 @@ describe("calcite-input-date-picker", () => {
         defaultValue: "absolute"
       }
     ]));
+
   it("fires a calciteDatePickerChange event on change", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-input-date-picker></calcite-input-date-picker>");

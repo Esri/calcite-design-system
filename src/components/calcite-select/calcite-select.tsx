@@ -30,6 +30,9 @@ function isOptionGroup(
   return optionOrGroup.tagName === "CALCITE-OPTION-GROUP";
 }
 
+/**
+ * @slot - A slot for adding `calcite-option`s.
+ */
 @Component({
   tag: "calcite-select",
   styleUrl: "calcite-select.scss",

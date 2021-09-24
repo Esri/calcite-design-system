@@ -19,6 +19,9 @@ import { Layout, Scale, Width } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import { RadioAppearance } from "./interfaces";
 
+/**
+ * @slot - A slot for adding `calcite-radio-group-item`s.
+ */
 @Component({
   tag: "calcite-radio-group",
   styleUrl: "calcite-radio-group.scss",

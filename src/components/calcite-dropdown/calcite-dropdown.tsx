@@ -26,7 +26,8 @@ import { DefaultDropdownPlacement, SLOTS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 
 /**
- * @slot dropdown-trigger - A slot for the element that triggers the dropdown
+ * @slot - A slot for adding `calcite-dropdown-group`s or `calcite-dropdown-item`s.
+ * @slot dropdown-trigger - A slot for the element that triggers the dropdown.
  */
 @Component({
   tag: "calcite-dropdown",

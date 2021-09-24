@@ -1,5 +1,5 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, focusable, reflects, renders, labelable } from "../../tests/commonTests";
+import { accessible, focusable, labelable, reflects, renders } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 import { CSS } from "./resources";
 

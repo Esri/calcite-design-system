@@ -93,9 +93,10 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot                 | Description                                       |
-| -------------------- | ------------------------------------------------- |
-| `"dropdown-trigger"` | A slot for the element that triggers the dropdown |
+| Slot                 | Description                                                              |
+| -------------------- | ------------------------------------------------------------------------ |
+|                      | A slot for adding `calcite-dropdown-group`s or `calcite-dropdown-item`s. |
+| `"dropdown-trigger"` | A slot for the element that triggers the dropdown.                       |
 
 ## CSS Custom Properties
 

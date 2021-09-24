@@ -44,6 +44,9 @@ interface ItemData {
 const isGroup = (el: ComboboxChildElement): el is HTMLCalciteComboboxItemGroupElement =>
   el.tagName === ComboboxItemGroup;
 
+/**
+ * @slot - A slot for adding `calcite-combobox-item`s.
+ */
 @Component({
   tag: "calcite-combobox",
   styleUrl: "calcite-combobox.scss",

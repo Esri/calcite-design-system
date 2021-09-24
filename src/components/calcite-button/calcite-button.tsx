@@ -17,7 +17,7 @@ import { createObserver } from "../../utils/observers";
   shadow: true
 })
 
-/** @slot default text slot for button text */
+/** @slot - A slot for adding text. */
 
 /** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
 /** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */

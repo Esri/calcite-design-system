@@ -16,7 +16,8 @@ describe("calcite-switch", () => {
 
   it("is accessible", async () => accessible(`<calcite-switch></calcite-switch>`));
 
-  it("is accessible: switched", async () => accessible(`<calcite-switch switched></calcite-switch>`));
+  it("is accessible: switched", async () =>
+    accessible(`<calcite-switch label="test-label" switched></calcite-switch>`));
 
   it("toggles the switched and checked attributes appropriately when clicked", async () => {
     const page = await newE2EPage();

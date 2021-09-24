@@ -1,11 +1,14 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, hidden, reflects, renders, labelable } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, labelable, reflects, renders } from "../../tests/commonTests";
 
 describe("calcite-radio-button", () => {
   it("renders", async () => renders("calcite-radio-button", { display: "block" }));
 
   it("is labelable", async () =>
-    labelable(`<calcite-radio-button id="labelable-component" name="example" value="one"></calcite-radio-button>`));
+    labelable("<calcite-radio-button name='group-name'></calcite-radio-button>", {
+      focusTargetSelector: "input",
+      propertyToToggle: "checked"
+    }));
 
   it("is accessible", async () =>
     accessible(
@@ -229,24 +232,6 @@ describe("calcite-radio-button", () => {
     expect(changeEvent).toHaveReceivedEventTimes(0);
 
     await radio.click();
-
-    expect(changeEvent).toHaveReceivedEventTimes(1);
-  });
-
-  it("triggers the custom change event just once when sibling calcite-label is clicked", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-label for="radio">Label</calcite-label><calcite-radio-button id="radio"></calcite-radio-button>`
-    );
-
-    const radio = await page.find("calcite-radio-button");
-    const label = await page.find("calcite-label");
-
-    const changeEvent = await radio.spyOnEvent("calciteRadioButtonChange");
-
-    expect(changeEvent).toHaveReceivedEventTimes(0);
-
-    await label.click();
 
     expect(changeEvent).toHaveReceivedEventTimes(1);
   });

@@ -29,6 +29,12 @@ Return the index of this tab within the tab array
 
 Type: `Promise<number>`
 
+## Slots
+
+| Slot | Description                       |
+| ---- | --------------------------------- |
+|      | A slot for adding custom content. |
+
 ## Dependencies
 
 ### Used by

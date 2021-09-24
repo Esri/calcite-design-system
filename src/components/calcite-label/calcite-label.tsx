@@ -4,6 +4,9 @@ import { Alignment, Scale, Status } from "../interfaces";
 import { CSS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 
+/**
+ * @slot - A slot for adding text and a component that can be labeled.
+ */
 @Component({
   tag: "calcite-label",
   styleUrl: "calcite-label.scss",

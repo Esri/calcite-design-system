@@ -34,6 +34,9 @@ import { getElementDir, queryElementRoots } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
 
+/**
+ * @slot - A slot for adding custom content.
+ */
 @Component({
   tag: "calcite-popover",
   styleUrl: "calcite-popover.scss",
