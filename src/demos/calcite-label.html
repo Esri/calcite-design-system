@@ -151,31 +151,14 @@
       <div class="child-flex child-flex-padding">
         <calcite-label>
           Calcite Label Wrapping Calcite Input Textarea
-          <textarea id="wrapping-textarea" name="wrapping-textarea" value="native textarea"></textarea>
+          <calcite-input type="textarea" id="wrapping-textarea" name="wrapping-textarea"></calcite-input>
         </calcite-label>
       </div>
 
       <div class="child-flex child-flex-padding">
         <calcite-label for="wrapping-textarea-for">
           Calcite Label Wrapping Calcite Input Textarea
-          <textarea id="wrapping-textarea-for" name="wrapping-textarea" value="native textarea"></textarea>
-        </calcite-label>
-      </div>
-    </div>
-
-    <div class="parent-flex">
-      <div class="child-flex child-flex-padding">
-        <calcite-label>
-          Calcite Label Wrapping Calcite Checkbox
-          <calcite-checkbox id="wrapping-calcite-checkbox" name="wrapping-calcite-checkbox"> </calcite-checkbox>
-        </calcite-label>
-      </div>
-
-      <div class="child-flex child-flex-padding">
-        <calcite-label for="wrapping-calcite-checkbox-with-for">
-          Calcite Label Wrapping Calcite Checkbox With For
-          <calcite-checkbox id="wrapping-calcite-checkbox-with-for" name="wrapping-calcite-checkbox-with-for">
-          </calcite-checkbox>
+          <calcite-input type="textarea" id="wrapping-textarea-for" name="wrapping-textarea"></calcite-input>
         </calcite-label>
       </div>
     </div>
@@ -281,13 +264,15 @@
 
     <div class="parent-flex">
       <div class="child-flex child-flex-padding">
-        <calcite-label>Calcite Label to Calcite Button</calcite-label>
-        <calcite-button width="full" type="button">Calcite Button</calcite-button>
+        <calcite-label
+          >Calcite Label to Calcite Button
+          <calcite-button width="full" type="button">Calcite Button</calcite-button>
+        </calcite-label>
       </div>
 
       <div class="child-flex child-flex-padding">
-        <calcite-label for="calcite-button">Calcite Label to Calcite Button For</calcite-label>
-        <calcite-button id="calcite-button" width="full" type="button">Calcite Button</calcite-button>
+        <calcite-label for="calcite-button-test">Calcite Label to Calcite Button For</calcite-label>
+        <calcite-button id="calcite-button-test" width="full" type="button">Calcite Button</calcite-button>
       </div>
     </div>
 

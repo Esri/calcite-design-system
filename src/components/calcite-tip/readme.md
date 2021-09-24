@@ -39,6 +39,7 @@ Renders a non-dismissible tip with a heading, thumbnail, info and a link.
 
 | Slot          | Description                                         |
 | ------------- | --------------------------------------------------- |
+|               | A slot for adding text and a hyperlink.             |
 | `"thumbnail"` | A slot for adding an HTML image element to the tip. |
 
 ## Dependencies

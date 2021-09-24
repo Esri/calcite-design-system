@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { defaults, renders } from "../../tests/commonTests";
+import { defaults, labelable, renders } from "../../tests/commonTests";
 
 describe("calcite-slider", () => {
   it("renders", async () => renders("calcite-slider", { display: "block" }));
@@ -47,6 +47,8 @@ describe("calcite-slider", () => {
         defaultValue: 0
       }
     ]));
+
+  it("is labelable", async () => labelable("calcite-slider"));
 
   it("becomes inactive from disabled prop", async () => {
     const page = await newE2EPage();

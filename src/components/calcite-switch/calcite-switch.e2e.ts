@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, HYDRATED_ATTR } from "../../tests/commonTests";
+import { accessible, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
 
 describe("calcite-switch", () => {
   it("renders with correct default attributes", async () => {
@@ -12,9 +12,12 @@ describe("calcite-switch", () => {
     expect(calciteSwitch).toHaveAttribute("switched");
   });
 
-  it("is accessible", async () => accessible(`<calcite-switch></calcite-switch>`));
+  it("is accessible", async () => accessible(`<calcite-switch label="test-label"></calcite-switch>`));
 
-  it("is accessible: switched", async () => accessible(`<calcite-switch switched></calcite-switch>`));
+  it("is accessible: switched", async () =>
+    accessible(`<calcite-switch label="test-label" switched></calcite-switch>`));
+
+  it("is labelable", async () => labelable("calcite-switch"));
 
   it("toggles the switched and checked attributes appropriately when clicked", async () => {
     const page = await newE2EPage();
@@ -86,27 +89,6 @@ describe("calcite-switch", () => {
     expect(await input.getProperty("checked")).toBe(false);
 
     await calciteSwitch.setProperty("switched", true);
-    await page.waitForChanges();
-
-    expect(await calciteSwitch.getProperty("switched")).toBe(true);
-    expect(await input.getProperty("checked")).toBe(true);
-  });
-
-  it("toggles when the wrapping label is clicked", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <label>
-        <calcite-switch></calcite-switch>
-        <p>hello!</p>
-      </label>
-      `);
-
-    const calciteSwitch = await page.find("calcite-switch");
-    const input = await page.find("input");
-    const paragraph = await page.find("p");
-
-    await paragraph.click();
-
     await page.waitForChanges();
 
     expect(await calciteSwitch.getProperty("switched")).toBe(true);

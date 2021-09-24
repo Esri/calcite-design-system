@@ -43,6 +43,12 @@ The calcite-split-button control is one that combines a button with a dropdown m
 | `calciteSplitButtonPrimaryClick`   | fired when the primary button is clicked   | `CustomEvent<any>` |
 | `calciteSplitButtonSecondaryClick` | fired when the secondary button is clicked | `CustomEvent<any>` |
 
+## Slots
+
+| Slot | Description                                   |
+| ---- | --------------------------------------------- |
+|      | A slot for adding `calcite-dropdown` content. |
+
 ## Dependencies
 
 ### Depends on

@@ -33,6 +33,12 @@ The first argument allows the value to be coerced, rather than swapping values.
 
 Type: `Promise<void>`
 
+## Slots
+
+| Slot | Description                                        |
+| ---- | -------------------------------------------------- |
+|      | A slot for adding nested `calcite-combobox-item`s. |
+
 ## Dependencies
 
 ### Depends on

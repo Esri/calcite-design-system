@@ -26,6 +26,7 @@ import {
 import { HeadingLevel } from "../functional/CalciteHeading";
 import { getKey } from "../../utils/key";
 import { TEXT } from "../calcite-date-picker/resources";
+import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 
 import {
   createPopper,
@@ -43,7 +44,7 @@ const DEFAULT_PLACEMENT = "bottom-leading";
   styleUrl: "calcite-input-date-picker.scss",
   shadow: true
 })
-export class CalciteInputDatePicker {
+export class CalciteInputDatePicker implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -168,11 +169,17 @@ export class CalciteInputDatePicker {
    */
   @Event() calciteInputDatePickerClose: EventEmitter;
 
-  //--------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
   //
   //  Public Methods
   //
-  //--------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
+
+  /** Updates the position of the component. */
+  @Method()
+  async setFocus(): Promise<void> {
+    this.startInput?.setFocus();
+  }
 
   /** Updates the position of the component. */
   @Method()
@@ -218,6 +225,7 @@ export class CalciteInputDatePicker {
     }
 
     this.createPopper();
+    connectLabel(this);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -226,6 +234,7 @@ export class CalciteInputDatePicker {
 
   disconnectedCallback(): void {
     this.destroyPopper();
+    disconnectLabel(this);
   }
 
   render(): VNode {
@@ -257,6 +266,7 @@ export class CalciteInputDatePicker {
                     this.layout === "vertical" && this.range ? `no-bottom-border` : ``
                   }`}
                   icon="calendar"
+                  label={getLabelText(this)}
                   number-button-type="none"
                   onCalciteInputBlur={this.inputBlur}
                   onCalciteInputFocus={this.startInputFocus}
@@ -349,6 +359,8 @@ export class CalciteInputDatePicker {
   //
   //--------------------------------------------------------------------------
 
+  labelEl: HTMLCalciteLabelElement;
+
   @State() focusedInput: "start" | "end" = "start";
 
   @State() private localeData: DateLocaleData;
@@ -387,6 +399,10 @@ export class CalciteInputDatePicker {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  onLabelClick = (): void => {
+    this.setFocus();
+  };
 
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
