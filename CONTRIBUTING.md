@@ -23,7 +23,7 @@ If you aren't familiar with the basics of Web Components and Shadow DOM, please 
 If something isn't working the way you expect, please take a look at the [existing issues](https://github.com/Esri/calcite-components/issues) before logging a new one. Have you found a new bug? Want to request a new feature? We'd love to hear from you! Please make sure to provide all of the requested info from the appropriate [issue template](https://github.com/Esri/calcite-components/issues/new/choose) so we can work on resolving the issue as soon as possible. A sample that reproduces the issue is required for logging bugs, we created templates in [codepen](https://codepen.io/pen?template=RwgrjEx), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js), and [jsbin](https://jsbin.com/lopumatiru/edit?html,output) (with the ArcGIS API for JavaScript) to help get started. Alternatively, a [documentation](https://developers.arcgis.com/calcite-design-system/components/) sample can be used if the issue is reproducible. Some other things to consider:
 
 - Use a clear and descriptive title
-- What is happening now vs what should happen?
+- Detail what is happening now vs what should happen
 - Tell us how to reproduce the issue (e.g. is it happening in a specific browser?)
 - Can it be reliably reproduced? If not, tell us how often it happens and under what circumstances.
 - Screenshots and GIFs are our friends!
@@ -61,9 +61,9 @@ Milestones are used to manage sprints, which are two weeks long. Sprint mileston
 
 ## Code base
 
-Our code base is written entirely in TypeScript and we should aim to have it that way. We have configured the project to help adhere to some conventions and formatting. Here are additional items to follow:
+Our code base is written in TypeScript and must adhere to specific conventions and formatting. Please do the following while developing:
 
-1. Avoid using any as much as possible.
+1. Avoid setting types as `any`.
 2. Try to always provide a type.
 3. Provide JSDoc for all public APIs.
 4. Fix linting errors, don't ignore them.
