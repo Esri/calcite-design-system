@@ -65,6 +65,14 @@ Updates the position of the component.
 
 Type: `Promise<void>`
 
+### `setFocus() => Promise<void>`
+
+Updates the position of the component.
+
+#### Returns
+
+Type: `Promise<void>`
+
 ## Dependencies
 
 ### Depends on
