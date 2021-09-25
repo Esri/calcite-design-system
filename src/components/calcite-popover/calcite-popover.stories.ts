@@ -56,7 +56,7 @@ export default {
   }
 };
 
-export const Simple = stepStory(
+export const Default = stepStory(
   (): string => html`
     <div style="width: 400px;">
       ${referenceElementHTML}
