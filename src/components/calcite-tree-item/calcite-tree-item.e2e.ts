@@ -40,7 +40,8 @@ describe("calcite-tree-item", () => {
       {
         propertyName: "hasChildren",
         defaultValue: false
-      }
+      },
+      { propertyName: "indeterminate", defaultValue: undefined }
     ]));
 
   it("should expand/collapse children when the icon is clicked", async () => {
@@ -142,5 +143,35 @@ describe("calcite-tree-item", () => {
     });
 
     expect(hash).toEqual("#inner");
+  });
+
+  describe("when a tree-item has ancestors selection-mode and is selected", () => {
+    it("should update its ancestor tree-items' interminate properties", async () => {
+      const tree = `<calcite-tree selection-mode="ancestors">
+        <calcite-tree-item expanded data-id="ancestor">
+          <span> Fruits </span>
+          <calcite-tree slot="children">
+            <calcite-tree-item>
+              <calcite-link href="#go" tabindex="-1"> Bananas </calcite-link>
+            </calcite-tree-item>
+            <calcite-tree-item expanded data-id="ancestor">
+              <span> Pears </span>
+              <calcite-tree slot="children">
+                <calcite-tree-item selected>
+                  <calcite-link href="#go" tabindex="-1"> Anjou </calcite-link>
+                </calcite-tree-item>
+                <calcite-tree-item>
+                  <calcite-link href="#go" tabindex="-1"> Bartlett </calcite-link>
+                </calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+      </calcite-tree>
+      `;
+      const page = await newE2EPage({ html: tree });
+      const ancestors = await page.findAll(`calcite-tree-item[data-id="ancestor"]`);
+      ancestors.forEach(async (node) => expect(await node.getProperty("indeterminate")).toBe(true));
+    });
   });
 });

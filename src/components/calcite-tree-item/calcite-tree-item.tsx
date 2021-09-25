@@ -125,6 +125,10 @@ export class CalciteTreeItem {
     }
   }
 
+  componentDidLoad(): void {
+    this.updateAncestorTree();
+  }
+
   render(): VNode {
     const rtl = getElementDir(this.el) === "rtl";
     const showBulletPoint =
@@ -392,4 +396,17 @@ export class CalciteTreeItem {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private updateAncestorTree = (): void => {
+    if (this.selected && this.selectionMode === TreeSelectionMode.Ancestors) {
+      const ancestors: HTMLCalciteTreeItemElement[] = [];
+      let parent = this.el.parentElement.closest("calcite-tree-item");
+      while (parent) {
+        ancestors.push(parent);
+        parent = parent.parentElement.closest("calcite-tree-item");
+      }
+      ancestors.forEach((item) => (item.indeterminate = true));
+      return;
+    }
+  };
 }
