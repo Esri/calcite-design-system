@@ -252,7 +252,7 @@ describe("calcite-action-bar", () => {
     expect(tooltipSlot).toBeTruthy();
   });
 
-  it("'calciteActionMenuOpenChange' event should set other 'calcite-action-group' - 'menuOpen' to false", async () => {
+  it.skip("'calciteActionMenuOpenChange' event should set other 'calcite-action-group' - 'menuOpen' to false", async () => {
     const page = await newE2EPage({
       html: html`<calcite-action-bar>
         <calcite-action-group>
