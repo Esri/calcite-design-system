@@ -14,13 +14,14 @@
 
 ## Properties
 
-| Property   | Attribute  | Description                        | Type                | Default     |
-| ---------- | ---------- | ---------------------------------- | ------------------- | ----------- |
-| `disabled` | `disabled` | True if the switch is disabled     | `boolean`           | `false`     |
-| `name`     | `name`     | The name of the switch input       | `string`            | `undefined` |
-| `scale`    | `scale`    | The scale of the switch            | `"l" \| "m" \| "s"` | `"m"`       |
-| `switched` | `switched` | True if the switch is initially on | `boolean`           | `false`     |
-| `value`    | `value`    | The value of the switch input      | `any`               | `undefined` |
+| Property   | Attribute  | Description                                       | Type                | Default     |
+| ---------- | ---------- | ------------------------------------------------- | ------------------- | ----------- |
+| `disabled` | `disabled` | True if the switch is disabled                    | `boolean`           | `false`     |
+| `label`    | `label`    | Applies to the aria-label attribute on the switch | `string`            | `undefined` |
+| `name`     | `name`     | The name of the switch input                      | `string`            | `undefined` |
+| `scale`    | `scale`    | The scale of the switch                           | `"l" \| "m" \| "s"` | `"m"`       |
+| `switched` | `switched` | True if the switch is initially on                | `boolean`           | `false`     |
+| `value`    | `value`    | The value of the switch input                     | `any`               | `undefined` |
 
 ## Events
 
