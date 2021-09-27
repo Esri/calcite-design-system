@@ -44,7 +44,6 @@
   box-shadow: inset 0 0 0 1px var(--calcite-ui-border-input);
   padding: var(--calcite-combobox-item-spacing-unit-s) var(--calcite-combobox-item-spacing-unit-l) 0
     var(--calcite-combobox-item-spacing-unit-l);
-  transition: 500ms ease;
 }
 
 :host(:focus-within) .wrapper,
