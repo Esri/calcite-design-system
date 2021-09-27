@@ -170,7 +170,7 @@ export class CalciteDropdown {
             }}
             onTransitionEnd={this.transitionEnd}
             style={{
-              maxHeight: maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : ""
+              maxHeight: !active || maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : ""
             }}
           >
             <slot />
