@@ -146,7 +146,7 @@ describe("calcite-tree-item", () => {
   });
 
   describe("when a tree-item has ancestors selection-mode and is selected", () => {
-    it("should update its ancestor tree-items' interminate properties", async () => {
+    it("should update its ancestor tree-items' indeterminate properties", async () => {
       const tree = `<calcite-tree selection-mode="ancestors">
         <calcite-tree-item expanded data-id="ancestor">
           <span> Fruits </span>
