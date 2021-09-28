@@ -168,10 +168,7 @@ export const Default = stepStory(
     .executeScript(
       setKnobs({
         story: "components-buttons-action--default",
-        knobs: [
-          { name: "active", value: "false" },
-          { name: "appearance", value: "clear" }
-        ]
+        knobs: [{ name: "appearance", value: "clear" }]
       })
     )
     .snapshot("Appearance Clear")
@@ -216,10 +213,7 @@ export const Default = stepStory(
     .executeScript(
       setKnobs({
         story: "components-buttons-action--default",
-        knobs: [
-          { name: "appearance", value: appearance.defaultValue },
-          { name: "compact", value: "true" }
-        ]
+        knobs: [{ name: "compact", value: "true" }]
       })
     )
     .snapshot("Compact")
@@ -243,10 +237,7 @@ export const Default = stepStory(
     .executeScript(
       setKnobs({
         story: "components-buttons-action--default",
-        knobs: [
-          { name: "compact", value: "false" },
-          { name: "disabled", value: "true" }
-        ]
+        knobs: [{ name: "disabled", value: "true" }]
       })
     )
     .snapshot("Disabled")
@@ -270,10 +261,7 @@ export const Default = stepStory(
     .executeScript(
       setKnobs({
         story: "components-buttons-action--default",
-        knobs: [
-          { name: "disabled", value: "false" },
-          { name: "indicator", value: "true" }
-        ]
+        knobs: [{ name: "indicator", value: "true" }]
       })
     )
     .snapshot("Indicator")
@@ -285,6 +273,18 @@ export const Default = stepStory(
     // Indicator RTL
     .rtl()
     .executeScript(setTheme("light"))
+    .executeScript(
+      setKnobs({
+        story: "components-buttons-action--default",
+        knobs: [{ name: "indicator", value: "false" }]
+      })
+    )
+    .executeScript(
+      setKnobs({
+        story: "components-buttons-action--default",
+        knobs: [{ name: "indicator", value: "true" }]
+      })
+    )
     .snapshot("Indicator RTL")
 
     // Indicator Dark RTL
@@ -297,10 +297,7 @@ export const Default = stepStory(
     .executeScript(
       setKnobs({
         story: "components-buttons-action--default",
-        knobs: [
-          { name: "indicator", value: "false" },
-          { name: "loading", value: "true" }
-        ]
+        knobs: [{ name: "loading", value: "true" }]
       })
     )
     .snapshot("Loading")
@@ -324,10 +321,7 @@ export const Default = stepStory(
     .executeScript(
       setKnobs({
         story: "components-buttons-action--default",
-        knobs: [
-          { name: "loading", value: "false" },
-          { name: "scale", value: "s" }
-        ]
+        knobs: [{ name: "scale", value: "s" }]
       })
     )
     .snapshot("Scale Small")
@@ -370,10 +364,7 @@ export const Default = stepStory(
     .executeScript(
       setKnobs({
         story: "components-buttons-action--default",
-        knobs: [
-          { name: "scale", value: scale.defaultValue },
-          { name: "text-enabled", value: "false" }
-        ]
+        knobs: [{ name: "textEnabled", value: "false" }]
       })
     )
     .snapshot("Text Not Enabled")
@@ -399,7 +390,7 @@ export const Default = stepStory(
         story: "components-buttons-action--default",
         knobs: [
           { name: "alignment", value: "center" },
-          { name: "text-enabled", value: "false" }
+          { name: "textEnabled", value: "false" }
         ]
       })
     )
@@ -426,7 +417,7 @@ export const Default = stepStory(
         story: "components-buttons-action--default",
         knobs: [
           { name: "alignment", value: "end" },
-          { name: "text-enabled", value: "false" }
+          { name: "textEnabled", value: "false" }
         ]
       })
     )
