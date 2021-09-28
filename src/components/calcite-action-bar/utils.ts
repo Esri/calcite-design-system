@@ -2,7 +2,7 @@ import { forceUpdate } from "@stencil/core";
 import { SLOTS as ACTION_MENU_SLOTS } from "../calcite-action-menu/resources";
 import { SLOTS as ACTION_GROUP_SLOTS } from "../calcite-action-group/resources";
 
-export const resizeDebounceInMs = 150;
+export const overflowActionsDebounceInMs = 150;
 const groupBufferHeight = 2;
 
 const getMaxActionCount = ({

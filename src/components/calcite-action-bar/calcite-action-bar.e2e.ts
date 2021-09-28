@@ -1,7 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
-import { resizeDebounceInMs } from "./utils";
+import { overflowActionsDebounceInMs } from "./utils";
 import { html } from "../../tests/utils";
 import { CSS_UTILITY } from "../../utils/resources";
 
@@ -324,7 +324,7 @@ describe("calcite-action-bar", () => {
           </calcite-action-group>
         </calcite-action-bar>`
       });
-      await page.waitForTimeout(resizeDebounceInMs);
+      await page.waitForTimeout(overflowActionsDebounceInMs);
 
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(2);
       expect(await page.findAll(slottedActionsSelector)).toHaveLength(0);
@@ -341,7 +341,7 @@ describe("calcite-action-bar", () => {
           <calcite-action text="Table" icon="table"></calcite-action>`
         );
       });
-      await page.waitForTimeout(resizeDebounceInMs);
+      await page.waitForTimeout(overflowActionsDebounceInMs);
 
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
       expect(await page.findAll(slottedActionsSelector)).toHaveLength(7);
@@ -369,7 +369,7 @@ describe("calcite-action-bar", () => {
           </calcite-action-group>
         </calcite-action-bar>`
       });
-      await page.waitForTimeout(resizeDebounceInMs);
+      await page.waitForTimeout(overflowActionsDebounceInMs);
 
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
       expect(await page.findAll(slottedActionsSelector)).toHaveLength(7);
@@ -377,7 +377,7 @@ describe("calcite-action-bar", () => {
       await page.$eval("calcite-action-bar", (element: HTMLCalciteActionBarElement) => {
         element.style.height = "550px";
       });
-      await page.waitForTimeout(resizeDebounceInMs);
+      await page.waitForTimeout(overflowActionsDebounceInMs);
 
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
       expect(await page.findAll(slottedActionsSelector)).toHaveLength(2);

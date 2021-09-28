@@ -14,7 +14,12 @@ import { Position, Scale } from "../interfaces";
 import { CalciteExpandToggle, toggleChildActionText } from "../functional/CalciteExpandToggle";
 import { CSS, SLOTS, TEXT } from "./resources";
 import { getSlotted, focusElement } from "../../utils/dom";
-import { getOverflowCount, overflowActions, queryActions, resizeDebounceInMs } from "./utils";
+import {
+  getOverflowCount,
+  overflowActions,
+  queryActions,
+  overflowActionsDebounceInMs
+} from "./utils";
 import { createObserver } from "../../utils/observers";
 import { debounce } from "lodash-es";
 
@@ -234,7 +239,7 @@ export class CalciteActionBar {
       expanded,
       overflowCount
     });
-  }, resizeDebounceInMs);
+  }, overflowActionsDebounceInMs);
 
   conditionallyOverflowActions = (): void => {
     if (!this.overflowActionsDisabled) {
