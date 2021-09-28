@@ -3,6 +3,28 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## [1.0.0-beta.66](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.65...v1.0.0-beta.66) (2021-09-28)
+
+### ⚠ BREAKING CHANGES
+
+- Components no longer support working with `<label>`. To fix, existing code should swap `<label>` for `<calcite-label>`.
+
+### Features
+
+- improve integration with calcite-label ([#3091](https://github.com/Esri/calcite-components/issues/3091)) ([4efd8a9](https://github.com/Esri/calcite-components/commit/4efd8a9169c459bf1a9d9d5b0ef8bc631b048a5a))
+
+### Bug Fixes
+
+- **checkbox:** resize calcite-checkbox when unchecked & focusout ([#2995](https://github.com/Esri/calcite-components/issues/2995)) ([0c6df8b](https://github.com/Esri/calcite-components/commit/0c6df8b447ee9b0de4e317da75b9133acd38e6ff))
+- **dropdown:** Set scroller height to zero when not active. [#3071](https://github.com/Esri/calcite-components/issues/3071) ([#3116](https://github.com/Esri/calcite-components/issues/3116)) ([69aafdc](https://github.com/Esri/calcite-components/commit/69aafdcdfb4e311f8674c55567e87cff8c5f4ebc))
+- **slider:** align histogram minValue thumb when both minValue/maxValue are zero ([#3092](https://github.com/Esri/calcite-components/issues/3092)) ([8fe19f7](https://github.com/Esri/calcite-components/commit/8fe19f70a99d35f017fdc4da9171b85b6e5c7421)), closes [#2480](https://github.com/Esri/calcite-components/issues/2480)
+- **slider:** align minValue thumb when both minValue/maxValue are zero ([#2480](https://github.com/Esri/calcite-components/issues/2480)) ([#3083](https://github.com/Esri/calcite-components/issues/3083)) ([d092ff1](https://github.com/Esri/calcite-components/commit/d092ff1b87292bd751012daf873e9529d489e3cd))
+- **slider:** move maxValue thumb when at min edge ([#2481](https://github.com/Esri/calcite-components/issues/2481)) ([#3078](https://github.com/Esri/calcite-components/issues/3078)) ([ca9c0ce](https://github.com/Esri/calcite-components/commit/ca9c0cedbfd1fee7356973dcff1c29fca5abfba5))
+- **slider:** stop emitting change on page load ([#3084](https://github.com/Esri/calcite-components/issues/3084)) ([2a4d271](https://github.com/Esri/calcite-components/commit/2a4d271212824a2384677fe9ddd7c32545bd95e5))
+- **sortable-list:** updated to use column layout and include layout property ([55fbf13](https://github.com/Esri/calcite-components/commit/55fbf134cca7a9d545fd8d2a5720865c663edf4d)), closes [#2889](https://github.com/Esri/calcite-components/issues/2889) [#2889](https://github.com/Esri/calcite-components/issues/2889) [#2889](https://github.com/Esri/calcite-components/issues/2889)
+- **stepper-item:** remove margin-bottom for calcite-stepper-item ([#3080](https://github.com/Esri/calcite-components/issues/3080)) ([37b7393](https://github.com/Esri/calcite-components/commit/37b7393f2eac35b3cdad8b6db1bc79ce4e0aec58))
+- **tree-item:** update `indeterminate` on ancestor tree-items when `selected` on load ([#3111](https://github.com/Esri/calcite-components/issues/3111)) ([a2d33f6](https://github.com/Esri/calcite-components/commit/a2d33f64c7bc9902e530344a236080fea4b91c30)), closes [#2112](https://github.com/Esri/calcite-components/issues/2112)
+
 ## [1.0.0-beta.65](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.64...v1.0.0-beta.65) (2021-09-15)
 
 ### Bug Fixes
