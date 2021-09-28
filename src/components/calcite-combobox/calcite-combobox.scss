@@ -98,7 +98,7 @@
 }
 
 .input-wrap {
-  @apply flex;
+  @apply flex flex-grow;
 }
 
 .input-wrap--single {
@@ -107,7 +107,7 @@
 
 .label {
   @apply p-0
-    block
+    flex
     font-normal
     flex-auto
     pointer-events-none
