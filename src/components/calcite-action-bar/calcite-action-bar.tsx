@@ -14,11 +14,9 @@ import { Position, Scale } from "../interfaces";
 import { CalciteExpandToggle, toggleChildActionText } from "../functional/CalciteExpandToggle";
 import { CSS, SLOTS, TEXT } from "./resources";
 import { getSlotted, focusElement } from "../../utils/dom";
-import { getOverflowCount, overflowActions, queryActions } from "./utils";
+import { getOverflowCount, overflowActions, queryActions, resizeDebounceInMs } from "./utils";
 import { createObserver } from "../../utils/observers";
 import { debounce } from "lodash-es";
-
-const resizeDebounceInMs = 150;
 
 /**
  * @slot - A slot for adding `calcite-action`s that will appear at the top of the action bar.
