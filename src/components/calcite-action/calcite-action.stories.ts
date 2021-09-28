@@ -376,7 +376,7 @@ export const Default = stepStory(
         story: "components-buttons-action--default",
         knobs: [
           { name: "alignment", value: "center" },
-          { name: "textEnabled", value: "false" }
+          { name: "textEnabled", value: "true" }
         ]
       })
     )
@@ -403,7 +403,7 @@ export const Default = stepStory(
         story: "components-buttons-action--default",
         knobs: [
           { name: "alignment", value: "end" },
-          { name: "textEnabled", value: "false" }
+          { name: "textEnabled", value: "true" }
         ]
       })
     )
