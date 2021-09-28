@@ -272,13 +272,14 @@ export const Default = stepStory(
     .executeScript(setTheme("light"))
 
     // Indicator RTL
+    .rtl()
     .executeScript(
       setKnobs({
         story: "components-buttons-action--default",
         knobs: [{ name: "indicator", value: "true" }]
       })
     )
-    .rtl()
+    .snapshot("Pre-Indicator RTL")
     .snapshot("Indicator RTL")
 
     // Indicator Dark RTL
@@ -366,15 +367,6 @@ export const Default = stepStory(
     // Text Not Enabled Dark
     .executeScript(setTheme("dark"))
     .snapshot("Text Not Enabled Dark")
-
-    // Text Not Enabled RTL
-    .rtl()
-    .executeScript(setTheme("light"))
-    .snapshot("Text Not Enabled RTL")
-
-    // Text Not Enabled Dark RTL
-    .executeScript(setTheme("dark"))
-    .snapshot("Text Not Enabled Dark RTL")
 
     // Alignment Center
     .ltr()
