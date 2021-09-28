@@ -269,22 +269,16 @@ export const Default = stepStory(
     // Indicator Dark
     .executeScript(setTheme("dark"))
     .snapshot("Indicator Dark")
+    .executeScript(setTheme("light"))
 
     // Indicator RTL
-    .rtl()
-    .executeScript(setTheme("light"))
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--default",
-        knobs: [{ name: "indicator", value: "false" }]
-      })
-    )
     .executeScript(
       setKnobs({
         story: "components-buttons-action--default",
         knobs: [{ name: "indicator", value: "true" }]
       })
     )
+    .rtl()
     .snapshot("Indicator RTL")
 
     // Indicator Dark RTL
