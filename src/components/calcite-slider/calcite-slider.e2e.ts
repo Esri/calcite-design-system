@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { defaults, renders, labelable } from "../../tests/commonTests";
+import { defaults, labelable, renders } from "../../tests/commonTests";
 
 describe("calcite-slider", () => {
   it("renders", async () => renders("calcite-slider", { display: "block" }));

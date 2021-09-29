@@ -13,7 +13,7 @@ import {
 import { getElementProp } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { TEXT, CSS } from "./resources";
-import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
+import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 
 /**
  * @slot - A slot for adding a `calcite-input`.
