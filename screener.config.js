@@ -14,5 +14,6 @@ module.exports = {
     minLayoutDimension: 1,
     minLayoutPosition: 1
   },
-  failureExitCode: 0
+  failureExitCode: 0,
+  includeRules: [/Components\/Buttons\/Action/]
 };
