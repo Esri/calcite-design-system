@@ -29,7 +29,7 @@ _Sample_:
 
 1.
 
-### Relevant Info <!--(e.g. Browser, OS, Mobile)-->
+### Relevant Info
 
 <!--(e.g. Browser, OS, mobile, stack traces, related issues, suggestions/resources on how to fix)-->
 
