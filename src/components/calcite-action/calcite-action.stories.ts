@@ -423,4 +423,66 @@ export const Default = stepStory(
     // Alignment End Dark RTL
     .executeScript(setTheme("dark"))
     .snapshot("Alignment End Dark RTL")
+
+    // Collapsed with Indicator Medium
+    .executeScript(
+      setKnobs({
+        story: "components-buttons-action--default",
+        knobs: [
+          { name: "indicator", value: "true" },
+          { name: "textEnabled", value: "false" }
+        ]
+      })
+    )
+    .executeScript(setTheme("light"))
+    .snapshot("Collapsed with Indicator")
+    .rtl()
+    .snapshot("Collapsed with Indicator RTL")
+    .ltr()
+    .executeScript(setTheme("dark"))
+    .snapshot("Collapsed with Indicator Dark")
+    .rtl()
+    .snapshot("Collapsed with Indicator RTL Dark")
+
+    // Collapsed with Indicator Small
+    .executeScript(
+      setKnobs({
+        story: "components-buttons-action--default",
+        knobs: [
+          { name: "indicator", value: "true" },
+          { name: "textEnabled", value: "false" },
+          { name: "scale", value: "s" }
+        ]
+      })
+    )
+    .executeScript(setTheme("light"))
+    .snapshot("Collapsed with Indicator Small")
+    .rtl()
+    .snapshot("Collapsed with Indicator Small RTL")
+    .ltr()
+    .executeScript(setTheme("dark"))
+    .snapshot("Collapsed with Indicator Small Dark")
+    .rtl()
+    .snapshot("Collapsed with Indicator Small Dark RTL")
+
+    // Collapsed with Indicator Large
+    .executeScript(
+      setKnobs({
+        story: "components-buttons-action--default",
+        knobs: [
+          { name: "indicator", value: "true" },
+          { name: "textEnabled", value: "false" },
+          { name: "scale", value: "l" }
+        ]
+      })
+    )
+    .executeScript(setTheme("light"))
+    .snapshot("Collapsed with Indicator Large")
+    .rtl()
+    .snapshot("Collapsed with Indicator Large RTL")
+    .ltr()
+    .executeScript(setTheme("dark"))
+    .snapshot("Collapsed with Indicator Large Dark")
+    .rtl()
+    .snapshot("Collapsed with Indicator Large Dark RTL")
 );
