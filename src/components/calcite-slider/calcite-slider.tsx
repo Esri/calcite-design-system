@@ -746,8 +746,8 @@ export class CalciteSlider implements LabelableComponent {
     }
     this.lastDragPropValue = this[prop];
     this.dragStart(prop);
-    const thumbHovered = !!this.el.shadowRoot.querySelector(".thumb:hover");
-    if (!thumbHovered) {
+    const isThumbActive = this.el.shadowRoot.querySelector(".thumb:active");
+    if (!isThumbActive) {
       this.setValue(prop, this.clamp(position, prop));
     }
   }
