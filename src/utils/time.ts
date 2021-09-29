@@ -51,14 +51,14 @@ export function formatTimeString(value: string): string {
   if (!isValidTime(value)) {
     return null;
   }
-  const splitValue = value.split(":");
-  const [hour, minute, second] = splitValue;
-  const hourAsNumber = parseInt(hour);
-  const minuteAsNumber = parseInt(minute);
-  const secondAsNumber = parseInt(second);
-  return `${formatTimePart(hourAsNumber)}:${formatTimePart(minuteAsNumber)}:${
-    secondAsNumber ? formatTimePart(secondAsNumber) : "00"
-  }`;
+  const [hourString, minuteString, secondString] = value.split(":");
+  const hour = formatTimePart(parseInt(hourString));
+  const minute = formatTimePart(parseInt(minuteString));
+  if (secondString) {
+    const second = formatTimePart(parseInt(secondString));
+    return `${hour}:${minute}:${second}`;
+  }
+  return `${hour}:${minute}`;
 }
 
 export function getLocaleHourCycle(locale: string): HourCycle {
