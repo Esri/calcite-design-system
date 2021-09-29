@@ -92,7 +92,7 @@
 }
 
 :host([alignment="center"]) .button {
-  @apply justify-center w-full;
+  @apply justify-center;
 }
 
 :host([alignment="end"]) .button {
