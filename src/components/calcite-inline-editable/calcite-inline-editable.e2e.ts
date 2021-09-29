@@ -332,6 +332,18 @@ describe("calcite-inline-editable", () => {
         <calcite-label>
       `));
 
+      describe("labelable", () => {
+        it("default", async () =>
+          labelable(
+            `<calcite-inline-editable controls>
+              <calcite-input value="John Doe"></calcite-input>
+            </calcite-inline-editable>`,
+            {
+              focusTargetSelector: `.${CSS.enableEditingButton}`
+            }
+          ));
+      });
+
       it("is accessible when editing is enabled", async () =>
         accessible(`
         <calcite-label controls editing-enabled>
@@ -341,40 +353,6 @@ describe("calcite-inline-editable", () => {
           </calcite-inline-editable>
         </calcite-label>
       `));
-    });
-
-    describe("with label", () => {
-      beforeEach(async () => {
-        page = await newE2EPage();
-        await page.setContent(`
-        <calcite-label>
-          Hello
-          <calcite-inline-editable controls>
-            <calcite-input value="John Doe"/>
-          </calcite-inline-editable>
-        </calcite-label>
-        `);
-      });
-
-      it("focuses the enable editing button when the label is clicked", async () => {
-        expect(
-          await page.evaluate(async () => {
-            const label: HTMLCalciteLabelElement = document.querySelector("calcite-label");
-            await label.click();
-            return (document.activeElement.shadowRoot.querySelector("calcite-button") as HTMLCalciteButtonElement)
-              .className;
-          })
-        ).toContain(`${CSS.enableEditingButton}`);
-      });
-
-      it("focuses the input when editing is enabled and the label is subsequently clicked", async () => {
-        const enableEditingButton = await page.find(`calcite-inline-editable >>> .${CSS.enableEditingButton}`);
-        await enableEditingButton.click();
-        const label = await page.find("calcite-label");
-        await label.click();
-        const activeEl = await page.evaluateHandle(() => document.activeElement);
-        expect(activeEl["_remoteObject"].description).toMatch("input");
-      });
     });
   });
 });

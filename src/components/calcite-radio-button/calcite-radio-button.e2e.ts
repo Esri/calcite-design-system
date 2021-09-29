@@ -4,12 +4,6 @@ import { accessible, defaults, focusable, hidden, labelable, reflects, renders }
 describe("calcite-radio-button", () => {
   it("renders", async () => renders("calcite-radio-button", { display: "block" }));
 
-  it("is labelable", async () =>
-    labelable("<calcite-radio-button name='group-name'></calcite-radio-button>", {
-      focusTargetSelector: "input",
-      propertyToToggle: "checked"
-    }));
-
   it("is accessible", async () =>
     accessible(
       `<calcite-label><calcite-radio-button id="example" name="example" value="one"></calcite-radio-button>label</calcite-label>`
@@ -21,6 +15,12 @@ describe("calcite-radio-button", () => {
   it("has defaults", async () => defaults("calcite-radio-button", [{ propertyName: "scale", defaultValue: "m" }]));
 
   it("honors hidden attribute", async () => hidden("calcite-radio-button"));
+
+  it("is labelable", async () =>
+    labelable("<calcite-radio-button name='group-name'></calcite-radio-button>", {
+      focusTargetSelector: "input",
+      propertyToToggle: "checked"
+    }));
 
   it("focusing skips over hidden radio-buttons", async () => {
     const page = await newE2EPage();

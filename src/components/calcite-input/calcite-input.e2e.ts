@@ -6,8 +6,6 @@ import { getDecimalSeparator, locales, localizeNumberString } from "../../utils/
 import { CSS } from "./resources";
 
 describe("calcite-input", () => {
-  it("is labelable", async () => labelable("calcite-input"));
-
   it("honors form reset", async () => {
     const defaultValue = "defaultValue";
 
@@ -38,6 +36,8 @@ describe("calcite-input", () => {
     const inputInput = await page.find("calcite-input >>> input");
     expect(await inputInput.getProperty("value")).toEqual(defaultValue);
   });
+
+  it("is labelable", async () => labelable("calcite-input"));
 
   it("renders", async () => {
     const page = await newE2EPage();

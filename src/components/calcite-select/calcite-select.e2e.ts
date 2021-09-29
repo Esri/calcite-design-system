@@ -14,8 +14,6 @@ describe("calcite-select", () => {
 
   it("renders", async () => renders(simpleTestMarkup, { display: "flex" }));
 
-  it("is labelable", async () => labelable("calcite-select"));
-
   it("is accessible", async () => accessible(simpleTestMarkup));
 
   it("is focusable", async () => focusable(simpleTestMarkup));
@@ -40,6 +38,8 @@ describe("calcite-select", () => {
 
     expect(selectedOptionValue).toBe(await selectedOption.getProperty("value"));
   }
+
+  it("is labelable", async () => labelable("calcite-select"));
 
   describe("flat options", () => {
     it("allows selecting items", async () => {
@@ -220,48 +220,6 @@ describe("calcite-select", () => {
       await assertSelectedOption(page, selected[0]);
       expect(selected).toHaveLength(1);
       expect(selected[0].innerText).toBe("a");
-    });
-
-    describe("label compatibility", () => {
-      it("focuses when enclosing label is clicked", async () => {
-        const page = await newE2EPage({
-          html: html`
-            <calcite-label>
-              Click me!
-              <calcite-select>
-                <calcite-option>1</calcite-option>
-                <calcite-option>2</calcite-option>
-                <calcite-option>3</calcite-option>
-              </calcite-select>
-            </calcite-label>
-          `
-        });
-
-        const internalLabel = await page.find("calcite-label >>> .container");
-        await internalLabel.click();
-        await page.waitForChanges();
-
-        expect(await page.evaluate(() => document.activeElement.tagName)).toEqual("CALCITE-SELECT");
-      });
-
-      it("focuses when associated label is clicked", async () => {
-        const page = await newE2EPage({
-          html: html`
-            <calcite-label for="select">Click me!</calcite-label>
-            <calcite-select id="select">
-              <calcite-option>1</calcite-option>
-              <calcite-option>2</calcite-option>
-              <calcite-option>3</calcite-option>
-            </calcite-select>
-          `
-        });
-
-        const label = await page.find("calcite-label");
-        await label.click();
-        await page.waitForChanges();
-
-        expect(await page.evaluate(() => document.activeElement.tagName)).toEqual("CALCITE-SELECT");
-      });
     });
 
     it("internally maps children to native elements", async () => {

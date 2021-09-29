@@ -4,8 +4,6 @@ import { defaults, renders, labelable } from "../../tests/commonTests";
 describe("calcite-slider", () => {
   it("renders", async () => renders("calcite-slider", { display: "block" }));
 
-  it("is labelable", async () => labelable("calcite-slider"));
-
   it("has defaults", async () =>
     defaults("calcite-slider", [
       {
@@ -13,6 +11,8 @@ describe("calcite-slider", () => {
         defaultValue: false
       }
     ]));
+
+  it("is labelable", async () => labelable("calcite-slider"));
 
   it("becomes inactive from disabled prop", async () => {
     const page = await newE2EPage();

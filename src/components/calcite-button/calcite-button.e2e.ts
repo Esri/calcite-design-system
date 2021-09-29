@@ -3,8 +3,6 @@ import { accessible, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-button", () => {
-  it("is labelable", async () => labelable("calcite-button"));
-
   it("renders as a button with default props", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-button>Continue</calcite-button>`);
@@ -42,6 +40,8 @@ describe("calcite-button", () => {
 
   it("is accessible: icons and loading", async () =>
     accessible(`<calcite-button loading icon-start='plus' icon-end='plus'>Continue</calcite-button>`));
+
+  it("is labelable", async () => labelable("calcite-button"));
 
   it("renders as a link with default props", async () => {
     const page = await newE2EPage();

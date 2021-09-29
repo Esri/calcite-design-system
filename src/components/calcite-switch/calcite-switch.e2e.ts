@@ -12,12 +12,12 @@ describe("calcite-switch", () => {
     expect(calciteSwitch).toHaveAttribute("switched");
   });
 
-  it("is labelable", async () => labelable("calcite-switch", { propertyToToggle: "switched" }));
-
   it("is accessible", async () => accessible(`<calcite-switch></calcite-switch>`));
 
   it("is accessible: switched", async () =>
     accessible(`<calcite-switch label="test-label" switched></calcite-switch>`));
+
+  it("is labelable", async () => labelable("calcite-switch", { propertyToToggle: "switched" }));
 
   it("toggles the switched and checked attributes appropriately when clicked", async () => {
     const page = await newE2EPage();

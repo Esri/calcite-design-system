@@ -13,11 +13,11 @@ describe("calcite-radio-group", () => {
 
   it("is labelable", async () =>
     labelable(
-      `<calcite-radio-group id="labelable-component">
-  <calcite-radio-group-item value="1"></calcite-radio-group-item>
-  <calcite-radio-group-item value="2"></calcite-radio-group-item>
-  <calcite-radio-group-item value="3"></calcite-radio-group-item>
-</calcite-radio-group>`,
+      html`<calcite-radio-group id="labelable-component">
+        <calcite-radio-group-item value="1"></calcite-radio-group-item>
+        <calcite-radio-group-item value="2"></calcite-radio-group-item>
+        <calcite-radio-group-item value="3"></calcite-radio-group-item>
+      </calcite-radio-group>`,
       { focusTargetSelector: "calcite-radio-group-item" }
     ));
 

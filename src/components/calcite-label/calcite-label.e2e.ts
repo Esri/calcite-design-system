@@ -9,7 +9,6 @@ describe("calcite-label", () => {
     expect(label).toHaveAttribute(HYDRATED_ATTR);
   });
 
-  // todo: maybe we need a commonTest for calcite-label so each test for a component could be in the component's e2e test?
   it("renders default props when none are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
