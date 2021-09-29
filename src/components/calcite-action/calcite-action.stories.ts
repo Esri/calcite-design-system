@@ -10,7 +10,7 @@ import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 
 export default {
-  title: "Components/Buttons/Action",
+  title: "Components/Buttons/ActionButton",
   parameters: {
     notes: readme
   }
