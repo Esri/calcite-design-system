@@ -29,6 +29,12 @@ Displays a contextual message to a user. Allows the passing of content, links, e
 | `status` | `status`  | specify the status of the input field, determines message and icons                                                                                                                                                              | `"idle" \| "invalid" \| "valid"` | `"idle"`    |
 | `type`   | `type`    | <span style="color:red">**[DEPRECATED]**</span> "floating" type is no longer supported<br/><br/>specify the appearance of any slotted message - default (displayed under input), or floating (positioned absolutely under input) | `"default"`                      | `undefined` |
 
+## Slots
+
+| Slot | Description             |
+| ---- | ----------------------- |
+|      | A slot for adding text. |
+
 ## CSS Custom Properties
 
 | Name                                    | Description                             |

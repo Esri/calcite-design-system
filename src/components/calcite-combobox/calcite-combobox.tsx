@@ -33,6 +33,7 @@ import {
   ComboboxDefaultPlacement
 } from "./resources";
 import { getItemAncestors, getItemChildren, hasActiveChildren } from "./utils";
+import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { createObserver } from "../../utils/observers";
 
 interface ItemData {
@@ -43,12 +44,15 @@ interface ItemData {
 const isGroup = (el: ComboboxChildElement): el is HTMLCalciteComboboxItemGroupElement =>
   el.tagName === ComboboxItemGroup;
 
+/**
+ * @slot - A slot for adding `calcite-combobox-item`s.
+ */
 @Component({
   tag: "calcite-combobox",
   styleUrl: "calcite-combobox.scss",
   shadow: true
 })
-export class CalciteCombobox {
+export class CalciteCombobox implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -215,6 +219,7 @@ export class CalciteCombobox {
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.createPopper();
+    connectLabel(this);
   }
 
   componentWillLoad(): void {
@@ -231,6 +236,7 @@ export class CalciteCombobox {
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.destroyPopper();
+    disconnectLabel(this);
   }
 
   //--------------------------------------------------------------------------
@@ -238,6 +244,9 @@ export class CalciteCombobox {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  labelEl: HTMLCalciteLabelElement;
+
   @State() items: HTMLCalciteComboboxItemElement[] = [];
 
   @State() groupItems: HTMLCalciteComboboxItemGroupElement[] = [];
@@ -296,6 +305,10 @@ export class CalciteCombobox {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  onLabelClick = (): void => {
+    this.setFocus();
+  };
 
   keydownHandler = (event: KeyboardEvent): void => {
     const key = getKey(event.key, getElementDir(this.el));
@@ -825,7 +838,7 @@ export class CalciteCombobox {
   }
 
   renderInput(): VNode {
-    const { active, disabled, placeholder, selectionMode, needsIcon, label, selectedItems } = this;
+    const { active, disabled, placeholder, selectionMode, needsIcon, selectedItems } = this;
     const single = selectionMode === "single";
     const selectedItem = selectedItems[0];
     const showLabel = !active && single && !!selectedItem;
@@ -853,7 +866,7 @@ export class CalciteCombobox {
           aria-activedescendant={this.activeDescendant}
           aria-autocomplete="list"
           aria-controls={guid}
-          aria-label={label}
+          aria-label={getLabelText(this)}
           class={{
             input: true,
             "input--transparent": this.activeChipIndex > -1,

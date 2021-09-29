@@ -2,6 +2,9 @@ import { Component, Element, Prop, h, VNode } from "@stencil/core";
 
 import { CSS, TEXT } from "./resources";
 
+/**
+ * @slot - A slot for adding custom content, primarily loading information.
+ */
 @Component({
   tag: "calcite-scrim",
   styleUrl: "calcite-scrim.scss",

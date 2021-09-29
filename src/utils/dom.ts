@@ -192,10 +192,6 @@ export function filterDirectChildren<T extends Element>(el: Element, selector: s
   return Array.from(el.children).filter((child): child is T => child.matches(selector));
 }
 
-export function hasLabel(labelEl: HTMLCalciteLabelElement, el: HTMLElement): boolean {
-  return labelEl.contains(el);
-}
-
 // set a default icon from a defined set or allow an override with an icon name string
 export function setRequestedIcon(
   iconObject: Record<string, string>,

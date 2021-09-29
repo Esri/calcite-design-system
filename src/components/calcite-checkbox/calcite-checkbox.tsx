@@ -15,13 +15,14 @@ import { guid } from "../../utils/guid";
 import { focusElement, closestElementCrossShadowBoundary } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { hiddenInputStyle } from "../../utils/form";
+import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 
 @Component({
   tag: "calcite-checkbox",
   styleUrl: "calcite-checkbox.scss",
   shadow: true
 })
-export class CalciteCheckbox {
+export class CalciteCheckbox implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -102,6 +103,8 @@ export class CalciteCheckbox {
 
   private input: HTMLInputElement;
 
+  labelEl: HTMLCalciteLabelElement;
+
   //--------------------------------------------------------------------------
   //
   //  State
@@ -141,6 +144,14 @@ export class CalciteCheckbox {
     }
   };
 
+  private clickHandler = (): void => {
+    if (this.labelEl) {
+      return;
+    }
+
+    this.toggle();
+  };
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -163,16 +174,6 @@ export class CalciteCheckbox {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click")
-  onClick(event: MouseEvent): void {
-    // This line prevents double-triggering when wrapped inside either a <label> or a <calcite-label>
-    // by preventing the browser default behavior, which is to click the label's first input child element
-    if (event.target === this.el) {
-      event.preventDefault();
-    }
-    this.toggle();
-  }
-
   @Listen("mouseenter")
   mouseenter(): void {
     this.hovered = true;
@@ -187,18 +188,6 @@ export class CalciteCheckbox {
     this.checked = this.initialChecked;
   };
 
-  private nativeLabelClickHandler = ({ target }: MouseEvent): void => {
-    if (
-      !this.el.closest("calcite-label") &&
-      (target as HTMLElement).nodeName === "LABEL" &&
-      (target as HTMLLabelElement).parentNode.nodeName !== "CALCITE-LABEL" &&
-      this.el.id &&
-      (target as HTMLLabelElement).htmlFor === this.el.id
-    ) {
-      this.toggle();
-    }
-  };
-
   private onInputBlur() {
     this.focused = false;
     this.calciteCheckboxFocusedChange.emit(false);
@@ -208,6 +197,10 @@ export class CalciteCheckbox {
     this.focused = true;
     this.calciteCheckboxFocusedChange.emit(true);
   }
+
+  onLabelClick = (): void => {
+    this.toggle();
+  };
 
   //--------------------------------------------------------------------------
   //
@@ -223,7 +216,11 @@ export class CalciteCheckbox {
     if (form) {
       form.addEventListener("reset", this.formResetHandler);
     }
-    document.addEventListener("click", this.nativeLabelClickHandler);
+    connectLabel(this);
+  }
+
+  componentDidLoad(): void {
+    this.input.setAttribute("aria-label", getLabelText(this));
   }
 
   disconnectedCallback(): void {
@@ -232,7 +229,7 @@ export class CalciteCheckbox {
     if (form) {
       form.removeEventListener("reset", this.formResetHandler);
     }
-    document.removeEventListener("click", this.nativeLabelClickHandler);
+    disconnectLabel(this);
   }
 
   // --------------------------------------------------------------------------
@@ -251,11 +248,7 @@ export class CalciteCheckbox {
     this.input.onfocus = this.onInputFocus.bind(this);
     this.input.style.cssText = hiddenInputStyle;
     this.input.type = "checkbox";
-    if (this.label) {
-      this.input.setAttribute("aria-label", this.label);
-    } else {
-      this.input.removeAttribute("aria-label");
-    }
+    this.input.setAttribute("aria-label", getLabelText(this));
     if (this.value) {
       this.input.value = this.value != null ? this.value.toString() : "";
     }
@@ -264,7 +257,7 @@ export class CalciteCheckbox {
 
   render(): VNode {
     return (
-      <div class={{ focused: this.focused }}>
+      <div class={{ focused: this.focused }} onClick={this.clickHandler}>
         <svg class="check-svg" viewBox="0 0 16 16">
           <path d={this.getPath()} />
         </svg>

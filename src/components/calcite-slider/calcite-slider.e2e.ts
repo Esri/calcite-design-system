@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { defaults, renders } from "../../tests/commonTests";
+import { defaults, labelable, renders } from "../../tests/commonTests";
 
 describe("calcite-slider", () => {
   it("renders", async () => renders("calcite-slider", { display: "block" }));
@@ -11,6 +11,8 @@ describe("calcite-slider", () => {
         defaultValue: false
       }
     ]));
+
+  it("is labelable", async () => labelable("calcite-slider"));
 
   it("becomes inactive from disabled prop", async () => {
     const page = await newE2EPage();
@@ -381,6 +383,114 @@ describe("calcite-slider", () => {
         const stop = await linearGradient.find(`stop[offset="${offset * 100}%"][stop-color="${color}"]`);
         expect(stop).toBeTruthy();
       }
+    });
+  });
+
+  describe("when range thumbs overlap at min edge", () => {
+    const slider = `<calcite-slider
+      min="5"
+      max="100"
+      min-value="5"
+      max-value="5"
+      step="10"
+      ticks="10"
+      label-handles
+      label-ticks
+      snap`;
+
+    it("click/tap should grab the max value thumb", async () => {
+      const page = await newE2EPage({
+        html: `
+        <div style="width: 300px; margin: 1rem;">
+          ${slider}></calcite-slider>
+        </div>
+        `
+      });
+      const element = await page.find("calcite-slider");
+      const maxValueThumb = await page.find("calcite-slider >>> .thumb--value");
+      const changeEvent = await element.spyOnEvent("calciteSliderChange");
+      expect(await element.getProperty("minValue")).toBe(5);
+      expect(await element.getProperty("maxValue")).toBe(5);
+
+      await maxValueThumb.click();
+      await page.waitForChanges();
+
+      expect(await element.getProperty("minValue")).toBe(5);
+      expect(await element.getProperty("maxValue")).toBe(10);
+      expect(changeEvent).toHaveReceivedEventTimes(1);
+    });
+
+    it("mirrored: click/tap should grab the max value thumb", async () => {
+      const page = await newE2EPage({
+        html: `
+        <div style="width: 300px; margin: 1rem;">
+          ${slider} mirrored></calcite-slider>
+        </div>
+        `
+      });
+      const element = await page.find("calcite-slider");
+      const maxValueThumb = await page.find("calcite-slider >>> .thumb--value");
+      const changeEvent = await element.spyOnEvent("calciteSliderChange");
+      expect(await element.getProperty("minValue")).toBe(5);
+      expect(await element.getProperty("maxValue")).toBe(5);
+
+      await maxValueThumb.click();
+      await page.waitForChanges();
+
+      expect(await element.getProperty("minValue")).toBe(5);
+      expect(await element.getProperty("maxValue")).toBe(10);
+      expect(changeEvent).toHaveReceivedEventTimes(1);
+    });
+  });
+
+  describe("when a range has 0 for both minValue and maxValue", () => {
+    const slider = `<calcite-slider
+      min="-10"
+      max="1"
+      min-value="0"
+      max-value="0"`;
+    const nonMirroredSlider = `<div style="width: 300px; margin: 1rem;">${slider}></calcite-slider></div>`;
+    const mirroredSlider = `<div style="width: 300px; margin: 1rem;">${slider} mirrored></calcite-slider></div>`;
+
+    it("should position the minValue thumb beside the maxValue thumb", async () => {
+      const page = await newE2EPage({ html: nonMirroredSlider });
+      const minValueThumb = await page.find("calcite-slider >>> .thumb--minValue");
+      const maxValueThumb = await page.find("calcite-slider >>> .thumb--value");
+      const minHandleLeft = await (await minValueThumb.getComputedStyle()).left;
+      const maxHandleRight = await (await maxValueThumb.getComputedStyle()).right;
+      expect(minHandleLeft).toBe("258.172px");
+      expect(maxHandleRight).toBe("25.8125px");
+    });
+
+    it("should position the minValue thumb beside the maxValue thumb when mirrored", async () => {
+      const page = await newE2EPage({ html: mirroredSlider });
+      const minValueThumb = await page.find("calcite-slider >>> .thumb--minValue");
+      const maxValueThumb = await page.find("calcite-slider >>> .thumb--value");
+      const minHandleLeft = await (await minValueThumb.getComputedStyle()).left;
+      const maxHandleRight = await (await maxValueThumb.getComputedStyle()).right;
+      expect(minHandleLeft).toBe("25.8125px");
+      expect(maxHandleRight).toBe("258.172px");
+    });
+
+    it("should position the minValue thumb beside the maxValue thumb when it's a histogram range", async () => {
+      const page = await newE2EPage({ html: nonMirroredSlider });
+      await page.$eval("calcite-slider", (slider: HTMLCalciteSliderElement) => {
+        slider.histogram = [
+          [0, 0],
+          [20, 12],
+          [40, 25],
+          [60, 55],
+          [80, 10],
+          [100, 0]
+        ];
+      });
+      await page.waitForChanges();
+      const minValueThumb = await page.find("calcite-slider >>> .thumb--minValue");
+      const maxValueThumb = await page.find("calcite-slider >>> .thumb--value");
+      const minHandleLeft = await (await minValueThumb.getComputedStyle()).left;
+      const maxHandleRight = await (await maxValueThumb.getComputedStyle()).right;
+      expect(minHandleLeft).toBe("258.172px");
+      expect(maxHandleRight).toBe("25.8125px");
     });
   });
 });

@@ -25,6 +25,12 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
+## Slots
+
+| Slot | Description             |
+| ---- | ----------------------- |
+|      | A slot for adding text. |
+
 ## Dependencies
 
 ### Depends on

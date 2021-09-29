@@ -1,14 +1,16 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, focusable, HYDRATED_ATTR } from "../../tests/commonTests";
+import { accessible, focusable, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
 
 describe("calcite-checkbox", () => {
   it("is accessible", async () =>
     accessible(
-      `<calcite-label><calcite-checkbox id="example" name="example" value="one"></calcite-checkbox>label</calcite-label>`
+      `<calcite-label><calcite-checkbox id="example" name="example" value="one"></calcite-checkbox> label</calcite-label>`
     ));
 
   it("is accessible without calcite-label", async () =>
     accessible(`<calcite-checkbox label="label" id="example" name="example" value="one"></calcite-checkbox>`));
+
+  it("is labelable", async () => labelable("calcite-checkbox", { propertyToToggle: "checked" }));
 
   it("renders with correct default attributes", async () => {
     const page = await newE2EPage();
@@ -113,136 +115,6 @@ describe("calcite-checkbox", () => {
     await calciteCheckbox.click();
 
     expect(calciteCheckbox).not.toHaveAttribute("indeterminate");
-  });
-
-  it("toggles when the wrapping label is clicked", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <label>
-        <calcite-checkbox></calcite-checkbox>
-        <p>hello!</p>
-      </label>
-      `);
-
-    const calciteCheckbox = await page.find("calcite-checkbox");
-    const input = await page.find("input");
-    const paragraph = await page.find("p");
-
-    expect(calciteCheckbox).not.toHaveAttribute("checked");
-    expect(await calciteCheckbox.getProperty("checked")).toBe(false);
-    expect(input).not.toHaveAttribute("checked");
-    expect(await input.getProperty("checked")).toBe(false);
-
-    await paragraph.click();
-
-    await page.waitForChanges();
-
-    expect(calciteCheckbox).toHaveAttribute("checked");
-    expect(await calciteCheckbox.getProperty("checked")).toBe(true);
-    expect(await input.getProperty("checked")).toBe(true);
-  });
-
-  it("toggles when the wrapping label with for is clicked", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <label for="checky">
-        <calcite-checkbox id="checky"></calcite-checkbox>
-        <p>hello!</p>
-      </label>
-      `);
-
-    const calciteCheckbox = await page.find("calcite-checkbox");
-    const input = await page.find("input");
-    const label = await page.find("label");
-
-    expect(calciteCheckbox).not.toHaveAttribute("checked");
-    expect(await calciteCheckbox.getProperty("checked")).toBe(false);
-    expect(input).not.toHaveAttribute("checked");
-    expect(await input.getProperty("checked")).toBe(false);
-
-    await label.click();
-
-    await page.waitForChanges();
-
-    expect(calciteCheckbox).toHaveAttribute("checked");
-    expect(await calciteCheckbox.getProperty("checked")).toBe(true);
-    expect(await input.getProperty("checked")).toBe(true);
-  });
-
-  it("toggles when the wrapping calcite-label is clicked", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-label>
-        <calcite-checkbox id="wrapped-in-calcite-label" name="wrapped-in-calcite-label"></calcite-checkbox>
-        wrapped in calcite-label
-      </calcite-label>
-      `);
-
-    const calciteCheckbox = await page.find("calcite-checkbox");
-    const input = await page.find("input");
-    const label = await page.find("label");
-
-    expect(calciteCheckbox).not.toHaveAttribute("checked");
-    expect(await calciteCheckbox.getProperty("checked")).toBe(false);
-    expect(input).not.toHaveAttribute("checked");
-    expect(await input.getProperty("checked")).toBe(false);
-
-    await label.click();
-
-    await page.waitForChanges();
-
-    expect(calciteCheckbox).toHaveAttribute("checked");
-    expect(await calciteCheckbox.getProperty("checked")).toBe(true);
-    expect(await input.getProperty("checked")).toBe(true);
-  });
-
-  it("toggles when the wrapping calcite-label with for is clicked", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-label for="wrapped-in-calcite-label-with-for">
-        <calcite-checkbox id="wrapped-in-calcite-label-with-for" name="wrapped-in-calcite-label-with-for"></calcite-checkbox>
-        wrapped in calcite-label with for
-      </calcite-label>
-      `);
-
-    const calciteCheckbox = await page.find("calcite-checkbox");
-    const input = await page.find("input");
-    const label = await page.find("label");
-
-    expect(await calciteCheckbox.getProperty("checked")).toBe(false);
-    expect(await input.getProperty("checked")).toBe(false);
-
-    await label.click();
-
-    await page.waitForChanges();
-
-    expect(await calciteCheckbox.getProperty("checked")).toBe(true);
-    expect(await input.getProperty("checked")).toBe(true);
-  });
-
-  it("toggles when sibling label is clicked", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-label for="sibling-calcite-label">sibling calcite-label</calcite-label>
-      <calcite-checkbox id="sibling-calcite-label" name="sibling-calcite-label"></calcite-checkbox>
-      `);
-
-    const calciteCheckbox = await page.find("calcite-checkbox");
-    const input = await page.find("input");
-    const label = await page.find("label");
-
-    expect(calciteCheckbox).not.toHaveAttribute("checked");
-    expect(await calciteCheckbox.getProperty("checked")).toBe(false);
-    expect(input).not.toHaveAttribute("checked");
-    expect(await input.getProperty("checked")).toBe(false);
-
-    await label.click();
-
-    await page.waitForChanges();
-
-    expect(calciteCheckbox).toHaveAttribute("checked");
-    expect(await calciteCheckbox.getProperty("checked")).toBe(true);
-    expect(await input.getProperty("checked")).toBe(true);
   });
 
   it("removing a checkbox also removes the hidden <input type=checkbox> element", async () => {

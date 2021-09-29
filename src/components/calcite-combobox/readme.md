@@ -69,12 +69,12 @@
 
 ## Events
 
-| Event                         | Description                                                                                                                           | Type                                                                             |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| `calciteComboboxChange`       | Called when the selected item(s) changes.                                                                                             | `CustomEvent<{ selectedItems: HTMLCalciteComboboxItemElement[]; }>`              |
-| `calciteComboboxChipDismiss`  | Called when a selected item in the combobox is dismissed via its chip \*                                                              | `CustomEvent<any>`                                                               |
-| `calciteComboboxFilterChange` | Called when the user has entered text to filter the options list                                                                      | `CustomEvent<{ visibleItems: HTMLCalciteComboboxItemElement[]; text: string; }>` |
-| `calciteLookupChange`         | <span style="color:red">**[DEPRECATED]**</span> use calciteComboboxChange instead<br/><br/>Called when the selected items set changes | `CustomEvent<HTMLCalciteComboboxItemElement[]>`                                  |
+| Event                         | Description                                                                                                                           | Type                                                  |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| `calciteComboboxChange`       | Called when the selected item(s) changes.                                                                                             | `CustomEvent<{ selectedItems: any[]; }>`              |
+| `calciteComboboxChipDismiss`  | Called when a selected item in the combobox is dismissed via its chip \*                                                              | `CustomEvent<any>`                                    |
+| `calciteComboboxFilterChange` | Called when the user has entered text to filter the options list                                                                      | `CustomEvent<{ visibleItems: any[]; text: string; }>` |
+| `calciteLookupChange`         | <span style="color:red">**[DEPRECATED]**</span> use calciteComboboxChange instead<br/><br/>Called when the selected items set changes | `CustomEvent<any[]>`                                  |
 
 ## Methods
 
@@ -93,6 +93,12 @@ Sets focus on the component.
 #### Returns
 
 Type: `Promise<void>`
+
+## Slots
+
+| Slot | Description                                 |
+| ---- | ------------------------------------------- |
+|      | A slot for adding `calcite-combobox-item`s. |
 
 ## CSS Custom Properties
 

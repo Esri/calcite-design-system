@@ -22,6 +22,9 @@ import { FlipContext, Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { createObserver } from "../../utils/observers";
 
+/**
+ * @slot - A slot for adding text.
+ */
 @Component({
   tag: "calcite-tab-title",
   styleUrl: "calcite-tab-title.scss",

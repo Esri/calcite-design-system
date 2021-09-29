@@ -31,6 +31,12 @@ Return the index of this title within the nav
 
 Type: `Promise<number>`
 
+## Slots
+
+| Slot | Description             |
+| ---- | ----------------------- |
+|      | A slot for adding text. |
+
 ## Dependencies
 
 ### Used by

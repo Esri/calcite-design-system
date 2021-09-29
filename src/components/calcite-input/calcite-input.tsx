@@ -23,6 +23,7 @@ import { getKey } from "../../utils/key";
 import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
 import { InputPlacement } from "./interfaces";
 import { Position } from "../interfaces";
+import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
   getDecimalSeparator,
   delocalizeNumberString,
@@ -48,7 +49,7 @@ type NumberNudgeDirection = "up" | "down";
   styleUrl: "calcite-input.scss",
   scoped: true
 })
-export class CalciteInput {
+export class CalciteInput implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -224,6 +225,8 @@ export class CalciteInput {
   //
   //--------------------------------------------------------------------------
 
+  labelEl: HTMLCalciteLabelElement;
+
   /** keep track of the rendered child type */
   private childEl?: HTMLInputElement | HTMLTextAreaElement;
 
@@ -284,10 +287,12 @@ export class CalciteInput {
         this.value = undefined;
       }
     }
+    connectLabel(this);
   }
 
   disconnectedCallback(): void {
     this.form?.removeEventListener("reset", this.reset);
+    disconnectLabel(this);
   }
 
   componentWillLoad(): void {
@@ -379,6 +384,10 @@ export class CalciteInput {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  onLabelClick = (): void => {
+    this.setFocus();
+  };
 
   private clearInputValue = (nativeEvent: KeyboardEvent | MouseEvent): void => {
     this.setValue(null, nativeEvent, true);
@@ -672,7 +681,7 @@ export class CalciteInput {
     const localeNumberInput =
       this.type === "number" ? (
         <input
-          aria-label={this.label}
+          aria-label={getLabelText(this)}
           autofocus={this.autofocus ? true : null}
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
@@ -695,7 +704,7 @@ export class CalciteInput {
 
     const childEl = [
       <this.childElType
-        aria-label={this.label}
+        aria-label={getLabelText(this)}
         autofocus={this.autofocus ? true : null}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}

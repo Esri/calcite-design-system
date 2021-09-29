@@ -13,17 +13,21 @@ import {
   VNode
 } from "@stencil/core";
 
-import { getElementDir, hasLabel } from "../../utils/dom";
+import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { Layout, Scale, Width } from "../interfaces";
+import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import { RadioAppearance } from "./interfaces";
 
+/**
+ * @slot - A slot for adding `calcite-radio-group-item`s.
+ */
 @Component({
   tag: "calcite-radio-group",
   styleUrl: "calcite-radio-group.scss",
   shadow: true
 })
-export class CalciteRadioGroup {
+export class CalciteRadioGroup implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -116,6 +120,12 @@ export class CalciteRadioGroup {
     if (lastChecked) {
       hiddenInput.value = lastChecked.value;
     }
+
+    connectLabel(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectLabel(this);
   }
 
   componentDidLoad(): void {
@@ -124,7 +134,7 @@ export class CalciteRadioGroup {
 
   render(): VNode {
     return (
-      <Host role="radiogroup" tabIndex={this.disabled ? -1 : null}>
+      <Host onClick={this.handleClick} role="radiogroup" tabIndex={this.disabled ? -1 : null}>
         <slot />
       </Host>
     );
@@ -136,19 +146,11 @@ export class CalciteRadioGroup {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteLabelFocus", { target: "window" }) handleLabelFocus(
-    e: Record<string, any>
-  ): void {
-    if (hasLabel(e.detail.labelEl, this.el)) {
-      this.setFocus();
-    }
-  }
-
-  @Listen("click") protected handleClick(event: MouseEvent): void {
+  protected handleClick = (event: MouseEvent): void => {
     if ((event.target as HTMLElement).localName === "calcite-radio-group-item") {
       this.selectItem(event.target as HTMLCalciteRadioGroupItemElement);
     }
-  }
+  };
 
   @Listen("calciteRadioGroupItemChange")
   protected handleSelected(event: Event): void {
@@ -241,6 +243,8 @@ export class CalciteRadioGroup {
   //
   //--------------------------------------------------------------------------
 
+  labelEl: HTMLCalciteLabelElement;
+
   private hiddenInput: HTMLInputElement = (() => {
     const input = document.createElement("input");
     input.type = "hidden";
@@ -255,6 +259,10 @@ export class CalciteRadioGroup {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  onLabelClick = (): void => {
+    this.setFocus();
+  };
 
   private getItems(): NodeListOf<HTMLCalciteRadioGroupItemElement> {
     return this.el.querySelectorAll("calcite-radio-group-item");
