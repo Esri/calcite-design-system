@@ -273,6 +273,7 @@ describe("calcite-action-bar", () => {
         </calcite-action-group>
       </calcite-action-bar>`
     });
+    await page.waitForChanges();
     const actionBar = await page.find("calcite-action-bar");
     const eventSpy = await actionBar.spyOnEvent("calciteActionMenuOpenChange");
 
@@ -285,6 +286,7 @@ describe("calcite-action-bar", () => {
       element.menuOpen = true;
     });
     await page.waitForChanges();
+    await page.waitForTimeout(overflowActionsDebounceInMs);
 
     groups = await page.findAll("calcite-action-group");
 
