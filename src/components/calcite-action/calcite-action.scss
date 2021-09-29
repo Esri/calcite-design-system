@@ -99,8 +99,11 @@
   @apply justify-end;
 }
 
-:host([alignment="end"]) .button .text-container--visible {
-  @apply flex-initial;
+:host([alignment="center"]),
+:host([alignment="end"]) {
+  .button .text-container--visible {
+    @apply flex-initial;
+  }
 }
 
 // Compact
