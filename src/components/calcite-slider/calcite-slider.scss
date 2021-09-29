@@ -86,9 +86,9 @@ $tick-height: 4px;
       bottom: 0;
     }
     &.hyphen::after {
-      content: "\2014";
-      display: inline-block;
-      width: 1em;
+      content: "\2011";
+      display: inline;
+      margin-left: 0.1875em;
     }
   }
 
