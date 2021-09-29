@@ -16,7 +16,7 @@ describe("calcite-filter", () => {
       const placeholderText = "hide em";
       await page.setContent(`<calcite-filter placeholder="${placeholderText}"></calcite-filter>`);
 
-      const input = await page.find(`calcite-filter >>> input`);
+      const input = await page.find(`calcite-filter >>> calcite-input`);
       expect(await input.getProperty("placeholder")).toBe(placeholderText);
     });
   });
@@ -67,7 +67,7 @@ describe("calcite-filter", () => {
 
         const value = await page.evaluate(() => {
           const filter = document.querySelector("calcite-filter");
-          const filterInput = filter.shadowRoot.querySelector("input");
+          const filterInput = filter.shadowRoot.querySelector("calcite-input");
           return filterInput.value;
         });
 
@@ -87,7 +87,7 @@ describe("calcite-filter", () => {
 
         const value = await page.evaluate(() => {
           const filter = document.querySelector("calcite-filter");
-          const filterInput = filter.shadowRoot.querySelector("input");
+          const filterInput = filter.shadowRoot.querySelector("calcite-input");
           return filterInput.value;
         });
 
@@ -150,9 +150,9 @@ describe("calcite-filter", () => {
       const waitForEvent = page.waitForEvent("calciteFilterChange");
       await page.evaluate(() => {
         const filter = document.querySelector("calcite-filter");
-        const filterInput = filter.shadowRoot.querySelector("input");
+        const filterInput = filter.shadowRoot.querySelector("calcite-input");
         filterInput.value = "developer";
-        filterInput.dispatchEvent(new Event("input"));
+        filterInput.dispatchEvent(new CustomEvent("calciteInputInput"));
       });
       const event = await waitForEvent;
       expect(event.detail).toBeDefined();
@@ -167,9 +167,9 @@ describe("calcite-filter", () => {
       const waitForEvent = page.waitForEvent("calciteFilterChange");
       await page.evaluate(() => {
         const filter = document.querySelector("calcite-filter");
-        const filterInput = filter.shadowRoot.querySelector("input");
+        const filterInput = filter.shadowRoot.querySelector("calcite-input");
         filterInput.value = "volt";
-        filterInput.dispatchEvent(new Event("input"));
+        filterInput.dispatchEvent(new CustomEvent("calciteInputInput"));
       });
       const event = await waitForEvent;
       expect(event.detail).toBeDefined();
@@ -181,9 +181,9 @@ describe("calcite-filter", () => {
       const waitForEvent = page.waitForEvent("calciteFilterChange");
       await page.evaluate(() => {
         const filter = document.querySelector("calcite-filter");
-        const filterInput = filter.shadowRoot.querySelector("input");
+        const filterInput = filter.shadowRoot.querySelector("calcite-input");
         filterInput.value = "regex()";
-        filterInput.dispatchEvent(new Event("input"));
+        filterInput.dispatchEvent(new CustomEvent("calciteInputInput"));
       });
       const event = await waitForEvent;
       expect(event.detail).toBeDefined();

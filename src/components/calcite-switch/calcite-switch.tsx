@@ -213,6 +213,7 @@ export class CalciteSwitch implements LabelableComponent {
       <Host>
         <div
           aria-checked={this.switched.toString()}
+          aria-label={getLabelText(this)}
           class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
           onClick={this.clickHandler}
           ref={this.setSwitchEl}

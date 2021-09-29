@@ -12,7 +12,7 @@ describe("calcite-switch", () => {
     expect(calciteSwitch).toHaveAttribute("switched");
   });
 
-  it("is accessible", async () => accessible(`<calcite-switch></calcite-switch>`));
+  it("is accessible", async () => accessible(`<calcite-switch label="test-label"></calcite-switch>`));
 
   it("is accessible: switched", async () =>
     accessible(`<calcite-switch label="test-label" switched></calcite-switch>`));

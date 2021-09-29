@@ -7,10 +7,9 @@ import { html } from "../../tests/utils";
 describe("calcite-inline-editable", () => {
   it("is labelable", async () =>
     labelable(
-      html`<calcite-inline-editable editing-enabled id="labelable-component">
+      html`<calcite-inline-editable editing-enabled>
         <calcite-input></calcite-input>
-      </calcite-inline-editable>`,
-      { focusTargetSelector: "calcite-input" }
+      </calcite-inline-editable>`
     ));
   describe("rendering permutations", () => {
     let page: E2EPage;
@@ -337,10 +336,7 @@ describe("calcite-inline-editable", () => {
           labelable(
             `<calcite-inline-editable controls>
               <calcite-input value="John Doe"></calcite-input>
-            </calcite-inline-editable>`,
-            {
-              focusTargetSelector: `.${CSS.enableEditingButton}`
-            }
+            </calcite-inline-editable>`
           ));
       });
 
