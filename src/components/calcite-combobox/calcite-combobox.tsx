@@ -943,11 +943,9 @@ export class CalciteCombobox implements LabelableComponent {
 
   renderIconEnd(): VNode {
     return (
-      this.selectionMode === "single" && (
-        <span class="icon-end">
-          <calcite-icon icon="chevron-down" scale="s" />
-        </span>
-      )
+      <span class="icon-end">
+        <calcite-icon icon="chevron-down" scale="s" />
+      </span>
     );
   }
 
