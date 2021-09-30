@@ -30,6 +30,7 @@ import { throttle } from "lodash-es";
 import { getKey } from "../../utils/key";
 import { clamp } from "../../utils/math";
 import { CSS_UTILITY } from "../../utils/resources";
+import { connectForm, disconnectForm, FormAssociated } from "../../utils/form";
 
 const throttleFor60FpsInMs = 16;
 const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
@@ -40,7 +41,7 @@ const defaultFormat = "auto";
   styleUrl: "calcite-color-picker.scss",
   shadow: true
 })
-export class CalciteColorPicker {
+export class CalciteColorPicker implements FormAssociated {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -206,6 +207,11 @@ export class CalciteColorPicker {
   @Prop() intlValue = TEXT.value;
 
   /**
+   * The form associated name
+   */
+  @Prop() name: string;
+
+  /**
    * The scale of the color picker.
    */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -234,44 +240,9 @@ export class CalciteColorPicker {
 
   @Watch("value")
   handleValueChange(value: ColorValue | null, oldValue: ColorValue | null): void {
-    const { allowEmpty, format } = this;
-    const checkMode = !allowEmpty || value;
-    let modeChanged = false;
-
-    if (checkMode) {
-      const nextMode = parseMode(value);
-
-      if (!nextMode || (format !== "auto" && nextMode !== format)) {
-        this.showIncompatibleColorWarning(value, format);
-        this.value = oldValue;
-        return;
-      }
-
-      modeChanged = this.mode !== nextMode;
-      this.setMode(nextMode);
-    }
-
-    const dragging = this.sliderThumbState === "drag" || this.hueThumbState === "drag";
-
-    if (this.colorUpdateLocked) {
-      this.calciteColorPickerInput.emit();
-      if (!dragging) {
-        this.calciteColorPickerChange.emit();
-      }
-      return;
-    }
-
-    const color = allowEmpty && !value ? null : Color(value);
-    const colorChanged = !colorEqual(color, this.color);
-
-    if (modeChanged || colorChanged) {
-      this.color = color;
-      this.calciteColorPickerInput.emit();
-      if (!dragging) {
-        this.calciteColorPickerChange.emit();
-      }
-    }
+    this.setValue(value, oldValue);
   }
+
   //--------------------------------------------------------------------------
   //
   //  Internal State/Props
@@ -289,6 +260,10 @@ export class CalciteColorPicker {
   private colorFieldAndSliderHovered = false;
 
   private fieldAndSliderRenderingContext: CanvasRenderingContext2D;
+
+  formEl: HTMLFormElement;
+
+  initialValue: CalciteColorPicker["value"];
 
   private colorFieldScopeNode: HTMLDivElement;
 
@@ -706,11 +681,13 @@ export class CalciteColorPicker {
     this.setMode(format);
     this.internalColorSet(initialColor, false);
     this.updateDimensions(this.scale);
+    connectForm(this);
   }
 
   disconnectedCallback(): void {
     document.removeEventListener("mousemove", this.globalMouseMoveHandler);
     document.removeEventListener("mouseup", this.globalMouseUpHandler);
+    disconnectForm(this);
   }
 
   //--------------------------------------------------------------------------
@@ -972,6 +949,50 @@ export class CalciteColorPicker {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  onFormReset(): void {
+    this.setValue(this.initialValue, this.value);
+  }
+
+  private setValue(value: ColorValue | null, oldValue: ColorValue | null): void {
+    const { allowEmpty, format } = this;
+    const checkMode = !allowEmpty || value;
+    let modeChanged = false;
+
+    if (checkMode) {
+      const nextMode = parseMode(value);
+
+      if (!nextMode || (format !== "auto" && nextMode !== format)) {
+        this.showIncompatibleColorWarning(value, format);
+        this.value = oldValue;
+        return;
+      }
+
+      modeChanged = this.mode !== nextMode;
+      this.setMode(nextMode);
+    }
+
+    const dragging = this.sliderThumbState === "drag" || this.hueThumbState === "drag";
+
+    if (this.colorUpdateLocked) {
+      this.calciteColorPickerInput.emit();
+      if (!dragging) {
+        this.calciteColorPickerChange.emit();
+      }
+      return;
+    }
+
+    const color = allowEmpty && !value ? null : Color(value);
+    const colorChanged = !colorEqual(color, this.color);
+
+    if (modeChanged || colorChanged) {
+      this.color = color;
+      this.calciteColorPickerInput.emit();
+      if (!dragging) {
+        this.calciteColorPickerChange.emit();
+      }
+    }
+  }
 
   private showIncompatibleColorWarning(value: ColorValue, format: Format): void {
     console.warn(
