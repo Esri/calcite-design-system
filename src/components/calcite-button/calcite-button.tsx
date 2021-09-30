@@ -8,6 +8,7 @@ import {
 import { ButtonAlignment, ButtonAppearance, ButtonColor } from "./interfaces";
 import { FlipContext, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
+import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { createObserver } from "../../utils/observers";
 
 @Component({
@@ -16,11 +17,11 @@ import { createObserver } from "../../utils/observers";
   shadow: true
 })
 
-/** @slot default text slot for button text */
+/** @slot - A slot for adding text. */
 
 /** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
 /** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
-export class CalciteButton {
+export class CalciteButton implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -119,10 +120,12 @@ export class CalciteButton {
     this.childElType = this.href ? "a" : "button";
     this.hasLoader = this.loading;
     this.setupTextContentObserver();
+    connectLabel(this);
   }
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
+    disconnectLabel(this);
   }
 
   componentWillLoad(): void {
@@ -178,7 +181,7 @@ export class CalciteButton {
 
     return (
       <Tag
-        aria-label={this.label}
+        aria-label={getLabelText(this)}
         class={{ [CSS_UTILITY.rtl]: dir === "rtl", [CSS.contentSlotted]: this.hasContent }}
         disabled={this.disabled || this.loading}
         href={this.childElType === "a" && this.href}
@@ -216,6 +219,8 @@ export class CalciteButton {
   //
   //--------------------------------------------------------------------------
 
+  labelEl: HTMLCalciteLabelElement;
+
   /** watches for changing text content **/
   private mutationObserver = createObserver("mutation", () => this.updateHasContent());
 
@@ -248,6 +253,11 @@ export class CalciteButton {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  onLabelClick = (event: CustomEvent): void => {
+    this.handleClick(event);
+    this.setFocus();
+  };
 
   // act on a requested or nearby form based on type
   private handleClick = (e: Event): void => {

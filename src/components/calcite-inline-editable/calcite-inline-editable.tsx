@@ -5,6 +5,7 @@ import {
   EventEmitter,
   h,
   Listen,
+  Method,
   Prop,
   VNode,
   Watch
@@ -12,16 +13,17 @@ import {
 import { getElementProp } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { TEXT, CSS } from "./resources";
+import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 
 /**
- * @slot - slot for rendering a `<calcite-input>`
+ * @slot - A slot for adding a `calcite-input`.
  */
 @Component({
   tag: "calcite-inline-editable",
   scoped: true,
   styleUrl: "calcite-inline-editable.scss"
 })
-export class CalciteInlineEditable {
+export class CalciteInlineEditable implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -92,6 +94,14 @@ export class CalciteInlineEditable {
     if (!this.editingEnabled) {
       this.htmlInput.tabIndex = -1;
     }
+  }
+
+  connectedCallback() {
+    connectLabel(this);
+  }
+
+  disconnectedCallback() {
+    disconnectLabel(this);
   }
 
   render(): VNode {
@@ -183,28 +193,9 @@ export class CalciteInlineEditable {
     }
   }
 
-  @Listen("click", { target: "window" })
-  handleLabelFocus(e: CustomEvent): void {
-    const htmlTarget = e.target as HTMLElement;
-    if (
-      !(
-        htmlTarget.parentElement.tagName === "LABEL" ||
-        htmlTarget.parentElement.tagName === "CALCITE-LABEL"
-      )
-    ) {
-      return;
-    }
-    if (!htmlTarget.parentElement.contains(this.el)) {
-      return;
-    }
-    e.preventDefault();
-    e.stopPropagation();
-    if (this.editingEnabled) {
-      this.inputElement.setFocus();
-    } else {
-      this.enableEditingButton.setFocus();
-    }
-  }
+  onLabelClick = (): void => {
+    this.setFocus();
+  };
 
   //--------------------------------------------------------------------------
   //
@@ -221,6 +212,23 @@ export class CalciteInlineEditable {
   private enableEditingButton: HTMLCalciteButtonElement;
 
   private editingCancelTransitionProp = "border-top-color";
+
+  labelEl: HTMLCalciteLabelElement;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  @Method()
+  async setFocus(): Promise<void> {
+    if (this.editingEnabled) {
+      this.inputElement?.setFocus();
+    } else {
+      this.enableEditingButton?.setFocus();
+    }
+  }
 
   //--------------------------------------------------------------------------
   //

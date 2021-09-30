@@ -14,8 +14,14 @@ import { Position, Scale } from "../interfaces";
 import { CalciteExpandToggle, toggleChildActionText } from "../functional/CalciteExpandToggle";
 import { CSS, SLOTS, TEXT } from "./resources";
 import { getSlotted, focusElement } from "../../utils/dom";
-import { getOverflowCount, overflowActions, queryActions } from "./utils";
+import {
+  getOverflowCount,
+  overflowActions,
+  queryActions,
+  overflowActionsDebounceInMs
+} from "./utils";
 import { createObserver } from "../../utils/observers";
+import { debounce } from "lodash-es";
 
 /**
  * @slot - A slot for adding `calcite-action`s that will appear at the top of the action bar.
@@ -45,7 +51,7 @@ export class CalciteActionBar {
       toggleChildActionText({ parent: this.el, expanded: this.expanded });
     }
 
-    this.resizeFromHost();
+    this.conditionallyOverflowActions();
   }
 
   /**
@@ -116,18 +122,12 @@ export class CalciteActionBar {
   mutationObserver = createObserver("mutation", () => {
     const { el, expanded } = this;
     toggleChildActionText({ parent: el, expanded });
-    this.resizeFromHost();
+    this.conditionallyOverflowActions();
   });
 
   resizeObserver = createObserver("resize", (entries) => this.resizeHandlerEntries(entries));
 
   expandToggleEl: HTMLCalciteActionElement;
-
-  lastActionCount: number;
-
-  lastGroupCount: number;
-
-  lastResizeHeight: number;
 
   // --------------------------------------------------------------------------
   //
@@ -136,7 +136,7 @@ export class CalciteActionBar {
   // --------------------------------------------------------------------------
 
   componentDidLoad(): void {
-    this.resizeFromHost();
+    this.conditionallyOverflowActions();
   }
 
   connectedCallback(): void {
@@ -152,7 +152,7 @@ export class CalciteActionBar {
       this.resizeObserver?.observe(el);
     }
 
-    this.resizeFromHost();
+    this.conditionallyOverflowActions();
   }
 
   disconnectedCallback(): void {
@@ -165,6 +165,15 @@ export class CalciteActionBar {
   //  Methods
   //
   // --------------------------------------------------------------------------
+
+  /**
+   * Overflows actions that won't fit into menus.
+   * @internal
+   */
+  @Method()
+  async overflowActions(): Promise<void> {
+    this.resize(this.el.clientHeight);
+  }
 
   /** Sets focus on the component. */
   @Method()
@@ -194,10 +203,6 @@ export class CalciteActionBar {
     }
   };
 
-  resizeFromHost = (): void => {
-    this.resize(this.el.clientHeight);
-  };
-
   resizeHandlerEntries = (entries: ResizeObserverEntry[]): void => {
     entries.forEach(this.resizeHandler);
   };
@@ -207,18 +212,10 @@ export class CalciteActionBar {
     this.resize(height);
   };
 
-  resize = (height: number): void => {
-    const {
-      el,
-      expanded,
-      expandDisabled,
-      lastActionCount,
-      lastGroupCount,
-      lastResizeHeight,
-      overflowActionsDisabled
-    } = this;
+  resize = debounce((height: number): void => {
+    const { el, expanded, expandDisabled } = this;
 
-    if (!height || overflowActionsDisabled) {
+    if (!height) {
       return;
     }
 
@@ -229,18 +226,6 @@ export class CalciteActionBar {
       getSlotted(el, SLOTS.bottomActions) || !expandDisabled
         ? actionGroups.length + 1
         : actionGroups.length;
-
-    if (
-      lastResizeHeight === height &&
-      lastActionCount === actionCount &&
-      lastGroupCount === groupCount
-    ) {
-      return;
-    }
-
-    this.lastActionCount = actionCount;
-    this.lastGroupCount = groupCount;
-    this.lastResizeHeight = height;
 
     const overflowCount = getOverflowCount({
       actionCount,
@@ -254,6 +239,12 @@ export class CalciteActionBar {
       expanded,
       overflowCount
     });
+  }, overflowActionsDebounceInMs);
+
+  conditionallyOverflowActions = (): void => {
+    if (!this.overflowActionsDisabled) {
+      this.overflowActions();
+    }
   };
 
   toggleExpand = (): void => {

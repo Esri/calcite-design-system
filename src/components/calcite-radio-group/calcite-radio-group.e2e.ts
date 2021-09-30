@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { focusable } from "../../tests/commonTests";
+import { focusable, labelable } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 
 describe("calcite-radio-group", () => {
@@ -10,6 +10,16 @@ describe("calcite-radio-group", () => {
 
     expect(element).toBeDefined();
   });
+
+  it("is labelable", async () =>
+    labelable(
+      `<calcite-radio-group>
+          <calcite-radio-group-item value="1"></calcite-radio-group-item>
+          <calcite-radio-group-item value="2"></calcite-radio-group-item>
+          <calcite-radio-group-item value="3"></calcite-radio-group-item>
+        </calcite-radio-group>`,
+      { focusTargetSelector: "calcite-radio-group-item" }
+    ));
 
   it("does not require an item to be checked", async () => {
     const page = await newE2EPage();

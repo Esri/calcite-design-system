@@ -19,8 +19,8 @@ import { CSS, SLOTS, ICONS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 
 /**
- * @slot children - A slot for adding nested `calcite-tree` elements.
  * @slot - A slot for adding content to the item.
+ * @slot children - A slot for adding nested `calcite-tree` elements.
  */
 @Component({
   tag: "calcite-tree-item",
@@ -123,6 +123,10 @@ export class CalciteTreeItem {
         this.depth = this.depth + 1;
       }
     }
+  }
+
+  componentDidLoad(): void {
+    this.updateAncestorTree();
   }
 
   render(): VNode {
@@ -392,4 +396,17 @@ export class CalciteTreeItem {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private updateAncestorTree = (): void => {
+    if (this.selected && this.selectionMode === TreeSelectionMode.Ancestors) {
+      const ancestors: HTMLCalciteTreeItemElement[] = [];
+      let parent = this.el.parentElement.closest("calcite-tree-item");
+      while (parent) {
+        ancestors.push(parent);
+        parent = parent.parentElement.closest("calcite-tree-item");
+      }
+      ancestors.forEach((item) => (item.indeterminate = true));
+      return;
+    }
+  };
 }

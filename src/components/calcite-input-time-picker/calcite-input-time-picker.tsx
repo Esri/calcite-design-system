@@ -22,13 +22,14 @@ import {
   getMeridiemHour
 } from "../../utils/time";
 import { Scale } from "../interfaces";
+import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 
 @Component({
   tag: "calcite-input-time-picker",
   styleUrl: "calcite-input-time-picker.scss",
   shadow: true
 })
-export class CalciteInputTimePicker {
+export class CalciteInputTimePicker implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -114,9 +115,9 @@ export class CalciteInputTimePicker {
   //
   //--------------------------------------------------------------------------
 
-  private calciteInputEl: HTMLCalciteInputElement;
+  labelEl: HTMLCalciteLabelElement;
 
-  private calciteTimePickerEl: HTMLCalciteTimePickerElement;
+  private calciteInputEl: HTMLCalciteInputElement;
 
   /** whether the value of the input was changed as a result of user typing or not */
   private internalValueChange = false;
@@ -159,14 +160,6 @@ export class CalciteInputTimePicker {
   private calciteInputInputHandler = (event: CustomEvent): void => {
     this.setValue({ value: event.detail.value });
   };
-
-  @Listen("click")
-  clickHandler(event: MouseEvent): void {
-    if (event.composedPath().includes(this.calciteTimePickerEl)) {
-      return;
-    }
-    this.setFocus();
-  }
 
   @Listen("keyup")
   keyUpHandler(event: KeyboardEvent): void {
@@ -223,12 +216,12 @@ export class CalciteInputTimePicker {
   //
   // --------------------------------------------------------------------------
 
-  private setCalciteInputEl = (el: HTMLCalciteInputElement): void => {
-    this.calciteInputEl = el;
+  onLabelClick = (): void => {
+    this.setFocus();
   };
 
-  private setCalciteTimePickerEl = (el: HTMLCalciteTimePickerElement): void => {
-    this.calciteTimePickerEl = el;
+  private setCalciteInputEl = (el: HTMLCalciteInputElement): void => {
+    this.calciteInputEl = el;
   };
 
   private setInputValue = (newInputValue: string): void => {
@@ -305,12 +298,17 @@ export class CalciteInputTimePicker {
     if (this.value) {
       this.setValue({ value: this.value, origin: "loading" });
     }
+    connectLabel(this);
   }
 
   componentDidLoad() {
     if (this.calciteInputEl.value !== this.value) {
       this.setInputValue(this.value);
     }
+  }
+
+  disconnectedCallback() {
+    disconnectLabel(this);
   }
 
   // --------------------------------------------------------------------------
@@ -335,6 +333,7 @@ export class CalciteInputTimePicker {
           <calcite-input
             disabled={this.disabled}
             icon="clock"
+            label={getLabelText(this)}
             name={this.name}
             onCalciteInputBlur={this.calciteInputBlurHandler}
             onCalciteInputFocus={this.calciteInputFocusHandler}
@@ -366,7 +365,6 @@ export class CalciteInputTimePicker {
             intlSecondDown={this.intlSecondDown}
             intlSecondUp={this.intlSecondUp}
             minute={minute}
-            ref={this.setCalciteTimePickerEl}
             scale={this.scale}
             second={second}
             step={this.step}

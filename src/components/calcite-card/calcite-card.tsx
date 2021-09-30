@@ -9,8 +9,8 @@ import { CSS_UTILITY } from "../../utils/resources";
  */
 
 /**
- * @slot thumbnail - A slot for adding a thumbnail to the card.
  * @slot - A slot for adding subheader/description content.
+ * @slot thumbnail - A slot for adding a thumbnail to the card.
  * @slot title - A slot for adding a card title.
  * @slot subtitle - A slot for adding a card subtitle or short summary.
  * @slot footer-leading - A slot for adding a leading footer.

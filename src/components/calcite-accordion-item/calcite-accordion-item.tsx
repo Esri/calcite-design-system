@@ -14,6 +14,9 @@ import { getKey } from "../../utils/key";
 import { CSS_UTILITY } from "../../utils/resources";
 import { Position } from "../interfaces";
 
+/**
+ * @slot - A slot for adding custom content.
+ */
 @Component({
   tag: "calcite-accordion-item",
   styleUrl: "calcite-accordion-item.scss",

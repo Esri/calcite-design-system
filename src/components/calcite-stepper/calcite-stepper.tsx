@@ -13,6 +13,9 @@ import {
 import { getKey } from "../../utils/key";
 import { Layout, Scale } from "../interfaces";
 
+/**
+ * @slot - A slot for adding `calcite-stepper-item`s.
+ */
 @Component({
   tag: "calcite-stepper",
   styleUrl: "calcite-stepper.scss",

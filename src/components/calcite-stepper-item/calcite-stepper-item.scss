@@ -33,6 +33,7 @@
   flex-grow
   flex-col
   relative;
+  margin-bottom: var(--calcite-stepper-item-spacing-unit-s);
 }
 
 :host .container {
@@ -232,7 +233,6 @@
     mx-0
     mt-0;
   padding-left: var(--calcite-stepper-item-spacing-unit-l);
-  margin-bottom: var(--calcite-stepper-item-spacing-unit-s);
 
   & .stepper-item-icon {
     @apply mt-px mr-0 mb-0 ml-auto order-3;

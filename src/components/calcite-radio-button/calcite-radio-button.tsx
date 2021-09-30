@@ -11,8 +11,9 @@ import {
   Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { focusElement, closestElementCrossShadowBoundary } from "../../utils/dom";
+import { closestElementCrossShadowBoundary, focusElement } from "../../utils/dom";
 import { Scale } from "../interfaces";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { hiddenInputStyle } from "../../utils/form";
 import { CSS } from "./resources";
 
@@ -21,7 +22,7 @@ import { CSS } from "./resources";
   styleUrl: "calcite-radio-button.scss",
   scoped: true
 })
-export class CalciteRadioButton {
+export class CalciteRadioButton implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -139,6 +140,8 @@ export class CalciteRadioButton {
   //
   //--------------------------------------------------------------------------
 
+  labelEl: HTMLCalciteLabelElement;
+
   private initialChecked: boolean;
 
   private inputEl: HTMLInputElement;
@@ -162,6 +165,49 @@ export class CalciteRadioButton {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  selectItem = (items: HTMLCalciteRadioButtonElement[], selectedIndex: number): void => {
+    items.forEach((item, index) => {
+      const selected = index === selectedIndex;
+      item.checked = selected;
+      item.focused = selected;
+    });
+  };
+
+  toggle = (): void => {
+    this.uncheckAllRadioButtonsInGroup();
+    this.checked = true;
+    this.focused = true;
+    this.calciteRadioButtonChange.emit();
+  };
+
+  private clickHandler = (): void => {
+    if (this.labelEl) {
+      return;
+    }
+
+    this.toggle();
+  };
+
+  onLabelClick = (event: CustomEvent): void => {
+    if (!this.disabled && !this.hidden) {
+      this.uncheckOtherRadioButtonsInGroup();
+      const label = event.currentTarget as HTMLCalciteLabelElement;
+      const firstButton = this.rootNode.querySelector<HTMLCalciteRadioButtonElement>(
+        label.for
+          ? `calcite-radio-button[id="${label.for}"]`
+          : `calcite-radio-button[name="${this.name}"]`
+      );
+
+      if (firstButton) {
+        firstButton.checked = true;
+        firstButton.focused = true;
+      }
+
+      this.calciteRadioButtonChange.emit();
+      this.setFocus();
+    }
+  };
 
   private checkLastRadioButton(): void {
     const radioButtons = Array.from(this.rootNode.querySelectorAll("calcite-radio-button")).filter(
@@ -253,20 +299,6 @@ export class CalciteRadioButton {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click")
-  check(event: MouseEvent | FocusEvent): void {
-    // Prevent parent label from clicking the first radio when calcite-radio-button is clicked
-    if (this.el.closest("label") && event.composedPath().includes(this.el)) {
-      event.preventDefault();
-    }
-    if (!this.disabled && !this.hidden) {
-      this.uncheckOtherRadioButtonsInGroup();
-      this.checked = true;
-      this.focused = true;
-      this.calciteRadioButtonChange.emit();
-    }
-  }
-
   @Listen("mouseenter")
   mouseenter(): void {
     this.hovered = true;
@@ -313,6 +345,7 @@ export class CalciteRadioButton {
     if (form) {
       form.addEventListener("reset", this.formResetHandler);
     }
+    connectLabel(this);
   }
 
   componentDidLoad(): void {
@@ -327,6 +360,7 @@ export class CalciteRadioButton {
     if (form) {
       form.removeEventListener("reset", this.formResetHandler);
     }
+    disconnectLabel(this);
   }
 
   // --------------------------------------------------------------------------
@@ -339,9 +373,9 @@ export class CalciteRadioButton {
     const value = this.value?.toString();
 
     return (
-      <div class={CSS.container}>
+      <div class={CSS.container} onClick={this.clickHandler}>
         <input
-          aria-label={this.label || null}
+          aria-label={getLabelText(this)}
           checked={this.checked}
           disabled={this.disabled}
           hidden={this.hidden}
