@@ -414,6 +414,11 @@ describe("calcite-slider", () => {
       await page.mouse.click(trackX, trackY);
       await page.waitForChanges();
 
+      const isMaxThumbFocused = await page.$eval("calcite-slider", (slider) =>
+        slider.shadowRoot.activeElement?.classList.contains("thumb--value")
+      );
+
+      expect(isMaxThumbFocused).toBe(true);
       expect(await element.getProperty("minValue")).toBe(5);
       expect(await element.getProperty("maxValue")).toBe(5);
       expect(changeEvent).toHaveReceivedEventTimes(0);
@@ -434,6 +439,11 @@ describe("calcite-slider", () => {
       await page.mouse.click(trackX + 100, trackY);
       await page.waitForChanges();
 
+      const isMaxThumbFocused = await page.$eval("calcite-slider", (slider) =>
+        slider.shadowRoot.activeElement?.classList.contains("thumb--value")
+      );
+
+      expect(isMaxThumbFocused).toBe(true);
       expect(await element.getProperty("minValue")).toBe(5);
       expect(await element.getProperty("maxValue")).toBe(5);
       expect(changeEvent).toHaveReceivedEventTimes(0);
