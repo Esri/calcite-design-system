@@ -1,3 +1,4 @@
+import "./polyfills/formdata-event";
 import { closestElementCrossShadowBoundary } from "./dom";
 
 // todo: remove this!
@@ -67,10 +68,6 @@ export interface FormAssociated<T = any> {
 
 const onFormDataMap = new WeakMap<HTMLElement, typeof onFormData>();
 const onFormResetMap = new WeakMap<HTMLElement, FormAssociated["onFormReset"]>();
-const hiddenInputMap = new WeakMap<HTMLElement, HTMLInputElement>();
-
-// Safari does not support `formdata` event
-const supportsFormDataEvent = "FormDataEvent" in window;
 
 /**
  * Helper to set up form interactions on connectedCallback.
@@ -90,21 +87,7 @@ export function connectForm<T>(formAssociated: FormAssociated<T>): void {
   if (formAssociated.name) {
     const boundOnFormData = onFormData.bind(formAssociated);
     onFormDataMap.set(formAssociated.el, boundOnFormData);
-
-    if (supportsFormDataEvent) {
-      form.addEventListener("formdata", boundOnFormData);
-    } else {
-      // FIXME: this is not ideal for password fields as the value will be visible in the DOM
-      const hiddenInput = form.ownerDocument.createElement("input");
-      hiddenInput.type = "hidden";
-      hiddenInput.name = formAssociated.name;
-      hiddenInputMap.set(formAssociated.el, hiddenInput);
-      // value assigned on submit
-
-      formAssociated.el.append(hiddenInput);
-
-      form.addEventListener("submit", boundOnFormData);
-    }
+    form.addEventListener("formdata", boundOnFormData);
   }
 
   const boundOnFormReset = (formAssociated.onFormReset || onFormReset).bind(formAssociated);
@@ -113,7 +96,7 @@ export function connectForm<T>(formAssociated: FormAssociated<T>): void {
 }
 
 function onFormData<T>(this: FormAssociated<T>, { formData }: FormDataEvent): void {
-  const { el, name, value } = this;
+  const { name, value } = this;
 
   if (!name) {
     return;
@@ -125,11 +108,7 @@ function onFormData<T>(this: FormAssociated<T>, { formData }: FormDataEvent): vo
 
   const formValue = value != null ? value.toString() : useDefaultOnMode ? "on" : "";
 
-  if (supportsFormDataEvent) {
-    formData.append(name, formValue);
-  } else {
-    hiddenInputMap.get(el).value = formValue;
-  }
+  formData.append(name, formValue);
 }
 
 function onFormReset<T>(this: FormAssociated<T>): void {
@@ -148,12 +127,8 @@ export function disconnectForm<T>(formAssociated: FormAssociated<T>): void {
     return;
   }
 
-  if (!supportsFormDataEvent) {
-    hiddenInputMap.delete(formAssociated.el);
-  }
-
   const boundOnFormData = onFormDataMap.get(formAssociated.el);
-  form.removeEventListener(supportsFormDataEvent ? "formdata" : "submit", boundOnFormData);
+  form.removeEventListener("formdata", boundOnFormData);
   onFormDataMap.delete(formAssociated.el);
 
   const boundOnFormReset = onFormResetMap.get(formAssociated.el);
