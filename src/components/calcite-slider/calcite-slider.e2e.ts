@@ -180,7 +180,6 @@ describe("calcite-slider", () => {
         html: `<calcite-slider snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`
       });
       await page.waitForChanges();
-
       const slider = await page.find("calcite-slider");
       const changeEvent = await slider.spyOnEvent("calciteSliderChange");
       expect(await slider.getProperty("value")).toBe(0);
@@ -188,7 +187,6 @@ describe("calcite-slider", () => {
       const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
       await page.mouse.move(trackX + 50, trackY);
-      await page.waitForTimeout(1000);
       await page.mouse.down();
       await page.waitForChanges();
 
@@ -210,9 +208,7 @@ describe("calcite-slider", () => {
       expect(await slider.getProperty("value")).toBe(0);
 
       const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
-
       await page.mouse.move(trackX, trackY);
-      await page.waitForTimeout(1000);
       await page.mouse.down();
       await page.mouse.move(trackX + 1, trackY);
       await page.mouse.move(trackX + 2, trackY);
@@ -240,7 +236,6 @@ describe("calcite-slider", () => {
       const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
       await page.mouse.move(trackX + 25, trackY);
-      await page.waitForTimeout(1000);
       await page.mouse.down();
       await page.waitForChanges();
 
@@ -269,7 +264,6 @@ describe("calcite-slider", () => {
       const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
       await page.mouse.move(trackX + 21, trackY);
-      await page.waitForTimeout(1000);
       await page.mouse.down();
       await page.mouse.move(trackX + 22, trackY);
       await page.mouse.move(trackX + 23, trackY);
@@ -297,7 +291,6 @@ describe("calcite-slider", () => {
       const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
       await page.mouse.move(trackX + 75, trackY);
-      await page.waitForTimeout(1000);
       await page.mouse.down();
       await page.waitForChanges();
 
@@ -325,7 +318,6 @@ describe("calcite-slider", () => {
       const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
       await page.mouse.move(trackX + 71, trackY);
-      await page.waitForTimeout(1000);
       await page.mouse.down();
       await page.mouse.move(trackX + 72, trackY);
       await page.mouse.move(trackX + 73, trackY);
