@@ -1,3 +1,5 @@
+import { Build } from "@stencil/core";
+
 /**
  * This polyfill is only needed for Safari as it does not support `formdata` natively (https://caniuse.com/?search=formdataevent)
  *
@@ -81,7 +83,7 @@ class PolyfilledFormData extends FormData {
 function polyfillFormData(win: Window): void {
   const supportsFormDataEvent = "FormDataEvent" in win;
 
-  if (supportsFormDataEvent) {
+  if (!Build.isBrowser || supportsFormDataEvent) {
     return;
   }
 
