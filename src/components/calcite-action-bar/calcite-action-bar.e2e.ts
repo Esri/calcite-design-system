@@ -284,6 +284,7 @@ describe("calcite-action-bar", () => {
     expect(menuOpenValues[1]).toEqual(true);
 
     await page.evaluate(() => ((document.getElementById("first") as HTMLCalciteActionGroupElement).menuOpen = true));
+    await page.waitForChanges();
     await page.waitForSelector("#second:not([menu-open]");
 
     menuOpenValues = await page.evaluate(() =>
