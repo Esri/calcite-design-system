@@ -151,7 +151,7 @@ describe("calcite-slider", () => {
     expect(ticks.length).toBe(11);
   });
 
-  it("keyboard interaction", async () => {
+  it("keyboard interaction : key press should change the value and emit input and change events", async () => {
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-slider
@@ -170,6 +170,8 @@ describe("calcite-slider", () => {
     expect(inputEvent).toHaveReceivedEventTimes(0);
     expect(changeEvent).toHaveReceivedEventTimes(0);
     await handle.press("ArrowRight");
+    await page.waitForChanges();
+    expect(await slider.getProperty("value")).toBe(24);
     expect(inputEvent).toHaveReceivedEventTimes(1);
     expect(changeEvent).toHaveReceivedEventTimes(1);
   });
