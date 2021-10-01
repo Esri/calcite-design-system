@@ -273,8 +273,7 @@ describe("calcite-action-bar", () => {
         </calcite-action-group>
       </calcite-action-bar>`
     });
-    const actionBar = await page.find("calcite-action-bar");
-    const eventSpy = await actionBar.spyOnEvent("calciteActionMenuOpenChange");
+    await page.waitForChanges();
 
     let menuOpenValues = await page.evaluate(() =>
       Array.from(document.querySelectorAll("calcite-action-group")).map((group) => group.menuOpen)
@@ -284,11 +283,9 @@ describe("calcite-action-bar", () => {
     expect(menuOpenValues[0]).toEqual(false);
     expect(menuOpenValues[1]).toEqual(true);
 
-    const menuOpenEvent = page.waitForEvent("calciteActionMenuOpenChange");
     await page.$eval("calcite-action-group", (element: HTMLCalciteActionGroupElement) => {
       element.menuOpen = true;
     });
-    await menuOpenEvent;
     await page.waitForChanges();
 
     menuOpenValues = await page.evaluate(() =>
@@ -298,8 +295,6 @@ describe("calcite-action-bar", () => {
     expect(menuOpenValues).toHaveLength(2);
     expect(menuOpenValues[0]).toEqual(true);
     expect(menuOpenValues[1]).toEqual(false);
-
-    expect(eventSpy).toHaveReceivedEventTimes(2);
   });
 
   it("should honor scale of expand icon", async () => {
