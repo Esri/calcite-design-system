@@ -284,9 +284,11 @@ describe("calcite-action-bar", () => {
     expect(menuOpenValues[0]).toEqual(false);
     expect(menuOpenValues[1]).toEqual(true);
 
+    const menuOpenEvent = page.waitForEvent("calciteActionMenuOpenChange");
     await page.$eval("calcite-action-group", (element: HTMLCalciteActionGroupElement) => {
       element.menuOpen = true;
     });
+    await menuOpenEvent;
     await page.waitForChanges();
 
     menuOpenValues = await page.evaluate(() =>
