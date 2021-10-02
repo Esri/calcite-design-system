@@ -116,6 +116,14 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           delete this.build;
           return this;
         }
+      },
+      {
+        name: "style",
+        commit(): Attribute {
+          this.value = boolean("textEnabled", true);
+          delete this.build;
+          return this;
+        }
       }
     ],
     exceptions
@@ -123,366 +131,1944 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
 };
 
 export const Default = stepStory(
-  (): string => html`${create("calcite-action", createAttributes())}`,
+  (): string => html`<div style="width: 150px">${create("calcite-action", createAttributes())}</div>`,
+
   createSteps("calcite-action")
-    // Default
-    .snapshot("Default")
-
-    // Default Dark
-    .executeScript(setTheme("dark"))
-    .snapshot("Default Dark")
-
-    // Default RTL
-    .rtl()
-    .executeScript(setTheme("light"))
-    .snapshot("Default RTL")
-
-    // Default Dark RTL
-    .executeScript(setTheme("dark"))
-    .snapshot("Default Dark RTL")
-
-    // Active
-    .ltr()
-    .executeScript(setTheme("light"))
-    .executeScript(
-      setKnobs({ story: "components-buttons-action--default", knobs: [{ name: "active", value: "true" }] })
-    )
-    .snapshot("Active")
-
-    // Active Dark
-    .executeScript(setTheme("dark"))
-    .snapshot("Active Dark")
-
-    // Active RTL
-    .rtl()
-    .executeScript(setTheme("light"))
-    .snapshot("Active RTL")
-
-    // Active Dark RTL
-    .executeScript(setTheme("dark"))
-    .snapshot("Active Dark RTL")
-
-    // Appearance Clear
-    .ltr()
-    .executeScript(setTheme("light"))
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--default",
-        knobs: [{ name: "appearance", value: "clear" }]
-      })
-    )
-    .snapshot("Appearance Clear")
-
-    // Appearance Clear Dark
-    .executeScript(setTheme("dark"))
-    .snapshot("Appearance Clear Dark")
-
-    // Appearance Clear RTL
-    .rtl()
-    .executeScript(setTheme("light"))
-    .snapshot("Appearance Clear RTL")
-
-    // Appearance Clear Dark RTL
-    .executeScript(setTheme("dark"))
-    .snapshot("Appearance Clear Dark RTL")
-
-    // Appearance Outline
-    .ltr()
-    .executeScript(setTheme("light"))
-    .executeScript(
-      setKnobs({ story: "components-buttons-action--default", knobs: [{ name: "appearance", value: "outline" }] })
-    )
-    .snapshot("Appearance Outline")
-
-    // Appearance Outline Dark
-    .executeScript(setTheme("dark"))
-    .snapshot("Appearance Outline Dark")
-
-    // Appearance Outline RTL
-    .rtl()
-    .executeScript(setTheme("light"))
-    .snapshot("Appearance Outline RTL")
-
-    // Appearance Outline Dark RTL
-    .executeScript(setTheme("dark"))
-    .snapshot("Appearance Outline Dark RTL")
-
-    // Compact
-    .ltr()
-    .executeScript(setTheme("light"))
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--default",
-        knobs: [{ name: "compact", value: "true" }]
-      })
-    )
-    .snapshot("Compact")
-
-    // Compact Dark
-    .executeScript(setTheme("dark"))
-    .snapshot("Compact Dark")
-
-    // Compact RTL
-    .rtl()
-    .executeScript(setTheme("light"))
-    .snapshot("Compact RTL")
-
-    // Compact Dark RTL
-    .executeScript(setTheme("dark"))
-    .snapshot("Compact Dark RTL")
-
-    // Disabled
-    .ltr()
-    .executeScript(setTheme("light"))
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--default",
-        knobs: [{ name: "disabled", value: "true" }]
-      })
-    )
-    .snapshot("Disabled")
-
-    // Disabled Dark
-    .executeScript(setTheme("dark"))
-    .snapshot("Disabled Dark")
-
-    // Disabled RTL
-    .rtl()
-    .executeScript(setTheme("light"))
-    .snapshot("Disabled RTL")
-
-    // Disabled Dark RTL
-    .executeScript(setTheme("dark"))
-    .snapshot("Disabled Dark RTL")
-
-    // Indicator
-    .ltr()
-    .executeScript(setTheme("light"))
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--default",
-        knobs: [{ name: "indicator", value: "true" }]
-      })
-    )
-    .snapshot("Indicator")
-
-    // Indicator Dark
-    .executeScript(setTheme("dark"))
-    .snapshot("Indicator Dark")
-
-    // Indicator Icon Only
-    .ltr()
-    .executeScript(setTheme("light"))
+    // Small Alignment Start
     .executeScript(
       setKnobs({
         story: "components-buttons-action--default",
         knobs: [
-          { name: "indicator", value: "true" },
-          { name: "textEnabled", value: "false" }
+          { name: "alignment", value: "start" },
+          { name: "scale", value: "s" }
         ]
       })
     )
-    .snapshot("Indicator")
+    .snapshot("Small Alignment Start")
 
-    // Indicator Icon Only Dark
+    // Small Alignment Start Dark
     .executeScript(setTheme("dark"))
-    .snapshot("Indicator Icon Only Dark")
+    .snapshot("Small Alignment Start Dark")
 
-    // Loading
-    .ltr()
+    // Small Alignment Start RTL
+    .rtl()
     .executeScript(setTheme("light"))
+    .snapshot("Small Alignment Start RTL")
+
+    // Small Alignment Start Dark RTL
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment Start Dark RTL")
+
+    // Small Alignment Start Active
     .executeScript(
       setKnobs({
         story: "components-buttons-action--default",
-        knobs: [{ name: "loading", value: "true" }]
+        knobs: [
+          { name: "active", value: "true" },
+          { name: "alignment", value: "start" },
+          { name: "scale", value: "s" }
+        ]
       })
     )
-    .snapshot("Loading")
+    .snapshot("Small Alignment Start Active")
 
-    // Loading Dark
+    // Small Alignment Start Active Dark
     .executeScript(setTheme("dark"))
-    .snapshot("Loading Dark")
+    .snapshot("Small Alignment Start Active Dark")
 
-    // Loading RTL
+    // Small Alignment Start Active RTL
     .rtl()
     .executeScript(setTheme("light"))
-    .snapshot("Loading RTL")
+    .snapshot("Small Alignment Start Active RTL")
 
-    // Loading Dark RTL
+    // Small Alignment Start Active Dark RTL
     .executeScript(setTheme("dark"))
-    .snapshot("Loading Dark RTL")
+    .snapshot("Small Alignment Start Active Dark RTL")
 
-    // Scale Small
-    .ltr()
-    .executeScript(setTheme("light"))
+    // Small Alignment Start Active Compact
     .executeScript(
       setKnobs({
         story: "components-buttons-action--default",
-        knobs: [{ name: "scale", value: "s" }]
+        knobs: [
+          { name: "active", value: "true" },
+          { name: "alignment", value: "start" },
+          { name: "compact", value: "true" },
+          { name: "scale", value: "s" }
+        ]
       })
     )
-    .snapshot("Scale Small")
+    .snapshot("Small Alignment Start Active Compact")
 
-    // Scale Small Dark
+    // Small Alignment Start Active Compact Dark
     .executeScript(setTheme("dark"))
-    .snapshot("Scale Small Dark")
+    .snapshot("Small Alignment Start Active Compact Dark")
 
-    // Scale Small RTL
+    // Small Alignment Start Active Compact RTL
     .rtl()
     .executeScript(setTheme("light"))
-    .snapshot("Scale Small RTL")
+    .snapshot("Small Alignment Start Active Compact RTL")
 
-    // Scale Small Dark RTL
+    // Small Alignment Start Active Compact Dark RTL
     .executeScript(setTheme("dark"))
-    .snapshot("Scale Small Dark RTL")
+    .snapshot("Small Alignment Start Active Compact Dark RTL")
 
-    // Scale Large
-    .ltr()
-    .executeScript(setTheme("light"))
-    .executeScript(setKnobs({ story: "components-buttons-action--default", knobs: [{ name: "scale", value: "l" }] }))
-    .snapshot("Scale Large")
-
-    // Scale Large Dark
-    .executeScript(setTheme("dark"))
-    .snapshot("Scale Large Dark")
-
-    // Scale Large RTL
-    .rtl()
-    .executeScript(setTheme("light"))
-    .snapshot("Scale Large RTL")
-
-    // Scale Large Dark RTL
-    .executeScript(setTheme("dark"))
-    .snapshot("Scale Large Dark RTL")
-
-    // Text Not Enabled
-    .ltr()
-    .executeScript(setTheme("light"))
+    // Small Alignment Start Active Compact Disabled
     .executeScript(
       setKnobs({
         story: "components-buttons-action--default",
-        knobs: [{ name: "textEnabled", value: "false" }]
+        knobs: [
+          { name: "active", value: "true" },
+          { name: "alignment", value: "start" },
+          { name: "compact", value: "true" },
+          { name: "disabled", value: "true" },
+          { name: "scale", value: "s" }
+        ]
       })
     )
-    .snapshot("Text Not Enabled")
+    .snapshot("Small Alignment Start Active Compact Disabled")
 
-    // Text Not Enabled Dark
+    // Small Alignment Start Active Compact Disabled Dark
     .executeScript(setTheme("dark"))
-    .snapshot("Text Not Enabled Dark")
+    .snapshot("Small Alignment Start Active Compact Disabled Dark")
 
-    // Alignment Center
-    .ltr()
+    // Small Alignment Start Active Compact Disabled RTL
+    .rtl()
     .executeScript(setTheme("light"))
+    .snapshot("Small Alignment Start Active Compact Disabled RTL")
+
+    // Small Alignment Start Active Compact Disabled Dark RTL
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment Start Active Compact Disabled Dark RTL")
+
+    // Small Alignment Start Active Disabled
+    .executeScript(
+      setKnobs({
+        story: "components-buttons-action--default",
+        knobs: [
+          { name: "active", value: "true" },
+          { name: "alignment", value: "start" },
+          { name: "disabled", value: "true" },
+          { name: "scale", value: "s" }
+        ]
+      })
+    )
+    .snapshot("Small Alignment Start Active Disabled")
+
+    // Small Alignment Start Active Disabled Dark
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment Start Active Disabled Dark")
+
+    // Small Alignment Start Active Disabled RTL
+    .rtl()
+    .executeScript(setTheme("light"))
+    .snapshot("Small Alignment Start Active Disabled RTL")
+
+    // Small Alignment Start Active Disabled Dark RTL
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment Start Active Disabled Dark RTL")
+
+    // Small Alignment Start Compact
+    .executeScript(
+      setKnobs({
+        story: "components-buttons-action--default",
+        knobs: [
+          { name: "alignment", value: "start" },
+          { name: "compact", value: "true" },
+          { name: "scale", value: "s" }
+        ]
+      })
+    )
+    .ltr()
+    .snapshot("Small Alignment Start Compact")
+
+    // Small Alignment Start Compact Dark
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment Start Compact Dark")
+
+    // Small Alignment Start Compact RTL
+    .rtl()
+    .executeScript(setTheme("light"))
+    .snapshot("Small Alignment Start Compact RTL")
+
+    // Small Alignment Start Compact Dark RTL
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment Start Compact Dark RTL")
+
+    // Small Alignment Start Compact Disabled
+    .executeScript(
+      setKnobs({
+        story: "components-buttons-action--default",
+        knobs: [
+          { name: "alignment", value: "start" },
+          { name: "compact", value: "true" },
+          { name: "disabled", value: "true" },
+          { name: "scale", value: "s" }
+        ]
+      })
+    )
+    .ltr()
+    .snapshot("Small Alignment Start Compact Disabled")
+
+    // Small Alignment Start Compact Disabled Dark
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment Start Compact Disabled Dark")
+
+    // Small Alignment Start Compact Disabled RTL
+    .rtl()
+    .executeScript(setTheme("light"))
+    .snapshot("Small Alignment Start Compact Disabled RTL")
+
+    // Small Alignment Start Compact Disabled Dark RTL
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment Start Compact Disabled Dark RTL")
+
+    // Small Alignment Start Disabled
+    .executeScript(
+      setKnobs({
+        story: "components-buttons-action--default",
+        knobs: [
+          { name: "alignment", value: "start" },
+          { name: "disabled", value: "true" },
+          { name: "scale", value: "s" }
+        ]
+      })
+    )
+    .ltr()
+    .snapshot("Small Alignment Start Disabled")
+
+    // Small Alignment Start Disabled Dark
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment Start Disabled Dark")
+
+    // Small Alignment Start Disabled RTL
+    .rtl()
+    .executeScript(setTheme("light"))
+    .snapshot("Small Alignment Start Disabled RTL")
+
+    // Small Alignment Start Disabled Dark RTL
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment Start Disabled Dark RTL")
+
+    // Small Alignment Center
     .executeScript(
       setKnobs({
         story: "components-buttons-action--default",
         knobs: [
           { name: "alignment", value: "center" },
-          { name: "textEnabled", value: "true" }
+          { name: "scale", value: "s" }
         ]
       })
     )
-    .snapshot("Alignment Center")
+    .ltr()
+    .snapshot("Small Alignment Center")
 
-    // Alignment Center Dark
+    // Small Alignment Center Dark
     .executeScript(setTheme("dark"))
-    .snapshot("Alignment Center Dark")
+    .snapshot("Small Alignment Center Dark")
 
-    // Alignment Center RTL
+    // Small Alignment Center RTL
     .rtl()
     .executeScript(setTheme("light"))
-    .snapshot("Alignment Center RTL")
+    .snapshot("Small Alignment Center RTL")
 
-    // Alignment Center Dark RTL
+    // Small Alignment Center Dark RTL
     .executeScript(setTheme("dark"))
-    .snapshot("Alignment Center Dark RTL")
+    .snapshot("Small Alignment Center Dark RTL")
 
-    // Alignment End
+    // Small Alignment Center Active
+    .executeScript(
+      setKnobs({
+        story: "components-buttons-action--default",
+        knobs: [
+          { name: "active", value: "true" },
+          { name: "alignment", value: "center" },
+          { name: "scale", value: "s" }
+        ]
+      })
+    )
     .ltr()
+    .snapshot("Small Alignment Center Active")
+
+    // Small Alignment Center Active Dark
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment Center Active Dark")
+
+    // Small Alignment Center Active RTL
+    .rtl()
     .executeScript(setTheme("light"))
+    .snapshot("Small Alignment Center Active RTL")
+
+    // Small Alignment Center Active Dark RTL
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment Center Active Dark RTL")
+
+    // Small Alignment Center Active Compact
+    .executeScript(
+      setKnobs({
+        story: "components-buttons-action--default",
+        knobs: [
+          { name: "active", value: "true" },
+          { name: "alignment", value: "center" },
+          { name: "compact", value: "true" },
+          { name: "scale", value: "s" }
+        ]
+      })
+    )
+    .ltr()
+    .snapshot("Small Alignment Center Active Compact")
+
+    // Small Alignment Center Active Compact Dark
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment Center Active Compact Dark")
+
+    // Small Alignment Center Active Compact RTL
+    .rtl()
+    .executeScript(setTheme("light"))
+    .snapshot("Small Alignment Center Active Compact RTL")
+
+    // Small Alignment Center Active Compact Dark RTL
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment Center Active Compact Dark RTL")
+
+    // Small Alignment Center Active Compact Disabled
+    .executeScript(
+      setKnobs({
+        story: "components-buttons-action--default",
+        knobs: [
+          { name: "active", value: "true" },
+          { name: "alignment", value: "center" },
+          { name: "compact", value: "true" },
+          { name: "disabled", value: "true" },
+          { name: "scale", value: "s" }
+        ]
+      })
+    )
+    .ltr()
+    .snapshot("Small Alignment Center Active Compact Disabled")
+
+    // Small Alignment Center Active Compact Disabled Dark
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment Center Active Compact Disabled Dark")
+
+    // Small Alignment Center Active Compact Disabled RTL
+    .rtl()
+    .executeScript(setTheme("light"))
+    .snapshot("Small Alignment Center Active Compact Disabled RTL")
+
+    // Small Alignment Center Active Compact Disabled Dark RTL
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment Center Active Compact Disabled Dark RTL")
+
+    // Small Alignment Center Active Disabled
+    .executeScript(
+      setKnobs({
+        story: "components-buttons-action--default",
+        knobs: [
+          { name: "active", value: "true" },
+          { name: "alignment", value: "center" },
+          { name: "disabled", value: "true" },
+          { name: "scale", value: "s" }
+        ]
+      })
+    )
+    .ltr()
+    .snapshot("Small Alignment Center Active Disabled")
+
+    // Small Alignment Center Active Disabled Dark
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment Center Active Disabled Dark")
+
+    // Small Alignment Center Active Disabled RTL
+    .rtl()
+    .executeScript(setTheme("light"))
+    .snapshot("Small Alignment Center Active Disabled RTL")
+
+    // Small Alignment Center Active Disabled Dark RTL
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment Center Active Disabled Dark RTL")
+
+    // Small Alignment Center Compact
+    .executeScript(
+      setKnobs({
+        story: "components-buttons-action--default",
+        knobs: [
+          { name: "alignment", value: "center" },
+          { name: "compact", value: "true" },
+          { name: "scale", value: "s" }
+        ]
+      })
+    )
+    .ltr()
+    .snapshot("Small Alignment Center Compact")
+
+    // Small Alignment Center Compact Dark
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment Center Compact Dark")
+
+    // Small Alignment Center Compact RTL
+    .rtl()
+    .executeScript(setTheme("light"))
+    .snapshot("Small Alignment Center Compact RTL")
+
+    // Small Alignment Center Compact Dark RTL
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment Center Compact Dark RTL")
+
+    // Small Alignment Center Compact Disabled
+    .executeScript(
+      setKnobs({
+        story: "components-buttons-action--default",
+        knobs: [
+          { name: "alignment", value: "center" },
+          { name: "compact", value: "true" },
+          { name: "disabled", value: "true" },
+          { name: "scale", value: "s" }
+        ]
+      })
+    )
+    .ltr()
+    .snapshot("Small Alignment Center Compact Disabled")
+
+    // Small Alignment Center Compact Disabled Dark
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment Center Compact Disabled Dark")
+
+    // Small Alignment Center Compact Disabled RTL
+    .rtl()
+    .executeScript(setTheme("light"))
+    .snapshot("Small Alignment Center Compact Disabled RTL")
+
+    // Small Alignment Center Compact Disabled Dark RTL
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment Center Compact Disabled Dark RTL")
+
+    // Small Alignment Center Disabled
+    .executeScript(
+      setKnobs({
+        story: "components-buttons-action--default",
+        knobs: [
+          { name: "alignment", value: "center" },
+          { name: "disabled", value: "true" },
+          { name: "scale", value: "s" }
+        ]
+      })
+    )
+    .ltr()
+    .snapshot("Small Alignment Center Disabled")
+
+    // Small Alignment Center Disabled Dark
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment Center Disabled Dark")
+
+    // Small Alignment Center Disabled RTL
+    .rtl()
+    .executeScript(setTheme("light"))
+    .snapshot("Small Alignment Center Disabled RTL")
+
+    // Small Alignment Center Disabled Dark RTL
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment Center Disabled Dark RTL")
+
+    // Small Alignment End
     .executeScript(
       setKnobs({
         story: "components-buttons-action--default",
         knobs: [
           { name: "alignment", value: "end" },
-          { name: "textEnabled", value: "true" }
-        ]
-      })
-    )
-    .snapshot("Alignment End")
-
-    // Alignment End Dark
-    .executeScript(setTheme("dark"))
-    .snapshot("Alignment End Dark")
-
-    // Alignment End RTL
-    .rtl()
-    .executeScript(setTheme("light"))
-    .snapshot("Alignment End RTL")
-
-    // Alignment End Dark RTL
-    .executeScript(setTheme("dark"))
-    .snapshot("Alignment End Dark RTL")
-
-    // Collapsed with Indicator Medium
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--default",
-        knobs: [
-          { name: "indicator", value: "true" },
-          { name: "textEnabled", value: "false" }
-        ]
-      })
-    )
-    .executeScript(setTheme("light"))
-    .snapshot("Collapsed with Indicator")
-    .rtl()
-    .snapshot("Collapsed with Indicator RTL")
-    .ltr()
-    .executeScript(setTheme("dark"))
-    .snapshot("Collapsed with Indicator Dark")
-    .rtl()
-    .snapshot("Collapsed with Indicator RTL Dark")
-
-    // Collapsed with Indicator Small
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--default",
-        knobs: [
-          { name: "indicator", value: "true" },
-          { name: "textEnabled", value: "false" },
           { name: "scale", value: "s" }
         ]
       })
     )
-    .executeScript(setTheme("light"))
-    .snapshot("Collapsed with Indicator Small")
-    .rtl()
-    .snapshot("Collapsed with Indicator Small RTL")
     .ltr()
-    .executeScript(setTheme("dark"))
-    .snapshot("Collapsed with Indicator Small Dark")
-    .rtl()
-    .snapshot("Collapsed with Indicator Small Dark RTL")
+    .snapshot("Small Alignment End")
 
-    // Collapsed with Indicator Large
+    // Small Alignment End Dark
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment End Dark")
+
+    // Small Alignment End RTL
+    .rtl()
+    .executeScript(setTheme("light"))
+    .snapshot("Small Alignment End RTL")
+
+    // Small Alignment End Dark RTL
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment End Dark RTL")
+
+    // Small Alignment End Active
     .executeScript(
       setKnobs({
         story: "components-buttons-action--default",
         knobs: [
-          { name: "indicator", value: "true" },
-          { name: "textEnabled", value: "false" },
-          { name: "scale", value: "l" }
+          { name: "active", value: "true" },
+          { name: "alignment", value: "end" },
+          { name: "scale", value: "s" }
         ]
       })
     )
-    .executeScript(setTheme("light"))
-    .snapshot("Collapsed with Indicator Large")
-    .rtl()
-    .snapshot("Collapsed with Indicator Large RTL")
     .ltr()
+    .snapshot("Small Alignment End Active")
+
+    // Small Alignment End Active Dark
     .executeScript(setTheme("dark"))
-    .snapshot("Collapsed with Indicator Large Dark")
+    .snapshot("Small Alignment End Active Dark")
+
+    // Small Alignment End Active RTL
     .rtl()
-    .snapshot("Collapsed with Indicator Large Dark RTL")
+    .executeScript(setTheme("light"))
+    .snapshot("Small Alignment End Active RTL")
+
+    // Small Alignment End Active Dark RTL
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment End Active Dark RTL")
+
+    // Small Alignment End Active Compact
+    .executeScript(
+      setKnobs({
+        story: "components-buttons-action--default",
+        knobs: [
+          { name: "active", value: "true" },
+          { name: "alignment", value: "end" },
+          { name: "compact", value: "true" },
+          { name: "scale", value: "s" }
+        ]
+      })
+    )
+    .ltr()
+    .snapshot("Small Alignment End Active Compact")
+
+    // Small Alignment End Active Compact Dark
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment End Active Compact Dark")
+
+    // Small Alignment End Active Compact RTL
+    .rtl()
+    .executeScript(setTheme("light"))
+    .snapshot("Small Alignment End Active Compact RTL")
+
+    // Small Alignment End Active Compact Dark RTL
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment End Active Compact Dark RTL")
+
+    // Small Alignment End Active Compact Disabled
+    .executeScript(
+      setKnobs({
+        story: "components-buttons-action--default",
+        knobs: [
+          { name: "active", value: "true" },
+          { name: "alignment", value: "end" },
+          { name: "compact", value: "true" },
+          { name: "disabled", value: "true" },
+          { name: "scale", value: "s" }
+        ]
+      })
+    )
+    .ltr()
+    .snapshot("Small Alignment End Active Compact Disabled")
+
+    // Small Alignment End Active Compact Disabled Dark
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment End Active Compact Disabled Dark")
+
+    // Small Alignment End Active Compact Disabled RTL
+    .rtl()
+    .executeScript(setTheme("light"))
+    .snapshot("Small Alignment End Active Compact Disabled RTL")
+
+    // Small Alignment End Active Compact Disabled Dark RTL
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment End Active Compact Disabled Dark RTL")
+
+    // Small Alignment End Active Disabled
+    .executeScript(
+      setKnobs({
+        story: "components-buttons-action--default",
+        knobs: [
+          { name: "active", value: "true" },
+          { name: "alignment", value: "end" },
+          { name: "disabled", value: "true" },
+          { name: "scale", value: "s" }
+        ]
+      })
+    )
+    .ltr()
+    .snapshot("Small Alignment End Active Disabled")
+
+    // Small Alignment End Active Disabled Dark
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment End Active Disabled Dark")
+
+    // Small Alignment End Active Disabled RTL
+    .rtl()
+    .executeScript(setTheme("light"))
+    .snapshot("Small Alignment End Active Disabled RTL")
+
+    // Small Alignment End Active Disabled Dark RTL
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment End Active Disabled Dark RTL")
+
+    // Small Alignment End Compact
+    .executeScript(
+      setKnobs({
+        story: "components-buttons-action--default",
+        knobs: [
+          { name: "alignment", value: "end" },
+          { name: "compact", value: "true" },
+          { name: "scale", value: "s" }
+        ]
+      })
+    )
+    .ltr()
+    .snapshot("Small Alignment End Compact")
+
+    // Small Alignment End Compact Dark
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment End Compact Dark")
+
+    // Small Alignment End Compact RTL
+    .rtl()
+    .executeScript(setTheme("light"))
+    .snapshot("Small Alignment End Compact RTL")
+
+    // Small Alignment End Compact Dark RTL
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment End Compact Dark RTL")
+
+    // Small Alignment End Compact Disabled
+    .executeScript(
+      setKnobs({
+        story: "components-buttons-action--default",
+        knobs: [
+          { name: "alignment", value: "end" },
+          { name: "compact", value: "true" },
+          { name: "disabled", value: "true" },
+          { name: "scale", value: "s" }
+        ]
+      })
+    )
+    .ltr()
+    .snapshot("Small Alignment End Compact Disabled")
+
+    // Small Alignment End Compact Disabled Dark
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment End Compact Disabled Dark")
+
+    // Small Alignment End Compact Disabled RTL
+    .rtl()
+    .executeScript(setTheme("light"))
+    .snapshot("Small Alignment End Compact Disabled RTL")
+
+    // Small Alignment End Compact Disabled Dark RTL
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment End Compact Disabled Dark RTL")
+
+    // Small Alignment End Disabled
+    .executeScript(
+      setKnobs({
+        story: "components-buttons-action--default",
+        knobs: [
+          { name: "alignment", value: "end" },
+          { name: "disabled", value: "true" },
+          { name: "scale", value: "s" }
+        ]
+      })
+    )
+    .ltr()
+    .snapshot("Small Alignment End Disabled")
+
+    // Small Alignment End Disabled Dark
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment End Disabled Dark")
+
+    // Small Alignment End Disabled RTL
+    .rtl()
+    .executeScript(setTheme("light"))
+    .snapshot("Small Alignment End Disabled RTL")
+
+    // Small Alignment End Disabled Dark RTL
+    .executeScript(setTheme("dark"))
+    .snapshot("Small Alignment End Disabled Dark RTL")
+
+  // // Medium Alignment Start
+  // .executeScript(
+  //   setKnobs({ story: "components-buttons-action--default", knobs: [{ name: "alignment", value: "start" }, { name: "scale", value: "m" }] })
+  // )
+  // .ltr()
+  // .snapshot("Medium Alignment Start")
+
+  // // Medium Alignment Start Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment Start Dark")
+
+  // // Medium Alignment Start RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Medium Alignment Start RTL")
+
+  // // Medium Alignment Start Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment Start Dark RTL")
+
+  // // Medium Alignment Start Active
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "active", value: "true" },
+  //       { name: "alignment", value: "start" },
+  //       { name: "scale", value: "m" }
+  //     ]
+  //   })
+  // )
+  // .ltr()
+  // .snapshot("Medium Alignment Start Active")
+
+  // // Medium Alignment Start Active Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment Start Active Dark")
+
+  // // Medium Alignment Start Active RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Medium Alignment Start Active RTL")
+
+  // // Medium Alignment Start Active Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment Start Active Dark RTL")
+
+  // // Medium Alignment Start Active Compact
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "active", value: "true" },
+  //       { name: "alignment", value: "start" },
+  //       { name: "compact", value: "true" },
+  //       { name: "scale", value: "m" }
+  //     ]
+  //   })
+  // )
+  // .ltr()
+  // .snapshot("Medium Alignment Start Active Compact")
+
+  // // Medium Alignment Start Active Compact Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment Start Active Compact Dark")
+
+  // // Medium Alignment Start Active Compact RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Medium Alignment Start Active Compact RTL")
+
+  // // Medium Alignment Start Active Compact Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment Start Active Compact Dark RTL")
+
+  // // Medium Alignment Start Active Compact Disabled
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "active", value: "true" },
+  //       { name: "alignment", value: "start" },
+  //       { name: "compact", value: "true" },
+  //       { name: "disabled", value: "true" },
+  //       { name: "scale", value: "m" }
+  //     ]
+  //   })
+  // )
+  // .ltr()
+  // .snapshot("Medium Alignment Start Active Compact Disabled")
+
+  // // Medium Alignment Start Active Compact Disabled Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment Start Active Compact Disabled Dark")
+
+  // // Medium Alignment Start Active Compact Disabled RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Medium Alignment Start Active Compact Disabled RTL")
+
+  // // Medium Alignment Start Active Compact Disabled Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment Start Active Compact Disabled Dark RTL")
+
+  // // Medium Alignment Start Active Disabled
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "active", value: "true" },
+  //       { name: "alignment", value: "start" },
+  //       { name: "disabled", value: "true" },
+  //       { name: "scale", value: "m" }
+  //     ]
+  //   })
+  // )
+  // .ltr()
+  // .snapshot("Medium Alignment Start Active Disabled")
+
+  // // Medium Alignment Start Active Disabled Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment Start Active Disabled Dark")
+
+  // // Medium Alignment Start Active Disabled RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Medium Alignment Start Active Disabled RTL")
+
+  // // Medium Alignment Start Active Disabled Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment Start Active Disabled Dark RTL")
+
+  // // Medium Alignment Start Compact
+  // .executeScript(
+  //   setKnobs({ story: "components-buttons-action--default", knobs: [{ name: "alignment", value: "start" }, { name: "compact", value: "true" }, { name: "scale", value: "m" }] })
+  // )
+  // .ltr()
+  // .snapshot("Medium Alignment Start Compact")
+
+  // // Medium Alignment Start Compact Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment Start Compact Dark")
+
+  // // Medium Alignment Start Compact RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Medium Alignment Start Compact RTL")
+
+  // // Medium Alignment Start Compact Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment Start Compact Dark RTL")
+
+  // // Medium Alignment Start Compact Disabled
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "alignment", value: "start" },
+  //       { name: "compact", value: "true" },
+  //       { name: "disabled", value: "true" },
+  //       { name: "scale", value: "m" }
+  //     ]
+  //   })
+  // )
+  // .ltr()
+  // .snapshot("Medium Alignment Start Compact Disabled")
+
+  // // Medium Alignment Start Compact Disabled Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment Start Compact Disabled Dark")
+
+  // // Medium Alignment Start Compact Disabled RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Medium Alignment Start Compact Disabled RTL")
+
+  // // Medium Alignment Start Compact Disabled Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment Start Compact Disabled Dark RTL")
+
+  // // Medium Alignment Start Disabled
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "alignment", value: "start" },
+  //       { name: "disabled", value: "true" },
+  //       { name: "scale", value: "m" }
+  //     ]
+  //   })
+  // )
+  // .ltr()
+  // .snapshot("Medium Alignment Start Disabled")
+
+  // // Medium Alignment Start Disabled Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment Start Disabled Dark")
+
+  // // Medium Alignment Start Disabled RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Medium Alignment Start Disabled RTL")
+
+  // // Medium Alignment Start Disabled Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment Start Disabled Dark RTL")
+
+  // // Medium Alignment Center
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "alignment", value: "center" },
+  //       { name: "scale", value: "m" }
+  //     ]
+  //   })
+  // )
+  // .ltr()
+  // .snapshot("Medium Alignment Center")
+
+  // // Medium Alignment Center Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment Center Dark")
+
+  // // Medium Alignment Center RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Medium Alignment Center RTL")
+
+  // // Medium Alignment Center Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment Center Dark RTL")
+
+  // // Medium Alignment Center Active
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "active", value: "true" },
+  //       { name: "alignment", value: "center" },
+  //       { name: "scale", value: "m" }
+  //     ]
+  //   })
+  // )
+  // .ltr()
+  // .snapshot("Medium Alignment Center Active")
+
+  // // Medium Alignment Center Active Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment Center Active Dark")
+
+  // // Medium Alignment Center Active RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Medium Alignment Center Active RTL")
+
+  // // Medium Alignment Center Active Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment Center Active Dark RTL")
+
+  // // Medium Alignment Center Active Compact
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "active", value: "true" },
+  //       { name: "alignment", value: "center" },
+  //       { name: "compact", value: "true" },
+  //       { name: "scale", value: "m" }
+  //     ]
+  //   })
+  // )
+  // .ltr()
+  // .snapshot("Medium Alignment Center Active Compact")
+
+  // // Medium Alignment Center Active Compact Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment Center Active Compact Dark")
+
+  // // Medium Alignment Center Active Compact RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Medium Alignment Center Active Compact RTL")
+
+  // // Medium Alignment Center Active Compact Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment Center Active Compact Dark RTL")
+
+  // // Medium Alignment Center Active Compact Disabled
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "active", value: "true" },
+  //       { name: "alignment", value: "center" },
+  //       { name: "compact", value: "true" },
+  //       { name: "disabled", value: "true" },
+  //       { name: "scale", value: "m" }
+  //     ]
+  //   })
+  // )
+  // .ltr()
+  // .snapshot("Medium Alignment Center Active Compact Disabled")
+
+  // // Medium Alignment Center Active Compact Disabled Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment Center Active Compact Disabled Dark")
+
+  // // Medium Alignment Center Active Compact Disabled RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Medium Alignment Center Active Compact Disabled RTL")
+
+  // // Medium Alignment Center Active Compact Disabled Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment Center Active Compact Disabled Dark RTL")
+
+  // // Medium Alignment Center Active Disabled
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "active", value: "true" },
+  //       { name: "alignment", value: "center" },
+  //       { name: "disabled", value: "true" },
+  //       { name: "scale", value: "m" }
+  //     ]
+  //   })
+  // )
+  // .ltr()
+  // .snapshot("Medium Alignment Center Active Disabled")
+
+  // // Medium Alignment Center Active Disabled Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment Center Active Disabled Dark")
+
+  // // Medium Alignment Center Active Disabled RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Medium Alignment Center Active Disabled RTL")
+
+  // // Medium Alignment Center Active Disabled Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment Center Active Disabled Dark RTL")
+
+  // // Medium Alignment Center Compact
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "alignment", value: "center" },
+  //       { name: "compact", value: "true" },
+  //       { name: "scale", value: "m" }
+  //     ]
+  //   })
+  // )
+  // .ltr()
+  // .snapshot("Medium Alignment Center Compact")
+
+  // // Medium Alignment Center Compact Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment Center Compact Dark")
+
+  // // Medium Alignment Center Compact RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Medium Alignment Center Compact RTL")
+
+  // // Medium Alignment Center Compact Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment Center Compact Dark RTL")
+
+  // // Medium Alignment Center Compact Disabled
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "alignment", value: "center" },
+  //       { name: "compact", value: "true" },
+  //       { name: "disabled", value: "true" },
+  //       { name: "scale", value: "m" }
+  //     ]
+  //   })
+  // )
+  // .ltr()
+  // .snapshot("Medium Alignment Center Compact Disabled")
+
+  // // Medium Alignment Center Compact Disabled Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment Center Compact Disabled Dark")
+
+  // // Medium Alignment Center Compact Disabled RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Medium Alignment Center Compact Disabled RTL")
+
+  // // Medium Alignment Center Compact Disabled Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment Center Compact Disabled Dark RTL")
+
+  // // Medium Alignment Center Disabled
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "alignment", value: "center" },
+  //       { name: "disabled", value: "true" },
+  //       { name: "scale", value: "m" }
+  //     ]
+  //   })
+  // )
+  // .ltr()
+  // .snapshot("Medium Alignment Center Disabled")
+
+  // // Medium Alignment Center Disabled Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment Center Disabled Dark")
+
+  // // Medium Alignment Center Disabled RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Medium Alignment Center Disabled RTL")
+
+  // // Medium Alignment Center Disabled Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment Center Disabled Dark RTL")
+
+  // // Medium Alignment End
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "alignment", value: "end" },
+  //       { name: "scale", value: "m" }
+  //     ]
+  //   })
+  // )
+  // .ltr()
+  // .snapshot("Medium Alignment End")
+
+  // // Medium Alignment End Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment End Dark")
+
+  // // Medium Alignment End RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Medium Alignment End RTL")
+
+  // // Medium Alignment End Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment End Dark RTL")
+
+  // // Medium Alignment End Active
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "active", value: "true" },
+  //       { name: "alignment", value: "end" },
+  //       { name: "scale", value: "m" }
+  //     ]
+  //   })
+  // )
+  // .ltr()
+  // .snapshot("Medium Alignment End Active")
+
+  // // Medium Alignment End Active Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment End Active Dark")
+
+  // // Medium Alignment End Active RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Medium Alignment End Active RTL")
+
+  // // Medium Alignment End Active Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment End Active Dark RTL")
+
+  // // Medium Alignment End Active Compact
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "active", value: "true" },
+  //       { name: "alignment", value: "end" },
+  //       { name: "compact", value: "true" },
+  //       { name: "scale", value: "m" }
+  //     ]
+  //   })
+  // )
+  // .ltr()
+  // .snapshot("Medium Alignment End Active Compact")
+
+  // // Medium Alignment End Active Compact Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment End Active Compact Dark")
+
+  // // Medium Alignment End Active Compact RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Medium Alignment End Active Compact RTL")
+
+  // // Medium Alignment End Active Compact Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment End Active Compact Dark RTL")
+
+  // // Medium Alignment End Active Compact Disabled
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "active", value: "true" },
+  //       { name: "alignment", value: "end" },
+  //       { name: "compact", value: "true" },
+  //       { name: "disabled", value: "true" },
+  //       { name: "scale", value: "m" }
+  //     ]
+  //   })
+  // )
+  // .ltr()
+  // .snapshot("Medium Alignment End Active Compact Disabled")
+
+  // // Medium Alignment End Active Compact Disabled Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment End Active Compact Disabled Dark")
+
+  // // Medium Alignment End Active Compact Disabled RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Medium Alignment End Active Compact Disabled RTL")
+
+  // // Medium Alignment End Active Compact Disabled Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment End Active Compact Disabled Dark RTL")
+
+  // // Medium Alignment End Active Disabled
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "active", value: "true" },
+  //       { name: "alignment", value: "end" },
+  //       { name: "disabled", value: "true" },
+  //       { name: "scale", value: "m" }
+  //     ]
+  //   })
+  // )
+  // .ltr()
+  // .snapshot("Medium Alignment End Active Disabled")
+
+  // // Medium Alignment End Active Disabled Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment End Active Disabled Dark")
+
+  // // Medium Alignment End Active Disabled RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Medium Alignment End Active Disabled RTL")
+
+  // // Medium Alignment End Active Disabled Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment End Active Disabled Dark RTL")
+
+  // // Medium Alignment End Compact
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "alignment", value: "end" },
+  //       { name: "compact", value: "true" },
+  //       { name: "scale", value: "m" }
+  //     ]
+  //   })
+  // )
+  // .ltr()
+  // .snapshot("Medium Alignment End Compact")
+
+  // // Medium Alignment End Compact Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment End Compact Dark")
+
+  // // Medium Alignment End Compact RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Medium Alignment End Compact RTL")
+
+  // // Medium Alignment End Compact Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment End Compact Dark RTL")
+
+  // // Medium Alignment End Compact Disabled
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "alignment", value: "end" },
+  //       { name: "compact", value: "true" },
+  //       { name: "disabled", value: "true" },
+  //       { name: "scale", value: "m" }
+  //     ]
+  //   })
+  // )
+  // .ltr()
+  // .snapshot("Medium Alignment End Compact Disabled")
+
+  // // Medium Alignment End Compact Disabled Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment End Compact Disabled Dark")
+
+  // // Medium Alignment End Compact Disabled RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Medium Alignment End Compact Disabled RTL")
+
+  // // Medium Alignment End Compact Disabled Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment End Compact Disabled Dark RTL")
+
+  // // Medium Alignment End Disabled
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "alignment", value: "end" },
+  //       { name: "disabled", value: "true" },
+  //       { name: "scale", value: "m" }
+  //     ]
+  //   })
+  // )
+  // .ltr()
+  // .snapshot("Medium Alignment End Disabled")
+
+  // // Medium Alignment End Disabled Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment End Disabled Dark")
+
+  // // Medium Alignment End Disabled RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Medium Alignment End Disabled RTL")
+
+  // // Medium Alignment End Disabled Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Medium Alignment End Disabled Dark RTL")
+
+  // // Large Alignment Start
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "alignment", value: "start" },
+  //       { name: "scale", value: "l" }
+  //     ]
+  //   })
+  // )
+  // .snapshot("Large Alignment Start")
+
+  // // Large Alignment Start Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment Start Dark")
+
+  // // Large Alignment Start RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Large Alignment Start RTL")
+
+  // // Large Alignment Start Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment Start Dark RTL")
+
+  // // Large Alignment Start Active
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "active", value: "true" },
+  //       { name: "alignment", value: "start" },
+  //       { name: "scale", value: "l" }
+  //     ]
+  //   })
+  // )
+  // .snapshot("Large Alignment Start Active")
+
+  // // Large Alignment Start Active Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment Start Active Dark")
+
+  // // Large Alignment Start Active RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Large Alignment Start Active RTL")
+
+  // // Large Alignment Start Active Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment Start Active Dark RTL")
+
+  // // Large Alignment Start Active Compact
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "active", value: "true" },
+  //       { name: "alignment", value: "start" },
+  //       { name: "compact", value: "true" },
+  //       { name: "scale", value: "l" }
+  //     ]
+  //   })
+  // )
+  // .snapshot("Large Alignment Start Active Compact")
+
+  // // Large Alignment Start Active Compact Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment Start Active Compact Dark")
+
+  // // Large Alignment Start Active Compact RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Large Alignment Start Active Compact RTL")
+
+  // // Large Alignment Start Active Compact Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment Start Active Compact Dark RTL")
+
+  // // Large Alignment Start Active Compact Disabled
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "active", value: "true" },
+  //       { name: "alignment", value: "start" },
+  //       { name: "compact", value: "true" },
+  //       { name: "disabled", value: "true" },
+  //       { name: "scale", value: "l" }
+  //     ]
+  //   })
+  // )
+  // .snapshot("Large Alignment Start Active Compact Disabled")
+
+  // // Large Alignment Start Active Compact Disabled Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment Start Active Compact Disabled Dark")
+
+  // // Large Alignment Start Active Compact Disabled RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Large Alignment Start Active Compact Disabled RTL")
+
+  // // Large Alignment Start Active Compact Disabled Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment Start Active Compact Disabled Dark RTL")
+
+  // // Large Alignment Start Active Disabled
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "active", value: "true" },
+  //       { name: "alignment", value: "start" },
+  //       { name: "disabled", value: "true" },
+  //       { name: "scale", value: "l" }
+  //     ]
+  //   })
+  // )
+  // .snapshot("Large Alignment Start Active Disabled")
+
+  // // Large Alignment Start Active Disabled Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment Start Active Disabled Dark")
+
+  // // Large Alignment Start Active Disabled RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Large Alignment Start Active Disabled RTL")
+
+  // // Large Alignment Start Active Disabled Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment Start Active Disabled Dark RTL")
+
+  // // Large Alignment Start Compact
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "alignment", value: "start" },
+  //       { name: "compact", value: "true" },
+  //       { name: "scale", value: "l" }
+  //     ]
+  //   })
+  // )
+  // .snapshot("Large Alignment Start Compact")
+
+  // // Large Alignment Start Compact Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment Start Compact Dark")
+
+  // // Large Alignment Start Compact RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Large Alignment Start Compact RTL")
+
+  // // Large Alignment Start Compact Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment Start Compact Dark RTL")
+
+  // // Large Alignment Start Compact Disabled
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "alignment", value: "start" },
+  //       { name: "compact", value: "true" },
+  //       { name: "disabled", value: "true" },
+  //       { name: "scale", value: "l" }
+  //     ]
+  //   })
+  // )
+  // .snapshot("Large Alignment Start Compact Disabled")
+
+  // // Large Alignment Start Compact Disabled Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment Start Compact Disabled Dark")
+
+  // // Large Alignment Start Compact Disabled RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Large Alignment Start Compact Disabled RTL")
+
+  // // Large Alignment Start Compact Disabled Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment Start Compact Disabled Dark RTL")
+
+  // // Large Alignment Start Disabled
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "alignment", value: "start" },
+  //       { name: "disabled", value: "true" },
+  //       { name: "scale", value: "l" }
+  //     ]
+  //   })
+  // )
+  // .snapshot("Large Alignment Start Disabled")
+
+  // // Large Alignment Start Disabled Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment Start Disabled Dark")
+
+  // // Large Alignment Start Disabled RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Large Alignment Start Disabled RTL")
+
+  // // Large Alignment Start Disabled Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment Start Disabled Dark RTL")
+
+  // // Large Alignment Center
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "alignment", value: "center" },
+  //       { name: "scale", value: "l" }
+  //     ]
+  //   })
+  // )
+  // .snapshot("Large Alignment Center")
+
+  // // Large Alignment Center Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment Center Dark")
+
+  // // Large Alignment Center RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Large Alignment Center RTL")
+
+  // // Large Alignment Center Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment Center Dark RTL")
+
+  // // Large Alignment Center Active
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "active", value: "true" },
+  //       { name: "alignment", value: "center" },
+  //       { name: "scale", value: "l" }
+  //     ]
+  //   })
+  // )
+  // .snapshot("Large Alignment Center Active")
+
+  // // Large Alignment Center Active Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment Center Active Dark")
+
+  // // Large Alignment Center Active RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Large Alignment Center Active RTL")
+
+  // // Large Alignment Center Active Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment Center Active Dark RTL")
+
+  // // Large Alignment Center Active Compact
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "active", value: "true" },
+  //       { name: "alignment", value: "center" },
+  //       { name: "compact", value: "true" },
+  //       { name: "scale", value: "l" }
+  //     ]
+  //   })
+  // )
+  // .snapshot("Large Alignment Center Active Compact")
+
+  // // Large Alignment Center Active Compact Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment Center Active Compact Dark")
+
+  // // Large Alignment Center Active Compact RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Large Alignment Center Active Compact RTL")
+
+  // // Large Alignment Center Active Compact Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment Center Active Compact Dark RTL")
+
+  // // Large Alignment Center Active Compact Disabled
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "active", value: "true" },
+  //       { name: "alignment", value: "center" },
+  //       { name: "compact", value: "true" },
+  //       { name: "disabled", value: "true" },
+  //       { name: "scale", value: "l" }
+  //     ]
+  //   })
+  // )
+  // .snapshot("Large Alignment Center Active Compact Disabled")
+
+  // // Large Alignment Center Active Compact Disabled Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment Center Active Compact Disabled Dark")
+
+  // // Large Alignment Center Active Compact Disabled RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Large Alignment Center Active Compact Disabled RTL")
+
+  // // Large Alignment Center Active Compact Disabled Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment Center Active Compact Disabled Dark RTL")
+
+  // // Large Alignment Center Active Disabled
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "active", value: "true" },
+  //       { name: "alignment", value: "center" },
+  //       { name: "disabled", value: "true" },
+  //       { name: "scale", value: "l" }
+  //     ]
+  //   })
+  // )
+  // .snapshot("Large Alignment Center Active Disabled")
+
+  // // Large Alignment Center Active Disabled Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment Center Active Disabled Dark")
+
+  // // Large Alignment Center Active Disabled RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Large Alignment Center Active Disabled RTL")
+
+  // // Large Alignment Center Active Disabled Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment Center Active Disabled Dark RTL")
+
+  // // Large Alignment Center Compact
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "alignment", value: "center" },
+  //       { name: "compact", value: "true" },
+  //       { name: "scale", value: "l" }
+  //     ]
+  //   })
+  // )
+  // .snapshot("Large Alignment Center Compact")
+
+  // // Large Alignment Center Compact Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment Center Compact Dark")
+
+  // // Large Alignment Center Compact RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Large Alignment Center Compact RTL")
+
+  // // Large Alignment Center Compact Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment Center Compact Dark RTL")
+
+  // // Large Alignment Center Compact Disabled
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "alignment", value: "center" },
+  //       { name: "compact", value: "true" },
+  //       { name: "disabled", value: "true" },
+  //       { name: "scale", value: "l" }
+  //     ]
+  //   })
+  // )
+  // .snapshot("Large Alignment Center Compact Disabled")
+
+  // // Large Alignment Center Compact Disabled Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment Center Compact Disabled Dark")
+
+  // // Large Alignment Center Compact Disabled RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Large Alignment Center Compact Disabled RTL")
+
+  // // Large Alignment Center Compact Disabled Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment Center Compact Disabled Dark RTL")
+
+  // // Large Alignment Center Disabled
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "alignment", value: "center" },
+  //       { name: "disabled", value: "true" },
+  //       { name: "scale", value: "l" }
+  //     ]
+  //   })
+  // )
+  // .snapshot("Large Alignment Center Disabled")
+
+  // // Large Alignment Center Disabled Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment Center Disabled Dark")
+
+  // // Large Alignment Center Disabled RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Large Alignment Center Disabled RTL")
+
+  // // Large Alignment Center Disabled Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment Center Disabled Dark RTL")
+
+  // // Large Alignment End
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "alignment", value: "end" },
+  //       { name: "scale", value: "l" }
+  //     ]
+  //   })
+  // )
+  // .snapshot("Large Alignment End")
+
+  // // Large Alignment End Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment End Dark")
+
+  // // Large Alignment End RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Large Alignment End RTL")
+
+  // // Large Alignment End Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment End Dark RTL")
+
+  // // Large Alignment End Active
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "active", value: "true" },
+  //       { name: "alignment", value: "end" },
+  //       { name: "scale", value: "l" }
+  //     ]
+  //   })
+  // )
+  // .snapshot("Large Alignment End Active")
+
+  // // Large Alignment End Active Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment End Active Dark")
+
+  // // Large Alignment End Active RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Large Alignment End Active RTL")
+
+  // // Large Alignment End Active Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment End Active Dark RTL")
+
+  // // Large Alignment End Active Compact
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "active", value: "true" },
+  //       { name: "alignment", value: "end" },
+  //       { name: "compact", value: "true" },
+  //       { name: "scale", value: "l" }
+  //     ]
+  //   })
+  // )
+  // .snapshot("Large Alignment End Active Compact")
+
+  // // Large Alignment End Active Compact Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment End Active Compact Dark")
+
+  // // Large Alignment End Active Compact RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Large Alignment End Active Compact RTL")
+
+  // // Large Alignment End Active Compact Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment End Active Compact Dark RTL")
+
+  // // Large Alignment End Active Compact Disabled
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "active", value: "true" },
+  //       { name: "alignment", value: "end" },
+  //       { name: "compact", value: "true" },
+  //       { name: "disabled", value: "true" },
+  //       { name: "scale", value: "l" }
+  //     ]
+  //   })
+  // )
+  // .snapshot("Large Alignment End Active Compact Disabled")
+
+  // // Large Alignment End Active Compact Disabled Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment End Active Compact Disabled Dark")
+
+  // // Large Alignment End Active Compact Disabled RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Large Alignment End Active Compact Disabled RTL")
+
+  // // Large Alignment End Active Compact Disabled Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment End Active Compact Disabled Dark RTL")
+
+  // // Large Alignment End Active Disabled
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "active", value: "true" },
+  //       { name: "alignment", value: "end" },
+  //       { name: "disabled", value: "true" },
+  //       { name: "scale", value: "l" }
+  //     ]
+  //   })
+  // )
+  // .snapshot("Large Alignment End Active Disabled")
+
+  // // Large Alignment End Active Disabled Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment End Active Disabled Dark")
+
+  // // Large Alignment End Active Disabled RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Large Alignment End Active Disabled RTL")
+
+  // // Large Alignment End Active Disabled Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment End Active Disabled Dark RTL")
+
+  // // Large Alignment End Compact
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "alignment", value: "end" },
+  //       { name: "compact", value: "true" },
+  //       { name: "scale", value: "l" }
+  //     ]
+  //   })
+  // )
+  // .snapshot("Large Alignment End Compact")
+
+  // // Large Alignment End Compact Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment End Compact Dark")
+
+  // // Large Alignment End Compact RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Large Alignment End Compact RTL")
+
+  // // Large Alignment End Compact Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment End Compact Dark RTL")
+
+  // // Large Alignment End Compact Disabled
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "alignment", value: "end" },
+  //       { name: "compact", value: "true" },
+  //       { name: "disabled", value: "true" },
+  //       { name: "scale", value: "l" }
+  //     ]
+  //   })
+  // )
+  // .snapshot("Large Alignment End Compact Disabled")
+
+  // // Large Alignment End Compact Disabled Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment End Compact Disabled Dark")
+
+  // // Large Alignment End Compact Disabled RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Large Alignment End Compact Disabled RTL")
+
+  // // Large Alignment End Compact Disabled Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment End Compact Disabled Dark RTL")
+
+  // // Large Alignment End Disabled
+  // .executeScript(
+  //   setKnobs({
+  //     story: "components-buttons-action--default",
+  //     knobs: [
+  //       { name: "alignment", value: "end" },
+  //       { name: "disabled", value: "true" },
+  //       { name: "scale", value: "l" }
+  //     ]
+  //   })
+  // )
+  // .snapshot("Large Alignment End Disabled")
+
+  // // Large Alignment End Disabled Dark
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment End Disabled Dark")
+
+  // // Large Alignment End Disabled RTL
+  // .rtl()
+  // .executeScript(setTheme("light"))
+  // .snapshot("Large Alignment End Disabled RTL")
+
+  // // Large Alignment End Disabled Dark RTL
+  // .executeScript(setTheme("dark"))
+  // .snapshot("Large Alignment End Disabled Dark RTL")
 );
