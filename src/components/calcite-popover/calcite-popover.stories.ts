@@ -1,8 +1,8 @@
 import { select, number, text } from "@storybook/addon-knobs";
-import { boolean } from "../../../.storybook/helpers";
+import { html } from "../../tests/utils";
+import { boolean, createSteps, stepStory, setTheme, setKnobs } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 import managerReadme from "../calcite-popover-manager/readme.md";
-import { themesDarkDefault } from "../../../.storybook/utils";
 
 const placements = [
   "auto",
@@ -40,7 +40,7 @@ const calcite_placements = placements.concat([
 ]);
 
 const contentHTML = `
-<div style="padding:12px 16px">
+<div style="width: 300px; padding:12px 16px;">
   <b>I am a title!</b> <br>
   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
   <calcite-link>I am an inline link</calcite-link>
@@ -56,70 +56,35 @@ export default {
   }
 };
 
-export const Simple = (): string => {
-  return `
-      <div>
-        ${referenceElementHTML}
-        <calcite-popover
-          ${boolean("dismissible", false)}
-          ${boolean("disable-flip", false)}
-          ${boolean("disable-pointer", false)}
-          reference-element="reference-element"
-          placement="${select("placement", calcite_placements, "auto")}"
-          offset-distance="${number("offset-distance", 6)}"
-          offset-skidding="${number("offset-skidding", 0)}"
-          ${boolean("open", true)}
-          text-close="${text("text-close", "Close")}"
-        >
-          ${contentHTML}
-        </calcite-popover>
-      </div>
-    `;
-};
-
-export const RTL = (): string => {
-  return `
-      <div dir="rtl">
-        ${referenceElementHTML}
-        <calcite-popover
-          ${boolean("dismissible", false)}
-          ${boolean("disable-flip", false)}
-          ${boolean("disable-pointer", false)}
-          reference-element="reference-element"
-          placement="${select("placement", calcite_placements, "auto")}"
-          offset-distance="${number("offset-distance", 6)}"
-          offset-skidding="${number("offset-skidding", 0)}"
-          ${boolean("open", true)}
-          text-close="${text("text-close", "Close")}"
-        >
-          ${contentHTML}
-        </calcite-popover>
-      </div>
-    `;
-};
-
-export const DarkMode = (): string => {
-  return `
-      <div>
-        ${referenceElementHTML}
-        <calcite-popover
-        class="calcite-theme-dark"
-          ${boolean("dismissible", false)}
-          ${boolean("disable-flip", false)}
-          ${boolean("disable-pointer", false)}
-          reference-element="reference-element"
-          placement="${select("placement", calcite_placements, "auto")}"
-          offset-distance="${number("offset-distance", 6)}"
-          offset-skidding="${number("offset-skidding", 0)}"
-          ${boolean("open", true)}
-          text-close="${text("text-close", "Close")}"
-        >
-          ${contentHTML}
-        </calcite-popover>
-      </div>
-    `;
-};
-
-DarkMode.story = {
-  parameters: { themes: themesDarkDefault }
-};
+export const Simple = stepStory(
+  (): string => html`
+    <div style="width: 400px;">
+      ${referenceElementHTML}
+      <calcite-popover
+        ${boolean("dismissible", false)}
+        ${boolean("disable-flip", false)}
+        ${boolean("disable-pointer", false)}
+        reference-element="reference-element"
+        placement="${select("placement", calcite_placements, "auto")}"
+        offset-distance="${number("offset-distance", 6)}"
+        offset-skidding="${number("offset-skidding", 0)}"
+        ${boolean("open", false)}
+        text-close="${text("text-close", "Close")}"
+      >
+        ${contentHTML}
+      </calcite-popover>
+    </div>
+  `,
+  createSteps("calcite-popover")
+    .snapshot("Default")
+    .click("#reference-element")
+    .snapshot("Open")
+    .executeScript(setKnobs({ story: "components-popover--simple", knobs: [{ name: "dismissible", value: "true" }] }))
+    .click("#reference-element")
+    .snapshot("dismissible")
+    .rtl()
+    .snapshot("Rtl")
+    .ltr()
+    .executeScript(setTheme("dark"))
+    .snapshot("Dark theme")
+);
