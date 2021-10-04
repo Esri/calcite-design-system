@@ -13,19 +13,19 @@ import {
   Watch
 } from "@stencil/core";
 import { focusElement, getElementDir } from "../../utils/dom";
-import { hiddenInputStyle } from "../../utils/form";
 import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
 import { CSS_UTILITY } from "../../utils/resources";
 import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
+import { hiddenInputStyle, connectForm, disconnectForm, FormAssociated } from "../../utils/form";
 
 @Component({
   tag: "calcite-switch",
   styleUrl: "calcite-switch.scss",
   shadow: true
 })
-export class CalciteSwitch implements LabelableComponent {
+export class CalciteSwitch implements LabelableComponent, FormAssociated {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -53,7 +53,7 @@ export class CalciteSwitch implements LabelableComponent {
   @Prop() label?: string;
 
   /** The name of the switch input */
-  @Prop({ reflect: true }) name?: string;
+  @Prop({ reflect: true }) name: string;
 
   @Watch("name")
   nameChanged(newName: string): void {
@@ -72,7 +72,7 @@ export class CalciteSwitch implements LabelableComponent {
   }
 
   /** The value of the switch input */
-  @Prop({ reflect: true }) value?: any;
+  @Prop({ reflect: true }) value: any;
 
   //--------------------------------------------------------------------------
   //
@@ -85,6 +85,12 @@ export class CalciteSwitch implements LabelableComponent {
   private inputEl: HTMLInputElement = document.createElement("input");
 
   switchEl: HTMLDivElement;
+
+  formEl: HTMLFormElement;
+
+  initialValue: CalciteSwitch["switched"];
+
+  onProperty = "switched";
 
   //--------------------------------------------------------------------------
   //
@@ -113,6 +119,10 @@ export class CalciteSwitch implements LabelableComponent {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  onFormReset(): void {
+    this.switched = this.initialValue;
+  }
 
   onLabelClick = (): void => {
     if (!this.disabled) {
@@ -186,10 +196,12 @@ export class CalciteSwitch implements LabelableComponent {
 
   connectedCallback(): void {
     connectLabel(this);
+    connectForm(this);
   }
 
   disconnectedCallback(): void {
     disconnectLabel(this);
+    disconnectForm(this);
   }
 
   componentWillLoad(): void {

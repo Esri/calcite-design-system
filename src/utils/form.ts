@@ -47,9 +47,14 @@ export interface FormAssociated<T = any> {
   name: string;
 
   /**
+   * The name of the property used to let the form know the component is toggled on.
+   */
+  onProperty?: string;
+
+  /**
    * This form component's value.
    *
-   * Note that this prop should use the @Prop decorator and set 'mutable: true'.
+   * Note that this prop should use the @Prop decorator.
    */
   value: T;
 
@@ -75,28 +80,30 @@ const onFormResetMap = new WeakMap<HTMLElement, FormAssociated["onFormReset"]>()
  * @param el - the host element
  */
 export function connectForm<T>(formAssociated: FormAssociated<T>): void {
-  const form = closestElementCrossShadowBoundary<HTMLFormElement>(formAssociated.el, "form");
+  const { el, name, onProperty, value } = formAssociated;
+
+  const form = closestElementCrossShadowBoundary<HTMLFormElement>(el, "form");
 
   if (!form) {
     return;
   }
 
   formAssociated.formEl = form;
-  formAssociated.initialValue = formAssociated.value;
+  formAssociated.initialValue = onProperty ? formAssociated[onProperty] : value;
 
-  if (formAssociated.name) {
+  if (name) {
     const boundOnFormData = onFormData.bind(formAssociated);
-    onFormDataMap.set(formAssociated.el, boundOnFormData);
+    onFormDataMap.set(el, boundOnFormData);
     form.addEventListener("formdata", boundOnFormData);
   }
 
   const boundOnFormReset = (formAssociated.onFormReset || onFormReset).bind(formAssociated);
-  onFormDataMap.set(formAssociated.el, boundOnFormReset);
+  onFormDataMap.set(el, boundOnFormReset);
   form.addEventListener("reset", boundOnFormReset);
 }
 
 function onFormData<T>(this: FormAssociated<T>, { formData }: FormDataEvent): void {
-  const { name, value } = this;
+  const { name, value, onProperty } = this;
 
   if (!name) {
     return;
@@ -104,10 +111,9 @@ function onFormData<T>(this: FormAssociated<T>, { formData }: FormDataEvent): vo
 
   // heuristic to support default/on mode from https://html.spec.whatwg.org/multipage/input.html#dom-input-value-default-on
   // we could introduce a mode in the interface to specify this behavior as an alternative
-  const useDefaultOnMode = "checked" in this;
   const formattedValue = value != null && value.toString();
 
-  const formValue = useDefaultOnMode ? (this["checked"] ? formattedValue || "on" : "") : formattedValue;
+  const formValue = onProperty ? (this[onProperty] ? formattedValue || "on" : "") : formattedValue;
 
   formData.append(name, formValue);
 }
@@ -122,17 +128,17 @@ function onFormReset<T>(this: FormAssociated<T>): void {
  * @param el - the host element
  */
 export function disconnectForm<T>(formAssociated: FormAssociated<T>): void {
-  const form = formAssociated.formEl;
+  const { el, formEl } = formAssociated;
 
-  if (!form) {
+  if (!formEl) {
     return;
   }
 
-  const boundOnFormData = onFormDataMap.get(formAssociated.el);
-  form.removeEventListener("formdata", boundOnFormData);
-  onFormDataMap.delete(formAssociated.el);
+  const boundOnFormData = onFormDataMap.get(el);
+  formEl.removeEventListener("formdata", boundOnFormData);
+  onFormDataMap.delete(el);
 
-  const boundOnFormReset = onFormResetMap.get(formAssociated.el);
-  form.removeEventListener("reset", boundOnFormReset);
-  onFormResetMap.delete(formAssociated.el);
+  const boundOnFormReset = onFormResetMap.get(el);
+  formEl.removeEventListener("reset", boundOnFormReset);
+  onFormResetMap.delete(el);
 }

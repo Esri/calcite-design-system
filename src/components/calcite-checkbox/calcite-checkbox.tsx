@@ -16,13 +16,14 @@ import { focusElement, closestElementCrossShadowBoundary } from "../../utils/dom
 import { Scale } from "../interfaces";
 import { hiddenInputStyle } from "../../utils/form";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
+import { connectForm, disconnectForm, FormAssociated } from "../../utils/form";
 
 @Component({
   tag: "calcite-checkbox",
   styleUrl: "calcite-checkbox.scss",
   shadow: true
 })
-export class CalciteCheckbox implements LabelableComponent {
+export class CalciteCheckbox implements LabelableComponent, FormAssociated {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -76,7 +77,7 @@ export class CalciteCheckbox implements LabelableComponent {
   @Prop() label?: string;
 
   /** The name of the checkbox input */
-  @Prop({ reflect: true }) name?: string = "";
+  @Prop({ reflect: true }) name = "";
 
   @Watch("name")
   nameChanged(newName: string): void {
@@ -87,7 +88,7 @@ export class CalciteCheckbox implements LabelableComponent {
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /** The value of the checkbox input */
-  @Prop() value?: any;
+  @Prop() value: any;
 
   //--------------------------------------------------------------------------
   //
@@ -104,6 +105,12 @@ export class CalciteCheckbox implements LabelableComponent {
   private input: HTMLInputElement;
 
   labelEl: HTMLCalciteLabelElement;
+
+  formEl: HTMLFormElement;
+
+  initialValue: CalciteCheckbox["checked"];
+
+  onProperty = "checked";
 
   //--------------------------------------------------------------------------
   //
@@ -131,6 +138,10 @@ export class CalciteCheckbox implements LabelableComponent {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  onFormReset(): void {
+    this.checked = this.initialValue;
+  }
 
   private getPath = (): string =>
     this.indeterminate ? this.indeterminatePath : this.checked ? this.checkedPath : "";
@@ -217,6 +228,7 @@ export class CalciteCheckbox implements LabelableComponent {
       form.addEventListener("reset", this.formResetHandler);
     }
     connectLabel(this);
+    connectForm(this);
   }
 
   componentDidLoad(): void {
@@ -230,6 +242,7 @@ export class CalciteCheckbox implements LabelableComponent {
       form.removeEventListener("reset", this.formResetHandler);
     }
     disconnectLabel(this);
+    disconnectForm(this);
   }
 
   // --------------------------------------------------------------------------
