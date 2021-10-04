@@ -205,18 +205,18 @@ Calcite Components broadly targets two groups of projects inside Esri:
 - **Sites** like [esri.com](https://esri.com) and [developers.arcgis.com](https://developers.arcgis.com).
 - **Apps** like [ArcGIS Online](https://arcgis.com), [Vector Tile Style Editor](https://developers.arcgis.com/vector-tile-style-editor), [Workforce](https://www.esri.com/en-us/arcgis/products/workforce/overview), [ArcGIS Hub](https://hub.arcgis.com) etc...
 
-Components should present the the minimum possible implementation to be usable by both sites and apps and leave as much as possible to users.
+Components should present the minimum possible implementation to be usable by both sites and apps and leave as much as possible to users.
 
 It is generally agreed on that components should not:
 
-- Make network requests. Authentication and the exact environment of the request is difficult to mange and better left to the specific application or site.
-- Manage routing or manipulate the URL. managing the URL is the the domain and the specific site or app.
+- Make network requests. Authentication and the exact environment of the request is difficult to manage and better left to the specific application or site.
+- Manage routing or manipulate the URL. Managing the URL is the domain of the specific site or app.
 - Implement any feature which can easily be achieved with simple CSS and HTML. E.x. it was decided that `<calcite-switch>` should not support `text` or `position` properties because those could be easily duplicated with CSS ([ref](https://github.com/ArcGIS/calcite-components/pull/24#discussion_r289424140))
 - Implement any component which might replace a browser feature, without adding functionality that goes above and beyond what browser defaults would provide.
 
 However components are allowed to:
 
-- Use or implement `localStorage` if there is specific use case.
+- Use or implement `localStorage` if there is a specific use case.
 - Communicate with other components if a specific use case exists.
 
 **Discussed In**:
