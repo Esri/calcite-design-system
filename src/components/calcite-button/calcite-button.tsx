@@ -1,15 +1,18 @@
 import { Component, Element, h, Method, Prop, Build, State, VNode, Watch } from "@stencil/core";
 import { CSS, TEXT } from "./resources";
-import {
-  getElementDir,
-  queryElementRoots,
-  closestElementCrossShadowBoundary
-} from "../../utils/dom";
+import { getElementDir } from "../../utils/dom";
 import { ButtonAlignment, ButtonAppearance, ButtonColor } from "./interfaces";
 import { FlipContext, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { createObserver } from "../../utils/observers";
+import {
+  FormButtonComponent,
+  connectForm,
+  disconnectForm,
+  submitForm,
+  resetForm
+} from "../../utils/formButton";
 
 @Component({
   tag: "calcite-button",
@@ -21,7 +24,7 @@ import { createObserver } from "../../utils/observers";
 
 /** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
 /** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
-export class CalciteButton implements LabelableComponent {
+export class CalciteButton implements LabelableComponent, FormButtonComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -121,11 +124,13 @@ export class CalciteButton implements LabelableComponent {
     this.hasLoader = this.loading;
     this.setupTextContentObserver();
     connectLabel(this);
+    connectForm(this);
   }
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     disconnectLabel(this);
+    disconnectForm(this);
   }
 
   componentWillLoad(): void {
@@ -219,6 +224,8 @@ export class CalciteButton implements LabelableComponent {
   //
   //--------------------------------------------------------------------------
 
+  formEl: HTMLFormElement;
+
   labelEl: HTMLCalciteLabelElement;
 
   /** watches for changing text content **/
@@ -254,38 +261,24 @@ export class CalciteButton implements LabelableComponent {
   //
   //--------------------------------------------------------------------------
 
-  onLabelClick = (event: CustomEvent): void => {
-    this.handleClick(event);
+  onLabelClick = (): void => {
+    this.handleClick();
     this.setFocus();
   };
 
   // act on a requested or nearby form based on type
-  private handleClick = (e: Event): void => {
-    const { childElType, form, el, type } = this;
+  private handleClick = (): void => {
+    const { childElType, type } = this;
     // this.type refers to type attribute, not child element type
     if (childElType === "button" && type !== "button") {
-      const targetForm: HTMLFormElement = form
-        ? queryElementRoots(el, `#${form}`)
-        : closestElementCrossShadowBoundary(el, "form");
-
-      if (targetForm) {
-        const targetFormSubmitFunction = targetForm.onsubmit as () => void;
-        switch (type) {
-          case "submit":
-            if (targetFormSubmitFunction) {
-              targetFormSubmitFunction();
-            } else if (targetForm.checkValidity()) {
-              targetForm.submit();
-            } else {
-              targetForm.reportValidity();
-            }
-            break;
-          case "reset":
-            targetForm.reset();
-            break;
-        }
+      switch (type) {
+        case "submit":
+          submitForm(this);
+          break;
+        case "reset":
+          resetForm(this);
+          break;
       }
-      e.preventDefault();
     }
   };
 }

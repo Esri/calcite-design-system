@@ -35,7 +35,7 @@ export interface FormAssociated<T = any> {
   /**
    * The form this component is associated with.
    */
-  formEl: HTMLElement;
+  formEl: HTMLFormElement;
 
   /**
    * The name used to submit the value to the associated form.
