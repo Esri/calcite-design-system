@@ -3,9 +3,9 @@
 `calcite-modal` allows you to show a modal/dialog to your users. The modal handles fencing focus and animating in/out.
 
 <style>
-*{
-    overflow:auto !important;
-}
+  * {
+      overflow:auto !important;
+  }
 </style>
 <!-- Auto Generated Below -->
 
