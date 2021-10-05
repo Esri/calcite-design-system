@@ -248,6 +248,23 @@ describe("calcite-block", () => {
       expect(statusIcon).not.toBeNull();
     });
 
+    it("displays a loading icon  when `loading` is set to true and `open` is set to false", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        `<calcite-block status="invalid" loading>
+          <div class="header-icon" slot=${SLOTS.icon} /></calcite-block>
+        </calcite-block>`
+      );
+
+      const headerIcon = await page.find("calcite-block >>> .header-icon");
+      expect(headerIcon).toBeNull();
+
+      const statusIcon = await page.find(`calcite-block >>> .${CSS.statusIcon}`);
+      const loadingIcon = await page.find(`calcite-block >>> .loading`);
+      expect(statusIcon).not.toBeNull();
+      expect(loadingIcon).not.toBeNull();
+    });
+
     it("allows users to slot in actions in a header menu", async () => {
       const page = await newE2EPage({
         html: html` <calcite-block heading="With header actions" summary="has header actions">
