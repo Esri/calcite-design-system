@@ -838,10 +838,6 @@ export class CalciteSlider implements LabelableComponent, FormAssociated {
   //
   //--------------------------------------------------------------------------
 
-  onFormReset(): void {
-    this.value = this.initialValue;
-  }
-
   onLabelClick = (): void => {
     this.setFocus();
   };

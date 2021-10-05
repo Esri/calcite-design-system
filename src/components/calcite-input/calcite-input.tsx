@@ -246,9 +246,6 @@ export class CalciteInput implements LabelableComponent, FormAssociated {
   /** number text input element for locale */
   private childNumberEl?: HTMLInputElement;
 
-  /** keep track of the initial value */
-  private defaultValue: string;
-
   private form: HTMLFormElement;
 
   get isClearable(): boolean {
@@ -311,7 +308,6 @@ export class CalciteInput implements LabelableComponent, FormAssociated {
 
   componentWillLoad(): void {
     this.childElType = this.type === "textarea" ? "textarea" : "input";
-    this.defaultValue = this.value;
     this.maxString = this.max?.toString();
     this.minString = this.min?.toString();
     this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
@@ -398,10 +394,6 @@ export class CalciteInput implements LabelableComponent, FormAssociated {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
-  onFormReset(): void {
-    this.value = this.initialValue;
-  }
 
   onLabelClick = (): void => {
     this.setFocus();
@@ -560,7 +552,7 @@ export class CalciteInput implements LabelableComponent, FormAssociated {
     if (this.type === "number") {
       nativeEvent.preventDefault();
     }
-    this.setValue(this.defaultValue, nativeEvent);
+    this.setValue(this.initialValue, nativeEvent);
   };
 
   private setChildElRef = (el) => {
@@ -701,7 +693,7 @@ export class CalciteInput implements LabelableComponent, FormAssociated {
         <input
           aria-label={getLabelText(this)}
           autofocus={this.autofocus ? true : null}
-          defaultValue={this.defaultValue}
+          defaultValue={this.initialValue}
           disabled={this.disabled ? true : null}
           key="localized-input"
           maxLength={this.maxLength}
@@ -728,7 +720,7 @@ export class CalciteInput implements LabelableComponent, FormAssociated {
           [CSS.editingEnabled]: this.editingEnabled,
           [CSS.inlineChild]: !!this.inlineEditableEl
         }}
-        defaultValue={this.defaultValue}
+        defaultValue={this.initialValue}
         disabled={this.disabled ? true : null}
         max={this.maxString}
         maxLength={this.maxLength}

@@ -203,10 +203,6 @@ export class CalciteRating implements LabelableComponent, FormAssociated {
   //
   //--------------------------------------------------------------------------
 
-  onFormReset(): void {
-    this.value = this.initialValue;
-  }
-
   onLabelClick = (): void => {
     this.setFocus();
   };
