@@ -221,6 +221,10 @@ export class CalciteInputTimePicker implements LabelableComponent, FormAssociate
   //
   // --------------------------------------------------------------------------
 
+  onFormReset(): void {
+    this.value = this.initialValue;
+  }
+
   onLabelClick = (): void => {
     this.setFocus();
   };

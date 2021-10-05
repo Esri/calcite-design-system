@@ -173,6 +173,10 @@ export class CalciteRadioButton implements LabelableComponent, FormAssociated {
   //
   //--------------------------------------------------------------------------
 
+  onFormReset(): void {
+    this.value = this.initialValue;
+  }
+
   selectItem = (items: HTMLCalciteRadioButtonElement[], selectedIndex: number): void => {
     items.forEach((item, index) => {
       const selected = index === selectedIndex;

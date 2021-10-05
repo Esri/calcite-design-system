@@ -84,7 +84,7 @@ export function connectForm<T>(formAssociated: FormAssociated<T>): void {
   }
 
   formAssociated.formEl = form;
-  formAssociated.initialValue = "checked" in this ? formAssociated["checked"] : value;
+  formAssociated.initialValue = "checked" in formAssociated ? formAssociated["checked"] : value;
 
   if (name) {
     const boundOnFormData = onFormData.bind(formAssociated);
