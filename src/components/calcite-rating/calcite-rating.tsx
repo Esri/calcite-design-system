@@ -15,6 +15,7 @@ import { getElementDir } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
+import { connectForm, disconnectForm, FormAssociated } from "../../utils/form";
 import { TEXT } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 
@@ -23,7 +24,7 @@ import { CSS_UTILITY } from "../../utils/resources";
   styleUrl: "calcite-rating.scss",
   shadow: true
 })
-export class CalciteRating implements LabelableComponent {
+export class CalciteRating implements LabelableComponent, FormAssociated {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -59,6 +60,9 @@ export class CalciteRating implements LabelableComponent {
   /** optionally pass a cumulative average rating to display */
   @Prop({ reflect: true }) average?: number;
 
+  /** The name of the rating */
+  @Prop({ reflect: true }) name: string;
+
   /** Localized string for "Rating" (used for aria label)
    * @default "Rating"
    */
@@ -77,10 +81,12 @@ export class CalciteRating implements LabelableComponent {
 
   connectedCallback(): void {
     connectLabel(this);
+    connectForm(this);
   }
 
   disconnectedCallback(): void {
     disconnectLabel(this);
+    disconnectForm(this);
   }
 
   //--------------------------------------------------------------------------
@@ -225,6 +231,10 @@ export class CalciteRating implements LabelableComponent {
   // --------------------------------------------------------------------------
 
   labelEl: HTMLCalciteLabelElement;
+
+  formEl: HTMLFormElement;
+
+  initialValue: CalciteRating["value"];
 
   @State() hoverValue: number;
 

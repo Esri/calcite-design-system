@@ -110,8 +110,6 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
 
   initialValue: CalciteCheckbox["checked"];
 
-  onProperty = "checked";
-
   //--------------------------------------------------------------------------
   //
   //  State

@@ -18,6 +18,7 @@ import { ColorStop, DataSeries } from "../calcite-graph/interfaces";
 import { intersects } from "../../utils/dom";
 import { clamp } from "../../utils/math";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
+import { connectForm, disconnectForm, FormAssociated } from "../../utils/form";
 
 type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 
@@ -26,7 +27,7 @@ type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
   styleUrl: "calcite-slider.scss",
   shadow: true
 })
-export class CalciteSlider implements LabelableComponent {
+export class CalciteSlider implements LabelableComponent, FormAssociated {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -90,6 +91,9 @@ export class CalciteSlider implements LabelableComponent {
    */
   @Prop({ reflect: true }) mirrored = false;
 
+  /** The name of the slider */
+  @Prop({ reflect: true }) name: string;
+
   /** Interval to move on page up/page down keys */
   @Prop() pageStep?: number;
 
@@ -116,10 +120,12 @@ export class CalciteSlider implements LabelableComponent {
 
   connectedCallback(): void {
     connectLabel(this);
+    connectForm(this);
   }
 
   disconnectedCallback(): void {
     disconnectLabel(this);
+    disconnectForm(this);
   }
 
   componentWillLoad(): void {
@@ -799,6 +805,10 @@ export class CalciteSlider implements LabelableComponent {
   //--------------------------------------------------------------------------
 
   labelEl: HTMLCalciteLabelElement;
+
+  formEl: HTMLFormElement;
+
+  initialValue: CalciteSlider["value"];
 
   private guid = `calcite-slider-${guid()}`;
 

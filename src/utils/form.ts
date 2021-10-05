@@ -47,11 +47,6 @@ export interface FormAssociated<T = any> {
   name: string;
 
   /**
-   * The name of the property used to let the form know the component is toggled on.
-   */
-  onProperty?: string;
-
-  /**
    * This form component's value.
    *
    * Note that this prop should use the @Prop decorator.
@@ -80,7 +75,7 @@ const onFormResetMap = new WeakMap<HTMLElement, FormAssociated["onFormReset"]>()
  * @param el - the host element
  */
 export function connectForm<T>(formAssociated: FormAssociated<T>): void {
-  const { el, name, onProperty, value } = formAssociated;
+  const { el, name, value } = formAssociated;
 
   const form = closestElementCrossShadowBoundary<HTMLFormElement>(el, "form");
 
@@ -89,7 +84,7 @@ export function connectForm<T>(formAssociated: FormAssociated<T>): void {
   }
 
   formAssociated.formEl = form;
-  formAssociated.initialValue = onProperty ? formAssociated[onProperty] : value;
+  formAssociated.initialValue = "checked" in this ? formAssociated["checked"] : value;
 
   if (name) {
     const boundOnFormData = onFormData.bind(formAssociated);
@@ -103,7 +98,7 @@ export function connectForm<T>(formAssociated: FormAssociated<T>): void {
 }
 
 function onFormData<T>(this: FormAssociated<T>, { formData }: FormDataEvent): void {
-  const { name, value, onProperty } = this;
+  const { name, value } = this;
 
   if (!name) {
     return;
@@ -113,7 +108,7 @@ function onFormData<T>(this: FormAssociated<T>, { formData }: FormDataEvent): vo
   // we could introduce a mode in the interface to specify this behavior as an alternative
   const formattedValue = value != null && value.toString();
 
-  const formValue = onProperty ? (this[onProperty] ? formattedValue || "on" : "") : formattedValue;
+  const formValue = "checked" in this ? (this["checked"] ? formattedValue || "on" : "") : formattedValue;
 
   formData.append(name, formValue);
 }

@@ -24,6 +24,7 @@ import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
 import { InputPlacement } from "./interfaces";
 import { Position } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
+import { connectForm, disconnectForm, FormAssociated } from "../../utils/form";
 import {
   getDecimalSeparator,
   delocalizeNumberString,
@@ -49,7 +50,7 @@ type NumberNudgeDirection = "up" | "down";
   styleUrl: "calcite-input.scss",
   shadow: true
 })
-export class CalciteInput implements LabelableComponent {
+export class CalciteInput implements LabelableComponent, FormAssociated {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -146,7 +147,7 @@ export class CalciteInput implements LabelableComponent {
   @Prop({ reflect: true }) minLength?: number;
 
   /** The name of the input */
-  @Prop({ reflect: true }) name?: string;
+  @Prop({ reflect: true }) name: string;
 
   /** specify the placement of the number buttons */
   @Prop({ reflect: true }) numberButtonType?: InputPlacement = "vertical";
@@ -202,7 +203,7 @@ export class CalciteInput implements LabelableComponent {
     | "week" = "text";
 
   /** input value */
-  @Prop({ mutable: true }) value?: string;
+  @Prop({ mutable: true }) value: string;
 
   @Watch("value")
   valueWatcher(newValue: string): void {
@@ -229,6 +230,10 @@ export class CalciteInput implements LabelableComponent {
   //--------------------------------------------------------------------------
 
   labelEl: HTMLCalciteLabelElement;
+
+  formEl: HTMLFormElement;
+
+  initialValue: CalciteInput["value"];
 
   inlineEditableEl: HTMLCalciteInlineEditableElement;
 
@@ -295,11 +300,13 @@ export class CalciteInput implements LabelableComponent {
       }
     }
     connectLabel(this);
+    connectForm(this);
   }
 
   disconnectedCallback(): void {
     this.form?.removeEventListener("reset", this.reset);
     disconnectLabel(this);
+    disconnectForm(this);
   }
 
   componentWillLoad(): void {

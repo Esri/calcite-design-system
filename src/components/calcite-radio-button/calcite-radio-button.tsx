@@ -14,7 +14,7 @@ import { guid } from "../../utils/guid";
 import { closestElementCrossShadowBoundary, focusElement } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { hiddenInputStyle } from "../../utils/form";
+import { hiddenInputStyle, FormAssociated, connectForm, disconnectForm } from "../../utils/form";
 import { CSS } from "./resources";
 import { getKey } from "../../utils/key";
 import { getElementDir } from "../../utils/dom";
@@ -25,7 +25,7 @@ import { getRoundRobinIndex } from "../../utils/array";
   styleUrl: "calcite-radio-button.scss",
   shadow: true
 })
-export class CalciteRadioButton implements LabelableComponent {
+export class CalciteRadioButton implements LabelableComponent, FormAssociated {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -144,6 +144,10 @@ export class CalciteRadioButton implements LabelableComponent {
   //--------------------------------------------------------------------------
 
   labelEl: HTMLCalciteLabelElement;
+
+  formEl: HTMLFormElement;
+
+  initialValue: CalciteRadioButton["value"];
 
   private initialChecked: boolean;
 
@@ -404,6 +408,7 @@ export class CalciteRadioButton implements LabelableComponent {
       form.addEventListener("reset", this.formResetHandler);
     }
     connectLabel(this);
+    connectForm(this);
   }
 
   componentDidLoad(): void {
@@ -419,6 +424,7 @@ export class CalciteRadioButton implements LabelableComponent {
       form.removeEventListener("reset", this.formResetHandler);
     }
     disconnectLabel(this);
+    disconnectForm(this);
   }
 
   // --------------------------------------------------------------------------

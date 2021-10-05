@@ -23,13 +23,14 @@ import {
 } from "../../utils/time";
 import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
+import { connectForm, disconnectForm, FormAssociated } from "../../utils/form";
 
 @Component({
   tag: "calcite-input-time-picker",
   styleUrl: "calcite-input-time-picker.scss",
   shadow: true
 })
-export class CalciteInputTimePicker implements LabelableComponent {
+export class CalciteInputTimePicker implements LabelableComponent, FormAssociated {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -90,7 +91,7 @@ export class CalciteInputTimePicker implements LabelableComponent {
   @Prop() intlSecondUp?: string;
 
   /** The name of the time input */
-  @Prop() name?: string;
+  @Prop() name: string;
 
   /** The scale (size) of the time input */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -116,6 +117,10 @@ export class CalciteInputTimePicker implements LabelableComponent {
   //--------------------------------------------------------------------------
 
   labelEl: HTMLCalciteLabelElement;
+
+  formEl: HTMLFormElement;
+
+  initialValue: CalciteInputTimePicker["value"];
 
   private calciteInputEl: HTMLCalciteInputElement;
 
@@ -299,6 +304,7 @@ export class CalciteInputTimePicker implements LabelableComponent {
       this.setValue({ value: this.value, origin: "loading" });
     }
     connectLabel(this);
+    connectForm(this);
   }
 
   componentDidLoad() {
@@ -309,6 +315,7 @@ export class CalciteInputTimePicker implements LabelableComponent {
 
   disconnectedCallback() {
     disconnectLabel(this);
+    disconnectForm(this);
   }
 
   // --------------------------------------------------------------------------
