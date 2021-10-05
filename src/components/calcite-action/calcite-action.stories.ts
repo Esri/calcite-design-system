@@ -518,5 +518,4 @@ export const Default = stepStory(
       })
     )
     .snapshot("Text Overflow")
-    .end()
 );
