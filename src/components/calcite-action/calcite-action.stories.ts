@@ -202,11 +202,11 @@ export const Default = stepStory(
     )
     .snapshot("Appearance Outline")
     .hover(selector)
-    .snapshot("Appearance Clear Hover")
+    .snapshot("Appearance Outline Hover")
     .mouseDown(selector)
-    .snapshot("Appearance Clear Mouse Down")
+    .snapshot("Appearance Outline Mouse Down")
     .mouseUp(selector)
-    .snapshot("Appearance Clear Mouse Up")
+    .snapshot("Appearance Outline Mouse Up")
 
     // Compact
     .executeScript(
