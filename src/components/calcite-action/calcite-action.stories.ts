@@ -472,7 +472,7 @@ export const Default = stepStory(
         story: "components-buttons-action--default",
         knobs: [
           { name: "indicator", value: "true" },
-          { name: "scale", value: "small" }
+          { name: "scale", value: "s" }
         ]
       })
     )
