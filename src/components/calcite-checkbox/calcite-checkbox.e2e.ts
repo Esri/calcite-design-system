@@ -11,7 +11,7 @@ describe("calcite-checkbox", () => {
     accessible(`<calcite-checkbox label="label" id="example" name="example" value="one"></calcite-checkbox>`));
 
   it("is labelable", async () =>
-    labelable("calcite-checkbox", { propertyToToggle: "checked", focusTargetSelector: "input" }));
+    labelable("calcite-checkbox", { propertyToToggle: "checked", shadowFocusTargetSelector: "input" }));
 
   it("renders with correct default attributes", async () => {
     const page = await newE2EPage();
@@ -30,7 +30,7 @@ describe("calcite-checkbox", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-checkbox checked name="${testName}" value="${testValue}"></calcite-checkbox>`);
 
-    const input = await page.find("input");
+    const input = await page.find("calcite-checkbox >>> input");
 
     expect(input).toEqualAttribute("type", "checkbox");
     expect(input).toEqualAttribute("name", testName);
@@ -86,7 +86,7 @@ describe("calcite-checkbox", () => {
     await page.setContent("<calcite-checkbox disabled></calcite-checkbox>");
 
     const calciteCheckbox = await page.find("calcite-checkbox");
-    const input = await page.find("input");
+    const input = await page.find("calcite-checkbox >>> input");
 
     expect(calciteCheckbox).not.toHaveAttribute("checked");
     expect(input).not.toHaveAttribute("checked");
@@ -118,7 +118,7 @@ describe("calcite-checkbox", () => {
       <calcite-checkbox name="checky" id="first" value="one"></calcite-checkbox>
     `);
 
-    let input = await page.find("input");
+    let input = await page.find("calcite-checkbox >>> input");
     expect(input).toBeTruthy();
 
     await page.evaluate(() => {
@@ -127,7 +127,7 @@ describe("calcite-checkbox", () => {
     });
     await page.waitForChanges();
 
-    input = await page.find("input");
+    input = await page.find("calcite-checkbox >>> input");
 
     expect(input).toBeFalsy();
   });
@@ -138,7 +138,7 @@ describe("calcite-checkbox", () => {
       <calcite-label layout="inline"><calcite-checkbox></calcite-checkbox>Label</calcite-label>
     `);
 
-    const inputs = await page.findAll("input");
+    const inputs = await page.findAll("calcite-checkbox >>> input");
     expect(inputs.length).toEqual(1);
   });
 
@@ -148,7 +148,7 @@ describe("calcite-checkbox", () => {
       <calcite-label layout="inline-space-between"><calcite-checkbox></calcite-checkbox>Label</calcite-label>
     `);
 
-    const inputs = await page.findAll("input");
+    const inputs = await page.findAll("calcite-checkbox >>> input");
     expect(inputs.length).toEqual(1);
   });
 
@@ -185,6 +185,6 @@ describe("calcite-checkbox", () => {
 
   it("is focusable", () =>
     focusable("calcite-checkbox", {
-      focusTargetSelector: "input[type=checkbox]"
+      shadowFocusTargetSelector: "input[type=checkbox]"
     }));
 });

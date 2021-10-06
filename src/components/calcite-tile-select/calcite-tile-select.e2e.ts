@@ -46,12 +46,9 @@ describe("calcite-tile-select", () => {
     await page.setContent("<calcite-tile-select name='radio' heading='test' value='one'></calcite-tile-select>");
     const calciteRadio = await page.find("calcite-radio-button");
     const calciteCheckbox = await page.find("calcite-checkbox");
-    const radio = await page.find("calcite-radio-button >>> input[type='radio']");
     expect(calciteRadio).toBeDefined();
     expect(calciteCheckbox).toBeNull();
     expect(await calciteRadio.getProperty("label")).toBe("test");
-    expect(radio).toEqualAttribute("name", "radio");
-    expect(radio).toEqualAttribute("value", "one");
   });
 
   it("renders a calcite-checkbox when in checkbox mode", async () => {
@@ -112,7 +109,7 @@ describe("calcite-tile-select", () => {
 
   it("focuses calcite-checkbox when setFocus method is called", async () =>
     focusable(html`<calcite-tile-select type="checkbox"></calcite-tile-select>`, {
-      focusTargetSelector: "input[type=checkbox]"
+      focusTargetSelector: "calcite-checkbox[type=checkbox]"
     }));
 
   it("focuses calcite-radio-button when setFocus method is called", async () =>

@@ -135,7 +135,7 @@ describe("calcite-radio-group", () => {
         </calcite-radio-group>`
       );
 
-      const hiddenInput = await page.find(`calcite-radio-group input[type="hidden"]`);
+      const hiddenInput = await page.find(`calcite-radio-group >>> input[type="hidden"]`);
       expect(hiddenInput).toBeDefined();
 
       const hiddenInputValue = hiddenInput.getAttribute("value");
