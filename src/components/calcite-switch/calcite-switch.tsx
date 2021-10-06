@@ -113,12 +113,12 @@ export class CalciteSwitch implements LabelableComponent {
   //
   //--------------------------------------------------------------------------
 
-  onLabelClick = (): void => {
+  onLabelClick(): void {
     if (!this.disabled) {
       this.toggle();
       this.setFocus();
     }
-  };
+  }
 
   private setupInput(): void {
     this.switched && this.inputEl.setAttribute("checked", "");

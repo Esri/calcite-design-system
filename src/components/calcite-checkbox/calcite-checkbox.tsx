@@ -198,9 +198,9 @@ export class CalciteCheckbox implements LabelableComponent {
     this.calciteCheckboxFocusedChange.emit(true);
   }
 
-  onLabelClick = (): void => {
+  onLabelClick(): void {
     this.toggle();
-  };
+  }
 
   //--------------------------------------------------------------------------
   //

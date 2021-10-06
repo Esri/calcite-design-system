@@ -827,9 +827,9 @@ export class CalciteSlider implements LabelableComponent {
   //
   //--------------------------------------------------------------------------
 
-  onLabelClick = (): void => {
+  onLabelClick(): void {
     this.setFocus();
-  };
+  }
 
   private shouldMirror(): boolean {
     return this.mirrored && !this.hasHistogram;
