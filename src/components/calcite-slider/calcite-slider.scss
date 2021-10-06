@@ -15,6 +15,7 @@ $tick-height: 4px;
 
 :host {
   @apply block;
+  direction: initial;
 }
 
 .container {
@@ -88,7 +89,7 @@ $tick-height: 4px;
     &.hyphen::after {
       content: "\2011";
       display: inline;
-      margin-left: 0.1875em;
+      margin-inline-start: theme("margin[0.5]");
     }
   }
 
