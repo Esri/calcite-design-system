@@ -109,7 +109,7 @@ describe("calcite-tile-select", () => {
 
   it("focuses calcite-checkbox when setFocus method is called", async () =>
     focusable(html`<calcite-tile-select type="checkbox"></calcite-tile-select>`, {
-      shadowFocusTargetSelector: "input[type=checkbox]"
+      focusTargetSelector: "calcite-checkbox"
     }));
 
   it("focuses calcite-radio-button when setFocus method is called", async () =>
