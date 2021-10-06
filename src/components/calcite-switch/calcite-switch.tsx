@@ -68,6 +68,7 @@ export class CalciteSwitch implements LabelableComponent, FormAssociated {
    */
   @Prop() switched = false;
 
+  @Watch("switched")
   switchedWatcher(switched: boolean): void {
     this.checked = switched;
   }
@@ -154,6 +155,8 @@ export class CalciteSwitch implements LabelableComponent, FormAssociated {
   private toggle(): void {
     this.checked = !this.checked;
     this.calciteSwitchChange.emit({
+      // todo: We should remove emmitting redudant props in event payload.
+      // https://github.com/Esri/calcite-components/issues/3163
       switched: this.checked
     });
   }
