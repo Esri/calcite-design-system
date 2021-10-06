@@ -263,7 +263,7 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
     if (this.value) {
       this.input.value = this.value != null ? this.value.toString() : "";
     }
-    this.el.appendChild(this.input);
+    this.el.shadowRoot.appendChild(this.input);
   }
 
   render(): VNode {

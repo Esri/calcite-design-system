@@ -248,7 +248,7 @@ export class CalciteRadioGroup implements LabelableComponent {
   private hiddenInput: HTMLInputElement = (() => {
     const input = document.createElement("input");
     input.type = "hidden";
-    this.el.appendChild(input);
+    this.el.shadowRoot.appendChild(input);
     return input;
   })();
 

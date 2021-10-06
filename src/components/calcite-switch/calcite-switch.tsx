@@ -149,7 +149,7 @@ export class CalciteSwitch implements LabelableComponent, FormAssociated {
     if (this.value) {
       this.inputEl.value = this.value != null ? this.value.toString() : "";
     }
-    this.el.appendChild(this.inputEl);
+    this.el.shadowRoot.appendChild(this.inputEl);
   }
 
   private toggle(): void {
