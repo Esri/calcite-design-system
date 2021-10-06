@@ -330,6 +330,7 @@ export const Default = stepStory(
         knobs: [{ name: "icon", value: "" }]
       })
     )
+    .waitForNotFound("svg")
     .snapshot("No Icon")
 
     // Indicator
