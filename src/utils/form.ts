@@ -106,11 +106,12 @@ function onFormData<T>(this: FormAssociated<T>, { formData }: FormDataEvent): vo
 
   // heuristic to support default/on mode from https://html.spec.whatwg.org/multipage/input.html#dom-input-value-default-on
   // we could introduce a mode in the interface to specify this behavior as an alternative
-  const formattedValue = value != null && value.toString();
-
+  const formattedValue = value != null ? value.toString() : "";
   const formValue = "checked" in this ? (this["checked"] ? formattedValue || "on" : "") : formattedValue;
 
-  formData.append(name, formValue);
+  if (formValue) {
+    formData.append(name, formValue);
+  }
 }
 
 function onFormReset<T>(this: FormAssociated<T>): void {
