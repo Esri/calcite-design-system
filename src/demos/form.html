@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Form</title>
+    <script src="./_assets/head.js"></script>
+
+    <style>
+      .parent {
+        display: flex;
+        width: 75%;
+        justify-content: space-between;
+        padding: 25px 0;
+      }
+
+      .child {
+        flex: 0 1 21%;
+        margin: 0 25px;
+        color: var(--calcite-ui-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+      }
+
+      .right-aligned-text {
+        text-align: right;
+      }
+
+      hr {
+        margin: 25px 0;
+        border-top: 1px solid var(--calcite-ui-border-2);
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1 style="margin: 0 auto; text-align: center">Switch</h1>
+
+    <form id="test">
+      <div class="child">
+        <calcite-label>
+          <calcite-checkbox value="test" name="test-checkbox" scale="s"></calcite-checkbox>
+        </calcite-label>
+      </div>
+
+      <div class="child">
+        <calcite-switch name="switch" value="switch-val" scale="s"></calcite-switch>
+      </div>
+
+      <div class="child">
+        <select name="cars" id="cars" multiple>
+          <option value="volvo">Volvo</option>
+          <option value="saab">Saab</option>
+          <option value="opel">Opel</option>
+          <option value="audi">Audi</option>
+        </select>
+      </div>
+
+      <div class="parent">
+        <div class="child">
+          <button type="submit">Submit</button>
+          <button type="reset">Reset</button>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child">
+          <calcite-button type="submit">Submit</calcite-button>
+          <calcite-button type="reset">Reset</calcite-button>
+        </div>
+      </div>
+    </form>
+    <script>
+      window.onload = () => {
+        var form = document.getElementById("test");
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          var formData = new FormData(form);
+          var object = {};
+          formData.forEach((value, key) => {
+            // Reflect.has in favor of: object.hasOwnProperty(key)
+            if (!Reflect.has(object, key)) {
+              object[key] = value;
+              return;
+            }
+            if (!Array.isArray(object[key])) {
+              object[key] = [object[key]];
+            }
+            object[key].push(value);
+            object[key] = object[key].filter((v, i, a) => a.indexOf(v) === i);
+          });
+          var json = JSON.stringify(object);
+          console.log(json);
+        });
+      };
+    </script>
+  </body>
+</html>
