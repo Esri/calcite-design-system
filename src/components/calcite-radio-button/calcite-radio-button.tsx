@@ -135,7 +135,7 @@ export class CalciteRadioButton implements LabelableComponent, FormAssociated {
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /** The value of the radio button. */
-  @Prop({ mutable: true }) value!: any;
+  @Prop() value!: any;
 
   //--------------------------------------------------------------------------
   //
@@ -172,10 +172,6 @@ export class CalciteRadioButton implements LabelableComponent, FormAssociated {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
-  onFormReset(): void {
-    this.value = this.initialValue;
-  }
 
   selectItem = (items: HTMLCalciteRadioButtonElement[], selectedIndex: number): void => {
     items.forEach((item, index) => {
