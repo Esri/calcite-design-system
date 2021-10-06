@@ -71,6 +71,60 @@
 
       <div class="parent">
         <div class="child">
+          <calcite-label>
+            Input Label
+            <calcite-input name="calcite-input" type="text" placeholder="Placeholder" scale="m"></calcite-input>
+          </calcite-label>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child">
+          <calcite-label>
+            Input time picker
+            <calcite-input-time-picker
+              name="calcite-input-time-picker"
+              hour-display-format="12"
+              name="light"
+              scale="m"
+              step="1"
+              value="15:37"
+            ></calcite-input-time-picker>
+          </calcite-label>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child">
+          <calcite-label layout="inline">
+            <calcite-radio-button name="def-s" scale="s" value="stencil-def-s"></calcite-radio-button>
+            Stencil
+          </calcite-label>
+          <calcite-label layout="inline">
+            <calcite-radio-button name="def-s" scale="s" value="react-def-s" checked></calcite-radio-button>
+            React
+          </calcite-label>
+          <calcite-label layout="inline">
+            <calcite-radio-button name="def-s" scale="s" value="ember-def-s"></calcite-radio-button>
+            Ember
+          </calcite-label>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child">
+          <calcite-rating name="rating" value="2" scale="s"></calcite-rating>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child">
+          <calcite-slider name="slider" min="0" max="100" value="40" step="1" label="Temperature"></calcite-slider>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child">
           <button type="submit">Submit</button>
           <button type="reset">Reset</button>
         </div>
