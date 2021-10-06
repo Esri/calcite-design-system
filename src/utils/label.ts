@@ -24,6 +24,7 @@ export interface LabelableComponent {
 
 const labelTagName = "calcite-label";
 const labelClickEvent = "calciteInternalLabelClick";
+const onLabelClickMap = new WeakMap<HTMLElement, typeof onLabelClick>();
 
 const findLabelForComponent = (componentEl: HTMLElement): HTMLCalciteLabelElement | null => {
   const id = componentEl.id;
@@ -37,15 +38,29 @@ const findLabelForComponent = (componentEl: HTMLElement): HTMLCalciteLabelElemen
  * Helper to set up label interactions on connectedCallback.
  */
 export function connectLabel(component: LabelableComponent): void {
-  component.labelEl = findLabelForComponent(component.el);
-  component.labelEl?.addEventListener(labelClickEvent, component.onLabelClick);
+  const labelEl = findLabelForComponent(component.el);
+
+  if (!labelEl) {
+    return;
+  }
+
+  component.labelEl = labelEl;
+  const boundOnLabelClick = onLabelClick.bind(component);
+  onLabelClickMap.set(component.el, boundOnLabelClick);
+  component.labelEl.addEventListener(labelClickEvent, boundOnLabelClick);
 }
 
 /**
  * Helper to tear down label interactions on disconnectedCallback.
  */
 export function disconnectLabel(component: LabelableComponent): void {
-  component.labelEl?.removeEventListener(labelClickEvent, component.onLabelClick);
+  if (!component.labelEl) {
+    return;
+  }
+
+  const boundOnLabelClick = onLabelClickMap.get(component.el);
+  component.labelEl.removeEventListener(labelClickEvent, boundOnLabelClick);
+  onLabelClickMap.delete(component.el);
 }
 
 /**
@@ -53,4 +68,14 @@ export function disconnectLabel(component: LabelableComponent): void {
  */
 export function getLabelText(component: LabelableComponent): string {
   return component.label || component.labelEl?.textContent?.trim() || "";
+}
+
+function onLabelClick(this: LabelableComponent, event: CustomEvent<{ sourceEvent: MouseEvent }>): void {
+  const containedLabelableChildClicked = this.el.contains(event.detail.sourceEvent.target as HTMLElement);
+
+  if (containedLabelableChildClicked) {
+    return;
+  }
+
+  this.onLabelClick(event);
 }
