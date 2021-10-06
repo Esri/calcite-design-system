@@ -16,7 +16,7 @@ export const Simple = (): string => html`
   <calcite-switch
     name="setting"
     value="enabled"
-    ${boolean("switched", true)}
+    ${boolean("checked", true)}
     ${boolean("disabled", false)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
   ></calcite-switch>
@@ -31,7 +31,7 @@ export const WrappingCalciteLabel = (): string => html`
     <calcite-switch
       name="setting"
       value="enabled"
-      ${boolean("switched", true)}
+      ${boolean("checked", true)}
       ${boolean("disabled", false)}
     ></calcite-switch>
   </calcite-label>
@@ -46,7 +46,7 @@ export const DarkMode = (): string => html`
     class="calcite-theme-dark"
     name="setting"
     value="enabled"
-    ${boolean("switched", true)}
+    ${boolean("checked", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
   ></calcite-switch>
 `;
@@ -62,7 +62,7 @@ export const Rtl = (): string => html`
     dir="rtl"
     name="setting"
     value="enabled"
-    ${boolean("switched", true)}
+    ${boolean("checked", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
   ></calcite-switch>
 `;

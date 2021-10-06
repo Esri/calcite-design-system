@@ -66,9 +66,8 @@ export class CalciteSwitch implements LabelableComponent, FormAssociated {
   /** True if the switch is initially on
    * @deprecated use 'checked' instead.
    */
-  @Prop({ reflect: true }) switched = false;
+  @Prop() switched = false;
 
-  @Watch("switched")
   switchedWatcher(switched: boolean): void {
     this.checked = switched;
   }

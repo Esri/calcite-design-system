@@ -18,7 +18,7 @@ describe("calcite-switch", () => {
 
   it("is labelable", async () => labelable("calcite-switch", { propertyToToggle: "checked" }));
 
-  it("toggles the checked and checked attributes appropriately when clicked", async () => {
+  it("toggles the checked attributes appropriately when clicked", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-switch></calcite-switch>");
 
@@ -77,7 +77,7 @@ describe("calcite-switch", () => {
     expect(await calciteSwitch.getProperty("checked")).toBe(false);
   });
 
-  it("toggles the checked and checked attributes when the checkbox is toggled", async () => {
+  it("toggles the checked attributes when the checkbox is toggled", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-switch></calcite-switch>`);
 

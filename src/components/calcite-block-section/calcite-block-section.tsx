@@ -137,7 +137,7 @@ export class CalciteBlockSection {
           <div class={CSS.toggleSwitchContent}>
             <span class={CSS.toggleSwitchText}>{text}</span>
           </div>
-          <calcite-switch label={toggleLabel} scale="s" switched={open} tabIndex={-1} />
+          <calcite-switch checked={open} label={toggleLabel} scale="s" tabIndex={-1} />
           {this.renderStatusIcon()}
         </div>
       ) : (
