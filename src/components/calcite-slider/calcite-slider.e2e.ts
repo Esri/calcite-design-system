@@ -184,7 +184,7 @@ describe("calcite-slider", () => {
       await page.waitForChanges();
       const slider = await page.find("calcite-slider");
       const changeEvent = await slider.spyOnEvent("calciteSliderChange");
-      const inputEvent = await slider.spyOnEvent("calciteInputEvent");
+      const inputEvent = await slider.spyOnEvent("calciteSliderInput");
       expect(await slider.getProperty("value")).toBe(0);
 
       const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
@@ -193,10 +193,12 @@ describe("calcite-slider", () => {
       await page.mouse.down();
       await page.waitForChanges();
       expect(await slider.getProperty("value")).toBe(50);
+      expect(inputEvent).toHaveReceivedEventTimes(1);
+
       await page.mouse.up();
       await page.waitForChanges();
+
       expect(changeEvent).toHaveReceivedEventTimes(1);
-      expect(inputEvent).toHaveReceivedEventTimes(1);
     });
 
     it("single handle: clicking and dragging the track changes and emits the value", async () => {
