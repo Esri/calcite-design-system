@@ -146,6 +146,8 @@ export class CalciteSwitch implements LabelableComponent {
   private toggle(): void {
     this.checked = !this.checked;
     this.calciteSwitchChange.emit({
+      // todo: We should remove emmitting redudant props in event payload.
+      // https://github.com/Esri/calcite-components/issues/3163
       switched: this.checked
     });
   }
