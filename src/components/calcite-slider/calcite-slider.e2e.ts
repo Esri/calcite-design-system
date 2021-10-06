@@ -192,12 +192,9 @@ describe("calcite-slider", () => {
       await page.mouse.move(trackX + 50, trackY);
       await page.mouse.down();
       await page.waitForChanges();
-
       expect(await slider.getProperty("value")).toBe(50);
-      expect(changeEvent).toHaveReceivedEventTimes(0);
       await page.mouse.up();
       await page.waitForChanges();
-
       expect(changeEvent).toHaveReceivedEventTimes(1);
       expect(inputEvent).toHaveReceivedEventTimes(1);
     });
@@ -224,6 +221,8 @@ describe("calcite-slider", () => {
 
       expect(await slider.getProperty("value")).toBe(5);
       expect(inputEvent).toHaveReceivedEventTimes(5);
+      await page.mouse.up();
+      await page.waitForChanges();
       expect(changeEvent).toHaveReceivedEventTimes(1);
     });
 
@@ -281,6 +280,8 @@ describe("calcite-slider", () => {
       expect(await slider.getProperty("minValue")).toBe(25);
       expect(await slider.getProperty("maxValue")).toBe(75);
       expect(inputEvent).toHaveReceivedEventTimes(5);
+      await page.mouse.up();
+      await page.waitForChanges();
       expect(changeEvent).toHaveReceivedEventTimes(1);
     });
 
