@@ -57,7 +57,9 @@ export class CalciteLabel {
   /**
    * @internal
    */
-  @Event({ bubbles: false }) calciteInternalLabelClick: EventEmitter<void>;
+  @Event({ bubbles: false }) calciteInternalLabelClick: EventEmitter<{
+    sourceEvent: MouseEvent;
+  }>;
 
   //--------------------------------------------------------------------------
   //
@@ -65,8 +67,10 @@ export class CalciteLabel {
   //
   //--------------------------------------------------------------------------
 
-  labelClickHandler = (): void => {
-    this.calciteInternalLabelClick.emit();
+  labelClickHandler = (event: MouseEvent): void => {
+    this.calciteInternalLabelClick.emit({
+      sourceEvent: event
+    });
   };
 
   //--------------------------------------------------------------------------

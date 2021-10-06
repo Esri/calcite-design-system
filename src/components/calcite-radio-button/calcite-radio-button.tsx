@@ -182,10 +182,6 @@ export class CalciteRadioButton implements LabelableComponent {
   };
 
   private clickHandler = (): void => {
-    if (this.labelEl) {
-      return;
-    }
-
     this.toggle();
   };
 
@@ -193,15 +189,17 @@ export class CalciteRadioButton implements LabelableComponent {
     if (!this.disabled && !this.hidden) {
       this.uncheckOtherRadioButtonsInGroup();
       const label = event.currentTarget as HTMLCalciteLabelElement;
-      const firstButton = this.rootNode.querySelector<HTMLCalciteRadioButtonElement>(
-        label.for
-          ? `calcite-radio-button[id="${label.for}"]`
-          : `calcite-radio-button[name="${this.name}"]`
-      );
+      const radioButton = label.for
+        ? this.rootNode.querySelector<HTMLCalciteRadioButtonElement>(
+            `calcite-radio-button[id="${label.for}"]`
+          )
+        : label.querySelector<HTMLCalciteRadioButtonElement>(
+            `calcite-radio-button[name="${this.name}"]`
+          );
 
-      if (firstButton) {
-        firstButton.checked = true;
-        firstButton.focused = true;
+      if (radioButton) {
+        radioButton.checked = true;
+        radioButton.focused = true;
       }
 
       this.calciteRadioButtonChange.emit();
