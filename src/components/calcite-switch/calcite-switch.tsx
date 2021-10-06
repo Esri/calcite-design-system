@@ -69,6 +69,7 @@ export class CalciteSwitch implements LabelableComponent {
    */
   @Prop() switched = false;
 
+  @Watch("switched")
   switchedWatcher(switched: boolean): void {
     this.checked = switched;
   }
