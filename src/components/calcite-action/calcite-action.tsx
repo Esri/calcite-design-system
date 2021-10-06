@@ -46,7 +46,7 @@ export class CalciteAction {
   @Prop({ reflect: true }) alignment?: Alignment;
 
   /** Specify the appearance style of the action, defaults to solid. */
-  @Prop({ reflect: true }) appearance: Appearance = "solid";
+  @Prop({ reflect: true }) appearance: Extract<"solid" | "clear", Appearance> = "solid";
 
   /**
    * Compact mode is used internally by components to reduce side padding, e.g. calcite-block-section.

@@ -9,7 +9,7 @@ import readme from "./readme.md";
 import { html } from "../../tests/utils";
 import { createSteps, stepStory, setTheme, setKnobs } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-const { alignment, appearance, scale } = ATTRIBUTES;
+const { alignment, scale } = ATTRIBUTES;
 
 export default {
   title: "Components/Buttons/Action",
@@ -40,7 +40,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "appearance",
         commit(): Attribute {
-          this.value = select("appearance", appearance.values, appearance.defaultValue);
+          this.value = select("appearance", ["solid", "clear"], "solid");
           delete this.build;
           return this;
         }
@@ -193,21 +193,6 @@ export const Default = stepStory(
     .mouseUp(selector)
     .snapshot("Appearance Clear Mouse Up")
 
-    // Appearance Outline
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--default",
-        knobs: [{ name: "appearance", value: "outline" }]
-      })
-    )
-    .snapshot("Appearance Outline")
-    .hover(selector)
-    .snapshot("Appearance Outline Hover")
-    .mouseDown(selector)
-    .snapshot("Appearance Outline Mouse Down")
-    .mouseUp(selector)
-    .snapshot("Appearance Outline Mouse Up")
-
     // Compact
     .executeScript(
       setKnobs({
@@ -311,17 +296,6 @@ export const Default = stepStory(
       })
     )
     .snapshot("Disabled Appearance Clear")
-    .executeScript(
-      setKnobs({
-        story: "components-buttons-action--default",
-        knobs: [
-          { name: "appearance", value: "outline" },
-          { name: "disabled", value: "true" },
-          { name: "indicator", value: "true" }
-        ]
-      })
-    )
-    .snapshot("Disabled Appearance Outline")
 
     // Icon
     .executeScript(
