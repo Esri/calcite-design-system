@@ -38,9 +38,9 @@ export function disconnectForm(formButtonComponent: FormButtonComponent): void {
  * @param el - the host element
  */
 export function submitForm(formButtonComponent: FormButtonComponent): void {
-  const { formEl, el } = formButtonComponent;
+  const { formEl } = formButtonComponent;
   // https://www.npmjs.com/package/form-request-submit-polyfill
-  formEl?.requestSubmit(el);
+  formEl?.requestSubmit();
 }
 
 /**

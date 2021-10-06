@@ -1,3 +1,4 @@
+import "form-request-submit-polyfill/form-request-submit-polyfill";
 import { Component, Element, h, Method, Prop, Build, State, VNode, Watch } from "@stencil/core";
 import { CSS, TEXT } from "./resources";
 import { getElementDir } from "../../utils/dom";

@@ -1,4 +1,4 @@
-import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@stencil/core/testing";
 import { renders, accessible, focusable, labelable } from "../../tests/commonTests";
 
 describe("calcite-rating", () => {

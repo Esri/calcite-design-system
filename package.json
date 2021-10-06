@@ -117,6 +117,7 @@
     "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-react": "7.26.0",
     "eslint-plugin-unicorn": "36.0.0",
+    "form-request-submit-polyfill": "2.0.0",
     "gh-release": "6.0.1",
     "git-semver-tags": "4.1.1",
     "husky": "7.0.2",
