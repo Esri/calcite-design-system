@@ -120,7 +120,7 @@ export class CalciteInputTimePicker implements LabelableComponent, FormAssociate
 
   formEl: HTMLFormElement;
 
-  initialValue: CalciteInputTimePicker["value"];
+  defaultValue: CalciteInputTimePicker["value"];
 
   private calciteInputEl: HTMLCalciteInputElement;
 

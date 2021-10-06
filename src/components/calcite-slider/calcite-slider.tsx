@@ -808,7 +808,7 @@ export class CalciteSlider implements LabelableComponent, FormAssociated {
 
   formEl: HTMLFormElement;
 
-  initialValue: CalciteSlider["value"];
+  defaultValue: CalciteSlider["value"];
 
   private guid = `calcite-slider-${guid()}`;
 

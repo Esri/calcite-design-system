@@ -98,7 +98,7 @@ export class CalciteSwitch implements LabelableComponent, FormAssociated {
 
   formEl: HTMLFormElement;
 
-  initialValue: CalciteSwitch["checked"];
+  defaultValue: CalciteSwitch["checked"];
 
   //--------------------------------------------------------------------------
   //
@@ -129,7 +129,7 @@ export class CalciteSwitch implements LabelableComponent, FormAssociated {
   //--------------------------------------------------------------------------
 
   onFormReset(): void {
-    this.checked = this.initialValue;
+    this.checked = this.defaultValue;
   }
 
   onLabelClick = (): void => {

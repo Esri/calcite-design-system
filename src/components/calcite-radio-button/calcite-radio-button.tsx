@@ -147,7 +147,7 @@ export class CalciteRadioButton implements LabelableComponent, FormAssociated {
 
   formEl: HTMLFormElement;
 
-  initialValue: CalciteRadioButton["value"];
+  defaultValue: CalciteRadioButton["value"];
 
   private initialChecked: boolean;
 

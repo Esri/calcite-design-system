@@ -233,7 +233,7 @@ export class CalciteInput implements LabelableComponent, FormAssociated {
 
   formEl: HTMLFormElement;
 
-  initialValue: CalciteInput["value"];
+  defaultValue: CalciteInput["value"];
 
   inlineEditableEl: HTMLCalciteInlineEditableElement;
 
@@ -552,7 +552,7 @@ export class CalciteInput implements LabelableComponent, FormAssociated {
     if (this.type === "number") {
       nativeEvent.preventDefault();
     }
-    this.setValue(this.initialValue, nativeEvent);
+    this.setValue(this.defaultValue, nativeEvent);
   };
 
   private setChildElRef = (el) => {
@@ -693,7 +693,7 @@ export class CalciteInput implements LabelableComponent, FormAssociated {
         <input
           aria-label={getLabelText(this)}
           autofocus={this.autofocus ? true : null}
-          defaultValue={this.initialValue}
+          defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
           key="localized-input"
           maxLength={this.maxLength}
@@ -720,7 +720,7 @@ export class CalciteInput implements LabelableComponent, FormAssociated {
           [CSS.editingEnabled]: this.editingEnabled,
           [CSS.inlineChild]: !!this.inlineEditableEl
         }}
-        defaultValue={this.initialValue}
+        defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
         max={this.maxString}
         maxLength={this.maxLength}

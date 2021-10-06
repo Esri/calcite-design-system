@@ -263,7 +263,7 @@ export class CalciteColorPicker implements FormAssociated {
 
   formEl: HTMLFormElement;
 
-  initialValue: CalciteColorPicker["value"];
+  defaultValue: CalciteColorPicker["value"];
 
   private colorFieldScopeNode: HTMLDivElement;
 
@@ -951,7 +951,7 @@ export class CalciteColorPicker implements FormAssociated {
   //--------------------------------------------------------------------------
 
   onFormReset(): void {
-    this.setValue(this.initialValue, this.value);
+    this.setValue(this.defaultValue, this.value);
   }
 
   private setValue(value: ColorValue | null, oldValue: ColorValue | null): void {

@@ -50,11 +50,38 @@
       <!-- small -->
       <div class="child right-aligned-text">unchecked</div>
 
-      <div class="child">
-        <calcite-label>
-          <calcite-checkbox name="s-unchecked" scale="s"></calcite-checkbox>
-        </calcite-label>
-      </div>
+      <form id="test">
+        <div class="child">
+          <calcite-label>
+            <calcite-checkbox value="test" name="test-checkbox" scale="s"></calcite-checkbox>
+          </calcite-label>
+        </div>
+
+        <calcite-switch name="switch" value="switch-val" scale="s"></calcite-switch>
+
+        <button type="submit">Submit</button>
+        <button type="reset">Reset</button>
+        <calcite-button type="submit">Submit</calcite-button>
+        <calcite-button type="reset">Reset</calcite-button>
+      </form>
+      <script>
+        window.onload = () => {
+          var form = document.getElementById("test");
+          form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            var formData = new FormData(form);
+            console.log(
+              Array.from(formData.entries()).reduce(
+                (memo, pair) => ({
+                  ...memo,
+                  [pair[0]]: pair[1]
+                }),
+                {}
+              )
+            );
+          });
+        };
+      </script>
 
       <!-- medium -->
       <div class="child">

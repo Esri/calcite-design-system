@@ -234,7 +234,7 @@ export class CalciteRating implements LabelableComponent, FormAssociated {
 
   formEl: HTMLFormElement;
 
-  initialValue: CalciteRating["value"];
+  defaultValue: CalciteRating["value"];
 
   @State() hoverValue: number;
 

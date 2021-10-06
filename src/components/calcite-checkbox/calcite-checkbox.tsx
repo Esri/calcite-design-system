@@ -108,7 +108,7 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
 
   formEl: HTMLFormElement;
 
-  initialValue: CalciteCheckbox["checked"];
+  defaultValue: CalciteCheckbox["checked"];
 
   //--------------------------------------------------------------------------
   //
@@ -138,7 +138,7 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
   //--------------------------------------------------------------------------
 
   onFormReset(): void {
-    this.checked = this.initialValue;
+    this.checked = this.defaultValue;
   }
 
   private getPath = (): string =>

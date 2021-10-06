@@ -58,7 +58,7 @@ export interface FormAssociated<T = any> {
    *
    * When the form is reset, the value will be set to this property.
    */
-  initialValue: T;
+  defaultValue: T;
 
   /**
    * Hook for components to provide custom form reset behavior.
@@ -84,7 +84,7 @@ export function connectForm<T>(formAssociated: FormAssociated<T>): void {
   }
 
   formAssociated.formEl = form;
-  formAssociated.initialValue = "checked" in formAssociated ? formAssociated["checked"] : value;
+  formAssociated.defaultValue = "checked" in formAssociated ? formAssociated["checked"] : value;
 
   if (name) {
     const boundOnFormData = onFormData.bind(formAssociated);
@@ -114,7 +114,7 @@ function onFormData<T>(this: FormAssociated<T>, { formData }: FormDataEvent): vo
 }
 
 function onFormReset<T>(this: FormAssociated<T>): void {
-  this.value = this.initialValue;
+  this.value = this.defaultValue;
 }
 
 /**
