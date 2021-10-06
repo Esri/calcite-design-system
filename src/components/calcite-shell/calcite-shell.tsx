@@ -8,7 +8,7 @@ import { getSlotted } from "../../utils/dom";
  * @slot footer - A slot for adding footer content. This content will be positioned at the bottom of the shell.
  * @slot primary-panel - A slot for adding the leading `calcite-shell-panel`.
  * @slot contextual-panel - A slot for adding the trailing `calcite-shell-panel`.
- * @slot bottom-panel - A slot for adding a bottom floating panel such as a chart or `calcite-tip-manager`.
+ * @slot center-row - A slot for adding custom content in the center row.
  */
 @Component({
   tag: "calcite-shell",

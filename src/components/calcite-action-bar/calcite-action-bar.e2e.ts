@@ -253,17 +253,17 @@ describe("calcite-action-bar", () => {
     expect(tooltipSlot).toBeTruthy();
   });
 
-  it("'calciteActionMenuOpenChange' event should set other 'calcite-action-group' - 'menuOpen' to false", async () => {
+  it.skip("should set other 'calcite-action-group' - 'menuOpen' to false", async () => {
     const page = await newE2EPage({
       html: html`<calcite-action-bar>
-        <calcite-action-group>
+        <calcite-action-group id="first">
           <calcite-action text="Add" icon="plus"></calcite-action>
           <calcite-action text="Add" icon="plus"></calcite-action>
           <calcite-action text="Add" icon="plus"></calcite-action>
           <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
           <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
         </calcite-action-group>
-        <calcite-action-group menu-open>
+        <calcite-action-group id="second" menu-open>
           <calcite-action text="Add" icon="plus"></calcite-action>
           <calcite-action text="Add" icon="plus"></calcite-action>
           <calcite-action text="Add" icon="plus"></calcite-action>
@@ -274,26 +274,25 @@ describe("calcite-action-bar", () => {
       </calcite-action-bar>`
     });
     await page.waitForChanges();
-    const actionBar = await page.find("calcite-action-bar");
-    const eventSpy = await actionBar.spyOnEvent("calciteActionMenuOpenChange");
 
-    let groups = await page.findAll("calcite-action-group");
+    let menuOpenValues = await page.evaluate(() =>
+      Array.from(document.querySelectorAll("calcite-action-group")).map((group) => group.menuOpen)
+    );
 
-    expect(await groups[0].getProperty("menuOpen")).toBe(false);
-    expect(await groups[1].getProperty("menuOpen")).toBe(true);
+    expect(menuOpenValues).toHaveLength(2);
+    expect(menuOpenValues[0]).toEqual(false);
+    expect(menuOpenValues[1]).toEqual(true);
 
-    await page.$eval("calcite-action-group", (element: HTMLCalciteActionGroupElement) => {
-      element.menuOpen = true;
-    });
+    await page.evaluate(() => ((document.getElementById("first") as HTMLCalciteActionGroupElement).menuOpen = true));
     await page.waitForChanges();
-    await page.waitForTimeout(overflowActionsDebounceInMs);
 
-    groups = await page.findAll("calcite-action-group");
+    menuOpenValues = await page.evaluate(() =>
+      Array.from(document.querySelectorAll("calcite-action-group")).map((group) => group.menuOpen)
+    );
 
-    expect(await groups[0].getProperty("menuOpen")).toBe(true);
-    expect(await groups[1].getProperty("menuOpen")).toBe(false);
-
-    expect(eventSpy).toHaveReceivedEventTimes(2);
+    expect(menuOpenValues).toHaveLength(2);
+    expect(menuOpenValues[0]).toEqual(true);
+    expect(menuOpenValues[1]).toEqual(false);
   });
 
   it("should honor scale of expand icon", async () => {
