@@ -45,13 +45,13 @@
 
       <div class="child">
         <calcite-label layout="inline">
-          <calcite-checkbox value="checked" name="calcite-checkbox" scale="s"></calcite-checkbox>Calcite checkbox
+          <calcite-checkbox value="checked" name="calcite-checkbox"></calcite-checkbox>Calcite checkbox
         </calcite-label>
       </div>
 
       <div class="child">
         <calcite-label layout="inline">
-          <calcite-switch name="calcite-switch" value="checked" scale="s"></calcite-switch>Calcite switch
+          <calcite-switch name="calcite-switch" value="checked"></calcite-switch>Calcite switch
         </calcite-label>
       </div>
 
@@ -71,9 +71,47 @@
 
       <div class="parent">
         <div class="child">
+          <calcite-label
+            >Calcite select<br />
+            <calcite-select name="calcite-select" label="calcite select">
+              <calcite-option>high</calcite-option>
+              <calcite-option>medium</calcite-option>
+              <calcite-option>low</calcite-option>
+            </calcite-select></calcite-label
+          >
+        </div>
+      </div>
+      <div class="parent">
+        <div class="child">
+          <calcite-label
+            >Calcite combobox<br />
+            <calcite-combobox
+              name="calcite-combobox"
+              label="test"
+              placeholder="select folder"
+              max-items="6"
+              selection-mode="single"
+            >
+              <calcite-combobox-item value="root" text-label="username" icon="home" selected></calcite-combobox-item>
+              <calcite-combobox-item value="1" text-label="Folder 1" icon="folder"></calcite-combobox-item>
+              <calcite-combobox-item value="2" text-label="Folder 2" icon="folder"></calcite-combobox-item>
+              <calcite-combobox-item value="3" text-label="Folder 3" icon="folder"></calcite-combobox-item>
+              <calcite-combobox-item value="4" text-label="Folder 4" icon="folder"></calcite-combobox-item>
+              <calcite-combobox-item value="5" text-label="Folder 5" icon="folder"></calcite-combobox-item>
+              <calcite-combobox-item
+                value="6"
+                text-label="Folder 6"
+                icon="folder"
+              ></calcite-combobox-item> </calcite-combobox
+          ></calcite-label>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child">
           <calcite-label>
             Input Label
-            <calcite-input name="calcite-input" type="text" placeholder="Placeholder" scale="m"></calcite-input>
+            <calcite-input name="calcite-input" type="text" placeholder="Placeholder"></calcite-input>
           </calcite-label>
         </div>
       </div>
@@ -86,7 +124,6 @@
               name="calcite-input-time-picker"
               hour-display-format="12"
               name="light"
-              scale="m"
               step="1"
               value="15:37"
             ></calcite-input-time-picker>
@@ -96,16 +133,39 @@
 
       <div class="parent">
         <div class="child">
+          <calcite-label>
+            Input date picker
+            <calcite-input-date-picker name="calcite-input-date-picker"></calcite-input-date-picker>
+          </calcite-label>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child">
+          <calcite-label>
+            Radio group
+            <calcite-radio-group>
+              <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
+              <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
+              <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
+              <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
+            </calcite-radio-group></calcite-label
+          >
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child">
           <calcite-label layout="inline">
-            <calcite-radio-button name="radio" scale="s" value="stencil-radio"></calcite-radio-button>
+            <calcite-radio-button name="radio" value="stencil-radio"></calcite-radio-button>
             Stencil
           </calcite-label>
           <calcite-label layout="inline">
-            <calcite-radio-button name="radio" scale="s" value="react-radio" checked></calcite-radio-button>
+            <calcite-radio-button name="radio" value="react-radio" checked></calcite-radio-button>
             React
           </calcite-label>
           <calcite-label layout="inline">
-            <calcite-radio-button name="radio" scale="s" value="ember-radio"></calcite-radio-button>
+            <calcite-radio-button name="radio" value="ember-radio"></calcite-radio-button>
             Ember
           </calcite-label>
         </div>
@@ -113,7 +173,7 @@
 
       <div class="parent">
         <div class="child">
-          <calcite-rating name="rating" value="2" scale="s"></calcite-rating>
+          <calcite-rating name="rating" value="2"></calcite-rating>
         </div>
       </div>
 
