@@ -34,6 +34,7 @@ import {
 } from "./resources";
 import { getItemAncestors, getItemChildren, hasActiveChildren } from "./utils";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
+import { connectForm, disconnectForm, FormAssociated } from "../../utils/form";
 import { createObserver } from "../../utils/observers";
 interface ItemData {
   label: string;
@@ -51,7 +52,7 @@ const isGroup = (el: ComboboxChildElement): el is HTMLCalciteComboboxItemGroupEl
   styleUrl: "calcite-combobox.scss",
   shadow: true
 })
-export class CalciteCombobox implements LabelableComponent {
+export class CalciteCombobox implements LabelableComponent, FormAssociated {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -104,6 +105,9 @@ export class CalciteCombobox implements LabelableComponent {
     this.setMaxScrollerHeight();
   }
 
+  /** The name of the switch input */
+  @Prop({ reflect: true }) name: string;
+
   /** Allow entry of custom values which are not in the original set of items */
   @Prop() allowCustomValues: boolean;
 
@@ -119,6 +123,9 @@ export class CalciteCombobox implements LabelableComponent {
 
   /** Specify the scale of the combobox, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  /** The value(s) of the selectedItem(s) */
+  @Prop({ mutable: true }) value: string | string[] = null;
 
   //--------------------------------------------------------------------------
   //
@@ -219,6 +226,7 @@ export class CalciteCombobox implements LabelableComponent {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.createPopper();
     connectLabel(this);
+    connectForm(this);
   }
 
   componentWillLoad(): void {
@@ -236,6 +244,7 @@ export class CalciteCombobox implements LabelableComponent {
     this.mutationObserver?.disconnect();
     this.destroyPopper();
     disconnectLabel(this);
+    disconnectForm(this);
   }
 
   //--------------------------------------------------------------------------
@@ -246,11 +255,21 @@ export class CalciteCombobox implements LabelableComponent {
 
   labelEl: HTMLCalciteLabelElement;
 
+  formEl: HTMLFormElement;
+
+  defaultValue: CalciteCombobox["value"];
+
   @State() items: HTMLCalciteComboboxItemElement[] = [];
 
   @State() groupItems: HTMLCalciteComboboxItemGroupElement[] = [];
 
   @State() selectedItems: HTMLCalciteComboboxItemElement[] = [];
+
+  @Watch("selectedItems")
+  selectedItemsHandler(): void {
+    const items = this.selectedItems.map((item) => item?.value.toString());
+    this.value = items?.length ? (items.length > 1 ? items : items[0]) : null;
+  }
 
   @State() visibleItems: HTMLCalciteComboboxItemElement[] = [];
 
