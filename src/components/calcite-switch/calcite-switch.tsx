@@ -162,10 +162,6 @@ export class CalciteSwitch implements LabelableComponent, FormAssociated {
   }
 
   private clickHandler = (): void => {
-    if (this.labelEl) {
-      return;
-    }
-
     this.toggle();
   };
 

@@ -533,7 +533,7 @@ export class CalciteSlider implements LabelableComponent, FormAssociated {
       <Host id={id} onTouchStart={this.handleTouchStart}>
         <div class={{ container: true, "container--range": this.isRange }}>
           {this.renderGraph()}
-          <div class="track">
+          <div class="track" ref={this.storeTrackRef}>
             <div
               class="track__range"
               onPointerDown={() => this.dragStart("minMaxValue")}
@@ -725,14 +725,11 @@ export class CalciteSlider implements LabelableComponent, FormAssociated {
     } else if (key === "End") {
       adjustment = max;
     }
-
     if (isNaN(adjustment)) {
       return;
     }
-
     event.preventDefault();
-    this[activeProp] = this.clamp(adjustment, activeProp);
-    this.emitChange();
+    this.setValue(activeProp, this.clamp(adjustment, activeProp));
   }
 
   @Listen("click")
@@ -754,8 +751,12 @@ export class CalciteSlider implements LabelableComponent, FormAssociated {
         prop = closerToMax || position > this.maxValue ? "maxValue" : "minValue";
       }
     }
-    this[prop] = this.clamp(position, prop);
+    this.lastDragPropValue = this[prop];
     this.dragStart(prop);
+    const isThumbActive = this.el.shadowRoot.querySelector(".thumb:active");
+    if (!isThumbActive) {
+      this.setValue(prop, this.clamp(position, prop));
+    }
   }
 
   handleTouchStart(event: TouchEvent): void {
@@ -774,6 +775,13 @@ export class CalciteSlider implements LabelableComponent, FormAssociated {
    * expensive operations consider using a debounce or throttle to avoid
    * locking up the main thread.
    */
+  @Event() calciteSliderInput: EventEmitter;
+
+  /**
+   * Fires on when the thumb is released on slider
+   * If you need to constantly listen to the drag event,
+   * please use calciteSliderInput instead
+   */
   @Event() calciteSliderChange: EventEmitter;
 
   /**
@@ -781,7 +789,7 @@ export class CalciteSlider implements LabelableComponent, FormAssociated {
    * :warning: Will be fired frequently during drag. If you are performing any
    * expensive operations consider using a debounce or throttle to avoid
    * locking up the main thread.
-   * @deprecated use calciteSliderChange instead
+   * @deprecated use calciteSliderInput instead
    */
   @Event() calciteSliderUpdate: EventEmitter;
 
@@ -818,9 +826,13 @@ export class CalciteSlider implements LabelableComponent, FormAssociated {
 
   private lastDragProp: ActiveSliderProperty;
 
+  private lastDragPropValue: number;
+
   private minHandle: HTMLButtonElement;
 
   private maxHandle: HTMLButtonElement;
+
+  private trackEl: HTMLDivElement;
 
   @State() private activeProp: ActiveSliderProperty = "value";
 
@@ -890,7 +902,6 @@ export class CalciteSlider implements LabelableComponent, FormAssociated {
 
   private dragUpdate = (event: PointerEvent): void => {
     event.preventDefault();
-
     if (this.dragProp) {
       const value = this.translate(event.clientX || event.pageX);
       if (this.isRange && this.dragProp === "minMaxValue") {
@@ -911,16 +922,18 @@ export class CalciteSlider implements LabelableComponent, FormAssociated {
           this.minMaxValueRange = this.maxValue - this.minValue;
         }
       } else {
-        this[this.dragProp] = this.clamp(value, this.dragProp);
+        this.setValue(this.dragProp, this.clamp(value, this.dragProp));
       }
-
-      this.emitChange();
     }
   };
 
+  private emitInput(): void {
+    this.calciteSliderInput.emit();
+    this.calciteSliderUpdate.emit();
+  }
+
   private emitChange(): void {
     this.calciteSliderChange.emit();
-    this.calciteSliderUpdate.emit();
   }
 
   private dragEnd = (): void => {
@@ -928,13 +941,44 @@ export class CalciteSlider implements LabelableComponent, FormAssociated {
     document.removeEventListener("pointerup", this.dragEnd);
     document.removeEventListener("pointercancel", this.dragEnd);
 
-    this.emitChange();
     this.focusActiveHandle();
-
+    if (this.lastDragPropValue != this[this.dragProp]) {
+      this.emitChange();
+    }
     this.dragProp = null;
+    this.lastDragPropValue = null;
     this.minValueDragRange = null;
     this.maxValueDragRange = null;
     this.minMaxValueRange = null;
+  };
+
+  /**
+   * Set the prop value if changed at the component level
+   * @param valueProp
+   * @param value
+   */
+  private setValue(valueProp: string, value: number): void {
+    const oldValue = this[valueProp];
+    const valueChanged = oldValue !== value;
+
+    if (!valueChanged) {
+      return;
+    }
+    this[valueProp] = value;
+    const dragging = this.dragProp;
+    if (!dragging) {
+      this.emitChange();
+    }
+    this.emitInput();
+  }
+
+  /**
+   * Set the reference of the track Element
+   * @internal
+   * @param node
+   */
+  private storeTrackRef = (node: HTMLDivElement): void => {
+    this.trackEl = node;
   };
 
   /**
@@ -960,7 +1004,7 @@ export class CalciteSlider implements LabelableComponent, FormAssociated {
    */
   private translate(x: number): number {
     const range = this.max - this.min;
-    const { left, width } = this.el.getBoundingClientRect();
+    const { left, width } = this.trackEl.getBoundingClientRect();
     const percent = (x - left) / width;
     const mirror = this.shouldMirror();
     let value = this.clamp(this.min + range * (mirror ? 1 - percent : percent));

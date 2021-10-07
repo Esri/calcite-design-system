@@ -4,6 +4,7 @@ import {
   Event,
   EventEmitter,
   h,
+  Host,
   Listen,
   Method,
   Prop,
@@ -154,10 +155,6 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
   };
 
   private clickHandler = (): void => {
-    if (this.labelEl) {
-      return;
-    }
-
     this.toggle();
   };
 
@@ -268,12 +265,14 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
 
   render(): VNode {
     return (
-      <div class={{ focused: this.focused }} onClick={this.clickHandler}>
-        <svg class="check-svg" viewBox="0 0 16 16">
-          <path d={this.getPath()} />
-        </svg>
-        <slot />
-      </div>
+      <Host onClick={this.clickHandler}>
+        <div class={{ focused: this.focused, test: true }}>
+          <svg class="check-svg" viewBox="0 0 16 16">
+            <path d={this.getPath()} />
+          </svg>
+          <slot />
+        </div>
+      </Host>
     );
   }
 }
