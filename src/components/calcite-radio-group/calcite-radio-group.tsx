@@ -17,6 +17,7 @@ import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { Layout, Scale, Width } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
+import { connectForm, disconnectForm, FormAssociated } from "../../utils/form";
 import { RadioAppearance } from "./interfaces";
 
 /**
@@ -27,7 +28,7 @@ import { RadioAppearance } from "./interfaces";
   styleUrl: "calcite-radio-group.scss",
   shadow: true
 })
-export class CalciteRadioGroup implements LabelableComponent {
+export class CalciteRadioGroup implements LabelableComponent, FormAssociated {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -64,6 +65,9 @@ export class CalciteRadioGroup implements LabelableComponent {
   /** The scale of the radio group */
   @Prop({ reflect: true }) scale: Scale = "m";
 
+  /** The value of the selectedItem */
+  @Prop({ mutable: true }) value: string = null;
+
   /**
    * The group's selected item.
    */
@@ -74,6 +78,7 @@ export class CalciteRadioGroup implements LabelableComponent {
     newItem: T,
     oldItem: T
   ): void {
+    this.value = newItem?.value;
     if (newItem === oldItem) {
       return;
     }
@@ -122,10 +127,12 @@ export class CalciteRadioGroup implements LabelableComponent {
     }
 
     connectLabel(this);
+    connectForm(this);
   }
 
   disconnectedCallback(): void {
     disconnectLabel(this);
+    disconnectForm(this);
   }
 
   componentDidLoad(): void {
@@ -244,6 +251,10 @@ export class CalciteRadioGroup implements LabelableComponent {
   //--------------------------------------------------------------------------
 
   labelEl: HTMLCalciteLabelElement;
+
+  formEl: HTMLFormElement;
+
+  defaultValue: CalciteRadioGroup["value"];
 
   private hiddenInput: HTMLInputElement = (() => {
     const input = document.createElement("input");

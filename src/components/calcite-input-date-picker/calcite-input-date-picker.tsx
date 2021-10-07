@@ -27,7 +27,7 @@ import { HeadingLevel } from "../functional/CalciteHeading";
 import { getKey } from "../../utils/key";
 import { TEXT } from "../calcite-date-picker/resources";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
-
+import { connectForm, disconnectForm, FormAssociated } from "../../utils/form";
 import {
   createPopper,
   updatePopper,
@@ -44,7 +44,7 @@ const DEFAULT_PLACEMENT = "bottom-leading";
   styleUrl: "calcite-input-date-picker.scss",
   shadow: true
 })
-export class CalciteInputDatePicker implements LabelableComponent {
+export class CalciteInputDatePicker implements LabelableComponent, FormAssociated {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -58,7 +58,7 @@ export class CalciteInputDatePicker implements LabelableComponent {
   //
   //--------------------------------------------------------------------------
   /** Selected date */
-  @Prop({ mutable: true }) value?: string;
+  @Prop({ mutable: true }) value: string;
 
   /**
    * Number at which section headings should start for this component.
@@ -93,6 +93,11 @@ export class CalciteInputDatePicker implements LabelableComponent {
   activeHandler(): void {
     this.reposition();
   }
+
+  /**
+   * The picker's name. Gets submitted with the form.
+   */
+  @Prop() name: string;
 
   /** Localized string for "previous month" (used for aria label)
    * @default "Previous month"
@@ -226,6 +231,7 @@ export class CalciteInputDatePicker implements LabelableComponent {
 
     this.createPopper();
     connectLabel(this);
+    connectForm(this);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -235,6 +241,7 @@ export class CalciteInputDatePicker implements LabelableComponent {
   disconnectedCallback(): void {
     this.destroyPopper();
     disconnectLabel(this);
+    disconnectForm(this);
   }
 
   render(): VNode {
@@ -360,6 +367,10 @@ export class CalciteInputDatePicker implements LabelableComponent {
   //--------------------------------------------------------------------------
 
   labelEl: HTMLCalciteLabelElement;
+
+  formEl: HTMLFormElement;
+
+  defaultValue: CalciteInputDatePicker["value"];
 
   @State() focusedInput: "start" | "end" = "start";
 

@@ -8,11 +8,13 @@ import {
   Listen,
   Method,
   Prop,
-  VNode
+  VNode,
+  Watch
 } from "@stencil/core";
 import { Direction, focusElement, getElementDir } from "../../utils/dom";
 import { Scale, Width } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
+import { connectForm, disconnectForm, FormAssociated } from "../../utils/form";
 import { CSS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 import { createObserver } from "../../utils/observers";
@@ -38,7 +40,7 @@ function isOptionGroup(
   styleUrl: "calcite-select.scss",
   shadow: true
 })
-export class CalciteSelect implements LabelableComponent {
+export class CalciteSelect implements LabelableComponent, FormAssociated {
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -48,41 +50,43 @@ export class CalciteSelect implements LabelableComponent {
   /**
    * When true, it prevents the option from being selected.
    */
-  @Prop({
-    reflect: true
-  })
-  disabled = false;
+  @Prop({ reflect: true }) disabled = false;
 
   /**
    * The component's label. This is required for accessibility purposes.
    *
    */
-  @Prop()
-  label!: string;
+  @Prop() label!: string;
+
+  /**
+   * The select's name. Gets submitted with the form.
+   */
+  @Prop() name: string;
 
   /**
    * The component scale.
    */
-  @Prop({
-    reflect: true
-  })
-  scale: Scale = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
+
+  /** The value of the selectedOption */
+  @Prop({ mutable: true }) value: string = null;
 
   /**
    * The currently selected option.
    *
    * @readonly
    */
-  @Prop({ mutable: true })
-  selectedOption: HTMLCalciteOptionElement;
+  @Prop({ mutable: true }) selectedOption: HTMLCalciteOptionElement;
+
+  @Watch("selectedOption")
+  selectedOptionHandler(selectedOption: HTMLCalciteOptionElement): void {
+    this.value = selectedOption?.value;
+  }
 
   /**
    * The component width.
    */
-  @Prop({
-    reflect: true
-  })
-  width: Width = "auto";
+  @Prop({ reflect: true }) width: Width = "auto";
 
   //--------------------------------------------------------------------------
   //
@@ -92,8 +96,11 @@ export class CalciteSelect implements LabelableComponent {
 
   labelEl: HTMLCalciteLabelElement;
 
-  @Element()
-  el: HTMLCalciteSelectElement;
+  formEl: HTMLFormElement;
+
+  defaultValue: CalciteSelect["value"];
+
+  @Element() el: HTMLCalciteSelectElement;
 
   private componentToNativeEl = new Map<CalciteOptionOrGroup, NativeOptionOrGroup>();
 
@@ -116,11 +123,13 @@ export class CalciteSelect implements LabelableComponent {
     });
 
     connectLabel(this);
+    connectForm(this);
   }
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     disconnectLabel(this);
+    disconnectForm(this);
   }
 
   //--------------------------------------------------------------------------
@@ -144,8 +153,7 @@ export class CalciteSelect implements LabelableComponent {
   /**
    * This event will fire whenever the selected option changes.
    */
-  @Event()
-  calciteSelectChange: EventEmitter<void>;
+  @Event() calciteSelectChange: EventEmitter<void>;
 
   private handleInternalSelectChange = (): void => {
     const selected = this.selectEl.selectedOptions[0];
