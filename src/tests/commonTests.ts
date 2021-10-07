@@ -267,7 +267,15 @@ async function assertLabelable({
   }
 
   if (propertyToToggle) {
-    expect(await component.getProperty(propertyToToggle)).toBe(!initialPropertyValue);
+    const toggledPropertyValue = !initialPropertyValue;
+    expect(await component.getProperty(propertyToToggle)).toBe(toggledPropertyValue);
+
+    // assert that direct clicks on component toggle property correctly
+    await component.setProperty(propertyToToggle, initialPropertyValue); // we reset as not all components toggle when clicked
+    await page.waitForChanges();
+    await component.click();
+    await page.waitForChanges();
+    expect(await component.getProperty(propertyToToggle)).toBe(toggledPropertyValue);
   }
 }
 

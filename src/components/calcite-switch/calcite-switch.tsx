@@ -141,10 +141,6 @@ export class CalciteSwitch implements LabelableComponent {
   }
 
   private clickHandler = (): void => {
-    if (this.labelEl) {
-      return;
-    }
-
     this.toggle();
   };
 
