@@ -229,24 +229,20 @@ export class CalciteInputTimePicker implements LabelableComponent, FormAssociate
     this.calciteInputEl = el;
   };
 
-  private getInputValue = (newInputValue: string): string => {
+  private setInputValue = (newInputValue: string): void => {
+    if (!this.calciteInputEl) {
+      return;
+    }
     if (this.hourDisplayFormat === "12") {
       const { hour, minute, second } = parseTimeString(newInputValue);
-      return newInputValue
+      this.calciteInputEl.value = newInputValue
         ? `${getMeridiemHour(hour)}:${minute}${this.step !== 60 ? ":" + second : ""} ${getMeridiem(
             hour
           )}`
         : null;
     } else {
-      return newInputValue;
+      this.calciteInputEl.value = newInputValue;
     }
-  };
-
-  private setInputValue = (newInputValue: string): void => {
-    if (!this.calciteInputEl) {
-      return;
-    }
-    this.calciteInputEl.value = this.getInputValue(newInputValue);
   };
 
   private setValue = ({
@@ -311,6 +307,12 @@ export class CalciteInputTimePicker implements LabelableComponent, FormAssociate
     connectForm(this);
   }
 
+  componentDidLoad() {
+    if (this.calciteInputEl.value !== this.value) {
+      this.setInputValue(this.value);
+    }
+  }
+
   disconnectedCallback() {
     disconnectLabel(this);
     disconnectForm(this);
@@ -339,7 +341,6 @@ export class CalciteInputTimePicker implements LabelableComponent, FormAssociate
             disabled={this.disabled}
             icon="clock"
             label={getLabelText(this)}
-            name={this.name}
             onCalciteInputBlur={this.calciteInputBlurHandler}
             onCalciteInputFocus={this.calciteInputFocusHandler}
             onCalciteInputInput={this.calciteInputInputHandler}
