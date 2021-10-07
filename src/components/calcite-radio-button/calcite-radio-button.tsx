@@ -4,6 +4,7 @@ import {
   Event,
   EventEmitter,
   h,
+  Host,
   Listen,
   Method,
   Prop,
@@ -371,30 +372,32 @@ export class CalciteRadioButton implements LabelableComponent {
     const value = this.value?.toString();
 
     return (
-      <div class={CSS.container} onClick={this.clickHandler}>
-        <input
-          aria-label={getLabelText(this)}
-          checked={this.checked}
-          disabled={this.disabled}
-          hidden={this.hidden}
-          id={`${this.guid}-input`}
-          name={this.name}
-          onBlur={this.onInputBlur}
-          onFocus={this.onInputFocus}
-          ref={this.setInputEl}
-          required={this.required}
-          type="radio"
-          value={value}
-        />
-        <calcite-radio
-          checked={this.checked}
-          disabled={this.disabled}
-          focused={this.focused}
-          hidden={this.hidden}
-          hovered={this.hovered}
-          scale={this.scale}
-        />
-      </div>
+      <Host onClick={this.clickHandler}>
+        <div class={CSS.container}>
+          <input
+            aria-label={getLabelText(this)}
+            checked={this.checked}
+            disabled={this.disabled}
+            hidden={this.hidden}
+            id={`${this.guid}-input`}
+            name={this.name}
+            onBlur={this.onInputBlur}
+            onFocus={this.onInputFocus}
+            ref={this.setInputEl}
+            required={this.required}
+            type="radio"
+            value={value}
+          />
+          <calcite-radio
+            checked={this.checked}
+            disabled={this.disabled}
+            focused={this.focused}
+            hidden={this.hidden}
+            hovered={this.hovered}
+            scale={this.scale}
+          />
+        </div>
+      </Host>
     );
   }
 }
