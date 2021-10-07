@@ -64,12 +64,22 @@ export class CalciteSwitch implements LabelableComponent {
   /** The scale of the switch */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** True if the switch is initially on */
-  @Prop({ reflect: true, mutable: true }) switched = false;
+  /** True if the switch is initially on
+   * @deprecated use 'checked' instead.
+   */
+  @Prop() switched = false;
 
   @Watch("switched")
-  switchedWatcher(newSwitched: boolean): void {
-    this.inputEl.checked = newSwitched;
+  switchedWatcher(switched: boolean): void {
+    this.checked = switched;
+  }
+
+  /** True if the switch is initially on */
+  @Prop({ reflect: true, mutable: true }) checked = false;
+
+  @Watch("checked")
+  checkedWatcher(checked: boolean): void {
+    this.inputEl.checked = checked;
   }
 
   /** The value of the switch input */
@@ -121,7 +131,7 @@ export class CalciteSwitch implements LabelableComponent {
   };
 
   private setupInput(): void {
-    this.switched && this.inputEl.setAttribute("checked", "");
+    this.checked && this.inputEl.setAttribute("checked", "");
     this.inputEl.disabled = this.disabled;
     this.inputEl.id = `${this.guid}-input`;
     this.inputEl.name = this.name;
@@ -134,9 +144,11 @@ export class CalciteSwitch implements LabelableComponent {
   }
 
   private toggle(): void {
-    this.switched = !this.switched;
+    this.checked = !this.checked;
     this.calciteSwitchChange.emit({
-      switched: this.switched
+      // todo: We should remove emmitting redudant props in event payload.
+      // https://github.com/Esri/calcite-components/issues/3163
+      switched: this.checked
     });
   }
 
@@ -151,7 +163,7 @@ export class CalciteSwitch implements LabelableComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * Fires when the switched value has changed.
+   * Fires when the checked value has changed.
    */
   @Event() calciteSwitchChange: EventEmitter;
 
@@ -199,7 +211,7 @@ export class CalciteSwitch implements LabelableComponent {
     const dir = getElementDir(this.el);
     return (
       <Host
-        aria-checked={this.switched.toString()}
+        aria-checked={this.checked.toString()}
         aria-label={getLabelText(this)}
         onClick={this.clickHandler}
         role="switch"
