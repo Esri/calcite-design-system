@@ -347,7 +347,6 @@ export class CalciteInputTimePicker implements LabelableComponent, FormAssociate
             ref={this.setCalciteInputEl}
             scale={this.scale}
             step={this.step}
-            value={this.getInputValue(this.value)}
           />
         </div>
         <calcite-popover
