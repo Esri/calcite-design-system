@@ -229,20 +229,24 @@ export class CalciteInputTimePicker implements LabelableComponent, FormAssociate
     this.calciteInputEl = el;
   };
 
-  private setInputValue = (newInputValue: string): void => {
-    if (!this.calciteInputEl) {
-      return;
-    }
+  private getInputValue = (newInputValue: string): string => {
     if (this.hourDisplayFormat === "12") {
       const { hour, minute, second } = parseTimeString(newInputValue);
-      this.calciteInputEl.value = newInputValue
+      return newInputValue
         ? `${getMeridiemHour(hour)}:${minute}${this.step !== 60 ? ":" + second : ""} ${getMeridiem(
             hour
           )}`
         : null;
     } else {
-      this.calciteInputEl.value = newInputValue;
+      return newInputValue;
     }
+  };
+
+  private setInputValue = (newInputValue: string): void => {
+    if (!this.calciteInputEl) {
+      return;
+    }
+    this.calciteInputEl.value = this.getInputValue(newInputValue);
   };
 
   private setValue = ({
@@ -307,12 +311,6 @@ export class CalciteInputTimePicker implements LabelableComponent, FormAssociate
     connectForm(this);
   }
 
-  componentDidLoad() {
-    if (this.calciteInputEl.value !== this.value) {
-      this.setInputValue(this.value);
-    }
-  }
-
   disconnectedCallback() {
     disconnectLabel(this);
     disconnectForm(this);
@@ -348,6 +346,7 @@ export class CalciteInputTimePicker implements LabelableComponent, FormAssociate
             ref={this.setCalciteInputEl}
             scale={this.scale}
             step={this.step}
+            value={this.getInputValue(this.value)}
           />
         </div>
         <calcite-popover
