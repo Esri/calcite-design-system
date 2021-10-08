@@ -999,4 +999,40 @@ describe("calcite-dropdown", () => {
 
     expect(finalSelectedItem).toBe("item-3");
   });
+
+  it("should set position to static", async () => {
+    const dropDownTemplateHTML = `
+    <calcite-tabs>
+  <calcite-tab-nav slot="tab-nav">
+    <calcite-tab-title is-active>First tab</calcite-tab-title>
+  </calcite-tab-nav>
+  <calcite-tab is-active>
+
+    <div style="display: flex; flex-direction: row; gap: 1rem;">
+      <calcite-dropdown >
+        <calcite-button slot="dropdown-trigger" class="dropdown">Dropdown</calcite-button>
+
+        <calcite-dropdown-group group-title="Select one">
+          <calcite-dropdown-item>First</calcite-dropdown-item>
+          <calcite-dropdown-item>Second</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>  
+    </div>
+  </calcite-tab>
+</calcite-tabs>`;
+
+    const page = await newE2EPage({
+      html: dropDownTemplateHTML
+    });
+
+    const button = await page.find("calcite-button");
+
+    await button.click();
+
+    await page.waitForChanges();
+    const dropdown = await page.find("calcite-dropdown >>> .calcite-dropdown-content");
+    const { overflow } = await dropdown.getComputedStyle();
+
+    expect(overflow).not.toBe("hidden");
+  });
 });
