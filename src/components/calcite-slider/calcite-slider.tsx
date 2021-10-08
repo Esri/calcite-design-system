@@ -566,27 +566,32 @@ export class CalciteSlider implements LabelableComponent {
               })}
             </div>
           </div>
-          {!this.precise && !this.labelHandles && this.isRange && minHandle}
-          {!this.hasHistogram &&
-            !this.precise &&
-            this.labelHandles &&
-            this.isRange &&
-            minLabeledHandle}
-          {this.precise && !this.labelHandles && this.isRange && minPreciseHandle}
-          {this.precise && this.labelHandles && this.isRange && minLabeledPreciseHandle}
-          {this.hasHistogram &&
-            !this.precise &&
-            this.labelHandles &&
-            this.isRange &&
-            minHistogramLabeledHandle}
+          <div class="thumb-container">
+            {!this.precise && !this.labelHandles && this.isRange && minHandle}
+            {!this.hasHistogram &&
+              !this.precise &&
+              this.labelHandles &&
+              this.isRange &&
+              minLabeledHandle}
+            {this.precise && !this.labelHandles && this.isRange && minPreciseHandle}
+            {this.precise && this.labelHandles && this.isRange && minLabeledPreciseHandle}
+            {this.hasHistogram &&
+              !this.precise &&
+              this.labelHandles &&
+              this.isRange &&
+              minHistogramLabeledHandle}
 
-          {!this.precise && !this.labelHandles && handle}
-          {!this.hasHistogram && !this.precise && this.labelHandles && labeledHandle}
-          {!this.hasHistogram && this.precise && !this.labelHandles && preciseHandle}
-          {this.hasHistogram && this.precise && !this.labelHandles && histogramPreciseHandle}
-          {!this.hasHistogram && this.precise && this.labelHandles && labeledPreciseHandle}
-          {this.hasHistogram && !this.precise && this.labelHandles && histogramLabeledHandle}
-          {this.hasHistogram && this.precise && this.labelHandles && histogramLabeledPreciseHandle}
+            {!this.precise && !this.labelHandles && handle}
+            {!this.hasHistogram && !this.precise && this.labelHandles && labeledHandle}
+            {!this.hasHistogram && this.precise && !this.labelHandles && preciseHandle}
+            {this.hasHistogram && this.precise && !this.labelHandles && histogramPreciseHandle}
+            {!this.hasHistogram && this.precise && this.labelHandles && labeledPreciseHandle}
+            {this.hasHistogram && !this.precise && this.labelHandles && histogramLabeledHandle}
+            {this.hasHistogram &&
+              this.precise &&
+              this.labelHandles &&
+              histogramLabeledPreciseHandle}
+          </div>
         </div>
       </Host>
     );

@@ -44,8 +44,8 @@
 
 .container {
   @apply block relative;
-  padding: calc(var(--calcite-slider-handle-size) / 2) 0;
-  margin: calc(var(--calcite-slider-handle-size) / 2) theme("margin.2");
+  padding: calc(var(--calcite-slider-handle-size) / 2);
+  margin: calc(var(--calcite-slider-handle-size) / 2) 0;
   --calcite-slider-full-handle-height: calc(
     var(--calcite-slider-handle-size) + var(--calcite-slider-handle-extension-height)
   );
@@ -79,6 +79,10 @@
   .container .thumb--value {
     --calcite-slider-thumb-y-offset: calc(var(--calcite-slider-full-handle-height) * -1);
   }
+}
+
+.thumb-container {
+  @apply max-w-full relative;
 }
 
 .thumb {
