@@ -211,6 +211,29 @@ export function placeholderImage({
 }
 
 /**
+ * Helper to get an E2EElement's x,y coordinates
+ * @param page
+ * @param elementSelector
+ * @param shadowSelector
+ */
+export async function getElementXY(
+  page: E2EPage,
+  elementSelector: string,
+  shadowSelector?: string
+): Promise<[number, number]> {
+  return page.evaluate(
+    ([elementSelector, shadowSelector]): [number, number] => {
+      const element = document.querySelector(elementSelector);
+      const measureTarget = shadowSelector ? element.shadowRoot.querySelector(shadowSelector) : element;
+      const { x, y } = measureTarget.getBoundingClientRect();
+
+      return [x, y];
+    },
+    [elementSelector, shadowSelector]
+  );
+}
+
+/**
  * This util helps visualize mouse movement when running tests in headful mode.
  *
  * Note that this util should only be used for test debugging purposes and not be included in a test.

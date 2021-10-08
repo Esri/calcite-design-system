@@ -43,7 +43,7 @@ export class CalciteAction {
   @Prop({ reflect: true }) active = false;
 
   /**
-   * Indicates the alignment when text-enabled is false.
+   * Optionally specify the horizontal alignment of button elements with text content.
    */
   @Prop({ reflect: true }) alignment?: Alignment;
 
