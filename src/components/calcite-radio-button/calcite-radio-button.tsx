@@ -272,6 +272,12 @@ export class CalciteRadioButton implements LabelableComponent {
   //--------------------------------------------------------------------------
 
   /**
+   * Fires when the radio button is blurred.
+   * @internal
+   */
+  @Event() calciteRadioButtonBlur: EventEmitter;
+
+  /**
    * Fires only when the radio button is checked.  This behavior is identical to the native HTML input element.
    * Since this event does not fire when the radio button is unchecked, it's not recommended to attach a listener for this event
    * directly on the element, but instead either attach it to a node that contains all of the radio buttons in the group
@@ -287,10 +293,10 @@ export class CalciteRadioButton implements LabelableComponent {
   @Event() calciteRadioButtonCheckedChange: EventEmitter;
 
   /**
-   * Fires when the radio button is either focused or blurred.
+   * Fires when the radio button is focused.
    * @internal
    */
-  @Event() calciteRadioButtonFocusedChange: EventEmitter;
+  @Event() calciteRadioButtonFocus: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -319,12 +325,12 @@ export class CalciteRadioButton implements LabelableComponent {
 
   private onInputBlur = (): void => {
     this.focused = false;
-    this.calciteRadioButtonFocusedChange.emit();
+    this.calciteRadioButtonBlur.emit();
   };
 
   private onInputFocus = (): void => {
     this.focused = true;
-    this.calciteRadioButtonFocusedChange.emit();
+    this.calciteRadioButtonFocus.emit();
   };
 
   //--------------------------------------------------------------------------

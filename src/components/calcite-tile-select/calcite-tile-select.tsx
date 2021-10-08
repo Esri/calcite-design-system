@@ -1,4 +1,16 @@
-import { Component, Element, h, Prop, Listen, VNode, Watch, State, Method } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Prop,
+  Listen,
+  VNode,
+  Watch,
+  State,
+  Method
+} from "@stencil/core";
 import { Alignment, Width } from "../interfaces";
 import { TileSelectType } from "./interfaces";
 import { getElementDir } from "../../utils/dom";
@@ -95,6 +107,17 @@ export class CalciteTileSelect {
 
   //--------------------------------------------------------------------------
   //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  /**
+   * Emits a custom change event.  For checkboxes, it emits when the checkbox is checked or unchecked.  For radios it only emits when it is checked.
+   */
+  @Event() calciteTileSelectChange: EventEmitter;
+
+  //--------------------------------------------------------------------------
+  //
   //  Public Methods
   //
   //--------------------------------------------------------------------------
@@ -112,23 +135,34 @@ export class CalciteTileSelect {
   //--------------------------------------------------------------------------
 
   @Listen("calciteCheckboxChange")
-  calciteCheckboxChangeEvent(event: CustomEvent): void {
+  checkboxChangeHandler(event: CustomEvent): void {
     const checkbox = event.target as HTMLCalciteCheckboxElement;
     if (checkbox === this.input) {
       this.checked = checkbox.checked;
     }
+    this.calciteTileSelectChange.emit();
   }
 
-  @Listen("calciteCheckboxFocusedChange")
-  calciteCheckboxFocusedChangeEvent(event: CustomEvent): void {
+  @Listen("calciteCheckboxFocus")
+  checkboxFocusHandler(event: CustomEvent): void {
     const checkbox = event.target as HTMLCalciteCheckboxElement;
     if (checkbox === this.input) {
       this.focused = event.detail;
     }
   }
 
+  @Listen("calciteRadioButtonChange")
+  radioButtonChangeHandler(event: CustomEvent): void {
+    const radioButton = event.target as HTMLCalciteRadioButtonElement;
+    if (radioButton === this.input) {
+      this.checked = radioButton.checked;
+    }
+    event.stopPropagation();
+    this.calciteTileSelectChange.emit();
+  }
+
   @Listen("calciteRadioButtonCheckedChange")
-  calciteRadioButtonCheckedChangeEvent(event: CustomEvent): void {
+  radioButtonCheckedChangeHandler(event: CustomEvent): void {
     const radioButton = event.target as HTMLCalciteRadioButtonElement;
     if (radioButton === this.input) {
       this.checked = radioButton.checked;
@@ -136,8 +170,8 @@ export class CalciteTileSelect {
     event.stopPropagation();
   }
 
-  @Listen("calciteRadioButtonFocusedChange")
-  calciteRadioButtonFocusedChangeEvent(event: CustomEvent): void {
+  @Listen("calciteRadioButtonFocus")
+  radioButtonFocusHandler(event: CustomEvent): void {
     const radioButton = event.target as HTMLCalciteRadioButtonElement;
     if (radioButton === this.input) {
       this.focused = radioButton.focused;

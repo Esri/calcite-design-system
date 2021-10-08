@@ -645,5 +645,15 @@
         </calcite-tile-select-group>
       </div>
     </div>
+
+    <script>
+      (async () => {
+        await customElements.whenDefined("calcite-tile-select");
+
+        document.addEventListener("calciteTileSelectChange", (event) => {
+          console.log("calciteTileSelectChange", event.target.name, event.target.value, event.target.checked);
+        });
+      })();
+    </script>
   </body>
 </html>
