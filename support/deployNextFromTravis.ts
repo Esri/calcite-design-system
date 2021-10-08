@@ -90,6 +90,9 @@ const exec = pify(childProcess.exec);
   try {
     await deployNextFromTravis();
   } catch (error) {
-    console.log("An error occurred during deployment ❌");
+    console.log(
+      `An error occurred during deployment ❌:
+${error}`
+    );
   }
 })();

@@ -1,3 +1,3 @@
 ```html
-<label> <calcite-switch switched></calcite-switch> Switch is on </label>
+<label> <calcite-switch checked></calcite-switch> Switch is on </label>
 ```
