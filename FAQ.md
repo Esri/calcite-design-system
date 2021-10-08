@@ -63,19 +63,19 @@ The `calcite-dropdown-item`s are placed in `calcite-dropdown`'s default slot. In
 
 ### How do I change themes?
 
-Calcite Components provide light and dark themes which can be changed using CSS classes: `calcite-theme-light` and `calcite-theme-dark`. There is also a `calcite-theme-auto` class which defers to the browser's CSS 'prefers-color-scheme' media query to decide whether the light or dark theme will be used.
+Calcite Components provide light and dark themes which can be changed using CSS classes: `calcite-theme-light` and `calcite-theme-dark`. There is also a `calcite-theme-auto` class which defers to the browser's CSS "prefers-color-scheme" media query to decide whether the light or dark theme will be used.
 
 Setting the theme class on an element changes all of their child nodes as well. Therefore, to switch the whole app from light to dark, we can do the following:
 
 ```html
 <div class="calcite-theme-dark" >
   <!-- your app -->
-</div
+</div>
 ```
 
 ### How do I change the style of a component?
 
-Calcite Components provide [CSS variables](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties) to override styles. The CSS cannot be altered for a component without the variables due to web component's encapsulation. There are CSS variables for [color](https://developers.arcgis.com/calcite-design-system/foundations/colors/) and [typography](https://developers.arcgis.com/calcite-design-system/foundations/type/). Additionally, some Calcite Components have their own CSS variables to change component-specific styles. These styles can be found in a component's documentation. For example, here are the [css variables provided](https://developers.arcgis.com/calcite-design-system/components/loader/#component-api-styles) for `calcite-loader`.
+Calcite Components provide CSS variables to override styles. The CSS cannot be altered for a component without the variables due to web component's encapsulation. There are CSS variables for [color](https://developers.arcgis.com/calcite-design-system/foundations/colors/) and [typography](https://developers.arcgis.com/calcite-design-system/foundations/type/). Additionally, some Calcite Components have their own CSS variables to change component-specific styles. These styles can be found in a component's documentation. For example, [here are the css variables](https://developers.arcgis.com/calcite-design-system/components/loader/#component-api-styles) provided for `calcite-loader`.
 
 If we want to swap the foreground and text colors, we can use the variables:
 
@@ -85,6 +85,8 @@ calcite-notice {
   --calcite-ui-text-1: #ffffff;
 }
 ```
+
+The CSS variable [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties) provides a detailed explanation of the functionality.
 
 ### Is Internationalization supported?
 
