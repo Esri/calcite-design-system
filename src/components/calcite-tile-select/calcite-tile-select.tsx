@@ -140,6 +140,7 @@ export class CalciteTileSelect {
     if (checkbox === this.input) {
       this.checked = checkbox.checked;
     }
+    event.stopPropagation();
     this.calciteTileSelectChange.emit();
   }
 
