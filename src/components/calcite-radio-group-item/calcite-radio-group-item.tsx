@@ -7,13 +7,14 @@ import {
   Element,
   Host,
   Watch,
-  Build,
   State,
   VNode
 } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { RadioAppearance } from "../calcite-radio-group/interfaces";
 import { Position, Layout, Scale } from "../interfaces";
+import { SLOTS, CSS } from "./resources";
+import { createObserver } from "../../utils/observers";
 
 @Component({
   tag: "calcite-radio-group-item",
@@ -49,7 +50,7 @@ export class CalciteRadioGroupItem {
   @Prop({ reflect: true }) icon?: string;
 
   /** flip the icon in rtl */
-  @Prop({ reflect: true }) iconFlipRtl?: boolean;
+  @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** optionally used with icon, select where to position the icon */
   @Prop({ reflect: true }) iconPosition?: Position = "start";
@@ -67,21 +68,19 @@ export class CalciteRadioGroupItem {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    const inputProxy: HTMLInputElement = this.el.querySelector(`input[slot="input"]`);
+    const inputProxy: HTMLInputElement = this.el.querySelector(`input[slot=${SLOTS.input}]`);
 
     if (inputProxy) {
       this.value = inputProxy.value;
       this.checked = inputProxy.checked;
-      if (Build.isBrowser) {
-        this.mutationObserver.observe(inputProxy, { attributes: true });
-      }
+      this.mutationObserver?.observe(inputProxy, { attributes: true });
     }
 
     this.inputProxy = inputProxy;
   }
 
   disconnectedCallback(): void {
-    this.mutationObserver.disconnect();
+    this.mutationObserver?.disconnect();
   }
 
   componentWillLoad(): void {
@@ -100,7 +99,7 @@ export class CalciteRadioGroupItem {
 
     const iconEl = (
       <calcite-icon
-        class="radio-group-item-icon"
+        class={CSS.radioGroupItemIcon}
         dir={dir}
         flipRtl={this.iconFlipRtl}
         icon={this.icon}
@@ -121,7 +120,7 @@ export class CalciteRadioGroupItem {
         >
           {this.icon && this.iconPosition === "start" ? iconEl : null}
           <slot>{useFallback ? value : ""}</slot>
-          <slot name="input" />
+          <slot name={SLOTS.input} />
           {this.icon && this.iconPosition === "end" ? iconEl : null}
         </label>
       </Host>
@@ -150,17 +149,13 @@ export class CalciteRadioGroupItem {
 
   private inputProxy: HTMLInputElement;
 
-  private mutationObserver = this.getMutationObserver();
+  private mutationObserver = createObserver("mutation", () => this.syncFromExternalInput());
 
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
-  private getMutationObserver(): MutationObserver | null {
-    return Build.isBrowser && new MutationObserver(() => this.syncFromExternalInput());
-  }
 
   private syncFromExternalInput(): void {
     if (this.inputProxy) {

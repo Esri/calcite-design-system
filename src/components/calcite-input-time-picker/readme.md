@@ -2,6 +2,20 @@
 
 <!-- Auto Generated Below -->
 
+## Usage
+
+### Basic
+
+```html
+<calcite-input-time-picker
+  hour-display-format="12"
+  name="light"
+  scale="m"
+  step="1"
+  value="12:21"
+></calcite-input-time-picker>
+```
+
 ## Properties
 
 | Property            | Attribute             | Description                                                                                | Type                | Default     |
@@ -35,6 +49,8 @@
 ## Methods
 
 ### `setFocus() => Promise<void>`
+
+Sets focus on the component.
 
 #### Returns
 

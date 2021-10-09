@@ -1,11 +1,15 @@
 import { Component, h, Prop, Event, EventEmitter, Element, VNode, Method } from "@stencil/core";
 import { getElementDir, getSlotted } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import { CSS, TEXT } from "./resources";
+import { CSS, TEXT, SLOTS, ICONS } from "./resources";
 import { ChipColor } from "./interfaces";
 import { Appearance, Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 
+/**
+ * @slot - A slot for adding text.
+ * @slot image - A slot for adding an image.
+ */
 @Component({
   tag: "calcite-chip",
   styleUrl: "calcite-chip.scss",
@@ -25,7 +29,7 @@ export class CalciteChip {
   @Prop({ reflect: true }) color: ChipColor = "grey";
 
   /** Optionally show a button the user can click to dismiss the chip */
-  @Prop({ reflect: true }) dismissible?: boolean = false;
+  @Prop({ reflect: true }) dismissible = false;
 
   /** Aria label for the "x" button
    * @default "Close"
@@ -36,11 +40,12 @@ export class CalciteChip {
   @Prop({ reflect: true }) icon?: string;
 
   /** flip the icon in rtl */
-  @Prop({ reflect: true }) iconFlipRtl?: boolean;
+  @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** specify the scale of the chip, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
 
+  /** The assigned value for the chip */
   @Prop() value!: any;
 
   // --------------------------------------------------------------------------
@@ -57,6 +62,7 @@ export class CalciteChip {
   //
   //--------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     this.closeButton?.focus();
@@ -94,11 +100,11 @@ export class CalciteChip {
 
   renderChipImage(): VNode {
     const { el } = this;
-    const hasChipImage = getSlotted(el, "image");
+    const hasChipImage = getSlotted(el, SLOTS.image);
 
     return hasChipImage ? (
-      <div class="chip-image-container">
-        <slot name="image" />
+      <div class={CSS.chipImageContainer}>
+        <slot name={SLOTS.image} />
       </div>
     ) : null;
   }
@@ -108,7 +114,7 @@ export class CalciteChip {
 
     const iconEl = (
       <calcite-icon
-        class="calcite-chip--icon"
+        class={CSS.calciteChipIcon}
         dir={dir}
         flipRtl={this.iconFlipRtl}
         icon={this.icon}
@@ -124,7 +130,7 @@ export class CalciteChip {
         onClick={this.closeClickHandler}
         ref={(el) => (this.closeButton = el)}
       >
-        <calcite-icon icon="x" scale="s" />
+        <calcite-icon icon={ICONS.close} scale="s" />
       </button>
     );
 

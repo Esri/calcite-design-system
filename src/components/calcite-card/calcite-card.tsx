@@ -4,17 +4,17 @@ import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { CSS_UTILITY } from "../../utils/resources";
 
+/** Cards do not include a grid or bounding container
+ * - cards will expand to fit the width of their container
+ */
+
 /**
- * @slot thumbnail - A slot for adding a thumnail to the card.
  * @slot - A slot for adding subheader/description content.
+ * @slot thumbnail - A slot for adding a thumbnail to the card.
  * @slot title - A slot for adding a card title.
  * @slot subtitle - A slot for adding a card subtitle or short summary.
  * @slot footer-leading - A slot for adding a leading footer.
  * @slot footer-trailing - A slot for adding a trailing footer.
- */
-
-/** Cards do not include a grid or bounding container
- * - cards will expand to fit the width of their container
  */
 
 @Component({

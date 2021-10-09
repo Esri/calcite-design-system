@@ -20,7 +20,11 @@ import { getKey } from "../../utils/key";
 import { TabID, TabLayout, TabPosition } from "../calcite-tabs/interfaces";
 import { FlipContext, Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
+import { createObserver } from "../../utils/observers";
 
+/**
+ * @slot - A slot for adding text.
+ */
 @Component({
   tag: "calcite-tab-title",
   styleUrl: "calcite-tab-title.scss",
@@ -66,7 +70,7 @@ export class CalciteTabTitle {
   @Prop({ reflect: true, mutable: true }) scale: Scale;
 
   /** @internal Parent tabs component bordered value */
-  @Prop({ reflect: true, mutable: true }) bordered?: boolean = false;
+  @Prop({ reflect: true, mutable: true }) bordered = false;
 
   /**
    * Optionally include a unique name for the tab title,
@@ -94,7 +98,7 @@ export class CalciteTabTitle {
   }
 
   disconnectedCallback(): void {
-    this.observer.disconnect();
+    this.mutationObserver?.disconnect();
     // Dispatching to body in order to be listened by other elements that are still connected to the DOM.
     document.body?.dispatchEvent(
       new CustomEvent("calciteTabTitleUnregister", {
@@ -296,12 +300,14 @@ export class CalciteTabTitle {
   //--------------------------------------------------------------------------
 
   /** watches for changing text content **/
-  private observer: MutationObserver;
+  private mutationObserver: MutationObserver = createObserver("mutation", () =>
+    this.updateHasText()
+  );
 
   @State() private controls: string;
 
   /** determine if there is slotted text for styling purposes */
-  @State() private hasText?: boolean = false;
+  @State() private hasText = false;
 
   /**
    * @internal
@@ -318,12 +324,7 @@ export class CalciteTabTitle {
   }
 
   private setupTextContentObserver(): void {
-    if (Build.isBrowser) {
-      this.observer = new MutationObserver(() => {
-        this.updateHasText();
-      });
-      this.observer.observe(this.el, { childList: true, subtree: true });
-    }
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   private emitActiveTab(): void {

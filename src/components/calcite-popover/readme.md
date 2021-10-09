@@ -45,11 +45,15 @@
 
 ### `reposition() => Promise<void>`
 
+Updates the position of the component.
+
 #### Returns
 
 Type: `Promise<void>`
 
 ### `setFocus(focusId?: "close-button") => Promise<void>`
+
+Sets focus on the component.
 
 #### Returns
 
@@ -57,15 +61,17 @@ Type: `Promise<void>`
 
 ### `toggle(value?: boolean) => Promise<void>`
 
+Toggles the popover's open property.
+
 #### Returns
 
 Type: `Promise<void>`
 
 ## Slots
 
-| Slot      | Description                                                                     |
-| --------- | ------------------------------------------------------------------------------- |
-| `"image"` | A slot for adding an image. The image will appear above the other slot content. |
+| Slot | Description                       |
+| ---- | --------------------------------- |
+|      | A slot for adding custom content. |
 
 ## Dependencies
 

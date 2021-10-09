@@ -1,6 +1,8 @@
 import { FunctionalComponent, h } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
-import { Position } from "../interfaces";
+import { queryActions } from "../calcite-action-bar/utils";
+import { Position, Scale } from "../interfaces";
+import { SLOTS as ACTION_GROUP_SLOTS } from "../calcite-action-group/resources";
 
 interface CalciteExpandToggleProps {
   expanded: boolean;
@@ -11,6 +13,7 @@ interface CalciteExpandToggleProps {
   tooltip?: HTMLCalciteTooltipElement;
   toggle: () => void;
   ref?: (el: HTMLElement) => void;
+  scale?: Scale;
 }
 
 const ICONS = {
@@ -29,8 +32,8 @@ export function toggleChildActionText({
   parent: HTMLElement;
   expanded: boolean;
 }): void {
-  Array.from(parent.querySelectorAll("calcite-action"))
-    .filter((el) => el.slot !== "menu-actions")
+  queryActions(parent)
+    .filter((el) => el.slot !== ACTION_GROUP_SLOTS.menuActions)
     .forEach((action) => (action.textEnabled = expanded));
   parent.querySelectorAll("calcite-action-group").forEach((group) => (group.expanded = expanded));
 }
@@ -65,7 +68,8 @@ export const CalciteExpandToggle: FunctionalComponent<CalciteExpandToggleProps> 
   el,
   position,
   tooltip,
-  ref
+  ref,
+  scale
 }) => {
   const rtl = getElementDir(el) === "rtl";
 
@@ -88,6 +92,7 @@ export const CalciteExpandToggle: FunctionalComponent<CalciteExpandToggleProps> 
       ref={(referenceElement): HTMLCalciteActionElement =>
         setTooltipReference({ tooltip, referenceElement, expanded, ref })
       }
+      scale={scale}
       text={expandText}
       textEnabled={expanded}
     />

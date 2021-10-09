@@ -6,35 +6,7 @@ The `calcite-block` component is intended for displaying a heading and content. 
 
 ## Usage
 
-### Basic
-
-#### Default (non-collapsible)
-
-```html
-<calcite-block heading="Fruit" summary="It's nature's candy"> </calcite-block>
-```
-
-#### Header with control
-
-Renders a header and control with a slot for adding a single HTML element (in the header).
-
-```html
-<calcite-block heading="This header" summary="it has an input">
-  <div slot="control"><input placeholder="I am in control">
-</calcite-block>
-```
-
-#### Header with Icon
-
-Renders a header and icon with the icon.
-
-```html
-<calcite-block heading="Icon't believe it!">
-  <div slot="icon">🤯</div>
-</calcite-block>
-```
-
-#### Header with content (always open)
+### Always-open
 
 Renders a header and content that remains open - no collapsible option.
 
@@ -44,7 +16,15 @@ Renders a header and content that remains open - no collapsible option.
 </calcite-block>
 ```
 
-#### Header with content (collapsible)
+### Basic
+
+Renders a basic, non-collapsible block.
+
+```html
+<calcite-block heading="Fruit" summary="It's nature's candy"> </calcite-block>
+```
+
+### Collapsible
 
 Renders a header with a clickable icon to toggle the block open and closed.
 
@@ -54,23 +34,43 @@ Renders a header with a clickable icon to toggle the block open and closed.
 </calcite-block>
 ```
 
+### Header-with-control
+
+Renders a header and control with a slot for adding a single HTML element (in the header).
+
+```html
+<calcite-block heading="This header" summary="it has an input">
+  <calcite-action icon="pencil" text="edit" slot="control"></calcite-action>
+</calcite-block>
+```
+
+### Header-with-icon
+
+Renders a header and icon with the icon.
+
+```html
+<calcite-block heading="Icon't believe it!">
+  <div slot="icon">🤯</div>
+</calcite-block>
+```
+
 ## Properties
 
-| Property       | Attribute       | Description                                                                                 | Type                             | Default        |
-| -------------- | --------------- | ------------------------------------------------------------------------------------------- | -------------------------------- | -------------- |
-| `collapsible`  | `collapsible`   | When true, this block will be collapsible.                                                  | `boolean`                        | `false`        |
-| `disabled`     | `disabled`      | When true, disabled prevents interaction. This state shows items with lower opacity/grayed. | `boolean`                        | `false`        |
-| `dragHandle`   | `drag-handle`   | When true, displays a drag handle in the header.                                            | `boolean`                        | `false`        |
-| `heading`      | `heading`       | Block heading.                                                                              | `string`                         | `undefined`    |
-| `headingLevel` | `heading-level` | Number at which section headings should start for this component.                           | `1 \| 2 \| 3 \| 4 \| 5 \| 6`     | `undefined`    |
-| `intlCollapse` | `intl-collapse` | Tooltip used for the toggle when expanded.                                                  | `string`                         | `undefined`    |
-| `intlExpand`   | `intl-expand`   | Tooltip used for the toggle when collapsed.                                                 | `string`                         | `undefined`    |
-| `intlLoading`  | `intl-loading`  | string to override English loading text                                                     | `string`                         | `TEXT.loading` |
-| `intlOptions`  | `intl-options`  | Text string used for the actions menu                                                       | `string`                         | `TEXT.options` |
-| `loading`      | `loading`       | When true, content is waiting to be loaded. This state shows a busy indicator.              | `boolean`                        | `false`        |
-| `open`         | `open`          | When true, the block's content will be displayed.                                           | `boolean`                        | `false`        |
-| `status`       | `status`        | Block status. Updates or adds icon to show related icon and color.                          | `"idle" \| "invalid" \| "valid"` | `undefined`    |
-| `summary`      | `summary`       | Block summary.                                                                              | `string`                         | `undefined`    |
+| Property               | Attribute       | Description                                                                                 | Type                             | Default        |
+| ---------------------- | --------------- | ------------------------------------------------------------------------------------------- | -------------------------------- | -------------- |
+| `collapsible`          | `collapsible`   | When true, this block will be collapsible.                                                  | `boolean`                        | `false`        |
+| `disabled`             | `disabled`      | When true, disabled prevents interaction. This state shows items with lower opacity/grayed. | `boolean`                        | `false`        |
+| `dragHandle`           | `drag-handle`   | When true, displays a drag handle in the header.                                            | `boolean`                        | `false`        |
+| `heading` _(required)_ | `heading`       | Block heading.                                                                              | `string`                         | `undefined`    |
+| `headingLevel`         | `heading-level` | Number at which section headings should start for this component.                           | `1 \| 2 \| 3 \| 4 \| 5 \| 6`     | `undefined`    |
+| `intlCollapse`         | `intl-collapse` | Tooltip used for the toggle when expanded.                                                  | `string`                         | `undefined`    |
+| `intlExpand`           | `intl-expand`   | Tooltip used for the toggle when collapsed.                                                 | `string`                         | `undefined`    |
+| `intlLoading`          | `intl-loading`  | string to override English loading text                                                     | `string`                         | `TEXT.loading` |
+| `intlOptions`          | `intl-options`  | Text string used for the actions menu                                                       | `string`                         | `TEXT.options` |
+| `loading`              | `loading`       | When true, content is waiting to be loaded. This state shows a busy indicator.              | `boolean`                        | `false`        |
+| `open`                 | `open`          | When true, the block's content will be displayed.                                           | `boolean`                        | `false`        |
+| `status`               | `status`        | Block status. Updates or adds icon to show related icon and color.                          | `"idle" \| "invalid" \| "valid"` | `undefined`    |
+| `summary`              | `summary`       | Block summary.                                                                              | `string`                         | `undefined`    |
 
 ## Events
 

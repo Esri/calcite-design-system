@@ -8,6 +8,8 @@ import {
 import { ButtonAlignment, ButtonAppearance, ButtonColor } from "./interfaces";
 import { FlipContext, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
+import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
+import { createObserver } from "../../utils/observers";
 
 @Component({
   tag: "calcite-button",
@@ -15,11 +17,11 @@ import { CSS_UTILITY } from "../../utils/resources";
   shadow: true
 })
 
-/** @slot default text slot for button text */
+/** @slot - A slot for adding text. */
 
 /** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
 /** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
-export class CalciteButton {
+export class CalciteButton implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -47,7 +49,7 @@ export class CalciteButton {
   @Prop({ reflect: true }) color: ButtonColor = "blue";
 
   /** is the button disabled  */
-  @Prop({ reflect: true }) disabled?: boolean;
+  @Prop({ reflect: true }) disabled = false;
 
   /** optionally pass a href - used to determine if the component should render as a button or an anchor */
   @Prop({ reflect: true }) href?: string;
@@ -67,7 +69,7 @@ export class CalciteButton {
   @Prop() intlLoading?: string = TEXT.loading;
 
   /** optionally add a calcite-loader component to the button, disabling interaction.  */
-  @Prop({ reflect: true }) loading?: boolean = false;
+  @Prop({ reflect: true }) loading = false;
 
   /** The name attribute to apply to the button */
   @Prop() name?: string;
@@ -79,7 +81,7 @@ export class CalciteButton {
   @Prop() form?: string;
 
   /** optionally add a round style to the button  */
-  @Prop({ reflect: true }) round?: boolean = false;
+  @Prop({ reflect: true }) round = false;
 
   /** specify the scale of the button, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -118,10 +120,12 @@ export class CalciteButton {
     this.childElType = this.href ? "a" : "button";
     this.hasLoader = this.loading;
     this.setupTextContentObserver();
+    connectLabel(this);
   }
 
   disconnectedCallback(): void {
-    this.observer.disconnect();
+    this.mutationObserver?.disconnect();
+    disconnectLabel(this);
   }
 
   componentWillLoad(): void {
@@ -177,7 +181,7 @@ export class CalciteButton {
 
     return (
       <Tag
-        aria-label={this.label}
+        aria-label={getLabelText(this)}
         class={{ [CSS_UTILITY.rtl]: dir === "rtl", [CSS.contentSlotted]: this.hasContent }}
         disabled={this.disabled || this.loading}
         href={this.childElType === "a" && this.href}
@@ -203,6 +207,7 @@ export class CalciteButton {
   //
   //--------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     this.childEl.focus();
@@ -214,8 +219,10 @@ export class CalciteButton {
   //
   //--------------------------------------------------------------------------
 
+  labelEl: HTMLCalciteLabelElement;
+
   /** watches for changing text content **/
-  private observer: MutationObserver;
+  private mutationObserver = createObserver("mutation", () => this.updateHasContent());
 
   /** the rendered child element */
   private childEl?: HTMLElement;
@@ -224,10 +231,10 @@ export class CalciteButton {
   private childElType?: "a" | "button" = "button";
 
   /** determine if there is slotted content for styling purposes */
-  @State() private hasContent?: boolean = false;
+  @State() private hasContent = false;
 
   /** determine if loader present for styling purposes */
-  @State() private hasLoader?: boolean = false;
+  @State() private hasLoader = false;
 
   private updateHasContent() {
     const slottedContent = this.el.textContent.trim().length > 0 || this.el.childNodes.length > 0;
@@ -238,12 +245,7 @@ export class CalciteButton {
   }
 
   private setupTextContentObserver() {
-    if (Build.isBrowser) {
-      this.observer = new MutationObserver(() => {
-        this.updateHasContent();
-      });
-      this.observer.observe(this.el, { childList: true, subtree: true });
-    }
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   //--------------------------------------------------------------------------
@@ -251,6 +253,11 @@ export class CalciteButton {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  onLabelClick = (event: CustomEvent): void => {
+    this.handleClick(event);
+    this.setFocus();
+  };
 
   // act on a requested or nearby form based on type
   private handleClick = (e: Event): void => {

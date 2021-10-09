@@ -1,7 +1,12 @@
 import { Component, Prop, h, Element, Listen, State, VNode, Fragment } from "@stencil/core";
 import { TabLayout, TabPosition } from "./interfaces";
 import { Scale } from "../interfaces";
+import { SLOTS } from "./resources";
 
+/**
+ * @slot - A slot for adding `calcite-tab`s.
+ * @slot tab-nav - A slot for adding a tab navigation component.
+ */
 @Component({
   tag: "calcite-tabs",
   styleUrl: "calcite-tabs.scss",
@@ -40,7 +45,7 @@ export class CalciteTabs {
   /**
    * Optionally enable tabs to appear like a folder-style menu when its layout is "inline"
    */
-  @Prop({ reflect: true, mutable: true }) bordered?: boolean = false;
+  @Prop({ reflect: true, mutable: true }) bordered = false;
 
   //--------------------------------------------------------------------------
   //
@@ -57,7 +62,7 @@ export class CalciteTabs {
   render(): VNode {
     return (
       <Fragment>
-        <slot name="tab-nav" />
+        <slot name={SLOTS.tabNav} />
         <section>
           <slot />
         </section>

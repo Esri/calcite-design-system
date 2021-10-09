@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, HYDRATED_ATTR } from "../../tests/commonTests";
+import { accessible, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-button", () => {
@@ -40,6 +40,8 @@ describe("calcite-button", () => {
 
   it("is accessible: icons and loading", async () =>
     accessible(`<calcite-button loading icon-start='plus' icon-end='plus'>Continue</calcite-button>`));
+
+  it("is labelable", async () => labelable("calcite-button"));
 
   it("renders as a link with default props", async () => {
     const page = await newE2EPage();

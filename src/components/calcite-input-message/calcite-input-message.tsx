@@ -4,6 +4,9 @@ import { Scale, Status } from "../interfaces";
 import { StatusIconDefaults } from "./interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 
+/**
+ * @slot - A slot for adding text.
+ */
 @Component({
   tag: "calcite-input-message",
   styleUrl: "calcite-input-message.scss",
@@ -24,6 +27,7 @@ export class CalciteInputMessage {
   //
   //--------------------------------------------------------------------------
 
+  /** Indicates whether the message is displayed. */
   @Prop({ reflect: true }) active = false;
 
   /** when used as a boolean set to true, show a default icon based on status. You can

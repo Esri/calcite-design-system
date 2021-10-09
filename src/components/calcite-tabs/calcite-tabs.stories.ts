@@ -1,6 +1,6 @@
-import { select, optionsKnob, boolean } from "@storybook/addon-knobs";
+import { select, optionsKnob } from "@storybook/addon-knobs";
 import { iconNames } from "../../../.storybook/helpers";
-import { darkBackground } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../calcite-tab/readme.md";
 import readme3 from "../calcite-tab-nav/readme.md";
@@ -77,7 +77,7 @@ export const BorderedRTLDark = (): string => html`
   </calcite-tabs>
 `;
 BorderedRTLDark.story = {
-  parameters: { backgrounds: darkBackground }
+  parameters: { themes: themesDarkDefault }
 };
 
 const selectedIcon = iconNames[0];
@@ -146,7 +146,7 @@ export const DarkMode = (): string => html`
 
 DarkMode.story = {
   name: "Dark mode",
-  parameters: { backgrounds: darkBackground }
+  parameters: { themes: themesDarkDefault }
 };
 
 export const DisabledTabs = (): string => {

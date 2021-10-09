@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { renders, hidden, accessible, defaults } from "../../tests/commonTests";
+import { renders, hidden, accessible, defaults, labelable } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 
 describe("calcite-combobox", () => {
@@ -28,6 +28,8 @@ describe("calcite-combobox", () => {
       </calcite-combobox>
   `));
 
+  it("is labelable", async () => labelable("calcite-combobox"));
+
   it("should show the listbox when it receives focus", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-combobox>
@@ -52,13 +54,11 @@ describe("calcite-combobox", () => {
       </calcite-combobox>`
     });
 
+    const items = await page.findAll("calcite-combobox-item");
     const eventSpy = await page.spyOnEvent("calciteComboboxFilterChange");
     await page.keyboard.press("Tab");
-    const openEvent = page.waitForEvent("calciteComboboxOpen");
+    await page.waitForEvent("calciteComboboxOpen");
     await page.keyboard.type("one");
-    await openEvent;
-
-    const items = await page.findAll("calcite-combobox-item");
     await items[1].waitForNotVisible();
     const item1Visible = await items[0].isVisible();
     const item2Visible = await items[1].isVisible();

@@ -4,29 +4,38 @@ This is a living document defining our best practices and reasoning for authorin
 
 <!-- TOC depthFrom:2 -->
 
-- [General Guidelines](#general-guidelines)
-- [Color](#color)
-- [Light Theme/Dark Theme](#light-themedark-theme)
-- [Form Elements and Custom Inputs](#form-elements-and-custom-inputs)
-- [Component Responsibilities](#component-responsibilities)
-- [Events](#events)
-  - [Event Names](#event-names)
-  - [Private Events](#private-events)
-  - [Event Details](#event-details)
-- [Props](#props)
-- [Focus support](#focus-support)
-- [CSS Class Names](#css-class-names)
-- [assets](#assets)
-- [a11y](#a11y)
-- [i18n](#i18n)
-- [Bundling and Loading](#bundling-and-loading)
-- [Custom Themes](#custom-themes)
-- [Unique IDs for Components](#unique-ids-for-components)
-- [Prerendering/SSR](#prerendering-and-ssr)
-- [Cleaning up resources](#cleaning-up-resources)
-- [Tests](#tests)
-  - [Writing Tests](#writing-tests)
-  - [Unstable Tests](#unstable-tests)
+- [Component Guidelines](#component-guidelines)
+  - [General Guidelines](#general-guidelines)
+  - [Structure](#structure)
+  - [Styling](#styling)
+    - [Avoid complex CSS selectors](#avoid-complex-css-selectors)
+  - [Color](#color)
+  - [Light Theme/Dark Theme](#light-themedark-theme)
+  - [Custom Themes](#custom-themes)
+    - [Typography](#typography)
+    - [Palette](#palette)
+  - [Component Responsibilities](#component-responsibilities)
+  - [Events](#events)
+    - [Event Names](#event-names)
+    - [Private/Internal Events](#privateinternal-events)
+    - [Event Details](#event-details)
+  - [Props](#props)
+  - [Focus support](#focus-support)
+  - [CSS Class Names](#css-class-names)
+  - [assets](#assets)
+  - [a11y](#a11y)
+  - [i18n](#i18n)
+    - [Translated strings](#translated-strings)
+  - [Bundling and Loading](#bundling-and-loading)
+  - [Unique IDs for Components](#unique-ids-for-components)
+  - [Prerendering and SSR](#prerendering-and-ssr)
+  - [Cleaning up resources](#cleaning-up-resources)
+    - [Timeouts](#timeouts)
+  - [Tests](#tests)
+    - [Writing Tests](#writing-tests)
+      - [Prevent logging unnecessary messaging in the build](#prevent-logging-unnecessary-messaging-in-the-build)
+    - [Unstable Tests](#unstable-tests)
+  - [Documentation](#documentation)
 
 <!-- /TOC -->
 
@@ -36,6 +45,42 @@ Generally adhere to and follow these best practices for authoring components.
 
 - [Google Web Component Best Practices](https://developers.google.com/web/fundamentals/web-components/best-practices)
 - [Custom Element Conformance - W3C Editor's Draft](https://w3c.github.io/webcomponents/spec/custom/#custom-element-conformance)
+
+## Structure
+
+We follow Stencil's suggested component structure. See their [style guide](https://github.com/ionic-team/stencil/blob/master/STYLE_GUIDE.md#file-structure) for more details.
+
+## Styling
+
+Be sure to set `shadow: true` in Stencil's `@Component` options to make sure styles are encapsulated in our Calcite design system. This helps keep our components consistent across applications.
+
+### Avoid complex CSS selectors
+
+Avoid complex CSS selectors and move logic into the component. As a general rule, if using more than 1 attribute in the CSS selector, use a class and move the logic into the component.
+
+For example, instead of a complex CSS selector as demonstrated below:
+
+```css
+[dir="rtl"][alignment="icon-end-space-between"]:not([width="auto"]) {
+  /* ... */
+}
+```
+
+Add a class to handle the logic in the component class.
+
+```tsx
+<div
+  class={{
+    [CSS.myClass]: rtl && alignment === "icon-end-space-between" && width !== "auto"
+  }}
+/>
+```
+
+```css
+.myClass {
+  /* ... */
+}
+```
 
 ## Color
 
@@ -152,59 +197,6 @@ The current light theme colors and their hex values can be found [here](https://
 **Discussed In**:
 
 - https://github.com/Esri/calcite-components/issues/507
-
-## Form Elements and Custom Inputs
-
-Custom form elements represent a particularly tricky part of Calcite Components. Other Stencil based frameworks such as a [Ionic](https://github.com/ionic-team/ionic) ship additional wrappers around their Web Components such as [`@ionic/react`](https://github.com/ionic-team/ionic/tree/master/react), [`@ionic/angular`](https://github.com/ionic-team/ionic/tree/master/angular) and [`@ionic.vue`](https://github.com/ionic-team/ionic/tree/master/vue). These wrapper adapt the custom events of the Ionic components like `ionChange` to work with things like Reacts synthetic `onChange={}` event, and Angular's `[(ngModel)]` to support standard form handling within those frameworks. However the additional effort to build and maintain these wrappers is likely not worth it.
-
-Instead we will allow a native `<input>` or `select` element to become the source of truth for a component.
-
-```html
-<!-- <calcite-checkbox> is the source of truth -->
-<calcite-checkbox checked disabled></calcite-checkbox>
-```
-
-and
-
-```html
-<calcite-checkbox>
-  <!-- the <input> is the source of truth -->
-  <input type="checkbox" checked disabled />
-</calcite-checkbox>
-```
-
-Frameworks can use their native tools to interact with the provided `<input>` while the input can also be omitted if the application only needs a more basic interaction. The input can be hidden inside the component like so:
-
-```html
-<div hidden>
-  <slot>
-    <!-- a default checkbox in case the user doesn't pass one-->
-    <input type="checkbox" checked disabled />
-  </slot>
-  <div></div>
-</div>
-```
-
-Several interactions are required to properly implement:
-
-- If the `value`, `disabled`, `selected`, or `checked` properties on the input change, update the state of the custom input. The attributes of the passed input can be observed with a [MutationObserver](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/observe).
-- Update the state of the input when the user interacts with the custom input.
-- Focus the custom input when the user focuses the passed input. This allows the standard `<label>` element to be wrapped around the custom element.
-  ```html
-  <label>
-    My Checkbox
-    <calcite-checkbox>
-      <input type="checkbox" checked disabled />
-    </calcite-checkbox>
-  </label>
-  ```
-
-**Discussed In:**
-
-- https://github.com/ArcGIS/calcite-components/pull/24#discussion_r289444267
-- https://github.com/ArcGIS/calcite-components/pull/24#issuecomment-497813876
-- https://github.com/ArcGIS/calcite-components/pull/24#issuecomment-497888962
-- https://github.com/ArcGIS/calcite-components/pull/24#issuecomment-497894715
 
 ## Component Responsibilities
 
@@ -384,7 +376,7 @@ This is required in order to have a unified assets folder in the distributable.
 
 ## a11y
 
-In generally follow the guidelines and standards in these articles:
+Components must be accessible and are required to have tests that focus on a11y. We use the following resources as guides:
 
 - [Google Accessibility Overview](https://developers.google.com/web/fundamentals/accessibility/)
 - [WAI-ARIA Authoring Practices](https://www.w3.org/TR/wai-aria-practices-1.1/)
@@ -542,6 +534,12 @@ focusMenu(): void => {
 
 ## Tests
 
+Components should have an automated test for any incoming features or bug fixes. Make sure all tests pass as PRs will not be allowed to merge if there is a single test failure.
+
+We encourage writing expressive test cases and code that indicates intent. Use comments sparingly when the aforementioned can't be fully achieved. Keep it clean!
+
+Please see Stencil's doc for more info on [end-to-end](https://stenciljs.com/docs/end-to-end-testing) testing. See one of our test examples [here](https://github.com/Esri/calcite-components/blob/master/src/components/calcite-block/calcite-block.e2e.ts).
+
 ### Writing Tests
 
 #### Prevent logging unnecessary messaging in the build
@@ -557,3 +555,13 @@ Console warnings can end up polluting the build output messaging that makes it m
 If you notice that a test fails intermittently during local or CI test runs, it is unstable and must be skipped to avoid holding up test runs, builds and deployments.
 
 To skip a test, use the `skip` method that's available on [tests, or suites](https://jestjs.io/docs/en/api#methods) and submit a pull request. Once that's done, please create a follow-up issue by [choosing](https://github.com/Esri/calcite-components/issues/new/choose) the unstable test template and filling it out.
+
+## Documentation
+
+This project uses [Storybook](https://storybook.js.org/) to provide an interactive showcase of components with accompanying documentation.
+
+For each main component (i.e., one that can be used by itself), there should be a `<component-name>.stories.ts` file in its component folder.
+
+Each story should provide access to relevant [knobs](https://github.com/storybookjs/storybook/tree/next/addons/knobs) so users can test out different properties.
+
+For additional documentation, create a [usage folder](https://github.com/Esri/calcite-components/tree/master/src/components/calcite-action/usage) in the component directory with a basic.md and optionally an advanced.md file (if additional documentation or examples are required) with snippets showing different supported use cases for the component.

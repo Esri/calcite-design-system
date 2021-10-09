@@ -8,8 +8,6 @@ The `calcite-action-pad` component is made up of `calcite-action`s in the form o
 
 ### Basic
 
-#### Basic Action Pad
-
 Renders a basic action pad with `calcite-action`s.
 
 ```html
@@ -19,7 +17,23 @@ Renders a basic action pad with `calcite-action`s.
 </calcite-action-pad>
 ```
 
-#### With Grouping
+### Tooltip
+
+Renders an action pad with a tooltip on the expand action.
+
+```html
+<calcite-action-pad id="action-pad-test">
+  <calcite-action text="Add" icon="plus"></calcite-action>
+</calcite-action-pad>
+<calcite-tooltip id="tooltip">Expand</calcite-tooltip>
+<script>
+  var actionPad = document.getElementById("action-pad-test");
+  var tooltip = document.getElementById("tooltip");
+  actionPad.tooltipExpand = tooltip;
+</script>
+```
+
+### With-grouping
 
 Renders a group of `calcite-action`s contained in a `calcite-action-group`. Actions in a group are visually separated from other groups or actions in the pad.
 
@@ -34,22 +48,6 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 </calcite-action-pad>
 ```
 
-### Tooltip
-
-### Tooltip on the expand action
-
-```html
-<calcite-action-pad id="action-pad-test">
-  <calcite-action text="Add" icon="plus"></calcite-action>
-</calcite-action-pad>
-<calcite-tooltip id="tooltip">Expand</calcite-tooltip>
-<script>
-  var actionPad = document.getElementById("action-pad-test");
-  var tooltip = document.getElementById("tooltip");
-  actionPad.tooltipExpand = tooltip;
-</script>
-```
-
 ## Properties
 
 | Property         | Attribute         | Description                                                              | Type                                   | Default      |
@@ -60,6 +58,7 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 | `intlExpand`     | `intl-expand`     | Updates the label of the expand icon when the component is not expanded. | `string`                               | `undefined`  |
 | `layout`         | `layout`          | Indicates the horizontal or vertical layout of the component.            | `"grid" \| "horizontal" \| "vertical"` | `"vertical"` |
 | `position`       | `position`        | Arranges the component depending on the elements 'dir' property.         | `"end" \| "start"`                     | `undefined`  |
+| `scale`          | `scale`           | Specifies the size of the expand action.                                 | `"l" \| "m" \| "s"`                    | `undefined`  |
 
 ## Events
 
@@ -70,6 +69,8 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 ## Methods
 
 ### `setFocus(focusId?: "expand-toggle") => Promise<void>`
+
+Sets focus on the component.
 
 #### Returns
 

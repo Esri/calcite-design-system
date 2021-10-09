@@ -86,9 +86,15 @@ Renders all radio button inputs disabled, first one checked
 
 ## Events
 
-| Event                           | Description | Type               |
-| ------------------------------- | ----------- | ------------------ |
-| `calciteRadioButtonGroupChange` |             | `CustomEvent<any>` |
+| Event                           | Description                                      | Type               |
+| ------------------------------- | ------------------------------------------------ | ------------------ |
+| `calciteRadioButtonGroupChange` | Emitted when the radio button group has changed. | `CustomEvent<any>` |
+
+## Slots
+
+| Slot | Description                                |
+| ---- | ------------------------------------------ |
+|      | A slot for adding `calcite-radio-button`s. |
 
 ---
 

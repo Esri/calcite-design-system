@@ -8,7 +8,6 @@ import {
   EventEmitter,
   Element,
   VNode,
-  Build,
   Method,
   Watch,
   Host
@@ -34,7 +33,8 @@ import {
   ComboboxDefaultPlacement
 } from "./resources";
 import { getItemAncestors, getItemChildren, hasActiveChildren } from "./utils";
-
+import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
+import { createObserver } from "../../utils/observers";
 interface ItemData {
   label: string;
   value: string;
@@ -43,12 +43,15 @@ interface ItemData {
 const isGroup = (el: ComboboxChildElement): el is HTMLCalciteComboboxItemGroupElement =>
   el.tagName === ComboboxItemGroup;
 
+/**
+ * @slot - A slot for adding `calcite-combobox-item`s.
+ */
 @Component({
   tag: "calcite-combobox",
   styleUrl: "calcite-combobox.scss",
   shadow: true
 })
-export class CalciteCombobox {
+export class CalciteCombobox implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -62,7 +65,7 @@ export class CalciteCombobox {
   //
   //--------------------------------------------------------------------------
 
-  /** Open and close combobox */
+  /** Opens or closes the combobox */
   @Prop({ reflect: true, mutable: true }) active = false;
 
   @Watch("active")
@@ -144,6 +147,7 @@ export class CalciteCombobox {
   //
   //--------------------------------------------------------------------------
 
+  /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
     const { popper, menuEl } = this;
@@ -158,6 +162,7 @@ export class CalciteCombobox {
       : this.createPopper();
   }
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     this.active = true;
@@ -211,19 +216,13 @@ export class CalciteCombobox {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    if (Build.isBrowser) {
-      this.observer = new MutationObserver(this.updateItems);
-    }
-
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.createPopper();
+    connectLabel(this);
   }
 
   componentWillLoad(): void {
     this.updateItems();
-  }
-
-  componentDidLoad(): void {
-    this.observer?.observe(this.el, { childList: true, subtree: true });
   }
 
   componentDidRender(): void {
@@ -234,8 +233,9 @@ export class CalciteCombobox {
   }
 
   disconnectedCallback(): void {
-    this.observer?.disconnect();
+    this.mutationObserver?.disconnect();
     this.destroyPopper();
+    disconnectLabel(this);
   }
 
   //--------------------------------------------------------------------------
@@ -243,6 +243,9 @@ export class CalciteCombobox {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  labelEl: HTMLCalciteLabelElement;
+
   @State() items: HTMLCalciteComboboxItemElement[] = [];
 
   @State() groupItems: HTMLCalciteComboboxItemGroupElement[] = [];
@@ -278,7 +281,7 @@ export class CalciteCombobox {
 
   data: ItemData[];
 
-  observer: MutationObserver = null;
+  mutationObserver = createObserver("mutation", () => this.updateItems());
 
   private guid: string = guid();
 
@@ -301,6 +304,10 @@ export class CalciteCombobox {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  onLabelClick = (): void => {
+    this.setFocus();
+  };
 
   keydownHandler = (event: KeyboardEvent): void => {
     const key = getKey(event.key, getElementDir(this.el));
@@ -830,7 +837,7 @@ export class CalciteCombobox {
   }
 
   renderInput(): VNode {
-    const { active, disabled, placeholder, selectionMode, needsIcon, label, selectedItems } = this;
+    const { active, disabled, placeholder, selectionMode, needsIcon, selectedItems } = this;
     const single = selectionMode === "single";
     const selectedItem = selectedItems[0];
     const showLabel = !active && single && !!selectedItem;
@@ -858,11 +865,11 @@ export class CalciteCombobox {
           aria-activedescendant={this.activeDescendant}
           aria-autocomplete="list"
           aria-controls={guid}
-          aria-label={label}
+          aria-label={getLabelText(this)}
           class={{
             input: true,
+            "input--single": true,
             "input--transparent": this.activeChipIndex > -1,
-            "input--single": single,
             "input--hidden": showLabel,
             "input--icon": single && needsIcon
           }}
@@ -957,8 +964,8 @@ export class CalciteCombobox {
           aria-owns={guid}
           class={{
             wrapper: true,
-            "wrapper--active": open,
-            "wrapper--single": single
+            "wrapper--single": single || !this.selectedItems.length,
+            "wrapper--active": open
           }}
           onClick={this.setFocusClick}
           ref={this.setReferenceEl}

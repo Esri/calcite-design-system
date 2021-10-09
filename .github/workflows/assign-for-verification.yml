@@ -1,0 +1,36 @@
+name: Verify Install
+on:
+  issues:
+    types: [labeled]
+jobs:
+  assign:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v4
+        env:
+          PRIMARY_CONTACT: ${{secrets.PRIMARY_CONTACT}}
+          SECONDARY_CONTACTS: ${{secrets.SECONDARY_CONTACTS}}
+        with:
+          script: |
+            const { PRIMARY_CONTACT, SECONDARY_CONTACTS } = process.env
+            const { label, sender } = context.payload;
+            if (sender && label && label.name === "3 - installed") {
+              const secondaryArr = SECONDARY_CONTACTS.split(",").map(c => c.trim());
+              const secondaryContact = secondaryArr[Math.floor(Math.random() * secondaryArr.length)];
+              const assignees =
+                sender.login !== PRIMARY_CONTACT
+                  ? [PRIMARY_CONTACT]
+                  : [secondaryContact]
+              await github.issues.update({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                assignees,
+              });
+              await github.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: "Installed and assigned for verification.",
+              });
+            }

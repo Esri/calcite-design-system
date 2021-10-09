@@ -8,8 +8,6 @@ The `calcite-panel` component is a container for a header, content and optional 
 
 ### Basic
 
-#### Basic
-
 Renders a basic panel with a header.
 
 ```html
@@ -19,19 +17,18 @@ Renders a basic panel with a header.
 </calcite-panel>
 ```
 
-#### With footer
+### Dismissible
 
-Renders a panel with a header and a footer.
+Renders a panel that is dismissible with a click of the "x".
 
 ```html
-<calcite-panel>
-  <div slot="header-content">Header!</div>
-  <p>I have a footer.</p>
-  <div slot="footer">Footer!</div>
+<calcite-panel dismissible id="dismissible-panel">
+  <div slot="header-content">Dismissible Header</div>
+  <p>Click the X and I go away!</p>
 </calcite-panel>
 ```
 
-#### Header with actions
+### Header-with-actions
 
 Renders a panel with leading and trailing `calcite-action`s.
 
@@ -56,14 +53,15 @@ Renders a panel with leading and trailing `calcite-action`s.
 </calcite-panel>
 ```
 
-#### Dismissible panel
+### With-footer
 
-Renders a panel that is dismissible with a click of the "x".
+Renders a panel with a header and a footer.
 
 ```html
-<calcite-panel dismissible id="dismissible-panel">
-  <div slot="header-content">Dismissible Header</div>
-  <p>Click the X and I go away!</p>
+<calcite-panel>
+  <div slot="header-content">Header!</div>
+  <p>I have a footer.</p>
+  <div slot="footer">Footer!</div>
 </calcite-panel>
 ```
 
@@ -99,6 +97,8 @@ Renders a panel that is dismissible with a click of the "x".
 
 ### `setFocus(focusId?: "dismiss-button" | "back-button") => Promise<void>`
 
+Sets focus on the component.
+
 #### Returns
 
 Type: `Promise<void>`
@@ -107,13 +107,14 @@ Type: `Promise<void>`
 
 | Slot                     | Description                                                                      |
 | ------------------------ | -------------------------------------------------------------------------------- |
-| `"fab"`                  | a slot for adding a `calcite-fab` (floating action button) to perform an action. |
-| `"footer"`               | a slot for adding custom content to the footer.                                  |
-| `"footer-actions"`       | a slot for adding buttons to the footer.                                         |
-| `"header-actions-end"`   | a slot for adding actions or content to the end side of the panel header.        |
-| `"header-actions-start"` | a slot for adding actions or content to the start side of the panel header.      |
-| `"header-content"`       | a slot for adding custom content to the header.                                  |
-| `"header-menu-actions"`  | a slot for adding an overflow menu with actions inside a dropdown.               |
+|                          | A slot for adding custom content.                                                |
+| `"fab"`                  | A slot for adding a `calcite-fab` (floating action button) to perform an action. |
+| `"footer"`               | A slot for adding custom content to the footer.                                  |
+| `"footer-actions"`       | A slot for adding buttons to the footer.                                         |
+| `"header-actions-end"`   | A slot for adding actions or content to the end side of the panel header.        |
+| `"header-actions-start"` | A slot for adding actions or content to the start side of the panel header.      |
+| `"header-content"`       | A slot for adding custom content to the header.                                  |
+| `"header-menu-actions"`  | A slot for adding an overflow menu with actions inside a dropdown.               |
 
 ## CSS Custom Properties
 

@@ -35,9 +35,8 @@ import { CSS_UTILITY } from "../../utils/resources";
 import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
 
 /**
- * @slot image - A slot for adding an image. The image will appear above the other slot content.
+ * @slot - A slot for adding custom content.
  */
-
 @Component({
   tag: "calcite-popover",
   styleUrl: "calcite-popover.scss",
@@ -206,6 +205,7 @@ export class CalcitePopover {
   //
   // --------------------------------------------------------------------------
 
+  /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
     const { popper, el, placement } = this;
@@ -221,6 +221,7 @@ export class CalcitePopover {
       : this.createPopper();
   }
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(focusId?: "close-button"): Promise<void> {
     const { closeButtonEl } = this;
@@ -235,6 +236,7 @@ export class CalcitePopover {
     this.el?.focus();
   }
 
+  /** Toggles the popover's open property. */
   @Method()
   async toggle(value = !this.open): Promise<void> {
     this.open = value;

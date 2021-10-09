@@ -12,6 +12,9 @@ import {
 } from "../../utils/popper";
 import { queryElementRoots } from "../../utils/dom";
 
+/**
+ * @slot - A slot for adding text.
+ */
 @Component({
   tag: "calcite-tooltip",
   styleUrl: "calcite-tooltip.scss",
@@ -123,6 +126,7 @@ export class CalciteTooltip {
   //
   // --------------------------------------------------------------------------
 
+  /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
     const { popper, el, placement } = this;

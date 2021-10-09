@@ -1,8 +1,8 @@
 import { select } from "@storybook/addon-knobs";
 import { boolean } from "../../../.storybook/helpers";
-import { darkBackground } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../tests/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 
 export default {
   title: "Components/Controls/Switch",
@@ -16,7 +16,7 @@ export const Simple = (): string => html`
   <calcite-switch
     name="setting"
     value="enabled"
-    ${boolean("switched", true)}
+    ${boolean("checked", true)}
     ${boolean("disabled", false)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
   ></calcite-switch>
@@ -31,7 +31,7 @@ export const WrappingCalciteLabel = (): string => html`
     <calcite-switch
       name="setting"
       value="enabled"
-      ${boolean("switched", true)}
+      ${boolean("checked", true)}
       ${boolean("disabled", false)}
     ></calcite-switch>
   </calcite-label>
@@ -46,17 +46,14 @@ export const DarkMode = (): string => html`
     class="calcite-theme-dark"
     name="setting"
     value="enabled"
-    ${boolean("switched", true)}
+    ${boolean("checked", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
   ></calcite-switch>
 `;
 
 DarkMode.story = {
   name: "Dark mode",
-
-  parameters: {
-    backgrounds: darkBackground
-  }
+  parameters: { themes: themesDarkDefault }
 };
 
 export const Rtl = (): string => html`
@@ -65,7 +62,7 @@ export const Rtl = (): string => html`
     dir="rtl"
     name="setting"
     value="enabled"
-    ${boolean("switched", true)}
+    ${boolean("checked", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
   ></calcite-switch>
 `;

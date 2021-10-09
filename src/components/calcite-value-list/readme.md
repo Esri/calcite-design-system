@@ -8,8 +8,6 @@
 
 ### Basic
 
-#### Basic
-
 Renders a value list with multiple items able to be selected and a filter.
 
 ```html
@@ -30,7 +28,7 @@ Renders a value list with multiple items able to be selected and a filter.
 </calcite-value-list>
 ```
 
-#### Drag and drop
+### Drag-and-drop
 
 Renders a value list with drag and drop capability between the items.
 
@@ -44,7 +42,7 @@ Renders a value list with drag and drop capability between the items.
 </calcite-value-list>
 ```
 
-#### Label editing and single select
+### Label-editing-and-single-select
 
 Renders a value list with label editing and single select.
 
@@ -95,11 +93,15 @@ Renders a value list with label editing and single select.
 
 ### `getSelectedItems() => Promise<Map<string, HTMLCalciteValueListItemElement>>`
 
+Returns the currently selected items
+
 #### Returns
 
 Type: `Promise<Map<string, any>>`
 
 ### `setFocus(focusId?: ListFocusId) => Promise<void>`
+
+Sets focus on the component.
 
 #### Returns
 
@@ -126,8 +128,11 @@ graph TD;
   calcite-value-list --> calcite-filter
   calcite-value-list --> calcite-scrim
   calcite-filter --> calcite-scrim
+  calcite-filter --> calcite-input
   calcite-filter --> calcite-icon
   calcite-scrim --> calcite-loader
+  calcite-input --> calcite-progress
+  calcite-input --> calcite-icon
   style calcite-value-list fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

@@ -10,8 +10,6 @@ _note: calcite-shell supports tablet as the smallest screen size_
 
 ### Advanced
 
-#### Advanced
-
 Renders a shell with leading and trailing floating panels, action bar/pad, block, flow, tip manager, footer.
 
 ```html
@@ -84,8 +82,6 @@ Renders a shell with leading and trailing floating panels, action bar/pad, block
 
 ### Basic
 
-#### Basic
-
 Renders a basic shell with a header and a footer.
 
 ```html
@@ -101,7 +97,24 @@ Renders a basic shell with a header and a footer.
 </calcite-shell>
 ```
 
-#### With panels
+### With-panel-and-action-bar
+
+Renders a single panel with actions in an action bar.
+
+```html
+<calcite-shell>
+  <calcite-shell-panel slot="primary-panel" position="start">
+    <img src="https://via.placeholder.com/300x200" alt="placeholder" />
+    <calcite-action-bar slot="action-bar">
+      <calcite-action text="Add" active icon="plus"></calcite-action>
+      <calcite-action text="Save" disabled icon="save"></calcite-action>
+      <calcite-action text="Layers" icon="layers"></calcite-action>
+    </calcite-action-bar>
+  </calcite-shell-panel>
+</calcite-shell>
+```
+
+### With-panels
 
 Renders a shell with a header and panels on the left and right sides of the app.
 
@@ -124,35 +137,18 @@ Renders a shell with a header and panels on the left and right sides of the app.
 </calcite-shell>
 ```
 
-#### Panel with action bar
-
-Renders a single panel with actions in an action bar.
-
-```html
-<calcite-shell>
-  <calcite-shell-panel slot="primary-panel" position="start">
-    <img src="https://via.placeholder.com/300x200" alt="placeholder" />
-    <calcite-action-bar slot="action-bar">
-      <calcite-action text="Add" active icon="plus"></calcite-action>
-      <calcite-action text="Save" disabled icon="save"></calcite-action>
-      <calcite-action text="Layers" icon="layers"></calcite-action>
-    </calcite-action-bar>
-  </calcite-shell-panel>
-</calcite-shell>
-```
-
 ## Properties
 
-| Property        | Attribute        | Description                                                   | Type      | Default     |
-| --------------- | ---------------- | ------------------------------------------------------------- | --------- | ----------- |
-| `contentBehind` | `content-behind` | Positions the center content behind any calcite-shell-panels. | `boolean` | `undefined` |
+| Property        | Attribute        | Description                                                   | Type      | Default |
+| --------------- | ---------------- | ------------------------------------------------------------- | --------- | ------- |
+| `contentBehind` | `content-behind` | Positions the center content behind any calcite-shell-panels. | `boolean` | `false` |
 
 ## Slots
 
 | Slot                 | Description                                                                                                                              |
 | -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
 |                      | A slot for adding content to the shell. This content will appear between any leading and trailing panels added to the shell. (eg. a map) |
-| `"bottom-panel"`     | A slot for adding a bottom floating panel such as a chart or `calcite-tip-manager`.                                                      |
+| `"center-row"`       | A slot for adding custom content in the center row.                                                                                      |
 | `"contextual-panel"` | A slot for adding the trailing `calcite-shell-panel`.                                                                                    |
 | `"footer"`           | A slot for adding footer content. This content will be positioned at the bottom of the shell.                                            |
 | `"header"`           | A slot for adding header content. This content will be positioned at the top of the shell.                                               |

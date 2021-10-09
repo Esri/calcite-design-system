@@ -3,12 +3,11 @@ import { focusElement, getElementDir } from "../../utils/dom";
 import { FlipContext } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 
-/** @slot default text slot for link text */
-
 /** Any attributes placed on <calcite-link> component will propagate to the rendered child */
 /** Passing a 'href' will render an anchor link, instead of a span. Role will be set to link, or link, depending on this. */
 /** It is the consumers responsibility to add aria information, rel, target, for links, and any link attributes for form submission */
 
+/** @slot - A slot for adding text. */
 @Component({
   tag: "calcite-link",
   styleUrl: "calcite-link.scss",
@@ -30,7 +29,7 @@ export class CalciteLink {
   //--------------------------------------------------------------------------
 
   /** is the link disabled  */
-  @Prop({ reflect: true }) disabled?: boolean;
+  @Prop({ reflect: true }) disabled = false;
 
   /** optionally pass a href - used to determine if the component should render as a link or an anchor */
   @Prop({ reflect: true }) href?: string;
@@ -111,6 +110,7 @@ export class CalciteLink {
   //
   //--------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     focusElement(this.childEl);

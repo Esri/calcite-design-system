@@ -20,9 +20,10 @@ import {
   closestElementCrossShadowBoundary
 } from "../../utils/dom";
 import { getKey } from "../../utils/key";
-import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./calcite-input.resources";
+import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
 import { InputPlacement } from "./interfaces";
 import { Position } from "../interfaces";
+import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
   getDecimalSeparator,
   delocalizeNumberString,
@@ -48,7 +49,7 @@ type NumberNudgeDirection = "up" | "down";
   styleUrl: "calcite-input.scss",
   scoped: true
 })
-export class CalciteInput {
+export class CalciteInput implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -72,10 +73,10 @@ export class CalciteInput {
   /** optionally display a clear button that displays when field has a value
    * shows by default for search, time, date
    * will not display for type="textarea" */
-  @Prop({ reflect: true }) clearable?: boolean;
+  @Prop({ reflect: true }) clearable = false;
 
   /** is the input disabled  */
-  @Prop({ reflect: true }) disabled?: boolean;
+  @Prop({ reflect: true }) disabled = false;
 
   @Watch("disabled")
   disabledWatcher(): void {
@@ -97,7 +98,7 @@ export class CalciteInput {
   @Prop() intlLoading?: string = TEXT.loading;
 
   /** flip the icon in rtl */
-  @Prop({ reflect: true }) iconFlipRtl?: boolean;
+  @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** Applies to the aria-label attribute on the button or hyperlink */
   @Prop() label?: string;
@@ -224,6 +225,8 @@ export class CalciteInput {
   //
   //--------------------------------------------------------------------------
 
+  labelEl: HTMLCalciteLabelElement;
+
   /** keep track of the rendered child type */
   private childEl?: HTMLInputElement | HTMLTextAreaElement;
 
@@ -284,10 +287,12 @@ export class CalciteInput {
         this.value = undefined;
       }
     }
+    connectLabel(this);
   }
 
   disconnectedCallback(): void {
     this.form?.removeEventListener("reset", this.reset);
+    disconnectLabel(this);
   }
 
   componentWillLoad(): void {
@@ -364,7 +369,7 @@ export class CalciteInput {
   //
   //--------------------------------------------------------------------------
 
-  /** focus the rendered child element */
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     if (this.type === "number") {
@@ -379,6 +384,10 @@ export class CalciteInput {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  onLabelClick = (): void => {
+    this.setFocus();
+  };
 
   private clearInputValue = (nativeEvent: KeyboardEvent | MouseEvent): void => {
     this.setValue(null, nativeEvent, true);
@@ -502,19 +511,20 @@ export class CalciteInput {
     if (this.type !== "number") {
       return;
     }
-    const decimals = this.value?.split(".")[1]?.length || 0;
+    const value = this.value;
+    const decimals = this.step?.toString().split(".")[1]?.length || 0;
     const inputMax = this.maxString ? parseFloat(this.maxString) : null;
     const inputMin = this.minString ? parseFloat(this.minString) : null;
     const inputStep = this.step === "any" ? 1 : Math.abs(this.step || 1);
-    let inputVal = this.value && this.value !== "" ? parseFloat(this.value) : 0;
-    let newValue = this.value;
+    const inputVal = value && value !== "" ? (decimals ? parseFloat(value) : parseInt(value)) : 0;
+    let newValue = value;
 
     if (direction === "up" && ((!inputMax && inputMax !== 0) || inputVal < inputMax)) {
-      newValue = (inputVal += inputStep).toFixed(decimals).toString();
+      newValue = (inputVal + inputStep).toFixed(decimals);
     }
 
     if (direction === "down" && ((!inputMin && inputMin !== 0) || inputVal > inputMin)) {
-      newValue = (inputVal -= inputStep).toFixed(decimals).toString();
+      newValue = (inputVal - inputStep).toFixed(decimals);
     }
 
     this.setValue(newValue, nativeEvent, true);
@@ -671,7 +681,7 @@ export class CalciteInput {
     const localeNumberInput =
       this.type === "number" ? (
         <input
-          aria-label={this.label}
+          aria-label={getLabelText(this)}
           autofocus={this.autofocus ? true : null}
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
@@ -694,7 +704,7 @@ export class CalciteInput {
 
     const childEl = [
       <this.childElType
-        aria-label={this.label}
+        aria-label={getLabelText(this)}
         autofocus={this.autofocus ? true : null}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}

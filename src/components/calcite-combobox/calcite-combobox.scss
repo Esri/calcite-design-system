@@ -46,6 +46,7 @@
     var(--calcite-combobox-item-spacing-unit-l);
 }
 
+:host(:focus-within) .wrapper,
 .wrapper--active {
   @apply focus-inset;
 }
@@ -97,7 +98,7 @@
 }
 
 .input-wrap {
-  @apply flex;
+  @apply flex flex-grow;
 }
 
 .input-wrap--single {
@@ -106,9 +107,12 @@
 
 .label {
   @apply p-0
-    block
+    flex
+    font-normal
     flex-auto
-    pointer-events-none truncate max-w-full;
+    pointer-events-none
+    truncate
+    max-w-full;
   height: var(--calcite-combobox-input-height);
   line-height: var(--calcite-combobox-input-height);
 }

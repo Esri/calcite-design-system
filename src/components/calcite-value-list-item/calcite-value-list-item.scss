@@ -1,7 +1,15 @@
 :host {
-  @extend %component-host;
-  @apply mb-px flex shadow-border-bottom;
+  @apply box-border
+    bg-foreground-1
+    text-color-2
+    text--1
+    mb-px
+    flex
+    shadow-border-bottom;
   transition: background-color $transition, box-shadow $transition;
+  * {
+    @apply box-border;
+  }
 }
 
 calcite-pick-list-item {

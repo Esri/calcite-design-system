@@ -8,8 +8,6 @@ The `calcite-tip` component can comprise of an image, text and hyperlink to give
 
 ### Basic
 
-#### Basic
-
 Renders a non-dismissible tip with a heading, thumbnail, info and a link.
 
 ```html
@@ -29,7 +27,7 @@ Renders a non-dismissible tip with a heading, thumbnail, info and a link.
 | `headingLevel`   | `heading-level`   | Number at which section headings should start for this component.                 | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
 | `intlClose`      | `intl-close`      | Alternate text for closing the tip.                                               | `string`                     | `undefined` |
 | `nonDismissible` | `non-dismissible` | Indicates whether the tip can be dismissed.                                       | `boolean`                    | `false`     |
-| `selected`       | `selected`        | The selected state of the tip if it is being used inside a `calcite-tip-manager`. | `boolean`                    | `undefined` |
+| `selected`       | `selected`        | The selected state of the tip if it is being used inside a `calcite-tip-manager`. | `boolean`                    | `false`     |
 
 ## Events
 
@@ -41,6 +39,7 @@ Renders a non-dismissible tip with a heading, thumbnail, info and a link.
 
 | Slot          | Description                                         |
 | ------------- | --------------------------------------------------- |
+|               | A slot for adding text and a hyperlink.             |
 | `"thumbnail"` | A slot for adding an HTML image element to the tip. |
 
 ## Dependencies

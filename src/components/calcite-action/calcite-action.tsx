@@ -18,6 +18,7 @@ import { CSS, TEXT } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 
 import { getElementDir } from "../../utils/dom";
+import { createObserver } from "../../utils/observers";
 
 /**
  * @slot - A slot for adding a `calcite-icon`.
@@ -42,7 +43,7 @@ export class CalciteAction {
   @Prop({ reflect: true }) active = false;
 
   /**
-   * Indicates the alignment when text-enabled is false.
+   * Optionally specify the horizontal alignment of button elements with text content.
    */
   @Prop({ reflect: true }) alignment?: Alignment;
 
@@ -118,7 +119,7 @@ export class CalciteAction {
 
   buttonEl: HTMLButtonElement;
 
-  observer = new MutationObserver(() => forceUpdate(this));
+  mutationObserver = createObserver("mutation", () => forceUpdate(this));
 
   // --------------------------------------------------------------------------
   //
@@ -127,11 +128,11 @@ export class CalciteAction {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.observer.observe(this.el, { childList: true, subtree: true });
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   disconnectedCallback(): void {
-    this.observer.disconnect();
+    this.mutationObserver?.disconnect();
   }
 
   // --------------------------------------------------------------------------
@@ -140,6 +141,7 @@ export class CalciteAction {
   //
   // --------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     this.buttonEl.focus();

@@ -3,6 +3,9 @@ import { getKey } from "../../utils/key";
 import { AccordionAppearance } from "./interfaces";
 import { Position, Scale } from "../interfaces";
 
+/**
+ * @slot - A slot for adding `calcite-accordion-item`s.
+ */
 @Component({
   tag: "calcite-accordion",
   styleUrl: "calcite-accordion.scss",

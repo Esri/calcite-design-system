@@ -8,8 +8,6 @@ Renders a `<label>` around its children and can be used with any [labelable nati
 
 ### Basic
 
-## Status Property
-
 It also allows consumers to set a `status` attribute for child `calcite-input` and `calcite-input-message` components to use to set their own properties.
 
 ```html
@@ -20,7 +18,7 @@ It also allows consumers to set a `status` attribute for child `calcite-input` a
 </calcite-label>
 ```
 
-## Caveat when using with browsers that don't support flex gap
+### Browser-caveat
 
 When using the `default`, `inline` or `inline-space-between` layout option with [browsers that do not support the CSS `gap` property when used with flexbox](https://caniuse.com/flexbox-gap), you will need to use the `disable-spacing` attribute and apply spacing manually to the label by wrapping it in a styled span like so:
 
@@ -36,12 +34,18 @@ When using the `default`, `inline` or `inline-space-between` layout option with 
 | Property         | Attribute         | Description                                                          | Type                                              | Default     |
 | ---------------- | ----------------- | -------------------------------------------------------------------- | ------------------------------------------------- | ----------- |
 | `alignment`      | `alignment`       | specify the text alignment of the label                              | `"center" \| "end" \| "start"`                    | `"start"`   |
-| `disableSpacing` | `disable-spacing` | eliminates any space around the label                                | `boolean`                                         | `undefined` |
-| `disabled`       | `disabled`        | is the label disabled                                                | `boolean`                                         | `undefined` |
+| `disableSpacing` | `disable-spacing` | eliminates any space around the label                                | `boolean`                                         | `false`     |
+| `disabled`       | `disabled`        | is the label disabled                                                | `boolean`                                         | `false`     |
 | `for`            | `for`             | The id of the input associated with the label                        | `string`                                          | `undefined` |
 | `layout`         | `layout`          | is the wrapped element positioned inline with the label slotted text | `"default" \| "inline" \| "inline-space-between"` | `"default"` |
 | `scale`          | `scale`           | specify the scale of the input, defaults to m                        | `"l" \| "m" \| "s"`                               | `"m"`       |
 | `status`         | `status`          | specify the status of the label and any child input / input messages | `"idle" \| "invalid" \| "valid"`                  | `"idle"`    |
+
+## Slots
+
+| Slot | Description                                                 |
+| ---- | ----------------------------------------------------------- |
+|      | A slot for adding text and a component that can be labeled. |
 
 ---
 

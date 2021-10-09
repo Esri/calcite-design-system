@@ -1,5 +1,11 @@
 import { DateLocaleData } from "../components/calcite-date-picker/utils";
 
+export interface HoverRange {
+  focused: "end" | "start";
+  start: Date;
+  end: Date;
+}
+
 /**
  * Check if date is within a min and max
  */
@@ -169,5 +175,5 @@ export function getOrder(unitOrder: string): unitOrderSignifier[] {
 export function getDaysDiff(date1: Date, date2: Date): number {
   const ts1 = date1.getTime();
   const ts2 = date2.getTime();
-  return Math.abs(ts1 - ts2) * 1000 * 60 * 60 * 24;
+  return (ts1 - ts2) / (1000 * 3600 * 24);
 }

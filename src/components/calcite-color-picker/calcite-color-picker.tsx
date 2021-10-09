@@ -96,7 +96,7 @@ export class CalciteColorPicker {
 
   @Watch("format")
   handleFormatChange(format: CalciteColorPicker["format"]): void {
-    this.mode = format === "auto" ? this.mode : format;
+    this.setMode(format);
     this.value = this.toValue(this.color);
   }
 
@@ -242,13 +242,13 @@ export class CalciteColorPicker {
       const nextMode = parseMode(value);
 
       if (!nextMode || (format !== "auto" && nextMode !== format)) {
-        console.warn(`ignoring invalid color value: ${value}`);
+        this.showIncompatibleColorWarning(value, format);
         this.value = oldValue;
         return;
       }
 
       modeChanged = this.mode !== nextMode;
-      this.mode = nextMode;
+      this.setMode(nextMode);
     }
 
     const dragging = this.sliderThumbState === "drag" || this.hueThumbState === "drag";
@@ -552,12 +552,13 @@ export class CalciteColorPicker {
     let samplingX: number;
     let samplingY: number;
 
+    const colorFieldAndSliderRect = this.activeColorFieldAndSliderRect;
+    const { clientX, clientY } = event;
+
     if (this.colorFieldAndSliderHovered) {
-      samplingX = event.offsetX;
-      samplingY = event.offsetY;
+      samplingX = clientX - colorFieldAndSliderRect.x;
+      samplingY = clientY - colorFieldAndSliderRect.y;
     } else {
-      const { clientX, clientY } = event;
-      const colorFieldAndSliderRect = this.activeColorFieldAndSliderRect;
       const colorFieldWidth = dimensions.colorField.width;
       const colorFieldHeight = dimensions.colorField.height;
       const hueSliderHeight = dimensions.slider.height;
@@ -691,13 +692,19 @@ export class CalciteColorPicker {
   }
 
   connectedCallback(): void {
-    const { color, format, value } = this;
+    const { allowEmpty, color, format, value } = this;
 
-    const initialValueDefault = format !== "auto" ? this.toValue(color, format) : defaultValue;
-    const initialValue = format !== "auto" && value === defaultValue ? initialValueDefault : value;
+    const valueIsNoColor = allowEmpty && !value;
+    const parsedMode = parseMode(value);
+    const valueIsCompatible = (format === "auto" && parsedMode) || format === parsedMode;
+    const initialColor = valueIsNoColor ? null : valueIsCompatible ? Color(value) : color;
 
-    this.handleValueChange(initialValue, initialValueDefault);
+    if (!valueIsCompatible) {
+      this.showIncompatibleColorWarning(value, format);
+    }
 
+    this.setMode(format);
+    this.internalColorSet(initialColor, false);
     this.updateDimensions(this.scale);
   }
 
@@ -965,6 +972,16 @@ export class CalciteColorPicker {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private showIncompatibleColorWarning(value: ColorValue, format: Format): void {
+    console.warn(
+      `ignoring color value (${value}) as it is not compatible with the current format (${format})`
+    );
+  }
+
+  private setMode(format: CalciteColorPicker["format"]): void {
+    this.mode = format === "auto" ? this.mode : format;
+  }
 
   private captureHueSliderColor(x: number): void {
     const {

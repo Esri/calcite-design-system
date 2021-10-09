@@ -1,114 +1,55 @@
 :host {
-  display: block;
-  color: var(--calcite-tree-text);
-  cursor: pointer;
-  outline: none;
-  max-width: 100%;
-  --calcite-tree-text: var(--calcite-ui-text-2);
-  --calcite-tree-text: var(--calcite-ui-text-1);
-  --calcite-tree-text: var(--calcite-ui-text-1);
-  --calcite-tree-chevron: var(--calcite-ui-border-1);
-  --calcite-tree-chevron-hover: var(--calcite-ui-text-3);
-  --calcite-tree-vertical-padding: #{$baseline/4};
   --calcite-tree-indicator: var(--calcite-ui-border-1);
   --calcite-tree-indicator-active: var(--calcite-ui-brand);
-  --calcite-tree-indicator-first-start: 0.1rem;
-  --calcite-tree-indicator-first-end: auto;
-  --calcite-tree-indicator-distance-start: 0.15rem;
-  --calcite-tree-indicator-distance-end: auto;
-  --calcite-tree-icon-edge-distance-start: -0.2rem;
-  --calcite-tree-icon-edge-distance-end: 0;
-  --calcite-tree-icon-content-distance-start: #{$baseline/4};
-  --calcite-tree-icon-content-distance-end: 0;
-  --calcite-tree-indent-start: 1.4rem;
-  --calcite-tree-indent-end: 0;
-  --calcite-tree-children-indent-start: 0.25rem;
-  --calcite-tree-children-indent-end: 0;
-  --calcite-tree-children-padding-start: 1rem;
-  --calcite-tree-children-padding-end: 0;
-  --calcite-tree-checkbox-padding-start: 0;
-  --calcite-tree-checkbox-padding-end: 0.5rem;
-  --calcite-tree-line-position-start: 0.05rem;
-  --calcite-tree-line-position-end: 0;
-  --calcite-tree-parent-line-position-start: -0.95rem;
-  --calcite-tree-parent-line-position-end: 0;
-  --calcite-tree-line-width: 1px;
-  --calcite-tree-hover-line-width: 3px;
+  --calcite-tree-text: var(--calcite-ui-text-3);
+  --calcite-tree-text-active: var(--calcite-ui-text-1);
+  @apply block
+    cursor-pointer
+    outline-none
+    max-w-full;
+  color: var(--calcite-tree-text);
 }
 
 :host([scale="s"]) {
   @apply text--2h;
   --calcite-tree-padding-y: theme("padding.1");
+
+  .node-container .checkbox {
+    margin-inline-start: theme("margin.6");
+  }
 }
 
 :host([scale="m"]) {
   @apply text--1h;
   --calcite-tree-padding-y: theme("padding.2");
+
+  .node-container .checkbox {
+    margin-inline-start: theme("margin.8");
+  }
 }
 
 :host([scale="l"]) {
   @apply text-0h;
   --calcite-tree-padding-y: theme("padding.3");
+
+  .node-container .checkbox {
+    margin-inline-start: theme("margin.10");
+  }
 }
 
 :host([lines]) {
-  --calcite-tree-line: var(--calcite-ui-border-3);
+  --calcite-tree-line: var(--calcite-ui-border-2);
   --calcite-tree-line-hover: var(--calcite-ui-border-1);
-  & .calcite-tree-node:before {
-    display: none;
-  }
 }
 
-:host(:not([lines])) .calcite-tree-node:after {
-  display: none;
-}
-
-:host([scale="s"]) {
-  --calcite-tree-hover-line-width: 2px;
-  --calcite-tree-vertical-padding: #{$baseline/8};
-  --calcite-tree-children-indent-start: 0rem;
-  --calcite-tree-children-padding-start: 0.8rem;
-  --calcite-tree-line-position-start: 0.3rem;
-  --calcite-tree-parent-line-position-start: -0.5rem;
-}
-
-:host .calcite--rtl {
-  --calcite-tree-indicator-first-start: 0;
-  --calcite-tree-indicator-first-end: 0.1rem;
-  --calcite-tree-indicator-distance-start: auto;
-  --calcite-tree-indicator-distance-end: 0.15rem;
-  --calcite-tree-icon-edge-distance-start: auto;
-  --calcite-tree-icon-edge-distance-end: -0.2rem;
-  --calcite-tree-icon-content-distance-start: 0;
-  --calcite-tree-icon-content-distance-end: #{$baseline/4};
-  --calcite-tree-indent-start: 0;
-  --calcite-tree-indent-end: 1.4rem;
-  --calcite-tree-children-indent-start: 0;
-  --calcite-tree-children-indent-end: 0.25rem;
-  --calcite-tree-children-padding-start: 0;
-  --calcite-tree-children-padding-end: 1rem;
-  --calcite-tree-checkbox-padding-start: 0.5rem;
-  --calcite-tree-checkbox-padding-end: 0;
-  --calcite-tree-line-position-start: 0;
-  --calcite-tree-line-position-end: 0.05rem;
-  --calcite-tree-parent-line-position-start: 0;
-  --calcite-tree-parent-line-position-end: -0.95rem;
-
-  &[scale="s"] {
-    --calcite-tree-children-indent-end: 0rem;
-    --calcite-tree-children-padding-end: 0.8rem;
-    --calcite-tree-line-position-end: 0.3rem;
-    --calcite-tree-parent-line-position-end: -0.5rem;
-  }
+:host(:not([lines])) .node-container:after {
+  @apply hidden;
 }
 
 ::slotted(*) {
+  @apply break-words min-w-0 max-w-full;
   color: inherit;
   text-decoration: none !important;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  min-width: 0;
-  max-width: 100%;
 
   &:hover {
     text-decoration: none !important;
@@ -116,54 +57,46 @@
 }
 
 ::slotted(a) {
-  width: 100%;
-  text-decoration: none;
+  @apply w-full no-underline;
 }
 // focus styles
 :host {
-  @include focus-style-base();
+  @apply focus-base;
 }
 :host(:focus) {
-  @include focus-style-inset(var(--calcite-ui-brand));
+  @apply focus-inset;
 }
 
-.calcite-tree-checkbox {
+.checkbox {
+  @apply outline-none;
   line-height: 0;
-  padding-left: var(--calcite-tree-checkbox-padding-start);
-  padding-right: var(--calcite-tree-checkbox-padding-end);
-  outline: none;
 }
 
-.calcite-tree-label {
-  display: flex;
-  align-items: center;
-  pointer-events: none;
+.checkbox-label {
+  @apply flex items-center pointer-events-none;
 }
 
-.calcite-tree-children {
-  z-index: 1;
-  margin-left: var(--calcite-tree-children-indent-start);
-  margin-right: var(--calcite-tree-children-indent-end);
-  padding-left: var(--calcite-tree-children-padding-start);
-  padding-right: var(--calcite-tree-children-padding-end);
-  position: relative;
+.children-container {
+  @apply relative overflow-hidden h-0;
+  margin-inline-start: theme("margin.5");
+  margin-inline-end: theme("margin.5");
   transform: scaleY(0);
   opacity: 0;
-  overflow: hidden;
   transition: 0.15s $easing-function, opacity 0.15s $easing-function, all 0.15s ease-in-out; // note that we're transitioning transform, not height!
-  height: 0;
   transform-origin: top; // keep the top of the element in the same place. this is optional.
 
+  // vertical lines
   &:after {
-    transition: all $transition;
+    @apply transition-default
+      transition-colors
+      top-0
+      absolute
+      w-px;
+    // ensure lines don't overlap focus outline
+    height: 96%;
     content: "";
-    height: 100%;
-    width: var(--calcite-tree-line-width);
-    background: var(--calcite-tree-line);
-    left: var(--calcite-tree-line-position-start);
-    right: var(--calcite-tree-line-position-end);
-    top: 0;
-    position: absolute;
+    background-color: var(--calcite-tree-line);
+    z-index: -1;
   }
   :host([expanded]) > & {
     transform: scaleY(1);
@@ -172,160 +105,125 @@
   }
 }
 
-:host([has-children]) .calcite-tree-children:hover,
-:host([has-children]) .calcite-tree-children:focus {
-  &:after {
-    background: var(--calcite-tree-line-hover);
-  }
-}
-
-.calcite-tree-node {
-  display: flex;
-  align-items: center;
+.node-container {
+  @apply flex items-center relative;
   padding: var(--calcite-tree-padding-y) 0;
-  padding-left: var(--calcite-tree-indent-start);
-  padding-right: var(--calcite-tree-indent-end);
-  position: relative;
 
-  &:before {
-    content: "\2022";
-    position: absolute;
-    left: var(--calcite-tree-indicator-distance-start);
-    right: var(--calcite-tree-indicator-distance-end);
-    opacity: 0;
+  .checkmark,
+  .bullet-point {
+    margin-inline-start: var(--calcite-tree-padding-y);
+    margin-inline-end: var(--calcite-tree-padding-y);
+  }
+
+  .checkbox {
+    margin-inline-end: var(--calcite-tree-padding-y);
+  }
+
+  .checkmark,
+  .bullet-point {
+    @apply transition-default opacity-0;
     color: var(--calcite-tree-indicator);
-    transition: all $transition;
-  }
-
-  &:after {
-    transition: all $transition;
-    content: "";
-    height: 100%;
-    width: var(--calcite-tree-line-width);
-    background: var(--calcite-tree-line);
-    left: var(--calcite-tree-parent-line-position-start);
-    right: var(--calcite-tree-parent-line-position-end);
-    top: 0;
-    position: absolute;
-
-    :host([depth="1"]) > & {
-      display: none;
-    }
   }
 }
 
-:host([input-enabled]) .calcite-tree-node:before {
-  display: none;
-}
-
-:host([has-children]) > .calcite-tree-node {
-  padding-left: 0;
-  padding-right: 0;
-  &:before {
-    display: none;
-  }
-}
-
-:host([depth="1"]) > .calcite-tree-node,
-:host([depth="1"]) > .calcite-tree-children {
-  &:before {
-    left: var(--calcite-tree-indicator-first-start);
-    right: var(--calcite-tree-indicator-first-end);
-  }
-}
-
-.calcite-tree-node:hover,
-:host([selected]) .calcite-tree-node:hover,
-:host(:focus) .calcite-tree-node {
-  &:before {
-    opacity: 1;
-  }
-  &:after {
-    width: var(--calcite-tree-hover-line-width);
-    background: var(--calcite-tree-line-hover);
-    z-index: 2;
-  }
+.node-container:hover,
+:host([selected]) .node-container:hover,
+:host(:focus) .node-container {
   ::slotted(*) {
     color: var(--calcite-tree-text-hover);
   }
 
-  .calcite-tree-chevron {
-    fill: var(--calcite-tree-chevron-hover);
-  }
-  .calcite-tree-indicator {
-    fill: var(--calcite-tree-indicator-hover);
+  .checkmark,
+  .bullet-point {
+    @apply opacity-100;
   }
 }
 
-:host([selected]) > .calcite-tree-node,
-:host([selected]) > .calcite-tree-node:hover {
+:host([selected]) > .node-container,
+:host([selected]) > .node-container:hover {
   color: var(--calcite-tree-text-active);
-  font-weight: 500;
+  @apply font-medium;
 
-  &:before {
-    opacity: 1;
-    color: var(--calcite-tree-indicator-active);
+  .bullet-point,
+  .checkmark {
+    @apply opacity-100;
+    color: theme("colors.brand");
   }
-  &:after {
-    background: var(--calcite-ui-brand);
-    width: var(--calcite-tree-hover-line-width);
-    z-index: 2;
+}
+
+// ancestors selection-mode, dropdown without children
+:host(:not([has-children])) {
+  &[scale="s"] > .node-container[data-selection-mode="ancestors"] .checkbox {
+    padding-inline-start: theme("padding.5");
   }
-  ::slotted(*) {
-    color: var(--calcite-tree-text-active);
+  &[scale="m"] > .node-container[data-selection-mode="ancestors"] .checkbox {
+    padding-inline-start: theme("padding.6");
+  }
+  &[scale="l"] > .node-container[data-selection-mode="ancestors"] .checkbox {
+    padding-inline-start: 1.75rem;
+  }
+}
+// ancestors selection-mode, dropdown with children
+:host([has-children]) > .node-container[data-selection-mode="ancestors"] {
+  .checkbox {
+    margin-inline-start: 0;
+  }
+}
+
+// dropdown with children
+:host([has-children]) > .node-container {
+  .bullet-point,
+  .checkmark {
+    @apply hidden;
   }
 }
 
 // dropdown expanded and not selected
-:host([has-children][expanded]) > .calcite-tree-node {
-  color: var(--calcite-tree-text-active);
-  font-weight: 500;
-  &:after {
-    background: var(--calcite-ui-brand);
-  }
-  &:before {
-    opacity: 1;
-    color: var(--calcite-tree-indicator-active);
-  }
+:host([has-children][expanded]:not([selected])) > .node-container {
   ::slotted(*) {
+    @apply font-medium;
     color: var(--calcite-tree-text-active);
   }
 }
 
-// dropdown expanded and selected
-:host([has-children][expanded][selected]) > .calcite-tree-node:after {
-  background: var(--calcite-ui-brand);
-  width: var(--calcite-tree-hover-line-width);
-  z-index: 2;
+// dropdown selected (for children, multi-children selected parents)
+:host([has-children][selected]) > .node-container {
+  &[data-selection-mode="children"],
+  &[data-selection-mode="multi-children"] {
+    color: var(--calcite-tree-indicator-active);
+  }
 }
 
-.calcite-tree-chevron {
-  transition: all $transition;
+.chevron {
+  @apply transition-default relative self-center;
   flex: 0 0 auto;
-  position: relative;
-  align-self: center;
-  left: var(--calcite-tree-icon-edge-distance-start);
-  right: var(--calcite-tree-icon-edge-distance-end);
-  margin-right: var(--calcite-tree-icon-content-distance-start);
-  margin-left: var(--calcite-tree-icon-content-distance-end);
+  margin-inline-start: var(--calcite-tree-padding-y);
+  margin-inline-end: var(--calcite-tree-padding-y);
   transform: rotate(0deg);
-  fill: var(--calcite-tree-chevron);
+  color: var(--calcite-tree-text);
 
   .calcite--rtl & {
     transform: rotate(180deg);
   }
 
-  :host(:hover) &,
-  :host(:focus) & {
-    fill: var(--calcite-tree-chevron-hover);
-    stroke: var(--calcite-tree-chevron-hover);
-    stroke-width: 0.75;
-  }
-
-  :host([expanded]) > .calcite-tree-node > & {
+  :host([expanded]) > .node-container > & {
     transform: rotate(90deg);
-    fill: var(--calcite-ui-brand);
-    stroke-width: 0.75;
-    stroke: var(--calcite-ui-brand);
+  }
+}
+
+:host([scale="s"]) > .node-container .checkbox {
+  margin-inline-end: theme("margin.2");
+}
+:host([scale="m"]) > .node-container .checkbox {
+  margin-inline-end: theme("margin.3");
+}
+:host([scale="l"]) > .node-container .checkbox {
+  margin-inline-end: theme("margin.4");
+}
+
+:host([selected]) {
+  .checkmark,
+  .bullet-point {
+    color: var(--calcite-tree-indicator-active);
   }
 }
