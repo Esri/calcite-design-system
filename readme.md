@@ -4,7 +4,7 @@
 
 # Calcite Components
 
-Shared Web Components for Esri's Calcite design framework. To see the components in action, [view the documentation](https://esri.github.io/calcite-components/).
+Shared Web Components for Esri's Calcite Design Systems. To see the components in action, [view the documentation](https://developers.arcgis.com/calcite-design-system/components/).
 
 ## Sketch library
 
