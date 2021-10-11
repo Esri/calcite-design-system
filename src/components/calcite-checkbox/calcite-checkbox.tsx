@@ -160,7 +160,7 @@ export class CalciteCheckbox implements LabelableComponent {
    *
    * @internal
    */
-  @Event() calciteCheckboxBlur: EventEmitter;
+  @Event() calciteInternalCheckboxBlur: EventEmitter;
 
   /** Emitted when the checkbox checked status changes */
   @Event() calciteCheckboxChange: EventEmitter;
@@ -170,7 +170,7 @@ export class CalciteCheckbox implements LabelableComponent {
    *
    * @internal
    */
-  @Event() calciteCheckboxFocus: EventEmitter;
+  @Event() calciteInternalCheckboxFocus: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -194,12 +194,12 @@ export class CalciteCheckbox implements LabelableComponent {
 
   private onInputBlur() {
     this.focused = false;
-    this.calciteCheckboxBlur.emit(false);
+    this.calciteInternalCheckboxBlur.emit(false);
   }
 
   private onInputFocus() {
     this.focused = true;
-    this.calciteCheckboxFocus.emit(true);
+    this.calciteInternalCheckboxFocus.emit(true);
   }
 
   onLabelClick = (): void => {

@@ -144,12 +144,13 @@ export class CalciteTileSelect {
     this.calciteTileSelectChange.emit();
   }
 
-  @Listen("calciteCheckboxFocus")
+  @Listen("calciteInternalCheckboxFocus")
   checkboxFocusHandler(event: CustomEvent): void {
     const checkbox = event.target as HTMLCalciteCheckboxElement;
     if (checkbox === this.input) {
       this.focused = event.detail;
     }
+    event.stopPropagation();
   }
 
   @Listen("calciteRadioButtonChange")
@@ -162,7 +163,7 @@ export class CalciteTileSelect {
     this.calciteTileSelectChange.emit();
   }
 
-  @Listen("calciteRadioButtonCheckedChange")
+  @Listen("calciteInternalRadioButtonCheckedChange")
   radioButtonCheckedChangeHandler(event: CustomEvent): void {
     const radioButton = event.target as HTMLCalciteRadioButtonElement;
     if (radioButton === this.input) {
@@ -171,12 +172,13 @@ export class CalciteTileSelect {
     event.stopPropagation();
   }
 
-  @Listen("calciteRadioButtonFocus")
+  @Listen("calciteInternalRadioButtonFocus")
   radioButtonFocusHandler(event: CustomEvent): void {
     const radioButton = event.target as HTMLCalciteRadioButtonElement;
     if (radioButton === this.input) {
       this.focused = radioButton.focused;
     }
+    event.stopPropagation();
   }
 
   @Listen("click")

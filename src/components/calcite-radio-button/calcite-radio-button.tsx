@@ -49,7 +49,7 @@ export class CalciteRadioButton implements LabelableComponent {
     if (this.inputEl) {
       this.inputEl.checked = newChecked;
     }
-    this.calciteRadioButtonCheckedChange.emit(newChecked);
+    this.calciteInternalRadioButtonCheckedChange.emit(newChecked);
   }
 
   /** The disabled state of the radio button. */
@@ -229,7 +229,7 @@ export class CalciteRadioButton implements LabelableComponent {
   /** @internal */
   @Method()
   async emitCheckedChange(): Promise<void> {
-    this.calciteRadioButtonCheckedChange.emit();
+    this.calciteInternalRadioButtonCheckedChange.emit();
   }
 
   private setInputEl = (el): void => {
@@ -275,7 +275,7 @@ export class CalciteRadioButton implements LabelableComponent {
    * Fires when the radio button is blurred.
    * @internal
    */
-  @Event() calciteRadioButtonBlur: EventEmitter;
+  @Event() calciteInternalRadioButtonBlur: EventEmitter;
 
   /**
    * Fires only when the radio button is checked.  This behavior is identical to the native HTML input element.
@@ -290,13 +290,13 @@ export class CalciteRadioButton implements LabelableComponent {
    * Use calciteRadioButtonChange or calciteRadioButtonGroupChange for responding to changes in the checked value for forms.
    * @internal
    */
-  @Event() calciteRadioButtonCheckedChange: EventEmitter;
+  @Event() calciteInternalRadioButtonCheckedChange: EventEmitter;
 
   /**
    * Fires when the radio button is focused.
    * @internal
    */
-  @Event() calciteRadioButtonFocus: EventEmitter;
+  @Event() calciteInternalRadioButtonFocus: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -325,12 +325,12 @@ export class CalciteRadioButton implements LabelableComponent {
 
   private onInputBlur = (): void => {
     this.focused = false;
-    this.calciteRadioButtonBlur.emit();
+    this.calciteInternalRadioButtonBlur.emit();
   };
 
   private onInputFocus = (): void => {
     this.focused = true;
-    this.calciteRadioButtonFocus.emit();
+    this.calciteInternalRadioButtonFocus.emit();
   };
 
   //--------------------------------------------------------------------------
