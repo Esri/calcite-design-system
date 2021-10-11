@@ -4,6 +4,7 @@ import {
   Event,
   EventEmitter,
   h,
+  Host,
   Listen,
   Method,
   Prop,
@@ -48,7 +49,7 @@ export class CalciteRadioButton implements LabelableComponent {
     if (this.inputEl) {
       this.inputEl.checked = newChecked;
     }
-    this.calciteRadioButtonCheckedChange.emit(newChecked);
+    this.calciteInternalRadioButtonCheckedChange.emit(newChecked);
   }
 
   /** The disabled state of the radio button. */
@@ -182,10 +183,6 @@ export class CalciteRadioButton implements LabelableComponent {
   };
 
   private clickHandler = (): void => {
-    if (this.labelEl) {
-      return;
-    }
-
     this.toggle();
   };
 
@@ -193,15 +190,17 @@ export class CalciteRadioButton implements LabelableComponent {
     if (!this.disabled && !this.hidden) {
       this.uncheckOtherRadioButtonsInGroup();
       const label = event.currentTarget as HTMLCalciteLabelElement;
-      const firstButton = this.rootNode.querySelector<HTMLCalciteRadioButtonElement>(
-        label.for
-          ? `calcite-radio-button[id="${label.for}"]`
-          : `calcite-radio-button[name="${this.name}"]`
-      );
+      const radioButton = label.for
+        ? this.rootNode.querySelector<HTMLCalciteRadioButtonElement>(
+            `calcite-radio-button[id="${label.for}"]`
+          )
+        : label.querySelector<HTMLCalciteRadioButtonElement>(
+            `calcite-radio-button[name="${this.name}"]`
+          );
 
-      if (firstButton) {
-        firstButton.checked = true;
-        firstButton.focused = true;
+      if (radioButton) {
+        radioButton.checked = true;
+        radioButton.focused = true;
       }
 
       this.calciteRadioButtonChange.emit();
@@ -230,7 +229,7 @@ export class CalciteRadioButton implements LabelableComponent {
   /** @internal */
   @Method()
   async emitCheckedChange(): Promise<void> {
-    this.calciteRadioButtonCheckedChange.emit();
+    this.calciteInternalRadioButtonCheckedChange.emit();
   }
 
   private setInputEl = (el): void => {
@@ -273,6 +272,12 @@ export class CalciteRadioButton implements LabelableComponent {
   //--------------------------------------------------------------------------
 
   /**
+   * Fires when the radio button is blurred.
+   * @internal
+   */
+  @Event() calciteInternalRadioButtonBlur: EventEmitter;
+
+  /**
    * Fires only when the radio button is checked.  This behavior is identical to the native HTML input element.
    * Since this event does not fire when the radio button is unchecked, it's not recommended to attach a listener for this event
    * directly on the element, but instead either attach it to a node that contains all of the radio buttons in the group
@@ -285,13 +290,13 @@ export class CalciteRadioButton implements LabelableComponent {
    * Use calciteRadioButtonChange or calciteRadioButtonGroupChange for responding to changes in the checked value for forms.
    * @internal
    */
-  @Event() calciteRadioButtonCheckedChange: EventEmitter;
+  @Event() calciteInternalRadioButtonCheckedChange: EventEmitter;
 
   /**
-   * Fires when the radio button is either focused or blurred.
+   * Fires when the radio button is focused.
    * @internal
    */
-  @Event() calciteRadioButtonFocusedChange: EventEmitter;
+  @Event() calciteInternalRadioButtonFocus: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -320,12 +325,12 @@ export class CalciteRadioButton implements LabelableComponent {
 
   private onInputBlur = (): void => {
     this.focused = false;
-    this.calciteRadioButtonFocusedChange.emit();
+    this.calciteInternalRadioButtonBlur.emit();
   };
 
   private onInputFocus = (): void => {
     this.focused = true;
-    this.calciteRadioButtonFocusedChange.emit();
+    this.calciteInternalRadioButtonFocus.emit();
   };
 
   //--------------------------------------------------------------------------
@@ -373,30 +378,32 @@ export class CalciteRadioButton implements LabelableComponent {
     const value = this.value?.toString();
 
     return (
-      <div class={CSS.container} onClick={this.clickHandler}>
-        <input
-          aria-label={getLabelText(this)}
-          checked={this.checked}
-          disabled={this.disabled}
-          hidden={this.hidden}
-          id={`${this.guid}-input`}
-          name={this.name}
-          onBlur={this.onInputBlur}
-          onFocus={this.onInputFocus}
-          ref={this.setInputEl}
-          required={this.required}
-          type="radio"
-          value={value}
-        />
-        <calcite-radio
-          checked={this.checked}
-          disabled={this.disabled}
-          focused={this.focused}
-          hidden={this.hidden}
-          hovered={this.hovered}
-          scale={this.scale}
-        />
-      </div>
+      <Host onClick={this.clickHandler}>
+        <div class={CSS.container}>
+          <input
+            aria-label={getLabelText(this)}
+            checked={this.checked}
+            disabled={this.disabled}
+            hidden={this.hidden}
+            id={`${this.guid}-input`}
+            name={this.name}
+            onBlur={this.onInputBlur}
+            onFocus={this.onInputFocus}
+            ref={this.setInputEl}
+            required={this.required}
+            type="radio"
+            value={value}
+          />
+          <calcite-radio
+            checked={this.checked}
+            disabled={this.disabled}
+            focused={this.focused}
+            hidden={this.hidden}
+            hovered={this.hovered}
+            scale={this.scale}
+          />
+        </div>
+      </Host>
     );
   }
 }

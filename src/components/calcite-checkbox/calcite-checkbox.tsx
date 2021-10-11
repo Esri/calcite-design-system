@@ -4,6 +4,7 @@ import {
   Event,
   EventEmitter,
   h,
+  Host,
   Listen,
   Method,
   Prop,
@@ -145,10 +146,6 @@ export class CalciteCheckbox implements LabelableComponent {
   };
 
   private clickHandler = (): void => {
-    if (this.labelEl) {
-      return;
-    }
-
     this.toggle();
   };
 
@@ -158,15 +155,22 @@ export class CalciteCheckbox implements LabelableComponent {
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * Emitted when the checkbox is blurred
+   *
+   * @internal
+   */
+  @Event() calciteInternalCheckboxBlur: EventEmitter;
+
   /** Emitted when the checkbox checked status changes */
   @Event() calciteCheckboxChange: EventEmitter;
 
   /**
-   * Emitted when the checkbox focused state changes
+   * Emitted when the checkbox is focused
    *
    * @internal
    */
-  @Event() calciteCheckboxFocusedChange: EventEmitter;
+  @Event() calciteInternalCheckboxFocus: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -190,12 +194,12 @@ export class CalciteCheckbox implements LabelableComponent {
 
   private onInputBlur() {
     this.focused = false;
-    this.calciteCheckboxFocusedChange.emit(false);
+    this.calciteInternalCheckboxBlur.emit(false);
   }
 
   private onInputFocus() {
     this.focused = true;
-    this.calciteCheckboxFocusedChange.emit(true);
+    this.calciteInternalCheckboxFocus.emit(true);
   }
 
   onLabelClick = (): void => {
@@ -257,12 +261,14 @@ export class CalciteCheckbox implements LabelableComponent {
 
   render(): VNode {
     return (
-      <div class={{ focused: this.focused }} onClick={this.clickHandler}>
-        <svg class="check-svg" viewBox="0 0 16 16">
-          <path d={this.getPath()} />
-        </svg>
-        <slot />
-      </div>
+      <Host onClick={this.clickHandler}>
+        <div class={{ focused: this.focused, test: true }}>
+          <svg class="check-svg" viewBox="0 0 16 16">
+            <path d={this.getPath()} />
+          </svg>
+          <slot />
+        </div>
+      </Host>
     );
   }
 }
