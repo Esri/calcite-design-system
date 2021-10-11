@@ -1007,15 +1007,13 @@ describe("calcite-dropdown", () => {
           <calcite-tab-title is-active>First tab</calcite-tab-title>
         </calcite-tab-nav>
         <calcite-tab is-active>
-          <div style="display: flex; flex-direction: row; gap: 1rem;">
-            <calcite-dropdown>
-              <calcite-button slot="dropdown-trigger" class="dropdown">Dropdown</calcite-button>
-              <calcite-dropdown-group group-title="Select one">
-                <calcite-dropdown-item>First</calcite-dropdown-item>
-                <calcite-dropdown-item>Second</calcite-dropdown-item>
-              </calcite-dropdown-group>
-            </calcite-dropdown>
-          </div>
+          <calcite-dropdown>
+            <calcite-button slot="dropdown-trigger" class="dropdown">Dropdown</calcite-button>
+            <calcite-dropdown-group group-title="Select one">
+              <calcite-dropdown-item>First</calcite-dropdown-item>
+              <calcite-dropdown-item>Second</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          </calcite-dropdown>
         </calcite-tab>
       </calcite-tabs>`
     });
@@ -1028,10 +1026,9 @@ describe("calcite-dropdown", () => {
 
     expect(
       await page.$eval("calcite-dropdown", (dropdown) => {
-        const isOverflown = ({ clientWidth, clientHeight, scrollWidth, scrollHeight }) => {
-          return scrollHeight > clientHeight || scrollWidth > clientWidth;
-        };
-        return isOverflown(dropdown);
+        // check whether the element is overflown, ref :https://stackoverflow.com/questions/9333379/check-if-an-elements-content-is-overflowing
+        const { clientWidth, clientHeight, scrollWidth, scrollHeight } = dropdown;
+        return scrollHeight > clientHeight || scrollWidth > clientWidth;
       })
     ).toBe(false);
   });
