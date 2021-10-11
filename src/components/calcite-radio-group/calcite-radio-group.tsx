@@ -68,6 +68,12 @@ export class CalciteRadioGroup implements LabelableComponent, FormAssociated {
   /** The value of the selectedItem */
   @Prop({ mutable: true }) value: string = null;
 
+  @Watch("value")
+  valueHandler(value: string): void {
+    const items = this.getItems();
+    items.forEach((item) => (item.checked = item.value === value));
+  }
+
   /**
    * The group's selected item.
    */
