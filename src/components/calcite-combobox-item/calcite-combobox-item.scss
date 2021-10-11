@@ -1,24 +1,3 @@
-.scale--s {
-  @apply text--2h;
-  --calcite-combobox-item-spacing-unit-l: theme("spacing.2");
-  --calcite-combobox-item-spacing-unit-s: theme("spacing.1");
-  --calcite-combobox-item-spacing-indent: theme("spacing.2");
-}
-
-.scale--m {
-  @apply text--1h;
-  --calcite-combobox-item-spacing-unit-l: theme("spacing.3");
-  --calcite-combobox-item-spacing-unit-s: theme("spacing.2");
-  --calcite-combobox-item-spacing-indent: theme("spacing.3");
-}
-
-.scale--l {
-  @apply text-0h;
-  --calcite-combobox-item-spacing-unit-l: theme("spacing.4");
-  --calcite-combobox-item-spacing-unit-s: theme("spacing.3");
-  --calcite-combobox-item-spacing-indent: theme("spacing.4");
-}
-
 .container {
   --calcite-combobox-item-indent-value: calc(
     var(--calcite-combobox-item-spacing-indent) * var(--calcite-combobox-item-spacing-indent-multiplier)
@@ -41,6 +20,27 @@ ul {
   @apply flex flex-col m-0 p-0 outline-none;
 }
 
+.label--s {
+  @apply py-1 text--2h;
+  --calcite-combobox-item-spacing-unit-l: theme("spacing.2");
+  --calcite-combobox-item-spacing-unit-s: theme("spacing.1");
+  --calcite-combobox-item-spacing-indent: theme("spacing.2");
+}
+
+.label--m {
+  @apply py-2 text--1h;
+  --calcite-combobox-item-spacing-unit-l: theme("spacing.2");
+  --calcite-combobox-item-spacing-unit-s: theme("spacing.1");
+  --calcite-combobox-item-spacing-indent: theme("spacing.2");
+}
+
+.label--l {
+  @apply py-3 text-0h;
+  --calcite-combobox-item-spacing-unit-l: theme("spacing.2");
+  --calcite-combobox-item-spacing-unit-s: theme("spacing.1");
+  --calcite-combobox-item-spacing-indent: theme("spacing.2");
+}
+
 .label {
   @apply flex
     box-border
@@ -54,7 +54,8 @@ ul {
     ease-in-out
     focus-base
     no-underline;
-  padding: var(--calcite-combobox-item-spacing-unit-l);
+  padding-left: var(--calcite-combobox-item-spacing-unit-l);
+  padding-right: var(--calcite-combobox-item-spacing-unit-l);
 }
 
 :host([disabled]) .label {

@@ -8,5 +8,8 @@ export const CSS = {
   active: "label--active",
   selected: "label--selected",
   title: "title",
-  textContainer: "text-container"
+  textContainer: "text-container",
+  labelSmall: "label--s",
+  labelMedium: "label--m",
+  labelLarge: "label--l"
 };

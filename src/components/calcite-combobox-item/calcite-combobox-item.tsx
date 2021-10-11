@@ -190,14 +190,17 @@ export class CalciteComboboxItem {
       [CSS.label]: true,
       [CSS.selected]: this.selected,
       [CSS.active]: this.active,
-      [CSS.single]: isSingleSelect
+      [CSS.single]: isSingleSelect,
+      [CSS.labelSmall]: this.scale === "s",
+      [CSS.labelMedium]: this.scale === "m",
+      [CSS.labelLarge]: this.scale === "l"
     };
     const depth = getDepth(this.el);
 
     return (
       <Host aria-hidden="true">
         <div
-          class={`container scale--${this.scale}`}
+          class={`container`}
           style={{ "--calcite-combobox-item-spacing-indent-multiplier": `${depth}` }}
         >
           <li class={classes} id={this.guid} onClick={this.itemClickHandler}>
