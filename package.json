@@ -72,7 +72,7 @@
     "@babel/plugin-proposal-numeric-separator": "7.14.5",
     "@esri/calcite-base": "^1.2.0",
     "@esri/calcite-colors": "6.0.1",
-    "@esri/calcite-ui-icons": "3.17.0",
+    "@esri/calcite-ui-icons": "3.17.2",
     "@esri/eslint-plugin-calcite-components": "0.1.1",
     "@rollup/plugin-babel": "5.3.0",
     "@stencil/eslint-plugin": "0.3.1",
