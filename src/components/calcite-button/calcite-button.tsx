@@ -11,16 +11,15 @@ import { CSS_UTILITY } from "../../utils/resources";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { createObserver } from "../../utils/observers";
 
+/** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
+/** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
+
+/** @slot - A slot for adding text. */
 @Component({
   tag: "calcite-button",
   styleUrl: "calcite-button.scss",
   shadow: true
 })
-
-/** @slot - A slot for adding text. */
-
-/** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
-/** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
 export class CalciteButton implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
