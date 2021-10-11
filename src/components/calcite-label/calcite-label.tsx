@@ -36,7 +36,7 @@ export class CalciteLabel {
   /** The id of the input associated with the label */
   @Prop({ reflect: true }) for: string;
 
-  /** specify the scale of the input, defaults to m */
+  /** specify the scale of the label, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /** is the wrapped element positioned inline with the label slotted text */
