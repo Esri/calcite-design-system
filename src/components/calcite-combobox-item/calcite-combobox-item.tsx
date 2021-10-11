@@ -200,7 +200,7 @@ export class CalciteComboboxItem {
     return (
       <Host aria-hidden="true">
         <div
-          class={`container`}
+          class={`container scale--${this.scale}`}
           style={{ "--calcite-combobox-item-spacing-indent-multiplier": `${depth}` }}
         >
           <li class={classes} id={this.guid} onClick={this.itemClickHandler}>
