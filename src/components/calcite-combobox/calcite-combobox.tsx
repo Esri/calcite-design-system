@@ -129,18 +129,18 @@ export class CalciteCombobox implements LabelableComponent, FormAssociated {
 
   @Watch("value")
   valueHandler(value: string | string[]): void {
-    const items = this.getItems();
-    if (Array.isArray(value)) {
-      items.forEach((item) => (item.selected = value.includes(item.value)));
-    } else if (value) {
-      items.forEach((item) => (item.selected = value === item.value));
-    } else {
-      items.forEach((item) => (item.selected = false));
+    if (!this.internalValueChangeFlag) {
+      const items = this.getItems();
+      if (Array.isArray(value)) {
+        items.forEach((item) => (item.selected = value.includes(item.value)));
+      } else if (value) {
+        items.forEach((item) => (item.selected = value === item.value));
+      } else {
+        items.forEach((item) => (item.selected = false));
+      }
+      this.updateItems();
     }
-
-    if (this.isMulti()) {
-      items.forEach((item) => this.updateAncestors(item));
-    }
+    this.internalValueChangeFlag = false;
   }
 
   //--------------------------------------------------------------------------
@@ -239,11 +239,16 @@ export class CalciteCombobox implements LabelableComponent, FormAssociated {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.updateItems();
+    this.internalValueChangeFlag = true;
+    this.value = this.getValue();
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.createPopper();
     connectLabel(this);
     connectForm(this);
+  }
+
+  componentWillLoad(): void {
+    this.updateItems();
   }
 
   componentDidRender(): void {
@@ -266,6 +271,8 @@ export class CalciteCombobox implements LabelableComponent, FormAssociated {
   //
   //--------------------------------------------------------------------------
 
+  internalValueChangeFlag: boolean;
+
   labelEl: HTMLCalciteLabelElement;
 
   formEl: HTMLFormElement;
@@ -280,6 +287,7 @@ export class CalciteCombobox implements LabelableComponent, FormAssociated {
 
   @Watch("selectedItems")
   selectedItemsHandler(): void {
+    this.internalValueChangeFlag = true;
     this.value = this.getValue();
   }
 
@@ -694,7 +702,6 @@ export class CalciteCombobox implements LabelableComponent, FormAssociated {
     if (!this.allowCustomValues) {
       this.setMaxScrollerHeight();
     }
-    this.value = this.getValue();
   };
 
   getData(): ItemData[] {
