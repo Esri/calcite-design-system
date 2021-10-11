@@ -43,7 +43,7 @@ export class CalciteDatePicker {
   @Prop() activeRange?: "start" | "end";
 
   /** Selected date */
-  @Prop({ mutable: true }) value?: string;
+  @Prop({ mutable: true }) value?: string | string[];
 
   /**
    * Number at which section headings should start for this component.
@@ -51,12 +51,14 @@ export class CalciteDatePicker {
   @Prop() headingLevel: HeadingLevel;
 
   /** Selected date as full date object*/
-  @Prop({ mutable: true }) valueAsDate?: Date;
+  @Prop({ mutable: true }) valueAsDate?: Date | Date[];
 
   @Watch("valueAsDate")
-  handleValueAsDate(date: Date): void {
-    this.activeDate = date;
-    this.calciteDatePickerChange.emit(date);
+  handleValueAsDate(date: Date | Date[]): void {
+    if (!Array.isArray(date)) {
+      this.activeDate = date;
+      this.calciteDatePickerChange.emit(date);
+    }
   }
 
   /** Selected start date as full date object*/
@@ -151,7 +153,11 @@ export class CalciteDatePicker {
   //
   // --------------------------------------------------------------------------
   connectedCallback(): void {
-    if (this.value) {
+    if (Array.isArray(this.value)) {
+      this.valueAsDate = this.value.map((v) => dateFromISO(v));
+      this.start = this.value[0];
+      this.end = this.value[1];
+    } else if (this.value) {
       this.valueAsDate = dateFromISO(this.value);
     }
 
@@ -248,8 +254,16 @@ export class CalciteDatePicker {
   };
 
   @Watch("value")
-  valueWatcher(value: string): void {
-    this.valueAsDate = dateFromISO(value);
+  valueHandler(value: string | string[]): void {
+    if (Array.isArray(value)) {
+      this.valueAsDate = value.map((v) => dateFromISO(v));
+      this.start = value[0];
+      this.end = value[1];
+    } else {
+      this.valueAsDate = dateFromISO(value);
+      this.start = "";
+      this.end = "";
+    }
   }
 
   @Watch("start")
@@ -442,7 +456,11 @@ export class CalciteDatePicker {
    * Reset active date and close
    */
   reset = (): void => {
-    if (this.valueAsDate && this.valueAsDate?.getTime() !== this.activeDate?.getTime()) {
+    if (
+      !Array.isArray(this.valueAsDate) &&
+      this.valueAsDate &&
+      this.valueAsDate?.getTime() !== this.activeDate?.getTime()
+    ) {
       this.activeDate = new Date(this.valueAsDate);
     }
     if (this.startAsDate && this.startAsDate?.getTime() !== this.activeStartDate?.getTime()) {

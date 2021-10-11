@@ -58,7 +58,20 @@ export class CalciteInputDatePicker implements LabelableComponent, FormAssociate
   //
   //--------------------------------------------------------------------------
   /** Selected date */
-  @Prop({ mutable: true }) value: string;
+  @Prop({ mutable: true }) value: string | string[];
+
+  @Watch("value")
+  valueHandler(value: string | string[]): void {
+    if (Array.isArray(value)) {
+      this.valueAsDate = value.map((v) => dateFromISO(v));
+      this.start = value[0];
+      this.end = value[1];
+    } else {
+      this.valueAsDate = dateFromISO(value);
+      this.start = "";
+      this.end = "";
+    }
+  }
 
   /**
    * Number at which section headings should start for this component.
@@ -66,7 +79,7 @@ export class CalciteInputDatePicker implements LabelableComponent, FormAssociate
   @Prop() headingLevel: HeadingLevel;
 
   /** Selected date as full date object*/
-  @Prop({ mutable: true }) valueAsDate?: Date;
+  @Prop({ mutable: true }) valueAsDate?: Date | Date[];
 
   /** Selected start date as full date object*/
   @Prop({ mutable: true }) startAsDate?: Date;
@@ -209,8 +222,14 @@ export class CalciteInputDatePicker implements LabelableComponent, FormAssociate
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    if (this.value) {
+    if (Array.isArray(this.value)) {
+      this.valueAsDate = this.value.map((v) => dateFromISO(v));
+      this.start = this.value[0];
+      this.end = this.value[1];
+    } else if (this.value) {
       this.valueAsDate = dateFromISO(this.value);
+      this.start = "";
+      this.end = "";
     }
 
     if (this.start) {
@@ -518,11 +537,6 @@ export class CalciteInputDatePicker implements LabelableComponent, FormAssociate
     this.popper = null;
   }
 
-  @Watch("value")
-  valueWatcher(value: string): void {
-    this.valueAsDate = dateFromISO(value);
-  }
-
   @Watch("start")
   startWatcher(start: string): void {
     this.startAsDate = dateFromISO(start);
@@ -545,15 +559,17 @@ export class CalciteInputDatePicker implements LabelableComponent, FormAssociate
 
   private clearCurrentValue(): void {
     if (!this.range) {
-      this.value = undefined;
+      this.value = "";
       return;
     }
 
     const { focusedInput } = this;
 
     if (focusedInput === "start") {
+      this.value = Array.isArray(this.value) ? ["", this.value[1] || ""] : [""];
       this.start = undefined;
     } else if (focusedInput === "end") {
+      this.value = Array.isArray(this.value) ? [this.value[0] || "", ""] : ["", ""];
       this.end = undefined;
     }
   }
@@ -578,7 +594,11 @@ export class CalciteInputDatePicker implements LabelableComponent, FormAssociate
 
     if (focusedInput === "start") {
       if (!this.startAsDate || !sameDate(date, this.startAsDate)) {
-        this.start = dateToISO(date);
+        const startDateISO = dateToISO(date);
+        this.value = Array.isArray(this.value)
+          ? [startDateISO, this.value[1] || ""]
+          : [startDateISO];
+        this.start = startDateISO;
         this.calciteDatePickerRangeChange.emit({
           startDate: date,
           endDate: this.endAsDate
@@ -586,7 +606,11 @@ export class CalciteInputDatePicker implements LabelableComponent, FormAssociate
       }
     } else if (focusedInput === "end") {
       if (!this.endAsDate || !sameDate(date, this.endAsDate)) {
-        this.end = dateToISO(date);
+        const endDateISO = dateToISO(date);
+        this.value = Array.isArray(this.value)
+          ? [this.value[0] || "", endDateISO]
+          : ["", endDateISO];
+        this.end = endDateISO;
         this.calciteDatePickerRangeChange.emit({
           startDate: this.startAsDate,
           endDate: date
@@ -598,12 +622,14 @@ export class CalciteInputDatePicker implements LabelableComponent, FormAssociate
   /**
    * Clean up invalid date from input on blur
    */
-  private blur(target: HTMLInputElement): void {
+  private blur(target: HTMLCalciteInputElement): void {
     const { locale, focusedInput, endAsDate, range, startAsDate, valueAsDate } = this;
     const date = this.getDateFromInput(target.value);
     if (!date) {
       if (!range && valueAsDate) {
-        target.value = valueAsDate.toLocaleDateString(locale);
+        target.value = Array.isArray(valueAsDate)
+          ? valueAsDate[focusedInput === "end" ? 1 : 0].toLocaleDateString(locale)
+          : valueAsDate.toLocaleDateString(locale);
       } else if (focusedInput === "start" && startAsDate) {
         target.value = startAsDate.toLocaleDateString(locale);
       } else if (focusedInput === "end" && endAsDate) {
@@ -650,6 +676,8 @@ export class CalciteInputDatePicker implements LabelableComponent, FormAssociate
 
     this.start = dateToISO(startDate);
     this.end = dateToISO(endDate);
+    this.value = [this.start, this.end];
+    this.valueAsDate = [startDate, endDate];
 
     if (this.shouldFocusRangeEnd()) {
       this.endInput?.setFocus();
