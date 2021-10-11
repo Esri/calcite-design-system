@@ -127,6 +127,18 @@ export class CalciteCombobox implements LabelableComponent, FormAssociated {
   /** The value(s) of the selectedItem(s) */
   @Prop({ mutable: true }) value: string | string[] = null;
 
+  @Watch("value")
+  valueHandler(value: string | string[]): void {
+    const items = this.getItems();
+    if (Array.isArray(value)) {
+      items.forEach((item) => (item.selected = value.includes(item.value)));
+    } else if (value) {
+      items.forEach((item) => (item.selected = value === item.value));
+    } else {
+      items.forEach((item) => (item.selected = false));
+    }
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Event Listeners
@@ -223,14 +235,11 @@ export class CalciteCombobox implements LabelableComponent, FormAssociated {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    this.updateItems();
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.createPopper();
     connectLabel(this);
     connectForm(this);
-  }
-
-  componentWillLoad(): void {
-    this.updateItems();
   }
 
   componentDidRender(): void {
@@ -267,8 +276,7 @@ export class CalciteCombobox implements LabelableComponent, FormAssociated {
 
   @Watch("selectedItems")
   selectedItemsHandler(): void {
-    const items = this.selectedItems.map((item) => item?.value.toString());
-    this.value = items?.length ? (items.length > 1 ? items : items[0]) : null;
+    this.value = this.getValue();
   }
 
   @State() visibleItems: HTMLCalciteComboboxItemElement[] = [];
@@ -323,6 +331,11 @@ export class CalciteCombobox implements LabelableComponent, FormAssociated {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  getValue = (): string | string[] => {
+    const items = this.selectedItems.map((item) => item?.value.toString());
+    return items?.length ? (items.length > 1 ? items : items[0]) : "";
+  };
 
   onLabelClick = (): void => {
     this.setFocus();
@@ -606,7 +619,7 @@ export class CalciteCombobox implements LabelableComponent, FormAssociated {
       this.emitCalciteLookupChange();
       this.emitComboboxChange();
       this.resetText();
-      this.textInput.focus();
+      this.textInput?.focus();
       this.filterItems("");
     } else {
       this.ignoreSelectedEventsFlag = true;
@@ -614,7 +627,9 @@ export class CalciteCombobox implements LabelableComponent, FormAssociated {
       this.ignoreSelectedEventsFlag = false;
       this.selectedItems = this.getSelectedItems();
       this.emitComboboxChange();
-      this.textInput.value = item.textLabel;
+      if (this.textInput) {
+        this.textInput.value = item.textLabel;
+      }
       this.active = false;
       this.updateActiveItemIndex(-1);
       this.resetText();
@@ -675,6 +690,7 @@ export class CalciteCombobox implements LabelableComponent, FormAssociated {
     if (!this.allowCustomValues) {
       this.setMaxScrollerHeight();
     }
+    this.value = this.getValue();
   };
 
   getData(): ItemData[] {
@@ -691,7 +707,9 @@ export class CalciteCombobox implements LabelableComponent, FormAssociated {
   }
 
   resetText(): void {
-    this.textInput.value = "";
+    if (this.textInput) {
+      this.textInput.value = "";
+    }
     this.text = "";
   }
 
@@ -800,7 +818,7 @@ export class CalciteCombobox implements LabelableComponent, FormAssociated {
     this.activeDescendant = activeDescendant;
     if (this.activeItemIndex > -1) {
       this.activeChipIndex = -1;
-      this.textInput.focus();
+      this.textInput?.focus();
     }
   }
 
@@ -810,7 +828,7 @@ export class CalciteCombobox implements LabelableComponent, FormAssociated {
 
   comboboxFocusHandler = (): void => {
     this.active = true;
-    this.textInput.focus();
+    this.textInput?.focus();
   };
 
   comboboxBlurHandler = (event: FocusEvent): void => {
