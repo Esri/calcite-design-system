@@ -71,6 +71,12 @@ export class CalciteSelect implements LabelableComponent, FormAssociated {
   /** The value of the selectedOption */
   @Prop({ mutable: true }) value: string = null;
 
+  @Watch("value")
+  valueHandler(value: string): void {
+    const items = this.el.querySelectorAll("calcite-option");
+    items.forEach((item) => (item.selected = item.value === value));
+  }
+
   /**
    * The currently selected option.
    *
