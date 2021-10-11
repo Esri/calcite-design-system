@@ -137,6 +137,10 @@ export class CalciteCombobox implements LabelableComponent, FormAssociated {
     } else {
       items.forEach((item) => (item.selected = false));
     }
+
+    if (this.isMulti()) {
+      items.forEach((item) => this.updateAncestors(item));
+    }
   }
 
   //--------------------------------------------------------------------------
