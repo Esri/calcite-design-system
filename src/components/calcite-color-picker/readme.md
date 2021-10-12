@@ -2,6 +2,22 @@
 
 <!-- Auto Generated Below -->
 
+## Usage
+
+### Basic
+
+```html
+<calcite-color-picker dir="ltr" scale="m" value="#b33f33" appearance="default"></calcite-color-picker>
+```
+
+### Minimal
+
+For a minimal design, you can hide unused color formats and options:
+
+```html
+<calcite-color-picker appearance="minimal" value="" allow-empty hide-saved hide-channels></calcite-color-picker>
+```
+
 ## Properties
 
 | Property          | Attribute           | Description                                                                                                                                                                                                                                     | Type                                                                                                                                       | Default            |
@@ -37,9 +53,10 @@
 
 ## Events
 
-| Event                      | Description                             | Type               |
-| -------------------------- | --------------------------------------- | ------------------ |
-| `calciteColorPickerChange` | Fires when the color value has changed. | `CustomEvent<any>` |
+| Event                      | Description                                                                                                                                                                                      | Type               |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------ |
+| `calciteColorPickerChange` | Fires when the color value has changed.                                                                                                                                                          | `CustomEvent<any>` |
+| `calciteColorPickerInput`  | Fires as the color value changes. This is similar to the change event with the exception of dragging. When dragging the color field or hue slider thumb, this event fires as the thumb is moved. | `CustomEvent<any>` |
 
 ## Methods
 

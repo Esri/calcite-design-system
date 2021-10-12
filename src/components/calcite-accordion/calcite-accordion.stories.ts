@@ -3,7 +3,7 @@ import {
   Attributes,
   filterComponentAttributes,
   createComponentHTML as create,
-  darkBackground
+  themesDarkDefault
 } from "../../../.storybook/utils";
 import { html } from "../../tests/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -17,30 +17,14 @@ const createAccordionAttributes: (options?: { exceptions: string[] }) => Attribu
   { exceptions } = { exceptions: [] }
 ) => {
   const group = "accordion";
-  const { dir, theme, scale } = ATTRIBUTES;
+  const { scale } = ATTRIBUTES;
 
   return filterComponentAttributes(
     [
       {
-        name: "dir",
-        commit(): Attribute {
-          this.value = select("dir", dir.values, dir.defaultValue, group);
-          delete this.build;
-          return this;
-        }
-      },
-      {
         name: "scale",
         commit(): Attribute {
           this.value = select("scale", scale.values, scale.defaultValue, group);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "class",
-        commit(): Attribute {
-          this.value = select("class", theme.values, theme.defaultValue, group);
           delete this.build;
           return this;
         }
@@ -116,7 +100,6 @@ const accordionItemContent = `Custom content here<br/><img src="${placeholderIma
 export default {
   title: "Components/Accordion",
   parameters: {
-    backgrounds: darkBackground,
     notes: {
       accordion: accordionReadme,
       accordionItem: accordionItemReadme
@@ -219,6 +202,10 @@ export const darkThemeIcon = (): string =>
       )}
     `
   );
+
+darkThemeIcon.story = {
+  parameters: { themes: themesDarkDefault }
+};
 
 export const RTL = (): string =>
   create(

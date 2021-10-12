@@ -8,10 +8,17 @@
  */
 
 :host {
-  @extend %component-host;
-  @apply block;
-  --calcite-tip-manager-height: 18vh;
-  --calcite-tip-max-width: 540px;
+  @apply block
+  box-border
+  bg-foreground-1
+  text-color-2
+  text--1h;
+
+  * {
+    @apply box-border;
+  }
+
+  --calcite-tip-manager-height: 19vh;
 }
 
 :host([closed]) {
@@ -20,16 +27,26 @@
 
 @import "../../assets/styles/header";
 
-.header .heading {
-  @apply px-2;
+.header {
+  @apply border-0
+    border-b
+    border-solid 
+    border-color-3 
+    pl-4 
+    pr-0 
+    py-0;
+
+  h2.heading {
+    @apply font-bold
+      text-color-1
+      text-1h
+      p-0;
+  }
 }
 
 .container {
   @apply overflow-hidden
     relative
-    pt-2
-    px-2
-    pb-0
     focus-base;
   min-height: 150px;
   &:focus {
@@ -38,15 +55,15 @@
 }
 
 .tip-container {
-  @apply mt-1
+  @apply mt-0
     overflow-auto
     flex
     justify-center
     items-start
-    focus-base;
+    focus-base
+    mt-px;
   animation-name: none;
   animation-duration: 150ms;
-  animation-timing-function: $easing-function;
   height: var(--calcite-tip-manager-height);
   &:focus {
     @apply focus-outset;
@@ -54,7 +71,7 @@
 }
 
 ::slotted(calcite-tip) {
-  @apply border-none;
+  @apply border-none p-3;
   max-width: var(--calcite-tip-max-width);
 }
 
@@ -68,11 +85,23 @@
 
 /* Pagination Styles*/
 .pagination {
-  @apply flex items-center justify-center py-1 px-0;
+  @apply flex
+  items-center
+  justify-center
+  pt-3
+  pb-2
+  px-0;
 }
 
 .page-position {
   @apply text--2h my-0 mx-2;
+}
+
+/* RTL */
+:host-context([dir="rtl"]) {
+  .header.header {
+    @apply pr-4 pl-0 py-0;
+  }
 }
 
 /* @keyframes*/

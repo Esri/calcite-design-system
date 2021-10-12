@@ -1,9 +1,10 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, reflects, renders, slots } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
+import { SLOTS } from "./resources";
 
 describe("calcite-tile", () => {
-  it("renders", async () => renders("calcite-tile"));
+  it("renders", async () => renders("calcite-tile", { display: "inline-block" }));
 
   it("is accessible", async () => accessible(`<calcite-tile></calcite-tile>`));
 
@@ -14,6 +15,8 @@ describe("calcite-tile", () => {
       { propertyName: "focused", defaultValue: false },
       { propertyName: "hidden", defaultValue: false }
     ]));
+
+  it("has slots", async () => slots("calcite-tile", SLOTS));
 
   it("reflects", async () =>
     reflects("calcite-tile", [

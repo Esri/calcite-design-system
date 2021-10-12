@@ -1,13 +1,18 @@
 :host {
-  @extend %component-host;
   @apply items-stretch
+    box-border
     bg-transparent
     flex
     flex-col
     relative
-    pb-0
     flex-grow
-    flex-shrink-0;
+    flex-shrink-0
+    text-color-2
+    text--1h;
+
+  * {
+    @apply box-border;
+  }
 }
 
 :host([filter-enabled]) header {
@@ -24,7 +29,7 @@
 }
 
 calcite-filter {
-  @apply mb-px;
+  @apply mb-0;
 }
 
 :host([loading][disabled]) {

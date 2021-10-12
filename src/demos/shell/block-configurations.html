@@ -138,25 +138,21 @@
                 I'm this panel's content.
               </calcite-panel>
               <calcite-panel heading="Configure popup" dismissible>
-                <calcite-block heading="Basic" summary="Collapsible with section" collapsible>
-                  <calcite-value-list id="one" multiple style="margin-bottom: var(--calcite-spacing-double)">
-                    <calcite-value-list-item label="Dogs" description="Man's best friend" value="dogs">
+                <calcite-block heading="Basic" summary="Collapsible with section" collapsible open>
+                  <calcite-list id="one" multiple style="margin-bottom: var(--calcite-spacing-double)">
+                    <calcite-list-item label="Population 2018" description="{ POP_2018 }" value="dogs">
                       <calcite-action slot="actions-end" text="click-me" onClick="console.log('clicked');" icon="x">
                       </calcite-action>
-                    </calcite-value-list-item>
-                    <calcite-value-list-item label="Cats" description="Independent and fluffy" value="cats">
+                    </calcite-list-item>
+                    <calcite-list-item label="Population 2020" description="{ POP_2020 }" value="cats">
                       <calcite-action slot="actions-end" text="click-me" onClick="console.log('clicked');" icon="x">
                       </calcite-action>
-                    </calcite-value-list-item>
-                    <calcite-value-list-item
-                      label="Fish. But not just any fish."
-                      description="Easy to care for."
-                      value="fish"
-                    >
+                    </calcite-list-item>
+                    <calcite-list-item label="Average Income" description="{ INCOM_AVG }" value="fish">
                       <calcite-action slot="actions-end" text="click-me" onClick="console.log('clicked');" icon="x">
                       </calcite-action>
-                    </calcite-value-list-item>
-                  </calcite-value-list>
+                    </calcite-list-item>
+                  </calcite-list>
 
                   <!-- Using Button -->
                   <calcite-label scale="s">
@@ -191,12 +187,16 @@
                       <calcite-input type="text" placeholder="This is stuff." scale="s"> </calcite-input>
                     </calcite-label>
                   </calcite-block-section>
-                  <calcite-block-section text="Switch section" toggle-display="switch">
+                  <calcite-block-section text="This is switch section" toggle-display="switch">
                     <calcite-label scale="s">
                       It's a label.
                       <calcite-input type="text" placeholder="This is stuff." scale="s"> </calcite-input>
                     </calcite-label>
                   </calcite-block-section>
+                  <calcite-label layout="inline-space-between" scale="m">
+                    This is a label
+                    <calcite-switch scale="s"></calcite-switch>
+                  </calcite-label>
                 </calcite-block>
 
                 <calcite-block heading="With control" summary="Collapsible" collapsible>

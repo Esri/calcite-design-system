@@ -12,9 +12,10 @@ import {
 } from "@stencil/core";
 import { Direction, focusElement, getElementDir } from "../../utils/dom";
 import { Scale, Width } from "../interfaces";
+import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import { CSS } from "./resources";
-import { FocusRequest } from "../calcite-label/interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
+import { createObserver } from "../../utils/observers";
 
 type CalciteOptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
@@ -29,12 +30,15 @@ function isOptionGroup(
   return optionOrGroup.tagName === "CALCITE-OPTION-GROUP";
 }
 
+/**
+ * @slot - A slot for adding `calcite-option`s.
+ */
 @Component({
   tag: "calcite-select",
   styleUrl: "calcite-select.scss",
   shadow: true
 })
-export class CalciteSelect {
+export class CalciteSelect implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -86,12 +90,14 @@ export class CalciteSelect {
   //
   //--------------------------------------------------------------------------
 
+  labelEl: HTMLCalciteLabelElement;
+
   @Element()
-  private el: HTMLCalciteSelectElement;
+  el: HTMLCalciteSelectElement;
 
   private componentToNativeEl = new Map<CalciteOptionOrGroup, NativeOptionOrGroup>();
 
-  private mutationObserver = new MutationObserver(() => this.populateInternalSelect());
+  private mutationObserver = createObserver("mutation", () => this.populateInternalSelect());
 
   private selectEl: HTMLSelectElement;
 
@@ -104,14 +110,17 @@ export class CalciteSelect {
   connectedCallback(): void {
     const { el } = this;
 
-    this.mutationObserver.observe(el, {
+    this.mutationObserver?.observe(el, {
       subtree: true,
       childList: true
     });
+
+    connectLabel(this);
   }
 
   disconnectedCallback(): void {
-    this.mutationObserver.disconnect();
+    this.mutationObserver?.disconnect();
+    disconnectLabel(this);
   }
 
   //--------------------------------------------------------------------------
@@ -120,6 +129,7 @@ export class CalciteSelect {
   //
   //--------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     focusElement(this.selectEl);
@@ -162,22 +172,15 @@ export class CalciteSelect {
     }
   }
 
-  @Listen("calciteLabelFocus", { target: "window" })
-  handleLabelFocus(event: CustomEvent<FocusRequest>): void {
-    const { requestedInput, labelEl } = event.detail;
-    const { el } = this;
-
-    if (labelEl.contains(el) || (requestedInput && requestedInput === el.getAttribute("id"))) {
-      this.setFocus();
-      event.stopImmediatePropagation();
-    }
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  onLabelClick = (): void => {
+    this.setFocus();
+  };
 
   private updateNativeElement(
     optionOrGroup: CalciteOptionOrGroup,

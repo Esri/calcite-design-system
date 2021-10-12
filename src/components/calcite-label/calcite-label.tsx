@@ -1,13 +1,16 @@
-import { Component, Element, Event, Listen, h, Prop, EventEmitter, VNode } from "@stencil/core";
-import { getElementDir, queryElementRoots } from "../../utils/dom";
-import { FocusRequest } from "./interfaces";
+import { Component, Element, Event, h, Prop, EventEmitter, VNode, Host } from "@stencil/core";
+import { getElementDir } from "../../utils/dom";
 import { Alignment, Scale, Status } from "../interfaces";
+import { CSS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 
+/**
+ * @slot - A slot for adding text and a component that can be labeled.
+ */
 @Component({
   tag: "calcite-label",
   styleUrl: "calcite-label.scss",
-  scoped: true
+  shadow: true
 })
 export class CalciteLabel {
   //--------------------------------------------------------------------------
@@ -33,17 +36,17 @@ export class CalciteLabel {
   /** The id of the input associated with the label */
   @Prop({ reflect: true }) for: string;
 
-  /** specify the scale of the input, defaults to m */
+  /** specify the scale of the label, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /** is the wrapped element positioned inline with the label slotted text */
   @Prop({ reflect: true }) layout: "inline" | "inline-space-between" | "default" = "default";
 
   /** eliminates any space around the label */
-  @Prop() disableSpacing?: boolean;
+  @Prop() disableSpacing = false;
 
   /** is the label disabled  */
-  @Prop({ reflect: true }) disabled?: boolean;
+  @Prop({ reflect: true }) disabled = false;
 
   //--------------------------------------------------------------------------
   //
@@ -54,24 +57,9 @@ export class CalciteLabel {
   /**
    * @internal
    */
-  @Event() calciteLabelFocus: EventEmitter<FocusRequest>;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("click")
-  onClick(event: MouseEvent): void {
-    const target = event.target as HTMLElement;
-    this.calciteLabelFocus.emit({
-      labelEl: this.el,
-      interactedEl: target,
-      requestedInput: this.for
-    });
-    this.handleCalciteHtmlForClicks(target);
-  }
+  @Event({ bubbles: false }) calciteInternalLabelClick: EventEmitter<{
+    sourceEvent: MouseEvent;
+  }>;
 
   //--------------------------------------------------------------------------
   //
@@ -79,68 +67,10 @@ export class CalciteLabel {
   //
   //--------------------------------------------------------------------------
 
-  private handleCalciteHtmlForClicks = (target: HTMLElement) => {
-    // 1. has htmlFor
-    if (!this.for) {
-      return;
-    }
-
-    // 2. htmlFor matches a calcite component
-    const inputForThisLabel: HTMLElement = queryElementRoots(this.el, `#${this.for}`);
-    if (!inputForThisLabel) {
-      return;
-    }
-    if (!inputForThisLabel.localName.startsWith("calcite")) {
-      return;
-    }
-
-    // 5. target is NOT the calcite component that this label matches
-    if (target === inputForThisLabel) {
-      return;
-    }
-
-    // 3. target is not a labelable native form element
-    const labelableNativeElements = [
-      "button",
-      "input",
-      "meter",
-      "output",
-      "progress",
-      "select",
-      "textarea"
-    ];
-    if (labelableNativeElements.includes(target.localName)) {
-      return;
-    }
-
-    // 4. target is not a labelable calcite form element
-    const labelableCalciteElements = [
-      "calcite-button",
-      "calcite-checkbox",
-      "calcite-date",
-      "calcite-inline-editable",
-      "calcite-input",
-      "calcite-radio",
-      "calcite-radio-button",
-      "calcite-radio-button-group",
-      "calcite-radio-group",
-      "calcite-rating",
-      "calcite-select",
-      "calcite-slider",
-      "calcite-switch"
-    ];
-    if (labelableCalciteElements.includes(target.localName)) {
-      return;
-    }
-
-    // 5. target is not a child of a labelable calcite form element
-    for (let i = 0; i < labelableCalciteElements.length; i++) {
-      if (target.closest(labelableCalciteElements[i])) {
-        return;
-      }
-    }
-
-    inputForThisLabel.click();
+  labelClickHandler = (event: MouseEvent): void => {
+    this.calciteInternalLabelClick.emit({
+      sourceEvent: event
+    });
   };
 
   //--------------------------------------------------------------------------
@@ -152,9 +82,11 @@ export class CalciteLabel {
   render(): VNode {
     const dir = getElementDir(this.el);
     return (
-      <label class={{ [CSS_UTILITY.rtl]: dir === "rtl" }} htmlFor={this.for}>
-        <slot />
-      </label>
+      <Host onClick={this.labelClickHandler}>
+        <div class={{ [CSS.container]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+          <slot />
+        </div>
+      </Host>
     );
   }
 }

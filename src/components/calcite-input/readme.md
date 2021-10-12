@@ -43,9 +43,9 @@ function logChange() {
 Using a wrapping `calcite-label` component lets consumers set the status attribute once and have it propagate to child `calcite-input` and `calcite-input-message` elements
 
 ```html
-<calcite-label status="invalid">
+<calcite-label status="invalid" for="invalid-input">
   Invalid input
-  <calcite-input placeholder="Filter your files" value="adfo2h2"></calcite-input>
+  <calcite-input id="invalid-input" placeholder="Filter your files" value="adfo2h2"></calcite-input>
   <calcite-input-message active icon> Something doesn't look right </calcite-input-message>
 </calcite-label>
 ```
@@ -53,9 +53,9 @@ Using a wrapping `calcite-label` component lets consumers set the status attribu
 ### With-message
 
 ```html
-<calcite-label>
+<calcite-label for="info">
   My great label
-  <calcite-input placeholder="Enter your information"></calcite-input>
+  <calcite-input id="info" placeholder="Enter your information"></calcite-input>
   <calcite-input-message icon="3d-glasses" active>
     Here's something you should know about this input
   </calcite-input-message>
@@ -68,11 +68,12 @@ Using a wrapping `calcite-label` component lets consumers set the status attribu
 | ------------------ | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
 | `alignment`        | `alignment`          | specify the alignment of the value of the input                                                                                                                                                                                              | `"end" \| "start"`                                                                                                                                                                     | `"start"`                                 |
 | `autofocus`        | `autofocus`          | should the input autofocus                                                                                                                                                                                                                   | `boolean`                                                                                                                                                                              | `false`                                   |
-| `clearable`        | `clearable`          | optionally display a clear button that displays when field has a value shows by default for search, time, date will not display for type="textarea"                                                                                          | `boolean`                                                                                                                                                                              | `undefined`                               |
-| `disabled`         | `disabled`           | is the input disabled                                                                                                                                                                                                                        | `boolean`                                                                                                                                                                              | `undefined`                               |
+| `clearable`        | `clearable`          | optionally display a clear button that displays when field has a value shows by default for search, time, date will not display for type="textarea"                                                                                          | `boolean`                                                                                                                                                                              | `false`                                   |
+| `disabled`         | `disabled`           | is the input disabled                                                                                                                                                                                                                        | `boolean`                                                                                                                                                                              | `false`                                   |
 | `groupSeparator`   | `group-separator`    | for number values, displays the locale's group separator                                                                                                                                                                                     | `boolean`                                                                                                                                                                              | `false`                                   |
 | `icon`             | `icon`               | when used as a boolean set to true, show a default recommended icon for certain input types (tel, password, email, date, time, search). You can also pass a calcite-ui-icon name to this prop to display a requested icon for any input type | `boolean \| string`                                                                                                                                                                    | `undefined`                               |
-| `iconFlipRtl`      | `icon-flip-rtl`      | flip the icon in rtl                                                                                                                                                                                                                         | `boolean`                                                                                                                                                                              | `undefined`                               |
+| `iconFlipRtl`      | `icon-flip-rtl`      | flip the icon in rtl                                                                                                                                                                                                                         | `boolean`                                                                                                                                                                              | `false`                                   |
+| `intlLoading`      | `intl-loading`       | string to override English loading text                                                                                                                                                                                                      | `string`                                                                                                                                                                               | `TEXT.loading`                            |
 | `label`            | `label`              | Applies to the aria-label attribute on the button or hyperlink                                                                                                                                                                               | `string`                                                                                                                                                                               | `undefined`                               |
 | `loading`          | `loading`            | specify if the input is in loading state                                                                                                                                                                                                     | `boolean`                                                                                                                                                                              | `false`                                   |
 | `locale`           | `locale`             | BCP 47 language tag for desired language and country format                                                                                                                                                                                  | `string`                                                                                                                                                                               | `document.documentElement.lang \|\| "en"` |
@@ -85,6 +86,7 @@ Using a wrapping `calcite-label` component lets consumers set the status attribu
 | `numberButtonType` | `number-button-type` | specify the placement of the number buttons                                                                                                                                                                                                  | `"horizontal" \| "none" \| "vertical"`                                                                                                                                                 | `"vertical"`                              |
 | `placeholder`      | `placeholder`        | explicitly whitelist placeholder attribute                                                                                                                                                                                                   | `string`                                                                                                                                                                               | `undefined`                               |
 | `prefixText`       | `prefix-text`        | optionally add prefix                                                                                                                                                                                                                        | `string`                                                                                                                                                                               | `undefined`                               |
+| `readOnly`         | `read-only`          | When true, a field cannot be modified.                                                                                                                                                                                                       | `boolean`                                                                                                                                                                              | `false`                                   |
 | `required`         | `required`           | is the input required                                                                                                                                                                                                                        | `boolean`                                                                                                                                                                              | `false`                                   |
 | `scale`            | `scale`              | specify the scale of the input, defaults to m                                                                                                                                                                                                | `"l" \| "m" \| "s"`                                                                                                                                                                    | `"m"`                                     |
 | `status`           | `status`             | specify the status of the input field, determines message and icons                                                                                                                                                                          | `"idle" \| "invalid" \| "valid"`                                                                                                                                                       | `"idle"`                                  |
@@ -103,7 +105,7 @@ Using a wrapping `calcite-label` component lets consumers set the status attribu
 
 ### `setFocus() => Promise<void>`
 
-focus the rendered child element
+Sets focus on the component.
 
 #### Returns
 
@@ -121,6 +123,7 @@ Type: `Promise<void>`
 
 - [calcite-color-picker](../calcite-color-picker)
 - [calcite-color-picker-hex-input](../calcite-color-picker-hex-input)
+- [calcite-filter](../calcite-filter)
 - [calcite-input-date-picker](../calcite-input-date-picker)
 - [calcite-input-time-picker](../calcite-input-time-picker)
 
@@ -137,6 +140,7 @@ graph TD;
   calcite-input --> calcite-icon
   calcite-color-picker --> calcite-input
   calcite-color-picker-hex-input --> calcite-input
+  calcite-filter --> calcite-input
   calcite-input-date-picker --> calcite-input
   calcite-input-time-picker --> calcite-input
   style calcite-input fill:#f9f,stroke:#333,stroke-width:4px

@@ -10,7 +10,7 @@ import {
   Watch
 } from "@stencil/core";
 
-import { CSS, SLOTS, TEXT } from "./calcite-notice.resources";
+import { CSS, SLOTS, TEXT } from "./resources";
 import { Scale, Width } from "../interfaces";
 import { StatusColor, StatusIcons } from "../calcite-alert/interfaces";
 import { getElementDir, getSlotted, setRequestedIcon } from "../../utils/dom";
@@ -56,13 +56,15 @@ export class CalciteNotice {
   @Prop({ reflect: true }) color: StatusColor = "blue";
 
   /** Optionally show a button the user can click to dismiss the notice */
-  @Prop({ reflect: true }) dismissible?: boolean = false;
+  @Prop({ reflect: true }) dismissible = false;
 
   /** when used as a boolean set to true, show a default recommended icon. You can
    * also pass a calcite-ui-icon name to this prop to display a requested icon */
   @Prop({ reflect: true }) icon: string | boolean;
 
-  /** String for the close button. */
+  /** String for the close button.
+   * @default "Close"
+   */
   @Prop({ reflect: false }) intlClose: string = TEXT.close;
 
   /** specify the scale of the notice, defaults to m */
@@ -146,7 +148,8 @@ export class CalciteNotice {
   //  Public Methods
   //
   //--------------------------------------------------------------------------
-  /** focus the close button, if present and requested */
+
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     if (!this.closeButton && !this.noticeLinkEl) {

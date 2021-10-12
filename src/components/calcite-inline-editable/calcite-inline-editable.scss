@@ -1,63 +1,57 @@
 :host([scale="s"]) {
-  .calcite-inline-editable-controls-wrapper {
-    height: 32px;
+  .calcite-inline-editable__controls-wrapper {
+    @apply h-6;
   }
 }
 
 :host([scale="m"]) {
-  .calcite-inline-editable-controls-wrapper {
-    height: 44px;
+  .calcite-inline-editable__controls-wrapper {
+    @apply h-8;
   }
 }
 
 :host([scale="l"]) {
-  .calcite-inline-editable-controls-wrapper {
-    height: 56px;
+  .calcite-inline-editable__controls-wrapper {
+    @apply h-11;
   }
 }
 
-:host(:not([editing-enabled])) {
-  .calcite-inline-editable-wrapper {
+:host(:not([editing-enabled]):not([disabled])) {
+  .calcite-inline-editable__wrapper {
     &:hover {
-      background: var(--calcite-ui-foreground-2);
+      @apply bg-foreground-2;
     }
   }
 }
 
-.calcite-inline-editable-wrapper {
-  box-sizing: border-box;
-  display: flex;
-  justify-content: space-between;
-  transition: $transition;
-  background: var(--calcite-ui-foreground-1);
+.calcite-inline-editable__wrapper {
+  @apply box-border
+    flex
+    justify-between
+    bg-foreground-1
+    transition-default;
 
-  .calcite-inline-editable-input-wrapper {
-    flex: 1;
+  .calcite-inline-editable__input-wrapper {
+    @apply flex-1;
   }
 }
 
-.calcite-inline-editable-controls-wrapper {
-  display: flex;
-}
-
-.calcite-inline-editable-cancel-editing-button-wrapper {
-  border: 1px solid var(--calcite-ui-border-1);
-  border-left: none;
-  border-right: none;
+.calcite-inline-editable__controls-wrapper {
+  @apply flex;
 }
 
 :host([disabled]) {
-  .calcite-inline-editable-cancel-editing-button-wrapper {
-    border-color: var(--calcite-ui-border-2);
+  .calcite-inline-editable__cancel-editing-button-wrapper {
+    @apply border-color-2;
   }
 }
 
 :host {
   &::slotted(*) {
-    .calcite-input-element-wrapper {
+    .calcite-input__element-wrapper {
       textarea,
       input {
-        transition: $transition;
+        @apply transition-default;
       }
     }
   }
@@ -65,8 +59,8 @@
 
 :host(:not([editing-enabled])) {
   &::slotted(*) {
-    .calcite-input-element-wrapper {
-      background: transparent;
+    .calcite-input__element-wrapper {
+      @apply bg-transparent;
     }
   }
 }
@@ -74,27 +68,27 @@
 :host(:not([editing-enabled])) {
   &::slotted(*) {
     .sc-calcite-input {
-      display: none;
+      @apply hidden;
     }
 
-    .calcite-input-element-wrapper {
-      display: flex;
-      cursor: pointer;
+    .calcite-input__element-wrapper {
+      @apply flex
+        cursor-pointer;
       textarea,
       input {
-        border-color: transparent;
-        padding-left: 0;
-        cursor: pointer;
-        display: flex;
+        @apply flex
+          cursor-pointer
+          pl-0
+          border-color-transparent;
       }
     }
   }
 
-  &:hover {
+  &:not([disabled]):hover {
     &::slotted(*) {
       textarea,
       input {
-        background: var(--calcite-ui-foreground-2);
+        @apply bg-foreground-2;
       }
     }
   }
@@ -103,11 +97,11 @@
 :host([dir="rtl"]) {
   &:not([editing-enabled]) {
     &::slotted(*) {
-      .calcite-input-element-wrapper {
+      .calcite-input__element-wrapper {
         textarea,
         input {
-          padding-right: 0;
           padding-left: unset;
+          @apply pr-0;
         }
       }
     }
@@ -118,11 +112,11 @@
   :host {
     &:not([editing-enabled]) {
       &::slotted(*) {
-        .calcite-input-element-wrapper {
+        .calcite-input__element-wrapper {
           textarea,
           input {
-            padding-right: 0;
             padding-left: unset;
+            @apply pr-0;
           }
         }
       }

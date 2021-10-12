@@ -50,8 +50,6 @@ export class CalciteBlockSection {
    * This property determines the look of the section toggle.
    * If the value is "switch", a toggle-switch will be displayed.
    * If the value is "button", a clickable header is displayed.
-   *
-   * @todo revisit doc
    */
   @Prop({ reflect: true }) toggleDisplay: BlockSectionToggleDisplay = "button";
 
@@ -80,13 +78,13 @@ export class CalciteBlockSection {
   //
   // --------------------------------------------------------------------------
 
-  handleHeaderLabelKeyDown(this: HTMLLabelElement, event: KeyboardEvent): void {
+  handleHeaderKeyDown = (event: KeyboardEvent): void => {
     if (event.key === " " || event.key === "Enter") {
+      this.toggleSection();
       event.preventDefault();
       event.stopPropagation();
-      this.click();
     }
-  }
+  };
 
   toggleSection = (): void => {
     this.open = !this.open;
@@ -125,27 +123,23 @@ export class CalciteBlockSection {
 
     const headerNode =
       toggleDisplay === "switch" ? (
-        <label
+        <div
           aria-label={toggleLabel}
           class={{
             [CSS.toggle]: true,
             [CSS.toggleSwitch]: true
           }}
-          onKeyDown={this.handleHeaderLabelKeyDown}
+          onClick={this.toggleSection}
+          onKeyDown={this.handleHeaderKeyDown}
           tabIndex={0}
           title={toggleLabel}
         >
           <div class={CSS.toggleSwitchContent}>
             <span class={CSS.toggleSwitchText}>{text}</span>
           </div>
-          <calcite-switch
-            onCalciteSwitchChange={this.toggleSection}
-            scale="s"
-            switched={open}
-            tabIndex={-1}
-          />
+          <calcite-switch checked={open} label={toggleLabel} scale="s" tabIndex={-1} />
           {this.renderStatusIcon()}
-        </label>
+        </div>
       ) : (
         <button
           aria-label={toggleLabel}
@@ -155,7 +149,6 @@ export class CalciteBlockSection {
           }}
           name={toggleLabel}
           onClick={this.toggleSection}
-          onKeyDown={this.handleHeaderLabelKeyDown}
         >
           <calcite-icon icon={arrowIcon} scale="s" />
           <span class={CSS.sectionHeaderText}>{text}</span>

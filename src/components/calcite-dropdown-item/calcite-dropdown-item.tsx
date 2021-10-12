@@ -18,6 +18,9 @@ import { CSS_UTILITY } from "../../utils/resources";
 import { CSS } from "./resources";
 import { SelectionMode } from "../calcite-dropdown-group/interfaces";
 
+/**
+ * @slot - A slot for adding text.
+ */
 @Component({
   tag: "calcite-dropdown-item",
   styleUrl: "calcite-dropdown-item.scss",
@@ -38,6 +41,7 @@ export class CalciteDropdownItem {
   //
   //--------------------------------------------------------------------------
 
+  /** Indicates whether the item is active. */
   @Prop({ reflect: true, mutable: true }) active = false;
 
   /** flip the icon(s) in rtl */
@@ -83,7 +87,7 @@ export class CalciteDropdownItem {
   //
   //--------------------------------------------------------------------------
 
-  /** Focuses the selected item. */
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     this.el.focus();
@@ -179,8 +183,12 @@ export class CalciteDropdownItem {
             [CSS.containerNone]: this.selectionMode === "none"
           }}
         >
-          {this.selectionMode === "multi" ? (
-            <calcite-icon class="dropdown-item-check-icon" icon="check" scale="s" />
+          {this.selectionMode !== "none" ? (
+            <calcite-icon
+              class="dropdown-item-icon"
+              icon={this.selectionMode === "multi" ? "check" : "bullet-point"}
+              scale="s"
+            />
           ) : null}
           {contentEl}
         </div>

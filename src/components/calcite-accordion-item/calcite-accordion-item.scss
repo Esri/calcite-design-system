@@ -1,20 +1,22 @@
+%icon-position {
+  /* icon rotation variables */
+  --calcite-accordion-item-icon-rotation: theme("rotate.-90");
+  --calcite-accordion-item-active-icon-rotation: theme("rotate.0");
+  --calcite-accordion-item-icon-rotation-rtl: theme("rotate.90");
+  --calcite-accordion-item-active-icon-rotation-rtl: theme("rotate.0");
+}
+
 // icon position variants for child
 .icon-position--start {
+  @extend %icon-position;
   --calcite-accordion-item-flex-direction: row-reverse;
-  --calcite-accordion-item-icon-rotation: theme("rotate.90");
-  --calcite-accordion-item-active-icon-rotation: theme("rotate.180");
-  --calcite-accordion-item-icon-rotation-rtl: theme("rotate.-90");
-  --calcite-accordion-item-active-icon-rotation-rtl: theme("rotate.-180");
   --calcite-accordion-item-icon-spacing-start: 0;
   --calcite-accordion-item-icon-spacing-end: var(--calcite-accordion-icon-margin);
 }
 
 .icon-position--end {
+  @extend %icon-position;
   --calcite-accordion-item-flex-direction: row;
-  --calcite-accordion-item-icon-rotation: theme("rotate.-90");
-  --calcite-accordion-item-active-icon-rotation: theme("rotate.0");
-  --calcite-accordion-item-icon-rotation-rtl: theme("rotate.90");
-  --calcite-accordion-item-active-icon-rotation-rtl: theme("rotate.0");
   --calcite-accordion-item-icon-spacing-start: var(--calcite-accordion-icon-margin);
   --calcite-accordion-item-icon-spacing-end: 0;
 }

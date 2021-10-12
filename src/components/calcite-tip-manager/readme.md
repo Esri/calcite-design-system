@@ -8,8 +8,6 @@ The `calcite-tip-manager` component contains multiple `calcite-tip`s that a user
 
 ### Basic
 
-#### Basic
-
 Renders a tip manager using a group of tips as well as a single tip.
 
 ```html
@@ -78,11 +76,15 @@ Renders a tip manager using a group of tips as well as a single tip.
 
 ### `nextTip() => Promise<void>`
 
+Selects the next tip to display
+
 #### Returns
 
 Type: `Promise<void>`
 
 ### `previousTip() => Promise<void>`
+
+Selects the previous tip to display
 
 #### Returns
 
@@ -106,12 +108,14 @@ Type: `Promise<void>`
 ### Depends on
 
 - [calcite-action](../calcite-action)
+- [calcite-icon](../calcite-icon)
 
 ### Graph
 
 ```mermaid
 graph TD;
   calcite-tip-manager --> calcite-action
+  calcite-tip-manager --> calcite-icon
   calcite-action --> calcite-loader
   calcite-action --> calcite-icon
   style calcite-tip-manager fill:#f9f,stroke:#333,stroke-width:4px

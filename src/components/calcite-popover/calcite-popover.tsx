@@ -35,9 +35,8 @@ import { CSS_UTILITY } from "../../utils/resources";
 import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
 
 /**
- * @slot image - A slot for adding an image. The image will appear above the other slot content.
+ * @slot - A slot for adding custom content.
  */
-
 @Component({
   tag: "calcite-popover",
   styleUrl: "calcite-popover.scss",
@@ -91,6 +90,7 @@ export class CalcitePopover {
 
   /**
    * Offset the position of the popover away from the reference element.
+   * @default 6
    */
   @Prop({ reflect: true }) offsetDistance = defaultOffsetDistance;
 
@@ -116,10 +116,6 @@ export class CalcitePopover {
 
   @Watch("open")
   openHandler(): void {
-    if (!this._referenceElement) {
-      this.referenceElementHandler();
-    }
-
     this.reposition();
     this.setExpandedAttr();
   }
@@ -129,6 +125,7 @@ export class CalcitePopover {
 
   /**
    * Determines where the component will be positioned relative to the referenceElement.
+   * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
    */
   @Prop({ reflect: true }) placement: PopperPlacement = "auto";
 
@@ -144,13 +141,12 @@ export class CalcitePopover {
 
   @Watch("referenceElement")
   referenceElementHandler(): void {
-    this.removeReferences();
-    this._referenceElement = this.getReferenceElement();
-    this.addReferences();
-    this.createPopper();
+    this.setUpReferenceElement();
   }
 
-  /** Text for close button. */
+  /** Text for close button.
+   * @default "Close"
+   */
   @Prop() intlClose = TEXT.close;
 
   // --------------------------------------------------------------------------
@@ -161,7 +157,7 @@ export class CalcitePopover {
 
   @Element() el: HTMLCalcitePopoverElement;
 
-  @State() _referenceElement: HTMLElement = this.getReferenceElement();
+  @State() effectiveReferenceElement: HTMLElement;
 
   popper: Popper;
 
@@ -179,9 +175,12 @@ export class CalcitePopover {
   //
   // --------------------------------------------------------------------------
 
+  componentWillLoad(): void {
+    this.setUpReferenceElement();
+  }
+
   componentDidLoad(): void {
-    this.createPopper();
-    this.addReferences();
+    this.reposition();
   }
 
   disconnectedCallback(): void {
@@ -206,6 +205,7 @@ export class CalcitePopover {
   //
   // --------------------------------------------------------------------------
 
+  /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
     const { popper, el, placement } = this;
@@ -221,6 +221,7 @@ export class CalcitePopover {
       : this.createPopper();
   }
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(focusId?: "close-button"): Promise<void> {
     const { closeButtonEl } = this;
@@ -235,6 +236,7 @@ export class CalcitePopover {
     this.el?.focus();
   }
 
+  /** Toggles the popover's open property. */
   @Method()
   async toggle(value = !this.open): Promise<void> {
     this.open = value;
@@ -246,44 +248,59 @@ export class CalcitePopover {
   //
   // --------------------------------------------------------------------------
 
+  setUpReferenceElement = (): void => {
+    this.removeReferences();
+    this.effectiveReferenceElement = this.getReferenceElement();
+
+    const { el, referenceElement, effectiveReferenceElement } = this;
+    if (referenceElement && !effectiveReferenceElement) {
+      console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
+        el
+      });
+    }
+
+    this.addReferences();
+    this.createPopper();
+  };
+
   getId = (): string => {
     return this.el.id || this.guid;
   };
 
   setExpandedAttr = (): void => {
-    const { _referenceElement, open } = this;
+    const { effectiveReferenceElement, open } = this;
 
-    if (!_referenceElement) {
+    if (!effectiveReferenceElement) {
       return;
     }
 
-    _referenceElement.setAttribute(ARIA_EXPANDED, open.toString());
+    effectiveReferenceElement.setAttribute(ARIA_EXPANDED, open.toString());
   };
 
   addReferences = (): void => {
-    const { _referenceElement } = this;
+    const { effectiveReferenceElement } = this;
 
-    if (!_referenceElement) {
+    if (!effectiveReferenceElement) {
       return;
     }
 
     const id = this.getId();
 
-    _referenceElement.setAttribute(POPOVER_REFERENCE, id);
-    _referenceElement.setAttribute(ARIA_CONTROLS, id);
+    effectiveReferenceElement.setAttribute(POPOVER_REFERENCE, id);
+    effectiveReferenceElement.setAttribute(ARIA_CONTROLS, id);
     this.setExpandedAttr();
   };
 
   removeReferences = (): void => {
-    const { _referenceElement } = this;
+    const { effectiveReferenceElement } = this;
 
-    if (!_referenceElement) {
+    if (!effectiveReferenceElement) {
       return;
     }
 
-    _referenceElement.removeAttribute(POPOVER_REFERENCE);
-    _referenceElement.removeAttribute(ARIA_CONTROLS);
-    _referenceElement.removeAttribute(ARIA_EXPANDED);
+    effectiveReferenceElement.removeAttribute(POPOVER_REFERENCE);
+    effectiveReferenceElement.removeAttribute(ARIA_CONTROLS);
+    effectiveReferenceElement.removeAttribute(ARIA_EXPANDED);
   };
 
   getReferenceElement(): HTMLElement {
@@ -334,7 +351,7 @@ export class CalcitePopover {
 
   createPopper(): void {
     this.destroyPopper();
-    const { el, placement, _referenceElement: referenceEl, overlayPositioning } = this;
+    const { el, placement, effectiveReferenceElement: referenceEl, overlayPositioning } = this;
     const modifiers = this.getModifiers();
 
     this.popper = createPopper({
@@ -404,9 +421,9 @@ export class CalcitePopover {
   }
 
   render(): VNode {
-    const { _referenceElement, el, heading, label, open, disablePointer } = this;
+    const { effectiveReferenceElement, el, heading, label, open, disablePointer } = this;
     const rtl = getElementDir(el) === "rtl";
-    const displayed = _referenceElement && open;
+    const displayed = effectiveReferenceElement && open;
     const hidden = !displayed;
     const arrowNode = !disablePointer ? (
       <div class={CSS.arrow} ref={(arrowEl) => (this.arrowEl = arrowEl)} />

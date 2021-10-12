@@ -57,7 +57,7 @@
 
 | Property             | Attribute             | Description                                                                                                                                                                                                                    | Type                                 | Default      |
 | -------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------ | ------------ |
-| `active`             | `active`              | Open and close combobox                                                                                                                                                                                                        | `boolean`                            | `false`      |
+| `active`             | `active`              | Opens or closes the combobox                                                                                                                                                                                                   | `boolean`                            | `false`      |
 | `allowCustomValues`  | `allow-custom-values` | Allow entry of custom values which are not in the original set of items                                                                                                                                                        | `boolean`                            | `undefined`  |
 | `disabled`           | `disabled`            | Disable combobox input                                                                                                                                                                                                         | `boolean`                            | `false`      |
 | `label` _(required)_ | `label`               | Aria label for combobox (required)                                                                                                                                                                                             | `string`                             | `undefined`  |
@@ -69,15 +69,18 @@
 
 ## Events
 
-| Event                         | Description                                                              | Type                                                  |
-| ----------------------------- | ------------------------------------------------------------------------ | ----------------------------------------------------- |
-| `calciteComboboxChipDismiss`  | Called when a selected item in the combobox is dismissed via its chip \* | `CustomEvent<any>`                                    |
-| `calciteComboboxFilterChange` | Called when the user has entered text to filter the options list         | `CustomEvent<{ visibleItems: any[]; text: string; }>` |
-| `calciteLookupChange`         | Called when the selected items set changes                               | `CustomEvent<any[]>`                                  |
+| Event                         | Description                                                                                                                           | Type                                                  |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| `calciteComboboxChange`       | Called when the selected item(s) changes.                                                                                             | `CustomEvent<{ selectedItems: any[]; }>`              |
+| `calciteComboboxChipDismiss`  | Called when a selected item in the combobox is dismissed via its chip \*                                                              | `CustomEvent<any>`                                    |
+| `calciteComboboxFilterChange` | Called when the user has entered text to filter the options list                                                                      | `CustomEvent<{ visibleItems: any[]; text: string; }>` |
+| `calciteLookupChange`         | <span style="color:red">**[DEPRECATED]**</span> use calciteComboboxChange instead<br/><br/>Called when the selected items set changes | `CustomEvent<any[]>`                                  |
 
 ## Methods
 
 ### `reposition() => Promise<void>`
+
+Updates the position of the component.
 
 #### Returns
 
@@ -85,9 +88,17 @@ Type: `Promise<void>`
 
 ### `setFocus() => Promise<void>`
 
+Sets focus on the component.
+
 #### Returns
 
 Type: `Promise<void>`
+
+## Slots
+
+| Slot | Description                                 |
+| ---- | ------------------------------------------- |
+|      | A slot for adding `calcite-combobox-item`s. |
 
 ## CSS Custom Properties
 

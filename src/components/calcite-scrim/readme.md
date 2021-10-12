@@ -6,8 +6,6 @@
 
 ### Basic
 
-### Simple panel example
-
 ```html
 <div style="position: relative; width: 200px; height: 200px; overflow: auto;">
   <calcite-scrim>
@@ -21,7 +19,7 @@
 </div>
 ```
 
-### Loading scrim panel
+### Loading-scrim-panel
 
 ```html
 <div style="position: relative; width: 200px; height: 200px; overflow: auto;">
@@ -42,6 +40,12 @@
 | ------------- | -------------- | ------------------------------------------------------------------------------------------------------- | --------- | -------------- |
 | `intlLoading` | `intl-loading` | string to override English loading text                                                                 | `string`  | `TEXT.loading` |
 | `loading`     | `loading`      | Determines if the component will have the loader overlay. Otherwise, will render opaque disabled state. | `boolean` | `false`        |
+
+## Slots
+
+| Slot | Description                                                      |
+| ---- | ---------------------------------------------------------------- |
+|      | A slot for adding custom content, primarily loading information. |
 
 ## Dependencies
 

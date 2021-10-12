@@ -3,7 +3,7 @@ import { SLOTS, TEXT, ICONS } from "./resources";
 import { Fragment, VNode } from "@stencil/core/internal";
 import { getSlotted } from "../../utils/dom";
 import { SLOTS as ACTION_MENU_SLOTS } from "../calcite-action-menu/resources";
-import { Columns, Layout } from "../interfaces";
+import { Columns, Layout, Scale } from "../interfaces";
 
 /**
  * @slot - A slot for adding a group of `calcite-action`s.
@@ -52,6 +52,11 @@ export class CalciteActionGroup {
    */
   @Prop({ reflect: true, mutable: true }) menuOpen = false;
 
+  /**
+   * Specifies the size of the action-menu.
+   */
+  @Prop({ reflect: true }) scale: Scale;
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -74,7 +79,7 @@ export class CalciteActionGroup {
   }
 
   renderMenu(): VNode {
-    const { el, expanded, intlMore, menuOpen } = this;
+    const { el, expanded, intlMore, menuOpen, scale } = this;
 
     const hasMenuItems = getSlotted(el, SLOTS.menuActions);
 
@@ -86,9 +91,11 @@ export class CalciteActionGroup {
         onCalciteActionMenuOpenChange={this.setMenuOpen}
         open={menuOpen}
         placement="leading-start"
+        scale={scale}
       >
         <calcite-action
           icon={ICONS.menu}
+          scale={scale}
           slot={ACTION_MENU_SLOTS.trigger}
           text={intlMore || TEXT.more}
           textEnabled={expanded}

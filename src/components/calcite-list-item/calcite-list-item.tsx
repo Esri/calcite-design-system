@@ -3,6 +3,7 @@ import { SLOTS, CSS } from "./resources";
 import { getSlotted } from "../../utils/dom";
 
 /**
+ * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
  * @slot actions-start - A slot for adding actionable `calcite-action` elements before the content of the list item.
  * @slot content-start - A slot for adding non-actionable elements before the label and description of the list item.
  * @slot content-end - A slot for adding non-actionable elements after the label and description of the list item.
@@ -36,7 +37,7 @@ export class CalciteListItem {
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * @todo The label of the list item.
+   * The label text of the list item. This will appear above the description text.
    */
   @Prop() label: string;
 
@@ -125,6 +126,9 @@ export class CalciteListItem {
           {this.renderActionsStart()}
           {this.renderContentContainer()}
           {this.renderActionsEnd()}
+        </div>
+        <div class={CSS.nestedContainer}>
+          <slot />
         </div>
       </Host>
     );

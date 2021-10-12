@@ -3,558 +3,361 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
-    <title>Calcite Component Demos</title>
-
+    <title>Demos</title>
+    <script src="demos/_assets/head.js"></script>
     <style>
-      body {
-        margin: 0;
-        padding: 0;
-      }
-      .nav {
-        list-style: none;
-        display: flex;
-        flex-direction: column;
-        padding: 0;
-      }
-      .demo-background-dark {
-        background: #202020;
-        color: white;
-        padding: 1rem;
-      }
-      .demo {
-        display: flex;
-        align-items: flex-start;
-        padding-bottom: 4rem;
-      }
-      .demo-column {
-        flex: 1;
-        margin: 0 2rem;
-      }
-      .demo-column > * {
-        margin-top: 2rem;
+      a {
+        text-decoration: none;
       }
     </style>
-    <script src="demos/_assets/head.js"></script>
   </head>
 
   <body>
-    <div class="demo-column">
-      <h2>Calcite Component Examples - WIP !</h2>
-      <ul class="nav">
-        <li>
-          <calcite-link href="/demos/calcite-accordion.html">calcite-accordion</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-alert.html">calcite-alert</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-avatar.html">calcite-avatar</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-button.html">calcite-button</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-card.html">calcite-card</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-checkbox.html">calcite-checkbox</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-chip.html">calcite-chip</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-color-picker.html">calcite-color-picker</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-combobox.html">calcite-combobox</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-date-picker.html">calcite-date-picker</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-dropdown.html">calcite-dropdown</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/fab">calcite-fab</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-icon.html">calcite-icon</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-inline-editable.html">calcite-inline-editable</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-input.html">calcite-input</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-input-date-picker.html">calcite-input-date-picker</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-input-number.html">calcite-input (number)</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-input-time-picker.html">calcite-input-time-picker</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-label.html">calcite-label</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-link.html">calcite-link</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-loader.html">calcite-loader</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/list/basic.html">calcite-list</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-modal.html">calcite-modal</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-notice.html">calcite-notice</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-pagination.html">calcite-pagination</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-popover.html">calcite-popover</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-progress.html">calcite-progress</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-radio-button.html">calcite-radio-button</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-radio-button-rtl.html">calcite-radio-button (rtl)</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-radio-button-group.html">calcite-radio-button-group</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-radio-button-group-rtl.html"
-            >calcite-radio-button-group (rtl)</calcite-link
+    <!--
+      **************************************************
+      * NAVIGATION
+      **************************************************
+    -->
+    <div class="navigation body-margin">
+      <div>
+        <h1 id="calcite-demo">Calcite demo</h1>
+      </div>
+
+      <div class="examples-github-storybook">
+        <div>
+          <calcite-button href="https://esri.github.io/calcite-ui-icons/#?" appearance="solid" color="inverse"
+            >Calcite UI Icons</calcite-button
           >
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-radio-group.html">calcite-radio-group</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-rating.html">calcite-rating</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-scrim.html">calcite-scrim</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-select.html">calcite-select</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-slider.html">calcite-slider</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-split-button.html">calcite-split-button</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-stepper.html">calcite-stepper</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-switch.html">calcite-switch</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-tabs.html">calcite-tabs</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-tile.html">calcite-tile</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-tile-select.html">calcite-tile-select</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-tooltip.html">calcite-tooltip</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/calcite-tree.html">calcite-tree</calcite-link>
-        </li>
-      </ul>
-
-      <h2>Calcite App Component Examples - WIP !</h2>
-      <ul class="nav">
-        <li>
-          <calcite-link href="/demos/action">calcite-action</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/action-bar">calcite-action-bar</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/action-pad">calcite-action-pad</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/block">calcite-block</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/flow">calcite-flow</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/panel">calcite-panel</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/pick-list">calcite-pick-list</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/shell">calcite-shell</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/shell-panel">calcite-shell-panel</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/sortable-list">calcite-sortable-list</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/tip-manager">calcite-tip-manager</calcite-link>
-        </li>
-        <li>
-          <calcite-link href="/demos/value-list">calcite-value-list</calcite-link>
-        </li>
-      </ul>
-    </div>
-    <div class="demo">
-      <div class="demo-column">
-        <calcite-accordion>
-          <calcite-accordion-item item-title="Accordion Item"
-            ><img src="https://placem.at/places?w=200&txt=0" />
-          </calcite-accordion-item>
-          <calcite-accordion-item item-title="Accordion Item 2"
-            ><img src="https://placem.at/places?w=200&txt=0" />
-          </calcite-accordion-item>
-          <calcite-accordion-item item-title="Accordion Item 3 with a potentially two line title"
-            ><img src="https://placem.at/places?w=200&txt=0" />
-          </calcite-accordion-item>
-          <calcite-accordion-item item-title="Accordion Item 4"
-            ><img src="https://placem.at/places?w=200&txt=0" />
-          </calcite-accordion-item>
-          <calcite-accordion-item item-title="Accordion Item 5" active>
-            <calcite-tree lines>
-              <calcite-tree-item> Child 1 </calcite-tree-item>
-
-              <calcite-tree-item>
-                Child 2
-
-                <calcite-tree slot="children">
-                  <calcite-tree-item> Grandchild 1 </calcite-tree-item>
-
-                  <calcite-tree-item>
-                    Grandchild 2
-                    <calcite-tree slot="children">
-                      <calcite-tree-item> Great-Grandchild 1 </calcite-tree-item>
-                      <calcite-tree-item> Great-Grandchild 2 </calcite-tree-item>
-                    </calcite-tree>
-                  </calcite-tree-item>
-                </calcite-tree>
-              </calcite-tree-item>
-              <calcite-tree-item> Child 3 </calcite-tree-item>
-            </calcite-tree>
-          </calcite-accordion-item>
-        </calcite-accordion>
-        <calcite-notice color="red" id="notice-one" scale="s" active dismissible>
-          <div slot="title">Something failed dismissible</div>
-          <div slot="notice-message">That thing you wanted to do didn't work as expected</div>
-          <calcite-link slot="notice-link" title="my action">Retry</calcite-link>
-        </calcite-notice>
-        <calcite-notice icon color="green" scale="m" active dismissible>
-          <div slot="title">Something worked</div>
-          <div slot="notice-message">That thing you wanted to do worked as expected</div>
-        </calcite-notice>
-        <calcite-label>
-          My Great Radio Group
-          <calcite-radio-group>
-            <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
-            <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
-            <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
-            <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
-          </calcite-radio-group>
-        </calcite-label>
-      </div>
-      <div class="demo-column">
-        <div>
-          <calcite-dropdown>
-            <calcite-button slot="dropdown-trigger">Dropdown</calcite-button>
-            <calcite-dropdown-group group-title="View">
-              <calcite-dropdown-item icon-start="list-bullet" active>List</calcite-dropdown-item>
-              <calcite-dropdown-item icon-start="grid">Grid</calcite-dropdown-item>
-              <calcite-dropdown-item icon-start="table">Table</calcite-dropdown-item>
-            </calcite-dropdown-group>
-          </calcite-dropdown>
-          <calcite-button appearance="outline">outline</calcite-button>
-          <calcite-button color="neutral">neutral</calcite-button>
-          <calcite-button color="red">red</calcite-button>
         </div>
-        <div>
-          <calcite-card selected selectable>
-            <img slot="thumbnail" src="https://placem.at/places?w=260&h=160&txt=0" />
 
-            <h3 slot="title">ArcGIS Online Sign In and Sign Up</h3>
-            <span slot="subtitle"
-              >A great example of a study description that might wrap to a line or two, but isn't overly verbose.</span
-            >
-            <calcite-link slot="footer-leading">Lead füt</calcite-link>
-            <calcite-link slot="footer-trailing">Trail füt</calcite-link>
-          </calcite-card>
-        </div>
         <div>
-          <label>
-            <calcite-checkbox indeterminate><input type="checkbox" name="" value="" /></calcite-checkbox>
-            Initially indeterminate and unchecked
-          </label>
+          <calcite-button href="https://github.com/Esri/calcite-components" appearance="solid" color="inverse"
+            >GitHub</calcite-button
+          >
         </div>
+
         <div>
-          <calcite-chip active="" icon="camera-flash-on"> Camera Flash On </calcite-chip>
-          <calcite-chip active="" icon="check-circle"> Siamese Cat </calcite-chip>
+          <calcite-button
+            href="https://esri.github.io/calcite-components/?path=/story/overview-home--page"
+            appearance="solid"
+            color="inverse"
+            >Storybook</calcite-button
+          >
         </div>
-        <calcite-pagination total="1200" num="100" start="1"></calcite-pagination>
-        <calcite-slider
-          min="0"
-          max="100"
-          min-value="50"
-          max-value="85"
-          step="1"
-          min-label="Temperature range (lower)"
-          max-label="Temperature range (upper)"
-        ></calcite-slider>
-      </div>
-      <div class="demo-column">
-        <calcite-combobox label="test" placeholder="combobox">
-          <calcite-combobox-item value="Trees" text-label="Trees">
-            <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
-            <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
-            <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
-          </calcite-combobox-item>
-          <calcite-combobox-item value="Flowers" text-label="Flowers">
-            <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
-            <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
-            <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
-          </calcite-combobox-item>
-          <calcite-combobox-item value="Animals" text-label="Animals">
-            <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
-            <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
-            <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
-          </calcite-combobox-item>
-          <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
-          <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
-          <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
-        </calcite-combobox>
-        <calcite-date-picker scale="m" value="2020-11-27" active></calcite-date-picker>
-        <calcite-tabs active>
-          <calcite-tab-nav slot="tab-nav">
-            <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-          </calcite-tab-nav>
-
-          <calcite-tab active>
-            <calcite-loader active text="loading tab 1&hellip;" type="indeterminate"></calcite-loader>
-          </calcite-tab>
-          <calcite-tab>
-            <calcite-loader active text="loading tab 2&hellip;" type="indeterminate"></calcite-loader>
-          </calcite-tab>
-          <calcite-tab>
-            <calcite-loader active text="loading tab 3&hellip;" type="indeterminate"></calcite-loader>
-          </calcite-tab>
-          <calcite-tab>
-            <calcite-loader active text="loading tab 4&hellip;" type="indeterminate"></calcite-loader>
-          </calcite-tab>
-        </calcite-tabs>
-
-        <label>
-          <calcite-switch scale="m" switched color="red"> </calcite-switch>
-          Red switch scale medium
-        </label>
       </div>
     </div>
 
-    <div class="demo demo-background-dark calcite-theme-dark">
-      <div class="demo-column">
-        <calcite-accordion>
-          <calcite-accordion-item item-title="Accordion Item"
-            ><img src="https://placem.at/places?w=200&txt=0" />
-          </calcite-accordion-item>
-          <calcite-accordion-item item-title="Accordion Item 2"
-            ><img src="https://placem.at/places?w=200&txt=0" />
-          </calcite-accordion-item>
-          <calcite-accordion-item item-title="Accordion Item 3 with a potentially two line title"
-            ><img src="https://placem.at/places?w=200&txt=0" />
-          </calcite-accordion-item>
-          <calcite-accordion-item item-title="Accordion Item 4"
-            ><img src="https://placem.at/places?w=200&txt=0" />
-          </calcite-accordion-item>
-          <calcite-accordion-item item-title="Accordion Item 5" active>
-            <calcite-tree lines>
-              <calcite-tree-item> Child 1 </calcite-tree-item>
+    <!-- calcite components -->
+    <div class="calcite-comp">Calcite Components</div>
 
-              <calcite-tree-item>
-                Child 2
+    <!--
+      **************************************************
+      * CALCITE COMPONENTS
+      **************************************************
+    -->
+    <div class="calcite-components">
+      <div>
+        <div>
+          <a href="/demos/calcite-accordion.html">
+            <calcite-action scale="s" text="Accordion" alignment="start" text-enabled appearance="solid">
+            </calcite-action>
+          </a>
+        </div>
 
-                <calcite-tree slot="children">
-                  <calcite-tree-item> Grandchild 1 </calcite-tree-item>
+        <div>
+          <a href="/demos/calcite-action.html">
+            <calcite-action scale="s" text="Action" alignment="start" text-enabled appearance="solid"> </calcite-action>
+          </a>
+        </div>
 
-                  <calcite-tree-item>
-                    Grandchild 2
-                    <calcite-tree slot="children">
-                      <calcite-tree-item> Great-Grandchild 1 </calcite-tree-item>
-                      <calcite-tree-item> Great-Grandchild 2 </calcite-tree-item>
-                    </calcite-tree>
-                  </calcite-tree-item>
-                </calcite-tree>
-              </calcite-tree-item>
-              <calcite-tree-item> Child 3 </calcite-tree-item>
-            </calcite-tree>
-          </calcite-accordion-item>
-        </calcite-accordion>
-        <calcite-notice color="red" id="notice-one" scale="s" active dismissible>
-          <div slot="title">Something failed dismissible</div>
-          <div slot="notice-message">That thing you wanted to do didn't work as expected</div>
-          <calcite-link slot="notice-link" title="my action">Retry</calcite-link>
-        </calcite-notice>
-        <calcite-notice icon color="green" scale="m" active dismissible>
-          <div slot="title">Something worked</div>
-          <div slot="notice-message">That thing you wanted to do worked as expected</div>
-        </calcite-notice>
-        <calcite-label>
-          My Great Radio Group
-          <calcite-radio-group>
-            <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
-            <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
-            <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
-            <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
-          </calcite-radio-group>
-        </calcite-label>
+        <div>
+          <a href="/demos/calcite-alert.html">
+            <calcite-action scale="s" text="Alert" alignment="start" text-enabled appearance="solid"> </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-avatar.html">
+            <calcite-action scale="s" text="Avatar" alignment="start" text-enabled appearance="solid"> </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-block.html">
+            <calcite-action scale="s" text="Block" alignment="start" text-enabled appearance="solid"> </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-button.html">
+            <calcite-action scale="s" text="Button" alignment="start" text-enabled appearance="solid"> </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-card.html">
+            <calcite-action scale="s" text="Card" alignment="start" text-enabled appearance="solid"> </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-checkbox.html">
+            <calcite-action scale="s" text="Checkbox" alignment="start" text-enabled appearance="solid">
+            </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-chip.html">
+            <calcite-action scale="s" text="Chip" alignment="start" text-enabled appearance="solid"> </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-color-picker.html">
+            <calcite-action scale="s" text="Color-picker" alignment="start" text-enabled appearance="solid">
+            </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-combobox.html">
+            <calcite-action scale="s" text="Combobox" alignment="start" text-enabled appearance="solid">
+            </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-date-picker.html">
+            <calcite-action scale="s" text="Date-picker" alignment="start" text-enabled appearance="solid">
+            </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-dropdown.html">
+            <calcite-action scale="s" text="Dropdown" alignment="start" text-enabled appearance="solid">
+            </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-flow.html">
+            <calcite-action scale="s" text="Flow" alignment="start" text-enabled appearance="solid"> </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-fab.html">
+            <calcite-action scale="s" text="Fab" alignment="start" text-enabled appearance="solid"> </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-icon.html">
+            <calcite-action scale="s" text="Icon" alignment="start" text-enabled appearance="solid"> </calcite-action>
+          </a>
+        </div>
       </div>
-      <div class="demo-column">
-        <div>
-          <calcite-dropdown>
-            <calcite-button slot="dropdown-trigger">Dropdown</calcite-button>
-            <calcite-dropdown-group group-title="View">
-              <calcite-dropdown-item icon-start="list-bullet" active>List</calcite-dropdown-item>
-              <calcite-dropdown-item icon-start="grid">Grid</calcite-dropdown-item>
-              <calcite-dropdown-item icon-start="table">Table</calcite-dropdown-item>
-            </calcite-dropdown-group>
-          </calcite-dropdown>
-          <calcite-button appearance="outline">outline</calcite-button>
-          <calcite-button color="neutral">neutral</calcite-button>
-          <calcite-button color="red">red</calcite-button>
-        </div>
-        <div>
-          <calcite-card selected selectable>
-            <img slot="thumbnail" src="https://placem.at/places?w=260&h=160&txt=0" />
 
-            <h3 slot="title">ArcGIS Online Sign In and Sign Up</h3>
-            <span slot="subtitle"
-              >A great example of a study description that might wrap to a line or two, but isn't overly verbose.</span
-            >
-            <calcite-link slot="footer-leading">Lead füt</calcite-link>
-            <calcite-link slot="footer-trailing">Trail füt</calcite-link>
-          </calcite-card>
-        </div>
+      <!-- second column -->
+      <div>
         <div>
-          <label>
-            <calcite-checkbox indeterminate><input type="checkbox" name="" value="" /></calcite-checkbox>
-            Initially indeterminate and unchecked
-          </label>
+          <a href="/demos/calcite-inline-editable.html">
+            <calcite-action scale="s" text="Inline-editable" alignment="start" text-enabled appearance="solid">
+            </calcite-action>
+          </a>
         </div>
+
         <div>
-          <calcite-chip active="" icon="camera-flash-on"> Camera Flash On </calcite-chip>
-          <calcite-chip active="" icon="check-circle"> Siamese Cat </calcite-chip>
+          <a href="/demos/calcite-input.html">
+            <calcite-action scale="s" text="Input" alignment="start" text-enabled appearance="solid"> </calcite-action>
+          </a>
         </div>
-        <calcite-pagination total="1200" num="100" start="1"></calcite-pagination>
-        <calcite-slider
-          min="0"
-          max="100"
-          min-value="50"
-          max-value="85"
-          step="1"
-          min-label="Temperature range (lower)"
-          max-label="Temperature range (upper)"
-        ></calcite-slider>
+
+        <div>
+          <a href="/demos/calcite-label.html">
+            <calcite-action scale="s" text="Label" alignment="start" text-enabled appearance="solid"> </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-link.html">
+            <calcite-action scale="s" text="Link" alignment="start" text-enabled appearance="solid"> </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-list.html">
+            <calcite-action scale="s" text="List" alignment="start" text-enabled appearance="solid"> </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-loader.html">
+            <calcite-action scale="s" text="Loader" alignment="start" text-enabled appearance="solid"> </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-modal.html">
+            <calcite-action scale="s" text="Modal" alignment="start" text-enabled appearance="solid"> </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-notice.html">
+            <calcite-action scale="s" text="Notice" alignment="start" text-enabled appearance="solid"> </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-pagination.html">
+            <calcite-action scale="s" text="Pagination" alignment="start" text-enabled appearance="solid">
+            </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-panel.html">
+            <calcite-action scale="s" text="Panel" alignment="start" text-enabled appearance="solid"> </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-pick-list.html">
+            <calcite-action scale="s" text="Pick-list" alignment="start" text-enabled appearance="solid">
+            </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-popover.html">
+            <calcite-action scale="s" text="Popover" alignment="start" text-enabled appearance="solid">
+            </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-progress.html">
+            <calcite-action scale="s" text="Progress" alignment="start" text-enabled appearance="solid">
+            </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-radio-button.html">
+            <calcite-action scale="s" text="Radio-button" alignment="start" text-enabled appearance="solid">
+            </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-radio-button-group.html">
+            <calcite-action scale="s" text="Radio Button Group" alignment="start" text-enabled appearance="solid">
+            </calcite-action>
+          </a>
+        </div>
       </div>
-      <div class="demo-column">
-        <calcite-combobox label="test" placeholder="combobox">
-          <calcite-combobox-item value="Trees" text-label="Trees">
-            <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
-            <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
-            <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
-          </calcite-combobox-item>
-          <calcite-combobox-item value="Flowers" text-label="Flowers">
-            <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
-            <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
-            <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
-          </calcite-combobox-item>
-          <calcite-combobox-item value="Animals" text-label="Animals">
-            <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
-            <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
-            <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
-          </calcite-combobox-item>
-          <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
-          <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
-          <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
-        </calcite-combobox>
-        <calcite-date-picker scale="m" value="2020-11-27" active></calcite-date-picker>
-        <calcite-tabs active>
-          <calcite-tab-nav slot="tab-nav">
-            <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-          </calcite-tab-nav>
 
-          <calcite-tab active>
-            <calcite-loader active text="loading tab 1&hellip;" type="indeterminate"></calcite-loader>
-          </calcite-tab>
-          <calcite-tab>
-            <calcite-loader active text="loading tab 2&hellip;" type="indeterminate"></calcite-loader>
-          </calcite-tab>
-          <calcite-tab>
-            <calcite-loader active text="loading tab 3&hellip;" type="indeterminate"></calcite-loader>
-          </calcite-tab>
-          <calcite-tab>
-            <calcite-loader active text="loading tab 4&hellip;" type="indeterminate"></calcite-loader>
-          </calcite-tab>
-        </calcite-tabs>
+      <!-- third column -->
+      <div>
+        <div>
+          <a href="/demos/calcite-radio-group.html">
+            <calcite-action scale="s" text="Radio Group" alignment="start" text-enabled appearance="solid">
+            </calcite-action>
+          </a>
+        </div>
 
-        <label>
-          <calcite-switch scale="m" switched color="red"> </calcite-switch>
-          Red switch scale medium
-        </label>
-      </div>
-    </div>
+        <div>
+          <a href="/demos/calcite-rating.html">
+            <calcite-action scale="s" text="Rating" alignment="start" text-enabled appearance="solid"> </calcite-action>
+          </a>
+        </div>
 
-    <div class="demo demo-background-dark calcite-theme-dark">
-      <div class="demo-column">
-        <calcite-stepper numbered="zom" icon="zar">
-          <calcite-stepper-item item-title="Choose method" complete>
-            Something before a div
-            <calcite-notice active width="full">
-              <div slot="notice-message">Step 1 Content Goes Here</div>
-            </calcite-notice>
-            Something after a div
-            <div>a non calcite element div</div>
-            Something else
-          </calcite-stepper-item>
-          <calcite-stepper-item item-title="Compile member list" complete>
-            <calcite-notice active width="full">
-              <div slot="notice-message">Step 2 Content Goes Here</div>
-            </calcite-notice>
-          </calcite-stepper-item>
-          <calcite-stepper-item item-title="Set member properties" item-subtitle="Some subtext" active>
-            <calcite-notice active width="full">
-              <div slot="notice-message">Step 3 Content Goes Here</div>
-            </calcite-notice>
-          </calcite-stepper-item>
-          <calcite-stepper-item item-title="Confirm and complete">
-            <calcite-notice active width="full">
-              <div slot="notice-message">Step 4 Content Goes Here</div>
-            </calcite-notice>
-          </calcite-stepper-item>
-        </calcite-stepper>
+        <div>
+          <a href="/demos/calcite-scrim.html">
+            <calcite-action scale="s" text="Scrim" alignment="start" text-enabled appearance="solid"> </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-select.html">
+            <calcite-action scale="s" text="Select" alignment="start" text-enabled appearance="solid"> </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/shell">
+            <calcite-action scale="s" text="Shell" alignment="start" text-enabled appearance="solid"> </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-slider.html">
+            <calcite-action scale="s" text="Slider" alignment="start" text-enabled appearance="solid"> </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-sortable-list.html">
+            <calcite-action scale="s" text="Sortable-list" alignment="start" text-enabled appearance="solid">
+            </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-split-button.html">
+            <calcite-action scale="s" text="Split-Button" alignment="start" text-enabled appearance="solid">
+            </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-stepper.html">
+            <calcite-action scale="s" text="Stepper" alignment="start" text-enabled appearance="solid">
+            </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-switch.html">
+            <calcite-action scale="s" text="Switch" alignment="start" text-enabled appearance="solid"> </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-tabs.html">
+            <calcite-action scale="s" text="Tabs" alignment="start" text-enabled appearance="solid"> </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-tile-select.html">
+            <calcite-action scale="s" text="Tile-select" alignment="start" text-enabled appearance="solid">
+            </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-tooltip.html">
+            <calcite-action scale="s" text="Tooltip" alignment="start" text-enabled appearance="solid">
+            </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-tree.html">
+            <calcite-action scale="s" text="Tree" alignment="start" text-enabled appearance="solid"> </calcite-action>
+          </a>
+        </div>
+
+        <div>
+          <a href="/demos/calcite-value-list.html">
+            <calcite-action scale="s" text="Value-list" alignment="start" text-enabled appearance="solid">
+            </calcite-action>
+          </a>
+        </div>
       </div>
     </div>
   </body>

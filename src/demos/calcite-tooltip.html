@@ -4,131 +4,160 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Calcite Tooltip</title>
+    <title>Tooltip</title>
     <style>
-      body {
-        background-color: var(--calcite-ui-background);
-        color: var(--calcite-ui-text-1);
+      .parent {
+        display: flex;
+        align-items: center;
+        margin-left: 9%;
+        color: var(--calcite-ui-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
       }
-      .demo-background-dark {
-        background: #202020;
-        color: white;
-        padding: 1rem;
+
+      .child {
+        display: inline-flex;
+        flex-direction: column;
+        width: 10rem;
+        padding: 25px;
       }
-      .placements-container {
-        width: 500px;
-        margin: auto;
-      }
-      ol {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        text-align: center;
-        list-style: none;
-        padding: 0;
-      }
-      li {
-        margin: 2rem;
+
+      .right-aligned-text {
+        text-align: right;
       }
     </style>
     <script src="./_assets/head.js"></script>
   </head>
 
   <body>
-    <calcite-button href="/">Home</calcite-button>
-    <h1>Calcite Tooltip</h1>
+    <h1 style="margin: 0 auto; text-align: center">Tooltip</h1>
 
     <calcite-tooltip-manager>
-      <calcite-tooltip label="auto placed tooltip" placement="auto" reference-element="tooltip-button"
-        >This is the message of the tooltip</calcite-tooltip
-      >
+      <div class="parent">
+        <div class="child"></div>
+        <div class="child">default</div>
+        <div class="child">start</div>
+        <div class="child">end</div>
+      </div>
 
-      <calcite-tooltip
-        label="top placed tooltip"
-        placement="top"
-        id="tooltip-two"
-        reference-element="tooltip-button-two"
-        >Lorem Ipsum is simply of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-        printer of type and scrambled it to make a type specimen book.</calcite-tooltip
-      >
+      <!-- auto, auto-start, auto-end -->
+      <div class="parent">
+        <div class="child right-aligned-text">auto</div>
 
-      <calcite-tooltip
-        label="right start placed tooltip"
-        placement="right-start"
-        reference-element="tooltip-button-four"
-        >Lorem Ipsum is simply of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-        printer of type and scrambled it to make a type specimen book.
-      </calcite-tooltip>
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-auto-ref">auto</calcite-button>
+        </div>
 
-      <calcite-tooltip label="auto placed tooltip" class="calcite-theme-dark" reference-element="tooltip-button-five"
-        >This is the message of the tooltip.
-      </calcite-tooltip>
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-auto-start-ref">auto-start</calcite-button>
+        </div>
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-auto-end-ref">auto-end</calcite-button>
+        </div>
+      </div>
 
-      <calcite-tooltip
-        label="auto placed tooltip"
-        class="calcite-theme-dark"
-        placement="auto"
-        id="tooltip-six"
-        reference-element="tooltip-button-six"
-        >Lorem Ipsum is simply of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-        printer of type and scrambled it to make a type specimen book.</calcite-tooltip
-      >
+      <!-- top, top-start, top-end -->
+      <div class="parent">
+        <div class="child right-aligned-text">top</div>
 
-      <calcite-tooltip
-        label="auto placed tooltip"
-        class="calcite-theme-dark"
-        placement="auto"
-        reference-element="tooltip-button-eight"
-        >Lorem Ipsum is simply of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-        printer of type and scrambled it to make a type specimen book.
-      </calcite-tooltip>
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-top-ref">top</calcite-button>
+        </div>
 
-      <p>
-        Lorem <a id="tooltip-button" href="#">ipsum</a> dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-        <strong id="tooltip-button-two" tabindex="0">ullamco</strong> laboris nisi ut aliquip ex ea commodo consequat.
-        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-        sint occaecat cupidatat non proident, sunt in culpa qui
-        <calcite-button id="tooltip-button-four">officia deserunt </calcite-button>
-        mollit anim id est laborum.
-      </p>
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-top-start-ref">top-start</calcite-button>
+        </div>
 
-      <p class="demo-background-dark" class="calcite-theme-dark">
-        Lorem <a id="tooltip-button-five" href="#">ipsum</a> dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-        <strong id="tooltip-button-six" tabindex="0">ullamco</strong> laboris nisi ut aliquip ex ea commodo consequat.
-        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-        sint occaecat cupidatat non proident, sunt in culpa qui
-        <calcite-button id="tooltip-button-eight">officia deserunt </calcite-button>
-        mollit anim id est laborum.
-      </p>
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-top-end-ref">top-end</calcite-button>
+        </div>
+      </div>
 
-      <section class="placements-container">
-        <h2>Placements:</h2>
-        <ol>
-          <li>
-            <calcite-button appearance="outline" id="tooltip-auto-ref"><span>auto</span></calcite-button>
-          </li>
-          <li><calcite-button appearance="outline" id="tooltip-auto-start-ref">auto-start</calcite-button></li>
-          <li><calcite-button appearance="outline" id="tooltip-auto-end-ref">auto-end</calcite-button></li>
-          <li><calcite-button appearance="outline" id="tooltip-top-ref">top</calcite-button></li>
-          <li><calcite-button appearance="outline" id="tooltip-top-start-ref">top-start</calcite-button></li>
-          <li><calcite-button appearance="outline" id="tooltip-top-end-ref">top-end</calcite-button></li>
-          <li><calcite-button appearance="outline" id="tooltip-bottom-ref">bottom</calcite-button></li>
-          <li><calcite-button appearance="outline" id="tooltip-bottom-start-ref">bottom-start</calcite-button></li>
-          <li><calcite-button appearance="outline" id="tooltip-bottom-end-ref">bottom-end</calcite-button></li>
-          <li><calcite-button appearance="outline" id="tooltip-right-ref">right</calcite-button></li>
-          <li><calcite-button appearance="outline" id="tooltip-right-start-ref">right-start</calcite-button></li>
-          <li><calcite-button appearance="outline" id="tooltip-right-end-ref">right-end</calcite-button></li>
-          <li><calcite-button appearance="outline" id="tooltip-left-ref">left</calcite-button></li>
-          <li><calcite-button appearance="outline" id="tooltip-left-start-ref">left-start</calcite-button></li>
-          <li><calcite-button appearance="outline" id="tooltip-left-end-ref">left-end</calcite-button></li>
-          <li><calcite-button appearance="outline" id="tooltip-leading-start-ref">leading-start</calcite-button></li>
-          <li><calcite-button appearance="outline" id="tooltip-leading-ref">leading</calcite-button></li>
-          <li><calcite-button appearance="outline" id="tooltip-leading-end-ref">leading-end</calcite-button></li>
-          <li><calcite-button appearance="outline" id="tooltip-trailing-end-ref">trailing-end</calcite-button></li>
-          <li><calcite-button appearance="outline" id="tooltip-trailing-ref">trailing</calcite-button></li>
-          <li><calcite-button appearance="outline" id="tooltip-trailing-start-ref">trailing-start</calcite-button></li>
-        </ol>
+      <!-- bottom, bottom-start, bottom-end -->
+      <div class="parent">
+        <div class="child right-aligned-text">bottom</div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-bottom-ref">bottom</calcite-button>
+        </div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-bottom-start-ref">bottom-start</calcite-button>
+        </div>
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-bottom-end-ref">bottom-end</calcite-button>
+        </div>
+      </div>
+
+      <!-- right, right-start, right-end -->
+      <div class="parent">
+        <div class="child right-aligned-text">right</div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-right-ref">right</calcite-button>
+        </div>
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-right-start-ref">right-start</calcite-button>
+        </div>
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-right-end-ref">right-end</calcite-button>
+        </div>
+      </div>
+
+      <!-- left, left-start, left-end -->
+      <div class="parent">
+        <div class="child right-aligned-text">left</div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-left-ref">left</calcite-button>
+        </div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-left-start-ref">left-start</calcite-button>
+        </div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-left-end-ref">left-end</calcite-button>
+        </div>
+      </div>
+
+      <!-- leading, leading-start, leading-end -->
+      <div class="parent">
+        <div class="child right-aligned-text">leading</div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-leading-ref">leading</calcite-button>
+        </div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-leading-start-ref">leading-start</calcite-button>
+        </div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-leading-end-ref">leading-end</calcite-button>
+        </div>
+      </div>
+
+      <!-- trailing, trailing-start, trailing-end -->
+      <div class="parent">
+        <div class="child right-aligned-text">trailing</div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-trailing-ref">trailing</calcite-button>
+        </div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-trailing-start-ref">trailing-start</calcite-button>
+        </div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-trailing-end-ref">trailing-end</calcite-button>
+        </div>
+      </div>
+
+      <!-- containers to hold the tooltip -->
+      <div>
         <calcite-tooltip label="tooltip - auto" placement="auto" reference-element="tooltip-auto-ref">
           <p>placement: auto</p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
@@ -258,7 +287,7 @@
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
           magna aliqua.
         </calcite-tooltip>
-      </section>
+      </div>
     </calcite-tooltip-manager>
   </body>
 </html>

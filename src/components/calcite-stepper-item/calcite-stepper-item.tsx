@@ -15,6 +15,9 @@ import { getKey } from "../../utils/key";
 import { Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 
+/**
+ * @slot - A slot for adding custom content.
+ */
 @Component({
   tag: "calcite-stepper-item",
   styleUrl: "calcite-stepper-item.scss",
@@ -243,7 +246,7 @@ export class CalciteStepperItem {
   }
 
   private getItemContent(): HTMLElement[] | NodeListOf<any> {
-    // handle ie and edge
+    // todo: Remove IE/Edge specific code.
     return this.el.shadowRoot?.querySelector("slot")
       ? (this.el.shadowRoot.querySelector("slot").assignedNodes({ flatten: true }) as HTMLElement[])
       : this.el.querySelector(".stepper-item-content")

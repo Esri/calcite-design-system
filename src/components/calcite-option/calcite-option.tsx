@@ -1,7 +1,9 @@
 import { Component, h, Prop, VNode, Element, EventEmitter, Event, Watch } from "@stencil/core";
+import { createObserver } from "../../utils/observers";
 
 @Component({
   tag: "calcite-option",
+  styleUrl: "calcite-option.scss",
   shadow: true
 })
 export class CalciteOption {
@@ -64,7 +66,7 @@ export class CalciteOption {
 
   private internallySetValue: any;
 
-  private mutationObserver = new MutationObserver(() => {
+  private mutationObserver: MutationObserver = createObserver("mutation", () => {
     this.ensureTextContentDependentProps();
     this.calciteOptionChange.emit();
   });
@@ -111,14 +113,14 @@ export class CalciteOption {
 
   connectedCallback(): void {
     this.ensureTextContentDependentProps();
-    this.mutationObserver.observe(this.el, {
+    this.mutationObserver?.observe(this.el, {
       childList: true,
       attributeFilter: ["label", "value"]
     });
   }
 
   disconnectedCallback(): void {
-    this.mutationObserver.disconnect();
+    this.mutationObserver?.disconnect();
   }
 
   //--------------------------------------------------------------------------

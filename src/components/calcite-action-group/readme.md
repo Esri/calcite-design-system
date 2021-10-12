@@ -13,6 +13,7 @@ The `calcite-action-group` is a wrapper for multiple `calcite-action`s and house
 | `intlMore` | `intl-more` | Text string for the actions menu.                                    | `string`                               | `undefined`  |
 | `layout`   | `layout`    | Indicates the horizontal, vertical, or grid layout of the component. | `"grid" \| "horizontal" \| "vertical"` | `"vertical"` |
 | `menuOpen` | `menu-open` | Opens the action menu.                                               | `boolean`                              | `false`      |
+| `scale`    | `scale`     | Specifies the size of the action-menu.                               | `"l" \| "m" \| "s"`                    | `undefined`  |
 
 ## Slots
 

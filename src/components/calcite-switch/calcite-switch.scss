@@ -1,5 +1,8 @@
 // sizes
 :host([scale="s"]) {
+  .container {
+    @apply h-3;
+  }
   .track {
     @apply w-6 h-3;
   }
@@ -9,6 +12,9 @@
 }
 
 :host([scale="m"]) {
+  .container {
+    @apply h-4;
+  }
   .track {
     @apply w-8 h-4;
   }
@@ -18,6 +24,9 @@
 }
 
 :host([scale="l"]) {
+  .container {
+    @apply h-6;
+  }
   .track {
     @apply w-12 h-6;
   }
@@ -27,11 +36,11 @@
 }
 
 :host {
-  @apply inline-block 
-    relative 
-    w-auto 
-    cursor-pointer 
-    select-none 
+  @apply inline-block
+    relative
+    w-auto
+    cursor-pointer
+    select-none
     align-middle;
   tap-highlight-color: transparent;
 }
@@ -49,13 +58,13 @@
 }
 
 .track {
-  @apply relative 
-    inline-block 
-    align-top 
-    bg-foreground-2 
-    border 
-    border-solid 
-    border-color-2 
+  @apply relative
+    inline-block
+    align-top
+    bg-foreground-2
+    border
+    border-solid
+    border-color-2
     box-border
     pointer-events-none
     transition-all
@@ -65,12 +74,12 @@
 }
 
 .handle {
-  @apply absolute 
-    block 
-    right-auto 
-    bg-foreground-1 
-    border-2 
-    border-solid 
+  @apply absolute
+    block
+    right-auto
+    bg-foreground-1
+    border-2
+    border-solid
     border-color-input
     transition-all
     duration-150
@@ -84,14 +93,14 @@
 :host(:hover),
 :host(:focus) {
   .handle {
-    @apply border-color-brand shadow-outline-active;
-    @apply right-auto;
+    @apply border-color-brand;
+    box-shadow: inset 0 0 0 1px var(--calcite-ui-brand);
   }
 }
 
-:host([switched]) {
+:host([checked]) {
   .track {
-    @apply bg-brand border-color-brand;
+    @apply bg-brand border-color-brand-hover;
   }
   .handle {
     @apply left-auto border-color-brand;
@@ -99,12 +108,13 @@
   }
 }
 
-:host([switched]:hover) {
+:host([checked]:hover) {
   .track {
-    @apply bg-brand border-color-brand;
+    @apply bg-brand border-color-brand-hover;
   }
   .handle {
-    @apply border-color-brand shadow-outline-active;
+    @apply border-color-brand-hover;
+    box-shadow: inset 0 0 0 1px var(--calcite-ui-brand-hover);
   }
 }
 
@@ -116,7 +126,7 @@
   }
 }
 
-:host([switched]) {
+:host([checked]) {
   .calcite--rtl {
     & .handle {
       @apply right-auto;
@@ -124,7 +134,7 @@
     }
   }
 }
-:host([switched]:active) {
+:host([checked]:active) {
   .calcite--rtl {
     & .handle {
       @apply right-auto;
@@ -132,7 +142,7 @@
     }
   }
 }
-:host([switched]:focus) {
+:host([checked]:focus) {
   .calcite--rtl {
     & .handle {
       @apply right-auto;

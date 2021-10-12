@@ -1,6 +1,14 @@
 :host {
-  @extend %component-host;
-  @apply bg-transparent block mb-1;
+  @apply bg-transparent
+    box-border
+    block
+    mb-1
+    text-color-2
+    text--1;
+
+  * {
+    @apply box-border;
+  }
 }
 
 :host(:last-child) {
@@ -10,15 +18,16 @@
 @import "../../assets/styles/header";
 
 h3.heading {
-  @apply text--1-wrap text-color-3;
-  margin: theme("spacing.2") theme("spacing.4");
+  @apply text--1-wrap
+    text-color-3
+    my-2
+    mx-4;
 }
 
 .container--indented {
-  margin-left: theme("spacing.6");
+  @apply ml-6;
 }
 
 .calcite--rtl.container--indented {
-  @apply ml-0;
-  margin-right: theme("spacing.6");
+  @apply ml-0 mr-6;
 }

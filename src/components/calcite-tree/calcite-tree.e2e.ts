@@ -1,6 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, HYDRATED_ATTR } from "../../tests/commonTests";
+import { accessible, HYDRATED_ATTR, defaults } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
+import { CSS } from "../calcite-tree-item/resources";
+import { TreeSelectionMode } from "./interfaces";
 
 describe("calcite-tree", () => {
   it("renders", async () => {
@@ -12,6 +14,22 @@ describe("calcite-tree", () => {
   });
 
   it("is accessible", async () => accessible(`<calcite-tree></calcite-tree>`));
+
+  it("has property defaults", async () =>
+    defaults("calcite-tree", [
+      {
+        propertyName: "lines",
+        defaultValue: false
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m"
+      },
+      {
+        propertyName: "selectionMode",
+        defaultValue: TreeSelectionMode.Single
+      }
+    ]));
 
   describe("it forwards focus", () => {
     it("to first selected item", async () => {
@@ -91,7 +109,7 @@ describe("calcite-tree", () => {
   it("should correctly select tree in ancestors selection mode", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <calcite-tree input-enabled selection-mode="ancestors">
+      <calcite-tree selection-mode="ancestors">
         <calcite-tree-item id="one"><span>One</span></calcite-tree-item>
         <calcite-tree-item id="two">
           <span>Two</span>
@@ -152,7 +170,7 @@ describe("calcite-tree", () => {
   describe("item selection", () => {
     it("allows selecting items", async () => {
       const page = await newE2EPage({
-        html: html`<calcite-tree input-enabled selection-mode="ancestors">
+        html: html`<calcite-tree selection-mode="ancestors">
           <calcite-tree-item id="one"><span>One</span></calcite-tree-item>
           <calcite-tree-item id="two">
             <span>Two</span>
@@ -187,22 +205,110 @@ describe("calcite-tree", () => {
       expect(selectEventSpy).toHaveReceivedEventTimes(3);
     });
 
+    it("should only emit one event on grandchildren click", async () => {
+      const page = await newE2EPage({
+        html: html`<calcite-tree selection-mode="single">
+          <calcite-tree-item id="one"><span>One</span></calcite-tree-item>
+          <calcite-tree-item id="two" expanded>
+            <span>Two</span>
+            <calcite-tree slot="children">
+              <calcite-tree-item id="child-one" expanded>
+                <span>Child 1</span>
+                <calcite-tree slot="children">
+                  <calcite-tree-item id="grandchild-one" expanded>
+                    <span>Grandchild 1</span>
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+          </calcite-tree-item>
+        </calcite-tree>`
+      });
+
+      await page.waitForChanges();
+      const tree = await page.find("calcite-tree");
+      const selectEventSpy = await tree.spyOnEvent("calciteTreeSelect");
+      const grandchildOne = await page.find("#grandchild-one");
+      await grandchildOne.click();
+      expect(selectEventSpy).toHaveReceivedEventTimes(1);
+    });
+
+    describe("has selected items in the selection event payload", () => {
+      it("contains current selection when selection=multi", async () => {
+        const page = await newE2EPage({
+          html: html` <calcite-tree selection-mode="multi">
+            <calcite-tree-item id="1">1</calcite-tree-item>
+            <calcite-tree-item id="2">2</calcite-tree-item>
+          </calcite-tree>`
+        });
+
+        const [item1, item2] = await page.findAll("calcite-tree-item");
+
+        type TestWindow = {
+          selectedIds: string[];
+        } & Window &
+          typeof globalThis;
+
+        await page.evaluateHandle(() =>
+          document.addEventListener("calciteTreeSelect", ({ detail }: CustomEvent) => {
+            (window as TestWindow).selectedIds = detail.selected.map((item) => item.id);
+          })
+        );
+
+        const getSelectedIds = async (): Promise<any> => page.evaluate(() => (window as TestWindow).selectedIds);
+
+        await item1.click();
+
+        expect(await getSelectedIds()).toEqual(["1"]);
+        await page.keyboard.down("Shift");
+
+        await item2.click();
+
+        expect(await getSelectedIds()).toEqual(["1", "2"]);
+
+        await item2.click();
+
+        expect(await getSelectedIds()).toEqual(["1"]);
+
+        await item1.click();
+
+        expect(await getSelectedIds()).toEqual([]);
+      });
+    });
+
     it("emits once when the tree item checkbox label is clicked", async () => {
       const page = await newE2EPage({
-        html: html`<calcite-tree input-enabled selection-mode="ancestors">
+        html: html`<calcite-tree selection-mode="ancestors">
           <calcite-tree-item>1</calcite-tree-item>
         </calcite-tree>`
       });
 
       const tree = await page.find("calcite-tree");
       const selectEventSpy = await tree.spyOnEvent("calciteTreeSelect");
-      const treeItemCheckboxLabel = await page.find("calcite-tree-item >>> .calcite-tree-label");
+      const treeItemCheckboxLabel = await page.find(`calcite-tree-item >>> .${CSS.checkboxLabel}`);
 
       await treeItemCheckboxLabel.click();
       expect(selectEventSpy).toHaveReceivedEventTimes(1);
 
       await treeItemCheckboxLabel.click();
       expect(selectEventSpy).toHaveReceivedEventTimes(2);
+    });
+
+    describe(`when tree-item selection-mode is ${TreeSelectionMode.Ancestors}`, () => {
+      it("should render checkbox inputs", async () => {
+        const page = await newE2EPage({
+          html: `
+          <calcite-tree selection-mode=${TreeSelectionMode.Ancestors}>
+            <calcite-tree-item>1</calcite-tree-item>
+            <calcite-tree-item>2</calcite-tree-item>
+          </calcite-tree>
+          `
+        });
+        const checkbox = await page.find(
+          `calcite-tree-item >>> .${CSS.nodeContainer} .${CSS.checkboxLabel} .${CSS.checkbox}`
+        );
+        expect(checkbox).not.toBeNull();
+      });
     });
   });
 });

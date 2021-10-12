@@ -47,11 +47,19 @@ There is no need to set a theme or scale on the `<calcite-inline-editable>` comp
 | `loading`            | `loading`              | specify whether the confirm button should display a loading state, defaults to false                                                                                   | `boolean`             | `false`                    |
 | `scale`              | `scale`                | specify the scale of the inline-editable component, defaults to the scale of the wrapped calcite-input or the scale of the closest wrapping component with a set scale | `"l" \| "m" \| "s"`   | `undefined`                |
 
+## Methods
+
+### `setFocus() => Promise<void>`
+
+#### Returns
+
+Type: `Promise<void>`
+
 ## Slots
 
-| Slot | Description                            |
-| ---- | -------------------------------------- |
-|      | slot for rendering a `<calcite-input>` |
+| Slot | Description                          |
+| ---- | ------------------------------------ |
+|      | A slot for adding a `calcite-input`. |
 
 ## Dependencies
 

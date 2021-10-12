@@ -5,23 +5,25 @@ import {
   EventEmitter,
   h,
   Listen,
+  Method,
   Prop,
   VNode,
   Watch
 } from "@stencil/core";
 import { getElementProp } from "../../utils/dom";
 import { Scale } from "../interfaces";
-import { TEXT } from "./resources";
+import { TEXT, CSS } from "./resources";
+import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 
 /**
- * @slot - slot for rendering a `<calcite-input>`
+ * @slot - A slot for adding a `calcite-input`.
  */
 @Component({
   tag: "calcite-inline-editable",
   scoped: true,
   styleUrl: "calcite-inline-editable.scss"
 })
-export class CalciteInlineEditable {
+export class CalciteInlineEditable implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -53,13 +55,19 @@ export class CalciteInlineEditable {
   /** specify whether save/cancel controls should be displayed when editingEnabled is true, defaults to false */
   @Prop({ reflect: true }) controls = false;
 
-  /** specify text to be user for the enable editing button's aria-label, defaults to `Click to edit` */
+  /** specify text to be user for the enable editing button's aria-label, defaults to `Click to edit`
+   * @default "Click to edit"
+   */
   @Prop({ reflect: true }) intlEnableEditing = TEXT.intlEnablingEditing;
 
-  /** specify text to be user for the cancel editing button's aria-label, defaults to `Cancel` */
+  /** specify text to be user for the cancel editing button's aria-label, defaults to `Cancel`
+   * @default "Cancel"
+   */
   @Prop({ reflect: true }) intlCancelEditing = TEXT.intlCancelEditing;
 
-  /** specify text to be user for the confirm changes button's aria-label, defaults to `Save` */
+  /** specify text to be user for the confirm changes button's aria-label, defaults to `Save`
+   * @default "Save"
+   */
   @Prop({ reflect: true }) intlConfirmChanges = TEXT.intlConfirmChanges;
 
   /** specify the scale of the inline-editable component, defaults to the scale of the wrapped calcite-input or the scale of the closest wrapping component with a set scale */
@@ -88,22 +96,30 @@ export class CalciteInlineEditable {
     }
   }
 
+  connectedCallback() {
+    connectLabel(this);
+  }
+
+  disconnectedCallback() {
+    disconnectLabel(this);
+  }
+
   render(): VNode {
     return (
       <div
-        class="calcite-inline-editable-wrapper"
+        class={CSS.wrapper}
         onClick={this.enableEditingHandler}
         onKeyDown={this.escapeKeyHandler}
         onTransitionEnd={this.transitionEnd}
       >
-        <div class="calcite-inline-editable-input-wrapper">
+        <div class={CSS.inputWrapper}>
           <slot />
         </div>
-        <div class="calcite-inline-editable-controls-wrapper">
+        <div class={CSS.controlsWrapper}>
           {!this.editingEnabled && (
             <calcite-button
               appearance="transparent"
-              class="calcite-inline-editable-enable-editing-button"
+              class={CSS.enableEditingButton}
               color="neutral"
               disabled={this.disabled}
               iconStart="pencil"
@@ -114,10 +130,10 @@ export class CalciteInlineEditable {
             />
           )}
           {this.shouldShowControls && [
-            <div class="calcite-inline-editable-cancel-editing-button-wrapper">
+            <div class={CSS.cancelEditingButtonWrapper}>
               <calcite-button
                 appearance="transparent"
-                class="calcite-inline-editable-cancel-editing-button"
+                class={CSS.cancelEditingButton}
                 color="neutral"
                 disabled={this.disabled}
                 iconStart="x"
@@ -128,7 +144,7 @@ export class CalciteInlineEditable {
             </div>,
             <calcite-button
               appearance="solid"
-              class="calcite-inline-editable-confirm-changes-button"
+              class={CSS.confirmChangesButton}
               color="blue"
               disabled={this.disabled}
               iconStart="check"
@@ -177,28 +193,9 @@ export class CalciteInlineEditable {
     }
   }
 
-  @Listen("click", { target: "window" })
-  handleLabelFocus(e: CustomEvent): void {
-    const htmlTarget = e.target as HTMLElement;
-    if (
-      !(
-        htmlTarget.parentElement.tagName === "LABEL" ||
-        htmlTarget.parentElement.tagName === "CALCITE-LABEL"
-      )
-    ) {
-      return;
-    }
-    if (!htmlTarget.parentElement.contains(this.el)) {
-      return;
-    }
-    e.preventDefault();
-    e.stopPropagation();
-    if (this.editingEnabled) {
-      this.inputElement.setFocus();
-    } else {
-      this.enableEditingButton.setFocus();
-    }
-  }
+  onLabelClick = (): void => {
+    this.setFocus();
+  };
 
   //--------------------------------------------------------------------------
   //
@@ -215,6 +212,23 @@ export class CalciteInlineEditable {
   private enableEditingButton: HTMLCalciteButtonElement;
 
   private editingCancelTransitionProp = "border-top-color";
+
+  labelEl: HTMLCalciteLabelElement;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  @Method()
+  async setFocus(): Promise<void> {
+    if (this.editingEnabled) {
+      this.inputElement?.setFocus();
+    } else {
+      this.enableEditingButton?.setFocus();
+    }
+  }
 
   //--------------------------------------------------------------------------
   //

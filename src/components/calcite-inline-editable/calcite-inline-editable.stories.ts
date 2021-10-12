@@ -1,6 +1,6 @@
 import readme from "./readme.md";
 import { boolean, select, text } from "@storybook/addon-knobs";
-import { darkBackground } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../tests/utils";
 
 export default {
@@ -37,7 +37,6 @@ export const WithLabel = (): string => html`
       <calcite-input-message
         ${boolean("active", false, "InputMessage") && "active"}
         ${boolean("icon", false, "InputMessage") && "icon"}
-        type="${select("type", ["default", "floating"], "default", "InputMessage")}"
         status="${select("status", ["idle", "valid", "invalid"], "idle", "InputMessage")}"
       >
         ${text("text", "My great input message", "InputMessage")}
@@ -119,7 +118,6 @@ export const DarkMode = (): string => html`
       <calcite-input-message
         ${boolean("active", false, "InputMessage") && "active"}
         ${boolean("icon", false, "InputMessage") && "icon"}
-        type="${select("type", ["default", "floating"], "default", "InputMessage")}"
         status="${select("status", ["idle", "valid", "invalid"], "idle", "InputMessage")}"
       >
         ${text("text", "My great input message", "InputMessage")}
@@ -130,5 +128,5 @@ export const DarkMode = (): string => html`
 
 DarkMode.story = {
   name: "Dark mode",
-  parameters: { backgrounds: darkBackground }
+  parameters: { themes: themesDarkDefault }
 };

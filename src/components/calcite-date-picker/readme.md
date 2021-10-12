@@ -11,7 +11,7 @@ The `calcite-date-picker` component allows for selecting a date via a calendar o
 You can set a min and max range, as well as an initial value with ISO 8601 formatted strings:
 
 ```html
-<calcite-date-picker value="2020-03-27" min="2020-02-01" max="2021-01-01" />
+<calcite-date-picker value="2020-03-27" min="2020-02-01" max="2021-01-01"></calcite-date-picker>
 ```
 
 ### Range
@@ -26,7 +26,7 @@ You can also add range property to activate date range mode. In this mode, you c
 
 | Property                     | Attribute                      | Description                                                                                                           | Type                         | Default                                   |
 | ---------------------------- | ------------------------------ | --------------------------------------------------------------------------------------------------------------------- | ---------------------------- | ----------------------------------------- |
-| `activeRange`                | `active-range`                 | Active range                                                                                                          | `"end" \| "start"`           | `"start"`                                 |
+| `activeRange`                | `active-range`                 | Active range                                                                                                          | `"end" \| "start"`           | `undefined`                               |
 | `end`                        | `end`                          | Selected end date                                                                                                     | `string`                     | `undefined`                               |
 | `endAsDate`                  | --                             | Selected end date as full date object                                                                                 | `Date`                       | `undefined`                               |
 | `headingLevel`               | `heading-level`                | Number at which section headings should start for this component.                                                     | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined`                               |

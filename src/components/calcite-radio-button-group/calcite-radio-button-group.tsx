@@ -12,6 +12,9 @@ import {
 } from "@stencil/core";
 import { Layout, Scale } from "../interfaces";
 
+/**
+ * @slot - A slot for adding `calcite-radio-button`s.
+ */
 @Component({
   tag: "calcite-radio-button-group",
   styleUrl: "calcite-radio-button-group.scss",
@@ -56,7 +59,7 @@ export class CalciteRadioButtonGroup {
     this.passPropsToRadioButtons();
   }
 
-  /** The name of the radio button group. <code>name</code> must be unique to other radio button group instances. */
+  /** The name of the radio button group. `name` must be unique to other radio button group instances. */
   @Prop({ reflect: true }) name!: string;
 
   /** Requires that a value is selected for the radio button group before the parent form will submit. */
@@ -106,7 +109,7 @@ export class CalciteRadioButtonGroup {
   //--------------------------------------------------------------------------
 
   /**
-   * @todo doc
+   * Emitted when the radio button group has changed.
    */
   @Event() calciteRadioButtonGroupChange: EventEmitter;
 

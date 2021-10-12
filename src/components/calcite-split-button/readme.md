@@ -24,7 +24,7 @@ The calcite-split-button control is one that combines a button with a dropdown m
 | -------------------- | ----------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ----------- |
 | `appearance`         | `appearance`            | specify the appearance style of the button, defaults to solid.                                           | `"clear" \| "outline" \| "solid" \| "transparent"` | `"solid"`   |
 | `color`              | `color`                 | specify the color of the control, defaults to blue                                                       | `"blue" \| "inverse" \| "neutral" \| "red"`        | `"blue"`    |
-| `disabled`           | `disabled`              | is the control disabled                                                                                  | `boolean`                                          | `undefined` |
+| `disabled`           | `disabled`              | is the control disabled                                                                                  | `boolean`                                          | `false`     |
 | `dropdownIconType`   | `dropdown-icon-type`    | specify the icon used for the dropdown menu, defaults to chevron                                         | `"caret" \| "chevron" \| "ellipsis" \| "overflow"` | `"chevron"` |
 | `dropdownLabel`      | `dropdown-label`        | aria label for overflow button                                                                           | `string`                                           | `undefined` |
 | `loading`            | `loading`               | optionally add a calcite-loader component to the control, disabling interaction. with the primary button | `boolean`                                          | `false`     |
@@ -42,6 +42,12 @@ The calcite-split-button control is one that combines a button with a dropdown m
 | ---------------------------------- | ------------------------------------------ | ------------------ |
 | `calciteSplitButtonPrimaryClick`   | fired when the primary button is clicked   | `CustomEvent<any>` |
 | `calciteSplitButtonSecondaryClick` | fired when the secondary button is clicked | `CustomEvent<any>` |
+
+## Slots
+
+| Slot | Description                                   |
+| ---- | --------------------------------------------- |
+|      | A slot for adding `calcite-dropdown` content. |
 
 ## Dependencies
 

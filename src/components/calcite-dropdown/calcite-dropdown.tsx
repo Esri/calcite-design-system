@@ -22,9 +22,13 @@ import {
 } from "../../utils/popper";
 import { Instance as Popper, StrictModifiers } from "@popperjs/core";
 import { Scale } from "../interfaces";
-import { DefaultDropdownPlacement } from "./resources";
+import { DefaultDropdownPlacement, SLOTS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 
+/**
+ * @slot - A slot for adding `calcite-dropdown-group`s or `calcite-dropdown-item`s.
+ * @slot dropdown-trigger - A slot for the element that triggers the dropdown.
+ */
 @Component({
   tag: "calcite-dropdown",
   styleUrl: "calcite-dropdown.scss",
@@ -45,6 +49,7 @@ export class CalciteDropdown {
   //
   //--------------------------------------------------------------------------
 
+  /** Opens or closes the dropdown */
   @Prop({ reflect: true, mutable: true }) active = false;
 
   @Watch("active")
@@ -59,7 +64,7 @@ export class CalciteDropdown {
   @Prop({ reflect: true }) disableCloseOnSelect = false;
 
   /** is the dropdown disabled  */
-  @Prop({ reflect: true }) disabled?: boolean;
+  @Prop({ reflect: true }) disabled = false;
 
   /**
    specify the maximum number of calcite-dropdown-items to display before showing the scroller, must be greater than 0 -
@@ -72,6 +77,7 @@ export class CalciteDropdown {
 
   /**
    * Determines where the dropdown will be positioned relative to the button.
+   * @default "bottom-leading"
    */
   @Prop({ reflect: true }) placement: DropdownPlacement = DefaultDropdownPlacement;
 
@@ -125,6 +131,8 @@ export class CalciteDropdown {
     this.items = Array.from(
       this.el.querySelectorAll<HTMLCalciteDropdownItemElement>("calcite-dropdown-item")
     );
+
+    this.reposition();
   }
 
   disconnectedCallback(): void {
@@ -143,7 +151,11 @@ export class CalciteDropdown {
           onKeyDown={this.keyDownHandler}
           ref={this.setReferenceEl}
         >
-          <slot aria-expanded={active.toString()} aria-haspopup="true" name="dropdown-trigger" />
+          <slot
+            aria-expanded={active.toString()}
+            aria-haspopup="true"
+            name={SLOTS.dropdownTrigger}
+          />
         </div>
         <div
           aria-hidden={(!active).toString()}
@@ -158,7 +170,7 @@ export class CalciteDropdown {
             }}
             onTransitionEnd={this.transitionEnd}
             style={{
-              maxHeight: maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : ""
+              maxHeight: !active || maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : ""
             }}
           >
             <slot />
@@ -174,6 +186,7 @@ export class CalciteDropdown {
   //
   //--------------------------------------------------------------------------
 
+  /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
     const { popper, menuEl, placement } = this;
@@ -208,6 +221,7 @@ export class CalciteDropdown {
   closeCalciteDropdownOnClick(e: Event): void {
     const target = e.target as HTMLElement;
     if (
+      !this.disableCloseOnSelect &&
       this.active &&
       target.nodeName !== "CALCITE-DROPDOWN-ITEM" &&
       target.nodeName !== "CALCITE-DROPDOWN-GROUP"
@@ -223,9 +237,11 @@ export class CalciteDropdown {
 
   @Listen("calciteDropdownOpen", { target: "window" })
   closeCalciteDropdownOnOpenEvent(e: Event): void {
-    if (e.target !== this.el) {
-      this.active = false;
+    if (e.composedPath().includes(this.el)) {
+      return;
     }
+
+    this.active = false;
   }
 
   @Listen("mouseenter")

@@ -4,7 +4,7 @@ import {
   Attribute,
   filterComponentAttributes,
   createComponentHTML as create,
-  darkBackground
+  themesDarkDefault
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -14,24 +14,15 @@ import { TEXT } from "./resources";
 export default {
   title: "Components/Action Pad",
   parameters: {
-    backgrounds: darkBackground,
     notes: readme
   }
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
-  const { dir, position, theme } = ATTRIBUTES;
+  const { position } = ATTRIBUTES;
 
   return filterComponentAttributes(
     [
-      {
-        name: "dir",
-        commit(): Attribute {
-          this.value = select("dir", dir.values, dir.defaultValue);
-          delete this.build;
-          return this;
-        }
-      },
       {
         name: "expand-disabled",
         commit(): Attribute {
@@ -68,14 +59,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         name: "intl-collapse",
         commit(): Attribute {
           this.value = text("intlCollapse", TEXT.collapse);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "class",
-        commit(): Attribute {
-          this.value = select("class", theme.values, theme.defaultValue);
           delete this.build;
           return this;
         }
@@ -123,6 +106,10 @@ export const darkThemeRTL = (): string =>
       </calcite-action-group>
     `
   );
+
+darkThemeRTL.story = {
+  parameters: { themes: themesDarkDefault }
+};
 
 export const withTooltip = (): string =>
   create(

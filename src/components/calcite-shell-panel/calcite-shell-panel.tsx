@@ -14,8 +14,8 @@ import { Position, Scale } from "../interfaces";
 import { getSlotted } from "../../utils/dom";
 
 /**
- * @slot action-bar - A slot for adding a `calcite-action-bar` to the panel.
  * @slot - A slot for adding content to the shell panel.
+ * @slot action-bar - A slot for adding a `calcite-action-bar` to the panel.
  */
 @Component({
   tag: "calcite-shell-panel",

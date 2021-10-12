@@ -24,13 +24,11 @@ For instances when you don't have room for the full loader, you can use the smal
 
 ### Determinate
 
-If you can calculate your progress, it's best to use the determinate version of the loader. Update the `value` of the element when progress is made:
+If you can calculate your progress, it's best to use the determinate version of the loader. Update the `value` of the element when progress is made. This will display a progress bar along the perimeter of the loader showing 32% complete:
 
 ```html
 <calcite-loader type="determinate" value="32" active></calcite-loader>
 ```
-
-The above will display a progress bar along the perimeter of the loader showing 32% complete.
 
 ## Properties
 
@@ -39,7 +37,7 @@ The above will display a progress bar along the perimeter of the loader showing 
 | `active`             | `active`     | Show the loader                                                    | `boolean`                          | `false`     |
 | `inline`             | `inline`     | Inline loaders are smaller and will appear to the left of the text | `boolean`                          | `false`     |
 | `label` _(required)_ | `label`      | Accessible name for the component                                  | `string`                           | `undefined` |
-| `noPadding`          | `no-padding` | Turn off spacing around the loader                                 | `boolean`                          | `undefined` |
+| `noPadding`          | `no-padding` | Turn off spacing around the loader                                 | `boolean`                          | `false`     |
 | `scale`              | `scale`      | Speficy the scale of the loader. Defaults to "m"                   | `"l" \| "m" \| "s"`                | `"m"`       |
 | `text`               | `text`       | Text which should appear under the loading indicator (optional)    | `string`                           | `""`        |
 | `type`               | `type`       | Use indeterminate if finding actual progress value is impossible   | `"determinate" \| "indeterminate"` | `undefined` |

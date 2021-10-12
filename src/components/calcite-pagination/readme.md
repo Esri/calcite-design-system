@@ -10,7 +10,7 @@
 
 The component is meant to interface with responses from ArcGIS REST services, so the props share names with [response properties](https://developers.arcgis.com/rest/users-groups-and-items/search.htm) from various search endpoints.
 
-For example, after querying the search API, you'll get back a response similar to the following:
+For example, after querying the search API, you'll get back a response similar to JSON below. The response can be passed straight to the `calcite-pagination` component.
 
 ```JSON
 {
@@ -21,22 +21,20 @@ For example, after querying the search API, you'll get back a response similar t
 }
 ```
 
-These can be passed straight to the `calcite-pagination` component:
-
 ```html
 <calcite-pagination start="1" num="100" total="2021"></calcite-pagination>
 ```
 
 ## Properties
 
-| Property            | Attribute             | Description                              | Type                | Default              |
-| ------------------- | --------------------- | ---------------------------------------- | ------------------- | -------------------- |
-| `num`               | `num`                 | number of items per page                 | `number`            | `20`                 |
-| `scale`             | `scale`               | The scale of the pagination              | `"l" \| "m" \| "s"` | `"m"`                |
-| `start`             | `start`               | index of item that should begin the page | `number`            | `1`                  |
-| `textLabelNext`     | `text-label-next`     | title of the next button                 | `string`            | `TEXT.nextLabel`     |
-| `textLabelPrevious` | `text-label-previous` | title of the previous button             | `string`            | `TEXT.previousLabel` |
-| `total`             | `total`               | total number of items                    | `number`            | `0`                  |
+| Property            | Attribute             | Description                                                     | Type                | Default              |
+| ------------------- | --------------------- | --------------------------------------------------------------- | ------------------- | -------------------- |
+| `num`               | `num`                 | number of items per page                                        | `number`            | `20`                 |
+| `scale`             | `scale`               | The scale of the pagination                                     | `"l" \| "m" \| "s"` | `"m"`                |
+| `start`             | `start`               | index of item that should begin the page                        | `number`            | `1`                  |
+| `textLabelNext`     | `text-label-next`     | Used as an accessible label (aria-label) for the next button    | `string`            | `TEXT.nextLabel`     |
+| `textLabelPrevious` | `text-label-previous` | Used as an accessible label (aria-label) of the previous button | `string`            | `TEXT.previousLabel` |
+| `total`             | `total`               | total number of items                                           | `number`            | `0`                  |
 
 ## Events
 

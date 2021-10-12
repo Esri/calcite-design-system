@@ -40,7 +40,7 @@ A single instance of an alert. Multiple alerts will aggregate in a queue.
 
 ### `setFocus() => Promise<void>`
 
-focus either the slotted link or the close button
+Sets focus on the component.
 
 #### Returns
 

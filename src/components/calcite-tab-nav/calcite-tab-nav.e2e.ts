@@ -4,7 +4,7 @@ import { renders, accessible } from "../../tests/commonTests";
 describe("calcite-tab-nav", () => {
   const tabNavHtml = "<calcite-tab-nav></calcite-tab-nav>";
 
-  it("renders", async () => await renders(tabNavHtml));
+  it("renders", async () => await renders(tabNavHtml, { display: "flex" }));
 
   it("is accessible", async () => await accessible(tabNavHtml));
 

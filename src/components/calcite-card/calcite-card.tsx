@@ -4,17 +4,17 @@ import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { CSS_UTILITY } from "../../utils/resources";
 
+/** Cards do not include a grid or bounding container
+ * - cards will expand to fit the width of their container
+ */
+
 /**
- * @slot thumbnail - A slot for adding a thumnail to the card.
  * @slot - A slot for adding subheader/description content.
+ * @slot thumbnail - A slot for adding a thumbnail to the card.
  * @slot title - A slot for adding a card title.
  * @slot subtitle - A slot for adding a card subtitle or short summary.
  * @slot footer-leading - A slot for adding a leading footer.
  * @slot footer-trailing - A slot for adding a trailing footer.
- */
-
-/** Cards do not include a grid or bounding container
- * - cards will expand to fit the width of their container
  */
 
 @Component({
@@ -46,13 +46,19 @@ export class CalciteCard {
   /** Indicates whether the card is selectable. */
   @Prop({ reflect: true }) selectable = false;
 
-  /** string to override English loading text */
+  /** string to override English loading text
+   * @default "Loading"
+   */
   @Prop() intlLoading?: string = TEXT.loading;
 
-  /** string to override English select text for checkbox when selectable is true */
+  /** string to override English select text for checkbox when selectable is true
+   * @default "Select"
+   */
   @Prop({ reflect: false }) intlSelect: string = TEXT.select;
 
-  /** string to override English deselect text for checkbox when selectable is true */
+  /** string to override English deselect text for checkbox when selectable is true
+   * @default "Deselect"
+   */
   @Prop({ reflect: false }) intlDeselect: string = TEXT.deselect;
 
   //--------------------------------------------------------------------------

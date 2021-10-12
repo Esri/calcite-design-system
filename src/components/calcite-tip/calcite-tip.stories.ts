@@ -1,37 +1,26 @@
-import { boolean, select, text } from "@storybook/addon-knobs";
+import { boolean, text } from "@storybook/addon-knobs";
 import {
   Attribute,
   filterComponentAttributes,
   Attributes,
   createComponentHTML as create,
-  darkBackground
+  themesDarkDefault
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
+import groupReadme from "../calcite-tip-group/readme.md";
 import { TEXT } from "./resources";
-import { ATTRIBUTES } from "../../../.storybook/resources";
 import { placeholderImage } from "../../tests/utils";
 
 export default {
   title: "Components/Tips/Tip",
   parameters: {
-    backgrounds: darkBackground,
-    notes: readme
+    notes: [readme, groupReadme]
   }
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
-  const { dir, theme } = ATTRIBUTES;
-
   return filterComponentAttributes(
     [
-      {
-        name: "dir",
-        commit(): Attribute {
-          this.value = select("dir", dir.values, dir.defaultValue);
-          delete this.build;
-          return this;
-        }
-      },
       {
         name: "dismissed",
         commit(): Attribute {
@@ -63,14 +52,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           delete this.build;
           return this;
         }
-      },
-      {
-        name: "class",
-        commit(): Attribute {
-          this.value = select("class", theme.values, theme.defaultValue);
-          delete this.build;
-          return this;
-        }
       }
     ],
     exceptions
@@ -92,3 +73,7 @@ export const darkThemeRTL = (): string =>
     ]),
     html
   );
+
+darkThemeRTL.story = {
+  parameters: { themes: themesDarkDefault }
+};

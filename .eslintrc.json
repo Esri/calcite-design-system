@@ -16,9 +16,11 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": ["@esri/calcite-components", "@typescript-eslint", "eslint-plugin-react", "jest", "prettier"],
+  "plugins": ["@esri/calcite-components", "@typescript-eslint", "eslint-plugin-react", "jest", "prettier", "unicorn"],
   "rules": {
+    "@stencil/decorators-context": "off",
     "@stencil/decorators-style": "warn",
+    "@stencil/no-unused-watch": "off",
     "@stencil/own-methods-must-be-private": "off",
     "@stencil/own-props-must-be-private": "off",
     "@stencil/prefer-vdom-listener": "warn",
@@ -52,7 +54,8 @@
     "react/jsx-sort-props": "error",
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
-    "react/self-closing-comp": "error"
+    "react/self-closing-comp": "error",
+    "unicorn/prefer-ternary": "error"
   },
   "settings": {
     "react": {

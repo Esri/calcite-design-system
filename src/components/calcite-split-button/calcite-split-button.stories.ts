@@ -1,6 +1,6 @@
 import { text, select } from "@storybook/addon-knobs";
 import { iconNames, boolean } from "../../../.storybook/helpers";
-import { darkBackground } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../tests/utils";
 
@@ -15,6 +15,7 @@ export default {
 export const Simple = (): string => html`
   <div style="width:70vw;">
     <calcite-split-button
+      active
       appearance="${select("appearance", ["solid", "outline", "clear", "transparent"], "solid")}"
       color="${select("color", ["blue", "red", "neutral", "inverse"], "blue")}"
       scale="${select("size", ["s", "m", "l"], "m")}"
@@ -144,5 +145,5 @@ export const DarkMode = (): string => html`
 
 DarkMode.story = {
   name: "Dark mode",
-  parameters: { backgrounds: darkBackground }
+  parameters: { themes: themesDarkDefault }
 };

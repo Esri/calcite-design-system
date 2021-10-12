@@ -4,7 +4,7 @@ import { SLOTS, CSS } from "./resources";
 import { html } from "../../tests/utils";
 
 describe("calcite-action-menu", () => {
-  it("renders", async () => renders("calcite-action-menu"));
+  it("renders", async () => renders("calcite-action-menu", { display: "flex" }));
 
   it("honors hidden attribute", async () => hidden("calcite-action-menu"));
 
@@ -48,6 +48,10 @@ describe("calcite-action-menu", () => {
       {
         propertyName: "overlayPositioning",
         defaultValue: "absolute"
+      },
+      {
+        propertyName: "scale",
+        defaultValue: undefined
       }
     ]));
 
@@ -188,5 +192,13 @@ describe("calcite-action-menu", () => {
 
     const focusTargetSelector = `#triggerAction`;
     expect(await page.evaluate((selector) => document.activeElement.matches(selector), focusTargetSelector)).toBe(true);
+  });
+
+  it("should honor scale of expand icon", async () => {
+    const page = await newE2EPage({ html: `<calcite-action-menu scale="l"></calcite-action-menu>` });
+
+    const trigger = await page.find(`calcite-action-menu >>> .${CSS.defaultTrigger}`);
+
+    expect(await trigger.getProperty("scale")).toBe("l");
   });
 });

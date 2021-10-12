@@ -1,6 +1,7 @@
 import { select, number } from "@storybook/addon-knobs";
-import { boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
+import { html } from "../../tests/utils";
+import { boolean, createSteps, stepStory, setTheme } from "../../../.storybook/helpers";
 
 const placements = [
   "auto",
@@ -37,55 +38,28 @@ export default {
   }
 };
 
-export const Simple = (): string => {
-  return `
-      <div>
-        ${referenceElementHTML}
-        <calcite-tooltip
-        class="calcite-theme-light"
-          reference-element="reference-element"
-          placement="${select("placement", calcite_placements, "auto")}"
-          offset-distance="${number("offset-distance", 6)}"
-          offset-skidding="${number("offset-skidding", 0)}"
-          ${boolean("open", true)}
-        >
-          ${contentHTML}
-        </calcite-tooltip>
-      </div>
-    `;
-};
-
-export const RTL = (): string => {
-  return `
-      <div dir="rtl">
-        ${referenceElementHTML}
-        <calcite-tooltip
-          reference-element="reference-element"
-          placement="${select("placement", calcite_placements, "auto")}"
-          offset-distance="${number("offset-distance", 6)}"
-          offset-skidding="${number("offset-skidding", 0)}"
-          ${boolean("open", true)}
-        >
-          ${contentHTML}
-        </calcite-tooltip>
-      </div>
-    `;
-};
-
-export const DarkMode = (): string => {
-  return `
-      <div>
-        ${referenceElementHTML}
-        <calcite-tooltip
-        class="calcite-theme-dark"
-          reference-element="reference-element"
-          placement="${select("placement", calcite_placements, "auto")}"
-          offset-distance="${number("offset-distance", 6)}"
-          offset-skidding="${number("offset-skidding", 0)}"
-          ${boolean("open", true)}
-        >
-          ${contentHTML}
-        </calcite-tooltip>
-      </div>
-    `;
-};
+export const Simple = stepStory(
+  (): string => html`
+    <div style="width: 400px;">
+      ${referenceElementHTML}
+      <calcite-tooltip
+        reference-element="reference-element"
+        placement="${select("placement", calcite_placements, "auto")}"
+        offset-distance="${number("offset-distance", 6)}"
+        offset-skidding="${number("offset-skidding", 0)}"
+        ${boolean("open", false)}
+      >
+        ${contentHTML}
+      </calcite-tooltip>
+    </div>
+  `,
+  createSteps("calcite-tooltip")
+    .snapshot("Default")
+    .hover("#reference-element")
+    .snapshot("Open")
+    .rtl()
+    .snapshot("Rtl")
+    .ltr()
+    .executeScript(setTheme("dark"))
+    .snapshot("Dark theme")
+);

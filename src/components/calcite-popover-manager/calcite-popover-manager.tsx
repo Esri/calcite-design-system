@@ -7,6 +7,7 @@ import { queryElementRoots, queryElementsRoots } from "../../utils/dom";
  */
 @Component({
   tag: "calcite-popover-manager",
+  styleUrl: "calcite-popover-manager.scss",
   shadow: true
 })
 export class CalcitePopoverManager {
@@ -26,13 +27,14 @@ export class CalcitePopoverManager {
 
   /**
    * CSS Selector to match reference elements for popovers. Reference elements will be identified by this selector in order to open their associated popover.
+   * @default `[data-calcite-popover-reference]`
    */
   @Prop() selector = `[${POPOVER_REFERENCE}]`;
 
   /**
    * Automatically closes any currently open popovers when clicking outside of a popover.
    */
-  @Prop({ reflect: true }) autoClose?: boolean;
+  @Prop({ reflect: true }) autoClose = false;
 
   // --------------------------------------------------------------------------
   //

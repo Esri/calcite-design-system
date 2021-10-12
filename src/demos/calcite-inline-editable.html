@@ -4,10 +4,35 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Calcite Inline Editable</title>
+    <title>Inline Editable</title>
     <script src="./_assets/head.js"></script>
+    <style>
+      .parent {
+        display: flex;
+        align-items: center;
+        padding: 20px 0;
+      }
+
+      .child {
+        flex: 0 0 16%;
+        margin: 0 25px;
+        color: var(--calcite-ui-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+      }
+
+      .right-aligned-text {
+        text-align: right;
+        flex: 0 0 12%;
+      }
+
+      hr {
+        margin: 25px 0;
+        border-top: 1px solid var(--calcite-ui-border-2);
+      }
+    </style>
     <script>
-      let isDarkTheme = false;
       const handleChangesFoInput = (id, isSuccess = true) => {
         const afterConfirm = () =>
           new Promise((resolve, reject) => {
@@ -19,153 +44,100 @@
     </script>
   </head>
   <body>
-    <calcite-button href="/">Home</calcite-button>
-    <h1>Calcite Inline Editable</h1>
-    <calcite-label layout="inline">
-      Dark Mode
-      <calcite-switch id="themeSwitch"></calcite-switch>
-    </calcite-label>
-    <script>
-      document.querySelector("#themeSwitch").addEventListener("calciteSwitchChange", () => {
-        isDarkTheme = !isDarkTheme;
-        document.querySelectorAll("calcite-accordion").forEach((accordion) => {
-          accordion.classList.toggle("calcite-theme-dark", isDarkTheme);
-        });
-      });
-    </script>
-    <h3>Inline Editable Input</h3>
-    <calcite-accordion scale="m" icon-position="start" selection-mode="multi">
-      <calcite-accordion-item item-title="Scales" active>
-        <calcite-label scale="s">
-          S
-          <calcite-inline-editable>
-            <calcite-input value="Monday" placeholder="Day of the week" />
-          </calcite-inline-editable>
-        </calcite-label>
-        <calcite-label scale="m">
-          M
-          <calcite-inline-editable>
-            <calcite-input value="Tuesday" placeholder="Day of the week" />
-          </calcite-inline-editable>
-        </calcite-label>
-        <calcite-label scale="l">
-          L
-          <calcite-inline-editable>
-            <calcite-input placeholder="Day of the week" />
-          </calcite-inline-editable>
-        </calcite-label>
-      </calcite-accordion-item>
+    <h1 style="margin: 0 auto; text-align: center">Inline Editable</h1>
 
-      <calcite-accordion-item item-title="Other Input Types">
-        <calcite-inline-editable>
-          <calcite-input prefix-text="pre" suffix-text="suf" type="number" placeholder="How many apples?" />
+    <!-- headers -->
+    <div class="parent">
+      <div class="child right-aligned-text"></div>
+      <div class="child">small</div>
+      <div class="child">medium</div>
+      <div class="child">large</div>
+    </div>
+
+    <!-- basic (no controls) -->
+    <div class="parent">
+      <div class="child right-aligned-text">basic (no controls)</div>
+
+      <div class="child">
+        <calcite-inline-editable scale="s">
+          <calcite-input value="Entered value" placeholder="My placeholder"></calcite-input>
         </calcite-inline-editable>
-      </calcite-accordion-item>
+      </div>
 
-      <calcite-accordion-item item-title="Disabled">
-        <calcite-label>
-          Access denied
-          <calcite-inline-editable disabled>
-            <calcite-input placeholder="Day of the week" />
-          </calcite-inline-editable>
-        </calcite-label>
-      </calcite-accordion-item>
+      <div class="child">
+        <calcite-inline-editable scale="m">
+          <calcite-input value="Entered value" placeholder="My placeholder"></calcite-input>
+        </calcite-inline-editable>
+      </div>
 
-      <calcite-accordion-item item-title="RTL">
-        <div dir="rtl">
-          <calcite-label scale="s">
-            S
-            <calcite-inline-editable>
-              <calcite-input placeholder="Day of the week" />
-            </calcite-inline-editable>
-          </calcite-label>
-          <calcite-label scale="m">
-            M
-            <calcite-inline-editable>
-              <calcite-input placeholder="Day of the week" />
-            </calcite-inline-editable>
-          </calcite-label>
-          <calcite-label scale="l">
-            L
-            <calcite-inline-editable>
-              <calcite-input placeholder="Day of the week" />
-            </calcite-inline-editable>
-          </calcite-label>
-        </div>
-      </calcite-accordion-item>
-    </calcite-accordion>
+      <div class="child">
+        <calcite-inline-editable scale="l">
+          <calcite-input value="Entered value" placeholder="My placeholder"></calcite-input>
+        </calcite-inline-editable>
+      </div>
+    </div>
 
-    <h3>Inline Editable Input with Controls</h3>
+    <!-- with controls -->
+    <div class="parent">
+      <div class="child right-aligned-text">with controls</div>
+      <div class="child">
+        <calcite-inline-editable scale="s" id="example-small" controls>
+          <calcite-input placeholder="Day of the week" />
+        </calcite-inline-editable>
+        <script>
+          handleChangesFoInput("#example-small");
+        </script>
+      </div>
 
-    <calcite-accordion scale="m" icon-position="start" selection-mode="multi">
-      <calcite-accordion-item item-title="Scales" active>
+      <div class="child">
+        <calcite-inline-editable scale="m" id="example-medium" controls>
+          <calcite-input placeholder="Day of the week" />
+        </calcite-inline-editable>
+        <script>
+          handleChangesFoInput("#example-medium");
+        </script>
+      </div>
+
+      <div class="child">
+        <calcite-inline-editable scale="l" id="example-large" controls>
+          <calcite-input placeholder="Day of the week" />
+        </calcite-inline-editable>
+        <script>
+          handleChangesFoInput("#example-large");
+        </script>
+      </div>
+    </div>
+
+    <!-- disabled -->
+    <div class="parent">
+      <div class="child right-aligned-text">disabled</div>
+
+      <div class="child">
         <calcite-label scale="s">
-          S
-          <calcite-inline-editable id="example1" controls>
-            <calcite-input placeholder="Day of the week" />
-          </calcite-inline-editable>
-          <script>
-            handleChangesFoInput("#example1");
-          </script>
-        </calcite-label>
-        <calcite-label scale="m">
-          M
-          <calcite-inline-editable id="example2" controls>
-            <calcite-input placeholder="Day of the week" />
-          </calcite-inline-editable>
-          <script>
-            handleChangesFoInput("#example2");
-          </script>
-        </calcite-label>
-        <calcite-label scale="l">
-          L
-          <calcite-inline-editable id="example3" controls>
-            <calcite-input placeholder="Day of the week" />
-          </calcite-inline-editable>
-          <script>
-            handleChangesFoInput("#example3");
-          </script>
-        </calcite-label>
-      </calcite-accordion-item>
-      <calcite-accordion-item item-title="Disabled">
-        <calcite-label>
           Access denied
           <calcite-inline-editable controls disabled>
             <calcite-input placeholder="Day of the week" />
           </calcite-inline-editable>
         </calcite-label>
-      </calcite-accordion-item>
-      <calcite-accordion-item item-title="RTL">
-        <div dir="rtl">
-          <calcite-label scale="s">
-            S
-            <calcite-inline-editable id="example4" controls>
-              <calcite-input placeholder="Day of the week" />
-            </calcite-inline-editable>
-            <script>
-              handleChangesFoInput("#example4");
-            </script>
-          </calcite-label>
-          <calcite-label scale="m">
-            M
-            <calcite-inline-editable id="example5" controls>
-              <calcite-input placeholder="Day of the week" />
-            </calcite-inline-editable>
-            <script>
-              handleChangesFoInput("#example5");
-            </script>
-          </calcite-label>
-          <calcite-label scale="l">
-            L
-            <calcite-inline-editable id="example6" controls>
-              <calcite-input placeholder="Day of the week" />
-            </calcite-inline-editable>
-            <script>
-              handleChangesFoInput("#example6");
-            </script>
-          </calcite-label>
-        </div>
-      </calcite-accordion-item>
-    </calcite-accordion>
+      </div>
+
+      <div class="child">
+        <calcite-label scale="m">
+          Access denied
+          <calcite-inline-editable controls disabled>
+            <calcite-input placeholder="Day of the week" />
+          </calcite-inline-editable>
+        </calcite-label>
+      </div>
+
+      <div class="child">
+        <calcite-label scale="l">
+          Access denied
+          <calcite-inline-editable controls disabled>
+            <calcite-input placeholder="Day of the week" />
+          </calcite-inline-editable>
+        </calcite-label>
+      </div>
+    </div>
   </body>
 </html>

@@ -1,6 +1,7 @@
 import { Config } from "@stencil/core";
 import { postcss } from "@stencil/postcss";
 import { sass } from "@stencil/sass";
+import babel from "@rollup/plugin-babel";
 import autoprefixer from "autoprefixer";
 import tailwind from "tailwindcss";
 import { generatePreactTypes } from "./support/preact";
@@ -10,15 +11,10 @@ export const create: () => Config = () => ({
   namespace: "calcite",
   bundles: [
     { components: ["calcite-accordion", "calcite-accordion-item"] },
-    {
-      components: [
-        "calcite-action",
-        "calcite-action-group",
-        "calcite-action-menu",
-        "calcite-action-bar",
-        "calcite-action-pad"
-      ]
-    },
+    { components: ["calcite-action"] },
+    { components: ["calcite-action-bar"] },
+    { components: ["calcite-action-menu"] },
+    { components: ["calcite-action-pad"] },
     { components: ["calcite-alert"] },
     { components: ["calcite-avatar"] },
     { components: ["calcite-block", "calcite-block-section"] },
@@ -46,7 +42,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-label"] },
     { components: ["calcite-link"] },
     { components: ["calcite-loader"] },
-    { components: ["calcite-list", "calcite-list-item"] },
+    { components: ["calcite-list", "calcite-list-item", "calcite-list-item-group"] },
     { components: ["calcite-modal"] },
     { components: ["calcite-notice"] },
     { components: ["calcite-pagination"] },
@@ -105,6 +101,15 @@ export const create: () => Config = () => ({
       plugins: [tailwind(), autoprefixer()]
     })
   ],
+  rollupPlugins: {
+    after: [
+      babel({
+        babelHelpers: "bundled",
+        include: [/\/color\//],
+        plugins: ["@babel/plugin-proposal-numeric-separator"]
+      })
+    ]
+  },
   testing: {
     moduleNameMapper: {
       "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.ts"
@@ -117,13 +122,7 @@ export const create: () => Config = () => ({
   },
   preamble: `Copyright 2021 Esri\n \n Licensed under the Apache License Version 2.0 (the "License");\n you may not use this file except in compliance with the License.\n You may obtain a copy of the License at\n \n     http://www.apache.org/licenses/LICENSE-2.0\n \n Unless required by applicable law or agreed to in writing, software\n distributed under the License is distributed on an "AS IS" BASIS,\n WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n See the License for the specific language governing permissions and\n limitations under the License.\n`,
   extras: {
-    appendChildSlotFix: true,
-    cssVarsShim: true,
-    dynamicImportShim: true,
-    safari10: true,
-    scriptDataOpts: true,
-    shadowDomShim: true,
-    slotChildNodesFix: true
+    scriptDataOpts: true
   }
 });
 

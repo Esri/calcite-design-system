@@ -700,16 +700,16 @@ describe("calcite-dropdown", () => {
     <calcite-dropdown-item id="item-2" active>
     Dropdown Item Content
     </calcite-dropdown-item>
-    <calcite-dropdown-item id="item-3">
-    Dropdown Item Content
+    <calcite-dropdown-item>
+    <div id="item-3">Dropdown Item Content</div>
     </calcite-dropdown-item>
     </calcite-dropdown-group>
     </calcite-dropdown>`);
 
     const element = await page.find("calcite-dropdown");
     const trigger = await element.find("#trigger");
-    const item1 = await element.find("calcite-dropdown-item[id='item-1']");
-    const item3 = await element.find("calcite-dropdown-item[id='item-3']");
+    const item1 = await element.find("#item-1");
+    const item3 = await element.find("#item-3");
     const dropdownWrapper = await page.find("calcite-dropdown >>> .calcite-dropdown-wrapper");
     expect(await dropdownWrapper.isVisible()).toBe(false);
     await trigger.click();
@@ -729,8 +729,8 @@ describe("calcite-dropdown", () => {
     <calcite-dropdown disable-close-on-select>
     <calcite-button id="trigger" slot="dropdown-trigger">Open dropdown</calcite-button>
     <calcite-dropdown-group id="group-1" selection-mode="none">
-    <calcite-dropdown-item id="item-1">
-    Dropdown Item Content
+    <calcite-dropdown-item>
+    <div id="item-1">Dropdown Item Content</div>
     </calcite-dropdown-item>
     <calcite-dropdown-item id="item-2">
     Dropdown Item Content
@@ -743,7 +743,7 @@ describe("calcite-dropdown", () => {
 
     const element = await page.find("calcite-dropdown");
     const trigger = await element.find("#trigger");
-    const item1 = await element.find("calcite-dropdown-item[id='item-1']");
+    const item1 = await element.find("#item-1");
     const dropdownWrapper = await page.find("calcite-dropdown >>> .calcite-dropdown-wrapper");
     expect(await dropdownWrapper.isVisible()).toBe(false);
     await trigger.click();
@@ -990,6 +990,7 @@ describe("calcite-dropdown", () => {
         const wrapper = document.querySelector(wrapperName);
         wrapper.shadowRoot.querySelector<HTMLElement>("#item-3").click();
         await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
         return wrapper.shadowRoot.querySelector("calcite-dropdown-item[active]").id;
       },
@@ -997,5 +998,38 @@ describe("calcite-dropdown", () => {
     );
 
     expect(finalSelectedItem).toBe("item-3");
+  });
+
+  it("dropdown should not overflow when wrapped inside a tab #3007", async () => {
+    const page = await newE2EPage({
+      html: html` <calcite-tabs>
+        <calcite-tab-nav slot="tab-nav">
+          <calcite-tab-title is-active>First tab</calcite-tab-title>
+        </calcite-tab-nav>
+        <calcite-tab is-active>
+          <calcite-dropdown>
+            <calcite-button slot="dropdown-trigger" class="dropdown">Dropdown</calcite-button>
+            <calcite-dropdown-group group-title="Select one">
+              <calcite-dropdown-item>First</calcite-dropdown-item>
+              <calcite-dropdown-item>Second</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          </calcite-dropdown>
+        </calcite-tab>
+      </calcite-tabs>`
+    });
+    await page.waitForChanges();
+
+    const button = await page.find("calcite-button");
+
+    await button.click();
+    await page.waitForChanges();
+
+    expect(
+      await page.$eval("calcite-dropdown", (dropdown) => {
+        // check whether the element is overflown, ref :https://stackoverflow.com/questions/9333379/check-if-an-elements-content-is-overflowing
+        const { clientWidth, clientHeight, scrollWidth, scrollHeight } = dropdown;
+        return scrollHeight > clientHeight || scrollWidth > clientWidth;
+      })
+    ).toBe(false);
   });
 });

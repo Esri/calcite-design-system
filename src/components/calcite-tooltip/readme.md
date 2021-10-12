@@ -34,9 +34,17 @@
 
 ### `reposition() => Promise<void>`
 
+Updates the position of the component.
+
 #### Returns
 
 Type: `Promise<void>`
+
+## Slots
+
+| Slot | Description             |
+| ---- | ----------------------- |
+|      | A slot for adding text. |
 
 ---
 

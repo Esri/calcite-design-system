@@ -13,7 +13,7 @@ import {
   Watch
 } from "@stencil/core";
 import { getElementDir, setRequestedIcon } from "../../utils/dom";
-import { DURATIONS, SLOTS, TEXT } from "./calcite-alert.resources";
+import { DURATIONS, SLOTS, TEXT } from "./resources";
 import { Scale } from "../interfaces";
 import { StatusColor, AlertDuration, StatusIcons } from "./interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -75,7 +75,9 @@ export class CalciteAlert {
    * also pass a calcite-ui-icon name to this prop to display a requested icon */
   @Prop({ reflect: true }) icon: string | boolean;
 
-  /** string to override English close text */
+  /** string to override English close text
+   * @default "Close"
+   */
   @Prop() intlClose: string = TEXT.intlClose;
 
   /** Accessible name for the component */
@@ -222,7 +224,7 @@ export class CalciteAlert {
   //
   //--------------------------------------------------------------------------
 
-  /** focus either the slotted link or the close button */
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     if (!this.closeButton && !this.alertLinkEl) {

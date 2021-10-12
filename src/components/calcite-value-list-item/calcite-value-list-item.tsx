@@ -49,12 +49,18 @@ export class CalciteValueListItem {
   @Prop() disableDeselect = false;
 
   /**
+   * When true, prevents the content of the list item from user interaction.
+   */
+  @Prop({ reflect: true }) nonInteractive = false;
+
+  /**
    * @internal - stores the activated state of the drag handle.
    */
   @Prop({ mutable: true }) handleActivated? = false;
 
   /**
-   * Determines the icon SVG symbol that will be shown. Options are circle, square, grid or null.
+   * Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null.
+   * @see [ICON_TYPES](https://github.com/Esri/calcite-components/blob/master/src/components/calcite-pick-list/resources.ts#L5)
    */
   @Prop({ reflect: true }) icon?: ICON_TYPES | null = null;
 
@@ -101,11 +107,16 @@ export class CalciteValueListItem {
   //
   // --------------------------------------------------------------------------
 
+  /**
+   * Used to toggle the selection state. By default this won't trigger an event.
+   * The first argument allows the value to be coerced, rather than swapping values.
+   */
   @Method()
   async toggleSelected(coerce?: boolean): Promise<void> {
     this.pickListItem.toggleSelected(coerce);
   }
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     this.pickListItem?.setFocus();
@@ -207,6 +218,7 @@ export class CalciteValueListItem {
           disabled={this.disabled}
           label={this.label}
           metadata={this.metadata}
+          nonInteractive={this.nonInteractive}
           onCalciteListItemChange={this.handleSelectChange}
           ref={this.getPickListRef}
           removable={this.removable}

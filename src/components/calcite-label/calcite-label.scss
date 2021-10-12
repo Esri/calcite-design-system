@@ -13,23 +13,24 @@
 }
 
 :host([scale="s"]) {
-  label {
+  .container {
     @apply text--2h mb-2;
   }
 }
 :host([scale="m"]) {
-  label {
+  .container {
     @apply text--1h mb-3;
   }
 }
 :host([scale="l"]) {
-  label {
+  .container {
     @apply text-0h mb-4;
   }
 }
 
-:host label {
-  @apply cursor-pointer
+:host .container {
+  @apply text-color-1
+    cursor-pointer
     w-full
     mt-0
     mr-0
@@ -38,32 +39,32 @@
 }
 
 :host([layout="default"]) {
-  label {
+  .container {
     @apply flex flex-col gap-1;
   }
 }
 
 :host([layout="inline"]),
 :host([layout="inline-space-between"]) {
-  label {
+  .container {
     @apply flex items-center flex-row gap-2;
   }
 }
 :host([layout="inline"][scale="l"]) {
-  label {
+  .container {
     @apply gap-3;
   }
 }
 
 :host([layout="inline-space-between"]) {
-  label {
+  .container {
     @apply justify-between;
   }
 }
 
 // disabled styles
 :host([disabled]) {
-  & > label {
+  & > .container {
     @apply pointer-events-none opacity-disabled;
   }
   ::slotted(*) {
@@ -79,21 +80,8 @@
   }
 }
 
-// status
-$inputStatusColors: "invalid" var(--calcite-ui-danger), "valid" var(--calcite-ui-text-2),
-  "idle" var(--calcite-ui-text-2);
-
-@each $statusColor in $inputStatusColors {
-  $name: nth($statusColor, 1);
-  $color: nth($statusColor, 2);
-
-  :host([status="#{$name}"]) label {
-    color: $color;
-  }
-}
-
 :host([disable-spacing]) {
-  label {
+  .container {
     @apply gap-0 m-0;
   }
 }

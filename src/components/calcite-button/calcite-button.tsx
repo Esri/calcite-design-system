@@ -1,21 +1,26 @@
-import { Component, Element, h, Method, Prop, Build, State, VNode } from "@stencil/core";
+import { Component, Element, h, Method, Prop, Build, State, VNode, Watch } from "@stencil/core";
 import { CSS, TEXT } from "./resources";
-import { getElementDir } from "../../utils/dom";
+import {
+  getElementDir,
+  queryElementRoots,
+  closestElementCrossShadowBoundary
+} from "../../utils/dom";
 import { ButtonAlignment, ButtonAppearance, ButtonColor } from "./interfaces";
 import { FlipContext, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
+import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
+import { createObserver } from "../../utils/observers";
 
+/** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
+/** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
+
+/** @slot - A slot for adding text. */
 @Component({
   tag: "calcite-button",
   styleUrl: "calcite-button.scss",
   shadow: true
 })
-
-/** @slot default text slot for button text */
-
-/** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
-/** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
-export class CalciteButton {
+export class CalciteButton implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -43,7 +48,7 @@ export class CalciteButton {
   @Prop({ reflect: true }) color: ButtonColor = "blue";
 
   /** is the button disabled  */
-  @Prop({ reflect: true }) disabled?: boolean;
+  @Prop({ reflect: true }) disabled = false;
 
   /** optionally pass a href - used to determine if the component should render as a button or an anchor */
   @Prop({ reflect: true }) href?: string;
@@ -57,11 +62,13 @@ export class CalciteButton {
   /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconStart?: string;
 
-  /** string to override English loading text */
+  /** string to override English loading text
+   * @default "Loading"
+   */
   @Prop() intlLoading?: string = TEXT.loading;
 
   /** optionally add a calcite-loader component to the button, disabling interaction.  */
-  @Prop({ reflect: true }) loading?: boolean = false;
+  @Prop({ reflect: true }) loading = false;
 
   /** The name attribute to apply to the button */
   @Prop() name?: string;
@@ -69,8 +76,11 @@ export class CalciteButton {
   /** The rel attribute to apply to the hyperlink */
   @Prop() rel?: string;
 
+  /** The form ID to associate with the component */
+  @Prop() form?: string;
+
   /** optionally add a round style to the button  */
-  @Prop({ reflect: true }) round?: boolean = false;
+  @Prop({ reflect: true }) round = false;
 
   /** specify the scale of the button, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -87,6 +97,18 @@ export class CalciteButton {
   /** specify the width of the button, defaults to auto */
   @Prop({ reflect: true }) width: Width = "auto";
 
+  @Watch("loading")
+  loadingChanged(newValue: boolean, oldValue: boolean): void {
+    if (!!newValue && !oldValue) {
+      this.hasLoader = true;
+    }
+    if (!newValue && !!oldValue) {
+      window.setTimeout(() => {
+        this.hasLoader = false;
+      }, 300);
+    }
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -95,11 +117,14 @@ export class CalciteButton {
 
   connectedCallback(): void {
     this.childElType = this.href ? "a" : "button";
+    this.hasLoader = this.loading;
     this.setupTextContentObserver();
+    connectLabel(this);
   }
 
   disconnectedCallback(): void {
-    this.observer.disconnect();
+    this.mutationObserver?.disconnect();
+    disconnectLabel(this);
   }
 
   componentWillLoad(): void {
@@ -117,18 +142,24 @@ export class CalciteButton {
 
     const loader = (
       <div class={CSS.buttonLoader}>
-        <calcite-loader active inline label={this.intlLoading} />
+        {this.hasLoader ? (
+          <calcite-loader
+            active
+            class={this.loading ? CSS.loadingIn : CSS.loadingOut}
+            inline
+            label={this.intlLoading}
+            scale="m"
+          />
+        ) : null}
       </div>
     );
-
-    const iconScale = this.scale === "l" ? "m" : "s";
 
     const iconStartEl = (
       <calcite-icon
         class={{ [CSS.icon]: true, [CSS.iconStart]: true }}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
-        scale={iconScale}
+        scale="s"
       />
     );
 
@@ -137,7 +168,7 @@ export class CalciteButton {
         class={{ [CSS.icon]: true, [CSS.iconEnd]: true }}
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
-        scale={iconScale}
+        scale="s"
       />
     );
 
@@ -149,19 +180,19 @@ export class CalciteButton {
 
     return (
       <Tag
-        aria-label={this.label}
+        aria-label={getLabelText(this)}
         class={{ [CSS_UTILITY.rtl]: dir === "rtl", [CSS.contentSlotted]: this.hasContent }}
-        disabled={this.disabled}
+        disabled={this.disabled || this.loading}
         href={this.childElType === "a" && this.href}
         name={this.childElType === "button" && this.name}
         onClick={this.handleClick}
         ref={(el) => (this.childEl = el)}
-        rel={this.childElType === "a" && this.el.getAttribute("rel")}
-        tabIndex={this.disabled ? -1 : null}
-        target={this.childElType === "a" && this.el.getAttribute("target")}
+        rel={this.childElType === "a" && this.rel}
+        tabIndex={this.disabled || this.loading ? -1 : null}
+        target={this.childElType === "a" && this.target}
         type={this.childElType === "button" && this.type}
       >
-        {this.loading ? loader : null}
+        {loader}
         {this.iconStart ? iconStartEl : null}
         {this.hasContent ? contentEl : null}
         {this.iconEnd ? iconEndEl : null}
@@ -175,6 +206,7 @@ export class CalciteButton {
   //
   //--------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     this.childEl.focus();
@@ -186,8 +218,10 @@ export class CalciteButton {
   //
   //--------------------------------------------------------------------------
 
+  labelEl: HTMLCalciteLabelElement;
+
   /** watches for changing text content **/
-  private observer: MutationObserver;
+  private mutationObserver = createObserver("mutation", () => this.updateHasContent());
 
   /** the rendered child element */
   private childEl?: HTMLElement;
@@ -196,7 +230,10 @@ export class CalciteButton {
   private childElType?: "a" | "button" = "button";
 
   /** determine if there is slotted content for styling purposes */
-  @State() private hasContent?: boolean = false;
+  @State() private hasContent = false;
+
+  /** determine if loader present for styling purposes */
+  @State() private hasLoader = false;
 
   private updateHasContent() {
     const slottedContent = this.el.textContent.trim().length > 0 || this.el.childNodes.length > 0;
@@ -207,12 +244,7 @@ export class CalciteButton {
   }
 
   private setupTextContentObserver() {
-    if (Build.isBrowser) {
-      this.observer = new MutationObserver(() => {
-        this.updateHasContent();
-      });
-      this.observer.observe(this.el, { childList: true, subtree: true });
-    }
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   //--------------------------------------------------------------------------
@@ -221,18 +253,23 @@ export class CalciteButton {
   //
   //--------------------------------------------------------------------------
 
+  onLabelClick = (event: CustomEvent): void => {
+    this.handleClick(event);
+    this.setFocus();
+  };
+
   // act on a requested or nearby form based on type
   private handleClick = (e: Event): void => {
+    const { childElType, form, el, type } = this;
     // this.type refers to type attribute, not child element type
-    if (this.childElType === "button" && this.type !== "button") {
-      const requestedForm = this.el.getAttribute("form");
-      const targetForm = requestedForm
-        ? (document.getElementsByName(`${requestedForm}`)[0] as HTMLFormElement)
-        : (this.el.closest("form") as HTMLFormElement);
+    if (childElType === "button" && type !== "button") {
+      const targetForm: HTMLFormElement = form
+        ? queryElementRoots(el, `#${form}`)
+        : closestElementCrossShadowBoundary(el, "form");
 
       if (targetForm) {
         const targetFormSubmitFunction = targetForm.onsubmit as () => void;
-        switch (this.type) {
+        switch (type) {
           case "submit":
             if (targetFormSubmitFunction) {
               targetFormSubmitFunction();

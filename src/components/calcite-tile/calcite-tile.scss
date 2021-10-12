@@ -21,17 +21,55 @@
 :host([icon][heading]:not([description]):not([embed])) {
   @apply p-0;
 }
+:host([icon][heading]:not([description])) {
+  .icon {
+    @apply flex justify-center;
+  }
+  .large-visual {
+    @apply text-center;
+  }
+}
 :host([disabled]) {
   @apply opacity-disabled;
   @apply pointer-events-none;
 }
 
-.tile {
+.container {
   @apply grid
-    grid-cols-1
-    gap-2
-    pointer-events-none;
+  grid-cols-1
+  gap-2
+  pointer-events-none;
 }
+
+.content {
+  @apply justify-center
+  flex
+  flex-auto
+  flex-col
+  gap-2;
+}
+
+.content-container {
+  @apply flex
+  flex-auto
+  focus-base
+  items-stretch
+  p-0
+  text-color-2;
+}
+
+.content-slot-container {
+  @apply flex items-center bg-foreground-1;
+
+  &:first-child {
+    @apply pr-3;
+  }
+
+  &:last-child {
+    @apply pl-3;
+  }
+}
+
 .heading {
   @apply text--1-wrap
     text-color-2
@@ -46,7 +84,7 @@
   .icon {
     @apply self-end;
   }
-  .heading {
+  .content-container {
     @apply self-center;
   }
 }

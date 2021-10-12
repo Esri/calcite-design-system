@@ -17,6 +17,8 @@ import { getRoundRobinIndex } from "../../utils/array";
 import { PopperPlacement, OverlayPositioning } from "../../utils/popper";
 import { Placement } from "@popperjs/core";
 import { guid } from "../../utils/guid";
+import { Scale } from "../interfaces";
+import { createObserver } from "../../utils/observers";
 
 const SUPPORTED_BUTTON_NAV_KEYS = ["ArrowUp", "ArrowDown"];
 const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
@@ -94,8 +96,14 @@ export class CalciteActionMenu {
 
   /**
    * Determines where the component will be positioned relative to the referenceElement.
+   * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
    */
   @Prop({ reflect: true }) placement: PopperPlacement = "auto";
+
+  /**
+   * Specifies the size of the menu trigger action.
+   */
+  @Prop({ reflect: true }) scale: Scale;
 
   // --------------------------------------------------------------------------
   //
@@ -135,7 +143,7 @@ export class CalciteActionMenu {
 
   actionElements: HTMLCalciteActionElement[] = [];
 
-  mutationObserver = new MutationObserver(() => this.getActions());
+  mutationObserver = createObserver("mutation", () => this.getActions());
 
   guid = `calcite-action-menu-${guid()}`;
 
@@ -156,6 +164,7 @@ export class CalciteActionMenu {
   //
   // --------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     focusElement(this.open ? this.menuEl : this.menuButtonEl);
@@ -226,7 +235,7 @@ export class CalciteActionMenu {
   };
 
   renderMenuButton(): VNode {
-    const { el, label } = this;
+    const { el, label, scale } = this;
 
     const menuButtonSlot = (
       <slot name={SLOTS.trigger}>
@@ -234,6 +243,7 @@ export class CalciteActionMenu {
           class={CSS.defaultTrigger}
           icon={ICONS.menu}
           ref={this.setDefaultMenuButtonEl}
+          scale={scale}
           text={label}
         />
       </slot>

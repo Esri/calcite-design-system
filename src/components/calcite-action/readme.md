@@ -6,25 +6,7 @@ The `calcite-action` component lives in either a `calcite-action-bar` or `calcit
 
 ## Usage
 
-### Basic
-
-#### Without text displayed
-
-Renders a `calcite-action` that displays only an icon and a tooltip label.
-
-```html
-<calcite-action label="Performs my custom action" text="My Custom Action" icon="plus"></calcite-action>
-```
-
-#### With text displayed
-
-Renders a `calcite-action` that displays text along side an icon and a tooltip label.
-
-```html
-<calcite-action label="Performs my custom action" text="Perform Action!" text-enabled icon="save"></calcite-action>
-```
-
-#### Clear appearance
+### Clear-appearance
 
 Renders a `calcite-action` that has a clear background.
 
@@ -32,12 +14,28 @@ Renders a `calcite-action` that has a clear background.
 <calcite-action appearance="clear" text="Layers" icon="layers"></calcite-action>
 ```
 
+### With-text-displayed
+
+Renders a `calcite-action` that displays text along side an icon and a tooltip label.
+
+```html
+<calcite-action label="Performs my custom action" text="Perform Action!" text-enabled icon="save"></calcite-action>
+```
+
+### Without-text-displayed
+
+Renders a `calcite-action` that displays only an icon and a tooltip label.
+
+```html
+<calcite-action label="Performs my custom action" text="My Custom Action" icon="plus"></calcite-action>
+```
+
 ## Properties
 
 | Property            | Attribute      | Description                                                                                                                         | Type                              | Default        |
 | ------------------- | -------------- | ----------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- | -------------- |
 | `active`            | `active`       | Indicates whether the action is highlighted.                                                                                        | `boolean`                         | `false`        |
-| `alignment`         | `alignment`    | Indicates the alignment when text-enabled is false.                                                                                 | `"center" \| "end" \| "start"`    | `undefined`    |
+| `alignment`         | `alignment`    | Optionally specify the horizontal alignment of button elements with text content.                                                   | `"center" \| "end" \| "start"`    | `undefined`    |
 | `appearance`        | `appearance`   | Specify the appearance style of the action, defaults to solid.                                                                      | `"clear" \| "outline" \| "solid"` | `"solid"`      |
 | `compact`           | `compact`      | Compact mode is used internally by components to reduce side padding, e.g. calcite-block-section.                                   | `boolean`                         | `false`        |
 | `disabled`          | `disabled`     | When true, disabled prevents interaction. This state shows items with lower opacity/grayed.                                         | `boolean`                         | `false`        |
@@ -52,13 +50,15 @@ Renders a `calcite-action` that has a clear background.
 
 ## Events
 
-| Event                | Description                               | Type               |
-| -------------------- | ----------------------------------------- | ------------------ |
-| `calciteActionClick` | Emitted when the action has been clicked. | `CustomEvent<any>` |
+| Event                | Description                                                                                                             | Type               |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------- | ------------------ |
+| `calciteActionClick` | <span style="color:red">**[DEPRECATED]**</span> use onClick instead.<br/><br/>Emitted when the action has been clicked. | `CustomEvent<any>` |
 
 ## Methods
 
 ### `setFocus() => Promise<void>`
+
+Sets focus on the component.
 
 #### Returns
 
