@@ -550,10 +550,12 @@ export class CalciteCombobox implements LabelableComponent, FormAssociated {
   private calculateSingleItemHeight(item: ComboboxChildElement): number {
     let height = item.offsetHeight;
     // if item has children items, don't count their height twice
-    const children = item.querySelectorAll<ComboboxChildElement>(ComboboxChildSelector);
-    children.forEach((child) => {
-      height -= child.offsetHeight;
-    });
+    const children = Array.from(item.querySelectorAll<ComboboxChildElement>(ComboboxChildSelector));
+    children
+      .map((child) => child?.offsetHeight)
+      .forEach((offsetHeight) => {
+        height -= offsetHeight;
+      });
     return height;
   }
 
@@ -631,7 +633,6 @@ export class CalciteCombobox implements LabelableComponent, FormAssociated {
       this.emitCalciteLookupChange();
       this.emitComboboxChange();
       this.resetText();
-      this.textInput?.focus();
       this.filterItems("");
     } else {
       this.ignoreSelectedEventsFlag = true;
