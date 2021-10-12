@@ -190,7 +190,8 @@ describe("calcite-input", () => {
       focusTargetSelector: "input"
     }));
 
-  it("correctly increments and decrements decimal value when number buttons are clicked and the step precision matches the precision of the initial value", async () => {
+  // test blocked by https://github.com/Esri/calcite-components/issues/1865
+  it.skip("correctly increments and decrements decimal value when number buttons are clicked and the step precision matches the precision of the initial value", async () => {
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-input type="number" value="3.123" step="0.001"></calcite-input>
@@ -226,7 +227,8 @@ describe("calcite-input", () => {
     expect(await element.getProperty("value")).toBe("3.134");
   });
 
-  it("correctly increments and decrements initial decimal value by 1 when number buttons are clicked and step is set to default of 1.", async () => {
+  // test blocked by https://github.com/Esri/calcite-components/issues/1865
+  it.skip("correctly increments and decrements initial decimal value by 1 when number buttons are clicked and step is set to default of 1.", async () => {
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-input type="number" value="3.123"></calcite-input>
@@ -242,13 +244,13 @@ describe("calcite-input", () => {
     expect(await element.getProperty("value")).toBe("3.123");
     await numberHorizontalItemDown.click();
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("2");
+    expect(await element.getProperty("value")).toBe("2.123");
     await numberHorizontalItemUp.click();
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("3");
+    expect(await element.getProperty("value")).toBe("3.123");
     await numberHorizontalItemUp.click();
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("4");
+    expect(await element.getProperty("value")).toBe("4.123");
     await numberHorizontalItemUp.click();
     await numberHorizontalItemUp.click();
     await numberHorizontalItemUp.click();
@@ -259,7 +261,7 @@ describe("calcite-input", () => {
     await numberHorizontalItemUp.click();
     await numberHorizontalItemUp.click();
     await numberHorizontalItemUp.click();
-    expect(await element.getProperty("value")).toBe("14");
+    expect(await element.getProperty("value")).toBe("14.123");
   });
 
   it("correctly increments and decrements value when number buttons are clicked and step is set to an integer", async () => {
@@ -336,13 +338,13 @@ describe("calcite-input", () => {
     expect(await element.getProperty("value")).toBe("5.5");
     await numberHorizontalItemDown.click();
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("4");
+    expect(await element.getProperty("value")).toBe("4.5");
     await numberHorizontalItemUp.click();
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("5");
+    expect(await element.getProperty("value")).toBe("5.5");
     await numberHorizontalItemUp.click();
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("6");
+    expect(await element.getProperty("value")).toBe("6.5");
   });
 
   it("correctly increments and decrements value by one when step is undefined", async () => {
@@ -894,7 +896,7 @@ describe("calcite-input", () => {
       expect(await page.evaluate(() => document.activeElement.getAttribute("aria-label"))).toEqual("one");
     });
 
-    it.skip("disallows typing redundant zeros", async () => {
+    it.skip("allows typing redundant zeros", async () => {
       const page = await newE2EPage({
         html: `
           <calcite-input type="number"></calcite-input>
@@ -908,7 +910,7 @@ describe("calcite-input", () => {
       await page.keyboard.press("0");
       await page.waitForChanges();
 
-      expect(await calciteInput.getProperty("value")).toBe("0");
+      expect(await calciteInput.getProperty("value")).toBe("00000");
     });
 
     it.skip("typing zero and then a non-zero number sets and emits the non-zero number", async () => {
@@ -935,7 +937,7 @@ describe("calcite-input", () => {
       expect(calciteInputInput).toHaveReceivedEventTimes(2);
     });
 
-    it("only allows integers by default", async () => {
+    it("allows any valid number", async () => {
       const page = await newE2EPage({
         html: `
           <calcite-input type="number"></calcite-input>
@@ -943,13 +945,13 @@ describe("calcite-input", () => {
       });
       const input = await page.find("calcite-input");
       await input.callMethod("setFocus");
-      await page.keyboard.type("1.5");
+      await page.keyboard.type("1.005");
       await page.waitForChanges();
 
-      expect(await input.getProperty("value")).toBe("15");
+      expect(await input.getProperty("value")).toBe("1.005");
     });
 
-    it("only allows integers when the supplied step is a whole number", async () => {
+    it("allows decimals when the supplied step is a whole number", async () => {
       const page = await newE2EPage({
         html: `
           <calcite-input step="2" type="number"></calcite-input>
@@ -960,7 +962,7 @@ describe("calcite-input", () => {
       await page.keyboard.type("1.8");
       await page.waitForChanges();
 
-      expect(await input.getProperty("value")).toBe("18");
+      expect(await input.getProperty("value")).toBe("1.8");
     });
 
     it("up/down arrow keys increments and decrements correctly when the step is a decimal", async () => {
@@ -992,18 +994,35 @@ describe("calcite-input", () => {
       expect(await input.getProperty("value")).toBe("0");
     });
 
-    it.skip("allows decimals only when the step is a decimal", async () => {
+    // test blocked by https://github.com/Esri/calcite-components/issues/1865
+    it.skip("up/down arrow keys increments and decrements correctly when the step is an integer and the value is a decimal", async () => {
       const page = await newE2EPage({
         html: `
-          <calcite-input step="0.001" type="number"></calcite-input>
+          <calcite-input step="5" type="number"></calcite-input>
         `
       });
       const input = await page.find("calcite-input");
       await input.callMethod("setFocus");
-      await page.keyboard.type("1.5");
-      await page.waitForChanges();
 
-      expect(await input.getProperty("value")).toBe("1.5");
+      await page.keyboard.type("1.008");
+      await page.waitForChanges();
+      expect(await input.getProperty("value")).toBe("1.008");
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+      expect(await input.getProperty("value")).toBe("6.008");
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+      expect(await input.getProperty("value")).toBe("11.008");
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      expect(await input.getProperty("value")).toBe("6.008");
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      expect(await input.getProperty("value")).toBe("1.008");
     });
 
     it.skip("allows decimals when step is any", async () => {
