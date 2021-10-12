@@ -41,18 +41,6 @@ ul {
   @apply flex flex-col m-0 p-0 outline-none;
 }
 
-.label--s {
-  @apply py-1;
-}
-
-.label--m {
-  @apply py-2;
-}
-
-.label--l {
-  @apply py-3;
-}
-
 .label {
   @apply flex
     box-border
@@ -66,8 +54,7 @@ ul {
     ease-in-out
     focus-base
     no-underline;
-  padding-left: var(--calcite-combobox-item-spacing-unit-l);
-  padding-right: var(--calcite-combobox-item-spacing-unit-l);
+  padding: var(--calcite-combobox-item-spacing-unit-s) var(--calcite-combobox-item-spacing-unit-l);
 }
 
 :host([disabled]) .label {

@@ -190,10 +190,7 @@ export class CalciteComboboxItem {
       [CSS.label]: true,
       [CSS.selected]: this.selected,
       [CSS.active]: this.active,
-      [CSS.single]: isSingleSelect,
-      [CSS.labelSmall]: this.scale === "s",
-      [CSS.labelMedium]: this.scale === "m",
-      [CSS.labelLarge]: this.scale === "l"
+      [CSS.single]: isSingleSelect
     };
     const depth = getDepth(this.el);
 
