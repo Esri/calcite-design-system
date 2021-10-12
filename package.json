@@ -79,7 +79,7 @@
     "@stencil/postcss": "2.1.0",
     "@stencil/sass": "1.4.1",
     "@stencil/state-tunnel": "^1.0.1",
-    "@storybook/addon-a11y": "6.3.10",
+    "@storybook/addon-a11y": "6.3.11",
     "@storybook/addon-docs": "6.3.10",
     "@storybook/addon-knobs": "6.3.1",
     "@storybook/cli": "6.3.10",
