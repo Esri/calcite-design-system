@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import { html } from "../../tests/utils";
 
 describe("calcite-radio-button-group", () => {
   it("renders", async () => renders("calcite-radio-button-group", { display: "flex" }));
@@ -19,21 +20,48 @@ describe("calcite-radio-button-group", () => {
     await hidden("calcite-radio-button-group");
 
     const page = await newE2EPage();
-    await page.setContent(`
+    await page.setContent(html`
       <calcite-radio-button-group name="first">
-        <calcite-radio-button value="first"></calcite-radio-button>
-        <calcite-radio-button value="second"></calcite-radio-button>
-        <calcite-radio-button value="third"></calcite-radio-button>
+        <calcite-label>
+          1-1
+          <calcite-radio-button value="first"></calcite-radio-button>
+        </calcite-label>
+        <calcite-label>
+          1-2
+          <calcite-radio-button value="second"></calcite-radio-button>
+        </calcite-label>
+        <calcite-label>
+          1-3
+          <calcite-radio-button value="third"></calcite-radio-button>
+        </calcite-label>
       </calcite-radio-button-group>
       <calcite-radio-button-group name="second" hidden>
-        <calcite-radio-button value="first"></calcite-radio-button>
-        <calcite-radio-button value="second"></calcite-radio-button>
-        <calcite-radio-button value="third"></calcite-radio-button>
+        <calcite-label>
+          2-1
+          <calcite-radio-button value="first"></calcite-radio-button>
+        </calcite-label>
+        <calcite-label>
+          2-2
+          <calcite-radio-button value="second"></calcite-radio-button>
+        </calcite-label>
+        <calcite-label>
+          2-3
+          <calcite-radio-button value="third"></calcite-radio-button>
+        </calcite-label>
       </calcite-radio-button-group>
       <calcite-radio-button-group name="third">
-        <calcite-radio-button value="first"></calcite-radio-button>
-        <calcite-radio-button value="second"></calcite-radio-button>
-        <calcite-radio-button value="third"></calcite-radio-button>
+        <calcite-label>
+          3-1
+          <calcite-radio-button value="first"></calcite-radio-button>
+        </calcite-label>
+        <calcite-label>
+          3-2
+          <calcite-radio-button value="second"></calcite-radio-button>
+        </calcite-label>
+        <calcite-label>
+          3-3
+          <calcite-radio-button value="third"></calcite-radio-button>
+        </calcite-label>
       </calcite-radio-button-group>
     `);
 
@@ -59,15 +87,54 @@ describe("calcite-radio-button-group", () => {
       { propertyName: "scale", value: "m" }
     ]));
 
+  it("has a radio input for form compatibility", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-radio-button-group name="hidden-input">
+        <calcite-label>
+          1
+          <calcite-radio-button value="1"></calcite-radio-button>
+        </calcite-label>
+        <calcite-label>
+          2
+          <calcite-radio-button value="2" checked></calcite-radio-button>
+        </calcite-label>
+        <calcite-label>
+          3
+          <calcite-radio-button value="3"></calcite-radio-button>
+        </calcite-label>
+      </calcite-radio-button-group>
+    `);
+
+    const radioInputs = await page.findAll('calcite-radio-button"]');
+    expect(radioInputs).toHaveLength(3);
+
+    for (let i = 0; i < radioInputs.length; i++) {
+      const name = radioInputs[i].getAttribute("name");
+      const value = radioInputs[i].getAttribute("value");
+      expect(name).toBe("hidden-input");
+      expect(value).toBe((i + 1).toString());
+    }
+  });
+
   it("does not require an item to be checked", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-radio-button-group name="none-checked">
+    await page.setContent(html`
+      <calcite-radio-button-group name="none-checked">
+        <calcite-label>
+          1
           <calcite-radio-button value="1"></calcite-radio-button>
+        </calcite-label>
+        <calcite-label>
+          2
           <calcite-radio-button value="2"></calcite-radio-button>
+        </calcite-label>
+        <calcite-label>
+          3
           <calcite-radio-button value="3"></calcite-radio-button>
-        </calcite-radio-button-group>`
-    );
+        </calcite-label>
+      </calcite-radio-button-group>
+    `);
     const radioButtons = await page.findAll("calcite-radio-button");
     for (let i = 0; i < radioButtons.length; i++) {
       expect(await radioButtons[i].getProperty("checked")).toBe(false);
@@ -78,11 +145,20 @@ describe("calcite-radio-button-group", () => {
   it("when multiple items are checked, last one wins", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-radio-button-group name="multiple-checked">
+      html`<calcite-radio-button-group name="multiple-checked">
+        <calcite-label>
+          1
           <calcite-radio-button value="1" checked></calcite-radio-button>
+        </calcite-label>
+        <calcite-label>
+          2
           <calcite-radio-button value="2" checked></calcite-radio-button>
+        </calcite-label>
+        <calcite-label>
+          3
           <calcite-radio-button value="3" checked></calcite-radio-button>
-        </calcite-radio-button-group>`
+        </calcite-label>
+      </calcite-radio-button-group>`
     );
     await page.waitForChanges();
     const checkedItems = await page.findAll("calcite-radio-button[checked]");
@@ -94,13 +170,22 @@ describe("calcite-radio-button-group", () => {
 
   it("selects item with left and arrow keys", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-radio-button-group name="keyboard">
+    await page.setContent(html`
+      <calcite-radio-button-group name="keyboard">
+        <calcite-label>
+          1
           <calcite-radio-button value="1" checked></calcite-radio-button>
+        </calcite-label>
+        <calcite-label>
+          2
           <calcite-radio-button value="2"></calcite-radio-button>
+        </calcite-label>
+        <calcite-label>
+          3
           <calcite-radio-button value="3"></calcite-radio-button>
-        </calcite-radio-button-group>`
-    );
+        </calcite-label>
+      </calcite-radio-button-group>
+    `);
     const element = await page.find("calcite-radio-button-group");
 
     const firstElement = await element.find("calcite-radio-button[checked]");
@@ -140,13 +225,22 @@ describe("calcite-radio-button-group", () => {
 
   it("selects item with up and down keys", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-radio-button-group name="up-down-keys">
+    await page.setContent(html`
+      <calcite-radio-button-group name="up-down-keys">
+        <calcite-label>
+          1
           <calcite-radio-button value="1" checked></calcite-radio-button>
+        </calcite-label>
+        <calcite-label>
+          2
           <calcite-radio-button value="2"></calcite-radio-button>
+        </calcite-label>
+        <calcite-label>
+          3
           <calcite-radio-button value="3"></calcite-radio-button>
-        </calcite-radio-button-group>`
-    );
+        </calcite-label>
+      </calcite-radio-button-group>
+    `);
     const element = await page.find("calcite-radio-button-group");
 
     const firstElement = await element.find("calcite-radio-button[checked]");
@@ -184,10 +278,16 @@ describe("calcite-radio-button-group", () => {
 
   it("clicking a radio updates its checked status", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
+    await page.setContent(html`
       <calcite-radio-button-group name="radio">
-        <calcite-radio-button id="first" value="one" checked></calcite-radio-button>
-        <calcite-radio-button id="second" value="two"></calcite-radio-button>
+        <calcite-label>
+          1
+          <calcite-radio-button id="first" value="one" checked></calcite-radio-button>
+        </calcite-label>
+        <calcite-label>
+          2
+          <calcite-radio-button id="second" value="two"></calcite-radio-button>
+        </calcite-label>
       </calcite-radio-button-group>
     `);
 
@@ -209,11 +309,20 @@ describe("calcite-radio-button-group", () => {
 
   it("programmatically checking a radio button updates the group's state correctly", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
+    await page.setContent(html`
       <calcite-radio-button-group name="radio">
-        <calcite-radio-button id="first" value="one" checked></calcite-radio-button>
-        <calcite-radio-button id="second" value="two"></calcite-radio-button>
-        <calcite-radio-button id="third" value="three"></calcite-radio-button>
+        <calcite-label>
+          1
+          <calcite-radio-button id="first" value="one" checked></calcite-radio-button>
+        </calcite-label>
+        <calcite-label>
+          2
+          <calcite-radio-button id="second" value="two"></calcite-radio-button>
+        </calcite-label>
+        <calcite-label>
+          3
+          <calcite-radio-button id="third" value="three"></calcite-radio-button>
+        </calcite-label>
       </calcite-radio-button-group>
     `);
     await page.evaluate(() => {
@@ -231,11 +340,20 @@ describe("calcite-radio-button-group", () => {
 
   it("programmatically un-checking a radio button updates the group's state correctly", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
+    await page.setContent(html`
       <calcite-radio-button-group name="radio">
-        <calcite-radio-button id="first" value="one" checked></calcite-radio-button>
-        <calcite-radio-button id="second" value="two"></calcite-radio-button>
-        <calcite-radio-button id="third" value="three"></calcite-radio-button>
+        <calcite-label>
+          1
+          <calcite-radio-button id="first" value="one" checked></calcite-radio-button>
+        </calcite-label>
+        <calcite-label>
+          2
+          <calcite-radio-button id="second" value="two"></calcite-radio-button>
+        </calcite-label>
+        <calcite-label>
+          3
+          <calcite-radio-button id="third" value="three"></calcite-radio-button>
+        </calcite-label>
       </calcite-radio-button-group>
     `);
     await page.evaluate(() => {
@@ -259,10 +377,16 @@ describe("calcite-radio-button-group", () => {
 
   it("radio-buttons receive necessary props", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
+    await page.setContent(html`
       <calcite-radio-button-group name="radio">
-        <calcite-radio-button value="one" checked></calcite-radio-button>
-        <calcite-radio-button value="two"></calcite-radio-button>
+        <calcite-label>
+          1
+          <calcite-radio-button value="one" checked></calcite-radio-button>
+        </calcite-label>
+        <calcite-label>
+          2
+          <calcite-radio-button value="two"></calcite-radio-button>
+        </calcite-label>
       </calcite-radio-button-group>
     `);
 
@@ -277,13 +401,22 @@ describe("calcite-radio-button-group", () => {
 
   it("appropriately triggers the custom change event", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-radio-button-group name="changeEvent">
-          <calcite-radio-button value="one"></calcite-radio-button>
+    await page.setContent(html`
+      <calcite-radio-button-group name="changeEvent">
+        <calcite-label>
+          1
+          <calcite-radio-button value="one" checked></calcite-radio-button>
+        </calcite-label>
+        <calcite-label>
+          2
           <calcite-radio-button value="two"></calcite-radio-button>
+        </calcite-label>
+        <calcite-label>
+          3
           <calcite-radio-button value="three"></calcite-radio-button>
-        </calcite-radio-button-group>`
-    );
+        </calcite-label>
+      </calcite-radio-button-group>
+    `);
 
     const group = await page.find("calcite-radio-button-group");
     const firstRadio = await page.find('calcite-radio-button[value="one"]');
