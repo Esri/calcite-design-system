@@ -1,4 +1,4 @@
-import { Component, Element, h, Host, Method, Prop, VNode } from "@stencil/core";
+import { Component, Element, h, Host, Method, Prop, State, VNode, Watch } from "@stencil/core";
 import { focusElement, getElementDir } from "../../utils/dom";
 import { FlipContext } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -34,6 +34,11 @@ export class CalciteLink {
   /** optionally pass a href - used to determine if the component should render as a link or an anchor */
   @Prop({ reflect: true }) href?: string;
 
+  @Watch("href")
+  hrefHandler(href: string): void {
+    this.childElType = href ? "a" : "span";
+  }
+
   /** optionally pass an icon to display at the end of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconEnd?: string;
 
@@ -54,10 +59,6 @@ export class CalciteLink {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    this.childElType = this.href ? "a" : "span";
-  }
 
   render(): VNode {
     const dir = getElementDir(this.el);
@@ -126,7 +127,7 @@ export class CalciteLink {
   private childEl: HTMLAnchorElement | HTMLSpanElement;
 
   /** the node type of the rendered child element */
-  private childElType: "a" | "span" = "span";
+  @State() childElType: "a" | "span" = "span";
 
   //--------------------------------------------------------------------------
   //
