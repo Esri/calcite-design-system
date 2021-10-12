@@ -443,7 +443,7 @@ export class CalciteInput implements LabelableComponent {
       this.setValue(parseNumberString(delocalizedValue), nativeEvent);
       this.childNumberEl.value = this.localizedValue;
     } else {
-      this.setValue(delocalizedValue, nativeEvent);
+      this.setValue(delocalizeNumberString(value, this.locale), nativeEvent);
     }
   };
 
@@ -474,11 +474,7 @@ export class CalciteInput implements LabelableComponent {
       return;
     }
     const isShiftTabEvent = event.shiftKey && event.key === "Tab";
-    if (
-      supportedKeys.includes(event.key) &&
-      (!event.shiftKey || isShiftTabEvent) &&
-      !(parseInt(this.value) === 0 && getKey(event.key) === "0")
-    ) {
+    if (supportedKeys.includes(event.key) && (!event.shiftKey || isShiftTabEvent)) {
       if (event.key === "Enter") {
         this.calciteInputChange.emit();
       }
