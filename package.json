@@ -62,7 +62,7 @@
   "dependencies": {
     "@a11y/focus-trap": "1.0.5",
     "@popperjs/core": "2.10.1",
-    "@stencil/core": "2.8.1",
+    "@stencil/core": "2.9.0",
     "@types/color": "3.0.2",
     "color": "4.0.1",
     "lodash-es": "4.17.21",
