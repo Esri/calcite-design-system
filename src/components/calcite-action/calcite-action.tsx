@@ -15,9 +15,6 @@ import { Alignment, Appearance, Scale } from "../interfaces";
 
 import { CSS, TEXT } from "./resources";
 
-import { CSS_UTILITY } from "../../utils/resources";
-
-import { getElementDir } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 
 /**
@@ -199,16 +196,14 @@ export class CalciteAction {
   }
 
   render(): VNode {
-    const { compact, disabled, loading, el, textEnabled, label, text } = this;
+    const { compact, disabled, loading, textEnabled, label, text } = this;
 
     const ariaLabel = label || text;
-    const rtl = getElementDir(el) === "rtl";
 
     const buttonClasses = {
       [CSS.button]: true,
       [CSS.buttonTextVisible]: textEnabled,
-      [CSS.buttonCompact]: compact,
-      [CSS_UTILITY.rtl]: rtl
+      [CSS.buttonCompact]: compact
     };
 
     return (
