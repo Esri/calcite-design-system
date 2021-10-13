@@ -31,12 +31,7 @@ import {
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 import { hiddenInputStyle } from "../../utils/form";
-import {
-  isValidDecimal,
-  isValidNumber,
-  parseNumberString,
-  sanitizeNumberString
-} from "../../utils/number";
+import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
 import { CSS_UTILITY, TEXT } from "../../utils/resources";
 
 type NumberNudgeDirection = "up" | "down";
@@ -479,21 +474,14 @@ export class CalciteInput implements LabelableComponent {
       return;
     }
     const isShiftTabEvent = event.shiftKey && event.key === "Tab";
-    if (
-      supportedKeys.includes(event.key) &&
-      (!event.shiftKey || isShiftTabEvent) &&
-      !(parseInt(this.value) === 0 && getKey(event.key) === "0")
-    ) {
+    if (supportedKeys.includes(event.key) && (!event.shiftKey || isShiftTabEvent)) {
       if (event.key === "Enter") {
         this.calciteInputChange.emit();
       }
       return;
     }
     const decimalSeparator = getDecimalSeparator(this.locale);
-    if (
-      event.key === decimalSeparator &&
-      (this.step === "any" || (this.step && isValidDecimal(this.step)))
-    ) {
+    if (event.key === decimalSeparator) {
       if (!this.value && !this.childNumberEl.value) {
         return;
       }
@@ -512,19 +500,18 @@ export class CalciteInput implements LabelableComponent {
       return;
     }
     const value = this.value;
-    const decimals = this.step?.toString().split(".")[1]?.length || 0;
     const inputMax = this.maxString ? parseFloat(this.maxString) : null;
     const inputMin = this.minString ? parseFloat(this.minString) : null;
     const inputStep = this.step === "any" ? 1 : Math.abs(this.step || 1);
-    const inputVal = value && value !== "" ? (decimals ? parseFloat(value) : parseInt(value)) : 0;
+    const inputVal = value && value !== "" ? parseFloat(value) : 0;
     let newValue = value;
 
     if (direction === "up" && ((!inputMax && inputMax !== 0) || inputVal < inputMax)) {
-      newValue = (inputVal + inputStep).toFixed(decimals);
+      newValue = (inputVal + inputStep).toString();
     }
 
     if (direction === "down" && ((!inputMin && inputMin !== 0) || inputVal > inputMin)) {
-      newValue = (inputVal - inputStep).toFixed(decimals);
+      newValue = (inputVal - inputStep).toString();
     }
 
     this.setValue(newValue, nativeEvent, true);
