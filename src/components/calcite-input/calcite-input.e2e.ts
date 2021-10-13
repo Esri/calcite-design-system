@@ -858,11 +858,11 @@ describe("calcite-input", () => {
         `
       });
       const calciteInput2 = await page.find("#input2");
-      calciteInput2.callMethod("setFocus");
-      expect(await page.evaluate(() => document.activeElement.getAttribute("aria-label"))).toEqual("two");
+      await calciteInput2.callMethod("setFocus");
+      expect(await page.evaluate(() => document.activeElement.getAttribute("label"))).toEqual("two");
       await page.keyboard.down("Shift");
       await page.keyboard.press("Tab");
-      expect(await page.evaluate(() => document.activeElement.getAttribute("aria-label"))).toEqual("one");
+      expect(await page.evaluate(() => document.activeElement.getAttribute("label"))).toEqual("one");
     });
 
     it.skip("allows typing redundant zeros", async () => {
