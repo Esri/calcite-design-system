@@ -108,6 +108,22 @@ calcite-handle {
   color: theme("colors.danger");
 }
 
+.status-icon.loading {
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 .toggle-icon {
   @apply mr-4
   self-center
