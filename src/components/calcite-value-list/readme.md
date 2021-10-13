@@ -109,10 +109,10 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot             | Description                                                                                                                        |
-| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-|                  | A slot for adding `calcite-pick-list-item` elements or `calcite-pick-list-group` elements. Items are displayed as a vertical list. |
-| `"menu-actions"` | A slot for adding a button + menu combo for performing actions like sorting.                                                       |
+| Slot             | Description                                                                                   |
+| ---------------- | --------------------------------------------------------------------------------------------- |
+|                  | A slot for adding `calcite-value-list-item` elements. Items are displayed as a vertical list. |
+| `"menu-actions"` | A slot for adding a button + menu combo for performing actions like sorting.                  |
 
 ## Dependencies
 
