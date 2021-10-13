@@ -881,6 +881,40 @@
           </calcite-tree-item>
         </calcite-tree>
       </section>
+
+      <section style="margin-bottom: 2rem">
+        <script>
+          window.onload = () => {
+            const radioItems = document.querySelector("#padding-y-group");
+            radioItems.addEventListener("calciteRadioGroupChange", (e) => {
+              document.querySelectorAll("calcite-tree#padding-y-changes calcite-tree-item").forEach((item) => {
+                item.style.setProperty("--calcite-tree-padding-y", e.detail);
+              });
+            });
+          };
+        </script>
+
+        <calcite-label layout="inline">
+          Change top/bottom spacing
+          <calcite-radio-group id="padding-y-group">
+            <calcite-radio-group-item value="0">0</calcite-radio-group-item>
+            <calcite-radio-group-item value="7px">7px</calcite-radio-group-item>
+            <calcite-radio-group-item value="1.2em">1.2em</calcite-radio-group-item>
+            <calcite-radio-group-item value="2rem">2rem</calcite-radio-group-item>
+          </calcite-radio-group>
+        </calcite-label>
+
+        <calcite-tree lines id="padding-y-changes" selection-mode="multi">
+          <calcite-tree-item>Child 1</calcite-tree-item>
+          <calcite-tree-item expanded>
+            Child 2
+            <calcite-tree slot="children">
+              <calcite-tree-item selected> Child 2 Grandchild 1 </calcite-tree-item>
+              <calcite-tree-item> Child 2 Grandchild 2 </calcite-tree-item>
+            </calcite-tree>
+          </calcite-tree-item>
+        </calcite-tree>
+      </section>
     </main>
   </body>
 </html>

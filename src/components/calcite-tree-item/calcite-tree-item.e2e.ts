@@ -174,4 +174,67 @@ describe("calcite-tree-item", () => {
       ancestors.forEach(async (node) => expect(await node.getProperty("indeterminate")).toBe(true));
     });
   });
+
+  describe("CSS Custom Properties for style overrides", () => {
+    describe("when tree scale is small", () => {
+      it("should render child tree-item with 0.25rem for `--calcite-tree-padding-y` CSS var", async () => {
+        const page = await newE2EPage();
+        await page.setContent(`<calcite-tree scale="s">
+          <calcite-tree-item>Tree child</calcite-tree-item>
+        </calcite-tree>`);
+        const itemStyle = await page.evaluate(() => {
+          const tree = document.querySelector("calcite-tree");
+          const item = tree.querySelector("calcite-tree-item");
+          return window.getComputedStyle(item).getPropertyValue(`--calcite-tree-padding-y`);
+        });
+        expect(itemStyle).toBe("0.25rem");
+      });
+    });
+
+    describe("when tree scale is medium", () => {
+      it("should render child tree-item with 0.5rem for `--calcite-tree-padding-y` CSS var", async () => {
+        const page = await newE2EPage();
+        await page.setContent(`<calcite-tree>
+          <calcite-tree-item>Tree child</calcite-tree-item>
+        </calcite-tree>`);
+        const itemStyle = await page.evaluate(() => {
+          const tree = document.querySelector("calcite-tree");
+          const item = tree.querySelector("calcite-tree-item");
+          return window.getComputedStyle(item).getPropertyValue(`--calcite-tree-padding-y`);
+        });
+        expect(itemStyle).toBe("0.5rem");
+      });
+    });
+
+    describe("when tree scale is large", () => {
+      it("should render child tree-item with 0.75rem for `--calcite-tree-padding-y` CSS var", async () => {
+        const page = await newE2EPage();
+        await page.setContent(`<calcite-tree scale="l">
+          <calcite-tree-item>Tree child</calcite-tree-item>
+        </calcite-tree>`);
+        const itemStyle = await page.evaluate(() => {
+          const tree = document.querySelector("calcite-tree");
+          const item = tree.querySelector("calcite-tree-item");
+          return window.getComputedStyle(item).getPropertyValue(`--calcite-tree-padding-y`);
+        });
+        expect(itemStyle).toBe("0.75rem");
+      });
+    });
+
+    describe("when a custom value is provided", () => {
+      it("should render child tree-item with the custom value for `--calcite-tree-padding-y` CSS var", async () => {
+        const page = await newE2EPage();
+        await page.setContent(`<calcite-tree>
+          <calcite-tree-item>Tree child</calcite-tree-item>
+        </calcite-tree>`);
+        const itemStyle = await page.evaluate(() => {
+          const tree = document.querySelector("calcite-tree");
+          const item = tree.querySelector("calcite-tree-item");
+          item.style.setProperty("--calcite-tree-padding-y", "1.25rem");
+          return window.getComputedStyle(item).getPropertyValue(`--calcite-tree-padding-y`);
+        });
+        expect(itemStyle).toBe("1.25rem");
+      });
+    });
+  });
 });
