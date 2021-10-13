@@ -135,13 +135,13 @@ export class CalciteBlock {
   renderIcon(): VNode[] {
     const { el, status } = this;
 
-    const loadingStatus = this.loading && !this.open;
+    const showingLoadingStatus = this.loading && !this.open;
 
-    const icon = loadingStatus ? ICONS.refresh : ICONS[status] ?? false;
+    const statusIcon = showingLoadingStatus ? ICONS.refresh : ICONS[status];
 
-    const hasIcon = getSlotted(el, SLOTS.icon) || icon;
+    const hasIcon = getSlotted(el, SLOTS.icon) || statusIcon;
 
-    const iconEl = !icon ? (
+    const iconEl = !statusIcon ? (
       <slot name={SLOTS.icon} />
     ) : (
       <calcite-icon
@@ -149,9 +149,9 @@ export class CalciteBlock {
           [CSS.statusIcon]: true,
           [CSS.valid]: status == "valid",
           [CSS.invalid]: status == "invalid",
-          [CSS.loading]: loadingStatus
+          [CSS.loading]: showingLoadingStatus
         }}
-        icon={icon}
+        icon={statusIcon}
         scale="m"
       />
     );
