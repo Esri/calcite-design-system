@@ -118,13 +118,13 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   height: var(--calcite-loader-size-inline);
   min-height: var(--calcite-loader-size-inline);
   width: var(--calcite-loader-size-inline);
-  margin-right: var(--calcite-loader-size-inline) * 0.5;
-  vertical-align: -var(--calcite-loader-size-inline) * 0.2;
+  margin-right: calc(var(--calcite-loader-size-inline) * 0.5);
+  vertical-align: -calc(var(--calcite-loader-size-inline) * 0.2);
 }
 
 :host([inline][dir="rtl"]) {
   @apply mr-0;
-  margin-left: var(--calcite-loader-size-inline) * 0.5;
+  margin-left: calc(var(--calcite-loader-size-inline) * 0.5);
 }
 
 :host([active][inline]) {
