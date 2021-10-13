@@ -23,7 +23,7 @@ export interface Story {
   decorators?: ((Story: Story) => DocumentFragment)[];
 }
 
-export const setKnobs = ({ story, knobs }: { story: string; knobs: { name: string; value: string }[] }) => {
+export const setKnobs = ({ story, knobs }: { story: string; knobs: { name: string; value?: string }[] }) => {
   return `window.location.href = "?path=/story/${story}${knobs
     .map(({ name, value }) => `&knob-${name}=${value}`)
     .join("")}"`;

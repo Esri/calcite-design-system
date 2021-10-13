@@ -301,7 +301,7 @@ export const Default = stepStory(
     .executeScript(
       setKnobs({
         story: "components-buttons-action--default",
-        knobs: [{ name: "icon", value: "" }]
+        knobs: [{ name: "icon" }]
       })
     )
     .waitForNotFound("svg")
