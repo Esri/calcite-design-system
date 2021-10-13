@@ -119,7 +119,7 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   min-height: var(--calcite-loader-size-inline);
   width: var(--calcite-loader-size-inline);
   margin-right: calc(var(--calcite-loader-size-inline) * 0.5);
-  vertical-align: -calc(var(--calcite-loader-size-inline) * 0.2);
+  vertical-align: calc(-var(--calcite-loader-size-inline) * 0.2);
 }
 
 :host([inline][dir="rtl"]) {
