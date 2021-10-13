@@ -8,8 +8,6 @@
  * @prop --calcite-loader-size-inline: the width and height of an inline loader
  */
 
-@use "sass:math";
-
 $stroke-width: 3;
 $loader-scale: 54;
 $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
