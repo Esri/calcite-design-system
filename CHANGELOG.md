@@ -5,7 +5,14 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 <!--@unreleased-section-start-->
 
-## Unreleased (2021-10-11)
+## Unreleased (2021-10-12)
+
+### Features
+
+- **input:** allow decimals by default and with integer steps ([#3211](https://github.com/Esri/calcite-components/issues/3211)) ([8ff197b](https://github.com/Esri/calcite-components/commit/8ff197bf276e81d60a2f706ea778ad04f6c77fad)), closes [#3184](https://github.com/Esri/calcite-components/issues/3184)
+<!--@unreleased-section-end-->
+
+## [1.0.0-beta.67](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.66...v1.0.0-beta.67) (2021-10-12)
 
 ### ⚠ BREAKING CHANGES
 
@@ -21,9 +28,9 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - **calcite-action:** fixing center alignment appearance ([#3128](https://github.com/Esri/calcite-components/issues/3128)) ([272153b](https://github.com/Esri/calcite-components/commit/272153baace0866b7858660f3c770d0acf3ac7a5))
 - **combobox:** Correct display issues with single select and long strings. [#3059](https://github.com/Esri/calcite-components/issues/3059) ([#3114](https://github.com/Esri/calcite-components/issues/3114)) ([8a4deb3](https://github.com/Esri/calcite-components/commit/8a4deb3cdf6092973f13f799b70d6ae9438bab74))
+- **dropdown:** dropdown content no longer cut off when expanded inside tab ([#3182](https://github.com/Esri/calcite-components/issues/3182)) ([b455c39](https://github.com/Esri/calcite-components/commit/b455c397840c68cbdcf72f993269f0746c21a73c))
 - **label:** fix issue where clicking on a wrapped labelable component would not update its value correctly ([#3161](https://github.com/Esri/calcite-components/issues/3161)) ([19de2b8](https://github.com/Esri/calcite-components/commit/19de2b8727334ae40dd50823dc05c6c8f9970d61)), closes [#3146](https://github.com/Esri/calcite-components/issues/3146)
 - **tab, tab-nav:** remove z-index so popover appears on top ([#2965](https://github.com/Esri/calcite-components/issues/2965)) ([#3115](https://github.com/Esri/calcite-components/issues/3115)) ([2bfbe93](https://github.com/Esri/calcite-components/commit/2bfbe93e5ad9d164d751c14c6319e37b628f929f))
-<!--@unreleased-section-end-->
 
 ## [1.0.0-beta.66](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.65...v1.0.0-beta.66) (2021-09-28)
 

@@ -4,7 +4,7 @@
 
 # Calcite Components
 
-Shared Web Components for Esri's Calcite design framework. To see the components in action, [view the documentation](https://esri.github.io/calcite-components/).
+Shared Web Components for Esri's Calcite Design Systems. To see the components in action, [view the documentation](https://developers.arcgis.com/calcite-design-system/components/).
 
 ## Sketch library
 
@@ -17,12 +17,12 @@ The simplest way to set up the components in your project is to add the followin
 ```html
 <script
   type="module"
-  src="https://unpkg.com/@esri/calcite-components@1.0.0-next.284/dist/calcite/calcite.esm.js"
+  src="https://unpkg.com/@esri/calcite-components@1.0.0-next.286/dist/calcite/calcite.esm.js"
 ></script>
 <link
   rel="stylesheet"
   type="text/css"
-  href="https://unpkg.com/@esri/calcite-components@1.0.0-next.284/dist/calcite/calcite.css"
+  href="https://unpkg.com/@esri/calcite-components@1.0.0-next.286/dist/calcite/calcite.css"
 />
 ```
 

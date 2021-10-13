@@ -18,7 +18,9 @@
   },
   "plugins": ["@esri/calcite-components", "@typescript-eslint", "eslint-plugin-react", "jest", "prettier", "unicorn"],
   "rules": {
+    "@stencil/decorators-context": "off",
     "@stencil/decorators-style": "warn",
+    "@stencil/no-unused-watch": "off",
     "@stencil/own-methods-must-be-private": "off",
     "@stencil/own-props-must-be-private": "off",
     "@stencil/prefer-vdom-listener": "warn",

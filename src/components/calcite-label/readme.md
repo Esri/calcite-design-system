@@ -38,7 +38,7 @@ When using the `default`, `inline` or `inline-space-between` layout option with 
 | `disabled`       | `disabled`        | is the label disabled                                                | `boolean`                                         | `false`     |
 | `for`            | `for`             | The id of the input associated with the label                        | `string`                                          | `undefined` |
 | `layout`         | `layout`          | is the wrapped element positioned inline with the label slotted text | `"default" \| "inline" \| "inline-space-between"` | `"default"` |
-| `scale`          | `scale`           | specify the scale of the input, defaults to m                        | `"l" \| "m" \| "s"`                               | `"m"`       |
+| `scale`          | `scale`           | specify the scale of the label, defaults to m                        | `"l" \| "m" \| "s"`                               | `"m"`       |
 | `status`         | `status`          | specify the status of the label and any child input / input messages | `"idle" \| "invalid" \| "valid"`                  | `"idle"`    |
 
 ## Slots
