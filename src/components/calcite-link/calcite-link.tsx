@@ -60,6 +60,10 @@ export class CalciteLink {
   //
   //--------------------------------------------------------------------------
 
+  connectedCallback(): void {
+    this.childElType = this.href ? "a" : "span";
+  }
+
   render(): VNode {
     const dir = getElementDir(this.el);
 
