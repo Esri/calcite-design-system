@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "1.0.0-next.286",
+  "version": "1.0.0-next.287",
   "description": "Web Components for Esri's Calcite Design System.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
@@ -79,7 +79,7 @@
     "@stencil/postcss": "2.1.0",
     "@stencil/sass": "1.5.2",
     "@stencil/state-tunnel": "^1.0.1",
-    "@storybook/addon-a11y": "6.3.10",
+    "@storybook/addon-a11y": "6.3.11",
     "@storybook/addon-docs": "6.3.11",
     "@storybook/addon-knobs": "6.3.1",
     "@storybook/cli": "6.3.11",

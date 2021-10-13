@@ -13,7 +13,8 @@ export const CSS = {
   summary: "summary",
   controlContainer: "control-container",
   valid: "valid",
-  invalid: "invalid"
+  invalid: "invalid",
+  loading: "loading"
 };
 
 export const TEXT = {
@@ -33,7 +34,8 @@ export const ICONS = {
   opened: "chevron-up",
   closed: "chevron-down",
   valid: "check-circle",
-  invalid: "exclamation-mark-triangle"
+  invalid: "exclamation-mark-triangle",
+  refresh: "refresh"
 };
 
 export const HEADING_LEVEL = 4;
