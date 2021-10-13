@@ -36,6 +36,12 @@
 | `value`          | `value`           | The value of the tile select. This value will appear in form submissions when this tile select is checked.                                    | `any`                   | `undefined` |
 | `width`          | `width`           | specify the width of the tile, defaults to auto                                                                                               | `"auto" \| "full"`      | `"auto"`    |
 
+## Events
+
+| Event                     | Description                                                                                                                                   | Type               |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
+| `calciteTileSelectChange` | Emits a custom change event. For checkboxes, it emits when the checkbox is checked or unchecked. For radios it only emits when it is checked. | `CustomEvent<any>` |
+
 ## Methods
 
 ### `setFocus() => Promise<void>`
