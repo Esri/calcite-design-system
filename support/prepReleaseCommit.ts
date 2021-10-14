@@ -21,6 +21,9 @@ const readmePath = quote([normalize(`${__dirname}/../readme.md`)]);
 (async function prepReleaseCommit(): Promise<void> {
   const { next } = argv;
 
+  // travis works with shallow clones, so we deepen the history when fetching tags
+  await exec("git fetch --deepen=150 --tags --quiet");
+
   const previousReleasedTag = (await exec("git describe --abbrev=0 --tags", { encoding: "utf-8" })).trim();
   const prereleaseVersionPattern = /-next\.\d+$/;
   const previousReleaseIsPrerelease = prereleaseVersionPattern.test(previousReleasedTag);

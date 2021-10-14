@@ -97,7 +97,7 @@ export class CalciteFilter {
   // --------------------------------------------------------------------------
 
   filter = debounce((value: string): void => {
-    const regex = new RegExp(value, "ig");
+    const regex = new RegExp(value, "i");
 
     if (this.data.length === 0) {
       console.warn(`No data was passed to calcite-filter.

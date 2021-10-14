@@ -68,7 +68,7 @@ Calcite Components provide light and dark themes which can be changed using CSS 
 Setting the theme class on an element changes all of their child nodes as well. Therefore, to switch the whole app from light to dark, we can do the following:
 
 ```html
-<div class="calcite-theme-dark" >
+<div class="calcite-theme-dark">
   <!-- your app -->
 </div>
 ```
