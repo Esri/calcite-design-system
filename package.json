@@ -82,7 +82,7 @@
     "@storybook/addon-a11y": "6.3.11",
     "@storybook/addon-docs": "6.3.11",
     "@storybook/addon-knobs": "6.3.1",
-    "@storybook/cli": "6.3.11",
+    "@storybook/cli": "6.3.12",
     "@storybook/html": "6.3.11",
     "@storybook/storybook-deployer": "2.8.10",
     "@types/dedent": "0.7.0",
