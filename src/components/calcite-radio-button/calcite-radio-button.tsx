@@ -136,7 +136,7 @@ export class CalciteRadioButton implements LabelableComponent, FormAssociated {
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /** The value of the radio button. */
-  @Prop() value!: any;
+  @Prop({ mutable: true }) value!: any;
 
   //--------------------------------------------------------------------------
   //
