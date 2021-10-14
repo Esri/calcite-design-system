@@ -96,7 +96,7 @@ export class CalciteCheckbox implements LabelableComponent {
   //
   //--------------------------------------------------------------------------
 
-  private readonly checkedPath = "M5.5 10.38L2.56 7.44l.88-.88L5.5 8.62l5.06-5.06.88.88z";
+  private readonly checkedPath = "M5.5 12L2 8.689l.637-.636L5.5 10.727l8.022-7.87.637.637z";
 
   private readonly indeterminatePath = "M13 8v1H3V8z";
 
@@ -132,14 +132,9 @@ export class CalciteCheckbox implements LabelableComponent {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-  private getBoxSize = (): string => (this.indeterminate ? "0 0 16 16" : "0 0 14 14");
 
   private getPath = (): string =>
-    this.indeterminate
-      ? this.indeterminatePath
-      : this.checked
-      ? this.checkedPath
-      : "M5.5 10.38L2.56 7.44l.88-.88L5.5 8.62l5.06-5.06.88.88z";
+    this.indeterminate ? this.indeterminatePath : this.checked ? this.checkedPath : "";
 
   private toggle = (): void => {
     if (!this.disabled) {
@@ -268,7 +263,7 @@ export class CalciteCheckbox implements LabelableComponent {
     return (
       <Host onClick={this.clickHandler}>
         <div class={{ focused: this.focused, test: true }}>
-          <svg class="check-svg" viewBox={this.getBoxSize()} xmlns="http://www.w3.org/2000/svg">
+          <svg class="check-svg" viewBox="0 0 16 16">
             <path d={this.getPath()} />
           </svg>
           <slot />

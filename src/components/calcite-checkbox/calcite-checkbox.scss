@@ -34,6 +34,8 @@
     height: var(--calcite-checkbox-size);
     box-shadow: inset 0 0 0 1px var(--calcite-ui-border-input);
     fill: theme("backgroundColor.background");
+    stroke: theme("backgroundColor.background");
+    stroke-width: 1px;
   }
   ::slotted(input) {
     width: var(--calcite-checkbox-size);
