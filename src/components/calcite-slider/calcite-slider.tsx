@@ -613,7 +613,7 @@ export class CalciteSlider implements LabelableComponent {
           "tick__label--max": isMaxTickLabel
         }}
       >
-        {tick.toLocaleString()}
+        {`${tick > this.max ? this.max : tick}`.toLocaleString()}
       </span>
     );
     if (this.labelTicks && !this.hasHistogram && !this.isRange) {
