@@ -61,10 +61,16 @@ export class CalciteDatePicker {
     }
   }
 
-  /** Selected start date as full date object*/
+  /**
+   * Selected start date as full date object
+   * @deprecated use valueAsDate instead
+   */
   @Prop({ mutable: true }) startAsDate?: Date;
 
-  /** Selected end date as full date object*/
+  /**
+   * Selected end date as full date object
+   * @deprecated use valueAsDate instead
+   */
   @Prop({ mutable: true }) endAsDate?: Date;
 
   /** Earliest allowed date as full date object */
@@ -107,10 +113,16 @@ export class CalciteDatePicker {
   /** Range mode activation */
   @Prop({ reflect: true }) range = false;
 
-  /** Selected start date */
+  /**
+   * Selected start date
+   * @deprecated use value instead
+   */
   @Prop({ mutable: true }) start?: string;
 
-  /** Selected end date */
+  /**
+   * Selected end date
+   * @deprecated use value instead
+   */
   @Prop({ mutable: true }) end?: string;
 
   /** Disables the default behaviour on the third click of narrowing or extending the range and instead starts a new range. */

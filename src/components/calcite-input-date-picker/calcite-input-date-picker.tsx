@@ -81,10 +81,16 @@ export class CalciteInputDatePicker implements LabelableComponent, FormAssociate
   /** Selected date as full date object*/
   @Prop({ mutable: true }) valueAsDate?: Date | Date[];
 
-  /** Selected start date as full date object*/
+  /**
+   * Selected start date as full date object
+   * @deprecated use valueAsDate instead
+   */
   @Prop({ mutable: true }) startAsDate?: Date;
 
-  /** Selected end date as full date object*/
+  /**
+   * Selected end date as full date object
+   * @deprecated use valueAsDate instead
+   */
   @Prop({ mutable: true }) endAsDate?: Date;
 
   /** Earliest allowed date as full date object */
@@ -131,10 +137,16 @@ export class CalciteInputDatePicker implements LabelableComponent, FormAssociate
   /** Range mode activation */
   @Prop({ reflect: true }) range = false;
 
-  /** Selected start date */
+  /**
+   * Selected start date
+   * @deprecated use value instead
+   */
   @Prop({ mutable: true }) start?: string;
 
-  /** Selected end date */
+  /**
+   * Selected end date
+   * @deprecated use value instead
+   */
   @Prop({ mutable: true }) end?: string;
 
   /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
