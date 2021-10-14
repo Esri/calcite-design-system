@@ -12,7 +12,7 @@ import {
   Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { closestElementCrossShadowBoundary, focusElement } from "../../utils/dom";
+import { focusElement } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { hiddenInputStyle, FormAssociated, connectForm, disconnectForm } from "../../utils/form";
@@ -149,8 +149,6 @@ export class CalciteRadioButton implements LabelableComponent, FormAssociated {
   formEl: HTMLFormElement;
 
   defaultValue: CalciteRadioButton["value"];
-
-  private initialChecked: boolean;
 
   private inputEl: HTMLInputElement;
 
@@ -376,11 +374,6 @@ export class CalciteRadioButton implements LabelableComponent, FormAssociated {
     }
   }
 
-  private formResetHandler = (): void => {
-    this.checked = this.initialChecked;
-    this.initialChecked && this.inputEl?.setAttribute("checked", "");
-  };
-
   private hideInputEl = (): void => {
     this.inputEl.style.cssText = hiddenInputStyle;
   };
@@ -404,13 +397,8 @@ export class CalciteRadioButton implements LabelableComponent, FormAssociated {
   connectedCallback(): void {
     this.rootNode = this.el.getRootNode() as HTMLElement;
     this.guid = this.el.id || `calcite-radio-button-${guid()}`;
-    this.initialChecked = this.checked;
     if (this.name) {
       this.checkLastRadioButton();
-    }
-    const form = closestElementCrossShadowBoundary(this.el, "form") as HTMLFormElement;
-    if (form) {
-      form.addEventListener("reset", this.formResetHandler);
     }
     connectLabel(this);
     connectForm(this);
@@ -424,10 +412,6 @@ export class CalciteRadioButton implements LabelableComponent, FormAssociated {
   }
 
   disconnectedCallback(): void {
-    const form = closestElementCrossShadowBoundary(this.el, "form") as HTMLFormElement;
-    if (form) {
-      form.removeEventListener("reset", this.formResetHandler);
-    }
     disconnectLabel(this);
     disconnectForm(this);
   }

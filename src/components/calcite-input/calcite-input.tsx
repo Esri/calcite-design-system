@@ -13,12 +13,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import {
-  getElementDir,
-  getElementProp,
-  setRequestedIcon,
-  closestElementCrossShadowBoundary
-} from "../../utils/dom";
+import { getElementDir, getElementProp, setRequestedIcon } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
 import { InputPlacement } from "./interfaces";
@@ -241,8 +236,6 @@ export class CalciteInput implements LabelableComponent, FormAssociated {
   /** number text input element for locale */
   private childNumberEl?: HTMLInputElement;
 
-  private form: HTMLFormElement;
-
   get isClearable(): boolean {
     return !this.isTextarea && (this.clearable || this.type === "search") && this.value?.length > 0;
   }
@@ -278,8 +271,6 @@ export class CalciteInput implements LabelableComponent, FormAssociated {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.form = closestElementCrossShadowBoundary(this.el, "form") as HTMLFormElement;
-    this.form?.addEventListener("reset", this.reset);
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.status = getElementProp(this.el, "status", this.status);
     this.inlineEditableEl = this.el.closest("calcite-inline-editable");
@@ -296,7 +287,6 @@ export class CalciteInput implements LabelableComponent, FormAssociated {
   }
 
   disconnectedCallback(): void {
-    this.form?.removeEventListener("reset", this.reset);
     disconnectLabel(this);
     disconnectForm(this);
   }
@@ -535,12 +525,9 @@ export class CalciteInput implements LabelableComponent, FormAssociated {
     this.nudgeNumberValue(direction, event);
   };
 
-  private reset = (nativeEvent): void => {
-    if (this.type === "number") {
-      nativeEvent.preventDefault();
-    }
-    this.setValue(this.defaultValue, nativeEvent);
-  };
+  onFormReset(): void {
+    this.setValue(this.defaultValue);
+  }
 
   private setChildElRef = (el) => {
     this.childEl = el;

@@ -13,7 +13,7 @@ import {
   Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { focusElement, closestElementCrossShadowBoundary } from "../../utils/dom";
+import { focusElement } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { hiddenInputStyle } from "../../utils/form";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
@@ -100,8 +100,6 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
   private readonly checkedPath = "M5.5 12L2 8.689l.637-.636L5.5 10.727l8.022-7.87.637.637z";
 
   private readonly indeterminatePath = "M13 8v1H3V8z";
-
-  private initialChecked: boolean;
 
   private input: HTMLInputElement;
 
@@ -197,10 +195,6 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
     this.hovered = false;
   }
 
-  private formResetHandler = (): void => {
-    this.checked = this.initialChecked;
-  };
-
   private onInputBlur() {
     this.focused = false;
     this.calciteInternalCheckboxBlur.emit(false);
@@ -223,12 +217,7 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
 
   connectedCallback(): void {
     this.guid = this.el.id || `calcite-checkbox-${guid()}`;
-    this.initialChecked = this.checked;
     this.renderHiddenCheckboxInput();
-    const form = closestElementCrossShadowBoundary(this.el, "form") as HTMLFormElement;
-    if (form) {
-      form.addEventListener("reset", this.formResetHandler);
-    }
     connectLabel(this);
     connectForm(this);
   }
@@ -239,10 +228,6 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
 
   disconnectedCallback(): void {
     this.input.parentNode.removeChild(this.input);
-    const form = closestElementCrossShadowBoundary(this.el, "form") as HTMLFormElement;
-    if (form) {
-      form.removeEventListener("reset", this.formResetHandler);
-    }
     disconnectLabel(this);
     disconnectForm(this);
   }
