@@ -246,6 +246,27 @@ describe("calcite-color-picker", () => {
     expect(inputSpy.length).toBeGreaterThan(previousInputEventLength + 1); // input event fires more than once
   });
 
+  it("does not emit on initialization", async () => {
+    // initialize page with calcite-color-picker to make it available in the evaluate callback below
+    const page = await newE2EPage({ html: "<calcite-color-picker></calcite-color-picker>" });
+    await page.setContent("");
+
+    const emitted = await page.evaluate(async () => {
+      const emitted = [];
+      document.addEventListener("calciteColorPickerInput", () => emitted.push("input"));
+      document.addEventListener("calciteColorPickerChange", () => emitted.push("change"));
+
+      const picker = document.createElement("calcite-color-picker");
+      picker.value = "rgb(255, 255, 255)";
+
+      document.body.append(picker);
+
+      return emitted;
+    });
+
+    expect(emitted).toHaveLength(0);
+  });
+
   const supportedFormatToSampleValue = {
     hex: "#ffffff",
     "rgb-css": "rgb(255, 255, 255)",
@@ -273,6 +294,17 @@ describe("calcite-color-picker", () => {
     await page.keyboard.press("Enter");
     await page.waitForChanges();
   };
+
+  function assertUnsupportedValueMessage(value: string | object | null, format: string): void {
+    expect(consoleSpy).toBeCalledTimes(1);
+    expect(consoleSpy).toHaveBeenCalledWith(
+      expect.stringMatching(
+        new RegExp(
+          `\\s*ignoring color value \\(${value}\\) as it is not compatible with the current format \\(${format}\\)\\s*`
+        )
+      )
+    );
+  }
 
   describe("color format", () => {
     describe("when set initially", () => {
@@ -605,14 +637,7 @@ describe("calcite-color-picker", () => {
       expect(await picker.getProperty("value")).toBe(currentValue);
       expect(spy).toHaveReceivedEventTimes(0);
 
-      expect(consoleSpy).toBeCalledTimes(1);
-      expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringMatching(
-          new RegExp(
-            `\\s*ignoring color value \\(${unsupportedValue}\\) as it is not compatible with the current format \\(${format}\\)\\s*`
-          )
-        )
-      );
+      assertUnsupportedValueMessage(unsupportedValue, format);
     }
 
     beforeEach(async () => {
@@ -746,6 +771,8 @@ describe("calcite-color-picker", () => {
           expect(value).not.toBe(hex);
           expect(value).toMatch(/^#[a-f0-9]{6}$/);
         });
+
+        expect(() => assertUnsupportedValueMessage(hex, "auto")).toThrow();
       });
 
       it("supports rgb", async () => {
@@ -757,6 +784,8 @@ describe("calcite-color-picker", () => {
           expect(value).not.toBe(rgbCss);
           expect(value).toMatch(/^rgb\(\d+, \d+, \d+\)/);
         });
+
+        expect(() => assertUnsupportedValueMessage(rgbCss, "auto")).toThrow();
       });
 
       it("supports hsl", async () => {
@@ -768,6 +797,8 @@ describe("calcite-color-picker", () => {
           expect(value).not.toBe(hslCss);
           expect(value).toMatch(/^hsl\([0-9.]+, [0-9.]+%, [0-9.]+%\)/);
         });
+
+        expect(() => assertUnsupportedValueMessage(hslCss, "auto")).toThrow();
       });
 
       it("supports rgb (object)", async () => {
@@ -783,6 +814,8 @@ describe("calcite-color-picker", () => {
             b: toBeInteger()
           });
         });
+
+        expect(() => assertUnsupportedValueMessage(rgbObject, "auto")).toThrow();
       });
 
       it("supports hsl (object)", async () => {
@@ -798,6 +831,8 @@ describe("calcite-color-picker", () => {
             l: toBeInteger()
           });
         });
+
+        expect(() => assertUnsupportedValueMessage(hslObject, "auto")).toThrow();
       });
 
       it("supports hsv (object)", async () => {
@@ -813,6 +848,8 @@ describe("calcite-color-picker", () => {
             v: toBeInteger()
           });
         });
+
+        expect(() => assertUnsupportedValueMessage(hsvObject, "auto")).toThrow();
       });
     });
 
@@ -1204,6 +1241,8 @@ describe("calcite-color-picker", () => {
 
     expect(await color.getProperty("value")).toBe(null);
     expect(await color.getProperty("color")).toBe(null);
+
+    assertUnsupportedValueMessage(null, "auto");
   });
 
   it("allows hiding sections", async () => {
