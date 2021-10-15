@@ -10,9 +10,10 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: "14"
-      - run: |
-          touch .env
-          echo SCREENER_API_KEY=${{ secrets.SCREENER_API_KEY }} >> .env
       - run: npm install
       - run: npm test # e2e
+      - run: |
+          touch .env
+          npm install dotenv
+          echo SCREENER_API_KEY=${{ secrets.SCREENER_API_KEY }} >> .env
       - run: npm run test:storybook # screener
