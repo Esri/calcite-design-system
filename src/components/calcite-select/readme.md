@@ -106,13 +106,13 @@ Specify the underlying value for each option.
 
 ## Properties
 
-| Property             | Attribute  | Description                                                         | Type                         | Default     |
-| -------------------- | ---------- | ------------------------------------------------------------------- | ---------------------------- | ----------- |
-| `disabled`           | `disabled` | When true, it prevents the option from being selected.              | `boolean`                    | `false`     |
-| `label` _(required)_ | `label`    | The component's label. This is required for accessibility purposes. | `string`                     | `undefined` |
-| `scale`              | `scale`    | The component scale.                                                | `"l" \| "m" \| "s"`          | `"m"`       |
-| `selectedOption`     | --         | The currently selected option.                                      | `HTMLCalciteOptionElement`   | `undefined` |
-| `width`              | `width`    | The component width.                                                | `"auto" \| "full" \| "half"` | `"auto"`    |
+| Property             | Attribute         | Description                                                         | Type                         | Default     |
+| -------------------- | ----------------- | ------------------------------------------------------------------- | ---------------------------- | ----------- |
+| `disabled`           | `disabled`        | When true, it prevents the option from being selected.              | `boolean`                    | `false`     |
+| `label` _(required)_ | `label`           | The component's label. This is required for accessibility purposes. | `string`                     | `undefined` |
+| `scale`              | `scale`           | The component scale.                                                | `"l" \| "m" \| "s"`          | `"m"`       |
+| `selectedOption`     | `selected-option` | The currently selected option.                                      | `any`                        | `undefined` |
+| `width`              | `width`           | The component width.                                                | `"auto" \| "full" \| "half"` | `"auto"`    |
 
 ## Events
 
@@ -129,6 +129,12 @@ Sets focus on the component.
 #### Returns
 
 Type: `Promise<void>`
+
+## Slots
+
+| Slot | Description                          |
+| ---- | ------------------------------------ |
+|      | A slot for adding `calcite-option`s. |
 
 ## CSS Custom Properties
 

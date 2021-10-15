@@ -12,19 +12,21 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { focusElement, getElementDir, hasLabel } from "../../utils/dom";
+import { getElementDir } from "../../utils/dom";
 import { hiddenInputStyle } from "../../utils/form";
 import { guid } from "../../utils/guid";
+
 import { getKey } from "../../utils/key";
 import { CSS_UTILITY } from "../../utils/resources";
 import { Scale } from "../interfaces";
+import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 
 @Component({
   tag: "calcite-switch",
   styleUrl: "calcite-switch.scss",
   shadow: true
 })
-export class CalciteSwitch {
+export class CalciteSwitch implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -48,6 +50,9 @@ export class CalciteSwitch {
     this.tabindex = newDisabled ? -1 : 0;
   }
 
+  /** Applies to the aria-label attribute on the switch */
+  @Prop() label?: string;
+
   /** The name of the switch input */
   @Prop({ reflect: true }) name?: string;
 
@@ -59,12 +64,22 @@ export class CalciteSwitch {
   /** The scale of the switch */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** True if the switch is initially on */
-  @Prop({ reflect: true, mutable: true }) switched = false;
+  /** True if the switch is initially on
+   * @deprecated use 'checked' instead.
+   */
+  @Prop() switched = false;
 
   @Watch("switched")
-  switchedWatcher(newSwitched: boolean): void {
-    this.inputEl.checked = newSwitched;
+  switchedWatcher(switched: boolean): void {
+    this.checked = switched;
+  }
+
+  /** True if the switch is initially on */
+  @Prop({ reflect: true, mutable: true }) checked = false;
+
+  @Watch("checked")
+  checkedWatcher(checked: boolean): void {
+    this.inputEl.checked = checked;
   }
 
   /** The value of the switch input */
@@ -75,6 +90,8 @@ export class CalciteSwitch {
   //  Private Properties
   //
   //--------------------------------------------------------------------------
+
+  labelEl: HTMLCalciteLabelElement;
 
   private inputEl: HTMLInputElement = document.createElement("input");
 
@@ -97,7 +114,7 @@ export class CalciteSwitch {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    focusElement(this.inputEl);
+    this.el.focus();
   }
 
   //--------------------------------------------------------------------------
@@ -106,8 +123,15 @@ export class CalciteSwitch {
   //
   //--------------------------------------------------------------------------
 
+  onLabelClick(): void {
+    if (!this.disabled) {
+      this.toggle();
+      this.setFocus();
+    }
+  }
+
   private setupInput(): void {
-    this.switched && this.inputEl.setAttribute("checked", "");
+    this.checked && this.inputEl.setAttribute("checked", "");
     this.inputEl.disabled = this.disabled;
     this.inputEl.id = `${this.guid}-input`;
     this.inputEl.name = this.name;
@@ -120,11 +144,17 @@ export class CalciteSwitch {
   }
 
   private toggle(): void {
-    this.switched = !this.switched;
+    this.checked = !this.checked;
     this.calciteSwitchChange.emit({
-      switched: this.switched
+      // todo: We should remove emmitting redudant props in event payload.
+      // https://github.com/Esri/calcite-components/issues/3163
+      switched: this.checked
     });
   }
+
+  private clickHandler = (): void => {
+    this.toggle();
+  };
 
   //--------------------------------------------------------------------------
   //
@@ -133,7 +163,7 @@ export class CalciteSwitch {
   //--------------------------------------------------------------------------
 
   /**
-   * Fires when the switched value has changed.
+   * Fires when the checked value has changed.
    */
   @Event() calciteSwitchChange: EventEmitter;
 
@@ -142,31 +172,6 @@ export class CalciteSwitch {
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
-
-  @Listen("calciteLabelFocus", { target: "window" })
-  handleLabelFocus(e: CustomEvent): void {
-    if (
-      !this.disabled &&
-      !this.el.contains(e.detail.interactedEl) &&
-      hasLabel(e.detail.labelEl, this.el)
-    ) {
-      this.el.focus();
-    } else {
-      return;
-    }
-  }
-
-  @Listen("click")
-  onClick(e: MouseEvent): void {
-    // prevent duplicate click events that occur
-    // when the component is wrapped in a label and checkbox is clicked
-    if (
-      (!this.disabled && this.el.closest("label") && e.target === this.inputEl) ||
-      (!this.el.closest("label") && e.target === this.el)
-    ) {
-      this.toggle();
-    }
-  }
 
   @Listen("keydown")
   keyDownHandler(e: KeyboardEvent): void {
@@ -181,6 +186,14 @@ export class CalciteSwitch {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    connectLabel(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectLabel(this);
+  }
 
   componentWillLoad(): void {
     this.guid = this.el.id || `calcite-switch-${guid()}`;
@@ -197,11 +210,14 @@ export class CalciteSwitch {
   render(): VNode {
     const dir = getElementDir(this.el);
     return (
-      <Host tabindex={this.tabindex}>
-        <div
-          aria-checked={this.switched.toString()}
-          class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
-        >
+      <Host
+        aria-checked={this.checked.toString()}
+        aria-label={getLabelText(this)}
+        onClick={this.clickHandler}
+        role="switch"
+        tabindex={this.tabindex}
+      >
+        <div class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           <div class="track">
             <div class="handle" />
           </div>

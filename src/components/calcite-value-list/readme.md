@@ -97,7 +97,7 @@ Returns the currently selected items
 
 #### Returns
 
-Type: `Promise<Map<string, HTMLCalciteValueListItemElement>>`
+Type: `Promise<Map<string, any>>`
 
 ### `setFocus(focusId?: ListFocusId) => Promise<void>`
 
@@ -109,10 +109,10 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot             | Description                                                                                                                        |
-| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-|                  | A slot for adding `calcite-pick-list-item` elements or `calcite-pick-list-group` elements. Items are displayed as a vertical list. |
-| `"menu-actions"` | A slot for adding a button + menu combo for performing actions like sorting.                                                       |
+| Slot             | Description                                                                                   |
+| ---------------- | --------------------------------------------------------------------------------------------- |
+|                  | A slot for adding `calcite-value-list-item` elements. Items are displayed as a vertical list. |
+| `"menu-actions"` | A slot for adding a button + menu combo for performing actions like sorting.                  |
 
 ## Dependencies
 
@@ -128,8 +128,11 @@ graph TD;
   calcite-value-list --> calcite-filter
   calcite-value-list --> calcite-scrim
   calcite-filter --> calcite-scrim
+  calcite-filter --> calcite-input
   calcite-filter --> calcite-icon
   calcite-scrim --> calcite-loader
+  calcite-input --> calcite-progress
+  calcite-input --> calcite-icon
   style calcite-value-list fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

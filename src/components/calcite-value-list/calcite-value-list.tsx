@@ -35,7 +35,7 @@ import { getRoundRobinIndex } from "../../utils/array";
 import { createObserver } from "../../utils/observers";
 
 /**
- * @slot - A slot for adding `calcite-pick-list-item` elements or `calcite-pick-list-group` elements. Items are displayed as a vertical list.
+ * @slot - A slot for adding `calcite-value-list-item` elements. Items are displayed as a vertical list.
  * @slot menu-actions - A slot for adding a button + menu combo for performing actions like sorting.
  */
 @Component({

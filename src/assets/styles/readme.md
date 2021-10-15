@@ -59,7 +59,7 @@ Two font weights are available using CSS vars.
 | --calcite-font-weight-light  | 300   |
 | --calcite-font-weight-normal | 400   |
 | --calcite-font-weight-medium | 500   |
-| --calcite-font-weight-bold   | 700   |
+| --calcite-font-weight-bold   | 600   |
 
 Example:
 

@@ -65,7 +65,7 @@ export class CalciteFilter {
 
   @State() empty = true;
 
-  textInput: HTMLInputElement;
+  textInput: HTMLCalciteInputElement;
 
   // --------------------------------------------------------------------------
   //
@@ -97,7 +97,7 @@ export class CalciteFilter {
   // --------------------------------------------------------------------------
 
   filter = debounce((value: string): void => {
-    const regex = new RegExp(value, "ig");
+    const regex = new RegExp(value, "i");
 
     if (this.data.length === 0) {
       console.warn(`No data was passed to calcite-filter.
@@ -130,8 +130,8 @@ export class CalciteFilter {
     this.calciteFilterChange.emit(result);
   }, filterDebounceInMs);
 
-  inputHandler = (event: InputEvent): void => {
-    const target = event.target as HTMLInputElement;
+  inputHandler = (event: CustomEvent): void => {
+    const target = event.target as HTMLCalciteInputElement;
     this.empty = target.value === "";
     this.filter(target.value);
   };
@@ -164,10 +164,12 @@ export class CalciteFilter {
         {disabled ? <calcite-scrim /> : null}
         <div class={CSS.container}>
           <label class={rtl ? CSS_UTILITY.rtl : null}>
-            <input
+            <calcite-input
               aria-label={this.intlLabel || TEXT.filterLabel}
+              class={rtl ? CSS_UTILITY.rtl : null}
               disabled={this.disabled}
-              onInput={this.inputHandler}
+              icon={ICONS.search}
+              onCalciteInputInput={this.inputHandler}
               onKeyDown={this.keyDownHandler}
               placeholder={this.placeholder}
               ref={(el): void => {
@@ -176,9 +178,6 @@ export class CalciteFilter {
               type="text"
               value=""
             />
-            <div class={CSS.searchIcon}>
-              <calcite-icon icon={ICONS.search} scale="s" />
-            </div>
           </label>
           {!this.empty ? (
             <button

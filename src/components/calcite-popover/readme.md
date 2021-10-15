@@ -67,6 +67,12 @@ Toggles the popover's open property.
 
 Type: `Promise<void>`
 
+## Slots
+
+| Slot | Description                       |
+| ---- | --------------------------------- |
+|      | A slot for adding custom content. |
+
 ## Dependencies
 
 ### Used by

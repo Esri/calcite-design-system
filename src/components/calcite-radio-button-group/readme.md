@@ -90,6 +90,12 @@ Renders all radio button inputs disabled, first one checked
 | ------------------------------- | ------------------------------------------------ | ------------------ |
 | `calciteRadioButtonGroupChange` | Emitted when the radio button group has changed. | `CustomEvent<any>` |
 
+## Slots
+
+| Slot | Description                                |
+| ---- | ------------------------------------------ |
+|      | A slot for adding `calcite-radio-button`s. |
+
 ---
 
 _Built with [StencilJS](https://stenciljs.com/)_

@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { renders, hidden, accessible, defaults } from "../../tests/commonTests";
+import { renders, hidden, accessible, defaults, labelable } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 
 describe("calcite-combobox", () => {
@@ -27,6 +27,8 @@ describe("calcite-combobox", () => {
         </calcite-combobox-item-group>
       </calcite-combobox>
   `));
+
+  it("is labelable", async () => labelable("calcite-combobox"));
 
   it("should show the listbox when it receives focus", async () => {
     const page = await newE2EPage();

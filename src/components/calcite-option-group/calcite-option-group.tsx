@@ -1,5 +1,8 @@
 import { Component, h, Prop, VNode, Watch, Event, EventEmitter, Fragment } from "@stencil/core";
 
+/**
+ * @slot - A slot for adding `calcite-option`s.
+ */
 @Component({
   tag: "calcite-option-group",
   styleUrl: "calcite-option-group.scss",

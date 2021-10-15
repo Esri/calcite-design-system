@@ -120,6 +120,7 @@ export const create: () => Config = () => ({
     selector: "attribute",
     name: "calcite-hydrated"
   },
+  preamble: `All material copyright ESRI, All Rights Reserved, unless otherwise specified.\nSee https://github.com/Esri/calcite-components/blob/master/LICENSE.md for details.`,
   extras: {
     scriptDataOpts: true
   }

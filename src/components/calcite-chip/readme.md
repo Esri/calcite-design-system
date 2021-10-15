@@ -41,9 +41,10 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot      | Description                |
-| --------- | -------------------------- |
-| `"image"` | a slot for adding an image |
+| Slot      | Description                 |
+| --------- | --------------------------- |
+|           | A slot for adding text.     |
+| `"image"` | A slot for adding an image. |
 
 ## Dependencies
 

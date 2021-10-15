@@ -40,6 +40,12 @@ Updates the position of the component.
 
 Type: `Promise<void>`
 
+## Slots
+
+| Slot | Description             |
+| ---- | ----------------------- |
+|      | A slot for adding text. |
+
 ---
 
 _Built with [StencilJS](https://stenciljs.com/)_
