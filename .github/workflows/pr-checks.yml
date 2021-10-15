@@ -7,9 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
         with:
-          node-version: "lts/*"
+          node-version: "14"
         env:
           SCREENER_API_KEY: ${{ secrets.SCREENER_API_KEY }}
       - run: npm install
