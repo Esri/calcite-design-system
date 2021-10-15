@@ -118,13 +118,13 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   height: var(--calcite-loader-size-inline);
   min-height: var(--calcite-loader-size-inline);
   width: var(--calcite-loader-size-inline);
-  margin-right: var(--calcite-loader-size-inline) / 2;
-  vertical-align: -var(--calcite-loader-size-inline) / 5;
+  margin-right: var(--calcite-loader-size-inline) * 0.5;
+  vertical-align: -var(--calcite-loader-size-inline) * 0.2;
 }
 
 :host([inline][dir="rtl"]) {
   @apply mr-0;
-  margin-left: var(--calcite-loader-size-inline) / 2;
+  margin-left: var(--calcite-loader-size-inline) * 0.5;
 }
 
 :host([active][inline]) {
@@ -173,8 +173,8 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 */
 @mixin generateSegment($i, $size, $growth, $duration) {
   $circumference: $loader-circumference / $loader-scale * 100%;
-  $length: ($size / 100) * $circumference;
-  $end: $length + ($growth / 100) * $circumference;
+  $length: ($size * 0.01) * $circumference;
+  $end: $length + ($growth * 0.01) * $circumference;
   .loader__svg--#{$i} {
     stroke-dasharray: $length $circumference - $end;
     animation-duration: $duration;
@@ -186,7 +186,7 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
     }
     50% {
       stroke-dasharray: $end $circumference - $end;
-      stroke-dashoffset: -$circumference / 2 - ($length - $end) / 2;
+      stroke-dashoffset: -$circumference * 0.5 - ($length - $end) * 0.5;
     }
     100% {
       stroke-dasharray: $length $circumference - $length;
