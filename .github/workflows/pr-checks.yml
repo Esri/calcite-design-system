@@ -14,4 +14,4 @@ jobs:
           SCREENER_API_KEY: ${{ secrets.SCREENER_API_KEY }}
       - run: npm install
       - run: npm test
-      - run: npm run test-storybook
+      - run: npm run test:storybook
