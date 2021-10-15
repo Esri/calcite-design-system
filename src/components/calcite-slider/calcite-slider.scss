@@ -1,6 +1,6 @@
 $thumb-size: 28px;
 $handle-size: 14px;
-$thumb-padding: ($thumb-size - $handle-size) / 2;
+$thumb-padding: ($thumb-size - $handle-size) * 0.5;
 $track-height: 2px;
 $tick-height: 4px;
 
@@ -19,8 +19,8 @@ $tick-height: 4px;
 
 .container {
   @apply block relative;
-  padding: $handle-size / 2 0;
-  margin: $handle-size / 2 theme("margin.2");
+  padding: $handle-size * 0.5 0;
+  margin: $handle-size * 0.5 theme("margin.2");
 }
 
 :host([disabled]) {
@@ -295,7 +295,7 @@ $tick-height: 4px;
 
 .tick {
   position: absolute;
-  top: -$tick-height / 2;
+  top: -$tick-height * 0.5;
   width: 2px;
   height: $tick-height;
   left: var(--calcite-ui-border-1-offset);
@@ -314,7 +314,7 @@ $tick-height: 4px;
   font-weight: 500;
   color: var(--calcite-ui-text-2);
   width: 4em;
-  margin: $thumb-size / 2 -2em;
+  margin: $thumb-size * 0.5 -2em;
   text-align: center;
   display: block;
   pointer-events: none;
@@ -322,7 +322,7 @@ $tick-height: 4px;
 
 .tick__label--min {
   left: 0;
-  margin: $thumb-size / 2 -3px;
+  margin: $thumb-size * 0.5 -3px;
   text-align: left;
   transition: opacity 150ms;
 }
@@ -330,7 +330,7 @@ $tick-height: 4px;
 .tick__label--max {
   left: unset;
   right: 0;
-  margin: $thumb-size / 2 -3px;
+  margin: $thumb-size * 0.5 -3px;
   text-align: right;
   transition: opacity 50ms;
 }
