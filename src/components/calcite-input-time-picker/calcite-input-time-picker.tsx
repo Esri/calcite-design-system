@@ -98,7 +98,7 @@ export class CalciteInputTimePicker implements LabelableComponent {
   /** number that specifies the granularity that the value must adhere to */
   @Prop() step = 60;
 
-  /** The selected time */
+  /** The selected time (always 24-hour format)*/
   @Prop({ mutable: true }) value: string = null;
 
   @Watch("value")
