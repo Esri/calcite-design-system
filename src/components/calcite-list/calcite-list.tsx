@@ -41,7 +41,7 @@ export class CalciteList {
   @Method()
   async setFocus(): Promise<void> {
     const firstListItem: HTMLCalciteListItemElement = this.el.querySelector(
-      `calcite-list-item:not("non-interactive")`
+      `calcite-list-item:not([non-interactive])`
     );
     firstListItem?.setFocus();
   }
