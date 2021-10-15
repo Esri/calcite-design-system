@@ -35,7 +35,7 @@ export class CalciteAction {
   //
   // --------------------------------------------------------------------------
   /** Specify the appearance style of the action, defaults to solid. */
-  @Prop({ reflect: true }) appearance: Appearance = "solid";
+  @Prop({ reflect: true }) appearance: Extract<"solid" | "clear", Appearance> = "solid";
 
   /**
    * Indicates whether the action is highlighted.
