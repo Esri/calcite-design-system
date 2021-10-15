@@ -116,7 +116,8 @@ function onFormData<T>(this: FormAssociated<T>, { formData }: FormDataEvent): vo
 }
 
 function onFormReset<T>(this: FormAssociated<T>): void {
-  this.value = this.defaultValue;
+  const valueProp = "checked" in this ? "checked" : "value";
+  this[valueProp] = this.defaultValue;
 }
 
 /**
