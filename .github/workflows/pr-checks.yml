@@ -1,4 +1,4 @@
-name: Screener and E2E
+name: E2E and Screener
 on:
   pull_request_target:
     branches: [benelan/screener-action]
@@ -13,5 +13,5 @@ jobs:
         env:
           SCREENER_API_KEY: ${{ secrets.SCREENER_API_KEY }}
       - run: npm install
-      - run: npm test
-      - run: npm run test:storybook
+      - run: npm test # e2e
+      - run: npm run test:storybook # screener
