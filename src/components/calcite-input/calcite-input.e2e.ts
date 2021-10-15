@@ -906,7 +906,7 @@ describe("calcite-input", () => {
       expect(calciteInputInput).toHaveReceivedEventTimes(2);
     });
 
-    it("allows any valid number", async () => {
+    it.skip("allows any valid number", async () => {
       const page = await newE2EPage({
         html: `
           <calcite-input type="number"></calcite-input>
