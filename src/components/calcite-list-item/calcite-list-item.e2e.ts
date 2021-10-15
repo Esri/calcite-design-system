@@ -8,7 +8,7 @@ describe("calcite-list-item", () => {
 
   it("is focusable", () =>
     focusable("calcite-list-item", {
-      focusTargetSelector: `.${CSS.contentContainerButton}`
+      shadowFocusTargetSelector: `.${CSS.contentContainerButton}`
     }));
 
   it("honors hidden attribute", async () => hidden("calcite-list-item"));
