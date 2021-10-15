@@ -174,4 +174,37 @@ describe("calcite-tree-item", () => {
       ancestors.forEach(async (node) => expect(await node.getProperty("indeterminate")).toBe(true));
     });
   });
+
+  describe("when a parent tree-item is expanded and a new item is appended into it", () => {
+    it("should render the visible, keyboard navigable item", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-panel>
+        <calcite-button id='add-item-btn'>Add item to tree</calcite-button>
+        <calcite-tree>
+          <calcite-tree-item expanded><span>Element 1</span>
+            <calcite-tree slot='children' id='target-tree'>
+              <calcite-tree-item>Child 1</calcite-tree-item>
+            </calcite-tree>
+          </calcite-tree-item>
+          <calcite-tree-item>Element 2</calcite-tree-item>
+        </calcite-tree>
+      </calcite-panel>`);
+      await page.addScriptTag({
+        content: `const tree = document.querySelector('#target-tree');
+         document.querySelector('#add-item-btn').addEventListener('click', () => {
+           const newItem = document.createElement('calcite-tree-item');
+           newItem.id = "newbie";
+           newItem.appendChild(document.createTextNode("Child 2"));
+           tree.appendChild(newItem);
+         })`
+      });
+      const btn = await page.find("calcite-button");
+      await btn.click();
+
+      const item = await page.find("#newbie");
+      expect(item).toEqualAttribute("aria-hidden", "false");
+      expect(item).not.toHaveAttribute("calcite-hydrated-hidden");
+      expect(item.tabIndex).toBe(0);
+    });
+  });
 });

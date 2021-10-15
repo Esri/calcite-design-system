@@ -50,16 +50,22 @@ export class CalciteTreeItem {
 
   @Watch("expanded")
   expandedHandler(newValue: boolean): void {
-    const items = getSlotted<HTMLCalciteTreeItemElement>(this.el, "children", {
-      all: true,
-      selector: "calcite-tree-item"
-    });
+    // handle newly appended items on parents
+    if (!newValue && this.parentTreeItem) {
+      const { expanded } = this.parentTreeItem;
+      this.parentExpanded = expanded;
+    } else {
+      const items = getSlotted<HTMLCalciteTreeItemElement>(this.el, "children", {
+        all: true,
+        selector: "calcite-tree-item"
+      });
 
-    items.forEach((item) => (item.parentExpanded = newValue));
+      items.forEach((item) => (item.parentExpanded = newValue));
+    }
   }
 
   /** @internal Is the parent of this item expanded? */
-  @Prop() parentExpanded = false;
+  @Prop({ mutable: true }) parentExpanded = false;
 
   /** @internal What level of depth is this item at? */
   @Prop({ reflect: true, mutable: true }) depth = -1;
@@ -96,6 +102,7 @@ export class CalciteTreeItem {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    this.parentTreeItem = this.el.parentElement.closest("calcite-tree-item");
     this.expandedHandler(this.expanded);
   }
 
@@ -297,7 +304,7 @@ export class CalciteTreeItem {
         }
 
         // When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
-        const parentItem = this.el.parentElement.closest("calcite-tree-item");
+        const parentItem = this.parentTreeItem;
 
         if (parentItem && (!this.hasChildren || this.expanded === false)) {
           parentItem.focus();
@@ -391,6 +398,8 @@ export class CalciteTreeItem {
 
   defaultSlotWrapper!: HTMLElement;
 
+  private parentTreeItem?: HTMLCalciteTreeItemElement;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -400,7 +409,7 @@ export class CalciteTreeItem {
   private updateAncestorTree = (): void => {
     if (this.selected && this.selectionMode === TreeSelectionMode.Ancestors) {
       const ancestors: HTMLCalciteTreeItemElement[] = [];
-      let parent = this.el.parentElement.closest("calcite-tree-item");
+      let parent = this.parentTreeItem;
       while (parent) {
         ancestors.push(parent);
         parent = parent.parentElement.closest("calcite-tree-item");
