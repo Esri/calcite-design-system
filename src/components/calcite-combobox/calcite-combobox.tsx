@@ -942,11 +942,9 @@ export class CalciteCombobox implements LabelableComponent {
 
   renderIconEnd(): VNode {
     return (
-      this.selectionMode === "single" && (
-        <span class="icon-end">
-          <calcite-icon icon="chevron-down" scale="s" />
-        </span>
-      )
+      <span class="icon-end">
+        <calcite-icon icon="chevron-down" scale="s" />
+      </span>
     );
   }
 
@@ -971,12 +969,14 @@ export class CalciteCombobox implements LabelableComponent {
           ref={this.setReferenceEl}
           role="combobox"
         >
-          {this.renderIconStart()}
-          {!single && this.renderChips()}
-          <label class="screen-readers-only" htmlFor={`${guid}-input`} id={labelId}>
-            {label}
-          </label>
-          {this.renderInput()}
+          <div class="grid-input">
+            {this.renderIconStart()}
+            {!single && this.renderChips()}
+            <label class="screen-readers-only" htmlFor={`${guid}-input`} id={labelId}>
+              {label}
+            </label>
+            {this.renderInput()}
+          </div>
           {this.renderIconEnd()}
         </div>
         <ul
