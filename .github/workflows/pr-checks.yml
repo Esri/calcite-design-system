@@ -13,7 +13,8 @@ jobs:
       - run: npm install
       - run: npm test # e2e
       - run: |
-          touch .env
           npm install dotenv
+          touch .env
+          echo "require('dotenv').config()" | cat - screener.config.js > temp && mv temp screener.config.js
           echo SCREENER_API_KEY=${{ secrets.SCREENER_API_KEY }} >> .env
       - run: npm run test:storybook # screener
