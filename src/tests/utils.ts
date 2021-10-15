@@ -2,6 +2,11 @@ import { E2EElement, E2EPage } from "@stencil/core/testing";
 import { BoundingBox, JSONObject } from "puppeteer";
 import dedent from "dedent";
 
+/**
+ * Util to help type global props for testing.
+ */
+export type GlobalTestProps<T> = T & Window & typeof globalThis;
+
 type DragAndDropSelector = string | SelectorOptions;
 
 type PointerPosition = {

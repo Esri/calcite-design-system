@@ -1,19 +1,12 @@
 import "form-request-submit-polyfill/form-request-submit-polyfill";
 import { Component, Element, h, Method, Prop, Build, State, VNode, Watch } from "@stencil/core";
 import { CSS, TEXT } from "./resources";
-import { getElementDir } from "../../utils/dom";
+import { closestElementCrossShadowBoundary, getElementDir } from "../../utils/dom";
 import { ButtonAlignment, ButtonAppearance, ButtonColor } from "./interfaces";
 import { FlipContext, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { createObserver } from "../../utils/observers";
-import {
-  FormButtonComponent,
-  connectForm,
-  disconnectForm,
-  submitForm,
-  resetForm
-} from "../../utils/formButton";
 
 /** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
 /** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
@@ -24,7 +17,7 @@ import {
   styleUrl: "calcite-button.scss",
   shadow: true
 })
-export class CalciteButton implements LabelableComponent, FormButtonComponent {
+export class CalciteButton implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -80,7 +73,11 @@ export class CalciteButton implements LabelableComponent, FormButtonComponent {
   /** The rel attribute to apply to the hyperlink */
   @Prop() rel?: string;
 
-  /** The form ID to associate with the component */
+  /**
+   * The form ID to associate with the component
+   *
+   * @deprecated – this property is no longer needed if placed inside a form.
+   */
   @Prop() form?: string;
 
   /** optionally add a round style to the button  */
@@ -124,13 +121,16 @@ export class CalciteButton implements LabelableComponent, FormButtonComponent {
     this.hasLoader = this.loading;
     this.setupTextContentObserver();
     connectLabel(this);
-    connectForm(this);
+    this.formEl = closestElementCrossShadowBoundary<HTMLFormElement>(
+      this.el,
+      this.form ? `#${this.form}` : "form"
+    );
   }
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     disconnectLabel(this);
-    disconnectForm(this);
+    this.formEl = null;
   }
 
   componentWillLoad(): void {
@@ -268,16 +268,13 @@ export class CalciteButton implements LabelableComponent, FormButtonComponent {
 
   // act on a requested or nearby form based on type
   private handleClick = (): void => {
-    const { childElType, type } = this;
+    const { childElType, formEl, type } = this;
     // this.type refers to type attribute, not child element type
     if (childElType === "button" && type !== "button") {
-      switch (type) {
-        case "submit":
-          submitForm(this);
-          break;
-        case "reset":
-          resetForm(this);
-          break;
+      if (type === "submit") {
+        formEl?.requestSubmit();
+      } else if (type === "reset") {
+        formEl?.reset();
       }
     }
   };
