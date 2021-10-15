@@ -12,7 +12,7 @@ jobs:
           node-version: "14"
       - run: npm install
       - run: npm test # e2e
-      - run: |
+      - run: | # gh env vars dont work in node
           npm install dotenv
           touch .env
           echo "require('dotenv').config()" | cat - screener.config.js > temp && mv temp screener.config.js
