@@ -103,7 +103,7 @@ $popper-default-z-index: 900;
 }
 
 $pointer_size: 8px;
-$pointer_offset: -$pointer_size/2;
+$pointer_offset: -$pointer_size * 0.5;
 
 @mixin popperArrow {
   .arrow,

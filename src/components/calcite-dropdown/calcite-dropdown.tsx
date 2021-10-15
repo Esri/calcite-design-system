@@ -147,7 +147,7 @@ export class CalciteDropdown {
       <Host tabIndex={this.disabled ? -1 : null}>
         <div
           class={{ ["calcite-dropdown-trigger-container"]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
-          onClick={this.openDropdown}
+          onClick={this.openCalciteDropdown}
           onKeyDown={this.keyDownHandler}
           ref={this.setReferenceEl}
         >
@@ -219,15 +219,11 @@ export class CalciteDropdown {
 
   @Listen("click", { target: "window" })
   closeCalciteDropdownOnClick(e: Event): void {
-    const target = e.target as HTMLElement;
-    if (
-      !this.disableCloseOnSelect &&
-      this.active &&
-      target.nodeName !== "CALCITE-DROPDOWN-ITEM" &&
-      target.nodeName !== "CALCITE-DROPDOWN-GROUP"
-    ) {
-      this.closeCalciteDropdown();
+    if (!this.active || e.composedPath().includes(this.el)) {
+      return;
     }
+
+    this.closeCalciteDropdown();
   }
 
   @Listen("calciteDropdownCloseRequest")
@@ -386,18 +382,6 @@ export class CalciteDropdown {
 
     this.popper = null;
   }
-
-  private openDropdown = (e: Event): void => {
-    const target = e.target as HTMLSlotElement;
-    if (
-      this.triggers.includes(target) ||
-      this.triggers.some((trigger) => trigger.contains(target))
-    ) {
-      e.preventDefault();
-      e.stopPropagation();
-      this.openCalciteDropdown();
-    }
-  };
 
   private keyDownHandler = (e: KeyboardEvent): void => {
     const target = e.target as HTMLSlotElement;
