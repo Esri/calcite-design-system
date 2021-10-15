@@ -1,10 +1,15 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { hidden, renders } from "../../tests/commonTests";
+import { hidden, renders, focusable } from "../../tests/commonTests";
 import { defaults } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-list-item", () => {
   it("renders", async () => renders("calcite-list-item", { display: "flex" }));
+
+  it("is focusable", () =>
+    focusable("calcite-list-item", {
+      focusTargetSelector: `.${CSS.contentContainerButton}`
+    }));
 
   it("honors hidden attribute", async () => hidden("calcite-list-item"));
 
