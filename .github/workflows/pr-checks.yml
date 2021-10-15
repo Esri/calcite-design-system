@@ -10,7 +10,6 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: "lts/*"
-          cache: "npm"
         env:
           SCREENER_API_KEY: ${{ secrets.SCREENER_API_KEY }}
       - run: npm install
