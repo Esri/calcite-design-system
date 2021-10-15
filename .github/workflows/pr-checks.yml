@@ -1,0 +1,17 @@
+name: Screener and E2E
+on:
+  pull_request_target:
+    branches: [benelan/screener-action]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+        env:
+          SCREENER_API_KEY: ${{ secrets.SCREENER_API_KEY }}
+      - run: npm install
+      - run: npm test
+      - run: npm run test-storybook
