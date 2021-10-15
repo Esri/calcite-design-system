@@ -136,10 +136,6 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
   //
   //--------------------------------------------------------------------------
 
-  onFormReset(): void {
-    this.checked = this.defaultValue;
-  }
-
   private getPath = (): string =>
     this.indeterminate ? this.indeterminatePath : this.checked ? this.checkedPath : "";
 

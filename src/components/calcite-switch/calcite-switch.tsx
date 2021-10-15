@@ -128,10 +128,6 @@ export class CalciteSwitch implements LabelableComponent, FormAssociated {
   //
   //--------------------------------------------------------------------------
 
-  onFormReset(): void {
-    this.checked = this.defaultValue;
-  }
-
   onLabelClick = (): void => {
     if (!this.disabled) {
       this.toggle();
