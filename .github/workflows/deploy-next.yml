@@ -18,10 +18,8 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TRAVIS_REPO_SLUG: "Esri/calcite-components"
-          CI: false # otherwise gh treats warnings like errors
         if: ${{ env.NEXT_RELEASE_ENABLED }} == "true"
-      - run: npm cache clean --force
-      - run: npm install
+      - run: npm ci
       # - run: npm test
       - run: npm run util:deploy-next-from-travis
       # - uses: opsless/ms-teams-github-actions@main
