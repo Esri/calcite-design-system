@@ -10,7 +10,6 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: "14"
-          cache: "npm"
       - run: npm install
       - run: | # gh env vars dont work in node
           npm install dotenv

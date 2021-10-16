@@ -19,6 +19,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TRAVIS_REPO_SLUG: "Esri/calcite-components"
         if: ${{ env.NEXT_RELEASE_ENABLED }} == "true"
+      - run: npm cache clean --force
       - run: npm install
       # - run: npm test
       - run: npm run util:deploy-next-from-travis
