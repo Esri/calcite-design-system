@@ -96,5 +96,6 @@ const exec = pify(childProcess.exec);
       `An error occurred during deployment ❌:
 ${error}`
     );
+    process.exitCode = 1;
   }
 })();
