@@ -69,7 +69,7 @@
     @apply font-normal p-2 text--2h;
   }
   .button--text-visible .icon-container {
-    @apply mr-2;
+    margin-inline-end: theme("spacing.2");
   }
 }
 
@@ -78,7 +78,7 @@
     @apply font-normal p-4 text--1h;
   }
   .button--text-visible .icon-container {
-    @apply mr-3;
+    margin-inline-end: theme("spacing.3");
   }
 }
 
@@ -87,7 +87,7 @@
     @apply font-normal p-5 text-0h;
   }
   .button--text-visible .icon-container {
-    @apply mr-4;
+    margin-inline-end: theme("spacing.4");
   }
 }
 
@@ -123,37 +123,6 @@
 
 .button--text-visible {
   @apply w-full;
-
-  .icon-container {
-    @apply m-0;
-  }
-  .text-container--visible {
-    @apply m-0 mr-2;
-  }
-}
-
-.button--text-visible.calcite--rtl {
-  .text-container--visible {
-    @apply m-0 ml-2;
-  }
-}
-
-:host([scale="s"]) {
-  .button--text-visible.calcite--rtl .icon-container {
-    @apply m-0 ml-2;
-  }
-}
-
-:host([scale="m"]) {
-  .button--text-visible.calcite--rtl .icon-container {
-    @apply m-0 ml-3;
-  }
-}
-
-:host([scale="l"]) {
-  .button--text-visible.calcite--rtl .icon-container {
-    @apply m-0 ml-4;
-  }
 }
 
 :host([active]) .button,
@@ -216,64 +185,45 @@
   @apply opacity-disabled bg-foreground-3;
 }
 
-:host([indicator]) .button--text-visible,
-:host([indicator][scale="s"]) .button--text-visible,
-:host([indicator][scale="l"]) .button--text-visible {
-  @apply pr-4;
+:host([indicator]) {
+  .button::after {
+    content: "";
+    @apply absolute
+      border-2
+      bg-brand
+      rounded-full
+      h-2
+      w-2
+      z-10;
+    border-color: theme("colors.background.foreground.1");
+    inset-block-end: theme("spacing.3");
+    inset-inline-end: theme("spacing.3");
+  }
+  .button--text-visible {
+    &::after {
+      inset-block-end: auto;
+    }
+    .text-container--visible {
+      margin-inline-end: theme("spacing.4");
+    }
+  }
+  .button:hover::after,
+  .button:focus::after {
+    border-color: theme("colors.background.foreground.1");
+  }
 }
 
-:host([indicator]) .button::after {
-  content: "";
-  @apply absolute
-    border-2
-    bg-brand
-    rounded-full
-    h-2
-    w-2
-    z-10;
-  border-color: theme("colors.background.foreground.1");
-  bottom: theme("spacing.2");
-  right: theme("spacing.2");
-}
-
-:host([indicator][scale="s"]) .button::after {
-  bottom: theme("spacing.1");
-  right: theme("spacing.1");
-}
-
-:host([indicator][scale="l"]) .button::after {
-  bottom: theme("spacing.2");
-  right: theme("spacing.2");
-}
-
-:host([indicator]) .calcite--rtl::after {
-  @apply right-auto;
-  left: theme("spacing.1");
-}
-
-:host([indicator]) .button--text-visible.calcite--rtl {
-  @apply pr-3 pl-4;
-}
-
-:host([indicator]) .button:hover::after,
-:host([indicator]) .button:focus::after {
-  border-color: theme("colors.background.foreground.1");
+:host([indicator][scale="s"]) {
+  .button::after {
+    inset-block-end: theme("spacing.1");
+    inset-inline-end: theme("spacing.1");
+  }
+  .button--text-visible::after {
+    inset-block-end: auto;
+    inset-inline-end: theme("spacing.2");
+  }
 }
 
 :host([indicator][active]) .button::after {
   border-color: theme("colors.background.foreground.3");
-}
-
-:host([indicator]) .button--text-visible::after,
-:host([indicator][scale="s"]) .button--text-visible::after,
-:host([indicator][scale="l"]) .button--text-visible::after {
-  @apply bottom-auto;
-  right: theme("spacing.2");
-}
-
-:host([indicator]) .button--text-visible.calcite--rtl::after,
-:host([indicator][scale="s"]) .button--text-visible.calcite--rtl::after,
-:host([indicator][scale="l"]) .button--text-visible.calcite--rtl::after {
-  @apply right-auto;
-  left: theme("spacing.2");
 }
