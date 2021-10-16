@@ -14,16 +14,16 @@ jobs:
         with:
           node-version: 14.x
         env:
-          NEXT_RELEASE_ENABLED: secrets.NEXT_RELEASE_ENABLED
+          NEXT_RELEASE_ENABLED: ${{ secrets.NEXT_RELEASE_ENABLED }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TRAVIS_REPO_SLUG: "Esri/calcite-components"
         if: ${{ env.NEXT_RELEASE_ENABLED }} == "true"
       - run: npm ci
-      # - run: npm test
+      - run: npm test
       - run: npm run util:deploy-next-from-travis
-      # - uses: opsless/ms-teams-github-actions@main
-      #   if: always() # to let this step always run even if previous step failed
-      #    with:
-      #     github-token: ${{ secrets.GITHUB_TOKEN }}
-      #     webhook-uri: ${{  secrets.TEAMS_WEBHOOK_URI_BUILD }}
+      - uses: opsless/ms-teams-github-actions@main
+        if: always()
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          webhook-uri: ${{  secrets.TEAMS_WEBHOOK_URI_BUILD }}
