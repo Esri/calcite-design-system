@@ -19,14 +19,8 @@ jobs:
       - run: npm install
       - run: npm test
       - run: npm run util:deploy-next-from-travis
-  notify:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - uses: skitionek/notify-microsoft-teams@master
-        if: always()
-        with:
-          webhook_url: ${{ secrets.TEAMS_WEBHOOK_URI_BUILD }}
-          needs: ${{ toJson(needs) }}
-          job: ${{ toJson(job) }}
-          steps: ${{ toJson(steps) }}
+      # - uses: opsless/ms-teams-github-actions@main
+      #   if: always() # to let this step always run even if previous step failed
+      #    with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     webhook-uri: ${{  secrets.TEAMS_WEBHOOK_URI_BUILD }}

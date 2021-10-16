@@ -15,6 +15,8 @@ const exec = pify(childProcess.exec);
   async function deployNextFromTravis(): Promise<void> {
     console.log("Determining @next deployability 🔍");
 
+    runGit("git", "tag");
+
     if (!(await deployable(await mostRecentTag("HEAD")))) {
       console.log("No changes since the previous release, skipping ⛔");
       return;
@@ -36,8 +38,8 @@ const exec = pify(childProcess.exec);
 
       await fs.writeFile(".npmrc", "//registry.npmjs.org/:_authToken=${NPM_TOKEN}", { flag: "a" });
 
-      console.log(" - prepping package...");
-      await exec(`npm run util:prep-next-from-existing-build`);
+      // console.log(" - prepping package...");
+      // await exec(`npm run util:prep-next-from-existing-build`);
 
       // console.log(" - pushing tags...");
       // await exec(`npm run util:push-tags -- --quiet https://$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG master`);
