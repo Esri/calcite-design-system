@@ -22,8 +22,8 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run util:deploy-next-from-travis
-      - uses: opsless/ms-teams-github-actions@main
+      - uses: toko-bifrost/ms-teams-deploy-card@3.1.2
         if: always()
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          webhook-uri: ${{  secrets.TEAMS_WEBHOOK_URI_BUILD }}
+          webhook-uri: ${{ secrets.TEAMS_WEBHOOK_URI_BUILD }}
