@@ -3,12 +3,12 @@ import { JSX } from "../components";
 import { toHaveNoViolations } from "jest-axe";
 import axe from "axe-core";
 import { config } from "../../stencil.config";
-import { html } from "./utils";
+import { GlobalTestProps, html } from "./utils";
 
 expect.extend(toHaveNoViolations);
 
 type CalciteComponentTag = keyof JSX.IntrinsicElements;
-type AxeOwningWindow = Window & { axe: typeof axe } & typeof globalThis;
+type AxeOwningWindow = GlobalTestProps<{ axe: typeof axe }>;
 type ComponentHTML = string;
 type TagOrHTML = CalciteComponentTag | ComponentHTML;
 
