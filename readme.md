@@ -12,7 +12,7 @@ All of the Calcite Components are available in the [calcite-sketch-library](http
 
 ## Installation
 
-The simplest way to set up the components in your project is to add the following tags in the head of your HTML document:
+The simplest way to set up the components in your project is to add the following tags in the head of your HTML document: 
 
 ```html
 <script
