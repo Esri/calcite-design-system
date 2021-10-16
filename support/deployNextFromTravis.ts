@@ -15,8 +15,6 @@ const exec = pify(childProcess.exec);
   async function deployNextFromTravis(): Promise<void> {
     console.log("Determining @next deployability 🔍");
 
-    runGit("tag");
-
     if (!(await deployable(await mostRecentTag("HEAD")))) {
       console.log("No changes since the previous release, skipping ⛔");
       return;
