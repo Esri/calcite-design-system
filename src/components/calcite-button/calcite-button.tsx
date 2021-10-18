@@ -53,6 +53,11 @@ export class CalciteButton implements LabelableComponent {
   /** optionally pass a href - used to determine if the component should render as a button or an anchor */
   @Prop({ reflect: true }) href?: string;
 
+  @Watch("href")
+  hrefHandler(href: string): void {
+    this.childElType = href ? "a" : "button";
+  }
+
   /** optionally pass an icon to display at the end of a button - accepts calcite ui icon names  */
   @Prop({ reflect: true }) iconEnd?: string;
 
@@ -227,7 +232,7 @@ export class CalciteButton implements LabelableComponent {
   private childEl?: HTMLElement;
 
   /** the node type of the rendered child element */
-  private childElType?: "a" | "button" = "button";
+  @State() childElType?: "a" | "button" = "button";
 
   /** determine if there is slotted content for styling purposes */
   @State() private hasContent = false;
