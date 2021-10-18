@@ -19,5 +19,5 @@ jobs:
       - run: npm run test:storybook 2>&1 | tee log.txt
         if: always()
       - run: |
-          URL=%(grep -Eo 'https://screener.io/v2/dashboard[^ >]+' log.txt|head -1)
+          URL=$(grep -Eo 'https://screener.io/v2/dashboard[^ >]+' log.txt|head -1)
           echo "::notice::View report on Screener: $URL"
