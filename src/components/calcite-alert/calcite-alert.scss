@@ -158,10 +158,6 @@
   padding: var(--calcite-alert-spacing-token-small) var(--calcite-alert-spacing-token-large);
   flex: 0 0 auto;
   transition: all 0.15s ease-in-out;
-
-  @media only screen and (max-width: $viewport-medium) {
-    @apply p-4;
-  }
 }
 
 .alert-content {
@@ -180,11 +176,6 @@
   &:only-child {
     padding: var(--calcite-alert-spacing-token-small);
   }
-
-  @media only screen and (max-width: $viewport-medium) {
-    padding: var(--calcite-alert-spacing-token-large) var(--calcite-alert-spacing-token-small)
-      var(--calcite-alert-spacing-token-large) 0;
-  }
 }
 
 .calcite--rtl {
@@ -194,10 +185,6 @@
 
     &:first-of-type:not(:only-child) {
       padding-right: var(--calcite-alert-spacing-token-large);
-    }
-    @media only screen and (max-width: $viewport-medium) {
-      padding: var(--calcite-alert-spacing-token-large) 0 var(--calcite-alert-spacing-token-large)
-        var(--calcite-alert-spacing-token-small);
     }
   }
 }
@@ -229,9 +216,6 @@
 
   &:active {
     @apply bg-foreground-3;
-  }
-  @media only screen and (max-width: $viewport-medium) {
-    @apply rounded-none;
   }
 }
 .calcite--rtl {
