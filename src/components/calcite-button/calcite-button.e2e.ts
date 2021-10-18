@@ -48,12 +48,15 @@ describe("calcite-button", () => {
     const link = await page.find("calcite-button");
     let elementAsLink: E2EElement;
     let elementAsSpan: E2EElement;
+
     elementAsSpan = await page.find("calcite-button >>> button");
     elementAsLink = await page.find("calcite-button >>> a");
     expect(elementAsSpan).not.toBeNull();
     expect(elementAsLink).toBeNull();
+
     link.setProperty("href", "/");
     await page.waitForChanges();
+
     elementAsSpan = await page.find("calcite-button >>> button");
     elementAsLink = await page.find("calcite-button >>> a");
     expect(elementAsSpan).toBeNull();
