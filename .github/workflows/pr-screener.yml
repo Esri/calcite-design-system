@@ -1,4 +1,4 @@
-name: E2E
+name: Screener
 on:
   pull_request_target:
     branches: [benelan/screener-action]
@@ -11,4 +11,13 @@ jobs:
         with:
           node-version: 14.x
       - run: npm install
-      - run: npm test
+      - run: | # gh env vars dont work in node
+          npm install dotenv
+          touch .env
+          echo "require('dotenv').config()" | cat - screener.config.js > temp && mv temp screener.config.js
+          echo SCREENER_API_KEY=${{ secrets.SCREENER_API_KEY }} >> .env
+      - run: npm run test:storybook 2>&1 | tee log.txt
+        if: always()
+      - run: |
+          URL=%(grep -Eo 'https://screener.io/v2/dashboard[^ >]+' log.txt|head -1)
+          echo "::notice::View report on Screener: $URL"

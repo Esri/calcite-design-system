@@ -1,7 +1,7 @@
 name: Deploy Next
 on:
   push:
-    branches: [benelan/screener-action]
+    branches: [benelan/master]
 jobs:
   deploy:
     runs-on: ubuntu-latest
