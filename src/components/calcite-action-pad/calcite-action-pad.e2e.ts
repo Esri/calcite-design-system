@@ -117,22 +117,6 @@ describe("calcite-action-pad", () => {
     });
   });
 
-  describe("when el direction is 'rtl'", () => {
-    it("should render child action expand toggle with correct class", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-        <calcite-action-pad dir='rtl'>
-          <calcite-action text="Add" icon="plus"></calcite-action>
-        </calcite-action-pad>
-      `);
-      const buttonGroup = await page.find(`calcite-action-pad >>> .${CSS.actionGroupBottom}`);
-      const actionEl = await buttonGroup.find("calcite-action");
-      await actionEl.click();
-      const button = await actionEl.shadowRoot.querySelector("button");
-      expect(button).toHaveClass(CSS_UTILITY.rtl);
-    });
-  });
-
   it("should not have bottomGroup when not expandable", async () => {
     const page = await newE2EPage();
 
