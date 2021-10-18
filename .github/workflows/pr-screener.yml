@@ -1,7 +1,7 @@
 name: Screener
 on:
   pull_request_target:
-    branches: [benelan/screener-action]
+    branches: [master]
 jobs:
   screener:
     runs-on: ubuntu-latest
