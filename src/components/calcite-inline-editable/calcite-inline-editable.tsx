@@ -193,9 +193,9 @@ export class CalciteInlineEditable implements LabelableComponent {
     }
   }
 
-  onLabelClick = (): void => {
+  onLabelClick(): void {
     this.setFocus();
-  };
+  }
 
   //--------------------------------------------------------------------------
   //
