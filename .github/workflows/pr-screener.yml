@@ -17,7 +17,6 @@ jobs:
           echo "require('dotenv').config()" | cat - screener.config.js > temp && mv temp screener.config.js
           echo SCREENER_API_KEY=${{ secrets.SCREENER_API_KEY }} >> .env
       - run: npm run test:storybook 2>&1 | tee log.txt
-      - uses: LouisBrunner/checks-action@v1.1.1
         if: always()
       - name: report
       - run: |
@@ -26,9 +25,9 @@ jobs:
       - uses: LouisBrunner/checks-action@v1.1.1
         if: always()
         with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        name: Screener Report
-        conclusion: ${{ job.status }}
-        details_url: ${{ steps.report.outputs.report }}
-        output: |
-          {"summary": View report on Screener: ${{ steps.report.outputs.report }}}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Screener Report
+          conclusion: ${{ job.status }}
+          details_url: ${{ steps.report.outputs.report }}
+          output: |
+            {"summary": View report on Screener: ${{ steps.report.outputs.report }}}
