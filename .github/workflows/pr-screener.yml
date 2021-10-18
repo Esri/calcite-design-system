@@ -20,18 +20,19 @@ jobs:
           echo SCREENER_API_KEY=${{ secrets.SCREENER_API_KEY }} >> .env
       - name: run screener check
         run: npm run test:storybook 2>&1 | tee log.txt
-      - name: report
+      - name: parse screener report
+        id: report
         if: always()
         run: |
           URL=$(grep -Eo 'https://screener.io/v2/dashboard[^ >]+' log.txt|head -1)
           echo "::set-output name=report::$URL"
-      - name: create output
-        uses: LouisBrunner/checks-action@v1.1.1
+      - name: set status
         if: always()
+        uses: Sibz/github-status-action@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          name: Screener Report
-          conclusion: ${{ job.status }}
-          details_url: ${{ steps.report.outputs.report }}
-          output: |
-            {"summary": "View report on Screener: ${{ steps.report.outputs.report }}"}
+          authToken: ${{secrets.GITHUB_TOKEN}}
+          context: Screener Report
+          description: Click details to view the report on Screener
+          state: ${{ job.status }}
+          sha: ${{github.event.pull_request.head.sha || github.sha}}
+          target_url: ${{ steps.report.outputs.report }}
