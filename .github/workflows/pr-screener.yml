@@ -20,4 +20,4 @@ jobs:
         if: always()
       - run: |
           URL=$(grep -Eo 'https://screener.io/v2/dashboard[^ >]+' log.txt|head -1)
-          echo "::notice::View report on Screener: $URL"
+          echo "::notice::[View report on Screener]($URL)"
