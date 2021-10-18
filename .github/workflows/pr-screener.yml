@@ -25,7 +25,7 @@ jobs:
         run: |
           URL=$(grep -Eo 'https://screener.io/v2/dashboard[^ >]+' log.txt|head -1)
           echo "::set-output name=report::$URL"
-      - name: create check
+      - name: create output
         uses: LouisBrunner/checks-action@v1.1.1
         if: always()
         with:
@@ -34,4 +34,4 @@ jobs:
           conclusion: ${{ job.status }}
           details_url: ${{ steps.report.outputs.report }}
           output: |
-            {"summary": View report on Screener: ${{ steps.report.outputs.report }}}
+            {"summary": "View report on Screener: ${{ steps.report.outputs.report }}"}
