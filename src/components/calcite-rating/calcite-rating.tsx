@@ -203,9 +203,9 @@ export class CalciteRating implements LabelableComponent, FormAssociated {
   //
   //--------------------------------------------------------------------------
 
-  onLabelClick = (): void => {
+  onLabelClick(): void {
     this.setFocus();
-  };
+  }
 
   private updateValue(value: number) {
     this.value = value;

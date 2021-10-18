@@ -192,9 +192,9 @@ export class CalciteSelect implements LabelableComponent, FormAssociated {
   //
   //--------------------------------------------------------------------------
 
-  onLabelClick = (): void => {
+  onLabelClick(): void {
     this.setFocus();
-  };
+  }
 
   private updateNativeElement(
     optionOrGroup: CalciteOptionOrGroup,

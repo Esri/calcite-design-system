@@ -201,9 +201,9 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
     this.calciteInternalCheckboxFocus.emit(true);
   }
 
-  onLabelClick = (): void => {
+  onLabelClick(): void {
     this.toggle();
-  };
+  }
 
   //--------------------------------------------------------------------------
   //

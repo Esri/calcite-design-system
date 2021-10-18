@@ -191,7 +191,7 @@ export class CalciteRadioButton implements LabelableComponent, FormAssociated {
     this.toggle();
   };
 
-  onLabelClick = (event: CustomEvent): void => {
+  onLabelClick(event: CustomEvent): void {
     if (!this.disabled && !this.hidden) {
       this.uncheckOtherRadioButtonsInGroup();
       const label = event.currentTarget as HTMLCalciteLabelElement;
@@ -211,7 +211,7 @@ export class CalciteRadioButton implements LabelableComponent, FormAssociated {
       this.calciteRadioButtonChange.emit();
       this.setFocus();
     }
-  };
+  }
 
   private checkLastRadioButton(): void {
     const radioButtons = Array.from(this.rootNode.querySelectorAll("calcite-radio-button")).filter(
