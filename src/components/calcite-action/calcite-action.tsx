@@ -15,9 +15,6 @@ import { Alignment, Appearance, Scale } from "../interfaces";
 
 import { CSS, TEXT } from "./resources";
 
-import { CSS_UTILITY } from "../../utils/resources";
-
-import { getElementDir } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 
 /**
@@ -34,8 +31,6 @@ export class CalciteAction {
   //  Properties
   //
   // --------------------------------------------------------------------------
-  /** Specify the appearance style of the action, defaults to solid. */
-  @Prop({ reflect: true }) appearance: Appearance = "solid";
 
   /**
    * Indicates whether the action is highlighted.
@@ -46,6 +41,9 @@ export class CalciteAction {
    * Optionally specify the horizontal alignment of button elements with text content.
    */
   @Prop({ reflect: true }) alignment?: Alignment;
+
+  /** Specify the appearance style of the action, defaults to solid. */
+  @Prop({ reflect: true }) appearance: Extract<"solid" | "clear", Appearance> = "solid";
 
   /**
    * Compact mode is used internally by components to reduce side padding, e.g. calcite-block-section.
@@ -198,16 +196,14 @@ export class CalciteAction {
   }
 
   render(): VNode {
-    const { compact, disabled, loading, el, textEnabled, label, text } = this;
+    const { compact, disabled, loading, textEnabled, label, text } = this;
 
     const ariaLabel = label || text;
-    const rtl = getElementDir(el) === "rtl";
 
     const buttonClasses = {
       [CSS.button]: true,
       [CSS.buttonTextVisible]: textEnabled,
-      [CSS.buttonCompact]: compact,
-      [CSS_UTILITY.rtl]: rtl
+      [CSS.buttonCompact]: compact
     };
 
     return (
