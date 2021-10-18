@@ -44,8 +44,8 @@
 
 .container {
   @apply block relative;
-  padding: calc(var(--calcite-slider-handle-size) / 2);
-  margin: calc(var(--calcite-slider-handle-size) / 2) 0;
+  padding: calc(var(--calcite-slider-handle-size) * 0.5);
+  margin: calc(var(--calcite-slider-handle-size) * 0.5) 0;
   --calcite-slider-full-handle-height: calc(
     var(--calcite-slider-handle-size) + var(--calcite-slider-handle-extension-height)
   );
@@ -86,7 +86,7 @@
 }
 
 .thumb {
-  --calcite-slider-thumb-x-offset: calc(var(--calcite-slider-handle-size) / 2);
+  --calcite-slider-thumb-x-offset: calc(var(--calcite-slider-handle-size) * 0.5);
   @apply absolute
     border-none
     bg-transparent
@@ -241,7 +241,7 @@
     &:after {
       @apply absolute w-full;
       content: "";
-      top: calc(calc(var(--calcite-slider-full-handle-height) / 2) * -1);
+      top: calc(calc(var(--calcite-slider-full-handle-height) * 0.5) * -1);
       height: calc(var(--calcite-slider-handle-size) + var(--calcite-slider-handle-extension-height));
     }
   }
@@ -314,7 +314,7 @@
   }
   &:host([label-handles]:not([precise])) {
     .container {
-      padding-bottom: calc(calc(var(--calcite-slider-handle-size) / 2) + 1em);
+      padding-bottom: calc(calc(var(--calcite-slider-handle-size) * 0.5) + 1em);
     }
   }
   &:host([precise]:not([label-handles])) {

@@ -253,10 +253,10 @@ export class CalciteButton implements LabelableComponent {
   //
   //--------------------------------------------------------------------------
 
-  onLabelClick = (event: CustomEvent): void => {
+  onLabelClick(event: CustomEvent): void {
     this.handleClick(event);
     this.setFocus();
-  };
+  }
 
   // act on a requested or nearby form based on type
   private handleClick = (e: Event): void => {
