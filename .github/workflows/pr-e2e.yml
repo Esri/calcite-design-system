@@ -1,9 +1,9 @@
 name: E2E
 on:
   pull_request_target:
-    branches: [benelan/screener-action]
+    branches: [master]
 jobs:
-  test:
+  e2e:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
