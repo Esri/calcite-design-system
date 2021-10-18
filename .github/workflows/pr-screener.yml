@@ -3,26 +3,30 @@ on:
   pull_request_target:
     branches: [benelan/screener-action]
 jobs:
-  test:
+  screener:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           node-version: 14.x
-      - run: npm install
-      - run: | # gh env vars dont work in node
+      - name: install dependencies
+        run: npm install
+      - name: setup environment variables
+        run: | # gh env vars dont work in node
           npm install dotenv
           touch .env
           echo "require('dotenv').config()" | cat - screener.config.js > temp && mv temp screener.config.js
           echo SCREENER_API_KEY=${{ secrets.SCREENER_API_KEY }} >> .env
-      - run: npm run test:storybook 2>&1 | tee log.txt
-        if: always()
+      - name: run screener check
+        run: npm run test:storybook 2>&1 | tee log.txt
       - name: report
-      - run: |
+        if: always()
+        run: |
           URL=$(grep -Eo 'https://screener.io/v2/dashboard[^ >]+' log.txt|head -1)
           echo "::set-output name=report::$URL"
-      - uses: LouisBrunner/checks-action@v1.1.1
+      - name: create check
+        uses: LouisBrunner/checks-action@v1.1.1
         if: always()
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
