@@ -1,7 +1,18 @@
-import { accessible, hidden, renders } from "../../tests/commonTests";
+import { accessible, hidden, renders, focusable } from "../../tests/commonTests";
+import { html } from "../../tests/utils";
 
 describe("calcite-list", () => {
   it("renders", async () => renders("calcite-list", { display: "block" }));
+
+  it("is focusable", () =>
+    focusable(
+      html`<calcite-list>
+        <calcite-list-item label="test" description="hello world"></calcite-list-item>
+      </calcite-list>`,
+      {
+        focusTargetSelector: "calcite-list-item"
+      }
+    ));
 
   it("honors hidden attribute", async () => hidden("calcite-list"));
 
