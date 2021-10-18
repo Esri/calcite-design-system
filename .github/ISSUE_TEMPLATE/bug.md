@@ -44,9 +44,9 @@ _Sample_:
 
 <!--(e.g. Browser, OS, mobile, stack traces, related issues, suggestions/resources on how to fix)-->
 
-_Reproducible version_: `@esri/calcite-components@<version>`
+_Reproducible version_: `@esri/calcite-components@1.0.0-<version>`
 
 - [ ] CDN
 - [ ] NPM package
 
-Regression? _Last working version_: `@esri/calcite-components@<version>`
+Regression? _Last working version_: `@esri/calcite-components@1.0.0-<version>`
