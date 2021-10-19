@@ -305,9 +305,9 @@ export class CalciteCombobox implements LabelableComponent {
   //
   // --------------------------------------------------------------------------
 
-  onLabelClick(): void {
+  onLabelClick = (): void => {
     this.setFocus();
-  }
+  };
 
   keydownHandler = (event: KeyboardEvent): void => {
     const key = getKey(event.key, getElementDir(this.el));

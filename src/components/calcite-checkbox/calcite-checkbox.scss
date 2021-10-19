@@ -29,14 +29,11 @@
       box-border
       transition-all
       duration-150
-      ease-in-out
-      stroke-current
-      stroke-1
-      fill-current;
+      ease-in-out;
     width: var(--calcite-checkbox-size);
     height: var(--calcite-checkbox-size);
     box-shadow: inset 0 0 0 1px var(--calcite-ui-border-input);
-    color: theme("backgroundColor.background");
+    fill: theme("backgroundColor.background");
   }
   ::slotted(input) {
     width: var(--calcite-checkbox-size);

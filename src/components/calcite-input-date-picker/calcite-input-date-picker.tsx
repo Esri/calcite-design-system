@@ -400,9 +400,9 @@ export class CalciteInputDatePicker implements LabelableComponent {
   //
   //--------------------------------------------------------------------------
 
-  onLabelClick(): void {
+  onLabelClick = (): void => {
     this.setFocus();
-  }
+  };
 
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {

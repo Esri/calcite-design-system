@@ -1,0 +1,9 @@
+{
+  "extends": "../../../tsconfig-base.json",
+  "compilerOptions": {
+    "declaration": true,
+    "outDir": "../../../dist/custom-elements",
+    "rootDirs": [".", "../../../dist/custom-elements/"]
+  },
+  "include": ["bundles", "utils.ts"]
+}

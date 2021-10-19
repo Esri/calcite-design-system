@@ -75,7 +75,6 @@ export const create: () => Config = () => ({
   outputTargets: [
     { type: "dist-hydrate-script" },
     { type: "dist-custom-elements-bundle" },
-    { type: "dist-custom-elements", autoDefineCustomElements: true },
     { type: "dist" },
     { type: "docs-readme" },
     { type: "docs-json", file: "./dist/extras/docs-json.json" },

@@ -260,9 +260,9 @@ export class CalciteRadioGroup implements LabelableComponent {
   //
   //--------------------------------------------------------------------------
 
-  onLabelClick(): void {
+  onLabelClick = (): void => {
     this.setFocus();
-  }
+  };
 
   private getItems(): NodeListOf<HTMLCalciteRadioGroupItemElement> {
     return this.el.querySelectorAll("calcite-radio-group-item");

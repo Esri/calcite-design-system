@@ -197,9 +197,9 @@ export class CalciteRating implements LabelableComponent {
   //
   //--------------------------------------------------------------------------
 
-  onLabelClick(): void {
+  onLabelClick = (): void => {
     this.setFocus();
-  }
+  };
 
   private updateValue(value: number) {
     this.value = value;

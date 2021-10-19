@@ -140,7 +140,7 @@ export class CalciteDropdown {
   }
 
   render(): VNode {
-    const { active } = this;
+    const { active, maxScrollerHeight } = this;
     const dir = getElementDir(this.el);
 
     return (
@@ -169,7 +169,9 @@ export class CalciteDropdown {
               [PopperCSS.animationActive]: active
             }}
             onTransitionEnd={this.transitionEnd}
-            ref={this.setScrollerEl}
+            style={{
+              maxHeight: !active || maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : ""
+            }}
           >
             <slot />
           </div>
@@ -187,12 +189,7 @@ export class CalciteDropdown {
   /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
-    const { popper, menuEl, placement, scrollerEl, maxScrollerHeight } = this;
-
-    if (scrollerEl) {
-      scrollerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
-    }
-
+    const { popper, menuEl, placement } = this;
     const modifiers = this.getModifiers();
 
     popper
@@ -329,17 +326,11 @@ export class CalciteDropdown {
 
   private activeTransitionProp = "opacity";
 
-  private scrollerEl: HTMLDivElement;
-
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
-  setScrollerEl = (scrollerEl: HTMLDivElement): void => {
-    this.scrollerEl = scrollerEl;
-  };
 
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
