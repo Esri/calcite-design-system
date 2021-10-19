@@ -2,6 +2,7 @@ import { accessible, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
 import { E2EPage } from "@stencil/core/testing";
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS } from "./resources";
+import { html } from "../../tests/utils";
 
 describe("calcite-inline-editable", () => {
   describe("rendering permutations", () => {
@@ -142,24 +143,24 @@ describe("calcite-inline-editable", () => {
 
     describe("accessibility", () => {
       it("is accessible", async () =>
-        accessible(`
-        <calcite-label>
-          Label
-          <calcite-inline-editable>
-            <calcite-input value="John Doe"/>
-          </calcite-inline-editable>
-        <calcite-label>
-      `));
+        accessible(html`
+          <calcite-label>
+            Label
+            <calcite-inline-editable>
+              <calcite-input value="John Doe"></calcite-input>
+            </calcite-inline-editable>
+          </calcite-label>
+        `));
 
       it("is accessible when editing is enabled", async () =>
-        accessible(`
-        <calcite-label>
-          Label
-          <calcite-inline-editable editing-enabled>
-            <calcite-input value="John Doe"/>
-          </calcite-inline-editable>
-        </calcite-label>
-      `));
+        accessible(html`
+          <calcite-label>
+            Label
+            <calcite-inline-editable editing-enabled>
+              <calcite-input value="John Doe"></calcite-input>
+            </calcite-inline-editable>
+          </calcite-label>
+        `));
     });
   });
 
@@ -310,24 +311,24 @@ describe("calcite-inline-editable", () => {
 
     describe("accessibility", () => {
       it("is accessible", async () =>
-        accessible(`
-        <calcite-label controls>
-          Label
-          <calcite-inline-editable>
-            <calcite-input value="John Doe"/>
-          </calcite-inline-editable>
-        <calcite-label>
-      `));
+        accessible(html`
+          <calcite-label controls>
+            Label
+            <calcite-inline-editable>
+              <calcite-input value="John Doe"></calcite-input>
+            </calcite-inline-editable>
+          </calcite-label>
+        `));
 
       it("is accessible when editing is enabled", async () =>
-        accessible(`
-        <calcite-label controls editing-enabled>
-          Label
-          <calcite-inline-editable editing-enabled>
-            <calcite-input value="John Doe"/>
-          </calcite-inline-editable>
-        </calcite-label>
-      `));
+        accessible(html`
+          <calcite-label controls editing-enabled>
+            Label
+            <calcite-inline-editable editing-enabled>
+              <calcite-input value="John Doe"></calcite-input>
+            </calcite-inline-editable>
+          </calcite-label>
+        `));
     });
 
     describe("labelable", () => {
