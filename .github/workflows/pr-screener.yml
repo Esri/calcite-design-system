@@ -20,9 +20,7 @@ jobs:
           echo SCREENER_API_KEY=${{ secrets.SCREENER_API_KEY }} >> .env 2> /dev/null
       - name: run screener check
         id: screener
-        run: |
-          npm run test:storybook 2>&1 | tee log.txt
-          echo "::set-output name=exit::$?"
+        run: npm run test:storybook 2>&1 | tee log.txt ; ( exit ${PIPESTATUS[0]} )
       - name: parse screener report
         id: report
         if: always()
@@ -39,4 +37,4 @@ jobs:
           state: ${{ job.status }}
           sha: ${{github.event.pull_request.head.sha || github.sha}}
           target_url: ${{ steps.report.outputs.report }}
-      - run: exit ${{ steps.screener.outputs.exit }}
+      #- run: exit ${{ steps.screener.outputs.exit }}
