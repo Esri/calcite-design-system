@@ -40,7 +40,7 @@ const exec = pify(childProcess.exec);
       await exec(`npm run util:prep-next-from-existing-build`);
 
       console.log(" - pushing tags...");
-      await exec(`npm run util:push-tags -- --quiet https://$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG master`);
+      await exec(`npm run util:push-tags -- --quiet https://$GITHUB_TOKEN@github.com/$REPO_SLUG master`);
 
       console.log(" - publishing @next...");
       await exec(`npm run util:publish-next`);
@@ -94,5 +94,6 @@ const exec = pify(childProcess.exec);
       `An error occurred during deployment ❌:
 ${error}`
     );
+    process.exitCode = 1;
   }
 })();
