@@ -380,9 +380,9 @@ export class CalciteInput implements LabelableComponent {
   //
   //--------------------------------------------------------------------------
 
-  onLabelClick = (): void => {
+  onLabelClick(): void {
     this.setFocus();
-  };
+  }
 
   private clearInputValue = (nativeEvent: KeyboardEvent | MouseEvent): void => {
     this.setValue(null, nativeEvent, true);

@@ -131,14 +131,15 @@ export class CalciteTooltipManager {
 
   activeTooltipHover = (event: MouseEvent): void => {
     const { tooltipEl, hoverTimeouts } = this;
+    const { type } = event;
 
     if (!tooltipEl) {
       return;
     }
 
-    if (event.composedPath().includes(tooltipEl)) {
+    if (type === "mouseover" && event.composedPath().includes(tooltipEl)) {
       this.clearHoverTimeout(tooltipEl);
-    } else if (!hoverTimeouts.has(tooltipEl)) {
+    } else if (type === "mouseout" && !hoverTimeouts.has(tooltipEl)) {
       this.hoverTooltip({ tooltip: tooltipEl, value: false });
     }
   };

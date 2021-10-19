@@ -202,9 +202,9 @@ export class CalciteCheckbox implements LabelableComponent {
     this.calciteInternalCheckboxFocus.emit(true);
   }
 
-  onLabelClick = (): void => {
+  onLabelClick(): void {
     this.toggle();
-  };
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -262,7 +262,7 @@ export class CalciteCheckbox implements LabelableComponent {
   render(): VNode {
     return (
       <Host onClick={this.clickHandler}>
-        <div class={{ focused: this.focused, test: true }}>
+        <div class={{ focused: this.focused }}>
           <svg class="check-svg" viewBox="0 0 16 16">
             <path d={this.getPath()} />
           </svg>
