@@ -38,7 +38,11 @@
   <body>
     <h1 style="margin: 0 auto; text-align: center">Switch</h1>
 
-    <form id="test">
+    <form id="test-form">
+      <div class="child">
+        <label>Native Input<input id="native-input" required name="native-input" value="" type="text" /></label>
+      </div>
+
       <div class="child">
         <label><input name="native-checkbox" value="checked" type="checkbox" />Native checkbox</label>
       </div>
@@ -111,7 +115,13 @@
         <div class="child">
           <calcite-label>
             Input Label
-            <calcite-input name="calcite-input" type="text" placeholder="Placeholder"></calcite-input>
+            <calcite-input
+              id="calcite-input"
+              required
+              name="calcite-input"
+              type="text"
+              placeholder="Placeholder"
+            ></calcite-input>
           </calcite-label>
         </div>
       </div>
@@ -199,7 +209,14 @@
     </form>
     <script>
       window.onload = () => {
-        var form = document.getElementById("test");
+        var nativeInput = document.getElementById("native-input");
+        var calciteInput = document.getElementById("calcite-input");
+        var form = document.getElementById("test-form");
+
+        // console.log({ nativeInput: nativeInput.reportValidity() });
+        // console.log({ calciteInput: calciteInput.reportValidity() });
+        // console.log({ validity: form.checkValidity(), reportValidity: form.reportValidity() });
+
         form.addEventListener("submit", (event) => {
           event.preventDefault();
           var formData = new FormData(event.target);
