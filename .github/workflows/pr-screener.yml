@@ -19,7 +19,7 @@ jobs:
           echo "require('dotenv').config()" | cat - screener.config.js > temp && mv temp screener.config.js
           echo SCREENER_API_KEY=${{ secrets.SCREENER_API_KEY }} >> .env 2> /dev/null
       - name: run screener check
-        run: npm run test:storybook 2>&1 | tee log.txt
+        run: npm run test:storybook 2>&1 | tee log.txt ; ( exit ${PIPESTATUS[0]} )
       - name: parse screener report
         id: report
         if: always()
