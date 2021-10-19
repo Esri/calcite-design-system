@@ -19,11 +19,14 @@ jobs:
           echo "require('dotenv').config()" | cat - screener.config.js > temp && mv temp screener.config.js
           echo SCREENER_API_KEY=${{ secrets.SCREENER_API_KEY }} >> .env 2> /dev/null
       - name: run screener check
-        run: npm run test:storybook 2>&1 | tee log.txt
+        id: screener
+        run: |
+          npm run test:storybook 2>&1 | tee log.txt
+          echo "::set-output name=exit::$?"
       - name: parse screener report
         id: report
         if: always()
-        run: | # parse screener report url
+        run: |
           URL=$(grep -Eo 'https://screener.io/v2/dashboard[^ >]+' log.txt|head -1)
           echo "::set-output name=report::$URL"
       - name: set status
@@ -36,3 +39,4 @@ jobs:
           state: ${{ job.status }}
           sha: ${{github.event.pull_request.head.sha || github.sha}}
           target_url: ${{ steps.report.outputs.report }}
+      - run: exit ${{ steps.screener.outputs.exit }}
