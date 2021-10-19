@@ -606,7 +606,7 @@ export class CalciteSlider implements LabelableComponent {
 
   private renderTickLabel(tick: number): VNode {
     const isMinTickLabel = tick === this.min;
-    const isMaxTickLabel = tick === this.max;
+    const isMaxTickLabel = tick >= this.max;
     const tickLabel = (
       <span
         class={{
