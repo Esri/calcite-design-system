@@ -15,6 +15,16 @@ If you are looking for a list that handles more advanced usage like selection, s
 | `label`          | `label`           | The label text of the list item. This will appear above the description text. | `string`  | `undefined` |
 | `nonInteractive` | `non-interactive` | When true, prevents the content of the list item from user interaction.       | `boolean` | `false`     |
 
+## Methods
+
+### `setFocus() => Promise<void>`
+
+Sets focus on the component.
+
+#### Returns
+
+Type: `Promise<void>`
+
 ## Slots
 
 | Slot              | Description                                                                                  |
