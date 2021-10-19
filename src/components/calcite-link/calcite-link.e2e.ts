@@ -1,4 +1,4 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible } from "../../tests/commonTests";
 
 describe("calcite-link", () => {
@@ -23,6 +23,26 @@ describe("calcite-link", () => {
     expect(elementAsSpan).not.toBeNull();
     expect(iconStart).toBeNull();
     expect(iconEnd).toBeNull();
+  });
+
+  it("should update childElType when href changes", async () => {
+    const page = await newE2EPage({ html: `<calcite-link>Continue</calcite-link>` });
+    const link = await page.find("calcite-link");
+    let elementAsLink: E2EElement;
+    let elementAsSpan: E2EElement;
+
+    elementAsSpan = await page.find("calcite-link >>> span");
+    elementAsLink = await page.find("calcite-link >>> a");
+    expect(elementAsSpan).not.toBeNull();
+    expect(elementAsLink).toBeNull();
+
+    link.setProperty("href", "/");
+    await page.waitForChanges();
+
+    elementAsSpan = await page.find("calcite-link >>> span");
+    elementAsLink = await page.find("calcite-link >>> a");
+    expect(elementAsSpan).toBeNull();
+    expect(elementAsLink).not.toBeNull();
   });
 
   it("renders as a link with default props", async () => {

@@ -24,7 +24,7 @@ export interface LabelableComponent {
 
 const labelTagName = "calcite-label";
 const labelClickEvent = "calciteInternalLabelClick";
-const onLabelClickMap = new WeakMap<HTMLElement, typeof onLabelClick>();
+const onLabelClickMap = new WeakMap<HTMLCalciteLabelElement, typeof onLabelClick>();
 
 const findLabelForComponent = (componentEl: HTMLElement): HTMLCalciteLabelElement | null => {
   const id = componentEl.id;
@@ -40,13 +40,13 @@ const findLabelForComponent = (componentEl: HTMLElement): HTMLCalciteLabelElemen
 export function connectLabel(component: LabelableComponent): void {
   const labelEl = findLabelForComponent(component.el);
 
-  if (!labelEl) {
+  if (!labelEl || onLabelClickMap.has(labelEl)) {
     return;
   }
 
   component.labelEl = labelEl;
   const boundOnLabelClick = onLabelClick.bind(component);
-  onLabelClickMap.set(component.el, boundOnLabelClick);
+  onLabelClickMap.set(component.labelEl, boundOnLabelClick);
   component.labelEl.addEventListener(labelClickEvent, boundOnLabelClick);
 }
 
@@ -58,9 +58,9 @@ export function disconnectLabel(component: LabelableComponent): void {
     return;
   }
 
-  const boundOnLabelClick = onLabelClickMap.get(component.el);
+  const boundOnLabelClick = onLabelClickMap.get(component.labelEl);
   component.labelEl.removeEventListener(labelClickEvent, boundOnLabelClick);
-  onLabelClickMap.delete(component.el);
+  onLabelClickMap.delete(component.labelEl);
 }
 
 /**

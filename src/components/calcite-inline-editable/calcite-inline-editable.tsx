@@ -13,7 +13,7 @@ import {
 import { getElementProp } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { TEXT, CSS } from "./resources";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 
 /**
  * @slot - A slot for adding a `calcite-input`.
@@ -85,6 +85,7 @@ export class CalciteInlineEditable implements LabelableComponent {
   componentWillLoad() {
     this.inputElement = this.el.querySelector("calcite-input") as HTMLCalciteInputElement;
     this.inputElement.disabled = this.disabled;
+    this.inputElement.label = this.inputElement.label || getLabelText(this);
     this.scale =
       this.scale || this.inputElement.scale || getElementProp(this.el, "scale", undefined);
   }
@@ -193,9 +194,9 @@ export class CalciteInlineEditable implements LabelableComponent {
     }
   }
 
-  onLabelClick = (): void => {
+  onLabelClick(): void {
     this.setFocus();
-  };
+  }
 
   //--------------------------------------------------------------------------
   //

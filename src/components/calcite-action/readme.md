@@ -32,21 +32,21 @@ Renders a `calcite-action` that displays only an icon and a tooltip label.
 
 ## Properties
 
-| Property            | Attribute      | Description                                                                                                                         | Type                              | Default        |
-| ------------------- | -------------- | ----------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- | -------------- |
-| `active`            | `active`       | Indicates whether the action is highlighted.                                                                                        | `boolean`                         | `false`        |
-| `alignment`         | `alignment`    | Optionally specify the horizontal alignment of button elements with text content.                                                   | `"center" \| "end" \| "start"`    | `undefined`    |
-| `appearance`        | `appearance`   | Specify the appearance style of the action, defaults to solid.                                                                      | `"clear" \| "outline" \| "solid"` | `"solid"`      |
-| `compact`           | `compact`      | Compact mode is used internally by components to reduce side padding, e.g. calcite-block-section.                                   | `boolean`                         | `false`        |
-| `disabled`          | `disabled`     | When true, disabled prevents interaction. This state shows items with lower opacity/grayed.                                         | `boolean`                         | `false`        |
-| `icon`              | `icon`         | The name of the icon to display. The value of this property must match the icon name from https://esri.github.io/calcite-ui-icons/. | `string`                          | `undefined`    |
-| `indicator`         | `indicator`    | Indicates unread changes.                                                                                                           | `boolean`                         | `false`        |
-| `intlLoading`       | `intl-loading` | string to override English loading text                                                                                             | `string`                          | `TEXT.loading` |
-| `label`             | `label`        | The label of the action. If no label is provided, the label inherits what's provided for the `text` prop.                           | `string`                          | `undefined`    |
-| `loading`           | `loading`      | When true, content is waiting to be loaded. This state shows a busy indicator.                                                      | `boolean`                         | `false`        |
-| `scale`             | `scale`        | Specifies the size of the action.                                                                                                   | `"l" \| "m" \| "s"`               | `"m"`          |
-| `text` _(required)_ | `text`         | Text that accompanies the action icon.                                                                                              | `string`                          | `undefined`    |
-| `textEnabled`       | `text-enabled` | Indicates whether the text is displayed.                                                                                            | `boolean`                         | `false`        |
+| Property            | Attribute      | Description                                                                                                                         | Type                           | Default        |
+| ------------------- | -------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ | -------------- |
+| `active`            | `active`       | Indicates whether the action is highlighted.                                                                                        | `boolean`                      | `false`        |
+| `alignment`         | `alignment`    | Optionally specify the horizontal alignment of button elements with text content.                                                   | `"center" \| "end" \| "start"` | `undefined`    |
+| `appearance`        | `appearance`   | Specify the appearance style of the action, defaults to solid.                                                                      | `"clear" \| "solid"`           | `"solid"`      |
+| `compact`           | `compact`      | Compact mode is used internally by components to reduce side padding, e.g. calcite-block-section.                                   | `boolean`                      | `false`        |
+| `disabled`          | `disabled`     | When true, disabled prevents interaction. This state shows items with lower opacity/grayed.                                         | `boolean`                      | `false`        |
+| `icon`              | `icon`         | The name of the icon to display. The value of this property must match the icon name from https://esri.github.io/calcite-ui-icons/. | `string`                       | `undefined`    |
+| `indicator`         | `indicator`    | Indicates unread changes.                                                                                                           | `boolean`                      | `false`        |
+| `intlLoading`       | `intl-loading` | string to override English loading text                                                                                             | `string`                       | `TEXT.loading` |
+| `label`             | `label`        | The label of the action. If no label is provided, the label inherits what's provided for the `text` prop.                           | `string`                       | `undefined`    |
+| `loading`           | `loading`      | When true, content is waiting to be loaded. This state shows a busy indicator.                                                      | `boolean`                      | `false`        |
+| `scale`             | `scale`        | Specifies the size of the action.                                                                                                   | `"l" \| "m" \| "s"`            | `"m"`          |
+| `text` _(required)_ | `text`         | Text that accompanies the action icon.                                                                                              | `string`                       | `undefined`    |
+| `textEnabled`       | `text-enabled` | Indicates whether the text is displayed.                                                                                            | `boolean`                      | `false`        |
 
 ## Events
 

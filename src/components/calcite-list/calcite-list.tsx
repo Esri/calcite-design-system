@@ -1,4 +1,4 @@
-import { Component, h, VNode, Host, Prop } from "@stencil/core";
+import { Component, Element, h, VNode, Host, Prop, Method } from "@stencil/core";
 import { CSS } from "./resources";
 import { HeadingLevel } from "../functional/CalciteHeading";
 
@@ -22,6 +22,29 @@ export class CalciteList {
    * Number at which section headings should start for this component.
    */
   @Prop() headingLevel: HeadingLevel;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Private Properties
+  //
+  // --------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteListElement;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  // --------------------------------------------------------------------------
+
+  /** Sets focus on the component. */
+  @Method()
+  async setFocus(): Promise<void> {
+    const firstListItem: HTMLCalciteListItemElement = this.el.querySelector(
+      `calcite-list-item:not([non-interactive])`
+    );
+    firstListItem?.setFocus();
+  }
 
   // --------------------------------------------------------------------------
   //
