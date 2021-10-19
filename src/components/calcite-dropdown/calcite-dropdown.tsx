@@ -24,6 +24,7 @@ import { Instance as Popper, StrictModifiers } from "@popperjs/core";
 import { Scale } from "../interfaces";
 import { DefaultDropdownPlacement, SLOTS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
+import { createObserver } from "../../utils/observers";
 
 /**
  * @slot - A slot for adding `calcite-dropdown-group`s or `calcite-dropdown-item`s.
@@ -114,27 +115,13 @@ export class CalciteDropdown {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    this.mutationObserver.observe(this.el, { childList: true, subtree: true });
     this.createPopper();
-  }
-
-  componentWillLoad(): void {
-    // get initially selected items
-    this.updateSelectedItems();
-  }
-
-  componentDidLoad(): void {
-    this.triggers = Array.from(
-      this.el.querySelectorAll("[slot=dropdown-trigger]")
-    ) as HTMLSlotElement[];
-
-    this.items = Array.from(
-      this.el.querySelectorAll<HTMLCalciteDropdownItemElement>("calcite-dropdown-item")
-    );
-
-    this.reposition();
+    this.updateItems();
   }
 
   disconnectedCallback(): void {
+    this.mutationObserver.disconnect();
     this.destroyPopper();
   }
 
@@ -325,11 +312,27 @@ export class CalciteDropdown {
 
   private scrollerEl: HTMLDivElement;
 
+  mutationObserver = createObserver("mutation", () => this.updateItems());
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  updateItems = (): void => {
+    this.updateSelectedItems();
+
+    this.triggers = Array.from(
+      this.el.querySelectorAll("[slot=dropdown-trigger]")
+    ) as HTMLSlotElement[];
+
+    this.items = Array.from(
+      this.el.querySelectorAll<HTMLCalciteDropdownItemElement>("calcite-dropdown-item")
+    );
+
+    this.reposition();
+  };
 
   setMaxScrollerHeight = (): void => {
     const { scrollerEl } = this;
