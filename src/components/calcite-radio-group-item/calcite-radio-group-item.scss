@@ -14,7 +14,7 @@
     pointer-events-none
     items-center
     m-0.5;
-  transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out;
+  transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out, color 0.1s ease-in-out;
 }
 
 .label--horizontal {
@@ -73,8 +73,7 @@
 .radio-group-item-icon {
   @apply inline-flex
     relative
-    m-0
-    transition-default;
+    m-0;
   line-height: inherit;
 }
 
