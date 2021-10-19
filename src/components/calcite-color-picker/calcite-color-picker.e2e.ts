@@ -4,7 +4,7 @@ import { CSS, DEFAULT_COLOR, DEFAULT_STORAGE_KEY_PREFIX, DIMENSIONS, TEXT } from
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import { ColorValue } from "./interfaces";
 import SpyInstance = jest.SpyInstance;
-import { selectText } from "../../tests/utils";
+import { GlobalTestProps, selectText } from "../../tests/utils";
 
 describe("calcite-color-picker", () => {
   let consoleSpy: SpyInstance;
@@ -474,10 +474,9 @@ describe("calcite-color-picker", () => {
     await page.waitForChanges();
     x = 0;
 
-    type TestWindow = {
+    type TestWindow = GlobalTestProps<{
       internalColor: HTMLCalciteColorPickerElement["color"];
-    } & Window &
-      typeof globalThis;
+    }>;
 
     await page.evaluateHandle(() => {
       const color = document.querySelector("calcite-color-picker");
