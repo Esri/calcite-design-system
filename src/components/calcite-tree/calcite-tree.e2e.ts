@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, HYDRATED_ATTR, defaults } from "../../tests/commonTests";
-import { html } from "../../tests/utils";
+import { GlobalTestProps, html } from "../../tests/utils";
 import { CSS } from "../calcite-tree-item/resources";
 import { TreeSelectionMode } from "./interfaces";
 
@@ -244,10 +244,9 @@ describe("calcite-tree", () => {
 
         const [item1, item2] = await page.findAll("calcite-tree-item");
 
-        type TestWindow = {
+        type TestWindow = GlobalTestProps<{
           selectedIds: string[];
-        } & Window &
-          typeof globalThis;
+        }>;
 
         await page.evaluateHandle(() =>
           document.addEventListener("calciteTreeSelect", ({ detail }: CustomEvent) => {
