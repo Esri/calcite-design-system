@@ -21,7 +21,7 @@ jobs:
         if: ${{ env.NEXT_RELEASE_ENABLED }} == "true"
       - run: npm ci
       - run: npm test
-      - run: npm run util:deploy-next-from-travis
+      - run: npm run util:deploy-next-from-ci
       - uses: toko-bifrost/ms-teams-deploy-card@3.1.2
         if: always()
         with:
