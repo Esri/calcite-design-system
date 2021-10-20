@@ -128,7 +128,7 @@ async function appendUnreleasedNotesToChangelog(): Promise<void> {
     "s"
   );
   const unreleasedSectionContent = await getUnreleasedChangelogContents();
-  const unreleasedHeaderPattern = /## Unreleased \(\d{4}-\d{2}-\d{2}\)/;
+  const unreleasedHeaderPattern = /## Unreleased/;
   const hasUnreleasedContent = unreleasedSectionContent.replace(unreleasedHeaderPattern, "").trim().length > 0;
 
   if (hasUnreleasedContent) {
