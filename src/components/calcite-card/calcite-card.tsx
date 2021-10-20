@@ -141,15 +141,14 @@ export class CalciteCard {
     const checkboxLabel = this.selected ? this.intlDeselect : this.intlSelect;
 
     return (
-      <label
-        aria-label={checkboxLabel}
+      <div
         class={CSS.checkboxWrapper}
         onClick={this.cardSelectClick}
         onKeyDown={this.cardSelectKeyDown}
         title={checkboxLabel}
       >
-        <calcite-checkbox checked={this.selected} />
-      </label>
+        <calcite-checkbox checked={this.selected} label={checkboxLabel} />
+      </div>
     );
   }
 
