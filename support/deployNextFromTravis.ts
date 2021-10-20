@@ -1,6 +1,5 @@
 const childProcess = require("child_process");
 const pify = require("pify");
-import { promises as fs } from "fs";
 
 const exec = pify(childProcess.exec);
 
@@ -34,7 +33,8 @@ const exec = pify(childProcess.exec);
     } else {
       console.log("Deploying @next 🚧");
 
-      await exec("npm config set '//registry.npmjs.org/:_authToken' '${NPM_TOKEN}'");
+      // the setup-node gh action handles the token
+      // https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages#publishing-packages-to-the-npm-registry
 
       console.log(" - prepping package...");
       await exec(`npm run util:prep-next-from-existing-build`);
