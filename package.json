@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "1.0.0-next.290",
+  "version": "1.0.0-next.291",
   "description": "Web Components for Esri's Calcite Design System.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
@@ -89,7 +89,7 @@
     "@types/lodash-es": "4.17.5",
     "@types/pify": "5.0.1",
     "@types/rimraf": "3.0.2",
-    "@types/semver": "7.3.8",
+    "@types/semver": "7.3.9",
     "@types/shell-quote": "1.7.1",
     "@types/sortablejs": "1.10.7",
     "@types/standard-version": "7.0.1",
