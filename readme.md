@@ -17,12 +17,12 @@ The simplest way to set up the components in your project is to add the followin
 ```html
 <script
   type="module"
-  src="https://unpkg.com/@esri/calcite-components@1.0.0-next.290/dist/calcite/calcite.esm.js"
+  src="https://unpkg.com/@esri/calcite-components@1.0.0-next.291/dist/calcite/calcite.esm.js"
 ></script>
 <link
   rel="stylesheet"
   type="text/css"
-  href="https://unpkg.com/@esri/calcite-components@1.0.0-next.290/dist/calcite/calcite.css"
+  href="https://unpkg.com/@esri/calcite-components@1.0.0-next.291/dist/calcite/calcite.css"
 />
 ```
 
