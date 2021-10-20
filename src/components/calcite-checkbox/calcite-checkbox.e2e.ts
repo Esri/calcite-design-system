@@ -11,7 +11,7 @@ describe("calcite-checkbox", () => {
     accessible(`<calcite-checkbox label="label" id="example" name="example" value="one"></calcite-checkbox>`));
 
   it("is labelable", async () =>
-    labelable("calcite-checkbox", { propertyToToggle: "checked", shadowFocusTargetSelector: "input" }));
+    labelable("calcite-checkbox", { propertyToToggle: "checked", focusTargetSelector: "input" }));
 
   it("renders with correct default attributes", async () => {
     const page = await newE2EPage();
@@ -30,7 +30,7 @@ describe("calcite-checkbox", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-checkbox checked name="${testName}" value="${testValue}"></calcite-checkbox>`);
 
-    const input = await page.find("calcite-checkbox >>> input");
+    const input = await page.find("calcite-checkbox input");
 
     expect(input).toEqualAttribute("type", "checkbox");
     expect(input).toEqualAttribute("name", testName);
