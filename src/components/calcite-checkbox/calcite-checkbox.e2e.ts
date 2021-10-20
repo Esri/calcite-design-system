@@ -11,7 +11,7 @@ describe("calcite-checkbox", () => {
     accessible(`<calcite-checkbox label="label" id="example" name="example" value="one"></calcite-checkbox>`));
 
   it("is labelable", async () =>
-    labelable("calcite-checkbox", { propertyToToggle: "checked", focusTargetSelector: "input" }));
+    labelable("calcite-checkbox", { propertyToToggle: "checked", shadowFocusTargetSelector: ".toggle" }));
 
   it("renders with correct default attributes", async () => {
     const page = await newE2EPage();
@@ -190,6 +190,6 @@ describe("calcite-checkbox", () => {
 
   it("is focusable", () =>
     focusable("calcite-checkbox", {
-      focusTargetSelector: "input[type=checkbox]"
+      shadowFocusTargetSelector: ".toggle"
     }));
 });

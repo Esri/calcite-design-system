@@ -5,15 +5,12 @@ import {
   EventEmitter,
   h,
   Host,
-  Listen,
   Method,
   Prop,
-  State,
   VNode,
   Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { focusElement } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { hiddenFormInputSlotName } from "../../utils/form";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
@@ -44,7 +41,7 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
 
   @Watch("checked")
   checkedHandler(newChecked: boolean): void {
-    this.input.checked = newChecked;
+    this.input.toggleAttribute("checked", newChecked);
   }
 
   /** True if the checkbox is disabled */
@@ -71,16 +68,16 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
    * */
   @Prop({ reflect: true, mutable: true }) indeterminate = false;
 
+  @Watch("indeterminate")
+  indeterminateHandler(indeterminate: boolean): void {
+    this.input.indeterminate = indeterminate;
+  }
+
   /**
    * The label of the checkbox input
    * @internal
    */
   @Prop() label?: string;
-
-  @Watch("label")
-  labelHandler(): void {
-    this.input.setAttribute("aria-label", getLabelText(this));
-  }
 
   /** The name of the checkbox input */
   @Prop({ reflect: true }) name = "";
@@ -107,11 +104,11 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
   //
   //--------------------------------------------------------------------------
 
-  private readonly checkedPath = "M5.5 12L2 8.689l.637-.636L5.5 10.727l8.022-7.87.637.637z";
+  readonly checkedPath = "M5.5 12L2 8.689l.637-.636L5.5 10.727l8.022-7.87.637.637z";
 
-  private readonly indeterminatePath = "M13 8v1H3V8z";
+  readonly indeterminatePath = "M13 8v1H3V8z";
 
-  private input: HTMLInputElement;
+  input: HTMLInputElement;
 
   labelEl: HTMLCalciteLabelElement;
 
@@ -119,14 +116,7 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
 
   defaultValue: CalciteCheckbox["checked"];
 
-  //--------------------------------------------------------------------------
-  //
-  //  State
-  //
-  //--------------------------------------------------------------------------
-
-  /** The focused state of the checkbox. */
-  @State() focused = false;
+  toggleEl: HTMLDivElement;
 
   //--------------------------------------------------------------------------
   //
@@ -137,7 +127,7 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    focusElement(this.input);
+    this.toggleEl?.focus();
   }
 
   //--------------------------------------------------------------------------
@@ -146,19 +136,26 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
   //
   //--------------------------------------------------------------------------
 
-  private getPath = (): string =>
+  getPath = (): string =>
     this.indeterminate ? this.indeterminatePath : this.checked ? this.checkedPath : "";
 
-  private toggle = (): void => {
+  toggle = (): void => {
     if (!this.disabled) {
       this.checked = !this.checked;
-      focusElement(this.input);
+      this.setFocus();
       this.indeterminate = false;
       this.calciteCheckboxChange.emit();
     }
   };
 
-  private clickHandler = (): void => {
+  keyDownHandler = (event: KeyboardEvent): void => {
+    if (event.key === " " || event.key === "Enter") {
+      this.toggle();
+      event.preventDefault();
+    }
+  };
+
+  clickHandler = (): void => {
     this.toggle();
   };
 
@@ -191,29 +188,31 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("mouseenter")
-  mouseenter(): void {
-    this.hovered = true;
-  }
-
-  @Listen("mouseleave")
-  mouseleave(): void {
-    this.hovered = false;
-  }
-
-  private onInputBlur() {
-    this.focused = false;
+  onToggleBlur = (): void => {
     this.calciteInternalCheckboxBlur.emit(false);
-  }
+  };
 
-  private onInputFocus() {
-    this.focused = true;
+  onToggleFocus = (): void => {
     this.calciteInternalCheckboxFocus.emit(true);
-  }
+  };
 
-  onLabelClick(): void {
+  onLabelClick = (): void => {
     this.toggle();
-  }
+  };
+
+  renderHiddenCheckboxInput = (): void => {
+    this.input = document.createElement("input");
+    this.input.type = "checkbox";
+    this.input.setAttribute("aria-hidden", "true");
+    this.input.slot = hiddenFormInputSlotName;
+    this.input.tabIndex = -1;
+    this.checkedHandler(this.checked);
+    this.disabledHandler(this.disabled);
+    this.nameHandler(this.name);
+    this.valueHandler(this.value);
+    this.indeterminateHandler(this.indeterminate);
+    this.el.appendChild(this.input);
+  };
 
   //--------------------------------------------------------------------------
   //
@@ -223,13 +222,9 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
 
   connectedCallback(): void {
     this.guid = this.el.id || `calcite-checkbox-${guid()}`;
-    this.renderHiddenCheckboxInput();
     connectLabel(this);
     connectForm(this);
-  }
-
-  componentDidLoad(): void {
-    this.input.setAttribute("aria-label", getLabelText(this));
+    this.renderHiddenCheckboxInput();
   }
 
   disconnectedCallback(): void {
@@ -244,24 +239,19 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
   //
   // --------------------------------------------------------------------------
 
-  private renderHiddenCheckboxInput() {
-    this.input = document.createElement("input");
-    this.input.type = "checkbox";
-    this.input.slot = hiddenFormInputSlotName;
-    this.checkedHandler(this.checked);
-    this.disabledHandler(this.disabled);
-    this.nameHandler(this.name);
-    this.valueHandler(this.value);
-    this.labelHandler();
-    this.input.onblur = this.onInputBlur.bind(this); // todo: custom element should be focused instead?
-    this.input.onfocus = this.onInputFocus.bind(this); // todo: custom element should be focused instead?
-    this.el.appendChild(this.input);
-  }
-
   render(): VNode {
     return (
-      <Host onClick={this.clickHandler}>
-        <div class={{ focused: this.focused }}>
+      <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
+        <div
+          aria-checked={this.checked.toString()}
+          aria-label={getLabelText(this)}
+          class="toggle"
+          onBlur={this.onToggleBlur}
+          onFocus={this.onToggleFocus}
+          ref={(toggleEl) => (this.toggleEl = toggleEl)}
+          role="checkbox"
+          tabIndex={0}
+        >
           <svg class="check-svg" viewBox="0 0 16 16">
             <path d={this.getPath()} />
           </svg>
