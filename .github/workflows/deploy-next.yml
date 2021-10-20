@@ -3,7 +3,7 @@ on:
   push:
     branches: [master]
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
