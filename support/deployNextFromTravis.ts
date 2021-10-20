@@ -34,7 +34,7 @@ const exec = pify(childProcess.exec);
     } else {
       console.log("Deploying @next 🚧");
 
-      await fs.writeFile(".npmrc", "//registry.npmjs.org/:_authToken=${NPM_TOKEN}", { flag: "a" });
+      await exec("npm config set '//registry.npmjs.org/:_authToken' '${NPM_TOKEN}'");
 
       console.log(" - prepping package...");
       await exec(`npm run util:prep-next-from-existing-build`);
