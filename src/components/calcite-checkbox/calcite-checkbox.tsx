@@ -43,7 +43,7 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
   @Prop({ reflect: true, mutable: true }) checked = false;
 
   @Watch("checked")
-  checkedWatcher(newChecked: boolean): void {
+  checkedHandler(newChecked: boolean): void {
     this.input.checked = newChecked;
   }
 
@@ -51,7 +51,7 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
   @Prop({ reflect: true }) disabled = false;
 
   @Watch("disabled")
-  disabledChanged(disabled: boolean): void {
+  disabledHandler(disabled: boolean): void {
     this.input.disabled = disabled;
   }
 
@@ -77,11 +77,16 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
    */
   @Prop() label?: string;
 
+  @Watch("label")
+  labelHandler(): void {
+    this.input.setAttribute("aria-label", getLabelText(this));
+  }
+
   /** The name of the checkbox input */
   @Prop({ reflect: true }) name = "";
 
   @Watch("name")
-  nameChanged(newName: string): void {
+  nameHandler(newName: string): void {
     this.input.name = newName;
   }
 
@@ -90,6 +95,11 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
 
   /** The value of the checkbox input */
   @Prop() value: any;
+
+  @Watch("value")
+  valueHandler(value: any): void {
+    this.input.value = value != null ? value.toString() : "";
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -236,18 +246,15 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
 
   private renderHiddenCheckboxInput() {
     this.input = document.createElement("input");
-    this.checked && this.input.setAttribute("checked", "");
-    this.input.disabled = this.disabled;
-    this.input.id = `${this.guid}-input`; // todo: do we need to set an id here?
-    this.input.name = this.name;
+    this.input.type = "checkbox";
+    this.input.slot = hiddenFormInputSlotName;
+    this.checkedHandler(this.checked);
+    this.disabledHandler(this.disabled);
+    this.nameHandler(this.name);
+    this.valueHandler(this.value);
+    this.labelHandler();
     this.input.onblur = this.onInputBlur.bind(this); // todo: custom element should be focused instead?
     this.input.onfocus = this.onInputFocus.bind(this); // todo: custom element should be focused instead?
-    this.input.type = "checkbox";
-    this.input.setAttribute("aria-label", getLabelText(this)); // todo: this should be stateful
-    if (this.value) {
-      this.input.value = this.value != null ? this.value.toString() : ""; // todo: this should be stateful
-    }
-    this.input.slot = hiddenFormInputSlotName;
     this.el.appendChild(this.input);
   }
 
