@@ -1,4 +1,3 @@
-import "./polyfills/formdata-event";
 import { closestElementCrossShadowBoundary } from "./dom";
 
 // todo: remove this!
@@ -16,10 +15,6 @@ export const hiddenInputStyle = `
   -webkit-appearance: none !important;
   z-index: -1 !important;
 `;
-
-interface FormDataEvent extends Event {
-  formData: FormData;
-}
 
 /**
  * Defines interface for components that are form-compatible.
@@ -66,7 +61,6 @@ export interface FormAssociated<T = any> {
   onFormReset?(): void;
 }
 
-const onFormDataMap = new WeakMap<HTMLElement, typeof onFormData>();
 const onFormResetMap = new WeakMap<HTMLElement, FormAssociated["onFormReset"]>();
 
 /**
@@ -75,7 +69,7 @@ const onFormResetMap = new WeakMap<HTMLElement, FormAssociated["onFormReset"]>()
  * @param el - the host element
  */
 export function connectForm<T>(formAssociated: FormAssociated<T>): void {
-  const { el, name, value } = formAssociated;
+  const { el, value } = formAssociated;
 
   const form = closestElementCrossShadowBoundary<HTMLFormElement>(el, "form");
 
@@ -86,33 +80,8 @@ export function connectForm<T>(formAssociated: FormAssociated<T>): void {
   formAssociated.formEl = form;
   formAssociated.defaultValue = "checked" in formAssociated ? formAssociated["checked"] : value;
 
-  if (name) {
-    const boundOnFormData = onFormData.bind(formAssociated);
-    onFormDataMap.set(el, boundOnFormData);
-    form.addEventListener("formdata", boundOnFormData);
-  }
-
   const boundOnFormReset = (formAssociated.onFormReset || onFormReset).bind(formAssociated);
-  onFormDataMap.set(el, boundOnFormReset);
   form.addEventListener("reset", boundOnFormReset);
-}
-
-function onFormData<T>(this: FormAssociated<T>, { formData }: FormDataEvent): void {
-  const { name, value } = this;
-
-  if (!name) {
-    return;
-  }
-
-  // heuristic to support default/on mode from https://html.spec.whatwg.org/multipage/input.html#dom-input-value-default-on
-  // we could introduce a mode in the interface to specify this behavior as an alternative
-  const formValue = "checked" in this ? (this["checked"] ? value || "on" : "") : value;
-
-  if (Array.isArray(formValue)) {
-    formValue.forEach((item) => formData.append(`${name}[]`, item.toString()));
-  } else if (formValue) {
-    formData.append(name, formValue.toString());
-  }
 }
 
 function onFormReset<T>(this: FormAssociated<T>): void {
@@ -131,10 +100,6 @@ export function disconnectForm<T>(formAssociated: FormAssociated<T>): void {
   if (!formEl) {
     return;
   }
-
-  const boundOnFormData = onFormDataMap.get(el);
-  formEl.removeEventListener("formdata", boundOnFormData);
-  onFormDataMap.delete(el);
 
   const boundOnFormReset = onFormResetMap.get(el);
   formEl.removeEventListener("reset", boundOnFormReset);
