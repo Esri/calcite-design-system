@@ -43,14 +43,19 @@ describe("calcite-checkbox", () => {
     await page.setContent("<calcite-checkbox></calcite-checkbox>");
 
     const calciteCheckbox = await page.find("calcite-checkbox");
+    const input = await page.find("calcite-checkbox input");
 
     expect(calciteCheckbox).not.toHaveAttribute("checked");
     expect(await calciteCheckbox.getProperty("checked")).toBe(false);
+    expect(input).not.toHaveAttribute("checked");
+    expect(await input.getProperty("checked")).toBe(false);
 
     await calciteCheckbox.click();
+    await page.waitForChanges();
 
     expect(calciteCheckbox).toHaveAttribute("checked");
     expect(await calciteCheckbox.getProperty("checked")).toBe(true);
+    expect(await input.getProperty("checked")).toBe(true);
   });
 
   it("appropriately triggers the custom change event", async () => {
@@ -86,7 +91,7 @@ describe("calcite-checkbox", () => {
     await page.setContent("<calcite-checkbox disabled></calcite-checkbox>");
 
     const calciteCheckbox = await page.find("calcite-checkbox");
-    const input = await page.find("calcite-checkbox >>> input");
+    const input = await page.find("calcite-checkbox input");
 
     expect(calciteCheckbox).not.toHaveAttribute("checked");
     expect(input).not.toHaveAttribute("checked");
@@ -118,7 +123,7 @@ describe("calcite-checkbox", () => {
       <calcite-checkbox name="checky" id="first" value="one"></calcite-checkbox>
     `);
 
-    let input = await page.find("calcite-checkbox >>> input");
+    let input = await page.find("calcite-checkbox input");
     expect(input).toBeTruthy();
 
     await page.evaluate(() => {
@@ -127,7 +132,7 @@ describe("calcite-checkbox", () => {
     });
     await page.waitForChanges();
 
-    input = await page.find("calcite-checkbox >>> input");
+    input = await page.find("calcite-checkbox input");
 
     expect(input).toBeFalsy();
   });
@@ -138,7 +143,7 @@ describe("calcite-checkbox", () => {
       <calcite-label layout="inline"><calcite-checkbox></calcite-checkbox>Label</calcite-label>
     `);
 
-    const inputs = await page.findAll("calcite-checkbox >>> input");
+    const inputs = await page.findAll("calcite-checkbox input");
     expect(inputs.length).toEqual(1);
   });
 
@@ -148,7 +153,7 @@ describe("calcite-checkbox", () => {
       <calcite-label layout="inline-space-between"><calcite-checkbox></calcite-checkbox>Label</calcite-label>
     `);
 
-    const inputs = await page.findAll("calcite-checkbox >>> input");
+    const inputs = await page.findAll("calcite-checkbox input");
     expect(inputs.length).toEqual(1);
   });
 
@@ -185,6 +190,6 @@ describe("calcite-checkbox", () => {
 
   it("is focusable", () =>
     focusable("calcite-checkbox", {
-      shadowFocusTargetSelector: "input[type=checkbox]"
+      focusTargetSelector: "input[type=checkbox]"
     }));
 });
