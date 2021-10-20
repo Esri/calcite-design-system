@@ -1,6 +1,7 @@
 import { E2EElement, newE2EPage } from "@stencil/core/testing";
 import { accessible, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
 import { CSS } from "./resources";
+import { html, GlobalTestProps } from "../../tests/utils";
 
 describe("calcite-button", () => {
   it("renders as a button with default props", async () => {
@@ -466,5 +467,40 @@ describe("calcite-button", () => {
       const loader = await page.find(`calcite-button >>> .${CSS.buttonLoader} calcite-loader`);
       expect(loader).toBeNull();
     });
+  });
+
+  describe("form integration", () => {
+    async function assertOnFormButtonType(type: HTMLButtonElement["type"]): Promise<void> {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <form>
+          <calcite-button type="${type}"></calcite-button>
+        </form>
+      `);
+
+      type TestWindow = GlobalTestProps<{
+        called: boolean;
+      }>;
+
+      await page.$eval(
+        "form",
+        (form: HTMLFormElement, type: string) => {
+          form.addEventListener(type, (event) => {
+            event.preventDefault();
+            (window as TestWindow).called = true;
+          });
+        },
+        type
+      );
+
+      const button = await page.find("calcite-button");
+      await button.click();
+      const called = await page.evaluate(() => (window as TestWindow).called);
+
+      expect(called).toBe(true);
+    }
+
+    it("submits", async () => assertOnFormButtonType("submit"));
+    it("resets", async () => assertOnFormButtonType("reset"));
   });
 });
