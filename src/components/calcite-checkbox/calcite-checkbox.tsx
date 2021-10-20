@@ -87,6 +87,13 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
     this.input.name = newName;
   }
 
+  @Prop({ reflect: true }) required = false;
+
+  @Watch("required")
+  requiredHandler(required: boolean): void {
+    this.input.required = required;
+  }
+
   /** specify the scale of the checkbox, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
 
@@ -209,6 +216,7 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
     this.checkedHandler(this.checked);
     this.disabledHandler(this.disabled);
     this.nameHandler(this.name);
+    this.requiredHandler(this.required);
     this.valueHandler(this.value);
     this.indeterminateHandler(this.indeterminate);
     this.el.appendChild(this.input);
