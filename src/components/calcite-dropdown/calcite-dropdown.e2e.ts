@@ -654,6 +654,14 @@ describe("calcite-dropdown", () => {
       for (let i = 0; i < items.length; i++) {
         expect(await items[i].isIntersectingViewport()).toBe(i <= maxItems - 1);
       }
+
+      const newMaxItems = 4;
+      element.setProperty("maxItems", newMaxItems);
+      await page.waitForChanges();
+
+      for (let i = 0; i < items.length; i++) {
+        expect(await items[i].isIntersectingViewport()).toBe(i <= newMaxItems - 1);
+      }
     });
   });
 
