@@ -37,8 +37,6 @@ const exec = pify(childProcess.exec);
       // the setup-node gh action handles the token
       // https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages#publishing-packages-to-the-npm-registry
 
-      // await exec("npm config set '//registry.npmjs.org/:_authToken' '${NPM_TOKEN}'");
-
       console.log(" - prepping package...");
       await exec(`npm run util:prep-next-from-existing-build`);
 
