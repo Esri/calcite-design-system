@@ -1,0 +1,38 @@
+name: Screener
+on:
+  pull_request_target:
+    branches: [master]
+jobs:
+  screener:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: lts/*
+      - name: install dependencies
+        run: npm install
+      - name: setup environment variables
+        run: | # gh env vars dont work in node
+          npm install dotenv
+          touch .env
+          echo "require('dotenv').config()" | cat - screener.config.js > temp && mv temp screener.config.js
+          echo SCREENER_API_KEY=${{ secrets.SCREENER_API_KEY }} >> .env 2> /dev/null
+      - name: run screener check
+        run: npm run test:storybook 2>&1 | tee log.txt ; ( exit ${PIPESTATUS[0]} )
+      - name: parse screener report
+        id: report
+        if: always()
+        run: |
+          URL=$(grep -Eo 'https://screener.io/v2/dashboard[^ >]+' log.txt|head -1)
+          echo "::set-output name=report::$URL"
+      - name: set status
+        if: always()
+        uses: Sibz/github-status-action@v1
+        with:
+          authToken: ${{secrets.GITHUB_TOKEN}}
+          context: Screener Report
+          description: Click details to view the report on Screener
+          state: ${{ job.status }}
+          sha: ${{github.event.pull_request.head.sha || github.sha}}
+          target_url: ${{ steps.report.outputs.report }}
