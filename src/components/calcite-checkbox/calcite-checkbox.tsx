@@ -15,7 +15,7 @@ import {
 import { guid } from "../../utils/guid";
 import { focusElement } from "../../utils/dom";
 import { Scale } from "../interfaces";
-import { hiddenInputStyle } from "../../utils/form";
+import { hiddenFormInputSlotName } from "../../utils/form";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { connectForm, disconnectForm, FormAssociated } from "../../utils/form";
 
@@ -223,7 +223,7 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
   }
 
   disconnectedCallback(): void {
-    this.input.parentNode.removeChild(this.input);
+    this.el.removeChild(this.input);
     disconnectLabel(this);
     disconnectForm(this);
   }
@@ -238,17 +238,17 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
     this.input = document.createElement("input");
     this.checked && this.input.setAttribute("checked", "");
     this.input.disabled = this.disabled;
-    this.input.id = `${this.guid}-input`;
+    this.input.id = `${this.guid}-input`; // todo: do we need to set an id here?
     this.input.name = this.name;
-    this.input.onblur = this.onInputBlur.bind(this);
-    this.input.onfocus = this.onInputFocus.bind(this);
-    this.input.style.cssText = hiddenInputStyle;
+    this.input.onblur = this.onInputBlur.bind(this); // todo: custom element should be focused instead?
+    this.input.onfocus = this.onInputFocus.bind(this); // todo: custom element should be focused instead?
     this.input.type = "checkbox";
-    this.input.setAttribute("aria-label", getLabelText(this));
+    this.input.setAttribute("aria-label", getLabelText(this)); // todo: this should be stateful
     if (this.value) {
-      this.input.value = this.value != null ? this.value.toString() : "";
+      this.input.value = this.value != null ? this.value.toString() : ""; // todo: this should be stateful
     }
-    this.el.shadowRoot.appendChild(this.input);
+    this.input.slot = hiddenFormInputSlotName;
+    this.el.appendChild(this.input);
   }
 
   render(): VNode {
@@ -260,6 +260,7 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
           </svg>
           <slot />
         </div>
+        <slot name={hiddenFormInputSlotName} />
       </Host>
     );
   }

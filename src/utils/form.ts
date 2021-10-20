@@ -1,5 +1,7 @@
 import { closestElementCrossShadowBoundary } from "./dom";
 
+export const hiddenFormInputSlotName = "hidden-form-input";
+
 // todo: remove this!
 export const hiddenInputStyle = `
   bottom: 0 !important;
