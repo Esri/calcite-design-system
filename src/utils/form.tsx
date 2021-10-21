@@ -1,5 +1,5 @@
 import { closestElementCrossShadowBoundary } from "./dom";
-import { h, VNode } from "@stencil/core";
+import { FunctionalComponent, h } from "@stencil/core";
 
 export const hiddenFormInputSlotName = "hidden-form-input";
 
@@ -155,7 +155,7 @@ export function disconnectForm<T>(formAssociated: FormAssociated<T>): void {
  *   <Host>
  *     <div class={CSS.container}>
  *     // ...
- *     {HiddenFormInputSlot()}
+ *     <HiddenFormInputSlot />
  *     </div>
  *   </Host>
  * }
@@ -165,7 +165,9 @@ export function disconnectForm<T>(formAssociated: FormAssociated<T>): void {
 export function renderHiddenFormInput(formAssociated: FormAssociated): void {
   const { checked, disabled, el, formEl, hidden, name, required, value } = formAssociated;
 
-  let input = el.querySelector(`input[slot="${hiddenFormInputSlotName}"]`) as HTMLInputElement | null;
+  let input = el.querySelector(
+    `input[slot="${hiddenFormInputSlotName}"]`
+  ) as HTMLInputElement | null;
 
   if (!formEl) {
     input?.remove();
@@ -193,7 +195,6 @@ export function renderHiddenFormInput(formAssociated: FormAssociated): void {
  *
  * Note that the hidden-form-input Sass mixin must be added to the component's style to apply specific styles.
  */
-export function HiddenFormInputSlot(): VNode {
-  // using hyperscript until we want to export a functional component
-  return h("slot", { name: hiddenFormInputSlotName });
-}
+export const HiddenFormInputSlot: FunctionalComponent = () => (
+  <slot name={hiddenFormInputSlotName} />
+);

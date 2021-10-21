@@ -756,7 +756,7 @@ export class CalciteInput implements LabelableComponent, FormAssociated {
           {this.type === "number" && this.numberButtonType === "horizontal"
             ? numberButtonsHorizontalUp
             : null}
-          {HiddenFormInputSlot()}
+          <HiddenFormInputSlot />
         </div>
       </Host>
     );

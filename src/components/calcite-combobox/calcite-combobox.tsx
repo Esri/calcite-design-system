@@ -1052,7 +1052,7 @@ export class CalciteCombobox implements LabelableComponent, FormAssociated {
           {this.renderListBoxOptions()}
         </ul>
         {this.renderPopperContainer()}
-        {HiddenFormInputSlot()}
+        <HiddenFormInputSlot />
       </Host>
     );
   }
