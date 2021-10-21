@@ -37,6 +37,8 @@ const readmePath = quote([normalize(`${__dirname}/../readme.md`)]);
     standardVersionOptions = await getStandardVersionOptions(next, semverTags);
   } catch (error) {
     console.log(baseErrorMessage);
+    await exec(`echo ${baseErrorMessage}`);
+
     process.exitCode = 1;
     return;
   }
@@ -48,6 +50,8 @@ const readmePath = quote([normalize(`${__dirname}/../readme.md`)]);
       await runStandardVersion(next, standardVersionOptions);
     } catch (error) {
       console.log(changelogGenerationErrorMessage);
+      await exec(`echo ${changelogGenerationErrorMessage}`);
+
       process.exitCode = 1;
     }
     return;
@@ -63,6 +67,7 @@ const readmePath = quote([normalize(`${__dirname}/../readme.md`)]);
     await runStandardVersion(next, standardVersionOptions);
   } catch (error) {
     console.log(changelogGenerationErrorMessage);
+    await exec(`echo ${changelogGenerationErrorMessage}`);
     process.exitCode = 1;
   } finally {
     // restore deleted prerelease tags
