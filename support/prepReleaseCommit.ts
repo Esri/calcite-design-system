@@ -93,7 +93,7 @@ async function getStandardVersionOptions(next: boolean, semverTags: string[]): P
     commitAll: true,
     header,
     releaseAs: targetReleaseVersion,
-    releaseCommitMessageFormat: "{{currentTag}} [skip ci]"
+    releaseCommitMessageFormat: "{{currentTag}}"
   };
 
   if (next) {
