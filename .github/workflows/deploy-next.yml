@@ -19,11 +19,14 @@ jobs:
         env:
           NEXT_RELEASE_ENABLED: ${{ secrets.NEXT_RELEASE_ENABLED }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPO_SLUG: "Esri/calcite-components"
         if: ${{ env.NEXT_RELEASE_ENABLED }} == "true"
       - run: npm ci
       - run: npm test
+      - run: | # gh env vars dont work in node
+          npm install dotenv
+          touch .env
+          echo "require('dotenv').config()" | cat - /support/deployNextFromTravis.ts > temp && mv temp /support/deployNextFromTravis.ts
+          echo GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} >> .env 2> /dev/null
       - run: npm run util:deploy-next-from-travis
       - uses: toko-bifrost/ms-teams-deploy-card@3.1.2
         if: always()
