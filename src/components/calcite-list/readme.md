@@ -122,6 +122,16 @@
 | -------------- | --------------- | ----------------------------------------------------------------- | ---------------------------- | ----------- |
 | `headingLevel` | `heading-level` | Number at which section headings should start for this component. | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
 
+## Methods
+
+### `setFocus() => Promise<void>`
+
+Sets focus on the component.
+
+#### Returns
+
+Type: `Promise<void>`
+
 ## Slots
 
 | Slot | Description                                     |

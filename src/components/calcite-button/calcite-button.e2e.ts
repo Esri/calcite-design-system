@@ -1,6 +1,7 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { E2EElement, newE2EPage } from "@stencil/core/testing";
 import { accessible, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
 import { CSS } from "./resources";
+import { html, GlobalTestProps } from "../../tests/utils";
 
 describe("calcite-button", () => {
   it("renders as a button with default props", async () => {
@@ -42,6 +43,26 @@ describe("calcite-button", () => {
     accessible(`<calcite-button loading icon-start='plus' icon-end='plus'>Continue</calcite-button>`));
 
   it("is labelable", async () => labelable("calcite-button"));
+
+  it("should update childElType when href changes", async () => {
+    const page = await newE2EPage({ html: `<calcite-button>Continue</calcite-button>` });
+    const link = await page.find("calcite-button");
+    let elementAsLink: E2EElement;
+    let elementAsSpan: E2EElement;
+
+    elementAsSpan = await page.find("calcite-button >>> button");
+    elementAsLink = await page.find("calcite-button >>> a");
+    expect(elementAsSpan).not.toBeNull();
+    expect(elementAsLink).toBeNull();
+
+    link.setProperty("href", "/");
+    await page.waitForChanges();
+
+    elementAsSpan = await page.find("calcite-button >>> button");
+    elementAsLink = await page.find("calcite-button >>> a");
+    expect(elementAsSpan).toBeNull();
+    expect(elementAsLink).not.toBeNull();
+  });
 
   it("renders as a link with default props", async () => {
     const page = await newE2EPage();
@@ -446,5 +467,40 @@ describe("calcite-button", () => {
       const loader = await page.find(`calcite-button >>> .${CSS.buttonLoader} calcite-loader`);
       expect(loader).toBeNull();
     });
+  });
+
+  describe("form integration", () => {
+    async function assertOnFormButtonType(type: HTMLButtonElement["type"]): Promise<void> {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <form>
+          <calcite-button type="${type}"></calcite-button>
+        </form>
+      `);
+
+      type TestWindow = GlobalTestProps<{
+        called: boolean;
+      }>;
+
+      await page.$eval(
+        "form",
+        (form: HTMLFormElement, type: string) => {
+          form.addEventListener(type, (event) => {
+            event.preventDefault();
+            (window as TestWindow).called = true;
+          });
+        },
+        type
+      );
+
+      const button = await page.find("calcite-button");
+      await button.click();
+      const called = await page.evaluate(() => (window as TestWindow).called);
+
+      expect(called).toBe(true);
+    }
+
+    it("submits", async () => assertOnFormButtonType("submit"));
+    it("resets", async () => assertOnFormButtonType("reset"));
   });
 });

@@ -1,4 +1,4 @@
-import { Component, Element, Prop, h, VNode, Host } from "@stencil/core";
+import { Component, Element, Prop, h, VNode, Host, Method } from "@stencil/core";
 import { SLOTS, CSS } from "./resources";
 import { getSlotted } from "../../utils/dom";
 
@@ -48,6 +48,20 @@ export class CalciteListItem {
   // --------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteListItemElement;
+
+  focusEl: HTMLButtonElement;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  // --------------------------------------------------------------------------
+
+  /** Sets focus on the component. */
+  @Method()
+  async setFocus(): Promise<void> {
+    this.focusEl?.focus();
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -111,11 +125,14 @@ export class CalciteListItem {
       <button
         class={{ [CSS.contentContainer]: true, [CSS.contentContainerButton]: true }}
         disabled={disabled}
+        ref={(focusEl) => (this.focusEl = focusEl)}
       >
         {content}
       </button>
     ) : (
-      <div class={CSS.contentContainer}>{content}</div>
+      <div class={CSS.contentContainer} ref={() => (this.focusEl = null)}>
+        {content}
+      </div>
     );
   }
 

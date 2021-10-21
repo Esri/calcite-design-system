@@ -19,5 +19,7 @@ requiredItems:
       - "esri.github.io/calcite-components/?path=/story/components-"
       - "esri.github.io/calcite-components/iframe.html?"
       - "developers.arcgis.com/calcite-design-system/components/"
+      - "ember-twiddle.com/"
+      - "jsfiddle.net/"
 commentFooter: "This issue will be automatically closed in three days if the information is not provided. Thanks for your understanding."
 excludeComments: true

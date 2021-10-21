@@ -41,12 +41,12 @@ export class CalciteActionMenu {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.mutationObserver.observe(this.el, { childList: true, subtree: true });
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.getActions();
   }
 
   disconnectedCallback(): void {
-    this.mutationObserver.disconnect();
+    this.mutationObserver?.disconnect();
     this.disconnectMenuButtonEl();
   }
 
