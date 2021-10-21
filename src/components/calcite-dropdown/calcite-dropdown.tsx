@@ -115,13 +115,13 @@ export class CalciteDropdown {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.mutationObserver.observe(this.el, { childList: true, subtree: true });
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.createPopper();
     this.updateItems();
   }
 
   disconnectedCallback(): void {
-    this.mutationObserver.disconnect();
+    this.mutationObserver?.disconnect();
     this.destroyPopper();
   }
 
