@@ -34,7 +34,13 @@ import {
 } from "./resources";
 import { getItemAncestors, getItemChildren, hasActiveChildren } from "./utils";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
-import { connectForm, disconnectForm, FormAssociated } from "../../utils/form";
+import {
+  connectForm,
+  disconnectForm,
+  FormAssociated,
+  HiddenFormInputSlot,
+  renderHiddenFormInput
+} from "../../utils/form";
 import { createObserver } from "../../utils/observers";
 interface ItemData {
   label: string;
@@ -113,6 +119,11 @@ export class CalciteCombobox implements LabelableComponent, FormAssociated {
 
   /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
+
+  /**
+   * When true, makes the combobox required for form-submission.
+   */
+  @Prop() required = false;
 
   /** specify the selection mode
    * - multi: allow any number of selected items (default)
@@ -1001,6 +1012,8 @@ export class CalciteCombobox implements LabelableComponent, FormAssociated {
     const { guid, open, label } = this;
     const single = this.selectionMode === "single";
     const labelId = `${guid}-label`;
+    renderHiddenFormInput(this);
+
     return (
       <Host onKeyDown={this.keydownHandler}>
         <div
@@ -1039,6 +1052,7 @@ export class CalciteCombobox implements LabelableComponent, FormAssociated {
           {this.renderListBoxOptions()}
         </ul>
         {this.renderPopperContainer()}
+        {HiddenFormInputSlot()}
       </Host>
     );
   }
