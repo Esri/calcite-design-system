@@ -1,4 +1,5 @@
 import { closestElementCrossShadowBoundary } from "./dom";
+import { h, VNode } from "@stencil/core";
 
 export const hiddenFormInputSlotName = "hidden-form-input";
 
@@ -24,6 +25,30 @@ export const hiddenInputStyle = `
  * Along with the interface, use the matching form utils to help set up the component behavior.
  */
 export interface FormAssociated<T = any> {
+  /**
+   * For boolean-valued components, this property defines whether the associated value is submitted to the form or not.
+   */
+  checked?: boolean;
+
+  /**
+   * When true, this component's value will not be submitted in the form.
+   */
+  disabled: boolean;
+
+  /**
+   * When true, this component's value will not be submitted in the form.
+   *
+   * @todo remove optional in follow-up PR
+   */
+  hidden?: boolean;
+
+  /**
+   * When true, form submit requests will enforce field requirement.
+   *
+   * @todo remove optional in follow-up PR
+   */
+  required?: boolean;
+
   /**
    * The host element.
    */
@@ -55,6 +80,13 @@ export interface FormAssociated<T = any> {
    *
    * When the form is reset, the value will be set to this property.
    */
+  defaultChecked?: boolean;
+
+  /**
+   * The initial value for this form component.
+   *
+   * When the form is reset, the value will be set to this property.
+   */
   defaultValue: T;
 
   /**
@@ -71,7 +103,7 @@ const onFormResetMap = new WeakMap<HTMLElement, FormAssociated["onFormReset"]>()
  * @param el - the host element
  */
 export function connectForm<T>(formAssociated: FormAssociated<T>): void {
-  const { el, value } = formAssociated;
+  const { checked, el, value } = formAssociated;
 
   const form = closestElementCrossShadowBoundary<HTMLFormElement>(el, "form");
 
@@ -80,15 +112,20 @@ export function connectForm<T>(formAssociated: FormAssociated<T>): void {
   }
 
   formAssociated.formEl = form;
-  formAssociated.defaultValue = "checked" in formAssociated ? formAssociated["checked"] : value;
+  formAssociated.defaultChecked = checked;
+  formAssociated.defaultValue = value;
 
   const boundOnFormReset = (formAssociated.onFormReset || onFormReset).bind(formAssociated);
   form.addEventListener("reset", boundOnFormReset);
 }
 
 function onFormReset<T>(this: FormAssociated<T>): void {
-  const valueProp = "checked" in this ? "checked" : "value";
-  this[valueProp] = this.defaultValue;
+  if (typeof this.checked === "boolean") {
+    this.checked = this.defaultChecked;
+    return;
+  }
+
+  this.value = this.defaultValue;
 }
 
 /**
@@ -106,4 +143,57 @@ export function disconnectForm<T>(formAssociated: FormAssociated<T>): void {
   const boundOnFormReset = onFormResetMap.get(el);
   formEl.removeEventListener("reset", boundOnFormReset);
   onFormResetMap.delete(el);
+}
+
+/**
+ * Helper for maintaining a form-associated's hidden input in sync with the component.
+ *
+ * This should be used in a component's render method along with the hidden-form-input-slot helper:
+ *
+ * render(): VNode {
+ *   renderHiddenFormInput(this);
+ *   <Host>
+ *     <div class={CSS.container}>
+ *     // ...
+ *     {HiddenFormInputSlot()}
+ *     </div>
+ *   </Host>
+ * }
+ *
+ * Based on Ionic's approach: https://github.com/ionic-team/ionic-framework/blob/e4bf052794af9aac07f887013b9250d2a045eba3/core/src/utils/helpers.ts#L198
+ */
+export function renderHiddenFormInput(formAssociated: FormAssociated): void {
+  const { checked, disabled, el, formEl, hidden, name, required, value } = formAssociated;
+
+  let input = el.querySelector(`input[slot="${hiddenFormInputSlotName}"]`) as HTMLInputElement | null;
+
+  if (!formEl) {
+    input?.remove();
+    return;
+  }
+
+  if (!input) {
+    input = el.ownerDocument!.createElement("input");
+    input.slot = hiddenFormInputSlotName;
+    el.appendChild(input);
+  }
+
+  input.checked = checked;
+  input.disabled = disabled;
+  input.hidden = hidden;
+  input.name = name;
+  input.required = required;
+  input.value = value || "";
+}
+
+/**
+ * Helper to render the slot for form-associated component's hidden input.
+ *
+ * If the component has a default slot, this must be placed at the bottom of the component's root container to ensure it is the last child.
+ *
+ * Note that the hidden-form-input Sass mixin must be added to the component's style to apply specific styles.
+ */
+export function HiddenFormInputSlot(): VNode {
+  // using hyperscript until we want to export a functional component
+  return h("slot", { name: hiddenFormInputSlotName });
 }
