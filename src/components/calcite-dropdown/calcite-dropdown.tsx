@@ -120,6 +120,10 @@ export class CalciteDropdown {
     this.updateItems();
   }
 
+  componentDidLoad(): void {
+    this.reposition();
+  }
+
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.destroyPopper();
