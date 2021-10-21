@@ -194,3 +194,5 @@
 .item {
   @apply block;
 }
+
+@include hidden-form-input();

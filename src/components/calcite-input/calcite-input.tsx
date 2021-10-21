@@ -19,7 +19,13 @@ import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
 import { InputPlacement } from "./interfaces";
 import { Position } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
-import { connectForm, disconnectForm, FormAssociated } from "../../utils/form";
+import {
+  connectForm,
+  disconnectForm,
+  FormAssociated,
+  HiddenFormInputSlot,
+  renderHiddenFormInput
+} from "../../utils/form";
 import {
   getDecimalSeparator,
   delocalizeNumberString,
@@ -589,6 +595,7 @@ export class CalciteInput implements LabelableComponent, FormAssociated {
 
   render(): VNode {
     const dir = getElementDir(this.el);
+    renderHiddenFormInput(this);
 
     const loader = (
       <div class={CSS.loader}>
@@ -749,6 +756,7 @@ export class CalciteInput implements LabelableComponent, FormAssociated {
           {this.type === "number" && this.numberButtonType === "horizontal"
             ? numberButtonsHorizontalUp
             : null}
+          {HiddenFormInputSlot()}
         </div>
       </Host>
     );

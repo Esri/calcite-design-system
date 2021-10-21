@@ -662,3 +662,5 @@ input[type="time"]::-webkit-clear-button {
     border-color-transparent;
   padding-inline-start: 0;
 }
+
+@include hidden-form-input();
