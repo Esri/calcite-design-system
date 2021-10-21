@@ -19,8 +19,6 @@ jobs:
         env:
           NEXT_RELEASE_ENABLED: ${{ secrets.NEXT_RELEASE_ENABLED }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPO_SLUG: "Esri/calcite-components"
         if: ${{ env.NEXT_RELEASE_ENABLED }} == "true"
       - run: npm ci
       - run: npm test

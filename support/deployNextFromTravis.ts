@@ -39,8 +39,10 @@ const exec = pify(childProcess.exec);
       console.log(" - prepping package...");
       await exec(`npm run util:prep-next-from-existing-build`);
 
+      // github token provided by the checkout action
+      // https://github.com/actions/checkout#usage
       console.log(" - pushing tags...");
-      await exec(`npm run util:push-tags -- --quiet https://$GITHUB_TOKEN@github.com/$REPO_SLUG master`);
+      await exec(`npm run util:push-tags -- --quiet https://github.com/Esri/calcite-components master`);
 
       console.log(" - publishing @next...");
       await exec(`npm run util:publish-next`);
