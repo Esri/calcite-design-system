@@ -57,6 +57,11 @@ export class CalciteInputDatePicker implements LabelableComponent, FormAssociate
   //  Public Properties
   //
   //--------------------------------------------------------------------------
+  /**
+   * When false, the component won't be interactive.
+   */
+  @Prop({ reflect: true }) disabled = false;
+
   /** Selected date */
   @Prop({ mutable: true }) value: string | string[];
 
@@ -276,6 +281,7 @@ export class CalciteInputDatePicker implements LabelableComponent, FormAssociate
   }
 
   render(): VNode {
+    const { disabled } = this;
     const date = dateFromRange(
       this.range ? this.startAsDate : this.valueAsDate,
       this.minAsDate,
@@ -303,6 +309,7 @@ export class CalciteInputDatePicker implements LabelableComponent, FormAssociate
                   class={`input ${
                     this.layout === "vertical" && this.range ? `no-bottom-border` : ``
                   }`}
+                  disabled={disabled}
                   icon="calendar"
                   label={getLabelText(this)}
                   number-button-type="none"
@@ -372,6 +379,7 @@ export class CalciteInputDatePicker implements LabelableComponent, FormAssociate
                     input: true,
                     "border-t-color-1": this.layout === "vertical" && this.range
                   }}
+                  disabled={disabled}
                   icon="calendar"
                   number-button-type="none"
                   onCalciteInputBlur={this.inputBlur}
