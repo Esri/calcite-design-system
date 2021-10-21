@@ -7,12 +7,11 @@ import {
   Host,
   Method,
   Prop,
-  VNode,
-  Watch
+  VNode
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
-import { hiddenFormInputSlotName } from "../../utils/form";
+import { HiddenFormInputSlot, renderHiddenFormInput } from "../../utils/form";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { connectForm, disconnectForm, FormAssociated } from "../../utils/form";
 
@@ -39,18 +38,8 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
   /** The checked state of the checkbox. */
   @Prop({ reflect: true, mutable: true }) checked = false;
 
-  @Watch("checked")
-  checkedHandler(newChecked: boolean): void {
-    this.input.toggleAttribute("checked", newChecked);
-  }
-
   /** True if the checkbox is disabled */
   @Prop({ reflect: true }) disabled = false;
-
-  @Watch("disabled")
-  disabledHandler(disabled: boolean): void {
-    this.input.disabled = disabled;
-  }
 
   /** The id attribute of the checkbox.  When omitted, a globally unique identifier is used. */
   @Prop({ reflect: true, mutable: true }) guid: string;
@@ -68,11 +57,6 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
    * */
   @Prop({ reflect: true, mutable: true }) indeterminate = false;
 
-  @Watch("indeterminate")
-  indeterminateHandler(indeterminate: boolean): void {
-    this.input.indeterminate = indeterminate;
-  }
-
   /**
    * The label of the checkbox input
    * @internal
@@ -82,28 +66,13 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
   /** The name of the checkbox input */
   @Prop({ reflect: true }) name = "";
 
-  @Watch("name")
-  nameHandler(newName: string): void {
-    this.input.name = newName;
-  }
-
   @Prop({ reflect: true }) required = false;
-
-  @Watch("required")
-  requiredHandler(required: boolean): void {
-    this.input.required = required;
-  }
 
   /** specify the scale of the checkbox, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /** The value of the checkbox input */
   @Prop() value: any;
-
-  @Watch("value")
-  valueHandler(value: any): void {
-    this.input.value = value != null ? value.toString() : "";
-  }
 
   //--------------------------------------------------------------------------
   //
@@ -207,21 +176,6 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
     this.toggle();
   };
 
-  renderHiddenCheckboxInput = (): void => {
-    this.input = document.createElement("input");
-    this.input.type = "checkbox";
-    this.input.setAttribute("aria-hidden", "true");
-    this.input.slot = hiddenFormInputSlotName;
-    this.input.tabIndex = -1;
-    this.checkedHandler(this.checked);
-    this.disabledHandler(this.disabled);
-    this.nameHandler(this.name);
-    this.requiredHandler(this.required);
-    this.valueHandler(this.value);
-    this.indeterminateHandler(this.indeterminate);
-    this.el.appendChild(this.input);
-  };
-
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -232,11 +186,9 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
     this.guid = this.el.id || `calcite-checkbox-${guid()}`;
     connectLabel(this);
     connectForm(this);
-    this.renderHiddenCheckboxInput();
   }
 
   disconnectedCallback(): void {
-    this.el.removeChild(this.input);
     disconnectLabel(this);
     disconnectForm(this);
   }
@@ -248,6 +200,7 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
   // --------------------------------------------------------------------------
 
   render(): VNode {
+    renderHiddenFormInput(this);
     return (
       <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
         <div
@@ -265,7 +218,7 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociated {
           </svg>
           <slot />
         </div>
-        <slot name={hiddenFormInputSlotName} />
+        <HiddenFormInputSlot />
       </Host>
     );
   }

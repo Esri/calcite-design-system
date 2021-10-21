@@ -1,7 +1,7 @@
 import { closestElementCrossShadowBoundary } from "./dom";
 import { FunctionalComponent, h } from "@stencil/core";
 
-export const hiddenFormInputSlotName = "hidden-form-input";
+const hiddenFormInputSlotName = "hidden-form-input";
 
 // todo: remove this!
 export const hiddenInputStyle = `
@@ -143,6 +143,7 @@ export function disconnectForm<T>(formAssociated: FormAssociated<T>): void {
   const boundOnFormReset = onFormResetMap.get(el);
   formEl.removeEventListener("reset", boundOnFormReset);
   onFormResetMap.delete(el);
+  formAssociated.formEl = null;
 }
 
 /**

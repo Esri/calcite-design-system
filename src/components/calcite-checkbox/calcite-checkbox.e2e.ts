@@ -32,10 +32,10 @@ describe("calcite-checkbox", () => {
 
     const input = await page.find("calcite-checkbox input");
 
-    expect(input).toEqualAttribute("type", "checkbox");
-    expect(input).toEqualAttribute("name", testName);
-    expect(input).toEqualAttribute("value", testValue);
-    expect(input).toHaveAttribute("checked");
+    expect(input).toHaveProperty("type", "hidden");
+    expect(input).toHaveProperty("name", testName);
+    expect(input).toHaveProperty("value", testValue);
+    expect(input).toHaveProperty("checked", true);
   });
 
   it("toggles the checked attributes appropriately when clicked", async () => {
@@ -47,7 +47,6 @@ describe("calcite-checkbox", () => {
 
     expect(calciteCheckbox).not.toHaveAttribute("checked");
     expect(await calciteCheckbox.getProperty("checked")).toBe(false);
-    expect(input).not.toHaveAttribute("checked");
     expect(await input.getProperty("checked")).toBe(false);
 
     await calciteCheckbox.click();
@@ -94,14 +93,14 @@ describe("calcite-checkbox", () => {
     const input = await page.find("calcite-checkbox input");
 
     expect(calciteCheckbox).not.toHaveAttribute("checked");
-    expect(input).not.toHaveAttribute("checked");
+    expect(input).toHaveProperty("checked", false);
 
     await calciteCheckbox.click();
 
     await page.waitForChanges();
 
     expect(calciteCheckbox).not.toHaveAttribute("checked");
-    expect(input).not.toHaveAttribute("checked");
+    expect(input).toHaveProperty("checked", false);
   });
 
   it("removes the indeterminate attribute when clicked", async () => {
