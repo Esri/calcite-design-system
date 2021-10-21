@@ -25,7 +25,8 @@ jobs:
       - run: | # gh env vars dont work in node
           npm install dotenv
           touch .env
-          echo "require('dotenv').config()" | cat - /support/deployNextFromTravis.ts > temp && mv temp /support/deployNextFromTravis.ts
+          # adds a dotenv import to the top of the next deploy script
+          echo "require('dotenv').config({ path: '.env' })" | cat - /support/deployNextFromTravis.ts > temp && mv temp /support/deployNextFromTravis.ts
           echo GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} >> .env 2> /dev/null
       - run: npm run util:deploy-next-from-travis
       - uses: toko-bifrost/ms-teams-deploy-card@3.1.2
