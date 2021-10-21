@@ -22,7 +22,7 @@ const readmePath = quote([normalize(`${__dirname}/../readme.md`)]);
   const { next } = argv;
 
   // travis works with shallow clones, so we deepen the history when fetching tags
-  await exec("git fetch --deepen=150 --tags --quiet");
+  await exec("git fetch --deepen=250 --tags");
 
   const previousReleasedTag = (await exec("git describe --abbrev=0 --tags", { encoding: "utf-8" })).trim();
   const prereleaseVersionPattern = /-next\.\d+$/;
@@ -72,6 +72,7 @@ const readmePath = quote([normalize(`${__dirname}/../readme.md`)]);
   } finally {
     // restore deleted prerelease tags
     await exec(`git fetch --tags`);
+    await exec(`git log --pretty=format:'%h : %s' --graph`);
   }
 })();
 
@@ -92,8 +93,7 @@ async function getStandardVersionOptions(next: boolean, semverTags: string[]): P
     commitAll: true,
     header,
     releaseAs: targetReleaseVersion,
-    releaseCommitMessageFormat: "{{currentTag}} [skip ci]",
-    silent: true
+    releaseCommitMessageFormat: "{{currentTag}} [skip ci]"
   };
 
   if (next) {
