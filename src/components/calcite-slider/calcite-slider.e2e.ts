@@ -151,7 +151,7 @@ describe("calcite-slider", () => {
     expect(ticks.length).toBe(11);
   });
 
-  it("max value should be capped to the provided max prop #3142", async () => {
+  it("should cap the rendered last tick label to the slider's provided max #3142", async () => {
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-slider
@@ -164,9 +164,9 @@ describe("calcite-slider", () => {
       >
       </calcite-slider>
     `);
-    const ticks = await page.find("calcite-slider >>> .tick__label--max");
-    expect(ticks).not.toBe(null);
-    expect(ticks.textContent).toBe("100");
+    const slider = await page.find("calcite-slider");
+    const maxTickLabel = await page.find("calcite-slider >>> .tick__label--max");
+    expect(parseFloat(maxTickLabel.textContent)).toBe(await slider.getProperty("max"));
   });
 
   it("key press should change the value and emit input and change events", async () => {
