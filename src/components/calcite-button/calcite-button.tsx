@@ -1,10 +1,7 @@
+import "form-request-submit-polyfill/form-request-submit-polyfill";
 import { Component, Element, h, Method, Prop, Build, State, VNode, Watch } from "@stencil/core";
 import { CSS, TEXT } from "./resources";
-import {
-  getElementDir,
-  queryElementRoots,
-  closestElementCrossShadowBoundary
-} from "../../utils/dom";
+import { closestElementCrossShadowBoundary, getElementDir } from "../../utils/dom";
 import { ButtonAlignment, ButtonAppearance, ButtonColor } from "./interfaces";
 import { FlipContext, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -81,7 +78,11 @@ export class CalciteButton implements LabelableComponent {
   /** The rel attribute to apply to the hyperlink */
   @Prop() rel?: string;
 
-  /** The form ID to associate with the component */
+  /**
+   * The form ID to associate with the component
+   *
+   * @deprecated – this property is no longer needed if placed inside a form.
+   */
   @Prop() form?: string;
 
   /** optionally add a round style to the button  */
@@ -125,11 +126,16 @@ export class CalciteButton implements LabelableComponent {
     this.hasLoader = this.loading;
     this.setupTextContentObserver();
     connectLabel(this);
+    this.formEl = closestElementCrossShadowBoundary<HTMLFormElement>(
+      this.el,
+      this.form ? `#${this.form}` : "form"
+    );
   }
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     disconnectLabel(this);
+    this.formEl = null;
   }
 
   componentWillLoad(): void {
@@ -223,6 +229,8 @@ export class CalciteButton implements LabelableComponent {
   //
   //--------------------------------------------------------------------------
 
+  formEl: HTMLFormElement;
+
   labelEl: HTMLCalciteLabelElement;
 
   /** watches for changing text content **/
@@ -258,38 +266,21 @@ export class CalciteButton implements LabelableComponent {
   //
   //--------------------------------------------------------------------------
 
-  onLabelClick(event: CustomEvent): void {
-    this.handleClick(event);
+  onLabelClick(): void {
+    this.handleClick();
     this.setFocus();
   }
 
   // act on a requested or nearby form based on type
-  private handleClick = (e: Event): void => {
-    const { childElType, form, el, type } = this;
+  private handleClick = (): void => {
+    const { childElType, formEl, type } = this;
     // this.type refers to type attribute, not child element type
     if (childElType === "button" && type !== "button") {
-      const targetForm: HTMLFormElement = form
-        ? queryElementRoots(el, `#${form}`)
-        : closestElementCrossShadowBoundary(el, "form");
-
-      if (targetForm) {
-        const targetFormSubmitFunction = targetForm.onsubmit as () => void;
-        switch (type) {
-          case "submit":
-            if (targetFormSubmitFunction) {
-              targetFormSubmitFunction();
-            } else if (targetForm.checkValidity()) {
-              targetForm.submit();
-            } else {
-              targetForm.reportValidity();
-            }
-            break;
-          case "reset":
-            targetForm.reset();
-            break;
-        }
+      if (type === "submit") {
+        formEl?.requestSubmit();
+      } else if (type === "reset") {
+        formEl?.reset();
       }
-      e.preventDefault();
     }
   };
 }
