@@ -65,6 +65,11 @@ const readmePath = quote([normalize(`${__dirname}/../readme.md`)]);
     await exec(`git tag --delete ${nextTagsSinceLastRelease.join(" ")}`);
 
     await runStandardVersion(next, standardVersionOptions);
+    // make sure that the changes are committed
+    if ((await exec(`git rev-parse HEAD`)) === (await exec(`git rev-parse origin/master`))) {
+      console.log("an error occurred committing changes");
+      process.exitCode = 1;
+    }
   } catch (error) {
     console.log(changelogGenerationErrorMessage);
     await exec(`echo ${changelogGenerationErrorMessage}`);
