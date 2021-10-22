@@ -113,6 +113,35 @@ function isCheckable(
 }
 
 const onFormResetMap = new WeakMap<HTMLElement, FormAssociatedComponent["onFormReset"]>();
+const formAssociatedComponentSet = new WeakSet<HTMLElement>();
+
+function alreadyRegistered(form: HTMLFormElement, formAssociatedEl: HTMLElement): boolean {
+  // we use events as a way to test for nested form-associated components across shadow bounds
+  const calciteInternalFormAssociatedRegisterEventName = "calciteInternalFormAssociatedRegister";
+
+  let nested = false;
+
+  form.addEventListener(
+    calciteInternalFormAssociatedRegisterEventName,
+    (event) => {
+      nested = event
+        .composedPath()
+        .some((element) => formAssociatedComponentSet.has(element as HTMLElement));
+      event.stopPropagation();
+    },
+    { once: true }
+  );
+
+  formAssociatedEl.dispatchEvent(
+    new CustomEvent(calciteInternalFormAssociatedRegisterEventName, {
+      bubbles: true,
+      cancelable: true,
+      composed: true
+    })
+  );
+
+  return nested;
+}
 
 /**
  * Helper to set up form interactions on connectedCallback.
@@ -124,7 +153,7 @@ export function connectForm<T>(formAssociated: FormAssociatedComponent<T>): void
 
   const form = closestElementCrossShadowBoundary<HTMLFormElement>(el, "form");
 
-  if (!form) {
+  if (!form || alreadyRegistered(form, el)) {
     return;
   }
 
@@ -137,6 +166,7 @@ export function connectForm<T>(formAssociated: FormAssociatedComponent<T>): void
 
   const boundOnFormReset = (formAssociated.onFormReset || onFormReset).bind(formAssociated);
   form.addEventListener("reset", boundOnFormReset);
+  formAssociatedComponentSet.add(el);
 }
 
 function onFormReset<T>(this: FormAssociatedComponent<T>): void {
@@ -164,6 +194,7 @@ export function disconnectForm<T>(formAssociated: FormAssociatedComponent<T>): v
   formEl.removeEventListener("reset", boundOnFormReset);
   onFormResetMap.delete(el);
   formAssociated.formEl = null;
+  formAssociatedComponentSet.delete(el);
 }
 
 /**
