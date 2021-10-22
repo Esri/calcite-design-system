@@ -181,12 +181,14 @@ export function renderHiddenFormInput(formAssociated: FormAssociated): void {
     el.appendChild(input);
   }
 
-  input.checked = checked;
   input.disabled = disabled;
   input.hidden = hidden;
   input.name = name;
   input.required = required;
-  input.value = value || "";
+  input.value =
+    value ||
+    // heuristic to support default/on mode from https://html.spec.whatwg.org/multipage/input.html#dom-input-value-default-on
+    (typeof checked === "boolean" && checked ? "on" : "");
 }
 
 /**
