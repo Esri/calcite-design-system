@@ -1,18 +1,21 @@
-name: Deploy Next
+name: Build
+concurrency:
+  group: deploy_next
+  cancel-in-progress: true
 on:
   push:
     branches: [master]
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: ${{ github.head_ref }}
           fetch-depth: 0
       - uses: actions/setup-node@v2
         with:
           node-version: lts/*
+          registry-url: https://registry.npmjs.org/
         env:
           NEXT_RELEASE_ENABLED: ${{ secrets.NEXT_RELEASE_ENABLED }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

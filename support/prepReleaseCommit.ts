@@ -22,7 +22,7 @@ const readmePath = quote([normalize(`${__dirname}/../readme.md`)]);
   const { next } = argv;
 
   // deepen the history when fetching tags due to shallow clone
-  await exec("git fetch --deepen=150 --tags --quiet");
+  await exec("git fetch --deepen=250 --tags");
 
   const previousReleasedTag = (await exec("git describe --abbrev=0 --tags", { encoding: "utf-8" })).trim();
   const prereleaseVersionPattern = /-next\.\d+$/;
@@ -37,6 +37,8 @@ const readmePath = quote([normalize(`${__dirname}/../readme.md`)]);
     standardVersionOptions = await getStandardVersionOptions(next, semverTags);
   } catch (error) {
     console.log(baseErrorMessage);
+    await exec(`echo ${baseErrorMessage}`);
+
     process.exitCode = 1;
     return;
   }
@@ -48,6 +50,8 @@ const readmePath = quote([normalize(`${__dirname}/../readme.md`)]);
       await runStandardVersion(next, standardVersionOptions);
     } catch (error) {
       console.log(changelogGenerationErrorMessage);
+      await exec(`echo ${changelogGenerationErrorMessage}`);
+
       process.exitCode = 1;
     }
     return;
@@ -61,12 +65,19 @@ const readmePath = quote([normalize(`${__dirname}/../readme.md`)]);
     await exec(`git tag --delete ${nextTagsSinceLastRelease.join(" ")}`);
 
     await runStandardVersion(next, standardVersionOptions);
+    // make sure that the changes are committed
+    if ((await exec(`git rev-parse HEAD`)) === (await exec(`git rev-parse origin/master`))) {
+      console.log("an error occurred committing changes");
+      process.exitCode = 1;
+    }
   } catch (error) {
     console.log(changelogGenerationErrorMessage);
+    await exec(`echo ${changelogGenerationErrorMessage}`);
     process.exitCode = 1;
   } finally {
     // restore deleted prerelease tags
     await exec(`git fetch --tags`);
+    await exec(`git log --pretty=format:'%h : %s' --graph`);
   }
 })();
 
@@ -87,8 +98,7 @@ async function getStandardVersionOptions(next: boolean, semverTags: string[]): P
     commitAll: true,
     header,
     releaseAs: targetReleaseVersion,
-    releaseCommitMessageFormat: "{{currentTag}} [skip ci]",
-    silent: true
+    releaseCommitMessageFormat: "{{currentTag}}"
   };
 
   if (next) {
