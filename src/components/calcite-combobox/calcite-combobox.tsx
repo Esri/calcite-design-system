@@ -37,7 +37,7 @@ import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from 
 import {
   connectForm,
   disconnectForm,
-  FormAssociated,
+  FormAssociatedComponent,
   HiddenFormInputSlot,
   renderHiddenFormInput
 } from "../../utils/form";
@@ -58,7 +58,7 @@ const isGroup = (el: ComboboxChildElement): el is HTMLCalciteComboboxItemGroupEl
   styleUrl: "calcite-combobox.scss",
   shadow: true
 })
-export class CalciteCombobox implements LabelableComponent, FormAssociated {
+export class CalciteCombobox implements LabelableComponent, FormAssociatedComponent {
   //--------------------------------------------------------------------------
   //
   //  Element

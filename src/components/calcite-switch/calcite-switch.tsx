@@ -18,14 +18,19 @@ import { getKey } from "../../utils/key";
 import { CSS_UTILITY } from "../../utils/resources";
 import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
-import { hiddenInputStyle, connectForm, disconnectForm, FormAssociated } from "../../utils/form";
+import {
+  hiddenInputStyle,
+  connectForm,
+  disconnectForm,
+  FormAssociatedComponent
+} from "../../utils/form";
 
 @Component({
   tag: "calcite-switch",
   styleUrl: "calcite-switch.scss",
   shadow: true
 })
-export class CalciteSwitch implements LabelableComponent, FormAssociated {
+export class CalciteSwitch implements LabelableComponent, FormAssociatedComponent {
   //--------------------------------------------------------------------------
   //
   //  Element

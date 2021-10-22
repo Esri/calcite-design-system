@@ -24,12 +24,9 @@ export const hiddenInputStyle = `
  *
  * Along with the interface, use the matching form utils to help set up the component behavior.
  */
-export interface FormAssociated<T = any> {
-  /**
-   * For boolean-valued components, this property defines whether the associated value is submitted to the form or not.
-   */
-  checked?: boolean;
+export type FormAssociatedComponent<T = any> = FormAssociated<T> | CheckableFormAssociated<T>;
 
+interface FormAssociated<T = any> {
   /**
    * When true, this component's value will not be submitted in the form.
    */
@@ -80,13 +77,6 @@ export interface FormAssociated<T = any> {
    *
    * When the form is reset, the value will be set to this property.
    */
-  defaultChecked?: boolean;
-
-  /**
-   * The initial value for this form component.
-   *
-   * When the form is reset, the value will be set to this property.
-   */
   defaultValue: T;
 
   /**
@@ -102,15 +92,35 @@ export interface FormAssociated<T = any> {
   syncHiddenFormInput?(input: HTMLInputElement): void;
 }
 
-const onFormResetMap = new WeakMap<HTMLElement, FormAssociated["onFormReset"]>();
+interface CheckableFormAssociated<T = any> extends FormAssociated<T> {
+  /**
+   * For boolean-valued components, this property defines whether the associated value is submitted to the form or not.
+   */
+  checked: boolean;
+
+  /**
+   * The initial value for this form component.
+   *
+   * When the form is reset, the value will be set to this property.
+   */
+  defaultChecked?: boolean;
+}
+
+function isCheckable(
+  formAssociated: FormAssociatedComponent
+): formAssociated is CheckableFormAssociated {
+  return "checked" in formAssociated;
+}
+
+const onFormResetMap = new WeakMap<HTMLElement, FormAssociatedComponent["onFormReset"]>();
 
 /**
  * Helper to set up form interactions on connectedCallback.
  *
  * @param el - the host element
  */
-export function connectForm<T>(formAssociated: FormAssociated<T>): void {
-  const { checked, el, value } = formAssociated;
+export function connectForm<T>(formAssociated: FormAssociatedComponent<T>): void {
+  const { el, value } = formAssociated;
 
   const form = closestElementCrossShadowBoundary<HTMLFormElement>(el, "form");
 
@@ -119,15 +129,18 @@ export function connectForm<T>(formAssociated: FormAssociated<T>): void {
   }
 
   formAssociated.formEl = form;
-  formAssociated.defaultChecked = checked;
   formAssociated.defaultValue = value;
+
+  if (isCheckable(formAssociated)) {
+    formAssociated.defaultChecked = formAssociated.checked;
+  }
 
   const boundOnFormReset = (formAssociated.onFormReset || onFormReset).bind(formAssociated);
   form.addEventListener("reset", boundOnFormReset);
 }
 
-function onFormReset<T>(this: FormAssociated<T>): void {
-  if (typeof this.checked === "boolean") {
+function onFormReset<T>(this: FormAssociatedComponent<T>): void {
+  if (isCheckable(this)) {
     this.checked = this.defaultChecked;
     return;
   }
@@ -140,7 +153,7 @@ function onFormReset<T>(this: FormAssociated<T>): void {
  *
  * @param el - the host element
  */
-export function disconnectForm<T>(formAssociated: FormAssociated<T>): void {
+export function disconnectForm<T>(formAssociated: FormAssociatedComponent<T>): void {
   const { el, formEl } = formAssociated;
 
   if (!formEl) {
@@ -170,8 +183,8 @@ export function disconnectForm<T>(formAssociated: FormAssociated<T>): void {
  *
  * Based on Ionic's approach: https://github.com/ionic-team/ionic-framework/blob/e4bf052794af9aac07f887013b9250d2a045eba3/core/src/utils/helpers.ts#L198
  */
-export function renderHiddenFormInput(formAssociated: FormAssociated): void {
-  const { checked, disabled, el, formEl, hidden, name, required, value } = formAssociated;
+export function renderHiddenFormInput(formAssociated: FormAssociatedComponent): void {
+  const { disabled, el, formEl, hidden, name, required, value } = formAssociated;
 
   let input = el.querySelector(
     `input[slot="${hiddenFormInputSlotName}"]`
@@ -195,7 +208,7 @@ export function renderHiddenFormInput(formAssociated: FormAssociated): void {
   input.value =
     value ||
     // heuristic to support default/on mode from https://html.spec.whatwg.org/multipage/input.html#dom-input-value-default-on
-    (typeof checked === "boolean" && checked ? "on" : "");
+    (isCheckable(formAssociated) && formAssociated.checked ? "on" : "");
 
   formAssociated.syncHiddenFormInput?.call(formAssociated, input);
 }

@@ -15,7 +15,12 @@ import { guid } from "../../utils/guid";
 import { focusElement } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { hiddenInputStyle, FormAssociated, connectForm, disconnectForm } from "../../utils/form";
+import {
+  hiddenInputStyle,
+  FormAssociatedComponent,
+  connectForm,
+  disconnectForm
+} from "../../utils/form";
 import { CSS } from "./resources";
 import { getKey } from "../../utils/key";
 import { getElementDir } from "../../utils/dom";
@@ -26,7 +31,7 @@ import { getRoundRobinIndex } from "../../utils/array";
   styleUrl: "calcite-radio-button.scss",
   shadow: true
 })
-export class CalciteRadioButton implements LabelableComponent, FormAssociated {
+export class CalciteRadioButton implements LabelableComponent, FormAssociatedComponent {
   //--------------------------------------------------------------------------
   //
   //  Element

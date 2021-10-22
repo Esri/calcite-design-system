@@ -15,7 +15,7 @@ import { getElementDir } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
-import { connectForm, disconnectForm, FormAssociated } from "../../utils/form";
+import { connectForm, disconnectForm, FormAssociatedComponent } from "../../utils/form";
 import { TEXT } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 
@@ -24,7 +24,7 @@ import { CSS_UTILITY } from "../../utils/resources";
   styleUrl: "calcite-rating.scss",
   shadow: true
 })
-export class CalciteRating implements LabelableComponent, FormAssociated {
+export class CalciteRating implements LabelableComponent, FormAssociatedComponent {
   //--------------------------------------------------------------------------
   //
   //  Element

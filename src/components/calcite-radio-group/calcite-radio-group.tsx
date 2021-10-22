@@ -17,7 +17,7 @@ import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { Layout, Scale, Width } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
-import { connectForm, disconnectForm, FormAssociated } from "../../utils/form";
+import { connectForm, disconnectForm, FormAssociatedComponent } from "../../utils/form";
 import { RadioAppearance } from "./interfaces";
 
 /**
@@ -28,7 +28,7 @@ import { RadioAppearance } from "./interfaces";
   styleUrl: "calcite-radio-group.scss",
   shadow: true
 })
-export class CalciteRadioGroup implements LabelableComponent, FormAssociated {
+export class CalciteRadioGroup implements LabelableComponent, FormAssociatedComponent {
   //--------------------------------------------------------------------------
   //
   //  Element

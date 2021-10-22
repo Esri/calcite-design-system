@@ -14,7 +14,7 @@ import {
 import { Direction, focusElement, getElementDir } from "../../utils/dom";
 import { Scale, Width } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
-import { connectForm, disconnectForm, FormAssociated } from "../../utils/form";
+import { connectForm, disconnectForm, FormAssociatedComponent } from "../../utils/form";
 import { CSS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 import { createObserver } from "../../utils/observers";
@@ -40,7 +40,7 @@ function isOptionGroup(
   styleUrl: "calcite-select.scss",
   shadow: true
 })
-export class CalciteSelect implements LabelableComponent, FormAssociated {
+export class CalciteSelect implements LabelableComponent, FormAssociatedComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties
