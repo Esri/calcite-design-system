@@ -93,7 +93,8 @@
 .actions-start,
 .actions-end {
   ::slotted(calcite-action) {
-    @apply self-stretch;
+    @apply self-stretch
+    m-1;
 
     color: inherit;
   }
