@@ -18,9 +18,9 @@ import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from 
 import {
   HiddenFormInputSlot,
   renderHiddenFormInput,
-  FormAssociatedComponent,
   connectForm,
-  disconnectForm
+  disconnectForm,
+  CheckableFormAssociated
 } from "../../utils/form";
 import { CSS } from "./resources";
 import { getKey } from "../../utils/key";
@@ -32,7 +32,7 @@ import { getRoundRobinIndex } from "../../utils/array";
   styleUrl: "calcite-radio-button.scss",
   shadow: true
 })
-export class CalciteRadioButton implements LabelableComponent, FormAssociatedComponent {
+export class CalciteRadioButton implements LabelableComponent, CheckableFormAssociated {
   //--------------------------------------------------------------------------
   //
   //  Element

@@ -22,7 +22,7 @@ import {
   hiddenInputStyle,
   connectForm,
   disconnectForm,
-  FormAssociatedComponent
+  CheckableFormAssociated
 } from "../../utils/form";
 
 @Component({
@@ -30,7 +30,7 @@ import {
   styleUrl: "calcite-switch.scss",
   shadow: true
 })
-export class CalciteSwitch implements LabelableComponent, FormAssociatedComponent {
+export class CalciteSwitch implements LabelableComponent, CheckableFormAssociated {
   //--------------------------------------------------------------------------
   //
   //  Element

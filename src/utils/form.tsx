@@ -20,13 +20,11 @@ export const hiddenInputStyle = `
 `;
 
 /**
- * Defines interface for components that are form-compatible.
+ * Defines interface for form-associated components.
  *
  * Along with the interface, use the matching form utils to help set up the component behavior.
  */
-export type FormAssociatedComponent<T = any> = FormAssociated<T> | CheckableFormAssociated<T>;
-
-interface FormAssociated<T = any> {
+export interface FormAssociatedComponent<T = any> {
   /**
    * When true, this component's value will not be submitted in the form.
    */
@@ -92,16 +90,23 @@ interface FormAssociated<T = any> {
   syncHiddenFormInput?(input: HTMLInputElement): void;
 }
 
-interface CheckableFormAssociated<T = any> extends FormAssociated<T> {
+/**
+ * Defines interface for checkable form-associated components.
+ *
+ * Along with the interface, use the matching form utils to help set up the component behavior.
+ */
+export interface CheckableFormAssociated<T = any> extends FormAssociatedComponent<T> {
   /**
    * For boolean-valued components, this property defines whether the associated value is submitted to the form or not.
    */
   checked: boolean;
 
   /**
-   * The initial value for this form component.
+   * The initial checked value for this form component.
    *
-   * When the form is reset, the value will be set to this property.
+   * When the form is reset, the checked property will be set to this value.
+   *
+   * @todo remove optional in follow-up PR
    */
   defaultChecked?: boolean;
 }
