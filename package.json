@@ -117,7 +117,7 @@
     "form-request-submit-polyfill": "2.0.0",
     "gh-release": "6.0.1",
     "git-semver-tags": "4.1.1",
-    "husky": "7.0.2",
+    "husky": "7.0.4",
     "jest": "26.6.3",
     "jest-axe": "5.0.1",
     "jest-cli": "26.6.3",
