@@ -97,13 +97,12 @@
 }
 
 .header-content {
-  @apply block
-    overflow-hidden
+  @apply overflow-hidden
     mr-auto
     px-3
-    py-4;
-  display: flex;
-  flex-direction: column;
+    py-4
+    flex
+    flex-col;
   .heading,
   .summary {
     @apply p-0
