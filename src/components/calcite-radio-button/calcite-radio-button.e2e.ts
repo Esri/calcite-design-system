@@ -18,7 +18,7 @@ describe("calcite-radio-button", () => {
 
   it("is labelable", async () =>
     labelable("<calcite-radio-button name='group-name'></calcite-radio-button>", {
-      shadowFocusTargetSelector: "input",
+      shadowFocusTargetSelector: ".container",
       propertyToToggle: "checked"
     }));
 
@@ -42,7 +42,7 @@ describe("calcite-radio-button", () => {
 
   it("is focusable", () =>
     focusable("calcite-radio-button", {
-      shadowFocusTargetSelector: "input[type=radio]"
+      shadowFocusTargetSelector: ".container"
     }));
 
   it("reflects", async () =>

@@ -16,7 +16,8 @@ import { focusElement } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
-  hiddenInputStyle,
+  HiddenFormInputSlot,
+  renderHiddenFormInput,
   FormAssociatedComponent,
   connectForm,
   disconnectForm
@@ -54,19 +55,12 @@ export class CalciteRadioButton implements LabelableComponent, FormAssociatedCom
     if (newChecked) {
       this.uncheckOtherRadioButtonsInGroup();
     }
-    if (this.inputEl) {
-      this.inputEl.checked = newChecked;
-    }
+
     this.calciteInternalRadioButtonCheckedChange.emit(newChecked);
   }
 
   /** The disabled state of the radio button. */
   @Prop({ reflect: true }) disabled = false;
-
-  @Watch("disabled")
-  disabledChanged(disabled: boolean): void {
-    this.inputEl.disabled = disabled;
-  }
 
   /**
    * The focused state of the radio button.
@@ -76,13 +70,13 @@ export class CalciteRadioButton implements LabelableComponent, FormAssociatedCom
 
   @Watch("focused")
   focusedChanged(focused: boolean): void {
-    if (!this.inputEl) {
+    if (!this.containerEl) {
       return;
     }
-    if (focused && !this.el.hasAttribute("hidden")) {
-      this.inputEl.focus();
+    if (focused && !this.hidden) {
+      this.containerEl.focus();
     } else {
-      this.inputEl.blur();
+      this.containerEl.blur();
     }
   }
 
@@ -91,11 +85,6 @@ export class CalciteRadioButton implements LabelableComponent, FormAssociatedCom
 
   /** The radio button's hidden status.  When a radio button is hidden it is not focusable or checkable. */
   @Prop({ reflect: true }) hidden = false;
-
-  @Watch("hidden")
-  hiddenChanged(newHidden: boolean): void {
-    this.inputEl.hidden = newHidden;
-  }
 
   /**
    * The hovered state of the radio button.
@@ -113,13 +102,7 @@ export class CalciteRadioButton implements LabelableComponent, FormAssociatedCom
   @Prop({ reflect: true }) name: string;
 
   @Watch("name")
-  nameChanged(newName: string): void {
-    if (this.name === newName) {
-      return;
-    }
-    if (this.inputEl) {
-      this.inputEl.name = newName;
-    }
+  nameChanged(): void {
     this.checkLastRadioButton();
     const currentValue: HTMLInputElement = this.rootNode.querySelector(
       `input[name="${this.name}"]:checked`
@@ -131,11 +114,6 @@ export class CalciteRadioButton implements LabelableComponent, FormAssociatedCom
 
   /** Requires that a value is selected for the radio button group before the parent form will submit. */
   @Prop({ reflect: true }) required = false;
-
-  @Watch("required")
-  requiredChanged(required: boolean): void {
-    this.inputEl.required = required;
-  }
 
   /** The scale (size) of the radio button. `scale` is passed as a property automatically from `calcite-radio-button-group`. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -155,9 +133,9 @@ export class CalciteRadioButton implements LabelableComponent, FormAssociatedCom
 
   defaultValue: CalciteRadioButton["value"];
 
-  private inputEl: HTMLInputElement;
+  rootNode: HTMLElement;
 
-  private rootNode: HTMLElement;
+  containerEl: HTMLDivElement;
 
   //--------------------------------------------------------------------------
   //
@@ -168,7 +146,7 @@ export class CalciteRadioButton implements LabelableComponent, FormAssociatedCom
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    focusElement(this.inputEl);
+    focusElement(this.containerEl);
   }
 
   //--------------------------------------------------------------------------
@@ -186,6 +164,9 @@ export class CalciteRadioButton implements LabelableComponent, FormAssociatedCom
   };
 
   toggle = (): void => {
+    if (this.disabled) {
+      return;
+    }
     this.uncheckAllRadioButtonsInGroup();
     this.checked = true;
     this.focused = true;
@@ -242,8 +223,8 @@ export class CalciteRadioButton implements LabelableComponent, FormAssociatedCom
     this.calciteInternalRadioButtonCheckedChange.emit();
   }
 
-  private setInputEl = (el): void => {
-    this.inputEl = el;
+  private setContainerEl = (el: HTMLDivElement): void => {
+    this.containerEl = el;
   };
 
   private uncheckAllRadioButtonsInGroup(): void {
@@ -323,8 +304,7 @@ export class CalciteRadioButton implements LabelableComponent, FormAssociatedCom
     this.hovered = false;
   }
 
-  @Listen("keydown")
-  protected handleKeyDown(event: KeyboardEvent): void {
+  handleKeyDown = (event: KeyboardEvent): void => {
     const keys = ["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown"];
     const key = getKey(event.key);
     const { el } = this;
@@ -377,18 +357,14 @@ export class CalciteRadioButton implements LabelableComponent, FormAssociatedCom
       default:
         return;
     }
-  }
-
-  private hideInputEl = (): void => {
-    this.inputEl.style.cssText = hiddenInputStyle;
   };
 
-  private onInputBlur = (): void => {
+  private onContainerBlur = (): void => {
     this.focused = false;
     this.calciteInternalRadioButtonBlur.emit();
   };
 
-  private onInputFocus = (): void => {
+  private onContainerFocus = (): void => {
     this.focused = true;
     this.calciteInternalRadioButtonFocus.emit();
   };
@@ -410,9 +386,8 @@ export class CalciteRadioButton implements LabelableComponent, FormAssociatedCom
   }
 
   componentDidLoad(): void {
-    this.hideInputEl();
     if (this.focused) {
-      this.inputEl.focus();
+      this.containerEl.focus();
     }
   }
 
@@ -428,25 +403,19 @@ export class CalciteRadioButton implements LabelableComponent, FormAssociatedCom
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const value = this.value?.toString();
-
+    renderHiddenFormInput(this);
     return (
-      <Host onClick={this.clickHandler}>
-        <div class={CSS.container}>
-          <input
-            aria-label={getLabelText(this)}
-            checked={this.checked}
-            disabled={this.disabled}
-            hidden={this.hidden}
-            id={`${this.guid}-input`}
-            name={this.name}
-            onBlur={this.onInputBlur}
-            onFocus={this.onInputFocus}
-            ref={this.setInputEl}
-            required={this.required}
-            type="radio"
-            value={value}
-          />
+      <Host onClick={this.clickHandler} onKeyDown={this.handleKeyDown}>
+        <div
+          aria-checked={this.checked.toString()}
+          aria-label={getLabelText(this)}
+          class={CSS.container}
+          onBlur={this.onContainerBlur}
+          onFocus={this.onContainerFocus}
+          ref={this.setContainerEl}
+          role="radio"
+          tabIndex={this.checked ? 0 : -1}
+        >
           <calcite-radio
             checked={this.checked}
             disabled={this.disabled}
@@ -456,6 +425,7 @@ export class CalciteRadioButton implements LabelableComponent, FormAssociatedCom
             scale={this.scale}
           />
         </div>
+        <HiddenFormInputSlot />
       </Host>
     );
   }

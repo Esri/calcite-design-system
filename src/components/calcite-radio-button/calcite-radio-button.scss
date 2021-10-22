@@ -7,3 +7,5 @@
 :host([disabled]) {
   @apply cursor-pointer;
 }
+
+@include hidden-form-input();
