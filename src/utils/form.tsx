@@ -205,6 +205,7 @@ export function renderHiddenFormInput(formAssociated: FormAssociatedComponent): 
   input.hidden = hidden;
   input.name = name;
   input.required = required;
+  input.tabIndex = -1;
   input.value =
     value ||
     // heuristic to support default/on mode from https://html.spec.whatwg.org/multipage/input.html#dom-input-value-default-on

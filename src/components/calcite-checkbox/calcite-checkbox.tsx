@@ -84,8 +84,6 @@ export class CalciteCheckbox implements LabelableComponent, FormAssociatedCompon
 
   readonly indeterminatePath = "M13 8v1H3V8z";
 
-  input: HTMLInputElement;
-
   labelEl: HTMLCalciteLabelElement;
 
   formEl: HTMLFormElement;
