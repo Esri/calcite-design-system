@@ -535,6 +535,18 @@ export class CalciteInput implements LabelableComponent, FormAssociated {
     this.setValue(this.defaultValue);
   }
 
+  syncHiddenFormInput(input: HTMLInputElement): void {
+    if (this.type === "number") {
+      input.type = "number";
+      input.min = this.min?.toString(10) ?? "";
+      input.max = this.max?.toString(10) ?? "";
+    } else if (this.type === "text") {
+      input.type = "text";
+      input.minLength = this.minLength ?? -1;
+      input.maxLength = this.maxLength ?? -1;
+    }
+  }
+
   private setChildElRef = (el) => {
     this.childEl = el;
   };

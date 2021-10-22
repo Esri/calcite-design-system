@@ -93,6 +93,13 @@ export interface FormAssociated<T = any> {
    * Hook for components to provide custom form reset behavior.
    */
   onFormReset?(): void;
+
+  /**
+   * Hook for components to sync extra props on the hidden input form element used for form-submitting.
+   *
+   * Note: The following props are set by default: disabled, hidden, name, required, value.
+   */
+  syncHiddenFormInput?(input: HTMLInputElement): void;
 }
 
 const onFormResetMap = new WeakMap<HTMLElement, FormAssociated["onFormReset"]>();
@@ -189,6 +196,8 @@ export function renderHiddenFormInput(formAssociated: FormAssociated): void {
     value ||
     // heuristic to support default/on mode from https://html.spec.whatwg.org/multipage/input.html#dom-input-value-default-on
     (typeof checked === "boolean" && checked ? "on" : "");
+
+  formAssociated.syncHiddenFormInput?.call(formAssociated, input);
 }
 
 /**
