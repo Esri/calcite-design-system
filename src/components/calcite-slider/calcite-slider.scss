@@ -131,34 +131,6 @@ $tick-height: 4px;
 .thumb--minValue {
   transform: translate(-7px, -8px);
 }
-/* uncomment for helpful debugging UI */
-// :host([debug]) {
-//   &:after {
-//     content: "";
-//     display: block;
-//     width: calc(100% + 14px);
-//     height: 50px;
-//     position: absolute;
-//     top: -16px;
-//     left: -7px;
-//     background-color: #ccc;
-//     opacity: var(--calcite-ui-opacity-disabled);
-//   }
-//   .handle__label {
-//     &.static {
-//       background-color: var(--calcite-ui-brand);
-//       opacity: var(--calcite-ui-opacity-disabled);
-//       color: transparent;
-//     }
-//     &.transformed:not([style*="translateX(0px)"]),
-//     &.transformed:not([style*="margin-left: 0px"]),
-//     &.transformed:not([style*="margin-right: 0px"]) {
-//       background-color: red;
-//       opacity: var(--calcite-ui-opacity-disabled);
-//       color: transparent;
-//     }
-//   }
-// }
 :host([label-handles]) {
   .thumb {
     transform: translate(50%, -25px);
