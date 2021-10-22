@@ -1,4 +1,4 @@
-name: Deploy Next
+name: Build
 concurrency:
   group: deploy_next
   cancel-in-progress: true
@@ -19,10 +19,14 @@ jobs:
         env:
           NEXT_RELEASE_ENABLED: ${{ secrets.NEXT_RELEASE_ENABLED }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        if: ${{ env.NEXT_RELEASE_ENABLED }} == "true"
-      - run: npm ci
-      - run: npm test
-      - run: npm run util:deploy-next-from-travis
+      - run: |
+          npm ci
+          npm test
+          if [ $NEXT_RELEASE_ENABLED == "true" ]; then
+            npm run util:deploy-next-from-travis
+          else
+            echo "Next release is disabled"
+          fi
       - uses: toko-bifrost/ms-teams-deploy-card@3.1.2
         if: always()
         with:
