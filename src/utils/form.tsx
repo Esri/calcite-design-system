@@ -136,7 +136,6 @@ function alreadyRegistered(form: HTMLFormElement, formComponentEl: HTMLElement):
   formComponentEl.dispatchEvent(
     new CustomEvent(formComponentRegisterEventName, {
       bubbles: true,
-      cancelable: true,
       composed: true
     })
   );
