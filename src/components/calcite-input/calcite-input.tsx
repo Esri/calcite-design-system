@@ -256,6 +256,8 @@ export class CalciteInput implements LabelableComponent {
   /** determine if there is a slotted action for styling purposes */
   private slottedActionEl?: HTMLSlotElement;
 
+  private interval;
+
   //--------------------------------------------------------------------------
   //
   //  State
@@ -356,6 +358,11 @@ export class CalciteInput implements LabelableComponent {
       this.clearInputValue(event);
       event.preventDefault();
     }
+  }
+
+  @Listen("mouseup")
+  mouseUpHandler(): void {
+    clearInterval(this.interval);
   }
 
   //--------------------------------------------------------------------------
@@ -496,25 +503,39 @@ export class CalciteInput implements LabelableComponent {
     direction: NumberNudgeDirection,
     nativeEvent: KeyboardEvent | MouseEvent
   ): void => {
+    if (nativeEvent instanceof KeyboardEvent && nativeEvent.repeat) {
+      return;
+    }
     if (this.type !== "number") {
       return;
     }
-    const value = this.value;
     const inputMax = this.maxString ? parseFloat(this.maxString) : null;
     const inputMin = this.minString ? parseFloat(this.minString) : null;
-    const inputStep = this.step === "any" ? 1 : Math.abs(this.step || 1);
-    const inputVal = value && value !== "" ? parseFloat(value) : 0;
-    let newValue = value;
+    const spinnerSpeed = 500;
 
-    if (direction === "up" && ((!inputMax && inputMax !== 0) || inputVal < inputMax)) {
-      newValue = (inputVal + inputStep).toString();
+    const incrementOrDecrementNumberValue = () => {
+      const value = this.value;
+      const inputVal = value && value !== "" ? parseFloat(value) : 0;
+      const inputStep = this.step === "any" ? 1 : Math.abs(this.step || 1);
+
+      if (direction === "up" && ((!inputMax && inputMax !== 0) || inputVal < inputMax)) {
+        const newValue = (parseFloat(value) + inputStep).toString();
+        this.setValue(newValue, nativeEvent, true);
+      }
+      if (direction === "down" && ((!inputMin && inputMin !== 0) || inputVal > inputMin)) {
+        const newValue = (parseFloat(value) - inputStep).toString();
+        this.setValue(newValue, nativeEvent, true);
+      }
+    };
+
+    if (nativeEvent.type != "mousedown") {
+      incrementOrDecrementNumberValue();
     }
-
-    if (direction === "down" && ((!inputMin && inputMin !== 0) || inputVal > inputMin)) {
-      newValue = (inputVal - inputStep).toString();
+    if (nativeEvent.type != "click") {
+      this.interval = setInterval(() => {
+        incrementOrDecrementNumberValue();
+      }, spinnerSpeed);
     }
-
-    this.setValue(newValue, nativeEvent, true);
   };
 
   private numberButtonClickHandler = (event: MouseEvent): void => {
@@ -584,6 +605,10 @@ export class CalciteInput implements LabelableComponent {
     }
   };
 
+  private inputKeyUpHandler = (): void => {
+    clearInterval(this.interval);
+  };
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -631,6 +656,7 @@ export class CalciteInput implements LabelableComponent {
         data-adjustment="up"
         disabled={this.disabled || this.readOnly}
         onClick={this.numberButtonClickHandler}
+        onMouseDown={this.numberButtonClickHandler}
         tabIndex={-1}
         type="button"
       >
@@ -647,6 +673,7 @@ export class CalciteInput implements LabelableComponent {
         data-adjustment="down"
         disabled={this.disabled || this.readOnly}
         onClick={this.numberButtonClickHandler}
+        onMouseDown={this.numberButtonClickHandler}
         tabIndex={-1}
         type="button"
       >
@@ -680,6 +707,7 @@ export class CalciteInput implements LabelableComponent {
           onFocus={this.inputFocusHandler}
           onInput={this.inputNumberInputHandler}
           onKeyDown={this.inputNumberKeyDownHandler}
+          onKeyUp={this.inputKeyUpHandler}
           placeholder={this.placeholder || ""}
           readOnly={this.readOnly}
           ref={this.setChildNumberElRef}
@@ -704,6 +732,7 @@ export class CalciteInput implements LabelableComponent {
         onFocus={this.inputFocusHandler}
         onInput={this.inputInputHandler}
         onKeyDown={this.inputKeyDownHandler}
+        onKeyUp={this.inputKeyUpHandler}
         placeholder={this.placeholder || ""}
         readOnly={this.readOnly}
         ref={this.setChildElRef}
