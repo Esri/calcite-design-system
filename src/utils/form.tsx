@@ -243,7 +243,7 @@ export function renderHiddenFormInput(component: FormComponent): void {
     // heuristic to support default/on mode from https://html.spec.whatwg.org/multipage/input.html#dom-input-value-default-on
     (isCheckable(component) && component.checked ? "on" : "");
 
-  component.syncHiddenFormInput?.call(component, input);
+  component.syncHiddenFormInput?.(input);
 }
 
 /**
