@@ -542,8 +542,14 @@ export class CalciteInput implements LabelableComponent, FormComponent {
       input.max = this.max?.toString(10) ?? "";
     } else if (this.type === "text") {
       input.type = "text";
-      input.minLength = this.minLength ?? -1;
-      input.maxLength = this.maxLength ?? -1;
+
+      if (this.minLength != null) {
+        input.minLength = this.minLength;
+      }
+
+      if (this.maxLength != null) {
+        input.maxLength = this.maxLength;
+      }
     }
   }
 
