@@ -145,7 +145,8 @@ export class CalciteTileSelect {
   }
 
   @Listen("calciteInternalCheckboxFocus")
-  checkboxFocusHandler(event: CustomEvent): void {
+  @Listen("calciteInternalCheckboxBlur")
+  checkboxFocusBlurHandler(event: CustomEvent): void {
     const checkbox = event.target as HTMLCalciteCheckboxElement;
     if (checkbox === this.input) {
       this.focused = event.detail;
@@ -173,7 +174,8 @@ export class CalciteTileSelect {
   }
 
   @Listen("calciteInternalRadioButtonFocus")
-  radioButtonFocusHandler(event: CustomEvent): void {
+  @Listen("calciteInternalRadioButtonBlur")
+  radioButtonFocusBlurHandler(event: CustomEvent): void {
     const radioButton = event.target as HTMLCalciteRadioButtonElement;
     if (radioButton === this.input) {
       this.focused = radioButton.focused;
