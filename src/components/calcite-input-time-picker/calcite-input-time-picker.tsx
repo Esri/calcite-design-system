@@ -23,14 +23,14 @@ import {
 } from "../../utils/time";
 import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
-import { connectForm, disconnectForm, FormAssociatedComponent } from "../../utils/form";
+import { connectForm, disconnectForm, FormComponent } from "../../utils/form";
 
 @Component({
   tag: "calcite-input-time-picker",
   styleUrl: "calcite-input-time-picker.scss",
   shadow: true
 })
-export class CalciteInputTimePicker implements LabelableComponent, FormAssociatedComponent {
+export class CalciteInputTimePicker implements LabelableComponent, FormComponent {
   //--------------------------------------------------------------------------
   //
   //  Element

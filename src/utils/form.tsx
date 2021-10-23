@@ -24,7 +24,7 @@ export const hiddenInputStyle = `
  *
  * Along with the interface, use the matching form utils to help set up the component behavior.
  */
-export interface FormAssociatedComponent<T = any> {
+export interface FormComponent<T = any> {
   /**
    * When true, this component's value will not be submitted in the form.
    */
@@ -95,7 +95,7 @@ export interface FormAssociatedComponent<T = any> {
  *
  * Along with the interface, use the matching form utils to help set up the component behavior.
  */
-export interface CheckableFormAssociated<T = any> extends FormAssociatedComponent<T> {
+export interface CheckableFormCompoment<T = any> extends FormComponent<T> {
   /**
    * For boolean-valued components, this property defines whether the associated value is submitted to the form or not.
    */
@@ -111,34 +111,30 @@ export interface CheckableFormAssociated<T = any> extends FormAssociatedComponen
   defaultChecked?: boolean;
 }
 
-function isCheckable(
-  formAssociated: FormAssociatedComponent
-): formAssociated is CheckableFormAssociated {
-  return "checked" in formAssociated;
+function isCheckable(component: FormComponent): component is CheckableFormCompoment {
+  return "checked" in component;
 }
 
-const onFormResetMap = new WeakMap<HTMLElement, FormAssociatedComponent["onFormReset"]>();
-const formAssociatedComponentSet = new WeakSet<HTMLElement>();
+const onFormResetMap = new WeakMap<HTMLElement, FormComponent["onFormReset"]>();
+const formComponentSet = new WeakSet<HTMLElement>();
 
-function alreadyRegistered(form: HTMLFormElement, formAssociatedEl: HTMLElement): boolean {
+function alreadyRegistered(form: HTMLFormElement, formComponentEl: HTMLElement): boolean {
   // we use events as a way to test for nested form-associated components across shadow bounds
-  const calciteInternalFormAssociatedRegisterEventName = "calciteInternalFormAssociatedRegister";
+  const formComponentRegisterEventName = "calciteInternalFormComponentRegister";
 
   let nested = false;
 
   form.addEventListener(
-    calciteInternalFormAssociatedRegisterEventName,
+    formComponentRegisterEventName,
     (event) => {
-      nested = event
-        .composedPath()
-        .some((element) => formAssociatedComponentSet.has(element as HTMLElement));
+      nested = event.composedPath().some((element) => formComponentSet.has(element as HTMLElement));
       event.stopPropagation();
     },
     { once: true }
   );
 
-  formAssociatedEl.dispatchEvent(
-    new CustomEvent(calciteInternalFormAssociatedRegisterEventName, {
+  formComponentEl.dispatchEvent(
+    new CustomEvent(formComponentRegisterEventName, {
       bubbles: true,
       cancelable: true,
       composed: true
@@ -153,8 +149,8 @@ function alreadyRegistered(form: HTMLFormElement, formAssociatedEl: HTMLElement)
  *
  * @param el - the host element
  */
-export function connectForm<T>(formAssociated: FormAssociatedComponent<T>): void {
-  const { el, value } = formAssociated;
+export function connectForm<T>(component: FormComponent<T>): void {
+  const { el, value } = component;
 
   const form = closestElementCrossShadowBoundary<HTMLFormElement>(el, "form");
 
@@ -162,19 +158,19 @@ export function connectForm<T>(formAssociated: FormAssociatedComponent<T>): void
     return;
   }
 
-  formAssociated.formEl = form;
-  formAssociated.defaultValue = value;
+  component.formEl = form;
+  component.defaultValue = value;
 
-  if (isCheckable(formAssociated)) {
-    formAssociated.defaultChecked = formAssociated.checked;
+  if (isCheckable(component)) {
+    component.defaultChecked = component.checked;
   }
 
-  const boundOnFormReset = (formAssociated.onFormReset || onFormReset).bind(formAssociated);
+  const boundOnFormReset = (component.onFormReset || onFormReset).bind(component);
   form.addEventListener("reset", boundOnFormReset);
-  formAssociatedComponentSet.add(el);
+  formComponentSet.add(el);
 }
 
-function onFormReset<T>(this: FormAssociatedComponent<T>): void {
+function onFormReset<T>(this: FormComponent<T>): void {
   if (isCheckable(this)) {
     this.checked = this.defaultChecked;
     return;
@@ -188,8 +184,8 @@ function onFormReset<T>(this: FormAssociatedComponent<T>): void {
  *
  * @param el - the host element
  */
-export function disconnectForm<T>(formAssociated: FormAssociatedComponent<T>): void {
-  const { el, formEl } = formAssociated;
+export function disconnectForm<T>(component: FormComponent<T>): void {
+  const { el, formEl } = component;
 
   if (!formEl) {
     return;
@@ -198,8 +194,8 @@ export function disconnectForm<T>(formAssociated: FormAssociatedComponent<T>): v
   const boundOnFormReset = onFormResetMap.get(el);
   formEl.removeEventListener("reset", boundOnFormReset);
   onFormResetMap.delete(el);
-  formAssociated.formEl = null;
-  formAssociatedComponentSet.delete(el);
+  component.formEl = null;
+  formComponentSet.delete(el);
 }
 
 /**
@@ -219,8 +215,8 @@ export function disconnectForm<T>(formAssociated: FormAssociatedComponent<T>): v
  *
  * Based on Ionic's approach: https://github.com/ionic-team/ionic-framework/blob/e4bf052794af9aac07f887013b9250d2a045eba3/core/src/utils/helpers.ts#L198
  */
-export function renderHiddenFormInput(formAssociated: FormAssociatedComponent): void {
-  const { disabled, el, formEl, hidden, name, required, value } = formAssociated;
+export function renderHiddenFormInput(component: FormComponent): void {
+  const { disabled, el, formEl, hidden, name, required, value } = component;
 
   let input = el.querySelector(
     `input[slot="${hiddenFormInputSlotName}"]`
@@ -245,9 +241,9 @@ export function renderHiddenFormInput(formAssociated: FormAssociatedComponent): 
   input.value =
     value ||
     // heuristic to support default/on mode from https://html.spec.whatwg.org/multipage/input.html#dom-input-value-default-on
-    (isCheckable(formAssociated) && formAssociated.checked ? "on" : "");
+    (isCheckable(component) && component.checked ? "on" : "");
 
-  formAssociated.syncHiddenFormInput?.call(formAssociated, input);
+  component.syncHiddenFormInput?.call(component, input);
 }
 
 /**

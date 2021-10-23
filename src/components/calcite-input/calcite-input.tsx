@@ -22,7 +22,7 @@ import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from 
 import {
   connectForm,
   disconnectForm,
-  FormAssociatedComponent,
+  FormComponent,
   HiddenFormInputSlot,
   renderHiddenFormInput
 } from "../../utils/form";
@@ -46,7 +46,7 @@ type NumberNudgeDirection = "up" | "down";
   styleUrl: "calcite-input.scss",
   shadow: true
 })
-export class CalciteInput implements LabelableComponent, FormAssociatedComponent {
+export class CalciteInput implements LabelableComponent, FormComponent {
   //--------------------------------------------------------------------------
   //
   //  Element

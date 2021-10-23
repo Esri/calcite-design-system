@@ -12,7 +12,7 @@ import {
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
 import {
-  CheckableFormAssociated,
+  CheckableFormCompoment,
   HiddenFormInputSlot,
   renderHiddenFormInput
 } from "../../utils/form";
@@ -24,7 +24,7 @@ import { connectForm, disconnectForm } from "../../utils/form";
   styleUrl: "calcite-checkbox.scss",
   shadow: true
 })
-export class CalciteCheckbox implements LabelableComponent, CheckableFormAssociated {
+export class CalciteCheckbox implements LabelableComponent, CheckableFormCompoment {
   //--------------------------------------------------------------------------
   //
   //  Element
