@@ -216,22 +216,65 @@ export function disconnectForm<T>(component: FormComponent<T>): void {
  * Based on Ionic's approach: https://github.com/ionic-team/ionic-framework/blob/e4bf052794af9aac07f887013b9250d2a045eba3/core/src/utils/helpers.ts#L198
  */
 export function renderHiddenFormInput(component: FormComponent): void {
-  const { disabled, el, formEl, hidden, name, required, value } = component;
+  const { el, formEl, value } = component;
 
-  let input = el.querySelector(
-    `input[slot="${hiddenFormInputSlotName}"]`
-  ) as HTMLInputElement | null;
+  // TODO: optimize
+  // TODO: remove 1 when remaining?
+  const inputs = el.querySelectorAll<HTMLInputElement>(`input[slot="${hiddenFormInputSlotName}"]`);
 
   if (!formEl) {
-    input?.remove();
+    inputs.forEach((input) => input.remove());
     return;
   }
 
-  if (!input) {
-    input = el.ownerDocument!.createElement("input");
-    input.slot = hiddenFormInputSlotName;
-    el.appendChild(input);
+  const values = Array.isArray(value) ? value : [value];
+  const extra: any[] = [];
+  const seen = new Set<any>();
+
+  inputs.forEach((input) => {
+    if (values.includes(input.value)) {
+      seen.add(input.value);
+      syncHiddenFormInput(component, input, input.value);
+    } else {
+      extra.push(input);
+    }
+  });
+
+  let docFrag: DocumentFragment;
+
+  values.forEach((value) => {
+    if (seen.has(value)) {
+      return;
+    }
+
+    let input = extra.pop();
+
+    if (!input) {
+      input = el.ownerDocument!.createElement("input");
+      input.slot = hiddenFormInputSlotName;
+    }
+
+    if (!docFrag) {
+      docFrag = el.ownerDocument!.createDocumentFragment();
+    }
+
+    docFrag.append(input);
+
+    syncHiddenFormInput(component, input, value);
+  });
+
+  if (docFrag) {
+    el.append(docFrag);
   }
+  extra.forEach((input) => input.remove());
+}
+
+function syncHiddenFormInput(
+  component: FormComponent,
+  input: HTMLInputElement,
+  value: string
+): void {
+  const { disabled, hidden, name, required } = component;
 
   input.disabled = disabled;
   input.hidden = hidden;
