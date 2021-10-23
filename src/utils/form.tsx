@@ -145,8 +145,6 @@ function alreadyRegistered(form: HTMLFormElement, formComponentEl: HTMLElement):
 
 /**
  * Helper to set up form interactions on connectedCallback.
- *
- * @param el - the host element
  */
 export function connectForm<T>(component: FormComponent<T>): void {
   const { el, value } = component;
@@ -180,8 +178,6 @@ function onFormReset<T>(this: FormComponent<T>): void {
 
 /**
  * Helper to tear down form interactions on disconnectedCallback.
- *
- * @param el - the host element
  */
 export function disconnectForm<T>(component: FormComponent<T>): void {
   const { el, formEl } = component;
