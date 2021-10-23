@@ -118,16 +118,21 @@ function isCheckable(component: FormComponent): component is CheckableFormCompom
 const onFormResetMap = new WeakMap<HTMLElement, FormComponent["onFormReset"]>();
 const formComponentSet = new WeakSet<HTMLElement>();
 
-function alreadyRegistered(form: HTMLFormElement, formComponentEl: HTMLElement): boolean {
+function hasRegisteredFormComponentParent(
+  form: HTMLFormElement,
+  formComponentEl: HTMLElement
+): boolean {
   // we use events as a way to test for nested form-associated components across shadow bounds
   const formComponentRegisterEventName = "calciteInternalFormComponentRegister";
 
-  let nested = false;
+  let hasRegisteredFormComponentParent = false;
 
   form.addEventListener(
     formComponentRegisterEventName,
     (event) => {
-      nested = event.composedPath().some((element) => formComponentSet.has(element as HTMLElement));
+      hasRegisteredFormComponentParent = event
+        .composedPath()
+        .some((element) => formComponentSet.has(element as HTMLElement));
       event.stopPropagation();
     },
     { once: true }
@@ -140,7 +145,7 @@ function alreadyRegistered(form: HTMLFormElement, formComponentEl: HTMLElement):
     })
   );
 
-  return nested;
+  return hasRegisteredFormComponentParent;
 }
 
 /**
@@ -151,7 +156,7 @@ export function connectForm<T>(component: FormComponent<T>): void {
 
   const form = closestElementCrossShadowBoundary<HTMLFormElement>(el, "form");
 
-  if (!form || alreadyRegistered(form, el)) {
+  if (!form || hasRegisteredFormComponentParent(form, el)) {
     return;
   }
 
