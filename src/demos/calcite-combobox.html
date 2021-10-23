@@ -613,51 +613,61 @@
       </div>
     </div>
 
-    <h2>With truncated text effect</h2>
-    <div style="width: 350px; margin-left: 1rem">
-      <h3>Multi</h3>
-      <calcite-combobox label="demo combobox 1" selection-mode="multi" allow-custom-values>
-        <calcite-combobox-item value="Trees" text-label="Trees">
-          <calcite-combobox-item
-            value="CommercialDamageAssessment - Damage to Commercial Buildings & Damage to Commercial Buildings"
-            text-label="CommercialDamageAssessment - Damage to Commercial Buildings & Damage to Commercial Buildings"
-            selected
-          ></calcite-combobox-item>
-          <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
-          <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
-        </calcite-combobox-item>
-      </calcite-combobox>
-    </div>
+    <hr />
 
-    <div style="width: 350px; margin-left: 1rem">
-      <h3>Ancestors</h3>
-      <calcite-combobox label="demo combobox 2" selection-mode="ancestors" allow-custom-values>
-        <calcite-combobox-item value="Trees" text-label="Trees">
-          <calcite-combobox-item
-            value="CommercialDamageAssessment - Damage to Commercial Buildings & Damage to Commercial Buildings"
-            text-label="CommercialDamageAssessment - Damage to Commercial Buildings & Damage to Commercial Buildings"
-            selected
-          ></calcite-combobox-item>
-          <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
-          <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
-        </calcite-combobox-item>
-      </calcite-combobox>
-    </div>
+    <div class="parent">
+      <h3 class="child right-aligned-text">With truncated text effect in smaller fixed-width container</h3>
+      <div class="child" style="align-self: flex-start">
+        <div style="width: 20vw">
+          <p>Multi</p>
+          <calcite-combobox label="demo combobox 1" selection-mode="multi" allow-custom-values>
+            <calcite-combobox-item value="Trees" text-label="Trees">
+              <calcite-combobox-item
+                value="CommercialDamageAssessment - Damage to Commercial Buildings & Damage to Commercial Buildings"
+                text-label="CommercialDamageAssessment - Damage to Commercial Buildings & Damage to Commercial Buildings"
+                selected
+              ></calcite-combobox-item>
+              <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+              <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+            </calcite-combobox-item>
+          </calcite-combobox>
+        </div>
+      </div>
 
-    <div style="width: 350px; margin-left: 1rem">
-      <h3>Single (no ellipsis)</h3>
-      <calcite-combobox label="demo combobox 3" selection-mode="single" allow-custom-values>
-        <calcite-combobox-item value="Trees" text-label="Trees">
-          <calcite-combobox-item
-            value="CommercialDamageAssessment - Damage to Commercial Buildings"
-            text-label="CommercialDamageAssessment - Damage to Commercial Buildings"
-            selected
-          ></calcite-combobox-item>
-          <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
-          <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
-        </calcite-combobox-item>
-        <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
-      </calcite-combobox>
+      <div class="child" style="align-self: flex-start">
+        <div style="width: 20vw">
+          <p>Ancestors</p>
+          <calcite-combobox label="demo combobox 2" selection-mode="ancestors" allow-custom-values>
+            <calcite-combobox-item value="Trees" text-label="Trees">
+              <calcite-combobox-item
+                value="CommercialDamageAssessment - Damage to Commercial Buildings & Damage to Commercial Buildings"
+                text-label="CommercialDamageAssessment - Damage to Commercial Buildings & Damage to Commercial Buildings"
+                selected
+              ></calcite-combobox-item>
+              <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+              <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+            </calcite-combobox-item>
+          </calcite-combobox>
+        </div>
+      </div>
+
+      <div class="child" style="align-self: flex-start">
+        <div style="width: 20vw">
+          <p>Single</p>
+          <calcite-combobox label="demo combobox 3" selection-mode="single" allow-custom-values>
+            <calcite-combobox-item value="Trees" text-label="Trees">
+              <calcite-combobox-item
+                value="CommercialDamageAssessment - Damage to Commercial Buildings"
+                text-label="CommercialDamageAssessment - Damage to Commercial Buildings"
+                selected
+              ></calcite-combobox-item>
+              <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+              <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+            </calcite-combobox-item>
+            <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+          </calcite-combobox>
+        </div>
+      </div>
     </div>
   </body>
 </html>
