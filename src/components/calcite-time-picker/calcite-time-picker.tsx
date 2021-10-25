@@ -125,10 +125,10 @@ export class CalciteTimePicker {
   }
 
   /** The scale (size) of the time picker */
-  @Prop({ reflect: true }) scale: Scale = "m";
+  @Prop() scale: Scale = "m";
 
   /** number that specifies the granularity that the value must adhere to */
-  @Prop({ reflect: true }) step = 60;
+  @Prop() step = 60;
 
   /** The selected time in UTC */
   @Prop({ mutable: true }) value: string = null;
