@@ -143,6 +143,9 @@ async function appendUnreleasedNotesToChangelog(): Promise<void> {
 
   if (hasUnreleasedContent) {
     changelogContent = changelogContent.replace(unreleasedSectionPattern, `$1\n${unreleasedSectionContent}\n$3`);
+
+    // remove date to make linking easier
+    // https://github.com/Esri/calcite-components/blob/master/CHANGELOG.md#unreleased
     changelogContent = changelogContent.replace(unreleasedHeaderPattern, "## Unreleased");
   }
 
