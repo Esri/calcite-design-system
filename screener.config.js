@@ -13,6 +13,5 @@ module.exports = {
   diffOptions: {
     minLayoutDimension: 1,
     minLayoutPosition: 1
-  },
-  failureExitCode: 0
+  }
 };
