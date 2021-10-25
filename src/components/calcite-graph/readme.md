@@ -6,14 +6,16 @@ The graph component is used to show small, lightweight graphs in places where a 
 
 ## Properties
 
-| Property       | Attribute       | Description                                                                                                                  | Type          | Default     |
-| -------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------- | ------------- | ----------- |
-| `colorStops`   | --              | Array of values describing a single color stop ([offset, color, opacity]) These color stops should be sorted by offset value | `ColorStop[]` | `undefined` |
-| `data`         | --              | Array of tuples describing a single data point ([x, y]) These data points should be sorted by x-axis value                   | `Point[]`     | `[]`        |
-| `height`       | `height`        | Width of graph in pixels                                                                                                     | `number`      | `100`       |
-| `highlightMax` | `highlight-max` | End of highlight color if highlighting range                                                                                 | `number`      | `undefined` |
-| `highlightMin` | `highlight-min` | Start of highlight color if highlighting range                                                                               | `number`      | `undefined` |
-| `width`        | `width`         | Width of graph in pixels                                                                                                     | `number`      | `300`       |
+| Property                | Attribute       | Description                                                                                                                  | Type          | Default     |
+| ----------------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------- | ------------- | ----------- |
+| `colorStops`            | --              | Array of values describing a single color stop ([offset, color, opacity]) These color stops should be sorted by offset value | `ColorStop[]` | `undefined` |
+| `data`                  | --              | Array of tuples describing a single data point ([x, y]) These data points should be sorted by x-axis value                   | `Point[]`     | `[]`        |
+| `height`                | `height`        | Width of graph in pixels                                                                                                     | `number`      | `100`       |
+| `highlightMax`          | `highlight-max` | End of highlight color if highlighting range                                                                                 | `number`      | `undefined` |
+| `highlightMin`          | `highlight-min` | Start of highlight color if highlighting range                                                                               | `number`      | `undefined` |
+| `width`                 | `width`         | Width of graph in pixels                                                                                                     | `number`      | `300`       |
+| `rangeMin` _(required)_ | `range-min`     | Lowest point of the range                                                                                                    | `number`      | `undefined` |
+| `rangeMax` _(required)_ | `range-max`     | Highest point of the range                                                                                                   | `number`      | `undefined` |
 
 ## Dependencies
 
