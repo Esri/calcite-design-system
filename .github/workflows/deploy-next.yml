@@ -17,16 +17,17 @@ jobs:
           node-version: lts/*
           registry-url: https://registry.npmjs.org/
         env:
-          NEXT_RELEASE_ENABLED: ${{ secrets.NEXT_RELEASE_ENABLED }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: e2e test
         run: |
           npm ci
           npm test
       - name: next deployment
+        env:
+          NEXT_RELEASE_ENABLED: ${{ secrets.NEXT_RELEASE_ENABLED }}
         run: |
-          if [ $NEXT_RELEASE_ENABLED == "true" ]; then
-            npm run util:deploy-next-from-travis
+          if [ "$NEXT_RELEASE_ENABLED" == "true" ]; then
+            npm run util:deploy-next-from-ci
           else
             echo "Next release is disabled"
           fi
