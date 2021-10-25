@@ -405,7 +405,6 @@ export class CalciteInput implements LabelableComponent {
   private inputFocusHandler = (event: FocusEvent): void => {
     if (event.target !== this.slottedActionEl) {
       this.setFocus();
-      event.stopPropagation();
     }
     this.calciteInputFocus.emit({
       element: this.childEl,
