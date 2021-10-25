@@ -48,10 +48,10 @@ export class CalciteGraph {
   @Prop() highlightMax: number;
 
   /** Lowest point of the range */
-  @Prop() rangeMin: number;
+  @Prop() rangeMin!: number;
 
   /** Highest point of the range */
-  @Prop() rangeMax: number;
+  @Prop() rangeMax!: number;
 
   //--------------------------------------------------------------------------
   //
@@ -81,10 +81,11 @@ export class CalciteGraph {
 
     let currentMin: Point = min;
     let currentMax: Point = max;
-    if (rangeMin && rangeMin < min[0]) {
+
+    if (rangeMin < min[0]) {
       currentMin = [rangeMin, 0];
     }
-    if (rangeMax && rangeMax > max[0]) {
+    if (rangeMax > max[0]) {
       currentMax = [rangeMax, max[1]];
     }
 
