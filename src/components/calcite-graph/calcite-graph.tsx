@@ -81,11 +81,11 @@ export class CalciteGraph {
 
     let currentMin: Point = min;
     let currentMax: Point = max;
-    if (rangeMin) {
-      currentMin = rangeMin < min[0] ? [rangeMin, 0] : min;
+    if (rangeMin && rangeMin < min[0]) {
+      currentMin = [rangeMin, 0];
     }
-    if (rangeMax) {
-      currentMax = rangeMax > max[0] ? [rangeMax, max[1]] : max;
+    if (rangeMax && rangeMax > max[0]) {
+      currentMax = [rangeMax, max[1]];
     }
 
     const t = translate({ min: currentMin, max: currentMax, width, height });
