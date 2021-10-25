@@ -558,6 +558,45 @@ describe("calcite-input", () => {
     expect(calciteInputInput).toHaveReceivedEventTimes(1);
   });
 
+  describe("when wrapped in calcite-label and with calcite-button in its 'action' slot", () => {
+    let page;
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(`<calcite-label>
+        Text input
+        <calcite-input clearable>
+          <calcite-button id="action-slot" slot="action">Go</calcite-button>
+        </calcite-input>
+      </calcite-label>`);
+    });
+
+    it("should focus internal input when clicking on calcite-input", async () => {
+      const calciteInputInput = await page.spyOnEvent("calciteInputInput");
+      const element = await page.find("calcite-input");
+      expect(await element.getProperty("value")).toBe(undefined);
+
+      await element.click();
+
+      expect(await page.evaluate(() => document.activeElement.getAttribute("id"))).not.toEqual("action-slot");
+      expect(await page.evaluate(() => document.activeElement.nodeName)).toEqual("INPUT");
+      expect(calciteInputInput).toHaveReceivedEventTimes(0);
+    });
+
+    it("should focus internal input when clicking on its wrapping label", async () => {
+      const calciteInputInput = await page.spyOnEvent("calciteInputInput");
+      const label = await page.find("calcite-label");
+      const element = await page.find("calcite-input");
+      expect(await element.getProperty("value")).toBe(undefined);
+
+      await label.click();
+
+      expect(await page.evaluate(() => document.activeElement.getAttribute("id"))).not.toEqual("action-slot");
+      expect(await page.evaluate(() => document.activeElement.nodeName)).toEqual("INPUT");
+      expect(calciteInputInput).toHaveReceivedEventTimes(0);
+    });
+  });
+
   describe("emits change event when value is committed", () => {
     type CodeBranchingTypes = Extract<HTMLCalciteInputElement["type"], "text" | "number">;
 
