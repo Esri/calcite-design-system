@@ -89,7 +89,7 @@ export class CalciteGraph {
     }
 
     const t = translate({ min: currentMin, max: currentMax, width, height });
-    const [hMinX] = t([highlightMin, currentMin[1]]);
+    const [hMinX] = t([highlightMin, currentMax[1]]);
     const [hMaxX] = t([highlightMax, currentMax[1]]);
     const areaPath = area({ data, min, max, t });
     const fill = colorStops ? `url(#linear-gradient-${id})` : undefined;
