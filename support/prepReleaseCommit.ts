@@ -138,11 +138,12 @@ async function appendUnreleasedNotesToChangelog(): Promise<void> {
     "s"
   );
   const unreleasedSectionContent = await getUnreleasedChangelogContents();
-  const unreleasedHeaderPattern = /## Unreleased/;
+  const unreleasedHeaderPattern = /## Unreleased \(\d{4}-\d{2}-\d{2}\)/;
   const hasUnreleasedContent = unreleasedSectionContent.replace(unreleasedHeaderPattern, "").trim().length > 0;
 
   if (hasUnreleasedContent) {
     changelogContent = changelogContent.replace(unreleasedSectionPattern, `$1\n${unreleasedSectionContent}\n$3`);
+    changelogContent = changelogContent.replace(unreleasedHeaderPattern, "## Unreleased");
   }
 
   changelogContent = prettier.format(changelogContent, { parser: "markdown" });
