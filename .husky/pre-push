@@ -5,7 +5,7 @@
 protected_branch='master'
 current_branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
 
-if [ $protected_branch = $current_branch ]
+if [ $protected_branch = $current_branch ] && [ exec < /dev/tty ]
 then
     read -p "You're about to push master, is that what you intended? [y|n] " -n 1 -r < /dev/tty
     echo

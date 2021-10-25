@@ -5,7 +5,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 <!--@unreleased-section-start-->
 
-## Unreleased
+## Unreleased (2021-10-21)
 
 ### ⚠ BREAKING CHANGES
 
@@ -22,6 +22,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - **action:** deprecating outline appearance ([#3263](https://github.com/Esri/calcite-components/issues/3263)) ([b628ae9](https://github.com/Esri/calcite-components/commit/b628ae9a153f77498c4bcbe4d93d21ff7a27c0d7))
 - **action:** fixing RTL display bugs by replacing getElementDir and RTL CSS classes with CSS logical properties ([#3140](https://github.com/Esri/calcite-components/issues/3140)) ([6a1c904](https://github.com/Esri/calcite-components/commit/6a1c9041d26925691333f1431ba023482089ab53))
+- **alert:** remove full width styling for mobile modes [#2979](https://github.com/Esri/calcite-components/issues/2979) ([#3274](https://github.com/Esri/calcite-components/issues/3274)) ([c7b2b2c](https://github.com/Esri/calcite-components/commit/c7b2b2cde72296680c9e08cce705d2b8017b6984))
 - **block-section:** enable word wrap ([#3156](https://github.com/Esri/calcite-components/issues/3156)) ([b1b6ff3](https://github.com/Esri/calcite-components/commit/b1b6ff3efd32bcc9aed1cdc00e4f0ef3eb340fc2))
 - **button:** Setting the href property after init should update rendering ([#3248](https://github.com/Esri/calcite-components/issues/3248)) ([cfd1f2a](https://github.com/Esri/calcite-components/commit/cfd1f2a554330cbcd2389efc142de41cf84b9ddb)), closes [#3222](https://github.com/Esri/calcite-components/issues/3222)
 - **checkbox:** style the current svg checkbox and interdeterminate icon to be bolder [#2848](https://github.com/Esri/calcite-components/issues/2848) ([#3250](https://github.com/Esri/calcite-components/issues/3250)) ([4503631](https://github.com/Esri/calcite-components/commit/45036313565d8aee5c478cd1cf8fd27e98c6bf92)), closes [#3055](https://github.com/Esri/calcite-components/issues/3055) [#3144](https://github.com/Esri/calcite-components/issues/3144) [#3197](https://github.com/Esri/calcite-components/issues/3197) [#3144](https://github.com/Esri/calcite-components/issues/3144) [#3233](https://github.com/Esri/calcite-components/issues/3233)
@@ -30,6 +31,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **dropdown:** close on outside click when disable-close-on-select is true [#3136](https://github.com/Esri/calcite-components/issues/3136) ([#3227](https://github.com/Esri/calcite-components/issues/3227)) ([5874a9e](https://github.com/Esri/calcite-components/commit/5874a9e2e72e7eab299ac28ede57c3edece845d0))
 - **dropdown:** remove preventDefault and stopPropagation on click event ([#3231](https://github.com/Esri/calcite-components/issues/3231)) ([db8d222](https://github.com/Esri/calcite-components/commit/db8d222ee813ad25fee5dbe2bab32bf64a09e0ad)), closes [#1709](https://github.com/Esri/calcite-components/issues/1709)
 - **dropdown:** Set the height of the active menu after render. [#3234](https://github.com/Esri/calcite-components/issues/3234) ([#3235](https://github.com/Esri/calcite-components/issues/3235)) ([34af14d](https://github.com/Esri/calcite-components/commit/34af14d3014a02d48794a3b6fdbd062bd8ec3a52))
+- **dropdown:** watch maxItems for changes and update height of dropdown. ([#3300](https://github.com/Esri/calcite-components/issues/3300)) ([84d86c2](https://github.com/Esri/calcite-components/commit/84d86c27ad64a54951c7ff609f0c9652c4accb59)), closes [#3295](https://github.com/Esri/calcite-components/issues/3295)
 - **label:** fix focus issue with nested labelable components ([#3286](https://github.com/Esri/calcite-components/issues/3286)) ([f81dc5e](https://github.com/Esri/calcite-components/commit/f81dc5e11186054c2892bddad0b84b12ec946de5))
 - **link:** Setting the href property after init should update rendering ([#3222](https://github.com/Esri/calcite-components/issues/3222)) ([eaab123](https://github.com/Esri/calcite-components/commit/eaab12307f016af54d6ae3872785d0970f63cc37)), closes [#2153](https://github.com/Esri/calcite-components/issues/2153) [#3221](https://github.com/Esri/calcite-components/issues/3221)
 - **notice:** change the padding to be evenly distributed per slot chi… ([#3183](https://github.com/Esri/calcite-components/issues/3183)) ([c698cf5](https://github.com/Esri/calcite-components/commit/c698cf52cd939d1d2156745dc0047efd410a1190))

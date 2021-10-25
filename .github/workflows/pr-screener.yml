@@ -1,6 +1,6 @@
 name: Screener
 on:
-  pull_request_target:
+  pull_request:
     branches: [master]
 jobs:
   screener:
@@ -26,7 +26,7 @@ jobs:
         run: |
           URL=$(grep -Eo 'https://screener.io/v2/dashboard[^ >]+' log.txt|head -1)
           echo "::set-output name=report::$URL"
-      - name: set status
+      - name: show screener report
         if: always()
         uses: Sibz/github-status-action@v1
         with:
