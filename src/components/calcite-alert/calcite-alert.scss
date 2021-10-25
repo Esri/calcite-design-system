@@ -102,11 +102,6 @@
     z-index: 101;
     transform: translate3d(0, $baseline, 0);
     transition: 300ms $easing-function, opacity 300ms $easing-function, all 0.15s ease-in-out;
-    @media only screen and (max-width: $viewport-medium) {
-      @apply w-full
-        max-w-full
-        rounded-none;
-    }
   }
 }
 
@@ -130,10 +125,6 @@
     @apply opacity-100 max-h-full border-t-2;
     transform: translate3d(0, -$baseline, 0);
     pointer-events: initial;
-
-    @media only screen and (max-width: $viewport-medium) {
-      transform: translate3d(0, 0, 0);
-    }
   }
 }
 
@@ -167,10 +158,6 @@
   padding: var(--calcite-alert-spacing-token-small) var(--calcite-alert-spacing-token-large);
   flex: 0 0 auto;
   transition: all 0.15s ease-in-out;
-
-  @media only screen and (max-width: $viewport-medium) {
-    @apply p-4;
-  }
 }
 
 .alert-content {
@@ -189,11 +176,6 @@
   &:only-child {
     padding: var(--calcite-alert-spacing-token-small);
   }
-
-  @media only screen and (max-width: $viewport-medium) {
-    padding: var(--calcite-alert-spacing-token-large) var(--calcite-alert-spacing-token-small)
-      var(--calcite-alert-spacing-token-large) 0;
-  }
 }
 
 .calcite--rtl {
@@ -204,10 +186,6 @@
     &:first-of-type:not(:only-child) {
       padding-right: var(--calcite-alert-spacing-token-large);
     }
-    @media only screen and (max-width: $viewport-medium) {
-      padding: var(--calcite-alert-spacing-token-large) 0 var(--calcite-alert-spacing-token-large)
-        var(--calcite-alert-spacing-token-small);
-    }
   }
 }
 .alert-icon {
@@ -217,10 +195,6 @@
     self-stretch
     items-center
     bg-foreground-1;
-
-  @media only screen and (min-width: $viewport-medium) {
-    border-bottom-left-radius: var(--calcite-border-radius);
-  }
 }
 
 .alert-close {
@@ -242,9 +216,6 @@
 
   &:active {
     @apply bg-foreground-3;
-  }
-  @media only screen and (max-width: $viewport-medium) {
-    @apply rounded-none;
   }
 }
 .calcite--rtl {
@@ -273,10 +244,6 @@
 
   &.active {
     @apply visible opacity-100;
-
-    @media only screen and (min-width: $viewport-medium) {
-      border-bottom-right-radius: var(--calcite-border-radius);
-    }
   }
 }
 
