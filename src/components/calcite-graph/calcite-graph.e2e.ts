@@ -88,4 +88,30 @@ describe("calcite-graph", () => {
 
     expect(fill).toBe(`url(#${linearGradientId})`);
   });
+
+  it("highlights should start and end at the given min/max range", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-graph></calcite-graph>`);
+    await page.$eval("calcite-graph", (elm: any) => {
+      elm.data = [
+        [-8, 0],
+        [-3, 2],
+        [1, 7],
+        [4, 6],
+        [6, 2],
+        [10, 0]
+      ];
+      elm.highlightMax = 5;
+      elm.highlightMin = -3;
+      elm.rangeMax = 10;
+      elm.rangeMin = -10;
+      elm.height = 48;
+    });
+    await page.waitForChanges();
+    const path = await page.find("calcite-graph >>> .graph-path--highlight");
+    const d = path.getAttribute("d");
+    expect(d).toBe(
+      "M 30,48 L 30,48 L 30,48 C 55.00000000000001,45.714285714285715 80,43.42857142857143 105,34.285714285714285 C 125,26.971428571428575 144.99999999999997,0 165,0 C 180,0 195,2.2857142857142847 210,6.857142857142861 C 220.00000000000003,9.904761904761905 229.99999999999997,29.714285714285715 240,34.285714285714285 C 260,43.42857142857143 279.99999999999994,45.714285714285715 300,48 L 300,48 Z"
+    );
+  });
 });
