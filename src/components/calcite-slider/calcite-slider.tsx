@@ -613,7 +613,7 @@ export class CalciteSlider implements LabelableComponent {
           "tick__label--max": isMaxTickLabel
         }}
       >
-        {tick.toLocaleString()}
+        {Math.min(tick, this.max).toLocaleString()}
       </span>
     );
     if (this.labelTicks && !this.hasHistogram && !this.isRange) {
@@ -839,9 +839,9 @@ export class CalciteSlider implements LabelableComponent {
   //
   //--------------------------------------------------------------------------
 
-  onLabelClick = (): void => {
+  onLabelClick(): void {
     this.setFocus();
-  };
+  }
 
   private shouldMirror(): boolean {
     return this.mirrored && !this.hasHistogram;

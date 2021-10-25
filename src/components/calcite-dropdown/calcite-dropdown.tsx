@@ -24,6 +24,7 @@ import { Instance as Popper, StrictModifiers } from "@popperjs/core";
 import { Scale } from "../interfaces";
 import { DefaultDropdownPlacement, SLOTS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
+import { createObserver } from "../../utils/observers";
 
 /**
  * @slot - A slot for adding `calcite-dropdown-group`s or `calcite-dropdown-item`s.
@@ -72,6 +73,11 @@ export class CalciteDropdown {
   */
   @Prop() maxItems = 0;
 
+  @Watch("maxItems")
+  maxItemsHandler(): void {
+    this.reposition();
+  }
+
   /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
@@ -109,38 +115,22 @@ export class CalciteDropdown {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.createPopper();
-  }
-
-  componentWillLoad(): void {
-    // get initially selected items
-    this.updateSelectedItems();
+    this.updateItems();
   }
 
   componentDidLoad(): void {
-    this.triggers = Array.from(
-      this.el.querySelectorAll("[slot=dropdown-trigger]")
-    ) as HTMLSlotElement[];
-
-    const groups = Array.from(
-      this.el.querySelectorAll<HTMLCalciteDropdownGroupElement>("calcite-dropdown-group")
-    );
-
-    this.maxScrollerHeight = this.getMaxScrollerHeight(groups);
-
-    this.items = Array.from(
-      this.el.querySelectorAll<HTMLCalciteDropdownItemElement>("calcite-dropdown-item")
-    );
-
     this.reposition();
   }
 
   disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
     this.destroyPopper();
   }
 
   render(): VNode {
-    const { active, maxScrollerHeight } = this;
+    const { active } = this;
     const dir = getElementDir(this.el);
 
     return (
@@ -169,9 +159,7 @@ export class CalciteDropdown {
               [PopperCSS.animationActive]: active
             }}
             onTransitionEnd={this.transitionEnd}
-            style={{
-              maxHeight: !active || maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : ""
-            }}
+            ref={this.setScrollerEl}
           >
             <slot />
           </div>
@@ -190,6 +178,9 @@ export class CalciteDropdown {
   @Method()
   async reposition(): Promise<void> {
     const { popper, menuEl, placement } = this;
+
+    this.setMaxScrollerHeight();
+
     const modifiers = this.getModifiers();
 
     popper
@@ -312,9 +303,6 @@ export class CalciteDropdown {
 
   private items: HTMLCalciteDropdownItemElement[] = [];
 
-  /** specifies the item wrapper height; it is updated when maxItems is > 0  **/
-  private maxScrollerHeight = 0;
-
   /** trigger elements */
   private triggers: HTMLSlotElement[];
 
@@ -326,11 +314,42 @@ export class CalciteDropdown {
 
   private activeTransitionProp = "opacity";
 
+  private scrollerEl: HTMLDivElement;
+
+  mutationObserver = createObserver("mutation", () => this.updateItems());
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  updateItems = (): void => {
+    this.updateSelectedItems();
+
+    this.triggers = Array.from(
+      this.el.querySelectorAll("[slot=dropdown-trigger]")
+    ) as HTMLSlotElement[];
+
+    this.items = Array.from(
+      this.el.querySelectorAll<HTMLCalciteDropdownItemElement>("calcite-dropdown-item")
+    );
+
+    this.reposition();
+  };
+
+  setMaxScrollerHeight = (): void => {
+    const { scrollerEl } = this;
+
+    if (scrollerEl) {
+      const maxScrollerHeight = this.getMaxScrollerHeight();
+      scrollerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
+    }
+  };
+
+  setScrollerEl = (scrollerEl: HTMLDivElement): void => {
+    this.scrollerEl = scrollerEl;
+  };
 
   transitionEnd = (event: TransitionEvent): void => {
     if (event.propertyName === this.activeTransitionProp) {
@@ -413,7 +432,11 @@ export class CalciteDropdown {
     this.selectedItems = items.filter((item) => item.active);
   }
 
-  private getMaxScrollerHeight(groups: HTMLCalciteDropdownGroupElement[]): number {
+  private getMaxScrollerHeight(): number {
+    const groups = Array.from(
+      this.el.querySelectorAll<HTMLCalciteDropdownGroupElement>("calcite-dropdown-group")
+    );
+
     const { maxItems } = this;
     let itemsToProcess = 0;
     let maxScrollerHeight = 0;

@@ -1,0 +1,42 @@
+name: Build
+concurrency:
+  group: deploy_next
+  cancel-in-progress: true
+on:
+  push:
+    branches: [master]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v2
+        with:
+          node-version: lts/*
+          registry-url: https://registry.npmjs.org/
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: e2e test
+        run: |
+          npm ci
+          npm test
+      - name: next deployment
+        env:
+          NEXT_RELEASE_ENABLED: ${{ secrets.NEXT_RELEASE_ENABLED }}
+        run: |
+          if [ "$NEXT_RELEASE_ENABLED" == "true" ]; then
+            npm run util:deploy-next-from-ci
+          else
+            echo "Next release is disabled"
+          fi
+      - name: notify teams
+        uses: toko-bifrost/ms-teams-deploy-card@3.1.2
+        if: always()
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          webhook-uri: ${{ secrets.TEAMS_WEBHOOK_URI_BUILD }}
+          show-on-start: false
+          card-layout-exit: complete
+          timezone: America/Los_Angeles
