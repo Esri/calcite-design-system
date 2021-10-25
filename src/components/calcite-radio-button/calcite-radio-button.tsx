@@ -414,7 +414,7 @@ export class CalciteRadioButton implements LabelableComponent, CheckableFormAsso
           onFocus={this.onContainerFocus}
           ref={this.setContainerEl}
           role="radio"
-          tabIndex={this.checked ? 0 : -1}
+          tabIndex={0}
         >
           <calcite-radio
             checked={this.checked}
