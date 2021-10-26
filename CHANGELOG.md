@@ -3,9 +3,7 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-<!--@unreleased-section-start-->
-
-## Unreleased (2021-10-21)
+## [1.0.0-beta.68](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.67...v1.0.0-beta.68) (2021-10-26)
 
 ### ⚠ BREAKING CHANGES
 
@@ -27,6 +25,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **button:** Setting the href property after init should update rendering ([#3248](https://github.com/Esri/calcite-components/issues/3248)) ([cfd1f2a](https://github.com/Esri/calcite-components/commit/cfd1f2a554330cbcd2389efc142de41cf84b9ddb)), closes [#3222](https://github.com/Esri/calcite-components/issues/3222)
 - **checkbox:** style the current svg checkbox and interdeterminate icon to be bolder [#2848](https://github.com/Esri/calcite-components/issues/2848) ([#3250](https://github.com/Esri/calcite-components/issues/3250)) ([4503631](https://github.com/Esri/calcite-components/commit/45036313565d8aee5c478cd1cf8fd27e98c6bf92)), closes [#3055](https://github.com/Esri/calcite-components/issues/3055) [#3144](https://github.com/Esri/calcite-components/issues/3144) [#3197](https://github.com/Esri/calcite-components/issues/3197) [#3144](https://github.com/Esri/calcite-components/issues/3144) [#3233](https://github.com/Esri/calcite-components/issues/3233)
 - **combobox:** add chevron icon at end of input regardless of selecti… ([#3143](https://github.com/Esri/calcite-components/issues/3143)) ([0f78fa9](https://github.com/Esri/calcite-components/commit/0f78fa9fa42a877e5f9ef7b4f3300bf6220546bf)), closes [#3055](https://github.com/Esri/calcite-components/issues/3055) [#3055](https://github.com/Esri/calcite-components/issues/3055)
+- **combobox:** ensure truncated text appears for longer strings when in fixed-width container ([#3342](https://github.com/Esri/calcite-components/issues/3342)) ([1fb83a4](https://github.com/Esri/calcite-components/commit/1fb83a4ad690830b2be1f48d46443b95d5f3d3aa))
 - **combox-item:** adjust height of the item to be consistent respective to its scale size ([#3144](https://github.com/Esri/calcite-components/issues/3144)) ([#3197](https://github.com/Esri/calcite-components/issues/3197)) ([731c555](https://github.com/Esri/calcite-components/commit/731c555c34a470b462ce98db617adf0a54544e6a))
 - **dropdown:** close on outside click when disable-close-on-select is true [#3136](https://github.com/Esri/calcite-components/issues/3136) ([#3227](https://github.com/Esri/calcite-components/issues/3227)) ([5874a9e](https://github.com/Esri/calcite-components/commit/5874a9e2e72e7eab299ac28ede57c3edece845d0))
 - **dropdown:** remove preventDefault and stopPropagation on click event ([#3231](https://github.com/Esri/calcite-components/issues/3231)) ([db8d222](https://github.com/Esri/calcite-components/commit/db8d222ee813ad25fee5dbe2bab32bf64a09e0ad)), closes [#1709](https://github.com/Esri/calcite-components/issues/1709)
@@ -38,11 +37,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **radio-group-item:** move transition style up from icon to label co… ([#3292](https://github.com/Esri/calcite-components/issues/3292)) ([b352d1b](https://github.com/Esri/calcite-components/commit/b352d1b12c3483bcaf14812b458c6d9a11eac346))
 - **slider:** slider range value capped to max ([#3262](https://github.com/Esri/calcite-components/issues/3262)) ([4a368b9](https://github.com/Esri/calcite-components/commit/4a368b91bb5513bd69a37c2e5d1bbc7a63d77504))
 - **tooltip-manager:** mousing out of the tooltip should close the tooltip. [#3171](https://github.com/Esri/calcite-components/issues/3171) ([#3192](https://github.com/Esri/calcite-components/issues/3192)) ([bd39057](https://github.com/Esri/calcite-components/commit/bd390579cdb193ff758b30aa54a02dd97d3da58b))
-
-### Reverts
-
-- reverts unintentional revert 🔁 ([1d582f2](https://github.com/Esri/calcite-components/commit/1d582f2d5e5ceba9379b64a658de9a581dbae151))
-<!--@unreleased-section-end-->
 
 ## [1.0.0-beta.67](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.66...v1.0.0-beta.67) (2021-10-12)
 
