@@ -17,7 +17,7 @@ describe("global styles", () => {
     ];
 
     globalClasses.forEach((className) => {
-      it(`should support rendering component with ${className} animation`, async () => {
+      it.skip(`should support rendering component with ${className} animation`, async () => {
         const page = await newE2EPage({ html: snippet });
         const element = await page.find("calcite-notice");
         await element.setProperty("active", true);
