@@ -55,8 +55,12 @@
 }
 
 .grid-input {
-  @apply flex flex-grow flex-wrap items-center;
-  padding: 0;
+  @apply flex
+    flex-grow
+    flex-wrap
+    items-center
+    p-0
+    truncate;
 }
 
 .input {
