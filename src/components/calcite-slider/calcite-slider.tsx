@@ -906,14 +906,15 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
 
   private focusActiveHandle(): void {
     switch (this.dragProp) {
-      default:
-      case "maxValue":
-        this.maxHandle.focus();
-        break;
       case "minValue":
         this.minHandle.focus();
         break;
+      case "maxValue":
+        this.maxHandle.focus();
+        break;
       case "minMaxValue":
+        break;
+      default:
         break;
     }
   }
