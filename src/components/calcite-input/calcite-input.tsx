@@ -256,7 +256,7 @@ export class CalciteInput implements LabelableComponent {
   /** determine if there is a slotted action for styling purposes */
   private slottedActionEl?: HTMLSlotElement;
 
-  private interval;
+  private nudgeNumberValueIntervalID;
 
   //--------------------------------------------------------------------------
   //
@@ -358,11 +358,6 @@ export class CalciteInput implements LabelableComponent {
       this.clearInputValue(event);
       event.preventDefault();
     }
-  }
-
-  @Listen("mouseup")
-  mouseUpHandler(): void {
-    clearInterval(this.interval);
   }
 
   //--------------------------------------------------------------------------
@@ -499,46 +494,49 @@ export class CalciteInput implements LabelableComponent {
     event.preventDefault();
   };
 
+  private incrementOrDecrementNumberValue = (direction, inputMax, inputMin, nativeEvent) => {
+    const value = this.value;
+    const inputVal = value && value !== "" ? parseFloat(value) : 0;
+    const inputStep = this.step === "any" ? 1 : Math.abs(this.step || 1);
+
+    if ((!inputMax && inputMax !== 0) || inputVal < inputMax) {
+      let newValue;
+
+      if (direction === "up") {
+        newValue = (parseFloat(value) + inputStep).toString();
+      }
+
+      if (direction === "down") {
+        newValue = (parseFloat(value) - inputStep).toString();
+      }
+      this.setValue(newValue, nativeEvent, true);
+    }
+  };
+
   private nudgeNumberValue = (
     direction: NumberNudgeDirection,
     nativeEvent: KeyboardEvent | MouseEvent
   ): void => {
-    if (nativeEvent instanceof KeyboardEvent && nativeEvent.repeat) {
+    if ((nativeEvent instanceof KeyboardEvent && nativeEvent.repeat) || this.type !== "number") {
       return;
     }
-    if (this.type !== "number") {
-      return;
-    }
+
     const inputMax = this.maxString ? parseFloat(this.maxString) : null;
     const inputMin = this.minString ? parseFloat(this.minString) : null;
-    const spinnerSpeed = 500;
+    const valueNudgeDelayInMs = 500;
 
-    const incrementOrDecrementNumberValue = () => {
-      const value = this.value;
-      const inputVal = value && value !== "" ? parseFloat(value) : 0;
-      const inputStep = this.step === "any" ? 1 : Math.abs(this.step || 1);
+    this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
 
-      if (direction === "up" && ((!inputMax && inputMax !== 0) || inputVal < inputMax)) {
-        const newValue = (parseFloat(value) + inputStep).toString();
-        this.setValue(newValue, nativeEvent, true);
-      }
-      if (direction === "down" && ((!inputMin && inputMin !== 0) || inputVal > inputMin)) {
-        const newValue = (parseFloat(value) - inputStep).toString();
-        this.setValue(newValue, nativeEvent, true);
-      }
-    };
-
-    if (nativeEvent.type != "mousedown") {
-      incrementOrDecrementNumberValue();
-    }
-    if (nativeEvent.type != "click") {
-      this.interval = setInterval(() => {
-        incrementOrDecrementNumberValue();
-      }, spinnerSpeed);
-    }
+    this.nudgeNumberValueIntervalID = setInterval(() => {
+      this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
+    }, valueNudgeDelayInMs);
   };
 
-  private numberButtonClickHandler = (event: MouseEvent): void => {
+  private numberButtonMouseUpAndMouseOutHandler = (): void => {
+    clearInterval(this.nudgeNumberValueIntervalID);
+  };
+
+  private numberButtonMouseDownHandler = (event: MouseEvent): void => {
     // todo, when dropping ie11 support, refactor to use stepup/stepdown
     // prevent blur and re-focus of input on mousedown
     event.preventDefault();
@@ -606,7 +604,7 @@ export class CalciteInput implements LabelableComponent {
   };
 
   private inputKeyUpHandler = (): void => {
-    clearInterval(this.interval);
+    clearInterval(this.nudgeNumberValueIntervalID);
   };
 
   // --------------------------------------------------------------------------
@@ -655,8 +653,9 @@ export class CalciteInput implements LabelableComponent {
         }}
         data-adjustment="up"
         disabled={this.disabled || this.readOnly}
-        onClick={this.numberButtonClickHandler}
-        onMouseDown={this.numberButtonClickHandler}
+        onMouseDown={this.numberButtonMouseDownHandler}
+        onMouseOut={this.numberButtonMouseUpAndMouseOutHandler}
+        onMouseUp={this.numberButtonMouseUpAndMouseOutHandler}
         tabIndex={-1}
         type="button"
       >
@@ -672,8 +671,9 @@ export class CalciteInput implements LabelableComponent {
         }}
         data-adjustment="down"
         disabled={this.disabled || this.readOnly}
-        onClick={this.numberButtonClickHandler}
-        onMouseDown={this.numberButtonClickHandler}
+        onMouseDown={this.numberButtonMouseDownHandler}
+        onMouseOut={this.numberButtonMouseUpAndMouseOutHandler}
+        onMouseUp={this.numberButtonMouseUpAndMouseOutHandler}
         tabIndex={-1}
         type="button"
       >
