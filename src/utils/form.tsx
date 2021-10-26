@@ -232,9 +232,15 @@ export function renderHiddenFormInput(component: FormComponent): void {
   const seen = new Set<any>();
 
   inputs.forEach((input) => {
-    if (values.includes(input.value)) {
-      seen.add(input.value);
-      syncHiddenFormInput(component, input, input.value);
+    const valueMatch = values.find(
+      (val) =>
+        /* intentional non-strict equality check */
+        val == input.value
+    );
+
+    if (valueMatch) {
+      seen.add(valueMatch);
+      syncHiddenFormInput(component, input, valueMatch);
     } else {
       extra.push(input);
     }
