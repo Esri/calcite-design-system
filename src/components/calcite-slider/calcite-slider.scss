@@ -1,4 +1,4 @@
-:host([scale="s"]) .container {
+.scale--s {
   --calcite-slider-handle-size: 10px;
   --calcite-slider-handle-extension-height: 6.5px;
   --calcite-slider-container-font-size: var(--calcite-font-size--3);
@@ -8,7 +8,7 @@
   }
 }
 
-:host([scale="m"]) .container {
+.scale--m {
   --calcite-slider-handle-size: 14px;
   --calcite-slider-handle-extension-height: 8px;
   --calcite-slider-container-font-size: var(--calcite-font-size--2);
@@ -18,7 +18,7 @@
   }
 }
 
-:host([scale="l"]) .container {
+.scale--l {
   --calcite-slider-handle-size: 16px;
   --calcite-slider-handle-extension-height: 10.5px;
   --calcite-slider-container-font-size: var(--calcite-font-size--1);
@@ -59,17 +59,17 @@
   }
 }
 
-:host([scale="s"]) {
+.scale--s {
   .thumb:not(.thumb--precise) {
     --calcite-slider-thumb-y-offset: -6px;
   }
 }
-:host([scale="m"]) {
+.scale--m {
   .thumb:not(.thumb--precise) {
     --calcite-slider-thumb-y-offset: -8px;
   }
 }
-:host([scale="l"]) {
+.scale--l {
   .thumb:not(.thumb--precise) {
     --calcite-slider-thumb-y-offset: -9px;
   }
@@ -164,17 +164,17 @@
     --calcite-slider-thumb-x-offset: 50%;
   }
   &:host(:not([has-histogram])) {
-    &:host([scale="s"]) {
+    .scale--s {
       .thumb:not(.thumb--precise) {
         --calcite-slider-thumb-y-offset: -23px;
       }
     }
-    &:host([scale="m"]) {
+    .scale--m {
       .thumb:not(.thumb--precise) {
         --calcite-slider-thumb-y-offset: -30px;
       }
     }
-    &:host([scale="l"]) {
+    .scale--l {
       .thumb:not(.thumb--precise) {
         --calcite-slider-thumb-y-offset: -32px;
       }
@@ -196,13 +196,13 @@
 }
 
 :host([label-handles][precise]) {
-  &:host(:not([has-histogram])[scale="s"]) .thumb--value {
+  &:host(:not([has-histogram])) .scale--s .thumb--value {
     --calcite-slider-thumb-y-offset: -33px;
   }
-  &:host(:not([has-histogram])[scale="m"]) .thumb--value {
+  &:host(:not([has-histogram])) .scale--m .thumb--value {
     --calcite-slider-thumb-y-offset: -44px;
   }
-  &:host(:not([has-histogram])[scale="l"]) .thumb--value {
+  &:host(:not([has-histogram])) .scale--l .thumb--value {
     --calcite-slider-thumb-y-offset: -49px;
   }
 }

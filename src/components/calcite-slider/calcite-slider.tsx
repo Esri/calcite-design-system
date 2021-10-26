@@ -111,7 +111,7 @@ export class CalciteSlider implements LabelableComponent {
   /**
    * Specify the scale of the slider, defaults to m
    */
-  @Prop({ reflect: true }) scale: Scale = "m";
+  @Prop() scale: Scale = "m";
 
   //--------------------------------------------------------------------------
   //
@@ -530,7 +530,13 @@ export class CalciteSlider implements LabelableComponent {
 
     return (
       <Host id={id} onTouchStart={this.handleTouchStart}>
-        <div class={{ container: true, "container--range": this.isRange }}>
+        <div
+          class={{
+            ["container"]: true,
+            ["container--range"]: this.isRange,
+            [`scale--${this.scale}`]: true
+          }}
+        >
           {this.renderGraph()}
           <div class="track" ref={this.storeTrackRef}>
             <div
