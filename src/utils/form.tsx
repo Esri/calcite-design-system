@@ -281,10 +281,16 @@ function syncHiddenFormInput(
   input.name = name;
   input.required = required;
   input.tabIndex = -1;
-  input.value =
-    value ||
+
+  if (isCheckable(component)) {
     // heuristic to support default/on mode from https://html.spec.whatwg.org/multipage/input.html#dom-input-value-default-on
-    (isCheckable(component) && component.checked ? "on" : "");
+    input.value = component.checked ? value || "on" : "";
+
+    // we disable the component when not checked to avoid having its value submitted
+    input.disabled = !component.checked;
+  } else {
+    input.value = value || "";
+  }
 
   component.syncHiddenFormInput?.(input);
 }
