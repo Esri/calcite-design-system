@@ -15,7 +15,13 @@ import { getElementDir } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
-import { connectForm, disconnectForm, FormComponent } from "../../utils/form";
+import {
+  connectForm,
+  disconnectForm,
+  FormComponent,
+  HiddenFormInputSlot,
+  renderHiddenFormInput
+} from "../../utils/form";
 import { TEXT } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 
@@ -169,8 +175,11 @@ export class CalciteRating implements LabelableComponent, FormComponent {
   }
 
   render() {
+    renderHiddenFormInput(this);
+
     const { intlRating, showChip, scale, count, average } = this;
     const dir = getElementDir(this.el);
+
     return (
       <Fragment>
         <fieldset
@@ -193,6 +202,7 @@ export class CalciteRating implements LabelableComponent, FormComponent {
             {!!count && <span class="number--count">({count?.toString()})</span>}
           </calcite-chip>
         ) : null}
+        <HiddenFormInputSlot />
       </Fragment>
     );
   }
