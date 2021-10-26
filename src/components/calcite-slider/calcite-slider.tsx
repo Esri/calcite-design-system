@@ -751,8 +751,8 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
   }
 
   @Listen("click")
-  clickHandler(): void {
-    this.focusActiveHandle();
+  clickHandler(event: MouseEvent): void {
+    this.focusActiveHandle(event);
   }
 
   @Listen("pointerdown")
@@ -904,7 +904,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
     document.addEventListener("pointercancel", this.dragEnd);
   }
 
-  private focusActiveHandle(): void {
+  private focusActiveHandle(event: MouseEvent): void {
     switch (this.dragProp) {
       case "minValue":
         this.minHandle.focus();
@@ -913,6 +913,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
         this.maxHandle.focus();
         break;
       case "minMaxValue":
+        this.getClosestHandle(event).focus();
         break;
       default:
         break;
@@ -955,12 +956,12 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
     this.calciteSliderChange.emit();
   }
 
-  private dragEnd = (): void => {
+  private dragEnd = (event: MouseEvent): void => {
     document.removeEventListener("pointermove", this.dragUpdate);
     document.removeEventListener("pointerup", this.dragEnd);
     document.removeEventListener("pointercancel", this.dragEnd);
 
-    this.focusActiveHandle();
+    this.focusActiveHandle(event);
     if (this.lastDragPropValue != this[this.dragProp]) {
       this.emitChange();
     }
@@ -1044,6 +1045,28 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
       num = this.clamp(step);
     }
     return num;
+  }
+
+  /**
+   * Get the closest thumb when clicked on the track
+   * @param event
+   * @returns {HTMLButtonElement}
+   * @internal
+   */
+  private getClosestHandle(event: MouseEvent): HTMLButtonElement {
+    return this.getDistanceX(this.maxHandle, event) > this.getDistanceX(this.minHandle, event)
+      ? this.minHandle
+      : this.maxHandle;
+  }
+
+  /**
+   * Get distance along X-axis between thumb and mouse click
+   * @param el
+   * @param event
+   * @returns {number}
+   */
+  private getDistanceX(el: HTMLButtonElement, event: MouseEvent): number {
+    return Math.abs(el.getBoundingClientRect().left - event.clientX);
   }
 
   private getFontSizeForElement(element: HTMLElement): number {
