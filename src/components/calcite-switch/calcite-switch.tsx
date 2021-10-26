@@ -22,7 +22,9 @@ import {
   hiddenInputStyle,
   connectForm,
   disconnectForm,
-  CheckableFormCompoment
+  CheckableFormCompoment,
+  HiddenFormInputSlot,
+  renderHiddenFormInput
 } from "../../utils/form";
 
 @Component({
@@ -104,6 +106,8 @@ export class CalciteSwitch implements LabelableComponent, CheckableFormCompoment
   formEl: HTMLFormElement;
 
   defaultValue: CalciteSwitch["checked"];
+
+  defaultChecked: boolean;
 
   //--------------------------------------------------------------------------
   //
@@ -227,7 +231,10 @@ export class CalciteSwitch implements LabelableComponent, CheckableFormCompoment
   // --------------------------------------------------------------------------
 
   render(): VNode {
+    renderHiddenFormInput(this);
+
     const dir = getElementDir(this.el);
+
     return (
       <Host>
         <div
@@ -242,6 +249,7 @@ export class CalciteSwitch implements LabelableComponent, CheckableFormCompoment
           <div class="track">
             <div class="handle" />
           </div>
+          <HiddenFormInputSlot />
         </div>
       </Host>
     );
