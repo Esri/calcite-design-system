@@ -280,8 +280,10 @@ function syncHiddenFormInput(
   input: HTMLInputElement,
   value: string
 ): void {
-  const { disabled, hidden, name, required } = component;
+  const { defaultValue, disabled, hidden, name, required } = component;
 
+  // keep in sync to prevent losing reset value
+  input.defaultValue = defaultValue;
   input.disabled = disabled;
   input.hidden = hidden;
   input.name = name;
@@ -289,6 +291,8 @@ function syncHiddenFormInput(
   input.tabIndex = -1;
 
   if (isCheckable(component)) {
+    // keep in sync to prevent losing reset value
+    input.defaultChecked = component.defaultChecked;
     // heuristic to support default/on mode from https://html.spec.whatwg.org/multipage/input.html#dom-input-value-default-on
     input.value = component.checked ? value || "on" : "";
 
