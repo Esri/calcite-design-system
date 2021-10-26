@@ -47,6 +47,7 @@
   flex-auto
   flex-col
   gap-2;
+  width: 10%;
 }
 
 .content-container {
@@ -56,6 +57,7 @@
   items-stretch
   p-0
   text-color-2;
+  width: 100%;
 }
 
 .content-slot-container {
@@ -77,6 +79,9 @@
     ease-in-out
     font-medium
     pointer-events-none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .large-visual {
   @apply items-center;

@@ -58,11 +58,16 @@ export class CalciteTile {
   /** The icon that appears at the top of the tile. */
   @Prop({ reflect: true }) icon?: string;
 
+  private activeIndicatorContainerEl: HTMLDivElement;
   // --------------------------------------------------------------------------
   //
   //  Render Methods
   //
   // --------------------------------------------------------------------------
+
+  componentDidLoad() {
+    console.log(this.activeIndicatorContainerEl?.offsetWidth);
+  }
 
   renderTile(): VNode {
     const { icon, el, heading, description } = this;
@@ -88,11 +93,21 @@ export class CalciteTile {
             </div>
           ) : null}
           <div class="content">
-            {heading && <div class="heading">{heading}</div>}
+            {heading && (
+              <div
+                class="heading"
+                // style={{ wordBreak: heading.split(' ')[0].length > 20 && 'break-all' }}
+              >
+                {heading}
+              </div>
+            )}
             {description && <div class="description">{description}</div>}
           </div>
           {getSlotted(el, SLOTS.contentEnd) ? (
-            <div class="content-slot-container">
+            <div
+              class="content-slot-container"
+              ref={(el) => (this.activeIndicatorContainerEl = el)}
+            >
               <slot name={SLOTS.contentEnd} />
             </div>
           ) : null}
