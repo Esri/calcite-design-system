@@ -8,7 +8,8 @@ import {
   h,
   VNode,
   Method,
-  Fragment
+  Fragment,
+  Watch
 } from "@stencil/core";
 import { debounce, forIn } from "lodash-es";
 import { CSS, ICONS, TEXT } from "./resources";
@@ -65,6 +66,8 @@ export class CalciteFilter {
 
   @State() empty = true;
 
+  @State() text?: string;
+
   textInput: HTMLCalciteInputElement;
 
   // --------------------------------------------------------------------------
@@ -95,6 +98,11 @@ export class CalciteFilter {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  @Watch("data")
+  watchDataHandler() {
+    this.filter(this.text ?? "");
+  }
 
   filter = debounce((value: string): void => {
     const regex = new RegExp(value, "i");
@@ -134,6 +142,7 @@ export class CalciteFilter {
     const target = event.target as HTMLCalciteInputElement;
     this.empty = target.value === "";
     this.filter(target.value);
+    this.text = target.value ?? "";
   };
 
   keyDownHandler = ({ key }: KeyboardEvent): void => {
