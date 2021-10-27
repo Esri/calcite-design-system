@@ -4,14 +4,14 @@ const pify = require("pify");
 const exec = pify(childProcess.exec);
 
 /*
- * This script is meant to be run by the Travis CI environment during the deploy phase.
+ * This script is meant to be run by a CI environment during the deploy phase.
  * It checks if there are release-worthy (deployable) changes and will publish to NPM when applicable.
  *
  * Based on https://github.com/conventional-changelog/standard-version/issues/192#issuecomment-610494804
  */
 
 (async function runner(): Promise<void> {
-  async function deployNextFromTravis(): Promise<void> {
+  async function deployNextFromCI(): Promise<void> {
     console.log("Determining @next deployability 🔍");
 
     if (!(await deployable(await mostRecentTag("HEAD")))) {
@@ -42,7 +42,7 @@ const exec = pify(childProcess.exec);
       // github token provided by the checkout action
       // https://github.com/actions/checkout#usage
       console.log(" - pushing tags...");
-      await exec(`npm run util:push-tags -- --quiet https://github.com/Esri/calcite-components master`);
+      await exec(`git push --follow-tags origin master`);
 
       console.log(" - publishing @next...");
       await exec(`npm run util:publish-next`);
@@ -90,7 +90,7 @@ const exec = pify(childProcess.exec);
   }
 
   try {
-    await deployNextFromTravis();
+    await deployNextFromCI();
   } catch (error) {
     console.log(
       `An error occurred during deployment ❌:
