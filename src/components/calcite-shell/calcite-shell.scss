@@ -24,12 +24,7 @@
     flex-auto 
     flex 
     flex-row 
-    relative 
-    border-0
-    border-t
-    border-b
-    border-solid
-    border-color-3
+    relative
     justify-between 
     overflow-hidden;
 }
@@ -40,15 +35,11 @@
 
 .content {
   @apply flex
+    flex-col
+    flex-no-wrap
     h-full 
     overflow-auto 
-    w-full 
-    border-0
-    border-l 
-    border-r 
-    border-solid
-    border-color-3;
-  flex-flow: column nowrap;
+    w-full;
 }
 
 .content ::slotted(calcite-shell-center-row),
@@ -78,6 +69,15 @@
 ::slotted(calcite-shell-center-row) {
   @apply relative;
   z-index: 1;
+}
+
+::slotted(calcite-panel),
+::slotted(calcite-flow) {
+  @apply border
+  border-color-3
+  border-solid
+  border-l-0
+  border-r-0;
 }
 
 slot[name="center-row"]::slotted(calcite-shell-center-row:not([detached])) {

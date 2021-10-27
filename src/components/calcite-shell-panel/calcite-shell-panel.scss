@@ -80,7 +80,7 @@
   --calcite-shell-panel-detached-max-height: 80vh;
 }
 
-.content--detached {
+.content.content--detached {
   @apply rounded
   shadow-0
   h-auto
@@ -91,6 +91,7 @@
 
   ::slotted(calcite-panel),
   ::slotted(calcite-flow) {
+    @apply border-none;
     max-height: unset;
   }
 }
@@ -99,12 +100,22 @@
   @apply hidden;
 }
 
-:host([position="start"]) slot[name="action-bar"]::slotted(calcite-action-bar) {
-  @apply border-r border-r-color-3;
-  border-right-style: solid;
+slot[name="action-bar"]::slotted(calcite-action-bar),
+.content ::slotted(calcite-flow),
+.content ::slotted(calcite-panel) {
+  @apply border
+  border-color-3
+  border-solid;
 }
 
-:host([position="end"]) slot[name="action-bar"]::slotted(calcite-action-bar) {
-  @apply border-l border-l-color-3;
-  border-left-style: solid;
+:host([position="start"]) slot[name="action-bar"]::slotted(calcite-action-bar),
+:host([position="start"]) .content ::slotted(calcite-flow),
+:host([position="start"]) .content ::slotted(calcite-panel) {
+  @apply border-l-0;
+}
+
+:host([position="end"]) slot[name="action-bar"]::slotted(calcite-action-bar),
+:host([position="end"]) .content ::slotted(calcite-flow),
+:host([position="end"]) .content ::slotted(calcite-panel) {
+  @apply border-r-0;
 }
