@@ -94,6 +94,11 @@ export const Multiple = (): string => html`
       <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
       <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
       <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+      <calcite-combobox-item
+        value="CommercialDamageAssessment - Damage to Commercial Buildings & Damage to Commercial Buildings"
+        text-label="CommercialDamageAssessment - Damage to Commercial Buildings & Damage to Commercial Buildings"
+        selected
+      ></calcite-combobox-item>
     </calcite-combobox>
   </div>
 `;
