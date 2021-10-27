@@ -196,6 +196,64 @@ describe("calcite-slider", () => {
     expect(changeEvent).toHaveReceivedEventTimes(1);
   });
 
+  it("should focus the minthumb when clicked on track close to minvalue", async () => {
+    const page = await newE2EPage({
+      html: `
+      <calcite-slider
+      style="width:${sliderWidthFor1To1PixelValueTrack}"
+      min="0"
+      max="100"
+      min-value="0"
+      max-value="80"
+      step="10"
+      ticks="10"
+    ></calcite-slider>
+      `
+    });
+    await page.waitForChanges();
+    const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
+
+    await page.mouse.move(trackX + 30, trackY);
+    await page.mouse.down();
+    await page.mouse.up();
+    await page.waitForChanges();
+
+    const isMinThumbFocused = await page.$eval("calcite-slider", (slider) =>
+      slider.shadowRoot.activeElement?.classList.contains("thumb--minValue")
+    );
+
+    expect(isMinThumbFocused).toBe(true);
+  });
+
+  it("should focus the maxthumb when clicked on track close to maxvalue", async () => {
+    const page = await newE2EPage({
+      html: `
+      <calcite-slider
+      style="width:${sliderWidthFor1To1PixelValueTrack}"
+      min="0"
+      max="100"
+      min-value="0"
+      max-value="80"
+      step="10"
+      ticks="10"
+    ></calcite-slider>
+      `
+    });
+    await page.waitForChanges();
+    const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
+
+    await page.mouse.move(trackX + 50, trackY);
+    await page.mouse.down();
+    await page.mouse.up();
+    await page.waitForChanges();
+
+    const isMaxThumbFocused = await page.$eval("calcite-slider", (slider) =>
+      slider.shadowRoot.activeElement?.classList.contains("thumb--value")
+    );
+
+    expect(isMaxThumbFocused).toBe(true);
+  });
+
   describe("mouse interaction", () => {
     it("single handle: clicking the track changes value on mousedown, emits on mouseup", async () => {
       const page = await newE2EPage({

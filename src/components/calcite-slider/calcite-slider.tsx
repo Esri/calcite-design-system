@@ -751,7 +751,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
   }
 
   @Listen("click")
-  clickHandler(event: MouseEvent): void {
+  clickHandler(event: PointerEvent): void {
     this.focusActiveHandle(event);
   }
 
@@ -904,7 +904,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
     document.addEventListener("pointercancel", this.dragEnd);
   }
 
-  private focusActiveHandle(event: MouseEvent): void {
+  private focusActiveHandle(event: PointerEvent): void {
     switch (this.dragProp) {
       case "minValue":
         this.minHandle.focus();
@@ -956,7 +956,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
     this.calciteSliderChange.emit();
   }
 
-  private dragEnd = (event: MouseEvent): void => {
+  private dragEnd = (event: PointerEvent): void => {
     document.removeEventListener("pointermove", this.dragUpdate);
     document.removeEventListener("pointerup", this.dragEnd);
     document.removeEventListener("pointercancel", this.dragEnd);
@@ -1053,8 +1053,9 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
    * @returns {HTMLButtonElement}
    * @internal
    */
-  private getClosestHandle(event: MouseEvent): HTMLButtonElement {
-    return this.getDistanceX(this.maxHandle, event) > this.getDistanceX(this.minHandle, event)
+  private getClosestHandle(event: PointerEvent): HTMLButtonElement {
+    return this.getDistanceX(this.maxHandle, event.clientX) >
+      this.getDistanceX(this.minHandle, event.clientX)
       ? this.minHandle
       : this.maxHandle;
   }
@@ -1065,8 +1066,8 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
    * @param event
    * @returns {number}
    */
-  private getDistanceX(el: HTMLButtonElement, event: MouseEvent): number {
-    return Math.abs(el.getBoundingClientRect().left - event.clientX);
+  private getDistanceX(el: HTMLButtonElement, valueX: number): number {
+    return Math.abs(el.getBoundingClientRect().left - valueX);
   }
 
   private getFontSizeForElement(element: HTMLElement): number {
