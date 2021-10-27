@@ -1,0 +1,5 @@
+/*!
+ * All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+ * See https://github.com/Esri/calcite-components/blob/master/LICENSE.md for details.
+ */
+System.register(["./p-6cc23c39.system.js"],(function(e){"use strict";var t,l;return{setters:[function(e){t=e.q;l=e.c}],execute:function(){e({c:c,d:u,g:v});var n="calcite-label";var r="calciteInternalLabelClick";var a=new WeakMap;var i=function(e){var r=e.id;return r&&t(e,n+'[for="'+r+'"]')||l(e,n)};function c(e){var t=i(e.el);if(!t||a.has(t)){return}e.labelEl=t;var l=o.bind(e);a.set(e.labelEl,l);e.labelEl.addEventListener(r,l)}function u(e){if(!e.labelEl){return}var t=a.get(e.labelEl);e.labelEl.removeEventListener(r,t);a.delete(e.labelEl)}function v(e){var t,l;return e.label||((l=(t=e.labelEl)===null||t===void 0?void 0:t.textContent)===null||l===void 0?void 0:l.trim())||""}function o(e){var t=this.el.contains(e.detail.sourceEvent.target);if(t){return}this.onLabelClick(e)}}}}));

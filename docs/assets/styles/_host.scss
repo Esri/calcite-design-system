@@ -1,0 +1,10 @@
+%component-host {
+  /* Base ":host" styles for the component */
+  box-sizing: border-box;
+  * {
+    box-sizing: border-box;
+  }
+  background-color: var(--calcite-ui-foreground-1);
+  color: var(--calcite-ui-text-2);
+  font-size: var(--calcite-font-size--1);
+}

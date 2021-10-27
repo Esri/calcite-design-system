@@ -1,0 +1,34 @@
+/* Shared styles for header elements */
+.header {
+  @apply m-0
+    flex
+    items-center
+    content-between
+    text-color-2;
+
+  fill: theme("textColor.2");
+}
+
+.heading {
+  @apply font-medium m-0 p-0;
+}
+
+.header .heading {
+  @apply flex-auto p-2;
+}
+
+h1.heading {
+  @apply text-2h;
+}
+
+h2.heading {
+  @apply text-1h;
+}
+
+h3.heading {
+  @apply text-0h;
+}
+h4.heading,
+h5.heading {
+  @apply text--1h;
+}

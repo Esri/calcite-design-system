@@ -6,7 +6,11 @@ updates:
     directory: "/"
     # Check the npm registry for updates every day (weekdays)
     schedule:
-      interval: "monthly"
+      interval: "weekly"
+      day: "tuesday"
+      time: "05:00"
+      timezone: "America/Los_Angeles"
+
     # Conventional commits
     commit-message:
       prefix: "build(deps): "

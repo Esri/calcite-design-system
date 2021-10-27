@@ -1,0 +1,139 @@
+$popper-transform-bottom: translateY(-5px);
+$popper-transform-top: translateY(5px);
+$popper-transform-left: translateX(5px);
+$popper-transform-right: translateX(-5px);
+$popper-default-z-index: 900;
+
+:root {
+  --calcite-popper-transition: #{$transition};
+}
+
+@mixin popperAnim {
+  .calcite-popper-anim {
+    position: relative;
+    z-index: 1;
+    transition: var(--calcite-popper-transition);
+    visibility: hidden;
+    transition-property: transform, visibility, opacity;
+    opacity: 0;
+    box-shadow: $shadow-2;
+    @apply rounded;
+  }
+}
+
+@mixin popperAnimActive {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(0);
+}
+
+@mixin popperElemAnim($selector) {
+  #{$selector} {
+    @include popperAnim();
+
+    &[data-popper-placement^="bottom"] .calcite-popper-anim {
+      transform: $popper-transform-bottom;
+    }
+
+    &[data-popper-placement^="top"] .calcite-popper-anim {
+      transform: $popper-transform-top;
+    }
+
+    &[data-popper-placement^="left"] .calcite-popper-anim {
+      transform: $popper-transform-left;
+    }
+
+    &[data-popper-placement^="right"] .calcite-popper-anim {
+      transform: $popper-transform-right;
+    }
+
+    &[data-popper-placement] .calcite-popper-anim--active {
+      @include popperAnimActive();
+    }
+  }
+}
+
+@mixin popperHostAnim {
+  @include popperAnim();
+
+  :host([data-popper-placement^="bottom"]) .calcite-popper-anim {
+    transform: $popper-transform-bottom;
+  }
+
+  :host([data-popper-placement^="top"]) .calcite-popper-anim {
+    transform: $popper-transform-top;
+  }
+
+  :host([data-popper-placement^="left"]) .calcite-popper-anim {
+    transform: $popper-transform-left;
+  }
+
+  :host([data-popper-placement^="right"]) .calcite-popper-anim {
+    transform: $popper-transform-right;
+  }
+
+  :host([data-popper-placement]) .calcite-popper-anim--active {
+    @include popperAnimActive();
+  }
+}
+
+@mixin popperContainer($zIndex: $popper-default-z-index) {
+  display: block;
+  position: absolute;
+  z-index: $zIndex;
+  transform: scale(0);
+}
+
+@mixin popperWrapper {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@mixin popperWrapperActive {
+  pointer-events: initial;
+  visibility: visible;
+}
+
+@mixin popperHost($zIndex: $popper-default-z-index) {
+  :host {
+    @include popperContainer($zIndex);
+  }
+
+  @include popperHostAnim();
+}
+
+$pointer_size: 8px;
+$pointer_offset: -$pointer_size * 0.5;
+
+@mixin popperArrow {
+  .arrow,
+  .arrow::before {
+    position: absolute;
+    width: $pointer_size;
+    height: $pointer_size;
+    z-index: -1;
+  }
+
+  .arrow::before {
+    content: "";
+    @apply shadow-1;
+    transform: rotate(45deg);
+    background: var(--calcite-ui-foreground-1);
+  }
+
+  :host([data-popper-placement^="top"]) .arrow {
+    bottom: $pointer_offset;
+  }
+
+  :host([data-popper-placement^="bottom"]) .arrow {
+    top: $pointer_offset;
+  }
+
+  :host([data-popper-placement^="left"]) .arrow {
+    right: $pointer_offset;
+  }
+
+  :host([data-popper-placement^="right"]) .arrow {
+    left: $pointer_offset;
+  }
+}

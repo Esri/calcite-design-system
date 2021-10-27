@@ -1,0 +1,30 @@
+// place on the element that receives focus style, not in focus
+@mixin focus-style-base() {
+  outline-offset: 0;
+  outline-color: transparent;
+  transition: outline-offset 100ms ease-in-out, outline-color 100ms ease-in-out;
+}
+
+// place on the element that receives focus style, while in focus
+@mixin focus-style-outset() {
+  outline: 2px solid var(--calcite-ui-brand);
+  outline-offset: 2px;
+}
+
+@mixin focus-style-inset($color) {
+  outline: 2px solid $color;
+  outline-offset: -2px;
+}
+
+/**
+* Currently only used in Checkbox.
+*/
+@mixin focus-box-shadow($base-shadow: null) {
+  @if $base-shadow {
+    box-shadow: $base-shadow, 0 0 0 2px var(--calcite-ui-foreground-1), 0 0 0 4px var(--calcite-ui-brand);
+    transition: $transition;
+  } @else {
+    box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1), 0 0 0 4px var(--calcite-ui-brand);
+    transition: $transition;
+  }
+}

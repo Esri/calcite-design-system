@@ -1,0 +1,5 @@
+/*!
+ * All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+ * See https://github.com/Esri/calcite-components/blob/master/LICENSE.md for details.
+ */
+System.register(["./p-56b352bf.system.js"],(function(n){"use strict";var t;return{setters:[function(n){t=n.n}],execute:function(){n({a:u,i:r,p:e,s:i});function r(n){return!(!n||isNaN(Number(n)))}function e(n){if(!n||!c(n)){return null}var e=false;var u=n.split("").filter((function(n,r){if(n.match(/\./g)&&!e){e=true;return true}if(n.match(/\-/g)&&r===0){return true}return t.includes(n)})).reduce((function(n,t){return n+t}));return r(u)?Number(u).toString():null}function u(n){return(n===null||n===void 0?void 0:n.endsWith("."))?n.replace(".",""):n}function i(n){return n?Number(u(n)).toString():n}function c(n){return t.some((function(t){return n.includes(t)}))}}}}));
