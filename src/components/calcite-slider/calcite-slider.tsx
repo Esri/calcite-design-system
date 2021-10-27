@@ -569,7 +569,8 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
                   <span
                     class={{
                       tick: true,
-                      "tick--active": activeTicks
+                      "tick--active": activeTicks,
+                      "tick--active--range": this.isRange
                     }}
                     style={{
                       left: mirror ? "" : tickOffset,

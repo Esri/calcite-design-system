@@ -308,6 +308,10 @@ $tick-height: 4px;
   background-color: var(--calcite-ui-brand);
 }
 
+.tick--active--range {
+  pointer-events: none;
+}
+
 .tick__label {
   position: absolute;
   font-size: var(--calcite-font-size--2);
