@@ -63,11 +63,6 @@ export class CalciteRadioGroup implements LabelableComponent, FormComponent {
    */
   @Prop() name: string;
 
-  @Watch("name")
-  protected handleNameChange(value: string): void {
-    this.hiddenInput.name = value;
-  }
-
   /** The scale of the radio group */
   @Prop({ reflect: true }) scale: Scale = "m";
 
@@ -126,16 +121,6 @@ export class CalciteRadioGroup implements LabelableComponent, FormComponent {
       this.selectItem(lastChecked);
     } else if (items[0]) {
       items[0].tabIndex = 0;
-    }
-
-    const { hiddenInput, name } = this;
-
-    if (name) {
-      hiddenInput.name = name;
-    }
-
-    if (lastChecked) {
-      hiddenInput.value = lastChecked.value;
     }
 
     connectLabel(this);
@@ -271,13 +256,6 @@ export class CalciteRadioGroup implements LabelableComponent, FormComponent {
 
   defaultValue: CalciteRadioGroup["value"];
 
-  private hiddenInput: HTMLInputElement = (() => {
-    const input = document.createElement("input");
-    input.type = "hidden";
-    this.el.shadowRoot.appendChild(input);
-    return input;
-  })();
-
   private hasLoaded: boolean;
 
   //--------------------------------------------------------------------------
@@ -317,13 +295,8 @@ export class CalciteRadioGroup implements LabelableComponent, FormComponent {
     });
 
     this.selectedItem = match;
-    this.syncWithInputProxy(match);
     if (Build.isBrowser && match) {
       match.focus();
     }
-  }
-
-  private syncWithInputProxy(item: HTMLCalciteRadioGroupItemElement): void {
-    this.hiddenInput.value = item ? item.value : "";
   }
 }

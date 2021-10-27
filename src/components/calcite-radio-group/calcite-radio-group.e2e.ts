@@ -125,26 +125,6 @@ describe("calcite-radio-group", () => {
       expect(spy).toHaveReceivedEventTimes(6);
     });
 
-    it("has a hidden input for form compatibility", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        `<calcite-radio-group name="grouped">
-          <calcite-radio-group-item value="1">one</calcite-radio-group-item>
-          <calcite-radio-group-item value="2" checked>two</calcite-radio-group-item>
-          <calcite-radio-group-item value="3">three</calcite-radio-group-item>
-        </calcite-radio-group>`
-      );
-
-      const hiddenInput = await page.find(`calcite-radio-group >>> input[type="hidden"]`);
-      expect(hiddenInput).toBeDefined();
-
-      const hiddenInputValue = hiddenInput.getAttribute("value");
-      expect(hiddenInputValue).toBe("2");
-
-      const hiddenInputName = hiddenInput.getAttribute("name");
-      expect(hiddenInputName).toBe("grouped");
-    });
-
     it("selects item with up and down keys", async () => {
       const page = await newE2EPage();
       await page.setContent(
