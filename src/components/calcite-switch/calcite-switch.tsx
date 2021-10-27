@@ -13,13 +13,11 @@ import {
   Watch
 } from "@stencil/core";
 import { focusElement, getElementDir } from "../../utils/dom";
-import { guid } from "../../utils/guid";
 import { getKey } from "../../utils/key";
 import { CSS_UTILITY } from "../../utils/resources";
 import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
-  hiddenInputStyle,
   connectForm,
   disconnectForm,
   CheckableFormCompoment,
@@ -52,7 +50,6 @@ export class CalciteSwitch implements LabelableComponent, CheckableFormCompoment
 
   @Watch("disabled")
   disabledWatcher(newDisabled: boolean): void {
-    this.inputEl.disabled = newDisabled;
     this.tabindex = newDisabled ? -1 : 0;
   }
 
@@ -61,11 +58,6 @@ export class CalciteSwitch implements LabelableComponent, CheckableFormCompoment
 
   /** The name of the switch input */
   @Prop({ reflect: true }) name: string;
-
-  @Watch("name")
-  nameChanged(newName: string): void {
-    this.inputEl.name = newName;
-  }
 
   /** The scale of the switch */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -83,11 +75,6 @@ export class CalciteSwitch implements LabelableComponent, CheckableFormCompoment
   /** True if the switch is initially on */
   @Prop({ reflect: true, mutable: true }) checked = false;
 
-  @Watch("checked")
-  checkedWatcher(checked: boolean): void {
-    this.inputEl.checked = checked;
-  }
-
   /** The value of the switch input */
   @Prop({ reflect: true }) value: any;
 
@@ -98,8 +85,6 @@ export class CalciteSwitch implements LabelableComponent, CheckableFormCompoment
   //--------------------------------------------------------------------------
 
   labelEl: HTMLCalciteLabelElement;
-
-  private inputEl: HTMLInputElement = document.createElement("input");
 
   switchEl: HTMLDivElement;
 
@@ -114,8 +99,6 @@ export class CalciteSwitch implements LabelableComponent, CheckableFormCompoment
   //  State
   //
   //--------------------------------------------------------------------------
-
-  @State() guid: string;
 
   @State() tabindex: number;
 
@@ -142,19 +125,6 @@ export class CalciteSwitch implements LabelableComponent, CheckableFormCompoment
       this.toggle();
       this.setFocus();
     }
-  }
-
-  private setupInput(): void {
-    this.checked && this.inputEl.setAttribute("checked", "");
-    this.inputEl.disabled = this.disabled;
-    this.inputEl.id = `${this.guid}-input`;
-    this.inputEl.name = this.name;
-    this.inputEl.style.cssText = hiddenInputStyle;
-    this.inputEl.type = "checkbox";
-    if (this.value) {
-      this.inputEl.value = this.value != null ? this.value.toString() : "";
-    }
-    this.el.shadowRoot.appendChild(this.inputEl);
   }
 
   private toggle(): void {
@@ -216,14 +186,9 @@ export class CalciteSwitch implements LabelableComponent, CheckableFormCompoment
   }
 
   componentWillLoad(): void {
-    this.guid = this.el.id || `calcite-switch-${guid()}`;
     this.tabindex = this.el.getAttribute("tabindex") || this.disabled ? -1 : 0;
-    this.setupInput();
   }
 
-  componentDidLoad(): void {
-    this.inputEl.setAttribute("aria-label", getLabelText(this));
-  }
   // --------------------------------------------------------------------------
   //
   //  Render Methods

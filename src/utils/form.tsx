@@ -217,6 +217,7 @@ export function disconnectForm<T>(component: FormComponent<T>): void {
  */
 export function renderHiddenFormInput(component: FormComponent): void {
   const { el, formEl, value } = component;
+  const { ownerDocument } = el;
 
   // TODO: optimize
   // TODO: remove 1 when remaining?
@@ -256,12 +257,12 @@ export function renderHiddenFormInput(component: FormComponent): void {
     let input = extra.pop();
 
     if (!input) {
-      input = el.ownerDocument!.createElement("input");
+      input = ownerDocument!.createElement("input");
       input.slot = hiddenFormInputSlotName;
     }
 
     if (!docFrag) {
-      docFrag = el.ownerDocument!.createDocumentFragment();
+      docFrag = ownerDocument!.createDocumentFragment();
     }
 
     docFrag.append(input);
