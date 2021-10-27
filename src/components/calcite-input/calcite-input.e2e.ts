@@ -1345,10 +1345,11 @@ describe("calcite-input", () => {
           html: `<calcite-label>
             Hello
             <calcite-inline-editable controls>
-              <calcite-input value="John Doe"/>
+              <calcite-input value="John Doe"></calcite-input>
             </calcite-inline-editable>
           </calcite-label>`
         });
+        await page.waitForChanges();
         const element = await page.find("calcite-input");
         const input = await page.find(`calcite-input >>> input`);
         expect(input.className).toBe(`${CSS.inlineChild}`);

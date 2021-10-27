@@ -32,7 +32,6 @@ import {
   localizeNumberString
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
-import { hiddenInputStyle } from "../../utils/form";
 import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
 import { CSS_UTILITY, TEXT } from "../../utils/resources";
 
@@ -173,7 +172,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
   @Prop() suffixText?: string;
 
   /** @internal adds inline styles for text input when slotted in calcite-inline-editable */
-  @Prop({ mutable: true, reflect: true }) editingEnabled?: boolean;
+  @Prop({ mutable: true, reflect: true }) editingEnabled = false;
 
   /**
    * specify the input type
@@ -307,9 +306,6 @@ export class CalciteInput implements LabelableComponent, FormComponent {
   componentDidLoad(): void {
     this.slottedActionEl = this.el.querySelector("[slot=action]");
     this.setDisabledAction();
-    if (this.type === "number" && this.childEl) {
-      this.childEl.style.cssText = hiddenInputStyle;
-    }
   }
 
   componentShouldUpdate(newValue: any, oldValue: any, property: string): boolean {
@@ -711,44 +707,45 @@ export class CalciteInput implements LabelableComponent, FormComponent {
         />
       ) : null;
 
-    const childEl = [
-      <this.childElType
-        aria-label={getLabelText(this)}
-        autofocus={this.autofocus ? true : null}
-        class={{
-          [CSS.editingEnabled]: this.editingEnabled,
-          [CSS.inlineChild]: !!this.inlineEditableEl
-        }}
-        defaultValue={this.defaultValue}
-        disabled={this.disabled ? true : null}
-        max={this.maxString}
-        maxLength={this.maxLength}
-        min={this.minString}
-        minLength={this.minLength}
-        name={this.name}
-        onBlur={this.inputBlurHandler}
-        onFocus={this.inputFocusHandler}
-        onInput={this.inputInputHandler}
-        onKeyDown={this.inputKeyDownHandler}
-        placeholder={this.placeholder || ""}
-        readOnly={this.readOnly}
-        ref={this.setChildElRef}
-        required={this.required ? true : null}
-        step={this.step}
-        tabIndex={
-          this.disabled || (this.inlineEditableEl && !this.editingEnabled) || this.type === "number"
-            ? -1
-            : null
-        }
-        type={this.type}
-        value={this.value}
-      />,
-      this.isTextarea ? (
-        <div class={CSS.resizeIconWrapper}>
-          <calcite-icon icon="chevron-down" scale="s" />
-        </div>
-      ) : null
-    ];
+    const childEl =
+      this.type !== "number"
+        ? [
+            <this.childElType
+              aria-label={getLabelText(this)}
+              autofocus={this.autofocus ? true : null}
+              class={{
+                [CSS.editingEnabled]: this.editingEnabled,
+                [CSS.inlineChild]: !!this.inlineEditableEl
+              }}
+              defaultValue={this.defaultValue}
+              disabled={this.disabled ? true : null}
+              max={this.maxString}
+              maxLength={this.maxLength}
+              min={this.minString}
+              minLength={this.minLength}
+              name={this.name}
+              onBlur={this.inputBlurHandler}
+              onFocus={this.inputFocusHandler}
+              onInput={this.inputInputHandler}
+              onKeyDown={this.inputKeyDownHandler}
+              placeholder={this.placeholder || ""}
+              readOnly={this.readOnly}
+              ref={this.setChildElRef}
+              required={this.required ? true : null}
+              step={this.step}
+              tabIndex={
+                this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null
+              }
+              type={this.type}
+              value={this.value}
+            />,
+            this.isTextarea ? (
+              <div class={CSS.resizeIconWrapper}>
+                <calcite-icon icon="chevron-down" scale="s" />
+              </div>
+            ) : null
+          ]
+        : null;
 
     return (
       <Host onClick={this.inputFocusHandler}>

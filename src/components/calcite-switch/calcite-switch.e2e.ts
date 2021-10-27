@@ -23,17 +23,14 @@ describe("calcite-switch", () => {
     await page.setContent("<calcite-switch></calcite-switch>");
 
     const calciteSwitch = await page.find("calcite-switch");
-    const input = await page.find("calcite-switch >>> input");
 
     expect(await calciteSwitch.getProperty("checked")).toBe(false);
-    expect(await input.getProperty("checked")).toBe(false);
 
     await calciteSwitch.click();
 
     await page.waitForChanges();
 
     expect(await calciteSwitch.getProperty("checked")).toBe(true);
-    expect(await input.getProperty("checked")).toBe(true);
   });
 
   it("appropriately triggers the custom change event", async () => {
@@ -82,16 +79,13 @@ describe("calcite-switch", () => {
     await page.setContent(`<calcite-switch></calcite-switch>`);
 
     const calciteSwitch = await page.find("calcite-switch");
-    const input = await page.find("calcite-switch >>> input");
 
     expect(await calciteSwitch.getProperty("checked")).toBe(false);
-    expect(await input.getProperty("checked")).toBe(false);
 
     await calciteSwitch.setProperty("checked", true);
     await page.waitForChanges();
 
     expect(await calciteSwitch.getProperty("checked")).toBe(true);
-    expect(await input.getProperty("checked")).toBe(true);
   });
 
   it("renders requested props", async () => {
