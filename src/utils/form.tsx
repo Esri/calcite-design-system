@@ -200,14 +200,14 @@ export function disconnectForm<T>(component: FormComponent<T>): void {
  * Based on Ionic's approach: https://github.com/ionic-team/ionic-framework/blob/e4bf052794af9aac07f887013b9250d2a045eba3/core/src/utils/helpers.ts#L198
  */
 export function renderHiddenFormInput(component: FormComponent): void {
-  const { el, formEl, value } = component;
+  const { el, formEl, name, value } = component;
   const { ownerDocument } = el;
 
   // TODO: optimize
   // TODO: remove 1 when remaining?
   const inputs = el.querySelectorAll<HTMLInputElement>(`input[slot="${hiddenFormInputSlotName}"]`);
 
-  if (!formEl) {
+  if (!formEl || !name) {
     inputs.forEach((input) => input.remove());
     return;
   }
