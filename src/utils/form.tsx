@@ -238,7 +238,7 @@ export function renderHiddenFormInput(component: FormComponent): void {
         val == input.value
     );
 
-    if (valueMatch) {
+    if (valueMatch != null) {
       seen.add(valueMatch);
       syncHiddenFormInput(component, input, valueMatch);
     } else {
