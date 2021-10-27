@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, focusable, renders } from "../../tests/commonTests";
 import { formatTimePart } from "../../utils/time";
 import { CSS } from "./resources";
 
@@ -35,7 +35,7 @@ const letterKeys = [
 describe("calcite-time-picker", () => {
   it("renders", async () => renders("calcite-time-picker", { display: "inline-block" }));
 
-  it("is accessible", async () => accessible(`<calcite-time-picker></calcite-time-picker>`));
+  it("is accessible", async () => accessible(`<calcite-time-picker step="1" value="00:00:00"></calcite-time-picker>`));
 
   it("has defaults", async () =>
     defaults("calcite-time-picker", [
@@ -786,14 +786,14 @@ describe("calcite-time-picker", () => {
 
       expect(hour.textContent).toBe("12");
       expect(meridiem.textContent).toBe("PM");
-      expect(await timePicker.getProperty("value")).toBe("12:00");
+      expect(await timePicker.getProperty("value")).toBe("12:00:00");
 
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
 
       expect(hour.textContent).toBe("12");
       expect(meridiem.textContent).toBe("AM");
-      expect(await timePicker.getProperty("value")).toBe("00:00");
+      expect(await timePicker.getProperty("value")).toBe("00:00:00");
     });
 
     it("hour-up button increments hour property and display hour correctly for fr locale (24-hour)", async () => {

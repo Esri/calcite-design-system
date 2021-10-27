@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, focusable, labelable, reflects, renders } from "../../tests/commonTests";
-import { formatTimePart, getMeridiem, localizeTimeString } from "../../utils/time";
+import { localizeTimeString } from "../../utils/time";
 
 describe("calcite-input-time-picker", () => {
   it("renders", async () => renders("calcite-input-time-picker", { display: "inline-block" }));
@@ -58,24 +58,21 @@ describe("calcite-input-time-picker", () => {
     expect(await popover.getProperty("open")).toBe(true);
   });
 
-  it("changing hour, minute and second values reflects in the input, input-time-picker and time-picker for 24-hour display format", async () => {
+  it("programmatically changing the value reflects in the input for fr locale (24-hour)", async () => {
+    const locale = "fr";
     const page = await newE2EPage({
-      html: `<calcite-input-time-picker hour-display-format="24" step="1"></calcite-input-time-picker>`
+      html: `<calcite-input-time-picker locale="${locale}"" step="1"></calcite-input-time-picker>`
     });
 
     const inputTimePicker = await page.find("calcite-input-time-picker");
     const input = await page.find("calcite-input-time-picker >>> calcite-input");
-    const timePicker = await page.find("calcite-input-time-picker >>> calcite-time-picker");
 
     for (let second = 0; second < 10; second++) {
       const date = new Date(0);
       date.setSeconds(second);
 
       const expectedValue = date.toISOString().substr(11, 8);
-      const expectedInputValue = localizeTimeString(expectedValue);
-      const expectedHour = expectedValue.substr(0, 2);
-      const expectedMinute = expectedValue.substr(3, 2);
-      const expectedSecond = expectedValue.substr(6, 2);
+      const expectedInputValue = localizeTimeString(expectedValue, locale);
 
       inputTimePicker.setProperty("value", expectedValue);
 
@@ -83,15 +80,9 @@ describe("calcite-input-time-picker", () => {
 
       const inputValue = await input.getProperty("value");
       const inputTimePickerValue = await inputTimePicker.getProperty("value");
-      const timePickerHourValue = await timePicker.getProperty("hour");
-      const timePickerMinuteValue = await timePicker.getProperty("minute");
-      const timePickerSecondValue = await timePicker.getProperty("second");
 
       expect(inputValue).toBe(expectedInputValue);
       expect(inputTimePickerValue).toBe(expectedValue);
-      expect(timePickerHourValue).toBe(expectedHour);
-      expect(timePickerMinuteValue).toBe(expectedMinute);
-      expect(timePickerSecondValue).toBe(expectedSecond);
     }
 
     for (let minute = 0; minute < 10; minute++) {
@@ -99,10 +90,7 @@ describe("calcite-input-time-picker", () => {
       date.setMinutes(minute);
 
       const expectedValue = date.toISOString().substr(11, 8);
-      const expectedInputValue = localizeTimeString(expectedValue);
-      const expectedHour = expectedValue.substr(0, 2);
-      const expectedMinute = expectedValue.substr(3, 2);
-      const expectedSecond = expectedValue.substr(6, 2);
+      const expectedInputValue = localizeTimeString(expectedValue, locale);
 
       inputTimePicker.setProperty("value", expectedValue);
 
@@ -110,15 +98,9 @@ describe("calcite-input-time-picker", () => {
 
       const inputValue = await input.getProperty("value");
       const inputTimePickerValue = await inputTimePicker.getProperty("value");
-      const timePickerHourValue = await timePicker.getProperty("hour");
-      const timePickerMinuteValue = await timePicker.getProperty("minute");
-      const timePickerSecondValue = await timePicker.getProperty("second");
 
       expect(inputValue).toBe(expectedInputValue);
       expect(inputTimePickerValue).toBe(expectedValue);
-      expect(timePickerHourValue).toBe(expectedHour);
-      expect(timePickerMinuteValue).toBe(expectedMinute);
-      expect(timePickerSecondValue).toBe(expectedSecond);
     }
 
     for (let hour = 0; hour < 10; hour++) {
@@ -126,10 +108,7 @@ describe("calcite-input-time-picker", () => {
       date.setHours(hour);
 
       const expectedValue = date.toISOString().substr(11, 8);
-      const expectedInputValue = localizeTimeString(expectedValue);
-      const expectedHour = expectedValue.substr(0, 2);
-      const expectedMinute = expectedValue.substr(3, 2);
-      const expectedSecond = expectedValue.substr(6, 2);
+      const expectedInputValue = localizeTimeString(expectedValue, locale);
 
       inputTimePicker.setProperty("value", expectedValue);
 
@@ -137,125 +116,38 @@ describe("calcite-input-time-picker", () => {
 
       const inputValue = await input.getProperty("value");
       const inputTimePickerValue = await inputTimePicker.getProperty("value");
-      const timePickerHourValue = await timePicker.getProperty("hour");
-      const timePickerMinuteValue = await timePicker.getProperty("minute");
-      const timePickerSecondValue = await timePicker.getProperty("second");
 
       expect(inputValue).toBe(expectedInputValue);
       expect(inputTimePickerValue).toBe(expectedValue);
-      expect(timePickerHourValue).toBe(expectedHour);
-      expect(timePickerMinuteValue).toBe(expectedMinute);
-      expect(timePickerSecondValue).toBe(expectedSecond);
     }
   });
 
-  it("changing hour, minute and second values reflects in the input, input-time-picker and time-picker", async () => {
+  it("programmatically changing the value reflects in the input for en locale (12-hour)", async () => {
+    const locale = "en";
     const page = await newE2EPage({
       html: `<calcite-input-time-picker step="1"></calcite-input-time-picker>`
     });
 
     const inputTimePicker = await page.find("calcite-input-time-picker");
     const input = await page.find("calcite-input-time-picker >>> calcite-input");
-    const timePicker = await page.find("calcite-input-time-picker >>> calcite-time-picker");
 
-    for (let second = 0; second < 10; second++) {
-      const date = new Date(0);
-      date.setSeconds(second);
+    const date = new Date(0);
+    date.setHours(13);
+    date.setMinutes(59);
+    date.setSeconds(59);
 
-      const expectedValue = date.toISOString().substr(11, 8);
-      const expectedHour = expectedValue.substr(0, 2);
-      const expectedHourAsNumber = parseInt(expectedValue.substr(0, 2));
-      const expectedMinute = expectedValue.substr(3, 2);
-      const expectedSecond = expectedValue.substr(6, 2);
-      const expectedDisplayHour =
-        expectedHourAsNumber > 12
-          ? formatTimePart(expectedHourAsNumber - 12)
-          : expectedHourAsNumber === 0
-          ? "12"
-          : formatTimePart(expectedHourAsNumber);
-      const expectedDisplayValue = `${expectedDisplayHour}:${expectedMinute}:${expectedSecond} ${getMeridiem(
-        expectedHour
-      )}`;
+    const expectedValue = date.toISOString().substr(11, 8);
+    const expectedDisplayValue = localizeTimeString(expectedValue, locale);
 
-      inputTimePicker.setProperty("value", expectedValue);
+    inputTimePicker.setProperty("value", expectedValue);
 
-      await page.waitForChanges();
+    await page.waitForChanges();
 
-      const inputValue = await input.getProperty("value");
-      const inputTimePickerValue = await inputTimePicker.getProperty("value");
-      const timePickerHourValue = await timePicker.getProperty("hour");
-      const timePickerMinuteValue = await timePicker.getProperty("minute");
-      const timePickerSecondValue = await timePicker.getProperty("second");
+    const inputValue = await input.getProperty("value");
+    const inputTimePickerValue = await inputTimePicker.getProperty("value");
 
-      expect(inputValue).toBe(expectedDisplayValue);
-      expect(inputTimePickerValue).toBe(expectedValue);
-      expect(timePickerHourValue).toBe(expectedHour);
-      expect(timePickerMinuteValue).toBe(expectedMinute);
-      expect(timePickerSecondValue).toBe(expectedSecond);
-    }
-
-    for (let minute = 0; minute < 10; minute++) {
-      const date = new Date(0);
-      date.setMinutes(minute);
-
-      const expectedValue = date.toISOString().substr(11, 8);
-      const expectedHour = expectedValue.substr(0, 2);
-      const expectedHourAsNumber = parseInt(expectedValue.substr(0, 2));
-      const expectedMinute = expectedValue.substr(3, 2);
-      const expectedSecond = expectedValue.substr(6, 2);
-      const expectedDisplayHour =
-        expectedHourAsNumber > 12
-          ? formatTimePart(expectedHourAsNumber - 12)
-          : expectedHourAsNumber === 0
-          ? "12"
-          : formatTimePart(expectedHourAsNumber);
-      const expectedDisplayValue = `${expectedDisplayHour}:${expectedMinute}:${expectedSecond} ${getMeridiem(
-        expectedHour
-      )}`;
-
-      inputTimePicker.setProperty("value", expectedValue);
-
-      await page.waitForChanges();
-
-      const inputValue = await input.getProperty("value");
-      const inputTimePickerValue = await inputTimePicker.getProperty("value");
-      const timePickerHourValue = await timePicker.getProperty("hour");
-      const timePickerMinuteValue = await timePicker.getProperty("minute");
-      const timePickerSecondValue = await timePicker.getProperty("second");
-
-      expect(inputValue).toBe(expectedDisplayValue);
-      expect(inputTimePickerValue).toBe(expectedValue);
-      expect(timePickerHourValue).toBe(expectedHour);
-      expect(timePickerMinuteValue).toBe(expectedMinute);
-      expect(timePickerSecondValue).toBe(expectedSecond);
-    }
-
-    for (let hour = 0; hour < 10; hour++) {
-      const date = new Date(0);
-      date.setHours(hour);
-
-      const expectedValue = date.toISOString().substr(11, 8);
-      const expectedHour = expectedValue.substr(0, 2);
-      const expectedMinute = expectedValue.substr(3, 2);
-      const expectedSecond = expectedValue.substr(6, 2);
-      const expectedDisplayValue = localizeTimeString(expectedValue);
-
-      inputTimePicker.setProperty("value", expectedValue);
-
-      await page.waitForChanges();
-
-      const inputValue = await input.getProperty("value");
-      const inputTimePickerValue = await inputTimePicker.getProperty("value");
-      const timePickerHourValue = await timePicker.getProperty("hour");
-      const timePickerMinuteValue = await timePicker.getProperty("minute");
-      const timePickerSecondValue = await timePicker.getProperty("second");
-
-      expect(inputValue).toBe(expectedDisplayValue);
-      expect(inputTimePickerValue).toBe(expectedValue);
-      expect(timePickerHourValue).toBe(expectedHour);
-      expect(timePickerMinuteValue).toBe(expectedMinute);
-      expect(timePickerSecondValue).toBe(expectedSecond);
-    }
+    expect(inputValue).toBe(expectedDisplayValue);
+    expect(inputTimePickerValue).toBe(expectedValue);
   });
 
   it("appropriately triggers calciteInputTimePickerChange event when the user types a value", async () => {
@@ -311,7 +203,7 @@ describe("calcite-input-time-picker", () => {
       });
     });
 
-    expect(await inputTimePicker.getProperty("value")).toBe("14:59:00");
+    expect(await inputTimePicker.getProperty("value")).toBe("14:59");
 
     await page.keyboard.press("Tab");
     await page.keyboard.press(":");

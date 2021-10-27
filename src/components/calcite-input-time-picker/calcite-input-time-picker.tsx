@@ -313,8 +313,8 @@ export class CalciteInputTimePicker implements LabelableComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback() {
-    if (isValidTime(this.value)) {
-      this.setValue({ value: this.value, origin: "loading" });
+    if (this.value) {
+      this.setValue({ value: isValidTime(this.value) ? this.value : undefined, origin: "loading" });
     }
     connectLabel(this);
   }
