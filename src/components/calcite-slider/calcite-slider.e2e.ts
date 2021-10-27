@@ -211,6 +211,7 @@ describe("calcite-slider", () => {
       `
     });
     await page.waitForChanges();
+    const slider = await page.find("calcite-slider");
     const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
     await page.mouse.move(trackX + 30, trackY);
@@ -222,6 +223,8 @@ describe("calcite-slider", () => {
       slider.shadowRoot.activeElement?.classList.contains("thumb--minValue")
     );
 
+    expect(await slider.getProperty("minValue")).toBe(0);
+    expect(await slider.getProperty("maxValue")).toBe(80);
     expect(isMinThumbFocused).toBe(true);
   });
 
@@ -240,6 +243,7 @@ describe("calcite-slider", () => {
       `
     });
     await page.waitForChanges();
+    const slider = await page.find("calcite-slider");
     const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
     await page.mouse.move(trackX + 50, trackY);
@@ -251,6 +255,8 @@ describe("calcite-slider", () => {
       slider.shadowRoot.activeElement?.classList.contains("thumb--value")
     );
 
+    expect(await slider.getProperty("minValue")).toBe(0);
+    expect(await slider.getProperty("maxValue")).toBe(80);
     expect(isMaxThumbFocused).toBe(true);
   });
 
