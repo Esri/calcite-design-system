@@ -287,6 +287,7 @@ describe("calcite-radio-button", () => {
     expect(await checked.getProperty("checked")).toBe(true);
 
     await unchecked.click();
+    await page.waitForChanges();
     expect(await unchecked.getProperty("checked")).toBe(true);
     expect(await checked.getProperty("checked")).toBe(false);
 

@@ -163,7 +163,18 @@ export class CalciteRadioButton implements LabelableComponent, CheckableFormComp
     });
   };
 
-  toggle = (): void => {
+  queryButtons = (): HTMLCalciteRadioButtonElement[] => {
+    return Array.from(this.rootNode.querySelectorAll("calcite-radio-button:not([hidden]")).filter(
+      (radioButton: HTMLCalciteRadioButtonElement) => radioButton.name === this.name
+    ) as HTMLCalciteRadioButtonElement[];
+  };
+
+  isDefaultSelectable = (): boolean => {
+    const radioButtons = this.queryButtons();
+    return !radioButtons.some((radioButton) => radioButton.checked) && radioButtons[0] === this.el;
+  };
+
+  check = (): void => {
     if (this.disabled) {
       return;
     }
@@ -174,7 +185,7 @@ export class CalciteRadioButton implements LabelableComponent, CheckableFormComp
   };
 
   private clickHandler = (): void => {
-    this.toggle();
+    this.check();
   };
 
   onLabelClick(event: CustomEvent): void {
@@ -200,10 +211,7 @@ export class CalciteRadioButton implements LabelableComponent, CheckableFormComp
   }
 
   private checkLastRadioButton(): void {
-    const radioButtons = Array.from(this.rootNode.querySelectorAll("calcite-radio-button")).filter(
-      (radioButton: HTMLCalciteRadioButtonElement) => radioButton.name === this.name
-    ) as HTMLCalciteRadioButtonElement[];
-
+    const radioButtons = this.queryButtons();
     const checkedRadioButtons = radioButtons.filter((radioButton) => radioButton.checked);
 
     if (checkedRadioButtons?.length > 1) {
@@ -228,26 +236,19 @@ export class CalciteRadioButton implements LabelableComponent, CheckableFormComp
   };
 
   private uncheckAllRadioButtonsInGroup(): void {
-    const otherRadioButtons = Array.from(
-      this.rootNode.querySelectorAll("calcite-radio-button")
-    ).filter(
-      (radioButton: HTMLCalciteRadioButtonElement) => radioButton.name === this.name
-    ) as HTMLCalciteRadioButtonElement[];
-    otherRadioButtons.forEach((otherRadioButton: HTMLCalciteRadioButtonElement) => {
-      if (otherRadioButton.checked) {
-        otherRadioButton.checked = false;
-        otherRadioButton.focused = false;
+    const radioButtons = this.queryButtons();
+    radioButtons.forEach((radioButton) => {
+      if (radioButton.checked) {
+        radioButton.checked = false;
+        radioButton.focused = false;
       }
     });
   }
 
   private uncheckOtherRadioButtonsInGroup(): void {
-    const otherRadioButtons = Array.from(
-      this.rootNode.querySelectorAll(
-        `calcite-radio-button[name="${this.name}"]:not([guid="${this.guid}"])`
-      )
-    ) as HTMLCalciteRadioButtonElement[];
-    otherRadioButtons.forEach((otherRadioButton: HTMLCalciteRadioButtonElement) => {
+    const radioButtons = this.queryButtons();
+    const otherRadioButtons = radioButtons.filter((radioButton) => radioButton.guid !== this.guid);
+    otherRadioButtons.forEach((otherRadioButton) => {
       if (otherRadioButton.checked) {
         otherRadioButton.checked = false;
         otherRadioButton.focused = false;
@@ -305,11 +306,16 @@ export class CalciteRadioButton implements LabelableComponent, CheckableFormComp
   }
 
   handleKeyDown = (event: KeyboardEvent): void => {
-    const keys = ["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown"];
+    const keys = ["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown", " "];
     const key = getKey(event.key);
     const { el } = this;
 
     if (keys.indexOf(key) === -1) {
+      return;
+    }
+
+    if (key === " ") {
+      this.check();
       return;
     }
 
@@ -329,7 +335,7 @@ export class CalciteRadioButton implements LabelableComponent, CheckableFormComp
     ).filter(
       (radioButton: HTMLCalciteRadioButtonElement) => radioButton.name === this.name
     ) as HTMLCalciteRadioButtonElement[];
-    let currentIndex = -1;
+    let currentIndex = 0;
 
     const radioButtonsLength = radioButtons.length;
 
@@ -414,7 +420,7 @@ export class CalciteRadioButton implements LabelableComponent, CheckableFormComp
           onFocus={this.onContainerFocus}
           ref={this.setContainerEl}
           role="radio"
-          tabIndex={0}
+          tabIndex={this.checked || this.isDefaultSelectable() ? 0 : -1}
         >
           <calcite-radio
             checked={this.checked}

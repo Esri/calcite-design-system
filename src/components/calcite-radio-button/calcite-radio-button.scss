@@ -1,7 +1,7 @@
 :host {
   @apply cursor-pointer block;
   .container {
-    @apply relative;
+    @apply relative outline-none;
   }
 }
 :host([disabled]) {
