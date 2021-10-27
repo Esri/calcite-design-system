@@ -48,10 +48,10 @@ export class CalciteGraph {
   @Prop() highlightMax: number;
 
   /** Lowest point of the range */
-  @Prop() rangeMin!: number;
+  @Prop() min!: number;
 
   /** Highest point of the range */
-  @Prop() rangeMax!: number;
+  @Prop() max!: number;
 
   //--------------------------------------------------------------------------
   //
@@ -60,8 +60,7 @@ export class CalciteGraph {
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    const { data, colorStops, width, height, highlightMax, highlightMin, rangeMin, rangeMax } =
-      this;
+    const { data, colorStops, width, height, highlightMax, highlightMin, min, max } = this;
     const id = this.graphId;
 
     // if we have no data, return empty svg
@@ -77,22 +76,22 @@ export class CalciteGraph {
       );
     }
 
-    const { min, max } = range(data);
+    const { min: rangeMin, max: rangeMax } = range(data);
 
-    let currentMin: Point = min;
-    let currentMax: Point = max;
+    let currentMin: Point = rangeMin;
+    let currentMax: Point = rangeMax;
 
-    if (rangeMin < min[0]) {
-      currentMin = [rangeMin, 0];
+    if (min < rangeMin[0]) {
+      currentMin = [min, 0];
     }
-    if (rangeMax > max[0]) {
-      currentMax = [rangeMax, max[1]];
+    if (max > rangeMax[0]) {
+      currentMax = [max, rangeMax[1]];
     }
 
     const t = translate({ min: currentMin, max: currentMax, width, height });
     const [hMinX] = t([highlightMin, currentMax[1]]);
     const [hMaxX] = t([highlightMax, currentMax[1]]);
-    const areaPath = area({ data, min, max, t });
+    const areaPath = area({ data, min: rangeMin, max: rangeMax, t });
     const fill = colorStops ? `url(#linear-gradient-${id})` : undefined;
     return (
       <svg

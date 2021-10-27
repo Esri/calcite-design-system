@@ -596,8 +596,8 @@ export class CalciteSlider implements LabelableComponent {
           height={48}
           highlightMax={this.isRange ? this.maxValue : this.value}
           highlightMin={this.isRange ? this.minValue : this.min}
-          rangeMax={this.max}
-          rangeMin={this.min}
+          max={this.max}
+          min={this.min}
           width={300}
         />
       </div>
