@@ -15,13 +15,6 @@ export interface FormComponent<T = any> {
   disabled: boolean;
 
   /**
-   * When true, this component's value will not be submitted in the form.
-   *
-   * @todo remove optional in follow-up PR
-   */
-  hidden?: boolean;
-
-  /**
    * When true, form submit requests will enforce field requirement.
    *
    * @todo remove optional in follow-up PR
@@ -253,12 +246,11 @@ function defaultSyncHiddenFormInput(
   input: HTMLInputElement,
   value: string
 ): void {
-  const { defaultValue, disabled, hidden, name, required } = component;
+  const { defaultValue, disabled, name, required } = component;
 
   // keep in sync to prevent losing reset value
   input.defaultValue = defaultValue;
   input.disabled = disabled;
-  input.hidden = hidden;
   input.name = name;
   input.required = required;
   input.tabIndex = -1;

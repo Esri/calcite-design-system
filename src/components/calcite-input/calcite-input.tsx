@@ -76,6 +76,9 @@ export class CalciteInput implements LabelableComponent, FormComponent {
   /** for number values, displays the locale's group separator */
   @Prop() groupSeparator = false;
 
+  /** when true, the component will not be visible */
+  @Prop() hidden = false;
+
   /** when used as a boolean set to true, show a default recommended icon for certain
    * input types (tel, password, email, date, time, search). You can also pass a
    * calcite-ui-icon name to this prop to display a requested icon for any input type */
