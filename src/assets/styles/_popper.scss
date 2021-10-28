@@ -86,6 +86,7 @@ $popper-default-z-index: 900;
 
 @mixin popperWrapper {
   visibility: hidden;
+  // display:none;
   pointer-events: none;
 }
 
