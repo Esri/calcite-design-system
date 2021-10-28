@@ -103,8 +103,8 @@ describe("calcite-graph", () => {
       ];
       elm.highlightMax = 5;
       elm.highlightMin = -3;
-      elm.rangeMax = 10;
-      elm.rangeMin = -10;
+      elm.max = 10;
+      elm.min = -10;
       elm.height = 48;
     });
     await page.waitForChanges();
