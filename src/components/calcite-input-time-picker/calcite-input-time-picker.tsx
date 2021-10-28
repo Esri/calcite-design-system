@@ -81,11 +81,11 @@ export class CalciteInputTimePicker implements LabelableComponent {
   @Prop() intlSecondUp?: string;
 
   /** BCP 47 language tag for desired language and country format */
-  @Prop() locale?: string = document.documentElement.lang || "en";
+  @Prop() lang: string = document.documentElement.lang || navigator.language;
 
-  @Watch("locale")
-  localeWatcher(newLocale: string): void {
-    this.setInputValue(localizeTimeString(this.value, newLocale, this.shouldIncludeSeconds()));
+  @Watch("lang")
+  langWatcher(newLang: string): void {
+    this.setInputValue(localizeTimeString(this.value, newLang, this.shouldIncludeSeconds()));
   }
 
   /** The name of the time input */
@@ -157,12 +157,11 @@ export class CalciteInputTimePicker implements LabelableComponent {
 
     const localizedInputValue = localizeTimeString(
       this.calciteInputEl.value,
-      this.locale,
+      this.lang,
       this.shouldIncludeSeconds()
     );
     this.setInputValue(
-      localizedInputValue ||
-        localizeTimeString(this.value, this.locale, this.shouldIncludeSeconds())
+      localizedInputValue || localizeTimeString(this.value, this.lang, this.shouldIncludeSeconds())
     );
   };
 
@@ -260,11 +259,7 @@ export class CalciteInputTimePicker implements LabelableComponent {
   }): void => {
     const previousValue = this.value;
     const newValue = formatTimeString(value);
-    const newLocalizedValue = localizeTimeString(
-      newValue,
-      this.locale,
-      this.shouldIncludeSeconds()
-    );
+    const newLocalizedValue = localizeTimeString(newValue, this.lang, this.shouldIncludeSeconds());
 
     this.internalValueChange = origin !== "external" && origin !== "loading";
 
@@ -377,7 +372,7 @@ export class CalciteInputTimePicker implements LabelableComponent {
             intlSecond={this.intlSecond}
             intlSecondDown={this.intlSecondDown}
             intlSecondUp={this.intlSecondUp}
-            locale={this.locale}
+            lang={this.lang}
             ref={this.setCalciteTimePickerEl}
             scale={this.scale}
             step={this.step}

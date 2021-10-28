@@ -39,7 +39,7 @@ describe("calcite-time-picker", () => {
 
   it("has defaults", async () =>
     defaults("calcite-time-picker", [
-      { propertyName: "locale", defaultValue: "en" },
+      { propertyName: "lang", defaultValue: "en" },
       { propertyName: "scale", defaultValue: "m" },
       { propertyName: "step", defaultValue: 60 }
     ]));
@@ -183,9 +183,9 @@ describe("calcite-time-picker", () => {
       ).toBe(true);
     });
 
-    it("ArrowUp key increments hour property and display hour correctly for fr locale (24-hour)", async () => {
+    it("ArrowUp key increments hour property and display hour correctly for fr lang (24-hour)", async () => {
       const page = await newE2EPage({
-        html: `<calcite-time-picker locale="fr"></calcite-time-picker>`
+        html: `<calcite-time-picker lang="fr"></calcite-time-picker>`
       });
       const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
 
@@ -204,9 +204,9 @@ describe("calcite-time-picker", () => {
       expect(hour.textContent).toBe("00");
     });
 
-    it("ArrowDown key decrements hour property and display hour correctly for fr locale (24-hour)", async () => {
+    it("ArrowDown key decrements hour property and display hour correctly for fr lang (24-hour)", async () => {
       const page = await newE2EPage({
-        html: `<calcite-time-picker locale="fr"></calcite-time-picker>`
+        html: `<calcite-time-picker lang="fr"></calcite-time-picker>`
       });
       const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
 
@@ -221,7 +221,7 @@ describe("calcite-time-picker", () => {
       }
     });
 
-    it("ArrowUp key increments hour property and display hour correctly for en locale (12-hour)", async () => {
+    it("ArrowUp key increments hour property and display hour correctly for en lang (12-hour)", async () => {
       const page = await newE2EPage({
         html: `<calcite-time-picker></calcite-time-picker>`
       });
@@ -239,7 +239,7 @@ describe("calcite-time-picker", () => {
       await page.keyboard.press("ArrowUp");
     });
 
-    it("ArrowDown key decrements hour property and display hour correctly for en locale (12-hour)", async () => {
+    it("ArrowDown key decrements hour property and display hour correctly for en lang (12-hour)", async () => {
       const page = await newE2EPage({
         html: `<calcite-time-picker></calcite-time-picker>`
       });
@@ -370,7 +370,7 @@ describe("calcite-time-picker", () => {
 
     it("typing letter keys changes nothing for hour, minute and second in 24-hour format", async () => {
       const page = await newE2EPage({
-        html: `<calcite-time-picker locale="fr" step="1"></calcite-time-picker>`
+        html: `<calcite-time-picker lang="fr" step="1"></calcite-time-picker>`
       });
       const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
       const minute = await page.find(`calcite-time-picker >>> .${CSS.minute}`);
@@ -430,7 +430,7 @@ describe("calcite-time-picker", () => {
 
     it("allows typing single digit values for hour, minute and second and pads the value and display with a leading zero for 24-hour format", async () => {
       const page = await newE2EPage({
-        html: `<calcite-time-picker locale="fr" step="1"></calcite-time-picker>`
+        html: `<calcite-time-picker lang="fr" step="1"></calcite-time-picker>`
       });
       const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
       const minute = await page.find(`calcite-time-picker >>> .${CSS.minute}`);
@@ -543,7 +543,7 @@ describe("calcite-time-picker", () => {
 
     it("restricts typing to valid hour values for 24-hour format", async () => {
       const page = await newE2EPage({
-        html: `<calcite-time-picker locale="fr" step="1"></calcite-time-picker>`
+        html: `<calcite-time-picker lang="fr" step="1"></calcite-time-picker>`
       });
       const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
 
@@ -628,7 +628,7 @@ describe("calcite-time-picker", () => {
       }
     });
 
-    it("allows typing AM and PM for en locale (12-hour)", async () => {
+    it("allows typing AM and PM for en lang (12-hour)", async () => {
       const page = await newE2EPage({
         html: `<calcite-time-picker></calcite-time-picker>`
       });
@@ -745,7 +745,7 @@ describe("calcite-time-picker", () => {
   });
 
   describe("time behavior", () => {
-    it("hour, display hour and AM/PM set correctly as hour changes for en locale (12-hour)", async () => {
+    it("hour, display hour and AM/PM set correctly as hour changes for en lang (12-hour)", async () => {
       const page = await newE2EPage({
         html: `<calcite-time-picker value="00:00:00"></calcite-time-picker>`
       });
@@ -769,7 +769,7 @@ describe("calcite-time-picker", () => {
       expect(meridiem.textContent).toBe("AM");
     });
 
-    it("changing AM/PM updates value property correctly for en locale (12-hour)", async () => {
+    it("changing AM/PM updates value property correctly for en lang (12-hour)", async () => {
       const page = await newE2EPage({
         html: `<calcite-time-picker value="00:00:00" step="1"></calcite-time-picker>`
       });
@@ -796,9 +796,9 @@ describe("calcite-time-picker", () => {
       expect(await timePicker.getProperty("value")).toBe("00:00:00");
     });
 
-    it("hour-up button increments hour property and display hour correctly for fr locale (24-hour)", async () => {
+    it("hour-up button increments hour property and display hour correctly for fr lang (24-hour)", async () => {
       const page = await newE2EPage({
-        html: `<calcite-time-picker locale="fr"></calcite-time-picker>`
+        html: `<calcite-time-picker lang="fr"></calcite-time-picker>`
       });
       const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
       const hourUp = await page.find(`calcite-time-picker >>> .${CSS.buttonHourUp}`);
@@ -816,9 +816,9 @@ describe("calcite-time-picker", () => {
       expect(hour.textContent).toBe("00");
     });
 
-    it("hour-down button decrements hour property and display hour correctly for fr locale (24-hour)", async () => {
+    it("hour-down button decrements hour property and display hour correctly for fr lang (24-hour)", async () => {
       const page = await newE2EPage({
-        html: `<calcite-time-picker locale="fr"></calcite-time-picker>`
+        html: `<calcite-time-picker lang="fr"></calcite-time-picker>`
       });
       const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
       const hourdown = await page.find(`calcite-time-picker >>> .${CSS.buttonHourDown}`);
@@ -836,7 +836,7 @@ describe("calcite-time-picker", () => {
       }
     });
 
-    it("hour-up button increments hour property and display hour correctly for en locale (12-hour)", async () => {
+    it("hour-up button increments hour property and display hour correctly for en lang (12-hour)", async () => {
       const page = await newE2EPage({
         html: `<calcite-time-picker></calcite-time-picker>`
       });
@@ -851,7 +851,7 @@ describe("calcite-time-picker", () => {
       }
     });
 
-    it("hour-down button decrements hour property and display hour correctly for en locale (12-hour)", async () => {
+    it("hour-down button decrements hour property and display hour correctly for en lang (12-hour)", async () => {
       const page = await newE2EPage({
         html: `<calcite-time-picker></calcite-time-picker>`
       });
