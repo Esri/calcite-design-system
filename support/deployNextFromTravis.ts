@@ -1,5 +1,6 @@
 const childProcess = require("child_process");
 const pify = require("pify");
+import { promises as fs } from "fs";
 
 const exec = pify(childProcess.exec);
 
