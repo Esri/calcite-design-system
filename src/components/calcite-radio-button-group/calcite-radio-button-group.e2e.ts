@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, formAssociated, hidden, reflects, renders } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 
 describe("calcite-radio-button-group", () => {

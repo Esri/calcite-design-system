@@ -49,6 +49,11 @@ export class CalciteRadioGroup implements LabelableComponent, FormComponent {
   /** is the radio group disabled  */
   @Prop({ reflect: true }) disabled = false;
 
+  /**
+   * When true, makes the component required for form-submission.
+   */
+  @Prop({ reflect: true }) required = false;
+
   /** specify the layout of the radio group, defaults to horizontal */
   @Prop({ reflect: true }) layout: Layout = "horizontal";
 

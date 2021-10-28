@@ -64,6 +64,11 @@ export class CalciteSelect implements LabelableComponent, FormComponent {
   @Prop() name: string;
 
   /**
+   * When true, makes the component required for form-submission.
+   */
+  @Prop({ reflect: true }) required = false;
+
+  /**
    * The component scale.
    */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -136,6 +141,10 @@ export class CalciteSelect implements LabelableComponent, FormComponent {
     this.mutationObserver?.disconnect();
     disconnectLabel(this);
     disconnectForm(this);
+  }
+
+  componentDidLoad(): void {
+    this.defaultValue = this.selectedOption.value;
   }
 
   //--------------------------------------------------------------------------

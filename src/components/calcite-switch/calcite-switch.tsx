@@ -74,7 +74,7 @@ export class CalciteSwitch implements LabelableComponent, CheckableFormCompoment
   @Prop({ reflect: true, mutable: true }) checked = false;
 
   /** The value of the switch input */
-  @Prop({ reflect: true }) value: any;
+  @Prop() value: any;
 
   //--------------------------------------------------------------------------
   //

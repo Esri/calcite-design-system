@@ -100,6 +100,11 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
   /** Use finer point for handles */
   @Prop() precise = false;
 
+  /**
+   * When true, makes the component required for form-submission.
+   */
+  @Prop({ reflect: true }) required = false;
+
   /** When true, enables snap selection along the step interval */
   @Prop() snap = false;
 
@@ -110,7 +115,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
   @Prop() ticks?: number;
 
   /** Currently selected number (if single select) */
-  @Prop({ reflect: true, mutable: true }) value: null | number = null;
+  @Prop({ reflect: true, mutable: true }) value: null | number = 0;
 
   //--------------------------------------------------------------------------
   //

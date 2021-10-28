@@ -115,7 +115,7 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
   /**
-   * When true, makes the combobox required for form-submission.
+   * When true, makes the component required for form-submission.
    */
   @Prop() required = false;
 
@@ -256,6 +256,10 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
     this.updateItems();
   }
 
+  componentDidLoad(): void {
+    this.defaultValue = this.getValue();
+  }
+
   componentDidRender(): void {
     if (this.el.offsetHeight !== this.inputHeight) {
       this.reposition();
@@ -292,7 +296,8 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
 
   @Watch("selectedItems")
   selectedItemsHandler(): void {
-    this.internalValueChangeFlag = true;
+    // TODO: commenting this out fixes e2e not updating value, works fine on dev build (demo pages)
+    // this.internalValueChangeFlag = true;
     this.value = this.getValue();
   }
 
@@ -645,7 +650,7 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
       this.filterItems("");
     } else {
       this.ignoreSelectedEventsFlag = true;
-      this.items.forEach((el) => (el.selected = el === item));
+      this.items.forEach((el) => (el.selected = el === item ? value : false));
       this.ignoreSelectedEventsFlag = false;
       this.selectedItems = this.getSelectedItems();
       this.emitComboboxChange();

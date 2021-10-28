@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { defaults, labelable, renders } from "../../tests/commonTests";
+import { defaults, formAssociated, labelable, renders } from "../../tests/commonTests";
 
 const animationDurationInMs = 200;
 
@@ -116,5 +116,13 @@ describe("calcite-input-date-picker", () => {
     const calendar = await page.find("calcite-input-date-picker >>> .calendar-picker-wrapper");
 
     expect(await calendar.isVisible()).toBe(true);
+  });
+
+  describe("is form-associated", () => {
+    it("supports single value", () => formAssociated("calcite-input-date-picker", { testValue: "1985-03-23" }));
+    it("supports range", () =>
+      formAssociated(`<calcite-input-date-picker range name="calcite-input-date-picker"></calcite-input-date-picker>`, {
+        testValue: ["1985-03-23", "1985-10-30"]
+      }));
   });
 });

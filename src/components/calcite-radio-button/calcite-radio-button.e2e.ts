@@ -1,5 +1,14 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, hidden, labelable, reflects, renders } from "../../tests/commonTests";
+import {
+  accessible,
+  defaults,
+  focusable,
+  formAssociated,
+  hidden,
+  labelable,
+  reflects,
+  renders
+} from "../../tests/commonTests";
 
 describe("calcite-radio-button", () => {
   it("renders", async () => renders("calcite-radio-button", { display: "block" }));
@@ -335,4 +344,6 @@ describe("calcite-radio-button", () => {
     expect(radios[1].getAttribute("checked")).toBe("");
     expect(await inputs[1].getProperty("checked")).toBe(true);
   });
+
+  it("is form-associated", () => formAssociated("calcite-radio-button", { testValue: true }));
 });

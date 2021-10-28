@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, focusable, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
+import { accessible, focusable, formAssociated, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
 
 describe("calcite-checkbox", () => {
   it("is accessible", async () =>
@@ -12,6 +12,8 @@ describe("calcite-checkbox", () => {
 
   it("is labelable", async () =>
     labelable("calcite-checkbox", { propertyToToggle: "checked", shadowFocusTargetSelector: ".toggle" }));
+
+  it("is form-associated", async () => formAssociated("calcite-checkbox", { testValue: true }));
 
   it("renders with correct default attributes", async () => {
     const page = await newE2EPage();

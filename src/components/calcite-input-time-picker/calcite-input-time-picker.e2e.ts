@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, labelable, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, focusable, formAssociated, labelable, reflects, renders } from "../../tests/commonTests";
 import { formatTimePart, getMeridiem } from "../../utils/time";
 
 describe("calcite-input-time-picker", () => {
@@ -326,4 +326,6 @@ describe("calcite-input-time-picker", () => {
 
     expect(await inputTimePicker.getProperty("value")).toBe("14:59");
   });
+
+  it("is form-associated", () => formAssociated("calcite-input-time-picker", { testValue: "03:23" }));
 });

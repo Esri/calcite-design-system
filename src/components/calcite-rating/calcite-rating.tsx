@@ -73,6 +73,11 @@ export class CalciteRating implements LabelableComponent, FormComponent {
    */
   @Prop() intlStars?: string = TEXT.stars;
 
+  /**
+   * When true, makes the component required for form-submission.
+   */
+  @Prop({ reflect: true }) required = false;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle

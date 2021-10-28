@@ -93,6 +93,11 @@ export class CalciteInputTimePicker implements LabelableComponent, FormComponent
   /** The name of the time input */
   @Prop() name: string;
 
+  /**
+   * When true, makes the component required for form-submission.
+   */
+  @Prop({ reflect: true }) required = false;
+
   /** The scale (size) of the time input */
   @Prop({ reflect: true }) scale: Scale = "m";
 

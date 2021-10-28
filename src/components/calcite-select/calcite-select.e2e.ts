@@ -1,5 +1,5 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, focusable, labelable, reflects, renders } from "../../tests/commonTests";
+import { accessible, focusable, formAssociated, labelable, reflects, renders } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 import { CSS } from "./resources";
 
@@ -303,4 +303,16 @@ describe("calcite-select", () => {
 
     expect(selectedOptionId).toBe("2");
   });
+
+  it("is form-associated", () =>
+    formAssociated(
+      html`
+        <calcite-select>
+          <calcite-option id="1">uno</calcite-option>
+          <calcite-option id="2">dos</calcite-option>
+          <calcite-option id="3">tres</calcite-option>
+        </calcite-select>
+      `,
+      { testValue: "dos" }
+    ));
 });

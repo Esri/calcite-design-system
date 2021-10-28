@@ -147,6 +147,11 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
   @Prop({ reflect: true }) range = false;
 
   /**
+   * When true, makes the component required for form-submission.
+   */
+  @Prop({ reflect: true }) required = false;
+
+  /**
    * Selected start date
    * @deprecated use value instead
    */

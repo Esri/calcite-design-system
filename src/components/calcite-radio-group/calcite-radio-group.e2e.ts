@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { focusable, labelable } from "../../tests/commonTests";
+import { focusable, formAssociated, labelable } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 
 describe("calcite-radio-group", () => {
@@ -235,4 +235,16 @@ describe("calcite-radio-group", () => {
         }
       ));
   });
+
+  it("is form-associated", () =>
+    formAssociated(
+      html`
+        <calcite-radio-group>
+          <calcite-radio-group-item id="child-1" value="1">one</calcite-radio-group-item>
+          <calcite-radio-group-item id="child-2" value="2">two</calcite-radio-group-item>
+          <calcite-radio-group-item id="child-3" value="3">three</calcite-radio-group-item>
+        </calcite-radio-group>
+      `,
+      { testValue: "2" }
+    ));
 });

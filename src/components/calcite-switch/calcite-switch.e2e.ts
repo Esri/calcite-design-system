@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
+import { accessible, formAssociated, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
 
 describe("calcite-switch", () => {
   it("renders with correct default attributes", async () => {
@@ -17,6 +17,8 @@ describe("calcite-switch", () => {
   it("is accessible: checked", async () => accessible(`<calcite-switch label="test-label" checked></calcite-switch>`));
 
   it("is labelable", async () => labelable("calcite-switch", { propertyToToggle: "checked" }));
+
+  it("is form-associated", async () => formAssociated("calcite-switch", { testValue: true }));
 
   it("toggles the checked attributes appropriately when clicked", async () => {
     const page = await newE2EPage();

@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { focusable, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
+import { focusable, formAssociated, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { getDecimalSeparator, locales, localizeNumberString } from "../../utils/locale";
@@ -1442,5 +1442,10 @@ describe("calcite-input", () => {
         expect(input.className).toBe(`${CSS.inlineChild} ${CSS.editingEnabled}`);
       });
     });
+  });
+
+  describe("is form-associated", () => {
+    it("supports type=text", () => formAssociated("calcite-input", { testValue: "test" }));
+    it("supports type=number", () => formAssociated("<calcite-input type='number'></calcite-input>", { testValue: 5 }));
   });
 });
