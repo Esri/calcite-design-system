@@ -61,10 +61,8 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   @apply block absolute text-color-1 text-center;
   font-size: var(--calcite-loader-font-size);
   width: var(--calcite-loader-size);
-  top: theme("spacing.16");
   left: 50%;
   margin-left: calc(var(--calcite-loader-size) / 2 * -1);
-  margin-top: calc(var(--calcite-loader-size) / 2);
   line-height: 0.25;
   transform: scale(1, 1);
 }
@@ -73,7 +71,6 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   @apply absolute overflow-visible opacity-100;
   width: var(--calcite-loader-size);
   height: var(--calcite-loader-size);
-  top: theme("spacing.16");
   left: 50%;
   margin-left: calc(var(--calcite-loader-size) / 2 * -1);
   transform: scale(1, 1);
