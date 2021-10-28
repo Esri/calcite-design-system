@@ -24,7 +24,7 @@ import {
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
-  renderHiddenFormInput
+  syncHiddenFormInput
 } from "../../utils/form";
 import {
   getDecimalSeparator,
@@ -609,7 +609,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
 
   render(): VNode {
     const dir = getElementDir(this.el);
-    renderHiddenFormInput(this);
+    syncHiddenFormInput(this);
 
     const loader = (
       <div class={CSS.loader}>

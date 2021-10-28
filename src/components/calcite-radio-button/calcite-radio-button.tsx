@@ -17,7 +17,7 @@ import { Scale } from "../interfaces";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
   HiddenFormInputSlot,
-  renderHiddenFormInput,
+  syncHiddenFormInput,
   connectForm,
   disconnectForm,
   CheckableFormCompoment
@@ -409,7 +409,7 @@ export class CalciteRadioButton implements LabelableComponent, CheckableFormComp
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    renderHiddenFormInput(this);
+    syncHiddenFormInput(this);
     return (
       <Host onClick={this.clickHandler} onKeyDown={this.handleKeyDown}>
         <div

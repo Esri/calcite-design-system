@@ -19,7 +19,7 @@ import {
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
-  renderHiddenFormInput
+  syncHiddenFormInput
 } from "../../utils/form";
 import { CSS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -327,7 +327,7 @@ export class CalciteSelect implements LabelableComponent, FormComponent {
   }
 
   render(): VNode {
-    renderHiddenFormInput(this);
+    syncHiddenFormInput(this);
 
     const dir = getElementDir(this.el);
 

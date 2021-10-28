@@ -39,7 +39,7 @@ import {
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
-  renderHiddenFormInput
+  syncHiddenFormInput
 } from "../../utils/form";
 import { createObserver } from "../../utils/observers";
 interface ItemData {
@@ -1012,7 +1012,7 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
     const { guid, open, label } = this;
     const single = this.selectionMode === "single";
     const labelId = `${guid}-label`;
-    renderHiddenFormInput(this);
+    syncHiddenFormInput(this);
 
     return (
       <Host onKeyDown={this.keydownHandler}>

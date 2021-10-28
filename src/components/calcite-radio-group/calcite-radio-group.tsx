@@ -22,7 +22,7 @@ import {
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
-  renderHiddenFormInput
+  syncHiddenFormInput
 } from "../../utils/form";
 import { RadioAppearance } from "./interfaces";
 
@@ -137,7 +137,7 @@ export class CalciteRadioGroup implements LabelableComponent, FormComponent {
   }
 
   render(): VNode {
-    renderHiddenFormInput(this);
+    syncHiddenFormInput(this);
 
     return (
       <Host onClick={this.handleClick} role="radiogroup" tabIndex={this.disabled ? -1 : null}>

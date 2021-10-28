@@ -22,7 +22,7 @@ import {
   disconnectForm,
   CheckableFormCompoment,
   HiddenFormInputSlot,
-  renderHiddenFormInput
+  syncHiddenFormInput
 } from "../../utils/form";
 
 @Component({
@@ -196,7 +196,7 @@ export class CalciteSwitch implements LabelableComponent, CheckableFormCompoment
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    renderHiddenFormInput(this);
+    syncHiddenFormInput(this);
 
     const dir = getElementDir(this.el);
 

@@ -28,7 +28,7 @@ import {
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
-  renderHiddenFormInput
+  syncHiddenFormInput
 } from "../../utils/form";
 
 @Component({
@@ -331,7 +331,7 @@ export class CalciteInputTimePicker implements LabelableComponent, FormComponent
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    renderHiddenFormInput(this);
+    syncHiddenFormInput(this);
 
     const { hour, minute, second } = parseTimeString(this.value);
     const popoverId = `${this.referenceElementId}-popover`;

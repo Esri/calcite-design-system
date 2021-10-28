@@ -23,7 +23,7 @@ import {
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
-  renderHiddenFormInput
+  syncHiddenFormInput
 } from "../../utils/form";
 
 type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
@@ -160,7 +160,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
   }
 
   render(): VNode {
-    renderHiddenFormInput(this);
+    syncHiddenFormInput(this);
 
     const id = this.el.id || this.guid;
     const min = this.minValue || this.min;

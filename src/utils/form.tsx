@@ -67,7 +67,7 @@ export interface FormComponent<T = any> {
   onFormReset?(): void;
 
   /**
-   * Hook for components to sync extra props on the hidden input form element used for form-submitting.
+   * Hook for components to sync _extra_ props on the hidden input form element used for form-submitting.
    *
    * Note: The following props are set by default: disabled, hidden, name, required, value.
    */
@@ -188,7 +188,7 @@ export function disconnectForm<T>(component: FormComponent<T>): void {
  * This should be used in a component's render method along with the hidden-form-input-slot helper:
  *
  * render(): VNode {
- *   renderHiddenFormInput(this);
+ *   syncHiddenFormInput(this);
  *   <Host>
  *     <div class={CSS.container}>
  *     // ...
@@ -199,7 +199,7 @@ export function disconnectForm<T>(component: FormComponent<T>): void {
  *
  * Based on Ionic's approach: https://github.com/ionic-team/ionic-framework/blob/e4bf052794af9aac07f887013b9250d2a045eba3/core/src/utils/helpers.ts#L198
  */
-export function renderHiddenFormInput(component: FormComponent): void {
+export function syncHiddenFormInput(component: FormComponent): void {
   const { el, formEl, name, value } = component;
   const { ownerDocument } = el;
 
@@ -225,7 +225,7 @@ export function renderHiddenFormInput(component: FormComponent): void {
 
     if (valueMatch != null) {
       seen.add(valueMatch);
-      syncHiddenFormInput(component, input, valueMatch);
+      defaultSyncHiddenFormInput(component, input, valueMatch);
     } else {
       extra.push(input);
     }
@@ -251,7 +251,7 @@ export function renderHiddenFormInput(component: FormComponent): void {
 
     docFrag.append(input);
 
-    syncHiddenFormInput(component, input, value);
+    defaultSyncHiddenFormInput(component, input, value);
   });
 
   if (docFrag) {
@@ -260,7 +260,7 @@ export function renderHiddenFormInput(component: FormComponent): void {
   extra.forEach((input) => input.remove());
 }
 
-function syncHiddenFormInput(
+function defaultSyncHiddenFormInput(
   component: FormComponent,
   input: HTMLInputElement,
   value: string

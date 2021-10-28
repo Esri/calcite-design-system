@@ -20,7 +20,7 @@ import {
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
-  renderHiddenFormInput
+  syncHiddenFormInput
 } from "../../utils/form";
 import { TEXT } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -175,7 +175,7 @@ export class CalciteRating implements LabelableComponent, FormComponent {
   }
 
   render() {
-    renderHiddenFormInput(this);
+    syncHiddenFormInput(this);
 
     const { intlRating, showChip, scale, count, average } = this;
     const dir = getElementDir(this.el);
