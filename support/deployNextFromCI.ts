@@ -42,7 +42,7 @@ const exec = pify(childProcess.exec);
       // github token provided by the checkout action
       // https://github.com/actions/checkout#usage
       console.log(" - pushing tags...");
-      await exec(`git push --follow-tags origin master`);
+      await exec(`npm run util:push-tags -- --quiet https://$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG master`);
 
       console.log(" - publishing @next...");
       await exec(`npm run util:publish-next`);
