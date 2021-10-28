@@ -97,7 +97,7 @@
     "@typescript-eslint/eslint-plugin": "5.2.0",
     "@typescript-eslint/parser": "5.2.0",
     "@whitespace/storybook-addon-html": "5.0.0",
-    "autoprefixer": "10.3.7",
+    "autoprefixer": "10.4.0",
     "awesome-typescript-loader": "5.2.1",
     "axe-core": "4.3.3",
     "babel-loader": "8.2.3",
