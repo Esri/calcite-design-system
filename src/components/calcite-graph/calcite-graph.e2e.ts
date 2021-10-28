@@ -89,7 +89,7 @@ describe("calcite-graph", () => {
     expect(fill).toBe(`url(#${linearGradientId})`);
   });
 
-  it("highlights should start and end at the given min/max range", async () => {
+  it("highlights between given min/max range", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-graph></calcite-graph>`);
     await page.$eval("calcite-graph", (elm: any) => {
