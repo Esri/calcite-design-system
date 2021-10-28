@@ -1,17 +1,8 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  Prop,
-  Watch,
-  h,
-  VNode,
-  Fragment
-} from "@stencil/core";
+import { Component, Element, Event, EventEmitter, Prop, Watch, h, VNode } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
 import { Position, Scale } from "../interfaces";
-import { getSlotted } from "../../utils/dom";
+import { getElementDir, getSlotted } from "../../utils/dom";
+import { CSS_UTILITY } from "../../utils/resources";
 
 /**
  * @slot - A slot for adding content to the shell panel.
@@ -96,7 +87,8 @@ export class CalciteShellPanel {
   }
 
   render(): VNode {
-    const { collapsed, detached, position } = this;
+    const { collapsed, el, detached, position } = this;
+    const rtl = getElementDir(el) === "rtl";
 
     const contentNode = (
       <div class={{ [CSS.content]: true, [CSS.contentDetached]: detached }} hidden={collapsed}>
@@ -115,6 +107,6 @@ export class CalciteShellPanel {
       mainNodes.reverse();
     }
 
-    return <Fragment>{mainNodes}</Fragment>;
+    return <div class={{ [CSS.container]: true, [CSS_UTILITY.rtl]: rtl }}>{mainNodes}</div>;
   }
 }
