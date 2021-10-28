@@ -4,6 +4,7 @@ import { toHaveNoViolations } from "jest-axe";
 import axe from "axe-core";
 import { config } from "../../stencil.config";
 import { GlobalTestProps, html } from "./utils";
+import { hiddenFormInputSlotName } from "../utils/form";
 
 expect.extend(toHaveNoViolations);
 
@@ -329,4 +330,174 @@ export async function labelable(componentTagOrHtml: TagOrHTML, options?: Labelab
     focusTargetSelector,
     shadowFocusTargetSelector
   });
+}
+
+interface FormAssociatedOptions {
+  /**
+   * This value will be set on the component and submitted by the form.
+   */
+  testValue: any;
+
+  /**
+   * Set this if the expected submit value **is different** from stringifying `testValue`. For example, a component may transform an object to a serializable string.
+   */
+  expectedSubmitValue?: any;
+}
+
+/**
+ * This helper tests form-associated components. Specifically,
+ *
+ * 1. form submitting
+ * 2. form resetting
+ */
+export async function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssociatedOptions): Promise<void> {
+  const componentTag = getTag(componentTagOrHtml);
+  const componentHtml = ensureName(
+    isHTML(componentTagOrHtml) ? componentTagOrHtml : `<${componentTag}></${componentTag}>`
+  );
+
+  function ensureName(html: string): string {
+    return html.includes("name=") ? html : html.replace(componentTag, `${componentTag} name="testName" `);
+  }
+
+  const page = await newE2EPage({
+    html: html`<form>
+      ${componentHtml}
+      <!--
+      keeping things simple by using submit-type input
+      this should cover button and calcite-button submit cases
+      -->
+      <input id="submitter" type="submit" />
+    </form>`
+  });
+
+  await page.waitForChanges();
+
+  const component = await page.find(componentTag);
+  const checkable =
+    typeof options.testValue === "boolean" && (await page.$eval(componentTag, (component) => "checked" in component));
+  const resettablePropName = checkable ? "checked" : "value";
+  const initialValue = await component.getProperty(resettablePropName);
+
+  await assertReset();
+  await assertSubmitViaButton();
+
+  async function assertReset(): Promise<void> {
+    component.setProperty(resettablePropName, options.testValue);
+    await page.waitForChanges();
+
+    await page.$eval("form", (form: HTMLFormElement) => form.reset());
+    await page.waitForChanges();
+
+    expect(await component.getProperty(resettablePropName)).toBe(initialValue);
+  }
+
+  async function assertSubmitViaButton(): Promise<void> {
+    const inputName = await component.getProperty("name");
+    const stringifiedTestValue = Array.isArray(options.testValue)
+      ? options.testValue.map((value) => value.toString())
+      : options.testValue.toString();
+
+    if (checkable) {
+      component.setProperty("checked", true);
+      await page.waitForChanges();
+      expect(await submitAndGetValue()).toEqual("on");
+
+      component.setProperty("value", options.testValue);
+      await page.waitForChanges();
+      expect(await submitAndGetValue()).toEqual(stringifiedTestValue);
+
+      component.setProperty("disabled", true);
+      await page.waitForChanges();
+      expect(await submitAndGetValue()).toBe(null);
+
+      component.setProperty("checked", true);
+      component.setProperty("disabled", false);
+      await page.waitForChanges();
+      expect(await submitAndGetValue()).toEqual(stringifiedTestValue);
+
+      component.setProperty("checked", false);
+      await page.waitForChanges();
+      expect(await submitAndGetValue()).toBe(null);
+    } else {
+      component.setProperty("required", true);
+      component.setProperty("value", null);
+      await page.waitForChanges();
+      expect(await submitAndGetValue()).toBeUndefined();
+
+      component.setProperty("required", false);
+      component.setProperty("value", options.testValue);
+      await page.waitForChanges();
+      expect(await submitAndGetValue()).toEqual(options?.expectedSubmitValue || stringifiedTestValue);
+
+      component.setProperty("disabled", true);
+      await page.waitForChanges();
+      expect(await submitAndGetValue()).toBe(null);
+
+      component.setProperty("disabled", false);
+      component.setProperty("value", options.testValue);
+      await page.waitForChanges();
+      expect(await submitAndGetValue()).toEqual(options?.expectedSubmitValue || stringifiedTestValue);
+
+      component.setProperty("value", options.testValue);
+      await page.waitForChanges();
+      expect(await submitAndGetValue()).toEqual(options?.expectedSubmitValue || stringifiedTestValue);
+    }
+
+    type SubmitValueResult = ReturnType<FormData["get"]> | ReturnType<FormData["getAll"] | undefined>;
+
+    /**
+     * This method will submit the form and return the submitted value:
+     *
+     * For single-value components, it will return a string or null if the value was not submitted
+     * For multi-value components, it will return an array of strings
+     *
+     * If the input cannot be submitted because it is invalid, undefined will be returned
+     */
+    async function submitAndGetValue(): Promise<SubmitValueResult> {
+      return page.$eval(
+        "form",
+        async (
+          form: HTMLFormElement,
+          inputName: string,
+          hiddenFormInputSlotName: string
+        ): Promise<SubmitValueResult> => {
+          const hiddenFormInput = document.querySelector(
+            `[name="${inputName}"] input[slot=${hiddenFormInputSlotName}]`
+          );
+
+          let resolve: (value: SubmitValueResult) => void;
+          const submitPromise = new Promise<SubmitValueResult>((yes) => (resolve = yes));
+
+          function handleFormSubmit(event: Event): void {
+            event.preventDefault();
+            const formData = new FormData(form);
+            const values = formData.getAll(inputName);
+
+            if (values.length > 1) {
+              resolve(values as string[]);
+              return;
+            }
+
+            resolve(formData.get(inputName));
+            hiddenFormInput.removeEventListener("invalid", handleInvalidInput);
+          }
+
+          function handleInvalidInput(): void {
+            resolve(undefined);
+            form.removeEventListener("submit", handleFormSubmit);
+          }
+
+          form.addEventListener("submit", handleFormSubmit, { once: true });
+          hiddenFormInput.addEventListener("invalid", handleInvalidInput, { once: true });
+
+          document.querySelector<HTMLInputElement>("#submitter").click();
+
+          return submitPromise;
+        },
+        inputName,
+        hiddenFormInputSlotName
+      );
+    }
+  }
 }

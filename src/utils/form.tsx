@@ -1,7 +1,10 @@
 import { closestElementCrossShadowBoundary } from "./dom";
 import { FunctionalComponent, h } from "@stencil/core";
 
-const hiddenFormInputSlotName = "hidden-form-input";
+/**
+ * Exported for testing purposes.
+ */
+export const hiddenFormInputSlotName = "hidden-form-input";
 
 /**
  * Defines interface for form-associated components.
@@ -262,7 +265,9 @@ function defaultSyncHiddenFormInput(
     input.value = component.checked ? value || "on" : "";
 
     // we disable the component when not checked to avoid having its value submitted
-    input.disabled = !component.checked;
+    if (!disabled && !component.checked) {
+      input.disabled = true;
+    }
   } else {
     input.value = value || "";
   }
