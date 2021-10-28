@@ -17,13 +17,7 @@ import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { Layout, Scale, Width } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
-import {
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  syncHiddenFormInput
-} from "../../utils/form";
+import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { RadioAppearance } from "./interfaces";
 
 /**
@@ -137,12 +131,10 @@ export class CalciteRadioGroup implements LabelableComponent, FormComponent {
   }
 
   render(): VNode {
-    syncHiddenFormInput(this);
-
     return (
       <Host onClick={this.handleClick} role="radiogroup" tabIndex={this.disabled ? -1 : null}>
         <slot />
-        <HiddenFormInputSlot />
+        <HiddenFormInputSlot component={this} />
       </Host>
     );
   }

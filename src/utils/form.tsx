@@ -185,21 +185,9 @@ export function disconnectForm<T>(component: FormComponent<T>): void {
 /**
  * Helper for maintaining a form-associated's hidden input in sync with the component.
  *
- * This should be used in a component's render method along with the hidden-form-input-slot helper:
- *
- * render(): VNode {
- *   syncHiddenFormInput(this);
- *   <Host>
- *     <div class={CSS.container}>
- *     // ...
- *     <HiddenFormInputSlot />
- *     </div>
- *   </Host>
- * }
- *
  * Based on Ionic's approach: https://github.com/ionic-team/ionic-framework/blob/e4bf052794af9aac07f887013b9250d2a045eba3/core/src/utils/helpers.ts#L198
  */
-export function syncHiddenFormInput(component: FormComponent): void {
+function syncHiddenFormInput(component: FormComponent): void {
   const { el, formEl, name, value } = component;
   const { ownerDocument } = el;
 
@@ -290,13 +278,30 @@ function defaultSyncHiddenFormInput(
   component.syncHiddenFormInput?.(input);
 }
 
+interface HiddenFormInputSlotProps {
+  component: FormComponent;
+}
+
 /**
  * Helper to render the slot for form-associated component's hidden input.
  *
  * If the component has a default slot, this must be placed at the bottom of the component's root container to ensure it is the last child.
  *
+ * render(): VNode {
+ *   <Host>
+ *     <div class={CSS.container}>
+ *     // ...
+ *     <HiddenFormInputSlot component={this} />
+ *     </div>
+ *   </Host>
+ * }
+ *
  * Note that the hidden-form-input Sass mixin must be added to the component's style to apply specific styles.
  */
-export const HiddenFormInputSlot: FunctionalComponent = () => (
-  <slot name={hiddenFormInputSlotName} />
-);
+export const HiddenFormInputSlot: FunctionalComponent<HiddenFormInputSlotProps> = ({
+  component
+}) => {
+  syncHiddenFormInput(component);
+
+  return <slot name={hiddenFormInputSlotName} />;
+};

@@ -11,7 +11,7 @@ import {
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
-import { CheckableFormCompoment, HiddenFormInputSlot, syncHiddenFormInput } from "../../utils/form";
+import { CheckableFormCompoment, HiddenFormInputSlot } from "../../utils/form";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { connectForm, disconnectForm } from "../../utils/form";
 
@@ -198,7 +198,6 @@ export class CalciteCheckbox implements LabelableComponent, CheckableFormCompome
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    syncHiddenFormInput(this);
     return (
       <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
         <div
@@ -216,7 +215,7 @@ export class CalciteCheckbox implements LabelableComponent, CheckableFormCompome
           </svg>
           <slot />
         </div>
-        <HiddenFormInputSlot />
+        <HiddenFormInputSlot component={this} />
       </Host>
     );
   }

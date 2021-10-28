@@ -23,13 +23,7 @@ import {
 } from "../../utils/time";
 import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
-import {
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  syncHiddenFormInput
-} from "../../utils/form";
+import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 
 @Component({
   tag: "calcite-input-time-picker",
@@ -331,8 +325,6 @@ export class CalciteInputTimePicker implements LabelableComponent, FormComponent
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    syncHiddenFormInput(this);
-
     const { hour, minute, second } = parseTimeString(this.value);
     const popoverId = `${this.referenceElementId}-popover`;
     return (
@@ -384,7 +376,7 @@ export class CalciteInputTimePicker implements LabelableComponent, FormComponent
             step={this.step}
           />
         </calcite-popover>
-        <HiddenFormInputSlot />
+        <HiddenFormInputSlot component={this} />
       </Host>
     );
   }

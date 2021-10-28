@@ -14,13 +14,7 @@ import {
 import { Direction, focusElement, getElementDir } from "../../utils/dom";
 import { Scale, Width } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
-import {
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  syncHiddenFormInput
-} from "../../utils/form";
+import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { CSS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 import { createObserver } from "../../utils/observers";
@@ -327,8 +321,6 @@ export class CalciteSelect implements LabelableComponent, FormComponent {
   }
 
   render(): VNode {
-    syncHiddenFormInput(this);
-
     const dir = getElementDir(this.el);
 
     return (
@@ -343,7 +335,7 @@ export class CalciteSelect implements LabelableComponent, FormComponent {
           <slot />
         </select>
         {this.renderChevron(dir)}
-        <HiddenFormInputSlot />
+        <HiddenFormInputSlot component={this} />
       </Fragment>
     );
   }

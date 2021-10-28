@@ -18,13 +18,7 @@ import { ColorStop, DataSeries } from "../calcite-graph/interfaces";
 import { intersects } from "../../utils/dom";
 import { clamp } from "../../utils/math";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
-import {
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  syncHiddenFormInput
-} from "../../utils/form";
+import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 
 type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 
@@ -160,8 +154,6 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
   }
 
   render(): VNode {
-    syncHiddenFormInput(this);
-
     const id = this.el.id || this.guid;
     const min = this.minValue || this.min;
     const max = this.maxValue || this.value;
@@ -596,7 +588,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
           {!this.hasHistogram && this.precise && this.labelHandles && labeledPreciseHandle}
           {this.hasHistogram && !this.precise && this.labelHandles && histogramLabeledHandle}
           {this.hasHistogram && this.precise && this.labelHandles && histogramLabeledPreciseHandle}
-          <HiddenFormInputSlot />
+          <HiddenFormInputSlot component={this} />
         </div>
       </Host>
     );

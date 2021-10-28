@@ -27,13 +27,7 @@ import { HeadingLevel } from "../functional/CalciteHeading";
 import { getKey } from "../../utils/key";
 import { TEXT } from "../calcite-date-picker/resources";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
-import {
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  renderHiddenFormInput
-} from "../../utils/form";
+import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import {
   createPopper,
   updatePopper,
@@ -291,8 +285,6 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
   }
 
   render(): VNode {
-    renderHiddenFormInput(this);
-
     const { disabled } = this;
     const date = dateFromRange(
       this.range ? this.startAsDate : this.valueAsDate,
@@ -407,7 +399,7 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
             )}
           </div>
         )}
-        <HiddenFormInputSlot />
+        <HiddenFormInputSlot component={this} />
       </Host>
     );
   }

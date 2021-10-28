@@ -34,13 +34,7 @@ import {
 } from "./resources";
 import { getItemAncestors, getItemChildren, hasActiveChildren } from "./utils";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
-import {
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  syncHiddenFormInput
-} from "../../utils/form";
+import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { createObserver } from "../../utils/observers";
 interface ItemData {
   label: string;
@@ -1012,7 +1006,6 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
     const { guid, open, label } = this;
     const single = this.selectionMode === "single";
     const labelId = `${guid}-label`;
-    syncHiddenFormInput(this);
 
     return (
       <Host onKeyDown={this.keydownHandler}>
@@ -1052,7 +1045,7 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
           {this.renderListBoxOptions()}
         </ul>
         {this.renderPopperContainer()}
-        <HiddenFormInputSlot />
+        <HiddenFormInputSlot component={this} />
       </Host>
     );
   }
