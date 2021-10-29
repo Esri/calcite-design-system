@@ -4,6 +4,7 @@
 
 :host {
   @apply hidden text-color-3;
+  overflow: auto;
 }
 
 :host([active]) {
