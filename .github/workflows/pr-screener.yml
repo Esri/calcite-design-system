@@ -33,6 +33,6 @@ jobs:
           authToken: ${{secrets.GITHUB_TOKEN}}
           context: Screener Report
           description: Click details to view the report on Screener
-          state: ${{ job.status }}
+          state: success
           sha: ${{github.event.pull_request.head.sha || github.sha}}
           target_url: ${{ steps.report.outputs.report }}
