@@ -265,10 +265,10 @@ export class CalciteModal {
   //  Events
   //
   //--------------------------------------------------------------------------
-  /** Fired when the modal begins the open animation */
+  /** Fired when the modal finishes the open animation */
   @Event() calciteModalOpen: EventEmitter;
 
-  /** Fired when the modal begins the close animation */
+  /** Fired when the modal finishes the close animation */
   @Event() calciteModalClose: EventEmitter;
 
   //--------------------------------------------------------------------------
