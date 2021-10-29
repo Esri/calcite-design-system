@@ -496,21 +496,17 @@ export class CalciteInput implements LabelableComponent {
 
   private incrementOrDecrementNumberValue = (direction, inputMax, inputMin, nativeEvent) => {
     const value = this.value;
-    const inputVal = value && value !== "" ? parseFloat(value) : 0;
     const inputStep = this.step === "any" ? 1 : Math.abs(this.step || 1);
+    const inputVal = value && value !== "" ? parseFloat(value) : 0;
+    let newValue = value;
 
-    if ((!inputMax && inputMax !== 0) || inputVal < inputMax) {
-      let newValue;
-
-      if (direction === "up") {
-        newValue = (parseFloat(value) + inputStep).toString();
-      }
-
-      if (direction === "down") {
-        newValue = (parseFloat(value) - inputStep).toString();
-      }
-      this.setValue(newValue, nativeEvent, true);
+    if (direction === "up" && ((!inputMax && inputMax !== 0) || inputVal < inputMax)) {
+      newValue = (inputVal + inputStep).toString();
     }
+    if (direction === "down" && ((!inputMin && inputMin !== 0) || inputVal > inputMin)) {
+      newValue = (inputVal - inputStep).toString();
+    }
+    this.setValue(newValue, nativeEvent, true);
   };
 
   private nudgeNumberValue = (
