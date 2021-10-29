@@ -171,6 +171,13 @@ export class CalciteInput implements LabelableComponent {
   @Prop() suffixText?: string;
 
   /**
+   * A hint to the browser for which enter key to display.
+   * Possible values: `enter`, `done`, `go`, `next`,
+   * `previous`, `search`, and `send`.
+   */
+  @Prop() enterkeyhint?: "enter" | "done" | "go" | "next" | "previous" | "search" | "send";
+
+  /**
    * specify the input type
    *
    * Note that the following types add type-specific icons by default: `date`, `email`, `password`, `search`, `tel`, `time`
@@ -672,6 +679,7 @@ export class CalciteInput implements LabelableComponent {
           autofocus={this.autofocus ? true : null}
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
+          enterKeyHint={this.enterkeyhint}
           key="localized-input"
           maxLength={this.maxLength}
           minLength={this.minLength}
@@ -695,6 +703,7 @@ export class CalciteInput implements LabelableComponent {
         autofocus={this.autofocus ? true : null}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
+        enterKeyHint={this.enterkeyhint}
         max={this.maxString}
         maxLength={this.maxLength}
         min={this.minString}
