@@ -170,11 +170,7 @@ export class CalciteInput implements LabelableComponent {
   /** optionally add suffix  **/
   @Prop() suffixText?: string;
 
-  /**
-   * A hint to the browser for which enter key to display.
-   * Possible values: `enter`, `done`, `go`, `next`,
-   * `previous`, `search`, and `send`.
-   */
+  /** A hint to the browser for which enter key to display */
   @Prop() enterkeyhint?: "enter" | "done" | "go" | "next" | "previous" | "search" | "send";
 
   /**
