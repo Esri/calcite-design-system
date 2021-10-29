@@ -84,19 +84,19 @@ MirroredRangeDark.story = {
 
 export const Histogram = (): HTMLCalciteSliderElement => {
   const slider = document.createElement("calcite-slider");
-  slider.min = number("min", 0);
-  slider.minValue = number("min-value", 25);
+  slider.min = number("min", -100);
+  slider.minValue = number("min-value", -33.32);
   slider.max = number("max", 100);
-  slider.maxValue = number("max-value", 75);
+  slider.maxValue = number("max-value", 30.87);
   slider.histogram = array(
     "histogram",
     [
-      [0, 0],
-      [20, 12],
-      [40, 25],
-      [60, 55],
-      [80, 10],
-      [100, 0]
+      [-90, 0],
+      [-60, 12],
+      [-20, 25],
+      [20, 55],
+      [60, 10],
+      [90, 0]
     ],
     "  "
   );
