@@ -569,8 +569,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
                   <span
                     class={{
                       tick: true,
-                      "tick--active": activeTicks,
-                      "tick--active--range": this.isRange
+                      "tick--active": activeTicks
                     }}
                     style={{
                       left: mirror ? "" : tickOffset,
@@ -753,7 +752,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
 
   @Listen("click")
   clickHandler(event: PointerEvent): void {
-    this.focusActiveHandle(event);
+    this.focusActiveHandle(event.clientX);
   }
 
   @Listen("pointerdown")
@@ -905,7 +904,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
     document.addEventListener("pointercancel", this.dragEnd);
   }
 
-  private focusActiveHandle(event: PointerEvent): void {
+  private focusActiveHandle(valueX: number): void {
     switch (this.dragProp) {
       case "minValue":
         this.minHandle.focus();
@@ -914,7 +913,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
         this.maxHandle.focus();
         break;
       case "minMaxValue":
-        this.getClosestHandle(event).focus();
+        this.getClosestHandle(valueX).focus();
         break;
       default:
         break;
@@ -962,7 +961,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
     document.removeEventListener("pointerup", this.dragEnd);
     document.removeEventListener("pointercancel", this.dragEnd);
 
-    this.focusActiveHandle(event);
+    this.focusActiveHandle(event.clientX);
     if (this.lastDragPropValue != this[this.dragProp]) {
       this.emitChange();
     }
@@ -1048,25 +1047,12 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
     return num;
   }
 
-  /**
-   * Get the closest thumb when clicked on the track
-   * @param event
-   * @returns {HTMLButtonElement}
-   * @internal
-   */
-  private getClosestHandle(event: PointerEvent): HTMLButtonElement {
-    return this.getDistanceX(this.maxHandle, event.clientX) >
-      this.getDistanceX(this.minHandle, event.clientX)
+  private getClosestHandle(valueX: number): HTMLButtonElement {
+    return this.getDistanceX(this.maxHandle, valueX) > this.getDistanceX(this.minHandle, valueX)
       ? this.minHandle
       : this.maxHandle;
   }
 
-  /**
-   * Get distance along X-axis between thumb and mouse click
-   * @param el
-   * @param event
-   * @returns {number}
-   */
   private getDistanceX(el: HTMLButtonElement, valueX: number): number {
     return Math.abs(el.getBoundingClientRect().left - valueX);
   }
