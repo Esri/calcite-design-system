@@ -84,6 +84,7 @@ export class CalciteGraph {
     if (min < rangeMin[0]) {
       currentMin = [min, 0];
     }
+
     if (max > rangeMax[0]) {
       currentMax = [max, rangeMax[1]];
     }
