@@ -142,13 +142,11 @@ export class CalciteCard {
 
     return (
       <calcite-label
-        aria-label={checkboxLabel}
         class={CSS.checkboxWrapper}
         onClick={this.cardSelectClick}
         onKeyDown={this.cardSelectKeyDown}
-        title={checkboxLabel}
       >
-        <calcite-checkbox checked={this.selected} />
+        <calcite-checkbox checked={this.selected} label={checkboxLabel} />
       </calcite-label>
     );
   }
