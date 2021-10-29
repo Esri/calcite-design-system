@@ -3,7 +3,7 @@ on:
   pull_request:
     branches: [master]
 jobs:
-  screener:
+  screen:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
