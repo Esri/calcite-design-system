@@ -3,7 +3,7 @@ on:
   pull_request:
     branches: [master]
 jobs:
-  screener:
+  screenshot_tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -26,13 +26,13 @@ jobs:
         run: |
           URL=$(grep -Eo 'https://screener.io/v2/dashboard[^ >]+' log.txt|head -1)
           echo "::set-output name=report::$URL"
-      - name: set status
+      - name: show screener report
         if: always()
         uses: Sibz/github-status-action@v1
         with:
           authToken: ${{secrets.GITHUB_TOKEN}}
           context: Screener Report
           description: Click details to view the report on Screener
-          state: ${{ job.status }}
+          state: success
           sha: ${{github.event.pull_request.head.sha || github.sha}}
           target_url: ${{ steps.report.outputs.report }}
