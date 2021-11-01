@@ -206,7 +206,8 @@ export class CalciteInput implements LabelableComponent {
       this.localizedValue !== localizeNumberString(newValue, this.locale)
     ) {
       this.setLocalizedValue(newValue);
-    } else if (this.childEl && this.childEl.value !== newValue) {
+    }
+    if (this.childEl && this.childEl.value !== newValue) {
       this.childEl.value = newValue;
     }
   }
@@ -556,6 +557,9 @@ export class CalciteInput implements LabelableComponent {
 
   private setLocalizedValue = (value: string): void => {
     this.localizedValue = localizeNumberString(value, this.locale, this.groupSeparator);
+    if (this.childNumberEl.value !== this.localizedValue) {
+      this.childNumberEl.value = this.localizedValue;
+    }
   };
 
   private setValue = (value: string, nativeEvent?: any, committing = false): void => {
