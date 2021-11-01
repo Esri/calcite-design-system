@@ -173,6 +173,9 @@ export class CalciteInput implements LabelableComponent {
   /** A hint to the browser for which enter key to display */
   @Prop() enterkeyhint?: "enter" | "done" | "go" | "next" | "previous" | "search" | "send";
 
+  /** A hint to the browser for which keyboard to display */
+  @Prop() inputMode?: "none" | "text" | "tel" | "url" | "email" | "numeric" | "decimal" | "search";
+
   /**
    * specify the input type
    *
@@ -676,6 +679,7 @@ export class CalciteInput implements LabelableComponent {
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
           enterKeyHint={this.enterkeyhint}
+          inputMode={this.inputMode}
           key="localized-input"
           maxLength={this.maxLength}
           minLength={this.minLength}
@@ -700,6 +704,7 @@ export class CalciteInput implements LabelableComponent {
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
         enterKeyHint={this.enterkeyhint}
+        inputMode={this.inputMode}
         max={this.maxString}
         maxLength={this.maxLength}
         min={this.minString}
