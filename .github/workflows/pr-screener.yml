@@ -2,6 +2,9 @@ name: Screener
 on:
   pull_request:
     branches: [master]
+  # need to run on the base branch when merging to keep the baseline state up to date
+  push:
+    branches: [master]
 jobs:
   screenshot_tests:
     runs-on: ubuntu-latest
