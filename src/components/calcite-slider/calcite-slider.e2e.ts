@@ -165,7 +165,7 @@ describe("calcite-slider", () => {
       </calcite-slider>
     `);
     const slider = await page.find("calcite-slider");
-    const maxTickLabel = await page.find("calcite-slider >>> .tick__label--max");
+    const maxTickLabel = await page.find("calcite-slider >>> .tick:nth-of-type(11)");
     expect(parseFloat(maxTickLabel.textContent)).toBe(await slider.getProperty("max"));
   });
 
