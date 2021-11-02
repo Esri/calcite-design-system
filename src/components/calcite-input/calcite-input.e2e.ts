@@ -291,35 +291,35 @@ describe("calcite-input", () => {
     expect(await element.getProperty("value")).toBe("25");
   });
 
-  it("correctly increments and decrements value on mousedown and step is set to a decimal", async () => {
+  it("correctly increments and decrements value when number buttons are clicked and step is set to a decimal", async () => {
     const page = await newE2EPage({
       html: `
-          <calcite-input step="0.1" type="number" value="0"></calcite-input>
+          <calcite-input step="0.1" type="number"></calcite-input>
         `
     });
     const input = await page.find("calcite-input");
-    const [trackXButtonUp, trackYButtonUp] = await getElementXY(
-      page,
-      ".calcite-input__number-button-item[data-adjustment='up'"
-    );
-    const [trackXButtonDown, trackYButtonDown] = await getElementXY(
-      page,
-      ".calcite-input__number-button-item[data-adjustment='down'"
-    );
+    const buttonUp = await page.find('button[data-adjustment="up"]');
+    const buttonDown = await page.find('button[data-adjustment="down"]');
 
-    await page.mouse.move(trackXButtonUp, trackYButtonUp);
-    await page.mouse.down();
-    await page.waitForTimeout(1000);
-    await page.mouse.up();
+    await buttonUp.click();
     await page.waitForChanges();
-    expect(await input.getProperty("value")).toBe("0.3"); //called every 500ms
 
-    await page.mouse.move(trackXButtonDown, trackYButtonDown);
-    await page.mouse.down();
-    await page.waitForTimeout(1000);
-    await page.mouse.up();
+    expect(await input.getProperty("value")).toBe("0.1");
+
+    await buttonUp.click();
     await page.waitForChanges();
-    expect(await input.getProperty("value")).toBe("0.3");
+
+    expect(await input.getProperty("value")).toBe("0.2");
+
+    await buttonDown.click();
+    await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe("0.1");
+
+    await buttonDown.click();
+    await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe("0");
   });
 
   it("correctly increments and decrements value by one when any is set for step", async () => {
@@ -744,6 +744,35 @@ describe("calcite-input", () => {
     expect(calciteInputInput).not.toHaveReceivedEvent();
   });
 
+  it("should emit event when up or down clicked on input", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-input type="number" max="0" value="-2"></calcite-input>
+    `);
+
+    const calciteInputInput = await page.spyOnEvent("calciteInputInput");
+
+    const numberHorizontalItemUp = await page.find(
+      "calcite-input .calcite-input__number-button-item[data-adjustment='up']"
+    );
+    expect(calciteInputInput).toHaveReceivedEventTimes(0);
+    await numberHorizontalItemUp.click();
+    await page.waitForChanges();
+
+    expect(calciteInputInput).toHaveReceivedEventTimes(1);
+
+    const numberHorizontalItemDown = await page.find(
+      "calcite-input .calcite-input__number-button-item[data-adjustment='down']"
+    );
+    await numberHorizontalItemDown.click();
+    await page.waitForChanges();
+    expect(calciteInputInput).toHaveReceivedEventTimes(2);
+
+    await numberHorizontalItemDown.click();
+    await page.waitForChanges();
+    expect(calciteInputInput).toHaveReceivedEventTimes(3);
+  });
+
   it("should emit an event every 500ms on mousedown on up/down buttons and stop on mouseup/mouseleave", async () => {
     const page = await newE2EPage();
     await page.setContent(`
@@ -752,7 +781,7 @@ describe("calcite-input", () => {
     const calciteInputInput = await page.spyOnEvent("calciteInputInput");
     const [trackXButtonUp, trackYButtonUp] = await getElementXY(
       page,
-      ".calcite-input__number-button-item[data-adjustment='up'"
+      ".calcite-input__number-button-item[data-adjustment='up']"
     );
     expect(calciteInputInput).toHaveReceivedEventTimes(0);
     await page.mouse.move(trackXButtonUp, trackYButtonUp);
@@ -762,7 +791,7 @@ describe("calcite-input", () => {
     await page.waitForTimeout(1000);
     await page.mouse.up();
     await page.waitForChanges();
-    expect(calciteInputInput).toHaveReceivedEventTimes(3); //called every 500ms
+    expect(calciteInputInput).toHaveReceivedEventTimes(3);
 
     await page.mouse.down();
     await page.waitForChanges();
@@ -774,7 +803,7 @@ describe("calcite-input", () => {
 
     const [trackXButtonDown, trackYButtonDown] = await getElementXY(
       page,
-      ".calcite-input__number-button-item[data-adjustment='down'"
+      ".calcite-input__number-button-item[data-adjustment='down']"
     );
     expect(calciteInputInput).toHaveReceivedEventTimes(6);
     await page.mouse.move(trackXButtonDown, trackYButtonDown);
@@ -793,6 +822,37 @@ describe("calcite-input", () => {
     await page.mouse.move(trackXButtonDown - 1, trackYButtonDown - 1);
     await page.waitForChanges();
     expect(calciteInputInput).toHaveReceivedEventTimes(12);
+  });
+
+  it("correctly increments and decrements value on mousedown when step is set to a decimal", async () => {
+    const page = await newE2EPage({
+      html: `
+          <calcite-input step="0.1" type="number" value="0"></calcite-input>
+        `
+    });
+    const input = await page.find("calcite-input");
+    const [trackXButtonUp, trackYButtonUp] = await getElementXY(
+      page,
+      ".calcite-input__number-button-item[data-adjustment='up']"
+    );
+    const [trackXButtonDown, trackYButtonDown] = await getElementXY(
+      page,
+      ".calcite-input__number-button-item[data-adjustment='down']"
+    );
+
+    await page.mouse.move(trackXButtonUp, trackYButtonUp);
+    await page.mouse.down();
+    await page.waitForTimeout(1000);
+    await page.mouse.up();
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("0.3"); //called every 500ms
+
+    await page.mouse.move(trackXButtonDown, trackYButtonDown);
+    await page.mouse.down();
+    await page.waitForTimeout(1000);
+    await page.mouse.up();
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("0.3");
   });
 
   it("allows restricting input length", async () => {

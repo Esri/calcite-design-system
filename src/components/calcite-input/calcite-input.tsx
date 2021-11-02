@@ -259,7 +259,7 @@ export class CalciteInput implements LabelableComponent {
   /** determine if there is a slotted action for styling purposes */
   private slottedActionEl?: HTMLSlotElement;
 
-  private nudgeNumberValueIntervalID;
+  private nudgeNumberValueIntervalId;
 
   //--------------------------------------------------------------------------
   //
@@ -389,6 +389,26 @@ export class CalciteInput implements LabelableComponent {
     this.setFocus();
   }
 
+  incrementOrDecrementNumberValue(
+    direction: NumberNudgeDirection,
+    inputMax: number,
+    inputMin: number,
+    nativeEvent: KeyboardEvent | MouseEvent
+  ): void {
+    const value = this.value;
+    const inputStep = this.step === "any" ? 1 : Math.abs(this.step || 1);
+    const inputVal = value && value !== "" ? parseFloat(value) : 0;
+    let newValue = value;
+
+    if (direction === "up" && ((!inputMax && inputMax !== 0) || inputVal < inputMax)) {
+      newValue = (inputVal + inputStep).toString();
+    }
+    if (direction === "down" && ((!inputMin && inputMin !== 0) || inputVal > inputMin)) {
+      newValue = (inputVal - inputStep).toString();
+    }
+    this.setValue(newValue, nativeEvent, true);
+  }
+
   private clearInputValue = (nativeEvent: KeyboardEvent | MouseEvent): void => {
     this.setValue(null, nativeEvent, true);
   };
@@ -497,21 +517,6 @@ export class CalciteInput implements LabelableComponent {
     event.preventDefault();
   };
 
-  private incrementOrDecrementNumberValue = (direction, inputMax, inputMin, nativeEvent) => {
-    const value = this.value;
-    const inputStep = this.step === "any" ? 1 : Math.abs(this.step || 1);
-    const inputVal = value && value !== "" ? parseFloat(value) : 0;
-    let newValue = value;
-
-    if (direction === "up" && ((!inputMax && inputMax !== 0) || inputVal < inputMax)) {
-      newValue = (inputVal + inputStep).toString();
-    }
-    if (direction === "down" && ((!inputMin && inputMin !== 0) || inputVal > inputMin)) {
-      newValue = (inputVal - inputStep).toString();
-    }
-    this.setValue(newValue, nativeEvent, true);
-  };
-
   private nudgeNumberValue = (
     direction: NumberNudgeDirection,
     nativeEvent: KeyboardEvent | MouseEvent
@@ -526,13 +531,13 @@ export class CalciteInput implements LabelableComponent {
 
     this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
 
-    this.nudgeNumberValueIntervalID = setInterval(() => {
+    this.nudgeNumberValueIntervalId = setInterval(() => {
       this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
     }, valueNudgeDelayInMs);
   };
 
   private numberButtonMouseUpAndMouseOutHandler = (): void => {
-    clearInterval(this.nudgeNumberValueIntervalID);
+    clearInterval(this.nudgeNumberValueIntervalId);
   };
 
   private numberButtonMouseDownHandler = (event: MouseEvent): void => {
@@ -603,7 +608,7 @@ export class CalciteInput implements LabelableComponent {
   };
 
   private inputKeyUpHandler = (): void => {
-    clearInterval(this.nudgeNumberValueIntervalID);
+    clearInterval(this.nudgeNumberValueIntervalId);
   };
 
   // --------------------------------------------------------------------------
