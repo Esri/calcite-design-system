@@ -79,7 +79,7 @@ export class CalciteColorPicker {
 
     this.previousColor = oldColor;
 
-    if (this.colorUpdateContext) {
+    if (this.internalColorUpdateContext) {
       return;
     }
 
@@ -253,8 +253,8 @@ export class CalciteColorPicker {
 
     const dragging = this.sliderThumbState === "drag" || this.hueThumbState === "drag";
 
-    if (this.colorUpdateContext) {
-      if (this.colorUpdateContext === "initial") {
+    if (this.internalColorUpdateContext) {
+      if (this.internalColorUpdateContext === "initial") {
         return;
       }
 
@@ -289,8 +289,6 @@ export class CalciteColorPicker {
 
   private activeColorFieldAndSliderRect: DOMRect;
 
-  private colorUpdateContext: "internal" | "initial" | null = null;
-
   private colorFieldAndSliderHovered = false;
 
   private fieldAndSliderRenderingContext: CanvasRenderingContext2D;
@@ -298,6 +296,8 @@ export class CalciteColorPicker {
   private colorFieldScopeNode: HTMLDivElement;
 
   private hueThumbState: "idle" | "hover" | "drag" = "idle";
+
+  private internalColorUpdateContext: "internal" | "initial" | null = null;
 
   private previousColor: InternalColor | null;
 
@@ -1023,16 +1023,16 @@ export class CalciteColorPicker {
   private internalColorSet(
     color: Color | null,
     skipEqual = true,
-    context: CalciteColorPicker["colorUpdateContext"] = "internal"
+    context: CalciteColorPicker["internalColorUpdateContext"] = "internal"
   ): void {
     if (skipEqual && colorEqual(color, this.color)) {
       return;
     }
 
-    this.colorUpdateContext = context;
+    this.internalColorUpdateContext = context;
     this.color = color;
     this.value = this.toValue(color);
-    this.colorUpdateContext = null;
+    this.internalColorUpdateContext = null;
   }
 
   private toValue(color: Color | null, format: SupportedMode = this.mode): ColorValue | null {
