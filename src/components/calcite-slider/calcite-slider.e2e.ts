@@ -197,18 +197,18 @@ describe("calcite-slider", () => {
   });
 
   describe("thumb focus in range", () => {
-    const sliderForThumbFocusTests = `<calcite-slider
-    style="width:${sliderWidthFor1To1PixelValueTrack}"
-    min="0"
-    max="100"
-    min-value="0"
-    max-value="100"
-    ticks="10"
-  ></calcite-slider>`;
+    const sliderForThumbFocusTests = html`<calcite-slider
+      style="width:${sliderWidthFor1To1PixelValueTrack}"
+      min="0"
+      max="100"
+      min-value="0"
+      max-value="100"
+      ticks="10"
+    ></calcite-slider>`;
 
     it("should focus the min thumb when clicked on track close to minValue", async () => {
       const page = await newE2EPage({
-        html: html`${sliderForThumbFocusTests}`
+        html: `${sliderForThumbFocusTests}`
       });
       await page.waitForChanges();
       const slider = await page.find("calcite-slider");
@@ -230,7 +230,7 @@ describe("calcite-slider", () => {
 
     it("should focus the max thumb when clicked on track close to maxValue", async () => {
       const page = await newE2EPage({
-        html: html`${sliderForThumbFocusTests}`
+        html: `${sliderForThumbFocusTests}`
       });
       await page.waitForChanges();
       const slider = await page.find("calcite-slider");
@@ -252,7 +252,7 @@ describe("calcite-slider", () => {
 
     it("should focus the max thumb when clicked on middle of the track", async () => {
       const page = await newE2EPage({
-        html: html`${sliderForThumbFocusTests}`
+        html: `${sliderForThumbFocusTests}`
       });
       await page.waitForChanges();
       const slider = await page.find("calcite-slider");
