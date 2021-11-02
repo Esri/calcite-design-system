@@ -158,10 +158,18 @@
   flex-flow: column nowrap;
 }
 
+.content-wrapper {
+  @apply h-full
+  overflow-auto;
+}
+
 .content-container {
   @apply items-stretch 
   bg-background
-  overflow-auto;
+  flex
+  flex-auto
+  flex-no-wrap
+  flex-col;
 }
 
 .footer {
