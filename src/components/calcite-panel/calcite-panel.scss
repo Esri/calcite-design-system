@@ -161,11 +161,7 @@
 .content-container {
   @apply items-stretch 
   bg-background
-  flex
-  flex-auto
-  overflow-auto
-  flex-no-wrap
-  flex-col;
+  overflow-auto;
 }
 
 .footer {
@@ -199,7 +195,7 @@
 }
 
 .fab-container {
-  @apply inline-block
+  @apply block
   sticky
   my-0
   mx-auto
@@ -207,6 +203,6 @@
   bottom-0
   left-0
   right-0;
-
+  width: fit-content;
   z-index: 1;
 }
