@@ -19,20 +19,4 @@ jobs:
         env:
           SCREENER_API_KEY: ${{ secrets.SCREENER_API_KEY }}
           COMMIT_SHA: ${{github.event.pull_request.head.sha || github.sha}}
-        run: npm run test:storybook 2>&1 | tee log.txt ; ( exit ${PIPESTATUS[0]} )
-      - name: parse screener report
-        id: report
-        if: always()
-        run: |
-          URL=$(grep -Eo 'https://screener.io/v2/dashboard[^ >]+' log.txt|head -1)
-          echo "::set-output name=report::$URL"
-      - name: show screener report
-        if: always()
-        uses: Sibz/github-status-action@v1
-        with:
-          authToken: ${{secrets.GITHUB_TOKEN}}
-          context: Screener Report
-          description: Click details to view the report on Screener
-          state: success
-          sha: ${{github.event.pull_request.head.sha || github.sha}}
-          target_url: ${{ steps.report.outputs.report }}
+        run: npm run test:storybook
