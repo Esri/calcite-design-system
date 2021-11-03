@@ -1,11 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { HYDRATED_ATTR } from "../../tests/commonTests";
 
-const getActiveElementNameAfterClick = (): string => {
-  document.querySelector("calcite-label").click();
-  return document.activeElement.localName;
-};
-
 describe("calcite-label", () => {
   it("renders", async () => {
     const page = await newE2EPage();
