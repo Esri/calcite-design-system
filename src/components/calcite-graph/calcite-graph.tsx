@@ -1,5 +1,5 @@
 import { Component, Element, Prop, h, VNode } from "@stencil/core";
-import { ColorStop, DataSeries } from "./interfaces";
+import { Point, ColorStop, DataSeries } from "./interfaces";
 import { guid } from "../../utils/guid";
 import { area, range, translate } from "./util";
 
@@ -47,6 +47,12 @@ export class CalciteGraph {
   /** End of highlight color if highlighting range */
   @Prop() highlightMax: number;
 
+  /** Lowest point of the range */
+  @Prop() min!: number;
+
+  /** Highest point of the range */
+  @Prop() max!: number;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -54,7 +60,7 @@ export class CalciteGraph {
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    const { data, colorStops, width, height, highlightMax, highlightMin } = this;
+    const { data, colorStops, width, height, highlightMax, highlightMin, min, max } = this;
     const id = this.graphId;
 
     // if we have no data, return empty svg
@@ -70,11 +76,23 @@ export class CalciteGraph {
       );
     }
 
-    const { min, max } = range(data);
-    const t = translate({ min, max, width, height });
-    const [hMinX] = t([highlightMin, max[1]]);
-    const [hMaxX] = t([highlightMax, max[1]]);
-    const areaPath = area({ data, min, max, t });
+    const { min: rangeMin, max: rangeMax } = range(data);
+
+    let currentMin: Point = rangeMin;
+    let currentMax: Point = rangeMax;
+
+    if (min < rangeMin[0]) {
+      currentMin = [min, 0];
+    }
+
+    if (max > rangeMax[0]) {
+      currentMax = [max, rangeMax[1]];
+    }
+
+    const t = translate({ min: currentMin, max: currentMax, width, height });
+    const [hMinX] = t([highlightMin, currentMax[1]]);
+    const [hMaxX] = t([highlightMax, currentMax[1]]);
+    const areaPath = area({ data, min: rangeMin, max: rangeMax, t });
     const fill = colorStops ? `url(#linear-gradient-${id})` : undefined;
     return (
       <svg
