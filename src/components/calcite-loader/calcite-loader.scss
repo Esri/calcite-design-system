@@ -172,7 +172,7 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   - duration  how long the segment takes to rotate 360° (seconds)
 */
 @mixin generateSegment($i, $size, $growth, $duration) {
-  $circumference: $loader-circumference / $loader-scale * 100%;
+  $circumference: calc($loader-circumference / $loader-scale) * 100%;
   $length: ($size * 0.01) * $circumference;
   $end: $length + ($growth * 0.01) * $circumference;
   .loader__svg--#{$i} {
