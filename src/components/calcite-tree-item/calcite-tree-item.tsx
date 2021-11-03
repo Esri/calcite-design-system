@@ -50,22 +50,11 @@ export class CalciteTreeItem {
 
   @Watch("expanded")
   expandedHandler(newValue: boolean): void {
-    // handle newly appended items on parents
-    if (!newValue && this.parentTreeItem) {
-      const { expanded } = this.parentTreeItem;
-      this.parentExpanded = expanded;
-    } else {
-      const items = getSlotted<HTMLCalciteTreeItemElement>(this.el, "children", {
-        all: true,
-        selector: "calcite-tree-item"
-      });
-
-      items.forEach((item) => (item.parentExpanded = newValue));
-    }
+    this.updateParentIsExpanded(this.el, newValue);
   }
 
   /** @internal Is the parent of this item expanded? */
-  @Prop({ mutable: true }) parentExpanded = false;
+  @Prop() parentExpanded = false;
 
   /** @internal What level of depth is this item at? */
   @Prop({ reflect: true, mutable: true }) depth = -1;
@@ -103,7 +92,10 @@ export class CalciteTreeItem {
 
   connectedCallback(): void {
     this.parentTreeItem = this.el.parentElement.closest("calcite-tree-item");
-    this.expandedHandler(this.expanded);
+    if (this.parentTreeItem) {
+      const { expanded } = this.parentTreeItem;
+      this.updateParentIsExpanded(this.parentTreeItem, expanded);
+    }
   }
 
   componentWillRender(): void {
@@ -405,6 +397,14 @@ export class CalciteTreeItem {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private updateParentIsExpanded = (el: HTMLCalciteTreeItemElement, expanded: boolean): void => {
+    const items = getSlotted<HTMLCalciteTreeItemElement>(el, SLOTS.children, {
+      all: true,
+      selector: "calcite-tree-item"
+    });
+    items.forEach((item) => (item.parentExpanded = expanded));
+  };
 
   private updateAncestorTree = (): void => {
     if (this.selected && this.selectionMode === TreeSelectionMode.Ancestors) {
