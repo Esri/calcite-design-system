@@ -22,8 +22,13 @@ export interface LabelableComponent {
   onLabelClick: (event: CustomEvent<any>) => void;
 }
 
+/**
+ * Exported for testing purposes only
+ * @internal
+ */
+export const labelClickEvent = "calciteInternalLabelClick";
+
 const labelTagName = "calcite-label";
-const labelClickEvent = "calciteInternalLabelClick";
 const onLabelClickMap = new WeakMap<HTMLCalciteLabelElement, typeof onLabelClick>();
 
 const findLabelForComponent = (componentEl: HTMLElement): HTMLCalciteLabelElement | null => {
