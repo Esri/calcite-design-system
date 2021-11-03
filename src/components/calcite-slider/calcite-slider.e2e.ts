@@ -151,7 +151,7 @@ describe("calcite-slider", () => {
     expect(ticks.length).toBe(11);
   });
 
-  it("should cap the rendered last tick label to the slider's provided max #3142", async () => {
+  it("should cap the rendered last tick label to the slider's provided max", async () => {
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-slider
