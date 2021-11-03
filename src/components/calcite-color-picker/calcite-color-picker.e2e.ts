@@ -251,7 +251,7 @@ describe("calcite-color-picker", () => {
     const page = await newE2EPage({ html: "<calcite-color-picker></calcite-color-picker>" });
     await page.setContent("");
 
-    const emitted = await page.evaluate(async () => {
+    const emitted = await page.evaluate(() => {
       const emitted = [];
       document.addEventListener("calciteColorPickerInput", () => emitted.push("input"));
       document.addEventListener("calciteColorPickerChange", () => emitted.push("change"));
@@ -1242,7 +1242,7 @@ describe("calcite-color-picker", () => {
     expect(await color.getProperty("value")).toBe(null);
     expect(await color.getProperty("color")).toBe(null);
 
-    assertUnsupportedValueMessage(null, "auto");
+    expect(() => assertUnsupportedValueMessage(null, "auto")).toThrow();
   });
 
   it("allows hiding sections", async () => {
