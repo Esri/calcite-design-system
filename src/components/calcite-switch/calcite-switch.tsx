@@ -67,7 +67,7 @@ export class CalciteSwitch implements LabelableComponent {
   /** True if the switch is initially on
    * @deprecated use 'checked' instead.
    */
-  @Prop() switched = false;
+  @Prop({ mutable: true }) switched = false;
 
   @Watch("switched")
   switchedWatcher(switched: boolean): void {
@@ -189,6 +189,13 @@ export class CalciteSwitch implements LabelableComponent {
 
   connectedCallback(): void {
     connectLabel(this);
+
+    const initiallyChecked = this.checked || this.switched;
+
+    if (initiallyChecked) {
+      // if either prop is set, we ensure both are synced initially
+      this.switched = this.checked = initiallyChecked;
+    }
   }
 
   disconnectedCallback(): void {
