@@ -6,7 +6,7 @@ on:
   push:
     branches: [master]
 jobs:
-  screenshot_tests:
+  screener:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -18,6 +18,7 @@ jobs:
       - name: run screener check
         env:
           SCREENER_API_KEY: ${{ secrets.SCREENER_API_KEY }}
+          COMMIT_SHA: ${{github.event.pull_request.head.sha || github.sha}}
         run: npm run test:storybook 2>&1 | tee log.txt ; ( exit ${PIPESTATUS[0]} )
       - name: parse screener report
         id: report
