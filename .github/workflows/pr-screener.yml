@@ -2,8 +2,11 @@ name: Screener
 on:
   pull_request:
     branches: [master]
+  # need to run on the base branch when merging to keep the baseline state up to date
+  push:
+    branches: [master]
 jobs:
-  screener:
+  screenshot_tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -12,13 +15,9 @@ jobs:
           node-version: lts/*
       - name: install dependencies
         run: npm install
-      - name: setup environment variables
-        run: | # gh env vars dont work in node
-          npm install dotenv
-          touch .env
-          echo "require('dotenv').config()" | cat - screener.config.js > temp && mv temp screener.config.js
-          echo SCREENER_API_KEY=${{ secrets.SCREENER_API_KEY }} >> .env 2> /dev/null
       - name: run screener check
+        env:
+          SCREENER_API_KEY: ${{ secrets.SCREENER_API_KEY }}
         run: npm run test:storybook 2>&1 | tee log.txt ; ( exit ${PIPESTATUS[0]} )
       - name: parse screener report
         id: report
@@ -33,6 +32,6 @@ jobs:
           authToken: ${{secrets.GITHUB_TOKEN}}
           context: Screener Report
           description: Click details to view the report on Screener
-          state: ${{ job.status }}
+          state: success
           sha: ${{github.event.pull_request.head.sha || github.sha}}
           target_url: ${{ steps.report.outputs.report }}

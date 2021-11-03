@@ -6,7 +6,6 @@ import {
   EventEmitter,
   h,
   Host,
-  Listen,
   Method,
   Prop,
   State,
@@ -170,6 +169,9 @@ export class CalciteInput implements LabelableComponent, FormComponent {
 
   /** @internal adds inline styles for text input when slotted in calcite-inline-editable */
   @Prop({ mutable: true, reflect: true }) editingEnabled = false;
+
+  /** A hint to the browser for which enter key to display */
+  @Prop() enterkeyhint?: "enter" | "done" | "go" | "next" | "previous" | "search" | "send";
 
   /**
    * specify the input type
@@ -342,23 +344,6 @@ export class CalciteInput implements LabelableComponent, FormComponent {
 
   //--------------------------------------------------------------------------
   //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("keydown")
-  keyDownHandler(event: KeyboardEvent): void {
-    if (this.readOnly || this.disabled) {
-      return;
-    }
-    if (this.isClearable && getKey(event.key) === "Escape") {
-      this.clearInputValue(event);
-      event.preventDefault();
-    }
-  }
-
-  //--------------------------------------------------------------------------
-  //
   //  Public Methods
   //
   //--------------------------------------------------------------------------
@@ -378,6 +363,16 @@ export class CalciteInput implements LabelableComponent, FormComponent {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  keyDownHandler = (event: KeyboardEvent): void => {
+    if (this.readOnly || this.disabled) {
+      return;
+    }
+    if (this.isClearable && getKey(event.key) === "Escape") {
+      this.clearInputValue(event);
+      event.preventDefault();
+    }
+  };
 
   onLabelClick(): void {
     this.setFocus();
@@ -686,6 +681,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
           autofocus={this.autofocus ? true : null}
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
+          enterKeyHint={this.enterkeyhint}
           key="localized-input"
           maxLength={this.maxLength}
           minLength={this.minLength}
@@ -715,6 +711,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
               }}
               defaultValue={this.defaultValue}
               disabled={this.disabled ? true : null}
+              enterKeyHint={this.enterkeyhint}
               max={this.maxString}
               maxLength={this.maxLength}
               min={this.minString}
@@ -744,7 +741,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
         : null;
 
     return (
-      <Host onClick={this.inputFocusHandler}>
+      <Host onClick={this.inputFocusHandler} onKeyDown={this.keyDownHandler}>
         <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }} dir={dir}>
           {this.type === "number" && this.numberButtonType === "horizontal"
             ? numberButtonsHorizontalDown
