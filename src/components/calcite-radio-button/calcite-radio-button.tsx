@@ -67,18 +67,6 @@ export class CalciteRadioButton implements LabelableComponent, CheckableFormComp
    */
   @Prop({ mutable: true, reflect: true }) focused = false;
 
-  @Watch("focused")
-  focusedChanged(focused: boolean): void {
-    if (!this.containerEl) {
-      return;
-    }
-    if (focused && !this.hidden) {
-      this.containerEl.focus();
-    } else {
-      this.containerEl.blur();
-    }
-  }
-
   /** The id attribute of the radio button.  When omitted, a globally unique identifier is used. */
   @Prop({ reflect: true, mutable: true }) guid: string;
 
