@@ -26,6 +26,7 @@ export interface Story {
 export const setKnobs = ({ story, knobs }: { story: string; knobs: { name: string; value: string }[] }) => {
   return knobs
     ? `window.location.href = "?path=/story/${story}${knobs
+        .filter((theme) => theme.name && theme.value)
         .map(({ name, value }) => `&knob-${name}=${value}`)
         .join("")}"`
     : "";
@@ -33,9 +34,9 @@ export const setKnobs = ({ story, knobs }: { story: string; knobs: { name: strin
 
 export const setTheme = (value: ThemeName) => `${
   THEMES
-    ? THEMES.map(
-        (theme) => `document.body.classList.toggle('${theme.className}', ${(theme.name === value).toString()});`
-      ).join("")
+    ? THEMES.filter((theme) => theme.name && theme.className)
+        .map((theme) => `document.body.classList.toggle('${theme.className}', ${(theme.name === value).toString()});`)
+        .join("")
     : ""
 }
 `;
