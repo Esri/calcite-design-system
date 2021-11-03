@@ -115,15 +115,6 @@ export class CalciteTimePicker {
    */
   @Prop() intlSecondUp = TEXT.secondUp;
 
-  /** BCP 47 language tag for desired language and country format */
-  @Prop() lang?: string = document.documentElement.lang || navigator.language;
-
-  @Watch("lang")
-  langWatcher(newLang: string): void {
-    this.hourCycle = getLocaleHourCycle(newLang);
-    this.setValue(this.value, false);
-  }
-
   /** The scale (size) of the time picker */
   @Prop() scale: Scale = "m";
 
@@ -169,7 +160,16 @@ export class CalciteTimePicker {
     }
   }
 
-  @State() hourCycle: HourCycle = getLocaleHourCycle(this.lang);
+  @State() hourCycle: HourCycle;
+
+  /** BCP 47 language tag for desired language and country format */
+  @State() locale: string = document.documentElement.lang || navigator.language;
+
+  @Watch("locale")
+  localeWatcher(newLocale: string): void {
+    this.hourCycle = getLocaleHourCycle(newLocale);
+    this.setValue(this.value, false);
+  }
 
   @State() localizedHour: string;
 
@@ -580,7 +580,7 @@ export class CalciteTimePicker {
         localizedSecond,
         localizedSecondSuffix,
         localizedMeridiem
-      } = localizeTimeStringToParts(value, this.lang);
+      } = localizeTimeStringToParts(value, this.locale);
       this.localizedHour = localizedHour;
       this.localizedHourSuffix = localizedHourSuffix;
       this.localizedMinute = localizedMinute;
@@ -634,11 +634,11 @@ export class CalciteTimePicker {
             }
             break;
         }
-        this.localizedHour = localizeTimePart(this.hour, "hour", this.lang);
+        this.localizedHour = localizeTimePart(this.hour, "hour", this.locale);
       }
     } else {
       this[key] = typeof value === "number" ? formatTimePart(value) : value;
-      this[`localized${capitalize(key)}`] = localizeTimePart(this[key], key, this.lang);
+      this[`localized${capitalize(key)}`] = localizeTimePart(this[key], key, this.locale);
     }
     if (this.hour && this.minute) {
       this.value =
@@ -649,8 +649,8 @@ export class CalciteTimePicker {
       this.value = null;
     }
     this.localizedMeridiem = this.value
-      ? localizeTimeStringToParts(this.value, this.lang)?.localizedMeridiem || null
-      : localizeTimePart(this.meridiem, "meridiem", this.lang);
+      ? localizeTimeStringToParts(this.value, this.locale)?.localizedMeridiem || null
+      : localizeTimePart(this.meridiem, "meridiem", this.locale);
     if (emit) {
       this.calciteTimePickerChange.emit(this.value);
     }
@@ -664,6 +664,7 @@ export class CalciteTimePicker {
 
   connectedCallback() {
     this.setValue(this.value, false);
+    this.hourCycle = getLocaleHourCycle(this.locale);
   }
 
   // --------------------------------------------------------------------------

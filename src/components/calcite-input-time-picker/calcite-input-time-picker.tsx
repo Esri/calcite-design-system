@@ -80,14 +80,6 @@ export class CalciteInputTimePicker implements LabelableComponent {
   /** aria-label for the second up button */
   @Prop() intlSecondUp?: string;
 
-  /** BCP 47 language tag for desired language and country format */
-  @Prop() lang: string = document.documentElement.lang || navigator.language;
-
-  @Watch("lang")
-  langWatcher(newLang: string): void {
-    this.setInputValue(localizeTimeString(this.value, newLang, this.shouldIncludeSeconds()));
-  }
-
   /** The name of the time input */
   @Prop() name?: string;
 
@@ -133,6 +125,14 @@ export class CalciteInputTimePicker implements LabelableComponent {
   //
   //--------------------------------------------------------------------------
 
+  /** BCP 47 language tag for desired language and country format */
+  @State() locale: string = document.documentElement.lang || navigator.language || "en";
+
+  @Watch("locale")
+  localeWatcher(newLocale: string): void {
+    this.setInputValue(localizeTimeString(this.value, newLocale, this.shouldIncludeSeconds()));
+  }
+
   @State() localizedValue: string;
 
   //--------------------------------------------------------------------------
@@ -157,11 +157,12 @@ export class CalciteInputTimePicker implements LabelableComponent {
 
     const localizedInputValue = localizeTimeString(
       this.calciteInputEl.value,
-      this.lang,
+      this.locale,
       this.shouldIncludeSeconds()
     );
     this.setInputValue(
-      localizedInputValue || localizeTimeString(this.value, this.lang, this.shouldIncludeSeconds())
+      localizedInputValue ||
+        localizeTimeString(this.value, this.locale, this.shouldIncludeSeconds())
     );
   };
 
@@ -259,7 +260,11 @@ export class CalciteInputTimePicker implements LabelableComponent {
   }): void => {
     const previousValue = this.value;
     const newValue = formatTimeString(value);
-    const newLocalizedValue = localizeTimeString(newValue, this.lang, this.shouldIncludeSeconds());
+    const newLocalizedValue = localizeTimeString(
+      newValue,
+      this.locale,
+      this.shouldIncludeSeconds()
+    );
 
     this.internalValueChange = origin !== "external" && origin !== "loading";
 
@@ -372,7 +377,7 @@ export class CalciteInputTimePicker implements LabelableComponent {
             intlSecond={this.intlSecond}
             intlSecondDown={this.intlSecondDown}
             intlSecondUp={this.intlSecondUp}
-            lang={this.lang}
+            lang={this.locale}
             ref={this.setCalciteTimePickerEl}
             scale={this.scale}
             step={this.step}
