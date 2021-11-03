@@ -1186,47 +1186,6 @@
         localeEl.appendChild(input);
         localeDemoContainer.appendChild(localeEl);
       });
-
-      document.addEventListener("calciteInputFocus", (event) => {
-        console.log("calciteInputFocus", event.target.getAttribute("name"), event.target.value);
-      });
-      document.addEventListener("calciteInputInput", (event) => {
-        console.log("calciteInputInput", event.target.getAttribute("name"), event.target.value);
-      });
-      document.addEventListener("calciteInputBlur", (event) => {
-        console.log("calciteInputBlur", event.target.getAttribute("name"), event.target.value);
-      });
-
-      const undefinedInput = document.querySelector("calcite-input[name=set-to-undefined]");
-      document.getElementById("undefined").addEventListener("click", () => {
-        undefinedInput.value = undefined;
-        console.log("undefined", undefinedInput.value);
-      });
-      document.getElementById("undefined-string").addEventListener("click", () => {
-        undefinedInput.value = "undefined";
-        console.log("'undefined'", undefinedInput.value);
-      });
-      document.getElementById("null").addEventListener("click", () => {
-        undefinedInput.value = null;
-        console.log("null", undefinedInput.value);
-      });
-      undefined;
-    </script>
-
-    <script>
-      (async () => {
-        await customElements.whenDefined("calcite-input");
-        const input = document.querySelector("calcite-input");
-        await input.componentOnReady();
-
-        console.log(`when initially set to "", value is ${input.value} (${typeof input.value})`);
-
-        input.value = null;
-        console.log(`when value prop is set to null, value is ${input.value} (${typeof input.value})`);
-
-        input.value = "";
-        console.log(`when value prop is set to "", value is ${input.value} (${typeof input.value})`);
-      })();
     </script>
 
     <div class="parent-flex">
