@@ -27,12 +27,47 @@ const labelClickEvent = "calciteInternalLabelClick";
 const onLabelClickMap = new WeakMap<HTMLCalciteLabelElement, typeof onLabelClick>();
 
 const findLabelForComponent = (componentEl: HTMLElement): HTMLCalciteLabelElement | null => {
-  const id = componentEl.id;
-  return (
-    (id && (queryElementRoots(componentEl, `${labelTagName}[for="${id}"]`) as HTMLCalciteLabelElement)) ||
-    closestElementCrossShadowBoundary(componentEl, labelTagName)
-  );
+  const { id } = componentEl;
+
+  const forLabel = id && (queryElementRoots(componentEl, `${labelTagName}[for="${id}"]`) as HTMLCalciteLabelElement);
+
+  if (forLabel) {
+    return forLabel;
+  }
+
+  const parentLabel = closestElementCrossShadowBoundary<HTMLCalciteLabelElement>(componentEl, labelTagName);
+
+  if (
+    !parentLabel ||
+    // labelable components within other custom elements are not considered labelable
+    hasAncestorCustomElements(parentLabel, componentEl)
+  ) {
+    return null;
+  }
+
+  return parentLabel;
 };
+
+function hasAncestorCustomElements(label: HTMLCalciteLabelElement, componentEl: HTMLElement): boolean {
+  let composedPath: HTMLElement[];
+  const customElementAncestorCheckEventType = "custom-element-ancestor-check";
+
+  const listener = (event) => {
+    event.stopImmediatePropagation();
+    composedPath = event.composedPath() as HTMLElement[];
+  };
+
+  label.addEventListener(customElementAncestorCheckEventType, listener, { once: true });
+
+  componentEl.dispatchEvent(new CustomEvent(customElementAncestorCheckEventType, { composed: true, bubbles: true }));
+  label.removeEventListener(customElementAncestorCheckEventType, listener);
+
+  const ancestorCustomElements = composedPath
+    .filter((el) => el !== componentEl && el !== label)
+    .filter((el) => el.tagName?.includes("-"));
+
+  return ancestorCustomElements.length > 0;
+}
 
 /**
  * Helper to set up label interactions on connectedCallback.
