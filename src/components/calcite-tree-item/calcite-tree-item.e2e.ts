@@ -193,14 +193,14 @@ describe("calcite-tree-item", () => {
           <calcite-tree-item>Element 2</calcite-tree-item>
         </calcite-tree>
       </calcite-panel>`);
-      await page.addScriptTag({
-        content: `const tree = document.querySelector('#target-tree');
-         document.querySelector('#add-item-btn').addEventListener('click', () => {
-           const newItem = document.createElement('calcite-tree-item');
-           newItem.id = "newbie";
-           newItem.appendChild(document.createTextNode("Child 2"));
-           tree.appendChild(newItem);
-         })`
+      await page.evaluate(() => {
+        const tree = document.querySelector("#target-tree");
+        document.querySelector("#add-item-btn").addEventListener("click", () => {
+          const newItem = document.createElement("calcite-tree-item");
+          newItem.id = "newbie";
+          newItem.appendChild(document.createTextNode("Child 2"));
+          tree.appendChild(newItem);
+        });
       });
       const btn = await page.find("calcite-button");
       await btn.click();
