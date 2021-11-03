@@ -55,13 +55,16 @@
   @apply ml-auto mr-0;
 }
 
+.calcite--rtl a.dropdown-link {
+  @apply pr-0 pl-0;
+}
+
 //focus
 :host,
 .container--link a {
   @apply focus-base;
 }
-:host(:focus),
-.container--link a:focus {
+:host(:focus) {
   @apply focus-inset;
 }
 
@@ -74,20 +77,25 @@
 }
 
 .container--s .dropdown-link {
-  @apply px-3 py-2;
+  @apply text--2h pr-2 pl-6 py-1;
 }
 
 .container--m .dropdown-link {
-  @apply px-4 py-3;
+  @apply text--1h pr-3 pl-8 py-2;
 }
 
 .container--l .dropdown-link {
-  @apply px-5 py-4;
+  @apply text-0h pr-4 pl-10 py-3;
 }
 
 :host(:hover) .container,
 :host(:active) .container {
   @apply bg-foreground-2 text-color-1 no-underline;
+}
+
+:host(:hover) .container--link a,
+:host(:active) .container--link a {
+  @apply text-color-1;
 }
 
 :host(:focus) .container {
@@ -111,7 +119,8 @@
   }
 }
 
-:host([active]) .container:not(.container--none-selection) {
+:host([active]) .container:not(.container--none-selection),
+:host([active]) .container--link a {
   @apply text-color-1 font-medium;
   &:before {
     @apply opacity-100;
@@ -120,19 +129,6 @@
   & calcite-icon {
     color: theme("backgroundColor.brand");
   }
-}
-
-// none selection mode and scales
-.container--s.container--none-selection {
-  @apply pl-1;
-}
-
-.container--m.container--none-selection {
-  @apply pl-2;
-}
-
-.container--l.container--none-selection {
-  @apply pl-3;
 }
 
 // no dot for none and multi modes

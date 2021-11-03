@@ -512,7 +512,6 @@ export class CalciteInput implements LabelableComponent {
     if (direction === "up" && ((!inputMax && inputMax !== 0) || inputVal < inputMax)) {
       newValue = (inputVal + inputStep).toString();
     }
-
     if (direction === "down" && ((!inputMin && inputMin !== 0) || inputVal > inputMin)) {
       newValue = (inputVal - inputStep).toString();
     }
