@@ -227,7 +227,7 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
     const modifiers = this.getModifiers();
 
     popper
-      ? updatePopper({
+      ? await updatePopper({
           el: menuEl,
           modifiers,
           placement: DEFAULT_PLACEMENT,

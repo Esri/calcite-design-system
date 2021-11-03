@@ -5,7 +5,6 @@ import {
   EventEmitter,
   h,
   Host,
-  Listen,
   Method,
   Prop,
   State,
@@ -64,7 +63,7 @@ export class CalciteSwitch implements LabelableComponent, CheckableFormCompoment
   /** True if the switch is initially on
    * @deprecated use 'checked' instead.
    */
-  @Prop() switched = false;
+  @Prop({ mutable: true }) switched = false;
 
   @Watch("switched")
   switchedWatcher(switched: boolean): void {
@@ -119,6 +118,13 @@ export class CalciteSwitch implements LabelableComponent, CheckableFormCompoment
   //
   //--------------------------------------------------------------------------
 
+  keyDownHandler = (e: KeyboardEvent): void => {
+    const key = getKey(e.key);
+    if (!this.disabled && (key === " " || key === "Enter")) {
+      this.toggle();
+    }
+  };
+
   onLabelClick(): void {
     if (!this.disabled) {
       this.toggle();
@@ -156,25 +162,18 @@ export class CalciteSwitch implements LabelableComponent, CheckableFormCompoment
 
   //--------------------------------------------------------------------------
   //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("keydown")
-  keyDownHandler(e: KeyboardEvent): void {
-    const key = getKey(e.key);
-    if (!this.disabled && (key === " " || key === "Enter")) {
-      this.toggle();
-    }
-  }
-
-  //--------------------------------------------------------------------------
-  //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    const initiallyChecked = this.checked || this.switched;
+
+    if (initiallyChecked) {
+      // if either prop is set, we ensure both are synced initially
+      this.switched = this.checked = initiallyChecked;
+    }
+
     connectLabel(this);
     connectForm(this);
   }
@@ -198,7 +197,7 @@ export class CalciteSwitch implements LabelableComponent, CheckableFormCompoment
     const dir = getElementDir(this.el);
 
     return (
-      <Host>
+      <Host onKeyDown={this.keyDownHandler}>
         <div
           aria-checked={this.checked.toString()}
           aria-label={getLabelText(this)}

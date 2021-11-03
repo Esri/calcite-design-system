@@ -181,7 +181,7 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
     const { popper, menuEl } = this;
     const modifiers = this.getModifiers();
     popper
-      ? updatePopper({
+      ? await updatePopper({
           el: menuEl,
           modifiers,
           placement: ComboboxDefaultPlacement,

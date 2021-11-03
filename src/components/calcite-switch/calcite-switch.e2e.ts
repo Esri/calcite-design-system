@@ -33,6 +33,16 @@ describe("calcite-switch", () => {
     expect(await calciteSwitch.getProperty("checked")).toBe(true);
   });
 
+  it("can be checked via the switched property (deprecated)", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-switch switched></calcite-switch>");
+
+    const calciteSwitch = await page.find("calcite-switch");
+
+    expect(await calciteSwitch.getProperty("checked")).toBe(true);
+    expect(await calciteSwitch.getProperty("switched")).toBe(true);
+  });
+
   it("appropriately triggers the custom change event", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-switch></calcite-switch>`);
