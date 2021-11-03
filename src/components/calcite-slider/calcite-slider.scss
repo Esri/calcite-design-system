@@ -73,7 +73,7 @@ $tick-height: 4px;
   transform: translate(7px, -8px);
 
   .handle__label {
-    @include font-size(-4);
+    font-size: var(--calcite-font-size--2);
     font-weight: 500;
     line-height: 1;
     color: var(--calcite-ui-text-2);
@@ -310,7 +310,7 @@ $tick-height: 4px;
 
 .tick__label {
   position: absolute;
-  @include font-size(-4);
+  font-size: var(--calcite-font-size--2);
   font-weight: 500;
   color: var(--calcite-ui-text-2);
   width: 4em;
