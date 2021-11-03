@@ -14,6 +14,7 @@ import {
 import { Scale } from "../interfaces";
 import { getKey, isActivationKey, numberKeys } from "../../utils/key";
 import { isValidNumber } from "../../utils/number";
+import { createObserver } from "../../utils/observers";
 
 import {
   formatTimePart,
@@ -138,6 +139,8 @@ export class CalciteTimePicker {
   private activeEl: HTMLSpanElement;
 
   private hourEl: HTMLSpanElement;
+
+  private langObserver = createObserver("mutation", () => this.langWatcher());
 
   private meridiemEl: HTMLSpanElement;
 
@@ -297,6 +300,16 @@ export class CalciteTimePicker {
   //
   // --------------------------------------------------------------------------
 
+  private buttonActivated(event: KeyboardEvent): boolean {
+    const key = getKey(event.key);
+
+    if (key === " ") {
+      event.preventDefault();
+    }
+
+    return isActivationKey(key);
+  }
+
   private decrementHour = (): void => {
     const newHour = !this.hour ? 0 : this.hour === "00" ? 23 : parseInt(this.hour) - 1;
     this.setValuePart("hour", newHour);
@@ -325,16 +338,6 @@ export class CalciteTimePicker {
   private decrementSecond = (): void => {
     this.decrementMinuteOrSecond("second");
   };
-
-  private buttonActivated(event: KeyboardEvent): boolean {
-    const key = getKey(event.key);
-
-    if (key === " ") {
-      event.preventDefault();
-    }
-
-    return isActivationKey(key);
-  }
 
   private focusHandler = (event: FocusEvent): void => {
     this.activeEl = event.currentTarget as HTMLSpanElement;
@@ -430,6 +433,10 @@ export class CalciteTimePicker {
 
   private incrementSecond = (): void => {
     this.incrementMinuteOrSecond("second");
+  };
+
+  private langWatcher = (): void => {
+    this.locale = this.el.getAttribute("lang");
   };
 
   private meridiemDownButtonKeyDownHandler = (event: KeyboardEvent): void => {
@@ -665,6 +672,11 @@ export class CalciteTimePicker {
   connectedCallback() {
     this.setValue(this.value, false);
     this.hourCycle = getLocaleHourCycle(this.locale);
+    this.langObserver?.observe(this.el, { attributes: true, attributeFilter: ["lang"] });
+  }
+
+  disconnectedCallback() {
+    this.langObserver?.disconnect();
   }
 
   // --------------------------------------------------------------------------

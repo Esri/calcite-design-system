@@ -17,6 +17,7 @@ import { getKey } from "../../utils/key";
 import { formatTimeString, isValidTime, localizeTimeString } from "../../utils/time";
 import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
+import { createObserver } from "../../utils/observers";
 
 @Component({
   tag: "calcite-input-time-picker",
@@ -114,6 +115,8 @@ export class CalciteInputTimePicker implements LabelableComponent {
 
   /** whether the value of the input was changed as a result of user typing or not */
   private internalValueChange = false;
+
+  private langObserver = createObserver("mutation", () => this.langWatcher());
 
   private previousValidValue: string = null;
 
@@ -228,13 +231,17 @@ export class CalciteInputTimePicker implements LabelableComponent {
   //
   // --------------------------------------------------------------------------
 
-  private shouldIncludeSeconds = (): boolean => {
-    return this.step < 60;
+  private langWatcher = (): void => {
+    this.locale = this.el.getAttribute("lang");
   };
 
   onLabelClick(): void {
     this.setFocus();
   }
+
+  private shouldIncludeSeconds = (): boolean => {
+    return this.step < 60;
+  };
 
   private setCalciteInputEl = (el: HTMLCalciteInputElement): void => {
     this.calciteInputEl = el;
@@ -317,6 +324,7 @@ export class CalciteInputTimePicker implements LabelableComponent {
       this.setValue({ value: isValidTime(this.value) ? this.value : undefined, origin: "loading" });
     }
     connectLabel(this);
+    this.langObserver?.observe(this.el, { attributes: true, attributeFilter: ["lang"] });
   }
 
   componentDidLoad() {
@@ -325,6 +333,7 @@ export class CalciteInputTimePicker implements LabelableComponent {
 
   disconnectedCallback() {
     disconnectLabel(this);
+    this.langObserver?.disconnect();
   }
 
   // --------------------------------------------------------------------------

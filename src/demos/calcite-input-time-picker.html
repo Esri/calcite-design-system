@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -119,11 +119,9 @@
           console.log("calciteTimePickerChange", event.target.value);
         });
 
-        document.addEventListener("calciteRadioButtonChange", (event) => {
-          inputTimePickerEls.forEach((inputTimePickerEl) =>
-            inputTimePickerEl.setAttribute("locale", event.target.value)
-          );
-          timePickerEls.forEach((timePickerEl) => timePickerEl.setAttribute("locale", event.target.value));
+        document.addEventListener("calciteTileSelectChange", (event) => {
+          inputTimePickerEls.forEach((inputTimePickerEl) => inputTimePickerEl.setAttribute("lang", event.target.value));
+          timePickerEls.forEach((timePickerEl) => timePickerEl.setAttribute("lang", event.target.value));
         });
 
         locales.forEach(({ locale, name }) => {
@@ -143,7 +141,7 @@
               inputTimePickerEls.forEach((inputTimePickerEl) =>
                 inputTimePickerEl.setAttribute("dir", htmlEl.getAttribute("dir"))
               );
-              timePickerEls.forEach((timePickerEl) => timePickerEl.setAttribute("locale", htmlEl.getAttribute("dir")));
+              timePickerEls.forEach((timePickerEl) => timePickerEl.setAttribute("lang", htmlEl.getAttribute("dir")));
             }
           });
         });
