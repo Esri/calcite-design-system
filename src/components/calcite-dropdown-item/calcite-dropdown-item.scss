@@ -113,7 +113,7 @@
     left: unset;
     right: theme("spacing.4");
   }
-  & a.dropdown-link {
+  & .dropdown-link {
     @apply pr-0 pl-0;
   }
 }
