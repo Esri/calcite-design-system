@@ -133,7 +133,7 @@ export class CalciteTooltip {
     const modifiers = this.getModifiers();
 
     popper
-      ? updatePopper({
+      ? await updatePopper({
           el,
           modifiers,
           placement,
