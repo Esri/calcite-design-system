@@ -56,8 +56,8 @@
   focus-base
   items-stretch
   p-0
-  text-color-2;
-  width: 100%;
+  text-color-2
+  w-full;
 }
 
 .content-slot-container {
@@ -78,10 +78,8 @@
     duration-150
     ease-in-out
     font-medium
-    pointer-events-none;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    pointer-events-none
+    break-words;
 }
 .large-visual {
   @apply items-center;
