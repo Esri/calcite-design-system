@@ -161,7 +161,9 @@ export class CalciteDropdown {
             onTransitionEnd={this.transitionEnd}
             ref={this.setScrollerEl}
           >
-            <slot />
+            <div hidden={!this.active}>
+              <slot />
+            </div>
           </div>
         </div>
       </Host>
