@@ -129,7 +129,7 @@ export class CalciteInputTimePicker implements LabelableComponent {
   //--------------------------------------------------------------------------
 
   /** BCP 47 language tag for desired language and country format */
-  @State() locale: string = document.documentElement.lang || navigator.language || "en";
+  @State() locale: string;
 
   @Watch("locale")
   localeWatcher(newLocale: string): void {
@@ -324,6 +324,8 @@ export class CalciteInputTimePicker implements LabelableComponent {
       this.setValue({ value: isValidTime(this.value) ? this.value : undefined, origin: "loading" });
     }
     connectLabel(this);
+    this.locale =
+      this.el.getAttribute("lang") || document.documentElement.lang || navigator.language || "en";
     this.langObserver?.observe(this.el, { attributes: true, attributeFilter: ["lang"] });
   }
 

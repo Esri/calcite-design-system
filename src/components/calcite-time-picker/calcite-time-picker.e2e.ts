@@ -39,7 +39,6 @@ describe("calcite-time-picker", () => {
 
   it("has defaults", async () =>
     defaults("calcite-time-picker", [
-      { propertyName: "lang", defaultValue: "en" },
       { propertyName: "scale", defaultValue: "m" },
       { propertyName: "step", defaultValue: 60 }
     ]));
