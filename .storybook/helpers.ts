@@ -1,13 +1,32 @@
 import * as icons from "@esri/calcite-ui-icons";
 import { boolean as booleanKnob } from "@storybook/addon-knobs";
 import { Steps } from "screener-storybook/src/screener";
-import { THEMES } from "../src/utils/resources";
-import { ThemeName } from "../src/components/interfaces";
+import { ThemeName, ThemeClass } from "../src/components/interfaces";
+
+interface Theme {
+  name: ThemeName;
+  className: ThemeClass;
+}
+
+export const THEMES: Theme[] = [
+  {
+    name: "light",
+    className: "calcite-theme-light"
+  },
+  {
+    name: "dark",
+    className: "calcite-theme-dark"
+  },
+  {
+    name: "auto",
+    className: "calcite-theme-auto"
+  }
+];
 
 // we can get all unique icon names from all size 16 non-filled icons.
 export const iconNames = Object.keys(icons)
-  .filter((iconName) => iconName?.endsWith("16"))
-  .map((iconName) => iconName?.replace("16", ""));
+  .filter((iconName) => iconName.endsWith("16"))
+  .map((iconName) => iconName.replace("16", ""));
 
 // custom boolean will start up a knob but only add the prop if it is true
 // if you'd insead like `attr="true|false" set the standalone option to false
