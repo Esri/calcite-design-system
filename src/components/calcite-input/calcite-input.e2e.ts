@@ -6,6 +6,8 @@ import { getDecimalSeparator, locales, localizeNumberString } from "../../utils/
 import { getElementXY } from "../../tests/utils";
 
 describe("calcite-input", () => {
+  const delayFor2UpdatesInMs = 1000;
+
   it("honors form reset", async () => {
     const defaultValue = "defaultValue";
 
@@ -773,22 +775,49 @@ describe("calcite-input", () => {
     expect(calciteInputInput).toHaveReceivedEventTimes(3);
   });
 
+  it("should emit an event every 500ms on keyboard down ArrowUp/ArrowDown and stop on keyboard up", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-input type="number" value="0"></calcite-input>
+    `);
+    const calciteInputInput = await page.spyOnEvent("calciteInputInput");
+    const input = await page.find("calcite-input");
+    expect(calciteInputInput).toHaveReceivedEventTimes(0);
+    await input.callMethod("setFocus");
+
+    await page.keyboard.down("ArrowUp");
+    await page.waitForChanges();
+    expect(calciteInputInput).toHaveReceivedEventTimes(1);
+    await page.waitForTimeout(delayFor2UpdatesInMs);
+    await page.keyboard.up("ArrowUp");
+    await page.waitForChanges();
+    expect(calciteInputInput).toHaveReceivedEventTimes(3);
+
+    await page.keyboard.down("ArrowDown");
+    await page.waitForChanges();
+    expect(calciteInputInput).toHaveReceivedEventTimes(4);
+    await page.waitForTimeout(delayFor2UpdatesInMs);
+    await page.keyboard.up("ArrowDown");
+    await page.waitForChanges();
+    expect(calciteInputInput).toHaveReceivedEventTimes(6);
+  });
+
   it("should emit an event every 500ms on mousedown on up/down buttons and stop on mouseup/mouseleave", async () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-input type="number" value="0"></calcite-input>
     `);
     const calciteInputInput = await page.spyOnEvent("calciteInputInput");
-    const [trackXButtonUp, trackYButtonUp] = await getElementXY(
+    const [buttonUpLocationX, buttonUpLocationY] = await getElementXY(
       page,
       ".calcite-input__number-button-item[data-adjustment='up']"
     );
     expect(calciteInputInput).toHaveReceivedEventTimes(0);
-    await page.mouse.move(trackXButtonUp, trackYButtonUp);
+    await page.mouse.move(buttonUpLocationX, buttonUpLocationY);
     await page.mouse.down();
     await page.waitForChanges();
     expect(calciteInputInput).toHaveReceivedEventTimes(1);
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(delayFor2UpdatesInMs);
     await page.mouse.up();
     await page.waitForChanges();
     expect(calciteInputInput).toHaveReceivedEventTimes(3);
@@ -796,21 +825,21 @@ describe("calcite-input", () => {
     await page.mouse.down();
     await page.waitForChanges();
     expect(calciteInputInput).toHaveReceivedEventTimes(4);
-    await page.waitForTimeout(1000);
-    await page.mouse.move(trackXButtonUp - 1, trackYButtonUp - 1);
+    await page.waitForTimeout(delayFor2UpdatesInMs);
+    await page.mouse.move(buttonUpLocationX - 1, buttonUpLocationY - 1);
     await page.waitForChanges();
     expect(calciteInputInput).toHaveReceivedEventTimes(6);
 
-    const [trackXButtonDown, trackYButtonDown] = await getElementXY(
+    const [buttonDownLocationX, buttonDownLocationY] = await getElementXY(
       page,
       ".calcite-input__number-button-item[data-adjustment='down']"
     );
     expect(calciteInputInput).toHaveReceivedEventTimes(6);
-    await page.mouse.move(trackXButtonDown, trackYButtonDown);
+    await page.mouse.move(buttonDownLocationX, buttonDownLocationY);
     await page.mouse.down();
     await page.waitForChanges();
     expect(calciteInputInput).toHaveReceivedEventTimes(7);
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(delayFor2UpdatesInMs);
     await page.mouse.up();
     await page.waitForChanges();
     expect(calciteInputInput).toHaveReceivedEventTimes(9);
@@ -818,41 +847,10 @@ describe("calcite-input", () => {
     await page.mouse.down();
     await page.waitForChanges();
     expect(calciteInputInput).toHaveReceivedEventTimes(10);
-    await page.waitForTimeout(1000);
-    await page.mouse.move(trackXButtonDown - 1, trackYButtonDown - 1);
+    await page.waitForTimeout(delayFor2UpdatesInMs);
+    await page.mouse.move(buttonDownLocationX - 1, buttonDownLocationY - 1);
     await page.waitForChanges();
     expect(calciteInputInput).toHaveReceivedEventTimes(12);
-  });
-
-  it("correctly increments and decrements value on mousedown when step is set to a decimal", async () => {
-    const page = await newE2EPage({
-      html: `
-          <calcite-input step="0.1" type="number" value="0"></calcite-input>
-        `
-    });
-    const input = await page.find("calcite-input");
-    const [trackXButtonUp, trackYButtonUp] = await getElementXY(
-      page,
-      ".calcite-input__number-button-item[data-adjustment='up']"
-    );
-    const [trackXButtonDown, trackYButtonDown] = await getElementXY(
-      page,
-      ".calcite-input__number-button-item[data-adjustment='down']"
-    );
-
-    await page.mouse.move(trackXButtonUp, trackYButtonUp);
-    await page.mouse.down();
-    await page.waitForTimeout(1000);
-    await page.mouse.up();
-    await page.waitForChanges();
-    expect(await input.getProperty("value")).toBe("0.3"); //called every 500ms
-
-    await page.mouse.move(trackXButtonDown, trackYButtonDown);
-    await page.mouse.down();
-    await page.waitForTimeout(1000);
-    await page.mouse.up();
-    await page.waitForChanges();
-    expect(await input.getProperty("value")).toBe("0.3");
   });
 
   it("allows restricting input length", async () => {
