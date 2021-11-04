@@ -56,7 +56,7 @@ export const Light = (): string => html`
     </calcite-tile-select>
     <calcite-tile-select
       description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.  Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
-      heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+      heading="TiletitleloremipsumTiletitleloremipsumTiletitleloremipsumTiletitleloremipsumTiletitleloremipsumTiletitleloremipsum"
       icon="layers"
       name="light"
       ${boolean("input-enabled", true, "Tile Select") && "input-enabled"}
