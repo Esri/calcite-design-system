@@ -60,7 +60,7 @@ function hasAncestorCustomElements(label: HTMLCalciteLabelElement, componentEl: 
   const listener = (event) => {
     event.stopImmediatePropagation();
     const composedPath = event.composedPath() as HTMLElement[];
-    traversedElements = composedPath.slice(composedPath.indexOf(label), composedPath.indexOf(componentEl));
+    traversedElements = composedPath.slice(composedPath.indexOf(componentEl), composedPath.indexOf(label));
   };
 
   label.addEventListener(customElementAncestorCheckEventType, listener, { once: true });
