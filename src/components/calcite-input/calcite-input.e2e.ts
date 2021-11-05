@@ -1360,14 +1360,16 @@ describe("calcite-input", () => {
       await page.waitForChanges();
 
       const inputs = await page.findAll("calcite-input input");
-      inputs.forEach(async (input) => {
+
+      for (const input of inputs) {
         expect(await input.getProperty("readOnly")).toBe(true);
-      });
+      }
 
       const buttons = await page.findAll("calcite-input button");
-      buttons.forEach(async (button) => {
+
+      for (const button of buttons) {
         expect(await button.getProperty("disabled")).toBe(true);
-      });
+      }
     });
   });
 });
