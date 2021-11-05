@@ -14,7 +14,6 @@ import {
 import { Scale } from "../interfaces";
 import { getKey, isActivationKey, numberKeys } from "../../utils/key";
 import { isValidNumber } from "../../utils/number";
-import { createObserver } from "../../utils/observers";
 
 import {
   formatTimePart,
@@ -116,6 +115,16 @@ export class CalciteTimePicker {
    */
   @Prop() intlSecondUp = TEXT.secondUp;
 
+  /** BCP 47 language tag for desired language and country format */
+  @Prop({ attribute: "lang", mutable: true }) locale: string =
+    document.documentElement.lang || navigator.language || "en";
+
+  @Watch("locale")
+  localeWatcher(newLocale: string): void {
+    this.hourCycle = getLocaleHourCycle(newLocale);
+    this.setValue(this.value, false);
+  }
+
   /** The scale (size) of the time picker */
   @Prop() scale: Scale = "m";
 
@@ -140,8 +149,6 @@ export class CalciteTimePicker {
 
   private hourEl: HTMLSpanElement;
 
-  private langObserver = createObserver("mutation", () => this.langWatcher());
-
   private meridiemEl: HTMLSpanElement;
 
   private minuteEl: HTMLSpanElement;
@@ -164,15 +171,6 @@ export class CalciteTimePicker {
   }
 
   @State() hourCycle: HourCycle;
-
-  /** BCP 47 language tag for desired language and country format */
-  @State() locale: string;
-
-  @Watch("locale")
-  localeWatcher(newLocale: string): void {
-    this.hourCycle = getLocaleHourCycle(newLocale);
-    this.setValue(this.value, false);
-  }
 
   @State() localizedHour: string;
 
@@ -435,10 +433,6 @@ export class CalciteTimePicker {
     this.incrementMinuteOrSecond("second");
   };
 
-  private langWatcher = (): void => {
-    this.locale = this.el.getAttribute("lang");
-  };
-
   private meridiemDownButtonKeyDownHandler = (event: KeyboardEvent): void => {
     if (this.buttonActivated(event)) {
       this.decrementMeridiem();
@@ -672,13 +666,6 @@ export class CalciteTimePicker {
   connectedCallback() {
     this.setValue(this.value, false);
     this.hourCycle = getLocaleHourCycle(this.locale);
-    this.locale =
-      this.el.getAttribute("lang") || document.documentElement.lang || navigator.language || "en";
-    this.langObserver?.observe(this.el, { attributes: true, attributeFilter: ["lang"] });
-  }
-
-  disconnectedCallback() {
-    this.langObserver?.disconnect();
   }
 
   // --------------------------------------------------------------------------

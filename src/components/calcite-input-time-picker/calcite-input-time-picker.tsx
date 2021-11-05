@@ -17,7 +17,6 @@ import { getKey } from "../../utils/key";
 import { formatTimeString, isValidTime, localizeTimeString } from "../../utils/time";
 import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
-import { createObserver } from "../../utils/observers";
 
 @Component({
   tag: "calcite-input-time-picker",
@@ -81,6 +80,15 @@ export class CalciteInputTimePicker implements LabelableComponent {
   /** aria-label for the second up button */
   @Prop() intlSecondUp?: string;
 
+  /** BCP 47 language tag for desired language and country format */
+  @Prop({ attribute: "lang", mutable: true }) locale: string =
+    document.documentElement.lang || navigator.language || "en";
+
+  @Watch("locale")
+  localeWatcher(newLocale: string): void {
+    this.setInputValue(localizeTimeString(this.value, newLocale, this.shouldIncludeSeconds()));
+  }
+
   /** The name of the time input */
   @Prop() name?: string;
 
@@ -116,8 +124,6 @@ export class CalciteInputTimePicker implements LabelableComponent {
   /** whether the value of the input was changed as a result of user typing or not */
   private internalValueChange = false;
 
-  private langObserver = createObserver("mutation", () => this.langWatcher());
-
   private previousValidValue: string = null;
 
   private referenceElementId = `input-time-picker-${guid()}`;
@@ -127,14 +133,6 @@ export class CalciteInputTimePicker implements LabelableComponent {
   //  State
   //
   //--------------------------------------------------------------------------
-
-  /** BCP 47 language tag for desired language and country format */
-  @State() locale: string;
-
-  @Watch("locale")
-  localeWatcher(newLocale: string): void {
-    this.setInputValue(localizeTimeString(this.value, newLocale, this.shouldIncludeSeconds()));
-  }
 
   @State() localizedValue: string;
 
@@ -231,10 +229,6 @@ export class CalciteInputTimePicker implements LabelableComponent {
   //
   // --------------------------------------------------------------------------
 
-  private langWatcher = (): void => {
-    this.locale = this.el.getAttribute("lang");
-  };
-
   onLabelClick(): void {
     this.setFocus();
   }
@@ -324,9 +318,6 @@ export class CalciteInputTimePicker implements LabelableComponent {
       this.setValue({ value: isValidTime(this.value) ? this.value : undefined, origin: "loading" });
     }
     connectLabel(this);
-    this.locale =
-      this.el.getAttribute("lang") || document.documentElement.lang || navigator.language || "en";
-    this.langObserver?.observe(this.el, { attributes: true, attributeFilter: ["lang"] });
   }
 
   componentDidLoad() {
@@ -335,7 +326,6 @@ export class CalciteInputTimePicker implements LabelableComponent {
 
   disconnectedCallback() {
     disconnectLabel(this);
-    this.langObserver?.disconnect();
   }
 
   // --------------------------------------------------------------------------
