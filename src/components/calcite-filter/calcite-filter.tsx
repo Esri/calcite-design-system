@@ -4,11 +4,11 @@ import {
   Event,
   EventEmitter,
   Prop,
-  State,
   h,
   VNode,
   Method,
-  Fragment
+  Fragment,
+  Watch
 } from "@stencil/core";
 import { debounce, forIn } from "lodash-es";
 import { CSS, ICONS, TEXT } from "./resources";
@@ -55,6 +55,16 @@ export class CalciteFilter {
    */
   @Prop() placeholder?: string;
 
+  /**
+   * Filter value.
+   */
+  @Prop({ mutable: true }) value?: string;
+
+  @Watch("value")
+  valueHandler(value: string): void {
+    this.filter(value);
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -62,8 +72,6 @@ export class CalciteFilter {
   // --------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteFilterElement;
-
-  @State() empty = true;
 
   textInput: HTMLCalciteInputElement;
 
@@ -132,8 +140,7 @@ export class CalciteFilter {
 
   inputHandler = (event: CustomEvent): void => {
     const target = event.target as HTMLCalciteInputElement;
-    this.empty = target.value === "";
-    this.filter(target.value);
+    this.value = target.value;
   };
 
   keyDownHandler = ({ key }: KeyboardEvent): void => {
@@ -143,8 +150,7 @@ export class CalciteFilter {
   };
 
   clear = (): void => {
-    this.textInput.value = "";
-    this.empty = true;
+    this.value = "";
     this.calciteFilterChange.emit(this.data);
     this.setFocus();
   };
@@ -176,10 +182,10 @@ export class CalciteFilter {
                 this.textInput = el;
               }}
               type="text"
-              value=""
+              value={this.value}
             />
           </label>
-          {!this.empty ? (
+          {this.value ? (
             <button
               aria-label={this.intlClear || TEXT.clear}
               class={CSS.clearButton}

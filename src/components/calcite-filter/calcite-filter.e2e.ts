@@ -47,6 +47,7 @@ describe("calcite-filter", () => {
       button = await page.find(`calcite-filter >>> button`);
 
       expect(button).not.toBeNull();
+      expect(await filter.getProperty("value")).toBe("developer");
     });
 
     describe("clearing value", () => {
@@ -60,6 +61,8 @@ describe("calcite-filter", () => {
         await page.keyboard.type("developer");
         await page.waitForChanges();
 
+        expect(await filter.getProperty("value")).toBe("developer");
+
         const button = await page.find(`calcite-filter >>> button`);
 
         await button.click();
@@ -72,6 +75,7 @@ describe("calcite-filter", () => {
         });
 
         expect(value).toBe("");
+        expect(await filter.getProperty("value")).toBe("");
         expect(await filterIsFocused()).toBe(true);
       });
 
@@ -92,6 +96,7 @@ describe("calcite-filter", () => {
         });
 
         expect(value).toBe("");
+        expect(await filter.getProperty("value")).toBe("");
         expect(await filterIsFocused()).toBe(true);
       });
     });
