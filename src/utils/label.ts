@@ -54,12 +54,13 @@ const findLabelForComponent = (componentEl: HTMLElement): HTMLCalciteLabelElemen
 };
 
 function hasAncestorCustomElements(label: HTMLCalciteLabelElement, componentEl: HTMLElement): boolean {
-  let composedPath: HTMLElement[];
+  let traversedElements: HTMLElement[];
   const customElementAncestorCheckEventType = "custom-element-ancestor-check";
 
   const listener = (event) => {
     event.stopImmediatePropagation();
-    composedPath = event.composedPath() as HTMLElement[];
+    const composedPath = event.composedPath() as HTMLElement[];
+    traversedElements = composedPath.slice(composedPath.indexOf(label), composedPath.indexOf(componentEl));
   };
 
   label.addEventListener(customElementAncestorCheckEventType, listener, { once: true });
@@ -67,7 +68,7 @@ function hasAncestorCustomElements(label: HTMLCalciteLabelElement, componentEl: 
   componentEl.dispatchEvent(new CustomEvent(customElementAncestorCheckEventType, { composed: true, bubbles: true }));
   label.removeEventListener(customElementAncestorCheckEventType, listener);
 
-  const ancestorCustomElements = composedPath
+  const ancestorCustomElements = traversedElements
     .filter((el) => el !== componentEl && el !== label)
     .filter((el) => el.tagName?.includes("-"));
 
