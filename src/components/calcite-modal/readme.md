@@ -74,10 +74,10 @@ modal.beforeClose = beforeClose;
 
 ## Events
 
-| Event               | Description                                     | Type               |
-| ------------------- | ----------------------------------------------- | ------------------ |
-| `calciteModalClose` | Fired when the modal begins the close animation | `CustomEvent<any>` |
-| `calciteModalOpen`  | Fired when the modal begins the open animation  | `CustomEvent<any>` |
+| Event               | Description                                       | Type               |
+| ------------------- | ------------------------------------------------- | ------------------ |
+| `calciteModalClose` | Fired when the modal finishes the close animation | `CustomEvent<any>` |
+| `calciteModalOpen`  | Fired when the modal finishes the open animation  | `CustomEvent<any>` |
 
 ## Methods
 

@@ -189,6 +189,24 @@ describe("calcite-slider", () => {
     expect(ticks.length).toBe(11);
   });
 
+  it("should cap the rendered last tick label to the slider's provided max", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-slider
+      min="5"
+      max="100"
+      step="10"
+      ticks="10"
+      label-handles
+      label-ticks
+      >
+      </calcite-slider>
+    `);
+    const slider = await page.find("calcite-slider");
+    const maxTickLabel = await page.find("calcite-slider >>> .tick:nth-of-type(11)");
+    expect(parseFloat(maxTickLabel.textContent)).toBe(await slider.getProperty("max"));
+  });
+
   it("key press should change the value and emit input and change events", async () => {
     const page = await newE2EPage();
     await page.setContent(`

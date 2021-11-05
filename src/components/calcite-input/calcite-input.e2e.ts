@@ -3,8 +3,11 @@ import { focusable, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { getDecimalSeparator, locales, localizeNumberString } from "../../utils/locale";
+import { getElementXY } from "../../tests/utils";
 
 describe("calcite-input", () => {
+  const delayFor2UpdatesInMs = 1000;
+
   it("honors form reset", async () => {
     const defaultValue = "defaultValue";
 
@@ -772,6 +775,84 @@ describe("calcite-input", () => {
     expect(calciteInputInput).toHaveReceivedEventTimes(3);
   });
 
+  it("should emit an event every 500ms on keyboard down ArrowUp/ArrowDown and stop on keyboard up", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-input type="number" value="0"></calcite-input>
+    `);
+    const calciteInputInput = await page.spyOnEvent("calciteInputInput");
+    const input = await page.find("calcite-input");
+    expect(calciteInputInput).toHaveReceivedEventTimes(0);
+    await input.callMethod("setFocus");
+
+    await page.keyboard.down("ArrowUp");
+    await page.waitForChanges();
+    expect(calciteInputInput).toHaveReceivedEventTimes(1);
+    await page.waitForTimeout(delayFor2UpdatesInMs);
+    await page.keyboard.up("ArrowUp");
+    await page.waitForChanges();
+    expect(calciteInputInput).toHaveReceivedEventTimes(3);
+
+    await page.keyboard.down("ArrowDown");
+    await page.waitForChanges();
+    expect(calciteInputInput).toHaveReceivedEventTimes(4);
+    await page.waitForTimeout(delayFor2UpdatesInMs);
+    await page.keyboard.up("ArrowDown");
+    await page.waitForChanges();
+    expect(calciteInputInput).toHaveReceivedEventTimes(6);
+  });
+
+  it("should emit an event every 500ms on mousedown on up/down buttons and stop on mouseup/mouseleave", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-input type="number" value="0"></calcite-input>
+    `);
+    const calciteInputInput = await page.spyOnEvent("calciteInputInput");
+    const [buttonUpLocationX, buttonUpLocationY] = await getElementXY(
+      page,
+      ".calcite-input__number-button-item[data-adjustment='up']"
+    );
+    expect(calciteInputInput).toHaveReceivedEventTimes(0);
+    await page.mouse.move(buttonUpLocationX, buttonUpLocationY);
+    await page.mouse.down();
+    await page.waitForChanges();
+    expect(calciteInputInput).toHaveReceivedEventTimes(1);
+    await page.waitForTimeout(delayFor2UpdatesInMs);
+    await page.mouse.up();
+    await page.waitForChanges();
+    expect(calciteInputInput).toHaveReceivedEventTimes(3);
+
+    await page.mouse.down();
+    await page.waitForChanges();
+    expect(calciteInputInput).toHaveReceivedEventTimes(4);
+    await page.waitForTimeout(delayFor2UpdatesInMs);
+    await page.mouse.move(buttonUpLocationX - 1, buttonUpLocationY - 1);
+    await page.waitForChanges();
+    expect(calciteInputInput).toHaveReceivedEventTimes(6);
+
+    const [buttonDownLocationX, buttonDownLocationY] = await getElementXY(
+      page,
+      ".calcite-input__number-button-item[data-adjustment='down']"
+    );
+    expect(calciteInputInput).toHaveReceivedEventTimes(6);
+    await page.mouse.move(buttonDownLocationX, buttonDownLocationY);
+    await page.mouse.down();
+    await page.waitForChanges();
+    expect(calciteInputInput).toHaveReceivedEventTimes(7);
+    await page.waitForTimeout(delayFor2UpdatesInMs);
+    await page.mouse.up();
+    await page.waitForChanges();
+    expect(calciteInputInput).toHaveReceivedEventTimes(9);
+
+    await page.mouse.down();
+    await page.waitForChanges();
+    expect(calciteInputInput).toHaveReceivedEventTimes(10);
+    await page.waitForTimeout(delayFor2UpdatesInMs);
+    await page.mouse.move(buttonDownLocationX - 1, buttonDownLocationY - 1);
+    await page.waitForChanges();
+    expect(calciteInputInput).toHaveReceivedEventTimes(12);
+  });
+
   it("allows restricting input length", async () => {
     const page = await newE2EPage({
       html: `<calcite-input min-length="2" max-length="3" value=""></calcite-input>`
@@ -1360,14 +1441,16 @@ describe("calcite-input", () => {
       await page.waitForChanges();
 
       const inputs = await page.findAll("calcite-input input");
-      inputs.forEach(async (input) => {
+
+      for (const input of inputs) {
         expect(await input.getProperty("readOnly")).toBe(true);
-      });
+      }
 
       const buttons = await page.findAll("calcite-input button");
-      buttons.forEach(async (button) => {
+
+      for (const button of buttons) {
         expect(await button.getProperty("disabled")).toBe(true);
-      });
+      }
     });
   });
 });
