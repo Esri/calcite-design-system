@@ -1,0 +1,12 @@
+name: Auto Merge
+on: issue_comment
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: Goobles/gh-actions-merge-command@v1
+        with:
+          allow_ff: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
