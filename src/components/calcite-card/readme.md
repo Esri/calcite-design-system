@@ -50,6 +50,7 @@
 ### Depends on
 
 - [calcite-loader](../calcite-loader)
+- [calcite-label](../calcite-label)
 - [calcite-checkbox](../calcite-checkbox)
 
 ### Graph
@@ -57,6 +58,7 @@
 ```mermaid
 graph TD;
   calcite-card --> calcite-loader
+  calcite-card --> calcite-label
   calcite-card --> calcite-checkbox
   style calcite-card fill:#f9f,stroke:#333,stroke-width:4px
 ```
