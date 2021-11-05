@@ -57,7 +57,7 @@ export const RangeLabeledTicks = (): string => html`
     min-value="${number("min-value", 95)}"
     max="${number("max", 100)}"
     max-label="${text("max-label", "Temperature, upper bound")}"
-    max-value="${number("max-value", 75)}"
+    max-value="${number("max-value", 100)}"
     step="${number("step", 10)}"
     ${boolean("label-handles", false)}
     ${boolean("label-ticks", true)}
