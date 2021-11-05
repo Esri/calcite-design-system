@@ -47,6 +47,20 @@ When using the `default`, `inline` or `inline-space-between` layout option with 
 | ---- | ----------------------------------------------------------- |
 |      | A slot for adding text and a component that can be labeled. |
 
+## Dependencies
+
+### Used by
+
+- [calcite-card](../calcite-card)
+
+### Graph
+
+```mermaid
+graph TD;
+  calcite-card --> calcite-label
+  style calcite-label fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ---
 
 _Built with [StencilJS](https://stenciljs.com/)_

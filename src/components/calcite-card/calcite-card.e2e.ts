@@ -71,4 +71,31 @@ describe("calcite-card", () => {
 
     expect(thumbContainer).not.toBeNull();
   });
+
+  describe("when a card is selectable", () => {
+    it("should update the card's selected state when its checkbox is clicked", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+      <div style="width:260px">
+        <calcite-card selectable>
+          <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
+          <span slot="subtitle">
+            A great example of a study description that might wrap to a line or two, but isn't overly verbose.
+          </span>
+        </calcite-card>
+      </div>
+      `);
+      const card = await page.find("calcite-card");
+      const checkbox = await page.find(`calcite-card >>> .${CSS.checkboxWrapper} calcite-checkbox`);
+      const cardSelectSpy = await card.spyOnEvent("calciteCardSelect");
+      const clickSpy = await card.spyOnEvent("calciteCardSelect");
+      await checkbox.click();
+      await page.waitForChanges();
+
+      expect(cardSelectSpy).toHaveReceivedEventTimes(1);
+      expect(clickSpy).toHaveReceivedEventTimes(1);
+      expect(await checkbox.getProperty("checked")).toBe(true);
+      expect(await card.getProperty("selected")).toBe(true);
+    });
+  });
 });
