@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { defaults, labelable, renders } from "../../tests/commonTests";
-import { getElementXY } from "../../tests/utils";
+import { getElementXY, html } from "../../tests/utils";
 
 describe("calcite-slider", () => {
   const sliderWidthFor1To1PixelValueTrack = "116px";
@@ -194,6 +194,17 @@ describe("calcite-slider", () => {
     expect(await slider.getProperty("value")).toBe(24);
     expect(inputEvent).toHaveReceivedEventTimes(1);
     expect(changeEvent).toHaveReceivedEventTimes(1);
+  });
+
+  it("maxValue label in range slider should have tick__label--max class", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-slider min="5" max="100" step="10" ticks="10" label-handles label-ticks></calcite-slider>`
+    });
+
+    const maxTickLabel = await page.find("calcite-slider >>> .tick__label--max");
+
+    expect(maxTickLabel).toBeDefined();
+    expect(maxTickLabel.textContent).toBe("100");
   });
 
   describe("mouse interaction", () => {
