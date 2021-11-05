@@ -196,17 +196,6 @@ describe("calcite-slider", () => {
     expect(changeEvent).toHaveReceivedEventTimes(1);
   });
 
-  it("maxValue label in range slider should have tick__label--max class", async () => {
-    const page = await newE2EPage({
-      html: html`<calcite-slider min="5" max="100" step="10" ticks="10" label-handles label-ticks></calcite-slider>`
-    });
-
-    const maxTickLabel = await page.find("calcite-slider >>> .tick__label--max");
-
-    expect(maxTickLabel).toBeDefined();
-    expect(maxTickLabel.textContent).toBe("100");
-  });
-
   describe("mouse interaction", () => {
     it("single handle: clicking the track changes value on mousedown, emits on mouseup", async () => {
       const page = await newE2EPage({
