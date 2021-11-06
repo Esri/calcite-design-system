@@ -67,9 +67,7 @@ export const DarkTheme = (): string => html`
   </calcite-radio-button-group>
 `;
 
-DarkTheme.story = {
-  parameters: { themes: themesDarkDefault }
-};
+DarkTheme.parameters = { themes: themesDarkDefault };
 
 export const RTL = (): string => html`
   <calcite-radio-button-group

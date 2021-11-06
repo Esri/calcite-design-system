@@ -80,10 +80,8 @@ export const DarkMode = (): string => html`
   </calcite-modal>
 `;
 
-DarkMode.story = {
-  name: "Dark mode",
-  parameters: { themes: themesDarkDefault }
-};
+DarkMode.storyName = "Dark mode";
+DarkMode.parameters = { themes: themesDarkDefault };
 
 export const RTL = (): string => html`
   <calcite-modal

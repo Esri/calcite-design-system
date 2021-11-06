@@ -129,6 +129,4 @@ export const darkThemeRTL = (): string =>
     `
   );
 
-darkThemeRTL.story = {
-  parameters: { themes: themesDarkDefault }
-};
+darkThemeRTL.parameters = { themes: themesDarkDefault };

@@ -74,6 +74,4 @@ export const darkThemeRTL = (): string =>
     html
   );
 
-darkThemeRTL.story = {
-  parameters: { themes: themesDarkDefault }
-};
+darkThemeRTL.parameters = { themes: themesDarkDefault };

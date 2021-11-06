@@ -76,9 +76,7 @@ export const BorderedRTLDark = (): string => html`
     <calcite-tab tab="tab4" active>Tab 4 Content</calcite-tab>
   </calcite-tabs>
 `;
-BorderedRTLDark.story = {
-  parameters: { themes: themesDarkDefault }
-};
+BorderedRTLDark.parameters = { themes: themesDarkDefault };
 
 const selectedIcon = iconNames[0];
 
@@ -108,9 +106,7 @@ export const WithIcons = (): string => html`
   </calcite-tabs>
 `;
 
-WithIcons.story = {
-  name: "With icons"
-};
+WithIcons.storyName = "With icons";
 
 export const JustTabNav = (): string => html`
   <calcite-tab-nav
@@ -144,10 +140,8 @@ export const DarkMode = (): string => html`
   </calcite-tabs>
 `;
 
-DarkMode.story = {
-  name: "Dark mode",
-  parameters: { themes: themesDarkDefault }
-};
+DarkMode.storyName = "Dark mode";
+DarkMode.parameters = { themes: themesDarkDefault };
 
 export const DisabledTabs = (): string => {
   const disabledLabel = "Disabled Tabs";
@@ -183,9 +177,7 @@ export const DisabledTabs = (): string => {
     `;
 };
 
-DisabledTabs.story = {
-  name: "Disabled tabs"
-};
+DisabledTabs.storyName = "Disabled tabs";
 
 export const RTL = (): string => html`
   <calcite-tabs
