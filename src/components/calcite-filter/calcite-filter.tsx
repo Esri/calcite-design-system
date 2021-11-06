@@ -35,6 +35,11 @@ export class CalciteFilter {
    */
   @Prop() data: object[];
 
+  @Watch("data")
+  watchDataHandler(): void {
+    this.filter(this.value);
+  }
+
   /**
    * When true, disabled prevents interaction. This state shows items with lower opacity/grayed.
    */
@@ -103,11 +108,6 @@ export class CalciteFilter {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
-
-  @Watch("data")
-  watchDataHandler(): void {
-    this.filter(this.value);
-  }
 
   filter = debounce((value: string): void => {
     const regex = new RegExp(value, "i");
