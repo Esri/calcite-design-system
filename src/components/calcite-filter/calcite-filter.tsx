@@ -33,7 +33,7 @@ export class CalciteFilter {
    * The input data. The filter uses this as the starting point, and returns items
    * that contain the string entered in the input, using a partial match and recursive search.
    */
-  @Prop() data: object[];
+  @Prop() data!: object[];
 
   @Watch("data")
   watchDataHandler(): void {
@@ -44,6 +44,13 @@ export class CalciteFilter {
    * When true, disabled prevents interaction. This state shows items with lower opacity/grayed.
    */
   @Prop({ reflect: true }) disabled = false;
+
+  /**
+   * The resulting data after filtering.
+   *
+   * @readonly
+   */
+  @Prop({ mutable: true }) filteredData: CalciteFilter["data"] = [];
 
   /**
    * A text label that will appear on the clear button.
@@ -115,7 +122,7 @@ export class CalciteFilter {
     if (this.data.length === 0) {
       console.warn(`No data was passed to calcite-filter.
       The data property expects an array of objects`);
-      this.calciteFilterChange.emit([]);
+      this.updateFiltered([]);
       return;
     }
 
@@ -133,6 +140,7 @@ export class CalciteFilter {
           found = true;
         }
       });
+
       return found;
     };
 
@@ -140,7 +148,7 @@ export class CalciteFilter {
       return find(item, regex);
     });
 
-    this.calciteFilterChange.emit(result);
+    this.updateFiltered(result);
   }, filterDebounceInMs);
 
   inputHandler = (event: CustomEvent): void => {
@@ -156,9 +164,14 @@ export class CalciteFilter {
 
   clear = (): void => {
     this.value = "";
-    this.calciteFilterChange.emit(this.data);
     this.setFocus();
   };
+
+  updateFiltered(filtered: any[]): void {
+    this.filteredData.length = 0;
+    this.filteredData = this.filteredData.concat(filtered);
+    this.calciteFilterChange.emit(filtered);
+  }
 
   // --------------------------------------------------------------------------
   //
