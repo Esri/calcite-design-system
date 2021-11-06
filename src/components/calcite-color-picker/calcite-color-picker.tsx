@@ -699,11 +699,11 @@ export class CalciteColorPicker {
   connectedCallback(): void {
     const { allowEmpty, color, format, value } = this;
 
-    const valueIsNoColor = allowEmpty && !value;
+    const willSetNoColor = allowEmpty && !value;
     const parsedMode = parseMode(value);
     const valueIsCompatible =
-      valueIsNoColor || (format === "auto" && parsedMode) || format === parsedMode;
-    const initialColor = valueIsNoColor ? null : valueIsCompatible ? Color(value) : color;
+      willSetNoColor || (format === "auto" && parsedMode) || format === parsedMode;
+    const initialColor = willSetNoColor ? null : valueIsCompatible ? Color(value) : color;
 
     if (!valueIsCompatible) {
       this.showIncompatibleColorWarning(value, format);
