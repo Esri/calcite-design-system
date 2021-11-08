@@ -5,6 +5,7 @@ import { letterKeys, numberKeys } from "../../utils/key";
 import { getDecimalSeparator, locales, localizeNumberString } from "../../utils/locale";
 import { CSS } from "./resources";
 import { getElementXY } from "../../tests/utils";
+import { KeyInput } from "puppeteer";
 
 describe("calcite-input", () => {
   const delayFor2UpdatesInMs = 1000;
@@ -776,6 +777,7 @@ describe("calcite-input", () => {
     const calciteInputInput = await page.spyOnEvent("calciteInputInput");
     const [buttonUpLocationX, buttonUpLocationY] = await getElementXY(
       page,
+      "calcite-input",
       ".calcite-input__number-button-item[data-adjustment='up']"
     );
     expect(calciteInputInput).toHaveReceivedEventTimes(0);
@@ -798,6 +800,7 @@ describe("calcite-input", () => {
 
     const [buttonDownLocationX, buttonDownLocationY] = await getElementXY(
       page,
+      "calcite-input",
       ".calcite-input__number-button-item[data-adjustment='down']"
     );
     expect(calciteInputInput).toHaveReceivedEventTimes(6);
@@ -917,14 +920,14 @@ describe("calcite-input", () => {
       await calciteInput.callMethod("setFocus");
       for (let i = 0; i < numberKeys.length; i++) {
         await page.keyboard.down("Shift");
-        await page.keyboard.press(numberKeys[i] as any);
+        await page.keyboard.press(numberKeys[i] as KeyInput);
         await page.keyboard.up("Shift");
         expect(await calciteInput.getProperty("value")).toBeFalsy();
         expect(await input.getProperty("value")).toBeFalsy();
       }
       for (let i = 0; i < letterKeys.length; i++) {
         await page.keyboard.down("Shift");
-        await page.keyboard.press(letterKeys[i] as any);
+        await page.keyboard.press(letterKeys[i] as KeyInput);
         await page.keyboard.up("Shift");
         expect(await calciteInput.getProperty("value")).toBeFalsy();
         expect(await input.getProperty("value")).toBeFalsy();

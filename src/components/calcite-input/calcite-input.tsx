@@ -170,9 +170,6 @@ export class CalciteInput implements LabelableComponent, FormComponent {
   /** @internal adds inline styles for text input when slotted in calcite-inline-editable */
   @Prop({ mutable: true, reflect: true }) editingEnabled = false;
 
-  /** A hint to the browser for which enter key to display */
-  @Prop() enterkeyhint?: "enter" | "done" | "go" | "next" | "previous" | "search" | "send";
-
   /**
    * specify the input type
    *
