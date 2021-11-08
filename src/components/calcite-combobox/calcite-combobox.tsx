@@ -461,7 +461,11 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
     this.calciteComboboxChipDismiss.emit(event.detail);
   };
 
-  setFocusClick = (): void => {
+  setFocusClick = (event: MouseEvent): void => {
+    if (event.composedPath().some((node: HTMLElement) => node.tagName === "CALCITE-CHIP")) {
+      return;
+    }
+
     this.setFocus();
   };
 

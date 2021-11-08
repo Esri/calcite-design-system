@@ -710,6 +710,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
           enterKeyHint={this.el.enterKeyHint}
+          inputMode={this.el.inputMode}
           key="localized-input"
           maxLength={this.maxLength}
           minLength={this.minLength}
@@ -741,6 +742,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
               defaultValue={this.defaultValue}
               disabled={this.disabled ? true : null}
               enterKeyHint={this.el.enterKeyHint}
+              inputMode={this.el.inputMode}
               max={this.maxString}
               maxLength={this.maxLength}
               min={this.minString}
@@ -750,6 +752,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
               onFocus={this.inputFocusHandler}
               onInput={this.inputInputHandler}
               onKeyDown={this.inputKeyDownHandler}
+              onKeyUp={this.inputKeyUpHandler}
               placeholder={this.placeholder || ""}
               readOnly={this.readOnly}
               ref={this.setChildElRef}

@@ -151,19 +151,30 @@ describe("calcite-filter", () => {
       });
     });
 
-    it("emits an event with filtered data after a search query is typed into the input", async () => {
-      const waitForEvent = page.waitForEvent("calciteFilterChange");
-      await page.evaluate(() => {
-        const filter = document.querySelector("calcite-filter");
-        const filterInput = filter.shadowRoot.querySelector("calcite-input");
-        filterInput.value = "developer";
-        filterInput.dispatchEvent(new CustomEvent("calciteInputInput"));
-      });
-      const event = await waitForEvent;
+    it("emits an event after filtering", async () => {
+      let waitForEvent = page.waitForEvent("calciteFilterChange");
+
+      const filter = await page.find("calcite-filter");
+      await filter.callMethod("setFocus");
+      await filter.type("developer");
+
+      let event = await waitForEvent;
       expect(event.detail).toBeDefined();
       expect(event.detail.find((element) => element.value === "harry")).toBeDefined();
       expect(event.detail.find((element) => element.value === "matt")).toBeDefined();
       expect(event.detail.find((element) => element.value === "franco")).toBeDefined();
+      expect(event.detail.find((element) => element.value === "jon")).toBeDefined();
+      expect(event.detail.find((element) => element.value === "katy")).toBeUndefined();
+
+      waitForEvent = page.waitForEvent("calciteFilterChange");
+
+      await page.evaluate(() => {
+        const filter = document.querySelector("calcite-filter");
+        filter.data = filter.data.slice(3);
+      });
+
+      event = await waitForEvent;
+      expect(event.detail).toBeDefined();
       expect(event.detail.find((element) => element.value === "jon")).toBeDefined();
       expect(event.detail.find((element) => element.value === "katy")).toBeUndefined();
     });
