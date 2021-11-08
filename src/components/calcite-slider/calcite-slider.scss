@@ -38,10 +38,6 @@
   @apply block;
 }
 
-:host(:not([has-histogram])) {
-  @apply w-full;
-}
-
 .container {
   @apply block relative;
   padding: calc(var(--calcite-slider-handle-size) * 0.5);

@@ -13,23 +13,21 @@ export default {
 };
 
 export const SingleValue = (): string => html`
-  <div style="width: 250px;">
-    <calcite-slider
-      min="${number("min", 0)}"
-      max="${number("max", 100)}"
-      value="${number("value", 50)}"
-      step="${number("step", 1)}"
-      label="${text("label", "Temperature")}"
-      ${boolean("disabled", false)}
-      ${boolean("label-handles", false)}
-      ${boolean("label-ticks", false)}
-      ticks="${number("ticks", 0)}"
-      page-step="${number("page-step", 5)}"
-      ${boolean("precise", false)}
-      ${boolean("snap", true)}
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-    ></calcite-slider>
-  </div>
+  <calcite-slider
+    min="${number("min", 0)}"
+    max="${number("max", 100)}"
+    value="${number("value", 50)}"
+    step="${number("step", 1)}"
+    label="${text("label", "Temperature")}"
+    ${boolean("disabled", false)}
+    ${boolean("label-handles", false)}
+    ${boolean("label-ticks", false)}
+    ticks="${number("ticks", 0)}"
+    page-step="${number("page-step", 5)}"
+    ${boolean("precise", false)}
+    ${boolean("snap", true)}
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+  ></calcite-slider>
 `;
 
 SingleValue.story = {
@@ -37,45 +35,41 @@ SingleValue.story = {
 };
 
 export const Range = (): string => html`
-  <div style="width: 250px;">
-    <calcite-slider
-      min="${number("min", 0)}"
-      min-label="${text("min-label", "Temperature, lower bound")}"
-      min-value="${number("min-value", 25)}"
-      max="${number("max", 100)}"
-      max-label="${text("max-label", "Temperature, upper bound")}"
-      max-value="${number("max-value", 75)}"
-      step="${number("step", 1)}"
-      ${boolean("label-handles", false)}
-      ${boolean("label-ticks", false)}
-      ticks="${number("ticks", 20)}"
-      ${boolean("precise", false)}
-      ${boolean("snap", true)}
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-    ></calcite-slider>
-  </div>
+  <calcite-slider
+    min="${number("min", 0)}"
+    min-label="${text("min-label", "Temperature, lower bound")}"
+    min-value="${number("min-value", 25)}"
+    max="${number("max", 100)}"
+    max-label="${text("max-label", "Temperature, upper bound")}"
+    max-value="${number("max-value", 75)}"
+    step="${number("step", 1)}"
+    ${boolean("label-handles", false)}
+    ${boolean("label-ticks", false)}
+    ticks="${number("ticks", 20)}"
+    ${boolean("precise", false)}
+    ${boolean("snap", true)}
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+  ></calcite-slider>
 `;
 
 export const MirroredRangeDark = (): string => html`
-  <div style="width: 250px;">
-    <calcite-slider
-      class="calcite-theme-dark"
-      mirrored
-      min="${number("min", 0)}"
-      min-label="${text("min-label", "Temperature, lower bound")}"
-      min-value="${number("min-value", 25)}"
-      max="${number("max", 100)}"
-      max-label="${text("max-label", "Temperature, upper bound")}"
-      max-value="${number("max-value", 75)}"
-      step="${number("step", 1)}"
-      ${boolean("label-handles", true)}
-      ${boolean("label-ticks", true)}
-      ticks="${number("ticks", 20)}"
-      ${boolean("precise", true)}
-      ${boolean("snap", true)}
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-    ></calcite-slider>
-  </div>
+  <calcite-slider
+    class="calcite-theme-dark"
+    mirrored
+    min="${number("min", 0)}"
+    min-label="${text("min-label", "Temperature, lower bound")}"
+    min-value="${number("min-value", 25)}"
+    max="${number("max", 100)}"
+    max-label="${text("max-label", "Temperature, upper bound")}"
+    max-value="${number("max-value", 75)}"
+    step="${number("step", 1)}"
+    ${boolean("label-handles", true)}
+    ${boolean("label-ticks", true)}
+    ticks="${number("ticks", 20)}"
+    ${boolean("precise", true)}
+    ${boolean("snap", true)}
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+  ></calcite-slider>
 `;
 
 MirroredRangeDark.story = {
@@ -140,24 +134,22 @@ export const HistogramWithColors = (): HTMLCalciteSliderElement => {
 };
 
 export const DarkMode = (): string => html`
-  <div style="width: 250px;">
-    <calcite-slider
-      class="calcite-theme-dark"
-      min="${number("min", 0)}"
-      max="${number("max", 100)}"
-      value="${number("value", 50)}"
-      step="${number("step", 1)}"
-      label="${text("label", "Temperature")}"
-      ${boolean("disabled", false)}
-      ${boolean("label-handles", false)}
-      ${boolean("label-ticks", false)}
-      ticks="${number("ticks", 0)}"
-      page-step="${number("page-step", 5)}"
-      ${boolean("precise", false)}
-      ${boolean("snap", true)}
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-    ></calcite-slider>
-  </div>
+  <calcite-slider
+    class="calcite-theme-dark"
+    min="${number("min", 0)}"
+    max="${number("max", 100)}"
+    value="${number("value", 50)}"
+    step="${number("step", 1)}"
+    label="${text("label", "Temperature")}"
+    ${boolean("disabled", false)}
+    ${boolean("label-handles", false)}
+    ${boolean("label-ticks", false)}
+    ticks="${number("ticks", 0)}"
+    page-step="${number("page-step", 5)}"
+    ${boolean("precise", false)}
+    ${boolean("snap", true)}
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+  ></calcite-slider>
 `;
 
 DarkMode.story = {
