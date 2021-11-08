@@ -325,6 +325,7 @@ describe("calcite-combobox", () => {
 
       let chip = await page.find("calcite-combobox >>> calcite-chip");
       expect(chip).not.toBeNull();
+      expect(await cbox.getProperty("active")).toBe(true);
 
       await page.evaluate(() => {
         const combobox = document.querySelector("calcite-combobox");
@@ -338,6 +339,7 @@ describe("calcite-combobox", () => {
 
       chip = await page.find("calcite-combobox >>> calcite-chip");
       expect(chip).toBeNull();
+      expect(await cbox.getProperty("active")).toBe(false);
     });
 
     it("should honor calciteComboboxChipDismiss", async () => {
