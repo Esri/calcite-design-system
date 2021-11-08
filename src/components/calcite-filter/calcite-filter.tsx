@@ -35,7 +35,7 @@ export class CalciteFilter {
    *
    * @deprecated use `items` instead.
    */
-  @Prop() data!: object[];
+  @Prop() data: object[];
 
   @Watch("data")
   watchDataHandler(value: object[]): void {
