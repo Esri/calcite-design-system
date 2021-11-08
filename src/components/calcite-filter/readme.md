@@ -11,6 +11,7 @@
 | `intlClear`   | `intl-clear`  | A text label that will appear on the clear button.                                                                                                                      | `string`   | `undefined` |
 | `intlLabel`   | `intl-label`  | A text label that will appear next to the input field.                                                                                                                  | `string`   | `undefined` |
 | `placeholder` | `placeholder` | Placeholder text for the input element's placeholder attribute                                                                                                          | `string`   | `undefined` |
+| `value`       | `value`       | Filter value.                                                                                                                                                           | `string`   | `undefined` |
 
 ## Events
 
