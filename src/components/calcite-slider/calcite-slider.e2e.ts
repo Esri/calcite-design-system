@@ -2,6 +2,8 @@ import { newE2EPage } from "@stencil/core/testing";
 import { defaults, labelable, renders } from "../../tests/commonTests";
 import { getElementXY } from "../../tests/utils";
 
+/* COMMIT TO TEST SCREENER STORY */
+
 describe("calcite-slider", () => {
   const sliderWidthFor1To1PixelValueTrack = "116px";
 
