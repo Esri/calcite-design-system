@@ -296,8 +296,7 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
 
   @Watch("selectedItems")
   selectedItemsHandler(): void {
-    // TODO: commenting this out fixes e2e not updating value, works fine on dev build (demo pages)
-    // this.internalValueChangeFlag = true;
+    this.internalValueChangeFlag = true;
     this.value = this.getValue();
   }
 
