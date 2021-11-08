@@ -1,11 +1,3 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-tree-padding-y: the top/bottom padding on a tree-item
- */
-
 :host {
   @apply block
     cursor-pointer
@@ -16,9 +8,9 @@
 
 :host([scale="s"]) {
   @apply text--2h;
-  --calcite-tree-padding-y: theme("padding.1");
 
   .node-container {
+    --calcite-tree-padding-y: theme("padding.1");
     .checkbox,
     .chevron,
     .checkmark,
@@ -30,9 +22,9 @@
 
 :host([scale="m"]) {
   @apply text--1h;
-  --calcite-tree-padding-y: theme("padding.2");
 
   .node-container {
+    --calcite-tree-padding-y: theme("padding.2");
     .checkbox,
     .chevron,
     .checkmark,
@@ -44,9 +36,9 @@
 
 :host([scale="l"]) {
   @apply text-0h;
-  --calcite-tree-padding-y: theme("padding.3");
 
   .node-container {
+    --calcite-tree-padding-y: theme("padding.3");
     .checkbox,
     .chevron,
     .checkmark,

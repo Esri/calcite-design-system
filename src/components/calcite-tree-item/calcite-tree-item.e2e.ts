@@ -178,26 +178,4 @@ describe("calcite-tree-item", () => {
       }
     });
   });
-
-  describe("CSS Custom Properties for style overrides", () => {
-    describe("when a custom value is provided", () => {
-      it("should update the `--calcite-tree-padding-y` CSS var to the new value", async () => {
-        const page = await newE2EPage();
-        await page.setContent(`<calcite-tree>
-          <calcite-tree-item>Tree child</calcite-tree-item>
-        </calcite-tree>`);
-        let treeItemPadding = await page.evaluate(() => {
-          const item = document.querySelector("calcite-tree-item");
-          return window.getComputedStyle(item).getPropertyValue(`--calcite-tree-padding-y`);
-        });
-        expect(treeItemPadding).toBe("0.5rem");
-        treeItemPadding = await page.evaluate(() => {
-          const item = document.querySelector("calcite-tree-item");
-          item.style.setProperty("--calcite-tree-padding-y", "1.25rem");
-          return window.getComputedStyle(item).getPropertyValue(`--calcite-tree-padding-y`);
-        });
-        expect(treeItemPadding).toBe("1.25rem");
-      });
-    });
-  });
 });
