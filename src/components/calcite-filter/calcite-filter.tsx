@@ -32,11 +32,24 @@ export class CalciteFilter {
   /**
    * The input data. The filter uses this as the starting point, and returns items
    * that contain the string entered in the input, using a partial match and recursive search.
+   *
+   * @deprecated use `items` instead.
    */
   @Prop() data!: object[];
 
   @Watch("data")
-  watchDataHandler(): void {
+  watchDataHandler(value: object[]): void {
+    this.items = value;
+  }
+
+  /**
+   * The items to filter through. The filter uses this as the starting point, and returns items
+   * that contain the string entered in the input, using a partial match and recursive search.
+   */
+  @Prop({ mutable: true }) items!: object[];
+
+  @Watch("items")
+  watchItemsHandler(): void {
     this.filter(this.value);
   }
 
@@ -46,11 +59,11 @@ export class CalciteFilter {
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * The resulting data after filtering.
+   * The resulting items after filtering.
    *
    * @readonly
    */
-  @Prop({ mutable: true }) filteredData: CalciteFilter["data"] = [];
+  @Prop({ mutable: true }) filteredItems: CalciteFilter["items"] = [];
 
   /**
    * A text label that will appear on the clear button.
@@ -119,9 +132,7 @@ export class CalciteFilter {
   filter = debounce((value: string): void => {
     const regex = new RegExp(value, "i");
 
-    if (this.data.length === 0) {
-      console.warn(`No data was passed to calcite-filter.
-      The data property expects an array of objects`);
+    if (this.items.length === 0) {
       this.updateFiltered([]);
       return;
     }
@@ -144,7 +155,7 @@ export class CalciteFilter {
       return found;
     };
 
-    const result = this.data.filter((item) => {
+    const result = this.items.filter((item) => {
       return find(item, regex);
     });
 
@@ -168,8 +179,8 @@ export class CalciteFilter {
   };
 
   updateFiltered(filtered: any[]): void {
-    this.filteredData.length = 0;
-    this.filteredData = this.filteredData.concat(filtered);
+    this.filteredItems.length = 0;
+    this.filteredItems = this.filteredItems.concat(filtered);
     this.calciteFilterChange.emit(filtered);
   }
 
