@@ -412,7 +412,11 @@ export class CalciteCombobox implements LabelableComponent {
     this.calciteComboboxChipDismiss.emit(event.detail);
   };
 
-  setFocusClick = (): void => {
+  setFocusClick = (event: MouseEvent): void => {
+    if (event.composedPath().some((node: HTMLElement) => node.tagName === "CALCITE-CHIP")) {
+      return;
+    }
+
     this.setFocus();
   };
 
@@ -587,7 +591,6 @@ export class CalciteCombobox implements LabelableComponent {
       this.emitCalciteLookupChange();
       this.emitComboboxChange();
       this.resetText();
-      this.textInput.focus();
       this.filterItems("");
     } else {
       this.ignoreSelectedEventsFlag = true;
