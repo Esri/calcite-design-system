@@ -3,9 +3,7 @@ import { defaults, labelable, renders } from "../../tests/commonTests";
 import { getElementXY } from "../../tests/utils";
 
 describe("calcite-slider", () => {
-  const sliderWidthFor1To1PixelValueTrack = "100px";
-  // m scale slider `--calcite-slider-handle-size`
-  const mediumSliderWidth = `${parseFloat(sliderWidthFor1To1PixelValueTrack) + 14}px`;
+  const sliderWidthFor1To1PixelValueTrack = "114px";
 
   it("renders", async () => renders("calcite-slider", { display: "block" }));
 
@@ -237,7 +235,7 @@ describe("calcite-slider", () => {
   describe("mouse interaction", () => {
     it("single handle: clicking the track changes value on mousedown, emits on mouseup", async () => {
       const page = await newE2EPage({
-        html: `<calcite-slider snap style="width:${mediumSliderWidth}"></calcite-slider>`
+        html: `<calcite-slider snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`
       });
       await page.waitForChanges();
       const slider = await page.find("calcite-slider");
@@ -259,7 +257,7 @@ describe("calcite-slider", () => {
 
     it("single handle: clicking and dragging the track changes and emits the value", async () => {
       const page = await newE2EPage({
-        html: `<calcite-slider snap style="width:${mediumSliderWidth}"></calcite-slider>`
+        html: `<calcite-slider snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`
       });
       await page.waitForChanges();
       const slider = await page.find("calcite-slider");
@@ -285,7 +283,7 @@ describe("calcite-slider", () => {
 
     it("range: clicking the track to the left of the min handle changes minValue on mousedown, emits on mouseup", async () => {
       const page = await newE2EPage({
-        html: `<calcite-slider min-value="50" max-value="75" snap style="width:${mediumSliderWidth}"></calcite-slider>`
+        html: `<calcite-slider min-value="50" max-value="75" snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`
       });
       await page.waitForChanges();
 
@@ -314,7 +312,7 @@ describe("calcite-slider", () => {
 
     it("range: clicking and dragging the track to the left of the min handle changes minValue and emits", async () => {
       const page = await newE2EPage({
-        html: `<calcite-slider min-value="50" max-value="75" snap style="width:${mediumSliderWidth}"></calcite-slider>`
+        html: `<calcite-slider min-value="50" max-value="75" snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`
       });
       await page.waitForChanges();
 
@@ -343,7 +341,7 @@ describe("calcite-slider", () => {
 
     it("range: clicking the track to the right of the max handle changes maxValue on mousedown, emits on mouseup", async () => {
       const page = await newE2EPage({
-        html: `<calcite-slider min-value="25" max-value="50" snap style="width:${mediumSliderWidth}"></calcite-slider>`
+        html: `<calcite-slider min-value="25" max-value="50" snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`
       });
       await page.waitForChanges();
 
@@ -369,7 +367,7 @@ describe("calcite-slider", () => {
 
     it("range: clicking and dragging the track to the right of the max handle changes maxValue on mousedown, emits on mouseup", async () => {
       const page = await newE2EPage({
-        html: `<calcite-slider min-value="25" max-value="50" snap style="width:${mediumSliderWidth}"></calcite-slider>`
+        html: `<calcite-slider min-value="25" max-value="50" snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`
       });
       await page.waitForChanges();
       const slider = await page.find("calcite-slider");
@@ -453,7 +451,7 @@ describe("calcite-slider", () => {
       label-handles
       label-ticks
       snap
-      style="width:${mediumSliderWidth}"`;
+      style="width:${sliderWidthFor1To1PixelValueTrack}"`;
 
     it("click/tap should grab the max value thumb", async () => {
       const page = await newE2EPage({
@@ -509,7 +507,6 @@ describe("calcite-slider", () => {
 
   describe("when a range has 0 for both minValue and maxValue", () => {
     const slider = `<calcite-slider
-      scale="l"
       min="-10"
       max="1"
       min-value="0"
@@ -523,8 +520,8 @@ describe("calcite-slider", () => {
       const maxValueThumb = await page.find("calcite-slider >>> .thumb--value");
       const minHandleLeft = await (await minValueThumb.getComputedStyle()).left;
       const maxHandleRight = await (await maxValueThumb.getComputedStyle()).right;
-      expect(minHandleLeft).toBe("258.172px");
-      expect(maxHandleRight).toBe("25.8125px");
+      expect(minHandleLeft).toBe("260px");
+      expect(maxHandleRight).toBe("26px");
     });
 
     it("should position the minValue thumb beside the maxValue thumb when mirrored", async () => {
@@ -533,8 +530,8 @@ describe("calcite-slider", () => {
       const maxValueThumb = await page.find("calcite-slider >>> .thumb--value");
       const minHandleLeft = await (await minValueThumb.getComputedStyle()).left;
       const maxHandleRight = await (await maxValueThumb.getComputedStyle()).right;
-      expect(minHandleLeft).toBe("25.8125px");
-      expect(maxHandleRight).toBe("258.172px");
+      expect(minHandleLeft).toBe("26px");
+      expect(maxHandleRight).toBe("260px");
     });
 
     it("should position the minValue thumb beside the maxValue thumb when it's a histogram range", async () => {
@@ -554,8 +551,8 @@ describe("calcite-slider", () => {
       const maxValueThumb = await page.find("calcite-slider >>> .thumb--value");
       const minHandleLeft = await (await minValueThumb.getComputedStyle()).left;
       const maxHandleRight = await (await maxValueThumb.getComputedStyle()).right;
-      expect(minHandleLeft).toBe("258.172px");
-      expect(maxHandleRight).toBe("25.8125px");
+      expect(minHandleLeft).toBe("260px");
+      expect(maxHandleRight).toBe("26px");
     });
   });
 });
