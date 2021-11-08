@@ -77,6 +77,7 @@ export class CalciteGraph {
     }
 
     const { min: rangeMin, max: rangeMax } = range(data);
+
     let currentMin: Point = rangeMin;
     let currentMax: Point = rangeMax;
 
