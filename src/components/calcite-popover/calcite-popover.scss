@@ -63,11 +63,11 @@
 }
 
 .content {
-  @apply flex
-  flex-col
+  @apply flex-col
   flex-no-wrap
   self-center
   h-full;
+  flex: 1 0 auto;
 }
 
 .calcite--rtl {
