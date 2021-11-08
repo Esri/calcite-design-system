@@ -120,8 +120,8 @@
         });
 
         document.addEventListener("calciteTileSelectChange", (event) => {
-          inputTimePickerEls.forEach((inputTimePickerEl) => inputTimePickerEl.setAttribute("lang", event.target.value));
-          timePickerEls.forEach((timePickerEl) => timePickerEl.setAttribute("lang", event.target.value));
+          inputTimePickerEls.forEach((inputTimePickerEl) => (inputTimePickerEl.locale = event.target.value));
+          timePickerEls.forEach((timePickerEl) => (timePickerEl.locale = event.target.value));
         });
 
         locales.forEach(({ locale, name }) => {
@@ -141,7 +141,7 @@
               inputTimePickerEls.forEach((inputTimePickerEl) =>
                 inputTimePickerEl.setAttribute("dir", htmlEl.getAttribute("dir"))
               );
-              timePickerEls.forEach((timePickerEl) => timePickerEl.setAttribute("lang", htmlEl.getAttribute("dir")));
+              timePickerEls.forEach((timePickerEl) => timePickerEl.setAttribute("dir", htmlEl.getAttribute("dir")));
             }
           });
         });
