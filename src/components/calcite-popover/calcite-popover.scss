@@ -63,7 +63,8 @@
 }
 
 .content {
-  @apply flex-col
+  @apply flex
+  flex-col
   flex-no-wrap
   self-center
   h-full
