@@ -349,8 +349,7 @@ describe("calcite-inline-editable", () => {
             <calcite-input value="John Doe"></calcite-input>
           </calcite-inline-editable>`,
             {
-              focusTargetSelector: "calcite-input",
-              shadowFocusTargetSelector: "input"
+              focusTargetSelector: "calcite-input"
             }
           ));
       });
