@@ -179,6 +179,15 @@ export function disconnectForm<T>(component: FormComponent<T>): void {
 }
 
 /**
+ * Helper for setting the default value on initialization after connectedCallback.
+ *
+ * Note that this is only needed if the default value cannot be determined on connectedCallback.
+ */
+export function afterConnectDefaultValueSet<T>(component: FormComponent<T>, value: any): void {
+  component.defaultValue = value;
+}
+
+/**
  * Helper for maintaining a form-associated's hidden input in sync with the component.
  *
  * Based on Ionic's approach: https://github.com/ionic-team/ionic-framework/blob/e4bf052794af9aac07f887013b9250d2a045eba3/core/src/utils/helpers.ts#L198
