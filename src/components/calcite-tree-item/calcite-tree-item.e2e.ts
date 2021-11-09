@@ -171,7 +171,11 @@ describe("calcite-tree-item", () => {
       `;
       const page = await newE2EPage({ html: tree });
       const ancestors = await page.findAll(`calcite-tree-item[data-id="ancestor"]`);
-      ancestors.forEach(async (node) => expect(await node.getProperty("indeterminate")).toBe(true));
+
+      for (let i = 0; i < ancestors.length; i++) {
+        const node = ancestors[i];
+        expect(await node.getProperty("indeterminate")).toBe(true);
+      }
     });
   });
 });

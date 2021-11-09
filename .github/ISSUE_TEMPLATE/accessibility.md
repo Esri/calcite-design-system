@@ -1,7 +1,6 @@
 ---
 name: Accessibility
 about: Report an accessibility issue in a component.
-title: "A11y: "
 labels: a11y, bug, 0 - new, p - high, needs triage
 assignees: ""
 ---

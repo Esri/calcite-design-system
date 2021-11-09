@@ -212,7 +212,7 @@ export class CalcitePopover {
     const modifiers = this.getModifiers();
 
     popper
-      ? updatePopper({
+      ? await updatePopper({
           el,
           modifiers,
           placement,

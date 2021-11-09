@@ -71,7 +71,7 @@ export function createPopper({
   });
 }
 
-export function updatePopper({
+export async function updatePopper({
   el,
   modifiers,
   placement: PopperPlacement,
@@ -81,10 +81,10 @@ export function updatePopper({
   modifiers: Partial<StrictModifiers>[];
   popper: Popper;
   placement: PopperPlacement;
-}): void {
+}): Promise<void> {
   const placement = getPlacement(el, PopperPlacement);
 
-  popper.setOptions({
+  await popper.setOptions({
     modifiers,
     placement
   });

@@ -1,7 +1,6 @@
 ---
 name: Refactor
 about: Propose a code rework that does not effect functionality.
-title: "Refactor: "
 labels: refactor, 0 - new, needs triage
 assignees: ""
 ---

@@ -132,7 +132,10 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
 
 const selector = "calcite-action";
 
-export const Default = stepStory(
+export const Default = (): string =>
+  html`<div style="width: 150px">${create("calcite-action", createAttributes())}</div>`;
+
+export const Steps = stepStory(
   (): string => html`<div style="width: 150px">${create("calcite-action", createAttributes())}</div>`,
 
   createSteps("calcite-action")

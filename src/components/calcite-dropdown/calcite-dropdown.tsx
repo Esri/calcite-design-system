@@ -184,7 +184,7 @@ export class CalciteDropdown {
     const modifiers = this.getModifiers();
 
     popper
-      ? updatePopper({
+      ? await updatePopper({
           el: menuEl,
           modifiers,
           placement,
