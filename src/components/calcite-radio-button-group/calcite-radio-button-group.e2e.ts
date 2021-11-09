@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, formAssociated, hidden, reflects, renders } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 
 describe("calcite-radio-button-group", () => {
@@ -106,7 +106,7 @@ describe("calcite-radio-button-group", () => {
       </calcite-radio-button-group>
     `);
 
-    const radioInputs = await page.findAll('input[type="radio"]');
+    const radioInputs = await page.findAll("calcite-radio-button");
     expect(radioInputs).toHaveLength(3);
 
     for (let i = 0; i < radioInputs.length; i++) {

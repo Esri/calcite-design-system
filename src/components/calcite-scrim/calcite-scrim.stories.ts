@@ -71,7 +71,5 @@ export const DarkMode = (): string => html`
   </div>
 `;
 
-DarkMode.story = {
-  name: "Dark mode",
-  parameters: { themes: themesDarkDefault }
-};
+DarkMode.storyName = "Dark mode";
+DarkMode.parameters = { themes: themesDarkDefault };
