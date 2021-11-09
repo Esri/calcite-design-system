@@ -46,7 +46,7 @@ export class CalciteSlider implements LabelableComponent {
   /** Indicates if a histogram is present */
   @Prop({ reflect: true, mutable: true }) hasHistogram = false;
 
-  /** Display a histogram above the slider */
+  /** A list of [x-axis, y-axis] points that illustrates the histogram chart within the slider min and max range */
   @Prop() histogram?: DataSeries;
 
   @Watch("histogram") histogramWatcher(newHistogram: DataSeries): void {
