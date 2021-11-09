@@ -222,8 +222,6 @@ describe("calcite-select", () => {
       expect(selected[0].innerText).toBe("a");
     });
 
-    it("is labelable", async () => labelable("calcite-select"));
-
     it("internally maps children to native elements", async () => {
       const page = await newE2EPage({
         html: html`
