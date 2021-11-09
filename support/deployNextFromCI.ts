@@ -33,14 +33,18 @@ const exec = pify(childProcess.exec);
     } else {
       console.log("Deploying @next 🚧");
 
+      console.log(" - adding user details...");
+      await exec(`git config --global user.email "actions@github.com"`);
+      await exec(`git config --global user.name "Deploy Next"`);
+
       // the setup-node gh action handles the token
       // https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages#publishing-packages-to-the-npm-registry
 
       console.log(" - prepping package...");
       await exec(`npm run util:prep-next-from-existing-build`);
 
-      // make sure that the changes are committed
-      if ((await exec(`git rev-parse HEAD`)) === (await exec(`git rev-parse origin/master`))) {
+      const changesCommitted = (await exec(`git rev-parse HEAD`)) !== (await exec(`git rev-parse origin/master`));
+      if (!changesCommitted) {
         console.log("an error occurred committing changes");
         process.exitCode = 1;
       }
@@ -52,8 +56,8 @@ const exec = pify(childProcess.exec);
       console.log(" - pushing tags...");
       await exec(`git push --follow-tags origin master`);
 
-      // make sure that the changes are pushed
-      if ((await exec(`git rev-parse HEAD`)) !== (await exec(`git rev-parse origin/master`))) {
+      const changesPushed = (await exec(`git rev-parse HEAD`)) === (await exec(`git rev-parse origin/master`));
+      if (!changesPushed) {
         console.log("an error occurred pushing changes");
         process.exitCode = 1;
       }
