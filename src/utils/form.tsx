@@ -196,8 +196,6 @@ function syncHiddenFormInput(component: FormComponent): void {
   const { el, formEl, name, value } = component;
   const { ownerDocument } = el;
 
-  // TODO: optimize
-  // TODO: remove 1 when remaining?
   const inputs = el.querySelectorAll<HTMLInputElement>(`input[slot="${hiddenFormInputSlotName}"]`);
 
   if (!formEl || !name) {
