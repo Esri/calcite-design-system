@@ -391,8 +391,8 @@ export class CalcitePanel {
 
   renderContent(): VNode {
     return (
-      <div class={CSS.contentWrapper}>
-        <section class={CSS.contentContainer} onScroll={this.panelScrollHandler} tabIndex={0}>
+      <div class={CSS.contentWrapper} onScroll={this.panelScrollHandler} tabIndex={0}>
+        <section class={CSS.contentContainer}>
           <slot />
         </section>
         {this.renderFab()}
