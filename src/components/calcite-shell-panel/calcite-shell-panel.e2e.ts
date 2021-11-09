@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 
-import { CSS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-shell-panel", () => {
@@ -18,10 +18,18 @@ describe("calcite-shell-panel", () => {
 
   it("has a slot", async () => {
     const page = await newE2EPage();
-
     await page.setContent("<calcite-shell-panel></calcite-shell-panel>");
-    const element = await page.find("calcite-shell-panel");
-    expect(element.shadowRoot.firstElementChild.tagName).toBe("SLOT");
+
+    const contentBodyHasSlot = await page.$eval(
+      "calcite-shell-panel",
+      (panel: HTMLCalciteShellPanelElement, contentBodyClass: string) => {
+        const contentBody = panel.shadowRoot.querySelector(contentBodyClass);
+        return contentBody.firstElementChild.tagName == "SLOT";
+      },
+      `.${CSS.contentBody}`
+    );
+
+    expect(contentBodyHasSlot).toBe(true);
   });
 
   it("should show panel content", async () => {
@@ -76,30 +84,43 @@ describe("calcite-shell-panel", () => {
 
   it("start position property should have action slot first", async () => {
     const page = await newE2EPage();
-
     await page.setContent(
       '<calcite-shell-panel position="start"><div slot="action-bar">bar</div><div>content</div></calcite-shell-panel>'
     );
 
-    const element = await page.find("calcite-shell-panel");
+    const actionSlotIsFirst = await page.$eval(
+      "calcite-shell-panel",
+      (panel: HTMLCalciteShellPanelElement, containerClass: string, slotName: string) => {
+        const container = panel.shadowRoot.querySelector(containerClass);
+        return (
+          container.firstElementChild.tagName == "SLOT" &&
+          (container.firstElementChild as HTMLSlotElement).name == slotName
+        );
+      },
+      `.${CSS.container}`,
+      SLOTS.actionBar
+    );
 
-    await page.waitForChanges();
-
-    expect(element.shadowRoot.firstElementChild.tagName).toBe("SLOT");
+    expect(actionSlotIsFirst).toBe(true);
   });
 
   it("trailing position property should have DIV first", async () => {
     const page = await newE2EPage();
-
     await page.setContent(
       '<calcite-shell-panel position="end"><div slot="action-bar">bar</div><div>content</div></calcite-shell-panel>'
     );
 
-    const element = await page.find("calcite-shell-panel");
+    const divElementIsFirst = await page.$eval(
+      "calcite-shell-panel",
+      (panel: HTMLCalciteShellPanelElement, containerClass: string, contentClass: string) => {
+        const container = panel.shadowRoot.querySelector(containerClass);
+        return container.firstElementChild.className == contentClass;
+      },
+      `.${CSS.container}`,
+      CSS.content
+    );
 
-    await page.waitForChanges();
-
-    expect(element.shadowRoot.firstElementChild.tagName).toBe("DIV");
+    expect(divElementIsFirst).toBe(true);
   });
 
   it("should be accessible", async () =>
