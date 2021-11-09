@@ -92,7 +92,7 @@
   --calcite-shell-panel-detached-max-height: 80vh;
 }
 
-.content.content--detached {
+.content--detached {
   @apply rounded
   shadow-0
   h-auto
@@ -104,8 +104,15 @@
   max-height: var(--calcite-shell-panel-detached-max-height);
   ::slotted(calcite-panel),
   ::slotted(calcite-flow) {
-    @apply border-none;
     max-height: unset;
+  }
+}
+
+:host([position="start"]) .content--detached,
+:host([position="end"]) .content--detached {
+  ::slotted(calcite-panel),
+  ::slotted(calcite-flow) {
+    @apply border-none;
   }
 }
 
