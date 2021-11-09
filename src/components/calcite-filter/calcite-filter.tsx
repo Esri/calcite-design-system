@@ -45,8 +45,10 @@ export class CalciteFilter {
   /**
    * The items to filter through. The filter uses this as the starting point, and returns items
    * that contain the string entered in the input, using a partial match and recursive search.
+   *
+   * This property is required.
    */
-  @Prop({ mutable: true }) items!: object[];
+  @Prop({ mutable: true }) items: object[];
 
   @Watch("items")
   watchItemsHandler(): void {
