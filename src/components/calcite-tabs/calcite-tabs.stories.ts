@@ -5,7 +5,7 @@ import readme1 from "./readme.md";
 import readme2 from "../calcite-tab/readme.md";
 import readme3 from "../calcite-tab-nav/readme.md";
 import readme4 from "../calcite-tab-title/readme.md";
-import { html } from "../../tests/utils";
+import { html, placeholderImage } from "../../tests/utils";
 
 export default {
   title: "Components/Tabs",
@@ -28,7 +28,13 @@ export const Simple = (): string => html`
       <calcite-tab-title>Tab 4 Title</calcite-tab-title>
     </calcite-tab-nav>
 
-    <calcite-tab active><p>Tab 1 Content</p></calcite-tab>
+    <calcite-tab active>
+      <p>Tab 1 Content</p><br />
+      <img src="${placeholderImage({
+        width: 1000,
+        height: 200
+      })}"></img>
+    </calcite-tab>
     <calcite-tab><p>Tab 2 Content</p></calcite-tab>
     <calcite-tab><p>Tab 3 Content</p></calcite-tab>
     <calcite-tab><p>Tab 4 Content</p></calcite-tab>

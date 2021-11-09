@@ -1,16 +1,18 @@
 :host([active]) section {
   @apply block;
-  overflow: auto;
-  width: 100%;
-  height: 100%;
 }
 
 :host {
   @apply hidden text-color-3;
+  width: 100%;
+  height: 100%;
 }
 
 :host([active]) {
   @apply block;
+  overflow: auto;
+  width: 100%;
+  height: 100%;
 }
 
 section {
