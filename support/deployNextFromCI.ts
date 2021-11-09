@@ -43,8 +43,8 @@ const exec = pify(childProcess.exec);
       console.log(" - prepping package...");
       await exec(`npm run util:prep-next-from-existing-build`);
 
-      const changesCommitted = (await exec(`git rev-parse HEAD`)) === (await exec(`git rev-parse origin/master`));
-      if (changesCommitted) {
+      const changesCommitted = (await exec(`git rev-parse HEAD`)) !== (await exec(`git rev-parse origin/master`));
+      if (!changesCommitted) {
         console.log("an error occurred committing changes");
         process.exitCode = 1;
       }
@@ -56,8 +56,8 @@ const exec = pify(childProcess.exec);
       console.log(" - pushing tags...");
       await exec(`git push --follow-tags origin master`);
 
-      const changesPushed = (await exec(`git rev-parse HEAD`)) !== (await exec(`git rev-parse origin/master`));
-      if (changesPushed) {
+      const changesPushed = (await exec(`git rev-parse HEAD`)) === (await exec(`git rev-parse origin/master`));
+      if (!changesPushed) {
         console.log("an error occurred pushing changes");
         process.exitCode = 1;
       }
