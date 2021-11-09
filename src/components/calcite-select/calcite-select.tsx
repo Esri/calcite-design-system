@@ -144,7 +144,7 @@ export class CalciteSelect implements LabelableComponent, FormComponent {
   }
 
   componentDidLoad(): void {
-    this.defaultValue = this.selectedOption.value;
+    this.defaultValue = this.selectedOption?.value ?? "";
   }
 
   //--------------------------------------------------------------------------

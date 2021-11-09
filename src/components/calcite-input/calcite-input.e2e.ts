@@ -778,7 +778,7 @@ describe("calcite-input", () => {
     const [buttonUpLocationX, buttonUpLocationY] = await getElementXY(
       page,
       "calcite-input",
-      ".calcite-input__number-button-item[data-adjustment='up']"
+      ".number-button-item[data-adjustment='up']"
     );
     expect(calciteInputInput).toHaveReceivedEventTimes(0);
     await page.mouse.move(buttonUpLocationX, buttonUpLocationY);
@@ -801,7 +801,7 @@ describe("calcite-input", () => {
     const [buttonDownLocationX, buttonDownLocationY] = await getElementXY(
       page,
       "calcite-input",
-      ".calcite-input__number-button-item[data-adjustment='down']"
+      ".number-button-item[data-adjustment='down']"
     );
     expect(calciteInputInput).toHaveReceivedEventTimes(6);
     await page.mouse.move(buttonDownLocationX, buttonDownLocationY);

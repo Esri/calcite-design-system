@@ -145,7 +145,6 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
       }
       this.updateItems();
     }
-    this.internalValueChangeFlag = false;
   }
 
   //--------------------------------------------------------------------------
@@ -246,6 +245,7 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
   connectedCallback(): void {
     this.internalValueChangeFlag = true;
     this.value = this.getValue();
+    this.internalValueChangeFlag = false;
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.createPopper();
     connectLabel(this);
@@ -280,7 +280,7 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
   //
   //--------------------------------------------------------------------------
 
-  internalValueChangeFlag: boolean;
+  internalValueChangeFlag = false;
 
   labelEl: HTMLCalciteLabelElement;
 
@@ -298,6 +298,7 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
   selectedItemsHandler(): void {
     this.internalValueChangeFlag = true;
     this.value = this.getValue();
+    this.internalValueChangeFlag = false;
   }
 
   @State() visibleItems: HTMLCalciteComboboxItemElement[] = [];
