@@ -555,6 +555,8 @@ export class CalciteInput implements LabelableComponent, FormComponent {
       if (this.maxLength != null) {
         input.maxLength = this.maxLength;
       }
+    } else if (this.type === "password") {
+      input.type = "password";
     }
   }
 
