@@ -68,6 +68,8 @@ export class CalciteCheckbox implements LabelableComponent, CheckableFormCompome
 
   /**
    * When true, makes the component required for form-submission.
+   *
+   * @internal
    */
   @Prop({ reflect: true }) required = false;
 

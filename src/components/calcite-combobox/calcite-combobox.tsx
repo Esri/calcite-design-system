@@ -122,6 +122,8 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
 
   /**
    * When true, makes the component required for form-submission.
+   *
+   * @internal
    */
   @Prop() required = false;
 

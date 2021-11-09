@@ -148,6 +148,8 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
 
   /**
    * When true, makes the component required for form-submission.
+   *
+   * @internal
    */
   @Prop({ reflect: true }) required = false;
 
