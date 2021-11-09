@@ -115,7 +115,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
   @Prop() ticks?: number;
 
   /** Currently selected number (if single select) */
-  @Prop({ reflect: true, mutable: true }) value: null | number = 0;
+  @Prop({ reflect: true, mutable: true }) value: null | number = null;
 
   //--------------------------------------------------------------------------
   //
@@ -137,6 +137,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
     this.isRange = !!(this.maxValue || this.maxValue === 0);
     this.tickValues = this.generateTickValues();
     this.value = this.clamp(this.value);
+    this.defaultValue = this.value;
     if (this.snap) {
       this.value = this.getClosestStep(this.value);
     }
