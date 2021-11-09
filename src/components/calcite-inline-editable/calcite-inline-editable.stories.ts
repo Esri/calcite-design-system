@@ -45,9 +45,7 @@ export const WithLabel = (): string => html`
   </div>
 `;
 
-WithLabel.story = {
-  name: "With label"
-};
+WithLabel.storyName = "With label";
 
 export const WithoutLabel = (): string => html`
   <div style="width:300px;max-width:100%;">
@@ -126,7 +124,5 @@ export const DarkMode = (): string => html`
   </div>
 `;
 
-DarkMode.story = {
-  name: "Dark mode",
-  parameters: { themes: themesDarkDefault }
-};
+DarkMode.storyName = "Dark mode";
+DarkMode.parameters = { themes: themesDarkDefault };

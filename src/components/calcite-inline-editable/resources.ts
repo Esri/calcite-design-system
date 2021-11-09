@@ -1,11 +1,11 @@
 export const CSS = {
-  wrapper: "calcite-inline-editable__wrapper",
-  confirmChangesButton: "calcite-inline-editable__confirm-changes-button",
-  cancelEditingButton: "calcite-inline-editable__cancel-editing-button",
-  inputWrapper: "calcite-inline-editable__input-wrapper",
-  cancelEditingButtonWrapper: "calcite-inline-editable__cancel-editing-button-wrapper",
-  enableEditingButton: "calcite-inline-editable__enable-editing-button",
-  controlsWrapper: "calcite-inline-editable__controls-wrapper"
+  wrapper: "wrapper",
+  confirmChangesButton: "confirm-changes-button",
+  cancelEditingButton: "cancel-editing-button",
+  inputWrapper: "input-wrapper",
+  cancelEditingButtonWrapper: "cancel-editing-button-wrapper",
+  enableEditingButton: "enable-editing-button",
+  controlsWrapper: "controls-wrapper"
 };
 
 export const TEXT = {

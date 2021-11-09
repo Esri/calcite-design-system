@@ -5,28 +5,30 @@ import {
   EventEmitter,
   h,
   Host,
-  Listen,
   Method,
   Prop,
   State,
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
-import { hiddenInputStyle } from "../../utils/form";
-import { guid } from "../../utils/guid";
-
+import { focusElement, getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { CSS_UTILITY } from "../../utils/resources";
 import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
+import {
+  connectForm,
+  disconnectForm,
+  CheckableFormCompoment,
+  HiddenFormInputSlot
+} from "../../utils/form";
 
 @Component({
   tag: "calcite-switch",
   styleUrl: "calcite-switch.scss",
   shadow: true
 })
-export class CalciteSwitch implements LabelableComponent {
+export class CalciteSwitch implements LabelableComponent, CheckableFormCompoment {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -46,7 +48,6 @@ export class CalciteSwitch implements LabelableComponent {
 
   @Watch("disabled")
   disabledWatcher(newDisabled: boolean): void {
-    this.inputEl.disabled = newDisabled;
     this.tabindex = newDisabled ? -1 : 0;
   }
 
@@ -54,12 +55,7 @@ export class CalciteSwitch implements LabelableComponent {
   @Prop() label?: string;
 
   /** The name of the switch input */
-  @Prop({ reflect: true }) name?: string;
-
-  @Watch("name")
-  nameChanged(newName: string): void {
-    this.inputEl.name = newName;
-  }
+  @Prop({ reflect: true }) name: string;
 
   /** The scale of the switch */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -77,13 +73,8 @@ export class CalciteSwitch implements LabelableComponent {
   /** True if the switch is initially on */
   @Prop({ reflect: true, mutable: true }) checked = false;
 
-  @Watch("checked")
-  checkedWatcher(checked: boolean): void {
-    this.inputEl.checked = checked;
-  }
-
   /** The value of the switch input */
-  @Prop({ reflect: true }) value?: any;
+  @Prop() value: any;
 
   //--------------------------------------------------------------------------
   //
@@ -93,15 +84,19 @@ export class CalciteSwitch implements LabelableComponent {
 
   labelEl: HTMLCalciteLabelElement;
 
-  private inputEl: HTMLInputElement = document.createElement("input");
+  switchEl: HTMLDivElement;
+
+  formEl: HTMLFormElement;
+
+  defaultValue: CalciteSwitch["checked"];
+
+  defaultChecked: boolean;
 
   //--------------------------------------------------------------------------
   //
   //  State
   //
   //--------------------------------------------------------------------------
-
-  @State() guid: string;
 
   @State() tabindex: number;
 
@@ -114,7 +109,7 @@ export class CalciteSwitch implements LabelableComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    this.el.focus();
+    focusElement(this.switchEl);
   }
 
   //--------------------------------------------------------------------------
@@ -123,24 +118,18 @@ export class CalciteSwitch implements LabelableComponent {
   //
   //--------------------------------------------------------------------------
 
+  keyDownHandler = (e: KeyboardEvent): void => {
+    const key = getKey(e.key);
+    if (!this.disabled && (key === " " || key === "Enter")) {
+      this.toggle();
+    }
+  };
+
   onLabelClick(): void {
     if (!this.disabled) {
       this.toggle();
       this.setFocus();
     }
-  }
-
-  private setupInput(): void {
-    this.checked && this.inputEl.setAttribute("checked", "");
-    this.inputEl.disabled = this.disabled;
-    this.inputEl.id = `${this.guid}-input`;
-    this.inputEl.name = this.name;
-    this.inputEl.style.cssText = hiddenInputStyle;
-    this.inputEl.type = "checkbox";
-    if (this.value) {
-      this.inputEl.value = this.value != null ? this.value.toString() : "";
-    }
-    this.el.appendChild(this.inputEl);
   }
 
   private toggle(): void {
@@ -156,6 +145,10 @@ export class CalciteSwitch implements LabelableComponent {
     this.toggle();
   };
 
+  private setSwitchEl = (el: HTMLDivElement): void => {
+    this.switchEl = el;
+  };
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -169,43 +162,29 @@ export class CalciteSwitch implements LabelableComponent {
 
   //--------------------------------------------------------------------------
   //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("keydown")
-  keyDownHandler(e: KeyboardEvent): void {
-    const key = getKey(e.key);
-    if (!this.disabled && (key === " " || key === "Enter")) {
-      this.toggle();
-    }
-  }
-
-  //--------------------------------------------------------------------------
-  //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectLabel(this);
-
     const initiallyChecked = this.checked || this.switched;
 
     if (initiallyChecked) {
       // if either prop is set, we ensure both are synced initially
       this.switched = this.checked = initiallyChecked;
     }
+
+    connectLabel(this);
+    connectForm(this);
   }
 
   disconnectedCallback(): void {
     disconnectLabel(this);
+    disconnectForm(this);
   }
 
   componentWillLoad(): void {
-    this.guid = this.el.id || `calcite-switch-${guid()}`;
     this.tabindex = this.el.getAttribute("tabindex") || this.disabled ? -1 : 0;
-    this.setupInput();
   }
 
   // --------------------------------------------------------------------------
@@ -216,18 +195,22 @@ export class CalciteSwitch implements LabelableComponent {
 
   render(): VNode {
     const dir = getElementDir(this.el);
+
     return (
-      <Host
-        aria-checked={this.checked.toString()}
-        aria-label={getLabelText(this)}
-        onClick={this.clickHandler}
-        role="switch"
-        tabindex={this.tabindex}
-      >
-        <div class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+      <Host onKeyDown={this.keyDownHandler}>
+        <div
+          aria-checked={this.checked.toString()}
+          aria-label={getLabelText(this)}
+          class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+          onClick={this.clickHandler}
+          ref={this.setSwitchEl}
+          role="switch"
+          tabindex={this.tabindex}
+        >
           <div class="track">
             <div class="handle" />
           </div>
+          <HiddenFormInputSlot component={this} />
         </div>
       </Host>
     );

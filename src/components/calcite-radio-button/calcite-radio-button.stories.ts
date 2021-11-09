@@ -43,9 +43,7 @@ export const DarkTheme = (): string => html`
   </calcite-label>
 `;
 
-DarkTheme.story = {
-  parameters: { themes: themesDarkDefault }
-};
+DarkTheme.parameters = { themes: themesDarkDefault };
 
 export const RTL = (): string => html`
   <calcite-label layout="inline" dir="rtl">

@@ -17,7 +17,7 @@ import {
 import { CSS_UTILITY } from "../src/utils/resources";
 
 import { colors } from "../node_modules/@esri/calcite-colors/dist/colors";
-import { Description, DocsPage } from "@storybook/addon-docs/blocks";
+import { Description, DocsPage } from "@storybook/addon-docs";
 import { Theme } from "storybook-addon-themes/dist/models/Theme";
 import React from "react";
 
