@@ -39,10 +39,24 @@ const exec = pify(childProcess.exec);
       console.log(" - prepping package...");
       await exec(`npm run util:prep-next-from-existing-build`);
 
+      // make sure that the changes are committed
+      if ((await exec(`git rev-parse HEAD`)) === (await exec(`git rev-parse origin/master`))) {
+        console.log("an error occurred committing changes");
+        process.exitCode = 1;
+      }
+
+      await exec(`git log --pretty=format:'%h : %s' --graph`);
+
       // github token provided by the checkout action
       // https://github.com/actions/checkout#usage
       console.log(" - pushing tags...");
       await exec(`git push --follow-tags origin master`);
+
+      // make sure that the changes are pushed
+      if ((await exec(`git rev-parse HEAD`)) !== (await exec(`git rev-parse origin/master`))) {
+        console.log("an error occurred pushing changes");
+        process.exitCode = 1;
+      }
 
       console.log(" - publishing @next...");
       await exec(`npm run util:publish-next`);
