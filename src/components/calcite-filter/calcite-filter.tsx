@@ -102,6 +102,18 @@ export class CalciteFilter {
 
   textInput: HTMLCalciteInputElement;
 
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    if (this.data && !this.items) {
+      this.items = this.data;
+    }
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Events
