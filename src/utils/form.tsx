@@ -38,8 +38,6 @@ export interface FormComponent<T = any> {
    * The name used to submit the value to the associated form.
    *
    * Note that this prop should use the @Prop decorator.
-   *
-   * @default ""
    */
   name: string;
 

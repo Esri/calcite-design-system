@@ -64,7 +64,7 @@ export class CalciteCheckbox implements LabelableComponent, CheckableFormCompome
   @Prop() label?: string;
 
   /** The name of the checkbox input */
-  @Prop({ reflect: true }) name = "";
+  @Prop({ reflect: true }) name;
 
   /**
    * When true, makes the component required for form-submission.
