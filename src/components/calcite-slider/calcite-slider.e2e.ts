@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { defaults, labelable, renders } from "../../tests/commonTests";
+import { defaults, formAssociated, labelable, renders } from "../../tests/commonTests";
 import { getElementXY } from "../../tests/utils";
 
 describe("calcite-slider", () => {
@@ -519,4 +519,6 @@ describe("calcite-slider", () => {
       expect(maxHandleRight).toBe("25.8125px");
     });
   });
+
+  it("is form-associated", () => formAssociated("calcite-slider", { testValue: 5 }));
 });

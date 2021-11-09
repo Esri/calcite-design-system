@@ -1,5 +1,5 @@
-import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { renders, accessible, focusable, labelable } from "../../tests/commonTests";
+import { newE2EPage } from "@stencil/core/testing";
+import { renders, accessible, focusable, labelable, formAssociated } from "../../tests/commonTests";
 
 describe("calcite-rating", () => {
   it("renders", async () => renders("<calcite-rating></calcite-rating>", { display: "flex" }));
@@ -446,4 +446,6 @@ describe("calcite-rating", () => {
         shadowFocusTargetSelector: "input[value='3']"
       }));
   });
+
+  it("is form-associated", () => formAssociated("calcite-rating", { testValue: 3 }));
 });

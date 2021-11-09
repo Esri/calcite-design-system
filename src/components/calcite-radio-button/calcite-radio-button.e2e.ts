@@ -1,5 +1,14 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, hidden, labelable, reflects, renders } from "../../tests/commonTests";
+import {
+  accessible,
+  defaults,
+  focusable,
+  formAssociated,
+  hidden,
+  labelable,
+  reflects,
+  renders
+} from "../../tests/commonTests";
 
 describe("calcite-radio-button", () => {
   it("renders", async () => renders("calcite-radio-button", { display: "block" }));
@@ -18,7 +27,7 @@ describe("calcite-radio-button", () => {
 
   it("is labelable", async () =>
     labelable("<calcite-radio-button name='group-name'></calcite-radio-button>", {
-      focusTargetSelector: "input",
+      shadowFocusTargetSelector: ".container",
       propertyToToggle: "checked"
     }));
 
@@ -42,7 +51,7 @@ describe("calcite-radio-button", () => {
 
   it("is focusable", () =>
     focusable("calcite-radio-button", {
-      focusTargetSelector: "input[type=radio]"
+      shadowFocusTargetSelector: ".container"
     }));
 
   it("reflects", async () =>
@@ -56,25 +65,6 @@ describe("calcite-radio-button", () => {
       { propertyName: "required", value: true },
       { propertyName: "scale", value: "m" }
     ]));
-
-  it("has a radio input for form compatibility", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-radio-button name="hidden-input" value="1"></calcite-radio-button>
-      <calcite-radio-button name="hidden-input" value="2" checked></calcite-radio-button>
-      <calcite-radio-button name="hidden-input" value="3"></calcite-radio-button>
-    `);
-
-    const radioInputs = await page.findAll('input[type="radio"]');
-    expect(radioInputs).toHaveLength(3);
-
-    for (let i = 0; i < radioInputs.length; i++) {
-      const name = radioInputs[i].getAttribute("name");
-      const value = radioInputs[i].getAttribute("value");
-      expect(name).toBe("hidden-input");
-      expect(value).toBe((i + 1).toString());
-    }
-  });
 
   it("does not require an item to be checked", async () => {
     const page = await newE2EPage();
@@ -306,6 +296,7 @@ describe("calcite-radio-button", () => {
     expect(await checked.getProperty("checked")).toBe(true);
 
     await unchecked.click();
+    await page.waitForChanges();
     expect(await unchecked.getProperty("checked")).toBe(true);
     expect(await checked.getProperty("checked")).toBe(false);
 
@@ -353,4 +344,6 @@ describe("calcite-radio-button", () => {
     expect(radios[1].getAttribute("checked")).toBe("");
     expect(await inputs[1].getProperty("checked")).toBe(true);
   });
+
+  it("is form-associated", () => formAssociated("calcite-radio-button", { testValue: true }));
 });

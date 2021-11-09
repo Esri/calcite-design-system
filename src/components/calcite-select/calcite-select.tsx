@@ -8,11 +8,19 @@ import {
   Listen,
   Method,
   Prop,
-  VNode
+  VNode,
+  Watch
 } from "@stencil/core";
 import { Direction, focusElement, getElementDir } from "../../utils/dom";
 import { Scale, Width } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
+import {
+  afterConnectDefaultValueSet,
+  connectForm,
+  disconnectForm,
+  FormComponent,
+  HiddenFormInputSlot
+} from "../../utils/form";
 import { CSS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 import { createObserver } from "../../utils/observers";
@@ -38,7 +46,7 @@ function isOptionGroup(
   styleUrl: "calcite-select.scss",
   shadow: true
 })
-export class CalciteSelect implements LabelableComponent {
+export class CalciteSelect implements LabelableComponent, FormComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -48,41 +56,56 @@ export class CalciteSelect implements LabelableComponent {
   /**
    * When true, it prevents the option from being selected.
    */
-  @Prop({
-    reflect: true
-  })
-  disabled = false;
+  @Prop({ reflect: true }) disabled = false;
 
   /**
    * The component's label. This is required for accessibility purposes.
    *
    */
-  @Prop()
-  label!: string;
+  @Prop() label!: string;
+
+  /**
+   * The select's name. Gets submitted with the form.
+   */
+  @Prop() name: string;
+
+  /**
+   * When true, makes the component required for form-submission.
+   *
+   * @internal
+   */
+  @Prop({ reflect: true }) required = false;
 
   /**
    * The component scale.
    */
-  @Prop({
-    reflect: true
-  })
-  scale: Scale = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
+
+  /** The value of the selectedOption */
+  @Prop({ mutable: true }) value: string = null;
+
+  @Watch("value")
+  valueHandler(value: string): void {
+    const items = this.el.querySelectorAll("calcite-option");
+    items.forEach((item) => (item.selected = item.value === value));
+  }
 
   /**
    * The currently selected option.
    *
    * @readonly
    */
-  @Prop({ mutable: true })
-  selectedOption: HTMLCalciteOptionElement;
+  @Prop({ mutable: true }) selectedOption: HTMLCalciteOptionElement;
+
+  @Watch("selectedOption")
+  selectedOptionHandler(selectedOption: HTMLCalciteOptionElement): void {
+    this.value = selectedOption?.value;
+  }
 
   /**
    * The component width.
    */
-  @Prop({
-    reflect: true
-  })
-  width: Width = "auto";
+  @Prop({ reflect: true }) width: Width = "auto";
 
   //--------------------------------------------------------------------------
   //
@@ -92,8 +115,11 @@ export class CalciteSelect implements LabelableComponent {
 
   labelEl: HTMLCalciteLabelElement;
 
-  @Element()
-  el: HTMLCalciteSelectElement;
+  formEl: HTMLFormElement;
+
+  defaultValue: CalciteSelect["value"];
+
+  @Element() el: HTMLCalciteSelectElement;
 
   private componentToNativeEl = new Map<CalciteOptionOrGroup, NativeOptionOrGroup>();
 
@@ -116,11 +142,17 @@ export class CalciteSelect implements LabelableComponent {
     });
 
     connectLabel(this);
+    connectForm(this);
   }
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     disconnectLabel(this);
+    disconnectForm(this);
+  }
+
+  componentDidLoad(): void {
+    afterConnectDefaultValueSet(this, this.selectedOption?.value ?? "");
   }
 
   //--------------------------------------------------------------------------
@@ -144,8 +176,7 @@ export class CalciteSelect implements LabelableComponent {
   /**
    * This event will fire whenever the selected option changes.
    */
-  @Event()
-  calciteSelectChange: EventEmitter<void>;
+  @Event() calciteSelectChange: EventEmitter<void>;
 
   private handleInternalSelectChange = (): void => {
     const selected = this.selectEl.selectedOptions[0];
@@ -201,7 +232,11 @@ export class CalciteSelect implements LabelableComponent {
   }
 
   private populateInternalSelect = (): void => {
-    const optionsAndGroups = Array.from(this.el.children as HTMLCollectionOf<CalciteOptionOrGroup>);
+    const optionsAndGroups = Array.from(
+      this.el.children as HTMLCollectionOf<CalciteOptionOrGroup | HTMLSlotElement>
+    ).filter(
+      (child) => child.tagName === "CALCITE-OPTION" || child.tagName === "CALCITE-OPTION-GROUP"
+    ) as CalciteOptionOrGroup[];
 
     this.clearInternalSelect();
 
@@ -317,6 +352,7 @@ export class CalciteSelect implements LabelableComponent {
           <slot />
         </select>
         {this.renderChevron(dir)}
+        <HiddenFormInputSlot component={this} />
       </Fragment>
     );
   }

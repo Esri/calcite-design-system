@@ -64,7 +64,7 @@ export class CalciteTileSelect {
   @Prop({ reflect: true }) icon?: string;
 
   /** The name of the tile select.  This name will appear in form submissions as either a radio or checkbox identifier based on the `type` property. */
-  @Prop({ reflect: true }) name = "";
+  @Prop({ reflect: true }) name;
 
   @Watch("name")
   nameChanged(newName: string): void {

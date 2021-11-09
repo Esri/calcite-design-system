@@ -32,3 +32,5 @@
 :host([disabled]) {
   @apply opacity-disabled pointer-events-none;
 }
+
+@include hidden-form-input();
