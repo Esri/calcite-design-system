@@ -39,8 +39,6 @@ describe("calcite-select", () => {
     expect(selectedOptionValue).toBe(await selectedOption.getProperty("value"));
   }
 
-  it("is labelable", async () => labelable("calcite-select"));
-
   describe("flat options", () => {
     it("allows selecting items", async () => {
       const page = await newE2EPage({
@@ -103,6 +101,8 @@ describe("calcite-select", () => {
       expect(selected).toHaveLength(1);
       expect(selected[0].innerText).toBe("uno");
     });
+
+    it("is labelable", async () => labelable("calcite-select"));
 
     it("internally maps children to native elements", async () => {
       const page = await newE2EPage({
