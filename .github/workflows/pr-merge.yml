@@ -1,0 +1,15 @@
+name: Auto Merge
+on: issue_comment
+jobs:
+  merge:
+    if: ${{ github.event.issue.user.login == github.actor }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: merge
+        uses: Goobles/gh-actions-merge-command@v1
+        with:
+          allow_ff: false
+          user_name: ${{ github.actor }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

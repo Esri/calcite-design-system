@@ -32,11 +32,26 @@ export class CalciteFilter {
   /**
    * The input data. The filter uses this as the starting point, and returns items
    * that contain the string entered in the input, using a partial match and recursive search.
+   *
+   * @deprecated use `items` instead.
    */
   @Prop() data: object[];
 
   @Watch("data")
-  watchDataHandler(): void {
+  watchDataHandler(value: object[]): void {
+    this.items = value;
+  }
+
+  /**
+   * The items to filter through. The filter uses this as the starting point, and returns items
+   * that contain the string entered in the input, using a partial match and recursive search.
+   *
+   * This property is required.
+   */
+  @Prop({ mutable: true }) items: object[];
+
+  @Watch("items")
+  watchItemsHandler(): void {
     this.filter(this.value);
   }
 
@@ -44,6 +59,13 @@ export class CalciteFilter {
    * When true, disabled prevents interaction. This state shows items with lower opacity/grayed.
    */
   @Prop({ reflect: true }) disabled = false;
+
+  /**
+   * The resulting items after filtering.
+   *
+   * @readonly
+   */
+  @Prop({ mutable: true }) filteredItems: CalciteFilter["items"] = [];
 
   /**
    * A text label that will appear on the clear button.
@@ -80,6 +102,18 @@ export class CalciteFilter {
 
   textInput: HTMLCalciteInputElement;
 
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    if (this.data && !this.items) {
+      this.items = this.data;
+    }
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Events
@@ -112,10 +146,8 @@ export class CalciteFilter {
   filter = debounce((value: string): void => {
     const regex = new RegExp(value, "i");
 
-    if (this.data.length === 0) {
-      console.warn(`No data was passed to calcite-filter.
-      The data property expects an array of objects`);
-      this.calciteFilterChange.emit([]);
+    if (this.items.length === 0) {
+      this.updateFiltered([]);
       return;
     }
 
@@ -133,14 +165,15 @@ export class CalciteFilter {
           found = true;
         }
       });
+
       return found;
     };
 
-    const result = this.data.filter((item) => {
+    const result = this.items.filter((item) => {
       return find(item, regex);
     });
 
-    this.calciteFilterChange.emit(result);
+    this.updateFiltered(result);
   }, filterDebounceInMs);
 
   inputHandler = (event: CustomEvent): void => {
@@ -156,9 +189,14 @@ export class CalciteFilter {
 
   clear = (): void => {
     this.value = "";
-    this.calciteFilterChange.emit(this.data);
     this.setFocus();
   };
+
+  updateFiltered(filtered: any[]): void {
+    this.filteredItems.length = 0;
+    this.filteredItems = this.filteredItems.concat(filtered);
+    this.calciteFilterChange.emit(filtered);
+  }
 
   // --------------------------------------------------------------------------
   //
