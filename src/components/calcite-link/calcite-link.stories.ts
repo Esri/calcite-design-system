@@ -54,9 +54,7 @@ export const WithIconStart = (): string => html`
   </div>
 `;
 
-WithIconStart.story = {
-  name: "With icon-start"
-};
+WithIconStart.storyName = "With icon-start";
 
 export const WithIconEnd = (): string => html`
   <div
@@ -78,9 +76,7 @@ export const WithIconEnd = (): string => html`
   </div>
 `;
 
-WithIconEnd.story = {
-  name: "With icon-end"
-};
+WithIconEnd.storyName = "With icon-end";
 
 export const WithIconStartAndIconEnd = (): string => html`
   <div
@@ -103,9 +99,7 @@ export const WithIconStartAndIconEnd = (): string => html`
   </div>
 `;
 
-WithIconStartAndIconEnd.story = {
-  name: "With icon-start and icon-end"
-};
+WithIconStartAndIconEnd.storyName = "With icon-start and icon-end";
 
 export const DarkMode = (): string => html`
   <div
@@ -124,10 +118,8 @@ export const DarkMode = (): string => html`
   </div>
 `;
 
-DarkMode.story = {
-  name: "Dark mode",
-  parameters: { themes: themesDarkDefault }
-};
+DarkMode.storyName = "Dark mode";
+DarkMode.parameters = { themes: themesDarkDefault };
 
 export const WithIconStartAndIconEndRTL = (): string => html`
   <div

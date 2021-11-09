@@ -89,9 +89,7 @@ export const DarkMode = (): string =>
     }
   ]);
 
-DarkMode.story = {
-  parameters: { themes: themesDarkDefault }
-};
+DarkMode.parameters = { themes: themesDarkDefault };
 
 export const AllowingEmpty = (): string =>
   create("calcite-color-picker", [

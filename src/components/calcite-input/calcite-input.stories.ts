@@ -93,9 +93,7 @@ export const WithLabelAndInputMessage = (): string => html`
   </div>
 `;
 
-WithLabelAndInputMessage.story = {
-  name: "With Label and Input Message"
-};
+WithLabelAndInputMessage.storyName = "With Label and Input Message";
 
 export const WithoutLabel = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
@@ -227,10 +225,8 @@ export const SimpleDarkMode = (): string => html`
   </div>
 `;
 
-SimpleDarkMode.story = {
-  name: "Simple - Dark mode",
-  parameters: { themes: themesDarkDefault }
-};
+SimpleDarkMode.storyName = "Simple - Dark mode";
+SimpleDarkMode.parameters = { themes: themesDarkDefault };
 
 export const WithLabelAndInputMessageRTL = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;" dir="rtl">

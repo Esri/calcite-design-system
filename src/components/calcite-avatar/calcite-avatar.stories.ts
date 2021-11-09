@@ -33,9 +33,7 @@ export const MissingThumbnail = (): string => html`
   </calcite-avatar>
 `;
 
-MissingThumbnail.story = {
-  name: "Missing thumbnail"
-};
+MissingThumbnail.storyName = "Missing thumbnail";
 
 export const Dark = (): string => html`
   <calcite-avatar
@@ -48,6 +46,4 @@ export const Dark = (): string => html`
   </calcite-avatar>
 `;
 
-Dark.story = {
-  parameters: { themes: themesDarkDefault }
-};
+Dark.parameters = { themes: themesDarkDefault };

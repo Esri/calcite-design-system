@@ -41,9 +41,7 @@ export const WithIconStart = (): string => html`
   </calcite-button>
 `;
 
-WithIconStart.story = {
-  name: "With icon-start"
-};
+WithIconStart.storyName = "With icon-start";
 
 export const WithIconEnd = (): string => html`
   <calcite-button
@@ -60,9 +58,7 @@ export const WithIconEnd = (): string => html`
   </calcite-button>
 `;
 
-WithIconEnd.story = {
-  name: "With icon-end"
-};
+WithIconEnd.storyName = "With icon-end";
 
 export const WithIconStartAndIconEnd = (): string => html`
   <calcite-button
@@ -80,9 +76,7 @@ export const WithIconStartAndIconEnd = (): string => html`
   </calcite-button>
 `;
 
-WithIconStartAndIconEnd.story = {
-  name: "With icon-start and icon-end"
-};
+WithIconStartAndIconEnd.storyName = "With icon-start and icon-end";
 
 export const SetWidthContainer = (): string => html`
   <div style="width: 480px; max-width: 100%; background-color: #fff">
@@ -95,9 +89,7 @@ export const SetWidthContainer = (): string => html`
   </div>
 `;
 
-SetWidthContainer.story = {
-  name: "Set width container"
-};
+SetWidthContainer.storyName = "Set width container";
 
 export const Alignment = (): string => html`
   <div style="width: 480px; max-width: 100%; background-color: #fff">
@@ -136,9 +128,7 @@ export const SideBySide = (): string => html`
   </div>
 `;
 
-SideBySide.story = {
-  name: "Side by side"
-};
+SideBySide.storyName = "Side by side";
 
 export const DarkMode = (): string => html`
   <calcite-button
@@ -157,10 +147,8 @@ export const DarkMode = (): string => html`
   </calcite-button>
 `;
 
-DarkMode.story = {
-  name: "Dark mode",
-  parameters: { themes: themesDarkDefault }
-};
+DarkMode.storyName = "Dark mode";
+DarkMode.parameters = { themes: themesDarkDefault };
 
 export const RTL = (): string => html`
   <calcite-button

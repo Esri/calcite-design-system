@@ -36,9 +36,7 @@ export const DarkMode = (): string => html`
   </calcite-pagination>
 `;
 
-DarkMode.story = {
-  parameters: { themes: themesDarkDefault }
-};
+DarkMode.parameters = { themes: themesDarkDefault };
 
 export const RTL = (): string => html`
   <calcite-pagination

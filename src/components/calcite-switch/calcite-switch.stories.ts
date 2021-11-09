@@ -37,9 +37,7 @@ export const WrappingCalciteLabel = (): string => html`
   </calcite-label>
 `;
 
-WrappingCalciteLabel.story = {
-  name: "Wrapping calcite-label"
-};
+WrappingCalciteLabel.storyName = "Wrapping calcite-label";
 
 export const DarkMode = (): string => html`
   <calcite-switch
@@ -51,10 +49,8 @@ export const DarkMode = (): string => html`
   ></calcite-switch>
 `;
 
-DarkMode.story = {
-  name: "Dark mode",
-  parameters: { themes: themesDarkDefault }
-};
+DarkMode.storyName = "Dark mode";
+DarkMode.parameters = { themes: themesDarkDefault };
 
 export const Rtl = (): string => html`
   Enable setting
@@ -67,6 +63,4 @@ export const Rtl = (): string => html`
   ></calcite-switch>
 `;
 
-Rtl.story = {
-  name: "RTL"
-};
+Rtl.storyName = "RTL";

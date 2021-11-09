@@ -203,9 +203,7 @@ export const darkThemeIcon = (): string =>
     `
   );
 
-darkThemeIcon.story = {
-  parameters: { themes: themesDarkDefault }
-};
+darkThemeIcon.parameters = { themes: themesDarkDefault };
 
 export const RTL = (): string =>
   create(
