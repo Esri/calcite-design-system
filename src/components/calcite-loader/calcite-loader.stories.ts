@@ -56,10 +56,8 @@ export const DarkMode = (): string => html`
   />
 `;
 
-DarkMode.story = {
-  name: "Dark mode",
-  parameters: { themes: themesDarkDefault }
-};
+DarkMode.storyName = "Dark mode";
+DarkMode.parameters = { themes: themesDarkDefault };
 
 export const CustomTheme = (): string => html`
   <calcite-loader
@@ -75,6 +73,4 @@ export const CustomTheme = (): string => html`
   />
 `;
 
-CustomTheme.story = {
-  name: "Custom theme"
-};
+CustomTheme.storyName = "Custom theme";

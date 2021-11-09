@@ -181,9 +181,7 @@ export const DarkTheme = (): string => html`
   </div>
 `;
 
-DarkTheme.story = {
-  parameters: { themes: themesDarkDefault }
-};
+DarkTheme.parameters = { themes: themesDarkDefault };
 
 export const Rtl = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
@@ -218,6 +216,4 @@ export const Rtl = (): string => html`
   </div>
 `;
 
-Rtl.story = {
-  name: "RTL"
-};
+Rtl.storyName = "RTL";

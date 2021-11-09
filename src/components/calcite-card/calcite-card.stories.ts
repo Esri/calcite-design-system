@@ -35,9 +35,7 @@ export const SimpleWithLinks = (): string => html`
   </div>
 `;
 
-SimpleWithLinks.story = {
-  name: "Simple with Links"
-};
+SimpleWithLinks.storyName = "Simple with Links";
 
 const footerThumbnail = `<img alt="footer thumbnail" slot="thumbnail" src="${placeholderImage({
   width: 380,
@@ -90,9 +88,7 @@ export const FooterTextButtonsTooltips = (): string => html`
   <calcite-tooltip placement="bottom-start" reference-element="card-icon-test-7">Delete </calcite-tooltip>
 `;
 
-FooterTextButtonsTooltips.story = {
-  name: "Footer Text, Buttons, Tooltips"
-};
+FooterTextButtonsTooltips.storyName = "Footer Text, Buttons, Tooltips";
 
 export const FooterButtonsTooltipsDropdown = (): string => html`
 <div style="width:260px">
@@ -142,9 +138,7 @@ export const FooterButtonsTooltipsDropdown = (): string => html`
 </calcite-tooltip>
 `;
 
-FooterButtonsTooltipsDropdown.story = {
-  name: "Footer Buttons, Tooltips, Dropdown"
-};
+FooterButtonsTooltipsDropdown.storyName = "Footer Buttons, Tooltips, Dropdown";
 
 export const DarkThemeSimple = (): string => html`
   <div style="width:260px">
@@ -157,10 +151,8 @@ export const DarkThemeSimple = (): string => html`
   </div>
 `;
 
-DarkThemeSimple.story = {
-  name: "Dark Theme - Simple",
-  parameters: { themes: themesDarkDefault }
-};
+DarkThemeSimple.storyName = "Dark Theme - Simple";
+DarkThemeSimple.parameters = { themes: themesDarkDefault };
 
 export const DarkThemeSimpleWithLinks = (): string => html`
   <div style="width:260px">
@@ -175,10 +167,8 @@ export const DarkThemeSimpleWithLinks = (): string => html`
   </div>
 `;
 
-DarkThemeSimpleWithLinks.story = {
-  name: "Dark Theme - Simple with Links",
-  parameters: { themes: themesDarkDefault }
-};
+DarkThemeSimpleWithLinks.storyName = "Dark Theme - Simple with Links";
+DarkThemeSimpleWithLinks.parameters = { themes: themesDarkDefault };
 
 export const DarkThemeFooterButton = (): string => html`
   <div style="width:260px">
@@ -191,10 +181,8 @@ export const DarkThemeFooterButton = (): string => html`
   </div>
 `;
 
-DarkThemeFooterButton.story = {
-  name: "Dark Theme - Footer Button",
-  parameters: { themes: themesDarkDefault }
-};
+DarkThemeFooterButton.storyName = "Dark Theme - Footer Button";
+DarkThemeFooterButton.parameters = { themes: themesDarkDefault };
 
 export const DarkThemeFooterLinks = (): string => html`
   <div style="width:260px">
@@ -210,10 +198,8 @@ export const DarkThemeFooterLinks = (): string => html`
   </div>
 `;
 
-DarkThemeFooterLinks.story = {
-  name: "Dark Theme - Footer Links",
-  parameters: { themes: themesDarkDefault }
-};
+DarkThemeFooterLinks.storyName = "Dark Theme - Footer Links";
+DarkThemeFooterLinks.parameters = { themes: themesDarkDefault };
 
 export const DarkThemeFooterTextButtonsTooltips = (): string => html`
   <div style="width:260px">
@@ -240,10 +226,8 @@ export const DarkThemeFooterTextButtonsTooltips = (): string => html`
   </calcite-tooltip>
 `;
 
-DarkThemeFooterTextButtonsTooltips.story = {
-  name: "Dark Theme - Footer Text, Buttons, Tooltips",
-  parameters: { themes: themesDarkDefault }
-};
+DarkThemeFooterTextButtonsTooltips.storyName = "Dark Theme - Footer Text, Buttons, Tooltips";
+DarkThemeFooterTextButtonsTooltips.parameters = { themes: themesDarkDefault };
 
 export const DarkThemeFooterButtonsTooltipsDropdown = (): string => html`
   <div style="width:260px">
@@ -334,10 +318,8 @@ export const DarkThemeFooterButtonsTooltipsDropdown = (): string => html`
   </calcite-tooltip>
 `;
 
-DarkThemeFooterButtonsTooltipsDropdown.story = {
-  name: "Dark Theme - Footer Buttons, Tooltips, Dropdown",
-  parameters: { themes: themesDarkDefault }
-};
+DarkThemeFooterButtonsTooltipsDropdown.storyName = "Dark Theme - Footer Buttons, Tooltips, Dropdown";
+DarkThemeFooterButtonsTooltipsDropdown.parameters = { themes: themesDarkDefault };
 
 export const RTL = (): string => html`
   <div style="width:260px" dir="rtl">

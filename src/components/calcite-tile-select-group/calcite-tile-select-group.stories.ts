@@ -122,9 +122,7 @@ export const Dark = (): string => html`
 </calcite-tile-select-group>
 `;
 
-Dark.story = {
-  parameters: { themes: themesDarkDefault }
-};
+Dark.parameters = { themes: themesDarkDefault };
 
 export const RTL = (): string => html`
 <calcite-tile-select-group

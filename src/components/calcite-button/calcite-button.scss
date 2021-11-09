@@ -551,7 +551,7 @@
 }
 
 // transparent
-:host([appearance="transparent"]:not(.calcite-inline-editable__enable-editing-button)) {
+:host([appearance="transparent"]:not(.enable-editing-button)) {
   button,
   a {
     @apply bg-transparent;
@@ -602,7 +602,7 @@
   }
 }
 
-:host([appearance="transparent"][color="neutral"]:not(.calcite-inline-editable__cancel-editing-button)) {
+:host([appearance="transparent"][color="neutral"]:not(.cancel-editing-button)) {
   button,
   a,
   calcite-loader {
@@ -610,7 +610,7 @@
   }
 }
 
-:host([appearance="transparent"][color="neutral"].calcite-inline-editable__cancel-editing-button) {
+:host([appearance="transparent"][color="neutral"].cancel-editing-button) {
   button {
     @apply text-color-3
       border-t
@@ -630,9 +630,19 @@
   }
 }
 
-:host([appearance="transparent"][color="neutral"].calcite-inline-editable__enable-editing-button) {
+:host([appearance="transparent"][color="neutral"].enable-editing-button) {
   button {
     @apply bg-transparent;
+  }
+}
+
+:host(.confirm-changes-button),
+:host(.cancel-editing-button),
+:host(.enable-editing-button) {
+  button {
+    &:focus {
+      outline-offset: -2px; // ensure focus outlines work in Safari
+    }
   }
 }
 

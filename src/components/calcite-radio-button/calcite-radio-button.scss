@@ -1,9 +1,11 @@
 :host {
   @apply cursor-pointer block;
-  .calcite-radio-button__container {
-    @apply relative;
+  .container {
+    @apply relative outline-none;
   }
 }
 :host([disabled]) {
   @apply cursor-pointer;
 }
+
+@include hidden-form-input();

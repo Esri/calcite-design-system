@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
+import { accessible, formAssociated, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
 
 describe("calcite-switch", () => {
   it("renders with correct default attributes", async () => {
@@ -16,24 +16,23 @@ describe("calcite-switch", () => {
 
   it("is accessible: checked", async () => accessible(`<calcite-switch label="test-label" checked></calcite-switch>`));
 
-  it("is labelable", async () => labelable("calcite-switch"));
+  it("is labelable", async () => labelable("calcite-switch", { propertyToToggle: "checked" }));
+
+  it("is form-associated", async () => formAssociated("calcite-switch", { testValue: true }));
 
   it("toggles the checked attributes appropriately when clicked", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-switch></calcite-switch>");
 
     const calciteSwitch = await page.find("calcite-switch");
-    const input = await page.find("input");
 
     expect(await calciteSwitch.getProperty("checked")).toBe(false);
-    expect(await input.getProperty("checked")).toBe(false);
 
     await calciteSwitch.click();
 
     await page.waitForChanges();
 
     expect(await calciteSwitch.getProperty("checked")).toBe(true);
-    expect(await input.getProperty("checked")).toBe(true);
   });
 
   it("can be checked via the switched property (deprecated)", async () => {
@@ -92,32 +91,13 @@ describe("calcite-switch", () => {
     await page.setContent(`<calcite-switch></calcite-switch>`);
 
     const calciteSwitch = await page.find("calcite-switch");
-    const input = await page.find("input");
 
     expect(await calciteSwitch.getProperty("checked")).toBe(false);
-    expect(await input.getProperty("checked")).toBe(false);
 
     await calciteSwitch.setProperty("checked", true);
     await page.waitForChanges();
 
     expect(await calciteSwitch.getProperty("checked")).toBe(true);
-    expect(await input.getProperty("checked")).toBe(true);
-  });
-
-  it("honors tabindex", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-switch></calcite-switch>`);
-    await page.waitForChanges();
-    const calciteSwitch = await page.find("calcite-switch");
-
-    expect(await calciteSwitch.getProperty("tabIndex")).toBe(0);
-
-    calciteSwitch.setAttribute("tabindex", "-1");
-
-    await page.waitForChanges();
-    await page.waitForChanges();
-
-    expect(await calciteSwitch.getProperty("tabIndex")).toBe(-1);
   });
 
   it("renders requested props", async () => {

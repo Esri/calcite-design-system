@@ -38,16 +38,6 @@
     box-shadow: inset 0 0 0 1px var(--calcite-ui-border-input);
     color: theme("backgroundColor.background");
   }
-  ::slotted(input) {
-    width: var(--calcite-checkbox-size);
-    height: var(--calcite-checkbox-size);
-  }
-}
-:host(:hover),
-:host([hovered]) {
-  .check-svg {
-    box-shadow: inset 0 0 0 2px var(--calcite-ui-brand);
-  }
 }
 :host([checked]),
 :host([indeterminate]) {
@@ -56,11 +46,21 @@
     box-shadow: inset 0 0 0 1px var(--calcite-ui-brand);
   }
 }
+:host([hovered]) .toggle,
+:host .toggle:hover {
+  .check-svg {
+    box-shadow: inset 0 0 0 2px var(--calcite-ui-brand);
+  }
+}
+
 :host {
-  .focused .check-svg {
+  .toggle:focus .check-svg,
+  .toggle:active .check-svg {
     @include focus-box-shadow(inset 0 0 0 1px var(--calcite-ui-brand));
   }
 }
 :host([disabled]) {
   @apply cursor-default opacity-disabled pointer-events-none;
 }
+
+@include hidden-form-input();
