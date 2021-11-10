@@ -53,6 +53,7 @@
   &:focus {
     @apply focus-outset;
   }
+  --calcite-animation-timing: 150ms;
 }
 
 .tip-container {
@@ -64,7 +65,7 @@
     focus-base
     mt-px;
   animation-name: none;
-  animation-duration: 150ms;
+  animation-duration: var(--calcite-animation-timing);
   height: var(--calcite-tip-manager-height);
   &:focus {
     @apply focus-outset;
