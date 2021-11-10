@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Features
 
+- **list-item:** add padding when there is only a label or only a description ([daef73b](https://github.com/Esri/calcite-components/commit/daef73bf3aa5be94bc2d09e04b936ade843d0bf0)), closes [#3362](https://github.com/Esri/calcite-components/issues/3362) [#3362](https://github.com/Esri/calcite-components/issues/3362)
 - **shell, shell-panel, panel:** targets border styles to known, slotted components ([2c5fdcc](https://github.com/Esri/calcite-components/commit/2c5fdcc2dd39a3941d22b787fc13e25d0080ebdb)), closes [#2992](https://github.com/Esri/calcite-components/issues/2992) [#2992](https://github.com/Esri/calcite-components/issues/2992) [#2992](https://github.com/Esri/calcite-components/issues/2992) [#2992](https://github.com/Esri/calcite-components/issues/2992) [#2992](https://github.com/Esri/calcite-components/issues/2992) [#2992](https://github.com/Esri/calcite-components/issues/2992)
 
 ### Bug Fixes
