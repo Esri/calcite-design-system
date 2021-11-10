@@ -7,6 +7,7 @@
   w-full
   h-full
   inset-0;
+  --calcite-animation-timing: 250ms;
 }
 
 @keyframes calcite-scrim-fade-in {
@@ -27,7 +28,7 @@
   items-center
   flex-col
   justify-center;
-  animation: calcite-scrim-fade-in 250ms ease-in-out;
+  animation: calcite-scrim-fade-in var(--calcite-animation-timing) ease-in-out;
   background-color: var(--calcite-scrim-background);
 }
 
