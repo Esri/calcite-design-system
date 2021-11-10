@@ -71,6 +71,7 @@ $tick-height: 4px;
   font-family: inherit;
   z-index: 2;
   transform: translate(7px, -8px);
+  --calcite-animation-timing: 250ms;
 
   .handle__label {
     font-size: var(--calcite-font-size--2);
@@ -100,7 +101,8 @@ $tick-height: 4px;
     border-radius: 100%;
     background-color: var(--calcite-ui-foreground-1);
     box-shadow: 0 0 0 2px var(--calcite-ui-text-3) inset;
-    transition: border 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+    transition: border var(--calcite-animation-timing) ease, background-color var(--calcite-animation-timing) ease,
+      box-shadow var(--calcite-animation-timing) ease;
   }
 
   .handle-extension {
@@ -324,7 +326,8 @@ $tick-height: 4px;
   left: 0;
   margin: $thumb-size * 0.5 -3px;
   text-align: left;
-  transition: opacity 150ms;
+  --calcite-animation-timing: 150ms;
+  transition: opacity var(--calcite-animation-timing);
 }
 
 .tick__label--max {
@@ -332,7 +335,8 @@ $tick-height: 4px;
   right: 0;
   margin: $thumb-size * 0.5 -3px;
   text-align: right;
-  transition: opacity 50ms;
+  --calcite-animation-timing: 50ms;
+  transition: opacity var(--calcite-animation-timing);
 }
 
 :host([has-histogram][label-handles]) {
