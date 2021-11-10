@@ -285,19 +285,20 @@ describe("calcite-input", () => {
   });
 
   it("correctly increments and decrements on long hold on mousedown and step is set to a decimal", async () => {
-    const page = await newE2EPage({
-      html: `
-          <calcite-input step="0.01" type="number" value="0"></calcite-input>
-        `
-    });
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-input type="number" value="0" step="0.01"></calcite-input>
+    `);
     const input = await page.find("calcite-input");
     const [buttonUpLocationX, buttonUpLocationY] = await getElementXY(
       page,
-      ".calcite-input__number-button-item[data-adjustment='up']"
+      "calcite-input",
+      ".number-button-item[data-adjustment='up']"
     );
     const [buttonDownLocationX, buttonDownLocationY] = await getElementXY(
       page,
-      ".calcite-input__number-button-item[data-adjustment='down']"
+      "calcite-input",
+      ".number-button-item[data-adjustment='down']"
     );
 
     await page.mouse.move(buttonUpLocationX, buttonUpLocationY);
