@@ -3,6 +3,23 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+<!--@unreleased-section-start-->
+
+## Unreleased
+
+### Features
+
+- **shell, shell-panel, panel:** targets border styles to known, slotted components ([2c5fdcc](https://github.com/Esri/calcite-components/commit/2c5fdcc2dd39a3941d22b787fc13e25d0080ebdb)), closes [#2992](https://github.com/Esri/calcite-components/issues/2992) [#2992](https://github.com/Esri/calcite-components/issues/2992) [#2992](https://github.com/Esri/calcite-components/issues/2992) [#2992](https://github.com/Esri/calcite-components/issues/2992) [#2992](https://github.com/Esri/calcite-components/issues/2992) [#2992](https://github.com/Esri/calcite-components/issues/2992)
+
+### Bug Fixes
+
+- **popover:** when notice width set to full, it now takes full width of the popover, to fully cover it ([#3451](https://github.com/Esri/calcite-components/issues/3451)) ([a9fe790](https://github.com/Esri/calcite-components/commit/a9fe790989a96226bcb346921af40fe71fc6a87e))
+
+### Reverts
+
+- **action:** reverting [#3415](https://github.com/Esri/calcite-components/issues/3415) after verifying deployed story correctly displays ([#3465](https://github.com/Esri/calcite-components/issues/3465)) ([ca1030d](https://github.com/Esri/calcite-components/commit/ca1030dcbdbb66244545502ec04d9efc7560a91a))
+<!--@unreleased-section-end-->
+
 ## [1.0.0-beta.69](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.68...v1.0.0-beta.69) (2021-11-09)
 
 ### Features
