@@ -79,8 +79,7 @@
 }
 
 .split-button__divider-container {
-  @apply w-px flex items-stretch;
-  transition: 0.15s ease-in-out;
+  @apply w-px flex items-stretch transition-default;
   background-color: var(--calcite-split-button-background);
 }
 
