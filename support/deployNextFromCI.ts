@@ -54,7 +54,7 @@ const exec = pify(childProcess.exec);
       // github token provided by the checkout action
       // https://github.com/actions/checkout#usage
       console.log(" - pushing tags...");
-      await exec(`git push --follow-tags origin master`);
+      await exec(`git push --atomic --follow-tags origin master`);
 
       const changesPushed = (await exec(`git rev-parse HEAD`)) === (await exec(`git rev-parse origin/master`));
       if (!changesPushed) {
