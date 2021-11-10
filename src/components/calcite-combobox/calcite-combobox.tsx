@@ -34,6 +34,13 @@ import {
 } from "./resources";
 import { getItemAncestors, getItemChildren, hasActiveChildren } from "./utils";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
+import {
+  afterConnectDefaultValueSet,
+  connectForm,
+  disconnectForm,
+  FormComponent,
+  HiddenFormInputSlot
+} from "../../utils/form";
 import { createObserver } from "../../utils/observers";
 interface ItemData {
   label: string;
@@ -51,7 +58,7 @@ const isGroup = (el: ComboboxChildElement): el is HTMLCalciteComboboxItemGroupEl
   styleUrl: "calcite-combobox.scss",
   shadow: true
 })
-export class CalciteCombobox implements LabelableComponent {
+export class CalciteCombobox implements LabelableComponent, FormComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -104,11 +111,21 @@ export class CalciteCombobox implements LabelableComponent {
     this.setMaxScrollerHeight();
   }
 
+  /** The name of the switch input */
+  @Prop({ reflect: true }) name: string;
+
   /** Allow entry of custom values which are not in the original set of items */
   @Prop() allowCustomValues: boolean;
 
   /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
+
+  /**
+   * When true, makes the component required for form-submission.
+   *
+   * @internal
+   */
+  @Prop() required = false;
 
   /** specify the selection mode
    * - multi: allow any number of selected items (default)
@@ -119,6 +136,24 @@ export class CalciteCombobox implements LabelableComponent {
 
   /** Specify the scale of the combobox, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  /** The value(s) of the selectedItem(s) */
+  @Prop({ mutable: true }) value: string | string[] = null;
+
+  @Watch("value")
+  valueHandler(value: string | string[]): void {
+    if (!this.internalValueChangeFlag) {
+      const items = this.getItems();
+      if (Array.isArray(value)) {
+        items.forEach((item) => (item.selected = value.includes(item.value)));
+      } else if (value) {
+        items.forEach((item) => (item.selected = value === item.value));
+      } else {
+        items.forEach((item) => (item.selected = false));
+      }
+      this.updateItems();
+    }
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -216,13 +251,21 @@ export class CalciteCombobox implements LabelableComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    this.internalValueChangeFlag = true;
+    this.value = this.getValue();
+    this.internalValueChangeFlag = false;
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.createPopper();
     connectLabel(this);
+    connectForm(this);
   }
 
   componentWillLoad(): void {
     this.updateItems();
+  }
+
+  componentDidLoad(): void {
+    afterConnectDefaultValueSet(this, this.getValue());
   }
 
   componentDidRender(): void {
@@ -236,6 +279,7 @@ export class CalciteCombobox implements LabelableComponent {
     this.mutationObserver?.disconnect();
     this.destroyPopper();
     disconnectLabel(this);
+    disconnectForm(this);
   }
 
   //--------------------------------------------------------------------------
@@ -244,13 +288,26 @@ export class CalciteCombobox implements LabelableComponent {
   //
   //--------------------------------------------------------------------------
 
+  internalValueChangeFlag = false;
+
   labelEl: HTMLCalciteLabelElement;
+
+  formEl: HTMLFormElement;
+
+  defaultValue: CalciteCombobox["value"];
 
   @State() items: HTMLCalciteComboboxItemElement[] = [];
 
   @State() groupItems: HTMLCalciteComboboxItemGroupElement[] = [];
 
   @State() selectedItems: HTMLCalciteComboboxItemElement[] = [];
+
+  @Watch("selectedItems")
+  selectedItemsHandler(): void {
+    this.internalValueChangeFlag = true;
+    this.value = this.getValue();
+    this.internalValueChangeFlag = false;
+  }
 
   @State() visibleItems: HTMLCalciteComboboxItemElement[] = [];
 
@@ -305,9 +362,14 @@ export class CalciteCombobox implements LabelableComponent {
   //
   // --------------------------------------------------------------------------
 
-  onLabelClick(): void {
+  getValue = (): string | string[] => {
+    const items = this.selectedItems.map((item) => item?.value.toString());
+    return items?.length ? (items.length > 1 ? items : items[0]) : "";
+  };
+
+  onLabelClick = (): void => {
     this.setFocus();
-  }
+  };
 
   keydownHandler = (event: KeyboardEvent): void => {
     const key = getKey(event.key, getElementDir(this.el));
@@ -510,10 +572,12 @@ export class CalciteCombobox implements LabelableComponent {
   private calculateSingleItemHeight(item: ComboboxChildElement): number {
     let height = item.offsetHeight;
     // if item has children items, don't count their height twice
-    const children = item.querySelectorAll<ComboboxChildElement>(ComboboxChildSelector);
-    children.forEach((child) => {
-      height -= child.offsetHeight;
-    });
+    const children = Array.from(item.querySelectorAll<ComboboxChildElement>(ComboboxChildSelector));
+    children
+      .map((child) => child?.offsetHeight)
+      .forEach((offsetHeight) => {
+        height -= offsetHeight;
+      });
     return height;
   }
 
@@ -594,11 +658,13 @@ export class CalciteCombobox implements LabelableComponent {
       this.filterItems("");
     } else {
       this.ignoreSelectedEventsFlag = true;
-      this.items.forEach((el) => (el.selected = el === item));
+      this.items.forEach((el) => (el.selected = el === item ? value : false));
       this.ignoreSelectedEventsFlag = false;
       this.selectedItems = this.getSelectedItems();
       this.emitComboboxChange();
-      this.textInput.value = item.textLabel;
+      if (this.textInput) {
+        this.textInput.value = item.textLabel;
+      }
       this.active = false;
       this.updateActiveItemIndex(-1);
       this.resetText();
@@ -675,7 +741,9 @@ export class CalciteCombobox implements LabelableComponent {
   }
 
   resetText(): void {
-    this.textInput.value = "";
+    if (this.textInput) {
+      this.textInput.value = "";
+    }
     this.text = "";
   }
 
@@ -784,7 +852,7 @@ export class CalciteCombobox implements LabelableComponent {
     this.activeDescendant = activeDescendant;
     if (this.activeItemIndex > -1) {
       this.activeChipIndex = -1;
-      this.textInput.focus();
+      this.textInput?.focus();
     }
   }
 
@@ -794,7 +862,7 @@ export class CalciteCombobox implements LabelableComponent {
 
   comboboxFocusHandler = (): void => {
     this.active = true;
-    this.textInput.focus();
+    this.textInput?.focus();
   };
 
   comboboxBlurHandler = (event: FocusEvent): void => {
@@ -955,6 +1023,7 @@ export class CalciteCombobox implements LabelableComponent {
     const { guid, open, label } = this;
     const single = this.selectionMode === "single";
     const labelId = `${guid}-label`;
+
     return (
       <Host onKeyDown={this.keydownHandler}>
         <div
@@ -993,6 +1062,7 @@ export class CalciteCombobox implements LabelableComponent {
           {this.renderListBoxOptions()}
         </ul>
         {this.renderPopperContainer()}
+        <HiddenFormInputSlot component={this} />
       </Host>
     );
   }

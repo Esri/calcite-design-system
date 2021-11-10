@@ -60,9 +60,7 @@ export const SimplePrimaryIconEnd = (): string => html`
   </div>
 `;
 
-SimplePrimaryIconEnd.story = {
-  name: "Simple primary-icon-end"
-};
+SimplePrimaryIconEnd.storyName = "Simple primary-icon-end";
 
 export const SimplePrimaryIconStartAndPrimaryIconEnd = (): string => html`
   <div style="width:70vw;">
@@ -88,9 +86,7 @@ export const SimplePrimaryIconStartAndPrimaryIconEnd = (): string => html`
   </div>
 `;
 
-SimplePrimaryIconStartAndPrimaryIconEnd.story = {
-  name: "Simple primary-icon-start and primary-icon-end"
-};
+SimplePrimaryIconStartAndPrimaryIconEnd.storyName = "Simple primary-icon-start and primary-icon-end";
 
 export const Rtl = (): string => html`
   <div dir="rtl" style="width:70vw;">
@@ -115,9 +111,7 @@ export const Rtl = (): string => html`
   </div>
 `;
 
-Rtl.story = {
-  name: "RTL"
-};
+Rtl.storyName = "RTL";
 
 export const DarkMode = (): string => html`
   <div style="width:70vw;">
@@ -143,7 +137,5 @@ export const DarkMode = (): string => html`
   </div>
 `;
 
-DarkMode.story = {
-  name: "Dark mode",
-  parameters: { themes: themesDarkDefault }
-};
+DarkMode.storyName = "Dark mode";
+DarkMode.parameters = { themes: themesDarkDefault };

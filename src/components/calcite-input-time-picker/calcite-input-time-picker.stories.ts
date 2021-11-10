@@ -39,6 +39,4 @@ export const DarkTheme = (): string => html`
   </calcite-input-time-picker>
 `;
 
-DarkTheme.story = {
-  parameters: { themes: themesDarkDefault }
-};
+DarkTheme.parameters = { themes: themesDarkDefault };

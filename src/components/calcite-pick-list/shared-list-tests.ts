@@ -408,7 +408,7 @@ export function filterBehavior(listType: ListType): void {
         .querySelector(`calcite-${listType}-list`)
         .shadowRoot.querySelector("calcite-filter");
       const filter = (window as any).filter;
-      (window as any).filterInput = filter.shadowRoot.querySelector("input");
+      (window as any).filterInput = filter.shadowRoot.querySelector("calcite-input");
     }, listType);
   });
 
@@ -417,7 +417,7 @@ export function filterBehavior(listType: ListType): void {
     await page.evaluate(() => {
       const filterInput = (window as any).filterInput;
       filterInput.value = "one";
-      filterInput.dispatchEvent(new Event("input"));
+      filterInput.dispatchEvent(new CustomEvent("calciteInputInput"));
     });
     await item2.waitForNotVisible();
 
@@ -431,7 +431,7 @@ export function filterBehavior(listType: ListType): void {
     await page.evaluate(() => {
       const filterInput = (window as any).filterInput;
       filterInput.value = "two";
-      filterInput.dispatchEvent(new Event("input"));
+      filterInput.dispatchEvent(new CustomEvent("calciteInputInput"));
     });
     await item1.waitForNotVisible();
 
@@ -446,7 +446,7 @@ export function filterBehavior(listType: ListType): void {
     await page.evaluate(() => {
       const filterInput = (window as any).filterInput;
       filterInput.value = "uno";
-      filterInput.dispatchEvent(new Event("input"));
+      filterInput.dispatchEvent(new CustomEvent("calciteInputInput"));
     });
     await item2.waitForNotVisible();
 
@@ -460,7 +460,7 @@ export function filterBehavior(listType: ListType): void {
     await page.evaluate(() => {
       const filterInput = (window as any).filterInput;
       filterInput.value = "dos";
-      filterInput.dispatchEvent(new Event("input"));
+      filterInput.dispatchEvent(new CustomEvent("calciteInputInput"));
     });
     await item1.waitForNotVisible();
 
@@ -474,7 +474,7 @@ export function filterBehavior(listType: ListType): void {
     await page.evaluate(() => {
       const filterInput = (window as any).filterInput;
       filterInput.value = "first";
-      filterInput.dispatchEvent(new Event("input"));
+      filterInput.dispatchEvent(new CustomEvent("calciteInputInput"));
     });
     await item2.waitForNotVisible();
 
@@ -486,7 +486,7 @@ export function filterBehavior(listType: ListType): void {
     await page.evaluate(() => {
       const filterInput = (window as any).filterInput;
       filterInput.value = "second";
-      filterInput.dispatchEvent(new Event("input"));
+      filterInput.dispatchEvent(new CustomEvent("calciteInputInput"));
     });
     await item1.waitForNotVisible();
 

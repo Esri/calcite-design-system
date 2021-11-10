@@ -119,3 +119,5 @@ calcite-chip {
 .visually-hidden {
   @apply sr-only;
 }
+
+@include hidden-form-input();
