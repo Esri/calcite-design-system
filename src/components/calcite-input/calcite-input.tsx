@@ -6,31 +6,25 @@ import {
   EventEmitter,
   h,
   Host,
-  Listen,
   Method,
   Prop,
   State,
   VNode,
   Watch
 } from "@stencil/core";
-import {
-  getElementDir,
-  getElementProp,
-  setRequestedIcon,
-  closestElementCrossShadowBoundary
-} from "../../utils/dom";
+import { getElementDir, getElementProp, setRequestedIcon } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
 import { InputPlacement } from "./interfaces";
 import { Position } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
+import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import {
   getDecimalSeparator,
   delocalizeNumberString,
   localizeNumberString
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
-import { hiddenInputStyle } from "../../utils/form";
 import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
 import { CSS_UTILITY, TEXT } from "../../utils/resources";
 import { decimalPlaces } from "../../utils/math";
@@ -43,9 +37,9 @@ type NumberNudgeDirection = "up" | "down";
 @Component({
   tag: "calcite-input",
   styleUrl: "calcite-input.scss",
-  scoped: true
+  shadow: true
 })
-export class CalciteInput implements LabelableComponent {
+export class CalciteInput implements LabelableComponent, FormComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -81,6 +75,9 @@ export class CalciteInput implements LabelableComponent {
 
   /** for number values, displays the locale's group separator */
   @Prop() groupSeparator = false;
+
+  /** when true, the component will not be visible */
+  @Prop() hidden = false;
 
   /** when used as a boolean set to true, show a default recommended icon for certain
    * input types (tel, password, email, date, time, search). You can also pass a
@@ -142,7 +139,7 @@ export class CalciteInput implements LabelableComponent {
   @Prop({ reflect: true }) minLength?: number;
 
   /** The name of the input */
-  @Prop({ reflect: true }) name?: string;
+  @Prop({ reflect: true }) name: string;
 
   /** specify the placement of the number buttons */
   @Prop({ reflect: true }) numberButtonType?: InputPlacement = "vertical";
@@ -171,6 +168,9 @@ export class CalciteInput implements LabelableComponent {
   /** optionally add suffix  **/
   @Prop() suffixText?: string;
 
+  /** @internal adds inline styles for text input when slotted in calcite-inline-editable */
+  @Prop({ mutable: true, reflect: true }) editingEnabled = false;
+
   /**
    * specify the input type
    *
@@ -195,7 +195,7 @@ export class CalciteInput implements LabelableComponent {
     | "week" = "text";
 
   /** input value */
-  @Prop({ mutable: true }) value?: string;
+  @Prop({ mutable: true }) value: string;
 
   @Watch("value")
   valueWatcher(newValue: string): void {
@@ -223,6 +223,12 @@ export class CalciteInput implements LabelableComponent {
 
   labelEl: HTMLCalciteLabelElement;
 
+  formEl: HTMLFormElement;
+
+  defaultValue: CalciteInput["value"];
+
+  inlineEditableEl: HTMLCalciteInlineEditableElement;
+
   /** keep track of the rendered child type */
   private childEl?: HTMLInputElement | HTMLTextAreaElement;
 
@@ -231,11 +237,6 @@ export class CalciteInput implements LabelableComponent {
 
   /** number text input element for locale */
   private childNumberEl?: HTMLInputElement;
-
-  /** keep track of the initial value */
-  private defaultValue: string;
-
-  private form: HTMLFormElement;
 
   get isClearable(): boolean {
     return !this.isTextarea && (this.clearable || this.type === "search") && this.value?.length > 0;
@@ -274,10 +275,10 @@ export class CalciteInput implements LabelableComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.form = closestElementCrossShadowBoundary(this.el, "form") as HTMLFormElement;
-    this.form?.addEventListener("reset", this.reset);
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.status = getElementProp(this.el, "status", this.status);
+    this.inlineEditableEl = this.el.closest("calcite-inline-editable");
+    this.editingEnabled = this.inlineEditableEl?.editingEnabled;
     if (this.type === "number" && this.value) {
       if (isValidNumber(this.value)) {
         this.localizedValue = localizeNumberString(this.value, this.locale, this.groupSeparator);
@@ -286,16 +287,16 @@ export class CalciteInput implements LabelableComponent {
       }
     }
     connectLabel(this);
+    connectForm(this);
   }
 
   disconnectedCallback(): void {
-    this.form?.removeEventListener("reset", this.reset);
     disconnectLabel(this);
+    disconnectForm(this);
   }
 
   componentWillLoad(): void {
     this.childElType = this.type === "textarea" ? "textarea" : "input";
-    this.defaultValue = this.value;
     this.maxString = this.max?.toString();
     this.minString = this.min?.toString();
     this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
@@ -304,9 +305,6 @@ export class CalciteInput implements LabelableComponent {
   componentDidLoad(): void {
     this.slottedActionEl = this.el.querySelector("[slot=action]");
     this.setDisabledAction();
-    if (this.type === "number" && this.childEl) {
-      this.childEl.style.cssText = hiddenInputStyle;
-    }
   }
 
   componentShouldUpdate(newValue: any, oldValue: any, property: string): boolean {
@@ -346,23 +344,6 @@ export class CalciteInput implements LabelableComponent {
 
   //--------------------------------------------------------------------------
   //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("keydown")
-  keyDownHandler(event: KeyboardEvent): void {
-    if (this.readOnly || this.disabled) {
-      return;
-    }
-    if (this.isClearable && getKey(event.key) === "Escape") {
-      this.clearInputValue(event);
-      event.preventDefault();
-    }
-  }
-
-  //--------------------------------------------------------------------------
-  //
   //  Public Methods
   //
   //--------------------------------------------------------------------------
@@ -382,6 +363,16 @@ export class CalciteInput implements LabelableComponent {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  keyDownHandler = (event: KeyboardEvent): void => {
+    if (this.readOnly || this.disabled) {
+      return;
+    }
+    if (this.isClearable && getKey(event.key) === "Escape") {
+      this.clearInputValue(event);
+      event.preventDefault();
+    }
+  };
 
   onLabelClick(): void {
     this.setFocus();
@@ -546,12 +537,29 @@ export class CalciteInput implements LabelableComponent {
     this.nudgeNumberValue(direction, event);
   };
 
-  private reset = (nativeEvent): void => {
+  onFormReset(): void {
+    this.setValue(this.defaultValue);
+  }
+
+  syncHiddenFormInput(input: HTMLInputElement): void {
     if (this.type === "number") {
-      nativeEvent.preventDefault();
+      input.type = "number";
+      input.min = this.min?.toString(10) ?? "";
+      input.max = this.max?.toString(10) ?? "";
+    } else if (this.type === "text") {
+      input.type = "text";
+
+      if (this.minLength != null) {
+        input.minLength = this.minLength;
+      }
+
+      if (this.maxLength != null) {
+        input.maxLength = this.maxLength;
+      }
+    } else if (this.type === "password") {
+      input.type = "password";
     }
-    this.setValue(this.defaultValue, nativeEvent);
-  };
+  }
 
   private setChildElRef = (el) => {
     this.childEl = el;
@@ -721,42 +729,51 @@ export class CalciteInput implements LabelableComponent {
         />
       ) : null;
 
-    const childEl = [
-      <this.childElType
-        aria-label={getLabelText(this)}
-        autofocus={this.autofocus ? true : null}
-        defaultValue={this.defaultValue}
-        disabled={this.disabled ? true : null}
-        enterKeyHint={this.el.enterKeyHint}
-        inputMode={this.el.inputMode}
-        max={this.maxString}
-        maxLength={this.maxLength}
-        min={this.minString}
-        minLength={this.minLength}
-        name={this.name}
-        onBlur={this.inputBlurHandler}
-        onFocus={this.inputFocusHandler}
-        onInput={this.inputInputHandler}
-        onKeyDown={this.inputKeyDownHandler}
-        onKeyUp={this.inputKeyUpHandler}
-        placeholder={this.placeholder || ""}
-        readOnly={this.readOnly}
-        ref={this.setChildElRef}
-        required={this.required ? true : null}
-        step={this.step}
-        tabIndex={this.disabled || this.type === "number" ? -1 : null}
-        type={this.type}
-        value={this.value}
-      />,
-      this.isTextarea ? (
-        <div class={CSS.resizeIconWrapper}>
-          <calcite-icon icon="chevron-down" scale="s" />
-        </div>
-      ) : null
-    ];
+    const childEl =
+      this.type !== "number"
+        ? [
+            <this.childElType
+              aria-label={getLabelText(this)}
+              autofocus={this.autofocus ? true : null}
+              class={{
+                [CSS.editingEnabled]: this.editingEnabled,
+                [CSS.inlineChild]: !!this.inlineEditableEl
+              }}
+              defaultValue={this.defaultValue}
+              disabled={this.disabled ? true : null}
+              enterKeyHint={this.el.enterKeyHint}
+              inputMode={this.el.inputMode}
+              max={this.maxString}
+              maxLength={this.maxLength}
+              min={this.minString}
+              minLength={this.minLength}
+              name={this.name}
+              onBlur={this.inputBlurHandler}
+              onFocus={this.inputFocusHandler}
+              onInput={this.inputInputHandler}
+              onKeyDown={this.inputKeyDownHandler}
+              onKeyUp={this.inputKeyUpHandler}
+              placeholder={this.placeholder || ""}
+              readOnly={this.readOnly}
+              ref={this.setChildElRef}
+              required={this.required ? true : null}
+              step={this.step}
+              tabIndex={
+                this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null
+              }
+              type={this.type}
+              value={this.value}
+            />,
+            this.isTextarea ? (
+              <div class={CSS.resizeIconWrapper}>
+                <calcite-icon icon="chevron-down" scale="s" />
+              </div>
+            ) : null
+          ]
+        : null;
 
     return (
-      <Host onClick={this.inputFocusHandler}>
+      <Host onClick={this.inputFocusHandler} onKeyDown={this.keyDownHandler}>
         <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }} dir={dir}>
           {this.type === "number" && this.numberButtonType === "horizontal"
             ? numberButtonsHorizontalDown
@@ -779,6 +796,7 @@ export class CalciteInput implements LabelableComponent {
           {this.type === "number" && this.numberButtonType === "horizontal"
             ? numberButtonsHorizontalUp
             : null}
+          <HiddenFormInputSlot component={this} />
         </div>
       </Host>
     );

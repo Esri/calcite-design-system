@@ -28,9 +28,7 @@ color="${select("color", ["green", "red", "yellow", "blue"], "blue")}">
 </calcite-alert>
 `;
 
-TitleMessageLink.story = {
-  name: "Title, message, link"
-};
+TitleMessageLink.storyName = "Title, message, link";
 
 export const TitleMessage = (): string => html`
   <calcite-alert
@@ -46,9 +44,7 @@ export const TitleMessage = (): string => html`
   </calcite-alert>
 `;
 
-TitleMessage.story = {
-  name: "Title, message"
-};
+TitleMessage.storyName = "Title, message";
 
 export const MessageLink = (): string => html`
   <calcite-alert
@@ -64,9 +60,7 @@ export const MessageLink = (): string => html`
   </calcite-alert>
 `;
 
-MessageLink.story = {
-  name: "Message, link"
-};
+MessageLink.storyName = "Message, link";
 
 export const Message = (): string => html`
   <calcite-alert
@@ -95,9 +89,7 @@ export const CustomIcon = (): string => html`
   </calcite-alert>
 `;
 
-CustomIcon.story = {
-  name: "Custom icon"
-};
+CustomIcon.storyName = "Custom icon";
 
 export const Queue = (): string => html`
   <div>
@@ -153,9 +145,7 @@ export const DarkTheme = (): string => html`
   </calcite-alert>
 `;
 
-DarkTheme.story = {
-  parameters: { themes: themesDarkDefault }
-};
+DarkTheme.parameters = { themes: themesDarkDefault };
 
 export const DarkThemeQueue = (): string => html`
   <div>
@@ -223,9 +213,7 @@ export const DarkThemeQueue = (): string => html`
   </div>
 `;
 
-DarkThemeQueue.story = {
-  parameters: { themes: themesDarkDefault }
-};
+DarkThemeQueue.parameters = { themes: themesDarkDefault };
 
 export const Rtl = (): string => html`
 <div dir="rtl">
@@ -245,6 +233,4 @@ color="${select("color", ["green", "red", "yellow", "blue"], "blue")}">
 </div>
 `;
 
-Rtl.story = {
-  name: "RTL"
-};
+Rtl.storyName = "RTL";

@@ -359,3 +359,5 @@ $tick-height: 4px;
     text-align: left;
   }
 }
+
+@include hidden-form-input();

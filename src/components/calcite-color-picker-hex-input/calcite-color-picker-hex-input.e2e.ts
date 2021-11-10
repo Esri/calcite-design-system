@@ -228,7 +228,7 @@ describe("calcite-color-picker-hex-input", () => {
       await input.callMethod("setFocus");
 
       await page.$eval("calcite-color-picker-hex-input", (el: HTMLCalciteColorPickerHexInputElement): void => {
-        const input = el.shadowRoot?.querySelector("input");
+        const input = el.shadowRoot?.querySelector("calcite-input").shadowRoot?.querySelector("input");
 
         if (!input) {
           return;
