@@ -20,7 +20,7 @@
     text-color-2
     opacity-0;
   visibility: hidden !important;
-  transition: visibility 0ms linear 300ms, opacity 300ms $easing-function;
+  transition: visibility 0ms linear 300ms, opacity var(--calcite-animation-timing) $easing-function;
   z-index: 101;
 }
 
@@ -66,7 +66,8 @@
   z-index: 102;
   -webkit-overflow-scrolling: touch;
   visibility: hidden;
-  transition: transform 300ms $easing-function, visibility 0ms linear 300ms, opacity 300ms $easing-function;
+  transition: transform var(--calcite-animation-timing) $easing-function, visibility 0ms linear 300ms,
+    opacity var(--calcite-animation-timing) $easing-function;
   transform: translate3d(0, 20px, 0);
 }
 
@@ -77,8 +78,9 @@
   .modal {
     @apply opacity-100 pointer-events-auto visible;
     transform: translate3d(0, 0, 0);
-    transition: transform 300ms $easing-function, visibility 0ms linear, opacity 300ms $easing-function,
-      max-width 300ms $easing-function, max-height 300ms $easing-function;
+    transition: transform var(--calcite-animation-timing) $easing-function, visibility 0ms linear,
+      opacity var(--calcite-animation-timing) $easing-function, max-width 300ms $easing-function,
+      max-height 300ms $easing-function;
     transition-delay: 0ms;
   }
 }
@@ -109,10 +111,10 @@
     cursor-pointer
     rounded-tr
     bg-transparent
+    transition-default
     focus-base;
   padding: var(--calcite-modal-padding);
   flex: 0 0 auto;
-  transition: all 0.15s ease-in-out;
   calcite-icon {
     @apply pointer-events-none;
     vertical-align: -2px;
