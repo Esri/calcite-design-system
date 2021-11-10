@@ -160,6 +160,9 @@ calcite-action-menu {
   .icon {
     @apply ml-0 mr-3;
   }
+  .toggle {
+    @apply text-right;
+  }
 }
 
 :host([open]) {
