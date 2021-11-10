@@ -674,11 +674,13 @@ describe("calcite-time-picker", () => {
       const page = await newE2EPage({
         html: `<calcite-time-picker step="1" value="00:00:00"></calcite-time-picker>`
       });
+      const timePicker = await page.find("calcite-time-picker");
       const hour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
       const minute = await page.find(`calcite-time-picker >>> .${CSS.minute}`);
       const second = await page.find(`calcite-time-picker >>> .${CSS.second}`);
       const meridiem = await page.find(`calcite-time-picker >>> .${CSS.meridiem}`);
 
+      expect(await timePicker.getProperty("value")).toBe("00:00:00");
       expect(hour.textContent).toBe("12");
       expect(minute.textContent).toBe("00");
       expect(second.textContent).toBe("00");
@@ -688,6 +690,7 @@ describe("calcite-time-picker", () => {
       await page.keyboard.press("Delete");
       await page.waitForChanges();
 
+      expect(await timePicker.getProperty("value")).toBeNull();
       expect(hour.textContent).toBe("--");
       expect(minute.textContent).toBe("--");
       expect(second.textContent).toBe("--");
