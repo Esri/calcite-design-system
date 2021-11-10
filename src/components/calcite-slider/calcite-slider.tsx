@@ -53,7 +53,10 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
   /** Indicates if a histogram is present */
   @Prop({ reflect: true, mutable: true }) hasHistogram = false;
 
-  /** A list of [x-axis, y-axis] points that illustrates the histogram chart within the slider min and max range */
+  /**
+   * List of x,y coordinates within the slider's min and max, displays above the slider track.
+   * @see [DataSeries](https://github.com/Esri/calcite-components/blob/master/src/components/calcite-graph/interfaces.ts#L5)
+   */
   @Prop() histogram?: DataSeries;
 
   @Watch("histogram")
