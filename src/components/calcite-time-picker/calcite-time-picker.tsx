@@ -610,7 +610,7 @@ export class CalciteTimePicker {
       this.value = null;
     }
     if (emit) {
-      this.calciteTimePickerChange.emit(this.value);
+      this.calciteTimePickerChange.emit();
     }
   };
 
@@ -653,7 +653,7 @@ export class CalciteTimePicker {
       ? localizeTimeStringToParts(this.value, this.locale)?.localizedMeridiem || null
       : localizeTimePart(this.meridiem, "meridiem", this.locale);
     if (emit) {
-      this.calciteTimePickerChange.emit(this.value);
+      this.calciteTimePickerChange.emit();
     }
   };
 
