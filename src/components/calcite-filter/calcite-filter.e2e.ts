@@ -149,28 +149,22 @@ describe("calcite-filter", () => {
       const filter = await page.find("calcite-filter");
       await filter.callMethod("setFocus");
       await filter.type("developer");
-      let event = await waitForEvent;
+      await waitForEvent;
 
       expect(filterChangeSpy).toHaveReceivedEventTimes(1);
 
       assertMatchingItems(await filter.getProperty("filteredItems"), ["harry", "matt", "franco", "jon"]);
-
-      // event detail is deprecated
-      assertMatchingItems(event.detail, ["harry", "matt", "franco", "jon"]);
 
       waitForEvent = page.waitForEvent("calciteFilterChange");
       await page.evaluate(() => {
         const filter = document.querySelector("calcite-filter");
         filter.items = filter.items.slice(3);
       });
-      event = await waitForEvent;
+      await waitForEvent;
 
       expect(filterChangeSpy).toHaveReceivedEventTimes(2);
 
       assertMatchingItems(await filter.getProperty("filteredItems"), ["jon"]);
-
-      // event detail is deprecated
-      assertMatchingItems(event.detail, ["jon"]);
     });
 
     it("searches recursively in items and works and matches on a partial string ignoring case", async () => {
@@ -196,19 +190,5 @@ describe("calcite-filter", () => {
       expect(event.detail.length).toBe(1);
       expect(event.detail.find((element) => element.value === "regex")).toBeDefined();
     });
-  });
-
-  it("sets items from deprecated data property", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-filter></calcite-filter>");
-
-    const filter = await page.find("calcite-filter");
-    const data = [{ foo: "bar" }];
-    filter.setProperty("data", data);
-    await page.waitForChanges();
-
-    const items = await filter.getProperty("items");
-
-    expect(items).toEqual(data);
   });
 });
