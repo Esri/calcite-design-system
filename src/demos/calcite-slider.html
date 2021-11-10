@@ -2207,7 +2207,7 @@
           step="1"
           min-label="Temperature range (lower)"
           max-label="Temperature range (upper)"
-          class="js-histogram"
+          class="js-histogram-negative"
           label-handles
           scale="s"
         ></calcite-slider>
@@ -2219,7 +2219,7 @@
           step="1"
           min-label="Temperature range (lower)"
           max-label="Temperature range (upper)"
-          class="js-histogram"
+          class="js-histogram-negative"
           label-handles
           scale="m"
         ></calcite-slider>
@@ -2231,7 +2231,7 @@
           step="1"
           min-label="Temperature range (lower)"
           max-label="Temperature range (upper)"
-          class="js-histogram"
+          class="js-histogram-negative"
           label-handles
           scale="l"
         ></calcite-slider>
@@ -2774,6 +2774,19 @@
       document.querySelectorAll(".js-histogram-colors").forEach(function (graphElement) {
         graphElement.histogramStops = colorStops;
       });
+    </script>
+    <script>
+      document.querySelectorAll(".js-histogram-negative").forEach(
+        (slider) =>
+          (slider.histogram = [
+            [-100, 0],
+            [-80, 12],
+            [-60, 25],
+            [-40, 55],
+            [-20, 10],
+            [0, 0]
+          ])
+      );
     </script>
   </body>
 </html>
