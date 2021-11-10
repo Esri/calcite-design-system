@@ -116,6 +116,20 @@ const panelContent = `${headerHTML}
 
 export const basic = (): string => create("calcite-panel", createAttributes(), panelContent);
 
+export const withButton = (): string =>
+  create(
+    "calcite-panel",
+    createAttributes(),
+    `
+  ${headerHTML}
+  <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsStart}" icon="bluetooth"></calcite-action>
+  <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsEnd}" icon="attachment"></calcite-action>
+  ${contentHTML}
+  <calcite-fab slot='fab'></calcite-fab>
+  ${footerHTML}
+`
+  );
+
 export const darkThemeRTL = (): string =>
   create(
     "calcite-panel",
