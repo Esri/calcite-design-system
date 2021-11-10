@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, labelable, reflects, renders } from "../../tests/commonTests";
 import { localizeTimeString } from "../../utils/time";
+import { accessible, defaults, focusable, formAssociated, labelable, reflects, renders } from "../../tests/commonTests";
 
 describe("calcite-input-time-picker", () => {
   it("renders", async () => renders("calcite-input-time-picker", { display: "inline-block" }));
@@ -30,7 +30,7 @@ describe("calcite-input-time-picker", () => {
 
   it("should focus the input when setFocus is called", async () =>
     focusable(`calcite-input-time-picker`, {
-      shadowFocusTargetSelector: "input"
+      shadowFocusTargetSelector: "calcite-input"
     }));
 
   it("opens the time picker on input keyboard focus", async () => {
@@ -221,4 +221,6 @@ describe("calcite-input-time-picker", () => {
 
     expect(await inputTimePicker.getProperty("value")).toBeUndefined();
   });
+
+  it("is form-associated", () => formAssociated("calcite-input-time-picker", { testValue: "03:23" }));
 });

@@ -45,12 +45,9 @@ describe("calcite-tile-select", () => {
     await page.setContent("<calcite-tile-select name='radio' heading='test' value='one'></calcite-tile-select>");
     const calciteRadio = await page.find("calcite-radio-button");
     const calciteCheckbox = await page.find("calcite-checkbox");
-    const radio = await page.find("input[type='radio']");
     expect(calciteRadio).toBeDefined();
     expect(calciteCheckbox).toBeNull();
     expect(await calciteRadio.getProperty("label")).toBe("test");
-    expect(radio).toEqualAttribute("name", "radio");
-    expect(radio).toEqualAttribute("value", "one");
   });
 
   it("renders a calcite-checkbox when in checkbox mode", async () => {
@@ -61,12 +58,9 @@ describe("calcite-tile-select", () => {
 
     const calciteRadio = await page.find("calcite-radio-button");
     const calciteCheckbox = await page.find("calcite-checkbox");
-    const checkbox = await page.find("input[type='checkbox']");
     expect(calciteRadio).toBeNull();
     expect(calciteCheckbox).toBeDefined();
     expect(await calciteCheckbox.getProperty("label")).toBe("test");
-    expect(checkbox).toEqualAttribute("name", "checkbox-tile-select");
-    expect(checkbox).toEqualAttribute("value", "one");
   });
 
   it("removing a tile-select also removes its corresponding calcite-radio-button", async () => {
@@ -111,12 +105,12 @@ describe("calcite-tile-select", () => {
 
   it("focuses calcite-checkbox when setFocus method is called", async () =>
     focusable(html`<calcite-tile-select type="checkbox"></calcite-tile-select>`, {
-      focusTargetSelector: "input[type=checkbox]"
+      focusTargetSelector: "calcite-checkbox"
     }));
 
   it("focuses calcite-radio-button when setFocus method is called", async () =>
     focusable(html`<calcite-tile-select type="radio"></calcite-tile-select>`, {
-      focusTargetSelector: "input[type=radio]"
+      focusTargetSelector: "calcite-radio-button"
     }));
 
   it("emits change event on checkbox toggle and suppresses internal checkbox change event", async () => {

@@ -1,14 +1,4 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  Prop,
-  Watch,
-  h,
-  VNode,
-  Fragment
-} from "@stencil/core";
+import { Component, Element, Event, EventEmitter, Prop, Watch, h, VNode } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
 import { Position, Scale } from "../interfaces";
 import { getSlotted } from "../../utils/dom";
@@ -115,6 +105,6 @@ export class CalciteShellPanel {
       mainNodes.reverse();
     }
 
-    return <Fragment>{mainNodes}</Fragment>;
+    return <div class={{ [CSS.container]: true }}>{mainNodes}</div>;
   }
 }
