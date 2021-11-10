@@ -122,7 +122,7 @@ describe("calcite-input-time-picker", () => {
     }
   });
 
-  it("programmatically changing the value reflects in the input for en lang (12-hour)", async () => {
+  it("value displays correctly in the input when it is programmatically changed for a 12-hour language", async () => {
     const lang = "en";
     const page = await newE2EPage({
       html: `<calcite-input-time-picker step="1"></calcite-input-time-picker>`

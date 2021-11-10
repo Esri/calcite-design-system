@@ -81,7 +81,10 @@ export class CalciteInputTimePicker implements LabelableComponent, FormComponent
   /** aria-label for the second up button */
   @Prop() intlSecondUp?: string;
 
-  /** BCP 47 language tag for desired language and country format */
+  /**
+   * BCP 47 language tag for desired language and country format
+   * @internal
+   */
   @Prop({ attribute: "lang", mutable: true }) locale: string =
     document.documentElement.lang || navigator.language || "en";
 
@@ -167,15 +170,15 @@ export class CalciteInputTimePicker implements LabelableComponent, FormComponent
 
   private calciteInputBlurHandler = (): void => {
     this.active = false;
+    const shouldIncludeSeconds = this.shouldIncludeSeconds();
 
     const localizedInputValue = localizeTimeString(
       this.calciteInputEl.value,
       this.locale,
-      this.shouldIncludeSeconds()
+      shouldIncludeSeconds
     );
     this.setInputValue(
-      localizedInputValue ||
-        localizeTimeString(this.value, this.locale, this.shouldIncludeSeconds())
+      localizedInputValue || localizeTimeString(this.value, this.locale, shouldIncludeSeconds)
     );
   };
 
