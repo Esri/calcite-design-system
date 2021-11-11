@@ -20,6 +20,7 @@
 }
 
 :host([detached]) {
+  --calcite-animation-timing: 300ms;
   @apply border-0
   rounded
   shadow-0
