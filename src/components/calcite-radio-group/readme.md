@@ -25,6 +25,7 @@
 | `name`         | `name`          | The group's name. Gets submitted with the form.                     | `string`                               | `undefined`    |
 | `scale`        | `scale`         | The scale of the radio group                                        | `"l" \| "m" \| "s"`                    | `"m"`          |
 | `selectedItem` | `selected-item` | The group's selected item.                                          | `any`                                  | `undefined`    |
+| `value`        | `value`         | The value of the selectedItem                                       | `string`                               | `null`         |
 | `width`        | `width`         | specify the width of the group, defaults to auto                    | `"auto" \| "full"`                     | `"auto"`       |
 
 ## Events
