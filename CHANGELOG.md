@@ -17,6 +17,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **input:** stepping precision to match the provided step ([#3473](https://github.com/Esri/calcite-components/issues/3473)) ([2ae2bce](https://github.com/Esri/calcite-components/commit/2ae2bcef3e184479c840f15ceb4b8e831615ebc9))
 - **panel:** get the fab slot to have more spacing on firefox [#3236](https://github.com/Esri/calcite-components/issues/3236) ([#3413](https://github.com/Esri/calcite-components/issues/3413)) ([18f1e1d](https://github.com/Esri/calcite-components/commit/18f1e1d6b5d11a200ec4b7fb734ac5c7d91f1643))
 - **popover:** when notice width set to full, it now takes full width of the popover, to fully cover it ([#3451](https://github.com/Esri/calcite-components/issues/3451)) ([a9fe790](https://github.com/Esri/calcite-components/commit/a9fe790989a96226bcb346921af40fe71fc6a87e))
+- **slider:** set the current min/max to the provided values to keep histogram range updated [#2914](https://github.com/Esri/calcite-components/issues/2914) ([#3452](https://github.com/Esri/calcite-components/issues/3452)) ([13bea68](https://github.com/Esri/calcite-components/commit/13bea685b66b99897d621219bc643759cfba78c1))
 
 ### Reverts
 
