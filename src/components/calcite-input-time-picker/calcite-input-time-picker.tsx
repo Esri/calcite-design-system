@@ -213,13 +213,12 @@ export class CalciteInputTimePicker implements LabelableComponent, FormComponent
     this.active = false;
   }
 
-  @Listen("calciteTimePickerChange")
-  timePickerChangeHandler(event: CustomEvent): void {
+  private timePickerChangeHandler = (event: CustomEvent): void => {
     event.stopPropagation();
     const target = event.target as HTMLCalciteTimePickerElement;
     const value = target.value;
     this.setValue({ value, origin: "time-picker" });
-  }
+  };
 
   @Listen("calciteTimePickerFocus")
   timePickerFocusHandler(event: CustomEvent): void {
@@ -397,6 +396,7 @@ export class CalciteInputTimePicker implements LabelableComponent, FormComponent
             intlSecondDown={this.intlSecondDown}
             intlSecondUp={this.intlSecondUp}
             lang={this.locale}
+            onCalciteTimePickerChange={this.timePickerChangeHandler}
             ref={this.setCalciteTimePickerEl}
             scale={this.scale}
             step={this.step}
