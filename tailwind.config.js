@@ -239,7 +239,7 @@ module.exports = {
         },
         ".transition-default": {
           "transition-property": "all",
-          "transition-duration": "150ms",
+          "transition-duration": "var(--calcite-animate-timing)",
           "transition-timing-function": "ease-in-out",
           "transition-delay": "0s"
         }

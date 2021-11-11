@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 
-fdescribe("global styles", () => {
+describe("global styles", () => {
   describe("animation", () => {
     const snippet = `<calcite-notice width="half" id="in" class="calcite-animate ">
       <div slot="title">Hello world</div>
