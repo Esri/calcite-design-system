@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 
-describe("global styles", () => {
+fdescribe("global styles", () => {
   describe("animation", () => {
     const snippet = `<calcite-notice width="half" id="in" class="calcite-animate ">
       <div slot="title">Hello world</div>
@@ -32,7 +32,7 @@ describe("global styles", () => {
             opacity: opacity
           };
         });
-        expect(noticeAnimation.duration).toEqual("0.3s");
+        expect(noticeAnimation.duration).toEqual("0.15s");
         expect(noticeAnimation.name).toEqual(className.slice(className.indexOf("_") + 2));
         expect(noticeAnimation.opacity).not.toBe("0");
       });
@@ -44,7 +44,7 @@ describe("global styles", () => {
         await page.evaluate(() => {
           return window.getComputedStyle(document.body).getPropertyValue("--calcite-animation-timing");
         })
-      ).toBe(" 300ms");
+      ).toBe(" 150ms");
     });
   });
 });
