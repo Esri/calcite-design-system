@@ -46,5 +46,24 @@ describe("global styles", () => {
         })
       ).toBe(" 150ms");
     });
+
+    it("should set animation duration to 0ms", async () => {
+      const page = await newE2EPage({
+        html: snippet
+      });
+      await page.$eval("calcite-notice", (element: any) => {
+        element.style.setProperty("--calcite-animation-timing", 0);
+      });
+      const noticeAnimation = await page.evaluate(() => {
+        const noticeEl = document.querySelector("calcite-notice");
+        const { animationName, animationDuration, opacity } = window.getComputedStyle(noticeEl);
+        return {
+          name: animationName,
+          duration: animationDuration,
+          opacity: opacity
+        };
+      });
+      expect(noticeAnimation.duration).toEqual("0s");
+    });
   });
 });
