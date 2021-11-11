@@ -32,6 +32,18 @@ export const Simple = (): string => html`
   </calcite-list>
 `;
 
+export const OnlyLabel = (): string => html`
+  <calcite-list>
+    <calcite-list-item label="This has no description."> </calcite-list-item>
+  </calcite-list>
+`;
+
+export const OnlyDescription = (): string => html`
+  <calcite-list>
+    <calcite-list-item description="This has no label."> </calcite-list-item>
+  </calcite-list>
+`;
+
 export const NestedListItems = (): string => html`
   <calcite-list>
     <calcite-list-item
