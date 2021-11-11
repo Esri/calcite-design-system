@@ -79,10 +79,14 @@ async function getStandardVersionOptions(next: boolean, semverTags: string[]): P
   const target = next ? "next" : "beta";
   const targetVersionPattern = new RegExp(`-${target}\\.\\d+$`);
 
+  await exec(`echo ${semverTags}`);
+
   // we keep track of `beta` and `next` releases since `standard-version` resets the version number when going in between
   // this should not be needed after v1.0.0 since there would no longer be a beta version to keep track of
   const targetDescendingOrderTags = semverTags.filter((tag) => targetVersionPattern.test(tag)).sort(semver.rcompare);
   const targetReleaseVersion = semver.inc(targetDescendingOrderTags[0], "prerelease", target);
+
+  await exec(`echo ${targetDescendingOrderTags}`);
 
   if (!targetVersionPattern.test(targetReleaseVersion)) {
     throw new Error(`target release version does not have prerelease identifier (${target})`);
@@ -90,6 +94,7 @@ async function getStandardVersionOptions(next: boolean, semverTags: string[]): P
 
   const standardVersionOptions: Options = {
     commitAll: true,
+    noVerify: true,
     header,
     releaseAs: targetReleaseVersion,
     releaseCommitMessageFormat: "{{currentTag}}"

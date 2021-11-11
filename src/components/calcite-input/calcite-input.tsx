@@ -27,6 +27,7 @@ import {
 import { numberKeys } from "../../utils/key";
 import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
 import { CSS_UTILITY, TEXT } from "../../utils/resources";
+import { decimalPlaces } from "../../utils/math";
 
 type NumberNudgeDirection = "up" | "down";
 
@@ -389,10 +390,10 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     let newValue = value;
 
     if (direction === "up" && ((!inputMax && inputMax !== 0) || inputVal < inputMax)) {
-      newValue = (inputVal + inputStep).toString();
+      newValue = (inputVal + inputStep).toFixed(decimalPlaces(inputStep)).toString();
     }
     if (direction === "down" && ((!inputMin && inputMin !== 0) || inputVal > inputMin)) {
-      newValue = (inputVal - inputStep).toString();
+      newValue = (inputVal - inputStep).toFixed(decimalPlaces(inputStep)).toString();
     }
     this.setValue(newValue, nativeEvent, true);
   }

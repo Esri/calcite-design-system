@@ -3,6 +3,26 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+<!--@unreleased-section-start-->
+
+## Unreleased
+
+### Features
+
+- **list-item:** add padding when there is only a label or only a description ([daef73b](https://github.com/Esri/calcite-components/commit/daef73bf3aa5be94bc2d09e04b936ade843d0bf0)), closes [#3362](https://github.com/Esri/calcite-components/issues/3362) [#3362](https://github.com/Esri/calcite-components/issues/3362)
+- **shell, shell-panel, panel:** targets border styles to known, slotted components ([2c5fdcc](https://github.com/Esri/calcite-components/commit/2c5fdcc2dd39a3941d22b787fc13e25d0080ebdb)), closes [#2992](https://github.com/Esri/calcite-components/issues/2992) [#2992](https://github.com/Esri/calcite-components/issues/2992) [#2992](https://github.com/Esri/calcite-components/issues/2992) [#2992](https://github.com/Esri/calcite-components/issues/2992) [#2992](https://github.com/Esri/calcite-components/issues/2992) [#2992](https://github.com/Esri/calcite-components/issues/2992)
+
+### Bug Fixes
+
+- **input:** stepping precision to match the provided step ([#3473](https://github.com/Esri/calcite-components/issues/3473)) ([2ae2bce](https://github.com/Esri/calcite-components/commit/2ae2bcef3e184479c840f15ceb4b8e831615ebc9))
+- **panel:** get the fab slot to have more spacing on firefox [#3236](https://github.com/Esri/calcite-components/issues/3236) ([#3413](https://github.com/Esri/calcite-components/issues/3413)) ([18f1e1d](https://github.com/Esri/calcite-components/commit/18f1e1d6b5d11a200ec4b7fb734ac5c7d91f1643))
+- **popover:** when notice width set to full, it now takes full width of the popover, to fully cover it ([#3451](https://github.com/Esri/calcite-components/issues/3451)) ([a9fe790](https://github.com/Esri/calcite-components/commit/a9fe790989a96226bcb346921af40fe71fc6a87e))
+
+### Reverts
+
+- **action:** reverting [#3415](https://github.com/Esri/calcite-components/issues/3415) after verifying deployed story correctly displays ([#3465](https://github.com/Esri/calcite-components/issues/3465)) ([ca1030d](https://github.com/Esri/calcite-components/commit/ca1030dcbdbb66244545502ec04d9efc7560a91a))
+<!--@unreleased-section-end-->
+
 ## [1.0.0-beta.69](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.68...v1.0.0-beta.69) (2021-11-09)
 
 ### Features

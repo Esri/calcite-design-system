@@ -1,10 +1,23 @@
 :host {
-  @extend %component-host;
-  @apply flex 
-    items-stretch 
-    bg-transparent 
-    pointer-events-none;
+  @apply flex
+    items-stretch
+    flex-initial;
   --calcite-shell-panel-detached-max-height: unset;
+}
+
+.container {
+  @apply box-border
+  flex
+  items-stretch
+  bg-transparent
+  flex-auto
+  pointer-events-none
+  text-color-2
+  text--1;
+
+  * {
+    @apply box-border;
+  }
 }
 
 ::slotted(calcite-panel),
@@ -15,20 +28,19 @@
 }
 
 ::slotted(.calcite-match-height) {
-  @apply flex
-  flex-auto
-  overflow-hidden;
+  @apply flex flex-auto overflow-hidden;
 }
 
 .content {
-  @apply items-stretch 
-    self-stretch 
-    bg-background 
-    flex 
-    p-0 
-    pointer-events-auto
-    flex-col
-    flex-no-wrap;
+  @apply items-stretch
+  self-stretch
+  bg-background
+  flex
+  p-0
+  pointer-events-auto
+  flex-col
+  flex-no-wrap;
+
   width: var(--calcite-shell-panel-width);
   max-width: var(--calcite-shell-panel-max-width);
   min-width: var(--calcite-shell-panel-min-width);
@@ -85,13 +97,22 @@
   shadow-0
   h-auto
   overflow-hidden
-  mt-2 mb-auto mx-2;
+  mt-2
+  mb-auto
+  mx-2;
 
   max-height: var(--calcite-shell-panel-detached-max-height);
-
   ::slotted(calcite-panel),
   ::slotted(calcite-flow) {
     max-height: unset;
+  }
+}
+
+:host([position="start"]) .content--detached,
+:host([position="end"]) .content--detached {
+  ::slotted(calcite-panel),
+  ::slotted(calcite-flow) {
+    @apply border-none;
   }
 }
 
@@ -99,12 +120,20 @@
   @apply hidden;
 }
 
-:host([position="start"]) slot[name="action-bar"]::slotted(calcite-action-bar) {
-  @apply border-r border-r-color-3;
-  border-right-style: solid;
+slot[name="action-bar"]::slotted(calcite-action-bar),
+.content ::slotted(calcite-flow),
+.content ::slotted(calcite-panel) {
+  @apply border border-color-3 border-solid;
 }
 
-:host([position="end"]) slot[name="action-bar"]::slotted(calcite-action-bar) {
-  @apply border-l border-l-color-3;
-  border-left-style: solid;
+:host([position="start"]) slot[name="action-bar"]::slotted(calcite-action-bar),
+:host([position="start"]) .content ::slotted(calcite-flow),
+:host([position="start"]) .content ::slotted(calcite-panel) {
+  border-inline-start: none;
+}
+
+:host([position="end"]) slot[name="action-bar"]::slotted(calcite-action-bar),
+:host([position="end"]) .content ::slotted(calcite-flow),
+:host([position="end"]) .content ::slotted(calcite-panel) {
+  border-inline-end: none;
 }
