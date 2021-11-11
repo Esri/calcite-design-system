@@ -41,6 +41,7 @@
   pointer-events-none;
 }
 
+// set width handles slotted content and word wrap
 .content {
   @apply justify-center
   flex
