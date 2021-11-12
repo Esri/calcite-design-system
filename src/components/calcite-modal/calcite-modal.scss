@@ -19,6 +19,7 @@
     overflow-y-hidden
     text-color-2
     opacity-0;
+  --calcite-animation-timing: 300ms;
   visibility: hidden !important;
   transition: visibility 0ms linear 300ms, opacity var(--calcite-animation-timing) $easing-function;
   z-index: 101;
