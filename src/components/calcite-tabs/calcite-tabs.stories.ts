@@ -17,33 +17,32 @@ export default {
 
 export const Simple = stepStory(
   (): string => html`
-  <calcite-tabs
-  layout="${select("layout", ["inline", "center"], "inline")}"
-  position="${select("position", ["above", "below"], "above")}"
-  scale="${select("scale", ["s", "m", "l"], "m")}"
->
-  <calcite-tab-nav slot="tab-nav">
-    <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-    <calcite-tab-title reference-element="reference-element">Tab 2 Title</calcite-tab-title>
-    <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-    <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-  </calcite-tab-nav>
+    <calcite-tabs
+      layout="${select("layout", ["inline", "center"], "inline")}"
+      position="${select("position", ["above", "below"], "above")}"
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+    >
+      <calcite-tab-nav slot="tab-nav">
+        <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+        <calcite-tab-title reference-element="reference-element">Tab 2 Title</calcite-tab-title>
+        <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+        <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+      </calcite-tab-nav>
 
-  <calcite-tab active>
-    <p>Tab 1 Content</p><br />
-  </calcite-tab>
-  <calcite-tab><p>Tab 2 Content</p>
-  <img src="${placeholderImage({
-    width: 1000,
-    height: 200
-  })}"></img>
-  </calcite-tab>
-  <calcite-tab><p>Tab 3 Content</p></calcite-tab>
-  <calcite-tab><p>Tab 4 Content</p></calcite-tab>
-</calcite-tabs>
-
+      <calcite-tab active>
+        <p>Tab 1 Content</p><br />
+      </calcite-tab>
+      <calcite-tab><p>Tab 2 Content</p>
+      <img src="${placeholderImage({
+        width: 1000,
+        height: 200
+      })}"></img>
+      </calcite-tab>
+      <calcite-tab><p>Tab 3 Content</p></calcite-tab>
+      <calcite-tab><p>Tab 4 Content</p></calcite-tab>
+    </calcite-tabs>
   `,
-  createSteps("calcite-tabs").snapshot("Default").click("#reference-element").snapshot("Simple")
+  createSteps("calcite-tabs").snapshot("simple").click("#reference-element").snapshot("scroll")
 );
 
 // export const Simple = (): string => html`
