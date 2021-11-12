@@ -23,13 +23,14 @@ import {
 } from "../../utils/time";
 import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
+import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 
 @Component({
   tag: "calcite-input-time-picker",
   styleUrl: "calcite-input-time-picker.scss",
   shadow: true
 })
-export class CalciteInputTimePicker implements LabelableComponent {
+export class CalciteInputTimePicker implements LabelableComponent, FormComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -90,7 +91,14 @@ export class CalciteInputTimePicker implements LabelableComponent {
   @Prop() intlSecondUp?: string;
 
   /** The name of the time input */
-  @Prop() name?: string;
+  @Prop() name: string;
+
+  /**
+   * When true, makes the component required for form-submission.
+   *
+   * @internal
+   */
+  @Prop({ reflect: true }) required = false;
 
   /** The scale (size) of the time input */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -116,6 +124,10 @@ export class CalciteInputTimePicker implements LabelableComponent {
   //--------------------------------------------------------------------------
 
   labelEl: HTMLCalciteLabelElement;
+
+  formEl: HTMLFormElement;
+
+  defaultValue: CalciteInputTimePicker["value"];
 
   private calciteInputEl: HTMLCalciteInputElement;
 
@@ -299,6 +311,7 @@ export class CalciteInputTimePicker implements LabelableComponent {
       this.setValue({ value: this.value, origin: "loading" });
     }
     connectLabel(this);
+    connectForm(this);
   }
 
   componentDidLoad() {
@@ -309,6 +322,7 @@ export class CalciteInputTimePicker implements LabelableComponent {
 
   disconnectedCallback() {
     disconnectLabel(this);
+    disconnectForm(this);
   }
 
   // --------------------------------------------------------------------------
@@ -334,7 +348,6 @@ export class CalciteInputTimePicker implements LabelableComponent {
             disabled={this.disabled}
             icon="clock"
             label={getLabelText(this)}
-            name={this.name}
             onCalciteInputBlur={this.calciteInputBlurHandler}
             onCalciteInputFocus={this.calciteInputFocusHandler}
             onCalciteInputInput={this.calciteInputInputHandler}
@@ -370,6 +383,7 @@ export class CalciteInputTimePicker implements LabelableComponent {
             step={this.step}
           />
         </calcite-popover>
+        <HiddenFormInputSlot component={this} />
       </Host>
     );
   }

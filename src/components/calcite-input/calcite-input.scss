@@ -1,23 +1,23 @@
 // scales
 :host([scale="s"]) {
   & input,
-  & .calcite-input__prefix,
-  & .calcite-input__suffix {
+  & .prefix,
+  & .suffix {
     @apply text--2h p-2 h-6;
   }
   & textarea {
     @apply h-6;
     min-height: theme("spacing.6");
   }
-  & .calcite-input__number-button-wrapper,
-  & .calcite-input__action-wrapper calcite-button,
-  & .calcite-input__action-wrapper calcite-button button {
+  & .number-button-wrapper,
+  & .action-wrapper calcite-button,
+  & .action-wrapper calcite-button button {
     @apply h-6;
   }
   & input[type="file"] {
     @apply h-6;
   }
-  & .calcite-input__clear-button {
+  & .clear-button {
     min-height: theme("spacing.6");
     min-width: theme("spacing.6");
   }
@@ -31,22 +31,22 @@
 
 :host([scale="m"]) {
   & input,
-  & .calcite-input__prefix,
-  & .calcite-input__suffix {
+  & .prefix,
+  & .suffix {
     @apply text--1h p-3 h-8;
   }
   & textarea {
     min-height: theme("spacing.8");
   }
-  & .calcite-input__number-button-wrapper,
-  & .calcite-input__action-wrapper calcite-button,
-  & .calcite-input__action-wrapper calcite-button button {
+  & .number-button-wrapper,
+  & .action-wrapper calcite-button,
+  & .action-wrapper calcite-button button {
     @apply h-8;
   }
   & input[type="file"] {
     @apply h-8;
   }
-  & .calcite-input__clear-button {
+  & .clear-button {
     min-height: theme("spacing.8");
     min-width: theme("spacing.8");
   }
@@ -60,22 +60,22 @@
 
 :host([scale="l"]) {
   & input,
-  & .calcite-input__prefix,
-  & .calcite-input__suffix {
+  & .prefix,
+  & .suffix {
     @apply text-0h p-4 h-11;
   }
   & textarea {
     min-height: theme("spacing.11");
   }
-  & .calcite-input__number-button-wrapper,
-  & .calcite-input__action-wrapper calcite-button,
-  & .calcite-input__action-wrapper calcite-button button {
+  & .number-button-wrapper,
+  & .action-wrapper calcite-button,
+  & .action-wrapper calcite-button button {
     @apply h-11;
   }
   & input[type="file"] {
     @apply h-11;
   }
-  & .calcite-input__clear-button {
+  & .clear-button {
     min-height: theme("spacing.11");
     min-width: theme("spacing.11");
   }
@@ -91,7 +91,7 @@
 :host([disabled]) {
   @apply pointer-events-none;
 
-  & .calcite-input__wrapper {
+  & .wrapper {
     @apply pointer-events-none text-opacity-disabled;
   }
   & button,
@@ -183,29 +183,29 @@
 
 // position icons
 
-:host([scale="s"]) .calcite-input__icon {
+:host([scale="s"]) .icon {
   left: theme("spacing.2");
 }
 
-:host([scale="s"]) .calcite--rtl .calcite-input__icon {
+:host([scale="s"]) .calcite--rtl .icon {
   left: unset;
   right: theme("spacing.2");
 }
 
-:host([scale="m"]) .calcite-input__icon {
+:host([scale="m"]) .icon {
   left: theme("spacing.3");
 }
 
-:host([scale="m"]) .calcite--rtl .calcite-input__icon {
+:host([scale="m"]) .calcite--rtl .icon {
   left: unset;
   right: theme("spacing.3");
 }
 
-:host([scale="l"]) .calcite-input__icon {
+:host([scale="l"]) .icon {
   left: theme("spacing.4");
 }
 
-:host([scale="l"]) .calcite--rtl .calcite-input__icon {
+:host([scale="l"]) .calcite--rtl .icon {
   left: unset;
   right: theme("spacing.4");
 }
@@ -238,7 +238,7 @@
 
 // positioning wrapper for icon and loader
 
-.calcite-input__element-wrapper {
+.element-wrapper {
   @apply inline-flex
     items-center
     flex-1
@@ -246,7 +246,7 @@
     order-3;
 }
 
-.calcite-input__icon {
+.icon {
   @apply block
     absolute
     pointer-events-none
@@ -271,7 +271,7 @@ input[type="time"]::-webkit-clear-button {
   @apply hidden;
 }
 
-.calcite-input__clear-button {
+.clear-button {
   pointer-events: initial;
   @apply focus-base
     flex
@@ -309,13 +309,13 @@ input[type="time"]::-webkit-clear-button {
 }
 
 .calcite--rtl {
-  .calcite-input__clear-button {
+  .clear-button {
     @apply border-l-color-input border border-r-0;
   }
 }
 
 // loading
-.calcite-input__loader {
+.loader {
   top: 1px;
   left: 1px;
   right: 1px;
@@ -325,13 +325,13 @@ input[type="time"]::-webkit-clear-button {
 }
 
 // slotted action
-.calcite-input__action-wrapper {
+.action-wrapper {
   @apply flex order-7;
 }
 
 // prefix and suffix
-.calcite-input__prefix,
-.calcite-input__suffix {
+.prefix,
+.suffix {
   @apply flex
     items-center
     content-center
@@ -349,18 +349,18 @@ input[type="time"]::-webkit-clear-button {
     break-words;
 }
 
-.calcite-input__prefix {
+.prefix {
   @apply order-2 border-r-0;
 }
-.calcite-input__suffix {
+.suffix {
   @apply order-5 border-l-0;
 }
 
 .calcite--rtl {
-  & .calcite-input__prefix {
+  & .prefix {
     @apply border-r border-l-0;
   }
-  & .calcite-input__suffix {
+  & .suffix {
     @apply border-l border-r-0;
   }
 }
@@ -406,7 +406,7 @@ input[type="time"]::-webkit-clear-button {
   }
 }
 
-.calcite-input__number-button-wrapper {
+.number-button-wrapper {
   @apply box-border
     flex
     flex-col
@@ -415,7 +415,7 @@ input[type="time"]::-webkit-clear-button {
     transition-default;
 }
 
-:host([number-button-type="vertical"]) .calcite-input__wrapper {
+:host([number-button-type="vertical"]) .wrapper {
   flex-direction: row;
   display: flex;
 }
@@ -428,15 +428,15 @@ input[type="time"]::-webkit-clear-button {
 }
 
 :host([number-button-type="horizontal"]) .calcite--rtl {
-  & .calcite-input__number-button-item[data-adjustment="down"] calcite-icon {
+  & .number-button-item[data-adjustment="down"] calcite-icon {
     transform: rotate(-90deg);
   }
-  & .calcite-input__number-button-item[data-adjustment="up"] calcite-icon {
+  & .number-button-item[data-adjustment="up"] calcite-icon {
     transform: rotate(-90deg);
   }
 }
 
-.calcite-input__number-button-item.calcite-input__number-button-item--horizontal {
+.number-button-item.number-button-item--horizontal {
   &[data-adjustment="down"],
   &[data-adjustment="up"] {
     @apply min-h-full
@@ -449,7 +449,7 @@ input[type="time"]::-webkit-clear-button {
   }
 }
 
-.calcite-input__number-button-item.calcite-input__number-button-item--horizontal[data-adjustment="down"] {
+.number-button-item.number-button-item--horizontal[data-adjustment="down"] {
   @apply border
     border-solid
     border-color-input
@@ -462,7 +462,7 @@ input[type="time"]::-webkit-clear-button {
   }
 }
 
-.calcite-input__number-button-item.calcite-input__number-button-item--horizontal[data-adjustment="up"] {
+.number-button-item.number-button-item--horizontal[data-adjustment="up"] {
   @apply order-5;
   &:hover {
     @apply bg-foreground-2;
@@ -472,14 +472,14 @@ input[type="time"]::-webkit-clear-button {
   }
 }
 
-:host([number-button-type="vertical"]) .calcite-input__number-button-item[data-adjustment="down"]:hover {
+:host([number-button-type="vertical"]) .number-button-item[data-adjustment="down"]:hover {
   @apply bg-foreground-2;
   calcite-icon {
     @apply text-color-1;
   }
 }
 
-:host([number-button-type="vertical"]) .calcite-input__number-button-item[data-adjustment="up"]:hover {
+:host([number-button-type="vertical"]) .number-button-item[data-adjustment="up"]:hover {
   @apply bg-foreground-2;
   calcite-icon {
     @apply text-color-1;
@@ -487,24 +487,24 @@ input[type="time"]::-webkit-clear-button {
 }
 
 .calcite--rtl {
-  .calcite-input__number-button-item.calcite-input__number-button-item--horizontal[data-adjustment="down"] {
+  .number-button-item.number-button-item--horizontal[data-adjustment="down"] {
     @apply border
       border-l-0
       border-color-input;
   }
-  .calcite-input__number-button-item.calcite-input__number-button-item--horizontal[data-adjustment="up"] {
+  .number-button-item.number-button-item--horizontal[data-adjustment="up"] {
     @apply border
       border-r-0
       border-color-input;
   }
 }
 
-:host([number-button-type="vertical"]) .calcite-input__number-button-item[data-adjustment="down"],
-:host([number-button-type="vertical"]) .calcite--rtl .calcite-input__number-button-item[data-adjustment="down"] {
+:host([number-button-type="vertical"]) .number-button-item[data-adjustment="down"],
+:host([number-button-type="vertical"]) .calcite--rtl .number-button-item[data-adjustment="down"] {
   @apply border-t-0;
 }
 
-.calcite-input__number-button-item {
+.number-button-item {
   max-height: 50%;
   min-height: 50%;
   pointer-events: initial;
@@ -537,7 +537,7 @@ input[type="time"]::-webkit-clear-button {
 }
 
 :host([number-button-type="vertical"]) .calcite--rtl {
-  .calcite-input__number-button-item {
+  .number-button-item {
     @apply border
       border-solid
       border-color-input
@@ -545,7 +545,7 @@ input[type="time"]::-webkit-clear-button {
   }
 }
 
-.calcite-input__wrapper {
+.wrapper {
   @apply flex
     flex-row
     items-center
@@ -573,12 +573,12 @@ input[type="time"]::-webkit-clear-button {
 
 // hide custom textarea resize icon for ie11, defer to browser arrows
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-  .calcite-input__resize-icon-wrapper {
+  .resize-icon-wrapper {
     @apply hidden;
   }
 }
 
-.calcite-input__resize-icon-wrapper {
+.resize-icon-wrapper {
   bottom: 2px;
   right: 2px;
 
@@ -603,7 +603,7 @@ input[type="time"]::-webkit-clear-button {
     @apply left-0;
   }
 
-  .calcite-input__resize-icon-wrapper {
+  .resize-icon-wrapper {
     left: 2px;
     right: unset;
     & calcite-icon {
@@ -640,10 +640,27 @@ input[type="time"]::-webkit-clear-button {
   @apply py-2 px-4;
 }
 
-:host(.no-bottom-border) input.sc-calcite-input {
+:host(.no-bottom-border) input {
   @apply border-b-0;
 }
 
-:host(.border-t-color-1) input.sc-calcite-input {
+:host(.border-t-color-1) input {
   @apply border-t-color-1;
 }
+
+:host .inline-child {
+  @apply transition-default bg-transparent;
+
+  .editing-enabled {
+    background-color: inherit;
+  }
+}
+
+:host .inline-child:not(.editing-enabled) {
+  @apply flex
+    cursor-pointer
+    border-color-transparent;
+  padding-inline-start: 0;
+}
+
+@include hidden-form-input();

@@ -29,9 +29,7 @@ export const SingleValue = (): string => html`
   ></calcite-slider>
 `;
 
-SingleValue.story = {
-  name: "Single value"
-};
+SingleValue.storyName = "Single value";
 
 export const Range = (): string => html`
   <calcite-slider
@@ -125,10 +123,8 @@ export const DarkMode = (): string => html`
   <calcite-slider min="0" max="100" value="50" step="1" label="Temperature" class="calcite-theme-dark"></calcite-slider>
 `;
 
-DarkMode.story = {
-  name: "Dark mode",
-  parameters: { themes: themesDarkDefault }
-};
+DarkMode.storyName = "Dark mode";
+DarkMode.parameters = { themes: themesDarkDefault };
 
 export const HistogramDark = (): HTMLCalciteSliderElement => {
   const slider = document.createElement("calcite-slider");
@@ -158,7 +154,5 @@ export const HistogramDark = (): HTMLCalciteSliderElement => {
   return slider;
 };
 
-HistogramDark.story = {
-  name: "Histogram Dark theme",
-  parameters: { themes: themesDarkDefault }
-};
+HistogramDark.storyName = "Histogram Dark theme";
+HistogramDark.parameters = { themes: themesDarkDefault };

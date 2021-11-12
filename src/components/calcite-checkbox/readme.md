@@ -45,7 +45,7 @@
 | `disabled`      | `disabled`      | True if the checkbox is disabled                                                                                                              | `boolean`           | `false`     |
 | `guid`          | `guid`          | The id attribute of the checkbox. When omitted, a globally unique identifier is used.                                                         | `string`            | `undefined` |
 | `indeterminate` | `indeterminate` | True if the checkbox is initially indeterminate, which is independent from its checked state https://css-tricks.com/indeterminate-checkboxes/ | `boolean`           | `false`     |
-| `name`          | `name`          | The name of the checkbox input                                                                                                                | `string`            | `""`        |
+| `name`          | `name`          | The name of the checkbox input                                                                                                                | `any`               | `undefined` |
 | `scale`         | `scale`         | specify the scale of the checkbox, defaults to m                                                                                              | `"l" \| "m" \| "s"` | `"m"`       |
 | `value`         | `value`         | The value of the checkbox input                                                                                                               | `any`               | `undefined` |
 

@@ -126,3 +126,5 @@ select:disabled {
 .select:focus ~ .icon-container {
   @apply border-color-transparent;
 }
+
+@include hidden-form-input();

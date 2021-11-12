@@ -79,7 +79,7 @@ export class CalciteColorPicker {
 
     this.previousColor = oldColor;
 
-    if (this.colorUpdateLocked) {
+    if (this.internalColorUpdateContext) {
       return;
     }
 
@@ -253,7 +253,11 @@ export class CalciteColorPicker {
 
     const dragging = this.sliderThumbState === "drag" || this.hueThumbState === "drag";
 
-    if (this.colorUpdateLocked) {
+    if (this.internalColorUpdateContext) {
+      if (this.internalColorUpdateContext === "initial") {
+        return;
+      }
+
       this.calciteColorPickerInput.emit();
       if (!dragging) {
         this.calciteColorPickerChange.emit();
@@ -266,6 +270,7 @@ export class CalciteColorPicker {
 
     if (modeChanged || colorChanged) {
       this.color = color;
+
       this.calciteColorPickerInput.emit();
       if (!dragging) {
         this.calciteColorPickerChange.emit();
@@ -284,8 +289,6 @@ export class CalciteColorPicker {
 
   private activeColorFieldAndSliderRect: DOMRect;
 
-  private colorUpdateLocked = false;
-
   private colorFieldAndSliderHovered = false;
 
   private fieldAndSliderRenderingContext: CanvasRenderingContext2D;
@@ -293,6 +296,8 @@ export class CalciteColorPicker {
   private colorFieldScopeNode: HTMLDivElement;
 
   private hueThumbState: "idle" | "hover" | "drag" = "idle";
+
+  private internalColorUpdateContext: "internal" | "initial" | null = null;
 
   private previousColor: InternalColor | null;
 
@@ -694,17 +699,19 @@ export class CalciteColorPicker {
   connectedCallback(): void {
     const { allowEmpty, color, format, value } = this;
 
-    const valueIsNoColor = allowEmpty && !value;
+    const willSetNoColor = allowEmpty && !value;
     const parsedMode = parseMode(value);
-    const valueIsCompatible = (format === "auto" && parsedMode) || format === parsedMode;
-    const initialColor = valueIsNoColor ? null : valueIsCompatible ? Color(value) : color;
+    const valueIsCompatible =
+      willSetNoColor || (format === "auto" && parsedMode) || format === parsedMode;
+    const initialColor = willSetNoColor ? null : valueIsCompatible ? Color(value) : color;
 
     if (!valueIsCompatible) {
       this.showIncompatibleColorWarning(value, format);
     }
 
     this.setMode(format);
-    this.internalColorSet(initialColor, false);
+    this.internalColorSet(initialColor, false, "initial");
+
     this.updateDimensions(this.scale);
   }
 
@@ -1013,15 +1020,19 @@ export class CalciteColorPicker {
     return "none";
   }
 
-  private internalColorSet(color: Color | null, skipEqual = true): void {
+  private internalColorSet(
+    color: Color | null,
+    skipEqual = true,
+    context: CalciteColorPicker["internalColorUpdateContext"] = "internal"
+  ): void {
     if (skipEqual && colorEqual(color, this.color)) {
       return;
     }
 
-    this.colorUpdateLocked = true;
+    this.internalColorUpdateContext = context;
     this.color = color;
     this.value = this.toValue(color);
-    this.colorUpdateLocked = false;
+    this.internalColorUpdateContext = null;
   }
 
   private toValue(color: Color | null, format: SupportedMode = this.mode): ColorValue | null {

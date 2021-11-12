@@ -58,10 +58,60 @@
     </style>
 
     <script src="./_assets/head.js"></script>
-    <script src="_assets/validateInput.js"></script>
     <script type="module" src="./_assets/demo-form.js"></script>
     <script type="module" src="./_assets/demo-spacer.js"></script>
-    <script src="_assets/locales.js"></script>
+    <script>
+      const locales = [
+        "ar",
+        "bs",
+        "ca",
+        "cs",
+        "da",
+        "de",
+        "de-CH",
+        "el",
+        "en",
+        "en-AU",
+        "en-CA",
+        "en-GB",
+        "es",
+        "es-MX",
+        "et",
+        "fi",
+        "fr",
+        "fr-CH",
+        "he",
+        "hi",
+        "hr",
+        "hu",
+        "id",
+        "it",
+        "it-CH",
+        "ja",
+        "ko",
+        "lt",
+        "lv",
+        "mk",
+        "nb",
+        "nl",
+        "pl",
+        "pt",
+        "pt-PT",
+        "ro",
+        "ru",
+        "sk",
+        "sl",
+        "sr",
+        "sv",
+        "th",
+        "tr",
+        "uk",
+        "vi",
+        "zh-CN",
+        "zh-HK",
+        "zh-TW"
+      ];
+    </script>
   </head>
 
   <body>
@@ -764,15 +814,15 @@
     <div class="parent-flex">
       <div class="child-flex font right-aligned-text">Null</div>
       <div class="child-flex">
-        <calcite-input icon type="time" clearable scale="s"></calcite-input>
+        <calcite-input icon type="text" clearable scale="s"></calcite-input>
       </div>
 
       <div class="child-flex">
-        <calcite-input icon type="time" clearable scale="m"></calcite-input>
+        <calcite-input icon type="text" clearable scale="m"></calcite-input>
       </div>
 
       <div class="child-flex">
-        <calcite-input icon type="time" clearable scale="l"></calcite-input>
+        <calcite-input icon type="text" clearable scale="l"></calcite-input>
       </div>
     </div>
 
