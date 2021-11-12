@@ -21,6 +21,7 @@ $tick-height: 4px;
   @apply block relative;
   padding: $handle-size * 0.5 0;
   margin: $handle-size * 0.5 theme("margin.2");
+  --calcite-animation-timing: 250ms;
 }
 
 :host([disabled]) {
@@ -266,11 +267,11 @@ $tick-height: 4px;
 }
 
 .track {
-  @apply transition-default;
   height: $track-height;
   border-radius: 0;
   z-index: 1;
   background-color: var(--calcite-ui-border-2);
+  transition: all var(--calcite-animation-timing) ease-in;
   position: relative;
 }
 
@@ -326,7 +327,6 @@ $tick-height: 4px;
   left: 0;
   margin: $thumb-size * 0.5 -3px;
   text-align: left;
-  --calcite-animation-timing: 150ms;
   transition: opacity var(--calcite-animation-timing);
 }
 
