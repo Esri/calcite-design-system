@@ -42,7 +42,7 @@ export const Simple = stepStory(
       <calcite-tab><p>Tab 4 Content</p></calcite-tab>
     </calcite-tabs>
   `,
-  createSteps("calcite-tabs").snapshot("simple").click("#reference-element").snapshot("scroll")
+  createSteps("calcite-tabs").click("#reference-element").snapshot("simple")
 );
 
 // export const Simple = (): string => html`
