@@ -10,6 +10,7 @@ jobs:
         uses: Goobles/gh-actions-merge-command@v1
         with:
           allow_ff: false
-          user_name: ${{ github.actor }}
+          user_name: github-actions[bot]
+          user_email: github-actions[bot]@users.noreply.github.com
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
