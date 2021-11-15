@@ -174,7 +174,9 @@ export class CalciteAccordionItem {
   updateActiveItemOnChange(event: CustomEvent): void {
     this.requestedAccordionItem = event.detail
       .requestedAccordionItem as HTMLCalciteAccordionItemElement;
-    this.requestedAccordionItemParent = event.composedPath()[0] as HTMLCalciteAccordionElement;
+    if (this.el.parentNode !== this.requestedAccordionItem.parentNode) {
+      return;
+    }
     this.determineActiveItem();
   }
 
@@ -192,9 +194,6 @@ export class CalciteAccordionItem {
 
   /** the latest requested item */
   private requestedAccordionItem: HTMLCalciteAccordionItemElement;
-
-  /** the latest requested item parent */
-  private requestedAccordionItemParent: HTMLCalciteAccordionElement;
 
   /** what selection mode is the parent accordion in */
   private selectionMode: string;
@@ -222,11 +221,7 @@ export class CalciteAccordionItem {
         break;
 
       case "single":
-        if (this.el === this.requestedAccordionItem) {
-          this.active = true;
-        } else if (this.active && this.parent === this.requestedAccordionItemParent) {
-          this.active = false;
-        }
+        this.active = this.el === this.requestedAccordionItem ? !this.active : false;
         break;
 
       case "single-persist":

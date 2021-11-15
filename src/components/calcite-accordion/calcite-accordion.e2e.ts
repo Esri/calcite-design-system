@@ -130,6 +130,41 @@ describe("calcite-accordion", () => {
     expect(await item3Content.isVisible()).toBe(true);
   });
 
+  it("clicking on the nested child accordion-item does not toggle the parent in single selection mode", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-accordion selection-mode="single" id="first">
+    ${accordionContent}
+    </calcite-accordion>
+    <calcite-accordion selection-mode="single" id="second">
+    ${accordionContent}
+    </calcite-accordion>`);
+    const firstAccordion = await page.find("calcite-accordion[id='first']");
+    expect(firstAccordion).toEqualAttribute("selection-mode", "single");
+
+    const item1FirstAccordion = await firstAccordion.find("calcite-accordion-item[id='1']");
+    const item1FirstAccordionContent = await firstAccordion.find(
+      "calcite-accordion[id='first'] > calcite-accordion-item[id='1']"
+    );
+    await item1FirstAccordion.click();
+    expect(item1FirstAccordion).toHaveAttribute("active");
+    expect(await item1FirstAccordionContent.isVisible()).toBe(true);
+
+    const secondAccordion = await page.find("calcite-accordion[id='second']");
+    expect(secondAccordion).toEqualAttribute("selection-mode", "single");
+
+    const item1SecondAccordion = await secondAccordion.find("calcite-accordion-item[id='1']");
+    const item1SecondAccordionContent = await secondAccordion.find(
+      "calcite-accordion[id='second'] > calcite-accordion-item[id='1']"
+    );
+    await item1SecondAccordion.click();
+    expect(item1SecondAccordion).toHaveAttribute("active");
+    expect(await item1SecondAccordionContent.isVisible()).toBe(true);
+
+    expect(item1FirstAccordion).toHaveAttribute("active");
+    expect(await item1FirstAccordionContent.isVisible()).toBe(true);
+  });
+
   it("prevents closing the last active item when in single-persist selection mode", async () => {
     const page = await newE2EPage();
     await page.setContent(`
