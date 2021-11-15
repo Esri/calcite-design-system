@@ -224,11 +224,7 @@ export class CalciteAccordionItem {
       case "single":
         if (this.el === this.requestedAccordionItem) {
           this.active = true;
-        } else if (
-          this.active &&
-          this.requestedAccordionItem &&
-          this.parent === this.requestedAccordionItemParent
-        ) {
+        } else if (this.active && this.parent === this.requestedAccordionItemParent) {
           this.active = false;
         }
         break;
