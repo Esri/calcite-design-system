@@ -34,8 +34,9 @@ const exec = pify(childProcess.exec);
       console.log("Deploying @next 🚧");
 
       console.log(" - adding user details...");
-      await exec(`git config --global user.email "actions@github.com"`);
-      await exec(`git config --global user.name "Deploy Next"`);
+
+      await exec(`git config --global user.email "github-actions[bot]@users.noreply.github.com"`);
+      await exec(`git config --global user.name "github-actions[bot]"`);
 
       // the setup-node gh action handles the token
       // https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages#publishing-packages-to-the-npm-registry

@@ -34,7 +34,7 @@ If you'd like to allow an upper and lower value selection (two handles), you can
 | ---------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | ----------- |
 | `disabled`       | `disabled`      | Disable and gray out the slider                                                                                                             | `boolean`     | `false`     |
 | `hasHistogram`   | `has-histogram` | Indicates if a histogram is present                                                                                                         | `boolean`     | `false`     |
-| `histogram`      | --              | Display a histogram above the slider                                                                                                        | `Point[]`     | `undefined` |
+| `histogram`      | --              | List of x,y coordinates within the slider's min and max, displays above the slider track.                                                   | `Point[]`     | `undefined` |
 | `histogramStops` | --              | Array of values describing a single color stop, sorted by offset ascending.                                                                 | `ColorStop[]` | `undefined` |
 | `labelHandles`   | `label-handles` | Label handles with their numeric value                                                                                                      | `boolean`     | `false`     |
 | `labelTicks`     | `label-ticks`   | Label tick marks with their numeric value.                                                                                                  | `boolean`     | `false`     |
