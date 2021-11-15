@@ -15,6 +15,7 @@ updates:
       prefix: "build(deps): "
     # Ignore updates to packages below
     ignore:
+      - dependency-name: "typescript"
       - dependency-name: "tailwindcss"
       - dependency-name: "@types/jest"
       - dependency-name: "jest"
