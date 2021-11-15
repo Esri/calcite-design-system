@@ -1,4 +1,4 @@
-import { themes, globalDocsPage, parseReadme } from "./utils";
+import { themes, parseReadme } from "./utils";
 import { withDirection } from "storybook-rtl-addon";
 import { Theme } from "storybook-addon-themes/dist/models/Theme";
 
@@ -45,8 +45,7 @@ export const parameters = {
       }
 
       return null;
-    },
-    page: globalDocsPage
+    }
   },
   layout: "centered",
   options: {
