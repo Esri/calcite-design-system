@@ -108,19 +108,20 @@ export function isValidTime(value: string): boolean {
     return false;
   }
   const splitValue = value.split(":");
-  if (splitValue.length > 1 && splitValue.length < 4) {
-    const [hour, minute, second] = splitValue;
-    const hourAsNumber = parseInt(splitValue[0]);
-    const minuteAsNumber = parseInt(splitValue[1]);
-    const secondAsNumber = parseInt(splitValue[2]);
-    const hourValid = isValidNumber(hour) && hourAsNumber >= 0 && hourAsNumber < 24;
-    const minuteValid = isValidNumber(minute) && minuteAsNumber >= 0 && minuteAsNumber < 60;
-    const secondValid = isValidNumber(second) && secondAsNumber >= 0 && secondAsNumber < 60;
-    if ((hourValid && minuteValid && !second) || (hourValid && minuteValid && secondValid)) {
-      return true;
-    }
+  const validLength = splitValue.length > 1 && splitValue.length < 4;
+  if (!validLength) {
+    return false;
   }
-  return false;
+  const [hour, minute, second] = splitValue;
+  const hourAsNumber = parseInt(splitValue[0]);
+  const minuteAsNumber = parseInt(splitValue[1]);
+  const secondAsNumber = parseInt(splitValue[2]);
+  const hourValid = isValidNumber(hour) && hourAsNumber >= 0 && hourAsNumber < 24;
+  const minuteValid = isValidNumber(minute) && minuteAsNumber >= 0 && minuteAsNumber < 60;
+  const secondValid = isValidNumber(second) && secondAsNumber >= 0 && secondAsNumber < 60;
+  if ((hourValid && minuteValid && !second) || (hourValid && minuteValid && secondValid)) {
+    return true;
+  }
 }
 
 function isValidTimePart(value: string, part: TimePart): boolean {
@@ -131,27 +132,22 @@ function isValidTimePart(value: string, part: TimePart): boolean {
     return false;
   }
   const valueAsNumber = Number(value);
-  switch (part) {
-    case "hour":
-      return valueAsNumber >= 0 && valueAsNumber < 24;
-    case "minute":
-    case "second":
-      return valueAsNumber >= 0 && valueAsNumber < 60;
-  }
+  return part === "hour" ? valueAsNumber >= 0 && valueAsNumber < 24 : valueAsNumber >= 0 && valueAsNumber < 60;
 }
 
 export function localizeTimePart(value: string, part: TimePart, locale: string): string {
   if (!isValidTimePart(value, part)) {
     return;
   }
+  const valueAsNumber = parseInt(value);
   const date = new Date(
     Date.UTC(
       0,
       0,
       0,
-      part === "hour" ? parseInt(value) : part === "meridiem" ? (value === "AM" ? 0 : 12) : 0,
-      part === "minute" ? parseInt(value) : 0,
-      part === "second" ? parseInt(value) : 0
+      part === "hour" ? valueAsNumber : part === "meridiem" ? (value === "AM" ? 0 : 12) : 0,
+      part === "minute" ? valueAsNumber : 0,
+      part === "second" ? valueAsNumber : 0
     )
   );
   if (!date) {
