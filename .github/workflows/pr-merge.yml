@@ -2,7 +2,9 @@ name: Auto Merge
 on: issue_comment
 jobs:
   merge:
-    if: ${{ github.event.issue.user.login == github.actor }}
+    if: |
+      github.event.issue.user.login == 'github-actions[bot]' ||
+      github.event.issue.user.login == github.actor
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
