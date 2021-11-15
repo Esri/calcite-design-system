@@ -115,7 +115,10 @@ export class CalciteTimePicker {
    */
   @Prop() intlSecondUp = TEXT.secondUp;
 
-  /** BCP 47 language tag for desired language and country format */
+  /**
+   * BCP 47 language tag for desired language and country format
+   * @internal
+   */
   @Prop({ attribute: "lang", mutable: true }) locale: string =
     document.documentElement.lang || navigator.language || "en";
 
