@@ -13,4 +13,4 @@ jobs:
           user_name: github-actions[bot]
           user_email: github-actions[bot]@users.noreply.github.com
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ADMIN_TOKEN }}
