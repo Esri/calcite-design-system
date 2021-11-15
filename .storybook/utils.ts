@@ -17,9 +17,7 @@ import {
 import { CSS_UTILITY } from "../src/utils/resources";
 
 import { colors } from "../node_modules/@esri/calcite-colors/dist/colors";
-import { Description, DocsPage } from "@storybook/addon-docs";
 import { Theme } from "storybook-addon-themes/dist/models/Theme";
-import React from "react";
 
 const autoValue = {
   name: "Auto",
@@ -106,11 +104,7 @@ interface DeferredAttribute {
   commit: () => Attribute;
 }
 
-export const createComponentHTML = (
-  tagName: string,
-  attributes: Attributes,
-  contentHTML: string = ""
-): string =>
+export const createComponentHTML = (tagName: string, attributes: Attributes, contentHTML: string = ""): string =>
   `<${tagName} ${attributes
     .map(({ name, value }) => {
       const booleanAttr = typeof value === "boolean";
@@ -121,10 +115,7 @@ export const createComponentHTML = (
     })
     .join(" ")}>${contentHTML}</${tagName}>`;
 
-export const filterComponentAttributes = (
-  attributesList: DeferredAttribute[],
-  exceptions: string[]
-): Attributes => {
+export const filterComponentAttributes = (attributesList: DeferredAttribute[], exceptions: string[]): Attributes => {
   if (!exceptions.length) {
     return attributesList.map((attr) => attr.commit());
   }
