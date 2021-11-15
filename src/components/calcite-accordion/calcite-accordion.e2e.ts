@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, renders } from "../../tests/commonTests";
+import { html } from "../../tests/utils";
 
 describe("calcite-accordion", () => {
   const accordionContent = `
@@ -131,38 +132,23 @@ describe("calcite-accordion", () => {
   });
 
   it("clicking on the nested child accordion-item does not toggle the parent in single selection mode", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-accordion selection-mode="single" id="first">
-    ${accordionContent}
-    </calcite-accordion>
-    <calcite-accordion selection-mode="single" id="second">
-    ${accordionContent}
-    </calcite-accordion>`);
+    const page = await newE2EPage({
+      html: html`<calcite-accordion selection-mode="single" id="first"> ${accordionContent} </calcite-accordion>
+        <calcite-accordion selection-mode="single" id="second"> ${accordionContent} </calcite-accordion>`
+    });
     const firstAccordion = await page.find("calcite-accordion[id='first']");
-    expect(firstAccordion).toEqualAttribute("selection-mode", "single");
-
     const item1FirstAccordion = await firstAccordion.find("calcite-accordion-item[id='1']");
-    const item1FirstAccordionContent = await firstAccordion.find(
-      "calcite-accordion[id='first'] > calcite-accordion-item[id='1']"
-    );
     await item1FirstAccordion.click();
-    expect(item1FirstAccordion).toHaveAttribute("active");
-    expect(await item1FirstAccordionContent.isVisible()).toBe(true);
+    await page.waitForChanges();
+    expect(await item1FirstAccordion.getProperty("active")).toBe(true);
 
     const secondAccordion = await page.find("calcite-accordion[id='second']");
-    expect(secondAccordion).toEqualAttribute("selection-mode", "single");
-
     const item1SecondAccordion = await secondAccordion.find("calcite-accordion-item[id='1']");
-    const item1SecondAccordionContent = await secondAccordion.find(
-      "calcite-accordion[id='second'] > calcite-accordion-item[id='1']"
-    );
     await item1SecondAccordion.click();
-    expect(item1SecondAccordion).toHaveAttribute("active");
-    expect(await item1SecondAccordionContent.isVisible()).toBe(true);
+    await page.waitForChanges();
+    expect(await item1SecondAccordion.getProperty("active")).toBe(true);
 
-    expect(item1FirstAccordion).toHaveAttribute("active");
-    expect(await item1FirstAccordionContent.isVisible()).toBe(true);
+    expect(await item1FirstAccordion.getProperty("active")).toBe(true);
   });
 
   it("prevents closing the last active item when in single-persist selection mode", async () => {
