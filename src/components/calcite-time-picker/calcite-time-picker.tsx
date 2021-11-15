@@ -302,13 +302,13 @@ export class CalciteTimePicker {
   // --------------------------------------------------------------------------
 
   private buttonActivated(event: KeyboardEvent): boolean {
-    const key = getKey(event.key);
+    const keyIsActivation = isActivationKey(event.key);
 
-    if (key === " ") {
+    if (keyIsActivation) {
       event.preventDefault();
     }
 
-    return isActivationKey(key);
+    return keyIsActivation;
   }
 
   private decrementHour = (): void => {
