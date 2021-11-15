@@ -121,13 +121,6 @@ export const createComponentHTML = (
     })
     .join(" ")}>${contentHTML}</${tagName}>`;
 
-export const globalDocsPage: typeof DocsPage = () => (
-  <React.Fragment>
-    {/* omit <Title /> as Description includes it (from component READMEs) */}
-    <Description />
-  </React.Fragment>
-);
-
 export const filterComponentAttributes = (
   attributesList: DeferredAttribute[],
   exceptions: string[]
