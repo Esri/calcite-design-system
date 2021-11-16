@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- **accordion-item:** clicking on an accordion with selection-mode=single no longer toggles unrelated accordions with the same selection mode ([#3511](https://github.com/Esri/calcite-components/issues/3511)) ([6a88f50](https://github.com/Esri/calcite-components/commit/6a88f5061b765ca401a5dcb281b138192003d3d2))
 - remove quotes from generic font families ([#3502](https://github.com/Esri/calcite-components/issues/3502)) ([ea4ba95](https://github.com/Esri/calcite-components/commit/ea4ba957a15a631b72e517be0f7eac364602b714))
 - **block:** heading and summary now align in RTL ([#3490](https://github.com/Esri/calcite-components/issues/3490)) ([331aef8](https://github.com/Esri/calcite-components/commit/331aef8c096f5ccdb1abda880c2b1482d1736a69))
 - **input:** stepping precision to match the provided step ([#3473](https://github.com/Esri/calcite-components/issues/3473)) ([2ae2bce](https://github.com/Esri/calcite-components/commit/2ae2bcef3e184479c840f15ceb4b8e831615ebc9))
