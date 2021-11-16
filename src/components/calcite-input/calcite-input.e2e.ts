@@ -9,6 +9,7 @@ import { KeyInput } from "puppeteer";
 
 describe("calcite-input", () => {
   const delayFor2UpdatesInMs = 1000;
+  const delayFor10UpdatesInMs = 5000;
 
   it("honors form reset", async () => {
     const defaultValue = "defaultValue";
@@ -283,34 +284,35 @@ describe("calcite-input", () => {
     expect(await element.getProperty("value")).toBe("25");
   });
 
-  it("correctly increments and decrements value when number buttons are clicked and step is set to a decimal", async () => {
-    const page = await newE2EPage({
-      html: `
-          <calcite-input step="0.1" type="number"></calcite-input>
-        `
-    });
+  it("correctly increments and decrements on long hold on mousedown and step is set to a decimal", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-input type="number" value="0" step="0.01"></calcite-input>
+    `);
     const input = await page.find("calcite-input");
-    const buttonUp = await page.find('calcite-input >>> button[data-adjustment="up"]');
-    const buttonDown = await page.find('calcite-input >>> button[data-adjustment="down"]');
+    const [buttonUpLocationX, buttonUpLocationY] = await getElementXY(
+      page,
+      "calcite-input",
+      ".number-button-item[data-adjustment='up']"
+    );
+    const [buttonDownLocationX, buttonDownLocationY] = await getElementXY(
+      page,
+      "calcite-input",
+      ".number-button-item[data-adjustment='down']"
+    );
 
-    await buttonUp.click();
+    await page.mouse.move(buttonUpLocationX, buttonUpLocationY);
+    await page.mouse.down();
+    await page.waitForTimeout(delayFor10UpdatesInMs);
+    await page.mouse.up();
     await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("0.11");
 
-    expect(await input.getProperty("value")).toBe("0.1");
-
-    await buttonUp.click();
+    await page.mouse.move(buttonDownLocationX, buttonDownLocationY);
+    await page.mouse.down();
+    await page.waitForTimeout(delayFor10UpdatesInMs);
+    await page.mouse.up();
     await page.waitForChanges();
-
-    expect(await input.getProperty("value")).toBe("0.2");
-
-    await buttonDown.click();
-    await page.waitForChanges();
-
-    expect(await input.getProperty("value")).toBe("0.1");
-
-    await buttonDown.click();
-    await page.waitForChanges();
-
     expect(await input.getProperty("value")).toBe("0");
   });
 
@@ -327,13 +329,13 @@ describe("calcite-input", () => {
     expect(await element.getProperty("value")).toBe("5.5");
     await numberHorizontalItemDown.click();
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("4.5");
+    expect(await element.getProperty("value")).toBe("5");
     await numberHorizontalItemUp.click();
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("5.5");
+    expect(await element.getProperty("value")).toBe("6");
     await numberHorizontalItemUp.click();
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("6.5");
+    expect(await element.getProperty("value")).toBe("7");
   });
 
   it("correctly increments and decrements value by one when step is undefined", async () => {

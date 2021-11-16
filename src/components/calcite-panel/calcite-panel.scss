@@ -160,12 +160,16 @@
   flex-flow: column nowrap;
 }
 
+.content-wrapper {
+  @apply h-full
+  overflow-auto;
+}
+
 .content-container {
   @apply items-stretch 
   bg-background
   flex
   flex-auto
-  overflow-auto
   flex-no-wrap
   flex-col;
 }
@@ -201,7 +205,7 @@
 }
 
 .fab-container {
-  @apply inline-block
+  @apply block
   sticky
   my-0
   mx-auto
@@ -209,6 +213,6 @@
   bottom-0
   left-0
   right-0;
-
+  width: fit-content;
   z-index: 1;
 }

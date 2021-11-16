@@ -8,6 +8,7 @@ export const CSS = {
   headerActions: "header-actions",
   headerActionsEnd: "header-actions--end",
   headerActionsStart: "header-actions--start",
+  contentWrapper: "content-wrapper",
   contentContainer: "content-container",
   fabContainer: "fab-container",
   footer: "footer",
