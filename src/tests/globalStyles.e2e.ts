@@ -51,6 +51,7 @@ describe("global styles", () => {
       const page = await newE2EPage({
         html: snippet
       });
+      await page.waitForChanges();
       await page.$eval("calcite-notice", (element: any) => {
         element.style.setProperty("--calcite-animation-timing", 0);
       });
