@@ -257,8 +257,6 @@ export class CalciteAlert {
   /** the slotted alert link child element  */
   private alertLinkEl?: HTMLCalciteLinkElement;
 
-  private autoDismissTimeout: number;
-
   private queueTimeout: number;
 
   /** the computed icon to render */
@@ -275,12 +273,8 @@ export class CalciteAlert {
   private determineActiveAlert(): void {
     if (this.queue?.[0] === this.el) {
       this.openAlert();
-      clearTimeout(this.autoDismissTimeout);
       if (this.autoDismiss) {
-        this.autoDismissTimeout = window.setTimeout(
-          () => this.closeAlert(),
-          DURATIONS[this.autoDismissDuration]
-        );
+        window.setTimeout(() => this.closeAlert(), DURATIONS[this.autoDismissDuration]);
       }
     } else {
       return;
