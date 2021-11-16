@@ -136,6 +136,8 @@ describe("calcite-accordion", () => {
       html: html`<calcite-accordion selection-mode="single" id="first"> ${accordionContent} </calcite-accordion>
         <calcite-accordion selection-mode="single" id="second"> ${accordionContent} </calcite-accordion>`
     });
+    await page.waitForChanges();
+
     const firstAccordion = await page.find("calcite-accordion[id='first']");
     const item1FirstAccordion = await firstAccordion.find("calcite-accordion-item[id='1']");
     await item1FirstAccordion.click();
