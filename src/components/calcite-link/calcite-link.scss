@@ -74,7 +74,7 @@ calcite-icon {
     background-position: 0% 100%, 100% 100%;
     background-repeat: no-repeat, no-repeat;
     background-size: 0% 1px, 100% 1px;
-    transition: all 0.15s ease-in-out, background-size 0.3s ease-in-out;
+    transition: all var(--calcite-animation-timing) ease-in-out;
 
     &:hover,
     &:focus {
