@@ -112,7 +112,7 @@
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-jest": "25.2.4",
     "eslint-plugin-prettier": "4.0.0",
-    "eslint-plugin-react": "7.26.1",
+    "eslint-plugin-react": "7.27.0",
     "eslint-plugin-unicorn": "38.0.1",
     "form-request-submit-polyfill": "2.0.0",
     "gh-release": "6.0.1",
