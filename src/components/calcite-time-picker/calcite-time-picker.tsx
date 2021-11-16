@@ -645,10 +645,8 @@ export class CalciteTimePicker {
       this[`localized${capitalize(key)}`] = localizeTimePart(this[key], key, this.locale);
     }
     if (this.hour && this.minute) {
-      this.value =
-        this.second && this.showSecond
-          ? `${this.hour}:${this.minute}:${this.second}`
-          : `${this.hour}:${this.minute}:00`;
+      const showSeconds = this.second && this.showSecond;
+      this.value = `${this.hour}:${this.minute}:${showSeconds ? this.second : "00"}`;
     } else {
       this.value = null;
     }
