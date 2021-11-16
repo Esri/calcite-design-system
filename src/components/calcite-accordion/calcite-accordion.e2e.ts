@@ -131,7 +131,7 @@ describe("calcite-accordion", () => {
     expect(await item3Content.isVisible()).toBe(true);
   });
 
-  it("clicking on the nested child accordion-item does not toggle the parent in single selection mode", async () => {
+  it("clicking on an accordion with selection-mode=single does not toggle unrelated accordions with the same selection mode", async () => {
     const page = await newE2EPage({
       html: html`<calcite-accordion selection-mode="single" id="first"> ${accordionContent} </calcite-accordion>
         <calcite-accordion selection-mode="single" id="second"> ${accordionContent} </calcite-accordion>`
