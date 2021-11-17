@@ -260,7 +260,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
 
   private nudgeNumberValueIntervalId;
 
-  private nudgeNumberValueTimeoutId;
+  private nudgeNumberValueIntervalCount: number;
 
   //--------------------------------------------------------------------------
   //
@@ -367,6 +367,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
   //--------------------------------------------------------------------------
 
   keyDownHandler = (event: KeyboardEvent): void => {
+    /* prevent default behavior for input to move the cursor to the beginning of the input with every ArrowUp press */
     if (event.key === "ArrowUp") {
       event.preventDefault();
     }
@@ -524,17 +525,17 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     const valueNudgeDelayInMs = 100;
 
     this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
-
-    this.nudgeNumberValueTimeoutId = setTimeout(() => {
-      this.nudgeNumberValueIntervalId = setInterval(() => {
-        this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
-      }, valueNudgeDelayInMs);
-    }, 100);
+    this.nudgeNumberValueIntervalCount = 0;
+    this.nudgeNumberValueIntervalId = setInterval(() => {
+      this.nudgeNumberValueIntervalCount !== 0
+        ? this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent)
+        : null;
+      this.nudgeNumberValueIntervalCount++;
+    }, valueNudgeDelayInMs);
   };
 
   private numberButtonMouseUpAndMouseOutHandler = (): void => {
     clearInterval(this.nudgeNumberValueIntervalId);
-    clearTimeout(this.nudgeNumberValueTimeoutId);
   };
 
   private numberButtonMouseDownHandler = (event: MouseEvent): void => {
@@ -623,7 +624,6 @@ export class CalciteInput implements LabelableComponent, FormComponent {
 
   private inputKeyUpHandler = (): void => {
     clearInterval(this.nudgeNumberValueIntervalId);
-    clearTimeout(this.nudgeNumberValueTimeoutId);
   };
 
   // --------------------------------------------------------------------------
