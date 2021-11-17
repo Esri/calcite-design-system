@@ -260,8 +260,6 @@ export class CalciteInput implements LabelableComponent, FormComponent {
 
   private nudgeNumberValueIntervalId;
 
-  private nudgeNumberValueIntervalCount: number;
-
   //--------------------------------------------------------------------------
   //
   //  State
@@ -525,12 +523,12 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     const valueNudgeDelayInMs = 100;
 
     this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
-    this.nudgeNumberValueIntervalCount = 0;
+    let nudgeNumberValueIntervalCount = 0;
     this.nudgeNumberValueIntervalId = setInterval(() => {
-      this.nudgeNumberValueIntervalCount !== 0
+      nudgeNumberValueIntervalCount !== 0
         ? this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent)
         : null;
-      this.nudgeNumberValueIntervalCount++;
+      nudgeNumberValueIntervalCount++;
     }, valueNudgeDelayInMs);
   };
 
