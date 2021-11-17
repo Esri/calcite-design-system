@@ -364,6 +364,10 @@ export class CalciteInput implements LabelableComponent, FormComponent {
   //--------------------------------------------------------------------------
 
   keyDownHandler = (event: KeyboardEvent): void => {
+    /* prevent default behavior for input to move the cursor to the beginning of the input with every ArrowUp press */
+    if (event.key === "ArrowUp") {
+      event.preventDefault();
+    }
     if (this.readOnly || this.disabled) {
       return;
     }
@@ -515,12 +519,15 @@ export class CalciteInput implements LabelableComponent, FormComponent {
 
     const inputMax = this.maxString ? parseFloat(this.maxString) : null;
     const inputMin = this.minString ? parseFloat(this.minString) : null;
-    const valueNudgeDelayInMs = 500;
+    const valueNudgeDelayInMs = 100;
 
     this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
-
+    let nudgeNumberValueIntervalCount = 0;
     this.nudgeNumberValueIntervalId = setInterval(() => {
-      this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
+      nudgeNumberValueIntervalCount !== 0
+        ? this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent)
+        : null;
+      nudgeNumberValueIntervalCount++;
     }, valueNudgeDelayInMs);
   };
 
