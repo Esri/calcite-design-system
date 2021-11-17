@@ -20,6 +20,12 @@
   }
 }
 
+.separator {
+  @apply flex pointer-events-auto;
+  width: 5px;
+  background: red;
+}
+
 ::slotted(calcite-panel),
 ::slotted(calcite-flow) {
   @apply flex-auto h-full w-full;
