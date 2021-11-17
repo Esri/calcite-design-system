@@ -260,6 +260,8 @@ export class CalciteInput implements LabelableComponent, FormComponent {
 
   private nudgeNumberValueIntervalId;
 
+  private nudgeNumberValueTimeoutId;
+
   //--------------------------------------------------------------------------
   //
   //  State
@@ -365,6 +367,9 @@ export class CalciteInput implements LabelableComponent, FormComponent {
   //--------------------------------------------------------------------------
 
   keyDownHandler = (event: KeyboardEvent): void => {
+    if (event.key === "ArrowUp") {
+      event.preventDefault();
+    }
     if (this.readOnly || this.disabled) {
       return;
     }
@@ -516,17 +521,20 @@ export class CalciteInput implements LabelableComponent, FormComponent {
 
     const inputMax = this.maxString ? parseFloat(this.maxString) : null;
     const inputMin = this.minString ? parseFloat(this.minString) : null;
-    const valueNudgeDelayInMs = 500;
+    const valueNudgeDelayInMs = 100;
 
     this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
 
-    this.nudgeNumberValueIntervalId = setInterval(() => {
-      this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
-    }, valueNudgeDelayInMs);
+    this.nudgeNumberValueTimeoutId = setTimeout(() => {
+      this.nudgeNumberValueIntervalId = setInterval(() => {
+        this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
+      }, valueNudgeDelayInMs);
+    }, 100);
   };
 
   private numberButtonMouseUpAndMouseOutHandler = (): void => {
     clearInterval(this.nudgeNumberValueIntervalId);
+    clearTimeout(this.nudgeNumberValueTimeoutId);
   };
 
   private numberButtonMouseDownHandler = (event: MouseEvent): void => {
@@ -615,6 +623,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
 
   private inputKeyUpHandler = (): void => {
     clearInterval(this.nudgeNumberValueIntervalId);
+    clearTimeout(this.nudgeNumberValueTimeoutId);
   };
 
   // --------------------------------------------------------------------------

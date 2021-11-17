@@ -8,8 +8,8 @@ import { getElementXY } from "../../tests/utils";
 import { KeyInput } from "puppeteer";
 
 describe("calcite-input", () => {
-  const delayFor2UpdatesInMs = 1000;
-  const delayFor10UpdatesInMs = 5000;
+  const delayFor2UpdatesInMs = 200;
+  const delayFor11UpdatesInMs = 1200;
 
   it("honors form reset", async () => {
     const defaultValue = "defaultValue";
@@ -303,14 +303,14 @@ describe("calcite-input", () => {
 
     await page.mouse.move(buttonUpLocationX, buttonUpLocationY);
     await page.mouse.down();
-    await page.waitForTimeout(delayFor10UpdatesInMs);
+    await page.waitForTimeout(delayFor11UpdatesInMs);
     await page.mouse.up();
     await page.waitForChanges();
-    expect(await input.getProperty("value")).toBe("0.11");
+    expect(await input.getProperty("value")).toBe("0.12");
 
     await page.mouse.move(buttonDownLocationX, buttonDownLocationY);
     await page.mouse.down();
-    await page.waitForTimeout(delayFor10UpdatesInMs);
+    await page.waitForTimeout(delayFor11UpdatesInMs);
     await page.mouse.up();
     await page.waitForChanges();
     expect(await input.getProperty("value")).toBe("0");
@@ -744,7 +744,7 @@ describe("calcite-input", () => {
     expect(calciteInputInput).toHaveReceivedEventTimes(3);
   });
 
-  it("should emit an event every 500ms on keyboard down ArrowUp/ArrowDown and stop on keyboard up", async () => {
+  it("should emit an event every 100ms on keyboard down ArrowUp/ArrowDown and stop on keyboard up", async () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-input type="number" value="0"></calcite-input>
@@ -771,7 +771,7 @@ describe("calcite-input", () => {
     expect(calciteInputInput).toHaveReceivedEventTimes(6);
   });
 
-  it("should emit an event every 500ms on mousedown on up/down buttons and stop on mouseup/mouseleave", async () => {
+  it("should emit an event every 100ms on mousedown on up/down buttons and stop on mouseup/mouseleave", async () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-input type="number" value="0"></calcite-input>
