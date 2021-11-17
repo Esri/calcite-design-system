@@ -338,9 +338,8 @@ export class CalciteInput implements LabelableComponent, FormComponent {
 
   /**
    * This event fires each time a new value is typed and committed.
-   * @internal
    */
-  @Event() calciteInputChange: EventEmitter;
+  @Event() calciteInputChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
