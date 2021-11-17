@@ -3,7 +3,6 @@ import { accessible, defaults, focusable, hidden, reflects, renders } from "../.
 import { CSS, SLOTS } from "./resources";
 import { overflowActionsDebounceInMs } from "./utils";
 import { html } from "../../tests/utils";
-import { CSS_UTILITY } from "../../utils/resources";
 
 describe("calcite-action-bar", () => {
   it("renders", async () => renders("calcite-action-bar", { display: "inline-flex" }));
