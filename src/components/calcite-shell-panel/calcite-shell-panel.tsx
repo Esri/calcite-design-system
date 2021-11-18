@@ -9,10 +9,11 @@ import {
   VNode,
   State
 } from "@stencil/core";
-import { CSS, SLOTS } from "./resources";
+import { CSS, SLOTS, TEXT } from "./resources";
 import { Position, Scale } from "../interfaces";
 import { getSlotted } from "../../utils/dom";
 import { getKey } from "../../utils/key";
+import { clamp } from "../../utils/math";
 
 /**
  * @slot - A slot for adding content to the shell panel.
@@ -61,6 +62,11 @@ export class CalciteShellPanel {
    */
   @Prop({ reflect: true }) position: Position;
 
+  /** Text for resize separator.
+   * @default "Resize"
+   */
+  @Prop() intlResize = TEXT.resize;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -71,6 +77,10 @@ export class CalciteShellPanel {
     this.disconnectSeparator();
   }
 
+  componentDidLoad(): void {
+    this.setMinAndMax();
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -79,15 +89,40 @@ export class CalciteShellPanel {
 
   @Element() el: HTMLCalciteShellPanelElement;
 
-  @State() value: number;
+  @State() contentWidth = 0;
+
+  @State() contentOffset = 0;
+
+  @State() initialContentWidth = 0;
+
+  @Watch("initialContentWidth")
+  @Watch("contentOffset")
+  contentWidthHandler(): void {
+    const { initialContentWidth, contentOffset, min, max } = this;
+
+    if (!initialContentWidth || !contentOffset) {
+      return;
+    }
+
+    const rounded = Math.round(
+      this.position === "end"
+        ? initialContentWidth - contentOffset
+        : initialContentWidth + contentOffset
+    );
+
+    this.contentWidth =
+      typeof max === "number" && typeof min === "number" ? clamp(rounded, min, max) : rounded;
+  }
+
+  initialClientX = 0;
 
   contentEl: HTMLDivElement;
 
   separatorEl: HTMLDivElement;
 
-  max = 1000; // todo
+  max: number = null;
 
-  min = 50; // todo
+  min: number = null;
 
   step = 1;
 
@@ -122,14 +157,14 @@ export class CalciteShellPanel {
   }
 
   render(): VNode {
-    const { collapsed, detached, position, value } = this;
+    const { collapsed, detached, position, contentWidth, max, min, intlResize } = this;
 
     const contentNode = (
       <div
         class={{ [CSS.content]: true, [CSS.contentDetached]: detached }}
         hidden={collapsed}
-        ref={(contentEl) => (this.contentEl = contentEl)}
-        style={{ width: `${value}px;` }}
+        ref={this.storeContentEl}
+        style={contentWidth ? { width: `${contentWidth}px` } : null}
       >
         {this.renderHeader()}
         <div class={CSS.contentBody}>
@@ -140,11 +175,11 @@ export class CalciteShellPanel {
 
     const separatorNode = (
       <div
-        aria-label="todo"
+        aria-label={intlResize}
         aria-orientation="vertical"
-        aria-valuemax={this.max}
-        aria-valuemin={this.min}
-        aria-valuenow={this.value}
+        aria-valuemax={max}
+        aria-valuemin={min}
+        aria-valuenow={contentWidth}
         class={CSS.separator}
         onKeyDown={this.separatorKeyDown}
         ref={this.connectSeparator}
@@ -171,9 +206,38 @@ export class CalciteShellPanel {
   //
   // --------------------------------------------------------------------------
 
+  setMinAndMax = (): void => {
+    const { contentEl } = this;
+
+    if (!contentEl) {
+      return;
+    }
+
+    const computedStyle = getComputedStyle(contentEl);
+
+    if (!computedStyle) {
+      return;
+    }
+
+    const max = parseInt(computedStyle.getPropertyValue("max-width"), 0);
+    const min = parseInt(computedStyle.getPropertyValue("min-width"), 0);
+
+    if (typeof max === "number" && !isNaN(max)) {
+      this.max = max;
+    }
+
+    if (typeof min === "number" && !isNaN(min)) {
+      this.min = min;
+    }
+  };
+
+  storeContentEl = (contentEl: HTMLDivElement): void => {
+    this.contentEl = contentEl;
+  };
+
   getKeyvalue = (event: KeyboardEvent): number => {
     const key = getKey(event.key);
-    const { value, step, stepMultiplier, min, max } = this;
+    const { contentOffset, step, stepMultiplier, min, max } = this;
     const multipliedStep = step * stepMultiplier;
 
     const MOVEMENT_KEYS = [
@@ -197,7 +261,7 @@ export class CalciteShellPanel {
     if (increaseKeys) {
       const stepValue = event.shiftKey ? multipliedStep : step;
 
-      return value + stepValue;
+      return contentOffset + stepValue;
     }
 
     const decreaseKeys = key === "ArrowUp" || key === "ArrowLeft";
@@ -205,82 +269,73 @@ export class CalciteShellPanel {
     if (decreaseKeys) {
       const stepValue = event.shiftKey ? multipliedStep : step;
 
-      return value - stepValue;
+      return contentOffset - stepValue;
     }
 
-    if (key === "Home") {
+    if (typeof min === "number" && key === "Home") {
       return min;
     }
 
-    if (key === "End") {
+    if (typeof max === "number" && key === "End") {
       return max;
     }
 
     if (key === "PageDown") {
-      return value + multipliedStep;
+      return contentOffset + multipliedStep;
     }
 
     if (key === "PageUp") {
-      return value - multipliedStep;
+      return contentOffset - multipliedStep;
     }
 
     return null;
   };
 
   separatorKeyDown = (event: KeyboardEvent): void => {
-    const value = this.getKeyvalue(event);
+    const contentOffset = this.getKeyvalue(event);
+    this.resetContentSizing();
 
-    if (typeof value === "number") {
-      this.value = value;
+    if (typeof contentOffset === "number") {
+      this.setInitialContentWidth();
+      this.contentOffset = contentOffset;
     }
   };
 
-  // private calculatePointerOffset = (event: PointerEvent): void => {
-  //   const target = event.target as HTMLElement;
-  //   const containerSize = target.clientHeight / 2;
-
-  //   const rect = target.getBoundingClientRect();
-  //   const offsetY = event.clientY - rect.top;
-
-  //   this.pointerOffset = offsetY - containerSize;
-  // };
-
-  // todo: fix
   separatorPointerMove = (event: PointerEvent): void => {
     event.preventDefault();
-
-    const { contentEl } = this;
-    //const { clientY } = event;
-    const { width } = contentEl.getBoundingClientRect();
-
-    console.log(event);
-
-    const value = width + event.offsetX;
-
-    console.log(value);
-
-    this.value = value;
+    this.contentOffset = event.clientX - this.initialClientX;
   };
 
-  private separatorPointerUp = (event: PointerEvent): void => {
-    event.preventDefault();
+  resetContentSizing = (): void => {
+    this.contentOffset = 0;
+    this.initialContentWidth = 0;
+  };
 
+  separatorPointerUp = (event: PointerEvent): void => {
+    event.preventDefault();
+    this.resetContentSizing();
     document.removeEventListener("pointerup", this.separatorPointerUp);
     document.removeEventListener("pointermove", this.separatorPointerMove);
+  };
+
+  setInitialContentWidth = (): void => {
+    this.initialContentWidth = this.contentEl?.getBoundingClientRect().width;
   };
 
   separatorPointerDown = (event: PointerEvent): void => {
     event.preventDefault();
     this.separatorEl && document.activeElement !== this.separatorEl && this.separatorEl.focus();
 
-    //this.calculatePointerOffset(event);
+    this.resetContentSizing();
+    this.setInitialContentWidth();
+    this.initialClientX = event.clientX;
+
     document.addEventListener("pointerup", this.separatorPointerUp);
     document.addEventListener("pointermove", this.separatorPointerMove);
   };
 
   connectSeparator = (separatorEl: HTMLDivElement): void => {
     this.disconnectSeparator();
-
     this.separatorEl = separatorEl;
     separatorEl.addEventListener("pointerdown", this.separatorPointerDown);
   };
