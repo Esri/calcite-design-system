@@ -9,14 +9,17 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Features
 
+- **input:** add calciteInputChange event ([#3528](https://github.com/Esri/calcite-components/issues/3528)) ([5681ead](https://github.com/Esri/calcite-components/commit/5681ead74d04558e4b0780f8f2cb8cd0a8ebe6c4))
 - **list-item:** add padding when there is only a label or only a description ([daef73b](https://github.com/Esri/calcite-components/commit/daef73bf3aa5be94bc2d09e04b936ade843d0bf0)), closes [#3362](https://github.com/Esri/calcite-components/issues/3362) [#3362](https://github.com/Esri/calcite-components/issues/3362)
 - **shell, shell-panel, panel:** targets border styles to known, slotted components ([2c5fdcc](https://github.com/Esri/calcite-components/commit/2c5fdcc2dd39a3941d22b787fc13e25d0080ebdb)), closes [#2992](https://github.com/Esri/calcite-components/issues/2992) [#2992](https://github.com/Esri/calcite-components/issues/2992) [#2992](https://github.com/Esri/calcite-components/issues/2992) [#2992](https://github.com/Esri/calcite-components/issues/2992) [#2992](https://github.com/Esri/calcite-components/issues/2992) [#2992](https://github.com/Esri/calcite-components/issues/2992)
 
 ### Bug Fixes
 
+- fix build on windows ([#2697](https://github.com/Esri/calcite-components/issues/2697)) ([#3532](https://github.com/Esri/calcite-components/issues/3532)) ([43b0d88](https://github.com/Esri/calcite-components/commit/43b0d889bd0707244e5605e81456d07312e7bee2))
 - **accordion-item:** clicking on an accordion with selection-mode=single no longer toggles unrelated accordions with the same selection mode ([#3511](https://github.com/Esri/calcite-components/issues/3511)) ([6a88f50](https://github.com/Esri/calcite-components/commit/6a88f5061b765ca401a5dcb281b138192003d3d2))
-- remove quotes from generic font families ([#3502](https://github.com/Esri/calcite-components/issues/3502)) ([ea4ba95](https://github.com/Esri/calcite-components/commit/ea4ba957a15a631b72e517be0f7eac364602b714))
 - **block:** heading and summary now align in RTL ([#3490](https://github.com/Esri/calcite-components/issues/3490)) ([331aef8](https://github.com/Esri/calcite-components/commit/331aef8c096f5ccdb1abda880c2b1482d1736a69))
+- **input:** prevent default behavior of cursor jumping to the beginning of input, match rate of native input type=number (100ms) ([#3527](https://github.com/Esri/calcite-components/issues/3527)) ([980994b](https://github.com/Esri/calcite-components/commit/980994b30b62c22eeeabf446b08dee10bbddd3d1))
+- remove quotes from generic font families ([#3502](https://github.com/Esri/calcite-components/issues/3502)) ([ea4ba95](https://github.com/Esri/calcite-components/commit/ea4ba957a15a631b72e517be0f7eac364602b714))
 - **input:** stepping precision to match the provided step ([#3473](https://github.com/Esri/calcite-components/issues/3473)) ([2ae2bce](https://github.com/Esri/calcite-components/commit/2ae2bcef3e184479c840f15ceb4b8e831615ebc9))
 - **panel:** get the fab slot to have more spacing on firefox [#3236](https://github.com/Esri/calcite-components/issues/3236) ([#3413](https://github.com/Esri/calcite-components/issues/3413)) ([18f1e1d](https://github.com/Esri/calcite-components/commit/18f1e1d6b5d11a200ec4b7fb734ac5c7d91f1643))
 - **popover:** when notice width set to full, it now takes full width of the popover, to fully cover it ([#3451](https://github.com/Esri/calcite-components/issues/3451)) ([a9fe790](https://github.com/Esri/calcite-components/commit/a9fe790989a96226bcb346921af40fe71fc6a87e))
