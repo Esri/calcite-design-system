@@ -13,9 +13,9 @@
 }
 
 calcite-pick-list-item {
-  @apply shadow-none 
-    flex-grow 
-    relative 
+  @apply shadow-none
+    flex-grow
+    relative
     m-0;
 }
 
@@ -25,13 +25,13 @@ calcite-pick-list-item {
 }
 
 .handle {
-  @apply flex 
-    items-center 
-    justify-center 
-    py-0 
-    px-1 
-    bg-transparent 
-    border-none 
+  @apply flex
+    items-center
+    justify-center
+    py-0
+    px-1
+    bg-transparent
+    border-none
     text-color-1
     cursor-move;
   color: theme("borderColor.color.1");

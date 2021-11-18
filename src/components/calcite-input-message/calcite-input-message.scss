@@ -12,24 +12,11 @@
 }
 
 :host {
-  @apply flex
-    items-center
-    w-full
-    box-border
-    text-color-1
-    font-medium
-    invisible
-    h-0
-    pointer-events-none
-    opacity-0
-    transition-default;
+  @apply flex items-center w-full box-border text-color-1 font-medium invisible h-0 pointer-events-none opacity-0 transition-default;
 }
 
 :host([active]) {
-  @apply h-auto
-    visible
-    opacity-100
-    transition-default;
+  @apply h-auto visible opacity-100 transition-default;
 }
 
 :host([active][scale="m"]),
@@ -38,11 +25,7 @@
 }
 
 .calcite-input-message-icon {
-  @apply inline-flex
-    flex-shrink-0
-    pointer-events-none
-    mr-2
-    transition-default;
+  @apply inline-flex flex-shrink-0 pointer-events-none mr-2 transition-default;
 }
 
 .calcite-input-message-icon.calcite--rtl {
@@ -67,8 +50,7 @@
 
 // Validation Text
 :host([status][active]) {
-  @apply text-color-1 
-    font-medium;
+  @apply text-color-1 font-medium;
 }
 
 :host([status][active][scale="s"]) {
@@ -81,6 +63,5 @@
 }
 
 :host([status][active][scale="l"]) {
-  @apply text--1h
-    mt-1;
+  @apply text--1h mt-1;
 }
