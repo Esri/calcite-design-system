@@ -63,7 +63,7 @@ export class CalciteShellPanel {
    */
   @Prop({ reflect: true }) position: Position;
 
-  /** Text for resize separator.
+  /** Accessible label for resize separator.
    * @default "Resize"
    */
   @Prop() intlResize = TEXT.resize;
