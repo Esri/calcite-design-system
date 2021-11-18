@@ -84,7 +84,7 @@ export class CalciteShellPanel {
   }
 
   componentDidLoad(): void {
-    this.setMinAndMax();
+    this.updateAriaValues();
   }
 
   // --------------------------------------------------------------------------
@@ -146,6 +146,7 @@ export class CalciteShellPanel {
       collapsed,
       detached,
       position,
+      initialContentWidth,
       contentWidth,
       contentWidthMax,
       contentWidthMin,
@@ -173,7 +174,7 @@ export class CalciteShellPanel {
         aria-orientation="horizontal"
         aria-valuemax={contentWidthMax}
         aria-valuemin={contentWidthMin}
-        aria-valuenow={contentWidth}
+        aria-valuenow={contentWidth ?? initialContentWidth}
         class={CSS.separator}
         onKeyDown={this.separatorKeyDown}
         ref={this.connectSeparator}
@@ -211,7 +212,7 @@ export class CalciteShellPanel {
         : rounded;
   }
 
-  setMinAndMax = (): void => {
+  updateAriaValues = (): void => {
     const { contentEl } = this;
     const computedStyle = contentEl && getComputedStyle(contentEl);
 
@@ -221,6 +222,11 @@ export class CalciteShellPanel {
 
     const max = parseInt(computedStyle.getPropertyValue("max-width"), 10);
     const min = parseInt(computedStyle.getPropertyValue("min-width"), 10);
+    const valueNow = parseInt(computedStyle.getPropertyValue("width"), 10);
+
+    if (typeof valueNow === "number" && !isNaN(valueNow)) {
+      this.initialContentWidth = valueNow;
+    }
 
     if (typeof max === "number" && !isNaN(max)) {
       this.contentWidthMax = max;
@@ -266,7 +272,7 @@ export class CalciteShellPanel {
     }
 
     const increaseKeys =
-      key === "ArrowDown" || (position === "end" ? key === "ArrowLeft" : key === "ArrowRight");
+      key === "ArrowUp" || (position === "end" ? key === "ArrowLeft" : key === "ArrowRight");
 
     if (increaseKeys) {
       const stepValue = event.shiftKey ? multipliedStep : step;
@@ -275,7 +281,7 @@ export class CalciteShellPanel {
     }
 
     const decreaseKeys =
-      key === "ArrowUp" || position === "end" ? key === "ArrowRight" : key === "ArrowLeft";
+      key === "ArrowDown" || (position === "end" ? key === "ArrowRight" : key === "ArrowLeft");
 
     if (decreaseKeys) {
       const stepValue = event.shiftKey ? multipliedStep : step;
@@ -292,11 +298,11 @@ export class CalciteShellPanel {
     }
 
     if (key === "PageDown") {
-      return initialContentWidth + multipliedStep;
+      return initialContentWidth - multipliedStep;
     }
 
     if (key === "PageUp") {
-      return initialContentWidth - multipliedStep;
+      return initialContentWidth + multipliedStep;
     }
 
     return null;

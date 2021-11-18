@@ -1,7 +1,8 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { E2EElement, newE2EPage } from "@stencil/core/testing";
 
 import { CSS, SLOTS } from "./resources";
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
+import { getElementXY } from "../../tests/utils";
 
 describe("calcite-shell-panel", () => {
   it("renders", async () => renders("calcite-shell-panel", { display: "flex" }));
@@ -13,6 +14,14 @@ describe("calcite-shell-panel", () => {
       {
         propertyName: "collapsed",
         defaultValue: false
+      },
+      {
+        propertyName: "resizable",
+        defaultValue: false
+      },
+      {
+        propertyName: "intlResize",
+        defaultValue: "Resize"
       }
     ]));
 
@@ -223,5 +232,140 @@ describe("calcite-shell-panel", () => {
     const panelHeight = parseFloat(panelHeightStyle["height"]);
 
     expect(panelHeight).toEqual(shellHeight);
+  });
+
+  it("Should have separator when resizable", async () => {
+    const page = await newE2EPage();
+
+    await page.setViewport({ width: 1600, height: 1200 });
+    await page.setContent(`
+      <div style="width: 100%; height: 100%;">
+        <calcite-shell>
+          <calcite-shell-panel slot="primary-panel">
+            <calcite-button slot="headder">Header test</calcite-button>
+            <calcite-panel>
+              Content test
+            </calcite-panel>
+          </calcite-shell-panel>
+        </calcite-shell>
+      </div>
+    `);
+
+    await page.waitForChanges();
+
+    let separator: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.separator}`);
+    expect(separator).toBeNull();
+
+    const panel = await page.find("calcite-shell-panel");
+    panel.setProperty("resizable", true);
+    await page.waitForChanges();
+
+    separator = await page.find(`calcite-shell-panel >>> .${CSS.separator}`);
+    expect(separator).toBeDefined();
+    expect(await separator.getProperty("ariaOrientation")).toBe("horizontal");
+    expect(separator.getAttribute("role")).toBe("separator");
+    expect(separator.getAttribute("tabindex")).toBe("0");
+    expect(separator.getAttribute("aria-valuemax")).toBe("420");
+    expect(separator.getAttribute("aria-valuemin")).toBe("240");
+    expect(separator.getAttribute("aria-valuenow")).toBe("320");
+  });
+
+  it("Should resize via keyboard", async () => {
+    const page = await newE2EPage();
+
+    await page.setViewport({ width: 1600, height: 1200 });
+    await page.setContent(`
+      <div style="width: 100%; height: 100%;">
+        <calcite-shell>
+          <calcite-shell-panel slot="primary-panel" resizable>
+            <calcite-button slot="headder">Header test</calcite-button>
+            <calcite-panel>
+              Content test
+            </calcite-panel>
+          </calcite-shell-panel>
+        </calcite-shell>
+      </div>
+    `);
+
+    await page.waitForChanges();
+
+    const separator: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.separator}`);
+
+    expect(separator).toBeDefined();
+    expect(separator.getAttribute("aria-valuenow")).toBe("320");
+
+    await separator.press("ArrowRight");
+    await page.waitForChanges();
+
+    expect(separator.getAttribute("aria-valuenow")).toBe("321");
+
+    await separator.press("ArrowUp");
+    await page.waitForChanges();
+
+    expect(separator.getAttribute("aria-valuenow")).toBe("322");
+
+    await separator.press("ArrowLeft");
+    await page.waitForChanges();
+
+    expect(separator.getAttribute("aria-valuenow")).toBe("321");
+
+    await separator.press("ArrowDown");
+    await page.waitForChanges();
+
+    expect(separator.getAttribute("aria-valuenow")).toBe("320");
+
+    await separator.press("PageDown");
+    await page.waitForChanges();
+
+    expect(separator.getAttribute("aria-valuenow")).toBe("310");
+
+    await separator.press("PageUp");
+    await page.waitForChanges();
+
+    expect(separator.getAttribute("aria-valuenow")).toBe("320");
+
+    await separator.press("Home");
+    await page.waitForChanges();
+
+    expect(separator.getAttribute("aria-valuenow")).toBe("240");
+
+    await separator.press("End");
+    await page.waitForChanges();
+
+    expect(separator.getAttribute("aria-valuenow")).toBe("420");
+  });
+
+  it("Should resize via mouse", async () => {
+    const page = await newE2EPage();
+
+    await page.setViewport({ width: 1600, height: 1200 });
+    await page.setContent(`
+      <div style="width: 100%; height: 100%;">
+        <calcite-shell>
+          <calcite-shell-panel slot="primary-panel" resizable>
+            <calcite-button slot="headder">Header test</calcite-button>
+            <calcite-panel>
+              Content test
+            </calcite-panel>
+          </calcite-shell-panel>
+        </calcite-shell>
+      </div>
+    `);
+
+    await page.waitForChanges();
+
+    const separator: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.separator}`);
+
+    expect(separator).toBeDefined();
+    expect(separator.getAttribute("aria-valuenow")).toBe("320");
+
+    const [x, y] = await getElementXY(page, "calcite-shell-panel", `.${CSS.separator}`);
+
+    await page.mouse.move(x, y);
+    await page.mouse.down();
+    await page.mouse.move(x + 10, y);
+    await page.waitForChanges();
+
+    expect(separator.getAttribute("aria-valuenow")).toBe("330");
   });
 });
