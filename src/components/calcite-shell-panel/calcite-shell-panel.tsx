@@ -95,6 +95,7 @@ export class CalciteShellPanel {
 
   @State() initialContentWidth = 0;
 
+  // todo: remove contentOffset usage.
   @Watch("initialContentWidth")
   @Watch("contentOffset")
   contentWidthHandler(): void {
