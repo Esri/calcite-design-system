@@ -749,26 +749,23 @@ describe("calcite-input", () => {
     await page.setContent(`
     <calcite-input type="number" value="0"></calcite-input>
     `);
-    const calciteInputInput = await page.spyOnEvent("calciteInputInput");
     const input = await page.find("calcite-input");
-    expect(calciteInputInput).toHaveReceivedEventTimes(0);
+    expect(await input.getProperty("value")).toBe("0");
     await input.callMethod("setFocus");
 
     await page.keyboard.down("ArrowUp");
-    await page.waitForChanges();
-    expect(calciteInputInput).toHaveReceivedEventTimes(1);
     await page.waitForTimeout(delayFor2UpdatesInMs);
     await page.keyboard.up("ArrowUp");
     await page.waitForChanges();
-    expect(calciteInputInput).toHaveReceivedEventTimes(3);
+    let value = await input.getProperty("value");
+    expect(parseInt(value)).toBeGreaterThan(1);
 
     await page.keyboard.down("ArrowDown");
-    await page.waitForChanges();
-    expect(calciteInputInput).toHaveReceivedEventTimes(4);
     await page.waitForTimeout(delayFor2UpdatesInMs);
     await page.keyboard.up("ArrowDown");
     await page.waitForChanges();
-    expect(calciteInputInput).toHaveReceivedEventTimes(6);
+    value = await input.getProperty("value");
+    expect(parseInt(value)).toBeLessThan(1);
   });
 
   it("should emit an event every 100ms on mousedown on up/down buttons and stop on mouseup/mouseleave", async () => {
