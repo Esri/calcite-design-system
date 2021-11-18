@@ -24,6 +24,7 @@
   @apply flex pointer-events-auto;
   width: 5px;
   background: red;
+  cursor: ew-resize;
 }
 
 ::slotted(calcite-panel),

@@ -158,7 +158,7 @@ export class CalciteShellPanel {
         class={{ [CSS.content]: true, [CSS.contentDetached]: detached }}
         hidden={collapsed}
         ref={this.storeContentEl}
-        style={contentWidth ? { width: `${contentWidth}px` } : null}
+        style={resizable && contentWidth ? { width: `${contentWidth}px` } : null}
       >
         {this.renderHeader()}
         <div class={CSS.contentBody}>
@@ -170,7 +170,7 @@ export class CalciteShellPanel {
     const separatorNode = resizable ? (
       <div
         aria-label={intlResize}
-        aria-orientation="vertical"
+        aria-orientation="horizontal"
         aria-valuemax={contentWidthMax}
         aria-valuemin={contentWidthMin}
         aria-valuenow={contentWidth}
@@ -219,8 +219,8 @@ export class CalciteShellPanel {
       return;
     }
 
-    const max = parseInt(computedStyle.getPropertyValue("max-width"), 0);
-    const min = parseInt(computedStyle.getPropertyValue("min-width"), 0);
+    const max = parseInt(computedStyle.getPropertyValue("max-width"), 10);
+    const min = parseInt(computedStyle.getPropertyValue("min-width"), 10);
 
     if (typeof max === "number" && !isNaN(max)) {
       this.contentWidthMax = max;
@@ -315,7 +315,6 @@ export class CalciteShellPanel {
     event.preventDefault();
 
     const { initialContentWidth, position, initialClientX } = this;
-
     const offset = event.clientX - initialClientX;
 
     this.setContentWidth(
