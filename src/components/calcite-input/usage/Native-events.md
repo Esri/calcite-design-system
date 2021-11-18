@@ -5,7 +5,6 @@ You must use `focusin`/`focusout` instead of `focus`/`blur` because these events
 All events return an element and a value:
 
 ```js
-input.addEventListener("change", logChange);
 input.addEventListener("focusin", logFocus);
 input.addEventListener("focusout", logBlur);
 
