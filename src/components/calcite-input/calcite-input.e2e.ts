@@ -284,7 +284,7 @@ describe("calcite-input", () => {
     expect(await element.getProperty("value")).toBe("25");
   });
 
-  it("correctly increments and decrements on long hold on mousedown and step is set to a decimal", async () => {
+  it.skip("correctly increments and decrements on long hold on mousedown and step is set to a decimal", async () => {
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-input type="number" value="0" step="0.01"></calcite-input>
@@ -744,7 +744,7 @@ describe("calcite-input", () => {
     expect(calciteInputInput).toHaveReceivedEventTimes(3);
   });
 
-  it("should emit an event every 100ms on keyboard down ArrowUp/ArrowDown and stop on keyboard up", async () => {
+  it.skip("should emit an event every 100ms on keyboard down ArrowUp/ArrowDown and stop on keyboard up", async () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-input type="number" value="0"></calcite-input>
