@@ -64,6 +64,23 @@ export const RangeLabeledTicks = (): string => html`
   ></calcite-slider>
 `;
 
+export const RangeLabeledTicksMirror = (): string => html`
+  <calcite-slider
+    min="${number("min", 5)}"
+    min-label="${text("min-label", "Temperature, lower bound")}"
+    min-value="${number("min-value", 100)}"
+    max="${number("max", 100)}"
+    max-label="${text("max-label", "Temperature, upper bound")}"
+    max-value="${number("max-value", 100)}"
+    step="${number("step", 10)}"
+    ${boolean("label-handles", false)}
+    ${boolean("label-ticks", true)}
+    ${boolean("precise", false)}
+    ${boolean("snap", true)}
+    ${boolean("mirrored", true)}
+  ></calcite-slider>
+`;
+
 export const Histogram = (): HTMLCalciteSliderElement => {
   const slider = document.createElement("calcite-slider");
   slider.min = number("min", -100);
