@@ -1,7 +1,6 @@
 import { Component, h, Listen, Prop, VNode, Element } from "@stencil/core";
 import { TOOLTIP_REFERENCE, TOOLTIP_DELAY_MS } from "../calcite-tooltip/resources";
 import { queryElementRoots } from "../../utils/dom";
-import { getKey } from "../../utils/key";
 
 /**
  * @slot - A slot for adding elements that reference a 'calcite-tooltip' by the 'selector' property.
@@ -185,7 +184,7 @@ export class CalciteTooltipManager {
 
   @Listen("keyup", { target: "document" })
   keyUpHandler(event: KeyboardEvent): void {
-    if (getKey(event.key) === "Escape") {
+    if (event.key === "Escape") {
       const { tooltipEl } = this;
 
       if (tooltipEl) {

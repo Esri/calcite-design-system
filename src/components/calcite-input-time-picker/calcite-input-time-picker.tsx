@@ -12,7 +12,7 @@ import {
   Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { getKey } from "../../utils/key";
+
 import {
   parseTimeString,
   Time,
@@ -175,7 +175,7 @@ export class CalciteInputTimePicker implements LabelableComponent, FormComponent
 
   @Listen("keyup")
   keyUpHandler(event: KeyboardEvent): void {
-    if (getKey(event.key) === "Escape" && this.active) {
+    if (event.key === "Escape" && this.active) {
       this.active = false;
     }
   }

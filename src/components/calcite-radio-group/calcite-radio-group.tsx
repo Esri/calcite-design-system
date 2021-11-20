@@ -14,7 +14,7 @@ import {
 } from "@stencil/core";
 
 import { getElementDir } from "../../utils/dom";
-import { getKey } from "../../utils/key";
+
 import { Layout, Scale, Width } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
@@ -171,7 +171,7 @@ export class CalciteRadioGroup implements LabelableComponent, FormComponent {
   @Listen("keydown")
   protected handleKeyDown(event: KeyboardEvent): void {
     const keys = ["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown", " "];
-    const key = getKey(event.key);
+    const key = event.key;
     const { el, selectedItem } = this;
 
     if (keys.indexOf(key) === -1) {

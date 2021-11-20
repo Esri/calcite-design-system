@@ -12,7 +12,7 @@ import {
   Watch
 } from "@stencil/core";
 import { DropdownPlacement, ItemKeyboardEvent } from "./interfaces";
-import { getKey } from "../../utils/key";
+
 import { focusElement, getElementDir } from "../../utils/dom";
 import {
   createPopper,
@@ -253,7 +253,7 @@ export class CalciteDropdown {
     const itemToFocus = target.nodeName !== "A" ? target : target.parentNode;
     const isFirstItem = this.itemIndex(itemToFocus) === 0;
     const isLastItem = this.itemIndex(itemToFocus) === this.items.length - 1;
-    switch (getKey(keyboardEvent.key)) {
+    switch (keyboardEvent.key) {
       case "Tab":
         if (isLastItem && !keyboardEvent.shiftKey) {
           this.closeCalciteDropdown();
@@ -404,7 +404,7 @@ export class CalciteDropdown {
 
   private keyDownHandler = (e: KeyboardEvent): void => {
     const target = e.target as HTMLSlotElement;
-    const key = getKey(e.key);
+    const key = e.key;
     if (
       this.triggers.includes(target) ||
       this.triggers.some((trigger) => trigger.contains(target))
