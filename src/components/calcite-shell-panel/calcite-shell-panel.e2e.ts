@@ -180,7 +180,7 @@ describe("calcite-shell-panel", () => {
     await page.waitForChanges();
 
     const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
-    const style = await content.getComputedStyle("width");
+    const style = await content.getComputedStyle();
     const widthDefault = parseFloat(style["width"]);
 
     const page2 = await newE2EPage();
@@ -198,7 +198,7 @@ describe("calcite-shell-panel", () => {
     await page2.waitForChanges();
 
     const content2 = await page2.find(`calcite-shell-panel >>> .${CSS.content}`);
-    const style2 = await content2.getComputedStyle("width");
+    const style2 = await content2.getComputedStyle();
     const width2 = parseFloat(style2["width"]);
 
     expect(width2).toEqual(widthDefault * multipier);
@@ -261,13 +261,16 @@ describe("calcite-shell-panel", () => {
     await page.waitForChanges();
 
     separator = await page.find(`calcite-shell-panel >>> .${CSS.separator}`);
+    const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
     expect(separator).toBeDefined();
+    expect(content).toBeDefined();
     expect(await separator.getProperty("ariaOrientation")).toBe("horizontal");
     expect(separator.getAttribute("role")).toBe("separator");
     expect(separator.getAttribute("tabindex")).toBe("0");
     expect(separator.getAttribute("aria-valuemax")).toBe("420");
     expect(separator.getAttribute("aria-valuemin")).toBe("240");
     expect(separator.getAttribute("aria-valuenow")).toBe("320");
+    expect((await content.getComputedStyle()).width).toBe("320px");
   });
 
   it("Should resize via keyboard", async () => {
@@ -290,49 +293,60 @@ describe("calcite-shell-panel", () => {
     await page.waitForChanges();
 
     const separator: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.separator}`);
+    const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
 
     expect(separator).toBeDefined();
+    expect(content).toBeDefined();
     expect(separator.getAttribute("aria-valuenow")).toBe("320");
+    expect((await content.getComputedStyle()).width).toBe("320px");
 
     await separator.press("ArrowRight");
     await page.waitForChanges();
 
     expect(separator.getAttribute("aria-valuenow")).toBe("321");
+    expect((await content.getComputedStyle()).width).toBe("321px");
 
     await separator.press("ArrowUp");
     await page.waitForChanges();
 
     expect(separator.getAttribute("aria-valuenow")).toBe("322");
+    expect((await content.getComputedStyle()).width).toBe("322px");
 
     await separator.press("ArrowLeft");
     await page.waitForChanges();
 
     expect(separator.getAttribute("aria-valuenow")).toBe("321");
+    expect((await content.getComputedStyle()).width).toBe("321px");
 
     await separator.press("ArrowDown");
     await page.waitForChanges();
 
     expect(separator.getAttribute("aria-valuenow")).toBe("320");
+    expect((await content.getComputedStyle()).width).toBe("320px");
 
     await separator.press("PageDown");
     await page.waitForChanges();
 
     expect(separator.getAttribute("aria-valuenow")).toBe("310");
+    expect((await content.getComputedStyle()).width).toBe("310px");
 
     await separator.press("PageUp");
     await page.waitForChanges();
 
     expect(separator.getAttribute("aria-valuenow")).toBe("320");
+    expect((await content.getComputedStyle()).width).toBe("320px");
 
     await separator.press("Home");
     await page.waitForChanges();
 
     expect(separator.getAttribute("aria-valuenow")).toBe("240");
+    expect((await content.getComputedStyle()).width).toBe("240px");
 
     await separator.press("End");
     await page.waitForChanges();
 
     expect(separator.getAttribute("aria-valuenow")).toBe("420");
+    expect((await content.getComputedStyle()).width).toBe("420px");
   });
 
   it("Should resize via mouse", async () => {
@@ -355,9 +369,12 @@ describe("calcite-shell-panel", () => {
     await page.waitForChanges();
 
     const separator: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.separator}`);
+    const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
 
     expect(separator).toBeDefined();
+    expect(content).toBeDefined();
     expect(separator.getAttribute("aria-valuenow")).toBe("320");
+    expect((await content.getComputedStyle()).width).toBe("320px");
 
     const [x, y] = await getElementXY(page, "calcite-shell-panel", `.${CSS.separator}`);
 
@@ -367,5 +384,6 @@ describe("calcite-shell-panel", () => {
     await page.waitForChanges();
 
     expect(separator.getAttribute("aria-valuenow")).toBe("330");
+    expect((await content.getComputedStyle()).width).toBe("330px");
   });
 });

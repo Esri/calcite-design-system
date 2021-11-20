@@ -13,7 +13,6 @@ import {
 import { CSS, SLOTS, TEXT } from "./resources";
 import { Position, Scale } from "../interfaces";
 import { getSlotted } from "../../utils/dom";
-import { getKey } from "../../utils/key";
 import { clamp } from "../../utils/math";
 
 /**
@@ -63,7 +62,8 @@ export class CalciteShellPanel {
    */
   @Prop({ reflect: true }) position: Position;
 
-  /** Accessible label for resize separator.
+  /**
+   * Accessible label for resize separator.
    * @default "Resize"
    */
   @Prop() intlResize = TEXT.resize;
@@ -202,17 +202,17 @@ export class CalciteShellPanel {
   // --------------------------------------------------------------------------
 
   setContentWidth(width: number): void {
-    const { contentWidthMax, contentWidthMin, position } = this;
+    const { contentWidthMax, contentWidthMin } = this;
 
-    const rounded = Math.round(position === "end" ? width : width);
+    const roundedWidth = Math.round(width);
 
     this.contentWidth =
       typeof contentWidthMax === "number" && typeof contentWidthMin === "number"
-        ? clamp(rounded, contentWidthMin, contentWidthMax)
-        : rounded;
+        ? clamp(roundedWidth, contentWidthMin, contentWidthMax)
+        : roundedWidth;
   }
 
-  updateAriaValues = (): void => {
+  updateAriaValues(): void {
     const { contentEl } = this;
     const computedStyle = contentEl && getComputedStyle(contentEl);
 
@@ -237,14 +237,14 @@ export class CalciteShellPanel {
     }
 
     forceUpdate(this);
-  };
+  }
 
   storeContentEl = (contentEl: HTMLDivElement): void => {
     this.contentEl = contentEl;
   };
 
-  getKeyvalue = (event: KeyboardEvent): number => {
-    const key = getKey(event.key);
+  getKeyAdjustedWidth = (event: KeyboardEvent): number | null => {
+    const { key } = event;
     const {
       step,
       stepMultiplier,
@@ -268,7 +268,6 @@ export class CalciteShellPanel {
 
     if (MOVEMENT_KEYS.indexOf(key) > -1) {
       event.preventDefault();
-      event.stopPropagation();
     }
 
     const increaseKeys =
@@ -310,7 +309,7 @@ export class CalciteShellPanel {
 
   separatorKeyDown = (event: KeyboardEvent): void => {
     this.setInitialContentWidth();
-    const width = this.getKeyvalue(event);
+    const width = this.getKeyAdjustedWidth(event);
 
     if (typeof width === "number") {
       this.setContentWidth(width);
