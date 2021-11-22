@@ -126,7 +126,9 @@ export class CalciteAlert {
   }
 
   disconnectedCallback(): void {
-    clearTimeout(this.autoDismissTimeout);
+    if (this.autoDismissTimeout) {
+      clearTimeout(this.autoDismissTimeout);
+    }
   }
 
   render(): VNode {
