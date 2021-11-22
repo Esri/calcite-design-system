@@ -57,7 +57,7 @@ export const RangeLabeledTicks = (): string => html`
     max-label="${text("max-label", "Temperature, upper bound")}"
     max-value="${number("max-value", 100)}"
     step="${number("step", 10)}"
-    ${boolean("label-handles", false)}
+    ${boolean("label-handles", true)}
     ${boolean("label-ticks", true)}
     ${boolean("precise", false)}
     ${boolean("snap", true)}
@@ -73,7 +73,7 @@ export const RangeLabeledTicksMirror = (): string => html`
     max-label="${text("max-label", "Temperature, upper bound")}"
     max-value="${number("max-value", 100)}"
     step="${number("step", 10)}"
-    ${boolean("label-handles", false)}
+    ${boolean("label-handles", true)}
     ${boolean("label-ticks", true)}
     ${boolean("precise", false)}
     ${boolean("snap", true)}
@@ -90,7 +90,7 @@ export const RangeLabeledTicksOverlappingAtMax = (): string => html`
     max-label="${text("max-label", "Temperature, upper bound")}"
     max-value="${number("max-value", 100)}"
     step="${number("step", 10)}"
-    ${boolean("label-handles", false)}
+    ${boolean("label-handles", true)}
     ${boolean("label-ticks", true)}
     ${boolean("precise", false)}
     ${boolean("snap", true)}
@@ -106,7 +106,7 @@ export const RangeLabeledTicksOverlappingAtMin = (): string => html`
     max-label="${text("max-label", "Temperature, upper bound")}"
     max-value="${number("max-value", 5)}"
     step="${number("step", 10)}"
-    ${boolean("label-handles", false)}
+    ${boolean("label-handles", true)}
     ${boolean("label-ticks", true)}
     ${boolean("precise", false)}
     ${boolean("snap", true)}
@@ -122,7 +122,7 @@ export const RangeLabeledTicksEdgePositioningAtMax = (): string => html`
     max-label="${text("max-label", "Temperature, upper bound")}"
     max-value="${number("max-value", 100)}"
     step="${number("step", 10)}"
-    ${boolean("label-handles", false)}
+    ${boolean("label-handles", true)}
     ${boolean("label-ticks", true)}
     ${boolean("precise", false)}
     ${boolean("snap", true)}
@@ -138,7 +138,7 @@ export const RangeLabeledTicksEdgePositioningAtMin = (): string => html`
     max-label="${text("max-label", "Temperature, upper bound")}"
     max-value="${number("max-value", 5.5)}"
     step="${number("step", 10)}"
-    ${boolean("label-handles", false)}
+    ${boolean("label-handles", true)}
     ${boolean("label-ticks", true)}
     ${boolean("precise", false)}
     ${boolean("snap", true)}
