@@ -68,7 +68,7 @@ export const RangeLabeledTicksMirror = (): string => html`
   <calcite-slider
     min="${number("min", 5)}"
     min-label="${text("min-label", "Temperature, lower bound")}"
-    min-value="${number("min-value", 100)}"
+    min-value="${number("min-value", 95)}"
     max="${number("max", 100)}"
     max-label="${text("max-label", "Temperature, upper bound")}"
     max-value="${number("max-value", 100)}"
@@ -78,6 +78,70 @@ export const RangeLabeledTicksMirror = (): string => html`
     ${boolean("precise", false)}
     ${boolean("snap", true)}
     ${boolean("mirrored", true)}
+  ></calcite-slider>
+`;
+
+export const RangeLabeledTicksOverlappingAtMax = (): string => html`
+  <calcite-slider
+    min="${number("min", 5)}"
+    min-label="${text("min-label", "Temperature, lower bound")}"
+    min-value="${number("min-value", 100)}"
+    max="${number("max", 100)}"
+    max-label="${text("max-label", "Temperature, upper bound")}"
+    max-value="${number("max-value", 100)}"
+    step="${number("step", 10)}"
+    ${boolean("label-handles", false)}
+    ${boolean("label-ticks", true)}
+    ${boolean("precise", false)}
+    ${boolean("snap", true)}
+  ></calcite-slider>
+`;
+
+export const RangeLabeledTicksOverlappingAtMin = (): string => html`
+  <calcite-slider
+    min="${number("min", 5)}"
+    min-label="${text("min-label", "Temperature, lower bound")}"
+    min-value="${number("min-value", 5)}"
+    max="${number("max", 100)}"
+    max-label="${text("max-label", "Temperature, upper bound")}"
+    max-value="${number("max-value", 5)}"
+    step="${number("step", 10)}"
+    ${boolean("label-handles", false)}
+    ${boolean("label-ticks", true)}
+    ${boolean("precise", false)}
+    ${boolean("snap", true)}
+  ></calcite-slider>
+`;
+
+export const RangeLabeledTicksEdgePositioningAtMax = (): string => html`
+  <calcite-slider
+    min="${number("min", 5)}"
+    min-label="${text("min-label", "Temperature, lower bound")}"
+    min-value="${number("min-value", 99.5)}"
+    max="${number("max", 100)}"
+    max-label="${text("max-label", "Temperature, upper bound")}"
+    max-value="${number("max-value", 100)}"
+    step="${number("step", 10)}"
+    ${boolean("label-handles", false)}
+    ${boolean("label-ticks", true)}
+    ${boolean("precise", false)}
+    ${boolean("snap", true)}
+  ></calcite-slider>
+`;
+
+export const RangeLabeledTicksEdgePositioningAtMin = (): string => html`
+  <calcite-slider
+    min="${number("min", 5)}"
+    min-label="${text("min-label", "Temperature, lower bound")}"
+    min-value="${number("min-value", 5)}"
+    max="${number("max", 100)}"
+    max-label="${text("max-label", "Temperature, upper bound")}"
+    max-value="${number("max-value", 5.5)}"
+    step="${number("step", 10)}"
+    ${boolean("label-handles", false)}
+    ${boolean("label-ticks", true)}
+    ${boolean("precise", false)}
+    ${boolean("snap", true)}
   ></calcite-slider>
 `;
 
