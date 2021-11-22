@@ -8,8 +8,8 @@ import { getElementXY } from "../../tests/utils";
 import { KeyInput } from "puppeteer";
 
 describe("calcite-input", () => {
-  const delayFor2UpdatesInMs = 200;
-  const delayFor11UpdatesInMs = 1200;
+  const delayFor3UpdatesInMs = 300;
+  const delayFor13UpdatesInMs = 1300;
 
   it("honors form reset", async () => {
     const defaultValue = "defaultValue";
@@ -284,7 +284,7 @@ describe("calcite-input", () => {
     expect(await element.getProperty("value")).toBe("25");
   });
 
-  it.skip("correctly increments and decrements on long hold on mousedown and step is set to a decimal", async () => {
+  it("correctly increments and decrements on long hold on mousedown and step is set to a decimal", async () => {
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-input type="number" value="0" step="0.01"></calcite-input>
@@ -295,25 +295,30 @@ describe("calcite-input", () => {
       "calcite-input",
       ".number-button-item[data-adjustment='up']"
     );
+
+    expect(await input.getProperty("value")).toBe("0");
+    await page.mouse.move(buttonUpLocationX, buttonUpLocationY);
+    await page.mouse.down();
+    await page.waitForTimeout(delayFor13UpdatesInMs);
+    await page.mouse.up();
+    await page.waitForChanges();
+    let value = await input.getProperty("value");
+    expect(parseFloat(value)).toBeGreaterThan(0.11);
+    expect(parseFloat(value)).toBeLessThanOrEqual(0.14);
+
     const [buttonDownLocationX, buttonDownLocationY] = await getElementXY(
       page,
       "calcite-input",
       ".number-button-item[data-adjustment='down']"
     );
-
-    await page.mouse.move(buttonUpLocationX, buttonUpLocationY);
-    await page.mouse.down();
-    await page.waitForTimeout(delayFor11UpdatesInMs);
-    await page.mouse.up();
-    await page.waitForChanges();
-    expect(await input.getProperty("value")).toBe("0.12");
-
     await page.mouse.move(buttonDownLocationX, buttonDownLocationY);
     await page.mouse.down();
-    await page.waitForTimeout(delayFor11UpdatesInMs);
+    await page.waitForTimeout(delayFor13UpdatesInMs);
     await page.mouse.up();
     await page.waitForChanges();
-    expect(await input.getProperty("value")).toBe("0");
+    value = await input.getProperty("value");
+    expect(parseFloat(value)).toBeGreaterThanOrEqual(-0.01);
+    expect(parseFloat(value)).toBeLessThan(0.02);
   });
 
   it("correctly increments and decrements value by one when any is set for step", async () => {
@@ -744,7 +749,7 @@ describe("calcite-input", () => {
     expect(calciteInputInput).toHaveReceivedEventTimes(3);
   });
 
-  it.skip("should emit an event every 100ms on keyboard down ArrowUp/ArrowDown and stop on keyboard up", async () => {
+  it("should emit an event every 100ms on keyboard down ArrowUp/ArrowDown and stop on keyboard up", async () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-input type="number" value="0"></calcite-input>
@@ -754,71 +759,92 @@ describe("calcite-input", () => {
     await input.callMethod("setFocus");
 
     await page.keyboard.down("ArrowUp");
-    await page.waitForTimeout(delayFor2UpdatesInMs);
+    await page.waitForTimeout(delayFor3UpdatesInMs);
     await page.keyboard.up("ArrowUp");
     await page.waitForChanges();
     let value = await input.getProperty("value");
     expect(parseInt(value)).toBeGreaterThan(1);
+    expect(parseInt(value)).toBeLessThan(4);
 
     await page.keyboard.down("ArrowDown");
-    await page.waitForTimeout(delayFor2UpdatesInMs);
+    await page.waitForTimeout(delayFor3UpdatesInMs);
     await page.keyboard.up("ArrowDown");
     await page.waitForChanges();
     value = await input.getProperty("value");
-    expect(parseInt(value)).toBeLessThan(1);
+    expect(parseInt(value)).toBeLessThan(2);
+    expect(parseInt(value)).toBeGreaterThanOrEqual(-1);
   });
 
-  it("should emit an event every 100ms on mousedown on up/down buttons and stop on mouseup/mouseleave", async () => {
+  it("should emit an event every 100ms on mousedown on up/down buttons and stop on mouseleave", async () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-input type="number" value="0"></calcite-input>
     `);
-    const calciteInputInput = await page.spyOnEvent("calciteInputInput");
+    const input = await page.find("calcite-input");
     const [buttonUpLocationX, buttonUpLocationY] = await getElementXY(
       page,
       "calcite-input",
       ".number-button-item[data-adjustment='up']"
     );
-    expect(calciteInputInput).toHaveReceivedEventTimes(0);
+    expect(await input.getProperty("value")).toBe("0");
     await page.mouse.move(buttonUpLocationX, buttonUpLocationY);
     await page.mouse.down();
-    await page.waitForChanges();
-    expect(calciteInputInput).toHaveReceivedEventTimes(1);
-    await page.waitForTimeout(delayFor2UpdatesInMs);
-    await page.mouse.up();
-    await page.waitForChanges();
-    expect(calciteInputInput).toHaveReceivedEventTimes(3);
-
-    await page.mouse.down();
-    await page.waitForChanges();
-    expect(calciteInputInput).toHaveReceivedEventTimes(4);
-    await page.waitForTimeout(delayFor2UpdatesInMs);
+    await page.waitForTimeout(delayFor3UpdatesInMs);
     await page.mouse.move(buttonUpLocationX - 1, buttonUpLocationY - 1);
     await page.waitForChanges();
-    expect(calciteInputInput).toHaveReceivedEventTimes(6);
+    let value = await input.getProperty("value");
+    expect(parseInt(value)).toBeGreaterThan(1);
+    expect(parseInt(value)).toBeLessThan(4);
 
     const [buttonDownLocationX, buttonDownLocationY] = await getElementXY(
       page,
       "calcite-input",
       ".number-button-item[data-adjustment='down']"
     );
-    expect(calciteInputInput).toHaveReceivedEventTimes(6);
     await page.mouse.move(buttonDownLocationX, buttonDownLocationY);
     await page.mouse.down();
-    await page.waitForChanges();
-    expect(calciteInputInput).toHaveReceivedEventTimes(7);
-    await page.waitForTimeout(delayFor2UpdatesInMs);
-    await page.mouse.up();
-    await page.waitForChanges();
-    expect(calciteInputInput).toHaveReceivedEventTimes(9);
-
-    await page.mouse.down();
-    await page.waitForChanges();
-    expect(calciteInputInput).toHaveReceivedEventTimes(10);
-    await page.waitForTimeout(delayFor2UpdatesInMs);
+    await page.waitForTimeout(delayFor3UpdatesInMs);
     await page.mouse.move(buttonDownLocationX - 1, buttonDownLocationY - 1);
     await page.waitForChanges();
-    expect(calciteInputInput).toHaveReceivedEventTimes(12);
+    value = await input.getProperty("value");
+    expect(parseInt(value)).toBeLessThan(2);
+    expect(parseInt(value)).toBeGreaterThanOrEqual(-1);
+  });
+
+  it("should emit an event every 100ms on mousedown on up/down buttons and stop on mouseup", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-input type="number" value="0"></calcite-input>
+    `);
+    const input = await page.find("calcite-input");
+    const [buttonUpLocationX, buttonUpLocationY] = await getElementXY(
+      page,
+      "calcite-input",
+      ".number-button-item[data-adjustment='up']"
+    );
+    expect(await input.getProperty("value")).toBe("0");
+    await page.mouse.move(buttonUpLocationX, buttonUpLocationY);
+    await page.mouse.down();
+    await page.waitForTimeout(delayFor3UpdatesInMs);
+    await page.mouse.up();
+    await page.waitForChanges();
+    let value = await input.getProperty("value");
+    expect(parseInt(value)).toBeGreaterThan(1);
+    expect(parseInt(value)).toBeLessThan(4);
+
+    const [buttonDownLocationX, buttonDownLocationY] = await getElementXY(
+      page,
+      "calcite-input",
+      ".number-button-item[data-adjustment='down']"
+    );
+    await page.mouse.move(buttonDownLocationX, buttonDownLocationY);
+    await page.mouse.down();
+    await page.waitForTimeout(delayFor3UpdatesInMs);
+    await page.mouse.up();
+    await page.waitForChanges();
+    value = await input.getProperty("value");
+    expect(parseInt(value)).toBeLessThan(2);
+    expect(parseInt(value)).toBeGreaterThanOrEqual(-1);
   });
 
   it("allows restricting input length", async () => {
