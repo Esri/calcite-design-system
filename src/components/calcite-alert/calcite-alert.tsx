@@ -86,8 +86,6 @@ export class CalciteAlert {
   /** specify the scale of the button, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  @Prop() id: string;
-
   @Watch("icon")
   @Watch("color")
   updateRequestedIcon(): void {
