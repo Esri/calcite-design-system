@@ -126,8 +126,66 @@ export class CalciteAlert {
   }
 
   disconnectedCallback(): void {
-    // clear all timeout ids in array
     clearTimeout(this.autoDismissTimeout);
+  }
+
+  render(): VNode {
+    const dir = getElementDir(this.el);
+    const closeButton = (
+      <button
+        aria-label={this.intlClose}
+        class="alert-close"
+        onClick={this.closeAlert}
+        ref={(el) => (this.closeButton = el)}
+        type="button"
+      >
+        <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
+      </button>
+    );
+    const queueText = `+${this.queueLength > 2 ? this.queueLength - 1 : 1}`;
+    const queueCount = (
+      <div class={`${this.queueLength > 1 ? "active " : ""}alert-queue-count`}>
+        <calcite-chip scale={this.scale} value={queueText}>
+          {queueText}
+        </calcite-chip>
+      </div>
+    );
+
+    const { active, autoDismiss, label, queued, requestedIcon } = this;
+    const progressBar = <div class="alert-dismiss-progress" />;
+    const role = autoDismiss ? "alert" : "alertdialog";
+    const hidden = !active;
+
+    return (
+      <Host
+        aria-hidden={hidden.toString()}
+        aria-label={label}
+        calcite-hydrated-hidden={hidden}
+        role={role}
+      >
+        <div
+          class={{
+            container: true,
+            queued,
+            [CSS_UTILITY.rtl]: dir === "rtl"
+          }}
+        >
+          {requestedIcon ? (
+            <div class="alert-icon">
+              <calcite-icon icon={requestedIcon} scale={this.scale === "l" ? "m" : "s"} />
+            </div>
+          ) : null}
+          <div class="alert-content">
+            <slot name={SLOTS.title} />
+            <slot name={SLOTS.message} />
+            <slot name={SLOTS.link} />
+          </div>
+          {queueCount}
+          {!autoDismiss ? closeButton : null}
+          {active && !queued && autoDismiss ? progressBar : null}
+        </div>
+      </Host>
+    );
   }
 
   //--------------------------------------------------------------------------
@@ -272,64 +330,5 @@ export class CalciteAlert {
       el: this.el,
       queue: this.queue
     });
-  }
-
-  render(): VNode {
-    const dir = getElementDir(this.el);
-    const closeButton = (
-      <button
-        aria-label={this.intlClose}
-        class="alert-close"
-        onClick={this.closeAlert}
-        ref={(el) => (this.closeButton = el)}
-        type="button"
-      >
-        <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
-      </button>
-    );
-    const queueText = `+${this.queueLength > 2 ? this.queueLength - 1 : 1}`;
-    const queueCount = (
-      <div class={`${this.queueLength > 1 ? "active " : ""}alert-queue-count`}>
-        <calcite-chip scale={this.scale} value={queueText}>
-          {queueText}
-        </calcite-chip>
-      </div>
-    );
-
-    const { active, autoDismiss, label, queued, requestedIcon } = this;
-    const progressBar = <div class="alert-dismiss-progress" />;
-    const role = autoDismiss ? "alert" : "alertdialog";
-    const hidden = !active;
-
-    return (
-      <Host
-        aria-hidden={hidden.toString()}
-        aria-label={label}
-        calcite-hydrated-hidden={hidden}
-        role={role}
-      >
-        <div
-          class={{
-            container: true,
-            queued,
-            [CSS_UTILITY.rtl]: dir === "rtl"
-          }}
-        >
-          {requestedIcon ? (
-            <div class="alert-icon">
-              <calcite-icon icon={requestedIcon} scale={this.scale === "l" ? "m" : "s"} />
-            </div>
-          ) : null}
-          <div class="alert-content">
-            <slot name={SLOTS.title} />
-            <slot name={SLOTS.message} />
-            <slot name={SLOTS.link} />
-          </div>
-          {queueCount}
-          {!autoDismiss ? closeButton : null}
-          {active && !queued && autoDismiss ? progressBar : null}
-        </div>
-      </Host>
-    );
   }
 }
