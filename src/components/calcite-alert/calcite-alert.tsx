@@ -127,7 +127,7 @@ export class CalciteAlert {
 
   disconnectedCallback(): void {
     if (this.autoDismissTimeout) {
-      clearTimeout(this.autoDismissTimeout);
+      window.clearTimeout(this.autoDismissTimeout);
     }
   }
 
