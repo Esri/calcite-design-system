@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- **slider:** range slider maxValue label no longer overlaps with preceding labels ([#3439](https://github.com/Esri/calcite-components/issues/3439)) ([233d186](https://github.com/Esri/calcite-components/commit/233d18675dd5471ea91b970efb10e6975cf06cb1))
 - fix build on windows ([#2697](https://github.com/Esri/calcite-components/issues/2697)) ([#3532](https://github.com/Esri/calcite-components/issues/3532)) ([43b0d88](https://github.com/Esri/calcite-components/commit/43b0d889bd0707244e5605e81456d07312e7bee2))
 - **accordion-item:** clicking on an accordion with selection-mode=single no longer toggles unrelated accordions with the same selection mode ([#3511](https://github.com/Esri/calcite-components/issues/3511)) ([6a88f50](https://github.com/Esri/calcite-components/commit/6a88f5061b765ca401a5dcb281b138192003d3d2))
 - **block:** heading and summary now align in RTL ([#3490](https://github.com/Esri/calcite-components/issues/3490)) ([331aef8](https://github.com/Esri/calcite-components/commit/331aef8c096f5ccdb1abda880c2b1482d1736a69))
