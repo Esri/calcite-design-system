@@ -94,7 +94,7 @@
     "@types/shell-quote": "1.7.1",
     "@types/sortablejs": "1.10.7",
     "@types/standard-version": "7.0.1",
-    "@types/yargs": "17.0.5",
+    "@types/yargs": "17.0.7",
     "@typescript-eslint/eslint-plugin": "5.4.0",
     "@typescript-eslint/parser": "5.4.0",
     "@whitespace/storybook-addon-html": "5.0.0",
