@@ -638,7 +638,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
           "tick__label--max": isMaxTickLabel
         }}
       >
-        {Math.min(tick, this.max).toLocaleString()}
+        {tick.toLocaleString()}
       </span>
     );
     if (this.labelTicks && !this.hasHistogram && !this.isRange) {
@@ -889,7 +889,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
     const ticks = [];
     let current = this.min;
     while (this.ticks && current < this.max + this.ticks) {
-      ticks.push(current);
+      ticks.push(Math.min(current, this.max));
       current = current + this.ticks;
     }
     return ticks;
