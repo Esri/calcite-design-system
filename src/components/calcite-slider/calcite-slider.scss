@@ -302,6 +302,7 @@ $tick-height: 4px;
   margin-left: -2px;
   border: 1px solid var(--calcite-ui-foreground-1);
   background-color: var(--calcite-ui-border-1);
+  pointer-events: none;
 }
 
 .tick--active {
