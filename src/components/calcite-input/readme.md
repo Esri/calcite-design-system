@@ -28,7 +28,6 @@ You must use `focusin`/`focusout` instead of `focus`/`blur` because these events
 All events return an element and a value:
 
 ```js
-input.addEventListener("change", logChange);
 input.addEventListener("focusin", logFocus);
 input.addEventListener("focusout", logBlur);
 
@@ -98,9 +97,10 @@ Using a wrapping `calcite-label` component lets consumers set the status attribu
 
 ## Events
 
-| Event               | Description                                      | Type               |
-| ------------------- | ------------------------------------------------ | ------------------ |
-| `calciteInputInput` | This event fires each time a new value is typed. | `CustomEvent<any>` |
+| Event                | Description                                                    | Type                |
+| -------------------- | -------------------------------------------------------------- | ------------------- |
+| `calciteInputChange` | This event fires each time a new value is typed and committed. | `CustomEvent<void>` |
+| `calciteInputInput`  | This event fires each time a new value is typed.               | `CustomEvent<any>`  |
 
 ## Methods
 
