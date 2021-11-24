@@ -245,6 +245,78 @@ describe("calcite-radio-button", () => {
     expect(changeEvent).toHaveReceivedEventTimes(1);
   });
 
+  it("appropriately triggers the custom internal focus and blur events on click", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-radio-button></calcite-radio-button><calcite-radio-button id="two"></calcite-radio-button>`
+    );
+
+    const radio = await page.find("calcite-radio-button");
+    const radio2 = await page.find("calcite-radio-button#two");
+
+    const focusEvent = await radio.spyOnEvent("calciteInternalRadioButtonFocus");
+    const blurEvent = await radio.spyOnEvent("calciteInternalRadioButtonBlur");
+
+    expect(focusEvent).toHaveReceivedEventTimes(0);
+    expect(blurEvent).toHaveReceivedEventTimes(0);
+
+    await radio.click();
+
+    expect(focusEvent).toHaveReceivedEventTimes(1);
+    expect(blurEvent).toHaveReceivedEventTimes(0);
+
+    await radio2.click();
+
+    expect(focusEvent).toHaveReceivedEventTimes(1);
+    expect(blurEvent).toHaveReceivedEventTimes(1);
+  });
+
+  it("appropriately triggers the custom internal focus and blur events with keyboard", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-radio-button name="example"></calcite-radio-button><calcite-radio-button name="example"></calcite-radio-button>`
+    );
+
+    const radio = await page.find("calcite-radio-button");
+
+    const focusEvent = await radio.spyOnEvent("calciteInternalRadioButtonFocus");
+    const blurEvent = await radio.spyOnEvent("calciteInternalRadioButtonBlur");
+
+    expect(focusEvent).toHaveReceivedEventTimes(0);
+    expect(blurEvent).toHaveReceivedEventTimes(0);
+
+    await page.keyboard.press("Tab");
+
+    expect(focusEvent).toHaveReceivedEventTimes(1);
+    expect(blurEvent).toHaveReceivedEventTimes(0);
+
+    await page.keyboard.press("ArrowRight");
+
+    expect(focusEvent).toHaveReceivedEventTimes(1);
+    expect(blurEvent).toHaveReceivedEventTimes(1);
+  });
+
+  it("round robins to the first radio when pressing right arrow on the last radio", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-radio-button name="example"></calcite-radio-button><calcite-radio-button id="two" name="example"></calcite-radio-button>`
+    );
+
+    const radio = await page.find("calcite-radio-button");
+    const radio2 = await page.find("calcite-radio-button#two");
+
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("ArrowRight");
+
+    expect(await radio.getProperty("checked")).toBe(false);
+    expect(await radio2.getProperty("checked")).toBe(true);
+
+    await page.keyboard.press("ArrowRight");
+
+    expect(await radio.getProperty("checked")).toBe(true);
+    expect(await radio2.getProperty("checked")).toBe(false);
+  });
+
   it("doesn't emit when controlling checked attribute", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-radio-button value='test-value'></calcite-radio-button>");
