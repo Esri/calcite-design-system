@@ -296,7 +296,7 @@ describe("calcite-radio-button", () => {
     expect(blurEvent).toHaveReceivedEventTimes(1);
   });
 
-  it("round robins to the first radio when pressing right arrow on the last radio", async () => {
+  it("round robins to the first or last radio when pressing right arrow on the last radio or left arrow on the first radio", async () => {
     const page = await newE2EPage();
     await page.setContent(
       `<calcite-radio-button name="example"></calcite-radio-button><calcite-radio-button id="two" name="example"></calcite-radio-button>`
@@ -315,6 +315,11 @@ describe("calcite-radio-button", () => {
 
     expect(await radio.getProperty("checked")).toBe(true);
     expect(await radio2.getProperty("checked")).toBe(false);
+
+    await page.keyboard.press("ArrowLeft");
+
+    expect(await radio.getProperty("checked")).toBe(false);
+    expect(await radio2.getProperty("checked")).toBe(true);
   });
 
   it("doesn't emit when controlling checked attribute", async () => {
