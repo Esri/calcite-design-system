@@ -120,7 +120,7 @@ export const Default = stepStory(
     .snapshot("Input Disabled No Icon Hover")
 
     // Input Disabled No Icon Focus
-    .focus("calcite-tile-select")
+    .keys("calcite-tile-select", "Tab")
     .snapshot("Input Disabled No Icon Focus")
 
     // Input Disabled No Icon Click
@@ -137,7 +137,7 @@ export const Default = stepStory(
     .snapshot("Input Disabled No Icon Hover Dark")
 
     // Input Disabled No Icon Focus Dark
-    .focus("calcite-tile-select")
+    .keys("calcite-tile-select", "Tab")
     .snapshot("Input Disabled No Icon Focus Dark")
 
     // Input Disabled No Icon Click Dark
