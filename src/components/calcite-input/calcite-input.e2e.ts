@@ -318,24 +318,22 @@ describe("calcite-input", () => {
 
   it("correctly increments and decrements value by one when any is set for step", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input type="number" step="any" value="5.5"></calcite-input>
-    `);
+    await page.setContent(html`<calcite-input type="number" step="any" value="5.5"></calcite-input>`);
 
     const element = await page.find("calcite-input");
 
     const numberHorizontalItemDown = await page.find("calcite-input >>> .number-button-item[data-adjustment='down']");
     const numberHorizontalItemUp = await page.find("calcite-input >>> .number-button-item[data-adjustment='up']");
-    expect(await element.getProperty("value")).toBe("5.5");
+
     await numberHorizontalItemDown.click();
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("5");
+    expect(await element.getProperty("value")).toBe("4.5");
     await numberHorizontalItemUp.click();
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("6");
+    expect(await element.getProperty("value")).toBe("5.5");
     await numberHorizontalItemUp.click();
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("7");
+    expect(await element.getProperty("value")).toBe("6.5");
   });
 
   it("correctly increments and decrements value by one when step is undefined", async () => {

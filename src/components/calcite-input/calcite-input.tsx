@@ -383,22 +383,26 @@ export class CalciteInput implements LabelableComponent, FormComponent {
 
   incrementOrDecrementNumberValue(
     direction: NumberNudgeDirection,
-    inputMax: number,
-    inputMin: number,
+    inputMax: number | null,
+    inputMin: number | null,
     nativeEvent: KeyboardEvent | MouseEvent
   ): void {
-    const value = this.value;
+    const { value } = this;
     const inputStep = this.step === "any" ? 1 : Math.abs(this.step || 1);
     const inputVal = value && value !== "" ? parseFloat(value) : 0;
-    let newValue = value;
 
-    if (direction === "up" && ((!inputMax && inputMax !== 0) || inputVal < inputMax)) {
-      newValue = (inputVal + inputStep).toFixed(decimalPlaces(inputStep)).toString();
-    }
-    if (direction === "down" && ((!inputMin && inputMin !== 0) || inputVal > inputMin)) {
-      newValue = (inputVal - inputStep).toFixed(decimalPlaces(inputStep)).toString();
-    }
-    this.setValue(newValue, nativeEvent, true);
+    const adjustment = direction === "up" ? 1 : -1;
+    const nudgedValue = inputVal + inputStep * adjustment;
+    const finalValue =
+      (typeof inputMin === "number" && !isNaN(inputMin) && nudgedValue < inputMin) ||
+      (typeof inputMax === "number" && !isNaN(inputMax) && nudgedValue > inputMax)
+        ? inputVal
+        : nudgedValue;
+
+    const inputValPlaces = decimalPlaces(inputVal);
+    const inputStepPlaces = decimalPlaces(inputStep);
+
+    this.setValue(finalValue.toFixed(Math.max(inputValPlaces, inputStepPlaces)), nativeEvent, true);
   }
 
   private clearInputValue = (nativeEvent: KeyboardEvent | MouseEvent): void => {
