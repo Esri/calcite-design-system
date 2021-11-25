@@ -143,11 +143,7 @@ export class CalciteRadioButton implements LabelableComponent, CheckableFormComp
   //--------------------------------------------------------------------------
 
   selectItem = (items: HTMLCalciteRadioButtonElement[], selectedIndex: number): void => {
-    items.forEach((item, index) => {
-      const selected = index === selectedIndex;
-      item.checked = selected;
-      item.focused = selected;
-    });
+    items[selectedIndex].click();
   };
 
   queryButtons = (): HTMLCalciteRadioButtonElement[] => {
@@ -167,8 +163,8 @@ export class CalciteRadioButton implements LabelableComponent, CheckableFormComp
     }
     this.uncheckAllRadioButtonsInGroup();
     this.checked = true;
-    this.focused = true;
     this.calciteRadioButtonChange.emit();
+    this.setFocus();
   };
 
   private clickHandler = (): void => {
@@ -380,7 +376,7 @@ export class CalciteRadioButton implements LabelableComponent, CheckableFormComp
 
   componentDidLoad(): void {
     if (this.focused) {
-      this.containerEl.focus();
+      this.setFocus();
     }
   }
 
