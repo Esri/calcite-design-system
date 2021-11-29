@@ -92,6 +92,17 @@ export class CalciteAlert {
     this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
   }
 
+  @Watch("autoDismissDuration")
+  updateDuration(newDuration: string, prevDuration: string): void {
+    if (this.autoDismiss && prevDuration !== newDuration && this.autoDismissTimeout) {
+      window.clearTimeout(this.autoDismissTimeout);
+      this.autoDismissTimeout = window.setTimeout(
+        () => this.closeAlert(),
+        DURATIONS[this.autoDismissDuration] - (new Date().valueOf() - this.trackTimer.valueOf())
+      );
+    }
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -110,6 +121,12 @@ export class CalciteAlert {
 
   componentDidLoad(): void {
     this.alertLinkEl = this.el.querySelectorAll("calcite-link")[0] as HTMLCalciteLinkElement;
+  }
+
+  disconnectedCallback(): void {
+    if (this.autoDismissTimeout) {
+      window.clearTimeout(this.autoDismissTimeout);
+    }
   }
 
   render(): VNode {
@@ -135,7 +152,7 @@ export class CalciteAlert {
     );
 
     const { active, autoDismiss, label, queued, requestedIcon } = this;
-    const progress = <div class="alert-dismiss-progress" />;
+    const progressBar = <div class="alert-dismiss-progress" />;
     const role = autoDismiss ? "alert" : "alertdialog";
     const hidden = !active;
 
@@ -165,7 +182,7 @@ export class CalciteAlert {
           </div>
           {queueCount}
           {!autoDismiss ? closeButton : null}
-          {active && !queued && autoDismiss ? progress : null}
+          {active && !queued && autoDismiss ? progressBar : null}
         </div>
       </Host>
     );
@@ -257,9 +274,11 @@ export class CalciteAlert {
   /** the slotted alert link child element  */
   private alertLinkEl?: HTMLCalciteLinkElement;
 
-  private autoDismissTimeout: number;
+  private autoDismissTimeout: number = null;
 
   private queueTimeout: number;
+
+  private trackTimer = new Date();
 
   /** the computed icon to render */
   /* @internal */
@@ -275,8 +294,8 @@ export class CalciteAlert {
   private determineActiveAlert(): void {
     if (this.queue?.[0] === this.el) {
       this.openAlert();
-      clearTimeout(this.autoDismissTimeout);
-      if (this.autoDismiss) {
+      if (this.autoDismiss && !this.autoDismissTimeout) {
+        this.trackTimer = new Date();
         this.autoDismissTimeout = window.setTimeout(
           () => this.closeAlert(),
           DURATIONS[this.autoDismissDuration]
@@ -289,6 +308,9 @@ export class CalciteAlert {
 
   /** close and emit the closed alert and the queue */
   private closeAlert = (): void => {
+    if (this.autoDismissTimeout) {
+      this.autoDismissTimeout = null;
+    }
     this.queued = false;
     this.active = false;
     this.queue = this.queue.filter((e) => e !== this.el);
