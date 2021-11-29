@@ -289,23 +289,25 @@ export class CalcitePickListItem {
       <Fragment>
         {this.renderIcon()}
         {this.renderActionsStart()}
-        <label
-          aria-label={label}
-          class={CSS.label}
-          onClick={this.pickListClickHandler}
-          onKeyDown={this.pickListKeyDownHandler}
-          ref={(focusEl): HTMLLabelElement => (this.focusEl = focusEl)}
-          tabIndex={0}
-        >
-          <div
-            aria-checked={this.selected.toString()}
-            class={CSS.textContainer}
-            role="menuitemcheckbox"
+        {(label || description) && (
+          <label
+            aria-label={label}
+            class={CSS.label}
+            onClick={this.pickListClickHandler}
+            onKeyDown={this.pickListKeyDownHandler}
+            ref={(focusEl): HTMLLabelElement => (this.focusEl = focusEl)}
+            tabIndex={0}
           >
-            <span class={CSS.title}>{label}</span>
-            {description ? <span class={CSS.description}>{description}</span> : null}
-          </div>
-        </label>
+            <div
+              aria-checked={this.selected.toString()}
+              class={CSS.textContainer}
+              role="menuitemcheckbox"
+            >
+              <span class={CSS.title}>{label}</span>
+              {description ? <span class={CSS.description}>{description}</span> : null}
+            </div>
+          </label>
+        )}
         {this.renderActionsEnd()}
       </Fragment>
     );

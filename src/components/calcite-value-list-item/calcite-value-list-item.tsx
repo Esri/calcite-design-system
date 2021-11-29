@@ -67,7 +67,7 @@ export class CalciteValueListItem {
   /**
    * The main label for this item. Appears next to the icon.
    */
-  @Prop({ reflect: true }) label!: string;
+  @Prop({ reflect: true }) label: string;
 
   /**
    * Used to provide additional metadata to an item, primarily used when the parent list has a filter.

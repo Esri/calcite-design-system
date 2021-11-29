@@ -91,11 +91,15 @@
 }
 
 .actions {
-  @apply items-stretch flex justify-end m-0 flex-initial;
+  @apply items-stretch flex m-0 flex-initial;
 }
 
 .actions--start ~ .label {
   @apply pl-1;
+}
+
+.actions--end {
+  @apply justify-end flex-1;
 }
 
 .calcite--rtl .actions--start ~ .label {
