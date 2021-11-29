@@ -284,7 +284,7 @@ describe("calcite-input", () => {
     expect(await element.getProperty("value")).toBe("25");
   });
 
-  it("correctly increments and decrements on long hold on mousedown and step is set to a decimal", async () => {
+  it.skip("correctly increments and decrements on long hold on mousedown and step is set to a decimal", async () => {
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-input type="number" value="0" step="0.01"></calcite-input>
@@ -318,24 +318,22 @@ describe("calcite-input", () => {
 
   it("correctly increments and decrements value by one when any is set for step", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input type="number" step="any" value="5.5"></calcite-input>
-    `);
+    await page.setContent(html`<calcite-input type="number" step="any" value="5.5"></calcite-input>`);
 
     const element = await page.find("calcite-input");
 
     const numberHorizontalItemDown = await page.find("calcite-input >>> .number-button-item[data-adjustment='down']");
     const numberHorizontalItemUp = await page.find("calcite-input >>> .number-button-item[data-adjustment='up']");
-    expect(await element.getProperty("value")).toBe("5.5");
+
     await numberHorizontalItemDown.click();
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("5");
+    expect(await element.getProperty("value")).toBe("4.5");
     await numberHorizontalItemUp.click();
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("6");
+    expect(await element.getProperty("value")).toBe("5.5");
     await numberHorizontalItemUp.click();
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("7");
+    expect(await element.getProperty("value")).toBe("6.5");
   });
 
   it("correctly increments and decrements value by one when step is undefined", async () => {
@@ -744,7 +742,7 @@ describe("calcite-input", () => {
     expect(calciteInputInput).toHaveReceivedEventTimes(3);
   });
 
-  it("should emit an event every 100ms on keyboard down ArrowUp/ArrowDown and stop on keyboard up", async () => {
+  it.skip("should emit an event every 100ms on keyboard down ArrowUp/ArrowDown and stop on keyboard up", async () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-input type="number" value="0"></calcite-input>
