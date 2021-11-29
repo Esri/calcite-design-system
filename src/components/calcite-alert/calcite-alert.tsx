@@ -94,14 +94,12 @@ export class CalciteAlert {
 
   @Watch("autoDismissDuration")
   updateDuration(newDuration: string, prevDuration: string): void {
-    if (this.autoDismiss && prevDuration !== newDuration) {
-      if (this.autoDismissTimeout) {
-        window.clearTimeout(this.autoDismissTimeout);
-        this.autoDismissTimeout = window.setTimeout(
-          () => this.closeAlert(),
-          DURATIONS[this.autoDismissDuration] - (new Date().valueOf() - this.trackTimer.valueOf())
-        );
-      }
+    if (this.autoDismiss && prevDuration !== newDuration && this.autoDismissTimeout) {
+      window.clearTimeout(this.autoDismissTimeout);
+      this.autoDismissTimeout = window.setTimeout(
+        () => this.closeAlert(),
+        DURATIONS[this.autoDismissDuration] - (new Date().valueOf() - this.trackTimer.valueOf())
+      );
     }
   }
 
