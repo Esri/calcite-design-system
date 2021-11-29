@@ -120,7 +120,7 @@ export const Default = stepStory(
     .snapshot("Input Disabled No Icon Hover")
 
     // Input Disabled No Icon Focus
-    .focus("calcite-radio-button")
+    .keys("body", "Tab")
     .snapshot("Input Disabled No Icon Focus")
 
     // Input Disabled No Icon Click
