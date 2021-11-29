@@ -120,6 +120,7 @@ export const Default = stepStory(
     .snapshot("Input Disabled No Icon Hover")
 
     // Input Disabled No Icon Focus
+    .cssAnimations(false)
     .keys("body", "Tab")
     .snapshot("Input Disabled No Icon Focus")
     .click("body")
@@ -138,6 +139,7 @@ export const Default = stepStory(
     .snapshot("Input Disabled No Icon Hover Dark")
 
     // Input Disabled No Icon Focus Dark
+    .cssAnimations(false)
     .keys("body", "Tab")
     .snapshot("Input Disabled No Icon Focus Dark")
     .click("body")
