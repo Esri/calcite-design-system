@@ -69,7 +69,7 @@ export class CalciteShellPanel {
   @Prop() intlResize = TEXT.resize;
 
   /**
-   * This property makes the content area resizable.
+   * This property makes the content area resizable if the calcite-shell-panel is not 'detached'.
    */
   @Prop({ reflect: true }) resizable = false;
 
@@ -154,12 +154,14 @@ export class CalciteShellPanel {
       resizable
     } = this;
 
+    const allowResizing = !detached && resizable;
+
     const contentNode = (
       <div
         class={{ [CSS.content]: true, [CSS.contentDetached]: detached }}
         hidden={collapsed}
         ref={this.storeContentEl}
-        style={resizable && contentWidth ? { width: `${contentWidth}px` } : null}
+        style={allowResizing && contentWidth ? { width: `${contentWidth}px` } : null}
       >
         {this.renderHeader()}
         <div class={CSS.contentBody}>
@@ -168,7 +170,7 @@ export class CalciteShellPanel {
       </div>
     );
 
-    const separatorNode = resizable ? (
+    const separatorNode = allowResizing ? (
       <div
         aria-label={intlResize}
         aria-orientation="horizontal"
