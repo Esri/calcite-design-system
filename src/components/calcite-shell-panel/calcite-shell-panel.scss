@@ -20,6 +20,45 @@
   }
 }
 
+:host(:hover),
+:host(:focus-within) {
+  .separator:not(:hover):not(:focus) {
+    @apply opacity-100;
+    background-color: var(--calcite-ui-border-3);
+  }
+}
+
+.separator {
+  @apply absolute
+  bg-transparent
+  bottom-0
+  flex
+  h-full
+  opacity-0
+  pointer-events-auto
+  top-0
+  transition-default
+  w-0.5
+  z-10;
+  cursor: col-resize;
+  outline: none;
+  &:hover {
+    @apply opacity-100;
+    background-color: var(--calcite-ui-border-2);
+  }
+  &:focus {
+    @apply bg-brand opacity-100;
+  }
+}
+
+:host([position="start"]) .separator {
+  inset-inline-end: -2px;
+}
+
+:host([position="end"]) .separator {
+  inset-inline-start: -2px;
+}
+
 ::slotted(calcite-panel),
 ::slotted(calcite-flow) {
   @apply flex-auto h-full w-full;
