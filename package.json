@@ -61,7 +61,7 @@
     "@popperjs/core": "2.10.2",
     "@stencil/core": "2.11.0",
     "@types/color": "3.0.2",
-    "color": "4.0.1",
+    "color": "4.0.2",
     "lodash-es": "4.17.21",
     "sortablejs": "1.14.0"
   },
