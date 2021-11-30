@@ -71,7 +71,6 @@ export class CalciteLabel {
     this.calciteInternalLabelClick.emit({
       sourceEvent: event
     });
-    console.log("event", event);
   };
 
   //--------------------------------------------------------------------------
