@@ -1,6 +1,8 @@
 import { createObserver } from "./observers";
 
 type AttributeObject = { [k: string]: any };
+type AllowedGlobalAttribute = "lang";
+const allowedGlobalAttributes = ["lang"];
 
 /**
  * Watches global attributes of a component.
@@ -34,13 +36,13 @@ export interface GlobalAttrComponent {
  *   return <div>My lang is {lang}</div>;
  * }
  */
-export function watchGlobalAttributes(component: GlobalAttrComponent, attributes: string[]): void {
+export function watchGlobalAttributes(component: GlobalAttrComponent, attributes: AllowedGlobalAttribute[]): void {
   const attributeObject: AttributeObject = {};
   const { el } = component;
 
   const updateAttributesObject = () => {
     attributes
-      .filter((attr) => !!el.hasAttribute(attr))
+      .filter((attr) => !!allowedGlobalAttributes.includes(attr) && !!el.hasAttribute(attr))
       .forEach((attr) => {
         const value = el.getAttribute(attr);
 
