@@ -795,7 +795,7 @@ describe("calcite-input", () => {
     expect(calciteInputInput).toHaveReceivedEventTimes(6);
   });
 
-  it("should emit an event every 100ms on mousedown on up/down buttons and stop on mouseup/mouseleave", async () => {
+  it.skip("should emit an event every 100ms on mousedown on up/down buttons and stop on mouseup/mouseleave", async () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-input type="number" value="0"></calcite-input>
