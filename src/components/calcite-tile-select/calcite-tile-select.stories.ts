@@ -126,7 +126,7 @@ export const Default = stepStory(
     )
 
     // Input Disabled No Icon Focused
-    .keys("body", "Tab")
+    .executeScript(`document.querySelector("calcite-tile-select").setFocus()`)
     .snapshot("Input Disabled No Icon Focused")
     .executeScript(
       setKnobs({
