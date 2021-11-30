@@ -3,6 +3,19 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+<!--@unreleased-section-start-->
+
+## Unreleased
+
+### Features
+
+- **shell-panel:** Add resizable property to allow resizing of content. [#2770](https://github.com/Esri/calcite-components/issues/2770) ([#3535](https://github.com/Esri/calcite-components/issues/3535)) ([c08d4c4](https://github.com/Esri/calcite-components/commit/c08d4c4b426b500cad8dd3105f0c7a12ac7e9e3b))
+
+### Bug Fixes
+
+- **alert:** remove clearTimeOut that delays the alert to close on autoDismiss mode [#3366](https://github.com/Esri/calcite-components/issues/3366) ([#3525](https://github.com/Esri/calcite-components/issues/3525)) ([9376b52](https://github.com/Esri/calcite-components/commit/9376b52d32752f24cacf4286af804d61e3ab16b8))
+<!--@unreleased-section-end-->
+
 ## [1.0.0-beta.70](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.69...v1.0.0-beta.70) (2021-11-24)
 
 ### Features
