@@ -118,8 +118,25 @@ export const Default = stepStory(
     // Input Disabled No Icon Hover
     .hover("calcite-tile-select")
     .snapshot("Input Disabled No Icon Hover")
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [{ name: "checked", value: "false" }]
+      })
+    )
 
-    // Input Disabled No Icon Checked/Focus
+    // Input Disabled No Icon Focused
+    .keys("body", "Tab")
+    .wait("300")
+    .snapshot("Input Disabled No Icon Focused")
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [{ name: "checked", value: "false" }]
+      })
+    )
+
+    // Input Disabled No Icon Checked/Focused
     .click("calcite-tile-select")
     .snapshot("Input Disabled No Icon Checked/Focused")
     .executeScript(
