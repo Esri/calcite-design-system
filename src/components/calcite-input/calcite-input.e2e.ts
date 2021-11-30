@@ -172,6 +172,32 @@ describe("calcite-input", () => {
     expect(numberHorizontalItemUp).not.toBeNull();
   });
 
+  it("does not render number buttons in default vertical alignment when type=number and read-only", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html` <calcite-input type="number" read-only></calcite-input> `);
+
+    const numberVerticalWrapper = await page.find("calcite-input >>> .number-button-wrapper");
+
+    expect(numberVerticalWrapper).toBeNull();
+  });
+
+  it("does not render number buttons in horizontal alignment when type=number, number button type is horizontal, and read-only", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html` <calcite-input type="number" number-button-type="horizontal" read-only></calcite-input> `
+    );
+
+    const numberHorizontalItemDown = await page.find(
+      "calcite-input >>> .number-button-item--horizontal[data-adjustment='down']"
+    );
+    const numberHorizontalItemUp = await page.find(
+      "calcite-input >>> .number-button-item--horizontal[data-adjustment='up']"
+    );
+
+    expect(numberHorizontalItemDown).toBeNull();
+    expect(numberHorizontalItemUp).toBeNull();
+  });
+
   it("renders no buttons in type=number and number button type is none", async () => {
     const page = await newE2EPage();
     await page.setContent(`
