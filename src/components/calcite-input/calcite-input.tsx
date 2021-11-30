@@ -718,7 +718,6 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     const localeNumberInput =
       this.type === "number" ? (
         <input
-          aria-disabled={this.disabled ? true : null}
           aria-label={getLabelText(this)}
           autofocus={this.autofocus ? true : null}
           defaultValue={this.defaultValue}
