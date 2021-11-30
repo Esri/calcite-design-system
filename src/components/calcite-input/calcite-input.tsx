@@ -722,6 +722,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
           aria-label={getLabelText(this)}
           autofocus={this.autofocus ? true : null}
           defaultValue={this.defaultValue}
+          disabled={this.disabled ? true : null}
           enterKeyHint={this.el.enterKeyHint}
           inputMode={this.el.inputMode}
           key="localized-input"
