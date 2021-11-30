@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Features
 
 - **shell-panel:** Add resizable property to allow resizing of content. [#2770](https://github.com/Esri/calcite-components/issues/2770) ([#3535](https://github.com/Esri/calcite-components/issues/3535)) ([c08d4c4](https://github.com/Esri/calcite-components/commit/c08d4c4b426b500cad8dd3105f0c7a12ac7e9e3b))
+- **split-button:** Add overlayPositioning property to position dropdown. [#3132](https://github.com/Esri/calcite-components/issues/3132) ([#3595](https://github.com/Esri/calcite-components/issues/3595)) ([c718c5c](https://github.com/Esri/calcite-components/commit/c718c5c180f20d3880f9791b0594969d6001e9ef))
 
 ### Bug Fixes
 
