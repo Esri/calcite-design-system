@@ -160,11 +160,11 @@ export class CalciteRadioGroup implements LabelableComponent, FormComponent {
 
   @Listen("calciteRadioGroupItemChange")
   protected handleSelected(event: Event): void {
+    this.selectItem(event.target as HTMLCalciteRadioGroupItemElement);
     // only fire after initial setup to prevent semi-infinite loops
     if (this.hasLoaded) {
       event.stopPropagation();
       event.preventDefault();
-      this.selectItem(event.target as HTMLCalciteRadioGroupItemElement);
     }
   }
 
