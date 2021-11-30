@@ -127,7 +127,6 @@ export const Default = stepStory(
 
     // Input Disabled No Icon Focused
     .keys("body", "Tab")
-    .wait("300")
     .snapshot("Input Disabled No Icon Focused")
     .executeScript(
       setKnobs({
