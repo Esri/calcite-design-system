@@ -125,7 +125,7 @@
     "pify": "5.0.0",
     "postcss": "8.3.11",
     "posthtml": "0.16.5",
-    "prettier": "2.4.1",
+    "prettier": "2.5.0",
     "puppeteer": "10.0.0",
     "rimraf": "3.0.2",
     "screener-storybook": "0.22.0",
