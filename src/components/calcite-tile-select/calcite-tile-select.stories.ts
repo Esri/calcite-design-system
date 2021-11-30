@@ -122,7 +122,12 @@ export const Default = stepStory(
     // Input Disabled No Icon Checked/Focus
     .click("calcite-tile-select")
     .snapshot("Input Disabled No Icon Checked/Focused")
-    .click("body")
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [{ name: "checked", value: "false" }]
+      })
+    )
 
     // Input Disabled No Icon Dark
     .executeScript(setTheme("dark"))
@@ -135,5 +140,4 @@ export const Default = stepStory(
     // Input Disabled No Icon Checked/Focused Dark
     .click("calcite-tile-select")
     .snapshot("Input Disabled No Icon Focus Dark")
-    .click("body")
 );
