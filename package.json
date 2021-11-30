@@ -78,7 +78,7 @@
     "@stencil/sass": "1.5.2",
     "@stencil/state-tunnel": "^1.0.1",
     "@storybook/addon-a11y": "6.4.1",
-    "@storybook/addon-docs": "6.3.12",
+    "@storybook/addon-docs": "6.4.1",
     "@storybook/addon-knobs": "6.3.1",
     "@storybook/cli": "6.4.1",
     "@storybook/html": "6.3.12",
