@@ -65,5 +65,4 @@ export function watchAttributes(component: WatchedComponent, attributes: string[
  */
 export function unwatchAttributes(component: WatchedComponent): void {
   component.inheritedAttributesObserver?.disconnect();
-  component.inheritedAttributes = {};
 }
