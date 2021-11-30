@@ -115,15 +115,15 @@ export const Default = stepStory(
     // Input Disabled No Icon
     .snapshot("Input Disabled No Icon")
 
-    // Input Disabled No Icon Hover
-    .hover("calcite-tile-select")
-    .snapshot("Input Disabled No Icon Hover")
-
     // Input Disabled No Icon Focus
     .cssAnimations(false)
     .keys("body", "Tab")
     .snapshot("Input Disabled No Icon Focus")
     .click("body")
+
+    // Input Disabled No Icon Hover
+    .hover("calcite-tile-select")
+    .snapshot("Input Disabled No Icon Hover")
 
     // Input Disabled No Icon Click
     .click("calcite-tile-select")
@@ -134,15 +134,15 @@ export const Default = stepStory(
     .executeScript(setTheme("dark"))
     .snapshot("Input Disabled No Icon Dark")
 
-    // Input Disabled No Icon Hover Dark
-    .hover("calcite-tile-select")
-    .snapshot("Input Disabled No Icon Hover Dark")
-
     // Input Disabled No Icon Focus Dark
     .cssAnimations(false)
     .keys("body", "Tab")
     .snapshot("Input Disabled No Icon Focus Dark")
     .click("body")
+
+    // Input Disabled No Icon Hover Dark
+    .hover("calcite-tile-select")
+    .snapshot("Input Disabled No Icon Hover Dark")
 
     // Input Disabled No Icon Click Dark
     .click("calcite-tile-select")
