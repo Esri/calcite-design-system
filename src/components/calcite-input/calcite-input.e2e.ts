@@ -184,7 +184,7 @@ describe("calcite-input", () => {
   it("does not render number buttons in horizontal alignment when type=number, number button type is horizontal, and read-only", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html` <calcite-input type="number" number-button-type="horizontal read-only"></calcite-input> `
+      html` <calcite-input type="number" number-button-type="horizontal" read-only></calcite-input> `
     );
 
     const numberHorizontalItemDown = await page.find(
