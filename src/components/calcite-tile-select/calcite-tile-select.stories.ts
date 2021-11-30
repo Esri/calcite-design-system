@@ -139,5 +139,5 @@ export const Default = stepStory(
 
     // Input Disabled No Icon Checked/Focused Dark
     .click("calcite-tile-select")
-    .snapshot("Input Disabled No Icon Focus Dark")
+    .snapshot("Input Disabled No Icon Checked/Focused Dark")
 );
