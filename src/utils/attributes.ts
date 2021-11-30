@@ -7,7 +7,7 @@ type AttributeObject = { [k: string]: any };
  *
  * Derived from: https://gist.github.com/willmartian/b4dd6b57d71dd0438fb9e7c6f4048578
  */
-export interface WatchedComponent {
+export interface GlobalAttrComponent {
   /**
    * The host element.
    */
@@ -18,12 +18,12 @@ export interface WatchedComponent {
    * Should be stateful.
    * '@State() inheritedAttributes = {};'
    */
-  inheritedAttributes: AttributeObject;
+  globalAttributes: AttributeObject;
 
   /**
    * The MutationObserver to listen to inherited attributes.
    */
-  inheritedAttributesObserver: MutationObserver;
+  globalAttributesObserver: MutationObserver;
 }
 
 /**
@@ -34,28 +34,29 @@ export interface WatchedComponent {
  *   return <div>My lang is {lang}</div>;
  * }
  */
-export function watchAttributes(component: WatchedComponent, attributes: string[]): void {
+export function watchGlobalAttributes(component: GlobalAttrComponent, attributes: string[]): void {
   const attributeObject: AttributeObject = {};
   const { el } = component;
 
   const updateAttributesObject = () => {
-    attributes.forEach((attr) => {
-      if (el.hasAttribute(attr)) {
+    attributes
+      .filter((attr) => !!el.hasAttribute(attr))
+      .forEach((attr) => {
         const value = el.getAttribute(attr);
-        if (value !== null) {
-          attributeObject[attr] = el.getAttribute(attr);
-        }
-      }
-    });
 
-    component.inheritedAttributes = { ...attributeObject };
+        if (value !== null) {
+          attributeObject[attr] = value;
+        }
+      });
+
+    component.globalAttributes = { ...attributeObject };
   };
 
   updateAttributesObject();
 
-  component.inheritedAttributesObserver = createObserver("mutation", () => updateAttributesObject());
+  component.globalAttributesObserver = createObserver("mutation", () => updateAttributesObject());
 
-  component.inheritedAttributesObserver.observe(el, {
+  component.globalAttributesObserver.observe(el, {
     attributeFilter: attributes
   });
 }
@@ -63,6 +64,6 @@ export function watchAttributes(component: WatchedComponent, attributes: string[
 /**
  * Helper remove listening for changes to inherited attributes.
  */
-export function unwatchAttributes(component: WatchedComponent): void {
-  component.inheritedAttributesObserver?.disconnect();
+export function unwatchGlobalAttributes(component: GlobalAttrComponent): void {
+  component.globalAttributesObserver?.disconnect();
 }
