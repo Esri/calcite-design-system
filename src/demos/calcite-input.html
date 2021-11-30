@@ -479,12 +479,11 @@
 
     <hr />
 
-    <!-- Read only -->
     <div class="parent-flex">
-      <div class="child-flex font right-aligned-text">Read only</div>
+      <div class="child-flex font right-aligned-text">Filled(can edit)</div>
       <div class="child-flex">
-        <calcite-label disabled>
-          Input Label
+        <calcite-label>
+          Filled spinner input
           <calcite-input
             type="number"
             placeholder="Placeholder"
@@ -497,10 +496,9 @@
           </calcite-input>
         </calcite-label>
       </div>
-
       <div class="child-flex">
-        <calcite-label disabled>
-          Input Label
+        <calcite-label>
+          Filled spinner input
           <calcite-input
             type="number"
             placeholder="Placeholder"
@@ -515,8 +513,8 @@
       </div>
 
       <div class="child-flex">
-        <calcite-label disabled>
-          Input Label
+        <calcite-label>
+          Filled spinner input
           <calcite-input
             type="number"
             placeholder="Placeholder"
@@ -530,9 +528,110 @@
         </calcite-label>
       </div>
     </div>
+    <div class="parent-flex">
+      <div class="child-flex font right-aligned-text">Read Only (can't edit)</div>
+      <div class="child-flex">
+        <calcite-label>
+          Read only spinner input
+          <calcite-input
+            type="number"
+            placeholder="Placeholder"
+            scale="s"
+            value="123"
+            step="1"
+            prefix-text="Prefix"
+            suffix-text="Suffix"
+            read-only
+          >
+          </calcite-input>
+        </calcite-label>
+      </div>
+      <div class="child-flex">
+        <calcite-label>
+          Read only spinner input
+          <calcite-input
+            type="number"
+            placeholder="Placeholder"
+            scale="m"
+            value="123"
+            step="1"
+            prefix-text="Prefix"
+            suffix-text="Suffix"
+            read-only
+          >
+          </calcite-input>
+        </calcite-label>
+      </div>
 
+      <div class="child-flex">
+        <calcite-label>
+          Read only spinner input
+          <calcite-input
+            type="number"
+            placeholder="Placeholder"
+            scale="l"
+            value="123"
+            step="1"
+            prefix-text="Prefix"
+            suffix-text="Suffix"
+            read-only
+          >
+          </calcite-input>
+        </calcite-label>
+      </div>
+    </div>
+    <div class="parent-flex">
+      <div class="child-flex font right-aligned-text">Disabled (can't edit)</div>
+      <div class="child-flex">
+        <calcite-label>
+          Disabled spinner input
+          <calcite-input
+            type="number"
+            placeholder="Placeholder"
+            scale="s"
+            value="123"
+            step="1"
+            prefix-text="Prefix"
+            suffix-text="Suffix"
+            disabled
+          >
+          </calcite-input>
+        </calcite-label>
+      </div>
+      <div class="child-flex">
+        <calcite-label>
+          Disabled spinner input
+          <calcite-input
+            type="number"
+            placeholder="Placeholder"
+            scale="m"
+            value="123"
+            step="1"
+            prefix-text="Prefix"
+            suffix-text="Suffix"
+            disabled
+          >
+          </calcite-input>
+        </calcite-label>
+      </div>
+      <div class="child-flex">
+        <calcite-label>
+          Disabled spinner input
+          <calcite-input
+            type="number"
+            placeholder="Placeholder"
+            scale="l"
+            value="123"
+            step="1"
+            prefix-text="Prefix"
+            suffix-text="Suffix"
+            disabled
+          >
+          </calcite-input>
+        </calcite-label>
+      </div>
+    </div>
     <hr />
-
     <!--
       ******************************************************
       * DATE PICKER INPUT

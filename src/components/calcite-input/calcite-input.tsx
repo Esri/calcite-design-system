@@ -736,7 +736,6 @@ export class CalciteInput implements LabelableComponent, FormComponent {
           placeholder={this.placeholder || ""}
           readOnly={this.readOnly}
           ref={this.setChildNumberElRef}
-          tabIndex={this.disabled ? -1 : 0}
           type="text"
           value={this.localizedValue}
         />
@@ -788,7 +787,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     return (
       <Host onClick={this.inputFocusHandler} onKeyDown={this.keyDownHandler}>
         <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }} dir={dir}>
-          {this.type === "number" && this.numberButtonType === "horizontal"
+          {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
             ? numberButtonsHorizontalDown
             : null}
           {this.prefixText ? prefixText : null}
@@ -802,11 +801,11 @@ export class CalciteInput implements LabelableComponent, FormComponent {
           <div class={CSS.actionWrapper}>
             <slot name={SLOTS.action} />
           </div>
-          {this.type === "number" && this.numberButtonType === "vertical"
+          {this.type === "number" && this.numberButtonType === "vertical" && !this.readOnly
             ? numberButtonsVertical
             : null}
           {this.suffixText ? suffixText : null}
-          {this.type === "number" && this.numberButtonType === "horizontal"
+          {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
             ? numberButtonsHorizontalUp
             : null}
           <HiddenFormInputSlot component={this} />
