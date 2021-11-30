@@ -116,10 +116,9 @@ export const Default = stepStory(
     .snapshot("Input Disabled No Icon")
 
     // Input Disabled No Icon Focus
-    .cssAnimations(false)
     .keys("body", "Tab")
     .snapshot("Input Disabled No Icon Focus")
-    .click("body")
+    .keys("body", "Tab")
 
     // Input Disabled No Icon Hover
     .hover("calcite-tile-select")
