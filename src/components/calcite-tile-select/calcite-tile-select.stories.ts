@@ -156,7 +156,7 @@ export const Default = stepStory(
         story: "components-tiles-tile-select--default",
         knobs: [
           { name: "description", value: description },
-          { name: "heading", value: null }
+          { name: "heading", value: "" }
         ]
       })
     )
@@ -180,7 +180,7 @@ export const Default = stepStory(
         story: "components-tiles-tile-select--default",
         knobs: [
           { name: "description", value: description },
-          { name: "heading", value: null },
+          { name: "heading", value: "" },
           { name: "icon", value: icon }
         ]
       })
