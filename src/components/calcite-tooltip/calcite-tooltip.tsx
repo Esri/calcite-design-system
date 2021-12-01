@@ -1,5 +1,5 @@
 import { Component, Element, Host, Method, Prop, State, Watch, h, VNode } from "@stencil/core";
-import { CSS, TOOLTIP_REFERENCE, ARIA_DESCRIBED_BY } from "./resources";
+import { CSS, TOOLTIP_REFERENCE, ARIA_DESCRIBED_BY, TOOLTIP_DELAY_MS } from "./resources";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import {
@@ -11,6 +11,207 @@ import {
   OverlayPositioning
 } from "../../utils/popper";
 import { queryElementRoots } from "../../utils/dom";
+import { getKey } from "../../utils/key";
+
+class TooltipManagerSingleton {
+  keyUpHandler = (event: KeyboardEvent): void => {
+    if (getKey(event.key) === "Escape") {
+      const tooltipEl = this.registeredElements.get(event.currentTarget as HTMLElement);
+
+      if (tooltipEl) {
+        this.clearHoverTimeout(tooltipEl);
+        this.toggleTooltip(tooltipEl, false);
+      }
+    }
+  };
+
+  mouseEnterShow = (event: MouseEvent): void => {
+    this.hoverEvent(event, true);
+  };
+
+  mouseLeaveHide = (event: MouseEvent): void => {
+    this.hoverEvent(event, false);
+  };
+
+  clickHandler = (event: MouseEvent): void => {
+    const clickedTooltip = this.registeredElements.get(event.currentTarget as HTMLElement);
+
+    this.clickedTooltip = clickedTooltip;
+
+    if (clickedTooltip) {
+      this.toggleTooltip(clickedTooltip, false);
+    }
+  };
+
+  focusShow = (event: FocusEvent): void => {
+    this.focusEvent(event, true);
+  };
+
+  blurHide = (event: FocusEvent): void => {
+    this.focusEvent(event, false);
+  };
+
+  hoverTimeouts: WeakMap<HTMLCalciteTooltipElement, number> = new WeakMap();
+
+  clickedTooltip: HTMLCalciteTooltipElement;
+
+  activeTooltipEl: HTMLCalciteTooltipElement;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Properties
+  //
+  // --------------------------------------------------------------------------
+
+  /**
+   * CSS Selector to match reference elements for tooltips. Reference elements will be identified by this selector in order to open their associated tooltip.
+   * @default `[data-calcite-tooltip-reference]`
+   */
+  selector = `[${TOOLTIP_REFERENCE}]`;
+
+  registeredElements = new WeakMap<HTMLElement, HTMLCalciteTooltipElement>();
+
+  registerElement(element: HTMLElement, tooltip: HTMLCalciteTooltipElement): void {
+    this.registeredElements.set(element, tooltip);
+
+    element.addEventListener("keyup", this.keyUpHandler);
+    element.addEventListener("mouseover", this.mouseEnterShow);
+    element.addEventListener("mouseout", this.mouseLeaveHide);
+    element.addEventListener("click", this.clickHandler);
+    element.addEventListener("focus", this.focusShow);
+    element.addEventListener("blur", this.blurHide);
+  }
+
+  unregisterElement(element: HTMLElement): void {
+    this.registeredElements.delete(element);
+
+    element.removeEventListener("keyup", this.keyUpHandler);
+    element.removeEventListener("mouseover", this.mouseEnterShow);
+    element.removeEventListener("mouseout", this.mouseLeaveHide);
+    element.removeEventListener("click", this.clickHandler);
+    element.removeEventListener("focus", this.focusShow);
+    element.removeEventListener("blur", this.blurHide);
+  }
+
+  private clearHoverTimeout(tooltip: HTMLCalciteTooltipElement): void {
+    const { hoverTimeouts } = this;
+
+    if (hoverTimeouts.has(tooltip)) {
+      window.clearTimeout(hoverTimeouts.get(tooltip));
+      hoverTimeouts.delete(tooltip);
+    }
+  }
+
+  private closeExistingTooltip(): void {
+    const tooltipEl = this.activeTooltipEl;
+
+    if (tooltipEl) {
+      this.toggleTooltip(tooltipEl, false);
+    }
+  }
+
+  private focusTooltip({
+    tooltip,
+    value
+  }: {
+    tooltip: HTMLCalciteTooltipElement;
+    value: boolean;
+  }): void {
+    this.closeExistingTooltip();
+
+    if (value) {
+      this.clearHoverTimeout(tooltip);
+    }
+
+    this.toggleTooltip(tooltip, value);
+  }
+
+  private toggleTooltip(tooltip: HTMLCalciteTooltipElement, value: boolean): void {
+    tooltip.open = value;
+
+    if (value) {
+      this.activeTooltipEl = tooltip;
+    }
+  }
+
+  private hoverToggle = ({
+    tooltip,
+    value
+  }: {
+    tooltip: HTMLCalciteTooltipElement;
+    value: boolean;
+  }): void => {
+    const { hoverTimeouts } = this;
+
+    hoverTimeouts.delete(tooltip);
+
+    if (value) {
+      this.closeExistingTooltip();
+    }
+
+    this.toggleTooltip(tooltip, value);
+  };
+
+  private hoverTooltip({
+    tooltip,
+    value
+  }: {
+    tooltip: HTMLCalciteTooltipElement;
+    value: boolean;
+  }): void {
+    this.clearHoverTimeout(tooltip);
+
+    const { hoverTimeouts } = this;
+
+    const timeoutId = window.setTimeout(
+      () => this.hoverToggle({ tooltip, value }),
+      TOOLTIP_DELAY_MS || 0
+    );
+
+    hoverTimeouts.set(tooltip, timeoutId);
+  }
+
+  private activeTooltipHover(event: MouseEvent): void {
+    const tooltipEl = this.registeredElements.get(event.currentTarget as HTMLElement);
+    const { hoverTimeouts } = this;
+    const { type } = event;
+
+    if (!tooltipEl) {
+      return;
+    }
+
+    if (type === "mouseover" && event.composedPath().includes(tooltipEl)) {
+      this.clearHoverTimeout(tooltipEl);
+    } else if (type === "mouseout" && !hoverTimeouts.has(tooltipEl)) {
+      this.hoverTooltip({ tooltip: tooltipEl, value: false });
+    }
+  }
+
+  private hoverEvent(event: MouseEvent, value: boolean): void {
+    const tooltip = this.registeredElements.get(event.currentTarget as HTMLElement);
+
+    this.activeTooltipHover(event);
+
+    if (!tooltip) {
+      return;
+    }
+
+    this.hoverTooltip({ tooltip, value });
+  }
+
+  private focusEvent(event: FocusEvent, value: boolean): void {
+    const tooltip = this.registeredElements.get(event.currentTarget as HTMLElement);
+
+    if (!tooltip || tooltip === this.clickedTooltip) {
+      this.clickedTooltip = null;
+      return;
+    }
+
+    this.focusTooltip({ tooltip, value });
+  }
+}
+
+const manager = new TooltipManagerSingleton();
 
 /**
  * @slot - A slot for adding text.
@@ -178,6 +379,8 @@ export class CalciteTooltip {
 
     effectiveReferenceElement.setAttribute(TOOLTIP_REFERENCE, id);
     effectiveReferenceElement.setAttribute(ARIA_DESCRIBED_BY, id);
+
+    manager.registerElement(effectiveReferenceElement, this.el);
   };
 
   removeReferences = (): void => {
@@ -189,6 +392,8 @@ export class CalciteTooltip {
 
     effectiveReferenceElement.removeAttribute(TOOLTIP_REFERENCE);
     effectiveReferenceElement.removeAttribute(ARIA_DESCRIBED_BY);
+
+    manager.unregisterElement(effectiveReferenceElement);
   };
 
   show = (): void => {
