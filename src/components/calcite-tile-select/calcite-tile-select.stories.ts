@@ -301,7 +301,7 @@ export const Default = stepStory(
     .click("calcite-tile-select")
     .snapshot("Disabled On Input Enabled On Checked On Radio Click")
 
-    // Disabled On Input Enabled Off Checked Off Radio
+    // Disabled On Input Enabled Off Checked Off
     .executeScript(
       setKnobs({
         story: "components-tiles-tile-select--default",
@@ -313,13 +313,13 @@ export const Default = stepStory(
         ]
       })
     )
-    .snapshot("Disabled On Input Enabled Off Checked Off Radio")
+    .snapshot("Disabled On Input Enabled Off Checked Off")
 
-    // Disabled On Input Enabled Off Checked Off Radio Hover
+    // Disabled On Input Enabled Off Checked Off Hover
     .hover("calcite-tile-select")
-    .snapshot("Disabled On Input Enabled Off Checked Off Radio Hover")
+    .snapshot("Disabled On Input Enabled Off Checked Off Hover")
 
-    // Disabled On Input Enabled Off Checked Off Radio Focus
+    // Disabled On Input Enabled Off Checked Off Focus
     .executeScript(
       setKnobs({
         story: "components-tiles-tile-select--default",
@@ -332,9 +332,9 @@ export const Default = stepStory(
       })
     )
     .executeScript(`document.querySelector("calcite-tile-select").setFocus()`)
-    .snapshot("Disabled On Input Enabled Off Checked Off Radio Focus")
+    .snapshot("Disabled On Input Enabled Off Checked Off Focus")
 
-    // Disabled On Input Enabled Off Checked Off Radio Click
+    // Disabled On Input Enabled Off Checked Off Click
     .executeScript(
       setKnobs({
         story: "components-tiles-tile-select--default",
@@ -347,9 +347,9 @@ export const Default = stepStory(
       })
     )
     .click("calcite-tile-select")
-    .snapshot("Disabled On Input Enabled Off Checked Off Radio Click")
+    .snapshot("Disabled On Input Enabled Off Checked Off Click")
 
-    // Disabled On Input Enabled Off Checked On Radio
+    // Disabled On Input Enabled Off Checked On
     .executeScript(
       setKnobs({
         story: "components-tiles-tile-select--default",
@@ -362,13 +362,13 @@ export const Default = stepStory(
         ]
       })
     )
-    .snapshot("Disabled On Input Enabled Off Checked On Radio")
+    .snapshot("Disabled On Input Enabled Off Checked On")
 
-    // Disabled On Input Enabled Off Checked On Radio Hover
+    // Disabled On Input Enabled Off Checked On Hover
     .hover("calcite-tile-select")
-    .snapshot("Disabled On Input Enabled Off Checked On Radio Hover")
+    .snapshot("Disabled On Input Enabled Off Checked On Hover")
 
-    // Disabled On Input Enabled Off Checked On Radio Focus
+    // Disabled On Input Enabled Off Checked On Focus
     .executeScript(
       setKnobs({
         story: "components-tiles-tile-select--default",
@@ -382,9 +382,9 @@ export const Default = stepStory(
       })
     )
     .executeScript(`document.querySelector("calcite-tile-select").setFocus()`)
-    .snapshot("Disabled On Input Enabled Off Checked On Radio Focus")
+    .snapshot("Disabled On Input Enabled Off Checked On Focus")
 
-    // Disabled On Input Enabled Off Checked On Radio Click
+    // Disabled On Input Enabled Off Checked On Click
     .executeScript(
       setKnobs({
         story: "components-tiles-tile-select--default",
@@ -398,5 +398,5 @@ export const Default = stepStory(
       })
     )
     .click("calcite-tile-select")
-    .snapshot("Disabled On Input Enabled Off Checked On Radio Click")
+    .snapshot("Disabled On Input Enabled Off Checked On Click")
 );
