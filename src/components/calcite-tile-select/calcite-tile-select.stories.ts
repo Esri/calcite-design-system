@@ -199,4 +199,184 @@ export const Default = stepStory(
       })
     )
     .snapshot("Description With Heading & Icon")
+
+    // Disabled On Input Enabled On Checked Off
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "disabled", value: "true" },
+          { name: "icon", value: icon },
+          { name: "inputEnabled", value: "true" }
+        ]
+      })
+    )
+    .snapshot("Disabled On Input Enabled On Checked Off")
+
+    // Disabled On Input Enabled On Checked Off Hover
+    .hover("calcite-tile-select")
+    .snapshot("Disabled On Input Enabled On Checked Off Hover")
+
+    // Disabled On Input Enabled On Checked Off Focus
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "disabled", value: "true" },
+          { name: "icon", value: icon },
+          { name: "inputEnabled", value: "true" }
+        ]
+      })
+    )
+    .executeScript(`document.querySelector("calcite-tile-select").setFocus()`)
+    .snapshot("Disabled On Input Enabled On Checked Off Focus")
+
+    // Disabled On Input Enabled On Checked Off Click
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "disabled", value: "true" },
+          { name: "icon", value: icon },
+          { name: "inputEnabled", value: "true" }
+        ]
+      })
+    )
+    .click("calcite-tile-select")
+    .snapshot("Disabled On Input Enabled On Checked Off Click")
+
+    // Disabled On Input Enabled On Checked On
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "checked", value: "true" },
+          { name: "disabled", value: "true" },
+          { name: "icon", value: icon },
+          { name: "inputEnabled", value: "true" }
+        ]
+      })
+    )
+    .snapshot("Disabled On Input Enabled On Checked On")
+
+    // Disabled On Input Enabled On Checked On Hover
+    .hover("calcite-tile-select")
+    .snapshot("Disabled On Input Enabled On Checked On Hover")
+
+    // Disabled On Input Enabled On Checked On Focus
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "checked", value: "true" },
+          { name: "disabled", value: "true" },
+          { name: "icon", value: icon },
+          { name: "inputEnabled", value: "true" }
+        ]
+      })
+    )
+    .executeScript(`document.querySelector("calcite-tile-select").setFocus()`)
+    .snapshot("Disabled On Input Enabled On Checked On Focus")
+
+    // Disabled On Input Enabled On Checked On Click
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "checked", value: "true" },
+          { name: "disabled", value: "true" },
+          { name: "icon", value: icon },
+          { name: "inputEnabled", value: "true" }
+        ]
+      })
+    )
+    .click("calcite-tile-select")
+    .snapshot("Disabled On Input Enabled On Checked On Click")
+
+    // Disabled On Input Enabled Off Checked Off
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "disabled", value: "true" },
+          { name: "icon", value: icon }
+        ]
+      })
+    )
+    .snapshot("Disabled On Input Enabled Off Checked Off")
+
+    // Disabled On Input Enabled Off Checked Off Hover
+    .hover("calcite-tile-select")
+    .snapshot("Disabled On Input Enabled Off Checked Off Hover")
+
+    // Disabled On Input Enabled Off Checked Off Focus
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "disabled", value: "true" },
+          { name: "icon", value: icon }
+        ]
+      })
+    )
+    .executeScript(`document.querySelector("calcite-tile-select").setFocus()`)
+    .snapshot("Disabled On Input Enabled Off Checked Off Focus")
+
+    // Disabled On Input Enabled Off Checked Off Click
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "disabled", value: "true" },
+          { name: "icon", value: icon }
+        ]
+      })
+    )
+    .click("calcite-tile-select")
+    .snapshot("Disabled On Input Enabled Off Checked Off Click")
+
+    // Disabled On Input Enabled Off Checked On
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "checked", value: "true" },
+          { name: "disabled", value: "true" },
+          { name: "icon", value: icon }
+        ]
+      })
+    )
+    .snapshot("Disabled On Input Enabled Off Checked On")
+
+    // Disabled On Input Enabled Off Checked On Hover
+    .hover("calcite-tile-select")
+    .snapshot("Disabled On Input Enabled Off Checked On Hover")
+
+    // Disabled On Input Enabled Off Checked On Focus
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "checked", value: "true" },
+          { name: "disabled", value: "true" },
+          { name: "icon", value: icon }
+        ]
+      })
+    )
+    .executeScript(`document.querySelector("calcite-tile-select").setFocus()`)
+    .snapshot("Disabled On Input Enabled Off Checked On Focus")
+
+    // Disabled On Input Enabled Off Checked On Click
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "checked", value: "true" },
+          { name: "disabled", value: "true" },
+          { name: "icon", value: icon }
+        ]
+      })
+    )
+    .click("calcite-tile-select")
+    .snapshot("Disabled On Input Enabled Off Checked On Click")
 );
