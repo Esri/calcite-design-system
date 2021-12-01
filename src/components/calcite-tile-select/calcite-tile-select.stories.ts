@@ -37,7 +37,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "description",
         commit(): Attribute {
-          this.value = text("description", description);
+          this.value = text("description", "");
           delete this.build;
           return this;
         }
@@ -53,7 +53,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "heading",
         commit(): Attribute {
-          this.value = text("heading", heading);
+          this.value = text("heading", "");
           delete this.build;
           return this;
         }
@@ -154,10 +154,7 @@ export const Default = stepStory(
     .executeScript(
       setKnobs({
         story: "components-tiles-tile-select--default",
-        knobs: [
-          { name: "description", value: description },
-          { name: "heading", value: "" }
-        ]
+        knobs: [{ name: "description", value: description }]
       })
     )
     .snapshot("Description")
@@ -180,7 +177,6 @@ export const Default = stepStory(
         story: "components-tiles-tile-select--default",
         knobs: [
           { name: "description", value: description },
-          { name: "heading", value: "" },
           { name: "icon", value: icon }
         ]
       })
@@ -206,6 +202,8 @@ export const Default = stepStory(
         story: "components-tiles-tile-select--default",
         knobs: [
           { name: "disabled", value: "true" },
+          { name: "description", value: description },
+          { name: "heading", value: heading },
           { name: "icon", value: icon },
           { name: "inputEnabled", value: "true" }
         ]
@@ -223,6 +221,8 @@ export const Default = stepStory(
         story: "components-tiles-tile-select--default",
         knobs: [
           { name: "disabled", value: "true" },
+          { name: "description", value: description },
+          { name: "heading", value: heading },
           { name: "icon", value: icon },
           { name: "inputEnabled", value: "true" }
         ]
@@ -237,6 +237,8 @@ export const Default = stepStory(
         story: "components-tiles-tile-select--default",
         knobs: [
           { name: "disabled", value: "true" },
+          { name: "description", value: description },
+          { name: "heading", value: heading },
           { name: "icon", value: icon },
           { name: "inputEnabled", value: "true" }
         ]
@@ -252,6 +254,8 @@ export const Default = stepStory(
         knobs: [
           { name: "checked", value: "true" },
           { name: "disabled", value: "true" },
+          { name: "description", value: description },
+          { name: "heading", value: heading },
           { name: "icon", value: icon },
           { name: "inputEnabled", value: "true" }
         ]
@@ -270,6 +274,8 @@ export const Default = stepStory(
         knobs: [
           { name: "checked", value: "true" },
           { name: "disabled", value: "true" },
+          { name: "description", value: description },
+          { name: "heading", value: heading },
           { name: "icon", value: icon },
           { name: "inputEnabled", value: "true" }
         ]
@@ -285,6 +291,8 @@ export const Default = stepStory(
         knobs: [
           { name: "checked", value: "true" },
           { name: "disabled", value: "true" },
+          { name: "description", value: description },
+          { name: "heading", value: heading },
           { name: "icon", value: icon },
           { name: "inputEnabled", value: "true" }
         ]
@@ -299,6 +307,8 @@ export const Default = stepStory(
         story: "components-tiles-tile-select--default",
         knobs: [
           { name: "disabled", value: "true" },
+          { name: "description", value: description },
+          { name: "heading", value: heading },
           { name: "icon", value: icon }
         ]
       })
@@ -315,6 +325,8 @@ export const Default = stepStory(
         story: "components-tiles-tile-select--default",
         knobs: [
           { name: "disabled", value: "true" },
+          { name: "description", value: description },
+          { name: "heading", value: heading },
           { name: "icon", value: icon }
         ]
       })
@@ -328,6 +340,8 @@ export const Default = stepStory(
         story: "components-tiles-tile-select--default",
         knobs: [
           { name: "disabled", value: "true" },
+          { name: "description", value: description },
+          { name: "heading", value: heading },
           { name: "icon", value: icon }
         ]
       })
@@ -342,6 +356,8 @@ export const Default = stepStory(
         knobs: [
           { name: "checked", value: "true" },
           { name: "disabled", value: "true" },
+          { name: "description", value: description },
+          { name: "heading", value: heading },
           { name: "icon", value: icon }
         ]
       })
@@ -359,6 +375,8 @@ export const Default = stepStory(
         knobs: [
           { name: "checked", value: "true" },
           { name: "disabled", value: "true" },
+          { name: "description", value: description },
+          { name: "heading", value: heading },
           { name: "icon", value: icon }
         ]
       })
@@ -373,6 +391,8 @@ export const Default = stepStory(
         knobs: [
           { name: "checked", value: "true" },
           { name: "disabled", value: "true" },
+          { name: "description", value: description },
+          { name: "heading", value: heading },
           { name: "icon", value: icon }
         ]
       })
