@@ -119,16 +119,42 @@ export const Default = stepStory(
     .hover("calcite-tile-select")
     .snapshot("Input Disabled No Icon Hover")
 
-    // Input Disabled No Icon Focus
-    // .keys("calcite-tile-select", "Tab")
-    // .snapshot("Input Disabled No Icon Focus")
+    // Input Disabled No Icon Focused
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [{ name: "checked", value: "false" }]
+      })
+    )
+    .executeScript(`document.querySelector("calcite-tile-select").setFocus()`)
+    .snapshot("Input Disabled No Icon Focused")
 
-    // Input Disabled No Icon Click
+    // Input Disabled No Icon Checked
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [{ name: "checked", value: "true" }]
+      })
+    )
+    .snapshot("Input Disabled No Icon Checked")
+
+    // Input Disabled No Icon Clicked
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [{ name: "checked", value: "false" }]
+      })
+    )
     .click("calcite-tile-select")
-    .snapshot("Input Disabled No Icon Click")
-    .click("body")
+    .snapshot("Input Disabled No Icon Clicked")
 
     // Input Disabled No Icon Dark
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [{ name: "checked", value: "false" }]
+      })
+    )
     .executeScript(setTheme("dark"))
     .snapshot("Input Disabled No Icon Dark")
 
@@ -136,11 +162,35 @@ export const Default = stepStory(
     .hover("calcite-tile-select")
     .snapshot("Input Disabled No Icon Hover Dark")
 
-    // Input Disabled No Icon Focus Dark
-    .keys("calcite-tile-select", "Tab")
-    .snapshot("Input Disabled No Icon Focus Dark")
+    // Input Disabled No Icon Focused Dark
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [{ name: "checked", value: "false" }]
+      })
+    )
+    .executeScript(setTheme("dark"))
+    .executeScript(`document.querySelector("calcite-tile-select").setFocus()`)
+    .snapshot("Input Disabled No Icon Focused Dark")
 
-    // Input Disabled No Icon Click Dark
+    // Input Disabled No Icon Checked Dark
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [{ name: "checked", value: "true" }]
+      })
+    )
+    .executeScript(setTheme("dark"))
+    .snapshot("Input Disabled No Icon Checked Dark")
+
+    // Input Disabled No Icon Clicked Dark
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [{ name: "checked", value: "false" }]
+      })
+    )
+    .executeScript(setTheme("dark"))
     .click("calcite-tile-select")
-    .snapshot("Input Disabled No Icon Click Dark")
+    .snapshot("Input Disabled No Icon Clicked Dark")
 );

@@ -133,7 +133,9 @@ export class CalciteRadioButton implements LabelableComponent, CheckableFormComp
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    focusElement(this.containerEl);
+    await focusElement(this.containerEl);
+    this.focused = true;
+    this.calciteInternalRadioButtonFocus.emit();
   }
 
   //--------------------------------------------------------------------------
