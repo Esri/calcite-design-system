@@ -1,7 +1,19 @@
-import { Component, Element, Event, EventEmitter, Prop, Watch, h, VNode } from "@stencil/core";
-import { CSS, SLOTS } from "./resources";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  Prop,
+  Watch,
+  h,
+  VNode,
+  State,
+  forceUpdate
+} from "@stencil/core";
+import { CSS, SLOTS, TEXT } from "./resources";
 import { Position, Scale } from "../interfaces";
 import { getSlotted } from "../../utils/dom";
+import { clamp } from "../../utils/math";
 
 /**
  * @slot - A slot for adding content to the shell panel.
@@ -50,12 +62,56 @@ export class CalciteShellPanel {
    */
   @Prop({ reflect: true }) position: Position;
 
+  /**
+   * Accessible label for resize separator.
+   * @default "Resize"
+   */
+  @Prop() intlResize = TEXT.resize;
+
+  /**
+   * This property makes the content area resizable if the calcite-shell-panel is not 'detached'.
+   */
+  @Prop({ reflect: true }) resizable = false;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  disconnectedCallback(): void {
+    this.disconnectSeparator();
+  }
+
+  componentDidLoad(): void {
+    this.updateAriaValues();
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
   //
   // --------------------------------------------------------------------------
+
   @Element() el: HTMLCalciteShellPanelElement;
+
+  @State() contentWidth: number = null;
+
+  initialContentWidth: number = null;
+
+  initialClientX: number = null;
+
+  contentEl: HTMLDivElement;
+
+  separatorEl: HTMLDivElement;
+
+  contentWidthMax: number = null;
+
+  contentWidthMin: number = null;
+
+  step = 1;
+
+  stepMultiplier = 10;
 
   // --------------------------------------------------------------------------
   //
@@ -86,10 +142,27 @@ export class CalciteShellPanel {
   }
 
   render(): VNode {
-    const { collapsed, detached, position } = this;
+    const {
+      collapsed,
+      detached,
+      position,
+      initialContentWidth,
+      contentWidth,
+      contentWidthMax,
+      contentWidthMin,
+      intlResize,
+      resizable
+    } = this;
+
+    const allowResizing = !detached && resizable;
 
     const contentNode = (
-      <div class={{ [CSS.content]: true, [CSS.contentDetached]: detached }} hidden={collapsed}>
+      <div
+        class={{ [CSS.content]: true, [CSS.contentDetached]: detached }}
+        hidden={collapsed}
+        ref={this.storeContentEl}
+        style={allowResizing && contentWidth ? { width: `${contentWidth}px` } : null}
+      >
         {this.renderHeader()}
         <div class={CSS.contentBody}>
           <slot />
@@ -97,9 +170,25 @@ export class CalciteShellPanel {
       </div>
     );
 
+    const separatorNode = allowResizing ? (
+      <div
+        aria-label={intlResize}
+        aria-orientation="horizontal"
+        aria-valuemax={contentWidthMax}
+        aria-valuemin={contentWidthMin}
+        aria-valuenow={contentWidth ?? initialContentWidth}
+        class={CSS.separator}
+        onKeyDown={this.separatorKeyDown}
+        ref={this.connectSeparator}
+        role="separator"
+        tabIndex={0}
+        touch-action="none"
+      />
+    ) : null;
+
     const actionBarNode = <slot name={SLOTS.actionBar} />;
 
-    const mainNodes = [actionBarNode, contentNode];
+    const mainNodes = [actionBarNode, contentNode, separatorNode];
 
     if (position === "end") {
       mainNodes.reverse();
@@ -107,4 +196,169 @@ export class CalciteShellPanel {
 
     return <div class={{ [CSS.container]: true }}>{mainNodes}</div>;
   }
+
+  // --------------------------------------------------------------------------
+  //
+  //  private Methods
+  //
+  // --------------------------------------------------------------------------
+
+  setContentWidth(width: number): void {
+    const { contentWidthMax, contentWidthMin } = this;
+
+    const roundedWidth = Math.round(width);
+
+    this.contentWidth =
+      typeof contentWidthMax === "number" && typeof contentWidthMin === "number"
+        ? clamp(roundedWidth, contentWidthMin, contentWidthMax)
+        : roundedWidth;
+  }
+
+  updateAriaValues(): void {
+    const { contentEl } = this;
+    const computedStyle = contentEl && getComputedStyle(contentEl);
+
+    if (!computedStyle) {
+      return;
+    }
+
+    const max = parseInt(computedStyle.getPropertyValue("max-width"), 10);
+    const min = parseInt(computedStyle.getPropertyValue("min-width"), 10);
+    const valueNow = parseInt(computedStyle.getPropertyValue("width"), 10);
+
+    if (typeof valueNow === "number" && !isNaN(valueNow)) {
+      this.initialContentWidth = valueNow;
+    }
+
+    if (typeof max === "number" && !isNaN(max)) {
+      this.contentWidthMax = max;
+    }
+
+    if (typeof min === "number" && !isNaN(min)) {
+      this.contentWidthMin = min;
+    }
+
+    forceUpdate(this);
+  }
+
+  storeContentEl = (contentEl: HTMLDivElement): void => {
+    this.contentEl = contentEl;
+  };
+
+  getKeyAdjustedWidth = (event: KeyboardEvent): number | null => {
+    const { key } = event;
+    const {
+      step,
+      stepMultiplier,
+      contentWidthMin,
+      contentWidthMax,
+      initialContentWidth,
+      position
+    } = this;
+    const multipliedStep = step * stepMultiplier;
+
+    const MOVEMENT_KEYS = [
+      "ArrowUp",
+      "ArrowDown",
+      "ArrowLeft",
+      "ArrowRight",
+      "Home",
+      "End",
+      "PageUp",
+      "PageDown"
+    ];
+
+    if (MOVEMENT_KEYS.indexOf(key) > -1) {
+      event.preventDefault();
+    }
+
+    const increaseKeys =
+      key === "ArrowUp" || (position === "end" ? key === "ArrowLeft" : key === "ArrowRight");
+
+    if (increaseKeys) {
+      const stepValue = event.shiftKey ? multipliedStep : step;
+
+      return initialContentWidth + stepValue;
+    }
+
+    const decreaseKeys =
+      key === "ArrowDown" || (position === "end" ? key === "ArrowRight" : key === "ArrowLeft");
+
+    if (decreaseKeys) {
+      const stepValue = event.shiftKey ? multipliedStep : step;
+
+      return initialContentWidth - stepValue;
+    }
+
+    if (typeof contentWidthMin === "number" && key === "Home") {
+      return contentWidthMin;
+    }
+
+    if (typeof contentWidthMax === "number" && key === "End") {
+      return contentWidthMax;
+    }
+
+    if (key === "PageDown") {
+      return initialContentWidth - multipliedStep;
+    }
+
+    if (key === "PageUp") {
+      return initialContentWidth + multipliedStep;
+    }
+
+    return null;
+  };
+
+  separatorKeyDown = (event: KeyboardEvent): void => {
+    this.setInitialContentWidth();
+    const width = this.getKeyAdjustedWidth(event);
+
+    if (typeof width === "number") {
+      this.setContentWidth(width);
+    }
+  };
+
+  separatorPointerMove = (event: PointerEvent): void => {
+    event.preventDefault();
+
+    const { initialContentWidth, position, initialClientX } = this;
+    const offset = event.clientX - initialClientX;
+
+    this.setContentWidth(
+      position === "end" ? initialContentWidth - offset : initialContentWidth + offset
+    );
+  };
+
+  separatorPointerUp = (event: PointerEvent): void => {
+    event.preventDefault();
+    document.removeEventListener("pointerup", this.separatorPointerUp);
+    document.removeEventListener("pointermove", this.separatorPointerMove);
+  };
+
+  setInitialContentWidth = (): void => {
+    this.initialContentWidth = this.contentEl?.getBoundingClientRect().width;
+  };
+
+  separatorPointerDown = (event: PointerEvent): void => {
+    event.preventDefault();
+    const { separatorEl } = this;
+
+    separatorEl && document.activeElement !== separatorEl && separatorEl.focus();
+
+    this.setInitialContentWidth();
+    this.initialClientX = event.clientX;
+
+    document.addEventListener("pointerup", this.separatorPointerUp);
+    document.addEventListener("pointermove", this.separatorPointerMove);
+  };
+
+  connectSeparator = (separatorEl: HTMLDivElement): void => {
+    this.disconnectSeparator();
+    this.separatorEl = separatorEl;
+    separatorEl.addEventListener("pointerdown", this.separatorPointerDown);
+  };
+
+  disconnectSeparator = (): void => {
+    this.separatorEl?.removeEventListener("pointerdown", this.separatorPointerDown);
+  };
 }
