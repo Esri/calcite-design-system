@@ -12,7 +12,7 @@ import {
 } from "@stencil/core";
 import { CSS, SLOTS, TEXT } from "./resources";
 import { Position, Scale } from "../interfaces";
-import { getSlotted } from "../../utils/dom";
+import { getSlotted, getElementStyleDir } from "../../utils/dom";
 import { clamp } from "../../utils/math";
 
 /**
@@ -248,6 +248,7 @@ export class CalciteShellPanel {
   getKeyAdjustedWidth = (event: KeyboardEvent): number | null => {
     const { key } = event;
     const {
+      el,
       step,
       stepMultiplier,
       contentWidthMin,
@@ -272,8 +273,17 @@ export class CalciteShellPanel {
       event.preventDefault();
     }
 
+    const dir = getElementStyleDir(el);
+
+    const directionKeys = ["ArrowLeft", "ArrowRight"];
+
+    if (dir === "rtl") {
+      directionKeys.reverse();
+    }
+
     const increaseKeys =
-      key === "ArrowUp" || (position === "end" ? key === "ArrowLeft" : key === "ArrowRight");
+      key === "ArrowUp" ||
+      (position === "end" ? key === directionKeys[0] : key === directionKeys[1]);
 
     if (increaseKeys) {
       const stepValue = event.shiftKey ? multipliedStep : step;
@@ -282,7 +292,8 @@ export class CalciteShellPanel {
     }
 
     const decreaseKeys =
-      key === "ArrowDown" || (position === "end" ? key === "ArrowRight" : key === "ArrowLeft");
+      key === "ArrowDown" ||
+      (position === "end" ? key === directionKeys[1] : key === directionKeys[0]);
 
     if (decreaseKeys) {
       const stepValue = event.shiftKey ? multipliedStep : step;
@@ -321,12 +332,17 @@ export class CalciteShellPanel {
   separatorPointerMove = (event: PointerEvent): void => {
     event.preventDefault();
 
-    const { initialContentWidth, position, initialClientX } = this;
+    const { el, initialContentWidth, position, initialClientX } = this;
     const offset = event.clientX - initialClientX;
+    const dir = getElementStyleDir(el);
 
-    this.setContentWidth(
-      position === "end" ? initialContentWidth - offset : initialContentWidth + offset
-    );
+    const directionValues = [initialContentWidth + offset, initialContentWidth - offset];
+
+    if (dir === "rtl") {
+      directionValues.reverse();
+    }
+
+    this.setContentWidth(position === "end" ? directionValues[1] : directionValues[0]);
   };
 
   separatorPointerUp = (event: PointerEvent): void => {
