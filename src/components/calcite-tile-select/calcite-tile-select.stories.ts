@@ -18,6 +18,11 @@ export default {
   }
 };
 
+const icon = "i2DExplore";
+const heading = "Tile heading lorem ipsum";
+const description =
+  "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall.";
+
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
   return filterComponentAttributes(
     [
@@ -32,10 +37,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "description",
         commit(): Attribute {
-          this.value = text(
-            "description",
-            "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
-          );
+          this.value = text("description", description);
           delete this.build;
           return this;
         }
@@ -51,7 +53,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "heading",
         commit(): Attribute {
-          this.value = text("heading", "Tile heading lorem ipsum");
+          this.value = text("heading", heading);
           delete this.build;
           return this;
         }
@@ -103,6 +105,14 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           delete this.build;
           return this;
         }
+      },
+      {
+        name: "width",
+        commit(): Attribute {
+          this.value = select("width", ["auto", "full"], "auto");
+          delete this.build;
+          return this;
+        }
       }
     ],
     exceptions
@@ -112,85 +122,81 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
 export const Default = stepStory(
   (): string => html`${create("calcite-tile-select", createAttributes())}`,
   createSteps("calcite-tile-select")
-    // Input Disabled No Icon
-    .snapshot("Input Disabled No Icon")
-
-    // Input Disabled No Icon Hover
-    .hover("calcite-tile-select")
-    .snapshot("Input Disabled No Icon Hover")
-
-    // Input Disabled No Icon Focused
+    // Checked Off
     .executeScript(
       setKnobs({
         story: "components-tiles-tile-select--default",
-        knobs: [{ name: "checked", value: "false" }]
+        knobs: [
+          { name: "checked", value: "false" },
+          { name: "description", value: description },
+          { name: "heading", value: heading },
+          { name: "icon", value: icon }
+        ]
       })
     )
-    .executeScript(`document.querySelector("calcite-tile-select").setFocus()`)
-    .snapshot("Input Disabled No Icon Focused")
+    .snapshot("Checked Off")
 
-    // Input Disabled No Icon Checked
+    // Checked On
     .executeScript(
       setKnobs({
         story: "components-tiles-tile-select--default",
-        knobs: [{ name: "checked", value: "true" }]
+        knobs: [
+          { name: "checked", value: "true" },
+          { name: "description", value: description },
+          { name: "heading", value: heading },
+          { name: "icon", value: icon }
+        ]
       })
     )
-    .snapshot("Input Disabled No Icon Checked")
+    .snapshot("Checked On")
 
-    // Input Disabled No Icon Clicked
+    // Description
     .executeScript(
       setKnobs({
         story: "components-tiles-tile-select--default",
-        knobs: [{ name: "checked", value: "false" }]
+        knobs: [
+          { name: "description", value: description },
+          { name: "heading", value: null }
+        ]
       })
     )
-    .click("calcite-tile-select")
-    .snapshot("Input Disabled No Icon Clicked")
+    .snapshot("Description")
 
-    // Input Disabled No Icon Dark
+    // Description With Heading
     .executeScript(
       setKnobs({
         story: "components-tiles-tile-select--default",
-        knobs: [{ name: "checked", value: "false" }]
+        knobs: [
+          { name: "description", value: description },
+          { name: "heading", value: heading }
+        ]
       })
     )
-    .executeScript(setTheme("dark"))
-    .snapshot("Input Disabled No Icon Dark")
+    .snapshot("Description With Heading")
 
-    // Input Disabled No Icon Hover Dark
-    .hover("calcite-tile-select")
-    .snapshot("Input Disabled No Icon Hover Dark")
-
-    // Input Disabled No Icon Focused Dark
+    // Description With Icon
     .executeScript(
       setKnobs({
         story: "components-tiles-tile-select--default",
-        knobs: [{ name: "checked", value: "false" }]
+        knobs: [
+          { name: "description", value: description },
+          { name: "heading", value: null },
+          { name: "icon", value: icon }
+        ]
       })
     )
-    .executeScript(setTheme("dark"))
-    .executeScript(`document.querySelector("calcite-tile-select").setFocus()`)
-    .snapshot("Input Disabled No Icon Focused Dark")
+    .snapshot("Description With Icon")
 
-    // Input Disabled No Icon Checked Dark
+    // Description With Heading & Icon
     .executeScript(
       setKnobs({
         story: "components-tiles-tile-select--default",
-        knobs: [{ name: "checked", value: "true" }]
+        knobs: [
+          { name: "description", value: description },
+          { name: "heading", value: heading },
+          { name: "icon", value: icon }
+        ]
       })
     )
-    .executeScript(setTheme("dark"))
-    .snapshot("Input Disabled No Icon Checked Dark")
-
-    // Input Disabled No Icon Clicked Dark
-    .executeScript(
-      setKnobs({
-        story: "components-tiles-tile-select--default",
-        knobs: [{ name: "checked", value: "false" }]
-      })
-    )
-    .executeScript(setTheme("dark"))
-    .click("calcite-tile-select")
-    .snapshot("Input Disabled No Icon Clicked Dark")
+    .snapshot("Description With Heading & Icon")
 );
