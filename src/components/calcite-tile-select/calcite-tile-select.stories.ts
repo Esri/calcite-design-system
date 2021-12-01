@@ -205,7 +205,7 @@ export const Default = stepStory(
           { name: "description", value: description },
           { name: "heading", value: heading },
           { name: "icon", value: icon },
-          { name: "inputEnabled", value: "true" }
+          { name: "input-enabled", value: "true" }
         ]
       })
     )
@@ -224,7 +224,7 @@ export const Default = stepStory(
           { name: "description", value: description },
           { name: "heading", value: heading },
           { name: "icon", value: icon },
-          { name: "inputEnabled", value: "true" }
+          { name: "input-enabled", value: "true" }
         ]
       })
     )
@@ -240,7 +240,7 @@ export const Default = stepStory(
           { name: "description", value: description },
           { name: "heading", value: heading },
           { name: "icon", value: icon },
-          { name: "inputEnabled", value: "true" }
+          { name: "input-enabled", value: "true" }
         ]
       })
     )
@@ -257,7 +257,7 @@ export const Default = stepStory(
           { name: "description", value: description },
           { name: "heading", value: heading },
           { name: "icon", value: icon },
-          { name: "inputEnabled", value: "true" }
+          { name: "input-enabled", value: "true" }
         ]
       })
     )
@@ -277,7 +277,7 @@ export const Default = stepStory(
           { name: "description", value: description },
           { name: "heading", value: heading },
           { name: "icon", value: icon },
-          { name: "inputEnabled", value: "true" }
+          { name: "input-enabled", value: "true" }
         ]
       })
     )
@@ -294,7 +294,7 @@ export const Default = stepStory(
           { name: "description", value: description },
           { name: "heading", value: heading },
           { name: "icon", value: icon },
-          { name: "inputEnabled", value: "true" }
+          { name: "input-enabled", value: "true" }
         ]
       })
     )
