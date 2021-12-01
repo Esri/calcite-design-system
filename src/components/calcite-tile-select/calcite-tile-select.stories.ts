@@ -510,4 +510,25 @@ export const Default = stepStory(
     )
     .click("calcite-tile-select")
     .snapshot("Disabled On Input Enabled Off Checked On Click")
+
+    // Heading Input Enabled Off
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [{ name: "heading", value: heading }]
+      })
+    )
+    .snapshot("Heading Input Enabled Off")
+
+    // Heading Input Enabled On
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "heading", value: heading },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .snapshot("Heading Input Enabled On")
 );
