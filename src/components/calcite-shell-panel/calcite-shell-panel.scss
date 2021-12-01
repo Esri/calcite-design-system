@@ -1,7 +1,8 @@
 :host {
   @apply flex
     items-stretch
-    flex-initial;
+    flex-initial
+    pointer-events-none;
   --calcite-shell-panel-detached-max-height: unset;
 }
 
