@@ -531,4 +531,13 @@ export const Default = stepStory(
       })
     )
     .snapshot("Heading Input Enabled On")
+
+    // Hidden
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [{ name: "hidden", value: "true" }]
+      })
+    )
+    .snapshot("Hidden")
 );
