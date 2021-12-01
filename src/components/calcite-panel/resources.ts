@@ -10,6 +10,7 @@ export const CSS = {
   headerActionsStart: "header-actions--start",
   contentWrapper: "content-wrapper",
   contentContainer: "content-container",
+  contentScroll: "content-scroll",
   fabContainer: "fab-container",
   footer: "footer",
   menuContainer: "menu-container",
