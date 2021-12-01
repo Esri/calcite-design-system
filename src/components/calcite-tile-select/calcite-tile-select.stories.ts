@@ -247,6 +247,60 @@ export const Default = stepStory(
     .click("calcite-tile-select")
     .snapshot("Disabled On Input Enabled On Checked Off Radio Click")
 
+    // Disabled On Input Enabled On Checked Off Checkbox
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "disabled", value: "true" },
+          { name: "description", value: description },
+          { name: "heading", value: heading },
+          { name: "icon", value: icon },
+          { name: "input-enabled", value: "true" },
+          { name: "type", value: "checkbox" }
+        ]
+      })
+    )
+    .snapshot("Disabled On Input Enabled On Checked Off Checkbox")
+
+    // Disabled On Input Enabled On Checked Off Checkbox Hover
+    .hover("calcite-tile-select")
+    .snapshot("Disabled On Input Enabled On Checked Off Checkbox Hover")
+
+    // Disabled On Input Enabled On Checked Off Checkbox Focus
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "disabled", value: "true" },
+          { name: "description", value: description },
+          { name: "heading", value: heading },
+          { name: "icon", value: icon },
+          { name: "input-enabled", value: "true" },
+          { name: "type", value: "checkbox" }
+        ]
+      })
+    )
+    .executeScript(`document.querySelector("calcite-tile-select").setFocus()`)
+    .snapshot("Disabled On Input Enabled On Checked Off Checkbox Focus")
+
+    // Disabled On Input Enabled On Checked Off Checkbox Click
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "disabled", value: "true" },
+          { name: "description", value: description },
+          { name: "heading", value: heading },
+          { name: "icon", value: icon },
+          { name: "input-enabled", value: "true" },
+          { name: "type", value: "checkbox" }
+        ]
+      })
+    )
+    .click("calcite-tile-select")
+    .snapshot("Disabled On Input Enabled On Checked Off Checkbox Click")
+
     // Disabled On Input Enabled On Checked On Radio
     .executeScript(
       setKnobs({
@@ -300,6 +354,63 @@ export const Default = stepStory(
     )
     .click("calcite-tile-select")
     .snapshot("Disabled On Input Enabled On Checked On Radio Click")
+
+    // Disabled On Input Enabled On Checked On Checkbox
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "checked", value: "true" },
+          { name: "disabled", value: "true" },
+          { name: "description", value: description },
+          { name: "heading", value: heading },
+          { name: "icon", value: icon },
+          { name: "input-enabled", value: "true" },
+          { name: "type", value: "checkbox" }
+        ]
+      })
+    )
+    .snapshot("Disabled On Input Enabled On Checked On Checkbox")
+
+    // Disabled On Input Enabled On Checked On Checkbox Hover
+    .hover("calcite-tile-select")
+    .snapshot("Disabled On Input Enabled On Checked On Checkbox Hover")
+
+    // Disabled On Input Enabled On Checked On Checkbox Focus
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "checked", value: "true" },
+          { name: "disabled", value: "true" },
+          { name: "description", value: description },
+          { name: "heading", value: heading },
+          { name: "icon", value: icon },
+          { name: "input-enabled", value: "true" },
+          { name: "type", value: "checkbox" }
+        ]
+      })
+    )
+    .executeScript(`document.querySelector("calcite-tile-select").setFocus()`)
+    .snapshot("Disabled On Input Enabled On Checked On Checkbox Focus")
+
+    // Disabled On Input Enabled On Checked On Checkbox Click
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "checked", value: "true" },
+          { name: "disabled", value: "true" },
+          { name: "description", value: description },
+          { name: "heading", value: heading },
+          { name: "icon", value: icon },
+          { name: "input-enabled", value: "true" },
+          { name: "type", value: "checkbox" }
+        ]
+      })
+    )
+    .click("calcite-tile-select")
+    .snapshot("Disabled On Input Enabled On Checked On Checkbox Click")
 
     // Disabled On Input Enabled Off Checked Off
     .executeScript(
