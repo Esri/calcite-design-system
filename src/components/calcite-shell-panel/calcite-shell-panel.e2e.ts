@@ -386,4 +386,20 @@ describe("calcite-shell-panel", () => {
     expect(separator.getAttribute("aria-valuenow")).toBe("330");
     expect((await content.getComputedStyle()).width).toBe("330px");
   });
+
+  it("click event should pass through host element", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-shell content-behind>
+        <calcite-shell-panel slot="primary-panel" position="start" detached></calcite-shell-panel>
+        <calcite-action text="test" style="height: 100%; width: 100%;" text-enabled></calcite-action>
+      </calcite-shell>`
+    );
+
+    await page.waitForChanges();
+    const shellPanel = await page.find("calcite-shell-panel");
+    await shellPanel.click();
+    await page.waitForChanges();
+    expect(await page.evaluate((selector) => document.activeElement.matches(selector), "calcite-action")).toBe(true);
+  });
 });
