@@ -130,8 +130,8 @@ export const withButton = (): string =>
 `
   );
 
-export const withSetHeight = (): string => html`
-  <calcite-panel style="height: 400px;" heading="Heading">
+export const withStyledSlot = (): string => html`
+  <calcite-panel style="height: 100%;" heading="Heading">
     <div id="content" style="height: 100%;">${contentHTML}</div>
   </calcite-panel>
 `;
