@@ -1087,4 +1087,196 @@ export const Default = stepStory(
     )
     .rtl()
     .snapshot("RTL Input Enabled On Input Alignment End Heading + Description")
+
+    // Theme Light Input Enabled On Checked On
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "checked", value: "true" },
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .snapshot("Theme Light Input Enabled On Checked On")
+
+    // Theme Light Input Enabled On Checked On Hover
+    .hover("calcite-tile-select")
+    .snapshot("Theme Light Input Enabled On Checked On Hover")
+
+    // Theme Light Input Enabled On Checked On Focus
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "checked", value: "true" },
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .executeScript(`document.querySelector("calcite-tile-select").setFocus()`)
+    .snapshot("Theme Light Input Enabled On Checked On Focus")
+
+    // Theme Light Input Enabled On Checked On Click
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "checked", value: "true" },
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .click("calcite-tile-select")
+    .snapshot("Theme Light Input Enabled On Checked On Click")
+
+    // Theme Light Input Enabled On Checked Off
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .snapshot("Theme Light Input Enabled On Checked Off")
+
+    // Theme Light Input Enabled On Checked Off Hover
+    .hover("calcite-tile-select")
+    .snapshot("Theme Light Input Enabled On Checked Off Hover")
+
+    // Theme Light Input Enabled On Checked Off Focus
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .executeScript(`document.querySelector("calcite-tile-select").setFocus()`)
+    .snapshot("Theme Light Input Enabled On Checked Off Focus")
+
+    // Theme Light Input Enabled On Checked Off Click
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .click("calcite-tile-select")
+    .snapshot("Theme Light Input Enabled On Checked Off Click")
+
+    // Theme Light Input Enabled Off Checked On
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "checked", value: "true" },
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description }
+        ]
+      })
+    )
+    .snapshot("Theme Light Input Enabled Off Checked On")
+
+    // Theme Light Input Enabled Off Checked On Hover
+    .hover("calcite-tile-select")
+    .snapshot("Theme Light Input Enabled Off Checked On Hover")
+
+    // Theme Light Input Enabled Off Checked On Focus
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "checked", value: "true" },
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description }
+        ]
+      })
+    )
+    .executeScript(`document.querySelector("calcite-tile-select").setFocus()`)
+    .snapshot("Theme Light Input Enabled Off Checked On Focus")
+
+    // Theme Light Input Enabled Off Checked On Click
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "checked", value: "true" },
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description }
+        ]
+      })
+    )
+    .click("calcite-tile-select")
+    .snapshot("Theme Light Input Enabled Off Checked On Click")
+
+    // Theme Light Input Enabled Off Checked Off
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description }
+        ]
+      })
+    )
+    .snapshot("Theme Light Input Enabled Off Checked Off")
+
+    // Theme Light Input Enabled Off Checked Off Hover
+    .hover("calcite-tile-select")
+    .snapshot("Theme Light Input Enabled Off Checked Off Hover")
+
+    // Theme Light Input Enabled Off Checked Off Focus
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description }
+        ]
+      })
+    )
+    .executeScript(`document.querySelector("calcite-tile-select").setFocus()`)
+    .snapshot("Theme Light Input Enabled Off Checked Off Focus")
+
+    // Theme Light Input Enabled Off Checked Off Click
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description }
+        ]
+      })
+    )
+    .click("calcite-tile-select")
+    .snapshot("Theme Light Input Enabled Off Checked Off Click")
 );
