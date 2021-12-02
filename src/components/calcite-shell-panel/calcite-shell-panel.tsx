@@ -276,7 +276,7 @@ export class CalciteShellPanel {
     const dir = getElementStyleDir(el);
 
     const directionKeys = ["ArrowLeft", "ArrowRight"];
-    const directionFactor = dir === "rtl" ? -1 : 1;
+    const directionFactor = dir === "rtl" && directionKeys.includes(key) ? -1 : 1;
 
     const increaseKeys =
       key === "ArrowUp" ||
