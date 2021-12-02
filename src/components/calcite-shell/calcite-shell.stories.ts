@@ -20,7 +20,10 @@ const createAttributes: (group: string, options?: { exceptions: string[] }) => A
   return filterComponentAttributes([], exceptions);
 };
 
-const createShellPanelAttributes: (group: "Leading Panel" | "Trailing Panel") => Attributes = (group) => {
+const createShellPanelAttributes: (group: "Leading Panel" | "Trailing Panel", resizable?: boolean) => Attributes = (
+  group,
+  resizable = false
+) => {
   const { position } = ATTRIBUTES;
 
   return [
@@ -44,6 +47,10 @@ const createShellPanelAttributes: (group: "Leading Panel" | "Trailing Panel") =>
         group === "Leading Panel" ? position.values[0] : position.values[1],
         group
       )
+    },
+    {
+      name: "resizable",
+      value: boolean("resizable", resizable, group)
     }
   ];
 };
@@ -314,9 +321,9 @@ export const advanced = (): string =>
     createAttributes("Shell"),
     html`
       ${headerHTML}
-      ${create("calcite-shell-panel", createShellPanelAttributes("Leading Panel"), advancedLeadingPanelHTML)}
+      ${create("calcite-shell-panel", createShellPanelAttributes("Leading Panel", true), advancedLeadingPanelHTML)}
       ${contentHTML} ${centerRowAdvancedHTML}
-      ${create("calcite-shell-panel", createShellPanelAttributes("Trailing Panel"), advancedTrailingPanelHTMl)}
+      ${create("calcite-shell-panel", createShellPanelAttributes("Trailing Panel", true), advancedTrailingPanelHTMl)}
       ${footerHTML}
     `
   );
