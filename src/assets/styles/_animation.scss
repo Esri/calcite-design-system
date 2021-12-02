@@ -40,8 +40,9 @@
   }
 }
 
-:root {
-  --calcite-animation-timing: 150ms;
+* {
+  --calcite-animation-factor: 1;
+  --calcite-animation-timing: calc(var(--calcite-animation-factor) * 150ms);
 }
 
 // allows animation trigger via JS by adding class to element
