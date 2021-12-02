@@ -21,5 +21,5 @@ requiredItems:
       - "developers.arcgis.com/calcite-design-system/components/"
       - "ember-twiddle.com/"
       - "jsfiddle.net/"
-commentFooter: "This issue will be automatically closed in three days if the information is not provided. Thanks for your understanding."
+commentFooter: "This issue will be automatically closed in five days if the information is not provided. Thanks for your understanding."
 excludeComments: true

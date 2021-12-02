@@ -16,6 +16,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - **alert:** remove clearTimeOut that delays the alert to close on autoDismiss mode [#3366](https://github.com/Esri/calcite-components/issues/3366) ([#3525](https://github.com/Esri/calcite-components/issues/3525)) ([9376b52](https://github.com/Esri/calcite-components/commit/9376b52d32752f24cacf4286af804d61e3ab16b8))
 - **input:** style read-only and disabled inputs per new design reqs and hide spinners for read-only inputs ([#3582](https://github.com/Esri/calcite-components/issues/3582)) ([470f347](https://github.com/Esri/calcite-components/commit/470f34711480dc8d48224f66d7b1274f93c3e271))
+- **panel:** add conditional rendering for slots with fab and no fab ([#3616](https://github.com/Esri/calcite-components/issues/3616)) ([16ace3f](https://github.com/Esri/calcite-components/commit/16ace3f931c9465c0950594e97181f681ea7279b))
 - **shell-panel:** click events correctly pass through the host element ([#3607](https://github.com/Esri/calcite-components/issues/3607)) ([fbada5e](https://github.com/Esri/calcite-components/commit/fbada5e6cec113552f19ee746c50017e1f56222c))
 <!--@unreleased-section-end-->
 
