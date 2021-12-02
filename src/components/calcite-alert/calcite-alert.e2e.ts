@@ -70,6 +70,38 @@ describe("calcite-alert", () => {
     expect(icon).not.toBeNull();
   });
 
+  it("closes on time based on alert duration", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <div>
+      <calcite-button id="button-2"onclick="document.querySelector('#alert-2').setAttribute('active', '')">open alert-1</calcite-button>
+      <calcite-alert
+        label="this is a success"
+        id="alert-2"
+        scale="s"
+        color="green"
+        auto-dismiss
+        icon
+      >
+        <div slot="title">Hello there!</div>
+        <div slot="message">Get success!</div>
+        <calcite-link slot="link" title="my action"> Do thing </calcite-link>
+      </calcite-alert>
+    </div>`);
+
+    const alert2 = await page.find("#alert-2");
+    const button2 = await page.find("#button-2");
+    const alertSpeedFastMs = 10000;
+
+    expect(await alert2.isVisible()).not.toBe(true);
+
+    await button2.click();
+    expect(await alert2.isVisible()).toBe(true);
+
+    await page.waitForTimeout(alertSpeedFastMs);
+    expect(await alert2.isVisible()).not.toBe(true);
+  });
+
   const animationDurationInMs = 400;
 
   it("opens and then closes a single alert", async () => {
