@@ -661,4 +661,93 @@ export const Default = stepStory(
       })
     )
     .snapshot("Input Alignment End Input Enabled On Heading + Description")
+
+    // Input Enabled On Icon
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "icon", value: icon },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .snapshot("Input Enabled On Icon")
+
+    // Input Enabled On Heading
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "heading", value: heading },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .snapshot("Input Enabled On Heading")
+
+    // Input Enabled On Description
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "description", value: description },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .snapshot("Input Enabled On Description")
+
+    // Input Enabled On Icon + Heading
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "heading", value: heading },
+          { name: "icon", value: icon },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .snapshot("Input Enabled On Icon + Heading")
+
+    // Input Enabled On Icon + Description
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "description", value: description },
+          { name: "icon", value: icon },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .snapshot("Input Enabled On Icon + Description")
+
+    // Input Enabled On Icon + Heading + Description
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "description", value: description },
+          { name: "heading", value: heading },
+          { name: "icon", value: icon },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .snapshot("Input Enabled On Icon + Heading + Description")
+
+    // Input Enabled On Heading + Description
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "description", value: description },
+          { name: "heading", value: heading },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .snapshot("Input Enabled On Heading + Description")
 );
