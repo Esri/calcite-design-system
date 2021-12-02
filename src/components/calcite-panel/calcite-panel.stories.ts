@@ -130,6 +130,12 @@ export const withButton = (): string =>
 `
   );
 
+export const withSetHeight = (): string => html`
+  <calcite-panel style="height: 400px;" heading="Heading">
+    <div id="content" style="height: 100%;">${contentHTML}</div>
+  </calcite-panel>
+`;
+
 export const darkThemeRTL = (): string =>
   create(
     "calcite-panel",
