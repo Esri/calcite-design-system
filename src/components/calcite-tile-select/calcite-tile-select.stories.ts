@@ -565,4 +565,100 @@ export const Default = stepStory(
       })
     )
     .snapshot("Icon Input Enabled On With Heading")
+
+    // Input Alignment End Input Enabled On Icon
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "icon", value: icon },
+          { name: "input-alignment", value: "end" },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .snapshot("Input Alignment End Input Enabled On Icon")
+
+    // Input Alignment End Input Enabled On Heading
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "heading", value: heading },
+          { name: "input-alignment", value: "end" },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .snapshot("Input Alignment End Input Enabled On Heading")
+
+    // Input Alignment End Input Enabled On Description
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "description", value: description },
+          { name: "input-alignment", value: "end" },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .snapshot("Input Alignment End Input Enabled On Description")
+
+    // Input Alignment End Input Enabled On Icon + Heading
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "heading", value: heading },
+          { name: "icon", value: icon },
+          { name: "input-alignment", value: "end" },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .snapshot("Input Alignment End Input Enabled On Icon + Heading")
+
+    // Input Alignment End Input Enabled On Icon + Description
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "description", value: description },
+          { name: "icon", value: icon },
+          { name: "input-alignment", value: "end" },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .snapshot("Input Alignment End Input Enabled On Icon + Description")
+
+    // Input Alignment End Input Enabled On Icon + Heading + Description
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "description", value: description },
+          { name: "heading", value: heading },
+          { name: "icon", value: icon },
+          { name: "input-alignment", value: "end" },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .snapshot("Input Alignment End Input Enabled On Icon + Heading + Description")
+
+    // Input Alignment End Input Enabled On Heading + Description
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "description", value: description },
+          { name: "heading", value: heading },
+          { name: "input-alignment", value: "end" },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .snapshot("Input Alignment End Input Enabled On Heading + Description")
 );
