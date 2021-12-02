@@ -390,26 +390,37 @@ export class CalcitePanel {
   }
 
   renderContent(): VNode {
-    return (
-      <div class={CSS.contentWrapper} onScroll={this.panelScrollHandler} tabIndex={0}>
+    const { el } = this;
+    const hasFab = getSlotted(el, SLOTS.fab);
+
+    return hasFab ? (
+      <div
+        class={{ [CSS.contentWrapper]: true, [CSS.contentHeight]: true }}
+        onScroll={this.panelScrollHandler}
+        tabIndex={0}
+      >
         <section class={CSS.contentContainer}>
           <slot />
         </section>
         {this.renderFab()}
       </div>
+    ) : (
+      <section
+        class={{ [CSS.contentWrapper]: true, [CSS.contentContainer]: true }}
+        onScroll={this.panelScrollHandler}
+        tabIndex={0}
+      >
+        <slot />
+      </section>
     );
   }
 
   renderFab(): VNode {
-    const { el } = this;
-
-    const hasFab = getSlotted(el, SLOTS.fab);
-
-    return hasFab ? (
+    return (
       <div class={CSS.fabContainer}>
         <slot name={SLOTS.fab} />
       </div>
-    ) : null;
+    );
   }
 
   render(): VNode {

@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { renders, accessible, HYDRATED_ATTR } from "../../tests/commonTests";
+import { html } from "../../tests/utils";
 
 describe("calcite-alert", () => {
   const alertContent = `
@@ -72,22 +73,18 @@ describe("calcite-alert", () => {
 
   it("closes on time based on alert duration", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-    <div>
-      <calcite-button id="button-2"onclick="document.querySelector('#alert-2').setAttribute('active', '')">open alert-1</calcite-button>
-      <calcite-alert
-        label="this is a success"
-        id="alert-2"
-        scale="s"
-        color="green"
-        auto-dismiss
-        icon
-      >
-        <div slot="title">Hello there!</div>
-        <div slot="message">Get success!</div>
-        <calcite-link slot="link" title="my action"> Do thing </calcite-link>
-      </calcite-alert>
-    </div>`);
+    await page.setContent(html`
+      <div>
+        <calcite-button id="button-2" onclick="document.querySelector('#alert-2').setAttribute('active', '')"
+          >open alert-1</calcite-button
+        >
+        <calcite-alert label="this is a success" id="alert-2" scale="s" color="green" auto-dismiss icon>
+          <div slot="title">Hello there!</div>
+          <div slot="message">Get success!</div>
+          <calcite-link slot="link" title="my action"> Do thing </calcite-link>
+        </calcite-alert>
+      </div>
+    `);
 
     const alert2 = await page.find("#alert-2");
     const button2 = await page.find("#button-2");
