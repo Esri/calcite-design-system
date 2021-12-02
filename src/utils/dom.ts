@@ -26,6 +26,13 @@ export function getThemeName(el: HTMLElement): "light" | "dark" {
   return closestElementCrossShadowBoundary(el, `.${CSS_UTILITY.darkTheme}`) ? "dark" : "light";
 }
 
+export function getElementStyleDir(el: HTMLElement): Direction {
+  return (window.getComputedStyle(el).direction as Direction) || "ltr";
+}
+
+/**
+ * @deprecated use getElementStyleDir instead.
+ */
 export function getElementDir(el: HTMLElement): Direction {
   const prop = "dir";
   const selector = `[${prop}]`;

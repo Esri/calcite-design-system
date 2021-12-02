@@ -12,7 +12,7 @@ import {
 } from "@stencil/core";
 import { CSS, SLOTS, TEXT } from "./resources";
 import { Position, Scale } from "../interfaces";
-import { getSlotted } from "../../utils/dom";
+import { getSlotted, getElementStyleDir } from "../../utils/dom";
 import { clamp } from "../../utils/math";
 
 /**
@@ -248,6 +248,7 @@ export class CalciteShellPanel {
   getKeyAdjustedWidth = (event: KeyboardEvent): number | null => {
     const { key } = event;
     const {
+      el,
       step,
       stepMultiplier,
       contentWidthMin,
@@ -272,22 +273,29 @@ export class CalciteShellPanel {
       event.preventDefault();
     }
 
+    const dir = getElementStyleDir(el);
+
+    const directionKeys = ["ArrowLeft", "ArrowRight"];
+    const directionFactor = dir === "rtl" && directionKeys.includes(key) ? -1 : 1;
+
     const increaseKeys =
-      key === "ArrowUp" || (position === "end" ? key === "ArrowLeft" : key === "ArrowRight");
+      key === "ArrowUp" ||
+      (position === "end" ? key === directionKeys[0] : key === directionKeys[1]);
 
     if (increaseKeys) {
       const stepValue = event.shiftKey ? multipliedStep : step;
 
-      return initialContentWidth + stepValue;
+      return initialContentWidth + directionFactor * stepValue;
     }
 
     const decreaseKeys =
-      key === "ArrowDown" || (position === "end" ? key === "ArrowRight" : key === "ArrowLeft");
+      key === "ArrowDown" ||
+      (position === "end" ? key === directionKeys[1] : key === directionKeys[0]);
 
     if (decreaseKeys) {
       const stepValue = event.shiftKey ? multipliedStep : step;
 
-      return initialContentWidth - stepValue;
+      return initialContentWidth - directionFactor * stepValue;
     }
 
     if (typeof contentWidthMin === "number" && key === "Home") {
@@ -321,12 +329,16 @@ export class CalciteShellPanel {
   separatorPointerMove = (event: PointerEvent): void => {
     event.preventDefault();
 
-    const { initialContentWidth, position, initialClientX } = this;
+    const { el, initialContentWidth, position, initialClientX } = this;
     const offset = event.clientX - initialClientX;
+    const dir = getElementStyleDir(el);
 
-    this.setContentWidth(
-      position === "end" ? initialContentWidth - offset : initialContentWidth + offset
-    );
+    const adjustmentDirection = dir === "rtl" ? -1 : 1;
+    const adjustedOffset =
+      position === "end" ? -adjustmentDirection * offset : adjustmentDirection * offset;
+    const width = initialContentWidth + adjustedOffset;
+
+    this.setContentWidth(width);
   };
 
   separatorPointerUp = (event: PointerEvent): void => {
