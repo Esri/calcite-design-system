@@ -395,7 +395,7 @@ export class CalcitePanel {
 
     return hasFab ? (
       <div
-        class={{ [CSS.contentWrapper]: true, [CSS.contentScroll]: true }}
+        class={{ [CSS.contentWrapper]: true, [CSS.contentHeight]: true }}
         onScroll={this.panelScrollHandler}
         tabIndex={0}
       >
