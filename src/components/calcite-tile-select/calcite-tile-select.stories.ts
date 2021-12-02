@@ -1279,4 +1279,424 @@ export const Default = stepStory(
     )
     .click("calcite-tile-select")
     .snapshot("Theme Light Input Enabled Off Checked Off Click")
+
+    // Theme Dark Input Enabled On Checked On
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "checked", value: "true" },
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .executeScript(setTheme("dark"))
+    .snapshot("Theme Dark Input Enabled On Checked On")
+
+    // Theme Dark Input Enabled On Checked On Hover
+    .hover("calcite-tile-select")
+    .snapshot("Theme Dark Input Enabled On Checked On Hover")
+
+    // Theme Dark Input Enabled On Checked On Focus
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "checked", value: "true" },
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .executeScript(setTheme("dark"))
+    .executeScript(`document.querySelector("calcite-tile-select").setFocus()`)
+    .snapshot("Theme Dark Input Enabled On Checked On Focus")
+
+    // Theme Dark Input Enabled On Checked On Click
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "checked", value: "true" },
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .executeScript(setTheme("dark"))
+    .click("calcite-tile-select")
+    .snapshot("Theme Dark Input Enabled On Checked On Click")
+
+    // Theme Dark Input Enabled On Checked Off
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .executeScript(setTheme("dark"))
+    .snapshot("Theme Dark Input Enabled On Checked Off")
+
+    // Theme Dark Input Enabled On Checked Off Hover
+    .hover("calcite-tile-select")
+    .snapshot("Theme Dark Input Enabled On Checked Off Hover")
+
+    // Theme Dark Input Enabled On Checked Off Focus
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .executeScript(setTheme("dark"))
+    .executeScript(`document.querySelector("calcite-tile-select").setFocus()`)
+    .snapshot("Theme Dark Input Enabled On Checked Off Focus")
+
+    // Theme Dark Input Enabled On Checked Off Click
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .executeScript(setTheme("dark"))
+    .click("calcite-tile-select")
+    .snapshot("Theme Dark Input Enabled On Checked Off Click")
+
+    // Theme Dark Input Enabled Off Checked On
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "checked", value: "true" },
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description }
+        ]
+      })
+    )
+    .executeScript(setTheme("dark"))
+    .snapshot("Theme Dark Input Enabled Off Checked On")
+
+    // Theme Dark Input Enabled Off Checked On Hover
+    .hover("calcite-tile-select")
+    .snapshot("Theme Dark Input Enabled Off Checked On Hover")
+
+    // Theme Dark Input Enabled Off Checked On Focus
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "checked", value: "true" },
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description }
+        ]
+      })
+    )
+    .executeScript(setTheme("dark"))
+    .executeScript(`document.querySelector("calcite-tile-select").setFocus()`)
+    .snapshot("Theme Dark Input Enabled Off Checked On Focus")
+
+    // Theme Dark Input Enabled Off Checked On Click
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "checked", value: "true" },
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description }
+        ]
+      })
+    )
+    .executeScript(setTheme("dark"))
+    .click("calcite-tile-select")
+    .snapshot("Theme Dark Input Enabled Off Checked On Click")
+
+    // Theme Dark Input Enabled Off Checked Off
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description }
+        ]
+      })
+    )
+    .executeScript(setTheme("dark"))
+    .snapshot("Theme Dark Input Enabled Off Checked Off")
+
+    // Theme Dark Input Enabled Off Checked Off Hover
+    .hover("calcite-tile-select")
+    .snapshot("Theme Dark Input Enabled Off Checked Off Hover")
+
+    // Theme Dark Input Enabled Off Checked Off Focus
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description }
+        ]
+      })
+    )
+    .executeScript(setTheme("dark"))
+    .executeScript(`document.querySelector("calcite-tile-select").setFocus()`)
+    .snapshot("Theme Dark Input Enabled Off Checked Off Focus")
+
+    // Theme Dark Input Enabled Off Checked Off Click
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description }
+        ]
+      })
+    )
+    .executeScript(setTheme("dark"))
+    .click("calcite-tile-select")
+    .snapshot("Theme Dark Input Enabled Off Checked Off Click")
+
+    // Theme Dark Disabled Input Enabled On Checked On
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "checked", value: "true" },
+          { name: "disabled", value: "true" },
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .executeScript(setTheme("dark"))
+    .snapshot("Theme Dark Disabled Input Enabled On Checked On")
+
+    // Theme Dark Disabled Input Enabled On Checked On Hover
+    .hover("calcite-tile-select")
+    .snapshot("Theme Dark Disabled Input Enabled On Checked On Hover")
+
+    // Theme Dark Disabled Input Enabled On Checked On Focus
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "checked", value: "true" },
+          { name: "disabled", value: "true" },
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .executeScript(setTheme("dark"))
+    .executeScript(`document.querySelector("calcite-tile-select").setFocus()`)
+    .snapshot("Theme Dark Disabled Input Enabled On Checked On Focus")
+
+    // Theme Dark Disabled Input Enabled On Checked On Click
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "checked", value: "true" },
+          { name: "disabled", value: "true" },
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .executeScript(setTheme("dark"))
+    .click("calcite-tile-select")
+    .snapshot("Theme Dark Disabled Input Enabled On Checked On Click")
+
+    // Theme Dark Disabled Input Enabled On Checked Off
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "disabled", value: "true" },
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .executeScript(setTheme("dark"))
+    .snapshot("Theme Dark Disabled Input Enabled On Checked Off")
+
+    // Theme Dark Disabled Input Enabled On Checked Off Hover
+    .hover("calcite-tile-select")
+    .snapshot("Theme Dark Disabled Input Enabled On Checked Off Hover")
+
+    // Theme Dark Disabled Input Enabled On Checked Off Focus
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "disabled", value: "true" },
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .executeScript(setTheme("dark"))
+    .executeScript(`document.querySelector("calcite-tile-select").setFocus()`)
+    .snapshot("Theme Dark Disabled Input Enabled On Checked Off Focus")
+
+    // Theme Dark Disabled Input Enabled On Checked Off Click
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "disabled", value: "true" },
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description },
+          { name: "input-enabled", value: "true" }
+        ]
+      })
+    )
+    .executeScript(setTheme("dark"))
+    .click("calcite-tile-select")
+    .snapshot("Theme Dark Disabled Input Enabled On Checked Off Click")
+
+    // Theme Dark Disabled Input Enabled Off Checked On
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "checked", value: "true" },
+          { name: "disabled", value: "true" },
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description }
+        ]
+      })
+    )
+    .executeScript(setTheme("dark"))
+    .snapshot("Theme Dark Disabled Input Enabled Off Checked On")
+
+    // Theme Dark Disabled Input Enabled Off Checked On Hover
+    .hover("calcite-tile-select")
+    .snapshot("Theme Dark Disabled Input Enabled Off Checked On Hover")
+
+    // Theme Dark Disabled Input Enabled Off Checked On Focus
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "checked", value: "true" },
+          { name: "disabled", value: "true" },
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description }
+        ]
+      })
+    )
+    .executeScript(setTheme("dark"))
+    .executeScript(`document.querySelector("calcite-tile-select").setFocus()`)
+    .snapshot("Theme Dark Disabled Input Enabled Off Checked On Focus")
+
+    // Theme Dark Disabled Input Enabled Off Checked On Click
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "checked", value: "true" },
+          { name: "disabled", value: "true" },
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description }
+        ]
+      })
+    )
+    .executeScript(setTheme("dark"))
+    .click("calcite-tile-select")
+    .snapshot("Theme Dark Disabled Input Enabled Off Checked On Click")
+
+    // Theme Dark Disabled Input Enabled Off Checked Off
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "disabled", value: "true" },
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description }
+        ]
+      })
+    )
+    .executeScript(setTheme("dark"))
+    .snapshot("Theme Dark Disabled Input Enabled Off Checked Off")
+
+    // Theme Dark Disabled Input Enabled Off Checked Off Hover
+    .hover("calcite-tile-select")
+    .snapshot("Theme Dark Disabled Input Enabled Off Checked Off Hover")
+
+    // Theme Dark Disabled Input Enabled Off Checked Off Focus
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "disabled", value: "true" },
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description }
+        ]
+      })
+    )
+    .executeScript(setTheme("dark"))
+    .executeScript(`document.querySelector("calcite-tile-select").setFocus()`)
+    .snapshot("Theme Dark Disabled Input Enabled Off Checked Off Focus")
+
+    // Theme Dark Disabled Input Enabled Off Checked Off Click
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "disabled", value: "true" },
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description }
+        ]
+      })
+    )
+    .executeScript(setTheme("dark"))
+    .click("calcite-tile-select")
+    .snapshot("Theme Dark Disabled Input Enabled Off Checked Off Click")
 );
