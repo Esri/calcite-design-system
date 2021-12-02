@@ -4,6 +4,8 @@ type AttributeObject = { [k: string]: any };
 type AllowedGlobalAttribute = "lang";
 const allowedGlobalAttributes = ["lang"];
 
+const mutationObserverMap: WeakMap<GlobalAttrComponent, MutationObserver> = new WeakMap();
+
 /**
  * Watches global attributes of a component.
  *
@@ -21,11 +23,6 @@ export interface GlobalAttrComponent {
    * '@State() inheritedAttributes = {};'
    */
   globalAttributes: AttributeObject;
-
-  /**
-   * The MutationObserver to listen to inherited attributes.
-   */
-  globalAttributesObserver: MutationObserver;
 }
 
 /**
@@ -56,16 +53,21 @@ export function watchGlobalAttributes(component: GlobalAttrComponent, attributes
 
   updateAttributesObject();
 
-  component.globalAttributesObserver = createObserver("mutation", () => updateAttributesObject());
+  const mutationObserver = createObserver("mutation", () => updateAttributesObject());
 
-  component.globalAttributesObserver.observe(el, {
+  mutationObserver.observe(el, {
     attributeFilter: attributes
   });
+
+  mutationObserverMap.set(component, mutationObserver);
 }
 
 /**
  * Helper remove listening for changes to inherited attributes.
  */
 export function unwatchGlobalAttributes(component: GlobalAttrComponent): void {
-  component.globalAttributesObserver?.disconnect();
+  if (mutationObserverMap.has(component)) {
+    mutationObserverMap.get(component)?.disconnect();
+    mutationObserverMap.delete(component);
+  }
 }
