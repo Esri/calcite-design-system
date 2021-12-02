@@ -1699,4 +1699,93 @@ export const Default = stepStory(
     .executeScript(setTheme("dark"))
     .click("calcite-tile-select")
     .snapshot("Theme Dark Disabled Input Enabled Off Checked Off Click")
+
+    // Width Full Icon
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "icon", value: icon },
+          { name: "width", value: "full" }
+        ]
+      })
+    )
+    .snapshot("Width Full Icon")
+
+    // Width Full Heading
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "heading", value: heading },
+          { name: "width", value: "full" }
+        ]
+      })
+    )
+    .snapshot("Width Full Heading")
+
+    // Width Full Description
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "description", value: description },
+          { name: "width", value: "full" }
+        ]
+      })
+    )
+    .snapshot("Width Full Description")
+
+    // Width Full Icon + Heading
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "width", value: "full" }
+        ]
+      })
+    )
+    .snapshot("Width Full Icon + Heading")
+
+    // Width Full Icon + Description
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "icon", value: icon },
+          { name: "description", value: description },
+          { name: "width", value: "full" }
+        ]
+      })
+    )
+    .snapshot("Width Full Icon + Description")
+
+    // Width Full Icon + Heading + Description
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "icon", value: icon },
+          { name: "heading", value: heading },
+          { name: "description", value: description },
+          { name: "width", value: "full" }
+        ]
+      })
+    )
+    .snapshot("Width Full Icon + Heading + Description")
+
+    // Width Full Heading + Description
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "heading", value: heading },
+          { name: "description", value: description },
+          { name: "width", value: "full" }
+        ]
+      })
+    )
+    .snapshot("Width Full Heading + Description")
 );
