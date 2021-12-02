@@ -10,10 +10,13 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Features
 
 - **shell-panel:** Add resizable property to allow resizing of content. [#2770](https://github.com/Esri/calcite-components/issues/2770) ([#3535](https://github.com/Esri/calcite-components/issues/3535)) ([c08d4c4](https://github.com/Esri/calcite-components/commit/c08d4c4b426b500cad8dd3105f0c7a12ac7e9e3b))
+- **split-button:** Add overlayPositioning property to position dropdown. [#3132](https://github.com/Esri/calcite-components/issues/3132) ([#3595](https://github.com/Esri/calcite-components/issues/3595)) ([c718c5c](https://github.com/Esri/calcite-components/commit/c718c5c180f20d3880f9791b0594969d6001e9ef))
 
 ### Bug Fixes
 
 - **alert:** remove clearTimeOut that delays the alert to close on autoDismiss mode [#3366](https://github.com/Esri/calcite-components/issues/3366) ([#3525](https://github.com/Esri/calcite-components/issues/3525)) ([9376b52](https://github.com/Esri/calcite-components/commit/9376b52d32752f24cacf4286af804d61e3ab16b8))
+- **input:** style read-only and disabled inputs per new design reqs and hide spinners for read-only inputs ([#3582](https://github.com/Esri/calcite-components/issues/3582)) ([470f347](https://github.com/Esri/calcite-components/commit/470f34711480dc8d48224f66d7b1274f93c3e271))
+- **shell-panel:** click events correctly pass through the host element ([#3607](https://github.com/Esri/calcite-components/issues/3607)) ([fbada5e](https://github.com/Esri/calcite-components/commit/fbada5e6cec113552f19ee746c50017e1f56222c))
 <!--@unreleased-section-end-->
 
 ## [1.0.0-beta.70](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.69...v1.0.0-beta.70) (2021-11-24)

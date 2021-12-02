@@ -3,6 +3,7 @@ import { CSS } from "./resources";
 import { getElementDir } from "../../utils/dom";
 import { ButtonAppearance, ButtonColor, DropdownIconType } from "../calcite-button/interfaces";
 import { FlipContext, Scale, Width } from "../interfaces";
+import { OverlayPositioning } from "../../utils/popper";
 
 /**
  * @slot - A slot for adding `calcite-dropdown` content.
@@ -39,6 +40,9 @@ export class CalciteSplitButton {
   /** optionally add a calcite-loader component to the control,
    disabling interaction. with the primary button */
   @Prop({ reflect: true }) loading = false;
+
+  /** Describes the type of positioning to use for the dropdown. If your element is in a fixed container, use the 'fixed' value. */
+  @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
   /** optionally pass an icon to display at the end of the primary button - accepts Calcite UI icon names  */
   @Prop({ reflect: true }) primaryIconEnd?: string;
@@ -103,6 +107,7 @@ export class CalciteSplitButton {
           active={this.active}
           dir={dir}
           onClick={this.calciteSplitButtonSecondaryClickHandler}
+          overlayPositioning={this.overlayPositioning}
           placement="bottom-trailing"
           scale={this.scale}
           width={this.scale}

@@ -312,7 +312,7 @@ export class CalciteDropdown {
 
   private referenceEl: HTMLDivElement;
 
-  private activeTransitionProp = "opacity";
+  private activeTransitionProp = "visibility";
 
   private scrollerEl: HTMLDivElement;
 
