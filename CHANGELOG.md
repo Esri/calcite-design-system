@@ -18,6 +18,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **input:** style read-only and disabled inputs per new design reqs and hide spinners for read-only inputs ([#3582](https://github.com/Esri/calcite-components/issues/3582)) ([470f347](https://github.com/Esri/calcite-components/commit/470f34711480dc8d48224f66d7b1274f93c3e271))
 - **panel:** add conditional rendering for slots with fab and no fab ([#3616](https://github.com/Esri/calcite-components/issues/3616)) ([16ace3f](https://github.com/Esri/calcite-components/commit/16ace3f931c9465c0950594e97181f681ea7279b))
 - **shell-panel:** click events correctly pass through the host element ([#3607](https://github.com/Esri/calcite-components/issues/3607)) ([fbada5e](https://github.com/Esri/calcite-components/commit/fbada5e6cec113552f19ee746c50017e1f56222c))
+- **shell-panel:** Correct resizing of panels in RTL direction. [#2770](https://github.com/Esri/calcite-components/issues/2770) ([#3614](https://github.com/Esri/calcite-components/issues/3614)) ([fdab1a4](https://github.com/Esri/calcite-components/commit/fdab1a4a2843ca7ee927cf9b3bc35cfe030fec68))
 <!--@unreleased-section-end-->
 
 ## [1.0.0-beta.70](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.69...v1.0.0-beta.70) (2021-11-24)
