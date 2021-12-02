@@ -276,10 +276,7 @@ export class CalciteShellPanel {
     const dir = getElementStyleDir(el);
 
     const directionKeys = ["ArrowLeft", "ArrowRight"];
-
-    if (dir === "rtl") {
-      directionKeys.reverse();
-    }
+    const directionFactor = dir === "rtl" ? -1 : 1;
 
     const increaseKeys =
       key === "ArrowUp" ||
@@ -288,7 +285,7 @@ export class CalciteShellPanel {
     if (increaseKeys) {
       const stepValue = event.shiftKey ? multipliedStep : step;
 
-      return initialContentWidth + stepValue;
+      return initialContentWidth + directionFactor * stepValue;
     }
 
     const decreaseKeys =
@@ -298,7 +295,7 @@ export class CalciteShellPanel {
     if (decreaseKeys) {
       const stepValue = event.shiftKey ? multipliedStep : step;
 
-      return initialContentWidth - stepValue;
+      return initialContentWidth - directionFactor * stepValue;
     }
 
     if (typeof contentWidthMin === "number" && key === "Home") {
@@ -336,13 +333,12 @@ export class CalciteShellPanel {
     const offset = event.clientX - initialClientX;
     const dir = getElementStyleDir(el);
 
-    const directionValues = [initialContentWidth + offset, initialContentWidth - offset];
+    const adjustmentDirection = dir === "rtl" ? -1 : 1;
+    const adjustedOffset =
+      position === "end" ? -adjustmentDirection * offset : adjustmentDirection * offset;
+    const width = initialContentWidth + adjustedOffset;
 
-    if (dir === "rtl") {
-      directionValues.reverse();
-    }
-
-    this.setContentWidth(position === "end" ? directionValues[1] : directionValues[0]);
+    this.setContentWidth(width);
   };
 
   separatorPointerUp = (event: PointerEvent): void => {
