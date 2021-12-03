@@ -12,10 +12,8 @@ jobs:
           stale-issue-message: "This issue has been automatically marked as stale because it has not had recent activity. It will be closed if no further activity occurs. Thank you for your contributions."
           stale-pr-message: "This PR has been automatically marked as stale because it has not had recent activity. It will be closed if no further activity occurs. Thank you for your contributions."
           close-issue-message: "This issue has been automatically closed due to inactivity."
-          close-pr-message: "This PR has been automatically closed due to inactivity."
           exempt-issue-labels: "0 - new,1 - assigned"
           days-before-issue-stale: 30
           days-before-issue-close: 7
           days-before-pr-stale: 7
-          days-before-pr-close: 3
-          delete-branch: true
+          days-before-pr-close: -1
