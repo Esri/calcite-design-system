@@ -83,13 +83,6 @@ export class CalciteRadioGroupItem {
     this.mutationObserver?.disconnect();
   }
 
-  componentWillLoad(): void {
-    // only use default slot content in browsers that support shadow dom
-    // or if ie11 has no label provided (#374)
-    const label = this.el.querySelector("label");
-    this.useFallback = !label || label.textContent === "";
-  }
-
   render(): VNode {
     const { checked, useFallback, value } = this;
     const dir = getElementDir(this.el);
