@@ -15,9 +15,10 @@ const exec = pify(childProcess.exec);
     .filter((commit: string) => !!commit);
 
   process.exitCode = commits.length === 1 ? (commits[0].match(conventionalCommitRegex) ? 0 : 1) : 0;
+
   if (process.exitCode === 1) {
     console.log(
-      `Error: please amend your commit message using the conventional commit format\nhttps://github.com/Esri/calcite-components/blob/master/CONTRIBUTING.md#commit-message-format\ngit commit --amend -m "conventional commit message"\n`
+      `https://github.com/Esri/calcite-components/blob/master/CONTRIBUTING.md#commit-message-format\nError: please amend your commit message using the conventional commit format\n\ngit commit --amend -m "conventional commit message"\n`
     );
   }
 })();
