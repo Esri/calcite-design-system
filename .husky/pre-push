@@ -1,9 +1,9 @@
 #!/bin/bash
-
 # from https://riptutorial.com/git/example/16164/pre-push
 
 protected_branch='master'
 current_branch=$(git rev-parse --abbrev-ref HEAD)
+echo "$current_branch"
 
 if [ $protected_branch = $current_branch ] && [ exec < /dev/tty ]
 then
@@ -15,7 +15,6 @@ then
     fi
     exit 1
 else
-    exit_code=1
     conventional_commit_regex='^((build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\(\w+\))?(!)?(: (.*\s*)*))'
     commit_messages=$(git log --format=%B $current_branch --not $protected_branch | tr '\n' ',')
 
@@ -25,8 +24,8 @@ else
         # delete this first "element" AND next separator.
         commit_messages=${commit_messages#$iteration,,}
         # match conventional commit regex
-        [[ "$iteration" =~ $conventional_commit_regex ]] && exit_code=0
+        [[ "$iteration" =~ $conventional_commit_regex ]] && exit 0
     done
-    [[ $exit_code -eq 1 ]] && printf "Error: please make a conventional commit\nhttps://github.com/Esri/calcite-components/blob/master/CONTRIBUTING.md#commit-message-format\n"
-    exit $exit_code
+    printf "Error: please make a conventional commit\nhttps://github.com/Esri/calcite-components/blob/master/CONTRIBUTING.md#commit-message-format\n"
+    exit 1
 fi
