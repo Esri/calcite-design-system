@@ -13,7 +13,7 @@ import {
   Host
 } from "@stencil/core";
 import { filter } from "../../utils/filter";
-import { getElementDir } from "../../utils/dom";
+import { getElementDir, getElementStyleDir } from "../../utils/dom";
 import { debounce } from "lodash-es";
 import { getKey } from "../../utils/key";
 import {
@@ -372,7 +372,7 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
   };
 
   keydownHandler = (event: KeyboardEvent): void => {
-    const key = getKey(event.key, getElementDir(this.el));
+    const key = getKey(event.key, getElementStyleDir(this.el));
 
     switch (key) {
       case "Tab":
