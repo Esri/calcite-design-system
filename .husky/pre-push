@@ -14,7 +14,7 @@ then
     fi
     exit 1
 else
-    conventional_commit_regex='^((build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\(\w+\))?(!)?(: (.*\s*)*))'
+    conventional_commit_regex='^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([\w-\.\,\s]+\))?(!)?(: ([\w ])+([\s\S]*))'
     commit_messages=$(git log --format=%B $current_branch --not $protected_branch | tr '\n' ',')
 
     while [ "$commit_messages" != "$iteration" ]; do
