@@ -14,17 +14,6 @@ then
     fi
     exit 1
 else
-    conventional_commit_regex='^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([\w-\.\,\s]+\))?(!)?(: ([\w ])+([\s\S]*))'
-    commit_messages=$(git log --format=%B $current_branch --not $protected_branch | tr '\n' ',')
-
-    while [ "$commit_messages" != "$iteration" ]; do
-        # extract the substring from start of string up to delimiter
-        iteration=${commit_messages%%,,*}
-        # delete this first substring and the delimiter
-        commit_messages=${commit_messages#$iteration,,}
-        # match substring for conventional commit regex
-        [[ "$iteration" =~ $conventional_commit_regex ]] && exit 0
-    done
-    printf "Error: please make a conventional commit\nhttps://github.com/Esri/calcite-components/blob/master/CONTRIBUTING.md#commit-message-format\n"
-    exit 1
+    ts-node ../support/matchConventionalCommit.ts
+    exit
 fi
