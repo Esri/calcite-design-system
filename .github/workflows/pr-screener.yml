@@ -15,7 +15,7 @@ jobs:
         run: |
           git fetch --deepen=100
           current_branch=$(git rev-parse --abbrev-ref HEAD)
-          screenable_changes=$(git diff --name-only "$current_branch" $(git merge-base "$current_branch" origin/master) -- . ':(exclude)*.yml')
+          screenable_changes=$(git diff --name-only "$current_branch" $(git merge-base "$current_branch" origin/master) -- . ':(exclude)*.md')
           if [ -z "$screenable_changes" ]; then
             echo "skip screener"
             echo "::set-output name=skip::skip"
