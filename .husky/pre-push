@@ -14,6 +14,6 @@ then
     fi
     exit 1
 else
-    npm run util:conventional-commit
+    npm run util:check-squash-mergeable-branch
     exit
 fi

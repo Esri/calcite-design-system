@@ -1,7 +1,12 @@
 const childProcess = require("child_process");
 const pify = require("pify");
-
 const exec = pify(childProcess.exec);
+
+/*
+This script checks how many commits there are on a branch;
+if there is only one commit it makes sure the message is in the conventional format.
+This ensures a conventional commit message when PRs are squash-merged.
+*/
 
 (async function runner(): Promise<void> {
   const conventionalCommitRegex =
@@ -14,7 +19,7 @@ const exec = pify(childProcess.exec);
     .split(";")
     .filter((commit: string) => !!commit);
 
-  process.exitCode = commits.length === 1 ? (commits[0].match(conventionalCommitRegex) ? 0 : 1) : 0;
+  process.exitCode = commits.length === 1 ? (commits[0].test(conventionalCommitRegex) ? 0 : 1) : 0;
 
   if (process.exitCode === 1) {
     console.log(
