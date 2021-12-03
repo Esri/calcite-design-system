@@ -3,7 +3,6 @@
 
 protected_branch='master'
 current_branch=$(git rev-parse --abbrev-ref HEAD)
-echo "$current_branch"
 
 if [ $protected_branch = $current_branch ] && [ exec < /dev/tty ]
 then
@@ -19,11 +18,11 @@ else
     commit_messages=$(git log --format=%B $current_branch --not $protected_branch | tr '\n' ',')
 
     while [ "$commit_messages" != "$iteration" ]; do
-        # extract the substring from start of string up to delimiter.
+        # extract the substring from start of string up to delimiter
         iteration=${commit_messages%%,,*}
-        # delete this first "element" AND next separator.
+        # delete this first substring and the delimiter
         commit_messages=${commit_messages#$iteration,,}
-        # match conventional commit regex
+        # match substring for conventional commit regex
         [[ "$iteration" =~ $conventional_commit_regex ]] && exit 0
     done
     printf "Error: please make a conventional commit\nhttps://github.com/Esri/calcite-components/blob/master/CONTRIBUTING.md#commit-message-format\n"
