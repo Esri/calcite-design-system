@@ -15,5 +15,18 @@ then
     fi
     exit 1
 else
-    exit 0
+    exit_code=1
+    conventional_commit_regex='^((build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\(\w+\))?(!)?(: (.*\s*)*))'
+    commit_messages=$(git log --format=%B $current_branch --not $protected_branch | tr '\n' ',')
+
+    while [ "$commit_messages" != "$iteration" ]; do
+        # extract the substring from start of string up to delimiter.
+        iteration=${commit_messages%%,,*}
+        # delete this first "element" AND next separator.
+        commit_messages=${commit_messages#$iteration,,}
+        # match conventional commit regex
+        [[ "$iteration" =~ $conventional_commit_regex ]] && exit_code=0
+    done
+    [[ $exit_code -eq 1 ]] && printf "Error: please make a conventional commit\nhttps://github.com/Esri/calcite-components/blob/master/CONTRIBUTING.md#commit-message-format\n"
+    exit $exit_code
 fi
