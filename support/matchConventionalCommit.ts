@@ -17,7 +17,7 @@ const exec = pify(childProcess.exec);
   process.exitCode = commits.length === 1 ? (commits[0].match(conventionalCommitRegex) ? 0 : 1) : 0;
   if (process.exitCode === 1) {
     console.log(
-      "Error: please make a conventional commit\nhttps://github.com/Esri/calcite-components/blob/master/CONTRIBUTING.md#commit-message-format\n"
+      `Error: please amend your commit message using the conventional commit format\nhttps://github.com/Esri/calcite-components/blob/master/CONTRIBUTING.md#commit-message-format\ngit commit --amend -m "conventional commit message"\n`
     );
   }
 })();
