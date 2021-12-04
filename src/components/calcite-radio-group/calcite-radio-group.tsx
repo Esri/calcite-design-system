@@ -112,9 +112,19 @@ export class CalciteRadioGroup implements LabelableComponent, FormComponent {
   //
   //--------------------------------------------------------------------------
 
-  async connectedCallback(): Promise<void> {
-    const items = await this.getItems();
-    const lastChecked = await Array.from(items)
+  connectedCallback(): void {
+    connectLabel(this);
+    connectForm(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectLabel(this);
+    disconnectForm(this);
+  }
+
+  componentWillLoad(): void {
+    const items = this.getItems();
+    const lastChecked = Array.from(items)
       .filter((item) => item.checked)
       .pop();
 
@@ -123,14 +133,6 @@ export class CalciteRadioGroup implements LabelableComponent, FormComponent {
     } else if (items[0]) {
       items[0].tabIndex = 0;
     }
-
-    connectLabel(this);
-    connectForm(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectLabel(this);
-    disconnectForm(this);
   }
 
   componentDidLoad(): void {
