@@ -15,7 +15,18 @@ jobs:
         run: |
           git fetch --deepen=100
           current_branch=$(git rev-parse --abbrev-ref HEAD)
-          screenable_changes=$(git diff --name-only "$current_branch" $(git merge-base "$current_branch" origin/master) -- . ':(exclude)*.md')
+          echo "branch: $current_branch"
+          if [ "$current_branch" == "master" ]; then
+            # diff of last commit excluding md (assumes squash merge)
+            screenable_changes=$(git diff --name-only @~..@ -- . ':(exclude)*.md')
+            echo "push run"
+          else
+            # diff of branch excluding md
+            screenable_changes=$(git diff --name-only "$current_branch" $(git merge-base "$current_branch" origin/master) -- . ':(exclude)*.md')
+            echo "pr run"
+          fi
+          echo "changed files: $screenable_changes"
+          # skip if there are only md changes
           if [ -z "$screenable_changes" ]; then
             echo "skip screener"
             echo "::set-output name=skip::skip"
