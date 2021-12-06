@@ -78,13 +78,15 @@ Add `calcite-match-height` to a wrapping element to ensure proper height, scroll
 
 ## Properties
 
-| Property              | Attribute               | Description                                                          | Type                | Default     |
-| --------------------- | ----------------------- | -------------------------------------------------------------------- | ------------------- | ----------- |
-| `collapsed`           | `collapsed`             | Hide the content panel.                                              | `boolean`           | `false`     |
-| `detached`            | `detached`              | This property makes the content area appear like a "floating" panel. | `boolean`           | `false`     |
-| `detachedHeightScale` | `detached-height-scale` | Specifies the maxiumum height of the contents when detached.         | `"l" \| "m" \| "s"` | `"l"`       |
-| `position`            | `position`              | Arranges the component depending on the elements 'dir' property.     | `"end" \| "start"`  | `undefined` |
-| `widthScale`          | `width-scale`           | This sets width of the content area.                                 | `"l" \| "m" \| "s"` | `"m"`       |
+| Property              | Attribute               | Description                                                                                  | Type                | Default       |
+| --------------------- | ----------------------- | -------------------------------------------------------------------------------------------- | ------------------- | ------------- |
+| `collapsed`           | `collapsed`             | Hide the content panel.                                                                      | `boolean`           | `false`       |
+| `detached`            | `detached`              | This property makes the content area appear like a "floating" panel.                         | `boolean`           | `false`       |
+| `detachedHeightScale` | `detached-height-scale` | Specifies the maxiumum height of the contents when detached.                                 | `"l" \| "m" \| "s"` | `"l"`         |
+| `intlResize`          | `intl-resize`           | Accessible label for resize separator.                                                       | `string`            | `TEXT.resize` |
+| `position`            | `position`              | Arranges the component depending on the elements 'dir' property.                             | `"end" \| "start"`  | `undefined`   |
+| `resizable`           | `resizable`             | This property makes the content area resizable if the calcite-shell-panel is not 'detached'. | `boolean`           | `false`       |
+| `widthScale`          | `width-scale`           | This sets width of the content area.                                                         | `"l" \| "m" \| "s"` | `"m"`         |
 
 ## Events
 
