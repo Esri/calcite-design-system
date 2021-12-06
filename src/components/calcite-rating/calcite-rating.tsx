@@ -193,7 +193,6 @@ export class CalciteRating implements LabelableComponent, FormComponent {
         {(count || average) && showChip ? (
           <calcite-chip
             class={{ [CSS_UTILITY.rtl]: dir === "rtl" }}
-            dir={dir}
             scale={scale}
             value={count?.toString()}
           >

@@ -817,7 +817,6 @@ export class CalciteColorPicker {
                 <calcite-color-picker-hex-input
                   allowEmpty={allowEmpty}
                   class={CSS.control}
-                  dir={elementDir}
                   onCalciteColorPickerHexInputChange={this.handleHexInputChange}
                   scale={hexInputScale}
                   value={selectedColorInHex}
@@ -830,7 +829,6 @@ export class CalciteColorPicker {
                   [CSS.colorModeContainer]: true,
                   [CSS.splitSection]: true
                 }}
-                dir={elementDir}
                 scale={hexInputScale}
               >
                 <calcite-tab-nav slot="tab-nav">

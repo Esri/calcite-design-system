@@ -659,7 +659,6 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     const iconEl = (
       <calcite-icon
         class={CSS.inputIcon}
-        dir={dir}
         flipRtl={this.iconFlipRtl}
         icon={this.requestedIcon}
         scale="s"
@@ -786,7 +785,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
 
     return (
       <Host onClick={this.inputFocusHandler} onKeyDown={this.keyDownHandler}>
-        <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }} dir={dir}>
+        <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
             ? numberButtonsHorizontalDown
             : null}

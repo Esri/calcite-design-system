@@ -115,7 +115,6 @@ export class CalciteChip {
     const iconEl = (
       <calcite-icon
         class={CSS.calciteChipIcon}
-        dir={dir}
         flipRtl={this.iconFlipRtl}
         icon={this.icon}
         scale="s"

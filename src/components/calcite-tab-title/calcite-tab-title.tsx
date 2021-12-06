@@ -139,7 +139,6 @@ export class CalciteTabTitle {
     const iconStartEl = (
       <calcite-icon
         class="calcite-tab-title--icon icon-start"
-        dir={dir}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
         scale="s"
@@ -149,7 +148,6 @@ export class CalciteTabTitle {
     const iconEndEl = (
       <calcite-icon
         class="calcite-tab-title--icon icon-end"
-        dir={dir}
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
         scale="s"

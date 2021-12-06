@@ -11,7 +11,6 @@ import {
 } from "@stencil/core";
 import { inRange, sameDate, dateFromRange, HoverRange } from "../../utils/date";
 import { getKey } from "../../utils/key";
-import { getElementDir } from "../../utils/dom";
 import { DateLocaleData } from "../calcite-date-picker/utils";
 import { Scale } from "../interfaces";
 
@@ -176,20 +175,19 @@ export class CalciteDatePickerMonth {
     const curMonDays = this.getCurrentMonthDays(month, year);
     const prevMonDays = this.getPrevMonthdays(month, year, startOfWeek);
     const nextMonDays = this.getNextMonthDays(month, year, startOfWeek);
-    const dir = getElementDir(this.el);
     const days = [
       ...prevMonDays.map((day) => {
         const date = new Date(year, month - 1, day);
-        return this.renderDateDay(false, day, dir, date);
+        return this.renderDateDay(false, day, date);
       }),
       ...curMonDays.map((day) => {
         const date = new Date(year, month, day);
         const active = sameDate(date, this.activeDate);
-        return this.renderDateDay(active, day, dir, date, true, true);
+        return this.renderDateDay(active, day, date, true, true);
       }),
       ...nextMonDays.map((day) => {
         const date = new Date(year, month + 1, day);
-        return this.renderDateDay(false, day, dir, date);
+        return this.renderDateDay(false, day, date);
       })
     ];
 
@@ -360,7 +358,6 @@ export class CalciteDatePickerMonth {
   private renderDateDay(
     active: boolean,
     day: number,
-    dir: string,
     date: Date,
     currentMonth?: boolean,
     ref?: boolean
@@ -381,7 +378,6 @@ export class CalciteDatePickerMonth {
         }}
         currentMonth={currentMonth}
         day={day}
-        dir={dir}
         disabled={!inRange(date, this.min, this.max)}
         endOfRange={this.isEndOfRange(date)}
         highlighted={this.betweenSelectedRange(date)}
