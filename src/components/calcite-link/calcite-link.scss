@@ -35,7 +35,7 @@ calcite-icon {
   min-height: unset;
 }
 
-.calcite-link--icon {
+:host .calcite-link--icon {
   @apply transition-default align-text-top;
   margin-top: 0.125rem;
 }
