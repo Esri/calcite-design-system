@@ -21,10 +21,10 @@
 .label {
   @apply bg-transparent
     flex
-    flex-auto
     items-center
     cursor-pointer
-    focus-base;
+    focus-base
+    w-full;
   &:focus {
     @apply focus-inset;
   }
@@ -91,11 +91,44 @@
 }
 
 .actions {
-  @apply items-stretch flex justify-end m-0 flex-initial;
+  @apply items-stretch flex m-0 flex-initial;
 }
 
 .actions--start ~ .label {
   @apply pl-1;
+}
+
+.actions--end {
+  @apply justify-end flex-1;
+}
+
+.content--center {
+  @apply bg-transparent
+    flex
+    items-center
+    cursor-pointer
+    focus-base
+    w-full;
+  &:focus {
+    @apply focus-inset;
+  }
+  &:hover {
+    @apply bg-foreground-2;
+  }
+}
+
+:host([selected]) .content--center {
+  @apply focus-inset;
+}
+
+:host([non-interactive]) .content--center {
+  @apply cursor-default;
+  &:focus {
+    @apply focus-base;
+  }
+  &:hover {
+    @apply bg-transparent;
+  }
 }
 
 .calcite--rtl .actions--start ~ .label {
