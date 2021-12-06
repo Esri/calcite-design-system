@@ -12,7 +12,7 @@ import {
   Watch
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../calcite-tab/interfaces";
-import { getElementDir, filterDirectChildren } from "../../utils/dom";
+import { getElementStyleDir, filterDirectChildren } from "../../utils/dom";
 import { TabID, TabLayout } from "../calcite-tabs/interfaces";
 import { TabPosition } from "../calcite-tabs/interfaces";
 import { Scale } from "../interfaces";
@@ -151,7 +151,7 @@ export class CalciteTabNav {
   }
 
   render(): VNode {
-    const dir = getElementDir(this.el);
+    const dir = getElementStyleDir(this.el);
     const width = `${this.indicatorWidth}px`;
     const offset = `${this.indicatorOffset}px`;
     const indicatorStyle = dir !== "rtl" ? { width, left: offset } : { width, right: offset };
@@ -290,7 +290,7 @@ export class CalciteTabNav {
   };
 
   private updateOffsetPosition(): void {
-    const dir = getElementDir(this.el);
+    const dir = getElementStyleDir(this.el);
     const navWidth = this.activeIndicatorContainerEl?.offsetWidth;
     const tabLeft = this.selectedTabEl?.offsetLeft;
     const tabWidth = this.selectedTabEl?.offsetWidth;

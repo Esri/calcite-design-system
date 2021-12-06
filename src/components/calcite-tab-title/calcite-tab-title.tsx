@@ -15,7 +15,7 @@ import {
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../calcite-tab/interfaces";
 import { guid } from "../../utils/guid";
-import { getElementDir, getElementProp } from "../../utils/dom";
+import { getElementDir, getElementProp, getElementStyleDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { TabID, TabLayout, TabPosition } from "../calcite-tabs/interfaces";
 import { FlipContext, Scale } from "../interfaces";
@@ -217,14 +217,14 @@ export class CalciteTabTitle {
         e.preventDefault();
         break;
       case "ArrowRight":
-        if (getElementDir(this.el) === "ltr") {
+        if (getElementStyleDir(this.el) === "ltr") {
           this.calciteTabsFocusNext.emit();
         } else {
           this.calciteTabsFocusPrevious.emit();
         }
         break;
       case "ArrowLeft":
-        if (getElementDir(this.el) === "ltr") {
+        if (getElementStyleDir(this.el) === "ltr") {
           this.calciteTabsFocusPrevious.emit();
         } else {
           this.calciteTabsFocusNext.emit();
