@@ -20,6 +20,7 @@ import { getSlotted } from "../../utils/dom";
 /**
  * @slot actions-end - A slot for adding actions or content to the end side of the item.
  * @slot actions-start - A slot for adding actions or content to the start side of the item.
+ * @slot content-center - a slot for content that resides between actions-start and actions-end. It will take precedence over label prop if utilized.
  */
 @Component({
   tag: "calcite-value-list-item",
@@ -67,7 +68,7 @@ export class CalciteValueListItem {
   /**
    * The main label for this item. Appears next to the icon.
    */
-  @Prop({ reflect: true }) label!: string;
+  @Prop({ reflect: true }) label: string;
 
   /**
    * Used to provide additional metadata to an item, primarily used when the parent list has a filter.
@@ -186,6 +187,14 @@ export class CalciteValueListItem {
     ) : null;
   }
 
+  renderContent(): VNode {
+    const { el } = this;
+    const hasActionsStart = getSlotted(el, SLOTS.contentCenter);
+    return hasActionsStart ? (
+      <slot name={SLOTS.contentCenter} slot={PICK_LIST_SLOTS.contentCenter} />
+    ) : null;
+  }
+
   renderHandle(): VNode {
     const { icon } = this;
     if (icon === ICON_TYPES.grip) {
@@ -225,6 +234,7 @@ export class CalciteValueListItem {
           selected={this.selected}
           value={this.value}
         >
+          {this.renderContent()}
           {this.renderActionsStart()}
           {this.renderActionsEnd()}
         </calcite-pick-list-item>

@@ -4,5 +4,6 @@ export const ICONS = {
 
 export const SLOTS = {
   actionsEnd: "actions-end",
-  actionsStart: "actions-start"
+  actionsStart: "actions-start",
+  contentCenter: "content-center"
 };
