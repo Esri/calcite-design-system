@@ -161,8 +161,11 @@
 }
 
 .content-wrapper {
-  @apply h-full
-  overflow-auto;
+  @apply overflow-auto;
+}
+
+.content-height {
+  @apply h-full;
 }
 
 .content-container {

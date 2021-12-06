@@ -89,7 +89,7 @@
 
 // disabled styles
 :host([disabled]) {
-  @apply pointer-events-none;
+  @apply pointer-events-none opacity-disabled;
 
   & .wrapper {
     @apply pointer-events-none text-opacity-disabled;
@@ -147,7 +147,7 @@
   }
   & input[readonly],
   & textarea[readonly] {
-    @apply bg-background;
+    @apply bg-background font-medium;
   }
   & input[readonly]:focus,
   & textarea[readonly]:focus {

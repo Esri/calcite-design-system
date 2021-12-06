@@ -11,7 +11,7 @@ import {
   VNode
 } from "@stencil/core";
 import { CSS, ICONS, TEXT, HEADING_LEVEL } from "./resources";
-import { getElementDir } from "../../utils/dom";
+import { getElementStyleDir } from "../../utils/dom";
 import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
 import { createObserver } from "../../utils/observers";
 
@@ -233,7 +233,7 @@ export class CalciteTipManager {
   // --------------------------------------------------------------------------
 
   renderPagination(): VNode {
-    const dir = getElementDir(this.el);
+    const dir = getElementStyleDir(this.el);
     const { selectedIndex, tips, total, intlNext, intlPrevious, intlPaginationLabel } = this;
 
     const nextLabel = intlNext || TEXT.next;

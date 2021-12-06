@@ -106,7 +106,7 @@ export class CalciteInputTimePicker implements LabelableComponent, FormComponent
   /** The scale (size) of the time input */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** number that specifies the granularity that the value must adhere to */
+  /** number (seconds) that specifies the granularity that the value must adhere to */
   @Prop() step = 60;
 
   /** The selected time (always 24-hour format)*/
