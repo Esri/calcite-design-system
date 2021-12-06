@@ -108,7 +108,8 @@
     items-center
     cursor-pointer
     focus-base
-    w-full;
+    w-full
+    px-3;
   &:focus {
     @apply focus-inset;
   }
