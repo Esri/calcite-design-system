@@ -111,12 +111,17 @@ export class CalciteRadioGroup implements LabelableComponent, FormComponent {
   //
   //--------------------------------------------------------------------------
 
-  componentWillLoad(): void {
-    this.selectInitialItem();
-  }
-
   connectedCallback(): void {
-    this.selectInitialItem();
+    const items = this.getItems();
+    const lastChecked = Array.from(items)
+      .filter((item) => item.checked)
+      .pop();
+
+    if (lastChecked) {
+      this.selectItem(lastChecked);
+    } else if (items[0]) {
+      items[0].tabIndex = 0;
+    }
 
     connectLabel(this);
     connectForm(this);
@@ -251,19 +256,6 @@ export class CalciteRadioGroup implements LabelableComponent, FormComponent {
 
   onLabelClick(): void {
     this.setFocus();
-  }
-
-  private selectInitialItem(): void {
-    const items = this.getItems();
-    const lastChecked = Array.from(items)
-      .filter((item) => item.checked)
-      .pop();
-
-    if (lastChecked) {
-      this.selectItem(lastChecked);
-    } else if (items[0]) {
-      items[0].tabIndex = 0;
-    }
   }
 
   private getItems(): NodeListOf<HTMLCalciteRadioGroupItemElement> {
