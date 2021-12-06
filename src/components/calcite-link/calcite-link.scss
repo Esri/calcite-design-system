@@ -35,7 +35,7 @@ calcite-icon {
   min-height: unset;
 }
 
-:host .calcite-link--icon {
+.calcite-link--icon {
   @apply transition-default align-text-top;
   margin-top: 0.125rem;
 }
@@ -53,7 +53,7 @@ calcite-icon {
   @apply mr-2;
 }
 
-:host .calcite--rtl .calcite-link--icon.icon-start {
+.calcite--rtl .calcite-link--icon.icon-start {
   @apply mr-0 ml-2;
 }
 
@@ -61,7 +61,7 @@ calcite-icon {
   @apply ml-2;
 }
 
-:host .calcite--rtl .calcite-link--icon.icon-end {
+.calcite--rtl .calcite-link--icon.icon-end {
   @apply ml-0 mr-2;
 }
 
