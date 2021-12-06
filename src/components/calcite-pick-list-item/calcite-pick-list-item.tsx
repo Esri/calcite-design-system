@@ -17,6 +17,7 @@ import { getSlotted } from "../../utils/dom";
 /**
  * @slot actions-end - a slot for adding actions or content to the end side of the item.
  * @slot actions-start - a slot for adding actions or content to the start side of the item.
+ * @slot content-center - a slot for adding content at the center of the item and it will take precedence over label prop if utilized.
  */
 @Component({
   tag: "calcite-pick-list-item",
@@ -127,7 +128,7 @@ export class CalcitePickListItem {
 
   @Element() el: HTMLCalcitePickListItemElement;
 
-  private focusEl: HTMLLabelElement;
+  private focusEl: HTMLDivElement;
 
   shiftPressed: boolean;
 
@@ -270,6 +271,40 @@ export class CalcitePickListItem {
     ) : null;
   }
 
+  renderContent(): VNode {
+    const { description, label, el } = this;
+    const hasContentSlot = getSlotted(el, SLOTS.contentCenter);
+
+    return hasContentSlot ? (
+      <div
+        class={CSS.contentCenter}
+        onClick={this.pickListClickHandler}
+        onKeyDown={this.pickListKeyDownHandler}
+        tabIndex={0}
+      >
+        <slot name={SLOTS.contentCenter} />
+      </div>
+    ) : (
+      <div
+        aria-label={label}
+        class={CSS.label}
+        onClick={this.pickListClickHandler}
+        onKeyDown={this.pickListKeyDownHandler}
+        ref={(focusEl): HTMLDivElement => (this.focusEl = focusEl)}
+        tabIndex={0}
+      >
+        <label
+          aria-checked={this.selected.toString()}
+          class={CSS.textContainer}
+          role="menuitemcheckbox"
+        >
+          <span class={CSS.title}>{label}</span>
+          {description ? <span class={CSS.description}>{description}</span> : null}
+        </label>
+      </div>
+    );
+  }
+
   renderActionsEnd(): VNode {
     const { el, removable } = this;
     const hasActionsEnd = getSlotted(el, SLOTS.actionsEnd);
@@ -283,29 +318,11 @@ export class CalcitePickListItem {
   }
 
   render(): VNode {
-    const { description, label } = this;
-
     return (
       <Fragment>
         {this.renderIcon()}
         {this.renderActionsStart()}
-        <label
-          aria-label={label}
-          class={CSS.label}
-          onClick={this.pickListClickHandler}
-          onKeyDown={this.pickListKeyDownHandler}
-          ref={(focusEl): HTMLLabelElement => (this.focusEl = focusEl)}
-          tabIndex={0}
-        >
-          <div
-            aria-checked={this.selected.toString()}
-            class={CSS.textContainer}
-            role="menuitemcheckbox"
-          >
-            <span class={CSS.title}>{label}</span>
-            {description ? <span class={CSS.description}>{description}</span> : null}
-          </div>
-        </label>
+        {this.renderContent()}
         {this.renderActionsEnd()}
       </Fragment>
     );

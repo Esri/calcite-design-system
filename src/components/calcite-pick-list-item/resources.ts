@@ -2,6 +2,7 @@ export const CSS = {
   actions: "actions",
   actionsEnd: "actions--end",
   actionsStart: "actions--start",
+  contentCenter: "content--center",
   description: "description",
   handle: "handle",
   handleActivated: "handle--activated",
@@ -20,6 +21,7 @@ export const ICONS = {
 };
 
 export const SLOTS = {
+  contentCenter: "content-center",
   actionsEnd: "actions-end",
   actionsStart: "actions-start"
 };
