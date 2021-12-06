@@ -105,6 +105,21 @@ export const basic = (): string =>
     `
   );
 
+export const withContentSlot = (): string =>
+  create(
+    "calcite-value-list",
+    createAttributes(),
+    html`
+      <calcite-value-list-item label="Default label and description" description="used as content" value="dogs">
+        ${action}
+      </calcite-value-list-item>
+      <calcite-value-list-item value="cats">
+        <p slot="content-center">custom slot also used as content</p>
+        ${action}
+      </calcite-value-list-item>
+    `
+  );
+
 export const darkThemeRTL = (): string =>
   create(
     "calcite-value-list",
