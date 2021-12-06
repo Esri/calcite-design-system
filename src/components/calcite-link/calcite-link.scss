@@ -1,6 +1,6 @@
 // link base
-:host a,
-:host span {
+a,
+span {
   @apply flex
     relative
     items-center
@@ -20,8 +20,8 @@
 }
 
 // focus styles
-:host a,
-:host span {
+a,
+span {
   @apply focus-base;
   &:focus {
     @apply focus-inset;
@@ -49,7 +49,7 @@ calcite-icon {
   }
 }
 // icon positioning and styles
-:host .calcite-link--icon.icon-start {
+.calcite-link--icon.icon-start {
   @apply mr-2;
 }
 
@@ -57,7 +57,7 @@ calcite-icon {
   @apply mr-0 ml-2;
 }
 
-:host .calcite-link--icon.icon-end {
+.calcite-link--icon.icon-end {
   @apply ml-2;
 }
 
@@ -65,31 +65,29 @@ calcite-icon {
   @apply ml-0 mr-2;
 }
 
-:host {
-  span,
-  a {
-    @apply inline
+span,
+a {
+  @apply inline
       p-0
       border-none
       bg-transparent
       relative
       text-color-link;
-    line-height: inherit;
-    white-space: initial;
-    background-image: linear-gradient(currentColor, currentColor),
-      linear-gradient(var(--calcite-link-blue-underline), var(--calcite-link-blue-underline));
-    background-position: 0% 100%, 100% 100%;
-    background-repeat: no-repeat, no-repeat;
-    background-size: 0% 1px, 100% 1px;
-    transition: all 0.15s ease-in-out, background-size 0.3s ease-in-out;
+  line-height: inherit;
+  white-space: initial;
+  background-image: linear-gradient(currentColor, currentColor),
+    linear-gradient(var(--calcite-link-blue-underline), var(--calcite-link-blue-underline));
+  background-position: 0% 100%, 100% 100%;
+  background-repeat: no-repeat, no-repeat;
+  background-size: 0% 1px, 100% 1px;
+  transition: all 0.15s ease-in-out, background-size 0.3s ease-in-out;
 
-    &:hover,
-    &:focus {
-      background-size: 100% 1px, 100% 1px;
-    }
-    &:active {
-      background-size: 100% 2px, 100% 2px;
-    }
+  &:hover,
+  &:focus {
+    background-size: 100% 1px, 100% 1px;
+  }
+  &:active {
+    background-size: 100% 2px, 100% 2px;
   }
 }
 
