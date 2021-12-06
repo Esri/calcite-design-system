@@ -1,22 +1,22 @@
 import {
-  Build,
   Component,
-  Element,
   Event,
-  EventEmitter,
   h,
-  Host,
+  EventEmitter,
   Listen,
-  Method,
+  Element,
   Prop,
-  VNode,
-  Watch
+  Watch,
+  Host,
+  Build,
+  Method,
+  VNode
 } from "@stencil/core";
 
 import { getElementDir } from "../../utils/dom";
 import { getKey } from "../../utils/key";
 import { Layout, Scale, Width } from "../interfaces";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
+import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { RadioAppearance } from "./interfaces";
 
