@@ -111,7 +111,7 @@ export class CalciteRadioGroup implements LabelableComponent, FormComponent {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback(): void {
+  componentWillLoad(): void {
     const items = this.getItems();
     const lastChecked = Array.from(items)
       .filter((item) => item.checked)
@@ -122,7 +122,9 @@ export class CalciteRadioGroup implements LabelableComponent, FormComponent {
     } else if (items[0]) {
       items[0].tabIndex = 0;
     }
+  }
 
+  connectedCallback(): void {
     connectLabel(this);
     connectForm(this);
   }
@@ -155,7 +157,6 @@ export class CalciteRadioGroup implements LabelableComponent, FormComponent {
 
   @Listen("calciteRadioGroupItemChange")
   protected handleSelected(event: Event): void {
-    // only fire after initial setup to prevent semi-infinite loops
     event.stopPropagation();
     event.preventDefault();
     this.selectItem(event.target as HTMLCalciteRadioGroupItemElement);

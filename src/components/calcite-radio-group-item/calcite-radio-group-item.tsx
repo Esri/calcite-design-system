@@ -1,4 +1,15 @@
-import { Component, h, Prop, Element, Host, Watch, State, VNode } from "@stencil/core";
+import {
+  Component,
+  h,
+  Prop,
+  Element,
+  Event,
+  EventEmitter,
+  Host,
+  Watch,
+  State,
+  VNode
+} from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { RadioAppearance } from "../calcite-radio-group/interfaces";
 import { Position, Layout, Scale } from "../interfaces";
@@ -31,6 +42,7 @@ export class CalciteRadioGroupItem {
 
   @Watch("checked")
   protected handleCheckedChange(): void {
+    this.calciteRadioGroupItemChange.emit();
     this.syncToExternalInput();
   }
 
@@ -114,6 +126,19 @@ export class CalciteRadioGroupItem {
       </Host>
     );
   }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  /**
+   * Fires when the item has been selected.
+   * @internal
+   */
+  @Event()
+  calciteRadioGroupItemChange: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
