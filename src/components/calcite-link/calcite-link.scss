@@ -1,6 +1,6 @@
 // link base
-a,
-span {
+:host a,
+:host span {
   @apply flex
     relative
     items-center
@@ -20,8 +20,8 @@ span {
 }
 
 // focus styles
-a,
-span {
+:host a,
+:host span {
   @apply focus-base;
   &:focus {
     @apply focus-inset;
@@ -49,45 +49,47 @@ calcite-icon {
   }
 }
 // icon positioning and styles
-.calcite-link--icon.icon-start {
+:host .calcite-link--icon.icon-start {
   @apply mr-2;
 }
 
-.calcite--rtl .calcite-link--icon.icon-start {
+:host .calcite--rtl .calcite-link--icon.icon-start {
   @apply mr-0 ml-2;
 }
 
-.calcite-link--icon.icon-end {
+:host .calcite-link--icon.icon-end {
   @apply ml-2;
 }
 
-.calcite--rtl .calcite-link--icon.icon-end {
+:host .calcite--rtl .calcite-link--icon.icon-end {
   @apply ml-0 mr-2;
 }
 
-span,
-a {
-  @apply inline
+:host {
+  span,
+  a {
+    @apply inline
       p-0
       border-none
       bg-transparent
       relative
       text-color-link;
-  line-height: inherit;
-  white-space: initial;
-  background-image: linear-gradient(currentColor, currentColor),
-    linear-gradient(var(--calcite-link-blue-underline), var(--calcite-link-blue-underline));
-  background-position: 0% 100%, 100% 100%;
-  background-repeat: no-repeat, no-repeat;
-  background-size: 0% 1px, 100% 1px;
-  transition: all 0.15s ease-in-out, background-size 0.3s ease-in-out;
+    line-height: inherit;
+    white-space: initial;
+    background-image: linear-gradient(currentColor, currentColor),
+      linear-gradient(var(--calcite-link-blue-underline), var(--calcite-link-blue-underline));
+    background-position: 0% 100%, 100% 100%;
+    background-repeat: no-repeat, no-repeat;
+    background-size: 0% 1px, 100% 1px;
+    transition: all 0.15s ease-in-out, background-size 0.3s ease-in-out;
 
-  &:hover,
-  &:focus {
-    background-size: 100% 1px, 100% 1px;
-  }
-  &:active {
-    background-size: 100% 2px, 100% 2px;
+    &:hover,
+    &:focus {
+      background-size: 100% 1px, 100% 1px;
+    }
+    &:active {
+      background-size: 100% 2px, 100% 2px;
+    }
   }
 }
 
