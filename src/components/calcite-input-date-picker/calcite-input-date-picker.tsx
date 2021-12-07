@@ -109,21 +109,19 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
   @Prop({ mutable: true }) maxAsDate?: Date;
 
   /** Earliest allowed date ("yyyy-mm-dd") */
-  @Prop({ reflect: true, mutable: true }) min?: string;
+  @Prop({ mutable: true }) min?: string;
 
   @Watch("min")
   onMinChanged(min: string): void {
-    this.min = min;
-    this.minAsDate = dateFromISO(this.min);
+    this.minAsDate = dateFromISO(min);
   }
 
   /** Latest allowed date ("yyyy-mm-dd") */
-  @Prop({ reflect: true, mutable: true }) max?: string;
+  @Prop({ mutable: true }) max?: string;
 
   @Watch("max")
   onMaxChanged(max: string): void {
-    this.max = max;
-    this.maxAsDate = dateFromISO(this.max);
+    this.maxAsDate = dateFromISO(max);
   }
 
   /** Expand or collapse when calendar does not have input */
