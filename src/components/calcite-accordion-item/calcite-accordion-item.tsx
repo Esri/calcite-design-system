@@ -9,7 +9,7 @@ import {
   Prop,
   VNode
 } from "@stencil/core";
-import { getElementDir, getElementProp } from "../../utils/dom";
+import { getElementStyleDir, getElementProp } from "../../utils/dom";
 
 import { CSS_UTILITY } from "../../utils/resources";
 import { Position } from "../interfaces";
@@ -97,7 +97,7 @@ export class CalciteAccordionItem {
   }
 
   render(): VNode {
-    const dir = getElementDir(this.el);
+    const dir = getElementStyleDir(this.el);
 
     const iconEl = <calcite-icon class="accordion-item-icon" icon={this.icon} scale="s" />;
 
