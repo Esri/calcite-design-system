@@ -138,12 +138,12 @@ describe("calcite-filter", () => {
       });
     });
 
-    function assertMatchingItems(filtered: any[], values: string[]): void {
-      expect(filtered).toHaveLength(values.length);
-      values.forEach((value) => expect(filtered.find((element) => element.value === value)).toBeDefined());
-    }
-
     it("updates filtered items after filtering", async () => {
+      function assertMatchingItems(filtered: any[], values: string[]): void {
+        expect(filtered).toHaveLength(values.length);
+        values.forEach((value) => expect(filtered.find((element) => element.value === value)).toBeDefined());
+      }
+
       const filterChangeSpy = await page.spyOnEvent("calciteFilterChange");
       let waitForEvent = page.waitForEvent("calciteFilterChange");
       const filter = await page.find("calcite-filter");
@@ -179,9 +179,10 @@ describe("calcite-filter", () => {
 
       await filter.callMethod("setFocus");
       await filter.type("volt");
-      await waitForEvent;
+      const event = await waitForEvent;
 
-      assertMatchingItems(await filter.getProperty("filteredItems"), ["franco"]);
+      expect(event.detail.length).toBe(1);
+      expect(event.detail.find((element) => element.value === "franco")).toBeDefined();
     });
 
     it("should escape regex", async () => {
@@ -190,9 +191,10 @@ describe("calcite-filter", () => {
 
       await filter.callMethod("setFocus");
       await filter.type("regex()");
-      await waitForEvent;
+      const event = await waitForEvent;
 
-      assertMatchingItems(await filter.getProperty("filteredItems"), ["regex"]);
+      expect(event.detail.length).toBe(1);
+      expect(event.detail.find((element) => element.value === "regex")).toBeDefined();
     });
   });
 
