@@ -142,7 +142,6 @@ calcite-handle {
 }
 
 .content {
-  @include calciteAnimationTiming(2);
   @apply px-3
     py-2
     relative
