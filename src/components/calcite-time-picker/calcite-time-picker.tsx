@@ -573,6 +573,14 @@ export class CalciteTimePicker {
     }
   };
 
+  private setHourEl = (el: HTMLSpanElement) => (this.hourEl = el);
+
+  private setMeridiemEl = (el: HTMLSpanElement) => (this.meridiemEl = el);
+
+  private setMinuteEl = (el: HTMLSpanElement) => (this.minuteEl = el);
+
+  private setSecondEl = (el: HTMLSpanElement) => (this.secondEl = el);
+
   private setValue = (value: string, emit = true): void => {
     if (isValidTime(value)) {
       const { hour, minute, second } = parseTimeString(value);
@@ -717,7 +725,7 @@ export class CalciteTimePicker {
             }}
             onFocus={this.focusHandler}
             onKeyDown={this.hourKeyDownHandler}
-            ref={(el) => (this.hourEl = el)}
+            ref={this.setHourEl}
             role="spinbutton"
             tabIndex={0}
           >
@@ -765,7 +773,7 @@ export class CalciteTimePicker {
             }}
             onFocus={this.focusHandler}
             onKeyDown={this.minuteKeyDownHandler}
-            ref={(el) => (this.minuteEl = el)}
+            ref={this.setMinuteEl}
             role="spinbutton"
             tabIndex={0}
           >
@@ -813,7 +821,7 @@ export class CalciteTimePicker {
               }}
               onFocus={this.focusHandler}
               onKeyDown={this.secondKeyDownHandler}
-              ref={(el) => (this.secondEl = el)}
+              ref={this.setSecondEl}
               role="spinbutton"
               tabIndex={0}
             >
@@ -867,7 +875,7 @@ export class CalciteTimePicker {
               }}
               onFocus={this.focusHandler}
               onKeyDown={this.meridiemKeyDownHandler}
-              ref={(el) => (this.meridiemEl = el)}
+              ref={this.setMeridiemEl}
               role="spinbutton"
               tabIndex={0}
             >
