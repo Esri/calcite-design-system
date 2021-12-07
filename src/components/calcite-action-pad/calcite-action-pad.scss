@@ -1,6 +1,5 @@
 :host {
   @extend %component-host;
-  --calcite-animation-timing: 300ms;
   @apply block animate-in rounded-sm;
 }
 

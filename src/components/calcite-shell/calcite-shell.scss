@@ -85,7 +85,6 @@ slot[name="center-row"]::slotted(calcite-shell-center-row:not([detached])) {
 }
 
 ::slotted(calcite-tip-manager) {
-  --calcite-animation-timing: 300ms;
   @apply rounded
   shadow-2
   absolute
