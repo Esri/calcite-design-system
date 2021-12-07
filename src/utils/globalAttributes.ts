@@ -2,9 +2,28 @@ import { createObserver } from "./observers";
 
 type AttributeObject = { [k: string]: any };
 type AllowedGlobalAttribute = "lang";
+
 const allowedGlobalAttributes = ["lang"];
 
 const mutationObserverMap: WeakMap<GlobalAttrComponent, MutationObserver> = new WeakMap();
+
+function updateGlobalAttributes(component: GlobalAttrComponent, attributeFilter: AllowedGlobalAttribute[]): void {
+  const { el } = component;
+
+  const attributeObject: AttributeObject = {};
+
+  attributeFilter
+    .filter((attr) => !!allowedGlobalAttributes.includes(attr) && !!el.hasAttribute(attr))
+    .forEach((attr) => {
+      const value = el.getAttribute(attr);
+
+      if (value !== null) {
+        attributeObject[attr] = value;
+      }
+    });
+
+  component.globalAttributes = { ...attributeObject };
+}
 
 /**
  * Watches global attributes of a component.
@@ -33,30 +52,15 @@ export interface GlobalAttrComponent {
  *   return <div>My lang is {lang}</div>;
  * }
  */
-export function watchGlobalAttributes(component: GlobalAttrComponent, attributes: AllowedGlobalAttribute[]): void {
-  const attributeObject: AttributeObject = {};
+export function watchGlobalAttributes(component: GlobalAttrComponent, attributeFilter: AllowedGlobalAttribute[]): void {
   const { el } = component;
 
-  const updateAttributesObject = () => {
-    attributes
-      .filter((attr) => !!allowedGlobalAttributes.includes(attr) && !!el.hasAttribute(attr))
-      .forEach((attr) => {
-        const value = el.getAttribute(attr);
+  updateGlobalAttributes(component, attributeFilter);
 
-        if (value !== null) {
-          attributeObject[attr] = value;
-        }
-      });
-
-    component.globalAttributes = { ...attributeObject };
-  };
-
-  updateAttributesObject();
-
-  const mutationObserver = createObserver("mutation", () => updateAttributesObject());
+  const mutationObserver = createObserver("mutation", () => updateGlobalAttributes(component, attributeFilter));
 
   mutationObserver.observe(el, {
-    attributeFilter: attributes
+    attributeFilter
   });
 
   mutationObserverMap.set(component, mutationObserver);
