@@ -24,12 +24,11 @@ import {
   RGB_LIMITS,
   TEXT
 } from "./resources";
-import { focusElement, getElementDir } from "../../utils/dom";
+import { focusElement } from "../../utils/dom";
 import { colorEqual, CSSColorMode, Format, normalizeHex, parseMode, SupportedMode } from "./utils";
 import { throttle } from "lodash-es";
 
 import { clamp } from "../../utils/math";
-import { CSS_UTILITY } from "../../utils/resources";
 
 const throttleFor60FpsInMs = 16;
 const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
@@ -729,7 +728,6 @@ export class CalciteColorPicker {
       allowEmpty,
       color,
       intlDeleteColor,
-      el,
       hideHex,
       hideChannels,
       hideSaved,
@@ -755,7 +753,6 @@ export class CalciteColorPicker {
     } = this;
     const hueTop = hueScopeTop ?? sliderHeight / 2 + colorFieldHeight;
     const hueLeft = hueScopeLeft ?? (colorFieldWidth * DEFAULT_COLOR.hue()) / HSV_LIMITS.h;
-    const elementDir = getElementDir(el);
     const noColor = color === null;
     const vertical = scopeOrientation === "vertical";
     return (
@@ -800,8 +797,7 @@ export class CalciteColorPicker {
           <div
             class={{
               [CSS.controlSection]: true,
-              [CSS.section]: true,
-              [CSS_UTILITY.rtl]: elementDir === "rtl"
+              [CSS.section]: true
             }}
           >
             {hideHex ? null : (
