@@ -195,10 +195,15 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     | "week" = "text";
 
   /** input value */
-  @Prop({ mutable: true }) value: string;
+  @Prop({ mutable: true }) value = "";
 
   @Watch("value")
   valueWatcher(newValue: string): void {
+    if (newValue == null) {
+      this.value = "";
+      return;
+    }
+
     if (
       this.type === "number" &&
       this.localizedValue !== localizeNumberString(newValue, this.locale)
@@ -239,7 +244,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
   private childNumberEl?: HTMLInputElement;
 
   get isClearable(): boolean {
-    return !this.isTextarea && (this.clearable || this.type === "search") && this.value?.length > 0;
+    return !this.isTextarea && (this.clearable || this.type === "search") && this.value.length > 0;
   }
 
   get isTextarea(): boolean {
@@ -406,7 +411,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
   }
 
   private clearInputValue = (nativeEvent: KeyboardEvent | MouseEvent): void => {
-    this.setValue(null, nativeEvent, true);
+    this.setValue("", nativeEvent, true);
   };
 
   private inputBlurHandler = () => {
@@ -607,7 +612,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     }
 
     if (nativeEvent) {
-      if (this.type === "number" && value?.endsWith(".")) {
+      if (this.type === "number" && value.endsWith(".")) {
         return;
       }
 

@@ -19,7 +19,7 @@ This ensures a conventional commit message when PRs are squash-merged.
     .split(";")
     .filter((commit: string) => !!commit);
 
-  process.exitCode = commits.length === 1 ? (commits[0].test(conventionalCommitRegex) ? 0 : 1) : 0;
+  process.exitCode = commits.length === 1 ? (conventionalCommitRegex.test(commits[0]) ? 0 : 1) : 0;
 
   if (process.exitCode === 1) {
     console.log(
