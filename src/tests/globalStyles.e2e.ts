@@ -66,21 +66,5 @@ describe("global styles", () => {
       });
       expect(noticeAnimation.duration).toEqual("0s");
     });
-
-    it("should set animation duration to 0ms when factor is zero", async () => {
-      const page = await newE2EPage({
-        html: html`<div style="--calcite-animation-factor : 0">calcite components</div>`
-      });
-      await page.waitForChanges();
-
-      const elAnimation = await page.evaluate(() => {
-        const el = document.querySelector("div");
-        const { animationDuration } = window.getComputedStyle(el);
-        return {
-          duration: animationDuration
-        };
-      });
-      expect(elAnimation.duration).toEqual("0s");
-    });
   });
 });
