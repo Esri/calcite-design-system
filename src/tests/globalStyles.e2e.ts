@@ -38,15 +38,6 @@ describe("global styles", () => {
       });
     });
 
-    it("should have initial --calcite-animation-timing CSS Custom Property value", async () => {
-      const page = await newE2EPage({ html: snippet });
-      expect(
-        await page.evaluate(() => {
-          return window.getComputedStyle(document.body).getPropertyValue("--calcite-animation-timing");
-        })
-      ).toBe(" 150ms");
-    });
-
     it("should set animation duration to 0ms", async () => {
       const page = await newE2EPage({
         html: snippet
