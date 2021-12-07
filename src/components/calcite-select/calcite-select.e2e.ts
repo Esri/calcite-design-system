@@ -69,7 +69,7 @@ describe("calcite-select", () => {
       expect(selected[0].innerText).toBe("dos");
       expect(spy).toHaveReceivedEventTimes(1);
 
-      const [, , lastOption] = await page.findAll("calcite-option");
+      const lastOption = await page.find("calcite-option:last-child");
       await lastOption.setProperty("selected", true);
       await page.waitForChanges();
 
@@ -184,8 +184,7 @@ describe("calcite-select", () => {
       expect(selected[0].innerText).toBe("c");
       expect(spy).toHaveReceivedEventTimes(1);
 
-      const [, , lastNumberOption] = await page.findAll("calcite-option-group[label='numbers'] calcite-option");
-      console.log(lastNumberOption.innerHTML);
+      const lastNumberOption = await page.find("calcite-option-group[label='numbers'] calcite-option:last-child");
       await lastNumberOption.setProperty("selected", true);
       await page.waitForChanges();
 
