@@ -12,7 +12,7 @@ import {
   Watch
 } from "@stencil/core";
 import { focusElement, getElementDir } from "../../utils/dom";
-import { getKey } from "../../utils/key";
+
 import { CSS_UTILITY } from "../../utils/resources";
 import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
@@ -119,7 +119,7 @@ export class CalciteSwitch implements LabelableComponent, CheckableFormCompoment
   //--------------------------------------------------------------------------
 
   keyDownHandler = (e: KeyboardEvent): void => {
-    const key = getKey(e.key);
+    const key = e.key;
     if (!this.disabled && (key === " " || key === "Enter")) {
       this.toggle();
     }

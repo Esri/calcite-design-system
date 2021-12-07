@@ -16,7 +16,6 @@ import {
 import { TabChangeEventDetail } from "../calcite-tab/interfaces";
 import { guid } from "../../utils/guid";
 import { getElementDir, getElementProp, getElementStyleDir } from "../../utils/dom";
-import { getKey } from "../../utils/key";
 import { TabID, TabLayout, TabPosition } from "../calcite-tabs/interfaces";
 import { FlipContext, Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -210,7 +209,7 @@ export class CalciteTabTitle {
 
   @Listen("keydown")
   keyDownHandler(e: KeyboardEvent): void {
-    switch (getKey(e.key)) {
+    switch (e.key) {
       case " ":
       case "Enter":
         this.emitActiveTab();

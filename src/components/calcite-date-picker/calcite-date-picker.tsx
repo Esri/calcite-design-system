@@ -15,7 +15,6 @@ import { getLocaleData, DateLocaleData } from "./utils";
 import { getElementDir } from "../../utils/dom";
 import { dateFromRange, dateFromISO, dateToISO, getDaysDiff, HoverRange } from "../../utils/date";
 import { HeadingLevel } from "../functional/CalciteHeading";
-import { getKey } from "../../utils/key";
 
 import { DateRangeChange } from "./interfaces";
 import { HEADING_LEVEL, TEXT } from "./resources";
@@ -260,7 +259,7 @@ export class CalciteDatePicker {
   //--------------------------------------------------------------------------
 
   keyUpHandler = (e: KeyboardEvent): void => {
-    if (getKey(e.key) === "Escape") {
+    if (e.key === "Escape") {
       this.reset();
     }
   };

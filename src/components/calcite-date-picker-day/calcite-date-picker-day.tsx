@@ -9,7 +9,7 @@ import {
   h,
   VNode
 } from "@stencil/core";
-import { getKey } from "../../utils/key";
+
 import { getElementDir } from "../../utils/dom";
 import { DateLocaleData } from "../calcite-date-picker/utils";
 import { Scale } from "../interfaces";
@@ -86,7 +86,7 @@ export class CalciteDatePickerDay {
   };
 
   keyDownHandler = (e: KeyboardEvent): void => {
-    const key = getKey(e.key);
+    const key = e.key;
     if (key === " " || key === "Enter") {
       !this.disabled && this.calciteDaySelect.emit();
     }

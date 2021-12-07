@@ -1,5 +1,5 @@
 import { Component, Element, Event, EventEmitter, h, Listen, Prop, VNode } from "@stencil/core";
-import { getKey } from "../../utils/key";
+
 import { AccordionAppearance } from "./interfaces";
 import { Position, Scale } from "../interfaces";
 
@@ -80,7 +80,7 @@ export class CalciteAccordion {
     const item = e.detail.item;
     const parent = e.detail.parent as HTMLCalciteAccordionElement;
     if (this.el === parent) {
-      const key = getKey(item.key);
+      const key = item.key;
       const itemToFocus = e.target;
       const isFirstItem = this.itemIndex(itemToFocus) === 0;
       const isLastItem = this.itemIndex(itemToFocus) === this.items.length - 1;
