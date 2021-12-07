@@ -10,7 +10,7 @@ import {
   VNode
 } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
-import { getKey } from "../../utils/key";
+
 import { CSS_UTILITY } from "../../utils/resources";
 import { Position } from "../interfaces";
 
@@ -150,7 +150,7 @@ export class CalciteAccordionItem {
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
     if (e.target === this.el) {
-      switch (getKey(e.key)) {
+      switch (e.key) {
         case " ":
         case "Enter":
           this.emitRequestedItem();

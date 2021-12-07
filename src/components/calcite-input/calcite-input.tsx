@@ -13,7 +13,7 @@ import {
   Watch
 } from "@stencil/core";
 import { getElementDir, getElementProp, setRequestedIcon } from "../../utils/dom";
-import { getKey } from "../../utils/key";
+
 import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
 import { InputPlacement } from "./interfaces";
 import { Position } from "../interfaces";
@@ -195,10 +195,15 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     | "week" = "text";
 
   /** input value */
-  @Prop({ mutable: true }) value: string;
+  @Prop({ mutable: true }) value = "";
 
   @Watch("value")
   valueWatcher(newValue: string): void {
+    if (newValue == null) {
+      this.value = "";
+      return;
+    }
+
     if (
       this.type === "number" &&
       this.localizedValue !== localizeNumberString(newValue, this.locale)
@@ -239,7 +244,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
   private childNumberEl?: HTMLInputElement;
 
   get isClearable(): boolean {
-    return !this.isTextarea && (this.clearable || this.type === "search") && this.value?.length > 0;
+    return !this.isTextarea && (this.clearable || this.type === "search") && this.value.length > 0;
   }
 
   get isTextarea(): boolean {
@@ -371,7 +376,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     if (this.readOnly || this.disabled) {
       return;
     }
-    if (this.isClearable && getKey(event.key) === "Escape") {
+    if (this.isClearable && event.key === "Escape") {
       this.clearInputValue(event);
       event.preventDefault();
     }
@@ -406,7 +411,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
   }
 
   private clearInputValue = (nativeEvent: KeyboardEvent | MouseEvent): void => {
-    this.setValue(null, nativeEvent, true);
+    this.setValue("", nativeEvent, true);
   };
 
   private inputBlurHandler = () => {
@@ -607,7 +612,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     }
 
     if (nativeEvent) {
-      if (this.type === "number" && value?.endsWith(".")) {
+      if (this.type === "number" && value.endsWith(".")) {
         return;
       }
 
@@ -736,7 +741,6 @@ export class CalciteInput implements LabelableComponent, FormComponent {
           placeholder={this.placeholder || ""}
           readOnly={this.readOnly}
           ref={this.setChildNumberElRef}
-          tabIndex={this.disabled ? -1 : 0}
           type="text"
           value={this.localizedValue}
         />
@@ -788,7 +792,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     return (
       <Host onClick={this.inputFocusHandler} onKeyDown={this.keyDownHandler}>
         <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }} dir={dir}>
-          {this.type === "number" && this.numberButtonType === "horizontal"
+          {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
             ? numberButtonsHorizontalDown
             : null}
           {this.prefixText ? prefixText : null}
@@ -802,11 +806,11 @@ export class CalciteInput implements LabelableComponent, FormComponent {
           <div class={CSS.actionWrapper}>
             <slot name={SLOTS.action} />
           </div>
-          {this.type === "number" && this.numberButtonType === "vertical"
+          {this.type === "number" && this.numberButtonType === "vertical" && !this.readOnly
             ? numberButtonsVertical
             : null}
           {this.suffixText ? suffixText : null}
-          {this.type === "number" && this.numberButtonType === "horizontal"
+          {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
             ? numberButtonsHorizontalUp
             : null}
           <HiddenFormInputSlot component={this} />

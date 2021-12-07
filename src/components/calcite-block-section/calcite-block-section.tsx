@@ -1,6 +1,6 @@
 import { Component, Element, Event, EventEmitter, Prop, h, VNode } from "@stencil/core";
 
-import { getElementDir } from "../../utils/dom";
+import { getElementStyleDir } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { CSS, ICONS, TEXT } from "./resources";
 import { BlockSectionToggleDisplay } from "./interfaces";
@@ -112,7 +112,7 @@ export class CalciteBlockSection {
 
   render(): VNode {
     const { el, intlCollapse, intlExpand, open, text, toggleDisplay } = this;
-    const dir = getElementDir(el);
+    const dir = getElementStyleDir(el);
     const arrowIcon = open
       ? ICONS.menuOpen
       : dir === "rtl"

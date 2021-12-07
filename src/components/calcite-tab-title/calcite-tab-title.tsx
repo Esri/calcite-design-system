@@ -15,8 +15,7 @@ import {
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../calcite-tab/interfaces";
 import { guid } from "../../utils/guid";
-import { getElementDir, getElementProp } from "../../utils/dom";
-import { getKey } from "../../utils/key";
+import { getElementDir, getElementProp, getElementStyleDir } from "../../utils/dom";
 import { TabID, TabLayout, TabPosition } from "../calcite-tabs/interfaces";
 import { FlipContext, Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -210,21 +209,21 @@ export class CalciteTabTitle {
 
   @Listen("keydown")
   keyDownHandler(e: KeyboardEvent): void {
-    switch (getKey(e.key)) {
+    switch (e.key) {
       case " ":
       case "Enter":
         this.emitActiveTab();
         e.preventDefault();
         break;
       case "ArrowRight":
-        if (getElementDir(this.el) === "ltr") {
+        if (getElementStyleDir(this.el) === "ltr") {
           this.calciteTabsFocusNext.emit();
         } else {
           this.calciteTabsFocusPrevious.emit();
         }
         break;
       case "ArrowLeft":
-        if (getElementDir(this.el) === "ltr") {
+        if (getElementStyleDir(this.el) === "ltr") {
           this.calciteTabsFocusPrevious.emit();
         } else {
           this.calciteTabsFocusNext.emit();
