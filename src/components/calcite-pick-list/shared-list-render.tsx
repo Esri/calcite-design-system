@@ -35,7 +35,6 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes> = (
           {filterEnabled ? (
             <calcite-filter
               aria-label={filterPlaceholder}
-              data={dataForFilter}
               disabled={loading || disabled}
               items={dataForFilter}
               onCalciteFilterChange={handleFilter}
