@@ -48,7 +48,7 @@ export class CalciteFilter {
    *
    * This property is required.
    */
-  @Prop({ mutable: true }) items: object[];
+  @Prop({ mutable: true }) items!: object[];
 
   @Watch("items")
   watchItemsHandler(): void {
