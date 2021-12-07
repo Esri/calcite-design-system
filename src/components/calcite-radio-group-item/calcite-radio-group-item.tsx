@@ -14,7 +14,6 @@ import { getElementDir, getElementProp } from "../../utils/dom";
 import { RadioAppearance } from "../calcite-radio-group/interfaces";
 import { Position, Layout, Scale } from "../interfaces";
 import { SLOTS, CSS } from "./resources";
-import { createObserver } from "../../utils/observers";
 
 @Component({
   tag: "calcite-radio-group-item",
@@ -43,7 +42,6 @@ export class CalciteRadioGroupItem {
   @Watch("checked")
   protected handleCheckedChange(): void {
     this.calciteRadioGroupItemChange.emit();
-    this.syncToExternalInput();
   }
 
   /** optionally pass an icon to display - accepts Calcite UI icon names  */
@@ -66,22 +64,6 @@ export class CalciteRadioGroupItem {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    const inputProxy: HTMLInputElement = this.el.querySelector(`input[slot=${SLOTS.input}]`);
-
-    if (inputProxy) {
-      this.value = inputProxy.value;
-      this.checked = inputProxy.checked;
-      this.mutationObserver?.observe(inputProxy, { attributes: true });
-    }
-
-    this.inputProxy = inputProxy;
-  }
-
-  disconnectedCallback(): void {
-    this.mutationObserver?.disconnect();
-  }
 
   componentWillLoad(): void {
     // only use default slot content in browsers that support shadow dom
@@ -146,34 +128,4 @@ export class CalciteRadioGroupItem {
   //
   //--------------------------------------------------------------------------
   @State() private useFallback: boolean;
-
-  private inputProxy: HTMLInputElement;
-
-  private mutationObserver = createObserver("mutation", () => this.syncFromExternalInput());
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
-
-  private syncFromExternalInput(): void {
-    if (this.inputProxy) {
-      this.value = this.inputProxy.value;
-      this.checked = this.inputProxy.checked;
-    }
-  }
-
-  private syncToExternalInput(): void {
-    if (!this.inputProxy) {
-      return;
-    }
-
-    this.inputProxy.value = this.value;
-    if (this.checked) {
-      this.inputProxy.setAttribute("checked", "");
-    } else {
-      this.inputProxy.removeAttribute("checked");
-    }
-  }
 }
