@@ -13,7 +13,7 @@ import {
   Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { getKey } from "../../utils/key";
+
 import { ColorStop, DataSeries } from "../calcite-graph/interfaces";
 import { intersects } from "../../utils/dom";
 import { clamp } from "../../utils/math";
@@ -715,7 +715,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
     const mirror = this.shouldMirror();
     const { activeProp, max, min, pageStep, step } = this;
     const value = this[activeProp];
-    const key = getKey(event.key);
+    const key = event.key;
 
     if (key === "Enter" || key === " ") {
       event.preventDefault();

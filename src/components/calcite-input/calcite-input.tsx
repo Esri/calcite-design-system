@@ -13,7 +13,7 @@ import {
   Watch
 } from "@stencil/core";
 import { getElementDir, getElementProp, setRequestedIcon } from "../../utils/dom";
-import { getKey } from "../../utils/key";
+
 import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
 import { InputPlacement } from "./interfaces";
 import { Position } from "../interfaces";
@@ -376,7 +376,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     if (this.readOnly || this.disabled) {
       return;
     }
-    if (this.isClearable && getKey(event.key) === "Escape") {
+    if (this.isClearable && event.key === "Escape") {
       this.clearInputValue(event);
       event.preventDefault();
     }

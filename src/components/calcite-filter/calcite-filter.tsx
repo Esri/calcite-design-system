@@ -30,19 +30,6 @@ export class CalciteFilter {
   // --------------------------------------------------------------------------
 
   /**
-   * The input data. The filter uses this as the starting point, and returns items
-   * that contain the string entered in the input, using a partial match and recursive search.
-   *
-   * @deprecated use `items` instead.
-   */
-  @Prop() data: object[];
-
-  @Watch("data")
-  watchDataHandler(value: object[]): void {
-    this.items = value;
-  }
-
-  /**
    * The items to filter through. The filter uses this as the starting point, and returns items
    * that contain the string entered in the input, using a partial match and recursive search.
    *
@@ -102,18 +89,6 @@ export class CalciteFilter {
 
   textInput: HTMLCalciteInputElement;
 
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    if (this.data && !this.items) {
-      this.items = this.data;
-    }
-  }
-
   // --------------------------------------------------------------------------
   //
   //  Events
@@ -123,7 +98,7 @@ export class CalciteFilter {
   /**
    * This event fires when the filter text changes.
    */
-  @Event() calciteFilterChange: EventEmitter;
+  @Event() calciteFilterChange: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -195,7 +170,7 @@ export class CalciteFilter {
   updateFiltered(filtered: any[]): void {
     this.filteredItems.length = 0;
     this.filteredItems = this.filteredItems.concat(filtered);
-    this.calciteFilterChange.emit(filtered);
+    this.calciteFilterChange.emit();
   }
 
   // --------------------------------------------------------------------------
