@@ -10,7 +10,6 @@ import {
   VNode
 } from "@stencil/core";
 import { inRange, sameDate, dateFromRange, HoverRange } from "../../utils/date";
-import { getKey } from "../../utils/key";
 import { DateLocaleData } from "../calcite-date-picker/utils";
 import { Scale } from "../interfaces";
 
@@ -100,7 +99,7 @@ export class CalciteDatePickerMonth {
 
   keyDownHandler = (e: KeyboardEvent): void => {
     const isRTL = this.el.dir === "rtl";
-    switch (getKey(e.key)) {
+    switch (e.key) {
       case "ArrowUp":
         e.preventDefault();
         this.addDays(-7);

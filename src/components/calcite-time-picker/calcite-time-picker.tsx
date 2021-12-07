@@ -13,7 +13,7 @@ import {
   Method
 } from "@stencil/core";
 import { Scale } from "../interfaces";
-import { getKey, isActivationKey, numberKeys } from "../../utils/key";
+import { isActivationKey, numberKeys } from "../../utils/key";
 import { isValidNumber } from "../../utils/number";
 
 import {
@@ -215,7 +215,7 @@ export class CalciteTimePicker {
 
   @Listen("keydown")
   keyDownHandler(event: KeyboardEvent): void {
-    const key = getKey(event.key);
+    const key = event.key;
     switch (this.activeEl) {
       case this.hourEl:
         if (key === "ArrowRight") {
@@ -310,7 +310,7 @@ export class CalciteTimePicker {
   };
 
   private buttonActivated(event: KeyboardEvent): boolean {
-    const key = getKey(event.key);
+    const key = event.key;
 
     if (key === " ") {
       event.preventDefault();
@@ -348,7 +348,7 @@ export class CalciteTimePicker {
   };
 
   private hourKeyDownHandler = (event: KeyboardEvent): void => {
-    const key = getKey(event.key);
+    const key = event.key;
     if (numberKeys.includes(key)) {
       const keyAsNumber = parseInt(key);
       let newHour;
@@ -440,7 +440,7 @@ export class CalciteTimePicker {
   };
 
   private meridiemKeyDownHandler = (event: KeyboardEvent): void => {
-    switch (getKey(event.key)) {
+    switch (event.key) {
       case "a":
         this.setTime("meridiem", "AM");
         break;
@@ -479,7 +479,7 @@ export class CalciteTimePicker {
   };
 
   private minuteKeyDownHandler = (event: KeyboardEvent): void => {
-    const key = getKey(event.key);
+    const key = event.key;
     if (numberKeys.includes(key)) {
       const keyAsNumber = parseInt(key);
       let newMinute;
@@ -528,7 +528,7 @@ export class CalciteTimePicker {
   };
 
   private secondKeyDownHandler = (event: KeyboardEvent): void => {
-    const key = getKey(event.key);
+    const key = event.key;
     if (numberKeys.includes(key)) {
       const keyAsNumber = parseInt(key);
       let newSecond;

@@ -12,7 +12,7 @@ import {
 } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
 import { ItemKeyboardEvent } from "../calcite-dropdown/interfaces";
-import { getKey } from "../../utils/key";
+
 import { FlipContext } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { CSS } from "./resources";
@@ -205,7 +205,7 @@ export class CalciteDropdownItem {
   }
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
-    switch (getKey(e.key)) {
+    switch (e.key) {
       case " ":
         this.emitRequestedItem();
         if (this.href) {

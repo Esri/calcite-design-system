@@ -11,7 +11,7 @@ import {
   Watch
 } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
-import { getKey } from "../../utils/key";
+
 import { Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 
@@ -163,7 +163,7 @@ export class CalciteStepperItem {
 
   @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
     if (!this.disabled && e.target === this.el) {
-      switch (getKey(e.key)) {
+      switch (e.key) {
         case " ":
         case "Enter":
           this.emitRequestedItem();

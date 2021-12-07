@@ -22,7 +22,6 @@ import {
   CheckableFormCompoment
 } from "../../utils/form";
 import { CSS } from "./resources";
-import { getKey } from "../../utils/key";
 import { getRoundRobinIndex } from "../../utils/array";
 
 @Component({
@@ -289,7 +288,7 @@ export class CalciteRadioButton implements LabelableComponent, CheckableFormComp
 
   handleKeyDown = (event: KeyboardEvent): void => {
     const keys = ["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown", " "];
-    const key = getKey(event.key);
+    const key = event.key;
     const { el } = this;
 
     if (keys.indexOf(key) === -1) {

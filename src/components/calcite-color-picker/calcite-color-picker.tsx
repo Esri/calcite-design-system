@@ -27,7 +27,7 @@ import {
 import { focusElement, getElementDir } from "../../utils/dom";
 import { colorEqual, CSSColorMode, Format, normalizeHex, parseMode, SupportedMode } from "./utils";
 import { throttle } from "lodash-es";
-import { getKey } from "../../utils/key";
+
 import { clamp } from "../../utils/math";
 import { CSS_UTILITY } from "../../utils/resources";
 
@@ -354,7 +354,7 @@ export class CalciteColorPicker {
   };
 
   private handleColorFieldScopeKeyDown = (event: KeyboardEvent): void => {
-    const key = getKey(event.key);
+    const key = event.key;
     const arrowKeyToXYOffset = {
       ArrowUp: { x: 0, y: -10 },
       ArrowRight: { x: 10, y: 0 },
@@ -375,7 +375,7 @@ export class CalciteColorPicker {
 
   private handleHueScopeKeyDown = (event: KeyboardEvent): void => {
     const modifier = event.shiftKey ? 10 : 1;
-    const key = getKey(event.key);
+    const key = event.key;
     const arrowKeyToXOffset = {
       ArrowUp: 1,
       ArrowRight: 1,
@@ -445,7 +445,7 @@ export class CalciteColorPicker {
   @Listen("keyup", { capture: true })
   protected handleChannelKeyUpOrDown(event: KeyboardEvent): void {
     this.shiftKeyChannelAdjustment = 0;
-    const key = getKey(event.key);
+    const key = event.key;
 
     if (
       (key !== "ArrowUp" && key !== "ArrowDown") ||

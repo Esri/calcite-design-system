@@ -23,7 +23,7 @@ import {
   sameDate
 } from "../../utils/date";
 import { HeadingLevel } from "../functional/CalciteHeading";
-import { getKey } from "../../utils/key";
+
 import { TEXT } from "../calcite-date-picker/resources";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
@@ -480,7 +480,7 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
   };
 
   keyUpHandler = (e: KeyboardEvent): void => {
-    if (getKey(e.key) === "Escape") {
+    if (e.key === "Escape") {
       this.active = false;
     }
   };

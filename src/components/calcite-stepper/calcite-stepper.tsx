@@ -10,7 +10,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getKey } from "../../utils/key";
+
 import { Layout, Scale } from "../interfaces";
 
 /**
@@ -108,7 +108,7 @@ export class CalciteStepper {
     const itemToFocus = e.target;
     const isFirstItem = this.itemIndex(itemToFocus) === 0;
     const isLastItem = this.itemIndex(itemToFocus) === this.sortedItems.length - 1;
-    switch (getKey(item.key)) {
+    switch (item.key) {
       case "ArrowDown":
       case "ArrowRight":
         if (isLastItem) {
