@@ -12,11 +12,10 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementDir, setRequestedIcon } from "../../utils/dom";
+import { setRequestedIcon } from "../../utils/dom";
 import { DURATIONS, SLOTS, TEXT } from "./resources";
 import { Scale } from "../interfaces";
 import { StatusColor, AlertDuration, StatusIcons } from "./interfaces";
-import { CSS_UTILITY } from "../../utils/resources";
 
 /** Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
  * at the bottom of the page. Multiple opened alerts will be added to a queue, allowing users to dismiss them in the order they are provided.
@@ -128,7 +127,6 @@ export class CalciteAlert {
   }
 
   render(): VNode {
-    const dir = getElementDir(this.el);
     const closeButton = (
       <button
         aria-label={this.intlClose}
@@ -163,8 +161,7 @@ export class CalciteAlert {
         <div
           class={{
             container: true,
-            queued,
-            [CSS_UTILITY.rtl]: dir === "rtl"
+            queued
           }}
         >
           {requestedIcon ? (
