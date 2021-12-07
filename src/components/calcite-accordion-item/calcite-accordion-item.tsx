@@ -174,6 +174,9 @@ export class CalciteAccordionItem {
   updateActiveItemOnChange(event: CustomEvent): void {
     this.requestedAccordionItem = event.detail
       .requestedAccordionItem as HTMLCalciteAccordionItemElement;
+    if (this.el.parentNode !== this.requestedAccordionItem.parentNode) {
+      return;
+    }
     this.determineActiveItem();
   }
 

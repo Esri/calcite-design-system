@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, renders } from "../../tests/commonTests";
+import { html } from "../../tests/utils";
 
 describe("calcite-accordion", () => {
   const accordionContent = `
@@ -128,6 +129,28 @@ describe("calcite-accordion", () => {
     expect(await item1Content.isVisible()).toBe(false);
     expect(await item2Content.isVisible()).toBe(false);
     expect(await item3Content.isVisible()).toBe(true);
+  });
+
+  it("clicking on an accordion with selection-mode=single does not toggle unrelated accordions with the same selection mode", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-accordion selection-mode="single" id="first"> ${accordionContent} </calcite-accordion>
+        <calcite-accordion selection-mode="single" id="second"> ${accordionContent} </calcite-accordion>`
+    });
+    await page.waitForChanges();
+
+    const firstAccordion = await page.find("calcite-accordion[id='first']");
+    const item1FirstAccordion = await firstAccordion.find("calcite-accordion-item[id='1']");
+    await item1FirstAccordion.click();
+    await page.waitForChanges();
+    expect(await item1FirstAccordion.getProperty("active")).toBe(true);
+
+    const secondAccordion = await page.find("calcite-accordion[id='second']");
+    const item1SecondAccordion = await secondAccordion.find("calcite-accordion-item[id='1']");
+    await item1SecondAccordion.click();
+    await page.waitForChanges();
+    expect(await item1SecondAccordion.getProperty("active")).toBe(true);
+
+    expect(await item1FirstAccordion.getProperty("active")).toBe(true);
   });
 
   it("prevents closing the last active item when in single-persist selection mode", async () => {

@@ -37,7 +37,7 @@
 | `intlSecondUp`      | `intl-second-up`      | aria-label for the second up button                                                        | `string`            | `undefined` |
 | `name`              | `name`                | The name of the time input                                                                 | `string`            | `undefined` |
 | `scale`             | `scale`               | The scale (size) of the time input                                                         | `"l" \| "m" \| "s"` | `"m"`       |
-| `step`              | `step`                | number that specifies the granularity that the value must adhere to                        | `number`            | `60`        |
+| `step`              | `step`                | number (seconds) that specifies the granularity that the value must adhere to              | `number`            | `60`        |
 | `value`             | `value`               | The selected time (always 24-hour format)                                                  | `string`            | `null`      |
 
 ## Events

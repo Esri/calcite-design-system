@@ -89,7 +89,7 @@
     justify-start
     sticky
     top-0
-    border-b-color-2
+    border-b-color-3
     w-full;
   flex: 0 0 auto;
   min-height: theme("spacing.12");
@@ -124,7 +124,7 @@
 }
 
 .back-button {
-  @apply border-color-2
+  @apply border-color-3
   border-solid
   border-0
   border-r;
@@ -160,12 +160,19 @@
   flex-flow: column nowrap;
 }
 
+.content-wrapper {
+  @apply overflow-auto;
+}
+
+.content-height {
+  @apply h-full;
+}
+
 .content-container {
   @apply items-stretch 
   bg-background
   flex
   flex-auto
-  overflow-auto
   flex-no-wrap
   flex-col;
 }
@@ -201,7 +208,7 @@
 }
 
 .fab-container {
-  @apply inline-block
+  @apply block
   sticky
   my-0
   mx-auto
@@ -209,6 +216,6 @@
   bottom-0
   left-0
   right-0;
-
+  width: fit-content;
   z-index: 1;
 }

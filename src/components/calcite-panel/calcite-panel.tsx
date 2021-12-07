@@ -11,7 +11,7 @@ import {
   Fragment
 } from "@stencil/core";
 import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
-import { getElementDir, getSlotted } from "../../utils/dom";
+import { getElementDir, getElementStyleDir, getSlotted } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { Scale } from "../interfaces";
 import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
@@ -221,7 +221,7 @@ export class CalcitePanel {
   renderBackButton(): VNode {
     const { el } = this;
 
-    const rtl = getElementDir(el) === "rtl";
+    const rtl = getElementStyleDir(el) === "rtl";
     const { showBackButton, intlBack, backButtonClick } = this;
     const label = intlBack || TEXT.back;
     const icon = rtl ? ICONS.backRight : ICONS.backLeft;
@@ -390,24 +390,37 @@ export class CalcitePanel {
   }
 
   renderContent(): VNode {
-    return (
-      <section class={CSS.contentContainer} onScroll={this.panelScrollHandler} tabIndex={0}>
-        <slot />
+    const { el } = this;
+    const hasFab = getSlotted(el, SLOTS.fab);
+
+    return hasFab ? (
+      <div
+        class={{ [CSS.contentWrapper]: true, [CSS.contentHeight]: true }}
+        onScroll={this.panelScrollHandler}
+        tabIndex={0}
+      >
+        <section class={CSS.contentContainer}>
+          <slot />
+        </section>
         {this.renderFab()}
+      </div>
+    ) : (
+      <section
+        class={{ [CSS.contentWrapper]: true, [CSS.contentContainer]: true }}
+        onScroll={this.panelScrollHandler}
+        tabIndex={0}
+      >
+        <slot />
       </section>
     );
   }
 
   renderFab(): VNode {
-    const { el } = this;
-
-    const hasFab = getSlotted(el, SLOTS.fab);
-
-    return hasFab ? (
+    return (
       <div class={CSS.fabContainer}>
         <slot name={SLOTS.fab} />
       </div>
-    ) : null;
+    );
   }
 
   render(): VNode {

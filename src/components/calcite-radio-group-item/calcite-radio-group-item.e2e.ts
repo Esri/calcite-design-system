@@ -18,19 +18,6 @@ describe("calcite-radio-group-item", () => {
     expect(checked).toBe(false);
   });
 
-  it("emits when checked", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-radio-group-item value='test-value'></calcite-radio-group-item>");
-    const element = await page.find("calcite-radio-group-item");
-    const spy = await element.spyOnEvent("calciteRadioGroupItemChange");
-
-    await element.setProperty("checked", true);
-    await page.waitForChanges();
-    await element.setProperty("checked", false);
-    await page.waitForChanges();
-    expect(spy).toHaveReceivedEventTimes(2);
-  });
-
   it("supports value, label and checked", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-radio-group-item value='test-value' checked>test-label</calcite-radio-group-item>");

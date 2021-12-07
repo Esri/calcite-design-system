@@ -14,7 +14,7 @@ jobs:
       - name: Update caniuse database and create PR if applicable
         uses: c2corg/browserslist-update-action@v1.2.0
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.ADMIN_TOKEN }}
           branch: update-browserslist-db
           commit_message: "build: update browserslist db"
           title: "build: update browserslist db"

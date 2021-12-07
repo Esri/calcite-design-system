@@ -28,7 +28,6 @@ You must use `focusin`/`focusout` instead of `focus`/`blur` because these events
 All events return an element and a value:
 
 ```js
-input.addEventListener("change", logChange);
 input.addEventListener("focusin", logFocus);
 input.addEventListener("focusout", logBlur);
 
@@ -71,6 +70,7 @@ Using a wrapping `calcite-label` component lets consumers set the status attribu
 | `clearable`        | `clearable`          | optionally display a clear button that displays when field has a value shows by default for search, time, date will not display for type="textarea"                                                                                          | `boolean`                                                                                                                                                                              | `false`                                   |
 | `disabled`         | `disabled`           | is the input disabled                                                                                                                                                                                                                        | `boolean`                                                                                                                                                                              | `false`                                   |
 | `groupSeparator`   | `group-separator`    | for number values, displays the locale's group separator                                                                                                                                                                                     | `boolean`                                                                                                                                                                              | `false`                                   |
+| `hidden`           | `hidden`             | when true, the component will not be visible                                                                                                                                                                                                 | `boolean`                                                                                                                                                                              | `false`                                   |
 | `icon`             | `icon`               | when used as a boolean set to true, show a default recommended icon for certain input types (tel, password, email, date, time, search). You can also pass a calcite-ui-icon name to this prop to display a requested icon for any input type | `boolean \| string`                                                                                                                                                                    | `undefined`                               |
 | `iconFlipRtl`      | `icon-flip-rtl`      | flip the icon in rtl                                                                                                                                                                                                                         | `boolean`                                                                                                                                                                              | `false`                                   |
 | `intlLoading`      | `intl-loading`       | string to override English loading text                                                                                                                                                                                                      | `string`                                                                                                                                                                               | `TEXT.loading`                            |
@@ -97,9 +97,10 @@ Using a wrapping `calcite-label` component lets consumers set the status attribu
 
 ## Events
 
-| Event               | Description                                      | Type               |
-| ------------------- | ------------------------------------------------ | ------------------ |
-| `calciteInputInput` | This event fires each time a new value is typed. | `CustomEvent<any>` |
+| Event                | Description                                                    | Type                |
+| -------------------- | -------------------------------------------------------------- | ------------------- |
+| `calciteInputChange` | This event fires each time a new value is typed and committed. | `CustomEvent<void>` |
+| `calciteInputInput`  | This event fires each time a new value is typed.               | `CustomEvent<any>`  |
 
 ## Methods
 
