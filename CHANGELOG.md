@@ -3,9 +3,7 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-<!--@unreleased-section-start-->
-
-## Unreleased
+## [1.0.0-beta.71](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.70...v1.0.0-beta.71) (2021-12-07)
 
 ### Features
 
@@ -15,7 +13,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Bug Fixes
 
 - **alert:** remove clearTimeOut that delays the alert to close on autoDismiss mode [#3366](https://github.com/Esri/calcite-components/issues/3366) ([#3525](https://github.com/Esri/calcite-components/issues/3525)) ([9376b52](https://github.com/Esri/calcite-components/commit/9376b52d32752f24cacf4286af804d61e3ab16b8))
-- **input:** ensure input's value is an empty string when cleared or set to null/undefined ([#3627](https://github.com/Esri/calcite-components/issues/3627)) ([6ef5d4f](https://github.com/Esri/calcite-components/commit/6ef5d4f338cdc29a4096f7f92efa48ebca8107cc)), closes [#3381](https://github.com/Esri/calcite-components/issues/3381)
+- **dropdown:** stop calciteDropdownClose event from firing twice when closing the dropdown [#1688](https://github.com/Esri/calcite-components/issues/1688) ([#3612](https://github.com/Esri/calcite-components/issues/3612)) ([a01b9f7](https://github.com/Esri/calcite-components/commit/a01b9f7cb5281eecdcf33966951c132eebff723e))
 - **input:** style read-only and disabled inputs per new design reqs and hide spinners for read-only inputs ([#3582](https://github.com/Esri/calcite-components/issues/3582)) ([470f347](https://github.com/Esri/calcite-components/commit/470f34711480dc8d48224f66d7b1274f93c3e271))
 - **modal:** modal now doesn’t shrink when close button disabled ([#3619](https://github.com/Esri/calcite-components/issues/3619)) ([a7fe45a](https://github.com/Esri/calcite-components/commit/a7fe45aaa907878d68f1a669de969596f1ba5bc9))
 - **panel:** add conditional rendering for slots with fab and no fab ([#3616](https://github.com/Esri/calcite-components/issues/3616)) ([16ace3f](https://github.com/Esri/calcite-components/commit/16ace3f931c9465c0950594e97181f681ea7279b))
@@ -23,7 +21,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **select:** ensure selecting item programmatically is reflected in selectedOption ([#3634](https://github.com/Esri/calcite-components/issues/3634)) ([bdf68fb](https://github.com/Esri/calcite-components/commit/bdf68fb45cc7fc45ab954f265ef65d38c1c63909)), closes [#3239](https://github.com/Esri/calcite-components/issues/3239) [#3241](https://github.com/Esri/calcite-components/issues/3241)
 - **shell-panel:** click events correctly pass through the host element ([#3607](https://github.com/Esri/calcite-components/issues/3607)) ([fbada5e](https://github.com/Esri/calcite-components/commit/fbada5e6cec113552f19ee746c50017e1f56222c))
 - **shell-panel:** Correct resizing of panels in RTL direction. [#2770](https://github.com/Esri/calcite-components/issues/2770) ([#3614](https://github.com/Esri/calcite-components/issues/3614)) ([fdab1a4](https://github.com/Esri/calcite-components/commit/fdab1a4a2843ca7ee927cf9b3bc35cfe030fec68))
-<!--@unreleased-section-end-->
+
+### ⚠ BREAKING CHANGES
+
+- **input:** ensure input's value is an empty string when cleared or set to null/undefined ([#3627](https://github.com/Esri/calcite-components/issues/3627)) ([6ef5d4f](https://github.com/Esri/calcite-components/commit/6ef5d4f338cdc29a4096f7f92efa48ebca8107cc)), closes [#3381](https://github.com/Esri/calcite-components/issues/3381)
 
 ## [1.0.0-beta.70](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.69...v1.0.0-beta.70) (2021-11-24)
 
