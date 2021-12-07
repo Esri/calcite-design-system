@@ -134,8 +134,8 @@ describe("calcite-input-date-picker", () => {
     );
 
     const element = await page.find("calcite-input-date-picker");
-    element.setAttribute("min", "2021-11-15");
-    element.setAttribute("max", "2023-11-15");
+    element.setProperty("min", "2021-11-15");
+    element.setProperty("max", "2023-11-15");
     await page.waitForChanges();
     const minDateString = "Mon Nov 15 2021 00:00:00 GMT-0800 (Pacific Standard Time)";
     const minDateAsTime = await page.$eval("calcite-input-date-picker", (picker: HTMLCalciteInputDatePickerElement) =>
