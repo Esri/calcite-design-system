@@ -128,7 +128,7 @@ export class CalcitePickListItem {
 
   @Element() el: HTMLCalcitePickListItemElement;
 
-  private focusEl: HTMLDivElement;
+  private focusEl: HTMLLabelElement;
 
   shiftPressed: boolean;
 
@@ -285,23 +285,23 @@ export class CalcitePickListItem {
         <slot name={SLOTS.contentCenter} />
       </div>
     ) : (
-      <div
+      <label
         aria-label={label}
         class={CSS.label}
         onClick={this.pickListClickHandler}
         onKeyDown={this.pickListKeyDownHandler}
-        ref={(focusEl): HTMLDivElement => (this.focusEl = focusEl)}
+        ref={(focusEl): HTMLLabelElement => (this.focusEl = focusEl)}
         tabIndex={0}
       >
-        <label
+        <div
           aria-checked={this.selected.toString()}
           class={CSS.textContainer}
           role="menuitemcheckbox"
         >
           <span class={CSS.title}>{label}</span>
           {description ? <span class={CSS.description}>{description}</span> : null}
-        </label>
-      </div>
+        </div>
+      </label>
     );
   }
 
