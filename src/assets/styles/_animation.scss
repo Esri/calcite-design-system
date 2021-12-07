@@ -43,9 +43,9 @@
 :root {
   --calcite-animation-timing-factor: var(--animation-timing-factor, 1);
   --calcite-animation-timing: calc(150ms * var(--calcite-animation-timing-factor));
-  //   --calcite-animation-timing-100 : calc(100ms *var(--calcite-animation-timing-factor) );
-  //   --calcite-animation-timing-200 : calc(200ms * var(--calcite-animation-timing-factor));
-  //   --calcite-animation-timing-300 : calc(300ms *var(--calcite-animation-timing-factor));
+  --calcite-animation-timing-quick: calc(100ms * var(--calcite-animation-timing-factor));
+  --calcite-animation-timing-medium: calc(200ms * var(--calcite-animation-timing-factor));
+  --calcite-animation-timing-slow: calc(300ms * var(--calcite-animation-timing-factor));
 }
 
 // allows animation trigger via JS by adding class to element
