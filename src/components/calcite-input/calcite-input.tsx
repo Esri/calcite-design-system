@@ -195,10 +195,15 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     | "week" = "text";
 
   /** input value */
-  @Prop({ mutable: true }) value: string;
+  @Prop({ mutable: true }) value = "";
 
   @Watch("value")
   valueWatcher(newValue: string): void {
+    if (newValue == null) {
+      this.value = "";
+      return;
+    }
+
     if (
       this.type === "number" &&
       this.localizedValue !== localizeNumberString(newValue, this.locale)
@@ -239,7 +244,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
   private childNumberEl?: HTMLInputElement;
 
   get isClearable(): boolean {
-    return !this.isTextarea && (this.clearable || this.type === "search") && this.value?.length > 0;
+    return !this.isTextarea && (this.clearable || this.type === "search") && this.value.length > 0;
   }
 
   get isTextarea(): boolean {
@@ -383,26 +388,30 @@ export class CalciteInput implements LabelableComponent, FormComponent {
 
   incrementOrDecrementNumberValue(
     direction: NumberNudgeDirection,
-    inputMax: number,
-    inputMin: number,
+    inputMax: number | null,
+    inputMin: number | null,
     nativeEvent: KeyboardEvent | MouseEvent
   ): void {
-    const value = this.value;
+    const { value } = this;
     const inputStep = this.step === "any" ? 1 : Math.abs(this.step || 1);
     const inputVal = value && value !== "" ? parseFloat(value) : 0;
-    let newValue = value;
 
-    if (direction === "up" && ((!inputMax && inputMax !== 0) || inputVal < inputMax)) {
-      newValue = (inputVal + inputStep).toFixed(decimalPlaces(inputStep)).toString();
-    }
-    if (direction === "down" && ((!inputMin && inputMin !== 0) || inputVal > inputMin)) {
-      newValue = (inputVal - inputStep).toFixed(decimalPlaces(inputStep)).toString();
-    }
-    this.setValue(newValue, nativeEvent, true);
+    const adjustment = direction === "up" ? 1 : -1;
+    const nudgedValue = inputVal + inputStep * adjustment;
+    const finalValue =
+      (typeof inputMin === "number" && !isNaN(inputMin) && nudgedValue < inputMin) ||
+      (typeof inputMax === "number" && !isNaN(inputMax) && nudgedValue > inputMax)
+        ? inputVal
+        : nudgedValue;
+
+    const inputValPlaces = decimalPlaces(inputVal);
+    const inputStepPlaces = decimalPlaces(inputStep);
+
+    this.setValue(finalValue.toFixed(Math.max(inputValPlaces, inputStepPlaces)), nativeEvent, true);
   }
 
   private clearInputValue = (nativeEvent: KeyboardEvent | MouseEvent): void => {
-    this.setValue(null, nativeEvent, true);
+    this.setValue("", nativeEvent, true);
   };
 
   private inputBlurHandler = () => {
@@ -522,12 +531,15 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     const valueNudgeDelayInMs = 100;
 
     this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
-    let nudgeNumberValueIntervalCount = 0;
+
+    let firstValueNudge = true;
     this.nudgeNumberValueIntervalId = setInterval(() => {
-      nudgeNumberValueIntervalCount !== 0
-        ? this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent)
-        : null;
-      nudgeNumberValueIntervalCount++;
+      if (firstValueNudge) {
+        firstValueNudge = false;
+        return;
+      }
+
+      this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
     }, valueNudgeDelayInMs);
   };
 
@@ -600,7 +612,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     }
 
     if (nativeEvent) {
-      if (this.type === "number" && value?.endsWith(".")) {
+      if (this.type === "number" && value.endsWith(".")) {
         return;
       }
 
@@ -729,7 +741,6 @@ export class CalciteInput implements LabelableComponent, FormComponent {
           placeholder={this.placeholder || ""}
           readOnly={this.readOnly}
           ref={this.setChildNumberElRef}
-          tabIndex={this.disabled ? -1 : 0}
           type="text"
           value={this.localizedValue}
         />
@@ -781,7 +792,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     return (
       <Host onClick={this.inputFocusHandler} onKeyDown={this.keyDownHandler}>
         <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }} dir={dir}>
-          {this.type === "number" && this.numberButtonType === "horizontal"
+          {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
             ? numberButtonsHorizontalDown
             : null}
           {this.prefixText ? prefixText : null}
@@ -795,11 +806,11 @@ export class CalciteInput implements LabelableComponent, FormComponent {
           <div class={CSS.actionWrapper}>
             <slot name={SLOTS.action} />
           </div>
-          {this.type === "number" && this.numberButtonType === "vertical"
+          {this.type === "number" && this.numberButtonType === "vertical" && !this.readOnly
             ? numberButtonsVertical
             : null}
           {this.suffixText ? suffixText : null}
-          {this.type === "number" && this.numberButtonType === "horizontal"
+          {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
             ? numberButtonsHorizontalUp
             : null}
           <HiddenFormInputSlot component={this} />

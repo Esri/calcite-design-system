@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { focusable, formAssociated, labelable } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 
@@ -57,7 +57,14 @@ describe("calcite-radio-group", () => {
     expect(selectedValue).toBe("3");
   });
 
-  it("fires change event, passing selected item", async () => {
+  it("allows items to be selected", async () => {
+    async function getSelectedItemValue(page: E2EPage): Promise<string> {
+      return page.$eval(
+        "calcite-radio-group",
+        (radioGroup: HTMLCalciteRadioGroupElement) => radioGroup.selectedItem.value
+      );
+    }
+
     const page = await newE2EPage();
     await page.setContent(
       `<calcite-radio-group>
@@ -69,10 +76,73 @@ describe("calcite-radio-group", () => {
     const element = await page.find("calcite-radio-group");
     const eventSpy = await element.spyOnEvent("calciteRadioGroupChange");
     expect(eventSpy).not.toHaveReceivedEvent();
-    const item = await page.find("calcite-radio-group-item");
-    await item.click();
-    expect(eventSpy).toHaveReceivedEvent();
+    const [first, second, third] = await page.findAll("calcite-radio-group-item");
+
+    await first.click();
+    expect(eventSpy).toHaveReceivedEventTimes(1);
     expect(eventSpy).toHaveReceivedEventDetail("1");
+    expect(await getSelectedItemValue(page)).toBe("1");
+
+    // does not emit from programmatic changes
+    third.setProperty("checked", true);
+    await page.waitForChanges();
+    expect(eventSpy).toHaveReceivedEventTimes(1);
+    expect(await getSelectedItemValue(page)).toBe("3");
+
+    await second.click();
+    expect(eventSpy).toHaveReceivedEventTimes(2);
+    expect(eventSpy).toHaveReceivedEventDetail("2");
+    expect(await getSelectedItemValue(page)).toBe("2");
+  });
+
+  it("does not emit extraneous events (edge case from #3210)", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-radio-group>
+          <calcite-radio-group-item value="1">one</calcite-radio-group-item>
+          <calcite-radio-group-item value="2">two</calcite-radio-group-item>
+        </calcite-radio-group>`
+    );
+
+    const timesCalled = await page.evaluate(async () => {
+      let calls = 0;
+
+      const radioGroup = document.querySelector("calcite-radio-group");
+
+      const waitForFrame = async () => await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+
+      document.addEventListener("calciteRadioGroupChange", () => calls++);
+
+      let [first, second] = Array.from(document.querySelectorAll("calcite-radio-group-item"));
+
+      first.checked = true;
+      await waitForFrame();
+
+      second.click();
+      await waitForFrame();
+
+      radioGroup.remove();
+      await waitForFrame();
+
+      document.body.innerHTML = `
+      <calcite-radio-group>
+          <calcite-radio-group-item value="1">one</calcite-radio-group-item>
+          <calcite-radio-group-item value="2">two</calcite-radio-group-item>
+        </calcite-radio-group>
+      `;
+
+      [first, second] = Array.from(document.querySelectorAll("calcite-radio-group-item"));
+
+      second.checked = true;
+      await waitForFrame();
+
+      first.click();
+      await waitForFrame();
+
+      return calls;
+    });
+
+    expect(timesCalled).toBe(2);
   });
 
   describe("keyboard navigation", () => {

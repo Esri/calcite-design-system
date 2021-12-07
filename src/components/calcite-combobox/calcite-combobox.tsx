@@ -372,7 +372,7 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
   };
 
   keydownHandler = (event: KeyboardEvent): void => {
-    const key = (event.key, getElementDir(this.el));
+    const { key } = event;
 
     switch (key) {
       case "Tab":

@@ -689,14 +689,6 @@ export class CalciteColorPicker {
   //--------------------------------------------------------------------------
 
   componentWillLoad(): void {
-    const storageKey = `${DEFAULT_STORAGE_KEY_PREFIX}${this.storageId}`;
-
-    if (this.storageId && localStorage.getItem(storageKey)) {
-      this.savedColors = JSON.parse(localStorage.getItem(storageKey));
-    }
-  }
-
-  connectedCallback(): void {
     const { allowEmpty, color, format, value } = this;
 
     const willSetNoColor = allowEmpty && !value;
@@ -713,6 +705,12 @@ export class CalciteColorPicker {
     this.internalColorSet(initialColor, false, "initial");
 
     this.updateDimensions(this.scale);
+
+    const storageKey = `${DEFAULT_STORAGE_KEY_PREFIX}${this.storageId}`;
+
+    if (this.storageId && localStorage.getItem(storageKey)) {
+      this.savedColors = JSON.parse(localStorage.getItem(storageKey));
+    }
   }
 
   disconnectedCallback(): void {
