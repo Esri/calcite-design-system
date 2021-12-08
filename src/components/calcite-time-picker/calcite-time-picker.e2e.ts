@@ -30,7 +30,9 @@ const letterKeys = [
   "x",
   "y",
   "z"
-];
+] as const;
+
+export type NumericString = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
 
 describe("calcite-time-picker", () => {
   it("renders", async () => renders("calcite-time-picker", { display: "inline-block" }));
@@ -441,7 +443,7 @@ describe("calcite-time-picker", () => {
       await page.keyboard.press("Tab");
 
       for (let i = 0; i < 10; i++) {
-        await page.keyboard.press(i.toString());
+        await page.keyboard.press(i.toString() as NumericString);
         await page.waitForChanges();
 
         expect(hour.textContent).toBe(`0${i}`);
@@ -452,7 +454,7 @@ describe("calcite-time-picker", () => {
       await page.keyboard.press("Tab");
 
       for (let i = 0; i < 10; i++) {
-        await page.keyboard.press(i.toString());
+        await page.keyboard.press(i.toString() as NumericString);
         await page.waitForChanges();
 
         expect(minute.textContent).toBe(`0${i}`);
@@ -463,7 +465,7 @@ describe("calcite-time-picker", () => {
       await page.keyboard.press("Tab");
 
       for (let i = 0; i < 10; i++) {
-        await page.keyboard.press(i.toString());
+        await page.keyboard.press(i.toString() as NumericString);
         await page.waitForChanges();
 
         expect(second.textContent).toBe(`0${i}`);
@@ -483,7 +485,7 @@ describe("calcite-time-picker", () => {
       await page.keyboard.press("Tab");
 
       for (let i = 0; i < 10; i++) {
-        await page.keyboard.press(i.toString());
+        await page.keyboard.press(i.toString() as NumericString);
         await page.waitForChanges();
 
         expect(hour.textContent).toBe(i === 0 ? `12` : `0${i}`);
@@ -494,7 +496,7 @@ describe("calcite-time-picker", () => {
       await page.keyboard.press("Tab");
 
       for (let i = 0; i < 10; i++) {
-        await page.keyboard.press(i.toString());
+        await page.keyboard.press(i.toString() as NumericString);
         await page.waitForChanges();
 
         expect(minute.textContent).toBe(`0${i}`);
@@ -505,7 +507,7 @@ describe("calcite-time-picker", () => {
       await page.keyboard.press("Tab");
 
       for (let i = 0; i < 10; i++) {
-        await page.keyboard.press(i.toString());
+        await page.keyboard.press(i.toString() as NumericString);
         await page.waitForChanges();
 
         expect(second.textContent).toBe(`0${i}`);
@@ -525,8 +527,8 @@ describe("calcite-time-picker", () => {
       for (let i = 10; i < 13; i++) {
         const [key1, key2] = i.toString().split("");
 
-        await page.keyboard.press(key1);
-        await page.keyboard.press(key2);
+        await page.keyboard.press(key1 as NumericString);
+        await page.keyboard.press(key2 as NumericString);
         await page.waitForChanges();
 
         expect(hour.textContent).toBe(`${key1}${key2}`);
@@ -535,8 +537,8 @@ describe("calcite-time-picker", () => {
       for (let i = 13; i < 100; i++) {
         const [key1, key2] = i.toString().split("");
 
-        await page.keyboard.press(key1);
-        await page.keyboard.press(key2);
+        await page.keyboard.press(key1 as NumericString);
+        await page.keyboard.press(key2 as NumericString);
         await page.waitForChanges();
 
         expect(hour.textContent).toBe(key2 === "0" ? `12` : `0${key2}`);
@@ -554,8 +556,8 @@ describe("calcite-time-picker", () => {
       for (let i = 10; i < 24; i++) {
         const [key1, key2] = i.toString().split("");
 
-        await page.keyboard.press(key1);
-        await page.keyboard.press(key2);
+        await page.keyboard.press(key1 as NumericString);
+        await page.keyboard.press(key2 as NumericString);
         await page.waitForChanges();
 
         expect(hour.textContent).toBe(`${key1}${key2}`);
@@ -564,8 +566,8 @@ describe("calcite-time-picker", () => {
       for (let i = 24; i < 100; i++) {
         const [key1, key2] = i.toString().split("");
 
-        await page.keyboard.press(key1);
-        await page.keyboard.press(key2);
+        await page.keyboard.press(key1 as NumericString);
+        await page.keyboard.press(key2 as NumericString);
         await page.waitForChanges();
 
         expect(hour.textContent).toBe(`0${key2}`);
@@ -583,8 +585,8 @@ describe("calcite-time-picker", () => {
       for (let i = 10; i < 60; i++) {
         const [key1, key2] = i.toString().split("");
 
-        await page.keyboard.press(key1);
-        await page.keyboard.press(key2);
+        await page.keyboard.press(key1 as NumericString);
+        await page.keyboard.press(key2 as NumericString);
         await page.waitForChanges();
 
         expect(minute.textContent).toBe(`${key1}${key2}`);
@@ -593,8 +595,8 @@ describe("calcite-time-picker", () => {
       for (let i = 60; i < 100; i++) {
         const [key1, key2] = i.toString().split("");
 
-        await page.keyboard.press(key1);
-        await page.keyboard.press(key2);
+        await page.keyboard.press(key1 as NumericString);
+        await page.keyboard.press(key2 as NumericString);
         await page.waitForChanges();
 
         expect(minute.textContent).toBe(`0${key2}`);
@@ -612,8 +614,8 @@ describe("calcite-time-picker", () => {
       for (let i = 10; i < 60; i++) {
         const [key1, key2] = i.toString().split("");
 
-        await page.keyboard.press(key1);
-        await page.keyboard.press(key2);
+        await page.keyboard.press(key1 as NumericString);
+        await page.keyboard.press(key2 as NumericString);
         await page.waitForChanges();
 
         expect(second.textContent).toBe(`${key1}${key2}`);
@@ -622,8 +624,8 @@ describe("calcite-time-picker", () => {
       for (let i = 60; i < 100; i++) {
         const [key1, key2] = i.toString().split("");
 
-        await page.keyboard.press(key1);
-        await page.keyboard.press(key2);
+        await page.keyboard.press(key1 as NumericString);
+        await page.keyboard.press(key2 as NumericString);
         await page.waitForChanges();
 
         expect(second.textContent).toBe(`0${key2}`);
