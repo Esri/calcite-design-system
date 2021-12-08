@@ -19,7 +19,7 @@
 :host([scale="s"]) {
   @apply h-6;
   --calcite-select-font-size: theme("fontSize.-2h");
-  --calcite-select-spacing-inline: theme("spacing.8") theme("spacing.2");
+  --calcite-select-spacing-inline: theme("spacing.2") theme("spacing.8");
   .icon-container {
     @apply px-2;
   }
@@ -28,7 +28,7 @@
 :host([scale="m"]) {
   @apply h-8;
   --calcite-select-font-size: theme("fontSize.-1h");
-  --calcite-select-spacing-inline: theme("spacing.10") theme("spacing.3");
+  --calcite-select-spacing-inline: theme("spacing.3") theme("spacing.10");
   .icon-container {
     @apply px-3;
   }
@@ -37,7 +37,7 @@
 :host([scale="l"]) {
   height: 44px;
   --calcite-select-font-size: theme("fontSize.0h");
-  --calcite-select-spacing-inline: theme("spacing.12") theme("spacing.4");
+  --calcite-select-spacing-inline: theme("spacing.4") theme("spacing.12");
   .icon-container {
     @apply px-4;
   }
@@ -104,7 +104,7 @@ select:disabled {
     absolute
     inset-y-0;
   inset-inline-end: 0;
-  border-inline-width: 0 1px;
+  border-inline-width: theme("borderWidth.0") theme("borderWidth.default");
 }
 
 .select:focus ~ .icon-container {
