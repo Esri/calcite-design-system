@@ -249,9 +249,9 @@ export class CalciteInputTimePicker implements LabelableComponent, FormComponent
     this.setFocus();
   }
 
-  private shouldIncludeSeconds = (): boolean => {
+  private shouldIncludeSeconds(): boolean {
     return this.step < 60;
-  };
+  }
 
   private setCalciteInputEl = (el: HTMLCalciteInputElement): void => {
     this.calciteInputEl = el;

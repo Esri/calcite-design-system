@@ -717,7 +717,7 @@ export class CalciteTimePicker {
             aria-label={this.intlHour}
             aria-valuemax="23"
             aria-valuemin="1"
-            aria-valuenow={hourIsNumber && parseInt(this.hour)}
+            aria-valuenow={(hourIsNumber && parseInt(this.hour)) || "0"}
             aria-valuetext={this.hour}
             class={{
               [CSS.input]: true,
@@ -765,7 +765,7 @@ export class CalciteTimePicker {
             aria-label={this.intlMinute}
             aria-valuemax="12"
             aria-valuemin="1"
-            aria-valuenow={minuteIsNumber && parseInt(this.minute)}
+            aria-valuenow={(minuteIsNumber && parseInt(this.minute)) || "0"}
             aria-valuetext={this.minute}
             class={{
               [CSS.input]: true,
@@ -813,7 +813,7 @@ export class CalciteTimePicker {
               aria-label={this.intlSecond}
               aria-valuemax="59"
               aria-valuemin="0"
-              aria-valuenow={secondIsNumber && parseInt(this.second)}
+              aria-valuenow={(secondIsNumber && parseInt(this.second)) || "0"}
               aria-valuetext={this.second}
               class={{
                 [CSS.input]: true,
@@ -865,9 +865,7 @@ export class CalciteTimePicker {
               aria-label={this.intlMeridiem}
               aria-valuemax="2"
               aria-valuemin="1"
-              aria-valuenow={
-                this.meridiem === "AM" ? "1" : this.meridiem === "PM" ? "2" : undefined
-              }
+              aria-valuenow={(this.meridiem === "PM" && "2") || "1"}
               aria-valuetext={this.meridiem}
               class={{
                 [CSS.input]: true,
