@@ -133,7 +133,7 @@ export class CalciteStepperItem {
         onClick={() => this.emitRequestedItem()}
         tabindex={this.disabled ? null : 0}
       >
-        <div class={{ container: true }}>
+        <div class="container">
           <div class="stepper-item-header">
             {this.icon ? this.renderIcon() : null}
             {this.numbered ? (

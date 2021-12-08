@@ -331,7 +331,7 @@ export class CalciteSelect implements LabelableComponent, FormComponent {
 
   renderChevron(): VNode {
     return (
-      <div class={{ [CSS.iconContainer]: true }}>
+      <div class={CSS.iconContainer}>
         <calcite-icon class={CSS.icon} icon="chevron-down" scale="s" />
       </div>
     );
@@ -342,7 +342,7 @@ export class CalciteSelect implements LabelableComponent, FormComponent {
       <Fragment>
         <select
           aria-label={this.label}
-          class={{ [CSS.select]: true }}
+          class={CSS.select}
           disabled={this.disabled}
           onChange={this.handleInternalSelectChange}
           ref={this.storeSelectRef}

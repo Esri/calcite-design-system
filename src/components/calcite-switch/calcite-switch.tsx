@@ -197,7 +197,7 @@ export class CalciteSwitch implements LabelableComponent, CheckableFormCompoment
         <div
           aria-checked={this.checked.toString()}
           aria-label={getLabelText(this)}
-          class={{ container: true }}
+          class="container"
           onClick={this.clickHandler}
           ref={this.setSwitchEl}
           role="switch"

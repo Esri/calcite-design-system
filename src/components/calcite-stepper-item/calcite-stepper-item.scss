@@ -71,11 +71,10 @@
 
 :host .stepper-item-content,
 :host .stepper-item-header {
-  @apply text-left
-    duration-150
-    ease-in-out;
+  @apply duration-150 ease-in-out;
   padding-block: var(--calcite-stepper-item-spacing-unit-l);
   padding-inline: theme("padding.0") var(--calcite-stepper-item-spacing-unit-m);
+  text-align: start;
 }
 
 :host .stepper-item-header * {

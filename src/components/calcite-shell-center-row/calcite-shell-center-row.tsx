@@ -52,7 +52,7 @@ export class CalciteShellCenterRow {
     const { el } = this;
 
     const contentNode = (
-      <div class={{ [CSS.content]: true }}>
+      <div class={CSS.content}>
         <slot />
       </div>
     );
@@ -60,7 +60,7 @@ export class CalciteShellCenterRow {
     const actionBar = getSlotted<HTMLCalciteActionBarElement>(el, SLOTS.actionBar);
 
     const actionBarNode = actionBar ? (
-      <div class={{ [CSS.actionBarContainer]: true }}>
+      <div class={CSS.actionBarContainer}>
         <slot name={SLOTS.actionBar} />
       </div>
     ) : null;
