@@ -13,8 +13,6 @@ import {
 } from "@stencil/core";
 import { Alignment, Width } from "../interfaces";
 import { TileSelectType } from "./interfaces";
-import { getElementDir } from "../../utils/dom";
-import { CSS_UTILITY } from "../../utils/resources";
 import { guid } from "../../utils/guid";
 
 /**
@@ -254,10 +252,8 @@ export class CalciteTileSelect {
   }
 
   render(): VNode {
-    const dir = getElementDir(this.el);
-
     return (
-      <div class={{ focused: this.focused, root: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+      <div class={{ focused: this.focused, root: true }}>
         <calcite-tile
           active={this.checked}
           description={this.description}
