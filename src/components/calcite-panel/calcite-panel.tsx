@@ -171,7 +171,7 @@ export class CalcitePanel {
     this.backButtonEl = node;
   };
 
-  panelKeyUpHandler = (event: KeyboardEvent): void => {
+  panelKeyDownHandler = (event: KeyboardEvent): void => {
     if (event.key === "Escape") {
       this.dismiss();
     }
@@ -423,7 +423,7 @@ export class CalcitePanel {
   }
 
   render(): VNode {
-    const { dismissed, disabled, dismissible, loading, panelKeyUpHandler } = this;
+    const { dismissed, disabled, dismissible, loading, panelKeyDownHandler } = this;
 
     const panelNode = (
       <article
@@ -432,7 +432,7 @@ export class CalcitePanel {
           [CSS.container]: true
         }}
         hidden={dismissible && dismissed}
-        onKeyUp={panelKeyUpHandler}
+        onKeyDown={panelKeyDownHandler}
         ref={this.setContainerRef}
         tabIndex={dismissible ? 0 : -1}
       >
