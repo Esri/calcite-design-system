@@ -1,7 +1,6 @@
 import { Component, Element, Event, EventEmitter, Prop, h, VNode } from "@stencil/core";
 
 import { getElementStyleDir } from "../../utils/dom";
-import { CSS_UTILITY } from "../../utils/resources";
 import { CSS, ICONS, TEXT } from "./resources";
 import { BlockSectionToggleDisplay } from "./interfaces";
 import { Status } from "../interfaces";
@@ -157,7 +156,7 @@ export class CalciteBlockSection {
       );
 
     return (
-      <section aria-expanded={open.toString()} class={{ [CSS_UTILITY.rtl]: dir === "rtl" }}>
+      <section aria-expanded={open.toString()}>
         {headerNode}
         <div class={CSS.content} hidden={!open}>
           <slot />
