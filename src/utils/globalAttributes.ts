@@ -2,15 +2,18 @@ import { createObserver } from "./observers";
 
 type AttributeObject = { [k: string]: any };
 type AllowedGlobalAttribute = "lang";
-
 const allowedGlobalAttributes = ["lang"];
 
-const mutationObserverMap: WeakMap<GlobalAttrComponent, MutationObserver> = new WeakMap();
+const elementToComponentAndObserverOptionsMap = new Map<
+  HTMLElement,
+  [GlobalAttrComponent, { attributeFilter: AllowedGlobalAttribute[] }]
+>();
+
+let mutationObserver: MutationObserver;
 
 function updateGlobalAttributes(component: GlobalAttrComponent, attributeFilter: AllowedGlobalAttribute[]): void {
   const { el } = component;
-
-  const attributeObject: AttributeObject = {};
+  const updatedAttributes: AttributeObject = {};
 
   attributeFilter
     .filter((attr) => !!allowedGlobalAttributes.includes(attr) && !!el.hasAttribute(attr))
@@ -18,11 +21,18 @@ function updateGlobalAttributes(component: GlobalAttrComponent, attributeFilter:
       const value = el.getAttribute(attr);
 
       if (value !== null) {
-        attributeObject[attr] = value;
+        updatedAttributes[attr] = value;
       }
     });
 
-  component.globalAttributes = { ...attributeObject };
+  component.globalAttributes = updatedAttributes;
+}
+
+function processMutations(mutations: MutationRecord[]): void {
+  mutations.forEach(({ target }) => {
+    const [component, options] = elementToComponentAndObserverOptionsMap.get(target as HTMLElement);
+    updateGlobalAttributes(component, options.attributeFilter);
+  });
 }
 
 /**
@@ -47,31 +57,38 @@ export interface GlobalAttrComponent {
 /**
  * Helper to set up listening for changes to global attributes.
  *
- * render() {
+ * render(): VNode {
  *   const lang = this.inheritedAttributes['lang'] ?? 'en';
  *   return <div>My lang is {lang}</div>;
  * }
  */
 export function watchGlobalAttributes(component: GlobalAttrComponent, attributeFilter: AllowedGlobalAttribute[]): void {
   const { el } = component;
+  const observerOptions = { attributeFilter };
+
+  elementToComponentAndObserverOptionsMap.set(el, [component, observerOptions]);
 
   updateGlobalAttributes(component, attributeFilter);
 
-  const mutationObserver = createObserver("mutation", () => updateGlobalAttributes(component, attributeFilter));
+  if (!mutationObserver) {
+    mutationObserver = createObserver("mutation", processMutations);
+  }
 
-  mutationObserver.observe(el, {
-    attributeFilter
-  });
-
-  mutationObserverMap.set(component, mutationObserver);
+  mutationObserver.observe(el, observerOptions);
 }
 
 /**
  * Helper remove listening for changes to inherited attributes.
  */
 export function unwatchGlobalAttributes(component: GlobalAttrComponent): void {
-  if (mutationObserverMap.has(component)) {
-    mutationObserverMap.get(component)?.disconnect();
-    mutationObserverMap.delete(component);
+  elementToComponentAndObserverOptionsMap.delete(component.el);
+
+  // we explicitly process queued mutations and disconnect and reconnect
+  // the observer until MutationObserver gets an `unobserve` method
+  // see https://github.com/whatwg/dom/issues/126
+  processMutations(mutationObserver.takeRecords());
+  mutationObserver.disconnect();
+  for (const [element, [, observerOptions]] of elementToComponentAndObserverOptionsMap.entries()) {
+    mutationObserver.observe(element, observerOptions);
   }
 }
