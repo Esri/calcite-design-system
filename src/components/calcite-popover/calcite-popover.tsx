@@ -30,8 +30,7 @@ import {
 } from "../../utils/popper";
 import { StrictModifiers, Placement, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
-import { getElementDir, queryElementRoots } from "../../utils/dom";
-import { CSS_UTILITY } from "../../utils/resources";
+import { queryElementRoots } from "../../utils/dom";
 import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
 
 /**
@@ -421,8 +420,7 @@ export class CalcitePopover {
   }
 
   render(): VNode {
-    const { effectiveReferenceElement, el, heading, label, open, disablePointer } = this;
-    const rtl = getElementDir(el) === "rtl";
+    const { effectiveReferenceElement, heading, label, open, disablePointer } = this;
     const displayed = effectiveReferenceElement && open;
     const hidden = !displayed;
     const arrowNode = !disablePointer ? (
@@ -439,7 +437,6 @@ export class CalcitePopover {
       >
         <div
           class={{
-            [CSS_UTILITY.rtl]: rtl,
             [PopperCSS.animation]: true,
             [PopperCSS.animationActive]: displayed
           }}
