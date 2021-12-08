@@ -86,7 +86,7 @@
     rounded-full
     pointer-events-none;
   top: -1px;
-  inset-inline: -1px auto;
+  inset-inline: theme("inset.-1") theme("inset.auto");
 }
 
 :host(:hover),
@@ -103,7 +103,7 @@
   }
   .handle {
     @apply border-color-brand;
-    inset-inline: auto -1px;
+    inset-inline: theme("inset.auto") theme("inset.-1");
   }
 }
 
