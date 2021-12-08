@@ -27,7 +27,7 @@ export function getThemeName(el: HTMLElement): "light" | "dark" {
 }
 
 export function getElementStyleDir(el: HTMLElement): Direction {
-  return (window.getComputedStyle(el).direction as Direction) || "ltr";
+  return (el.style.direction as Direction) || (window.getComputedStyle(el).direction as Direction) || "ltr";
 }
 
 /**
