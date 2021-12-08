@@ -387,7 +387,7 @@ Components should require as a few text translations as possible. In general, co
 
 If you component involves formatting numbers or dates use the [`Intl` APIs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) for formatting the display of numbers and dates in your component.
 
-To add RTL support to your components you should use the internal `getElementDir` helper to apply the `CSS_UTILITY.rtl` class to your component.
+To add RTL support to your components you should use CSS Logical properties within CSS. If you need to know direction in JavaScript, use the internal `getElementStyleDir` helper.
 
 If the node is in shadow DOM, you may add a `dir` attribute to it instead. However, if **DO NOT** add the `dir` attribute to the HOST or a light DOM node.
 
