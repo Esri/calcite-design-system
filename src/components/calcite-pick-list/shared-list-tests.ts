@@ -1,14 +1,13 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { JSEvalable } from "puppeteer";
+import { focusable } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 import { CSS as PICK_LIST_ITEM_CSS } from "../calcite-pick-list-item/resources";
-import { focusable } from "../../tests/commonTests";
 
 type ListType = "pick" | "value";
 type ListElement = HTMLCalcitePickListElement | HTMLCalciteValueListElement;
 
 export function keyboardNavigation(listType: ListType): void {
-  const getFocusedItemValue = (page: E2EPage): ReturnType<JSEvalable["evaluate"]> =>
+  const getFocusedItemValue = (page: E2EPage): ReturnType<E2EPage["evaluate"]> =>
     page.evaluate(
       () => (document.activeElement as HTMLCalcitePickListItemElement | HTMLCalciteValueListItemElement)?.value ?? null
     );
@@ -545,7 +544,7 @@ export function itemRemoval(listType: ListType): void {
 
     await page.$eval(
       `calcite-${listType}-list-item`,
-      (item: ListElement, listType, selector) => {
+      (item: ListElement, listType, selector: string) => {
         listType === "pick"
           ? item.shadowRoot.querySelector<HTMLElement>(selector).click()
           : item.shadowRoot
