@@ -12,7 +12,12 @@ import {
 } from "@stencil/core";
 import { TreeItemSelectDetail } from "./interfaces";
 import { TreeSelectionMode } from "../calcite-tree/interfaces";
-import { nodeListToArray, getElementDir, filterDirectChildren, getSlotted } from "../../utils/dom";
+import {
+  nodeListToArray,
+  getElementStyleDir,
+  filterDirectChildren,
+  getSlotted
+} from "../../utils/dom";
 
 import { Scale } from "../interfaces";
 import { CSS, SLOTS, ICONS } from "./resources";
@@ -129,7 +134,7 @@ export class CalciteTreeItem {
   }
 
   render(): VNode {
-    const rtl = getElementDir(this.el) === "rtl";
+    const rtl = getElementStyleDir(this.el) === "rtl";
     const showBulletPoint =
       this.selectionMode === TreeSelectionMode.Single ||
       this.selectionMode === TreeSelectionMode.Children;
