@@ -51,11 +51,11 @@ calcite-icon {
 
 // icon positioning and styles
 :host .calcite-link--icon.icon-start {
-  margin-inline-end: theme("spacing.2");
+  margin-inline-end: theme("margin.2");
 }
 
 :host .calcite-link--icon.icon-end {
-  margin-inline-start: theme("spacing.2");
+  margin-inline-start: theme("margin.2");
 }
 
 :host {

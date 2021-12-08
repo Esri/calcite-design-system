@@ -140,7 +140,7 @@
     font-normal
     text--1-wrap
     text-color-2;
-  margin-inline-end: theme("spacing.2");
+  margin-inline-end: theme("margin.2");
 }
 
 @include slotted("link", "*") {

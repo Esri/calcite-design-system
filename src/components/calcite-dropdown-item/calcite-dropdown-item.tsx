@@ -10,11 +10,10 @@ import {
   Prop,
   VNode
 } from "@stencil/core";
-import { getElementDir, getElementProp } from "../../utils/dom";
+import { getElementProp } from "../../utils/dom";
 import { ItemKeyboardEvent } from "../calcite-dropdown/interfaces";
 
 import { FlipContext } from "../interfaces";
-import { CSS_UTILITY } from "../../utils/resources";
 import { CSS } from "./resources";
 import { SelectionMode } from "../calcite-dropdown-group/interfaces";
 
@@ -108,7 +107,6 @@ export class CalciteDropdownItem {
   }
 
   render(): VNode {
-    const dir = getElementDir(this.el);
     const scale = getElementProp(this.el, "scale", "m");
     const iconStartEl = (
       <calcite-icon
@@ -171,7 +169,6 @@ export class CalciteDropdownItem {
         <div
           class={{
             container: true,
-            [CSS_UTILITY.rtl]: dir === "rtl",
             [CSS.containerLink]: !!this.href,
             [CSS.containerSmall]: scale === "s",
             [CSS.containerMedium]: scale === "m",
