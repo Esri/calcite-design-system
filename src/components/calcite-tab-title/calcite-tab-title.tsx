@@ -15,10 +15,9 @@ import {
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../calcite-tab/interfaces";
 import { guid } from "../../utils/guid";
-import { getElementDir, getElementProp, getElementStyleDir } from "../../utils/dom";
+import { getElementProp, getElementStyleDir } from "../../utils/dom";
 import { TabID, TabLayout, TabPosition } from "../calcite-tabs/interfaces";
 import { FlipContext, Scale } from "../interfaces";
-import { CSS_UTILITY } from "../../utils/resources";
 import { createObserver } from "../../utils/observers";
 
 /**
@@ -130,7 +129,6 @@ export class CalciteTabTitle {
   }
 
   render(): VNode {
-    const dir = getElementDir(this.el);
     const id = this.el.id || this.guid;
     const Tag = this.disabled ? "span" : "a";
     const showSideBorders = this.bordered && !this.disabled && this.layout !== "center";
@@ -164,8 +162,7 @@ export class CalciteTabTitle {
         <Tag
           class={{
             container: true,
-            "container--has-text": this.hasText,
-            [CSS_UTILITY.rtl]: dir === "rtl"
+            "container--has-text": this.hasText
           }}
           style={showSideBorders && { width: `${this.parentTabNavEl.indicatorWidth}px` }}
         >
