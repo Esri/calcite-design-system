@@ -72,7 +72,7 @@
 :host .stepper-item-content,
 :host .stepper-item-header {
   @apply duration-150 ease-in-out;
-  padding-block: var(--calcite-stepper-item-spacing-unit-l);
+  padding: var(--calcite-stepper-item-spacing-unit-l);
   padding-inline: theme("padding.0") var(--calcite-stepper-item-spacing-unit-m);
   text-align: start;
 }
@@ -197,12 +197,12 @@
 :host([layout="vertical"]) .container {
   @apply flex-auto
     border-t-0
-    border-l-2
     border-solid
     border-color-3
     py-0
     mx-0
     mt-0;
+  border-inline-start-width: theme("borderWidth.2");
   padding-inline: var(--calcite-stepper-item-spacing-unit-l) theme("padding.0");
 
   & .stepper-item-icon {
