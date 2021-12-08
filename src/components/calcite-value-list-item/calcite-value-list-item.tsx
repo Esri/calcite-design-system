@@ -20,7 +20,7 @@ import { getSlotted } from "../../utils/dom";
 /**
  * @slot actions-end - A slot for adding actions or content to the end side of the item.
  * @slot actions-start - A slot for adding actions or content to the start side of the item.
- * @slot content-center - a slot for adding content at the center of the item and it will take precedence over label prop if utilized.
+ * @slot contentCenter - a slot for content that resides between actions-start and actions-end. It will take precedence over label prop if utilized.
  */
 @Component({
   tag: "calcite-value-list-item",
@@ -189,8 +189,9 @@ export class CalciteValueListItem {
 
   renderContent(): VNode {
     const { el } = this;
-    const hasActionsStart = getSlotted(el, SLOTS.contentCenter);
-    return hasActionsStart ? (
+    const hasContentCenter = getSlotted(el, SLOTS.contentCenter);
+
+    return hasContentCenter ? (
       <slot name={SLOTS.contentCenter} slot={PICK_LIST_SLOTS.contentCenter} />
     ) : null;
   }
