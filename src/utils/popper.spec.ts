@@ -22,7 +22,7 @@ it("should set calcite placement to popper placement", () => {
   expect(getPlacement(el, "left-leading")).toBe("left-start");
   expect(getPlacement(el, "left-trailing")).toBe("left-end");
 
-  el.dir = "rtl";
+  el.style.direction = "rtl";
 
   expect(getPlacement(el, "leading")).toBe("right");
   expect(getPlacement(el, "leading-start")).toBe("right-start");
