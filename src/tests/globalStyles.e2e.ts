@@ -56,5 +56,53 @@ describe("global styles", () => {
       });
       expect(noticeAnimation.duration).toEqual("0s");
     });
+
+    it("should set animation duration to 0ms when --animation-timing-factor set to zero", async () => {
+      const page = await newE2EPage({
+        html: `
+        <html>
+        <style>
+        html {  
+          --animation-timing-factor: 0;
+        }
+      </style>
+      <body>    
+      <div style="transition: all var(--calcite-animation-timing) linear;">
+      </div>
+        </body>
+        </html>
+`
+      });
+      await page.waitForChanges();
+      const eleTransition = await page.evaluate(() => {
+        const ele = document.querySelector("div");
+        const { transitionDuration } = window.getComputedStyle(ele);
+        return {
+          duration: transitionDuration
+        };
+      });
+      expect(eleTransition.duration).toEqual("0s");
+    });
+  });
+
+  it("should not be able to disable animations with --animation-timing-factor at component level", async () => {
+    const page = await newE2EPage({
+      html: `
+    <div style="transition: all var(--calcite-animation-timing) linear;"> </div>
+
+`
+    });
+    await page.waitForChanges();
+    await page.$eval("div", (element: any) => {
+      element.style.setProperty("--animation-timing-factor", 0);
+    });
+    const eleTransition = await page.evaluate(() => {
+      const ele = document.querySelector("div");
+      const { transitionDuration } = window.getComputedStyle(ele);
+      return {
+        duration: transitionDuration
+      };
+    });
+    expect(eleTransition.duration).not.toEqual("0s");
   });
 });
