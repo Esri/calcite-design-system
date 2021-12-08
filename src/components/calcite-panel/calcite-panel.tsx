@@ -11,7 +11,7 @@ import {
   Fragment
 } from "@stencil/core";
 import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
-import { getElementDir, getSlotted } from "../../utils/dom";
+import { getElementDir, getElementStyleDir, getSlotted } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { Scale } from "../interfaces";
 import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
@@ -172,7 +172,7 @@ export class CalcitePanel {
     this.backButtonEl = node;
   };
 
-  panelKeyUpHandler = (event: KeyboardEvent): void => {
+  panelKeyDownHandler = (event: KeyboardEvent): void => {
     if (event.key === "Escape") {
       this.dismiss();
     }
@@ -221,7 +221,7 @@ export class CalcitePanel {
   renderBackButton(): VNode {
     const { el } = this;
 
-    const rtl = getElementDir(el) === "rtl";
+    const rtl = getElementStyleDir(el) === "rtl";
     const { showBackButton, intlBack, backButtonClick } = this;
     const label = intlBack || TEXT.back;
     const icon = rtl ? ICONS.backRight : ICONS.backLeft;
@@ -424,7 +424,7 @@ export class CalcitePanel {
   }
 
   render(): VNode {
-    const { dismissed, disabled, dismissible, el, loading, panelKeyUpHandler } = this;
+    const { dismissed, disabled, dismissible, el, loading, panelKeyDownHandler } = this;
 
     const rtl = getElementDir(el) === "rtl";
 
@@ -436,7 +436,7 @@ export class CalcitePanel {
           [CSS_UTILITY.rtl]: rtl
         }}
         hidden={dismissible && dismissed}
-        onKeyUp={panelKeyUpHandler}
+        onKeyDown={panelKeyDownHandler}
         ref={this.setContainerRef}
         tabIndex={dismissible ? 0 : -1}
       >

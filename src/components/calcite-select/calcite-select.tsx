@@ -200,6 +200,7 @@ export class CalciteSelect implements LabelableComponent, FormComponent {
 
     if (isOption(optionOrGroup) && optionOrGroup.selected) {
       this.deselectAllExcept(optionOrGroup);
+      this.selectedOption = optionOrGroup;
     }
   }
 
@@ -274,7 +275,7 @@ export class CalciteSelect implements LabelableComponent, FormComponent {
     });
 
     if (futureSelected) {
-      requestAnimationFrame(() => (this.selectedOption = futureSelected));
+      this.selectedOption = futureSelected;
     }
   }
 

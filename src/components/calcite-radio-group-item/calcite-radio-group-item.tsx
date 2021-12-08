@@ -1,10 +1,10 @@
 import {
   Component,
-  Event,
   h,
-  EventEmitter,
   Prop,
   Element,
+  Event,
+  EventEmitter,
   Host,
   Watch,
   State,

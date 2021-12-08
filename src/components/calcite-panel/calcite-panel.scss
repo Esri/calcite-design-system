@@ -10,11 +10,7 @@
 
 :host {
   @extend %component-host;
-  @apply flex
-    flex-auto
-    overflow-hidden
-    relative
-    w-full;
+  @apply flex flex-auto overflow-hidden relative w-full;
 
   --calcite-min-header-height: calc(var(--calcite-icon-size) * 3);
   --calcite-panel-max-height: unset;
@@ -26,14 +22,7 @@
 @import "../../assets/styles/header";
 
 .container {
-  @apply flex
-    flex-auto
-    flex-col
-    items-stretch
-    bg-background
-    w-full
-    p-0
-    m-0;
+  @apply flex flex-auto flex-col items-stretch bg-background w-full p-0 m-0;
 
   max-height: var(--calcite-panel-max-height);
   width: var(--calcite-panel-width);
@@ -169,7 +158,7 @@
 }
 
 .content-container {
-  @apply items-stretch 
+  @apply items-stretch
   bg-background
   flex
   flex-auto

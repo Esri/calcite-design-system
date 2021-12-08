@@ -20,7 +20,7 @@ import {
   getSlotted,
   isCalciteFocusable
 } from "../../utils/dom";
-import { getKey } from "../../utils/key";
+
 import { queryShadowRoot } from "@a11y/focus-trap/shadow";
 import { isFocusable, isHidden } from "@a11y/focus-trap/focusable";
 import { Scale } from "../interfaces";
@@ -193,7 +193,12 @@ export class CalciteModal {
         ref={(el) => (this.closeButtonEl = el)}
         title={this.intlClose}
       >
-        <calcite-icon icon={ICONS.close} scale={this.scale === "s" ? "s" : "l"} />
+        <calcite-icon
+          icon={ICONS.close}
+          scale={
+            this.scale === "s" ? "s" : this.scale === "m" ? "m" : this.scale === "l" ? "l" : null
+          }
+        />
       </button>
     ) : null;
   }
@@ -255,7 +260,7 @@ export class CalciteModal {
   //--------------------------------------------------------------------------
   @Listen("keyup", { target: "window" })
   handleEscape(e: KeyboardEvent): void {
-    if (this.active && !this.disableEscape && getKey(e.key) === "Escape") {
+    if (this.active && !this.disableEscape && e.key === "Escape") {
       this.close();
     }
   }

@@ -13,7 +13,7 @@ import {
 import { TreeItemSelectDetail } from "./interfaces";
 import { TreeSelectionMode } from "../calcite-tree/interfaces";
 import { nodeListToArray, getElementDir, filterDirectChildren, getSlotted } from "../../utils/dom";
-import { getKey } from "../../utils/key";
+
 import { Scale } from "../interfaces";
 import { CSS, SLOTS, ICONS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -256,7 +256,7 @@ export class CalciteTreeItem {
   @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
     let root;
 
-    switch (getKey(e.key)) {
+    switch (e.key) {
       case " ":
         this.calciteTreeItemSelect.emit({
           modifyCurrentSelection: e.shiftKey,
