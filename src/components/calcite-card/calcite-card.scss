@@ -109,8 +109,3 @@
   top: theme("spacing.2");
   inset-inline-end: theme("spacing.2");
 }
-
-.calcite--rtl .checkbox-wrapper {
-  @apply right-auto;
-  left: theme("spacing.2");
-}
