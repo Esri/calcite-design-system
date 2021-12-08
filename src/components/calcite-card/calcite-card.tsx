@@ -1,7 +1,7 @@
 import { Component, Element, Event, EventEmitter, h, Prop, VNode } from "@stencil/core";
 import { CSS, SLOTS, TEXT } from "./resources";
 import { getElementDir } from "../../utils/dom";
-import { getKey } from "../../utils/key";
+
 import { CSS_UTILITY } from "../../utils/resources";
 
 /** Cards do not include a grid or bounding container
@@ -114,7 +114,7 @@ export class CalciteCard {
   };
 
   private cardSelectKeyDown = (e: KeyboardEvent): void => {
-    switch (getKey(e.key)) {
+    switch (e.key) {
       case " ":
       case "Enter":
         this.selectCard();

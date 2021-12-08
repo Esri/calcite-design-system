@@ -13,9 +13,9 @@ import {
   Host
 } from "@stencil/core";
 import { filter } from "../../utils/filter";
-import { getElementDir, getElementStyleDir } from "../../utils/dom";
+import { getElementDir } from "../../utils/dom";
 import { debounce } from "lodash-es";
-import { getKey } from "../../utils/key";
+
 import {
   createPopper,
   updatePopper,
@@ -372,7 +372,7 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
   };
 
   keydownHandler = (event: KeyboardEvent): void => {
-    const key = getKey(event.key, getElementStyleDir(this.el));
+    const { key } = event;
 
     switch (key) {
       case "Tab":
