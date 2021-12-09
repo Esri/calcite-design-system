@@ -158,7 +158,8 @@
   @apply break-words bg-foreground-1;
   flex: 1 1 auto;
   min-width: 0;
-  padding: var(--calcite-alert-spacing-token-small) var(--calcite-alert-spacing-token-small);
+  padding-block: var(--calcite-alert-spacing-token-small);
+  padding-inline: 0 var(--calcite-alert-spacing-token-small);
   border-bottom-left-radius: var(--calcite-border-radius);
   border-bottom-right-radius: var(--calcite-border-radius);
 
