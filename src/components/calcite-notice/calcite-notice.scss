@@ -128,7 +128,7 @@
   @apply flex flex-col min-w-0 break-words;
   flex: 1 1 0;
   padding-block: var(--calcite-notice-spacing-token-small);
-  padding-inline-end: var(--calcite-notice-spacing-token-small);
+  padding-inline: 0 var(--calcite-notice-spacing-token-small);
 
   &:first-of-type:not(:only-child) {
     padding-inline-start: var(--calcite-notice-spacing-token-large);
