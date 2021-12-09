@@ -3,12 +3,12 @@
 }
 
 .handle {
-  @apply flex 
-    items-center 
-    self-stretch 
+  @apply flex
+    items-center
+    self-stretch
     justify-center
-    bg-transparent 
-    border-none 
+    bg-transparent
+    border-none
     cursor-move
     focus-base;
   color: theme("borderColor.color.3");

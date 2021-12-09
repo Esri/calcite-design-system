@@ -151,19 +151,17 @@ export class CalciteButton implements LabelableComponent {
     const dir = getElementDir(this.el);
     const Tag = this.childElType;
 
-    const loader = (
+    const loaderNode = this.hasLoader ? (
       <div class={CSS.buttonLoader}>
-        {this.hasLoader ? (
-          <calcite-loader
-            active
-            class={this.loading ? CSS.loadingIn : CSS.loadingOut}
-            inline
-            label={this.intlLoading}
-            scale="m"
-          />
-        ) : null}
+        <calcite-loader
+          active
+          class={this.loading ? CSS.loadingIn : CSS.loadingOut}
+          inline
+          label={this.intlLoading}
+          scale="m"
+        />
       </div>
-    );
+    ) : null;
 
     const iconStartEl = (
       <calcite-icon
@@ -203,7 +201,7 @@ export class CalciteButton implements LabelableComponent {
         target={this.childElType === "a" && this.target}
         type={this.childElType === "button" && this.type}
       >
-        {loader}
+        {loaderNode}
         {this.iconStart ? iconStartEl : null}
         {this.hasContent ? contentEl : null}
         {this.iconEnd ? iconEndEl : null}

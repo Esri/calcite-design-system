@@ -402,14 +402,7 @@ export class CalciteRadioButton implements LabelableComponent, CheckableFormComp
           role="radio"
           tabIndex={this.checked || this.isDefaultSelectable() ? 0 : -1}
         >
-          <calcite-radio
-            checked={this.checked}
-            disabled={this.disabled}
-            focused={this.focused}
-            hidden={this.hidden}
-            hovered={this.hovered}
-            scale={this.scale}
-          />
+          <div class="radio" />
         </div>
         <HiddenFormInputSlot component={this} />
       </Host>
