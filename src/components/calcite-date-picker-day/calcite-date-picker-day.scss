@@ -16,7 +16,6 @@
   @apply flex
     flex-col
     items-center;
-  border-radius: 40%;
 }
 
 .day {
@@ -114,6 +113,20 @@
 :host([range][selected]) {
   .day-wrapper {
     background-color: var(--calcite-ui-foreground-current);
+  }
+}
+
+:host([start-of-range]) {
+  .day-wrapper {
+    border-start-start-radius: 40%;
+    border-end-start-radius: 40%;
+  }
+}
+
+:host([end-of-range]) {
+  .day-wrapper {
+    border-start-end-radius: 40%;
+    border-end-end-radius: 40%;
   }
 }
 
