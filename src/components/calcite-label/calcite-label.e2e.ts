@@ -80,7 +80,7 @@ describe("calcite-label", () => {
             });
             element = await page.find("calcite-label >>> .container");
             style = await element.getComputedStyle();
-            expect(style["textAlign"]).toEqual("start");
+            expect(style["textAlign"]).toEqual("end");
           });
         });
       });
@@ -123,7 +123,7 @@ describe("calcite-label", () => {
             });
             element = await page.find("calcite-label >>> .container");
             style = await element.getComputedStyle();
-            expect(style["textAlign"]).toEqual("start");
+            expect(style["textAlign"]).toEqual("end");
           });
         });
       });
