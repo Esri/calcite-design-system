@@ -9,7 +9,6 @@ import { getSlotted } from "../../utils/dom";
  * @slot primary-panel - A slot for adding the leading `calcite-shell-panel`.
  * @slot contextual-panel - A slot for adding the trailing `calcite-shell-panel`.
  * @slot center-row - A slot for adding custom content in the center row.
- * @slot action-bar - A slot for adding a `calcite-action-bar`.
  */
 @Component({
   tag: "calcite-shell",
