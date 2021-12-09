@@ -72,8 +72,8 @@
 :host .stepper-item-content,
 :host .stepper-item-header {
   @apply duration-150 ease-in-out;
-  padding: var(--calcite-stepper-item-spacing-unit-l);
-  padding-inline: theme("padding.0") var(--calcite-stepper-item-spacing-unit-m);
+  padding-block: var(--calcite-stepper-item-spacing-unit-l);
+  padding-inline-end: var(--calcite-stepper-item-spacing-unit-m);
   text-align: start;
 }
 
@@ -203,12 +203,12 @@
     mx-0
     mt-0;
   border-inline-start-width: theme("borderWidth.2");
-  padding-inline: var(--calcite-stepper-item-spacing-unit-l) theme("padding.0");
+  padding-inline-start: var(--calcite-stepper-item-spacing-unit-l);
 
   & .stepper-item-icon {
     @apply mt-px mb-0 order-3;
     padding-inline-start: var(--calcite-stepper-item-spacing-unit-s);
-    margin-inline: theme("margin.auto") theme("margin.0");
+    margin-inline-start: theme("margin.auto");
   }
   & .stepper-item-header {
     padding-inline-end: theme("padding.0");
