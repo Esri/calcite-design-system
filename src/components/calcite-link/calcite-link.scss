@@ -83,10 +83,8 @@ calcite-icon {
     &:active {
       background-size: 100% 2px, 100% 2px;
     }
+    &.calcite--rtl {
+      background-position: 100% 100%, 100% 100%;
+    }
   }
-}
-
-// todo: remove when 'background-position-inline' CSS logical property is supported.
-.calcite--rtl {
-  background-position: 100% 100%, 100% 100%;
 }
