@@ -82,10 +82,7 @@ export class CalciteLabel {
   render(): VNode {
     const dir = getElementDir(this.el);
     return (
-      <Host
-        onClick={this.labelClickHandler}
-        // onMouseOver={this.handleHover}
-      >
+      <Host onClick={this.labelClickHandler}>
         <div class={{ [CSS.container]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           <slot />
         </div>
