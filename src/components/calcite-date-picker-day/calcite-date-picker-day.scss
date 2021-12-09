@@ -16,6 +16,7 @@
   @apply flex
     flex-col
     items-center;
+  border-radius: 40%;
 }
 
 .day {
@@ -113,20 +114,6 @@
 :host([range][selected]) {
   .day-wrapper {
     background-color: var(--calcite-ui-foreground-current);
-  }
-}
-
-:host([start-of-range]) {
-  .day-wrapper {
-    border-start-start-radius: 40%;
-    border-end-start-radius: 40%;
-  }
-}
-
-:host([end-of-range]) {
-  .day-wrapper {
-    border-start-end-radius: 40%;
-    border-end-end-radius: 40%;
   }
 }
 
@@ -331,18 +318,6 @@
   .day-wrapper {
     @apply bg-foreground-2;
   }
-}
-
-:host([highlighted]:first-child) .day-wrapper,
-:host([range-hover]:first-child) .day-wrapper {
-  border-start-start-radius: 45%;
-  border-end-start-radius: 45%;
-}
-
-:host([highlighted]:last-child) .day-wrapper,
-:host([range-hover]:last-child) .day-wrapper {
-  border-start-end-radius: 45%;
-  border-end-end-radius: 45%;
 }
 
 :host([highlighted]:last-child) :not(.calcite--rtl) .day-wrapper,
