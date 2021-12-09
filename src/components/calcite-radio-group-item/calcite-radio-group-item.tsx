@@ -7,7 +7,6 @@ import {
   EventEmitter,
   Host,
   Watch,
-  State,
   VNode
 } from "@stencil/core";
 import { getElementDir, getElementProp } from "../../utils/dom";
