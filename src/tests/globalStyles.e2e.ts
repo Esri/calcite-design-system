@@ -63,7 +63,7 @@ describe("global styles", () => {
         <html>
         <style>
         html {  
-          --animation-timing-factor: 0;
+          --calcite-animation-timing-factor: 0;
         }
       </style>
       <body>    
@@ -103,6 +103,6 @@ describe("global styles", () => {
         duration: transitionDuration
       };
     });
-    expect(eleTransition.duration).not.toEqual("0s");
+    expect(eleTransition.duration).toEqual("0.15s");
   });
 });

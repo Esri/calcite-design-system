@@ -41,11 +41,11 @@
 }
 
 :root {
-  --calcite-animation-timing-factor: var(--animation-timing-factor, 1);
-  --calcite-animation-timing: calc(150ms * var(--calcite-animation-timing-factor));
-  --calcite-animation-timing-quick: calc(100ms * var(--calcite-animation-timing-factor));
-  --calcite-animation-timing-medium: calc(200ms * var(--calcite-animation-timing-factor));
-  --calcite-animation-timing-slow: calc(300ms * var(--calcite-animation-timing-factor));
+  --animation-timing-factor: var(--calcite-animation-timing-factor, 1);
+  --calcite-animation-timing: calc(150ms * var(--animation-timing-factor));
+  --calcite-animation-timing-quick: calc(100ms * var(--animation-timing-factor));
+  --calcite-animation-timing-medium: calc(200ms * var(--animation-timing-factor));
+  --calcite-animation-timing-slow: calc(300ms * var(--animation-timing-factor));
 }
 
 // allows animation trigger via JS by adding class to element
