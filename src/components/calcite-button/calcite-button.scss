@@ -508,7 +508,6 @@
 
 :host([appearance="outline"][split-child="secondary"]) button,
 :host([appearance="clear"][split-child="secondary"]) button {
-  @apply border-l-0 border-r;
   border-inline-start-width: 0;
   border-inline-end-width: theme("borderWidth.default");
 }

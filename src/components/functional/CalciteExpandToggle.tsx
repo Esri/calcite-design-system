@@ -1,5 +1,5 @@
 import { FunctionalComponent, h } from "@stencil/core";
-import { getElementStyleDir } from "../../utils/dom";
+import { getElementDir } from "../../utils/dom";
 import { queryActions } from "../calcite-action-bar/utils";
 import { Position, Scale } from "../interfaces";
 import { SLOTS as ACTION_GROUP_SLOTS } from "../calcite-action-group/resources";
@@ -71,7 +71,7 @@ export const CalciteExpandToggle: FunctionalComponent<CalciteExpandToggleProps> 
   ref,
   scale
 }) => {
-  const rtl = getElementStyleDir(el) === "rtl";
+  const rtl = getElementDir(el) === "rtl";
 
   const expandText = expanded ? intlCollapse : intlExpand;
   const icons = [ICONS.chevronsLeft, ICONS.chevronsRight];

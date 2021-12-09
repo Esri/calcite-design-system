@@ -134,7 +134,7 @@ export class CalciteDropdown {
     return (
       <Host tabIndex={this.disabled ? -1 : null}>
         <div
-          class={{ ["calcite-dropdown-trigger-container"]: true }}
+          class="calcite-dropdown-trigger-container"
           onClick={this.openCalciteDropdown}
           onKeyDown={this.keyDownHandler}
           ref={this.setReferenceEl}

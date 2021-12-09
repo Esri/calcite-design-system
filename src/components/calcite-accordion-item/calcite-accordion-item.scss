@@ -129,7 +129,7 @@
 :host .accordion-item-header-text {
   @apply flex-col flex-grow my-0 py-0;
   text-align: initial;
-  margin-inline-end: auto;
+  margin-inline-end: theme("margin.auto");
 }
 
 :host .accordion-item-title,

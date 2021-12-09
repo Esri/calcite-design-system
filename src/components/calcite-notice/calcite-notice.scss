@@ -127,7 +127,7 @@
   @include notice-element-base;
   @apply flex flex-col min-w-0 break-words;
   flex: 1 1 0;
-  padding: var(--calcite-notice-spacing-token-small) 0;
+  padding-block: var(--calcite-notice-spacing-token-small);
   padding-inline-end: var(--calcite-notice-spacing-token-small);
 
   &:first-of-type:not(:only-child) {

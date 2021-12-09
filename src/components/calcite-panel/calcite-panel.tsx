@@ -11,7 +11,7 @@ import {
   Fragment
 } from "@stencil/core";
 import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
-import { getElementStyleDir, getSlotted } from "../../utils/dom";
+import { getElementDir, getSlotted } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
 import { SLOTS as ACTION_MENU_SLOTS } from "../calcite-action-menu/resources";
@@ -220,7 +220,7 @@ export class CalcitePanel {
   renderBackButton(): VNode {
     const { el } = this;
 
-    const rtl = getElementStyleDir(el) === "rtl";
+    const rtl = getElementDir(el) === "rtl";
     const { showBackButton, intlBack, backButtonClick } = this;
     const label = intlBack || TEXT.back;
     const icon = rtl ? ICONS.backRight : ICONS.backLeft;
@@ -428,9 +428,7 @@ export class CalcitePanel {
     const panelNode = (
       <article
         aria-busy={loading.toString()}
-        class={{
-          [CSS.container]: true
-        }}
+        class={CSS.container}
         hidden={dismissible && dismissed}
         onKeyDown={panelKeyDownHandler}
         ref={this.setContainerRef}

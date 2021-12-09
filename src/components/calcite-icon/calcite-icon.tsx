@@ -1,6 +1,6 @@
 import { Build, Component, Element, h, Host, Prop, State, VNode, Watch } from "@stencil/core";
 import { CSS } from "./resources";
-import { getElementStyleDir } from "../../utils/dom";
+import { getElementDir } from "../../utils/dom";
 import { fetchIcon, scaleToPx } from "./utils";
 import { Scale } from "../interfaces";
 import { CalciteIconPath, CalciteMultiPathEntry } from "@esri/calcite-ui-icons";
@@ -84,7 +84,7 @@ export class CalciteIcon {
 
   render(): VNode {
     const { el, flipRtl, pathData, scale, textLabel } = this;
-    const dir = getElementStyleDir(el);
+    const dir = getElementDir(el);
     const size = scaleToPx[scale];
     const semantic = !!textLabel;
     const paths = [].concat(pathData || "");

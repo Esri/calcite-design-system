@@ -1,5 +1,5 @@
 import { Component, Element, h, Host, Method, Prop, State, VNode, Watch } from "@stencil/core";
-import { focusElement, getElementStyleDir } from "../../utils/dom";
+import { focusElement, getElementDir } from "../../utils/dom";
 import { FlipContext } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 
@@ -65,7 +65,7 @@ export class CalciteLink {
   }
 
   render(): VNode {
-    const dir = getElementStyleDir(this.el);
+    const dir = getElementDir(this.el);
 
     const iconStartEl = (
       <calcite-icon

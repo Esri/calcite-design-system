@@ -136,7 +136,7 @@ export class CalciteModal {
       >
         <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
         {this.renderStyle()}
-        <div class={{ modal: true }} onTransitionEnd={this.transitionEnd}>
+        <div class="modal" onTransitionEnd={this.transitionEnd}>
           <div data-focus-fence onFocus={this.focusLastElement} tabindex="0" />
           <div class={CSS.header}>
             {this.renderCloseButton()}

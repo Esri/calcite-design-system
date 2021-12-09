@@ -5,7 +5,7 @@ import {
   StrictModifiers,
   PositioningStrategy
 } from "@popperjs/core";
-import { getElementStyleDir } from "./dom";
+import { getElementDir } from "./dom";
 
 type PlacementRtl = "leading-start" | "leading" | "leading-end" | "trailing-end" | "trailing" | "trailing-start";
 type VariationRtl =
@@ -35,7 +35,7 @@ export function getPlacement(el: HTMLElement, placement: PopperPlacement): Place
   const placements = ["left", "right"];
   const variations = ["start", "end"];
 
-  if (getElementStyleDir(el) === "rtl") {
+  if (getElementDir(el) === "rtl") {
     placements.reverse();
     variations.reverse();
   }

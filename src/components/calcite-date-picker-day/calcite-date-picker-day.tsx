@@ -10,7 +10,7 @@ import {
   VNode
 } from "@stencil/core";
 
-import { getElementStyleDir } from "../../utils/dom";
+import { getElementDir } from "../../utils/dom";
 import { DateLocaleData } from "../calcite-date-picker/utils";
 import { Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -126,7 +126,7 @@ export class CalciteDatePickerDay {
       .split("")
       .map((i) => this.localeData.numerals[i])
       .join("");
-    const dir = getElementStyleDir(this.el);
+    const dir = getElementDir(this.el);
     return (
       <Host
         onClick={this.onClick}

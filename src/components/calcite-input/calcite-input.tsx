@@ -12,7 +12,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementStyleDir, getElementProp, setRequestedIcon } from "../../utils/dom";
+import { getElementDir, getElementProp, setRequestedIcon } from "../../utils/dom";
 
 import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
 import { InputPlacement } from "./interfaces";
@@ -642,7 +642,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const dir = getElementStyleDir(this.el);
+    const dir = getElementDir(this.el);
 
     const loader = (
       <div class={CSS.loader}>

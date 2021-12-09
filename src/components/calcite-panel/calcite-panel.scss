@@ -126,12 +126,9 @@
   flex-no-wrap;
 }
 
-.header-actions--end {
-  margin-inline-start: auto;
-}
-
+.header-actions--end,
 .menu-container:only-child {
-  margin-inline-start: auto;
+  margin-inline-start: theme("margin.auto");
 }
 
 .menu-button {

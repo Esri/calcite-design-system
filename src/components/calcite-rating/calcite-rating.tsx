@@ -179,7 +179,7 @@ export class CalciteRating implements LabelableComponent, FormComponent {
     return (
       <Fragment>
         <fieldset
-          class={{ fieldset: true }}
+          class="fieldset"
           onBlur={() => (this.hoverValue = null)}
           onMouseLeave={() => (this.hoverValue = null)}
           onTouchEnd={() => (this.hoverValue = null)}
