@@ -151,7 +151,7 @@ export class CalciteButton implements LabelableComponent {
     const dir = getElementDir(this.el);
     const Tag = this.childElType;
 
-    const loader = this.hasLoader ? (
+    const loaderNode = this.hasLoader ? (
       <div class={CSS.buttonLoader}>
         <calcite-loader
           active
@@ -201,7 +201,7 @@ export class CalciteButton implements LabelableComponent {
         target={this.childElType === "a" && this.target}
         type={this.childElType === "button" && this.type}
       >
-        {loader}
+        {loaderNode}
         {this.iconStart ? iconStartEl : null}
         {this.hasContent ? contentEl : null}
         {this.iconEnd ? iconEndEl : null}
