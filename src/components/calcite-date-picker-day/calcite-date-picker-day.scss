@@ -355,6 +355,18 @@
   box-shadow: inset 6px 0px 0px 0px var(--calcite-ui-foreground-1);
 }
 
+:host([highlighted]:first-child) .day-wrapper,
+:host([range-hover]:first-child) .day-wrapper {
+  border-start-start-radius: 45%;
+  border-end-start-radius: 45%;
+}
+
+:host([highlighted]:last-child) .day-wrapper,
+:host([range-hover]:last-child) .day-wrapper {
+  border-start-end-radius: 45%;
+  border-end-end-radius: 45%;
+}
+
 :host([scale="l"][highlighted]:last-child) :not(.calcite--rtl) .day-wrapper,
 :host([scale="l"][range-hover]:last-child) :not(.calcite--rtl) .day-wrapper,
 :host([scale="l"][highlighted]:first-child) .calcite--rtl .day-wrapper,
