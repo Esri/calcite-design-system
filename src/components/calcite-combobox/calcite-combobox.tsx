@@ -483,7 +483,11 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
 
   setInactiveIfNotContained = (event: Event): void => {
     const composedPath = event.composedPath();
-    if (!this.active || composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
+    if (
+      (!this.active && !this.open) ||
+      composedPath.includes(this.el) ||
+      composedPath.includes(this.referenceEl)
+    ) {
       return;
     }
 
@@ -501,6 +505,7 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
     }
 
     this.active = false;
+    this.open = false;
   };
 
   setMenuEl = (el: HTMLDivElement): void => {
