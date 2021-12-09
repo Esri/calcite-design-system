@@ -19,7 +19,7 @@ import {
   parseNumber,
   getOrder
 } from "../../utils/date";
-import { getKey } from "../../utils/key";
+
 import { DateLocaleData } from "../calcite-date-picker/utils";
 import { Scale } from "../interfaces";
 import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
@@ -214,7 +214,7 @@ export class CalciteDatePickerMonthHeader {
    */
   private onYearKey = (e: KeyboardEvent): void => {
     const year = (e.target as HTMLInputElement).value;
-    switch (getKey(e.key)) {
+    switch (e.key) {
       case "ArrowDown":
         e.preventDefault();
         this.setYear(year, -1);
@@ -235,7 +235,7 @@ export class CalciteDatePickerMonthHeader {
   };
 
   private prevMonthKeydown = (e: KeyboardEvent): void => {
-    const key = getKey(e.key);
+    const key = e.key;
     if (key === " " || key === "Enter") {
       this.prevMonthClick(e);
     }
@@ -246,7 +246,7 @@ export class CalciteDatePickerMonthHeader {
   };
 
   private nextMonthKeydown = (e: KeyboardEvent): void => {
-    const key = getKey(e.key);
+    const key = e.key;
     if (key === " " || key === "Enter") {
       this.nextMonthClick(e);
     }

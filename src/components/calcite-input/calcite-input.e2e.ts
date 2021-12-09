@@ -521,7 +521,7 @@ describe("calcite-input", () => {
 
     const calciteInputInput = await page.spyOnEvent("calciteInputInput");
     const element = await page.find("calcite-input");
-    expect(await element.getProperty("value")).toBeUndefined();
+    expect(await element.getProperty("value")).toBe("");
     await element.callMethod("setFocus");
     expect(calciteInputInput).toHaveReceivedEventTimes(0);
     await page.keyboard.press("a");
@@ -642,7 +642,7 @@ describe("calcite-input", () => {
     await element.callMethod("setFocus");
     await page.keyboard.press("Escape");
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBeNull();
+    expect(await element.getProperty("value")).toBe("");
   });
 
   it("when clearable is requested, value is cleared on clear button click", async () => {
@@ -656,7 +656,7 @@ describe("calcite-input", () => {
     expect(await element.getProperty("value")).toBe("John Doe");
     await clearButton.click();
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBeNull();
+    expect(await element.getProperty("value")).toBe("");
   });
 
   it("when clearable is requested and clear button is clicked, event is received", async () => {
@@ -671,7 +671,7 @@ describe("calcite-input", () => {
     expect(await element.getProperty("value")).toBe("John Doe");
     await clearButton.click();
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBeNull();
+    expect(await element.getProperty("value")).toBe("");
     expect(calciteInputInput).toHaveReceivedEventTimes(1);
   });
 
@@ -688,7 +688,7 @@ describe("calcite-input", () => {
     expect(calciteInputInput).toHaveReceivedEventTimes(0);
     await page.keyboard.press("Escape");
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBeNull();
+    expect(await element.getProperty("value")).toBe("");
     expect(calciteInputInput).toHaveReceivedEventTimes(1);
   });
 
@@ -705,7 +705,7 @@ describe("calcite-input", () => {
     expect(calciteInputInput).toHaveReceivedEventTimes(0);
     await clearButton.click();
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBeNull();
+    expect(await element.getProperty("value")).toBe("");
     expect(calciteInputInput).toHaveReceivedEventTimes(1);
   });
 
@@ -722,7 +722,7 @@ describe("calcite-input", () => {
     expect(calciteInputInput).toHaveReceivedEventTimes(0);
     await page.keyboard.press("Escape");
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBeNull();
+    expect(await element.getProperty("value")).toBe("");
     expect(calciteInputInput).toHaveReceivedEventTimes(1);
   });
 
@@ -886,7 +886,7 @@ describe("calcite-input", () => {
         html: `<calcite-input></calcite-input>`
       });
       const input = await page.find("calcite-input");
-      expect(await input.getProperty("value")).toBeUndefined();
+      expect(await input.getProperty("value")).toBe("");
     });
 
     it(`initial value is of type string when initially set to ""`, async () => {
@@ -902,10 +902,10 @@ describe("calcite-input", () => {
       await input.setProperty("value", null);
       await page.waitForChanges();
 
-      expect(await input.getProperty("value")).toBeNull();
+      expect(await input.getProperty("value")).toBe("");
     });
 
-    it(`when value is programmatically set to null, value is null`, async () => {
+    it(`when value is programmatically set to null, value is ""`, async () => {
       const page = await newE2EPage({
         html: `<calcite-input></calcite-input>`
       });
@@ -916,7 +916,7 @@ describe("calcite-input", () => {
 
       const value = await input.getProperty("value");
 
-      expect(value).toBeNull();
+      expect(value).toBe("");
     });
 
     it(`when value is programmatically set to "", value's type is string`, async () => {
@@ -1199,28 +1199,6 @@ describe("calcite-input", () => {
         });
       });
 
-    it(`disallows setting value to undefined on initial load.`, async () => {
-      const page = await newE2EPage({
-        html: `<calcite-input type="number" value="undefined"></calcite-input>`
-      });
-      const calciteInput = await page.find("calcite-input");
-      const input = await page.find("calcite-input >>> input");
-
-      expect(await calciteInput.getProperty("value")).toBeFalsy();
-      expect(await input.getProperty("value")).toBeFalsy();
-    });
-
-    it(`disallows setting value to null on initial load.`, async () => {
-      const page = await newE2EPage({
-        html: `<calcite-input type="number" value="null"></calcite-input>`
-      });
-      const calciteInput = await page.find("calcite-input");
-      const input = await page.find("calcite-input >>> input");
-
-      expect(await calciteInput.getProperty("value")).toBeFalsy();
-      expect(await input.getProperty("value")).toBeFalsy();
-    });
-
     it(`disallows setting text value on initial load.`, async () => {
       const page = await newE2EPage({
         html: `<calcite-input type="number" value="i am a text value"></calcite-input>`
@@ -1228,8 +1206,8 @@ describe("calcite-input", () => {
       const calciteInput = await page.find("calcite-input");
       const input = await page.find("calcite-input >>> input");
 
-      expect(await calciteInput.getProperty("value")).toBeFalsy();
-      expect(await input.getProperty("value")).toBeFalsy();
+      expect(await calciteInput.getProperty("value")).toBe("");
+      expect(await input.getProperty("value")).toBe("");
     });
 
     it(`allows setting value to undefined after initial load.`, async () => {
@@ -1264,8 +1242,8 @@ describe("calcite-input", () => {
       calciteInput.setProperty("value", null);
       await page.waitForChanges();
 
-      expect(await calciteInput.getProperty("value")).toBeFalsy();
-      expect(await input.getProperty("value")).toBeFalsy();
+      expect(await calciteInput.getProperty("value")).toBe("");
+      expect(await input.getProperty("value")).toBe("");
     });
 
     it(`disallows setting text value after initial load.`, async () => {

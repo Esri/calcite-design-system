@@ -1,16 +1,16 @@
 :host {
   @extend %component-host;
-  @apply flex 
-    flex-auto 
-    overflow-hidden 
+  @apply flex
+    flex-auto
+    overflow-hidden
     bg-transparent;
 }
 
 .content {
-  @apply flex 
-    h-full 
-    m-0 
-    overflow-hidden 
+  @apply flex
+    h-full
+    m-0
+    overflow-hidden
     w-full;
   flex: 1 0 0;
 }
