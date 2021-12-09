@@ -1,0 +1,64 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <script type="module" src="./dist/calcite/calcite.esm.js"></script>
+    <link rel="stylesheet" type="text/css" href="./dist/calcite/calcite.css" />
+
+    <style>
+      body {
+        font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
+        font-size: 16px;
+      }
+
+      .popover {
+        max-width: 320px;
+      }
+
+      .info {
+        padding: 10px;
+        background-color: white;
+      }
+
+      .header {
+        font-weight: bold;
+      }
+
+      .text {
+        padding-top: 10px;
+      }
+    </style>
+
+    <script>
+      function openPopover(event) {
+        const infoNode = document.createElement("div");
+        infoNode.className = "info";
+        const infoHeaderNode = document.createElement("div");
+        infoHeaderNode.className = "header";
+        infoHeaderNode.innerHTML = "Verwendung von A mit B vergleichen";
+        const infoTextNode = document.createElement("div");
+        infoTextNode.className = "text";
+        infoTextNode.innerHTML =
+          'Das erste Attribut wird mit dem zweiten Attribut verglichen und als einfaches Verhältnis, als "A als Prozentsatz von B " oder als "A als Prozentsatz von A + B " dargestellt. Beispiele: Umsatz/Umsatzkosten, Maisanbaufläche/Gesamtanbaufläche oder Maisanbaufläche/(Mais- + Weizenanbaufläche).';
+        infoNode.appendChild(infoHeaderNode);
+        infoNode.appendChild(infoTextNode);
+        const popover = document.createElement("calcite-popover");
+        popover.id = "style-tile-popover";
+        popover.className = "popover";
+        popover.placement = "auto";
+        popover.offsetSkidding = 5;
+        popover.dismissible = true;
+        popover.label = "";
+        popover.referenceElement = document.getElementById("info");
+        document.body.appendChild(popover);
+        popover.appendChild(infoNode);
+        popover.setAttribute("open", "true");
+        popover.reposition();
+      }
+    </script>
+  </head>
+
+  <body>
+    <calcite-action id="info" label="info" text="info" icon="information" onclick="openPopover();"></calcite-action>
+  </body>
+</html>
