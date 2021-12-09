@@ -548,8 +548,6 @@ export class CalciteInput implements LabelableComponent, FormComponent {
   };
 
   private numberButtonMouseDownHandler = (event: MouseEvent): void => {
-    // todo, when dropping ie11 support, refactor to use stepup/stepdown
-    // prevent blur and re-focus of input on mousedown
     event.preventDefault();
     const direction = (event.target as HTMLDivElement).dataset.adjustment as NumberNudgeDirection;
     this.nudgeNumberValue(direction, event);
