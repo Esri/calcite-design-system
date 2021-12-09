@@ -84,7 +84,7 @@ export class CalciteRadioGroupItem {
   }
 
   render(): VNode {
-    const { checked, useFallback, value } = this;
+    const { checked, value } = this;
     const dir = getElementDir(this.el);
     const scale: Scale = getElementProp(this.el, "scale", "m");
     const appearance: RadioAppearance = getElementProp(this.el, "appearance", "solid");
@@ -112,7 +112,7 @@ export class CalciteRadioGroupItem {
           }}
         >
           {this.icon && this.iconPosition === "start" ? iconEl : null}
-          <slot>{useFallback ? value : ""}</slot>
+          <slot>{value}</slot>
           <slot name={SLOTS.input} />
           {this.icon && this.iconPosition === "end" ? iconEl : null}
         </label>
@@ -138,8 +138,6 @@ export class CalciteRadioGroupItem {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-  @State() private useFallback: boolean;
-
   private inputProxy: HTMLInputElement;
 
   private mutationObserver = createObserver("mutation", () => this.syncFromExternalInput());
