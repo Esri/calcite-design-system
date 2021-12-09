@@ -116,6 +116,13 @@
   }
 }
 
+:host([end-of-range]),
+:host([start-of-range]) {
+  .day {
+    opacity: 1;
+  }
+}
+
 :host([start-of-range]) :not(.calcite--rtl),
 :host([end-of-range]) .calcite--rtl {
   .day-wrapper {
@@ -123,13 +130,10 @@
     border-end-start-radius: 40%;
     box-shadow: inset 4px 0 var(--calcite-ui-foreground-1);
   }
-  .day {
-    opacity: 1;
-  }
 }
 
-:host([start-of-range]:not(:focus)) :not(.calcite--rtl),
-:host([end-of-range]:not(:focus)) .calcite--rtl {
+:host([start-of-range]:not(:focus)),
+:host([end-of-range]:not(:focus)) {
   .day {
     box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
   }
@@ -141,16 +145,6 @@
     border-start-end-radius: 40%;
     border-end-end-radius: 40%;
     box-shadow: inset -4px 0 var(--calcite-ui-foreground-1);
-  }
-  .day {
-    opacity: 1;
-  }
-}
-
-:host([end-of-range]:not(:focus)) :not(.calcite--rtl),
-:host([start-of-range]:not(:focus)) .calcite--rtl {
-  .day {
-    box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
   }
 }
 
@@ -237,8 +231,19 @@
   @apply rounded-none shadow-none;
 }
 
+:host(:hover[range-hover]:not([selected]).focused--end),
+:host(:hover[range-hover]:not([selected]).focused--start) {
+  .day {
+    @apply rounded-full;
+    opacity: 1;
+    box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
+  }
+}
+
 :host(:hover[range-hover]:not([selected]).focused--end) :not(.calcite--rtl),
-:host(:hover[range-hover]:not([selected]).focused--start) .calcite--rtl {
+:host(:hover[range-hover]:not([selected]).focused--start) .calcite--rtl,
+:host(:hover[range-hover]:not([selected]).focused--end.hover--outside-range),
+:host(:hover[range-hover]:not([selected]).focused--start.hover--outside-range) {
   .day-wrapper {
     background-image: linear-gradient(
       to right,
@@ -247,11 +252,6 @@
       var(--calcite-ui-foreground-current),
       var(--calcite-ui-foreground-current)
     );
-  }
-  .day {
-    @apply rounded-full;
-    opacity: 1;
-    box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
   }
 }
 
@@ -266,11 +266,6 @@
       var(--calcite-ui-foreground-2)
     );
   }
-  .day {
-    @apply rounded-full;
-    opacity: 1;
-    box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
-  }
 }
 
 :host(:hover[range-hover]:not([selected]).focused--start.hover--outside-range) :not(.calcite--rtl),
@@ -284,11 +279,6 @@
       var(--calcite-ui-foreground-2)
     );
   }
-  .day {
-    @apply rounded-full;
-    opacity: 1;
-    box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
-  }
 }
 
 :host(:hover[range-hover]:not([selected]).focused--end.hover--outside-range) :not(.calcite--rtl),
@@ -301,11 +291,6 @@
       var(--calcite-ui-foreground-1),
       var(--calcite-ui-foreground-1)
     );
-  }
-  .day {
-    @apply rounded-full;
-    opacity: 1;
-    box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
   }
 }
 
