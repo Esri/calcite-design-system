@@ -145,9 +145,6 @@ describe("calcite-slider", () => {
       const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
       await page.mouse.move(trackX, trackY);
       await page.mouse.down();
-      await page.mouse.move(trackX + 1, trackY);
-      await page.mouse.move(trackX + 2, trackY);
-      await page.mouse.move(trackX + 3, trackY);
       await page.mouse.move(trackX + 4, trackY);
       await page.waitForChanges();
       await page.mouse.up();
