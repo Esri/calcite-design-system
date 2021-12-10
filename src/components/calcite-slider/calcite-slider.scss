@@ -224,7 +224,6 @@
   @apply h-0.5 rounded-none relative;
   background-color: var(--calcite-ui-border-2);
   transition: all var(--calcite-slider-internal-animation-timing) ease-in;
-  position: relative;
 }
 
 .track__range {
@@ -272,17 +271,10 @@
 }
 
 .tick__label--min {
-  left: 0;
-  margin: $thumb-size * 0.5 -3px;
-  text-align: left;
   transition: opacity var(--calcite-internal-animation-timing);
 }
 
 .tick__label--max {
-  left: unset;
-  right: 0;
-  margin: $thumb-size * 0.5 -3px;
-  text-align: right;
   transition: opacity calc(50ms * var(--calcite-animation-timing-factor));
 }
 
