@@ -1,9 +1,10 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { defaults, formAssociated, labelable, renders } from "../../tests/commonTests";
 import { getElementXY, html } from "../../tests/utils";
+import { html } from "../../tests/utils";
 
 describe("calcite-slider", () => {
-  const sliderWidthFor1To1PixelValueTrack = "116px";
+  const sliderWidthFor1To1PixelValueTrack = "114px";
 
   it("renders", async () => renders("calcite-slider", { display: "block" }));
 
@@ -12,6 +13,42 @@ describe("calcite-slider", () => {
       {
         propertyName: "mirrored",
         defaultValue: false
+      },
+      {
+        propertyName: "disabled",
+        defaultValue: false
+      },
+      {
+        propertyName: "hasHistogram",
+        defaultValue: false
+      },
+      {
+        propertyName: "max",
+        defaultValue: 100
+      },
+      {
+        propertyName: "min",
+        defaultValue: 0
+      },
+      {
+        propertyName: "mirrored",
+        defaultValue: false
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m"
+      },
+      {
+        propertyName: "snap",
+        defaultValue: false
+      },
+      {
+        propertyName: "step",
+        defaultValue: 1
+      },
+      {
+        propertyName: "value",
+        defaultValue: 0
       }
     ]));
 
@@ -111,6 +148,45 @@ describe("calcite-slider", () => {
     await handle.press(" ");
     await handle.press("Enter");
     expect(await slider.getProperty("value")).toBe(100);
+  });
+
+  describe("slider taking the precision of the provided step", () => {
+    it("takes the precision of the decimal step when controlled through keyboard", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html` <calcite-slider value="30" min="0" max="100" step="1.12"> </calcite-slider> `);
+      const slider = await page.find("calcite-slider");
+      const handle = await page.find("calcite-slider >>> .thumb");
+      await page.waitForChanges();
+      const value = await slider.getProperty("value");
+      expect(value).toBe(30);
+
+      await handle.press("ArrowRight");
+      expect(await slider.getProperty("value")).toBe(31.12);
+      await handle.press("ArrowLeft");
+      expect(await slider.getProperty("value")).toBe(30);
+      await handle.press("ArrowUp");
+      expect(await slider.getProperty("value")).toBe(31.12);
+      await handle.press("ArrowDown");
+      expect(await slider.getProperty("value")).toBe(30);
+    });
+
+    it("single handle: takes the precision of the decimal step when clicking and dragging the track", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-slider step="1.12" snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>
+      `);
+      const slider = await page.find("calcite-slider");
+      expect(await slider.getProperty("value")).toBe(0);
+
+      const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
+      await page.mouse.move(trackX, trackY);
+      await page.mouse.down();
+      await page.mouse.move(trackX + 4, trackY);
+      await page.waitForChanges();
+      await page.mouse.up();
+
+      expect(await slider.getProperty("value")).toBe(4.48);
+    });
   });
 
   it("only selects values on step interval when snap prop is passed", async () => {
@@ -561,8 +637,8 @@ describe("calcite-slider", () => {
       const maxValueThumb = await page.find("calcite-slider >>> .thumb--value");
       const minHandleLeft = await (await minValueThumb.getComputedStyle()).left;
       const maxHandleRight = await (await maxValueThumb.getComputedStyle()).right;
-      expect(minHandleLeft).toBe("258.172px");
-      expect(maxHandleRight).toBe("25.8125px");
+      expect(minHandleLeft).toBe("260px");
+      expect(maxHandleRight).toBe("26px");
     });
 
     it("should position the minValue thumb beside the maxValue thumb when mirrored", async () => {
@@ -571,8 +647,8 @@ describe("calcite-slider", () => {
       const maxValueThumb = await page.find("calcite-slider >>> .thumb--value");
       const minHandleLeft = await (await minValueThumb.getComputedStyle()).left;
       const maxHandleRight = await (await maxValueThumb.getComputedStyle()).right;
-      expect(minHandleLeft).toBe("25.8125px");
-      expect(maxHandleRight).toBe("258.172px");
+      expect(minHandleLeft).toBe("26px");
+      expect(maxHandleRight).toBe("260px");
     });
 
     it("should position the minValue thumb beside the maxValue thumb when it's a histogram range", async () => {
@@ -592,8 +668,8 @@ describe("calcite-slider", () => {
       const maxValueThumb = await page.find("calcite-slider >>> .thumb--value");
       const minHandleLeft = await (await minValueThumb.getComputedStyle()).left;
       const maxHandleRight = await (await maxValueThumb.getComputedStyle()).right;
-      expect(minHandleLeft).toBe("258.172px");
-      expect(maxHandleRight).toBe("25.8125px");
+      expect(minHandleLeft).toBe("260px");
+      expect(maxHandleRight).toBe("26px");
     });
   });
 

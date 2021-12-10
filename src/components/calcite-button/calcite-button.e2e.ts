@@ -292,6 +292,15 @@ describe("calcite-button", () => {
     expect(loader).not.toBeNull();
   });
 
+  it("should not render loader with an icon-start ,width set to half and aligned space-between", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-button icon-start='plus' width='half' , alignment='space-between'>Continue</calcite-button>`
+    );
+    const loader = await page.find(`calcite-button >>> .${CSS.buttonLoader} calcite-loader`);
+    expect(loader).toBeNull();
+  });
+
   it("hascontent class is present on rendered child when content (as text) is present", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-button>Continue</calcite-button>`);
