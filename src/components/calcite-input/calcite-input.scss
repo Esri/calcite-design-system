@@ -571,13 +571,6 @@ input[type="time"]::-webkit-clear-button {
     px-1;
 }
 
-// hide custom textarea resize icon for ie11, defer to browser arrows
-@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-  .resize-icon-wrapper {
-    @apply hidden;
-  }
-}
-
 .resize-icon-wrapper {
   bottom: 2px;
   right: 2px;
