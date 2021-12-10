@@ -2,7 +2,6 @@ import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 import { html } from "../../tests/utils";
-import { CSS_UTILITY } from "../../utils/resources";
 
 describe("calcite-action-pad", () => {
   it("renders", async () => renders("calcite-action-pad", { display: "block" }));

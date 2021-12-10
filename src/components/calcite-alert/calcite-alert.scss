@@ -137,21 +137,14 @@
 @include slotted("message", "*") {
   @apply inline
     m-0
-    mr-2
     font-normal
     text--1-wrap
     text-color-2;
+  margin-inline-end: theme("margin.2");
 }
 
 @include slotted("link", "*") {
   @apply text-color-link inline-flex;
-}
-
-.calcite--rtl {
-  @include slotted("message", "*") {
-    @apply ml-2;
-    margin-right: unset;
-  }
 }
 
 @mixin alert-element-base() {
@@ -165,29 +158,19 @@
   @apply break-words bg-foreground-1;
   flex: 1 1 auto;
   min-width: 0;
-  padding: var(--calcite-alert-spacing-token-small) var(--calcite-alert-spacing-token-small)
-    var(--calcite-alert-spacing-token-small) 0;
+  padding-block: var(--calcite-alert-spacing-token-small);
+  padding-inline: 0 var(--calcite-alert-spacing-token-small);
   border-bottom-left-radius: var(--calcite-border-radius);
   border-bottom-right-radius: var(--calcite-border-radius);
 
   &:first-of-type:not(:only-child) {
-    padding-left: var(--calcite-alert-spacing-token-large);
+    padding-inline-start: var(--calcite-alert-spacing-token-large);
   }
   &:only-child {
     padding: var(--calcite-alert-spacing-token-small);
   }
 }
 
-.calcite--rtl {
-  .alert-content {
-    padding: var(--calcite-alert-spacing-token-small) 0 var(--calcite-alert-spacing-token-small)
-      var(--calcite-alert-spacing-token-small);
-
-    &:first-of-type:not(:only-child) {
-      padding-right: var(--calcite-alert-spacing-token-large);
-    }
-  }
-}
 .alert-icon {
   @include alert-element-base;
   @apply py-0
@@ -207,7 +190,7 @@
     cursor-pointer
     text-color-3
     overflow-hidden;
-  border-bottom-right-radius: var(--calcite-border-radius);
+  border-end-end-radius: var(--calcite-border-radius);
 
   &:hover,
   &:focus {
@@ -218,12 +201,7 @@
     @apply bg-foreground-3;
   }
 }
-.calcite--rtl {
-  .alert-close {
-    border-bottom-left-radius: var(--calcite-border-radius);
-    border-bottom-right-radius: unset;
-  }
-}
+
 .alert-queue-count {
   @apply flex
     items-center
@@ -248,11 +226,7 @@
 }
 
 :host([auto-dismiss]) > .alert-queue-count {
-  border-right: 0px solid transparent;
-}
-
-:host([auto-dismiss]) .calcite--rtl > .alert-queue-count {
-  border-left: 0px solid transparent;
+  border-inline-end: 0px solid transparent;
 }
 
 .alert-dismiss-progress {
@@ -268,19 +242,14 @@
   border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
   &:after {
     @apply top-0
-    right-0
     block
     absolute;
     height: 2px;
     content: "";
     background-color: var(--calcite-alert-dismiss-progress-background);
     z-index: 104;
+    inset-inline-end: 0;
   }
-}
-
-.calcite--rtl .alert-dismiss-progress:after {
-  @apply left-0;
-  right: initial;
 }
 
 $alertColors: "blue" var(--calcite-ui-info), "red" var(--calcite-ui-danger), "yellow" var(--calcite-ui-warning),

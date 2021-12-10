@@ -100,15 +100,7 @@ $spacing: $baseline * 0.5;
   ::slotted(calcite-radio-button) {
     position: absolute;
     top: $spacing;
-    left: $spacing;
-  }
-}
-
-:host([input-enabled][input-alignment="start"][icon][heading]:not([description])) .calcite--rtl {
-  ::slotted(calcite-checkbox),
-  ::slotted(calcite-radio-button) {
-    right: $spacing;
-    left: unset;
+    inset-inline-start: $spacing;
   }
 }
 
@@ -117,15 +109,7 @@ $spacing: $baseline * 0.5;
   ::slotted(calcite-radio-button) {
     position: absolute;
     top: $spacing;
-    right: $spacing;
-  }
-}
-
-:host([input-enabled][input-alignment="end"][icon][heading]) .calcite--rtl {
-  ::slotted(calcite-checkbox),
-  ::slotted(calcite-radio-button) {
-    right: unset;
-    left: $spacing;
+    inset-inline-end: $spacing;
   }
 }
 

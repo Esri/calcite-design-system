@@ -51,8 +51,8 @@
     px-0
     border-none
     cursor-pointer
-    text-left
     focus-base;
+  text-align: initial;
 
   background-color: transparent;
   &:hover {
@@ -73,7 +73,9 @@ calcite-handle {
 }
 
 .title {
-  @apply m-0 px-3 py-0;
+  @apply m-0;
+  padding-inline: 0.75rem;
+  padding-block: 0px;
 }
 
 .header .title .heading {
@@ -97,7 +99,8 @@ calcite-handle {
 }
 
 .icon {
-  @apply ml-3;
+  margin-inline-start: 0.75rem;
+  margin-inline-end: 0px;
 }
 
 .status-icon.valid {
@@ -125,12 +128,13 @@ calcite-handle {
 }
 
 .toggle-icon {
-  @apply mr-4
-  self-center
+  @apply self-center
   text-color-3
   transition-color
   duration-150
   ease-in-out;
+  margin-inline-end: 1rem;
+  margin-inline-start: 0px;
 }
 
 .toggle:hover .toggle-icon {
@@ -153,15 +157,6 @@ calcite-action-menu {
   grid-area: menu;
 }
 
-.calcite--rtl {
-  .toggle-icon {
-    @apply mr-0 ml-4;
-  }
-  .icon {
-    @apply ml-0 mr-3;
-  }
-}
-
 :host([open]) {
   @apply my-2;
 
@@ -178,13 +173,5 @@ calcite-action-menu {
 
   .header-container {
     @apply opacity-50;
-  }
-}
-
-:host([drag-handle]) {
-  .calcite--rtl {
-    .title {
-      @apply pl-0 pr-1;
-    }
   }
 }

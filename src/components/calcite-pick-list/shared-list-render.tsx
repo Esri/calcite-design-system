@@ -1,7 +1,6 @@
 import { FunctionalComponent, h, Host, VNode } from "@stencil/core";
 import { JSXBase } from "@stencil/core/internal";
 import { CSS, SLOTS } from "./resources";
-import { getElementDir } from "../../utils/dom";
 import { handleFilter } from "./shared-list-logic";
 import DOMAttributes = JSXBase.DOMAttributes;
 
@@ -24,7 +23,6 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes> = (
     dataForFilter,
     handleFilter,
     filterPlaceholder,
-    el,
     setFilterEl
   },
   ...rest
@@ -37,9 +35,8 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes> = (
           {filterEnabled ? (
             <calcite-filter
               aria-label={filterPlaceholder}
-              data={dataForFilter}
-              dir={getElementDir(el)}
               disabled={loading || disabled}
+              items={dataForFilter}
               onCalciteFilterChange={handleFilter}
               placeholder={filterPlaceholder}
               ref={setFilterEl}

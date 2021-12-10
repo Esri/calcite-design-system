@@ -12,7 +12,6 @@ import {
 } from "@stencil/core";
 import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
 import { getElementDir, getSlotted } from "../../utils/dom";
-import { CSS_UTILITY } from "../../utils/resources";
 import { Scale } from "../interfaces";
 import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
 import { SLOTS as ACTION_MENU_SLOTS } from "../calcite-action-menu/resources";
@@ -172,7 +171,7 @@ export class CalcitePanel {
     this.backButtonEl = node;
   };
 
-  panelKeyUpHandler = (event: KeyboardEvent): void => {
+  panelKeyDownHandler = (event: KeyboardEvent): void => {
     if (event.key === "Escape") {
       this.dismiss();
     }
@@ -390,40 +389,48 @@ export class CalcitePanel {
   }
 
   renderContent(): VNode {
-    return (
-      <section class={CSS.contentContainer} onScroll={this.panelScrollHandler} tabIndex={0}>
-        <slot />
+    const { el } = this;
+    const hasFab = getSlotted(el, SLOTS.fab);
+
+    return hasFab ? (
+      <div
+        class={{ [CSS.contentWrapper]: true, [CSS.contentHeight]: true }}
+        onScroll={this.panelScrollHandler}
+        tabIndex={0}
+      >
+        <section class={CSS.contentContainer}>
+          <slot />
+        </section>
         {this.renderFab()}
+      </div>
+    ) : (
+      <section
+        class={{ [CSS.contentWrapper]: true, [CSS.contentContainer]: true }}
+        onScroll={this.panelScrollHandler}
+        tabIndex={0}
+      >
+        <slot />
       </section>
     );
   }
 
   renderFab(): VNode {
-    const { el } = this;
-
-    const hasFab = getSlotted(el, SLOTS.fab);
-
-    return hasFab ? (
+    return (
       <div class={CSS.fabContainer}>
         <slot name={SLOTS.fab} />
       </div>
-    ) : null;
+    );
   }
 
   render(): VNode {
-    const { dismissed, disabled, dismissible, el, loading, panelKeyUpHandler } = this;
-
-    const rtl = getElementDir(el) === "rtl";
+    const { dismissed, disabled, dismissible, loading, panelKeyDownHandler } = this;
 
     const panelNode = (
       <article
         aria-busy={loading.toString()}
-        class={{
-          [CSS.container]: true,
-          [CSS_UTILITY.rtl]: rtl
-        }}
+        class={CSS.container}
         hidden={dismissible && dismissed}
-        onKeyUp={panelKeyUpHandler}
+        onKeyDown={panelKeyDownHandler}
         ref={this.setContainerRef}
         tabIndex={dismissible ? 0 : -1}
       >

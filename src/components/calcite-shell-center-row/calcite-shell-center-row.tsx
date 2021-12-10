@@ -1,8 +1,7 @@
 import { Component, Element, Prop, h, VNode, Fragment } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
 import { Position, Scale } from "../interfaces";
-import { getElementDir, getSlotted } from "../../utils/dom";
-import { CSS_UTILITY } from "../../utils/resources";
+import { getSlotted } from "../../utils/dom";
 
 /**
  * @slot - A slot for adding content to the shell panel.
@@ -51,10 +50,9 @@ export class CalciteShellCenterRow {
 
   render(): VNode {
     const { el } = this;
-    const rtl = getElementDir(el) === "rtl";
 
     const contentNode = (
-      <div class={{ [CSS.content]: true, [CSS_UTILITY.rtl]: rtl }}>
+      <div class={CSS.content}>
         <slot />
       </div>
     );
@@ -62,7 +60,7 @@ export class CalciteShellCenterRow {
     const actionBar = getSlotted<HTMLCalciteActionBarElement>(el, SLOTS.actionBar);
 
     const actionBarNode = actionBar ? (
-      <div class={{ [CSS.actionBarContainer]: true, [CSS_UTILITY.rtl]: rtl }}>
+      <div class={CSS.actionBarContainer}>
         <slot name={SLOTS.actionBar} />
       </div>
     ) : null;
