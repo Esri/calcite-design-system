@@ -12,7 +12,7 @@ import {
   Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { focusElement, getElementStyleDir } from "../../utils/dom";
+import { focusElement, getElementDir } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
@@ -302,7 +302,7 @@ export class CalciteRadioButton implements LabelableComponent, CheckableFormComp
 
     let adjustedKey = key;
 
-    if (getElementStyleDir(el) === "rtl") {
+    if (getElementDir(el) === "rtl") {
       if (key === "ArrowRight") {
         adjustedKey = "ArrowLeft";
       }

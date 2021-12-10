@@ -26,18 +26,8 @@ export function getThemeName(el: HTMLElement): "light" | "dark" {
   return closestElementCrossShadowBoundary(el, `.${CSS_UTILITY.darkTheme}`) ? "dark" : "light";
 }
 
-export function getElementStyleDir(el: HTMLElement): Direction {
-  return (window.getComputedStyle(el).direction as Direction) || "ltr";
-}
-
-/**
- * @deprecated use getElementStyleDir instead.
- */
 export function getElementDir(el: HTMLElement): Direction {
-  const prop = "dir";
-  const selector = `[${prop}]`;
-  const closest = closestElementCrossShadowBoundary(el, selector);
-  return closest ? (closest.getAttribute(prop) as Direction) : "ltr";
+  return (el.style.direction as Direction) || (window.getComputedStyle(el).direction as Direction) || "ltr";
 }
 
 export function getElementProp(el: Element, prop: string, fallbackValue: any): any {

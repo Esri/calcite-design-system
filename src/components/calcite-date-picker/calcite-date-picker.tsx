@@ -12,7 +12,6 @@ import {
   Build
 } from "@stencil/core";
 import { getLocaleData, DateLocaleData } from "./utils";
-import { getElementDir } from "../../utils/dom";
 import { dateFromRange, dateFromISO, dateToISO, getDaysDiff, HoverRange } from "../../utils/date";
 import { HeadingLevel } from "../functional/CalciteHeading";
 
@@ -232,11 +231,9 @@ export class CalciteDatePicker {
           : this.maxAsDate
         : this.maxAsDate;
 
-    const dir = getElementDir(this.el);
-
     return (
       <Host onBlur={this.reset} onKeyUp={this.keyUpHandler} role="application">
-        {this.renderCalendar(activeDate, dir, maxDate, minDate, date, endDate)}
+        {this.renderCalendar(activeDate, maxDate, minDate, date, endDate)}
       </Host>
     );
   }
@@ -394,7 +391,6 @@ export class CalciteDatePicker {
    */
   private renderCalendar(
     activeDate: Date,
-    dir: string,
     maxDate: Date,
     minDate: Date,
     date: Date,
@@ -404,7 +400,6 @@ export class CalciteDatePicker {
       this.localeData && [
         <calcite-date-picker-month-header
           activeDate={activeDate}
-          dir={dir}
           headingLevel={this.headingLevel || HEADING_LEVEL}
           intlNextMonth={this.intlNextMonth}
           intlPrevMonth={this.intlPrevMonth}
@@ -417,7 +412,6 @@ export class CalciteDatePicker {
         />,
         <calcite-date-picker-month
           activeDate={activeDate}
-          dir={dir}
           endDate={this.range ? endDate : undefined}
           hoverRange={this.hoverRange}
           localeData={this.localeData}

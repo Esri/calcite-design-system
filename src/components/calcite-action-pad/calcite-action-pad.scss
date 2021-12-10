@@ -38,12 +38,9 @@
     }
     ::slotted(calcite-action-group) {
       @apply border-0
-      border-r
       p-0;
+      border-inline-end-width: theme("borderWidth.default");
     }
-  }
-  .container.calcite--rtl ::slotted(calcite-action-group) {
-    @apply border-0 border-l;
   }
 }
 

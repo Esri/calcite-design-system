@@ -32,9 +32,10 @@
     border-b
     border-solid
     border-color-3
-    pl-4
-    pr-0
     py-0;
+
+  padding-inline-end: theme("padding.0");
+  padding-inline-start: theme("padding.4");
 
   h2.heading {
     @apply font-bold
@@ -95,13 +96,6 @@
 
 .page-position {
   @apply text--2h my-0 mx-2;
-}
-
-/* RTL */
-:host-context([dir="rtl"]) {
-  .header.header {
-    @apply pr-4 pl-0 py-0;
-  }
 }
 
 /* @keyframes*/

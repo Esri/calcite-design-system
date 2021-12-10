@@ -25,11 +25,11 @@
 }
 
 .calcite-input-message-icon {
-  @apply inline-flex flex-shrink-0 pointer-events-none mr-2 transition-default;
-}
-
-.calcite-input-message-icon.calcite--rtl {
-  @apply ml-2 mr-0;
+  @apply inline-flex
+    flex-shrink-0
+    pointer-events-none
+    transition-default;
+  margin-inline-end: theme("margin.2");
 }
 
 :host([status="invalid"]) .calcite-input-message-icon {
@@ -50,7 +50,8 @@
 
 // Validation Text
 :host([status][active]) {
-  @apply text-color-1 font-medium;
+  @apply text-color-1
+    font-medium;
 }
 
 :host([status][active][scale="s"]) {
