@@ -288,7 +288,7 @@
 }
 
 // Ensure we have enough space on variants with text elements to prevent overlap
-:host([label-ticks]) {
+:host([label-ticks][ticks]) {
   .container {
     // match tick__label top margin + font-size
     padding-bottom: calc(theme("margin[3.5]") + var(--calcite-slider-container-font-size));
