@@ -1041,7 +1041,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
    * @internal
    */
   private getClosestStep(num: number): number {
-    num = this.clamp(num);
+    num = Number(this.clamp(num).toFixed(decimalPlaces(this.step)));
     if (this.step) {
       const step = Math.round(num / this.step) * this.step;
       num = Number(this.clamp(step).toFixed(decimalPlaces(this.step)));
