@@ -210,7 +210,7 @@ describe("calcite-tab-title", () => {
               .shadowRoot.querySelector(".tab-nav-active-indicator") as HTMLDivElement
           ).style.left;
         })
-      ).toEqual("0px");
+      ).toEqual("4px");
     });
   });
 });
