@@ -14,6 +14,7 @@ $tick-height: 4px;
 }
 
 :host {
+  --calcite-slider-internal-animation-timing: calc(250ms * var(--calcite-animation-timing-factor));
   @apply block;
 }
 
@@ -21,7 +22,6 @@ $tick-height: 4px;
   @apply block relative;
   padding: $handle-size * 0.5 0;
   margin: $handle-size * 0.5 theme("margin.2");
-  --calcite-animation-timing: 250ms;
 }
 
 :host([disabled]) {
@@ -72,7 +72,6 @@ $tick-height: 4px;
   font-family: inherit;
   z-index: 2;
   transform: translate(7px, -8px);
-  --calcite-animation-timing: 250ms;
 
   .handle__label {
     font-size: var(--calcite-font-size--2);
@@ -102,7 +101,8 @@ $tick-height: 4px;
     border-radius: 100%;
     background-color: var(--calcite-ui-foreground-1);
     box-shadow: 0 0 0 2px var(--calcite-ui-text-3) inset;
-    transition: border var(--calcite-animation-timing) ease, background-color var(--calcite-animation-timing) ease,
+    transition: border var(--calcite-slider-internal-animation-timing) ease,
+      background-color var(--calcite-slider-internal-animation-timing) ease,
       box-shadow var(--calcite-animation-timing) ease;
   }
 
@@ -271,7 +271,7 @@ $tick-height: 4px;
   border-radius: 0;
   z-index: 1;
   background-color: var(--calcite-ui-border-2);
-  transition: all var(--calcite-animation-timing) ease-in;
+  transition: all var(--calcite-slider-internal-animation-timing) ease-in;
   position: relative;
 }
 
@@ -327,7 +327,7 @@ $tick-height: 4px;
   left: 0;
   margin: $thumb-size * 0.5 -3px;
   text-align: left;
-  transition: opacity var(--calcite-animation-timing);
+  transition: opacity var(--calcite-internal-animation-timing);
 }
 
 .tick__label--max {
@@ -335,8 +335,7 @@ $tick-height: 4px;
   right: 0;
   margin: $thumb-size * 0.5 -3px;
   text-align: right;
-  --calcite-animation-timing: 50ms;
-  transition: opacity var(--calcite-animation-timing);
+  transition: opacity calc(50ms * var(--calcite-animation-timing-factor));
 }
 
 :host([has-histogram][label-handles]) {
