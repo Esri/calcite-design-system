@@ -76,7 +76,6 @@
 
 :host {
   @apply block;
-  --calcite-animation-timing: 300ms;
   .container {
     @apply shadow-2
       flex
@@ -102,8 +101,9 @@
     max-height: 0;
     z-index: 101;
     transform: translate3d(0, $baseline, 0);
-    transition: var(--calcite-animation-timing) $easing-function,
-      opacity var(--calcite-animation-timing) $easing-function, all var(--calcite-animation-timing) ease-in-out;
+    transition: var(--calcite-internal-animation-timing-slow) $easing-function,
+      opacity var(--calcite-internal-animation-timing-slow) $easing-function,
+      all var(--calcite-internal-animation-timing) ease-in-out;
   }
 }
 
