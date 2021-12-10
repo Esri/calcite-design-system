@@ -1,8 +1,6 @@
 import { Component, Element, Event, h, Prop, EventEmitter, VNode, Host } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
 import { Alignment, Scale, Status } from "../interfaces";
 import { CSS } from "./resources";
-import { CSS_UTILITY } from "../../utils/resources";
 
 /**
  * @slot - A slot for adding text and a component that can be labeled.
@@ -80,10 +78,9 @@ export class CalciteLabel {
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    const dir = getElementDir(this.el);
     return (
       <Host onClick={this.labelClickHandler}>
-        <div class={{ [CSS.container]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+        <div class={CSS.container}>
           <slot />
         </div>
       </Host>

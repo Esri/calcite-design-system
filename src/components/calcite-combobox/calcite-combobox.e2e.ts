@@ -807,6 +807,31 @@ describe("calcite-combobox", () => {
     expect(await combobox.getProperty("active")).toBe(true);
   });
 
+  it("works correctly inside a calcite label", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-button>Other button</calcite-button>
+      <calcite-label>
+        <span class="label-text">Yeah<span>
+        <calcite-combobox selection-mode="single">
+          <calcite-combobox-item id="one" icon="banana" value="one" text-label="One"></calcite-combobox-item>
+          <calcite-combobox-item id="two" icon="beaker" value="two" text-label="Two"></calcite-combobox-item>
+          <calcite-combobox-item id="three" value="three" text-label="Three"></calcite-combobox-item>
+        </calcite-combobox>
+      </calcite-label>
+    `);
+
+    await page.waitForChanges();
+    const span = await page.find(".label-text");
+    const combobox = await page.find("calcite-combobox");
+    const button = await page.find("calcite-button");
+    expect(await combobox.getProperty("active")).toBeFalsy();
+    await span.click();
+    expect(await combobox.getProperty("active")).toBe(true);
+    await button.click();
+    expect(await combobox.getProperty("active")).toBe(false);
+  });
+
   it("is form-associated", () =>
     formAssociated(
       html`<calcite-combobox selection-mode="single">

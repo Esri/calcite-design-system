@@ -1,16 +1,15 @@
 import {
   Component,
-  Event,
   h,
-  EventEmitter,
   Prop,
   Element,
+  Event,
+  EventEmitter,
   Host,
   Watch,
-  State,
   VNode
 } from "@stencil/core";
-import { getElementDir, getElementProp } from "../../utils/dom";
+import { getElementProp } from "../../utils/dom";
 import { RadioAppearance } from "../calcite-radio-group/interfaces";
 import { Position, Layout, Scale } from "../interfaces";
 import { SLOTS, CSS } from "./resources";
@@ -83,16 +82,8 @@ export class CalciteRadioGroupItem {
     this.mutationObserver?.disconnect();
   }
 
-  componentWillLoad(): void {
-    // only use default slot content in browsers that support shadow dom
-    // or if ie11 has no label provided (#374)
-    const label = this.el.querySelector("label");
-    this.useFallback = !label || label.textContent === "";
-  }
-
   render(): VNode {
-    const { checked, useFallback, value } = this;
-    const dir = getElementDir(this.el);
+    const { checked, value } = this;
     const scale: Scale = getElementProp(this.el, "scale", "m");
     const appearance: RadioAppearance = getElementProp(this.el, "appearance", "solid");
     const layout: Layout = getElementProp(this.el, "layout", "horizontal");
@@ -100,7 +91,6 @@ export class CalciteRadioGroupItem {
     const iconEl = (
       <calcite-icon
         class={CSS.radioGroupItemIcon}
-        dir={dir}
         flipRtl={this.iconFlipRtl}
         icon={this.icon}
         scale="s"
@@ -119,7 +109,7 @@ export class CalciteRadioGroupItem {
           }}
         >
           {this.icon && this.iconPosition === "start" ? iconEl : null}
-          <slot>{useFallback ? value : ""}</slot>
+          <slot>{value}</slot>
           <slot name={SLOTS.input} />
           {this.icon && this.iconPosition === "end" ? iconEl : null}
         </label>
@@ -145,8 +135,6 @@ export class CalciteRadioGroupItem {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-  @State() private useFallback: boolean;
-
   private inputProxy: HTMLInputElement;
 
   private mutationObserver = createObserver("mutation", () => this.syncFromExternalInput());

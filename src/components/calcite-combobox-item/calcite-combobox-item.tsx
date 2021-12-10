@@ -10,13 +10,12 @@ import {
   Watch,
   VNode
 } from "@stencil/core";
-import { getElementDir, getElementProp } from "../../utils/dom";
+import { getElementProp } from "../../utils/dom";
 import { CSS } from "./resources";
 import { guid } from "../../utils/guid";
 import { ComboboxChildElement } from "../calcite-combobox/interfaces";
 import { getAncestors, getDepth } from "../calcite-combobox/utils";
 import { Scale } from "../interfaces";
-import { CSS_UTILITY } from "../../utils/resources";
 
 /**
  * @slot - A slot for adding nested `calcite-combobox-item`s.
@@ -184,9 +183,7 @@ export class CalciteComboboxItem {
 
   render(): VNode {
     const isSingleSelect = getElementProp(this.el, "selection-mode", "multi") === "single";
-    const dir = getElementDir(this.el);
     const classes = {
-      [CSS_UTILITY.rtl]: dir === "rtl",
       [CSS.label]: true,
       [CSS.selected]: this.selected,
       [CSS.active]: this.active,

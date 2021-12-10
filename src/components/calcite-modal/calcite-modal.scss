@@ -107,9 +107,9 @@
     text-color-3
     order-2
     cursor-pointer
-    rounded-tr
     bg-transparent
     focus-base;
+  border-start-end-radius: theme("borderRadius.default");
   padding: var(--calcite-modal-padding);
   flex: 0 0 auto;
   transition: all 0.15s ease-in-out;
@@ -125,10 +125,6 @@
   &:active {
     @apply bg-foreground-2 text-color-1;
   }
-}
-
-.calcite--rtl .close {
-  @apply rounded-tl rounded-tr-none;
 }
 
 .title {
@@ -195,11 +191,8 @@
 }
 
 .back {
-  @apply block mr-auto;
-}
-
-.calcite--rtl .back {
-  @apply ml-auto mr-0;
+  @apply block;
+  margin-inline-end: auto;
 }
 
 .secondary {
@@ -287,14 +280,8 @@ slot[name="primary"] {
     }
 
     .close {
-      border-radius: 0 var(--calcite-border-radius) 0 0;
+      border-start-end-radius: var(--calcite-border-radius);
     }
-  }
-}
-
-@media screen and (max-width: $viewport-medium) {
-  :host([docked]) .calcite--rtl .close {
-    border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
   }
 }
 
@@ -342,7 +329,6 @@ slot[name="primary"] {
   .footer {
     @apply flex-col;
   }
-  .calcite--rtl .back,
   .back,
   .secondary {
     @apply m-0 mb-1;

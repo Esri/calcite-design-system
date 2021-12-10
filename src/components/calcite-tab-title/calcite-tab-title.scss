@@ -102,32 +102,17 @@ span {
 }
 
 .container--has-text .calcite-tab-title--icon.icon-start {
-  @apply mr-2;
+  margin-inline-end: theme("margin.2");
 }
 
 .container--has-text .calcite-tab-title--icon.icon-end {
-  @apply ml-2;
+  margin-inline-start: theme("margin.2");
 }
 
 // compensate for spacing when no hastext and two icons
 :host([icon-start][icon-end]) {
   .calcite-tab-title--icon:first-child {
-    @apply mr-2;
-  }
-}
-
-// right to left
-.container--has-text.calcite--rtl .calcite-tab-title--icon.icon-end {
-  @apply ml-0 mr-2;
-}
-
-.container--has-text.calcite--rtl .calcite-tab-title--icon.icon-start {
-  @apply ml-2 mr-0;
-}
-
-:host([icon-start][icon-end]) .calcite--rtl {
-  .calcite-tab-title--icon:first-child {
-    @apply ml-2 mr-0;
+    margin-inline-end: theme("margin.2");
   }
 }
 

@@ -8,7 +8,8 @@ import { getElementXY } from "../../tests/utils";
 import { KeyInput } from "puppeteer";
 
 describe("calcite-input", () => {
-  const delayFor2UpdatesInMs = 1000;
+  const delayFor2UpdatesInMs = 200;
+  const delayFor11UpdatesInMs = 1200;
 
   it("honors form reset", async () => {
     const defaultValue = "defaultValue";
@@ -171,6 +172,32 @@ describe("calcite-input", () => {
     expect(numberHorizontalItemUp).not.toBeNull();
   });
 
+  it("does not render number buttons in default vertical alignment when type=number and read-only", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html` <calcite-input type="number" read-only></calcite-input> `);
+
+    const numberVerticalWrapper = await page.find("calcite-input >>> .number-button-wrapper");
+
+    expect(numberVerticalWrapper).toBeNull();
+  });
+
+  it("does not render number buttons in horizontal alignment when type=number, number button type is horizontal, and read-only", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html` <calcite-input type="number" number-button-type="horizontal" read-only></calcite-input> `
+    );
+
+    const numberHorizontalItemDown = await page.find(
+      "calcite-input >>> .number-button-item--horizontal[data-adjustment='down']"
+    );
+    const numberHorizontalItemUp = await page.find(
+      "calcite-input >>> .number-button-item--horizontal[data-adjustment='up']"
+    );
+
+    expect(numberHorizontalItemDown).toBeNull();
+    expect(numberHorizontalItemUp).toBeNull();
+  });
+
   it("renders no buttons in type=number and number button type is none", async () => {
     const page = await newE2EPage();
     await page.setContent(`
@@ -283,48 +310,47 @@ describe("calcite-input", () => {
     expect(await element.getProperty("value")).toBe("25");
   });
 
-  it("correctly increments and decrements value when number buttons are clicked and step is set to a decimal", async () => {
-    const page = await newE2EPage({
-      html: `
-          <calcite-input step="0.1" type="number"></calcite-input>
-        `
-    });
+  it.skip("correctly increments and decrements on long hold on mousedown and step is set to a decimal", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-input type="number" value="0" step="0.01"></calcite-input>
+    `);
     const input = await page.find("calcite-input");
-    const buttonUp = await page.find('calcite-input >>> button[data-adjustment="up"]');
-    const buttonDown = await page.find('calcite-input >>> button[data-adjustment="down"]');
+    const [buttonUpLocationX, buttonUpLocationY] = await getElementXY(
+      page,
+      "calcite-input",
+      ".number-button-item[data-adjustment='up']"
+    );
+    const [buttonDownLocationX, buttonDownLocationY] = await getElementXY(
+      page,
+      "calcite-input",
+      ".number-button-item[data-adjustment='down']"
+    );
 
-    await buttonUp.click();
+    await page.mouse.move(buttonUpLocationX, buttonUpLocationY);
+    await page.mouse.down();
+    await page.waitForTimeout(delayFor11UpdatesInMs);
+    await page.mouse.up();
     await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("0.12");
 
-    expect(await input.getProperty("value")).toBe("0.1");
-
-    await buttonUp.click();
+    await page.mouse.move(buttonDownLocationX, buttonDownLocationY);
+    await page.mouse.down();
+    await page.waitForTimeout(delayFor11UpdatesInMs);
+    await page.mouse.up();
     await page.waitForChanges();
-
-    expect(await input.getProperty("value")).toBe("0.2");
-
-    await buttonDown.click();
-    await page.waitForChanges();
-
-    expect(await input.getProperty("value")).toBe("0.1");
-
-    await buttonDown.click();
-    await page.waitForChanges();
-
     expect(await input.getProperty("value")).toBe("0");
   });
 
   it("correctly increments and decrements value by one when any is set for step", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input type="number" step="any" value="5.5"></calcite-input>
-    `);
+    await page.setContent(html`<calcite-input type="number" step="any" value="5.5"></calcite-input>`);
 
     const element = await page.find("calcite-input");
 
     const numberHorizontalItemDown = await page.find("calcite-input >>> .number-button-item[data-adjustment='down']");
     const numberHorizontalItemUp = await page.find("calcite-input >>> .number-button-item[data-adjustment='up']");
-    expect(await element.getProperty("value")).toBe("5.5");
+
     await numberHorizontalItemDown.click();
     await page.waitForChanges();
     expect(await element.getProperty("value")).toBe("4.5");
@@ -495,7 +521,7 @@ describe("calcite-input", () => {
 
     const calciteInputInput = await page.spyOnEvent("calciteInputInput");
     const element = await page.find("calcite-input");
-    expect(await element.getProperty("value")).toBeUndefined();
+    expect(await element.getProperty("value")).toBe("");
     await element.callMethod("setFocus");
     expect(calciteInputInput).toHaveReceivedEventTimes(0);
     await page.keyboard.press("a");
@@ -616,7 +642,7 @@ describe("calcite-input", () => {
     await element.callMethod("setFocus");
     await page.keyboard.press("Escape");
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBeNull();
+    expect(await element.getProperty("value")).toBe("");
   });
 
   it("when clearable is requested, value is cleared on clear button click", async () => {
@@ -630,7 +656,7 @@ describe("calcite-input", () => {
     expect(await element.getProperty("value")).toBe("John Doe");
     await clearButton.click();
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBeNull();
+    expect(await element.getProperty("value")).toBe("");
   });
 
   it("when clearable is requested and clear button is clicked, event is received", async () => {
@@ -645,7 +671,7 @@ describe("calcite-input", () => {
     expect(await element.getProperty("value")).toBe("John Doe");
     await clearButton.click();
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBeNull();
+    expect(await element.getProperty("value")).toBe("");
     expect(calciteInputInput).toHaveReceivedEventTimes(1);
   });
 
@@ -662,7 +688,7 @@ describe("calcite-input", () => {
     expect(calciteInputInput).toHaveReceivedEventTimes(0);
     await page.keyboard.press("Escape");
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBeNull();
+    expect(await element.getProperty("value")).toBe("");
     expect(calciteInputInput).toHaveReceivedEventTimes(1);
   });
 
@@ -679,7 +705,7 @@ describe("calcite-input", () => {
     expect(calciteInputInput).toHaveReceivedEventTimes(0);
     await clearButton.click();
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBeNull();
+    expect(await element.getProperty("value")).toBe("");
     expect(calciteInputInput).toHaveReceivedEventTimes(1);
   });
 
@@ -696,7 +722,7 @@ describe("calcite-input", () => {
     expect(calciteInputInput).toHaveReceivedEventTimes(0);
     await page.keyboard.press("Escape");
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBeNull();
+    expect(await element.getProperty("value")).toBe("");
     expect(calciteInputInput).toHaveReceivedEventTimes(1);
   });
 
@@ -742,7 +768,7 @@ describe("calcite-input", () => {
     expect(calciteInputInput).toHaveReceivedEventTimes(3);
   });
 
-  it("should emit an event every 500ms on keyboard down ArrowUp/ArrowDown and stop on keyboard up", async () => {
+  it.skip("should emit an event every 100ms on keyboard down ArrowUp/ArrowDown and stop on keyboard up", async () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-input type="number" value="0"></calcite-input>
@@ -769,7 +795,7 @@ describe("calcite-input", () => {
     expect(calciteInputInput).toHaveReceivedEventTimes(6);
   });
 
-  it("should emit an event every 500ms on mousedown on up/down buttons and stop on mouseup/mouseleave", async () => {
+  it.skip("should emit an event every 100ms on mousedown on up/down buttons and stop on mouseup/mouseleave", async () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-input type="number" value="0"></calcite-input>
@@ -860,7 +886,7 @@ describe("calcite-input", () => {
         html: `<calcite-input></calcite-input>`
       });
       const input = await page.find("calcite-input");
-      expect(await input.getProperty("value")).toBeUndefined();
+      expect(await input.getProperty("value")).toBe("");
     });
 
     it(`initial value is of type string when initially set to ""`, async () => {
@@ -876,10 +902,10 @@ describe("calcite-input", () => {
       await input.setProperty("value", null);
       await page.waitForChanges();
 
-      expect(await input.getProperty("value")).toBeNull();
+      expect(await input.getProperty("value")).toBe("");
     });
 
-    it(`when value is programmatically set to null, value is null`, async () => {
+    it(`when value is programmatically set to null, value is ""`, async () => {
       const page = await newE2EPage({
         html: `<calcite-input></calcite-input>`
       });
@@ -890,7 +916,7 @@ describe("calcite-input", () => {
 
       const value = await input.getProperty("value");
 
-      expect(value).toBeNull();
+      expect(value).toBe("");
     });
 
     it(`when value is programmatically set to "", value's type is string`, async () => {
@@ -1173,28 +1199,6 @@ describe("calcite-input", () => {
         });
       });
 
-    it(`disallows setting value to undefined on initial load.`, async () => {
-      const page = await newE2EPage({
-        html: `<calcite-input type="number" value="undefined"></calcite-input>`
-      });
-      const calciteInput = await page.find("calcite-input");
-      const input = await page.find("calcite-input >>> input");
-
-      expect(await calciteInput.getProperty("value")).toBeFalsy();
-      expect(await input.getProperty("value")).toBeFalsy();
-    });
-
-    it(`disallows setting value to null on initial load.`, async () => {
-      const page = await newE2EPage({
-        html: `<calcite-input type="number" value="null"></calcite-input>`
-      });
-      const calciteInput = await page.find("calcite-input");
-      const input = await page.find("calcite-input >>> input");
-
-      expect(await calciteInput.getProperty("value")).toBeFalsy();
-      expect(await input.getProperty("value")).toBeFalsy();
-    });
-
     it(`disallows setting text value on initial load.`, async () => {
       const page = await newE2EPage({
         html: `<calcite-input type="number" value="i am a text value"></calcite-input>`
@@ -1202,8 +1206,8 @@ describe("calcite-input", () => {
       const calciteInput = await page.find("calcite-input");
       const input = await page.find("calcite-input >>> input");
 
-      expect(await calciteInput.getProperty("value")).toBeFalsy();
-      expect(await input.getProperty("value")).toBeFalsy();
+      expect(await calciteInput.getProperty("value")).toBe("");
+      expect(await input.getProperty("value")).toBe("");
     });
 
     it(`allows setting value to undefined after initial load.`, async () => {
@@ -1238,8 +1242,8 @@ describe("calcite-input", () => {
       calciteInput.setProperty("value", null);
       await page.waitForChanges();
 
-      expect(await calciteInput.getProperty("value")).toBeFalsy();
-      expect(await input.getProperty("value")).toBeFalsy();
+      expect(await calciteInput.getProperty("value")).toBe("");
+      expect(await input.getProperty("value")).toBe("");
     });
 
     it(`disallows setting text value after initial load.`, async () => {
