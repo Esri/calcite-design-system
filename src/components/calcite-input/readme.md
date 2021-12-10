@@ -28,7 +28,6 @@ You must use `focusin`/`focusout` instead of `focus`/`blur` because these events
 All events return an element and a value:
 
 ```js
-input.addEventListener("change", logChange);
 input.addEventListener("focusin", logFocus);
 input.addEventListener("focusout", logBlur);
 
@@ -94,13 +93,14 @@ Using a wrapping `calcite-label` component lets consumers set the status attribu
 | `step`             | `step`               | input step                                                                                                                                                                                                                                   | `"any" \| number`                                                                                                                                                                      | `undefined`                               |
 | `suffixText`       | `suffix-text`        | optionally add suffix \*                                                                                                                                                                                                                     | `string`                                                                                                                                                                               | `undefined`                               |
 | `type`             | `type`               | specify the input type Note that the following types add type-specific icons by default: `date`, `email`, `password`, `search`, `tel`, `time`                                                                                                | `"color" \| "date" \| "datetime-local" \| "email" \| "file" \| "image" \| "month" \| "number" \| "password" \| "search" \| "tel" \| "text" \| "textarea" \| "time" \| "url" \| "week"` | `"text"`                                  |
-| `value`            | `value`              | input value                                                                                                                                                                                                                                  | `string`                                                                                                                                                                               | `undefined`                               |
+| `value`            | `value`              | input value                                                                                                                                                                                                                                  | `string`                                                                                                                                                                               | `""`                                      |
 
 ## Events
 
-| Event               | Description                                      | Type               |
-| ------------------- | ------------------------------------------------ | ------------------ |
-| `calciteInputInput` | This event fires each time a new value is typed. | `CustomEvent<any>` |
+| Event                | Description                                                    | Type                |
+| -------------------- | -------------------------------------------------------------- | ------------------- |
+| `calciteInputChange` | This event fires each time a new value is typed and committed. | `CustomEvent<void>` |
+| `calciteInputInput`  | This event fires each time a new value is typed.               | `CustomEvent<any>`  |
 
 ## Methods
 

@@ -1,10 +1,9 @@
 import { Component, h, Prop, Event, EventEmitter, Element, VNode, Method } from "@stencil/core";
-import { getElementDir, getSlotted } from "../../utils/dom";
+import { getSlotted } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { CSS, TEXT, SLOTS, ICONS } from "./resources";
 import { ChipColor } from "./interfaces";
 import { Appearance, Scale } from "../interfaces";
-import { CSS_UTILITY } from "../../utils/resources";
 
 /**
  * @slot - A slot for adding text.
@@ -110,12 +109,9 @@ export class CalciteChip {
   }
 
   render(): VNode {
-    const dir = getElementDir(this.el);
-
     const iconEl = (
       <calcite-icon
         class={CSS.calciteChipIcon}
-        dir={dir}
         flipRtl={this.iconFlipRtl}
         icon={this.icon}
         scale="s"
@@ -135,7 +131,7 @@ export class CalciteChip {
     );
 
     return (
-      <div class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+      <div class="container">
         {this.renderChipImage()}
         {this.icon ? iconEl : null}
         <span class={CSS.title} id={this.guid}>

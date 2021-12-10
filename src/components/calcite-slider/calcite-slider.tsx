@@ -13,7 +13,7 @@ import {
   Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { getKey } from "../../utils/key";
+
 import { ColorStop, DataSeries } from "../calcite-graph/interfaces";
 import { intersects } from "../../utils/dom";
 import { clamp } from "../../utils/math";
@@ -655,7 +655,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
           "tick__label--max": isMaxTickLabel
         }}
       >
-        {Math.min(tick, this.max).toLocaleString()}
+        {tick.toLocaleString()}
       </span>
     );
     if (this.labelTicks && !this.hasHistogram && !this.isRange) {
@@ -732,7 +732,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
     const mirror = this.shouldMirror();
     const { activeProp, max, min, pageStep, step } = this;
     const value = this[activeProp];
-    const key = getKey(event.key);
+    const key = event.key;
 
     if (key === "Enter" || key === " ") {
       event.preventDefault();
@@ -768,8 +768,8 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
   }
 
   @Listen("click")
-  clickHandler(): void {
-    this.focusActiveHandle();
+  clickHandler(event: PointerEvent): void {
+    this.focusActiveHandle(event.clientX);
   }
 
   @Listen("pointerdown")
@@ -906,7 +906,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
     const ticks = [];
     let current = this.min;
     while (this.ticks && current < this.max + this.ticks) {
-      ticks.push(current);
+      ticks.push(Math.min(current, this.max));
       current = current + this.ticks;
     }
     return ticks;
@@ -921,16 +921,18 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
     document.addEventListener("pointercancel", this.dragEnd);
   }
 
-  private focusActiveHandle(): void {
+  private focusActiveHandle(valueX: number): void {
     switch (this.dragProp) {
-      default:
-      case "maxValue":
-        this.maxHandle.focus();
-        break;
       case "minValue":
         this.minHandle.focus();
         break;
+      case "maxValue":
+        this.maxHandle.focus();
+        break;
       case "minMaxValue":
+        this.getClosestHandle(valueX).focus();
+        break;
+      default:
         break;
     }
   }
@@ -971,12 +973,12 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
     this.calciteSliderChange.emit();
   }
 
-  private dragEnd = (): void => {
+  private dragEnd = (event: PointerEvent): void => {
     document.removeEventListener("pointermove", this.dragUpdate);
     document.removeEventListener("pointerup", this.dragEnd);
     document.removeEventListener("pointercancel", this.dragEnd);
 
-    this.focusActiveHandle();
+    this.focusActiveHandle(event.clientX);
     if (this.lastDragPropValue != this[this.dragProp]) {
       this.emitChange();
     }
@@ -1060,6 +1062,16 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
       num = this.clamp(step);
     }
     return num;
+  }
+
+  private getClosestHandle(valueX: number): HTMLButtonElement {
+    return this.getDistanceX(this.maxHandle, valueX) > this.getDistanceX(this.minHandle, valueX)
+      ? this.minHandle
+      : this.maxHandle;
+  }
+
+  private getDistanceX(el: HTMLButtonElement, valueX: number): number {
+    return Math.abs(el.getBoundingClientRect().left - valueX);
   }
 
   private getFontSizeForElement(element: HTMLElement): number {

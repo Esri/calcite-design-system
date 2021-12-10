@@ -252,16 +252,8 @@
   background-color: var(--calcite-ui-border-input);
   border-color: var(--calcite-ui-foreground-1);
   top: -2px;
-}
-:host(:not([mirrored])) {
-  .tick {
-    @apply -ml-0.5;
-  }
-}
-:host([mirrored]) {
-  .tick {
-    @apply -mr-0.5;
-  }
+  pointer-events: none;
+  margin-inline-start: calc(-1 * theme("margin[0.5]"));
 }
 
 .tick--active {

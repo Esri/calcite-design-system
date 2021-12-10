@@ -14,7 +14,6 @@ import {
   Build
 } from "@stencil/core";
 import { getLocaleData, DateLocaleData } from "../calcite-date-picker/utils";
-import { getElementDir } from "../../utils/dom";
 import {
   dateFromRange,
   inRange,
@@ -24,7 +23,7 @@ import {
   sameDate
 } from "../../utils/date";
 import { HeadingLevel } from "../functional/CalciteHeading";
-import { getKey } from "../../utils/key";
+
 import { TEXT } from "../calcite-date-picker/resources";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
@@ -303,17 +302,11 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
       : null;
     const formattedEndDate = endDate ? endDate.toLocaleDateString(this.locale) : "";
     const formattedDate = date ? date.toLocaleDateString(this.locale) : "";
-    const dir = getElementDir(this.el);
 
     return (
       <Host onBlur={this.deactivate} onKeyUp={this.keyUpHandler} role="application">
         {this.localeData && (
-          <div
-            aria-expanded={this.active.toString()}
-            class="input-container"
-            dir={dir}
-            role="application"
-          >
+          <div aria-expanded={this.active.toString()} class="input-container" role="application">
             {
               <div class="input-wrapper" ref={this.setStartWrapper}>
                 <calcite-input
@@ -487,7 +480,7 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
   };
 
   keyUpHandler = (e: KeyboardEvent): void => {
-    if (getKey(e.key) === "Escape") {
+    if (e.key === "Escape") {
       this.active = false;
     }
   };
