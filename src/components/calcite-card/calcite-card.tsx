@@ -1,8 +1,5 @@
 import { Component, Element, Event, EventEmitter, h, Prop, VNode } from "@stencil/core";
 import { CSS, SLOTS, TEXT } from "./resources";
-import { getElementDir } from "../../utils/dom";
-
-import { CSS_UTILITY } from "../../utils/resources";
 
 /** Cards do not include a grid or bounding container
  * - cards will expand to fit the width of their container
@@ -77,9 +74,8 @@ export class CalciteCard {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const dir = getElementDir(this.el);
     return (
-      <div class={{ "calcite-card-container": true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+      <div class="calcite-card-container">
         {this.loading ? (
           <div class="calcite-card-loader-container">
             <calcite-loader active label={this.intlLoading} />

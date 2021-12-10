@@ -2,7 +2,7 @@ import { Component, Element, Method, Prop, h, VNode } from "@stencil/core";
 import { Appearance, Scale } from "../interfaces";
 import { ButtonColor } from "../calcite-button/interfaces";
 import { CSS, ICONS } from "./resources";
-import { focusElement, getElementDir } from "../../utils/dom";
+import { focusElement } from "../../utils/dom";
 
 @Component({
   tag: "calcite-fab",
@@ -91,17 +91,14 @@ export class CalciteFab {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { appearance, color, disabled, el, loading, scale, textEnabled, icon, label, text } =
-      this;
+    const { appearance, color, disabled, loading, scale, textEnabled, icon, label, text } = this;
     const title = !textEnabled ? label || text || null : null;
-    const dir = getElementDir(el);
 
     return (
       <calcite-button
         appearance={appearance === "solid" ? "solid" : "outline"}
         class={CSS.button}
         color={color}
-        dir={dir}
         disabled={disabled}
         iconStart={icon}
         label={label}

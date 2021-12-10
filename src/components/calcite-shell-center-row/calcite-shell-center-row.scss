@@ -56,17 +56,10 @@
 }
 
 ::slotted(calcite-action-bar) {
-  @apply border-r border-solid border-color-3;
+  @apply border-solid border-color-3;
+  border-inline-end-width: theme("borderWidth.default");
 }
 ::slotted(calcite-action-bar[position="end"]) {
-  @apply border-l-0 border-r border-solid border-color-3;
-}
-
-.calcite--rtl {
-  ::slotted(calcite-action-bar) {
-    @apply border-r-0 border-l border-solid border-color-3;
-  }
-  ::slotted(calcite-action-bar[position="end"]) {
-    @apply border-l-0 border-r border-solid border-color-3;
-  }
+  @apply border-solid border-color-3;
+  border-inline-width: theme("borderWidth.0") theme("borderWidth.default");
 }

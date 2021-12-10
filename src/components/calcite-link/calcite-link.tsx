@@ -93,7 +93,6 @@ export class CalciteLink {
       <Host role="presentation">
         <Tag
           class={{ [CSS_UTILITY.rtl]: dir === "rtl" }}
-          dir={dir}
           href={Tag === "a" && this.href}
           ref={this.storeTagRef}
           rel={Tag === "a" && this.rel}

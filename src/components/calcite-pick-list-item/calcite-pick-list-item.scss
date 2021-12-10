@@ -95,10 +95,5 @@
 }
 
 .actions--start ~ .label {
-  @apply pl-1;
-}
-
-.calcite--rtl .actions--start ~ .label {
-  padding-left: unset;
-  @apply pr-1;
+  padding-inline-start: theme("padding.1");
 }
