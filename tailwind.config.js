@@ -113,7 +113,7 @@ module.exports = {
       xl: "1440px"
     },
     textColor: ({ theme }) => ({
-      color: theme("colors.text")
+      ...theme("colors.text")
     }),
     backgroundColor: ({ theme }) => ({
       ...theme("colors.background"),
@@ -195,13 +195,6 @@ module.exports = {
       },
       opacity: {
         disabled: "var(--calcite-ui-opacity-disabled)"
-      },
-      spacing: {
-        0.5: "0.125rem",
-        2.5: "0.625rem",
-        3.5: "0.875rem",
-        9: "2.25rem",
-        11: "2.75rem"
       },
       transitionProperty: {
         margin: "margin",

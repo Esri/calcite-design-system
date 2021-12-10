@@ -54,15 +54,15 @@
 }
 
 :host([width="auto"]) {
-  --calcite-notice-width: theme("width[auto]");
+  --calcite-notice-width: theme("width.auto");
 }
 
 :host([width="half"]) {
-  --calcite-notice-width: theme("width[1/2]");
+  --calcite-notice-width: theme("width.1/2");
 }
 
 :host([width="full"]) {
-  --calcite-notice-width: theme("width[full]");
+  --calcite-notice-width: theme("width.full");
 }
 
 :host {
