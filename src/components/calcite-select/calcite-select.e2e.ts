@@ -1,5 +1,5 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, focusable, labelable, reflects, renders } from "../../tests/commonTests";
+import { accessible, focusable, formAssociated, labelable, reflects, renders } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 import { CSS } from "./resources";
 
@@ -62,11 +62,22 @@ describe("calcite-select", () => {
       await internalSelect.asElement().select("dos");
       await page.waitForChanges();
 
-      const selected = await page.findAll("calcite-option[selected]");
+      let selected = await page.findAll("calcite-option[selected]");
 
       await assertSelectedOption(page, selected[0]);
       expect(selected.length).toBe(1);
       expect(selected[0].innerText).toBe("dos");
+      expect(spy).toHaveReceivedEventTimes(1);
+
+      const lastOption = await page.find("calcite-option:last-child");
+      await lastOption.setProperty("selected", true);
+      await page.waitForChanges();
+
+      selected = await page.findAll("calcite-option[selected]");
+
+      await assertSelectedOption(page, selected[0]);
+      expect(selected.length).toBe(1);
+      expect(selected[0].innerText).toBe("tres");
       expect(spy).toHaveReceivedEventTimes(1);
     });
 
@@ -166,11 +177,22 @@ describe("calcite-select", () => {
       await internalSelect.asElement().select("c");
       await page.waitForChanges();
 
-      const selected = await page.findAll("calcite-option[selected]");
+      let selected = await page.findAll("calcite-option[selected]");
 
       await assertSelectedOption(page, selected[0]);
       expect(selected.length).toBe(1);
       expect(selected[0].innerText).toBe("c");
+      expect(spy).toHaveReceivedEventTimes(1);
+
+      const lastNumberOption = await page.find("calcite-option-group[label='numbers'] calcite-option:last-child");
+      await lastNumberOption.setProperty("selected", true);
+      await page.waitForChanges();
+
+      selected = await page.findAll("calcite-option[selected]");
+
+      await assertSelectedOption(page, selected[0]);
+      expect(selected.length).toBe(1);
+      expect(selected[0].innerText).toBe("3");
       expect(spy).toHaveReceivedEventTimes(1);
     });
 
@@ -221,8 +243,6 @@ describe("calcite-select", () => {
       expect(selected).toHaveLength(1);
       expect(selected[0].innerText).toBe("a");
     });
-
-    it("is labelable", async () => labelable("calcite-select"));
 
     it("internally maps children to native elements", async () => {
       const page = await newE2EPage({
@@ -305,4 +325,16 @@ describe("calcite-select", () => {
 
     expect(selectedOptionId).toBe("2");
   });
+
+  it("is form-associated", () =>
+    formAssociated(
+      html`
+        <calcite-select>
+          <calcite-option id="1">uno</calcite-option>
+          <calcite-option id="2">dos</calcite-option>
+          <calcite-option id="3">tres</calcite-option>
+        </calcite-select>
+      `,
+      { testValue: "dos" }
+    ));
 });

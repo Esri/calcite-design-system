@@ -9,8 +9,8 @@ jobs:
       - uses: actions/stale@v3
         with:
           days-before-stale: -1
-          days-before-close: 3
+          days-before-pr-close: -1
+          days-before-issue-close: 5
           remove-stale-when-updated: false
           stale-issue-label: "need more info"
-          stale-pr-label: "need more info"
           close-issue-message: "This issue has been automatically closed due to missing information. We will reopen the issue if the information is provided and `${{secrets.PRIMARY_CONTACT}}` is mentioned in the comment."

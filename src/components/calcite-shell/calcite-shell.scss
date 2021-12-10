@@ -8,29 +8,24 @@
 
 :host {
   @extend %component-host;
-  @apply w-full 
-    h-full 
-    absolute 
-    flex 
-    flex-col 
+  @apply w-full
+    h-full
+    absolute
+    flex
+    flex-col
     overflow-hidden
     inset-0;
   --calcite-shell-tip-spacing: 26vw;
 }
 
 .main {
-  @apply h-full 
-    w-full 
-    flex-auto 
-    flex 
-    flex-row 
-    relative 
-    border-0
-    border-t
-    border-b
-    border-solid
-    border-color-3
-    justify-between 
+  @apply h-full
+    w-full
+    flex-auto
+    flex
+    flex-row
+    relative
+    justify-between
     overflow-hidden;
 }
 
@@ -40,15 +35,11 @@
 
 .content {
   @apply flex
-    h-full 
-    overflow-auto 
-    w-full 
-    border-0
-    border-l 
-    border-r 
-    border-solid
-    border-color-3;
-  flex-flow: column nowrap;
+    flex-col
+    flex-no-wrap
+    h-full
+    overflow-auto
+    w-full;
 }
 
 .content ::slotted(calcite-shell-center-row),
@@ -59,8 +50,8 @@
 }
 
 .content--behind {
-  @apply border-0 
-    absolute 
+  @apply border-0
+    absolute
     inset-0
     z-0;
   display: initial;
@@ -78,6 +69,15 @@
 ::slotted(calcite-shell-center-row) {
   @apply relative;
   z-index: 1;
+}
+
+::slotted(calcite-panel),
+::slotted(calcite-flow) {
+  @apply border
+  border-color-3
+  border-solid
+  border-l-0
+  border-r-0;
 }
 
 slot[name="center-row"]::slotted(calcite-shell-center-row:not([detached])) {

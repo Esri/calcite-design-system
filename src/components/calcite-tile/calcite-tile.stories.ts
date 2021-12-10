@@ -45,9 +45,7 @@ export const Dark = (): string => html`
   </calcite-tile>
 `;
 
-Dark.story = {
-  parameters: { themes: themesDarkDefault }
-};
+Dark.parameters = { themes: themesDarkDefault };
 
 export const RTL = (): string => html`
   <calcite-tile

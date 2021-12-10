@@ -89,9 +89,7 @@ export const NoContent = (): string => html`
   </calcite-stepper>
 `;
 
-NoContent.story = {
-  name: "No content"
-};
+NoContent.storyName = "No content";
 
 export const DarkMode = (): string => html`
   <calcite-stepper
@@ -134,9 +132,7 @@ export const DarkMode = (): string => html`
   </calcite-stepper>
 `;
 
-DarkMode.story = {
-  parameters: { themes: themesDarkDefault }
-};
+DarkMode.parameters = { themes: themesDarkDefault };
 
 export const Rtl = (): string => html`
   <div dir="rtl">
@@ -178,6 +174,4 @@ export const Rtl = (): string => html`
   </div>
 `;
 
-Rtl.story = {
-  name: "RTL"
-};
+Rtl.storyName = "RTL";

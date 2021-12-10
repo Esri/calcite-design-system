@@ -1,8 +1,16 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, HYDRATED_ATTR } from "../../tests/commonTests";
+import { accessible, HYDRATED_ATTR, defaults } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-split-button", () => {
+  it("has defaults", async () =>
+    defaults("calcite-split-button", [
+      {
+        propertyName: "overlayPositioning",
+        defaultValue: "absolute"
+      }
+    ]));
+
   const content = `
   <calcite-dropdown-group>
     <calcite-dropdown-item id="item-1">Item</calcite-dropdown-item>

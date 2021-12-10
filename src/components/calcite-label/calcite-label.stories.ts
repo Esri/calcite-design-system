@@ -80,9 +80,7 @@ export const WrappingComponentsOtherThanInput = (): string => html`
   </div>
 `;
 
-WrappingComponentsOtherThanInput.story = {
-  name: "Wrapping components other than input"
-};
+WrappingComponentsOtherThanInput.storyName = "Wrapping components other than input";
 
 export const DarkTheme = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;" class="calcite-theme-dark">
@@ -146,9 +144,7 @@ export const DarkTheme = (): string => html`
   </div>
 `;
 
-DarkTheme.story = {
-  parameters: { themes: themesDarkDefault }
-};
+DarkTheme.parameters = { themes: themesDarkDefault };
 
 export const WrappingComponentsOtherThanInputRTL = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;" dir="rtl">

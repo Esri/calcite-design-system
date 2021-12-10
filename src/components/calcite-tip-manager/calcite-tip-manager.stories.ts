@@ -130,6 +130,4 @@ export const darkThemeRTL = (): string =>
     tipContent
   );
 
-darkThemeRTL.story = {
-  parameters: { themes: themesDarkDefault }
-};
+darkThemeRTL.parameters = { themes: themesDarkDefault };

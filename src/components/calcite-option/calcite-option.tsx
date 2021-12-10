@@ -114,8 +114,10 @@ export class CalciteOption {
   connectedCallback(): void {
     this.ensureTextContentDependentProps();
     this.mutationObserver?.observe(this.el, {
+      attributeFilter: ["label", "value"],
+      characterData: true,
       childList: true,
-      attributeFilter: ["label", "value"]
+      subtree: true
     });
   }
 

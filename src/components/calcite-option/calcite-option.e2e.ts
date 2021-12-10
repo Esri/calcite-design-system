@@ -56,5 +56,16 @@ describe("calcite-option", () => {
 
     expect(await option.getProperty("label")).toBe(alternateLabel);
     expect(await option.getProperty("value")).toBe(alternateLabel);
+
+    const charDataUpdateLabel = "tres";
+    await page.evaluate((updatedText: string): void => {
+      // Ember and possibly other frameworks use Text node APIs to update contents
+      const option = document.querySelector<HTMLCalciteOptionElement>("calcite-option");
+      const textNode = option.childNodes[0] as Text;
+      textNode.replaceData(0, textNode.length, updatedText);
+    }, charDataUpdateLabel);
+
+    expect(await option.getProperty("label")).toBe(charDataUpdateLabel);
+    expect(await option.getProperty("value")).toBe(charDataUpdateLabel);
   });
 });

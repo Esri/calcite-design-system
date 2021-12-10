@@ -11,19 +11,18 @@ import {
   State,
   VNode
 } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
+import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { TEXT } from "./resources";
-import { CSS_UTILITY } from "../../utils/resources";
 
 @Component({
   tag: "calcite-rating",
   styleUrl: "calcite-rating.scss",
   shadow: true
 })
-export class CalciteRating implements LabelableComponent {
+export class CalciteRating implements LabelableComponent, FormComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -59,6 +58,9 @@ export class CalciteRating implements LabelableComponent {
   /** optionally pass a cumulative average rating to display */
   @Prop({ reflect: true }) average?: number;
 
+  /** The name of the rating */
+  @Prop({ reflect: true }) name: string;
+
   /** Localized string for "Rating" (used for aria label)
    * @default "Rating"
    */
@@ -69,6 +71,13 @@ export class CalciteRating implements LabelableComponent {
    */
   @Prop() intlStars?: string = TEXT.stars;
 
+  /**
+   * When true, makes the component required for form-submission.
+   *
+   * @internal
+   */
+  @Prop({ reflect: true }) required = false;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -77,10 +86,12 @@ export class CalciteRating implements LabelableComponent {
 
   connectedCallback(): void {
     connectLabel(this);
+    connectForm(this);
   }
 
   disconnectedCallback(): void {
     disconnectLabel(this);
+    disconnectForm(this);
   }
 
   //--------------------------------------------------------------------------
@@ -164,11 +175,11 @@ export class CalciteRating implements LabelableComponent {
 
   render() {
     const { intlRating, showChip, scale, count, average } = this;
-    const dir = getElementDir(this.el);
+
     return (
       <Fragment>
         <fieldset
-          class={{ fieldset: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+          class="fieldset"
           onBlur={() => (this.hoverValue = null)}
           onMouseLeave={() => (this.hoverValue = null)}
           onTouchEnd={() => (this.hoverValue = null)}
@@ -177,16 +188,12 @@ export class CalciteRating implements LabelableComponent {
           {this.renderStars()}
         </fieldset>
         {(count || average) && showChip ? (
-          <calcite-chip
-            class={{ [CSS_UTILITY.rtl]: dir === "rtl" }}
-            dir={dir}
-            scale={scale}
-            value={count?.toString()}
-          >
+          <calcite-chip scale={scale} value={count?.toString()}>
             {!!average && <span class="number--average">{average.toString()}</span>}
             {!!count && <span class="number--count">({count?.toString()})</span>}
           </calcite-chip>
         ) : null}
+        <HiddenFormInputSlot component={this} />
       </Fragment>
     );
   }
@@ -225,6 +232,10 @@ export class CalciteRating implements LabelableComponent {
   // --------------------------------------------------------------------------
 
   labelEl: HTMLCalciteLabelElement;
+
+  formEl: HTMLFormElement;
+
+  defaultValue: CalciteRating["value"];
 
   @State() hoverValue: number;
 

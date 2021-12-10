@@ -27,9 +27,7 @@ export const Simple = (): string => html`
   </div>
 `;
 
-Simple.story = {
-  name: "Simple"
-};
+Simple.storyName = "Simple";
 
 export const DarkMode = (): string => html`
   <div style="width: 400px">
@@ -49,10 +47,8 @@ export const DarkMode = (): string => html`
   </div>
 `;
 
-DarkMode.story = {
-  name: "Dark mode",
-  parameters: { themes: themesDarkDefault }
-};
+DarkMode.storyName = "Dark mode";
+DarkMode.parameters = { themes: themesDarkDefault };
 
 export const Range = (): string => html`
   <div style="width: 400px">

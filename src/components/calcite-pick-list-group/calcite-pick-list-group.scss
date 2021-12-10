@@ -25,9 +25,5 @@ h3.heading {
 }
 
 .container--indented {
-  @apply ml-6;
-}
-
-.calcite--rtl.container--indented {
-  @apply ml-0 mr-6;
+  margin-inline-start: theme("margin.6");
 }

@@ -4,16 +4,15 @@ import {
   Event,
   EventEmitter,
   Prop,
-  State,
   h,
   VNode,
   Method,
-  Fragment
+  Fragment,
+  Watch
 } from "@stencil/core";
 import { debounce, forIn } from "lodash-es";
 import { CSS, ICONS, TEXT } from "./resources";
-import { CSS_UTILITY } from "../../utils/resources";
-import { focusElement, getElementDir } from "../../utils/dom";
+import { focusElement } from "../../utils/dom";
 
 const filterDebounceInMs = 250;
 
@@ -30,15 +29,29 @@ export class CalciteFilter {
   // --------------------------------------------------------------------------
 
   /**
-   * The input data. The filter uses this as the starting point, and returns items
+   * The items to filter through. The filter uses this as the starting point, and returns items
    * that contain the string entered in the input, using a partial match and recursive search.
+   *
+   * This property is required.
    */
-  @Prop() data: object[];
+  @Prop({ mutable: true }) items!: object[];
+
+  @Watch("items")
+  watchItemsHandler(): void {
+    this.filter(this.value);
+  }
 
   /**
    * When true, disabled prevents interaction. This state shows items with lower opacity/grayed.
    */
   @Prop({ reflect: true }) disabled = false;
+
+  /**
+   * The resulting items after filtering.
+   *
+   * @readonly
+   */
+  @Prop({ mutable: true }) filteredItems: CalciteFilter["items"] = [];
 
   /**
    * A text label that will appear on the clear button.
@@ -55,6 +68,16 @@ export class CalciteFilter {
    */
   @Prop() placeholder?: string;
 
+  /**
+   * Filter value.
+   */
+  @Prop({ mutable: true }) value?: string;
+
+  @Watch("value")
+  valueHandler(value: string): void {
+    this.filter(value);
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -62,8 +85,6 @@ export class CalciteFilter {
   // --------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteFilterElement;
-
-  @State() empty = true;
 
   textInput: HTMLCalciteInputElement;
 
@@ -76,7 +97,7 @@ export class CalciteFilter {
   /**
    * This event fires when the filter text changes.
    */
-  @Event() calciteFilterChange: EventEmitter;
+  @Event() calciteFilterChange: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -99,10 +120,8 @@ export class CalciteFilter {
   filter = debounce((value: string): void => {
     const regex = new RegExp(value, "i");
 
-    if (this.data.length === 0) {
-      console.warn(`No data was passed to calcite-filter.
-      The data property expects an array of objects`);
-      this.calciteFilterChange.emit([]);
+    if (this.items.length === 0) {
+      this.updateFiltered([]);
       return;
     }
 
@@ -120,20 +139,20 @@ export class CalciteFilter {
           found = true;
         }
       });
+
       return found;
     };
 
-    const result = this.data.filter((item) => {
+    const result = this.items.filter((item) => {
       return find(item, regex);
     });
 
-    this.calciteFilterChange.emit(result);
+    this.updateFiltered(result);
   }, filterDebounceInMs);
 
   inputHandler = (event: CustomEvent): void => {
     const target = event.target as HTMLCalciteInputElement;
-    this.empty = target.value === "";
-    this.filter(target.value);
+    this.value = target.value;
   };
 
   keyDownHandler = ({ key }: KeyboardEvent): void => {
@@ -143,11 +162,15 @@ export class CalciteFilter {
   };
 
   clear = (): void => {
-    this.textInput.value = "";
-    this.empty = true;
-    this.calciteFilterChange.emit(this.data);
+    this.value = "";
     this.setFocus();
   };
+
+  updateFiltered(filtered: any[]): void {
+    this.filteredItems.length = 0;
+    this.filteredItems = this.filteredItems.concat(filtered);
+    this.calciteFilterChange.emit();
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -156,17 +179,15 @@ export class CalciteFilter {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const rtl = getElementDir(this.el) === "rtl";
     const { disabled } = this;
 
     return (
       <Fragment>
         {disabled ? <calcite-scrim /> : null}
         <div class={CSS.container}>
-          <label class={rtl ? CSS_UTILITY.rtl : null}>
+          <label>
             <calcite-input
               aria-label={this.intlLabel || TEXT.filterLabel}
-              class={rtl ? CSS_UTILITY.rtl : null}
               disabled={this.disabled}
               icon={ICONS.search}
               onCalciteInputInput={this.inputHandler}
@@ -176,10 +197,10 @@ export class CalciteFilter {
                 this.textInput = el;
               }}
               type="text"
-              value=""
+              value={this.value}
             />
           </label>
-          {!this.empty ? (
+          {this.value ? (
             <button
               aria-label={this.intlClear || TEXT.clear}
               class={CSS.clearButton}

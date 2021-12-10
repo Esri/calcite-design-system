@@ -67,13 +67,9 @@
   flex-col
   flex-no-wrap
   self-center
-  h-full;
-}
-
-.calcite--rtl {
-  .close-button {
-    border-radius: 0.25rem 0 0 0.25rem;
-  }
+  overflow-hidden
+  h-full
+  w-full;
 }
 
 ::slotted(calcite-panel),
