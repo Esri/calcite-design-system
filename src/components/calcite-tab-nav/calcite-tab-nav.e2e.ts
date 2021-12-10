@@ -19,7 +19,7 @@ describe("calcite-tab-nav", () => {
       </calcite-tab-nav>`);
     const element = await page.find("calcite-tab-nav >>> .tab-nav-active-indicator");
     const style = await element.getComputedStyle();
-    expect(style["left"]).toBe("0px");
+    expect(style["left"]).toBe("4px");
     expect(style["right"]).not.toBe("0px");
   });
 
@@ -34,7 +34,7 @@ describe("calcite-tab-nav", () => {
       </calcite-tab-nav>`);
     const element = await page.find("calcite-tab-nav >>> .tab-nav-active-indicator");
     const style = await element.getComputedStyle();
-    expect(style["right"]).toBe("0px");
+    expect(style["right"]).toBe("4px");
     expect(style["left"]).not.toBe("0px");
   });
 
