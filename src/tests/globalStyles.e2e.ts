@@ -1,4 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { html } from "./utils";
 describe("global styles", () => {
   describe("animation", () => {
     const snippet = `<calcite-notice width="half" id="in" class="calcite-animate ">
@@ -39,19 +40,18 @@ describe("global styles", () => {
 
     it("should set animation duration to 0ms when --animation-timing-factor set to zero", async () => {
       const page = await newE2EPage({
-        html: `
-        <html>
-        <style>
-        html {  
-          --calcite-animation-timing-factor: 0;
-        }
-      </style>
-      <body>    
-      <div style="transition: all var(--calcite-animation-timing) linear;">
-      </div>
-        </body>
-        </html>
-`
+        html: html`
+          <html>
+            <style>
+              html {
+                --calcite-animation-timing-factor: 0;
+              }
+            </style>
+            <body>
+              <div style="transition: all var(--calcite-internal-animation-timing) linear;"></div>
+            </body>
+          </html>
+        `
       });
       await page.waitForChanges();
       const eleTransition = await page.evaluate(() => {
@@ -67,14 +67,25 @@ describe("global styles", () => {
 
   it("should not be able to disable animations with --animation-timing-factor at component level", async () => {
     const page = await newE2EPage({
-      html: `
-    <div style="transition: all var(--calcite-animation-timing) linear;"> </div>
-
-`
+      html: html` <div style="transition: all var(--calcite-internal-animation-timing) linear;"></div> `
     });
     await page.waitForChanges();
     await page.$eval("div", (element: any) => {
-      element.style.setProperty("--animation-timing-factor", 0);
+      element.style.setProperty("--calcite-animation-timing-factor", 0);
+    });
+    const eleTransition = await page.evaluate(() => {
+      const ele = document.querySelector("div");
+      const { transitionDuration } = window.getComputedStyle(ele);
+      return {
+        duration: transitionDuration
+      };
+    });
+    expect(eleTransition.duration).toEqual("0.15s");
+  });
+
+  it("should set animation duration to default value 150ms", async () => {
+    const page = await newE2EPage({
+      html: html` <div style="transition: all var(--calcite-internal-animation-timing) linear;"></div> `
     });
     const eleTransition = await page.evaluate(() => {
       const ele = document.querySelector("div");
