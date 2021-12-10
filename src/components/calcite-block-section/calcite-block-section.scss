@@ -62,10 +62,11 @@
 
 .toggle--switch {
   calcite-switch {
-    @apply pointer-events-none ml-1;
+    @apply pointer-events-none;
+    margin-inline-start: theme("margin.1");
   }
   .status-icon {
-    @apply ml-2;
+    margin-inline-start: theme("margin.2");
   }
 }
 
@@ -79,15 +80,4 @@
 
 .status-icon.invalid {
   color: theme("colors.danger");
-}
-
-.calcite--rtl {
-  .toggle--switch {
-    calcite-switch {
-      @apply ml-0 mr-1;
-    }
-    .status-icon {
-      @apply ml-0 mr-2;
-    }
-  }
 }

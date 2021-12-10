@@ -127,10 +127,10 @@ module.exports = {
     }),
     extend: {
       animation: {
-        in: "in var(--calcite-animation-timing) ease-in-out",
-        "in-down": "in-down var(--calcite-animation-timing) ease-in-out",
-        "in-up": "in-up var(--calcite-animation-timing) ease-in-out",
-        "in-scale": "in-scale var(--calcite-animation-timing) linear"
+        in: "in var(--calcite-internal-animation-timing-slow) ease-in-out",
+        "in-down": "in-down var(--calcite-internal-animation-timing-slow) ease-in-out",
+        "in-up": "in-up var(--calcite-internal-animation-timing-slow) ease-in-out",
+        "in-scale": "in-scale var(--calcite-internal-animation-timing-slow) linear"
       },
       borderRadius: {
         half: "50%"
@@ -239,7 +239,7 @@ module.exports = {
         },
         ".transition-default": {
           "transition-property": "all",
-          "transition-duration": "150ms",
+          "transition-duration": "var(--calcite-internal-animation-timing)",
           "transition-timing-function": "ease-in-out",
           "transition-delay": "0s"
         }

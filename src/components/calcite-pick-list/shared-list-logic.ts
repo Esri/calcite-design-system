@@ -276,8 +276,8 @@ export function selectSiblings<T extends Lists>(this: List<T>, item: ListItemEle
 let groups: Set<HTMLCalcitePickListGroupElement>;
 
 export function handleFilter<T extends Lists>(this: List<T>, event: CustomEvent): void {
-  const filteredData = event.detail;
-  const values = filteredData.map((item) => item.value);
+  const { filteredItems } = event.currentTarget as HTMLCalciteFilterElement;
+  const values = filteredItems.map((item: ItemData[number]) => item.value);
   let hasSelectedMatch = false;
 
   if (!groups) {

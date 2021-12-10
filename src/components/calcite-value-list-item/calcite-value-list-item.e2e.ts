@@ -99,7 +99,7 @@ describe("calcite-value-list-item", () => {
   function queryWrappedPickListPart(page: E2EPage, partSelector: string, partMethodToInvoke?: string): Promise<void> {
     return page.$eval(
       "calcite-value-list-item",
-      (item: HTMLCalciteValueListItemElement, selector, partMethod?: string) => {
+      (item: HTMLCalciteValueListItemElement, selector: string, partMethod?: string) => {
         const part = item.shadowRoot
           .querySelector("calcite-pick-list-item")
           .shadowRoot.querySelector<HTMLElement>(selector);

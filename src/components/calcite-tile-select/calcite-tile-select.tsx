@@ -13,8 +13,6 @@ import {
 } from "@stencil/core";
 import { Alignment, Width } from "../interfaces";
 import { TileSelectType } from "./interfaces";
-import { getElementDir } from "../../utils/dom";
-import { CSS_UTILITY } from "../../utils/resources";
 import { guid } from "../../utils/guid";
 
 /**
@@ -145,7 +143,8 @@ export class CalciteTileSelect {
   }
 
   @Listen("calciteInternalCheckboxFocus")
-  checkboxFocusHandler(event: CustomEvent): void {
+  @Listen("calciteInternalCheckboxBlur")
+  checkboxFocusBlurHandler(event: CustomEvent): void {
     const checkbox = event.target as HTMLCalciteCheckboxElement;
     if (checkbox === this.input) {
       this.focused = event.detail;
@@ -173,7 +172,8 @@ export class CalciteTileSelect {
   }
 
   @Listen("calciteInternalRadioButtonFocus")
-  radioButtonFocusHandler(event: CustomEvent): void {
+  @Listen("calciteInternalRadioButtonBlur")
+  radioButtonFocusBlurHandler(event: CustomEvent): void {
     const radioButton = event.target as HTMLCalciteRadioButtonElement;
     if (radioButton === this.input) {
       this.focused = radioButton.focused;
@@ -252,10 +252,8 @@ export class CalciteTileSelect {
   }
 
   render(): VNode {
-    const dir = getElementDir(this.el);
-
     return (
-      <div class={{ focused: this.focused, root: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+      <div class={{ focused: this.focused, root: true }}>
         <calcite-tile
           active={this.checked}
           description={this.description}
