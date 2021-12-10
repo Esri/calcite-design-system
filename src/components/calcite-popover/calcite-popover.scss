@@ -52,7 +52,7 @@
     relative
     flex
     overflow-hidden
-    flex-no-wrap
+    flex-nowrap
     flex-row
     h-full
     text-color-1
@@ -65,7 +65,7 @@
 .content {
   @apply flex
   flex-col
-  flex-no-wrap
+  flex-nowrap
   self-center
   overflow-hidden
   h-full

@@ -1,9 +1,12 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-var flattenColorPalette = require("tailwindcss/lib/util/flattenColorPalette").default;
+const flattenColorPalette = require("tailwindcss/lib/util/flattenColorPalette").default;
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const plugin = require("tailwindcss/plugin");
 
 module.exports = {
   theme: {
-    borderColor: (theme) => ({
+    borderColor: ({ theme }) => ({
       color: {
         1: "var(--calcite-ui-border-1)",
         2: "var(--calcite-ui-border-2)",
@@ -109,10 +112,10 @@ module.exports = {
       l: "1024px",
       xl: "1440px"
     },
-    textColor: (theme) => ({
+    textColor: ({ theme }) => ({
       color: theme("colors.text")
     }),
-    backgroundColor: (theme) => ({
+    backgroundColor: ({ theme }) => ({
       ...theme("colors.background"),
       transparent: theme("colors.transparent"),
       brand: theme("colors.brand"),
@@ -210,7 +213,7 @@ module.exports = {
     }
   },
   plugins: [
-    ({ addUtilities }) => {
+    plugin(({ addUtilities }) => {
       const newUtilities = {
         ".word-break": {
           "word-wrap": "break-word",
@@ -245,8 +248,8 @@ module.exports = {
         }
       };
       addUtilities(newUtilities);
-    },
-    ({ addUtilities, theme, variants }) => {
+    }),
+    plugin(({ addUtilities, theme, variants }) => {
       const colors = flattenColorPalette(theme("borderColor"));
       delete colors["default"];
 
@@ -259,13 +262,6 @@ module.exports = {
       const utilities = Object.assign({}, ...colorMap);
 
       addUtilities(utilities, variants("borderColor"));
-    }
-  ],
-  future: {
-    removeDeprecatedGapUtilities: true
-  },
-  variants: {
-    boxShadow: ["responsive", "hover", "focus", "active"],
-    borderWidth: ["responsive", "hover", "focus", "active"]
-  }
+    })
+  ]
 };

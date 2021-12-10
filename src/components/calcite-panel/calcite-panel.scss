@@ -97,7 +97,7 @@
     @apply p-0
       block
       overflow-hidden
-      whitespace-no-wrap
+      whitespace-nowrap
       w-full;
     text-overflow: ellipsis;
   }
@@ -116,14 +116,14 @@
   @apply border-color-3
   border-solid
   border-0;
-  border-inline-end-width: theme("borderWidth.default");
+  border-inline-end-width: theme("borderWidth.DEFAULT");
 }
 
 .header-actions {
   @apply flex
   items-stretch
   flex-row
-  flex-no-wrap;
+  flex-nowrap;
 }
 
 .header-actions--end,
@@ -155,7 +155,7 @@
   bg-background
   flex
   flex-auto
-  flex-no-wrap
+  flex-nowrap
   flex-col;
 }
 

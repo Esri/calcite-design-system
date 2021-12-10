@@ -51,7 +51,7 @@
 
 .wrapper--single {
   padding: 0 var(--calcite-combobox-item-spacing-unit-l);
-  @apply cursor-pointer flex-no-wrap;
+  @apply cursor-pointer flex-nowrap;
 }
 
 .grid-input {

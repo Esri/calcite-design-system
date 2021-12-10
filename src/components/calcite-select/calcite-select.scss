@@ -104,7 +104,7 @@ select:disabled {
     absolute
     inset-y-0;
   inset-inline-end: theme("inset.0");
-  border-inline-width: theme("borderWidth.0") theme("borderWidth.default");
+  border-inline-width: theme("borderWidth.0") theme("borderWidth.DEFAULT");
 }
 
 .select:focus ~ .icon-container {

@@ -109,7 +109,7 @@
     cursor-pointer
     bg-transparent
     focus-base;
-  border-start-end-radius: theme("borderRadius.default");
+  border-start-end-radius: theme("borderRadius.DEFAULT");
   padding: var(--calcite-modal-padding);
   flex: 0 0 auto;
   transition: all 0.15s ease-in-out;

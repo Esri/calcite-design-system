@@ -69,7 +69,7 @@ $gap--large: 12px;
   }
 
   .control-section {
-    @apply flex-no-wrap items-baseline;
+    @apply flex-nowrap items-baseline;
 
     > :nth-child(2) {
       margin-inline-start: $gap--large;
