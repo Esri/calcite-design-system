@@ -17,6 +17,7 @@ import { guid } from "../../utils/guid";
 import { ColorStop, DataSeries } from "../calcite-graph/interfaces";
 import { intersects } from "../../utils/dom";
 import { clamp, decimalPlaces } from "../../utils/math";
+import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import {
   afterConnectDefaultValueSet,
@@ -125,6 +126,11 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
 
   /** Currently selected number (if single select) */
   @Prop({ reflect: true, mutable: true }) value: null | number = null;
+
+  /**
+   * Specify the scale of the slider, defaults to m
+   */
+  @Prop() scale: Scale = "m";
 
   //--------------------------------------------------------------------------
   //
@@ -546,7 +552,13 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
 
     return (
       <Host id={id} onTouchStart={this.handleTouchStart}>
-        <div class={{ container: true, "container--range": this.isRange }}>
+        <div
+          class={{
+            ["container"]: true,
+            ["container--range"]: this.isRange,
+            [`scale--${this.scale}`]: true
+          }}
+        >
           {this.renderGraph()}
           <div class="track" ref={this.storeTrackRef}>
             <div
@@ -582,28 +594,33 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
               })}
             </div>
           </div>
-          {!this.precise && !this.labelHandles && this.isRange && minHandle}
-          {!this.hasHistogram &&
-            !this.precise &&
-            this.labelHandles &&
-            this.isRange &&
-            minLabeledHandle}
-          {this.precise && !this.labelHandles && this.isRange && minPreciseHandle}
-          {this.precise && this.labelHandles && this.isRange && minLabeledPreciseHandle}
-          {this.hasHistogram &&
-            !this.precise &&
-            this.labelHandles &&
-            this.isRange &&
-            minHistogramLabeledHandle}
+          <div class="thumb-container">
+            {!this.precise && !this.labelHandles && this.isRange && minHandle}
+            {!this.hasHistogram &&
+              !this.precise &&
+              this.labelHandles &&
+              this.isRange &&
+              minLabeledHandle}
+            {this.precise && !this.labelHandles && this.isRange && minPreciseHandle}
+            {this.precise && this.labelHandles && this.isRange && minLabeledPreciseHandle}
+            {this.hasHistogram &&
+              !this.precise &&
+              this.labelHandles &&
+              this.isRange &&
+              minHistogramLabeledHandle}
 
-          {!this.precise && !this.labelHandles && handle}
-          {!this.hasHistogram && !this.precise && this.labelHandles && labeledHandle}
-          {!this.hasHistogram && this.precise && !this.labelHandles && preciseHandle}
-          {this.hasHistogram && this.precise && !this.labelHandles && histogramPreciseHandle}
-          {!this.hasHistogram && this.precise && this.labelHandles && labeledPreciseHandle}
-          {this.hasHistogram && !this.precise && this.labelHandles && histogramLabeledHandle}
-          {this.hasHistogram && this.precise && this.labelHandles && histogramLabeledPreciseHandle}
-          <HiddenFormInputSlot component={this} />
+            {!this.precise && !this.labelHandles && handle}
+            {!this.hasHistogram && !this.precise && this.labelHandles && labeledHandle}
+            {!this.hasHistogram && this.precise && !this.labelHandles && preciseHandle}
+            {this.hasHistogram && this.precise && !this.labelHandles && histogramPreciseHandle}
+            {!this.hasHistogram && this.precise && this.labelHandles && labeledPreciseHandle}
+            {this.hasHistogram && !this.precise && this.labelHandles && histogramLabeledHandle}
+            {this.hasHistogram &&
+              this.precise &&
+              this.labelHandles &&
+              histogramLabeledPreciseHandle}
+            <HiddenFormInputSlot component={this} />
+          </div>
         </div>
       </Host>
     );

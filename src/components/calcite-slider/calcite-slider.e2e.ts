@@ -4,7 +4,7 @@ import { getElementXY, html } from "../../tests/utils";
 import { html } from "../../tests/utils";
 
 describe("calcite-slider", () => {
-  const sliderWidthFor1To1PixelValueTrack = "116px";
+  const sliderWidthFor1To1PixelValueTrack = "114px";
 
   it("renders", async () => renders("calcite-slider", { display: "block" }));
 
@@ -13,6 +13,42 @@ describe("calcite-slider", () => {
       {
         propertyName: "mirrored",
         defaultValue: false
+      },
+      {
+        propertyName: "disabled",
+        defaultValue: false
+      },
+      {
+        propertyName: "hasHistogram",
+        defaultValue: false
+      },
+      {
+        propertyName: "max",
+        defaultValue: 100
+      },
+      {
+        propertyName: "min",
+        defaultValue: 0
+      },
+      {
+        propertyName: "mirrored",
+        defaultValue: false
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m"
+      },
+      {
+        propertyName: "snap",
+        defaultValue: false
+      },
+      {
+        propertyName: "step",
+        defaultValue: 1
+      },
+      {
+        propertyName: "value",
+        defaultValue: 0
       }
     ]));
 
@@ -601,8 +637,8 @@ describe("calcite-slider", () => {
       const maxValueThumb = await page.find("calcite-slider >>> .thumb--value");
       const minHandleLeft = await (await minValueThumb.getComputedStyle()).left;
       const maxHandleRight = await (await maxValueThumb.getComputedStyle()).right;
-      expect(minHandleLeft).toBe("258.172px");
-      expect(maxHandleRight).toBe("25.8125px");
+      expect(minHandleLeft).toBe("260px");
+      expect(maxHandleRight).toBe("26px");
     });
 
     it("should position the minValue thumb beside the maxValue thumb when mirrored", async () => {
@@ -611,8 +647,8 @@ describe("calcite-slider", () => {
       const maxValueThumb = await page.find("calcite-slider >>> .thumb--value");
       const minHandleLeft = await (await minValueThumb.getComputedStyle()).left;
       const maxHandleRight = await (await maxValueThumb.getComputedStyle()).right;
-      expect(minHandleLeft).toBe("25.8125px");
-      expect(maxHandleRight).toBe("258.172px");
+      expect(minHandleLeft).toBe("26px");
+      expect(maxHandleRight).toBe("260px");
     });
 
     it("should position the minValue thumb beside the maxValue thumb when it's a histogram range", async () => {
@@ -632,8 +668,8 @@ describe("calcite-slider", () => {
       const maxValueThumb = await page.find("calcite-slider >>> .thumb--value");
       const minHandleLeft = await (await minValueThumb.getComputedStyle()).left;
       const maxHandleRight = await (await maxValueThumb.getComputedStyle()).right;
-      expect(minHandleLeft).toBe("258.172px");
-      expect(maxHandleRight).toBe("25.8125px");
+      expect(minHandleLeft).toBe("260px");
+      expect(maxHandleRight).toBe("26px");
     });
   });
 
