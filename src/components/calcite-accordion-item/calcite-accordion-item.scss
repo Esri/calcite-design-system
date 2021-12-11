@@ -83,14 +83,10 @@
     text-color-3
     duration-150
     ease-in-out;
-  margin-right: var(--calcite-accordion-item-icon-spacing-start);
-  margin-left: var(--calcite-accordion-item-icon-spacing-end);
+  margin-inline-end: var(--calcite-accordion-item-icon-spacing-start);
+  margin-inline-start: var(--calcite-accordion-item-icon-spacing-end);
 }
 
-.calcite--rtl .accordion-item-icon {
-  margin-left: var(--calcite-accordion-item-icon-spacing-start);
-  margin-right: var(--calcite-accordion-item-icon-spacing-end);
-}
 :host .accordion-item-content,
 :host .accordion-item-header {
   padding: var(--calcite-accordion-item-padding);
@@ -112,14 +108,12 @@
 // accordion item icon
 :host .accordion-item-expand-icon {
   @apply text-color-3;
-  margin-left: var(--calcite-accordion-item-icon-spacing-start);
-  margin-right: var(--calcite-accordion-item-icon-spacing-end);
+  margin-inline-start: var(--calcite-accordion-item-icon-spacing-start);
+  margin-inline-end: var(--calcite-accordion-item-icon-spacing-end);
   transform: rotate(var(--calcite-accordion-item-icon-rotation));
 }
 
 .calcite--rtl .accordion-item-expand-icon {
-  margin-left: var(--calcite-accordion-item-icon-spacing-end);
-  margin-right: var(--calcite-accordion-item-icon-spacing-start);
   transform: rotate(var(--calcite-accordion-item-icon-rotation-rtl));
 }
 
@@ -133,12 +127,9 @@
 
 // accordion item title
 :host .accordion-item-header-text {
-  @apply flex-col flex-grow my-0 py-0 mr-auto;
+  @apply flex-col flex-grow my-0 py-0;
   text-align: initial;
-}
-
-.calcite--rtl .accordion-item-header-text {
-  @apply mr-0 ml-auto;
+  margin-inline-end: theme("margin.auto");
 }
 
 :host .accordion-item-title,
@@ -152,9 +143,7 @@
 :host .accordion-item-subtitle {
   @apply text-color-3 mt-1;
 }
-.calcite--rtl .accordion-item-title {
-  @apply mr-0 ml-auto;
-}
+
 :host(:focus),
 :host(:hover) {
   & .accordion-item-title {

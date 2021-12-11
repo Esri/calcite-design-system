@@ -62,11 +62,22 @@ describe("calcite-select", () => {
       await internalSelect.asElement().select("dos");
       await page.waitForChanges();
 
-      const selected = await page.findAll("calcite-option[selected]");
+      let selected = await page.findAll("calcite-option[selected]");
 
       await assertSelectedOption(page, selected[0]);
       expect(selected.length).toBe(1);
       expect(selected[0].innerText).toBe("dos");
+      expect(spy).toHaveReceivedEventTimes(1);
+
+      const lastOption = await page.find("calcite-option:last-child");
+      await lastOption.setProperty("selected", true);
+      await page.waitForChanges();
+
+      selected = await page.findAll("calcite-option[selected]");
+
+      await assertSelectedOption(page, selected[0]);
+      expect(selected.length).toBe(1);
+      expect(selected[0].innerText).toBe("tres");
       expect(spy).toHaveReceivedEventTimes(1);
     });
 
@@ -166,11 +177,22 @@ describe("calcite-select", () => {
       await internalSelect.asElement().select("c");
       await page.waitForChanges();
 
-      const selected = await page.findAll("calcite-option[selected]");
+      let selected = await page.findAll("calcite-option[selected]");
 
       await assertSelectedOption(page, selected[0]);
       expect(selected.length).toBe(1);
       expect(selected[0].innerText).toBe("c");
+      expect(spy).toHaveReceivedEventTimes(1);
+
+      const lastNumberOption = await page.find("calcite-option-group[label='numbers'] calcite-option:last-child");
+      await lastNumberOption.setProperty("selected", true);
+      await page.waitForChanges();
+
+      selected = await page.findAll("calcite-option[selected]");
+
+      await assertSelectedOption(page, selected[0]);
+      expect(selected.length).toBe(1);
+      expect(selected[0].innerText).toBe("3");
       expect(spy).toHaveReceivedEventTimes(1);
     });
 

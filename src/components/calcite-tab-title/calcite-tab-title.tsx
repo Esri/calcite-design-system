@@ -15,11 +15,9 @@ import {
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../calcite-tab/interfaces";
 import { guid } from "../../utils/guid";
-import { getElementDir, getElementProp } from "../../utils/dom";
-import { getKey } from "../../utils/key";
+import { getElementProp, getElementDir } from "../../utils/dom";
 import { TabID, TabLayout, TabPosition } from "../calcite-tabs/interfaces";
 import { FlipContext, Scale } from "../interfaces";
-import { CSS_UTILITY } from "../../utils/resources";
 import { createObserver } from "../../utils/observers";
 
 /**
@@ -131,7 +129,6 @@ export class CalciteTabTitle {
   }
 
   render(): VNode {
-    const dir = getElementDir(this.el);
     const id = this.el.id || this.guid;
     const Tag = this.disabled ? "span" : "a";
     const showSideBorders = this.bordered && !this.disabled && this.layout !== "center";
@@ -139,7 +136,6 @@ export class CalciteTabTitle {
     const iconStartEl = (
       <calcite-icon
         class="calcite-tab-title--icon icon-start"
-        dir={dir}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
         scale="s"
@@ -149,7 +145,6 @@ export class CalciteTabTitle {
     const iconEndEl = (
       <calcite-icon
         class="calcite-tab-title--icon icon-end"
-        dir={dir}
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
         scale="s"
@@ -167,8 +162,7 @@ export class CalciteTabTitle {
         <Tag
           class={{
             container: true,
-            "container--has-text": this.hasText,
-            [CSS_UTILITY.rtl]: dir === "rtl"
+            "container--has-text": this.hasText
           }}
           style={showSideBorders && { width: `${this.parentTabNavEl.indicatorWidth}px` }}
         >
@@ -210,7 +204,7 @@ export class CalciteTabTitle {
 
   @Listen("keydown")
   keyDownHandler(e: KeyboardEvent): void {
-    switch (getKey(e.key)) {
+    switch (e.key) {
       case " ":
       case "Enter":
         this.emitActiveTab();

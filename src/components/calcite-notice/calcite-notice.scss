@@ -72,7 +72,6 @@
 
 .container {
   @apply hidden
-    text-left
     my-0
     box-border
     w-full
@@ -80,8 +79,9 @@
     pointer-events-none
     bg-foreground-1;
   max-height: 0;
+  text-align: start;
   transition: $transition;
-  border-left: 0px solid;
+  border-inline-start: 0px solid;
   box-shadow: 0 0 0 0 transparent;
 }
 
@@ -113,12 +113,7 @@
 
 @include slotted("message", "*", ".container") {
   @apply inline m-0 font-normal text-color-2;
-  margin-right: var(--calcite-notice-spacing-token-small);
-}
-
-@include slotted("message", "*", ".calcite--rtl") {
-  @apply mr-0;
-  margin-left: var(--calcite-notice-spacing-token-small);
+  margin-inline-end: var(--calcite-notice-spacing-token-small);
 }
 
 @mixin notice-element-base() {
@@ -132,11 +127,11 @@
   @include notice-element-base;
   @apply flex flex-col min-w-0 break-words;
   flex: 1 1 0;
-  padding: var(--calcite-notice-spacing-token-small) var(--calcite-notice-spacing-token-small)
-    var(--calcite-notice-spacing-token-small) 0;
+  padding-block: var(--calcite-notice-spacing-token-small);
+  padding-inline: 0 var(--calcite-notice-spacing-token-small);
 
   &:first-of-type:not(:only-child) {
-    padding-left: var(--calcite-notice-spacing-token-large);
+    padding-inline-start: var(--calcite-notice-spacing-token-large);
   }
   &:only-of-type {
     padding: var(--calcite-notice-spacing-token-small) var(--calcite-notice-spacing-token-large);
@@ -165,24 +160,6 @@
 
 .actions-end {
   @apply flex self-stretch;
-}
-
-.calcite--rtl {
-  @apply text-right;
-  border-left: none;
-  border-right: 0px solid;
-
-  .notice-content {
-    padding: var(--calcite-notice-spacing-token-small) 0 var(--calcite-notice-spacing-token-small)
-      var(--calcite-notice-spacing-token-small);
-
-    &:first-of-type:not(:only-child) {
-      padding-right: var(--calcite-notice-spacing-token-large);
-    }
-    &:only-of-type {
-      padding: var(--calcite-notice-spacing-token-small) var(--calcite-notice-spacing-token-large);
-    }
-  }
 }
 
 $noticeColors: "blue" var(--calcite-ui-brand), "red" var(--calcite-ui-danger), "yellow" var(--calcite-ui-warning),

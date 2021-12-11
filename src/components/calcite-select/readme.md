@@ -110,8 +110,10 @@ Specify the underlying value for each option.
 | -------------------- | ----------------- | ------------------------------------------------------------------- | ---------------------------- | ----------- |
 | `disabled`           | `disabled`        | When true, it prevents the option from being selected.              | `boolean`                    | `false`     |
 | `label` _(required)_ | `label`           | The component's label. This is required for accessibility purposes. | `string`                     | `undefined` |
+| `name`               | `name`            | The select's name. Gets submitted with the form.                    | `string`                     | `undefined` |
 | `scale`              | `scale`           | The component scale.                                                | `"l" \| "m" \| "s"`          | `"m"`       |
 | `selectedOption`     | `selected-option` | The currently selected option.                                      | `any`                        | `undefined` |
+| `value`              | `value`           | The value of the selectedOption                                     | `string`                     | `null`      |
 | `width`              | `width`           | The component width.                                                | `"auto" \| "full" \| "half"` | `"auto"`    |
 
 ## Events
