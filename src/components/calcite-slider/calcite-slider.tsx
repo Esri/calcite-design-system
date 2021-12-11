@@ -13,10 +13,11 @@ import {
   Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { getKey } from "../../utils/key";
+
 import { ColorStop, DataSeries } from "../calcite-graph/interfaces";
 import { intersects } from "../../utils/dom";
-import { clamp } from "../../utils/math";
+import { clamp, decimalPlaces } from "../../utils/math";
+import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import {
   afterConnectDefaultValueSet,
@@ -53,7 +54,10 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
   /** Indicates if a histogram is present */
   @Prop({ reflect: true, mutable: true }) hasHistogram = false;
 
-  /** Display a histogram above the slider */
+  /**
+   * List of x,y coordinates within the slider's min and max, displays above the slider track.
+   * @see [DataSeries](https://github.com/Esri/calcite-components/blob/master/src/components/calcite-graph/interfaces.ts#L5)
+   */
   @Prop() histogram?: DataSeries;
 
   @Watch("histogram")
@@ -122,6 +126,11 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
 
   /** Currently selected number (if single select) */
   @Prop({ reflect: true, mutable: true }) value: null | number = null;
+
+  /**
+   * Specify the scale of the slider, defaults to m
+   */
+  @Prop() scale: Scale = "m";
 
   //--------------------------------------------------------------------------
   //
@@ -543,7 +552,13 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
 
     return (
       <Host id={id} onTouchStart={this.handleTouchStart}>
-        <div class={{ container: true, "container--range": this.isRange }}>
+        <div
+          class={{
+            ["container"]: true,
+            ["container--range"]: this.isRange,
+            [`scale--${this.scale}`]: true
+          }}
+        >
           {this.renderGraph()}
           <div class="track" ref={this.storeTrackRef}>
             <div
@@ -579,28 +594,33 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
               })}
             </div>
           </div>
-          {!this.precise && !this.labelHandles && this.isRange && minHandle}
-          {!this.hasHistogram &&
-            !this.precise &&
-            this.labelHandles &&
-            this.isRange &&
-            minLabeledHandle}
-          {this.precise && !this.labelHandles && this.isRange && minPreciseHandle}
-          {this.precise && this.labelHandles && this.isRange && minLabeledPreciseHandle}
-          {this.hasHistogram &&
-            !this.precise &&
-            this.labelHandles &&
-            this.isRange &&
-            minHistogramLabeledHandle}
+          <div class="thumb-container">
+            {!this.precise && !this.labelHandles && this.isRange && minHandle}
+            {!this.hasHistogram &&
+              !this.precise &&
+              this.labelHandles &&
+              this.isRange &&
+              minLabeledHandle}
+            {this.precise && !this.labelHandles && this.isRange && minPreciseHandle}
+            {this.precise && this.labelHandles && this.isRange && minLabeledPreciseHandle}
+            {this.hasHistogram &&
+              !this.precise &&
+              this.labelHandles &&
+              this.isRange &&
+              minHistogramLabeledHandle}
 
-          {!this.precise && !this.labelHandles && handle}
-          {!this.hasHistogram && !this.precise && this.labelHandles && labeledHandle}
-          {!this.hasHistogram && this.precise && !this.labelHandles && preciseHandle}
-          {this.hasHistogram && this.precise && !this.labelHandles && histogramPreciseHandle}
-          {!this.hasHistogram && this.precise && this.labelHandles && labeledPreciseHandle}
-          {this.hasHistogram && !this.precise && this.labelHandles && histogramLabeledHandle}
-          {this.hasHistogram && this.precise && this.labelHandles && histogramLabeledPreciseHandle}
-          <HiddenFormInputSlot component={this} />
+            {!this.precise && !this.labelHandles && handle}
+            {!this.hasHistogram && !this.precise && this.labelHandles && labeledHandle}
+            {!this.hasHistogram && this.precise && !this.labelHandles && preciseHandle}
+            {this.hasHistogram && this.precise && !this.labelHandles && histogramPreciseHandle}
+            {!this.hasHistogram && this.precise && this.labelHandles && labeledPreciseHandle}
+            {this.hasHistogram && !this.precise && this.labelHandles && histogramLabeledHandle}
+            {this.hasHistogram &&
+              this.precise &&
+              this.labelHandles &&
+              histogramLabeledPreciseHandle}
+            <HiddenFormInputSlot component={this} />
+          </div>
         </div>
       </Host>
     );
@@ -635,7 +655,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
           "tick__label--max": isMaxTickLabel
         }}
       >
-        {Math.min(tick, this.max).toLocaleString()}
+        {tick.toLocaleString()}
       </span>
     );
     if (this.labelTicks && !this.hasHistogram && !this.isRange) {
@@ -712,7 +732,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
     const mirror = this.shouldMirror();
     const { activeProp, max, min, pageStep, step } = this;
     const value = this[activeProp];
-    const key = getKey(event.key);
+    const key = event.key;
 
     if (key === "Enter" || key === " ") {
       event.preventDefault();
@@ -744,12 +764,13 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
       return;
     }
     event.preventDefault();
-    this.setValue(activeProp, this.clamp(adjustment, activeProp));
+    const fixedDecimalAdjustment = Number(adjustment.toFixed(decimalPlaces(step)));
+    this.setValue(activeProp, this.clamp(fixedDecimalAdjustment, activeProp));
   }
 
   @Listen("click")
-  clickHandler(): void {
-    this.focusActiveHandle();
+  clickHandler(event: PointerEvent): void {
+    this.focusActiveHandle(event.clientX);
   }
 
   @Listen("pointerdown")
@@ -886,7 +907,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
     const ticks = [];
     let current = this.min;
     while (this.ticks && current < this.max + this.ticks) {
-      ticks.push(current);
+      ticks.push(Math.min(current, this.max));
       current = current + this.ticks;
     }
     return ticks;
@@ -901,16 +922,18 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
     document.addEventListener("pointercancel", this.dragEnd);
   }
 
-  private focusActiveHandle(): void {
+  private focusActiveHandle(valueX: number): void {
     switch (this.dragProp) {
-      default:
-      case "maxValue":
-        this.maxHandle.focus();
-        break;
       case "minValue":
         this.minHandle.focus();
         break;
+      case "maxValue":
+        this.maxHandle.focus();
+        break;
       case "minMaxValue":
+        this.getClosestHandle(valueX).focus();
+        break;
+      default:
         break;
     }
   }
@@ -951,12 +974,12 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
     this.calciteSliderChange.emit();
   }
 
-  private dragEnd = (): void => {
+  private dragEnd = (event: PointerEvent): void => {
     document.removeEventListener("pointermove", this.dragUpdate);
     document.removeEventListener("pointerup", this.dragEnd);
     document.removeEventListener("pointercancel", this.dragEnd);
 
-    this.focusActiveHandle();
+    this.focusActiveHandle(event.clientX);
     if (this.lastDragPropValue != this[this.dragProp]) {
       this.emitChange();
     }
@@ -1022,7 +1045,8 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
     const { left, width } = this.trackEl.getBoundingClientRect();
     const percent = (x - left) / width;
     const mirror = this.shouldMirror();
-    let value = this.clamp(this.min + range * (mirror ? 1 - percent : percent));
+    const clampedValue = this.clamp(this.min + range * (mirror ? 1 - percent : percent));
+    let value = Number(clampedValue.toFixed(decimalPlaces(this.step)));
     if (this.snap && this.step) {
       value = this.getClosestStep(value);
     }
@@ -1034,12 +1058,22 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
    * @internal
    */
   private getClosestStep(num: number): number {
-    num = this.clamp(num);
+    num = Number(this.clamp(num).toFixed(decimalPlaces(this.step)));
     if (this.step) {
       const step = Math.round(num / this.step) * this.step;
-      num = this.clamp(step);
+      num = Number(this.clamp(step).toFixed(decimalPlaces(this.step)));
     }
     return num;
+  }
+
+  private getClosestHandle(valueX: number): HTMLButtonElement {
+    return this.getDistanceX(this.maxHandle, valueX) > this.getDistanceX(this.minHandle, valueX)
+      ? this.minHandle
+      : this.maxHandle;
+  }
+
+  private getDistanceX(el: HTMLButtonElement, valueX: number): number {
+    return Math.abs(el.getBoundingClientRect().left - valueX);
   }
 
   private getFontSizeForElement(element: HTMLElement): number {

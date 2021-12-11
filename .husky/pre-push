@@ -1,9 +1,8 @@
 #!/bin/bash
-
 # from https://riptutorial.com/git/example/16164/pre-push
 
 protected_branch='master'
-current_branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
+current_branch=$(git rev-parse --abbrev-ref HEAD)
 
 if [ $protected_branch = $current_branch ] && [ exec < /dev/tty ]
 then
@@ -15,5 +14,6 @@ then
     fi
     exit 1
 else
-    exit 0
+    npm run util:check-squash-mergeable-branch
+    exit
 fi
