@@ -61,7 +61,7 @@ Avoid complex CSS selectors and move logic into the component. As a general rule
 For example, instead of a complex CSS selector as demonstrated below:
 
 ```css
-[dir="rtl"][alignment="icon-end-space-between"]:not([width="auto"]) {
+[alignment="icon-end-space-between"]:not([width="auto"]) {
   /* ... */
 }
 ```
@@ -71,7 +71,7 @@ Add a class to handle the logic in the component class.
 ```tsx
 <div
   class={{
-    [CSS.myClass]: rtl && alignment === "icon-end-space-between" && width !== "auto"
+    [CSS.myClass]: alignment === "icon-end-space-between" && width !== "auto"
   }}
 />
 ```
@@ -387,54 +387,16 @@ Components should require as a few text translations as possible. In general, co
 
 If you component involves formatting numbers or dates use the [`Intl` APIs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) for formatting the display of numbers and dates in your component.
 
-To add RTL support to your components you should use the internal `getElementDir` helper to apply the `CSS_UTILITY.rtl` class to your component.
+To add right-to-left (RTL) support to your components you should use [CSS Logical properties](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Logical_Properties) within CSS. If you need to know direction in JavaScript, use the internal `getElementDir` helper in the dom utility.
 
-If the node is in shadow DOM, you may add a `dir` attribute to it instead. However, if **DO NOT** add the `dir` attribute to the HOST or a light DOM node.
+Some CSS properties do not have logical equivalents. Such as...
 
-```tsx
-import { Component, Host, Element, h} from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
-import { CSS_UTILITY } from "../../utils/resources";
+- box-shadow
+- text-shadow
+- transform
+- background-position
 
-@Component({
-  tag: "calcite-component",
-  styleUrl: "calcite-component.scss",
-  shadow: true
-})
-export class CalciteComponent {
-  @Element() el: HTMLElement;
-
-  // ...
-
-  render() {
-    const dir = getElementDir(this.el);
-
-    return (
-      <Host>
-        <div class={{ [CSS_UTILITY.rtl]: dir === "rtl" }}>
-          <!-- The rest of your component -->
-        </div>
-      </Host>
-    );
-  }
-}
-```
-
-You can then implement direction specific CSS with CSS variables:
-
-```scss
-:host {
-  --calcite-tabs-tab-margin-start: 1.25rem;
-  --calcite-tabs-tab-margin-end: 0;
-}
-
-.calcite--rtl {
-  --calcite-tabs-tab-margin-start: 0;
-  --calcite-tabs-tab-margin-end: 1.25rem;
-}
-```
-
-Your component and its child components can then use `var(--calcite-tabs-tab-margin-start)` to access their proper values based on the direction of the document.
+For these properties, you should use the internal `getElementDir` helper to apply the `CSS_UTILITY.rtl` class to your component.
 
 ### Translated strings
 

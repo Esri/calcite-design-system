@@ -123,7 +123,6 @@ DarkMode.parameters = { themes: themesDarkDefault };
 
 export const WithIconStartAndIconEndRTL = (): string => html`
   <div
-    dir="rtl"
     style="font-size: ${select(
       "containing font size",
       ["12", "14", "16", "18", "20", "24", "32"],
@@ -132,6 +131,7 @@ export const WithIconStartAndIconEndRTL = (): string => html`
   >
     Some wrapping text
     <calcite-link
+      dir="rtl"
       href="${text("href", "")}"
       ${boolean("disabled", false)}
       icon-start="${select("icon-start", iconNames, iconNames[0])}"

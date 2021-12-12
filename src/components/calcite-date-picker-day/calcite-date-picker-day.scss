@@ -116,11 +116,23 @@
   }
 }
 
+:host([start-of-range]) {
+  .day-wrapper {
+    border-start-start-radius: 40%;
+    border-end-start-radius: 40%;
+  }
+}
+
+:host([end-of-range]) {
+  .day-wrapper {
+    border-start-end-radius: 40%;
+    border-end-end-radius: 40%;
+  }
+}
+
 :host([start-of-range]) :not(.calcite--rtl),
 :host([end-of-range]) .calcite--rtl {
   .day-wrapper {
-    border-top-left-radius: 40%;
-    border-bottom-left-radius: 40%;
     box-shadow: inset 4px 0 var(--calcite-ui-foreground-1);
   }
   .day {
@@ -138,8 +150,6 @@
 :host([end-of-range]) :not(.calcite--rtl),
 :host([start-of-range]) .calcite--rtl {
   .day-wrapper {
-    border-top-right-radius: 40%;
-    border-bottom-right-radius: 40%;
     box-shadow: inset -4px 0 var(--calcite-ui-foreground-1);
   }
   .day {
@@ -327,8 +337,6 @@
 :host([range-hover]:last-child) :not(.calcite--rtl) .day-wrapper,
 :host([highlighted]:first-child) .calcite--rtl .day-wrapper,
 :host([range-hover]:first-child) .calcite--rtl .day-wrapper {
-  border-top-right-radius: 45%;
-  border-bottom-right-radius: 45%;
   box-shadow: inset -4px 0px 0px 0px var(--calcite-ui-foreground-1);
 }
 
@@ -336,8 +344,6 @@
 :host([range-hover]:first-child) :not(.calcite--rtl) .day-wrapper,
 :host([highlighted]:last-child) .calcite--rtl .day-wrapper,
 :host([range-hover]:last-child) .calcite--rtl .day-wrapper {
-  border-top-left-radius: 45%;
-  border-bottom-left-radius: 45%;
   box-shadow: inset 4px 0px 0px 0px var(--calcite-ui-foreground-1);
 }
 
@@ -360,6 +366,18 @@
 :host([scale="l"][highlighted]:last-child) .calcite--rtl .day-wrapper,
 :host([scale="l"][range-hover]:last-child) .calcite--rtl .day-wrapper {
   box-shadow: inset 6px 0px 0px 0px var(--calcite-ui-foreground-1);
+}
+
+:host([highlighted]:first-child) .day-wrapper,
+:host([range-hover]:first-child) .day-wrapper {
+  border-start-start-radius: 45%;
+  border-end-start-radius: 45%;
+}
+
+:host([highlighted]:last-child) .day-wrapper,
+:host([range-hover]:last-child) .day-wrapper {
+  border-start-end-radius: 45%;
+  border-end-end-radius: 45%;
 }
 
 :host([scale="l"][highlighted]:last-child) :not(.calcite--rtl) .day-wrapper,

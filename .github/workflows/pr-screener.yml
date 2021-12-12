@@ -10,10 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: skip for markdown only prs
         id: one
         run: |
-          git fetch --deepen=100
           current_branch=$(git rev-parse --abbrev-ref HEAD)
           echo "branch: $current_branch"
           if [ "$current_branch" == "master" ]; then

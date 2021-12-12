@@ -1,10 +1,3 @@
-:host {
-  --calcite-combobox-item-indent-start-1: var(--calcite-combobox-item-spacing-indent-1);
-  --calcite-combobox-item-indent-end-1: unset;
-  --calcite-combobox-item-indent-start-2: var(--calcite-combobox-item-spacing-indent-2);
-  --calcite-combobox-item-indent-end-2: unset;
-}
-
 .scale--s {
   @apply text--2h;
   --calcite-combobox-item-spacing-unit-l: theme("spacing.2");
@@ -29,13 +22,6 @@
   --calcite-combobox-item-spacing-indent-2: theme("spacing.8");
 }
 
-.calcite--rtl {
-  --calcite-combobox-item-indent-start-1: unset;
-  --calcite-combobox-item-indent-end-1: var(--calcite-combobox-item-spacing-indent-1);
-  --calcite-combobox-item-indent-start-2: unset;
-  --calcite-combobox-item-indent-end-2: var(--calcite-combobox-item-spacing-indent-2);
-}
-
 :host,
 .list {
   @apply flex flex-col m-0 p-0 outline-none;
@@ -46,13 +32,11 @@
 }
 
 .label--indent-1 {
-  padding-left: var(--calcite-combobox-item-indent-start-1);
-  padding-right: var(--calcite-combobox-item-indent-end-1);
+  padding-inline-start: var(--calcite-combobox-item-spacing-indent-1);
 }
 
 .label--indent-2 {
-  padding-left: var(--calcite-combobox-item-indent-start-2);
-  padding-right: var(--calcite-combobox-item-indent-end-2);
+  padding-inline-start: var(--calcite-combobox-item-spacing-indent-2);
 }
 
 .title {

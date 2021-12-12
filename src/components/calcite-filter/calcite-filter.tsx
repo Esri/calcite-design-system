@@ -12,8 +12,7 @@ import {
 } from "@stencil/core";
 import { debounce, forIn } from "lodash-es";
 import { CSS, ICONS, TEXT } from "./resources";
-import { CSS_UTILITY } from "../../utils/resources";
-import { focusElement, getElementDir } from "../../utils/dom";
+import { focusElement } from "../../utils/dom";
 
 const filterDebounceInMs = 250;
 
@@ -180,17 +179,15 @@ export class CalciteFilter {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const rtl = getElementDir(this.el) === "rtl";
     const { disabled } = this;
 
     return (
       <Fragment>
         {disabled ? <calcite-scrim /> : null}
         <div class={CSS.container}>
-          <label class={rtl ? CSS_UTILITY.rtl : null}>
+          <label>
             <calcite-input
               aria-label={this.intlLabel || TEXT.filterLabel}
-              class={rtl ? CSS_UTILITY.rtl : null}
               disabled={this.disabled}
               icon={ICONS.search}
               onCalciteInputInput={this.inputHandler}

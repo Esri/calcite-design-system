@@ -1,8 +1,7 @@
 import { Component, Element, Host, h, Prop, VNode, Watch } from "@stencil/core";
-import { getElementDir, getElementProp, setRequestedIcon } from "../../utils/dom";
+import { getElementProp, setRequestedIcon } from "../../utils/dom";
 import { Scale, Status } from "../interfaces";
 import { StatusIconDefaults } from "./interfaces";
-import { CSS_UTILITY } from "../../utils/resources";
 
 /**
  * @slot - A slot for adding text.
@@ -90,15 +89,7 @@ export class CalciteInputMessage {
 
   private renderIcon(iconName: string): VNode {
     if (iconName) {
-      const dir = getElementDir(this.el);
-
-      return (
-        <calcite-icon
-          class={{ ["calcite-input-message-icon"]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
-          icon={iconName}
-          scale="s"
-        />
-      );
+      return <calcite-icon class="calcite-input-message-icon" icon={iconName} scale="s" />;
     }
   }
 }
