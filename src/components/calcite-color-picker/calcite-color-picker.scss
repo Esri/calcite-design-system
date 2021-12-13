@@ -38,12 +38,6 @@ $gap--large: 12px;
 }
 
 :host([scale="l"]) {
-  .control-section.section.calcite--rtl {
-    > :nth-child(2) {
-      margin-left: 0;
-      margin-right: $gap--large;
-    }
-  }
   .header {
     @apply pb-0;
   }
@@ -78,7 +72,7 @@ $gap--large: 12px;
     @apply flex-no-wrap items-baseline;
 
     > :nth-child(2) {
-      margin-left: $gap--large;
+      margin-inline-start: $gap--large;
     }
   }
 

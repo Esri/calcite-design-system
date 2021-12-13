@@ -12,8 +12,7 @@ import {
 } from "@stencil/core";
 import { debounce, forIn } from "lodash-es";
 import { CSS, ICONS, TEXT } from "./resources";
-import { CSS_UTILITY } from "../../utils/resources";
-import { focusElement, getElementDir } from "../../utils/dom";
+import { focusElement } from "../../utils/dom";
 
 const filterDebounceInMs = 250;
 
@@ -30,25 +29,12 @@ export class CalciteFilter {
   // --------------------------------------------------------------------------
 
   /**
-   * The input data. The filter uses this as the starting point, and returns items
-   * that contain the string entered in the input, using a partial match and recursive search.
-   *
-   * @deprecated use `items` instead.
-   */
-  @Prop() data: object[];
-
-  @Watch("data")
-  watchDataHandler(value: object[]): void {
-    this.items = value;
-  }
-
-  /**
    * The items to filter through. The filter uses this as the starting point, and returns items
    * that contain the string entered in the input, using a partial match and recursive search.
    *
    * This property is required.
    */
-  @Prop({ mutable: true }) items: object[];
+  @Prop({ mutable: true }) items!: object[];
 
   @Watch("items")
   watchItemsHandler(): void {
@@ -102,18 +88,6 @@ export class CalciteFilter {
 
   textInput: HTMLCalciteInputElement;
 
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    if (this.data && !this.items) {
-      this.items = this.data;
-    }
-  }
-
   // --------------------------------------------------------------------------
   //
   //  Events
@@ -123,7 +97,7 @@ export class CalciteFilter {
   /**
    * This event fires when the filter text changes.
    */
-  @Event() calciteFilterChange: EventEmitter;
+  @Event() calciteFilterChange: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -195,7 +169,7 @@ export class CalciteFilter {
   updateFiltered(filtered: any[]): void {
     this.filteredItems.length = 0;
     this.filteredItems = this.filteredItems.concat(filtered);
-    this.calciteFilterChange.emit(filtered);
+    this.calciteFilterChange.emit();
   }
 
   // --------------------------------------------------------------------------
@@ -205,17 +179,15 @@ export class CalciteFilter {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const rtl = getElementDir(this.el) === "rtl";
     const { disabled } = this;
 
     return (
       <Fragment>
         {disabled ? <calcite-scrim /> : null}
         <div class={CSS.container}>
-          <label class={rtl ? CSS_UTILITY.rtl : null}>
+          <label>
             <calcite-input
               aria-label={this.intlLabel || TEXT.filterLabel}
-              class={rtl ? CSS_UTILITY.rtl : null}
               disabled={this.disabled}
               icon={ICONS.search}
               onCalciteInputInput={this.inputHandler}

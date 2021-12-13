@@ -13,8 +13,7 @@ import {
 import { CSS, SLOTS, TEXT } from "./resources";
 import { Scale, Width } from "../interfaces";
 import { StatusColor, StatusIcons } from "../calcite-alert/interfaces";
-import { getElementDir, getSlotted, setRequestedIcon } from "../../utils/dom";
-import { CSS_UTILITY } from "../../utils/resources";
+import { getSlotted, setRequestedIcon } from "../../utils/dom";
 
 /** Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
  * notices are displayed inline, a common use case is displaying them on page-load to present users with short hints or contextual copy.
@@ -95,7 +94,6 @@ export class CalciteNotice {
 
   render(): VNode {
     const { el } = this;
-    const dir = getElementDir(el);
     const closeButton = (
       <button
         aria-label={this.intlClose}
@@ -110,7 +108,7 @@ export class CalciteNotice {
     const hasActionEnd = getSlotted(el, SLOTS.actionsEnd);
 
     return (
-      <div class={{ [CSS.container]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+      <div class={CSS.container}>
         {this.requestedIcon ? (
           <div class={CSS.icon}>
             <calcite-icon icon={this.requestedIcon} scale={this.scale === "l" ? "m" : "s"} />
