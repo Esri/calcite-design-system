@@ -3,6 +3,7 @@ import { connectLabel, disconnectLabel, getLabelText, LabelableComponent, labelC
 describe("label", () => {
   function createFakeLabelable(overrides: Partial<LabelableComponent>): LabelableComponent {
     const base = {
+      disabled: null,
       el: null,
       label: null,
       labelEl: null,
