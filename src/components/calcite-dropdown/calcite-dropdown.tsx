@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { DropdownPlacement, ItemKeyboardEvent } from "./interfaces";
 
-import { focusElement, getElementDir } from "../../utils/dom";
+import { focusElement } from "../../utils/dom";
 import {
   createPopper,
   CSS as PopperCSS,
@@ -23,7 +23,6 @@ import {
 import { Instance as Popper, StrictModifiers } from "@popperjs/core";
 import { Scale } from "../interfaces";
 import { DefaultDropdownPlacement, SLOTS } from "./resources";
-import { CSS_UTILITY } from "../../utils/resources";
 import { createObserver } from "../../utils/observers";
 
 /**
@@ -131,12 +130,11 @@ export class CalciteDropdown {
 
   render(): VNode {
     const { active } = this;
-    const dir = getElementDir(this.el);
 
     return (
       <Host tabIndex={this.disabled ? -1 : null}>
         <div
-          class={{ ["calcite-dropdown-trigger-container"]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+          class="calcite-dropdown-trigger-container"
           onClick={this.openCalciteDropdown}
           onKeyDown={this.keyDownHandler}
           ref={this.setReferenceEl}

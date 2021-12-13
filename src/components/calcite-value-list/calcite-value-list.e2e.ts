@@ -111,7 +111,7 @@ describe("calcite-value-list", () => {
       await page.waitForChanges();
 
       async function assertKeyboardMove(direction: "down" | "up", expectedValueOrder: string[]): Promise<void> {
-        const arrowKey = `Arrow${direction.charAt(0).toUpperCase() + direction.slice(1)}`;
+        const arrowKey = `Arrow${(direction.charAt(0).toUpperCase() + direction.slice(1)) as "Down" | "Up"}` as const;
         await page.keyboard.press(arrowKey);
         await page.waitForChanges();
         const itemsAfter = await page.findAll("calcite-value-list-item");

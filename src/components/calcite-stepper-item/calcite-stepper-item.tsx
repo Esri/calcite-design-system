@@ -10,10 +10,8 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementDir, getElementProp } from "../../utils/dom";
-
+import { getElementProp } from "../../utils/dom";
 import { Scale } from "../interfaces";
-import { CSS_UTILITY } from "../../utils/resources";
 
 /**
  * @slot - A slot for adding custom content.
@@ -129,14 +127,13 @@ export class CalciteStepperItem {
   }
 
   render(): VNode {
-    const dir = getElementDir(this.el);
     return (
       <Host
         aria-expanded={this.active.toString()}
         onClick={() => this.emitRequestedItem()}
         tabindex={this.disabled ? null : 0}
       >
-        <div class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+        <div class="container">
           <div class="stepper-item-header">
             {this.icon ? this.renderIcon() : null}
             {this.numbered ? (

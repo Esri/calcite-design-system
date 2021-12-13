@@ -10,7 +10,6 @@ import {
   Watch,
   Fragment
 } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
 import {
   dateFromRange,
   nextMonth,
@@ -97,15 +96,10 @@ export class CalciteDatePickerMonthHeader {
   }
 
   render(): VNode {
-    const dir = getElementDir(this.el);
-    return (
-      <div class="header" dir={dir}>
-        {this.renderContent(dir)}
-      </div>
-    );
+    return <div class="header">{this.renderContent()}</div>;
   }
 
-  renderContent(dir: string): VNode {
+  renderContent(): VNode {
     if (!this.activeDate || !this.localeData) {
       return null;
     }
@@ -132,7 +126,7 @@ export class CalciteDatePickerMonthHeader {
           role="button"
           tabindex={this.prevMonthDate.getMonth() === activeMonth ? -1 : 0}
         >
-          <calcite-icon dir={dir} flip-rtl icon="chevron-left" scale={iconScale} />
+          <calcite-icon flip-rtl icon="chevron-left" scale={iconScale} />
         </a>
         <div class={{ text: true, "text--reverse": reverse }}>
           <CalciteHeading class="month" level={this.headingLevel}>
@@ -174,7 +168,7 @@ export class CalciteDatePickerMonthHeader {
           role="button"
           tabindex={this.nextMonthDate.getMonth() === activeMonth ? -1 : 0}
         >
-          <calcite-icon dir={dir} flip-rtl icon="chevron-right" scale={iconScale} />
+          <calcite-icon flip-rtl icon="chevron-right" scale={iconScale} />
         </a>
       </Fragment>
     );

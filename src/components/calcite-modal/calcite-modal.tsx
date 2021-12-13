@@ -16,7 +16,6 @@ import {
   CalciteFocusableElement,
   ensureId,
   focusElement,
-  getElementDir,
   getSlotted,
   isCalciteFocusable
 } from "../../utils/dom";
@@ -25,7 +24,6 @@ import { queryShadowRoot } from "@a11y/focus-trap/shadow";
 import { isFocusable, isHidden } from "@a11y/focus-trap/focusable";
 import { Scale } from "../interfaces";
 import { ModalBackgroundColor } from "./interfaces";
-import { CSS_UTILITY } from "../../utils/resources";
 import { TEXT, SLOTS, CSS, ICONS } from "./resources";
 import { createObserver } from "../../utils/observers";
 
@@ -129,8 +127,6 @@ export class CalciteModal {
   }
 
   render(): VNode {
-    const dir = getElementDir(this.el);
-
     return (
       <Host
         aria-describedby={this.contentId}
@@ -140,10 +136,7 @@ export class CalciteModal {
       >
         <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
         {this.renderStyle()}
-        <div
-          class={{ modal: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
-          onTransitionEnd={this.transitionEnd}
-        >
+        <div class="modal" onTransitionEnd={this.transitionEnd}>
           <div data-focus-fence onFocus={this.focusLastElement} tabindex="0" />
           <div class={CSS.header}>
             {this.renderCloseButton()}

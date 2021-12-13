@@ -39,33 +39,18 @@ calcite-input {
 
 .search-icon {
   @apply flex
-    left-0
     absolute
     text-color-2;
+  inset-inline-start: 0;
   transition: left $transition, right $transition, opacity $transition;
 }
 
-.calcite--rtl .search-icon {
-  @apply right-0;
-}
-
 input[type="text"]:focus {
-  @apply border-color-brand outline-none pl-1 pr-1;
+  @apply border-color-brand outline-none;
+  padding-inline: theme("padding.1");
   & ~ .search-icon {
-    left: calc(theme("spacing.4") * -1);
+    inset-inline-start: calc(theme("spacing.4") * -1);
     @apply opacity-0;
-  }
-}
-
-.calcite--rtl {
-  input[type="text"] {
-    @apply pl-1 pr-6;
-    &:focus {
-      @apply pr-5;
-      & ~ .search-icon {
-        right: calc(theme("spacing.4") * -1);
-      }
-    }
   }
 }
 

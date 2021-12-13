@@ -13,7 +13,8 @@
   --calcite-chip-spacing-unit-l: theme("spacing.3");
   --calcite-chip-spacing-unit-s: 6px;
   .chip-image-container {
-    @apply h-6 w-6 pl-1;
+    @apply h-6 w-6;
+    padding-inline-start: theme("padding.1");
   }
 }
 
@@ -24,14 +25,6 @@
   .chip-image-container {
     @apply h-8 w-8 pl-1;
   }
-}
-
-:host([scale="m"]) .calcite--rtl .chip-image-container {
-  @apply pl-0 pr-1;
-}
-
-:host([scale="l"]) .calcite--rtl .chip-image-container {
-  @apply pl-0 pr-1;
 }
 
 :host {
@@ -45,7 +38,6 @@
     cursor-default
     rounded-full
     box-border;
-  --calcite-chip-button-border-radius: 0 50px 50px 0;
 }
 
 .container {
@@ -56,28 +48,15 @@
   @apply truncate;
 }
 
-.calcite--rtl {
-  @apply text-right;
-  --calcite-chip-button-border-radius: 50px 0 0 50px;
-}
-
 :host span {
   padding: 0 var(--calcite-chip-spacing-unit-l);
 }
 
 :host([dismissible]) span {
-  padding: 0 var(--calcite-chip-spacing-unit-s) 0 var(--calcite-chip-spacing-unit-l);
-}
-
-:host([dismissible]) .calcite--rtl span {
-  padding: 0 var(--calcite-chip-spacing-unit-l) 0 var(--calcite-chip-spacing-unit-s);
+  padding-inline: var(--calcite-chip-spacing-unit-l) var(--calcite-chip-spacing-unit-s);
 }
 
 :host([icon]:not([dismissible])) span {
-  padding: 0 var(--calcite-chip-spacing-unit-l);
-}
-
-:host([icon]:not([dismissible])) .calcite--rtl span {
   padding: 0 var(--calcite-chip-spacing-unit-l);
 }
 
@@ -95,7 +74,10 @@
     transition-default
     text-color-1;
   -webkit-appearance: none;
-  border-radius: var(--calcite-chip-button-border-radius);
+  border-start-start-radius: 0;
+  border-start-end-radius: 50px;
+  border-end-end-radius: 50px;
+  border-end-start-radius: 0;
   padding: 0 var(--calcite-chip-spacing-unit-s);
   color: inherit;
 
@@ -128,16 +110,14 @@
   @apply inline-flex
     relative
     my-0
-    mr-0
     duration-150
     ease-in-out;
-  margin-left: var(--calcite-chip-spacing-unit-l);
-  border-radius: var(--calcite-chip-button-border-radius);
-}
-
-.calcite--rtl .calcite-chip--icon {
-  @apply my-0 ml-0;
-  margin-right: var(--calcite-chip-spacing-unit-l);
+  margin-inline-end: 0;
+  margin-inline-start: var(--calcite-chip-spacing-unit-l);
+  border-start-start-radius: 0;
+  border-start-end-radius: 50px;
+  border-end-end-radius: 50px;
+  border-end-start-radius: 0;
 }
 
 // solid
