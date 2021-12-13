@@ -56,8 +56,7 @@
 }
 
 .tip-container {
-  @apply mt-0
-    overflow-auto
+  @apply overflow-auto
     flex
     justify-center
     items-start
