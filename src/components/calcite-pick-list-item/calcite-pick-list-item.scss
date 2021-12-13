@@ -109,6 +109,7 @@
     cursor-pointer
     focus-base
     w-full
+    py-2
     px-3;
   &:focus {
     @apply focus-inset;
@@ -116,10 +117,6 @@
   &:hover {
     @apply bg-foreground-2;
   }
-}
-
-:host([selected]) .content--center {
-  @apply focus-inset;
 }
 
 :host([non-interactive]) .content--center {
