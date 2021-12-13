@@ -43,25 +43,3 @@
 :host([width="l"]) {
   --calcite-dropdown-width: theme("spacing.64");
 }
-// scale
-:host([scale="s"]) {
-  --calcite-dropdown-group-padding: #{theme("spacing.2") 0};
-  --calcite-dropdown-item-padding: #{theme("spacing.1") theme("spacing.3") theme("spacing.1") theme("spacing.6")};
-}
-:host([scale="m"]) {
-  --calcite-dropdown-group-padding: #{theme("spacing.2") 0};
-  --calcite-dropdown-item-padding: #{theme("spacing.2") theme("spacing.3") theme("spacing.2") theme("spacing.6")};
-}
-:host([scale="l"]) {
-  --calcite-dropdown-group-padding: #{theme("spacing.3") 0};
-  --calcite-dropdown-item-padding: #{theme("spacing.2") theme("spacing.3") theme("spacing.2") theme("spacing.6")};
-}
-:host([scale="s"]) .calcite--rtl {
-  --calcite-dropdown-item-padding: #{theme("spacing.1") theme("spacing.6") theme("spacing.1") theme("spacing.3")};
-}
-:host([scale="m"]) .calcite--rtl {
-  --calcite-dropdown-item-padding: #{theme("spacing.2") theme("spacing.6") theme("spacing.2") theme("spacing.3")};
-}
-:host([scale="l"]) .calcite--rtl {
-  --calcite-dropdown-item-padding: #{theme("spacing.2") theme("spacing.6") theme("spacing.2") theme("spacing.3")};
-}

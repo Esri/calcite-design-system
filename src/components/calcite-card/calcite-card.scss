@@ -107,10 +107,5 @@
 .checkbox-wrapper {
   @apply absolute m-0 p-0;
   top: theme("spacing.2");
-  right: theme("spacing.2");
-}
-
-.calcite--rtl .checkbox-wrapper {
-  @apply right-auto;
-  left: theme("spacing.2");
+  inset-inline-end: theme("spacing.2");
 }

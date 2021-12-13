@@ -41,14 +41,18 @@
 }
 
 :root {
-  --calcite-animation-timing: 300ms;
+  --calcite-internal-animation-timing-factor: var(--calcite-animation-timing-factor, 1);
+  --calcite-internal-animation-timing: calc(150ms * var(--calcite-internal-animation-timing-factor));
+  --calcite-internal-animation-timing-quick: calc(100ms * var(--calcite-internal-animation-timing-factor));
+  --calcite-internal-animation-timing-medium: calc(200ms * var(--calcite-internal-animation-timing-factor));
+  --calcite-internal-animation-timing-slow: calc(300ms * var(--calcite-internal-animation-timing-factor));
 }
 
 // allows animation trigger via JS by adding class to element
 .calcite-animate {
   opacity: 0;
   animation-fill-mode: both;
-  animation-duration: var(--calcite-animation-timing);
+  animation-duration: var(--calcite-internal-animation-timing);
 }
 
 // specify animation

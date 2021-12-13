@@ -11,9 +11,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { focusElement, getElementDir } from "../../utils/dom";
-import { getKey } from "../../utils/key";
-import { CSS_UTILITY } from "../../utils/resources";
+import { focusElement } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
@@ -119,7 +117,7 @@ export class CalciteSwitch implements LabelableComponent, CheckableFormCompoment
   //--------------------------------------------------------------------------
 
   keyDownHandler = (e: KeyboardEvent): void => {
-    const key = getKey(e.key);
+    const key = e.key;
     if (!this.disabled && (key === " " || key === "Enter")) {
       this.toggle();
     }
@@ -194,14 +192,12 @@ export class CalciteSwitch implements LabelableComponent, CheckableFormCompoment
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const dir = getElementDir(this.el);
-
     return (
       <Host onKeyDown={this.keyDownHandler}>
         <div
           aria-checked={this.checked.toString()}
           aria-label={getLabelText(this)}
-          class={{ container: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+          class="container"
           onClick={this.clickHandler}
           ref={this.setSwitchEl}
           role="switch"
