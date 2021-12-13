@@ -114,7 +114,9 @@ export const withContentSlot = (): string =>
         ${action}
       </calcite-value-list-item>
       <calcite-value-list-item value="cats">
-        <p slot="content">custom slot also used as content</p>
+        <div slot="content">
+          <calcite-input placeholder="slot content"></calcite-input>
+        </div>
         ${action}
       </calcite-value-list-item>
     `
