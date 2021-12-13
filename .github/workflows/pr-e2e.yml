@@ -7,8 +7,35 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: skip for markdown only prs
+        id: one
+        run: |
+          current_branch=$(git rev-parse --abbrev-ref HEAD)
+          echo "branch: $current_branch"
+          if [ "$current_branch" == "master" ]; then
+            # diff of last commit excluding md (assumes squash merge)
+            testable_changes=$(git diff --name-only @~..@ -- . ':(exclude)*.md')
+            echo "push run"
+          else
+            # diff of branch excluding md
+            testable_changes=$(git diff --name-only "$current_branch" $(git merge-base "$current_branch" origin/master) -- . ':(exclude)*.md')
+            echo "pr run"
+          fi
+          echo "changed files: $testable_changes"
+          # skip if there are only md changes
+          if [ -z "$testable_changes" ]; then
+            echo "skip e2e"
+            echo "::set-output name=skip::skip"
+          else
+            echo "run e2e"
+            echo "::set-output name=skip::test"
+          fi
       - uses: actions/setup-node@v2
         with:
           node-version: lts/*
-      - run: npm install
-      - run: npm test
+      - if: steps.one.outputs.skip == 'test'
+        run: |
+          npm install
+          npm test
