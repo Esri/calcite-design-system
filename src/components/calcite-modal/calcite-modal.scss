@@ -19,9 +19,8 @@
     overflow-y-hidden
     text-color-2
     opacity-0;
-  --calcite-animation-timing: 300ms;
   visibility: hidden !important;
-  transition: visibility 0ms linear 300ms, opacity var(--calcite-animation-timing) $easing-function;
+  transition: visibility 0ms linear 300ms, opacity var(--calcite-internal-animation-timing-slow) $easing-function;
   z-index: 101;
 }
 
@@ -67,8 +66,8 @@
   z-index: 102;
   -webkit-overflow-scrolling: touch;
   visibility: hidden;
-  transition: transform var(--calcite-animation-timing) $easing-function, visibility 0ms linear 300ms,
-    opacity var(--calcite-animation-timing) $easing-function;
+  transition: transform var(--calcite-internal-animation-timing-slow) $easing-function, visibility 0ms linear 300ms,
+    opacity var(--calcite-internal-animation-timing-slow) $easing-function;
   transform: translate3d(0, 20px, 0);
 }
 
@@ -79,9 +78,10 @@
   .modal {
     @apply opacity-100 pointer-events-auto visible;
     transform: translate3d(0, 0, 0);
-    transition: transform var(--calcite-animation-timing) $easing-function, visibility 0ms linear,
-      opacity var(--calcite-animation-timing) $easing-function, max-width 300ms $easing-function,
-      max-height 300ms $easing-function;
+    transition: transform var(--calcite-internal-animation-timing-slow) $easing-function, visibility 0ms linear,
+      opacity var(--calcite-internal-animation-timing-slow) $easing-function,
+      max-width var(--calcite-internal-animation-timing-slow) $easing-function,
+      max-height var(--calcite-internal-animation-timing-slow) $easing-function;
     transition-delay: 0ms;
   }
 }
