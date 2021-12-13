@@ -1,8 +1,7 @@
 import { Component, Element, Prop, h, VNode, Fragment } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
-import { CSS_UTILITY } from "../../utils/resources";
 import { HEADING_LEVEL } from "./resources";
-import { getElementDir, getSlotted } from "../../utils/dom";
+import { getSlotted } from "../../utils/dom";
 import { HeadingLevel, CalciteHeading, constrainHeadingLevel } from "../functional/CalciteHeading";
 
 /**
@@ -47,12 +46,10 @@ export class CalcitePickListGroup {
 
   render(): VNode {
     const { el, groupTitle, headingLevel } = this;
-    const rtl = getElementDir(el) === "rtl";
     const hasParentItem = getSlotted(el, SLOTS.parentItem) !== null;
     const sectionClasses = {
       [CSS.container]: true,
-      [CSS.indented]: hasParentItem,
-      [CSS_UTILITY.rtl]: rtl
+      [CSS.indented]: hasParentItem
     };
 
     const title = groupTitle;

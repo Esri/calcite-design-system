@@ -3,11 +3,11 @@
 }
 
 :host {
-  @apply hidden text-color-3;
+  @apply hidden text-color-3 w-full h-full;
 }
 
 :host([active]) {
-  @apply block;
+  @apply block w-full h-full overflow-auto;
 }
 
 section {

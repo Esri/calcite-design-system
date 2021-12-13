@@ -27,6 +27,7 @@
 | `disabled`   | `disabled`    | is the rating component in a selectable mode                                                    | `boolean`           | `false`       |
 | `intlRating` | `intl-rating` | Localized string for "Rating" (used for aria label)                                             | `string`            | `TEXT.rating` |
 | `intlStars`  | `intl-stars`  | Localized string for labelling each star, `${num}` in the string will be replaced by the number | `string`            | `TEXT.stars`  |
+| `name`       | `name`        | The name of the rating                                                                          | `string`            | `undefined`   |
 | `readOnly`   | `read-only`   | is the rating component in a selectable mode                                                    | `boolean`           | `false`       |
 | `scale`      | `scale`       | specify the scale of the component, defaults to m                                               | `"l" \| "m" \| "s"` | `"m"`         |
 | `showChip`   | `show-chip`   | Show average and count data summary chip (if available)                                         | `boolean`           | `false`       |

@@ -1,7 +1,6 @@
 import { Component, Element, Event, EventEmitter, h, Host, Prop, VNode } from "@stencil/core";
 import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
-import { CSS_UTILITY } from "../../utils/resources";
-import { getElementDir, getSlotted } from "../../utils/dom";
+import { getSlotted } from "../../utils/dom";
 import { CalciteHeading, HeadingLevel } from "../functional/CalciteHeading";
 import { Status } from "../interfaces";
 
@@ -231,15 +230,12 @@ export class CalciteBlock {
       </div>
     );
 
-    const rtl = getElementDir(el) === "rtl";
-
     return (
       <Host tabIndex={disabled ? -1 : null}>
         <article
           aria-busy={loading.toString()}
           class={{
-            [CSS.article]: true,
-            [CSS_UTILITY.rtl]: rtl
+            [CSS.article]: true
           }}
         >
           {headerNode}

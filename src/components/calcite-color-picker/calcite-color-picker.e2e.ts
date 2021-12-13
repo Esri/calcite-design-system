@@ -977,15 +977,15 @@ describe("calcite-color-picker", () => {
 
           await rgbModeButton.click();
 
-          expect(await rInput.getProperty("value")).toBeUndefined();
-          expect(await gInput.getProperty("value")).toBeUndefined();
-          expect(await bInput.getProperty("value")).toBeUndefined();
+          expect(await rInput.getProperty("value")).toBe("");
+          expect(await gInput.getProperty("value")).toBe("");
+          expect(await bInput.getProperty("value")).toBe("");
 
           await hsvModeButton.click();
 
-          expect(await hInput.getProperty("value")).toBeUndefined();
-          expect(await sInput.getProperty("value")).toBeUndefined();
-          expect(await vInput.getProperty("value")).toBeUndefined();
+          expect(await hInput.getProperty("value")).toBe("");
+          expect(await sInput.getProperty("value")).toBe("");
+          expect(await vInput.getProperty("value")).toBe("");
         });
 
         describe("clearing color via supporting inputs", () => {
@@ -1017,8 +1017,8 @@ describe("calcite-color-picker", () => {
             await clearAndEnterHexOrChannelValue(page, rInput, "");
 
             // clearing one clears the rest
-            expect(await gInput.getProperty("value")).toBeUndefined();
-            expect(await bInput.getProperty("value")).toBeUndefined();
+            expect(await gInput.getProperty("value")).toBe("");
+            expect(await bInput.getProperty("value")).toBe("");
 
             expect(await picker.getProperty("value")).toBeNull();
           });
@@ -1040,8 +1040,8 @@ describe("calcite-color-picker", () => {
             await clearAndEnterHexOrChannelValue(page, hInput, "");
 
             // clearing one clears the rest
-            expect(await sInput.getProperty("value")).toBeUndefined();
-            expect(await vInput.getProperty("value")).toBeUndefined();
+            expect(await sInput.getProperty("value")).toBe("");
+            expect(await vInput.getProperty("value")).toBe("");
 
             expect(await picker.getProperty("value")).toBeNull();
           });

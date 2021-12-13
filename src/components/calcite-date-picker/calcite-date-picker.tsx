@@ -12,10 +12,8 @@ import {
   Build
 } from "@stencil/core";
 import { getLocaleData, DateLocaleData } from "./utils";
-import { getElementDir } from "../../utils/dom";
 import { dateFromRange, dateFromISO, dateToISO, getDaysDiff, HoverRange } from "../../utils/date";
 import { HeadingLevel } from "../functional/CalciteHeading";
-import { getKey } from "../../utils/key";
 
 import { DateRangeChange } from "./interfaces";
 import { HEADING_LEVEL, TEXT } from "./resources";
@@ -89,10 +87,20 @@ export class CalciteDatePicker {
   }
 
   /** Earliest allowed date ("yyyy-mm-dd") */
-  @Prop() min?: string;
+  @Prop({ mutable: true }) min?: string;
+
+  @Watch("min")
+  onMinChanged(min: string): void {
+    this.minAsDate = dateFromISO(min);
+  }
 
   /** Latest allowed date ("yyyy-mm-dd") */
-  @Prop() max?: string;
+  @Prop({ mutable: true }) max?: string;
+
+  @Watch("max")
+  onMaxChanged(max: string): void {
+    this.maxAsDate = dateFromISO(max);
+  }
 
   /** Localized string for "previous month" (used for aria label)
    * @default "Previous month"
@@ -192,6 +200,8 @@ export class CalciteDatePicker {
 
   async componentWillLoad(): Promise<void> {
     await this.loadLocaleData();
+    this.onMinChanged(this.min);
+    this.onMaxChanged(this.max);
   }
 
   render(): VNode {
@@ -233,11 +243,9 @@ export class CalciteDatePicker {
           : this.maxAsDate
         : this.maxAsDate;
 
-    const dir = getElementDir(this.el);
-
     return (
       <Host onBlur={this.reset} onKeyUp={this.keyUpHandler} role="application">
-        {this.renderCalendar(activeDate, dir, maxDate, minDate, date, endDate)}
+        {this.renderCalendar(activeDate, maxDate, minDate, date, endDate)}
       </Host>
     );
   }
@@ -260,7 +268,7 @@ export class CalciteDatePicker {
   //--------------------------------------------------------------------------
 
   keyUpHandler = (e: KeyboardEvent): void => {
-    if (getKey(e.key) === "Escape") {
+    if (e.key === "Escape") {
       this.reset();
     }
   };
@@ -395,7 +403,6 @@ export class CalciteDatePicker {
    */
   private renderCalendar(
     activeDate: Date,
-    dir: string,
     maxDate: Date,
     minDate: Date,
     date: Date,
@@ -405,7 +412,6 @@ export class CalciteDatePicker {
       this.localeData && [
         <calcite-date-picker-month-header
           activeDate={activeDate}
-          dir={dir}
           headingLevel={this.headingLevel || HEADING_LEVEL}
           intlNextMonth={this.intlNextMonth}
           intlPrevMonth={this.intlPrevMonth}
@@ -418,7 +424,6 @@ export class CalciteDatePicker {
         />,
         <calcite-date-picker-month
           activeDate={activeDate}
-          dir={dir}
           endDate={this.range ? endDate : undefined}
           hoverRange={this.hoverRange}
           localeData={this.localeData}
