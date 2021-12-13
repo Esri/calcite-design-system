@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - **animation:** add animation timing factor global var and match animation timing with calcite base value ([#3492](https://github.com/Esri/calcite-components/issues/3492)) ([9ef2f13](https://github.com/Esri/calcite-components/commit/9ef2f13e1c7bfb8ba27f36397949334e82d40552))
 - **input-time-picker:** localization support for input-time-picker ([#3354](https://github.com/Esri/calcite-components/issues/3354)) ([4ef1f2f](https://github.com/Esri/calcite-components/commit/4ef1f2f75acbbd4e7169c86d450a01fe64659863))
+- **split-button:** allow disabling and customizing animation/transition duration ([#3477](https://github.com/Esri/calcite-components/issues/3477)) ([2d61415](https://github.com/Esri/calcite-components/commit/2d6141518584043becab5fa1e523e22dc011dac8))
 - **tip-manager:** allow customizing animation/transition duration ([#3471](https://github.com/Esri/calcite-components/issues/3471)) ([a949003](https://github.com/Esri/calcite-components/commit/a949003b06fa8089ff25d28cc16c71479e193e2d))
 
 ### Bug Fixes
@@ -23,6 +24,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **button:** no longer render loader when width set to half or full ([#3666](https://github.com/Esri/calcite-components/issues/3666)) ([c82a7e2](https://github.com/Esri/calcite-components/commit/c82a7e21ca6ef0b2099cf537932f77d5e12d8991))
 - **combobox:** fix focus behavior inside calcite label ([#3597](https://github.com/Esri/calcite-components/issues/3597)) ([#3661](https://github.com/Esri/calcite-components/issues/3661)) ([1ec2dab](https://github.com/Esri/calcite-components/commit/1ec2dab3e2a9057b3d6c44337e9523065e8b4ab1))
 - **date-picker:** date-picker is now updating internally when min is updated after initialization ([#3651](https://github.com/Esri/calcite-components/issues/3651)) ([c21e31e](https://github.com/Esri/calcite-components/commit/c21e31e4a8d459841947f79deb3d395ac48ce662))
+- **dropdown-item:** align items with heading in selection-mode: none ([#3690](https://github.com/Esri/calcite-components/issues/3690)) ([5a139fa](https://github.com/Esri/calcite-components/commit/5a139fa3ab4fc23461131526a6ab54833c2bd400))
 - **input-date-picker:** date-picker is now updating internally when min is updated after initialization ([#3630](https://github.com/Esri/calcite-components/issues/3630)) ([d857845](https://github.com/Esri/calcite-components/commit/d857845b70497d4c7109fcbc94fb26608525ca4f))
 - **label:** remove pointer cursor for non interactive content ([#3663](https://github.com/Esri/calcite-components/issues/3663)) ([102545c](https://github.com/Esri/calcite-components/commit/102545c0765d891c1c9ea4546219579d309c678b))
 - **option:** update label and value when character data changes ([#3653](https://github.com/Esri/calcite-components/issues/3653)) ([b033145](https://github.com/Esri/calcite-components/commit/b033145f60b5012373242396cba0e99d45d018fb)), closes [#3242](https://github.com/Esri/calcite-components/issues/3242)
