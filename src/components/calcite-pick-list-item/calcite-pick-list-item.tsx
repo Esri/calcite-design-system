@@ -130,6 +130,8 @@ export class CalcitePickListItem {
 
   private focusEl: HTMLLabelElement;
 
+  private focusDiv: HTMLDivElement;
+
   shiftPressed: boolean;
 
   // --------------------------------------------------------------------------
@@ -191,6 +193,7 @@ export class CalcitePickListItem {
   @Method()
   async setFocus(): Promise<void> {
     this.focusEl?.focus();
+    this.focusDiv?.focus();
   }
 
   // --------------------------------------------------------------------------
@@ -216,6 +219,10 @@ export class CalcitePickListItem {
       }
       this.selected = !this.selected;
     }
+  };
+
+  contentSlotClickHandler = (event: MouseEvent): void => {
+    event.stopPropagation();
   };
 
   removeClickHandler = (): void => {
@@ -280,9 +287,12 @@ export class CalcitePickListItem {
         class={CSS.contentCenter}
         onClick={this.pickListClickHandler}
         onKeyDown={this.pickListKeyDownHandler}
+        ref={(focusDiv): HTMLDivElement => (this.focusDiv = focusDiv)}
         tabIndex={0}
       >
-        <slot name={SLOTS.contentCenter} />
+        <div onClick={this.contentSlotClickHandler}>
+          <slot name={SLOTS.contentCenter} />
+        </div>
       </div>
     ) : (
       <label
