@@ -17,7 +17,7 @@ import { getSlotted } from "../../utils/dom";
 /**
  * @slot actions-end - a slot for adding actions or content to the end side of the item.
  * @slot actions-start - a slot for adding actions or content to the start side of the item.
- * @slot content-center - a slot for adding content at the center of the item and it will take precedence over label prop if utilized.
+ * @slot content - a slot for adding content at the center of the item and it will take precedence over label prop if utilized.
  */
 @Component({
   tag: "calcite-pick-list-item",
@@ -280,18 +280,18 @@ export class CalcitePickListItem {
 
   renderContent(): VNode {
     const { description, label, el } = this;
-    const hasContentSlot = getSlotted(el, SLOTS.contentCenter);
+    const hasContentSlot = getSlotted(el, SLOTS.content);
 
     return hasContentSlot ? (
       <div
-        class={CSS.contentCenter}
+        class={CSS.content}
         onClick={this.pickListClickHandler}
         onKeyDown={this.pickListKeyDownHandler}
         ref={(focusDiv): HTMLDivElement => (this.focusDiv = focusDiv)}
         tabIndex={0}
       >
         <div onClick={this.contentSlotClickHandler}>
-          <slot name={SLOTS.contentCenter} />
+          <slot name={SLOTS.content} />
         </div>
       </div>
     ) : (
