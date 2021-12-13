@@ -30,29 +30,30 @@ If you'd like to allow an upper and lower value selection (two handles), you can
 
 ## Properties
 
-| Property         | Attribute       | Description                                                                                                                                 | Type          | Default     |
-| ---------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | ----------- |
-| `disabled`       | `disabled`      | Disable and gray out the slider                                                                                                             | `boolean`     | `false`     |
-| `hasHistogram`   | `has-histogram` | Indicates if a histogram is present                                                                                                         | `boolean`     | `false`     |
-| `histogram`      | --              | List of x,y coordinates within the slider's min and max, displays above the slider track.                                                   | `Point[]`     | `undefined` |
-| `histogramStops` | --              | Array of values describing a single color stop, sorted by offset ascending.                                                                 | `ColorStop[]` | `undefined` |
-| `labelHandles`   | `label-handles` | Label handles with their numeric value                                                                                                      | `boolean`     | `false`     |
-| `labelTicks`     | `label-ticks`   | Label tick marks with their numeric value.                                                                                                  | `boolean`     | `false`     |
-| `max`            | `max`           | Maximum selectable value                                                                                                                    | `number`      | `100`       |
-| `maxLabel`       | `max-label`     | Used as an accessible label (aria-label) for second handle if needed (ex. "Temperature, upper bound")                                       | `string`      | `undefined` |
-| `maxValue`       | `max-value`     | Currently selected upper number (if multi-select)                                                                                           | `number`      | `undefined` |
-| `min`            | `min`           | Minimum selectable value                                                                                                                    | `number`      | `0`         |
-| `minLabel`       | `min-label`     | Used as an accessible label (aria-label) for first (or only) handle (ex. "Temperature, lower bound")                                        | `string`      | `undefined` |
-| `minValue`       | `min-value`     | Currently selected lower number (if multi-select)                                                                                           | `number`      | `undefined` |
-| `mirrored`       | `mirrored`      | When true, the slider will display values from high to low. Note that this value will be ignored if the slider has an associated histogram. | `boolean`     | `false`     |
-| `name`           | `name`          | The name of the slider                                                                                                                      | `string`      | `undefined` |
-| `pageStep`       | `page-step`     | Interval to move on page up/page down keys                                                                                                  | `number`      | `undefined` |
-| `precise`        | `precise`       | Use finer point for handles                                                                                                                 | `boolean`     | `false`     |
-| `required`       | `required`      | When true, makes the component required for form-submission.                                                                                | `boolean`     | `false`     |
-| `snap`           | `snap`          | When true, enables snap selection along the step interval                                                                                   | `boolean`     | `false`     |
-| `step`           | `step`          | Interval to move on up/down keys                                                                                                            | `number`      | `1`         |
-| `ticks`          | `ticks`         | Show tick marks on the number line at provided interval                                                                                     | `number`      | `undefined` |
-| `value`          | `value`         | Currently selected number (if single select)                                                                                                | `number`      | `null`      |
+| Property         | Attribute       | Description                                                                                                                                 | Type                | Default     |
+| ---------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ----------- |
+| `disabled`       | `disabled`      | Disable and gray out the slider                                                                                                             | `boolean`           | `false`     |
+| `hasHistogram`   | `has-histogram` | Indicates if a histogram is present                                                                                                         | `boolean`           | `false`     |
+| `histogram`      | --              | List of x,y coordinates within the slider's min and max, displays above the slider track.                                                   | `Point[]`           | `undefined` |
+| `histogramStops` | --              | Array of values describing a single color stop, sorted by offset ascending.                                                                 | `ColorStop[]`       | `undefined` |
+| `labelHandles`   | `label-handles` | Label handles with their numeric value                                                                                                      | `boolean`           | `false`     |
+| `labelTicks`     | `label-ticks`   | Label tick marks with their numeric value.                                                                                                  | `boolean`           | `false`     |
+| `max`            | `max`           | Maximum selectable value                                                                                                                    | `number`            | `100`       |
+| `maxLabel`       | `max-label`     | Used as an accessible label (aria-label) for second handle if needed (ex. "Temperature, upper bound")                                       | `string`            | `undefined` |
+| `maxValue`       | `max-value`     | Currently selected upper number (if multi-select)                                                                                           | `number`            | `undefined` |
+| `min`            | `min`           | Minimum selectable value                                                                                                                    | `number`            | `0`         |
+| `minLabel`       | `min-label`     | Used as an accessible label (aria-label) for first (or only) handle (ex. "Temperature, lower bound")                                        | `string`            | `undefined` |
+| `minValue`       | `min-value`     | Currently selected lower number (if multi-select)                                                                                           | `number`            | `undefined` |
+| `mirrored`       | `mirrored`      | When true, the slider will display values from high to low. Note that this value will be ignored if the slider has an associated histogram. | `boolean`           | `false`     |
+| `name`           | `name`          | The name of the slider                                                                                                                      | `string`            | `undefined` |
+| `pageStep`       | `page-step`     | Interval to move on page up/page down keys                                                                                                  | `number`            | `undefined` |
+| `precise`        | `precise`       | Use finer point for handles                                                                                                                 | `boolean`           | `false`     |
+| `required`       | `required`      | When true, makes the component required for form-submission.                                                                                | `boolean`           | `false`     |
+| `scale`          | `scale`         | Specify the scale of the slider, defaults to m                                                                                              | `"l" \| "m" \| "s"` | `"m"`       |
+| `snap`           | `snap`          | When true, enables snap selection along the step interval                                                                                   | `boolean`           | `false`     |
+| `step`           | `step`          | Interval to move on up/down keys                                                                                                            | `number`            | `1`         |
+| `ticks`          | `ticks`         | Show tick marks on the number line at provided interval                                                                                     | `number`            | `undefined` |
+| `value`          | `value`         | Currently selected number (if single select)                                                                                                | `number`            | `null`      |
 
 ## Events
 
