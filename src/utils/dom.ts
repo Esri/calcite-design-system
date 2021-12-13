@@ -78,7 +78,16 @@ export function queryElementsRoots<T extends Element = Element>(element: Element
 
 // Queries an element's rootNode and any ancestor rootNodes.
 // based on https://stackoverflow.com/q/54520554/194216
-export function queryElementRoots<T extends Element = Element>(element: Element, selector: string): T | null {
+export function queryElementRoots<T extends Element = Element>(
+  element: Element,
+  {
+    selector,
+    id
+  }: {
+    selector?: string;
+    id?: string;
+  }
+): T | null {
   // Gets the rootNode and any ancestor rootNodes (shadowRoot or document) of an element and queries them for a selector.
   function queryFrom<T extends Element = Element>(el: Element): T | null {
     if (!el) {
@@ -91,7 +100,11 @@ export function queryElementRoots<T extends Element = Element>(element: Element,
 
     const rootNode = getRootNode(el);
 
-    const found = rootNode.querySelector(selector) as T;
+    const found = id
+      ? (rootNode.getElementById(id) as Element as T)
+      : selector
+      ? (rootNode.querySelector(selector) as T)
+      : null;
 
     const host = getHost(rootNode);
 

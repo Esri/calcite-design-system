@@ -47,7 +47,7 @@ export class CalciteTooltipManager {
     const { selector, el } = this;
     const id = element.closest(selector)?.getAttribute(TOOLTIP_REFERENCE);
 
-    return queryElementRoots(el, `#${id}`) as HTMLCalciteTooltipElement;
+    return queryElementRoots(el, { id }) as HTMLCalciteTooltipElement;
   };
 
   clearHoverTimeout = (tooltip: HTMLCalciteTooltipElement): void => {
