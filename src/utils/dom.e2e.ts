@@ -29,8 +29,8 @@ const insideHost = "Inside Host";
 const outsideHost = "Outside Host";
 const insideShadow = "Inside Shadow";
 const componentTag = "test-component";
-const insideHostHTML = `<button id="${myButtonId}" class="${myButtonClass}">${insideHost}</button>`;
-const insideShadowHTML = `<div><button>${insideShadow}</button></div>`;
+const insideHostHTML = `<button class="${myButtonClass}">${insideHost}</button>`;
+const insideShadowHTML = `<div><button id="${myButtonId}">${insideShadow}</button></div>`;
 const outsideHostHTML = `<span>Test</span><button id="${myButtonId}">${outsideHost}</button>`;
 
 describe("queries", () => {
