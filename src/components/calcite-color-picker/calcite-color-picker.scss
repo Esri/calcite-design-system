@@ -193,14 +193,13 @@ $gap--large: 12px;
   @include focus-style-base();
 
   cursor: pointer;
-  --calcite-animation-timing: 100ms;
 
   &:focus {
     @include focus-style-outset();
   }
 
   &:hover {
-    transition: outline-color var(--calcite-animation-timing) ease-in-out;
+    transition: outline-color var(--calcite-internal-animation-timing-quick) ease-in-out;
     outline: 2px solid var(--calcite-ui-border-2);
     outline-offset: 2px;
   }
