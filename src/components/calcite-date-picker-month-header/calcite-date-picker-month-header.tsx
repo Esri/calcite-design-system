@@ -134,6 +134,7 @@ export class CalciteDatePickerMonthHeader {
           </CalciteHeading>
           <span class="year-wrap">
             <input
+              aria-label="year"
               class={{
                 year: true,
                 "year--suffix": !!suffix
