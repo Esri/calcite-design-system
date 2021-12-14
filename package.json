@@ -68,7 +68,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-numeric-separator": "7.16.5",
-    "@babel/preset-react": "7.16.0",
+    "@babel/preset-react": "7.16.5",
     "@esri/calcite-base": "^1.2.0",
     "@esri/calcite-colors": "6.0.1",
     "@esri/calcite-ui-icons": "3.17.8",
