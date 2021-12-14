@@ -60,6 +60,6 @@
   @apply border-color-3;
 }
 ::slotted(calcite-action-bar[position="end"]) {
-  @apply border-solid border-color-3;
-  border-inline-width: theme("borderWidth.0") theme("borderWidth.default");
+  border-inline-end: 1px solid;
+  @apply border-color-3;
 }
