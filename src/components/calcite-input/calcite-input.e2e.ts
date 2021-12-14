@@ -1429,6 +1429,23 @@ describe("calcite-input", () => {
       }
     });
 
+    it("input event fires when number ends with a decimal", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+      <calcite-input type="number" value="1.2"></calcite-input>
+      `);
+
+      const calciteInputInput = await page.spyOnEvent("calciteInputInput");
+      const element = await page.find("calcite-input");
+      expect(await element.getProperty("value")).toBe("1.2");
+      await element.callMethod("setFocus");
+
+      await page.keyboard.press("Backspace");
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("1");
+      expect(calciteInputInput).toHaveReceivedEventTimes(1);
+    });
+
     describe("when slotted in calcite-inline-editable", () => {
       it("should render text input with inline classes and editingEnabled prop", async () => {
         const page = await newE2EPage({

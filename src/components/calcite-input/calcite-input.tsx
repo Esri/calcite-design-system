@@ -611,7 +611,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
 
     if (nativeEvent) {
       if (this.type === "number" && value.endsWith(".")) {
-        return;
+        value = value.slice(0, -1);
       }
 
       const calciteInputInputEvent = this.calciteInputInput.emit({
