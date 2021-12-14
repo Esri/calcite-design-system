@@ -644,6 +644,51 @@
           </calcite-action-group>
         </calcite-action-pad>
       </div>
+
+      <calcite-shell content-behind>
+        <div id="viewDiv"></div>
+        <calcite-shell-panel slot="primary-panel" position="start"> </calcite-shell-panel>
+        <calcite-shell-panel slot="contextual-panel" position="end" id="shell-panel">
+          <calcite-action-bar slot="action-bar"></calcite-action-bar>
+        </calcite-shell-panel>
+        <calcite-shell-center-row id="centerShell" slot="center-row" height-scale="s" position="end" detached>
+          <calcite-action-bar id="table-action-bar" slot="action-bar">
+            <calcite-action-group>
+              <calcite-tooltip-manager>
+                <calcite-action id="select" icon="selection-x" text="clear selection"></calcite-action>
+              </calcite-tooltip-manager>
+              <calcite-tooltip reference-element="select">clear selection</calcite-tooltip>
+            </calcite-action-group>
+            <calcite-action-group>
+              <calcite-tooltip-manager>
+                <calcite-action id="zoom" icon="zoom-to-object" text="zoom to"></calcite-action>
+                <calcite-action id="home" icon="home" text="home"></calcite-action>
+                <calcite-tooltip reference-element="home">Home</calcite-tooltip>
+              </calcite-tooltip-manager>
+              <calcite-tooltip reference-element="zoom">zoom to</calcite-tooltip>
+              <calcite-tooltip reference-element="home">Home</calcite-tooltip>
+            </calcite-action-group>
+            <calcite-tooltip slot="expand-tooltip">Expand</calcite-tooltip>
+          </calcite-action-bar>
+          <calcite-panel id="table" heading="table"> </calcite-panel>
+        </calcite-shell-center-row>
+      </calcite-shell>
+      <style>
+        html,
+        body,
+        #viewDiv {
+          padding: 0;
+          margin: 0;
+          height: 100%;
+          width: 100%;
+          background-color: gray;
+        }
+
+        #table {
+          width: 100%;
+          height: 100%;
+        }
+      </style>
     </div>
   </body>
 </html>
