@@ -70,16 +70,6 @@
     --calcite-button-content-margin: theme("margin.4");
   }
 }
-:host(:not([icon-start="undefined"])) {
-  .content {
-    margin-right: unset;
-  }
-}
-:host(:not([icon-end="undefined"])) {
-  .content {
-    margin-left: unset;
-  }
-}
 // :host(:not([icon-start])) {
 //   .content {
 //     margin-left: unset;
@@ -90,6 +80,16 @@
 //     margin-right: unset;
 //   }
 // }
+.icon-start-empty {
+  .content {
+    margin-left: unset;
+  }
+}
+.icon-end-empty {
+  .content {
+    margin-right: unset;
+  }
+}
 :host([icon-start]:not([icon-end])) {
   .calcite--rtl .content {
     margin-left: unset;

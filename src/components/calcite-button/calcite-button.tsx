@@ -150,7 +150,6 @@ export class CalciteButton implements LabelableComponent {
   render(): VNode {
     const dir = getElementDir(this.el);
     const Tag = this.childElType;
-
     const loaderNode = this.hasLoader ? (
       <div class={CSS.buttonLoader}>
         <calcite-loader
@@ -190,7 +189,12 @@ export class CalciteButton implements LabelableComponent {
     return (
       <Tag
         aria-label={getLabelText(this)}
-        class={{ [CSS_UTILITY.rtl]: dir === "rtl", [CSS.contentSlotted]: this.hasContent }}
+        class={{
+          [CSS_UTILITY.rtl]: dir === "rtl",
+          [CSS.contentSlotted]: this.hasContent,
+          "icon-start-empty": !this.iconStart,
+          "icon-end-empty": !this.iconEnd
+        }}
         disabled={this.disabled || this.loading}
         href={this.childElType === "a" && this.href}
         name={this.childElType === "button" && this.name}
