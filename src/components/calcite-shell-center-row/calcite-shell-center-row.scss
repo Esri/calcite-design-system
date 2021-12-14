@@ -56,8 +56,8 @@
 }
 
 ::slotted(calcite-action-bar) {
-  @apply border-solid border-color-3;
-  border-inline-end-width: theme("borderWidth.default");
+  border-right: 1px solid;
+  @apply border-r-color-3;
 }
 ::slotted(calcite-action-bar[position="end"]) {
   @apply border-solid border-color-3;
