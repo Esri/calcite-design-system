@@ -192,8 +192,8 @@ export class CalciteButton implements LabelableComponent {
         class={{
           [CSS_UTILITY.rtl]: dir === "rtl",
           [CSS.contentSlotted]: this.hasContent,
-          "icon-start-empty": !this.iconStart,
-          "icon-end-empty": !this.iconEnd
+          [CSS.iconStartEmpty]: !this.iconStart,
+          [CSS.iconEndEmpty]: !this.iconEnd
         }}
         disabled={this.disabled || this.loading}
         href={this.childElType === "a" && this.href}
