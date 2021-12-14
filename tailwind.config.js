@@ -47,7 +47,14 @@ module.exports = {
         2: "var(--calcite-ui-text-2)",
         3: "var(--calcite-ui-text-3)",
         inverse: "var(--calcite-ui-text-inverse)",
-        link: "var(--calcite-ui-text-link)"
+        link: "var(--calcite-ui-text-link)",
+        color: {
+          1: "var(--calcite-ui-text-1)",
+          2: "var(--calcite-ui-text-2)",
+          3: "var(--calcite-ui-text-3)",
+          inverse: "var(--calcite-ui-text-inverse)",
+          link: "var(--calcite-ui-text-link)"
+        }
       },
       transparent: "transparent"
     },
