@@ -101,7 +101,7 @@ describe("queries", () => {
     expect(text).toBe(insideHost);
   });
 
-  it("queryElementRoots: should query id from inside host element", async () => {
+  it("queryElementRoots: should query id from inside shadow element", async () => {
     const text = await page.evaluate(
       ({
         insideHostHTML,
@@ -129,7 +129,7 @@ describe("queries", () => {
       { insideHostHTML, componentTag, insideShadowHTML, myButtonClass, myButtonId }
     );
 
-    expect(text).toBe(insideHost);
+    expect(text).toBe(insideShadow);
   });
 
   it("queryElementRoots: should query from outside host element", async () => {
