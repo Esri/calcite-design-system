@@ -1030,7 +1030,7 @@ describe("calcite-input", () => {
       expect(await input.getProperty("value")).toBe("1.005");
     });
 
-    it("allows decimals when the supplied step is a whole number", async () => {
+    it.skip("allows decimals when the supplied step is a whole number", async () => {
       const page = await newE2EPage({
         html: `
           <calcite-input step="2" type="number"></calcite-input>
