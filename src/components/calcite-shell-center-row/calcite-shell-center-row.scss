@@ -55,10 +55,7 @@
   @apply w-full h-full;
 }
 
-::slotted(calcite-action-bar) {
-  border-inline-end: 1px solid;
-  @apply border-color-3;
-}
+::slotted(calcite-action-bar),
 ::slotted(calcite-action-bar[position="end"]) {
   border-inline-end: 1px solid;
   @apply border-color-3;
