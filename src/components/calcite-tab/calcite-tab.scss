@@ -3,7 +3,7 @@
 }
 
 :host {
-  @apply hidden text-color-3 w-full h-full;
+  @apply hidden w-full h-full;
 }
 
 :host([active]) {
