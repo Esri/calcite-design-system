@@ -1,28 +1,36 @@
 $spacing: $baseline * 0.5;
 
-.root {
-  background-color: var(--calcite-ui-foreground-1);
-  box-shadow: 0 0 0 1px var(--calcite-ui-border-2);
-  box-sizing: border-box;
-  cursor: pointer;
-  display: inline-block;
-  height: 100%;
-  max-width: 300px;
-  padding: $spacing;
-  position: relative;
-  transition: $transition;
-  vertical-align: top;
-  @apply z-10;
-}
-
 :host {
   @apply block;
+
+  .root {
+    background-color: var(--calcite-ui-foreground-1);
+    box-shadow: 0 0 0 1px var(--calcite-ui-border-2);
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-block;
+    height: 100%;
+    max-width: 300px;
+    padding: $spacing;
+    position: relative;
+    transition: $transition;
+    vertical-align: top;
+    @apply z-10;
+
+    &.heading-only {
+      align-items: center;
+    }
+  }
 }
 
 :host(:hover) {
   .root {
     @apply z-20;
     box-shadow: 0 0 0 1px var(--calcite-ui-border-1);
+
+    &:not(.input-enabled) {
+      box-shadow: 0 0 0 1px var(--calcite-ui-brand);
+    }
   }
 }
 
@@ -37,14 +45,8 @@ $spacing: $baseline * 0.5;
   @apply z-30;
 }
 
-:host(:not([input-enabled]):hover) {
-  .root {
-    box-shadow: 0 0 0 1px var(--calcite-ui-brand);
-  }
-}
-
-:host(:not([input-enabled]):not([disabled])) {
-  .root.focused {
+:host(:not([disabled])) {
+  .root.focused:not(.input-enabled) {
     box-shadow: 0 0 0 1px var(--calcite-ui-brand), inset 0 0 0 2px var(--calcite-ui-foreground-1),
       inset 0 0 0 5px var(--calcite-ui-brand);
   }
@@ -70,12 +72,6 @@ $spacing: $baseline * 0.5;
   ::slotted(calcite-checkbox),
   ::slotted(calcite-radio-button) {
     @apply sr-only;
-  }
-}
-
-:host([heading]:not([icon]):not([description])) {
-  .root {
-    align-items: center;
   }
 }
 

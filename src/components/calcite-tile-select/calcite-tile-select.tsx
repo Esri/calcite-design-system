@@ -16,6 +16,7 @@ import { TileSelectType } from "./interfaces";
 import { getElementDir } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { guid } from "../../utils/guid";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding custom content.
@@ -254,16 +255,28 @@ export class CalciteTileSelect {
   }
 
   render(): VNode {
-    const dir = getElementDir(this.el);
+    const { checked, description, el, focused, heading, icon, inputEnabled } = this;
+    const dir = getElementDir(el);
+    const isHeadingOnly = heading && !icon && !description;
+    const isLargeVisual = heading && icon && !description;
 
     return (
-      <div class={{ focused: this.focused, root: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+      <div
+        class={{
+          focused,
+          root: true,
+          [CSS_UTILITY.rtl]: dir === "rtl",
+          [CSS.headingOnly]: isHeadingOnly,
+          [CSS.inputEnabled]: inputEnabled,
+          [CSS.largeVisual]: isLargeVisual
+        }}
+      >
         <calcite-tile
-          active={this.checked}
-          description={this.description}
+          active={checked}
+          description={description}
           embed
-          heading={this.heading}
-          icon={this.icon}
+          heading={heading}
+          icon={icon}
         />
         <slot />
       </div>
