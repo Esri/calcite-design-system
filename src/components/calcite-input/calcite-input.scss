@@ -377,10 +377,10 @@ input[type="time"]::-webkit-clear-button {
 
 :host([number-button-type="horizontal"]) .calcite--rtl {
   & .number-button-item[data-adjustment="down"] calcite-icon {
-    transform: -rotate(90deg);
+    transform: rotate(-90deg);
   }
   & .number-button-item[data-adjustment="up"] calcite-icon {
-    transform: -rotate(90deg);
+    transform: rotate(-90deg);
   }
 }
 
@@ -511,7 +511,7 @@ input[type="time"]::-webkit-clear-button {
   & calcite-icon {
     bottom: theme("spacing.1");
     inset-inline-end: theme("spacing.1");
-    transform: -rotate(45deg);
+    transform: rotate(-45deg);
   }
 }
 

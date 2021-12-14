@@ -209,6 +209,10 @@ module.exports = {
       },
       transitionTimingFunction: {
         cubic: "cubic-bezier(0.215, 0.440, 0.420, 0.880)"
+      },
+      rotate: {
+        "-90": "-90deg",
+        "-180": "-180deg"
       }
     }
   },
