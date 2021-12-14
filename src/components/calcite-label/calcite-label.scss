@@ -1,11 +1,9 @@
-:host([alignment="start"]),
-:host([alignment="end"]) .calcite--rtl {
-  @apply text-left;
+:host([alignment="start"]) {
+  text-align: start;
 }
 
-:host([alignment="end"]),
-:host([alignment="start"]) .calcite--rtl {
-  @apply text-right;
+:host([alignment="end"]) {
+  text-align: end;
 }
 
 :host([alignment="center"]) {

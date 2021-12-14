@@ -148,7 +148,6 @@ export class CalciteButton implements LabelableComponent {
   }
 
   render(): VNode {
-    const dir = getElementDir(this.el);
     const Tag = this.childElType;
     const loaderNode = this.hasLoader ? (
       <div class={CSS.buttonLoader}>

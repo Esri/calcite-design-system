@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { renders, defaults, hidden } from "../../tests/commonTests";
 import { TEXT } from "./resources";
+import { html } from "../../tests/utils";
 
 describe("calcite-date-picker", () => {
   it("renders", async () => renders("calcite-date-picker", { display: "inline-block" }));
@@ -136,5 +137,23 @@ describe("calcite-date-picker", () => {
 
       expect(text).toEqual("po");
     });
+  });
+
+  it("updates internally when min attribute is updated after initialization", async () => {
+    const page = await newE2EPage();
+    page.emulateTimezone("America/Los_Angeles");
+    await page.setContent(
+      html`<calcite-date-picker value="2022-11-27" min="2022-11-15" max="2024-11-15"></calcite-date-picker>`
+    );
+
+    const element = await page.find("calcite-date-picker");
+    element.setProperty("min", "2021-11-15");
+    element.setProperty("max", "2023-11-15");
+    await page.waitForChanges();
+    const minDateString = "Mon Nov 15 2021 00:00:00 GMT-0800 (Pacific Standard Time)";
+    const minDateAsTime = await page.$eval("calcite-date-picker", (picker: HTMLCalciteDatePickerElement) =>
+      picker.minAsDate.getTime()
+    );
+    expect(minDateAsTime).toEqual(new Date(minDateString).getTime());
   });
 });

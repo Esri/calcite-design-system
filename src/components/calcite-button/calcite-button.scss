@@ -44,8 +44,10 @@
     font-inherit
     font-normal;
   // include transition from focus
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
-    outline-offset 100ms ease-in-out, outline-color 100ms ease-in-out;
+  transition: color var(--calcite-internal-animation-timing) ease-in-out,
+    background-color var(--calcite-internal-animation-timing) ease-in-out,
+    box-shadow var(--calcite-internal-animation-timing) ease-in-out, outline-offset 100ms ease-in-out,
+    outline-color 100ms ease-in-out;
   &:hover {
     @apply no-underline;
   }
@@ -54,8 +56,8 @@
 .content {
   @apply flex;
   flex-basis: auto;
-  margin-left: var(--calcite-button-content-margin);
-  margin-right: var(--calcite-button-content-margin);
+  margin-inline-start: var(--calcite-button-content-margin);
+  margin-inline-end: var(--calcite-button-content-margin);
 }
 
 .icon-start-empty {
@@ -134,7 +136,7 @@
 }
 :host([alignment="icon-start-space-between"]:not([width="auto"])) {
   .icon--start {
-    @apply mr-auto;
+    margin-inline-end: auto;
   }
   a,
   button {
@@ -143,23 +145,11 @@
 }
 :host([alignment="icon-end-space-between"]:not([width="auto"])) {
   .icon--end {
-    @apply ml-auto;
+    margin-inline-start: auto;
   }
   a,
   button {
     text-align: unset;
-  }
-}
-:host([alignment="icon-start-space-between"]:not([width="auto"])) {
-  .calcite--rtl .icon--start {
-    margin-right: unset;
-    @apply ml-auto;
-  }
-}
-:host([alignment="icon-end-space-between"]:not([width="auto"])) {
-  .calcite--rtl .icon--end {
-    margin-left: unset;
-    @apply mr-auto;
   }
 }
 
@@ -168,17 +158,7 @@
   a:not(.content--slotted),
   button:not(.content--slotted) {
     .icon--start + .icon--end {
-      margin-left: var(--calcite-button-content-margin);
-    }
-  }
-}
-
-:host([alignment="center"]) {
-  a.calcite--rtl:not(.content--slotted),
-  button.calcite--rtl:not(.content--slotted) {
-    .icon--start + .icon--end {
-      margin-left: unset;
-      margin-right: var(--calcite-button-content-margin);
+      margin-inline-start: var(--calcite-button-content-margin);
     }
   }
 }
@@ -230,7 +210,9 @@
   @apply flex;
   calcite-loader {
     @apply m-0;
-    transition: width 300ms ease-in-out, opacity 300ms ease-in-out, transform 300ms ease-in-out;
+    transition: width var(--calcite-internal-animation-timing-slow) ease-in-out,
+      opacity var(--calcite-internal-animation-timing-slow) ease-in-out,
+      transform var(--calcite-internal-animation-timing-slow) ease-in-out;
     &.loading-in {
       animation-name: loader-in;
       animation-duration: 310ms;
@@ -536,18 +518,14 @@
 
 :host([appearance="outline"][split-child="primary"]) button,
 :host([appearance="clear"][split-child="primary"]) button {
-  @apply border-r-0 border-l;
-  &.calcite--rtl {
-    @apply border-l-0 border-r;
-  }
+  border-inline-end-width: 0;
+  border-inline-start-width: theme("borderWidth.default");
 }
 
 :host([appearance="outline"][split-child="secondary"]) button,
 :host([appearance="clear"][split-child="secondary"]) button {
-  @apply border-l-0 border-r;
-  &.calcite--rtl {
-    @apply border-r-0 border-l;
-  }
+  border-inline-start-width: 0;
+  border-inline-end-width: theme("borderWidth.default");
 }
 
 // transparent

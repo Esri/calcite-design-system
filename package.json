@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "1.0.0-next.322",
+  "version": "1.0.0-next.328",
   "description": "Web Components for Esri's Calcite Design System.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
@@ -67,7 +67,7 @@
     "sortablejs": "1.14.0"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-numeric-separator": "7.16.0",
+    "@babel/plugin-proposal-numeric-separator": "7.16.5",
     "@babel/preset-react": "7.16.0",
     "@esri/calcite-base": "^1.2.0",
     "@esri/calcite-colors": "6.0.1",
@@ -78,7 +78,7 @@
     "@stencil/postcss": "2.1.0",
     "@stencil/sass": "1.5.2",
     "@stencil/state-tunnel": "^1.0.1",
-    "@storybook/addon-a11y": "6.4.8",
+    "@storybook/addon-a11y": "6.4.9",
     "@storybook/addon-docs": "6.4.8",
     "@storybook/addon-knobs": "6.4.0",
     "@storybook/cli": "6.4.8",
@@ -97,7 +97,7 @@
     "@types/standard-version": "7.0.1",
     "@types/yargs": "17.0.7",
     "@typescript-eslint/eslint-plugin": "5.6.0",
-    "@typescript-eslint/parser": "5.6.0",
+    "@typescript-eslint/parser": "5.7.0",
     "@whitespace/storybook-addon-html": "5.0.0",
     "autoprefixer": "10.3.7",
     "axe-core": "4.3.5",

@@ -1,6 +1,5 @@
 import { Component, Element, Event, EventEmitter, h, Prop, VNode } from "@stencil/core";
 import { CSS } from "./resources";
-import { getElementDir } from "../../utils/dom";
 import { ButtonAppearance, ButtonColor, DropdownIconType } from "../calcite-button/interfaces";
 import { FlipContext, Scale, Width } from "../interfaces";
 import { OverlayPositioning } from "../../utils/popper";
@@ -72,7 +71,6 @@ export class CalciteSplitButton {
   @Event() calciteSplitButtonSecondaryClick: EventEmitter;
 
   render(): VNode {
-    const dir = getElementDir(this.el);
     const widthClasses = {
       [CSS.container]: true,
       [CSS.widthAuto]: this.width === "auto",
@@ -82,11 +80,10 @@ export class CalciteSplitButton {
     const buttonWidth = this.width === "auto" ? "auto" : "full";
 
     return (
-      <div class={widthClasses} dir={dir}>
+      <div class={widthClasses}>
         <calcite-button
           appearance={this.appearance}
           color={this.color}
-          dir={dir}
           disabled={this.disabled}
           icon-end={this.primaryIconEnd ? this.primaryIconEnd : null}
           icon-start={this.primaryIconStart ? this.primaryIconStart : null}
@@ -105,7 +102,6 @@ export class CalciteSplitButton {
         </div>
         <calcite-dropdown
           active={this.active}
-          dir={dir}
           onClick={this.calciteSplitButtonSecondaryClickHandler}
           overlayPositioning={this.overlayPositioning}
           placement="bottom-trailing"
@@ -115,7 +111,6 @@ export class CalciteSplitButton {
           <calcite-button
             appearance={this.appearance}
             color={this.color}
-            dir={dir}
             disabled={this.disabled}
             icon-start={this.dropdownIcon}
             label={this.dropdownLabel}
