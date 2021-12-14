@@ -124,7 +124,7 @@
     "jest-cli": "26.6.3",
     "lint-staged": "12.1.2",
     "pify": "5.0.0",
-    "postcss": "8.4.4",
+    "postcss": "8.4.5",
     "posthtml": "0.16.5",
     "prettier": "2.5.1",
     "puppeteer": "10.0.0",
