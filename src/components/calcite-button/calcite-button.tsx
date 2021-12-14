@@ -1,10 +1,9 @@
 import "form-request-submit-polyfill/form-request-submit-polyfill";
 import { Component, Element, h, Method, Prop, Build, State, VNode, Watch } from "@stencil/core";
 import { CSS, TEXT } from "./resources";
-import { closestElementCrossShadowBoundary, getElementDir } from "../../utils/dom";
+import { closestElementCrossShadowBoundary } from "../../utils/dom";
 import { ButtonAlignment, ButtonAppearance, ButtonColor } from "./interfaces";
 import { FlipContext, Scale, Width } from "../interfaces";
-import { CSS_UTILITY } from "../../utils/resources";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { createObserver } from "../../utils/observers";
 
@@ -189,7 +188,6 @@ export class CalciteButton implements LabelableComponent {
       <Tag
         aria-label={getLabelText(this)}
         class={{
-          [CSS_UTILITY.rtl]: dir === "rtl",
           [CSS.contentSlotted]: this.hasContent,
           [CSS.iconStartEmpty]: !this.iconStart,
           [CSS.iconEndEmpty]: !this.iconEnd

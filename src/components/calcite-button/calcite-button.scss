@@ -83,18 +83,6 @@
     --calcite-button-content-margin: theme("margin.4");
   }
 }
-:host([icon-start]:not([icon-end])) {
-  .calcite--rtl .content {
-    margin-left: unset;
-    margin-right: var(--calcite-button-content-margin);
-  }
-}
-:host([icon-end]:not([icon-start])) {
-  .calcite--rtl .content {
-    margin-right: unset;
-    margin-left: var(--calcite-button-content-margin);
-  }
-}
 
 // button width
 :host([width="auto"]) {
