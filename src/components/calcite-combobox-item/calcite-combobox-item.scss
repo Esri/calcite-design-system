@@ -23,13 +23,6 @@
   --calcite-combobox-item-indent-value: calc(
     var(--calcite-combobox-item-spacing-indent) * var(--calcite-combobox-item-spacing-indent-multiplier)
   );
-  --calcite-combobox-item-indent-start: var(--calcite-combobox-item-indent-value);
-  --calcite-combobox-item-indent-end: unset;
-}
-
-.calcite--rtl {
-  --calcite-combobox-item-indent-start: unset;
-  --calcite-combobox-item-indent-end: var(--calcite-combobox-item-indent-value);
 }
 
 :host(:focus) {
@@ -91,8 +84,7 @@ ul {
 }
 
 .icon--indent {
-  padding-left: var(--calcite-combobox-item-indent-start);
-  padding-right: var(--calcite-combobox-item-indent-end);
+  padding-inline-start: var(--calcite-combobox-item-indent-value);
 }
 
 .icon--custom {
@@ -110,11 +102,8 @@ ul {
 }
 
 .icon--dot:before {
+  text-align: start;
   content: "\2022";
-}
-
-.calcite--rtl .icon--dot:before {
-  @apply text-right;
 }
 
 .label--active .icon {

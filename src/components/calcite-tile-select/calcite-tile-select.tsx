@@ -13,8 +13,6 @@ import {
 } from "@stencil/core";
 import { Alignment, Width } from "../interfaces";
 import { TileSelectType } from "./interfaces";
-import { getElementDir } from "../../utils/dom";
-import { CSS_UTILITY } from "../../utils/resources";
 import { guid } from "../../utils/guid";
 import { CSS } from "./resources";
 
@@ -255,8 +253,7 @@ export class CalciteTileSelect {
   }
 
   render(): VNode {
-    const { checked, description, el, focused, heading, icon, inputEnabled } = this;
-    const dir = getElementDir(el);
+    const { checked, description, focused, heading, icon, inputEnabled } = this;
     const isHeadingOnly = heading && !icon && !description;
     const isLargeVisual = heading && icon && !description;
 
@@ -265,7 +262,6 @@ export class CalciteTileSelect {
         class={{
           focused,
           container: true,
-          [CSS_UTILITY.rtl]: dir === "rtl",
           [CSS.headingOnly]: isHeadingOnly,
           [CSS.inputEnabled]: inputEnabled,
           [CSS.largeVisual]: isLargeVisual
