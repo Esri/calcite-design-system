@@ -20,6 +20,13 @@ $spacing: $baseline * 0.5;
     &.heading-only {
       align-items: center;
     }
+
+    &:not(.input-enabled) {
+      ::slotted(calcite-checkbox),
+      ::slotted(calcite-radio-button) {
+        @apply sr-only;
+      }
+    }
   }
 }
 
@@ -54,9 +61,10 @@ $spacing: $baseline * 0.5;
 :host([width="full"]) {
   .container {
     @apply max-w-none flex;
-  }
-  calcite-tile {
-    @apply flex-auto;
+
+    calcite-tile {
+      @apply flex-auto;
+    }
   }
 }
 
@@ -67,26 +75,21 @@ $spacing: $baseline * 0.5;
   }
 }
 
-:host(:not([input-enabled])) {
-  ::slotted(calcite-checkbox),
-  ::slotted(calcite-radio-button) {
-    @apply sr-only;
-  }
-}
-
 :host([width="auto"][input-enabled][input-alignment="start"][icon][heading][description]),
 :host([width="auto"][input-enabled][input-alignment="start"]:not([icon])[heading]:not([description])) {
   .container {
     display: inline-grid;
     grid-gap: $spacing;
     grid-template-columns: max-content 1fr;
-  }
-  ::slotted(calcite-checkbox),
-  ::slotted(calcite-radio-button) {
-    order: 0;
-  }
-  calcite-tile {
-    order: 1;
+
+    ::slotted(calcite-checkbox),
+    ::slotted(calcite-radio-button) {
+      order: 0;
+    }
+
+    calcite-tile {
+      order: 1;
+    }
   }
 }
 
