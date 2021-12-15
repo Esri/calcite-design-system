@@ -101,7 +101,7 @@ export const create: () => Config = () => ({
       injectGlobalPaths: ["src/assets/styles/includes.scss"]
     }),
     postcss({
-      plugins: [tailwindcss(tailwindConfig), autoprefixer(), cssnano()]
+      plugins: [tailwindcss(tailwindConfig), autoprefixer(), cssnano({ preset: "lite" })]
     })
   ],
   rollupPlugins: {
