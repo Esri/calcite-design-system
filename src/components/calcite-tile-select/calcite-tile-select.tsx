@@ -253,18 +253,34 @@ export class CalciteTileSelect {
   }
 
   render(): VNode {
-    const { checked, description, focused, heading, icon, inputEnabled } = this;
+    const {
+      checked,
+      description,
+      disabled,
+      focused,
+      heading,
+      icon,
+      inputAlignment,
+      inputEnabled,
+      width
+    } = this;
     const isHeadingOnly = heading && !icon && !description;
     const isLargeVisual = heading && icon && !description;
 
     return (
       <div
         class={{
-          focused,
+          checked,
           container: true,
+          disabled,
+          focused,
           [CSS.headingOnly]: isHeadingOnly,
+          [CSS.inputAlignmentEnd]: inputAlignment === "end",
+          [CSS.inputAlignmentStart]: inputAlignment === "start",
           [CSS.inputEnabled]: inputEnabled,
-          [CSS.largeVisual]: isLargeVisual
+          [CSS.largeVisual]: isLargeVisual,
+          [CSS.widthAuto]: width === "auto",
+          [CSS.widthFull]: width === "full"
         }}
       >
         <calcite-tile

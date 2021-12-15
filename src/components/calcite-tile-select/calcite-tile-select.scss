@@ -17,6 +17,11 @@ $spacing: $baseline * 0.5;
     vertical-align: top;
     @apply z-10;
 
+    &.checked {
+      @apply z-30;
+      box-shadow: 0 0 0 1px var(--calcite-ui-brand);
+    }
+
     &.heading-only {
       align-items: center;
     }
@@ -27,61 +32,51 @@ $spacing: $baseline * 0.5;
         @apply sr-only;
       }
     }
+
+    &.focused {
+      &:not(.disabled) {
+        @apply z-30;
+        &:not(.input-enabled) {
+          box-shadow: 0 0 0 1px var(--calcite-ui-brand), inset 0 0 0 2px var(--calcite-ui-foreground-1),
+            inset 0 0 0 5px var(--calcite-ui-brand);
+        }
+      }
+    }
+
+    &.large-visual,
+    &.heading-only.input-enabled {
+      display: inline-grid;
+      grid-gap: $spacing;
+      grid-template-columns: max-content 1fr;
+    }
+
+    &.width-full {
+      @apply max-w-none flex;
+      calcite-tile {
+        @apply flex-auto;
+      }
+      &.input-alignment-start {
+        calcite-tile {
+          @apply order-1;
+          margin-inline-start: theme("spacing.3");
+        }
+      }
+    }
   }
 }
 
 :host(:hover) {
   .container {
     @apply z-20;
-    box-shadow: 0 0 0 1px var(--calcite-ui-border-1);
-
     &:not(.input-enabled) {
       box-shadow: 0 0 0 1px var(--calcite-ui-brand);
     }
   }
 }
 
-:host([checked]) {
-  .container {
-    @apply z-30;
-    box-shadow: 0 0 0 1px var(--calcite-ui-brand);
-  }
-}
-
-:host(:not([disabled])) {
-  .container.focused {
-    @apply z-30;
-    &:not(.input-enabled) {
-      box-shadow: 0 0 0 1px var(--calcite-ui-brand), inset 0 0 0 2px var(--calcite-ui-foreground-1),
-        inset 0 0 0 5px var(--calcite-ui-brand);
-    }
-  }
-}
-
-:host([width="full"]) {
-  .container {
-    @apply max-w-none flex;
-
-    calcite-tile {
-      @apply flex-auto;
-    }
-  }
-}
-
-:host([input-alignment="start"][width="full"]) {
-  calcite-tile {
-    @apply order-1;
-    margin-inline-start: theme("spacing.3");
-  }
-}
-
 :host([width="auto"][input-enabled][input-alignment="start"][icon][heading][description]),
 :host([width="auto"][input-enabled][input-alignment="start"]:not([icon])[heading]:not([description])) {
   .container {
-    display: inline-grid;
-    grid-gap: $spacing;
-    grid-template-columns: max-content 1fr;
-
     ::slotted(calcite-checkbox),
     ::slotted(calcite-radio-button) {
       order: 0;
@@ -112,11 +107,6 @@ $spacing: $baseline * 0.5;
 }
 
 :host([input-enabled][input-alignment="end"][heading]:not([icon]):not([description])) {
-  .container {
-    display: inline-grid;
-    grid-gap: $spacing;
-    grid-template-columns: max-content 1fr;
-  }
   ::slotted(calcite-checkbox),
   ::slotted(calcite-radio-button) {
     justify-self: flex-end;
