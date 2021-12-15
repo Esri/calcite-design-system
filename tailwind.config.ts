@@ -1,12 +1,9 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const flattenColorPalette = require("tailwindcss/lib/util/flattenColorPalette").default;
+import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
+import plugin from "tailwindcss/plugin";
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const plugin = require("tailwindcss/plugin");
-
-module.exports = {
+export default {
   theme: {
-    borderColor: ({ theme }) => ({
+    borderColor: ({ theme }): any => ({
       color: {
         1: "var(--calcite-ui-border-1)",
         2: "var(--calcite-ui-border-2)",
@@ -119,10 +116,10 @@ module.exports = {
       l: "1024px",
       xl: "1440px"
     },
-    textColor: ({ theme }) => ({
+    textColor: ({ theme }): any => ({
       ...theme("colors.text")
     }),
-    backgroundColor: ({ theme }) => ({
+    backgroundColor: ({ theme }): any => ({
       ...theme("colors.background"),
       transparent: theme("colors.transparent"),
       brand: theme("colors.brand"),
@@ -157,8 +154,8 @@ module.exports = {
         "outline-active": "0 0 0 1px var(--calcite-ui-brand)",
         none: "none"
       },
-      fill: (theme) => ({
-        color: theme("colors.text")
+      fill: ({ theme }): any => ({
+        ...theme("colors.text")
       }),
       keyframes: {
         in: {
@@ -202,6 +199,13 @@ module.exports = {
       },
       opacity: {
         disabled: "var(--calcite-ui-opacity-disabled)"
+      },
+      spacing: {
+        0.5: "0.125rem",
+        2.5: "0.625rem",
+        3.5: "0.875rem",
+        9: "2.25rem",
+        11: "2.75rem"
       },
       transitionProperty: {
         margin: "margin",
