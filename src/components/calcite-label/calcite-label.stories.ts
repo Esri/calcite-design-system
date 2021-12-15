@@ -1,8 +1,8 @@
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../tests/utils";
-import { createSteps } from "../../../.storybook/helpers";
-
+import { createSteps, stepStory } from "../../../.storybook/helpers";
+import { createComponentHTML as create } from "../../../.storybook/utils";
 export default {
   title: "Components/Label",
 
@@ -217,8 +217,10 @@ export const WrappingComponentsOtherThanInputRTL = (): string => html`
   </div>
 `;
 
-createSteps(`<calcite-label layout="inline">
-Toggle theme
-<calcite-switch id="theme-switch"></calcite-switch> </calcite-label>`)
-  .click("calcite-label")
-  .snapshot("Toggle switch with label");
+export const toggleSwitchWithLabel = stepStory(
+  (): string => html`<calcite-label layout="inline">
+    Toggle theme
+    <calcite-switch id="theme-switch"></calcite-switch>
+  </calcite-label>`,
+  createSteps("calcite-label").click("calcite-label").snapshot("Toggle switch with label")
+);
