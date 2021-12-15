@@ -30,85 +30,11 @@
         margin: 35px 0;
         border-top: 1px solid var(--calcite-ui-border-2);
       }
-      .layer-container {
-        width: 80%;
-        margin: 100px;
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-      .content {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-        margin-left: 16px;
-      }
-
-      .cta-container {
-        display: flex;
-      }
-
-      .cta-container calcite-input {
-        display: flex;
-        justify-content: center;
-      }
-
-      .cta-container input {
-        margin-right: 24px;
-        min-width: 27rem;
-      }
-
-      .cta-container calcite-button {
-        padding-top: 16px;
-        padding-bottom: 16px;
-        padding-left: 24px;
-        padding-right: 24px;
-      }
     </style>
 
     <script src="./_assets/head.js"></script>
   </head>
   <body>
-    <calcite-value-list class="layer-container" drag-enabled>
-      <calcite-value-list-item value="banana" label="label" description="some description" class="info-card">
-        <div slot="actions-start" class="content">
-          <calcite-icon icon="banana" />
-        </div>
-        <div slot="actions-end" class="cta-container">
-          <calcite-button
-            appearance="transparent"
-            color="red"
-            scale="m"
-            href=""
-            icon-start="trash"
-            alignment="center"
-            width="auto"
-          ></calcite-button>
-        </div>
-      </calcite-value-list-item>
-
-      <calcite-value-list-item value="banana" class="info-card">
-        <div slot="actions-start" class="content">
-          <calcite-icon icon="banana" />
-        </div>
-
-        <div slot="content-center">
-          <calcite-input placeholder="ice cream flavor..."></calcite-input>
-        </div>
-        <div slot="actions-end" class="cta-container">
-          <calcite-button
-            appearance="transparent"
-            color="red"
-            scale="m"
-            href=""
-            icon-start="trash"
-            alignment="center"
-            width="auto"
-          ></calcite-button>
-        </div>
-      </calcite-value-list-item>
-    </calcite-value-list>
     <!-- default/single-select -->
     <div class="parent">
       <div class="child right-aligned-text">default/single-select</div>
