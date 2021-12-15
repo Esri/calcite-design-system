@@ -1030,7 +1030,7 @@ describe("calcite-input", () => {
       expect(await input.getProperty("value")).toBe("1.005");
     });
 
-    it("allows decimals when the supplied step is a whole number", async () => {
+    it.skip("allows decimals when the supplied step is a whole number", async () => {
       const page = await newE2EPage({
         html: `
           <calcite-input step="2" type="number"></calcite-input>
@@ -1427,6 +1427,23 @@ describe("calcite-input", () => {
       for (const button of buttons) {
         expect(await button.getProperty("disabled")).toBe(true);
       }
+    });
+
+    it("input event fires when number ends with a decimal", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+      <calcite-input type="number" value="1.2"></calcite-input>
+      `);
+
+      const calciteInputInput = await page.spyOnEvent("calciteInputInput");
+      const element = await page.find("calcite-input");
+      expect(await element.getProperty("value")).toBe("1.2");
+      await element.callMethod("setFocus");
+
+      await page.keyboard.press("Backspace");
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("1");
+      expect(calciteInputInput).toHaveReceivedEventTimes(1);
     });
 
     describe("when slotted in calcite-inline-editable", () => {
