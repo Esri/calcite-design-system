@@ -5,6 +5,7 @@ import babel from "@rollup/plugin-babel";
 import autoprefixer from "autoprefixer";
 import tailwindcss from "tailwindcss";
 import tailwindConfig from "./tailwind.config";
+import cssnano from "cssnano";
 import { generatePreactTypes } from "./support/preact";
 
 export const create: () => Config = () => ({
@@ -100,7 +101,7 @@ export const create: () => Config = () => ({
       injectGlobalPaths: ["src/assets/styles/includes.scss"]
     }),
     postcss({
-      plugins: [tailwindcss(tailwindConfig), autoprefixer()]
+      plugins: [tailwindcss(tailwindConfig), autoprefixer(), cssnano()]
     })
   ],
   rollupPlugins: {
