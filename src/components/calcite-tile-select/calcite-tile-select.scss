@@ -22,6 +22,11 @@ $spacing: $baseline * 0.5;
       box-shadow: 0 0 0 1px var(--calcite-ui-brand);
     }
 
+    &.disabled {
+      @apply opacity-disabled;
+      pointer-events: none;
+    }
+
     &.heading-only {
       align-items: center;
     }
@@ -111,9 +116,4 @@ $spacing: $baseline * 0.5;
   ::slotted(calcite-radio-button) {
     justify-self: flex-end;
   }
-}
-
-:host([disabled]) {
-  @apply opacity-disabled;
-  pointer-events: none;
 }
