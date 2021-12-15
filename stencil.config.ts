@@ -97,6 +97,7 @@ export const create: () => Config = () => ({
   globalStyle: "src/assets/styles/global.scss",
   plugins: [
     sass({
+      outputStyle: "compressed",
       injectGlobalPaths: ["src/assets/styles/includes.scss"]
     }),
     postcss({
