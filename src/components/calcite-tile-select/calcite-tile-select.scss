@@ -3,7 +3,7 @@ $spacing: $baseline * 0.5;
 :host {
   @apply block;
 
-  .root {
+  .container {
     background-color: var(--calcite-ui-foreground-1);
     box-shadow: 0 0 0 1px var(--calcite-ui-border-2);
     box-sizing: border-box;
@@ -24,7 +24,7 @@ $spacing: $baseline * 0.5;
 }
 
 :host(:hover) {
-  .root {
+  .container {
     @apply z-20;
     box-shadow: 0 0 0 1px var(--calcite-ui-border-1);
 
@@ -35,25 +35,24 @@ $spacing: $baseline * 0.5;
 }
 
 :host([checked]) {
-  .root {
+  .container {
     @apply z-30;
     box-shadow: 0 0 0 1px var(--calcite-ui-brand);
   }
 }
 
-.root.focused:not([disabled]) {
-  @apply z-30;
-}
-
 :host(:not([disabled])) {
-  .root.focused:not(.input-enabled) {
-    box-shadow: 0 0 0 1px var(--calcite-ui-brand), inset 0 0 0 2px var(--calcite-ui-foreground-1),
-      inset 0 0 0 5px var(--calcite-ui-brand);
+  .container.focused {
+    @apply z-30;
+    &:not(.input-enabled) {
+      box-shadow: 0 0 0 1px var(--calcite-ui-brand), inset 0 0 0 2px var(--calcite-ui-foreground-1),
+        inset 0 0 0 5px var(--calcite-ui-brand);
+    }
   }
 }
 
 :host([width="full"]) {
-  .root {
+  .container {
     @apply max-w-none flex;
   }
   calcite-tile {
@@ -77,7 +76,7 @@ $spacing: $baseline * 0.5;
 
 :host([width="auto"][input-enabled][input-alignment="start"][icon][heading][description]),
 :host([width="auto"][input-enabled][input-alignment="start"]:not([icon])[heading]:not([description])) {
-  .root {
+  .container {
     display: inline-grid;
     grid-gap: $spacing;
     grid-template-columns: max-content 1fr;
@@ -126,7 +125,7 @@ $spacing: $baseline * 0.5;
 }
 
 :host([input-enabled][input-alignment="end"][heading]:not([icon]):not([description])) {
-  .root {
+  .container {
     display: inline-grid;
     grid-gap: $spacing;
     grid-template-columns: max-content 1fr;
@@ -135,10 +134,6 @@ $spacing: $baseline * 0.5;
   ::slotted(calcite-radio-button) {
     justify-self: flex-end;
   }
-}
-
-:host([hidden]) {
-  display: none;
 }
 
 :host([disabled]) {

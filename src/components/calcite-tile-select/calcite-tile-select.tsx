@@ -264,7 +264,7 @@ export class CalciteTileSelect {
       <div
         class={{
           focused,
-          root: true,
+          container: true,
           [CSS_UTILITY.rtl]: dir === "rtl",
           [CSS.headingOnly]: isHeadingOnly,
           [CSS.inputEnabled]: inputEnabled,
