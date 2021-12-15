@@ -111,7 +111,7 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 }
 
 :host([inline]) {
-  @apply relative m-0 py-0 animate-none stroke-brand stroke-2;
+  @apply relative m-0 py-0 animate-none stroke-current stroke-2;
   height: var(--calcite-loader-size-inline);
   min-height: var(--calcite-loader-size-inline);
   width: var(--calcite-loader-size-inline);

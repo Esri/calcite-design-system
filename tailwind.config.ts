@@ -22,6 +22,7 @@ export default {
       "color-danger-press": theme("colors.danger-press")
     }),
     colors: {
+      current: "currentColor",
       brand: "var(--calcite-ui-brand)",
       "brand-hover": "var(--calcite-ui-brand-hover)",
       "brand-press": "var(--calcite-ui-brand-press)",
