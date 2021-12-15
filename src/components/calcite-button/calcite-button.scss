@@ -60,6 +60,17 @@
   margin-inline-end: var(--calcite-button-content-margin);
 }
 
+.icon-start-empty {
+  .content {
+    margin-inline-start: unset;
+  }
+}
+.icon-end-empty {
+  .content {
+    margin-inline-end: unset;
+  }
+}
+
 :host([scale="m"]) {
   button,
   a {
@@ -70,17 +81,6 @@
   button,
   a {
     --calcite-button-content-margin: theme("margin.4");
-  }
-}
-
-:host(:not([icon-start])) {
-  .content {
-    margin-inline-start: unset;
-  }
-}
-:host(:not([icon-end])) {
-  .content {
-    margin-inline-end: unset;
   }
 }
 
