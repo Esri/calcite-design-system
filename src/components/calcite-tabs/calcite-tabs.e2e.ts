@@ -200,7 +200,7 @@ describe("calcite-tabs", () => {
       });
       const indicator = await page.find("calcite-tab-nav >>> .tab-nav-active-indicator-container");
       const indicatorStyles = await indicator.getComputedStyle();
-      expect(indicatorStyles.top).toEqual("4px");
+      expect(indicatorStyles.top).toEqual("0px");
       expect(indicatorStyles.bottom).not.toEqual("0px");
     });
 
