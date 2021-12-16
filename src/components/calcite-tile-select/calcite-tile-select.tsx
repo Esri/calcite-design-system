@@ -264,21 +264,23 @@ export class CalciteTileSelect {
       inputEnabled,
       width
     } = this;
-    const isHeadingOnly = heading && !icon && !description;
-    const isLargeVisual = heading && icon && !description;
-
     return (
       <div
         class={{
           checked,
           container: true,
+          [CSS.description]: Boolean(description),
+          [CSS.descriptionOnly]: Boolean(!heading && !icon && description),
           disabled,
           focused,
-          [CSS.headingOnly]: isHeadingOnly,
+          [CSS.heading]: Boolean(heading),
+          [CSS.headingOnly]: heading && !icon && !description,
+          [CSS.icon]: Boolean(icon),
+          [CSS.iconOnly]: !heading && icon && !description,
           [CSS.inputAlignmentEnd]: inputAlignment === "end",
           [CSS.inputAlignmentStart]: inputAlignment === "start",
           [CSS.inputEnabled]: inputEnabled,
-          [CSS.largeVisual]: isLargeVisual,
+          [CSS.largeVisual]: heading && icon && !description,
           [CSS.widthAuto]: width === "auto",
           [CSS.widthFull]: width === "full"
         }}

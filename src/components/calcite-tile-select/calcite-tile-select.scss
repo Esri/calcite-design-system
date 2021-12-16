@@ -48,23 +48,28 @@ $spacing: $baseline * 0.5;
       }
     }
 
-    &.large-visual,
-    &.heading-only.input-enabled {
-      display: inline-grid;
-      grid-gap: $spacing;
-      grid-template-columns: max-content 1fr;
+    &.input-enabled {
+      &.input-alignment-start {
+        &.heading-only,
+        &.icon-only,
+        &.description-only,
+        &.heading.description,
+        &.icon.description,
+        &.heading.icon.description {
+          display: inline-grid;
+          grid-gap: $spacing;
+          grid-template-columns: max-content 1fr;
+        }
+        calcite-tile {
+          @apply order-1;
+        }
+      }
     }
 
     &.width-full {
       @apply max-w-none flex;
       calcite-tile {
         @apply flex-auto;
-      }
-      &.input-alignment-start {
-        calcite-tile {
-          @apply order-1;
-          margin-inline-start: theme("spacing.3");
-        }
       }
     }
   }
@@ -97,7 +102,7 @@ $spacing: $baseline * 0.5;
   ::slotted(calcite-checkbox),
   ::slotted(calcite-radio-button) {
     position: absolute;
-    top: $spacing;
+    inset-block-start: $spacing;
     inset-inline-start: $spacing;
   }
 }
@@ -106,7 +111,7 @@ $spacing: $baseline * 0.5;
   ::slotted(calcite-checkbox),
   ::slotted(calcite-radio-button) {
     position: absolute;
-    top: $spacing;
+    inset-block-start: $spacing;
     inset-inline-end: $spacing;
   }
 }
