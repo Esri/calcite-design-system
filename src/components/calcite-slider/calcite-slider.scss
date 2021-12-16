@@ -253,7 +253,7 @@
   border-color: var(--calcite-ui-foreground-1);
   top: -2px;
   pointer-events: none;
-  margin-inline-start: calc(-1 * config("theme.margin[0.5]"));
+  margin-inline-start: calc(-1 * theme("margin[0.5]"));
 }
 
 .tick--active {
@@ -291,7 +291,7 @@
 :host([label-ticks][ticks]) {
   .container {
     // match tick__label top margin + font-size
-    padding-bottom: calc(config("theme.margin[3.5]") + var(--calcite-slider-container-font-size));
+    padding-bottom: calc(theme("margin[3.5]") + var(--calcite-slider-container-font-size));
   }
 }
 :host([has-histogram]) {

@@ -665,7 +665,7 @@
 // generate fab scales (scenario: 1 icon, ie., should be square)
 :host([scale="s"]) button:not(.content--slotted),
 :host([scale="s"]) a:not(.content--slotted) {
-  --calcite-button-padding-x: config("theme.padding[0.5]");
+  --calcite-button-padding-x: theme("padding[0.5]");
   --calcite-button-padding-y: 3px;
   @apply text-0h w-6;
   min-height: theme("height.6");
@@ -677,7 +677,7 @@
 }
 :host([scale="m"]) button:not(.content--slotted),
 :host([scale="m"]) a:not(.content--slotted) {
-  --calcite-button-padding-x: config("theme.padding[0.5]");
+  --calcite-button-padding-x: theme("padding[0.5]");
   --calcite-button-padding-y: 7px;
   @apply text-0h w-8;
   min-height: theme("height.8");
@@ -689,7 +689,7 @@
 }
 :host([scale="l"]) button:not(.content--slotted),
 :host([scale="l"]) a:not(.content--slotted) {
-  --calcite-button-padding-x: config("theme.padding[0.5]");
+  --calcite-button-padding-x: theme("padding[0.5]");
   --calcite-button-padding-y: 9px;
   @apply text-0h w-11;
   min-height: theme("height.11");
@@ -697,7 +697,7 @@
 // accommodate for transparent buttons not having borders
 :host([scale="l"][appearance="transparent"]) button:not(.content--slotted),
 :host([scale="l"][appearance="transparent"]) a:not(.content--slotted) {
-  --calcite-button-padding-y: config("theme.padding[2.5]");
+  --calcite-button-padding-y: theme("padding[2.5]");
 }
 
 // generate fab scales (scenario: 2 icons, ie., should not be square)
