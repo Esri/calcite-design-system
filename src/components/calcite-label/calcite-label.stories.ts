@@ -2,7 +2,6 @@ import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../tests/utils";
 import { createSteps, stepStory } from "../../../.storybook/helpers";
-import { createComponentHTML as create } from "../../../.storybook/utils";
 export default {
   title: "Components/Label",
 
