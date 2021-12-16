@@ -192,8 +192,14 @@ export class CalcitePickListItem {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    this.focusEl?.focus();
-    this.focusDiv?.focus();
+    const { el } = this;
+    const hasContentSlot = getSlotted(el, SLOTS.content);
+
+    if (hasContentSlot) {
+      this.focusDiv?.focus();
+    } else {
+      this.focusEl?.focus();
+    }
   }
 
   // --------------------------------------------------------------------------
@@ -284,10 +290,12 @@ export class CalcitePickListItem {
 
     return hasContentSlot ? (
       <div
+        aria-checked={this.selected.toString()}
         class={CSS.content}
         onClick={this.pickListClickHandler}
         onKeyDown={this.pickListKeyDownHandler}
         ref={(focusDiv): HTMLDivElement => (this.focusDiv = focusDiv)}
+        role="menuitemcheckbox"
         tabIndex={0}
       >
         <div onClick={this.contentSlotClickHandler}>
