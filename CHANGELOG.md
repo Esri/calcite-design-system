@@ -23,6 +23,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Bug Fixes
 
 - **action-bar:** Allow slotting tooltip after initialization ([#3642](https://github.com/Esri/calcite-components/issues/3642)) ([d91132c](https://github.com/Esri/calcite-components/commit/d91132c5e9060f52437ffc13182da97c226bf9d8)), closes [#3495](https://github.com/Esri/calcite-components/issues/3495)
+- **Block:** only render title node when heading or summary is used ([61b9280](https://github.com/Esri/calcite-components/commit/61b9280a46f1fba1febc1205d45807037d0ff4c5))
 - **button:** no longer render loader when width set to half or full ([#3666](https://github.com/Esri/calcite-components/issues/3666)) ([c82a7e2](https://github.com/Esri/calcite-components/commit/c82a7e21ca6ef0b2099cf537932f77d5e12d8991))
 - **button:** unset margin when icon is empty ([#3677](https://github.com/Esri/calcite-components/issues/3677)) ([47fc625](https://github.com/Esri/calcite-components/commit/47fc625562c5515af5d5c52b854ba9cedecf9ce1))
 - **combobox:** fix focus behavior inside calcite label ([#3597](https://github.com/Esri/calcite-components/issues/3597)) ([#3661](https://github.com/Esri/calcite-components/issues/3661)) ([1ec2dab](https://github.com/Esri/calcite-components/commit/1ec2dab3e2a9057b3d6c44337e9523065e8b4ab1))
