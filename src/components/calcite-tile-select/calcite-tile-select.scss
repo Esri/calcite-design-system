@@ -64,6 +64,14 @@ $spacing: $baseline * 0.5;
           @apply order-1;
         }
       }
+      &.input-alignment-end {
+        &.heading-only,
+        &.icon-only {
+          display: inline-grid;
+          grid-gap: $spacing;
+          grid-template-columns: max-content 1fr;
+        }
+      }
     }
 
     &.width-full {
