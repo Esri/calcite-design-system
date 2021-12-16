@@ -35,6 +35,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **panel:** the panel is now dismissed on escape keydown and not keyup for consistency ([#3657](https://github.com/Esri/calcite-components/issues/3657)) ([7d3b757](https://github.com/Esri/calcite-components/commit/7d3b75723e94f2a07aec2fbad0cf270eec88637c))
 - **popover:** close button no longer partially hidden ([#3635](https://github.com/Esri/calcite-components/issues/3635)) ([bebd22e](https://github.com/Esri/calcite-components/commit/bebd22e41a49e1d29c2bfbc15e9d11f93e6cefc9))
 - **slider:** slider now takes the precision of the step if it's provided or no decimal points if it isn’t; added demos for each study case ([#3678](https://github.com/Esri/calcite-components/issues/3678)) ([2bfa349](https://github.com/Esri/calcite-components/commit/2bfa34997a6f33af057741c366639706e5e967bd))
+- **switch:** switch no longer has black outline when toggled with label ([#3721](https://github.com/Esri/calcite-components/issues/3721)) ([153596b](https://github.com/Esri/calcite-components/commit/153596bba33d3e9dc10c79cad35fcedb0d3ceb5e))
 - **tab:** remove content text color from host ([#3693](https://github.com/Esri/calcite-components/issues/3693)) ([951c773](https://github.com/Esri/calcite-components/commit/951c7735f17cb912b4a55abb8940ec494778f11a))
 
 ### Reverts
