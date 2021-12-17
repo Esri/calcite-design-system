@@ -1,7 +1,7 @@
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../tests/utils";
-
+import { createSteps, stepStory } from "../../../.storybook/helpers";
 export default {
   title: "Components/Label",
 
@@ -215,3 +215,11 @@ export const WrappingComponentsOtherThanInputRTL = (): string => html`
     </calcite-label>
   </div>
 `;
+
+export const toggleSwitchWithLabel = stepStory(
+  (): string => html`<calcite-label layout="inline">
+    Toggle theme
+    <calcite-switch id="theme-switch"></calcite-switch>
+  </calcite-label>`,
+  createSteps("calcite-label").click("calcite-label").snapshot("Toggle switch with label")
+);
