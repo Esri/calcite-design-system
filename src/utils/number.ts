@@ -1,3 +1,5 @@
+import { data } from "autoprefixer";
+import { number } from "yargs";
 import { numberKeys } from "./key";
 
 export function isValidNumber(numberString: string): boolean {
@@ -38,9 +40,24 @@ export function sanitizeLeadingZeroString(zeroString: string): string {
 }
 
 export function sanitizeNumberString(value: string): string {
-  return value
-    ? Number(sanitizeNegativeString(sanitizeDecimalString(sanitizeLeadingZeroString(value)))).toString()
-    : value;
+  const sanitizeNonExponentialString = (nonExpoNum) =>
+    nonExpoNum
+      ? Number(sanitizeNegativeString(sanitizeDecimalString(sanitizeLeadingZeroString(nonExpoNum)))).toString()
+      : nonExpoNum;
+
+  let paddedEValue = value;
+  if (/^[eE]/.test(value)) {
+    paddedEValue = "1" + paddedEValue;
+  }
+  if (/[eE]$/.test(value)) {
+    paddedEValue = paddedEValue + "1";
+  }
+
+  const numberSections = paddedEValue.split(/[eE]/);
+  if (numberSections.length !== 2) {
+    return sanitizeNonExponentialString(value.replace(/[eE]/g, ""));
+  }
+  return numberSections.map((section) => sanitizeNonExponentialString(section)).join("e");
 }
 
 function stringContainsNumbers(string: string): boolean {
