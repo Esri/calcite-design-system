@@ -553,19 +553,6 @@ export const Default = stepStory(
     )
     .snapshot("Icon Input Enabled Off With Heading")
 
-    // Icon Input Enabled On With Heading
-    .executeScript(
-      setKnobs({
-        story: "components-tiles-tile-select--default",
-        knobs: [
-          { name: "heading", value: heading },
-          { name: "icon", value: icon },
-          { name: "input-enabled", value: "true" }
-        ]
-      })
-    )
-    .snapshot("Icon Input Enabled On With Heading")
-
     // Input Alignment End Input Enabled On Icon
     .executeScript(
       setKnobs({
