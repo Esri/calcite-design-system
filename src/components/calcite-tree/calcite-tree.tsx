@@ -13,6 +13,7 @@ import { focusElement, nodeListToArray } from "../../utils/dom";
 import { TreeItemSelectDetail } from "../calcite-tree-item/interfaces";
 import { TreeSelectDetail, TreeSelectionMode } from "./interfaces";
 import { Scale } from "../interfaces";
+import { selectionAndDeselection } from "../calcite-pick-list/shared-list-tests";
 
 /**
  * @slot - A slot for `calcite-tree-item` elements.
@@ -148,7 +149,8 @@ export class CalciteTree {
       (!target.hasChildren ||
         (target.hasChildren &&
           (this.selectionMode === TreeSelectionMode.Children ||
-            this.selectionMode === TreeSelectionMode.MultiChildren)));
+            this.selectionMode === TreeSelectionMode.MultiChildren))) &&
+      !target.selected;
 
     const shouldModifyToCurrentSelection =
       e.detail.modifyCurrentSelection &&
@@ -159,14 +161,16 @@ export class CalciteTree {
       this.selectionMode === TreeSelectionMode.MultiChildren ||
       this.selectionMode === TreeSelectionMode.Children;
 
+    debugger;
     const shouldClearCurrentSelection =
       !shouldModifyToCurrentSelection &&
       (((this.selectionMode === TreeSelectionMode.Single ||
         this.selectionMode === TreeSelectionMode.Multi) &&
         childItems.length <= 0) ||
         this.selectionMode === TreeSelectionMode.Children ||
-        this.selectionMode === TreeSelectionMode.MultiChildren);
-
+        this.selectionMode === TreeSelectionMode.MultiChildren) &&
+      !shouldSelect;
+    debugger;
     const shouldExpandTarget =
       this.selectionMode === TreeSelectionMode.Children ||
       this.selectionMode === TreeSelectionMode.MultiChildren;
@@ -186,9 +190,11 @@ export class CalciteTree {
         const selectedItems = nodeListToArray(
           this.el.querySelectorAll("calcite-tree-item[selected]")
         ) as HTMLCalciteTreeItemElement[];
+
         selectedItems.forEach((treeItem) => {
-          if (!this.targetItems.includes(treeItem)) {
+          if (this.targetItems.includes(treeItem) && target === treeItem) {
             treeItem.selected = false;
+            this.targetItems.splice(this.targetItems.indexOf(treeItem));
           }
         });
       }
