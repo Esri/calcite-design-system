@@ -936,6 +936,113 @@ describe("calcite-input", () => {
   });
 
   describe("number type", () => {
+    it("input event fires when number ends with a decimal", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+      <calcite-input type="number" value="1.2"></calcite-input>
+      `);
+
+      const calciteInputInput = await page.spyOnEvent("calciteInputInput");
+      const element = await page.find("calcite-input");
+      expect(await element.getProperty("value")).toBe("1.2");
+      await element.callMethod("setFocus");
+
+      await page.keyboard.press("Backspace");
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("1");
+      expect(calciteInputInput).toHaveReceivedEventTimes(1);
+    });
+
+    it("sanitize leading zeros from number input value", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+      <calcite-input type="number"></calcite-input>
+      `);
+
+      const element = await page.find("calcite-input");
+      await element.callMethod("setFocus");
+      await page.keyboard.type("0000000");
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("0");
+
+      await page.keyboard.type("1");
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("1");
+
+      await page.keyboard.type("0000000");
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("10000000");
+    });
+
+    it("sanitize extra dashes from number input value", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-input type="number"></calcite-input>`);
+
+      const element = await page.find("calcite-input");
+      await element.callMethod("setFocus");
+
+      await page.keyboard.type("1--2---3");
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("123");
+
+      await page.keyboard.press("ArrowLeft");
+      await page.keyboard.press("ArrowLeft");
+      await page.keyboard.press("ArrowLeft");
+      await page.keyboard.type("----");
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("-123");
+    });
+
+    it("allows exponential number format", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-input type="number"></calcite-input>`);
+
+      const element = await page.find("calcite-input");
+      await element.callMethod("setFocus");
+
+      await page.keyboard.type("1.2e5");
+      await page.waitForChanges();
+      expect(Number(await element.getProperty("value"))).toBe(120000);
+
+      await page.keyboard.press("ArrowLeft");
+      await page.keyboard.type("-");
+      await page.waitForChanges();
+      expect(Number(await element.getProperty("value"))).toBe(0.000012);
+    });
+
+    it("sanitizes numbers when using exponential format", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-input type="number"></calcite-input>`);
+
+      const element = await page.find("calcite-input");
+      await element.callMethod("setFocus");
+
+      await page.keyboard.type("000-005e000005--");
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("5e5");
+      expect(Number(await element.getProperty("value"))).toBe(500000);
+    });
+
+    it("sanitizes trailing and extra E's when using exponential number format", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-input type="number"></calcite-input>`);
+
+      const element = await page.find("calcite-input");
+      await element.callMethod("setFocus");
+
+      await page.keyboard.type("2e");
+      await page.waitForChanges();
+      expect(Number(await element.getProperty("value"))).toBe(2);
+
+      await page.keyboard.type("1");
+      await page.waitForChanges();
+      expect(Number(await element.getProperty("value"))).toBe(20);
+      await page.keyboard.type("eeee1eeee");
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("2e10");
+      expect(Number(await element.getProperty("value"))).toBe(20000000000);
+    });
+
     it("disallows typing any letter or number with shift modifier key down", async () => {
       const page = await newE2EPage({
         html: `<calcite-input type="number"></calcite-input>`
@@ -951,9 +1058,10 @@ describe("calcite-input", () => {
         expect(await calciteInput.getProperty("value")).toBeFalsy();
         expect(await input.getProperty("value")).toBeFalsy();
       }
-      for (let i = 0; i < letterKeys.length; i++) {
+      const nonELetterKeys = letterKeys.filter((key) => key !== "e");
+      for (let i = 0; i < nonELetterKeys.length; i++) {
         await page.keyboard.down("Shift");
-        await page.keyboard.press(letterKeys[i] as KeyInput);
+        await page.keyboard.press(nonELetterKeys[i] as KeyInput);
         await page.keyboard.up("Shift");
         expect(await calciteInput.getProperty("value")).toBeFalsy();
         expect(await input.getProperty("value")).toBeFalsy();
@@ -1410,63 +1518,6 @@ describe("calcite-input", () => {
       for (const button of buttons) {
         expect(await button.getProperty("disabled")).toBe(true);
       }
-    });
-
-    it("input event fires when number ends with a decimal", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-      <calcite-input type="number" value="1.2"></calcite-input>
-      `);
-
-      const calciteInputInput = await page.spyOnEvent("calciteInputInput");
-      const element = await page.find("calcite-input");
-      expect(await element.getProperty("value")).toBe("1.2");
-      await element.callMethod("setFocus");
-
-      await page.keyboard.press("Backspace");
-      await page.waitForChanges();
-      expect(await element.getProperty("value")).toBe("1");
-      expect(calciteInputInput).toHaveReceivedEventTimes(1);
-    });
-
-    it("sanitize leading zeros from number input value", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-      <calcite-input type="number"></calcite-input>
-      `);
-
-      const element = await page.find("calcite-input");
-      await element.callMethod("setFocus");
-      await page.keyboard.type("0000000");
-      await page.waitForChanges();
-      expect(await element.getProperty("value")).toBe("0");
-
-      await page.keyboard.type("1");
-      await page.waitForChanges();
-      expect(await element.getProperty("value")).toBe("1");
-
-      await page.keyboard.type("0000000");
-      await page.waitForChanges();
-      expect(await element.getProperty("value")).toBe("10000000");
-    });
-
-    it("sanitize extra dashes from number input value", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-input type="number"></calcite-input>`);
-
-      const element = await page.find("calcite-input");
-      await element.callMethod("setFocus");
-
-      await page.keyboard.type("1--2---3");
-      await page.waitForChanges();
-      expect(await element.getProperty("value")).toBe("123");
-
-      await page.keyboard.press("ArrowLeft");
-      await page.keyboard.press("ArrowLeft");
-      await page.keyboard.press("ArrowLeft");
-      await page.keyboard.type("----");
-      await page.waitForChanges();
-      expect(await element.getProperty("value")).toBe("-123");
     });
 
     describe("when slotted in calcite-inline-editable", () => {
