@@ -58,6 +58,7 @@ export class CalciteTree {
   @Prop({ mutable: true, reflect: true }) selectionMode: TreeSelectionMode =
     TreeSelectionMode.Single;
 
+  private targetItems = [];
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -122,6 +123,7 @@ export class CalciteTree {
 
   @Listen("calciteTreeItemSelect")
   onClick(e: CustomEvent<TreeItemSelectDetail>): void {
+    console.log(`%c ${e.detail.modifyCurrentSelection}`, "color: red");
     const target = e.target as HTMLCalciteTreeItemElement;
     const childItems = nodeListToArray(
       target.querySelectorAll("calcite-tree-item")
@@ -170,15 +172,13 @@ export class CalciteTree {
       this.selectionMode === TreeSelectionMode.MultiChildren;
 
     if (!this.child) {
-      const targetItems = [];
-
       if (shouldSelect) {
-        targetItems.push(target);
+        this.targetItems.push(target);
       }
 
       if (shouldSelectChildren) {
         childItems.forEach((treeItem) => {
-          targetItems.push(treeItem);
+          this.targetItems.push(treeItem);
         });
       }
 
@@ -186,9 +186,8 @@ export class CalciteTree {
         const selectedItems = nodeListToArray(
           this.el.querySelectorAll("calcite-tree-item[selected]")
         ) as HTMLCalciteTreeItemElement[];
-
         selectedItems.forEach((treeItem) => {
-          if (!targetItems.includes(treeItem)) {
+          if (!this.targetItems.includes(treeItem)) {
             treeItem.selected = false;
           }
         });
@@ -201,16 +200,15 @@ export class CalciteTree {
       if (shouldModifyToCurrentSelection) {
         window.getSelection().removeAllRanges();
       }
-
       if (
         (shouldModifyToCurrentSelection && target.selected) ||
         (shouldSelectChildren && e.detail.forceToggle)
       ) {
-        targetItems.forEach((treeItem) => {
+        this.targetItems.forEach((treeItem) => {
           treeItem.selected = false;
         });
       } else {
-        targetItems.forEach((treeItem) => {
+        this.targetItems.forEach((treeItem) => {
           treeItem.selected = true;
         });
       }
