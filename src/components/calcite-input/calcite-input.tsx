@@ -515,6 +515,14 @@ export class CalciteInput implements LabelableComponent, FormComponent {
         return;
       }
     }
+    if (/[eE]/.test(event.key)) {
+      if (!this.value && !this.childNumberEl.value) {
+        return;
+      }
+      if (this.value && !/[eE]/.test(this.childNumberEl.value)) {
+        return;
+      }
+    }
     event.preventDefault();
   };
 
@@ -603,21 +611,19 @@ export class CalciteInput implements LabelableComponent, FormComponent {
   private setValue = (value: string, nativeEvent?: any, committing = false): void => {
     const previousValue = this.value;
 
-    this.value = this.type === "number" ? sanitizeNumberString(value) : value;
-
     if (this.type === "number") {
+      this.value = sanitizeNumberString(value);
       this.setLocalizedValue(this.value);
+      this.value = Number(this.value).toString();
+    } else {
+      this.value = value;
     }
 
     if (nativeEvent) {
-      if (this.type === "number") {
-        value = sanitizeNumberString(value);
-      }
-
       const calciteInputInputEvent = this.calciteInputInput.emit({
         element: this.childEl,
         nativeEvent,
-        value
+        value: this.value
       });
 
       if (calciteInputInputEvent.defaultPrevented) {

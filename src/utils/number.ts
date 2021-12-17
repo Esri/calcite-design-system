@@ -40,21 +40,18 @@ export function sanitizeLeadingZeroString(zeroString: string): string {
 }
 
 export function sanitizeNumberString(value: string): string {
-  const sanitizeNonExponentialString = (nonExpoNum) =>
-    nonExpoNum
-      ? Number(sanitizeNegativeString(sanitizeDecimalString(sanitizeLeadingZeroString(nonExpoNum)))).toString()
-      : nonExpoNum;
+  const sanitizeNonExponentialString = (nonExpoNumString: string) =>
+    nonExpoNumString
+      ? Number(sanitizeNegativeString(sanitizeDecimalString(sanitizeLeadingZeroString(nonExpoNumString)))).toString()
+      : nonExpoNumString;
 
   let paddedEValue = value;
   if (/^[eE]/.test(value)) {
     paddedEValue = "1" + paddedEValue;
   }
-  if (/[eE]$/.test(value)) {
-    paddedEValue = paddedEValue + "1";
-  }
 
   const numberSections = paddedEValue.split(/[eE]/);
-  if (numberSections.length !== 2) {
+  if (numberSections.length !== 2 || /[eE]/.test(value.charAt(value.length - 1))) {
     return sanitizeNonExponentialString(value.replace(/[eE]/g, ""));
   }
   return numberSections.map((section) => sanitizeNonExponentialString(section)).join("e");
@@ -62,4 +59,15 @@ export function sanitizeNumberString(value: string): string {
 
 function stringContainsNumbers(string: string): boolean {
   return numberKeys.some((number) => string.includes(number));
+}
+
+export function applyFuncOnNumberString(numberString: string, func: (s: string) => string): string {
+  const sanitizedNumberString = sanitizeNumberString(numberString);
+
+  return /[eE]/.test(sanitizedNumberString)
+    ? sanitizedNumberString
+        .split("e")
+        .map((numSection) => func(numSection))
+        .join("e")
+    : func(numberString);
 }

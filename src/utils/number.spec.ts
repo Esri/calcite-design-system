@@ -66,6 +66,8 @@ describe("sanitizeNumberString", () => {
     const negativeExponentialString = "-2.5e-1--2--3";
     const invalidExponentialString = "e2e4ee2421e";
     const singleEString = "E";
+    const leadingEString = "E5";
+    const trailingEString = "12E";
     const leadingZeroExponentialString = "-123e0000";
     const multiDecimalExponentialString = "2.5e5.2";
 
@@ -78,7 +80,9 @@ describe("sanitizeNumberString", () => {
     expect(sanitizeNumberString(exponentialString)).toBe("2.5e123");
     expect(sanitizeNumberString(negativeExponentialString)).toBe("-2.5e-123");
     expect(sanitizeNumberString(invalidExponentialString)).toBe("242421");
-    expect(sanitizeNumberString(singleEString)).toBe("1e1");
+    expect(sanitizeNumberString(singleEString)).toBe("");
+    expect(sanitizeNumberString(leadingEString)).toBe("1e5");
+    expect(sanitizeNumberString(trailingEString)).toBe("12");
     expect(sanitizeNumberString(leadingZeroExponentialString)).toBe("-123e0");
     expect(sanitizeNumberString(leadingZeroExponentialString)).toBe("-123e0");
     expect(sanitizeNumberString(multiDecimalExponentialString)).toBe("2.5e5.2");
