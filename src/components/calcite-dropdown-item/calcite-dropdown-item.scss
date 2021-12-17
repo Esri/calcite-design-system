@@ -16,6 +16,18 @@
   padding-inline-start: theme("padding.10");
 }
 
+.container--s.container--none-selection {
+  padding-inline-start: theme("padding.1");
+}
+
+.container--m.container--none-selection {
+  padding-inline-start: theme("padding.2");
+}
+
+.container--l.container--none-selection {
+  padding-inline-start: theme("padding.3");
+}
+
 @mixin itemStyling {
   @apply flex
     flex-grow
