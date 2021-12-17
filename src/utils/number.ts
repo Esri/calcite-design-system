@@ -7,24 +7,26 @@ export function isValidNumber(numberString: string): boolean {
 }
 
 export function parseNumberString(numberString?: string): string {
-  if (!numberString || !stringContainsNumbers(numberString)) {
-    return null;
-  }
-  let containsDecimal = false;
-  const result = numberString
-    .split("")
-    .filter((value, i) => {
-      if (value.match(/\./g) && !containsDecimal) {
-        containsDecimal = true;
-        return true;
-      }
-      if (value.match(/\-/g) && i === 0) {
-        return true;
-      }
-      return numberKeys.includes(value);
-    })
-    .reduce((string, part) => string + part);
-  return isValidNumber(result) ? Number(result).toString() : null;
+  return applyFuncOnNumberString(numberString, (nonExpoNumString: string): string => {
+    if (!nonExpoNumString || !stringContainsNumbers(nonExpoNumString)) {
+      return null;
+    }
+    let containsDecimal = false;
+    const result = nonExpoNumString
+      .split("")
+      .filter((value, i) => {
+        if (value.match(/\./g) && !containsDecimal) {
+          containsDecimal = true;
+          return true;
+        }
+        if (value.match(/\-/g) && i === 0) {
+          return true;
+        }
+        return numberKeys.includes(value);
+      })
+      .reduce((string, part) => string + part);
+    return isValidNumber(result) ? Number(result).toString() : null;
+  });
 }
 
 export function sanitizeDecimalString(decimalString: string): string {
