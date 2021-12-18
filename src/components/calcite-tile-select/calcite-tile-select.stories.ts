@@ -120,7 +120,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
 };
 
 export const Default = stepStory(
-  (): string => html`<div style="width: 100vw;">${create("calcite-tile-select", createAttributes())}</div>`,
+  (): string => html`${create("calcite-tile-select", createAttributes())}`,
   createSteps("calcite-tile-select")
     // Checked Off
     .executeScript(
@@ -1674,7 +1674,11 @@ export const Default = stepStory(
     .executeScript(setTheme("dark"))
     .click("calcite-tile-select")
     .snapshot("Theme Dark Disabled Input Enabled Off Checked Off Click")
+);
 
+export const WidthFull = stepStory(
+  (): string => html`<div style="width: 100vw;">${create("calcite-tile-select", createAttributes())}</div>`,
+  createSteps("calcite-tile-select")
     // Width Full Icon
     .executeScript(
       setKnobs({
