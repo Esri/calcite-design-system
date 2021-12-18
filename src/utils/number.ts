@@ -45,16 +45,19 @@ export function sanitizeNumberString(value: string): string {
       ? Number(sanitizeNegativeString(sanitizeDecimalString(sanitizeLeadingZeroString(nonExpoNumString)))).toString()
       : nonExpoNumString;
 
-  let paddedEValue = value;
-  if (/^[eE]/.test(value)) {
-    paddedEValue = "1" + paddedEValue;
-  }
+  if (value) {
+    let paddedEValue = value;
+    if (/^[eE]/.test(value)) {
+      paddedEValue = "1" + paddedEValue;
+    }
 
-  const numberSections = paddedEValue.split(/[eE]/);
-  if (numberSections.length !== 2 || /[eE]/.test(value.charAt(value.length - 1))) {
-    return sanitizeNonExponentialString(value.replace(/[eE]/g, ""));
+    const numberSections = paddedEValue.split(/[eE]/);
+    if (numberSections.length !== 2 || /[eE]/.test(value.charAt(value.length - 1))) {
+      return sanitizeNonExponentialString(value.replace(/[eE]/g, ""));
+    }
+    return numberSections.map((section) => sanitizeNonExponentialString(section)).join("e");
   }
-  return numberSections.map((section) => sanitizeNonExponentialString(section)).join("e");
+  return value;
 }
 
 function stringContainsNumbers(string: string): boolean {
@@ -62,6 +65,9 @@ function stringContainsNumbers(string: string): boolean {
 }
 
 export function applyFuncOnNumberString(numberString: string, func: (s: string) => string): string {
+  if (!numberString) {
+    return null;
+  }
   const sanitizedNumberString = sanitizeNumberString(numberString);
 
   return /[eE]/.test(sanitizedNumberString)
