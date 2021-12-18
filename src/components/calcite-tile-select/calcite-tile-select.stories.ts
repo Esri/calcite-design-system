@@ -120,7 +120,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
 };
 
 export const Default = stepStory(
-  (): string => html`${create("calcite-tile-select", createAttributes())}`,
+  (): string => html`<div style="width: 100vw;">${create("calcite-tile-select", createAttributes())}</div>`,
   createSteps("calcite-tile-select")
     // Checked Off
     .executeScript(
