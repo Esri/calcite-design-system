@@ -1763,4 +1763,100 @@ export const Default = stepStory(
       })
     )
     .snapshot("Width Full Heading + Description")
+
+    // Width Full Input Enabled Icon
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "icon", value: icon },
+          { name: "input-enabled", value: "true" },
+          { name: "width", value: "full" }
+        ]
+      })
+    )
+    .snapshot("Width Full Input Enabled Icon")
+
+    // Width Full Input Enabled Heading
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "heading", value: heading },
+          { name: "input-enabled", value: "true" },
+          { name: "width", value: "full" }
+        ]
+      })
+    )
+    .snapshot("Width Full Input Enabled Heading")
+
+    // Width Full Input Enabled Description
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "description", value: description },
+          { name: "input-enabled", value: "true" },
+          { name: "width", value: "full" }
+        ]
+      })
+    )
+    .snapshot("Width Full Input Enabled Description")
+
+    // Width Full Input Enabled Icon + Heading
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "heading", value: heading },
+          { name: "icon", value: icon },
+          { name: "input-enabled", value: "true" },
+          { name: "width", value: "full" }
+        ]
+      })
+    )
+    .snapshot("Width Full Input Enabled Icon + Heading")
+
+    // Width Full Input Enabled Icon + Description
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "description", value: description },
+          { name: "icon", value: icon },
+          { name: "input-enabled", value: "true" },
+          { name: "width", value: "full" }
+        ]
+      })
+    )
+    .snapshot("Width Full Input Enabled Icon + Description")
+
+    // Width Full Input Enabled Icon + Heading + Description
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "icon", value: icon },
+          { name: "input-enabled", value: "true" },
+          { name: "heading", value: heading },
+          { name: "description", value: description },
+          { name: "width", value: "full" }
+        ]
+      })
+    )
+    .snapshot("Width Full Input Enabled Icon + Heading + Description")
+
+    // Width Full Input Enabled Heading + Description
+    .executeScript(
+      setKnobs({
+        story: "components-tiles-tile-select--default",
+        knobs: [
+          { name: "heading", value: heading },
+          { name: "input-enabled", value: "true" },
+          { name: "description", value: description },
+          { name: "width", value: "full" }
+        ]
+      })
+    )
+    .snapshot("Width Full Input Enabled Heading + Description")
 );
