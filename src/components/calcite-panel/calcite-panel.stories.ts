@@ -120,15 +120,25 @@ export const withButton = (): string =>
   create(
     "calcite-panel",
     createAttributes(),
+    html`
+      ${headerHTML}
+      <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsStart}" icon="bluetooth"></calcite-action>
+      <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsEnd}" icon="attachment"></calcite-action>
+      ${contentHTML}
+      <calcite-fab slot="fab"></calcite-fab>
+      ${footerHTML}
     `
-  ${headerHTML}
-  <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsStart}" icon="bluetooth"></calcite-action>
-  <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsEnd}" icon="attachment"></calcite-action>
-  ${contentHTML}
-  <calcite-fab slot='fab'></calcite-fab>
-  ${footerHTML}
-`
   );
+
+export const onlyProps = (): string => html`
+  <div style="width: 300px;">
+    <calcite-panel
+      height-scale="s"
+      heading="Panel title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+      summary="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+    />
+  </div>
+`;
 
 export const withStyledSlot = (): string => html`
   <calcite-panel style="height: 100%;" heading="Heading">

@@ -158,32 +158,28 @@ export class CalciteBlock {
     return hasIcon ? <div class={CSS.icon}>{iconEl}</div> : null;
   }
 
+  renderTitle(): VNode {
+    const { heading, headingLevel, summary } = this;
+    return heading || summary ? (
+      <div class={CSS.title}>
+        <CalciteHeading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
+          {heading}
+        </CalciteHeading>
+        {summary ? <div class={CSS.summary}>{summary}</div> : null}
+      </div>
+    ) : null;
+  }
+
   render(): VNode {
-    const {
-      collapsible,
-      disabled,
-      el,
-      heading,
-      intlCollapse,
-      intlExpand,
-      loading,
-      open,
-      summary,
-      intlLoading,
-      headingLevel
-    } = this;
+    const { collapsible, disabled, el, intlCollapse, intlExpand, loading, open, intlLoading } =
+      this;
 
     const toggleLabel = open ? intlCollapse || TEXT.collapse : intlExpand || TEXT.expand;
 
     const headerContent = (
       <header class={CSS.header}>
         {this.renderIcon()}
-        <div class={CSS.title}>
-          <CalciteHeading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
-            {heading}
-          </CalciteHeading>
-          {summary ? <div class={CSS.summary}>{summary}</div> : null}
-        </div>
+        {this.renderTitle()}
       </header>
     );
 
