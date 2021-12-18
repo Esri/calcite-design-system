@@ -178,6 +178,18 @@ export class CalciteTree {
     if (!this.child) {
       if (shouldSelect) {
         this.targetItems.push(target);
+        if (this.selectionMode === TreeSelectionMode.Single) {
+          const selectedItems = nodeListToArray(
+            this.el.querySelectorAll("calcite-tree-item[selected]")
+          ) as HTMLCalciteTreeItemElement[];
+
+          selectedItems.forEach((treeItem) => {
+            if (target !== treeItem) {
+              treeItem.selected = false;
+              this.targetItems.splice(this.targetItems.indexOf(treeItem));
+            }
+          });
+        }
       }
 
       if (shouldSelectChildren) {
@@ -214,6 +226,8 @@ export class CalciteTree {
           treeItem.selected = false;
         });
       } else {
+        console.log("yes");
+        console.log(this.targetItems.length);
         this.targetItems.forEach((treeItem) => {
           treeItem.selected = true;
         });
