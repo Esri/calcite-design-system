@@ -5,10 +5,11 @@ export function isValidNumber(numberString: string): boolean {
 }
 
 export function parseNumberString(numberString?: string): string {
+  if (!numberString || !stringContainsNumbers(numberString)) {
+    return null;
+  }
+
   return applyFuncOnNumberString(numberString, (nonExpoNumString: string): string => {
-    if (!nonExpoNumString || !stringContainsNumbers(nonExpoNumString)) {
-      return null;
-    }
     let containsDecimal = false;
     const result = nonExpoNumString
       .split("")
@@ -45,19 +46,15 @@ export function sanitizeNumberString(value: string): string {
       ? Number(sanitizeNegativeString(sanitizeDecimalString(sanitizeLeadingZeroString(nonExpoNumString)))).toString()
       : nonExpoNumString;
 
-  if (value) {
-    let paddedEValue = value;
-    if (/^[eE]/.test(value)) {
-      paddedEValue = "1" + paddedEValue;
-    }
-
-    const numberSections = paddedEValue.split(/[eE]/);
-    if (numberSections.length !== 2 || /[eE]/.test(value.charAt(value.length - 1))) {
-      return sanitizeNonExponentialString(value.replace(/[eE]/g, ""));
-    }
-    return numberSections.map((section) => sanitizeNonExponentialString(section)).join("e");
+  if (!value) {
+    return value;
   }
-  return value;
+
+  const numberSections = /^[eE]/.test(value) ? ("1" + value).split(/[eE]/) : value.split(/[eE]/);
+  if (numberSections.length !== 2 || /[eE]/.test(value.charAt(value.length - 1))) {
+    return sanitizeNonExponentialString(value.replace(/[eE]/g, ""));
+  }
+  return numberSections.map((section) => sanitizeNonExponentialString(section)).join("e");
 }
 
 function stringContainsNumbers(string: string): boolean {
@@ -65,12 +62,9 @@ function stringContainsNumbers(string: string): boolean {
 }
 
 export function applyFuncOnNumberString(numberString: string, func: (s: string) => string): string {
-  if (!numberString) {
-    return null;
-  }
   const sanitizedNumberString = sanitizeNumberString(numberString);
 
-  return /[eE]/.test(sanitizedNumberString)
+  return sanitizedNumberString && /[eE]/.test(sanitizedNumberString)
     ? sanitizedNumberString
         .split("e")
         .map((numSection) => func(numSection))

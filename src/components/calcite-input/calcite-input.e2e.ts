@@ -1017,7 +1017,7 @@ describe("calcite-input", () => {
       const element = await page.find("calcite-input");
       await element.callMethod("setFocus");
 
-      await page.keyboard.type("000-005e000005--");
+      await page.keyboard.type("000005e00005----");
       await page.waitForChanges();
       expect(await element.getProperty("value")).toBe("5e5");
       expect(Number(await element.getProperty("value"))).toBe(500000);
@@ -1037,10 +1037,43 @@ describe("calcite-input", () => {
       await page.keyboard.type("1");
       await page.waitForChanges();
       expect(Number(await element.getProperty("value"))).toBe(20);
-      await page.keyboard.type("eeee1eeee");
+
+      await page.keyboard.type("eeee0eeee");
       await page.waitForChanges();
       expect(await element.getProperty("value")).toBe("2e10");
       expect(Number(await element.getProperty("value"))).toBe(20000000000);
+    });
+
+    it("increments correctly with exponential numbers", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-input type="number"></calcite-input>`);
+
+      const element = await page.find("calcite-input");
+      await element.callMethod("setFocus");
+
+      await page.keyboard.type("2e-2");
+      await page.waitForChanges();
+      expect(Number(await element.getProperty("value"))).toBe(0.02);
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+      expect(Number(await element.getProperty("value"))).toBe(1.02);
+    });
+
+    it("decrements correctly with exponential numbers", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-input type="number" step=5></calcite-input>`);
+
+      const element = await page.find("calcite-input");
+      await element.callMethod("setFocus");
+
+      await page.keyboard.type("2e2");
+      await page.waitForChanges();
+      expect(Number(await element.getProperty("value"))).toBe(200);
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      expect(Number(await element.getProperty("value"))).toBe(195);
     });
 
     it("disallows typing any letter or number with shift modifier key down", async () => {
