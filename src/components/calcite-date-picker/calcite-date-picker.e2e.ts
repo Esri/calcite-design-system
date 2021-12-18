@@ -156,4 +156,12 @@ describe("calcite-date-picker", () => {
     );
     expect(minDateAsTime).toEqual(new Date(minDateString).getTime());
   });
+
+  it("passes down the default intlYear prop to child date-picker-month-header", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-date-picker value="2000-11-27" active></calcite-date-picker>`);
+    const date = await page.find(`calcite-date-picker >>> calcite-date-picker-month-header`);
+
+    expect(await date.getProperty("intlYear")).toEqual("Year");
+  });
 });
