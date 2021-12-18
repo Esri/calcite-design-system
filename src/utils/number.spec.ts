@@ -68,8 +68,8 @@ describe("sanitizeNumberString", () => {
     const singleEString = "E";
     const leadingEString = "E5";
     const trailingEString = "12E";
-    const leadingZeroExponentialString = "-123e0000";
-    const multiDecimalExponentialString = "2.5e5.2";
+    const leadingZeroExponentialString = "000005e00006";
+    const nonLeadingZeroExponentialString = "500000e00600";
 
     expect(sanitizeNumberString(stringWithMultipleDashes)).toBe("1234");
     expect(sanitizeNumberString(negativeStringWithMultipleDashes)).toBe("-1234");
@@ -83,8 +83,7 @@ describe("sanitizeNumberString", () => {
     expect(sanitizeNumberString(singleEString)).toBe("");
     expect(sanitizeNumberString(leadingEString)).toBe("1e5");
     expect(sanitizeNumberString(trailingEString)).toBe("12");
-    expect(sanitizeNumberString(leadingZeroExponentialString)).toBe("-123e0");
-    expect(sanitizeNumberString(leadingZeroExponentialString)).toBe("-123e0");
-    expect(sanitizeNumberString(multiDecimalExponentialString)).toBe("2.5e5.2");
+    expect(sanitizeNumberString(leadingZeroExponentialString)).toBe("5e6");
+    expect(sanitizeNumberString(nonLeadingZeroExponentialString)).toBe("500000e600");
   });
 });

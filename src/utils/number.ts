@@ -9,7 +9,7 @@ export function parseNumberString(numberString?: string): string {
     return null;
   }
 
-  return applyFuncOnNumberString(numberString, (nonExpoNumString: string): string => {
+  return handleExponentialNumberString(numberString, (nonExpoNumString: string): string => {
     let containsDecimal = false;
     const result = nonExpoNumString
       .split("")
@@ -37,37 +37,29 @@ export function sanitizeNegativeString(negativeString: string): string {
 }
 
 export function sanitizeLeadingZeroString(zeroString: string): string {
-  return zeroString.replace(/^0+$/, "0");
+  return zeroString.replace(/^0+/, "0");
 }
 
-export function sanitizeNumberString(value: string): string {
-  const sanitizeNonExponentialString = (nonExpoNumString: string) =>
+export function sanitizeNumberString(numberString: string): string {
+  return handleExponentialNumberString(numberString, (nonExpoNumString) =>
     nonExpoNumString
       ? Number(sanitizeNegativeString(sanitizeDecimalString(sanitizeLeadingZeroString(nonExpoNumString)))).toString()
-      : nonExpoNumString;
+      : nonExpoNumString
+  );
+}
 
-  if (!value) {
-    return value;
+export function handleExponentialNumberString(numberString: string, func: (s: string) => string): string {
+  if (!numberString) {
+    return numberString;
   }
 
-  const numberSections = /^[eE]/.test(value) ? ("1" + value).split(/[eE]/) : value.split(/[eE]/);
-  if (numberSections.length !== 2 || /[eE]/.test(value.charAt(value.length - 1))) {
-    return sanitizeNonExponentialString(value.replace(/[eE]/g, ""));
-  }
-  return numberSections.map((section) => sanitizeNonExponentialString(section)).join("e");
+  const numberSections = /^[eE]/.test(numberString) ? ("1" + numberString).split(/[eE]/) : numberString.split(/[eE]/);
+
+  return numberSections.length !== 2 || /[eE]/.test(numberString.charAt(numberString.length - 1))
+    ? func(numberString.replace(/[eE]/g, ""))
+    : numberSections.map((section) => func(section)).join("e");
 }
 
 function stringContainsNumbers(string: string): boolean {
   return numberKeys.some((number) => string.includes(number));
-}
-
-export function applyFuncOnNumberString(numberString: string, func: (s: string) => string): string {
-  const sanitizedNumberString = sanitizeNumberString(numberString);
-
-  return sanitizedNumberString && /[eE]/.test(sanitizedNumberString)
-    ? sanitizedNumberString
-        .split("e")
-        .map((numSection) => func(numSection))
-        .join("e")
-    : func(numberString);
 }
