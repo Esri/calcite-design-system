@@ -103,20 +103,31 @@
 }
 
 .content {
+  @apply w-full
+  h-full
+  relative
+  flex
+  items-center;
+}
+
+.content--select {
   @apply bg-transparent
-    flex
-    items-center
     cursor-pointer
     focus-base
     w-full
-    py-2
-    px-3;
+    h-full;
   &:focus {
     @apply focus-inset;
   }
   &:hover {
     @apply bg-foreground-2;
   }
+}
+
+.content--slot {
+  @apply absolute
+  my-2
+  mx-3;
 }
 
 :host([non-interactive]) .content {
