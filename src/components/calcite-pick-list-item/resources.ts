@@ -3,6 +3,8 @@ export const CSS = {
   actionsEnd: "actions--end",
   actionsStart: "actions--start",
   content: "content",
+  contentSelect: "content--select",
+  contentSlot: "content--slot",
   description: "description",
   handle: "handle",
   handleActivated: "handle--activated",
