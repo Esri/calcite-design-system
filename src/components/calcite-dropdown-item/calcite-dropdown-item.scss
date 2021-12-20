@@ -16,16 +16,26 @@
   padding-inline-start: theme("padding.10");
 }
 
+// none-selection mode
 .container--s.container--none-selection {
   padding-inline-start: theme("padding.1");
+  & .dropdown-link {
+    padding-inline-start: theme("padding.0");
+  }
 }
 
 .container--m.container--none-selection {
   padding-inline-start: theme("padding.2");
+  & .dropdown-link {
+    padding-inline-start: theme("padding.0");
+  }
 }
 
 .container--l.container--none-selection {
   padding-inline-start: theme("padding.3");
+  & .dropdown-link {
+    padding-inline-start: theme("padding.0");
+  }
 }
 
 @mixin itemStyling {
