@@ -1689,7 +1689,7 @@ export const WidthFull = stepStory(
         ]
       })
     )
-    .snapshot("Width Full Icon")
+    .snapshot("Icon")
 
     // Width Full Heading
     .executeScript(
@@ -1701,7 +1701,7 @@ export const WidthFull = stepStory(
         ]
       })
     )
-    .snapshot("Width Full Heading")
+    .snapshot("Heading")
 
     // Width Full Description
     .executeScript(
@@ -1713,7 +1713,7 @@ export const WidthFull = stepStory(
         ]
       })
     )
-    .snapshot("Width Full Description")
+    .snapshot("Description")
 
     // Width Full Icon + Heading
     .executeScript(
@@ -1726,7 +1726,7 @@ export const WidthFull = stepStory(
         ]
       })
     )
-    .snapshot("Width Full Icon + Heading")
+    .snapshot("Icon + Heading")
 
     // Width Full Icon + Description
     .executeScript(
@@ -1739,7 +1739,7 @@ export const WidthFull = stepStory(
         ]
       })
     )
-    .snapshot("Width Full Icon + Description")
+    .snapshot("Icon + Description")
 
     // Width Full Icon + Heading + Description
     .executeScript(
@@ -1753,7 +1753,7 @@ export const WidthFull = stepStory(
         ]
       })
     )
-    .snapshot("Width Full Icon + Heading + Description")
+    .snapshot("Icon + Heading + Description")
 
     // Width Full Heading + Description
     .executeScript(
@@ -1766,7 +1766,7 @@ export const WidthFull = stepStory(
         ]
       })
     )
-    .snapshot("Width Full Heading + Description")
+    .snapshot("Heading + Description")
 
     // Width Full Input Enabled Icon
     .executeScript(
@@ -1779,7 +1779,7 @@ export const WidthFull = stepStory(
         ]
       })
     )
-    .snapshot("Width Full Input Enabled Icon")
+    .snapshot("Input Enabled Icon")
 
     // Width Full Input Enabled Heading
     .executeScript(
@@ -1792,7 +1792,7 @@ export const WidthFull = stepStory(
         ]
       })
     )
-    .snapshot("Width Full Input Enabled Heading")
+    .snapshot("Input Enabled Heading")
 
     // Width Full Input Enabled Description
     .executeScript(
@@ -1805,7 +1805,7 @@ export const WidthFull = stepStory(
         ]
       })
     )
-    .snapshot("Width Full Input Enabled Description")
+    .snapshot("Input Enabled Description")
 
     // Width Full Input Enabled Icon + Heading
     .executeScript(
@@ -1819,7 +1819,7 @@ export const WidthFull = stepStory(
         ]
       })
     )
-    .snapshot("Width Full Input Enabled Icon + Heading")
+    .snapshot("Input Enabled Icon + Heading")
 
     // Width Full Input Enabled Icon + Description
     .executeScript(
@@ -1833,7 +1833,7 @@ export const WidthFull = stepStory(
         ]
       })
     )
-    .snapshot("Width Full Input Enabled Icon + Description")
+    .snapshot("Input Enabled Icon + Description")
 
     // Width Full Input Enabled Icon + Heading + Description
     .executeScript(
@@ -1848,7 +1848,7 @@ export const WidthFull = stepStory(
         ]
       })
     )
-    .snapshot("Width Full Input Enabled Icon + Heading + Description")
+    .snapshot("Input Enabled Icon + Heading + Description")
 
     // Width Full Input Enabled Heading + Description
     .executeScript(
@@ -1862,5 +1862,5 @@ export const WidthFull = stepStory(
         ]
       })
     )
-    .snapshot("Width Full Input Enabled Heading + Description")
+    .snapshot("Input Enabled Heading + Description")
 );
