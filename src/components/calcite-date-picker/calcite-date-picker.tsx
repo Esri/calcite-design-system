@@ -87,10 +87,20 @@ export class CalciteDatePicker {
   }
 
   /** Earliest allowed date ("yyyy-mm-dd") */
-  @Prop() min?: string;
+  @Prop({ mutable: true }) min?: string;
+
+  @Watch("min")
+  onMinChanged(min: string): void {
+    this.minAsDate = dateFromISO(min);
+  }
 
   /** Latest allowed date ("yyyy-mm-dd") */
-  @Prop() max?: string;
+  @Prop({ mutable: true }) max?: string;
+
+  @Watch("max")
+  onMaxChanged(max: string): void {
+    this.maxAsDate = dateFromISO(max);
+  }
 
   /** Localized string for "previous month" (used for aria label)
    * @default "Previous month"
@@ -101,6 +111,11 @@ export class CalciteDatePicker {
    * @default "Next month"
    */
   @Prop() intlNextMonth?: string = TEXT.nextMonth;
+
+  /** Localized string for "year" (used for aria label)
+   * @default "Year"
+   */
+  @Prop() intlYear?: string = TEXT.year;
 
   /** BCP 47 language tag for desired language and country format */
   @Prop() locale?: string = document.documentElement.lang || "en";
@@ -190,6 +205,8 @@ export class CalciteDatePicker {
 
   async componentWillLoad(): Promise<void> {
     await this.loadLocaleData();
+    this.onMinChanged(this.min);
+    this.onMaxChanged(this.max);
   }
 
   render(): VNode {
@@ -403,6 +420,7 @@ export class CalciteDatePicker {
           headingLevel={this.headingLevel || HEADING_LEVEL}
           intlNextMonth={this.intlNextMonth}
           intlPrevMonth={this.intlPrevMonth}
+          intlYear={this.intlYear}
           localeData={this.localeData}
           max={maxDate}
           min={minDate}

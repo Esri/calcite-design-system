@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { renders } from "../../tests/commonTests";
+import { html } from "../../tests/utils";
 
 describe("calcite-date-picker-month-header", () => {
   it("renders", async () => renders("calcite-date-picker-month-header", { display: "block" }));
@@ -59,5 +60,28 @@ describe("calcite-date-picker-month-header", () => {
 
     expect(await prev.isVisible()).toBe(true);
     expect(await next.isVisible()).toBe(true);
+  });
+
+  it("passes down the default intlYear prop to nested .year input to set it as aria-label", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-date-picker></calcite-date-picker>`);
+
+    await page.evaluate((localeData) => {
+      const dateMonthHeader = document.createElement(
+        "calcite-date-picker-month-header"
+      ) as HTMLCalciteDatePickerMonthHeaderElement;
+      const now = new Date();
+      dateMonthHeader.activeDate = now;
+      dateMonthHeader.selectedDate = now;
+      dateMonthHeader.localeData = localeData;
+      dateMonthHeader.intlYear = "Year";
+
+      document.body.innerHTML = "";
+      document.body.append(dateMonthHeader);
+    }, localeDataFixture);
+    await page.waitForChanges();
+    const date = await page.find(`calcite-date-picker-month-header >>> input`);
+
+    expect(await date.getAttribute("aria-label")).toBe("Year");
   });
 });
