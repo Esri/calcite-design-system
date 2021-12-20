@@ -128,9 +128,7 @@ export class CalcitePickListItem {
 
   @Element() el: HTMLCalcitePickListItemElement;
 
-  private focusEl: HTMLLabelElement;
-
-  private focusDiv: HTMLDivElement;
+  private focusEl: HTMLLabelElement | HTMLDivElement;
 
   shiftPressed: boolean;
 
@@ -193,13 +191,8 @@ export class CalcitePickListItem {
   @Method()
   async setFocus(): Promise<void> {
     const { el } = this;
-    const hasContentSlot = getSlotted(el, SLOTS.content);
 
-    if (hasContentSlot) {
-      this.focusDiv?.focus();
-    } else {
-      this.focusEl?.focus();
-    }
+    this.focusEl?.focus();
   }
 
   // --------------------------------------------------------------------------
@@ -294,7 +287,7 @@ export class CalcitePickListItem {
         class={CSS.content}
         onClick={this.pickListClickHandler}
         onKeyDown={this.pickListKeyDownHandler}
-        ref={(focusDiv): HTMLDivElement => (this.focusDiv = focusDiv)}
+        ref={(focusEl): HTMLDivElement => (this.focusEl = focusEl)}
         role="menuitemcheckbox"
         tabIndex={0}
       >
