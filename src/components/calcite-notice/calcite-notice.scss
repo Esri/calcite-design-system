@@ -117,10 +117,9 @@
 }
 
 @mixin notice-element-base() {
-  @apply box-border;
+  @apply box-border transition-default;
   padding: var(--calcite-notice-spacing-token-small) var(--calcite-notice-spacing-token-large);
   flex: 0 0 auto;
-  transition: all 0.15s ease-in-out;
 }
 
 .notice-content {

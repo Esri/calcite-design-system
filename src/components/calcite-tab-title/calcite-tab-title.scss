@@ -21,7 +21,7 @@
 }
 
 :host(:focus) a {
-  @apply focus-outset;
+  @apply focus-inset;
 }
 
 :host(:active),
@@ -99,6 +99,10 @@ span {
   & svg {
     @apply transition-default;
   }
+}
+
+.container--has-text {
+  @apply p-1;
 }
 
 .container--has-text .calcite-tab-title--icon.icon-start {

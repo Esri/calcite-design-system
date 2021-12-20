@@ -34,10 +34,6 @@
   grid-template-areas: "handle header control menu";
   grid-column: header-start / menu-end;
   grid-row: 1 / 2;
-
-  & > .header {
-    @apply py-3 px-0;
-  }
 }
 
 .toggle {
@@ -47,8 +43,7 @@
     font-inherit
     items-center
     m-0
-    py-3
-    px-0
+    p-0
     border-none
     cursor-pointer
     focus-base;
@@ -74,8 +69,7 @@ calcite-handle {
 
 .title {
   @apply m-0;
-  padding-inline: 0.75rem;
-  padding-block: 0px;
+  padding: theme("spacing.3");
 }
 
 .header .title .heading {
@@ -99,8 +93,9 @@ calcite-handle {
 }
 
 .icon {
-  margin-inline-start: 0.75rem;
+  margin-inline-start: theme("spacing.3");
   margin-inline-end: 0px;
+  margin-block: theme("spacing.3");
 }
 
 .status-icon.valid {
@@ -129,12 +124,14 @@ calcite-handle {
 
 .toggle-icon {
   @apply self-center
+  justify-self-end
   text-color-3
   transition-color
   duration-150
-  ease-in-out;
-  margin-inline-end: 1rem;
-  margin-inline-start: 0px;
+  ease-in-out
+  my-3;
+  margin-inline-end: theme("spacing.4");
+  margin-inline-start: auto;
 }
 
 .toggle:hover .toggle-icon {

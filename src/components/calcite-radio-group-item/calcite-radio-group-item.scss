@@ -3,7 +3,8 @@
     self-stretch
     cursor-pointer
     font-normal;
-  transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out;
+  transition: background-color var(--calcite-internal-animation-timing-quick) ease-in-out,
+    border-color var(--calcite-animation-timing) ease-in-out;
 }
 
 :host label {
@@ -14,7 +15,9 @@
     pointer-events-none
     items-center
     m-0.5;
-  transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out, color 0.1s ease-in-out;
+  transition: background-color var(--calcite-internal-animation-timing-quick) ease-in-out,
+    border-color var(--calcite-internal-animation-timing-quick) ease-in-out,
+    color var(--calcite-internal-animation-timing-quick) ease-in-out;
 }
 
 .label--horizontal {

@@ -53,6 +53,7 @@
 }
 
 .dropdown-item-content {
+  @apply flex-auto;
   padding-inline-end: theme("margin.auto");
   padding-inline-start: theme("margin.1");
 }
