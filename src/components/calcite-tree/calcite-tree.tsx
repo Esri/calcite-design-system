@@ -13,7 +13,6 @@ import { focusElement, nodeListToArray } from "../../utils/dom";
 import { TreeItemSelectDetail } from "../calcite-tree-item/interfaces";
 import { TreeSelectDetail, TreeSelectionMode } from "./interfaces";
 import { Scale } from "../interfaces";
-import { selectionAndDeselection } from "../calcite-pick-list/shared-list-tests";
 
 /**
  * @slot - A slot for `calcite-tree-item` elements.
@@ -59,7 +58,7 @@ export class CalciteTree {
   @Prop({ mutable: true, reflect: true }) selectionMode: TreeSelectionMode =
     TreeSelectionMode.Single;
 
-  private targetItems = [];
+  private selectedItems: HTMLCalciteTreeItemElement[] = [];
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -124,7 +123,6 @@ export class CalciteTree {
 
   @Listen("calciteTreeItemSelect")
   onClick(e: CustomEvent<TreeItemSelectDetail>): void {
-    console.log(`%c ${e.detail.modifyCurrentSelection}`, "color: red");
     const target = e.target as HTMLCalciteTreeItemElement;
     const childItems = nodeListToArray(
       target.querySelectorAll("calcite-tree-item")
@@ -161,7 +159,6 @@ export class CalciteTree {
       this.selectionMode === TreeSelectionMode.MultiChildren ||
       this.selectionMode === TreeSelectionMode.Children;
 
-    debugger;
     const shouldClearCurrentSelection =
       !shouldModifyToCurrentSelection &&
       (((this.selectionMode === TreeSelectionMode.Single ||
@@ -170,31 +167,18 @@ export class CalciteTree {
         this.selectionMode === TreeSelectionMode.Children ||
         this.selectionMode === TreeSelectionMode.MultiChildren) &&
       !shouldSelect;
-    debugger;
     const shouldExpandTarget =
       this.selectionMode === TreeSelectionMode.Children ||
       this.selectionMode === TreeSelectionMode.MultiChildren;
 
     if (!this.child) {
       if (shouldSelect) {
-        this.targetItems.push(target);
-        if (this.selectionMode === TreeSelectionMode.Single) {
-          const selectedItems = nodeListToArray(
-            this.el.querySelectorAll("calcite-tree-item[selected]")
-          ) as HTMLCalciteTreeItemElement[];
-
-          selectedItems.forEach((treeItem) => {
-            if (target !== treeItem) {
-              treeItem.selected = false;
-              this.targetItems.splice(this.targetItems.indexOf(treeItem));
-            }
-          });
-        }
+        this.selectedItems.push(target);
       }
 
       if (shouldSelectChildren) {
         childItems.forEach((treeItem) => {
-          this.targetItems.push(treeItem);
+          this.selectedItems.push(treeItem);
         });
       }
 
@@ -204,9 +188,9 @@ export class CalciteTree {
         ) as HTMLCalciteTreeItemElement[];
 
         selectedItems.forEach((treeItem) => {
-          if (this.targetItems.includes(treeItem) && target === treeItem) {
+          if (this.selectedItems.includes(treeItem) && target === treeItem) {
             treeItem.selected = false;
-            this.targetItems.splice(this.targetItems.indexOf(treeItem));
+            this.selectedItems.splice(this.selectedItems.indexOf(treeItem));
           }
         });
       }
@@ -222,16 +206,18 @@ export class CalciteTree {
         (shouldModifyToCurrentSelection && target.selected) ||
         (shouldSelectChildren && e.detail.forceToggle)
       ) {
-        this.targetItems.forEach((treeItem) => {
+        this.selectedItems.forEach((treeItem) => {
           treeItem.selected = false;
         });
       } else {
-        console.log("yes");
-        console.log(this.targetItems.length);
-        this.targetItems.forEach((treeItem) => {
+        this.selectedItems.forEach((treeItem) => {
           treeItem.selected = true;
         });
       }
+    }
+
+    if (this.selectionMode === TreeSelectionMode.Single) {
+      this.deselectSiblings(target);
     }
 
     this.calciteTreeSelect.emit({
@@ -240,6 +226,19 @@ export class CalciteTree {
           this.el.querySelectorAll("calcite-tree-item")
         ) as HTMLCalciteTreeItemElement[]
       ).filter((i) => i.selected)
+    });
+  }
+
+  deselectSiblings(target: HTMLCalciteTreeItemElement): void {
+    const selectedItems = nodeListToArray(
+      this.el.querySelectorAll("calcite-tree-item[selected]")
+    ) as HTMLCalciteTreeItemElement[];
+
+    selectedItems.forEach((treeItem) => {
+      if (treeItem !== target) {
+        treeItem.selected = false;
+        this.selectedItems.splice(this.selectedItems.indexOf(treeItem));
+      }
     });
   }
 
