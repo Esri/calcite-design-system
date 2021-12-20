@@ -1,4 +1,4 @@
-import { sanitizeDecimalString, applyFuncOnNumberString } from "./number";
+import { sanitizeDecimalString, handleExponentialNumberString } from "./number";
 
 export const locales = [
   "ar",
@@ -59,7 +59,7 @@ function createLocaleNumberFormatter(locale: string): Intl.NumberFormat {
 }
 
 export function delocalizeNumberString(numberString: string, locale: string): string {
-  return applyFuncOnNumberString(numberString, (nonExpoNumString: string): string => {
+  return handleExponentialNumberString(numberString, (nonExpoNumString: string): string => {
     if (nonExpoNumString) {
       const groupSeparator = getGroupSeparator(locale);
       const decimalSeparator = getDecimalSeparator(locale);
@@ -98,7 +98,7 @@ export function getDecimalSeparator(locale: string): string {
 }
 
 export function localizeNumberString(numberString: string, locale: string, displayGroupSeparator = false): string {
-  return applyFuncOnNumberString(numberString, (nonExpoNumString: string): string => {
+  return handleExponentialNumberString(numberString, (nonExpoNumString: string): string => {
     if (nonExpoNumString) {
       const number = Number(sanitizeDecimalString(nonExpoNumString));
       if (!isNaN(number)) {
