@@ -19,9 +19,7 @@
     w-full
     overflow-auto
     justify-start
-    scrolling-touch
-    p-1
-    -m-1;
+    scrolling-touch;
 }
 
 :host([layout="center"]) .tab-nav {
