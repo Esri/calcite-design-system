@@ -64,9 +64,9 @@ export default {
     },
     fontSize: {
       // assets/styles/_type
-      "-3": "var(--calcite-font-size--3)", // 10px
-      "-2": "var(--calcite-font-size--2)", // 12px
-      "-1": "var(--calcite-font-size--1)", // 14px
+      n3: "var(--calcite-font-size--3)", // 10px
+      n2: "var(--calcite-font-size--2)", // 12px
+      n1: "var(--calcite-font-size--1)", // 14px
       0: "var(--calcite-font-size-0)", // 16px
       1: "var(--calcite-font-size-1)", // 18px
       2: "var(--calcite-font-size-2)", // 20px
@@ -79,9 +79,9 @@ export default {
       // TODO: temp selectors to be renamed before closing https://github.com/Esri/calcite-components/issues/1500.
       // at this point all existing instances of text-N should be replaced with either text-Nh or text-N-wrap and we
       // should be able to safely drop the "h" suffix.
-      "-3h": ["var(--calcite-font-size--3)", { lineHeight: "0.75rem" }], // 10px (0.625rem)
-      "-2h": ["var(--calcite-font-size--2)", { lineHeight: "1rem" }], // 12px (0.75rem)
-      "-1h": ["var(--calcite-font-size--1)", { lineHeight: "1rem" }], // 14px (0.875rem)
+      n3h: ["var(--calcite-font-size--3)", { lineHeight: "0.75rem" }], // 10px (0.625rem)
+      n2h: ["var(--calcite-font-size--2)", { lineHeight: "1rem" }], // 12px (0.75rem)
+      n1h: ["var(--calcite-font-size--1)", { lineHeight: "1rem" }], // 14px (0.875rem)
       "0h": ["var(--calcite-font-size-0)", { lineHeight: "1.25rem" }], // 16px (1rem)
       "1h": ["var(--calcite-font-size-1)", { lineHeight: "1.5rem" }], // 18px (1.125rem)
       "2h": ["var(--calcite-font-size-2)", { lineHeight: "1.5rem" }], // 20px (1.25rem)
@@ -91,9 +91,9 @@ export default {
       "6h": ["var(--calcite-font-size-6)", { lineHeight: "4rem" }], // 48px (3rem)
       "7h": ["var(--calcite-font-size-7)", { lineHeight: "4rem" }], // 56px (3.5rem)
       "8h": ["var(--calcite-font-size-8)", { lineHeight: "5rem" }], // 64px (4rem)
-      "-3-wrap": ["var(--calcite-font-size--3)", { lineHeight: "1.375" }],
-      "-2-wrap": ["var(--calcite-font-size--2)", { lineHeight: "1.375" }],
-      "-1-wrap": ["var(--calcite-font-size--1)", { lineHeight: "1.375" }],
+      "n3-wrap": ["var(--calcite-font-size--3)", { lineHeight: "1.375" }],
+      "n2-wrap": ["var(--calcite-font-size--2)", { lineHeight: "1.375" }],
+      "n1-wrap": ["var(--calcite-font-size--1)", { lineHeight: "1.375" }],
       "0-wrap": ["var(--calcite-font-size-0)", { lineHeight: "1.375" }],
       "1-wrap": ["var(--calcite-font-size-1)", { lineHeight: "1.375" }],
       "2-wrap": ["var(--calcite-font-size-2)", { lineHeight: "1.375" }],

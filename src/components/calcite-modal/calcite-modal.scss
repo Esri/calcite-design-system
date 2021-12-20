@@ -28,7 +28,7 @@
   --calcite-modal-padding: theme("spacing.3");
   --calcite-modal-padding-large: theme("spacing.4");
   --calcite-modal-title-text: theme("fontSize.1h");
-  --calcite-modal-content-text: theme("fontSize.-1");
+  --calcite-modal-content-text: theme("fontSize.n1");
 }
 
 :host([scale="m"]) {

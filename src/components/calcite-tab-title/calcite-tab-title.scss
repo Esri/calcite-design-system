@@ -48,14 +48,14 @@
   margin-inline-end: 1rem;
   a,
   span {
-    @apply text--2h py-1;
+    @apply text-n2h py-1;
   }
 }
 
 :host([scale="m"]) {
   a,
   span {
-    @apply text--1h py-2;
+    @apply text-n1h py-2;
   }
 }
 
@@ -80,7 +80,7 @@ span {
     flex
     justify-center
     text-color-3
-    text--1h
+    text-n1h
     transition-default
     px-0
     py-2;

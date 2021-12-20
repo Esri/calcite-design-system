@@ -10,7 +10,7 @@
   --calcite-checkbox-size: theme("spacing.3");
 }
 :host([scale="m"]) {
-  --calcite-checkbox-size: theme("fontSize.-1");
+  --calcite-checkbox-size: theme("fontSize.n1");
 }
 :host([scale="l"]) {
   --calcite-checkbox-size: theme("spacing.4");
