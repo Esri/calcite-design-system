@@ -58,7 +58,7 @@
 }
 
 :host([width="half"]) {
-  --calcite-notice-width: theme("width.1/2");
+  --calcite-notice-width: theme("width[1/2]");
 }
 
 :host([width="full"]) {
