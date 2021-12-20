@@ -69,6 +69,9 @@ export class CalciteDatePickerMonthHeader {
   /** Localized string for next month. */
   @Prop() intlNextMonth: string;
 
+  /** Localized string for year. */
+  @Prop() intlYear: string;
+
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: Scale;
 
@@ -134,6 +137,7 @@ export class CalciteDatePickerMonthHeader {
           </CalciteHeading>
           <span class="year-wrap">
             <input
+              aria-label={this.intlYear}
               class={{
                 year: true,
                 "year--suffix": !!suffix
