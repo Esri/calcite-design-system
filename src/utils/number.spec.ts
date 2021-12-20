@@ -64,12 +64,14 @@ describe("sanitizeNumberString", () => {
     const stringWithDecimal = "123.45";
     const exponentialString = "2.5e123";
     const negativeExponentialString = "-2.5e-1--2--3";
-    const invalidExponentialString = "e2e4ee2421e";
+    const multipleEString = "2e4ee2421e";
     const singleEString = "E";
     const leadingEString = "E5";
     const trailingEString = "12E";
     const leadingZeroExponentialString = "000005e00006";
     const nonLeadingZeroExponentialString = "500000e00600";
+    const multiDecimalExponentialString = "1.2e2.1";
+    const crazyExponentialString = "-2-.-1ee.5-3e.1..e--09";
 
     expect(sanitizeNumberString(stringWithMultipleDashes)).toBe("1234");
     expect(sanitizeNumberString(negativeStringWithMultipleDashes)).toBe("-1234");
@@ -79,11 +81,13 @@ describe("sanitizeNumberString", () => {
     expect(sanitizeNumberString(stringWithDecimal)).toBe("123.45");
     expect(sanitizeNumberString(exponentialString)).toBe("2.5e123");
     expect(sanitizeNumberString(negativeExponentialString)).toBe("-2.5e-123");
-    expect(sanitizeNumberString(invalidExponentialString)).toBe("242421");
+    expect(sanitizeNumberString(multipleEString)).toBe("2e42421");
     expect(sanitizeNumberString(singleEString)).toBe("");
     expect(sanitizeNumberString(leadingEString)).toBe("1e5");
     expect(sanitizeNumberString(trailingEString)).toBe("12");
     expect(sanitizeNumberString(leadingZeroExponentialString)).toBe("5e6");
     expect(sanitizeNumberString(nonLeadingZeroExponentialString)).toBe("500000e600");
+    expect(sanitizeNumberString(multiDecimalExponentialString)).toBe("1.2e21");
+    expect(sanitizeNumberString(crazyExponentialString)).toBe("-2.1e53109");
   });
 });

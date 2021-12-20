@@ -53,11 +53,16 @@ export function handleExponentialNumberString(numberString: string, func: (s: st
     return numberString;
   }
 
-  const numberSections = /^[eE]/.test(numberString) ? ("1" + numberString).split(/[eE]/) : numberString.split(/[eE]/);
+  const firstE = numberString.toLowerCase().indexOf("e") + 1;
 
-  return numberSections.length !== 2 || /[eE]/.test(numberString.charAt(numberString.length - 1))
-    ? func(numberString.replace(/[eE]/g, ""))
-    : numberSections.map((section) => func(section)).join("e");
+  return numberString
+    .replace(/[eE]*$/g, "")
+    .substring(0, firstE)
+    .concat(numberString.slice(firstE).replace(/[eE]/g, ""))
+    .split(/[eE]/)
+    .map((section, i) => (i === 1 ? func(section.replace(/\./g, "")) : func(section)))
+    .join("e")
+    .replace(/^e/, "1e");
 }
 
 function stringContainsNumbers(string: string): boolean {
