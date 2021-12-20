@@ -96,10 +96,7 @@
   .summary {
     @apply p-0
       block
-      overflow-hidden
-      whitespace-no-wrap
-      w-full;
-    text-overflow: ellipsis;
+      break-words;
   }
   .heading {
     @apply font-medium mt-0 mx-0 mb-1 text-0h;

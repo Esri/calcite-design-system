@@ -78,6 +78,14 @@ export const WithIconStartAndIconEnd = (): string => html`
 
 WithIconStartAndIconEnd.storyName = "With icon-start and icon-end";
 
+export const WithIconStartEmpty = (): string => html` <calcite-button icon-start> Button </calcite-button>`;
+
+WithIconStartEmpty.storyName = "With icon-start set to empty";
+
+export const WithIconEndEmpty = (): string => html` <calcite-button icon-end> Button </calcite-button>`;
+
+WithIconEndEmpty.storyName = "With icon-end set to empty";
+
 export const SetWidthContainer = (): string => html`
   <div style="width: 480px; max-width: 100%; background-color: #fff">
     <calcite-button

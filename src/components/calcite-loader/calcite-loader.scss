@@ -106,7 +106,7 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
     stroke: var(--calcite-ui-brand);
     stroke-dasharray: $loader-circumference;
     transform: rotate(-90deg);
-    transition: all 100ms linear;
+    transition: all var(--calcite-internal-animation-timing-quick) linear;
   }
 }
 
@@ -138,21 +138,24 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   @apply opacity-0;
   transform: scale(0.75, 0.75);
   transform-origin: center;
-  transition: opacity 200ms linear 1000ms, transform 200ms linear 1000ms;
+  transition: opacity var(--calcite-internal-animation-timing-medium) linear 1000ms,
+    transform var(--calcite-internal-animation-timing-medium) linear 1000ms;
 }
 
 :host([complete]) .loader__svgs {
   @apply opacity-0;
   transform: scale(0.75, 0.75);
   transform-origin: center;
-  transition: opacity 180ms linear 800ms, transform 180ms linear 800ms;
+  transition: opacity calc(180ms * var(--calcite-animation-timing-factor)) linear 800ms,
+    transform calc(180ms * var(--calcite-animation-timing-factor)) linear 800ms;
 }
 
 :host([complete]) .loader__percentage {
   color: theme("colors.brand");
   transform: scale(1.05, 1.05);
   transform-origin: center;
-  transition: color 200ms linear, transform 200ms linear;
+  transition: color var(--calcite-internal-animation-timing-medium) linear,
+    transform var(--calcite-internal-animation-timing-medium) linear;
 }
 
 /**
