@@ -9,7 +9,7 @@
 
 :host([scale="s"]) {
   .text {
-    @apply text--1h my-2;
+    @apply text-n1h my-2;
   }
   .chevron {
     @apply h-9;
@@ -82,7 +82,7 @@
     w-full;
 }
 
-.text--reverse {
+.text-nreverse {
   @apply flex-row-reverse;
 }
 
@@ -130,7 +130,7 @@
 .suffix {
   @apply absolute
     w-16
-    whitespace-no-wrap
+    whitespace-nowrap
     text-left
     top-0
     left-0;

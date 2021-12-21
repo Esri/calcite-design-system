@@ -112,6 +112,11 @@ export class CalciteDatePicker {
    */
   @Prop() intlNextMonth?: string = TEXT.nextMonth;
 
+  /** Localized string for "year" (used for aria label)
+   * @default "Year"
+   */
+  @Prop() intlYear?: string = TEXT.year;
+
   /** BCP 47 language tag for desired language and country format */
   @Prop() locale?: string = document.documentElement.lang || "en";
 
@@ -415,6 +420,7 @@ export class CalciteDatePicker {
           headingLevel={this.headingLevel || HEADING_LEVEL}
           intlNextMonth={this.intlNextMonth}
           intlPrevMonth={this.intlPrevMonth}
+          intlYear={this.intlYear}
           localeData={this.localeData}
           max={maxDate}
           min={minDate}

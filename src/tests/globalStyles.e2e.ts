@@ -38,17 +38,17 @@ describe("global styles", () => {
       });
     });
 
-    it("should set animation duration to 0ms when --animation-timing-factor set to zero", async () => {
+    it("should set animation duration to 0ms when --calcite-duration-factor set to zero", async () => {
       const page = await newE2EPage({
         html: html`
           <html>
             <style>
               html {
-                --calcite-animation-timing-factor: 0;
+                --calcite-duration-factor: 0;
               }
             </style>
             <body>
-              <div style="transition: all var(--calcite-internal-animation-timing) linear;"></div>
+              <div style="transition: all var(--calcite-animation-timing) linear;"></div>
             </body>
           </html>
         `
@@ -65,13 +65,13 @@ describe("global styles", () => {
     });
   });
 
-  it("should not be able to disable animations with --animation-timing-factor at component level", async () => {
+  it("should not be able to disable animations with --calcite-duration-factor at component level", async () => {
     const page = await newE2EPage({
-      html: html` <div style="transition: all var(--calcite-internal-animation-timing) linear;"></div> `
+      html: html` <div style="transition: all var(--calcite-animation-timing) linear;"></div> `
     });
     await page.waitForChanges();
     await page.$eval("div", (element: any) => {
-      element.style.setProperty("--calcite-animation-timing-factor", 0);
+      element.style.setProperty("--calcite-duration-factor", 0);
     });
     const eleTransition = await page.evaluate(() => {
       const ele = document.querySelector("div");
@@ -85,7 +85,7 @@ describe("global styles", () => {
 
   it("should set animation duration to default value 150ms", async () => {
     const page = await newE2EPage({
-      html: html` <div style="transition: all var(--calcite-internal-animation-timing) linear;"></div> `
+      html: html` <div style="transition: all var(--calcite-animation-timing) linear;"></div> `
     });
     const eleTransition = await page.evaluate(() => {
       const ele = document.querySelector("div");
