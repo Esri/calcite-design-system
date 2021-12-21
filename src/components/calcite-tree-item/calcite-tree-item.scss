@@ -102,9 +102,8 @@
   margin-inline-start: theme("margin.5");
   transform: scaleY(0);
   opacity: 0;
-  transition: var(--calcite-internal-animation-timing) $easing-function,
-    opacity var(--calcite-internal-animation-timing) $easing-function,
-    all var(--calcite-internal-animation-timing) ease-in-out; // note that we're transitioning transform, not height!
+  transition: var(--calcite-animation-timing) $easing-function, opacity var(--calcite-animation-timing) $easing-function,
+    all var(--calcite-animation-timing) ease-in-out; // note that we're transitioning transform, not height!
   transform-origin: top; // keep the top of the element in the same place. this is optional.
 
   :host([expanded]) > & {

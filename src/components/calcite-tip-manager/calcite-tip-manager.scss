@@ -64,7 +64,7 @@
     focus-base
     mt-px;
   animation-name: none;
-  animation-duration: var(--calcite-internal-animation-timing);
+  animation-duration: var(--calcite-animation-timing);
   height: var(--calcite-tip-manager-height);
   &:focus {
     @apply focus-outset;

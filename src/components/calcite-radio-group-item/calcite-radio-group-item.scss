@@ -3,7 +3,7 @@
     self-stretch
     cursor-pointer
     font-normal;
-  transition: background-color var(--calcite-internal-animation-timing-quick) ease-in-out,
+  transition: background-color var(--calcite-internal-animation-timing-fast) ease-in-out,
     border-color var(--calcite-animation-timing) ease-in-out;
 }
 
@@ -15,9 +15,9 @@
     pointer-events-none
     items-center
     m-0.5;
-  transition: background-color var(--calcite-internal-animation-timing-quick) ease-in-out,
-    border-color var(--calcite-internal-animation-timing-quick) ease-in-out,
-    color var(--calcite-internal-animation-timing-quick) ease-in-out;
+  transition: background-color var(--calcite-internal-animation-timing-fast) ease-in-out,
+    border-color var(--calcite-internal-animation-timing-fast) ease-in-out,
+    color var(--calcite-internal-animation-timing-fast) ease-in-out;
 }
 
 .label--horizontal {
