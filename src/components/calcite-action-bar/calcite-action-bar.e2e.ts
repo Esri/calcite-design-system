@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { E2EElement, newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 import { overflowActionsDebounceInMs } from "./utils";
@@ -234,6 +234,39 @@ describe("calcite-action-bar", () => {
 
     const tooltipSlot = await page.find(`calcite-action-bar >>> slot[name=${SLOTS.expandTooltip}]`);
     expect(tooltipSlot).toBeTruthy();
+  });
+
+  it("honors conditional 'expand-tooltip' slot", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-action-bar>
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>`
+    });
+
+    await page.waitForChanges();
+
+    let tooltipManager: E2EElement = await page.find(`calcite-action-bar >>> calcite-tooltip-manager`);
+
+    expect(tooltipManager).toBeFalsy();
+
+    await page.$eval(
+      "calcite-action-bar",
+      (actionBar, expandTooltip: string) => {
+        const tooltip = document.createElement("calcite-tooltip");
+        tooltip.slot = expandTooltip;
+        tooltip.innerHTML = "Bits and bobs.";
+        actionBar.appendChild(tooltip);
+      },
+      SLOTS.expandTooltip
+    );
+
+    await page.waitForChanges();
+
+    tooltipManager = await page.find(`calcite-action-bar >>> calcite-tooltip-manager`);
+
+    expect(tooltipManager).toBeTruthy();
   });
 
   it.skip("should set other 'calcite-action-group' - 'menuOpen' to false", async () => {

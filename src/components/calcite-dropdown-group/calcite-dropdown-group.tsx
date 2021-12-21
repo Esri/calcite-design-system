@@ -9,7 +9,7 @@ import {
   Prop,
   VNode
 } from "@stencil/core";
-import { getElementDir, getElementProp } from "../../utils/dom";
+import { getElementProp } from "../../utils/dom";
 import { SelectionMode } from "./interfaces";
 import { Scale } from "../interfaces";
 import { CSS } from "./resources";
@@ -70,7 +70,6 @@ export class CalciteDropdownGroup {
   }
 
   render(): VNode {
-    const dir = getElementDir(this.el);
     const scale: Scale = this.scale || getElementProp(this.el, "scale", "m");
     const groupTitle = this.groupTitle ? (
       <span aria-hidden="true" class="dropdown-title">
@@ -90,7 +89,6 @@ export class CalciteDropdownGroup {
             [CSS.containerMedium]: scale === "m",
             [CSS.containerLarge]: scale === "l"
           }}
-          dir={dir}
           title={this.groupTitle}
         >
           {dropdownSeparator}

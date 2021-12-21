@@ -10,11 +10,7 @@
 
 :host {
   @extend %component-host;
-  @apply flex
-    flex-auto
-    overflow-hidden
-    relative
-    w-full;
+  @apply flex flex-auto overflow-hidden relative w-full;
 
   --calcite-min-header-height: calc(var(--calcite-icon-size) * 3);
   --calcite-panel-max-height: unset;
@@ -26,14 +22,7 @@
 @import "../../assets/styles/header";
 
 .container {
-  @apply flex
-    flex-auto
-    flex-col
-    items-stretch
-    bg-background
-    w-full
-    p-0
-    m-0;
+  @apply flex flex-auto flex-col items-stretch bg-background w-full p-0 m-0;
 
   max-height: var(--calcite-panel-max-height);
   width: var(--calcite-panel-width);
@@ -98,19 +87,16 @@
 
 .header-content {
   @apply overflow-hidden
-    mr-auto
     px-3
     py-4
     flex
     flex-col;
+  margin-inline-end: auto;
   .heading,
   .summary {
     @apply p-0
       block
-      overflow-hidden
-      whitespace-no-wrap
-      w-full;
-    text-overflow: ellipsis;
+      break-words;
   }
   .heading {
     @apply font-medium mt-0 mx-0 mb-1 text-0h;
@@ -119,34 +105,27 @@
     }
   }
   .summary {
-    @apply text-color-2 text--1h;
+    @apply text-color-2 text-n1h;
   }
 }
 
 .back-button {
   @apply border-color-3
   border-solid
-  border-0
-  border-r;
-}
-
-.calcite--rtl .back-button {
-  @apply border-r-0 border-l;
+  border-0;
+  border-inline-end-width: theme("borderWidth.DEFAULT");
 }
 
 .header-actions {
   @apply flex
   items-stretch
   flex-row
-  flex-no-wrap;
+  flex-nowrap;
 }
 
-.header-actions--end {
-  @apply ml-auto;
-}
-
+.header-actions--end,
 .menu-container:only-child {
-  @apply ml-auto;
+  margin-inline-start: theme("margin.auto");
 }
 
 .menu-button {
@@ -169,11 +148,11 @@
 }
 
 .content-container {
-  @apply items-stretch 
+  @apply items-stretch
   bg-background
   flex
   flex-auto
-  flex-no-wrap
+  flex-nowrap
   flex-col;
 }
 
@@ -190,21 +169,6 @@
   flex: 0 0 auto;
   min-height: theme("spacing.12");
   padding: theme("spacing.2");
-}
-
-.calcite--rtl {
-  .header-content {
-    @apply ml-auto;
-    margin-right: unset;
-  }
-  .header-actions--end {
-    @apply mr-auto;
-    margin-left: unset;
-  }
-  .menu-container:only-child {
-    @apply mr-auto;
-    margin-left: unset;
-  }
 }
 
 .fab-container {

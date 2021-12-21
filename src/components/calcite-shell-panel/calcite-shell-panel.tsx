@@ -12,7 +12,7 @@ import {
 } from "@stencil/core";
 import { CSS, SLOTS, TEXT } from "./resources";
 import { Position, Scale } from "../interfaces";
-import { getSlotted, getElementStyleDir } from "../../utils/dom";
+import { getSlotted, getElementDir } from "../../utils/dom";
 import { clamp } from "../../utils/math";
 
 /**
@@ -273,7 +273,7 @@ export class CalciteShellPanel {
       event.preventDefault();
     }
 
-    const dir = getElementStyleDir(el);
+    const dir = getElementDir(el);
 
     const directionKeys = ["ArrowLeft", "ArrowRight"];
     const directionFactor = dir === "rtl" && directionKeys.includes(key) ? -1 : 1;
@@ -331,7 +331,7 @@ export class CalciteShellPanel {
 
     const { el, initialContentWidth, position, initialClientX } = this;
     const offset = event.clientX - initialClientX;
-    const dir = getElementStyleDir(el);
+    const dir = getElementDir(el);
 
     const adjustmentDirection = dir === "rtl" ? -1 : 1;
     const adjustedOffset =

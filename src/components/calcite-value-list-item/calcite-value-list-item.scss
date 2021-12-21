@@ -2,7 +2,7 @@
   @apply box-border
     bg-foreground-1
     text-color-2
-    text--1
+    text-n1
     mb-px
     flex
     shadow-border-bottom;
@@ -13,25 +13,25 @@
 }
 
 calcite-pick-list-item {
-  @apply shadow-none 
-    flex-grow 
-    relative 
+  @apply shadow-none
+    flex-grow
+    relative
     m-0;
 }
 
 :host([active]),
 :host([selected]) {
-  @apply shadow-outline-active;
+  @apply ring;
 }
 
 .handle {
-  @apply flex 
-    items-center 
-    justify-center 
-    py-0 
-    px-1 
-    bg-transparent 
-    border-none 
+  @apply flex
+    items-center
+    justify-center
+    py-0
+    px-1
+    bg-transparent
+    border-none
     text-color-1
     cursor-move;
   color: theme("borderColor.color.1");

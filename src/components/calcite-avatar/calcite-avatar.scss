@@ -3,11 +3,11 @@
 }
 
 :host([scale="s"]) {
-  @apply w-6 h-6 text--3;
+  @apply w-6 h-6 text-n3;
 }
 
 :host([scale="m"]) {
-  @apply w-8 h-8 text--2;
+  @apply w-8 h-8 text-n2;
 }
 
 :host([scale="l"]) {

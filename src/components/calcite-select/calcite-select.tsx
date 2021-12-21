@@ -11,7 +11,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { Direction, focusElement, getElementDir } from "../../utils/dom";
+import { focusElement } from "../../utils/dom";
 import { Scale, Width } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import {
@@ -22,7 +22,6 @@ import {
   HiddenFormInputSlot
 } from "../../utils/form";
 import { CSS } from "./resources";
-import { CSS_UTILITY } from "../../utils/resources";
 import { createObserver } from "../../utils/observers";
 
 type CalciteOptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
@@ -330,29 +329,27 @@ export class CalciteSelect implements LabelableComponent, FormComponent {
   //
   //--------------------------------------------------------------------------
 
-  renderChevron(dir: Direction): VNode {
+  renderChevron(): VNode {
     return (
-      <div class={{ [CSS.iconContainer]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+      <div class={CSS.iconContainer}>
         <calcite-icon class={CSS.icon} icon="chevron-down" scale="s" />
       </div>
     );
   }
 
   render(): VNode {
-    const dir = getElementDir(this.el);
-
     return (
       <Fragment>
         <select
           aria-label={this.label}
-          class={{ [CSS.select]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+          class={CSS.select}
           disabled={this.disabled}
           onChange={this.handleInternalSelectChange}
           ref={this.storeSelectRef}
         >
           <slot />
         </select>
-        {this.renderChevron(dir)}
+        {this.renderChevron()}
         <HiddenFormInputSlot component={this} />
       </Fragment>
     );
