@@ -3,9 +3,7 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-<!--@unreleased-section-start-->
-
-## Unreleased
+## [1.0.0-beta.72](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.71...v1.0.0-beta.72) (2021-12-21)
 
 ### ⚠ BREAKING CHANGES
 
@@ -51,13 +49,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **switch:** switch no longer has black outline when toggled with label ([#3721](https://github.com/Esri/calcite-components/issues/3721)) ([153596b](https://github.com/Esri/calcite-components/commit/153596bba33d3e9dc10c79cad35fcedb0d3ceb5e))
 - **tab:** remove content text color from host ([#3693](https://github.com/Esri/calcite-components/issues/3693)) ([951c773](https://github.com/Esri/calcite-components/commit/951c7735f17cb912b4a55abb8940ec494778f11a))
 - **tab:** remove the scroll that pops up regardless of any width size ([#3279](https://github.com/Esri/calcite-components/issues/3279)) ([#3387](https://github.com/Esri/calcite-components/issues/3387)) ([09bdd12](https://github.com/Esri/calcite-components/commit/09bdd122c6f930c0618fd23a7f8d7768de6380c0)), closes [#3055](https://github.com/Esri/calcite-components/issues/3055) [#3541](https://github.com/Esri/calcite-components/issues/3541)
-
-### Reverts
-
-- stop skipping screener on markdown prs ([#3673](https://github.com/Esri/calcite-components/issues/3673)) ([a25868d](https://github.com/Esri/calcite-components/commit/a25868da6db79ac8d135a120221570b94384e2d1)), closes [#3628](https://github.com/Esri/calcite-components/issues/3628)
-- use postcss to ensure logical prop usage ([#3753](https://github.com/Esri/calcite-components/issues/3753)) ([c24ae4e](https://github.com/Esri/calcite-components/commit/c24ae4e242ab6da7a516b96ea29554ec8c411b33))
-- **filter:** enforce items prop via type ([#3476](https://github.com/Esri/calcite-components/issues/3476)) ([1794350](https://github.com/Esri/calcite-components/commit/1794350a53b221c1697d86c28c237b62996317f7))
-<!--@unreleased-section-end-->
 
 ## [1.0.0-beta.71](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.70...v1.0.0-beta.71) (2021-12-07)
 
