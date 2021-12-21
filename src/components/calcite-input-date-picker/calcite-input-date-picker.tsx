@@ -146,6 +146,11 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
    */
   @Prop() intlNextMonth?: string = TEXT.nextMonth;
 
+  /** Localized string for "year" (used for aria label)
+   * @default "Year"
+   */
+  @Prop() intlYear?: string = TEXT.year;
+
   /** BCP 47 language tag for desired language and country format */
   @Prop() locale?: string = document.documentElement.lang || "en";
 
@@ -361,6 +366,7 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
                   headingLevel={this.headingLevel}
                   intlNextMonth={this.intlNextMonth}
                   intlPrevMonth={this.intlPrevMonth}
+                  intlYear={this.intlYear}
                   locale={this.locale}
                   max={this.max}
                   maxAsDate={this.maxAsDate}
