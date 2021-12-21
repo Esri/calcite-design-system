@@ -1,4 +1,4 @@
-import { isValidNumber, parseNumberString } from "./number";
+import { isValidNumber, parseNumberString, sanitizeNumberString } from "./number";
 
 describe("isValidNumber", () => {
   it("returns false for string values that can't compute to a number", () => {
@@ -51,5 +51,23 @@ describe("parseNumberString", () => {
     expect(parseNumberString(stringWithLettersAndDecimal)).toBe("123123.2324234");
     expect(parseNumberString(stringWithLettersDecimalAndNonLeadingNegativeSign)).toBe("123123.2324234");
     expect(parseNumberString(stringWithLettersDecimalAndLeadingNegativeSign)).toBe("-123123.2324234");
+  });
+});
+
+describe("sanitizeNumberString", () => {
+  it("sanitizes leading zeros, multiple dashes, and trailing decimals", () => {
+    const stringWithMultipleDashes = "1--2-34----";
+    const negativeStringWithMultipleDashes = "---1--23--4---";
+    const stringWithLeadingZeros = "0000000";
+    const stringWithoutLeadingZeros = "10000000";
+    const stringWithTrailingDecimal = "123.";
+    const stringWithDecimal = "123.45";
+
+    expect(sanitizeNumberString(stringWithMultipleDashes)).toBe("1234");
+    expect(sanitizeNumberString(negativeStringWithMultipleDashes)).toBe("-1234");
+    expect(sanitizeNumberString(stringWithLeadingZeros)).toBe("0");
+    expect(sanitizeNumberString(stringWithoutLeadingZeros)).toBe("10000000");
+    expect(sanitizeNumberString(stringWithTrailingDecimal)).toBe("123");
+    expect(sanitizeNumberString(stringWithDecimal)).toBe("123.45");
   });
 });
