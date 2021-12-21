@@ -9,7 +9,7 @@ export function parseNumberString(numberString?: string): string {
     return null;
   }
 
-  return handleExponentialNumberString(numberString, (nonExpoNumString: string): string => {
+  return sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string => {
     let containsDecimal = false;
     const result = nonExpoNumString
       .split("")
@@ -41,14 +41,14 @@ export function sanitizeLeadingZeroString(zeroString: string): string {
 }
 
 export function sanitizeNumberString(numberString: string): string {
-  return handleExponentialNumberString(numberString, (nonExpoNumString) =>
+  return sanitizeExponentialNumberString(numberString, (nonExpoNumString) =>
     nonExpoNumString
       ? Number(sanitizeNegativeString(sanitizeDecimalString(sanitizeLeadingZeroString(nonExpoNumString)))).toString()
       : nonExpoNumString
   );
 }
 
-export function handleExponentialNumberString(numberString: string, func: (s: string) => string): string {
+export function sanitizeExponentialNumberString(numberString: string, func: (s: string) => string): string {
   if (!numberString) {
     return numberString;
   }
