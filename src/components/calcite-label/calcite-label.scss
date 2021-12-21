@@ -12,12 +12,12 @@
 
 :host([scale="s"]) {
   .container {
-    @apply text--2h mb-2;
+    @apply text-n2h mb-2;
   }
 }
 :host([scale="m"]) {
   .container {
-    @apply text--1h mb-3;
+    @apply text-n1h mb-3;
   }
 }
 :host([scale="l"]) {

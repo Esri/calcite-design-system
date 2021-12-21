@@ -29,8 +29,18 @@ export function sanitizeDecimalString(decimalString: string): string {
   return decimalString?.endsWith(".") ? decimalString.replace(".", "") : decimalString;
 }
 
+export function sanitizeNegativeString(negativeString: string): string {
+  return negativeString.charAt(0) + negativeString.substring(1).replace(/-/g, "");
+}
+
+export function sanitizeLeadingZeroString(zeroString: string): string {
+  return zeroString.replace(/^0+$/, "0");
+}
+
 export function sanitizeNumberString(value: string): string {
-  return value ? Number(sanitizeDecimalString(value)).toString() : value;
+  return value
+    ? Number(sanitizeNegativeString(sanitizeDecimalString(sanitizeLeadingZeroString(value)))).toString()
+    : value;
 }
 
 function stringContainsNumbers(string: string): boolean {

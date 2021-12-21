@@ -18,7 +18,7 @@
   }
   &:host([color="neutral"]) {
     --calcite-split-button-background: theme("colors.background.foreground.3");
-    --calcite-split-button-divider: theme("colors.text.1");
+    --calcite-split-button-divider: theme("colors.color.1");
   }
   &:host([color="inverse"]) {
     --calcite-split-button-background: var(--calcite-ui-inverse);
@@ -34,7 +34,7 @@
     --calcite-split-button-divider: theme("colors.danger");
   }
   &:host([color="neutral"]) {
-    --calcite-split-button-divider: theme("colors.text.1");
+    --calcite-split-button-divider: theme("colors.color.1");
   }
   &:host([color="inverse"]) {
     --calcite-split-button-divider: theme("colors.background.foreground.1");

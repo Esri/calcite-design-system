@@ -8,7 +8,7 @@
     flex-grow
     flex-shrink-0
     text-color-2
-    text--1h;
+    text-n1h;
 
   * {
     @apply box-border;
@@ -21,7 +21,7 @@
     justify-end
     items-stretch
     mb-1;
-  &.sticky {
+  &.sticky-pos {
     @apply sticky top-0;
     z-index: 1;
   }

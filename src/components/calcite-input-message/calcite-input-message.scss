@@ -55,14 +55,14 @@
 }
 
 :host([status][active][scale="s"]) {
-  @apply text--3h;
+  @apply text-n3h;
 }
 
 :host([status][active][scale="m"]) {
-  @apply text--2h
+  @apply text-n2h
     mt-1;
 }
 
 :host([status][active][scale="l"]) {
-  @apply text--1h mt-1;
+  @apply text-n1h mt-1;
 }

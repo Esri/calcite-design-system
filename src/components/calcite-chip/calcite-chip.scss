@@ -1,7 +1,7 @@
 // scale
 // todo update when new spacing modifiers are introduced to calcite-base
 :host([scale="s"]) {
-  @apply h-6 text--2;
+  @apply h-6 text-n2;
   --calcite-chip-spacing-unit-l: theme("spacing.2");
   --calcite-chip-spacing-unit-s: theme("spacing.1");
   .chip-image-container {
@@ -9,7 +9,7 @@
   }
 }
 :host([scale="m"]) {
-  @apply h-8 text--1;
+  @apply h-8 text-n1;
   --calcite-chip-spacing-unit-l: theme("spacing.3");
   --calcite-chip-spacing-unit-s: 6px;
   .chip-image-container {

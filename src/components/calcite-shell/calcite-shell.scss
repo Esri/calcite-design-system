@@ -36,7 +36,7 @@
 .content {
   @apply flex
     flex-col
-    flex-no-wrap
+    flex-nowrap
     h-full
     overflow-auto
     w-full;
@@ -62,7 +62,7 @@
 }
 
 ::slotted(.header .heading) {
-  @apply font-normal text--2-wrap;
+  @apply font-normal text-n2-wrap;
 }
 
 ::slotted(calcite-shell-panel),
