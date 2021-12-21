@@ -44,10 +44,10 @@
     font-inherit
     font-normal;
   // include transition from focus
-  transition: color var(--calcite-internal-animation-timing) ease-in-out,
-    background-color var(--calcite-internal-animation-timing) ease-in-out,
-    box-shadow var(--calcite-internal-animation-timing) ease-in-out, outline-offset 100ms ease-in-out,
-    outline-color 100ms ease-in-out;
+  transition: color var(--calcite-animation-timing) ease-in-out,
+    background-color var(--calcite-animation-timing) ease-in-out, box-shadow var(--calcite-animation-timing) ease-in-out,
+    outline-offset var(--calcite-internal-animation-timing-fast) ease-in-out,
+    outline-color var(--calcite-internal-animation-timing-fast) ease-in-out;
   &:hover {
     @apply no-underline;
   }
