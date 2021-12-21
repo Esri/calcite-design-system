@@ -15,11 +15,11 @@ section {
 }
 
 :host([scale="s"]) {
-  @apply text--2h py-1;
+  @apply text-n2h py-1;
 }
 
 :host([scale="m"]) {
-  @apply text--1h py-2;
+  @apply text-n1h py-2;
 }
 
 :host([scale="l"]) {
