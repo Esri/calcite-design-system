@@ -6,7 +6,6 @@ import autoprefixer from "autoprefixer";
 import tailwindcss from "tailwindcss";
 import tailwindConfig from "./tailwind.config";
 import { generatePreactTypes } from "./support/preact";
-import stylelint from "stylelint";
 
 export const create: () => Config = () => ({
   buildEs5: "prod",
@@ -101,14 +100,7 @@ export const create: () => Config = () => ({
       injectGlobalPaths: ["src/assets/styles/includes.scss"]
     }),
     postcss({
-      plugins: [
-        tailwindcss(tailwindConfig),
-        autoprefixer(),
-        stylelint({
-          configFile: ".stylelintrc-postcss.json",
-          fix: true
-        })
-      ]
+      plugins: [tailwindcss(tailwindConfig), autoprefixer()]
     })
   ],
   rollupPlugins: {
