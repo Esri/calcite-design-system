@@ -14,7 +14,7 @@
   flex-auto
   pointer-events-none
   text-color-2
-  text--1;
+  text-n1;
 
   * {
     @apply box-border;
@@ -79,7 +79,7 @@
   p-0
   pointer-events-auto
   flex-col
-  flex-no-wrap;
+  flex-nowrap;
 
   width: var(--calcite-shell-panel-width);
   max-width: var(--calcite-shell-panel-max-width);
@@ -91,7 +91,7 @@
   @apply flex
   flex-col
   flex-initial
-  flex-no-wrap
+  flex-nowrap
   items-stretch;
 }
 

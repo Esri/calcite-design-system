@@ -3,7 +3,7 @@
   & input,
   & .prefix,
   & .suffix {
-    @apply text--2h p-2 h-6;
+    @apply text-n2h p-2 h-6;
   }
   & textarea {
     @apply h-6;
@@ -22,7 +22,7 @@
     min-width: theme("spacing.6");
   }
   & textarea {
-    @apply text--2h
+    @apply text-n2h
     py-1
     px-2
     h-auto;
@@ -33,7 +33,7 @@
   & input,
   & .prefix,
   & .suffix {
-    @apply text--1h p-3 h-8;
+    @apply text-n1h p-3 h-8;
   }
   & textarea {
     min-height: theme("spacing.8");
@@ -51,7 +51,7 @@
     min-width: theme("spacing.8");
   }
   & textarea {
-    @apply text--1h
+    @apply text-n1h
       py-2
       px-3
       h-auto;
@@ -553,7 +553,7 @@ input[type="time"]::-webkit-clear-button {
   @apply border-b-0;
 }
 
-:host(.border-t-color-1) input {
+:host(.border-top-color-one) input {
   @apply border-t-color-1;
 }
 
