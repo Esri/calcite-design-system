@@ -12,7 +12,6 @@ import {
 } from "@stencil/core";
 import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
 import { getElementDir, getSlotted } from "../../utils/dom";
-import { CSS_UTILITY } from "../../utils/resources";
 import { Scale } from "../interfaces";
 import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
 import { SLOTS as ACTION_MENU_SLOTS } from "../calcite-action-menu/resources";
@@ -172,7 +171,7 @@ export class CalcitePanel {
     this.backButtonEl = node;
   };
 
-  panelKeyUpHandler = (event: KeyboardEvent): void => {
+  panelKeyDownHandler = (event: KeyboardEvent): void => {
     if (event.key === "Escape") {
       this.dismiss();
     }
@@ -424,19 +423,14 @@ export class CalcitePanel {
   }
 
   render(): VNode {
-    const { dismissed, disabled, dismissible, el, loading, panelKeyUpHandler } = this;
-
-    const rtl = getElementDir(el) === "rtl";
+    const { dismissed, disabled, dismissible, loading, panelKeyDownHandler } = this;
 
     const panelNode = (
       <article
         aria-busy={loading.toString()}
-        class={{
-          [CSS.container]: true,
-          [CSS_UTILITY.rtl]: rtl
-        }}
+        class={CSS.container}
         hidden={dismissible && dismissed}
-        onKeyUp={panelKeyUpHandler}
+        onKeyDown={panelKeyDownHandler}
         ref={this.setContainerRef}
         tabIndex={dismissible ? 0 : -1}
       >

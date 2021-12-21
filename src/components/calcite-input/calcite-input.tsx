@@ -13,7 +13,7 @@ import {
   Watch
 } from "@stencil/core";
 import { getElementDir, getElementProp, setRequestedIcon } from "../../utils/dom";
-import { getKey } from "../../utils/key";
+
 import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
 import { InputPlacement } from "./interfaces";
 import { Position } from "../interfaces";
@@ -195,10 +195,15 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     | "week" = "text";
 
   /** input value */
-  @Prop({ mutable: true }) value: string;
+  @Prop({ mutable: true }) value = "";
 
   @Watch("value")
   valueWatcher(newValue: string): void {
+    if (newValue == null) {
+      this.value = "";
+      return;
+    }
+
     if (
       this.type === "number" &&
       this.localizedValue !== localizeNumberString(newValue, this.locale)
@@ -239,7 +244,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
   private childNumberEl?: HTMLInputElement;
 
   get isClearable(): boolean {
-    return !this.isTextarea && (this.clearable || this.type === "search") && this.value?.length > 0;
+    return !this.isTextarea && (this.clearable || this.type === "search") && this.value.length > 0;
   }
 
   get isTextarea(): boolean {
@@ -371,7 +376,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     if (this.readOnly || this.disabled) {
       return;
     }
-    if (this.isClearable && getKey(event.key) === "Escape") {
+    if (this.isClearable && event.key === "Escape") {
       this.clearInputValue(event);
       event.preventDefault();
     }
@@ -406,7 +411,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
   }
 
   private clearInputValue = (nativeEvent: KeyboardEvent | MouseEvent): void => {
-    this.setValue(null, nativeEvent, true);
+    this.setValue("", nativeEvent, true);
   };
 
   private inputBlurHandler = () => {
@@ -543,8 +548,6 @@ export class CalciteInput implements LabelableComponent, FormComponent {
   };
 
   private numberButtonMouseDownHandler = (event: MouseEvent): void => {
-    // todo, when dropping ie11 support, refactor to use stepup/stepdown
-    // prevent blur and re-focus of input on mousedown
     event.preventDefault();
     const direction = (event.target as HTMLDivElement).dataset.adjustment as NumberNudgeDirection;
     this.nudgeNumberValue(direction, event);
@@ -607,8 +610,8 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     }
 
     if (nativeEvent) {
-      if (this.type === "number" && value?.endsWith(".")) {
-        return;
+      if (this.type === "number") {
+        value = sanitizeNumberString(value);
       }
 
       const calciteInputInputEvent = this.calciteInputInput.emit({
@@ -659,7 +662,6 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     const iconEl = (
       <calcite-icon
         class={CSS.inputIcon}
-        dir={dir}
         flipRtl={this.iconFlipRtl}
         icon={this.requestedIcon}
         scale="s"
@@ -786,7 +788,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
 
     return (
       <Host onClick={this.inputFocusHandler} onKeyDown={this.keyDownHandler}>
-        <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }} dir={dir}>
+        <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
             ? numberButtonsHorizontalDown
             : null}

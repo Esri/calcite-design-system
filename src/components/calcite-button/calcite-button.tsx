@@ -1,10 +1,9 @@
 import "form-request-submit-polyfill/form-request-submit-polyfill";
 import { Component, Element, h, Method, Prop, Build, State, VNode, Watch } from "@stencil/core";
 import { CSS, TEXT } from "./resources";
-import { closestElementCrossShadowBoundary, getElementDir } from "../../utils/dom";
+import { closestElementCrossShadowBoundary } from "../../utils/dom";
 import { ButtonAlignment, ButtonAppearance, ButtonColor } from "./interfaces";
 import { FlipContext, Scale, Width } from "../interfaces";
-import { CSS_UTILITY } from "../../utils/resources";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { createObserver } from "../../utils/observers";
 
@@ -148,22 +147,18 @@ export class CalciteButton implements LabelableComponent {
   }
 
   render(): VNode {
-    const dir = getElementDir(this.el);
     const Tag = this.childElType;
-
-    const loader = (
+    const loaderNode = this.hasLoader ? (
       <div class={CSS.buttonLoader}>
-        {this.hasLoader ? (
-          <calcite-loader
-            active
-            class={this.loading ? CSS.loadingIn : CSS.loadingOut}
-            inline
-            label={this.intlLoading}
-            scale="m"
-          />
-        ) : null}
+        <calcite-loader
+          active
+          class={this.loading ? CSS.loadingIn : CSS.loadingOut}
+          inline
+          label={this.intlLoading}
+          scale="m"
+        />
       </div>
-    );
+    ) : null;
 
     const iconStartEl = (
       <calcite-icon
@@ -192,7 +187,11 @@ export class CalciteButton implements LabelableComponent {
     return (
       <Tag
         aria-label={getLabelText(this)}
-        class={{ [CSS_UTILITY.rtl]: dir === "rtl", [CSS.contentSlotted]: this.hasContent }}
+        class={{
+          [CSS.contentSlotted]: this.hasContent,
+          [CSS.iconStartEmpty]: !this.iconStart,
+          [CSS.iconEndEmpty]: !this.iconEnd
+        }}
         disabled={this.disabled || this.loading}
         href={this.childElType === "a" && this.href}
         name={this.childElType === "button" && this.name}
@@ -203,7 +202,7 @@ export class CalciteButton implements LabelableComponent {
         target={this.childElType === "a" && this.target}
         type={this.childElType === "button" && this.type}
       >
-        {loader}
+        {loaderNode}
         {this.iconStart ? iconStartEl : null}
         {this.hasContent ? contentEl : null}
         {this.iconEnd ? iconEndEl : null}

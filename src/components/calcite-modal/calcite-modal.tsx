@@ -16,16 +16,14 @@ import {
   CalciteFocusableElement,
   ensureId,
   focusElement,
-  getElementDir,
   getSlotted,
   isCalciteFocusable
 } from "../../utils/dom";
-import { getKey } from "../../utils/key";
+
 import { queryShadowRoot } from "@a11y/focus-trap/shadow";
 import { isFocusable, isHidden } from "@a11y/focus-trap/focusable";
 import { Scale } from "../interfaces";
 import { ModalBackgroundColor } from "./interfaces";
-import { CSS_UTILITY } from "../../utils/resources";
 import { TEXT, SLOTS, CSS, ICONS } from "./resources";
 import { createObserver } from "../../utils/observers";
 
@@ -129,8 +127,6 @@ export class CalciteModal {
   }
 
   render(): VNode {
-    const dir = getElementDir(this.el);
-
     return (
       <Host
         aria-describedby={this.contentId}
@@ -140,10 +136,7 @@ export class CalciteModal {
       >
         <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
         {this.renderStyle()}
-        <div
-          class={{ modal: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
-          onTransitionEnd={this.transitionEnd}
-        >
+        <div class="modal" onTransitionEnd={this.transitionEnd}>
           <div data-focus-fence onFocus={this.focusLastElement} tabindex="0" />
           <div class={CSS.header}>
             {this.renderCloseButton()}
@@ -193,7 +186,12 @@ export class CalciteModal {
         ref={(el) => (this.closeButtonEl = el)}
         title={this.intlClose}
       >
-        <calcite-icon icon={ICONS.close} scale={this.scale === "s" ? "s" : "l"} />
+        <calcite-icon
+          icon={ICONS.close}
+          scale={
+            this.scale === "s" ? "s" : this.scale === "m" ? "m" : this.scale === "l" ? "l" : null
+          }
+        />
       </button>
     ) : null;
   }
@@ -255,7 +253,7 @@ export class CalciteModal {
   //--------------------------------------------------------------------------
   @Listen("keyup", { target: "window" })
   handleEscape(e: KeyboardEvent): void {
-    if (this.active && !this.disableEscape && getKey(e.key) === "Escape") {
+    if (this.active && !this.disableEscape && e.key === "Escape") {
       this.close();
     }
   }

@@ -22,6 +22,11 @@ import {
 } from "./utils";
 import { createObserver } from "../../utils/observers";
 import { debounce } from "lodash-es";
+import {
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent,
+  ConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 
 /**
  * @slot - A slot for adding `calcite-action`s that will appear at the top of the action bar.
@@ -33,7 +38,7 @@ import { debounce } from "lodash-es";
   styleUrl: "calcite-action-bar.scss",
   shadow: true
 })
-export class CalciteActionBar {
+export class CalciteActionBar implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -153,11 +158,13 @@ export class CalciteActionBar {
     }
 
     this.conditionallyOverflowActions();
+    connectConditionalSlotComponent(this);
   }
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
+    disconnectConditionalSlotComponent(this);
   }
 
   // --------------------------------------------------------------------------

@@ -5,7 +5,7 @@ $gap--small: 4px;
 $gap--large: 12px;
 
 :host {
-  @apply inline-block text--2h font-normal;
+  @apply inline-block text-n2h font-normal;
 }
 
 :host([scale="s"]) {
@@ -38,19 +38,13 @@ $gap--large: 12px;
 }
 
 :host([scale="l"]) {
-  .control-section.section.calcite--rtl {
-    > :nth-child(2) {
-      margin-left: 0;
-      margin-right: $gap--large;
-    }
-  }
   .header {
     @apply pb-0;
   }
 }
 
 :host([scale="l"]) {
-  @apply text--1h;
+  @apply text-n1h;
 
   .container {
     width: 464px;
@@ -75,10 +69,10 @@ $gap--large: 12px;
   }
 
   .control-section {
-    @apply flex-no-wrap items-baseline;
+    @apply flex-nowrap items-baseline;
 
     > :nth-child(2) {
-      margin-left: $gap--large;
+      margin-inline-start: $gap--large;
     }
   }
 
@@ -113,7 +107,7 @@ $gap--large: 12px;
 }
 
 .scope {
-  @apply text--1
+  @apply text-n1
     p-0
     mb-0
     mr-0
@@ -205,7 +199,7 @@ $gap--large: 12px;
   }
 
   &:hover {
-    transition: outline-color 100ms ease-in-out;
+    transition: outline-color var(--calcite-internal-animation-timing-fast) ease-in-out;
     outline: 2px solid var(--calcite-ui-border-2);
     outline-offset: 2px;
   }
