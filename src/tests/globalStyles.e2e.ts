@@ -44,7 +44,7 @@ describe("global styles", () => {
           <html>
             <style>
               html {
-                --calcite-duration: 0;
+                --calcite-duration-factor: 0;
               }
             </style>
             <body>
@@ -71,7 +71,7 @@ describe("global styles", () => {
     });
     await page.waitForChanges();
     await page.$eval("div", (element: any) => {
-      element.style.setProperty("--calcite-duration", 0);
+      element.style.setProperty("--calcite-duration-factor", 0);
     });
     const eleTransition = await page.evaluate(() => {
       const ele = document.querySelector("div");

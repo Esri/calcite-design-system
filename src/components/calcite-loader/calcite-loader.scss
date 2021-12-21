@@ -106,7 +106,7 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
     stroke: var(--calcite-ui-brand);
     stroke-dasharray: $loader-circumference;
     transform: rotate(-90deg);
-    transition: all var(--calcite-internal-animation-timing-quick) linear;
+    transition: all var(--calcite-internal-animation-timing-fast) linear;
   }
 }
 

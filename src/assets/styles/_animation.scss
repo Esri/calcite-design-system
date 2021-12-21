@@ -41,9 +41,9 @@
 }
 
 :root {
-  --calcite-internal-duration-factor: var(--calcite-duration-factor, 1);
   --calcite-animation-timing: calc(150ms * var(--calcite-internal-duration-factor));
-  --calcite-internal-animation-timing-quick: calc(100ms * var(--calcite-internal-duration-factor));
+  --calcite-internal-duration-factor: var(--calcite-duration-factor, 1);
+  --calcite-internal-animation-timing-fast: calc(100ms * var(--calcite-internal-duration-factor));
   --calcite-internal-animation-timing-medium: calc(200ms * var(--calcite-internal-duration-factor));
   --calcite-internal-animation-timing-slow: calc(300ms * var(--calcite-internal-duration-factor));
 }
