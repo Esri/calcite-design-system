@@ -3,7 +3,7 @@ import plugin from "tailwindcss/plugin";
 
 export default {
   theme: {
-    borderColor: ({ theme }): any => ({
+    borderColor: ({ theme }): object => ({
       color: {
         1: "var(--calcite-ui-border-1)",
         2: "var(--calcite-ui-border-2)",
@@ -117,10 +117,10 @@ export default {
       l: "1024px",
       xl: "1440px"
     },
-    textColor: ({ theme }): any => ({
+    textColor: ({ theme }): object => ({
       ...theme("colors.text")
     }),
-    backgroundColor: ({ theme }): any => ({
+    backgroundColor: ({ theme }): object => ({
       ...theme("colors.background"),
       transparent: theme("colors.transparent"),
       brand: theme("colors.brand"),
@@ -155,7 +155,7 @@ export default {
         "outline-active": "0 0 0 1px var(--calcite-ui-brand)",
         none: "none"
       },
-      fill: ({ theme }): any => ({
+      fill: ({ theme }): object => ({
         ...theme("colors.text")
       }),
       keyframes: {
