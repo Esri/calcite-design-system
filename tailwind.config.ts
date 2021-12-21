@@ -234,7 +234,7 @@ export default {
         },
         ".transition-default": {
           "transition-property": "all",
-          "transition-duration": "var(--calcite-internal-animation-timing)",
+          "transition-duration": "var(--calcite-animation-timing)",
           "transition-timing-function": "ease-in-out",
           "transition-delay": "0s"
         }

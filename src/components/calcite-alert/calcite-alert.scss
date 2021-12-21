@@ -103,7 +103,7 @@
     transform: translate3d(0, $baseline, 0);
     transition: var(--calcite-internal-animation-timing-slow) $easing-function,
       opacity var(--calcite-internal-animation-timing-slow) $easing-function,
-      all var(--calcite-internal-animation-timing) ease-in-out;
+      all var(--calcite-animation-timing) ease-in-out;
   }
 }
 
