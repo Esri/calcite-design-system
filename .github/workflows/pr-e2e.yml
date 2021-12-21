@@ -10,7 +10,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: skip for markdown only prs
-        id: one
+        id: testable
         run: |
           current_branch=$(git rev-parse --abbrev-ref HEAD)
           # diff of branch excluding md
@@ -19,15 +19,14 @@ jobs:
           # skip if there are only md changes
           if [ -z "$testable_changes" ]; then
             echo "skip e2e"
-            echo "::set-output name=skip::skip"
           else
             echo "run e2e"
-            echo "::set-output name=skip::test"
+            echo "::set-output name=skip::false"
           fi
       - uses: actions/setup-node@v2
         with:
           node-version: lts/*
-      - if: steps.one.outputs.skip == 'test'
+      - if: steps.testable.outputs.skip == 'false'
         run: |
           npm install
           npm test
