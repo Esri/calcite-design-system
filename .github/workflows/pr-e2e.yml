@@ -7,8 +7,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: skip for markdown only prs
+        id: testable
+        run: |
+          current_branch=$(git rev-parse --abbrev-ref HEAD)
+          # diff of branch excluding md
+          testable_changes=$(git diff --name-only "$current_branch" $(git merge-base "$current_branch" origin/master) -- . ':(exclude)*.md')
+          echo "changed files: $testable_changes"
+          # skip if there are only md changes
+          if [ -z "$testable_changes" ]; then
+            echo "skip e2e"
+          else
+            echo "run e2e"
+            echo "::set-output name=skip::false"
+          fi
       - uses: actions/setup-node@v2
         with:
           node-version: lts/*
-      - run: npm install
-      - run: npm test
+      - if: steps.testable.outputs.skip == 'false'
+        run: |
+          npm install
+          npm test
