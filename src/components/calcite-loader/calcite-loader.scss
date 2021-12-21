@@ -146,8 +146,8 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   @apply opacity-0;
   transform: scale(0.75, 0.75);
   transform-origin: center;
-  transition: opacity calc(180ms * var(--calcite-duration)) linear 800ms,
-    transform calc(180ms * var(--calcite-duration)) linear 800ms;
+  transition: opacity calc(180ms * var(--calcite-internal-duration-factor)) linear 800ms,
+    transform calc(180ms * var(--calcite-internal-duration-factor)) linear 800ms;
 }
 
 :host([complete]) .loader__percentage {

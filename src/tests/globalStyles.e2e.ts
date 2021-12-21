@@ -38,7 +38,7 @@ describe("global styles", () => {
       });
     });
 
-    it("should set animation duration to 0ms when --calcite-duration set to zero", async () => {
+    it("should set animation duration to 0ms when --calcite-duration-factor set to zero", async () => {
       const page = await newE2EPage({
         html: html`
           <html>
@@ -65,7 +65,7 @@ describe("global styles", () => {
     });
   });
 
-  it("should not be able to disable animations with --calcite-duration at component level", async () => {
+  it("should not be able to disable animations with --calcite-duration-factor at component level", async () => {
     const page = await newE2EPage({
       html: html` <div style="transition: all var(--calcite-animation-timing) linear;"></div> `
     });
