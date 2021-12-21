@@ -12,13 +12,13 @@
   --calcite-alert-spacing-token-small: theme("spacing.2");
   --calcite-alert-spacing-token-large: theme("spacing.3");
   @include slotted("title", "*") {
-    @apply text--1-wrap;
+    @apply text-n1-wrap;
   }
   @include slotted("message", "*") {
-    @apply text--2-wrap;
+    @apply text-n2-wrap;
   }
   @include slotted("link", "*") {
-    @apply text--2-wrap;
+    @apply text-n2-wrap;
   }
   .alert-queue-count {
     @apply mx-2;
@@ -40,10 +40,10 @@
     @apply text-0-wrap;
   }
   @include slotted("message", "*") {
-    @apply text--1-wrap;
+    @apply text-n1-wrap;
   }
   @include slotted("link", "*") {
-    @apply text--1-wrap;
+    @apply text-n1-wrap;
   }
   .alert-queue-count {
     @apply mx-3;
@@ -140,7 +140,7 @@
   @apply inline
     m-0
     font-normal
-    text--1-wrap
+    text-n1-wrap
     text-color-2;
   margin-inline-end: theme("margin.2");
 }

@@ -7,7 +7,7 @@
 }
 
 :host([scale="s"]) {
-  @apply text--2h;
+  @apply text-n2h;
 
   .node-container {
     --calcite-tree-padding-y: theme("padding.1");
@@ -21,7 +21,7 @@
 }
 
 :host([scale="m"]) {
-  @apply text--1h;
+  @apply text-n1h;
 
   .node-container {
     --calcite-tree-padding-y: theme("padding.2");

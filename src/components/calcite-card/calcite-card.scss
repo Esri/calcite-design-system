@@ -60,7 +60,7 @@
 .card-content {
   @apply p-3
     text-color-3
-    text--2-wrap;
+    text-n2-wrap;
 }
 
 // selectable and selected styles
@@ -77,7 +77,7 @@
   @apply font-medium
     text-color-1
     m-0
-    text--1-wrap;
+    text-n1-wrap;
 }
 
 @include slotted("subtitle", "*") {
@@ -85,7 +85,7 @@
     text-color-2
     m-0
     mt-2
-    text--2-wrap;
+    text-n2-wrap;
 }
 
 @include slotted("thumbnail", "img") {
@@ -93,11 +93,11 @@
 }
 
 @include slotted("footer-leading", "*") {
-  @apply self-center text--2-wrap;
+  @apply self-center text-n2-wrap;
   margin-inline-end: auto;
 }
 @include slotted("footer-trailing", "*") {
-  @apply self-center text--2-wrap;
+  @apply self-center text-n2-wrap;
 }
 
 .thumbnail-wrapper {

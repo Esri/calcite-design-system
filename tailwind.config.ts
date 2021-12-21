@@ -1,9 +1,9 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-var flattenColorPalette = require("tailwindcss/lib/util/flattenColorPalette").default;
+import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
+import plugin from "tailwindcss/plugin";
 
-module.exports = {
+export default {
   theme: {
-    borderColor: (theme) => ({
+    borderColor: ({ theme }): object => ({
       color: {
         1: "var(--calcite-ui-border-1)",
         2: "var(--calcite-ui-border-2)",
@@ -22,6 +22,7 @@ module.exports = {
       "color-danger-press": theme("colors.danger-press")
     }),
     colors: {
+      current: "currentColor",
       brand: "var(--calcite-ui-brand)",
       "brand-hover": "var(--calcite-ui-brand-hover)",
       "brand-press": "var(--calcite-ui-brand-press)",
@@ -39,7 +40,7 @@ module.exports = {
           3: "var(--calcite-ui-foreground-3)"
         }
       },
-      text: {
+      color: {
         1: "var(--calcite-ui-text-1)",
         2: "var(--calcite-ui-text-2)",
         3: "var(--calcite-ui-text-3)",
@@ -56,9 +57,9 @@ module.exports = {
     },
     fontSize: {
       // assets/styles/_type
-      "-3": "var(--calcite-font-size--3)", // 10px
-      "-2": "var(--calcite-font-size--2)", // 12px
-      "-1": "var(--calcite-font-size--1)", // 14px
+      n3: "var(--calcite-font-size--3)", // 10px
+      n2: "var(--calcite-font-size--2)", // 12px
+      n1: "var(--calcite-font-size--1)", // 14px
       0: "var(--calcite-font-size-0)", // 16px
       1: "var(--calcite-font-size-1)", // 18px
       2: "var(--calcite-font-size-2)", // 20px
@@ -71,9 +72,9 @@ module.exports = {
       // TODO: temp selectors to be renamed before closing https://github.com/Esri/calcite-components/issues/1500.
       // at this point all existing instances of text-N should be replaced with either text-Nh or text-N-wrap and we
       // should be able to safely drop the "h" suffix.
-      "-3h": ["var(--calcite-font-size--3)", { lineHeight: "0.75rem" }], // 10px (0.625rem)
-      "-2h": ["var(--calcite-font-size--2)", { lineHeight: "1rem" }], // 12px (0.75rem)
-      "-1h": ["var(--calcite-font-size--1)", { lineHeight: "1rem" }], // 14px (0.875rem)
+      n3h: ["var(--calcite-font-size--3)", { lineHeight: "0.75rem" }], // 10px (0.625rem)
+      n2h: ["var(--calcite-font-size--2)", { lineHeight: "1rem" }], // 12px (0.75rem)
+      n1h: ["var(--calcite-font-size--1)", { lineHeight: "1rem" }], // 14px (0.875rem)
       "0h": ["var(--calcite-font-size-0)", { lineHeight: "1.25rem" }], // 16px (1rem)
       "1h": ["var(--calcite-font-size-1)", { lineHeight: "1.5rem" }], // 18px (1.125rem)
       "2h": ["var(--calcite-font-size-2)", { lineHeight: "1.5rem" }], // 20px (1.25rem)
@@ -83,9 +84,9 @@ module.exports = {
       "6h": ["var(--calcite-font-size-6)", { lineHeight: "4rem" }], // 48px (3rem)
       "7h": ["var(--calcite-font-size-7)", { lineHeight: "4rem" }], // 56px (3.5rem)
       "8h": ["var(--calcite-font-size-8)", { lineHeight: "5rem" }], // 64px (4rem)
-      "-3-wrap": ["var(--calcite-font-size--3)", { lineHeight: "1.375" }],
-      "-2-wrap": ["var(--calcite-font-size--2)", { lineHeight: "1.375" }],
-      "-1-wrap": ["var(--calcite-font-size--1)", { lineHeight: "1.375" }],
+      "n3-wrap": ["var(--calcite-font-size--3)", { lineHeight: "1.375" }],
+      "n2-wrap": ["var(--calcite-font-size--2)", { lineHeight: "1.375" }],
+      "n1-wrap": ["var(--calcite-font-size--1)", { lineHeight: "1.375" }],
       "0-wrap": ["var(--calcite-font-size-0)", { lineHeight: "1.375" }],
       "1-wrap": ["var(--calcite-font-size-1)", { lineHeight: "1.375" }],
       "2-wrap": ["var(--calcite-font-size-2)", { lineHeight: "1.375" }],
@@ -109,10 +110,7 @@ module.exports = {
       l: "1024px",
       xl: "1440px"
     },
-    textColor: (theme) => ({
-      color: theme("colors.text")
-    }),
-    backgroundColor: (theme) => ({
+    backgroundColor: ({ theme }): object => ({
       ...theme("colors.background"),
       transparent: theme("colors.transparent"),
       brand: theme("colors.brand"),
@@ -147,9 +145,6 @@ module.exports = {
         "outline-active": "0 0 0 1px var(--calcite-ui-brand)",
         none: "none"
       },
-      fill: (theme) => ({
-        color: theme("colors.text")
-      }),
       keyframes: {
         in: {
           "0%": {
@@ -210,7 +205,7 @@ module.exports = {
     }
   },
   plugins: [
-    ({ addUtilities }) => {
+    plugin(({ addUtilities }) => {
       const newUtilities = {
         ".word-break": {
           "word-wrap": "break-word",
@@ -245,8 +240,8 @@ module.exports = {
         }
       };
       addUtilities(newUtilities);
-    },
-    ({ addUtilities, theme, variants }) => {
+    }),
+    plugin(({ addUtilities, theme, variants }) => {
       const colors = flattenColorPalette(theme("borderColor"));
       delete colors["default"];
 
@@ -259,13 +254,6 @@ module.exports = {
       const utilities = Object.assign({}, ...colorMap);
 
       addUtilities(utilities, variants("borderColor"));
-    }
-  ],
-  future: {
-    removeDeprecatedGapUtilities: true
-  },
-  variants: {
-    boxShadow: ["responsive", "hover", "focus", "active"],
-    borderWidth: ["responsive", "hover", "focus", "active"]
-  }
+    })
+  ]
 };

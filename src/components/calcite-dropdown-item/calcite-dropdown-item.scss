@@ -1,11 +1,11 @@
 .container--s {
-  @apply text--2h py-1;
+  @apply text-n2h py-1;
   padding-inline-end: theme("padding.2");
   padding-inline-start: theme("padding.6");
 }
 
 .container--m {
-  @apply text--1h py-2;
+  @apply text-n1h py-2;
   padding-inline-end: theme("padding.3");
   padding-inline-start: theme("padding.8");
 }
@@ -76,13 +76,13 @@
 }
 
 .container--s .dropdown-link {
-  @apply text--2h py-1;
+  @apply text-n2h py-1;
   padding-inline-end: theme("padding.2");
   padding-inline-start: theme("padding.6");
 }
 
 .container--m .dropdown-link {
-  @apply text--1h py-2;
+  @apply text-n1h py-2;
   padding-inline-end: theme("padding.3");
   padding-inline-start: theme("padding.8");
 }
