@@ -119,7 +119,9 @@
     height: var(--calcite-slider-handle-size);
     width: var(--calcite-slider-handle-size);
     box-shadow: 0 0 0 2px var(--calcite-ui-text-3) inset;
-    transition: border 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+    transition: border var(--calcite-internal-animation-timing-medium) ease,
+      background-color var(--calcite-internal-animation-timing-medium) ease,
+      box-shadow var(--calcite-animation-timing) ease;
   }
 
   .handle-extension {
@@ -220,7 +222,7 @@
 .track {
   @apply h-0.5 rounded-none relative;
   background-color: var(--calcite-ui-border-2);
-  transition: all 250ms ease-in;
+  transition: all var(--calcite-internal-animation-timing-medium) ease-in;
 }
 
 .track__range {
@@ -268,11 +270,11 @@
 }
 
 .tick__label--min {
-  transition: opacity 150ms;
+  transition: opacity var(--calcite-internal-animation-timing);
 }
 
 .tick__label--max {
-  transition: opacity 50ms;
+  transition: opacity var(--calcite-internal-animation-timing-quick);
 }
 
 :host([has-histogram][label-handles]),
