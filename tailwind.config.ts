@@ -40,19 +40,12 @@ export default {
           3: "var(--calcite-ui-foreground-3)"
         }
       },
-      text: {
+      color: {
         1: "var(--calcite-ui-text-1)",
         2: "var(--calcite-ui-text-2)",
         3: "var(--calcite-ui-text-3)",
         inverse: "var(--calcite-ui-text-inverse)",
-        link: "var(--calcite-ui-text-link)",
-        color: {
-          1: "var(--calcite-ui-text-1)",
-          2: "var(--calcite-ui-text-2)",
-          3: "var(--calcite-ui-text-3)",
-          inverse: "var(--calcite-ui-text-inverse)",
-          link: "var(--calcite-ui-text-link)"
-        }
+        link: "var(--calcite-ui-text-link)"
       },
       transparent: "transparent"
     },
@@ -117,9 +110,6 @@ export default {
       l: "1024px",
       xl: "1440px"
     },
-    textColor: ({ theme }): object => ({
-      ...theme("colors.text")
-    }),
     backgroundColor: ({ theme }): object => ({
       ...theme("colors.background"),
       transparent: theme("colors.transparent"),
@@ -155,9 +145,6 @@ export default {
         "outline-active": "0 0 0 1px var(--calcite-ui-brand)",
         none: "none"
       },
-      fill: ({ theme }): object => ({
-        ...theme("colors.text")
-      }),
       keyframes: {
         in: {
           "0%": {
