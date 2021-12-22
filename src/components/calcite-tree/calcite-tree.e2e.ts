@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, HYDRATED_ATTR, defaults } from "../../tests/commonTests";
 import { GlobalTestProps, html } from "../../tests/utils";
+import { nodeListToArray } from "../../utils/dom";
 import { CSS } from "../calcite-tree-item/resources";
 import { TreeSelectionMode } from "./interfaces";
 
@@ -259,7 +260,6 @@ describe("calcite-tree", () => {
         await item1.click();
 
         expect(await getSelectedIds()).toEqual(["1"]);
-        await page.keyboard.down("Shift");
 
         await item2.click();
 
