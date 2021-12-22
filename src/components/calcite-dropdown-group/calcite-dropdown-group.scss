@@ -1,3 +1,7 @@
+:host {
+  @apply block;
+}
+
 .container--s {
   @apply text-n2h;
   .dropdown-title {
