@@ -105,7 +105,7 @@
     }
   }
   .summary {
-    @apply text-color-2 text--1h;
+    @apply text-color-2 text-n1h;
   }
 }
 
@@ -113,14 +113,14 @@
   @apply border-color-3
   border-solid
   border-0;
-  border-inline-end-width: theme("borderWidth.default");
+  border-inline-end-width: theme("borderWidth.DEFAULT");
 }
 
 .header-actions {
   @apply flex
   items-stretch
   flex-row
-  flex-no-wrap;
+  flex-nowrap;
 }
 
 .header-actions--end,
@@ -152,7 +152,7 @@
   bg-background
   flex
   flex-auto
-  flex-no-wrap
+  flex-nowrap
   flex-col;
 }
 

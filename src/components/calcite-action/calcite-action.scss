@@ -18,7 +18,7 @@
     justify-start
     m-0
     relative
-    text--2h
+    text-n2h
     font-medium
     text-color-3
     w-auto;
@@ -66,7 +66,7 @@
 
 :host([scale="s"]) {
   .button {
-    @apply font-normal p-2 text--2h;
+    @apply font-normal p-2 text-n2h;
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.2");
@@ -75,7 +75,7 @@
 
 :host([scale="m"]) {
   .button {
-    @apply font-normal p-4 text--1h;
+    @apply font-normal p-4 text-n1h;
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.3");

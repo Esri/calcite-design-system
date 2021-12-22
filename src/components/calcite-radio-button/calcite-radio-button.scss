@@ -30,10 +30,10 @@
 }
 
 :host([scale="s"]) {
-  --calcite-radio-size: theme("fontSize.-2");
+  --calcite-radio-size: theme("fontSize.n2");
 }
 :host([scale="m"]) {
-  --calcite-radio-size: theme("fontSize.-1");
+  --calcite-radio-size: theme("fontSize.n1");
 }
 :host([scale="l"]) {
   --calcite-radio-size: theme("fontSize.0");

@@ -2,7 +2,7 @@
   @apply box-border
     bg-foreground-1
     text-color-2
-    text--1
+    text-n1
     block;
 }
 
@@ -36,7 +36,7 @@
     px-0
     py-2
     select-none
-    text--1
+    text-n1
     focus-base;
 
   &:focus {
