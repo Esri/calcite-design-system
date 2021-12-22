@@ -190,7 +190,7 @@ export class CalciteTree {
         selectedItems.forEach((treeItem) => {
           if (this.selectedItems.includes(treeItem) && target === treeItem) {
             treeItem.selected = false;
-            this.selectedItems.splice(this.selectedItems.indexOf(treeItem));
+            this.selectedItems.splice(this.selectedItems.indexOf(treeItem), 1);
           }
         });
       }
