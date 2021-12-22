@@ -1,13 +1,13 @@
 :host {
-  @apply block
-    box-border
-    bg-foreground-1
+  @apply bg-foreground-1
     text-color-2
-    text-n1h;
+    text-n1h
+    box-border
+    block;
 }
 
 ::slotted(calcite-tip) {
-  @apply border-none m-0;
+  @apply m-0 border-none;
 }
 
 :host-context(calcite-tip-manager) {

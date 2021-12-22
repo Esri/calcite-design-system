@@ -126,3 +126,7 @@ export const DarkMode = (): string => html`
 
 DarkMode.storyName = "Dark mode";
 DarkMode.parameters = { themes: themesDarkDefault };
+
+export const disabled = (): string => html`<calcite-inline-editable disabled>
+  <calcite-input value="disabled"></calcite-input>
+</calcite-inline-editable>`;

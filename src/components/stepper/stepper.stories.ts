@@ -175,3 +175,10 @@ export const Rtl = (): string => html`
 `;
 
 Rtl.storyName = "RTL";
+
+export const disabled = (): string => html`<calcite-stepper>
+  <calcite-stepper-item item-title="item1" complete>1</calcite-stepper-item>
+  <calcite-stepper-item item-title="item2">2</calcite-stepper-item>
+  <calcite-stepper-item item-title="item3" active>3</calcite-stepper-item>
+  <calcite-stepper-item item-title="item4" disabled>4</calcite-stepper-item>
+</calcite-stepper>`;

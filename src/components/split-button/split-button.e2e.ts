@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, defaults } from "../../tests/commonTests";
+import { accessible, renders, defaults, disabled } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 import { CSS } from "./resources";
 
@@ -51,6 +51,8 @@ describe("calcite-split-button", () => {
     dropdown-label="Show options">
       ${content}
     </calcite-split-button>`));
+
+  it("can be disabled", () => disabled("calcite-split-button"));
 
   it("renders default props when none are provided", async () => {
     const page = await newE2EPage();

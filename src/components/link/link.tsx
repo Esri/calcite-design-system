@@ -2,6 +2,7 @@ import { Component, Element, h, Host, Method, Prop, State, VNode, Watch } from "
 import { focusElement, getElementDir } from "../../utils/dom";
 import { FlipContext } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /** Any attributes placed on <calcite-link> component will propagate to the rendered child */
 /** Passing a 'href' will render an anchor link, instead of a span. Role will be set to link, or link, depending on this. */
@@ -13,7 +14,7 @@ import { CSS_UTILITY } from "../../utils/resources";
   styleUrl: "link.scss",
   shadow: true
 })
-export class Link {
+export class Link implements InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -70,6 +71,10 @@ export class Link {
     this.childElType = this.href ? "a" : "span";
   }
 
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
+
   render(): VNode {
     const { download, el } = this;
     const dir = getElementDir(el);
@@ -94,7 +99,7 @@ export class Link {
 
     const Tag = this.childElType;
     const role = this.childElType === "span" ? "link" : null;
-    const tabIndex = this.disabled ? -1 : this.childElType === "span" ? 0 : null;
+    const tabIndex = this.childElType === "span" ? 0 : null;
 
     return (
       <Host role="presentation">

@@ -171,3 +171,8 @@ export const RTL = (): string => html`
   >
 </calcite-tile-select-group>
 `;
+
+export const disabled = (): string => html`<calcite-tile-select-group disabled>
+  <calcite-tile-select checked heading="Heading 1" icon="layers" name="disabled" value="one"> </calcite-tile-select>
+  <calcite-tile-select heading="Heading 2" icon="layers" name="disabled" value="two"> </calcite-tile-select>
+</calcite-tile-select-group>`;

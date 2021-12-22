@@ -34,6 +34,7 @@ import {
 import List from "../pick-list/shared-list-render";
 import { getRoundRobinIndex } from "../../utils/array";
 import { createObserver } from "../../utils/observers";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding `calcite-value-list-item` elements. Items are displayed as a vertical list.
@@ -46,7 +47,8 @@ import { createObserver } from "../../utils/observers";
 })
 export class ValueList<
   ItemElement extends HTMLCalciteValueListItemElement = HTMLCalciteValueListItemElement
-> {
+> implements InteractiveComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -135,6 +137,10 @@ export class ValueList<
 
   componentDidLoad(): void {
     this.setUpDragAndDrop();
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
   }
 
   disconnectedCallback(): void {

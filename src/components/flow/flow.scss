@@ -1,22 +1,22 @@
 :host {
   @extend %component-host;
-  @apply flex
+  @apply relative
+    flex
+    w-full
     flex-auto
     items-stretch
-    bg-transparent
-    w-full
     overflow-hidden
-    relative;
+    bg-transparent;
 
   .frame {
-    @apply flex
-      flex-auto
-      items-stretch
-      w-full
-      p-0
+    @apply relative
       m-0
+      flex
+      w-full
+      flex-auto
       flex-col
-      relative;
+      items-stretch
+      p-0;
   }
 
   ::slotted(calcite-panel) {
@@ -30,11 +30,11 @@
   }
 
   .frame--advancing {
-    animation: calcite-frame-advance var(--calcite-animation-timing);
+    animation: -frame-advance var(--calcite-animation-timing);
   }
 
   .frame--retreating {
-    animation: calcite-frame-retreat var(--calcite-animation-timing);
+    animation: -frame-retreat var(--calcite-animation-timing);
   }
 
   @keyframes calcite-frame-advance {

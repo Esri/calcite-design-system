@@ -84,3 +84,5 @@ export const RTL = (): string => html`
     ></calcite-label>
   </div>
 `;
+
+export const disabled = (): string => html`<calcite-input-date-picker disabled></calcite-input-date-picker>`;

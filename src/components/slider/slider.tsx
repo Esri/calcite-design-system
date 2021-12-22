@@ -26,6 +26,7 @@ import {
   FormComponent,
   HiddenFormInputSlot
 } from "../../utils/form";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 
@@ -34,7 +35,7 @@ type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
   styleUrl: "slider.scss",
   shadow: true
 })
-export class Slider implements LabelableComponent, FormComponent {
+export class Slider implements LabelableComponent, FormComponent, InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -173,6 +174,7 @@ export class Slider implements LabelableComponent, FormComponent {
       }
     }
     this.hideObscuredBoundingTickLabels();
+    updateHostInteraction(this);
   }
 
   render(): VNode {

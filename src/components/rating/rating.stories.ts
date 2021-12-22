@@ -80,3 +80,5 @@ export const Rtl = (): string => html`
 `;
 
 Rtl.storyName = "RTL";
+
+export const disabled = (): string => html`<calcite-rating disabled value="3"></calcite-rating>`;

@@ -270,3 +270,5 @@ export const WithLabelAndInputMessageRTL = (): string => html`
     </calcite-label>
   </div>
 `;
+
+export const disabled = (): string => html`<calcite-input disabled value="disabled"></calcite-input>`;

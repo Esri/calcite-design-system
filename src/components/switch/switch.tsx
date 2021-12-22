@@ -7,7 +7,6 @@ import {
   Host,
   Method,
   Prop,
-  State,
   VNode,
   Watch
 } from "@stencil/core";
@@ -20,13 +19,14 @@ import {
   CheckableFormCompoment,
   HiddenFormInputSlot
 } from "../../utils/form";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 @Component({
   tag: "calcite-switch",
   styleUrl: "switch.scss",
   shadow: true
 })
-export class Switch implements LabelableComponent, CheckableFormCompoment {
+export class Switch implements LabelableComponent, CheckableFormCompoment, InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -43,11 +43,6 @@ export class Switch implements LabelableComponent, CheckableFormCompoment {
 
   /** True if the switch is disabled */
   @Prop({ reflect: true }) disabled = false;
-
-  @Watch("disabled")
-  disabledWatcher(newDisabled: boolean): void {
-    this.tabindex = newDisabled ? -1 : 0;
-  }
 
   /** Applies to the aria-label attribute on the switch */
   @Prop() label?: string;
@@ -89,14 +84,6 @@ export class Switch implements LabelableComponent, CheckableFormCompoment {
   defaultValue: Switch["checked"];
 
   defaultChecked: boolean;
-
-  //--------------------------------------------------------------------------
-  //
-  //  State
-  //
-  //--------------------------------------------------------------------------
-
-  @State() tabindex: number;
 
   //--------------------------------------------------------------------------
   //
@@ -181,8 +168,8 @@ export class Switch implements LabelableComponent, CheckableFormCompoment {
     disconnectForm(this);
   }
 
-  componentWillLoad(): void {
-    this.tabindex = this.el.getAttribute("tabindex") || this.disabled ? -1 : 0;
+  componentDidRender(): void {
+    updateHostInteraction(this);
   }
 
   // --------------------------------------------------------------------------
@@ -201,7 +188,7 @@ export class Switch implements LabelableComponent, CheckableFormCompoment {
           onClick={this.clickHandler}
           ref={this.setSwitchEl}
           role="switch"
-          tabindex={this.tabindex}
+          tabIndex={0}
         >
           <div class="track">
             <div class="handle" />

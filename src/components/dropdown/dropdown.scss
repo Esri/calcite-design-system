@@ -10,10 +10,8 @@
   @apply inline-flex flex-initial;
 }
 
-// disabled styles
-:host([disabled]) {
-  @apply pointer-events-none opacity-disabled;
-}
+@include disabled();
+
 :host .calcite-dropdown-wrapper {
   @include popperContainer();
   @include popperWrapper();
@@ -24,14 +22,14 @@
 }
 :host .calcite-dropdown-content {
   @apply bg-foreground-1
-    overflow-x-hidden
+    w-auto
     overflow-y-auto
-    w-auto;
+    overflow-x-hidden;
   max-height: 90vh;
   width: var(--calcite-dropdown-width);
 }
 .calcite-dropdown-trigger-container {
-  @apply flex flex-auto relative;
+  @apply relative flex flex-auto;
 }
 // width
 :host([width="s"]) {

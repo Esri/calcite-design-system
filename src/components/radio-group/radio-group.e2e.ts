@@ -1,5 +1,5 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { focusable, formAssociated, labelable, renders } from "../../tests/commonTests";
+import { disabled, focusable, formAssociated, labelable, renders } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 
 describe("calcite-radio-group", () => {
@@ -13,6 +13,16 @@ describe("calcite-radio-group", () => {
         <calcite-radio-group-item value="3"></calcite-radio-group-item>
       </calcite-radio-group>`,
       { focusTargetSelector: "calcite-radio-group-item" }
+    ));
+
+  it("can be disabled", () =>
+    disabled(
+      html`<calcite-radio-group>
+        <calcite-radio-group-item value="1"></calcite-radio-group-item>
+        <calcite-radio-group-item value="2"></calcite-radio-group-item>
+        <calcite-radio-group-item value="3"></calcite-radio-group-item>
+      </calcite-radio-group>`,
+      { focusTarget: "child" }
     ));
 
   it("does not require an item to be checked", async () => {

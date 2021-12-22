@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { renders, accessible, focusable, labelable, formAssociated } from "../../tests/commonTests";
+import { renders, accessible, focusable, labelable, formAssociated, disabled } from "../../tests/commonTests";
 
 describe("calcite-rating", () => {
   it("renders", async () => renders("<calcite-rating></calcite-rating>", { display: "flex" }));
@@ -7,6 +7,8 @@ describe("calcite-rating", () => {
   it("should be accessible", async () => accessible(`<calcite-rating></calcite-rating>`));
 
   it("is labelable", async () => labelable("calcite-rating"));
+
+  it("can be disabled", () => disabled("<calcite-rating value='3'></calcite-rating>"));
 
   it("renders outlined star when no value or average is set", async () => {
     const page = await newE2EPage();
@@ -369,16 +371,6 @@ describe("calcite-rating", () => {
     expect(element).toEqualAttribute("value", "4");
     await ratingItem1.click();
     expect(element).toEqualAttribute("value", "4");
-  });
-
-  it("disables click interaction when disabled is requested", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-rating disabled></calcite-rating>");
-    const element = await page.find("calcite-rating");
-    const ratingItem1 = await page.find("calcite-rating >>> .star");
-    expect(element).toEqualAttribute("value", "0");
-    await ratingItem1.click();
-    expect(element).toEqualAttribute("value", "0");
   });
 
   it("does not render the calcite chip when count and average are not present", async () => {

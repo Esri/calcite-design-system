@@ -8,6 +8,7 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding content to the block.
@@ -20,7 +21,7 @@ import {
   styleUrl: "block.scss",
   shadow: true
 })
-export class Block implements ConditionalSlotComponent {
+export class Block implements ConditionalSlotComponent, InteractiveComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -91,6 +92,16 @@ export class Block implements ConditionalSlotComponent {
    * Block summary.
    */
   @Prop() summary: string;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -190,8 +201,7 @@ export class Block implements ConditionalSlotComponent {
   }
 
   render(): VNode {
-    const { collapsible, disabled, el, intlCollapse, intlExpand, loading, open, intlLoading } =
-      this;
+    const { collapsible, el, intlCollapse, intlExpand, loading, open, intlLoading } = this;
 
     const toggleLabel = open ? intlCollapse || TEXT.collapse : intlExpand || TEXT.expand;
 
@@ -246,7 +256,7 @@ export class Block implements ConditionalSlotComponent {
     );
 
     return (
-      <Host tabIndex={disabled ? -1 : null}>
+      <Host>
         <article
           aria-busy={loading.toString()}
           class={{

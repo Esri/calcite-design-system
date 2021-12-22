@@ -59,3 +59,5 @@ export const RTL = (): string => html`
     ${text("label", "Radio Button")}
   </calcite-label>
 `;
+
+export const disabled = (): string => html`<calcite-radio-button checked disabled></calcite-radio-button>`;

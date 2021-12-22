@@ -38,3 +38,5 @@ export const DarkTheme = (): string => html`
 `;
 
 DarkTheme.parameters = { themes: themesDarkDefault };
+
+export const disabled = (): string => html`<calcite-input-time-picker disabled></calcite-input-time-picker>`;

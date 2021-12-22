@@ -21,13 +21,13 @@
 }
 
 :host {
-  @apply block
+  @apply border-color-2
     relative
+    block
     max-w-full
     border
-    border-solid
-    border-color-2
     border-b-0
+    border-solid
     leading-6;
   --calcite-accordion-item-border: theme("borderColor.color.2");
   --calcite-accordion-item-background: theme("backgroundColor.foreground.1");
