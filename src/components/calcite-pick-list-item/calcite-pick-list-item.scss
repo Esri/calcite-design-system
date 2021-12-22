@@ -3,13 +3,13 @@
     box-border
     items-stretch
     flex
-    text--1
+    text-n1
     text-color-1
     shadow-border-bottom
     m-0
     mb-px
     bg-foreground-1
-    text--1h;
+    text-n1h;
   transition: background-color $transition;
   animation: calcite-fade-in $transition;
 
@@ -76,10 +76,10 @@
     pointer-events-none
     py-2
     px-3
-    text--2-wrap
+    text-n2-wrap
     word-break
     flex-col
-    flex-no-wrap;
+    flex-nowrap;
 }
 
 .title {

@@ -23,7 +23,6 @@ __docs-temp__/*
 *.orig
 .stencil/
 .idea/
-.vscode/
 .sass-cache/
 .versions/
 .DS_Store

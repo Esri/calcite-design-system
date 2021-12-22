@@ -18,7 +18,7 @@
 
 :host([scale="s"]) {
   @apply h-6;
-  --calcite-select-font-size: theme("fontSize.-2h");
+  --calcite-select-font-size: theme("fontSize.n2h");
   --calcite-select-spacing-inline: theme("spacing.2") theme("spacing.8");
   .icon-container {
     @apply px-2;
@@ -27,7 +27,7 @@
 
 :host([scale="m"]) {
   @apply h-8;
-  --calcite-select-font-size: theme("fontSize.-1h");
+  --calcite-select-font-size: theme("fontSize.n1h");
   --calcite-select-spacing-inline: theme("spacing.3") theme("spacing.10");
   .icon-container {
     @apply px-3;
@@ -104,7 +104,7 @@ select:disabled {
     absolute
     inset-y-0;
   inset-inline-end: theme("inset.0");
-  border-inline-width: theme("borderWidth.0") theme("borderWidth.default");
+  border-inline-width: theme("borderWidth.0") theme("borderWidth.DEFAULT");
 }
 
 .select:focus ~ .icon-container {
