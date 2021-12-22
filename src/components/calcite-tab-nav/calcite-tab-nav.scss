@@ -18,8 +18,7 @@
   @apply flex
     w-full
     overflow-auto
-    justify-start
-    scrolling-touch;
+    justify-start;
 }
 
 :host([layout="center"]) .tab-nav {

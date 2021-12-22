@@ -4,9 +4,8 @@
     flex
     items-center
     content-between
-    text-color-2;
-
-  fill: theme("textColor.2");
+    text-color-2
+    fill-color-2;
 }
 
 .heading {
@@ -30,5 +29,5 @@ h3.heading {
 }
 h4.heading,
 h5.heading {
-  @apply text--1h;
+  @apply text-n1h;
 }

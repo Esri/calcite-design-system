@@ -57,6 +57,6 @@
 
 ::slotted(calcite-action-bar),
 ::slotted(calcite-action-bar[position="end"]) {
-  border-inline-end: theme("borderWidth.default") solid;
+  border-inline-end: theme("borderWidth.DEFAULT") solid;
   @apply border-color-3;
 }

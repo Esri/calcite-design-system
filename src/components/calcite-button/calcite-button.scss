@@ -507,13 +507,13 @@
 :host([appearance="outline"][split-child="primary"]) button,
 :host([appearance="clear"][split-child="primary"]) button {
   border-inline-end-width: 0;
-  border-inline-start-width: theme("borderWidth.default");
+  border-inline-start-width: theme("borderWidth.DEFAULT");
 }
 
 :host([appearance="outline"][split-child="secondary"]) button,
 :host([appearance="clear"][split-child="secondary"]) button {
   border-inline-start-width: 0;
-  border-inline-end-width: theme("borderWidth.default");
+  border-inline-end-width: theme("borderWidth.DEFAULT");
 }
 
 // transparent
@@ -623,7 +623,7 @@
 // generate button scales (scenario: text exists)
 :host([scale="s"]) button.content--slotted,
 :host([scale="s"]) a.content--slotted {
-  @apply text--2h;
+  @apply text-n2h;
 }
 // accommodate for transparent buttons not having borders
 :host([scale="s"][appearance="transparent"]) button.content--slotted,
@@ -634,7 +634,7 @@
 :host([scale="m"]) button.content--slotted,
 :host([scale="m"]) a.content--slotted {
   --calcite-button-padding-x: 11px;
-  @apply text--1h;
+  @apply text-n1h;
 }
 :host([scale="m"]:not([appearance="transparent"])) button.content--slotted,
 :host([scale="m"]:not([appearance="transparent"])) a.content--slotted {

@@ -24,7 +24,7 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 }
 
 :host([scale="s"]) {
-  --calcite-loader-font-size: theme("fontSize.-2");
+  --calcite-loader-font-size: theme("fontSize.n2");
   --calcite-loader-size: theme("spacing.8");
   --calcite-loader-size-inline: theme("spacing.3");
 }
@@ -51,7 +51,7 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 
 .loader__text {
   @apply block
-  text--2h
+  text-n2h
   text-center
   text-color-1;
   margin-top: calc(var(--calcite-loader-size) + theme("spacing.6"));
