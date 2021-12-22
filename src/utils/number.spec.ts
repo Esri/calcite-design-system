@@ -21,7 +21,7 @@ describe("isValidNumber", () => {
 describe("parseNumberString", () => {
   it("returns null for string values that can't compute to a number", () => {
     expect(parseNumberString()).toBe("");
-    expect(parseNumberString("")).toBe("");
+    expect(parseNumberString(null)).toBe("");
     expect(parseNumberString(undefined)).toBe("");
     expect(parseNumberString("")).toBe("");
     expect(parseNumberString("text only")).toBe("");
