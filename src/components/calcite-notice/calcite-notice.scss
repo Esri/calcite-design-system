@@ -11,13 +11,13 @@
   --calcite-notice-spacing-token-small: theme("spacing.2");
   --calcite-notice-spacing-token-large: theme("spacing.3");
   @include slotted("title", "*", ".container") {
-    @apply text--1-wrap my-0.5;
+    @apply text-n1-wrap my-0.5;
   }
   @include slotted("message", "*", ".container") {
-    @apply text--2-wrap my-0.5;
+    @apply text-n2-wrap my-0.5;
   }
   ::slotted(calcite-link) {
-    @apply text--2-wrap my-0.5;
+    @apply text-n2-wrap my-0.5;
   }
   .notice-close {
     // specific padding for close button to align with calcite-action small-scale spacing
@@ -32,10 +32,10 @@
     @apply text-0-wrap my-0.5;
   }
   @include slotted("message", "*", ".container") {
-    @apply text--1-wrap my-0.5;
+    @apply text-n1-wrap my-0.5;
   }
   ::slotted(calcite-link) {
-    @apply text--1-wrap my-0.5;
+    @apply text-n1-wrap my-0.5;
   }
 }
 
@@ -54,7 +54,7 @@
 }
 
 :host([width="auto"]) {
-  --calcite-notice-width: theme("width[auto]");
+  --calcite-notice-width: theme("width.auto");
 }
 
 :host([width="half"]) {
@@ -62,7 +62,7 @@
 }
 
 :host([width="full"]) {
-  --calcite-notice-width: theme("width[full]");
+  --calcite-notice-width: theme("width.full");
 }
 
 :host {

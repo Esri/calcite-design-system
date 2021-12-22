@@ -10,6 +10,7 @@
 | `headingLevel`  | `heading-level`   | Number at which section headings should start for this component.        | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
 | `intlNextMonth` | `intl-next-month` | Localized string for next month.                                         | `string`                     | `undefined` |
 | `intlPrevMonth` | `intl-prev-month` | Localized string for previous month.                                     | `string`                     | `undefined` |
+| `intlYear`      | `intl-year`       | Localized string for year.                                               | `string`                     | `undefined` |
 | `locale`        | `locale`          | User's language and region as BCP 47 formatted string.                   | `string`                     | `undefined` |
 | `localeData`    | --                | CLDR locale data for translated calendar info                            | `DateLocaleData`             | `undefined` |
 | `max`           | --                | Maximum date of the calendar above which is disabled.                    | `Date`                       | `undefined` |

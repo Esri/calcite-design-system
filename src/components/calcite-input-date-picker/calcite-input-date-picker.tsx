@@ -399,7 +399,7 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
                 <calcite-input
                   class={{
                     input: true,
-                    "border-t-color-1": this.layout === "vertical" && this.range
+                    "border-top-color-one": this.layout === "vertical" && this.range
                   }}
                   disabled={disabled}
                   icon="calendar"

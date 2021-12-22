@@ -2,10 +2,10 @@
   --calcite-stepper-item-spacing-unit-s: theme("spacing.1");
   --calcite-stepper-item-spacing-unit-m: theme("spacing.3");
   --calcite-stepper-item-spacing-unit-l: theme("spacing.4");
-  @apply text--1h;
+  @apply text-n1h;
   margin-inline-end: theme("margin.1");
   .stepper-item-subtitle {
-    @apply text--2h;
+    @apply text-n2h;
   }
 }
 
@@ -16,7 +16,7 @@
   @apply text-0h;
   margin-inline-end: theme("margin.2");
   .stepper-item-subtitle {
-    @apply text--1h;
+    @apply text-n1h;
   }
 }
 
@@ -88,7 +88,7 @@
   @apply flex-col
     w-full
     hidden
-    text--2-wrap;
+    text-n2-wrap;
 }
 
 // stepper item icon
