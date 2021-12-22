@@ -194,7 +194,6 @@ export class CalciteTree {
           }
         });
       }
-
       if (shouldExpandTarget && !e.detail.forceToggle) {
         target.expanded = true;
       }
@@ -206,12 +205,17 @@ export class CalciteTree {
         (shouldModifyToCurrentSelection && target.selected) ||
         (shouldSelectChildren && e.detail.forceToggle)
       ) {
-        this.selectedItems.forEach((treeItem) => {
-          treeItem.selected = false;
+        this.selectedItems.forEach((treeItem, i) => {
+          if (target === treeItem) {
+            treeItem.selected = false;
+            this.selectedItems.splice(i, 1);
+          }
         });
       } else {
         this.selectedItems.forEach((treeItem) => {
-          treeItem.selected = true;
+          if (target === treeItem) {
+            treeItem.selected = true;
+          }
         });
       }
     }
