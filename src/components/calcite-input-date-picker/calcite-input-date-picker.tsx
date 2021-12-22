@@ -35,6 +35,7 @@ import {
 } from "../../utils/popper";
 import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { DateRangeChange } from "../calcite-date-picker/interfaces";
+import { InteractiveComponent } from "../../utils/interactive";
 
 const DEFAULT_PLACEMENT = "bottom-leading";
 
@@ -43,7 +44,9 @@ const DEFAULT_PLACEMENT = "bottom-leading";
   styleUrl: "calcite-input-date-picker.scss",
   shadow: true
 })
-export class CalciteInputDatePicker implements LabelableComponent, FormComponent {
+export class CalciteInputDatePicker
+  implements LabelableComponent, FormComponent, InteractiveComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -60,6 +63,13 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
    * When false, the component won't be interactive.
    */
   @Prop({ reflect: true }) disabled = false;
+
+  @Watch("disabled")
+  handleDisabledChange(value: boolean): void {
+    if (!value) {
+      this.active = false;
+    }
+  }
 
   /** Selected date */
   @Prop({ mutable: true }) value: string | string[];
@@ -128,7 +138,12 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
 
   @Watch("active")
   activeHandler(): void {
-    this.reposition();
+    if (!this.disabled) {
+      this.reposition();
+      return;
+    }
+
+    this.active = false;
   }
 
   /**
@@ -360,10 +375,12 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
                 />
               </div>
             }
-
             <div
               aria-hidden={(!this.active).toString()}
-              class="menu-container"
+              class={{
+                "menu-container": true,
+                "menu-container--active": this.active
+              }}
               ref={this.setMenuEl}
             >
               <div

@@ -19,6 +19,7 @@ import { getElementProp, getElementDir } from "../../utils/dom";
 import { TabID, TabLayout, TabPosition } from "../calcite-tabs/interfaces";
 import { FlipContext, Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
+import { InteractiveComponent } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding text.
@@ -28,7 +29,7 @@ import { createObserver } from "../../utils/observers";
   styleUrl: "calcite-tab-title.scss",
   shadow: true
 })
-export class CalciteTabTitle {
+export class CalciteTabTitle implements InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -151,6 +152,7 @@ export class CalciteTabTitle {
       />
     );
 
+    // TODO: check tabindex usage here
     return (
       <Host
         aria-controls={this.controls}

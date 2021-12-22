@@ -15,6 +15,7 @@ import { Scale } from "../interfaces";
 import { TEXT, CSS } from "./resources";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { createObserver } from "../../utils/observers";
+import { InteractiveComponent } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding a `calcite-input`.
@@ -24,7 +25,7 @@ import { createObserver } from "../../utils/observers";
   shadow: true,
   styleUrl: "calcite-inline-editable.scss"
 })
-export class CalciteInlineEditable implements LabelableComponent {
+export class CalciteInlineEditable implements InteractiveComponent, LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element

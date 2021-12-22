@@ -17,13 +17,16 @@ import { formatTimeString, isValidTime, localizeTimeString } from "../../utils/t
 import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
+import { InteractiveComponent } from "../../utils/interactive";
 
 @Component({
   tag: "calcite-input-time-picker",
   styleUrl: "calcite-input-time-picker.scss",
   shadow: true
 })
-export class CalciteInputTimePicker implements LabelableComponent, FormComponent {
+export class CalciteInputTimePicker
+  implements LabelableComponent, FormComponent, InteractiveComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -41,8 +44,22 @@ export class CalciteInputTimePicker implements LabelableComponent, FormComponent
   /** The active state of the time input */
   @Prop({ reflect: true, mutable: true }) active = false;
 
+  @Watch("active")
+  activeHandler(): void {
+    if (this.disabled) {
+      this.active = false;
+    }
+  }
+
   /** The disabled state of the time input */
   @Prop({ reflect: true }) disabled = false;
+
+  @Watch("disabled")
+  handleDisabledChange(value: boolean): void {
+    if (!value) {
+      this.active = false;
+    }
+  }
 
   /** aria-label for the hour input */
   @Prop() intlHour?: string;
@@ -378,7 +395,7 @@ export class CalciteInputTimePicker implements LabelableComponent, FormComponent
         <calcite-popover
           id={popoverId}
           label="Time Picker"
-          open={this.active || false}
+          open={this.active}
           referenceElement={this.referenceElementId}
         >
           <calcite-time-picker

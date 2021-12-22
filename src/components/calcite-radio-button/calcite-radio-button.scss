@@ -16,8 +16,7 @@
   }
 }
 
-:host([disabled]) {
-  @apply cursor-pointer;
+@include disabled() {
   .radio {
     @apply cursor-default opacity-disabled;
   }

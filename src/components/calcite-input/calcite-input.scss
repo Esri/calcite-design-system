@@ -91,10 +91,8 @@
   }
 }
 
-// disabled styles
-:host([disabled]) {
-  @apply pointer-events-none opacity-disabled;
-
+@include disabled() {
+  // TODO: test
   & .wrapper {
     @apply pointer-events-none text-opacity-disabled;
   }

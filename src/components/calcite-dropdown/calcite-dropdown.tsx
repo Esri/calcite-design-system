@@ -24,6 +24,7 @@ import { Instance as Popper, StrictModifiers } from "@popperjs/core";
 import { Scale } from "../interfaces";
 import { DefaultDropdownPlacement, SLOTS } from "./resources";
 import { createObserver } from "../../utils/observers";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding `calcite-dropdown-group`s or `calcite-dropdown-item`s.
@@ -34,7 +35,7 @@ import { createObserver } from "../../utils/observers";
   styleUrl: "calcite-dropdown.scss",
   shadow: true
 })
-export class CalciteDropdown {
+export class CalciteDropdown implements InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -54,7 +55,12 @@ export class CalciteDropdown {
 
   @Watch("active")
   activeHandler(): void {
-    this.reposition();
+    if (!this.disabled) {
+      this.reposition();
+      return;
+    }
+
+    this.active = false;
   }
 
   /**
@@ -65,6 +71,13 @@ export class CalciteDropdown {
 
   /** is the dropdown disabled  */
   @Prop({ reflect: true }) disabled = false;
+
+  @Watch("disabled")
+  handleDisabledChange(value: boolean): void {
+    if (!value) {
+      this.active = false;
+    }
+  }
 
   /**
    specify the maximum number of calcite-dropdown-items to display before showing the scroller, must be greater than 0 -
@@ -124,6 +137,10 @@ export class CalciteDropdown {
     this.reposition();
   }
 
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
+
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
@@ -134,7 +151,7 @@ export class CalciteDropdown {
     const { active } = this;
 
     return (
-      <Host tabIndex={this.disabled ? -1 : null}>
+      <Host>
         <div
           class="calcite-dropdown-trigger-container"
           onClick={this.openCalciteDropdown}

@@ -43,7 +43,11 @@ export class CalciteLabel {
   /** eliminates any space around the label */
   @Prop() disableSpacing = false;
 
-  /** is the label disabled  */
+  /**
+   * is the label disabled
+   *
+   * @deprecated use the `disabled` property on the interactive components instead
+   */
   @Prop({ reflect: true }) disabled = false;
 
   //--------------------------------------------------------------------------

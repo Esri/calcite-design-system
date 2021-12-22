@@ -17,6 +17,8 @@
   flex-basis: auto;
 }
 
+@include disabled();
+
 @import "../../assets/styles/header";
 
 .header {
@@ -159,16 +161,5 @@ calcite-action-menu {
 
   .header .title .heading {
     @apply text-color-1;
-  }
-}
-
-:host([disabled]) {
-  pointer-events: none;
-  user-select: none;
-
-  @apply pointer-events-none select-none;
-
-  .header-container {
-    @apply opacity-50;
   }
 }

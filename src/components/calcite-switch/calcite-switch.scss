@@ -45,9 +45,8 @@
   tap-highlight-color: transparent;
 }
 
-:host([disabled]) {
-  @apply opacity-disabled pointer-events-none cursor-default;
-}
+@include disabled();
+
 // focus styles
 :host {
   @apply focus-base w-auto;

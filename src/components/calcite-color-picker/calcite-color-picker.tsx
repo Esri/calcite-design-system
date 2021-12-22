@@ -29,6 +29,7 @@ import { colorEqual, CSSColorMode, Format, normalizeHex, parseMode, SupportedMod
 import { throttle } from "lodash-es";
 
 import { clamp } from "../../utils/math";
+import { updateHostInteraction } from "../../utils/interactive";
 
 const throttleFor60FpsInMs = 16;
 const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
@@ -84,6 +85,11 @@ export class CalciteColorPicker {
 
     this.value = this.toValue(color);
   }
+
+  /**
+   * When true, disabled prevents user interaction.
+   */
+  @Prop({ reflect: true }) disabled = false;
 
   /**
    * The format of the value property.
@@ -715,6 +721,10 @@ export class CalciteColorPicker {
   disconnectedCallback(): void {
     document.removeEventListener("mousemove", this.globalMouseMoveHandler);
     document.removeEventListener("mouseup", this.globalMouseUpHandler);
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
   }
 
   //--------------------------------------------------------------------------

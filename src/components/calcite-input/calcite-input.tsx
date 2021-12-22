@@ -29,6 +29,7 @@ import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../ut
 import { CSS_UTILITY, TEXT } from "../../utils/resources";
 import { decimalPlaces } from "../../utils/math";
 import { createObserver } from "../../utils/observers";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 type NumberNudgeDirection = "up" | "down";
 
@@ -40,7 +41,7 @@ type NumberNudgeDirection = "up" | "down";
   styleUrl: "calcite-input.scss",
   shadow: true
 })
-export class CalciteInput implements LabelableComponent, FormComponent {
+export class CalciteInput implements LabelableComponent, FormComponent, InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -318,6 +319,14 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     this.maxString = this.max?.toString();
     this.minString = this.min?.toString();
     this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
+  }
+
+  componentDidLoad(): void {
+    this.setDisabledAction();
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
   }
 
   componentShouldUpdate(newValue: string, oldValue: string, property: string): boolean {

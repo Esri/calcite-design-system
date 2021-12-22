@@ -8,6 +8,8 @@ $gap--large: 12px;
   @apply inline-block text-n2h font-normal;
 }
 
+@include disabled();
+
 :host([scale="s"]) {
   .container {
     width: 160px;

@@ -18,6 +18,7 @@ import { Layout, Scale, Width } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { RadioAppearance } from "./interfaces";
+import { InteractiveComponent } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding `calcite-radio-group-item`s.
@@ -27,7 +28,7 @@ import { RadioAppearance } from "./interfaces";
   styleUrl: "calcite-radio-group.scss",
   shadow: true
 })
-export class CalciteRadioGroup implements LabelableComponent, FormComponent {
+export class CalciteRadioGroup implements LabelableComponent, FormComponent, InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Element

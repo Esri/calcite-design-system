@@ -11,6 +11,8 @@
   width: fit-content;
 }
 
+@include disabled();
+
 :host([scale="s"]) {
   @apply h-6;
   --calcite-rating-spacing-unit: theme("spacing.1");
@@ -24,10 +26,6 @@
 :host([scale="l"]) {
   @apply h-11;
   --calcite-rating-spacing-unit: theme("spacing.3");
-}
-
-:host([disabled]) {
-  @apply pointer-events-none opacity-50;
 }
 
 :host([read-only]) {

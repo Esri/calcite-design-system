@@ -20,6 +20,7 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding custom content.
@@ -36,7 +37,7 @@ import {
   styleUrl: "calcite-panel.scss",
   shadow: true
 })
-export class CalcitePanel implements ConditionalSlotComponent {
+export class CalcitePanel implements ConditionalSlotComponent, InteractiveComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -122,6 +123,16 @@ export class CalcitePanel implements ConditionalSlotComponent {
    * Opens the action menu.
    */
   @Prop({ reflect: true }) menuOpen = false;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
 
   // --------------------------------------------------------------------------
   //

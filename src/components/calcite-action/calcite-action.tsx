@@ -16,6 +16,7 @@ import { Alignment, Appearance, Scale } from "../interfaces";
 import { CSS, TEXT } from "./resources";
 
 import { createObserver } from "../../utils/observers";
+import { InteractiveComponent } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding a `calcite-icon`.
@@ -25,7 +26,7 @@ import { createObserver } from "../../utils/observers";
   styleUrl: "calcite-action.scss",
   shadow: true
 })
-export class CalciteAction {
+export class CalciteAction implements InteractiveComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties

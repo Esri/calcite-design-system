@@ -3,9 +3,7 @@
   @apply flex bg-transparent;
 }
 
-:host([disabled]) {
-  @apply pointer-events-none;
-}
+@include disabled();
 
 .button {
   @apply bg-foreground-1

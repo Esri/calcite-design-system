@@ -8,6 +8,8 @@
   width: calc(100% / 7);
 }
 
+@include disabled();
+
 .day-v-wrapper {
   @apply flex-auto;
 }
@@ -80,11 +82,6 @@
 
 :host([current-month]) .day {
   @apply opacity-100;
-}
-
-:host([disabled]) {
-  cursor: default;
-  @apply opacity-25;
 }
 
 :host(:hover:not([disabled])),

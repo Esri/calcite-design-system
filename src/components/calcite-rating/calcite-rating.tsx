@@ -16,13 +16,14 @@ import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { TEXT } from "./resources";
+import { InteractiveComponent } from "../../utils/interactive";
 
 @Component({
   tag: "calcite-rating",
   styleUrl: "calcite-rating.scss",
   shadow: true
 })
-export class CalciteRating implements LabelableComponent, FormComponent {
+export class CalciteRating implements LabelableComponent, FormComponent, InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -174,12 +175,15 @@ export class CalciteRating implements LabelableComponent, FormComponent {
   }
 
   render() {
-    const { intlRating, showChip, scale, count, average } = this;
+    const { disabled, intlRating, showChip, scale, count, average } = this;
+
+    // TODO: test if we need to handle chip
 
     return (
       <Fragment>
         <fieldset
           class="fieldset"
+          disabled={disabled}
           onBlur={() => (this.hoverValue = null)}
           onMouseLeave={() => (this.hoverValue = null)}
           onTouchEnd={() => (this.hoverValue = null)}

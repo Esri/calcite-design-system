@@ -63,8 +63,8 @@
   }
 }
 
-// disabled styles
-:host([disabled]) {
+// TODO: check
+@include disabled() {
   & > .container {
     @apply pointer-events-none opacity-disabled;
   }

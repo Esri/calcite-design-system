@@ -1,6 +1,5 @@
 :host {
   @extend %component-spacing;
-  @include popperElemAnim(".menu-container");
   @apply shadow-none
     inline-block
     align-top
@@ -8,6 +7,8 @@
     relative
     overflow-visible;
 }
+
+@include disabled();
 
 .calendar-picker-wrapper {
   @apply shadow-none
@@ -88,12 +89,13 @@
 
 .menu-container {
   @include popperContainer();
-  @apply invisible
-    pointer-events-none;
+  @include popperWrapper();
 }
-:host([active]) .menu-container {
-  @apply visible
-    pointer-events-auto;
+
+@include popperElemAnim(".menu-container");
+
+.menu-container--active {
+  @include popperElemAnim(".menu-container");
 }
 
 .input .calcite-input__wrapper {

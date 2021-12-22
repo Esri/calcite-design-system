@@ -6,6 +6,7 @@ import { ButtonAlignment, ButtonAppearance, ButtonColor } from "./interfaces";
 import { FlipContext, Scale, Width } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { createObserver } from "../../utils/observers";
+import { InteractiveComponent } from "../../utils/interactive";
 
 /** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
 /** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
@@ -16,7 +17,7 @@ import { createObserver } from "../../utils/observers";
   styleUrl: "calcite-button.scss",
   shadow: true
 })
-export class CalciteButton implements LabelableComponent {
+export class CalciteButton implements LabelableComponent, InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Element

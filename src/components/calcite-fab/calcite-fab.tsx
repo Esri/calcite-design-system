@@ -3,13 +3,14 @@ import { Appearance, Scale } from "../interfaces";
 import { ButtonColor } from "../calcite-button/interfaces";
 import { CSS, ICONS } from "./resources";
 import { focusElement } from "../../utils/dom";
+import { InteractiveComponent } from "../../utils/interactive";
 
 @Component({
   tag: "calcite-fab",
   styleUrl: "calcite-fab.scss",
   shadow: true
 })
-export class CalciteFab {
+export class CalciteFab implements InteractiveComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties

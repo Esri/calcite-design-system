@@ -41,3 +41,15 @@
     z-index: -1 !important;
   }
 }
+
+@mixin disabled() {
+  :host([disabled]) {
+    @apply cursor-default opacity-disabled pointer-events-none select-none;
+    @content;
+
+    [calcite-hydrated][disabled] {
+      /* prevent opacity stacking */
+      @apply opacity-100;
+    }
+  }
+}

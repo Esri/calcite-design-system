@@ -13,6 +13,7 @@ import {
 import { debounce, forIn } from "lodash-es";
 import { CSS, ICONS, TEXT } from "./resources";
 import { focusElement } from "../../utils/dom";
+import { InteractiveComponent } from "../../utils/interactive";
 
 const filterDebounceInMs = 250;
 
@@ -21,7 +22,7 @@ const filterDebounceInMs = 250;
   styleUrl: "calcite-filter.scss",
   shadow: true
 })
-export class CalciteFilter {
+export class CalciteFilter implements InteractiveComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -204,6 +205,7 @@ export class CalciteFilter {
             <button
               aria-label={this.intlClear || TEXT.clear}
               class={CSS.clearButton}
+              disabled={disabled}
               onClick={this.clear}
             >
               <calcite-icon icon={ICONS.close} />

@@ -26,6 +26,7 @@ import {
   FormComponent,
   HiddenFormInputSlot
 } from "../../utils/form";
+import { InteractiveComponent } from "../../utils/interactive";
 
 type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 
@@ -34,7 +35,7 @@ type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
   styleUrl: "calcite-slider.scss",
   shadow: true
 })
-export class CalciteSlider implements LabelableComponent, FormComponent {
+export class CalciteSlider implements LabelableComponent, FormComponent, InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Element

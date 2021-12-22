@@ -6,6 +6,7 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { InteractiveComponent } from "../../utils/interactive";
 
 /**
  * @slot content-start - A slot for adding non-actionable elements before the tile content.
@@ -16,7 +17,7 @@ import {
   styleUrl: "calcite-tile.scss",
   shadow: true
 })
-export class CalciteTile implements ConditionalSlotComponent {
+export class CalciteTile implements ConditionalSlotComponent, InteractiveComponent {
   // --------------------------------------------------------------------------
   //
   //  Private Properties

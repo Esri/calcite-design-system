@@ -14,13 +14,16 @@ import { Scale } from "../interfaces";
 import { CheckableFormCompoment, HiddenFormInputSlot } from "../../utils/form";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { connectForm, disconnectForm } from "../../utils/form";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 @Component({
   tag: "calcite-checkbox",
   styleUrl: "calcite-checkbox.scss",
   shadow: true
 })
-export class CalciteCheckbox implements LabelableComponent, CheckableFormCompoment {
+export class CalciteCheckbox
+  implements LabelableComponent, CheckableFormCompoment, InteractiveComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -194,6 +197,10 @@ export class CalciteCheckbox implements LabelableComponent, CheckableFormCompome
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
   }
 
   // --------------------------------------------------------------------------

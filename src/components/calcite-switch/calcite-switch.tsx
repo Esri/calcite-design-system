@@ -20,13 +20,16 @@ import {
   CheckableFormCompoment,
   HiddenFormInputSlot
 } from "../../utils/form";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 @Component({
   tag: "calcite-switch",
   styleUrl: "calcite-switch.scss",
   shadow: true
 })
-export class CalciteSwitch implements LabelableComponent, CheckableFormCompoment {
+export class CalciteSwitch
+  implements LabelableComponent, CheckableFormCompoment, InteractiveComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -181,8 +184,8 @@ export class CalciteSwitch implements LabelableComponent, CheckableFormCompoment
     disconnectForm(this);
   }
 
-  componentWillLoad(): void {
-    this.tabindex = this.el.getAttribute("tabindex") || this.disabled ? -1 : 0;
+  componentDidRender(): void {
+    updateHostInteraction(this);
   }
 
   // --------------------------------------------------------------------------
@@ -201,7 +204,6 @@ export class CalciteSwitch implements LabelableComponent, CheckableFormCompoment
           onClick={this.clickHandler}
           ref={this.setSwitchEl}
           role="switch"
-          tabindex={this.tabindex}
         >
           <div class="track">
             <div class="handle" />

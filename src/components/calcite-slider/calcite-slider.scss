@@ -47,8 +47,7 @@
   );
 }
 
-:host([disabled]) {
-  @apply opacity-disabled pointer-events-none;
+@include disabled() {
   .track__range,
   .tick--active {
     background-color: var(--calcite-ui-text-3);

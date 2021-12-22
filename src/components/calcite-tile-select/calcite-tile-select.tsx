@@ -15,6 +15,7 @@ import { Alignment, Width } from "../interfaces";
 import { TileSelectType } from "./interfaces";
 import { guid } from "../../utils/guid";
 import { CSS } from "./resources";
+import { InteractiveComponent } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding custom content.
@@ -24,7 +25,7 @@ import { CSS } from "./resources";
   styleUrl: "calcite-tile-select.scss",
   shadow: true
 })
-export class CalciteTileSelect {
+export class CalciteTileSelect implements InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -230,6 +231,8 @@ export class CalciteTileSelect {
   //  Render Methods
   //
   // --------------------------------------------------------------------------
+
+  // TODO: double check disabled usage here
 
   private renderInput(): void {
     this.input = document.createElement(

@@ -90,10 +90,16 @@
 :host([icon][heading]:not([description]):not([embed])) {
   @apply p-0;
 }
-:host([disabled]) {
-  @apply opacity-disabled;
-  @apply pointer-events-none;
+:host([icon][heading]:not([description])) {
+  .icon {
+    @apply flex justify-center;
+  }
+  .large-visual {
+    @apply text-center;
+  }
 }
+
+@include disabled();
 
 :host(:hover),
 :host([active]) {

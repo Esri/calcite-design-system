@@ -6,6 +6,7 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
@@ -19,7 +20,7 @@ import {
   styleUrl: "calcite-list-item.scss",
   shadow: true
 })
-export class CalciteListItem implements ConditionalSlotComponent {
+export class CalciteListItem implements ConditionalSlotComponent, InteractiveComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -55,6 +56,16 @@ export class CalciteListItem implements ConditionalSlotComponent {
   @Element() el: HTMLCalciteListItemElement;
 
   focusEl: HTMLButtonElement;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
 
   // --------------------------------------------------------------------------
   //

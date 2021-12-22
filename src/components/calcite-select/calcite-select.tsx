@@ -23,6 +23,7 @@ import {
 } from "../../utils/form";
 import { CSS } from "./resources";
 import { createObserver } from "../../utils/observers";
+import { InteractiveComponent } from "../../utils/interactive";
 
 type CalciteOptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
@@ -45,7 +46,7 @@ function isOptionGroup(
   styleUrl: "calcite-select.scss",
   shadow: true
 })
-export class CalciteSelect implements LabelableComponent, FormComponent {
+export class CalciteSelect implements LabelableComponent, FormComponent, InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties

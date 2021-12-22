@@ -517,3 +517,25 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
     }
   }
 }
+
+/**
+ * Helper to test the disabled prop disabling user interaction.
+ *
+ * @param componentTagOrHTML - the component tag or HTML markup to test against
+ */
+export async function disabled(componentTagOrHtml: TagOrHTML): Promise<void> {
+  const page = await simplePageSetup(componentTagOrHtml);
+  const tag = getTag(componentTagOrHtml);
+
+  const component = await page.find(tag);
+  component.setProperty("disabled", true);
+  await page.waitForChanges();
+
+  await page.keyboard.press("Tab");
+
+  expect(await page.evaluate(() => document.activeElement.matches("BODY"))).toBe(true);
+
+  await component.click();
+
+  expect(await page.evaluate(() => document.activeElement.matches("BODY"))).toBe(true);
+}

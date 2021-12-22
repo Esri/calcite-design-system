@@ -2,9 +2,7 @@
   @apply flex flex-col;
 }
 
-:host([disabled]) {
-  @apply pointer-events-none cursor-default;
-}
+@include disabled();
 
 .container {
   @apply bg-foreground-1

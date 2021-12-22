@@ -131,12 +131,11 @@
   margin-inline-end: var(--calcite-stepper-item-spacing-unit-m);
 }
 
-:host([disabled]) {
-  @apply opacity-disabled;
-}
-:host([disabled]),
-:host([disabled]) * {
-  @apply cursor-not-allowed pointer-events-auto;
+// TODO: check below -> allow overrides
+@include disabled() {
+  & * {
+    @apply cursor-not-allowed pointer-events-auto;
+  }
 }
 
 :host([complete]) .container {

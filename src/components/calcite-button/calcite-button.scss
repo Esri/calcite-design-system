@@ -159,9 +159,9 @@
   line-height: inherit;
 }
 
-// disabled styles
-:host([loading]),
-:host([disabled]) {
+@include disabled();
+
+:host([loading]) {
   @apply pointer-events-none;
   button,
   a {

@@ -5,6 +5,8 @@
   outline-offset: -1px;
 }
 
+@include disabled();
+
 :host([layout="vertical"]) {
   @apply flex-col items-start self-start;
 }
@@ -26,11 +28,6 @@
 ::slotted(calcite-radio-group-item[checked]),
 ::slotted(calcite-radio-group-item:focus) {
   @apply z-0;
-}
-
-// disabled styles
-:host([disabled]) {
-  @apply opacity-disabled pointer-events-none;
 }
 
 @include hidden-form-input();

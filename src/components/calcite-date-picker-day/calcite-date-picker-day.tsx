@@ -14,13 +14,14 @@ import { getElementDir } from "../../utils/dom";
 import { DateLocaleData } from "../calcite-date-picker/utils";
 import { Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 @Component({
   tag: "calcite-date-picker-day",
   styleUrl: "calcite-date-picker-day.scss",
   shadow: true
 })
-export class CalciteDatePickerDay {
+export class CalciteDatePickerDay implements InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -143,5 +144,9 @@ export class CalciteDatePickerDay {
         </div>
       </Host>
     );
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
   }
 }
