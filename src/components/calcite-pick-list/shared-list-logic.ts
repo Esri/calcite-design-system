@@ -216,6 +216,7 @@ export function setUpItems<T extends Lists>(
   const { items } = this;
 
   items.forEach((item) => {
+    console.log("ITEMS", item.value);
     item.icon = this.getIconType();
     if (!this.multiple) {
       item.disableDeselect = true;
@@ -225,6 +226,16 @@ export function setUpItems<T extends Lists>(
       hasSelected = true;
       toggleSingleSelectItemTabbing(item, true);
       this.selectedValues.set(item.value, item);
+    }
+  });
+
+  // remove items from selectedValues if the item doesn't exist in the list
+  const selectedValues = this.selectedValues as Map<string, ListItemElement<T>>;
+  const itemValues = items.map(({ value }) => value);
+
+  selectedValues.forEach((selectedItem) => {
+    if (!itemValues.includes(selectedItem.value)) {
+      this.selectedValues.delete(selectedItem.value);
     }
   });
 
