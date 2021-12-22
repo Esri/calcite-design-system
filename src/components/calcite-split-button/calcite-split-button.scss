@@ -1,4 +1,8 @@
 :host {
+  @apply inline-block w-auto align-middle;
+}
+
+:host {
   .split-button__container {
     @apply flex items-stretch;
     > calcite-dropdown > calcite-button {
