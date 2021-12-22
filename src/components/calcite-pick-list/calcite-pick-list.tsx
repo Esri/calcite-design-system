@@ -104,7 +104,10 @@ export class CalcitePickList<
 
   lastSelectedItem: ItemElement = null;
 
-  mutationObserver = createObserver("mutation", mutationObserverCallback.bind(this));
+  mutationObserver = createObserver("mutation", () => {
+    this.setUpItems();
+    mutationObserverCallback.bind(this);
+  });
 
   @Element() el: HTMLCalcitePickListElement;
 
@@ -145,6 +148,7 @@ export class CalcitePickList<
 
   @Listen("calciteListItemChange")
   calciteListItemChangeHandler(event: CustomEvent): void {
+    console.log("ITEM CHANGE");
     calciteListItemChangeHandler.call(this, event);
   }
 
