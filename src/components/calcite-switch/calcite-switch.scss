@@ -117,4 +117,9 @@
   }
 }
 
+//fix focus outline color
+.container:focus-visible {
+  outline-color: var(--calcite-ui-brand);
+}
+
 @include hidden-form-input();
