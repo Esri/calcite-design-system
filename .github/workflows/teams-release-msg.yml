@@ -20,5 +20,5 @@ jobs:
         uses: FTsbrown/msteams-action@master
         with:
           TITLE: ${{ env.RELEASE_VERSION }}
-          BODY: "🚀 <code>@esri/calcite-components@${{ env.RELEASE_VERSION }}</code> released! Check out the [changelog](https://github.com/Esri/calcite-components/blob/master/CHANGELOG.md) for more info. 🚀"
+          BODY: "🚀 <code>@esri/calcite-components@${{ env.RELEASE_VERSION }}</code> released! Check out the [changelog](https://github.com/Esri/calcite-components/blob/master/CHANGELOG.md#changelog) for more info. 🚀"
           MS_TEAMS_WEBHOOK: ${{ secrets.TEAMS_WEBHOOK_URI_RELEASE }}
