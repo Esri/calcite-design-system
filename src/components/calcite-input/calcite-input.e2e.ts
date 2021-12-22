@@ -1292,6 +1292,27 @@ describe("calcite-input", () => {
           expect(await input.getProperty("value")).toBe(localizeNumberString(unformattedValue, locale));
         });
 
+        it(`displays correct formatted value when using exponential numbers for ${locale} locale`, async () => {
+          const page = await newE2EPage({
+            html: `<calcite-input locale="${locale}" type="number"></calcite-input>`
+          });
+          const calciteInput = await page.find("calcite-input");
+          const input = await page.find("calcite-input >>> input");
+          const decimal = getDecimalSeparator(locale);
+          const unformattedValue = "1.5e-6";
+
+          await page.keyboard.press("Tab");
+          await input.press("1");
+          await page.keyboard.sendCharacter(decimal);
+          await input.press("5");
+          await input.press("e");
+          await input.press("-");
+          await input.press("6");
+
+          expect(await calciteInput.getProperty("value")).toBe(`1.5e-6`);
+          expect(await input.getProperty("value")).toBe(localizeNumberString(unformattedValue, locale));
+        });
+
         it(`displays correct formatted value when the value is changed programatically for ${locale} locale`, async () => {
           const page = await newE2EPage({
             html: `<calcite-input locale="${locale}" type="number"></calcite-input><input id="external" />`
