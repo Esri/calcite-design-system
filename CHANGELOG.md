@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Bug Fixes
 
 - **link:** Set host display to inline. [#3675](https://github.com/Esri/calcite-components/issues/3675) ([#3768](https://github.com/Esri/calcite-components/issues/3768)) ([1ec2fe0](https://github.com/Esri/calcite-components/commit/1ec2fe097fea0cb80c260640dfa5412b3b0ec10c))
+- **switch:** add back outline offset on focus ([#3779](https://github.com/Esri/calcite-components/issues/3779)) ([ce7b514](https://github.com/Esri/calcite-components/commit/ce7b51420870a63c7dce3db2d4752f1e9ab36a8e))
 <!--@unreleased-section-end-->
 
 ## [1.0.0-beta.72](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.71...v1.0.0-beta.72) (2021-12-21)
