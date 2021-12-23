@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- **avatar:** avatars containing text vs icon vs image are now lined up when placed next to each other ([#3774](https://github.com/Esri/calcite-components/issues/3774)) ([24d6c0d](https://github.com/Esri/calcite-components/commit/24d6c0df896d9c6464e6bfd9b7fbd0d3a66a64ec))
 - **link:** Set host display to inline. [#3675](https://github.com/Esri/calcite-components/issues/3675) ([#3768](https://github.com/Esri/calcite-components/issues/3768)) ([1ec2fe0](https://github.com/Esri/calcite-components/commit/1ec2fe097fea0cb80c260640dfa5412b3b0ec10c))
 - **switch:** add back outline offset on focus ([#3779](https://github.com/Esri/calcite-components/issues/3779)) ([ce7b514](https://github.com/Esri/calcite-components/commit/ce7b51420870a63c7dce3db2d4752f1e9ab36a8e))
 <!--@unreleased-section-end-->
