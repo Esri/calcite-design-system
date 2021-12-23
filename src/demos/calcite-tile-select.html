@@ -37,6 +37,92 @@
   </head>
 
   <body>
+    <!-- heading only -->
+    <div class="parent">
+      <div class="child right-aligned-text">heading only</div>
+
+      <div class="child">
+        <calcite-tile heading="Tile title lorem ipsum"></calcite-tile>
+      </div>
+    </div>
+
+    <!-- heading only with link -->
+    <div class="parent">
+      <div class="child right-aligned-text">heading only with link</div>
+
+      <div class="child">
+        <calcite-tile href="/" heading="Tile title lorem ipsum"></calcite-tile>
+      </div>
+    </div>
+
+    <!-- basic -->
+    <div class="parent">
+      <div class="child right-aligned-text">basic</div>
+
+      <div class="child">
+        <calcite-tile
+          scale="s"
+          icon="layers"
+          heading="Tile title lorem ipsum"
+          description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        >
+        </calcite-tile>
+      </div>
+    </div>
+
+    <!-- link -->
+    <div class="parent">
+      <div class="child right-aligned-text">link</div>
+
+      <div class="child">
+        <calcite-tile
+          href="/"
+          icon="layers"
+          heading="Tile title lorem ipsum"
+          description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        >
+        </calcite-tile>
+      </div>
+    </div>
+
+    <!-- slots -->
+    <div class="parent">
+      <div class="child right-aligned-text">slots</div>
+
+      <div class="child">
+        <calcite-tile
+          href="/"
+          icon="layers"
+          heading="Tile title lorem ipsum"
+          description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        >
+          <calcite-icon slot="content-start" icon="banana"></calcite-icon>
+          <calcite-icon slot="content-end" icon="banana"></calcite-icon>
+        </calcite-tile>
+      </div>
+    </div>
+
+    <!-- large visual -->
+    <div class="parent">
+      <div class="child right-aligned-text">large visual</div>
+
+      <div class="child">
+        <calcite-tile icon="layers" heading="Tile title lorem ipsum"></calcite-tile>
+      </div>
+    </div>
+
+    <!-- large visual with link -->
+    <div class="parent">
+      <div class="child right-aligned-text">large visual with link</div>
+
+      <div class="child">
+        <calcite-tile href="/" icon="layers" heading="Tile title lorem ipsum"></calcite-tile>
+      </div>
+    </div>
+
+    <!-- A horizonal line-->
+    <hr />
+
     <!-- Vertical -->
     <div class="parent">
       <div class="child right-aligned-text">vertical</div>
@@ -557,92 +643,6 @@
           >
           </calcite-tile-select>
         </calcite-tile-select-group>
-      </div>
-    </div>
-
-    <!-- A horizonal line-->
-    <hr />
-
-    <!-- heading only -->
-    <div class="parent">
-      <div class="child right-aligned-text">heading only</div>
-
-      <div class="child">
-        <calcite-tile heading="Tile title lorem ipsum"></calcite-tile>
-      </div>
-    </div>
-
-    <!-- heading only with link -->
-    <div class="parent">
-      <div class="child right-aligned-text">heading only with link</div>
-
-      <div class="child">
-        <calcite-tile href="/" heading="Tile title lorem ipsum"></calcite-tile>
-      </div>
-    </div>
-
-    <!-- basic -->
-    <div class="parent">
-      <div class="child right-aligned-text">basic</div>
-
-      <div class="child">
-        <calcite-tile
-          scale="s"
-          icon="layers"
-          heading="Tile title lorem ipsum"
-          description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
-        >
-        </calcite-tile>
-      </div>
-    </div>
-
-    <!-- link -->
-    <div class="parent">
-      <div class="child right-aligned-text">link</div>
-
-      <div class="child">
-        <calcite-tile
-          href="/"
-          icon="layers"
-          heading="Tile title lorem ipsum"
-          description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
-        >
-        </calcite-tile>
-      </div>
-    </div>
-
-    <!-- slots -->
-    <div class="parent">
-      <div class="child right-aligned-text">slots</div>
-
-      <div class="child">
-        <calcite-tile
-          href="/"
-          icon="layers"
-          heading="Tile title lorem ipsum"
-          description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
-        >
-          <calcite-icon slot="content-start" icon="banana"></calcite-icon>
-          <calcite-icon slot="content-end" icon="banana"></calcite-icon>
-        </calcite-tile>
-      </div>
-    </div>
-
-    <!-- large visual -->
-    <div class="parent">
-      <div class="child right-aligned-text">large visual</div>
-
-      <div class="child">
-        <calcite-tile icon="layers" heading="Tile title lorem ipsum"></calcite-tile>
-      </div>
-    </div>
-
-    <!-- large visual with link -->
-    <div class="parent">
-      <div class="child right-aligned-text">large visual with link</div>
-
-      <div class="child">
-        <calcite-tile href="/" icon="layers" heading="Tile title lorem ipsum"></calcite-tile>
       </div>
     </div>
   </body>
