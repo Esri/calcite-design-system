@@ -1,11 +1,11 @@
-import { accessible, HYDRATED_ATTR, labelable, renders } from "../../tests/commonTests";
+import { accessible, labelable, renders } from "../../tests/commonTests";
 import { E2EPage } from "@stencil/core/testing";
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS } from "./resources";
 import { html } from "../../tests/utils";
 
 describe("calcite-inline-editable", () => {
-  it("renders", () => renders("calcite-inline-editable", { display: "inline" }));
+  it("renders", () => renders("calcite-inline-editable", { display: "inline-block" }));
 
   describe("rendering permutations", () => {
     let page: E2EPage;
