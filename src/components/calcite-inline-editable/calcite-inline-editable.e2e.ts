@@ -5,7 +5,15 @@ import { CSS } from "./resources";
 import { html } from "../../tests/utils";
 
 describe("calcite-inline-editable", () => {
-  it("renders", () => renders("calcite-inline-editable", { display: "block" }));
+  it("renders", () =>
+    renders(
+      `
+  <calcite-inline-editable>
+    <calcite-input/>
+  </calcite-inline-editable>
+  `,
+      { display: "block" }
+    ));
 
   describe("rendering permutations", () => {
     let page: E2EPage;
