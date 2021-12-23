@@ -13,10 +13,10 @@ jobs:
       - uses: fregante/setup-git-user@v1
 
       - name: run dependency-updating script
+        shell: 'script --return --quiet --command "bash {0}"'
         run: |
-          npm install
+          npm ci
           npm run deps:update
-
       - name: submit pull request
         uses: peter-evans/create-pull-request@v3
         with:
