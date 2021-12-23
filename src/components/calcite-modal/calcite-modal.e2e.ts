@@ -3,7 +3,7 @@ import { focusable, renders } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 
 describe("calcite-modal properties", () => {
-  it("renders", () => renders("calcite-modal", { display: "flex" }));
+  it("renders", () => renders("calcite-modal", { display: "flex", visible: false }));
 
   it("adds localized strings set via intl-* props", async () => {
     const page = await newE2EPage();

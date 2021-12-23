@@ -18,8 +18,6 @@ describe("calcite-inline-editable", () => {
       `);
     });
 
-    it("renders", () => renders("calcite-inline-editable", { display: "inline-block" }));
-
     it("renders default props when none are provided", async () => {
       const element = await page.find("calcite-inline-editable");
       await page.waitForChanges();
