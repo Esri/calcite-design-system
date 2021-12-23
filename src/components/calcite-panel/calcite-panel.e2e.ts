@@ -92,7 +92,7 @@ describe("calcite-panel", () => {
         .shadowRoot.querySelector(contentContainerSelector);
 
       contentContainer.dispatchEvent(new CustomEvent("scroll"));
-    }, `.${CSS.contentContainer}`);
+    }, `.${CSS.contentWrapper}`);
 
     await page.waitForChanges();
 

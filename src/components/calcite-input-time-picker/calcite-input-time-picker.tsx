@@ -9,27 +9,21 @@ import {
   Event,
   EventEmitter,
   Method,
-  Watch
+  Watch,
+  State
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { getKey } from "../../utils/key";
-import {
-  parseTimeString,
-  Time,
-  formatTimeString,
-  HourDisplayFormat,
-  getMeridiem,
-  getMeridiemHour
-} from "../../utils/time";
+import { formatTimeString, isValidTime, localizeTimeString } from "../../utils/time";
 import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
+import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 
 @Component({
   tag: "calcite-input-time-picker",
   styleUrl: "calcite-input-time-picker.scss",
   shadow: true
 })
-export class CalciteInputTimePicker implements LabelableComponent {
+export class CalciteInputTimePicker implements LabelableComponent, FormComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -49,9 +43,6 @@ export class CalciteInputTimePicker implements LabelableComponent {
 
   /** The disabled state of the time input */
   @Prop({ reflect: true }) disabled = false;
-
-  /** Format of the hour value (12-hour or 24-hour) (this will be replaced by locale eventually) */
-  @Prop() hourDisplayFormat: HourDisplayFormat = "12";
 
   /** aria-label for the hour input */
   @Prop() intlHour?: string;
@@ -89,13 +80,32 @@ export class CalciteInputTimePicker implements LabelableComponent {
   /** aria-label for the second up button */
   @Prop() intlSecondUp?: string;
 
+  /**
+   * BCP 47 language tag for desired language and country format
+   * @internal
+   */
+  @Prop({ attribute: "lang", mutable: true }) locale: string =
+    document.documentElement.lang || navigator.language || "en";
+
+  @Watch("locale")
+  localeWatcher(newLocale: string): void {
+    this.setInputValue(localizeTimeString(this.value, newLocale, this.shouldIncludeSeconds()));
+  }
+
   /** The name of the time input */
-  @Prop() name?: string;
+  @Prop() name: string;
+
+  /**
+   * When true, makes the component required for form-submission.
+   *
+   * @internal
+   */
+  @Prop({ reflect: true }) required = false;
 
   /** The scale (size) of the time input */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** number that specifies the granularity that the value must adhere to */
+  /** number (seconds) that specifies the granularity that the value must adhere to */
   @Prop() step = 60;
 
   /** The selected time (always 24-hour format)*/
@@ -117,7 +127,13 @@ export class CalciteInputTimePicker implements LabelableComponent {
 
   labelEl: HTMLCalciteLabelElement;
 
+  formEl: HTMLFormElement;
+
+  defaultValue: CalciteInputTimePicker["value"];
+
   private calciteInputEl: HTMLCalciteInputElement;
+
+  private calciteTimePickerEl: HTMLCalciteTimePickerElement;
 
   /** whether the value of the input was changed as a result of user typing or not */
   private internalValueChange = false;
@@ -125,6 +141,14 @@ export class CalciteInputTimePicker implements LabelableComponent {
   private previousValidValue: string = null;
 
   private referenceElementId = `input-time-picker-${guid()}`;
+
+  //--------------------------------------------------------------------------
+  //
+  //  State
+  //
+  //--------------------------------------------------------------------------
+
+  @State() localizedValue: string;
 
   //--------------------------------------------------------------------------
   //
@@ -145,12 +169,16 @@ export class CalciteInputTimePicker implements LabelableComponent {
 
   private calciteInputBlurHandler = (): void => {
     this.active = false;
+    const shouldIncludeSeconds = this.shouldIncludeSeconds();
 
-    const newValue = formatTimeString(this.calciteInputEl.value) || formatTimeString(this.value);
-
-    if (newValue !== this.calciteInputEl.value) {
-      this.setInputValue(newValue);
-    }
+    const localizedInputValue = localizeTimeString(
+      this.calciteInputEl.value,
+      this.locale,
+      shouldIncludeSeconds
+    );
+    this.setInputValue(
+      localizedInputValue || localizeTimeString(this.value, this.locale, shouldIncludeSeconds)
+    );
   };
 
   private calciteInputFocusHandler = (): void => {
@@ -158,12 +186,21 @@ export class CalciteInputTimePicker implements LabelableComponent {
   };
 
   private calciteInputInputHandler = (event: CustomEvent): void => {
-    this.setValue({ value: event.detail.value });
+    const target = event.target as HTMLCalciteTimePickerElement;
+    this.setValue({ value: target.value });
   };
+
+  @Listen("click")
+  clickHandler(event: MouseEvent): void {
+    if (event.composedPath().includes(this.calciteTimePickerEl)) {
+      return;
+    }
+    this.setFocus();
+  }
 
   @Listen("keyup")
   keyUpHandler(event: KeyboardEvent): void {
-    if (getKey(event.key) === "Escape" && this.active) {
+    if (event.key === "Escape" && this.active) {
       this.active = false;
     }
   }
@@ -175,21 +212,12 @@ export class CalciteInputTimePicker implements LabelableComponent {
     this.active = false;
   }
 
-  @Listen("calciteTimePickerChange")
-  timePickerChangeHandler(event: CustomEvent): void {
-    event.preventDefault();
+  private timePickerChangeHandler = (event: CustomEvent): void => {
     event.stopPropagation();
-    if (event.detail) {
-      const { hour, minute, second } = event.detail as Time;
-      let value;
-      if (hour && minute) {
-        value = second && this.step !== 60 ? `${hour}:${minute}:${second}` : `${hour}:${minute}`;
-      } else {
-        value = "";
-      }
-      this.setValue({ value, origin: "time-picker" });
-    }
-  }
+    const target = event.target as HTMLCalciteTimePickerElement;
+    const value = target.value;
+    this.setValue({ value, origin: "time-picker" });
+  };
 
   @Listen("calciteTimePickerFocus")
   timePickerFocusHandler(event: CustomEvent): void {
@@ -220,24 +248,23 @@ export class CalciteInputTimePicker implements LabelableComponent {
     this.setFocus();
   }
 
+  private shouldIncludeSeconds(): boolean {
+    return this.step < 60;
+  }
+
   private setCalciteInputEl = (el: HTMLCalciteInputElement): void => {
     this.calciteInputEl = el;
+  };
+
+  private setCalciteTimePickerEl = (el: HTMLCalciteTimePickerElement): void => {
+    this.calciteTimePickerEl = el;
   };
 
   private setInputValue = (newInputValue: string): void => {
     if (!this.calciteInputEl) {
       return;
     }
-    if (this.hourDisplayFormat === "12") {
-      const { hour, minute, second } = parseTimeString(newInputValue);
-      this.calciteInputEl.value = newInputValue
-        ? `${getMeridiemHour(hour)}:${minute}${this.step !== 60 ? ":" + second : ""} ${getMeridiem(
-            hour
-          )}`
-        : null;
-    } else {
-      this.calciteInputEl.value = newInputValue;
-    }
+    this.calciteInputEl.value = newInputValue;
   };
 
   private setValue = ({
@@ -248,7 +275,12 @@ export class CalciteInputTimePicker implements LabelableComponent {
     origin?: "input" | "time-picker" | "external" | "loading";
   }): void => {
     const previousValue = this.value;
-    const validatedNewValue = formatTimeString(value);
+    const newValue = formatTimeString(value);
+    const newLocalizedValue = localizeTimeString(
+      newValue,
+      this.locale,
+      this.shouldIncludeSeconds()
+    );
 
     this.internalValueChange = origin !== "external" && origin !== "loading";
 
@@ -256,22 +288,24 @@ export class CalciteInputTimePicker implements LabelableComponent {
       origin !== "loading" &&
       origin !== "external" &&
       ((value !== this.previousValidValue && !value) ||
-        !!(!this.previousValidValue && validatedNewValue) ||
-        (validatedNewValue !== this.previousValidValue && validatedNewValue));
+        !!(!this.previousValidValue && newValue) ||
+        (newValue !== this.previousValidValue && newValue));
 
     if (value) {
       if (shouldEmit) {
-        this.previousValidValue = validatedNewValue;
+        this.previousValidValue = newValue;
       }
-      if (validatedNewValue && validatedNewValue !== this.value) {
-        this.value = validatedNewValue;
+      if (newValue && newValue !== this.value) {
+        this.value = newValue;
       }
+      this.localizedValue = newLocalizedValue;
     } else {
       this.value = value;
+      this.localizedValue = null;
     }
 
     if (origin === "time-picker" || origin === "external") {
-      this.setInputValue(validatedNewValue);
+      this.setInputValue(newLocalizedValue);
     }
 
     if (shouldEmit) {
@@ -283,7 +317,7 @@ export class CalciteInputTimePicker implements LabelableComponent {
         this.setInputValue(previousValue);
         this.previousValidValue = previousValue;
       } else {
-        this.previousValidValue = validatedNewValue;
+        this.previousValidValue = newValue;
       }
     }
   };
@@ -296,19 +330,19 @@ export class CalciteInputTimePicker implements LabelableComponent {
 
   connectedCallback() {
     if (this.value) {
-      this.setValue({ value: this.value, origin: "loading" });
+      this.setValue({ value: isValidTime(this.value) ? this.value : undefined, origin: "loading" });
     }
     connectLabel(this);
+    connectForm(this);
   }
 
   componentDidLoad() {
-    if (this.calciteInputEl.value !== this.value) {
-      this.setInputValue(this.value);
-    }
+    this.setInputValue(this.localizedValue);
   }
 
   disconnectedCallback() {
     disconnectLabel(this);
+    disconnectForm(this);
   }
 
   // --------------------------------------------------------------------------
@@ -318,7 +352,6 @@ export class CalciteInputTimePicker implements LabelableComponent {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { hour, minute, second } = parseTimeString(this.value);
     const popoverId = `${this.referenceElementId}-popover`;
     return (
       <Host>
@@ -334,7 +367,6 @@ export class CalciteInputTimePicker implements LabelableComponent {
             disabled={this.disabled}
             icon="clock"
             label={getLabelText(this)}
-            name={this.name}
             onCalciteInputBlur={this.calciteInputBlurHandler}
             onCalciteInputFocus={this.calciteInputFocusHandler}
             onCalciteInputInput={this.calciteInputInputHandler}
@@ -350,8 +382,6 @@ export class CalciteInputTimePicker implements LabelableComponent {
           referenceElement={this.referenceElementId}
         >
           <calcite-time-picker
-            hour={hour}
-            hour-display-format={this.hourDisplayFormat}
             intlHour={this.intlHour}
             intlHourDown={this.intlHourDown}
             intlHourUp={this.intlHourUp}
@@ -364,12 +394,15 @@ export class CalciteInputTimePicker implements LabelableComponent {
             intlSecond={this.intlSecond}
             intlSecondDown={this.intlSecondDown}
             intlSecondUp={this.intlSecondUp}
-            minute={minute}
+            lang={this.locale}
+            onCalciteTimePickerChange={this.timePickerChangeHandler}
+            ref={this.setCalciteTimePickerEl}
             scale={this.scale}
-            second={second}
             step={this.step}
+            value={this.value}
           />
         </calcite-popover>
+        <HiddenFormInputSlot component={this} />
       </Host>
     );
   }

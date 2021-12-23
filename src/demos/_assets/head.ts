@@ -37,13 +37,6 @@
     document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", loadHeader) : loadHeader();
   }
 
-  // Assume server is running in a development environment if there is a port present in the URL and reload demo pages.
-  if (location.port) {
-    SCRIPTS.push({
-      src: `${ASSETS_PATH}/demoPageReloader.js`
-    });
-  }
-
   const ROOT = window.location.pathname.split(DEMO_ROOT).shift();
 
   function loadCss(url: string): void {

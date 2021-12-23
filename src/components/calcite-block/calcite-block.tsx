@@ -1,7 +1,6 @@
 import { Component, Element, Event, EventEmitter, h, Host, Prop, VNode } from "@stencil/core";
 import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
-import { CSS_UTILITY } from "../../utils/resources";
-import { getElementDir, getSlotted } from "../../utils/dom";
+import { getSlotted } from "../../utils/dom";
 import { CalciteHeading, HeadingLevel } from "../functional/CalciteHeading";
 import { Status } from "../interfaces";
 
@@ -159,32 +158,28 @@ export class CalciteBlock {
     return hasIcon ? <div class={CSS.icon}>{iconEl}</div> : null;
   }
 
+  renderTitle(): VNode {
+    const { heading, headingLevel, summary } = this;
+    return heading || summary ? (
+      <div class={CSS.title}>
+        <CalciteHeading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
+          {heading}
+        </CalciteHeading>
+        {summary ? <div class={CSS.summary}>{summary}</div> : null}
+      </div>
+    ) : null;
+  }
+
   render(): VNode {
-    const {
-      collapsible,
-      disabled,
-      el,
-      heading,
-      intlCollapse,
-      intlExpand,
-      loading,
-      open,
-      summary,
-      intlLoading,
-      headingLevel
-    } = this;
+    const { collapsible, disabled, el, intlCollapse, intlExpand, loading, open, intlLoading } =
+      this;
 
     const toggleLabel = open ? intlCollapse || TEXT.collapse : intlExpand || TEXT.expand;
 
     const headerContent = (
       <header class={CSS.header}>
         {this.renderIcon()}
-        <div class={CSS.title}>
-          <CalciteHeading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
-            {heading}
-          </CalciteHeading>
-          {summary ? <div class={CSS.summary}>{summary}</div> : null}
-        </div>
+        {this.renderTitle()}
       </header>
     );
 
@@ -231,15 +226,12 @@ export class CalciteBlock {
       </div>
     );
 
-    const rtl = getElementDir(el) === "rtl";
-
     return (
       <Host tabIndex={disabled ? -1 : null}>
         <article
           aria-busy={loading.toString()}
           class={{
-            [CSS.article]: true,
-            [CSS_UTILITY.rtl]: rtl
+            [CSS.article]: true
           }}
         >
           {headerNode}

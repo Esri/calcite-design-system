@@ -21,7 +21,7 @@
 }
 
 :host(:focus) a {
-  @apply focus-outset;
+  @apply focus-inset;
 }
 
 :host(:active),
@@ -48,14 +48,14 @@
   margin-inline-end: 1rem;
   a,
   span {
-    @apply text--2h py-1;
+    @apply text-n2h py-1;
   }
 }
 
 :host([scale="m"]) {
   a,
   span {
-    @apply text--1h py-2;
+    @apply text-n1h py-2;
   }
 }
 
@@ -80,7 +80,7 @@ span {
     flex
     justify-center
     text-color-3
-    text--1h
+    text-n1h
     transition-default
     px-0
     py-2;
@@ -101,33 +101,22 @@ span {
   }
 }
 
+.container--has-text {
+  @apply p-1;
+}
+
 .container--has-text .calcite-tab-title--icon.icon-start {
-  @apply mr-2;
+  margin-inline-end: theme("margin.2");
 }
 
 .container--has-text .calcite-tab-title--icon.icon-end {
-  @apply ml-2;
+  margin-inline-start: theme("margin.2");
 }
 
 // compensate for spacing when no hastext and two icons
 :host([icon-start][icon-end]) {
   .calcite-tab-title--icon:first-child {
-    @apply mr-2;
-  }
-}
-
-// right to left
-.container--has-text.calcite--rtl .calcite-tab-title--icon.icon-end {
-  @apply ml-0 mr-2;
-}
-
-.container--has-text.calcite--rtl .calcite-tab-title--icon.icon-start {
-  @apply ml-2 mr-0;
-}
-
-:host([icon-start][icon-end]) .calcite--rtl {
-  .calcite-tab-title--icon:first-child {
-    @apply ml-2 mr-0;
+    margin-inline-end: theme("margin.2");
   }
 }
 

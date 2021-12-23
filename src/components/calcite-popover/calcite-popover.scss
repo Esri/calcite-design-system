@@ -52,7 +52,7 @@
     relative
     flex
     overflow-hidden
-    flex-no-wrap
+    flex-nowrap
     flex-row
     h-full
     text-color-1
@@ -65,15 +65,11 @@
 .content {
   @apply flex
   flex-col
-  flex-no-wrap
+  flex-nowrap
   self-center
-  h-full;
-}
-
-.calcite--rtl {
-  .close-button {
-    border-radius: 0.25rem 0 0 0.25rem;
-  }
+  overflow-hidden
+  h-full
+  w-full;
 }
 
 ::slotted(calcite-panel),

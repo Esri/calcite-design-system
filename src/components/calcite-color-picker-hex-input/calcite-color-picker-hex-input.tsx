@@ -23,9 +23,8 @@ import Color from "color";
 import { CSS } from "./resources";
 import { Scale } from "../interfaces";
 import { RGB } from "../calcite-color-picker/interfaces";
-import { focusElement, getElementDir } from "../../utils/dom";
+import { focusElement } from "../../utils/dom";
 import { TEXT } from "../calcite-color-picker/resources";
-import { getKey } from "../../utils/key";
 
 const DEFAULT_COLOR = Color();
 
@@ -144,8 +143,8 @@ export class CalciteColorPickerHexInput {
    */
   @Event() calciteColorPickerHexInputChange: EventEmitter;
 
-  private onCalciteInputBlur = (event: Event): void => {
-    const node = event.currentTarget as HTMLCalciteInputElement;
+  private onCalciteInputBlur = (): void => {
+    const node = this.inputNode;
     const inputValue = node.value;
     const hex = `#${inputValue}`;
     const willClearValue = this.allowEmpty && !inputValue;
@@ -161,9 +160,8 @@ export class CalciteColorPickerHexInput {
         : this.formatForInternalInput(rgbToHex(this.internalColor.object() as any as RGB));
   };
 
-  private onInputChange = (event: Event): void => {
-    const node = event.currentTarget as HTMLCalciteInputElement;
-    const inputValue = node.value;
+  private onInputChange = (): void => {
+    const inputValue = this.inputNode.value;
     let value: this["value"];
 
     if (inputValue) {
@@ -187,8 +185,14 @@ export class CalciteColorPickerHexInput {
   @Listen("keydown", { capture: true })
   protected onInputKeyDown(event: KeyboardEvent): void {
     const { altKey, ctrlKey, metaKey, shiftKey } = event;
-    const { el, inputNode, internalColor, value } = this;
-    const key = getKey(event.key);
+    const { internalColor, value } = this;
+    const key = event.key;
+
+    if (key === "Tab" || key === "Enter") {
+      this.onInputChange();
+      return;
+    }
+
     const isNudgeKey = key === "ArrowDown" || key === "ArrowUp";
 
     if (isNudgeKey) {
@@ -208,19 +212,10 @@ export class CalciteColorPickerHexInput {
     }
 
     const withModifiers = altKey || ctrlKey || metaKey;
-    const exceededHexLength = inputNode.value.length >= 6;
-    const focusedElement = el.shadowRoot.activeElement as HTMLInputElement;
-    const hasTextSelection =
-      // can't use window.getSelection() because of FF bug: https://bugzilla.mozilla.org/show_bug.cgi?id=85686
-      focusedElement.selectionStart != focusedElement.selectionEnd;
     const singleChar = key.length === 1;
     const validHexChar = hexChar.test(key);
 
-    if (
-      singleChar &&
-      !withModifiers &&
-      (!validHexChar || (!hasTextSelection && exceededHexLength))
-    ) {
+    if (singleChar && !withModifiers && !validHexChar) {
       event.preventDefault();
     }
   }
@@ -247,18 +242,17 @@ export class CalciteColorPickerHexInput {
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    const { el, intlHex, value } = this;
+    const { intlHex, value } = this;
     const hexInputValue = this.formatForInternalInput(value);
-    const elementDir = getElementDir(el);
 
     return (
       <div class={CSS.container}>
         <calcite-input
           class={CSS.input}
-          dir={elementDir}
           label={intlHex}
+          maxLength={6}
           onCalciteInputBlur={this.onCalciteInputBlur}
-          onChange={this.onInputChange}
+          onCalciteInputChange={this.onInputChange}
           prefixText="#"
           ref={this.storeInputRef}
           scale={this.scale}

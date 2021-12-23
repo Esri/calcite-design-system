@@ -4,7 +4,7 @@
     block
     mb-1
     text-color-2
-    text--1;
+    text-n1;
 
   * {
     @apply box-border;
@@ -18,16 +18,12 @@
 @import "../../assets/styles/header";
 
 h3.heading {
-  @apply text--1-wrap
+  @apply text-n1-wrap
     text-color-3
     my-2
     mx-4;
 }
 
 .container--indented {
-  @apply ml-6;
-}
-
-.calcite--rtl.container--indented {
-  @apply ml-0 mr-6;
+  margin-inline-start: theme("margin.6");
 }

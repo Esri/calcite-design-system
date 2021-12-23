@@ -14,9 +14,9 @@ import {
 } from "@stencil/core";
 
 import { getElementDir } from "../../utils/dom";
-import { getKey } from "../../utils/key";
 import { Layout, Scale, Width } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
+import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { RadioAppearance } from "./interfaces";
 
 /**
@@ -27,7 +27,7 @@ import { RadioAppearance } from "./interfaces";
   styleUrl: "calcite-radio-group.scss",
   shadow: true
 })
-export class CalciteRadioGroup implements LabelableComponent {
+export class CalciteRadioGroup implements LabelableComponent, FormComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -48,6 +48,13 @@ export class CalciteRadioGroup implements LabelableComponent {
   /** is the radio group disabled  */
   @Prop({ reflect: true }) disabled = false;
 
+  /**
+   * When true, makes the component required for form-submission.
+   *
+   * @internal
+   */
+  @Prop({ reflect: true }) required = false;
+
   /** specify the layout of the radio group, defaults to horizontal */
   @Prop({ reflect: true }) layout: Layout = "horizontal";
 
@@ -56,13 +63,17 @@ export class CalciteRadioGroup implements LabelableComponent {
    */
   @Prop() name: string;
 
-  @Watch("name")
-  protected handleNameChange(value: string): void {
-    this.hiddenInput.name = value;
-  }
-
   /** The scale of the radio group */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  /** The value of the selectedItem */
+  @Prop({ mutable: true }) value: string = null;
+
+  @Watch("value")
+  valueHandler(value: string): void {
+    const items = this.getItems();
+    items.forEach((item) => (item.checked = item.value === value));
+  }
 
   /**
    * The group's selected item.
@@ -74,6 +85,7 @@ export class CalciteRadioGroup implements LabelableComponent {
     newItem: T,
     oldItem: T
   ): void {
+    this.value = newItem?.value;
     if (newItem === oldItem) {
       return;
     }
@@ -84,7 +96,6 @@ export class CalciteRadioGroup implements LabelableComponent {
 
     if (match) {
       this.selectItem(match);
-      this.calciteRadioGroupChange.emit(match.value);
     } else if (items[0]) {
       items[0].tabIndex = 0;
     }
@@ -99,7 +110,7 @@ export class CalciteRadioGroup implements LabelableComponent {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback(): void {
+  componentWillLoad(): void {
     const items = this.getItems();
     const lastChecked = Array.from(items)
       .filter((item) => item.checked)
@@ -110,32 +121,23 @@ export class CalciteRadioGroup implements LabelableComponent {
     } else if (items[0]) {
       items[0].tabIndex = 0;
     }
+  }
 
-    const { hiddenInput, name } = this;
-
-    if (name) {
-      hiddenInput.name = name;
-    }
-
-    if (lastChecked) {
-      hiddenInput.value = lastChecked.value;
-    }
-
+  connectedCallback(): void {
     connectLabel(this);
+    connectForm(this);
   }
 
   disconnectedCallback(): void {
     disconnectLabel(this);
-  }
-
-  componentDidLoad(): void {
-    this.hasLoaded = true;
+    disconnectForm(this);
   }
 
   render(): VNode {
     return (
       <Host onClick={this.handleClick} role="radiogroup" tabIndex={this.disabled ? -1 : null}>
         <slot />
+        <HiddenFormInputSlot component={this} />
       </Host>
     );
   }
@@ -148,24 +150,21 @@ export class CalciteRadioGroup implements LabelableComponent {
 
   protected handleClick = (event: MouseEvent): void => {
     if ((event.target as HTMLElement).localName === "calcite-radio-group-item") {
-      this.selectItem(event.target as HTMLCalciteRadioGroupItemElement);
+      this.selectItem(event.target as HTMLCalciteRadioGroupItemElement, true);
     }
   };
 
   @Listen("calciteRadioGroupItemChange")
   protected handleSelected(event: Event): void {
-    // only fire after initial setup to prevent semi-infinite loops
-    if (this.hasLoaded) {
-      event.stopPropagation();
-      event.preventDefault();
-      this.selectItem(event.target as HTMLCalciteRadioGroupItemElement);
-    }
+    event.stopPropagation();
+    event.preventDefault();
+    this.selectItem(event.target as HTMLCalciteRadioGroupItemElement);
   }
 
   @Listen("keydown")
   protected handleKeyDown(event: KeyboardEvent): void {
     const keys = ["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown", " "];
-    const key = getKey(event.key);
+    const key = event.key;
     const { el, selectedItem } = this;
 
     if (keys.indexOf(key) === -1) {
@@ -198,18 +197,18 @@ export class CalciteRadioGroup implements LabelableComponent {
         event.preventDefault();
         const previous =
           selectedIndex < 1 ? items.item(items.length - 1) : items.item(selectedIndex - 1);
-        this.selectItem(previous);
+        this.selectItem(previous, true);
         return;
       case "ArrowRight":
       case "ArrowDown":
         event.preventDefault();
         const next =
           selectedIndex === -1 ? items.item(1) : items.item(selectedIndex + 1) || items.item(0);
-        this.selectItem(next);
+        this.selectItem(next, true);
         return;
       case " ":
         event.preventDefault();
-        this.selectItem(event.target as HTMLCalciteRadioGroupItemElement);
+        this.selectItem(event.target as HTMLCalciteRadioGroupItemElement, true);
         return;
       default:
         return;
@@ -245,14 +244,9 @@ export class CalciteRadioGroup implements LabelableComponent {
 
   labelEl: HTMLCalciteLabelElement;
 
-  private hiddenInput: HTMLInputElement = (() => {
-    const input = document.createElement("input");
-    input.type = "hidden";
-    this.el.appendChild(input);
-    return input;
-  })();
+  formEl: HTMLFormElement;
 
-  private hasLoaded: boolean;
+  defaultValue: CalciteRadioGroup["value"];
 
   //--------------------------------------------------------------------------
   //
@@ -268,7 +262,7 @@ export class CalciteRadioGroup implements LabelableComponent {
     return this.el.querySelectorAll("calcite-radio-group-item");
   }
 
-  private selectItem(selected: HTMLCalciteRadioGroupItemElement): void {
+  private selectItem(selected: HTMLCalciteRadioGroupItemElement, emit = false): void {
     if (selected === this.selectedItem) {
       return;
     }
@@ -287,17 +281,16 @@ export class CalciteRadioGroup implements LabelableComponent {
 
       if (matches) {
         match = item;
+
+        if (emit) {
+          this.calciteRadioGroupChange.emit(match.value);
+        }
       }
     });
 
     this.selectedItem = match;
-    this.syncWithInputProxy(match);
     if (Build.isBrowser && match) {
       match.focus();
     }
-  }
-
-  private syncWithInputProxy(item: HTMLCalciteRadioGroupItemElement): void {
-    this.hiddenInput.value = item ? item.value : "";
   }
 }

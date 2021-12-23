@@ -3,8 +3,7 @@ import { CSS } from "./resources";
 import { getAncestors, getDepth } from "../calcite-combobox/utils";
 import { guid } from "../../utils/guid";
 import { ComboboxChildElement } from "../calcite-combobox/interfaces";
-import { getElementDir, getElementProp } from "../../utils/dom";
-import { CSS_UTILITY } from "../../utils/resources";
+import { getElementProp } from "../../utils/dom";
 import { Scale } from "../interfaces";
 
 /**
@@ -59,13 +58,12 @@ export class CalciteComboboxItemGroup {
 
   render(): VNode {
     const { el, scale } = this;
-    const dir = getElementDir(el);
     const indent = `${CSS.label}--indent-${getDepth(el)}`;
 
     return (
       <ul
         aria-labelledby={this.guid}
-        class={{ [CSS.list]: true, [CSS_UTILITY.rtl]: dir === "rtl", [`scale--${scale}`]: true }}
+        class={{ [CSS.list]: true, [`scale--${scale}`]: true }}
         role="group"
       >
         <li class={{ [CSS.label]: true, [indent]: true }} id={this.guid} role="presentation">

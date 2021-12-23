@@ -1,5 +1,5 @@
 export const CSS = {
-  sticky: "sticky"
+  sticky: "sticky-pos"
 };
 
 export enum ICON_TYPES {

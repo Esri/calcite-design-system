@@ -2,3 +2,5 @@
   @apply inline-block
     select-none;
 }
+
+@include hidden-form-input();

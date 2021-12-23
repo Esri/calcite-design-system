@@ -12,8 +12,8 @@ import {
   Watch
 } from "@stencil/core";
 import { DropdownPlacement, ItemKeyboardEvent } from "./interfaces";
-import { getKey } from "../../utils/key";
-import { focusElement, getElementDir } from "../../utils/dom";
+
+import { focusElement } from "../../utils/dom";
 import {
   createPopper,
   CSS as PopperCSS,
@@ -23,7 +23,6 @@ import {
 import { Instance as Popper, StrictModifiers } from "@popperjs/core";
 import { Scale } from "../interfaces";
 import { DefaultDropdownPlacement, SLOTS } from "./resources";
-import { CSS_UTILITY } from "../../utils/resources";
 import { createObserver } from "../../utils/observers";
 
 /**
@@ -131,12 +130,11 @@ export class CalciteDropdown {
 
   render(): VNode {
     const { active } = this;
-    const dir = getElementDir(this.el);
 
     return (
       <Host tabIndex={this.disabled ? -1 : null}>
         <div
-          class={{ ["calcite-dropdown-trigger-container"]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+          class="calcite-dropdown-trigger-container"
           onClick={this.openCalciteDropdown}
           onKeyDown={this.keyDownHandler}
           ref={this.setReferenceEl}
@@ -255,7 +253,7 @@ export class CalciteDropdown {
     const itemToFocus = target.nodeName !== "A" ? target : target.parentNode;
     const isFirstItem = this.itemIndex(itemToFocus) === 0;
     const isLastItem = this.itemIndex(itemToFocus) === this.items.length - 1;
-    switch (getKey(keyboardEvent.key)) {
+    switch (keyboardEvent.key) {
       case "Tab":
         if (isLastItem && !keyboardEvent.shiftKey) {
           this.closeCalciteDropdown();
@@ -314,7 +312,7 @@ export class CalciteDropdown {
 
   private referenceEl: HTMLDivElement;
 
-  private activeTransitionProp = "opacity";
+  private activeTransitionProp = "visibility";
 
   private scrollerEl: HTMLDivElement;
 
@@ -406,7 +404,7 @@ export class CalciteDropdown {
 
   private keyDownHandler = (e: KeyboardEvent): void => {
     const target = e.target as HTMLSlotElement;
-    const key = getKey(e.key);
+    const key = e.key;
     if (
       this.triggers.includes(target) ||
       this.triggers.some((trigger) => trigger.contains(target))
