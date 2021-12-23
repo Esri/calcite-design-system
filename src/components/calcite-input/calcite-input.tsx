@@ -288,7 +288,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
       if (isValidNumber(this.value)) {
         this.localizedValue = localizeNumberString(this.value, this.locale, this.groupSeparator);
       } else {
-        this.value = undefined;
+        this.value = "";
       }
     }
     connectLabel(this);
@@ -603,7 +603,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
   private setValue = (value: string, nativeEvent?: any, committing = false): void => {
     const previousValue = this.value;
 
-    this.value = this.type === "number" ? sanitizeNumberString(value) : value;
+    this.value = value; //= this.type === "number" ? sanitizeNumberString(value) : value;
 
     if (this.type === "number") {
       this.setLocalizedValue(this.value);
