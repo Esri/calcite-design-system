@@ -944,10 +944,10 @@ describe("calcite-input", () => {
 
       const element = await page.find("calcite-input");
       await element.callMethod("setFocus");
-      // remove extra hyphen after fixing https://github.com/Esri/calcite-components/issues/3766
-      await page.keyboard.type("--0.0005");
       await page.waitForChanges();
-      expect(await element.getProperty("value")).toBe("-0.0005");
+      await page.keyboard.type("-0.123");
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("-0.123");
     });
 
     it("disallows typing any letter or number with shift modifier key down", async () => {

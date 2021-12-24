@@ -39,7 +39,11 @@ export function sanitizeLeadingZeroString(zeroString: string): string {
 
 export function sanitizeNumberString(value: string): string {
   const sanitizedValue = sanitizeNegativeString(sanitizeDecimalString(sanitizeLeadingZeroString(value)));
-  return value ? (/^-0[.0]*$/.test(sanitizedValue) ? sanitizedValue : Number(sanitizedValue).toString()) : value;
+  return isValidNumber(sanitizedValue)
+    ? /^-0[.0]*$/.test(sanitizedValue)
+      ? sanitizedValue
+      : Number(sanitizedValue).toString()
+    : value;
 }
 
 function stringContainsNumbers(string: string): boolean {
