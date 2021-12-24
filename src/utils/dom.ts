@@ -27,7 +27,7 @@ export function getThemeName(el: HTMLElement): "light" | "dark" {
     el,
     `.${CSS_UTILITY.darkTheme}, .${CSS_UTILITY.lightTheme}`
   );
-  return closestElWithTheme.classList.contains("calcite-theme-dark") ? "dark" : "light";
+  return closestElWithTheme?.classList.contains("calcite-theme-dark") ? "dark" : "light";
 }
 
 export function getElementDir(el: HTMLElement): Direction {
