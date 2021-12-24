@@ -1,5 +1,5 @@
 :host {
-  @apply inline-flex justify-center items-center rounded-half overflow-hidden;
+  @apply inline-block rounded-half overflow-hidden;
 }
 
 :host([scale="s"]) {

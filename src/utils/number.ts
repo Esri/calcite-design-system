@@ -6,7 +6,7 @@ export function isValidNumber(numberString: string): boolean {
 
 export function parseNumberString(numberString?: string): string {
   if (!numberString || !stringContainsNumbers(numberString)) {
-    return null;
+    return "";
   }
   let containsDecimal = false;
   const result = numberString
