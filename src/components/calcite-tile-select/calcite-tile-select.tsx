@@ -13,9 +13,8 @@ import {
 } from "@stencil/core";
 import { Alignment, Width } from "../interfaces";
 import { TileSelectType } from "./interfaces";
-import { getElementDir } from "../../utils/dom";
-import { CSS_UTILITY } from "../../utils/resources";
 import { guid } from "../../utils/guid";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding custom content.
@@ -254,16 +253,44 @@ export class CalciteTileSelect {
   }
 
   render(): VNode {
-    const dir = getElementDir(this.el);
-
+    const {
+      checked,
+      description,
+      disabled,
+      focused,
+      heading,
+      icon,
+      inputAlignment,
+      inputEnabled,
+      width
+    } = this;
     return (
-      <div class={{ focused: this.focused, root: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+      <div
+        class={{
+          checked,
+          container: true,
+          [CSS.description]: Boolean(description),
+          [CSS.descriptionOnly]: Boolean(!heading && !icon && description),
+          disabled,
+          focused,
+          [CSS.heading]: Boolean(heading),
+          [CSS.headingOnly]: heading && !icon && !description,
+          [CSS.icon]: Boolean(icon),
+          [CSS.iconOnly]: !heading && icon && !description,
+          [CSS.inputAlignmentEnd]: inputAlignment === "end",
+          [CSS.inputAlignmentStart]: inputAlignment === "start",
+          [CSS.inputEnabled]: inputEnabled,
+          [CSS.largeVisual]: heading && icon && !description,
+          [CSS.widthAuto]: width === "auto",
+          [CSS.widthFull]: width === "full"
+        }}
+      >
         <calcite-tile
-          active={this.checked}
-          description={this.description}
+          active={checked}
+          description={description}
           embed
-          heading={this.heading}
-          icon={this.icon}
+          heading={heading}
+          icon={icon}
         />
         <slot />
       </div>

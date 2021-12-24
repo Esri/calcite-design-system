@@ -12,7 +12,7 @@ import {
   Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { focusElement, getElementStyleDir } from "../../utils/dom";
+import { focusElement, getElementDir } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
@@ -131,7 +131,9 @@ export class CalciteRadioButton implements LabelableComponent, CheckableFormComp
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    focusElement(this.containerEl);
+    if (!this.disabled) {
+      focusElement(this.containerEl);
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -237,6 +239,13 @@ export class CalciteRadioButton implements LabelableComponent, CheckableFormComp
     });
   }
 
+  private getTabIndex(): number | undefined {
+    if (this.disabled) {
+      return undefined;
+    }
+    return this.checked || this.isDefaultSelectable() ? 0 : -1;
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -302,7 +311,7 @@ export class CalciteRadioButton implements LabelableComponent, CheckableFormComp
 
     let adjustedKey = key;
 
-    if (getElementStyleDir(el) === "rtl") {
+    if (getElementDir(el) === "rtl") {
       if (key === "ArrowRight") {
         adjustedKey = "ArrowLeft";
       }
@@ -352,8 +361,10 @@ export class CalciteRadioButton implements LabelableComponent, CheckableFormComp
   };
 
   private onContainerFocus = (): void => {
-    this.focused = true;
-    this.calciteInternalRadioButtonFocus.emit();
+    if (!this.disabled) {
+      this.focused = true;
+      this.calciteInternalRadioButtonFocus.emit();
+    }
   };
 
   //--------------------------------------------------------------------------
@@ -373,7 +384,7 @@ export class CalciteRadioButton implements LabelableComponent, CheckableFormComp
   }
 
   componentDidLoad(): void {
-    if (this.focused) {
+    if (this.focused && !this.disabled) {
       this.setFocus();
     }
   }
@@ -390,6 +401,7 @@ export class CalciteRadioButton implements LabelableComponent, CheckableFormComp
   // --------------------------------------------------------------------------
 
   render(): VNode {
+    const tabIndex = this.getTabIndex();
     return (
       <Host onClick={this.clickHandler} onKeyDown={this.handleKeyDown}>
         <div
@@ -400,16 +412,9 @@ export class CalciteRadioButton implements LabelableComponent, CheckableFormComp
           onFocus={this.onContainerFocus}
           ref={this.setContainerEl}
           role="radio"
-          tabIndex={this.checked || this.isDefaultSelectable() ? 0 : -1}
+          tabIndex={tabIndex}
         >
-          <calcite-radio
-            checked={this.checked}
-            disabled={this.disabled}
-            focused={this.focused}
-            hidden={this.hidden}
-            hovered={this.hovered}
-            scale={this.scale}
-          />
+          <div class="radio" />
         </div>
         <HiddenFormInputSlot component={this} />
       </Host>

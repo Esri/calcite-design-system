@@ -60,7 +60,7 @@
 
 .label,
 .description {
-  @apply font-normal font-sans text--2 word-break;
+  @apply font-normal font-sans text-n2 word-break;
   &:only-child {
     @apply py-1 m-0;
   }

@@ -1,16 +1,16 @@
 :host {
   @extend %component-host;
-  @apply flex 
-    flex-auto 
-    overflow-hidden 
+  @apply flex
+    flex-auto
+    overflow-hidden
     bg-transparent;
 }
 
 .content {
-  @apply flex 
-    h-full 
-    m-0 
-    overflow-hidden 
+  @apply flex
+    h-full
+    m-0
+    overflow-hidden
     w-full;
   flex: 1 0 0;
 }
@@ -55,18 +55,8 @@
   @apply w-full h-full;
 }
 
-::slotted(calcite-action-bar) {
-  @apply border-r border-solid border-color-3;
-}
+::slotted(calcite-action-bar),
 ::slotted(calcite-action-bar[position="end"]) {
-  @apply border-l-0 border-r border-solid border-color-3;
-}
-
-.calcite--rtl {
-  ::slotted(calcite-action-bar) {
-    @apply border-r-0 border-l border-solid border-color-3;
-  }
-  ::slotted(calcite-action-bar[position="end"]) {
-    @apply border-l-0 border-r border-solid border-color-3;
-  }
+  border-inline-end: theme("borderWidth.DEFAULT") solid;
+  @apply border-color-3;
 }

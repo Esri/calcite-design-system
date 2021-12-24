@@ -40,12 +40,7 @@
 
 .wrapper {
   @apply inline-block;
-  margin-right: var(--calcite-rating-spacing-unit);
-}
-
-.calcite--rtl .wrapper {
-  @apply mr-0;
-  margin-left: var(--calcite-rating-spacing-unit);
+  margin-inline-end: var(--calcite-rating-spacing-unit);
 }
 
 .star {
@@ -85,13 +80,9 @@
   @apply absolute
     overflow-hidden
     pointer-events-none
-    top-0
-    left-0;
+    top-0;
   transition: $transition;
-}
-
-.calcite--rtl .fraction {
-  @apply right-0 left-auto;
+  inset-inline-start: 0;
 }
 
 // rating count
@@ -107,13 +98,8 @@ calcite-chip {
   @apply text-color-2;
   font-style: italic;
   &:not(:first-child) {
-    margin-left: var(--calcite-rating-spacing-unit);
+    margin-inline-start: var(--calcite-rating-spacing-unit);
   }
-}
-
-.calcite--rtl .number--count:not(:first-child) {
-  @apply ml-0;
-  margin-right: var(--calcite-rating-spacing-unit);
 }
 
 .visually-hidden {

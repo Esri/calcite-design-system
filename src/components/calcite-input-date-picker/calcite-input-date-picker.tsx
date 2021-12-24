@@ -14,7 +14,6 @@ import {
   Build
 } from "@stencil/core";
 import { getLocaleData, DateLocaleData } from "../calcite-date-picker/utils";
-import { getElementDir } from "../../utils/dom";
 import {
   dateFromRange,
   inRange,
@@ -109,10 +108,20 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
   @Prop({ mutable: true }) maxAsDate?: Date;
 
   /** Earliest allowed date ("yyyy-mm-dd") */
-  @Prop() min?: string;
+  @Prop({ mutable: true }) min?: string;
+
+  @Watch("min")
+  onMinChanged(min: string): void {
+    this.minAsDate = dateFromISO(min);
+  }
 
   /** Latest allowed date ("yyyy-mm-dd") */
-  @Prop() max?: string;
+  @Prop({ mutable: true }) max?: string;
+
+  @Watch("max")
+  onMaxChanged(max: string): void {
+    this.maxAsDate = dateFromISO(max);
+  }
 
   /** Expand or collapse when calendar does not have input */
   @Prop({ mutable: true, reflect: true }) active = false;
@@ -136,6 +145,11 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
    * @default "Next month"
    */
   @Prop() intlNextMonth?: string = TEXT.nextMonth;
+
+  /** Localized string for "year" (used for aria label)
+   * @default "Year"
+   */
+  @Prop() intlYear?: string = TEXT.year;
 
   /** BCP 47 language tag for desired language and country format */
   @Prop() locale?: string = document.documentElement.lang || "en";
@@ -283,6 +297,8 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
 
   async componentWillLoad(): Promise<void> {
     await this.loadLocaleData();
+    this.onMinChanged(this.min);
+    this.onMaxChanged(this.max);
   }
 
   disconnectedCallback(): void {
@@ -303,17 +319,11 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
       : null;
     const formattedEndDate = endDate ? endDate.toLocaleDateString(this.locale) : "";
     const formattedDate = date ? date.toLocaleDateString(this.locale) : "";
-    const dir = getElementDir(this.el);
 
     return (
       <Host onBlur={this.deactivate} onKeyUp={this.keyUpHandler} role="application">
         {this.localeData && (
-          <div
-            aria-expanded={this.active.toString()}
-            class="input-container"
-            dir={dir}
-            role="application"
-          >
+          <div aria-expanded={this.active.toString()} class="input-container" role="application">
             {
               <div class="input-wrapper" ref={this.setStartWrapper}>
                 <calcite-input
@@ -356,6 +366,7 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
                   headingLevel={this.headingLevel}
                   intlNextMonth={this.intlNextMonth}
                   intlPrevMonth={this.intlPrevMonth}
+                  intlYear={this.intlYear}
                   locale={this.locale}
                   max={this.max}
                   maxAsDate={this.maxAsDate}
@@ -388,7 +399,7 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
                 <calcite-input
                   class={{
                     input: true,
-                    "border-t-color-1": this.layout === "vertical" && this.range
+                    "border-top-color-one": this.layout === "vertical" && this.range
                   }}
                   disabled={disabled}
                   icon="calendar"

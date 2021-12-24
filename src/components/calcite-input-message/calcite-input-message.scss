@@ -12,24 +12,11 @@
 }
 
 :host {
-  @apply flex
-    items-center
-    w-full
-    box-border
-    text-color-1
-    font-medium
-    invisible
-    h-0
-    pointer-events-none
-    opacity-0
-    transition-default;
+  @apply flex items-center w-full box-border text-color-1 font-medium invisible h-0 pointer-events-none opacity-0 transition-default;
 }
 
 :host([active]) {
-  @apply h-auto
-    visible
-    opacity-100
-    transition-default;
+  @apply h-auto visible opacity-100 transition-default;
 }
 
 :host([active][scale="m"]),
@@ -41,12 +28,8 @@
   @apply inline-flex
     flex-shrink-0
     pointer-events-none
-    mr-2
     transition-default;
-}
-
-.calcite-input-message-icon.calcite--rtl {
-  @apply ml-2 mr-0;
+  margin-inline-end: theme("margin.2");
 }
 
 :host([status="invalid"]) .calcite-input-message-icon {
@@ -67,20 +50,19 @@
 
 // Validation Text
 :host([status][active]) {
-  @apply text-color-1 
+  @apply text-color-1
     font-medium;
 }
 
 :host([status][active][scale="s"]) {
-  @apply text--3h;
+  @apply text-n3h;
 }
 
 :host([status][active][scale="m"]) {
-  @apply text--2h
+  @apply text-n2h
     mt-1;
 }
 
 :host([status][active][scale="l"]) {
-  @apply text--1h
-    mt-1;
+  @apply text-n1h mt-1;
 }

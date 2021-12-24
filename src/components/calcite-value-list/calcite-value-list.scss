@@ -8,7 +8,7 @@
     flex-shrink-0
     flex-grow-0
     text-color-2
-    text--1;
+    text-n1;
   * {
     @apply box-border;
   }
@@ -24,7 +24,7 @@ calcite-value-list-item:last-of-type {
     justify-end
     items-center
     mb-1;
-  &.sticky {
+  &.sticky-pos {
     @apply sticky top-0 z-10;
   }
   @apply shadow-border-bottom;

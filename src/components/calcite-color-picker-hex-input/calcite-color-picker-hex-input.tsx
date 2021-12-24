@@ -23,7 +23,7 @@ import Color from "color";
 import { CSS } from "./resources";
 import { Scale } from "../interfaces";
 import { RGB } from "../calcite-color-picker/interfaces";
-import { focusElement, getElementDir } from "../../utils/dom";
+import { focusElement } from "../../utils/dom";
 import { TEXT } from "../calcite-color-picker/resources";
 
 const DEFAULT_COLOR = Color();
@@ -242,15 +242,13 @@ export class CalciteColorPickerHexInput {
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    const { el, intlHex, value } = this;
+    const { intlHex, value } = this;
     const hexInputValue = this.formatForInternalInput(value);
-    const elementDir = getElementDir(el);
 
     return (
       <div class={CSS.container}>
         <calcite-input
           class={CSS.input}
-          dir={elementDir}
           label={intlHex}
           maxLength={6}
           onCalciteInputBlur={this.onCalciteInputBlur}

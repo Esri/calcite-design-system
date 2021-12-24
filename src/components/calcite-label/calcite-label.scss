@@ -1,11 +1,9 @@
-:host([alignment="start"]),
-:host([alignment="end"]) .calcite--rtl {
-  @apply text-left;
+:host([alignment="start"]) {
+  text-align: start;
 }
 
-:host([alignment="end"]),
-:host([alignment="start"]) .calcite--rtl {
-  @apply text-right;
+:host([alignment="end"]) {
+  text-align: end;
 }
 
 :host([alignment="center"]) {
@@ -14,12 +12,12 @@
 
 :host([scale="s"]) {
   .container {
-    @apply text--2h mb-2;
+    @apply text-n2h mb-2;
   }
 }
 :host([scale="m"]) {
   .container {
-    @apply text--1h mb-3;
+    @apply text-n1h mb-3;
   }
 }
 :host([scale="l"]) {
@@ -30,7 +28,6 @@
 
 :host .container {
   @apply text-color-1
-    cursor-pointer
     w-full
     mt-0
     mr-0

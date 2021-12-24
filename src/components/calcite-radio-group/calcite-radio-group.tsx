@@ -13,7 +13,7 @@ import {
   VNode
 } from "@stencil/core";
 
-import { getElementStyleDir } from "../../utils/dom";
+import { getElementDir } from "../../utils/dom";
 import { Layout, Scale, Width } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
@@ -173,7 +173,7 @@ export class CalciteRadioGroup implements LabelableComponent, FormComponent {
 
     let adjustedKey = key;
 
-    if (getElementStyleDir(el) === "rtl") {
+    if (getElementDir(el) === "rtl") {
       if (key === "ArrowRight") {
         adjustedKey = "ArrowLeft";
       }

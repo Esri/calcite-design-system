@@ -8,24 +8,24 @@
 
 :host {
   @extend %component-host;
-  @apply w-full 
-    h-full 
-    absolute 
-    flex 
-    flex-col 
+  @apply w-full
+    h-full
+    absolute
+    flex
+    flex-col
     overflow-hidden
     inset-0;
   --calcite-shell-tip-spacing: 26vw;
 }
 
 .main {
-  @apply h-full 
-    w-full 
-    flex-auto 
-    flex 
-    flex-row 
+  @apply h-full
+    w-full
+    flex-auto
+    flex
+    flex-row
     relative
-    justify-between 
+    justify-between
     overflow-hidden;
 }
 
@@ -36,9 +36,9 @@
 .content {
   @apply flex
     flex-col
-    flex-no-wrap
-    h-full 
-    overflow-auto 
+    flex-nowrap
+    h-full
+    overflow-auto
     w-full;
 }
 
@@ -50,8 +50,8 @@
 }
 
 .content--behind {
-  @apply border-0 
-    absolute 
+  @apply border-0
+    absolute
     inset-0
     z-0;
   display: initial;
@@ -62,7 +62,7 @@
 }
 
 ::slotted(.header .heading) {
-  @apply font-normal text--2-wrap;
+  @apply font-normal text-n2-wrap;
 }
 
 ::slotted(calcite-shell-panel),
