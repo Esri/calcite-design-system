@@ -239,9 +239,9 @@ export class CalciteRadioButton implements LabelableComponent, CheckableFormComp
     });
   }
 
-  private getTabIndex(): number {
+  private getTabIndex(): number | undefined {
     if (this.disabled) {
-      return;
+      return undefined;
     }
     return this.checked || this.isDefaultSelectable() ? 0 : -1;
   }
