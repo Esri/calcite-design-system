@@ -945,9 +945,9 @@ describe("calcite-input", () => {
       const element = await page.find("calcite-input");
       await element.callMethod("setFocus");
       await page.waitForChanges();
-      await page.keyboard.type("-0.123");
+      await page.keyboard.type("-0.001");
       await page.waitForChanges();
-      expect(await element.getProperty("value")).toBe("-0.123");
+      expect(await element.getProperty("value")).toBe("-0.001");
     });
 
     it("disallows typing any letter or number with shift modifier key down", async () => {
