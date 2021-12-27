@@ -38,7 +38,8 @@
 }
 
 :host([non-interactive]) .label,
-:host([non-interactive]) .icon {
+:host([non-interactive]) .icon,
+:host([non-interactive]) .content--select {
   @apply pointer-events-none;
 }
 
@@ -115,7 +116,8 @@
     cursor-pointer
     focus-base
     w-full
-    h-full;
+    h-full
+    absolute;
   &:focus {
     @apply focus-inset;
   }
@@ -125,9 +127,8 @@
 }
 
 .content--slot {
-  @apply absolute
-  my-2
-  mx-3;
+  @apply py-2
+  px-3;
 }
 
 :host([non-interactive]) .content {
