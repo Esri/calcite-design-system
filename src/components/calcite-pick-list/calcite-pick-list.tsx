@@ -148,7 +148,6 @@ export class CalcitePickList<
 
   @Listen("calciteListItemChange")
   calciteListItemChangeHandler(event: CustomEvent): void {
-    console.log("ITEM CHANGE");
     calciteListItemChangeHandler.call(this, event);
   }
 
