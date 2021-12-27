@@ -4,9 +4,10 @@ import { defaults, renders } from "../../tests/commonTests";
 describe("calcite-tab", () => {
   const tabHtml = "<calcite-tab>A tab</calcite-tab>";
 
-  it("renders", () => renders("calcite-tab", { display: "none", visible: false }));
-
-  it("renders: active", () => renders("<calcite-tab active></calcite-tab>", { display: "block", visible: true }));
+  it("renders", async () => {
+    await renders("calcite-tab", { display: "none", visible: false });
+    await renders("<calcite-tab active></calcite-tab>", { display: "block", visible: true });
+  });
 
   it("has defaults", async () =>
     defaults("calcite-tab", [

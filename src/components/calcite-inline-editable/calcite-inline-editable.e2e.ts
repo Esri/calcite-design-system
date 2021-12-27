@@ -7,11 +7,11 @@ import { html } from "../../tests/utils";
 describe("calcite-inline-editable", () => {
   it("renders", () =>
     renders(
-      `
-  <calcite-inline-editable>
-    <calcite-input/>
-  </calcite-inline-editable>
-  `,
+      html`
+        <calcite-inline-editable>
+          <calcite-input />
+        </calcite-inline-editable>
+      `,
       { display: "block" }
     ));
 
