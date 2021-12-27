@@ -1,132 +1,132 @@
 $spacing: $baseline * 0.5;
 
-.root {
-  background-color: var(--calcite-ui-foreground-1);
-  box-shadow: 0 0 0 1px var(--calcite-ui-border-2);
-  box-sizing: border-box;
-  cursor: pointer;
-  display: inline-block;
-  height: 100%;
-  max-width: 300px;
-  padding: $spacing;
-  position: relative;
-  transition: $transition;
-  vertical-align: top;
-  @apply z-10;
-}
-
 :host {
   @apply block;
+
+  .container {
+    background-color: var(--calcite-ui-foreground-1);
+    box-shadow: 0 0 0 1px var(--calcite-ui-border-2);
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-block;
+    height: 100%;
+    max-width: 300px;
+    padding: $spacing;
+    position: relative;
+    transition: $transition;
+    vertical-align: top;
+    @apply z-10;
+
+    &.checked {
+      @apply z-30;
+      box-shadow: 0 0 0 1px var(--calcite-ui-brand);
+    }
+
+    &.heading-only {
+      align-items: center;
+    }
+
+    &:not(.input-enabled) {
+      ::slotted(calcite-checkbox),
+      ::slotted(calcite-radio-button) {
+        @apply sr-only;
+      }
+    }
+
+    &.focused {
+      &:not(.disabled) {
+        @apply z-30;
+        &:not(.input-enabled) {
+          box-shadow: 0 0 0 1px var(--calcite-ui-brand), inset 0 0 0 2px var(--calcite-ui-foreground-1),
+            inset 0 0 0 5px var(--calcite-ui-brand);
+        }
+      }
+    }
+
+    &.input-enabled {
+      &.input-alignment-start {
+        &.width-auto {
+          &.heading-only,
+          &.icon-only,
+          &.description-only,
+          &.heading.description,
+          &.icon.description,
+          &.heading.icon.description {
+            display: inline-grid;
+            grid-template-columns: max-content 1fr;
+          }
+        }
+        &.heading-only,
+        &.icon-only,
+        &.description-only,
+        &.heading.description,
+        &.icon.description,
+        &.heading.icon.description {
+          gap: $spacing;
+        }
+        calcite-tile {
+          @apply order-1;
+        }
+        &.large-visual {
+          ::slotted(calcite-checkbox),
+          ::slotted(calcite-radio-button) {
+            position: absolute;
+            inset-block-start: $spacing;
+            inset-inline-start: $spacing;
+          }
+        }
+      }
+      &.input-alignment-end {
+        &.width-auto {
+          &.heading-only,
+          &.icon-only {
+            display: inline-grid;
+            grid-gap: $spacing;
+            grid-template-columns: max-content 1fr;
+          }
+        }
+        &.heading-only,
+        &.icon-only {
+          gap: $spacing;
+        }
+        &.description-only,
+        &.heading.description,
+        &.icon.description,
+        &.heading.icon.description {
+          ::slotted(calcite-checkbox),
+          ::slotted(calcite-radio-button) {
+            position: absolute;
+            inset-block-start: $spacing;
+            inset-inline-end: $spacing;
+          }
+        }
+        &.large-visual {
+          ::slotted(calcite-checkbox),
+          ::slotted(calcite-radio-button) {
+            position: absolute;
+            inset-block-start: $spacing;
+            inset-inline-end: $spacing;
+          }
+        }
+      }
+    }
+
+    &.width-full {
+      @apply max-w-none flex;
+      calcite-tile {
+        @apply flex-auto;
+      }
+    }
+  }
 }
 
 :host(:hover) {
-  .root {
+  .container {
     @apply z-20;
-    box-shadow: 0 0 0 1px var(--calcite-ui-border-1);
+    &:not(.input-enabled) {
+      box-shadow: 0 0 0 1px var(--calcite-ui-brand);
+    }
   }
-}
-
-:host([checked]) {
-  .root {
-    @apply z-30;
-    box-shadow: 0 0 0 1px var(--calcite-ui-brand);
-  }
-}
-
-.root.focused {
-  @apply z-30;
-}
-
-:host(:not([input-enabled]):hover) {
-  .root {
-    box-shadow: 0 0 0 1px var(--calcite-ui-brand);
-  }
-}
-
-:host(:not([input-enabled])) {
-  .root.focused {
-    box-shadow: 0 0 0 1px var(--calcite-ui-brand), inset 0 0 0 2px var(--calcite-ui-foreground-1),
-      inset 0 0 0 5px var(--calcite-ui-brand);
-  }
-}
-
-:host([width="full"]) {
-  .root {
-    @apply max-w-none flex;
-  }
-  calcite-tile {
-    @apply flex-auto;
-  }
-}
-
-:host([input-alignment="start"][width="full"]) {
-  calcite-tile {
-    @apply order-1;
-    margin-inline-start: theme("spacing.3");
-  }
-}
-
-:host(:not([input-enabled])) {
-  ::slotted(calcite-checkbox),
-  ::slotted(calcite-radio-button) {
-    @apply sr-only;
-  }
-}
-
-:host([heading]:not([icon]):not([description])) {
-  .root {
-    align-items: center;
-  }
-}
-
-:host([width="auto"][input-enabled][input-alignment="start"][icon][heading][description]),
-:host([width="auto"][input-enabled][input-alignment="start"]:not([icon])[heading]:not([description])) {
-  .root {
-    display: inline-grid;
-    grid-gap: $spacing;
-    grid-template-columns: max-content 1fr;
-  }
-  ::slotted(calcite-checkbox),
-  ::slotted(calcite-radio-button) {
-    order: 0;
-  }
-  calcite-tile {
-    order: 1;
-  }
-}
-
-:host([input-enabled][input-alignment="start"][icon][heading]:not([description])) {
-  ::slotted(calcite-checkbox),
-  ::slotted(calcite-radio-button) {
-    position: absolute;
-    top: $spacing;
-    inset-inline-start: $spacing;
-  }
-}
-
-:host([input-enabled][input-alignment="end"][icon][heading]) {
-  ::slotted(calcite-checkbox),
-  ::slotted(calcite-radio-button) {
-    position: absolute;
-    top: $spacing;
-    inset-inline-end: $spacing;
-  }
-}
-
-:host([input-enabled][input-alignment="end"][heading]:not([icon]):not([description])) {
-  .root {
-    display: inline-grid;
-    grid-gap: $spacing;
-    grid-template-columns: max-content 1fr;
-  }
-  ::slotted(calcite-checkbox),
-  ::slotted(calcite-radio-button) {
-    justify-self: flex-end;
-  }
-}
-
-:host([hidden]) {
-  display: none;
 }
 
 :host([disabled]) {
