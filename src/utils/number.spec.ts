@@ -20,17 +20,17 @@ describe("isValidNumber", () => {
 
 describe("parseNumberString", () => {
   it("returns null for string values that can't compute to a number", () => {
-    expect(parseNumberString()).toBe(null);
-    expect(parseNumberString("")).toBe(null);
-    expect(parseNumberString(undefined)).toBe(null);
-    expect(parseNumberString(null)).toBe(null);
-    expect(parseNumberString("text only")).toBe(null);
+    expect(parseNumberString()).toBe("");
+    expect(parseNumberString(null)).toBe("");
+    expect(parseNumberString(undefined)).toBe("");
+    expect(parseNumberString("")).toBe("");
+    expect(parseNumberString("text only")).toBe("");
 
     const lettersAndSymbols = "kjas;lkjwo;aiej(*&,asd;flkj-";
     const lettersAndSymbolsWithLeadingNegativeSign = "-ASDF(*^LKJihsdf*&^";
 
-    expect(parseNumberString(lettersAndSymbols)).toBe(null);
-    expect(parseNumberString(lettersAndSymbolsWithLeadingNegativeSign)).toBe(null);
+    expect(parseNumberString(lettersAndSymbols)).toBe("");
+    expect(parseNumberString(lettersAndSymbolsWithLeadingNegativeSign)).toBe("");
   });
 
   it("returns valid number string for string values that compute to a valid number", () => {
