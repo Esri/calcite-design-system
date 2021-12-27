@@ -216,7 +216,6 @@ export function setUpItems<T extends Lists>(
   const { items } = this;
 
   items.forEach((item) => {
-    console.log("ITEMS", item.value);
     item.icon = this.getIconType();
     if (!this.multiple) {
       item.disableDeselect = true;
