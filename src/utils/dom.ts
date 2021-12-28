@@ -139,8 +139,8 @@ const defaultSlotSelector = "> :not([slot])";
 
 export function getSlotted<T extends Element = Element>(
   element: Element,
-  slotName?: string,
-  options?: GetSlottedOptions & { all: true }
+  slotName: string,
+  options: GetSlottedOptions & { all: true }
 ): T[];
 export function getSlotted<T extends Element = Element>(
   element: Element,
