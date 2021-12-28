@@ -58,14 +58,20 @@ describe("sanitizeNumberString", () => {
   it("sanitizes leading zeros, multiple dashes, and trailing decimals", () => {
     const stringWithMultipleDashes = "1--2-34----";
     const negativeStringWithMultipleDashes = "---1--23--4---";
-    const stringWithLeadingZeros = "0000000";
+    const stringWithOnlyZeros = "0000000";
+    const stringWithLeadingZeros = "00000001";
+    const negativeStringWithLeadingZeros = "-00001";
+    const negativeDecimalStringWithLeadingZeros = "-00001.0001";
     const stringWithoutLeadingZeros = "10000000";
     const stringWithTrailingDecimal = "123.";
     const stringWithDecimal = "123.45";
 
     expect(sanitizeNumberString(stringWithMultipleDashes)).toBe("1234");
     expect(sanitizeNumberString(negativeStringWithMultipleDashes)).toBe("-1234");
-    expect(sanitizeNumberString(stringWithLeadingZeros)).toBe("0");
+    expect(sanitizeNumberString(stringWithOnlyZeros)).toBe("0");
+    expect(sanitizeNumberString(stringWithLeadingZeros)).toBe("1");
+    expect(sanitizeNumberString(negativeStringWithLeadingZeros)).toBe("-1");
+    expect(sanitizeNumberString(negativeDecimalStringWithLeadingZeros)).toBe("-1.0001");
     expect(sanitizeNumberString(stringWithoutLeadingZeros)).toBe("10000000");
     expect(sanitizeNumberString(stringWithTrailingDecimal)).toBe("123");
     expect(sanitizeNumberString(stringWithDecimal)).toBe("123.45");
