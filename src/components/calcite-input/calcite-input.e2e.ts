@@ -953,6 +953,19 @@ describe("calcite-input", () => {
       expect(calciteInputInput).toHaveReceivedEventTimes(1);
     });
 
+    it("allows typing negative decimal values", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+      <calcite-input type="number"></calcite-input>
+      `);
+      const element = await page.find("calcite-input");
+      await element.callMethod("setFocus");
+      await page.waitForChanges();
+      await page.keyboard.type("-0.001");
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("-0.001");
+    });
+
     it("sanitize leading zeros from number input value", async () => {
       const page = await newE2EPage();
       await page.setContent(`
@@ -961,6 +974,7 @@ describe("calcite-input", () => {
 
       const element = await page.find("calcite-input");
       await element.callMethod("setFocus");
+
       await page.keyboard.type("0000000");
       await page.waitForChanges();
       expect(await element.getProperty("value")).toBe("0");

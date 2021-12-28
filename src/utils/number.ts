@@ -6,7 +6,7 @@ export function isValidNumber(numberString: string): boolean {
 
 export function parseNumberString(numberString?: string): string {
   if (!numberString || !stringContainsNumbers(numberString)) {
-    return null;
+    return "";
   }
 
   return sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string => {
@@ -29,23 +29,31 @@ export function parseNumberString(numberString?: string): string {
 }
 
 export function sanitizeDecimalString(decimalString: string): string {
-  return decimalString?.endsWith(".") ? decimalString.replace(".", "") : decimalString;
+  const decimalAtEndOfStringButNotStart = /(?!^\.)\.$/;
+  return decimalString.replace(decimalAtEndOfStringButNotStart, "");
 }
 
 export function sanitizeNegativeString(negativeString: string): string {
-  return negativeString.charAt(0) + negativeString.substring(1).replace(/-/g, "");
+  const allHyphensExceptTheStart = /(?!^-)-/g;
+  return negativeString.replace(allHyphensExceptTheStart, "");
 }
 
 export function sanitizeLeadingZeroString(zeroString: string): string {
-  return zeroString.replace(/^0+/, "0");
+  const allLeadingZerosOptionallyNegative = /^([-0])0+(?=\d)/;
+  return zeroString.replace(allLeadingZerosOptionallyNegative, "$1");
 }
 
 export function sanitizeNumberString(numberString: string): string {
-  return sanitizeExponentialNumberString(numberString, (nonExpoNumString) =>
-    nonExpoNumString
-      ? Number(sanitizeNegativeString(sanitizeDecimalString(sanitizeLeadingZeroString(nonExpoNumString)))).toString()
-      : nonExpoNumString
-  );
+  return sanitizeExponentialNumberString(numberString, (nonExpoNumString) => {
+    const sanitizedValue = sanitizeNegativeString(sanitizeDecimalString(sanitizeLeadingZeroString(nonExpoNumString)));
+    const isNegativeDecimalOnlyZeros = /^-\b0\b\.?0*$/;
+
+    return isValidNumber(sanitizedValue)
+      ? isNegativeDecimalOnlyZeros.test(sanitizedValue)
+        ? sanitizedValue
+        : Number(sanitizedValue).toString()
+      : nonExpoNumString;
+  });
 }
 
 export function sanitizeExponentialNumberString(numberString: string, func: (s: string) => string): string {
