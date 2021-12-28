@@ -137,20 +137,20 @@ interface GetSlottedOptions {
 
 export function getSlotted<T extends Element = Element>(
   element: Element,
-  slotName: string,
-  options: GetSlottedOptions & { all: true }
+  slotName?: string,
+  options?: GetSlottedOptions & { all: true }
 ): T[];
 export function getSlotted<T extends Element = Element>(
   element: Element,
-  slotName: string,
+  slotName?: string,
   options?: GetSlottedOptions
 ): T | null;
 export function getSlotted<T extends Element = Element>(
   element: Element,
-  slotName: string,
+  slotName?: string,
   options?: GetSlottedOptions
 ): (T | null) | T[] {
-  const slotSelector = `[slot="${slotName}"]`;
+  const slotSelector = !!slotName ? `[slot="${slotName}"]` : ":not([slot])";
 
   if (options?.all) {
     return queryMultiple<T>(element, slotSelector, options);
@@ -185,7 +185,7 @@ function querySingle<T extends Element = Element>(
   match = options && options.direct === false ? match : match?.parentElement === element ? match : null;
 
   const selector = options?.selector;
-  return selector ? match.querySelector<T>(selector) : match;
+  return selector ? match?.querySelector<T>(selector) : match;
 }
 
 export function filterDirectChildren<T extends Element>(el: Element, selector: string): T[] {

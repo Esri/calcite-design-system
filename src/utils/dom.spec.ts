@@ -1,3 +1,4 @@
+import { html } from "../tests/utils";
 import { getElementProp, getSlotted, setRequestedIcon, ensureId } from "./dom";
 import { guidPattern } from "./guid.spec";
 
@@ -98,7 +99,10 @@ describe("dom", () => {
         }
 
         connectedCallback(): void {
-          this.shadowRoot.innerHTML = `<slot name="${testSlotName}"></slot>`;
+          this.shadowRoot.innerHTML = html`
+            <slot name="${testSlotName}"></slot>
+            <slot></slot>
+          `;
         }
       }
 
@@ -115,6 +119,7 @@ describe("dom", () => {
           <span>🙂</span>
         </h2>
         <h2 slot=${testSlotName}><span>😂</span></h2>
+        <p>Hello world</p>
       </slot-test>
     `;
     });
@@ -126,6 +131,9 @@ describe("dom", () => {
       it("returns null when no results", () => expect(getSlotted(getTestComponent(), "non-existent-slot")).toBeNull());
 
       describe("scoped selector", () => {
+        it("returns element with matching default selector", () =>
+          expect(getSlotted(getTestComponent(), null, { selector: "p" })).toBeTruthy());
+
         it("returns element with matching nested selector", () =>
           expect(getSlotted(getTestComponent(), testSlotName, { selector: "span" })).toBeTruthy());
 
