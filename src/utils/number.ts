@@ -26,20 +26,28 @@ export function parseNumberString(numberString?: string): string {
 }
 
 export function sanitizeDecimalString(decimalString: string): string {
-  return decimalString?.endsWith(".") ? decimalString.replace(".", "") : decimalString;
+  const decimalAtEndOfStringButNotStart = /(?!^\.)\.$/;
+  return decimalString.replace(decimalAtEndOfStringButNotStart, "");
 }
 
 export function sanitizeNegativeString(negativeString: string): string {
-  return negativeString.charAt(0) + negativeString.substring(1).replace(/-/g, "");
+  const allHyphensExceptTheStart = /(?!^-)-/g;
+  return negativeString.replace(allHyphensExceptTheStart, "");
 }
 
 export function sanitizeLeadingZeroString(zeroString: string): string {
-  return zeroString.replace(/^0+$/, "0");
+  const allLeadingZerosOptionallyNegative = /^([-0])0+(?=\d)/;
+  return zeroString.replace(allLeadingZerosOptionallyNegative, "$1");
 }
 
 export function sanitizeNumberString(value: string): string {
-  return value
-    ? Number(sanitizeNegativeString(sanitizeDecimalString(sanitizeLeadingZeroString(value)))).toString()
+  const sanitizedValue = sanitizeNegativeString(sanitizeDecimalString(sanitizeLeadingZeroString(value)));
+  const isNegativeDecimalOnlyZeros = /^-\b0\b\.?0*$/;
+
+  return isValidNumber(sanitizedValue)
+    ? isNegativeDecimalOnlyZeros.test(sanitizedValue)
+      ? sanitizedValue
+      : Number(sanitizedValue).toString()
     : value;
 }
 
