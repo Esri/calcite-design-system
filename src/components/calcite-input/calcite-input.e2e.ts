@@ -765,20 +765,6 @@ describe("calcite-input", () => {
       expect(await page.evaluate(() => document.activeElement.getAttribute("label"))).toEqual("one");
     });
 
-    it("allows typing redundant zeros", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html` <calcite-input type="number"></calcite-input> `);
-      const calciteInput = await page.find("calcite-input");
-      const input = await page.find("calcite-input >>> input");
-
-      await calciteInput.callMethod("setFocus");
-      await page.keyboard.type("00000");
-      await page.waitForChanges();
-
-      expect(await calciteInput.getProperty("value")).toBe("0");
-      expect(await input.getProperty("value")).toBe("00000");
-    });
-
     it("typing zero and then a non-zero number sets and emits the non-zero number", async () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-input type="number"></calcite-input>`);
