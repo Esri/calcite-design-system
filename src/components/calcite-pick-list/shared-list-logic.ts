@@ -13,6 +13,7 @@ export type ListFocusId = "filter";
 export function mutationObserverCallback<T extends Lists>(this: List<T>): void {
   this.setUpItems();
   this.setUpFilter();
+  this.deselectRemovedItems();
 }
 
 const SUPPORTED_ARROW_KEYS = ["ArrowUp", "ArrowDown"];
@@ -228,16 +229,6 @@ export function setUpItems<T extends Lists>(
     }
   });
 
-  // remove items from selectedValues if the item doesn't exist in the list
-  const selectedValues = this.selectedValues as Map<string, ListItemElement<T>>;
-  const itemValues = items.map(({ value }) => value);
-
-  selectedValues.forEach((selectedItem) => {
-    if (!itemValues.includes(selectedItem.value)) {
-      this.selectedValues.delete(selectedItem.value);
-    }
-  });
-
   const [first] = items;
 
   if (!hasSelected && first) {
@@ -249,6 +240,17 @@ export function setUpFilter<T extends Lists>(this: List<T>): void {
   if (this.filterEnabled) {
     this.dataForFilter = this.getItemData();
   }
+}
+
+export function deselectRemovedItems<T extends Lists>(this: List<T>): void {
+  const selectedValues = this.selectedValues as Map<string, ListItemElement<T>>;
+  const itemValues = this.items.map(({ value }) => value);
+
+  selectedValues.forEach((selectedItem) => {
+    if (!itemValues.includes(selectedItem.value)) {
+      this.selectedValues.delete(selectedItem.value);
+    }
+  });
 }
 
 export function deselectSiblingItems<T extends Lists>(this: List<T>, item: ListItemElement<T>): void {

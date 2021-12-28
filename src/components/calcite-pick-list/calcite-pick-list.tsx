@@ -17,6 +17,7 @@ import {
   calciteListItemValueChangeHandler,
   cleanUpObserver,
   deselectSiblingItems,
+  deselectRemovedItems,
   getItemData,
   handleFilter,
   calciteListFocusOutHandler,
@@ -104,10 +105,7 @@ export class CalcitePickList<
 
   lastSelectedItem: ItemElement = null;
 
-  mutationObserver = createObserver("mutation", () => {
-    this.setUpItems();
-    mutationObserverCallback.bind(this);
-  });
+  mutationObserver = createObserver("mutation", mutationObserverCallback.bind(this));
 
   @Element() el: HTMLCalcitePickListElement;
 
@@ -186,6 +184,8 @@ export class CalcitePickList<
   setFilterEl = (el: HTMLCalciteFilterElement): void => {
     this.filterEl = el;
   };
+
+  deselectRemovedItems = deselectRemovedItems.bind(this);
 
   deselectSiblingItems = deselectSiblingItems.bind(this);
 
