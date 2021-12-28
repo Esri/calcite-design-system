@@ -20,7 +20,7 @@ describe("calcite-alert", () => {
 
   it("is accessible with auto-dismiss", async () =>
     accessible(`
-    <calcite-alert active auto-dismiss auto-dismiss-duration="slow" label="test">
+    <calcite-alert active auto-dismiss auto-dismiss-duration="1000" label="test">
     ${alertContent}
     </calcite-alert>
   `));
@@ -42,7 +42,7 @@ describe("calcite-alert", () => {
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-alert color="yellow" auto-dismiss-duration="fast" auto-dismiss>
+    <calcite-alert color="yellow" auto-dismiss-duration="2000" auto-dismiss>
     ${alertContent}
     </calcite-alert>`);
 
@@ -51,7 +51,7 @@ describe("calcite-alert", () => {
     const icon = await page.find("calcite-alert >>> .alert-icon");
 
     expect(element).toEqualAttribute("color", "yellow");
-    expect(element).toEqualAttribute("auto-dismiss-duration", "fast");
+    expect(element).toEqualAttribute("auto-dismiss-duration", "2000");
     expect(close).toBeNull();
     expect(icon).toBeNull();
   });
@@ -174,7 +174,7 @@ describe("calcite-alert", () => {
       <calcite-alert
         icon="i2DExplore"
         auto-dismiss
-        auto-dismiss-duration="slow"
+        auto-dismiss-duration="5000"
         color="red"
         active
       >
@@ -250,7 +250,7 @@ describe("calcite-alert", () => {
     it("should display number of queued alerts with a calcite-chip", async () => {
       const page = await newE2EPage({
         html: `
-        <calcite-alert active id="first-active" icon="3d-glasses" auto-dismiss-duration="fast" scale="l">
+        <calcite-alert active id="first-active" icon="3d-glasses" auto-dismiss-duration="500" scale="l">
           <div slot="title">Title of alert #1</div>
           <div slot="message">Message text of the alert</div>
           <a slot="link" href="#">Retry</a>
