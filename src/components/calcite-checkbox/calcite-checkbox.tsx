@@ -213,7 +213,7 @@ export class CalciteCheckbox implements LabelableComponent, CheckableFormCompome
           onFocus={this.onToggleFocus}
           ref={(toggleEl) => (this.toggleEl = toggleEl)}
           role="checkbox"
-          tabIndex={0}
+          tabIndex={this.disabled ? undefined : 0}
         >
           <svg class="check-svg" viewBox="0 0 16 16">
             <path d={this.getPath()} />

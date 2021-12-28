@@ -1,4 +1,4 @@
-labelToAdd: "need more info"
+labelToAdd: "incomplete issue report"
 labelsToCheck:
   - bug
 commentHeader: "More information is required to proceed with this issue:"
