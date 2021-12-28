@@ -40,37 +40,6 @@ describe("calcite-radio-group-item", () => {
     expect(label).toEqualText("test-value");
   });
 
-  it("syncs w/ external inputs", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      "<calcite-radio-group-item><input type='radio' slot='input' value='1'></calcite-radio-group-item>"
-    );
-    const element = await page.find("calcite-radio-group-item");
-    const label = await page.find("calcite-radio-group-item >>> label");
-
-    expect(label).toEqualText("1");
-
-    let checked = await element.getProperty("checked");
-    expect(checked).toBe(false);
-
-    const value = await element.getProperty("value");
-    expect(value).toBe("1");
-
-    await page.$eval("input", (input: HTMLInputElement) => {
-      // need to toggle this way so MutationObserver kicks in
-      input.toggleAttribute("checked");
-    });
-
-    checked = await element.getProperty("checked");
-    expect(checked).toBe(true);
-
-    const input = await page.find("input");
-    element.setProperty("checked", false);
-    await page.waitForChanges();
-    checked = input.getAttribute("checked");
-    expect(checked).toBeNull();
-  });
-
   it("renders icon if requested", async () => {
     const page = await newE2EPage();
     await page.setContent(`

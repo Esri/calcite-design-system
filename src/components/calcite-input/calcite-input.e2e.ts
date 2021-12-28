@@ -936,6 +936,20 @@ describe("calcite-input", () => {
   });
 
   describe("number type", () => {
+    it("allows typing negative decimal values", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+      <calcite-input type="number"></calcite-input>
+      `);
+
+      const element = await page.find("calcite-input");
+      await element.callMethod("setFocus");
+      await page.waitForChanges();
+      await page.keyboard.type("-0.001");
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("-0.001");
+    });
+
     it("disallows typing any letter or number with shift modifier key down", async () => {
       const page = await newE2EPage({
         html: `<calcite-input type="number"></calcite-input>`
