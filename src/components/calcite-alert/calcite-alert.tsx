@@ -13,9 +13,9 @@ import {
   Watch
 } from "@stencil/core";
 import { setRequestedIcon } from "../../utils/dom";
-import { DURATIONS, SLOTS, TEXT } from "./resources";
+import { SLOTS, TEXT } from "./resources";
 import { Scale } from "../interfaces";
-import { StatusColor, AlertDuration, StatusIcons } from "./interfaces";
+import { StatusColor, StatusIcons } from "./interfaces";
 
 /** Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
  * at the bottom of the page. Multiple opened alerts will be added to a queue, allowing users to dismiss them in the order they are provided.
@@ -65,7 +65,7 @@ export class CalciteAlert {
   @Prop() autoDismiss = false;
 
   /** Duration of autoDismiss (only used with `autoDismiss`) */
-  @Prop({ reflect: true }) autoDismissDuration: AlertDuration = this.autoDismiss ? "medium" : null;
+  @Prop({ reflect: true }) autoDismissDuration: number = this.autoDismiss ? 5000 : null;
 
   /** Color for the alert (will apply to top border and icon) */
   @Prop({ reflect: true }) color: StatusColor = "blue";
@@ -97,7 +97,7 @@ export class CalciteAlert {
       window.clearTimeout(this.autoDismissTimeoutId);
       this.autoDismissTimeoutId = window.setTimeout(
         () => this.closeAlert(),
-        DURATIONS[this.autoDismissDuration] - (Date.now() - this.trackTimer)
+        this.autoDismissDuration - (Date.now() - this.trackTimer)
       );
     }
   }
@@ -292,7 +292,7 @@ export class CalciteAlert {
         this.trackTimer = Date.now();
         this.autoDismissTimeoutId = window.setTimeout(
           () => this.closeAlert(),
-          DURATIONS[this.autoDismissDuration]
+          this.autoDismissDuration
         );
       }
     } else {
