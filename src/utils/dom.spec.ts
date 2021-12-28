@@ -1,5 +1,7 @@
-import { getElementProp, getSlotted, setRequestedIcon, ensureId } from "./dom";
+import { getElementProp, getSlotted, setRequestedIcon, ensureId, getThemeName } from "./dom";
 import { guidPattern } from "./guid.spec";
+import { html } from "../tests/utils";
+import { ThemeName } from "../../src/components/interfaces";
 
 describe("dom", () => {
   describe("getElementProp()", () => {
@@ -265,6 +267,66 @@ describe("dom", () => {
 
     it("returns empty string if invoked without element", () => {
       expect(ensureId(null)).toBe("");
+    });
+  });
+
+  describe("getThemeName()", () => {
+    interface ThemedElement extends HTMLElement {
+      foundThemeName: ThemeName;
+    }
+    function getTestComponentTheme(): string {
+      return document.body.querySelector<ThemedElement>("themed-element").foundThemeName;
+    }
+    function defineTestComponents(): void {
+      class ThemedElement extends HTMLElement {
+        constructor() {
+          super();
+          this.attachShadow({ mode: "open" });
+        }
+
+        foundThemeName = null;
+
+        connectedCallback(): void {
+          this.foundThemeName = getThemeName(this);
+        }
+      }
+      customElements.define("themed-element", ThemedElement);
+    }
+    beforeEach(() => {
+      defineTestComponents();
+    });
+
+    it("finds the closest theme if set (light)", () => {
+      document.body.innerHTML = html`
+        <div class="calcite-theme-dark">
+          <div class="calcite-theme-light">
+            <themed-element></themed-element>
+          </div>
+        </div>
+      `;
+      expect(getTestComponentTheme()).toBe("light");
+    });
+
+    it("finds the closest theme if set (dark)", () => {
+      document.body.innerHTML = html`
+        <div class="calcite-theme-light">
+          <div class="calcite-theme-dark">
+            <themed-element></themed-element>
+          </div>
+        </div>
+      `;
+      expect(getTestComponentTheme()).toBe("dark");
+    });
+
+    it("sets to default (light) if no theme is set", () => {
+      document.body.innerHTML = html`
+        <div>
+          <div>
+            <themed-element></themed-element>
+          </div>
+        </div>
+      `;
+      expect(getTestComponentTheme()).toBe("light");
     });
   });
 });
