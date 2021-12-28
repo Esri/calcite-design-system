@@ -135,6 +135,8 @@ interface GetSlottedOptions {
   selector?: string;
 }
 
+const defaultSlotSelector = "> :not([slot])";
+
 export function getSlotted<T extends Element = Element>(
   element: Element,
   slotName?: string,
@@ -150,7 +152,7 @@ export function getSlotted<T extends Element = Element>(
   slotName?: string,
   options?: GetSlottedOptions
 ): (T | null) | T[] {
-  const slotSelector = slotName ? `[slot="${slotName}"]` : ":not([slot])";
+  const slotSelector = slotName ? `[slot="${slotName}"]` : defaultSlotSelector;
 
   if (options?.all) {
     return queryMultiple<T>(element, slotSelector, options);
