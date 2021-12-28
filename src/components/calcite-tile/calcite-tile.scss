@@ -6,6 +6,75 @@
     duration-150
     ease-in-out
     select-none;
+
+  .container {
+    @apply grid
+  grid-cols-1
+  gap-2
+  pointer-events-none;
+  }
+
+  .content {
+    @apply justify-center
+  flex
+  flex-auto
+  flex-col
+  gap-2;
+    // set width handles slotted content and heading word wrap
+    width: 10%;
+  }
+
+  .content-container {
+    @apply flex
+  flex-auto
+  focus-base
+  items-stretch
+  p-0
+  text-color-2
+  w-full;
+  }
+
+  .content-slot-container {
+    @apply flex items-center bg-foreground-1;
+
+    &:first-child {
+      @apply pr-3;
+    }
+
+    &:last-child {
+      @apply pl-3;
+    }
+  }
+
+  .heading {
+    @apply text-n1-wrap
+    text-color-2
+    duration-150
+    ease-in-out
+    font-medium
+    pointer-events-none
+    break-words;
+  }
+  .large-visual {
+    @apply items-center
+      text-center;
+    min-height: theme("spacing.48");
+    .icon {
+      @apply flex
+        justify-center
+        self-end;
+    }
+    .content-container {
+      @apply self-center;
+    }
+  }
+  .description {
+    @apply text-n2-wrap
+    text-color-3
+    duration-150
+    ease-in-out
+    pointer-events-none;
+  }
 }
 :host(:not([embed])) {
   @apply p-3;
@@ -21,83 +90,9 @@
 :host([icon][heading]:not([description]):not([embed])) {
   @apply p-0;
 }
-:host([icon][heading]:not([description])) {
-  .icon {
-    @apply flex justify-center;
-  }
-  .large-visual {
-    @apply text-center;
-  }
-}
 :host([disabled]) {
   @apply opacity-disabled;
   @apply pointer-events-none;
-}
-
-.container {
-  @apply grid
-  grid-cols-1
-  gap-2
-  pointer-events-none;
-}
-
-.content {
-  @apply justify-center
-  flex
-  flex-auto
-  flex-col
-  gap-2;
-  // set width handles slotted content and heading word wrap
-  width: 10%;
-}
-
-.content-container {
-  @apply flex
-  flex-auto
-  focus-base
-  items-stretch
-  p-0
-  text-color-2
-  w-full;
-}
-
-.content-slot-container {
-  @apply flex items-center bg-foreground-1;
-
-  &:first-child {
-    @apply pr-3;
-  }
-
-  &:last-child {
-    @apply pl-3;
-  }
-}
-
-.heading {
-  @apply text-n1-wrap
-    text-color-2
-    duration-150
-    ease-in-out
-    font-medium
-    pointer-events-none
-    break-words;
-}
-.large-visual {
-  @apply items-center;
-  min-height: theme("spacing.48");
-  .icon {
-    @apply self-end;
-  }
-  .content-container {
-    @apply self-center;
-  }
-}
-.description {
-  @apply text-n2-wrap
-    text-color-3
-    duration-150
-    ease-in-out
-    pointer-events-none;
 }
 
 :host(:hover),

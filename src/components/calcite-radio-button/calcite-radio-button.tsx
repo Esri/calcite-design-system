@@ -131,7 +131,9 @@ export class CalciteRadioButton implements LabelableComponent, CheckableFormComp
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    focusElement(this.containerEl);
+    if (!this.disabled) {
+      focusElement(this.containerEl);
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -235,6 +237,13 @@ export class CalciteRadioButton implements LabelableComponent, CheckableFormComp
         otherRadioButton.focused = false;
       }
     });
+  }
+
+  private getTabIndex(): number | undefined {
+    if (this.disabled) {
+      return undefined;
+    }
+    return this.checked || this.isDefaultSelectable() ? 0 : -1;
   }
 
   //--------------------------------------------------------------------------
@@ -352,8 +361,10 @@ export class CalciteRadioButton implements LabelableComponent, CheckableFormComp
   };
 
   private onContainerFocus = (): void => {
-    this.focused = true;
-    this.calciteInternalRadioButtonFocus.emit();
+    if (!this.disabled) {
+      this.focused = true;
+      this.calciteInternalRadioButtonFocus.emit();
+    }
   };
 
   //--------------------------------------------------------------------------
@@ -373,7 +384,7 @@ export class CalciteRadioButton implements LabelableComponent, CheckableFormComp
   }
 
   componentDidLoad(): void {
-    if (this.focused) {
+    if (this.focused && !this.disabled) {
       this.setFocus();
     }
   }
@@ -390,6 +401,7 @@ export class CalciteRadioButton implements LabelableComponent, CheckableFormComp
   // --------------------------------------------------------------------------
 
   render(): VNode {
+    const tabIndex = this.getTabIndex();
     return (
       <Host onClick={this.clickHandler} onKeyDown={this.handleKeyDown}>
         <div
@@ -400,7 +412,7 @@ export class CalciteRadioButton implements LabelableComponent, CheckableFormComp
           onFocus={this.onContainerFocus}
           ref={this.setContainerEl}
           role="radio"
-          tabIndex={this.checked || this.isDefaultSelectable() ? 0 : -1}
+          tabIndex={tabIndex}
         >
           <div class="radio" />
         </div>
