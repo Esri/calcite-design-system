@@ -24,7 +24,7 @@ describe("parseNumberString", () => {
     expect(parseNumberString(null)).toBe("");
     expect(parseNumberString(undefined)).toBe("");
     expect(parseNumberString("")).toBe("");
-    expect(parseNumberString("text only")).toBe("");
+    expect(parseNumberString("only nums")).toBe("");
 
     const lettersAndSymbols = "kjas;lkjwo;aij(*&,asd;flkj-";
     const lettersAndSymbolsWithLeadingNegativeSign = "-ASDF(*^LKJihsdf*&^";
