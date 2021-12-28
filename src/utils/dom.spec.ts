@@ -125,6 +125,8 @@ describe("dom", () => {
     });
 
     describe("single slotted", () => {
+      it("returns elements with matching default slot", () => expect(getSlotted(getTestComponent())).toBeTruthy());
+
       it("returns elements with matching slot name", () =>
         expect(getSlotted(getTestComponent(), testSlotName)).toBeTruthy());
 

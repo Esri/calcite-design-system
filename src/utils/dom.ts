@@ -150,7 +150,7 @@ export function getSlotted<T extends Element = Element>(
   slotName?: string,
   options?: GetSlottedOptions
 ): (T | null) | T[] {
-  const slotSelector = !!slotName ? `[slot="${slotName}"]` : ":not([slot])";
+  const slotSelector = slotName ? `[slot="${slotName}"]` : ":not([slot])";
 
   if (options?.all) {
     return queryMultiple<T>(element, slotSelector, options);
