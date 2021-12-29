@@ -1,8 +1,8 @@
 import { FunctionalComponent, h } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
-import { queryActions } from "../calcite-action-bar/utils";
+import { queryActions } from "../action-bar/utils";
 import { Position, Scale } from "../interfaces";
-import { SLOTS as ACTION_GROUP_SLOTS } from "../calcite-action-group/resources";
+import { SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
 
 interface CalciteExpandToggleProps {
   expanded: boolean;
