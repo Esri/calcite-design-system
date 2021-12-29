@@ -16,7 +16,7 @@ import { CSS, TEXT } from "./resources";
   styleUrl: "example.scss",
   shadow: true
 })
-export class CalciteExample {
+export class Example {
   // --------------------------------------------------------------------------
   //
   //  Properties

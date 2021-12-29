@@ -17,7 +17,7 @@ assignees: ""
 <!--
 For example:
 
-FAIL src/components/foo/calcite-foo.e2e.ts (32.825 s)
+FAIL src/components/foo/foo.e2e.ts (32.825 s)
   ● calcite-foo a11y check › setFocus › can focus some button
     expect(received).toBe(expected) // Object.is equality
     Expected: true

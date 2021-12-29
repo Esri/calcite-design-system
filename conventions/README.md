@@ -94,7 +94,7 @@ enum Colors {
   yellow = "yellow",
 }
 
-export class CalciteComponent {
+export class Component {
 
 // ...
 
@@ -284,8 +284,8 @@ type FocusId = string;
 
 Examples:
 
-- [`calcite-color`](https://github.com/Esri/calcite-components/blob/78a70a805324689d516130816a69f031e39c5338/src/components/color/calcite-color.tsx#L409-L413)
-- [`calcite-panel` (supports `focusId`)](https://github.com/Esri/calcite-components/blob/f2bb61828f3da54b7dcb5fb1dade12b85d82331e/src/components/panel/calcite-panel.tsx#L298-L311)
+- [`calcite-color`](https://github.com/Esri/calcite-components/blob/78a70a805324689d516130816a69f031e39c5338/src/components/color/color.tsx#L409-L413)
+- [`calcite-panel` (supports `focusId`)](https://github.com/Esri/calcite-components/blob/f2bb61828f3da54b7dcb5fb1dade12b85d82331e/src/components/panel/panel.tsx#L298-L311)
 
 ## CSS Class Names
 
@@ -433,7 +433,7 @@ import { guid } from "../../utils/guid";
   styleUrl: "example.scss",
   shadow: true
 })
-export class CalciteExample {
+export class Example {
   // ...
 
   guid: string = `calcite-example-${guid()}`;
@@ -500,7 +500,7 @@ Components should have an automated test for any incoming features or bug fixes.
 
 We encourage writing expressive test cases and code that indicates intent. Use comments sparingly when the aforementioned can't be fully achieved. Keep it clean!
 
-Please see Stencil's doc for more info on [end-to-end](https://stenciljs.com/docs/end-to-end-testing) testing. See one of our test examples [here](https://github.com/Esri/calcite-components/blob/master/src/components/block/calcite-block.e2e.ts).
+Please see Stencil's doc for more info on [end-to-end](https://stenciljs.com/docs/end-to-end-testing) testing. See one of our test examples [here](https://github.com/Esri/calcite-components/blob/master/src/components/block/block.e2e.ts).
 
 ### Writing Tests
 
@@ -510,7 +510,7 @@ Please see Stencil's doc for more info on [end-to-end](https://stenciljs.com/doc
 
 As a best practice when writing tests, prevent emitting console warnings by stubbing them. Depending on the tested component, this may also apply to other console APIs.
 
-Console warnings can end up polluting the build output messaging that makes it more difficult to identify real issues. By stubbing `console.warn`, you can prevent warning messages from displaying in the build. See [`calcite-color.e2e`](https://github.com/Esri/calcite-components/blob/af0c6cb/src/components/color/calcite-color.e2e.ts#L9-L17) for an example.
+Console warnings can end up polluting the build output messaging that makes it more difficult to identify real issues. By stubbing `console.warn`, you can prevent warning messages from displaying in the build. See [`color.e2e`](https://github.com/Esri/calcite-components/blob/af0c6cb/src/components/color/color.e2e.ts#L9-L17) for an example.
 
 ### Unstable Tests
 
