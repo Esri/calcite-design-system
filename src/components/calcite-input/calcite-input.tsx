@@ -283,7 +283,9 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.status = getElementProp(this.el, "status", this.status);
     this.inlineEditableEl = this.el.closest("calcite-inline-editable");
-    this.editingEnabled = this.inlineEditableEl?.editingEnabled;
+    if (this.inlineEditableEl) {
+      this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
+    }
     if (this.type === "number" && this.value) {
       if (isValidNumber(this.value)) {
         this.localizedValue = localizeNumberString(this.value, this.locale, this.groupSeparator);
