@@ -105,6 +105,30 @@ describe("calcite-input-date-picker", () => {
     expect(await element.getProperty("startAsDate")).toBeDefined();
   });
 
+  it("should clear active date properly when deleted via keyboard", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-input-date-picker value="2021-12-08"></calcite-input-date-picker>`);
+    const input = (
+      await page.waitForFunction(() =>
+        document
+          .querySelector("calcite-input-date-picker")
+          .shadowRoot.querySelector("calcite-input")
+          .shadowRoot.querySelector("input")
+      )
+    ).asElement();
+    await input.focus();
+    await page.waitForChanges();
+
+    for (let i = 0; i < 10; i++) {
+      await input.press("Backspace");
+    }
+
+    await page.waitForChanges();
+
+    const element = await page.find("calcite-input-date-picker");
+    expect(await element.getProperty("value")).toBe("");
+  });
+
   it("displays a calendar when clicked", async () => {
     const page = await newE2EPage({
       html: "<calcite-input-date-picker value='2000-11-27'></calcite-input-date-picker>"

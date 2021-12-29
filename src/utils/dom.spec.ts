@@ -87,6 +87,7 @@ describe("dom", () => {
 
   describe("getSlotted()", () => {
     const testSlotName = "test";
+    const testSlotName2 = "test2";
 
     function getTestComponent(): HTMLElement {
       return document.body.querySelector("slot-test");
@@ -100,7 +101,7 @@ describe("dom", () => {
         }
 
         connectedCallback(): void {
-          this.shadowRoot.innerHTML = `<slot name="${testSlotName}"></slot>`;
+          this.shadowRoot.innerHTML = `<slot name="${testSlotName}"></slot><slot name="${testSlotName2}"></slot>`;
         }
       }
 
@@ -117,6 +118,7 @@ describe("dom", () => {
           <span>🙂</span>
         </h2>
         <h2 slot=${testSlotName}><span>😂</span></h2>
+        <h3 slot=${testSlotName2}><span>😂</span></h3>
       </slot-test>
     `;
     });
@@ -124,6 +126,9 @@ describe("dom", () => {
     describe("single slotted", () => {
       it("returns elements with matching slot name", () =>
         expect(getSlotted(getTestComponent(), testSlotName)).toBeTruthy());
+
+      it("returns elements with matching slot names", () =>
+        expect(getSlotted(getTestComponent(), [testSlotName, testSlotName2])).toBeTruthy());
 
       it("returns null when no results", () => expect(getSlotted(getTestComponent(), "non-existent-slot")).toBeNull());
 
@@ -179,6 +184,9 @@ describe("dom", () => {
     describe("multiple slotted", () => {
       it("returns elements with matching slot name", () =>
         expect(getSlotted(getTestComponent(), testSlotName, { all: true })).toHaveLength(2));
+
+      it("returns elements with matching slot names", () =>
+        expect(getSlotted(getTestComponent(), [testSlotName, testSlotName2], { all: true })).toHaveLength(3));
 
       it("returns empty list when no results", () =>
         expect(getSlotted(getTestComponent(), "non-existent-slot", { all: true })).toHaveLength(0));
