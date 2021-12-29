@@ -18,6 +18,7 @@ import {
   calciteListItemValueChangeHandler,
   cleanUpObserver,
   deselectSiblingItems,
+  deselectRemovedItems,
   getItemData,
   handleFilter,
   initialize,
@@ -222,6 +223,8 @@ export class CalciteValueList<
     this.sortable?.destroy();
     this.sortable = null;
   }
+
+  deselectRemovedItems = deselectRemovedItems.bind(this);
 
   deselectSiblingItems = deselectSiblingItems.bind(this);
 
