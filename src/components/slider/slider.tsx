@@ -852,7 +852,7 @@ export class Slider implements LabelableComponent, FormComponent {
 
   formEl: HTMLFormElement;
 
-  defaultValue: CalciteSlider["value"];
+  defaultValue: Slider["value"];
 
   private guid = `calcite-slider-${guid()}`;
 

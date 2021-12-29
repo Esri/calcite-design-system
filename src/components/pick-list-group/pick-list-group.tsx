@@ -2,7 +2,7 @@ import { Component, Element, Prop, h, VNode, Fragment } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
 import { HEADING_LEVEL } from "./resources";
 import { getSlotted } from "../../utils/dom";
-import { HeadingLevel, CalciteHeading, constrainHeadingLevel } from "../functional/CalciteHeading";
+import { HeadingLevel, Heading, constrainHeadingLevel } from "../functional/Heading";
 
 /**
  * @slot - A slot for adding `calcite-pick-list-item` elements.
@@ -60,9 +60,9 @@ export class PickListGroup {
     return (
       <Fragment>
         {title ? (
-          <CalciteHeading class={CSS.heading} level={level}>
+          <Heading class={CSS.heading} level={level}>
             {title}
-          </CalciteHeading>
+          </Heading>
         ) : null}
         <slot name={SLOTS.parentItem} />
         <section class={sectionClasses}>

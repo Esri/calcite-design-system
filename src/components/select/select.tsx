@@ -24,15 +24,15 @@ import {
 import { CSS } from "./resources";
 import { createObserver } from "../../utils/observers";
 
-type CalciteOptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
+type OptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
 
-function isOption(optionOrGroup: CalciteOptionOrGroup): optionOrGroup is HTMLCalciteOptionElement {
+function isOption(optionOrGroup: OptionOrGroup): optionOrGroup is HTMLCalciteOptionElement {
   return optionOrGroup.tagName === "CALCITE-OPTION";
 }
 
 function isOptionGroup(
-  optionOrGroup: CalciteOptionOrGroup
+  optionOrGroup: OptionOrGroup
 ): optionOrGroup is HTMLCalciteOptionGroupElement {
   return optionOrGroup.tagName === "CALCITE-OPTION-GROUP";
 }
@@ -116,11 +116,11 @@ export class Select implements LabelableComponent, FormComponent {
 
   formEl: HTMLFormElement;
 
-  defaultValue: CalciteSelect["value"];
+  defaultValue: Select["value"];
 
   @Element() el: HTMLCalciteSelectElement;
 
-  private componentToNativeEl = new Map<CalciteOptionOrGroup, NativeOptionOrGroup>();
+  private componentToNativeEl = new Map<OptionOrGroup, NativeOptionOrGroup>();
 
   private mutationObserver = createObserver("mutation", () => this.populateInternalSelect());
 
@@ -188,7 +188,7 @@ export class Select implements LabelableComponent, FormComponent {
   protected handleOptionOrGroupChange(event: CustomEvent): void {
     event.stopPropagation();
 
-    const optionOrGroup = event.target as CalciteOptionOrGroup;
+    const optionOrGroup = event.target as OptionOrGroup;
     const nativeEl = this.componentToNativeEl.get(optionOrGroup);
 
     if (!nativeEl) {
@@ -214,7 +214,7 @@ export class Select implements LabelableComponent, FormComponent {
   }
 
   private updateNativeElement(
-    optionOrGroup: CalciteOptionOrGroup,
+    optionOrGroup: OptionOrGroup,
     nativeOptionOrGroup: NativeOptionOrGroup
   ): void {
     nativeOptionOrGroup.disabled = optionOrGroup.disabled;
@@ -233,10 +233,10 @@ export class Select implements LabelableComponent, FormComponent {
 
   private populateInternalSelect = (): void => {
     const optionsAndGroups = Array.from(
-      this.el.children as HTMLCollectionOf<CalciteOptionOrGroup | HTMLSlotElement>
+      this.el.children as HTMLCollectionOf<OptionOrGroup | HTMLSlotElement>
     ).filter(
       (child) => child.tagName === "CALCITE-OPTION" || child.tagName === "CALCITE-OPTION-GROUP"
-    ) as CalciteOptionOrGroup[];
+    ) as OptionOrGroup[];
 
     this.clearInternalSelect();
 

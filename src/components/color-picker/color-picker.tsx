@@ -94,7 +94,7 @@ export class ColorPicker {
   @Prop() format: Format = defaultFormat;
 
   @Watch("format")
-  handleFormatChange(format: CalciteColorPicker["format"]): void {
+  handleFormatChange(format: ColorPicker["format"]): void {
     this.setMode(format);
     this.value = this.toValue(this.color);
   }
@@ -978,7 +978,7 @@ export class ColorPicker {
     );
   }
 
-  private setMode(format: CalciteColorPicker["format"]): void {
+  private setMode(format: ColorPicker["format"]): void {
     this.mode = format === "auto" ? this.mode : format;
   }
 
@@ -1015,7 +1015,7 @@ export class ColorPicker {
   private internalColorSet(
     color: Color | null,
     skipEqual = true,
-    context: CalciteColorPicker["internalColorUpdateContext"] = "internal"
+    context: ColorPicker["internalColorUpdateContext"] = "internal"
   ): void {
     if (skipEqual && colorEqual(color, this.color)) {
       return;

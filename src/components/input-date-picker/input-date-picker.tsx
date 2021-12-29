@@ -22,7 +22,7 @@ import {
   parseDateString,
   sameDate
 } from "../../utils/date";
-import { HeadingLevel } from "../functional/CalciteHeading";
+import { HeadingLevel } from "../functional/Heading";
 
 import { TEXT } from "../date-picker/resources";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
@@ -432,7 +432,7 @@ export class InputDatePicker implements LabelableComponent, FormComponent {
 
   formEl: HTMLFormElement;
 
-  defaultValue: CalciteInputDatePicker["value"];
+  defaultValue: InputDatePicker["value"];
 
   @State() focusedInput: "start" | "end" = "start";
 

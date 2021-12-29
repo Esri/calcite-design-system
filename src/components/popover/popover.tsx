@@ -31,7 +31,7 @@ import {
 import { StrictModifiers, Placement, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import { queryElementRoots } from "../../utils/dom";
-import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
+import { HeadingLevel, Heading } from "../functional/Heading";
 
 /**
  * @slot - A slot for adding custom content.
@@ -406,9 +406,9 @@ export class Popover {
   renderHeader(): VNode {
     const { heading, headingLevel } = this;
     const headingNode = heading ? (
-      <CalciteHeading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
+      <Heading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
         {heading}
-      </CalciteHeading>
+      </Heading>
     ) : null;
 
     return headingNode ? (

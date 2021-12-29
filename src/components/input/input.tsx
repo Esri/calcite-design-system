@@ -230,7 +230,7 @@ export class Input implements LabelableComponent, FormComponent {
 
   formEl: HTMLFormElement;
 
-  defaultValue: CalciteInput["value"];
+  defaultValue: Input["value"];
 
   inlineEditableEl: HTMLCalciteInlineEditableElement;
 

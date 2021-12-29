@@ -1,6 +1,6 @@
 import { h, Component } from "@stencil/core";
 import { newSpecPage } from "@stencil/core/testing";
-import { CalciteHeading, constrainHeadingLevel } from "./CalciteHeading";
+import { Heading, constrainHeadingLevel } from "./Heading";
 
 describe("constrainHeadingLevel", () => {
   it("should constrain heading levels", () => {
@@ -16,14 +16,14 @@ describe("constrainHeadingLevel", () => {
 @Component({ tag: "dummy-component" })
 class Dummy {}
 
-describe("CalciteHeading", () => {
+describe("Heading", () => {
   it("should render", async () => {
     const page = await newSpecPage({
       components: [Dummy], // Required so we are feeding it a Dummy component
       template: () => (
-        <CalciteHeading class="test" level={1}>
+        <Heading class="test" level={1}>
           My Heading
-        </CalciteHeading>
+        </Heading>
       )
     });
 

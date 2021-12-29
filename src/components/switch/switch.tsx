@@ -86,7 +86,7 @@ export class Switch implements LabelableComponent, CheckableFormCompoment {
 
   formEl: HTMLFormElement;
 
-  defaultValue: CalciteSwitch["checked"];
+  defaultValue: Switch["checked"];
 
   defaultChecked: boolean;
 

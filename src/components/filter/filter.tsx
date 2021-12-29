@@ -51,7 +51,7 @@ export class Filter {
    *
    * @readonly
    */
-  @Prop({ mutable: true }) filteredItems: CalciteFilter["items"] = [];
+  @Prop({ mutable: true }) filteredItems: Filter["items"] = [];
 
   /**
    * A text label that will appear on the clear button.

@@ -116,7 +116,7 @@ export class RadioButton implements LabelableComponent, CheckableFormCompoment {
 
   formEl: HTMLFormElement;
 
-  defaultValue: CalciteRadioButton["value"];
+  defaultValue: RadioButton["value"];
 
   rootNode: HTMLElement;
 

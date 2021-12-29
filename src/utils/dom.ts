@@ -140,15 +140,15 @@ export function closestElementCrossShadowBoundary<T extends Element = Element>(
   return closestFrom(element);
 }
 
-export interface CalciteFocusableElement extends HTMLElement {
+export interface FocusableElement extends HTMLElement {
   setFocus?: () => Promise<void>;
 }
 
-export function isCalciteFocusable(el: CalciteFocusableElement): boolean {
+export function isCalciteFocusable(el: FocusableElement): boolean {
   return typeof el?.setFocus === "function";
 }
 
-export async function focusElement(el: CalciteFocusableElement): Promise<void> {
+export async function focusElement(el: FocusableElement): Promise<void> {
   if (!el) {
     return;
   }

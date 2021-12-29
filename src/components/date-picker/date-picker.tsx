@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { getLocaleData, DateLocaleData } from "./utils";
 import { dateFromRange, dateFromISO, dateToISO, getDaysDiff, HoverRange } from "../../utils/date";
-import { HeadingLevel } from "../functional/CalciteHeading";
+import { HeadingLevel } from "../functional/Heading";
 
 import { DateRangeChange } from "./interfaces";
 import { HEADING_LEVEL, TEXT } from "./resources";

@@ -31,7 +31,7 @@ import {
   removeItem
 } from "./shared-list-logic";
 import List from "./shared-list-render";
-import { HeadingLevel } from "../functional/CalciteHeading";
+import { HeadingLevel } from "../functional/Heading";
 import { createObserver } from "../../utils/observers";
 
 /**

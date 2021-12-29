@@ -293,7 +293,7 @@ export class Combobox implements LabelableComponent, FormComponent {
 
   formEl: HTMLFormElement;
 
-  defaultValue: CalciteCombobox["value"];
+  defaultValue: Combobox["value"];
 
   @State() items: HTMLCalciteComboboxItemElement[] = [];
 

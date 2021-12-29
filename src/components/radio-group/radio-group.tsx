@@ -246,7 +246,7 @@ export class RadioGroup implements LabelableComponent, FormComponent {
 
   formEl: HTMLFormElement;
 
-  defaultValue: CalciteRadioGroup["value"];
+  defaultValue: RadioGroup["value"];
 
   //--------------------------------------------------------------------------
   //

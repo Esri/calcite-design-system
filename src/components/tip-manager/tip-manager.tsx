@@ -12,7 +12,7 @@ import {
 } from "@stencil/core";
 import { CSS, ICONS, TEXT, HEADING_LEVEL } from "./resources";
 import { getElementDir } from "../../utils/dom";
-import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
+import { HeadingLevel, Heading } from "../functional/Heading";
 import { createObserver } from "../../utils/observers";
 
 /**
@@ -280,9 +280,9 @@ export class TipManager {
         tabIndex={0}
       >
         <header class={CSS.header}>
-          <CalciteHeading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
+          <Heading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
             {groupTitle}
-          </CalciteHeading>
+          </Heading>
           <calcite-action
             class={CSS.close}
             onClick={this.hideTipManager}

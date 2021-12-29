@@ -11,7 +11,7 @@ import {
   Method
 } from "@stencil/core";
 import { Layout, Position, Scale } from "../interfaces";
-import { CalciteExpandToggle, toggleChildActionText } from "../functional/CalciteExpandToggle";
+import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { focusElement, getSlotted } from "../../utils/dom";
 import { CSS, TEXT, SLOTS } from "./resources";
 
@@ -182,7 +182,7 @@ export class ActionPad {
     const collapseLabel = intlCollapse || TEXT.collapse;
 
     const expandToggleNode = !expandDisabled ? (
-      <CalciteExpandToggle
+      <ExpandToggle
         el={el}
         expanded={expanded}
         intlCollapse={collapseLabel}

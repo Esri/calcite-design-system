@@ -1,12 +1,12 @@
-import { CalcitePickList } from "./pick-list";
-import { CalciteValueList } from "../value-list/value-list";
+import { PickList } from "./pick-list";
+import { ValueList } from "../value-list/value-list";
 import { debounce } from "lodash-es";
 import { focusElement, getSlotted } from "../../utils/dom";
 import { getRoundRobinIndex } from "../../utils/array";
 
-type Lists = CalcitePickList | CalciteValueList;
-type ListItemElement<T> = T extends CalcitePickList ? HTMLCalcitePickListItemElement : HTMLCalciteValueListItemElement;
-type List<T> = T extends CalcitePickList ? CalcitePickList : CalciteValueList;
+type Lists = PickList | ValueList;
+type ListItemElement<T> = T extends PickList ? HTMLCalcitePickListItemElement : HTMLCalciteValueListItemElement;
+type List<T> = T extends PickList ? PickList : ValueList;
 
 export type ListFocusId = "filter";
 
@@ -208,7 +208,7 @@ export async function setFocus<T extends Lists>(this: List<T>, focusId: ListFocu
 
 export function setUpItems<T extends Lists>(
   this: List<T>,
-  tagName: T extends CalcitePickList ? "calcite-pick-list-item" : "calcite-value-list-item"
+  tagName: T extends PickList ? "calcite-pick-list-item" : "calcite-value-list-item"
 ): void {
   (this.items as ListItemElement<T>[]) = Array.from(this.el.querySelectorAll<ListItemElement<T>>(tagName));
   let hasSelected = false;

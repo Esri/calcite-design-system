@@ -235,7 +235,7 @@ export class Rating implements LabelableComponent, FormComponent {
 
   formEl: HTMLFormElement;
 
-  defaultValue: CalciteRating["value"];
+  defaultValue: Rating["value"];
 
   @State() hoverValue: number;
 

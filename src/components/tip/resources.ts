@@ -1,5 +1,5 @@
 import { HEADING_LEVEL as PARENT_HEADING_LEVEL } from "../tip-manager/resources";
-import { HeadingLevel } from "../functional/CalciteHeading";
+import { HeadingLevel } from "../functional/Heading";
 
 export const CSS = {
   container: "container",

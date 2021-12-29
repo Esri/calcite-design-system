@@ -93,7 +93,7 @@ export class Checkbox implements LabelableComponent, CheckableFormCompoment {
 
   formEl: HTMLFormElement;
 
-  defaultValue: CalciteCheckbox["checked"];
+  defaultValue: Checkbox["checked"];
 
   toggleEl: HTMLDivElement;
 

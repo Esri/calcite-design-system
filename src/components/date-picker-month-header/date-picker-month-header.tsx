@@ -21,7 +21,7 @@ import {
 
 import { DateLocaleData } from "../date-picker/utils";
 import { Scale } from "../interfaces";
-import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
+import { HeadingLevel, Heading } from "../functional/Heading";
 
 @Component({
   tag: "calcite-date-picker-month-header",
@@ -132,9 +132,9 @@ export class DatePickerMonthHeader {
           <calcite-icon flip-rtl icon="chevron-left" scale={iconScale} />
         </a>
         <div class={{ text: true, "text--reverse": reverse }}>
-          <CalciteHeading class="month" level={this.headingLevel}>
+          <Heading class="month" level={this.headingLevel}>
             {localizedMonth}
-          </CalciteHeading>
+          </Heading>
           <span class="year-wrap">
             <input
               aria-label={this.intlYear}

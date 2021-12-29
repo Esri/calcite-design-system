@@ -1,7 +1,7 @@
 import { Component, Element, Prop, h, VNode, Host } from "@stencil/core";
 import { CSS } from "./resources";
 import { HEADING_LEVEL } from "./resources";
-import { HeadingLevel, CalciteHeading, constrainHeadingLevel } from "../functional/CalciteHeading";
+import { HeadingLevel, Heading, constrainHeadingLevel } from "../functional/Heading";
 
 /**
  * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
@@ -55,9 +55,9 @@ export class ListItemGroup {
     return (
       <Host>
         {heading ? (
-          <CalciteHeading class={CSS.heading} level={level}>
+          <Heading class={CSS.heading} level={level}>
             {heading}
-          </CalciteHeading>
+          </Heading>
         ) : null}
         <div class={CSS.container} role="group">
           <slot />

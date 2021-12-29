@@ -138,7 +138,7 @@ export class Link {
   //
   //--------------------------------------------------------------------------
 
-  private storeTagRef = (el: CalciteLink["childEl"]): void => {
+  private storeTagRef = (el: Link["childEl"]): void => {
     this.childEl = el;
   };
 }

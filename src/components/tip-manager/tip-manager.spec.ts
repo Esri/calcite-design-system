@@ -1,5 +1,5 @@
 // TODO: Uncomment this test when there's a resolution to this bug. https://github.com/ionic-team/stencil/issues/1669
-// import { CalciteTipManager } from "./calcite-tip-manager";
+// import { TipManager } from "./calcite-tip-manager";
 
 describe.skip("CalciteTipManager", () => {
   it("should increment/decrement the selectedIndex when the public next/prev methods are called", () => {

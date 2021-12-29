@@ -4,7 +4,7 @@ import { queryActions } from "../action-bar/utils";
 import { Position, Scale } from "../interfaces";
 import { SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
 
-interface CalciteExpandToggleProps {
+interface ExpandToggleProps {
   expanded: boolean;
   intlExpand: string;
   intlCollapse: string;
@@ -60,7 +60,7 @@ const setTooltipReference = ({
   return referenceElement;
 };
 
-export const CalciteExpandToggle: FunctionalComponent<CalciteExpandToggleProps> = ({
+export const ExpandToggle: FunctionalComponent<ExpandToggleProps> = ({
   expanded,
   intlExpand,
   intlCollapse,

@@ -11,7 +11,7 @@ import {
   Method
 } from "@stencil/core";
 import { Position, Scale } from "../interfaces";
-import { CalciteExpandToggle, toggleChildActionText } from "../functional/CalciteExpandToggle";
+import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { CSS, SLOTS, TEXT } from "./resources";
 import { getSlotted, focusElement } from "../../utils/dom";
 import {
@@ -285,7 +285,7 @@ export class ActionBar implements ConditionalSlotComponent {
     const collapseLabel = intlCollapse || TEXT.collapse;
 
     const expandToggleNode = !expandDisabled ? (
-      <CalciteExpandToggle
+      <ExpandToggle
         el={el}
         expanded={expanded}
         intlCollapse={collapseLabel}

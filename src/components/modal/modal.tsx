@@ -13,7 +13,7 @@ import {
   Watch
 } from "@stencil/core";
 import {
-  CalciteFocusableElement,
+  FocusableElement,
   ensureId,
   focusElement,
   getSlotted,
@@ -27,7 +27,7 @@ import { ModalBackgroundColor } from "./interfaces";
 import { TEXT, SLOTS, CSS, ICONS } from "./resources";
 import { createObserver } from "../../utils/observers";
 
-const isFocusableExtended = (el: CalciteFocusableElement): boolean => {
+const isFocusableExtended = (el: FocusableElement): boolean => {
   return isCalciteFocusable(el) || isFocusable(el);
 };
 

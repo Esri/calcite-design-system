@@ -1,7 +1,7 @@
 import { Component, Element, Event, EventEmitter, Prop, h, VNode, Fragment } from "@stencil/core";
 import { CSS, ICONS, SLOTS, TEXT, HEADING_LEVEL } from "./resources";
 import { getSlotted } from "../../utils/dom";
-import { HeadingLevel, CalciteHeading, constrainHeadingLevel } from "../functional/CalciteHeading";
+import { HeadingLevel, Heading, constrainHeadingLevel } from "../functional/Heading";
 
 /**
  * @slot - A slot for adding text and a hyperlink.
@@ -93,9 +93,9 @@ export class Tip {
 
     return heading ? (
       <header class={CSS.header}>
-        <CalciteHeading class={CSS.heading} level={level}>
+        <Heading class={CSS.heading} level={level}>
           {heading}
-        </CalciteHeading>
+        </Heading>
       </header>
     ) : null;
   }
