@@ -13,6 +13,7 @@ module.exports = {
   ],
   diffOptions: {
     minLayoutDimension: 1,
-    minLayoutPosition: 1
+    minLayoutPosition: 1,
+    minShiftGraphic: 1
   }
 };
