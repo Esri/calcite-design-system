@@ -164,20 +164,22 @@ interface GetSlottedOptions {
 
 export function getSlotted<T extends Element = Element>(
   element: Element,
-  slotName: string,
+  slotName: string | string[],
   options: GetSlottedOptions & { all: true }
 ): T[];
 export function getSlotted<T extends Element = Element>(
   element: Element,
-  slotName: string,
+  slotName: string | string[],
   options?: GetSlottedOptions
 ): T | null;
 export function getSlotted<T extends Element = Element>(
   element: Element,
-  slotName: string,
+  slotName: string | string[],
   options?: GetSlottedOptions
 ): (T | null) | T[] {
-  const slotSelector = `[slot="${slotName}"]`;
+  const slotSelector = Array.isArray(slotName)
+    ? slotName.map((name) => `[slot="${name}"]`).join(",")
+    : `[slot="${slotName}"]`;
 
   if (options?.all) {
     return queryMultiple<T>(element, slotSelector, options);
