@@ -3,6 +3,7 @@ import { connectLabel, disconnectLabel, getLabelText, LabelableComponent, labelC
 describe("label", () => {
   function createFakeLabelable(overrides: Partial<LabelableComponent>): LabelableComponent {
     const base = {
+      disabled: null,
       el: null,
       label: null,
       labelEl: null,
@@ -60,6 +61,32 @@ describe("label", () => {
         disconnectLabel(nonLabelable);
 
         expect(nonLabelable.labelEl).toBeNull();
+      });
+
+      it("prevents selecting disabled labeled element", () => {
+        document.body.innerHTML = `
+        <calcite-label for="for">label</calcite-label>
+        <fake-labelable id="for"></fake-labelable>
+      `;
+
+        const labelEl = document.querySelector<HTMLElement>("calcite-label");
+        const fakeLabelableEl = document.querySelector<HTMLElement>("#for");
+        wireUpFakeLabel(labelEl);
+
+        const labelable = createFakeLabelable({
+          el: fakeLabelableEl,
+          disabled: true
+        });
+
+        connectLabel(labelable);
+
+        expect(labelable.labelEl).toBe(labelEl);
+
+        labelEl.click();
+
+        expect(labelable.onLabelClick).toHaveBeenCalledTimes(0);
+
+        disconnectLabel(labelable);
       });
 
       it("supports for attribute", () => {
