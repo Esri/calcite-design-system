@@ -85,6 +85,7 @@ describe("calcite-value-list", () => {
 
     it("works using a mouse", async () => {
       const page = await createSimpleValueList();
+      const listOrderChangeSpy = await page.spyOnEvent("calciteListOrderChange");
 
       await dragAndDrop(
         page,
@@ -101,10 +102,12 @@ describe("calcite-value-list", () => {
       const [first, second] = await page.findAll("calcite-value-list-item");
       expect(await first.getProperty("value")).toBe("two");
       expect(await second.getProperty("value")).toBe("one");
+      expect(listOrderChangeSpy).toHaveReceivedEventTimes(1);
     });
 
     it("works using a keyboard", async () => {
       const page = await createSimpleValueList();
+      const listOrderChangeSpy = await page.spyOnEvent("calciteListOrderChange");
 
       await page.keyboard.press("Tab");
       await page.keyboard.press("Space");
@@ -122,12 +125,18 @@ describe("calcite-value-list", () => {
       }
 
       await assertKeyboardMove("down", ["two", "one", "three"]);
+      expect(listOrderChangeSpy).toHaveReceivedEventTimes(1);
       await assertKeyboardMove("down", ["two", "three", "one"]);
+      expect(listOrderChangeSpy).toHaveReceivedEventTimes(2);
       await assertKeyboardMove("down", ["one", "two", "three"]);
+      expect(listOrderChangeSpy).toHaveReceivedEventTimes(3);
 
       await assertKeyboardMove("up", ["two", "three", "one"]);
+      expect(listOrderChangeSpy).toHaveReceivedEventTimes(4);
       await assertKeyboardMove("up", ["two", "one", "three"]);
+      expect(listOrderChangeSpy).toHaveReceivedEventTimes(5);
       await assertKeyboardMove("up", ["one", "two", "three"]);
+      expect(listOrderChangeSpy).toHaveReceivedEventTimes(6);
     });
 
     it("supports dragging items between lists", async () => {
