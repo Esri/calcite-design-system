@@ -51,10 +51,14 @@ export function getHost(root: HTMLDocument | ShadowRoot): Element | null {
   return (root as ShadowRoot).host || null;
 }
 
-// Queries an element's rootNode and any ancestor rootNodes.
-// based on https://stackoverflow.com/q/54520554/194216
+/**
+ * This helper queries an element's rootNodes and any ancestor rootNodes.
+ *
+ * @returns {Element[]} The elements.
+ */
 export function queryElementsRoots<T extends Element = Element>(element: Element, selector: string): T[] {
   // Gets the rootNode and any ancestor rootNodes (shadowRoot or document) of an element and queries them for a selector.
+  // Based on: https://stackoverflow.com/q/54520554/194216
   function queryFromAll<T extends Element = Element>(el: Element, allResults: T[]): T[] {
     if (!el) {
       return allResults;
@@ -80,10 +84,25 @@ export function queryElementsRoots<T extends Element = Element>(element: Element
   return queryFromAll(element, []);
 }
 
-// Queries an element's rootNode and any ancestor rootNodes.
-// based on https://stackoverflow.com/q/54520554/194216
-export function queryElementRoots<T extends Element = Element>(element: Element, selector: string): T | null {
+/**
+ * This helper queries an element's rootNode and any ancestor rootNodes.
+ *
+ * If both an 'id' and 'selector' are supplied, 'id' will take precedence over 'selector'.
+ *
+ * @returns {Element} The element.
+ */
+export function queryElementRoots<T extends Element = Element>(
+  element: Element,
+  {
+    selector,
+    id
+  }: {
+    selector?: string;
+    id?: string;
+  }
+): T | null {
   // Gets the rootNode and any ancestor rootNodes (shadowRoot or document) of an element and queries them for a selector.
+  // Based on: https://stackoverflow.com/q/54520554/194216
   function queryFrom<T extends Element = Element>(el: Element): T | null {
     if (!el) {
       return null;
@@ -95,7 +114,11 @@ export function queryElementRoots<T extends Element = Element>(element: Element,
 
     const rootNode = getRootNode(el);
 
-    const found = rootNode.querySelector(selector) as T;
+    const found = id
+      ? (rootNode.getElementById(id) as Element as T)
+      : selector
+      ? (rootNode.querySelector(selector) as T)
+      : null;
 
     const host = getHost(rootNode);
 
