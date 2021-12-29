@@ -23,7 +23,11 @@ export function nodeListToArray<T extends Element>(nodeList: HTMLCollectionOf<T>
 export type Direction = "ltr" | "rtl";
 
 export function getThemeName(el: HTMLElement): "light" | "dark" {
-  return closestElementCrossShadowBoundary(el, `.${CSS_UTILITY.darkTheme}`) ? "dark" : "light";
+  const closestElWithTheme = closestElementCrossShadowBoundary(
+    el,
+    `.${CSS_UTILITY.darkTheme}, .${CSS_UTILITY.lightTheme}`
+  );
+  return closestElWithTheme?.classList.contains("calcite-theme-dark") ? "dark" : "light";
 }
 
 export function getElementDir(el: HTMLElement): Direction {
