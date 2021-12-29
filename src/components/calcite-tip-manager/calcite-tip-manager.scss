@@ -12,7 +12,7 @@
   box-border
   bg-foreground-1
   text-color-2
-  text--1h;
+  text-n1h;
 
   * {
     @apply box-border;
@@ -56,15 +56,14 @@
 }
 
 .tip-container {
-  @apply mt-0
-    overflow-auto
+  @apply overflow-auto
     flex
     justify-center
     items-start
     focus-base
     mt-px;
   animation-name: none;
-  animation-duration: var(--calcite-internal-animation-timing);
+  animation-duration: var(--calcite-animation-timing);
   height: var(--calcite-tip-manager-height);
   &:focus {
     @apply focus-outset;
@@ -95,7 +94,7 @@
 }
 
 .page-position {
-  @apply text--2h my-0 mx-2;
+  @apply text-n2h my-0 mx-2;
 }
 
 /* @keyframes*/

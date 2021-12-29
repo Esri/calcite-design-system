@@ -9,7 +9,7 @@
     box-border
     bg-foreground-1
     text-color-2
-    text--1h;
+    text-n1h;
 
   * {
     @apply box-border;
@@ -68,7 +68,7 @@
 }
 
 .image-frame {
-  width: theme("width.[1/4");
+  width: theme("width[1/4]");
   img {
     @apply max-w-full;
   }

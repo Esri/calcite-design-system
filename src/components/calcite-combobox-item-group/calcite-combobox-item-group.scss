@@ -1,5 +1,5 @@
 .scale--s {
-  @apply text--2h;
+  @apply text-n2h;
   --calcite-combobox-item-spacing-unit-l: theme("spacing.2");
   --calcite-combobox-item-spacing-unit-s: theme("spacing.1");
   --calcite-combobox-item-spacing-indent-1: theme("spacing.2");
@@ -7,7 +7,7 @@
 }
 
 .scale--m {
-  @apply text--1h;
+  @apply text-n1h;
   --calcite-combobox-item-spacing-unit-l: theme("spacing.3");
   --calcite-combobox-item-spacing-unit-s: theme("spacing.2");
   --calcite-combobox-item-spacing-indent-1: theme("spacing.3");

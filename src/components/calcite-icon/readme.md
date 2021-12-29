@@ -27,6 +27,12 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
 | `scale`     | `scale`      | Icon scale.                                                                                                                         | `"l" \| "m" \| "s"` | `"m"`       |
 | `textLabel` | `text-label` | The icon label. It is recommended to set this value if your icon is semantic.                                                       | `string`            | `undefined` |
 
+## CSS Custom Properties
+
+| Name                      | Description                                        |
+| ------------------------- | -------------------------------------------------- |
+| `--calcite-ui-icon-color` | the color of the icon. Defaults to 'currentColor'. |
+
 ## Dependencies
 
 ### Used by

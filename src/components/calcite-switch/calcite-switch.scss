@@ -53,10 +53,6 @@
   @apply focus-base w-auto;
 }
 
-:host(:focus) {
-  @apply focus-outset;
-}
-
 .track {
   @apply relative
     inline-block
@@ -117,9 +113,8 @@
   }
 }
 
-//fix focus outline color
-.container:focus-visible {
-  outline-color: var(--calcite-ui-brand);
+.container:focus {
+  @apply focus-outset;
 }
 
 @include hidden-form-input();

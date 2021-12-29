@@ -34,6 +34,8 @@ export const setTheme = (value: ThemeName) => `${THEMES.map(
 ).join("")}
 `;
 
+export const toggleCentered: string = `document.body.classList.toggle('sb-main-centered');`;
+
 export const createSteps = (componentSelector: string): Steps => {
   return new Steps().wait(`${componentSelector}[calcite-hydrated]`);
 };

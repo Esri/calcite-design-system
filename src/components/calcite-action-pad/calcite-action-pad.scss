@@ -39,7 +39,7 @@
     ::slotted(calcite-action-group) {
       @apply border-0
       p-0;
-      border-inline-end-width: theme("borderWidth.default");
+      border-inline-end-width: theme("borderWidth.DEFAULT");
     }
   }
 }

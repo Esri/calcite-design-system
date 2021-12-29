@@ -34,7 +34,8 @@ const onLabelClickMap = new WeakMap<HTMLCalciteLabelElement, typeof onLabelClick
 const findLabelForComponent = (componentEl: HTMLElement): HTMLCalciteLabelElement | null => {
   const { id } = componentEl;
 
-  const forLabel = id && (queryElementRoots(componentEl, `${labelTagName}[for="${id}"]`) as HTMLCalciteLabelElement);
+  const forLabel =
+    id && (queryElementRoots(componentEl, { selector: `${labelTagName}[for="${id}"]` }) as HTMLCalciteLabelElement);
 
   if (forLabel) {
     return forLabel;
