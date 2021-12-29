@@ -47,10 +47,14 @@ export function getHost(root: HTMLDocument | ShadowRoot): Element | null {
   return (root as ShadowRoot).host || null;
 }
 
-// Queries an element's rootNode and any ancestor rootNodes.
-// based on https://stackoverflow.com/q/54520554/194216
+/**
+ * This helper queries an element's rootNodes and any ancestor rootNodes.
+ *
+ * @returns {Element[]} The elements.
+ */
 export function queryElementsRoots<T extends Element = Element>(element: Element, selector: string): T[] {
   // Gets the rootNode and any ancestor rootNodes (shadowRoot or document) of an element and queries them for a selector.
+  // Based on: https://stackoverflow.com/q/54520554/194216
   function queryFromAll<T extends Element = Element>(el: Element, allResults: T[]): T[] {
     if (!el) {
       return allResults;
@@ -76,8 +80,13 @@ export function queryElementsRoots<T extends Element = Element>(element: Element
   return queryFromAll(element, []);
 }
 
-// Queries an element's rootNode and any ancestor rootNodes.
-// based on https://stackoverflow.com/q/54520554/194216
+/**
+ * This helper queries an element's rootNode and any ancestor rootNodes.
+ *
+ * If both an 'id' and 'selector' are supplied, 'id' will take precedence over 'selector'.
+ *
+ * @returns {Element} The element.
+ */
 export function queryElementRoots<T extends Element = Element>(
   element: Element,
   {
@@ -89,6 +98,7 @@ export function queryElementRoots<T extends Element = Element>(
   }
 ): T | null {
   // Gets the rootNode and any ancestor rootNodes (shadowRoot or document) of an element and queries them for a selector.
+  // Based on: https://stackoverflow.com/q/54520554/194216
   function queryFrom<T extends Element = Element>(el: Element): T | null {
     if (!el) {
       return null;
