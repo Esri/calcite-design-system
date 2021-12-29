@@ -51,7 +51,7 @@ export class Filter {
    *
    * @readonly
    */
-  @Prop({ mutable: true }) filteredItems: Filter["items"] = [];
+  @Prop({ mutable: true }) filteredItems: object[] = [];
 
   /**
    * A text label that will appear on the clear button.
