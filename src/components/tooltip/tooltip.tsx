@@ -204,7 +204,7 @@ export class Tooltip {
 
     return (
       (typeof referenceElement === "string"
-        ? queryElementRoots(el, `#${referenceElement}`)
+        ? queryElementRoots(el, { id: referenceElement })
         : referenceElement) || null
     );
   }
