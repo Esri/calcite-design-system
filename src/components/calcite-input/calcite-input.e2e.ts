@@ -438,7 +438,7 @@ describe("calcite-input", () => {
       expect(await element.getProperty("value")).toBe(`${inputFirstPart}${textSecondPart}`);
 
       const programmaticSetValue = "1337";
-      await element.setProperty("value", programmaticSetValue);
+      element.setProperty("value", programmaticSetValue);
       await page.waitForChanges();
 
       expect(await element.getProperty("value")).toBe(programmaticSetValue);
@@ -716,12 +716,12 @@ describe("calcite-input", () => {
     await page.setContent(html`<calcite-input value="hello""></calcite-input>`);
     const input = await page.find("calcite-input");
 
-    await input.setProperty("value", null);
+    input.setProperty("value", null);
     await page.waitForChanges();
 
     expect(await input.getProperty("value")).toBe("");
 
-    await input.setProperty("value", undefined);
+    input.setProperty("value", undefined);
     await page.waitForChanges();
 
     expect(await input.getProperty("value")).toBe("");
@@ -950,12 +950,12 @@ describe("calcite-input", () => {
     await page.setContent(html`<calcite-input type="number" value="1"></calcite-input>`);
     const input = await page.find("calcite-input");
 
-    await input.setProperty("value", null);
+    input.setProperty("value", null);
     await page.waitForChanges();
 
     expect(await input.getProperty("value")).toBe("");
 
-    await input.setProperty("value", undefined);
+    input.setProperty("value", undefined);
     await page.waitForChanges();
 
     expect(await input.getProperty("value")).toBe("");
