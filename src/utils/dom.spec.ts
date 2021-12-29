@@ -141,7 +141,7 @@ describe("dom", () => {
 
       describe("scoped selector", () => {
         it("returns element with matching default slot", () =>
-          expect(getSlotted(getTestComponent(), null, { selector: "p" })).toBeTruthy());
+          expect(getSlotted(getTestComponent(), { selector: "p" })).toBeTruthy());
 
         it("returns element with matching nested selector", () =>
           expect(getSlotted(getTestComponent(), testSlotName, { selector: "span" })).toBeTruthy());
@@ -193,7 +193,7 @@ describe("dom", () => {
 
     describe("multiple slotted", () => {
       it("returns element with default slot name", () =>
-        expect(getSlotted(getTestComponent(), null, { all: true })).toHaveLength(1));
+        expect(getSlotted(getTestComponent(), { all: true })).toHaveLength(1));
 
       it("returns elements with matching slot name", () =>
         expect(getSlotted(getTestComponent(), testSlotName, { all: true })).toHaveLength(2));

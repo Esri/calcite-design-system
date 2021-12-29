@@ -166,19 +166,24 @@ const defaultSlotSelector = "> :not([slot])";
 
 export function getSlotted<T extends Element = Element>(
   element: Element,
-  slotName: string | string[],
+  slotName: string | string[] | (GetSlottedOptions & { all: true }),
   options: GetSlottedOptions & { all: true }
 ): T[];
 export function getSlotted<T extends Element = Element>(
   element: Element,
-  slotName?: string | string[],
+  slotName?: string | string[] | GetSlottedOptions,
   options?: GetSlottedOptions
 ): T | null;
 export function getSlotted<T extends Element = Element>(
   element: Element,
-  slotName?: string | string[],
+  slotName?: string | string[] | GetSlottedOptions,
   options?: GetSlottedOptions
 ): (T | null) | T[] {
+  if (!Array.isArray(slotName) && typeof slotName !== "string") {
+    options = slotName;
+    slotName = null;
+  }
+
   const slotSelector = slotName
     ? Array.isArray(slotName)
       ? slotName.map((name) => `[slot="${name}"]`).join(",")
