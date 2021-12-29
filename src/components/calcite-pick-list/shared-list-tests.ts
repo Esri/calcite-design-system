@@ -345,6 +345,24 @@ export function selectionAndDeselection(listType: ListType): void {
     });
   });
 
+  describe("when an item is selected and then gets removed", () => {
+    it("should deselect the removed item from the selectedValues map", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-${listType}-list multiple>
+          <calcite-${listType}-list-item value="one" label="One"></calcite-${listType}-list-item>
+          <calcite-${listType}-list-item id="item2" value="two" label="Two" selected></calcite-${listType}-list-item>
+        </calcite-${listType}-list>`);
+
+      const numSelected = await page.evaluate(async (type) => {
+        document.querySelector("#item2").remove();
+        const domList: ListElement = document.querySelector(`calcite-${type}-list`);
+        return (await domList.getSelectedItems()).size;
+      }, listType);
+
+      expect(numSelected).toBe(0);
+    });
+  });
+
   describe("value changes after item is selected", () => {
     it("should update the value in selectedValues map", async () => {
       const page = await newE2EPage();

@@ -2,6 +2,11 @@ import { closestElementCrossShadowBoundary, queryElementRoots } from "./dom";
 
 export interface LabelableComponent {
   /**
+   * When true, disabled prevents interaction.
+   */
+  disabled: boolean;
+
+  /**
    * The host element.
    */
   readonly el: HTMLElement;
@@ -34,7 +39,8 @@ const onLabelClickMap = new WeakMap<HTMLCalciteLabelElement, typeof onLabelClick
 const findLabelForComponent = (componentEl: HTMLElement): HTMLCalciteLabelElement | null => {
   const { id } = componentEl;
 
-  const forLabel = id && (queryElementRoots(componentEl, `${labelTagName}[for="${id}"]`) as HTMLCalciteLabelElement);
+  const forLabel =
+    id && (queryElementRoots(componentEl, { selector: `${labelTagName}[for="${id}"]` }) as HTMLCalciteLabelElement);
 
   if (forLabel) {
     return forLabel;
@@ -112,6 +118,10 @@ export function getLabelText(component: LabelableComponent): string {
 }
 
 function onLabelClick(this: LabelableComponent, event: CustomEvent<{ sourceEvent: MouseEvent }>): void {
+  if (this.disabled) {
+    return;
+  }
+
   const containedLabelableChildClicked = this.el.contains(event.detail.sourceEvent.target as HTMLElement);
 
   if (containedLabelableChildClicked) {

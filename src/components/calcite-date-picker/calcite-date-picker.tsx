@@ -495,15 +495,15 @@ export class CalciteDatePicker {
   };
 
   private setEndDate(date: Date): void {
-    this.end = dateToISO(date);
+    this.end = date ? dateToISO(date) : "";
     this.setEndAsDate(date, true);
-    this.activeEndDate = date;
+    this.activeEndDate = date || null;
   }
 
   private setStartDate(date: Date): void {
-    this.start = dateToISO(date);
+    this.start = date ? dateToISO(date) : "";
     this.setStartAsDate(date, true);
-    this.activeStartDate = date;
+    this.activeStartDate = date || null;
   }
 
   /**
@@ -512,8 +512,9 @@ export class CalciteDatePicker {
   private monthDateChange = (e: CustomEvent<Date>): void => {
     const date = new Date(e.detail);
     if (!this.range) {
-      this.value = dateToISO(date);
-      this.activeDate = date;
+      this.value = date ? dateToISO(date) : "";
+      this.valueAsDate = date || null;
+      this.activeDate = date || null;
       return;
     }
 
