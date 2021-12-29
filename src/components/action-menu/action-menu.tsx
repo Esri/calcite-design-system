@@ -33,7 +33,7 @@ const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
   styleUrl: "action-menu.scss",
   shadow: true
 })
-export class CalciteActionMenu {
+export class ActionMenu {
   // --------------------------------------------------------------------------
   //
   //  Lifecycle

@@ -13,7 +13,7 @@ import { Status } from "../interfaces";
   styleUrl: "block-section.scss",
   shadow: true
 })
-export class CalciteBlockSection {
+export class BlockSection {
   // --------------------------------------------------------------------------
   //
   //  Properties

@@ -31,7 +31,7 @@ import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
   styleUrl: "panel.scss",
   shadow: true
 })
-export class CalcitePanel {
+export class Panel {
   // --------------------------------------------------------------------------
   //
   //  Properties

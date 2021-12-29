@@ -28,7 +28,7 @@ import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
   styleUrl: "date-picker-month-header.scss",
   shadow: true
 })
-export class CalciteDatePickerMonthHeader {
+export class DatePickerMonthHeader {
   //--------------------------------------------------------------------------
   //
   //  Element

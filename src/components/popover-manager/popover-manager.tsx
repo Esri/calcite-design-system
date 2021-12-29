@@ -10,7 +10,7 @@ import { queryElementRoots, queryElementsRoots } from "../../utils/dom";
   styleUrl: "popover-manager.scss",
   shadow: true
 })
-export class CalcitePopoverManager {
+export class PopoverManager {
   // --------------------------------------------------------------------------
   //
   //  Private Properties

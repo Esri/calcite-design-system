@@ -32,7 +32,7 @@ import { StatusColor, AlertDuration, StatusIcons } from "./interfaces";
   styleUrl: "alert.scss",
   shadow: true
 })
-export class CalciteAlert {
+export class Alert {
   //--------------------------------------------------------------------------
   //
   //  Element

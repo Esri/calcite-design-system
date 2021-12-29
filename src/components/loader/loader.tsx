@@ -7,7 +7,7 @@ import { Scale } from "../interfaces";
   styleUrl: "loader.scss",
   shadow: true
 })
-export class CalciteLoader {
+export class Loader {
   //--------------------------------------------------------------------------
   //
   //  Element

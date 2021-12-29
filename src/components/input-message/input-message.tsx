@@ -11,7 +11,7 @@ import { StatusIconDefaults } from "./interfaces";
   styleUrl: "input-message.scss",
   shadow: true
 })
-export class CalciteInputMessage {
+export class InputMessage {
   //--------------------------------------------------------------------------
   //
   //  Element

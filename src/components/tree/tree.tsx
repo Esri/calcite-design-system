@@ -22,7 +22,7 @@ import { Scale } from "../interfaces";
   styleUrl: "tree.scss",
   shadow: true
 })
-export class CalciteTree {
+export class Tree {
   //--------------------------------------------------------------------------
   //
   //  Element

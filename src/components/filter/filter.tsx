@@ -21,7 +21,7 @@ const filterDebounceInMs = 250;
   styleUrl: "filter.scss",
   shadow: true
 })
-export class CalciteFilter {
+export class Filter {
   // --------------------------------------------------------------------------
   //
   //  Properties

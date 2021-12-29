@@ -11,7 +11,7 @@ import { getSlotted } from "../../utils/dom";
   styleUrl: "tile.scss",
   shadow: true
 })
-export class CalciteTile {
+export class Tile {
   // --------------------------------------------------------------------------
   //
   //  Private Properties

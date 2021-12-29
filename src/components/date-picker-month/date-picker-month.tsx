@@ -18,7 +18,7 @@ import { Scale } from "../interfaces";
   styleUrl: "date-picker-month.scss",
   shadow: true
 })
-export class CalciteDatePickerMonth {
+export class DatePickerMonth {
   //--------------------------------------------------------------------------
   //
   //  Element

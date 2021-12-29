@@ -10,7 +10,7 @@ import { CSS } from "./resources";
   styleUrl: "label.scss",
   shadow: true
 })
-export class CalciteLabel {
+export class Label {
   //--------------------------------------------------------------------------
   //
   //  Element

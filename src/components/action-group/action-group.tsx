@@ -15,7 +15,7 @@ import { Columns, Layout, Scale } from "../interfaces";
   styleUrl: "action-group.scss",
   shadow: true
 })
-export class CalciteActionGroup {
+export class ActionGroup {
   // --------------------------------------------------------------------------
   //
   //  Properties

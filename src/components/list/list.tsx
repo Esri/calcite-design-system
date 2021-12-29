@@ -11,7 +11,7 @@ import { HeadingLevel } from "../functional/CalciteHeading";
   styleUrl: "list.scss",
   shadow: true
 })
-export class CalciteList {
+export class List {
   // --------------------------------------------------------------------------
   //
   //  Properties

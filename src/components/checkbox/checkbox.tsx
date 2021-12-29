@@ -20,7 +20,7 @@ import { connectForm, disconnectForm } from "../../utils/form";
   styleUrl: "checkbox.scss",
   shadow: true
 })
-export class CalciteCheckbox implements LabelableComponent, CheckableFormCompoment {
+export class Checkbox implements LabelableComponent, CheckableFormCompoment {
   //--------------------------------------------------------------------------
   //
   //  Element

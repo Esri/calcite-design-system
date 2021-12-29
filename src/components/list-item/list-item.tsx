@@ -14,7 +14,7 @@ import { getSlotted } from "../../utils/dom";
   styleUrl: "list-item.scss",
   shadow: true
 })
-export class CalciteListItem {
+export class ListItem {
   // --------------------------------------------------------------------------
   //
   //  Properties

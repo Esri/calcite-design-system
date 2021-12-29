@@ -12,7 +12,7 @@ import { getSlotted } from "../../utils/dom";
   styleUrl: "shell-center-row.scss",
   shadow: true
 })
-export class CalciteShellCenterRow {
+export class ShellCenterRow {
   // --------------------------------------------------------------------------
   //
   //  Properties

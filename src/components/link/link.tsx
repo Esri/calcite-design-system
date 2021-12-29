@@ -13,7 +13,7 @@ import { CSS_UTILITY } from "../../utils/resources";
   styleUrl: "link.scss",
   shadow: true
 })
-export class CalciteLink {
+export class Link {
   //--------------------------------------------------------------------------
   //
   //  Element

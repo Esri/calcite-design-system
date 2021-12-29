@@ -10,7 +10,7 @@ import { CSS, TEXT } from "./resources";
   styleUrl: "scrim.scss",
   shadow: true
 })
-export class CalciteScrim {
+export class Scrim {
   // --------------------------------------------------------------------------
   //
   //  Properties

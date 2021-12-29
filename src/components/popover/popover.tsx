@@ -41,7 +41,7 @@ import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
   styleUrl: "popover.scss",
   shadow: true
 })
-export class CalcitePopover {
+export class Popover {
   // --------------------------------------------------------------------------
   //
   //  Properties

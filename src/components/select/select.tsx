@@ -45,7 +45,7 @@ function isOptionGroup(
   styleUrl: "select.scss",
   shadow: true
 })
-export class CalciteSelect implements LabelableComponent, FormComponent {
+export class Select implements LabelableComponent, FormComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties

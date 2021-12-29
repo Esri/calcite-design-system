@@ -25,7 +25,7 @@ import { Scale } from "../interfaces";
   styleUrl: "tab-nav.scss",
   shadow: true
 })
-export class CalciteTabNav {
+export class TabNav {
   //--------------------------------------------------------------------------
   //
   //  Element

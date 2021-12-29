@@ -25,7 +25,7 @@ import { SelectionMode } from "../dropdown-group/interfaces";
   styleUrl: "dropdown-item.scss",
   shadow: true
 })
-export class CalciteDropdownItem {
+export class DropdownItem {
   //--------------------------------------------------------------------------
   //
   //  Element

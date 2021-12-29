@@ -11,7 +11,7 @@ import { Position, Scale } from "../interfaces";
   styleUrl: "accordion.scss",
   shadow: true
 })
-export class CalciteAccordion {
+export class Accordion {
   //--------------------------------------------------------------------------
   //
   //  Element

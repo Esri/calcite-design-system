@@ -39,7 +39,7 @@ type NumberNudgeDirection = "up" | "down";
   styleUrl: "input.scss",
   shadow: true
 })
-export class CalciteInput implements LabelableComponent, FormComponent {
+export class Input implements LabelableComponent, FormComponent {
   //--------------------------------------------------------------------------
   //
   //  Element

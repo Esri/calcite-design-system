@@ -25,7 +25,7 @@ export interface CalcitePaginationDetail {
   styleUrl: "pagination.scss",
   shadow: true
 })
-export class CalcitePagination {
+export class Pagination {
   //--------------------------------------------------------------------------
   //
   //  Public Properties

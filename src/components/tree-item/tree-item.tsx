@@ -27,7 +27,7 @@ import { CSS_UTILITY } from "../../utils/resources";
   styleUrl: "tree-item.scss",
   shadow: true
 })
-export class CalciteTreeItem {
+export class TreeItem {
   //--------------------------------------------------------------------------
   //
   //  Element

@@ -20,7 +20,7 @@ import { queryElementRoots } from "../../utils/dom";
   styleUrl: "tooltip.scss",
   shadow: true
 })
-export class CalciteTooltip {
+export class Tooltip {
   // --------------------------------------------------------------------------
   //
   //  Properties

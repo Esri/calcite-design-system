@@ -25,7 +25,7 @@ import { createObserver } from "../../utils/observers";
   styleUrl: "action.scss",
   shadow: true
 })
-export class CalciteAction {
+export class Action {
   // --------------------------------------------------------------------------
   //
   //  Properties

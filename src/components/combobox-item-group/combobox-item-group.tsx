@@ -14,7 +14,7 @@ import { Scale } from "../interfaces";
   styleUrl: "combobox-item-group.scss",
   shadow: true
 })
-export class CalciteComboboxItemGroup {
+export class ComboboxItemGroup {
   // --------------------------------------------------------------------------
   //
   //  Properties

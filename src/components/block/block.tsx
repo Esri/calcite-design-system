@@ -15,7 +15,7 @@ import { Status } from "../interfaces";
   styleUrl: "block.scss",
   shadow: true
 })
-export class CalciteBlock {
+export class Block {
   // --------------------------------------------------------------------------
   //
   //  Properties

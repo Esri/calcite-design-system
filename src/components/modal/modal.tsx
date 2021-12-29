@@ -48,7 +48,7 @@ const getFocusableElements = (el: HTMLElement | ShadowRoot): HTMLElement[] => {
   styleUrl: "modal.scss",
   shadow: true
 })
-export class CalciteModal {
+export class Modal {
   //--------------------------------------------------------------------------
   //
   //  Element

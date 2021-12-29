@@ -12,7 +12,7 @@ import { createObserver } from "../../utils/observers";
   shadow: true,
   assetsDirs: ["assets"]
 })
-export class CalciteIcon {
+export class Icon {
   //--------------------------------------------------------------------------
   //
   //  Element

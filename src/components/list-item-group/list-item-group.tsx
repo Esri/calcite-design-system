@@ -11,7 +11,7 @@ import { HeadingLevel, CalciteHeading, constrainHeadingLevel } from "../function
   styleUrl: "list-item-group.scss",
   shadow: true
 })
-export class CalciteListItemGroup {
+export class ListItemGroup {
   // --------------------------------------------------------------------------
   //
   //  Properties

@@ -13,7 +13,7 @@ import { createObserver } from "../../utils/observers";
   styleUrl: "flow.scss",
   shadow: true
 })
-export class CalciteFlow {
+export class Flow {
   // --------------------------------------------------------------------------
   //
   //  Public Methods

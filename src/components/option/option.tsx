@@ -6,7 +6,7 @@ import { createObserver } from "../../utils/observers";
   styleUrl: "option.scss",
   shadow: true
 })
-export class CalciteOption {
+export class Option {
   //--------------------------------------------------------------------------
   //
   //  Properties

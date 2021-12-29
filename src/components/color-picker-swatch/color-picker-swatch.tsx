@@ -9,7 +9,7 @@ import { getThemeName } from "../../utils/dom";
   styleUrl: "color-picker-swatch.scss",
   shadow: true
 })
-export class CalciteColorPickerSwatch {
+export class ColorPickerSwatch {
   //--------------------------------------------------------------------------
   //
   //  Properties

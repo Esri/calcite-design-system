@@ -43,7 +43,7 @@ import { createObserver } from "../../utils/observers";
   styleUrl: "pick-list.scss",
   shadow: true
 })
-export class CalcitePickList<
+export class PickList<
   ItemElement extends HTMLCalcitePickListItemElement = HTMLCalcitePickListItemElement
 > {
   // --------------------------------------------------------------------------

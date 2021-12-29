@@ -23,7 +23,7 @@ import { createObserver } from "../../utils/observers";
   styleUrl: "tip-manager.scss",
   shadow: true
 })
-export class CalciteTipManager {
+export class TipManager {
   // --------------------------------------------------------------------------
   //
   //  Properties

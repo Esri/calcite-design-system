@@ -29,7 +29,7 @@ import { getRoundRobinIndex } from "../../utils/array";
   styleUrl: "radio-button.scss",
   shadow: true
 })
-export class CalciteRadioButton implements LabelableComponent, CheckableFormCompoment {
+export class RadioButton implements LabelableComponent, CheckableFormCompoment {
   //--------------------------------------------------------------------------
   //
   //  Element

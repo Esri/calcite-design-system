@@ -22,7 +22,7 @@ import { TEXT } from "./resources";
   styleUrl: "rating.scss",
   shadow: true
 })
-export class CalciteRating implements LabelableComponent, FormComponent {
+export class Rating implements LabelableComponent, FormComponent {
   //--------------------------------------------------------------------------
   //
   //  Element

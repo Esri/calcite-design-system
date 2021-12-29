@@ -12,7 +12,7 @@ import { OverlayPositioning } from "../../utils/popper";
   styleUrl: "split-button.scss",
   shadow: true
 })
-export class CalciteSplitButton {
+export class SplitButton {
   @Element() el: HTMLCalciteSplitButtonElement;
 
   /** specify the appearance style of the button, defaults to solid. */

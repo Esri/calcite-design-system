@@ -39,7 +39,7 @@ const defaultFormat = "auto";
   styleUrl: "color-picker.scss",
   shadow: true
 })
-export class CalciteColorPicker {
+export class ColorPicker {
   //--------------------------------------------------------------------------
   //
   //  Element

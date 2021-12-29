@@ -57,7 +57,7 @@ const isGroup = (el: ComboboxChildElement): el is HTMLCalciteComboboxItemGroupEl
   styleUrl: "combobox.scss",
   shadow: true
 })
-export class CalciteCombobox implements LabelableComponent, FormComponent {
+export class Combobox implements LabelableComponent, FormComponent {
   //--------------------------------------------------------------------------
   //
   //  Element

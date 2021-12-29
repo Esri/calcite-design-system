@@ -12,7 +12,7 @@ import { HeadingLevel, CalciteHeading, constrainHeadingLevel } from "../function
   styleUrl: "tip.scss",
   shadow: true
 })
-export class CalciteTip {
+export class Tip {
   // --------------------------------------------------------------------------
   //
   //  Properties

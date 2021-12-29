@@ -4,7 +4,7 @@ import { Component, Element, h, Prop, VNode } from "@stencil/core";
   styleUrl: "progress.scss",
   shadow: true
 })
-export class CalciteProgress {
+export class Progress {
   @Element() el: HTMLCalciteProgressElement;
 
   /** Use indeterminate if finding actual progress value is impossible */

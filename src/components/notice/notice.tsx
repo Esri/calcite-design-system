@@ -33,7 +33,7 @@ import { getSlotted, setRequestedIcon } from "../../utils/dom";
   styleUrl: "notice.scss",
   shadow: true
 })
-export class CalciteNotice {
+export class Notice {
   //--------------------------------------------------------------------------
   //
   //  Element

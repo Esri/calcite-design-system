@@ -26,7 +26,7 @@ import {
   styleUrl: "switch.scss",
   shadow: true
 })
-export class CalciteSwitch implements LabelableComponent, CheckableFormCompoment {
+export class Switch implements LabelableComponent, CheckableFormCompoment {
   //--------------------------------------------------------------------------
   //
   //  Element

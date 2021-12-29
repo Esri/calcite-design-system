@@ -22,7 +22,7 @@ import { Position } from "../interfaces";
   styleUrl: "accordion-item.scss",
   shadow: true
 })
-export class CalciteAccordionItem {
+export class AccordionItem {
   //--------------------------------------------------------------------------
   //
   //  Element

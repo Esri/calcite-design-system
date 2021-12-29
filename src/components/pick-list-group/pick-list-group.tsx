@@ -12,7 +12,7 @@ import { HeadingLevel, CalciteHeading, constrainHeadingLevel } from "../function
   styleUrl: "pick-list-group.scss",
   shadow: true
 })
-export class CalcitePickListGroup {
+export class PickListGroup {
   // --------------------------------------------------------------------------
   //
   //  Properties

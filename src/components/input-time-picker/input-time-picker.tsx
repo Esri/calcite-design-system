@@ -23,7 +23,7 @@ import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from 
   styleUrl: "input-time-picker.scss",
   shadow: true
 })
-export class CalciteInputTimePicker implements LabelableComponent, FormComponent {
+export class InputTimePicker implements LabelableComponent, FormComponent {
   //--------------------------------------------------------------------------
   //
   //  Element

@@ -22,7 +22,7 @@ import { CSS } from "./resources";
   styleUrl: "sortable-list.scss",
   shadow: true
 })
-export class CalciteSortableList {
+export class SortableList {
   // --------------------------------------------------------------------------
   //
   //  Properties

@@ -33,7 +33,7 @@ const DEFAULT_COLOR = Color();
   styleUrl: "color-picker-hex-input.scss",
   shadow: true
 })
-export class CalciteColorPickerHexInput {
+export class ColorPickerHexInput {
   //--------------------------------------------------------------------------
   //
   //  Element

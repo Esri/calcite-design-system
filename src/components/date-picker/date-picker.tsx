@@ -24,7 +24,7 @@ import { HEADING_LEVEL, TEXT } from "./resources";
   styleUrl: "date-picker.scss",
   shadow: true
 })
-export class CalciteDatePicker {
+export class DatePicker {
   //--------------------------------------------------------------------------
   //
   //  Element

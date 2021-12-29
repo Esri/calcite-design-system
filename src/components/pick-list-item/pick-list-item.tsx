@@ -23,7 +23,7 @@ import { getSlotted } from "../../utils/dom";
   styleUrl: "pick-list-item.scss",
   shadow: true
 })
-export class CalcitePickListItem {
+export class PickListItem {
   // --------------------------------------------------------------------------
   //
   //  Properties

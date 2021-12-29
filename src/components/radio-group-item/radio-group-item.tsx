@@ -19,7 +19,7 @@ import { SLOTS, CSS } from "./resources";
   styleUrl: "radio-group-item.scss",
   shadow: true
 })
-export class CalciteRadioGroupItem {
+export class RadioGroupItem {
   //--------------------------------------------------------------------------
   //
   //  Element

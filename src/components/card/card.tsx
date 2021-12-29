@@ -19,7 +19,7 @@ import { CSS, SLOTS, TEXT } from "./resources";
   styleUrl: "card.scss",
   shadow: true
 })
-export class CalciteCard {
+export class Card {
   //--------------------------------------------------------------------------
   //
   //  Element

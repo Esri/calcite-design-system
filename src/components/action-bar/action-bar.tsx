@@ -38,7 +38,7 @@ import {
   styleUrl: "action-bar.scss",
   shadow: true
 })
-export class CalciteActionBar implements ConditionalSlotComponent {
+export class ActionBar implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties

@@ -24,7 +24,7 @@ import { CSS } from "./resources";
   styleUrl: "tile-select.scss",
   shadow: true
 })
-export class CalciteTileSelect {
+export class TileSelect {
   //--------------------------------------------------------------------------
   //
   //  Element

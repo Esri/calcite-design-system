@@ -12,7 +12,7 @@ import { SLOTS } from "./resources";
   styleUrl: "tabs.scss",
   shadow: true
 })
-export class CalciteTabs {
+export class Tabs {
   //--------------------------------------------------------------------------
   //
   //  Element

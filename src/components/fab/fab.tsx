@@ -9,7 +9,7 @@ import { focusElement } from "../../utils/dom";
   styleUrl: "fab.scss",
   shadow: true
 })
-export class CalciteFab {
+export class Fab {
   // --------------------------------------------------------------------------
   //
   //  Properties

@@ -9,7 +9,7 @@ import { getThemeName } from "../../utils/dom";
   styleUrl: "avatar.scss",
   shadow: true
 })
-export class CalciteAvatar {
+export class Avatar {
   //--------------------------------------------------------------------------
   //
   //  Element

@@ -43,7 +43,7 @@ const DEFAULT_PLACEMENT = "bottom-leading";
   styleUrl: "input-date-picker.scss",
   shadow: true
 })
-export class CalciteInputDatePicker implements LabelableComponent, FormComponent {
+export class InputDatePicker implements LabelableComponent, FormComponent {
   //--------------------------------------------------------------------------
   //
   //  Element

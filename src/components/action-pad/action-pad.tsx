@@ -24,7 +24,7 @@ import { CSS, TEXT, SLOTS } from "./resources";
   styleUrl: "action-pad.scss",
   shadow: true
 })
-export class CalciteActionPad {
+export class ActionPad {
   // --------------------------------------------------------------------------
   //
   //  Properties

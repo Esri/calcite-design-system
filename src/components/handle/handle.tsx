@@ -6,7 +6,7 @@ import { CSS, ICONS } from "./resources";
   styleUrl: "handle.scss",
   shadow: true
 })
-export class CalciteHandle {
+export class Handle {
   // --------------------------------------------------------------------------
   //
   //  Properties

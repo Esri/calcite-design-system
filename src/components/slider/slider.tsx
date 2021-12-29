@@ -34,7 +34,7 @@ type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
   styleUrl: "slider.scss",
   shadow: true
 })
-export class CalciteSlider implements LabelableComponent, FormComponent {
+export class Slider implements LabelableComponent, FormComponent {
   //--------------------------------------------------------------------------
   //
   //  Element

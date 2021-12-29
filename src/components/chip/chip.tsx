@@ -14,7 +14,7 @@ import { Appearance, Scale } from "../interfaces";
   styleUrl: "chip.scss",
   shadow: true
 })
-export class CalciteChip {
+export class Chip {
   //--------------------------------------------------------------------------
   //
   //  Public Properties

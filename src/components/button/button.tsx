@@ -16,7 +16,7 @@ import { createObserver } from "../../utils/observers";
   styleUrl: "button.scss",
   shadow: true
 })
-export class CalciteButton implements LabelableComponent {
+export class Button implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element

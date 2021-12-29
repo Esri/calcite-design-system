@@ -21,7 +21,7 @@ import { Layout, Scale } from "../interfaces";
   styleUrl: "stepper.scss",
   shadow: true
 })
-export class CalciteStepper {
+export class Stepper {
   //--------------------------------------------------------------------------
   //
   //  Element

@@ -34,7 +34,7 @@ import { createObserver } from "../../utils/observers";
   styleUrl: "dropdown.scss",
   shadow: true
 })
-export class CalciteDropdown {
+export class Dropdown {
   //--------------------------------------------------------------------------
   //
   //  Element

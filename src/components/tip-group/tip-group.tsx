@@ -8,7 +8,7 @@ import { Component, Prop, h, VNode } from "@stencil/core";
   styleUrl: "tip-group.scss",
   shadow: true
 })
-export class CalciteTipGroup {
+export class TipGroup {
   // --------------------------------------------------------------------------
   //
   //  Properties

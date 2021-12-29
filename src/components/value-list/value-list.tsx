@@ -43,7 +43,7 @@ import { createObserver } from "../../utils/observers";
   styleUrl: "value-list.scss",
   shadow: true
 })
-export class CalciteValueList<
+export class ValueList<
   ItemElement extends HTMLCalciteValueListItemElement = HTMLCalciteValueListItemElement
 > {
   // --------------------------------------------------------------------------

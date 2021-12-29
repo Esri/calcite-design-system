@@ -8,7 +8,7 @@ import { area, range, translate } from "./util";
   styleUrl: "graph.scss",
   shadow: true
 })
-export class CalciteGraph {
+export class Graph {
   //--------------------------------------------------------------------------
   //
   //  Element

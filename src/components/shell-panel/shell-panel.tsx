@@ -24,7 +24,7 @@ import { clamp } from "../../utils/math";
   styleUrl: "shell-panel.scss",
   shadow: true
 })
-export class CalciteShellPanel {
+export class ShellPanel {
   // --------------------------------------------------------------------------
   //
   //  Properties

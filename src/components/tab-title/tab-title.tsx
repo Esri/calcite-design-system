@@ -28,7 +28,7 @@ import { createObserver } from "../../utils/observers";
   styleUrl: "tab-title.scss",
   shadow: true
 })
-export class CalciteTabTitle {
+export class TabTitle {
   //--------------------------------------------------------------------------
   //
   //  Events

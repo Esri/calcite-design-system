@@ -22,7 +22,7 @@ import { CSS } from "./resources";
   styleUrl: "dropdown-group.scss",
   shadow: true
 })
-export class CalciteDropdownGroup {
+export class DropdownGroup {
   //--------------------------------------------------------------------------
   //
   //  Element

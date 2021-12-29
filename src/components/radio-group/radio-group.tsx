@@ -27,7 +27,7 @@ import { RadioAppearance } from "./interfaces";
   styleUrl: "radio-group.scss",
   shadow: true
 })
-export class CalciteRadioGroup implements LabelableComponent, FormComponent {
+export class RadioGroup implements LabelableComponent, FormComponent {
   //--------------------------------------------------------------------------
   //
   //  Element

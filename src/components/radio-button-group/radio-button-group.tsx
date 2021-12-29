@@ -20,7 +20,7 @@ import { Layout, Scale } from "../interfaces";
   styleUrl: "radio-button-group.scss",
   shadow: true
 })
-export class CalciteRadioButtonGroup {
+export class RadioButtonGroup {
   //--------------------------------------------------------------------------
   //
   //  Element

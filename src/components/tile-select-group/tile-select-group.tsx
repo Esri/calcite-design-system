@@ -9,7 +9,7 @@ import { TileSelectGroupLayout } from "./interfaces";
   styleUrl: "tile-select-group.scss",
   shadow: true
 })
-export class CalciteTileSelectGroup {
+export class TileSelectGroup {
   //--------------------------------------------------------------------------
   //
   //  Properties

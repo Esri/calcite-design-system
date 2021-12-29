@@ -40,7 +40,7 @@ function capitalize(str: string): string {
   styleUrl: "time-picker.scss",
   shadow: true
 })
-export class CalciteTimePicker {
+export class TimePicker {
   //--------------------------------------------------------------------------
   //
   //  Element

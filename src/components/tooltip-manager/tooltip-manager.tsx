@@ -10,7 +10,7 @@ import { queryElementRoots } from "../../utils/dom";
   styleUrl: "tooltip-manager.scss",
   shadow: true
 })
-export class CalciteTooltipManager {
+export class TooltipManager {
   // --------------------------------------------------------------------------
   //
   //  Variables

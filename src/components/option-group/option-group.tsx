@@ -8,7 +8,7 @@ import { Component, h, Prop, VNode, Watch, Event, EventEmitter, Fragment } from 
   styleUrl: "option-group.scss",
   shadow: true
 })
-export class CalciteOptionGroup {
+export class OptionGroup {
   //--------------------------------------------------------------------------
   //
   //  Properties

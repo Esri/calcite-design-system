@@ -20,7 +20,7 @@ import { CSS_UTILITY } from "../../utils/resources";
   styleUrl: "date-picker-day.scss",
   shadow: true
 })
-export class CalciteDatePickerDay {
+export class DatePickerDay {
   //--------------------------------------------------------------------------
   //
   //  Element

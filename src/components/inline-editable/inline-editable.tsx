@@ -23,7 +23,7 @@ import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from 
   shadow: true,
   styleUrl: "inline-editable.scss"
 })
-export class CalciteInlineEditable implements LabelableComponent {
+export class InlineEditable implements LabelableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element

@@ -15,7 +15,7 @@ import { getSlotted } from "../../utils/dom";
   styleUrl: "shell.scss",
   shadow: true
 })
-export class CalciteShell {
+export class Shell {
   // --------------------------------------------------------------------------
   //
   //  Properties
