@@ -192,6 +192,9 @@ describe("dom", () => {
     });
 
     describe("multiple slotted", () => {
+      it("returns element with default slot name", () =>
+        expect(getSlotted(getTestComponent(), null, { all: true })).toHaveLength(1));
+
       it("returns elements with matching slot name", () =>
         expect(getSlotted(getTestComponent(), testSlotName, { all: true })).toHaveLength(2));
 
