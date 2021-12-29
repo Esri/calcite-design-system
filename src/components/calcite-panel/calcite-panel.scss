@@ -81,14 +81,13 @@
     border-b-color-3
     w-full;
   flex: 0 0 auto;
-  min-height: theme("spacing.12");
   z-index: 2;
 }
 
 .header-content {
   @apply overflow-hidden
     px-3
-    py-4
+    py-3.5
     flex
     flex-col;
   margin-inline-end: auto;
