@@ -7,11 +7,16 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
+### Features
+
+- **icon:** Add new global CSS variable to customize icon's color. [#3200](https://github.com/Esri/calcite-components/issues/3200) ([#3770](https://github.com/Esri/calcite-components/issues/3770)) ([f25b14f](https://github.com/Esri/calcite-components/commit/f25b14faf7f452426bb0fde838ac343d38d5a99f))
+
 ### Bug Fixes
 
 - **avatar:** avatars containing text vs icon vs image are now lined up when placed next to each other ([#3774](https://github.com/Esri/calcite-components/issues/3774)) ([24d6c0d](https://github.com/Esri/calcite-components/commit/24d6c0df896d9c6464e6bfd9b7fbd0d3a66a64ec))
 - **checkbox,radio-button:** prevents disabled checkboxes and radio-buttons from receiving keyboard or mouse focus ([#3784](https://github.com/Esri/calcite-components/issues/3784)) ([d055b08](https://github.com/Esri/calcite-components/commit/d055b08d001271790e414f8825d8e9c0ccfa014a))
 - **color-picker-swatch, avatar:** in case where theme is set on multiple levels, these components now take theme of the element or the closest parent ([#3785](https://github.com/Esri/calcite-components/issues/3785)) ([df7df98](https://github.com/Esri/calcite-components/commit/df7df98361dc5351041d35530b757e8d1ef10f00))
+- **dropdown-group:** Set display as block. [#3427](https://github.com/Esri/calcite-components/issues/3427) ([#3777](https://github.com/Esri/calcite-components/issues/3777)) ([ac769f3](https://github.com/Esri/calcite-components/commit/ac769f3020451fc8a04a3273b061d2df89c9d74a))
 - **input:** allow typing negative decimal numbers ([#3776](https://github.com/Esri/calcite-components/issues/3776)) ([9b5cc0c](https://github.com/Esri/calcite-components/commit/9b5cc0c64ab1f8a4bad12109ff7f356711edd68d))
 - **input:** set value to empty string instead of null or undefined ([#3775](https://github.com/Esri/calcite-components/issues/3775)) ([5832151](https://github.com/Esri/calcite-components/commit/5832151d517796e4dca18956c6e3277a4d5272a7))
 - **link:** Set host display to inline. [#3675](https://github.com/Esri/calcite-components/issues/3675) ([#3768](https://github.com/Esri/calcite-components/issues/3768)) ([1ec2fe0](https://github.com/Esri/calcite-components/commit/1ec2fe097fea0cb80c260640dfa5412b3b0ec10c))
