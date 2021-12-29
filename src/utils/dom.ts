@@ -1,5 +1,6 @@
 import { CSS_UTILITY } from "./resources";
 import { guid } from "./guid";
+import { Build } from "@stencil/core";
 
 /**
  * This helper will guarantee an ID on the provided element.
@@ -203,6 +204,7 @@ function queryMultiple<T extends Element = Element>(
   options?: GetSlottedOptions
 ): T[] {
   let matches = Array.from(element.querySelectorAll<T>(slotSelector));
+  matches = matches.filter((match) => !Build.isBrowser || !!match?.assignedSlot);
   matches = options && options.direct === false ? matches : matches.filter((el) => el.parentElement === element);
 
   const selector = options?.selector;
@@ -220,6 +222,11 @@ function querySingle<T extends Element = Element>(
   options?: GetSlottedOptions
 ): T | null {
   let match = element.querySelector<T>(slotSelector);
+
+  if (Build.isBrowser && !match?.assignedSlot) {
+    return null;
+  }
+
   match = options && options.direct === false ? match : match?.parentElement === element ? match : null;
 
   const selector = options?.selector;
