@@ -103,6 +103,7 @@ describe("calcite-value-list", () => {
       expect(await first.getProperty("value")).toBe("two");
       expect(await second.getProperty("value")).toBe("one");
       expect(listOrderChangeSpy).toHaveReceivedEventTimes(1);
+      expect(listOrderChangeSpy).toHaveReceivedEventDetail(["two", "one", "three"]);
     });
 
     it("works using a keyboard", async () => {
@@ -113,6 +114,8 @@ describe("calcite-value-list", () => {
       await page.keyboard.press("Space");
       await page.waitForChanges();
 
+      let totalMoves = 0;
+
       async function assertKeyboardMove(direction: "down" | "up", expectedValueOrder: string[]): Promise<void> {
         const arrowKey = `Arrow${(direction.charAt(0).toUpperCase() + direction.slice(1)) as "Down" | "Up"}` as const;
         await page.keyboard.press(arrowKey);
@@ -122,21 +125,18 @@ describe("calcite-value-list", () => {
         for (let i = 0; i < itemsAfter.length; i++) {
           expect(await itemsAfter[i].getProperty("value")).toBe(expectedValueOrder[i]);
         }
+
+        expect(listOrderChangeSpy).toHaveReceivedEventTimes(++totalMoves);
+        expect(listOrderChangeSpy).toHaveReceivedEventDetail(expectedValueOrder);
       }
 
       await assertKeyboardMove("down", ["two", "one", "three"]);
-      expect(listOrderChangeSpy).toHaveReceivedEventTimes(1);
       await assertKeyboardMove("down", ["two", "three", "one"]);
-      expect(listOrderChangeSpy).toHaveReceivedEventTimes(2);
       await assertKeyboardMove("down", ["one", "two", "three"]);
-      expect(listOrderChangeSpy).toHaveReceivedEventTimes(3);
 
       await assertKeyboardMove("up", ["two", "three", "one"]);
-      expect(listOrderChangeSpy).toHaveReceivedEventTimes(4);
       await assertKeyboardMove("up", ["two", "one", "three"]);
-      expect(listOrderChangeSpy).toHaveReceivedEventTimes(5);
       await assertKeyboardMove("up", ["one", "two", "three"]);
-      expect(listOrderChangeSpy).toHaveReceivedEventTimes(6);
     });
 
     it("supports dragging items between lists", async () => {
