@@ -1,22 +1,10 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { HYDRATED_ATTR } from "../../tests/commonTests";
+import { renders } from "../../tests/commonTests";
 
 describe("calcite-loader", () => {
   it("renders", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-loader></calcite-loader>");
-    const loader = await page.find("calcite-loader");
-    expect(loader).toHaveAttribute(HYDRATED_ATTR);
-  });
-
-  it("becomes visible when active prop is set", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-loader></calcite-loader>`);
-    const loader = await page.find("calcite-loader");
-    expect(await loader.isVisible()).not.toBe(true);
-    loader.setProperty("active", true);
-    await page.waitForChanges();
-    expect(await loader.isVisible()).toBe(true);
+    await renders("calcite-loader", { display: "none", visible: false });
+    await renders(`<calcite-loader active></calcite-loader>`, { display: "flex", visible: true });
   });
 
   it("displays label from text prop", async () => {
