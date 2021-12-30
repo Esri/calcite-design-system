@@ -73,6 +73,7 @@ export const Simple = (): string => html`
 
 export const WithIcons = (): string => html`
   <calcite-dropdown
+    active
     placement="${select("placement", calcite_placements, "bottom-leading")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
@@ -110,6 +111,7 @@ export const WithIcons = (): string => html`
 
 export const GroupsAndSelectionModes = (): string => html`
   <calcite-dropdown
+    active
     placement="${select("placement", calcite_placements, "bottom-leading")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
@@ -139,6 +141,7 @@ GroupsAndSelectionModes.storyName = "Groups and selection modes";
 
 export const ItemsAsLinks = (): string => html`
   <calcite-dropdown
+    active
     placement="${select("placement", calcite_placements, "bottom-leading")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
@@ -198,6 +201,7 @@ AMixOfLinksAndNonLinks.storyName = "A mix of links and non-links";
 
 export const DarkTheme = (): string => html`
   <calcite-dropdown
+    active
     class="calcite-theme-dark"
     placement="${select("placement", calcite_placements, "bottom-leading")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -223,6 +227,7 @@ DarkTheme.parameters = { themes: themesDarkDefault };
 
 export const WithIconsDarkTheme = (): string => html`
   <calcite-dropdown
+    active
     class="calcite-theme-dark"
     placement="${select("placement", calcite_placements, "bottom-leading")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -264,6 +269,7 @@ WithIconsDarkTheme.parameters = { themes: themesDarkDefault };
 
 export const GroupsAndSelectionModesDarkTheme = (): string => html`
   <calcite-dropdown
+    active
     class="calcite-theme-dark"
     placement="${select("placement", calcite_placements, "bottom-leading")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -294,6 +300,7 @@ GroupsAndSelectionModesDarkTheme.parameters = { themes: themesDarkDefault };
 
 export const ItemsAsLinksDarkTheme = (): string => html`
   <calcite-dropdown
+    active
     class="calcite-theme-dark"
     placement="${select("placement", calcite_placements, "bottom-leading")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -328,6 +335,7 @@ ItemsAsLinksDarkTheme.parameters = { themes: themesDarkDefault };
 
 export const SimpleRtl = (): string => html`
   <calcite-dropdown
+    active
     dir="rtl"
     placement="${select("placement", calcite_placements, "bottom-leading")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -352,6 +360,7 @@ SimpleRtl.storyName = "Simple - RTL";
 
 export const ScrollingAfterCertainItems = (): string => html`
   <calcite-dropdown
+    active
     placement="${select("placement", calcite_placements, "bottom-leading")}"
     max-items="${number("max-items", 7, { min: 0, max: 10, step: 1 })}"
     scale="${select("scale", ["s", "m", "l"], "m")}"

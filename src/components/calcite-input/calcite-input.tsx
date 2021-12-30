@@ -535,7 +535,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
 
     let firstValueNudge = true;
-    this.nudgeNumberValueIntervalId = setInterval(() => {
+    this.nudgeNumberValueIntervalId = window.setInterval(() => {
       if (firstValueNudge) {
         firstValueNudge = false;
         return;
@@ -546,7 +546,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
   };
 
   private numberButtonMouseUpAndMouseOutHandler = (): void => {
-    clearInterval(this.nudgeNumberValueIntervalId);
+    window.clearInterval(this.nudgeNumberValueIntervalId);
   };
 
   private numberButtonMouseDownHandler = (event: MouseEvent): void => {
@@ -630,7 +630,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
   };
 
   private inputKeyUpHandler = (): void => {
-    clearInterval(this.nudgeNumberValueIntervalId);
+    window.clearInterval(this.nudgeNumberValueIntervalId);
   };
 
   // --------------------------------------------------------------------------

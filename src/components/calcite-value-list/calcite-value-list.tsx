@@ -151,12 +151,12 @@ export class CalciteValueList<
   /**
    * Emitted when any of the item selections have changed.
    */
-  @Event() calciteListChange: EventEmitter;
+  @Event() calciteListChange: EventEmitter<void>;
 
   /**
    * Emitted when the order of the list has changed.
    */
-  @Event() calciteListOrderChange: EventEmitter;
+  @Event() calciteListOrderChange: EventEmitter<any[]>;
 
   @Listen("calciteListItemRemove")
   calciteListItemRemoveHandler(event: CustomEvent<void>): void {
@@ -184,6 +184,10 @@ export class CalciteValueList<
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  getItems(): ItemElement[] {
+    return Array.from(this.el.querySelectorAll<ItemElement>("calcite-value-list-item"));
+  }
 
   setUpItems(): void {
     setUpItems.call(this, "calcite-value-list-item");
@@ -253,13 +257,15 @@ export class CalciteValueList<
       return;
     }
 
-    if (event.key !== "ArrowUp" && event.key !== "ArrowDown") {
+    const { items } = this;
+
+    if ((event.key !== "ArrowUp" && event.key !== "ArrowDown") || items.length <= 1) {
       return;
     }
 
     event.preventDefault();
 
-    const { el, items } = this;
+    const { el } = this;
     const moveOffset = event.key === "ArrowDown" ? 1 : -1;
     const currentIndex = items.indexOf(item);
     const nextIndex = getRoundRobinIndex(currentIndex + moveOffset, items.length);
@@ -274,6 +280,9 @@ export class CalciteValueList<
           : itemAtNextIndex;
       el.insertBefore(item, insertionReferenceItem);
     }
+
+    this.items = this.getItems();
+    this.calciteListOrderChange.emit(this.items.map(({ value }) => value));
 
     requestAnimationFrame(() => handleElement.focus());
     item.handleActivated = true;

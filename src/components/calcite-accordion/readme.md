@@ -28,9 +28,9 @@
 
 ## Slots
 
-| Slot | Description                                  |
-| ---- | -------------------------------------------- |
-|      | A slot for adding `calcite-accordion-item`s. |
+| Slot | Description                                                                                                              |
+| ---- | ------------------------------------------------------------------------------------------------------------------------ |
+|      | A slot for adding `calcite-accordion-item`s. `calcite-accordion` cannot be nested, however calcite-accordion-item`s can. |
 
 ---
 

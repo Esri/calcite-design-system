@@ -316,7 +316,7 @@ export class CalciteAlert {
 
   /** emit the opened alert and the queue */
   private openAlert(): void {
-    clearTimeout(this.queueTimeout);
+    window.clearTimeout(this.queueTimeout);
     this.queueTimeout = window.setTimeout(() => (this.queued = false), 300);
     this.calciteAlertOpen.emit({
       el: this.el,
