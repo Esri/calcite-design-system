@@ -109,6 +109,11 @@
       display: inline-block;
       width: 1em;
     }
+    &.hyphen--mirror::before {
+      content: "\2014";
+      display: inline-block;
+      width: 1em;
+    }
   }
 
   .handle {
