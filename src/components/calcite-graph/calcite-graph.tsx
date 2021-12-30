@@ -35,12 +35,6 @@ export class CalciteGraph {
    */
   @Prop() colorStops: ColorStop[];
 
-  /** Width of graph in pixels*/
-  @Prop() width = 300;
-
-  /** Width of graph in pixels*/
-  @Prop() height = 100;
-
   /** Start of highlight color if highlighting range */
   @Prop() highlightMin: number;
 
@@ -60,8 +54,9 @@ export class CalciteGraph {
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    const { data, colorStops, width, height, highlightMax, highlightMin, min, max } = this;
+    const { data, colorStops, el, highlightMax, highlightMin, min, max } = this;
     const id = this.graphId;
+    const { clientHeight: height, clientWidth: width } = el;
 
     // if we have no data, return empty svg
     if (!data || data.length === 0) {

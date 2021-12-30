@@ -29,14 +29,6 @@ describe("calcite-graph", () => {
   it("has property defaults", async () =>
     defaults("calcite-graph", [
       {
-        propertyName: "width",
-        defaultValue: 300
-      },
-      {
-        propertyName: "height",
-        defaultValue: 100
-      },
-      {
         propertyName: "data",
         defaultValue: []
       }
