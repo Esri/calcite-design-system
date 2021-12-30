@@ -100,7 +100,7 @@ describe("calcite-date-picker", () => {
     const date = await page.find("calcite-date-picker");
     // have to wait for transition
     const changedEvent = await page.spyOnEvent("calciteDatePickerRangeChange");
-    await new Promise((res) => setTimeout(() => res(true), 200));
+    await new Promise((res) => global.setTimeout(() => res(true), 200));
     expect(changedEvent).toHaveReceivedEventTimes(0);
     const start1 = await date.getProperty("start");
     const end1 = await date.getProperty("end");

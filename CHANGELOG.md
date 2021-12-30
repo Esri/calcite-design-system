@@ -7,13 +7,27 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
+### Features
+
+- **icon:** Add new global CSS variable to customize icon's color. [#3200](https://github.com/Esri/calcite-components/issues/3200) ([#3770](https://github.com/Esri/calcite-components/issues/3770)) ([f25b14f](https://github.com/Esri/calcite-components/commit/f25b14faf7f452426bb0fde838ac343d38d5a99f))
+
 ### Bug Fixes
 
 - **avatar:** avatars containing text vs icon vs image are now lined up when placed next to each other ([#3774](https://github.com/Esri/calcite-components/issues/3774)) ([24d6c0d](https://github.com/Esri/calcite-components/commit/24d6c0df896d9c6464e6bfd9b7fbd0d3a66a64ec))
 - **checkbox,radio-button:** prevents disabled checkboxes and radio-buttons from receiving keyboard or mouse focus ([#3784](https://github.com/Esri/calcite-components/issues/3784)) ([d055b08](https://github.com/Esri/calcite-components/commit/d055b08d001271790e414f8825d8e9c0ccfa014a))
+- **color-picker-swatch, avatar:** in case where theme is set on multiple levels, these components now take theme of the element or the closest parent ([#3785](https://github.com/Esri/calcite-components/issues/3785)) ([df7df98](https://github.com/Esri/calcite-components/commit/df7df98361dc5351041d35530b757e8d1ef10f00))
+- **dropdown-group:** Set display as block. [#3427](https://github.com/Esri/calcite-components/issues/3427) ([#3777](https://github.com/Esri/calcite-components/issues/3777)) ([ac769f3](https://github.com/Esri/calcite-components/commit/ac769f3020451fc8a04a3273b061d2df89c9d74a))
+- **dropdown-item:** align items with heading in selection-mode: none ([#3742](https://github.com/Esri/calcite-components/issues/3742)) ([266023b](https://github.com/Esri/calcite-components/commit/266023b5e59710ec62a060be887cd0dabfc21b58))
+- **input:** allow typing negative decimal numbers ([#3776](https://github.com/Esri/calcite-components/issues/3776)) ([9b5cc0c](https://github.com/Esri/calcite-components/commit/9b5cc0c64ab1f8a4bad12109ff7f356711edd68d))
 - **input:** set value to empty string instead of null or undefined ([#3775](https://github.com/Esri/calcite-components/issues/3775)) ([5832151](https://github.com/Esri/calcite-components/commit/5832151d517796e4dca18956c6e3277a4d5272a7))
+- **input-date-picker:** Clear date properly when deleted via keyboard. [#3530](https://github.com/Esri/calcite-components/issues/3530) ([#3730](https://github.com/Esri/calcite-components/issues/3730)) ([45976b7](https://github.com/Esri/calcite-components/commit/45976b7addbb55510f3eb64e9bff7e5c490e7168))
+- **label:** Prevents selecting disabled labeled element. [#3574](https://github.com/Esri/calcite-components/issues/3574) ([#3718](https://github.com/Esri/calcite-components/issues/3718)) ([9b97842](https://github.com/Esri/calcite-components/commit/9b9784270823c541ddd79e7ff26d8dd68ee799aa))
 - **link:** Set host display to inline. [#3675](https://github.com/Esri/calcite-components/issues/3675) ([#3768](https://github.com/Esri/calcite-components/issues/3768)) ([1ec2fe0](https://github.com/Esri/calcite-components/commit/1ec2fe097fea0cb80c260640dfa5412b3b0ec10c))
+- **Panel:** match header height and border color to Action ([314294c](https://github.com/Esri/calcite-components/commit/314294cb2cafa5cbc59c26a05efb7ce1a2abd444)), closes [#3699](https://github.com/Esri/calcite-components/issues/3699) [#3699](https://github.com/Esri/calcite-components/issues/3699)
+- **pick-list, value-list:** deselect values when it gets removed from the list ([#1954](https://github.com/Esri/calcite-components/issues/1954)) ([#3787](https://github.com/Esri/calcite-components/issues/3787)) ([e9f7f85](https://github.com/Esri/calcite-components/commit/e9f7f853e9917c576c389a5b9d07e2980fc00161))
+- **popover, popover-manager, tooltip, tooltip-manager:** Correctly query by ID within the DOM. ([#3696](https://github.com/Esri/calcite-components/issues/3696)) ([124876c](https://github.com/Esri/calcite-components/commit/124876c0685658b11989c4acffb0a6d078d2370b))
 - **switch:** add back outline offset on focus ([#3779](https://github.com/Esri/calcite-components/issues/3779)) ([ce7b514](https://github.com/Esri/calcite-components/commit/ce7b51420870a63c7dce3db2d4752f1e9ab36a8e))
+- **value-list:** emit list order change event when value list items are reordered via the keyboard ([#3816](https://github.com/Esri/calcite-components/issues/3816)) ([2c8e856](https://github.com/Esri/calcite-components/commit/2c8e856477bf952af1dcd48f7245a9fcdbf3b99f)), closes [#3685](https://github.com/Esri/calcite-components/issues/3685)
 <!--@unreleased-section-end-->
 
 ## [1.0.0-beta.72](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.71...v1.0.0-beta.72) (2021-12-21)

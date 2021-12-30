@@ -18,6 +18,7 @@ import {
   calciteListItemValueChangeHandler,
   cleanUpObserver,
   deselectSiblingItems,
+  deselectRemovedItems,
   getItemData,
   handleFilter,
   initialize,
@@ -184,6 +185,10 @@ export class CalciteValueList<
   //
   // --------------------------------------------------------------------------
 
+  getItems(): ItemElement[] {
+    return Array.from(this.el.querySelectorAll<ItemElement>("calcite-value-list-item"));
+  }
+
   setUpItems(): void {
     setUpItems.call(this, "calcite-value-list-item");
   }
@@ -223,6 +228,8 @@ export class CalciteValueList<
     this.sortable = null;
   }
 
+  deselectRemovedItems = deselectRemovedItems.bind(this);
+
   deselectSiblingItems = deselectSiblingItems.bind(this);
 
   selectSiblings = selectSiblings.bind(this);
@@ -250,13 +257,15 @@ export class CalciteValueList<
       return;
     }
 
-    if (event.key !== "ArrowUp" && event.key !== "ArrowDown") {
+    const { items } = this;
+
+    if ((event.key !== "ArrowUp" && event.key !== "ArrowDown") || items.length <= 1) {
       return;
     }
 
     event.preventDefault();
 
-    const { el, items } = this;
+    const { el } = this;
     const moveOffset = event.key === "ArrowDown" ? 1 : -1;
     const currentIndex = items.indexOf(item);
     const nextIndex = getRoundRobinIndex(currentIndex + moveOffset, items.length);
@@ -271,6 +280,9 @@ export class CalciteValueList<
           : itemAtNextIndex;
       el.insertBefore(item, insertionReferenceItem);
     }
+
+    this.items = this.getItems();
+    this.calciteListOrderChange.emit(this.items);
 
     requestAnimationFrame(() => handleElement.focus());
     item.handleActivated = true;
