@@ -44,6 +44,8 @@ jobs:
         env:
           SCREENER_API_KEY: ${{ secrets.SCREENER_API_KEY }}
           COMMIT_SHA: ${{github.event.pull_request.head.sha || github.sha}}
+          SAUCE_ACCESS_NAME: ${{ secrets.SAUCE_ACCESS_NAME}}
+          SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
         run: |
           npm install
           npm run test:storybook || true
