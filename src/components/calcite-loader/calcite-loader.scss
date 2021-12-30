@@ -45,6 +45,10 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   @apply py-0;
 }
 
+:host {
+  @apply hidden;
+}
+
 :host([active]) {
   @apply flex;
 }

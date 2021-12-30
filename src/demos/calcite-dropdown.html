@@ -611,19 +611,60 @@
       </div>
     </div>
 
-    <!-- Disabled -->
+    <!-- items as links & none select + no links -->
     <div class="parent">
-      <div class="child right-aligned-text">disabled</div>
+      <div class="child right-aligned-text">items as links & none select + no links</div>
 
       <div class="child">
-        <calcite-dropdown disabled>
-          <calcite-button icon-end="handle-vertical" appearance="outline" slot="dropdown-trigger"
-            >Disabled</calcite-button
+        <calcite-dropdown scale="s">
+          <calcite-button icon-end="handle-vertical" appearance="outline" slot="dropdown-trigger">
+            Click me</calcite-button
           >
-          <calcite-dropdown-group group-title="View">
-            <calcite-dropdown-item icon-end="list-bullet" active>List</calcite-dropdown-item>
-            <calcite-dropdown-item icon-end="grid">Grid</calcite-dropdown-item>
-            <calcite-dropdown-item icon-end="table">Table</calcite-dropdown-item>
+          <calcite-dropdown-group group-title="Not Links">
+            <calcite-dropdown-item>Relevance</calcite-dropdown-item>
+            <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
+            <calcite-dropdown-item>Title</calcite-dropdown-item>
+          </calcite-dropdown-group>
+          <calcite-dropdown-group selection-mode="none" group-title="Link">
+            <calcite-dropdown-item href="/mypage" title="My Page">Relevance</calcite-dropdown-item>
+            <calcite-dropdown-item href="/mypage2" title="My Page 3">Date modified</calcite-dropdown-item>
+            <calcite-dropdown-item href="/mypage3" title="My Page 3">Title</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      </div>
+
+      <div class="child">
+        <calcite-dropdown scale="m">
+          <calcite-button icon-end="handle-vertical" appearance="outline" slot="dropdown-trigger">
+            Click me</calcite-button
+          >
+          <calcite-dropdown-group group-title="Not Links">
+            <calcite-dropdown-item>Relevance</calcite-dropdown-item>
+            <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
+            <calcite-dropdown-item>Title</calcite-dropdown-item>
+          </calcite-dropdown-group>
+          <calcite-dropdown-group selection-mode="none" group-title="Link">
+            <calcite-dropdown-item href="/mypage" title="My Page">Relevance</calcite-dropdown-item>
+            <calcite-dropdown-item href="/mypage2" title="My Page 3">Date modified</calcite-dropdown-item>
+            <calcite-dropdown-item href="/mypage3" title="My Page 3">Title</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      </div>
+
+      <div class="child">
+        <calcite-dropdown scale="l">
+          <calcite-button icon-end="handle-vertical" appearance="outline" slot="dropdown-trigger">
+            Click me</calcite-button
+          >
+          <calcite-dropdown-group group-title="Not Links">
+            <calcite-dropdown-item>Relevance</calcite-dropdown-item>
+            <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
+            <calcite-dropdown-item>Title</calcite-dropdown-item>
+          </calcite-dropdown-group>
+          <calcite-dropdown-group selection-mode="none" group-title="Link">
+            <calcite-dropdown-item href="/mypage" title="My Page">Relevance</calcite-dropdown-item>
+            <calcite-dropdown-item href="/mypage2" title="My Page 3">Date modified</calcite-dropdown-item>
+            <calcite-dropdown-item href="/mypage3" title="My Page 3">Title</calcite-dropdown-item>
           </calcite-dropdown-group>
         </calcite-dropdown>
       </div>
@@ -649,24 +690,19 @@
       </div>
     </div>
 
-    <!-- items as links + no links -->
+    <!-- Disabled -->
     <div class="parent">
-      <div class="child right-aligned-text">items as links + no links</div>
+      <div class="child right-aligned-text">disabled</div>
 
       <div class="child">
-        <calcite-dropdown>
-          <calcite-button icon-end="handle-vertical" appearance="outline" slot="dropdown-trigger">
-            Click me</calcite-button
+        <calcite-dropdown disabled>
+          <calcite-button icon-end="handle-vertical" appearance="outline" slot="dropdown-trigger"
+            >Disabled</calcite-button
           >
-          <calcite-dropdown-group group-title="Not Links">
-            <calcite-dropdown-item>Relevance</calcite-dropdown-item>
-            <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
-            <calcite-dropdown-item>Title</calcite-dropdown-item>
-          </calcite-dropdown-group>
-          <calcite-dropdown-group selection-mode="none" group-title="Link">
-            <calcite-dropdown-item href="/mypage" title="My Page">Relevance</calcite-dropdown-item>
-            <calcite-dropdown-item href="/mypage2" title="My Page 3">Date modified</calcite-dropdown-item>
-            <calcite-dropdown-item href="/mypage3" title="My Page 3">Title</calcite-dropdown-item>
+          <calcite-dropdown-group group-title="View">
+            <calcite-dropdown-item icon-end="list-bullet" active>List</calcite-dropdown-item>
+            <calcite-dropdown-item icon-end="grid">Grid</calcite-dropdown-item>
+            <calcite-dropdown-item icon-end="table">Table</calcite-dropdown-item>
           </calcite-dropdown-group>
         </calcite-dropdown>
       </div>

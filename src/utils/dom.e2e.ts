@@ -6,24 +6,32 @@ interface SetUpTestComponentOptions {
   componentTag: string;
   insideShadowHTML: string;
   myButtonClass: string;
+  myButtonId: string;
 }
 
 type TestWindow = typeof window & {
   getRootNode: (el: Element) => HTMLDocument | ShadowRoot;
   getHost: (root: HTMLDocument | ShadowRoot) => Element | null;
-  queryElementRoots: <T extends Element = Element>(element: Element, selector: string) => T | null;
+  queryElementRoots: <T extends Element = Element>(
+    element: Element,
+    options: {
+      selector?: string;
+      id?: string;
+    }
+  ) => T | null;
   queryElementsRoots: <T extends Element = Element>(element: Element, selector: string) => T[];
   setUpTestComponent: (options: SetUpTestComponentOptions) => void;
 };
 
+const myButtonId = "my.id";
 const myButtonClass = "my-class";
 const insideHost = "Inside Host";
 const outsideHost = "Outside Host";
 const insideShadow = "Inside Shadow";
 const componentTag = "test-component";
 const insideHostHTML = `<button class="${myButtonClass}">${insideHost}</button>`;
-const insideShadowHTML = `<div><button>${insideShadow}</button></div>`;
-const outsideHostHTML = `<span>Test</span><button>${outsideHost}</button>`;
+const insideShadowHTML = `<div><button id="${myButtonId}">${insideShadow}</button></div>`;
+const outsideHostHTML = `<span>Test</span><button id="${myButtonId}">${outsideHost}</button>`;
 
 describe("queries", () => {
   let page: E2EPage;
@@ -64,42 +72,117 @@ describe("queries", () => {
 
   it("queryElementRoots: should query from inside host element", async () => {
     const text = await page.evaluate(
-      ({ insideHostHTML, componentTag, insideShadowHTML, myButtonClass }: SetUpTestComponentOptions): string => {
+      ({
+        insideHostHTML,
+        componentTag,
+        insideShadowHTML,
+        myButtonClass,
+        myButtonId
+      }: SetUpTestComponentOptions): string => {
         (window as TestWindow).setUpTestComponent({
           insideHostHTML,
           componentTag,
           insideShadowHTML,
-          myButtonClass
+          myButtonClass,
+          myButtonId
         });
 
         const testComponent = document.querySelector("test-component");
         const queryEl = testComponent.shadowRoot.querySelector("div");
-        const resultEl: HTMLElement = (window as TestWindow).queryElementRoots(queryEl, `button.${myButtonClass}`);
+        const resultEl: HTMLElement = (window as TestWindow).queryElementRoots(queryEl, {
+          selector: `button.${myButtonClass}`
+        });
 
         return resultEl?.textContent;
       },
-      { insideHostHTML, componentTag, insideShadowHTML, myButtonClass }
+      { insideHostHTML, componentTag, insideShadowHTML, myButtonClass, myButtonId }
     );
 
     expect(text).toBe(insideHost);
   });
 
-  it("queryElementRoots: should query from outside host element", async () => {
+  it("queryElementRoots: should query id from inside shadow element", async () => {
     const text = await page.evaluate(
-      ({ insideHostHTML, componentTag, insideShadowHTML, myButtonClass }: SetUpTestComponentOptions): string => {
+      ({
+        insideHostHTML,
+        componentTag,
+        insideShadowHTML,
+        myButtonClass,
+        myButtonId
+      }: SetUpTestComponentOptions): string => {
         (window as TestWindow).setUpTestComponent({
           insideHostHTML,
           componentTag,
           insideShadowHTML,
-          myButtonClass
+          myButtonClass,
+          myButtonId
         });
 
-        const queryEl = document.body.querySelector("span");
-        const resultEl: HTMLElement = (window as TestWindow).queryElementRoots(queryEl, "button");
+        const testComponent = document.querySelector("test-component");
+        const queryEl = testComponent.shadowRoot.querySelector("div");
+        const resultEl: HTMLElement = (window as TestWindow).queryElementRoots(queryEl, {
+          id: myButtonId
+        });
 
         return resultEl?.textContent;
       },
-      { insideHostHTML, componentTag, insideShadowHTML, myButtonClass }
+      { insideHostHTML, componentTag, insideShadowHTML, myButtonClass, myButtonId }
+    );
+
+    expect(text).toBe(insideShadow);
+  });
+
+  it("queryElementRoots: should query from outside host element", async () => {
+    const text = await page.evaluate(
+      ({
+        insideHostHTML,
+        componentTag,
+        insideShadowHTML,
+        myButtonClass,
+        myButtonId
+      }: SetUpTestComponentOptions): string => {
+        (window as TestWindow).setUpTestComponent({
+          insideHostHTML,
+          componentTag,
+          insideShadowHTML,
+          myButtonClass,
+          myButtonId
+        });
+
+        const queryEl = document.body.querySelector("span");
+        const resultEl: HTMLElement = (window as TestWindow).queryElementRoots(queryEl, { selector: "button" });
+
+        return resultEl?.textContent;
+      },
+      { insideHostHTML, componentTag, insideShadowHTML, myButtonClass, myButtonId }
+    );
+
+    expect(text).toBe(outsideHost);
+  });
+
+  it("queryElementRoots: should query id from outside host element", async () => {
+    const text = await page.evaluate(
+      ({
+        insideHostHTML,
+        componentTag,
+        insideShadowHTML,
+        myButtonClass,
+        myButtonId
+      }: SetUpTestComponentOptions): string => {
+        (window as TestWindow).setUpTestComponent({
+          insideHostHTML,
+          componentTag,
+          insideShadowHTML,
+          myButtonClass,
+          myButtonId
+        });
+
+        const queryEl = document.body.querySelector("span");
+        const resultEl: HTMLElement = (window as TestWindow).queryElementRoots(queryEl, { id: myButtonId });
+
+        return resultEl?.textContent;
+      },
+      { insideHostHTML, componentTag, insideShadowHTML, myButtonClass, myButtonId }
     );
 
     expect(text).toBe(outsideHost);
@@ -107,12 +190,19 @@ describe("queries", () => {
 
   it("queryElementsRoots: should query multiple elements", async () => {
     const results = await page.evaluate(
-      ({ insideHostHTML, componentTag, insideShadowHTML, myButtonClass }: SetUpTestComponentOptions): string[] => {
+      ({
+        insideHostHTML,
+        componentTag,
+        insideShadowHTML,
+        myButtonClass,
+        myButtonId
+      }: SetUpTestComponentOptions): string[] => {
         (window as TestWindow).setUpTestComponent({
           insideHostHTML,
           componentTag,
           insideShadowHTML,
-          myButtonClass
+          myButtonClass,
+          myButtonId
         });
 
         const testComponent = document.querySelector("test-component");
@@ -121,7 +211,7 @@ describe("queries", () => {
 
         return resultEls.map((el: HTMLElement) => el.textContent);
       },
-      { insideHostHTML, componentTag, insideShadowHTML, myButtonClass }
+      { insideHostHTML, componentTag, insideShadowHTML, myButtonClass, myButtonId }
     );
 
     expect(results).toHaveLength(3);
