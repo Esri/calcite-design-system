@@ -17,7 +17,7 @@ module.exports = {
     minLayoutPosition: 1
   },
   sauce: {
-    username: "calcite-admin",
+    username: process.env.SAUCE_ACCESS_NAME,
     accessKey: process.env.SAUCE_ACCESS_KEY,
     maxConcurrent: 10
   }
