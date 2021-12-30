@@ -202,7 +202,7 @@ function queryMultiple<T extends Element = Element>(
   slotSelector: string,
   options?: GetSlottedOptions
 ): T[] {
-  let matches = Array.from(element.querySelectorAll<T>(slotSelector));
+  let matches = Array.from(element.querySelectorAll<T>(slotSelector)).filter((match) => match?.assignedSlot);
   matches = options && options.direct === false ? matches : matches.filter((el) => el.parentElement === element);
 
   const selector = options?.selector;
@@ -221,7 +221,13 @@ function querySingle<T extends Element = Element>(
 ): T | null {
   let match = element.querySelector<T>(slotSelector);
 
-  match = options && options.direct === false ? match : match?.parentElement === element ? match : null;
+  match = match?.assignedSlot
+    ? options && options.direct === false
+      ? match
+      : match?.parentElement === element
+      ? match
+      : null
+    : null;
 
   const selector = options?.selector;
   return selector ? match?.querySelector<T>(selector) : match;
