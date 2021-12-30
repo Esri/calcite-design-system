@@ -80,7 +80,7 @@
     bg-foreground-1;
   max-height: 0;
   text-align: start;
-  transition: $transition;
+  transition: var(--calcite-animation-timing);
   border-inline-start: 0px solid;
   box-shadow: 0 0 0 0 transparent;
 }

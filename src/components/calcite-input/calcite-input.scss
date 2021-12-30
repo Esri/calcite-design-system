@@ -110,7 +110,7 @@
 
 :host textarea,
 :host input {
-  transition: $transition, height 0s;
+  transition: var(--calcite-animation-timing), height 0s;
   -webkit-appearance: none;
   @apply w-full
     rounded-none
