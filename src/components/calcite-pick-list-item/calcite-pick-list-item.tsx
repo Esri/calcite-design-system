@@ -282,30 +282,50 @@ export class CalcitePickListItem {
     ) : null;
   }
 
-  render(): VNode {
+  renderLabelContent(): VNode {
     const { description, label } = this;
+
+    return (
+      <div
+        aria-checked={this.selected.toString()}
+        class={CSS.textContainer}
+        role="menuitemcheckbox"
+      >
+        <span class={CSS.title}>{label}</span>
+        {description ? <span class={CSS.description}>{description}</span> : null}
+      </div>
+    );
+  }
+
+  render(): VNode {
+    const { label } = this;
 
     return (
       <Fragment>
         {this.renderIcon()}
         {this.renderActionsStart()}
-        <label
-          aria-label={label}
-          class={CSS.label}
-          onClick={this.pickListClickHandler}
-          onKeyDown={this.pickListKeyDownHandler}
-          ref={(focusEl): HTMLLabelElement => (this.focusEl = focusEl)}
-          tabIndex={0}
-        >
-          <div
-            aria-checked={this.selected.toString()}
-            class={CSS.textContainer}
-            role="menuitemcheckbox"
+        {this.nonInteractive ? (
+          <label
+            aria-label={label}
+            class={CSS.label}
+            onClick={this.pickListClickHandler}
+            onKeyDown={this.pickListKeyDownHandler}
+            ref={() => (this.focusEl = null)}
           >
-            <span class={CSS.title}>{label}</span>
-            {description ? <span class={CSS.description}>{description}</span> : null}
-          </div>
-        </label>
+            {this.renderLabelContent()}
+          </label>
+        ) : (
+          <label
+            aria-label={label}
+            class={CSS.label}
+            onClick={this.pickListClickHandler}
+            onKeyDown={this.pickListKeyDownHandler}
+            ref={(focusEl): HTMLLabelElement => (this.focusEl = focusEl)}
+            tabIndex={0}
+          >
+            {this.renderLabelContent()}
+          </label>
+        )}
         {this.renderActionsEnd()}
       </Fragment>
     );
