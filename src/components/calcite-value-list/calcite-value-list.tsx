@@ -151,12 +151,12 @@ export class CalciteValueList<
   /**
    * Emitted when any of the item selections have changed.
    */
-  @Event() calciteListChange: EventEmitter;
+  @Event() calciteListChange: EventEmitter<void>;
 
   /**
    * Emitted when the order of the list has changed.
    */
-  @Event() calciteListOrderChange: EventEmitter;
+  @Event() calciteListOrderChange: EventEmitter<any[]>;
 
   @Listen("calciteListItemRemove")
   calciteListItemRemoveHandler(event: CustomEvent<void>): void {
@@ -282,7 +282,7 @@ export class CalciteValueList<
     }
 
     this.items = this.getItems();
-    this.calciteListOrderChange.emit(this.items);
+    this.calciteListOrderChange.emit(this.items.map(({ value }) => value));
 
     requestAnimationFrame(() => handleElement.focus());
     item.handleActivated = true;
