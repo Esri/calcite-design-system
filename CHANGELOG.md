@@ -27,6 +27,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **pick-list, value-list:** deselect values when it gets removed from the list ([#1954](https://github.com/Esri/calcite-components/issues/1954)) ([#3787](https://github.com/Esri/calcite-components/issues/3787)) ([e9f7f85](https://github.com/Esri/calcite-components/commit/e9f7f853e9917c576c389a5b9d07e2980fc00161))
 - **popover, popover-manager, tooltip, tooltip-manager:** Correctly query by ID within the DOM. ([#3696](https://github.com/Esri/calcite-components/issues/3696)) ([124876c](https://github.com/Esri/calcite-components/commit/124876c0685658b11989c4acffb0a6d078d2370b))
 - **switch:** add back outline offset on focus ([#3779](https://github.com/Esri/calcite-components/issues/3779)) ([ce7b514](https://github.com/Esri/calcite-components/commit/ce7b51420870a63c7dce3db2d4752f1e9ab36a8e))
+- **value-list:** emit list order change event when value list items are reordered via the keyboard ([#3816](https://github.com/Esri/calcite-components/issues/3816)) ([2c8e856](https://github.com/Esri/calcite-components/commit/2c8e856477bf952af1dcd48f7245a9fcdbf3b99f)), closes [#3685](https://github.com/Esri/calcite-components/issues/3685)
 <!--@unreleased-section-end-->
 
 ## [1.0.0-beta.72](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.71...v1.0.0-beta.72) (2021-12-21)
