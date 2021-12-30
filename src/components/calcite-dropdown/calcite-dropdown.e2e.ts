@@ -1,9 +1,22 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { HYDRATED_ATTR, accessible, defaults } from "../../tests/commonTests";
+import { accessible, defaults, renders } from "../../tests/commonTests";
 import dedent from "dedent";
 import { html } from "../../tests/utils";
 
 describe("calcite-dropdown", () => {
+  it("renders", () =>
+    renders(
+      html` <calcite-dropdown>
+        <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
+        <calcite-dropdown-group id="group-1">
+          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" active> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>`,
+      { display: "inline-flex" }
+    ));
+
   it("defaults", async () =>
     defaults("calcite-dropdown", [
       {
@@ -57,28 +70,6 @@ describe("calcite-dropdown", () => {
       </calcite-dropdown-group>
     </calcite-dropdown>
  `;
-
-  it("renders", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-dropdown>
-    <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
-    <calcite-dropdown-group id="group-1">
-    <calcite-dropdown-item id="item-1">
-    Dropdown Item Content
-    </calcite-dropdown-item>
-    <calcite-dropdown-item id="item-2" active>
-    Dropdown Item Content
-    </calcite-dropdown-item>
-    <calcite-dropdown-item id="item-3">
-    Dropdown Item Content
-    </calcite-dropdown-item>
-    </calcite-dropdown-group>
-    </calcite-dropdown>`);
-
-    const element = await page.find("calcite-dropdown");
-    expect(element).toHaveAttribute(HYDRATED_ATTR);
-  });
 
   it("renders default props when none are provided", async () => {
     const page = await newE2EPage();

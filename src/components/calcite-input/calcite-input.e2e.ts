@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { focusable, formAssociated, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
+import { focusable, formAssociated, renders, labelable } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { getDecimalSeparator, locales, localizeNumberString } from "../../utils/locale";
@@ -44,12 +44,7 @@ describe("calcite-input", () => {
 
   it("is labelable", async () => labelable("calcite-input"));
 
-  it("renders", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-input></calcite-input>");
-    const input = await page.find("calcite-input");
-    expect(input).toHaveAttribute(HYDRATED_ATTR);
-  });
+  it("renders", () => renders("calcite-input", { display: "block" }));
 
   it("renders default props when none are provided", async () => {
     const page = await newE2EPage();

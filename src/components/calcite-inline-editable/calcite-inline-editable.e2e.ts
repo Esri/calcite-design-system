@@ -1,10 +1,20 @@
-import { accessible, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
+import { accessible, labelable, renders } from "../../tests/commonTests";
 import { E2EPage } from "@stencil/core/testing";
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS } from "./resources";
 import { html } from "../../tests/utils";
 
 describe("calcite-inline-editable", () => {
+  it("renders", () =>
+    renders(
+      html`
+        <calcite-inline-editable>
+          <calcite-input />
+        </calcite-inline-editable>
+      `,
+      { display: "block" }
+    ));
+
   describe("rendering permutations", () => {
     let page: E2EPage;
     beforeEach(async () => {
@@ -14,11 +24,6 @@ describe("calcite-inline-editable", () => {
         <calcite-input/>
       </calcite-inline-editable>
       `);
-    });
-
-    it("renders", async () => {
-      const element = await page.find("calcite-inline-editable");
-      expect(element).toHaveAttribute(HYDRATED_ATTR);
     });
 
     it("renders default props when none are provided", async () => {
