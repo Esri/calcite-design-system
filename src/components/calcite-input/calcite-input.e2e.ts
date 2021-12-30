@@ -653,7 +653,7 @@ describe("calcite-input", () => {
     expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
 
     // assert changes no longer emitted after moving away from stepper
-    await page.waitForTimeout(delayFor2UpdateInMs);
+    await page.waitForTimeout(delayFor2UpdatesInMs);
     expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
     await page.mouse.up(); // mouseleave assertion done, we release
 
@@ -682,7 +682,7 @@ describe("calcite-input", () => {
     expect(await input.getProperty("value")).toBe(`${finalNudgedValue}`);
 
     // assert changes no longer emitted after moving away from stepper
-    await page.waitForTimeout(delayFor2UpdateInMs);
+    await page.waitForTimeout(delayFor2UpdatesInMs);
     expect(await input.getProperty("value")).toBe(`${finalNudgedValue}`);
   });
 
