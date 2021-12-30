@@ -34,25 +34,20 @@
   grid-template-areas: "handle header control menu";
   grid-column: header-start / menu-end;
   grid-row: 1 / 2;
-
-  & > .header {
-    @apply py-3 px-0;
-  }
 }
 
 .toggle {
   @apply flex
-    flex-no-wrap
+    flex-nowrap
     justify-between
     font-inherit
     items-center
     m-0
-    py-3
-    px-0
+    p-0
     border-none
     cursor-pointer
-    text-left
     focus-base;
+  text-align: initial;
 
   background-color: transparent;
   &:hover {
@@ -73,12 +68,13 @@ calcite-handle {
 }
 
 .title {
-  @apply m-0 px-3 py-0;
+  @apply m-0;
+  padding: theme("spacing.3");
 }
 
 .header .title .heading {
   @apply p-0
-    text--1
+    text-n1
     text-color-2
     font-medium
     word-break
@@ -90,14 +86,16 @@ calcite-handle {
 
 .summary {
   @apply p-0
-    text--2
+    text-n2
     text-color-3
     mt-0.5
     word-break;
 }
 
 .icon {
-  @apply ml-3;
+  margin-inline-start: theme("spacing.3");
+  margin-inline-end: 0px;
+  margin-block: theme("spacing.3");
 }
 
 .status-icon.valid {
@@ -125,12 +123,15 @@ calcite-handle {
 }
 
 .toggle-icon {
-  @apply mr-4
-  self-center
+  @apply self-center
+  justify-self-end
   text-color-3
   transition-color
   duration-150
-  ease-in-out;
+  ease-in-out
+  my-3;
+  margin-inline-end: theme("spacing.4");
+  margin-inline-start: auto;
 }
 
 .toggle:hover .toggle-icon {
@@ -153,15 +154,6 @@ calcite-action-menu {
   grid-area: menu;
 }
 
-.calcite--rtl {
-  .toggle-icon {
-    @apply mr-0 ml-4;
-  }
-  .icon {
-    @apply ml-0 mr-3;
-  }
-}
-
 :host([open]) {
   @apply my-2;
 
@@ -178,13 +170,5 @@ calcite-action-menu {
 
   .header-container {
     @apply opacity-50;
-  }
-}
-
-:host([drag-handle]) {
-  .calcite--rtl {
-    .title {
-      @apply pl-0 pr-1;
-    }
   }
 }

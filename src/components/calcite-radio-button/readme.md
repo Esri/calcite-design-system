@@ -42,20 +42,6 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
-## Dependencies
-
-### Depends on
-
-- [calcite-radio](../calcite-radio)
-
-### Graph
-
-```mermaid
-graph TD;
-  calcite-radio-button --> calcite-radio
-  style calcite-radio-button fill:#f9f,stroke:#333,stroke-width:4px
-```
-
 ---
 
 _Built with [StencilJS](https://stenciljs.com/)_

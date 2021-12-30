@@ -46,9 +46,7 @@ export const CustomIcon = (): string => html`
   </div>
 `;
 
-CustomIcon.story = {
-  name: "Custom icon"
-};
+CustomIcon.storyName = "Custom icon";
 
 export const WithAction = (): string => html`
   <div style="width:600px;max-width:100%;text-align:center;">
@@ -89,9 +87,7 @@ export const DarkMode = (): string => html`
   </div>
 `;
 
-DarkMode.story = {
-  parameters: { themes: themesDarkDefault }
-};
+DarkMode.parameters = { themes: themesDarkDefault };
 
 export const Rtl = (): string => html`
   <div dir="rtl" style="width:600px;max-width:100%;text-align:center;">
@@ -110,6 +106,4 @@ export const Rtl = (): string => html`
   </div>
 `;
 
-Rtl.story = {
-  name: "RTL"
-};
+Rtl.storyName = "RTL";

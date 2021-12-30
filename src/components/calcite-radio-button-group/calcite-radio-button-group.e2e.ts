@@ -106,7 +106,7 @@ describe("calcite-radio-button-group", () => {
       </calcite-radio-button-group>
     `);
 
-    const radioInputs = await page.findAll('input[type="radio"]');
+    const radioInputs = await page.findAll("calcite-radio-button");
     expect(radioInputs).toHaveLength(3);
 
     for (let i = 0; i < radioInputs.length; i++) {

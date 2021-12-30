@@ -12,11 +12,10 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementDir, setRequestedIcon } from "../../utils/dom";
+import { setRequestedIcon } from "../../utils/dom";
 import { DURATIONS, SLOTS, TEXT } from "./resources";
 import { Scale } from "../interfaces";
 import { StatusColor, AlertDuration, StatusIcons } from "./interfaces";
-import { CSS_UTILITY } from "../../utils/resources";
 
 /** Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
  * at the bottom of the page. Multiple opened alerts will be added to a queue, allowing users to dismiss them in the order they are provided.
@@ -92,6 +91,17 @@ export class CalciteAlert {
     this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
   }
 
+  @Watch("autoDismissDuration")
+  updateDuration(): void {
+    if (this.autoDismiss && this.autoDismissTimeoutId) {
+      window.clearTimeout(this.autoDismissTimeoutId);
+      this.autoDismissTimeoutId = window.setTimeout(
+        () => this.closeAlert(),
+        DURATIONS[this.autoDismissDuration] - (Date.now() - this.trackTimer)
+      );
+    }
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -112,8 +122,11 @@ export class CalciteAlert {
     this.alertLinkEl = this.el.querySelectorAll("calcite-link")[0] as HTMLCalciteLinkElement;
   }
 
+  disconnectedCallback(): void {
+    window.clearTimeout(this.autoDismissTimeoutId);
+  }
+
   render(): VNode {
-    const dir = getElementDir(this.el);
     const closeButton = (
       <button
         aria-label={this.intlClose}
@@ -135,7 +148,6 @@ export class CalciteAlert {
     );
 
     const { active, autoDismiss, label, queued, requestedIcon } = this;
-    const progress = <div class="alert-dismiss-progress" />;
     const role = autoDismiss ? "alert" : "alertdialog";
     const hidden = !active;
 
@@ -149,8 +161,7 @@ export class CalciteAlert {
         <div
           class={{
             container: true,
-            queued,
-            [CSS_UTILITY.rtl]: dir === "rtl"
+            queued
           }}
         >
           {requestedIcon ? (
@@ -165,7 +176,7 @@ export class CalciteAlert {
           </div>
           {queueCount}
           {!autoDismiss ? closeButton : null}
-          {active && !queued && autoDismiss ? progress : null}
+          {active && !queued && autoDismiss ? <div class="alert-dismiss-progress" /> : null}
         </div>
       </Host>
     );
@@ -257,9 +268,11 @@ export class CalciteAlert {
   /** the slotted alert link child element  */
   private alertLinkEl?: HTMLCalciteLinkElement;
 
-  private autoDismissTimeout: number;
+  private autoDismissTimeoutId: number = null;
 
   private queueTimeout: number;
+
+  private trackTimer = Date.now();
 
   /** the computed icon to render */
   /* @internal */
@@ -275,9 +288,9 @@ export class CalciteAlert {
   private determineActiveAlert(): void {
     if (this.queue?.[0] === this.el) {
       this.openAlert();
-      clearTimeout(this.autoDismissTimeout);
-      if (this.autoDismiss) {
-        this.autoDismissTimeout = window.setTimeout(
+      if (this.autoDismiss && !this.autoDismissTimeoutId) {
+        this.trackTimer = Date.now();
+        this.autoDismissTimeoutId = window.setTimeout(
           () => this.closeAlert(),
           DURATIONS[this.autoDismissDuration]
         );
@@ -289,6 +302,7 @@ export class CalciteAlert {
 
   /** close and emit the closed alert and the queue */
   private closeAlert = (): void => {
+    this.autoDismissTimeoutId = null;
     this.queued = false;
     this.active = false;
     this.queue = this.queue.filter((e) => e !== this.el);
@@ -302,7 +316,7 @@ export class CalciteAlert {
 
   /** emit the opened alert and the queue */
   private openAlert(): void {
-    clearTimeout(this.queueTimeout);
+    window.clearTimeout(this.queueTimeout);
     this.queueTimeout = window.setTimeout(() => (this.queued = false), 300);
     this.calciteAlertOpen.emit({
       el: this.el,

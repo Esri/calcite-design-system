@@ -1,20 +1,18 @@
 import {
   Component,
-  Event,
   h,
-  EventEmitter,
   Prop,
   Element,
+  Event,
+  EventEmitter,
   Host,
   Watch,
-  State,
   VNode
 } from "@stencil/core";
-import { getElementDir, getElementProp } from "../../utils/dom";
+import { getElementProp } from "../../utils/dom";
 import { RadioAppearance } from "../calcite-radio-group/interfaces";
 import { Position, Layout, Scale } from "../interfaces";
 import { SLOTS, CSS } from "./resources";
-import { createObserver } from "../../utils/observers";
 
 @Component({
   tag: "calcite-radio-group-item",
@@ -43,7 +41,6 @@ export class CalciteRadioGroupItem {
   @Watch("checked")
   protected handleCheckedChange(): void {
     this.calciteRadioGroupItemChange.emit();
-    this.syncToExternalInput();
   }
 
   /** optionally pass an icon to display - accepts Calcite UI icon names  */
@@ -61,38 +58,8 @@ export class CalciteRadioGroupItem {
   @Prop({ mutable: true })
   value: any | null;
 
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    const inputProxy: HTMLInputElement = this.el.querySelector(`input[slot=${SLOTS.input}]`);
-
-    if (inputProxy) {
-      this.value = inputProxy.value;
-      this.checked = inputProxy.checked;
-      this.mutationObserver?.observe(inputProxy, { attributes: true });
-    }
-
-    this.inputProxy = inputProxy;
-  }
-
-  disconnectedCallback(): void {
-    this.mutationObserver?.disconnect();
-  }
-
-  componentWillLoad(): void {
-    // only use default slot content in browsers that support shadow dom
-    // or if ie11 has no label provided (#374)
-    const label = this.el.querySelector("label");
-    this.useFallback = !label || label.textContent === "";
-  }
-
   render(): VNode {
-    const { checked, useFallback, value } = this;
-    const dir = getElementDir(this.el);
+    const { checked, value } = this;
     const scale: Scale = getElementProp(this.el, "scale", "m");
     const appearance: RadioAppearance = getElementProp(this.el, "appearance", "solid");
     const layout: Layout = getElementProp(this.el, "layout", "horizontal");
@@ -100,7 +67,6 @@ export class CalciteRadioGroupItem {
     const iconEl = (
       <calcite-icon
         class={CSS.radioGroupItemIcon}
-        dir={dir}
         flipRtl={this.iconFlipRtl}
         icon={this.icon}
         scale="s"
@@ -119,7 +85,7 @@ export class CalciteRadioGroupItem {
           }}
         >
           {this.icon && this.iconPosition === "start" ? iconEl : null}
-          <slot>{useFallback ? value : ""}</slot>
+          <slot>{value}</slot>
           <slot name={SLOTS.input} />
           {this.icon && this.iconPosition === "end" ? iconEl : null}
         </label>
@@ -139,41 +105,4 @@ export class CalciteRadioGroupItem {
    */
   @Event()
   calciteRadioGroupItemChange: EventEmitter;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
-  @State() private useFallback: boolean;
-
-  private inputProxy: HTMLInputElement;
-
-  private mutationObserver = createObserver("mutation", () => this.syncFromExternalInput());
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  //--------------------------------------------------------------------------
-
-  private syncFromExternalInput(): void {
-    if (this.inputProxy) {
-      this.value = this.inputProxy.value;
-      this.checked = this.inputProxy.checked;
-    }
-  }
-
-  private syncToExternalInput(): void {
-    if (!this.inputProxy) {
-      return;
-    }
-
-    this.inputProxy.value = this.value;
-    if (this.checked) {
-      this.inputProxy.setAttribute("checked", "");
-    } else {
-      this.inputProxy.removeAttribute("checked");
-    }
-  }
 }

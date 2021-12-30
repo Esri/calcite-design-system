@@ -85,6 +85,7 @@ describe("calcite-value-list", () => {
 
     it("works using a mouse", async () => {
       const page = await createSimpleValueList();
+      const listOrderChangeSpy = await page.spyOnEvent("calciteListOrderChange");
 
       await dragAndDrop(
         page,
@@ -101,17 +102,22 @@ describe("calcite-value-list", () => {
       const [first, second] = await page.findAll("calcite-value-list-item");
       expect(await first.getProperty("value")).toBe("two");
       expect(await second.getProperty("value")).toBe("one");
+      expect(listOrderChangeSpy).toHaveReceivedEventTimes(1);
+      expect(listOrderChangeSpy).toHaveReceivedEventDetail(["two", "one", "three"]);
     });
 
     it("works using a keyboard", async () => {
       const page = await createSimpleValueList();
+      const listOrderChangeSpy = await page.spyOnEvent("calciteListOrderChange");
 
       await page.keyboard.press("Tab");
       await page.keyboard.press("Space");
       await page.waitForChanges();
 
+      let totalMoves = 0;
+
       async function assertKeyboardMove(direction: "down" | "up", expectedValueOrder: string[]): Promise<void> {
-        const arrowKey = `Arrow${direction.charAt(0).toUpperCase() + direction.slice(1)}`;
+        const arrowKey = `Arrow${(direction.charAt(0).toUpperCase() + direction.slice(1)) as "Down" | "Up"}` as const;
         await page.keyboard.press(arrowKey);
         await page.waitForChanges();
         const itemsAfter = await page.findAll("calcite-value-list-item");
@@ -119,6 +125,9 @@ describe("calcite-value-list", () => {
         for (let i = 0; i < itemsAfter.length; i++) {
           expect(await itemsAfter[i].getProperty("value")).toBe(expectedValueOrder[i]);
         }
+
+        expect(listOrderChangeSpy).toHaveReceivedEventTimes(++totalMoves);
+        expect(listOrderChangeSpy).toHaveReceivedEventDetail(expectedValueOrder);
       }
 
       await assertKeyboardMove("down", ["two", "one", "three"]);

@@ -65,11 +65,6 @@ const readmePath = quote([normalize(`${__dirname}/../readme.md`)]);
     await exec(`git tag --delete ${nextTagsSinceLastRelease.join(" ")}`);
 
     await runStandardVersion(next, standardVersionOptions);
-    // make sure that the changes are committed
-    if ((await exec(`git rev-parse HEAD`)) === (await exec(`git rev-parse origin/master`))) {
-      console.log("an error occurred committing changes");
-      process.exitCode = 1;
-    }
   } catch (error) {
     console.log(changelogGenerationErrorMessage);
     await exec(`echo ${changelogGenerationErrorMessage}`);
@@ -77,7 +72,6 @@ const readmePath = quote([normalize(`${__dirname}/../readme.md`)]);
   } finally {
     // restore deleted prerelease tags
     await exec(`git fetch --tags`);
-    await exec(`git log --pretty=format:'%h : %s' --graph`);
   }
 })();
 
@@ -85,10 +79,14 @@ async function getStandardVersionOptions(next: boolean, semverTags: string[]): P
   const target = next ? "next" : "beta";
   const targetVersionPattern = new RegExp(`-${target}\\.\\d+$`);
 
+  await exec(`echo ${semverTags}`);
+
   // we keep track of `beta` and `next` releases since `standard-version` resets the version number when going in between
   // this should not be needed after v1.0.0 since there would no longer be a beta version to keep track of
   const targetDescendingOrderTags = semverTags.filter((tag) => targetVersionPattern.test(tag)).sort(semver.rcompare);
   const targetReleaseVersion = semver.inc(targetDescendingOrderTags[0], "prerelease", target);
+
+  await exec(`echo ${targetDescendingOrderTags}`);
 
   if (!targetVersionPattern.test(targetReleaseVersion)) {
     throw new Error(`target release version does not have prerelease identifier (${target})`);
@@ -96,6 +94,7 @@ async function getStandardVersionOptions(next: boolean, semverTags: string[]): P
 
   const standardVersionOptions: Options = {
     commitAll: true,
+    noVerify: true,
     header,
     releaseAs: targetReleaseVersion,
     releaseCommitMessageFormat: "{{currentTag}}"
@@ -113,10 +112,10 @@ async function runStandardVersion(next: boolean, standardVersionOptions: Options
   if (next) {
     await appendUnreleasedNotesToChangelog();
     await exec(`git add ${changelogPath}`);
+  } else {
+    await updateReadmeCdnUrls(standardVersionOptions.releaseAs);
+    await exec(`git add ${readmePath}`);
   }
-
-  await updateReadmeCdnUrls(standardVersionOptions.releaseAs);
-  await exec(`git add ${readmePath}`);
 
   await standardVersion(standardVersionOptions);
 }

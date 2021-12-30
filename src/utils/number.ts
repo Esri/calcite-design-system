@@ -6,7 +6,7 @@ export function isValidNumber(numberString: string): boolean {
 
 export function parseNumberString(numberString?: string): string {
   if (!numberString || !stringContainsNumbers(numberString)) {
-    return null;
+    return "";
   }
   let containsDecimal = false;
   const result = numberString
@@ -26,11 +26,29 @@ export function parseNumberString(numberString?: string): string {
 }
 
 export function sanitizeDecimalString(decimalString: string): string {
-  return decimalString?.endsWith(".") ? decimalString.replace(".", "") : decimalString;
+  const decimalAtEndOfStringButNotStart = /(?!^\.)\.$/;
+  return decimalString.replace(decimalAtEndOfStringButNotStart, "");
+}
+
+export function sanitizeNegativeString(negativeString: string): string {
+  const allHyphensExceptTheStart = /(?!^-)-/g;
+  return negativeString.replace(allHyphensExceptTheStart, "");
+}
+
+export function sanitizeLeadingZeroString(zeroString: string): string {
+  const allLeadingZerosOptionallyNegative = /^([-0])0+(?=\d)/;
+  return zeroString.replace(allLeadingZerosOptionallyNegative, "$1");
 }
 
 export function sanitizeNumberString(value: string): string {
-  return value ? Number(sanitizeDecimalString(value)).toString() : value;
+  const sanitizedValue = sanitizeNegativeString(sanitizeDecimalString(sanitizeLeadingZeroString(value)));
+  const isNegativeDecimalOnlyZeros = /^-\b0\b\.?0*$/;
+
+  return isValidNumber(sanitizedValue)
+    ? isNegativeDecimalOnlyZeros.test(sanitizedValue)
+      ? sanitizedValue
+      : Number(sanitizedValue).toString()
+    : value;
 }
 
 function stringContainsNumbers(string: string): boolean {

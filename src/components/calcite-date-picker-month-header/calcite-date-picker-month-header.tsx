@@ -10,7 +10,6 @@ import {
   Watch,
   Fragment
 } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
 import {
   dateFromRange,
   nextMonth,
@@ -19,7 +18,7 @@ import {
   parseNumber,
   getOrder
 } from "../../utils/date";
-import { getKey } from "../../utils/key";
+
 import { DateLocaleData } from "../calcite-date-picker/utils";
 import { Scale } from "../interfaces";
 import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
@@ -70,6 +69,9 @@ export class CalciteDatePickerMonthHeader {
   /** Localized string for next month. */
   @Prop() intlNextMonth: string;
 
+  /** Localized string for year. */
+  @Prop() intlYear: string;
+
   /** specify the scale of the date picker */
   @Prop({ reflect: true }) scale: Scale;
 
@@ -97,15 +99,10 @@ export class CalciteDatePickerMonthHeader {
   }
 
   render(): VNode {
-    const dir = getElementDir(this.el);
-    return (
-      <div class="header" dir={dir}>
-        {this.renderContent(dir)}
-      </div>
-    );
+    return <div class="header">{this.renderContent()}</div>;
   }
 
-  renderContent(dir: string): VNode {
+  renderContent(): VNode {
     if (!this.activeDate || !this.localeData) {
       return null;
     }
@@ -132,7 +129,7 @@ export class CalciteDatePickerMonthHeader {
           role="button"
           tabindex={this.prevMonthDate.getMonth() === activeMonth ? -1 : 0}
         >
-          <calcite-icon dir={dir} flip-rtl icon="chevron-left" scale={iconScale} />
+          <calcite-icon flip-rtl icon="chevron-left" scale={iconScale} />
         </a>
         <div class={{ text: true, "text--reverse": reverse }}>
           <CalciteHeading class="month" level={this.headingLevel}>
@@ -140,6 +137,7 @@ export class CalciteDatePickerMonthHeader {
           </CalciteHeading>
           <span class="year-wrap">
             <input
+              aria-label={this.intlYear}
               class={{
                 year: true,
                 "year--suffix": !!suffix
@@ -174,7 +172,7 @@ export class CalciteDatePickerMonthHeader {
           role="button"
           tabindex={this.nextMonthDate.getMonth() === activeMonth ? -1 : 0}
         >
-          <calcite-icon dir={dir} flip-rtl icon="chevron-right" scale={iconScale} />
+          <calcite-icon flip-rtl icon="chevron-right" scale={iconScale} />
         </a>
       </Fragment>
     );
@@ -214,7 +212,7 @@ export class CalciteDatePickerMonthHeader {
    */
   private onYearKey = (e: KeyboardEvent): void => {
     const year = (e.target as HTMLInputElement).value;
-    switch (getKey(e.key)) {
+    switch (e.key) {
       case "ArrowDown":
         e.preventDefault();
         this.setYear(year, -1);
@@ -235,7 +233,7 @@ export class CalciteDatePickerMonthHeader {
   };
 
   private prevMonthKeydown = (e: KeyboardEvent): void => {
-    const key = getKey(e.key);
+    const key = e.key;
     if (key === " " || key === "Enter") {
       this.prevMonthClick(e);
     }
@@ -246,7 +244,7 @@ export class CalciteDatePickerMonthHeader {
   };
 
   private nextMonthKeydown = (e: KeyboardEvent): void => {
-    const key = getKey(e.key);
+    const key = e.key;
     if (key === " " || key === "Enter") {
       this.nextMonthClick(e);
     }

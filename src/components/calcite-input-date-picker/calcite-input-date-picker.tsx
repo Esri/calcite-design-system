@@ -14,7 +14,6 @@ import {
   Build
 } from "@stencil/core";
 import { getLocaleData, DateLocaleData } from "../calcite-date-picker/utils";
-import { getElementDir } from "../../utils/dom";
 import {
   dateFromRange,
   inRange,
@@ -24,10 +23,10 @@ import {
   sameDate
 } from "../../utils/date";
 import { HeadingLevel } from "../functional/CalciteHeading";
-import { getKey } from "../../utils/key";
+
 import { TEXT } from "../calcite-date-picker/resources";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
-
+import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import {
   createPopper,
   updatePopper,
@@ -44,7 +43,7 @@ const DEFAULT_PLACEMENT = "bottom-leading";
   styleUrl: "calcite-input-date-picker.scss",
   shadow: true
 })
-export class CalciteInputDatePicker implements LabelableComponent {
+export class CalciteInputDatePicker implements LabelableComponent, FormComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -57,8 +56,30 @@ export class CalciteInputDatePicker implements LabelableComponent {
   //  Public Properties
   //
   //--------------------------------------------------------------------------
+  /**
+   * When false, the component won't be interactive.
+   */
+  @Prop({ reflect: true }) disabled = false;
+
   /** Selected date */
-  @Prop({ mutable: true }) value?: string;
+  @Prop({ mutable: true }) value: string | string[];
+
+  @Watch("value")
+  valueHandler(value: string | string[]): void {
+    if (Array.isArray(value)) {
+      this.valueAsDate = value.map((v) => dateFromISO(v));
+      this.start = value[0];
+      this.end = value[1];
+    } else if (value) {
+      this.valueAsDate = dateFromISO(value);
+      this.start = "";
+      this.end = "";
+    } else {
+      this.valueAsDate = undefined;
+      this.start = undefined;
+      this.end = undefined;
+    }
+  }
 
   /**
    * Number at which section headings should start for this component.
@@ -66,12 +87,18 @@ export class CalciteInputDatePicker implements LabelableComponent {
   @Prop() headingLevel: HeadingLevel;
 
   /** Selected date as full date object*/
-  @Prop({ mutable: true }) valueAsDate?: Date;
+  @Prop({ mutable: true }) valueAsDate?: Date | Date[];
 
-  /** Selected start date as full date object*/
+  /**
+   * Selected start date as full date object
+   * @deprecated use valueAsDate instead
+   */
   @Prop({ mutable: true }) startAsDate?: Date;
 
-  /** Selected end date as full date object*/
+  /**
+   * Selected end date as full date object
+   * @deprecated use valueAsDate instead
+   */
   @Prop({ mutable: true }) endAsDate?: Date;
 
   /** Earliest allowed date as full date object */
@@ -81,10 +108,20 @@ export class CalciteInputDatePicker implements LabelableComponent {
   @Prop({ mutable: true }) maxAsDate?: Date;
 
   /** Earliest allowed date ("yyyy-mm-dd") */
-  @Prop() min?: string;
+  @Prop({ mutable: true }) min?: string;
+
+  @Watch("min")
+  onMinChanged(min: string): void {
+    this.minAsDate = dateFromISO(min);
+  }
 
   /** Latest allowed date ("yyyy-mm-dd") */
-  @Prop() max?: string;
+  @Prop({ mutable: true }) max?: string;
+
+  @Watch("max")
+  onMaxChanged(max: string): void {
+    this.maxAsDate = dateFromISO(max);
+  }
 
   /** Expand or collapse when calendar does not have input */
   @Prop({ mutable: true, reflect: true }) active = false;
@@ -93,6 +130,11 @@ export class CalciteInputDatePicker implements LabelableComponent {
   activeHandler(): void {
     this.reposition();
   }
+
+  /**
+   * The picker's name. Gets submitted with the form.
+   */
+  @Prop() name: string;
 
   /** Localized string for "previous month" (used for aria label)
    * @default "Previous month"
@@ -104,6 +146,11 @@ export class CalciteInputDatePicker implements LabelableComponent {
    */
   @Prop() intlNextMonth?: string = TEXT.nextMonth;
 
+  /** Localized string for "year" (used for aria label)
+   * @default "Year"
+   */
+  @Prop() intlYear?: string = TEXT.year;
+
   /** BCP 47 language tag for desired language and country format */
   @Prop() locale?: string = document.documentElement.lang || "en";
 
@@ -113,10 +160,23 @@ export class CalciteInputDatePicker implements LabelableComponent {
   /** Range mode activation */
   @Prop({ reflect: true }) range = false;
 
-  /** Selected start date */
+  /**
+   * When true, makes the component required for form-submission.
+   *
+   * @internal
+   */
+  @Prop({ reflect: true }) required = false;
+
+  /**
+   * Selected start date
+   * @deprecated use value instead
+   */
   @Prop({ mutable: true }) start?: string;
 
-  /** Selected end date */
+  /**
+   * Selected end date
+   * @deprecated use value instead
+   */
   @Prop({ mutable: true }) end?: string;
 
   /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
@@ -204,8 +264,14 @@ export class CalciteInputDatePicker implements LabelableComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    if (this.value) {
+    if (Array.isArray(this.value)) {
+      this.valueAsDate = this.value.map((v) => dateFromISO(v));
+      this.start = this.value[0];
+      this.end = this.value[1];
+    } else if (this.value) {
       this.valueAsDate = dateFromISO(this.value);
+      this.start = "";
+      this.end = "";
     }
 
     if (this.start) {
@@ -226,18 +292,23 @@ export class CalciteInputDatePicker implements LabelableComponent {
 
     this.createPopper();
     connectLabel(this);
+    connectForm(this);
   }
 
   async componentWillLoad(): Promise<void> {
     await this.loadLocaleData();
+    this.onMinChanged(this.min);
+    this.onMaxChanged(this.max);
   }
 
   disconnectedCallback(): void {
     this.destroyPopper();
     disconnectLabel(this);
+    disconnectForm(this);
   }
 
   render(): VNode {
+    const { disabled } = this;
     const date = dateFromRange(
       this.range ? this.startAsDate : this.valueAsDate,
       this.minAsDate,
@@ -248,23 +319,18 @@ export class CalciteInputDatePicker implements LabelableComponent {
       : null;
     const formattedEndDate = endDate ? endDate.toLocaleDateString(this.locale) : "";
     const formattedDate = date ? date.toLocaleDateString(this.locale) : "";
-    const dir = getElementDir(this.el);
 
     return (
       <Host onBlur={this.deactivate} onKeyUp={this.keyUpHandler} role="application">
         {this.localeData && (
-          <div
-            aria-expanded={this.active.toString()}
-            class="input-container"
-            dir={dir}
-            role="application"
-          >
+          <div aria-expanded={this.active.toString()} class="input-container" role="application">
             {
               <div class="input-wrapper" ref={this.setStartWrapper}>
                 <calcite-input
                   class={`input ${
                     this.layout === "vertical" && this.range ? `no-bottom-border` : ``
                   }`}
+                  disabled={disabled}
                   icon="calendar"
                   label={getLabelText(this)}
                   number-button-type="none"
@@ -300,6 +366,7 @@ export class CalciteInputDatePicker implements LabelableComponent {
                   headingLevel={this.headingLevel}
                   intlNextMonth={this.intlNextMonth}
                   intlPrevMonth={this.intlPrevMonth}
+                  intlYear={this.intlYear}
                   locale={this.locale}
                   max={this.max}
                   maxAsDate={this.maxAsDate}
@@ -332,8 +399,9 @@ export class CalciteInputDatePicker implements LabelableComponent {
                 <calcite-input
                   class={{
                     input: true,
-                    "border-t-color-1": this.layout === "vertical" && this.range
+                    "border-top-color-one": this.layout === "vertical" && this.range
                   }}
+                  disabled={disabled}
                   icon="calendar"
                   number-button-type="none"
                   onCalciteInputBlur={this.inputBlur}
@@ -349,6 +417,7 @@ export class CalciteInputDatePicker implements LabelableComponent {
             )}
           </div>
         )}
+        <HiddenFormInputSlot component={this} />
       </Host>
     );
   }
@@ -360,6 +429,10 @@ export class CalciteInputDatePicker implements LabelableComponent {
   //--------------------------------------------------------------------------
 
   labelEl: HTMLCalciteLabelElement;
+
+  formEl: HTMLFormElement;
+
+  defaultValue: CalciteInputDatePicker["value"];
 
   @State() focusedInput: "start" | "end" = "start";
 
@@ -425,7 +498,7 @@ export class CalciteInputDatePicker implements LabelableComponent {
   };
 
   keyUpHandler = (e: KeyboardEvent): void => {
-    if (getKey(e.key) === "Escape") {
+    if (e.key === "Escape") {
       this.active = false;
     }
   };
@@ -507,11 +580,6 @@ export class CalciteInputDatePicker implements LabelableComponent {
     this.popper = null;
   }
 
-  @Watch("value")
-  valueWatcher(value: string): void {
-    this.valueAsDate = dateFromISO(value);
-  }
-
   @Watch("start")
   startWatcher(start: string): void {
     this.startAsDate = dateFromISO(start);
@@ -534,15 +602,17 @@ export class CalciteInputDatePicker implements LabelableComponent {
 
   private clearCurrentValue(): void {
     if (!this.range) {
-      this.value = undefined;
+      this.value = "";
       return;
     }
 
     const { focusedInput } = this;
 
     if (focusedInput === "start") {
+      this.value = Array.isArray(this.value) ? ["", this.value[1] || ""] : [""];
       this.start = undefined;
     } else if (focusedInput === "end") {
+      this.value = Array.isArray(this.value) ? [this.value[0] || "", ""] : ["", ""];
       this.end = undefined;
     }
   }
@@ -567,7 +637,11 @@ export class CalciteInputDatePicker implements LabelableComponent {
 
     if (focusedInput === "start") {
       if (!this.startAsDate || !sameDate(date, this.startAsDate)) {
-        this.start = dateToISO(date);
+        const startDateISO = dateToISO(date);
+        this.value = Array.isArray(this.value)
+          ? [startDateISO, this.value[1] || ""]
+          : [startDateISO];
+        this.start = startDateISO;
         this.calciteDatePickerRangeChange.emit({
           startDate: date,
           endDate: this.endAsDate
@@ -575,7 +649,11 @@ export class CalciteInputDatePicker implements LabelableComponent {
       }
     } else if (focusedInput === "end") {
       if (!this.endAsDate || !sameDate(date, this.endAsDate)) {
-        this.end = dateToISO(date);
+        const endDateISO = dateToISO(date);
+        this.value = Array.isArray(this.value)
+          ? [this.value[0] || "", endDateISO]
+          : ["", endDateISO];
+        this.end = endDateISO;
         this.calciteDatePickerRangeChange.emit({
           startDate: this.startAsDate,
           endDate: date
@@ -587,12 +665,14 @@ export class CalciteInputDatePicker implements LabelableComponent {
   /**
    * Clean up invalid date from input on blur
    */
-  private blur(target: HTMLInputElement): void {
+  private blur(target: HTMLCalciteInputElement): void {
     const { locale, focusedInput, endAsDate, range, startAsDate, valueAsDate } = this;
     const date = this.getDateFromInput(target.value);
     if (!date) {
       if (!range && valueAsDate) {
-        target.value = valueAsDate.toLocaleDateString(locale);
+        target.value = Array.isArray(valueAsDate)
+          ? valueAsDate[focusedInput === "end" ? 1 : 0].toLocaleDateString(locale)
+          : valueAsDate.toLocaleDateString(locale);
       } else if (focusedInput === "start" && startAsDate) {
         target.value = startAsDate.toLocaleDateString(locale);
       } else if (focusedInput === "end" && endAsDate) {
@@ -639,6 +719,7 @@ export class CalciteInputDatePicker implements LabelableComponent {
 
     this.start = dateToISO(startDate);
     this.end = dateToISO(endDate);
+    this.value = [this.start, this.end];
 
     if (this.shouldFocusRangeEnd()) {
       this.endInput?.setFocus();

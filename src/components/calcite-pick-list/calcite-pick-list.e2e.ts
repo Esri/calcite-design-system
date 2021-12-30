@@ -84,7 +84,7 @@ describe("calcite-pick-list", () => {
         (filterText) => {
           const filterInput = (window as any).filterInput;
           filterInput.value = filterText;
-          filterInput.dispatchEvent(new Event("input"));
+          filterInput.dispatchEvent(new CustomEvent("calciteInputInput"));
         },
         [item1ValueLowercased]
       );
@@ -121,7 +121,7 @@ describe("calcite-pick-list", () => {
             .shadowRoot.querySelector("calcite-filter");
 
           const filter = (window as any).filter;
-          (window as any).filterInput = filter.shadowRoot.querySelector("input");
+          (window as any).filterInput = filter.shadowRoot.querySelector("calcite-input");
         });
       });
 
@@ -155,7 +155,7 @@ describe("calcite-pick-list", () => {
             .shadowRoot.querySelector("calcite-filter");
 
           const filter = (window as any).filter;
-          (window as any).filterInput = filter.shadowRoot.querySelector("input");
+          (window as any).filterInput = filter.shadowRoot.querySelector("calcite-input");
         });
       });
 
@@ -166,7 +166,7 @@ describe("calcite-pick-list", () => {
         await page.evaluate(() => {
           const filterInput = (window as any).filterInput;
           filterInput.value = "nums";
-          filterInput.dispatchEvent(new Event("input"));
+          filterInput.dispatchEvent(new CustomEvent("calciteInputInput"));
         });
         await page.waitForTimeout(500);
 

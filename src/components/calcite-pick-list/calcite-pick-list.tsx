@@ -17,6 +17,7 @@ import {
   calciteListItemValueChangeHandler,
   cleanUpObserver,
   deselectSiblingItems,
+  deselectRemovedItems,
   getItemData,
   handleFilter,
   calciteListFocusOutHandler,
@@ -183,6 +184,8 @@ export class CalcitePickList<
   setFilterEl = (el: HTMLCalciteFilterElement): void => {
     this.filterEl = el;
   };
+
+  deselectRemovedItems = deselectRemovedItems.bind(this);
 
   deselectSiblingItems = deselectSiblingItems.bind(this);
 

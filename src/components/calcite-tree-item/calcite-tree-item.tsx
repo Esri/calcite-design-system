@@ -13,7 +13,7 @@ import {
 import { TreeItemSelectDetail } from "./interfaces";
 import { TreeSelectionMode } from "../calcite-tree/interfaces";
 import { nodeListToArray, getElementDir, filterDirectChildren, getSlotted } from "../../utils/dom";
-import { getKey } from "../../utils/key";
+
 import { Scale } from "../interfaces";
 import { CSS, SLOTS, ICONS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -50,12 +50,7 @@ export class CalciteTreeItem {
 
   @Watch("expanded")
   expandedHandler(newValue: boolean): void {
-    const items = getSlotted<HTMLCalciteTreeItemElement>(this.el, "children", {
-      all: true,
-      selector: "calcite-tree-item"
-    });
-
-    items.forEach((item) => (item.parentExpanded = newValue));
+    this.updateParentIsExpanded(this.el, newValue);
   }
 
   /** @internal Is the parent of this item expanded? */
@@ -96,7 +91,11 @@ export class CalciteTreeItem {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.expandedHandler(this.expanded);
+    this.parentTreeItem = this.el.parentElement.closest("calcite-tree-item");
+    if (this.parentTreeItem) {
+      const { expanded } = this.parentTreeItem;
+      this.updateParentIsExpanded(this.parentTreeItem, expanded);
+    }
   }
 
   componentWillRender(): void {
@@ -257,7 +256,7 @@ export class CalciteTreeItem {
   @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
     let root;
 
-    switch (getKey(e.key)) {
+    switch (e.key) {
       case " ":
         this.calciteTreeItemSelect.emit({
           modifyCurrentSelection: e.shiftKey,
@@ -297,7 +296,7 @@ export class CalciteTreeItem {
         }
 
         // When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
-        const parentItem = this.el.parentElement.closest("calcite-tree-item");
+        const parentItem = this.parentTreeItem;
 
         if (parentItem && (!this.hasChildren || this.expanded === false)) {
           parentItem.focus();
@@ -391,16 +390,26 @@ export class CalciteTreeItem {
 
   defaultSlotWrapper!: HTMLElement;
 
+  private parentTreeItem?: HTMLCalciteTreeItemElement;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
 
+  private updateParentIsExpanded = (el: HTMLCalciteTreeItemElement, expanded: boolean): void => {
+    const items = getSlotted<HTMLCalciteTreeItemElement>(el, SLOTS.children, {
+      all: true,
+      selector: "calcite-tree-item"
+    });
+    items.forEach((item) => (item.parentExpanded = expanded));
+  };
+
   private updateAncestorTree = (): void => {
     if (this.selected && this.selectionMode === TreeSelectionMode.Ancestors) {
       const ancestors: HTMLCalciteTreeItemElement[] = [];
-      let parent = this.el.parentElement.closest("calcite-tree-item");
+      let parent = this.parentTreeItem;
       while (parent) {
         ancestors.push(parent);
         parent = parent.parentElement.closest("calcite-tree-item");

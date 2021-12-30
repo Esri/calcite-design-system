@@ -20,7 +20,7 @@
     text-color-2
     opacity-0;
   visibility: hidden !important;
-  transition: visibility 0ms linear 300ms, opacity 300ms $easing-function;
+  transition: visibility 0ms linear 300ms, opacity var(--calcite-internal-animation-timing-slow) $easing-function;
   z-index: 101;
 }
 
@@ -28,7 +28,7 @@
   --calcite-modal-padding: theme("spacing.3");
   --calcite-modal-padding-large: theme("spacing.4");
   --calcite-modal-title-text: theme("fontSize.1h");
-  --calcite-modal-content-text: theme("fontSize.-1");
+  --calcite-modal-content-text: theme("fontSize.n1");
 }
 
 :host([scale="m"]) {
@@ -66,7 +66,8 @@
   z-index: 102;
   -webkit-overflow-scrolling: touch;
   visibility: hidden;
-  transition: transform 300ms $easing-function, visibility 0ms linear 300ms, opacity 300ms $easing-function;
+  transition: transform var(--calcite-internal-animation-timing-slow) $easing-function, visibility 0ms linear 300ms,
+    opacity var(--calcite-internal-animation-timing-slow) $easing-function;
   transform: translate3d(0, 20px, 0);
 }
 
@@ -77,8 +78,10 @@
   .modal {
     @apply opacity-100 pointer-events-auto visible;
     transform: translate3d(0, 0, 0);
-    transition: transform 300ms $easing-function, visibility 0ms linear, opacity 300ms $easing-function,
-      max-width 300ms $easing-function, max-height 300ms $easing-function;
+    transition: transform var(--calcite-internal-animation-timing-slow) $easing-function, visibility 0ms linear,
+      opacity var(--calcite-internal-animation-timing-slow) $easing-function,
+      max-width var(--calcite-internal-animation-timing-slow) $easing-function,
+      max-height var(--calcite-internal-animation-timing-slow) $easing-function;
     transition-delay: 0ms;
   }
 }
@@ -107,12 +110,12 @@
     text-color-3
     order-2
     cursor-pointer
-    rounded-tr
     bg-transparent
+    transition-default
     focus-base;
+  border-start-end-radius: theme("borderRadius.DEFAULT");
   padding: var(--calcite-modal-padding);
   flex: 0 0 auto;
-  transition: all 0.15s ease-in-out;
   calcite-icon {
     @apply pointer-events-none;
     vertical-align: -2px;
@@ -125,10 +128,6 @@
   &:active {
     @apply bg-foreground-2 text-color-1;
   }
-}
-
-.calcite--rtl .close {
-  @apply rounded-tl rounded-tr-none;
 }
 
 .title {
@@ -195,11 +194,8 @@
 }
 
 .back {
-  @apply block mr-auto;
-}
-
-.calcite--rtl .back {
-  @apply ml-auto mr-0;
+  @apply block;
+  margin-inline-end: auto;
 }
 
 .secondary {
@@ -287,14 +283,8 @@ slot[name="primary"] {
     }
 
     .close {
-      border-radius: 0 var(--calcite-border-radius) 0 0;
+      border-start-end-radius: var(--calcite-border-radius);
     }
-  }
-}
-
-@media screen and (max-width: $viewport-medium) {
-  :host([docked]) .calcite--rtl .close {
-    border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
   }
 }
 
@@ -342,7 +332,6 @@ slot[name="primary"] {
   .footer {
     @apply flex-col;
   }
-  .calcite--rtl .back,
   .back,
   .secondary {
     @apply m-0 mb-1;

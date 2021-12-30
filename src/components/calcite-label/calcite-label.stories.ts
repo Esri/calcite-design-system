@@ -1,7 +1,7 @@
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../tests/utils";
-
+import { createSteps, stepStory } from "../../../.storybook/helpers";
 export default {
   title: "Components/Label",
 
@@ -80,9 +80,7 @@ export const WrappingComponentsOtherThanInput = (): string => html`
   </div>
 `;
 
-WrappingComponentsOtherThanInput.story = {
-  name: "Wrapping components other than input"
-};
+WrappingComponentsOtherThanInput.storyName = "Wrapping components other than input";
 
 export const DarkTheme = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;" class="calcite-theme-dark">
@@ -146,9 +144,7 @@ export const DarkTheme = (): string => html`
   </div>
 `;
 
-DarkTheme.story = {
-  parameters: { themes: themesDarkDefault }
-};
+DarkTheme.parameters = { themes: themesDarkDefault };
 
 export const WrappingComponentsOtherThanInputRTL = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;" dir="rtl">
@@ -219,3 +215,11 @@ export const WrappingComponentsOtherThanInputRTL = (): string => html`
     </calcite-label>
   </div>
 `;
+
+export const toggleSwitchWithLabel = stepStory(
+  (): string => html`<calcite-label layout="inline">
+    Toggle theme
+    <calcite-switch id="theme-switch"></calcite-switch>
+  </calcite-label>`,
+  createSteps("calcite-label").click("calcite-label").snapshot("Toggle switch with label")
+);

@@ -1,3 +1,7 @@
+:host {
+  display: inline;
+}
+
 // link base
 :host a,
 :host span {
@@ -48,21 +52,14 @@ calcite-icon {
     @apply pointer-events-none opacity-disabled;
   }
 }
+
 // icon positioning and styles
 :host .calcite-link--icon.icon-start {
-  @apply mr-2;
-}
-
-.calcite--rtl .calcite-link--icon.icon-start {
-  @apply mr-0 ml-2;
+  margin-inline-end: theme("margin.2");
 }
 
 :host .calcite-link--icon.icon-end {
-  @apply ml-2;
-}
-
-.calcite--rtl .calcite-link--icon.icon-end {
-  @apply ml-0 mr-2;
+  margin-inline-start: theme("margin.2");
 }
 
 :host {
@@ -73,7 +70,8 @@ calcite-icon {
       border-none
       bg-transparent
       relative
-      text-color-link;
+      text-color-link
+      transition-default;
     line-height: inherit;
     white-space: initial;
     background-image: linear-gradient(currentColor, currentColor),
@@ -81,7 +79,6 @@ calcite-icon {
     background-position: 0% 100%, 100% 100%;
     background-repeat: no-repeat, no-repeat;
     background-size: 0% 1px, 100% 1px;
-    transition: all 0.15s ease-in-out, background-size 0.3s ease-in-out;
 
     &:hover,
     &:focus {
@@ -90,10 +87,8 @@ calcite-icon {
     &:active {
       background-size: 100% 2px, 100% 2px;
     }
+    &.calcite--rtl {
+      background-position: 100% 100%, 100% 100%;
+    }
   }
-}
-
-span.calcite--rtl,
-a.calcite--rtl {
-  background-position: 100% 100%, 100% 100%;
 }

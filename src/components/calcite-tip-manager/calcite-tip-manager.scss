@@ -12,7 +12,7 @@
   box-border
   bg-foreground-1
   text-color-2
-  text--1h;
+  text-n1h;
 
   * {
     @apply box-border;
@@ -30,11 +30,12 @@
 .header {
   @apply border-0
     border-b
-    border-solid 
-    border-color-3 
-    pl-4 
-    pr-0 
+    border-solid
+    border-color-3
     py-0;
+
+  padding-inline-end: theme("padding.0");
+  padding-inline-start: theme("padding.4");
 
   h2.heading {
     @apply font-bold
@@ -55,15 +56,14 @@
 }
 
 .tip-container {
-  @apply mt-0
-    overflow-auto
+  @apply overflow-auto
     flex
     justify-center
     items-start
     focus-base
     mt-px;
   animation-name: none;
-  animation-duration: 150ms;
+  animation-duration: var(--calcite-animation-timing);
   height: var(--calcite-tip-manager-height);
   &:focus {
     @apply focus-outset;
@@ -94,14 +94,7 @@
 }
 
 .page-position {
-  @apply text--2h my-0 mx-2;
-}
-
-/* RTL */
-:host-context([dir="rtl"]) {
-  .header.header {
-    @apply pr-4 pl-0 py-0;
-  }
+  @apply text-n2h my-0 mx-2;
 }
 
 /* @keyframes*/

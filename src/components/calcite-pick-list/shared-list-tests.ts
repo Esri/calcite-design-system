@@ -1,14 +1,13 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { JSEvalable } from "puppeteer";
+import { focusable } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 import { CSS as PICK_LIST_ITEM_CSS } from "../calcite-pick-list-item/resources";
-import { focusable } from "../../tests/commonTests";
 
 type ListType = "pick" | "value";
 type ListElement = HTMLCalcitePickListElement | HTMLCalciteValueListElement;
 
 export function keyboardNavigation(listType: ListType): void {
-  const getFocusedItemValue = (page: E2EPage): ReturnType<JSEvalable["evaluate"]> =>
+  const getFocusedItemValue = (page: E2EPage): ReturnType<E2EPage["evaluate"]> =>
     page.evaluate(
       () => (document.activeElement as HTMLCalcitePickListItemElement | HTMLCalciteValueListItemElement)?.value ?? null
     );
@@ -346,6 +345,24 @@ export function selectionAndDeselection(listType: ListType): void {
     });
   });
 
+  describe("when an item is selected and then gets removed", () => {
+    it("should deselect the removed item from the selectedValues map", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-${listType}-list multiple>
+          <calcite-${listType}-list-item value="one" label="One"></calcite-${listType}-list-item>
+          <calcite-${listType}-list-item id="item2" value="two" label="Two" selected></calcite-${listType}-list-item>
+        </calcite-${listType}-list>`);
+
+      const numSelected = await page.evaluate(async (type) => {
+        document.querySelector("#item2").remove();
+        const domList: ListElement = document.querySelector(`calcite-${type}-list`);
+        return (await domList.getSelectedItems()).size;
+      }, listType);
+
+      expect(numSelected).toBe(0);
+    });
+  });
+
   describe("value changes after item is selected", () => {
     it("should update the value in selectedValues map", async () => {
       const page = await newE2EPage();
@@ -408,7 +425,7 @@ export function filterBehavior(listType: ListType): void {
         .querySelector(`calcite-${listType}-list`)
         .shadowRoot.querySelector("calcite-filter");
       const filter = (window as any).filter;
-      (window as any).filterInput = filter.shadowRoot.querySelector("input");
+      (window as any).filterInput = filter.shadowRoot.querySelector("calcite-input");
     }, listType);
   });
 
@@ -417,7 +434,7 @@ export function filterBehavior(listType: ListType): void {
     await page.evaluate(() => {
       const filterInput = (window as any).filterInput;
       filterInput.value = "one";
-      filterInput.dispatchEvent(new Event("input"));
+      filterInput.dispatchEvent(new CustomEvent("calciteInputInput"));
     });
     await item2.waitForNotVisible();
 
@@ -431,7 +448,7 @@ export function filterBehavior(listType: ListType): void {
     await page.evaluate(() => {
       const filterInput = (window as any).filterInput;
       filterInput.value = "two";
-      filterInput.dispatchEvent(new Event("input"));
+      filterInput.dispatchEvent(new CustomEvent("calciteInputInput"));
     });
     await item1.waitForNotVisible();
 
@@ -446,7 +463,7 @@ export function filterBehavior(listType: ListType): void {
     await page.evaluate(() => {
       const filterInput = (window as any).filterInput;
       filterInput.value = "uno";
-      filterInput.dispatchEvent(new Event("input"));
+      filterInput.dispatchEvent(new CustomEvent("calciteInputInput"));
     });
     await item2.waitForNotVisible();
 
@@ -460,7 +477,7 @@ export function filterBehavior(listType: ListType): void {
     await page.evaluate(() => {
       const filterInput = (window as any).filterInput;
       filterInput.value = "dos";
-      filterInput.dispatchEvent(new Event("input"));
+      filterInput.dispatchEvent(new CustomEvent("calciteInputInput"));
     });
     await item1.waitForNotVisible();
 
@@ -474,7 +491,7 @@ export function filterBehavior(listType: ListType): void {
     await page.evaluate(() => {
       const filterInput = (window as any).filterInput;
       filterInput.value = "first";
-      filterInput.dispatchEvent(new Event("input"));
+      filterInput.dispatchEvent(new CustomEvent("calciteInputInput"));
     });
     await item2.waitForNotVisible();
 
@@ -486,7 +503,7 @@ export function filterBehavior(listType: ListType): void {
     await page.evaluate(() => {
       const filterInput = (window as any).filterInput;
       filterInput.value = "second";
-      filterInput.dispatchEvent(new Event("input"));
+      filterInput.dispatchEvent(new CustomEvent("calciteInputInput"));
     });
     await item1.waitForNotVisible();
 
@@ -545,7 +562,7 @@ export function itemRemoval(listType: ListType): void {
 
     await page.$eval(
       `calcite-${listType}-list-item`,
-      (item: ListElement, listType, selector) => {
+      (item: ListElement, listType, selector: string) => {
         listType === "pick"
           ? item.shadowRoot.querySelector<HTMLElement>(selector).click()
           : item.shadowRoot

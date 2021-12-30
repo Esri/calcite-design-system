@@ -1,22 +1,23 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, HYDRATED_ATTR } from "../../tests/commonTests";
+import { accessible, renders, defaults } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-split-button", () => {
+  it("has defaults", async () =>
+    defaults("calcite-split-button", [
+      {
+        propertyName: "overlayPositioning",
+        defaultValue: "absolute"
+      }
+    ]));
+
   const content = `
   <calcite-dropdown-group>
     <calcite-dropdown-item id="item-1">Item</calcite-dropdown-item>
     <calcite-dropdown-item id="item-2" active>Item2</calcite-dropdown-item>
   </calcite-dropdown-group>`;
 
-  it("renders", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-split-button>
-      </calcite-split-button>`);
-    const element = await page.find("calcite-split-button");
-    expect(element).toHaveAttribute(HYDRATED_ATTR);
-  });
+  it("renders", () => renders("calcite-split-button", { display: "inline-block" }));
 
   it("is accessible", async () =>
     accessible(`<calcite-split-button

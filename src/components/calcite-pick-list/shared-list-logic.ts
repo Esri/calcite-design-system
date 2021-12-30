@@ -13,6 +13,7 @@ export type ListFocusId = "filter";
 export function mutationObserverCallback<T extends Lists>(this: List<T>): void {
   this.setUpItems();
   this.setUpFilter();
+  this.deselectRemovedItems();
 }
 
 const SUPPORTED_ARROW_KEYS = ["ArrowUp", "ArrowDown"];
@@ -241,6 +242,17 @@ export function setUpFilter<T extends Lists>(this: List<T>): void {
   }
 }
 
+export function deselectRemovedItems<T extends Lists>(this: List<T>): void {
+  const selectedValues = this.selectedValues as Map<string, ListItemElement<T>>;
+  const itemValues = this.items.map(({ value }) => value);
+
+  selectedValues.forEach((selectedItem) => {
+    if (!itemValues.includes(selectedItem.value)) {
+      this.selectedValues.delete(selectedItem.value);
+    }
+  });
+}
+
 export function deselectSiblingItems<T extends Lists>(this: List<T>, item: ListItemElement<T>): void {
   this.items.forEach((currentItem) => {
     if (currentItem.value !== item.value) {
@@ -276,8 +288,8 @@ export function selectSiblings<T extends Lists>(this: List<T>, item: ListItemEle
 let groups: Set<HTMLCalcitePickListGroupElement>;
 
 export function handleFilter<T extends Lists>(this: List<T>, event: CustomEvent): void {
-  const filteredData = event.detail;
-  const values = filteredData.map((item) => item.value);
+  const { filteredItems } = event.currentTarget as HTMLCalciteFilterElement;
+  const values = filteredItems.map((item: ItemData[number]) => item.value);
   let hasSelectedMatch = false;
 
   if (!groups) {

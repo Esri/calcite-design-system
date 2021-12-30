@@ -1,13 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { renders } from "../../tests/commonTests";
 
 describe("calcite-radio-group-item", () => {
-  it("renders", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-radio-group-item></calcite-radio-group-item>");
-    const element = await page.find("calcite-radio-group-item");
-
-    expect(element).toBeDefined();
-  });
+  it("renders", () => renders("calcite-radio-group-item", { display: "flex" }));
 
   it("is un-checked by default", async () => {
     const page = await newE2EPage();
@@ -16,19 +11,6 @@ describe("calcite-radio-group-item", () => {
 
     const checked = await element.getProperty("checked");
     expect(checked).toBe(false);
-  });
-
-  it("emits when checked", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-radio-group-item value='test-value'></calcite-radio-group-item>");
-    const element = await page.find("calcite-radio-group-item");
-    const spy = await element.spyOnEvent("calciteRadioGroupItemChange");
-
-    await element.setProperty("checked", true);
-    await page.waitForChanges();
-    await element.setProperty("checked", false);
-    await page.waitForChanges();
-    expect(spy).toHaveReceivedEventTimes(2);
   });
 
   it("supports value, label and checked", async () => {
@@ -51,37 +33,6 @@ describe("calcite-radio-group-item", () => {
 
     const label = await page.find("calcite-radio-group-item >>> label");
     expect(label).toEqualText("test-value");
-  });
-
-  it("syncs w/ external inputs", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      "<calcite-radio-group-item><input type='radio' slot='input' value='1'></calcite-radio-group-item>"
-    );
-    const element = await page.find("calcite-radio-group-item");
-    const label = await page.find("calcite-radio-group-item >>> label");
-
-    expect(label).toEqualText("1");
-
-    let checked = await element.getProperty("checked");
-    expect(checked).toBe(false);
-
-    const value = await element.getProperty("value");
-    expect(value).toBe("1");
-
-    await page.$eval("input", (input: HTMLInputElement) => {
-      // need to toggle this way so MutationObserver kicks in
-      input.toggleAttribute("checked");
-    });
-
-    checked = await element.getProperty("checked");
-    expect(checked).toBe(true);
-
-    const input = await page.find("input");
-    element.setProperty("checked", false);
-    await page.waitForChanges();
-    checked = input.getAttribute("checked");
-    expect(checked).toBeNull();
   });
 
   it("renders icon if requested", async () => {

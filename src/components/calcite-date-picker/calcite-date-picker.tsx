@@ -12,10 +12,8 @@ import {
   Build
 } from "@stencil/core";
 import { getLocaleData, DateLocaleData } from "./utils";
-import { getElementDir } from "../../utils/dom";
 import { dateFromRange, dateFromISO, dateToISO, getDaysDiff, HoverRange } from "../../utils/date";
 import { HeadingLevel } from "../functional/CalciteHeading";
-import { getKey } from "../../utils/key";
 
 import { DateRangeChange } from "./interfaces";
 import { HEADING_LEVEL, TEXT } from "./resources";
@@ -43,7 +41,7 @@ export class CalciteDatePicker {
   @Prop() activeRange?: "start" | "end";
 
   /** Selected date */
-  @Prop({ mutable: true }) value?: string;
+  @Prop({ mutable: true }) value?: string | string[];
 
   /**
    * Number at which section headings should start for this component.
@@ -51,18 +49,26 @@ export class CalciteDatePicker {
   @Prop() headingLevel: HeadingLevel;
 
   /** Selected date as full date object*/
-  @Prop({ mutable: true }) valueAsDate?: Date;
+  @Prop({ mutable: true }) valueAsDate?: Date | Date[];
 
   @Watch("valueAsDate")
-  handleValueAsDate(date: Date): void {
-    this.activeDate = date;
-    this.calciteDatePickerChange.emit(date);
+  handleValueAsDate(date: Date | Date[]): void {
+    if (!Array.isArray(date) && date && date !== this.activeDate) {
+      this.activeDate = date;
+      this.calciteDatePickerChange.emit(date);
+    }
   }
 
-  /** Selected start date as full date object*/
+  /**
+   * Selected start date as full date object
+   * @deprecated use valueAsDate instead
+   */
   @Prop({ mutable: true }) startAsDate?: Date;
 
-  /** Selected end date as full date object*/
+  /**
+   * Selected end date as full date object
+   * @deprecated use valueAsDate instead
+   */
   @Prop({ mutable: true }) endAsDate?: Date;
 
   /** Earliest allowed date as full date object */
@@ -81,10 +87,20 @@ export class CalciteDatePicker {
   }
 
   /** Earliest allowed date ("yyyy-mm-dd") */
-  @Prop() min?: string;
+  @Prop({ mutable: true }) min?: string;
+
+  @Watch("min")
+  onMinChanged(min: string): void {
+    this.minAsDate = dateFromISO(min);
+  }
 
   /** Latest allowed date ("yyyy-mm-dd") */
-  @Prop() max?: string;
+  @Prop({ mutable: true }) max?: string;
+
+  @Watch("max")
+  onMaxChanged(max: string): void {
+    this.maxAsDate = dateFromISO(max);
+  }
 
   /** Localized string for "previous month" (used for aria label)
    * @default "Previous month"
@@ -96,6 +112,11 @@ export class CalciteDatePicker {
    */
   @Prop() intlNextMonth?: string = TEXT.nextMonth;
 
+  /** Localized string for "year" (used for aria label)
+   * @default "Year"
+   */
+  @Prop() intlYear?: string = TEXT.year;
+
   /** BCP 47 language tag for desired language and country format */
   @Prop() locale?: string = document.documentElement.lang || "en";
 
@@ -105,10 +126,16 @@ export class CalciteDatePicker {
   /** Range mode activation */
   @Prop({ reflect: true }) range = false;
 
-  /** Selected start date */
+  /**
+   * Selected start date
+   * @deprecated use value instead
+   */
   @Prop({ mutable: true }) start?: string;
 
-  /** Selected end date */
+  /**
+   * Selected end date
+   * @deprecated use value instead
+   */
   @Prop({ mutable: true }) end?: string;
 
   /** Disables the default behaviour on the third click of narrowing or extending the range and instead starts a new range. */
@@ -151,7 +178,11 @@ export class CalciteDatePicker {
   //
   // --------------------------------------------------------------------------
   connectedCallback(): void {
-    if (this.value) {
+    if (Array.isArray(this.value)) {
+      this.valueAsDate = this.value.map((v) => dateFromISO(v));
+      this.start = this.value[0];
+      this.end = this.value[1];
+    } else if (this.value) {
       this.valueAsDate = dateFromISO(this.value);
     }
 
@@ -174,6 +205,8 @@ export class CalciteDatePicker {
 
   async componentWillLoad(): Promise<void> {
     await this.loadLocaleData();
+    this.onMinChanged(this.min);
+    this.onMaxChanged(this.max);
   }
 
   render(): VNode {
@@ -215,11 +248,9 @@ export class CalciteDatePicker {
           : this.maxAsDate
         : this.maxAsDate;
 
-    const dir = getElementDir(this.el);
-
     return (
       <Host onBlur={this.reset} onKeyUp={this.keyUpHandler} role="application">
-        {this.renderCalendar(activeDate, dir, maxDate, minDate, date, endDate)}
+        {this.renderCalendar(activeDate, maxDate, minDate, date, endDate)}
       </Host>
     );
   }
@@ -242,14 +273,22 @@ export class CalciteDatePicker {
   //--------------------------------------------------------------------------
 
   keyUpHandler = (e: KeyboardEvent): void => {
-    if (getKey(e.key) === "Escape") {
+    if (e.key === "Escape") {
       this.reset();
     }
   };
 
   @Watch("value")
-  valueWatcher(value: string): void {
-    this.valueAsDate = dateFromISO(value);
+  valueHandler(value: string | string[]): void {
+    if (Array.isArray(value)) {
+      this.valueAsDate = value.map((v) => dateFromISO(v));
+      this.start = value[0];
+      this.end = value[1];
+    } else if (value) {
+      this.valueAsDate = dateFromISO(value);
+      this.start = "";
+      this.end = "";
+    }
   }
 
   @Watch("start")
@@ -369,7 +408,6 @@ export class CalciteDatePicker {
    */
   private renderCalendar(
     activeDate: Date,
-    dir: string,
     maxDate: Date,
     minDate: Date,
     date: Date,
@@ -379,10 +417,10 @@ export class CalciteDatePicker {
       this.localeData && [
         <calcite-date-picker-month-header
           activeDate={activeDate}
-          dir={dir}
           headingLevel={this.headingLevel || HEADING_LEVEL}
           intlNextMonth={this.intlNextMonth}
           intlPrevMonth={this.intlPrevMonth}
+          intlYear={this.intlYear}
           localeData={this.localeData}
           max={maxDate}
           min={minDate}
@@ -392,7 +430,6 @@ export class CalciteDatePicker {
         />,
         <calcite-date-picker-month
           activeDate={activeDate}
-          dir={dir}
           endDate={this.range ? endDate : undefined}
           hoverRange={this.hoverRange}
           localeData={this.localeData}
@@ -442,7 +479,11 @@ export class CalciteDatePicker {
    * Reset active date and close
    */
   reset = (): void => {
-    if (this.valueAsDate && this.valueAsDate?.getTime() !== this.activeDate?.getTime()) {
+    if (
+      !Array.isArray(this.valueAsDate) &&
+      this.valueAsDate &&
+      this.valueAsDate?.getTime() !== this.activeDate?.getTime()
+    ) {
       this.activeDate = new Date(this.valueAsDate);
     }
     if (this.startAsDate && this.startAsDate?.getTime() !== this.activeStartDate?.getTime()) {
@@ -454,15 +495,15 @@ export class CalciteDatePicker {
   };
 
   private setEndDate(date: Date): void {
-    this.end = dateToISO(date);
+    this.end = date ? dateToISO(date) : "";
     this.setEndAsDate(date, true);
-    this.activeEndDate = date;
+    this.activeEndDate = date || null;
   }
 
   private setStartDate(date: Date): void {
-    this.start = dateToISO(date);
+    this.start = date ? dateToISO(date) : "";
     this.setStartAsDate(date, true);
-    this.activeStartDate = date;
+    this.activeStartDate = date || null;
   }
 
   /**
@@ -471,8 +512,9 @@ export class CalciteDatePicker {
   private monthDateChange = (e: CustomEvent<Date>): void => {
     const date = new Date(e.detail);
     if (!this.range) {
-      this.value = dateToISO(date);
-      this.activeDate = date;
+      this.value = date ? dateToISO(date) : "";
+      this.valueAsDate = date || null;
+      this.activeDate = date || null;
       return;
     }
 
