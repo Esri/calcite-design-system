@@ -7,8 +7,7 @@ import { getElementXY } from "../../tests/utils";
 import { KeyInput } from "puppeteer";
 
 describe("calcite-input", () => {
-  const delayFor1UpdateInMs = 100;
-  const delayFor2UpdatesInMs = delayFor1UpdateInMs * 2;
+  const delayFor2UpdatesInMs = 200;
 
   it("is labelable", async () => labelable("calcite-input"));
 
@@ -647,7 +646,7 @@ describe("calcite-input", () => {
     expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
 
     // assert changes no longer emitted after moving away from stepper
-    await page.waitForTimeout(delayFor1UpdateInMs);
+    await page.waitForTimeout(delayFor2UpdateInMs);
     expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
     await page.mouse.up(); // mouseleave assertion done, we release
 
@@ -676,7 +675,7 @@ describe("calcite-input", () => {
     expect(await input.getProperty("value")).toBe(`${finalNudgedValue}`);
 
     // assert changes no longer emitted after moving away from stepper
-    await page.waitForTimeout(delayFor1UpdateInMs);
+    await page.waitForTimeout(delayFor2UpdateInMs);
     expect(await input.getProperty("value")).toBe(`${finalNudgedValue}`);
   });
 
