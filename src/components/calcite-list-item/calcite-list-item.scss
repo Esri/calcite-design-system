@@ -16,6 +16,10 @@
   }
 }
 
+.text-container {
+  @apply text-n2-wrap;
+}
+
 .nested-container {
   @apply flex flex-col bg-foreground-1;
 }
