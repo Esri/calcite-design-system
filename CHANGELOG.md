@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Features
 
 - **icon:** Add new global CSS variable to customize icon's color. [#3200](https://github.com/Esri/calcite-components/issues/3200) ([#3770](https://github.com/Esri/calcite-components/issues/3770)) ([f25b14f](https://github.com/Esri/calcite-components/commit/f25b14faf7f452426bb0fde838ac343d38d5a99f))
+- **transition:** allow customizing animation/transition duration for components utilizing base transition variables ([#3828](https://github.com/Esri/calcite-components/issues/3828)) ([2771352](https://github.com/Esri/calcite-components/commit/277135209b80c717d43b9da581de2d969e6a39cd))
 
 ### Bug Fixes
 
