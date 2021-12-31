@@ -272,7 +272,7 @@ $alertColors: "blue" var(--calcite-ui-info), "red" var(--calcite-ui-danger), "ye
   }
 }
 
-$alertDurations: "fast" 3000ms, "medium" 6000ms, "slow" 9000ms;
+$alertDurations: "fast" 1500ms, "medium" 3000ms, "slow" 6000ms;
 
 @each $alertDuration in $alertDurations {
   $name: nth($alertDuration, 1);

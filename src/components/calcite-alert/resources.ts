@@ -3,9 +3,9 @@ export const TEXT = {
 };
 
 export const DURATIONS = {
-  slow: 9000,
-  medium: 6000,
-  fast: 3000
+  slow: 6000,
+  medium: 3000,
+  fast: 1500
 };
 
 export const SLOTS = {
