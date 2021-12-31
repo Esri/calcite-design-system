@@ -151,7 +151,7 @@ export class CalciteValueList<
   /**
    * Emitted when any of the item selections have changed.
    */
-  @Event() calciteListChange: EventEmitter<void>;
+  @Event() calciteListChange: EventEmitter<Map<string, HTMLCalciteValueListItemElement>>;
 
   /**
    * Emitted when the order of the list has changed.
