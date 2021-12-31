@@ -1,13 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { renders } from "../../tests/commonTests";
 
 describe("calcite-radio-group-item", () => {
-  it("renders", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-radio-group-item></calcite-radio-group-item>");
-    const element = await page.find("calcite-radio-group-item");
-
-    expect(element).toBeDefined();
-  });
+  it("renders", () => renders("calcite-radio-group-item", { display: "flex" }));
 
   it("is un-checked by default", async () => {
     const page = await newE2EPage();

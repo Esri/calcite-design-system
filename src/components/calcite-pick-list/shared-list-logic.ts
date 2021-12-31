@@ -151,7 +151,7 @@ export function keyDownHandler<T extends Lists>(this: List<T>, event: KeyboardEv
 }
 
 export function internalCalciteListChangeEvent<T extends Lists>(this: List<T>): void {
-  this.calciteListChange.emit(this.selectedValues);
+  this.calciteListChange.emit(this.selectedValues as any);
 }
 
 export function removeItem<T extends Lists, U extends ListItemElement<T>>(this: List<T>, event: CustomEvent): void {

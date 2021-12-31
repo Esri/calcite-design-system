@@ -10,8 +10,8 @@
     mb-px
     bg-foreground-1
     text-n1h;
-  transition: background-color $transition;
-  animation: calcite-fade-in $transition;
+  transition: background-color var(--calcite-animation-timing);
+  animation: calcite-fade-in var(--calcite-animation-timing);
 
   * {
     @apply box-border;
@@ -66,7 +66,7 @@
 
 :host([selected]) .icon-dot:before,
 :host([selected]) .icon calcite-icon {
-  transition: opacity $transition;
+  transition: opacity var(--calcite-animation-timing);
   @apply opacity-100;
 }
 
