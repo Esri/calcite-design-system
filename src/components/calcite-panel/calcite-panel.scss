@@ -28,7 +28,7 @@
   width: var(--calcite-panel-width);
   max-width: var(--calcite-panel-max-width);
   min-width: var(--calcite-panel-min-width);
-  transition: max-height $transition, width $transition;
+  transition: max-height var(--calcite-animation-timing), width var(--calcite-animation-timing);
 }
 
 :host([height-scale="s"]) {

@@ -27,7 +27,7 @@ input[type="text"] {
     py-1
     pr-1
     pl-6;
-  transition: padding $transition, box-shadow $transition;
+  transition: padding var(--calcite-animation-timing), box-shadow var(--calcite-animation-timing);
   &::-ms-clear {
     @apply hidden;
   }
@@ -42,7 +42,8 @@ calcite-input {
     absolute
     text-color-2;
   inset-inline-start: 0;
-  transition: left $transition, right $transition, opacity $transition;
+  transition: left var(--calcite-animation-timing), right var(--calcite-animation-timing),
+    opacity var(--calcite-animation-timing);
 }
 
 input[type="text"]:focus {
