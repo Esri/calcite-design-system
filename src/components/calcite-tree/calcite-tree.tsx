@@ -59,6 +59,7 @@ export class CalciteTree {
     TreeSelectionMode.Single;
 
   private selectedItems: HTMLCalciteTreeItemElement[] = [];
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -160,7 +161,7 @@ export class CalciteTree {
       this.selectionMode === TreeSelectionMode.Children;
 
     const shouldClearCurrentSelection =
-      !shouldModifyToCurrentSelection &&
+      // !shouldModifyToCurrentSelection &&
       (((this.selectionMode === TreeSelectionMode.Single ||
         this.selectionMode === TreeSelectionMode.Multi) &&
         childItems.length <= 0) ||
@@ -170,9 +171,10 @@ export class CalciteTree {
     const shouldExpandTarget =
       this.selectionMode === TreeSelectionMode.Children ||
       this.selectionMode === TreeSelectionMode.MultiChildren;
-
+    // debugger;
     if (!this.child) {
       if (shouldSelect) {
+        target.selected = true;
         this.selectedItems.push(target);
       }
 
@@ -187,9 +189,10 @@ export class CalciteTree {
           this.el.querySelectorAll("calcite-tree-item[selected]")
         ) as HTMLCalciteTreeItemElement[];
 
-        selectedItems.forEach((treeItem) => {
-          if (this.selectedItems.includes(treeItem) && target === treeItem) {
+        selectedItems.forEach((treeItem: HTMLCalciteTreeItemElement) => {
+          if (target === treeItem) {
             treeItem.selected = false;
+            // console.log("treeItem", treeItem);
             this.selectedItems.splice(this.selectedItems.indexOf(treeItem), 1);
           }
         });
@@ -198,29 +201,22 @@ export class CalciteTree {
         target.expanded = true;
       }
 
-      if (shouldModifyToCurrentSelection) {
-        window.getSelection().removeAllRanges();
-      }
-      if (
-        (shouldModifyToCurrentSelection && target.selected) ||
-        (shouldSelectChildren && e.detail.forceToggle)
-      ) {
-        this.selectedItems.forEach((treeItem, i) => {
-          if (target === treeItem) {
-            treeItem.selected = false;
-            this.selectedItems.splice(i, 1);
-          }
-        });
-      } else {
-        this.selectedItems.forEach((treeItem) => {
-          if (target === treeItem) {
-            treeItem.selected = true;
-          }
-        });
-      }
+      // if (shouldModifyToCurrentSelection) {
+      //   window.getSelection().removeAllRanges();
+      // }
+      // if (shouldSelectChildren) {
+      //   if (this.selectedItems.includes(target)) {
+      //     target.selected = false;
+      //     this.selectedItems.splice(this.selectedItems.indexOf(target), 1);
+      //   }
+      // } else {
+      //   if (this.selectedItems.includes(target)) {
+      //     target.selected = true;
+      //   }
+      // }
     }
 
-    if (this.selectionMode === TreeSelectionMode.Single) {
+    if (this.selectionMode === TreeSelectionMode.Single && this.selectedItems.length > 1) {
       this.deselectSiblings(target);
     }
 
@@ -233,17 +229,18 @@ export class CalciteTree {
     });
   }
 
-  deselectSiblings(target: HTMLCalciteTreeItemElement): void {
+  deselectSiblings(selectedTreeItem: HTMLCalciteTreeItemElement): void {
+    console.log("deselect siblings");
     const selectedItems = nodeListToArray(
       this.el.querySelectorAll("calcite-tree-item[selected]")
     ) as HTMLCalciteTreeItemElement[];
 
     selectedItems.forEach((treeItem) => {
-      if (treeItem !== target) {
+      if (treeItem !== selectedTreeItem) {
         treeItem.selected = false;
-        this.selectedItems.splice(this.selectedItems.indexOf(treeItem));
       }
     });
+    this.selectedItems = [selectedTreeItem];
   }
 
   updateAncestorTree(e: CustomEvent<TreeItemSelectDetail>): void {
