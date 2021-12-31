@@ -56,7 +56,7 @@ export class CalcitePopoverManager {
     const { selector, el } = this;
     const id = element.closest(selector)?.getAttribute(POPOVER_REFERENCE);
 
-    return queryElementRoots(el, `#${id}`) as HTMLCalcitePopoverElement;
+    return queryElementRoots(el, { id }) as HTMLCalcitePopoverElement;
   };
 
   //--------------------------------------------------------------------------

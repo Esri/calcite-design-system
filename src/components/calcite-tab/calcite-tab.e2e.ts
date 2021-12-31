@@ -1,16 +1,12 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { defaults, HYDRATED_ATTR } from "../../tests/commonTests";
+import { defaults, renders } from "../../tests/commonTests";
 
 describe("calcite-tab", () => {
   const tabHtml = "<calcite-tab>A tab</calcite-tab>";
 
   it("renders", async () => {
-    const page = await newE2EPage({ html: tabHtml });
-    const element = await page.find("calcite-tab");
-    const styles = await element.getComputedStyle();
-    expect(element).toHaveAttribute(HYDRATED_ATTR);
-    expect(styles["display"]).toEqual("none");
-    expect(styles["visibility"]).toEqual("visible");
+    await renders("calcite-tab", { display: "none", visible: false });
+    await renders("<calcite-tab active></calcite-tab>", { display: "block", visible: true });
   });
 
   it("has defaults", async () =>
@@ -19,13 +15,6 @@ describe("calcite-tab", () => {
       { propertyName: "active", defaultValue: false },
       { propertyName: "scale", defaultValue: undefined }
     ]));
-
-  it("has block display when active", async () => {
-    const page = await newE2EPage({ html: "<calcite-tab active></calcite-tab>" });
-    const element = await page.find("calcite-tab");
-    const styles = await element.getComputedStyle();
-    expect(styles["display"]).toEqual("block");
-  });
 
   describe("when nested within calcite-tabs component", () => {
     it("should render with medium scale", async () => {

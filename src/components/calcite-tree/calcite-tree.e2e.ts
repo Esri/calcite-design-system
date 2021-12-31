@@ -1,17 +1,11 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, HYDRATED_ATTR, defaults } from "../../tests/commonTests";
+import { accessible, renders, defaults } from "../../tests/commonTests";
 import { GlobalTestProps, html } from "../../tests/utils";
 import { CSS } from "../calcite-tree-item/resources";
 import { TreeSelectionMode } from "./interfaces";
 
 describe("calcite-tree", () => {
-  it("renders", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent("<calcite-tree></calcite-tree>");
-    const element = await page.find("calcite-tree");
-    expect(element).toHaveAttribute(HYDRATED_ATTR);
-  });
+  it("renders", () => renders("calcite-tree", { display: "block" }));
 
   it("is accessible", async () => accessible(`<calcite-tree></calcite-tree>`));
 

@@ -100,7 +100,7 @@ describe("calcite-date-picker", () => {
     const date = await page.find("calcite-date-picker");
     // have to wait for transition
     const changedEvent = await page.spyOnEvent("calciteDatePickerRangeChange");
-    await new Promise((res) => setTimeout(() => res(true), 200));
+    await new Promise((res) => global.setTimeout(() => res(true), 200));
     expect(changedEvent).toHaveReceivedEventTimes(0);
     const start1 = await date.getProperty("start");
     const end1 = await date.getProperty("end");
@@ -155,5 +155,13 @@ describe("calcite-date-picker", () => {
       picker.minAsDate.getTime()
     );
     expect(minDateAsTime).toEqual(new Date(minDateString).getTime());
+  });
+
+  it("passes down the default intlYear prop to child date-picker-month-header", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-date-picker value="2000-11-27" active></calcite-date-picker>`);
+    const date = await page.find(`calcite-date-picker >>> calcite-date-picker-month-header`);
+
+    expect(await date.getProperty("intlYear")).toEqual("Year");
   });
 });

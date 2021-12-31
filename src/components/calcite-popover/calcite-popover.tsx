@@ -307,7 +307,7 @@ export class CalcitePopover {
 
     return (
       (typeof referenceElement === "string"
-        ? queryElementRoots(el, `#${referenceElement}`)
+        ? queryElementRoots(el, { id: referenceElement })
         : referenceElement) || null
     );
   }

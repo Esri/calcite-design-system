@@ -1,7 +1,9 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible } from "../../tests/commonTests";
+import { accessible, renders } from "../../tests/commonTests";
 
 describe("calcite-link", () => {
+  it("renders", async () => renders("<calcite-link href='/'>link</calcite-link>", { display: "inline" }));
+
   it("is accessible", async () => {
     await accessible("<calcite-link href='/'>link</calcite-link>");
     await accessible("<calcite-link>link</calcite-link>");

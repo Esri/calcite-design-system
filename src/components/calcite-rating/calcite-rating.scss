@@ -49,7 +49,7 @@
     cursor-pointer
     focus-base;
   color: theme("borderColor.color.input");
-  transition: $transition;
+  transition: var(--calcite-animation-timing);
   transform: scale(1);
   &:active {
     transform: scale(1.1);
@@ -81,7 +81,7 @@
     overflow-hidden
     pointer-events-none
     top-0;
-  transition: $transition;
+  transition: var(--calcite-animation-timing);
   inset-inline-start: 0;
 }
 

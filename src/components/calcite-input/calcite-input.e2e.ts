@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { focusable, formAssociated, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
+import { focusable, formAssociated, renders, labelable } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { getDecimalSeparator, locales, localizeNumberString } from "../../utils/locale";
@@ -44,12 +44,7 @@ describe("calcite-input", () => {
 
   it("is labelable", async () => labelable("calcite-input"));
 
-  it("renders", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-input></calcite-input>");
-    const input = await page.find("calcite-input");
-    expect(input).toHaveAttribute(HYDRATED_ATTR);
-  });
+  it("renders", () => renders("calcite-input", { display: "block" }));
 
   it("renders default props when none are provided", async () => {
     const page = await newE2EPage();
@@ -936,6 +931,20 @@ describe("calcite-input", () => {
   });
 
   describe("number type", () => {
+    it("allows typing negative decimal values", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+      <calcite-input type="number"></calcite-input>
+      `);
+
+      const element = await page.find("calcite-input");
+      await element.callMethod("setFocus");
+      await page.waitForChanges();
+      await page.keyboard.type("-0.001");
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("-0.001");
+    });
+
     it("disallows typing any letter or number with shift modifier key down", async () => {
       const page = await newE2EPage({
         html: `<calcite-input type="number"></calcite-input>`

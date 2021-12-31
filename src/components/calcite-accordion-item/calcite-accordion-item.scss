@@ -1,6 +1,6 @@
 %icon-position {
   /* icon rotation variables */
-  --calcite-accordion-item-icon-rotation: theme("rotate.-90");
+  --calcite-accordion-item-icon-rotation: calc(theme("rotate.90") * -1);
   --calcite-accordion-item-active-icon-rotation: theme("rotate.0");
   --calcite-accordion-item-icon-rotation-rtl: theme("rotate.90");
   --calcite-accordion-item-active-icon-rotation-rtl: theme("rotate.0");
@@ -25,7 +25,7 @@
   --calcite-accordion-item-icon-rotation: theme("rotate.0");
   --calcite-accordion-item-active-icon-rotation: theme("rotate.180");
   --calcite-accordion-item-icon-rotation-rtl: theme("rotate.0");
-  --calcite-accordion-item-active-icon-rotation-rtl: theme("rotate.-180");
+  --calcite-accordion-item-active-icon-rotation-rtl: calc(theme("rotate.180") * -1);
 }
 
 :host {

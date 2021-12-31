@@ -1,10 +1,20 @@
-import { accessible, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
+import { accessible, labelable, renders } from "../../tests/commonTests";
 import { E2EPage } from "@stencil/core/testing";
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS } from "./resources";
 import { html } from "../../tests/utils";
 
 describe("calcite-inline-editable", () => {
+  it("renders", () =>
+    renders(
+      html`
+        <calcite-inline-editable>
+          <calcite-input />
+        </calcite-inline-editable>
+      `,
+      { display: "block" }
+    ));
+
   describe("rendering permutations", () => {
     let page: E2EPage;
     beforeEach(async () => {
@@ -14,11 +24,6 @@ describe("calcite-inline-editable", () => {
         <calcite-input/>
       </calcite-inline-editable>
       `);
-    });
-
-    it("renders", async () => {
-      const element = await page.find("calcite-inline-editable");
-      expect(element).toHaveAttribute(HYDRATED_ATTR);
     });
 
     it("renders default props when none are provided", async () => {
@@ -266,7 +271,7 @@ describe("calcite-inline-editable", () => {
 
     it("disables editing when afterConfirm resolves successfully", async () => {
       const element = await page.find("calcite-inline-editable");
-      const afterConfirm: () => Promise<void> = () => new Promise((resolve) => setTimeout(resolve, 100));
+      const afterConfirm: () => Promise<void> = () => new Promise((resolve) => global.setTimeout(resolve, 100));
       // https://github.com/ionic-team/stencil/issues/1174
       await page.exposeFunction("afterConfirm", afterConfirm);
       await page.$eval("calcite-inline-editable", (el: HTMLCalciteInlineEditableElement) => {
@@ -291,7 +296,7 @@ describe("calcite-inline-editable", () => {
 
     it("does not disable editing when afterConfirm resolves unsuccessfully", async () => {
       const element = await page.find("calcite-inline-editable");
-      const afterConfirm: () => Promise<void> = () => new Promise((_resolve, reject) => setTimeout(reject, 100));
+      const afterConfirm: () => Promise<void> = () => new Promise((_resolve, reject) => global.setTimeout(reject, 100));
       // https://github.com/ionic-team/stencil/issues/1174
       await page.exposeFunction("afterConfirm", afterConfirm);
       await page.$eval("calcite-inline-editable", (el: HTMLCalciteInlineEditableElement) => {

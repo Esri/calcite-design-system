@@ -21,7 +21,7 @@
 .day {
   @apply flex
     rounded-full
-    text--2h
+    text-n2h
     justify-center
     items-center
     leading-none
@@ -46,7 +46,7 @@
   .day {
     height: 27px;
     width: 27px;
-    @apply text--2;
+    @apply text-n2;
   }
 }
 
@@ -60,7 +60,7 @@
   .day {
     height: 33px;
     width: 33px;
-    @apply text--1;
+    @apply text-n1;
   }
 }
 

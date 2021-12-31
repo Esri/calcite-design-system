@@ -28,7 +28,7 @@
   width: var(--calcite-panel-width);
   max-width: var(--calcite-panel-max-width);
   min-width: var(--calcite-panel-min-width);
-  transition: max-height $transition, width $transition;
+  transition: max-height var(--calcite-animation-timing), width var(--calcite-animation-timing);
 }
 
 :host([height-scale="s"]) {
@@ -81,14 +81,13 @@
     border-b-color-3
     w-full;
   flex: 0 0 auto;
-  min-height: theme("spacing.12");
   z-index: 2;
 }
 
 .header-content {
   @apply overflow-hidden
     px-3
-    py-4
+    py-3.5
     flex
     flex-col;
   margin-inline-end: auto;
@@ -96,10 +95,7 @@
   .summary {
     @apply p-0
       block
-      overflow-hidden
-      whitespace-no-wrap
-      w-full;
-    text-overflow: ellipsis;
+      break-words;
   }
   .heading {
     @apply font-medium mt-0 mx-0 mb-1 text-0h;
@@ -108,7 +104,7 @@
     }
   }
   .summary {
-    @apply text-color-2 text--1h;
+    @apply text-color-2 text-n1h;
   }
 }
 
@@ -116,14 +112,14 @@
   @apply border-color-3
   border-solid
   border-0;
-  border-inline-end-width: theme("borderWidth.default");
+  border-inline-end-width: theme("borderWidth.DEFAULT");
 }
 
 .header-actions {
   @apply flex
   items-stretch
   flex-row
-  flex-no-wrap;
+  flex-nowrap;
 }
 
 .header-actions--end,
@@ -155,7 +151,7 @@
   bg-background
   flex
   flex-auto
-  flex-no-wrap
+  flex-nowrap
   flex-col;
 }
 

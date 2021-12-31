@@ -112,6 +112,11 @@ export class CalciteDatePicker {
    */
   @Prop() intlNextMonth?: string = TEXT.nextMonth;
 
+  /** Localized string for "year" (used for aria label)
+   * @default "Year"
+   */
+  @Prop() intlYear?: string = TEXT.year;
+
   /** BCP 47 language tag for desired language and country format */
   @Prop() locale?: string = document.documentElement.lang || "en";
 
@@ -415,6 +420,7 @@ export class CalciteDatePicker {
           headingLevel={this.headingLevel || HEADING_LEVEL}
           intlNextMonth={this.intlNextMonth}
           intlPrevMonth={this.intlPrevMonth}
+          intlYear={this.intlYear}
           localeData={this.localeData}
           max={maxDate}
           min={minDate}
@@ -489,15 +495,15 @@ export class CalciteDatePicker {
   };
 
   private setEndDate(date: Date): void {
-    this.end = dateToISO(date);
+    this.end = date ? dateToISO(date) : "";
     this.setEndAsDate(date, true);
-    this.activeEndDate = date;
+    this.activeEndDate = date || null;
   }
 
   private setStartDate(date: Date): void {
-    this.start = dateToISO(date);
+    this.start = date ? dateToISO(date) : "";
     this.setStartAsDate(date, true);
-    this.activeStartDate = date;
+    this.activeStartDate = date || null;
   }
 
   /**
@@ -506,8 +512,9 @@ export class CalciteDatePicker {
   private monthDateChange = (e: CustomEvent<Date>): void => {
     const date = new Date(e.detail);
     if (!this.range) {
-      this.value = dateToISO(date);
-      this.activeDate = date;
+      this.value = date ? dateToISO(date) : "";
+      this.valueAsDate = date || null;
+      this.activeDate = date || null;
       return;
     }
 
