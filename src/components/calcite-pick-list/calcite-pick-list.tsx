@@ -137,7 +137,7 @@ export class CalcitePickList<
   /**
    * Emitted when any of the item selections have changed.
    */
-  @Event() calciteListChange: EventEmitter;
+  @Event() calciteListChange: EventEmitter<Map<string, HTMLCalcitePickListItemElement>>;
 
   @Listen("calciteListItemRemove")
   calciteListItemRemoveHandler(event: CustomEvent<void>): void {

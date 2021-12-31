@@ -6,7 +6,7 @@
     mb-px
     flex
     shadow-border-bottom;
-  transition: background-color $transition, box-shadow $transition;
+  transition: background-color var(--calcite-animation-timing), box-shadow var(--calcite-animation-timing);
   * {
     @apply box-border;
   }

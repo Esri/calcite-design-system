@@ -5,7 +5,7 @@ $popper-transform-right: translateX(-5px);
 $popper-default-z-index: 900;
 
 :root {
-  --calcite-popper-transition: #{$transition};
+  --calcite-popper-transition: var(--calcite-animation-timing);
 }
 
 @mixin popperAnim {
