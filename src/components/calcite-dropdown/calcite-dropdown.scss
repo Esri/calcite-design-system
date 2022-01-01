@@ -15,12 +15,12 @@
   @apply pointer-events-none opacity-disabled;
 }
 :host .calcite-dropdown-wrapper {
-  @include popperContainer();
-  @include popperWrapper();
+  @include floatingUIContainer();
+  @include floatingUIWrapper();
 }
-@include popperElemAnim(".calcite-dropdown-wrapper");
+@include floatingUIElemAnim(".calcite-dropdown-wrapper");
 :host([active]) .calcite-dropdown-wrapper {
-  @include popperWrapperActive();
+  @include floatingUIWrapperActive();
 }
 :host .calcite-dropdown-content {
   @apply bg-foreground-1

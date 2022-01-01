@@ -1,4 +1,4 @@
-import { computePosition, Placement, Strategy, flip } from "@floating-ui/dom";
+import { computePosition, Placement, Strategy, flip, shift, hide } from "@floating-ui/dom";
 import { getElementDir } from "./dom";
 
 export type OverlayPositioning = Strategy;
@@ -27,8 +27,8 @@ type VariationPlacement =
 export type LogicalPlacement = Placement | VariationPlacement;
 
 export const CSS = {
-  animation: "calcite-popper-anim",
-  animationActive: "calcite-popper-anim--active"
+  animation: "calcite-floating-ui-anim",
+  animationActive: "calcite-floating-ui-anim--active"
 };
 
 export function getPlacement(floatingEl: HTMLElement, placement: LogicalPlacement): Placement {
@@ -64,26 +64,35 @@ export async function float({
     return null;
   }
 
-  console.log({ referenceEl, floatingEl, placement, strategy });
+  const defaultMiddleware = [shift(), hide()];
 
   const middleware =
     type === "dropdown"
-      ? [flip({ fallbackPlacements: ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"] })]
-      : null;
+      ? [
+          flip({ fallbackPlacements: ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"] }),
+          ...defaultMiddleware
+        ]
+      : defaultMiddleware;
 
   const {
     x,
     y,
-    placement: calculatedPlacement
+    placement: computedPlacement,
+    strategy: computedStrategy,
+    middlewareData
   } = await computePosition(referenceEl, floatingEl, {
     strategy,
     placement: getPlacement(floatingEl, placement),
     middleware
   });
 
-  floatingEl.setAttribute("data-popper-placement", calculatedPlacement);
+  const { referenceHidden } = middlewareData.hide;
+
+  floatingEl.setAttribute("data-placement", computedPlacement);
 
   Object.assign(floatingEl.style, {
+    visibility: referenceHidden ? "hidden" : "visible",
+    position: computedStrategy,
     top: "0",
     left: "0",
     transform: `translate(${Math.round(x)}px,${Math.round(y)}px)`
