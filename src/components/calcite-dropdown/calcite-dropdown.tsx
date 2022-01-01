@@ -14,13 +14,7 @@ import {
 import { DropdownPlacement, ItemKeyboardEvent } from "./interfaces";
 
 import { focusElement } from "../../utils/dom";
-import {
-  createPopper,
-  CSS as PopperCSS,
-  OverlayPositioning,
-  updatePopper
-} from "../../utils/popper";
-import { Instance as Popper, StrictModifiers } from "@popperjs/core";
+import { float, CSS as FloatCSS, OverlayPositioning } from "../../utils/floating-ui";
 import { Scale } from "../interfaces";
 import { DefaultDropdownPlacement, SLOTS } from "./resources";
 import { createObserver } from "../../utils/observers";
@@ -115,7 +109,7 @@ export class CalciteDropdown {
 
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.createPopper();
+    this.floatUI();
     this.updateItems();
   }
 
@@ -125,7 +119,6 @@ export class CalciteDropdown {
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
-    this.destroyPopper();
   }
 
   render(): VNode {
@@ -153,8 +146,8 @@ export class CalciteDropdown {
           <div
             class={{
               ["calcite-dropdown-content"]: true,
-              [PopperCSS.animation]: true,
-              [PopperCSS.animationActive]: active
+              [FloatCSS.animation]: true,
+              [FloatCSS.animationActive]: active
             }}
             onTransitionEnd={this.transitionEnd}
             ref={this.setScrollerEl}
@@ -175,20 +168,8 @@ export class CalciteDropdown {
   /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
-    const { popper, menuEl, placement } = this;
-
     this.setMaxScrollerHeight();
-
-    const modifiers = this.getModifiers();
-
-    popper
-      ? await updatePopper({
-          el: menuEl,
-          modifiers,
-          placement,
-          popper
-        })
-      : this.createPopper();
+    this.floatUI();
   }
 
   //--------------------------------------------------------------------------
@@ -304,8 +285,6 @@ export class CalciteDropdown {
   /** trigger elements */
   private triggers: HTMLSlotElement[];
 
-  private popper: Popper;
-
   private menuEl: HTMLDivElement;
 
   private referenceEl: HTMLDivElement;
@@ -363,41 +342,16 @@ export class CalciteDropdown {
     this.menuEl = el;
   };
 
-  getModifiers(): Partial<StrictModifiers>[] {
-    const flipModifier: Partial<StrictModifiers> = {
-      name: "flip",
-      enabled: true
-    };
-
-    flipModifier.options = {
-      fallbackPlacements: ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"]
-    };
-
-    return [flipModifier];
-  }
-
-  createPopper(): void {
-    this.destroyPopper();
+  async floatUI(): Promise<void> {
     const { menuEl, referenceEl, placement, overlayPositioning } = this;
-    const modifiers = this.getModifiers();
 
-    this.popper = createPopper({
-      el: menuEl,
-      modifiers,
-      overlayPositioning,
+    await float({
+      floatingEl: menuEl,
+      referenceEl,
+      strategy: overlayPositioning,
       placement,
-      referenceEl
+      type: "dropdown"
     });
-  }
-
-  destroyPopper(): void {
-    const { popper } = this;
-
-    if (popper) {
-      popper.destroy();
-    }
-
-    this.popper = null;
   }
 
   private keyDownHandler = (e: KeyboardEvent): void => {
