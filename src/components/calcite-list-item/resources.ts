@@ -9,8 +9,7 @@ export const CSS = {
   label: "label",
   description: "description",
   contentEnd: "content-end",
-  actionsEnd: "actions-end",
-  textContainer: "text-container"
+  actionsEnd: "actions-end"
 };
 
 export const SLOTS = {

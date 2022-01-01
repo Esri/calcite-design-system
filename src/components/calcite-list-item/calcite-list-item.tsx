@@ -109,7 +109,7 @@ export class CalciteListItem {
     const { label, description } = this;
 
     return !!label || !!description ? (
-      <div class={`${CSS.content} ${CSS.textContainer}`}>
+      <div class={CSS.content}>
         {label ? <div class={CSS.label}>{label}</div> : null}
         {description ? <div class={CSS.description}>{description}</div> : null}
       </div>
