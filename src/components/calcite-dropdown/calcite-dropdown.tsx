@@ -15,11 +15,10 @@ import { DropdownPlacement, ItemKeyboardEvent } from "./interfaces";
 
 import { focusElement } from "../../utils/dom";
 import {
-  positionFloatingUI,
+  position,
   FloatingCSS,
   OverlayPositioning,
-  FloatingUIComponent,
-  FloatingUIType
+  FloatingUIComponent
 } from "../../utils/floating-ui";
 import { Scale } from "../interfaces";
 import { DefaultDropdownPlacement, SLOTS } from "./resources";
@@ -176,14 +175,14 @@ export class CalciteDropdown implements FloatingUIComponent {
   async reposition(): Promise<void> {
     this.setMaxScrollerHeight();
 
-    const { floatingEl, referenceEl, placement, overlayPositioning, floatingUIType } = this;
+    const { floatingEl, referenceEl, placement, overlayPositioning } = this;
 
-    return positionFloatingUI({
+    return position({
       floatingEl,
       referenceEl,
       overlayPositioning,
       placement,
-      floatingUIType
+      type: "menu"
     });
   }
 
@@ -294,8 +293,6 @@ export class CalciteDropdown implements FloatingUIComponent {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-
-  floatingUIType: FloatingUIType = "menu";
 
   items: HTMLCalciteDropdownItemElement[] = [];
 

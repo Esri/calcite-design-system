@@ -1,7 +1,7 @@
 import { computePosition, Placement, Strategy, flip, shift, hide } from "@floating-ui/dom";
 import { getElementDir } from "./dom";
 
-export type FloatingUIType = "menu" | "tooltip" | "popover";
+type UIType = "menu" | "tooltip" | "popover";
 export type OverlayPositioning = Strategy;
 
 type VariationPlacement =
@@ -31,11 +31,6 @@ export interface FloatingUIComponent {
    *
    */
   floatingEl: HTMLElement;
-
-  /**
-   *
-   */
-  floatingUIType: FloatingUIType;
 
   /**
    *
@@ -79,18 +74,18 @@ export function getPlacement(floatingEl: HTMLElement, placement: LogicalPlacemen
     .replace(/trailing/gi, placements[1]) as Placement;
 }
 
-export async function positionFloatingUI({
+export async function position({
   referenceEl,
   floatingEl,
   placement,
   overlayPositioning = "absolute",
-  floatingUIType
+  type
 }: {
   referenceEl: HTMLElement;
   floatingEl: HTMLElement;
   placement: LogicalPlacement;
   overlayPositioning: Strategy;
-  floatingUIType: FloatingUIType;
+  type: UIType;
 }): Promise<void> {
   if (!referenceEl || !floatingEl) {
     return null;
@@ -99,7 +94,7 @@ export async function positionFloatingUI({
   const defaultMiddleware = [shift(), hide()];
 
   const middleware =
-    floatingUIType === "menu"
+    type === "menu"
       ? [
           flip({ fallbackPlacements: ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"] }),
           ...defaultMiddleware
