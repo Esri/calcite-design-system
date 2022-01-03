@@ -1,8 +1,7 @@
 import { computePosition, Placement, Strategy, flip, shift, hide } from "@floating-ui/dom";
 import { getElementDir } from "./dom";
 
-type UIType = "dropdown" | "tooltip" | "popover";
-
+export type FloatingUIType = "dropdown" | "tooltip" | "popover";
 export type OverlayPositioning = Strategy;
 
 type VariationPlacement =
@@ -26,6 +25,38 @@ type VariationPlacement =
   | "left-trailing";
 
 export type LogicalPlacement = Placement | VariationPlacement;
+
+export interface FloatingUIComponent {
+  /**
+   *
+   */
+  floatingEl: HTMLElement;
+
+  /**
+   *
+   */
+  floatingUIType: FloatingUIType;
+
+  /**
+   *
+   */
+  overlayPositioning?: OverlayPositioning;
+
+  /**
+   *
+   */
+  placement?: LogicalPlacement;
+
+  /**
+   *
+   */
+  referenceEl: HTMLElement;
+
+  /**
+   *
+   */
+  reposition(): Promise<void>;
+}
 
 export const FloatingCSS = {
   animation: "calcite-floating-ui-anim",
@@ -53,13 +84,13 @@ export async function positionFloatingUI({
   floatingEl,
   placement,
   overlayPositioning = "absolute",
-  type
+  floatingUIType
 }: {
   referenceEl: HTMLElement;
   floatingEl: HTMLElement;
   placement: LogicalPlacement;
   overlayPositioning: Strategy;
-  type: UIType;
+  floatingUIType: FloatingUIType;
 }): Promise<void> {
   if (!referenceEl || !floatingEl) {
     return null;
@@ -68,7 +99,7 @@ export async function positionFloatingUI({
   const defaultMiddleware = [shift(), hide()];
 
   const middleware =
-    type === "dropdown"
+    floatingUIType === "dropdown"
       ? [
           flip({ fallbackPlacements: ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"] }),
           ...defaultMiddleware

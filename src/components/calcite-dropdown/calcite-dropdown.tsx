@@ -14,7 +14,13 @@ import {
 import { DropdownPlacement, ItemKeyboardEvent } from "./interfaces";
 
 import { focusElement } from "../../utils/dom";
-import { positionFloatingUI, FloatingCSS, OverlayPositioning } from "../../utils/floating-ui";
+import {
+  positionFloatingUI,
+  FloatingCSS,
+  OverlayPositioning,
+  FloatingUIComponent,
+  FloatingUIType
+} from "../../utils/floating-ui";
 import { Scale } from "../interfaces";
 import { DefaultDropdownPlacement, SLOTS } from "./resources";
 import { createObserver } from "../../utils/observers";
@@ -28,7 +34,7 @@ import { createObserver } from "../../utils/observers";
   styleUrl: "calcite-dropdown.scss",
   shadow: true
 })
-export class CalciteDropdown {
+export class CalciteDropdown implements FloatingUIComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -109,8 +115,8 @@ export class CalciteDropdown {
 
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.floatUI();
     this.updateItems();
+    this.reposition();
   }
 
   componentDidLoad(): void {
@@ -169,7 +175,16 @@ export class CalciteDropdown {
   @Method()
   async reposition(): Promise<void> {
     this.setMaxScrollerHeight();
-    this.floatUI();
+
+    const { floatingEl, referenceEl, placement, overlayPositioning, floatingUIType } = this;
+
+    return positionFloatingUI({
+      floatingEl,
+      referenceEl,
+      overlayPositioning,
+      placement,
+      floatingUIType
+    });
   }
 
   //--------------------------------------------------------------------------
@@ -280,18 +295,20 @@ export class CalciteDropdown {
   //
   //--------------------------------------------------------------------------
 
-  private items: HTMLCalciteDropdownItemElement[] = [];
+  floatingUIType: FloatingUIType = "dropdown";
+
+  items: HTMLCalciteDropdownItemElement[] = [];
 
   /** trigger elements */
-  private triggers: HTMLSlotElement[];
+  triggers: HTMLSlotElement[];
 
-  private floatingEl: HTMLDivElement;
+  floatingEl: HTMLDivElement;
 
-  private referenceEl: HTMLDivElement;
+  referenceEl: HTMLDivElement;
 
-  private activeTransitionProp = "visibility";
+  activeTransitionProp = "visibility";
 
-  private scrollerEl: HTMLDivElement;
+  scrollerEl: HTMLDivElement;
 
   mutationObserver = createObserver("mutation", () => this.updateItems());
 
@@ -341,18 +358,6 @@ export class CalciteDropdown {
   setFloatingEl = (el: HTMLDivElement): void => {
     this.floatingEl = el;
   };
-
-  async floatUI(): Promise<void> {
-    const { floatingEl, referenceEl, placement, overlayPositioning } = this;
-
-    return positionFloatingUI({
-      floatingEl,
-      referenceEl,
-      overlayPositioning,
-      placement,
-      type: "dropdown"
-    });
-  }
 
   private keyDownHandler = (e: KeyboardEvent): void => {
     const target = e.target as HTMLSlotElement;
