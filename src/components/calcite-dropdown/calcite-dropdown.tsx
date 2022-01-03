@@ -14,7 +14,7 @@ import {
 import { DropdownPlacement, ItemKeyboardEvent } from "./interfaces";
 
 import { focusElement } from "../../utils/dom";
-import { float, CSS as FloatCSS, OverlayPositioning } from "../../utils/floating-ui";
+import { positionFloatingUI, FloatingCSS, OverlayPositioning } from "../../utils/floating-ui";
 import { Scale } from "../interfaces";
 import { DefaultDropdownPlacement, SLOTS } from "./resources";
 import { createObserver } from "../../utils/observers";
@@ -109,7 +109,7 @@ export class CalciteDropdown {
 
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.floatUI();
+    this.float();
     this.updateItems();
   }
 
@@ -141,13 +141,13 @@ export class CalciteDropdown {
         <div
           aria-hidden={(!active).toString()}
           class="calcite-dropdown-wrapper"
-          ref={this.setMenuEl}
+          ref={this.setFloatingEl}
         >
           <div
             class={{
               ["calcite-dropdown-content"]: true,
-              [FloatCSS.animation]: true,
-              [FloatCSS.animationActive]: active
+              [FloatingCSS.animation]: true,
+              [FloatingCSS.animationActive]: active
             }}
             onTransitionEnd={this.transitionEnd}
             ref={this.setScrollerEl}
@@ -169,7 +169,7 @@ export class CalciteDropdown {
   @Method()
   async reposition(): Promise<void> {
     this.setMaxScrollerHeight();
-    this.floatUI();
+    this.float();
   }
 
   //--------------------------------------------------------------------------
@@ -285,7 +285,7 @@ export class CalciteDropdown {
   /** trigger elements */
   private triggers: HTMLSlotElement[];
 
-  private menuEl: HTMLDivElement;
+  private floatingEl: HTMLDivElement;
 
   private referenceEl: HTMLDivElement;
 
@@ -338,17 +338,17 @@ export class CalciteDropdown {
     this.referenceEl = el;
   };
 
-  setMenuEl = (el: HTMLDivElement): void => {
-    this.menuEl = el;
+  setFloatingEl = (el: HTMLDivElement): void => {
+    this.floatingEl = el;
   };
 
-  async floatUI(): Promise<void> {
-    const { menuEl, referenceEl, placement, overlayPositioning } = this;
+  async float(): Promise<void> {
+    const { floatingEl, referenceEl, placement, overlayPositioning } = this;
 
-    await float({
-      floatingEl: menuEl,
+    await positionFloatingUI({
+      floatingEl,
       referenceEl,
-      strategy: overlayPositioning,
+      overlayPositioning,
       placement,
       type: "dropdown"
     });

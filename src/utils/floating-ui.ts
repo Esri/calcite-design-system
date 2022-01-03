@@ -1,8 +1,9 @@
 import { computePosition, Placement, Strategy, flip, shift, hide } from "@floating-ui/dom";
 import { getElementDir } from "./dom";
 
+type UIType = "dropdown" | "tooltip" | "popover";
+
 export type OverlayPositioning = Strategy;
-export type UIType = "dropdown" | "tooltip" | "popover";
 
 type VariationPlacement =
   | "leading-start"
@@ -26,7 +27,7 @@ type VariationPlacement =
 
 export type LogicalPlacement = Placement | VariationPlacement;
 
-export const CSS = {
+export const FloatingCSS = {
   animation: "calcite-floating-ui-anim",
   animationActive: "calcite-floating-ui-anim--active"
 };
@@ -47,17 +48,17 @@ export function getPlacement(floatingEl: HTMLElement, placement: LogicalPlacemen
     .replace(/trailing/gi, placements[1]) as Placement;
 }
 
-export async function float({
+export async function positionFloatingUI({
   referenceEl,
   floatingEl,
   placement,
-  strategy = "absolute",
+  overlayPositioning = "absolute",
   type
 }: {
   referenceEl: HTMLElement;
   floatingEl: HTMLElement;
   placement: LogicalPlacement;
-  strategy: Strategy;
+  overlayPositioning: Strategy;
   type: UIType;
 }): Promise<void> {
   if (!referenceEl || !floatingEl) {
@@ -81,7 +82,7 @@ export async function float({
     strategy: computedStrategy,
     middlewareData
   } = await computePosition(referenceEl, floatingEl, {
-    strategy,
+    strategy: overlayPositioning,
     placement: getPlacement(floatingEl, placement),
     middleware
   });
