@@ -109,7 +109,7 @@ export class CalciteDropdown {
 
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.float();
+    this.floatUI();
     this.updateItems();
   }
 
@@ -169,7 +169,7 @@ export class CalciteDropdown {
   @Method()
   async reposition(): Promise<void> {
     this.setMaxScrollerHeight();
-    this.float();
+    this.floatUI();
   }
 
   //--------------------------------------------------------------------------
@@ -342,10 +342,10 @@ export class CalciteDropdown {
     this.floatingEl = el;
   };
 
-  async float(): Promise<void> {
+  async floatUI(): Promise<void> {
     const { floatingEl, referenceEl, placement, overlayPositioning } = this;
 
-    await positionFloatingUI({
+    return positionFloatingUI({
       floatingEl,
       referenceEl,
       overlayPositioning,
