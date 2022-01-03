@@ -295,7 +295,7 @@ export class CalciteDropdown implements FloatingUIComponent {
   //
   //--------------------------------------------------------------------------
 
-  floatingUIType: FloatingUIType = "dropdown";
+  floatingUIType: FloatingUIType = "menu";
 
   items: HTMLCalciteDropdownItemElement[] = [];
 

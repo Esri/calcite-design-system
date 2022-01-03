@@ -1,7 +1,7 @@
 import { computePosition, Placement, Strategy, flip, shift, hide } from "@floating-ui/dom";
 import { getElementDir } from "./dom";
 
-export type FloatingUIType = "dropdown" | "tooltip" | "popover";
+export type FloatingUIType = "menu" | "tooltip" | "popover";
 export type OverlayPositioning = Strategy;
 
 type VariationPlacement =
@@ -99,7 +99,7 @@ export async function positionFloatingUI({
   const defaultMiddleware = [shift(), hide()];
 
   const middleware =
-    floatingUIType === "dropdown"
+    floatingUIType === "menu"
       ? [
           flip({ fallbackPlacements: ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"] }),
           ...defaultMiddleware
