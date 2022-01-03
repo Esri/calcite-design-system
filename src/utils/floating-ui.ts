@@ -110,7 +110,7 @@ export async function positionFloatingUI({
     x,
     y,
     placement: computedPlacement,
-    strategy: computedStrategy,
+    strategy: position,
     middlewareData
   } = await computePosition(referenceEl, floatingEl, {
     strategy: overlayPositioning,
@@ -122,12 +122,15 @@ export async function positionFloatingUI({
 
   floatingEl.setAttribute("data-placement", computedPlacement);
 
+  const visibility = referenceHidden ? "hidden" : null;
+  const transform = `translate(${Math.round(x)}px,${Math.round(y)}px)`;
+
   Object.assign(floatingEl.style, {
-    visibility: referenceHidden ? "hidden" : null,
-    position: computedStrategy,
+    visibility,
+    position,
     top: "0",
     left: "0",
-    transform: `translate(${Math.round(x)}px,${Math.round(y)}px)`
+    transform
   });
 }
 
