@@ -91,7 +91,7 @@ export async function float({
   floatingEl.setAttribute("data-placement", computedPlacement);
 
   Object.assign(floatingEl.style, {
-    visibility: referenceHidden ? "hidden" : "visible",
+    visibility: referenceHidden ? "hidden" : null,
     position: computedStrategy,
     top: "0",
     left: "0",
