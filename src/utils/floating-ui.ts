@@ -1,4 +1,13 @@
-import { computePosition, Placement, Strategy, flip, shift, hide, getScrollParents } from "@floating-ui/dom";
+import {
+  computePosition,
+  Placement,
+  Strategy,
+  flip,
+  shift,
+  hide,
+  autoPlacement,
+  getScrollParents
+} from "@floating-ui/dom";
 import { getElementDir } from "./dom";
 
 type UIType = "menu" | "tooltip" | "popover";
@@ -25,7 +34,7 @@ type VariationPlacement =
   | "left-leading"
   | "left-trailing";
 
-export type LogicalPlacement = Placement | VariationPlacement;
+export type LogicalPlacement = "auto" | Placement | VariationPlacement;
 
 export interface FloatingUIComponent {
   /**
@@ -59,7 +68,11 @@ export const FloatingCSS = {
   animationActive: "calcite-floating-ui-anim--active"
 };
 
-export function getPlacement(floatingEl: HTMLElement, placement: LogicalPlacement): Placement {
+export function getPlacement(floatingEl: HTMLElement, placement: LogicalPlacement | null): Placement {
+  if (placement === "auto") {
+    return null;
+  }
+
   const placements = ["left", "right"];
   const variations = ["start", "end"];
 
@@ -100,6 +113,8 @@ export async function positionFloatingUI({
           flip({ fallbackPlacements: ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"] }),
           ...defaultMiddleware
         ]
+      : type === "popover"
+      ? [placement === "auto" ? autoPlacement() : flip()]
       : defaultMiddleware;
 
   const {
