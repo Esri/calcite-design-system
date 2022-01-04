@@ -83,7 +83,7 @@ export class CalciteAlert {
   @Prop() label!: string;
 
   /** specify the position of the alert */
-  @Prop({ reflect: true }) position: AlertPosition = "bottom-center";
+  @Prop() position: AlertPosition = "bottom-center";
 
   /** specify the scale of the alert, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
