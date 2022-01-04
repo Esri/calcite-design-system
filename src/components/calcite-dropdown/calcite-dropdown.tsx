@@ -297,18 +297,18 @@ export class CalciteDropdown implements FloatingUIComponent {
   //
   //--------------------------------------------------------------------------
 
-  items: HTMLCalciteDropdownItemElement[] = [];
+  private items: HTMLCalciteDropdownItemElement[] = [];
 
   /** trigger elements */
-  triggers: HTMLSlotElement[];
+  private triggers: HTMLSlotElement[];
 
   floatingEl: HTMLDivElement;
 
   referenceEl: HTMLDivElement;
 
-  activeTransitionProp = "visibility";
+  private activeTransitionProp = "visibility";
 
-  scrollerEl: HTMLDivElement;
+  private scrollerEl: HTMLDivElement;
 
   mutationObserver = createObserver("mutation", () => this.updateItems());
 

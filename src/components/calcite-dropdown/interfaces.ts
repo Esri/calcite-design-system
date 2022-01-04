@@ -1,11 +1,11 @@
-import { PopperPlacement } from "../../utils/popper";
+import { LogicalPlacement } from "../../utils/floating-ui";
 
 export interface ItemKeyboardEvent {
   keyboardEvent: KeyboardEvent;
 }
 
 export type DropdownPlacement = Extract<
-  PopperPlacement,
+  LogicalPlacement,
   | "top-start"
   | "top"
   | "top-end"
