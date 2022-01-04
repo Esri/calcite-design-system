@@ -736,9 +736,7 @@ describe("calcite-input", () => {
   describe("number type", () => {
     it("allows typing negative decimal values", async () => {
       const page = await newE2EPage();
-      await page.setContent(`
-      <calcite-input type="number"></calcite-input>
-      `);
+      await page.setContent(html` <calcite-input type="number"></calcite-input> `);
 
       const element = await page.find("calcite-input");
       await element.callMethod("setFocus");
@@ -750,7 +748,7 @@ describe("calcite-input", () => {
 
     it("allows exponential number format", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-input type="number"></calcite-input>`);
+      await page.setContent(html`<calcite-input type="number"></calcite-input>`);
 
       const element = await page.find("calcite-input");
       await element.callMethod("setFocus");
@@ -766,7 +764,7 @@ describe("calcite-input", () => {
 
     it("sanitizes numbers when using exponential format", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-input type="number"></calcite-input>`);
+      await page.setContent(html`<calcite-input type="number"></calcite-input>`);
 
       const element = await page.find("calcite-input");
       await element.callMethod("setFocus");
@@ -778,7 +776,7 @@ describe("calcite-input", () => {
 
     it("increments correctly with exponential numbers", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-input type="number"></calcite-input>`);
+      await page.setContent(html`<calcite-input type="number"></calcite-input>`);
 
       const element = await page.find("calcite-input");
       await element.callMethod("setFocus");
@@ -793,7 +791,7 @@ describe("calcite-input", () => {
 
     it("decrements correctly with exponential numbers", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-input type="number" step="5"></calcite-input>`);
+      await page.setContent(html`<calcite-input type="number" step="5"></calcite-input>`);
 
       const element = await page.find("calcite-input");
       await element.callMethod("setFocus");
@@ -977,9 +975,9 @@ describe("calcite-input", () => {
         });
 
         it(`displays correct formatted value when using exponential numbers for ${locale} locale`, async () => {
-          const page = await newE2EPage({
-            html: `<calcite-input locale="${locale}" type="number"></calcite-input>`
-          });
+          const page = await newE2EPage();
+          await page.setContent(html`<calcite-input locale="${locale}" type="number"></calcite-input>`);
+
           const calciteInput = await page.find("calcite-input");
           const input = await page.find("calcite-input >>> input");
           const decimal = getDecimalSeparator(locale);
