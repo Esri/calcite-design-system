@@ -741,26 +741,58 @@
             };
           </script>
         </div>
-
+        <div class="second-container-margin">
+          <!-- updates the position of the alert -->
+          <p>Alert position</p>
+          <calcite-radio-group width="full" layout="vertical">
+            <calcite-radio-group-item value="bottom-start" onclick="updatePosition('bottom-start');">
+              bottom-start</calcite-radio-group-item
+            >
+            <calcite-radio-group-item
+              value="bottom-center (default)"
+              onclick="updatePosition('bottom-center');"
+              checked
+            >
+              bottom-center (default)</calcite-radio-group-item
+            >
+            <calcite-radio-group-item value="bottom-end" onclick="updatePosition('bottom-end');">
+              bottom-end
+            </calcite-radio-group-item>
+            <calcite-radio-group-item value="top-start" onclick="updatePosition('top-start');">
+              top-start
+            </calcite-radio-group-item>
+            <calcite-radio-group-item value="top-center" onclick="updatePosition('top-center');">
+              top-center
+            </calcite-radio-group-item>
+            <calcite-radio-group-item value="top-end" onclick="updatePosition('top-end');">
+              top-end
+            </calcite-radio-group-item>
+          </calcite-radio-group>
+          <script>
+            const updatePosition = (position) => {
+              const activeAlerts = document.querySelectorAll("calcite-alert");
+              if (!activeAlerts.length) return;
+              activeAlerts.forEach((alert) => alert.setAttribute("position", position));
+            };
+          </script>
+        </div>
         <div class="second-container-margin">
           <!-- updates the speed of the autodismiss progress bar i.e. fast, medium, slow -->
           <p>Auto-dismiss speed</p>
-          <calcite-radio-group appearance="outline" width="full">
-            <calcite-radio-group-item value="Fast" onclick="autoDismissSpeed('fast');"></calcite-radio-group-item>
-            <calcite-radio-group-item
-              value="Medium"
-              onclick="autoDismissSpeed('medium');"
-              checked
-            ></calcite-radio-group-item>
-            <calcite-radio-group-item value="Slow" onclick="autoDismissSpeed('slow');"></calcite-radio-group-item>
-            <script>
-              const autoDismissSpeed = (speed) => {
-                const activeAlerts = document.querySelectorAll("calcite-alert[auto-dismiss][active]");
-                if (!activeAlerts.length) return;
-                activeAlerts.forEach((alert) => alert.setAttribute("auto-dismiss-duration", speed));
-              };
-            </script>
+          <calcite-radio-group width="full">
+            <calcite-radio-group-item value="Fast" onclick="autoDismissSpeed('fast');">Fast</calcite-radio-group-item>
+            <calcite-radio-group-item value="Medium" onclick="autoDismissSpeed('medium');" checked
+              >Medium
+            </calcite-radio-group-item>
+            <calcite-radio-group-item value="Slow" onclick="autoDismissSpeed('slow');">Slow</calcite-radio-group-item>
           </calcite-radio-group>
+          <script>
+            const autoDismissSpeed = (speed) => {
+              const activeAlerts = document.querySelectorAll("calcite-alert[auto-dismiss][active]");
+              if (!activeAlerts.length) return;
+              activeAlerts.forEach((alert) => alert.setAttribute("auto-dismiss-duration", speed));
+            };
+          </script>
         </div>
 
         <div class="second-container-margin">
