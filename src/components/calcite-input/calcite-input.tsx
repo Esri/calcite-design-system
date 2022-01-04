@@ -517,6 +517,14 @@ export class CalciteInput implements LabelableComponent, FormComponent {
         return;
       }
     }
+    if (/[eE]/.test(event.key)) {
+      if (!this.value && !this.childNumberEl.value) {
+        return;
+      }
+      if (this.value && !/[eE]/.test(this.childNumberEl.value)) {
+        return;
+      }
+    }
     event.preventDefault();
   };
 
