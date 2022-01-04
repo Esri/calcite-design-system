@@ -409,10 +409,6 @@ export class CalciteDropdown {
     ) {
       if (target.nodeName !== "BUTTON" && target.nodeName !== "CALCITE-BUTTON") {
         switch (key) {
-          case " ":
-          case "Enter":
-            this.openCalciteDropdown();
-            break;
           case "Escape":
             this.closeCalciteDropdown();
             break;
