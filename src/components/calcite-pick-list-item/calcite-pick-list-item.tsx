@@ -282,6 +282,17 @@ export class CalcitePickListItem {
     ) : null;
   }
 
+  renderCenterContent(): VNode {
+    const { el } = this;
+    const hasCenterContent = getSlotted(el, SLOTS.centerContent);
+
+    return hasCenterContent ? (
+      <div>
+        <slot name={SLOTS.centerContent} />
+      </div>
+    ) : null;
+  }
+
   render(): VNode {
     const { description, label } = this;
 
@@ -304,6 +315,7 @@ export class CalcitePickListItem {
           >
             <span class={CSS.title}>{label}</span>
             {description ? <span class={CSS.description}>{description}</span> : null}
+            {this.renderCenterContent()}
           </div>
         </label>
         {this.renderActionsEnd()}

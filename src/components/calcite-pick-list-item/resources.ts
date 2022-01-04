@@ -21,7 +21,8 @@ export const ICONS = {
 
 export const SLOTS = {
   actionsEnd: "actions-end",
-  actionsStart: "actions-start"
+  actionsStart: "actions-start",
+  centerContent: "center-content"
 };
 
 export const TEXT = {

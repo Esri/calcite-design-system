@@ -47,7 +47,6 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes> = (
         {loading || disabled ? <calcite-scrim loading={loading} /> : null}
         {defaultSlot}
       </section>
-      <slot name={SLOTS.centerContent} />
     </Host>
   );
 };
