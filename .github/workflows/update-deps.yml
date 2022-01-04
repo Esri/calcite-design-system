@@ -11,6 +11,8 @@ jobs:
         with:
           node-version: lts/*
           cache: npm
+      - uses: fregante/setup-git-user@v1
+
       - name: run dependency-updating script
         shell: 'script --return --quiet --command "bash {0}"'
         run: |
