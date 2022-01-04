@@ -992,9 +992,10 @@ describe("calcite-input", () => {
         });
 
         it(`displays correct formatted value when the value is changed programmatically for ${locale} locale`, async () => {
-          const page = await newE2EPage({
-            html: `<calcite-input locale="${locale}" type="number"></calcite-input><input id="external" />`
-          });
+          const page = await newE2EPage();
+          await page.setContent(
+            html`<calcite-input locale="${locale}" type="number"></calcite-input><input id="external" />`
+          );
 
           await page.evaluate(() => {
             const input = document.getElementById("external");
