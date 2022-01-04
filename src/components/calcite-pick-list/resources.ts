@@ -12,5 +12,6 @@ export const TEXT = {
 };
 
 export const SLOTS = {
-  menuActions: "menu-actions"
+  menuActions: "menu-actions",
+  centerContent: "center-content"
 };

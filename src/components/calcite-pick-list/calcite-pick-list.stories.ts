@@ -82,8 +82,9 @@ export const basic = (): string =>
     "calcite-pick-list",
     createAttributes(),
     html`
-      <calcite-pick-list-item label="T. Rex" description="arm strength impaired" value="trex">
+      <calcite-pick-list-item label="T. Rex!" description="arm strength impaired" value="trex">
         ${action}
+        <p slot="center-content" />center content</p>
       </calcite-pick-list-item>
       <calcite-pick-list-item label="Triceratops" description="3 horn" value="triceratops" selected>
         ${action}
@@ -106,7 +107,8 @@ export const darkThemeRTL = (): string =>
       }
     ]),
     html`
-      <calcite-pick-list-item label="T. Rex" description="arm strength impaired" value="trex">
+      <calcite-pick-list-item label="T. Rex!" description="arm strength impaired" value="trex">
+        <p slot="center-content" />center content</p>
         ${action}
       </calcite-pick-list-item>
       <calcite-pick-list-item label="Triceratops" description="3 horn" value="triceratops" selected>
