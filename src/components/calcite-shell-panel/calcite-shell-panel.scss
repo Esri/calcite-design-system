@@ -84,7 +84,7 @@
   width: var(--calcite-shell-panel-width);
   max-width: var(--calcite-shell-panel-max-width);
   min-width: var(--calcite-shell-panel-min-width);
-  transition: max-height $transition, max-width $transition;
+  transition: max-height var(--calcite-animation-timing), max-width var(--calcite-animation-timing);
 }
 
 .content__header {
