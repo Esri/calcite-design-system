@@ -752,11 +752,13 @@ describe("calcite-input", () => {
 
       const element = await page.find("calcite-input");
       await element.callMethod("setFocus");
-      typeNumberValue(page, "1.2e5");
+      await page.waitForChanges();
+      await typeNumberValue(page, "1.2e5");
       await page.waitForChanges();
       expect(Number(await element.getProperty("value"))).toBe(120000);
 
       await page.keyboard.press("ArrowLeft");
+      await page.waitForChanges();
       typeNumberValue(page, "-");
       await page.waitForChanges();
       expect(Number(await element.getProperty("value"))).toBe(0.000012);
@@ -768,7 +770,8 @@ describe("calcite-input", () => {
 
       const element = await page.find("calcite-input");
       await element.callMethod("setFocus");
-      typeNumberValue(page, "------000005eeee00005----eee");
+      await page.waitForChanges();
+      await typeNumberValue(page, "------000005eeee00005----eee");
       await page.waitForChanges();
       expect(await element.getProperty("value")).toBe("-5e5");
       expect(Number(await element.getProperty("value"))).toBe(-500000);
@@ -780,10 +783,11 @@ describe("calcite-input", () => {
 
       const element = await page.find("calcite-input");
       await element.callMethod("setFocus");
-      typeNumberValue(page, "2e-2");
+      await page.waitForChanges();
+      await typeNumberValue(page, "2e-2");
       await page.waitForChanges();
       expect(Number(await element.getProperty("value"))).toBe(0.02);
-
+      await page.waitForChanges();
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
       expect(Number(await element.getProperty("value"))).toBe(1.02);
@@ -795,10 +799,11 @@ describe("calcite-input", () => {
 
       const element = await page.find("calcite-input");
       await element.callMethod("setFocus");
-      typeNumberValue(page, "2e2");
+      await page.waitForChanges();
+      await typeNumberValue(page, "2e2");
       await page.waitForChanges();
       expect(Number(await element.getProperty("value"))).toBe(200);
-
+      await page.waitForChanges();
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
       expect(Number(await element.getProperty("value"))).toBe(195);
@@ -983,8 +988,9 @@ describe("calcite-input", () => {
           const decimal = getDecimalSeparator(locale);
 
           await page.keyboard.press("Tab");
-          typeNumberValue(page, `1${decimal}5e-6`);
-
+          await page.waitForChanges();
+          await typeNumberValue(page, `1${decimal}5e-6`);
+          await page.waitForChanges();
           expect(await calciteInput.getProperty("value")).toBe(`1.5e-6`);
           expect(await input.getProperty("value")).toBe(localizeNumberString("1.5e-6", locale));
         });
