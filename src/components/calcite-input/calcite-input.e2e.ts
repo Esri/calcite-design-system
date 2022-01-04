@@ -734,75 +734,18 @@ describe("calcite-input", () => {
   });
 
   describe("number type", () => {
-    it("input event fires when number ends with a decimal", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-      <calcite-input type="number" value="1.2"></calcite-input>
-      `);
-
-      const calciteInputInput = await page.spyOnEvent("calciteInputInput");
-      const element = await page.find("calcite-input");
-      expect(await element.getProperty("value")).toBe("1.2");
-      await element.callMethod("setFocus");
-
-      await page.keyboard.press("Backspace");
-      await page.waitForChanges();
-      expect(await element.getProperty("value")).toBe("1");
-      expect(calciteInputInput).toHaveReceivedEventTimes(1);
-    });
-
     it("allows typing negative decimal values", async () => {
       const page = await newE2EPage();
       await page.setContent(`
       <calcite-input type="number"></calcite-input>
       `);
+
       const element = await page.find("calcite-input");
       await element.callMethod("setFocus");
       await page.waitForChanges();
       await typeNumberValue(page, "-0.001");
       await page.waitForChanges();
       expect(await element.getProperty("value")).toBe("-0.001");
-    });
-
-    it("sanitize leading zeros from number input value", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-      <calcite-input type="number"></calcite-input>
-      `);
-
-      const element = await page.find("calcite-input");
-      await element.callMethod("setFocus");
-
-      await page.keyboard.type("0000000");
-      await page.waitForChanges();
-      expect(await element.getProperty("value")).toBe("0");
-
-      await page.keyboard.type("1");
-      await page.waitForChanges();
-      expect(await element.getProperty("value")).toBe("1");
-
-      await page.keyboard.type("0000000");
-      await page.waitForChanges();
-      expect(await element.getProperty("value")).toBe("10000000");
-    });
-
-    it("sanitize extra dashes from number input value", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-input type="number"></calcite-input>`);
-
-      const element = await page.find("calcite-input");
-      await element.callMethod("setFocus");
-
-      await page.keyboard.type("1--2---3");
-      await page.waitForChanges();
-      expect(await element.getProperty("value")).toBe("123");
-
-      await page.keyboard.press("ArrowLeft");
-      await page.keyboard.press("ArrowLeft");
-      await page.keyboard.press("ArrowLeft");
-      await page.keyboard.type("----");
-      await page.waitForChanges();
-      expect(await element.getProperty("value")).toBe("-123");
     });
 
     it("allows exponential number format", async () => {
@@ -827,29 +770,10 @@ describe("calcite-input", () => {
 
       const element = await page.find("calcite-input");
       await element.callMethod("setFocus");
-      typeNumberValue(page, "000005e00005----");
+      typeNumberValue(page, "------000005eeee00005----eee");
       await page.waitForChanges();
-      expect(await element.getProperty("value")).toBe("5e5");
-      expect(Number(await element.getProperty("value"))).toBe(500000);
-    });
-
-    it("sanitizes trailing and extra E's when using exponential number format", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-input type="number"></calcite-input>`);
-
-      const element = await page.find("calcite-input");
-      await element.callMethod("setFocus");
-
-      typeNumberValue(page, "2e");
-      await page.waitForChanges();
-      expect(Number(await element.getProperty("value"))).toBe(2);
-      typeNumberValue(page, "1");
-      await page.waitForChanges();
-      expect(Number(await element.getProperty("value"))).toBe(20);
-      typeNumberValue(page, "eeee0eeee");
-      await page.waitForChanges();
-      expect(await element.getProperty("value")).toBe("2e10");
-      expect(Number(await element.getProperty("value"))).toBe(20000000000);
+      expect(await element.getProperty("value")).toBe("-5e5");
+      expect(Number(await element.getProperty("value"))).toBe(-500000);
     });
 
     it("increments correctly with exponential numbers", async () => {
@@ -1061,9 +985,7 @@ describe("calcite-input", () => {
           const decimal = getDecimalSeparator(locale);
 
           await page.keyboard.press("Tab");
-          typeNumberValue(page, "1");
-          await page.keyboard.sendCharacter(decimal);
-          typeNumberValue(page, "5e-6");
+          typeNumberValue(page, `1${decimal}5e-6`);
 
           expect(await calciteInput.getProperty("value")).toBe(`1.5e-6`);
           expect(await input.getProperty("value")).toBe(localizeNumberString("1.5e-6", locale));
