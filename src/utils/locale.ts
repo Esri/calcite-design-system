@@ -1,4 +1,4 @@
-import { sanitizeDecimalString } from "./number";
+import { sanitizeDecimalString, sanitizeExponentialNumberString } from "./number";
 
 export const locales = [
   "ar",
@@ -59,26 +59,28 @@ function createLocaleNumberFormatter(locale: string): Intl.NumberFormat {
 }
 
 export function delocalizeNumberString(numberString: string, locale: string): string {
-  if (numberString) {
-    const groupSeparator = getGroupSeparator(locale);
-    const decimalSeparator = getDecimalSeparator(locale);
+  return sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string => {
+    if (nonExpoNumString) {
+      const groupSeparator = getGroupSeparator(locale);
+      const decimalSeparator = getDecimalSeparator(locale);
 
-    const splitNumberString = numberString.split("");
-    const decimalIndex = splitNumberString.lastIndexOf(decimalSeparator);
+      const splitNumberString = nonExpoNumString.split("");
+      const decimalIndex = splitNumberString.lastIndexOf(decimalSeparator);
 
-    const delocalizedNumberString = splitNumberString
-      .map((value, index) => {
-        if (value === groupSeparator || (value === decimalSeparator && index !== decimalIndex)) {
-          return "";
-        }
-        return value;
-      })
-      .reduce((string, part) => string + part)
-      .replace(decimalSeparator, ".");
+      const delocalizedNumberString = splitNumberString
+        .map((value, index) => {
+          if (value === groupSeparator || (value === decimalSeparator && index !== decimalIndex)) {
+            return "";
+          }
+          return value;
+        })
+        .reduce((string, part) => string + part)
+        .replace(decimalSeparator, ".");
 
-    return isNaN(Number(delocalizedNumberString)) ? numberString : delocalizedNumberString;
-  }
-  return numberString;
+      return isNaN(Number(delocalizedNumberString)) ? nonExpoNumString : delocalizedNumberString;
+    }
+    return nonExpoNumString;
+  });
 }
 
 export function getGroupSeparator(locale: string): string {
@@ -96,25 +98,27 @@ export function getDecimalSeparator(locale: string): string {
 }
 
 export function localizeNumberString(numberString: string, locale: string, displayGroupSeparator = false): string {
-  if (numberString) {
-    const number = Number(sanitizeDecimalString(numberString));
-    if (!isNaN(number)) {
-      const formatter = createLocaleNumberFormatter(locale);
-      const parts = formatter.formatToParts(number);
-      const localizedNumberString = parts
-        .map(({ type, value }) => {
-          switch (type) {
-            case "group":
-              return displayGroupSeparator ? getGroupSeparator(locale) : "";
-            case "decimal":
-              return getDecimalSeparator(locale);
-            default:
-              return value;
-          }
-        })
-        .reduce((string, part) => string + part);
-      return localizedNumberString;
+  return sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string => {
+    if (nonExpoNumString) {
+      const number = Number(sanitizeDecimalString(nonExpoNumString));
+      if (!isNaN(number)) {
+        const formatter = createLocaleNumberFormatter(locale);
+        const parts = formatter.formatToParts(number);
+        const localizedNumberString = parts
+          .map(({ type, value }) => {
+            switch (type) {
+              case "group":
+                return displayGroupSeparator ? getGroupSeparator(locale) : "";
+              case "decimal":
+                return getDecimalSeparator(locale);
+              default:
+                return value;
+            }
+          })
+          .reduce((string, part) => string + part);
+        return localizedNumberString;
+      }
+      return nonExpoNumString;
     }
-  }
-  return numberString;
+  });
 }
