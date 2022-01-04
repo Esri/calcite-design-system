@@ -15,10 +15,12 @@ import { DropdownPlacement, ItemKeyboardEvent } from "./interfaces";
 
 import { focusElement } from "../../utils/dom";
 import {
-  position,
+  positionFloatingUI,
   FloatingCSS,
   OverlayPositioning,
-  FloatingUIComponent
+  FloatingUIComponent,
+  connectFloatingUI,
+  disconnectFloatingUI
 } from "../../utils/floating-ui";
 import { Scale } from "../interfaces";
 import { DefaultDropdownPlacement, SLOTS } from "./resources";
@@ -124,6 +126,7 @@ export class CalciteDropdown implements FloatingUIComponent {
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
+    disconnectFloatingUI(this);
   }
 
   render(): VNode {
@@ -177,7 +180,7 @@ export class CalciteDropdown implements FloatingUIComponent {
 
     const { floatingEl, referenceEl, placement, overlayPositioning } = this;
 
-    return position({
+    return positionFloatingUI({
       floatingEl,
       referenceEl,
       overlayPositioning,
@@ -350,10 +353,12 @@ export class CalciteDropdown implements FloatingUIComponent {
 
   setReferenceEl = (el: HTMLDivElement): void => {
     this.referenceEl = el;
+    connectFloatingUI(this, "referenceEl");
   };
 
   setFloatingEl = (el: HTMLDivElement): void => {
     this.floatingEl = el;
+    connectFloatingUI(this, "floatingEl");
   };
 
   private keyDownHandler = (e: KeyboardEvent): void => {

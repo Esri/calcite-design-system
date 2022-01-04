@@ -1,7 +1,8 @@
-import { computePosition, Placement, Strategy, flip, shift, hide } from "@floating-ui/dom";
+import { computePosition, Placement, Strategy, flip, shift, hide, getScrollParents } from "@floating-ui/dom";
 import { getElementDir } from "./dom";
 
 type UIType = "menu" | "tooltip" | "popover";
+type FloatingElType = "floatingEl" | "referenceEl";
 export type OverlayPositioning = Strategy;
 
 type VariationPlacement =
@@ -74,7 +75,7 @@ export function getPlacement(floatingEl: HTMLElement, placement: LogicalPlacemen
     .replace(/trailing/gi, placements[1]) as Placement;
 }
 
-export async function position({
+export async function positionFloatingUI({
   referenceEl,
   floatingEl,
   placement,
@@ -127,6 +128,54 @@ export async function position({
     left: "0",
     transform
   });
+}
+
+const floatingElMap = new WeakMap<HTMLElement, (Element | Window | VisualViewport)[]>();
+
+function connect(component: FloatingUIComponent, type: FloatingElType): void {
+  const el = component[type];
+
+  if (!el) {
+    return;
+  }
+
+  disconnect(component, type);
+  const { reposition } = component;
+  const boundReposition = reposition.bind(component);
+  const scrollParents = getScrollParents(el);
+  floatingElMap.set(el, scrollParents);
+
+  scrollParents.forEach((el) => {
+    el.addEventListener("scroll", boundReposition);
+    el.addEventListener("resize", boundReposition);
+  });
+}
+
+function disconnect(component: FloatingUIComponent, type: FloatingElType): void {
+  const el = component[type];
+
+  if (!el) {
+    return;
+  }
+
+  const { reposition } = component;
+  const boundReposition = reposition.bind(component);
+
+  floatingElMap.get(el)?.forEach((el) => {
+    el.removeEventListener("scroll", boundReposition);
+    el.removeEventListener("resize", boundReposition);
+  });
+
+  floatingElMap.delete(el);
+}
+
+export function connectFloatingUI(component: FloatingUIComponent, type: FloatingElType): void {
+  connect(component, type);
+}
+
+export function disconnectFloatingUI(component: FloatingUIComponent): void {
+  disconnect(component, "floatingEl");
+  disconnect(component, "referenceEl");
 }
 
 export function hypotenuse(sideA: number, sideB: number): number {
