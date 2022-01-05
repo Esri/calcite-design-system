@@ -253,8 +253,7 @@ export class CalciteTreeItem {
 
   childrenClickHandler = (event: MouseEvent): void => event.stopPropagation();
 
-  @Listen("keydown")
-  keyDownHandler(e: KeyboardEvent): void {
+  @Listen("keydown") keyDownHandler(e: KeyboardEvent): void {
     let root;
 
     switch (e.key) {
