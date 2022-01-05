@@ -169,6 +169,29 @@ describe("calcite-alert", () => {
     expect(await alert3.isVisible()).toBe(true);
   });
 
+  it("correctly assigns a default placement class", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-alert>
+    ${alertContent}
+    </calcite-alert>`);
+
+    const container = await page.find("calcite-alert >>> .container");
+    expect(container).toHaveClass("bottom");
+  });
+
+  it("correctly assigns a requested placement class", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-alert placement="top-end">
+    ${alertContent}
+    </calcite-alert>`);
+
+    const container = await page.find("calcite-alert >>> .container");
+    expect(container).not.toHaveClass("bottom");
+    expect(container).toHaveClass("top-end");
+  });
+
   describe("CSS properties for light/dark themes", () => {
     const alertSnippet = `
       <calcite-alert
