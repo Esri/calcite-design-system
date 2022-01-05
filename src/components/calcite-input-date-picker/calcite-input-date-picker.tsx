@@ -194,6 +194,12 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
   //
   //--------------------------------------------------------------------------
 
+  @Listen("calciteDatePickerChange")
+  @Listen("calciteDatePickerRangeChange")
+  handleDateOrRangeChange(): void {
+    this.calciteInputDatePickerChange.emit();
+  }
+
   @Listen("calciteDaySelect")
   calciteDaySelectHandler(): void {
     if (this.shouldFocusRangeStart() || this.shouldFocusRangeEnd()) {
@@ -210,14 +216,23 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
   //--------------------------------------------------------------------------
   /**
    * Trigger calcite date change when a user changes the date.
+   *
+   * @deprecated use `calciteInputDatePickerChange` instead.
    */
   @Event() calciteDatePickerChange: EventEmitter<Date>;
 
   /**
    * Trigger calcite date change when a user changes the date range.
    * @see [DateRangeChange](https://github.com/Esri/calcite-components/blob/master/src/components/calcite-date-picker/interfaces.ts#L1)
+   *
+   * @deprecated use `calciteInputDatePickerChange` instead.
    */
   @Event() calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
+
+  /**
+   * This event fires when the input date picker value changes.
+   */
+  @Event() calciteInputDatePickerChange: EventEmitter<void>;
 
   /**
    * @internal
