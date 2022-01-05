@@ -9,7 +9,15 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Features
 
+- **alert:** add support for alert position ([#3856](https://github.com/Esri/calcite-components/issues/3856)) ([0c6b86f](https://github.com/Esri/calcite-components/commit/0c6b86f456a1a9ff6cc97a5202208a4878fbb7a9))
+<!--@unreleased-section-end-->
+
+## [1.0.0-beta.73](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.72...v1.0.0-beta.73) (2022-01-05)
+
+### Features
+
 - **icon:** Add new global CSS variable to customize icon's color. [#3200](https://github.com/Esri/calcite-components/issues/3200) ([#3770](https://github.com/Esri/calcite-components/issues/3770)) ([f25b14f](https://github.com/Esri/calcite-components/commit/f25b14faf7f452426bb0fde838ac343d38d5a99f))
+- **input:** add support for exponential number format ([#3738](https://github.com/Esri/calcite-components/issues/3738)) ([05d08ed](https://github.com/Esri/calcite-components/commit/05d08edcd7a11f8afb719beac0803d0c1fc63573))
 - **transition:** allow customizing animation/transition duration for components utilizing base transition variables ([#3828](https://github.com/Esri/calcite-components/issues/3828)) ([2771352](https://github.com/Esri/calcite-components/commit/277135209b80c717d43b9da581de2d969e6a39cd))
 
 ### Bug Fixes
@@ -31,11 +39,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **switch:** add back outline offset on focus ([#3779](https://github.com/Esri/calcite-components/issues/3779)) ([ce7b514](https://github.com/Esri/calcite-components/commit/ce7b51420870a63c7dce3db2d4752f1e9ab36a8e))
 - **value-list:** emit list order change event when value list items are reordered via the keyboard ([#3816](https://github.com/Esri/calcite-components/issues/3816)) ([2c8e856](https://github.com/Esri/calcite-components/commit/2c8e856477bf952af1dcd48f7245a9fcdbf3b99f)), closes [#3685](https://github.com/Esri/calcite-components/issues/3685)
 - **value-list:** include ordered values in list order change event payload ([#3820](https://github.com/Esri/calcite-components/issues/3820)) ([6854d50](https://github.com/Esri/calcite-components/commit/6854d50b4076027f23836ae0211d1bffebdfb2ba)), closes [#3685](https://github.com/Esri/calcite-components/issues/3685)
-
-### Reverts
-
-- allow primary contact to merge pr branches ([#3831](https://github.com/Esri/calcite-components/issues/3831)) ([0876973](https://github.com/Esri/calcite-components/commit/08769739f7fd00aaff0f487d20f8e996bdd47d3d))
-<!--@unreleased-section-end-->
 
 ## [1.0.0-beta.72](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.71...v1.0.0-beta.72) (2021-12-21)
 
