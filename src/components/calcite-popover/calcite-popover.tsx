@@ -21,14 +21,16 @@ import {
   TEXT
 } from "./resources";
 import {
-  PopperPlacement,
-  defaultOffsetDistance,
-  createPopper,
-  updatePopper,
-  CSS as PopperCSS,
-  OverlayPositioning
-} from "../../utils/popper";
-import { StrictModifiers, Placement, Instance as Popper } from "@popperjs/core";
+  positionFloatingUI,
+  FloatingCSS,
+  OverlayPositioning,
+  FloatingUIComponent,
+  connectFloatingUI,
+  disconnectFloatingUI,
+  LogicalPlacement,
+  EffectivePlacement,
+  defaultOffsetDistance
+} from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { queryElementRoots } from "../../utils/dom";
 import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
@@ -41,7 +43,7 @@ import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
   styleUrl: "calcite-popover.scss",
   shadow: true
 })
-export class CalcitePopover {
+export class CalcitePopover implements FloatingUIComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -72,7 +74,7 @@ export class CalcitePopover {
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements?: Placement[];
+  @Prop() flipPlacements?: EffectivePlacement[];
 
   /**
    * Heading text.
@@ -124,9 +126,8 @@ export class CalcitePopover {
 
   /**
    * Determines where the component will be positioned relative to the referenceElement.
-   * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
    */
-  @Prop({ reflect: true }) placement: PopperPlacement = "auto";
+  @Prop({ reflect: true }) placement: LogicalPlacement = "auto";
 
   @Watch("placement")
   placementHandler(): void {
@@ -158,8 +159,6 @@ export class CalcitePopover {
 
   @State() effectiveReferenceElement: HTMLElement;
 
-  popper: Popper;
-
   arrowEl: HTMLDivElement;
 
   closeButtonEl: HTMLCalciteActionElement;
@@ -174,6 +173,10 @@ export class CalcitePopover {
   //
   // --------------------------------------------------------------------------
 
+  connectedCallback(): void {
+    connectFloatingUI(this, this.el);
+  }
+
   componentWillLoad(): void {
     this.setUpReferenceElement();
   }
@@ -184,7 +187,8 @@ export class CalcitePopover {
 
   disconnectedCallback(): void {
     this.removeReferences();
-    this.destroyPopper();
+    disconnectFloatingUI(this, this.el);
+    disconnectFloatingUI(this, this.effectiveReferenceElement);
   }
 
   //--------------------------------------------------------------------------
@@ -207,17 +211,30 @@ export class CalcitePopover {
   /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
-    const { popper, el, placement } = this;
-    const modifiers = this.getModifiers();
+    const {
+      el,
+      effectiveReferenceElement,
+      placement,
+      overlayPositioning,
+      disableFlip,
+      flipPlacements,
+      offsetDistance,
+      offsetSkidding,
+      arrowEl
+    } = this;
 
-    popper
-      ? await updatePopper({
-          el,
-          modifiers,
-          placement,
-          popper
-        })
-      : this.createPopper();
+    return positionFloatingUI({
+      floatingEl: el,
+      referenceEl: effectiveReferenceElement,
+      overlayPositioning,
+      placement,
+      disableFlip,
+      flipPlacements,
+      offsetDistance,
+      offsetSkidding,
+      arrowEl,
+      type: "popover"
+    });
   }
 
   /** Sets focus on the component. */
@@ -250,6 +267,7 @@ export class CalcitePopover {
   setUpReferenceElement = (): void => {
     this.removeReferences();
     this.effectiveReferenceElement = this.getReferenceElement();
+    connectFloatingUI(this, this.effectiveReferenceElement);
 
     const { el, referenceElement, effectiveReferenceElement } = this;
     if (referenceElement && !effectiveReferenceElement) {
@@ -259,7 +277,6 @@ export class CalcitePopover {
     }
 
     this.addReferences();
-    this.createPopper();
   };
 
   getId = (): string => {
@@ -312,66 +329,6 @@ export class CalcitePopover {
     );
   }
 
-  getModifiers(): Partial<StrictModifiers>[] {
-    const { arrowEl, flipPlacements, disableFlip, disablePointer, offsetDistance, offsetSkidding } =
-      this;
-    const flipModifier: Partial<StrictModifiers> = {
-      name: "flip",
-      enabled: !disableFlip
-    };
-
-    if (flipPlacements) {
-      flipModifier.options = {
-        fallbackPlacements: flipPlacements
-      };
-    }
-
-    const arrowModifier: Partial<StrictModifiers> = {
-      name: "arrow",
-      enabled: !disablePointer
-    };
-
-    if (arrowEl) {
-      arrowModifier.options = {
-        element: arrowEl
-      };
-    }
-
-    const offsetModifier: Partial<StrictModifiers> = {
-      name: "offset",
-      enabled: true,
-      options: {
-        offset: [offsetSkidding, offsetDistance]
-      }
-    };
-
-    return [arrowModifier, flipModifier, offsetModifier];
-  }
-
-  createPopper(): void {
-    this.destroyPopper();
-    const { el, placement, effectiveReferenceElement: referenceEl, overlayPositioning } = this;
-    const modifiers = this.getModifiers();
-
-    this.popper = createPopper({
-      el,
-      modifiers,
-      overlayPositioning,
-      placement,
-      referenceEl
-    });
-  }
-
-  destroyPopper(): void {
-    const { popper } = this;
-
-    if (popper) {
-      popper.destroy();
-    }
-
-    this.popper = null;
-  }
-
   hide = (): void => {
     this.open = false;
   };
@@ -380,6 +337,11 @@ export class CalcitePopover {
     if (event.propertyName === this.activeTransitionProp) {
       this.open ? this.calcitePopoverOpen.emit() : this.calcitePopoverClose.emit();
     }
+  };
+
+  storeArrowEl = (el: HTMLDivElement): void => {
+    this.arrowEl = el;
+    this.reposition();
   };
 
   // --------------------------------------------------------------------------
@@ -423,9 +385,7 @@ export class CalcitePopover {
     const { effectiveReferenceElement, heading, label, open, disablePointer } = this;
     const displayed = effectiveReferenceElement && open;
     const hidden = !displayed;
-    const arrowNode = !disablePointer ? (
-      <div class={CSS.arrow} ref={(arrowEl) => (this.arrowEl = arrowEl)} />
-    ) : null;
+    const arrowNode = !disablePointer ? <div class={CSS.arrow} ref={this.storeArrowEl} /> : null;
 
     return (
       <Host
@@ -437,8 +397,8 @@ export class CalcitePopover {
       >
         <div
           class={{
-            [PopperCSS.animation]: true,
-            [PopperCSS.animationActive]: displayed
+            [FloatingCSS.animation]: true,
+            [FloatingCSS.animationActive]: displayed
           }}
           onTransitionEnd={this.transitionEnd}
         >

@@ -126,7 +126,8 @@ export class CalciteDropdown implements FloatingUIComponent {
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
-    disconnectFloatingUI(this);
+    disconnectFloatingUI(this, this.floatingEl);
+    disconnectFloatingUI(this, this.referenceEl);
   }
 
   render(): VNode {
@@ -353,12 +354,12 @@ export class CalciteDropdown implements FloatingUIComponent {
 
   setReferenceEl = (el: HTMLDivElement): void => {
     this.referenceEl = el;
-    connectFloatingUI(this, "referenceEl");
+    connectFloatingUI(this, this.referenceEl);
   };
 
   setFloatingEl = (el: HTMLDivElement): void => {
     this.floatingEl = el;
-    connectFloatingUI(this, "floatingEl");
+    connectFloatingUI(this, this.floatingEl);
   };
 
   private keyDownHandler = (e: KeyboardEvent): void => {

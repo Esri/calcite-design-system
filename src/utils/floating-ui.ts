@@ -2,16 +2,18 @@ import {
   computePosition,
   Placement,
   Strategy,
+  arrow,
   flip,
   shift,
   hide,
+  offset,
   autoPlacement,
-  getScrollParents
+  getScrollParents,
+  Middleware
 } from "@floating-ui/dom";
 import { getElementDir } from "./dom";
 
 type UIType = "menu" | "tooltip" | "popover";
-type FloatingElType = "floatingEl" | "referenceEl";
 export type OverlayPositioning = Strategy;
 
 type VariationPlacement =
@@ -35,13 +37,9 @@ type VariationPlacement =
   | "left-trailing";
 
 export type LogicalPlacement = "auto" | Placement | VariationPlacement;
+export type EffectivePlacement = Placement;
 
 export interface FloatingUIComponent {
-  /**
-   *
-   */
-  floatingEl: HTMLElement;
-
   /**
    *
    */
@@ -55,11 +53,6 @@ export interface FloatingUIComponent {
   /**
    *
    */
-  referenceEl: HTMLElement;
-
-  /**
-   *
-   */
   reposition(): Promise<void>;
 }
 
@@ -68,9 +61,9 @@ export const FloatingCSS = {
   animationActive: "calcite-floating-ui-anim--active"
 };
 
-export function getPlacement(floatingEl: HTMLElement, placement: LogicalPlacement | null): Placement {
+export function getPlacement(floatingEl: HTMLElement, placement: LogicalPlacement): Placement {
   if (placement === "auto") {
-    return null;
+    return undefined;
   }
 
   const placements = ["left", "right"];
@@ -88,35 +81,99 @@ export function getPlacement(floatingEl: HTMLElement, placement: LogicalPlacemen
     .replace(/trailing/gi, placements[1]) as Placement;
 }
 
+function getMiddleware({
+  placement,
+  disableFlip,
+  flipPlacements,
+  offsetDistance,
+  offsetSkidding,
+  arrowEl,
+  type
+}: {
+  placement: LogicalPlacement;
+  disableFlip?: boolean;
+  flipPlacements?: EffectivePlacement[];
+  offsetDistance?: number;
+  offsetSkidding?: number;
+  arrowEl?: HTMLElement;
+  type: UIType;
+}): Middleware[] {
+  const defaultMiddleware = [shift(), hide()];
+
+  if (type === "menu") {
+    return [
+      ...defaultMiddleware,
+      flip({ fallbackPlacements: ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"] })
+    ];
+  }
+
+  if (type === "popover") {
+    const middleware: Middleware[] = [...defaultMiddleware];
+    if (placement === "auto") {
+      middleware.push(autoPlacement());
+    } else {
+      if (!disableFlip) {
+        middleware.push(flip({ fallbackPlacements: flipPlacements }));
+      }
+    }
+
+    if (arrowEl) {
+      middleware.push(
+        arrow({
+          element: arrowEl
+        })
+      );
+    }
+
+    middleware.push(
+      offset({
+        mainAxis: typeof offsetDistance === "number" ? offsetDistance : 0,
+        crossAxis: typeof offsetSkidding === "number" ? offsetSkidding : 0
+      })
+    );
+
+    return middleware;
+  }
+
+  return [];
+}
+
 export async function positionFloatingUI({
   referenceEl,
   floatingEl,
-  placement,
   overlayPositioning = "absolute",
+  placement,
+  disableFlip,
+  flipPlacements,
+  offsetDistance,
+  offsetSkidding,
+  arrowEl,
   type
 }: {
   referenceEl: HTMLElement;
   floatingEl: HTMLElement;
-  placement: LogicalPlacement;
   overlayPositioning: Strategy;
+  placement: LogicalPlacement;
+  disableFlip?: boolean;
+  flipPlacements?: EffectivePlacement[];
+  offsetDistance?: number;
+  offsetSkidding?: number;
+  arrowEl?: HTMLElement;
   type: UIType;
 }): Promise<void> {
   if (!referenceEl || !floatingEl) {
     return null;
   }
 
-  const defaultMiddleware = [shift(), hide()];
-
-  const middleware =
-    type === "menu"
-      ? [
-          flip({ fallbackPlacements: ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"] }),
-          ...defaultMiddleware
-        ]
-      : type === "popover"
-      ? [placement === "auto" ? autoPlacement() : flip()]
-      : defaultMiddleware;
-
+  const middleware = getMiddleware({
+    placement,
+    disableFlip,
+    flipPlacements,
+    offsetDistance,
+    offsetSkidding,
+    arrowEl,
+    type
+  });
   const {
     x,
     y,
@@ -129,11 +186,20 @@ export async function positionFloatingUI({
     middleware
   });
 
-  const { referenceHidden } = middlewareData.hide;
+  if (middlewareData.arrow) {
+    const { x: arrowX, y: arrowY } = middlewareData.arrow;
+
+    Object.assign(arrowEl.style, {
+      left: arrowX != null ? `${arrowX}px` : "",
+      top: arrowY != null ? `${arrowY}px` : ""
+    });
+  }
+
+  const referenceHidden = middlewareData.hide?.referenceHidden;
+  const visibility = referenceHidden ? "hidden" : null;
 
   floatingEl.setAttribute("data-placement", computedPlacement);
 
-  const visibility = referenceHidden ? "hidden" : null;
   const transform = `translate(${Math.round(x)}px,${Math.round(y)}px)`;
 
   Object.assign(floatingEl.style, {
@@ -147,14 +213,12 @@ export async function positionFloatingUI({
 
 const floatingElMap = new WeakMap<HTMLElement, (Element | Window | VisualViewport)[]>();
 
-function connect(component: FloatingUIComponent, type: FloatingElType): void {
-  const el = component[type];
-
+export function connectFloatingUI(component: FloatingUIComponent, el: HTMLElement): void {
   if (!el) {
     return;
   }
 
-  disconnect(component, type);
+  disconnectFloatingUI(component, el);
   const { reposition } = component;
   const boundReposition = reposition.bind(component);
   const scrollParents = getScrollParents(el);
@@ -166,9 +230,7 @@ function connect(component: FloatingUIComponent, type: FloatingElType): void {
   });
 }
 
-function disconnect(component: FloatingUIComponent, type: FloatingElType): void {
-  const el = component[type];
-
+export function disconnectFloatingUI(component: FloatingUIComponent, el: HTMLElement): void {
   if (!el) {
     return;
   }
@@ -182,15 +244,6 @@ function disconnect(component: FloatingUIComponent, type: FloatingElType): void 
   });
 
   floatingElMap.delete(el);
-}
-
-export function connectFloatingUI(component: FloatingUIComponent, type: FloatingElType): void {
-  connect(component, type);
-}
-
-export function disconnectFloatingUI(component: FloatingUIComponent): void {
-  disconnect(component, "floatingEl");
-  disconnect(component, "referenceEl");
 }
 
 export function hypotenuse(sideA: number, sideB: number): number {
