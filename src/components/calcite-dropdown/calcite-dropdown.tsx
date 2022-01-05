@@ -125,6 +125,7 @@ export class CalciteDropdown {
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
+    this.resizeObserver?.disconnect();
     this.destroyPopper();
   }
 
@@ -178,8 +179,6 @@ export class CalciteDropdown {
   @Method()
   async reposition(): Promise<void> {
     const { popper, menuEl, placement } = this;
-
-    this.setMaxScrollerHeight();
 
     const modifiers = this.getModifiers();
 
@@ -318,6 +317,8 @@ export class CalciteDropdown {
 
   mutationObserver = createObserver("mutation", () => this.updateItems());
 
+  resizeObserver = createObserver("resize", () => this.setMaxScrollerHeight());
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -339,15 +340,18 @@ export class CalciteDropdown {
   };
 
   setMaxScrollerHeight = (): void => {
-    const { scrollerEl } = this;
+    const { active, scrollerEl } = this;
 
-    if (scrollerEl) {
-      const maxScrollerHeight = this.getMaxScrollerHeight();
-      scrollerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
+    if (!scrollerEl || !active) {
+      return;
     }
+
+    const maxScrollerHeight = this.getMaxScrollerHeight();
+    scrollerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
   };
 
   setScrollerEl = (scrollerEl: HTMLDivElement): void => {
+    this.resizeObserver.observe(scrollerEl);
     this.scrollerEl = scrollerEl;
   };
 
