@@ -41,17 +41,17 @@ export type EffectivePlacement = Placement;
 
 export interface FloatingUIComponent {
   /**
-   *
+   * Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value.
    */
-  overlayPositioning?: OverlayPositioning;
+  overlayPositioning: OverlayPositioning;
 
   /**
-   *
+   * Determines where the floating element will be positioned relative to the reference element.
    */
-  placement?: LogicalPlacement;
+  placement: LogicalPlacement;
 
   /**
-   *
+   * Updates the position of the component.
    */
   reposition(): Promise<void>;
 }
@@ -61,7 +61,7 @@ export const FloatingCSS = {
   animationActive: "calcite-floating-ui-anim--active"
 };
 
-export function getPlacement(floatingEl: HTMLElement, placement: LogicalPlacement): Placement {
+function getPlacement(floatingEl: HTMLElement, placement: LogicalPlacement): EffectivePlacement {
   if (placement === "auto") {
     return undefined;
   }
@@ -78,7 +78,7 @@ export function getPlacement(floatingEl: HTMLElement, placement: LogicalPlacemen
     .replace(/-leading/gi, `-${variations[0]}`)
     .replace(/-trailing/gi, `-${variations[1]}`)
     .replace(/leading/gi, placements[0])
-    .replace(/trailing/gi, placements[1]) as Placement;
+    .replace(/trailing/gi, placements[1]) as EffectivePlacement;
 }
 
 function getMiddleware({
@@ -138,6 +138,9 @@ function getMiddleware({
   return [];
 }
 
+/**
+ * Positions the floating element relative to the reference element.
+ */
 export async function positionFloatingUI({
   referenceEl,
   floatingEl,
@@ -213,6 +216,9 @@ export async function positionFloatingUI({
 
 const floatingElMap = new WeakMap<HTMLElement, (Element | Window | VisualViewport)[]>();
 
+/**
+ * Helper to set up floating element interactions on connectedCallback.
+ */
 export function connectFloatingUI(component: FloatingUIComponent, el: HTMLElement): void {
   if (!el) {
     return;
@@ -230,6 +236,9 @@ export function connectFloatingUI(component: FloatingUIComponent, el: HTMLElemen
   });
 }
 
+/**
+ * Helper to tear down floating element interactions on disconnectedCallback.
+ */
 export function disconnectFloatingUI(component: FloatingUIComponent, el: HTMLElement): void {
   if (!el) {
     return;
@@ -246,10 +255,14 @@ export function disconnectFloatingUI(component: FloatingUIComponent, el: HTMLEle
   floatingElMap.delete(el);
 }
 
-export function hypotenuse(sideA: number, sideB: number): number {
+function hypotenuse(sideA: number, sideB: number): number {
   return Math.sqrt(Math.pow(sideA, 2) + Math.pow(sideB, 2));
 }
 
 const visiblePointerSize = 4;
 
+/**
+ * Default offset the position of the floating element away from the reference element.
+ * @default 6
+ */
 export const defaultOffsetDistance = Math.ceil(hypotenuse(visiblePointerSize, visiblePointerSize));
