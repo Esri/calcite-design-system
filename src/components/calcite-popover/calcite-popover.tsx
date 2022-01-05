@@ -142,6 +142,7 @@ export class CalcitePopover implements FloatingUIComponent {
   @Watch("referenceElement")
   referenceElementHandler(): void {
     this.setUpReferenceElement();
+    this.reposition();
   }
 
   /** Text for close button.
