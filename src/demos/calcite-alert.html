@@ -742,37 +742,31 @@
           </script>
         </div>
         <div class="second-container-margin">
-          <!-- updates the position of the alert -->
-          <p>Alert position</p>
+          <!-- updates the placement of the alert -->
+          <p>Alert placement</p>
           <calcite-radio-group width="full" layout="vertical">
-            <calcite-radio-group-item value="bottom-start" onclick="updatePosition('bottom-start');">
+            <calcite-radio-group-item value="bottom-start" onclick="updatePlacement('bottom-start');">
               bottom-start</calcite-radio-group-item
             >
-            <calcite-radio-group-item
-              value="bottom-center (default)"
-              onclick="updatePosition('bottom-center');"
-              checked
+            <calcite-radio-group-item value="bottom (default)" onclick="updatePlacement('bottom');" checked>
+              bottom (default)</calcite-radio-group-item
             >
-              bottom-center (default)</calcite-radio-group-item
-            >
-            <calcite-radio-group-item value="bottom-end" onclick="updatePosition('bottom-end');">
+            <calcite-radio-group-item value="bottom-end" onclick="updatePlacement('bottom-end');">
               bottom-end
             </calcite-radio-group-item>
-            <calcite-radio-group-item value="top-start" onclick="updatePosition('top-start');">
+            <calcite-radio-group-item value="top-start" onclick="updatePlacement('top-start');">
               top-start
             </calcite-radio-group-item>
-            <calcite-radio-group-item value="top-center" onclick="updatePosition('top-center');">
-              top-center
-            </calcite-radio-group-item>
-            <calcite-radio-group-item value="top-end" onclick="updatePosition('top-end');">
+            <calcite-radio-group-item value="top" onclick="updatePlacement('top');"> top </calcite-radio-group-item>
+            <calcite-radio-group-item value="top-end" onclick="updatePlacement('top-end');">
               top-end
             </calcite-radio-group-item>
           </calcite-radio-group>
           <script>
-            const updatePosition = (position) => {
+            const updatePlacement = (placement) => {
               const activeAlerts = document.querySelectorAll("calcite-alert");
               if (!activeAlerts.length) return;
-              activeAlerts.forEach((alert) => alert.setAttribute("position", position));
+              activeAlerts.forEach((alert) => alert.setAttribute("placement", placement));
             };
           </script>
         </div>

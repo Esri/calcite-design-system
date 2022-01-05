@@ -169,7 +169,7 @@ describe("calcite-alert", () => {
     expect(await alert3.isVisible()).toBe(true);
   });
 
-  it("correctly assigns a default position class", async () => {
+  it("correctly assigns a default placement class", async () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-alert>
@@ -177,18 +177,18 @@ describe("calcite-alert", () => {
     </calcite-alert>`);
 
     const container = await page.find("calcite-alert >>> .container");
-    expect(container).toHaveClass("bottom-center");
+    expect(container).toHaveClass("bottom");
   });
 
-  it("correctly assigns a requested position class", async () => {
+  it("correctly assigns a requested placement class", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-alert position="top-end">
+    <calcite-alert placement="top-end">
     ${alertContent}
     </calcite-alert>`);
 
     const container = await page.find("calcite-alert >>> .container");
-    expect(container).not.toHaveClass("bottom-center");
+    expect(container).not.toHaveClass("bottom");
     expect(container).toHaveClass("top-end");
   });
 

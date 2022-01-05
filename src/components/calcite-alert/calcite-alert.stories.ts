@@ -17,11 +17,7 @@ export const TitleMessageLink = (): string => html`
 ${boolean("icon", true)}
 ${boolean("auto-dismiss", false)}
 auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
-position="${select(
-  "position",
-  ["bottom-start", "bottom-center", "bottom-end", "top-start", "top-center", "top-end"],
-  "bottom-center"
-)}
+placement="${select("placement", ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"], "bottom")}
 ${boolean("active", true)}
 scale="${select("scale", ["s", "m", "l"], "m")}"
 color="${select("color", ["green", "red", "yellow", "blue"], "blue")}">
@@ -40,11 +36,7 @@ export const TitleMessage = (): string => html`
     ${boolean("icon", true)}
     ${boolean("auto-dismiss", false)}
     auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
-    position="${select(
-      "position",
-      ["bottom-start", "bottom-center", "bottom-end", "top-start", "top-center", "top-end"],
-      "bottom-center"
-    )}
+    placement="${select("placement", ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"], "bottom")}
     ${boolean("active", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "red")}"
@@ -61,11 +53,7 @@ export const MessageLink = (): string => html`
     ${boolean("icon", true)}
     ${boolean("auto-dismiss", false)}
     auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
-    position="${select(
-      "position",
-      ["bottom-start", "bottom-center", "bottom-end", "top-start", "top-center", "top-end"],
-      "bottom-center"
-    )}
+    placement="${select("placement", ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"], "bottom")}
     ${boolean("active", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "green")}"
@@ -82,11 +70,7 @@ export const Message = (): string => html`
     ${boolean("icon", true)}
     ${boolean("auto-dismiss", false)}
     auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
-    position="${select(
-      "position",
-      ["bottom-start", "bottom-center", "bottom-end", "top-start", "top-center", "top-end"],
-      "bottom-center"
-    )}
+    placement="${select("placement", ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"], "bottom")}
     ${boolean("active", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "yellow")}"
@@ -100,11 +84,7 @@ export const CustomIcon = (): string => html`
     icon="${select("icon", iconNames, iconNames[0])}"
     ${boolean("auto-dismiss", false)}
     auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
-    position="${select(
-      "position",
-      ["bottom-start", "bottom-center", "bottom-end", "top-start", "top-center", "top-end"],
-      "bottom-center"
-    )}
+    placement="${select("placement", ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"], "bottom")}
     ${boolean("active", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "green")}"
@@ -160,11 +140,7 @@ export const DarkTheme = (): string => html`
     ${boolean("icon", true)}
     ${boolean("auto-dismiss", false)}
     auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
-    position="${select(
-      "position",
-      ["bottom-start", "bottom-center", "bottom-end", "top-start", "top-center", "top-end"],
-      "bottom-center"
-    )}
+    placement="${select("placement", ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"], "bottom")}
     ${boolean("active", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
     color="${select("color", ["green", "red", "yellow", "blue"], "red")}"
@@ -251,11 +227,7 @@ export const Rtl = (): string => html`
 ${boolean("icon", true)}
 ${boolean("auto-dismiss", false)}
 auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
-position="${select(
-  "position",
-  ["bottom-start", "bottom-center", "bottom-end", "top-start", "top-center", "top-end"],
-  "bottom-center"
-)}
+placement="${select("placement", ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"], "bottom")}
 ${boolean("active", true)}
 scale="${select("scale", ["s", "m", "l"], "m")}"
 color="${select("color", ["green", "red", "yellow", "blue"], "blue")}">

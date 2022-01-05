@@ -101,11 +101,16 @@
     transition: var(--calcite-internal-animation-timing-slow) $easing-function,
       opacity var(--calcite-internal-animation-timing-slow) $easing-function,
       all var(--calcite-animation-timing) ease-in-out;
-    &[class*="bottom-"] {
+    &.bottom,
+    &.top {
+      inset-inline-end: 0;
+      inset-inline-start: 0;
+    }
+    &[class*="bottom"] {
       transform: translate3d(0, var(--calcite-alert-edge-distance), 0);
       inset-block-end: var(--calcite-alert-edge-distance);
     }
-    &[class*="top-"] {
+    &[class*="top"] {
       transform: translate3d(0, calc(-1 * var(--calcite-alert-edge-distance)), 0);
       inset-block-start: var(--calcite-alert-edge-distance);
     }
@@ -116,10 +121,6 @@
     &[class*="-end"] {
       inset-inline-end: var(--calcite-alert-edge-distance);
       inset-inline-start: auto;
-    }
-    &[class*="-center"] {
-      inset-inline-end: 0;
-      inset-inline-start: 0;
     }
   }
 }
@@ -143,10 +144,10 @@
   .container:not(.queued) {
     @apply opacity-100 max-h-full border-t-2;
     pointer-events: initial;
-    &[class*="bottom-"] {
+    &[class*="bottom"] {
       transform: translate3d(0, calc(-1 * var(--calcite-alert-edge-distance)), inherit);
     }
-    &[class*="top-"] {
+    &[class*="top"] {
       transform: translate3d(0, var(--calcite-alert-edge-distance), inherit);
     }
   }

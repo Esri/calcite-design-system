@@ -15,7 +15,7 @@ import {
 import { setRequestedIcon } from "../../utils/dom";
 import { DURATIONS, SLOTS, TEXT } from "./resources";
 import { Scale } from "../interfaces";
-import { AlertDuration, AlertPosition, StatusColor, StatusIcons } from "./interfaces";
+import { AlertDuration, AlertPlacement, StatusColor, StatusIcons } from "./interfaces";
 
 /** Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
  * at the bottom of the page. Multiple opened alerts will be added to a queue, allowing users to dismiss them in the order they are provided.
@@ -82,8 +82,8 @@ export class CalciteAlert {
   /** Accessible name for the component */
   @Prop() label!: string;
 
-  /** specify the position of the alert */
-  @Prop() position: AlertPosition = "bottom-center";
+  /** specify the placement of the alert */
+  @Prop() placement: AlertPlacement = "bottom";
 
   /** specify the scale of the alert, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -150,7 +150,7 @@ export class CalciteAlert {
       </div>
     );
 
-    const { active, autoDismiss, label, position, queued, requestedIcon } = this;
+    const { active, autoDismiss, label, placement, queued, requestedIcon } = this;
     const role = autoDismiss ? "alert" : "alertdialog";
     const hidden = !active;
     return (
@@ -164,7 +164,7 @@ export class CalciteAlert {
           class={{
             container: true,
             queued,
-            [position]: true
+            [placement]: true
           }}
         >
           {requestedIcon ? (
