@@ -772,12 +772,24 @@ describe("calcite-dropdown", () => {
       `);
       const element = await page.find("calcite-dropdown");
       const trigger = await element.find("calcite-button[slot='dropdown-trigger']");
-      const dropdownWrapper = await page.find("calcite-dropdown >>> .calcite-dropdown-wrapper");
+      const dropdownWrapper = await page.find(`calcite-dropdown >>> .calcite-dropdown-wrapper`);
+      const calciteDropdownOpen = await element.spyOnEvent("calciteDropdownOpen");
 
       expect(await dropdownWrapper.isVisible()).toBe(false);
       await trigger.click();
       await page.waitForChanges();
       expect(await dropdownWrapper.isVisible()).toBe(true);
+
+      await trigger.focus();
+      await page.keyboard.press("Space");
+      await page.waitForChanges();
+      expect(await dropdownWrapper.isVisible()).toBe(false);
+      expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
+
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+      expect(await dropdownWrapper.isVisible()).toBe(true);
+      expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
     });
 
     it("opens when dropdown-trigger is an action", async () => {
@@ -797,13 +809,25 @@ describe("calcite-dropdown", () => {
         </calcite-dropdown> 
       `);
       const element = await page.find("calcite-dropdown");
-      const trigger = await element.find("calcite-action[slot='dropdown-trigger']");
-      const dropdownWrapper = await page.find("calcite-dropdown >>> .calcite-dropdown-wrapper");
+      const trigger = await element.find("calcite-action[slot='dropdown-trigger'] >>> button");
+      const dropdownWrapper = await page.find(`calcite-dropdown >>> .calcite-dropdown-wrapper`);
+      const calciteDropdownOpen = await element.spyOnEvent("calciteDropdownOpen");
 
       expect(await dropdownWrapper.isVisible()).toBe(false);
       await trigger.click();
       await page.waitForChanges();
       expect(await dropdownWrapper.isVisible()).toBe(true);
+
+      await trigger.focus();
+      await page.keyboard.press("Space");
+      await page.waitForChanges();
+      expect(await dropdownWrapper.isVisible()).toBe(false);
+      expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
+
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+      expect(await dropdownWrapper.isVisible()).toBe(true);
+      expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
     });
   });
 

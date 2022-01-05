@@ -407,8 +407,16 @@ export class CalciteDropdown {
       this.triggers.includes(target) ||
       this.triggers.some((trigger) => trigger.contains(target))
     ) {
-      if (target.nodeName !== "BUTTON" && target.nodeName !== "CALCITE-BUTTON") {
+      if (
+        target.nodeName !== "BUTTON" &&
+        target.nodeName !== "CALCITE-BUTTON" &&
+        target.nodeName !== "CALCITE-ACTION"
+      ) {
         switch (key) {
+          case " ":
+          case "Enter":
+            this.openCalciteDropdown();
+            break;
           case "Escape":
             this.closeCalciteDropdown();
             break;
