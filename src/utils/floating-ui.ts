@@ -61,11 +61,7 @@ export const FloatingCSS = {
   animationActive: "calcite-floating-ui-anim--active"
 };
 
-function getPlacement(floatingEl: HTMLElement, placement: LogicalPlacement): EffectivePlacement {
-  if (placement === "auto") {
-    return undefined;
-  }
-
+function getEffectivePlacement(floatingEl: HTMLElement, placement: LogicalPlacement): EffectivePlacement {
   const placements = ["left", "right"];
   const variations = ["start", "end"];
 
@@ -107,14 +103,19 @@ function getMiddleware({
     ];
   }
 
-  if (type === "popover") {
-    const middleware: Middleware[] = [...defaultMiddleware];
+  if (type === "popover" || type === "tooltip") {
+    const middleware: Middleware[] = [
+      ...defaultMiddleware,
+      offset({
+        mainAxis: typeof offsetDistance === "number" ? offsetDistance : 0,
+        crossAxis: typeof offsetSkidding === "number" ? offsetSkidding : 0
+      })
+    ];
+
     if (placement === "auto") {
       middleware.push(autoPlacement());
-    } else {
-      if (!disableFlip) {
-        middleware.push(flip({ fallbackPlacements: flipPlacements }));
-      }
+    } else if (!disableFlip) {
+      middleware.push(flip(flipPlacements ? { fallbackPlacements: flipPlacements } : {}));
     }
 
     if (arrowEl) {
@@ -124,13 +125,6 @@ function getMiddleware({
         })
       );
     }
-
-    middleware.push(
-      offset({
-        mainAxis: typeof offsetDistance === "number" ? offsetDistance : 0,
-        crossAxis: typeof offsetSkidding === "number" ? offsetSkidding : 0
-      })
-    );
 
     return middleware;
   }
@@ -168,15 +162,6 @@ export async function positionFloatingUI({
     return null;
   }
 
-  const middleware = getMiddleware({
-    placement,
-    disableFlip,
-    flipPlacements,
-    offsetDistance,
-    offsetSkidding,
-    arrowEl,
-    type
-  });
   const {
     x,
     y,
@@ -185,11 +170,19 @@ export async function positionFloatingUI({
     middlewareData
   } = await computePosition(referenceEl, floatingEl, {
     strategy: overlayPositioning,
-    placement: getPlacement(floatingEl, placement),
-    middleware
+    placement: placement === "auto" ? undefined : getEffectivePlacement(floatingEl, placement),
+    middleware: getMiddleware({
+      placement,
+      disableFlip,
+      flipPlacements,
+      offsetDistance,
+      offsetSkidding,
+      arrowEl,
+      type
+    })
   });
 
-  if (middlewareData.arrow) {
+  if (middlewareData?.arrow) {
     const { x: arrowX, y: arrowY } = middlewareData.arrow;
 
     Object.assign(arrowEl.style, {
@@ -198,7 +191,7 @@ export async function positionFloatingUI({
     });
   }
 
-  const referenceHidden = middlewareData.hide?.referenceHidden;
+  const referenceHidden = middlewareData?.hide?.referenceHidden;
   const visibility = referenceHidden ? "hidden" : null;
 
   floatingEl.setAttribute("data-placement", computedPlacement);
