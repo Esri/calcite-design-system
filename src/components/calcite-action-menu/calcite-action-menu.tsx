@@ -14,11 +14,12 @@ import { CSS, SLOTS, ICONS } from "./resources";
 import { focusElement, getSlotted } from "../../utils/dom";
 import { Fragment, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
-import { PopperPlacement, OverlayPositioning } from "../../utils/popper";
+import { OverlayPositioning } from "../../utils/popper";
 import { Placement } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
+import { LogicalPlacement } from "../../utils/floating-ui";
 
 const SUPPORTED_BUTTON_NAV_KEYS = ["ArrowUp", "ArrowDown"];
 const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
@@ -98,7 +99,7 @@ export class CalciteActionMenu {
    * Determines where the component will be positioned relative to the referenceElement.
    * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
    */
-  @Prop({ reflect: true }) placement: PopperPlacement = "auto";
+  @Prop({ reflect: true }) placement: LogicalPlacement = "auto";
 
   /**
    * Specifies the size of the menu trigger action.
