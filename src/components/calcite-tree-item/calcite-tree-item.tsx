@@ -235,7 +235,9 @@ export class CalciteTreeItem {
     this.expanded = !this.expanded;
     this.calciteTreeItemSelect.emit({
       modifyCurrentSelection:
-        (e as any).shiftKey || this.selectionMode === TreeSelectionMode.Ancestors,
+        this.selectionMode === TreeSelectionMode.Multi ||
+        this.selectionMode === TreeSelectionMode.Ancestors ||
+        this.selectionMode === TreeSelectionMode.MultiChildren,
       forceToggle: false
     });
   }
@@ -245,7 +247,9 @@ export class CalciteTreeItem {
     this.expanded = !this.expanded;
     if (this.selectionMode !== TreeSelectionMode.Ancestors) {
       this.calciteTreeItemSelect.emit({
-        modifyCurrentSelection: event.shiftKey,
+        modifyCurrentSelection:
+          this.selectionMode === TreeSelectionMode.Multi ||
+          this.selectionMode === TreeSelectionMode.MultiChildren,
         forceToggle: true
       });
     }
@@ -259,7 +263,9 @@ export class CalciteTreeItem {
     switch (e.key) {
       case " ":
         this.calciteTreeItemSelect.emit({
-          modifyCurrentSelection: e.shiftKey,
+          modifyCurrentSelection:
+            this.selectionMode === TreeSelectionMode.Multi ||
+            this.selectionMode === TreeSelectionMode.MultiChildren,
           forceToggle: false
         });
 
@@ -277,7 +283,9 @@ export class CalciteTreeItem {
           this.selected = true;
         } else {
           this.calciteTreeItemSelect.emit({
-            modifyCurrentSelection: e.shiftKey,
+            modifyCurrentSelection:
+              this.selectionMode === TreeSelectionMode.Multi ||
+              this.selectionMode === TreeSelectionMode.MultiChildren,
             forceToggle: false
           });
         }

@@ -58,8 +58,6 @@ export class CalciteTree {
   @Prop({ mutable: true, reflect: true }) selectionMode: TreeSelectionMode =
     TreeSelectionMode.Single;
 
-  private selectedItems: HTMLCalciteTreeItemElement[] = [];
-
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -148,8 +146,7 @@ export class CalciteTree {
       (!target.hasChildren ||
         (target.hasChildren &&
           (this.selectionMode === TreeSelectionMode.Children ||
-            this.selectionMode === TreeSelectionMode.MultiChildren))) &&
-      !target.selected;
+            this.selectionMode === TreeSelectionMode.MultiChildren)));
 
     const shouldModifyToCurrentSelection =
       e.detail.modifyCurrentSelection &&
@@ -161,26 +158,27 @@ export class CalciteTree {
       this.selectionMode === TreeSelectionMode.Children;
 
     const shouldClearCurrentSelection =
-      // !shouldModifyToCurrentSelection &&
+      !shouldModifyToCurrentSelection &&
       (((this.selectionMode === TreeSelectionMode.Single ||
         this.selectionMode === TreeSelectionMode.Multi) &&
         childItems.length <= 0) ||
         this.selectionMode === TreeSelectionMode.Children ||
-        this.selectionMode === TreeSelectionMode.MultiChildren) &&
-      !shouldSelect;
+        this.selectionMode === TreeSelectionMode.MultiChildren);
+
     const shouldExpandTarget =
       this.selectionMode === TreeSelectionMode.Children ||
       this.selectionMode === TreeSelectionMode.MultiChildren;
-    // debugger;
+
     if (!this.child) {
+      const targetItems = [];
+
       if (shouldSelect) {
-        target.selected = true;
-        this.selectedItems.push(target);
+        targetItems.push(target);
       }
 
       if (shouldSelectChildren) {
         childItems.forEach((treeItem) => {
-          this.selectedItems.push(treeItem);
+          targetItems.push(treeItem);
         });
       }
 
@@ -189,35 +187,33 @@ export class CalciteTree {
           this.el.querySelectorAll("calcite-tree-item[selected]")
         ) as HTMLCalciteTreeItemElement[];
 
-        selectedItems.forEach((treeItem: HTMLCalciteTreeItemElement) => {
-          if (target === treeItem) {
+        selectedItems.forEach((treeItem) => {
+          if (!targetItems.includes(treeItem)) {
             treeItem.selected = false;
-            // console.log("treeItem", treeItem);
-            this.selectedItems.splice(this.selectedItems.indexOf(treeItem), 1);
           }
         });
       }
+
       if (shouldExpandTarget && !e.detail.forceToggle) {
         target.expanded = true;
       }
 
-      // if (shouldModifyToCurrentSelection) {
-      //   window.getSelection().removeAllRanges();
-      // }
-      // if (shouldSelectChildren) {
-      //   if (this.selectedItems.includes(target)) {
-      //     target.selected = false;
-      //     this.selectedItems.splice(this.selectedItems.indexOf(target), 1);
-      //   }
-      // } else {
-      //   if (this.selectedItems.includes(target)) {
-      //     target.selected = true;
-      //   }
-      // }
-    }
+      if (shouldModifyToCurrentSelection) {
+        window.getSelection().removeAllRanges();
+      }
 
-    if (this.selectionMode === TreeSelectionMode.Single && this.selectedItems.length > 1) {
-      this.deselectSiblings(target);
+      if (
+        (shouldModifyToCurrentSelection && target.selected) ||
+        (shouldSelectChildren && e.detail.forceToggle)
+      ) {
+        targetItems.forEach((treeItem) => {
+          treeItem.selected = false;
+        });
+      } else {
+        targetItems.forEach((treeItem) => {
+          treeItem.selected = true;
+        });
+      }
     }
 
     this.calciteTreeSelect.emit({
@@ -227,20 +223,6 @@ export class CalciteTree {
         ) as HTMLCalciteTreeItemElement[]
       ).filter((i) => i.selected)
     });
-  }
-
-  deselectSiblings(selectedTreeItem: HTMLCalciteTreeItemElement): void {
-    console.log("deselect siblings");
-    const selectedItems = nodeListToArray(
-      this.el.querySelectorAll("calcite-tree-item[selected]")
-    ) as HTMLCalciteTreeItemElement[];
-
-    selectedItems.forEach((treeItem) => {
-      if (treeItem !== selectedTreeItem) {
-        treeItem.selected = false;
-      }
-    });
-    this.selectedItems = [selectedTreeItem];
   }
 
   updateAncestorTree(e: CustomEvent<TreeItemSelectDetail>): void {
