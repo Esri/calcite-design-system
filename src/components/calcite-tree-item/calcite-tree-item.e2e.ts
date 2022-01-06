@@ -61,9 +61,8 @@ describe("calcite-tree-item", () => {
       </calcite-tree>
     `);
 
-    const container = await page.find(`calcite-tree-item >>> .node-container`);
-    const checkbox = await container.find(`label > calcite-checkbox`);
-    expect(checkbox).not.toHaveAttribute("checked");
+    const item = await page.find("calcite-tree-item");
+    expect(item).not.toHaveAttribute("checked");
 
     const icon = await page.find('#firstItem >>> [data-test-id="icon"]');
     await icon.click();
@@ -71,7 +70,7 @@ describe("calcite-tree-item", () => {
     const childContainer = await page.find('#firstItem >>> [data-test-id="calcite-tree-children"]');
     const isVisible = await childContainer.isVisible();
     expect(isVisible).toBe(true);
-    expect(checkbox).not.toHaveAttribute("checked");
+    expect(item).not.toHaveAttribute("checked");
   });
 
   it("should allow starting expanded", async () => {
