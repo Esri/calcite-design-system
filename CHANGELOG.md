@@ -10,6 +10,11 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Features
 
 - **alert:** add support for alert position ([#3856](https://github.com/Esri/calcite-components/issues/3856)) ([0c6b86f](https://github.com/Esri/calcite-components/commit/0c6b86f456a1a9ff6cc97a5202208a4878fbb7a9))
+
+### Bug Fixes
+
+- **color-picker-swatch:** double the alpha value on the border when theme is light to make it a bit more pronounced ([#3806](https://github.com/Esri/calcite-components/issues/3806)) ([5322076](https://github.com/Esri/calcite-components/commit/53220760a00dcb196018a68dbb00b8f9252d7e66))
+- **tree-item:** toggle behavior ([#3865](https://github.com/Esri/calcite-components/issues/3865)) ([5b014e6](https://github.com/Esri/calcite-components/commit/5b014e680519c25d9041a0e806700aa96c1b1bb9))
 <!--@unreleased-section-end-->
 
 ## [1.0.0-beta.73](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.72...v1.0.0-beta.73) (2022-01-05)
