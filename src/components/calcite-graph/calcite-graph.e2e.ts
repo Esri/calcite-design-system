@@ -35,8 +35,9 @@ describe("calcite-graph", () => {
     ]));
 
   it("draws an area graph", async () => {
+    const dimensionsStyle = `style="height:100px; width:300px;`;
     const page = await newE2EPage();
-    await page.setContent(`<calcite-graph></calcite-graph>`);
+    await page.setContent(`<calcite-graph ${dimensionsStyle}></calcite-graph>`);
     await page.$eval("calcite-graph", (elm: any) => {
       elm.data = [
         [0, 4],
