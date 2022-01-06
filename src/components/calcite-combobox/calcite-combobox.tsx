@@ -16,12 +16,14 @@ import { filter } from "../../utils/filter";
 import { debounce } from "lodash-es";
 
 import {
-  createPopper,
-  updatePopper,
-  CSS as PopperCSS,
-  OverlayPositioning
-} from "../../utils/popper";
-import { StrictModifiers, Instance as Popper } from "@popperjs/core";
+  positionFloatingUI,
+  FloatingCSS,
+  OverlayPositioning,
+  FloatingUIComponent,
+  connectFloatingUI,
+  disconnectFloatingUI,
+  LogicalPlacement
+} from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
 import { ComboboxSelectionMode, ComboboxChildElement } from "./interfaces";
@@ -57,7 +59,7 @@ const isGroup = (el: ComboboxChildElement): el is HTMLCalciteComboboxItemGroupEl
   styleUrl: "calcite-combobox.scss",
   shadow: true
 })
-export class CalciteCombobox implements LabelableComponent, FormComponent {
+export class CalciteCombobox implements LabelableComponent, FormComponent, FloatingUIComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -184,16 +186,17 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
   /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
-    const { popper, menuEl } = this;
-    const modifiers = this.getModifiers();
-    popper
-      ? await updatePopper({
-          el: menuEl,
-          modifiers,
-          placement: ComboboxDefaultPlacement,
-          popper
-        })
-      : this.createPopper();
+    this.setMaxScrollerHeight();
+
+    const { floatingEl, referenceEl, placement, overlayPositioning } = this;
+
+    return positionFloatingUI({
+      floatingEl,
+      referenceEl,
+      overlayPositioning,
+      placement,
+      type: "menu"
+    });
   }
 
   /** Sets focus on the component. */
@@ -254,9 +257,9 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
     this.value = this.getValue();
     this.internalValueChangeFlag = false;
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.createPopper();
     connectLabel(this);
     connectForm(this);
+    this.reposition();
   }
 
   componentWillLoad(): void {
@@ -265,6 +268,7 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
 
   componentDidLoad(): void {
     afterConnectDefaultValueSet(this, this.getValue());
+    this.reposition();
   }
 
   componentDidRender(): void {
@@ -276,9 +280,10 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
-    this.destroyPopper();
     disconnectLabel(this);
     disconnectForm(this);
+    disconnectFloatingUI(this, this.floatingEl);
+    disconnectFloatingUI(this, this.referenceEl);
   }
 
   //--------------------------------------------------------------------------
@@ -286,6 +291,8 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  placement: LogicalPlacement = ComboboxDefaultPlacement;
 
   internalValueChangeFlag = false;
 
@@ -343,9 +350,7 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
 
   private inputHeight = 0;
 
-  private popper: Popper;
-
-  private menuEl: HTMLDivElement;
+  private floatingEl: HTMLDivElement;
 
   private referenceEl: HTMLDivElement;
 
@@ -508,8 +513,9 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
     this.open = false;
   };
 
-  setMenuEl = (el: HTMLDivElement): void => {
-    this.menuEl = el;
+  setFloatingEl = (el: HTMLDivElement): void => {
+    this.floatingEl = el;
+    connectFloatingUI(this, el);
   };
 
   setListContainerEl = (el: HTMLDivElement): void => {
@@ -518,44 +524,8 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
 
   setReferenceEl = (el: HTMLDivElement): void => {
     this.referenceEl = el;
+    connectFloatingUI(this, el);
   };
-
-  getModifiers(): Partial<StrictModifiers>[] {
-    const flipModifier: Partial<StrictModifiers> = {
-      name: "flip",
-      enabled: true
-    };
-
-    flipModifier.options = {
-      fallbackPlacements: ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"]
-    };
-
-    return [flipModifier];
-  }
-
-  createPopper(): void {
-    this.destroyPopper();
-    const { menuEl, referenceEl, overlayPositioning } = this;
-    const modifiers = this.getModifiers();
-
-    this.popper = createPopper({
-      el: menuEl,
-      modifiers,
-      overlayPositioning,
-      placement: ComboboxDefaultPlacement,
-      referenceEl
-    });
-  }
-
-  destroyPopper(): void {
-    const { popper } = this;
-
-    if (popper) {
-      popper.destroy();
-    }
-
-    this.popper = null;
-  }
 
   private getMaxScrollerHeight(items: ComboboxChildElement[]): number {
     const { maxItems } = this;
@@ -968,12 +938,12 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
     ));
   }
 
-  renderPopperContainer(): VNode {
-    const { active, maxScrollerHeight, setMenuEl, setListContainerEl, hideList, open } = this;
+  renderFloatingUIContainer(): VNode {
+    const { active, maxScrollerHeight, setFloatingEl, setListContainerEl, hideList, open } = this;
     const classes = {
       "list-container": true,
-      [PopperCSS.animation]: true,
-      [PopperCSS.animationActive]: active
+      [FloatingCSS.animation]: true,
+      [FloatingCSS.animationActive]: active
     };
     const style = {
       maxHeight: maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : ""
@@ -981,8 +951,8 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
     return (
       <div
         aria-hidden="true"
-        class={{ "popper-container": true, "popper-container--active": open }}
-        ref={setMenuEl}
+        class={{ "floating-ui-container": true, "floating-ui-container--active": open }}
+        ref={setFloatingEl}
       >
         <div
           class={classes}
@@ -1063,7 +1033,7 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
         >
           {this.renderListBoxOptions()}
         </ul>
-        {this.renderPopperContainer()}
+        {this.renderFloatingUIContainer()}
         <HiddenFormInputSlot component={this} />
       </Host>
     );
