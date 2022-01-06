@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Bug Fixes
 
 - **color-picker-swatch:** double the alpha value on the border when theme is light to make it a bit more pronounced ([#3806](https://github.com/Esri/calcite-components/issues/3806)) ([5322076](https://github.com/Esri/calcite-components/commit/53220760a00dcb196018a68dbb00b8f9252d7e66))
+- **input:** restrict typing more than two hyphens ([#3870](https://github.com/Esri/calcite-components/issues/3870)) ([85a0317](https://github.com/Esri/calcite-components/commit/85a0317707e0aa4eb53d98ae38bbc3c03f122029))
 - **tree-item:** toggle behavior ([#3865](https://github.com/Esri/calcite-components/issues/3865)) ([5b014e6](https://github.com/Esri/calcite-components/commit/5b014e680519c25d9041a0e806700aa96c1b1bb9))
 <!--@unreleased-section-end-->
 
