@@ -495,8 +495,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
       "Delete",
       "Enter",
       "Escape",
-      "Tab",
-      "-"
+      "Tab"
     ];
     if (event.altKey || event.ctrlKey || event.metaKey) {
       return;
@@ -522,6 +521,15 @@ export class CalciteInput implements LabelableComponent, FormComponent {
         return;
       }
       if (this.value && !/[eE]/.test(this.childNumberEl.value)) {
+        return;
+      }
+    }
+
+    if (event.key === "-") {
+      if (!this.value && !this.childNumberEl.value) {
+        return;
+      }
+      if (this.value && this.childNumberEl.value.split("-").length <= 2) {
         return;
       }
     }
