@@ -75,6 +75,7 @@ export class CalciteDropdown {
   @Watch("maxItems")
   maxItemsHandler(): void {
     this.reposition();
+    this.setMaxScrollerHeight();
   }
 
   /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
