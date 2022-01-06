@@ -45,20 +45,25 @@ describe("calcite-tree-item", () => {
       { propertyName: "indeterminate", defaultValue: undefined }
     ]));
 
-  it("should expand/collapse children when the icon is clicked", async () => {
+  it("should expand/collapse children when the icon is clicked, but not select/deselect group", async () => {
     const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-tree lines id="parentTree" selection-mode="ancestors">
+        <calcite-tree-item id="firstItem">
+          <a href="#">Child 2</a>
 
-    await page.setContent(`<calcite-tree lines id="parentTree">
-      <calcite-tree-item id="firstItem">
-        <a href="#">Child 2</a>
+          <calcite-tree slot="children">
+            <calcite-tree-item>
+              <a href="http://www.google.com">Grandchild 1</a>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+      </calcite-tree>
+    `);
 
-        <calcite-tree slot="children">
-          <calcite-tree-item>
-            <a href="http://www.google.com">Grandchild 1</a>
-          </calcite-tree-item>
-        </calcite-tree>
-      </calcite-tree-item>
-    </calcite-tree>`);
+    const container = await page.find(`calcite-tree-item >>> .node-container`);
+    const checkbox = await container.find(`label > calcite-checkbox`);
+    expect(checkbox).not.toHaveAttribute("checked");
 
     const icon = await page.find('#firstItem >>> [data-test-id="icon"]');
     await icon.click();
@@ -66,6 +71,7 @@ describe("calcite-tree-item", () => {
     const childContainer = await page.find('#firstItem >>> [data-test-id="calcite-tree-children"]');
     const isVisible = await childContainer.isVisible();
     expect(isVisible).toBe(true);
+    expect(checkbox).not.toHaveAttribute("checked");
   });
 
   it("should allow starting expanded", async () => {
