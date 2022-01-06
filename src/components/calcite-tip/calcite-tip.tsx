@@ -2,6 +2,11 @@ import { Component, Element, Event, EventEmitter, Prop, h, VNode, Fragment } fro
 import { CSS, ICONS, SLOTS, TEXT, HEADING_LEVEL } from "./resources";
 import { getSlotted } from "../../utils/dom";
 import { HeadingLevel, CalciteHeading, constrainHeadingLevel } from "../functional/CalciteHeading";
+import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 
 /**
  * @slot - A slot for adding text and a hyperlink.
@@ -12,7 +17,7 @@ import { HeadingLevel, CalciteHeading, constrainHeadingLevel } from "../function
   styleUrl: "./calcite-tip.scss",
   shadow: true
 })
-export class CalciteTip {
+export class CalciteTip implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -55,6 +60,20 @@ export class CalciteTip {
   // --------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteTipElement;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  // --------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    connectConditionalSlotComponent(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectConditionalSlotComponent(this);
+  }
 
   // --------------------------------------------------------------------------
   //

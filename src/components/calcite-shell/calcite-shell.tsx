@@ -1,6 +1,11 @@
 import { Component, Element, Prop, h, VNode, Fragment } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
 import { getSlotted } from "../../utils/dom";
+import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 
 /**
  * @slot - A slot for adding content to the shell. This content will appear between any leading and trailing panels added to the shell. (eg. a map)
@@ -15,7 +20,7 @@ import { getSlotted } from "../../utils/dom";
   styleUrl: "calcite-shell.scss",
   shadow: true
 })
-export class CalciteShell {
+export class CalciteShell implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -34,6 +39,20 @@ export class CalciteShell {
   // --------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteShellElement;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  // --------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    connectConditionalSlotComponent(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectConditionalSlotComponent(this);
+  }
 
   // --------------------------------------------------------------------------
   //

@@ -26,6 +26,11 @@ import { Scale } from "../interfaces";
 import { ModalBackgroundColor } from "./interfaces";
 import { TEXT, SLOTS, CSS, ICONS } from "./resources";
 import { createObserver } from "../../utils/observers";
+import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 
 const isFocusableExtended = (el: CalciteFocusableElement): boolean => {
   return isCalciteFocusable(el) || isFocusable(el);
@@ -48,7 +53,7 @@ const getFocusableElements = (el: HTMLElement | ShadowRoot): HTMLElement[] => {
   styleUrl: "calcite-modal.scss",
   shadow: true
 })
-export class CalciteModal {
+export class CalciteModal implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -119,11 +124,13 @@ export class CalciteModal {
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.updateFooterVisibility();
+    connectConditionalSlotComponent(this);
   }
 
   disconnectedCallback(): void {
     this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
+    disconnectConditionalSlotComponent(this);
   }
 
   render(): VNode {

@@ -15,6 +15,11 @@ import { getElementDir, getSlotted } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
 import { SLOTS as ACTION_MENU_SLOTS } from "../calcite-action-menu/resources";
+import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 
 /**
  * @slot - A slot for adding custom content.
@@ -31,7 +36,7 @@ import { SLOTS as ACTION_MENU_SLOTS } from "../calcite-action-menu/resources";
   styleUrl: "calcite-panel.scss",
   shadow: true
 })
-export class CalcitePanel {
+export class CalcitePanel implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -131,6 +136,20 @@ export class CalcitePanel {
   dismissButtonEl: HTMLCalciteActionElement;
 
   containerEl: HTMLElement;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  // --------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    connectConditionalSlotComponent(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectConditionalSlotComponent(this);
+  }
 
   // --------------------------------------------------------------------------
   //

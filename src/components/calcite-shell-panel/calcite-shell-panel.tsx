@@ -14,6 +14,11 @@ import { CSS, SLOTS, TEXT } from "./resources";
 import { Position, Scale } from "../interfaces";
 import { getSlotted, getElementDir } from "../../utils/dom";
 import { clamp } from "../../utils/math";
+import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 
 /**
  * @slot - A slot for adding content to the shell panel.
@@ -24,7 +29,7 @@ import { clamp } from "../../utils/math";
   styleUrl: "calcite-shell-panel.scss",
   shadow: true
 })
-export class CalciteShellPanel {
+export class CalciteShellPanel implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -79,7 +84,12 @@ export class CalciteShellPanel {
   //
   //--------------------------------------------------------------------------
 
+  connectedCallback(): void {
+    connectConditionalSlotComponent(this);
+  }
+
   disconnectedCallback(): void {
+    disconnectConditionalSlotComponent(this);
     this.disconnectSeparator();
   }
 
