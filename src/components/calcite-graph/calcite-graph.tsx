@@ -1,7 +1,8 @@
-import { Component, Element, Prop, h, VNode } from "@stencil/core";
+import { Component, Element, Prop, h, VNode, forceUpdate } from "@stencil/core";
 import { Point, ColorStop, DataSeries } from "./interfaces";
 import { guid } from "../../utils/guid";
 import { area, range, translate } from "./util";
+import { createObserver } from "../../utils/observers";
 
 @Component({
   tag: "calcite-graph",
@@ -52,6 +53,14 @@ export class CalciteGraph {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    this.resizeObserver?.observe(this.el);
+  }
+
+  disconnectedCallback(): void {
+    this.resizeObserver?.disconnect();
+  }
 
   render(): VNode {
     const { data, colorStops, el, highlightMax, highlightMin, min, max } = this;
@@ -166,4 +175,6 @@ export class CalciteGraph {
   //--------------------------------------------------------------------------
 
   private graphId = `calcite-graph-${guid()}`;
+
+  private resizeObserver = createObserver("resize", () => forceUpdate(this));
 }
