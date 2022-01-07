@@ -756,7 +756,7 @@ describe("calcite-dropdown", () => {
   describe("opens the dropdown with click, enter, or space", () => {
     it("opens when dropdown-trigger is a button", async () => {
       const page = await newE2EPage();
-      await page.setContent(html` 
+      await page.setContent(html`
         <calcite-dropdown>
           <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
           <calcite-dropdown-group selection-mode="single">
@@ -768,7 +768,7 @@ describe("calcite-dropdown", () => {
             </calcite-dropdown-item>
           </calcite-dropdown-group>
           </calcite-dropdown>
-        </calcite-dropdown> 
+        </calcite-dropdown>
       `);
       const element = await page.find("calcite-dropdown");
       const trigger = await element.find("calcite-button[slot='dropdown-trigger']");
@@ -794,9 +794,9 @@ describe("calcite-dropdown", () => {
 
     it("opens when dropdown-trigger is an action", async () => {
       const page = await newE2EPage();
-      await page.setContent(html` 
+      await page.setContent(html`
         <calcite-dropdown>
-          <calcite-action slot="dropdown-trigger">Open dropdown</calcite-button>
+          <calcite-action slot="dropdown-trigger">Open dropdown</calcite-action>
           <calcite-dropdown-group selection-mode="single">
             <calcite-dropdown-item id="item-1">
               Dropdown Item Content
@@ -806,7 +806,7 @@ describe("calcite-dropdown", () => {
             </calcite-dropdown-item>
           </calcite-dropdown-group>
           </calcite-dropdown>
-        </calcite-dropdown> 
+        </calcite-dropdown>
       `);
       const element = await page.find("calcite-dropdown");
       const trigger = await element.find("calcite-action[slot='dropdown-trigger'] >>> button");
