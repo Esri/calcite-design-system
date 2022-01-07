@@ -30,11 +30,11 @@
   }
 
   .frame--advancing {
-    animation: calcite-frame-advance $transition;
+    animation: calcite-frame-advance var(--calcite-animation-timing);
   }
 
   .frame--retreating {
-    animation: calcite-frame-retreat $transition;
+    animation: calcite-frame-retreat var(--calcite-animation-timing);
   }
 
   @keyframes calcite-frame-advance {
