@@ -10,10 +10,12 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Features
 
 - **alert:** add support for alert position ([#3856](https://github.com/Esri/calcite-components/issues/3856)) ([0c6b86f](https://github.com/Esri/calcite-components/commit/0c6b86f456a1a9ff6cc97a5202208a4878fbb7a9))
+- **date-picker:** add support for Bulgaria locale ([#3873](https://github.com/Esri/calcite-components/issues/3873)) ([9396a82](https://github.com/Esri/calcite-components/commit/9396a82266e13c82406a5b32833c1e5283e556cf)), closes [#3602](https://github.com/Esri/calcite-components/issues/3602)
 
 ### Bug Fixes
 
 - **color-picker-swatch:** double the alpha value on the border when theme is light to make it a bit more pronounced ([#3806](https://github.com/Esri/calcite-components/issues/3806)) ([5322076](https://github.com/Esri/calcite-components/commit/53220760a00dcb196018a68dbb00b8f9252d7e66))
+- **dropdown:** exclude calcite action from keyDownHandler ([#3857](https://github.com/Esri/calcite-components/issues/3857)) ([700ce16](https://github.com/Esri/calcite-components/commit/700ce16625f99f25edad7de354ac3b19102d6353))
 - **input:** restrict typing more than two hyphens ([#3870](https://github.com/Esri/calcite-components/issues/3870)) ([85a0317](https://github.com/Esri/calcite-components/commit/85a0317707e0aa4eb53d98ae38bbc3c03f122029))
 - **tree-item:** toggle behavior ([#3865](https://github.com/Esri/calcite-components/issues/3865)) ([5b014e6](https://github.com/Esri/calcite-components/commit/5b014e680519c25d9041a0e806700aa96c1b1bb9))
 <!--@unreleased-section-end-->
