@@ -123,9 +123,12 @@ describe("dom", () => {
         </h2>
         <h2 slot=${testSlotName}><span>😂</span></h2>
         <h3 slot=${testSlotName2}><span>😂</span></h3>
-        <div><p>🙂</p></div>
+        <div id="default-slot-el"><p>🙂</p></div>
       </slot-test>
     `;
+
+      const assignedSlot = document.querySelector("slot-test").shadowRoot.querySelector(`slot:not([name])`);
+      (document.getElementById("default-slot-el") as any).assignedSlot = assignedSlot;
     });
 
     describe("single slotted", () => {
