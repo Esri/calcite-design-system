@@ -630,6 +630,7 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
 
     if (!this.range) {
       this.value = dateToISO(date);
+      this.calciteDatePickerChange.emit(date);
       return;
     }
 
