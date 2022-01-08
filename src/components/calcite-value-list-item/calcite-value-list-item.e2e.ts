@@ -1,5 +1,5 @@
-import { CSS as PICK_LIST_ITEM_CSS } from "../calcite-pick-list-item/resources";
-import { accessible, focusable, renders } from "../../tests/commonTests";
+import { CSS as PICK_LIST_ITEM_CSS, SLOTS } from "../calcite-pick-list-item/resources";
+import { accessible, focusable, renders, slots } from "../../tests/commonTests";
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../tests/utils";
 
@@ -25,6 +25,8 @@ describe("calcite-value-list-item", () => {
       </calcite-value-list>
     `);
   });
+
+  it("has slots", () => slots("calcite-value-list-item", SLOTS));
 
   it("is focusable", async () => focusable("calcite-value-list-item"));
 
@@ -124,31 +126,5 @@ describe("calcite-value-list-item", () => {
     await queryWrappedPickListPart(page, `.${PICK_LIST_ITEM_CSS.remove}`, "click");
 
     expect(removeEventSpy).toHaveReceivedEventTimes(1);
-  });
-
-  it("supports adding start-actions", async () => {
-    const page = await newE2EPage({
-      html: `
-      <calcite-value-list-item label="test" description="example">
-        <calcite-action text="test" slot="actions-start"></calcite-action>
-      </calcite-value-list-item>`
-    });
-
-    const actionsNodeStart = await queryWrappedPickListPart(page, `.${PICK_LIST_ITEM_CSS.actionsStart}`);
-
-    expect(actionsNodeStart).not.toBeNull();
-  });
-
-  it("supports adding end-actions", async () => {
-    const page = await newE2EPage({
-      html: `
-      <calcite-value-list-item label="test" description="example">
-        <calcite-action text="test" slot="actions-end"></calcite-action>
-      </calcite-value-list-item>`
-    });
-
-    const actionsNodeEnd = await queryWrappedPickListPart(page, `.${PICK_LIST_ITEM_CSS.actionsEnd}`);
-
-    expect(actionsNodeEnd).not.toBeNull();
   });
 });

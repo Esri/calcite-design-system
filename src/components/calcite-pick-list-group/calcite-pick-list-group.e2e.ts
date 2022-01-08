@@ -1,7 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS } from "./resources";
-import { accessible, defaults, renders } from "../../tests/commonTests";
+import { accessible, defaults, renders, slots } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
+import { SLOTS } from "../calcite-action-bar/resources";
 
 describe("calcite-pick-list-group", () => {
   it("renders", async () => renders("calcite-pick-list-group", { display: "block" }));
@@ -24,6 +25,8 @@ describe("calcite-pick-list-group", () => {
         defaultValue: undefined
       }
     ]));
+
+  it("has slots", () => slots("calcite-pick-list-group", SLOTS));
 
   it("should render", async () => {
     const page = await newE2EPage();
