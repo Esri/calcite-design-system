@@ -190,30 +190,19 @@ export async function slots(componentTagOrHTML: TagOrHTML, slots: Record<string,
   const allSlotsAssigned = await page.$eval(
     tag,
     async (component, slotNames: string[]) => {
-      slotNames.forEach((slot) => {
-        const el = document.createElement("div");
+      for (let i = 0; i < slotNames.length; i++) {
+        const slot = slotNames[i];
+        const el = document.createElement("div"); // slotting a <div> will suffice for our purposes
         el.classList.add("slotted");
         el.slot = slot;
 
         component.appendChild(el);
-      });
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+      }
 
-      // we do this for conditionally-rendered slots since slotting after initialization does not trigger a render phase
-
-      const html = component.outerHTML.replace(/\"/g, `'`);
-      component.remove();
-
-      const parent = document.createElement("div");
-      document.body.append(parent);
-      parent.innerHTML = html;
-
-      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-
-      const allSlotsAssigned = Array.from(parent.getElementsByClassName("slotted"))
+      const allSlotsAssigned = Array.from(document.getElementsByClassName("slotted"))
         .map((slotted) => slotted.assignedSlot)
         .every((assignedSlot) => !!assignedSlot);
-
-      parent.remove();
 
       return allSlotsAssigned;
     },
