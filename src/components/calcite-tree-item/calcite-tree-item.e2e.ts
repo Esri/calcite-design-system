@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, renders, defaults } from "../../tests/commonTests";
+import { html } from "../../tests/utils";
 
 describe("calcite-tree-item", () => {
   it("renders", async () => renders("calcite-tree-item", { visible: false, display: "block" }));
@@ -44,20 +45,24 @@ describe("calcite-tree-item", () => {
       { propertyName: "indeterminate", defaultValue: undefined }
     ]));
 
-  it("should expand/collapse children when the icon is clicked", async () => {
+  it("should expand/collapse children when the icon is clicked, but not select/deselect group", async () => {
     const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-tree lines id="parentTree" selection-mode="ancestors">
+        <calcite-tree-item id="firstItem">
+          <a href="#">Child 2</a>
 
-    await page.setContent(`<calcite-tree lines id="parentTree">
-      <calcite-tree-item id="firstItem">
-        <a href="#">Child 2</a>
+          <calcite-tree slot="children">
+            <calcite-tree-item>
+              <a href="http://www.google.com">Grandchild 1</a>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+      </calcite-tree>
+    `);
 
-        <calcite-tree slot="children">
-          <calcite-tree-item>
-            <a href="http://www.google.com">Grandchild 1</a>
-          </calcite-tree-item>
-        </calcite-tree>
-      </calcite-tree-item>
-    </calcite-tree>`);
+    const item = await page.find("calcite-tree-item");
+    expect(item).not.toHaveAttribute("checked");
 
     const icon = await page.find('#firstItem >>> [data-test-id="icon"]');
     await icon.click();
@@ -65,6 +70,7 @@ describe("calcite-tree-item", () => {
     const childContainer = await page.find('#firstItem >>> [data-test-id="calcite-tree-children"]');
     const isVisible = await childContainer.isVisible();
     expect(isVisible).toBe(true);
+    expect(item).not.toHaveAttribute("checked");
   });
 
   it("should allow starting expanded", async () => {
@@ -210,5 +216,77 @@ describe("calcite-tree-item", () => {
       expect(item).not.toHaveAttribute("calcite-hydrated-hidden");
       expect(item.tabIndex).toBe(0);
     });
+  });
+
+  it("clicking on node-container, label, or checkbox selects/deselects, but does not expand/collapse children", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-tree selection-mode="ancestors" scale="m">
+        <calcite-tree-item>
+          <span>Child 1</span>
+
+          <calcite-tree slot="children">
+            <calcite-tree-item>
+              <span>Grandchild 1</span>
+              <calcite-tree slot="children">
+                <calcite-tree-item>
+                  <span>Great Grandchild 1</span>
+                </calcite-tree-item>
+                <calcite-tree-item>
+                  <span>Great Grandchild 2</span>
+                </calcite-tree-item>
+                <calcite-tree-item>
+                  <span>Great Grandchild 3</span>
+                </calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+            <calcite-tree-item>
+              <span>Grandchild 2</span>
+            </calcite-tree-item>
+            <calcite-tree-item>
+              <span>Grandchild 3</span>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+
+        <calcite-tree-item>
+          <span>Child 2</span>
+        </calcite-tree-item>
+        <calcite-tree-item>
+          <span>Child 3</span>
+        </calcite-tree-item>
+      </calcite-tree>
+    `);
+    const container = await page.find("calcite-tree-item >>> .node-container");
+    const label = await container.find("label");
+    const checkbox = await label.find("calcite-checkbox");
+
+    const icon = await container.find(`[data-test-id="icon"]`);
+    await icon.click();
+
+    const childContainer = await page.find(`calcite-tree-item >>> [data-test-id="calcite-tree-children"]`);
+    const isVisible = await childContainer.isVisible();
+    expect(isVisible).toBe(true);
+
+    await container.click();
+    expect(checkbox).toHaveAttribute("checked");
+    expect(isVisible).toBe(true);
+    await container.click();
+    expect(checkbox).not.toHaveAttribute("checked");
+    expect(isVisible).toBe(true);
+
+    await label.click();
+    expect(checkbox).toHaveAttribute("checked");
+    expect(isVisible).toBe(true);
+    await label.click();
+    expect(checkbox).not.toHaveAttribute("checked");
+    expect(isVisible).toBe(true);
+
+    await checkbox.click();
+    expect(checkbox).toHaveAttribute("checked");
+    expect(isVisible).toBe(true);
+    await checkbox.click();
+    expect(checkbox).not.toHaveAttribute("checked");
+    expect(isVisible).toBe(true);
   });
 });

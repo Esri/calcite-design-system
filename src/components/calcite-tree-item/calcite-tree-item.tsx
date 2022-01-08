@@ -224,7 +224,8 @@ export class CalciteTreeItem {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click") onClick(e: Event): void {
+  @Listen("click")
+  onClick(e: Event): void {
     // Solve for if the item is clicked somewhere outside the slotted anchor.
     // Anchor is triggered anywhere you click
     const [link] = filterDirectChildren<HTMLAnchorElement>(this.el, "a");
@@ -232,7 +233,6 @@ export class CalciteTreeItem {
       const target = link.target === "" ? "_self" : link.target;
       window.open(link.href, target);
     }
-    this.expanded = !this.expanded;
     this.calciteTreeItemSelect.emit({
       modifyCurrentSelection:
         (e as any).shiftKey || this.selectionMode === TreeSelectionMode.Ancestors,

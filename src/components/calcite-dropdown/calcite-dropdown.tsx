@@ -407,18 +407,21 @@ export class CalciteDropdown {
       this.triggers.includes(target) ||
       this.triggers.some((trigger) => trigger.contains(target))
     ) {
-      if (target.nodeName !== "BUTTON" && target.nodeName !== "CALCITE-BUTTON") {
-        switch (key) {
-          case " ":
-          case "Enter":
-            this.openCalciteDropdown();
-            break;
-          case "Escape":
-            this.closeCalciteDropdown();
-            break;
+      const ignoredNodeTypes = ["BUTTON", "CALCITE-BUTTON", "CALCITE-ACTION"];
+      if (ignoredNodeTypes.includes(target.nodeName)) {
+        if (this.active && (key === "Escape" || (e.shiftKey && key === "Tab"))) {
+          this.closeCalciteDropdown();
         }
-      } else if (this.active && (key === "Escape" || (e.shiftKey && key === "Tab"))) {
-        this.closeCalciteDropdown();
+        return;
+      }
+      switch (key) {
+        case " ":
+        case "Enter":
+          this.openCalciteDropdown();
+          break;
+        case "Escape":
+          this.closeCalciteDropdown();
+          break;
       }
     }
   };
