@@ -20,13 +20,7 @@ type ObserverCallbackType<T extends ObserverType> = T extends "mutation"
   ? ResizeObserverCallback
   : never;
 
-type ObserverOptions<T extends ObserverType> = T extends "mutation"
-  ? MutationObserverInit
-  : T extends "intersection"
-  ? IntersectionObserverInit
-  : T extends "resize"
-  ? never
-  : never;
+type ObserverOptions<T extends ObserverType> = T extends "intersection" ? IntersectionObserverInit : never;
 
 type ObserverClassType<T extends ObserverType> = T extends "mutation"
   ? typeof ExtendedMutationObserver
