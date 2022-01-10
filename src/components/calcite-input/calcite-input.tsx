@@ -200,7 +200,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
   @Watch("value")
   valueWatcher(newValue: string): void {
     if (newValue == null) {
-      this.value = "";
+      this.setValue({ value: "" });
       return;
     }
 
@@ -209,8 +209,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
       this.localizedValue !== localizeNumberString(newValue, this.locale)
     ) {
       this.setLocalizedValue(newValue);
-    }
-    if (this.childEl && this.childEl.value !== newValue) {
+    } else if (this.childEl && this.childEl.value !== newValue) {
       this.childEl.value = newValue;
     }
   }
@@ -291,7 +290,10 @@ export class CalciteInput implements LabelableComponent, FormComponent {
       if (isValidNumber(this.value)) {
         this.localizedValue = localizeNumberString(this.value, this.locale, this.groupSeparator);
       } else {
-        this.value = "";
+        this.setValue({
+          origin: "loading",
+          value: ""
+        });
       }
     }
     connectLabel(this);
@@ -317,7 +319,9 @@ export class CalciteInput implements LabelableComponent, FormComponent {
 
   componentShouldUpdate(newValue: any, oldValue: any, property: string): boolean {
     if (this.type === "number" && property === "value" && newValue && !isValidNumber(newValue)) {
-      this.value = oldValue;
+      this.setValue({
+        value: oldValue
+      });
       return false;
     }
     return true;
@@ -410,11 +414,19 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     const inputValPlaces = decimalPlaces(inputVal);
     const inputStepPlaces = decimalPlaces(inputStep);
 
-    this.setValue(finalValue.toFixed(Math.max(inputValPlaces, inputStepPlaces)), nativeEvent, true);
+    this.setValue({
+      committing: true,
+      nativeEvent,
+      value: finalValue.toFixed(Math.max(inputValPlaces, inputStepPlaces))
+    });
   }
 
   private clearInputValue = (nativeEvent: KeyboardEvent | MouseEvent): void => {
-    this.setValue("", nativeEvent, true);
+    this.setValue({
+      committing: true,
+      nativeEvent,
+      value: ""
+    });
   };
 
   private inputBlurHandler = () => {
@@ -447,7 +459,10 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     if (this.disabled || this.readOnly) {
       return;
     }
-    this.setValue((nativeEvent.target as HTMLInputElement).value, nativeEvent);
+    this.setValue({
+      nativeEvent,
+      value: (nativeEvent.target as HTMLInputElement).value
+    });
   };
 
   private inputKeyDownHandler = (event: KeyboardEvent): void => {
@@ -469,10 +484,16 @@ export class CalciteInput implements LabelableComponent, FormComponent {
       if (!isValidNumber(delocalizedValue)) {
         nativeEvent.preventDefault();
       }
-      this.setValue(parseNumberString(delocalizedValue), nativeEvent);
+      this.setValue({
+        nativeEvent,
+        value: parseNumberString(delocalizedValue)
+      });
       this.childNumberEl.value = this.localizedValue;
     } else {
-      this.setValue(delocalizeNumberString(value, this.locale), nativeEvent);
+      this.setValue({
+        nativeEvent,
+        value: delocalizeNumberString(value, this.locale)
+      });
     }
   };
 
@@ -557,7 +578,9 @@ export class CalciteInput implements LabelableComponent, FormComponent {
   };
 
   onFormReset(): void {
-    this.setValue(this.defaultValue);
+    this.setValue({
+      value: this.defaultValue
+    });
   }
 
   syncHiddenFormInput(input: HTMLInputElement): void {
@@ -601,12 +624,18 @@ export class CalciteInput implements LabelableComponent, FormComponent {
 
   private setLocalizedValue = (value: string): void => {
     this.localizedValue = localizeNumberString(value, this.locale, this.groupSeparator);
-    if (this.childNumberEl.value !== this.localizedValue) {
-      this.childNumberEl.value = this.localizedValue;
-    }
   };
 
-  private setValue = (value: string, nativeEvent?: any, committing = false): void => {
+  private setValue = ({
+    committing = false,
+    nativeEvent,
+    value
+  }: {
+    committing?: boolean;
+    nativeEvent?: any;
+    origin?: "input" | "external" | "loading";
+    value: string;
+  }): void => {
     const previousValue = this.value;
 
     if (this.type === "number") {
