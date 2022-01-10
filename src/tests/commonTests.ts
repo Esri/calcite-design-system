@@ -187,7 +187,7 @@ export async function slots(componentTagOrHTML: TagOrHTML, slots: Record<string,
   const tag = getTag(componentTagOrHTML);
   const slotNames = Array.isArray(slots) ? slots : Object.values(slots);
 
-  const allSlotsAssigned = await page.$eval(
+  await page.$eval(
     tag,
     async (component, slotNames: string[]) => {
       for (let i = 0; i < slotNames.length; i++) {
@@ -196,18 +196,19 @@ export async function slots(componentTagOrHTML: TagOrHTML, slots: Record<string,
         el.classList.add("slotted");
         el.slot = slot;
 
-        component.appendChild(el);
-        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+        component.append(el);
       }
-
-      const allSlotsAssigned = Array.from(document.getElementsByClassName("slotted"))
-        .map((slotted) => slotted.assignedSlot)
-        .every((assignedSlot) => !!assignedSlot);
-
-      return allSlotsAssigned;
     },
     slotNames
   );
+
+  await page.waitForChanges();
+
+  const allSlotsAssigned = await page.evaluate(() => {
+    return Array.from(document.getElementsByClassName("slotted"))
+      .map((slotted) => slotted.assignedSlot)
+      .every((assignedSlot) => !!assignedSlot);
+  });
 
   expect(allSlotsAssigned).toBe(true);
 }
