@@ -180,7 +180,7 @@ export function getSlotted<T extends Element = Element>(
   slotName?: string | string[] | GetSlottedOptions,
   options?: GetSlottedOptions
 ): (T | null) | T[] {
-  if (!Array.isArray(slotName) && slotName && typeof slotName !== "string") {
+  if (slotName && !Array.isArray(slotName) && typeof slotName !== "string") {
     options = slotName;
     slotName = null;
   }
