@@ -18,7 +18,6 @@ module.exports = {
   },
   sauce: {
     username: process.env.SAUCE_ACCESS_NAME,
-    accessKey: process.env.SAUCE_ACCESS_KEY,
-    maxConcurrent: 10
+    accessKey: process.env.SAUCE_ACCESS_KEY
   }
 };
