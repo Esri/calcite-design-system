@@ -160,7 +160,7 @@ export class CalciteBlock implements ConditionalSlotComponent {
     const hasIcon = getSlotted(el, SLOTS.icon) || statusIcon;
 
     const iconEl = !statusIcon ? (
-      <slot name={SLOTS.icon} />
+      <slot key="icon-slot" name={SLOTS.icon} />
     ) : (
       <calcite-icon
         class={{

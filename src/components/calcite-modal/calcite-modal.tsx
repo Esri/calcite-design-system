@@ -170,7 +170,7 @@ export class CalciteModal implements ConditionalSlotComponent {
 
   renderFooter(): VNode {
     return this.hasFooter ? (
-      <div class={CSS.footer}>
+      <div class={CSS.footer} key="footer">
         <span class={CSS.back}>
           <slot name={SLOTS.back} />
         </span>
@@ -189,6 +189,7 @@ export class CalciteModal implements ConditionalSlotComponent {
       <button
         aria-label={this.intlClose}
         class={CSS.close}
+        key="button"
         onClick={this.close}
         ref={(el) => (this.closeButtonEl = el)}
         title={this.intlClose}

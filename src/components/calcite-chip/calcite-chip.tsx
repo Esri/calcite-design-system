@@ -121,7 +121,7 @@ export class CalciteChip implements ConditionalSlotComponent {
     const hasChipImage = getSlotted(el, SLOTS.image);
 
     return hasChipImage ? (
-      <div class={CSS.chipImageContainer}>
+      <div class={CSS.chipImageContainer} key="image">
         <slot name={SLOTS.image} />
       </div>
     ) : null;

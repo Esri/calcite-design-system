@@ -145,7 +145,7 @@ export class CalciteShellPanel implements ConditionalSlotComponent {
     const hasHeader = getSlotted(el, SLOTS.header);
 
     return hasHeader ? (
-      <div class={CSS.contentHeader}>
+      <div class={CSS.contentHeader} key="header">
         <slot name={SLOTS.header} />
       </div>
     ) : null;
@@ -170,6 +170,7 @@ export class CalciteShellPanel implements ConditionalSlotComponent {
       <div
         class={{ [CSS.content]: true, [CSS.contentDetached]: detached }}
         hidden={collapsed}
+        key="content"
         ref={this.storeContentEl}
         style={allowResizing && contentWidth ? { width: `${contentWidth}px` } : null}
       >
@@ -188,6 +189,7 @@ export class CalciteShellPanel implements ConditionalSlotComponent {
         aria-valuemin={contentWidthMin}
         aria-valuenow={contentWidth ?? initialContentWidth}
         class={CSS.separator}
+        key="separator"
         onKeyDown={this.separatorKeyDown}
         ref={this.connectSeparator}
         role="separator"
@@ -196,7 +198,7 @@ export class CalciteShellPanel implements ConditionalSlotComponent {
       />
     ) : null;
 
-    const actionBarNode = <slot name={SLOTS.actionBar} />;
+    const actionBarNode = <slot key="action-bar" name={SLOTS.actionBar} />;
 
     const mainNodes = [actionBarNode, contentNode, separatorNode];
 

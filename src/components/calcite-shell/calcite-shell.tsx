@@ -63,7 +63,7 @@ export class CalciteShell implements ConditionalSlotComponent {
   renderHeader(): VNode {
     const hasHeader = !!getSlotted(this.el, SLOTS.header);
 
-    return hasHeader ? <slot name={SLOTS.header} /> : null;
+    return hasHeader ? <slot key="header" name={SLOTS.header} /> : null;
   }
 
   renderContent(): VNode[] {
@@ -93,7 +93,7 @@ export class CalciteShell implements ConditionalSlotComponent {
     const hasFooter = !!getSlotted(this.el, SLOTS.footer);
 
     return hasFooter ? (
-      <div class={CSS.footer}>
+      <div class={CSS.footer} key="footer">
         <slot name={SLOTS.footer} />
       </div>
     ) : null;

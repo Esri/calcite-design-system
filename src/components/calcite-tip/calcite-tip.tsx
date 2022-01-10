@@ -139,7 +139,7 @@ export class CalciteTip implements ConditionalSlotComponent {
     const { el } = this;
 
     return getSlotted(el, SLOTS.thumbnail) ? (
-      <div class={CSS.imageFrame}>
+      <div class={CSS.imageFrame} key="thumbnail">
         <slot name={SLOTS.thumbnail} />
       </div>
     ) : null;

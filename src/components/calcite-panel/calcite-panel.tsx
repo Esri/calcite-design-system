@@ -337,6 +337,7 @@ export class CalcitePanel implements ConditionalSlotComponent {
     return hasMenuItems ? (
       <calcite-action-menu
         flipPlacements={["top", "bottom"]}
+        key="menu"
         label={intlOptions || TEXT.options}
         open={menuOpen}
         placement="bottom-end"

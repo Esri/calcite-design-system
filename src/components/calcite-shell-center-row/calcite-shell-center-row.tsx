@@ -79,7 +79,7 @@ export class CalciteShellCenterRow implements ConditionalSlotComponent {
     const actionBar = getSlotted<HTMLCalciteActionBarElement>(el, SLOTS.actionBar);
 
     const actionBarNode = actionBar ? (
-      <div class={CSS.actionBarContainer}>
+      <div class={CSS.actionBarContainer} key="action-bar">
         <slot name={SLOTS.actionBar} />
       </div>
     ) : null;
