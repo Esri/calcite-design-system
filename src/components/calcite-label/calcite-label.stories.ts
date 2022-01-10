@@ -82,6 +82,17 @@ export const WrappingComponentsOtherThanInput = (): string => html`
 
 WrappingComponentsOtherThanInput.storyName = "Wrapping components other than input";
 
+export const WithDisableVerticleSpacing = (): string => html` <form style="display: grid; row-gap: 24px; padding: 24px">
+  <calcite-label layout="inline" disable-vertical-spacing>
+    Label one
+    <calcite-input />
+  </calcite-label>
+  <calcite-label layout="inline" disable-vertical-spacing>
+    Label two
+    <calcite-input />
+  </calcite-label>
+</form>`;
+
 export const DarkTheme = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;" class="calcite-theme-dark">
     <calcite-label class="calcite-theme-dark">

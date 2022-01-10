@@ -86,3 +86,9 @@
     @apply gap-0 m-0;
   }
 }
+
+:host([disable-vertical-spacing]) {
+  .container {
+    @apply mb-0;
+  }
+}
