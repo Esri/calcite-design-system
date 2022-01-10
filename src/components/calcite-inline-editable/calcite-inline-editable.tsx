@@ -246,7 +246,7 @@ export class CalciteInlineEditable implements LabelableComponent {
   }
 
   updateSlottedInput = (): void => {
-    const inputElement: HTMLCalciteInputElement = getSlotted(this.el, null, {
+    const inputElement: HTMLCalciteInputElement = getSlotted(this.el, {
       matches: "calcite-input"
     });
 
