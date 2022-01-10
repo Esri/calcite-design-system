@@ -159,10 +159,11 @@ export async function focusElement(el: CalciteFocusableElement): Promise<void> {
 interface GetSlottedOptions {
   all?: boolean;
   direct?: boolean;
+  matches?: string;
   selector?: string;
 }
 
-const defaultSlotSelector = "> :not([slot])";
+const defaultSlotSelector = ":not([slot])";
 
 export function getSlotted<T extends Element = Element>(
   element: Element,
@@ -179,7 +180,7 @@ export function getSlotted<T extends Element = Element>(
   slotName?: string | string[] | GetSlottedOptions,
   options?: GetSlottedOptions
 ): (T | null) | T[] {
-  if (!Array.isArray(slotName) && typeof slotName !== "string") {
+  if (!Array.isArray(slotName) && slotName && typeof slotName !== "string") {
     options = slotName;
     slotName = null;
   }
@@ -204,6 +205,8 @@ function queryMultiple<T extends Element = Element>(
 ): T[] {
   let matches = Array.from(element.querySelectorAll<T>(slotSelector));
   matches = options && options.direct === false ? matches : matches.filter((el) => el.parentElement === element);
+
+  matches = options?.matches ? matches.filter((el) => el?.matches(options.matches)) : matches;
 
   if (slotSelector === defaultSlotSelector) {
     matches = matches.filter((match) => match?.assignedSlot);
@@ -230,6 +233,8 @@ function querySingle<T extends Element = Element>(
   }
 
   match = options && options.direct === false ? match : match?.parentElement === element ? match : null;
+
+  match = options?.matches ? (match?.matches(options.matches) ? match : null) : match;
 
   const selector = options?.selector;
   return selector ? match?.querySelector<T>(selector) : match;

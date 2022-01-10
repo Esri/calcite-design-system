@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { DropdownPlacement, ItemKeyboardEvent } from "./interfaces";
 
-import { focusElement } from "../../utils/dom";
+import { focusElement, getSlotted } from "../../utils/dom";
 import {
   createPopper,
   CSS as PopperCSS,
@@ -302,7 +302,7 @@ export class CalciteDropdown {
   private items: HTMLCalciteDropdownItemElement[] = [];
 
   /** trigger elements */
-  private triggers: HTMLSlotElement[];
+  private triggers: HTMLElement[];
 
   private popper: Popper;
 
@@ -325,9 +325,7 @@ export class CalciteDropdown {
   updateItems = (): void => {
     this.updateSelectedItems();
 
-    this.triggers = Array.from(
-      this.el.querySelectorAll("[slot=dropdown-trigger]")
-    ) as HTMLSlotElement[];
+    this.triggers = getSlotted(this.el, "dropdown-trigger", { all: true });
 
     this.items = Array.from(
       this.el.querySelectorAll<HTMLCalciteDropdownItemElement>("calcite-dropdown-item")

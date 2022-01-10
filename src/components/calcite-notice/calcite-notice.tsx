@@ -88,10 +88,6 @@ export class CalciteNotice {
     this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
   }
 
-  componentDidLoad(): void {
-    this.noticeLinkEl = this.el.querySelector("calcite-link") as HTMLCalciteLinkElement;
-  }
-
   render(): VNode {
     const { el } = this;
     const closeButton = (
@@ -150,11 +146,13 @@ export class CalciteNotice {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    if (!this.closeButton && !this.noticeLinkEl) {
+    const noticeLinkEl: HTMLCalciteLinkElement = getSlotted(this.el, { matches: "calcite-link" });
+
+    if (!this.closeButton && !noticeLinkEl) {
       return;
     }
-    if (this.noticeLinkEl) {
-      this.noticeLinkEl.setFocus();
+    if (noticeLinkEl) {
+      noticeLinkEl.setFocus();
     } else if (this.closeButton) {
       this.closeButton.focus();
     }
@@ -178,9 +176,6 @@ export class CalciteNotice {
 
   /** the close button element */
   private closeButton?: HTMLButtonElement;
-
-  /** the notice link child element  */
-  private noticeLinkEl?: HTMLCalciteLinkElement;
 
   /** the computed icon to render */
   private requestedIcon?: string;
