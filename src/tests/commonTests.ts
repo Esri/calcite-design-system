@@ -197,6 +197,7 @@ export async function slots(componentTagOrHTML: TagOrHTML, slots: Record<string,
         el.slot = slot;
 
         component.append(el);
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
       }
     },
     slotNames
