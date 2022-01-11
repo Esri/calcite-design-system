@@ -265,6 +265,11 @@ export class CalciteInput implements LabelableComponent, FormComponent {
 
   private nudgeNumberValueIntervalId;
 
+  private keysPressed = {
+    up: false,
+    down: false
+  };
+
   //--------------------------------------------------------------------------
   //
   //  State
@@ -480,10 +485,12 @@ export class CalciteInput implements LabelableComponent, FormComponent {
       return;
     }
     if (event.key === "ArrowUp") {
+      this.keysPressed.up = true;
       this.nudgeNumberValue("up", event);
       return;
     }
     if (event.key === "ArrowDown") {
+      this.keysPressed.down = true;
       this.nudgeNumberValue("down", event);
       return;
     }
@@ -548,15 +555,23 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     const inputMin = this.minString ? parseFloat(this.minString) : null;
     const valueNudgeDelayInMs = 100;
 
+    if (this.keysPressed.up && this.keysPressed.down) {
+      return;
+    }
     this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
 
+    if (this.nudgeNumberValueIntervalId) {
+      window.clearInterval(this.nudgeNumberValueIntervalId);
+    }
     let firstValueNudge = true;
     this.nudgeNumberValueIntervalId = window.setInterval(() => {
       if (firstValueNudge) {
         firstValueNudge = false;
         return;
       }
-
+      if (this.keysPressed.up && this.keysPressed.down) {
+        return;
+      }
       this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
     }, valueNudgeDelayInMs);
   };
@@ -645,7 +660,13 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     }
   };
 
-  private inputKeyUpHandler = (): void => {
+  private inputKeyUpHandler = (event): void => {
+    if (event.key === "ArrowUp") {
+      this.keysPressed.up = false;
+    }
+    if (event.key === "ArrowDown") {
+      this.keysPressed.down = false;
+    }
     window.clearInterval(this.nudgeNumberValueIntervalId);
   };
 
