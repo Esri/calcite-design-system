@@ -76,6 +76,7 @@ export class CalciteDropdown implements FloatingUIComponent {
   @Watch("maxItems")
   maxItemsHandler(): void {
     this.reposition();
+    this.setMaxScrollerHeight();
   }
 
   /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
@@ -133,6 +134,7 @@ export class CalciteDropdown implements FloatingUIComponent {
     this.mutationObserver?.disconnect();
     disconnectFloatingUI(this, this.floatingEl);
     disconnectFloatingUI(this, this.referenceEl);
+    this.resizeObserver?.disconnect();
   }
 
   render(): VNode {
@@ -166,7 +168,9 @@ export class CalciteDropdown implements FloatingUIComponent {
             onTransitionEnd={this.transitionEnd}
             ref={this.setScrollerEl}
           >
-            <slot />
+            <div hidden={!this.active}>
+              <slot />
+            </div>
           </div>
         </div>
       </Host>
@@ -182,10 +186,7 @@ export class CalciteDropdown implements FloatingUIComponent {
   /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
-    this.setMaxScrollerHeight();
-
     const { floatingEl, referenceEl, placement, overlayPositioning } = this;
-
     return positionFloatingUI({
       floatingEl,
       referenceEl,
@@ -318,6 +319,8 @@ export class CalciteDropdown implements FloatingUIComponent {
 
   mutationObserver = createObserver("mutation", () => this.updateItems());
 
+  resizeObserver = createObserver("resize", () => this.setMaxScrollerHeight());
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -339,15 +342,18 @@ export class CalciteDropdown implements FloatingUIComponent {
   };
 
   setMaxScrollerHeight = (): void => {
-    const { scrollerEl } = this;
+    const { active, scrollerEl } = this;
 
-    if (scrollerEl) {
-      const maxScrollerHeight = this.getMaxScrollerHeight();
-      scrollerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
+    if (!scrollerEl || !active) {
+      return;
     }
+
+    const maxScrollerHeight = this.getMaxScrollerHeight();
+    scrollerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
   };
 
   setScrollerEl = (scrollerEl: HTMLDivElement): void => {
+    this.resizeObserver.observe(scrollerEl);
     this.scrollerEl = scrollerEl;
   };
 
