@@ -1,0 +1,23 @@
+name: Research
+description: Request an investigation into a specific topic
+labels: ["research", "0 - new", "needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        - Please [check for existing issues](https://github.com/Esri/calcite-components/issues) to avoid duplicates. If someone has already opened an issue for what you are experiencing, please add a 👍 reaction to the existing issue instead of creating a new one. 
+        - For support, please check the [community forum](https://developers.arcgis.com/calcite-design-system/community/).
+  - type: textarea
+    id: background
+    attributes:
+      label: Background
+      description: What's the topic? What info do we already have?
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired Outcome
+      description: What additional information do we need about this topic?
+    validations:
+      required: true

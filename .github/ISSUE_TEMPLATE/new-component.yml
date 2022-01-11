@@ -1,0 +1,44 @@
+name: New Component
+description: Request for a new component to be added
+labels: ["new component", "0 - new", "needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        - Please [check for existing issues](https://github.com/Esri/calcite-components/issues) to avoid duplicates. If someone has already opened an issue for what you are experiencing, please add a 👍 reaction to the existing issue instead of creating a new one.
+        - For support, please check the [community forum](https://developers.arcgis.com/calcite-design-system/community/).
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Requested functionality, screenshots, etc.
+    validations:
+      required: true
+  - type: textarea
+    id: story
+    attributes:
+      label: User Stories
+      description: Use case, why this component should be added, etc.
+    validations:
+      required: true
+  - type: textarea
+    id: criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Requirements, desired new behavior, etc.
+    validations:
+      required: true
+  - type: textarea
+    id: info
+    attributes:
+      label: Relevant Info
+      description: Dependencies, blockers, helpful details, etc.
+    validations:
+      required: false
+  - type: textarea
+    id: details
+    attributes:
+      label: Helpful Details
+      description: Code snippet, link to a similar product, suggestions, etc.
+    validations:
+      required: false
