@@ -108,7 +108,7 @@ export class CalciteTree {
       event.relatedTarget === this.el || !this.el.contains(event.relatedTarget as HTMLElement);
 
     if (focusedFromRootOrOutsideTree) {
-      this.el.tabIndex = -1;
+      this.el.removeAttribute("tabindex");
     }
   }
 
