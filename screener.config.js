@@ -15,5 +15,9 @@ module.exports = {
   diffOptions: {
     minLayoutDimension: 1,
     minLayoutPosition: 1
+  },
+  sauce: {
+    username: process.env.SAUCE_ACCESS_NAME,
+    accessKey: process.env.SAUCE_ACCESS_KEY
   }
 };
