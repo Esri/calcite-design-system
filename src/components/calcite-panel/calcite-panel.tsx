@@ -282,7 +282,7 @@ export class CalcitePanel implements ConditionalSlotComponent {
    */
   renderHeaderSlottedContent(): VNode {
     return (
-      <div class={CSS.headerContent} key="header-content">
+      <div class={CSS.headerContent} key="slotted-header-content">
         <slot name={SLOTS.headerContent} />
       </div>
     );
@@ -381,29 +381,16 @@ export class CalcitePanel implements ConditionalSlotComponent {
     ) : null;
   }
 
-  /**
-   * Allows user to override the entire footer node.
-   */
-  renderFooterSlottedContent(): VNode {
+  renderFooterNode(): VNode {
     const { el } = this;
 
     const hasFooterSlottedContent = getSlotted(el, SLOTS.footer);
-
-    return hasFooterSlottedContent ? (
-      <footer class={CSS.footer}>
-        <slot name={SLOTS.footer} />
-      </footer>
-    ) : null;
-  }
-
-  renderFooterActions(): VNode {
-    const { el } = this;
-
     const hasFooterActions = getSlotted(el, SLOTS.footerActions);
 
-    return hasFooterActions ? (
-      <footer class={CSS.footer}>
-        <slot name={SLOTS.footerActions} />
+    return hasFooterSlottedContent || hasFooterActions ? (
+      <footer class={CSS.footer} key="footer">
+        {hasFooterSlottedContent ? <slot key="footer-slot" name={SLOTS.footer} /> : null}
+        {hasFooterActions ? <slot key="footer-actions-slot" name={SLOTS.footerActions} /> : null}
       </footer>
     ) : null;
   }
@@ -456,7 +443,7 @@ export class CalcitePanel implements ConditionalSlotComponent {
       >
         {this.renderHeaderNode()}
         {this.renderContent()}
-        {this.renderFooterSlottedContent() || this.renderFooterActions()}
+        {this.renderFooterNode()}
       </article>
     );
 

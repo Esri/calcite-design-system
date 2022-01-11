@@ -6,7 +6,7 @@ import { SLOTS } from "./resources";
 describe("calcite-modal properties", () => {
   it("renders", () => renders("calcite-modal", { display: "flex", visible: false }));
 
-  it("has slots", () => slots("calcite-action-bar", SLOTS));
+  it("has slots", () => slots("calcite-modal", SLOTS));
 
   it("adds localized strings set via intl-* props", async () => {
     const page = await newE2EPage();
