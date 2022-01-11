@@ -3,9 +3,7 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-<!--@unreleased-section-start-->
-
-## Unreleased
+## [1.0.0-beta.74](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.73...v1.0.0-beta.74) (2022-01-11)
 
 ### Features
 
@@ -19,8 +17,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **date-picker:** ensure change event gets emitted on user interaction ([#3833](https://github.com/Esri/calcite-components/issues/3833)) ([92babf5](https://github.com/Esri/calcite-components/commit/92babf587c6e4ea85e00b6ccdabd916f7cfb6cf8)), closes [#3659](https://github.com/Esri/calcite-components/issues/3659)
 - **dropdown:** exclude calcite action from keyDownHandler ([#3857](https://github.com/Esri/calcite-components/issues/3857)) ([700ce16](https://github.com/Esri/calcite-components/commit/700ce16625f99f25edad7de354ac3b19102d6353))
 - **input:** restrict typing more than two hyphens ([#3870](https://github.com/Esri/calcite-components/issues/3870)) ([85a0317](https://github.com/Esri/calcite-components/commit/85a0317707e0aa4eb53d98ae38bbc3c03f122029))
+- **radio-button:** show selection in high contrast ([#3875](https://github.com/Esri/calcite-components/issues/3875)) ([#3886](https://github.com/Esri/calcite-components/issues/3886)) ([8b5e752](https://github.com/Esri/calcite-components/commit/8b5e752712479440796317326fd4c6e04bab28a0))
 - **tree-item:** toggle behavior ([#3865](https://github.com/Esri/calcite-components/issues/3865)) ([5b014e6](https://github.com/Esri/calcite-components/commit/5b014e680519c25d9041a0e806700aa96c1b1bb9))
-<!--@unreleased-section-end-->
 
 ## [1.0.0-beta.73](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.72...v1.0.0-beta.73) (2022-01-05)
 
