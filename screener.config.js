@@ -9,7 +9,8 @@ module.exports = {
   browsers: [
     {
       browserName: "chrome",
-      version: "87.0"
+      version: "87.0",
+      platform: "Windows 10"
     }
   ],
   diffOptions: {
