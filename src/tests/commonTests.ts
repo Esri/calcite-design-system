@@ -205,13 +205,13 @@ export async function slots(componentTagOrHTML: TagOrHTML, slots: Record<string,
 
   await page.waitForChanges();
 
-  const allSlotsAssigned = await page.evaluate(() => {
-    return Array.from(document.getElementsByClassName("slotted"))
-      .map((slotted) => slotted.assignedSlot)
-      .every((assignedSlot) => !!assignedSlot);
-  });
+  const slotted = await page.evaluate(() =>
+    Array.from(document.getElementsByClassName("slotted"))
+      .filter((slotted) => slotted.assignedSlot)
+      .map((slotted) => slotted.slot)
+  );
 
-  expect(allSlotsAssigned).toBe(true);
+  expect(slotNames).toEqual(slotted);
 }
 
 async function assertLabelable({
