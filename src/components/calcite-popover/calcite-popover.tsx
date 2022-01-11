@@ -124,6 +124,11 @@ export class CalcitePopover implements FloatingUIComponent {
   /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
+  @Watch("overlayPositioning")
+  overlayPositioningHandler(): void {
+    this.reposition();
+  }
+
   /**
    * Determines where the component will be positioned relative to the referenceElement.
    */

@@ -36,7 +36,8 @@ type VariationPlacement =
   | "left-leading"
   | "left-trailing";
 
-export type LogicalPlacement = "auto" | Placement | VariationPlacement;
+type AutoPlacement = "auto" | "auto-start" | "auto-end";
+export type LogicalPlacement = AutoPlacement | Placement | VariationPlacement;
 export type EffectivePlacement = Placement;
 
 export interface FloatingUIComponent {
@@ -61,7 +62,7 @@ export const FloatingCSS = {
   animationActive: "calcite-floating-ui-anim--active"
 };
 
-function getEffectivePlacement(floatingEl: HTMLElement, placement: LogicalPlacement): EffectivePlacement {
+export function getEffectivePlacement(floatingEl: HTMLElement, placement: LogicalPlacement): EffectivePlacement {
   const placements = ["left", "right"];
   const variations = ["start", "end"];
 
@@ -112,8 +113,10 @@ function getMiddleware({
       })
     ];
 
-    if (placement === "auto") {
-      middleware.push(autoPlacement());
+    if (placement === "auto" || placement === "auto-start" || placement === "auto-end") {
+      middleware.push(
+        autoPlacement({ alignment: placement === "auto-start" ? "start" : placement === "auto-end" ? "end" : null })
+      );
     } else if (!disableFlip) {
       middleware.push(flip(flipPlacements ? { fallbackPlacements: flipPlacements } : {}));
     }
@@ -227,6 +230,8 @@ export function connectFloatingUI(component: FloatingUIComponent, el: HTMLElemen
     el.addEventListener("scroll", boundReposition);
     el.addEventListener("resize", boundReposition);
   });
+
+  boundReposition();
 }
 
 /**
@@ -248,7 +253,7 @@ export function disconnectFloatingUI(component: FloatingUIComponent, el: HTMLEle
   floatingElMap.delete(el);
 }
 
-function hypotenuse(sideA: number, sideB: number): number {
+export function hypotenuse(sideA: number, sideB: number): number {
   return Math.sqrt(Math.pow(sideA, 2) + Math.pow(sideB, 2));
 }
 

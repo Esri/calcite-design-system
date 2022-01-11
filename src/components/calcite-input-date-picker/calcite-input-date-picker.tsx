@@ -28,22 +28,24 @@ import { TEXT } from "../calcite-date-picker/resources";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import {
-  createPopper,
-  updatePopper,
-  CSS as PopperCSS,
-  OverlayPositioning
-} from "../../utils/popper";
-import { StrictModifiers, Instance as Popper } from "@popperjs/core";
+  positionFloatingUI,
+  FloatingCSS,
+  OverlayPositioning,
+  FloatingUIComponent,
+  connectFloatingUI,
+  disconnectFloatingUI,
+  LogicalPlacement
+} from "../../utils/floating-ui";
 import { DateRangeChange } from "../calcite-date-picker/interfaces";
-
-const DEFAULT_PLACEMENT = "bottom-leading";
 
 @Component({
   tag: "calcite-input-date-picker",
   styleUrl: "calcite-input-date-picker.scss",
   shadow: true
 })
-export class CalciteInputDatePicker implements LabelableComponent, FormComponent {
+export class CalciteInputDatePicker
+  implements LabelableComponent, FormComponent, FloatingUIComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -182,6 +184,11 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
   /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
+  @Watch("overlayPositioning")
+  overlayPositioningHandler(): void {
+    this.reposition();
+  }
+
   /** Disables the default behaviour on the third click of narrowing or extending the range and instead starts a new range. */
   @Prop() proximitySelectionDisabled = false;
 
@@ -259,17 +266,15 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
   /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
-    const { popper, menuEl } = this;
-    const modifiers = this.getModifiers();
+    const { floatingEl, referenceEl, placement, overlayPositioning } = this;
 
-    popper
-      ? await updatePopper({
-          el: menuEl,
-          modifiers,
-          placement: DEFAULT_PLACEMENT,
-          popper
-        })
-      : this.createPopper();
+    return positionFloatingUI({
+      floatingEl,
+      referenceEl,
+      overlayPositioning,
+      placement,
+      type: "menu"
+    });
   }
 
   // --------------------------------------------------------------------------
@@ -305,9 +310,9 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
       this.maxAsDate = dateFromISO(this.max);
     }
 
-    this.createPopper();
     connectLabel(this);
     connectForm(this);
+    this.reposition();
   }
 
   async componentWillLoad(): Promise<void> {
@@ -316,10 +321,15 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
     this.onMaxChanged(this.max);
   }
 
+  componentDidLoad(): void {
+    this.reposition();
+  }
+
   disconnectedCallback(): void {
-    this.destroyPopper();
     disconnectLabel(this);
     disconnectForm(this);
+    disconnectFloatingUI(this, this.floatingEl);
+    disconnectFloatingUI(this, this.referenceEl);
   }
 
   render(): VNode {
@@ -364,14 +374,14 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
             <div
               aria-hidden={(!this.active).toString()}
               class="menu-container"
-              ref={this.setMenuEl}
+              ref={this.setFloatingEl}
             >
               <div
                 class={{
                   ["calendar-picker-wrapper"]: true,
                   ["calendar-picker-wrapper--end"]: this.focusedInput === "end",
-                  [PopperCSS.animation]: true,
-                  [PopperCSS.animationActive]: this.active
+                  [FloatingCSS.animation]: true,
+                  [FloatingCSS.animationActive]: this.active
                 }}
                 onTransitionEnd={this.transitionEnd}
               >
@@ -443,6 +453,8 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
   //
   //--------------------------------------------------------------------------
 
+  placement: LogicalPlacement = "bottom-leading";
+
   labelEl: HTMLCalciteLabelElement;
 
   formEl: HTMLFormElement;
@@ -457,9 +469,7 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
 
   private endInput: HTMLCalciteInputElement;
 
-  private popper: Popper;
-
-  private menuEl: HTMLDivElement;
+  private floatingEl: HTMLDivElement;
 
   private referenceEl: HTMLDivElement;
 
@@ -479,7 +489,7 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
         ? endWrapper || startWrapper
         : startWrapper || endWrapper;
 
-    this.createPopper();
+    connectFloatingUI(this, this.referenceEl);
   }
 
   //--------------------------------------------------------------------------
@@ -536,10 +546,10 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
     this.input(e.detail.value);
   };
 
-  setMenuEl = (el: HTMLDivElement): void => {
+  setFloatingEl = (el: HTMLDivElement): void => {
     if (el) {
-      this.menuEl = el;
-      this.createPopper();
+      this.floatingEl = el;
+      connectFloatingUI(this, this.referenceEl);
     }
   };
 
@@ -552,48 +562,6 @@ export class CalciteInputDatePicker implements LabelableComponent, FormComponent
     this.endWrapper = el;
     this.setReferenceEl();
   };
-
-  getModifiers(): Partial<StrictModifiers>[] {
-    const flipModifier: Partial<StrictModifiers> = {
-      name: "flip",
-      enabled: true
-    };
-
-    flipModifier.options = {
-      fallbackPlacements: ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"]
-    };
-
-    return [flipModifier];
-  }
-
-  createPopper(): void {
-    this.destroyPopper();
-    const { menuEl, referenceEl, overlayPositioning } = this;
-
-    if (!menuEl || !referenceEl) {
-      return;
-    }
-
-    const modifiers = this.getModifiers();
-
-    this.popper = createPopper({
-      el: menuEl,
-      modifiers,
-      overlayPositioning,
-      placement: DEFAULT_PLACEMENT,
-      referenceEl
-    });
-  }
-
-  destroyPopper(): void {
-    const { popper } = this;
-
-    if (popper) {
-      popper.destroy();
-    }
-
-    this.popper = null;
-  }
 
   @Watch("start")
   startWatcher(start: string): void {

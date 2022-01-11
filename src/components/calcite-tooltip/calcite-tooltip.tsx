@@ -1,15 +1,16 @@
 import { Component, Element, Host, Method, Prop, State, Watch, h, VNode } from "@stencil/core";
 import { CSS, TOOLTIP_REFERENCE, ARIA_DESCRIBED_BY } from "./resources";
-import { StrictModifiers, Instance as Popper } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import {
-  PopperPlacement,
-  defaultOffsetDistance,
-  createPopper,
-  updatePopper,
-  CSS as PopperCSS,
-  OverlayPositioning
-} from "../../utils/popper";
+  positionFloatingUI,
+  FloatingCSS,
+  OverlayPositioning,
+  FloatingUIComponent,
+  connectFloatingUI,
+  disconnectFloatingUI,
+  LogicalPlacement,
+  defaultOffsetDistance
+} from "../../utils/floating-ui";
 import { queryElementRoots } from "../../utils/dom";
 
 /**
@@ -20,7 +21,7 @@ import { queryElementRoots } from "../../utils/dom";
   styleUrl: "calcite-tooltip.scss",
   shadow: true
 })
-export class CalciteTooltip {
+export class CalciteTooltip implements FloatingUIComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -31,7 +32,7 @@ export class CalciteTooltip {
   @Prop() label!: string;
 
   /**
-   * Offset the position of the popover away from the reference element.
+   * Offset the position of the tooltip away from the reference element.
    * @default 6
    */
   @Prop({ reflect: true }) offsetDistance = defaultOffsetDistance;
@@ -42,7 +43,7 @@ export class CalciteTooltip {
   }
 
   /**
-   * Offset the position of the popover along the reference element.
+   * Offset the position of the tooltip along the reference element.
    */
   @Prop({ reflect: true }) offsetSkidding = 0;
 
@@ -64,11 +65,15 @@ export class CalciteTooltip {
   /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
+  @Watch("overlayPositioning")
+  overlayPositioningHandler(): void {
+    this.reposition();
+  }
+
   /**
    * Determines where the component will be positioned relative to the referenceElement.
-   * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
    */
-  @Prop({ reflect: true }) placement: PopperPlacement = "auto";
+  @Prop({ reflect: true }) placement: LogicalPlacement = "auto";
 
   @Watch("placement")
   placementHandler(): void {
@@ -97,8 +102,6 @@ export class CalciteTooltip {
 
   arrowEl: HTMLDivElement;
 
-  popper: Popper;
-
   guid = `calcite-tooltip-${guid()}`;
 
   // --------------------------------------------------------------------------
@@ -106,6 +109,10 @@ export class CalciteTooltip {
   //  Lifecycle
   //
   // --------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    connectFloatingUI(this, this.el);
+  }
 
   componentWillLoad(): void {
     this.setUpReferenceElement();
@@ -117,7 +124,8 @@ export class CalciteTooltip {
 
   disconnectedCallback(): void {
     this.removeReferences();
-    this.destroyPopper();
+    disconnectFloatingUI(this, this.el);
+    disconnectFloatingUI(this, this.effectiveReferenceElement);
   }
 
   // --------------------------------------------------------------------------
@@ -129,17 +137,26 @@ export class CalciteTooltip {
   /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
-    const { popper, el, placement } = this;
-    const modifiers = this.getModifiers();
+    const {
+      el,
+      effectiveReferenceElement,
+      placement,
+      overlayPositioning,
+      offsetDistance,
+      offsetSkidding,
+      arrowEl
+    } = this;
 
-    popper
-      ? await updatePopper({
-          el,
-          modifiers,
-          placement,
-          popper
-        })
-      : this.createPopper();
+    return positionFloatingUI({
+      floatingEl: el,
+      referenceEl: effectiveReferenceElement,
+      overlayPositioning,
+      placement,
+      offsetDistance,
+      offsetSkidding,
+      arrowEl,
+      type: "tooltip"
+    });
   }
 
   // --------------------------------------------------------------------------
@@ -151,6 +168,7 @@ export class CalciteTooltip {
   setUpReferenceElement = (): void => {
     this.removeReferences();
     this.effectiveReferenceElement = this.getReferenceElement();
+    connectFloatingUI(this, this.effectiveReferenceElement);
 
     const { el, referenceElement, effectiveReferenceElement } = this;
     if (referenceElement && !effectiveReferenceElement) {
@@ -160,7 +178,6 @@ export class CalciteTooltip {
     }
 
     this.addReferences();
-    this.createPopper();
   };
 
   getId = (): string => {
@@ -209,53 +226,6 @@ export class CalciteTooltip {
     );
   }
 
-  getModifiers(): Partial<StrictModifiers>[] {
-    const { arrowEl, offsetDistance, offsetSkidding } = this;
-
-    const arrowModifier: Partial<StrictModifiers> = {
-      name: "arrow",
-      enabled: true,
-      options: {
-        element: arrowEl
-      }
-    };
-
-    const offsetModifier: Partial<StrictModifiers> = {
-      name: "offset",
-      enabled: true,
-      options: {
-        offset: [offsetSkidding, offsetDistance]
-      }
-    };
-
-    return [arrowModifier, offsetModifier];
-  }
-
-  createPopper(): void {
-    this.destroyPopper();
-
-    const { el, placement, effectiveReferenceElement: referenceEl, overlayPositioning } = this;
-    const modifiers = this.getModifiers();
-
-    this.popper = createPopper({
-      el,
-      modifiers,
-      placement,
-      overlayPositioning,
-      referenceEl
-    });
-  }
-
-  destroyPopper(): void {
-    const { popper } = this;
-
-    if (popper) {
-      popper.destroy();
-    }
-
-    this.popper = null;
-  }
-
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -277,8 +247,8 @@ export class CalciteTooltip {
       >
         <div
           class={{
-            [PopperCSS.animation]: true,
-            [PopperCSS.animationActive]: displayed
+            [FloatingCSS.animation]: true,
+            [FloatingCSS.animationActive]: displayed
           }}
         >
           <div class={CSS.arrow} ref={(arrowEl) => (this.arrowEl = arrowEl)} />

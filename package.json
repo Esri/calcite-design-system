@@ -60,7 +60,6 @@
   "dependencies": {
     "@a11y/focus-trap": "1.0.5",
     "@floating-ui/dom": "0.1.10",
-    "@popperjs/core": "2.11.1",
     "@stencil/core": "2.12.1",
     "@types/color": "3.0.2",
     "color": "4.1.0",

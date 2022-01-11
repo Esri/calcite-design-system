@@ -2,7 +2,7 @@ import { Component, Element, Event, EventEmitter, h, Prop, VNode } from "@stenci
 import { CSS } from "./resources";
 import { ButtonAppearance, ButtonColor, DropdownIconType } from "../calcite-button/interfaces";
 import { FlipContext, Scale, Width } from "../interfaces";
-import { OverlayPositioning } from "../../utils/popper";
+import { OverlayPositioning } from "../../utils/floating-ui";
 
 /**
  * @slot - A slot for adding `calcite-dropdown` content.

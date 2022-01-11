@@ -41,7 +41,7 @@ describe("calcite-combobox", () => {
     await page.keyboard.press("Tab");
     await openEvent;
 
-    const container = await page.find(`calcite-combobox >>> .popper-container`);
+    const container = await page.find(`calcite-combobox >>> .floating-ui-container`);
     const visible = await container.isVisible();
     expect(visible).toBe(true);
   });
@@ -654,7 +654,7 @@ describe("calcite-combobox", () => {
       expect(value).toBe("");
       await input.click();
 
-      const container = await page.find("calcite-combobox >>> .popper-container");
+      const container = await page.find("calcite-combobox >>> .floating-ui-container");
       let visible = await container.isVisible();
       expect(visible).toBe(true);
 
