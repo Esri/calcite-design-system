@@ -798,14 +798,9 @@ describe("calcite-dropdown", () => {
         <calcite-dropdown>
           <calcite-action slot="dropdown-trigger">Open dropdown</calcite-action>
           <calcite-dropdown-group selection-mode="single">
-            <calcite-dropdown-item id="item-1">
-              Dropdown Item Content
-            </calcite-dropdown-item>
-            <calcite-dropdown-item id="item-2" active>
-              Dropdown Item Content
-            </calcite-dropdown-item>
+            <calcite-dropdown-item id="item-1"> Dropdown Item Content</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2" active> Dropdown Item Content</calcite-dropdown-item>
           </calcite-dropdown-group>
-          </calcite-dropdown>
         </calcite-dropdown>
       `);
       const element = await page.find("calcite-dropdown");
