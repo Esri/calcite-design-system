@@ -47,7 +47,10 @@ export interface FloatingUIComponent {
   overlayPositioning: OverlayPositioning;
 
   /**
-   * Determines where the floating element will be positioned relative to the reference element.
+   * Determines where the component will be positioned relative to the referenceElement.
+   *
+   * Possible values: "auto", "auto-start", "auto-end", "top", "right", "bottom", "left","top-start", "top-end", "right-start", "right-end", "bottom-start", "bottom-end", "left-start", "left-end", "leading-start", "leading", "leading-end", "trailing-end", "trailing", "trailing-start", "leading-leading", "leading-trailing", "trailing-leading", "trailing-trailing", "top-leading", "top-trailing", "bottom-leading", "bottom-trailing", "right-leading", "right-trailing", "left-leading", or "left-trailing".
+   *
    */
   placement: LogicalPlacement;
 
