@@ -191,8 +191,6 @@ export class CalciteCombobox implements LabelableComponent, FormComponent, Float
   /** Updates the position of the component. */
   @Method()
   async reposition(): Promise<void> {
-    this.setMaxScrollerHeight();
-
     const { floatingEl, referenceEl, placement, overlayPositioning } = this;
 
     return positionFloatingUI({
