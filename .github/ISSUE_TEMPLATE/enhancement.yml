@@ -39,6 +39,5 @@ body:
     attributes:
       label: Example Use Case
       description: Code snippet, link to a similar product, etc.
-      value: "@esri/calcite-components@1.0.0-VERSION"
     validations:
       required: false
