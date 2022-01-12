@@ -601,7 +601,7 @@ describe("calcite-input", () => {
 
   it("should emit an event on an interval when ArrowUp/ArrowDown keys are down and stop on key up", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-input type="number" value="0"></calcite-input> `);
+    await page.setContent(html`<calcite-input type="number" value="0"></calcite-input>`);
     const calciteInputInput = await page.spyOnEvent("calciteInputInput");
     const input = await page.find("calcite-input");
     expect(calciteInputInput).toHaveReceivedEventTimes(0);
@@ -628,7 +628,7 @@ describe("calcite-input", () => {
 
   it("should emit an event on an interval when up/down buttons are down and stop on mouseup/mouseleave", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-input type="number" value="0"></calcite-input> `);
+    await page.setContent(html`<calcite-input type="number" value="0"></calcite-input>`);
     const input = await page.find("calcite-input");
     const calciteInputInput = await page.spyOnEvent("calciteInputInput");
     const [buttonUpLocationX, buttonUpLocationY] = await getElementXY(
