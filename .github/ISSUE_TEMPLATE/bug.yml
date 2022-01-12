@@ -1,0 +1,64 @@
+name: Bug
+description: Report a bug in a component
+labels: ["bug", "0 - new", "needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        - Please [check for existing issues](https://github.com/Esri/calcite-components/issues) to avoid duplicates. If someone has already opened an issue for what you are experiencing, please add a 👍 reaction to the existing issue instead of creating a new one.
+        - For support, please check the [community forum](https://developers.arcgis.com/calcite-design-system/community/).
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: A clear description of the issue (optionally include before/after screenshots/GIFs).
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What you expected instead, and why?
+    validations:
+      required: true
+  - type: input
+    id: sample
+    attributes:
+      label: Reproduction Sample
+      description: |
+        A [codepen](https://codepen.io/pen?template=RwgrjEx), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js), or [jsbin](https://jsbin.com/lopumatiru/edit?html,output) sample that reproduces the issue is required. Alternatively, a [documentation sample](https://developers.arcgis.com/calcite-design-system/components) can be used if the issue is reproducible.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction Steps
+      description: Clear, numbered steps for reproducing the issue using the sample provided above.
+      value: "1. "
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Reproduction Version
+      description: The latest version that reproduces the issue.
+      value: "@esri/calcite-components@1.0.0-VERSION"
+    validations:
+      required: true
+  - type: textarea
+    id: relevant
+    attributes:
+      label: Relevant Info
+      description: Browser, OS, mobile, stack traces, related issues, suggestions/resources on how to fix, etc.
+      value: "Regression? Last working version: `@esri/calcite-components@1.0.0-VERSION`"
+    validations:
+      required: false
+  - type: checkboxes
+    id: source
+    attributes:
+      label: Source
+      options:
+        - label: CDN
+          required: false
+        - label: NPM package
+          required: false

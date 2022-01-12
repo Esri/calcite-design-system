@@ -1,0 +1,44 @@
+name: Enhancement
+description: Request for a feature to be added to an existing component
+labels: ["enhancement", "0 - new", "needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        - Please [check for existing issues](https://github.com/Esri/calcite-components/issues) to avoid duplicates. If someone has already opened an issue for what you are experiencing, please add a 👍 reaction to the existing issue instead of creating a new one.
+        - For support, please check the [community forum](https://developers.arcgis.com/calcite-design-system/community/).
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What is the requested functionality?
+    validations:
+      required: true
+  - type: textarea
+    id: criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Requirements, desired new behavior, etc.
+    validations:
+      required: true
+  - type: textarea
+    id: info
+    attributes:
+      label: Relevant Info
+      description: Dependencies, blockers, helpful details, etc.
+    validations:
+      required: false
+  - type: textarea
+    id: component
+    attributes:
+      label: Which Component
+    validations:
+      required: true
+  - type: textarea
+    id: example
+    attributes:
+      label: Example Use Case
+      description: Code snippet, link to a similar product, etc.
+      value: "@esri/calcite-components@1.0.0-VERSION"
+    validations:
+      required: false

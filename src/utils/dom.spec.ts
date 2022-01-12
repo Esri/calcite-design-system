@@ -1,5 +1,7 @@
-import { getElementProp, getSlotted, setRequestedIcon, ensureId } from "./dom";
+import { getElementProp, getSlotted, setRequestedIcon, ensureId, getThemeName } from "./dom";
 import { guidPattern } from "./guid.spec";
+import { html } from "../tests/utils";
+import { ThemeName } from "../../src/components/interfaces";
 
 describe("dom", () => {
   describe("getElementProp()", () => {
@@ -85,6 +87,7 @@ describe("dom", () => {
 
   describe("getSlotted()", () => {
     const testSlotName = "test";
+    const testSlotName2 = "test2";
 
     function getTestComponent(): HTMLElement {
       return document.body.querySelector("slot-test");
@@ -98,7 +101,11 @@ describe("dom", () => {
         }
 
         connectedCallback(): void {
-          this.shadowRoot.innerHTML = `<slot name="${testSlotName}"></slot>`;
+          this.shadowRoot.innerHTML = html`
+            <slot name="${testSlotName}"></slot>
+            <slot name="${testSlotName2}"></slot>
+            <slot></slot>
+          `;
         }
       }
 
@@ -115,17 +122,30 @@ describe("dom", () => {
           <span>🙂</span>
         </h2>
         <h2 slot=${testSlotName}><span>😂</span></h2>
+        <h3 slot=${testSlotName2}><span>😂</span></h3>
+        <div id="default-slot-el"><p>🙂</p></div>
       </slot-test>
     `;
+
+      const assignedSlot = document.querySelector("slot-test").shadowRoot.querySelector(`slot:not([name])`);
+      (document.getElementById("default-slot-el") as any).assignedSlot = assignedSlot;
     });
 
     describe("single slotted", () => {
+      it("returns elements with matching default slot", () => expect(getSlotted(getTestComponent())).toBeTruthy());
+
       it("returns elements with matching slot name", () =>
         expect(getSlotted(getTestComponent(), testSlotName)).toBeTruthy());
+
+      it("returns elements with matching slot names", () =>
+        expect(getSlotted(getTestComponent(), [testSlotName, testSlotName2])).toBeTruthy());
 
       it("returns null when no results", () => expect(getSlotted(getTestComponent(), "non-existent-slot")).toBeNull());
 
       describe("scoped selector", () => {
+        it("returns element with matching default slot", () =>
+          expect(getSlotted(getTestComponent(), { selector: "p" })).toBeTruthy());
+
         it("returns element with matching nested selector", () =>
           expect(getSlotted(getTestComponent(), testSlotName, { selector: "span" })).toBeTruthy());
 
@@ -175,8 +195,14 @@ describe("dom", () => {
     });
 
     describe("multiple slotted", () => {
+      it("returns element with default slot name", () =>
+        expect(getSlotted(getTestComponent(), { all: true })).toHaveLength(1));
+
       it("returns elements with matching slot name", () =>
         expect(getSlotted(getTestComponent(), testSlotName, { all: true })).toHaveLength(2));
+
+      it("returns elements with matching slot names", () =>
+        expect(getSlotted(getTestComponent(), [testSlotName, testSlotName2], { all: true })).toHaveLength(3));
 
       it("returns empty list when no results", () =>
         expect(getSlotted(getTestComponent(), "non-existent-slot", { all: true })).toHaveLength(0));
@@ -265,6 +291,66 @@ describe("dom", () => {
 
     it("returns empty string if invoked without element", () => {
       expect(ensureId(null)).toBe("");
+    });
+  });
+
+  describe("getThemeName()", () => {
+    interface ThemedElement extends HTMLElement {
+      foundThemeName: ThemeName;
+    }
+    function getTestComponentTheme(): string {
+      return document.body.querySelector<ThemedElement>("themed-element").foundThemeName;
+    }
+    function defineTestComponents(): void {
+      class ThemedElement extends HTMLElement {
+        constructor() {
+          super();
+          this.attachShadow({ mode: "open" });
+        }
+
+        foundThemeName = null;
+
+        connectedCallback(): void {
+          this.foundThemeName = getThemeName(this);
+        }
+      }
+      customElements.define("themed-element", ThemedElement);
+    }
+    beforeEach(() => {
+      defineTestComponents();
+    });
+
+    it("finds the closest theme if set (light)", () => {
+      document.body.innerHTML = html`
+        <div class="calcite-theme-dark">
+          <div class="calcite-theme-light">
+            <themed-element></themed-element>
+          </div>
+        </div>
+      `;
+      expect(getTestComponentTheme()).toBe("light");
+    });
+
+    it("finds the closest theme if set (dark)", () => {
+      document.body.innerHTML = html`
+        <div class="calcite-theme-light">
+          <div class="calcite-theme-dark">
+            <themed-element></themed-element>
+          </div>
+        </div>
+      `;
+      expect(getTestComponentTheme()).toBe("dark");
+    });
+
+    it("sets to default (light) if no theme is set", () => {
+      document.body.innerHTML = html`
+        <div>
+          <div>
+            <themed-element></themed-element>
+          </div>
+        </div>
+      `;
+      expect(getTestComponentTheme()).toBe("light");
     });
   });
 });

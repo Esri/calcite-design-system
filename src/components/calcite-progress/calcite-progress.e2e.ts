@@ -1,14 +1,7 @@
-import { newE2EPage } from "@stencil/core/testing";
-import { accessible } from "../../tests/commonTests";
+import { accessible, renders } from "../../tests/commonTests";
 
 describe("calcite-progress", () => {
-  it("renders", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent("<calcite-progress></calcite-progress>");
-    const element = await page.find("calcite-progress");
-    expect(element).toBeDefined();
-  });
+  it("renders", () => renders("calcite-progress", { display: "block" }));
 
   it("is accessible", async () => accessible(`<calcite-progress label="my progress"></calcite-progress>`));
 

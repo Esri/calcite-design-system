@@ -1,0 +1,59 @@
+name: Unstable Test
+description: Associate issue for an unstable test that was skipped
+labels: ["testing", "0 - new", "p - high"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        - Please [check for existing issues](https://github.com/Esri/calcite-components/issues) to avoid duplicates. If someone has already opened an issue for what you are experiencing, please add a 👍 reaction to the existing issue instead of creating a new one.
+        - For support, please check the [community forum](https://developers.arcgis.com/calcite-design-system/community/).
+  - type: input
+    id: component
+    attributes:
+      label: Which Component
+    validations:
+      required: true
+  - type: textarea
+    id: tests
+    attributes:
+      label: Which Tests(s)
+      description: List the unstable test(s) or suite(s).
+      placeholder: "calcite-foo a11y check › setFocus › can focus some button"
+    validations:
+      required: true
+  - type: textarea
+    id: error
+    attributes:
+      label: Test error
+      description: Copy and paste the error stack trace.
+      placeholder: |
+        FAIL src/components/calcite-foo/calcite-foo.e2e.ts (32.825 s)
+        ● calcite-foo a11y check › setFocus › can focus some button
+          expect(received).toBe(expected) // Object.is equality
+          Expected: true
+          Received: false
+            165 |   }
+            166 |
+          > 167 |   expect(await page.evaluate((selector) => document.activeElement.matches(selector), focusTargetSelector)).toBe(true);
+                |                                                                                                            ^
+            168 | }
+            169 |
+            at Object.focusable (src/tests/commonTests.ts:167:108)
+                at runMicrotasks (<anonymous>)
+    validations:
+      required: true
+  - type: input
+    id: pr
+    attributes:
+      label: Skipped In
+      description: Which PR skipped the unstable test(s)?
+      value: "#"
+    validations:
+      required: true
+  - type: textarea
+    id: info
+    attributes:
+      label: Additional Info
+      description: Any info that may help fix the test.
+    validations:
+      required: false
