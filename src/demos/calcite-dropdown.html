@@ -707,5 +707,89 @@
         </calcite-dropdown>
       </div>
     </div>
+
+    <hr />
+
+    <!-- dropdown trigger slot examples -->
+    <div class="parent">
+      <div class="child right-aligned-text">dropdown trigger slot examples</div>
+
+      <div class="child">
+        <calcite-dropdown>
+          <calcite-button slot="dropdown-trigger">Button Trigger</calcite-button>
+          <calcite-dropdown-group selection-mode="single" group-title="Selection Mode: Single">
+            <calcite-dropdown-item>Relevance</calcite-dropdown-item>
+            <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
+            <calcite-dropdown-item>Title</calcite-dropdown-item>
+          </calcite-dropdown-group>
+          <calcite-dropdown-group selection-mode="multi" group-title="Selection Mode: Multi">
+            <calcite-dropdown-item active>Maps</calcite-dropdown-item>
+            <calcite-dropdown-item>Layers</calcite-dropdown-item>
+            <calcite-dropdown-item active>Data</calcite-dropdown-item>
+          </calcite-dropdown-group>
+          <calcite-dropdown-group selection-mode="none" group-title="Selection Mode: None">
+            <calcite-dropdown-item>Mountain</calcite-dropdown-item>
+            <calcite-dropdown-item>River</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      </div>
+      <div class="child">
+        <calcite-dropdown>
+          <calcite-action slot="dropdown-trigger" text-enabled text="Action Trigger"></calcite-action>
+          <calcite-dropdown-group selection-mode="single" group-title="Selection Mode: Single">
+            <calcite-dropdown-item>Relevance</calcite-dropdown-item>
+            <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
+            <calcite-dropdown-item>Title</calcite-dropdown-item>
+          </calcite-dropdown-group>
+          <calcite-dropdown-group selection-mode="multi" group-title="Selection Mode: Multi">
+            <calcite-dropdown-item active>Maps</calcite-dropdown-item>
+            <calcite-dropdown-item>Layers</calcite-dropdown-item>
+            <calcite-dropdown-item active>Data</calcite-dropdown-item>
+          </calcite-dropdown-group>
+          <calcite-dropdown-group selection-mode="none" group-title="Selection Mode: None">
+            <calcite-dropdown-item>Mountain</calcite-dropdown-item>
+            <calcite-dropdown-item>River</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      </div>
+      <div class="child">
+        <calcite-dropdown>
+          <calcite-link slot="dropdown-trigger" appearance="solid">Link Trigger</calcite-link>
+          <calcite-dropdown-group selection-mode="single" group-title="Selection Mode: Single">
+            <calcite-dropdown-item>Relevance</calcite-dropdown-item>
+            <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
+            <calcite-dropdown-item>Title</calcite-dropdown-item>
+          </calcite-dropdown-group>
+          <calcite-dropdown-group selection-mode="multi" group-title="Selection Mode: Multi">
+            <calcite-dropdown-item active>Maps</calcite-dropdown-item>
+            <calcite-dropdown-item>Layers</calcite-dropdown-item>
+            <calcite-dropdown-item active>Data</calcite-dropdown-item>
+          </calcite-dropdown-group>
+          <calcite-dropdown-group selection-mode="none" group-title="Selection Mode: None">
+            <calcite-dropdown-item>Mountain</calcite-dropdown-item>
+            <calcite-dropdown-item>River</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      </div>
+      <div class="child">
+        <calcite-dropdown>
+          <div slot="dropdown-trigger" appearance="solid" tabindex="0">Div Trigger</div>
+          <calcite-dropdown-group selection-mode="single" group-title="Selection Mode: Single">
+            <calcite-dropdown-item>Relevance</calcite-dropdown-item>
+            <calcite-dropdown-item active>Date modified</calcite-dropdown-item>
+            <calcite-dropdown-item>Title</calcite-dropdown-item>
+          </calcite-dropdown-group>
+          <calcite-dropdown-group selection-mode="multi" group-title="Selection Mode: Multi">
+            <calcite-dropdown-item active>Maps</calcite-dropdown-item>
+            <calcite-dropdown-item>Layers</calcite-dropdown-item>
+            <calcite-dropdown-item active>Data</calcite-dropdown-item>
+          </calcite-dropdown-group>
+          <calcite-dropdown-group selection-mode="none" group-title="Selection Mode: None">
+            <calcite-dropdown-item>Mountain</calcite-dropdown-item>
+            <calcite-dropdown-item>River</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      </div>
+    </div>
   </body>
 </html>

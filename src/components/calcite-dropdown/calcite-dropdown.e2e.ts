@@ -753,6 +753,79 @@ describe("calcite-dropdown", () => {
     expect(await dropdownWrapper.isVisible()).toBe(false);
   });
 
+  describe("opens the dropdown with click, enter, or space", () => {
+    it("opens when dropdown-trigger is a button", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-dropdown>
+          <calcite-button slot="dropdown-trigger">Open dropdown</calcite-button>
+          <calcite-dropdown-group selection-mode="single">
+            <calcite-dropdown-item id="item-1">
+              Dropdown Item Content
+            </calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2" active>
+              Dropdown Item Content
+            </calcite-dropdown-item>
+          </calcite-dropdown-group>
+          </calcite-dropdown>
+        </calcite-dropdown>
+      `);
+      const element = await page.find("calcite-dropdown");
+      const trigger = await element.find("calcite-button[slot='dropdown-trigger']");
+      const dropdownWrapper = await page.find(`calcite-dropdown >>> .calcite-dropdown-wrapper`);
+      const calciteDropdownOpen = await element.spyOnEvent("calciteDropdownOpen");
+
+      expect(await dropdownWrapper.isVisible()).toBe(false);
+      await trigger.click();
+      await page.waitForChanges();
+      expect(await dropdownWrapper.isVisible()).toBe(true);
+
+      await trigger.focus();
+      await page.keyboard.press("Space");
+      await page.waitForChanges();
+      expect(await dropdownWrapper.isVisible()).toBe(false);
+      expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
+
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+      expect(await dropdownWrapper.isVisible()).toBe(true);
+      expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
+    });
+
+    it("opens when dropdown-trigger is an action", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-dropdown>
+          <calcite-action slot="dropdown-trigger">Open dropdown</calcite-action>
+          <calcite-dropdown-group selection-mode="single">
+            <calcite-dropdown-item id="item-1"> Dropdown Item Content</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2" active> Dropdown Item Content</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      `);
+      const element = await page.find("calcite-dropdown");
+      const trigger = await element.find("calcite-action[slot='dropdown-trigger'] >>> button");
+      const dropdownWrapper = await page.find(`calcite-dropdown >>> .calcite-dropdown-wrapper`);
+      const calciteDropdownOpen = await element.spyOnEvent("calciteDropdownOpen");
+
+      expect(await dropdownWrapper.isVisible()).toBe(false);
+      await trigger.click();
+      await page.waitForChanges();
+      expect(await dropdownWrapper.isVisible()).toBe(true);
+
+      await trigger.focus();
+      await page.keyboard.press("Space");
+      await page.waitForChanges();
+      expect(await dropdownWrapper.isVisible()).toBe(false);
+      expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
+
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+      expect(await dropdownWrapper.isVisible()).toBe(true);
+      expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
+    });
+  });
+
   it("closes existing open dropdown when opened", async () => {
     const page = await newE2EPage();
     await page.setContent(`
@@ -1030,5 +1103,36 @@ describe("calcite-dropdown", () => {
         return scrollHeight > clientHeight || scrollWidth > clientWidth;
       })
     ).toBe(false);
+  });
+
+  it("dropdown wrapper shouldn't have height when filter results empty and combined with a PickList in Panel  #3048", async () => {
+    const page = await newE2EPage({
+      html: html` <calcite-panel heading="Issue #3048">
+        <calcite-pick-list filter-enabled>
+          <calcite-dropdown slot="menu-actions" placement="bottom-trailing" type="click">
+            <calcite-action slot="dropdown-trigger" title="Sort" icon="sort-descending"> </calcite-action>
+            <calcite-dropdown-group selection-mode="single">
+              <calcite-dropdown-item>Display name</calcite-dropdown-item>
+              <calcite-dropdown-item>Type</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          </calcite-dropdown>
+          <calcite-pick-list-item label="calcite" description="calcite!"> </calcite-pick-list-item>
+          <calcite-pick-list-item label="calcite" description="calcite"> </calcite-pick-list-item>
+        </calcite-pick-list>
+      </calcite-panel>`
+    });
+    await page.waitForChanges();
+
+    const dropdownContentHeight = await (
+      await page.find("calcite-dropdown >>> .calcite-dropdown-wrapper")
+    ).getComputedStyle();
+
+    await page.evaluate(() => {
+      const filter = document.querySelector(`calcite-pick-list`).shadowRoot.querySelector("calcite-filter");
+      const filterInput = filter.shadowRoot.querySelector("calcite-input");
+      filterInput.value = "nums";
+    });
+
+    expect(dropdownContentHeight.height).toBe("0px");
   });
 });
