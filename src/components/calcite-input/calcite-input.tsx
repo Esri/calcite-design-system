@@ -199,19 +199,10 @@ export class CalciteInput implements LabelableComponent, FormComponent {
 
   @Watch("value")
   valueWatcher(newValue: string): void {
-    if (newValue == null) {
-      this.setValue({ value: "" });
-      return;
+    if (!this.internalValueChange) {
+      this.setValue({ value: newValue == null ? "" : newValue, origin: "external" });
     }
-
-    if (
-      this.type === "number" &&
-      this.localizedValue !== localizeNumberString(newValue, this.locale)
-    ) {
-      this.setLocalizedValue(newValue);
-    } else if (this.childEl && this.childEl.value !== newValue) {
-      this.childEl.value = newValue;
-    }
+    this.internalValueChange = false;
   }
 
   @Watch("icon")
@@ -243,6 +234,9 @@ export class CalciteInput implements LabelableComponent, FormComponent {
   /** number text input element for locale */
   private childNumberEl?: HTMLInputElement;
 
+  /** whether the value of the input was changed as a result of user typing or not */
+  private internalValueChange = false;
+
   get isClearable(): boolean {
     return !this.isTextarea && (this.clearable || this.type === "search") && this.value.length > 0;
   }
@@ -256,6 +250,8 @@ export class CalciteInput implements LabelableComponent, FormComponent {
   private maxString?: string;
 
   private preFocusValue: string;
+
+  private previousValue: string;
 
   /** the computed icon to render */
   private requestedIcon?: string;
@@ -286,15 +282,12 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     if (this.inlineEditableEl) {
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
-    if (this.type === "number" && this.value) {
-      if (isValidNumber(this.value)) {
-        this.localizedValue = localizeNumberString(this.value, this.locale, this.groupSeparator);
-      } else {
-        this.setValue({
-          origin: "loading",
-          value: ""
-        });
-      }
+    this.setPreviousValue(this.value);
+    if (this.type === "number") {
+      this.setValue({
+        origin: "loading",
+        value: isValidNumber(this.value) ? this.value : ""
+      });
     }
     connectLabel(this);
     connectForm(this);
@@ -431,7 +424,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
 
   private inputBlurHandler = () => {
     if (this.type === "number") {
-      this.setLocalizedValue(this.value);
+      this.setValue({ value: this.value });
     }
     this.calciteInputBlur.emit({
       element: this.childEl,
@@ -622,28 +615,62 @@ export class CalciteInput implements LabelableComponent, FormComponent {
       : slottedActionEl.removeAttribute("disabled");
   }
 
-  private setLocalizedValue = (value: string): void => {
-    this.localizedValue = localizeNumberString(value, this.locale, this.groupSeparator);
+  private setInputValue = (newInputValue: string): void => {
+    if (this.type === "text" && !this.childEl) {
+      return;
+    }
+    if (this.type === "number" && !this.childNumberEl) {
+      return;
+    }
+    this[`child${this.type === "number" ? "Number" : ""}El`].value = newInputValue;
+  };
+
+  private setPreviousValue = (newPreviousValue: string): void => {
+    this.previousValue =
+      this.type === "number"
+        ? isValidNumber(newPreviousValue)
+          ? newPreviousValue
+          : ""
+        : newPreviousValue;
   };
 
   private setValue = ({
     committing = false,
     nativeEvent,
+    origin = "internal",
     value
   }: {
     committing?: boolean;
     nativeEvent?: any;
-    origin?: "input" | "external" | "loading";
+    origin?: "internal" | "external" | "loading";
     value: string;
   }): void => {
-    const previousValue = this.value;
+    const previousLocalizedValue =
+      this.type === "number"
+        ? localizeNumberString(this.previousValue, this.locale, this.groupSeparator)
+        : "";
+    const sanitizedValue = this.type === "number" ? sanitizeNumberString(value) : value;
+    const newValue =
+      this.type === "number" && value && !sanitizedValue
+        ? isValidNumber(this.previousValue)
+          ? this.previousValue
+          : ""
+        : sanitizedValue;
+    const newLocalizedValue =
+      this.type === "number"
+        ? localizeNumberString(newValue, this.locale, this.groupSeparator)
+        : "";
+
+    this.internalValueChange = origin === "internal";
+    this.setPreviousValue(this.value);
+    this.value = newValue;
 
     if (this.type === "number") {
-      const sanitizedValue = sanitizeNumberString(value);
-      this.value = sanitizedValue;
-      this.setLocalizedValue(sanitizedValue);
-    } else {
-      this.value = value;
+      this.localizedValue = newLocalizedValue;
+    }
+
+    if (origin === "external") {
+      this.setInputValue(this.type === "number" ? newLocalizedValue : newValue);
     }
 
     if (nativeEvent) {
@@ -654,8 +681,8 @@ export class CalciteInput implements LabelableComponent, FormComponent {
       });
 
       if (calciteInputInputEvent.defaultPrevented) {
-        this.value = previousValue;
-        this.setLocalizedValue(previousValue);
+        this.value = this.previousValue;
+        this.localizedValue = previousLocalizedValue;
       } else if (committing) {
         this.calciteInputChange.emit();
       }

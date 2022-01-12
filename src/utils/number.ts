@@ -48,7 +48,7 @@ export function sanitizeNumberString(value: string): string {
     ? isNegativeDecimalOnlyZeros.test(sanitizedValue)
       ? sanitizedValue
       : Number(sanitizedValue).toString()
-    : value;
+    : "";
 }
 
 function stringContainsNumbers(string: string): boolean {
