@@ -29,11 +29,11 @@ describe("calcite-link", () => {
 
     const element = await page.find("calcite-link");
 
-    element.setAttribute("download", true);
+    element.setAttribute("download", "");
     await page.waitForChanges();
 
     expect(elementAsLink).toHaveAttribute("download");
-    expect(elementAsLink.getAttribute("download")).toBe("true");
+    expect(elementAsLink.getAttribute("download")).toBe("");
 
     const newFilename = "my-cool-file.jpg";
     element.setAttribute("download", newFilename);
