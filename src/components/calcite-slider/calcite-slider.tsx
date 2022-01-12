@@ -26,7 +26,6 @@ import {
   FormComponent,
   HiddenFormInputSlot
 } from "../../utils/form";
-import { right } from "@popperjs/core";
 
 type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 
