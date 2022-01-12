@@ -7,6 +7,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
+### Features
+
+- **inline-editable:** change internal events to public ([#3872](https://github.com/Esri/calcite-components/issues/3872)) ([3d0daa7](https://github.com/Esri/calcite-components/commit/3d0daa7c08b2b5397f1668ce4664433e90cf359c))
+
 ### Bug Fixes
 
 - **dropdown:** dropdown wrapper no longer overflows inside a panel ([#3378](https://github.com/Esri/calcite-components/issues/3378)) ([5b966e3](https://github.com/Esri/calcite-components/commit/5b966e3a6b36f29a83ccdf66e14163d6b73f9878))
