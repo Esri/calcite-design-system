@@ -1,7 +1,8 @@
-import { Component, Element, Prop, h, VNode } from "@stencil/core";
+import { Component, Element, Prop, h, VNode, forceUpdate } from "@stencil/core";
 import { Point, ColorStop, DataSeries } from "./interfaces";
 import { guid } from "../../utils/guid";
 import { area, range, translate } from "./util";
+import { createObserver } from "../../utils/observers";
 
 @Component({
   tag: "calcite-graph",
@@ -35,12 +36,6 @@ export class CalciteGraph {
    */
   @Prop() colorStops: ColorStop[];
 
-  /** Width of graph in pixels*/
-  @Prop() width = 300;
-
-  /** Width of graph in pixels*/
-  @Prop() height = 100;
-
   /** Start of highlight color if highlighting range */
   @Prop() highlightMin: number;
 
@@ -59,9 +54,18 @@ export class CalciteGraph {
   //
   //--------------------------------------------------------------------------
 
+  connectedCallback(): void {
+    this.resizeObserver?.observe(this.el);
+  }
+
+  disconnectedCallback(): void {
+    this.resizeObserver?.disconnect();
+  }
+
   render(): VNode {
-    const { data, colorStops, width, height, highlightMax, highlightMin, min, max } = this;
+    const { data, colorStops, el, highlightMax, highlightMin, min, max } = this;
     const id = this.graphId;
+    const { clientHeight: height, clientWidth: width } = el;
 
     // if we have no data, return empty svg
     if (!data || data.length === 0) {
@@ -171,4 +175,6 @@ export class CalciteGraph {
   //--------------------------------------------------------------------------
 
   private graphId = `calcite-graph-${guid()}`;
+
+  private resizeObserver = createObserver("resize", () => forceUpdate(this));
 }
