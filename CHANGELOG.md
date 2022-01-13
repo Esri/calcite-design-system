@@ -14,6 +14,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- **alert:** Emit calciteAlertClose/calciteAlertOpen after animation. [#3760](https://github.com/Esri/calcite-components/issues/3760) ([#3923](https://github.com/Esri/calcite-components/issues/3923)) ([9c4486c](https://github.com/Esri/calcite-components/commit/9c4486cff7987dcadaafc372e479a930141d70d1))
+- **combobox:** Properly set internal identifiers. [#3754](https://github.com/Esri/calcite-components/issues/3754) ([#3919](https://github.com/Esri/calcite-components/issues/3919)) ([ab807c5](https://github.com/Esri/calcite-components/commit/ab807c5609a16d23d9fbcda5ff70b8e80fb33ceb))
 - **dropdown:** dropdown wrapper no longer overflows inside a panel ([#3378](https://github.com/Esri/calcite-components/issues/3378)) ([5b966e3](https://github.com/Esri/calcite-components/commit/5b966e3a6b36f29a83ccdf66e14163d6b73f9878))
 - **input:** number input no longer increments by itself indefinitely when up/down buttons are toggled fast or pressed at the same time; ([#3908](https://github.com/Esri/calcite-components/issues/3908)) ([d2863d2](https://github.com/Esri/calcite-components/commit/d2863d208bd7c8ebead42ad354ce3647af015232))
 <!--@unreleased-section-end-->
