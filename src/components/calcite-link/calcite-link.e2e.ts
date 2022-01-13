@@ -25,22 +25,20 @@ describe("calcite-link", () => {
     const elementAsLink = await page.find("calcite-link >>> a");
 
     expect(elementAsLink).not.toBeNull();
-    expect(elementAsLink).not.toHaveAttribute("download");
+    expect(await elementAsLink.getProperty("download")).toBe("");
 
     const element = await page.find("calcite-link");
 
     element.setProperty("download", true);
     await page.waitForChanges();
 
-    expect(elementAsLink).toHaveAttribute("download");
-    expect(elementAsLink.getAttribute("download")).toBe("");
+    expect(await elementAsLink.getProperty("download")).toBe(true);
 
     const newFilename = "my-cool-file.jpg";
     element.setProperty("download", newFilename);
     await page.waitForChanges();
 
-    expect(elementAsLink).toHaveAttribute("download");
-    expect(elementAsLink.getAttribute("download")).toBe(newFilename);
+    expect(await elementAsLink.getProperty("download")).toBe(newFilename);
   });
 
   it("renders as a span with default props", async () => {
