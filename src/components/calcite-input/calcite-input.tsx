@@ -200,7 +200,20 @@ export class CalciteInput implements LabelableComponent, FormComponent {
   @Watch("value")
   valueWatcher(newValue: string): void {
     if (!this.internalValueChange) {
-      this.setValue({ value: newValue == null ? "" : newValue, origin: "external" });
+      this.setValue({
+        origin: "external",
+        value:
+          newValue == null
+            ? ""
+            : this.type === "number"
+            ? isValidNumber(newValue)
+              ? newValue
+              : ""
+            : newValue
+      });
+      if (this.type === "number" && newValue && !isValidNumber(newValue)) {
+        console.warn(`The specified value "${newValue}" cannot be parsed, or is out of range.`);
+      }
     }
     this.internalValueChange = false;
   }
