@@ -173,14 +173,14 @@ export class CalciteInlineEditable implements LabelableComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * @internal
+   * Emitted when the cancel button gets clicked.
    */
-  @Event() calciteInlineEditableEditingCancel: EventEmitter;
+  @Event() calciteInlineEditableEditCancel: EventEmitter<void>;
 
   /**
-   * @internal
+   * Emitted when the check button gets clicked.
    */
-  @Event() calciteInlineEditableChangesConfirm: EventEmitter;
+  @Event() calciteInlineEditableEditConfirm: EventEmitter<void>;
 
   /**
    * @internal
@@ -260,9 +260,9 @@ export class CalciteInlineEditable implements LabelableComponent {
     this.inputElement.label = this.inputElement.label || getLabelText(this);
   };
 
-  transitionEnd = (event: TransitionEvent): void => {
+  transitionEnd = (): void => {
     if (!this.editingEnabled && !!this.shouldEmitCancel) {
-      this.calciteInlineEditableEditingCancel.emit(event);
+      this.calciteInlineEditableEditCancel.emit();
     }
   };
 
@@ -327,7 +327,7 @@ export class CalciteInlineEditable implements LabelableComponent {
   private confirmChangesHandler = async (e: MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    this.calciteInlineEditableChangesConfirm.emit();
+    this.calciteInlineEditableEditConfirm.emit();
     try {
       if (this.afterConfirm) {
         this.loading = true;

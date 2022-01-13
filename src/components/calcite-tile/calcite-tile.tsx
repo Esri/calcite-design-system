@@ -1,6 +1,11 @@
 import { Component, Element, Fragment, h, Prop, VNode } from "@stencil/core";
 import { SLOTS } from "./resources";
 import { getSlotted } from "../../utils/dom";
+import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 
 /**
  * @slot content-start - A slot for adding non-actionable elements before the tile content.
@@ -11,7 +16,7 @@ import { getSlotted } from "../../utils/dom";
   styleUrl: "calcite-tile.scss",
   shadow: true
 })
-export class CalciteTile {
+export class CalciteTile implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -57,6 +62,20 @@ export class CalciteTile {
 
   /** The icon that appears at the top of the tile. */
   @Prop({ reflect: true }) icon?: string;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  // --------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    connectConditionalSlotComponent(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectConditionalSlotComponent(this);
+  }
 
   // --------------------------------------------------------------------------
   //

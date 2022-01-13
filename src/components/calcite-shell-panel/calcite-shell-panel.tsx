@@ -14,6 +14,11 @@ import { CSS, SLOTS, TEXT } from "./resources";
 import { Position, Scale } from "../interfaces";
 import { getSlotted, getElementDir } from "../../utils/dom";
 import { clamp } from "../../utils/math";
+import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 
 /**
  * @slot - A slot for adding content to the shell panel.
@@ -24,7 +29,7 @@ import { clamp } from "../../utils/math";
   styleUrl: "calcite-shell-panel.scss",
   shadow: true
 })
-export class CalciteShellPanel {
+export class CalciteShellPanel implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -79,7 +84,12 @@ export class CalciteShellPanel {
   //
   //--------------------------------------------------------------------------
 
+  connectedCallback(): void {
+    connectConditionalSlotComponent(this);
+  }
+
   disconnectedCallback(): void {
+    disconnectConditionalSlotComponent(this);
     this.disconnectSeparator();
   }
 
@@ -135,7 +145,7 @@ export class CalciteShellPanel {
     const hasHeader = getSlotted(el, SLOTS.header);
 
     return hasHeader ? (
-      <div class={CSS.contentHeader}>
+      <div class={CSS.contentHeader} key="header">
         <slot name={SLOTS.header} />
       </div>
     ) : null;
@@ -160,6 +170,7 @@ export class CalciteShellPanel {
       <div
         class={{ [CSS.content]: true, [CSS.contentDetached]: detached }}
         hidden={collapsed}
+        key="content"
         ref={this.storeContentEl}
         style={allowResizing && contentWidth ? { width: `${contentWidth}px` } : null}
       >
@@ -178,6 +189,7 @@ export class CalciteShellPanel {
         aria-valuemin={contentWidthMin}
         aria-valuenow={contentWidth ?? initialContentWidth}
         class={CSS.separator}
+        key="separator"
         onKeyDown={this.separatorKeyDown}
         ref={this.connectSeparator}
         role="separator"
@@ -186,7 +198,7 @@ export class CalciteShellPanel {
       />
     ) : null;
 
-    const actionBarNode = <slot name={SLOTS.actionBar} />;
+    const actionBarNode = <slot key="action-bar" name={SLOTS.actionBar} />;
 
     const mainNodes = [actionBarNode, contentNode, separatorNode];
 
