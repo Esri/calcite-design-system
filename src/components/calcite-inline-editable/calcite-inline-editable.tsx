@@ -98,9 +98,7 @@ export class CalciteInlineEditable implements LabelableComponent {
   connectedCallback() {
     connectLabel(this);
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.updateSlottedInput();
-    this.scale =
-      this.scale || this.inputElement?.scale || getElementProp(this.el, "scale", undefined);
+    this.mutationObserverCallback();
   }
 
   disconnectedCallback() {
@@ -218,7 +216,7 @@ export class CalciteInlineEditable implements LabelableComponent {
 
   labelEl: HTMLCalciteLabelElement;
 
-  mutationObserver = createObserver("mutation", () => this.updateSlottedInput());
+  mutationObserver = createObserver("mutation", () => this.mutationObserverCallback());
 
   //--------------------------------------------------------------------------
   //
@@ -241,11 +239,17 @@ export class CalciteInlineEditable implements LabelableComponent {
   //
   //--------------------------------------------------------------------------
 
+  mutationObserverCallback(): void {
+    this.updateSlottedInput();
+    this.scale =
+      this.scale || this.inputElement?.scale || getElementProp(this.el, "scale", undefined);
+  }
+
   onLabelClick(): void {
     this.setFocus();
   }
 
-  updateSlottedInput = (): void => {
+  updateSlottedInput(): void {
     const inputElement: HTMLCalciteInputElement = getSlotted(this.el, {
       matches: "calcite-input"
     });
@@ -258,7 +262,7 @@ export class CalciteInlineEditable implements LabelableComponent {
 
     this.inputElement.disabled = this.disabled;
     this.inputElement.label = this.inputElement.label || getLabelText(this);
-  };
+  }
 
   transitionEnd = (): void => {
     if (!this.editingEnabled && !!this.shouldEmitCancel) {
