@@ -159,7 +159,7 @@ export class CalciteNotice implements ConditionalSlotComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    const noticeLinkEl: HTMLCalciteLinkElement = getSlotted(this.el, { matches: "calcite-link" });
+    const noticeLinkEl = this.el.querySelector("calcite-link");
 
     if (!this.closeButton && !noticeLinkEl) {
       return;
