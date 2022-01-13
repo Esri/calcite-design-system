@@ -31,6 +31,7 @@ export const SLOTS = {
   headerActionsEnd: "header-actions-end",
   headerMenuActions: "header-menu-actions",
   headerContent: "header-content",
+  headerPopover: "header-popover",
   fab: "fab",
   footer: "footer",
   footerActions: "footer-actions"

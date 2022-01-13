@@ -21,6 +21,7 @@ import { SLOTS as ACTION_MENU_SLOTS } from "../calcite-action-menu/resources";
  * @slot header-actions-start - A slot for adding actions or content to the start side of the panel header.
  * @slot header-actions-end - A slot for adding actions or content to the end side of the panel header.
  * @slot header-content - A slot for adding custom content to the header.
+ * @slot header-popover - A slot for adding a popover that will be attached to the header.
  * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a dropdown.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
  * @slot footer-actions - A slot for adding buttons to the footer.
@@ -132,6 +133,8 @@ export class CalcitePanel {
 
   containerEl: HTMLElement;
 
+  headerEl: HTMLElement;
+
   // --------------------------------------------------------------------------
   //
   //  Events
@@ -158,6 +161,18 @@ export class CalcitePanel {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  headerPopoverSlotChanged = (event: Event): void => {
+    const target = event.target as HTMLSlotElement;
+
+    const popover = target
+      .assignedNodes({ flatten: true })
+      .find((el) => el.nodeName === "CALCITE-POPOVER") as HTMLCalcitePopoverElement;
+
+    if (popover) {
+      popover.referenceElement = this.headerEl || null;
+    }
+  };
 
   setContainerRef = (node: HTMLElement): void => {
     this.containerEl = node;
@@ -332,6 +347,10 @@ export class CalcitePanel {
     ) : null;
   }
 
+  renderHeaderPopover(): VNode {
+    return <slot name={SLOTS.headerPopover} onSlotchange={this.headerPopoverSlotChanged} />;
+  }
+
   renderHeaderNode(): VNode {
     const { el, showBackButton } = this;
 
@@ -351,7 +370,7 @@ export class CalcitePanel {
       actionsNodeEnd ||
       headerMenuNode ||
       showBackButton ? (
-      <header class={CSS.header}>
+      <header class={CSS.header} ref={(el) => (this.headerEl = el)}>
         {backButtonNode}
         {actionsNodeStart}
         {headerContentNode}
@@ -434,6 +453,7 @@ export class CalcitePanel {
         ref={this.setContainerRef}
         tabIndex={dismissible ? 0 : -1}
       >
+        {this.renderHeaderPopover()}
         {this.renderHeaderNode()}
         {this.renderContent()}
         {this.renderFooterSlottedContent() || this.renderFooterActions()}
