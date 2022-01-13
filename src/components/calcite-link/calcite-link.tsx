@@ -100,6 +100,10 @@ export class CalciteLink {
       <Host role="presentation">
         <Tag
           class={{ [CSS_UTILITY.rtl]: dir === "rtl" }}
+          /*
+          When the 'download' property of type 'boolean | string' is set to true, the value is "".
+          This works around that issue for now.
+          */
           download={Tag === "a" && (download === "" || download) ? download : null}
           href={Tag === "a" && this.href}
           ref={this.storeTagRef}
