@@ -60,9 +60,6 @@ export function sanitizeExponentialNumberString(numberString: string, func: (s: 
   if (!numberString) {
     return numberString;
   }
-  if (!isValidNumber(numberString)) {
-    return "";
-  }
 
   const firstE = numberString.toLowerCase().indexOf("e") + 1;
 
