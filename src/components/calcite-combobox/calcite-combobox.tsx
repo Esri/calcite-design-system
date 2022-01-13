@@ -29,7 +29,8 @@ import {
   ComboboxChildSelector,
   ComboboxItem,
   ComboboxItemGroup,
-  ComboboxDefaultPlacement
+  ComboboxDefaultPlacement,
+  TEXT
 } from "./resources";
 import { getItemAncestors, getItemChildren, hasActiveChildren } from "./utils";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
@@ -159,6 +160,11 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
       this.updateItems();
     }
   }
+
+  /** string to override the English "Remove tag" text for when an item is selected.
+   * @default "Remove tag"
+   */
+  @Prop({ reflect: false }) intlRemoveTag: string = TEXT.removeTag;
 
   //--------------------------------------------------------------------------
   //
@@ -886,7 +892,7 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
   //--------------------------------------------------------------------------
 
   renderChips(): VNode[] {
-    const { activeChipIndex, scale, selectionMode } = this;
+    const { activeChipIndex, scale, selectionMode, intlRemoveTag } = this;
     return this.selectedItems.map((item, i) => {
       const chipClasses = {
         chip: true,
@@ -898,7 +904,7 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
       return (
         <calcite-chip
           class={chipClasses}
-          dismissLabel={"remove tag"}
+          dismissLabel={intlRemoveTag}
           dismissible
           icon={item.icon}
           id={`${chipUidPrefix}${item.guid}`}
