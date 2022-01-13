@@ -1,6 +1,6 @@
 :host {
   @extend %component-host;
-  @apply flex bg-transparent;
+  @apply flex bg-transparent items-center justify-center;
 }
 
 :host([disabled]) {
