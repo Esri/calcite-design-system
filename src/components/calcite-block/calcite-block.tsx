@@ -3,6 +3,11 @@ import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
 import { getSlotted } from "../../utils/dom";
 import { CalciteHeading, HeadingLevel } from "../functional/CalciteHeading";
 import { Status } from "../interfaces";
+import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 
 /**
  * @slot - A slot for adding content to the block.
@@ -15,7 +20,7 @@ import { Status } from "../interfaces";
   styleUrl: "calcite-block.scss",
   shadow: true
 })
-export class CalciteBlock {
+export class CalciteBlock implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -97,6 +102,20 @@ export class CalciteBlock {
 
   // --------------------------------------------------------------------------
   //
+  //  Lifecycle
+  //
+  // --------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    connectConditionalSlotComponent(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectConditionalSlotComponent(this);
+  }
+
+  // --------------------------------------------------------------------------
+  //
   //  Events
   //
   // --------------------------------------------------------------------------
@@ -141,7 +160,7 @@ export class CalciteBlock {
     const hasIcon = getSlotted(el, SLOTS.icon) || statusIcon;
 
     const iconEl = !statusIcon ? (
-      <slot name={SLOTS.icon} />
+      <slot key="icon-slot" name={SLOTS.icon} />
     ) : (
       <calcite-icon
         class={{

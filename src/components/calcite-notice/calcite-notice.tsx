@@ -14,6 +14,11 @@ import { CSS, SLOTS, TEXT } from "./resources";
 import { Scale, Width } from "../interfaces";
 import { StatusColor, StatusIcons } from "../calcite-alert/interfaces";
 import { getSlotted, setRequestedIcon } from "../../utils/dom";
+import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 
 /** Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
  * notices are displayed inline, a common use case is displaying them on page-load to present users with short hints or contextual copy.
@@ -33,7 +38,7 @@ import { getSlotted, setRequestedIcon } from "../../utils/dom";
   styleUrl: "calcite-notice.scss",
   shadow: true
 })
-export class CalciteNotice {
+export class CalciteNotice implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -83,6 +88,14 @@ export class CalciteNotice {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    connectConditionalSlotComponent(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectConditionalSlotComponent(this);
+  }
 
   componentWillLoad(): void {
     this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
