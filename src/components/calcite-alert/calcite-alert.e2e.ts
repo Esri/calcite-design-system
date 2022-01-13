@@ -280,12 +280,14 @@ describe("calcite-alert", () => {
 
     const openEvent = page.waitForEvent("calciteAlertOpen");
     element.setAttribute("active", "");
+    await page.waitForChanges();
     await openEvent;
 
     expect(await container.isVisible()).toBe(true);
 
     const closeEvent = page.waitForEvent("calciteAlertClose");
     element.removeAttribute("active");
+    await page.waitForChanges();
     await closeEvent;
 
     expect(await container.isVisible()).toBe(false);
