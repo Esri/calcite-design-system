@@ -187,40 +187,31 @@ export async function slots(componentTagOrHTML: TagOrHTML, slots: Record<string,
   const tag = getTag(componentTagOrHTML);
   const slotNames = Array.isArray(slots) ? slots : Object.values(slots);
 
-  const allSlotsAssigned = await page.$eval(
+  await page.$eval(
     tag,
     async (component, slotNames: string[]) => {
-      slotNames.forEach((slot) => {
-        const el = document.createElement("div");
+      for (let i = 0; i < slotNames.length; i++) {
+        const slot = slotNames[i];
+        const el = document.createElement("div"); // slotting a <div> will suffice for our purposes
         el.classList.add("slotted");
         el.slot = slot;
 
-        component.appendChild(el);
-      });
-
-      // we do this for conditionally-rendered slots since slotting after initialization does not trigger a render phase
-
-      const html = component.outerHTML.replace(/\"/g, `'`);
-      component.remove();
-
-      const parent = document.createElement("div");
-      document.body.append(parent);
-      parent.innerHTML = html;
-
-      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-
-      const allSlotsAssigned = Array.from(parent.getElementsByClassName("slotted"))
-        .map((slotted) => slotted.assignedSlot)
-        .every((assignedSlot) => !!assignedSlot);
-
-      parent.remove();
-
-      return allSlotsAssigned;
+        component.append(el);
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+      }
     },
     slotNames
   );
 
-  expect(allSlotsAssigned).toBe(true);
+  await page.waitForChanges();
+
+  const slotted = await page.evaluate(() =>
+    Array.from(document.getElementsByClassName("slotted"))
+      .filter((slotted) => slotted.assignedSlot)
+      .map((slotted) => slotted.slot)
+  );
+
+  expect(slotNames).toEqual(slotted);
 }
 
 async function assertLabelable({

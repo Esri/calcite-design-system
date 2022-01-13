@@ -1,6 +1,11 @@
 import { Component, Element, Prop, h, VNode, Fragment } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
 import { getSlotted } from "../../utils/dom";
+import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 
 /**
  * @slot - A slot for adding content to the shell. This content will appear between any leading and trailing panels added to the shell. (eg. a map)
@@ -15,7 +20,7 @@ import { getSlotted } from "../../utils/dom";
   styleUrl: "calcite-shell.scss",
   shadow: true
 })
-export class CalciteShell {
+export class CalciteShell implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -37,6 +42,20 @@ export class CalciteShell {
 
   // --------------------------------------------------------------------------
   //
+  //  Lifecycle
+  //
+  // --------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    connectConditionalSlotComponent(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectConditionalSlotComponent(this);
+  }
+
+  // --------------------------------------------------------------------------
+  //
   //  Render Methods
   //
   // --------------------------------------------------------------------------
@@ -44,7 +63,7 @@ export class CalciteShell {
   renderHeader(): VNode {
     const hasHeader = !!getSlotted(this.el, SLOTS.header);
 
-    return hasHeader ? <slot name={SLOTS.header} /> : null;
+    return hasHeader ? <slot key="header" name={SLOTS.header} /> : null;
   }
 
   renderContent(): VNode[] {
@@ -74,7 +93,7 @@ export class CalciteShell {
     const hasFooter = !!getSlotted(this.el, SLOTS.footer);
 
     return hasFooter ? (
-      <div class={CSS.footer}>
+      <div class={CSS.footer} key="footer">
         <slot name={SLOTS.footer} />
       </div>
     ) : null;

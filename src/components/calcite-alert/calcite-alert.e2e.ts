@@ -269,6 +269,30 @@ describe("calcite-alert", () => {
     });
   });
 
+  it("should emit proper 'calciteAlertOpen' and 'calciteAlertClose' events on animation end", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-alert>
+    ${alertContent}
+    </calcite-alert>`);
+
+    const element = await page.find("calcite-alert");
+    const container = await page.find(`calcite-alert >>> .container`);
+
+    const openEvent = page.waitForEvent("calciteAlertOpen");
+    element.setAttribute("active", "");
+    await page.waitForChanges();
+    await openEvent;
+
+    expect(await container.isVisible()).toBe(true);
+
+    const closeEvent = page.waitForEvent("calciteAlertClose");
+    element.removeAttribute("active");
+    await page.waitForChanges();
+    await closeEvent;
+
+    expect(await container.isVisible()).toBe(false);
+  });
+
   describe("when multiple alerts are queued", () => {
     it("should display number of queued alerts with a calcite-chip", async () => {
       const page = await newE2EPage({
