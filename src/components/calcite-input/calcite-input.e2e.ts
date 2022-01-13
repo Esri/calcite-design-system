@@ -686,6 +686,39 @@ describe("calcite-input", () => {
     expect(await input.getProperty("value")).toBe(`${finalNudgedValue}`);
   });
 
+  it("when both 'ArrowUp' and 'ArrowDown' are pressed at the same time most recently pressed key takes over", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-input type="number" value="0"></calcite-input>`);
+    const element = await page.find("calcite-input");
+    await element.callMethod("setFocus");
+
+    await page.keyboard.down("ArrowUp");
+    await page.waitForChanges();
+    expect(await element.getProperty("value")).toBe("1");
+    await page.keyboard.down("ArrowDown");
+    await page.waitForTimeout(delayFor2UpdatesInMs);
+    await page.keyboard.up("ArrowUp");
+    await page.keyboard.up("ArrowDown");
+    await page.waitForChanges();
+    expect(await element.getProperty("value")).toBe("-1");
+  });
+
+  it("should emit event only twice when toggled fast between up/down arrows", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-input type="number" value="0"></calcite-input>`);
+    const calciteInputInput = await page.spyOnEvent("calciteInputInput");
+    const element = await page.find("calcite-input");
+    await element.callMethod("setFocus");
+
+    const arrowUpDown = page.keyboard.down("ArrowUp");
+    const arrowUpUp = page.keyboard.up("ArrowUp");
+    const arrowDownDown = page.keyboard.down("ArrowDown");
+    const arrowDownUp = page.keyboard.up("ArrowDown");
+    await Promise.all([arrowUpDown, arrowUpUp, arrowDownDown, arrowDownUp]);
+    await page.waitForChanges();
+    expect(calciteInputInput).toHaveReceivedEventTimes(2);
+  });
+
   it("allows restricting input length", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-input min-length="2" max-length="3" value=""></calcite-input>`);

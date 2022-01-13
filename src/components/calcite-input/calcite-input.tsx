@@ -550,6 +550,9 @@ export class CalciteInput implements LabelableComponent, FormComponent {
 
     this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
 
+    if (this.nudgeNumberValueIntervalId) {
+      window.clearInterval(this.nudgeNumberValueIntervalId);
+    }
     let firstValueNudge = true;
     this.nudgeNumberValueIntervalId = window.setInterval(() => {
       if (firstValueNudge) {

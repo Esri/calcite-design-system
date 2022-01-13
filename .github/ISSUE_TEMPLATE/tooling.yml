@@ -1,0 +1,30 @@
+name: Tooling
+description: Request improvements to our component or repo workflows
+labels: ["tooling", "0 - new", "needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        - Please [check for existing issues](https://github.com/Esri/calcite-components/issues) to avoid duplicates. If someone has already opened an issue for what you are experiencing, please add a 👍 reaction to the existing issue instead of creating a new one.
+        - For support, please check the [community forum](https://developers.arcgis.com/calcite-design-system/community/).
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Pain point, bottleneck, etc.
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired Outcome
+      description: What can be done to improve our workflows?
+    validations:
+      required: true
+  - type: textarea
+    id: resources
+    attributes:
+      label: Resources
+      description: links to libraries or code snippets.
+    validations:
+      required: false
