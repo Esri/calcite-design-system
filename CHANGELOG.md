@@ -9,11 +9,13 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Features
 
+- **combobox:** Add 'intlRemoveTag' property to override the remove tag text. ([#3920](https://github.com/Esri/calcite-components/issues/3920)) ([4070c2e](https://github.com/Esri/calcite-components/commit/4070c2e5430727d3c3af51535a4631a69b3b878b))
 - **inline-editable:** change internal events to public ([#3872](https://github.com/Esri/calcite-components/issues/3872)) ([3d0daa7](https://github.com/Esri/calcite-components/commit/3d0daa7c08b2b5397f1668ce4664433e90cf359c))
 
 ### Bug Fixes
 
 - **dropdown:** dropdown wrapper no longer overflows inside a panel ([#3378](https://github.com/Esri/calcite-components/issues/3378)) ([5b966e3](https://github.com/Esri/calcite-components/commit/5b966e3a6b36f29a83ccdf66e14163d6b73f9878))
+- **input:** number input no longer increments by itself indefinitely when up/down buttons are toggled fast or pressed at the same time; ([#3908](https://github.com/Esri/calcite-components/issues/3908)) ([d2863d2](https://github.com/Esri/calcite-components/commit/d2863d208bd7c8ebead42ad354ce3647af015232))
 <!--@unreleased-section-end-->
 
 ## [1.0.0-beta.74](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.73...v1.0.0-beta.74) (2022-01-11)
