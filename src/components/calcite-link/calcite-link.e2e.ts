@@ -33,7 +33,7 @@ describe("calcite-link", () => {
     element.setProperty("download", true);
     await page.waitForChanges();
 
-    expect(await elementAsLink.getProperty("download")).toBe(true);
+    expect(await elementAsLink.getProperty("download")).toBe("");
     expect(elementAsLink).toHaveAttribute("download");
     expect(elementAsLink.getAttribute("download")).toBe("");
 
