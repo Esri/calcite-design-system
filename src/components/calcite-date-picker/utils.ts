@@ -37,8 +37,9 @@ function getSupportedLocale(lang = "") {
   if (locales.indexOf(lang) > -1) {
     return lang;
   } else {
-    const base = lang.split("-")[0];
-    return locales.indexOf(base) > -1 ? base : "en";
+    const langType = lang.toLowerCase().split("-")[1];
+    const langId = lang.replace(langType, langType.toUpperCase());
+    return locales.indexOf(langId) > -1 ? langId : "en";
   }
 }
 
@@ -77,5 +78,6 @@ export async function getLocaleData(lang: string): Promise<DateLocaleData> {
   const data = await requestCache[locale];
   translationCache[locale] = data;
 
+  console.log(data);
   return data;
 }
