@@ -288,7 +288,7 @@ describe("calcite-alert", () => {
     element.removeAttribute("active");
     await closeEvent;
 
-    expect(await container.isVisible()).toBe(true);
+    expect(await container.isVisible()).toBe(false);
   });
 
   describe("when multiple alerts are queued", () => {
