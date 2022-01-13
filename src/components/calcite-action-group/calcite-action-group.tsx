@@ -4,6 +4,11 @@ import { Fragment, VNode } from "@stencil/core/internal";
 import { getSlotted } from "../../utils/dom";
 import { SLOTS as ACTION_MENU_SLOTS } from "../calcite-action-menu/resources";
 import { Columns, Layout, Scale } from "../interfaces";
+import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 
 /**
  * @slot - A slot for adding a group of `calcite-action`s.
@@ -15,7 +20,7 @@ import { Columns, Layout, Scale } from "../interfaces";
   styleUrl: "calcite-action-group.scss",
   shadow: true
 })
-export class CalciteActionGroup {
+export class CalciteActionGroup implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -64,6 +69,20 @@ export class CalciteActionGroup {
   // --------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteActionGroupElement;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  // --------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    connectConditionalSlotComponent(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectConditionalSlotComponent(this);
+  }
 
   // --------------------------------------------------------------------------
   //

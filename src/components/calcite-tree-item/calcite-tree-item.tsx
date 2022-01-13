@@ -17,6 +17,11 @@ import { nodeListToArray, getElementDir, filterDirectChildren, getSlotted } from
 import { Scale } from "../interfaces";
 import { CSS, SLOTS, ICONS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
+import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 
 /**
  * @slot - A slot for adding content to the item.
@@ -27,7 +32,7 @@ import { CSS_UTILITY } from "../../utils/resources";
   styleUrl: "calcite-tree-item.scss",
   shadow: true
 })
-export class CalciteTreeItem {
+export class CalciteTreeItem implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -96,6 +101,11 @@ export class CalciteTreeItem {
       const { expanded } = this.parentTreeItem;
       this.updateParentIsExpanded(this.parentTreeItem, expanded);
     }
+    connectConditionalSlotComponent(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectConditionalSlotComponent(this);
   }
 
   componentWillRender(): void {

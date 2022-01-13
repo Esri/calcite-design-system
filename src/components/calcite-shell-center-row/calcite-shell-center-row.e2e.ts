@@ -1,7 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 
 import { CSS, SLOTS } from "./resources";
-import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders, slots } from "../../tests/commonTests";
 
 describe("calcite-shell-center-row", () => {
   it("renders", async () => renders("calcite-shell-center-row", { display: "flex" }));
@@ -24,6 +24,8 @@ describe("calcite-shell-center-row", () => {
       }
     ]));
 
+  it("has slots", () => slots("calcite-shell-center-row", SLOTS));
+
   it("should not render action bar container when there is no action-bar", async () => {
     const page = await newE2EPage();
 
@@ -32,23 +34,6 @@ describe("calcite-shell-center-row", () => {
     const actionBarContainer = await page.find(`calcite-shell-center-row >>> .${CSS.actionBarContainer}`);
 
     expect(actionBarContainer).toBeNull();
-  });
-
-  it("should render action bar container when there is an action-bar", async () => {
-    const page = await newE2EPage();
-
-    const pageContent = `
-    <calcite-shell-center-row>
-      <calcite-action-bar slot=${SLOTS.actionBar}>
-        <calcite-action text="hello" icon="banana"></calcite-action>
-      </calcite-action-bar>
-    </calcite-shell-center-row>
-    `;
-    await page.setContent(pageContent);
-
-    const actionBarContainer = await page.find(`calcite-shell-center-row >>> .${CSS.actionBarContainer}`);
-
-    expect(actionBarContainer).not.toBeNull();
   });
 
   it("should render action bar container first when action bar has start position", async () => {
