@@ -211,9 +211,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
               : ""
             : newValue
       });
-      if (this.type === "number" && newValue && !isValidNumber(newValue)) {
-        console.warn(`The specified value "${newValue}" cannot be parsed, or is out of range.`);
-      }
+      this.warnAboutInvalidNumberValue(newValue);
     }
     this.internalValueChange = false;
   }
@@ -297,6 +295,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     }
     this.setPreviousValue(this.value);
     if (this.type === "number") {
+      this.warnAboutInvalidNumberValue(this.value);
       this.setValue({
         origin: "loading",
         value: isValidNumber(this.value) ? this.value : ""
@@ -724,6 +723,12 @@ export class CalciteInput implements LabelableComponent, FormComponent {
   private inputKeyUpHandler = (): void => {
     window.clearInterval(this.nudgeNumberValueIntervalId);
   };
+
+  private warnAboutInvalidNumberValue(value: string): void {
+    if (this.type === "number" && value && !isValidNumber(value)) {
+      console.warn(`The specified value "${value}" cannot be parsed, or is out of range.`);
+    }
+  }
 
   // --------------------------------------------------------------------------
   //
