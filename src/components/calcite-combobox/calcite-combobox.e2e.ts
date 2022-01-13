@@ -33,6 +33,16 @@ describe("calcite-combobox", () => {
       </calcite-combobox>
   `));
 
+  it("is accessible with active selected items", async () =>
+    accessible(`
+      <calcite-combobox active label="Trees" value="Trees">
+        <calcite-combobox-item-group label="Conifers">
+          <calcite-combobox-item selected value="Pine" text-label="Pine"></calcite-combobox-item>
+          <calcite-combobox-item selected value="Spruce" text-label="Spruce"></calcite-combobox-item>
+        </calcite-combobox-item-group>
+      </calcite-combobox>
+  `));
+
   it("is labelable", async () => labelable("calcite-combobox"));
 
   it("should show the listbox when it receives focus", async () => {
