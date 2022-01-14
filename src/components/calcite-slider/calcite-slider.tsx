@@ -1121,8 +1121,6 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
     const leftValueLabelTransformed: HTMLSpanElement = shadowRoot.querySelector(
       `.handle__label--${leftModifier}.transformed`
     );
-    const leftMod: HTMLButtonElement = shadowRoot.querySelector(`.thumb--${leftModifier}`);
-    const leftThumbHandle: HTMLDivElement = leftMod.querySelector(".handle");
     const leftValueLabelStaticHostOffset = this.getHostOffset(
       leftValueLabelStatic.getBoundingClientRect().left,
       leftValueLabelStatic.getBoundingClientRect().right
@@ -1137,8 +1135,6 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
     const rightValueLabelTransformed: HTMLSpanElement = shadowRoot.querySelector(
       `.handle__label--${rightModifier}.transformed`
     );
-    const rightMod: HTMLButtonElement = shadowRoot.querySelector(`.thumb--${rightModifier}`);
-    const rightThumbHandle: HTMLDivElement = rightMod.querySelector(".handle");
     const rightValueLabelStaticHostOffset = this.getHostOffset(
       rightValueLabelStatic.getBoundingClientRect().left,
       rightValueLabelStatic.getBoundingClientRect().right
@@ -1149,14 +1145,10 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
       leftValueLabelTransformed,
       rightValueLabelTransformed
     );
-    console.log(`%c labelTransofrmedOverlap ${labelTransformedOverlap}`, "color:green");
-    const hyphenLabel = mirror ? rightValueLabel : leftValueLabel;
-    // const hyphenLabel = leftValueLabel;
+    const hyphenLabel = leftValueLabel;
     const labelOffset = labelFontSize / 2;
-    console.log(`%c label offSet ${labelOffset}`, "color:blue");
     if (labelTransformedOverlap > 0) {
-      hyphenLabel.classList.add(mirror ? "hyphen--mirror" : "hyphen");
-      // hyphenLabel.classList.add("hyphen");
+      hyphenLabel.classList.add("hyphen", "handle__label--flex");
       if (rightValueLabelStaticHostOffset === 0 && leftValueLabelStaticHostOffset === 0) {
         // Neither handle overlaps the host boundary
         let leftValueLabelTranslate = labelTransformedOverlap / 2 - labelOffset;
@@ -1164,7 +1156,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
           Math.sign(leftValueLabelTranslate) === -1
             ? Math.abs(leftValueLabelTranslate)
             : -leftValueLabelTranslate;
-        console.log(`%c leftValueLabelTranslate ${leftValueLabelTranslate}`, "color:red");
+
         const leftValueLabelTransformedHostOffset = this.getHostOffset(
           leftValueLabelTransformed.getBoundingClientRect().left +
             leftValueLabelTranslate -
@@ -1173,35 +1165,23 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
             leftValueLabelTranslate -
             labelOffset
         );
+
         let rightValueLabelTranslate = labelTransformedOverlap / 2;
-        console.log(`%c rightValueLabelTranslate ${rightValueLabelTranslate}`, "color:red");
         const rightValueLabelTransformedHostOffset = this.getHostOffset(
           rightValueLabelTransformed.getBoundingClientRect().left + rightValueLabelTranslate,
           rightValueLabelTransformed.getBoundingClientRect().right + rightValueLabelTranslate
         );
-        console.log(
-          `%c leftValueLabelTranslate ${leftValueLabelTransformedHostOffset} , rightValueLabelTransformedHostOffset ${rightValueLabelTransformedHostOffset}`,
-          "color:red"
-        );
+
         if (leftValueLabelTransformedHostOffset !== 0) {
-          console.log("yupppp");
           leftValueLabelTranslate += leftValueLabelTransformedHostOffset;
           rightValueLabelTranslate += leftValueLabelTransformedHostOffset;
         }
 
         if (rightValueLabelTransformedHostOffset !== 0) {
-          console.log("nopeeee");
           leftValueLabelTranslate += rightValueLabelTransformedHostOffset;
           rightValueLabelTranslate += rightValueLabelTransformedHostOffset;
         }
-        const overlapped = this.getThumbHandlesOverlap(leftThumbHandle, rightThumbHandle);
-        console.log("overlapped", overlapped);
 
-        if (overlapped) {
-          this.mirrored
-            ? (rightThumbHandle.style.transform = `translateY(15px)`)
-            : (leftThumbHandle.style.transform = `translateY(15px)`);
-        }
         leftValueLabel.style.transform = `translateX(${leftValueLabelTranslate}px)`;
         leftValueLabelTransformed.style.transform = `translateX(${
           leftValueLabelTranslate - labelOffset
@@ -1210,7 +1190,6 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
         rightValueLabelTransformed.style.transform = `translateX(${rightValueLabelTranslate}px)`;
       } else if (leftValueLabelStaticHostOffset > 0 || rightValueLabelStaticHostOffset > 0) {
         // labels overlap host boundary on the left side
-        console.log("labels overlap on left");
         leftValueLabel.style.transform = `translateX(${
           leftValueLabelStaticHostOffset + labelOffset
         }px)`;
@@ -1222,7 +1201,6 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
         }px)`;
       } else if (leftValueLabelStaticHostOffset < 0 || rightValueLabelStaticHostOffset < 0) {
         // labels overlap host boundary on the right side
-        console.log("labels overlap on right");
         let leftValueLabelTranslate =
           Math.abs(leftValueLabelStaticHostOffset) + labelTransformedOverlap - labelOffset;
         leftValueLabelTranslate =
@@ -1241,8 +1219,6 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
       leftValueLabelTransformed.style.transform = `translateX(${leftValueLabelStaticHostOffset}px)`;
       rightValueLabel.style.transform = `translateX(${rightValueLabelStaticHostOffset}px)`;
       rightValueLabelTransformed.style.transform = `translateX(${rightValueLabelStaticHostOffset}px)`;
-      rightThumbHandle.style.transform = `translateY(0px)`;
-      leftThumbHandle.style.transform = `translatey(0px)`;
     }
   }
 
@@ -1351,11 +1327,5 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
     const maxLabelBounds = maxLabel.getBoundingClientRect();
     const handleBounds = handle.getBoundingClientRect();
     return intersects(maxLabelBounds, handleBounds);
-  }
-
-  private getThumbHandlesOverlap(leftHandle: HTMLDivElement, rightHandle: HTMLDivElement): boolean {
-    const leftHandleBounds = leftHandle.getBoundingClientRect();
-    const rightHandleBounds = rightHandle.getBoundingClientRect();
-    return intersects(leftHandleBounds, rightHandleBounds);
   }
 }
