@@ -748,7 +748,7 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
       constant: item.constant,
       value: item.value,
       label: item.textLabel,
-      guid: item.guid || guid()
+      guid: item.guid
     }));
   }
 
@@ -835,7 +835,10 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
 
   focusChip(): void {
     const guid = this.selectedItems[this.activeChipIndex]?.guid;
-    const chip = this.referenceEl.querySelector<HTMLCalciteChipElement>(`#${chipUidPrefix}${guid}`);
+
+    const chip = guid
+      ? this.referenceEl.querySelector<HTMLCalciteChipElement>(`#${chipUidPrefix}${guid}`)
+      : null;
     chip?.setFocus();
   }
 
