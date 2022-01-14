@@ -9,7 +9,7 @@ module.exports = {
   browsers: [
     {
       browserName: "chrome",
-      version: "89.0"
+      version: "latest"
     }
   ],
   diffOptions: {
