@@ -71,7 +71,6 @@ export async function getLocaleData(lang: string): Promise<DateLocaleData> {
   if (translationCache[locale]) {
     return translationCache[locale];
   }
-
   if (!requestCache[locale]) {
     requestCache[locale] = fetch(getAssetPath(`./assets/calcite-date-picker/nls/${locale}.json`))
       .then((resp) => resp.json())
