@@ -36,11 +36,16 @@ export interface DateLocaleData {
 function getSupportedLocale(lang = "") {
   if (locales.indexOf(lang) > -1) {
     return lang;
-  } else {
-    const langType = lang.toLowerCase().split("-")[1];
+  }
+
+  lang = lang.toLowerCase();
+
+  if (lang.includes("-")) {
+    const langType = lang.split("-")[1];
     const langId = lang.replace(langType, langType.toUpperCase());
     return locales.indexOf(langId) > -1 ? langId : "en";
   }
+  return locales.indexOf(lang) > -1 ? lang : "en";
 }
 
 /**
@@ -66,6 +71,7 @@ export async function getLocaleData(lang: string): Promise<DateLocaleData> {
   if (translationCache[locale]) {
     return translationCache[locale];
   }
+
   if (!requestCache[locale]) {
     requestCache[locale] = fetch(getAssetPath(`./assets/calcite-date-picker/nls/${locale}.json`))
       .then((resp) => resp.json())
@@ -78,6 +84,5 @@ export async function getLocaleData(lang: string): Promise<DateLocaleData> {
   const data = await requestCache[locale];
   translationCache[locale] = data;
 
-  console.log(data);
   return data;
 }
