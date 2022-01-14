@@ -1,14 +1,12 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { focusable, HYDRATED_ATTR } from "../../tests/commonTests";
+import { focusable, renders, slots } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
+import { SLOTS } from "./resources";
 
 describe("calcite-modal properties", () => {
-  it("renders", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-modal></calcite-modal>");
-    const element = await page.find("calcite-modal");
-    expect(element).toHaveAttribute(HYDRATED_ATTR);
-  });
+  it("renders", () => renders("calcite-modal", { display: "flex", visible: false }));
+
+  it("has slots", () => slots("calcite-modal", SLOTS));
 
   it("adds localized strings set via intl-* props", async () => {
     const page = await newE2EPage();

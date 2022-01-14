@@ -162,24 +162,33 @@ interface GetSlottedOptions {
   selector?: string;
 }
 
+const defaultSlotSelector = "> :not([slot])";
+
 export function getSlotted<T extends Element = Element>(
   element: Element,
-  slotName: string | string[],
+  slotName: string | string[] | (GetSlottedOptions & { all: true }),
   options: GetSlottedOptions & { all: true }
 ): T[];
 export function getSlotted<T extends Element = Element>(
   element: Element,
-  slotName: string | string[],
+  slotName?: string | string[] | GetSlottedOptions,
   options?: GetSlottedOptions
 ): T | null;
 export function getSlotted<T extends Element = Element>(
   element: Element,
-  slotName: string | string[],
+  slotName?: string | string[] | GetSlottedOptions,
   options?: GetSlottedOptions
 ): (T | null) | T[] {
-  const slotSelector = Array.isArray(slotName)
-    ? slotName.map((name) => `[slot="${name}"]`).join(",")
-    : `[slot="${slotName}"]`;
+  if (!Array.isArray(slotName) && typeof slotName !== "string") {
+    options = slotName;
+    slotName = null;
+  }
+
+  const slotSelector = slotName
+    ? Array.isArray(slotName)
+      ? slotName.map((name) => `[slot="${name}"]`).join(",")
+      : `[slot="${slotName}"]`
+    : defaultSlotSelector;
 
   if (options?.all) {
     return queryMultiple<T>(element, slotSelector, options);
@@ -196,6 +205,10 @@ function queryMultiple<T extends Element = Element>(
   let matches = Array.from(element.querySelectorAll<T>(slotSelector));
   matches = options && options.direct === false ? matches : matches.filter((el) => el.parentElement === element);
 
+  if (slotSelector === defaultSlotSelector) {
+    matches = matches.filter((match) => match?.assignedSlot);
+  }
+
   const selector = options?.selector;
   return selector
     ? matches
@@ -211,10 +224,15 @@ function querySingle<T extends Element = Element>(
   options?: GetSlottedOptions
 ): T | null {
   let match = element.querySelector<T>(slotSelector);
+
+  if (slotSelector === defaultSlotSelector) {
+    match = match?.assignedSlot ? match : null;
+  }
+
   match = options && options.direct === false ? match : match?.parentElement === element ? match : null;
 
   const selector = options?.selector;
-  return selector ? match.querySelector<T>(selector) : match;
+  return selector ? match?.querySelector<T>(selector) : match;
 }
 
 export function filterDirectChildren<T extends Element>(el: Element, selector: string): T[] {

@@ -1,28 +1,27 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { HYDRATED_ATTR } from "../../tests/commonTests";
+import { renders } from "../../tests/commonTests";
+import { html } from "../../tests/utils";
 
 // todo test the automatic setting of first item to active
 describe("calcite-stepper", () => {
-  it("renders", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-stepper>
-      <calcite-stepper-item item-title="Step 1" id="step-1">
-        <div>Step 1 content</div>
-      </calcite-stepper-item>
-      <calcite-stepper-item item-title="Step 2" id="step-2">
-        <div>Step 2 content</div>
-      </calcite-stepper-item>
-      <calcite-stepper-item item-title="Step 3" id="step-3">
-        <div>Step 3 content</div>
-      </calcite-stepper-item>
-      <calcite-stepper-item item-title="Step 4" id="step-4">
-        <div>Step 4 content</div>
-      </calcite-stepper-item>
-    </calcite-stepper>`);
-    const element = await page.find("calcite-stepper");
-    expect(element).toHaveAttribute(HYDRATED_ATTR);
-  });
+  it("renders", () =>
+    renders(
+      html` <calcite-stepper>
+        <calcite-stepper-item item-title="Step 1" id="step-1">
+          <div>Step 1 content</div>
+        </calcite-stepper-item>
+        <calcite-stepper-item item-title="Step 2" id="step-2">
+          <div>Step 2 content</div>
+        </calcite-stepper-item>
+        <calcite-stepper-item item-title="Step 3" id="step-3">
+          <div>Step 3 content</div>
+        </calcite-stepper-item>
+        <calcite-stepper-item item-title="Step 4" id="step-4">
+          <div>Step 4 content</div>
+        </calcite-stepper-item>
+      </calcite-stepper>`,
+      { display: "flex" }
+    ));
 
   it("renders default props when none are provided", async () => {
     const page = await newE2EPage();

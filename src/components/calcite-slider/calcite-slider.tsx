@@ -628,19 +628,15 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
 
   private renderGraph(): VNode {
     return this.histogram ? (
-      <div class="graph">
-        <calcite-graph
-          colorStops={this.histogramStops}
-          data={this.histogram}
-          data-style="slider-histogram"
-          height={48}
-          highlightMax={this.isRange ? this.maxValue : this.value}
-          highlightMin={this.isRange ? this.minValue : this.min}
-          max={this.max}
-          min={this.min}
-          width={300}
-        />
-      </div>
+      <calcite-graph
+        class="graph"
+        colorStops={this.histogramStops}
+        data={this.histogram}
+        highlightMax={this.isRange ? this.maxValue : this.value}
+        highlightMin={this.isRange ? this.minValue : this.min}
+        max={this.max}
+        min={this.min}
+      />
     ) : null;
   }
 

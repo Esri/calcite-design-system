@@ -82,4 +82,17 @@
   }
 }
 
+@media (forced-colors: active) {
+  :host([checked]),
+  :host([checked][disabled]) {
+    .radio::after {
+      content: "";
+      width: 1rem;
+      height: 1rem;
+      background-color: windowText;
+      display: block;
+    }
+  }
+}
+
 @include hidden-form-input();

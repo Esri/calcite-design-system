@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { renders, hidden, accessible, defaults, labelable, formAssociated } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
+import { TEXT } from "./resources";
 
 describe("calcite-combobox", () => {
   it("renders", async () => renders("calcite-combobox", { display: "block" }));
@@ -9,6 +10,10 @@ describe("calcite-combobox", () => {
       {
         propertyName: "overlayPositioning",
         defaultValue: "absolute"
+      },
+      {
+        propertyName: "intlRemoveTag",
+        defaultValue: TEXT.removeTag
       }
     ]));
   it("honors hidden attribute", async () => hidden("calcite-combobox"));
@@ -24,6 +29,16 @@ describe("calcite-combobox", () => {
       <calcite-combobox label="Trees" value="Trees">
         <calcite-combobox-item-group label="Conifers">
           <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
+        </calcite-combobox-item-group>
+      </calcite-combobox>
+  `));
+
+  it("is accessible with active selected items", async () =>
+    accessible(`
+      <calcite-combobox active label="Trees" value="Trees">
+        <calcite-combobox-item-group label="Conifers">
+          <calcite-combobox-item selected value="Pine" text-label="Pine"></calcite-combobox-item>
+          <calcite-combobox-item selected value="Spruce" text-label="Spruce"></calcite-combobox-item>
         </calcite-combobox-item-group>
       </calcite-combobox>
   `));
