@@ -1145,8 +1145,10 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
       leftValueLabelTransformed,
       rightValueLabelTransformed
     );
+
     const hyphenLabel = leftValueLabel;
     const labelOffset = labelFontSize / 2;
+
     if (labelTransformedOverlap > 0) {
       hyphenLabel.classList.add("hyphen", "handle__label--flex");
       if (rightValueLabelStaticHostOffset === 0 && leftValueLabelStaticHostOffset === 0) {
@@ -1214,7 +1216,6 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
       }
     } else {
       hyphenLabel.classList.remove("hyphen");
-      hyphenLabel.classList.remove("hyphen--mirror");
       leftValueLabel.style.transform = `translateX(${leftValueLabelStaticHostOffset}px)`;
       leftValueLabelTransformed.style.transform = `translateX(${leftValueLabelStaticHostOffset}px)`;
       rightValueLabel.style.transform = `translateX(${rightValueLabelStaticHostOffset}px)`;
