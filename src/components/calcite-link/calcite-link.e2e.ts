@@ -43,6 +43,12 @@ describe("calcite-link", () => {
 
     expect(await elementAsLink.getProperty("download")).toBe(newFilename);
     expect(elementAsLink.getAttribute("download")).toBe(newFilename);
+
+    element.setProperty("download", false);
+    await page.waitForChanges();
+
+    expect(await elementAsLink.getProperty("download")).toBe("");
+    expect(elementAsLink).not.toHaveAttribute("download");
   });
 
   it("renders as a span with default props", async () => {
