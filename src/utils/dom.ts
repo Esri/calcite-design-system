@@ -198,19 +198,23 @@ export function getSlotted<T extends Element = Element>(
   return querySingle<T>(element, slotSelector, options);
 }
 
+function getDirectChildren<T extends Element = Element>(el: Element, selector: string): T[] {
+  return el ? (Array.from(el.children || []) as T[]).filter((child) => child?.matches(selector)) : [];
+}
+
 function queryMultiple<T extends Element = Element>(
   element: Element,
   slotSelector: string,
   options?: GetSlottedOptions
 ): T[] {
-  let matches = Array.from(element.querySelectorAll<T>(slotSelector));
+  let matches =
+    slotSelector === defaultSlotSelector
+      ? getDirectChildren<T>(element, defaultSlotSelector)
+      : Array.from(element.querySelectorAll<T>(slotSelector));
+
   matches = options && options.direct === false ? matches : matches.filter((el) => el.parentElement === element);
 
   matches = options?.matches ? matches.filter((el) => el?.matches(options.matches)) : matches;
-
-  if (slotSelector === defaultSlotSelector) {
-    matches = matches.filter((match) => match?.assignedSlot);
-  }
 
   const selector = options?.selector;
   return selector
@@ -226,11 +230,10 @@ function querySingle<T extends Element = Element>(
   slotSelector: string,
   options?: GetSlottedOptions
 ): T | null {
-  let match = element.querySelector<T>(slotSelector);
-
-  if (slotSelector === defaultSlotSelector) {
-    match = match?.assignedSlot ? match : null;
-  }
+  let match =
+    slotSelector === defaultSlotSelector
+      ? getDirectChildren<T>(element, defaultSlotSelector)[0] || null
+      : element.querySelector<T>(slotSelector);
 
   match = options && options.direct === false ? match : match?.parentElement === element ? match : null;
 
