@@ -1146,7 +1146,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
     const labelOffset = labelFontSize / 2;
 
     if (labelTransformedOverlap > 0) {
-      hyphenLabel.classList.add("hyphen");
+      hyphenLabel.classList.add("hyphen", "hyphen--wrap");
       if (rightValueLabelStaticHostOffset === 0 && leftValueLabelStaticHostOffset === 0) {
         // Neither handle overlaps the host boundary
         let leftValueLabelTranslate = labelTransformedOverlap / 2 - labelOffset;
@@ -1211,7 +1211,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
         }px)`;
       }
     } else {
-      hyphenLabel.classList.remove("hyphen");
+      hyphenLabel.classList.remove("hyphen", "hyphen--wrap");
       leftValueLabel.style.transform = `translateX(${leftValueLabelStaticHostOffset}px)`;
       leftValueLabelTransformed.style.transform = `translateX(${leftValueLabelStaticHostOffset}px)`;
       rightValueLabel.style.transform = `translateX(${rightValueLabelStaticHostOffset}px)`;

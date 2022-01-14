@@ -166,6 +166,7 @@ export class CalciteAlert {
             queued,
             [placement]: true
           }}
+          onTransitionEnd={this.transitionEnd}
         >
           {requestedIcon ? (
             <div class="alert-icon">
@@ -281,6 +282,8 @@ export class CalciteAlert {
   /* @internal */
   @State() requestedIcon?: string;
 
+  private activeTransitionProp = "opacity";
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -311,19 +314,25 @@ export class CalciteAlert {
     this.queue = this.queue.filter((e) => e !== this.el);
     this.determineActiveAlert();
     this.calciteAlertSync.emit({ queue: this.queue });
-    this.calciteAlertClose.emit({
-      el: this.el,
-      queue: this.queue
-    });
+  };
+
+  transitionEnd = (event: TransitionEvent): void => {
+    if (event.propertyName === this.activeTransitionProp) {
+      this.active
+        ? this.calciteAlertOpen.emit({
+            el: this.el,
+            queue: this.queue
+          })
+        : this.calciteAlertClose.emit({
+            el: this.el,
+            queue: this.queue
+          });
+    }
   };
 
   /** emit the opened alert and the queue */
   private openAlert(): void {
     window.clearTimeout(this.queueTimeout);
     this.queueTimeout = window.setTimeout(() => (this.queued = false), 300);
-    this.calciteAlertOpen.emit({
-      el: this.el,
-      queue: this.queue
-    });
   }
 }

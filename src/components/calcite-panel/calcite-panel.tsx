@@ -15,6 +15,11 @@ import { getElementDir, getSlotted } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
 import { SLOTS as ACTION_MENU_SLOTS } from "../calcite-action-menu/resources";
+import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 
 /**
  * @slot - A slot for adding custom content.
@@ -31,7 +36,7 @@ import { SLOTS as ACTION_MENU_SLOTS } from "../calcite-action-menu/resources";
   styleUrl: "calcite-panel.scss",
   shadow: true
 })
-export class CalcitePanel {
+export class CalcitePanel implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -131,6 +136,20 @@ export class CalcitePanel {
   dismissButtonEl: HTMLCalciteActionElement;
 
   containerEl: HTMLElement;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  // --------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    connectConditionalSlotComponent(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectConditionalSlotComponent(this);
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -263,7 +282,7 @@ export class CalcitePanel {
    */
   renderHeaderSlottedContent(): VNode {
     return (
-      <div class={CSS.headerContent} key="header-content">
+      <div class={CSS.headerContent} key="slotted-header-content">
         <slot name={SLOTS.headerContent} />
       </div>
     );
@@ -318,6 +337,7 @@ export class CalcitePanel {
     return hasMenuItems ? (
       <calcite-action-menu
         flipPlacements={["top", "bottom"]}
+        key="menu"
         label={intlOptions || TEXT.options}
         open={menuOpen}
         placement="bottom-end"
@@ -361,29 +381,16 @@ export class CalcitePanel {
     ) : null;
   }
 
-  /**
-   * Allows user to override the entire footer node.
-   */
-  renderFooterSlottedContent(): VNode {
+  renderFooterNode(): VNode {
     const { el } = this;
 
     const hasFooterSlottedContent = getSlotted(el, SLOTS.footer);
-
-    return hasFooterSlottedContent ? (
-      <footer class={CSS.footer}>
-        <slot name={SLOTS.footer} />
-      </footer>
-    ) : null;
-  }
-
-  renderFooterActions(): VNode {
-    const { el } = this;
-
     const hasFooterActions = getSlotted(el, SLOTS.footerActions);
 
-    return hasFooterActions ? (
-      <footer class={CSS.footer}>
-        <slot name={SLOTS.footerActions} />
+    return hasFooterSlottedContent || hasFooterActions ? (
+      <footer class={CSS.footer} key="footer">
+        {hasFooterSlottedContent ? <slot key="footer-slot" name={SLOTS.footer} /> : null}
+        {hasFooterActions ? <slot key="footer-actions-slot" name={SLOTS.footerActions} /> : null}
       </footer>
     ) : null;
   }
@@ -436,7 +443,7 @@ export class CalcitePanel {
       >
         {this.renderHeaderNode()}
         {this.renderContent()}
-        {this.renderFooterSlottedContent() || this.renderFooterActions()}
+        {this.renderFooterNode()}
       </article>
     );
 

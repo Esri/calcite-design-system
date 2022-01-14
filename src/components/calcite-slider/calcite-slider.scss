@@ -109,6 +109,9 @@
       display: inline-block;
       width: 1em;
     }
+    &.hyphen--wrap {
+      display: flex;
+    }
   }
 
   .handle {

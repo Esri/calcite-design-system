@@ -1,5 +1,5 @@
-import { CSS } from "./resources";
-import { accessible, renders } from "../../tests/commonTests";
+import { CSS, SLOTS } from "./resources";
+import { accessible, renders, slots } from "../../tests/commonTests";
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../tests/utils";
 
@@ -25,6 +25,8 @@ describe("calcite-pick-list-item", () => {
       </calcite-pick-list>
     `);
   });
+
+  it("has slots", () => slots("calcite-pick-list-item", SLOTS));
 
   it("should toggle selected attribute when clicked", async () => {
     const page = await newE2EPage({ html: `<calcite-pick-list-item label="test"></calcite-pick-list-item>` });
@@ -124,51 +126,5 @@ describe("calcite-pick-list-item", () => {
     await removeButton.click();
 
     expect(removeEventSpy).toHaveReceivedEventTimes(1);
-  });
-
-  it("should not render actions--end if there are no end actions", async () => {
-    const page = await newE2EPage({
-      html: `<calcite-pick-list-item label="test" description="example"></calcite-pick-list-item>`
-    });
-
-    const actionsNodeEnd = await page.find(`calcite-pick-list-item >>> .${CSS.actionsEnd}`);
-
-    expect(actionsNodeEnd).toBeNull();
-  });
-
-  it("should not render actions--start if there are no start actions", async () => {
-    const page = await newE2EPage({
-      html: `<calcite-pick-list-item label="test" description="example"></calcite-pick-list-item>`
-    });
-
-    const actionsNodeStart = await page.find(`calcite-pick-list-item >>> .${CSS.actionsStart}`);
-
-    expect(actionsNodeStart).toBeNull();
-  });
-
-  it("should render actions--end if there are end actions", async () => {
-    const page = await newE2EPage({
-      html: `
-      <calcite-pick-list-item label="test" description="example">
-        <calcite-action text="test" slot="actions-end"></calcite-action>
-      </calcite-pick-list-item>`
-    });
-
-    const actionsNodeEnd = await page.find(`calcite-pick-list-item >>> .${CSS.actionsEnd}`);
-
-    expect(actionsNodeEnd).not.toBeNull();
-  });
-
-  it("should render actions--start if there are start actions", async () => {
-    const page = await newE2EPage({
-      html: `
-      <calcite-pick-list-item label="test" description="example">
-        <calcite-action text="test" slot="actions-start"></calcite-action>
-      </calcite-pick-list-item>`
-    });
-
-    const actionsNodeStart = await page.find(`calcite-pick-list-item >>> .${CSS.actionsStart}`);
-
-    expect(actionsNodeStart).not.toBeNull();
   });
 });

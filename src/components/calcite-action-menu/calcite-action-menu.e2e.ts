@@ -1,4 +1,4 @@
-import { accessible, hidden, renders, defaults, reflects, focusable } from "../../tests/commonTests";
+import { accessible, hidden, renders, defaults, reflects, focusable, slots } from "../../tests/commonTests";
 import { newE2EPage } from "@stencil/core/testing";
 import { SLOTS, CSS } from "./resources";
 import { html } from "../../tests/utils";
@@ -22,6 +22,8 @@ describe("calcite-action-menu", () => {
       <calcite-action text="Add" icon="plus"></calcite-action>
     </calcite-action-menu>
     `));
+
+  it("has slots", () => slots("calcite-action-menu", SLOTS));
 
   it("defaults", async () =>
     defaults("calcite-action-menu", [
@@ -70,24 +72,6 @@ describe("calcite-action-menu", () => {
         value: "auto"
       }
     ]));
-
-  it("honors tooltip slot", async () => {
-    const page = await newE2EPage({
-      html: `<calcite-action-menu>
-      <calcite-tooltip slot="${SLOTS.tooltip}">Bits and bobs.</calcite-tooltip>
-      <calcite-action text="Add" icon="plus"></calcite-action>
-    </calcite-action-menu>`
-    });
-
-    await page.waitForChanges();
-
-    const tooltipManager = await page.find(`calcite-action-menu >>> calcite-tooltip-manager`);
-
-    expect(tooltipManager).toBeTruthy();
-
-    const tooltipSlot = await page.find(`calcite-action-menu >>> slot[name=${SLOTS.tooltip}]`);
-    expect(tooltipSlot).toBeTruthy();
-  });
 
   it("should emit 'calciteActionMenuOpenChange' event", async () => {
     const page = await newE2EPage({
