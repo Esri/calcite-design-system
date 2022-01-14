@@ -34,10 +34,6 @@
   font-size: var(--calcite-slider-container-font-size);
 }
 
-.handle__label--flex {
-  display: flex;
-}
-
 :host {
   @apply block;
 }
@@ -112,6 +108,9 @@
       content: "\2014";
       display: inline-block;
       width: 1em;
+    }
+    &.hyphen--wrap {
+      display: flex;
     }
   }
 
