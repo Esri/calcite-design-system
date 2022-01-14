@@ -748,7 +748,7 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
       constant: item.constant,
       value: item.value,
       label: item.textLabel,
-      guid: item.guid
+      guid: item.guid || guid()
     }));
   }
 
