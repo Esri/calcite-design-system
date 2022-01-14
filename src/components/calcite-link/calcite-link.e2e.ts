@@ -1,13 +1,54 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, renders } from "../../tests/commonTests";
+import { accessible, defaults, renders } from "../../tests/commonTests";
 
 describe("calcite-link", () => {
   it("renders", async () => renders("<calcite-link href='/'>link</calcite-link>", { display: "inline" }));
+
+  it("defaults", async () =>
+    defaults("calcite-link", [
+      {
+        propertyName: "download",
+        defaultValue: false
+      }
+    ]));
 
   it("is accessible", async () => {
     await accessible("<calcite-link href='/'>link</calcite-link>");
     await accessible("<calcite-link>link</calcite-link>");
     await accessible("<calcite-link icon-start='plus' icon-end='plus' href='/'>Go</calcite-link>");
+  });
+
+  it("sets download attribute on internal anchor", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-link href="file.jpg">Continue</calcite-link>`);
+
+    const elementAsLink = await page.find("calcite-link >>> a");
+
+    expect(elementAsLink).not.toBeNull();
+    expect(await elementAsLink.getProperty("download")).toBe("");
+    expect(elementAsLink).not.toHaveAttribute("download");
+
+    const element = await page.find("calcite-link");
+
+    element.setProperty("download", true);
+    await page.waitForChanges();
+
+    expect(await elementAsLink.getProperty("download")).toBe("");
+    expect(elementAsLink).toHaveAttribute("download");
+    expect(elementAsLink.getAttribute("download")).toBe("");
+
+    const newFilename = "my-cool-file.jpg";
+    element.setProperty("download", newFilename);
+    await page.waitForChanges();
+
+    expect(await elementAsLink.getProperty("download")).toBe(newFilename);
+    expect(elementAsLink.getAttribute("download")).toBe(newFilename);
+
+    element.setProperty("download", false);
+    await page.waitForChanges();
+
+    expect(await elementAsLink.getProperty("download")).toBe("");
+    expect(elementAsLink).not.toHaveAttribute("download");
   });
 
   it("renders as a span with default props", async () => {
