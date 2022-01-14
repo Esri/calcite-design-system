@@ -12,30 +12,32 @@ export default {
 };
 
 export const GridCentering = (): string => html`
-  <calcite-action-group alignment="${select("layout", ["horizontal", "vertical", "grid"], "grid")}">
-    <calcite-action
-        alignment="${select("alignment", ["start", "center", "end"], "center")}"
-        scale="${select("scale", ["s", "m", "l"], "m")}"
-        appearance="${select("appearance", ["solid", "clear", "outline"], "solid")}"
-        icon="${select("icon", [...iconNames], "polygon")}"
-        ${text("text", "polygon")}
-    >
-    </calcite-action>
-    <calcite-action
-        alignment="${select("alignment", ["start", "center", "end"], "center")}"
-        scale="${select("scale", ["s", "m", "l"], "m")}"
-        appearance="${select("appearance", ["solid", "clear", "outline"], "solid")}"
-        icon="${select("icon", [...iconNames], "rectangle")}"
-        ${text("text", "rectangle")}
-    >
-    <calcite-action
-        alignment="${select("alignment", ["start", "center", "end"], "center")}"
-        scale="${select("scale", ["s", "m", "l"], "m")}"
-        appearance="${select("appearance", ["solid", "clear", "outline"], "solid")}"
-        icon="${select("icon", [...iconNames], "trash")}"
-        ${text("text", "trash")}
-    >
-  </calcite-action-group>
+  <div style="width:400px">
+    <calcite-action-group alignment="${select("layout", ["horizontal", "vertical", "grid"], "grid")}">
+      <calcite-action
+          alignment="${select("alignment", ["start", "center", "end"], "center")}"
+          scale="${select("scale", ["s", "m", "l"], "m")}"
+          appearance="${select("appearance", ["solid", "clear", "outline"], "solid")}"
+          icon="${select("icon", iconNames, "polygon")}"
+          ${text("text", "polygon")}
+      >
+      </calcite-action>
+      <calcite-action
+          alignment="${select("alignment", ["start", "center", "end"], "center")}"
+          scale="${select("scale", ["s", "m", "l"], "m")}"
+          appearance="${select("appearance", ["solid", "clear", "outline"], "solid")}"
+          icon="${select("icon", iconNames, "rectangle")}"
+          ${text("text", "rectangle")}
+      >
+      <calcite-action
+          alignment="${select("alignment", ["start", "center", "end"], "center")}"
+          scale="${select("scale", ["s", "m", "l"], "m")}"
+          appearance="${select("appearance", ["solid", "clear", "outline"], "solid")}"
+          icon="${select("icon", iconNames, "trash")}"
+          ${text("text", "trash")}
+      >
+    </calcite-action-group>
+  </div>
 `;
 
 GridCentering.storyName = "Grid Centering of Actions in a Group";
