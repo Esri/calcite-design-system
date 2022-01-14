@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- **slider:** maxValue thumb positioned above minValue when overlapped… ([#3813](https://github.com/Esri/calcite-components/issues/3813)) ([9239c24](https://github.com/Esri/calcite-components/commit/9239c24106ad113c7664332b6860a649259c82a2))
 - rerender components with conditional slots when slotting elements after initialization ([#3871](https://github.com/Esri/calcite-components/issues/3871)) ([2ec9848](https://github.com/Esri/calcite-components/commit/2ec984876f33939d06c7ad0b47c9040f1a7d0a9d)), closes [#3686](https://github.com/Esri/calcite-components/issues/3686)
 - **alert:** Emit calciteAlertClose/calciteAlertOpen after animation. [#3760](https://github.com/Esri/calcite-components/issues/3760) ([#3923](https://github.com/Esri/calcite-components/issues/3923)) ([9c4486c](https://github.com/Esri/calcite-components/commit/9c4486cff7987dcadaafc372e479a930141d70d1))
 - **combobox:** Properly set internal identifiers. [#3754](https://github.com/Esri/calcite-components/issues/3754) ([#3919](https://github.com/Esri/calcite-components/issues/3919)) ([ab807c5](https://github.com/Esri/calcite-components/commit/ab807c5609a16d23d9fbcda5ff70b8e80fb33ceb))
