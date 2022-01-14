@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Features
 
+- **calcite-link:** Add support for download attribute. [#3758](https://github.com/Esri/calcite-components/issues/3758) ([#3922](https://github.com/Esri/calcite-components/issues/3922)) ([3ae875d](https://github.com/Esri/calcite-components/commit/3ae875d4c9b0b015cc97e20a8a9f9c063b750568))
 - **combobox:** Add 'intlRemoveTag' property to override the remove tag text. ([#3920](https://github.com/Esri/calcite-components/issues/3920)) ([4070c2e](https://github.com/Esri/calcite-components/commit/4070c2e5430727d3c3af51535a4631a69b3b878b))
 - **inline-editable:** change internal events to public ([#3872](https://github.com/Esri/calcite-components/issues/3872)) ([3d0daa7](https://github.com/Esri/calcite-components/commit/3d0daa7c08b2b5397f1668ce4664433e90cf359c))
 
