@@ -1,12 +1,14 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders } from "../../tests/commonTests";
+import { accessible, renders, slots } from "../../tests/commonTests";
 
-import { CSS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-chip", () => {
   it("renders", async () => renders("<calcite-chip>doritos</calcite-chip>", { display: "inline-flex" }));
 
   it("is accessible", async () => accessible(`<calcite-chip>doritos</calcite-chip>`));
+
+  it("has slots", () => slots("calcite-chip", SLOTS));
 
   it("should emit event after the close button is clicked", async () => {
     const page = await newE2EPage();
