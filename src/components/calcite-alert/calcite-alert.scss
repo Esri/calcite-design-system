@@ -75,6 +75,7 @@
 }
 
 :host {
+  --calcite-alert-edge-distance: theme("spacing.8");
   @apply block;
   .container {
     @apply shadow-2
@@ -86,10 +87,7 @@
       my-0
       mx-auto
       bg-foreground-1
-      opacity-0
-      left-0
-      right-0
-      bottom-0;
+      opacity-0;
     border-radius: var(--calcite-border-radius);
     border-top: 0px solid transparent;
     border-left: 1px solid var(--calcite-ui-border-3);
@@ -97,13 +95,33 @@
     border-bottom: 1px solid var(--calcite-ui-border-3);
     min-height: var(--calcite-alert-min-height);
     width: var(--calcite-alert-width);
-    max-width: 90%;
+    max-width: calc(100% - (var(--calcite-alert-edge-distance) * 2 + 2px));
     max-height: 0;
     z-index: 101;
-    transform: translate3d(0, $baseline, 0);
     transition: var(--calcite-internal-animation-timing-slow) $easing-function,
       opacity var(--calcite-internal-animation-timing-slow) $easing-function,
       all var(--calcite-animation-timing) ease-in-out;
+    &.bottom,
+    &.top {
+      inset-inline-end: 0;
+      inset-inline-start: 0;
+    }
+    &[class*="bottom"] {
+      transform: translate3d(0, var(--calcite-alert-edge-distance), 0);
+      inset-block-end: var(--calcite-alert-edge-distance);
+    }
+    &[class*="top"] {
+      transform: translate3d(0, calc(-1 * var(--calcite-alert-edge-distance)), 0);
+      inset-block-start: var(--calcite-alert-edge-distance);
+    }
+    &[class*="-start"] {
+      inset-inline-start: var(--calcite-alert-edge-distance);
+      inset-inline-end: auto;
+    }
+    &[class*="-end"] {
+      inset-inline-end: var(--calcite-alert-edge-distance);
+      inset-inline-start: auto;
+    }
   }
 }
 
@@ -125,8 +143,13 @@
 :host([active]) {
   .container:not(.queued) {
     @apply opacity-100 max-h-full border-t-2;
-    transform: translate3d(0, -$baseline, 0);
     pointer-events: initial;
+    &[class*="bottom"] {
+      transform: translate3d(0, calc(-1 * var(--calcite-alert-edge-distance)), inherit);
+    }
+    &[class*="top"] {
+      transform: translate3d(0, var(--calcite-alert-edge-distance), inherit);
+    }
   }
 }
 

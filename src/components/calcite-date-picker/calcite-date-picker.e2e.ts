@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { renders, defaults, hidden } from "../../tests/commonTests";
 import { TEXT } from "./resources";
 import { html } from "../../tests/utils";
@@ -51,6 +51,39 @@ describe("calcite-date-picker", () => {
     expect(changedEvent).toHaveReceivedEventTimes(0);
   });
 
+  it("fires a calciteDatePickerChange event when day is selected", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-date-picker value='2000-11-27' active></calcite-date-picker>");
+    const changedEvent = await page.spyOnEvent("calciteDatePickerChange");
+
+    await page.waitForTimeout(animationDurationInMs);
+
+    await selectFirstAvailableDay(page, "mouse");
+    expect(changedEvent).toHaveReceivedEventTimes(1);
+
+    await selectFirstAvailableDay(page, "keyboard");
+    expect(changedEvent).toHaveReceivedEventTimes(2);
+  });
+
+  async function selectFirstAvailableDay(page: E2EPage, method: "mouse" | "keyboard"): Promise<void> {
+    await page.$eval(
+      "calcite-date-picker",
+      (datePicker: HTMLCalciteDatePickerElement, method: "mouse" | "keyboard") => {
+        const day = datePicker.shadowRoot
+          .querySelector<HTMLCalciteDatePickerMonthElement>("calcite-date-picker-month")
+          .shadowRoot.querySelector<HTMLCalciteDatePickerDayElement>("calcite-date-picker-day:not([selected])");
+
+        if (method === "mouse") {
+          day.click();
+        } else {
+          day.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter" }));
+        }
+      },
+      method
+    );
+    await page.waitForChanges();
+  }
+
   it("doesn't fire calciteDatePickerChange on outside changes to value", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-date-picker value='2000-11-27'></calcite-date-picker>");
@@ -100,7 +133,7 @@ describe("calcite-date-picker", () => {
     const date = await page.find("calcite-date-picker");
     // have to wait for transition
     const changedEvent = await page.spyOnEvent("calciteDatePickerRangeChange");
-    await new Promise((res) => setTimeout(() => res(true), 200));
+    await new Promise((res) => global.setTimeout(() => res(true), 200));
     expect(changedEvent).toHaveReceivedEventTimes(0);
     const start1 = await date.getProperty("start");
     const end1 = await date.getProperty("end");

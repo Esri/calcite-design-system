@@ -19,6 +19,11 @@ import { Placement } from "@popperjs/core";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
+import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 
 const SUPPORTED_BUTTON_NAV_KEYS = ["ArrowUp", "ArrowDown"];
 const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
@@ -33,7 +38,7 @@ const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
   styleUrl: "calcite-action-menu.scss",
   shadow: true
 })
-export class CalciteActionMenu {
+export class CalciteActionMenu implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -43,11 +48,13 @@ export class CalciteActionMenu {
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.getActions();
+    connectConditionalSlotComponent(this);
   }
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.disconnectMenuButtonEl();
+    disconnectConditionalSlotComponent(this);
   }
 
   // --------------------------------------------------------------------------

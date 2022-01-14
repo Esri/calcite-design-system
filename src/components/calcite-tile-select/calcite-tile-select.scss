@@ -13,7 +13,7 @@ $spacing: $baseline * 0.5;
     max-width: 300px;
     padding: $spacing;
     position: relative;
-    transition: $transition;
+    transition: var(--calcite-animation-timing);
     vertical-align: top;
     @apply z-10;
 

@@ -169,6 +169,29 @@ describe("calcite-alert", () => {
     expect(await alert3.isVisible()).toBe(true);
   });
 
+  it("correctly assigns a default placement class", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-alert>
+    ${alertContent}
+    </calcite-alert>`);
+
+    const container = await page.find("calcite-alert >>> .container");
+    expect(container).toHaveClass("bottom");
+  });
+
+  it("correctly assigns a requested placement class", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-alert placement="top-end">
+    ${alertContent}
+    </calcite-alert>`);
+
+    const container = await page.find("calcite-alert >>> .container");
+    expect(container).not.toHaveClass("bottom");
+    expect(container).toHaveClass("top-end");
+  });
+
   describe("CSS properties for light/dark themes", () => {
     const alertSnippet = `
       <calcite-alert
@@ -244,6 +267,30 @@ describe("calcite-alert", () => {
       progressBarStyles = await alertDismissProgressBar.getComputedStyle(":after");
       expect(await progressBarStyles.getPropertyValue("background-color")).toEqual(overrideStyle);
     });
+  });
+
+  it("should emit proper 'calciteAlertOpen' and 'calciteAlertClose' events on animation end", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-alert>
+    ${alertContent}
+    </calcite-alert>`);
+
+    const element = await page.find("calcite-alert");
+    const container = await page.find(`calcite-alert >>> .container`);
+
+    const openEvent = page.waitForEvent("calciteAlertOpen");
+    element.setAttribute("active", "");
+    await page.waitForChanges();
+    await openEvent;
+
+    expect(await container.isVisible()).toBe(true);
+
+    const closeEvent = page.waitForEvent("calciteAlertClose");
+    element.removeAttribute("active");
+    await page.waitForChanges();
+    await closeEvent;
+
+    expect(await container.isVisible()).toBe(false);
   });
 
   describe("when multiple alerts are queued", () => {
