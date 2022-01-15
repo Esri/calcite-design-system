@@ -13,7 +13,7 @@ export default {
 
 export const GridCentering = (): string => html`
   <div style="width:400px">
-    <calcite-action-group alignment="${select("layout", ["horizontal", "vertical", "grid"], "grid")}">
+    <calcite-action-group layout="${select("layout", ["horizontal", "vertical", "grid"], "grid")}">
       <calcite-action
         alignment="${select("alignment", ["start", "center", "end"], "center")}"
         scale="${select("scale", ["s", "m", "l"], "m")}"
