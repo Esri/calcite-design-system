@@ -208,7 +208,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
             : this.type === "number"
             ? isValidNumber(newValue)
               ? newValue
-              : ""
+              : this.previousValue || ""
             : newValue
       });
       this.warnAboutInvalidNumberValue(newValue);
