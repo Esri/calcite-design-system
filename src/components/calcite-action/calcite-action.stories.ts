@@ -133,7 +133,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
 const selector = "calcite-action";
 
 export const Default = stepStory(
-  (): string => html`<div>${create("calcite-action", createAttributes())}</div>`,
+  (): string => html`<div style="width: 150px">${create("calcite-action", createAttributes())}</div>`,
 
   createSteps("calcite-action")
     // No Icon
