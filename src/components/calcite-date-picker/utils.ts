@@ -41,9 +41,7 @@ function getSupportedLocale(lang = "") {
   lang = lang.toLowerCase();
 
   if (lang.includes("-")) {
-    lang = lang.replace(/(\w+)-(\w+)/, (match, language, region) => `${language}-${region.toUpperCase()}`);
-    // const langType = lang.split("-")[1];
-    // lang = lang.replace(langType, langType.toUpperCase());
+    lang = lang.replace(/(\w+)-(\w+)/, (_match, language, region) => `${language}-${region.toUpperCase()}`);
   }
   return locales.includes(lang) ? lang : "en";
 }
