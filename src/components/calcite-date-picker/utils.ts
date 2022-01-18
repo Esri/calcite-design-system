@@ -41,11 +41,11 @@ function getSupportedLocale(lang = "") {
   lang = lang.toLowerCase();
 
   if (lang.includes("-")) {
-    const langType = lang.split("-")[1];
-    const langId = lang.replace(langType, langType.toUpperCase());
-    return locales.indexOf(langId) > -1 ? langId : "en";
+    lang = lang.replace(/(\w+)-(\w+)/, (match, language, region) => `${language}-${region.toUpperCase()}`);
+    // const langType = lang.split("-")[1];
+    // lang = lang.replace(langType, langType.toUpperCase());
   }
-  return locales.indexOf(lang) > -1 ? lang : "en";
+  return locales.includes(lang) ? lang : "en";
 }
 
 /**
