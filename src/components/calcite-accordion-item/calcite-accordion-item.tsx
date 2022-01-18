@@ -12,6 +12,7 @@ import {
 import { getElementDir, getElementProp } from "../../utils/dom";
 
 import { CSS_UTILITY } from "../../utils/resources";
+import { AccordionAppearance } from "../calcite-accordion/interfaces";
 import { Position } from "../interfaces";
 
 /**
@@ -49,6 +50,11 @@ export class CalciteAccordionItem {
   /** optionally pass an icon to display - accepts Calcite UI icon names  */
   @Prop({ reflect: true }) icon?: string;
 
+  /**
+   * @internal
+   */
+  @Prop({ reflect: true })
+  appearance: AccordionAppearance;
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -101,41 +107,48 @@ export class CalciteAccordionItem {
 
     const iconEl = <calcite-icon class="accordion-item-icon" icon={this.icon} scale="s" />;
 
+    const appearanceClasses = {
+      "accordion-item-minimal": this.appearance === "minimal",
+      "accordion-item-transparent": this.appearance === "transparent"
+    };
+
     return (
       <Host aria-expanded={this.active.toString()} tabindex="0">
-        <div
-          class={{
-            [`icon-position--${this.iconPosition}`]: true,
-            [`icon-type--${this.iconType}`]: true
-          }}
-        >
+        <div class={appearanceClasses}>
           <div
-            class={{ "accordion-item-header": true, [CSS_UTILITY.rtl]: dir === "rtl" }}
-            onClick={this.itemHeaderClickHandler}
+            class={{
+              [`icon-position--${this.iconPosition}`]: true,
+              [`icon-type--${this.iconType}`]: true
+            }}
           >
-            {this.icon ? iconEl : null}
-            <div class="accordion-item-header-text">
-              <span class="accordion-item-title">{this.itemTitle}</span>
-              {this.itemSubtitle ? (
-                <span class="accordion-item-subtitle">{this.itemSubtitle}</span>
-              ) : null}
+            <div
+              class={{ "accordion-item-header": true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+              onClick={this.itemHeaderClickHandler}
+            >
+              {this.icon ? iconEl : null}
+              <div class="accordion-item-header-text">
+                <span class="accordion-item-title">{this.itemTitle}</span>
+                {this.itemSubtitle ? (
+                  <span class="accordion-item-subtitle">{this.itemSubtitle}</span>
+                ) : null}
+              </div>
+              <calcite-icon
+                class="accordion-item-expand-icon"
+                icon={
+                  this.iconType === "chevron"
+                    ? "chevronDown"
+                    : this.iconType === "caret"
+                    ? "caretDown"
+                    : this.active
+                    ? "minus"
+                    : "plus"
+                }
+                scale="s"
+              />
             </div>
-            <calcite-icon
-              class="accordion-item-expand-icon"
-              icon={
-                this.iconType === "chevron"
-                  ? "chevronDown"
-                  : this.iconType === "caret"
-                  ? "caretDown"
-                  : this.active
-                  ? "minus"
-                  : "plus"
-              }
-              scale="s"
-            />
-          </div>
-          <div class="accordion-item-content">
-            <slot />
+            <div class="accordion-item-content">
+              <slot />
+            </div>
           </div>
         </div>
       </Host>

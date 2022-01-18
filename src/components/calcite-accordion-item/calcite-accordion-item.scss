@@ -32,10 +32,10 @@
   --calcite-accordion-item-background: theme("backgroundColor.foreground.1");
 }
 
-:host-context([appearance="minimal"]) {
+:host(.accordion-item-minimal) {
   --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit) 0;
 }
-:host-context([appearance="transparent"]) {
+:host(.accordion-item-transparent) {
   --calcite-accordion-item-border: transparent;
   --calcite-accordion-item-background: transparent;
 }
