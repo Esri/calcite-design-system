@@ -108,6 +108,7 @@ export class CalciteTree {
       event.relatedTarget === this.el || !this.el.contains(event.relatedTarget as HTMLElement);
 
     if (focusedFromRootOrOutsideTree) {
+      // gives user the ability to tab into external elements (modifying tabindex property will not work in firefox)
       this.el.removeAttribute("tabindex");
     }
   }
