@@ -400,11 +400,12 @@ export class CalcitePanel implements ConditionalSlotComponent {
     const hasFab = getSlotted(el, SLOTS.fab);
 
     const defaultSlotNode: VNode = <slot key="default-slot" />;
+    const contentWrapperKey = "content-wrapper";
 
     return hasFab ? (
       <div
         class={{ [CSS.contentWrapper]: true, [CSS.contentHeight]: true }}
-        key="content-wrapper"
+        key={contentWrapperKey}
         onScroll={this.panelScrollHandler}
         tabIndex={0}
       >
@@ -414,7 +415,7 @@ export class CalcitePanel implements ConditionalSlotComponent {
     ) : (
       <section
         class={{ [CSS.contentWrapper]: true, [CSS.contentContainer]: true }}
-        key="content-wrapper"
+        key={contentWrapperKey}
         onScroll={this.panelScrollHandler}
         tabIndex={0}
       >
