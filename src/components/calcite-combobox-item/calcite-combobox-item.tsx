@@ -50,7 +50,7 @@ export class CalciteComboboxItem implements ConditionalSlotComponent {
   @Prop({ mutable: true }) ancestors: ComboboxChildElement[];
 
   /** Unique identifier, used for accessibility */
-  @Prop() guid: string = guid();
+  @Prop() guid = guid();
 
   /** Custom icon to display both in combobox chips and next to combobox item text */
   @Prop() icon?: string;
@@ -175,10 +175,12 @@ export class CalciteComboboxItem implements ConditionalSlotComponent {
   }
 
   renderChildren(): VNode {
-    const defaultSlotNode = <slot />;
+    const defaultSlotNode = <slot key="default-slot" />;
+
     if (!getSlotted(this.el)) {
       return defaultSlotNode;
     }
+
     return <ul>{defaultSlotNode}</ul>;
   }
 
