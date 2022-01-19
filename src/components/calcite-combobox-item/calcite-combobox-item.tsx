@@ -10,17 +10,12 @@ import {
   Watch,
   VNode
 } from "@stencil/core";
-import { getElementProp, getSlotted } from "../../utils/dom";
+import { getElementProp } from "../../utils/dom";
 import { CSS } from "./resources";
 import { guid } from "../../utils/guid";
 import { ComboboxChildElement } from "../calcite-combobox/interfaces";
 import { getAncestors, getDepth } from "../calcite-combobox/utils";
 import { Scale } from "../interfaces";
-import {
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-  ConditionalSlotComponent
-} from "../../utils/conditionalSlot";
 
 /**
  * @slot - A slot for adding nested `calcite-combobox-item`s.
@@ -30,7 +25,7 @@ import {
   styleUrl: "./calcite-combobox-item.scss",
   shadow: true
 })
-export class CalciteComboboxItem implements ConditionalSlotComponent {
+export class CalciteComboboxItem {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -79,6 +74,8 @@ export class CalciteComboboxItem implements ConditionalSlotComponent {
 
   isNested: boolean;
 
+  hasDefaultSlot: boolean;
+
   scale: Scale = "m";
 
   // --------------------------------------------------------------------------
@@ -90,11 +87,10 @@ export class CalciteComboboxItem implements ConditionalSlotComponent {
   connectedCallback(): void {
     this.ancestors = getAncestors(this.el);
     this.scale = getElementProp(this.el, "scale", this.scale);
-    connectConditionalSlotComponent(this);
   }
 
-  disconnectedCallback(): void {
-    disconnectConditionalSlotComponent(this);
+  componentWillLoad(): void {
+    this.hasDefaultSlot = this.el.querySelector(":not([slot])") !== null;
   }
 
   // --------------------------------------------------------------------------
@@ -175,11 +171,14 @@ export class CalciteComboboxItem implements ConditionalSlotComponent {
   }
 
   renderChildren(): VNode {
-    const defaultSlotNode = <slot />;
-    if (!getSlotted(this.el)) {
-      return defaultSlotNode;
+    if (!this.hasDefaultSlot) {
+      return null;
     }
-    return <ul>{defaultSlotNode}</ul>;
+    return (
+      <ul>
+        <slot />
+      </ul>
+    );
   }
 
   render(): VNode {

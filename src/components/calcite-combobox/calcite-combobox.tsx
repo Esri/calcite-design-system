@@ -835,10 +835,7 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
 
   focusChip(): void {
     const guid = this.selectedItems[this.activeChipIndex]?.guid;
-
-    const chip = guid
-      ? this.referenceEl.querySelector<HTMLCalciteChipElement>(`#${chipUidPrefix}${guid}`)
-      : null;
+    const chip = this.referenceEl.querySelector<HTMLCalciteChipElement>(`#${chipUidPrefix}${guid}`);
     chip?.setFocus();
   }
 

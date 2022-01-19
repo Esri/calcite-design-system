@@ -1,11 +1,5 @@
 import { Component, Element, Event, EventEmitter, h, Prop, VNode } from "@stencil/core";
-import { getSlotted } from "../../utils/dom";
 import { CSS, SLOTS, TEXT } from "./resources";
-import {
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-  ConditionalSlotComponent
-} from "../../utils/conditionalSlot";
 
 /** Cards do not include a grid or bounding container
  * - cards will expand to fit the width of their container
@@ -25,7 +19,7 @@ import {
   styleUrl: "calcite-card.scss",
   shadow: true
 })
-export class CalciteCard implements ConditionalSlotComponent {
+export class CalciteCard {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -79,14 +73,6 @@ export class CalciteCard implements ConditionalSlotComponent {
   //
   // --------------------------------------------------------------------------
 
-  connectedCallback(): void {
-    connectConditionalSlotComponent(this);
-  }
-
-  disonnectedCallback(): void {
-    disconnectConditionalSlotComponent(this);
-  }
-
   render(): VNode {
     return (
       <div class="calcite-card-container">
@@ -139,8 +125,9 @@ export class CalciteCard implements ConditionalSlotComponent {
   }
 
   private renderThumbnail(): VNode {
-    return getSlotted(this.el, SLOTS.thumbnail) ? (
-      <div class={CSS.thumbnailWrapper} key="thumbnail-wrapper">
+    const hasThumbnail = this.el.querySelector(`[slot=${SLOTS.thumbnail}]`);
+    return hasThumbnail ? (
+      <div class={CSS.thumbnailWrapper}>
         <slot name={SLOTS.thumbnail} />
       </div>
     ) : null;
@@ -161,9 +148,8 @@ export class CalciteCard implements ConditionalSlotComponent {
   }
 
   private renderHeader(): VNode {
-    const { el } = this;
-    const title = getSlotted(el, SLOTS.title);
-    const subtitle = getSlotted(el, SLOTS.subtitle);
+    const title = this.el.querySelector(`[slot=${SLOTS.title}]`);
+    const subtitle = this.el.querySelector(`[slot=${SLOTS.subtitle}]`);
     const hasHeader = title || subtitle;
 
     return hasHeader ? (
@@ -175,9 +161,8 @@ export class CalciteCard implements ConditionalSlotComponent {
   }
 
   private renderFooter(): VNode {
-    const { el } = this;
-    const leadingFooter = getSlotted(el, SLOTS.footerLeading);
-    const trailingFooter = getSlotted(el, SLOTS.footerTrailing);
+    const leadingFooter = this.el.querySelector(`[slot=${SLOTS.footerLeading}]`);
+    const trailingFooter = this.el.querySelector(`[slot=${SLOTS.footerTrailing}]`);
 
     const hasFooter = leadingFooter || trailingFooter;
     return hasFooter ? (
