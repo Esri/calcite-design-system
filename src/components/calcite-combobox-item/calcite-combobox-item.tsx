@@ -88,9 +88,6 @@ export class CalciteComboboxItem implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    if (!this.guid) {
-      this.guid = guid();
-    }
     this.ancestors = getAncestors(this.el);
     this.scale = getElementProp(this.el, "scale", this.scale);
     connectConditionalSlotComponent(this);

@@ -909,7 +909,7 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
           dismissLabel={intlRemoveTag}
           dismissible
           icon={item.icon}
-          id={`${chipUidPrefix}${item.guid}`}
+          id={`${chipUidPrefix}${item.guid || guid()}`}
           key={item.textLabel}
           onCalciteChipDismiss={(event) => this.calciteChipDismissHandler(event, item)}
           scale={scale}
@@ -977,7 +977,7 @@ export class CalciteCombobox implements LabelableComponent, FormComponent {
     return this.visibleItems.map((item) => (
       <li
         aria-selected={(!!item.selected).toString()}
-        id={`${itemUidPrefix}${item.guid}`}
+        id={`${itemUidPrefix}${item.guid || guid()}`}
         role="option"
         tabindex="-1"
       >
