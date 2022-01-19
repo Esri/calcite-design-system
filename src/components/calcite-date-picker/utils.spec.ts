@@ -18,54 +18,49 @@ describe("utils", () => {
 
     afterEach(() => {
       jest.fn().mockClear();
+      Object.keys(requestCache).forEach((key) => delete requestCache[key]);
     });
 
     it("defaults to en locale if lang code is invalid", async () => {
       const locale = "american";
-      await getLocaleData(locale);
 
+      await getLocaleData(locale);
       expect(requestCache).toHaveProperty("en");
-      delete requestCache.en;
     });
 
     it("fetches locale with conventional-cased lang code", async () => {
       const locale = "es";
-      await getLocaleData(locale);
 
+      await getLocaleData(locale);
       expect(requestCache).toHaveProperty("es");
-      delete requestCache.es;
     });
 
     it("fetches locale with uppercased lang code", async () => {
       const locale = "AR";
-      await getLocaleData(locale);
 
+      await getLocaleData(locale);
       expect(requestCache).toHaveProperty("ar");
-      delete requestCache.ar;
     });
 
     it("fetches locale with lowercased region code", async () => {
       const locale = "zh-cn";
-      await getLocaleData(locale);
 
+      await getLocaleData(locale);
       expect(requestCache).toHaveProperty("zh-CN");
-      delete requestCache["zh-CN"];
     });
 
     it("fetches locale with uppercased region code", async () => {
       const locale = "ES-MX";
-      await getLocaleData(locale);
 
+      await getLocaleData(locale);
       expect(requestCache).toHaveProperty("es-MX");
-      delete requestCache["es-MX"];
     });
 
     it("fetches locale with conventional-cased lang and region code", async () => {
       const locale = "pt-PT";
-      await getLocaleData(locale);
 
+      await getLocaleData(locale);
       expect(requestCache).toHaveProperty("pt-PT");
-      delete requestCache["pt-PT"];
     });
   });
 });
