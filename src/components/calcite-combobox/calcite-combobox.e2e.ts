@@ -20,7 +20,7 @@ describe("calcite-combobox", () => {
   it("is accessible", async () =>
     accessible(`
       <calcite-combobox label="Trees" value="Trees">
-        <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
+        <calcite-combobox-item guid="i1" value="Pine" text-label="Pine"></calcite-combobox-item>
       </calcite-combobox>
   `));
 
@@ -28,7 +28,7 @@ describe("calcite-combobox", () => {
     accessible(`
       <calcite-combobox label="Trees" value="Trees">
         <calcite-combobox-item-group label="Conifers">
-          <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
+          <calcite-combobox-item guid="i1" value="Pine" text-label="Pine"></calcite-combobox-item>
         </calcite-combobox-item-group>
       </calcite-combobox>
   `));
@@ -37,8 +37,8 @@ describe("calcite-combobox", () => {
     accessible(`
       <calcite-combobox active label="Trees" value="Trees">
         <calcite-combobox-item-group label="Conifers">
-          <calcite-combobox-item selected value="Pine" text-label="Pine"></calcite-combobox-item>
-          <calcite-combobox-item selected value="Spruce" text-label="Spruce"></calcite-combobox-item>
+          <calcite-combobox-item guid="i1" selected value="Pine" text-label="Pine"></calcite-combobox-item>
+          <calcite-combobox-item guid="i2" selected value="Spruce" text-label="Spruce"></calcite-combobox-item>
         </calcite-combobox-item-group>
       </calcite-combobox>
   `));
