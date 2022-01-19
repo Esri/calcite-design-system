@@ -16,12 +16,13 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Bug Fixes
 
 - **action, action-group:** alignment center when enclosed within group (grid layout, text-enabled vs no text) ([#3929](https://github.com/Esri/calcite-components/issues/3929)) ([f3290e2](https://github.com/Esri/calcite-components/commit/f3290e236260a613b9a612ab3dcf84991b36f80c))
-- **slider:** maxValue thumb positioned above minValue when overlapped… ([#3813](https://github.com/Esri/calcite-components/issues/3813)) ([9239c24](https://github.com/Esri/calcite-components/commit/9239c24106ad113c7664332b6860a649259c82a2))
-- rerender components with conditional slots when slotting elements after initialization ([#3871](https://github.com/Esri/calcite-components/issues/3871)) ([2ec9848](https://github.com/Esri/calcite-components/commit/2ec984876f33939d06c7ad0b47c9040f1a7d0a9d)), closes [#3686](https://github.com/Esri/calcite-components/issues/3686)
 - **alert:** Emit calciteAlertClose/calciteAlertOpen after animation. [#3760](https://github.com/Esri/calcite-components/issues/3760) ([#3923](https://github.com/Esri/calcite-components/issues/3923)) ([9c4486c](https://github.com/Esri/calcite-components/commit/9c4486cff7987dcadaafc372e479a930141d70d1))
 - **combobox:** Properly set internal identifiers. [#3754](https://github.com/Esri/calcite-components/issues/3754) ([#3919](https://github.com/Esri/calcite-components/issues/3919)) ([ab807c5](https://github.com/Esri/calcite-components/commit/ab807c5609a16d23d9fbcda5ff70b8e80fb33ceb))
 - **dropdown:** dropdown wrapper no longer overflows inside a panel ([#3378](https://github.com/Esri/calcite-components/issues/3378)) ([5b966e3](https://github.com/Esri/calcite-components/commit/5b966e3a6b36f29a83ccdf66e14163d6b73f9878))
 - **input:** number input no longer increments by itself indefinitely when up/down buttons are toggled fast or pressed at the same time; ([#3908](https://github.com/Esri/calcite-components/issues/3908)) ([d2863d2](https://github.com/Esri/calcite-components/commit/d2863d208bd7c8ebead42ad354ce3647af015232))
+- **input:** the visible input value stays in sync with the stored value when it is controlled programmatically ([#3915](https://github.com/Esri/calcite-components/issues/3915)) ([7d9e545](https://github.com/Esri/calcite-components/commit/7d9e545dc841f476e1bbf8c0010e2ef98f122fb2))
+- **slider:** maxValue thumb positioned above minValue when overlapped… ([#3813](https://github.com/Esri/calcite-components/issues/3813)) ([9239c24](https://github.com/Esri/calcite-components/commit/9239c24106ad113c7664332b6860a649259c82a2))
+- rerender components with conditional slots when slotting elements after initialization ([#3871](https://github.com/Esri/calcite-components/issues/3871)) ([2ec9848](https://github.com/Esri/calcite-components/commit/2ec984876f33939d06c7ad0b47c9040f1a7d0a9d)), closes [#3686](https://github.com/Esri/calcite-components/issues/3686)
 <!--@unreleased-section-end-->
 
 ## [1.0.0-beta.74](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.73...v1.0.0-beta.74) (2022-01-11)
