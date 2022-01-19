@@ -24,6 +24,7 @@
     w-auto;
   font-family: inherit;
   text-align: unset;
+  flex: 1 0 auto;
   &:hover {
     @apply bg-foreground-2 text-color-1 fill-color-1;
   }
