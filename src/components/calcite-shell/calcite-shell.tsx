@@ -82,7 +82,7 @@ export class CalciteShell implements ConditionalSlotComponent {
           >
             {defaultSlotNode}
           </div>,
-          { centerRowSlotNode }
+          centerRowSlotNode
         ]
       : [
           <div class={CSS.content} key={contentContainerKey}>
