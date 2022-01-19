@@ -22,7 +22,7 @@ describe("utils", () => {
     });
 
     it("defaults to en locale if lang code is invalid", async () => {
-      const locale = "american";
+      const locale = "invalid-locale";
 
       await getLocaleData(locale);
       expect(requestCache).toHaveProperty("en");
