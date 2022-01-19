@@ -238,3 +238,37 @@ export const RTL = (): string =>
       )}
     `
   );
+
+export const TransparentAppearance = (): string =>
+  create(
+    "calcite-accordion",
+    createAccordionAttributes({ exceptions: ["appearance"] }).concat({
+      name: "appearance",
+      value: "transparent"
+    }),
+    html`
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ group: "accordion-item-1" }),
+        accordionItemContent
+      )}
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ group: "accordion-item-2" }),
+        accordionItemContent
+      )}
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ group: "accordion-item-3" }),
+        accordionItemContent
+      )}
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ group: "accordion-item-4" }).concat({
+          name: "active",
+          value: true
+        }),
+        accordionItemContent
+      )}
+    `
+  );
