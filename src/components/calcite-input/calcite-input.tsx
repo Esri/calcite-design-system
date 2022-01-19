@@ -303,7 +303,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     }
     connectLabel(this);
     connectForm(this);
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+    this.mutationObserver?.observe(this.el, { childList: true });
     this.setDisabledAction();
   }
 

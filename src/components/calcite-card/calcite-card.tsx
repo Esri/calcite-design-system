@@ -140,7 +140,7 @@ export class CalciteCard implements ConditionalSlotComponent {
 
   private renderThumbnail(): VNode {
     return getSlotted(this.el, SLOTS.thumbnail) ? (
-      <div class={CSS.thumbnailWrapper}>
+      <div class={CSS.thumbnailWrapper} key="thumbnail-wrapper">
         <slot name={SLOTS.thumbnail} />
       </div>
     ) : null;

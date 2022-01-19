@@ -97,7 +97,7 @@ export class CalciteInlineEditable implements LabelableComponent {
 
   connectedCallback() {
     connectLabel(this);
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+    this.mutationObserver?.observe(this.el, { childList: true });
     this.mutationObserverCallback();
   }
 
