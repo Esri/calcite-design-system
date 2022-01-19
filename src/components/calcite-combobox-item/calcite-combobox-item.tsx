@@ -175,13 +175,15 @@ export class CalciteComboboxItem implements ConditionalSlotComponent {
   }
 
   renderChildren(): VNode {
-    const defaultSlotNode = <slot key="default-slot" />;
-
-    if (!getSlotted(this.el)) {
-      return defaultSlotNode;
+    if (getSlotted(this.el)) {
+      return (
+        <ul key="default-slot-container">
+          <slot />
+        </ul>
+      );
     }
 
-    return <ul>{defaultSlotNode}</ul>;
+    return null;
   }
 
   render(): VNode {
