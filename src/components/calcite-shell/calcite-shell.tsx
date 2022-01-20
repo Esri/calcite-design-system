@@ -67,22 +67,27 @@ export class CalciteShell implements ConditionalSlotComponent {
   }
 
   renderContent(): VNode[] {
+    const defaultSlotNode: VNode = <slot key="default-slot" />;
+    const centerRowSlotNode: VNode = <slot key="center-row-slot" name={SLOTS.centerRow} />;
+    const contentContainerKey = "content-container";
+
     const content = !!this.contentBehind
       ? [
           <div
             class={{
               [CSS.content]: true,
-              [CSS.contentBehind]: !!this.contentBehind
+              [CSS.contentBehind]: true
             }}
+            key={contentContainerKey}
           >
-            <slot />
+            {defaultSlotNode}
           </div>,
-          <slot name={SLOTS.centerRow} />
+          centerRowSlotNode
         ]
       : [
-          <div class={CSS.content}>
-            <slot />
-            <slot name={SLOTS.centerRow} />
+          <div class={CSS.content} key={contentContainerKey}>
+            {defaultSlotNode}
+            {centerRowSlotNode}
           </div>
         ];
 

@@ -399,24 +399,27 @@ export class CalcitePanel implements ConditionalSlotComponent {
     const { el } = this;
     const hasFab = getSlotted(el, SLOTS.fab);
 
+    const defaultSlotNode: VNode = <slot key="default-slot" />;
+    const contentWrapperKey = "content-wrapper";
+
     return hasFab ? (
       <div
         class={{ [CSS.contentWrapper]: true, [CSS.contentHeight]: true }}
+        key={contentWrapperKey}
         onScroll={this.panelScrollHandler}
         tabIndex={0}
       >
-        <section class={CSS.contentContainer}>
-          <slot />
-        </section>
+        <section class={CSS.contentContainer}>{defaultSlotNode}</section>
         {this.renderFab()}
       </div>
     ) : (
       <section
         class={{ [CSS.contentWrapper]: true, [CSS.contentContainer]: true }}
+        key={contentWrapperKey}
         onScroll={this.panelScrollHandler}
         tabIndex={0}
       >
-        <slot />
+        {defaultSlotNode}
       </section>
     );
   }
