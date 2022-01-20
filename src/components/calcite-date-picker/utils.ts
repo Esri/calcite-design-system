@@ -36,10 +36,14 @@ export interface DateLocaleData {
 function getSupportedLocale(lang = "") {
   if (locales.indexOf(lang) > -1) {
     return lang;
-  } else {
-    const base = lang.split("-")[0];
-    return locales.indexOf(base) > -1 ? base : "en";
   }
+
+  lang = lang.toLowerCase();
+
+  if (lang.includes("-")) {
+    lang = lang.replace(/(\w+)-(\w+)/, (_match, language, region) => `${language}-${region.toUpperCase()}`);
+  }
+  return locales.includes(lang) ? lang : "en";
 }
 
 /**

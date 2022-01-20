@@ -125,9 +125,9 @@ describe("calcite-tree", () => {
       </calcite-tree>
     `);
     await page.waitForChanges();
-
     const one = await page.find("#one");
     const two = await page.find("#two");
+    const twoIcon = await page.find('#two >>> [data-test-id="icon"]');
     const childOne = await page.find("#child-one");
     const childTwo = await page.find("#child-two");
     const grandchildOne = await page.find("#grandchild-one");
@@ -151,6 +151,7 @@ describe("calcite-tree", () => {
     expect(grandchildOne).toHaveAttribute("selected");
     expect(grandchildTwo).toHaveAttribute("selected");
 
+    await twoIcon.click();
     await childOne.click();
 
     expect(childOne).not.toHaveAttribute("selected");

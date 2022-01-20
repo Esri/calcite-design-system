@@ -55,7 +55,6 @@ export class CalciteDatePicker {
   handleValueAsDate(date: Date | Date[]): void {
     if (!Array.isArray(date) && date && date !== this.activeDate) {
       this.activeDate = date;
-      this.calciteDatePickerChange.emit(date);
     }
   }
 
@@ -515,6 +514,7 @@ export class CalciteDatePicker {
       this.value = date ? dateToISO(date) : "";
       this.valueAsDate = date || null;
       this.activeDate = date || null;
+      this.calciteDatePickerChange.emit(date);
       return;
     }
 
@@ -555,6 +555,7 @@ export class CalciteDatePicker {
         this.endAsDate = this.activeEndDate = this.end = undefined;
       }
     }
+    this.calciteDatePickerChange.emit(date);
   };
 
   /**

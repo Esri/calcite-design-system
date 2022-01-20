@@ -17,6 +17,11 @@ import { nodeListToArray, getElementDir, filterDirectChildren, getSlotted } from
 import { Scale } from "../interfaces";
 import { CSS, SLOTS, ICONS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
+import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 
 /**
  * @slot - A slot for adding content to the item.
@@ -27,7 +32,7 @@ import { CSS_UTILITY } from "../../utils/resources";
   styleUrl: "calcite-tree-item.scss",
   shadow: true
 })
-export class CalciteTreeItem {
+export class CalciteTreeItem implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -96,6 +101,11 @@ export class CalciteTreeItem {
       const { expanded } = this.parentTreeItem;
       this.updateParentIsExpanded(this.parentTreeItem, expanded);
     }
+    connectConditionalSlotComponent(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectConditionalSlotComponent(this);
   }
 
   componentWillRender(): void {
@@ -148,9 +158,10 @@ export class CalciteTreeItem {
         scale="s"
       />
     ) : null;
+    const defaultSlotNode: VNode = <slot key="default-slot" />;
     const checkbox =
       this.selectionMode === TreeSelectionMode.Ancestors ? (
-        <label class={CSS.checkboxLabel}>
+        <label class={CSS.checkboxLabel} key="checkbox-label">
           <calcite-checkbox
             checked={this.selected}
             class={CSS.checkbox}
@@ -159,7 +170,7 @@ export class CalciteTreeItem {
             scale={this.scale}
             tabIndex={-1}
           />
-          <slot />
+          {defaultSlotNode}
         </label>
       ) : null;
     const selectedIcon = showBulletPoint
@@ -200,7 +211,7 @@ export class CalciteTreeItem {
         >
           {chevron}
           {bulletOrCheckIcon}
-          {checkbox ? checkbox : <slot />}
+          {checkbox ? checkbox : defaultSlotNode}
         </div>
         <div
           class={{
@@ -224,7 +235,8 @@ export class CalciteTreeItem {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("click") onClick(e: Event): void {
+  @Listen("click")
+  onClick(e: Event): void {
     // Solve for if the item is clicked somewhere outside the slotted anchor.
     // Anchor is triggered anywhere you click
     const [link] = filterDirectChildren<HTMLAnchorElement>(this.el, "a");
@@ -232,7 +244,6 @@ export class CalciteTreeItem {
       const target = link.target === "" ? "_self" : link.target;
       window.open(link.href, target);
     }
-    this.expanded = !this.expanded;
     this.calciteTreeItemSelect.emit({
       modifyCurrentSelection:
         this.selectionMode === TreeSelectionMode.Ancestors || this.isSelectionMulti(),

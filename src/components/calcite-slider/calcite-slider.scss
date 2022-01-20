@@ -109,6 +109,9 @@
       display: inline-block;
       width: 1em;
     }
+    &.hyphen--wrap {
+      display: flex;
+    }
   }
 
   .handle {
@@ -287,6 +290,7 @@
 
 .graph {
   color: var(--calcite-ui-foreground-3);
+  height: 48px;
 }
 
 // Ensure we have enough space on variants with text elements to prevent overlap

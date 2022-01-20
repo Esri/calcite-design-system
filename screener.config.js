@@ -8,11 +8,18 @@ module.exports = {
   baseBranch: "master",
   browsers: [
     {
-      browserName: "chrome"
+      browserName: "chrome",
+      version: "97.0"
     }
   ],
   diffOptions: {
     minLayoutDimension: 1,
     minLayoutPosition: 1
-  }
+  },
+  sauce: {
+    username: process.env.SAUCE_ACCESS_NAME,
+    accessKey: process.env.SAUCE_ACCESS_KEY,
+    maxConcurrent: 10
+  },
+  excludeRules: [/^Overview/]
 };
