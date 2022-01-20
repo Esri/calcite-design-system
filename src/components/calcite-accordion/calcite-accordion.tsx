@@ -1,15 +1,4 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Listen,
-  Prop,
-  VNode,
-  Watch
-} from "@stencil/core";
-
+import { Component, Element, Event, EventEmitter, h, Listen, Prop, VNode } from "@stencil/core";
 import { AccordionAppearance } from "./interfaces";
 import { Position, Scale } from "../interfaces";
 
@@ -38,11 +27,6 @@ export class CalciteAccordion {
 
   /** specify the appearance - default (containing border), or minimal (no containing border), defaults to default */
   @Prop({ reflect: true }) appearance: AccordionAppearance = "default";
-
-  @Watch("appearance")
-  updateAppearance(appearance: AccordionAppearance): void {
-    this.updateAccordionItemAppearance(appearance);
-  }
 
   /** specify the placement of the icon in the header, defaults to end */
   @Prop({ reflect: true }) iconPosition: Position = "end";
@@ -79,10 +63,6 @@ export class CalciteAccordion {
       this.items = this.sortItems(this.items);
       this.sorted = true;
     }
-  }
-
-  componentWillLoad(): void {
-    this.updateAccordionItemAppearance(this.appearance);
   }
 
   render(): VNode {
@@ -209,13 +189,4 @@ export class CalciteAccordion {
 
   private sortItems = (items: any[]): any[] =>
     items.sort((a, b) => a.position - b.position).map((a) => a.item);
-
-  private updateAccordionItemAppearance(appearance: AccordionAppearance): void {
-    const accordionItems = this.el.querySelectorAll("calcite-accordion-item");
-    if (accordionItems.length) {
-      accordionItems.forEach((item: HTMLCalciteAccordionItemElement) => {
-        item.appearance = appearance;
-      });
-    }
-  }
 }

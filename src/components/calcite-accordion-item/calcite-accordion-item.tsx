@@ -12,7 +12,6 @@ import {
 import { getElementDir, getElementProp } from "../../utils/dom";
 
 import { CSS_UTILITY } from "../../utils/resources";
-import { AccordionAppearance } from "../calcite-accordion/interfaces";
 import { Position } from "../interfaces";
 
 /**
@@ -50,11 +49,6 @@ export class CalciteAccordionItem {
   /** optionally pass an icon to display - accepts Calcite UI icon names  */
   @Prop({ reflect: true }) icon?: string;
 
-  /**
-   * @internal
-   */
-  @Prop({ reflect: true })
-  appearance: AccordionAppearance;
   //--------------------------------------------------------------------------
   //
   //  Events
