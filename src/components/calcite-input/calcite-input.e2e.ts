@@ -752,7 +752,7 @@ describe("calcite-input", () => {
 
   it(`allows clearing value for type=text`, async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-input value="hello""></calcite-input>`);
+    await page.setContent(html`<calcite-input value="hello"></calcite-input>`);
     const input = await page.find("calcite-input");
 
     input.setProperty("value", null);
@@ -764,6 +764,33 @@ describe("calcite-input", () => {
     await page.waitForChanges();
 
     expect(await input.getProperty("value")).toBe("");
+  });
+
+  it("number input value stays in sync when value property is controlled with javascript", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-input type="number"></calcite-input>`);
+    const calciteInput = await page.find("calcite-input");
+    const input = await page.find("calcite-input >>> input");
+
+    await page.evaluate(() => {
+      document.querySelector("calcite-input").addEventListener("calciteInputInput", (event: InputEvent): void => {
+        const target = event.target as HTMLInputElement;
+        target.value = "5";
+      });
+    });
+
+    await calciteInput.click();
+    await typeNumberValue(page, "1");
+    await page.waitForChanges();
+
+    expect(await calciteInput.getProperty("value")).toBe("5");
+    expect(await input.getProperty("value")).toBe("5");
+
+    await typeNumberValue(page, "2");
+    await page.waitForChanges();
+
+    expect(await calciteInput.getProperty("value")).toBe("5");
+    expect(await input.getProperty("value")).toBe("5");
   });
 
   describe("number type", () => {

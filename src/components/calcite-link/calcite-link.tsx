@@ -31,6 +31,12 @@ export class CalciteLink {
   /** is the link disabled  */
   @Prop({ reflect: true }) disabled = false;
 
+  /** Prompts the user to save the linked URL instead of navigating to it. Can be used with or without a value:
+   * Without a value, the browser will suggest a filename/extension
+   * See: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-download
+   */
+  @Prop({ reflect: true }) download: string | boolean = false;
+
   /** optionally pass a href - used to determine if the component should render as a link or an anchor */
   @Prop({ reflect: true }) href?: string;
 
@@ -65,7 +71,8 @@ export class CalciteLink {
   }
 
   render(): VNode {
-    const dir = getElementDir(this.el);
+    const { download, el } = this;
+    const dir = getElementDir(el);
 
     const iconStartEl = (
       <calcite-icon
@@ -93,6 +100,11 @@ export class CalciteLink {
       <Host role="presentation">
         <Tag
           class={{ [CSS_UTILITY.rtl]: dir === "rtl" }}
+          /*
+          When the 'download' property of type 'boolean | string' is set to true, the value is "".
+          This works around that issue for now.
+          */
+          download={Tag === "a" && (download === "" || download) ? download : null}
           href={Tag === "a" && this.href}
           ref={this.storeTagRef}
           rel={Tag === "a" && this.rel}

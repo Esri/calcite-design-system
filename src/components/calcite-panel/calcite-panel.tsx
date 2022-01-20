@@ -140,6 +140,8 @@ export class CalcitePanel implements ConditionalSlotComponent {
 
   headerEl: HTMLElement;
 
+  panelScrollEl: HTMLElement;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -243,6 +245,21 @@ export class CalcitePanel implements ConditionalSlotComponent {
     }
 
     this.containerEl?.focus();
+  }
+
+  /** Scrolls panel content to a particular set of coordinates.
+   *
+   * ```
+   *   myCalcitePanel.scrollContentTo({
+   *     left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.
+   *     top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element
+   *     behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
+   *   });
+   * ```
+   */
+  @Method()
+  async scrollContentTo(options?: ScrollToOptions): Promise<void> {
+    this.panelScrollEl?.scrollTo(options);
   }
 
   // --------------------------------------------------------------------------
@@ -418,24 +435,29 @@ export class CalcitePanel implements ConditionalSlotComponent {
     const { el } = this;
     const hasFab = getSlotted(el, SLOTS.fab);
 
+    const defaultSlotNode: VNode = <slot key="default-slot" />;
+    const contentWrapperKey = "content-wrapper";
+
     return hasFab ? (
       <div
         class={{ [CSS.contentWrapper]: true, [CSS.contentHeight]: true }}
+        key={contentWrapperKey}
         onScroll={this.panelScrollHandler}
+        ref={(el) => (this.panelScrollEl = el)}
         tabIndex={0}
       >
-        <section class={CSS.contentContainer}>
-          <slot />
-        </section>
+        <section class={CSS.contentContainer}>{defaultSlotNode}</section>
         {this.renderFab()}
       </div>
     ) : (
       <section
         class={{ [CSS.contentWrapper]: true, [CSS.contentContainer]: true }}
+        key={contentWrapperKey}
         onScroll={this.panelScrollHandler}
+        ref={(el) => (this.panelScrollEl = el)}
         tabIndex={0}
       >
-        <slot />
+        {defaultSlotNode}
       </section>
     );
   }
