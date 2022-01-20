@@ -242,7 +242,7 @@ export const RTL = (): string =>
     `
   );
 
-const TransparentAppearance = (): string =>
+export const TransparentAppearance = (): string =>
   create(
     "calcite-accordion",
     createAccordionAttributes({ exceptions: ["appearance"] }).concat({
@@ -275,8 +275,3 @@ const TransparentAppearance = (): string =>
       )}
     `
   );
-
-export const TransparentBackground = TransparentAppearance.bind({});
-TransparentBackground.parameters = {
-  backgrounds: { default: "transparent" }
-};
