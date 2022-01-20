@@ -14,7 +14,7 @@ import { Scale } from "../interfaces";
 import { CSS, TEXT } from "./resources";
 
 const maxPagesDisplayed = 5;
-export interface CalcitePaginationDetail {
+export interface PaginationDetail {
   start: number;
   total: number;
   num: number;
@@ -70,13 +70,13 @@ export class Pagination {
    * Emitted whenever the selected page changes.
    * @deprecated use calcitePaginationChange instead
    */
-  @Event() calcitePaginationUpdate: EventEmitter<CalcitePaginationDetail>;
+  @Event() calcitePaginationUpdate: EventEmitter<PaginationDetail>;
 
   /**
    * Emitted whenever the selected page changes.
-   * @see [CalcitePaginationDetail](https://github.com/Esri/calcite-components/blob/master/src/components/pagination/calcite-pagination.tsx#L18)
+   * @see [PaginationDetail](https://github.com/Esri/calcite-components/blob/master/src/components/pagination/calcite-pagination.tsx#L18)
    */
-  @Event() calcitePaginationChange: EventEmitter<CalcitePaginationDetail>;
+  @Event() calcitePaginationChange: EventEmitter<PaginationDetail>;
 
   // --------------------------------------------------------------------------
   //
