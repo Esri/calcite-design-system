@@ -158,9 +158,10 @@ export class CalciteTreeItem implements ConditionalSlotComponent {
         scale="s"
       />
     ) : null;
+    const defaultSlotNode: VNode = <slot key="default-slot" />;
     const checkbox =
       this.selectionMode === TreeSelectionMode.Ancestors ? (
-        <label class={CSS.checkboxLabel}>
+        <label class={CSS.checkboxLabel} key="checkbox-label">
           <calcite-checkbox
             checked={this.selected}
             class={CSS.checkbox}
@@ -169,7 +170,7 @@ export class CalciteTreeItem implements ConditionalSlotComponent {
             scale={this.scale}
             tabIndex={-1}
           />
-          <slot />
+          {defaultSlotNode}
         </label>
       ) : null;
     const selectedIcon = showBulletPoint
@@ -210,7 +211,7 @@ export class CalciteTreeItem implements ConditionalSlotComponent {
         >
           {chevron}
           {bulletOrCheckIcon}
-          {checkbox ? checkbox : <slot />}
+          {checkbox ? checkbox : defaultSlotNode}
         </div>
         <div
           class={{
