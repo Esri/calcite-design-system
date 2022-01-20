@@ -3,9 +3,7 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-<!--@unreleased-section-start-->
-
-## Unreleased
+## [1.0.0-beta.75](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.74...v1.0.0-beta.75) (2022-01-20)
 
 ### Features
 
@@ -26,7 +24,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **slider:** maxValue thumb positioned above minValue when overlapped… ([#3813](https://github.com/Esri/calcite-components/issues/3813)) ([9239c24](https://github.com/Esri/calcite-components/commit/9239c24106ad113c7664332b6860a649259c82a2))
 - **tree:** change tab index when tabbing in/out for first element ([#3914](https://github.com/Esri/calcite-components/issues/3914)) ([7469960](https://github.com/Esri/calcite-components/commit/7469960b57a13d4df1d5a453b4d42b6fd92216d2))
 - rerender components with conditional slots when slotting elements after initialization ([#3871](https://github.com/Esri/calcite-components/issues/3871)) ([2ec9848](https://github.com/Esri/calcite-components/commit/2ec984876f33939d06c7ad0b47c9040f1a7d0a9d)), closes [#3686](https://github.com/Esri/calcite-components/issues/3686)
-<!--@unreleased-section-end-->
 
 ## [1.0.0-beta.74](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.73...v1.0.0-beta.74) (2022-01-11)
 
