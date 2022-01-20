@@ -3,6 +3,19 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+<!--@unreleased-section-start-->
+
+## Unreleased
+
+### Features
+
+- **panel:** Add method to scroll content. [#3924](https://github.com/Esri/calcite-components/issues/3924) ([#3960](https://github.com/Esri/calcite-components/issues/3960)) ([1ebcb3f](https://github.com/Esri/calcite-components/commit/1ebcb3f6118f3f2bd968265d603d0b4eb69a073a))
+
+### Bug Fixes
+
+- **accordion:** no longer has white background when set to transparent ([#3954](https://github.com/Esri/calcite-components/issues/3954)) ([0af12f3](https://github.com/Esri/calcite-components/commit/0af12f3546d53125038cddfd7f5c59437637073d))
+<!--@unreleased-section-end-->
+
 ## [1.0.0-beta.75](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.74...v1.0.0-beta.75) (2022-01-20)
 
 ### Features
