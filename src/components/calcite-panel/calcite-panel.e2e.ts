@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, focusable, hidden, renders, slots } from "../../tests/commonTests";
+import { html } from "../../tests/utils";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-panel", () => {
@@ -294,5 +295,30 @@ describe("calcite-panel", () => {
     const width2 = parseFloat(style2["width"]);
 
     expect(width2).toEqual(widthDefault * multipier);
+  });
+
+  it("handles scrollContentTo method", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`<div style="height: 200px; display: flex">
+        <calcite-panel>
+          <div>
+            <p style="height: 400px">Hello world!</p>
+            <p>Hello world!</p>
+          </div>
+        </calcite-panel>
+      </div>`
+    );
+
+    const scrollEl = await page.find(`calcite-panel >>> .${CSS.contentWrapper}`);
+
+    expect(await scrollEl.getProperty("scrollTop")).toBe(0);
+
+    await page.$eval("calcite-panel", async (panel: HTMLCalcitePanelElement) => {
+      await panel.scrollContentTo({ top: 100 });
+    });
+
+    expect(await scrollEl.getProperty("scrollTop")).toBe(100);
   });
 });

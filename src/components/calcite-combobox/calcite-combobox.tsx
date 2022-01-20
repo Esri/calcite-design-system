@@ -755,7 +755,6 @@ export class CalciteCombobox implements LabelableComponent, FormComponent, Float
       const item = document.createElement(ComboboxItem) as HTMLCalciteComboboxItemElement;
       item.value = value;
       item.textLabel = value;
-      item.guid = `${chipUidPrefix}${guid()}`;
       item.selected = true;
       this.el.appendChild(item);
       this.resetText();
@@ -808,7 +807,10 @@ export class CalciteCombobox implements LabelableComponent, FormComponent, Float
 
   focusChip(): void {
     const guid = this.selectedItems[this.activeChipIndex]?.guid;
-    const chip = this.referenceEl.querySelector<HTMLCalciteChipElement>(`#${chipUidPrefix}${guid}`);
+
+    const chip = guid
+      ? this.referenceEl.querySelector<HTMLCalciteChipElement>(`#${chipUidPrefix}${guid}`)
+      : null;
     chip?.setFocus();
   }
 
@@ -880,7 +882,7 @@ export class CalciteCombobox implements LabelableComponent, FormComponent, Float
           dismissLabel={intlRemoveTag}
           dismissible
           icon={item.icon}
-          id={`${chipUidPrefix}${item.guid}`}
+          id={item.guid ? `${chipUidPrefix}${item.guid}` : null}
           key={item.textLabel}
           onCalciteChipDismiss={(event) => this.calciteChipDismissHandler(event, item)}
           scale={scale}
@@ -948,7 +950,7 @@ export class CalciteCombobox implements LabelableComponent, FormComponent, Float
     return this.visibleItems.map((item) => (
       <li
         aria-selected={(!!item.selected).toString()}
-        id={`${itemUidPrefix}${item.guid}`}
+        id={item.guid ? `${itemUidPrefix}${item.guid}` : null}
         role="option"
         tabindex="-1"
       >
