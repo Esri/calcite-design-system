@@ -308,5 +308,37 @@
         </calcite-label>
       </div>
     </div>
+
+    <div class="parent-flex" style="display: flex; flex-direction: column; margin: 25px">
+      <div class="child-flex child-flex-padding">
+        <p>Rendering of a calcite-label element before the assoc. input component is rendered</p>
+        <calcite-label for="input-switch-1"> Calcite Label </calcite-label>
+        <calcite-switch id="input-switch-1"></calcite-switch>
+      </div>
+
+      <div class="child-flex child-flex-padding">
+        <p>Rendering of a calcite-label element after the assoc. input component is rendered</p>
+        <button id="button">Toggle labels</button>
+        <p id="label"></p>
+        <calcite-switch id="input-switch-2"></calcite-switch>
+      </div>
+    </div>
+    <script>
+      const template = `
+        <calcite-label for="input-switch-2">
+          Calcite Label
+        </calcite-label>
+      `;
+      let visible = false;
+      document.querySelector("#button").addEventListener("click", (event) => {
+        console.log("visible", visible);
+        visible = !visible;
+        if (visible) {
+          document.querySelector("#label").innerHTML = template;
+        } else {
+          document.querySelector("#label").innerHTML = "";
+        }
+      });
+    </script>
   </body>
 </html>
