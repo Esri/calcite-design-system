@@ -242,7 +242,7 @@ export const RTL = (): string =>
     `
   );
 
-export const TransparentAppearance = (): string =>
+const TransparentAppearance = (): string =>
   create(
     "calcite-accordion",
     createAccordionAttributes({ exceptions: ["appearance"] }).concat({
