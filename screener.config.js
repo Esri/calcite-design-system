@@ -10,6 +10,10 @@ module.exports = {
     {
       browserName: "chrome",
       version: "87.0"
+    },
+    {
+      browserName: "firefox",
+      version: "96"
     }
   ],
   diffOptions: {
