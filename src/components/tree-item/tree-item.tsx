@@ -32,7 +32,7 @@ import {
   styleUrl: "tree-item.scss",
   shadow: true
 })
-export class CalciteTreeItem implements ConditionalSlotComponent {
+export class TreeItem implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
   //
   //  Element

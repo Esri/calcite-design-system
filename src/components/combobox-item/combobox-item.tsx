@@ -30,7 +30,7 @@ import {
   styleUrl: "combobox-item.scss",
   shadow: true
 })
-export class CalciteComboboxItem implements ConditionalSlotComponent {
+export class ComboboxItem implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties

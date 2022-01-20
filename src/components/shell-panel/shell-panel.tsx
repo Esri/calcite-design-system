@@ -29,7 +29,7 @@ import {
   styleUrl: "shell-panel.scss",
   shadow: true
 })
-export class CalciteShellPanel implements ConditionalSlotComponent {
+export class ShellPanel implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties

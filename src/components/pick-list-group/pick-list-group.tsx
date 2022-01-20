@@ -2,7 +2,7 @@ import { Component, Element, Prop, h, VNode, Fragment } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
 import { HEADING_LEVEL } from "./resources";
 import { getSlotted } from "../../utils/dom";
-import { HeadingLevel, CalciteHeading, constrainHeadingLevel } from "../functional/CalciteHeading";
+import { HeadingLevel, Heading, constrainHeadingLevel } from "../functional/Heading";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -17,7 +17,7 @@ import {
   styleUrl: "pick-list-group.scss",
   shadow: true
 })
-export class CalcitePickListGroup implements ConditionalSlotComponent {
+export class PickListGroup implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties

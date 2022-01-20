@@ -25,7 +25,7 @@ import {
   styleUrl: "card.scss",
   shadow: true
 })
-export class CalciteCard implements ConditionalSlotComponent {
+export class Card implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
   //
   //  Element

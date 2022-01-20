@@ -20,7 +20,7 @@ import {
   styleUrl: "block.scss",
   shadow: true
 })
-export class CalciteBlock implements ConditionalSlotComponent {
+export class Block implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties

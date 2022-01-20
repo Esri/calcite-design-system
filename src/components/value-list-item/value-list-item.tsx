@@ -31,7 +31,7 @@ import {
   styleUrl: "value-list-item.scss",
   shadow: true
 })
-export class CalciteValueListItem implements ConditionalSlotComponent {
+export class ValueListItem implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties

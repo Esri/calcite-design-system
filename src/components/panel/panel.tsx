@@ -13,8 +13,8 @@ import {
 import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
 import { getElementDir, getSlotted } from "../../utils/dom";
 import { Scale } from "../interfaces";
-import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
-import { SLOTS as ACTION_MENU_SLOTS } from "../calcite-action-menu/resources";
+import { HeadingLevel, Heading } from "../functional/Heading";
+import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -36,7 +36,7 @@ import {
   styleUrl: "panel.scss",
   shadow: true
 })
-export class CalcitePanel implements ConditionalSlotComponent {
+export class Panel implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties

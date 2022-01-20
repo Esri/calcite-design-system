@@ -19,7 +19,7 @@ import {
   styleUrl: "chip.scss",
   shadow: true
 })
-export class CalciteChip implements ConditionalSlotComponent {
+export class Chip implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
   //
   //  Public Properties

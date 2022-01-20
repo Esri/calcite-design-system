@@ -20,7 +20,7 @@ import {
   styleUrl: "shell.scss",
   shadow: true
 })
-export class CalciteShell implements ConditionalSlotComponent {
+export class Shell implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties

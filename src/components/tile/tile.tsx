@@ -16,7 +16,7 @@ import {
   styleUrl: "tile.scss",
   shadow: true
 })
-export class CalciteTile implements ConditionalSlotComponent {
+export class Tile implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Private Properties

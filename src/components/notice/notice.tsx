@@ -38,7 +38,7 @@ import {
   styleUrl: "notice.scss",
   shadow: true
 })
-export class CalciteNotice implements ConditionalSlotComponent {
+export class Notice implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
   //
   //  Element

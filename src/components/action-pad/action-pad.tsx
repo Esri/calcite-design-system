@@ -29,7 +29,7 @@ import {
   styleUrl: "action-pad.scss",
   shadow: true
 })
-export class CalciteActionPad implements ConditionalSlotComponent {
+export class ActionPad implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties

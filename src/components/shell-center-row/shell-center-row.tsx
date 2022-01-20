@@ -17,7 +17,7 @@ import {
   styleUrl: "shell-center-row.scss",
   shadow: true
 })
-export class CalciteShellCenterRow implements ConditionalSlotComponent {
+export class ShellCenterRow implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties

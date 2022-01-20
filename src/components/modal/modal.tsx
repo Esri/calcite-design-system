@@ -53,7 +53,7 @@ const getFocusableElements = (el: HTMLElement | ShadowRoot): HTMLElement[] => {
   styleUrl: "modal.scss",
   shadow: true
 })
-export class CalciteModal implements ConditionalSlotComponent {
+export class Modal implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
   //
   //  Element

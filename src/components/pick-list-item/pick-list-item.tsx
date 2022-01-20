@@ -28,7 +28,7 @@ import {
   styleUrl: "pick-list-item.scss",
   shadow: true
 })
-export class CalcitePickListItem implements ConditionalSlotComponent {
+export class PickListItem implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties

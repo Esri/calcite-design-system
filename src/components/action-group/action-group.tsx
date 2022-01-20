@@ -20,7 +20,7 @@ import {
   styleUrl: "action-group.scss",
   shadow: true
 })
-export class CalciteActionGroup implements ConditionalSlotComponent {
+export class ActionGroup implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
