@@ -86,7 +86,16 @@ export class CalciteAccordion {
   }
 
   render(): VNode {
-    return <slot />;
+    return (
+      <div
+        class={{
+          "accordion--transparent": this.appearance === "transparent",
+          "accordion--minimal": this.appearance === "minimal"
+        }}
+      >
+        <slot />
+      </div>
+    );
   }
 
   //--------------------------------------------------------------------------
