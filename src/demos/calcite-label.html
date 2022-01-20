@@ -309,10 +309,12 @@
       </div>
     </div>
 
-    <div class="parent-flex" style="display: flex; flex-direction: column; margin: 25px">
+    <hr />
+
+    <div class="parent-flex" style="display: flex; flex-direction: column; margin: 10%">
       <div class="child-flex child-flex-padding">
         <p>Rendering of a calcite-label element before the assoc. input component is rendered</p>
-        <calcite-label for="input-switch-1"> Calcite Label </calcite-label>
+        <p><calcite-label for="input-switch-1"> Calcite Label </calcite-label></p>
         <calcite-switch id="input-switch-1"></calcite-switch>
       </div>
 
@@ -331,10 +333,17 @@
       `;
       let visible = false;
       document.querySelector("#button").addEventListener("click", (event) => {
-        console.log("visible", visible);
         visible = !visible;
         if (visible) {
           document.querySelector("#label").innerHTML = template;
+          // check if event emitted when label rendered
+          // const label = document.querySelector('[for="input-switch-2"]');
+          // if (document.body.contains(label)) {
+          //   console.log("exists");
+          //   label.addEventListener("labelAdded", (event) => {
+          //     console.log(event.detail);
+          //   });
+          // }
         } else {
           document.querySelector("#label").innerHTML = "";
         }

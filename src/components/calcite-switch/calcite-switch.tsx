@@ -5,6 +5,7 @@ import {
   EventEmitter,
   h,
   Host,
+  Listen,
   Method,
   Prop,
   State,
@@ -157,6 +158,24 @@ export class CalciteSwitch implements LabelableComponent, CheckableFormCompoment
    * Fires when the checked value has changed.
    */
   @Event() calciteSwitchChange: EventEmitter;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Event Listeners
+  //
+  //--------------------------------------------------------------------------
+
+  @Listen("labelAdded", { target: "body" })
+  updateLabel(event: CustomEvent): void {
+    const initiallyChecked = this.checked || this.switched;
+
+    if (initiallyChecked) {
+      // if either prop is set, we ensure both are synced initially
+      this.switched = this.checked = initiallyChecked;
+    }
+    connectLabel(this);
+    connectForm(this);
+  }
 
   //--------------------------------------------------------------------------
   //
