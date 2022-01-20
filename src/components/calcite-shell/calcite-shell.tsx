@@ -76,7 +76,7 @@ export class CalciteShell implements ConditionalSlotComponent {
           <div
             class={{
               [CSS.content]: true,
-              [CSS.contentBehind]: !!this.contentBehind
+              [CSS.contentBehind]: true
             }}
             key={contentContainerKey}
           >
