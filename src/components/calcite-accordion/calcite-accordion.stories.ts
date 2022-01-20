@@ -103,6 +103,9 @@ export default {
     notes: {
       accordion: accordionReadme,
       accordionItem: accordionItemReadme
+    },
+    backgrounds: {
+      values: [{ name: "transparent", value: "#0000ffff" }]
     }
   }
 };
@@ -272,3 +275,8 @@ export const TransparentAppearance = (): string =>
       )}
     `
   );
+
+export const TransparentBackground = TransparentAppearance.bind({});
+TransparentBackground.parameters = {
+  backgrounds: { default: "transparent" }
+};
