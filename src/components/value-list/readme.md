@@ -84,10 +84,10 @@ Renders a value list with label editing and single select.
 
 ## Events
 
-| Event                    | Description                                           | Type               |
-| ------------------------ | ----------------------------------------------------- | ------------------ |
-| `calciteListChange`      | Emitted when any of the item selections have changed. | `CustomEvent<any>` |
-| `calciteListOrderChange` | Emitted when the order of the list has changed.       | `CustomEvent<any>` |
+| Event                    | Description                                           | Type                            |
+| ------------------------ | ----------------------------------------------------- | ------------------------------- |
+| `calciteListChange`      | Emitted when any of the item selections have changed. | `CustomEvent<Map<string, any>>` |
+| `calciteListOrderChange` | Emitted when the order of the list has changed.       | `CustomEvent<any[]>`            |
 
 ## Methods
 

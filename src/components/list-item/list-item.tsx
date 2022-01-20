@@ -1,6 +1,11 @@
 import { Component, Element, Prop, h, VNode, Host, Method } from "@stencil/core";
 import { SLOTS, CSS } from "./resources";
 import { getSlotted } from "../../utils/dom";
+import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 
 /**
  * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
@@ -14,7 +19,7 @@ import { getSlotted } from "../../utils/dom";
   styleUrl: "list-item.scss",
   shadow: true
 })
-export class ListItem {
+export class CalciteListItem implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -50,6 +55,20 @@ export class ListItem {
   @Element() el: HTMLCalciteListItemElement;
 
   focusEl: HTMLButtonElement;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  // --------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    connectConditionalSlotComponent(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectConditionalSlotComponent(this);
+  }
 
   // --------------------------------------------------------------------------
   //

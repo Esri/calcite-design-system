@@ -103,6 +103,9 @@ export default {
     notes: {
       accordion: accordionReadme,
       accordionItem: accordionItemReadme
+    },
+    backgrounds: {
+      values: [{ name: "transparent", value: "#0000ffff" }]
     }
   }
 };
@@ -211,6 +214,40 @@ export const RTL = (): string =>
     createAccordionAttributes({ exceptions: ["dir"] }).concat({
       name: "dir",
       value: "rtl"
+    }),
+    html`
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ group: "accordion-item-1" }),
+        accordionItemContent
+      )}
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ group: "accordion-item-2" }),
+        accordionItemContent
+      )}
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ group: "accordion-item-3" }),
+        accordionItemContent
+      )}
+      ${create(
+        "calcite-accordion-item",
+        createAccordionItemAttributes({ group: "accordion-item-4" }).concat({
+          name: "active",
+          value: true
+        }),
+        accordionItemContent
+      )}
+    `
+  );
+
+export const TransparentAppearance = (): string =>
+  create(
+    "calcite-accordion",
+    createAccordionAttributes({ exceptions: ["appearance"] }).concat({
+      name: "appearance",
+      value: "transparent"
     }),
     html`
       ${create(

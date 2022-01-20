@@ -1,17 +1,11 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, HYDRATED_ATTR, defaults } from "../../tests/commonTests";
+import { accessible, renders, defaults } from "../../tests/commonTests";
 import { GlobalTestProps, html } from "../../tests/utils";
 import { CSS } from "../tree-item/resources";
 import { TreeSelectionMode } from "./interfaces";
 
 describe("calcite-tree", () => {
-  it("renders", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent("<calcite-tree></calcite-tree>");
-    const element = await page.find("calcite-tree");
-    expect(element).toHaveAttribute(HYDRATED_ATTR);
-  });
+  it("renders", () => renders("calcite-tree", { display: "block" }));
 
   it("is accessible", async () => accessible(`<calcite-tree></calcite-tree>`));
 
@@ -131,9 +125,9 @@ describe("calcite-tree", () => {
       </calcite-tree>
     `);
     await page.waitForChanges();
-
     const one = await page.find("#one");
     const two = await page.find("#two");
+    const twoIcon = await page.find('#two >>> [data-test-id="icon"]');
     const childOne = await page.find("#child-one");
     const childTwo = await page.find("#child-two");
     const grandchildOne = await page.find("#grandchild-one");
@@ -157,6 +151,7 @@ describe("calcite-tree", () => {
     expect(grandchildOne).toHaveAttribute("selected");
     expect(grandchildTwo).toHaveAttribute("selected");
 
+    await twoIcon.click();
     await childOne.click();
 
     expect(childOne).not.toHaveAttribute("selected");

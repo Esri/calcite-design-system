@@ -13,8 +13,13 @@ import {
 import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
 import { getElementDir, getSlotted } from "../../utils/dom";
 import { Scale } from "../interfaces";
-import { HeadingLevel, Heading } from "../functional/Heading";
-import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
+import { HeadingLevel, CalciteHeading } from "../functional/CalciteHeading";
+import { SLOTS as ACTION_MENU_SLOTS } from "../calcite-action-menu/resources";
+import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 
 /**
  * @slot - A slot for adding custom content.
@@ -31,7 +36,7 @@ import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
   styleUrl: "panel.scss",
   shadow: true
 })
-export class Panel {
+export class CalcitePanel implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -132,6 +137,22 @@ export class Panel {
 
   containerEl: HTMLElement;
 
+  panelScrollEl: HTMLElement;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  // --------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    connectConditionalSlotComponent(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectConditionalSlotComponent(this);
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Events
@@ -211,6 +232,21 @@ export class Panel {
     this.containerEl?.focus();
   }
 
+  /** Scrolls panel content to a particular set of coordinates.
+   *
+   * ```
+   *   myCalcitePanel.scrollContentTo({
+   *     left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.
+   *     top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element
+   *     behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
+   *   });
+   * ```
+   */
+  @Method()
+  async scrollContentTo(options?: ScrollToOptions): Promise<void> {
+    this.panelScrollEl?.scrollTo(options);
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -263,7 +299,7 @@ export class Panel {
    */
   renderHeaderSlottedContent(): VNode {
     return (
-      <div class={CSS.headerContent} key="header-content">
+      <div class={CSS.headerContent} key="slotted-header-content">
         <slot name={SLOTS.headerContent} />
       </div>
     );
@@ -318,6 +354,7 @@ export class Panel {
     return hasMenuItems ? (
       <calcite-action-menu
         flipPlacements={["top", "bottom"]}
+        key="menu"
         label={intlOptions || TEXT.options}
         open={menuOpen}
         placement="bottom-end"
@@ -361,29 +398,16 @@ export class Panel {
     ) : null;
   }
 
-  /**
-   * Allows user to override the entire footer node.
-   */
-  renderFooterSlottedContent(): VNode {
+  renderFooterNode(): VNode {
     const { el } = this;
 
     const hasFooterSlottedContent = getSlotted(el, SLOTS.footer);
-
-    return hasFooterSlottedContent ? (
-      <footer class={CSS.footer}>
-        <slot name={SLOTS.footer} />
-      </footer>
-    ) : null;
-  }
-
-  renderFooterActions(): VNode {
-    const { el } = this;
-
     const hasFooterActions = getSlotted(el, SLOTS.footerActions);
 
-    return hasFooterActions ? (
-      <footer class={CSS.footer}>
-        <slot name={SLOTS.footerActions} />
+    return hasFooterSlottedContent || hasFooterActions ? (
+      <footer class={CSS.footer} key="footer">
+        {hasFooterSlottedContent ? <slot key="footer-slot" name={SLOTS.footer} /> : null}
+        {hasFooterActions ? <slot key="footer-actions-slot" name={SLOTS.footerActions} /> : null}
       </footer>
     ) : null;
   }
@@ -392,24 +416,29 @@ export class Panel {
     const { el } = this;
     const hasFab = getSlotted(el, SLOTS.fab);
 
+    const defaultSlotNode: VNode = <slot key="default-slot" />;
+    const contentWrapperKey = "content-wrapper";
+
     return hasFab ? (
       <div
         class={{ [CSS.contentWrapper]: true, [CSS.contentHeight]: true }}
+        key={contentWrapperKey}
         onScroll={this.panelScrollHandler}
+        ref={(el) => (this.panelScrollEl = el)}
         tabIndex={0}
       >
-        <section class={CSS.contentContainer}>
-          <slot />
-        </section>
+        <section class={CSS.contentContainer}>{defaultSlotNode}</section>
         {this.renderFab()}
       </div>
     ) : (
       <section
         class={{ [CSS.contentWrapper]: true, [CSS.contentContainer]: true }}
+        key={contentWrapperKey}
         onScroll={this.panelScrollHandler}
+        ref={(el) => (this.panelScrollEl = el)}
         tabIndex={0}
       >
-        <slot />
+        {defaultSlotNode}
       </section>
     );
   }
@@ -436,7 +465,7 @@ export class Panel {
       >
         {this.renderHeaderNode()}
         {this.renderContent()}
-        {this.renderFooterSlottedContent() || this.renderFooterActions()}
+        {this.renderFooterNode()}
       </article>
     );
 

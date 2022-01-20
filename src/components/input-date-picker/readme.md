@@ -53,10 +53,11 @@
 
 ## Events
 
-| Event                          | Description                                                     | Type                           |
-| ------------------------------ | --------------------------------------------------------------- | ------------------------------ |
-| `calciteDatePickerChange`      | Trigger calcite date change when a user changes the date.       | `CustomEvent<Date>`            |
-| `calciteDatePickerRangeChange` | Trigger calcite date change when a user changes the date range. | `CustomEvent<DateRangeChange>` |
+| Event                          | Description                                                                                                                                                          | Type                           |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
+| `calciteDatePickerChange`      | <span style="color:red">**[DEPRECATED]**</span> use `calciteInputDatePickerChange` instead.<br/><br/>Trigger calcite date change when a user changes the date.       | `CustomEvent<Date>`            |
+| `calciteDatePickerRangeChange` | <span style="color:red">**[DEPRECATED]**</span> use `calciteInputDatePickerChange` instead.<br/><br/>Trigger calcite date change when a user changes the date range. | `CustomEvent<DateRangeChange>` |
+| `calciteInputDatePickerChange` | This event fires when the input date picker value changes.                                                                                                           | `CustomEvent<void>`            |
 
 ## Methods
 

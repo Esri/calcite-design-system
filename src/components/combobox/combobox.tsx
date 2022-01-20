@@ -29,7 +29,8 @@ import {
   ComboboxChildSelector,
   ComboboxItem,
   ComboboxItemGroup,
-  ComboboxDefaultPlacement
+  ComboboxDefaultPlacement,
+  TEXT
 } from "./resources";
 import { getItemAncestors, getItemChildren, hasActiveChildren } from "./utils";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
@@ -48,6 +49,12 @@ interface ItemData {
 
 const isGroup = (el: ComboboxChildElement): el is HTMLCalciteComboboxItemGroupElement =>
   el.tagName === ComboboxItemGroup;
+
+const itemUidPrefix = "combobox-item-";
+const chipUidPrefix = "combobox-chip-";
+const labelUidPrefix = "combobox-label-";
+const listboxUidPrefix = "combobox-listbox-";
+const inputUidPrefix = "combobox-input-";
 
 /**
  * @slot - A slot for adding `calcite-combobox-item`s.
@@ -153,6 +160,11 @@ export class Combobox implements LabelableComponent, FormComponent {
       this.updateItems();
     }
   }
+
+  /** string to override the English "Remove tag" text for when an item is selected.
+   * @default "Remove tag"
+   */
+  @Prop({ reflect: false }) intlRemoveTag: string = TEXT.removeTag;
 
   //--------------------------------------------------------------------------
   //
@@ -339,7 +351,7 @@ export class Combobox implements LabelableComponent, FormComponent {
 
   mutationObserver = createObserver("mutation", () => this.updateItems());
 
-  private guid: string = guid();
+  private guid = guid();
 
   private inputHeight = 0;
 
@@ -770,7 +782,6 @@ export class Combobox implements LabelableComponent, FormComponent {
       const item = document.createElement(ComboboxItem) as HTMLCalciteComboboxItemElement;
       item.value = value;
       item.textLabel = value;
-      item.guid = guid();
       item.selected = true;
       this.el.appendChild(item);
       this.resetText();
@@ -823,7 +834,10 @@ export class Combobox implements LabelableComponent, FormComponent {
 
   focusChip(): void {
     const guid = this.selectedItems[this.activeChipIndex]?.guid;
-    const chip = this.referenceEl.querySelector<HTMLCalciteChipElement>(`#chip-${guid}`);
+
+    const chip = guid
+      ? this.referenceEl.querySelector<HTMLCalciteChipElement>(`#${chipUidPrefix}${guid}`)
+      : null;
     chip?.setFocus();
   }
 
@@ -880,7 +894,7 @@ export class Combobox implements LabelableComponent, FormComponent {
   //--------------------------------------------------------------------------
 
   renderChips(): VNode[] {
-    const { activeChipIndex, scale, selectionMode } = this;
+    const { activeChipIndex, scale, selectionMode, intlRemoveTag } = this;
     return this.selectedItems.map((item, i) => {
       const chipClasses = {
         chip: true,
@@ -891,12 +905,11 @@ export class Combobox implements LabelableComponent, FormComponent {
       const label = selectionMode !== "ancestors" ? item.textLabel : pathLabel.join(" / ");
       return (
         <calcite-chip
-          aria-label={label}
           class={chipClasses}
-          dismissLabel={"remove tag"}
+          dismissLabel={intlRemoveTag}
           dismissible
           icon={item.icon}
-          id={`chip-${item.guid}`}
+          id={item.guid ? `${chipUidPrefix}${item.guid}` : null}
           key={item.textLabel}
           onCalciteChipDismiss={(event) => this.calciteChipDismissHandler(event, item)}
           scale={scale}
@@ -910,7 +923,7 @@ export class Combobox implements LabelableComponent, FormComponent {
   }
 
   renderInput(): VNode {
-    const { active, disabled, placeholder, selectionMode, needsIcon, selectedItems } = this;
+    const { guid, active, disabled, placeholder, selectionMode, needsIcon, selectedItems } = this;
     const single = selectionMode === "single";
     const selectedItem = selectedItems[0];
     const showLabel = !active && single && !!selectedItem;
@@ -937,7 +950,7 @@ export class Combobox implements LabelableComponent, FormComponent {
         <input
           aria-activedescendant={this.activeDescendant}
           aria-autocomplete="list"
-          aria-controls={guid}
+          aria-controls={`${listboxUidPrefix}${guid}`}
           aria-label={getLabelText(this)}
           class={{
             input: true,
@@ -947,7 +960,7 @@ export class Combobox implements LabelableComponent, FormComponent {
             "input--icon": single && needsIcon
           }}
           disabled={disabled}
-          id={`${guid}-input`}
+          id={`${inputUidPrefix}${guid}`}
           key="input"
           onBlur={this.comboboxBlurHandler}
           onFocus={this.comboboxFocusHandler}
@@ -962,7 +975,12 @@ export class Combobox implements LabelableComponent, FormComponent {
 
   renderListBoxOptions(): VNode[] {
     return this.visibleItems.map((item) => (
-      <li aria-selected={(!!item.selected).toString()} id={item.guid} role="option" tabindex="-1">
+      <li
+        aria-selected={(!!item.selected).toString()}
+        id={item.guid ? `${itemUidPrefix}${item.guid}` : null}
+        role="option"
+        tabindex="-1"
+      >
         {item.textLabel}
       </li>
     ));
@@ -1024,7 +1042,6 @@ export class Combobox implements LabelableComponent, FormComponent {
   render(): VNode {
     const { guid, open, label } = this;
     const single = this.selectionMode === "single";
-    const labelId = `${guid}-label`;
 
     return (
       <Host onKeyDown={this.keydownHandler}>
@@ -1032,8 +1049,8 @@ export class Combobox implements LabelableComponent, FormComponent {
           aria-autocomplete="list"
           aria-expanded={open.toString()}
           aria-haspopup="listbox"
-          aria-labelledby={labelId}
-          aria-owns={guid}
+          aria-labelledby={`${labelUidPrefix}${guid}`}
+          aria-owns={`${listboxUidPrefix}${guid}`}
           class={{
             wrapper: true,
             "wrapper--single": single || !this.selectedItems.length,
@@ -1046,7 +1063,11 @@ export class Combobox implements LabelableComponent, FormComponent {
           <div class="grid-input">
             {this.renderIconStart()}
             {!single && this.renderChips()}
-            <label class="screen-readers-only" htmlFor={`${guid}-input`} id={labelId}>
+            <label
+              class="screen-readers-only"
+              htmlFor={`${inputUidPrefix}${guid}`}
+              id={`${labelUidPrefix}${guid}`}
+            >
               {label}
             </label>
             {this.renderInput()}
@@ -1054,10 +1075,10 @@ export class Combobox implements LabelableComponent, FormComponent {
           {this.renderIconEnd()}
         </div>
         <ul
-          aria-labelledby={labelId}
+          aria-labelledby={`${labelUidPrefix}${guid}`}
           aria-multiselectable="true"
           class="screen-readers-only"
-          id={guid}
+          id={`${listboxUidPrefix}${guid}`}
           role="listbox"
           tabIndex={-1}
         >

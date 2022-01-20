@@ -1,15 +1,9 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { focusable, formAssociated, labelable } from "../../tests/commonTests";
+import { focusable, formAssociated, labelable, renders } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 
 describe("calcite-radio-group", () => {
-  it("renders", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-radio-group></calcite-radio-group>");
-    const element = await page.find("calcite-radio-group");
-
-    expect(element).toBeDefined();
-  });
+  it("renders", () => renders("calcite-radio-group", { display: "flex" }));
 
   it("is labelable", async () =>
     labelable(

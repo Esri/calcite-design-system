@@ -96,7 +96,7 @@ export async function dragAndDrop(
     dragStart.dispatchEvent(new PointerEvent("pointerdown", dragStartInitializer));
     dragStart.dispatchEvent(new DragEvent("dragstart", dragStartInitializer));
 
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => window.setTimeout(resolve, 2000));
 
     dragEnd.dispatchEvent(new MouseEvent("dragenter", dragEndInitializer));
     dragStart.dispatchEvent(new DragEvent("dragend", dragEndInitializer));
@@ -323,4 +323,8 @@ export async function visualizeMouseCursor(page: E2EPage): Promise<void> {
       }
     }
   });
+}
+
+export async function waitForAnimationFrame(): Promise<void> {
+  return new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 }

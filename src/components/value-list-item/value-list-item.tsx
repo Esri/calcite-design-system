@@ -16,6 +16,11 @@ import { CSS } from "../pick-list-item/resources";
 import { ICONS, SLOTS } from "./resources";
 import { SLOTS as PICK_LIST_SLOTS } from "../pick-list-item/resources";
 import { getSlotted } from "../../utils/dom";
+import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 
 /**
  * @slot actions-end - A slot for adding actions or content to the end side of the item.
@@ -26,7 +31,7 @@ import { getSlotted } from "../../utils/dom";
   styleUrl: "value-list-item.scss",
   shadow: true
 })
-export class ValueListItem {
+export class CalciteValueListItem implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -100,6 +105,20 @@ export class ValueListItem {
   pickListItem: HTMLCalcitePickListItemElement = null;
 
   guid = `calcite-value-list-item-${guid()}`;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  // --------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    connectConditionalSlotComponent(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectConditionalSlotComponent(this);
+  }
 
   // --------------------------------------------------------------------------
   //

@@ -13,6 +13,11 @@ import {
 import { CSS, ICONS, SLOTS, TEXT } from "./resources";
 import { ICON_TYPES } from "../pick-list/resources";
 import { getSlotted } from "../../utils/dom";
+import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 
 /**
  * @slot actions-end - a slot for adding actions or content to the end side of the item.
@@ -23,7 +28,7 @@ import { getSlotted } from "../../utils/dom";
   styleUrl: "pick-list-item.scss",
   shadow: true
 })
-export class PickListItem {
+export class CalcitePickListItem implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -130,6 +135,20 @@ export class PickListItem {
   private focusEl: HTMLLabelElement;
 
   shiftPressed: boolean;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  // --------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    connectConditionalSlotComponent(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectConditionalSlotComponent(this);
+  }
 
   // --------------------------------------------------------------------------
   //

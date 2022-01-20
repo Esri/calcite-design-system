@@ -1,7 +1,7 @@
 import { E2EElement, newE2EPage } from "@stencil/core/testing";
 
 import { CSS, SLOTS } from "./resources";
-import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders, slots } from "../../tests/commonTests";
 import { getElementXY } from "../../tests/utils";
 
 describe("calcite-shell-panel", () => {
@@ -24,6 +24,8 @@ describe("calcite-shell-panel", () => {
         defaultValue: "Resize"
       }
     ]));
+
+  it("has slots", () => slots("calcite-shell-panel", SLOTS));
 
   it("has a slot", async () => {
     const page = await newE2EPage();

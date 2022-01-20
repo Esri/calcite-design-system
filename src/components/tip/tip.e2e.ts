@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, hidden, renders, defaults } from "../../tests/commonTests";
-import { CSS } from "./resources";
+import { accessible, hidden, renders, defaults, slots } from "../../tests/commonTests";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-tip", () => {
   it("renders", async () => renders("calcite-tip", { display: "flex" }));
@@ -16,6 +16,8 @@ describe("calcite-tip", () => {
     ]));
 
   it("is accessible", async () => accessible(`<calcite-tip heading="sample"><p>not dismissible</p></calcite-tip>`));
+
+  it("has slots", () => slots("calcite-tip", SLOTS));
 
   it("should remove the closeButton if nonDismissible prop is true", async () => {
     const page = await newE2EPage();

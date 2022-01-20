@@ -10,12 +10,17 @@ import {
   Watch,
   VNode
 } from "@stencil/core";
-import { getElementProp } from "../../utils/dom";
+import { getElementProp, getSlotted } from "../../utils/dom";
 import { CSS } from "./resources";
 import { guid } from "../../utils/guid";
 import { ComboboxChildElement } from "../combobox/interfaces";
 import { getAncestors, getDepth } from "../combobox/utils";
 import { Scale } from "../interfaces";
+import {
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent,
+  ConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 
 /**
  * @slot - A slot for adding nested `calcite-combobox-item`s.
@@ -25,7 +30,7 @@ import { Scale } from "../interfaces";
   styleUrl: "combobox-item.scss",
   shadow: true
 })
-export class ComboboxItem {
+export class CalciteComboboxItem implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -45,7 +50,7 @@ export class ComboboxItem {
   @Prop({ mutable: true }) ancestors: ComboboxChildElement[];
 
   /** Unique identifier, used for accessibility */
-  @Prop() guid: string = guid();
+  @Prop() guid = guid();
 
   /** Custom icon to display both in combobox chips and next to combobox item text */
   @Prop() icon?: string;
@@ -74,8 +79,6 @@ export class ComboboxItem {
 
   isNested: boolean;
 
-  hasDefaultSlot: boolean;
-
   scale: Scale = "m";
 
   // --------------------------------------------------------------------------
@@ -87,10 +90,11 @@ export class ComboboxItem {
   connectedCallback(): void {
     this.ancestors = getAncestors(this.el);
     this.scale = getElementProp(this.el, "scale", this.scale);
+    connectConditionalSlotComponent(this);
   }
 
-  componentWillLoad(): void {
-    this.hasDefaultSlot = this.el.querySelector(":not([slot])") !== null;
+  disconnectedCallback(): void {
+    disconnectConditionalSlotComponent(this);
   }
 
   // --------------------------------------------------------------------------
@@ -171,14 +175,15 @@ export class ComboboxItem {
   }
 
   renderChildren(): VNode {
-    if (!this.hasDefaultSlot) {
-      return null;
+    if (getSlotted(this.el)) {
+      return (
+        <ul key="default-slot-container">
+          <slot />
+        </ul>
+      );
     }
-    return (
-      <ul>
-        <slot />
-      </ul>
-    );
+
+    return null;
   }
 
   render(): VNode {

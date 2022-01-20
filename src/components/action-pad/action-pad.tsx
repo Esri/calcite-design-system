@@ -14,6 +14,11 @@ import { Layout, Position, Scale } from "../interfaces";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { focusElement, getSlotted } from "../../utils/dom";
 import { CSS, TEXT, SLOTS } from "./resources";
+import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 
 /**
  * @slot - A slot for adding `calcite-action`s to the action pad.
@@ -24,7 +29,7 @@ import { CSS, TEXT, SLOTS } from "./resources";
   styleUrl: "action-pad.scss",
   shadow: true
 })
-export class ActionPad {
+export class CalciteActionPad implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -108,6 +113,14 @@ export class ActionPad {
   //  Lifecycle
   //
   // --------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    connectConditionalSlotComponent(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectConditionalSlotComponent(this);
+  }
 
   componentWillLoad(): void {
     const { el, expandDisabled, expanded } = this;

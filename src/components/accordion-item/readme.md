@@ -15,9 +15,9 @@ individual `calcite-accordion` item
 
 ## Slots
 
-| Slot | Description                       |
-| ---- | --------------------------------- |
-|      | A slot for adding custom content. |
+| Slot | Description                                                                   |
+| ---- | ----------------------------------------------------------------------------- |
+|      | A slot for adding custom content, including nested `calcite-accordion-item`s. |
 
 ## Dependencies
 

@@ -55,7 +55,6 @@ export class DatePicker {
   handleValueAsDate(date: Date | Date[]): void {
     if (!Array.isArray(date) && date && date !== this.activeDate) {
       this.activeDate = date;
-      this.calciteDatePickerChange.emit(date);
     }
   }
 
@@ -495,15 +494,15 @@ export class DatePicker {
   };
 
   private setEndDate(date: Date): void {
-    this.end = dateToISO(date);
+    this.end = date ? dateToISO(date) : "";
     this.setEndAsDate(date, true);
-    this.activeEndDate = date;
+    this.activeEndDate = date || null;
   }
 
   private setStartDate(date: Date): void {
-    this.start = dateToISO(date);
+    this.start = date ? dateToISO(date) : "";
     this.setStartAsDate(date, true);
-    this.activeStartDate = date;
+    this.activeStartDate = date || null;
   }
 
   /**
@@ -512,8 +511,10 @@ export class DatePicker {
   private monthDateChange = (e: CustomEvent<Date>): void => {
     const date = new Date(e.detail);
     if (!this.range) {
-      this.value = dateToISO(date);
-      this.activeDate = date;
+      this.value = date ? dateToISO(date) : "";
+      this.valueAsDate = date || null;
+      this.activeDate = date || null;
+      this.calciteDatePickerChange.emit(date);
       return;
     }
 
@@ -554,6 +555,7 @@ export class DatePicker {
         this.endAsDate = this.activeEndDate = this.end = undefined;
       }
     }
+    this.calciteDatePickerChange.emit(date);
   };
 
   /**

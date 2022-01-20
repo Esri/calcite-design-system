@@ -1,10 +1,9 @@
 import { Component, Element, Event, EventEmitter, h, Listen, Prop, VNode } from "@stencil/core";
-
 import { AccordionAppearance } from "./interfaces";
 import { Position, Scale } from "../interfaces";
 
 /**
- * @slot - A slot for adding `calcite-accordion-item`s.
+ * @slot - A slot for adding `calcite-accordion-item`s. `calcite-accordion` cannot be nested, however calcite-accordion-item`s can.
  */
 @Component({
   tag: "calcite-accordion",
@@ -67,7 +66,16 @@ export class Accordion {
   }
 
   render(): VNode {
-    return <slot />;
+    return (
+      <div
+        class={{
+          "accordion--transparent": this.appearance === "transparent",
+          "accordion--minimal": this.appearance === "minimal"
+        }}
+      >
+        <slot />
+      </div>
+    );
   }
 
   //--------------------------------------------------------------------------

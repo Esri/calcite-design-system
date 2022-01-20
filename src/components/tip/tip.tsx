@@ -1,7 +1,12 @@
 import { Component, Element, Event, EventEmitter, Prop, h, VNode, Fragment } from "@stencil/core";
 import { CSS, ICONS, SLOTS, TEXT, HEADING_LEVEL } from "./resources";
 import { getSlotted } from "../../utils/dom";
-import { HeadingLevel, Heading, constrainHeadingLevel } from "../functional/Heading";
+import { HeadingLevel, CalciteHeading, constrainHeadingLevel } from "../functional/CalciteHeading";
+import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 
 /**
  * @slot - A slot for adding text and a hyperlink.
@@ -12,7 +17,7 @@ import { HeadingLevel, Heading, constrainHeadingLevel } from "../functional/Head
   styleUrl: "tip.scss",
   shadow: true
 })
-export class Tip {
+export class CalciteTip implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -55,6 +60,20 @@ export class Tip {
   // --------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteTipElement;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  // --------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    connectConditionalSlotComponent(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectConditionalSlotComponent(this);
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -120,7 +139,7 @@ export class Tip {
     const { el } = this;
 
     return getSlotted(el, SLOTS.thumbnail) ? (
-      <div class={CSS.imageFrame}>
+      <div class={CSS.imageFrame} key="thumbnail">
         <slot name={SLOTS.thumbnail} />
       </div>
     ) : null;

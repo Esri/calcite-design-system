@@ -60,7 +60,7 @@ export async function renders(
   componentTagOrHTML: TagOrHTML,
   options?: {
     visible?: boolean;
-    display?: string;
+    display: string;
   }
 ): Promise<void> {
   const page = await simplePageSetup(componentTagOrHTML);
@@ -177,50 +177,66 @@ export async function focusable(componentTagOrHTML: TagOrHTML, options?: Focusab
 }
 
 /**
- * Helper for asserting named slots.
+ * Helper for asserting slots.
  *
  * @param componentTagOrHTML - the component tag or HTML markup to test against
  * @param slots - a component's SLOTS resource object or an array of slot names
+ * @param includeDefaultSlot - when true, it will run assertions on the default slot
  */
-export async function slots(componentTagOrHTML: TagOrHTML, slots: Record<string, string> | string[]): Promise<void> {
+export async function slots(
+  componentTagOrHTML: TagOrHTML,
+  slots: Record<string, string> | string[],
+  includeDefaultSlot = false
+): Promise<void> {
   const page = await simplePageSetup(componentTagOrHTML);
   const tag = getTag(componentTagOrHTML);
   const slotNames = Array.isArray(slots) ? slots : Object.values(slots);
 
-  const allSlotsAssigned = await page.$eval(
+  await page.$eval(
     tag,
-    async (component, slotNames: string[]) => {
-      slotNames.forEach((slot) => {
-        const el = document.createElement("div");
-        el.classList.add("slotted");
-        el.slot = slot;
+    async (component, slotNames: string[], includeDefaultSlot?: boolean) => {
+      async function slotTestElement(testClass: string, slotName?: string): Promise<void> {
+        const el = document.createElement("div"); // slotting a <div> will suffice for our purposes
+        el.classList.add(testClass);
 
-        component.appendChild(el);
-      });
+        if (slotName) {
+          el.slot = slotName;
+        }
 
-      // we do this for conditionally-rendered slots since slotting after initialization does not trigger a render phase
+        component.append(el);
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+      }
 
-      const html = component.outerHTML.replace(/\"/g, `'`);
-      component.remove();
+      for (let i = 0; i < slotNames.length; i++) {
+        await slotTestElement("slotted-into-named-slot", slotNames[i]);
+      }
 
-      const parent = document.createElement("div");
-      document.body.append(parent);
-      parent.innerHTML = html;
-
-      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-
-      const allSlotsAssigned = Array.from(parent.getElementsByClassName("slotted"))
-        .map((slotted) => slotted.assignedSlot)
-        .every((assignedSlot) => !!assignedSlot);
-
-      parent.remove();
-
-      return allSlotsAssigned;
+      if (includeDefaultSlot) {
+        await slotTestElement("slotted-into-default-slot");
+      }
     },
-    slotNames
+    slotNames,
+    includeDefaultSlot
   );
 
-  expect(allSlotsAssigned).toBe(true);
+  await page.waitForChanges();
+
+  const slotted = await page.evaluate(() =>
+    Array.from(document.querySelectorAll(".slotted-into-named-slot"))
+      .filter((slotted) => slotted.assignedSlot)
+      .map((slotted) => slotted.slot)
+  );
+
+  expect(slotNames).toEqual(slotted);
+
+  if (includeDefaultSlot) {
+    const hasDefaultSlotted = await page.evaluate(() => {
+      const defaultSlotted = document.querySelector(".slotted-into-default-slot");
+      return defaultSlotted.assignedSlot?.name === "" && defaultSlotted.slot === "";
+    });
+
+    expect(hasDefaultSlotted).toBe(true);
+  }
 }
 
 async function assertLabelable({

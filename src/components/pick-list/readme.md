@@ -81,9 +81,9 @@ Renders groups of pick list items that are visually separated.
 
 ## Events
 
-| Event               | Description                                           | Type               |
-| ------------------- | ----------------------------------------------------- | ------------------ |
-| `calciteListChange` | Emitted when any of the item selections have changed. | `CustomEvent<any>` |
+| Event               | Description                                           | Type                            |
+| ------------------- | ----------------------------------------------------- | ------------------------------- |
+| `calciteListChange` | Emitted when any of the item selections have changed. | `CustomEvent<Map<string, any>>` |
 
 ## Methods
 

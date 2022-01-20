@@ -15,7 +15,7 @@ import { CSS_UTILITY } from "../../utils/resources";
 import { Position } from "../interfaces";
 
 /**
- * @slot - A slot for adding custom content.
+ * @slot - A slot for adding custom content, including nested `calcite-accordion-item`s.
  */
 @Component({
   tag: "calcite-accordion-item",

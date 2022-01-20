@@ -2,7 +2,12 @@ import { Component, Element, Prop, h, VNode, Fragment } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
 import { HEADING_LEVEL } from "./resources";
 import { getSlotted } from "../../utils/dom";
-import { HeadingLevel, Heading, constrainHeadingLevel } from "../functional/Heading";
+import { HeadingLevel, CalciteHeading, constrainHeadingLevel } from "../functional/CalciteHeading";
+import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 
 /**
  * @slot - A slot for adding `calcite-pick-list-item` elements.
@@ -12,7 +17,7 @@ import { HeadingLevel, Heading, constrainHeadingLevel } from "../functional/Head
   styleUrl: "pick-list-group.scss",
   shadow: true
 })
-export class PickListGroup {
+export class CalcitePickListGroup implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -37,6 +42,20 @@ export class PickListGroup {
   // --------------------------------------------------------------------------
 
   @Element() el: HTMLCalcitePickListGroupElement;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  // --------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    connectConditionalSlotComponent(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectConditionalSlotComponent(this);
+  }
 
   // --------------------------------------------------------------------------
   //
