@@ -146,9 +146,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
-    document.removeEventListener("pointermove", this.dragUpdate);
-    document.removeEventListener("pointerup", this.dragEnd);
-    document.removeEventListener("pointercancel", this.dragEnd);
+    this.removeEventListeners();
   }
 
   componentWillLoad(): void {
@@ -974,9 +972,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
   }
 
   private dragEnd = (event: PointerEvent): void => {
-    document.removeEventListener("pointermove", this.dragUpdate);
-    document.removeEventListener("pointerup", this.dragEnd);
-    document.removeEventListener("pointercancel", this.dragEnd);
+    this.removeEventListeners();
     this.focusActiveHandle(event.clientX);
     if (this.lastDragPropValue != this[this.dragProp]) {
       this.emitChange();
@@ -987,6 +983,12 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
     this.maxValueDragRange = null;
     this.minMaxValueRange = null;
   };
+
+  private removeEventListeners() {
+    document.removeEventListener("pointermove", this.dragUpdate);
+    document.removeEventListener("pointerup", this.dragEnd);
+    document.removeEventListener("pointercancel", this.dragEnd);
+  }
 
   /**
    * Set the prop value if changed at the component level
