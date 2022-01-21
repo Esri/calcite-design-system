@@ -87,10 +87,22 @@ function hasAncestorCustomElements(label: HTMLCalciteLabelElement, componentEl: 
 export function connectLabel(component: LabelableComponent): void {
   const labelEl = findLabelForComponent(component.el);
 
-  if (!labelEl || onLabelClickMap.has(labelEl)) {
+  //if label has the click handler, return
+  if (onLabelClickMap.has(labelEl)) {
     return;
   }
 
+  // If we don’t have the labelEl for that input, add listener for custom event
+  if (!labelEl) {
+    document.addEventListener("onLabelAdded", () => {
+      component.labelEl = labelEl;
+      const boundOnLabelClick = onLabelClick.bind(component);
+      onLabelClickMap.set(component.labelEl, boundOnLabelClick);
+      component.labelEl.addEventListener(labelClickEvent, boundOnLabelClick);
+    });
+  }
+
+  //if label is there for that input, bind the labelClick Event to the input
   component.labelEl = labelEl;
   const boundOnLabelClick = onLabelClick.bind(component);
   onLabelClickMap.set(component.labelEl, boundOnLabelClick);

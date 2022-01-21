@@ -161,24 +161,6 @@ export class CalciteSwitch implements LabelableComponent, CheckableFormCompoment
 
   //--------------------------------------------------------------------------
   //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("labelAdded", { target: "body" })
-  updateLabel(event: CustomEvent): void {
-    const initiallyChecked = this.checked || this.switched;
-
-    if (initiallyChecked) {
-      // if either prop is set, we ensure both are synced initially
-      this.switched = this.checked = initiallyChecked;
-    }
-    connectLabel(this);
-    connectForm(this);
-  }
-
-  //--------------------------------------------------------------------------
-  //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
