@@ -8,13 +8,11 @@ Renders a `<label>` around its children and can be used with any [labelable nati
 
 ### Basic
 
-It also allows consumers to set a `status` attribute for child `calcite-input` and `calcite-input-message` components to use to set their own properties.
-
 ```html
 <calcite-label status="invalid">
   Invalid input
-  <calcite-input type="search" placeholder="Filter your files" value="adfo2h2"></calcite-input>
-  <calcite-input-message active icon> Something doesn't look right </calcite-input-message>
+  <calcite-input status="invalid" type="search" placeholder="Filter your files" value="adfo2h2"></calcite-input>
+  <calcite-input-message status="invalid" active icon> Something doesn't look right </calcite-input-message>
 </calcite-label>
 ```
 

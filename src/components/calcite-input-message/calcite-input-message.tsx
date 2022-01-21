@@ -57,7 +57,6 @@ export class CalciteInputMessage {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.status = getElementProp(this.el, "status", this.status);
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.requestedIcon = setRequestedIcon(StatusIconDefaults, this.icon, this.status);
   }
