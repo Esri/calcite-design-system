@@ -974,6 +974,9 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
   }
 
   private dragEnd = (event: PointerEvent): void => {
+    document.removeEventListener("pointermove", this.dragUpdate);
+    document.removeEventListener("pointerup", this.dragEnd);
+    document.removeEventListener("pointercancel", this.dragEnd);
     this.focusActiveHandle(event.clientX);
     if (this.lastDragPropValue != this[this.dragProp]) {
       this.emitChange();
