@@ -1,7 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders } from "../../tests/commonTests";
+import { accessible, renders, slots } from "../../tests/commonTests";
 import { placeholderImage } from "../../tests/utils";
-import { CSS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 const placeholder = placeholderImage({
   width: 350,
   height: 150
@@ -17,6 +17,8 @@ describe("calcite-card", () => {
       <calcite-card selectable>
         <img slot="thumbnail" src="${placeholder}" alt="Test image" />
       </calcite-card>`));
+
+  it("has slots", () => slots("calcite-card", SLOTS));
 
   it("renders with default props if none are provided", async () => {
     const page = await newE2EPage();
