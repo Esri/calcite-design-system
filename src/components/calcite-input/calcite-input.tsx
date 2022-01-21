@@ -322,7 +322,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     this.setDisabledAction();
   }
 
-  componentShouldUpdate(newValue: any, oldValue: any, property: string): boolean {
+  componentShouldUpdate(newValue: string, oldValue: string, property: string): boolean {
     if (this.type === "number" && property === "value" && newValue && !isValidNumber(newValue)) {
       this.setValue({
         value: oldValue
@@ -672,7 +672,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     value
   }: {
     committing?: boolean;
-    nativeEvent?: any;
+    nativeEvent?: MouseEvent | KeyboardEvent | InputEvent;
     origin?: "internal" | "external" | "loading";
     value: string;
   }): void => {
