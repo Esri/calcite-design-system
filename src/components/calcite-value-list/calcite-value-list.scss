@@ -33,7 +33,3 @@ calcite-value-list-item:last-of-type {
 calcite-filter {
   @apply mb-px;
 }
-
-::slotted(calcite-dropdown) {
-  position: relative;
-}
