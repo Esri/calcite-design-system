@@ -126,9 +126,6 @@ describe("dom", () => {
         <div id="default-slot-el"><p>🙂</p></div>
       </slot-test>
     `;
-
-      const assignedSlot = document.querySelector("slot-test").shadowRoot.querySelector(`slot:not([name])`);
-      (document.getElementById("default-slot-el") as any).assignedSlot = assignedSlot;
     });
 
     describe("single slotted", () => {
