@@ -9,7 +9,7 @@ module.exports = {
   browsers: [
     {
       browserName: "chrome",
-      version: "87.0"
+      version: "97.0"
     }
   ],
   diffOptions: {
@@ -21,5 +21,6 @@ module.exports = {
     accessKey: process.env.SAUCE_ACCESS_KEY,
     maxConcurrent: 10
   },
-  excludeRules: [/^Overview/]
+  excludeRules: [/^Overview/],
+  resolution: "1920x1440"
 };
