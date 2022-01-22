@@ -59,7 +59,7 @@ export class CalciteLabel {
     sourceEvent: MouseEvent;
   }>;
 
-  @Event() onLabelAdded: EventEmitter;
+  @Event() labelAdded: EventEmitter;
 
   //--------------------------------------------------------------------------
   //
@@ -80,7 +80,7 @@ export class CalciteLabel {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.onLabelAdded.emit("labelEmitted");
+    this.labelAdded.emit("labelEmitted");
   }
 
   render(): VNode {

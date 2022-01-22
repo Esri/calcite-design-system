@@ -94,7 +94,7 @@ export function connectLabel(component: LabelableComponent): void {
 
   // If we don’t have the labelEl for that input, add listener for custom event
   if (!labelEl) {
-    document.addEventListener("onLabelAdded", () => {
+    document.addEventListener("labelAdded", () => {
       component.labelEl = labelEl;
       const boundOnLabelClick = onLabelClick.bind(component);
       onLabelClickMap.set(component.labelEl, boundOnLabelClick);

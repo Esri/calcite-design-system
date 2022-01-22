@@ -5,7 +5,6 @@ import {
   EventEmitter,
   h,
   Host,
-  Listen,
   Method,
   Prop,
   State,
