@@ -30,7 +30,7 @@ export class CalciteLabel {
 
   /**
    * specify the status of the label and any child input / input messages
-   * @deprecated status is no longer supported, set status directly in child input / input messages
+   * @deprecated set directly on child element instead
    */
   @Prop({ reflect: true }) status: Status = "idle";
 
