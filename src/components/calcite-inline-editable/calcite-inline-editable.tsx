@@ -10,10 +10,11 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementProp } from "../../utils/dom";
+import { getElementProp, getSlotted } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { TEXT, CSS } from "./resources";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { createObserver } from "../../utils/observers";
 
 /**
  * @slot - A slot for adding a `calcite-input`.
@@ -30,7 +31,7 @@ export class CalciteInlineEditable implements LabelableComponent {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el!: HTMLCalciteInlineEditableElement;
+  @Element() el: HTMLCalciteInlineEditableElement;
 
   //--------------------------------------------------------------------------
   //
@@ -43,7 +44,9 @@ export class CalciteInlineEditable implements LabelableComponent {
 
   @Watch("disabled")
   disabledWatcher(disabled: boolean): void {
-    this.inputElement.disabled = disabled;
+    if (this.inputElement) {
+      this.inputElement.disabled = disabled;
+    }
   }
 
   /** specify whether the wrapped input element is editable, defaults to false */
@@ -51,7 +54,9 @@ export class CalciteInlineEditable implements LabelableComponent {
 
   @Watch("editingEnabled")
   editingEnabledWatcher(newValue: boolean, oldValue: boolean): void {
-    this.inputElement.editingEnabled = newValue;
+    if (this.inputElement) {
+      this.inputElement.editingEnabled = newValue;
+    }
     if (!newValue && !!oldValue) {
       this.shouldEmitCancel = true;
     }
@@ -92,18 +97,13 @@ export class CalciteInlineEditable implements LabelableComponent {
 
   connectedCallback() {
     connectLabel(this);
+    this.mutationObserver?.observe(this.el, { childList: true });
+    this.mutationObserverCallback();
   }
 
   disconnectedCallback() {
     disconnectLabel(this);
-  }
-
-  componentWillLoad() {
-    this.inputElement = this.el.querySelector("calcite-input") as HTMLCalciteInputElement;
-    this.inputElement.disabled = this.disabled;
-    this.inputElement.label = this.inputElement.label || getLabelText(this);
-    this.scale =
-      this.scale || this.inputElement.scale || getElementProp(this.el, "scale", undefined);
+    this.mutationObserver?.disconnect();
   }
 
   render(): VNode {
@@ -216,6 +216,8 @@ export class CalciteInlineEditable implements LabelableComponent {
 
   labelEl: HTMLCalciteLabelElement;
 
+  mutationObserver = createObserver("mutation", () => this.mutationObserverCallback());
+
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -237,8 +239,29 @@ export class CalciteInlineEditable implements LabelableComponent {
   //
   //--------------------------------------------------------------------------
 
+  mutationObserverCallback(): void {
+    this.updateSlottedInput();
+    this.scale =
+      this.scale || this.inputElement?.scale || getElementProp(this.el, "scale", undefined);
+  }
+
   onLabelClick(): void {
     this.setFocus();
+  }
+
+  updateSlottedInput(): void {
+    const inputElement: HTMLCalciteInputElement = getSlotted(this.el, {
+      matches: "calcite-input"
+    });
+
+    this.inputElement = inputElement;
+
+    if (!inputElement) {
+      return;
+    }
+
+    this.inputElement.disabled = this.disabled;
+    this.inputElement.label = this.inputElement.label || getLabelText(this);
   }
 
   transitionEnd = (): void => {
@@ -252,9 +275,9 @@ export class CalciteInlineEditable implements LabelableComponent {
   }
 
   private enableEditing = () => {
-    this.valuePriorToEditing = this.inputElement.value;
+    this.valuePriorToEditing = this.inputElement?.value;
     this.editingEnabled = true;
-    this.inputElement.setFocus();
+    this.inputElement?.setFocus();
     this.calciteInlineEditableEnableEditingChange.emit();
   };
 
@@ -263,7 +286,9 @@ export class CalciteInlineEditable implements LabelableComponent {
   };
 
   private cancelEditing = () => {
-    this.inputElement.value = this.valuePriorToEditing;
+    if (this.inputElement) {
+      this.inputElement.value = this.valuePriorToEditing;
+    }
     this.disableEditing();
     this.enableEditingButton.setFocus();
   };
@@ -278,7 +303,7 @@ export class CalciteInlineEditable implements LabelableComponent {
         if (!!e.shiftKey && e.target === this.cancelEditingButton) {
           e.preventDefault();
           e.stopPropagation();
-          this.inputElement.setFocus();
+          this.inputElement?.setFocus();
         }
       }
       return;
