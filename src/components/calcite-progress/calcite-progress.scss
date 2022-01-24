@@ -17,6 +17,15 @@
   @apply bg-brand z-0;
 }
 
+@media (forced-colors: active) {
+  .track {
+    background-color: highlightText;
+  }
+  .bar {
+    background-color: linkText;
+  }
+}
+
 .indeterminate {
   @apply w-1/5;
   animation: looping-progress-bar-ani 2200ms linear infinite;
