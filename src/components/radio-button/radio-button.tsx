@@ -89,12 +89,6 @@ export class RadioButton implements LabelableComponent, CheckableFormCompoment {
   @Watch("name")
   nameChanged(): void {
     this.checkLastRadioButton();
-    const currentValue: HTMLInputElement = this.rootNode.querySelector(
-      `input[name="${this.name}"]:checked`
-    );
-    if (!currentValue?.value) {
-      this.uncheckAllRadioButtonsInGroup();
-    }
   }
 
   /** Requires that a value is selected for the radio button group before the parent form will submit. */
