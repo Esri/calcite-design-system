@@ -17,6 +17,7 @@
   ],
   "scripts": {
     "build": "npm run util:copy-icons && stencil build",
+    "build-storybook": "build-storybook",
     "build:watch": "npm run util:copy-icons && stencil build --watch",
     "build:watch-dev": "npm run util:copy-icons && stencil build --dev --watch",
     "deps:update": "updtr --exclude chalk typescript @types/jest jest jest-cli puppeteer && npm audit fix",

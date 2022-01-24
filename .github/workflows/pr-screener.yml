@@ -48,7 +48,7 @@ jobs:
           SAUCE_ACCESS_NAME: ${{ secrets.SAUCE_ACCESS_NAME}}
           SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
         run: |
-          build-storybook
+          npm run build-storybook
           npm run test:storybook || true
       - if: steps.one.outputs.skip == 'skip'
         name: skip screener
