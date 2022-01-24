@@ -3,7 +3,7 @@ labelsToCheck:
   - bug
 commentHeader: "More information is required to proceed with this issue:"
 requiredItems:
-  - response: "- Provide a [codepen](https://codepen.io/pen?template=RwgrjEx), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js), or [jsbin](https://jsbin.com/zocobeqopu/edit?html,css,js,output) that reproduces the issue. Alternatively, a [documentation](https://developers.arcgis.com/calcite-design-system/components/) sample can be used if the issue is reproducible."
+  - response: "- Provide a [codepen](https://codepen.io/pen?template=RwgrjEx), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js), or [jsbin](https://jsbin.com/wiguxohisa/edit?html,output) that reproduces the issue. Alternatively, a [documentation](https://developers.arcgis.com/calcite-design-system/components/) sample can be used if the issue is reproducible."
     requireAll: false
     content:
       - "jsbin.com/"
