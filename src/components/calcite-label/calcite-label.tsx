@@ -28,7 +28,10 @@ export class CalciteLabel {
   /** specify the text alignment of the label */
   @Prop({ reflect: true }) alignment: Alignment = "start";
 
-  /** specify the status of the label and any child input / input messages */
+  /**
+   * specify the status of the label and any child input / input messages
+   * @deprecated status is no longer supported, set status directly in child input / input messages
+   */
   @Prop({ reflect: true }) status: Status = "idle";
 
   /** The id of the input associated with the label */

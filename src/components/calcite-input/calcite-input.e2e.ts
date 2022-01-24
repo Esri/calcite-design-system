@@ -75,14 +75,13 @@ describe("calcite-input", () => {
   it("inherits requested props when from wrapping calcite-label when props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
-      <calcite-label status="invalid" scale="s">
+      <calcite-label scale="s">
         Label text
         <calcite-input></calcite-input>
       </calcite-label>
     `);
 
     const element = await page.find("calcite-input");
-    expect(await element.getProperty("status")).toEqual("invalid");
     expect(await element.getProperty("scale")).toEqual("s");
   });
 
