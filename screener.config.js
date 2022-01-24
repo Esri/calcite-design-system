@@ -22,5 +22,6 @@ module.exports = {
     maxConcurrent: 10
   },
   excludeRules: [/^Overview/],
-  resolution: "1920x1440"
+  resolution: "1920x1440",
+  storybookStaticBuildDir: "storybook-static"
 };
