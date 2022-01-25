@@ -146,6 +146,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
+    this.removeDragListeners();
   }
 
   componentWillLoad(): void {
@@ -628,19 +629,15 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
 
   private renderGraph(): VNode {
     return this.histogram ? (
-      <div class="graph">
-        <calcite-graph
-          colorStops={this.histogramStops}
-          data={this.histogram}
-          data-style="slider-histogram"
-          height={48}
-          highlightMax={this.isRange ? this.maxValue : this.value}
-          highlightMin={this.isRange ? this.minValue : this.min}
-          max={this.max}
-          min={this.min}
-          width={300}
-        />
-      </div>
+      <calcite-graph
+        class="graph"
+        colorStops={this.histogramStops}
+        data={this.histogram}
+        highlightMax={this.isRange ? this.maxValue : this.value}
+        highlightMin={this.isRange ? this.minValue : this.min}
+        max={this.max}
+        min={this.min}
+      />
     ) : null;
   }
 
@@ -975,10 +972,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
   }
 
   private dragEnd = (event: PointerEvent): void => {
-    document.removeEventListener("pointermove", this.dragUpdate);
-    document.removeEventListener("pointerup", this.dragEnd);
-    document.removeEventListener("pointercancel", this.dragEnd);
-
+    this.removeDragListeners();
     this.focusActiveHandle(event.clientX);
     if (this.lastDragPropValue != this[this.dragProp]) {
       this.emitChange();
@@ -989,6 +983,12 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
     this.maxValueDragRange = null;
     this.minMaxValueRange = null;
   };
+
+  private removeDragListeners() {
+    document.removeEventListener("pointermove", this.dragUpdate);
+    document.removeEventListener("pointerup", this.dragEnd);
+    document.removeEventListener("pointercancel", this.dragEnd);
+  }
 
   /**
    * Set the prop value if changed at the component level
@@ -1150,7 +1150,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
     const labelOffset = labelFontSize / 2;
 
     if (labelTransformedOverlap > 0) {
-      hyphenLabel.classList.add("hyphen");
+      hyphenLabel.classList.add("hyphen", "hyphen--wrap");
       if (rightValueLabelStaticHostOffset === 0 && leftValueLabelStaticHostOffset === 0) {
         // Neither handle overlaps the host boundary
         let leftValueLabelTranslate = labelTransformedOverlap / 2 - labelOffset;
@@ -1215,7 +1215,7 @@ export class CalciteSlider implements LabelableComponent, FormComponent {
         }px)`;
       }
     } else {
-      hyphenLabel.classList.remove("hyphen");
+      hyphenLabel.classList.remove("hyphen", "hyphen--wrap");
       leftValueLabel.style.transform = `translateX(${leftValueLabelStaticHostOffset}px)`;
       leftValueLabelTransformed.style.transform = `translateX(${leftValueLabelStaticHostOffset}px)`;
       rightValueLabel.style.transform = `translateX(${rightValueLabelStaticHostOffset}px)`;

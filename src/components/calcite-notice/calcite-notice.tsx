@@ -14,6 +14,11 @@ import { CSS, SLOTS, TEXT } from "./resources";
 import { Scale, Width } from "../interfaces";
 import { StatusColor, StatusIcons } from "../calcite-alert/interfaces";
 import { getSlotted, setRequestedIcon } from "../../utils/dom";
+import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 
 /** Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
  * notices are displayed inline, a common use case is displaying them on page-load to present users with short hints or contextual copy.
@@ -33,7 +38,7 @@ import { getSlotted, setRequestedIcon } from "../../utils/dom";
   styleUrl: "calcite-notice.scss",
   shadow: true
 })
-export class CalciteNotice {
+export class CalciteNotice implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -84,12 +89,16 @@ export class CalciteNotice {
   //
   //--------------------------------------------------------------------------
 
-  componentWillLoad(): void {
-    this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
+  connectedCallback(): void {
+    connectConditionalSlotComponent(this);
   }
 
-  componentDidLoad(): void {
-    this.noticeLinkEl = this.el.querySelector("calcite-link") as HTMLCalciteLinkElement;
+  disconnectedCallback(): void {
+    disconnectConditionalSlotComponent(this);
+  }
+
+  componentWillLoad(): void {
+    this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
   }
 
   render(): VNode {
@@ -150,11 +159,13 @@ export class CalciteNotice {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    if (!this.closeButton && !this.noticeLinkEl) {
+    const noticeLinkEl = this.el.querySelector("calcite-link");
+
+    if (!this.closeButton && !noticeLinkEl) {
       return;
     }
-    if (this.noticeLinkEl) {
-      this.noticeLinkEl.setFocus();
+    if (noticeLinkEl) {
+      noticeLinkEl.setFocus();
     } else if (this.closeButton) {
       this.closeButton.focus();
     }
@@ -178,9 +189,6 @@ export class CalciteNotice {
 
   /** the close button element */
   private closeButton?: HTMLButtonElement;
-
-  /** the notice link child element  */
-  private noticeLinkEl?: HTMLCalciteLinkElement;
 
   /** the computed icon to render */
   private requestedIcon?: string;

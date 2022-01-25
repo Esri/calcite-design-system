@@ -324,3 +324,7 @@ export async function visualizeMouseCursor(page: E2EPage): Promise<void> {
     }
   });
 }
+
+export async function waitForAnimationFrame(): Promise<void> {
+  return new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+}

@@ -1,0 +1,29 @@
+name: Documentation
+description: Report issues with documentation
+labels: ["docs", "0 - new", "needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        - Please [check for existing issues](https://github.com/Esri/calcite-components/issues) to avoid duplicates. If someone has already opened an issue for what you are experiencing, please add a 👍 reaction to the existing issue instead of creating a new one. 
+        - For support, please check the [community forum](https://developers.arcgis.com/calcite-design-system/community/).
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What needs to be added or fixed?
+    validations:
+      required: true
+  - type: textarea
+    id: component
+    attributes:
+      label: Which Component
+    validations:
+      required: true
+  - type: textarea
+    id: resources
+    attributes:
+      label: Resources
+      description: Any other helpful information, including examples or suggestions.
+    validations:
+      required: false

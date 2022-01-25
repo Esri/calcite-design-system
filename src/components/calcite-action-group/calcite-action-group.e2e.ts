@@ -1,5 +1,6 @@
-import { accessible, hidden, renders } from "../../tests/commonTests";
+import { accessible, hidden, renders, slots } from "../../tests/commonTests";
 import { newE2EPage } from "@stencil/core/testing";
+import { SLOTS } from "./resources";
 
 describe("calcite-action-group", () => {
   it("renders", async () => renders("calcite-action-group", { display: "flex" }));
@@ -12,6 +13,8 @@ describe("calcite-action-group", () => {
       <calcite-action text="Add" icon="plus"></calcite-action>
     </calcite-action-group>
     `));
+
+  it("has slots", () => slots("calcite-action-group", SLOTS));
 
   it("should honor scale of expand icon", async () => {
     const page = await newE2EPage({
