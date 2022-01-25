@@ -12,6 +12,7 @@ module.exports = {
     }
   ],
   diffOptions: {
+    compareSVGDOM: true,
     minLayoutDimension: 1,
     minLayoutPosition: 1
   },
