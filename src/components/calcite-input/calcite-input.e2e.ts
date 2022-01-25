@@ -686,20 +686,16 @@ describe("calcite-input", () => {
     expect(await input.getProperty("value")).toBe(`${finalNudgedValue}`);
   });
 
-  it.skip("when both 'ArrowUp' and 'ArrowDown' are pressed at the same time most recently pressed key takes over", async () => {
+  it("when both 'ArrowUp' and 'ArrowDown' are pressed at the same time most recently pressed key takes over", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-input type="number" value="0"></calcite-input>`);
     const element = await page.find("calcite-input");
     await element.callMethod("setFocus");
 
-    await page.keyboard.down("ArrowUp");
-    await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("1");
-    await page.keyboard.down("ArrowDown");
+    const arrowUpDown = page.keyboard.down("ArrowUp");
+    const arrowDownDown = page.keyboard.down("ArrowDown");
+    await Promise.all([arrowUpDown, arrowDownDown]);
     await page.waitForTimeout(delayFor2UpdatesInMs);
-    await page.keyboard.up("ArrowUp");
-    await page.keyboard.up("ArrowDown");
-    await page.waitForChanges();
     expect(await element.getProperty("value")).toBe("-1");
   });
 

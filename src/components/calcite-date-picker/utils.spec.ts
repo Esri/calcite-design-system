@@ -28,6 +28,13 @@ describe("utils", () => {
       expect(requestCache).toHaveProperty("en");
     });
 
+    it("falls to lang code locale if regional code is not found", async () => {
+      const locale = "pt-UnsupportedRegion";
+
+      await getLocaleData(locale);
+      expect(requestCache).toHaveProperty("pt");
+    });
+
     it("fetches locale with conventional-cased lang code", async () => {
       const locale = "es";
 
