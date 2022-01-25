@@ -370,15 +370,7 @@ export class CalciteActionMenu implements ConditionalSlotComponent {
   getActions = (): void => {
     const { el } = this;
 
-    const assignedActions = this.getAssignedElements().filter(
-      (element) => element.tagName === "CALCITE-ACTION" && element.slot !== "trigger"
-    ) as HTMLCalciteActionElement[];
-
-    const actionElements = assignedActions.length
-      ? assignedActions
-      : (Array.from(
-          el.querySelectorAll("calcite-action:not([slot=trigger])")
-        ) as HTMLCalciteActionElement[]);
+    const actionElements = getSlotted(el, { all: true, matches: "calcite-action" }) as any;
 
     this.updateActions(actionElements);
 
