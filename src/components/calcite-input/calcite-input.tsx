@@ -203,14 +203,7 @@ export class CalciteInput implements LabelableComponent, FormComponent {
     if (!this.internalValueChange) {
       this.setValue({
         origin: "external",
-        value:
-          newValue == null
-            ? ""
-            : this.type === "number"
-            ? isValidNumber(newValue)
-              ? newValue
-              : this.previousValue || ""
-            : newValue
+        value: newValue
       });
       this.warnAboutInvalidNumberValue(newValue);
     }
@@ -647,10 +640,10 @@ export class CalciteInput implements LabelableComponent, FormComponent {
   }
 
   private setInputValue = (newInputValue: string): void => {
-    if (this.type === "text" && !this.childEl) {
-      return;
-    }
-    if (this.type === "number" && !this.childNumberEl) {
+    if (
+      (this.type === "text" && !this.childEl) ||
+      (this.type === "number" && !this.childNumberEl)
+    ) {
       return;
     }
     this[`child${this.type === "number" ? "Number" : ""}El`].value = newInputValue;
@@ -680,7 +673,8 @@ export class CalciteInput implements LabelableComponent, FormComponent {
       this.type === "number"
         ? localizeNumberString(this.previousValue, this.locale, this.groupSeparator)
         : "";
-    const sanitizedValue = this.type === "number" ? sanitizeNumberString(value) : value;
+    const sanitizedValue =
+      value == null ? "" : this.type === "number" ? sanitizeNumberString(value) : value;
     const newValue =
       this.type === "number" && value && !sanitizedValue
         ? isValidNumber(this.previousValue)
