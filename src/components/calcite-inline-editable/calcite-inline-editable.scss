@@ -1,3 +1,7 @@
+:host {
+  @apply block;
+}
+
 :host([scale="s"]) {
   .controls-wrapper {
     @apply h-6;

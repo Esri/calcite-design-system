@@ -4,6 +4,11 @@ import { guid } from "../../utils/guid";
 import { CSS, TEXT, SLOTS, ICONS } from "./resources";
 import { ChipColor } from "./interfaces";
 import { Appearance, Scale } from "../interfaces";
+import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 
 /**
  * @slot - A slot for adding text.
@@ -14,7 +19,7 @@ import { Appearance, Scale } from "../interfaces";
   styleUrl: "calcite-chip.scss",
   shadow: true
 })
-export class CalciteChip {
+export class CalciteChip implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -54,6 +59,20 @@ export class CalciteChip {
   // --------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteChipElement;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  // --------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    connectConditionalSlotComponent(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectConditionalSlotComponent(this);
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -102,7 +121,7 @@ export class CalciteChip {
     const hasChipImage = getSlotted(el, SLOTS.image);
 
     return hasChipImage ? (
-      <div class={CSS.chipImageContainer}>
+      <div class={CSS.chipImageContainer} key="image">
         <slot name={SLOTS.image} />
       </div>
     ) : null;

@@ -2,6 +2,11 @@ import { Component, Element, Prop, h, VNode, Fragment } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
 import { Position, Scale } from "../interfaces";
 import { getSlotted } from "../../utils/dom";
+import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 
 /**
  * @slot - A slot for adding content to the shell panel.
@@ -12,7 +17,7 @@ import { getSlotted } from "../../utils/dom";
   styleUrl: "calcite-shell-center-row.scss",
   shadow: true
 })
-export class CalciteShellCenterRow {
+export class CalciteShellCenterRow implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -44,6 +49,20 @@ export class CalciteShellCenterRow {
 
   // --------------------------------------------------------------------------
   //
+  //  Lifecycle
+  //
+  // --------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    connectConditionalSlotComponent(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectConditionalSlotComponent(this);
+  }
+
+  // --------------------------------------------------------------------------
+  //
   //  Render Methods
   //
   // --------------------------------------------------------------------------
@@ -60,7 +79,7 @@ export class CalciteShellCenterRow {
     const actionBar = getSlotted<HTMLCalciteActionBarElement>(el, SLOTS.actionBar);
 
     const actionBarNode = actionBar ? (
-      <div class={CSS.actionBarContainer}>
+      <div class={CSS.actionBarContainer} key="action-bar">
         <slot name={SLOTS.actionBar} />
       </div>
     ) : null;

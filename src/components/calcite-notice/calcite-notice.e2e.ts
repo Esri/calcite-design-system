@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, focusable, renders } from "../../tests/commonTests";
+import { accessible, focusable, renders, slots } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 import { html } from "../../tests/utils";
 
@@ -18,6 +18,8 @@ describe("calcite-notice", () => {
     accessible(`<calcite-notice dismissible active>${noticeContent}</calcite-notice>`));
   it("is accessible with icon and close button", async () =>
     accessible(`<calcite-notice icon dismissible active>${noticeContent}</calcite-notice>`));
+
+  it("has slots", () => slots("calcite-notice", SLOTS));
 
   it("renders default props when none are provided", async () => {
     const page = await newE2EPage();
@@ -81,19 +83,6 @@ describe("calcite-notice", () => {
     await noticeclose1.click();
     await page.waitForTimeout(animationDurationInMs);
     expect(await notice1.isVisible()).not.toBe(true);
-  });
-
-  it("allows users to slot in a trailing action", async () => {
-    const page = await newE2EPage({
-      html: html` <calcite-notice active dismissible>
-        ${noticeContent}
-        <calcite-action label="banana" icon="banana" slot=${SLOTS.actionsEnd}></calcite-action>
-      </calcite-notice>`
-    });
-
-    const actionAssignedSlot = await page.$eval("calcite-action", (action) => action.assignedSlot.name);
-
-    expect(actionAssignedSlot).toBe(SLOTS.actionsEnd);
   });
 
   describe("focusable", () => {

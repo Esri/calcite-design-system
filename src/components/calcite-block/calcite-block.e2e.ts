@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS, SLOTS, TEXT } from "./resources";
-import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders, slots } from "../../tests/commonTests";
 import { html } from "../../tests/utils";
 
 describe("calcite-block", () => {
@@ -31,6 +31,8 @@ describe("calcite-block", () => {
         defaultValue: false
       }
     ]));
+
+  it("has slots", () => slots("calcite-block", SLOTS));
 
   it("is accessible", async () =>
     accessible(`
@@ -218,19 +220,6 @@ describe("calcite-block", () => {
       );
       const collapsibleIcon = await page.find(`calcite-block >>> .${CSS.toggleIcon}`);
       expect(collapsibleIcon).toBeNull();
-    });
-
-    it("supports a header icon", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        `<calcite-block heading="test-heading"><div class="header-icon" slot=${SLOTS.icon} /></calcite-block>`
-      );
-
-      const icon = await page.find(`.header-icon`);
-      expect(await icon.isVisible()).toBe(true);
-
-      const iconSlot = await page.find(`calcite-block >>> slot[name=${SLOTS.icon}]`);
-      expect(await iconSlot.isVisible()).toBe(true);
     });
 
     it("displays a status icon instead of a header icon when `status` is an accepted value", async () => {

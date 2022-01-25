@@ -12,10 +12,10 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { setRequestedIcon } from "../../utils/dom";
+import { getSlotted, setRequestedIcon } from "../../utils/dom";
 import { DURATIONS, SLOTS, TEXT } from "./resources";
 import { Scale } from "../interfaces";
-import { StatusColor, AlertDuration, StatusIcons } from "./interfaces";
+import { AlertDuration, AlertPlacement, StatusColor, StatusIcons } from "./interfaces";
 
 /** Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
  * at the bottom of the page. Multiple opened alerts will be added to a queue, allowing users to dismiss them in the order they are provided.
@@ -82,7 +82,10 @@ export class CalciteAlert {
   /** Accessible name for the component */
   @Prop() label!: string;
 
-  /** specify the scale of the button, defaults to m */
+  /** specify the placement of the alert */
+  @Prop() placement: AlertPlacement = "bottom";
+
+  /** specify the scale of the alert, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   @Watch("icon")
@@ -118,10 +121,6 @@ export class CalciteAlert {
     this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
   }
 
-  componentDidLoad(): void {
-    this.alertLinkEl = this.el.querySelectorAll("calcite-link")[0] as HTMLCalciteLinkElement;
-  }
-
   disconnectedCallback(): void {
     window.clearTimeout(this.autoDismissTimeoutId);
   }
@@ -147,10 +146,9 @@ export class CalciteAlert {
       </div>
     );
 
-    const { active, autoDismiss, label, queued, requestedIcon } = this;
+    const { active, autoDismiss, label, placement, queued, requestedIcon } = this;
     const role = autoDismiss ? "alert" : "alertdialog";
     const hidden = !active;
-
     return (
       <Host
         aria-hidden={hidden.toString()}
@@ -161,8 +159,10 @@ export class CalciteAlert {
         <div
           class={{
             container: true,
-            queued
+            queued,
+            [placement]: true
           }}
+          onTransitionEnd={this.transitionEnd}
         >
           {requestedIcon ? (
             <div class="alert-icon">
@@ -238,10 +238,12 @@ export class CalciteAlert {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    if (!this.closeButton && !this.alertLinkEl) {
+    const alertLinkEl: HTMLCalciteLinkElement = getSlotted(this.el, { selector: "calcite-link" });
+
+    if (!this.closeButton && !alertLinkEl) {
       return;
-    } else if (this.alertLinkEl) {
-      this.alertLinkEl.setFocus();
+    } else if (alertLinkEl) {
+      alertLinkEl.setFocus();
     } else if (this.closeButton) {
       this.closeButton.focus();
     }
@@ -265,9 +267,6 @@ export class CalciteAlert {
   /** the close button element */
   private closeButton?: HTMLButtonElement;
 
-  /** the slotted alert link child element  */
-  private alertLinkEl?: HTMLCalciteLinkElement;
-
   private autoDismissTimeoutId: number = null;
 
   private queueTimeout: number;
@@ -277,6 +276,8 @@ export class CalciteAlert {
   /** the computed icon to render */
   /* @internal */
   @State() requestedIcon?: string;
+
+  private activeTransitionProp = "opacity";
 
   //--------------------------------------------------------------------------
   //
@@ -308,19 +309,25 @@ export class CalciteAlert {
     this.queue = this.queue.filter((e) => e !== this.el);
     this.determineActiveAlert();
     this.calciteAlertSync.emit({ queue: this.queue });
-    this.calciteAlertClose.emit({
-      el: this.el,
-      queue: this.queue
-    });
+  };
+
+  transitionEnd = (event: TransitionEvent): void => {
+    if (event.propertyName === this.activeTransitionProp) {
+      this.active
+        ? this.calciteAlertOpen.emit({
+            el: this.el,
+            queue: this.queue
+          })
+        : this.calciteAlertClose.emit({
+            el: this.el,
+            queue: this.queue
+          });
+    }
   };
 
   /** emit the opened alert and the queue */
   private openAlert(): void {
-    clearTimeout(this.queueTimeout);
+    window.clearTimeout(this.queueTimeout);
     this.queueTimeout = window.setTimeout(() => (this.queued = false), 300);
-    this.calciteAlertOpen.emit({
-      el: this.el,
-      queue: this.queue
-    });
   }
 }

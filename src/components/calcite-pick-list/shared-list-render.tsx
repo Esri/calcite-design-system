@@ -4,7 +4,7 @@ import { CSS, SLOTS } from "./resources";
 import { handleFilter } from "./shared-list-logic";
 import DOMAttributes = JSXBase.DOMAttributes;
 
-interface ListProps extends DOMAttributes {
+interface ListProps extends DOMAttributes<any> {
   disabled: boolean;
   loading: boolean;
   filterEnabled: boolean;
@@ -15,7 +15,7 @@ interface ListProps extends DOMAttributes {
   setFilterEl: (el: HTMLCalciteFilterElement) => void;
 }
 
-export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes> = ({
+export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes<any>> = ({
   props: {
     disabled,
     loading,

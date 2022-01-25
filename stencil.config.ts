@@ -3,9 +3,9 @@ import { postcss } from "@stencil/postcss";
 import { sass } from "@stencil/sass";
 import babel from "@rollup/plugin-babel";
 import autoprefixer from "autoprefixer";
-import tailwind from "tailwindcss";
+import tailwindcss from "tailwindcss";
+import tailwindConfig from "./tailwind.config";
 import { generatePreactTypes } from "./support/preact";
-import stylelint from "stylelint";
 
 export const create: () => Config = () => ({
   buildEs5: "prod",
@@ -100,14 +100,7 @@ export const create: () => Config = () => ({
       injectGlobalPaths: ["src/assets/styles/includes.scss"]
     }),
     postcss({
-      plugins: [
-        tailwind(),
-        autoprefixer(),
-        stylelint({
-          configFile: ".stylelintrc-postcss.json",
-          fix: true
-        })
-      ]
+      plugins: [tailwindcss(tailwindConfig), autoprefixer()]
     })
   ],
   rollupPlugins: {

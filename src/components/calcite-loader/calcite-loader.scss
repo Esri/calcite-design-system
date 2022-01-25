@@ -24,7 +24,7 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 }
 
 :host([scale="s"]) {
-  --calcite-loader-font-size: theme("fontSize.-2");
+  --calcite-loader-font-size: theme("fontSize.n2");
   --calcite-loader-size: theme("spacing.8");
   --calcite-loader-size-inline: theme("spacing.3");
 }
@@ -45,13 +45,17 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   @apply py-0;
 }
 
+:host {
+  @apply hidden;
+}
+
 :host([active]) {
   @apply flex;
 }
 
 .loader__text {
   @apply block
-  text--2h
+  text-n2h
   text-center
   text-color-1;
   margin-top: calc(var(--calcite-loader-size) + theme("spacing.6"));
@@ -106,7 +110,7 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
     stroke: var(--calcite-ui-brand);
     stroke-dasharray: $loader-circumference;
     transform: rotate(-90deg);
-    transition: all var(--calcite-internal-animation-timing-quick) linear;
+    transition: all var(--calcite-internal-animation-timing-fast) linear;
   }
 }
 
@@ -146,8 +150,8 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   @apply opacity-0;
   transform: scale(0.75, 0.75);
   transform-origin: center;
-  transition: opacity calc(180ms * var(--calcite-animation-timing-factor)) linear 800ms,
-    transform calc(180ms * var(--calcite-animation-timing-factor)) linear 800ms;
+  transition: opacity calc(180ms * var(--calcite-internal-duration-factor)) linear 800ms,
+    transform calc(180ms * var(--calcite-internal-duration-factor)) linear 800ms;
 }
 
 :host([complete]) .loader__percentage {

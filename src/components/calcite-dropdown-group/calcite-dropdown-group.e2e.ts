@@ -1,12 +1,5 @@
-import { newE2EPage } from "@stencil/core/testing";
-import { HYDRATED_ATTR } from "../../tests/commonTests";
+import { renders } from "../../tests/commonTests";
 
-describe("calcite-dropdown", () => {
-  it("renders", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent("<calcite-dropdown></calcite-dropdown>");
-    const element = await page.find("calcite-dropdown");
-    expect(element).toHaveAttribute(HYDRATED_ATTR);
-  });
+describe("calcite-dropdown-group", () => {
+  it("renders", () => renders("calcite-dropdown-group", { display: "block" }));
 });

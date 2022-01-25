@@ -34,6 +34,7 @@
 | `headingLevel`               | `heading-level`                | Number at which section headings should start for this component.                                                                  | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined`                               |
 | `intlNextMonth`              | `intl-next-month`              | Localized string for "next month" (used for aria label)                                                                            | `string`                     | `TEXT.nextMonth`                          |
 | `intlPrevMonth`              | `intl-prev-month`              | Localized string for "previous month" (used for aria label)                                                                        | `string`                     | `TEXT.prevMonth`                          |
+| `intlYear`                   | `intl-year`                    | Localized string for "year" (used for aria label)                                                                                  | `string`                     | `TEXT.year`                               |
 | `layout`                     | `layout`                       | Layout                                                                                                                             | `"horizontal" \| "vertical"` | `"horizontal"`                            |
 | `locale`                     | `locale`                       | BCP 47 language tag for desired language and country format                                                                        | `string`                     | `document.documentElement.lang \|\| "en"` |
 | `max`                        | `max`                          | Latest allowed date ("yyyy-mm-dd")                                                                                                 | `string`                     | `undefined`                               |
@@ -52,10 +53,11 @@
 
 ## Events
 
-| Event                          | Description                                                     | Type                           |
-| ------------------------------ | --------------------------------------------------------------- | ------------------------------ |
-| `calciteDatePickerChange`      | Trigger calcite date change when a user changes the date.       | `CustomEvent<Date>`            |
-| `calciteDatePickerRangeChange` | Trigger calcite date change when a user changes the date range. | `CustomEvent<DateRangeChange>` |
+| Event                          | Description                                                                                                                                                          | Type                           |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
+| `calciteDatePickerChange`      | <span style="color:red">**[DEPRECATED]**</span> use `calciteInputDatePickerChange` instead.<br/><br/>Trigger calcite date change when a user changes the date.       | `CustomEvent<Date>`            |
+| `calciteDatePickerRangeChange` | <span style="color:red">**[DEPRECATED]**</span> use `calciteInputDatePickerChange` instead.<br/><br/>Trigger calcite date change when a user changes the date range. | `CustomEvent<DateRangeChange>` |
+| `calciteInputDatePickerChange` | This event fires when the input date picker value changes.                                                                                                           | `CustomEvent<void>`            |
 
 ## Methods
 
