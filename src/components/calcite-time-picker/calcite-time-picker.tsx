@@ -14,7 +14,6 @@ import {
 import { Scale } from "../interfaces";
 import { isActivationKey, numberKeys } from "../../utils/key";
 import { isValidNumber } from "../../utils/number";
-// import { getElementDir } from "../../utils/dom";
 
 import {
   formatTimePart,
@@ -690,10 +689,6 @@ export class CalciteTimePicker {
     const minuteIsNumber = isValidNumber(this.minute);
     const secondIsNumber = isValidNumber(this.second);
     const showMeridiem = this.hourCycle === "12";
-    // const dir = getElementDir(this.el);
-    // if (dir === "rtl" && this.locale === "ar") {
-    //   this.el.setAttribute("dir", "ltr");
-    // }
     return (
       <div
         class={{
