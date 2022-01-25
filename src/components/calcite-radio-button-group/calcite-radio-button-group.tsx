@@ -10,6 +10,7 @@ import {
   EventEmitter,
   Listen
 } from "@stencil/core";
+import { createObserver } from "../../utils/observers";
 import { Layout, Scale } from "../interfaces";
 
 /**
@@ -73,6 +74,14 @@ export class CalciteRadioButtonGroup {
     this.passPropsToRadioButtons();
   }
 
+  // --------------------------------------------------------------------------
+  //
+  //  Private Properties
+  //
+  // --------------------------------------------------------------------------
+
+  mutationObserver = createObserver("mutation", () => this.passPropsToRadioButtons());
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -81,6 +90,11 @@ export class CalciteRadioButtonGroup {
 
   connectedCallback(): void {
     this.passPropsToRadioButtons();
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+  }
+
+  disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
   }
 
   //--------------------------------------------------------------------------
