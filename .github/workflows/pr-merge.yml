@@ -2,17 +2,29 @@ name: Auto Merge
 on: issue_comment
 jobs:
   merge:
-    if: |
-      github.event.issue.user.login == 'github-actions[bot]' ||
-      github.event.issue.user.login == github.actor
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - name: validate user permissions
+        uses: actions/github-script@v5
+        id: permission
+        env:
+          PRIMARY_CONTACT: ${{secrets.PRIMARY_CONTACT}}
+          SECONDARY_CONTACTS: ${{secrets.SECONDARY_CONTACTS}}
+        with:
+          script: |
+            const { PRIMARY_CONTACT, SECONDARY_CONTACTS } = process.env
+            const contacts = [...SECONDARY_CONTACTS.split(",").map(c => c.trim()), PRIMARY_CONTACT]
+            return contacts.includes(context.actor)
       - name: merge
         uses: Goobles/gh-actions-merge-command@v1
+        if: |
+          github.event.issue.user.login == 'github-actions[bot]' ||
+          github.event.issue.user.login == github.actor ||
+          steps.permission.outputs.result == 'true'
         with:
           allow_ff: false
           user_name: github-actions[bot]
           user_email: github-actions[bot]@users.noreply.github.com
         env:
-          GITHUB_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
