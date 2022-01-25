@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, hidden, renders } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, renders, slots } from "../../tests/commonTests";
+import { html } from "../../tests/utils";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-panel", () => {
@@ -18,6 +19,8 @@ describe("calcite-panel", () => {
         defaultValue: undefined
       }
     ]));
+
+  it("has slots", () => slots("calcite-panel", SLOTS));
 
   it("honors dismissed prop", async () => {
     const page = await newE2EPage();
@@ -186,34 +189,6 @@ describe("calcite-panel", () => {
     expect(actionsContainerEnd).toBeNull();
   });
 
-  it("should render start actions containers header-actions-start", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
-      `<calcite-panel>
-        <calcite-action slot=${SLOTS.headerActionsStart} text="test start"></calcite-action>
-      </calcite-panel>`
-    );
-
-    const actionsContainerStart = await page.find(`calcite-panel >>> .${CSS.headerActionsStart}`);
-
-    expect(actionsContainerStart).not.toBeNull();
-  });
-
-  it("should render end actions containers header-actions-end", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
-      `<calcite-panel>
-        <calcite-action slot=${SLOTS.headerActionsEnd} text="test end"></calcite-action>
-      </calcite-panel>`
-    );
-
-    const actionsContainerEnd = await page.find(`calcite-panel >>> .${CSS.headerActionsEnd}`);
-
-    expect(actionsContainerEnd).not.toBeNull();
-  });
-
   it("header-content should override heading and summary properties", async () => {
     const page = await newE2EPage();
 
@@ -320,5 +295,30 @@ describe("calcite-panel", () => {
     const width2 = parseFloat(style2["width"]);
 
     expect(width2).toEqual(widthDefault * multipier);
+  });
+
+  it("handles scrollContentTo method", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`<div style="height: 200px; display: flex">
+        <calcite-panel>
+          <div>
+            <p style="height: 400px">Hello world!</p>
+            <p>Hello world!</p>
+          </div>
+        </calcite-panel>
+      </div>`
+    );
+
+    const scrollEl = await page.find(`calcite-panel >>> .${CSS.contentWrapper}`);
+
+    expect(await scrollEl.getProperty("scrollTop")).toBe(0);
+
+    await page.$eval("calcite-panel", async (panel: HTMLCalcitePanelElement) => {
+      await panel.scrollContentTo({ top: 100 });
+    });
+
+    expect(await scrollEl.getProperty("scrollTop")).toBe(100);
   });
 });

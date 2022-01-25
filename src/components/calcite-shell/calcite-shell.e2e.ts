@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, hidden, renders } from "../../tests/commonTests";
+import { accessible, hidden, renders, slots } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-shell", () => {
@@ -19,6 +19,8 @@ describe("calcite-shell", () => {
     expect(header).toBeNull();
   });
 
+  it("has slots", () => slots("calcite-shell", SLOTS));
+
   it("content node should always be present", async () => {
     const page = await newE2EPage();
 
@@ -27,26 +29,6 @@ describe("calcite-shell", () => {
     const content = await page.find(`calcite-shell >>> .${CSS.content}`);
 
     expect(content).not.toBeNull();
-  });
-
-  it("footer should be present when defined", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`<calcite-shell><div slot="${SLOTS.footer}">Footer</div></calcite-shell>`);
-
-    const footer = await page.find(`calcite-shell >>> slot[name="${SLOTS.footer}"]`);
-
-    expect(footer).not.toBeNull();
-  });
-
-  it("header should be present when defined", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`<calcite-shell><div slot="${SLOTS.header}">Header</div></calcite-shell>`);
-
-    const header = await page.find(`calcite-shell >>> slot[name="${SLOTS.header}"]`);
-
-    expect(header).not.toBeNull();
   });
 
   it("should be accessible", async () =>

@@ -1,5 +1,4 @@
 import { Component, Element, Event, EventEmitter, h, Listen, Prop, VNode } from "@stencil/core";
-
 import { AccordionAppearance } from "./interfaces";
 import { Position, Scale } from "../interfaces";
 
@@ -67,7 +66,16 @@ export class CalciteAccordion {
   }
 
   render(): VNode {
-    return <slot />;
+    return (
+      <div
+        class={{
+          "accordion--transparent": this.appearance === "transparent",
+          "accordion--minimal": this.appearance === "minimal"
+        }}
+      >
+        <slot />
+      </div>
+    );
   }
 
   //--------------------------------------------------------------------------

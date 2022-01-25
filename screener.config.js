@@ -14,5 +14,7 @@ module.exports = {
   diffOptions: {
     minLayoutDimension: 1,
     minLayoutPosition: 1
-  }
+  },
+  excludeRules: [/^Overview/],
+  resolution: "1920x1440"
 };

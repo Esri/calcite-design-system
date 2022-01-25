@@ -1,7 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { hidden, renders, focusable } from "../../tests/commonTests";
+import { hidden, renders, focusable, slots } from "../../tests/commonTests";
 import { defaults } from "../../tests/commonTests";
-import { CSS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-list-item", () => {
   it("renders", async () => renders("calcite-list-item", { display: "flex" }));
@@ -32,6 +32,8 @@ describe("calcite-list-item", () => {
         defaultValue: undefined
       }
     ]));
+
+  it("has slots", () => slots("calcite-list-item", SLOTS));
 
   it("renders content node when label is provided", async () => {
     const page = await newE2EPage({ html: `<calcite-list-item label="test"></calcite-list-item>` });

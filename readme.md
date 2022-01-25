@@ -6,10 +6,6 @@
 
 Shared Web Components for Esri's Calcite Design Systems. To see the components in action, [view the documentation](https://developers.arcgis.com/calcite-design-system/components/).
 
-## Sketch library
-
-All of the Calcite Components are available in the [calcite-sketch-library](https://github.com/Esri/calcite-sketch-libraries) with all variations and sizes.
-
 ## Installation
 
 The simplest way to set up the components in your project is to add the following tags in the head of your HTML document:
@@ -17,12 +13,12 @@ The simplest way to set up the components in your project is to add the followin
 ```html
 <script
   type="module"
-  src="https://unpkg.com/@esri/calcite-components@1.0.0-beta.72/dist/calcite/calcite.esm.js"
+  src="https://unpkg.com/@esri/calcite-components@1.0.0-beta.75/dist/calcite/calcite.esm.js"
 ></script>
 <link
   rel="stylesheet"
   type="text/css"
-  href="https://unpkg.com/@esri/calcite-components@1.0.0-beta.72/dist/calcite/calcite.css"
+  href="https://unpkg.com/@esri/calcite-components@1.0.0-beta.75/dist/calcite/calcite.css"
 />
 ```
 
@@ -33,36 +29,6 @@ You can also install the components locally with NPM and update the script URLs 
 ```
 npm install --save @esri/calcite-components
 ```
-
-### Webpack
-
-If you already have a webpack build for your project, you can use [@stencil/webpack](https://github.com/ionic-team/stencil-webpack) to add calcite-components to your bundle.
-
-After installing `calcite-components`, install the plugin as a dev dependency:
-
-```bash
-npm install --save-dev @stencil/webpack
-```
-
-Then import and call the plugin in `webpack.config.js`:
-
-```js
-const stencil = require('@stencil/webpack');
-module.exports = {
-  ...
-  plugins: [
-    new stencil.StencilPlugin()
-  ]
-}
-```
-
-Lastly, add the import in your main bundle js (or ts) file:
-
-```js
-import "@esri/calcite-components/dist/calcite.js";
-```
-
-This will add the initial stencil loader to your bundle, and copy over the actual component code to the output directory you've configured for Webpack. Components will still be lazy-loaded as they are needed. _Note:_ you must use the `.js` file path for the Webpack plugin to work correctly, even if your bundle file is a TypeScript file.
 
 ## TypeScript
 
