@@ -109,6 +109,6 @@
   }
 }
 
-:host([lang="ar"]) ([lang="he"]) {
+:host([lang="ar"], [lang="he"]) {
   direction: ltr;
 }

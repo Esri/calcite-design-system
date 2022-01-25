@@ -52,10 +52,47 @@
 
         <!-- column heading row -->
         <div></div>
+        <calcite-label scale="l">small</calcite-label>
         <calcite-label scale="l">medium</calcite-label>
+        <calcite-label scale="l">large</calcite-label>
+
+        <calcite-label scale="l">basic</calcite-label>
+        <calcite-label scale="s">
+          Small Label
+          <calcite-input-time-picker scale="s" value="23:59"></calcite-input-time-picker>
+        </calcite-label>
+        <calcite-label scale="m">
+          Medium Label
+          <calcite-input-time-picker scale="m" value="23:59"></calcite-input-time-picker>
+        </calcite-label>
+        <calcite-label scale="l"
+          >Large Label
+          <calcite-input-time-picker scale="l" value="23:59"></calcite-input-time-picker>
+        </calcite-label>
+
+        <calcite-label scale="l">seconds</calcite-label>
+        <calcite-label scale="s">
+          Small Label
+          <calcite-input-time-picker scale="s" step="1" value="23:59"></calcite-input-time-picker>
+        </calcite-label>
+        <calcite-label scale="m">
+          Medium Label
+          <calcite-input-time-picker scale="m" step="1" value="23:59"></calcite-input-time-picker>
+        </calcite-label>
+        <calcite-label scale="l"
+          >Large Label
+          <calcite-input-time-picker scale="l" step="1" value="23:59"></calcite-input-time-picker>
+        </calcite-label>
+
+        <calcite-label scale="l">time-picker basic</calcite-label>
+        <calcite-time-picker scale="s" value="23:59"></calcite-time-picker>
+        <calcite-time-picker scale="m" value="23:59"></calcite-time-picker>
+        <calcite-time-picker scale="l" value="23:59"></calcite-time-picker>
 
         <calcite-label scale="l">time-picker seconds</calcite-label>
-        <calcite-time-picker scale="m" step="1" value="23:59:59" dir="rtl" lang="ar"></calcite-time-picker>
+        <calcite-time-picker scale="s" step="1" value="23:59:59"></calcite-time-picker>
+        <calcite-time-picker scale="m" step="1" value="23:59:59"></calcite-time-picker>
+        <calcite-time-picker scale="l" step="1" value="23:59:59"></calcite-time-picker>
       </main>
     </div>
 
