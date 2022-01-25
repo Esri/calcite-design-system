@@ -29,26 +29,13 @@
 }
 
 :host {
-  --calcite-accordion-item-background: theme("backgroundColor.foreground.1");
-}
-
-:host-context([appearance="minimal"]) {
-  --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit) 0;
-}
-:host-context([appearance="transparent"]) {
-  --calcite-accordion-item-border: transparent;
-  --calcite-accordion-item-background: transparent;
-}
-
-:host {
   @apply flex
     flex-col
     no-underline
     outline-none
     relative
     text-color-3;
-  background-color: var(--calcite-accordion-item-background);
-  --calcite-accordion-item-border: theme("borderColor.color.2");
+  background-color: var(--calcite-accordion-item-background, theme("backgroundColor.foreground.1"));
 }
 
 // focus styles
@@ -90,7 +77,7 @@
 :host .accordion-item-content,
 :host .accordion-item-header {
   padding: var(--calcite-accordion-item-padding);
-  border-bottom: 1px solid var(--calcite-accordion-item-border);
+  border-bottom: 1px solid var(--calcite-accordion-item-border, theme("borderColor.color.2"));
 }
 
 :host .accordion-item-header * {

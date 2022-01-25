@@ -33,12 +33,13 @@
   --calcite-accordion-item-background: theme("backgroundColor.foreground.1");
 }
 
-:host([appearance="minimal"]) {
-  --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit) 0;
-  border-color: transparent;
-}
-:host([appearance="transparent"]) {
+.accordion--transparent {
   border-color: transparent;
   --calcite-accordion-item-border: transparent;
   --calcite-accordion-item-background: transparent;
+}
+
+.accordion--minimal {
+  --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit) 0;
+  border-color: transparent;
 }

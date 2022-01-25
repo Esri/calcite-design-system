@@ -12,7 +12,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { setRequestedIcon } from "../../utils/dom";
+import { getSlotted, setRequestedIcon } from "../../utils/dom";
 import { DURATIONS, SLOTS, TEXT } from "./resources";
 import { Scale } from "../interfaces";
 import { AlertDuration, AlertPlacement, StatusColor, StatusIcons } from "./interfaces";
@@ -121,10 +121,6 @@ export class CalciteAlert {
     this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
   }
 
-  componentDidLoad(): void {
-    this.alertLinkEl = this.el.querySelectorAll("calcite-link")[0] as HTMLCalciteLinkElement;
-  }
-
   disconnectedCallback(): void {
     window.clearTimeout(this.autoDismissTimeoutId);
   }
@@ -166,6 +162,7 @@ export class CalciteAlert {
             queued,
             [placement]: true
           }}
+          onTransitionEnd={this.transitionEnd}
         >
           {requestedIcon ? (
             <div class="alert-icon">
@@ -241,10 +238,12 @@ export class CalciteAlert {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    if (!this.closeButton && !this.alertLinkEl) {
+    const alertLinkEl: HTMLCalciteLinkElement = getSlotted(this.el, { selector: "calcite-link" });
+
+    if (!this.closeButton && !alertLinkEl) {
       return;
-    } else if (this.alertLinkEl) {
-      this.alertLinkEl.setFocus();
+    } else if (alertLinkEl) {
+      alertLinkEl.setFocus();
     } else if (this.closeButton) {
       this.closeButton.focus();
     }
@@ -268,9 +267,6 @@ export class CalciteAlert {
   /** the close button element */
   private closeButton?: HTMLButtonElement;
 
-  /** the slotted alert link child element  */
-  private alertLinkEl?: HTMLCalciteLinkElement;
-
   private autoDismissTimeoutId: number = null;
 
   private queueTimeout: number;
@@ -280,6 +276,8 @@ export class CalciteAlert {
   /** the computed icon to render */
   /* @internal */
   @State() requestedIcon?: string;
+
+  private activeTransitionProp = "opacity";
 
   //--------------------------------------------------------------------------
   //
@@ -311,19 +309,25 @@ export class CalciteAlert {
     this.queue = this.queue.filter((e) => e !== this.el);
     this.determineActiveAlert();
     this.calciteAlertSync.emit({ queue: this.queue });
-    this.calciteAlertClose.emit({
-      el: this.el,
-      queue: this.queue
-    });
+  };
+
+  transitionEnd = (event: TransitionEvent): void => {
+    if (event.propertyName === this.activeTransitionProp) {
+      this.active
+        ? this.calciteAlertOpen.emit({
+            el: this.el,
+            queue: this.queue
+          })
+        : this.calciteAlertClose.emit({
+            el: this.el,
+            queue: this.queue
+          });
+    }
   };
 
   /** emit the opened alert and the queue */
   private openAlert(): void {
     window.clearTimeout(this.queueTimeout);
     this.queueTimeout = window.setTimeout(() => (this.queued = false), 300);
-    this.calciteAlertOpen.emit({
-      el: this.el,
-      queue: this.queue
-    });
   }
 }

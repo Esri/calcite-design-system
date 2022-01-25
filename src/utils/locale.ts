@@ -2,6 +2,7 @@ import { sanitizeDecimalString, sanitizeExponentialNumberString } from "./number
 
 export const locales = [
   "ar",
+  "bg",
   "bs",
   "ca",
   "cs",

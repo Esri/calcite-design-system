@@ -1,0 +1,23 @@
+name: Question
+description: Request for information - not a code change
+labels: ["question", "0 - new", "needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        - Please [check for existing issues](https://github.com/Esri/calcite-components/issues) to avoid duplicates. If someone has already opened an issue for what you are experiencing, please add a 👍 reaction to the existing issue instead of creating a new one. 
+        - For additional support, please check the [community forum](https://developers.arcgis.com/calcite-design-system/community/).
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: How can we help?
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Helpful Details
+      description: Context, topic, examples, etc.
+    validations:
+      required: false

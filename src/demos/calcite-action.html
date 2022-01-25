@@ -295,6 +295,52 @@
       </div>
     </div>
 
+    <!-- alignment center when enclosed within group (grid layout, text-enabled) -->
+    <div class="parent">
+      <div class="child right-aligned-text">
+        alignment center when enclosed within group (grid layout, text-enabled)
+      </div>
+      <div class="child">
+        <calcite-action-group layout="grid">
+          <calcite-action
+            alignment="center"
+            scale="s"
+            appearance="solid"
+            icon="polygon"
+            text="polygon"
+            text-enabled
+          ></calcite-action>
+          <calcite-action
+            alignment="center"
+            scale="s"
+            appearance="solid"
+            icon="rectangle"
+            text="rectangle"
+            text-enabled
+          ></calcite-action>
+          <calcite-action
+            alignment="center"
+            scale="s"
+            appearance="solid"
+            icon="trash"
+            text="trash"
+            text-enabled
+          ></calcite-action>
+        </calcite-action-group>
+      </div>
+    </div>
+    <!-- alignment center when enclosed within group (grid layout, no text) -->
+    <div class="parent">
+      <div class="child right-aligned-text">alignment center when enclosed within group (grid layout, no text)</div>
+      <div class="child">
+        <calcite-action-group layout="grid">
+          <calcite-action alignment="center" scale="s" appearance="solid" icon="polygon"></calcite-action>
+          <calcite-action alignment="center" scale="s" appearance="solid" icon="rectangle"></calcite-action>
+          <calcite-action alignment="center" scale="s" appearance="solid" icon="trash"></calcite-action>
+        </calcite-action-group>
+      </div>
+    </div>
+
     <!-- alignment end  -->
     <div class="parent">
       <div class="child right-aligned-text">alignment end</div>
