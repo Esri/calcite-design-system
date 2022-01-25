@@ -89,6 +89,13 @@ export class CalciteTreeItem implements ConditionalSlotComponent {
   /** @internal Tree selection-mode (set on parent) */
   @Prop({ mutable: true }) selectionMode: TreeSelectionMode;
 
+  @Watch("selectionMode")
+  getselectionMode(): void {
+    this.isSelectionMultiLike =
+      this.selectionMode === TreeSelectionMode.Multi ||
+      this.selectionMode === TreeSelectionMode.MultiChildren;
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -137,6 +144,14 @@ export class CalciteTreeItem implements ConditionalSlotComponent {
   componentDidLoad(): void {
     this.updateAncestorTree();
   }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private State/Props
+  //
+  //--------------------------------------------------------------------------
+
+  private isSelectionMultiLike: boolean;
 
   render(): VNode {
     const rtl = getElementDir(this.el) === "rtl";
@@ -246,7 +261,7 @@ export class CalciteTreeItem implements ConditionalSlotComponent {
     }
     this.calciteTreeItemSelect.emit({
       modifyCurrentSelection:
-        this.selectionMode === TreeSelectionMode.Ancestors || this.isSelectionMulti(),
+        this.selectionMode === TreeSelectionMode.Ancestors || this.isSelectionMultiLike,
       forceToggle: false
     });
   }
@@ -256,7 +271,7 @@ export class CalciteTreeItem implements ConditionalSlotComponent {
     this.expanded = !this.expanded;
     if (this.selectionMode !== TreeSelectionMode.Ancestors) {
       this.calciteTreeItemSelect.emit({
-        modifyCurrentSelection: this.isSelectionMulti(),
+        modifyCurrentSelection: this.isSelectionMultiLike,
         forceToggle: true
       });
     }
@@ -270,7 +285,7 @@ export class CalciteTreeItem implements ConditionalSlotComponent {
     switch (e.key) {
       case " ":
         this.calciteTreeItemSelect.emit({
-          modifyCurrentSelection: this.isSelectionMulti(),
+          modifyCurrentSelection: this.isSelectionMultiLike,
           forceToggle: false
         });
 
@@ -288,7 +303,7 @@ export class CalciteTreeItem implements ConditionalSlotComponent {
           this.selected = true;
         } else {
           this.calciteTreeItemSelect.emit({
-            modifyCurrentSelection: this.isSelectionMulti(),
+            modifyCurrentSelection: this.isSelectionMultiLike,
             forceToggle: false
           });
         }
@@ -429,11 +444,4 @@ export class CalciteTreeItem implements ConditionalSlotComponent {
       return;
     }
   };
-
-  private isSelectionMulti(): boolean {
-    return (
-      this.selectionMode === TreeSelectionMode.Multi ||
-      this.selectionMode === TreeSelectionMode.MultiChildren
-    );
-  }
 }
