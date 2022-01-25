@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { DropdownPlacement, ItemKeyboardEvent } from "./interfaces";
 
-import { focusElement } from "../../utils/dom";
+import { focusElement, getSlotted } from "../../utils/dom";
 import {
   positionFloatingUI,
   FloatingCSS,
@@ -307,7 +307,7 @@ export class CalciteDropdown implements FloatingUIComponent {
   private items: HTMLCalciteDropdownItemElement[] = [];
 
   /** trigger elements */
-  private triggers: HTMLSlotElement[];
+  private triggers: HTMLElement[];
 
   floatingEl: HTMLDivElement;
 
@@ -330,9 +330,7 @@ export class CalciteDropdown implements FloatingUIComponent {
   updateItems = (): void => {
     this.updateSelectedItems();
 
-    this.triggers = Array.from(
-      this.el.querySelectorAll("[slot=dropdown-trigger]")
-    ) as HTMLSlotElement[];
+    this.triggers = getSlotted(this.el, "dropdown-trigger", { all: true });
 
     this.items = Array.from(
       this.el.querySelectorAll<HTMLCalciteDropdownItemElement>("calcite-dropdown-item")
