@@ -12,10 +12,7 @@ jobs:
           PRIMARY_CONTACT: ${{secrets.PRIMARY_CONTACT}}
           SECONDARY_CONTACTS: ${{secrets.SECONDARY_CONTACTS}}
         with:
-          script: |
-            const { PRIMARY_CONTACT, SECONDARY_CONTACTS } = process.env
-            const contacts = [...SECONDARY_CONTACTS.split(",").map(c => c.trim()), PRIMARY_CONTACT]
-            return contacts.includes(context.actor)
+          script: return [...process.env.SECONDARY_CONTACTS.split(",").map(c => c.trim()), process.env.PRIMARY_CONTACT].includes(context.actor)
       - name: merge
         uses: Goobles/gh-actions-merge-command@v1
         if: |
