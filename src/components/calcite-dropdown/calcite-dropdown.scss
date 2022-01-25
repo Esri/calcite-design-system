@@ -7,7 +7,7 @@
  */
 
 :host {
-  @apply inline-flex flex-initial relative;
+  @apply inline-flex flex-initial;
 }
 
 // disabled styles
@@ -32,6 +32,9 @@
 }
 .calcite-dropdown-trigger-container {
   @apply flex flex-auto relative;
+}
+.calcite-dropdown-container {
+  @apply relative;
 }
 // width
 :host([width="s"]) {

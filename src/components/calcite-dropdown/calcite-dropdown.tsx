@@ -135,34 +135,36 @@ export class CalciteDropdown {
 
     return (
       <Host tabIndex={this.disabled ? -1 : null}>
-        <div
-          class="calcite-dropdown-trigger-container"
-          onClick={this.openCalciteDropdown}
-          onKeyDown={this.keyDownHandler}
-          ref={this.setReferenceEl}
-        >
-          <slot
-            aria-expanded={active.toString()}
-            aria-haspopup="true"
-            name={SLOTS.dropdownTrigger}
-          />
-        </div>
-        <div
-          aria-hidden={(!active).toString()}
-          class="calcite-dropdown-wrapper"
-          ref={this.setMenuEl}
-        >
+        <div class="calcite-dropdown-container">
           <div
-            class={{
-              ["calcite-dropdown-content"]: true,
-              [PopperCSS.animation]: true,
-              [PopperCSS.animationActive]: active
-            }}
-            onTransitionEnd={this.transitionEnd}
-            ref={this.setScrollerEl}
+            class="calcite-dropdown-trigger-container"
+            onClick={this.openCalciteDropdown}
+            onKeyDown={this.keyDownHandler}
+            ref={this.setReferenceEl}
           >
-            <div hidden={!this.active}>
-              <slot />
+            <slot
+              aria-expanded={active.toString()}
+              aria-haspopup="true"
+              name={SLOTS.dropdownTrigger}
+            />
+          </div>
+          <div
+            aria-hidden={(!active).toString()}
+            class="calcite-dropdown-wrapper"
+            ref={this.setMenuEl}
+          >
+            <div
+              class={{
+                ["calcite-dropdown-content"]: true,
+                [PopperCSS.animation]: true,
+                [PopperCSS.animationActive]: active
+              }}
+              onTransitionEnd={this.transitionEnd}
+              ref={this.setScrollerEl}
+            >
+              <div hidden={!this.active}>
+                <slot />
+              </div>
             </div>
           </div>
         </div>
