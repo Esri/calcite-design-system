@@ -402,8 +402,6 @@ export class CalciteModal implements ConditionalSlotComponent {
   }
 
   private updateFooterVisibility = (): void => {
-    this.hasFooter = !!this.el.querySelector(
-      `[slot=${SLOTS.back}], [slot=${SLOTS.secondary}], [slot=${SLOTS.primary}]`
-    );
+    this.hasFooter = !!getSlotted(this.el, [SLOTS.back, SLOTS.primary, SLOTS.secondary]);
   };
 }

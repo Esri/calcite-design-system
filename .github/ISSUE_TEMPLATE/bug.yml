@@ -26,7 +26,7 @@ body:
     attributes:
       label: Reproduction Sample
       description: |
-        A [codepen](https://codepen.io/pen?template=RwgrjEx), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js), or [jsbin](https://jsbin.com/lopumatiru/edit?html,output) sample that reproduces the issue is required. Alternatively, a [documentation sample](https://developers.arcgis.com/calcite-design-system/components) can be used if the issue is reproducible.
+        We provide the following templates to help get started: [codepen](https://codepen.io/pen?template=RwgrjEx) (just Calcite), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js) (Calcite with React wrapper), or [jsbin](https://jsbin.com/wiguxohisa/edit?html,output) (Calcite with ArcGIS JSAPI). You can also make your own sample using one of the those websites. Alternatively, a [documentation sample](https://developers.arcgis.com/calcite-design-system/components) can be used if the issue is reproducible.
     validations:
       required: true
   - type: textarea
