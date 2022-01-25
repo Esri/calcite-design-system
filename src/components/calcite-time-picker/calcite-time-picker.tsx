@@ -14,7 +14,7 @@ import {
 import { Scale } from "../interfaces";
 import { isActivationKey, numberKeys } from "../../utils/key";
 import { isValidNumber } from "../../utils/number";
-import { getElementDir } from "../../utils/dom";
+// import { getElementDir } from "../../utils/dom";
 
 import {
   formatTimePart,
