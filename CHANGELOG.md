@@ -17,6 +17,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **accordion:** no longer has white background when set to transparent ([#3954](https://github.com/Esri/calcite-components/issues/3954)) ([0af12f3](https://github.com/Esri/calcite-components/commit/0af12f3546d53125038cddfd7f5c59437637073d))
 - **date-picker:** update utils locale to get the lang code if regional code is not found ([#3968](https://github.com/Esri/calcite-components/issues/3968)) ([6dcd01f](https://github.com/Esri/calcite-components/commit/6dcd01f5b00b3cea8fb257c7700e28d62f0f502f))
 - **date-picker, input-date-picker:** update pt-BR and pt-PT localization files ([#3980](https://github.com/Esri/calcite-components/issues/3980)) ([e060029](https://github.com/Esri/calcite-components/commit/e060029f505da31f33654f78846964f5191f82e5))
+- **time-picker:** match rtl order with ltr ([#3993](https://github.com/Esri/calcite-components/issues/3993)) ([ccca4c5](https://github.com/Esri/calcite-components/commit/ccca4c5a871b5d84636dadcd98f9e51c605f32b3))
 <!--@unreleased-section-end-->
 
 ## [1.0.0-beta.75](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.74...v1.0.0-beta.75) (2022-01-20)
