@@ -153,6 +153,7 @@ export class CalciteAlert {
       <Host
         aria-hidden={hidden.toString()}
         aria-label={label}
+        aria-live={this.autoDismiss ? "assertive" : "polite"}
         calcite-hydrated-hidden={hidden}
         role={role}
       >
