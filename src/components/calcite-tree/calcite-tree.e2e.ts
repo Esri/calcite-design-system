@@ -254,7 +254,6 @@ describe("calcite-tree", () => {
         await item1.click();
 
         expect(await getSelectedIds()).toEqual(["1"]);
-        await page.keyboard.down("Shift");
 
         await item2.click();
 
@@ -267,6 +266,51 @@ describe("calcite-tree", () => {
         await item1.click();
 
         expect(await getSelectedIds()).toEqual([]);
+      });
+
+      it("contains current selection when selection=multi-children", async () => {
+        const page = await newE2EPage({
+          html: html` <calcite-tree lines selection-mode="multi-children" scale="s">
+            <calcite-tree-item id="1"> Child 1 </calcite-tree-item>
+            <calcite-tree-item id="2">
+              Child 2
+              <calcite-tree slot="children">
+                <calcite-tree-item id="3"> Grandchild 1 </calcite-tree-item>
+                <calcite-tree-item id="4"> Grandchild 2 </calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+          </calcite-tree>`
+        });
+
+        const [item1, item2, item3, item4] = await page.findAll("calcite-tree-item");
+
+        type TestWindow = GlobalTestProps<{
+          selectedIds: string[];
+        }>;
+
+        await page.evaluateHandle(() =>
+          document.addEventListener("calciteTreeSelect", ({ detail }: CustomEvent) => {
+            (window as TestWindow).selectedIds = detail.selected.map((item) => item.id);
+          })
+        );
+
+        const getSelectedIds = async (): Promise<any> => page.evaluate(() => (window as TestWindow).selectedIds);
+
+        await item1.click();
+
+        expect(await getSelectedIds()).toEqual(["1"]);
+
+        await item2.click();
+
+        expect(await getSelectedIds()).toEqual(["1", "2", "3", "4"]);
+
+        await item3.click();
+
+        expect(await getSelectedIds()).toEqual(["1", "2", "4"]);
+
+        await item4.click();
+
+        expect(await getSelectedIds()).toEqual(["1", "2"]);
       });
     });
 
