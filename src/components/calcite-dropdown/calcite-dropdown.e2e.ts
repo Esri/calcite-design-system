@@ -657,26 +657,33 @@ describe("calcite-dropdown", () => {
       const dropdownWrapper = await page.find(`calcite-dropdown >>> .calcite-dropdown-wrapper`);
       const calciteDropdownOpen = await element.spyOnEvent("calciteDropdownOpen");
       const calciteDropdownClose = await element.spyOnEvent("calciteDropdownClose");
+      let waitForCalciteDropdownOpen = page.waitForEvent("calciteDropdownOpen");
+      const waitForCalciteDropdownClose = page.waitForEvent("calciteDropdownClose");
 
       expect(await dropdownWrapper.isVisible()).toBe(false);
       await trigger.click();
       await page.waitForChanges();
       expect(await dropdownWrapper.isVisible()).toBe(true);
-      await page.waitForChanges();
+      await waitForCalciteDropdownOpen;
       expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
+      expect(calciteDropdownClose).toHaveReceivedEventTimes(0);
 
       await trigger.focus();
       await page.keyboard.press("Space");
       await page.waitForChanges();
       expect(await dropdownWrapper.isVisible()).toBe(false);
-      await page.waitForChanges();
+      await waitForCalciteDropdownClose;
+      expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
       expect(calciteDropdownClose).toHaveReceivedEventTimes(1);
+
+      waitForCalciteDropdownOpen = page.waitForEvent("calciteDropdownOpen");
 
       await page.keyboard.press("Enter");
       await page.waitForChanges();
       expect(await dropdownWrapper.isVisible()).toBe(true);
-      await page.waitForChanges();
+      await waitForCalciteDropdownOpen;
       expect(calciteDropdownOpen).toHaveReceivedEventTimes(2);
+      expect(calciteDropdownClose).toHaveReceivedEventTimes(1);
     });
 
     it("toggle when dropdown-trigger is an action", async () => {
@@ -695,26 +702,33 @@ describe("calcite-dropdown", () => {
       const dropdownWrapper = await page.find(`calcite-dropdown >>> .calcite-dropdown-wrapper`);
       const calciteDropdownOpen = await element.spyOnEvent("calciteDropdownOpen");
       const calciteDropdownClose = await element.spyOnEvent("calciteDropdownClose");
+      let waitForCalciteDropdownOpen = page.waitForEvent("calciteDropdownOpen");
+      const waitForCalciteDropdownClose = page.waitForEvent("calciteDropdownClose");
 
       expect(await dropdownWrapper.isVisible()).toBe(false);
       await trigger.click();
       await page.waitForChanges();
       expect(await dropdownWrapper.isVisible()).toBe(true);
-      await page.waitForChanges();
+      await waitForCalciteDropdownOpen;
       expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
+      expect(calciteDropdownClose).toHaveReceivedEventTimes(0);
 
       await trigger.focus();
       await page.keyboard.press("Space");
       await page.waitForChanges();
       expect(await dropdownWrapper.isVisible()).toBe(false);
-      await page.waitForChanges();
+      await waitForCalciteDropdownClose;
+      expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
       expect(calciteDropdownClose).toHaveReceivedEventTimes(1);
+
+      waitForCalciteDropdownOpen = page.waitForEvent("calciteDropdownOpen");
 
       await page.keyboard.press("Enter");
       await page.waitForChanges();
       expect(await dropdownWrapper.isVisible()).toBe(true);
-      await page.waitForChanges();
+      await waitForCalciteDropdownOpen;
       expect(calciteDropdownOpen).toHaveReceivedEventTimes(2);
+      expect(calciteDropdownClose).toHaveReceivedEventTimes(1);
     });
   });
 
