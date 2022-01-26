@@ -33,9 +33,6 @@
 .calcite-dropdown-trigger-container {
   @apply flex flex-auto relative;
 }
-.calcite-dropdown-container {
-  @apply relative;
-}
 // width
 :host([width="s"]) {
   --calcite-dropdown-width: theme("spacing.48");
