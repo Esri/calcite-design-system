@@ -10,11 +10,13 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Features
 
 - **panel:** Add method to scroll content. [#3924](https://github.com/Esri/calcite-components/issues/3924) ([#3960](https://github.com/Esri/calcite-components/issues/3960)) ([1ebcb3f](https://github.com/Esri/calcite-components/commit/1ebcb3f6118f3f2bd968265d603d0b4eb69a073a))
+- **tree:** multi-selection no longer requires holding shift key ([#3733](https://github.com/Esri/calcite-components/issues/3733)) ([b8fdfbf](https://github.com/Esri/calcite-components/commit/b8fdfbf0576e1bc1042d2368d0410cd3a1227d2b))
 
 ### Bug Fixes
 
 - **accordion:** no longer has white background when set to transparent ([#3954](https://github.com/Esri/calcite-components/issues/3954)) ([0af12f3](https://github.com/Esri/calcite-components/commit/0af12f3546d53125038cddfd7f5c59437637073d))
 - **date-picker:** update utils locale to get the lang code if regional code is not found ([#3968](https://github.com/Esri/calcite-components/issues/3968)) ([6dcd01f](https://github.com/Esri/calcite-components/commit/6dcd01f5b00b3cea8fb257c7700e28d62f0f502f))
+- **date-picker, input-date-picker:** update pt-BR and pt-PT localization files ([#3980](https://github.com/Esri/calcite-components/issues/3980)) ([e060029](https://github.com/Esri/calcite-components/commit/e060029f505da31f33654f78846964f5191f82e5))
 <!--@unreleased-section-end-->
 
 ## [1.0.0-beta.75](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.74...v1.0.0-beta.75) (2022-01-20)
