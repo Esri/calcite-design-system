@@ -28,7 +28,11 @@
   @apply flex-auto flex flex-col;
 }
 
-:host([loading]) .calcite-card-container *:not(calcite-loader):not(.calcite-card-loader-container) {
+:host([loading]) .calcite-card-container {
+  @apply relative;
+}
+
+:host([loading]) .container *:not(calcite-loader):not(.calcite-card-loader-container) {
   @apply opacity-0 pointer-events-none;
 }
 

@@ -14,7 +14,7 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 
 :host {
   @apply items-center relative justify-center hidden mx-auto opacity-100 py-16;
-  min-height: var(--calcite-loader-size);
+  // min-height: var(--calcite-loader-size);
   font-size: var(--calcite-loader-font-size);
   stroke: var(--calcite-ui-brand);
   stroke-width: $stroke-width;
