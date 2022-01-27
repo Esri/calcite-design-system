@@ -81,9 +81,9 @@ describe("calcite-input", () => {
       </calcite-label>
     `);
 
-    const element = await page.find("calcite-input");
-    expect(await element.getProperty("status")).toEqual("invalid");
-    expect(await element.getProperty("scale")).toEqual("s");
+    const deprecatedLabelStatusElement = await page.find("calcite-input");
+    expect(await deprecatedLabelStatusElement.getProperty("status")).toEqual("invalid");
+    expect(await deprecatedLabelStatusElement.getProperty("scale")).toEqual("s");
   });
 
   it("renders an icon when explicit Calcite UI is requested, and is a type without a default icon", async () => {
