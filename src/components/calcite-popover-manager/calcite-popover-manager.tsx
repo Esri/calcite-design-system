@@ -52,7 +52,7 @@ export class CalcitePopoverManager {
   //
   //--------------------------------------------------------------------------
 
-  getRelatedPopover = (composedPath: EventTarget[]): HTMLCalcitePopoverElement => {
+  queryPopover = (composedPath: EventTarget[]): HTMLCalcitePopoverElement => {
     const { el } = this;
 
     if (!composedPath.includes(el)) {
@@ -83,14 +83,17 @@ export class CalcitePopoverManager {
     const { autoClose, el } = this;
     const popoverSelector = "calcite-popover";
     const composedPath = event.composedPath();
-    const relatedPopover = this.getRelatedPopover(composedPath);
+    const popover = this.queryPopover(composedPath);
 
-    if (autoClose && !relatedPopover) {
+    if (popover) {
+      popover.toggle();
+      return;
+    }
+
+    if (autoClose) {
       (queryElementsRoots(el, popoverSelector) as HTMLCalcitePopoverElement[])
         .filter((popover) => popover.open && !composedPath.includes(popover))
         .forEach((popover) => popover.toggle(false));
     }
-
-    relatedPopover?.toggle();
   }
 }
